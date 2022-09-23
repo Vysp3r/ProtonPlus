@@ -13,7 +13,7 @@ namespace ProtonPlus.Models {
             this.AssetPosition = asset_position;
         }
 
-        public Release[] GetReleases () {
+        public GLib.List<Release> GetReleases () {
             // Get the json from the Tool endpoint
             string json = ProtonPlus.Manager.HTTP.GET (Endpoint);
 
@@ -24,10 +24,10 @@ namespace ProtonPlus.Models {
             Json.Array rootNodeArray = rootNode.get_array ();
 
             // Create an array of Version with the size of the root node array
-            Release[] releases = new Release[rootNodeArray.get_length ()];
+            GLib.List<Release> releases = new GLib.List<Release> ();
 
             // Execute a loop with the number of items contained in the Version array and fill it
-            for (var i = 0; i < releases.length; i++) {
+            for (var i = 0; i < rootNodeArray.get_length (); i++) {
                 string label = "";
                 string download_url = "";
                 string page_url = "";
@@ -45,14 +45,12 @@ namespace ProtonPlus.Models {
                 var tempNodeArray = objRoot.get_array_member ("assets");
 
                 // Verify weither the temp node array has values and if so it set the endpoint to the given download url
-                if (tempNodeArray.get_length () > 0) {
+                if (tempNodeArray.get_length () >= AssetPosition) {
                     var test = tempNodeArray.get_element (AssetPosition);
                     Json.Object objAsset = test.get_object ();
                     download_url = objAsset.get_string_member ("browser_download_url");
+                    releases.append (new Release (label, download_url, page_url)); // Currently here to prevent showing release with an invalid download_url
                 }
-
-                // Insert in the Version array a new Version with the current node information
-                releases[i] = new Release (label, download_url, page_url);
             }
 
             // Return the Version array
@@ -71,7 +69,7 @@ namespace ProtonPlus.Models {
             return model;
         }
 
-        public static Gtk.ListStore GetReleasesModel (Release[] releases) {
+        public static Gtk.ListStore GetReleasesModel (GLib.List<Release> releases) {
             Gtk.ListStore model = new Gtk.ListStore (2, typeof (string), typeof (Release));
             Gtk.TreeIter iter;
 
