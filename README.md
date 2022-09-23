@@ -1,12 +1,12 @@
 <h1 align="center">ProtonPlus (WIP)</h1>
 
 <p align="center">
-    <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?label=%E2%AD%90%20Stars&style=flat-square?branch=main&kill_cache=1%22">
+    <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=flat-square&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22">
     <a href="https://github.com/Vysp3r/ProtonPlus/releases/latest">
-      <img alt="Latest Release (Semver)" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?label=%F0%9F%9A%80%20Release">
+      <img alt="Latest Release (Semver)" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=flat-square&label=%F0%9F%9A%80%20Release">
     </a>
     <a>
-      <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus" />
+      <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?style=flat-square" />
     </a>
     <a href="https://t.me/ProtonPlusOfficial">
       <img title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=flat-square&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlusOfficial">
