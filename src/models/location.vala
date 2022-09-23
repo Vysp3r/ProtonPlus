@@ -36,14 +36,17 @@ namespace ProtonPlus.Models {
             string[] steam_locations = new string[] { home_dir + "/.local/share/Steam", home_dir + "/.steam/root", home_dir + "/.steam/steam", home_dir + "/.steam/debian-installation" };
             string steam_dir = steam_locations[0];
             foreach (var item in steam_locations) {
-                var dir = Posix.opendir (item);
-
-                if (dir != null) {
-                    steam_dir = item;
+                if (Posix.opendir (item) != null) {
+                    steam_dir = item + "/compatibilitytools.d";
+                    break;
                 }
             }
 
-            locations[0] = new Location ("Steam", steam_dir + "/compatibilitytools.d", ProtonPlus.Models.CompatibilityTool.Steam (), new ProtonPlus.Models.Launcher ("Steam"));
+            if (Posix.opendir (steam_dir) == null) {
+                Posix.mkdir (steam_dir, 0777);
+            }
+
+            locations[0] = new Location ("Steam", steam_dir, ProtonPlus.Models.CompatibilityTool.Steam (), new ProtonPlus.Models.Launcher ("Steam"));
             locations[1] = new Location ("Steam (Flatpak)", home_dir + "/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d", ProtonPlus.Models.CompatibilityTool.Steam (), new ProtonPlus.Models.Launcher ("Steam"));
             locations[2] = new Location ("Steam (Snap)", home_dir + "/snap/steam/common/.steam/root/compatibilitytools.d", ProtonPlus.Models.CompatibilityTool.Steam (), new ProtonPlus.Models.Launcher ("Steam"));
             locations[3] = new Location ("Lutris", home_dir + "/.local/share/lutris/runners/wine", ProtonPlus.Models.CompatibilityTool.Lutris (), new ProtonPlus.Models.Launcher ("Lutris"));
