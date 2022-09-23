@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/vysp3r/ProtonPlus">
+    <file>gtk/help-overlay.ui</file>
+    <file>app.css</file>
+    <file>ProtonPlus.png</file>
+  </gresource>
+</gresources>
