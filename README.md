@@ -1,12 +1,12 @@
 <h1 align="center">ProtonPlus (WIP)</h1>
 
 <p align="center">
-    <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?label=%E2%AD%90%20Stars&style=flat-square?branch=main&kill_cache=1%22">
+    <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=flat-square&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22">
     <a href="https://github.com/Vysp3r/ProtonPlus/releases/latest">
-      <img alt="Latest Release (Semver)" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?label=%F0%9F%9A%80%20Release">
+      <img alt="Latest Release (Semver)" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=flat-square&label=%F0%9F%9A%80%20Release">
     </a>
     <a>
-      <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus" />
+      <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?style=flat-square" />
     </a>
     <a href="https://t.me/ProtonPlusOfficial">
       <img title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=flat-square&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlusOfficial">
@@ -35,9 +35,8 @@ If you have any questions about ProtonPlus or want to share information with us,
 - - - -
 
 ## ✨ Features
-- Install and manage Proton versions for Steam (GE-Proton, Luxtoperda, Boxtron, Proton Tkg and Roberta)
-- Install and manage Proton versions for Lutris (Wine-GE, Lutris-Wine, DXVK and DXVK Async)
-- And more...
+- Install and manage Proton versions for Steam, Lutris, Bottles and Heroic Games Launcher
+- And much more...
 
 - - - -
 
@@ -48,7 +47,8 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 ## 💥 Known Issues
 
-- None
+- Steam does not create the compatibilitytools.d by default, so ProtonPlus can't find it on a fresh Steam install
+- Some items in the list of releases does not have any Label
 
 - - - -
 
