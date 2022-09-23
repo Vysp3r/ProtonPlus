@@ -35,9 +35,8 @@ If you have any questions about ProtonPlus or want to share information with us,
 - - - -
 
 ## ✨ Features
-- Install and manage Proton versions for Steam (GE-Proton, Luxtoperda, Boxtron, Proton Tkg and Roberta)
-- Install and manage Proton versions for Lutris (Wine-GE, Lutris-Wine, DXVK and DXVK Async)
-- And more...
+- Install and manage Proton versions for Steam, Lutris, Bottles and Heroic Games Launcher
+- And much more...
 
 - - - -
 
@@ -48,7 +47,8 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 ## 💥 Known Issues
 
-- None
+- Steam does not create the compatibilitytools.d by default, so ProtonPlus can't find it on a fresh Steam install
+- Some items in the list of releases does not have any Label
 
 - - - -
 
