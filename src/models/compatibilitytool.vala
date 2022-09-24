@@ -162,7 +162,7 @@ namespace ProtonPlus.Models {
             int count = 0;
 
             while ((dirEnt = Posix.readdir (dir)) != null) {
-                if(count++ > 1) {
+                if(count++ > 1 && dirEnt.d_type == 4) {
                     string name = (string) dirEnt.d_name;
                     installedReleases.append (new Release(name, "", ""));
                 }
