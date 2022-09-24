@@ -2,8 +2,8 @@ namespace ProtonPlus.Manager {
     public class File {
         public static void Extract (string install_location, string archive_name) {
             Archive.Read archive = new Archive.Read ();
-            archive.support_format_tar ();
-            archive.support_filter_gzip ();
+            archive.support_format_all ();
+            archive.support_filter_all ();
 
             int flags;
             flags = Archive.ExtractFlags.ACL;
@@ -15,7 +15,7 @@ namespace ProtonPlus.Manager {
             ext.set_standard_lookup ();
             ext.set_options (flags);
 
-            if (archive.open_filename (install_location + archive_name, 1536000) != Archive.Result.OK) return;
+            if (archive.open_filename (install_location + archive_name, 1920000) != Archive.Result.OK) return;
 
             ssize_t r;
 

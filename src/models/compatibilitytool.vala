@@ -13,7 +13,7 @@ namespace ProtonPlus.Models {
             this.AssetPosition = asset_position;
         }
 
-        public Release[] GetReleases () {
+        public GLib.List<Release> GetReleases () {
             // Get the json from the Tool endpoint
             string json = ProtonPlus.Manager.HTTP.GET (Endpoint);
 
@@ -24,10 +24,10 @@ namespace ProtonPlus.Models {
             Json.Array rootNodeArray = rootNode.get_array ();
 
             // Create an array of Version with the size of the root node array
-            Release[] releases = new Release[rootNodeArray.get_length ()];
+            GLib.List<Release> releases = new GLib.List<Release> ();
 
             // Execute a loop with the number of items contained in the Version array and fill it
-            for (var i = 0; i < releases.length; i++) {
+            for (var i = 0; i < rootNodeArray.get_length (); i++) {
                 string label = "";
                 string download_url = "";
                 string page_url = "";
@@ -45,14 +45,12 @@ namespace ProtonPlus.Models {
                 var tempNodeArray = objRoot.get_array_member ("assets");
 
                 // Verify weither the temp node array has values and if so it set the endpoint to the given download url
-                if (tempNodeArray.get_length () > 0) {
+                if (tempNodeArray.get_length () >= AssetPosition) {
                     var test = tempNodeArray.get_element (AssetPosition);
                     Json.Object objAsset = test.get_object ();
                     download_url = objAsset.get_string_member ("browser_download_url");
+                    releases.append (new Release (label, download_url, page_url)); // Currently here to prevent showing release with an invalid download_url
                 }
-
-                // Insert in the Version array a new Version with the current node information
-                releases[i] = new Release (label, download_url, page_url);
             }
 
             // Return the Version array
@@ -71,7 +69,7 @@ namespace ProtonPlus.Models {
             return model;
         }
 
-        public static Gtk.ListStore GetReleasesModel (Release[] releases) {
+        public static Gtk.ListStore GetReleasesModel (GLib.List<Release> releases) {
             Gtk.ListStore model = new Gtk.ListStore (2, typeof (string), typeof (Release));
             Gtk.TreeIter iter;
 
@@ -118,14 +116,20 @@ namespace ProtonPlus.Models {
         }
 
         public static CompatibilityTool[] Lutris () {
-            CompatibilityTool[] tools = new CompatibilityTool[6];
+            CompatibilityTool[] tools = new CompatibilityTool[3];
 
             tools[0] = new CompatibilityTool ("Wine-GE", "Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1);
             tools[1] = new CompatibilityTool ("Lutris-Wine", "Compatibility tool \"Wine\" to run Windows games on Linux. Improved by Lutris to offer better compatibility or performance in certain games.", "https://api.github.com/repos/lutris/wine/releases", 0);
             tools[2] = new CompatibilityTool ("Kron4ek Wine-Builds Vanilla", "Compatibility tool \"Wine\" to run Windows games on Linux. Official version from the WineHQ sources, compiled by Kron4ek.", "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 5);
-            tools[3] = new CompatibilityTool ("DXVK", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.https://github.com/lutris/docs/blob/master/HowToDXVK.md", "https://api.github.com/repos/doitsujin/dxvk/releases", 0);
-            tools[4] = new CompatibilityTool ("DXVK Async (Sporif)", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch by Sporif.Warning: Use only with singleplayer games!", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0);
-            tools[5] = new CompatibilityTool ("DXVK Async (gnusenpai)", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch and RTX fix for Star Citizen by gnusenpai.Warning: Use only with singleplayer games!", "https://api.github.com/repos/gnusenpai/dxvk/releases", 0);
+            return tools;
+        }
+
+        public static CompatibilityTool[] LutrisDXVK () {
+            CompatibilityTool[] tools = new CompatibilityTool[3];
+
+            tools[0] = new CompatibilityTool ("DXVK", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.https://github.com/lutris/docs/blob/master/HowToDXVK.md", "https://api.github.com/repos/doitsujin/dxvk/releases", 0);
+            tools[1] = new CompatibilityTool ("DXVK Async (Sporif)", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch by Sporif.Warning: Use only with singleplayer games!", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0);
+            tools[2] = new CompatibilityTool ("DXVK Async (gnusenpai)", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch and RTX fix for Star Citizen by gnusenpai.Warning: Use only with singleplayer games!", "https://api.github.com/repos/gnusenpai/dxvk/releases", 0);
 
             return tools;
         }
@@ -164,7 +168,7 @@ namespace ProtonPlus.Models {
             int count = 0;
 
             while ((dirEnt = Posix.readdir (dir)) != null) {
-                if(count++ > 1) {
+                if(count++ > 1 && dirEnt.d_type == 4) {
                     string name = (string) dirEnt.d_name;
                     installedReleases.append (new Release(name, "", ""));
                 }
