@@ -135,10 +135,10 @@ namespace ProtonPlus.Windows {
         }
 
         private void btnAddVersion_Clicked () {
-            var dialogShowVersion = new ProtonPlus.Windows.Selector (this, currentLocation);
-            dialogShowVersion.response.connect ((response_id) => {
+            var dialogAddVersion = new ProtonPlus.Windows.Selector (this, currentLocation);
+            dialogAddVersion.response.connect ((response_id) => {
                if (response_id == Gtk.ResponseType.APPLY) cbInstallLocation_Changed ();
-               dialogShowVersion.close ();
+               if (response_id == Gtk.ResponseType.CANCEL) dialogAddVersion.close ();
             });
         }
 
