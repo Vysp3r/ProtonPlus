@@ -47,8 +47,7 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 ## 💥 Known Issues
 
-- Steam does not create the compatibilitytools.d by default, so ProtonPlus can't find it on a fresh Steam install
-- Some items in the list of releases does not have any Label
+- None
 
 - - - -
 
