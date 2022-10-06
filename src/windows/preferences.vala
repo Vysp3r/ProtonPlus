@@ -11,6 +11,7 @@ namespace ProtonPlus.Windows {
         public Preferences (Gtk.Application app) {
             this.set_application (app);
             this.set_title ("Preferences");
+            this.set_default_size (400, 0);
 
             store = ProtonPlus.Stores.Preferences.instance ();
 
