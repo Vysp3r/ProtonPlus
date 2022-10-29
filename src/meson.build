@@ -34,7 +34,7 @@ protonplus_sources = [
 #add_project_arguments(['--vapidir', vapi_dir], language: 'vala')
 
 protonplus_deps = [
-  dependency('libadwaita-1', version: '>= 1.0'),
+  dependency('libadwaita-1', version: '>= 1.2'),
   dependency('json-glib-1.0'),
   dependency('libsoup-3.0'),
   dependency('libarchive'),
