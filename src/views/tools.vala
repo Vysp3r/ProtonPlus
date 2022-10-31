@@ -2,13 +2,7 @@ namespace ProtonPlus.Views {
     public class Tools  {
         //Widgets
         Gtk.ApplicationWindow window;
-        Gtk.HeaderBar headerBar;
-        Gtk.MenuButton menu;
-        GLib.Menu menu_model_about;
-        GLib.Menu menu_model_quit;
-        GLib.Menu menu_model;
         Gtk.Box boxMain;
-        Gtk.Label labelInstallLocation;
         Gtk.Box boxInstallLocation;
         ProtonPlus.Widgets.ProtonComboBox cbInstallLocation;
         Gtk.Label labelInstalledTools;
@@ -46,11 +40,6 @@ namespace ProtonPlus.Views {
             cbInstallLocation.set_hexpand(true);
             cbInstallLocation.GetChild ().changed.connect(cbInstallLocation_Changed);
             boxInstallLocation.append (cbInstallLocation);
-
-            // var btnInstallLocation = new Gtk.Button();
-            // btnInstallLocation.set_label("...");
-            // btnInstallLocation.clicked.connect(() => Windows.HomeCustomDirectory.Show(app));
-            // boxInstallLocation.append(btnInstallLocation);
 
             boxMain.append (boxInstallLocation);
             /*  */
