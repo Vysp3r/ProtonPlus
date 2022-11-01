@@ -1,21 +1,13 @@
 namespace ProtonPlus.Views {
     public class Tools  {
-        //Widgets
+        // Widgets
         Gtk.ApplicationWindow window;
         Gtk.Box boxMain;
-        Gtk.Box boxInstallLocation;
-        ProtonPlus.Widgets.ProtonComboBox cbInstallLocation;
-        Gtk.Label labelInstalledTools;
+        Adw.ComboRow crInstallLocation;
         Gtk.ListBox listInstalledTools;
-        Gtk.Box boxActions;
-        Gtk.Button btnAddVersion;
-        Gtk.Button btnRemoveSelected;
-        Gtk.Button btnShowVersion;
 
-        //Values
-        List<ProtonPlus.Models.CompatibilityTool.Release> releases;
+        // Values
         ProtonPlus.Models.Location currentLocation;
-        ProtonPlus.Models.CompatibilityTool.Release currentRelease;
 
         public Tools (Gtk.ApplicationWindow window) {
             this.window = window;
@@ -29,119 +21,135 @@ namespace ProtonPlus.Views {
             boxMain.set_margin_start(15);
             boxMain.set_margin_top(15);
 
-            //
-            labelInstalledTools = new Gtk.Label("Install location");
-            boxMain.append(labelInstalledTools);
+            // Create a factory
+            var factory = new Gtk.SignalListItemFactory ();
+            factory.setup.connect (factory_Setup);
+            factory.bind.connect (factory_Bind);
 
-            /*  */
-            boxInstallLocation = new Gtk.Box(Gtk.Orientation.VERTICAL, 15);
+            // Create a comborow
+            crInstallLocation = new Adw.ComboRow ();
+            crInstallLocation.notify.connect (crInstallLocation_Notify);
+            crInstallLocation.set_title ("Install location");
+            crInstallLocation.set_model (ProtonPlus.Models.Location.GetStore ());
+            crInstallLocation.set_selected (0);
+            crInstallLocation.set_factory (factory);
 
-            cbInstallLocation = new ProtonPlus.Widgets.ProtonComboBox(ProtonPlus.Models.Location.GetModel());
-            cbInstallLocation.set_hexpand(true);
-            cbInstallLocation.GetChild ().changed.connect(cbInstallLocation_Changed);
-            boxInstallLocation.append (cbInstallLocation);
+            // Create a group with crInstallLocation in it
+            var groupInstallLocation = new Adw.PreferencesGroup ();
+            groupInstallLocation.add(crInstallLocation);
 
-            boxMain.append (boxInstallLocation);
-            /*  */
+            // Add groupInstallLocation to boxMain
+            boxMain.append (groupInstallLocation);
 
-            //
-            labelInstalledTools = new Gtk.Label("Installed compatibility tools");
-            boxMain.append(labelInstalledTools);
+            // Create a button
+            var btnAdd = new Gtk.Button ();
+            btnAdd.set_icon_name ("tab-new-symbolic");
+            btnAdd.add_css_class ("flat");
+            btnAdd.add_css_class ("bold");
+            btnAdd.clicked.connect (btnAdd_Clicked);
 
-            //
+            // Create an ActionRow with a label and a button
+            var rowInstalledTools = new Adw.ActionRow ();
+            rowInstalledTools.set_title ("Installed compatibility tools");
+            rowInstalledTools.add_suffix (btnAdd);
+
+            // Create a group with rowInstalledTools in it
+            var groupInstalledTools = new Adw.PreferencesGroup ();
+            groupInstalledTools.add (rowInstalledTools);
+
+            // Add groupInstalledTools to boxMain
+            boxMain.append (groupInstalledTools);
+
+            // Create a listbox
             listInstalledTools = new Gtk.ListBox ();
-            listInstalledTools.set_vexpand(true);
-            listInstalledTools.row_selected.connect((row) => listInstalledTools_RowSelected(row));
-            boxMain.append(listInstalledTools);
+            listInstalledTools.set_vexpand (true);
+            listInstalledTools.add_css_class ("boxed-list");
 
-            currentLocation = (ProtonPlus.Models.Location) cbInstallLocation.GetCurrentObject ();
-            releases = ProtonPlus.Models.CompatibilityTool.Installed (currentLocation);
+            // Add listInstalledTools to boxMain
+            boxMain.append (listInstalledTools);
 
-            /*  */
-            boxActions = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 15);
-
-            btnAddVersion = new Gtk.Button();
-            btnAddVersion.set_label("Add version");
-            btnAddVersion.set_hexpand(true);
-            btnAddVersion.clicked.connect(btnAddVersion_Clicked);
-            if (cbInstallLocation.GetChild().get_active() == -1) btnAddVersion.set_sensitive(false);
-            boxActions.append(btnAddVersion);
-
-            btnRemoveSelected = new Gtk.Button();
-            btnRemoveSelected.set_label("Remove selected");
-            btnRemoveSelected.set_hexpand(true);
-            btnRemoveSelected.set_sensitive(false);
-            btnRemoveSelected.clicked.connect(btnRemoveSelected_Clicked);
-            boxActions.append(btnRemoveSelected);
-
-            btnShowVersion = new Gtk.Button();
-            btnShowVersion.set_label("Show info");
-            btnShowVersion.set_hexpand(true);
-            btnShowVersion.set_sensitive(false);
-            btnShowVersion.clicked.connect(btnShowVersion_Clicked);
-            boxActions.append(btnShowVersion);
-
-            boxMain.append(boxActions);
-            /*  */
-
-            cbInstallLocation_Changed ();
+            // Load the default values
+            crInstallLocation.notify_property ("selected");
 
             // Show the window
             return boxMain;
         }
 
-        private void btnAddVersion_Clicked () {
+        // Events
+        public void crInstallLocation_Notify (GLib.ParamSpec param) {
+            if(param.get_name () == "selected"){
+                currentLocation = (ProtonPlus.Models.Location) crInstallLocation.get_selected_item ();
+                var releases = ProtonPlus.Models.CompatibilityTool.Installed (currentLocation);
+                var model = ProtonPlus.Models.CompatibilityTool.Release.GetModel (releases);
+                listInstalledTools.bind_model (model, (item) => {
+                    var release = (ProtonPlus.Models.CompatibilityTool.Release) item;
+
+                    var row = new Adw.ActionRow ();
+                    row.set_title (release.Label);
+
+                    var btnInfo = new Gtk.Button ();
+                    btnInfo.set_icon_name ("dialog-information-symbolic");
+                    btnInfo.add_css_class ("flat");
+                    btnInfo.clicked.connect (() => btnInfo_Clicked (release));
+                    row.add_suffix (btnInfo);
+
+                    var btnDelete = new Gtk.Button ();
+                    btnDelete.add_css_class ("flat");
+                    btnDelete.set_icon_name ("user-trash-symbolic");
+                    btnDelete.clicked.connect (() => btnDelete_Clicked (release));
+                    row.add_suffix (btnDelete);
+
+                    return row;
+                });
+            }
+        }
+
+        void btnAdd_Clicked () {
             var dialogAddVersion = new ProtonPlus.Windows.Selector (window, currentLocation);
             dialogAddVersion.response.connect ((response_id) => {
-               if (response_id == Gtk.ResponseType.APPLY) cbInstallLocation_Changed ();
+               if (response_id == Gtk.ResponseType.APPLY) crInstallLocation.notify_property ("selected");
                if (response_id == Gtk.ResponseType.CANCEL) dialogAddVersion.close ();
             });
         }
 
-        private void btnShowVersion_Clicked () {
-            var dialogShowVersion = new ProtonPlus.Windows.HomeInfo (window, currentRelease, currentLocation);
+        void btnInfo_Clicked (ProtonPlus.Models.CompatibilityTool.Release release) {
+            var dialogShowVersion = new ProtonPlus.Windows.HomeInfo (window, release, currentLocation);
             dialogShowVersion.response.connect ((response_id) => {
                dialogShowVersion.close ();
             });
         }
 
-        private void btnRemoveSelected_Clicked () {
-            var dialogRemoveSelected = new Gtk.MessageDialog (window, Gtk.DialogFlags.DESTROY_WITH_PARENT, Gtk.MessageType.QUESTION, Gtk.ButtonsType.YES_NO, "Are you sure you want to remove the selected version?");
-            dialogRemoveSelected.response.connect ((response_id) => {
+        void btnDelete_Clicked (ProtonPlus.Models.CompatibilityTool.Release release) {
+            var dialogDeleteSelected = new Gtk.MessageDialog (window, Gtk.DialogFlags.DESTROY_WITH_PARENT, Gtk.MessageType.QUESTION, Gtk.ButtonsType.YES_NO, "Are you sure you want to remove the selected version?");
+            dialogDeleteSelected.response.connect ((response_id) => {
                 if (response_id == -8) {
-                    Posix.system ("rm -rf " + currentLocation.InstallDirectory + "/" + currentRelease.Label);
-                    cbInstallLocation_Changed ();
+                    Posix.system ("rm -rf " + currentLocation.InstallDirectory + "/" + release.Label);
+                    crInstallLocation.notify_property ("selected");
                 }
 
-                dialogRemoveSelected.close ();
+                dialogDeleteSelected.close ();
             });
-            dialogRemoveSelected.show ();
+            dialogDeleteSelected.show ();
         }
 
-        public void cbInstallLocation_Changed () {
-            currentLocation = (ProtonPlus.Models.Location) cbInstallLocation.GetCurrentObject ();
-            releases = ProtonPlus.Models.CompatibilityTool.Installed (currentLocation);
-            var model = ProtonPlus.Models.CompatibilityTool.Release.GetModel (releases);
-            listInstalledTools.bind_model (model, (item) => {
-                var release = (ProtonPlus.Models.CompatibilityTool.Release) item;
-                return new ProtonPlus.Widgets.ProtonRow<ProtonPlus.Models.CompatibilityTool.Release> (release.Label, release);
-            });
+        void factory_Setup (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
+            var string_holder = list_item.get_item () as ProtonPlus.Models.Location;
+
+            var title = list_item.get_data<Gtk.Label>("Label");
+
+            title.label = string_holder.Label;
         }
 
-        private void listInstalledTools_RowSelected (Gtk.ListBoxRow row) {
-            bool valid = true;
+        void factory_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
+            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 
-            if (row == null) valid = false;
+            var title = new Gtk.Label ("");
+            title.xalign = 0.0f;
 
-            if (valid) {
-                ProtonPlus.Widgets.ProtonRow<ProtonPlus.Models.CompatibilityTool.Release> pRow = (ProtonPlus.Widgets.ProtonRow) row.child;
-                currentRelease = pRow.GetCurrentObject ();
+            box.append (title);
 
-                if (currentRelease == null) valid = false;
-            }
-
-            btnShowVersion.set_sensitive (valid);
-            btnRemoveSelected.set_sensitive (valid);
+            list_item.set_data ("Label", title);
+            list_item.set_child (box);
         }
     }
 }

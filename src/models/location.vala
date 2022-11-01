@@ -28,6 +28,20 @@ namespace ProtonPlus.Models {
             return model;
         }
 
+        public static GLib.ListStore GetStore () {
+            var store = new GLib.ListStore (typeof (ProtonPlus.Models.Location));
+
+            foreach (var location in GetInstallLocations ()) {
+                var dir = Posix.opendir (location.InstallDirectory);
+
+                if (dir != null) {
+                    store.append (location);
+                }
+            }
+
+            return store;
+        }
+
         public static GLib.List<Location> GetInstallLocations () {
             GLib.List<Location> locations = new GLib.List<Location> ();
 

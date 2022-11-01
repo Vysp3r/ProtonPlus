@@ -50,17 +50,13 @@ namespace ProtonPlus.Windows {
             viewStack.set_vexpand (true);
 
             // Add the Tools to viewStack
-            var toolsView = new ProtonPlus.Views.Tools(this);
+            var toolsView = new ProtonPlus.Views.Tools (this);
             var toolsPage = viewStack.add_titled (toolsView.GetBox (), "Tools", "Tools");
             toolsPage.set_icon_name ("emblem-system-symbolic");
 
             // Add the Games to viewStack
             var gamesPage = viewStack.add_titled (ProtonPlus.Views.Games.GetBox (), "Games", "Games");
             gamesPage.set_icon_name ("input-gaming-symbolic");
-
-            // Add the Other to viewStack
-            var otherPage = viewStack.add_titled (ProtonPlus.Views.Other.GetBox (), "Other", "Other");
-            otherPage.set_icon_name ("content-loading-symbolic");
 
             // Add viewStack to boxMain
             boxMain.append (viewStack);

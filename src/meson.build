@@ -19,7 +19,6 @@ protonplus_sources = [
   'widgets/protonrow.vala',
 
   'views/games.vala',
-  'views/other.vala',
   'views/tools.vala',
 
   'windows/home.vala',
