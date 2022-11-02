@@ -22,17 +22,16 @@ namespace ProtonPlus.Views {
             boxMain.set_margin_top(15);
 
             // Create a factory
-            var factory = new Gtk.SignalListItemFactory ();
-            factory.setup.connect (factory_Setup);
-            factory.bind.connect (factory_Bind);
+            var factoryInstallLocation = new Gtk.SignalListItemFactory ();
+            factoryInstallLocation.setup.connect (factoryInstallLocation_Setup);
+            factoryInstallLocation.bind.connect (factoryInstallLocation_Bind);
 
             // Create a comborow
             crInstallLocation = new Adw.ComboRow ();
             crInstallLocation.notify.connect (crInstallLocation_Notify);
             crInstallLocation.set_title ("Install location");
             crInstallLocation.set_model (ProtonPlus.Models.Location.GetStore ());
-            crInstallLocation.set_selected (0);
-            crInstallLocation.set_factory (factory);
+            crInstallLocation.set_factory (factoryInstallLocation);
 
             // Create a group with crInstallLocation in it
             var groupInstallLocation = new Adw.PreferencesGroup ();
@@ -132,23 +131,20 @@ namespace ProtonPlus.Views {
             dialogDeleteSelected.show ();
         }
 
-        void factory_Setup (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
+        void factoryInstallLocation_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
             var string_holder = list_item.get_item () as ProtonPlus.Models.Location;
 
-            var title = list_item.get_data<Gtk.Label>("Label");
-
-            title.label = string_holder.Label;
+            var title = list_item.get_data<Gtk.Label>("title");
+            title.set_label (string_holder.InstallDirectory);
         }
 
-        void factory_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-
+        void factoryInstallLocation_Setup (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
             var title = new Gtk.Label ("");
-            title.xalign = 0.0f;
 
+            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
             box.append (title);
 
-            list_item.set_data ("Label", title);
+            list_item.set_data ("title", title);
             list_item.set_child (box);
         }
     }
