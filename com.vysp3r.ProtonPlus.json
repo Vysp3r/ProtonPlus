@@ -1,7 +1,7 @@
 {
     "app-id" : "com.vysp3r.ProtonPlus",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "42",
+    "runtime-version" : "43",
     "sdk" : "org.gnome.Sdk",
     "command" : "protonplus",
     "finish-args" : [
