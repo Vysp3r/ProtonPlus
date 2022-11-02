@@ -134,6 +134,7 @@ namespace ProtonPlus.Windows {
                 if (store.ProgressBarDone == true) {
                     progressBarDownload.set_text ("Done!");
                     progressBarDownload.set_fraction (store.ProgressBar = 0);
+                    btnInstall.set_sensitive (true);
                     response (Gtk.ResponseType.APPLY);
                     return false;
                 }
