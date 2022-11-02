@@ -127,8 +127,10 @@ namespace ProtonPlus.Windows {
 
         private void Extract () {
             progressBarDownload.set_text ("Extracting...");
+            progressBarDownload.set_pulse_step (1);
             new Thread<void> ("extract", () => ProtonPlus.Manager.File.Extract (location.InstallDirectory + "/", currentRelease.Label + ".tar.gz"));
             GLib.Timeout.add (500, () => {
+                progressBarDownload.pulse ();
                 if (store.ProgressBarDone == true) {
                     progressBarDownload.set_text ("Done!");
                     progressBarDownload.set_fraction (store.ProgressBar = 0);
