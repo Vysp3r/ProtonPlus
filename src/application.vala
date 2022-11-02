@@ -47,6 +47,15 @@ namespace ProtonPlus {
                 <li>🐛 Fix Preferences window default size</li>
                 <li>💄 Move main window to Libadwaita</li>dep
                 <li>💄 Move about window to Libadwaita</li>
+                <li>⚰️ Remove dead code</li>
+                <li>💄 Update main window components to Libadwaita</li>
+                <li>⚰️ Remove dead code</li>
+                <li>💄 Add an effect when extracting a tool</li>
+                <li>🐛 Fix label not showing up</li>
+                <li>🐛 Fix wrong label showing up</li>
+                <li>💄 Update preferences window to Libadwaita</li>
+                <li>⬆️ Update the runtime version</li>
+                <li>💬 Update the release notes</li>
             </ul>");
             aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             aboutDialog.set_copyright ("© 2022 Vysp3r");
