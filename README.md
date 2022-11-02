@@ -19,7 +19,7 @@
 
 - - - -
 
-ProtonPlus is a simple Proton version manager that make it easy to install and manage Proton versions. It works with Steam, Lutris and will soon have support for custom locations. It was made in Vala with GTK4 and Libadwaita using GNOME Builder. <b>This project is still in its early phase, so please keep that in mind before using it.</b>
+ProtonPlus is a simple Proton version manager that make it easy to install and manage Proton versions. It works with Steam, Lutris, Heroic Games Launcher and Bottles. It was made in Vala with GTK4 and Libadwaita using GNOME Builder. <b>This project is still in its early phase, so please keep that in mind before using it.</b>
 
 If you have any questions about ProtonPlus or want to share information with us, please go to one of the following places:
 

@@ -12,20 +12,18 @@ namespace ProtonPlus.Models {
             this.Launcher = launcher;
         }
 
-        public static Gtk.ListStore GetModel () {
-            Gtk.ListStore model = new Gtk.ListStore (2, typeof (string), typeof (Location));
-            Gtk.TreeIter iter;
+        public static GLib.ListStore GetStore () {
+            var store = new GLib.ListStore (typeof (ProtonPlus.Models.Location));
 
-            foreach (var item in GetInstallLocations ()) {
-                var dir = Posix.opendir (item.InstallDirectory);
+            foreach (var location in GetInstallLocations ()) {
+                var dir = Posix.opendir (location.InstallDirectory);
 
                 if (dir != null) {
-                    model.append (out iter);
-                    model.set (iter, 0, item.Label, 1, item, -1);
+                    store.append (location);
                 }
             }
 
-            return model;
+            return store;
         }
 
         public static GLib.List<Location> GetInstallLocations () {

@@ -18,6 +18,9 @@ protonplus_sources = [
   'widgets/protoncb.vala',
   'widgets/protonrow.vala',
 
+  'views/games.vala',
+  'views/tools.vala',
+
   'windows/home.vala',
   'windows/home_custom_directory.vala',
   'windows/home_info.vala',
@@ -30,7 +33,7 @@ protonplus_sources = [
 #add_project_arguments(['--vapidir', vapi_dir], language: 'vala')
 
 protonplus_deps = [
-  dependency('libadwaita-1', version: '>= 1.0'),
+  dependency('libadwaita-1', version: '>= 1.2'),
   dependency('json-glib-1.0'),
   dependency('libsoup-3.0'),
   dependency('libarchive'),
