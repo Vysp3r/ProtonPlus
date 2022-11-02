@@ -135,7 +135,7 @@ namespace ProtonPlus.Views {
             var string_holder = list_item.get_item () as ProtonPlus.Models.Location;
 
             var title = list_item.get_data<Gtk.Label>("title");
-            title.set_label (string_holder.InstallDirectory);
+            title.set_label (string_holder.Label);
         }
 
         void factoryInstallLocation_Setup (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
