@@ -28,13 +28,11 @@ namespace ProtonPlus.Models {
             }
         }
 
-        public static Gtk.ListStore GetStyleModel () {
-            Gtk.ListStore model = new Gtk.ListStore (2, typeof (string), typeof (Style));
-            Gtk.TreeIter iter;
+        public static GLib.ListStore GetStyleStore () {
+            var model = new GLib.ListStore (typeof (ProtonPlus.Models.Preference.Style));
 
-            foreach (var item in GetStyles ()) {
-                model.append (out iter);
-                model.set (iter, 0, item.Label, 1, item, -1);
+            foreach (var style in GetStyles ()) {
+                model.append (style);
             }
 
             return model;

@@ -59,7 +59,7 @@ namespace ProtonPlus {
         }
 
         private void on_preferences_action () {
-            new ProtonPlus.Windows.Preferences (this);
+            new ProtonPlus.Windows.Preferences ();
         }
     }
 }
