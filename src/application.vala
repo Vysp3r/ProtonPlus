@@ -45,7 +45,7 @@ namespace ProtonPlus {
             aboutDialog.set_release_notes ("<ul>
                 <li>📝 Update README.md</li>
                 <li>🐛 Fix Preferences window default size</li>
-                <li>💄 Move main window to Libadwaita</li>dep
+                <li>💄 Move main window to Libadwaita</li>
                 <li>💄 Move about window to Libadwaita</li>
                 <li>⚰️ Remove dead code</li>
                 <li>💄 Update main window components to Libadwaita</li>
