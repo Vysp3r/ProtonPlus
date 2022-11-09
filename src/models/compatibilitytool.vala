@@ -57,28 +57,24 @@ namespace ProtonPlus.Models {
             return releases;
         }
 
-        public static Gtk.ListStore GetModel (CompatibilityTool[] tools) {
-            Gtk.ListStore model = new Gtk.ListStore (2, typeof (string), typeof (CompatibilityTool));
-            Gtk.TreeIter iter;
+        public static GLib.ListStore GetStore (CompatibilityTool[] tools) {
+            var store = new GLib.ListStore (typeof (CompatibilityTool));
 
-            foreach (var item in tools) {
-                model.append (out iter);
-                model.set (iter, 0, item.Title, 1, item, -1);
+            foreach (var tool in tools) {
+                store.append (tool);
             }
 
-            return model;
+            return store;
         }
 
-        public static Gtk.ListStore GetReleasesModel (GLib.List<Release> releases) {
-            Gtk.ListStore model = new Gtk.ListStore (2, typeof (string), typeof (Release));
-            Gtk.TreeIter iter;
+        public static GLib.ListStore GetReleasesStore (GLib.List<Release> releases) {
+            var store = new GLib.ListStore (typeof (Release));
 
-            foreach (var item in releases) {
-                model.append (out iter);
-                model.set (iter, 0, item.Label, 1, item, -1);
+            foreach (var release in releases) {
+                 store.append (release);
             }
 
-            return model;
+            return store;
         }
 
         public class Release : Object {
