@@ -19,6 +19,7 @@ protonplus_sources = [
 
   'views/games.vala',
   'views/tools.vala',
+  'views/notifications.vala',
 
   'windows/home.vala',
   'windows/home_custom_directory.vala',
