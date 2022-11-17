@@ -8,7 +8,7 @@ namespace ProtonPlus.Windows {
 
         //Values
         ProtonPlus.Models.Location location;
-        ProtonPlus.Models.CompatibilityTool currentTool;
+        ProtonPlus.Models.Tool currentTool;
         ProtonPlus.Models.Release currentRelease;
         Thread<int> downloadThread;
         Thread<void> extractThread;
@@ -39,7 +39,7 @@ namespace ProtonPlus.Windows {
 
             crTools = new Adw.ComboRow ();
             crTools.set_title ("Compatibility Tool");
-            crTools.set_model (ProtonPlus.Models.CompatibilityTool.GetStore (location.Tools));
+            crTools.set_model (ProtonPlus.Models.Tool.GetStore (location.Tools));
             crTools.set_factory (factoryTools);
             crTools.notify.connect (crTools_Notify);
 
@@ -134,13 +134,13 @@ namespace ProtonPlus.Windows {
 
         public void crTools_Notify (GLib.ParamSpec param) {
             if(param.get_name () == "selected"){
-                currentTool = (ProtonPlus.Models.CompatibilityTool) crTools.get_selected_item ();
+                currentTool = (ProtonPlus.Models.Tool) crTools.get_selected_item ();
                 crReleases.set_model (ProtonPlus.Models.Release.GetStore (ProtonPlus.Models.Release.GetReleases (currentTool.Endpoint,currentTool.AssetPosition)));
             }
         }
 
         void factoryTools_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var string_holder = list_item.get_item () as ProtonPlus.Models.CompatibilityTool;
+            var string_holder = list_item.get_item () as ProtonPlus.Models.Tool;
 
             var title = list_item.get_data<Gtk.Label>("title");
             title.label = string_holder.Title;

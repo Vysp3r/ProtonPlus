@@ -2,10 +2,10 @@ namespace ProtonPlus.Models {
     public class Location : Object {
         public string Label { public get; private set; }
         public string InstallDirectory { public get; private set; }
-        public ProtonPlus.Models.CompatibilityTool[] Tools { public get; private set; }
+        public ProtonPlus.Models.Tool[] Tools { public get; private set; }
         public ProtonPlus.Models.Launcher Launcher { public get; private set; }
 
-        public Location (string label, string install_directory, ProtonPlus.Models.CompatibilityTool[] tools, ProtonPlus.Models.Launcher launcher) {
+        public Location (string label, string install_directory, ProtonPlus.Models.Tool[] tools, ProtonPlus.Models.Launcher launcher) {
             this.Label = label;
             this.InstallDirectory = install_directory;
             this.Tools = tools;
@@ -44,19 +44,19 @@ namespace ProtonPlus.Models {
                 Posix.mkdir (steam_dir, 0777);
             }
 
-            locations.append (new Location ("Steam", steam_dir, ProtonPlus.Models.CompatibilityTool.Steam (), new ProtonPlus.Models.Launcher ("Steam")));
-            locations.append (new Location ("Steam (Flatpak)", home_dir + "/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d", ProtonPlus.Models.CompatibilityTool.Steam (), new ProtonPlus.Models.Launcher ("Steam")));
-            locations.append (new Location ("Steam (Snap)", home_dir + "/snap/steam/common/.steam/root/compatibilitytools.d", ProtonPlus.Models.CompatibilityTool.Steam (), new ProtonPlus.Models.Launcher ("Steam")));
-            locations.append (new Location ("Lutris", home_dir + "/.local/share/lutris/runners/wine", ProtonPlus.Models.CompatibilityTool.Lutris (), new ProtonPlus.Models.Launcher ("Lutris")));
-            locations.append (new Location ("Lutris (Flatpak)", home_dir + "/.var/app/net.lutris.Lutris/data/lutris/runners/wine", ProtonPlus.Models.CompatibilityTool.Lutris (), new ProtonPlus.Models.Launcher ("Lutris")));
-            locations.append (new Location ("Lutris DXVK", home_dir + "/.local/share/lutris/runtime/dxvk", ProtonPlus.Models.CompatibilityTool.LutrisDXVK (), new ProtonPlus.Models.Launcher ("Lutris")));
-            locations.append (new Location ("Lutris DXVK (Flatpak)", home_dir + "/.var/app/net.lutris.Lutris/data/lutris/runtime/dxvk", ProtonPlus.Models.CompatibilityTool.LutrisDXVK (), new ProtonPlus.Models.Launcher ("Lutris")));
-            locations.append (new Location ("Heroic Wine", home_dir + "/.config/heroic/tools/wine", ProtonPlus.Models.CompatibilityTool.HeroicWine (), new ProtonPlus.Models.Launcher ("Heroic Wine")));
-            locations.append (new Location ("Heroic Proton", home_dir + "/.config/heroic/tools/proton", ProtonPlus.Models.CompatibilityTool.HeroicProton (), new ProtonPlus.Models.Launcher ("Heroic Proton")));
-            locations.append (new Location ("Heroic Wine (Flatpak)", home_dir + "/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools/wine", ProtonPlus.Models.CompatibilityTool.HeroicWine (), new ProtonPlus.Models.Launcher ("Heroic Wine")));
-            locations.append (new Location ("Heroic Proton (Flatpak)", home_dir + "/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools/proton", ProtonPlus.Models.CompatibilityTool.HeroicProton (), new ProtonPlus.Models.Launcher ("Heroic Proton")));
-            locations.append (new Location ("Bottles", home_dir + "/.local/share/bottles/runners", ProtonPlus.Models.CompatibilityTool.Bottles (), new ProtonPlus.Models.Launcher ("Bottles")));
-            locations.append (new Location ("Bottles (Flatpak)", home_dir + "/.var/app/com.usebottles.bottles/data/bottles/runners", ProtonPlus.Models.CompatibilityTool.Bottles (), new ProtonPlus.Models.Launcher ("Bottles")));
+            locations.append (new Location ("Steam", steam_dir, ProtonPlus.Models.Tool.Steam (), new ProtonPlus.Models.Launcher ("Steam")));
+            locations.append (new Location ("Steam (Flatpak)", home_dir + "/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d", ProtonPlus.Models.Tool.Steam (), new ProtonPlus.Models.Launcher ("Steam")));
+            locations.append (new Location ("Steam (Snap)", home_dir + "/snap/steam/common/.steam/root/compatibilitytools.d", ProtonPlus.Models.Tool.Steam (), new ProtonPlus.Models.Launcher ("Steam")));
+            locations.append (new Location ("Lutris", home_dir + "/.local/share/lutris/runners/wine", ProtonPlus.Models.Tool.Lutris (), new ProtonPlus.Models.Launcher ("Lutris")));
+            locations.append (new Location ("Lutris (Flatpak)", home_dir + "/.var/app/net.lutris.Lutris/data/lutris/runners/wine", ProtonPlus.Models.Tool.Lutris (), new ProtonPlus.Models.Launcher ("Lutris")));
+            locations.append (new Location ("Lutris DXVK", home_dir + "/.local/share/lutris/runtime/dxvk", ProtonPlus.Models.Tool.LutrisDXVK (), new ProtonPlus.Models.Launcher ("Lutris")));
+            locations.append (new Location ("Lutris DXVK (Flatpak)", home_dir + "/.var/app/net.lutris.Lutris/data/lutris/runtime/dxvk", ProtonPlus.Models.Tool.LutrisDXVK (), new ProtonPlus.Models.Launcher ("Lutris")));
+            locations.append (new Location ("Heroic Wine", home_dir + "/.config/heroic/tools/wine", ProtonPlus.Models.Tool.HeroicWine (), new ProtonPlus.Models.Launcher ("Heroic Wine")));
+            locations.append (new Location ("Heroic Proton", home_dir + "/.config/heroic/tools/proton", ProtonPlus.Models.Tool.HeroicProton (), new ProtonPlus.Models.Launcher ("Heroic Proton")));
+            locations.append (new Location ("Heroic Wine (Flatpak)", home_dir + "/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools/wine", ProtonPlus.Models.Tool.HeroicWine (), new ProtonPlus.Models.Launcher ("Heroic Wine")));
+            locations.append (new Location ("Heroic Proton (Flatpak)", home_dir + "/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools/proton", ProtonPlus.Models.Tool.HeroicProton (), new ProtonPlus.Models.Launcher ("Heroic Proton")));
+            locations.append (new Location ("Bottles", home_dir + "/.local/share/bottles/runners", ProtonPlus.Models.Tool.Bottles (), new ProtonPlus.Models.Launcher ("Bottles")));
+            locations.append (new Location ("Bottles (Flatpak)", home_dir + "/.var/app/com.usebottles.bottles/data/bottles/runners", ProtonPlus.Models.Tool.Bottles (), new ProtonPlus.Models.Launcher ("Bottles")));
 
             return locations;
         }
