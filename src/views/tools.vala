@@ -119,16 +119,21 @@ namespace ProtonPlus.Views {
         }
 
         void btnDelete_Clicked (ProtonPlus.Models.Release release) {
-            var dialogDeleteSelected = new Gtk.MessageDialog (window, Gtk.DialogFlags.DESTROY_WITH_PARENT, Gtk.MessageType.QUESTION, Gtk.ButtonsType.YES_NO, "Are you sure you want to remove the selected version?");
-            dialogDeleteSelected.response.connect ((response_id) => {
-                if (response_id == -8) {
+            var dialogDeleteSelectedTest = new Adw.MessageDialog (window, null, "Are you sure you want to remove the selected version?");
+
+            dialogDeleteSelectedTest.add_response ("no", "No");
+            dialogDeleteSelectedTest.set_response_appearance ("no", Adw.ResponseAppearance.SUGGESTED);
+            dialogDeleteSelectedTest.add_response ("yes", "Yes");
+            dialogDeleteSelectedTest.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
+
+            dialogDeleteSelectedTest.response.connect ((response) => {
+                if (response == "yes") {
                     Posix.system ("rm -rf " + currentLocation.InstallDirectory + "/" + release.Label);
                     crInstallLocation.notify_property ("selected");
                 }
-
-                dialogDeleteSelected.close ();
             });
-            dialogDeleteSelected.show ();
+
+            dialogDeleteSelectedTest.show();
         }
 
         void factoryInstallLocation_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
