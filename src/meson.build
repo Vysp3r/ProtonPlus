@@ -23,7 +23,6 @@ protonplus_sources = [
   'views/notifications.vala',
 
   'windows/home.vala',
-  'windows/home_custom_directory.vala',
   'windows/home_info.vala',
   'windows/preferences.vala',
   'windows/selector.vala',
