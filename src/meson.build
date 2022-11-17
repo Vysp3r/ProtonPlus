@@ -14,6 +14,7 @@ protonplus_sources = [
   'models/compatibilitytool.vala',
   'models/location.vala',
   'models/launcher.vala',
+  'models/release.vala',
 
   'widgets/protoncb.vala',
 

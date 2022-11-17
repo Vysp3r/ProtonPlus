@@ -9,7 +9,7 @@ namespace ProtonPlus.Windows {
         //Values
         ProtonPlus.Models.Location location;
         ProtonPlus.Models.CompatibilityTool currentTool;
-        ProtonPlus.Models.CompatibilityTool.Release currentRelease;
+        ProtonPlus.Models.Release currentRelease;
         Thread<int> downloadThread;
         Thread<void> extractThread;
 
@@ -55,7 +55,7 @@ namespace ProtonPlus.Windows {
 
             crReleases = new Adw.ComboRow ();
             crReleases.set_title ("Version");
-            crReleases.set_model (ProtonPlus.Models.CompatibilityTool.GetReleasesStore (currentTool.GetReleases ()));
+            crReleases.set_model (ProtonPlus.Models.Release.GetStore (ProtonPlus.Models.Release.GetReleases (currentTool.Endpoint,currentTool.AssetPosition)));
             crReleases.set_factory (factoryReleases);
             crReleases.notify.connect (crReleases_Notify);
 
@@ -135,7 +135,7 @@ namespace ProtonPlus.Windows {
         public void crTools_Notify (GLib.ParamSpec param) {
             if(param.get_name () == "selected"){
                 currentTool = (ProtonPlus.Models.CompatibilityTool) crTools.get_selected_item ();
-                crReleases.set_model (ProtonPlus.Models.CompatibilityTool.GetReleasesStore (currentTool.GetReleases ()));
+                crReleases.set_model (ProtonPlus.Models.Release.GetStore (ProtonPlus.Models.Release.GetReleases (currentTool.Endpoint,currentTool.AssetPosition)));
             }
         }
 
@@ -159,12 +159,12 @@ namespace ProtonPlus.Windows {
 
         public void crReleases_Notify (GLib.ParamSpec param) {
             if(param.get_name () == "selected"){
-                currentRelease = (ProtonPlus.Models.CompatibilityTool.Release) crReleases.get_selected_item ();
+                currentRelease = (ProtonPlus.Models.Release) crReleases.get_selected_item ();
             }
         }
 
         void factoryReleases_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var string_holder = list_item.get_item () as ProtonPlus.Models.CompatibilityTool.Release;
+            var string_holder = list_item.get_item () as ProtonPlus.Models.Release;
 
             var title = list_item.get_data<Gtk.Label>("title");
             title.label = string_holder.Label;
