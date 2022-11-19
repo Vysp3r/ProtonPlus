@@ -11,7 +11,7 @@ protonplus_sources = [
   'manager/file.vala',
 
   'models/preference.vala',
-  'models/compatibilitytool.vala',
+  'models/tool.vala',
   'models/location.vala',
   'models/launcher.vala',
   'models/release.vala',
