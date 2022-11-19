@@ -16,8 +16,6 @@ protonplus_sources = [
   'models/launcher.vala',
   'models/release.vala',
 
-  'widgets/protoncb.vala',
-
   'views/games.vala',
   'views/tools.vala',
   'views/notifications.vala',
