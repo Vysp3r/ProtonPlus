@@ -128,7 +128,7 @@ namespace ProtonPlus.Views {
 
             dialogDeleteSelectedTest.response.connect ((response) => {
                 if (response == "yes") {
-                    Posix.system ("rm -rf " + currentLocation.InstallDirectory + "/" + release.Label);
+                    Posix.system ("rm -rf \"" + currentLocation.InstallDirectory + "/" + release.Label + "\"");
                     crInstallLocation.notify_property ("selected");
                 }
             });
