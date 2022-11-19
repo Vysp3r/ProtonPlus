@@ -7,7 +7,7 @@ namespace ProtonPlus.Windows {
         Gtk.Label labelDirectory;
         Gtk.Widget btnClose;
 
-        public HomeInfo (Gtk.ApplicationWindow parent, ProtonPlus.Models.CompatibilityTool.Release release, ProtonPlus.Models.Location location) {
+        public HomeInfo (Gtk.ApplicationWindow parent, ProtonPlus.Models.Release release, ProtonPlus.Models.Location location) {
             this.set_title ("About Compatibility Tool");
             this.set_default_size(500, 0);
             this.set_transient_for (parent);

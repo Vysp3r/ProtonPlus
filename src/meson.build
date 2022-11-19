@@ -11,18 +11,16 @@ protonplus_sources = [
   'manager/file.vala',
 
   'models/preference.vala',
-  'models/compatibilitytool.vala',
+  'models/tool.vala',
   'models/location.vala',
   'models/launcher.vala',
-
-  'widgets/protoncb.vala',
-  'widgets/protonrow.vala',
+  'models/release.vala',
 
   'views/games.vala',
   'views/tools.vala',
+  'views/notifications.vala',
 
   'windows/home.vala',
-  'windows/home_custom_directory.vala',
   'windows/home_info.vala',
   'windows/preferences.vala',
   'windows/selector.vala',

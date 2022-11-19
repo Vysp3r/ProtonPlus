@@ -3,7 +3,7 @@ namespace ProtonPlus.Windows {
         public Home (Gtk.Application app) {
             this.set_application (app);
             this.set_title ("ProtonPlus");
-            this.set_default_size (750, 500);
+            this.set_default_size (800, 500);
 
             // Create a box
             var boxMain = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
@@ -57,6 +57,10 @@ namespace ProtonPlus.Windows {
             // Add the Games to viewStack
             var gamesPage = viewStack.add_titled (ProtonPlus.Views.Games.GetBox (), "Games", "Games");
             gamesPage.set_icon_name ("input-gaming-symbolic");
+
+            // Add the Notifications to viewStack
+            var notificationsPage = viewStack.add_titled (ProtonPlus.Views.Notifications.GetBox (), "Notifications", "Notifications");
+            notificationsPage.set_icon_name ("preferences-desktop-locale-symbolic");
 
             // Add viewStack to boxMain
             boxMain.append (viewStack);

@@ -78,10 +78,10 @@ namespace ProtonPlus.Views {
         public void crInstallLocation_Notify (GLib.ParamSpec param) {
             if(param.get_name () == "selected"){
                 currentLocation = (ProtonPlus.Models.Location) crInstallLocation.get_selected_item ();
-                var releases = ProtonPlus.Models.CompatibilityTool.Installed (currentLocation);
-                var model = ProtonPlus.Models.CompatibilityTool.Release.GetModel (releases);
+                var releases = ProtonPlus.Models.Release.GetInstalled (currentLocation);
+                var model = ProtonPlus.Models.Release.GetStore (releases);
                 listInstalledTools.bind_model (model, (item) => {
-                    var release = (ProtonPlus.Models.CompatibilityTool.Release) item;
+                    var release = (ProtonPlus.Models.Release) item;
 
                     var row = new Adw.ActionRow ();
                     row.set_title (release.Label);
@@ -111,24 +111,29 @@ namespace ProtonPlus.Views {
             });
         }
 
-        void btnInfo_Clicked (ProtonPlus.Models.CompatibilityTool.Release release) {
+        void btnInfo_Clicked (ProtonPlus.Models.Release release) {
             var dialogShowVersion = new ProtonPlus.Windows.HomeInfo (window, release, currentLocation);
             dialogShowVersion.response.connect ((response_id) => {
                dialogShowVersion.close ();
             });
         }
 
-        void btnDelete_Clicked (ProtonPlus.Models.CompatibilityTool.Release release) {
-            var dialogDeleteSelected = new Gtk.MessageDialog (window, Gtk.DialogFlags.DESTROY_WITH_PARENT, Gtk.MessageType.QUESTION, Gtk.ButtonsType.YES_NO, "Are you sure you want to remove the selected version?");
-            dialogDeleteSelected.response.connect ((response_id) => {
-                if (response_id == -8) {
-                    Posix.system ("rm -rf " + currentLocation.InstallDirectory + "/" + release.Label);
+        void btnDelete_Clicked (ProtonPlus.Models.Release release) {
+            var dialogDeleteSelectedTest = new Adw.MessageDialog (window, null, "Are you sure you want to remove the selected version?");
+
+            dialogDeleteSelectedTest.add_response ("no", "No");
+            dialogDeleteSelectedTest.set_response_appearance ("no", Adw.ResponseAppearance.SUGGESTED);
+            dialogDeleteSelectedTest.add_response ("yes", "Yes");
+            dialogDeleteSelectedTest.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
+
+            dialogDeleteSelectedTest.response.connect ((response) => {
+                if (response == "yes") {
+                    Posix.system ("rm -rf \"" + currentLocation.InstallDirectory + "/" + release.Label + "\"");
                     crInstallLocation.notify_property ("selected");
                 }
-
-                dialogDeleteSelected.close ();
             });
-            dialogDeleteSelected.show ();
+
+            dialogDeleteSelectedTest.show();
         }
 
         void factoryInstallLocation_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
