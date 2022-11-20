@@ -4,5 +4,5 @@ Exec=protonplus
 Icon=com.vysp3r.ProtonPlus
 Terminal=false
 Type=Application
-Categories=GTK;
+Categories=Games;
 StartupNotify=true
