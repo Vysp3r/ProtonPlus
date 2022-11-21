@@ -5,6 +5,7 @@ namespace ProtonPlus.Views {
         Gtk.Box boxMain;
         Adw.ComboRow crInstallLocation;
         Gtk.ListBox listInstalledTools;
+        Gtk.Button btnAdd;
 
         // Values
         ProtonPlus.Models.Location currentLocation;
@@ -41,7 +42,7 @@ namespace ProtonPlus.Views {
             boxMain.append (groupInstallLocation);
 
             // Create a button
-            var btnAdd = new Gtk.Button ();
+            btnAdd = new Gtk.Button ();
             btnAdd.set_icon_name ("tab-new-symbolic");
             btnAdd.add_css_class ("flat");
             btnAdd.add_css_class ("bold");
@@ -100,6 +101,8 @@ namespace ProtonPlus.Views {
 
                     return row;
                 });
+
+                btnAdd.set_sensitive(currentLocation != null);
             }
         }
 
