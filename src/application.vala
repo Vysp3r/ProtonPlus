@@ -39,22 +39,15 @@ namespace ProtonPlus {
 
             aboutDialog.set_application_name ("ProtonPlus");
             aboutDialog.set_application_icon ("com.vysp3r.ProtonPlus");
-            aboutDialog.set_version ("v0.1.3");
-            aboutDialog.set_comments ("A simple compatibility tool manager ");
+            aboutDialog.set_version ("v0.1.7");
+            aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
             aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutDialog.set_release_notes ("<ul>
-                <li>✏️ Fix typo in the release notes</li>
+                <li>🔨 Update appdata</li>
                 <li>🍱 Update the preview image</li>
-                <li>⚰️ Remove unused custom widget</li>
-                <li>🚧 Add notifications tab</li>
-                <li>💄 Update selector window components to Libadwaita</li>
-                <li>🧱 Separate Release from CompatibilityTool</li>
-                <li>🧱 Rename CompatibilityTool to Tool</li>
-                <li>⚰️ Remove unused file</li>
-                <li>💄 Update home message dialog to libadwaita</li>
-                <li>⚰️ Remove unused custom widget</li>
-                <li>✨ Added a naming convention extracted directories</li>
-                <li>🚚 Rename compatibilitytool to tool</li>
+                <li>🍱 Add a preview image</li>
+                <li>🐛 Fix install button always being clickable</li>
+                <li>🔨 Update appdata</li>
                 <li>💬 Update the release notes</li>
             </ul>");
             aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
