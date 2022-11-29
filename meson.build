@@ -1,5 +1,5 @@
 project('protonplus', ['c', 'vala'],
-          version: '0.1.0',
+          version: '0.2.0',
     meson_version: '>= 0.59.0',
   default_options: [ 'warning_level=2',
                      'werror=false',

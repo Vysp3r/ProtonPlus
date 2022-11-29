@@ -10,7 +10,15 @@
         "--socket=fallback-x11",
         "--device=dri",
         "--socket=wayland",
-        "--filesystem=home",
+        "--filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d",
+        "--filesystem=~/.steam/root/compatibilitytools.d",
+        "--filesystem=~/.local/share/Steam/compatibilitytools.d",
+        "--filesystem=~/.var/app/net.lutris.Lutris/data/lutris/",
+        "--filesystem=~/.local/share/lutris/",
+        "--filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools/",
+        "--filesystem=~/.config/heroic/tools",
+        "--filesystem=~/.var/app/com.usebottles.bottles/data/bottles/runners",
+        "--filesystem=~/.local/share/bottles/runners",
         "--talk-name=org.gtk.vfs.*",
         "--filesystem=xdg-run/gvfsd"
     ],
@@ -18,7 +26,6 @@
         {
             "name" : "ProtonPlus",
             "builddir" : true,
-            "only-arches": ["x86_64"],
             "buildsystem" : "meson"
         }
     ]

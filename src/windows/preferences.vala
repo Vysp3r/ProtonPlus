@@ -1,17 +1,15 @@
 namespace ProtonPlus.Windows {
     public class Preferences : Adw.PreferencesWindow {
-        //Widgets
+        // Widgets
         Adw.ComboRow crStyles;
+        Stores.Preferences preferences;
 
-        //Stores
-        ProtonPlus.Stores.Preferences store;
-
-        public Preferences () {
+        public Preferences (ref Stores.Preferences preferences) {
             this.set_title ("Preferences");
             this.set_can_navigate_back (true);
             this.set_default_size (0, 0);
 
-            store = ProtonPlus.Stores.Preferences.instance ();
+            this.preferences = preferences;
 
             var mainPage = new Adw.PreferencesPage ();
             mainPage.set_name ("Appearance");
@@ -24,9 +22,9 @@ namespace ProtonPlus.Windows {
 
             crStyles = new Adw.ComboRow ();
             crStyles.set_title ("Styles");
-            crStyles.set_model (ProtonPlus.Models.Preference.GetStyleStore ());
+            crStyles.set_model (Models.Preferences.Style.GetStore (Models.Preferences.Style.GetAll ()));
             crStyles.set_factory (factoryStyles);
-            crStyles.set_selected (store.CurrentStyle.Position);
+            crStyles.set_selected (preferences.Style.Position);
             crStyles.notify.connect (crStyles_Notify);
 
             var stylesGroup = new Adw.PreferencesGroup ();
@@ -37,19 +35,19 @@ namespace ProtonPlus.Windows {
             this.show ();
         }
 
-        public void crStyles_Notify (GLib.ParamSpec param) {
-            if(param.get_name () == "selected"){
-                store.CurrentStyle = (ProtonPlus.Models.Preference.Style) crStyles.get_selected_item ();
-                ProtonPlus.Manager.Preferences.Apply ();
-                ProtonPlus.Manager.Preferences.Update ();
+        void crStyles_Notify (GLib.ParamSpec param) {
+            if (param.get_name () == "selected") {
+                preferences.Style = (Models.Preferences.Style) crStyles.get_selected_item ();
+                Manager.Preferences.Apply (ref preferences);
+                Manager.Preferences.Update (ref preferences);
             }
         }
 
         void factoryStyles_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var string_holder = list_item.get_item () as ProtonPlus.Models.Preference.Style;
+            var string_holder = list_item.get_item () as Models.Preferences.Style;
 
-            var title = list_item.get_data<Gtk.Label>("title");
-            title.label = string_holder.Label;
+            var title = list_item.get_data<Gtk.Label> ("title");
+            title.label = string_holder.Title;
         }
 
         void factoryStyles_Setup (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
