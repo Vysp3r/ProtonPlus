@@ -1,5 +1,7 @@
 namespace ProtonPlus {
     public class Application : Adw.Application {
+        Stores.Preferences preferences;
+
         public Application () {
             Object (application_id: "com.vysp3r.ProtonPlus", flags : ApplicationFlags.FLAGS_NONE);
         }
@@ -19,13 +21,18 @@ namespace ProtonPlus {
         public override void activate () {
             base.activate ();
 
-            new Windows.Home (this);
+            preferences = new Stores.Preferences ();
+            if (Manager.Preferences.Load (ref preferences)) {
+                Manager.Preferences.Apply (ref preferences);
+                Manager.Themes.Load ();
 
-            Manager.Preferences.Load ();
-            Manager.Themes.Load ();
+                new Windows.Home (this);
+            } else {
+                stderr.printf ("There was an error loading the preferences and it will prevent the application from opening.\n");
+            }
         }
 
-        private void on_about_action () {
+        void on_about_action () {
             string[] devs = { "Charles Malouin (Vysp3r) https://github.com/Vysp3r" };
             string[] designers = { "Charles Malouin (Vysp3r) https://github.com/Vysp3r" };
             string[] thanks = {
@@ -56,8 +63,8 @@ namespace ProtonPlus {
             aboutDialog.show ();
         }
 
-        private void on_preferences_action () {
-            new ProtonPlus.Windows.Preferences ();
+        void on_preferences_action () {
+            new ProtonPlus.Windows.Preferences (ref preferences);
         }
     }
 }

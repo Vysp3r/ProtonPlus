@@ -1,29 +1,30 @@
 namespace ProtonPlus.Windows {
     public class Selector : Gtk.Dialog {
-        //Widgets
+        // Widgets
         Gtk.Button btnInstall;
+        Gtk.Button btnInfo;
         Adw.ComboRow crTools;
         Adw.ComboRow crReleases;
         Gtk.ProgressBar progressBarDownload;
 
-        //Values
-        ProtonPlus.Models.Location location;
-        ProtonPlus.Models.Tool currentTool;
-        ProtonPlus.Models.Release currentRelease;
+        // Values
+        Models.Launcher currentLauncher;
+        Models.Tool currentTool;
+        Models.Release currentRelease;
         Thread<int> downloadThread;
         Thread<void> extractThread;
 
-        //Stores
-        ProtonPlus.Stores.Threads store;
+        // Stores
+        Stores.Threads store;
 
-        public Selector (Gtk.ApplicationWindow parent, ProtonPlus.Models.Location location) {
+        public Selector (Gtk.ApplicationWindow parent, Models.Launcher launcher) {
             this.set_transient_for (parent);
-            this.set_title("Install Compatibility Tool");
-            this.set_default_size (330, 0);
+            this.set_title ("Install Compatibility Tool");
+            this.set_default_size (430, 0);
 
-            this.location = location;
+            this.currentLauncher = launcher;
 
-            store = ProtonPlus.Stores.Threads.instance ();
+            store = Stores.Threads.instance ();
 
             var boxMain = this.get_content_area ();
             boxMain.set_orientation (Gtk.Orientation.VERTICAL);
@@ -39,13 +40,16 @@ namespace ProtonPlus.Windows {
 
             crTools = new Adw.ComboRow ();
             crTools.set_title ("Compatibility Tool");
-            crTools.set_model (ProtonPlus.Models.Tool.GetStore (location.Tools));
+            crTools.set_model (Models.Tool.GetStore (launcher.Tools));
             crTools.set_factory (factoryTools);
             crTools.notify.connect (crTools_Notify);
 
             var groupTools = new Adw.PreferencesGroup ();
             groupTools.add (crTools);
             boxMain.append (groupTools);
+
+            btnInfo = new Gtk.Button.with_label ("Info");
+            btnInstall = new Gtk.Button.with_label ("Install");
 
             crTools.notify_property ("selected");
 
@@ -55,7 +59,7 @@ namespace ProtonPlus.Windows {
 
             crReleases = new Adw.ComboRow ();
             crReleases.set_title ("Version");
-            crReleases.set_model (ProtonPlus.Models.Release.GetStore (ProtonPlus.Models.Release.GetReleases (currentTool.Endpoint,currentTool.AssetPosition)));
+            crReleases.set_model (Models.Release.GetStore (Models.Release.GetReleases (currentTool)));
             crReleases.set_factory (factoryReleases);
             crReleases.notify.connect (crReleases_Notify);
 
@@ -68,43 +72,36 @@ namespace ProtonPlus.Windows {
             var boxBottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
             boxBottom.set_hexpand (true);
 
-            progressBarDownload = new Gtk.ProgressBar ();
-            progressBarDownload.set_visible (false);
-            boxMain.append (progressBarDownload);
 
-            var btnInfo = new Gtk.Button.with_label ("Info");
             btnInfo.add_css_class ("pill");
             btnInfo.set_hexpand (true);
             btnInfo.clicked.connect (() => Gtk.show_uri (this, currentRelease.Page_URL, Gdk.CURRENT_TIME));
             boxBottom.append (btnInfo);
 
-            btnInstall = new Gtk.Button.with_label ("Install");
             btnInstall.add_css_class ("pill");
             btnInstall.set_hexpand (true);
             btnInstall.clicked.connect (btnInstall_Clicked);
             boxBottom.append (btnInstall);
 
-            var btnCancel = new Gtk.Button.with_label ("Cancel");
-            btnCancel.add_css_class ("pill");
-            btnCancel.set_hexpand (true);
-            btnCancel.clicked.connect (() => response (Gtk.ResponseType.CANCEL));
-            boxBottom.append (btnCancel);
-
             boxMain.append (boxBottom);
+
+            progressBarDownload = new Gtk.ProgressBar ();
+            progressBarDownload.set_visible (false);
+            boxMain.append (progressBarDownload);
 
             this.show ();
         }
 
-        private void btnInstall_Clicked () {
+        void btnInstall_Clicked () {
             btnInstall.set_sensitive (false);
             progressBarDownload.set_visible (true);
             progressBarDownload.set_show_text (true);
             Download ();
         }
 
-        private void Download () {
+        void Download () {
             progressBarDownload.set_text ("Downloading...");
-            downloadThread = new Thread<int> ("download", () => ProtonPlus.Manager.HTTP.Download (currentRelease.Download_URL, location.InstallDirectory + "/" + currentRelease.Label + ".tar.gz"));
+            downloadThread = new Thread<int> ("download", () => Manager.HTTP.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + ".tar.gz"));
             GLib.Timeout.add (75, () => {
                 progressBarDownload.set_fraction (store.ProgressBar);
                 if (store.ProgressBar == 1) {
@@ -115,10 +112,15 @@ namespace ProtonPlus.Windows {
             }, 1);
         }
 
-        private void Extract () {
+        void Extract () {
             progressBarDownload.set_text ("Extracting...");
             progressBarDownload.set_pulse_step (1);
-            extractThread = new Thread<void> ("extract", () => ProtonPlus.Manager.File.Extract (location.InstallDirectory + "/", currentTool.Title, currentRelease.Label));
+            extractThread = new Thread<void> ("extract", () => {
+                string sourcePath = Manager.File.Extract (currentLauncher.Directory + "/", currentRelease.Title);
+                if (currentTool.Type != Models.Tool.TitleType.NONE) Manager.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
+                var store = Stores.Threads.instance ();
+                store.ProgressBarDone = true;
+            });
             GLib.Timeout.add (500, () => {
                 progressBarDownload.pulse ();
                 if (store.ProgressBarDone == true) {
@@ -132,17 +134,25 @@ namespace ProtonPlus.Windows {
             }, 1);
         }
 
-        public void crTools_Notify (GLib.ParamSpec param) {
-            if(param.get_name () == "selected"){
-                currentTool = (ProtonPlus.Models.Tool) crTools.get_selected_item ();
-                crReleases.set_model (ProtonPlus.Models.Release.GetStore (ProtonPlus.Models.Release.GetReleases (currentTool.Endpoint,currentTool.AssetPosition)));
+        void crTools_Notify (GLib.ParamSpec param) {
+            if (param.get_name () == "selected") {
+                currentTool = (Models.Tool) crTools.get_selected_item ();
+                var releases = Models.Release.GetReleases (currentTool);
+                if (releases.length () > 0) {
+                    crReleases.set_model (Models.Release.GetStore (releases));
+                } else {
+                    crReleases.set_model (null);
+                }
+
+                btnInfo.set_sensitive (releases.length () > 0);
+                btnInstall.set_sensitive (releases.length () > 0);
             }
         }
 
         void factoryTools_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var string_holder = list_item.get_item () as ProtonPlus.Models.Tool;
+            var string_holder = list_item.get_item () as Models.Tool;
 
-            var title = list_item.get_data<Gtk.Label>("title");
+            var title = list_item.get_data<Gtk.Label> ("title");
             title.label = string_holder.Title;
         }
 
@@ -157,17 +167,17 @@ namespace ProtonPlus.Windows {
             list_item.set_child (box);
         }
 
-        public void crReleases_Notify (GLib.ParamSpec param) {
-            if(param.get_name () == "selected"){
-                currentRelease = (ProtonPlus.Models.Release) crReleases.get_selected_item ();
+        void crReleases_Notify (GLib.ParamSpec param) {
+            if (param.get_name () == "selected") {
+                currentRelease = (Models.Release) crReleases.get_selected_item ();
             }
         }
 
         void factoryReleases_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var string_holder = list_item.get_item () as ProtonPlus.Models.Release;
+            var string_holder = list_item.get_item () as Models.Release;
 
-            var title = list_item.get_data<Gtk.Label>("title");
-            title.label = string_holder.Label;
+            var title = list_item.get_data<Gtk.Label> ("title");
+            title.label = string_holder.Title;
         }
 
         void factoryReleases_Setup (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
@@ -182,4 +192,3 @@ namespace ProtonPlus.Windows {
         }
     }
 }
-

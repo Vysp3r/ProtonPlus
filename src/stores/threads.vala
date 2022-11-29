@@ -6,7 +6,7 @@ namespace ProtonPlus.Stores {
             return _instance.once (() => { return new Threads (); });
         }
 
-        public double ProgressBar { get; set; }
-        public bool ProgressBarDone { get; set; }
+        public double ProgressBar;
+        public bool ProgressBarDone;
     }
 }

@@ -1,5 +1,5 @@
 namespace ProtonPlus.Views {
-    public class Tools  {
+    public class Tools {
         // Widgets
         Gtk.ApplicationWindow window;
         Gtk.Box boxMain;
@@ -8,19 +8,21 @@ namespace ProtonPlus.Views {
         Gtk.Button btnAdd;
 
         // Values
-        ProtonPlus.Models.Location currentLocation;
+        GLib.List<Models.Launcher> launchers;
+        Models.Launcher currentLauncher;
 
         public Tools (Gtk.ApplicationWindow window) {
             this.window = window;
+            this.launchers = Models.Launcher.GetAll ();
         }
 
         public Gtk.Box GetBox () {
             // Get the box child from the window
-            boxMain = new Gtk.Box(Gtk.Orientation.VERTICAL, 15);
-            boxMain.set_margin_bottom(15);
-            boxMain.set_margin_end(15);
-            boxMain.set_margin_start(15);
-            boxMain.set_margin_top(15);
+            boxMain = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
+            boxMain.set_margin_bottom (15);
+            boxMain.set_margin_end (15);
+            boxMain.set_margin_start (15);
+            boxMain.set_margin_top (15);
 
             // Create a factory
             var factoryInstallLocation = new Gtk.SignalListItemFactory ();
@@ -30,13 +32,13 @@ namespace ProtonPlus.Views {
             // Create a comborow
             crInstallLocation = new Adw.ComboRow ();
             crInstallLocation.notify.connect (crInstallLocation_Notify);
-            crInstallLocation.set_title ("Install location");
-            crInstallLocation.set_model (ProtonPlus.Models.Location.GetStore ());
+            crInstallLocation.set_title ("Launcher");
+            crInstallLocation.set_model (Models.Launcher.GetStore (launchers));
             crInstallLocation.set_factory (factoryInstallLocation);
 
             // Create a group with crInstallLocation in it
             var groupInstallLocation = new Adw.PreferencesGroup ();
-            groupInstallLocation.add(crInstallLocation);
+            groupInstallLocation.add (crInstallLocation);
 
             // Add groupInstallLocation to boxMain
             boxMain.append (groupInstallLocation);
@@ -50,7 +52,7 @@ namespace ProtonPlus.Views {
 
             // Create an ActionRow with a label and a button
             var rowInstalledTools = new Adw.ActionRow ();
-            rowInstalledTools.set_title ("Installed compatibility tools");
+            rowInstalledTools.set_title ("Installed Tools");
             rowInstalledTools.add_suffix (btnAdd);
 
             // Create a group with rowInstalledTools in it
@@ -76,16 +78,16 @@ namespace ProtonPlus.Views {
         }
 
         // Events
-        public void crInstallLocation_Notify (GLib.ParamSpec param) {
-            if(param.get_name () == "selected"){
-                currentLocation = (ProtonPlus.Models.Location) crInstallLocation.get_selected_item ();
-                var releases = ProtonPlus.Models.Release.GetInstalled (currentLocation);
-                var model = ProtonPlus.Models.Release.GetStore (releases);
+        void crInstallLocation_Notify (GLib.ParamSpec param) {
+            if (param.get_name () == "selected") {
+                currentLauncher = (Models.Launcher) crInstallLocation.get_selected_item ();
+                var releases = Models.Release.GetInstalled (currentLauncher);
+                var model = Models.Release.GetStore (releases);
                 listInstalledTools.bind_model (model, (item) => {
-                    var release = (ProtonPlus.Models.Release) item;
+                    var release = (Models.Release) item;
 
                     var row = new Adw.ActionRow ();
-                    row.set_title (release.Label);
+                    row.set_title (release.Title);
 
                     var btnInfo = new Gtk.Button ();
                     btnInfo.set_icon_name ("dialog-information-symbolic");
@@ -102,26 +104,26 @@ namespace ProtonPlus.Views {
                     return row;
                 });
 
-                btnAdd.set_sensitive(currentLocation != null);
+                btnAdd.set_sensitive (currentLauncher != null);
             }
         }
 
         void btnAdd_Clicked () {
-            var dialogAddVersion = new ProtonPlus.Windows.Selector (window, currentLocation);
+            var dialogAddVersion = new Windows.Selector (window, currentLauncher);
             dialogAddVersion.response.connect ((response_id) => {
-               if (response_id == Gtk.ResponseType.APPLY) crInstallLocation.notify_property ("selected");
-               if (response_id == Gtk.ResponseType.CANCEL) dialogAddVersion.close ();
+                if (response_id == Gtk.ResponseType.APPLY) crInstallLocation.notify_property ("selected");
+                if (response_id == Gtk.ResponseType.CANCEL) dialogAddVersion.close ();
             });
         }
 
-        void btnInfo_Clicked (ProtonPlus.Models.Release release) {
-            var dialogShowVersion = new ProtonPlus.Windows.HomeInfo (window, release, currentLocation);
+        void btnInfo_Clicked (Models.Release release) {
+            var dialogShowVersion = new Windows.HomeInfo (window, release, currentLauncher);
             dialogShowVersion.response.connect ((response_id) => {
-               dialogShowVersion.close ();
+                dialogShowVersion.close ();
             });
         }
 
-        void btnDelete_Clicked (ProtonPlus.Models.Release release) {
+        void btnDelete_Clicked (Models.Release release) {
             var dialogDeleteSelectedTest = new Adw.MessageDialog (window, null, "Are you sure you want to remove the selected version?");
 
             dialogDeleteSelectedTest.add_response ("no", "No");
@@ -131,19 +133,22 @@ namespace ProtonPlus.Views {
 
             dialogDeleteSelectedTest.response.connect ((response) => {
                 if (response == "yes") {
-                    Posix.system ("rm -rf \"" + currentLocation.InstallDirectory + "/" + release.Label + "\"");
-                    crInstallLocation.notify_property ("selected");
+                    GLib.Timeout.add (1000, () => {
+                        Posix.system ("rm -rf \"" + currentLauncher.Directory + "/" + release.Title + "\"");
+                        crInstallLocation.notify_property ("selected");
+                        return false;
+                    }, 2);
                 }
             });
 
-            dialogDeleteSelectedTest.show();
+            dialogDeleteSelectedTest.show ();
         }
 
         void factoryInstallLocation_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var string_holder = list_item.get_item () as ProtonPlus.Models.Location;
+            var string_holder = list_item.get_item () as Models.Launcher;
 
-            var title = list_item.get_data<Gtk.Label>("title");
-            title.set_label (string_holder.Label);
+            var title = list_item.get_data<Gtk.Label> ("title");
+            title.set_label (string_holder.Title);
         }
 
         void factoryInstallLocation_Setup (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {

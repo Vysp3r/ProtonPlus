@@ -1,15 +1,15 @@
 namespace ProtonPlus.Windows {
     public class HomeInfo : Gtk.Dialog {
-        //Widgets
+        // Widgets
         Gtk.Box boxMain;
         Gtk.Label labelTool;
         Gtk.Label labelLauncher;
         Gtk.Label labelDirectory;
         Gtk.Widget btnClose;
 
-        public HomeInfo (Gtk.ApplicationWindow parent, ProtonPlus.Models.Release release, ProtonPlus.Models.Location location) {
+        public HomeInfo (Gtk.ApplicationWindow parent, ProtonPlus.Models.Release release, ProtonPlus.Models.Launcher launcher) {
             this.set_title ("About Compatibility Tool");
-            this.set_default_size(500, 0);
+            this.set_default_size (500, 0);
             this.set_transient_for (parent);
 
             boxMain = this.get_content_area ();
@@ -19,20 +19,20 @@ namespace ProtonPlus.Windows {
             boxMain.set_margin_start (15);
             boxMain.set_margin_top (15);
 
-            labelTool = new Gtk.Label("Compatibility tool: " + release.Label);
-            boxMain.append(labelTool);
+            labelTool = new Gtk.Label ("Compatibility tool: " + release.Title);
+            boxMain.append (labelTool);
 
-            labelLauncher = new Gtk.Label("Launcher: " + location.Launcher.Label);
-            boxMain.append(labelLauncher);
+            labelLauncher = new Gtk.Label ("Launcher: " + launcher.Title);
+            boxMain.append (labelLauncher);
 
-            labelDirectory = new Gtk.Label("Install directory: " + location.InstallDirectory);
-            boxMain.append(labelDirectory);
+            labelDirectory = new Gtk.Label ("Directory: " + launcher.Directory);
+            boxMain.append (labelDirectory);
 
-            btnClose = new Gtk.Button.with_label("Close");
+            btnClose = new Gtk.Button.with_label ("Close");
             this.add_action_widget (btnClose, 0);
 
             // Show the window
-            this.show();
+            this.show ();
         }
     }
 }

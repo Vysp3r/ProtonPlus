@@ -1,18 +1,16 @@
 namespace ProtonPlus.Stores {
     public class Preferences {
-        private static GLib.Once<Preferences> _instance;
+        public ProtonPlus.Models.Preferences.Style Style { get; set; }
 
-        public static unowned Preferences instance () {
-            return _instance.once (() => { return new Preferences (); });
-        }
-
-        public ProtonPlus.Models.Preference.Style CurrentStyle { get; set; }
-
-        public ProtonPlus.Models.Location[] CustomInstallLocations { get; set; }
-
-        public string GetJson () {
+        public string GetJson (bool useDefaultValue = false) {
             string json = @"{\n\t";
-            json += @"\"style\" : \"" + CurrentStyle.Label + "\"";
+
+            if (!useDefaultValue) {
+                json += @"\"" + "style" + "\" : \"" + Style.Title + "\"";
+            } else {
+                json += @"\"style\" : \"" + "System" + "\"";
+            }
+
             return json += "\n}";
         }
     }
