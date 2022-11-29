@@ -142,6 +142,17 @@ namespace ProtonPlus.Windows {
                     crReleases.set_model (Models.Release.GetStore (releases));
                 } else {
                     crReleases.set_model (null);
+
+                    var dialogMessage = new Adw.MessageDialog (this, null, "Could not fetch anything from the GitHub API. You may have reached the maximum amount of requests per hour. If you think this is a bug, please report this to us.");
+
+                    dialogMessage.add_response ("ok", "Ok");
+                    dialogMessage.set_response_appearance ("ok", Adw.ResponseAppearance.SUGGESTED);
+
+                    dialogMessage.response.connect ((response) => {
+                        this.close ();
+                    });
+
+                    dialogMessage.show ();
                 }
 
                 btnInfo.set_sensitive (releases.length () > 0);
