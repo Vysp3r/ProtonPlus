@@ -10,6 +10,7 @@
     <summary> A simple Wine and Proton-based compatiblity tools manager for GNOME </summary>
     <description>
         <p>ProtonPlus a simple Wine and Proton-based compatiblity tools manager for GNOME. It works with Steam, Lutris, Heroic Games Launcher and Bottles. It was made in Vala with GTK4 and Libadwaita using GNOME Builder.</p>
+        <p>This project is still in its early phase, so please keep that in mind before using it.</p>
     </description>
 
     <url type="homepage">https://github.com/Vysp3r/ProtonPlus</url>
