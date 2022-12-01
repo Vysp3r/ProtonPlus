@@ -28,6 +28,18 @@
     </screenshots>
 
     <releases>
+          <release version="0.2.1" date="2022-12-01">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>🔨 Update appdata</li>
+              <li>🐛 Fix tool renaming for nothing</li>
+              <li>🐛 Fix selector window freezing</li>
+              <li>🐛 Fix Gtk-Critical errors</li>
+              <li>💬 Update the release notes</li>
+            </ul>
+          </description>
+        </release>
         <release version="0.2.0" date="2022-11-29">
           <description>
             <p>For stability reasons, I've decided to disable Bottles and Heroic Games Launcher support for now. I also disabled Proton Tkg for the same reasons.</p>
