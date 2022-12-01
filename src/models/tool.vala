@@ -34,7 +34,7 @@ namespace ProtonPlus.Models {
         public static GLib.List<Tool> Steam () {
             var tools = new GLib.List<Tool> ();
 
-            tools.append (new Tool ("Proton-GE", "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1));
+            tools.append (new Tool ("Proton-GE", "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, TitleType.NONE));
             tools.append (new Tool ("Luxtorpeda", "Luxtorpeda provides Linux-native game engines for specific Windows-only games.", "https://api.github.com/repos/luxtorpeda-dev/luxtorpeda/releases", 0, TitleType.TOOL_NAME));
             tools.append (new Tool ("Boxtron", "Steam Play compatibility tool to run DOS games using native Linux DOSBox.", "https://api.github.com/repos/dreamer/boxtron/releases", 0, TitleType.TOOL_NAME));
             tools.append (new Tool ("Roberta", "Steam Play compatibility tool to run adventure games using native Linux ScummVM.", "https://api.github.com/repos/dreamer/roberta/releases", 0, TitleType.TOOL_NAME));

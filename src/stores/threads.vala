@@ -8,5 +8,8 @@ namespace ProtonPlus.Stores {
 
         public double ProgressBar;
         public bool ProgressBarDone;
+
+        public List<Models.Release> Releases;
+        public bool ReleaseRequestDone;
     }
 }

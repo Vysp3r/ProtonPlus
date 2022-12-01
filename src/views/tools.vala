@@ -24,13 +24,16 @@ namespace ProtonPlus.Views {
             boxMain.set_margin_start (15);
             boxMain.set_margin_top (15);
 
+            crInstallLocation = new Adw.ComboRow ();
+            btnAdd = new Gtk.Button ();
+            listInstalledTools = new Gtk.ListBox ();
+
             // Create a factory
             var factoryInstallLocation = new Gtk.SignalListItemFactory ();
             factoryInstallLocation.setup.connect (factoryInstallLocation_Setup);
             factoryInstallLocation.bind.connect (factoryInstallLocation_Bind);
 
             // Create a comborow
-            crInstallLocation = new Adw.ComboRow ();
             crInstallLocation.notify.connect (crInstallLocation_Notify);
             crInstallLocation.set_title ("Launcher");
             crInstallLocation.set_model (Models.Launcher.GetStore (launchers));
@@ -44,7 +47,6 @@ namespace ProtonPlus.Views {
             boxMain.append (groupInstallLocation);
 
             // Create a button
-            btnAdd = new Gtk.Button ();
             btnAdd.set_icon_name ("tab-new-symbolic");
             btnAdd.add_css_class ("flat");
             btnAdd.add_css_class ("bold");
@@ -63,7 +65,6 @@ namespace ProtonPlus.Views {
             boxMain.append (groupInstalledTools);
 
             // Create a listbox
-            listInstalledTools = new Gtk.ListBox ();
             listInstalledTools.set_vexpand (true);
             listInstalledTools.add_css_class ("boxed-list");
 
