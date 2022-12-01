@@ -72,14 +72,15 @@ namespace ProtonPlus.Windows {
             var boxBottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
             boxBottom.set_hexpand (true);
 
-
             btnInfo.add_css_class ("pill");
             btnInfo.set_hexpand (true);
+            btnInfo.set_sensitive (false);
             btnInfo.clicked.connect (() => Gtk.show_uri (this, currentRelease.Page_URL, Gdk.CURRENT_TIME));
             boxBottom.append (btnInfo);
 
             btnInstall.add_css_class ("pill");
             btnInstall.set_hexpand (true);
+            btnInstall.set_sensitive (false);
             btnInstall.clicked.connect (btnInstall_Clicked);
             boxBottom.append (btnInstall);
 
