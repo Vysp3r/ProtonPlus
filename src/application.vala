@@ -54,6 +54,7 @@ namespace ProtonPlus {
                 <li>🐛 Fix tool renaming for nothing</li>
                 <li>🐛 Fix selector window freezing</li>
                 <li>🐛 Fix Gtk-Critical errors</li>
+                <li>🐛 Fix buttons being active by default in selector</li>
                 <li>💬 Update the release notes</li>
             </ul>");
             aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
