@@ -46,17 +46,14 @@ namespace ProtonPlus {
 
             aboutDialog.set_application_name ("ProtonPlus");
             aboutDialog.set_application_icon ("com.vysp3r.ProtonPlus");
-            aboutDialog.set_version ("v0.2.0");
+            aboutDialog.set_version ("v0.2.1");
             aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
             aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutDialog.set_release_notes ("<ul>
-                <li>✨ Add NorthstarProton compatibility tool</li>
-                <li>🐛 Fix NorthstarProton not showing up</li>
-                <li>🔨 Update flatpak config</li>
-                <li>💬 Renamed tools in a uniform way</li>
-                <li>🧑‍💻 Project refactor</li>
-                <li>🚸 Add error message to selector</li>
                 <li>🔨 Update appdata</li>
+                <li>🐛 Fix tool renaming for nothing</li>
+                <li>🐛 Fix selector window freezing</li>
+                <li>🐛 Fix Gtk-Critical errors</li>
                 <li>💬 Update the release notes</li>
             </ul>");
             aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
