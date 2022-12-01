@@ -29,6 +29,8 @@ namespace ProtonPlus.Views {
             factoryInstallLocation.setup.connect (factoryInstallLocation_Setup);
             factoryInstallLocation.bind.connect (factoryInstallLocation_Bind);
 
+            btnAdd = new Gtk.Button ();
+
             // Create a comborow
             crInstallLocation = new Adw.ComboRow ();
             crInstallLocation.notify.connect (crInstallLocation_Notify);
@@ -44,7 +46,6 @@ namespace ProtonPlus.Views {
             boxMain.append (groupInstallLocation);
 
             // Create a button
-            btnAdd = new Gtk.Button ();
             btnAdd.set_icon_name ("tab-new-symbolic");
             btnAdd.add_css_class ("flat");
             btnAdd.add_css_class ("bold");
