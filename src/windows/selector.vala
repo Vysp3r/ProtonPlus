@@ -13,6 +13,7 @@ namespace ProtonPlus.Windows {
         Models.Release currentRelease;
         Thread<int> downloadThread;
         Thread<void> extractThread;
+        Thread<void> apiThread;
 
         // Stores
         Stores.Threads store;
@@ -137,26 +138,41 @@ namespace ProtonPlus.Windows {
         void crTools_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "selected") {
                 currentTool = (Models.Tool) crTools.get_selected_item ();
-                var releases = Models.Release.GetReleases (currentTool);
-                if (releases.length () > 0) {
-                    crReleases.set_model (Models.Release.GetStore (releases));
-                } else {
-                    crReleases.set_model (null);
+                apiThread = new Thread<void> ("api", () => {
+                    var store = Stores.Threads.instance ();
+                    store.Releases = Models.Release.GetReleases (currentTool);
+                    store.ReleaseRequestDone = true;
+                });
 
-                    var dialogMessage = new Adw.MessageDialog (this, null, "Could not fetch anything from the GitHub API. You may have reached the maximum amount of requests per hour. If you think this is a bug, please report this to us.");
+                GLib.Timeout.add (1000, () => {
+                    if (store.ReleaseRequestDone) {
+                        btnInfo.set_sensitive (store.Releases.length () > 0);
+                        btnInstall.set_sensitive (store.Releases.length () > 0);
 
-                    dialogMessage.add_response ("ok", "Ok");
-                    dialogMessage.set_response_appearance ("ok", Adw.ResponseAppearance.SUGGESTED);
+                        if (store.Releases.length () > 0) {
+                            crReleases.set_model (Models.Release.GetStore (store.Releases));
+                        } else {
+                            crReleases.set_model (null);
 
-                    dialogMessage.response.connect ((response) => {
-                        this.close ();
-                    });
+                            btnInfo.set_sensitive (false);
+                            btnInstall.set_sensitive (false);
 
-                    dialogMessage.show ();
-                }
+                            var dialogMessage = new Adw.MessageDialog (this, null, "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us.");
 
-                btnInfo.set_sensitive (releases.length () > 0);
-                btnInstall.set_sensitive (releases.length () > 0);
+                            dialogMessage.add_response ("ok", "Ok");
+                            dialogMessage.set_response_appearance ("ok", Adw.ResponseAppearance.SUGGESTED);
+
+                            dialogMessage.response.connect ((response) => {
+                                this.close ();
+                            });
+
+                            dialogMessage.show ();
+                        }
+
+                        return false;
+                    }
+                    return true;
+                }, 1);
             }
         }
 
