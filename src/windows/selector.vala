@@ -60,7 +60,6 @@ namespace ProtonPlus.Windows {
 
             crReleases = new Adw.ComboRow ();
             crReleases.set_title ("Version");
-            crReleases.set_model (Models.Release.GetStore (Models.Release.GetReleases (currentTool)));
             crReleases.set_factory (factoryReleases);
             crReleases.notify.connect (crReleases_Notify);
 
