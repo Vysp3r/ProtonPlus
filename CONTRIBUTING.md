@@ -19,6 +19,14 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 - [Styleguides](#styleguides)
   - [Commit Messages](#commit-messages)
 
+
+## Code of Conduct
+
+This project and everyone participating in it is governed by the
+[ProtonPlus Code of Conduct](https://github.com/Vysp3r/ProtonPlus/blob/master/CODE_OF_CONDUCT.md).
+By participating, you are expected to uphold this code. Please report unacceptable behavior
+to [@Vysp3r](https://github.com/Vysp3r).
+
 ## I Have a Question
 
 > If you want to ask a question, we assume that you have read the available [Documentation](https://github.com/Vysp3r/ProtonPlus/#readme).
