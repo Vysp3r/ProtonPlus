@@ -71,9 +71,9 @@ namespace ProtonPlus.Manager {
             }
         }
 
-        public static void Delete (string sourcePath) {
+        public static void Delete (string path) {
             try {
-                GLib.File file = GLib.File.new_for_path (sourcePath);
+                GLib.File file = GLib.File.new_for_path (path);
                 file.trash ();
             } catch (GLib.Error e) {
                 stderr.printf (e.message);
@@ -90,11 +90,20 @@ namespace ProtonPlus.Manager {
             }
         }
 
-        public static void Write (string sourcePath, string content) {
+        public static void Write (string path, string content) {
             try {
-                GLib.File file = GLib.File.new_for_path (GLib.Environment.get_user_config_dir () + "/preferences.json");
+                GLib.File file = GLib.File.new_for_path (path);
                 FileOutputStream os = file.create (FileCreateFlags.PRIVATE);
                 os.write (content.data);
+            } catch (GLib.Error e) {
+                stderr.printf (e.message);
+            }
+        }
+
+        public static void CreateDirectory (string path) {
+            try {
+                GLib.File file = GLib.File.new_for_path (path);
+                file.make_directory ();
             } catch (GLib.Error e) {
                 stderr.printf (e.message);
             }

@@ -5,6 +5,7 @@ namespace ProtonPlus.Views {
         Widgets.ProtonComboRow crInstallLocation;
         Gtk.ListBox listInstalledTools;
         Gtk.Button btnAdd;
+        Gtk.Button btnClean;
 
         // Values
         GLib.List<Models.Launcher> launchers;
@@ -19,6 +20,7 @@ namespace ProtonPlus.Views {
             // Initialize shared widgets
             crInstallLocation = new Widgets.ProtonComboRow ("Launcher", Models.Launcher.GetStore (launchers));
             btnAdd = new Gtk.Button ();
+            btnClean = new Gtk.Button ();
             listInstalledTools = new Gtk.ListBox ();
 
             // Get the box child from the window
@@ -38,6 +40,12 @@ namespace ProtonPlus.Views {
             // Add groupInstallLocation to boxMain
             boxMain.append (groupInstallLocation);
 
+            // Setup btnClean
+            btnClean.set_icon_name ("user-trash-symbolic");
+            btnClean.add_css_class ("flat");
+            btnClean.add_css_class ("bold");
+            btnClean.clicked.connect (btnClean_Clicked);
+
             // Setup btnAdd
             btnAdd.set_icon_name ("tab-new-symbolic");
             btnAdd.add_css_class ("flat");
@@ -47,6 +55,7 @@ namespace ProtonPlus.Views {
             // Create an ActionRow with a label and a button
             var rowInstalledTools = new Adw.ActionRow ();
             rowInstalledTools.set_title ("Installed Tools");
+            rowInstalledTools.add_suffix (btnClean);
             rowInstalledTools.add_suffix (btnAdd);
 
             // Create a group with rowInstalledTools in it
@@ -110,6 +119,28 @@ namespace ProtonPlus.Views {
             });
         }
 
+        void btnClean_Clicked () {
+            var dialogDeleteSelectedTest = new Adw.MessageDialog (window, null, "Are you sure you want to clean this launcher? WARNING: It will delete every file inside the launcher tool directory!");
+
+            dialogDeleteSelectedTest.add_response ("no", "No");
+            dialogDeleteSelectedTest.set_response_appearance ("no", Adw.ResponseAppearance.SUGGESTED);
+            dialogDeleteSelectedTest.add_response ("yes", "Yes");
+            dialogDeleteSelectedTest.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
+
+            dialogDeleteSelectedTest.response.connect ((response) => {
+                if (response == "yes") {
+                    GLib.Timeout.add (1000, () => {
+                        Manager.File.Delete (currentLauncher.Directory);
+                        Manager.File.CreateDirectory (currentLauncher.Directory);
+                        crInstallLocation.notify_property ("selected");
+                        return false;
+                    }, 2);
+                }
+            });
+
+            dialogDeleteSelectedTest.show ();
+        }
+
         void btnInfo_Clicked (Models.Release release) {
             var dialogShowVersion = new Windows.HomeInfo (window, release, currentLauncher);
             dialogShowVersion.response.connect ((response_id) => {
@@ -129,7 +160,6 @@ namespace ProtonPlus.Views {
                 if (response == "yes") {
                     GLib.Timeout.add (1000, () => {
                         Manager.File.Delete (currentLauncher.Directory + "/" + release.Title);
-                        // Posix.system ("rm -rf \"" + currentLauncher.Directory + "/" + release.Title + "\"");
                         crInstallLocation.notify_property ("selected");
                         return false;
                     }, 2);
