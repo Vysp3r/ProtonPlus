@@ -1,9 +1,9 @@
 namespace ProtonPlus.Models {
-    public class Launcher : Object {
+    public class Launcher : Object, Interfaces.IModel {
         string homeDirectory;
         string directory;
 
-        public string Title;
+        public string Title { get; set; }
         public string Directory {
             public owned get { return homeDirectory + directory; }
             private set { directory = value; }

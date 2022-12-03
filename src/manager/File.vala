@@ -1,6 +1,6 @@
 namespace ProtonPlus.Manager {
     public class File {
-        public static string Extract (string install_location, string tool_name) { // RENAME launcher_name and tool_name correctly see line 117 in selector
+        public static string Extract (string install_location, string tool_name) {
             const int bufferSize = 192000;
 
             Archive.Read archive = new Archive.Read ();
@@ -74,7 +74,7 @@ namespace ProtonPlus.Manager {
         public static void Delete (string sourcePath) {
             try {
                 GLib.File file = GLib.File.new_for_path (sourcePath);
-                file.delete ();
+                file.trash ();
             } catch (GLib.Error e) {
                 stderr.printf (e.message);
             }

@@ -1,6 +1,6 @@
 namespace ProtonPlus.Views {
-    public class Notifications {
-        public static Gtk.Box GetBox () {
+    public class Games : Interfaces.IView {
+        public Gtk.Box GetBox () {
             var boxMain = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
             boxMain.set_margin_bottom (15);
             boxMain.set_margin_end (15);

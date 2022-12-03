@@ -1,5 +1,5 @@
 namespace ProtonPlus.Manager {
-    public class Preferences {
+    public class Preference {
         public static bool Load (ref Stores.Preferences preferences) {
             try {
                 GLib.File file = GLib.File.new_for_path (GLib.Environment.get_user_config_dir () + "/preferences.json");

@@ -1,9 +1,8 @@
 namespace ProtonPlus.Views {
-    public class Tools {
+    public class Tools : Interfaces.IView {
         // Widgets
         Gtk.ApplicationWindow window;
-        Gtk.Box boxMain;
-        Adw.ComboRow crInstallLocation;
+        Widgets.ProtonComboRow crInstallLocation;
         Gtk.ListBox listInstalledTools;
         Gtk.Button btnAdd;
 
@@ -17,27 +16,20 @@ namespace ProtonPlus.Views {
         }
 
         public Gtk.Box GetBox () {
+            // Initialize shared widgets
+            crInstallLocation = new Widgets.ProtonComboRow ("Launcher", Models.Launcher.GetStore (launchers));
+            btnAdd = new Gtk.Button ();
+            listInstalledTools = new Gtk.ListBox ();
+
             // Get the box child from the window
-            boxMain = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
+            var boxMain = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
             boxMain.set_margin_bottom (15);
             boxMain.set_margin_end (15);
             boxMain.set_margin_start (15);
             boxMain.set_margin_top (15);
 
-            crInstallLocation = new Adw.ComboRow ();
-            btnAdd = new Gtk.Button ();
-            listInstalledTools = new Gtk.ListBox ();
-
-            // Create a factory
-            var factoryInstallLocation = new Gtk.SignalListItemFactory ();
-            factoryInstallLocation.setup.connect (factoryInstallLocation_Setup);
-            factoryInstallLocation.bind.connect (factoryInstallLocation_Bind);
-
-            // Create a comborow
+            // Setup crInstallLocation
             crInstallLocation.notify.connect (crInstallLocation_Notify);
-            crInstallLocation.set_title ("Launcher");
-            crInstallLocation.set_model (Models.Launcher.GetStore (launchers));
-            crInstallLocation.set_factory (factoryInstallLocation);
 
             // Create a group with crInstallLocation in it
             var groupInstallLocation = new Adw.PreferencesGroup ();
@@ -46,7 +38,7 @@ namespace ProtonPlus.Views {
             // Add groupInstallLocation to boxMain
             boxMain.append (groupInstallLocation);
 
-            // Create a button
+            // Setup btnAdd
             btnAdd.set_icon_name ("tab-new-symbolic");
             btnAdd.add_css_class ("flat");
             btnAdd.add_css_class ("bold");
@@ -64,7 +56,7 @@ namespace ProtonPlus.Views {
             // Add groupInstalledTools to boxMain
             boxMain.append (groupInstalledTools);
 
-            // Create a listbox
+            // Setup listInstalledTools
             listInstalledTools.set_vexpand (true);
             listInstalledTools.add_css_class ("boxed-list");
 
@@ -125,7 +117,7 @@ namespace ProtonPlus.Views {
         }
 
         void btnDelete_Clicked (Models.Release release) {
-            var dialogDeleteSelectedTest = new Adw.MessageDialog (window, null, "Are you sure you want to remove the selected version?");
+            var dialogDeleteSelectedTest = new Adw.MessageDialog (window, null, "Are you sure you want to delete the selected tool?");
 
             dialogDeleteSelectedTest.add_response ("no", "No");
             dialogDeleteSelectedTest.set_response_appearance ("no", Adw.ResponseAppearance.SUGGESTED);
@@ -135,7 +127,8 @@ namespace ProtonPlus.Views {
             dialogDeleteSelectedTest.response.connect ((response) => {
                 if (response == "yes") {
                     GLib.Timeout.add (1000, () => {
-                        Posix.system ("rm -rf \"" + currentLauncher.Directory + "/" + release.Title + "\"");
+                        Manager.File.Delete (currentLauncher.Directory + "/" + release.Title);
+                        // Posix.system ("rm -rf \"" + currentLauncher.Directory + "/" + release.Title + "\"");
                         crInstallLocation.notify_property ("selected");
                         return false;
                     }, 2);
@@ -143,23 +136,6 @@ namespace ProtonPlus.Views {
             });
 
             dialogDeleteSelectedTest.show ();
-        }
-
-        void factoryInstallLocation_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var string_holder = list_item.get_item () as Models.Launcher;
-
-            var title = list_item.get_data<Gtk.Label> ("title");
-            title.set_label (string_holder.Title);
-        }
-
-        void factoryInstallLocation_Setup (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var title = new Gtk.Label ("");
-
-            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-            box.append (title);
-
-            list_item.set_data ("title", title);
-            list_item.set_child (box);
         }
     }
 }

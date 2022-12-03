@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Preferences {
-    public class Style : Object {
-        public string Title;
+    public class Style : Object, Interfaces.IModel {
+        public string Title { get; set; }
         public Adw.ColorScheme ColorScheme;
         public int Position;
 

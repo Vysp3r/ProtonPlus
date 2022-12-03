@@ -1,7 +1,7 @@
 namespace ProtonPlus.Models {
-    public class Tool : Object {
+    public class Tool : Object, Interfaces.IModel {
 
-        public string Title;
+        public string Title { get; set; }
         public string Description;
         public string Endpoint;
         public int AssetPosition; // The position of the .tar.xz file in the json tree of the tool > assets

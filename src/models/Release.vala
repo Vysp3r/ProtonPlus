@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models {
-    public class Release : Object {
-        public string Title;
+    public class Release : Object, Interfaces.IModel {
+        public string Title { get; set; }
         public string Tag;
         public string Download_URL;
         public string Page_URL;
