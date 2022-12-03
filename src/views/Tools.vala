@@ -58,10 +58,11 @@ namespace ProtonPlus.Views {
 
             // Setup listInstalledTools
             listInstalledTools.set_vexpand (true);
-            listInstalledTools.add_css_class ("boxed-list");
 
-            // Add listInstalledTools to boxMain
-            boxMain.append (listInstalledTools);
+            // Setup scrolledWindowInstalledTools
+            var scrolledWindowInstalledTools = new Gtk.ScrolledWindow ();
+            scrolledWindowInstalledTools.set_child (listInstalledTools);
+            boxMain.append (scrolledWindowInstalledTools);
 
             // Load the default values
             crInstallLocation.notify_property ("selected");
