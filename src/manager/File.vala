@@ -112,9 +112,11 @@ namespace ProtonPlus.Manager {
         public static bool VerifyDirectoryExist (string path) {
             try {
                 var file = GLib.File.new_for_path (path);
-                var info = file.query_info ("standard::*", FileQueryInfoFlags.NONE);
-                if (info.get_file_type () == FileType.DIRECTORY) return true;
-                else return false;
+                if (file.query_exists ()) {
+                    var info = file.query_info ("standard::*", FileQueryInfoFlags.NONE);
+                    if (info.get_file_type () == FileType.DIRECTORY) return true;
+                }
+                return false;
             } catch (GLib.Error e) {
                 stderr.printf (e.message + "\n");
                 return false;
