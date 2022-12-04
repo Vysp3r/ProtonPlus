@@ -107,6 +107,7 @@ namespace ProtonPlus.Views {
                     return row;
                 });
 
+                btnClean.set_sensitive (currentLauncher != null);
                 btnAdd.set_sensitive (currentLauncher != null);
             }
         }
