@@ -8,7 +8,7 @@ namespace ProtonPlus.Manager {
                 Bytes bytes = session.send_and_read (message);
                 return (string) bytes.get_data ();
             } catch (GLib.Error e) {
-                stderr.printf (e.message);
+                stderr.printf (e.message + "\n");
                 return "";
             }
         }
@@ -23,7 +23,7 @@ namespace ProtonPlus.Manager {
                 });
                 return 0;
             } catch (GLib.Error e) {
-                stderr.printf (e.message);
+                stderr.printf (e.message + "\n");
                 return 1;
             }
         }

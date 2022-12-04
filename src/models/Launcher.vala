@@ -1,9 +1,9 @@
 namespace ProtonPlus.Models {
-    public class Launcher : Object {
+    public class Launcher : Object, Interfaces.IModel {
         string homeDirectory;
         string directory;
 
-        public string Title;
+        public string Title { get; set; }
         public string Directory {
             public owned get { return homeDirectory + directory; }
             private set { directory = value; }
@@ -32,7 +32,7 @@ namespace ProtonPlus.Models {
 
             // Check if any of the given directories exists
             foreach (var item in directories) {
-                if (Posix.opendir (homeDirectory + item) != null) {
+                if (Manager.File.VerifyDirectoryExist (homeDirectory + item)) {
                     dir = item + toolDirectory;
                     break;
                 }
@@ -40,8 +40,8 @@ namespace ProtonPlus.Models {
 
             // If a directory exist, it makes sure that the tool directory is created
             if (dir.length > 0) {
-                if (Posix.opendir (homeDirectory + dir) == null) {
-                    Posix.mkdir (homeDirectory + dir, 0777);
+                if (!Manager.File.VerifyDirectoryExist (homeDirectory + dir)) {
+                    Manager.File.CreateDirectory (homeDirectory + dir);
                 }
             }
 

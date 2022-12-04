@@ -1,40 +1,41 @@
 protonplus_sources = [
+  'interfaces/IModel.vala',
+  'interfaces/IView.vala',
+
+  'manager/Preference.vala',
+  'manager/Theme.vala',
+  'manager/Web.vala',
+  'manager/File.vala',
+
+  'models/preferences/Style.vala',
+  'models/Tool.vala',
+  'models/Launcher.vala',
+  'models/Release.vala',
+
+  'stores/Preferences.vala',
+  'stores/Threads.vala',
+
+  'views/Games.vala',
+  'views/Tools.vala',
+  'views/Notifications.vala',
+
+  'widgets/ProtonComboRow.vala',
+  'widgets/ProtonMessageDialog.vala',
+
+  'windows/Home.vala',
+  'windows/HomeInfo.vala',
+  'windows/Preferences.vala',
+  'windows/Selector.vala',
+
   'main.vala',
   'application.vala',
-
-  'stores/preferences.vala',
-  'stores/threads.vala',
-
-  'manager/preferences.vala',
-  'manager/themes.vala',
-  'manager/http.vala',
-  'manager/file.vala',
-
-  'models/preferences/style.vala',
-  'models/tool.vala',
-  'models/launcher.vala',
-  'models/release.vala',
-
-  'views/games.vala',
-  'views/tools.vala',
-  'views/notifications.vala',
-
-  'windows/home.vala',
-  'windows/home_info.vala',
-  'windows/preferences.vala',
-  'windows/selector.vala',
 ]
-
-#vapi_dir = meson.current_source_dir() / 'vapi'
-
-#add_project_arguments(['--vapidir', vapi_dir], language: 'vala')
 
 protonplus_deps = [
   dependency('libadwaita-1', version: '>= 1.2'),
   dependency('json-glib-1.0'),
   dependency('libsoup-3.0'),
-  dependency('libarchive'),
-  meson.get_compiler('vala').find_library('posix')
+  dependency('libarchive')
 ]
 
 gnome = import('gnome')

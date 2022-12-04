@@ -1,75 +1,72 @@
 namespace ProtonPlus.Windows {
     public class Home : Adw.ApplicationWindow {
         public Home (Gtk.Application app) {
-            this.set_application (app);
-            this.set_title ("ProtonPlus");
-            this.set_default_size (800, 500);
+            set_application (app);
+            set_title ("ProtonPlus");
+            set_default_size (800, 500);
 
-            // Create a box
+            // Setup boxMain
             var boxMain = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            set_content (boxMain);
 
-            // Set the content of the window to boxMain
-            this.set_content (boxMain);
-
-            // Create an header bar
+            // Setup headerBar
             var headerBar = new Adw.HeaderBar ();
             headerBar.set_centering_policy (Adw.CenteringPolicy.STRICT);
-
-            // Add the header bar to boxMain
             boxMain.append (headerBar);
 
-            // Create a menu button
+            // Setup menu
             var menu = new Gtk.MenuButton ();
             menu.set_icon_name ("open-menu-symbolic");
 
-            // Create a menu
+            // Setup menu_model_about
             var menu_model_about = new Menu ();
             menu_model_about.append ("_Telegram", "app.telegram");
             menu_model_about.append ("_Documentation", "app.documentation");
             menu_model_about.append ("_Donation", "app.donation");
             menu_model_about.append ("_About", "app.about");
 
-            // Create a menu
+            // Setup menu_model_quit
             var menu_model_quit = new Menu ();
             menu_model_quit.append ("_Quit", "app.quit");
 
-            // Create a menu
+            // Setup menu_model
             var menu_model = new Menu ();
             menu_model.append ("_Preferences", "app.preferences");
             menu_model.append_section (null, menu_model_about);
             menu_model.append_section (null, menu_model_quit);
 
-            // Set the model of menu to menu_model
             menu.set_menu_model (menu_model);
 
-            // Add menu to the end of headerBar
             headerBar.pack_end (menu);
 
-            // Create a view stack
+            // Setup viewStack
             var viewStack = new Adw.ViewStack ();
             viewStack.set_vexpand (true);
 
-            // Add the Tools to viewStack
+            // Setup toolsPage
             var toolsView = new Views.Tools (this);
             var toolsPage = viewStack.add_titled (toolsView.GetBox (), "Tools", "Tools");
             toolsPage.set_icon_name ("emblem-system-symbolic");
 
-            // Add the Games to viewStack
-            var gamesPage = viewStack.add_titled (Views.Games.GetBox (), "Games", "Games");
+            // Setup gamesPage
+            var gamesView = new Views.Games ();
+            var gamesPage = viewStack.add_titled (gamesView.GetBox (), "Games", "Games");
             gamesPage.set_icon_name ("input-gaming-symbolic");
 
-            // Add the Notifications to viewStack
-            var notificationsPage = viewStack.add_titled (Views.Notifications.GetBox (), "Notifications", "Notifications");
+            // Setup notificationsPage
+            var notificationsView = new Views.Notifications ();
+            var notificationsPage = viewStack.add_titled (notificationsView.GetBox (), "Notifications", "Notifications");
             notificationsPage.set_icon_name ("preferences-desktop-locale-symbolic");
 
             // Add viewStack to boxMain
             boxMain.append (viewStack);
 
+            // Setup toolsViewBar
             var toolsViewBar = new Adw.ViewSwitcherBar ();
             toolsViewBar.set_stack (viewStack);
-
             boxMain.append (toolsViewBar);
 
+            // Setup toolsViewTitle
             var toolsViewTitle = new Adw.ViewSwitcherTitle ();
             toolsViewTitle.set_stack (viewStack);
             toolsViewTitle.notify.connect (() => {
@@ -78,7 +75,7 @@ namespace ProtonPlus.Windows {
             headerBar.set_title_widget (toolsViewTitle);
 
             // Show the window
-            this.show ();
+            show ();
         }
     }
 }

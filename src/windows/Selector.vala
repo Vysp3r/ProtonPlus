@@ -3,8 +3,8 @@ namespace ProtonPlus.Windows {
         // Widgets
         Gtk.Button btnInstall;
         Gtk.Button btnInfo;
-        Adw.ComboRow crTools;
-        Adw.ComboRow crReleases;
+        Widgets.ProtonComboRow crTools;
+        Widgets.ProtonComboRow crReleases;
         Gtk.ProgressBar progressBarDownload;
 
         // Values
@@ -19,14 +19,21 @@ namespace ProtonPlus.Windows {
         Stores.Threads store;
 
         public Selector (Gtk.ApplicationWindow parent, Models.Launcher launcher) {
-            this.set_transient_for (parent);
-            this.set_title ("Install Compatibility Tool");
-            this.set_default_size (430, 0);
+            set_transient_for (parent);
+            set_title ("Install");
+            set_default_size (430, 0);
 
-            this.currentLauncher = launcher;
-
+            currentLauncher = launcher;
             store = Stores.Threads.instance ();
 
+            // Initialize shared widgets
+            crTools = new Widgets.ProtonComboRow ("Compatibility Tool", Models.Tool.GetStore (launcher.Tools));
+            crReleases = new Widgets.ProtonComboRow ("Version");
+            btnInfo = new Gtk.Button.with_label ("Info");
+            btnInstall = new Gtk.Button.with_label ("Install");
+            progressBarDownload = new Gtk.ProgressBar ();
+
+            // Setup boxMain
             var boxMain = this.get_content_area ();
             boxMain.set_orientation (Gtk.Orientation.VERTICAL);
             boxMain.set_spacing (15);
@@ -35,49 +42,36 @@ namespace ProtonPlus.Windows {
             boxMain.set_margin_start (15);
             boxMain.set_margin_top (15);
 
-            var factoryTools = new Gtk.SignalListItemFactory ();
-            factoryTools.setup.connect (factoryTools_Setup);
-            factoryTools.bind.connect (factoryTools_Bind);
-
-            crTools = new Adw.ComboRow ();
-            crTools.set_title ("Compatibility Tool");
-            crTools.set_model (Models.Tool.GetStore (launcher.Tools));
-            crTools.set_factory (factoryTools);
             crTools.notify.connect (crTools_Notify);
 
+            // Setup groupTools
             var groupTools = new Adw.PreferencesGroup ();
             groupTools.add (crTools);
             boxMain.append (groupTools);
 
-            btnInfo = new Gtk.Button.with_label ("Info");
-            btnInstall = new Gtk.Button.with_label ("Install");
-
             crTools.notify_property ("selected");
 
-            var factoryReleases = new Gtk.SignalListItemFactory ();
-            factoryReleases.setup.connect (factoryReleases_Setup);
-            factoryReleases.bind.connect (factoryReleases_Bind);
-
-            crReleases = new Adw.ComboRow ();
-            crReleases.set_title ("Version");
-            crReleases.set_factory (factoryReleases);
             crReleases.notify.connect (crReleases_Notify);
 
+            // Setup groupReleases
             var groupReleases = new Adw.PreferencesGroup ();
             groupReleases.add (crReleases);
             boxMain.append (groupReleases);
 
             crReleases.notify_property ("selected");
 
+            // Setup boxBottom
             var boxBottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
             boxBottom.set_hexpand (true);
 
+            // Setup btnInfo
             btnInfo.add_css_class ("pill");
             btnInfo.set_hexpand (true);
             btnInfo.set_sensitive (false);
             btnInfo.clicked.connect (() => Gtk.show_uri (this, currentRelease.Page_URL, Gdk.CURRENT_TIME));
             boxBottom.append (btnInfo);
 
+            // Setup btnInstall
             btnInstall.add_css_class ("pill");
             btnInstall.set_hexpand (true);
             btnInstall.set_sensitive (false);
@@ -86,18 +80,12 @@ namespace ProtonPlus.Windows {
 
             boxMain.append (boxBottom);
 
-            progressBarDownload = new Gtk.ProgressBar ();
+            // Setup progressBarDownload
             progressBarDownload.set_visible (false);
             boxMain.append (progressBarDownload);
 
-            this.show ();
-        }
-
-        void btnInstall_Clicked () {
-            btnInstall.set_sensitive (false);
-            progressBarDownload.set_visible (true);
-            progressBarDownload.set_show_text (true);
-            Download ();
+            // Show the window
+            show ();
         }
 
         void Download () {
@@ -135,6 +123,14 @@ namespace ProtonPlus.Windows {
             }, 1);
         }
 
+        // Events
+        void btnInstall_Clicked () {
+            btnInstall.set_sensitive (false);
+            progressBarDownload.set_visible (true);
+            progressBarDownload.set_show_text (true);
+            Download ();
+        }
+
         void crTools_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "selected") {
                 currentTool = (Models.Tool) crTools.get_selected_item ();
@@ -157,16 +153,7 @@ namespace ProtonPlus.Windows {
                             btnInfo.set_sensitive (false);
                             btnInstall.set_sensitive (false);
 
-                            var dialogMessage = new Adw.MessageDialog (this, null, "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us.");
-
-                            dialogMessage.add_response ("ok", "Ok");
-                            dialogMessage.set_response_appearance ("ok", Adw.ResponseAppearance.SUGGESTED);
-
-                            dialogMessage.response.connect ((response) => {
-                                this.close ();
-                            });
-
-                            dialogMessage.show ();
+                            new Widgets.ProtonMessageDialog (this, null, "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us.", Widgets.ProtonMessageDialog.MessageDialogType.OK, (response) => this.close ());
                         }
 
                         return false;
@@ -176,46 +163,10 @@ namespace ProtonPlus.Windows {
             }
         }
 
-        void factoryTools_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var string_holder = list_item.get_item () as Models.Tool;
-
-            var title = list_item.get_data<Gtk.Label> ("title");
-            title.label = string_holder.Title;
-        }
-
-        void factoryTools_Setup (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var title = new Gtk.Label ("");
-            title.xalign = 0.0f;
-
-            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-            box.append (title);
-
-            list_item.set_data ("title", title);
-            list_item.set_child (box);
-        }
-
         void crReleases_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "selected") {
                 currentRelease = (Models.Release) crReleases.get_selected_item ();
             }
-        }
-
-        void factoryReleases_Bind (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var string_holder = list_item.get_item () as Models.Release;
-
-            var title = list_item.get_data<Gtk.Label> ("title");
-            title.label = string_holder.Title;
-        }
-
-        void factoryReleases_Setup (Gtk.SignalListItemFactory factory, Gtk.ListItem list_item) {
-            var title = new Gtk.Label ("");
-            title.xalign = 0.0f;
-
-            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-            box.append (title);
-
-            list_item.set_data ("title", title);
-            list_item.set_child (box);
         }
     }
 }
