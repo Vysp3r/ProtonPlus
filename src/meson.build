@@ -20,6 +20,7 @@ protonplus_sources = [
   'views/Notifications.vala',
 
   'widgets/ProtonComboRow.vala',
+  'widgets/ProtonMessageDialog.vala',
 
   'windows/Home.vala',
   'windows/HomeInfo.vala',

@@ -121,14 +121,7 @@ namespace ProtonPlus.Views {
         }
 
         void btnClean_Clicked () {
-            var dialogDeleteSelectedTest = new Adw.MessageDialog (window, null, "Are you sure you want to clean this launcher? WARNING: It will delete every file inside the launcher tool directory!");
-
-            dialogDeleteSelectedTest.add_response ("no", "No");
-            dialogDeleteSelectedTest.set_response_appearance ("no", Adw.ResponseAppearance.SUGGESTED);
-            dialogDeleteSelectedTest.add_response ("yes", "Yes");
-            dialogDeleteSelectedTest.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
-
-            dialogDeleteSelectedTest.response.connect ((response) => {
+            new Widgets.ProtonMessageDialog (window, null, "Are you sure you want to clean this launcher? WARNING: It will delete every file inside the launcher tool directory!", Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, (response) => {
                 if (response == "yes") {
                     GLib.Timeout.add (1000, () => {
                         Manager.File.Delete (currentLauncher.Directory);
@@ -138,8 +131,6 @@ namespace ProtonPlus.Views {
                     }, 2);
                 }
             });
-
-            dialogDeleteSelectedTest.show ();
         }
 
         void btnInfo_Clicked (Models.Release release) {
@@ -150,14 +141,7 @@ namespace ProtonPlus.Views {
         }
 
         void btnDelete_Clicked (Models.Release release) {
-            var dialogDeleteSelectedTest = new Adw.MessageDialog (window, null, "Are you sure you want to delete the selected tool?");
-
-            dialogDeleteSelectedTest.add_response ("no", "No");
-            dialogDeleteSelectedTest.set_response_appearance ("no", Adw.ResponseAppearance.SUGGESTED);
-            dialogDeleteSelectedTest.add_response ("yes", "Yes");
-            dialogDeleteSelectedTest.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
-
-            dialogDeleteSelectedTest.response.connect ((response) => {
+            new Widgets.ProtonMessageDialog (window, null, "Are you sure you want to delete the selected tool?", Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, (response) => {
                 if (response == "yes") {
                     GLib.Timeout.add (1000, () => {
                         Manager.File.Delete (currentLauncher.Directory + "/" + release.Title);
@@ -166,8 +150,6 @@ namespace ProtonPlus.Views {
                     }, 2);
                 }
             });
-
-            dialogDeleteSelectedTest.show ();
         }
     }
 }

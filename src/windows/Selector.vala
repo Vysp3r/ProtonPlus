@@ -153,16 +153,7 @@ namespace ProtonPlus.Windows {
                             btnInfo.set_sensitive (false);
                             btnInstall.set_sensitive (false);
 
-                            var dialogMessage = new Adw.MessageDialog (this, null, "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us.");
-
-                            dialogMessage.add_response ("ok", "Ok");
-                            dialogMessage.set_response_appearance ("ok", Adw.ResponseAppearance.SUGGESTED);
-
-                            dialogMessage.response.connect ((response) => {
-                                this.close ();
-                            });
-
-                            dialogMessage.show ();
+                            new Widgets.ProtonMessageDialog (this, null, "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us.", Widgets.ProtonMessageDialog.MessageDialogType.OK, (response) => this.close ());
                         }
 
                         return false;
