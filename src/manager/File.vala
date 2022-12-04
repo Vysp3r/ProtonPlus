@@ -3,7 +3,7 @@ namespace ProtonPlus.Manager {
         public static string Extract (string install_location, string tool_name) {
             const int bufferSize = 192000;
 
-            Archive.Read archive = new Archive.Read ();
+            var archive = new Archive.Read ();
             archive.support_format_all ();
             archive.support_filter_all ();
 
@@ -13,7 +13,7 @@ namespace ProtonPlus.Manager {
             flags |= Archive.ExtractFlags.TIME;
             flags |= Archive.ExtractFlags.FFLAGS;
 
-            Archive.WriteDisk ext = new Archive.WriteDisk ();
+            var ext = new Archive.WriteDisk ();
             ext.set_standard_lookup ();
             ext.set_options (flags);
 
@@ -73,39 +73,51 @@ namespace ProtonPlus.Manager {
 
         public static void Delete (string path) {
             try {
-                GLib.File file = GLib.File.new_for_path (path);
+                var file = GLib.File.new_for_path (path);
                 file.trash ();
             } catch (GLib.Error e) {
-                stderr.printf (e.message);
+                stderr.printf (e.message + "\n");
             }
         }
 
         public static void Rename (string sourcePath, string destinationPath) {
             try {
-                GLib.File fileSource = GLib.File.new_for_path (sourcePath);
-                GLib.File fileDest = GLib.File.new_for_path (destinationPath);
+                var fileSource = GLib.File.new_for_path (sourcePath);
+                var fileDest = GLib.File.new_for_path (destinationPath);
                 fileSource.move (fileDest, FileCopyFlags.NONE, null, null);
             } catch (GLib.Error e) {
-                stderr.printf (e.message);
+                stderr.printf (e.message + "\n");
             }
         }
 
         public static void Write (string path, string content) {
             try {
-                GLib.File file = GLib.File.new_for_path (path);
+                var file = GLib.File.new_for_path (path);
                 FileOutputStream os = file.create (FileCreateFlags.PRIVATE);
                 os.write (content.data);
             } catch (GLib.Error e) {
-                stderr.printf (e.message);
+                stderr.printf (e.message + "\n");
             }
         }
 
         public static void CreateDirectory (string path) {
             try {
-                GLib.File file = GLib.File.new_for_path (path);
+                var file = GLib.File.new_for_path (path);
                 file.make_directory ();
             } catch (GLib.Error e) {
-                stderr.printf (e.message);
+                stderr.printf (e.message + "\n");
+            }
+        }
+
+        public static bool VerifyDirectoryExist (string path) {
+            try {
+                var file = GLib.File.new_for_path (path);
+                var info = file.query_info ("standard::*", FileQueryInfoFlags.NONE);
+                if (info.get_file_type () == FileType.DIRECTORY) return true;
+                else return false;
+            } catch (GLib.Error e) {
+                stderr.printf (e.message + "\n");
+                return false;
             }
         }
     }

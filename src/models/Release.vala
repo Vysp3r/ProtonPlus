@@ -106,7 +106,7 @@ namespace ProtonPlus.Models {
                 // Return the Version array
                 return releases;
             } catch (GLib.Error e) {
-                stderr.printf (e.message);
+                stderr.printf (e.message + "\n");
                 return new GLib.List<Release> ();
             }
         }

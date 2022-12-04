@@ -15,11 +15,11 @@ namespace ProtonPlus.Manager {
 
                 return true;
             } catch (GLib.IOError.NOT_FOUND e) {
-                stderr.printf (e.message);
+                stderr.printf (e.message + "\n");
                 Create (ref preferences, true);
                 return Load (ref preferences);
             } catch (GLib.Error e) {
-                stderr.printf (e.message);
+                stderr.printf (e.message + "\n");
                 return false;
             }
         }
