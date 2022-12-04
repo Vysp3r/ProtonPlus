@@ -34,8 +34,7 @@ protonplus_deps = [
   dependency('libadwaita-1', version: '>= 1.2'),
   dependency('json-glib-1.0'),
   dependency('libsoup-3.0'),
-  dependency('libarchive'),
-  meson.get_compiler('vala').find_library('posix')
+  dependency('libarchive')
 ]
 
 gnome = import('gnome')
