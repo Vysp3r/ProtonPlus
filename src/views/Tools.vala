@@ -67,6 +67,7 @@ namespace ProtonPlus.Views {
 
             // Setup listInstalledTools
             listInstalledTools.set_vexpand (true);
+            listInstalledTools.add_css_class ("boxed-list");
 
             // Setup scrolledWindowInstalledTools
             var scrolledWindowInstalledTools = new Gtk.ScrolledWindow ();
