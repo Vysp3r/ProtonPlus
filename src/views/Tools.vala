@@ -135,7 +135,7 @@ namespace ProtonPlus.Views {
         }
 
         void btnInfo_Clicked (Models.Release release) {
-            var dialogShowVersion = new Windows.HomeInfo (window, release, currentLauncher);
+            var dialogShowVersion = new Windows.AboutTool (window, release, currentLauncher);
             dialogShowVersion.response.connect ((response_id) => {
                 dialogShowVersion.close ();
             });
