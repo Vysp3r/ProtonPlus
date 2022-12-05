@@ -34,6 +34,12 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 - - - -
 
+## 💾 Download
+
+[<img align="center" width=150 src="https://camo.githubusercontent.com/1682ee5722ac262c660297d4541837e5c8765c7e239fa2a6ce7c3f4817a79283/68747470733a2f2f666c61746875622e6f72672f6173736574732f6261646765732f666c61746875622d62616467652d656e2e706e67" />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
+
+- - - -
+
 ## ✨ Features
 - Install and manage Proton versions for Steam, Lutris, Bottles and Heroic Games Launcher
 - And much more...
@@ -87,7 +93,7 @@ _Requirements_
 **Installing**
 
 - Clone the GitHub repo: `git clone https://github.com/Vysp3r/ProtonPlus.git` & `cd ProtonPlus`
-- Install all dependencies (I'm using Fedora 36): `sudo dnf install meson gtk4-devel libadwaita-devel json-glib-devel libsoup3-devel libarchive-devel`
+- Install all dependencies (I'm using Fedora 37): `sudo dnf install meson gtk4-devel libadwaita-devel json-glib-devel libsoup3-devel libarchive-devel`
 - Build the source: `TODO`
 - Start the application: `TODO`
 
