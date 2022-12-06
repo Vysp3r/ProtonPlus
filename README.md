@@ -53,7 +53,8 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 ## 💥 Known Issues
 
-- None
+- Heroic Games Launcher support not working
+- Bottles support not working
 
 - - - -
 
