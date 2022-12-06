@@ -28,6 +28,24 @@
     </screenshots>
 
     <releases>
+        <release version="0.2.3" date="2022-12-05">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>💄 Fix ListBox CSS missing</li>
+              <li>🚚 Renamed HomeInfo to AboutTool</li>
+              <li>💄 Update Home layout</li>
+              <li>🧑‍💻 Refactor ProtonMessageDialog</li>
+              <li>🚚 Rename Selector to InstallTool</li>
+              <li>🐛 Fix Adw-Critical error</li>
+              <li>🐛 Fix crash on tool delete</li>
+              <li>🍱 Update preview images</li>
+              <li>📝 Update README.md</li>
+              <li>🔨 Update appdata</li>
+              <li>💬 Update the release notes</li>
+            </ul>
+          </description>
+        </release>
         <release version="0.2.2" date="2022-12-03">
           <description>
             <p>What's Changed:</p>
