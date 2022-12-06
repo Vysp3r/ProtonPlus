@@ -1,5 +1,5 @@
 namespace ProtonPlus.Windows {
-    public class Selector : Gtk.Dialog {
+    public class InstallTool : Gtk.Dialog {
         // Widgets
         Gtk.Button btnInstall;
         Gtk.Button btnInfo;
@@ -18,7 +18,7 @@ namespace ProtonPlus.Windows {
         // Stores
         Stores.Threads store;
 
-        public Selector (Gtk.ApplicationWindow parent, Models.Launcher launcher) {
+        public InstallTool (Gtk.ApplicationWindow parent, Models.Launcher launcher) {
             set_transient_for (parent);
             set_title ("Install");
             set_default_size (430, 0);

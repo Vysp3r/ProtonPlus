@@ -1,6 +1,6 @@
 namespace ProtonPlus.Windows {
-    public class HomeInfo : Gtk.Dialog {
-        public HomeInfo (Gtk.ApplicationWindow parent, ProtonPlus.Models.Release release, ProtonPlus.Models.Launcher launcher) {
+    public class AboutTool : Gtk.Dialog {
+        public AboutTool (Gtk.ApplicationWindow parent, ProtonPlus.Models.Release release, ProtonPlus.Models.Launcher launcher) {
             set_title ("About");
             set_default_size (500, 0);
             set_transient_for (parent);

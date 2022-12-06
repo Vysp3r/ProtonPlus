@@ -7,10 +7,10 @@ namespace ProtonPlus.Widgets {
 
         public delegate void ResponseCallback (string response);
 
-        public ProtonMessageDialog (Gtk.Window window, string? heading, string? body, MessageDialogType type, ResponseCallback test) {
+        public ProtonMessageDialog (Gtk.Window window, string? heading, string? body, MessageDialogType type, ResponseCallback? responseCallback) {
             set_transient_for (window);
-            set_heading (heading);
-            set_body (body);
+            if (heading != null) set_heading (heading);
+            if (body != null) set_body (body);
 
             switch (type) {
             case MessageDialogType.NO_YES:
@@ -22,7 +22,7 @@ namespace ProtonPlus.Widgets {
                 break;
             }
 
-            response.connect ((response) => test (response));
+            if (responseCallback != null) response.connect ((response) => responseCallback (response));
 
             show ();
         }

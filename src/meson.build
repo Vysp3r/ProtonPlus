@@ -23,9 +23,10 @@ protonplus_sources = [
   'widgets/ProtonMessageDialog.vala',
 
   'windows/Home.vala',
-  'windows/HomeInfo.vala',
+  'windows/AboutTool.vala',
   'windows/Preferences.vala',
-  'windows/Selector.vala',
+  'windows/InstallTool.vala',
+  'windows/LauncherSettings.vala',
 
   'main.vala',
   'application.vala',
