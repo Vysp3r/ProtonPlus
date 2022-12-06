@@ -146,7 +146,8 @@ namespace ProtonPlus.Views {
         }
 
         void btnDelete_Clicked (Models.Release release) {
-            new Widgets.ProtonMessageDialog (window, null, "Are you sure you want to delete the selected tool?", Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, (response) => {
+            var dialogDelete = new Widgets.ProtonMessageDialog (window, null, "Are you sure you want to delete the selected tool?", Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
+            dialogDelete.response.connect ((response) => {
                 if (response == "yes") {
                     GLib.Timeout.add (1000, () => {
                         Manager.File.Delete (currentLauncher.Directory + "/" + release.Title);
