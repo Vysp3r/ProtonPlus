@@ -123,7 +123,7 @@ namespace ProtonPlus.Views {
         }
 
         void btnAdd_Clicked () {
-            var dialogAdd = new Windows.Selector (window, currentLauncher);
+            var dialogAdd = new Windows.InstallTool (window, currentLauncher);
             dialogAdd.response.connect ((response_id) => {
                 if (response_id == Gtk.ResponseType.APPLY) crInstallLocation.notify_property ("selected");
                 if (response_id == Gtk.ResponseType.CANCEL) dialogAdd.close ();

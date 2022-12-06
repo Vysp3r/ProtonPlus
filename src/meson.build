@@ -25,7 +25,7 @@ protonplus_sources = [
   'windows/Home.vala',
   'windows/AboutTool.vala',
   'windows/Preferences.vala',
-  'windows/Selector.vala',
+  'windows/InstallTool.vala',
   'windows/LauncherSettings.vala',
 
   'main.vala',
