@@ -46,18 +46,19 @@ namespace ProtonPlus {
 
             aboutDialog.set_application_name ("ProtonPlus");
             aboutDialog.set_application_icon ("com.vysp3r.ProtonPlus");
-            aboutDialog.set_version ("v0.2.2");
+            aboutDialog.set_version ("v0.2.3");
             aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
             aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutDialog.set_release_notes ("<ul>
-              <li>🧑‍💻 Project refactor</li>
-              <li>🐛 Fix ListBox missing scrollbar</li>
-              <li>✨ Add launcher cleanup utility</li>
-              <li>🐛 Fix possible crash scenario</li>
-              <li>➖ Remove Posix dependency</li>
-              <li>🐛 Fix button always being active</li>
-              <li>🧑‍💻 Add new message dialog widget</li>
-              <li>🐛 Fix useless log showing up</li>
+              <li>💄 Fix ListBox CSS missing</li>
+              <li>🚚 Renamed HomeInfo to AboutTool</li>
+              <li>💄 Update Home layout</li>
+              <li>🧑‍💻 Refactor ProtonMessageDialog</li>
+              <li>🚚 Rename Selector to InstallTool</li>
+              <li>🐛 Fix Adw-Critical error</li>
+              <li>🐛 Fix crash on tool delete</li>
+              <li>🍱 Update preview images</li>
+              <li>📝 Update README.md</li>
               <li>🔨 Update appdata</li>
               <li>💬 Update the release notes</li>
             </ul>");
