@@ -170,7 +170,7 @@ namespace ProtonPlus.Views {
             dialogDelete.response.connect ((response) => {
                 if (response == "yes") {
                     GLib.Timeout.add (1000, () => {
-                        Manager.File.Delete (currentLauncher.Directory + "/" + release.Title);
+                        Utils.File.Delete (currentLauncher.Directory + "/" + release.Title);
                         crInstallLocation.notify_property ("selected");
                         return false;
                     }, 2);

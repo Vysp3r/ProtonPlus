@@ -1,3 +1,8 @@
+protonplus_sources = gnome.compile_resources('protonplus-resources',
+  'com.vysp3r.ProtonPlus.gresource.xml',
+  c_name: 'protonplus'
+)
+
 desktop_file = install_data('com.vysp3r.ProtonPlus.desktop',
   install_dir: join_paths(get_option('datadir'), 'applications')
 )

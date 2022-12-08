@@ -1,4 +1,4 @@
-namespace ProtonPlus.Manager {
+namespace ProtonPlus.Utils {
     public class HTTP {
         public static string GET (string url) {
             try {

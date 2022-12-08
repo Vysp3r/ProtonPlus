@@ -92,7 +92,7 @@ namespace ProtonPlus.Windows {
 
         void Download () {
             progressBarDownload.set_text (_ ("Downloading..."));
-            downloadThread = new Thread<int> ("download", () => Manager.HTTP.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + ".tar.gz"));
+            downloadThread = new Thread<int> ("download", () => Utils.HTTP.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + ".tar.gz"));
             GLib.Timeout.add (75, () => {
                 progressBarDownload.set_fraction (store.ProgressBar);
                 if (store.ProgressBar == 1) {
@@ -107,8 +107,8 @@ namespace ProtonPlus.Windows {
             progressBarDownload.set_text (_ ("Extracting..."));
             progressBarDownload.set_pulse_step (1);
             extractThread = new Thread<void> ("extract", () => {
-                string sourcePath = Manager.File.Extract (currentLauncher.Directory + "/", currentRelease.Title);
-                if (currentTool.Type != Models.Tool.TitleType.NONE) Manager.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
+                string sourcePath = Utils.File.Extract (currentLauncher.Directory + "/", currentRelease.Title);
+                if (currentTool.Type != Models.Tool.TitleType.NONE) Utils.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
                 var store = Stores.Threads.instance ();
                 store.ProgressBarDone = true;
             });

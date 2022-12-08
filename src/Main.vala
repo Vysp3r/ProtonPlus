@@ -4,9 +4,9 @@ int main (string[] args) {
         return -1;
     }
 
-    foreach (var loc in Intl.get_language_names ()) {
-        stderr.printf (loc + "\n");
-    }
+    // foreach (var loc in Intl.get_language_names ()) {
+    // stderr.printf (loc + "\n");
+    // }
 
     Intl.setlocale (LocaleCategory.ALL, "");
     Intl.bindtextdomain (Config.GETTEXT_PACKAGE, Config.GNOMELOCALEDIR);

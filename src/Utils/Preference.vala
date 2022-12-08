@@ -1,4 +1,4 @@
-namespace ProtonPlus.Manager {
+namespace ProtonPlus.Utils {
     public class Preference {
         public static bool Load (ref Stores.Preferences preferences) {
             try {
@@ -29,13 +29,13 @@ namespace ProtonPlus.Manager {
         }
 
         public static void Update (ref Stores.Preferences preferences) {
-            Manager.File.Delete (GLib.Environment.get_user_config_dir () + "/preferences.json");
+            Utils.File.Delete (GLib.Environment.get_user_config_dir () + "/preferences.json");
 
             Create (ref preferences, false);
         }
 
         static void Create (ref Stores.Preferences preferences, bool useDefaultValue) {
-            Manager.File.Write (GLib.Environment.get_user_config_dir () + "/preferences.json", preferences.GetJson (useDefaultValue));
+            Utils.File.Write (GLib.Environment.get_user_config_dir () + "/preferences.json", preferences.GetJson (useDefaultValue));
         }
     }
 }

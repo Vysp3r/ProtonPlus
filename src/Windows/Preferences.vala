@@ -7,7 +7,7 @@ namespace ProtonPlus.Windows {
         Stores.Preferences preferences;
 
         public Preferences (ref Stores.Preferences preferences) {
-            set_title (_("Preferences"));
+            set_title (_ ("Preferences"));
             set_can_navigate_back (true);
             set_default_size (0, 0);
 
@@ -15,12 +15,12 @@ namespace ProtonPlus.Windows {
 
             // Initialize shared widgets
             var styles = Models.Preferences.Style.GetAll ();
-            crStyles = new Widgets.ProtonComboRow (_("Styles"), Models.Preferences.Style.GetStore (styles), preferences.Style.Position);
+            crStyles = new Widgets.ProtonComboRow (_ ("Styles"), Models.Preferences.Style.GetStore (styles), preferences.Style.Position);
 
             // Setup mainPage
             var mainPage = new Adw.PreferencesPage ();
-            mainPage.set_name (_("Appearance"));
-            mainPage.set_title (_("Appearance"));
+            mainPage.set_name (_ ("Appearance"));
+            mainPage.set_title (_ ("Appearance"));
             add (mainPage);
 
             // Setup crStyles
@@ -40,8 +40,8 @@ namespace ProtonPlus.Windows {
         void crStyles_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "selected") {
                 preferences.Style = (Models.Preferences.Style) crStyles.get_selected_item ();
-                Manager.Preference.Apply (ref preferences);
-                Manager.Preference.Update (ref preferences);
+                Utils.Preference.Apply (ref preferences);
+                Utils.Preference.Update (ref preferences);
             }
         }
     }

@@ -22,9 +22,9 @@ namespace ProtonPlus {
             base.activate ();
 
             preferences = new Stores.Preferences ();
-            if (Manager.Preference.Load (ref preferences)) {
-                Manager.Preference.Apply (ref preferences);
-                Manager.Theme.Load ();
+            if (Utils.Preference.Load (ref preferences)) {
+                Utils.Preference.Apply (ref preferences);
+                Utils.Theme.Load ();
 
                 new Windows.Home (this);
             } else {

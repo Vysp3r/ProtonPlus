@@ -62,7 +62,7 @@ namespace ProtonPlus.Models {
                 var releases = new GLib.List<Release> ();
 
                 // Get the json from the Tool endpoint
-                string json = Manager.HTTP.GET (tool.Endpoint);
+                string json = Utils.HTTP.GET (tool.Endpoint);
 
                 // Get the root node from the json
                 var rootNode = Json.from_string (json);

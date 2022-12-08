@@ -15,6 +15,7 @@ conf.set_quoted('GNOMELOCALEDIR', join_paths(get_option('prefix'), get_option('l
 configure_file(output: 'config.h', configuration: conf)
 config_h_dir = include_directories('.')
 
+# Don't change the order! (data > src > po)
 subdir('data')
 subdir('src')
 subdir('po')
