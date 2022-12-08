@@ -23,7 +23,7 @@ ProtonPlus is a simple Proton version manager that make it easy to install and m
 
 If you have any questions about ProtonPlus or want to share information with us, please go to one of the following places:
 
-<img align="right" width=150 src="src/ProtonPlus.png" />
+<img align="right" width=150 src="data/icons/hicolor/scalable/apps/com.vysp3r.ProtonPlus.svg" />
 
 - [Github Discussions](https://github.com/Vysp3r/ProtonPlus/discussions)
 - [Telegram Server](https://t.me/ProtonPlusOfficial)
