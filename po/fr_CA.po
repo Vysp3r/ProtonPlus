@@ -35,19 +35,16 @@ msgid "Launcher"
 msgstr "Launcher"
 
 msgid "Launcher settings"
-msgstr "Paramètre du launcher"
+msgstr "Paramètres du launcher"
 
-msgid "Install a new tool"
-msgstr "Installer un nouvel outil"
+msgid "Install a tool"
+msgstr "Installer un outil"
 
 msgid "Are you sure you want to delete the selected tool?"
 msgstr "Êtes vous sure de vouloir supprimer l'outil selectionné?"
 
-msgid "Tool: "
-msgstr "Outil: "
-
-msgid "Launcher: "
-msgstr "Launcher: "
+msgid "Name: "
+msgstr "Nom: "
 
 msgid "Directory: "
 msgstr "Répertoire: "
@@ -107,13 +104,16 @@ msgid "Dark"
 msgstr "Sombre"
 
 msgid "Show information"
-msgstr "Afficher information"
+msgstr "Afficher informations"
 
 msgid "Delete the tool"
 msgstr "Supprimer l'outil"
 
 msgid "Open a browser to the tool page"
-msgstr "Ouvre un navigateur sur la page de l'outil"
+msgstr "Ouvrir un navigateur sur la page de l'outil"
 
 msgid "Install the selected tool"
 msgstr "Installer l'outil sélectionné"
+
+msgid "Launcher information"
+msgstr "Informations du launcher"
