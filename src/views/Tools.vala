@@ -19,7 +19,7 @@ namespace ProtonPlus.Views {
 
         public Gtk.Box GetBox () {
             // Initialize shared widgets
-            crInstallLocation = new Widgets.ProtonComboRow ("Launcher", Models.Launcher.GetStore (launchers));
+            crInstallLocation = new Widgets.ProtonComboRow (_ ("Launcher"), Models.Launcher.GetStore (launchers));
             btnAdd = new Gtk.Button ();
             btnClean = new Gtk.Button ();
             btnSettings = new Gtk.Button ();
@@ -51,7 +51,7 @@ namespace ProtonPlus.Views {
             btnClean.add_css_class ("flat");
             btnClean.add_css_class ("bold");
             btnClean.width_request = 50;
-            btnClean.set_tooltip_text ("Launcher settings");
+            btnClean.set_tooltip_text (_("Launcher settings"));
             btnClean.clicked.connect (btnLauncherSettings_Clicked);
 
             // Setup btnAdd
@@ -59,7 +59,7 @@ namespace ProtonPlus.Views {
             btnAdd.add_css_class ("flat");
             btnAdd.add_css_class ("bold");
             btnAdd.width_request = 50;
-            btnAdd.set_tooltip_text ("Install a new tool");
+            btnAdd.set_tooltip_text (_("Install a new tool"));
             btnAdd.clicked.connect (btnAdd_Clicked);
 
             // Setup boxActions
@@ -146,7 +146,7 @@ namespace ProtonPlus.Views {
         }
 
         void btnDelete_Clicked (Models.Release release) {
-            var dialogDelete = new Widgets.ProtonMessageDialog (window, null, "Are you sure you want to delete the selected tool?", Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
+            var dialogDelete = new Widgets.ProtonMessageDialog (window, null, _ ("Are you sure you want to delete the selected tool?"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
             dialogDelete.response.connect ((response) => {
                 if (response == "yes") {
                     GLib.Timeout.add (1000, () => {

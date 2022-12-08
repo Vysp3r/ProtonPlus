@@ -1,33 +1,10 @@
-desktop_file = i18n.merge_file(
-  input: 'com.vysp3r.ProtonPlus.desktop.in',
-  output: 'com.vysp3r.ProtonPlus.desktop',
-  type: 'desktop',
-  po_dir: '../po',
-  install: true,
+desktop_file = install_data('com.vysp3r.ProtonPlus.desktop',
   install_dir: join_paths(get_option('datadir'), 'applications')
 )
 
-desktop_utils = find_program('desktop-file-validate', required: false)
-if desktop_utils.found()
-  test('Validate desktop file', desktop_utils,
-    args: [desktop_file]
-  )
-endif
-
-appstream_file = i18n.merge_file(
-  input: 'com.vysp3r.ProtonPlus.appdata.xml.in',
-  output: 'com.vysp3r.ProtonPlus.appdata.xml',
-  po_dir: '../po',
-  install: true,
+appstream_file = install_data('com.vysp3r.ProtonPlus.appdata.xml',
   install_dir: join_paths(get_option('datadir'), 'appdata')
 )
-
-appstream_util = find_program('appstream-util', required: false)
-if appstream_util.found()
-  test('Validate appstream file', appstream_util,
-    args: ['validate', appstream_file]
-  )
-endif
 
 install_data('com.vysp3r.ProtonPlus.gschema.xml',
   install_dir: join_paths(get_option('datadir'), 'glib-2.0/schemas')

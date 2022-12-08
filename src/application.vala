@@ -49,19 +49,19 @@ namespace ProtonPlus {
             aboutDialog.set_version ("v0.2.3");
             aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
             aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
-            aboutDialog.set_release_notes ("<ul>
-              <li>💄 Fix ListBox CSS missing</li>
-              <li>🚚 Renamed HomeInfo to AboutTool</li>
-              <li>💄 Update Home layout</li>
-              <li>🧑‍💻 Refactor ProtonMessageDialog</li>
-              <li>🚚 Rename Selector to InstallTool</li>
-              <li>🐛 Fix Adw-Critical error</li>
-              <li>🐛 Fix crash on tool delete</li>
-              <li>🍱 Update preview images</li>
-              <li>📝 Update README.md</li>
-              <li>🔨 Update appdata</li>
-              <li>💬 Update the release notes</li>
-            </ul>");
+            aboutDialog.set_release_notes ("<ul>\n" +
+                                           "<li>💄 Fix ListBox CSS missing</li>\n" +
+                                           "<li>🚚 Renamed HomeInfo to AboutTool</li>\n" +
+                                           "<li>💄 Update Home layout</li>\n" +
+                                           "<li>🧑‍💻 Refactor ProtonMessageDialog</li>\n" +
+                                           "<li>🚚 Rename Selector to InstallTool</li>\n" +
+                                           "<li>🐛 Fix Adw-Critical error</li>\n" +
+                                           "<li>🐛 Fix crash on tool delete</li>\n" +
+                                           "<li>🍱 Update preview images</li>\n" +
+                                           "<li>📝 Update README.md</li>\n" +
+                                           "<li>🔨 Update appdata</li>\n" +
+                                           "<li>💬 Update the release notes</li>\n" +
+                                           "</ul>");
             aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             aboutDialog.set_copyright ("© 2022 Vysp3r");
             aboutDialog.set_license_type (Gtk.License.GPL_3_0);

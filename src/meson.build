@@ -46,7 +46,20 @@ protonplus_sources += gnome.compile_resources('protonplus-resources',
   c_name: 'protonplus'
 )
 
+vapi_sources = files(
+  'config.vapi',
+)
+
+protonplus_sources += vapi_sources
+
+protonplus_c_args = [
+  '-include', 'config.h',
+]
+
 executable('protonplus', protonplus_sources,
-  vala_args: '--target-glib=2.50',  dependencies: protonplus_deps,
+  include_directories: config_h_dir,
+  vala_args: '--target-glib=2.50',
+  c_args: protonplus_c_args,
+  dependencies: protonplus_deps,
   install: true,
 )

@@ -7,7 +7,7 @@ namespace ProtonPlus.Windows {
         Stores.Preferences preferences;
 
         public Preferences (ref Stores.Preferences preferences) {
-            set_title ("Preferences");
+            set_title (_("Preferences"));
             set_can_navigate_back (true);
             set_default_size (0, 0);
 
@@ -15,12 +15,12 @@ namespace ProtonPlus.Windows {
 
             // Initialize shared widgets
             var styles = Models.Preferences.Style.GetAll ();
-            crStyles = new Widgets.ProtonComboRow ("Styles", Models.Preferences.Style.GetStore (styles), preferences.Style.Position);
+            crStyles = new Widgets.ProtonComboRow (_("Styles"), Models.Preferences.Style.GetStore (styles), preferences.Style.Position);
 
             // Setup mainPage
             var mainPage = new Adw.PreferencesPage ();
-            mainPage.set_name ("Appearance");
-            mainPage.set_title ("Appearance");
+            mainPage.set_name (_("Appearance"));
+            mainPage.set_title (_("Appearance"));
             add (mainPage);
 
             // Setup crStyles
