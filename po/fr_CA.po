@@ -80,7 +80,7 @@ msgid "There was an error while fetching data from the GitHub API. You may have 
 msgstr "Il y a eu un erreur lors de récupération des données du API de GitHub. Vous avez peut-être atteind le nombre limite de requête par heure ou vous n`êtes peut-être pas connecté à internet. Si vous pensez que c'est un problème, veuillez nous le reporter."
 
 msgid "Launcher Settings"
-msgstr "Paramètre du launcher"
+msgstr "Paramètres du launcher"
 
 msgid "Clean launcher"
 msgstr "Nettoyer le launcher"
@@ -105,3 +105,15 @@ msgstr "Clair"
 
 msgid "Dark"
 msgstr "Sombre"
+
+msgid "Show information"
+msgstr "Afficher information"
+
+msgid "Delete the tool"
+msgstr "Supprimer l'outil"
+
+msgid "Open a browser to the tool page"
+msgstr "Ouvre un navigateur sur la page de l'outil"
+
+msgid "Install the selected tool"
+msgstr "Installer l'outil sélectionné"

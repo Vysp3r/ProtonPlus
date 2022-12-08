@@ -51,7 +51,7 @@ namespace ProtonPlus.Views {
             btnClean.add_css_class ("flat");
             btnClean.add_css_class ("bold");
             btnClean.width_request = 50;
-            btnClean.set_tooltip_text (_("Launcher settings"));
+            btnClean.set_tooltip_text (_ ("Launcher settings"));
             btnClean.clicked.connect (btnLauncherSettings_Clicked);
 
             // Setup btnAdd
@@ -59,7 +59,7 @@ namespace ProtonPlus.Views {
             btnAdd.add_css_class ("flat");
             btnAdd.add_css_class ("bold");
             btnAdd.width_request = 50;
-            btnAdd.set_tooltip_text (_("Install a new tool"));
+            btnAdd.set_tooltip_text (_ ("Install a new tool"));
             btnAdd.clicked.connect (btnAdd_Clicked);
 
             // Setup boxActions
@@ -105,12 +105,16 @@ namespace ProtonPlus.Views {
                     var btnInfo = new Gtk.Button ();
                     btnInfo.set_icon_name ("dialog-information-symbolic");
                     btnInfo.add_css_class ("flat");
+                    btnInfo.width_request = 50;
+                    btnInfo.set_tooltip_text (_ ("Show information"));
                     btnInfo.clicked.connect (() => btnInfo_Clicked (release));
                     row.add_suffix (btnInfo);
 
                     var btnDelete = new Gtk.Button ();
                     btnDelete.add_css_class ("flat");
                     btnDelete.set_icon_name ("user-trash-symbolic");
+                    btnDelete.width_request = 50;
+                    btnDelete.set_tooltip_text (_ ("Delete the tool"));
                     btnDelete.clicked.connect (() => btnDelete_Clicked (release));
                     row.add_suffix (btnDelete);
 
