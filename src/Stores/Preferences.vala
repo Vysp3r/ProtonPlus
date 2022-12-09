@@ -6,9 +6,9 @@ namespace ProtonPlus.Stores {
             string json = @"{\n\t";
 
             if (!useDefaultValue) {
-                json += @"\"" + "style" + "\" : \"" + Style.Title + "\"";
+                json += @"\"" + "style" + "\" : \"" + Style.JsonValue + "\"";
             } else {
-                json += @"\"style\" : \"" + "System" + "\"";
+                json += @"\"style\" : \"" + "system" + "\"";
             }
 
             return json += "\n}";
