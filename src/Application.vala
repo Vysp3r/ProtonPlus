@@ -46,20 +46,20 @@ namespace ProtonPlus {
 
             aboutDialog.set_application_name ("ProtonPlus");
             aboutDialog.set_application_icon ("com.vysp3r.ProtonPlus");
-            aboutDialog.set_version ("v0.2.3");
+            aboutDialog.set_version ("v0.3.0");
             aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
             aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutDialog.set_release_notes ("<ul>\n" +
-                                           "<li>💄 Fix ListBox CSS missing</li>\n" +
-                                           "<li>🚚 Renamed HomeInfo to AboutTool</li>\n" +
-                                           "<li>💄 Update Home layout</li>\n" +
-                                           "<li>🧑‍💻 Refactor ProtonMessageDialog</li>\n" +
-                                           "<li>🚚 Rename Selector to InstallTool</li>\n" +
-                                           "<li>🐛 Fix Adw-Critical error</li>\n" +
-                                           "<li>🐛 Fix crash on tool delete</li>\n" +
+                                           "<li>✨ Add localization system</li>\n" +
+                                           "<li>🚸 Added more tooltips</li>\n" +
+                                           "<li>🚸 Update About for better UX</li>\n" +
+                                           "<li>🧑‍💻 Project refactor</li>\n" +
+                                           "<li>🐛 Fix styles localization</li>\n" +
+                                           "<li>✨ Added remember last launcher preference</li>\n" +
                                            "<li>🍱 Update preview images</li>\n" +
                                            "<li>📝 Update README.md</li>\n" +
                                            "<li>🔨 Update appdata</li>\n" +
+                                           "<li>🔨 Update meson</li>\n" +
                                            "<li>💬 Update the release notes</li>\n" +
                                            "</ul>");
             aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
