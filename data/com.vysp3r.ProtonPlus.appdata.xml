@@ -28,6 +28,24 @@
     </screenshots>
 
     <releases>
+      <release version="0.3.0" date="2022-12-11">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>✨ Add localization system</li>
+              <li>🚸 Added more tooltips</li>
+              <li>🚸 Update About for better UX</li>
+              <li>🧑‍💻 Project refactor</li>
+              <li>🐛 Fix styles localization</li>
+              <li>✨ Added remember last launcher preference</li>
+              <li>🍱 Update preview images</li>
+              <li>📝 Update README.md</li>
+              <li>🔨 Update appdata</li>
+              <li>🔨 Update meson</li>
+              <li>💬 Update the release notes</li>
+            </ul>
+          </description>
+        </release>
         <release version="0.2.3" date="2022-12-05">
           <description>
             <p>What's Changed:</p>
