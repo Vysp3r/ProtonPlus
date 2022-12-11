@@ -93,10 +93,11 @@ _Requirements_
 
 **Installing**
 
-- Clone the GitHub repo: `git clone https://github.com/Vysp3r/ProtonPlus.git` & `cd ProtonPlus`
 - Install all dependencies (I'm using Fedora 37): `sudo dnf install meson gtk4-devel libadwaita-devel json-glib-devel libsoup3-devel libarchive-devel`
-- Build the source: `TODO`
-- Start the application: `TODO`
+- Clone the GitHub repo: `git clone https://github.com/Vysp3r/ProtonPlus.git` & `cd ProtonPlus`
+- Build the source: `meson build --prefix=/usr` & `cd build` & `ninja`
+- (Optional) Install application: `ninja install`
+- Start the application: `cd src` & `./protonplus`
 
 - - - -
 
