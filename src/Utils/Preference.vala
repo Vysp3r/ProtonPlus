@@ -11,7 +11,13 @@ namespace ProtonPlus.Utils {
                 Json.Node node = Json.from_string ((string) contents);
                 Json.Object obj = node.get_object ();
 
+                if (!obj.has_member ("style") || !obj.has_member ("rememberLastLauncher") || !obj.has_member ("lastLauncher")) {
+                    throw new GLib.Error (Quark.from_string (""), 0, "The Preferences.json is invalid. It will now be recreated.");
+                }
+
                 preferences.Style = Models.Preferences.Style.Find (obj.get_string_member ("style"));
+                preferences.RememberLastLauncher = obj.get_boolean_member ("rememberLastLauncher");
+                preferences.LastLauncher = obj.get_string_member ("lastLauncher");
 
                 return true;
             } catch (GLib.IOError.NOT_FOUND e) {
@@ -20,7 +26,8 @@ namespace ProtonPlus.Utils {
                 return Load (ref preferences);
             } catch (GLib.Error e) {
                 stderr.printf (e.message + "\n");
-                return false;
+                Update (ref preferences, true);
+                return Load (ref preferences);
             }
         }
 
@@ -28,10 +35,10 @@ namespace ProtonPlus.Utils {
             Adw.StyleManager.get_default ().set_color_scheme (preferences.Style.ColorScheme);
         }
 
-        public static void Update (ref Stores.Preferences preferences) {
+        public static void Update (ref Stores.Preferences preferences, bool useDefaultValue = false) {
             Utils.File.Delete (GLib.Environment.get_user_config_dir () + "/preferences.json");
 
-            Create (ref preferences, false);
+            Create (ref preferences, useDefaultValue);
         }
 
         static void Create (ref Stores.Preferences preferences, bool useDefaultValue) {

@@ -11,10 +11,14 @@ namespace ProtonPlus.Views {
         // Values
         GLib.List<Models.Launcher> launchers;
         Models.Launcher currentLauncher;
+        Stores.Preferences preferences;
+        bool firstRun;
 
-        public Tools (Gtk.ApplicationWindow window) {
+        public Tools (Gtk.ApplicationWindow window, ref Stores.Preferences preferences) {
             this.window = window;
-            this.launchers = Models.Launcher.GetAll ();
+            this.preferences = preferences;
+            this.launchers = Models.Launcher.GetAll (true);
+            this.firstRun = true;
         }
 
         public Gtk.Box GetBox () {
@@ -93,7 +97,12 @@ namespace ProtonPlus.Views {
             boxMain.append (scrolledWindowInstalledTools);
 
             // Load the default values
-            crInstallLocation.notify_property ("selected");
+            var position = Models.Launcher.GetPosition (launchers, preferences.LastLauncher);
+            if (position > 0 && preferences.RememberLastLauncher) {
+                crInstallLocation.set_selected (position);
+            } else {
+                crInstallLocation.notify_property ("selected");
+            }
 
             // Show the window
             return boxMain;
@@ -103,6 +112,12 @@ namespace ProtonPlus.Views {
         void crInstallLocation_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "selected") {
                 currentLauncher = (Models.Launcher) crInstallLocation.get_selected_item ();
+
+                if (preferences.LastLauncher != currentLauncher.Title) {
+                    preferences.LastLauncher = currentLauncher.Title;
+                    Utils.Preference.Update (ref preferences);
+                }
+
                 var releases = Models.Release.GetInstalled (currentLauncher);
                 var model = Models.Release.GetStore (releases);
                 listInstalledTools.bind_model (model, (item) => {

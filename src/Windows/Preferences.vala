@@ -2,6 +2,7 @@ namespace ProtonPlus.Windows {
     public class Preferences : Adw.PreferencesWindow {
         // Widgets
         Widgets.ProtonComboRow crStyles;
+        Gtk.Switch rememberLastLauncherSwitch;
 
         // Values
         Stores.Preferences preferences;
@@ -13,14 +14,16 @@ namespace ProtonPlus.Windows {
 
             this.preferences = preferences;
 
-            // Initialize shared widgets
             var styles = Models.Preferences.Style.GetAll ();
+
+            // Initialize shared widgets
             crStyles = new Widgets.ProtonComboRow (_ ("Styles"), Models.Preferences.Style.GetStore (styles), preferences.Style.Position);
+            rememberLastLauncherSwitch = new Gtk.Switch ();
 
             // Setup mainPage
             var mainPage = new Adw.PreferencesPage ();
-            mainPage.set_name (_ ("Appearance"));
-            mainPage.set_title (_ ("Appearance"));
+            mainPage.set_name (_ ("Main"));
+            mainPage.set_title (_ ("Main"));
             add (mainPage);
 
             // Setup crStyles
@@ -28,9 +31,28 @@ namespace ProtonPlus.Windows {
             crStyles.notify.connect (crStyles_Notify);
 
             // Setup stylesGroup
-            var stylesGroup = new Adw.PreferencesGroup ();
-            stylesGroup.add (crStyles);
-            mainPage.add (stylesGroup);
+            var apperanceGroup = new Adw.PreferencesGroup ();
+            apperanceGroup.add (crStyles);
+            mainPage.add (apperanceGroup);
+
+            // Setup rememberLastLauncherSwitch
+            rememberLastLauncherSwitch.set_active (preferences.RememberLastLauncher);
+            rememberLastLauncherSwitch.notify.connect (rememberLastLauncherSwitch_Notify);
+
+            // Setup rememberLastLauncherBox
+            var rememberLastLauncherBox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            rememberLastLauncherBox.set_valign (Gtk.Align.CENTER);
+            rememberLastLauncherBox.append (rememberLastLauncherSwitch);
+
+            // Setup rememberLastLauncherRow
+            var rememberLastLauncherRow = new Adw.ActionRow ();
+            rememberLastLauncherRow.set_title (_ ("Remember last launcher"));
+            rememberLastLauncherRow.add_suffix (rememberLastLauncherBox);
+
+            // Setup stylesGroup
+            var otherGroup = new Adw.PreferencesGroup ();
+            otherGroup.add (rememberLastLauncherRow);
+            mainPage.add (otherGroup);
 
             // Show the window
             show ();
@@ -41,6 +63,13 @@ namespace ProtonPlus.Windows {
             if (param.get_name () == "selected") {
                 preferences.Style = (Models.Preferences.Style) crStyles.get_selected_item ();
                 Utils.Preference.Apply (ref preferences);
+                Utils.Preference.Update (ref preferences);
+            }
+        }
+
+        void rememberLastLauncherSwitch_Notify (GLib.ParamSpec param) {
+            if (param.get_name () == "active") {
+                preferences.RememberLastLauncher = rememberLastLauncherSwitch.get_state ();
                 Utils.Preference.Update (ref preferences);
             }
         }

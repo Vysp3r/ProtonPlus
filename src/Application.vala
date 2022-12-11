@@ -26,9 +26,9 @@ namespace ProtonPlus {
                 Utils.Preference.Apply (ref preferences);
                 Utils.Theme.Load ();
 
-                new Windows.Home (this);
+                new Windows.Home (this, ref preferences);
             } else {
-                stderr.printf ("There was an error loading the preferences and it will prevent the application from opening.\n");
+                stderr.printf ("There was an error loading the preferences. They have been reset to avoid further problems.\n");
             }
         }
 

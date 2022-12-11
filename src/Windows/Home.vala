@@ -1,6 +1,6 @@
 namespace ProtonPlus.Windows {
     public class Home : Adw.ApplicationWindow {
-        public Home (Gtk.Application app) {
+        public Home (Gtk.Application app, ref Stores.Preferences preferences) {
             set_application (app);
             set_title ("ProtonPlus");
             set_default_size (800, 500);
@@ -44,7 +44,7 @@ namespace ProtonPlus.Windows {
             viewStack.set_vexpand (true);
 
             // Setup toolsPage
-            var toolsView = new Views.Tools (this);
+            var toolsView = new Views.Tools (this, ref preferences);
             var toolsPage = viewStack.add_titled (toolsView.GetBox (), _ ("Tools"), _ ("Tools"));
             toolsPage.set_icon_name ("emblem-system-symbolic");
 
