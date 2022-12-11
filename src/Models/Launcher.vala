@@ -32,7 +32,7 @@ namespace ProtonPlus.Models {
 
             // Check if any of the given directories exists
             foreach (var item in directories) {
-                if (Manager.File.VerifyDirectoryExist (homeDirectory + item)) {
+                if (Utils.File.VerifyDirectoryExist (homeDirectory + item)) {
                     dir = item + toolDirectory;
                     break;
                 }
@@ -40,27 +40,47 @@ namespace ProtonPlus.Models {
 
             // If a directory exist, it makes sure that the tool directory is created
             if (dir.length > 0) {
-                if (!Manager.File.VerifyDirectoryExist (homeDirectory + dir)) {
-                    Manager.File.CreateDirectory (homeDirectory + dir);
+                if (!Utils.File.VerifyDirectoryExist (homeDirectory + dir)) {
+                    Utils.File.CreateDirectory (homeDirectory + dir);
                 }
             }
 
             return dir;
         }
 
+        public static uint GetPosition (GLib.List<Launcher> launchers, string title) {
+            uint position = 0;
+
+            uint counter = 0;
+            launchers.@foreach ((launcher) => {
+                if (launcher.Title == title) {
+                    position = counter;
+                }
+                counter++;
+            });
+
+            return position;
+        }
+
         public static GLib.ListStore GetStore (GLib.List<Launcher> launchers) {
             var store = new GLib.ListStore (typeof (Launcher));
 
             launchers.@foreach ((launcher) => {
-                if (launcher.Installed == true) {
-                    store.append (launcher);
-                }
+                store.append (launcher);
             });
 
             return store;
         }
 
-        public static GLib.List GetAll () {
+        private static void CleanList (GLib.List<Launcher> launchers) {
+            launchers.@foreach ((launcher) => {
+                if (launcher.Installed != true) {
+                    launchers.remove (launcher);
+                }
+            });
+        }
+
+        public static GLib.List GetAll (bool installedOnly = false) {
             var launchers = new GLib.List<Launcher> ();
 
             // Steam
@@ -199,6 +219,10 @@ namespace ProtonPlus.Models {
             // bottlesToolDir,
             // bottlesTools
             // ));
+
+            if (installedOnly) {
+                CleanList (launchers);
+            }
 
             return launchers;
         }

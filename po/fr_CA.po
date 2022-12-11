@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Language: fr_CA\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Tools"
+msgstr "Outils"
+
+msgid "Games"
+msgstr "Jeux"
+
+msgid "Notifications"
+msgstr "Notifications"
+
+msgid "Preferences"
+msgstr "Préférences"
+
+msgid "Telegram"
+msgstr "Telegram"
+
+msgid "Documentation"
+msgstr "Documentation"
+
+msgid "Donation"
+msgstr "Donation"
+
+msgid "About"
+msgstr "À propos"
+
+msgid "Quit"
+msgstr "Quitter"
+
+msgid "Launcher"
+msgstr "Launcher"
+
+msgid "Launcher settings"
+msgstr "Paramètres du launcher"
+
+msgid "Install a tool"
+msgstr "Installer un outil"
+
+msgid "Are you sure you want to delete the selected tool?"
+msgstr "Êtes vous sure de vouloir supprimer l'outil selectionné?"
+
+msgid "Name: "
+msgstr "Nom: "
+
+msgid "Directory: "
+msgstr "Répertoire: "
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Install"
+msgstr "Installer"
+
+msgid "Compatibility Tool"
+msgstr "Outil de compatiblité"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Downloading..."
+msgstr "En téléchargement..."
+
+msgid "Extracting..."
+msgstr "En extraction..."
+
+msgid "Done!"
+msgstr "Fini!"
+
+msgid "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us."
+msgstr "Il y a eu un erreur lors de récupération des données du API de GitHub. Vous avez peut-être atteind le nombre limite de requête par heure ou vous n`êtes peut-être pas connecté à internet. Si vous pensez que c'est un problème, veuillez nous le reporter."
+
+msgid "Launcher Settings"
+msgstr "Paramètres du launcher"
+
+msgid "Clean launcher"
+msgstr "Nettoyer le launcher"
+
+msgid "Delete every installed tools from the launcher"
+msgstr "Supprime chaques outils installés du launcher"
+
+msgid "Are you sure you want to clean this launcher? WARNING: It will delete every installed tools from the launcher!"
+msgstr "Êtes vous sur de vouloir nettoyer le launcher? MISE EN GARDE: Çela va supprimer chaques outils installés du launcher"
+
+msgid "Styles"
+msgstr "Styles"
+
+msgid "Appearance"
+msgstr "Apparence"
+
+msgid "System"
+msgstr "Système"
+
+msgid "Light"
+msgstr "Clair"
+
+msgid "Dark"
+msgstr "Sombre"
+
+msgid "Show information"
+msgstr "Afficher informations"
+
+msgid "Delete the tool"
+msgstr "Supprimer l'outil"
+
+msgid "Open a browser to the tool page"
+msgstr "Ouvrir un navigateur sur la page de l'outil"
+
+msgid "Install the selected tool"
+msgstr "Installer l'outil sélectionné"
+
+msgid "Launcher information"
+msgstr "Informations du launcher"

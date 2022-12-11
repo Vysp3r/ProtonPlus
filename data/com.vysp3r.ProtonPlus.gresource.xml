@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/vysp3r/ProtonPlus">
+    <file alias="application.css">css/application.css</file>
+    <file alias="ProtonPlus.png">icons/hicolor/scalable/apps/com.vysp3r.ProtonPlus.svg</file>
+  </gresource>
+</gresources>

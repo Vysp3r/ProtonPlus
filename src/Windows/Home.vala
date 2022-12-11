@@ -1,6 +1,6 @@
 namespace ProtonPlus.Windows {
     public class Home : Adw.ApplicationWindow {
-        public Home (Gtk.Application app) {
+        public Home (Gtk.Application app, ref Stores.Preferences preferences) {
             set_application (app);
             set_title ("ProtonPlus");
             set_default_size (800, 500);
@@ -20,18 +20,18 @@ namespace ProtonPlus.Windows {
 
             // Setup menu_model_about
             var menu_model_about = new Menu ();
-            menu_model_about.append ("_Telegram", "app.telegram");
-            menu_model_about.append ("_Documentation", "app.documentation");
-            menu_model_about.append ("_Donation", "app.donation");
-            menu_model_about.append ("_About", "app.about");
+            menu_model_about.append (_ ("Telegram"), "app.telegram");
+            menu_model_about.append (_ ("Documentation"), "app.documentation");
+            menu_model_about.append (_ ("Donation"), "app.donation");
+            menu_model_about.append (_ ("About"), "app.about");
 
             // Setup menu_model_quit
             var menu_model_quit = new Menu ();
-            menu_model_quit.append ("_Quit", "app.quit");
+            menu_model_quit.append (_ ("Quit"), "app.quit");
 
             // Setup menu_model
             var menu_model = new Menu ();
-            menu_model.append ("_Preferences", "app.preferences");
+            menu_model.append (_ ("Preferences"), "app.preferences");
             menu_model.append_section (null, menu_model_about);
             menu_model.append_section (null, menu_model_quit);
 
@@ -44,18 +44,18 @@ namespace ProtonPlus.Windows {
             viewStack.set_vexpand (true);
 
             // Setup toolsPage
-            var toolsView = new Views.Tools (this);
-            var toolsPage = viewStack.add_titled (toolsView.GetBox (), "Tools", "Tools");
+            var toolsView = new Views.Tools (this, ref preferences);
+            var toolsPage = viewStack.add_titled (toolsView.GetBox (), _ ("Tools"), _ ("Tools"));
             toolsPage.set_icon_name ("emblem-system-symbolic");
 
             // Setup gamesPage
             var gamesView = new Views.Games ();
-            var gamesPage = viewStack.add_titled (gamesView.GetBox (), "Games", "Games");
+            var gamesPage = viewStack.add_titled (gamesView.GetBox (), _ ("Games"), _ ("Games"));
             gamesPage.set_icon_name ("input-gaming-symbolic");
 
             // Setup notificationsPage
             var notificationsView = new Views.Notifications ();
-            var notificationsPage = viewStack.add_titled (notificationsView.GetBox (), "Notifications", "Notifications");
+            var notificationsPage = viewStack.add_titled (notificationsView.GetBox (), _ ("Notifications"), _ ("Notifications"));
             notificationsPage.set_icon_name ("preferences-desktop-locale-symbolic");
 
             // Add viewStack to boxMain

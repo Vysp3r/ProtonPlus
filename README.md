@@ -23,7 +23,7 @@ ProtonPlus is a simple Proton version manager that make it easy to install and m
 
 If you have any questions about ProtonPlus or want to share information with us, please go to one of the following places:
 
-<img align="right" width=150 src="src/ProtonPlus.png" />
+<img align="right" width=150 src="data/icons/hicolor/scalable/apps/com.vysp3r.ProtonPlus.svg" />
 
 - [Github Discussions](https://github.com/Vysp3r/ProtonPlus/discussions)
 - [Telegram Server](https://t.me/ProtonPlusOfficial)
@@ -93,10 +93,11 @@ _Requirements_
 
 **Installing**
 
-- Clone the GitHub repo: `git clone https://github.com/Vysp3r/ProtonPlus.git` & `cd ProtonPlus`
 - Install all dependencies (I'm using Fedora 37): `sudo dnf install meson gtk4-devel libadwaita-devel json-glib-devel libsoup3-devel libarchive-devel`
-- Build the source: `TODO`
-- Start the application: `TODO`
+- Clone the GitHub repo: `git clone https://github.com/Vysp3r/ProtonPlus.git` & `cd ProtonPlus`
+- Build the source: `meson build --prefix=/usr` & `cd build` & `ninja`
+- (Optional) Install application: `ninja install`
+- Start the application: `cd src` & `./protonplus`
 
 - - - -
 

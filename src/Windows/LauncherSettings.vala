@@ -5,7 +5,7 @@ namespace ProtonPlus.Windows {
 
         public LauncherSettings (Gtk.ApplicationWindow parent, Models.Launcher launcher) {
             set_transient_for (parent);
-            set_title ("Launcher Settings");
+            set_title (_ ("Launcher Settings"));
             set_default_size (430, 0);
 
             currentLauncher = launcher;
@@ -20,8 +20,8 @@ namespace ProtonPlus.Windows {
             boxMain.set_margin_top (15);
 
             // Setup btnClean
-            var btnClean = new Gtk.Button.with_label ("Clean launcher");
-            btnClean.set_tooltip_text ("Delete every installed tools from the launcher");
+            var btnClean = new Gtk.Button.with_label (_ ("Clean launcher"));
+            btnClean.set_tooltip_text (_ ("Delete every installed tools from the launcher"));
             btnClean.clicked.connect (btnClean_Clicked);
             boxMain.append (btnClean);
 
@@ -31,10 +31,10 @@ namespace ProtonPlus.Windows {
 
         // Events
         void btnClean_Clicked () {
-            new Widgets.ProtonMessageDialog (this, null, "Are you sure you want to clean this launcher? WARNING: It will delete every installed tools from the launcher!", Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, (response) => {
+            new Widgets.ProtonMessageDialog (this, null, _ ("Are you sure you want to clean this launcher? WARNING: It will delete every installed tools from the launcher!"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, (response) => {
                 if (response == "yes") {
-                    Manager.File.Delete (currentLauncher.Directory);
-                    Manager.File.CreateDirectory (currentLauncher.Directory);
+                    Utils.File.Delete (currentLauncher.Directory);
+                    Utils.File.CreateDirectory (currentLauncher.Directory);
 
                     GLib.Timeout.add (1000, () => {
                         this.response (Gtk.ResponseType.APPLY);

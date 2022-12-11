@@ -1,4 +1,4 @@
-namespace ProtonPlus.Manager {
+namespace ProtonPlus.Utils {
     public class Theme {
         public static void Load() {
             var provider = new Gtk.CssProvider();

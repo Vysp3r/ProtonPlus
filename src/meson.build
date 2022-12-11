@@ -1,36 +1,42 @@
-protonplus_sources = [
-  'interfaces/IModel.vala',
-  'interfaces/IView.vala',
+protonplus_sources += [
+  'Interfaces/IModel.vala',
+  'Interfaces/IView.vala',
 
-  'manager/Preference.vala',
-  'manager/Theme.vala',
-  'manager/Web.vala',
-  'manager/File.vala',
+  'Utils/Preference.vala',
+  'Utils/Theme.vala',
+  'Utils/Web.vala',
+  'Utils/File.vala',
 
-  'models/preferences/Style.vala',
-  'models/Tool.vala',
-  'models/Launcher.vala',
-  'models/Release.vala',
+  'Models/preferences/Style.vala',
+  'Models/Tool.vala',
+  'Models/Launcher.vala',
+  'Models/Release.vala',
 
-  'stores/Preferences.vala',
-  'stores/Threads.vala',
+  'Stores/Preferences.vala',
+  'Stores/Threads.vala',
 
-  'views/Games.vala',
-  'views/Tools.vala',
-  'views/Notifications.vala',
+  'Views/Games.vala',
+  'Views/Tools.vala',
+  'Views/Notifications.vala',
 
-  'widgets/ProtonComboRow.vala',
-  'widgets/ProtonMessageDialog.vala',
+  'Widgets/ProtonComboRow.vala',
+  'Widgets/ProtonMessageDialog.vala',
 
-  'windows/Home.vala',
-  'windows/AboutTool.vala',
-  'windows/Preferences.vala',
-  'windows/InstallTool.vala',
-  'windows/LauncherSettings.vala',
+  'Windows/Home.vala',
+  'Windows/About.vala',
+  'Windows/Preferences.vala',
+  'Windows/InstallTool.vala',
+  'Windows/LauncherSettings.vala',
 
-  'main.vala',
-  'application.vala',
+  'Main.vala',
+  'Application.vala',
 ]
+
+vapi_sources = files(
+  'Config.vapi'
+)
+
+protonplus_sources += vapi_sources
 
 protonplus_deps = [
   dependency('libadwaita-1', version: '>= 1.2'),
@@ -39,14 +45,19 @@ protonplus_deps = [
   dependency('libarchive')
 ]
 
-gnome = import('gnome')
+protonplus_vala_args = [
+  '--vapidir', meson.current_source_dir(),
+  '--target-glib', '2.50',
+]
 
-protonplus_sources += gnome.compile_resources('protonplus-resources',
-  'protonplus.gresource.xml',
-  c_name: 'protonplus'
-)
+protonplus_c_args = [
+  '-include', 'config.h',
+]
 
 executable('protonplus', protonplus_sources,
-  vala_args: '--target-glib=2.50',  dependencies: protonplus_deps,
+  include_directories: config_h_dir,
+  vala_args: protonplus_vala_args,
+  c_args: protonplus_c_args,
+  dependencies: protonplus_deps,
   install: true,
 )

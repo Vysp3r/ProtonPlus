@@ -20,17 +20,17 @@ namespace ProtonPlus.Windows {
 
         public InstallTool (Gtk.ApplicationWindow parent, Models.Launcher launcher) {
             set_transient_for (parent);
-            set_title ("Install");
+            set_title (_ ("Install"));
             set_default_size (430, 0);
 
             currentLauncher = launcher;
             store = Stores.Threads.instance ();
 
             // Initialize shared widgets
-            crTools = new Widgets.ProtonComboRow ("Compatibility Tool", Models.Tool.GetStore (launcher.Tools));
-            crReleases = new Widgets.ProtonComboRow ("Version");
-            btnInfo = new Gtk.Button.with_label ("Info");
-            btnInstall = new Gtk.Button.with_label ("Install");
+            crTools = new Widgets.ProtonComboRow (_ ("Compatibility Tool"), Models.Tool.GetStore (launcher.Tools));
+            crReleases = new Widgets.ProtonComboRow (_ ("Version"));
+            btnInfo = new Gtk.Button.with_label (_ ("Info"));
+            btnInstall = new Gtk.Button.with_label (_ ("Install"));
             progressBarDownload = new Gtk.ProgressBar ();
 
             // Setup boxMain
@@ -68,6 +68,7 @@ namespace ProtonPlus.Windows {
             btnInfo.add_css_class ("pill");
             btnInfo.set_hexpand (true);
             btnInfo.set_sensitive (false);
+            btnInfo.set_tooltip_text (_ ("Open a browser to the tool page"));
             btnInfo.clicked.connect (() => Gtk.show_uri (this, currentRelease.Page_URL, Gdk.CURRENT_TIME));
             boxBottom.append (btnInfo);
 
@@ -75,6 +76,7 @@ namespace ProtonPlus.Windows {
             btnInstall.add_css_class ("pill");
             btnInstall.set_hexpand (true);
             btnInstall.set_sensitive (false);
+            btnInstall.set_tooltip_text (_ ("Install the selected tool"));
             btnInstall.clicked.connect (btnInstall_Clicked);
             boxBottom.append (btnInstall);
 
@@ -89,8 +91,8 @@ namespace ProtonPlus.Windows {
         }
 
         void Download () {
-            progressBarDownload.set_text ("Downloading...");
-            downloadThread = new Thread<int> ("download", () => Manager.HTTP.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + ".tar.gz"));
+            progressBarDownload.set_text (_ ("Downloading..."));
+            downloadThread = new Thread<int> ("download", () => Utils.HTTP.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + ".tar.gz"));
             GLib.Timeout.add (75, () => {
                 progressBarDownload.set_fraction (store.ProgressBar);
                 if (store.ProgressBar == 1) {
@@ -102,18 +104,18 @@ namespace ProtonPlus.Windows {
         }
 
         void Extract () {
-            progressBarDownload.set_text ("Extracting...");
+            progressBarDownload.set_text (_ ("Extracting..."));
             progressBarDownload.set_pulse_step (1);
             extractThread = new Thread<void> ("extract", () => {
-                string sourcePath = Manager.File.Extract (currentLauncher.Directory + "/", currentRelease.Title);
-                if (currentTool.Type != Models.Tool.TitleType.NONE) Manager.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
+                string sourcePath = Utils.File.Extract (currentLauncher.Directory + "/", currentRelease.Title);
+                if (currentTool.Type != Models.Tool.TitleType.NONE) Utils.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
                 var store = Stores.Threads.instance ();
                 store.ProgressBarDone = true;
             });
             GLib.Timeout.add (500, () => {
                 progressBarDownload.pulse ();
                 if (store.ProgressBarDone == true) {
-                    progressBarDownload.set_text ("Done!");
+                    progressBarDownload.set_text (_ ("Done!"));
                     progressBarDownload.set_fraction (store.ProgressBar = 0);
                     btnInstall.set_sensitive (true);
                     response (Gtk.ResponseType.APPLY);
@@ -153,7 +155,7 @@ namespace ProtonPlus.Windows {
                             btnInfo.set_sensitive (false);
                             btnInstall.set_sensitive (false);
 
-                            new Widgets.ProtonMessageDialog (this, null, "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us.", Widgets.ProtonMessageDialog.MessageDialogType.OK, (response) => this.close ());
+                            new Widgets.ProtonMessageDialog (this, null, _ ("There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us."), Widgets.ProtonMessageDialog.MessageDialogType.OK, (response) => this.close ());
                         }
 
                         return false;

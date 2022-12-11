@@ -1,4 +1,4 @@
-namespace ProtonPlus.Manager {
+namespace ProtonPlus.Utils {
     public class File {
         public static string Extract (string install_location, string tool_name) {
             const int bufferSize = 192000;

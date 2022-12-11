@@ -22,13 +22,13 @@ namespace ProtonPlus {
             base.activate ();
 
             preferences = new Stores.Preferences ();
-            if (Manager.Preference.Load (ref preferences)) {
-                Manager.Preference.Apply (ref preferences);
-                Manager.Theme.Load ();
+            if (Utils.Preference.Load (ref preferences)) {
+                Utils.Preference.Apply (ref preferences);
+                Utils.Theme.Load ();
 
-                new Windows.Home (this);
+                new Windows.Home (this, ref preferences);
             } else {
-                stderr.printf ("There was an error loading the preferences and it will prevent the application from opening.\n");
+                stderr.printf ("There was an error loading the preferences. They have been reset to avoid further problems.\n");
             }
         }
 
@@ -46,22 +46,22 @@ namespace ProtonPlus {
 
             aboutDialog.set_application_name ("ProtonPlus");
             aboutDialog.set_application_icon ("com.vysp3r.ProtonPlus");
-            aboutDialog.set_version ("v0.2.3");
+            aboutDialog.set_version ("v0.3.0");
             aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
             aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
-            aboutDialog.set_release_notes ("<ul>
-              <li>💄 Fix ListBox CSS missing</li>
-              <li>🚚 Renamed HomeInfo to AboutTool</li>
-              <li>💄 Update Home layout</li>
-              <li>🧑‍💻 Refactor ProtonMessageDialog</li>
-              <li>🚚 Rename Selector to InstallTool</li>
-              <li>🐛 Fix Adw-Critical error</li>
-              <li>🐛 Fix crash on tool delete</li>
-              <li>🍱 Update preview images</li>
-              <li>📝 Update README.md</li>
-              <li>🔨 Update appdata</li>
-              <li>💬 Update the release notes</li>
-            </ul>");
+            aboutDialog.set_release_notes ("<ul>\n" +
+                                           "<li>✨ Add localization system</li>\n" +
+                                           "<li>🚸 Added more tooltips</li>\n" +
+                                           "<li>🚸 Update About for better UX</li>\n" +
+                                           "<li>🧑‍💻 Project refactor</li>\n" +
+                                           "<li>🐛 Fix styles localization</li>\n" +
+                                           "<li>✨ Added remember last launcher preference</li>\n" +
+                                           "<li>🍱 Update preview images</li>\n" +
+                                           "<li>📝 Update README.md</li>\n" +
+                                           "<li>🔨 Update appdata</li>\n" +
+                                           "<li>🔨 Update meson</li>\n" +
+                                           "<li>💬 Update the release notes</li>\n" +
+                                           "</ul>");
             aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             aboutDialog.set_copyright ("© 2022 Vysp3r");
             aboutDialog.set_license_type (Gtk.License.GPL_3_0);
