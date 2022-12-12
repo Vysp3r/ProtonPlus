@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Language: ru-RU\n"
+"Language: ru_RU\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
