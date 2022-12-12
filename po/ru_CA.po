@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Language: ru_CA\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Tools"
+msgstr "Инструменты"
+
+msgid "Games"
+msgstr "Игры"
+
+msgid "Notifications"
+msgstr "Уведомления"
+
+msgid "Preferences"
+msgstr "Настройки"
+
+msgid "Telegram"
+msgstr "Telegram"
+
+msgid "Documentation"
+msgstr "Документация"
+
+msgid "Donation"
+msgstr "Пожертвование"
+
+msgid "About"
+msgstr "Об авторе"
+
+msgid "Quit"
+msgstr "Выход"
+
+msgid "Launcher"
+msgstr "Лаунчер"
+
+msgid "Launcher settings"
+msgstr "Настройки лаунчера"
+
+msgid "Install a tool"
+msgstr "Установить инструмент"
+
+msgid "Are you sure you want to delete the selected tool?"
+msgstr "Вы уверены, что хотите удалить выбранный инструмент?"
+
+msgid "Name: "
+msgstr "Название: "
+
+msgid "Directory: "
+msgstr "Расположение: "
+
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Install"
+msgstr "Установить"
+
+msgid "Compatibility Tool"
+msgstr "Инструмент совместимости"
+
+msgid "Version"
+msgstr "Версия"
+
+msgid "Info"
+msgstr "Информация"
+
+msgid "Downloading..."
+msgstr "Загружается..."
+
+msgid "Extracting..."
+msgstr "Распаковывается..."
+
+msgid "Done!"
+msgstr "Готово!"
+
+msgid "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us."
+msgstr "Произошла ошибка при извлечении данных из GitHub API. Возможно, вы достигли максимального количества запросов в час или, возможно, не подключены к Интернету. Если вы считаете, что это ошибка, пожалуйста, сообщите нам об этом."
+
+msgid "Launcher Settings"
+msgstr "Настройки лаунчера"
+
+msgid "Clean launcher"
+msgstr "Очистить лаунчер"
+
+msgid "Delete every installed tools from the launcher"
+msgstr "Очистить лаунчер от всех установленных инструментов"
+
+msgid "Are you sure you want to clean this launcher? WARNING: It will delete every installed tools from the launcher!"
+msgstr "Вы уверены, что хотите очистить этот лаунчер? ВНИМАНИЕ: Это удалит все установленные для этого лаунчера инструменты!"
+
+msgid "Styles"
+msgstr "Темы"
+
+msgid "Appearance"
+msgstr "Внешний вид"
+
+msgid "System"
+msgstr "Системная"
+
+msgid "Light"
+msgstr "Светлая"
+
+msgid "Dark"
+msgstr "Темная"
+
+msgid "Show information"
+msgstr "Показать информацию"
+
+msgid "Delete the tool"
+msgstr "Удалить инструмент"
+
+msgid "Open a browser to the tool page"
+msgstr "Открыть страницу инструмента в браузере"
+
+msgid "Install the selected tool"
+msgstr "Установить выбранный инструмент"
+
+msgid "Launcher information"
+msgstr "Описание лаунчера"
