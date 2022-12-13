@@ -109,7 +109,7 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        public static bool VerifyDirectoryExist (string path) {
+        public static bool IsDirectory (string path) {
             try {
                 var file = GLib.File.new_for_path (path);
                 if (file.query_exists ()) {
@@ -121,6 +121,29 @@ namespace ProtonPlus.Utils {
                 stderr.printf (e.message + "\n");
                 return false;
             }
+        }
+
+        public static GLib.List<string> ListDirectoryFolders (string path) {
+            var folders = new GLib.List<string> ();
+
+            try {
+                if (IsDirectory (path)) {
+                    var root = GLib.File.new_for_path (path);
+
+                    var enumerator = root.enumerate_children ("standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
+
+                    FileInfo info = null;
+                    while ((info = enumerator.next_file ()) != null) {
+                        if (info.get_file_type () == FileType.DIRECTORY) {
+                            folders.append (info.get_name ());
+                        }
+                    }
+                }
+            } catch (GLib.Error e) {
+                stderr.printf (e.message + "\n");
+            }
+
+            return folders;
         }
     }
 }

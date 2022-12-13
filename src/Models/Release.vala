@@ -42,18 +42,13 @@ namespace ProtonPlus.Models {
         public static List<Release> GetInstalled (Models.Launcher launcher) {
             List<Release> installedReleases = new List<Release> ();
 
-            Posix.Dir dir = Posix.opendir (launcher.Directory);
-            unowned Posix.DirEnt dirEnt;
-            int count = 0;
+            var folders = Utils.File.ListDirectoryFolders (launcher.Directory);
 
-            while ((dirEnt = Posix.readdir (dir)) != null) {
-                if (count++ > 1 && dirEnt.d_type == 4) {
-                    string name = (string) dirEnt.d_name;
-                    installedReleases.append (new Release (name));
-                }
-            }
+            folders.@foreach ((folder) => {
+                installedReleases.append (new Release (folder));
+            });
 
-            return installedReleases;
+            return (owned) installedReleases;
         }
 
         public static GLib.List<Release> GetReleases (Models.Tool tool) {
@@ -75,7 +70,7 @@ namespace ProtonPlus.Models {
 
                 // Execute a loop with the number of items contained in the Version array and fill it
                 for (var i = 0; i < rootNodeArray.get_length (); i++) {
-                    string title = "";
+                    string title = "a";
                     string tag = "";
                     string download_url = "";
                     string page_url = "";
