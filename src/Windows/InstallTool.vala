@@ -135,6 +135,9 @@ namespace ProtonPlus.Windows {
 
         void crTools_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "selected") {
+                btnInfo.set_sensitive (false);
+                btnInstall.set_sensitive (false);
+
                 currentTool = (Models.Tool) crTools.get_selected_item ();
                 apiThread = new Thread<void> ("api", () => {
                     var store = Stores.Threads.instance ();
