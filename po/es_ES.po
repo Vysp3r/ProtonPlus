@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Language: es_ES\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Tools"
+msgstr "Herramientas"
+
+msgid "Games"
+msgstr "Juegos"
+
+msgid "Notifications"
+msgstr "Notificaciones"
+
+msgid "Preferences"
+msgstr "Preferencias"
+
+msgid "Telegram"
+msgstr "Telegram"
+
+msgid "Documentation"
+msgstr "Documentación"
+
+msgid "Donation"
+msgstr "Donar"
+
+msgid "About"
+msgstr "Acerca de"
+
+msgid "Quit"
+msgstr "Salir"
+
+msgid "Launcher"
+msgstr "Lanzador"
+
+msgid "Launcher settings"
+msgstr "Configuracion del lanzador"
+
+msgid "Install a tool"
+msgstr "Instalar una herramienta"
+
+msgid "Are you sure you want to delete the selected tool?"
+msgstr "¿Estás seguro de eliminar esta herramienta?"
+
+msgid "Name: "
+msgstr "Nombre: "
+
+msgid "Directory: "
+msgstr "Directorio: "
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Install"
+msgstr "Instalar"
+
+msgid "Compatibility Tool"
+msgstr "Herramienta de compatibilidad"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Downloading..."
+msgstr "Descargando..."
+
+msgid "Extracting..."
+msgstr "Extrayendo..."
+
+msgid "Done!"
+msgstr "¡Listo!"
+
+msgid "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us."
+msgstr "Hubo un error mientras se obtenían los datos de la API de Github. Puede que hayas llegado a la máxima cantidad de peticiones por hora o podrías no estar conectado a internet. Si piensas de que esto es un bug, Por Favor reportalo a nosotros."
+
+msgid "Launcher Settings"
+msgstr "Configuracion del lanzador"
+
+msgid "Clean launcher"
+msgstr "Limpiar lanzador"
+
+msgid "Delete every installed tools from the launcher"
+msgstr "Eliminar todas las herramientas instaladas del lanzador"
+
+msgid "Are you sure you want to clean this launcher? WARNING: It will delete every installed tools from the launcher!"
+msgstr "¿Estás seguro de limpiar este lanzador? PRECAUCION: ¡Esto eliminara todas las herramientas instaladas del lanzador!"
+
+msgid "Styles"
+msgstr "Estilos"
+
+msgid "Appearance"
+msgstr "Apariencia"
+
+msgid "System"
+msgstr "Sistema"
+
+msgid "Light"
+msgstr "Claro"
+
+msgid "Dark"
+msgstr "Oscuro"
+
+msgid "Show information"
+msgstr "Mostrar información"
+
+msgid "Delete the tool"
+msgstr "Eliminar herramienta"
+
+msgid "Open a browser to the tool page"
+msgstr "Abrir el navegador en la pagina de la herramienta"
+
+msgid "Install the selected tool"
+msgstr "Instalar herramienta seleccionada"
+
+msgid "Launcher information"
+msgstr "Información del lanzador"
