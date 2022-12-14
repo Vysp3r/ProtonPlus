@@ -32,6 +32,9 @@
           <description>
             <p>What's Changed:</p>
             <ul>
+              <li>🔨 Correct desktop file category</li>
+              <li>🌐 Adding a Russian translation</li>
+              <li>🌐 Added spanish translation</li>
               <li>🐛 Fix installed tools not showing up properly</li>
               <li>🐛 Fix buttons being clickable when switching tool</li>
               <li>🧱 Rename InstallTool to Installer</li>
@@ -44,7 +47,7 @@
               <li>💬 Update the release notes</li>
             </ul>
           </description>
-        </release>
+      </release>
       <release version="0.3.0" date="2022-12-11">
           <description>
             <p>What's Changed:</p>
