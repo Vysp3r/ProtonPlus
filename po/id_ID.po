@@ -117,7 +117,7 @@ msgid "Delete the tool"
 msgstr "Menghapus alat"
 
 msgid "Open a browser to the tool page"
-msgstr "Membuka peramban untuk ke situs alat"
+msgstr "Membuka peramban menuju ke situs alat"
 
 msgid "Install the selected tool"
 msgstr "Memasang peralatan yang dipilih"
