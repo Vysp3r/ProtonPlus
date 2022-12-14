@@ -117,3 +117,6 @@ msgstr "Installer l'outil sélectionné"
 
 msgid "Launcher information"
 msgstr "Informations du launcher"
+
+msgid "Copy"
+msgstr "Copier"
