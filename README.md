@@ -84,6 +84,8 @@ If you have any questions about ProtonPlus or want to share information with us,
 ### 🛠️ Building from Source
 
 _Requirements_
+- [git](https://github.com/git/git)
+- [ninja](https://github.com/ninja-build/ninja)
 - [meson](https://github.com/mesonbuild/meson)
 - [gtk4](https://gitlab.gnome.org/GNOME/gtk/)
 - [libadwaita-1](https://gitlab.gnome.org/GNOME/libadwaita)
@@ -93,7 +95,7 @@ _Requirements_
 
 **Installing**
 
-- Install all dependencies (I'm using Fedora 37): `sudo dnf install meson gtk4-devel libadwaita-devel json-glib-devel libsoup3-devel libarchive-devel`
+- Install all dependencies (I'm using Fedora 37): `sudo dnf install git ninja meson gtk4-devel libadwaita-devel json-glib-devel libsoup3-devel libarchive-devel`
 - Clone the GitHub repo: `git clone https://github.com/Vysp3r/ProtonPlus.git` & `cd ProtonPlus`
 - Build the source: `meson build --prefix=/usr` & `cd build` & `ninja`
 - (Optional) Install application: `ninja install`

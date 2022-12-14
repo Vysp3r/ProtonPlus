@@ -46,17 +46,19 @@ namespace ProtonPlus {
 
             aboutDialog.set_application_name ("ProtonPlus");
             aboutDialog.set_application_icon ("com.vysp3r.ProtonPlus");
-            aboutDialog.set_version ("v0.3.0");
+            aboutDialog.set_version ("v0.3.1");
             aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
             aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutDialog.set_release_notes ("<ul>\n" +
-                                           "<li>✨ Add localization system</li>\n" +
-                                           "<li>🚸 Added more tooltips</li>\n" +
-                                           "<li>🚸 Update About for better UX</li>\n" +
-                                           "<li>🧑‍💻 Project refactor</li>\n" +
-                                           "<li>🐛 Fix styles localization</li>\n" +
-                                           "<li>✨ Added remember last launcher preference</li>\n" +
-                                           "<li>🍱 Update preview images</li>\n" +
+                                           "<li>🔨 Correct desktop file category</li>\n" +
+                                           "<li>🌐 Adding a Russian translation</li>\n" +
+                                           "<li>🌐 Added spanish translation</li>\n" +
+                                           "<li>🐛 Fix installed tools not showing up properly</li>\n" +
+                                           "<li>🐛 Fix buttons being clickable when switching tool</li>\n" +
+                                           "<li>🧱 Rename InstallTool to Installer</li>\n" +
+                                           "<li>⚰️ Remove dead code from Release</li>\n" +
+                                           "<li>🚸 Added a tooltip in About</li>\n" +
+                                           "<li>🌐 Add missing translation</li>\n" +
                                            "<li>📝 Update README.md</li>\n" +
                                            "<li>🔨 Update appdata</li>\n" +
                                            "<li>🔨 Update meson</li>\n" +

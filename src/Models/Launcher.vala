@@ -32,7 +32,7 @@ namespace ProtonPlus.Models {
 
             // Check if any of the given directories exists
             foreach (var item in directories) {
-                if (Utils.File.VerifyDirectoryExist (homeDirectory + item)) {
+                if (Utils.File.IsDirectory (homeDirectory + item)) {
                     dir = item + toolDirectory;
                     break;
                 }
@@ -40,7 +40,7 @@ namespace ProtonPlus.Models {
 
             // If a directory exist, it makes sure that the tool directory is created
             if (dir.length > 0) {
-                if (!Utils.File.VerifyDirectoryExist (homeDirectory + dir)) {
+                if (!Utils.File.IsDirectory (homeDirectory + dir)) {
                     Utils.File.CreateDirectory (homeDirectory + dir);
                 }
             }

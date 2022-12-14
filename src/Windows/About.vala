@@ -19,6 +19,7 @@ namespace ProtonPlus.Windows {
             // Setup btnCopyTool
             var btnCopyTool = new Gtk.Button ();
             btnCopyTool.add_css_class ("flat");
+            btnCopyTool.set_tooltip_text (_ ("Copy"));
             btnCopyTool.set_icon_name ("edit-copy-symbolic");
 
             // Setup rowTool
@@ -33,6 +34,7 @@ namespace ProtonPlus.Windows {
             // Setup btnCopyLauncher
             var btnCopyDirectory = new Gtk.Button ();
             btnCopyDirectory.add_css_class ("flat");
+            btnCopyDirectory.set_tooltip_text (_ ("Copy"));
             btnCopyDirectory.set_icon_name ("edit-copy-symbolic");
 
             // Setup rowDirectory
