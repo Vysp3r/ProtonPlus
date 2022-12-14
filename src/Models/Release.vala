@@ -1,11 +1,10 @@
 namespace ProtonPlus.Models {
     public class Release : Object, Interfaces.IModel {
         public string Title { get; set; }
-        public string Tag;
         public string Download_URL;
         public string Page_URL;
 
-        public Release (string title, string download_url = "", string page_url = "", string tag = "") {
+        public Release (string title, string download_url = "", string page_url = "") {
             this.Title = title;
             this.Download_URL = download_url;
             this.Page_URL = page_url;
@@ -70,7 +69,6 @@ namespace ProtonPlus.Models {
 
                 // Execute a loop with the number of items contained in the Version array and fill it
                 for (var i = 0; i < rootNodeArray.get_length (); i++) {
-                    string title = "a";
                     string tag = "";
                     string download_url = "";
                     string page_url = "";
@@ -92,9 +90,9 @@ namespace ProtonPlus.Models {
                     if (tempNodeArray.get_length () >= tool.AssetPosition) {
                         var tempNodeArrayAsset = tempNodeArray.get_element (tool.AssetPosition);
                         var objAsset = tempNodeArrayAsset.get_object ();
-                        title = objAsset.get_string_member ("name").replace (".tar.xz", "").replace (".tar.gz", ""); // Set the value of title to the name object contained in the current node
+
                         download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
-                        releases.append (new Release (tag, download_url, page_url, tag)); // Currently here to prevent showing release with an invalid download_url
+                        releases.append (new Release (tag, download_url, page_url)); // Currently here to prevent showing release with an invalid download_url
                     }
                 }
 
