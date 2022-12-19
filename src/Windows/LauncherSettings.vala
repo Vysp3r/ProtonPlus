@@ -5,6 +5,7 @@ namespace ProtonPlus.Windows {
 
         public LauncherSettings (Gtk.ApplicationWindow parent, Models.Launcher launcher) {
             set_transient_for (parent);
+            set_modal (true);
             set_title (_ ("Launcher Settings"));
             set_default_size (430, 0);
 
