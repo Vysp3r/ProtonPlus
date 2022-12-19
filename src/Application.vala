@@ -1,6 +1,7 @@
 namespace ProtonPlus {
     public class Application : Adw.Application {
         Stores.Preferences preferences;
+        Windows.Home homeWindow;
 
         public Application () {
             Object (application_id: "com.vysp3r.ProtonPlus", flags : ApplicationFlags.FLAGS_NONE);
@@ -26,7 +27,7 @@ namespace ProtonPlus {
                 Utils.Preference.Apply (ref preferences);
                 Utils.Theme.Load ();
 
-                new Windows.Home (this, ref preferences);
+                homeWindow = new Windows.Home (this, ref preferences);
             } else {
                 stderr.printf ("There was an error loading the preferences. They have been reset to avoid further problems.\n");
             }
@@ -70,12 +71,14 @@ namespace ProtonPlus {
             aboutDialog.set_developers (devs);
             aboutDialog.set_designers (designers);
             aboutDialog.add_credit_section ("Special thanks to", thanks);
+            aboutDialog.set_transient_for (homeWindow);
+            aboutDialog.set_modal (true);
 
             aboutDialog.show ();
         }
 
         void on_preferences_action () {
-            new ProtonPlus.Windows.Preferences (ref preferences);
+            new ProtonPlus.Windows.Preferences (homeWindow, ref preferences);
         }
     }
 }

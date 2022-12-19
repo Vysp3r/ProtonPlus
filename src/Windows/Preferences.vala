@@ -7,7 +7,9 @@ namespace ProtonPlus.Windows {
         // Values
         Stores.Preferences preferences;
 
-        public Preferences (ref Stores.Preferences preferences) {
+        public Preferences (Gtk.ApplicationWindow parent, ref Stores.Preferences preferences) {
+            set_transient_for (parent);
+            set_modal (true);
             set_title (_ ("Preferences"));
             set_can_navigate_back (true);
             set_default_size (0, 0);
