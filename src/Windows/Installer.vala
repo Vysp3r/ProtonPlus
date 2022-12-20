@@ -20,6 +20,7 @@ namespace ProtonPlus.Windows {
 
         public Installer (Gtk.ApplicationWindow parent, Models.Launcher launcher) {
             set_transient_for (parent);
+            set_modal (true);
             set_title (_ ("Install"));
             set_default_size (430, 0);
 
