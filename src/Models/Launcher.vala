@@ -224,7 +224,11 @@ namespace ProtonPlus.Models {
             // bottlesTools
             // ));
 
-            return installedOnly ? GetInstalled (launchers) : (owned) launchers;
+            if (installedOnly) {
+                launchers = GetInstalled (launchers);
+            }
+
+            return (owned) launchers;
         }
     }
 }
