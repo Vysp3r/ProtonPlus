@@ -92,6 +92,7 @@ _Requirements_
 - [json-glib-1.0](https://gitlab.gnome.org/GNOME/json-glib)
 - [libsoup-3.0](https://gitlab.gnome.org/GNOME/libsoup)
 - [libarchive](https://github.com/libarchive/libarchive)
+- [desktop-file-utils](https://gitlab.freedesktop.org/xdg/desktop-file-utils)
 
 **Installing**
 
