@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models {
+namespace Models {
     public class Tool : Object, Interfaces.IModel {
 
         public string Title { get; set; }
@@ -28,7 +28,7 @@ namespace ProtonPlus.Models {
                 store.append (tool);
             });
 
-            return store;
+            return (owned) store;
         }
 
         public static GLib.List<Tool> Steam () {

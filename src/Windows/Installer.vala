@@ -1,4 +1,4 @@
-namespace ProtonPlus.Windows {
+namespace Windows {
     public class Installer : Gtk.Dialog {
         // Widgets
         Gtk.Button btnInstall;
@@ -11,12 +11,9 @@ namespace ProtonPlus.Windows {
         Models.Launcher currentLauncher;
         Models.Tool currentTool;
         Models.Release currentRelease;
-        Thread<int> downloadThread;
-        Thread<void> extractThread;
-        Thread<void> apiThread;
 
         // Stores
-        Stores.Threads store;
+        Stores.Main mainStore;
 
         public Installer (Gtk.ApplicationWindow parent, Models.Launcher launcher) {
             set_transient_for (parent);
@@ -25,7 +22,7 @@ namespace ProtonPlus.Windows {
             set_default_size (430, 0);
 
             currentLauncher = launcher;
-            store = Stores.Threads.instance ();
+            mainStore = Stores.Main.get_instance ();
 
             // Initialize shared widgets
             crTools = new Widgets.ProtonComboRow (_ ("Compatibility Tool"), Models.Tool.GetStore (launcher.Tools));
@@ -93,10 +90,10 @@ namespace ProtonPlus.Windows {
 
         void Download () {
             progressBarDownload.set_text (_ ("Downloading..."));
-            downloadThread = new Thread<int> ("download", () => Utils.HTTP.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + ".tar.gz"));
+            new Thread<int> ("download", () => Utils.Web.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + ".tar.gz"));
             GLib.Timeout.add (75, () => {
-                progressBarDownload.set_fraction (store.ProgressBar);
-                if (store.ProgressBar == 1) {
+                progressBarDownload.set_fraction (mainStore.ProgressBarValue);
+                if (mainStore.ProgressBarValue == 1) {
                     Extract ();
                     return false;
                 }
@@ -107,17 +104,16 @@ namespace ProtonPlus.Windows {
         void Extract () {
             progressBarDownload.set_text (_ ("Extracting..."));
             progressBarDownload.set_pulse_step (1);
-            extractThread = new Thread<void> ("extract", () => {
+            new Thread<void> ("extract", () => {
                 string sourcePath = Utils.File.Extract (currentLauncher.Directory + "/", currentRelease.Title);
                 if (currentTool.Type != Models.Tool.TitleType.NONE) Utils.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
-                var store = Stores.Threads.instance ();
-                store.ProgressBarDone = true;
+                Stores.Main.get_instance ().ProgressBarIsDone = true;
             });
             GLib.Timeout.add (500, () => {
                 progressBarDownload.pulse ();
-                if (store.ProgressBarDone == true) {
+                if (mainStore.ProgressBarIsDone == true) {
                     progressBarDownload.set_text (_ ("Done!"));
-                    progressBarDownload.set_fraction (store.ProgressBar = 0);
+                    progressBarDownload.set_fraction (mainStore.ProgressBarValue = 0);
                     btnInstall.set_sensitive (true);
                     response (Gtk.ResponseType.APPLY);
                     return false;
@@ -140,19 +136,19 @@ namespace ProtonPlus.Windows {
                 btnInstall.set_sensitive (false);
 
                 currentTool = (Models.Tool) crTools.get_selected_item ();
-                apiThread = new Thread<void> ("api", () => {
-                    var store = Stores.Threads.instance ();
+                new Thread<void> ("api", () => {
+                    var store = Stores.Main.get_instance ();
                     store.Releases = Models.Release.GetReleases (currentTool);
-                    store.ReleaseRequestDone = true;
+                    store.ReleaseRequestIsDone = true;
                 });
 
                 GLib.Timeout.add (1000, () => {
-                    if (store.ReleaseRequestDone) {
-                        btnInfo.set_sensitive (store.Releases.length () > 0);
-                        btnInstall.set_sensitive (store.Releases.length () > 0);
+                    if (mainStore.ReleaseRequestIsDone) {
+                        btnInfo.set_sensitive (mainStore.Releases.length () > 0);
+                        btnInstall.set_sensitive (mainStore.Releases.length () > 0);
 
-                        if (store.Releases.length () > 0) {
-                            crReleases.set_model (Models.Release.GetStore (store.Releases));
+                        if (mainStore.Releases.length () > 0) {
+                            crReleases.set_model (Models.Release.GetStore (mainStore.Releases));
                         } else {
                             crReleases.set_model (null);
 

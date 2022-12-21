@@ -3,7 +3,7 @@
     "runtime" : "org.gnome.Platform",
     "runtime-version" : "43",
     "sdk" : "org.gnome.Sdk",
-    "command" : "protonplus",
+    "command" : "com.vysp3r.ProtonPlus",
     "finish-args" : [
         "--share=network",
         "--share=ipc",

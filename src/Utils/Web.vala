@@ -1,5 +1,5 @@
-namespace ProtonPlus.Utils {
-    public class HTTP {
+namespace Utils {
+    public class Web {
         public static string GET (string url) {
             try {
                 var session = new Soup.Session ();
@@ -17,9 +17,8 @@ namespace ProtonPlus.Utils {
             try {
                 var file_from_http = GLib.File.new_for_uri (download_url);
                 GLib.File local_file = GLib.File.new_for_path (download_path);
-                Stores.Threads store = Stores.Threads.instance ();
                 file_from_http.copy (local_file, FileCopyFlags.OVERWRITE, null, (current, total) => {
-                    store.ProgressBar = (current + 0.0d) / (total + 0.0d);
+                    Stores.Main.get_instance ().ProgressBarValue = (current + 0.0d) / (total + 0.0d);
                 });
                 return 0;
             } catch (GLib.Error e) {

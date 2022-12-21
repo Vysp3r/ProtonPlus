@@ -1,4 +1,4 @@
-namespace ProtonPlus.Utils {
+namespace Utils {
     public class File {
         public static string Extract (string install_location, string tool_name) {
             const int bufferSize = 192000;
@@ -109,28 +109,14 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        public static bool IsDirectory (string path) {
-            try {
-                var file = GLib.File.new_for_path (path);
-                if (file.query_exists ()) {
-                    var info = file.query_info ("standard::*", FileQueryInfoFlags.NONE);
-                    if (info.get_file_type () == FileType.DIRECTORY) return true;
-                }
-                return false;
-            } catch (GLib.Error e) {
-                stderr.printf (e.message + "\n");
-                return false;
-            }
-        }
-
         public static GLib.List<string> ListDirectoryFolders (string path) {
             var folders = new GLib.List<string> ();
 
             try {
-                if (IsDirectory (path)) {
+                if (FileUtils.test (path, FileTest.IS_DIR)) {
                     var root = GLib.File.new_for_path (path);
 
-                    var enumerator = root.enumerate_children ("standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
+                    var enumerator = root.enumerate_children ("tata", FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
 
                     FileInfo info = null;
                     while ((info = enumerator.next_file ()) != null) {

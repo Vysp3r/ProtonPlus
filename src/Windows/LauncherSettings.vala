@@ -1,4 +1,4 @@
-namespace ProtonPlus.Windows {
+namespace Windows {
     public class LauncherSettings : Gtk.Dialog {
         // Values
         Models.Launcher currentLauncher;

@@ -1,4 +1,4 @@
-namespace ProtonPlus.Widgets {
+namespace Widgets {
     public class ProtonMessageDialog : Adw.MessageDialog {
         public enum MessageDialogType {
             NO_YES,

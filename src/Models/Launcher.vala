@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models {
+namespace Models {
     public class Launcher : Object, Interfaces.IModel {
         string homeDirectory;
         string directory;
@@ -32,7 +32,7 @@ namespace ProtonPlus.Models {
 
             // Check if any of the given directories exists
             foreach (var item in directories) {
-                if (Utils.File.IsDirectory (homeDirectory + item)) {
+                if (FileUtils.test (homeDirectory + item, FileTest.IS_DIR)) {
                     dir = item + toolDirectory;
                     break;
                 }
@@ -40,7 +40,7 @@ namespace ProtonPlus.Models {
 
             // If a directory exist, it makes sure that the tool directory is created
             if (dir.length > 0) {
-                if (!Utils.File.IsDirectory (homeDirectory + dir)) {
+                if (!FileUtils.test (homeDirectory + dir, FileTest.IS_DIR)) {
                     Utils.File.CreateDirectory (homeDirectory + dir);
                 }
             }
@@ -72,161 +72,93 @@ namespace ProtonPlus.Models {
             return store;
         }
 
-        private static GLib.List<Launcher> GetInstalled (GLib.List<Launcher> launchers) {
-            var installedLaunchers = new GLib.List<Launcher> ();
-
-            launchers.@foreach ((launcher) => {
-                if (launcher.Installed == true) {
-                    installedLaunchers.append (launcher);
-                }
-            });
-
-            return (owned) installedLaunchers;
-        }
-
-        public static GLib.List GetAll (bool installedOnly = false) {
+        public static GLib.List GetAll () {
             var launchers = new GLib.List<Launcher> ();
 
             // Steam
             var steamToolDir = "/compatibilitytools.d";
             var steamTools = Models.Tool.Steam ();
 
-            launchers.append (new Launcher (
-                                  "Steam",
-                                  new string[] {
+            var steam = new Launcher (
+                "Steam",
+                new string[] {
                 "/.local/share/Steam",
                 "/.steam/root",
                 "/.steam/steam",
                 "/.steam/debian-installation"
             },
-                                  steamToolDir,
-                                  steamTools
-            ));
-            launchers.append (new Launcher (
-                                  "Steam (Flatpak)",
-                                  new string[] {
+                steamToolDir,
+                steamTools
+            );
+            if (steam.Installed) launchers.append (steam);
+
+            var steamFlatpak = new Launcher (
+                "Steam (Flatpak)",
+                new string[] {
                 "/.var/app/com.valvesoftware.Steam/data/Steam"
             },
-                                  steamToolDir,
-                                  steamTools
-            ));
-            launchers.append (new Launcher (
-                                  "Steam (Snap)",
-                                  new string[] {
+                steamToolDir,
+                steamTools
+            );
+            if (steamFlatpak.Installed) launchers.append (steamFlatpak);
+
+            var steamSnap = new Launcher (
+                "Steam (Snap)",
+                new string[] {
                 "/snap/steam/common/.steam/root"
             },
-                                  steamToolDir,
-                                  steamTools
-            ));
+                steamToolDir,
+                steamTools
+            );
+            if (steamSnap.Installed) launchers.append (steamSnap);
 
             // Lutris
             var lutrisToolDir = "/wine";
             var lutrisTools = Models.Tool.Lutris ();
 
-            launchers.append (new Launcher (
-                                  "Lutris",
-                                  new string[] {
+            var lutris = new Launcher (
+                "Lutris",
+                new string[] {
                 "/.local/share/lutris/runners"
             },
-                                  lutrisToolDir,
-                                  lutrisTools
-            ));
-            launchers.append (new Launcher (
-                                  "Lutris (Flatpak)",
-                                  new string[] {
+                lutrisToolDir,
+                lutrisTools
+            );
+            if (lutris.Installed) launchers.append (lutris);
+
+            var lutrisFlatpak = new Launcher (
+                "Lutris (Flatpak)",
+                new string[] {
                 "/.var/app/net.lutris.Lutris/data/lutris/runners"
             },
-                                  lutrisToolDir,
-                                  lutrisTools
-            ));
+                lutrisToolDir,
+                lutrisTools
+            );
+            if (lutrisFlatpak.Installed) launchers.append (lutrisFlatpak);
 
             // Lutris DXVK
             var lutrisDxvkToolDir = "/dxvk";
             var lutrisDxvkTools = Models.Tool.LutrisDXVK ();
 
-            launchers.append (new Launcher (
-                                  "Lutris DXVK",
-                                  new string[] {
+            var lutrisDXVK = new Launcher (
+                "Lutris DXVK",
+                new string[] {
                 "/.local/share/lutris/runtime"
             },
-                                  lutrisDxvkToolDir,
-                                  lutrisDxvkTools
-            ));
-            launchers.append (new Launcher (
-                                  "Lutris DXVK (Flatpak)",
-                                  new string[] {
+                lutrisDxvkToolDir,
+                lutrisDxvkTools
+            );
+            if (lutrisDXVK.Installed) launchers.append (lutrisDXVK);
+
+            var lutrisDXVKFlatpak = new Launcher (
+                "Lutris DXVK (Flatpak)",
+                new string[] {
                 "/.var/app/net.lutris.Lutris/data/lutris/runtime"
             },
-                                  lutrisDxvkToolDir,
-                                  lutrisDxvkTools
-            ));
-
-            // Heroic Games Launcher (Proton)
-            // var heroicProtonToolDir = "/proton";
-            // var heroicProtonTools = Models.Tool.HeroicProton ();
-
-            // launchers.append(new Launcher (
-            // "Heroic Proton",
-            // new string[] {
-            // "/.config/heroic/tools"
-            // },
-            // heroicProtonToolDir,
-            // heroicProtonTools
-            // ));
-            // launchers.append(new Launcher (
-            // "Heroic Proton (Flatpak)",
-            // new string[] {
-            // "/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools"
-            // },
-            // heroicProtonToolDir,
-            // heroicProtonTools
-            // ));
-
-            // Heroic Games Launcher (Wine)
-            // var heroicWineToolDir = "/wine";
-            // var heroicWineTools = Models.Tool.HeroicWine ();
-
-            // launchers.append(new Launcher (
-            // "Heroic Wine",
-            // new string[] {
-            // "/.config/heroic/tools"
-            // },
-            // heroicWineToolDir,
-            // heroicWineTools
-            // ));
-            // launchers.append(new Launcher (
-            // "Heroic Wine (Flatpak)",
-            // new string[] {
-            // "/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools"
-            // },
-            // heroicWineToolDir,
-            // heroicWineTools
-            // ));
-
-            // Bottles
-            // var bottlesToolDir = "/runners";
-            // var bottlesTools = Models.Tool.Bottles ();
-
-            // launchers.append (new Launcher (
-            // "Bottles",
-            // new string[] {
-            // "/.local/share/bottles"
-            // },
-            // bottlesToolDir,
-            // bottlesTools
-            // ));
-            // launchers.append (new Launcher (
-            // "Bottles (Flatpak)",
-            // new string[] {
-            // "/.var/app/com.usebottles.bottles/data/bottles"
-            // },
-            // bottlesToolDir,
-            // bottlesTools
-            // ));
-
-            if (installedOnly) {
-                launchers = GetInstalled (launchers);
-            }
+                lutrisDxvkToolDir,
+                lutrisDxvkTools
+            );
+            if (lutrisDXVKFlatpak.Installed) launchers.append (lutrisDXVKFlatpak);
 
             return (owned) launchers;
         }
