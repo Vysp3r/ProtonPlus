@@ -82,9 +82,7 @@ namespace Utils {
 
         public static void Rename (string sourcePath, string destinationPath) {
             try {
-                var fileSource = GLib.File.new_for_path (sourcePath);
-                var fileDest = GLib.File.new_for_path (destinationPath);
-                fileSource.move (fileDest, FileCopyFlags.NONE, null, null);
+                GLib.FileUtils.rename (sourcePath, destinationPath);
             } catch (GLib.Error e) {
                 stderr.printf (e.message + "\n");
             }
