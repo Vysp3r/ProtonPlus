@@ -26,7 +26,13 @@
         {
             "name" : "ProtonPlus",
             "builddir" : true,
-            "buildsystem" : "meson"
+            "buildsystem" : "meson",
+            "sources": [
+                {
+                    "type" : "dir",
+                    "path" : "."
+                }
+            ]
         }
     ]
 }
