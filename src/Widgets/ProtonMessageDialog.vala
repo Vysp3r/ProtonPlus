@@ -9,6 +9,8 @@ namespace Widgets {
 
         public ProtonMessageDialog (Gtk.Window window, string? heading, string? body, MessageDialogType type, ResponseCallback? responseCallback) {
             set_transient_for (window);
+            set_modal (true);
+
             if (heading != null) set_heading (heading);
             if (body != null) set_body (body);
 

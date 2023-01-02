@@ -12,10 +12,14 @@ namespace Stores {
         public Models.Preference Preference;
 
         public double ProgressBarValue;
-        public bool ProgressBarIsDone;
+        public bool IsInstallationCancelled;
+        public bool IsDownloadCompleted;
+        public bool IsExtractionCompleted;
 
         public List<Release> Releases;
         public bool ReleaseRequestIsDone;
+
+        public bool close;
 
         static Once<Main> _instance;
 

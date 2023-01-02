@@ -45,6 +45,11 @@ namespace Utils {
                 r = ext.finish_entry ();
                 if (r < Archive.Result.OK) stderr.printf (ext.error_string ());
                 if (r < Archive.Result.WARN) return "";
+
+                if (Stores.Main.get_instance ().IsInstallationCancelled) {
+                    Delete (install_location + sourcePath);
+                    break;
+                }
             }
 
             archive.close ();
@@ -81,11 +86,7 @@ namespace Utils {
         }
 
         public static void Rename (string sourcePath, string destinationPath) {
-            try {
-                GLib.FileUtils.rename (sourcePath, destinationPath);
-            } catch (GLib.Error e) {
-                stderr.printf (e.message + "\n");
-            }
+            GLib.FileUtils.rename (sourcePath, destinationPath);
         }
 
         public static void Write (string path, string content) {

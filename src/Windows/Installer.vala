@@ -24,6 +24,12 @@ namespace Windows {
             currentLauncher = launcher;
             mainStore = Stores.Main.get_instance ();
 
+            // Reset stores values
+            mainStore.IsInstallationCancelled = false;
+            mainStore.IsDownloadCompleted = false;
+            mainStore.IsExtractionCompleted = false;
+            mainStore.ProgressBarValue = 0;
+
             // Initialize shared widgets
             crTools = new Widgets.ProtonComboRow (_ ("Compatibility Tool"), Models.Tool.GetStore (launcher.Tools));
             crReleases = new Widgets.ProtonComboRow (_ ("Version"));
@@ -84,19 +90,32 @@ namespace Windows {
             progressBarDownload.set_visible (false);
             boxMain.append (progressBarDownload);
 
+            this.close_request.connect (onClose);
+
             // Show the window
             show ();
         }
 
         void Download () {
             progressBarDownload.set_text (_ ("Downloading..."));
-            new Thread<int> ("download", () => Utils.Web.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + ".tar.gz"));
+
+            new Thread<void> ("download", () => {
+                Utils.Web.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + ".tar.gz");
+                Stores.Main.get_instance ().IsDownloadCompleted = true;
+            });
+
             GLib.Timeout.add (75, () => {
+                if (mainStore.IsInstallationCancelled) {
+                    CancelInstallation ();
+                    return false;
+                }
+
                 progressBarDownload.set_fraction (mainStore.ProgressBarValue);
-                if (mainStore.ProgressBarValue == 1) {
+                if (mainStore.IsDownloadCompleted) {
                     Extract ();
                     return false;
                 }
+
                 return true;
             }, 1);
         }
@@ -104,29 +123,49 @@ namespace Windows {
         void Extract () {
             progressBarDownload.set_text (_ ("Extracting..."));
             progressBarDownload.set_pulse_step (1);
+
             new Thread<void> ("extract", () => {
                 string sourcePath = Utils.File.Extract (currentLauncher.Directory + "/", currentRelease.Title);
                 if (currentTool.Type != Models.Tool.TitleType.NONE) Utils.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
-                Stores.Main.get_instance ().ProgressBarIsDone = true;
+                Stores.Main.get_instance ().IsExtractionCompleted = true;
             });
+
             GLib.Timeout.add (500, () => {
+                if (mainStore.IsInstallationCancelled) {
+                    CancelInstallation ();
+                    return false;
+                }
+
                 progressBarDownload.pulse ();
-                if (mainStore.ProgressBarIsDone == true) {
+                if (mainStore.IsExtractionCompleted == true) {
                     progressBarDownload.set_text (_ ("Done!"));
                     progressBarDownload.set_fraction (mainStore.ProgressBarValue = 0);
                     btnInstall.set_sensitive (true);
                     response (Gtk.ResponseType.APPLY);
                     return false;
                 }
+
                 return true;
             }, 1);
         }
 
+        void CancelInstallation () {
+            progressBarDownload.set_fraction (0);
+            progressBarDownload.set_text (_ ("Cancelled!"));
+            btnInstall.set_sensitive (true);
+        }
+
         // Events
+        bool onClose () {
+            mainStore.IsInstallationCancelled = true;
+            return false;
+        }
+
         void btnInstall_Clicked () {
             btnInstall.set_sensitive (false);
             progressBarDownload.set_visible (true);
             progressBarDownload.set_show_text (true);
+
             Download ();
         }
 
