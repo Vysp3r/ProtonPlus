@@ -1,4 +1,4 @@
-namespace ProtonPlus.Widgets {
+namespace Widgets {
     public class ProtonComboRow : Adw.ComboRow {
         public ProtonComboRow (string title, ListStore model = new ListStore(typeof (Interfaces.IModel)), int selected = 0) {
             var factory = new Gtk.SignalListItemFactory ();

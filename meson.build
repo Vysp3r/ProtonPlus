@@ -1,25 +1,39 @@
-project('protonplus', ['c', 'vala'],
-          version: '0.3.1',
-    meson_version: '>= 0.59.0',
-  default_options: [ 'warning_level=2', 'werror=false', ],
+project(
+    'com.vysp3r.ProtonPlus', ['c', 'vala'],
+    version: '0.3.2',
+    meson_version: '>= 0.59.0'
 )
 
+#
 i18n = import('i18n')
 gnome = import('gnome')
 
-conf = configuration_data()
-conf.set_quoted('GETTEXT_PACKAGE', meson.project_name())
-conf.set_quoted('DATADIR', join_paths(get_option('prefix'), get_option('datadir')))
-conf.set_quoted('GNOMELOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
+add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()), language: 'c')
 
-configure_file(output: 'config.h', configuration: conf)
-config_h_dir = include_directories('.')
-
-# Don't change the order! (data > src > po)
+#
+subdir('po')
 subdir('data')
 subdir('src')
-subdir('po')
 
+#
+executable(
+    meson.project_name(),
+    gresource,
+    constants,
+    sources,
+    dependencies: [
+        dependency('gtk4'),
+        dependency('glib-2.0'),
+        dependency('libadwaita-1', version: '>= 1.2'),
+  	dependency('json-glib-1.0'),
+  	dependency('libsoup-3.0'),
+  	dependency('libarchive'),
+        meson.get_compiler('vala').find_library('posix')
+    ],
+    install: true
+)
+
+#
 gnome.post_install(
   glib_compile_schemas: true,
   gtk_update_icon_cache: true,

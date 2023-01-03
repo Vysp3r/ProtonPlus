@@ -1,6 +1,18 @@
-protonplus_sources += [
+configuration = configuration_data()
+
+configuration.set_quoted('APP_ID', meson.project_name())
+configuration.set_quoted('APP_VERSION', meson.project_version())
+configuration.set_quoted('LOCALE_DIR', join_paths (get_option('prefix'), get_option('localedir')))
+
+constants = configure_file(
+    input : 'Utils/Constants.vala.in',
+    output : 'Constants.vala',
+    configuration : configuration
+)
+
+#
+sources = files(
   'Interfaces/IModel.vala',
-  'Interfaces/IView.vala',
 
   'Utils/Preference.vala',
   'Utils/Theme.vala',
@@ -8,16 +20,12 @@ protonplus_sources += [
   'Utils/File.vala',
 
   'Models/preferences/Style.vala',
+  'Models/Preference.vala',
   'Models/Tool.vala',
   'Models/Launcher.vala',
   'Models/Release.vala',
 
-  'Stores/Preferences.vala',
-  'Stores/Threads.vala',
-
-  'Views/Games.vala',
-  'Views/Tools.vala',
-  'Views/Notifications.vala',
+  'Stores/Main.vala',
 
   'Widgets/ProtonComboRow.vala',
   'Widgets/ProtonMessageDialog.vala',
@@ -28,36 +36,9 @@ protonplus_sources += [
   'Windows/Installer.vala',
   'Windows/LauncherSettings.vala',
 
-  'Main.vala',
+  'Windows/Views/Games.vala',
+  'Windows/Views/Tools.vala',
+  'Windows/Views/Notifications.vala',
+
   'Application.vala',
-]
-
-vapi_sources = files(
-  'Config.vapi'
-)
-
-protonplus_sources += vapi_sources
-
-protonplus_deps = [
-  dependency('libadwaita-1', version: '>= 1.2'),
-  dependency('json-glib-1.0'),
-  dependency('libsoup-3.0'),
-  dependency('libarchive')
-]
-
-protonplus_vala_args = [
-  '--vapidir', meson.current_source_dir(),
-  '--target-glib', '2.50',
-]
-
-protonplus_c_args = [
-  '-include', 'config.h',
-]
-
-executable('protonplus', protonplus_sources,
-  include_directories: config_h_dir,
-  vala_args: protonplus_vala_args,
-  c_args: protonplus_c_args,
-  dependencies: protonplus_deps,
-  install: true,
 )

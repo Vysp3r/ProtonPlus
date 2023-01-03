@@ -1,7 +1,6 @@
-namespace ProtonPlus.Views {
-    public class Tools : Interfaces.IView {
+namespace Windows.Views {
+    public class Tools : Gtk.Box {
         // Widgets
-        Gtk.ApplicationWindow window;
         Widgets.ProtonComboRow crInstallLocation;
         Gtk.ListBox listInstalledTools;
         Gtk.Button btnAdd;
@@ -9,32 +8,25 @@ namespace ProtonPlus.Views {
         Gtk.Button btnSettings;
 
         // Values
-        GLib.List<Models.Launcher> launchers;
-        Models.Launcher currentLauncher;
-        Stores.Preferences preferences;
-        bool firstRun;
+        Stores.Main mainStore;
 
-        public Tools (Gtk.ApplicationWindow window, ref Stores.Preferences preferences) {
-            this.window = window;
-            this.preferences = preferences;
-            this.launchers = Models.Launcher.GetAll (true);
-            this.firstRun = true;
-        }
+        public Tools () {
+            set_orientation (Gtk.Orientation.VERTICAL);
+            set_spacing (15);
+            set_margin_bottom (15);
+            set_margin_end (15);
+            set_margin_start (15);
+            set_margin_top (15);
 
-        public Gtk.Box GetBox () {
+            // Initialize shared values
+            mainStore = Stores.Main.get_instance ();
+
             // Initialize shared widgets
-            crInstallLocation = new Widgets.ProtonComboRow (_ ("Launcher"), Models.Launcher.GetStore (launchers));
+            crInstallLocation = new Widgets.ProtonComboRow (_ ("Launcher"), Models.Launcher.GetStore (mainStore.InstalledLaunchers));
             btnAdd = new Gtk.Button ();
             btnInfoLauncher = new Gtk.Button ();
             btnSettings = new Gtk.Button ();
             listInstalledTools = new Gtk.ListBox ();
-
-            // Get the box child from the window
-            var boxMain = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
-            boxMain.set_margin_bottom (15);
-            boxMain.set_margin_end (15);
-            boxMain.set_margin_start (15);
-            boxMain.set_margin_top (15);
 
             // Setup boxLaunchers
             var boxLaunchers = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
@@ -85,7 +77,7 @@ namespace ProtonPlus.Views {
             boxLaunchers.append (boxActions);
 
             // Add boxLaunchers to boxMain
-            boxMain.append (boxLaunchers);
+            this.append (boxLaunchers);
 
             // Setup listInstalledTools
             listInstalledTools.set_vexpand (true);
@@ -94,32 +86,28 @@ namespace ProtonPlus.Views {
             // Setup scrolledWindowInstalledTools
             var scrolledWindowInstalledTools = new Gtk.ScrolledWindow ();
             scrolledWindowInstalledTools.set_child (listInstalledTools);
-            boxMain.append (scrolledWindowInstalledTools);
+            this.append (scrolledWindowInstalledTools);
 
             // Load the default values
-            var position = Models.Launcher.GetPosition (launchers, preferences.LastLauncher);
-            if (position > 0 && preferences.RememberLastLauncher) {
+            var position = Models.Launcher.GetPosition (mainStore.InstalledLaunchers, mainStore.Preference.LastLauncher);
+            if (position > 0 && mainStore.Preference.RememberLastLauncher) {
                 crInstallLocation.set_selected (position);
             } else {
                 crInstallLocation.notify_property ("selected");
             }
-
-            // Show the window
-            return boxMain;
         }
 
         // Events
         void crInstallLocation_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "selected") {
-                currentLauncher = (Models.Launcher) crInstallLocation.get_selected_item ();
+                mainStore.CurrentLauncher = (Models.Launcher) crInstallLocation.get_selected_item ();
 
-                if (preferences.LastLauncher != currentLauncher.Title) {
-                    preferences.LastLauncher = currentLauncher.Title;
-                    Utils.Preference.Update (ref preferences);
+                if (mainStore.Preference.LastLauncher != mainStore.CurrentLauncher.Title) {
+                    mainStore.Preference.LastLauncher = mainStore.CurrentLauncher.Title;
+                    Utils.Preference.Update (mainStore.Preference);
                 }
 
-                var releases = Models.Release.GetInstalled (currentLauncher);
-                var model = Models.Release.GetStore (releases);
+                var model = Models.Release.GetStore (Models.Release.GetInstalled (mainStore.CurrentLauncher));
                 listInstalledTools.bind_model (model, (item) => {
                     var release = (Models.Release) item;
 
@@ -145,13 +133,13 @@ namespace ProtonPlus.Views {
                     return row;
                 });
 
-                btnSettings.set_sensitive (currentLauncher != null);
-                btnAdd.set_sensitive (currentLauncher != null);
+                btnSettings.set_sensitive (mainStore.CurrentLauncher != null);
+                btnAdd.set_sensitive (mainStore.CurrentLauncher != null);
             }
         }
 
         void btnAdd_Clicked () {
-            var dialogAdd = new Windows.Installer (window, currentLauncher);
+            var dialogAdd = new Windows.Installer (mainStore.MainWindow, mainStore.CurrentLauncher);
             dialogAdd.response.connect ((response_id) => {
                 if (response_id == Gtk.ResponseType.APPLY) crInstallLocation.notify_property ("selected");
                 if (response_id == Gtk.ResponseType.CANCEL) dialogAdd.close ();
@@ -159,7 +147,7 @@ namespace ProtonPlus.Views {
         }
 
         void btnLauncherSettings_Clicked () {
-            var dialogLauncherSettings = new Windows.LauncherSettings (window, currentLauncher);
+            var dialogLauncherSettings = new Windows.LauncherSettings (mainStore.MainWindow, mainStore.CurrentLauncher);
             dialogLauncherSettings.response.connect ((response_id) => {
                 if (response_id == Gtk.ResponseType.APPLY) crInstallLocation.notify_property ("selected");
                 if (response_id == Gtk.ResponseType.CANCEL) dialogLauncherSettings.close ();
@@ -167,25 +155,25 @@ namespace ProtonPlus.Views {
         }
 
         void btnInfoTool_Clicked (Models.Release release) {
-            var dialogShowVersion = new Windows.AboutTool (window, release.Title, currentLauncher.Directory + "/" + release.Title);
+            var dialogShowVersion = new Windows.About (mainStore.MainWindow, release.Title, mainStore.CurrentLauncher.Directory + "/" + release.Title);
             dialogShowVersion.response.connect ((response_id) => {
                 dialogShowVersion.close ();
             });
         }
 
         void btnInfoLauncher_Clicked () {
-            var dialogShowVersion = new Windows.AboutTool (window, currentLauncher.Title, currentLauncher.Directory);
+            var dialogShowVersion = new Windows.About (mainStore.MainWindow, mainStore.CurrentLauncher.Title, mainStore.CurrentLauncher.Directory);
             dialogShowVersion.response.connect ((response_id) => {
                 dialogShowVersion.close ();
             });
         }
 
         void btnDelete_Clicked (Models.Release release) {
-            var dialogDelete = new Widgets.ProtonMessageDialog (window, null, _ ("Are you sure you want to delete the selected tool?"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
+            var dialogDelete = new Widgets.ProtonMessageDialog (mainStore.MainWindow, null, _ ("Are you sure you want to delete the selected tool?"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
             dialogDelete.response.connect ((response) => {
                 if (response == "yes") {
                     GLib.Timeout.add (1000, () => {
-                        Utils.File.Delete (currentLauncher.Directory + "/" + release.Title);
+                        Utils.File.Delete (mainStore.CurrentLauncher.Directory + "/" + release.Title);
                         crInstallLocation.notify_property ("selected");
                         return false;
                     }, 2);

@@ -1,9 +1,10 @@
-namespace ProtonPlus.Windows {
-    public class AboutTool : Gtk.Dialog {
-        public AboutTool (Gtk.ApplicationWindow parent, string name, string directory) {
+namespace Windows {
+    public class About : Gtk.Dialog {
+        public About (Gtk.ApplicationWindow parent, string name, string directory) {
+            set_transient_for (parent);
+            set_modal (true);
             set_title (_ ("About"));
             set_default_size (500, 0);
-            set_transient_for (parent);
 
             var display = Gdk.Display.get_default ();
             var clipboard = display.get_clipboard ();

@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: yukidream <mashirokuratamorfo@gmail.com>\n"
+"Language-Team: \n"
+"Language: id_ID\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.2.2\n"
+
+msgid "Tools"
+msgstr "Peralatan"
+
+msgid "Games"
+msgstr "Permainan"
+
+msgid "Notifications"
+msgstr "Pemberitahuan"
+
+msgid "Preferences"
+msgstr "Preferensi"
+
+msgid "Telegram"
+msgstr "Telegram"
+
+msgid "Documentation"
+msgstr "Dokumentasi"
+
+msgid "Donation"
+msgstr "Donasi"
+
+msgid "About"
+msgstr "Tentang"
+
+msgid "Quit"
+msgstr "Keluar"
+
+msgid "Launcher"
+msgstr "Peluncur"
+
+msgid "Launcher settings"
+msgstr "Pengaturan peluncur"
+
+msgid "Install a tool"
+msgstr "Memasang alat"
+
+msgid "Are you sure you want to delete the selected tool?"
+msgstr "Apakah kamu yakin ingin menghapus alat ini?"
+
+msgid "Name: "
+msgstr "Nama: "
+
+msgid "Directory: "
+msgstr "Direktori: "
+
+msgid "Close"
+msgstr "Tutup"
+
+msgid "Install"
+msgstr "Memasang"
+
+msgid "Compatibility Tool"
+msgstr "Alat Kompabilitas"
+
+msgid "Version"
+msgstr "Versi"
+
+msgid "Info"
+msgstr "Informasi"
+
+msgid "Downloading..."
+msgstr "Mengunduh..."
+
+msgid "Extracting..."
+msgstr "Mengekstrak..."
+
+msgid "Done!"
+msgstr "Selesai!"
+
+msgid "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us."
+msgstr "Ada kesalahan saat mengambil data dari API GitHub. Anda mungkin telah mencapai jumlah permintaan maksimum per jam atau mungkin tidak terhubung ke internet. Jika menurut Anda ini adalah bug, harap laporkan ini kepada kami."
+
+msgid "Launcher Settings"
+msgstr "Pengaturan Peluncur"
+
+msgid "Clean launcher"
+msgstr "Membersihkan peluncur"
+
+msgid "Delete every installed tools from the launcher"
+msgstr "Menghapus semua alat yang terinstall dari peluncur"
+
+msgid "Are you sure you want to clean this launcher? WARNING: It will delete every installed tools from the launcher!"
+msgstr "Apa anda yakin ingin membersihkan peluncur ini? PERINGATAN: Ini akan menghapus setiap alat yang terpasang di peluncur!"
+
+msgid "Styles"
+msgstr "Gaya"
+
+msgid "Appearance"
+msgstr "Penampilan"
+
+msgid "System"
+msgstr "Sistem"
+
+msgid "Light"
+msgstr "Terang"
+
+msgid "Dark"
+msgstr "Gelap"
+
+msgid "Show information"
+msgstr "Menunjukkan informasi"
+
+msgid "Delete the tool"
+msgstr "Menghapus alat"
+
+msgid "Open a browser to the tool page"
+msgstr "Membuka peramban menuju ke situs alat"
+
+msgid "Install the selected tool"
+msgstr "Memasang peralatan yang dipilih"
+
+msgid "Launcher information"
+msgstr "Informasi peluncur"
+
+msgid "Copy"
+msgstr "Salin"
+
+msgid "Remember last launcher"
+msgstr "Mengingat peluncur terakhir"

@@ -1,6 +1,6 @@
-namespace ProtonPlus.Windows {
+namespace Windows {
     public class Home : Adw.ApplicationWindow {
-        public Home (Gtk.Application app, ref Stores.Preferences preferences) {
+        public Home (Gtk.Application app) {
             set_application (app);
             set_title ("ProtonPlus");
             set_default_size (800, 500);
@@ -44,18 +44,15 @@ namespace ProtonPlus.Windows {
             viewStack.set_vexpand (true);
 
             // Setup toolsPage
-            var toolsView = new Views.Tools (this, ref preferences);
-            var toolsPage = viewStack.add_titled (toolsView.GetBox (), _ ("Tools"), _ ("Tools"));
+            var toolsPage = viewStack.add_titled (new Views.Tools (), _ ("Tools"), _ ("Tools"));
             toolsPage.set_icon_name ("emblem-system-symbolic");
 
             // Setup gamesPage
-            var gamesView = new Views.Games ();
-            var gamesPage = viewStack.add_titled (gamesView.GetBox (), _ ("Games"), _ ("Games"));
+            var gamesPage = viewStack.add_titled (new Views.Games (), _ ("Games"), _ ("Games"));
             gamesPage.set_icon_name ("input-gaming-symbolic");
 
             // Setup notificationsPage
-            var notificationsView = new Views.Notifications ();
-            var notificationsPage = viewStack.add_titled (notificationsView.GetBox (), _ ("Notifications"), _ ("Notifications"));
+            var notificationsPage = viewStack.add_titled (new Views.Notifications (), _ ("Notifications"), _ ("Notifications"));
             notificationsPage.set_icon_name ("preferences-desktop-locale-symbolic");
 
             // Add viewStack to boxMain
@@ -73,9 +70,6 @@ namespace ProtonPlus.Windows {
                 toolsViewBar.set_reveal (toolsViewTitle.get_title_visible ());
             });
             headerBar.set_title_widget (toolsViewTitle);
-
-            // Show the window
-            show ();
         }
     }
 }

@@ -1,0 +1,7 @@
+namespace Utils.Constants {
+    const string APP_NAME = "ProtonPlus";
+    const string APP_ID = @APP_ID@;
+    const string APP_VERSION = @APP_VERSION@;
+    const string LOCALE_DIR = @LOCALE_DIR@;
+    const string RESOURCE_BASE = "/com/vysp3r/ProtonPlus";
+}

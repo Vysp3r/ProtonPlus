@@ -1,5 +1,5 @@
-namespace ProtonPlus.Utils {
-    public class HTTP {
+namespace Utils {
+    public class Web {
         public static string GET (string url) {
             try {
                 var session = new Soup.Session ();
@@ -13,19 +13,47 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        public static int Download (string download_url, string download_path) {
+        public static void Download (string url, string path) {
+            var client = new Soup.Session ();
+
+            var request = new Soup.Message ("GET", url);
+
             try {
-                var file_from_http = GLib.File.new_for_uri (download_url);
-                GLib.File local_file = GLib.File.new_for_path (download_path);
-                Stores.Threads store = Stores.Threads.instance ();
-                file_from_http.copy (local_file, FileCopyFlags.OVERWRITE, null, (current, total) => {
-                    store.ProgressBar = (current + 0.0d) / (total + 0.0d);
-                });
-                return 0;
+                var input_stream = client.send (request);
+
+                if (request.status_code != 200) {
+                    stderr.printf (request.reason_phrase + "\n");
+                    Stores.Main.get_instance ().IsInstallationCancelled = true;
+                    return;
+                }
+
+                var file = GLib.File.new_for_path (path);
+                if (file.query_exists ()) file.delete ();
+                FileOutputStream output_stream = file.create (FileCreateFlags.REPLACE_DESTINATION);
+
+                int64 content_length = request.response_headers.get_content_length ();
+
+                const int chunk_size = 1024;
+                ulong bytes_downloaded = 0;
+                while (bytes_downloaded < content_length) {
+                    if (Stores.Main.get_instance ().IsInstallationCancelled) {
+                        if (file.query_exists ()) file.delete ();
+                        break;
+                    }
+
+                    ulong bytes_read = output_stream.write (input_stream.read_bytes (chunk_size).get_data ());
+
+                    bytes_downloaded += bytes_read;
+                    Stores.Main.get_instance ().ProgressBarValue = (double) bytes_downloaded / content_length;
+                }
+
+                output_stream.close ();
             } catch (GLib.Error e) {
                 stderr.printf (e.message + "\n");
-                return 1;
+                Stores.Main.get_instance ().IsInstallationCancelled = true;
             }
+
+            client.abort ();
         }
     }
 }

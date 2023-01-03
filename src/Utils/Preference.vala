@@ -1,6 +1,6 @@
-namespace ProtonPlus.Utils {
+namespace Utils {
     public class Preference {
-        public static bool Load (ref Stores.Preferences preferences) {
+        public static bool Load (Models.Preference preference) {
             try {
                 GLib.File file = GLib.File.new_for_path (GLib.Environment.get_user_config_dir () + "/preferences.json");
 
@@ -15,34 +15,34 @@ namespace ProtonPlus.Utils {
                     throw new GLib.Error (Quark.from_string (""), 0, "The Preferences.json is invalid. It will now be recreated.");
                 }
 
-                preferences.Style = Models.Preferences.Style.Find (obj.get_string_member ("style"));
-                preferences.RememberLastLauncher = obj.get_boolean_member ("rememberLastLauncher");
-                preferences.LastLauncher = obj.get_string_member ("lastLauncher");
+                preference.Style = Models.Preferences.Style.Find (obj.get_string_member ("style"));
+                preference.RememberLastLauncher = obj.get_boolean_member ("rememberLastLauncher");
+                preference.LastLauncher = obj.get_string_member ("lastLauncher");
 
                 return true;
             } catch (GLib.IOError.NOT_FOUND e) {
                 stderr.printf (e.message + "\n");
-                Create (ref preferences, true);
-                return Load (ref preferences);
+                Create (preference, true);
+                return Load (preference);
             } catch (GLib.Error e) {
                 stderr.printf (e.message + "\n");
-                Update (ref preferences, true);
-                return Load (ref preferences);
+                Update (preference, true);
+                return Load (preference);
             }
         }
 
-        public static void Apply (ref Stores.Preferences preferences) {
-            Adw.StyleManager.get_default ().set_color_scheme (preferences.Style.ColorScheme);
+        public static void Apply (Models.Preference preference) {
+            Adw.StyleManager.get_default ().set_color_scheme (preference.Style.ColorScheme);
         }
 
-        public static void Update (ref Stores.Preferences preferences, bool useDefaultValue = false) {
+        public static void Update (Models.Preference preference, bool useDefaultValue = false) {
             Utils.File.Delete (GLib.Environment.get_user_config_dir () + "/preferences.json");
 
-            Create (ref preferences, useDefaultValue);
+            Create (preference, useDefaultValue);
         }
 
-        static void Create (ref Stores.Preferences preferences, bool useDefaultValue) {
-            Utils.File.Write (GLib.Environment.get_user_config_dir () + "/preferences.json", preferences.GetJson (useDefaultValue));
+        static void Create (Models.Preference preference, bool useDefaultValue) {
+            Utils.File.Write (GLib.Environment.get_user_config_dir () + "/preferences.json", preference.GetJson (useDefaultValue));
         }
     }
 }

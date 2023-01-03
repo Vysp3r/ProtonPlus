@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models {
+namespace Models {
     public class Release : Object, Interfaces.IModel {
         public string Title { get; set; }
         public string Download_URL;
@@ -35,7 +35,7 @@ namespace ProtonPlus.Models {
                 store.append (release);
             }
 
-            return store;
+            return (owned) store;
         }
 
         public static List<Release> GetInstalled (Models.Launcher launcher) {
@@ -51,12 +51,11 @@ namespace ProtonPlus.Models {
         }
 
         public static GLib.List<Release> GetReleases (Models.Tool tool) {
-            try {
-                // Create a list of Release
-                var releases = new GLib.List<Release> ();
+            var releases = new GLib.List<Release> ();
 
+            try {
                 // Get the json from the Tool endpoint
-                string json = Utils.HTTP.GET (tool.Endpoint);
+                string json = Utils.Web.GET (tool.Endpoint);
 
                 // Get the root node from the json
                 var rootNode = Json.from_string (json);
@@ -95,13 +94,11 @@ namespace ProtonPlus.Models {
                         releases.append (new Release (tag, download_url, page_url)); // Currently here to prevent showing release with an invalid download_url
                     }
                 }
-
-                // Return the Version array
-                return releases;
             } catch (GLib.Error e) {
                 stderr.printf (e.message + "\n");
-                return new GLib.List<Release> ();
             }
+
+            return releases;
         }
     }
 }

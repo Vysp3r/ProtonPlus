@@ -28,6 +28,24 @@
     </screenshots>
 
     <releases>
+      <release version="0.3.2" date="2023-01-03">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>🌐 Add Indonesian translation</li>
+              <li>🌐 Add Brazilian Portuguese (pt-BR) translation</li>
+              <li>💄 Lock dialogs to main window</li>
+              <li>📝 Fix README.md typo</li>
+              <li>📝 Add desktop-file-utils link to README.md </li>
+              <li>🐛 Fix possible crash scenario</li>
+              <li>🧑‍💻 Project refactor</li>
+              <li>🐛 Fix tool renaming</li>
+              <li>🐛 Fix download not working on some machine</li>
+              <li>🔨 Update appdata</li>
+              <li>💬 Update the release notes</li>
+            </ul>
+          </description>
+      </release>
       <release version="0.3.1" date="2022-12-13">
           <description>
             <p>What's Changed:</p>

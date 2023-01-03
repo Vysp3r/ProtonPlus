@@ -1,8 +1,13 @@
-namespace ProtonPlus.Stores {
-    public class Preferences {
-        public ProtonPlus.Models.Preferences.Style Style { get; set; }
+using Models.Preferences;
+
+namespace Models {
+    public class Preference {
+        public Style Style { get; set; }
         public bool RememberLastLauncher { get; set; }
         public string LastLauncher { get; set; }
+
+        public Preference () {
+        }
 
         public string GetJson (bool useDefaultValue = false) {
             string json = @"{\n\t";
@@ -17,7 +22,8 @@ namespace ProtonPlus.Stores {
                 json += @"\t\"" + "lastLauncher" + "\" : \"\"";
             }
 
-            return json += "\n}";
+            json += "\n}";
+            return json;
         }
     }
 }

@@ -1,23 +1,25 @@
-namespace ProtonPlus.Windows {
+namespace Windows {
     public class Preferences : Adw.PreferencesWindow {
         // Widgets
         Widgets.ProtonComboRow crStyles;
         Gtk.Switch rememberLastLauncherSwitch;
 
-        // Values
-        Stores.Preferences preferences;
+        // Values1
+        Stores.Main mainStore;
 
-        public Preferences (ref Stores.Preferences preferences) {
+        public Preferences (Gtk.ApplicationWindow parent) {
+            set_transient_for (parent);
+            set_modal (true);
             set_title (_ ("Preferences"));
             set_can_navigate_back (true);
             set_default_size (0, 0);
 
-            this.preferences = preferences;
+            mainStore = Stores.Main.get_instance ();
 
             var styles = Models.Preferences.Style.GetAll ();
 
             // Initialize shared widgets
-            crStyles = new Widgets.ProtonComboRow (_ ("Styles"), Models.Preferences.Style.GetStore (styles), preferences.Style.Position);
+            crStyles = new Widgets.ProtonComboRow (_ ("Styles"), Models.Preferences.Style.GetStore (styles), mainStore.Preference.Style.Position);
             rememberLastLauncherSwitch = new Gtk.Switch ();
 
             // Setup mainPage
@@ -27,7 +29,7 @@ namespace ProtonPlus.Windows {
             add (mainPage);
 
             // Setup crStyles
-            crStyles.set_selected (preferences.Style.Position);
+            crStyles.set_selected (mainStore.Preference.Style.Position);
             crStyles.notify.connect (crStyles_Notify);
 
             // Setup stylesGroup
@@ -36,7 +38,7 @@ namespace ProtonPlus.Windows {
             mainPage.add (apperanceGroup);
 
             // Setup rememberLastLauncherSwitch
-            rememberLastLauncherSwitch.set_active (preferences.RememberLastLauncher);
+            rememberLastLauncherSwitch.set_active (mainStore.Preference.RememberLastLauncher);
             rememberLastLauncherSwitch.notify.connect (rememberLastLauncherSwitch_Notify);
 
             // Setup rememberLastLauncherBox
@@ -61,16 +63,16 @@ namespace ProtonPlus.Windows {
         // Events
         void crStyles_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "selected") {
-                preferences.Style = (Models.Preferences.Style) crStyles.get_selected_item ();
-                Utils.Preference.Apply (ref preferences);
-                Utils.Preference.Update (ref preferences);
+                mainStore.Preference.Style = (Models.Preferences.Style) crStyles.get_selected_item ();
+                Utils.Preference.Apply (mainStore.Preference);
+                Utils.Preference.Update (mainStore.Preference);
             }
         }
 
         void rememberLastLauncherSwitch_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "active") {
-                preferences.RememberLastLauncher = rememberLastLauncherSwitch.get_state ();
-                Utils.Preference.Update (ref preferences);
+                mainStore.Preference.RememberLastLauncher = rememberLastLauncherSwitch.get_state ();
+                Utils.Preference.Update (mainStore.Preference);
             }
         }
     }

@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.Preferences {
+namespace Models.Preferences {
     public class Style : Object, Interfaces.IModel {
         public string Title { get; set; }
         public string JsonValue;
