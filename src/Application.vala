@@ -76,18 +76,16 @@ public class ProtonPlus : Adw.Application {
         aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
         aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
         aboutDialog.set_release_notes ("<ul>\n" +
-                                       "<li>🔨 Correct desktop file category</li>\n" +
-                                       "<li>🌐 Adding a Russian translation</li>\n" +
-                                       "<li>🌐 Added spanish translation</li>\n" +
-                                       "<li>🐛 Fix installed tools not showing up properly</li>\n" +
-                                       "<li>🐛 Fix buttons being clickable when switching tool</li>\n" +
-                                       "<li>🧱 Rename InstallTool to Installer</li>\n" +
-                                       "<li>⚰️ Remove dead code from Release</li>\n" +
-                                       "<li>🚸 Added a tooltip in About</li>\n" +
-                                       "<li>🌐 Add missing translation</li>\n" +
-                                       "<li>📝 Update README.md</li>\n" +
+                                       "<li>🌐 Add Indonesian translation</li>\n" +
+                                       "<li>🌐 Add Brazilian Portuguese (pt-BR) translation</li>\n" +
+                                       "<li>💄 Lock dialogs to main window</li>\n" +
+                                       "<li>📝 Fix README.md typo</li>\n" +
+                                       "<li>📝 Add desktop-file-utils link to README.md </li>\n" +
+                                       "<li>🐛 Fix possible crash scenario</li>\n" +
+                                       "<li>🧑‍💻 Project refactor</li>\n" +
+                                       "<li>🐛 Fix tool renaming</li>\n" +
+                                       "<li>🐛 Fix download not working on some machine</li>\n" +
                                        "<li>🔨 Update appdata</li>\n" +
-                                       "<li>🔨 Update meson</li>\n" +
                                        "<li>💬 Update the release notes</li>\n" +
                                        "</ul>");
         aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
