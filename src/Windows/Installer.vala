@@ -24,12 +24,6 @@ namespace Windows {
             currentLauncher = launcher;
             mainStore = Stores.Main.get_instance ();
 
-            // Reset stores values
-            mainStore.IsInstallationCancelled = false;
-            mainStore.IsDownloadCompleted = false;
-            mainStore.IsExtractionCompleted = false;
-            mainStore.ProgressBarValue = 0;
-
             // Initialize shared widgets
             crTools = new Widgets.ProtonComboRow (_ ("Compatibility Tool"), Models.Tool.GetStore (launcher.Tools));
             crReleases = new Widgets.ProtonComboRow (_ ("Version"));
@@ -126,7 +120,17 @@ namespace Windows {
 
             new Thread<void> ("extract", () => {
                 string sourcePath = Utils.File.Extract (currentLauncher.Directory + "/", currentRelease.Title);
-                if (currentTool.Type != Models.Tool.TitleType.NONE) Utils.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
+
+                if (currentTool.Type != Models.Tool.TitleType.NONE) {
+                    Utils.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
+
+                    GLib.Timeout.add (1000, () => {
+                        if (Utils.File.Exists (currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool))) return false;
+
+                        return true;
+                    }, 1);
+                }
+
                 Stores.Main.get_instance ().IsExtractionCompleted = true;
             });
 
@@ -142,6 +146,13 @@ namespace Windows {
                     progressBarDownload.set_fraction (mainStore.ProgressBarValue = 0);
                     btnInstall.set_sensitive (true);
                     response (Gtk.ResponseType.APPLY);
+
+                    // Reset stores values
+                    mainStore.IsInstallationCancelled = false;
+                    mainStore.IsDownloadCompleted = false;
+                    mainStore.IsExtractionCompleted = false;
+                    mainStore.ProgressBarValue = 0;
+
                     return false;
                 }
 

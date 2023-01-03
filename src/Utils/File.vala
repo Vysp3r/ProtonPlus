@@ -89,6 +89,11 @@ namespace Utils {
             GLib.FileUtils.rename (sourcePath, destinationPath);
         }
 
+        public static bool Exists (string path) {
+            var file = GLib.File.new_for_path (path);
+            return file.query_exists ();
+        }
+
         public static void Write (string path, string content) {
             try {
                 var file = GLib.File.new_for_path (path);
