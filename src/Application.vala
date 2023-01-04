@@ -78,7 +78,7 @@ public class ProtonPlus : Adw.Application {
         aboutDialog.set_release_notes ("<ul>\n" +
                                        "<li>🐛 Correct desktop file exec</li>\n" +
                                        "<li>🔨 Update appdata</li>\n" +
-                                       "li>💬 Update the release notes</li>\n" +
+                                       "<li>💬 Update the release notes</li>\n" +
                                        "</ul>");
         aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
         aboutDialog.set_copyright ("© 2022 Vysp3r");
