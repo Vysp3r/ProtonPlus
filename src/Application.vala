@@ -76,17 +76,9 @@ public class ProtonPlus : Adw.Application {
         aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
         aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
         aboutDialog.set_release_notes ("<ul>\n" +
-                                       "<li>🌐 Add Indonesian translation</li>\n" +
-                                       "<li>🌐 Add Brazilian Portuguese (pt-BR) translation</li>\n" +
-                                       "<li>💄 Lock dialogs to main window</li>\n" +
-                                       "<li>📝 Fix README.md typo</li>\n" +
-                                       "<li>📝 Add desktop-file-utils link to README.md </li>\n" +
-                                       "<li>🐛 Fix possible crash scenario</li>\n" +
-                                       "<li>🧑‍💻 Project refactor</li>\n" +
-                                       "<li>🐛 Fix tool renaming</li>\n" +
-                                       "<li>🐛 Fix download not working on some machine</li>\n" +
+                                       "<li>🐛 Correct desktop file exec</li>\n" +
                                        "<li>🔨 Update appdata</li>\n" +
-                                       "<li>💬 Update the release notes</li>\n" +
+                                       "li>💬 Update the release notes</li>\n" +
                                        "</ul>");
         aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
         aboutDialog.set_copyright ("© 2022 Vysp3r");
