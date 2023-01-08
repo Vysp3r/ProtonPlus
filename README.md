@@ -60,7 +60,6 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 ## 📝 TODOs
 
-- Add localization
 - Comment the code
 - Document the project
 - Add a game list with additional data like Deck compatibility and Anti-cheat status
