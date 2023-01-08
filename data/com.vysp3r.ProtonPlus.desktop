@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=ProtonPlus
-Exec=protonplus
+Exec=com.vysp3r.ProtonPlus
 Icon=com.vysp3r.ProtonPlus
 Terminal=false
 Type=Application
