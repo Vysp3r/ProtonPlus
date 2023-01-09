@@ -1,0 +1,6 @@
+# Ignore meson build dirs
+build/
+
+# Ignore flatpak build dirs
+.flatpak-builder/
+build-dir/
