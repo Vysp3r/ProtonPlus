@@ -1,0 +1,128 @@
+#
+# neovali <valigarmanda55@gmail.com>, 2023.
+#
+msgid ""
+msgstr ""
+"Language: zh_CN\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"MIME-Version: 1.0\n"
+"Project-Id-Version: \n"
+"Last-Translator: neovali <valigarmanda55@gmail.com>\n"
+"Language-Team: Chinese - China\n"
+"PO-Revision-Date: 2023-01-11 22:36+0800\n"
+"X-Generator: Gtranslator 42.0\n"
+
+msgid "Tools"
+msgstr "工具"
+
+msgid "Games"
+msgstr "游戏"
+
+msgid "Notifications"
+msgstr "通知"
+
+msgid "Preferences"
+msgstr "首选项"
+
+msgid "Telegram"
+msgstr "Telegram"
+
+msgid "Documentation"
+msgstr "文档"
+
+msgid "Donation"
+msgstr "捐赠"
+
+msgid "About"
+msgstr "关于"
+
+msgid "Quit"
+msgstr "退出"
+
+msgid "Launcher"
+msgstr "启动器"
+
+msgid "Launcher settings"
+msgstr "启动器选项"
+
+msgid "Install a tool"
+msgstr "安装工具"
+
+msgid "Are you sure you want to delete the selected tool?"
+msgstr "是否删除所选工具？"
+
+msgid "Name: "
+msgstr "名称： "
+
+msgid "Directory: "
+msgstr "目录： "
+
+msgid "Close"
+msgstr "关闭"
+
+msgid "Install"
+msgstr "安装"
+
+msgid "Compatibility Tool"
+msgstr "兼容性工具"
+
+msgid "Version"
+msgstr "版本"
+
+msgid "Info"
+msgstr "关于"
+
+msgid "Downloading..."
+msgstr "下载中..."
+
+msgid "Extracting..."
+msgstr "解压中..."
+
+msgid "Done!"
+msgstr "完成！"
+
+msgid "There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us."
+msgstr "从GitHub API获取数据时出错。您可能已达到每小时请求的最大数量，或者可能未连接到互联网。如果您认为这是一个错误，请向我们报告。"
+
+msgid "Launcher Settings"
+msgstr "启动器选项"
+
+msgid "Clean launcher"
+msgstr "清除启动器"
+
+msgid "Delete every installed tools from the launcher"
+msgstr "删除该启动器下所有工具"
+
+msgid "Are you sure you want to clean this launcher? WARNING: It will delete every installed tools from the launcher!"
+msgstr "是否清理该启动器？ 警告：这会删除该启动器下所有工具！"
+
+msgid "Styles"
+msgstr "风格"
+
+msgid "Appearance"
+msgstr "外观"
+
+msgid "System"
+msgstr "系统"
+
+msgid "Light"
+msgstr "明亮"
+
+msgid "Dark"
+msgstr "暗色"
+
+msgid "Show information"
+msgstr "显示信息"
+
+msgid "Delete the tool"
+msgstr "删除工具"
+
+msgid "Open a browser to the tool page"
+msgstr "用浏览器打开工具页面"
+
+msgid "Install the selected tool"
+msgstr "安装选中工具"
+
+msgid "Launcher information"
+msgstr "启动器信息"
