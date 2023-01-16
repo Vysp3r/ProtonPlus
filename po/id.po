@@ -1,0 +1,193 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-01-12 13:49-0600\n"
+"PO-Revision-Date: \n"
+"Last-Translator: yukidream <mashirokuratamorfo@gmail.com>\n"
+"Language-Team: \n"
+"Language: id_ID\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.2.2\n"
+
+#: src/Windows/About.vala:6 src/Windows/Home.vala:26
+msgid "About"
+msgstr "Tentang"
+
+#: src/Windows/About.vala:23 src/Windows/About.vala:38
+msgid "Copy"
+msgstr "Salin"
+
+#. Setup rowTool
+#: src/Windows/About.vala:28
+msgid "Name: "
+msgstr "Nama: "
+
+#. Setup rowDirectory
+#: src/Windows/About.vala:43
+msgid "Directory: "
+msgstr "Direktori: "
+
+#. Setup menu_model_about
+#: src/Windows/Home.vala:23
+msgid "Telegram"
+msgstr "Telegram"
+
+#: src/Windows/Home.vala:24
+msgid "Documentation"
+msgstr "Dokumentasi"
+
+#: src/Windows/Home.vala:25
+msgid "Donation"
+msgstr "Donasi"
+
+#. Setup menu_model_quit
+#: src/Windows/Home.vala:30
+msgid "Quit"
+msgstr "Keluar"
+
+#. Setup menu_model
+#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:13
+msgid "Preferences"
+msgstr "Preferensi"
+
+#. Setup toolsPage
+#: src/Windows/Home.vala:47
+msgid "Tools"
+msgstr "Peralatan"
+
+#. Setup gamesPage
+#: src/Windows/Home.vala:51
+msgid "Games"
+msgstr "Permainan"
+
+#. Setup notificationsPage
+#: src/Windows/Home.vala:55
+msgid "Notifications"
+msgstr "Pemberitahuan"
+
+#: src/Windows/Installer.vala:21 src/Windows/Installer.vala:31
+msgid "Install"
+msgstr "Memasang"
+
+#. Initialize shared widgets
+#: src/Windows/Installer.vala:28
+msgid "Compatibility Tool"
+msgstr "Alat Kompabilitas"
+
+#: src/Windows/Installer.vala:29
+msgid "Version"
+msgstr "Versi"
+
+#: src/Windows/Installer.vala:30
+msgid "Info"
+msgstr "Informasi"
+
+#: src/Windows/Installer.vala:69
+msgid "Open a browser to the tool page"
+msgstr "Membuka peramban menuju ke situs alat"
+
+#: src/Windows/Installer.vala:77
+msgid "Install the selected tool"
+msgstr "Memasang peralatan yang dipilih"
+
+#: src/Windows/Installer.vala:94
+msgid "Downloading..."
+msgstr "Mengunduh..."
+
+#: src/Windows/Installer.vala:118
+msgid "Extracting..."
+msgstr "Mengekstrak..."
+
+#: src/Windows/Installer.vala:145
+msgid "Done!"
+msgstr "Selesai!"
+
+#: src/Windows/Installer.vala:165
+msgid "Cancelled!"
+msgstr ""
+
+#: src/Windows/Installer.vala:208
+msgid ""
+"There was an error while fetching data from the GitHub API. You may have "
+"reached the maximum amount of requests per hour or may not be connected to "
+"the internet. If you think this is a bug, please report this to us."
+msgstr ""
+"Ada kesalahan saat mengambil data dari API GitHub. Anda mungkin telah "
+"mencapai jumlah permintaan maksimum per jam atau mungkin tidak terhubung ke "
+"internet. Jika menurut Anda ini adalah bug, harap laporkan ini kepada kami."
+
+#: src/Windows/LauncherSettings.vala:9
+msgid "Launcher Settings"
+msgstr "Pengaturan Peluncur"
+
+#. Setup btnClean
+#: src/Windows/LauncherSettings.vala:24
+msgid "Clean launcher"
+msgstr "Membersihkan peluncur"
+
+#: src/Windows/LauncherSettings.vala:25
+msgid "Delete every installed tools from the launcher"
+msgstr "Menghapus semua alat yang terinstall dari peluncur"
+
+#. Events
+#: src/Windows/LauncherSettings.vala:35
+msgid ""
+"Are you sure you want to clean this launcher? WARNING: It will delete every "
+"installed tools from the launcher!"
+msgstr ""
+"Apa anda yakin ingin membersihkan peluncur ini? PERINGATAN: Ini akan "
+"menghapus setiap alat yang terpasang di peluncur!"
+
+#. Initialize shared widgets
+#: src/Windows/Preferences.vala:22
+msgid "Styles"
+msgstr "Gaya"
+
+#. Setup mainPage
+#: src/Windows/Preferences.vala:27 src/Windows/Preferences.vala:28
+msgid "Main"
+msgstr ""
+
+#. Setup rememberLastLauncherRow
+#: src/Windows/Preferences.vala:51
+msgid "Remember last launcher"
+msgstr "Mengingat peluncur terakhir"
+
+#~ msgid "Launcher"
+#~ msgstr "Peluncur"
+
+#~ msgid "Launcher settings"
+#~ msgstr "Pengaturan peluncur"
+
+#~ msgid "Install a tool"
+#~ msgstr "Memasang alat"
+
+#~ msgid "Are you sure you want to delete the selected tool?"
+#~ msgstr "Apakah kamu yakin ingin menghapus alat ini?"
+
+#~ msgid "Close"
+#~ msgstr "Tutup"
+
+#~ msgid "Appearance"
+#~ msgstr "Penampilan"
+
+#~ msgid "System"
+#~ msgstr "Sistem"
+
+#~ msgid "Light"
+#~ msgstr "Terang"
+
+#~ msgid "Dark"
+#~ msgstr "Gelap"
+
+#~ msgid "Show information"
+#~ msgstr "Menunjukkan informasi"
+
+#~ msgid "Delete the tool"
+#~ msgstr "Menghapus alat"
+
+#~ msgid "Launcher information"
+#~ msgstr "Informasi peluncur"
