@@ -134,7 +134,7 @@ _Requirements_
 5. Start application:
     ```bash
     cd src && \
-    ./protonplus
+    ./com.vysp3r.ProtonPlus
     ```
 
 ### Flatpak Builder
@@ -176,7 +176,7 @@ _Requirements_
 6. Start application:
     ```bash
     flatpak --user run \
-      com.vysp3r.ProtonPlus.json
+      com.vysp3r.ProtonPlus
     ```
 
 - - - -
