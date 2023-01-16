@@ -28,7 +28,19 @@
     </screenshots>
 
     <releases>
-      <release version="0.3.3" date="2023-01-03">
+      <release version="0.3.4" date="2023-01-15">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>📝 Update README.md</li>
+              <li>🌐 Add Chinese(Simplified) Translation</li>
+              <li>🐛 Fix translation</li>
+              <li>🔨 Update appdata</li>
+              <li>💬 Update the release notes</li>
+            </ul>
+          </description>
+      </release>
+      <release version="0.3.3" date="2023-01-04">
           <description>
             <p>What's Changed:</p>
             <ul>
