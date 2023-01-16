@@ -84,26 +84,100 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 - - - -
 
-### 🛠️ Building from Source
+## 🛠️ Building from Source
 
 _Requirements_
 - [git](https://github.com/git/git)
 - [ninja](https://github.com/ninja-build/ninja)
-- [meson](https://github.com/mesonbuild/meson)
+- [meson >= 0.59.0](https://github.com/mesonbuild/meson)
 - [gtk4](https://gitlab.gnome.org/GNOME/gtk/)
-- [libadwaita-1](https://gitlab.gnome.org/GNOME/libadwaita)
-- [json-glib-1.0](https://gitlab.gnome.org/GNOME/json-glib)
-- [libsoup-3.0](https://gitlab.gnome.org/GNOME/libsoup)
+- [libadwaita >= 1.2](https://gitlab.gnome.org/GNOME/libadwaita)
+- [json-glib](https://gitlab.gnome.org/GNOME/json-glib)
+- [libsoup](https://gitlab.gnome.org/GNOME/libsoup)
 - [libarchive](https://github.com/libarchive/libarchive)
 - [desktop-file-utils](https://gitlab.freedesktop.org/xdg/desktop-file-utils)
 
-**Installing**
+### Fedora
 
-- Install all dependencies (I'm using Fedora 37): `sudo dnf install git ninja-build meson gtk4-devel libadwaita-devel json-glib-devel libsoup3-devel libarchive-devel desktop-file-utils`
-- Clone the GitHub repo: `git clone https://github.com/Vysp3r/ProtonPlus.git` & `cd ProtonPlus`
-- Build the source: `meson build --prefix=/usr` & `cd build` & `ninja`
-- (Optional) Install application: `ninja install`
-- Start the application: `cd src` & `./protonplus`
+1. Install all dependencies:
+    ```bash
+    sudo dnf install \
+      git \
+      ninja-build \
+      meson \
+      gtk4-devel \
+      libadwaita-devel \
+      json-glib-devel \
+      libsoup3-devel \
+      libarchive-devel \
+      desktop-file-utils
+    ```
+
+2. Clone the GitHub repo and change to repo directory:
+    ```bash
+    git clone https://github.com/Vysp3r/ProtonPlus.git && \
+      cd ProtonPlus
+    ```
+
+3. Build the source:
+    ```bash
+    meson build --prefix=/usr && \
+    cd build && \
+    ninja
+    ```
+
+4. (Optional) Install application:
+    ```bash
+    ninja install
+    ```
+
+5. Start application:
+    ```bash
+    cd src && \
+    ./protonplus
+    ```
+
+### Flatpak Builder
+
+1. Install the distro dependencies using your package manager (apt, dnf, pacman, etc):
+    ```bash
+    sudo <insert your distro package manager and install options here> \
+      git \
+      flatpak \
+      flatpak-builder
+    ```
+
+2. Add the flathub repo to your user if not added before:
+    ```bash
+    flatpak --user --if-not-exists remote-add \
+      flathub https://flathub.org/repo/flathub.flatpakrepo
+    ```
+
+3. Install the needed runtimes for flatpak:
+    ```bash
+    flatpak --user install \
+      runtime/org.gnome.Sdk/x86_64/43 \
+      runtime/org.gnome.Platform/x86_64/43
+    ```
+
+4. Clone the GitHub repo and change to repo directory:
+    ```bash
+    git clone https://github.com/Vysp3r/ProtonPlus.git && \
+      cd ProtonPlus
+    ```
+
+5. Build the source inside the "build-dir" in the repo directory and install for the current user:
+    ```bash
+    flatpak-builder --user --install --force-clean \
+      build-dir \
+      com.vysp3r.ProtonPlus.json
+    ```
+
+6. Start application:
+    ```bash
+    flatpak --user run \
+      com.vysp3r.ProtonPlus.json
+    ```
 
 - - - -
 
