@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: com.vysp3r.ProtonPlus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-01-15 21:22-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/Windows/About.vala:6 src/Windows/Home.vala:26
+msgid "About"
+msgstr ""
+
+#: src/Windows/About.vala:23 src/Windows/About.vala:38
+msgid "Copy"
+msgstr ""
+
+#. Setup rowTool
+#: src/Windows/About.vala:28
+msgid "Name: "
+msgstr ""
+
+#. Setup rowDirectory
+#: src/Windows/About.vala:43
+msgid "Directory: "
+msgstr ""
+
+#. Setup menu_model_about
+#: src/Windows/Home.vala:23
+msgid "Telegram"
+msgstr ""
+
+#: src/Windows/Home.vala:24
+msgid "Documentation"
+msgstr ""
+
+#: src/Windows/Home.vala:25
+msgid "Donation"
+msgstr ""
+
+#. Setup menu_model_quit
+#: src/Windows/Home.vala:30
+msgid "Quit"
+msgstr ""
+
+#. Setup menu_model
+#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:13
+msgid "Preferences"
+msgstr ""
+
+#. Setup toolsPage
+#: src/Windows/Home.vala:47
+msgid "Tools"
+msgstr ""
+
+#. Setup gamesPage
+#: src/Windows/Home.vala:51
+msgid "Games"
+msgstr ""
+
+#. Setup notificationsPage
+#: src/Windows/Home.vala:55
+msgid "Notifications"
+msgstr ""
+
+#: src/Windows/Installer.vala:21 src/Windows/Installer.vala:31
+msgid "Install"
+msgstr ""
+
+#. Initialize shared widgets
+#: src/Windows/Installer.vala:28
+msgid "Compatibility Tool"
+msgstr ""
+
+#: src/Windows/Installer.vala:29
+msgid "Version"
+msgstr ""
+
+#: src/Windows/Installer.vala:30
+msgid "Info"
+msgstr ""
+
+#: src/Windows/Installer.vala:69
+msgid "Open a browser to the tool page"
+msgstr ""
+
+#: src/Windows/Installer.vala:77
+msgid "Install the selected tool"
+msgstr ""
+
+#: src/Windows/Installer.vala:94
+msgid "Downloading..."
+msgstr ""
+
+#: src/Windows/Installer.vala:118
+msgid "Extracting..."
+msgstr ""
+
+#: src/Windows/Installer.vala:145
+msgid "Done!"
+msgstr ""
+
+#: src/Windows/Installer.vala:165
+msgid "Cancelled!"
+msgstr ""
+
+#: src/Windows/Installer.vala:208
+msgid ""
+"There was an error while fetching data from the GitHub API. You may have "
+"reached the maximum amount of requests per hour or may not be connected to "
+"the internet. If you think this is a bug, please report this to us."
+msgstr ""
+
+#: src/Windows/LauncherSettings.vala:9
+msgid "Launcher Settings"
+msgstr ""
+
+#. Setup btnClean
+#: src/Windows/LauncherSettings.vala:24
+msgid "Clean launcher"
+msgstr ""
+
+#: src/Windows/LauncherSettings.vala:25
+msgid "Delete every installed tools from the launcher"
+msgstr ""
+
+#. Events
+#: src/Windows/LauncherSettings.vala:35
+msgid ""
+"Are you sure you want to clean this launcher? WARNING: It will delete every "
+"installed tools from the launcher!"
+msgstr ""
+
+#. Initialize shared widgets
+#: src/Windows/Preferences.vala:22
+msgid "Styles"
+msgstr ""
+
+#. Setup mainPage
+#: src/Windows/Preferences.vala:27 src/Windows/Preferences.vala:28
+msgid "Main"
+msgstr ""
+
+#. Setup rememberLastLauncherRow
+#: src/Windows/Preferences.vala:51
+msgid "Remember last launcher"
+msgstr ""
+
+#. Initialize shared values
+#. Initialize shared widgets
+#: src/Windows/Views/Tools.vala:25
+msgid "Launcher"
+msgstr ""
+
+#: src/Windows/Views/Tools.vala:50
+msgid "Launcher information"
+msgstr ""
+
+#: src/Windows/Views/Tools.vala:58
+msgid "Launcher settings"
+msgstr ""
+
+#: src/Windows/Views/Tools.vala:66
+msgid "Install a tool"
+msgstr ""
+
+#: src/Windows/Views/Tools.vala:121
+msgid "Show information"
+msgstr ""
+
+#: src/Windows/Views/Tools.vala:129
+msgid "Delete the tool"
+msgstr ""
+
+#: src/Windows/Views/Tools.vala:172
+msgid "Are you sure you want to delete the selected tool?"
+msgstr ""

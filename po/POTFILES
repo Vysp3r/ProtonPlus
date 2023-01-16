@@ -1,0 +1,8 @@
+src/Windows/About.vala
+src/Windows/Home.vala
+src/Windows/Installer.vala
+src/Windows/LauncherSettings.vala
+src/Windows/Preferences.vala
+src/Windows/Views/Games.vala
+src/Windows/Views/Tools.vala
+src/Windows/Views/Notifications.vala

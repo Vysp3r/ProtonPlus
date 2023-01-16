@@ -1,15 +1,18 @@
 <h1 align="center">ProtonPlus (WIP)</h1>
 
 <p align="center">
-    <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=flat-square&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22">
+    <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=shield&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22">
     <a href="https://github.com/Vysp3r/ProtonPlus/releases/latest">
-      <img alt="Latest Release (Semver)" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=flat-square&label=%F0%9F%9A%80%20Release">
+      <img alt="Latest Release (Semver)" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=shield&label=%F0%9F%9A%80%20Release">
     </a>
     <a>
-      <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?style=flat-square" />
+      <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?style=shield" />
     </a>
     <a href="https://t.me/ProtonPlusOfficial">
-      <img title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=flat-square&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlusOfficial">
+      <img title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=shield&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlusOfficial">
+    </a>
+    <a href="https://discord.gg/Fyf8bWexpQ">
+      <img title="Discord" src="https://discordapp.com/api/guilds/1062063752779943997/widget.png?style=shield">
     </a>
 </p>
 
@@ -27,6 +30,7 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 - [Github Discussions](https://github.com/Vysp3r/ProtonPlus/discussions)
 - [Telegram Server](https://t.me/ProtonPlusOfficial)
+- [Discord Server](https://discord.gg/Fyf8bWexpQ)
 
 *Before you file an [issue](https://github.com/Vysp3r/ProtonPlus/issues/new/choose), make sure you have read the [known issues](#-known-issues) section.*
 
@@ -60,7 +64,6 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 ## 📝 TODOs
 
-- Add localization
 - Comment the code
 - Document the project
 - Add a game list with additional data like Deck compatibility and Anti-cheat status
@@ -81,26 +84,100 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 - - - -
 
-### 🛠️ Building from Source
+## 🛠️ Building from Source
 
 _Requirements_
 - [git](https://github.com/git/git)
 - [ninja](https://github.com/ninja-build/ninja)
-- [meson](https://github.com/mesonbuild/meson)
+- [meson >= 0.59.0](https://github.com/mesonbuild/meson)
 - [gtk4](https://gitlab.gnome.org/GNOME/gtk/)
-- [libadwaita-1](https://gitlab.gnome.org/GNOME/libadwaita)
-- [json-glib-1.0](https://gitlab.gnome.org/GNOME/json-glib)
-- [libsoup-3.0](https://gitlab.gnome.org/GNOME/libsoup)
+- [libadwaita >= 1.2](https://gitlab.gnome.org/GNOME/libadwaita)
+- [json-glib](https://gitlab.gnome.org/GNOME/json-glib)
+- [libsoup](https://gitlab.gnome.org/GNOME/libsoup)
 - [libarchive](https://github.com/libarchive/libarchive)
 - [desktop-file-utils](https://gitlab.freedesktop.org/xdg/desktop-file-utils)
 
-**Installing**
+### Fedora
 
-- Install all dependencies (I'm using Fedora 37): `sudo dnf install git ninja-build meson gtk4-devel libadwaita-devel json-glib-devel libsoup3-devel libarchive-devel desktop-file-utils`
-- Clone the GitHub repo: `git clone https://github.com/Vysp3r/ProtonPlus.git` & `cd ProtonPlus`
-- Build the source: `meson build --prefix=/usr` & `cd build` & `ninja`
-- (Optional) Install application: `ninja install`
-- Start the application: `cd src` & `./protonplus`
+1. Install all dependencies:
+    ```bash
+    sudo dnf install \
+      git \
+      ninja-build \
+      meson \
+      gtk4-devel \
+      libadwaita-devel \
+      json-glib-devel \
+      libsoup3-devel \
+      libarchive-devel \
+      desktop-file-utils
+    ```
+
+2. Clone the GitHub repo and change to repo directory:
+    ```bash
+    git clone https://github.com/Vysp3r/ProtonPlus.git && \
+      cd ProtonPlus
+    ```
+
+3. Build the source:
+    ```bash
+    meson build --prefix=/usr && \
+    cd build && \
+    ninja
+    ```
+
+4. (Optional) Install application:
+    ```bash
+    ninja install
+    ```
+
+5. Start application:
+    ```bash
+    cd src && \
+    ./com.vysp3r.ProtonPlus
+    ```
+
+### Flatpak Builder
+
+1. Install the distro dependencies using your package manager (apt, dnf, pacman, etc):
+    ```bash
+    sudo <insert your distro package manager and install options here> \
+      git \
+      flatpak \
+      flatpak-builder
+    ```
+
+2. Add the flathub repo to your user if not added before:
+    ```bash
+    flatpak --user --if-not-exists remote-add \
+      flathub https://flathub.org/repo/flathub.flatpakrepo
+    ```
+
+3. Install the needed runtimes for flatpak:
+    ```bash
+    flatpak --user install \
+      runtime/org.gnome.Sdk/x86_64/43 \
+      runtime/org.gnome.Platform/x86_64/43
+    ```
+
+4. Clone the GitHub repo and change to repo directory:
+    ```bash
+    git clone https://github.com/Vysp3r/ProtonPlus.git && \
+      cd ProtonPlus
+    ```
+
+5. Build the source inside the "build-dir" in the repo directory and install for the current user:
+    ```bash
+    flatpak-builder --user --install --force-clean \
+      build-dir \
+      com.vysp3r.ProtonPlus.json
+    ```
+
+6. Start application:
+    ```bash
+    flatpak --user run \
+      com.vysp3r.ProtonPlus
+    ```
 
 - - - -
 

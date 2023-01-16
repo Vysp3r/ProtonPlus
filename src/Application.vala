@@ -10,6 +10,8 @@ public class ProtonPlus : Adw.Application {
     ProtonPlus () {
         application_id = APP_ID;
         flags |= ApplicationFlags.FLAGS_NONE;
+
+        Intl.bindtextdomain (APP_ID, LOCALE_DIR);
     }
 
     public static int main (string[] args) {
@@ -23,8 +25,6 @@ public class ProtonPlus : Adw.Application {
 
     public override void activate () {
         initialize ();
-
-        Intl.bindtextdomain (APP_ID, LOCALE_DIR);
 
         ActionEntry[] action_entries = {
             { "preferences", on_preferences_action },
@@ -76,7 +76,9 @@ public class ProtonPlus : Adw.Application {
         aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
         aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
         aboutDialog.set_release_notes ("<ul>\n" +
-                                       "<li>🐛 Correct desktop file exec</li>\n" +
+                                       "<li>📝 Update README.md</li>\n" +
+                                       "<li>🌐 Add Chinese(Simplified) Translation</li>\n" +
+                                       "<li>🐛 Fix translation</li>\n" +
                                        "<li>🔨 Update appdata</li>\n" +
                                        "<li>💬 Update the release notes</li>\n" +
                                        "</ul>");

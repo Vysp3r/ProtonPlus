@@ -1,0 +1,189 @@
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-01-15 21:18-0500\n"
+"Language: es_ES\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/Windows/About.vala:6 src/Windows/Home.vala:26
+msgid "About"
+msgstr "Acerca de"
+
+#: src/Windows/About.vala:23 src/Windows/About.vala:38
+msgid "Copy"
+msgstr ""
+
+#. Setup rowTool
+#: src/Windows/About.vala:28
+msgid "Name: "
+msgstr "Nombre: "
+
+#. Setup rowDirectory
+#: src/Windows/About.vala:43
+msgid "Directory: "
+msgstr "Directorio: "
+
+#. Setup menu_model_about
+#: src/Windows/Home.vala:23
+msgid "Telegram"
+msgstr "Telegram"
+
+#: src/Windows/Home.vala:24
+msgid "Documentation"
+msgstr "Documentación"
+
+#: src/Windows/Home.vala:25
+msgid "Donation"
+msgstr "Donar"
+
+#. Setup menu_model_quit
+#: src/Windows/Home.vala:30
+msgid "Quit"
+msgstr "Salir"
+
+#. Setup menu_model
+#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:13
+msgid "Preferences"
+msgstr "Preferencias"
+
+#. Setup toolsPage
+#: src/Windows/Home.vala:47
+msgid "Tools"
+msgstr "Herramientas"
+
+#. Setup gamesPage
+#: src/Windows/Home.vala:51
+msgid "Games"
+msgstr "Juegos"
+
+#. Setup notificationsPage
+#: src/Windows/Home.vala:55
+msgid "Notifications"
+msgstr "Notificaciones"
+
+#: src/Windows/Installer.vala:21 src/Windows/Installer.vala:31
+msgid "Install"
+msgstr "Instalar"
+
+#. Initialize shared widgets
+#: src/Windows/Installer.vala:28
+msgid "Compatibility Tool"
+msgstr "Herramienta de compatibilidad"
+
+#: src/Windows/Installer.vala:29
+msgid "Version"
+msgstr "Versión"
+
+#: src/Windows/Installer.vala:30
+msgid "Info"
+msgstr "Info"
+
+#: src/Windows/Installer.vala:69
+msgid "Open a browser to the tool page"
+msgstr "Abrir el navegador en la pagina de la herramienta"
+
+#: src/Windows/Installer.vala:77
+msgid "Install the selected tool"
+msgstr "Instalar herramienta seleccionada"
+
+#: src/Windows/Installer.vala:94
+msgid "Downloading..."
+msgstr "Descargando..."
+
+#: src/Windows/Installer.vala:118
+msgid "Extracting..."
+msgstr "Extrayendo..."
+
+#: src/Windows/Installer.vala:145
+msgid "Done!"
+msgstr "¡Listo!"
+
+#: src/Windows/Installer.vala:165
+msgid "Cancelled!"
+msgstr ""
+
+#: src/Windows/Installer.vala:208
+msgid ""
+"There was an error while fetching data from the GitHub API. You may have "
+"reached the maximum amount of requests per hour or may not be connected to "
+"the internet. If you think this is a bug, please report this to us."
+msgstr ""
+"Hubo un error mientras se obtenían los datos de la API de Github. Puede que "
+"hayas llegado a la máxima cantidad de peticiones por hora o podrías no estar "
+"conectado a internet. Si piensas de que esto es un bug, Por Favor reportalo "
+"a nosotros."
+
+#: src/Windows/LauncherSettings.vala:9
+msgid "Launcher Settings"
+msgstr "Configuracion del lanzador"
+
+#. Setup btnClean
+#: src/Windows/LauncherSettings.vala:24
+msgid "Clean launcher"
+msgstr "Limpiar lanzador"
+
+#: src/Windows/LauncherSettings.vala:25
+msgid "Delete every installed tools from the launcher"
+msgstr "Eliminar todas las herramientas instaladas del lanzador"
+
+#. Events
+#: src/Windows/LauncherSettings.vala:35
+msgid ""
+"Are you sure you want to clean this launcher? WARNING: It will delete every "
+"installed tools from the launcher!"
+msgstr ""
+"¿Estás seguro de limpiar este lanzador? PRECAUCION: ¡Esto eliminara todas "
+"las herramientas instaladas del lanzador!"
+
+#. Initialize shared widgets
+#: src/Windows/Preferences.vala:22
+msgid "Styles"
+msgstr "Estilos"
+
+#. Setup mainPage
+#: src/Windows/Preferences.vala:27 src/Windows/Preferences.vala:28
+msgid "Main"
+msgstr ""
+
+#. Setup rememberLastLauncherRow
+#: src/Windows/Preferences.vala:51
+#, fuzzy
+msgid "Remember last launcher"
+msgstr "Limpiar lanzador"
+
+#~ msgid "Launcher"
+#~ msgstr "Lanzador"
+
+#~ msgid "Launcher settings"
+#~ msgstr "Configuracion del lanzador"
+
+#~ msgid "Install a tool"
+#~ msgstr "Instalar una herramienta"
+
+#~ msgid "Are you sure you want to delete the selected tool?"
+#~ msgstr "¿Estás seguro de eliminar esta herramienta?"
+
+#~ msgid "Close"
+#~ msgstr "Cerrar"
+
+#~ msgid "Appearance"
+#~ msgstr "Apariencia"
+
+#~ msgid "System"
+#~ msgstr "Sistema"
+
+#~ msgid "Light"
+#~ msgstr "Claro"
+
+#~ msgid "Dark"
+#~ msgstr "Oscuro"
+
+#~ msgid "Show information"
+#~ msgstr "Mostrar información"
+
+#~ msgid "Delete the tool"
+#~ msgstr "Eliminar herramienta"
+
+#~ msgid "Launcher information"
+#~ msgstr "Información del lanzador"
