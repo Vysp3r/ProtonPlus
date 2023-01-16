@@ -10,6 +10,8 @@ public class ProtonPlus : Adw.Application {
     ProtonPlus () {
         application_id = APP_ID;
         flags |= ApplicationFlags.FLAGS_NONE;
+
+        Intl.bindtextdomain (APP_ID, LOCALE_DIR);
     }
 
     public static int main (string[] args) {
@@ -23,8 +25,6 @@ public class ProtonPlus : Adw.Application {
 
     public override void activate () {
         initialize ();
-
-        Intl.bindtextdomain (APP_ID, LOCALE_DIR);
 
         ActionEntry[] action_entries = {
             { "preferences", on_preferences_action },
@@ -96,3 +96,4 @@ public class ProtonPlus : Adw.Application {
         new Windows.Preferences (Stores.Main.get_instance ().MainWindow);
     }
 }
+
