@@ -1,15 +1,18 @@
 <h1 align="center">ProtonPlus (WIP)</h1>
 
 <p align="center">
-    <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=flat-square&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22">
+    <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=shield&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22">
     <a href="https://github.com/Vysp3r/ProtonPlus/releases/latest">
-      <img alt="Latest Release (Semver)" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=flat-square&label=%F0%9F%9A%80%20Release">
+      <img alt="Latest Release (Semver)" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=shield&label=%F0%9F%9A%80%20Release">
     </a>
     <a>
-      <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?style=flat-square" />
+      <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?style=shield" />
     </a>
     <a href="https://t.me/ProtonPlusOfficial">
-      <img title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=flat-square&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlusOfficial">
+      <img title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=shield&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlusOfficial">
+    </a>
+    <a href="https://discord.gg/Fyf8bWexpQ">
+      <img title="Discord" src="https://discordapp.com/api/guilds/1062063752779943997/widget.png?style=shield">
     </a>
 </p>
 
@@ -27,6 +30,7 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 - [Github Discussions](https://github.com/Vysp3r/ProtonPlus/discussions)
 - [Telegram Server](https://t.me/ProtonPlusOfficial)
+- [Discord Server](https://discord.gg/Fyf8bWexpQ)
 
 *Before you file an [issue](https://github.com/Vysp3r/ProtonPlus/issues/new/choose), make sure you have read the [known issues](#-known-issues) section.*
 
@@ -60,7 +64,6 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 ## 📝 TODOs
 
-- Add localization
 - Comment the code
 - Document the project
 - Add a game list with additional data like Deck compatibility and Anti-cheat status
