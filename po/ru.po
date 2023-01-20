@@ -12,7 +12,7 @@ msgstr "Об авторе"
 
 #: src/Windows/About.vala:23 src/Windows/About.vala:38
 msgid "Copy"
-msgstr ""
+msgstr "Копировать"
 
 #. Setup rowTool
 #: src/Windows/About.vala:28
@@ -89,7 +89,7 @@ msgstr "Установить выбранный инструмент"
 
 #: src/Windows/Installer.vala:94
 msgid "Downloading..."
-msgstr "Загружается..."
+msgstr "Скачивается..."
 
 #: src/Windows/Installer.vala:118
 msgid "Extracting..."
@@ -101,7 +101,7 @@ msgstr "Готово!"
 
 #: src/Windows/Installer.vala:165
 msgid "Cancelled!"
-msgstr ""
+msgstr "Отменено!"
 
 #: src/Windows/Installer.vala:208
 msgid ""
@@ -144,7 +144,7 @@ msgstr "Темы"
 #. Setup mainPage
 #: src/Windows/Preferences.vala:27 src/Windows/Preferences.vala:28
 msgid "Main"
-msgstr ""
+msgstr "Главная"
 
 #. Setup rememberLastLauncherRow
 #: src/Windows/Preferences.vala:51
