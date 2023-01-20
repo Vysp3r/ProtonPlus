@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 21:22-0500\n"
+"POT-Creation-Date: 2023-01-20 09:39-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -184,4 +184,16 @@ msgstr ""
 
 #: src/Windows/Views/Tools.vala:172
 msgid "Are you sure you want to delete the selected tool?"
+msgstr ""
+
+#: src/Models/preferences/Style.vala:39
+msgid "System"
+msgstr ""
+
+#: src/Models/preferences/Style.vala:40
+msgid "Light"
+msgstr ""
+
+#: src/Models/preferences/Style.vala:41
+msgid "Dark"
 msgstr ""

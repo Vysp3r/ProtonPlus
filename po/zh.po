@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 21:18-0500\n"
+"POT-Creation-Date: 2023-01-20 09:39-0500\n"
 "PO-Revision-Date: 2023-01-11 22:36+0800\n"
 "Last-Translator: neovali <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese - China\n"
@@ -157,38 +157,44 @@ msgstr ""
 msgid "Remember last launcher"
 msgstr "清除启动器"
 
-#~ msgid "Launcher"
-#~ msgstr "启动器"
+#. Initialize shared values
+#. Initialize shared widgets
+#: src/Windows/Views/Tools.vala:25
+msgid "Launcher"
+msgstr "启动器"
 
-#~ msgid "Launcher settings"
-#~ msgstr "启动器选项"
+#: src/Windows/Views/Tools.vala:50
+msgid "Launcher information"
+msgstr "启动器信息"
 
-#~ msgid "Install a tool"
-#~ msgstr "安装工具"
+#: src/Windows/Views/Tools.vala:58
+msgid "Launcher settings"
+msgstr "启动器选项"
 
-#~ msgid "Are you sure you want to delete the selected tool?"
-#~ msgstr "是否删除所选工具？"
+#: src/Windows/Views/Tools.vala:66
+msgid "Install a tool"
+msgstr "安装工具"
 
-#~ msgid "Close"
-#~ msgstr "关闭"
+#: src/Windows/Views/Tools.vala:121
+msgid "Show information"
+msgstr "显示信息"
 
-#~ msgid "Appearance"
-#~ msgstr "外观"
+#: src/Windows/Views/Tools.vala:129
+msgid "Delete the tool"
+msgstr "删除工具"
 
-#~ msgid "System"
-#~ msgstr "系统"
+#: src/Windows/Views/Tools.vala:172
+msgid "Are you sure you want to delete the selected tool?"
+msgstr "是否删除所选工具？"
 
-#~ msgid "Light"
-#~ msgstr "明亮"
+#: src/Models/preferences/Style.vala:39
+msgid "System"
+msgstr "系统"
 
-#~ msgid "Dark"
-#~ msgstr "暗色"
+#: src/Models/preferences/Style.vala:40
+msgid "Light"
+msgstr "明亮"
 
-#~ msgid "Show information"
-#~ msgstr "显示信息"
-
-#~ msgid "Delete the tool"
-#~ msgstr "删除工具"
-
-#~ msgid "Launcher information"
-#~ msgstr "启动器信息"
+#: src/Models/preferences/Style.vala:41
+msgid "Dark"
+msgstr "暗色"

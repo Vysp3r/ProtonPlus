@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 21:18-0500\n"
+"POT-Creation-Date: 2023-01-20 09:39-0500\n"
 "PO-Revision-Date: \n"
 "Last-Translator: yukidream <mashirokuratamorfo@gmail.com>\n"
 "Language-Team: \n"
@@ -156,38 +156,44 @@ msgstr ""
 msgid "Remember last launcher"
 msgstr "Mengingat peluncur terakhir"
 
-#~ msgid "Launcher"
-#~ msgstr "Peluncur"
+#. Initialize shared values
+#. Initialize shared widgets
+#: src/Windows/Views/Tools.vala:25
+msgid "Launcher"
+msgstr "Peluncur"
 
-#~ msgid "Launcher settings"
-#~ msgstr "Pengaturan peluncur"
+#: src/Windows/Views/Tools.vala:50
+msgid "Launcher information"
+msgstr "Informasi peluncur"
 
-#~ msgid "Install a tool"
-#~ msgstr "Memasang alat"
+#: src/Windows/Views/Tools.vala:58
+msgid "Launcher settings"
+msgstr "Pengaturan peluncur"
 
-#~ msgid "Are you sure you want to delete the selected tool?"
-#~ msgstr "Apakah kamu yakin ingin menghapus alat ini?"
+#: src/Windows/Views/Tools.vala:66
+msgid "Install a tool"
+msgstr "Memasang alat"
 
-#~ msgid "Close"
-#~ msgstr "Tutup"
+#: src/Windows/Views/Tools.vala:121
+msgid "Show information"
+msgstr "Menunjukkan informasi"
 
-#~ msgid "Appearance"
-#~ msgstr "Penampilan"
+#: src/Windows/Views/Tools.vala:129
+msgid "Delete the tool"
+msgstr "Menghapus alat"
 
-#~ msgid "System"
-#~ msgstr "Sistem"
+#: src/Windows/Views/Tools.vala:172
+msgid "Are you sure you want to delete the selected tool?"
+msgstr "Apakah kamu yakin ingin menghapus alat ini?"
 
-#~ msgid "Light"
-#~ msgstr "Terang"
+#: src/Models/preferences/Style.vala:39
+msgid "System"
+msgstr "Sistem"
 
-#~ msgid "Dark"
-#~ msgstr "Gelap"
+#: src/Models/preferences/Style.vala:40
+msgid "Light"
+msgstr "Terang"
 
-#~ msgid "Show information"
-#~ msgstr "Menunjukkan informasi"
-
-#~ msgid "Delete the tool"
-#~ msgstr "Menghapus alat"
-
-#~ msgid "Launcher information"
-#~ msgstr "Informasi peluncur"
+#: src/Models/preferences/Style.vala:41
+msgid "Dark"
+msgstr "Gelap"
