@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 21:18-0500\n"
+"POT-Creation-Date: 2023-01-20 09:39-0500\n"
 "Language: ru_RU\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,7 +12,7 @@ msgstr "Об авторе"
 
 #: src/Windows/About.vala:23 src/Windows/About.vala:38
 msgid "Copy"
-msgstr ""
+msgstr "Копировать"
 
 #. Setup rowTool
 #: src/Windows/About.vala:28
@@ -89,7 +89,7 @@ msgstr "Установить выбранный инструмент"
 
 #: src/Windows/Installer.vala:94
 msgid "Downloading..."
-msgstr "Загружается..."
+msgstr "Скачивается..."
 
 #: src/Windows/Installer.vala:118
 msgid "Extracting..."
@@ -101,7 +101,7 @@ msgstr "Готово!"
 
 #: src/Windows/Installer.vala:165
 msgid "Cancelled!"
-msgstr ""
+msgstr "Отменено!"
 
 #: src/Windows/Installer.vala:208
 msgid ""
@@ -144,7 +144,7 @@ msgstr "Темы"
 #. Setup mainPage
 #: src/Windows/Preferences.vala:27 src/Windows/Preferences.vala:28
 msgid "Main"
-msgstr ""
+msgstr "Главная"
 
 #. Setup rememberLastLauncherRow
 #: src/Windows/Preferences.vala:51
@@ -152,38 +152,44 @@ msgstr ""
 msgid "Remember last launcher"
 msgstr "Очистить лаунчер"
 
-#~ msgid "Launcher"
-#~ msgstr "Лаунчер"
+#. Initialize shared values
+#. Initialize shared widgets
+#: src/Windows/Views/Tools.vala:25
+msgid "Launcher"
+msgstr "Лаунчер"
 
-#~ msgid "Launcher settings"
-#~ msgstr "Настройки лаунчера"
+#: src/Windows/Views/Tools.vala:50
+msgid "Launcher information"
+msgstr "Описание лаунчера"
 
-#~ msgid "Install a tool"
-#~ msgstr "Установить инструмент"
+#: src/Windows/Views/Tools.vala:58
+msgid "Launcher settings"
+msgstr "Настройки лаунчера"
 
-#~ msgid "Are you sure you want to delete the selected tool?"
-#~ msgstr "Вы уверены, что хотите удалить выбранный инструмент?"
+#: src/Windows/Views/Tools.vala:66
+msgid "Install a tool"
+msgstr "Установить инструмент"
 
-#~ msgid "Close"
-#~ msgstr "Закрыть"
+#: src/Windows/Views/Tools.vala:121
+msgid "Show information"
+msgstr "Показать информацию"
 
-#~ msgid "Appearance"
-#~ msgstr "Внешний вид"
+#: src/Windows/Views/Tools.vala:129
+msgid "Delete the tool"
+msgstr "Удалить инструмент"
 
-#~ msgid "System"
-#~ msgstr "Системная"
+#: src/Windows/Views/Tools.vala:172
+msgid "Are you sure you want to delete the selected tool?"
+msgstr "Вы уверены, что хотите удалить выбранный инструмент?"
 
-#~ msgid "Light"
-#~ msgstr "Светлая"
+#: src/Models/preferences/Style.vala:39
+msgid "System"
+msgstr "Системная"
 
-#~ msgid "Dark"
-#~ msgstr "Темная"
+#: src/Models/preferences/Style.vala:40
+msgid "Light"
+msgstr "Светлая"
 
-#~ msgid "Show information"
-#~ msgstr "Показать информацию"
-
-#~ msgid "Delete the tool"
-#~ msgstr "Удалить инструмент"
-
-#~ msgid "Launcher information"
-#~ msgstr "Описание лаунчера"
+#: src/Models/preferences/Style.vala:41
+msgid "Dark"
+msgstr "Темная"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 21:18-0500\n"
+"POT-Creation-Date: 2023-01-20 09:39-0500\n"
 "Language: pt_BR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -150,38 +150,44 @@ msgstr ""
 msgid "Remember last launcher"
 msgstr "Lembrar do último inicializador"
 
-#~ msgid "Launcher"
-#~ msgstr "Inicializador"
+#. Initialize shared values
+#. Initialize shared widgets
+#: src/Windows/Views/Tools.vala:25
+msgid "Launcher"
+msgstr "Inicializador"
 
-#~ msgid "Launcher settings"
-#~ msgstr "Configurações do inicializador"
+#: src/Windows/Views/Tools.vala:50
+msgid "Launcher information"
+msgstr "Informações do inicializador"
 
-#~ msgid "Install a tool"
-#~ msgstr "Instalar ferramenta"
+#: src/Windows/Views/Tools.vala:58
+msgid "Launcher settings"
+msgstr "Configurações do inicializador"
 
-#~ msgid "Are you sure you want to delete the selected tool?"
-#~ msgstr "Certeza de que deseja remover a ferramenta selecionada?"
+#: src/Windows/Views/Tools.vala:66
+msgid "Install a tool"
+msgstr "Instalar ferramenta"
 
-#~ msgid "Close"
-#~ msgstr "Fechar"
+#: src/Windows/Views/Tools.vala:121
+msgid "Show information"
+msgstr "Mostrar informação"
 
-#~ msgid "Appearance"
-#~ msgstr "Aparência"
+#: src/Windows/Views/Tools.vala:129
+msgid "Delete the tool"
+msgstr "Remover ferramenta"
 
-#~ msgid "System"
-#~ msgstr "Sistema"
+#: src/Windows/Views/Tools.vala:172
+msgid "Are you sure you want to delete the selected tool?"
+msgstr "Certeza de que deseja remover a ferramenta selecionada?"
 
-#~ msgid "Light"
-#~ msgstr "Claro"
+#: src/Models/preferences/Style.vala:39
+msgid "System"
+msgstr "Sistema"
 
-#~ msgid "Dark"
-#~ msgstr "Escuro"
+#: src/Models/preferences/Style.vala:40
+msgid "Light"
+msgstr "Claro"
 
-#~ msgid "Show information"
-#~ msgstr "Mostrar informação"
-
-#~ msgid "Delete the tool"
-#~ msgstr "Remover ferramenta"
-
-#~ msgid "Launcher information"
-#~ msgstr "Informações do inicializador"
+#: src/Models/preferences/Style.vala:41
+msgid "Dark"
+msgstr "Escuro"
