@@ -105,12 +105,7 @@ namespace Utils {
         }
 
         public static void CreateDirectory (string path) {
-            try {
-                var file = GLib.File.new_for_path (path);
-                file.make_directory ();
-            } catch (GLib.Error e) {
-                stderr.printf (e.message + "\n");
-            }
+            Posix.mkdir (path, Posix.S_IRWXU);
         }
 
         public static GLib.List<string> ListDirectoryFolders (string path) {
