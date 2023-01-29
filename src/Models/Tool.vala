@@ -6,13 +6,15 @@ namespace Models {
         public string Endpoint;
         public int AssetPosition; // The position of the .tar.xz file in the json tree of the tool > assets
         public TitleType Type;
+        public bool IsActions;
 
-        public Tool (string title, string description, string endpoint, int asset_position, TitleType type = TitleType.SIMPLE) {
+        public Tool (string title, string description, string endpoint, int asset_position, TitleType type = TitleType.SIMPLE, bool isActions = false) {
             this.Title = title;
             this.Description = description;
-            this.Endpoint = endpoint;
+            this.Endpoint = endpoint; // For GitHub Actions repository, make this the workflow url. See Proton Tkg for an example.
             this.AssetPosition = asset_position;
             this.Type = type;
+            this.IsActions = isActions;
         }
 
         public enum TitleType {
@@ -39,6 +41,7 @@ namespace Models {
             tools.append (new Tool ("Boxtron", "Steam Play compatibility tool to run DOS games using native Linux DOSBox.", "https://api.github.com/repos/dreamer/boxtron/releases", 0, TitleType.TOOL_NAME));
             tools.append (new Tool ("Roberta", "Steam Play compatibility tool to run adventure games using native Linux ScummVM.", "https://api.github.com/repos/dreamer/roberta/releases", 0, TitleType.TOOL_NAME));
             tools.append (new Tool ("NorthstarProton", "Custom Proton build for running the Northstar client for Titanfall 2.", "https://api.github.com/repos/cyrv6737/NorthstarProton/releases", 0, TitleType.TOOL_NAME));
+            tools.append (new Tool ("Proton Tkg", "Custom Proton build for running Windows games, built with the Wine-tkg build system.", "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, TitleType.NONE, true));
 
             return tools;
         }

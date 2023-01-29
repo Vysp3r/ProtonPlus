@@ -1,6 +1,6 @@
 namespace Utils {
     public class File {
-        public static string Extract (string install_location, string tool_name) {
+        public static string Extract (string install_location, string tool_name, string extension) {
             const int bufferSize = 192000;
 
             var archive = new Archive.Read ();
@@ -17,7 +17,7 @@ namespace Utils {
             ext.set_standard_lookup ();
             ext.set_options (flags);
 
-            if (archive.open_filename (install_location + tool_name + ".tar.gz", bufferSize) != Archive.Result.OK) return "";
+            if (archive.open_filename (install_location + tool_name + extension, bufferSize) != Archive.Result.OK) return "";
 
             ssize_t r;
 
@@ -54,7 +54,7 @@ namespace Utils {
 
             archive.close ();
 
-            Delete (install_location + tool_name + ".tar.gz");
+            Delete (install_location + tool_name + extension);
 
             return install_location + sourcePath;
         }

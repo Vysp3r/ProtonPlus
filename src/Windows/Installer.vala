@@ -50,7 +50,6 @@ namespace Windows {
             crTools.notify_property ("selected");
 
             crReleases.notify.connect (crReleases_Notify);
-
             // Setup groupReleases
             var groupReleases = new Adw.PreferencesGroup ();
             groupReleases.add (crReleases);
@@ -93,18 +92,29 @@ namespace Windows {
         void Download () {
             progressBarDownload.set_text (_ ("Downloading..."));
 
+            if (currentTool.IsActions) progressBarDownload.set_pulse_step (1);
+
             new Thread<void> ("download", () => {
-                Utils.Web.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + ".tar.gz");
+                if (currentTool.IsActions) {
+                    Utils.Web.OldDownload (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + currentRelease.File_Extension);
+                } else {
+                    Utils.Web.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + currentRelease.File_Extension);
+                }
                 Stores.Main.get_instance ().IsDownloadCompleted = true;
             });
 
-            GLib.Timeout.add (75, () => {
+            int timeout_refresh = 75;
+            if (currentTool.IsActions) timeout_refresh = 500;
+
+            GLib.Timeout.add (timeout_refresh, () => {
                 if (mainStore.IsInstallationCancelled) {
                     CancelInstallation ();
                     return false;
                 }
 
-                progressBarDownload.set_fraction (mainStore.ProgressBarValue);
+                if (currentTool.IsActions) progressBarDownload.pulse ();
+                else progressBarDownload.set_fraction (mainStore.ProgressBarValue);
+
                 if (mainStore.IsDownloadCompleted) {
                     Extract ();
                     return false;
@@ -119,7 +129,12 @@ namespace Windows {
             progressBarDownload.set_pulse_step (1);
 
             new Thread<void> ("extract", () => {
-                string sourcePath = Utils.File.Extract (currentLauncher.Directory + "/", currentRelease.Title);
+                string directory = currentLauncher.Directory + "/";
+                string sourcePath = Utils.File.Extract (directory, currentRelease.Title, currentRelease.File_Extension);
+
+                if (currentTool.IsActions) {
+                    Utils.File.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar");
+                }
 
                 if (currentTool.Type != Models.Tool.TitleType.NONE) {
                     Utils.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
@@ -184,6 +199,7 @@ namespace Windows {
             if (param.get_name () == "selected") {
                 btnInfo.set_sensitive (false);
                 btnInstall.set_sensitive (false);
+                crReleases.set_model (null);
 
                 currentTool = (Models.Tool) crTools.get_selected_item ();
                 new Thread<void> ("api", () => {

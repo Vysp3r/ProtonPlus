@@ -15,7 +15,9 @@ namespace Utils {
 
         public static void Download (string url, string path) {
             var client = new Soup.Session ();
+            client.set_user_agent ("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1");
 
+            stderr.printf (@"URL: $url - PATH: $path\n");
             var request = new Soup.Message ("GET", url);
 
             try {
@@ -54,6 +56,24 @@ namespace Utils {
             }
 
             client.abort ();
+        }
+
+        public static void OldDownload (string url, string path) {
+            try {
+                var session = new Soup.Session ();
+                var request = new Soup.Message ("GET", url);
+                var response = session.send_and_read (request);
+
+                if (request.status_code == 200) {
+                    var file = GLib.File.new_for_path (path);
+                    var output_stream = file.create (FileCreateFlags.REPLACE_DESTINATION);
+                    output_stream.write (response.get_data ());
+                } else {
+                    stdout.printf ("Error: " + request.status_code.to_string () + "\n");
+                }
+            } catch (GLib.Error e) {
+                stderr.printf (e.message + "\n");
+            }
         }
     }
 }
