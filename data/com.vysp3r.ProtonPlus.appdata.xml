@@ -49,6 +49,18 @@
     </screenshots>
 
     <releases>
+      <release version="0.3.6" date="2023-01-29">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>🐛 Fix directory creation</li>
+              <li>🐛 Fix releases not always changing</li>
+              <li>✨ Added Proton Tkg</li>
+              <li>🔨 Update appdata</li>
+              <li>💬 Update the release notes</li>
+            </ul>
+          </description>
+      </release>
       <release version="0.3.5" date="2023-01-21">
           <description>
             <p>What's Changed:</p>
