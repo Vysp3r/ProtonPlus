@@ -4,20 +4,21 @@ namespace Utils {
             try {
                 GLib.File file = GLib.File.new_for_path (GLib.Environment.get_user_config_dir () + "/preferences.json");
 
-                uint8[]  contents;
+                uint8[] contents;
                 string etag_out;
                 file.load_contents (null, out contents, out etag_out);
 
                 Json.Node node = Json.from_string ((string) contents);
                 Json.Object obj = node.get_object ();
 
-                if (!obj.has_member ("style") || !obj.has_member ("rememberLastLauncher") || !obj.has_member ("lastLauncher")) {
+                if (!obj.has_member ("style") || !obj.has_member ("rememberLastLauncher") || !obj.has_member ("lastLauncher") || !obj.has_member ("gamescopewarning")) {
                     throw new GLib.Error (Quark.from_string (""), 0, "The Preferences.json is invalid. It will now be recreated.");
                 }
 
                 preference.Style = Models.Preferences.Style.Find (obj.get_string_member ("style"));
                 preference.RememberLastLauncher = obj.get_boolean_member ("rememberLastLauncher");
                 preference.LastLauncher = obj.get_string_member ("lastLauncher");
+                preference.GamescopeWarning = obj.get_boolean_member ("gamescopewarning");
 
                 return true;
             } catch (GLib.IOError.NOT_FOUND e) {

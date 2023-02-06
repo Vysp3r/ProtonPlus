@@ -139,11 +139,35 @@ namespace Windows.Views {
         }
 
         void btnAdd_Clicked () {
-            var dialogAdd = new Windows.Installer (mainStore.MainWindow, mainStore.CurrentLauncher);
-            dialogAdd.response.connect ((response_id) => {
-                if (response_id == Gtk.ResponseType.APPLY) crInstallLocation.notify_property ("selected");
-                if (response_id == Gtk.ResponseType.CANCEL) dialogAdd.close ();
-            });
+            bool isDone = true;
+
+            if (mainStore.CurrentLauncher.Title == "Steam (Flatpak)" && mainStore.Preference.GamescopeWarning) {
+                isDone = false;
+
+                var dialogDelete = new Widgets.ProtonMessageDialog (mainStore.MainWindow, "Warning!", _ ("If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community build made for it. To disable this warning click on 'yes' otherwise click 'no' to keep it."), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
+                dialogDelete.response.connect ((response) => {
+                    if (response == "yes") {
+                        mainStore.Preference.GamescopeWarning = false;
+                        Utils.Preference.Update (mainStore.Preference);
+                    }
+
+                    isDone = true;
+                });
+            }
+
+            GLib.Timeout.add (500, () => {
+                if (isDone) {
+                    var dialogAdd = new Windows.Installer (mainStore.MainWindow, mainStore.CurrentLauncher);
+                    dialogAdd.response.connect ((response_id) => {
+                        if (response_id == Gtk.ResponseType.APPLY) crInstallLocation.notify_property ("selected");
+                        if (response_id == Gtk.ResponseType.CANCEL) dialogAdd.close ();
+                    });
+
+                    return false;
+                }
+
+                return true;
+            }, 1);
         }
 
         void btnLauncherSettings_Clicked () {

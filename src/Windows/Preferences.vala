@@ -3,6 +3,7 @@ namespace Windows {
         // Widgets
         Widgets.ProtonComboRow crStyles;
         Gtk.Switch rememberLastLauncherSwitch;
+        Gtk.Switch showGamescopeWarningSwitch;
 
         // Values1
         Stores.Main mainStore;
@@ -21,6 +22,7 @@ namespace Windows {
             // Initialize shared widgets
             crStyles = new Widgets.ProtonComboRow (_ ("Styles"), Models.Preferences.Style.GetStore (styles), mainStore.Preference.Style.Position);
             rememberLastLauncherSwitch = new Gtk.Switch ();
+            showGamescopeWarningSwitch = new Gtk.Switch ();
 
             // Setup mainPage
             var mainPage = new Adw.PreferencesPage ();
@@ -51,9 +53,24 @@ namespace Windows {
             rememberLastLauncherRow.set_title (_ ("Remember last launcher"));
             rememberLastLauncherRow.add_suffix (rememberLastLauncherBox);
 
+            // Setup showGamescopeWarningSwitch
+            showGamescopeWarningSwitch.set_active (mainStore.Preference.GamescopeWarning);
+            showGamescopeWarningSwitch.notify.connect (showGamescopeWarningSwitch_Notify);
+
+            // Setup showGamescopeWarningBox
+            var showGamescopeWarningBox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            showGamescopeWarningBox.set_valign (Gtk.Align.CENTER);
+            showGamescopeWarningBox.append (showGamescopeWarningSwitch);
+
+            // Setup showGamescopeWarningRow
+            var showGamescopeWarningRow = new Adw.ActionRow ();
+            showGamescopeWarningRow.set_title (_ ("Show gamescope warning"));
+            showGamescopeWarningRow.add_suffix (showGamescopeWarningBox);
+
             // Setup stylesGroup
             var otherGroup = new Adw.PreferencesGroup ();
             otherGroup.add (rememberLastLauncherRow);
+            otherGroup.add (showGamescopeWarningRow);
             mainPage.add (otherGroup);
 
             // Show the window
@@ -72,6 +89,13 @@ namespace Windows {
         void rememberLastLauncherSwitch_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "active") {
                 mainStore.Preference.RememberLastLauncher = rememberLastLauncherSwitch.get_state ();
+                Utils.Preference.Update (mainStore.Preference);
+            }
+        }
+
+        void showGamescopeWarningSwitch_Notify (GLib.ParamSpec param) {
+            if (param.get_name () == "active") {
+                mainStore.Preference.GamescopeWarning = showGamescopeWarningSwitch.get_state ();
                 Utils.Preference.Update (mainStore.Preference);
             }
         }
