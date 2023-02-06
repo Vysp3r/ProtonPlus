@@ -17,7 +17,6 @@ namespace Utils {
             var client = new Soup.Session ();
             client.set_user_agent ("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1");
 
-            stderr.printf (@"URL: $url - PATH: $path\n");
             var request = new Soup.Message ("GET", url);
 
             try {
