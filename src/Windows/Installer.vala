@@ -191,6 +191,7 @@ namespace Windows {
             btnInstall.set_sensitive (false);
             progressBarDownload.set_visible (true);
             progressBarDownload.set_show_text (true);
+            Stores.Main.get_instance ().IsInstallationCancelled = false;
 
             Download ();
         }
