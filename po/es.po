@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-20 09:39-0500\n"
+"POT-Creation-Date: 2023-02-17 10:57-0500\n"
 "Language: es_ES\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -43,7 +43,7 @@ msgid "Quit"
 msgstr "Salir"
 
 #. Setup menu_model
-#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:13
+#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:14
 msgid "Preferences"
 msgstr "Preferencias"
 
@@ -79,31 +79,31 @@ msgstr "Versión"
 msgid "Info"
 msgstr "Info"
 
-#: src/Windows/Installer.vala:69
+#: src/Windows/Installer.vala:68
 msgid "Open a browser to the tool page"
 msgstr "Abrir el navegador en la pagina de la herramienta"
 
-#: src/Windows/Installer.vala:77
+#: src/Windows/Installer.vala:76
 msgid "Install the selected tool"
 msgstr "Instalar herramienta seleccionada"
 
-#: src/Windows/Installer.vala:94
+#: src/Windows/Installer.vala:93
 msgid "Downloading..."
 msgstr "Descargando..."
 
-#: src/Windows/Installer.vala:118
+#: src/Windows/Installer.vala:128
 msgid "Extracting..."
 msgstr "Extrayendo..."
 
-#: src/Windows/Installer.vala:145
+#: src/Windows/Installer.vala:160
 msgid "Done!"
 msgstr "¡Listo!"
 
-#: src/Windows/Installer.vala:165
+#: src/Windows/Installer.vala:180
 msgid "Cancelled!"
 msgstr ""
 
-#: src/Windows/Installer.vala:208
+#: src/Windows/Installer.vala:225
 msgid ""
 "There was an error while fetching data from the GitHub API. You may have "
 "reached the maximum amount of requests per hour or may not be connected to "
@@ -137,20 +137,25 @@ msgstr ""
 "las herramientas instaladas del lanzador!"
 
 #. Initialize shared widgets
-#: src/Windows/Preferences.vala:22
+#: src/Windows/Preferences.vala:23
 msgid "Styles"
 msgstr "Estilos"
 
 #. Setup mainPage
-#: src/Windows/Preferences.vala:27 src/Windows/Preferences.vala:28
+#: src/Windows/Preferences.vala:29 src/Windows/Preferences.vala:30
 msgid "Main"
 msgstr ""
 
 #. Setup rememberLastLauncherRow
-#: src/Windows/Preferences.vala:51
+#: src/Windows/Preferences.vala:53
 #, fuzzy
 msgid "Remember last launcher"
 msgstr "Limpiar lanzador"
+
+#. Setup showGamescopeWarningRow
+#: src/Windows/Preferences.vala:67
+msgid "Show gamescope warning"
+msgstr ""
 
 #. Initialize shared values
 #. Initialize shared widgets
@@ -178,7 +183,14 @@ msgstr "Mostrar información"
 msgid "Delete the tool"
 msgstr "Eliminar herramienta"
 
-#: src/Windows/Views/Tools.vala:172
+#: src/Windows/Views/Tools.vala:147
+msgid ""
+"If you're using gamescope with Steam (Flatpak), those tools will not work. "
+"Make sure to use the community build made for it. To disable this warning "
+"click on 'yes' otherwise click 'no' to keep it."
+msgstr ""
+
+#: src/Windows/Views/Tools.vala:196
 msgid "Are you sure you want to delete the selected tool?"
 msgstr "¿Estás seguro de eliminar esta herramienta?"
 

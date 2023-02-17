@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-20 09:39-0500\n"
+"POT-Creation-Date: 2023-02-17 10:57-0500\n"
 "PO-Revision-Date: 2023-01-11 22:36+0800\n"
 "Last-Translator: neovali <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese - China\n"
@@ -52,7 +52,7 @@ msgid "Quit"
 msgstr "退出"
 
 #. Setup menu_model
-#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:13
+#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:14
 msgid "Preferences"
 msgstr "首选项"
 
@@ -88,31 +88,31 @@ msgstr "版本"
 msgid "Info"
 msgstr "关于"
 
-#: src/Windows/Installer.vala:69
+#: src/Windows/Installer.vala:68
 msgid "Open a browser to the tool page"
 msgstr "用浏览器打开工具页面"
 
-#: src/Windows/Installer.vala:77
+#: src/Windows/Installer.vala:76
 msgid "Install the selected tool"
 msgstr "安装选中工具"
 
-#: src/Windows/Installer.vala:94
+#: src/Windows/Installer.vala:93
 msgid "Downloading..."
 msgstr "下载中..."
 
-#: src/Windows/Installer.vala:118
+#: src/Windows/Installer.vala:128
 msgid "Extracting..."
 msgstr "解压中..."
 
-#: src/Windows/Installer.vala:145
+#: src/Windows/Installer.vala:160
 msgid "Done!"
 msgstr "完成！"
 
-#: src/Windows/Installer.vala:165
+#: src/Windows/Installer.vala:180
 msgid "Cancelled!"
 msgstr ""
 
-#: src/Windows/Installer.vala:208
+#: src/Windows/Installer.vala:225
 msgid ""
 "There was an error while fetching data from the GitHub API. You may have "
 "reached the maximum amount of requests per hour or may not be connected to "
@@ -142,20 +142,25 @@ msgid ""
 msgstr "是否清理该启动器？ 警告：这会删除该启动器下所有工具！"
 
 #. Initialize shared widgets
-#: src/Windows/Preferences.vala:22
+#: src/Windows/Preferences.vala:23
 msgid "Styles"
 msgstr "风格"
 
 #. Setup mainPage
-#: src/Windows/Preferences.vala:27 src/Windows/Preferences.vala:28
+#: src/Windows/Preferences.vala:29 src/Windows/Preferences.vala:30
 msgid "Main"
 msgstr ""
 
 #. Setup rememberLastLauncherRow
-#: src/Windows/Preferences.vala:51
+#: src/Windows/Preferences.vala:53
 #, fuzzy
 msgid "Remember last launcher"
 msgstr "清除启动器"
+
+#. Setup showGamescopeWarningRow
+#: src/Windows/Preferences.vala:67
+msgid "Show gamescope warning"
+msgstr ""
 
 #. Initialize shared values
 #. Initialize shared widgets
@@ -183,7 +188,14 @@ msgstr "显示信息"
 msgid "Delete the tool"
 msgstr "删除工具"
 
-#: src/Windows/Views/Tools.vala:172
+#: src/Windows/Views/Tools.vala:147
+msgid ""
+"If you're using gamescope with Steam (Flatpak), those tools will not work. "
+"Make sure to use the community build made for it. To disable this warning "
+"click on 'yes' otherwise click 'no' to keep it."
+msgstr ""
+
+#: src/Windows/Views/Tools.vala:196
 msgid "Are you sure you want to delete the selected tool?"
 msgstr "是否删除所选工具？"
 
