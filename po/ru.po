@@ -155,7 +155,7 @@ msgstr "Очистить лаунчер"
 #. Setup showGamescopeWarningRow
 #: src/Windows/Preferences.vala:67
 msgid "Show gamescope warning"
-msgstr ""
+msgstr "Показать предупреждение gamescope"
 
 #. Initialize shared values
 #. Initialize shared widgets
@@ -189,6 +189,9 @@ msgid ""
 "Make sure to use the community build made for it. To disable this warning "
 "click on 'yes' otherwise click 'no' to keep it."
 msgstr ""
+"Если вы используете gamescope в Steam (Flatpak), эти инструменты не будут работать. "
+"Необходимо использовать совеместимый билд от сообщества. Чтобы отключить это предупреждение "
+"нажмите 'да'. Или выберите 'нет', чтобы сохранить его."
 
 #: src/Windows/Views/Tools.vala:196
 msgid "Are you sure you want to delete the selected tool?"
