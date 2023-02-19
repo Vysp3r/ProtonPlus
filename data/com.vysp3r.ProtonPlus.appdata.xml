@@ -50,6 +50,19 @@
     </screenshots>
 
     <releases>
+      <release version="0.3.7" date="2023-02-17">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>✨ Add warning for gamescope compatibility issues</li>
+              <li>🔇 Remove debug log</li>
+              <li>🐛 Fix download getting cancelled randomly</li>
+              <li>🌐 Added missing translations</li>
+              <li>🔨 Update appdata</li>
+              <li>💬 Update the release notes</li>
+            </ul>
+          </description>
+      </release>
       <release version="0.3.6" date="2023-01-29">
           <description>
             <p>What's Changed:</p>
