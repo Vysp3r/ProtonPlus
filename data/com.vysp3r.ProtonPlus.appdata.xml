@@ -50,6 +50,17 @@
     </screenshots>
 
     <releases>
+      <release version="0.3.8" date="2023-02-21">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>🐛 Fix flathub manifest</li>
+              <li>🌐 Added missing russian translations</li>
+              <li>🔨 Update appdata</li>
+              <li>💬 Update the release notes</li>
+            </ul>
+          </description>
+      </release>
       <release version="0.3.7" date="2023-02-17">
           <description>
             <p>What's Changed:</p>
