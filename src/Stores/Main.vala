@@ -6,8 +6,15 @@ namespace Stores {
         public Gtk.Application Application;
         public ApplicationWindow MainWindow;
 
+        // Launcher
         public Launcher CurrentLauncher;
         public List<Launcher> InstalledLaunchers;
+
+        // Tool
+        public Tool CurrentTool;
+
+        // Release
+        public Release CurrentRelease;
 
         public Models.Preference Preference;
 

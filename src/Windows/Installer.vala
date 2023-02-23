@@ -7,11 +7,6 @@ namespace Windows {
         Widgets.ProtonComboRow crReleases;
         Gtk.ProgressBar progressBarDownload;
 
-        // Values
-        Models.Launcher currentLauncher;
-        Models.Tool currentTool;
-        Models.Release currentRelease;
-
         // Stores
         Stores.Main mainStore;
 
@@ -21,11 +16,10 @@ namespace Windows {
             set_title (_ ("Install"));
             set_default_size (430, 0);
 
-            currentLauncher = launcher;
             mainStore = Stores.Main.get_instance ();
 
             // Initialize shared widgets
-            crTools = new Widgets.ProtonComboRow (_ ("Compatibility Tool"), Models.Tool.GetStore (launcher.Tools));
+            crTools = new Widgets.ProtonComboRow (_ ("Compatibility Tool"), Models.Tool.GetStore (mainStore.CurrentLauncher.Tools));
             crReleases = new Widgets.ProtonComboRow (_ ("Version"));
             btnInfo = new Gtk.Button.with_label (_ ("Info"));
             btnInstall = new Gtk.Button.with_label (_ ("Install"));
@@ -66,7 +60,7 @@ namespace Windows {
             btnInfo.set_hexpand (true);
             btnInfo.set_sensitive (false);
             btnInfo.set_tooltip_text (_ ("Open a browser to the tool page"));
-            btnInfo.clicked.connect (() => Gtk.show_uri (this, currentRelease.Page_URL, Gdk.CURRENT_TIME));
+            btnInfo.clicked.connect (() => Gtk.show_uri (this, mainStore.CurrentRelease.Page_URL, Gdk.CURRENT_TIME));
             boxBottom.append (btnInfo);
 
             // Setup btnInstall
@@ -92,19 +86,22 @@ namespace Windows {
         void Download () {
             progressBarDownload.set_text (_ ("Downloading..."));
 
-            if (currentTool.IsActions) progressBarDownload.set_pulse_step (1);
+            if (mainStore.CurrentTool.IsActions) progressBarDownload.set_pulse_step (1);
 
             new Thread<void> ("download", () => {
-                if (currentTool.IsActions) {
-                    Utils.Web.OldDownload (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + currentRelease.File_Extension);
+                var store = Stores.Main.get_instance ();
+
+                if (store.CurrentTool.IsActions) {
+                    Utils.Web.OldDownload (store.CurrentRelease.Download_URL, store.CurrentLauncher.Directory + "/" + store.CurrentRelease.Title + store.CurrentRelease.File_Extension);
                 } else {
-                    Utils.Web.Download (currentRelease.Download_URL, currentLauncher.Directory + "/" + currentRelease.Title + currentRelease.File_Extension);
+                    Utils.Web.Download (store.CurrentRelease.Download_URL, store.CurrentLauncher.Directory + "/" + store.CurrentRelease.Title + store.CurrentRelease.File_Extension);
                 }
-                Stores.Main.get_instance ().IsDownloadCompleted = true;
+
+                store.IsDownloadCompleted = true;
             });
 
             int timeout_refresh = 75;
-            if (currentTool.IsActions) timeout_refresh = 500;
+            if (mainStore.CurrentTool.IsActions) timeout_refresh = 500;
 
             GLib.Timeout.add (timeout_refresh, () => {
                 if (mainStore.IsInstallationCancelled) {
@@ -112,7 +109,7 @@ namespace Windows {
                     return false;
                 }
 
-                if (currentTool.IsActions) progressBarDownload.pulse ();
+                if (mainStore.CurrentTool.IsActions) progressBarDownload.pulse ();
                 else progressBarDownload.set_fraction (mainStore.ProgressBarValue);
 
                 if (mainStore.IsDownloadCompleted) {
@@ -129,18 +126,20 @@ namespace Windows {
             progressBarDownload.set_pulse_step (1);
 
             new Thread<void> ("extract", () => {
-                string directory = currentLauncher.Directory + "/";
-                string sourcePath = Utils.File.Extract (directory, currentRelease.Title, currentRelease.File_Extension);
+                var store = Stores.Main.get_instance ();
 
-                if (currentTool.IsActions) {
+                string directory = store.CurrentLauncher.Directory + "/";
+                string sourcePath = Utils.File.Extract (directory, store.CurrentRelease.Title, store.CurrentRelease.File_Extension);
+
+                if (store.CurrentTool.IsActions) {
                     Utils.File.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar");
                 }
 
-                if (currentTool.Type != Models.Tool.TitleType.NONE) {
-                    Utils.File.Rename (sourcePath, currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool));
+                if (store.CurrentTool.Type != Models.Tool.TitleType.NONE) {
+                    Utils.File.Rename (sourcePath, store.CurrentLauncher.Directory + "/" + store.CurrentRelease.GetFolderTitle (store.CurrentLauncher, store.CurrentTool));
 
                     GLib.Timeout.add (1000, () => {
-                        if (Utils.File.Exists (currentLauncher.Directory + "/" + currentRelease.GetFolderTitle (currentLauncher, currentTool))) return false;
+                        if (Utils.File.Exists (store.CurrentLauncher.Directory + "/" + store.CurrentRelease.GetFolderTitle (store.CurrentLauncher, store.CurrentTool))) return false;
 
                         return true;
                     }, 1);
@@ -202,10 +201,11 @@ namespace Windows {
                 btnInstall.set_sensitive (false);
                 crReleases.set_model (null);
 
-                currentTool = (Models.Tool) crTools.get_selected_item ();
+                mainStore.CurrentTool = (Models.Tool) crTools.get_selected_item ();
                 new Thread<void> ("api", () => {
                     var store = Stores.Main.get_instance ();
-                    store.Releases = Models.Release.GetReleases (currentTool);
+                    store.Releases = Models.Release.GetReleases (mainStore.CurrentTool);
+                    var bob = mainStore.CurrentTool.Title;
                     store.ReleaseRequestIsDone = true;
                 });
 
@@ -213,6 +213,8 @@ namespace Windows {
                     if (mainStore.ReleaseRequestIsDone) {
                         btnInfo.set_sensitive (mainStore.Releases.length () > 0);
                         btnInstall.set_sensitive (mainStore.Releases.length () > 0);
+
+                        mainStore.ReleaseRequestIsDone = false;
 
                         if (mainStore.Releases.length () > 0) {
                             crReleases.set_model (Models.Release.GetStore (mainStore.Releases));
@@ -234,7 +236,7 @@ namespace Windows {
 
         void crReleases_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "selected") {
-                currentRelease = (Models.Release) crReleases.get_selected_item ();
+                mainStore.CurrentRelease = (Models.Release) crReleases.get_selected_item ();
             }
         }
     }
