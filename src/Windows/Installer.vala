@@ -205,7 +205,6 @@ namespace Windows {
                 new Thread<void> ("api", () => {
                     var store = Stores.Main.get_instance ();
                     store.Releases = Models.Release.GetReleases (mainStore.CurrentTool);
-                    var bob = mainStore.CurrentTool.Title;
                     store.ReleaseRequestIsDone = true;
                 });
 
