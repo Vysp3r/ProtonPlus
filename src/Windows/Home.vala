@@ -53,7 +53,7 @@ namespace Windows {
 
             // Setup notificationsPage
             var notificationsPage = viewStack.add_titled (new Views.Notifications (), _ ("Notifications"), _ ("Notifications"));
-            notificationsPage.set_icon_name ("preferences-desktop-locale-symbolic");
+            notificationsPage.set_icon_name ("application-rss+xml-symbolic");
 
             // Add viewStack to boxMain
             boxMain.append (viewStack);

@@ -43,7 +43,7 @@ namespace Windows.Views {
             boxLaunchers.append (groupInstallLocation);
 
             // Setup btnInfoLauncher
-            btnInfoLauncher.set_icon_name ("dialog-information-symbolic");
+            btnInfoLauncher.set_icon_name ("help-about-symbolic");
             btnInfoLauncher.add_css_class ("flat");
             btnInfoLauncher.add_css_class ("bold");
             btnInfoLauncher.width_request = 50;
@@ -59,7 +59,7 @@ namespace Windows.Views {
             btnSettings.clicked.connect (btnLauncherSettings_Clicked);
 
             // Setup btnAdd
-            btnAdd.set_icon_name ("tab-new-symbolic");
+            btnAdd.set_icon_name ("folder-download-symbolic");
             btnAdd.add_css_class ("flat");
             btnAdd.add_css_class ("bold");
             btnAdd.width_request = 50;
@@ -115,7 +115,7 @@ namespace Windows.Views {
                     row.set_title (release.Title);
 
                     var btnInfoTool = new Gtk.Button ();
-                    btnInfoTool.set_icon_name ("dialog-information-symbolic");
+                    btnInfoTool.set_icon_name ("help-about-symbolic");
                     btnInfoTool.add_css_class ("flat");
                     btnInfoTool.width_request = 50;
                     btnInfoTool.set_tooltip_text (_ ("Show information"));
