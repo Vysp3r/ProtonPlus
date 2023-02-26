@@ -76,9 +76,12 @@ public class ProtonPlus : Adw.Application {
         aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
         aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
         aboutDialog.set_release_notes ("<ul>\n" +
-                                       "<li>🐛 Fix flathub manifest</li>\n" +
-                                       "<li>🌐 Added missing russian translations</li>\n" +
-                                       "<li>🔨 Update appdata</li>\n" +
+                                       "<li>🐛 Fixed installer tool switching</li>\n" +
+                                       "<li>🔇 Remove debug log</li>\n" +
+                                       "<li>💄 Updated icons</li>\n" +
+                                       "<li>🐛 Fixed tools and releases not being locked when needed</li>\n" +
+                                       "<li>🐛 Fixed progress bar not being hidden when needed</li>\n" +
+                                       "<li>🌐 Updated translation files</li>\n" + "<li>🔨 Update appdata</li>\n" +
                                        "<li>💬 Update the release notes</li>\n" +
                                        "</ul>");
         aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
