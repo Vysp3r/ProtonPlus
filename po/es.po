@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-17 10:57-0500\n"
+"POT-Creation-Date: 2023-02-26 11:24-0500\n"
 "Language: es_ES\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -62,48 +62,49 @@ msgstr "Juegos"
 msgid "Notifications"
 msgstr "Notificaciones"
 
-#: src/Windows/Installer.vala:21 src/Windows/Installer.vala:31
+#: src/Windows/Installer.vala:16 src/Windows/Installer.vala:25
 msgid "Install"
 msgstr "Instalar"
 
 #. Initialize shared widgets
-#: src/Windows/Installer.vala:28
+#: src/Windows/Installer.vala:22
 msgid "Compatibility Tool"
 msgstr "Herramienta de compatibilidad"
 
-#: src/Windows/Installer.vala:29
+#: src/Windows/Installer.vala:23
 msgid "Version"
 msgstr "Versión"
 
-#: src/Windows/Installer.vala:30
+#: src/Windows/Installer.vala:24
 msgid "Info"
 msgstr "Info"
 
-#: src/Windows/Installer.vala:68
+#: src/Windows/Installer.vala:62
 msgid "Open a browser to the tool page"
 msgstr "Abrir el navegador en la pagina de la herramienta"
 
-#: src/Windows/Installer.vala:76
+#: src/Windows/Installer.vala:70
 msgid "Install the selected tool"
 msgstr "Instalar herramienta seleccionada"
 
-#: src/Windows/Installer.vala:93
+#: src/Windows/Installer.vala:87
 msgid "Downloading..."
 msgstr "Descargando..."
 
-#: src/Windows/Installer.vala:128
+#: src/Windows/Installer.vala:125
 msgid "Extracting..."
 msgstr "Extrayendo..."
 
-#: src/Windows/Installer.vala:160
+#: src/Windows/Installer.vala:159 src/Windows/Installer.vala:211
+#: src/Windows/Installer.vala:247
 msgid "Done!"
 msgstr "¡Listo!"
 
-#: src/Windows/Installer.vala:180
+#: src/Windows/Installer.vala:181
 msgid "Cancelled!"
 msgstr ""
 
-#: src/Windows/Installer.vala:225
+#: src/Windows/Installer.vala:234
 msgid ""
 "There was an error while fetching data from the GitHub API. You may have "
 "reached the maximum amount of requests per hour or may not be connected to "

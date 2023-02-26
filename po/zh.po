@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-17 10:57-0500\n"
+"POT-Creation-Date: 2023-02-26 11:24-0500\n"
 "PO-Revision-Date: 2023-01-11 22:36+0800\n"
 "Last-Translator: neovali <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese - China\n"
@@ -71,48 +71,49 @@ msgstr "游戏"
 msgid "Notifications"
 msgstr "通知"
 
-#: src/Windows/Installer.vala:21 src/Windows/Installer.vala:31
+#: src/Windows/Installer.vala:16 src/Windows/Installer.vala:25
 msgid "Install"
 msgstr "安装"
 
 #. Initialize shared widgets
-#: src/Windows/Installer.vala:28
+#: src/Windows/Installer.vala:22
 msgid "Compatibility Tool"
 msgstr "兼容性工具"
 
-#: src/Windows/Installer.vala:29
+#: src/Windows/Installer.vala:23
 msgid "Version"
 msgstr "版本"
 
-#: src/Windows/Installer.vala:30
+#: src/Windows/Installer.vala:24
 msgid "Info"
 msgstr "关于"
 
-#: src/Windows/Installer.vala:68
+#: src/Windows/Installer.vala:62
 msgid "Open a browser to the tool page"
 msgstr "用浏览器打开工具页面"
 
-#: src/Windows/Installer.vala:76
+#: src/Windows/Installer.vala:70
 msgid "Install the selected tool"
 msgstr "安装选中工具"
 
-#: src/Windows/Installer.vala:93
+#: src/Windows/Installer.vala:87
 msgid "Downloading..."
 msgstr "下载中..."
 
-#: src/Windows/Installer.vala:128
+#: src/Windows/Installer.vala:125
 msgid "Extracting..."
 msgstr "解压中..."
 
-#: src/Windows/Installer.vala:160
+#: src/Windows/Installer.vala:159 src/Windows/Installer.vala:211
+#: src/Windows/Installer.vala:247
 msgid "Done!"
 msgstr "完成！"
 
-#: src/Windows/Installer.vala:180
+#: src/Windows/Installer.vala:181
 msgid "Cancelled!"
 msgstr ""
 
-#: src/Windows/Installer.vala:225
+#: src/Windows/Installer.vala:234
 msgid ""
 "There was an error while fetching data from the GitHub API. You may have "
 "reached the maximum amount of requests per hour or may not be connected to "
