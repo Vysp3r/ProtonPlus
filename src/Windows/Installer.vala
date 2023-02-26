@@ -180,6 +180,8 @@ namespace Windows {
             progressBarDownload.set_fraction (0);
             progressBarDownload.set_text (_ ("Cancelled!"));
             btnInstall.set_sensitive (true);
+            crReleases.set_sensitive (true);
+            crTools.set_sensitive (true);
         }
 
         // Events
@@ -192,8 +194,7 @@ namespace Windows {
             btnInstall.set_sensitive (false);
             crReleases.set_sensitive (false);
             crTools.set_sensitive (false);
-            progressBarDownload.set_visible (true);
-            progressBarDownload.set_show_text (true);
+            ShowProgressBar (true);
             Stores.Main.get_instance ().IsInstallationCancelled = false;
 
             Download ();
@@ -206,6 +207,8 @@ namespace Windows {
                 crReleases.set_model (null);
                 crReleases.set_sensitive (false);
                 crTools.set_sensitive (false);
+
+                if (progressBarDownload.get_text () == _ ("Done!")) ShowProgressBar (false);
 
                 mainStore.CurrentTool = (Models.Tool) crTools.get_selected_item ();
                 new Thread<void> ("api", () => {
@@ -241,7 +244,14 @@ namespace Windows {
         void crReleases_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "selected") {
                 mainStore.CurrentRelease = (Models.Release) crReleases.get_selected_item ();
+                if (progressBarDownload.get_text () == _ ("Done!")) ShowProgressBar (false);
             }
+        }
+
+        void ShowProgressBar (bool show) {
+            progressBarDownload.set_visible (show);
+            progressBarDownload.set_show_text (show);
+            progressBarDownload.set_text ("");
         }
     }
 }
