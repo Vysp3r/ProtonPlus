@@ -159,6 +159,8 @@ namespace Windows {
                     progressBarDownload.set_text (_ ("Done!"));
                     progressBarDownload.set_fraction (mainStore.ProgressBarValue = 0);
                     btnInstall.set_sensitive (true);
+                    crReleases.set_sensitive (true);
+                    crTools.set_sensitive (true);
                     response (Gtk.ResponseType.APPLY);
 
                     // Reset stores values
@@ -188,6 +190,8 @@ namespace Windows {
 
         void btnInstall_Clicked () {
             btnInstall.set_sensitive (false);
+            crReleases.set_sensitive (false);
+            crTools.set_sensitive (false);
             progressBarDownload.set_visible (true);
             progressBarDownload.set_show_text (true);
             Stores.Main.get_instance ().IsInstallationCancelled = false;
@@ -200,6 +204,8 @@ namespace Windows {
                 btnInfo.set_sensitive (false);
                 btnInstall.set_sensitive (false);
                 crReleases.set_model (null);
+                crReleases.set_sensitive (false);
+                crTools.set_sensitive (false);
 
                 mainStore.CurrentTool = (Models.Tool) crTools.get_selected_item ();
                 new Thread<void> ("api", () => {
@@ -212,6 +218,8 @@ namespace Windows {
                     if (mainStore.ReleaseRequestIsDone) {
                         btnInfo.set_sensitive (mainStore.Releases.length () > 0);
                         btnInstall.set_sensitive (mainStore.Releases.length () > 0);
+                        crReleases.set_sensitive (mainStore.Releases.length () > 0);
+                        crTools.set_sensitive (true);
 
                         mainStore.ReleaseRequestIsDone = false;
 
@@ -219,9 +227,6 @@ namespace Windows {
                             crReleases.set_model (Models.Release.GetStore (mainStore.Releases));
                         } else {
                             crReleases.set_model (null);
-
-                            btnInfo.set_sensitive (false);
-                            btnInstall.set_sensitive (false);
 
                             new Widgets.ProtonMessageDialog (this, null, _ ("There was an error while fetching data from the GitHub API. You may have reached the maximum amount of requests per hour or may not be connected to the internet. If you think this is a bug, please report this to us."), Widgets.ProtonMessageDialog.MessageDialogType.OK, (response) => this.close ());
                         }
