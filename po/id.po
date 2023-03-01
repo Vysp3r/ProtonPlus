@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-26 11:24-0500\n"
+"POT-Creation-Date: 2023-02-28 22:48-0500\n"
 "PO-Revision-Date: \n"
 "Last-Translator: yukidream <mashirokuratamorfo@gmail.com>\n"
 "Language-Team: \n"
@@ -17,6 +17,7 @@ msgid "About"
 msgstr "Tentang"
 
 #: src/Windows/About.vala:23 src/Windows/About.vala:38
+#: src/Windows/About.vala:53
 msgid "Copy"
 msgstr "Salin"
 
@@ -27,8 +28,13 @@ msgstr "Nama: "
 
 #. Setup rowDirectory
 #: src/Windows/About.vala:43
-msgid "Directory: "
-msgstr "Direktori: "
+msgid "Path: "
+msgstr ""
+
+#. Setup rowSize
+#: src/Windows/About.vala:58
+msgid "Used Space: "
+msgstr ""
 
 #. Setup menu_model_about
 #: src/Windows/Home.vala:23
@@ -210,3 +216,6 @@ msgstr "Terang"
 #: src/Models/preferences/Style.vala:41
 msgid "Dark"
 msgstr "Gelap"
+
+#~ msgid "Directory: "
+#~ msgstr "Direktori: "

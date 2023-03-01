@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-26 11:24-0500\n"
+"POT-Creation-Date: 2023-02-28 22:48-0500\n"
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,6 +11,7 @@ msgid "About"
 msgstr "Informazioni"
 
 #: src/Windows/About.vala:23 src/Windows/About.vala:38
+#: src/Windows/About.vala:53
 msgid "Copy"
 msgstr ""
 
@@ -21,8 +22,13 @@ msgstr "Nome: "
 
 #. Setup rowDirectory
 #: src/Windows/About.vala:43
-msgid "Directory: "
-msgstr "Directory: "
+msgid "Path: "
+msgstr ""
+
+#. Setup rowSize
+#: src/Windows/About.vala:58
+msgid "Used Space: "
+msgstr ""
 
 #. Setup menu_model_about
 #: src/Windows/Home.vala:23
@@ -206,3 +212,6 @@ msgstr "Chiaro"
 #: src/Models/preferences/Style.vala:41
 msgid "Dark"
 msgstr "Scuro"
+
+#~ msgid "Directory: "
+#~ msgstr "Directory: "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-26 11:24-0500\n"
+"POT-Creation-Date: 2023-02-28 22:48-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,7 @@ msgid "About"
 msgstr ""
 
 #: src/Windows/About.vala:23 src/Windows/About.vala:38
+#: src/Windows/About.vala:53
 msgid "Copy"
 msgstr ""
 
@@ -32,7 +33,12 @@ msgstr ""
 
 #. Setup rowDirectory
 #: src/Windows/About.vala:43
-msgid "Directory: "
+msgid "Path: "
+msgstr ""
+
+#. Setup rowSize
+#: src/Windows/About.vala:58
+msgid "Used Space: "
 msgstr ""
 
 #. Setup menu_model_about
