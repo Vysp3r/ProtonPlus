@@ -40,17 +40,33 @@ namespace Windows {
 
             // Setup rowDirectory
             var rowDirectory = new Adw.EntryRow ();
-            rowDirectory.set_title (_ ("Directory: "));
+            rowDirectory.set_title (_ ("Path: "));
             rowDirectory.set_text (directory);
             rowDirectory.add_suffix (btnCopyDirectory);
             rowDirectory.set_editable (false);
 
             btnCopyDirectory.clicked.connect (() => clipboard.set_text (rowDirectory.get_text ()));
 
+            // Setup btnCopySize
+            var btnCopySize = new Gtk.Button ();
+            btnCopySize.add_css_class ("flat");
+            btnCopySize.set_tooltip_text (_ ("Copy"));
+            btnCopySize.set_icon_name ("edit-copy-symbolic");
+
+            // Setup rowSize
+            var rowSize = new Adw.EntryRow ();
+            rowSize.set_title (_ ("Used Space: "));
+            rowSize.set_text (Utils.File.GetDirectorySize (directory));
+            rowSize.add_suffix (btnCopySize);
+            rowSize.set_editable (false);
+
+            btnCopySize.clicked.connect (() => clipboard.set_text (rowSize.get_text ()));
+
             // Setup groupMain
             var groupMain = new Adw.PreferencesGroup ();
             groupMain.add (rowTool);
             groupMain.add (rowDirectory);
+            groupMain.add (rowSize);
             boxMain.append (groupMain);
 
             // Show the window

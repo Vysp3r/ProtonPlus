@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-26 11:24-0500\n"
+"POT-Creation-Date: 2023-02-28 22:48-0500\n"
 "PO-Revision-Date: 2023-01-11 22:36+0800\n"
 "Last-Translator: neovali <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese - China\n"
@@ -20,6 +20,7 @@ msgid "About"
 msgstr "关于"
 
 #: src/Windows/About.vala:23 src/Windows/About.vala:38
+#: src/Windows/About.vala:53
 msgid "Copy"
 msgstr ""
 
@@ -30,8 +31,13 @@ msgstr "名称： "
 
 #. Setup rowDirectory
 #: src/Windows/About.vala:43
-msgid "Directory: "
-msgstr "目录： "
+msgid "Path: "
+msgstr ""
+
+#. Setup rowSize
+#: src/Windows/About.vala:58
+msgid "Used Space: "
+msgstr ""
 
 #. Setup menu_model_about
 #: src/Windows/Home.vala:23
@@ -211,3 +217,6 @@ msgstr "明亮"
 #: src/Models/preferences/Style.vala:41
 msgid "Dark"
 msgstr "暗色"
+
+#~ msgid "Directory: "
+#~ msgstr "目录： "
