@@ -17,6 +17,7 @@ sources = files(
   'Utils/Theme.vala',
   'Utils/Web.vala',
   'Utils/File.vala',
+  'Utils/Dir.vala',
 
   'Models/Tool.vala',
   'Models/Launcher.vala',

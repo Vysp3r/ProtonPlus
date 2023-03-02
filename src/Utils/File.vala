@@ -26,6 +26,8 @@ namespace Utils {
             string sourcePath = "";
             bool firstRun = true;
 
+            var dir = new DirUtil(install_location);
+
             for ( ;; ) {
                 r = archive.next_header (out entry);
                 if (r == Archive.Result.EOF) break;
@@ -47,14 +49,14 @@ namespace Utils {
                 if (r < Archive.Result.WARN) return "";
 
                 if (Stores.Main.get_instance ().IsInstallationCancelled) {
-                    Delete (install_location + sourcePath);
+                    dir.remove_dir(sourcePath);
                     break;
                 }
             }
 
             archive.close ();
 
-            Delete (install_location + tool_name + extension);
+            dir.remove_file(tool_name + extension);
 
             return install_location + sourcePath;
         }
@@ -73,15 +75,6 @@ namespace Utils {
                     stderr.printf (aw.error_string ());
                     return (r);
                 }
-            }
-        }
-
-        public static void Delete (string path) {
-            try {
-                var file = GLib.File.new_for_path (path);
-                file.trash ();
-            } catch (GLib.Error e) {
-                stderr.printf (e.message + "\n");
             }
         }
 
@@ -109,19 +102,8 @@ namespace Utils {
         }
 
         public static string GetDirectorySize (string path) {
-            string command = "du -sh " + path;
-
-            string stdout = "";
-            string stderr = "";
-            int exit_status = -1;
-
-            Process.spawn_command_line_sync (command, out stdout, out stderr, out exit_status);
-
-            if (exit_status == 0) {
-                return stdout.split ("\t")[0];
-            }
-
-            return "Error!";
+            var dir = new DirUtil(path);
+            return dir.get_total_size_as_string();
         }
 
         public static GLib.List<string> ListDirectoryFolders (string path) {

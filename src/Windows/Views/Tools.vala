@@ -194,7 +194,8 @@ namespace Windows.Views {
             dialogDelete.response.connect ((response) => {
                 if (response == "yes") {
                     GLib.Timeout.add (1000, () => {
-                        Utils.File.Delete (mainStore.CurrentLauncher.Directory + "/" + release.Title);
+                        var dir = new Utils.DirUtil(mainStore.CurrentLauncher.Directory);
+                        dir.remove_dir(release.Title);
                         crInstallLocation.notify_property ("selected");
                         return false;
                     }, 2);

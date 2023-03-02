@@ -2,8 +2,12 @@ namespace Windows {
     public class LauncherSettings : Gtk.Dialog {
         // Values
         Models.Launcher currentLauncher;
+        Gtk.Button clean_launcher_button;
+        bool cant_close;
 
         public LauncherSettings (Gtk.ApplicationWindow parent, Models.Launcher launcher) {
+            cant_close = false;
+
             set_transient_for (parent);
             set_modal (true);
             set_title (_ ("Launcher Settings"));
@@ -21,26 +25,33 @@ namespace Windows {
             boxMain.set_margin_top (15);
 
             // Setup btnClean
-            var btnClean = new Gtk.Button.with_label (_ ("Clean launcher"));
-            btnClean.set_tooltip_text (_ ("Delete every installed tools from the launcher"));
-            btnClean.clicked.connect (btnClean_Clicked);
-            boxMain.append (btnClean);
+            clean_launcher_button = new Gtk.Button.with_label (_ ("Clean launcher"));
+            clean_launcher_button.set_tooltip_text (_ ("Delete every installed tools from the launcher"));
+            clean_launcher_button.clicked.connect (btnClean_Clicked);
+            boxMain.append (clean_launcher_button);
 
             // Show the window
             show ();
+        }
+
+        public override bool close_request(){
+            return cant_close;
         }
 
         // Events
         void btnClean_Clicked () {
             new Widgets.ProtonMessageDialog (this, null, _ ("Are you sure you want to clean this launcher? WARNING: It will delete every installed tools from the launcher!"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, (response) => {
                 if (response == "yes") {
-                    Utils.File.Delete (currentLauncher.Directory);
-                    Utils.File.CreateDirectory (currentLauncher.Directory);
-
-                    GLib.Timeout.add (1000, () => {
+                    clean_launcher_button.set_sensitive(false);
+                    cant_close = true;
+                    var cleaning_thread = new Thread<void> ("cleaning_thread", () => {
+                        var dir = new Utils.DirUtil(currentLauncher.HomeDirectory);
+                        dir.remove_dir(currentLauncher.Folder);
+                        Utils.File.CreateDirectory (currentLauncher.Directory);
                         this.response (Gtk.ResponseType.APPLY);
-                        return false;
-                    }, 2);
+                        clean_launcher_button.set_sensitive(true);
+                        cant_close = false;
+                    });
                 }
             });
         }
