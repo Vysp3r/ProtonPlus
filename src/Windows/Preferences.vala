@@ -1,12 +1,7 @@
 namespace Windows {
     public class Preferences : Adw.PreferencesWindow {
-        // Widgets
         Widgets.ProtonComboRow crStyles;
-        Gtk.Switch rememberLastLauncherSwitch;
-        Gtk.Switch showGamescopeWarningSwitch;
-
-        // Values1
-        Stores.Main mainStore;
+        GLib.Settings settings;
 
         public Preferences (Gtk.ApplicationWindow parent) {
             set_transient_for (parent);
@@ -15,14 +10,7 @@ namespace Windows {
             set_can_navigate_back (true);
             set_default_size (0, 0);
 
-            mainStore = Stores.Main.get_instance ();
-
-            var styles = Models.Preferences.Style.GetAll ();
-
-            // Initialize shared widgets
-            crStyles = new Widgets.ProtonComboRow (_ ("Styles"), Models.Preferences.Style.GetStore (styles), mainStore.Preference.Style.Position);
-            rememberLastLauncherSwitch = new Gtk.Switch ();
-            showGamescopeWarningSwitch = new Gtk.Switch ();
+            settings = new Settings ("com.vysp3r.ProtonPlus");
 
             // Setup mainPage
             var mainPage = new Adw.PreferencesPage ();
@@ -31,8 +19,13 @@ namespace Windows {
             add (mainPage);
 
             // Setup crStyles
-            crStyles.set_selected (mainStore.Preference.Style.Position);
-            crStyles.notify.connect (crStyles_Notify);
+            crStyles = new Widgets.ProtonComboRow (_ ("Styles"), Models.Preferences.Style.GetStore (Models.Preferences.Style.GetAll ()), 0);
+            settings.bind ("window-style", crStyles, "selected", GLib.SettingsBindFlags.DEFAULT);
+            crStyles.notify.connect ((param) => {
+                if (param.get_name () == "selected") {
+                    Utils.Theme.Apply ();
+                }
+            });
 
             // Setup stylesGroup
             var apperanceGroup = new Adw.PreferencesGroup ();
@@ -40,64 +33,33 @@ namespace Windows {
             mainPage.add (apperanceGroup);
 
             // Setup rememberLastLauncherSwitch
-            rememberLastLauncherSwitch.set_active (mainStore.Preference.RememberLastLauncher);
-            rememberLastLauncherSwitch.notify.connect (rememberLastLauncherSwitch_Notify);
-
-            // Setup rememberLastLauncherBox
-            var rememberLastLauncherBox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            rememberLastLauncherBox.set_valign (Gtk.Align.CENTER);
-            rememberLastLauncherBox.append (rememberLastLauncherSwitch);
-
-            // Setup rememberLastLauncherRow
-            var rememberLastLauncherRow = new Adw.ActionRow ();
-            rememberLastLauncherRow.set_title (_ ("Remember last launcher"));
-            rememberLastLauncherRow.add_suffix (rememberLastLauncherBox);
+            var rememberLastLauncherSwitch = new Gtk.Switch ();
+            settings.bind ("remember-last-launcher", rememberLastLauncherSwitch, "active", GLib.SettingsBindFlags.DEFAULT);
 
             // Setup showGamescopeWarningSwitch
-            showGamescopeWarningSwitch.set_active (mainStore.Preference.GamescopeWarning);
-            showGamescopeWarningSwitch.notify.connect (showGamescopeWarningSwitch_Notify);
-
-            // Setup showGamescopeWarningBox
-            var showGamescopeWarningBox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            showGamescopeWarningBox.set_valign (Gtk.Align.CENTER);
-            showGamescopeWarningBox.append (showGamescopeWarningSwitch);
-
-            // Setup showGamescopeWarningRow
-            var showGamescopeWarningRow = new Adw.ActionRow ();
-            showGamescopeWarningRow.set_title (_ ("Show gamescope warning"));
-            showGamescopeWarningRow.add_suffix (showGamescopeWarningBox);
+            var showGamescopeWarningSwitch = new Gtk.Switch ();
+            settings.bind ("show-gamescope-warning", showGamescopeWarningSwitch, "active", GLib.SettingsBindFlags.DEFAULT);
 
             // Setup stylesGroup
             var otherGroup = new Adw.PreferencesGroup ();
-            otherGroup.add (rememberLastLauncherRow);
-            otherGroup.add (showGamescopeWarningRow);
+            otherGroup.add (CreateRow (rememberLastLauncherSwitch, _ ("Remember last launcher")));
+            otherGroup.add (CreateRow (showGamescopeWarningSwitch, _ ("Show gamescope warning")));
             mainPage.add (otherGroup);
 
             // Show the window
             show ();
         }
 
-        // Events
-        void crStyles_Notify (GLib.ParamSpec param) {
-            if (param.get_name () == "selected") {
-                mainStore.Preference.Style = (Models.Preferences.Style) crStyles.get_selected_item ();
-                Utils.Preference.Apply (mainStore.Preference);
-                Utils.Preference.Update (mainStore.Preference);
-            }
-        }
+        Adw.ActionRow CreateRow (Gtk.Widget widget, string row_title) {
+            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            box.set_valign (Gtk.Align.CENTER);
+            box.append (widget);
 
-        void rememberLastLauncherSwitch_Notify (GLib.ParamSpec param) {
-            if (param.get_name () == "active") {
-                mainStore.Preference.RememberLastLauncher = rememberLastLauncherSwitch.get_state ();
-                Utils.Preference.Update (mainStore.Preference);
-            }
-        }
+            var row = new Adw.ActionRow ();
+            row.set_title (row_title);
+            row.add_suffix (box);
 
-        void showGamescopeWarningSwitch_Notify (GLib.ParamSpec param) {
-            if (param.get_name () == "active") {
-                mainStore.Preference.GamescopeWarning = showGamescopeWarningSwitch.get_state ();
-                Utils.Preference.Update (mainStore.Preference);
-            }
+            return row;
         }
     }
 }

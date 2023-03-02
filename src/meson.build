@@ -14,17 +14,15 @@ constants = configure_file(
 sources = files(
   'Interfaces/IModel.vala',
 
-  'Utils/Preference.vala',
   'Utils/Theme.vala',
   'Utils/Web.vala',
   'Utils/File.vala',
   'Utils/Dir.vala',
 
-  'Models/preferences/Style.vala',
-  'Models/Preference.vala',
   'Models/Tool.vala',
   'Models/Launcher.vala',
   'Models/Release.vala',
+  'Models/Preferences/Style.vala',
 
   'Stores/Main.vala',
 

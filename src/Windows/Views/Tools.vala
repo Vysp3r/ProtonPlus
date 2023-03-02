@@ -1,13 +1,11 @@
 namespace Windows.Views {
     public class Tools : Gtk.Box {
-        // Widgets
         Widgets.ProtonComboRow crInstallLocation;
         Gtk.ListBox listInstalledTools;
         Gtk.Button btnAdd;
         Gtk.Button btnInfoLauncher;
         Gtk.Button btnSettings;
-
-        // Values
+        GLib.Settings settings;
         Stores.Main mainStore;
 
         public Tools () {
@@ -19,6 +17,7 @@ namespace Windows.Views {
             set_margin_top (15);
 
             // Initialize shared values
+            settings = new Settings ("com.vysp3r.ProtonPlus");
             mainStore = Stores.Main.get_instance ();
 
             // Initialize shared widgets
@@ -89,8 +88,8 @@ namespace Windows.Views {
             this.append (scrolledWindowInstalledTools);
 
             // Load the default values
-            var position = Models.Launcher.GetPosition (mainStore.InstalledLaunchers, mainStore.Preference.LastLauncher);
-            if (position > 0 && mainStore.Preference.RememberLastLauncher) {
+            var position = Models.Launcher.GetPosition (mainStore.InstalledLaunchers, settings.get_string ("last-launcher"));
+            if (position > 0 && settings.get_boolean ("remember-last-launcher")) {
                 crInstallLocation.set_selected (position);
             } else {
                 crInstallLocation.notify_property ("selected");
@@ -102,9 +101,8 @@ namespace Windows.Views {
             if (param.get_name () == "selected") {
                 mainStore.CurrentLauncher = (Models.Launcher) crInstallLocation.get_selected_item ();
 
-                if (mainStore.Preference.LastLauncher != mainStore.CurrentLauncher.Title) {
-                    mainStore.Preference.LastLauncher = mainStore.CurrentLauncher.Title;
-                    Utils.Preference.Update (mainStore.Preference);
+                if (settings.get_string ("last-launcher") != mainStore.CurrentLauncher.Title) {
+                    settings.set_string ("last-launcher", mainStore.CurrentLauncher.Title);
                 }
 
                 var model = Models.Release.GetStore (Models.Release.GetInstalled (mainStore.CurrentLauncher));
@@ -141,14 +139,13 @@ namespace Windows.Views {
         void btnAdd_Clicked () {
             bool isDone = true;
 
-            if (mainStore.CurrentLauncher.Title == "Steam (Flatpak)" && mainStore.Preference.GamescopeWarning) {
+            if (mainStore.CurrentLauncher.Title == "Steam (Flatpak)" && settings.get_boolean("show-gamescope-warning")) {
                 isDone = false;
 
                 var dialogDelete = new Widgets.ProtonMessageDialog (mainStore.MainWindow, "Warning!", _ ("If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community build made for it. To disable this warning click on 'yes' otherwise click 'no' to keep it."), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
                 dialogDelete.response.connect ((response) => {
                     if (response == "yes") {
-                        mainStore.Preference.GamescopeWarning = false;
-                        Utils.Preference.Update (mainStore.Preference);
+                        settings.set_boolean("show-gamescope-warning", false);
                     }
 
                     isDone = true;

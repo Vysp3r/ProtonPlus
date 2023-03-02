@@ -43,15 +43,13 @@ public class ProtonPlus : Adw.Application {
         var mainStore = Stores.Main.get_instance ();
 
         //
-        mainStore.Preference = new Models.Preference ();
         mainStore.InstalledLaunchers = Models.Launcher.GetAll ();
 
         //
-        Utils.Preference.Load (mainStore.Preference);
-        Utils.Preference.Apply (mainStore.Preference);
+        Utils.Theme.Load ();
 
         //
-        Utils.Theme.Load ();
+        Utils.Theme.Apply ();
 
         // Always load data first, because Windows.Home is using them
         mainStore.Application = this;
@@ -59,7 +57,7 @@ public class ProtonPlus : Adw.Application {
     }
 
     void on_about_action () {
-        string[] devs = { "Charles Malouin (Vysp3r) https://github.com/Vysp3r" };
+        string[] devs = { "Charles Malouin (Vysp3r) https:// github.com/Vysp3r" };
         string[] designers = { "Charles Malouin (Vysp3r) https://github.com/Vysp3r" };
         string[] thanks = {
             "GNOME Project https://www.gnome.org/",
