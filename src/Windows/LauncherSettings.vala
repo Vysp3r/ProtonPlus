@@ -34,7 +34,8 @@ namespace Windows {
         void btnClean_Clicked () {
             new Widgets.ProtonMessageDialog (this, null, _ ("Are you sure you want to clean this launcher? WARNING: It will delete every installed tools from the launcher!"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, (response) => {
                 if (response == "yes") {
-                    Utils.File.Delete (currentLauncher.Directory);
+                    var dir = new Utils.DirUtil(currentLauncher.HomeDirectory);
+                    dir.remove_dir(currentLauncher.Folder);
                     Utils.File.CreateDirectory (currentLauncher.Directory);
 
                     GLib.Timeout.add (1000, () => {

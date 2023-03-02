@@ -37,7 +37,8 @@ namespace Utils {
         }
 
         public static void Update (Models.Preference preference, bool useDefaultValue = false) {
-            Utils.File.Delete (GLib.Environment.get_user_config_dir () + "/preferences.json");
+            var dir = new Utils.DirUtil(GLib.Environment.get_user_config_dir ());
+            dir.remove_file("preferences.json");
 
             Create (preference, useDefaultValue);
         }
