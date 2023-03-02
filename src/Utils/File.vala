@@ -103,8 +103,7 @@ namespace Utils {
 
         public static string GetDirectorySize (string path) {
             var dir = new DirUtil(path);
-            var size = dir.get_total_size_as(Format.GB);
-            return size > 0 ? "%.2f GB".printf(size) : "Error!";
+            return dir.get_total_size_as_string();
         }
 
         public static GLib.List<string> ListDirectoryFolders (string path) {

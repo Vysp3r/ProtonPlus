@@ -52,6 +52,17 @@ namespace Utils {
             }
         }
 
+        public string get_total_size_as_string(){
+            uint64 size = get_total_size();
+            if(size >= 1073741824){
+                return "%.2f GB".printf((double)size / (1024 * 1024 * 1024));
+            } else if (size > 1048576){
+                return "%.2f MB".printf((double)size / (1024 * 1024));
+            } else {
+                return "%lld B".printf(get_total_size());
+            }
+        }
+
         private bool remove_file_direct(string path){
             if(Posix.unlink(path) != 0)
                 return false;
