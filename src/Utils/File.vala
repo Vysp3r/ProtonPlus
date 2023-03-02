@@ -109,19 +109,9 @@ namespace Utils {
         }
 
         public static string GetDirectorySize (string path) {
-            string command = "du -sh " + path;
-
-            string stdout = "";
-            string stderr = "";
-            int exit_status = -1;
-
-            Process.spawn_command_line_sync (command, out stdout, out stderr, out exit_status);
-
-            if (exit_status == 0) {
-                return stdout.split ("\t")[0];
-            }
-
-            return "Error!";
+            var dir = new DirUtil(path);
+            var size = dir.get_total_size_as(Format.GB);
+            return size > 0 ? @"$((double)((int)(size * 100))/100) GB" : "Error!";
         }
 
         public static GLib.List<string> ListDirectoryFolders (string path) {
