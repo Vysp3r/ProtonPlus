@@ -16,8 +16,6 @@ namespace Stores {
         // Release
         public Release CurrentRelease;
 
-        public Models.Preference Preference;
-
         public double ProgressBarValue;
         public bool IsInstallationCancelled;
         public bool IsDownloadCompleted;

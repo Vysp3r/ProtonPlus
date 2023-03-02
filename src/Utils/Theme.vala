@@ -7,5 +7,11 @@ namespace Utils {
                                                       provider,
                                                       Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
         }
+
+        public static void Apply() {
+            var settings = new Settings("com.vysp3r.ProtonPlus");
+
+            Adw.StyleManager.get_default().set_color_scheme(Models.Preferences.Style.GetAll().nth_data(settings.get_int("window-style")).ColorScheme);
+        }
     }
 }
