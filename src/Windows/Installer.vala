@@ -187,7 +187,7 @@ namespace Windows {
             if(mainStore.ProgressBarValue == 0)
                 return false;
 
-            var dialogDelete = new Widgets.ProtonMessageDialog(mainStore.MainWindow, null, _ ("Are you sure you want to cancel ?"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
+            var dialogDelete = new Widgets.ProtonMessageDialog(mainStore.MainWindow, null, _ ("Are you sure you want to cancel the download ?"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
             dialogDelete.response.connect ((response) => {
                 this.set_visible(true);
                 if (response == "yes") {
