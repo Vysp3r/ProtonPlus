@@ -6,4 +6,4 @@ src/Windows/Preferences.vala
 src/Windows/Views/Games.vala
 src/Windows/Views/Notifications.vala
 src/Windows/Views/Tools.vala
-src/Models/preferences/Style.vala
+src/Models/Preferences/Style.vala

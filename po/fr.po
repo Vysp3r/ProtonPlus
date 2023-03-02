@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-28 22:48-0500\n"
+"POT-Creation-Date: 2023-03-02 12:16-0500\n"
 "Language: fr_CA\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -49,7 +49,7 @@ msgid "Quit"
 msgstr "Quitter"
 
 #. Setup menu_model
-#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:14
+#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:9
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -68,49 +68,53 @@ msgstr "Jeux"
 msgid "Notifications"
 msgstr "Notifications"
 
-#: src/Windows/Installer.vala:16 src/Windows/Installer.vala:25
+#: src/Windows/Installer.vala:17 src/Windows/Installer.vala:26
 msgid "Install"
 msgstr "Installer"
 
 #. Initialize shared widgets
-#: src/Windows/Installer.vala:22
+#: src/Windows/Installer.vala:23
 msgid "Compatibility Tool"
 msgstr "Outil de compatiblité"
 
-#: src/Windows/Installer.vala:23
+#: src/Windows/Installer.vala:24
 msgid "Version"
 msgstr "Version"
 
-#: src/Windows/Installer.vala:24
+#: src/Windows/Installer.vala:25
 msgid "Info"
 msgstr "Info"
 
-#: src/Windows/Installer.vala:62
+#: src/Windows/Installer.vala:63
 msgid "Open a browser to the tool page"
 msgstr "Ouvrir un navigateur sur la page de l'outil"
 
-#: src/Windows/Installer.vala:70
+#: src/Windows/Installer.vala:71
 msgid "Install the selected tool"
 msgstr "Installer l'outil sélectionné"
 
-#: src/Windows/Installer.vala:87
+#: src/Windows/Installer.vala:85
 msgid "Downloading..."
 msgstr "En téléchargement..."
 
-#: src/Windows/Installer.vala:125
+#: src/Windows/Installer.vala:123
 msgid "Extracting..."
 msgstr "En extraction..."
 
-#: src/Windows/Installer.vala:159 src/Windows/Installer.vala:211
-#: src/Windows/Installer.vala:247
+#: src/Windows/Installer.vala:157 src/Windows/Installer.vala:224
+#: src/Windows/Installer.vala:260
 msgid "Done!"
 msgstr "Fini!"
 
-#: src/Windows/Installer.vala:181
+#: src/Windows/Installer.vala:179
 msgid "Cancelled!"
 msgstr ""
 
-#: src/Windows/Installer.vala:234
+#: src/Windows/Installer.vala:190
+msgid "Are you sure you want to cancel the download ?"
+msgstr ""
+
+#: src/Windows/Installer.vala:247
 msgid ""
 "There was an error while fetching data from the GitHub API. You may have "
 "reached the maximum amount of requests per hour or may not be connected to "
@@ -121,21 +125,21 @@ msgstr ""
 "peut-être pas connecté à internet. Si vous pensez que c'est un problème, "
 "veuillez nous le reporter."
 
-#: src/Windows/LauncherSettings.vala:9
+#: src/Windows/LauncherSettings.vala:13
 msgid "Launcher Settings"
 msgstr "Paramètres du launcher"
 
 #. Setup btnClean
-#: src/Windows/LauncherSettings.vala:24
+#: src/Windows/LauncherSettings.vala:28
 msgid "Clean launcher"
 msgstr "Nettoyer le launcher"
 
-#: src/Windows/LauncherSettings.vala:25
+#: src/Windows/LauncherSettings.vala:29
 msgid "Delete every installed tools from the launcher"
 msgstr "Supprime chaques outils installés du launcher"
 
 #. Events
-#: src/Windows/LauncherSettings.vala:35
+#: src/Windows/LauncherSettings.vala:43
 msgid ""
 "Are you sure you want to clean this launcher? WARNING: It will delete every "
 "installed tools from the launcher!"
@@ -143,72 +147,70 @@ msgstr ""
 "Êtes vous sur de vouloir nettoyer le launcher? MISE EN GARDE: Çela va "
 "supprimer chaques outils installés du launcher"
 
-#. Initialize shared widgets
-#: src/Windows/Preferences.vala:23
-msgid "Styles"
-msgstr "Styles"
-
 #. Setup mainPage
-#: src/Windows/Preferences.vala:29 src/Windows/Preferences.vala:30
+#: src/Windows/Preferences.vala:17 src/Windows/Preferences.vala:18
 msgid "Main"
 msgstr ""
 
-#. Setup rememberLastLauncherRow
-#: src/Windows/Preferences.vala:53
+#. Setup crStyles
+#: src/Windows/Preferences.vala:22
+msgid "Styles"
+msgstr "Styles"
+
+#. Setup stylesGroup
+#: src/Windows/Preferences.vala:45
 msgid "Remember last launcher"
 msgstr "Se souvenir du dernier launcher"
 
-#. Setup showGamescopeWarningRow
-#: src/Windows/Preferences.vala:67
+#: src/Windows/Preferences.vala:46
 msgid "Show gamescope warning"
 msgstr ""
 
-#. Initialize shared values
 #. Initialize shared widgets
-#: src/Windows/Views/Tools.vala:25
+#: src/Windows/Views/Tools.vala:24
 msgid "Launcher"
 msgstr "Launcher"
 
-#: src/Windows/Views/Tools.vala:50
+#: src/Windows/Views/Tools.vala:49
 msgid "Launcher information"
 msgstr "Informations du launcher"
 
-#: src/Windows/Views/Tools.vala:58
+#: src/Windows/Views/Tools.vala:57
 msgid "Launcher settings"
 msgstr "Paramètres du launcher"
 
-#: src/Windows/Views/Tools.vala:66
+#: src/Windows/Views/Tools.vala:65
 msgid "Install a tool"
 msgstr "Installer un outil"
 
-#: src/Windows/Views/Tools.vala:121
+#: src/Windows/Views/Tools.vala:119
 msgid "Show information"
 msgstr "Afficher informations"
 
-#: src/Windows/Views/Tools.vala:129
+#: src/Windows/Views/Tools.vala:127
 msgid "Delete the tool"
 msgstr "Supprimer l'outil"
 
-#: src/Windows/Views/Tools.vala:147
+#: src/Windows/Views/Tools.vala:145
 msgid ""
 "If you're using gamescope with Steam (Flatpak), those tools will not work. "
 "Make sure to use the community build made for it. To disable this warning "
 "click on 'yes' otherwise click 'no' to keep it."
 msgstr ""
 
-#: src/Windows/Views/Tools.vala:196
+#: src/Windows/Views/Tools.vala:193
 msgid "Are you sure you want to delete the selected tool?"
 msgstr "Êtes vous sure de vouloir supprimer l'outil selectionné?"
 
-#: src/Models/preferences/Style.vala:39
+#: src/Models/Preferences/Style.vala:27
 msgid "System"
 msgstr "Système"
 
-#: src/Models/preferences/Style.vala:40
+#: src/Models/Preferences/Style.vala:28
 msgid "Light"
 msgstr "Clair"
 
-#: src/Models/preferences/Style.vala:41
+#: src/Models/Preferences/Style.vala:29
 msgid "Dark"
 msgstr "Sombre"
 

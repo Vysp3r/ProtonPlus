@@ -44,7 +44,7 @@ namespace Windows {
                 if (response == "yes") {
                     clean_launcher_button.set_sensitive(false);
                     cant_close = true;
-                    var cleaning_thread = new Thread<void> ("cleaning_thread", () => {
+                    new Thread<void> ("cleaning_thread", () => {
                         var dir = new Utils.DirUtil(currentLauncher.HomeDirectory);
                         dir.remove_dir(currentLauncher.Folder);
                         Utils.File.CreateDirectory (currentLauncher.Directory);

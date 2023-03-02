@@ -6,6 +6,7 @@ namespace Windows {
         Widgets.ProtonComboRow crTools;
         Widgets.ProtonComboRow crReleases;
         Gtk.ProgressBar progressBarDownload;
+        Thread<void> installThread;
 
         // Stores
         Stores.Main mainStore;
@@ -76,9 +77,6 @@ namespace Windows {
             // Setup progressBarDownload
             progressBarDownload.set_visible (false);
             boxMain.append (progressBarDownload);
-
-            this.close_request.connect (onClose);
-
             // Show the window
             show ();
         }
@@ -88,7 +86,7 @@ namespace Windows {
 
             if (mainStore.CurrentTool.IsActions) progressBarDownload.set_pulse_step (1);
 
-            new Thread<void> ("download", () => {
+            installThread  = new Thread<void> ("download", () => {
                 var store = Stores.Main.get_instance ();
 
                 if (store.CurrentTool.IsActions) {
@@ -113,7 +111,7 @@ namespace Windows {
                 else progressBarDownload.set_fraction (mainStore.ProgressBarValue);
 
                 if (mainStore.IsDownloadCompleted) {
-                    Extract ();
+                    Extract();
                     return false;
                 }
 
@@ -125,7 +123,7 @@ namespace Windows {
             progressBarDownload.set_text (_ ("Extracting..."));
             progressBarDownload.set_pulse_step (1);
 
-            new Thread<void> ("extract", () => {
+            installThread = new Thread<void> ("extract", () => {
                 var store = Stores.Main.get_instance ();
 
                 string directory = store.CurrentLauncher.Directory + "/";
@@ -185,9 +183,24 @@ namespace Windows {
         }
 
         // Events
-        bool onClose () {
-            mainStore.IsInstallationCancelled = true;
-            return false;
+        public override bool close_request() {
+            if(mainStore.ProgressBarValue == 0)
+                return false;
+
+            var dialogDelete = new Widgets.ProtonMessageDialog(mainStore.MainWindow, null, _ ("Are you sure you want to cancel the download ?"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
+            dialogDelete.response.connect ((response) => {
+                this.set_visible(true);
+                if (response == "yes") {
+                    mainStore.IsInstallationCancelled = true;
+                    installThread.join();
+                    mainStore.IsDownloadCompleted = false;
+                    mainStore.IsExtractionCompleted = false;
+                    mainStore.ProgressBarValue = 0;
+                    this.destroy();
+                }
+            });
+
+            return true;
         }
 
         void btnInstall_Clicked () {
