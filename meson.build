@@ -28,7 +28,7 @@ executable(
   	dependency('json-glib-1.0'),
   	dependency('libsoup-3.0'),
   	dependency('libarchive'),
-        meson.get_compiler('vala').find_library('posix')
+        meson.get_compiler('vala').find_library('posix'),
     ],
     install: true
 )

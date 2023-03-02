@@ -4,6 +4,12 @@ namespace Models {
         string directory;
 
         public string Title { get; set; }
+        public string HomeDirectory {
+            public owned get { return homeDirectory; }
+        }
+        public string Folder {
+            public owned get { return directory; }
+        }
         public string Directory {
             public owned get { return homeDirectory + directory; }
             private set { directory = value; }
