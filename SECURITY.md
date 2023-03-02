@@ -6,4 +6,4 @@ All versions are currently supported!
 
 ## Reporting a Vulnerability
 
-To report a vulnerability, email me at protonplus@vysp3r.com. Do not create an issue for that!
+To report a vulnerability, email me at dev@vysp3r.com. Do not create an issue for that!
