@@ -50,6 +50,16 @@
     </screenshots>
 
     <releases>
+      <release version="0.3.11" date="2023-03-12">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>✨ Added support for Heroic Games Launcher</li>
+              <li>🔨 Update appdata</li>
+              <li>💬 Update the release notes</li>
+            </ul>
+          </description>
+      </release>
       <release version="0.3.10" date="2023-03-02">
           <description>
             <p>What's Changed:</p>
