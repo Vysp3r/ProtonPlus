@@ -139,13 +139,13 @@ namespace Windows.Views {
         void btnAdd_Clicked () {
             bool isDone = true;
 
-            if (mainStore.CurrentLauncher.Title == "Steam (Flatpak)" && settings.get_boolean("show-gamescope-warning")) {
+            if (mainStore.CurrentLauncher.Title == "Steam (Flatpak)" && settings.get_boolean ("show-gamescope-warning")) {
                 isDone = false;
 
                 var dialogDelete = new Widgets.ProtonMessageDialog (mainStore.MainWindow, "Warning!", _ ("If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community build made for it. To disable this warning click on 'yes' otherwise click 'no' to keep it."), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
                 dialogDelete.response.connect ((response) => {
                     if (response == "yes") {
-                        settings.set_boolean("show-gamescope-warning", false);
+                        settings.set_boolean ("show-gamescope-warning", false);
                     }
 
                     isDone = true;
@@ -194,8 +194,9 @@ namespace Windows.Views {
             dialogDelete.response.connect ((response) => {
                 if (response == "yes") {
                     GLib.Timeout.add (1000, () => {
-                        var dir = new Utils.DirUtil(mainStore.CurrentLauncher.Directory);
-                        dir.remove_dir(release.Title);
+                        var dir = new Utils.DirUtil (mainStore.CurrentLauncher.Directory);
+                        dir.remove_dir (release.Title);
+                        mainStore.CurrentLauncher.uninstall ();
                         crInstallLocation.notify_property ("selected");
                         return false;
                     }, 2);

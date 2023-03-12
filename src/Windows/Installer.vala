@@ -84,12 +84,12 @@ namespace Windows {
         void Download () {
             progressBarDownload.set_text (_ ("Downloading..."));
 
-            if (mainStore.CurrentTool.IsActions) progressBarDownload.set_pulse_step (1);
+            if (mainStore.CurrentTool.IsUsingGithubActions) progressBarDownload.set_pulse_step (1);
 
-            installThread  = new Thread<void> ("download", () => {
+            installThread = new Thread<void> ("download", () => {
                 var store = Stores.Main.get_instance ();
 
-                if (store.CurrentTool.IsActions) {
+                if (store.CurrentTool.IsUsingGithubActions) {
                     Utils.Web.OldDownload (store.CurrentRelease.Download_URL, store.CurrentLauncher.Directory + "/" + store.CurrentRelease.Title + store.CurrentRelease.File_Extension);
                 } else {
                     Utils.Web.Download (store.CurrentRelease.Download_URL, store.CurrentLauncher.Directory + "/" + store.CurrentRelease.Title + store.CurrentRelease.File_Extension);
@@ -99,7 +99,7 @@ namespace Windows {
             });
 
             int timeout_refresh = 75;
-            if (mainStore.CurrentTool.IsActions) timeout_refresh = 500;
+            if (mainStore.CurrentTool.IsUsingGithubActions) timeout_refresh = 500;
 
             GLib.Timeout.add (timeout_refresh, () => {
                 if (mainStore.IsInstallationCancelled) {
@@ -107,11 +107,11 @@ namespace Windows {
                     return false;
                 }
 
-                if (mainStore.CurrentTool.IsActions) progressBarDownload.pulse ();
+                if (mainStore.CurrentTool.IsUsingGithubActions) progressBarDownload.pulse ();
                 else progressBarDownload.set_fraction (mainStore.ProgressBarValue);
 
                 if (mainStore.IsDownloadCompleted) {
-                    Extract();
+                    Extract ();
                     return false;
                 }
 
@@ -129,7 +129,7 @@ namespace Windows {
                 string directory = store.CurrentLauncher.Directory + "/";
                 string sourcePath = Utils.File.Extract (directory, store.CurrentRelease.Title, store.CurrentRelease.File_Extension);
 
-                if (store.CurrentTool.IsActions) {
+                if (store.CurrentTool.IsUsingGithubActions) {
                     Utils.File.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar");
                 }
 
@@ -142,6 +142,8 @@ namespace Windows {
                         return true;
                     }, 1);
                 }
+
+                store.CurrentLauncher.install ();
 
                 Stores.Main.get_instance ().IsExtractionCompleted = true;
             });
@@ -183,20 +185,20 @@ namespace Windows {
         }
 
         // Events
-        public override bool close_request() {
-            if(mainStore.ProgressBarValue == 0)
+        public override bool close_request () {
+            if (mainStore.ProgressBarValue == 0)
                 return false;
 
-            var dialogDelete = new Widgets.ProtonMessageDialog(mainStore.MainWindow, null, _ ("Are you sure you want to cancel the download ?"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
+            var dialogDelete = new Widgets.ProtonMessageDialog (mainStore.MainWindow, null, _ ("Are you sure you want to cancel the download ?"), Widgets.ProtonMessageDialog.MessageDialogType.NO_YES, null);
             dialogDelete.response.connect ((response) => {
-                this.set_visible(true);
+                this.set_visible (true);
                 if (response == "yes") {
                     mainStore.IsInstallationCancelled = true;
-                    installThread.join();
+                    installThread.join ();
                     mainStore.IsDownloadCompleted = false;
                     mainStore.IsExtractionCompleted = false;
                     mainStore.ProgressBarValue = 0;
-                    this.destroy();
+                    this.destroy ();
                 }
             });
 

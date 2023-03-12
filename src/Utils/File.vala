@@ -26,7 +26,7 @@ namespace Utils {
             string sourcePath = "";
             bool firstRun = true;
 
-            var dir = new DirUtil(install_location);
+            var dir = new DirUtil (install_location);
 
             for ( ;; ) {
                 r = archive.next_header (out entry);
@@ -49,14 +49,14 @@ namespace Utils {
                 if (r < Archive.Result.WARN) return "";
 
                 if (Stores.Main.get_instance ().IsInstallationCancelled) {
-                    dir.remove_dir(sourcePath);
+                    dir.remove_dir (sourcePath);
                     break;
                 }
             }
 
             archive.close ();
 
-            dir.remove_file(tool_name + extension);
+            dir.remove_file (tool_name + extension);
 
             return install_location + sourcePath;
         }
@@ -102,8 +102,8 @@ namespace Utils {
         }
 
         public static string GetDirectorySize (string path) {
-            var dir = new DirUtil(path);
-            return dir.get_total_size_as_string();
+            var dir = new DirUtil (path);
+            return dir.get_total_size_as_string ();
         }
 
         public static GLib.List<string> ListDirectoryFolders (string path) {

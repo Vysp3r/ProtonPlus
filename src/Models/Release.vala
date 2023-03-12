@@ -2,23 +2,29 @@ namespace Models {
     public class Release : Object, Interfaces.IModel {
         public string Title { get; set; }
         public string Download_URL;
+        public string Release_Date;
+        public string Checksum_URL;
         public string Page_URL;
+        public int64 Download_Size;
         public string File_Extension;
 
-        public Release (string title, string download_url = "", string page_url = "", string file_extension = ".tar.gz") {
+        public Release (string title, string download_url = "", string page_url = "", string release_date = "", string checksum_url = "", int64 download_size = 0, string file_extension = ".tar.gz") {
             this.Title = title;
             this.Download_URL = download_url;
             this.Page_URL = page_url;
             this.File_Extension = file_extension;
+            this.Release_Date = release_date;
+            this.Download_Size = download_size;
+            this.Checksum_URL = checksum_url;
         }
 
         public string GetFolderTitle (Models.Launcher launcher, Models.Tool tool) {
             switch (launcher.Title) {
-            case "Heroic Proton":
-            case "Heroic Proton (Flatpak)":
+            case "Heroic Games Launcher - Proton":
+            case "Heroic Games Launcher - Proton (Flatpak)":
                 return @"Proton-$Title";
-            case "Heroic Wine":
-            case "Heroic Wine (Flatpak)":
+            case "Heroic Games Launcher - Wine":
+            case "Heroic Games Launcher - Wine (Flatpak)":
                 return @"Wine-$Title";
             default:
                 switch (tool.Type) {
@@ -56,7 +62,7 @@ namespace Models {
             var releases = new GLib.List<Release> ();
 
             try {
-                if (!tool.IsActions) {
+                if (!tool.IsUsingGithubActions) {
                     // Get the json from the Tool endpoint
                     string json = Utils.Web.GET (tool.Endpoint);
 
@@ -74,6 +80,9 @@ namespace Models {
                         string tag = "";
                         string download_url = "";
                         string page_url = "";
+                        string release_date = "";
+                        string checksum_url = "";
+                        int64 download_size = 0;
 
                         // Get the current node
                         var tempNode = rootNodeArray.get_element (i);
@@ -85,16 +94,25 @@ namespace Models {
                         // Set the value of page_url to the html_url object contained in the current node
                         page_url = objRoot.get_string_member ("html_url");
 
+                        release_date = objRoot.get_string_member ("created_at").split ("T")[0];
+
                         // Get the temp node array for the assets
                         var tempNodeArray = objRoot.get_array_member ("assets");
 
                         // Verify weither the temp node array has values
                         if (tempNodeArray.get_length () >= tool.AssetPosition) {
+                            var tempNodeArrayAssetTest = tempNodeArray.get_element (0);
+                            var objAssetTest = tempNodeArrayAssetTest.get_object ();
+
+                            checksum_url = objAssetTest.get_string_member ("browser_download_url");
+
                             var tempNodeArrayAsset = tempNodeArray.get_element (tool.AssetPosition);
                             var objAsset = tempNodeArrayAsset.get_object ();
 
                             download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
-                            releases.append (new Release (tag, download_url, page_url)); // Currently here to prevent showing release with an invalid download_url
+                            download_size = objAsset.get_int_member ("size");
+
+                            releases.append (new Release (tag, download_url, page_url, release_date, checksum_url, download_size)); // Currently here to prevent showing release with an invalid download_url
                         }
                     }
                 } else {

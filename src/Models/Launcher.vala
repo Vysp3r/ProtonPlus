@@ -15,17 +15,22 @@ namespace Models {
             private set { directory = value; }
         }
         public List<Models.Tool> Tools;
-        public string Scheme;
         public bool Installed {
             public get { return directory.length > 0; }
         }
 
-        public Launcher (string title, string[] directories, string toolDirectory, List<Models.Tool> tools, string scheme = "") {
+        public delegate void Callback ();
+        public signal void install ();
+        public signal void uninstall ();
+
+        public Launcher (string title, string[] directories, string toolDirectory, List<Models.Tool> tools, Callback? installCallback = null, Callback? uninstallCallback = null) {
             homeDirectory = GLib.Environment.get_home_dir ();
 
             this.Title = title;
             this.Directory = verifyDirectories (directories, toolDirectory);
-            this.Scheme = scheme;
+
+            if (installCallback != null) install.connect (() => installCallback ());
+            if (uninstallCallback != null) uninstall.connect (() => uninstallCallback ());
 
             Tools = new List<Models.Tool> ();
             tools.@foreach ((tool) => {
@@ -166,7 +171,167 @@ namespace Models {
             );
             if (lutrisDXVKFlatpak.Installed) launchers.append (lutrisDXVKFlatpak);
 
+            // Heroic Games Launcher - Proton
+            var HGLProtonToolDir = "/proton";
+            var HGLProtonTools = Models.Tool.HeroicProton ();
+
+            var HGLProton = new Launcher (
+                "Heroic Games Launcher - Proton",
+                new string[] {
+                "/.config/heroic/tools"
+            },
+                HGLProtonToolDir,
+                HGLProtonTools,
+                HGL_Install_Script,
+                HGL_Uninstall_Script
+            );
+            if (HGLProton.Installed) launchers.append (HGLProton);
+
+            var HGLProtonFlatpak = new Launcher (
+                "Heroic Games Launcher - Proton (Flatpak)",
+                new string[] {
+                "/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools"
+            },
+                HGLProtonToolDir,
+                HGLProtonTools,
+                HGL_Install_Script,
+                HGL_Uninstall_Script
+            );
+            if (HGLProtonFlatpak.Installed) launchers.append (HGLProtonFlatpak);
+
+            // Heroic Games Launcher - Wine
+            var HGLWineToolDir = "/wine";
+            var HGLWineTools = Models.Tool.HeroicWine ();
+
+            var HGLWine = new Launcher (
+                "Heroic Games Launcher - Wine",
+                new string[] {
+                "/.config/heroic/tools"
+            },
+                HGLWineToolDir,
+                HGLWineTools,
+                HGL_Install_Script,
+                HGL_Uninstall_Script
+            );
+            if (HGLWine.Installed) launchers.append (HGLWine);
+
+            var HGLWineFlatpak = new Launcher (
+                "Heroic Games Launcher - Wine (Flatpak)",
+                new string[] {
+                "/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools"
+            },
+                HGLWineToolDir,
+                HGLWineTools,
+                HGL_Install_Script,
+                HGL_Uninstall_Script
+            );
+            if (HGLWineFlatpak.Installed) launchers.append (HGLWineFlatpak);
+
             return (owned) launchers;
+        }
+
+        static void HGL_Install_Script () {
+            try {
+                var store = Stores.Main.get_instance ();
+
+                string path = "/.config";
+                if (store.CurrentLauncher.Title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
+
+                GLib.File file = GLib.File.new_for_path (store.CurrentLauncher.HomeDirectory + path + "/heroic/store/wine-downloader-info.json");
+
+                uint8[] contents;
+                string etag_out;
+                file.load_contents (null, out contents, out etag_out);
+
+                Json.Node rootNode = Json.from_string ((string) contents);
+                Json.Object rootObj = rootNode.get_object ();
+
+                var objArray = rootObj.get_array_member ("wine-releases");
+                if (objArray == null) return;
+
+                bool found = false;
+
+                for (var i = 0; i < objArray.get_length (); i++) {
+                    var tempNode = objArray.get_element (i);
+                    var obj = tempNode.get_object ();
+
+                    if (obj.get_string_member ("version").contains (store.CurrentRelease.GetFolderTitle (store.CurrentLauncher, store.CurrentTool))) {
+                        obj.set_boolean_member ("isInstalled", true);
+                        obj.set_boolean_member ("hasUpdate", false);
+                        obj.set_string_member ("installDir", store.CurrentLauncher.Directory + "/" + obj.get_string_member ("version"));
+
+                        var util = new Utils.DirUtil (obj.get_string_member ("installDir"));
+                        obj.set_int_member ("disksize", (int64) util.get_total_size ());
+
+                        found = true;
+                    }
+                }
+
+                if (!found) {
+                    var obj = new Json.Object ();
+
+                    obj.set_string_member ("version", store.CurrentRelease.GetFolderTitle (store.CurrentLauncher, store.CurrentTool));
+                    obj.set_string_member ("type", store.CurrentTool.Title);
+                    obj.set_string_member ("date", store.CurrentRelease.Release_Date);
+                    obj.set_string_member ("checksum", store.CurrentRelease.Checksum_URL);
+                    obj.set_string_member ("download", store.CurrentRelease.Download_URL);
+                    obj.set_int_member ("downsize", store.CurrentRelease.Download_Size);
+
+                    obj.set_boolean_member ("isInstalled", true);
+                    obj.set_boolean_member ("hasUpdate", false);
+                    obj.set_string_member ("installDir", store.CurrentLauncher.Directory + "/" + obj.get_string_member ("version"));
+
+                    var util = new Utils.DirUtil (obj.get_string_member ("installDir"));
+                    obj.set_int_member ("disksize", (int64) util.get_total_size ());
+
+                    objArray.add_object_element (obj);
+                }
+
+                var util = new Utils.DirUtil (store.CurrentLauncher.HomeDirectory + path + "/heroic/store");
+                util.remove_file ("wine-downloader-info.json");
+                Utils.File.Write (store.CurrentLauncher.HomeDirectory + path + "/heroic/store/wine-downloader-info.json", Json.to_string (rootNode, true));
+            } catch (GLib.Error e) {
+                stderr.printf (e.message + "\n");
+            }
+        }
+
+        static void HGL_Uninstall_Script () {
+            try {
+                var store = Stores.Main.get_instance ();
+
+                string path = "/.config";
+                if (store.CurrentLauncher.Title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
+
+                GLib.File file = GLib.File.new_for_path (store.CurrentLauncher.HomeDirectory + path + "/heroic/store/wine-downloader-info.json");
+
+                uint8[] contents;
+                string etag_out;
+                file.load_contents (null, out contents, out etag_out);
+
+                Json.Node rootNode = Json.from_string ((string) contents);
+                Json.Object rootObj = rootNode.get_object ();
+
+                var objArray = rootObj.get_array_member ("wine-releases");
+                if (objArray == null) return;
+
+                for (var i = 0; i < objArray.get_length (); i++) {
+                    var tempNode = objArray.get_element (i);
+                    var obj = tempNode.get_object ();
+
+                    if (obj.get_string_member ("version").contains (store.CurrentRelease.GetFolderTitle (store.CurrentLauncher, store.CurrentTool))) {
+                        obj.remove_member ("isInstalled");
+                        obj.remove_member ("hasUpdate");
+                        obj.remove_member ("installDir");
+                        obj.set_int_member ("disksize", 0);
+                    }
+                }
+
+                var util = new Utils.DirUtil (store.CurrentLauncher.HomeDirectory + path + "/heroic/store");
+                util.remove_file ("wine-downloader-info.json");
+                Utils.File.Write (store.CurrentLauncher.HomeDirectory + path + "/heroic/store/wine-downloader-info.json", Json.to_string (rootNode, true));
+            } catch (GLib.Error e) {
+                stderr.printf (e.message + "\n");
+            }
         }
     }
 }
