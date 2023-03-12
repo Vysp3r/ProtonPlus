@@ -74,11 +74,7 @@ public class ProtonPlus : Adw.Application {
         aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
         aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
         aboutDialog.set_release_notes ("<ul>\n" +
-                                       "<li>✨ Updated the About window</li>\n" +
-                                       "<li>🎨 Added utilities for folders and files</li>\n" +
-                                       "<li>🎨 Migrated preferences system to GLib.Settings</li>\n" +
-                                       "<li>✨ Implementated cancelation dialog when downloading</li>\n" +
-                                       "<li>🔧 Modified filesystem permissions scopes</li>\n" +
+                                       "<li>✨ Added support for Heroic Games Launcher</li>\n" +
                                        "<li>🔨 Update appdata</li>\n" +
                                        "<li>💬 Update the release notes</li>\n" +
                                        "</ul>");
