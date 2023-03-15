@@ -19,20 +19,21 @@ namespace Models {
         }
 
         public string GetFolderTitle (Models.Launcher launcher, Models.Tool tool) {
-            switch (launcher.Title) {
-            case "Heroic Games Launcher - Proton":
-            case "Heroic Games Launcher - Proton (Flatpak)":
+            switch (tool.Type) {
+            case Models.Tool.TitleType.WINE_LUTRIS_BOTTLES:
+                return Title.down ().replace ("-wine", "");
+            case Models.Tool.TitleType.WINE_GE_BOTTLES:
+                return "wine-" + Title.down ();
+            case Models.Tool.TitleType.BOTTLES:
+                return Title.down ().replace(" ","-");
+            case Models.Tool.TitleType.PROTON_HGL:
                 return @"Proton-$Title";
-            case "Heroic Games Launcher - Wine":
-            case "Heroic Games Launcher - Wine (Flatpak)":
+            case Models.Tool.TitleType.WINE_HGL:
                 return @"Wine-$Title";
+            case Models.Tool.TitleType.TOOL_NAME:
+                return tool.Title + @" $Title";
             default:
-                switch (tool.Type) {
-                case Models.Tool.TitleType.TOOL_NAME:
-                    return tool.Title + @" $Title";
-                default:
-                    return Title;
-                }
+                return Title;
             }
         }
 
@@ -89,7 +90,8 @@ namespace Models {
                         var objRoot = tempNode.get_object ();
 
                         // Set the value of tag to the tag_name object contained in the current node
-                        tag = objRoot.get_string_member ("tag_name");
+                        if (Stores.Main.get_instance ().CurrentTool.useNameInsteadOfTagName) tag = objRoot.get_string_member ("name");
+                        else tag = objRoot.get_string_member ("tag_name");
 
                         // Set the value of page_url to the html_url object contained in the current node
                         page_url = objRoot.get_string_member ("html_url");

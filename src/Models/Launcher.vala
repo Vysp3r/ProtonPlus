@@ -227,6 +227,54 @@ namespace Models {
             );
             if (HGLWineFlatpak.Installed) launchers.append (HGLWineFlatpak);
 
+            // Bottles
+            var bottlesToolDir = "/runners";
+            var bottlesTools = Models.Tool.Bottles ();
+
+            var bottles = new Launcher (
+                "Bottles",
+                new string[] {
+                "/.local/share/bottles"
+            },
+                bottlesToolDir,
+                bottlesTools
+            );
+            if (bottles.Installed) launchers.append (bottles);
+
+            var bottlesFlatpak = new Launcher (
+                "Bottles (Flatpak)",
+                new string[] {
+                "/.var/app/com.usebottles.bottles/data/bottles"
+            },
+                bottlesToolDir,
+                bottlesTools
+            );
+            if (bottlesFlatpak.Installed) launchers.append (bottlesFlatpak);
+
+            // Bottles DXVK
+            var bottlesDXVKToolDir = "/dxvk";
+            var bottlesDXVKTools = Models.Tool.BottlesDXVK ();
+
+            var bottlesDXVK = new Launcher (
+                "Bottles DXVK",
+                new string[] {
+                "/.local/share/bottles"
+            },
+                bottlesDXVKToolDir,
+                bottlesDXVKTools
+            );
+            if (bottlesDXVK.Installed) launchers.append (bottlesDXVK);
+
+            var bottlesDXVKFlatpak = new Launcher (
+                "Bottles DXVK (Flatpak)",
+                new string[] {
+                "/.var/app/com.usebottles.bottles/data/bottles"
+            },
+                bottlesDXVKToolDir,
+                bottlesDXVKTools
+            );
+            if (bottlesDXVKFlatpak.Installed) launchers.append (bottlesDXVKFlatpak);
+
             return (owned) launchers;
         }
 
