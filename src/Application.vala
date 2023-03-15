@@ -74,7 +74,7 @@ public class ProtonPlus : Adw.Application {
         aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
         aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
         aboutDialog.set_release_notes ("<ul>\n" +
-                                       "<li>✨ Added support for Heroic Games Launcher</li>\n" +
+                                       "<li>✨ Added support for Bottles</li>\n" +
                                        "<li>🔨 Update appdata</li>\n" +
                                        "<li>💬 Update the release notes</li>\n" +
                                        "</ul>");
