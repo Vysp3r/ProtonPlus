@@ -6,6 +6,8 @@ namespace Stores {
         public Gtk.Application Application;
         public ApplicationWindow MainWindow;
 
+        public string Desktop;
+
         // Launcher
         public Launcher CurrentLauncher;
         public List<Launcher> InstalledLaunchers;

@@ -24,8 +24,6 @@ public class ProtonPlus : Adw.Application {
     }
 
     public override void activate () {
-        initialize ();
-
         ActionEntry[] action_entries = {
             { "preferences", on_preferences_action },
             { "telegram", () => Gtk.show_uri (null, "https://t.me/ProtonPlusOfficial", Gdk.CURRENT_TIME) },
@@ -36,24 +34,29 @@ public class ProtonPlus : Adw.Application {
         };
         add_action_entries (action_entries, this);
 
-        Stores.Main.get_instance ().MainWindow.show ();
-    }
-
-    void initialize () {
+        // Initialize the main store
         var mainStore = Stores.Main.get_instance ();
 
-        //
+        // Get the current desktop
+        mainStore.Desktop = GLib.Environment.get_variable ("DESKTOP_SESSION");
+
+        // Load the installed launchers
         mainStore.InstalledLaunchers = Models.Launcher.GetAll ();
 
-        //
+        // Load the css
         Utils.Theme.Load ();
 
-        //
+        // Apply the selected libadwaita theme
         Utils.Theme.Apply ();
 
         // Always load data first, because Windows.Home is using them
         mainStore.Application = this;
         mainStore.MainWindow = new Windows.Home (mainStore.Application);
+
+        // Fullscreen the application if it's started in gamescope
+        if (mainStore.Desktop == "gamescope-wayland") mainStore.MainWindow.fullscreen ();
+
+        mainStore.MainWindow.show ();
     }
 
     void on_about_action () {
