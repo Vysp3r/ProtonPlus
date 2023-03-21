@@ -89,6 +89,7 @@ _Requirements_
 - [json-glib](https://gitlab.gnome.org/GNOME/json-glib)
 - [libsoup](https://gitlab.gnome.org/GNOME/libsoup)
 - [libarchive](https://github.com/libarchive/libarchive)
+- [libgee](https://gitlab.gnome.org/GNOME/libgee)
 - [desktop-file-utils](https://gitlab.freedesktop.org/xdg/desktop-file-utils)
 
 ### Fedora
@@ -104,6 +105,7 @@ _Requirements_
       json-glib-devel \
       libsoup3-devel \
       libarchive-devel \
+      libgee-devel \
       desktop-file-utils
     ```
 
@@ -204,3 +206,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ```
 
 **[⤴️ Back to Top](#ProtonPlus)**
+
