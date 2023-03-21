@@ -18,6 +18,10 @@ sources = files(
   'Utils/Web.vala',
   'Utils/File.vala',
   'Utils/Dir.vala',
+  
+  'Utils/VDF/Binary.vala',
+  'Utils/VDF/Node.vala',
+  'Utils/VDF/Shortcut.vala,
 
   'Models/Tool.vala',
   'Models/Launcher.vala',
