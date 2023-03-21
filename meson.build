@@ -25,7 +25,7 @@ executable(
         dependency('gtk4'),
         dependency('glib-2.0'),
         dependency('libadwaita-1', version: '>= 1.2'),
-        dependency('gee-0.8')
+        dependency('gee-0.8'),
   	    dependency('json-glib-1.0'),
         dependency('libsoup-3.0'),
   	    dependency('libarchive'),
