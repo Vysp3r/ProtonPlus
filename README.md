@@ -9,8 +9,8 @@
       <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?style=shield" />
     </a>
     <img src="https://img.shields.io/flathub/downloads/com.vysp3r.ProtonPlus?label=Flathub%20installs">
-    <a href="https://t.me/ProtonPlusOfficial">
-      <img title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=shield&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlusOfficial">
+    <a href="https://t.me/ProtonPlus">
+      <img title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=shield&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlus">
     </a>
     <a href="https://discord.gg/Fyf8bWexpQ">
       <img title="Discord" src="https://discordapp.com/api/guilds/1062063752779943997/widget.png?style=shield">
