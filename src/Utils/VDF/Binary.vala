@@ -36,19 +36,15 @@ namespace VDF {
             }
         }
 
-        private void parse_node(string current_node = "") throws Error {
+        private void parse_node(string current_node) throws Error {
             try {
-                if (current_node == "") {
-                    _nodes += new VDF.Node(eat_string());
-                } else {
-                    _nodes += new VDF.Node(current_node + "." + eat_string());
-                }
+                _nodes += new VDF.Node(current_node);
                 current_node_index = _nodes.length - 1;
                 while (true) {
                     uint8 type = reader.read_byte();
                     switch (type) {
                     case BIN_TYPES.BIN_TYPE_NODE:
-                        parse_node(_nodes[current_node_index].node_name);
+                        parse_node(current_node + "." + eat_string());
                         break;
                     case BIN_TYPES.BIN_TYPE_STRING:
                     case BIN_TYPES.BIN_TYPE_INT32:
@@ -62,7 +58,6 @@ namespace VDF {
                         break;
                     case BIN_TYPES.BIN_TYPE_END:
                     case BIN_TYPES.BIN_TYPE_END_ALT:
-                        current_node_index -= 1;
                         return;
                     default:
                         throw new GLib.Error(GLib.Quark.from_string("vala-vdf"), 0, "Unexpected byte");
@@ -95,11 +90,9 @@ namespace VDF {
                 throw new GLib.Error(GLib.Quark.from_string("vala-vdf"), 0, "Colors not supported yet");
             case BIN_TYPES.BIN_TYPE_UINT64:
                 _nodes[current_node_index].set(eat_string(), new GLib.Variant.uint64(reader.read_uint64()));
-                stdout.printf("added data to %s\n", _nodes[current_node_index].node_name);
                 break;
             case BIN_TYPES.BIN_TYPE_INT64:
                 _nodes[current_node_index].set(eat_string(), new GLib.Variant.int64(reader.read_int64()));
-                stdout.printf("added data to %s\n", _nodes[current_node_index].node_name);
                 break;
             default:
                 throw new GLib.Error(GLib.Quark.from_string("vala-vdf"), 0, "Unexpected byte");
@@ -122,15 +115,6 @@ namespace VDF {
                 var splitted_name = node_name.split(".");
                 writer.put_string(splitted_name[splitted_name.length - 1]);
                 writer.put_byte('\0');
-                stdout.printf("on node start %s\n", node_name);
-
-                foreach (var node in _nodes) {
-                    if (node.contains(node_name)) {
-                        if (count_dots(node) == layer + 1) {
-                            save_node(node, layer + 1, _nodes);
-                        }
-                    }
-                }
 
                 var node = nodes.get(node_name);
                 foreach (var elem in node.entries) {
@@ -158,7 +142,13 @@ namespace VDF {
                     }
                 }
 
-                stdout.printf("on node end %s\n", node_name);
+                foreach (var node_i in _nodes) {
+                    if (node_i.contains(node_name)) {
+                        if (count_dots(node_i) == layer + 1) {
+                            save_node(node_i, layer + 1, _nodes);
+                        }
+                    }
+                }
                 writer.put_byte(BIN_TYPES.BIN_TYPE_END);
             } catch (Error e) {
                 throw e;
@@ -205,7 +195,7 @@ namespace VDF {
                     uint8 type = reader.read_byte();
                     switch (type) {
                     case BIN_TYPES.BIN_TYPE_NODE:
-                        parse_node();
+                        parse_node(eat_string());
                         break;
                     case BIN_TYPES.BIN_TYPE_END:
                     case BIN_TYPES.BIN_TYPE_END_ALT:

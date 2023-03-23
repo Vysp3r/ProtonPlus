@@ -1,18 +1,18 @@
 namespace VDF {
     public struct Shortcut {
-        uint32 AppID;
+        int32 AppID;
         bool AllowDesktopConfig;
         bool AllowOverlay;
         string AppName;
-        uint32 Devkit;
+        int32 Devkit;
         string DevkitGameID;
-        uint32 DevkitOverrideAppID;
+        int32 DevkitOverrideAppID;
         string Exe;
         string FlatpakAppID;
         bool IsHidden;
-        uint32 LastPlayTime;
+        int32 LastPlayTime;
         string LaunchOptions;
-        uint32 OpenVR;
+        int32 OpenVR;
         string ShortcutPath;
         string StartDir;
         string Icon;
@@ -40,7 +40,7 @@ namespace VDF {
             foreach (var entry in nodes.entries) {
                 if (entry.key.contains("shortcuts.") && !entry.key.contains(".tags")) {
                     if (entry.value.get("AppName").get_string() == name) {
-                        shortcut.AppID = (uint32) entry.value.get("appid").get_int32();
+                        shortcut.AppID = entry.value.get("appid").get_int32();
                         shortcut.AllowDesktopConfig = entry.value.get("AllowDesktopConfig").get_int32() > 0 ? true : false;
                         shortcut.AllowOverlay = entry.value.get("AllowOverlay").get_int32() > 0 ? true : false;
                         shortcut.AppName = entry.value.get("AppName").get_string();
@@ -73,19 +73,19 @@ namespace VDF {
         }
 
         private void write_shortcut_on_node(VDF.Node node, VDF.Shortcut shortcut) {
-            node.set("appid", new GLib.Variant.uint32(shortcut.AppID));
-            node.set("AllowDesktopConfig", new GLib.Variant.uint32(shortcut.AllowDesktopConfig ? 1 : 0));
-            node.set("AllowOverlay", new GLib.Variant.uint32(shortcut.AllowOverlay ? 1 : 0));
+            node.set("appid", new GLib.Variant.int32(shortcut.AppID));
+            node.set("AllowDesktopConfig", new GLib.Variant.int32(shortcut.AllowDesktopConfig ? 1 : 0));
+            node.set("AllowOverlay", new GLib.Variant.int32(shortcut.AllowOverlay ? 1 : 0));
             node.set("AppName", new GLib.Variant.string(shortcut.AppName));
-            node.set("Devkit", new GLib.Variant.uint32(shortcut.Devkit));
+            node.set("Devkit", new GLib.Variant.int32(shortcut.Devkit));
             node.set("DevkitGameID", new GLib.Variant.string(shortcut.DevkitGameID));
-            node.set("DevkitOverrideAppID", new GLib.Variant.uint32(shortcut.DevkitOverrideAppID));
+            node.set("DevkitOverrideAppID", new GLib.Variant.int32(shortcut.DevkitOverrideAppID));
             node.set("Exe", new GLib.Variant.string(shortcut.Exe));
             node.set("FlatpakAppID", new GLib.Variant.string(shortcut.FlatpakAppID));
-            node.set("IsHidden", new GLib.Variant.uint32(shortcut.IsHidden ? 1 : 0));
-            node.set("LastPlayTime", new GLib.Variant.uint32(shortcut.LastPlayTime));
+            node.set("IsHidden", new GLib.Variant.int32(shortcut.IsHidden ? 1 : 0));
+            node.set("LastPlayTime", new GLib.Variant.int32(shortcut.LastPlayTime));
             node.set("LaunchOptions", new GLib.Variant.string(shortcut.LaunchOptions));
-            node.set("OpenVR", new GLib.Variant.uint32(shortcut.OpenVR));
+            node.set("OpenVR", new GLib.Variant.int32(shortcut.OpenVR));
             node.set("ShortcutPath", new GLib.Variant.string(shortcut.ShortcutPath));
             node.set("StartDir", new GLib.Variant.string(shortcut.StartDir));
             node.set("icon", new GLib.Variant.string(shortcut.Icon));
