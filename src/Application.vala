@@ -1,7 +1,7 @@
 using Utils.Constants;
 
 public class ProtonPlus : Adw.Application {
-    private static GLib.Once<ProtonPlus> _instance;
+    static GLib.Once<ProtonPlus> _instance;
 
     public static unowned ProtonPlus get_instance () {
         return _instance.once (() => { return new ProtonPlus (); });
@@ -24,76 +24,21 @@ public class ProtonPlus : Adw.Application {
     }
 
     public override void activate () {
-        ActionEntry[] action_entries = {
-            { "preferences", on_preferences_action },
-            { "telegram", () => Gtk.show_uri (null, "https://t.me/ProtonPlusOfficial", Gdk.CURRENT_TIME) },
-            { "documentation", () => Gtk.show_uri (null, "https://github.com/Vysp3r/ProtonPlus/wiki", Gdk.CURRENT_TIME) },
-            { "donation", () => Gtk.show_uri (null, "https://www.youtube.com/watch?v=dQw4w9WgXcQ", Gdk.CURRENT_TIME) },
-            { "about", on_about_action },
-            { "quit", quit }
-        };
-        add_action_entries (action_entries, this);
-
-        // Initialize the main store
-        var mainStore = Stores.Main.get_instance ();
-
-        // Get the current desktop
-        mainStore.Desktop = GLib.Environment.get_variable ("DESKTOP_SESSION");
-
-        // Load the installed launchers
-        mainStore.InstalledLaunchers = Models.Launcher.GetAll ();
-
-        // Load the css
+        //
         Utils.Theme.Load ();
 
-        // Apply the selected libadwaita theme
+        //
         Utils.Theme.Apply ();
 
-        // Always load data first, because Windows.Home is using them
-        mainStore.Application = this;
-        mainStore.MainWindow = new Windows.Home (mainStore.Application);
+        //
+        var window = new Windows.Main (this);
 
-        // Fullscreen the application if it's started in gamescope
-        if (mainStore.Desktop == "gamescope-wayland") mainStore.MainWindow.fullscreen ();
+        //
+        if (GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland") {
+            window.fullscreen ();
+        }
 
-        mainStore.MainWindow.show ();
-    }
-
-    void on_about_action () {
-        string[] devs = { "Charles Malouin (Vysp3r) https:// github.com/Vysp3r" };
-        string[] designers = { "Charles Malouin (Vysp3r) https://github.com/Vysp3r" };
-        string[] thanks = {
-            "GNOME Project https://www.gnome.org/",
-            "ProtonUp-Qt Project https://davidotek.github.io/protonup-qt/",
-            "LUG Helper Project https://github.com/starcitizen-lug/lug-helper",
-            "Lahey"
-        };
-
-        var aboutDialog = new Adw.AboutWindow ();
-
-        aboutDialog.set_application_name ("ProtonPlus");
-        aboutDialog.set_application_icon ("com.vysp3r.ProtonPlus");
-        aboutDialog.set_version (@"v$APP_VERSION");
-        aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
-        aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
-        aboutDialog.set_release_notes ("<ul>\n" +
-                                       "<li>✨ Added support for Bottles</li>\n" +
-                                       "<li>🔨 Update appdata</li>\n" +
-                                       "<li>💬 Update the release notes</li>\n" +
-                                       "</ul>");
-        aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
-        aboutDialog.set_copyright ("© 2022 Vysp3r");
-        aboutDialog.set_license_type (Gtk.License.GPL_3_0);
-        aboutDialog.set_developers (devs);
-        aboutDialog.set_designers (designers);
-        aboutDialog.add_credit_section ("Special thanks to", thanks);
-        aboutDialog.set_transient_for (Stores.Main.get_instance ().MainWindow);
-        aboutDialog.set_modal (true);
-
-        aboutDialog.show ();
-    }
-
-    void on_preferences_action () {
-        new Windows.Preferences (Stores.Main.get_instance ().MainWindow);
+        //
+        window.show ();
     }
 }

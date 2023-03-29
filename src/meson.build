@@ -26,18 +26,18 @@ sources = files(
 
   'Stores/Main.vala',
 
-  'Widgets/ProtonComboRow.vala',
-  'Widgets/ProtonMessageDialog.vala',
-
-  'Windows/Home.vala',
-  'Windows/About.vala',
+  'Windows/Main.vala',
+  'Windows/ViewManager.vala',
   'Windows/Preferences.vala',
-  'Windows/Installer.vala',
-  'Windows/LauncherSettings.vala',
 
-  'Windows/Views/Games.vala',
-  'Windows/Views/Tools.vala',
-  'Windows/Views/Notifications.vala',
+  'Windows/Tools/LauncherSelector.vala',
+  'Windows/Tools/LauncherInfo.vala',
+  'Windows/Tools/ReleaseInstaller.vala',
+  'Windows/Tools/ReleaseInfo.vala',
+
+  'Windows/Games/Main.vala',
+
+  'Windows/Notifications/Main.vala',
 
   'Application.vala',
 )

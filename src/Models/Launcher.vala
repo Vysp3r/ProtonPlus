@@ -1,49 +1,30 @@
 namespace Models {
-    public class Launcher : Object, Interfaces.IModel {
-        string homeDirectory;
-        string directory;
-
-        public string Title { get; set; }
-        public string HomeDirectory {
-            public owned get { return homeDirectory; }
-        }
-        public string Folder {
-            public owned get { return directory; }
-        }
-        public string Directory {
-            public owned get { return homeDirectory + directory; }
-            private set { directory = value; }
-        }
+    public class Launcher : Object {
+        public string Title;
+        public string FullPath;
         public List<Models.Tool> Tools;
         public bool Installed {
-            public get { return directory.length > 0; }
+            public get { return FullPath.length > 0; }
         }
 
         public delegate void Callback ();
         public signal void install ();
         public signal void uninstall ();
 
-        public Launcher (string title, string[] directories, string toolDirectory, List<Models.Tool> tools, Callback? installCallback = null, Callback? uninstallCallback = null) {
-            homeDirectory = GLib.Environment.get_home_dir ();
-
-            this.Title = title;
-            this.Directory = verifyDirectories (directories, toolDirectory);
+        public Launcher (string title, string[] directories, string toolDirectory, Callback? installCallback = null, Callback? uninstallCallback = null) {
+            Title = title;
+            FullPath = verifyDirectories (directories, toolDirectory);
 
             if (installCallback != null) install.connect (() => installCallback ());
             if (uninstallCallback != null) uninstall.connect (() => uninstallCallback ());
-
-            Tools = new List<Models.Tool> ();
-            tools.@foreach ((tool) => {
-                Tools.append (tool);
-            });
         }
 
-        private string verifyDirectories (string[] directories, string toolDirectory) {
+        string verifyDirectories (string[] directories, string toolDirectory) {
             string dir = "";
 
             // Check if any of the given directories exists
             foreach (var item in directories) {
-                if (FileUtils.test (homeDirectory + item, FileTest.IS_DIR)) {
+                if (FileUtils.test (GLib.Environment.get_home_dir () + item, FileTest.IS_DIR)) {
                     dir = item + toolDirectory;
                     break;
                 }
@@ -51,12 +32,12 @@ namespace Models {
 
             // If a directory exist, it makes sure that the tool directory is created
             if (dir.length > 0) {
-                if (!FileUtils.test (homeDirectory + dir, FileTest.IS_DIR)) {
-                    Utils.File.CreateDirectory (homeDirectory + dir);
+                if (!FileUtils.test (GLib.Environment.get_home_dir () + dir, FileTest.IS_DIR)) {
+                    Utils.File.CreateDirectory (GLib.Environment.get_home_dir () + dir);
                 }
             }
 
-            return dir;
+            return dir == "" ? dir : GLib.Environment.get_home_dir () + dir;
         }
 
         public static uint GetPosition (GLib.List<Launcher> launchers, string title) {
@@ -73,207 +54,221 @@ namespace Models {
             return position;
         }
 
-        public static GLib.ListStore GetStore (GLib.List<Launcher> launchers) {
-            var store = new GLib.ListStore (typeof (Launcher));
-
-            launchers.@foreach ((launcher) => {
-                store.append (launcher);
-            });
-
-            return store;
-        }
-
-        public static GLib.List GetAll () {
+        public static GLib.List<Launcher> GetAll () {
             var launchers = new GLib.List<Launcher> ();
 
             // Steam
             var steamToolDir = "/compatibilitytools.d";
-            var steamTools = Models.Tool.Steam ();
 
             var steam = new Launcher (
-                "Steam",
-                new string[] {
+                                      "Steam",
+                                      new string[] {
                 "/.local/share/Steam",
                 "/.steam/root",
                 "/.steam/steam",
                 "/.steam/debian-installation"
             },
-                steamToolDir,
-                steamTools
+                                      steamToolDir
             );
-            if (steam.Installed) launchers.append (steam);
+            if (steam.Installed) {
+                steam.Tools = Models.Tool.Steam (steam);
+                launchers.append (steam);
+            }
 
             var steamFlatpak = new Launcher (
-                "Steam (Flatpak)",
-                new string[] {
+                                             "Steam (Flatpak)",
+                                             new string[] {
                 "/.var/app/com.valvesoftware.Steam/data/Steam"
             },
-                steamToolDir,
-                steamTools
+                                             steamToolDir
             );
-            if (steamFlatpak.Installed) launchers.append (steamFlatpak);
+            if (steamFlatpak.Installed) {
+                steamFlatpak.Tools = Models.Tool.Steam (steamFlatpak);
+                launchers.append (steamFlatpak);
+            }
 
             var steamSnap = new Launcher (
-                "Steam (Snap)",
-                new string[] {
+                                          "Steam (Snap)",
+                                          new string[] {
                 "/snap/steam/common/.steam/root"
             },
-                steamToolDir,
-                steamTools
+                                          steamToolDir
             );
-            if (steamSnap.Installed) launchers.append (steamSnap);
+            if (steamSnap.Installed) {
+                steamSnap.Tools = Models.Tool.Steam (steamSnap);
+                launchers.append (steamSnap);
+            }
+
 
             // Lutris
             var lutrisToolDir = "/wine";
-            var lutrisTools = Models.Tool.Lutris ();
 
             var lutris = new Launcher (
-                "Lutris",
-                new string[] {
+                                       "Lutris",
+                                       new string[] {
                 "/.local/share/lutris/runners"
             },
-                lutrisToolDir,
-                lutrisTools
+                                       lutrisToolDir
             );
-            if (lutris.Installed) launchers.append (lutris);
+            if (lutris.Installed) {
+                lutris.Tools = Models.Tool.Lutris (lutris);
+                launchers.append (lutris);
+            }
 
             var lutrisFlatpak = new Launcher (
-                "Lutris (Flatpak)",
-                new string[] {
+                                              "Lutris (Flatpak)",
+                                              new string[] {
                 "/.var/app/net.lutris.Lutris/data/lutris/runners"
             },
-                lutrisToolDir,
-                lutrisTools
+                                              lutrisToolDir
             );
-            if (lutrisFlatpak.Installed) launchers.append (lutrisFlatpak);
+            if (lutrisFlatpak.Installed) {
+                lutrisFlatpak.Tools = Models.Tool.Lutris (lutrisFlatpak);
+                launchers.append (lutrisFlatpak);
+            }
 
             // Lutris DXVK
             var lutrisDxvkToolDir = "/dxvk";
-            var lutrisDxvkTools = Models.Tool.LutrisDXVK ();
 
             var lutrisDXVK = new Launcher (
-                "Lutris DXVK",
-                new string[] {
+                                           "Lutris DXVK",
+                                           new string[] {
                 "/.local/share/lutris/runtime"
             },
-                lutrisDxvkToolDir,
-                lutrisDxvkTools
+                                           lutrisDxvkToolDir
             );
-            if (lutrisDXVK.Installed) launchers.append (lutrisDXVK);
+            if (lutrisDXVK.Installed) {
+                lutrisDXVK.Tools = Models.Tool.LutrisDXVK (lutrisDXVK);
+                launchers.append (lutrisDXVK);
+            }
 
             var lutrisDXVKFlatpak = new Launcher (
-                "Lutris DXVK (Flatpak)",
-                new string[] {
+                                                  "Lutris DXVK (Flatpak)",
+                                                  new string[] {
                 "/.var/app/net.lutris.Lutris/data/lutris/runtime"
             },
-                lutrisDxvkToolDir,
-                lutrisDxvkTools
+                                                  lutrisDxvkToolDir
             );
-            if (lutrisDXVKFlatpak.Installed) launchers.append (lutrisDXVKFlatpak);
+            if (lutrisDXVKFlatpak.Installed) {
+                lutrisDXVKFlatpak.Tools = Models.Tool.LutrisDXVK (lutrisDXVKFlatpak);
+                launchers.append (lutrisDXVKFlatpak);
+            }
 
             // Heroic Games Launcher - Proton
             var HGLProtonToolDir = "/proton";
-            var HGLProtonTools = Models.Tool.HeroicProton ();
 
             var HGLProton = new Launcher (
-                "Heroic Games Launcher - Proton",
-                new string[] {
+                                          "Heroic Games Launcher - Proton",
+                                          new string[] {
                 "/.config/heroic/tools"
             },
-                HGLProtonToolDir,
-                HGLProtonTools,
-                HGL_Install_Script,
-                HGL_Uninstall_Script
+                                          HGLProtonToolDir,
+                                          HGL_Install_Script,
+                                          HGL_Uninstall_Script
             );
-            if (HGLProton.Installed) launchers.append (HGLProton);
+            if (HGLProton.Installed) {
+                HGLProton.Tools = Models.Tool.HeroicProton (HGLProton);
+                launchers.append (HGLProton);
+            }
 
             var HGLProtonFlatpak = new Launcher (
-                "Heroic Games Launcher - Proton (Flatpak)",
-                new string[] {
+                                                 "Heroic Games Launcher - Proton (Flatpak)",
+                                                 new string[] {
                 "/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools"
             },
-                HGLProtonToolDir,
-                HGLProtonTools,
-                HGL_Install_Script,
-                HGL_Uninstall_Script
+                                                 HGLProtonToolDir,
+                                                 HGL_Install_Script,
+                                                 HGL_Uninstall_Script
             );
-            if (HGLProtonFlatpak.Installed) launchers.append (HGLProtonFlatpak);
+            if (HGLProtonFlatpak.Installed) {
+                HGLProtonFlatpak.Tools = Models.Tool.HeroicProton (HGLProtonFlatpak);
+                launchers.append (HGLProtonFlatpak);
+            }
 
             // Heroic Games Launcher - Wine
             var HGLWineToolDir = "/wine";
-            var HGLWineTools = Models.Tool.HeroicWine ();
 
             var HGLWine = new Launcher (
-                "Heroic Games Launcher - Wine",
-                new string[] {
+                                        "Heroic Games Launcher - Wine",
+                                        new string[] {
                 "/.config/heroic/tools"
             },
-                HGLWineToolDir,
-                HGLWineTools,
-                HGL_Install_Script,
-                HGL_Uninstall_Script
+                                        HGLWineToolDir,
+                                        HGL_Install_Script,
+                                        HGL_Uninstall_Script
             );
-            if (HGLWine.Installed) launchers.append (HGLWine);
+            if (HGLWine.Installed) {
+                HGLWine.Tools = Models.Tool.HeroicWine (HGLWine);
+                launchers.append (HGLWine);
+            }
 
             var HGLWineFlatpak = new Launcher (
-                "Heroic Games Launcher - Wine (Flatpak)",
-                new string[] {
+                                               "Heroic Games Launcher - Wine (Flatpak)",
+                                               new string[] {
                 "/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools"
             },
-                HGLWineToolDir,
-                HGLWineTools,
-                HGL_Install_Script,
-                HGL_Uninstall_Script
+                                               HGLWineToolDir,
+                                               HGL_Install_Script,
+                                               HGL_Uninstall_Script
             );
-            if (HGLWineFlatpak.Installed) launchers.append (HGLWineFlatpak);
+            if (HGLWineFlatpak.Installed) {
+                HGLWineFlatpak.Tools = Models.Tool.HeroicWine (HGLWineFlatpak);
+                launchers.append (HGLWineFlatpak);
+            }
 
             // Bottles
             var bottlesToolDir = "/runners";
-            var bottlesTools = Models.Tool.Bottles ();
 
             var bottles = new Launcher (
-                "Bottles",
-                new string[] {
+                                        "Bottles",
+                                        new string[] {
                 "/.local/share/bottles"
             },
-                bottlesToolDir,
-                bottlesTools
+                                        bottlesToolDir
             );
-            if (bottles.Installed) launchers.append (bottles);
+            if (bottles.Installed) {
+                bottles.Tools = Models.Tool.Bottles (bottles);
+                launchers.append (bottles);
+            }
 
             var bottlesFlatpak = new Launcher (
-                "Bottles (Flatpak)",
-                new string[] {
+                                               "Bottles (Flatpak)",
+                                               new string[] {
                 "/.var/app/com.usebottles.bottles/data/bottles"
             },
-                bottlesToolDir,
-                bottlesTools
+                                               bottlesToolDir
             );
-            if (bottlesFlatpak.Installed) launchers.append (bottlesFlatpak);
+            if (bottlesFlatpak.Installed) {
+                bottlesFlatpak.Tools = Models.Tool.Bottles (bottlesFlatpak);
+                launchers.append (bottlesFlatpak);
+            }
 
             // Bottles DXVK
             var bottlesDXVKToolDir = "/dxvk";
-            var bottlesDXVKTools = Models.Tool.BottlesDXVK ();
 
             var bottlesDXVK = new Launcher (
-                "Bottles DXVK",
-                new string[] {
+                                            "Bottles DXVK",
+                                            new string[] {
                 "/.local/share/bottles"
             },
-                bottlesDXVKToolDir,
-                bottlesDXVKTools
+                                            bottlesDXVKToolDir
             );
-            if (bottlesDXVK.Installed) launchers.append (bottlesDXVK);
+            if (bottlesDXVK.Installed) {
+                bottlesDXVK.Tools = Models.Tool.BottlesDXVK (bottlesDXVK);
+                launchers.append (bottlesDXVK);
+            }
 
             var bottlesDXVKFlatpak = new Launcher (
-                "Bottles DXVK (Flatpak)",
-                new string[] {
+                                                   "Bottles DXVK (Flatpak)",
+                                                   new string[] {
                 "/.var/app/com.usebottles.bottles/data/bottles"
             },
-                bottlesDXVKToolDir,
-                bottlesDXVKTools
+                                                   bottlesDXVKToolDir
             );
-            if (bottlesDXVKFlatpak.Installed) launchers.append (bottlesDXVKFlatpak);
+            if (bottlesDXVKFlatpak.Installed) {
+                bottlesDXVKFlatpak.Tools = Models.Tool.BottlesDXVK (bottlesDXVKFlatpak);
+                launchers.append (bottlesDXVKFlatpak);
+            }
 
             return (owned) launchers;
         }
@@ -285,7 +280,7 @@ namespace Models {
                 string path = "/.config";
                 if (store.CurrentLauncher.Title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
 
-                GLib.File file = GLib.File.new_for_path (store.CurrentLauncher.HomeDirectory + path + "/heroic/store/wine-downloader-info.json");
+                GLib.File file = GLib.File.new_for_path (GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json");
 
                 uint8[] contents;
                 string etag_out;
@@ -303,10 +298,10 @@ namespace Models {
                     var tempNode = objArray.get_element (i);
                     var obj = tempNode.get_object ();
 
-                    if (obj.get_string_member ("version").contains (store.CurrentRelease.GetFolderTitle (store.CurrentLauncher, store.CurrentTool))) {
+                    if (obj.get_string_member ("version").contains (store.CurrentRelease.GetDirectoryName ())) {
                         obj.set_boolean_member ("isInstalled", true);
                         obj.set_boolean_member ("hasUpdate", false);
-                        obj.set_string_member ("installDir", store.CurrentLauncher.Directory + "/" + obj.get_string_member ("version"));
+                        obj.set_string_member ("installDir", GLib.Environment.get_home_dir () + "/" + obj.get_string_member ("version"));
 
                         var util = new Utils.DirUtil (obj.get_string_member ("installDir"));
                         obj.set_int_member ("disksize", (int64) util.get_total_size ());
@@ -318,16 +313,16 @@ namespace Models {
                 if (!found) {
                     var obj = new Json.Object ();
 
-                    obj.set_string_member ("version", store.CurrentRelease.GetFolderTitle (store.CurrentLauncher, store.CurrentTool));
+                    obj.set_string_member ("version", store.CurrentRelease.GetDirectoryName ());
                     obj.set_string_member ("type", store.CurrentTool.Title);
-                    obj.set_string_member ("date", store.CurrentRelease.Release_Date);
-                    obj.set_string_member ("checksum", store.CurrentRelease.Checksum_URL);
-                    obj.set_string_member ("download", store.CurrentRelease.Download_URL);
-                    obj.set_int_member ("downsize", store.CurrentRelease.Download_Size);
+                    obj.set_string_member ("date", store.CurrentRelease.ReleaseDate);
+                    obj.set_string_member ("checksum", store.CurrentRelease.ChecksumURL);
+                    obj.set_string_member ("download", store.CurrentRelease.DownloadURL);
+                    obj.set_int_member ("downsize", store.CurrentRelease.DownloadSize);
 
                     obj.set_boolean_member ("isInstalled", true);
                     obj.set_boolean_member ("hasUpdate", false);
-                    obj.set_string_member ("installDir", store.CurrentLauncher.Directory + "/" + obj.get_string_member ("version"));
+                    obj.set_string_member ("installDir", store.CurrentLauncher.FullPath + "/" + obj.get_string_member ("version"));
 
                     var util = new Utils.DirUtil (obj.get_string_member ("installDir"));
                     obj.set_int_member ("disksize", (int64) util.get_total_size ());
@@ -335,9 +330,9 @@ namespace Models {
                     objArray.add_object_element (obj);
                 }
 
-                var util = new Utils.DirUtil (store.CurrentLauncher.HomeDirectory + path + "/heroic/store");
+                var util = new Utils.DirUtil (GLib.Environment.get_home_dir () + path + "/heroic/store");
                 util.remove_file ("wine-downloader-info.json");
-                Utils.File.Write (store.CurrentLauncher.HomeDirectory + path + "/heroic/store/wine-downloader-info.json", Json.to_string (rootNode, true));
+                Utils.File.Write (GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json", Json.to_string (rootNode, true));
             } catch (GLib.Error e) {
                 stderr.printf (e.message + "\n");
             }
@@ -350,7 +345,7 @@ namespace Models {
                 string path = "/.config";
                 if (store.CurrentLauncher.Title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
 
-                GLib.File file = GLib.File.new_for_path (store.CurrentLauncher.HomeDirectory + path + "/heroic/store/wine-downloader-info.json");
+                GLib.File file = GLib.File.new_for_path (GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json");
 
                 uint8[] contents;
                 string etag_out;
@@ -366,7 +361,7 @@ namespace Models {
                     var tempNode = objArray.get_element (i);
                     var obj = tempNode.get_object ();
 
-                    if (obj.get_string_member ("version").contains (store.CurrentRelease.GetFolderTitle (store.CurrentLauncher, store.CurrentTool))) {
+                    if (obj.get_string_member ("version").contains (store.CurrentRelease.GetDirectoryName ())) {
                         obj.remove_member ("isInstalled");
                         obj.remove_member ("hasUpdate");
                         obj.remove_member ("installDir");
@@ -374,9 +369,9 @@ namespace Models {
                     }
                 }
 
-                var util = new Utils.DirUtil (store.CurrentLauncher.HomeDirectory + path + "/heroic/store");
+                var util = new Utils.DirUtil (GLib.Environment.get_home_dir () + path + "/heroic/store");
                 util.remove_file ("wine-downloader-info.json");
-                Utils.File.Write (store.CurrentLauncher.HomeDirectory + path + "/heroic/store/wine-downloader-info.json", Json.to_string (rootNode, true));
+                Utils.File.Write (GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json", Json.to_string (rootNode, true));
             } catch (GLib.Error e) {
                 stderr.printf (e.message + "\n");
             }

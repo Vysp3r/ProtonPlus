@@ -128,5 +128,15 @@ namespace Utils {
 
             return folders;
         }
+
+        public static string BytesToString (int64 size) {
+            if (size >= 1073741824) {
+                return "%.2f GB".printf((double) size / (1024 * 1024 * 1024));
+            } else if (size > 1048576) {
+                return "%.2f MB".printf((double) size / (1024 * 1024));
+            } else {
+                return "%lld B".printf(size);
+            }
+        }
     }
 }

@@ -1,53 +1,49 @@
 namespace Windows {
-    public class Preferences : Adw.PreferencesWindow {
-        Widgets.ProtonComboRow crStyles;
+    public class Preferences : Gtk.Box {
         GLib.Settings settings;
 
-        public Preferences (Gtk.ApplicationWindow parent) {
-            set_transient_for (parent);
-            set_modal (true);
-            set_title (_ ("Preferences"));
-            set_can_navigate_back (true);
-            set_default_size (0, 0);
+        public Preferences (Gtk.Notebook notebook) {
+            //
+            set_spacing (0);
+            set_orientation (Gtk.Orientation.VERTICAL);
+            set_vexpand (true);
+            set_hexpand (true);
 
+            //
             settings = new Settings ("com.vysp3r.ProtonPlus");
 
-            // Setup mainPage
-            var mainPage = new Adw.PreferencesPage ();
-            mainPage.set_name (_ ("Main"));
-            mainPage.set_title (_ ("Main"));
-            add (mainPage);
-
-            // Setup crStyles
-            crStyles = new Widgets.ProtonComboRow (_ ("Styles"), Models.Preferences.Style.GetStore (Models.Preferences.Style.GetAll ()), 0);
-            settings.bind ("window-style", crStyles, "selected", GLib.SettingsBindFlags.DEFAULT);
-            crStyles.notify.connect ((param) => {
-                if (param.get_name () == "selected") {
-                    Utils.Theme.Apply ();
-                }
+            //
+            var btnBack = new Gtk.Button ();
+            btnBack.set_icon_name ("go-previous-symbolic");
+            btnBack.clicked.connect (() => {
+                notebook.set_current_page (0);
             });
 
-            // Setup stylesGroup
-            var apperanceGroup = new Adw.PreferencesGroup ();
-            apperanceGroup.add (crStyles);
-            mainPage.add (apperanceGroup);
+            //
+            var headerBar = new Adw.HeaderBar ();
+            headerBar.set_centering_policy (Adw.CenteringPolicy.STRICT);
+            headerBar.pack_start (btnBack);
+            append (headerBar);
 
-            // Setup rememberLastLauncherSwitch
+            //
+            var mainPage = new Adw.PreferencesPage ();
+            mainPage.set_name (_("Main"));
+            mainPage.set_title (_("Main"));
+            append (mainPage);
+
+            //
             var rememberLastLauncherSwitch = new Gtk.Switch ();
             settings.bind ("remember-last-launcher", rememberLastLauncherSwitch, "active", GLib.SettingsBindFlags.DEFAULT);
 
-            // Setup showGamescopeWarningSwitch
+            //
             var showGamescopeWarningSwitch = new Gtk.Switch ();
             settings.bind ("show-gamescope-warning", showGamescopeWarningSwitch, "active", GLib.SettingsBindFlags.DEFAULT);
 
-            // Setup stylesGroup
+            //
             var otherGroup = new Adw.PreferencesGroup ();
-            otherGroup.add (CreateRow (rememberLastLauncherSwitch, _ ("Remember last launcher")));
-            otherGroup.add (CreateRow (showGamescopeWarningSwitch, _ ("Show gamescope warning")));
+            otherGroup.add (CreateRow (rememberLastLauncherSwitch, _("Remember last launcher")));
+            otherGroup.add (CreateRow (showGamescopeWarningSwitch, _("Show gamescope warning")));
             mainPage.add (otherGroup);
-
-            // Show the window
-            show ();
         }
 
         Adw.ActionRow CreateRow (Gtk.Widget widget, string row_title) {
