@@ -11,6 +11,7 @@ namespace Models {
         public bool Installed;
         public string Directory;
         public int64 Size;
+        public bool InstallCancelled;
 
         public Release (Models.Tool tool, string title, string download_url = "", string page_url = "", string release_date = "", string checksum_url = "", int64 download_size = 0, string file_extension = ".tar.gz") {
             Tool = tool;
@@ -25,6 +26,10 @@ namespace Models {
             Installed = FileUtils.test (Directory, FileTest.IS_DIR);
             Size = 0;
 
+            SetSize();
+        }
+
+        public void SetSize () {
             if (Installed) {
                 var dirUtil = new Utils.DirUtil (Directory);
                 Size = (int64) dirUtil.get_total_size ();
@@ -69,7 +74,6 @@ namespace Models {
 
         public void Install () {
             new Thread<void> ("deleteThread", () => {
-
             });
         }
     }

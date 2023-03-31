@@ -11,6 +11,7 @@ namespace Windows.Tools {
         bool loaded = false;
         bool done = false;
         bool error = false;
+        int lastPage;
 
         public LauncherInfo (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay, Models.Launcher launcher) {
             //
@@ -27,6 +28,10 @@ namespace Windows.Tools {
             btnBack.clicked.connect (() => {
                 if (notebook.get_current_page () == 0) leaflet.get_pages ().select_item (0, true);
                 if (notebook.get_current_page () == 1) notebook.set_current_page (0);
+                if (notebook.get_current_page () == 2) {
+                    if (lastPage == 0) notebook.set_current_page (0);
+                    if (lastPage == 1) notebook.set_current_page (1);
+                }
             });
 
             //
@@ -178,20 +183,29 @@ namespace Windows.Tools {
         }
 
         public void InstallRelease (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
-            int currentPage = notebook.get_current_page ();
+            lastPage = notebook.get_current_page ();
             notebook.set_current_page (2);
-            releaseInstaller.Download (currentPage);
+            releaseInstaller.Download (release);
 
-// GLib.Timeout.add (1000, () => {
-// if (release.Installed) {
-// row.remove (actions);
-// row.add_suffix (GetActionsBox (release, row));
 
-// return false;
-// }
+            GLib.Timeout.add (1000, () => {
+                if (release.InstallCancelled) {
+                    return false;
+                }
 
-// return true;
-// });
+                if (release.Installed) {
+                    row.remove (actions);
+                    row.add_suffix (GetActionsBox (release, row));
+
+                    if (lastPage == 1) {
+                        releaseInfo.Load (release, row, actions);
+                    }
+
+                    return false;
+                }
+
+                return true;
+            });
         }
 
         public void Load () {
