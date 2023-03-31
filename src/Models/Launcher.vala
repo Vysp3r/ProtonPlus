@@ -7,16 +7,16 @@ namespace Models {
             public get { return FullPath.length > 0; }
         }
 
-        public delegate void Callback ();
-        public signal void install ();
-        public signal void uninstall ();
+        public delegate void Callback (Models.Release release);
+        public signal void install (Models.Release release);
+        public signal void uninstall (Models.Release release);
 
         public Launcher (string title, string[] directories, string toolDirectory, Callback? installCallback = null, Callback? uninstallCallback = null) {
             Title = title;
             FullPath = verifyDirectories (directories, toolDirectory);
 
-            if (installCallback != null) install.connect (() => installCallback ());
-            if (uninstallCallback != null) uninstall.connect (() => uninstallCallback ());
+            if (installCallback != null) install.connect ((release) => installCallback (release));
+            if (uninstallCallback != null) uninstall.connect ((release) => uninstallCallback (release));
         }
 
         string verifyDirectories (string[] directories, string toolDirectory) {
@@ -273,12 +273,10 @@ namespace Models {
             return (owned) launchers;
         }
 
-        static void HGL_Install_Script () {
+        static void HGL_Install_Script (Models.Release release) {
             try {
-                var store = Stores.Main.get_instance ();
-
                 string path = "/.config";
-                if (store.CurrentLauncher.Title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
+                if (release.Tool.Launcher.Title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
 
                 GLib.File file = GLib.File.new_for_path (GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json");
 
@@ -298,7 +296,7 @@ namespace Models {
                     var tempNode = objArray.get_element (i);
                     var obj = tempNode.get_object ();
 
-                    if (obj.get_string_member ("version").contains (store.CurrentRelease.GetDirectoryName ())) {
+                    if (obj.get_string_member ("version").contains (release.GetDirectoryName ())) {
                         obj.set_boolean_member ("isInstalled", true);
                         obj.set_boolean_member ("hasUpdate", false);
                         obj.set_string_member ("installDir", GLib.Environment.get_home_dir () + "/" + obj.get_string_member ("version"));
@@ -313,16 +311,16 @@ namespace Models {
                 if (!found) {
                     var obj = new Json.Object ();
 
-                    obj.set_string_member ("version", store.CurrentRelease.GetDirectoryName ());
-                    obj.set_string_member ("type", store.CurrentTool.Title);
-                    obj.set_string_member ("date", store.CurrentRelease.ReleaseDate);
-                    obj.set_string_member ("checksum", store.CurrentRelease.ChecksumURL);
-                    obj.set_string_member ("download", store.CurrentRelease.DownloadURL);
-                    obj.set_int_member ("downsize", store.CurrentRelease.DownloadSize);
+                    obj.set_string_member ("version", release.GetDirectoryName ());
+                    obj.set_string_member ("type", release.Tool.Title);
+                    obj.set_string_member ("date", release.ReleaseDate);
+                    obj.set_string_member ("checksum", release.ChecksumURL);
+                    obj.set_string_member ("download", release.DownloadURL);
+                    obj.set_int_member ("downsize", release.DownloadSize);
 
                     obj.set_boolean_member ("isInstalled", true);
                     obj.set_boolean_member ("hasUpdate", false);
-                    obj.set_string_member ("installDir", store.CurrentLauncher.FullPath + "/" + obj.get_string_member ("version"));
+                    obj.set_string_member ("installDir", release.Tool.Launcher.FullPath + "/" + obj.get_string_member ("version"));
 
                     var util = new Utils.DirUtil (obj.get_string_member ("installDir"));
                     obj.set_int_member ("disksize", (int64) util.get_total_size ());
@@ -338,12 +336,10 @@ namespace Models {
             }
         }
 
-        static void HGL_Uninstall_Script () {
+        static void HGL_Uninstall_Script (Models.Release release) {
             try {
-                var store = Stores.Main.get_instance ();
-
                 string path = "/.config";
-                if (store.CurrentLauncher.Title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
+                if (release.Tool.Launcher.Title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
 
                 GLib.File file = GLib.File.new_for_path (GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json");
 
@@ -361,7 +357,7 @@ namespace Models {
                     var tempNode = objArray.get_element (i);
                     var obj = tempNode.get_object ();
 
-                    if (obj.get_string_member ("version").contains (store.CurrentRelease.GetDirectoryName ())) {
+                    if (obj.get_string_member ("version").contains (release.GetDirectoryName ())) {
                         obj.remove_member ("isInstalled");
                         obj.remove_member ("hasUpdate");
                         obj.remove_member ("installDir");

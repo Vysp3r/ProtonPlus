@@ -1,6 +1,6 @@
 namespace Windows {
     public class ViewManager : Gtk.Box {
-        public ViewManager (Adw.Leaflet leaflet) {
+        public ViewManager (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay) {
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (0);
 
@@ -39,7 +39,7 @@ namespace Windows {
             viewStack.set_vexpand (true);
 
             // Setup toolsPage
-            var toolsPage = viewStack.add_titled (new Windows.Tools.LauncherSelector (leaflet), _("Tools"), _("Tools"));
+            var toolsPage = viewStack.add_titled (new Windows.Tools.LauncherSelector (leaflet, toastOverlay), _("Tools"), _("Tools"));
             toolsPage.set_icon_name ("emblem-system-symbolic");
 
             // Setup gamesPage

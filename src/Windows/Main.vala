@@ -20,11 +20,14 @@ namespace Windows {
             set_size_request (800, 500);
 
             //
+            var toastOverlay = new Adw.ToastOverlay ();
+
+            //
             var leaflet = new Adw.Leaflet ();
             leaflet.set_transition_type (Adw.LeafletTransitionType.OVER);
             leaflet.set_can_unfold (false);
             leaflet.set_fold_threshold_policy (Adw.FoldThresholdPolicy.NATURAL);
-            leaflet.prepend (new Windows.ViewManager (leaflet));
+            leaflet.prepend (new Windows.ViewManager (leaflet, toastOverlay));
             leaflet.get_pages ().select_item (0, true);
 
             //
@@ -34,7 +37,10 @@ namespace Windows {
             notebook.append_page (new Windows.Preferences (notebook));
 
             //
-            set_content (notebook);
+            toastOverlay.set_child (notebook);
+
+            //
+            set_content (toastOverlay);
         }
 
         void on_about_action () {

@@ -50,7 +50,7 @@ namespace Windows.Tools {
             return row;
         }
 
-        public void Load (Models.Release release) {
+        public void Load (Models.Release release, Adw.ActionRow row, Gtk.Box rowActions) {
             //
             var btnOpenDirectory = new Gtk.Button ();
 
@@ -71,13 +71,13 @@ namespace Windows.Tools {
                 var btnDelete = new Gtk.Button.with_label ("Delete");
                 btnDelete.add_css_class ("destructive-action");
                 btnDelete.set_hexpand (true);
-                btnDelete.clicked.connect (() => launcherInfo.DeleteRelease ());
+                btnDelete.clicked.connect (() => launcherInfo.DeleteRelease (release, row, rowActions));
                 actions.append (btnDelete);
             } else {
                 var btnInstall = new Gtk.Button.with_label ("Install");
                 btnInstall.add_css_class ("suggested-action");
                 btnInstall.set_hexpand (true);
-                btnInstall.clicked.connect (() => launcherInfo.InstallRelease ());
+                btnInstall.clicked.connect (() => launcherInfo.InstallRelease (release, row, rowActions));
                 actions.append (btnInstall);
             }
 

@@ -4,13 +4,17 @@ namespace Windows.Tools {
 
         Windows.Tools.ReleaseInstaller releaseInstaller;
         Windows.Tools.ReleaseInfo releaseInfo;
+        Adw.ToastOverlay toastOverlay;
         Models.Launcher launcher;
-        Gtk.Box content;
         Gtk.Notebook notebook;
+        GLib.List<Adw.ExpanderRow> toolRows;
+        bool loaded = false;
         bool done = false;
+        bool error = false;
 
-        public LauncherInfo (Adw.Leaflet leaflet, Models.Launcher launcher) {
+        public LauncherInfo (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay, Models.Launcher launcher) {
             //
+            this.toastOverlay = toastOverlay;
             this.launcher = launcher;
 
             //
@@ -32,11 +36,21 @@ namespace Windows.Tools {
             append (headerBar);
 
             //
-            content = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
+            var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
             content.set_margin_bottom (15);
             content.set_margin_top (15);
 
-            // initializeContent ();
+            //
+            var group = new Adw.PreferencesGroup ();
+            group.set_title (launcher.Title);
+            content.append (group);
+
+            //
+            foreach (var tool in launcher.Tools) {
+                var row = CreateToolRow (tool);
+                toolRows.append (row);
+                group.add (row);
+            }
 
             //
             var clamp = new Adw.Clamp ();
@@ -59,91 +73,162 @@ namespace Windows.Tools {
             notebook.append_page (releaseInfo = new Windows.Tools.ReleaseInfo (notebook, this), new Gtk.Label ("ReleaseInfo"));
             notebook.append_page (releaseInstaller = new Windows.Tools.ReleaseInstaller (notebook, btnBack), new Gtk.Label ("ReleaseInstaller"));
             append (notebook);
-
-            //
-            new Thread<void> ("getReleases", () => {
-                foreach (var tool in launcher.Tools) {
-                    // tool.Releases = tool.GetReleases ();
-                }
-                done = true;
-            });
-
-            //
-            GLib.Timeout.add (1000, () => {
-                if (done) {
-                    initializeContent ();
-                    return false;
-                }
-
-                return true;
-            });
         }
 
-        void initializeContent () {
-            //
-            var group = new Adw.PreferencesGroup ();
-            group.set_title (launcher.Title);
-            content.append (group);
+        Adw.ExpanderRow CreateToolRow (Models.Tool tool) {
+            var row = new Adw.ExpanderRow ();
+            row.set_title (tool.Title);
 
-            //
-            foreach (var tool in launcher.Tools) {
-                var row = new Adw.ExpanderRow ();
-                row.set_title (tool.Title);
-
-                foreach (var release in tool.Releases) {
-                    var item = new Adw.ActionRow ();
-                    item.set_title (release.Title);
-                    item.set_activatable (true);
-                    item.activated.connect (() => InfoRelease (release));
-
-                    var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-                    actions.set_margin_end (10);
-                    actions.set_valign (Gtk.Align.CENTER);
-
-                    if (release.Installed) {
-                        var btnDelete = new Gtk.Button ();
-                        btnDelete.add_css_class ("flat");
-                        btnDelete.set_icon_name ("user-trash-symbolic");
-                        btnDelete.width_request = 25;
-                        btnDelete.height_request = 25;
-                        btnDelete.set_tooltip_text (_("Delete the tool"));
-                        btnDelete.clicked.connect (DeleteRelease);
-                        actions.append (btnDelete);
-                    } else {
-                        var btnInstall = new Gtk.Button ();
-                        btnInstall.set_icon_name ("folder-download-symbolic");
-                        btnInstall.add_css_class ("flat");
-                        btnInstall.width_request = 25;
-                        btnInstall.height_request = 25;
-                        btnInstall.set_tooltip_text (_("Install the tool"));
-                        btnInstall.clicked.connect (InstallRelease);
-                        actions.append (btnInstall);
-                    }
-
-                    item.add_suffix (actions);
-
-                    var icon = new Gtk.Image.from_icon_name ("go-next-symbolic");
-                    item.add_suffix (icon);
-
-                    row.add_row (item);
-                }
-
-                group.add (row);
-            }
+            return row;
         }
 
-        void InfoRelease (Models.Release release) {
+        Adw.ActionRow CreateReleaseRow (Models.Release release) {
+            var row = new Adw.ActionRow ();
+            row.set_title (release.Title);
+            row.set_activatable (true);
+
+            var actions = GetActionsBox (release, row);
+
+            row.activated.connect (() => InfoRelease (release, row, actions));
+
+            row.add_suffix (actions);
+
+            return row;
+        }
+
+        Gtk.Box GetActionsBox (Models.Release release, Adw.ActionRow row) {
+            var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+            actions.set_margin_end (10);
+            actions.set_valign (Gtk.Align.CENTER);
+
+            var btn = release.Installed ? GetDeleteButton (release, row, actions) : GetInstallButton (release, row, actions);
+            actions.append (btn);
+
+            var icon = new Gtk.Image.from_icon_name ("go-next-symbolic");
+            actions.append (icon);
+
+            return actions;
+        }
+
+        Gtk.Button GetDeleteButton (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
+            var btnDelete = new Gtk.Button ();
+            btnDelete.add_css_class ("flat");
+            btnDelete.set_icon_name ("user-trash-symbolic");
+            btnDelete.width_request = 25;
+            btnDelete.height_request = 25;
+            btnDelete.set_tooltip_text (_("Delete the tool"));
+            btnDelete.clicked.connect (() => DeleteRelease (release, row, actions));
+            return btnDelete;
+        }
+
+        Gtk.Button GetInstallButton (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
+            var btnInstall = new Gtk.Button ();
+            btnInstall.set_icon_name ("folder-download-symbolic");
+            btnInstall.add_css_class ("flat");
+            btnInstall.width_request = 25;
+            btnInstall.height_request = 25;
+            btnInstall.set_tooltip_text (_("Install the tool"));
+            btnInstall.clicked.connect (() => InstallRelease (release, row, actions));
+            return btnInstall;
+        }
+
+        void InfoRelease (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
             notebook.set_current_page (1);
-            releaseInfo.Load (release);
+            releaseInfo.Load (release, row, actions);
         }
 
-        public void DeleteRelease () {
+        public void DeleteRelease (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
+            //
+            var toast = new Adw.Toast ("Deleted " + release.Title);
+            toast.set_button_label ("Undo");
+
+            //
+            bool undo = false;
+
+            //
+            toast.button_clicked.connect (() => {
+                undo = true;
+                toast.dismiss ();
+            });
+
+            //
+            toast.dismissed.connect (() => {
+                if (!undo) {
+                    release.Delete ();
+
+                    GLib.Timeout.add (1000, () => {
+                        if (!release.Installed) {
+                            row.remove (actions);
+                            row.add_suffix (GetActionsBox (release, row));
+
+                            if (notebook.get_current_page () == 1) {
+                                releaseInfo.Load (release, row, actions);
+                            }
+
+                            return false;
+                        }
+
+                        return true;
+                    });
+                }
+            });
+
+            //
+            toastOverlay.add_toast (toast);
         }
 
-        public void InstallRelease () {
+        public void InstallRelease (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
             int currentPage = notebook.get_current_page ();
             notebook.set_current_page (2);
             releaseInstaller.Download (currentPage);
+
+// GLib.Timeout.add (1000, () => {
+// if (release.Installed) {
+// row.remove (actions);
+// row.add_suffix (GetActionsBox (release, row));
+
+// return false;
+// }
+
+// return true;
+// });
+        }
+
+        public void Load () {
+            if (!loaded) {
+                loaded = true;
+
+                //
+                new Thread<void> ("getReleases", () => {
+                    foreach (var tool in launcher.Tools) {
+                        tool.Releases = tool.GetReleases ();
+                        if (tool.Releases.length () == 0) error = true;
+                    }
+                    done = true;
+                });
+
+                //
+                GLib.Timeout.add (1000, () => {
+                    if (error) {
+                        print ("error!");
+
+                        return false;
+                    } else if (done) {
+                        for (int i = 0; i < toolRows.length (); i++) {
+                            var tool = launcher.Tools.nth_data (i);
+                            var row = toolRows.nth_data (i);
+
+                            foreach (var release in tool.Releases) {
+                                row.add_row (CreateReleaseRow (release));
+                            }
+                        }
+
+                        return false;
+                    }
+
+                    return true;
+                });
+            }
         }
     }
 }
