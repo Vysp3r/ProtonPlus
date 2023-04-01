@@ -1,6 +1,6 @@
 namespace Windows.Tools {
     public class LauncherSelector : Gtk.Box {
-        public LauncherSelector (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay) {
+        public LauncherSelector (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay, Gtk.Notebook parentNotebook) {
             //
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (15);
@@ -18,7 +18,7 @@ namespace Windows.Tools {
                 var launcher = launchers.nth_data (i);
                 int counter = i + 1;
 
-                var launcherInfo = new Windows.Tools.LauncherInfo (leaflet, toastOverlay, launcher);
+                var launcherInfo = new Windows.Tools.LauncherInfo (leaflet, toastOverlay, launcher, parentNotebook);
 
                 var row = new Adw.ActionRow ();
                 row.set_title (launcher.Title);

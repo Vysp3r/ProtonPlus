@@ -11,16 +11,6 @@ namespace Models.Preferences {
             this.Position = position;
         }
 
-        public static GLib.ListStore GetStore (GLib.List<Style> styles) {
-            var model = new GLib.ListStore (typeof (Style));
-
-            styles.@foreach ((style) => {
-                model.append (style);
-            });
-
-            return model;
-        }
-
         public static GLib.List<Style> GetAll () {
             var styles = new GLib.List<Style> ();
 
@@ -29,6 +19,15 @@ namespace Models.Preferences {
             styles.append (new Style (_("Dark"), Adw.ColorScheme.FORCE_DARK, 2));
 
             return styles;
+        }
+
+        public void SetActive (bool updateSetting = true) {
+            if (updateSetting) {
+                var settings = new Settings ("com.vysp3r.ProtonPlus");
+                settings.set_value ("window-style", Position);
+            }
+
+            Adw.StyleManager.get_default ().set_color_scheme (ColorScheme);
         }
     }
 }

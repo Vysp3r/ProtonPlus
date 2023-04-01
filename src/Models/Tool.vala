@@ -169,6 +169,9 @@ namespace Models {
 
                     var rootObj = rootNode.get_object ();
 
+                    if (!rootObj.has_member ("workflow_runs")) return releases;
+                    if (rootObj.get_member ("workflow_runs").get_node_type () != Json.NodeType.ARRAY) return releases;
+
                     var workflowsRunArray = rootObj.get_array_member ("workflow_runs");
                     if (workflowsRunArray == null) return releases;
 
@@ -178,6 +181,7 @@ namespace Models {
                         string conclusion = "";
                         string run_id = "";
                         string html_url = "";
+                        string release_date = "";
 
                         // Get the current node
                         var tempNode = workflowsRunArray.get_element (i);
@@ -187,9 +191,10 @@ namespace Models {
                         conclusion = tempObject.get_string_member ("conclusion");
                         run_id = tempObject.get_int_member ("id").to_string ();
                         html_url = tempObject.get_string_member ("html_url");
+                        release_date = tempObject.get_string_member ("created_at").split ("T")[0];;
 
                         if (status == "completed" && conclusion == "success") {
-                            releases.append (new Release (this, run_id, @"https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/$run_id/proton-tkg-build.zip", html_url, ".zip"));
+                            releases.append (new Release (this, run_id, @"https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/$run_id/proton-tkg-build.zip", html_url, release_date, "", -1, ".zip"));
                         }
                     }
                 }

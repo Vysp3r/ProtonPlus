@@ -32,16 +32,24 @@ namespace Windows.Tools {
 
             //
             var btn = new Gtk.Button ();
+            btn.width_request = 25;
+            btn.height_request = 25;
             btn.add_css_class ("flat");
             btn.set_tooltip_text (_("Copy"));
             btn.set_icon_name ("edit-copy-symbolic");
 
             //
+            var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+            actions.set_margin_end (10);
+            actions.set_valign (Gtk.Align.CENTER);
+            actions.append (btn);
+            if (extraSuffix != null) actions.append (extraSuffix);
+
+            //
             var row = new Adw.EntryRow ();
             row.set_title (title);
             row.set_text (text);
-            row.add_suffix (btn);
-            if (extraSuffix != null) row.add_suffix (extraSuffix);
+            row.add_suffix (actions);
             row.set_editable (false);
 
             //
@@ -53,15 +61,14 @@ namespace Windows.Tools {
         public void Load (Models.Release release, Adw.ActionRow row, Gtk.Box rowActions) {
             //
             var btnOpenDirectory = new Gtk.Button ();
+            btnOpenDirectory.width_request = 25;
+            btnOpenDirectory.height_request = 25;
+            btnOpenDirectory.set_tooltip_text ("Open directory");
+            btnOpenDirectory.set_icon_name ("folder-symbolic");
+            btnOpenDirectory.add_css_class ("flat");
 
             //
             if (GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland") btnOpenDirectory = null;
-            else {
-                btnOpenDirectory.set_tooltip_text ("Open directory");
-                btnOpenDirectory.set_icon_name ("folder-symbolic");
-                btnOpenDirectory.add_css_class ("flat");
-                // BIND ACTION TO OPENFOLDER
-            }
 
             //
             var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
@@ -82,20 +89,21 @@ namespace Windows.Tools {
             }
 
             //
-            var btnWebsite = new Gtk.Button.with_label ("Website");
-            btnWebsite.set_hexpand (true);
-            btnWebsite.clicked.connect (() => Gtk.show_uri (null, release.PageURL, Gdk.CURRENT_TIME));
-            actions.append (btnWebsite);
+            if (GLib.Environment.get_variable ("DESKTOP_SESSION") != "gamescope-wayland") {
+                var btnWebsite = new Gtk.Button.with_label ("Website");
+                btnWebsite.set_hexpand (true);
+                btnWebsite.clicked.connect (() => Gtk.show_uri (null, release.PageURL, Gdk.CURRENT_TIME));
+                actions.append (btnWebsite);
+            }
 
             //
             var group = new Adw.PreferencesGroup ();
 
-            group.add (RowBuilder ("Directory: ", release.Directory, btnOpenDirectory)); // ONLY FOR DEBUG
             if (release.Installed) {
-                // group.add (RowBuilder ("Directory: ", release.Directory, btnOpenDirectory));
+                group.add (RowBuilder ("Directory: ", release.Directory, btnOpenDirectory));
                 group.add (RowBuilder ("Size: ", release.GetFormattedSize ()));
             } else {
-                group.add (RowBuilder ("Download size: ", release.GetFormattedDownloadSize ()));
+                group.add (RowBuilder ("Download size (Compressed): ", release.GetFormattedDownloadSize ()));
             }
             group.add (RowBuilder ("Release date: ", release.ReleaseDate));
 

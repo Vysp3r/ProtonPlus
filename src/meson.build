@@ -12,7 +12,6 @@ constants = configure_file(
 
 #
 sources = files(
-  'Utils/Theme.vala',
   'Utils/Web.vala',
   'Utils/File.vala',
   'Utils/Dir.vala',
@@ -24,16 +23,19 @@ sources = files(
 
   'Windows/Main.vala',
   'Windows/ViewManager.vala',
-  'Windows/Preferences.vala',
 
   'Windows/Tools/LauncherSelector.vala',
   'Windows/Tools/LauncherInfo.vala',
   'Windows/Tools/ReleaseInstaller.vala',
   'Windows/Tools/ReleaseInfo.vala',
 
+  'Windows/Errors/GithubApiRequest.vala',
+
   'Windows/Games/Main.vala',
 
   'Windows/Notifications/Main.vala',
+
+  'Windows/Preferences/Main.vala',
 
   'Application.vala',
 )

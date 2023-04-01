@@ -26,7 +26,7 @@ namespace Models {
             Installed = FileUtils.test (Directory, FileTest.IS_DIR);
             Size = 0;
 
-            SetSize();
+            SetSize ();
         }
 
         public void SetSize () {
@@ -37,6 +37,7 @@ namespace Models {
         }
 
         public string GetFormattedDownloadSize () {
+            if (DownloadSize < 0) return "Not available";
             return Utils.File.BytesToString (DownloadSize);
         }
 

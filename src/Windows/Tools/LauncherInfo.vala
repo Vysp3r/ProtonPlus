@@ -7,16 +7,19 @@ namespace Windows.Tools {
         Adw.ToastOverlay toastOverlay;
         Models.Launcher launcher;
         Gtk.Notebook notebook;
+        Gtk.Notebook parentNotebook;
+        Gtk.Spinner spinner;
         GLib.List<Adw.ExpanderRow> toolRows;
         bool loaded = false;
         bool done = false;
         bool error = false;
         int lastPage;
 
-        public LauncherInfo (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay, Models.Launcher launcher) {
+        public LauncherInfo (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay, Models.Launcher launcher, Gtk.Notebook parentNotebook) {
             //
             this.toastOverlay = toastOverlay;
             this.launcher = launcher;
+            this.parentNotebook = parentNotebook;
 
             //
             set_orientation (Gtk.Orientation.VERTICAL);
@@ -48,7 +51,12 @@ namespace Windows.Tools {
             //
             var group = new Adw.PreferencesGroup ();
             group.set_title (launcher.Title);
+            if (launcher.Title == "Steam (Flatpak)") group.set_description ("If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community builds from Flathub (Check for the add-ons section)");
             content.append (group);
+
+            //
+            spinner = new Gtk.Spinner ();
+            group.set_header_suffix (spinner);
 
             //
             foreach (var tool in launcher.Tools) {
@@ -212,6 +220,8 @@ namespace Windows.Tools {
             if (!loaded) {
                 loaded = true;
 
+                spinner.start ();
+
                 //
                 new Thread<void> ("getReleases", () => {
                     foreach (var tool in launcher.Tools) {
@@ -224,7 +234,16 @@ namespace Windows.Tools {
                 //
                 GLib.Timeout.add (1000, () => {
                     if (error) {
-                        print ("error!");
+                        spinner.stop ();
+                        spinner.set_visible (false);
+
+                        var toast = new Adw.Toast ("There was an error while fetching data from the GitHub API.");
+                        toast.set_button_label ("Learn more");
+                        toast.set_timeout (15000);
+                        toast.button_clicked.connect (() => {
+                            parentNotebook.set_current_page (2);
+                        });
+                        toastOverlay.add_toast (toast);
 
                         return false;
                     } else if (done) {
@@ -236,6 +255,9 @@ namespace Windows.Tools {
                                 row.add_row (CreateReleaseRow (release));
                             }
                         }
+
+                        spinner.stop ();
+                        spinner.set_visible (false);
 
                         return false;
                     }

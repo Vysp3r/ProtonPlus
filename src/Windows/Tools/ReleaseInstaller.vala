@@ -73,6 +73,7 @@ namespace Windows.Tools {
             this.release = release;
 
             btnBack.set_sensitive (false);
+            btnCancel.set_sensitive (true);
             textBuffer.set_text (text = "Download started...\n");
 
             cancelled = false;
