@@ -66,7 +66,7 @@ namespace Windows {
             aboutDialog.set_developers (devs);
             aboutDialog.set_designers (designers);
             aboutDialog.add_credit_section ("Special thanks to", thanks);
-            aboutDialog.set_transient_for (Stores.Main.get_instance ().MainWindow);
+            aboutDialog.set_transient_for (this);
             aboutDialog.set_modal (true);
 
             aboutDialog.show ();

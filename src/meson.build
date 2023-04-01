@@ -12,8 +12,6 @@ constants = configure_file(
 
 #
 sources = files(
-  'Interfaces/IModel.vala',
-
   'Utils/Theme.vala',
   'Utils/Web.vala',
   'Utils/File.vala',
@@ -23,8 +21,6 @@ sources = files(
   'Models/Launcher.vala',
   'Models/Release.vala',
   'Models/Preferences/Style.vala',
-
-  'Stores/Main.vala',
 
   'Windows/Main.vala',
   'Windows/ViewManager.vala',

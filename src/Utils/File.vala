@@ -1,6 +1,6 @@
 namespace Utils {
     public class File {
-        public static string Extract (string install_location, string tool_name, string extension) {
+        public static string Extract (string install_location, string tool_name, string extension, ref bool cancelled) {
             const int bufferSize = 192000;
 
             var archive = new Archive.Read ();
@@ -48,7 +48,7 @@ namespace Utils {
                 if (r < Archive.Result.OK) stderr.printf (ext.error_string ());
                 if (r < Archive.Result.WARN) return "";
 
-                if (Stores.Main.get_instance ().IsInstallationCancelled) {
+                if (cancelled) {
                     dir.remove_dir (sourcePath);
                     break;
                 }
@@ -131,11 +131,11 @@ namespace Utils {
 
         public static string BytesToString (int64 size) {
             if (size >= 1073741824) {
-                return "%.2f GB".printf((double) size / (1024 * 1024 * 1024));
+                return "%.2f GB".printf ((double) size / (1024 * 1024 * 1024));
             } else if (size > 1048576) {
-                return "%.2f MB".printf((double) size / (1024 * 1024));
+                return "%.2f MB".printf ((double) size / (1024 * 1024));
             } else {
-                return "%lld B".printf(size);
+                return "%lld B".printf (size);
             }
         }
     }

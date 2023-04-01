@@ -55,7 +55,7 @@ namespace Windows.Tools {
             var btnOpenDirectory = new Gtk.Button ();
 
             //
-            if (Stores.Main.get_instance ().Desktop == "gamescope-wayland") btnOpenDirectory = null;
+            if (GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland") btnOpenDirectory = null;
             else {
                 btnOpenDirectory.set_tooltip_text ("Open directory");
                 btnOpenDirectory.set_icon_name ("folder-symbolic");

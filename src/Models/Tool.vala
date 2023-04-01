@@ -1,7 +1,6 @@
 namespace Models {
-    public class Tool : Object, Interfaces.IModel {
-
-        public string Title { get; set; }
+    public class Tool : Object {
+        public string Title;
         public string Description;
         public string Endpoint; // For GitHub Actions repository, make this the workflow url. See Proton Tkg for an example.
         public int AssetPosition; // The position of the .tar.xz file in the json tree of the tool > assets

@@ -129,7 +129,7 @@ namespace Windows.Tools {
 
             thread = new Thread<void> ("extract", () => {
                 string directory = release.Tool.Launcher.FullPath + "/";
-                string sourcePath = Utils.File.Extract (directory, release.Title, release.FileExtension);
+                string sourcePath = Utils.File.Extract (directory, release.Title, release.FileExtension, ref cancelled);
 
                 if (sourcePath == "") {
                     error = true;
@@ -137,7 +137,7 @@ namespace Windows.Tools {
                 }
 
                 if (release.Tool.IsUsingGithubActions) {
-                    Utils.File.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar");
+                    Utils.File.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", ref cancelled);
                 }
 
                 if (release.Tool.TitleType != Models.Tool.TitleTypes.NONE) {
@@ -170,6 +170,7 @@ namespace Windows.Tools {
 
                 if (done) {
                     textBuffer.set_text (text += "Extraction done...\n");
+                    textBuffer.set_text (text += "Make sure to restart Steam if it's open to be able to use it in Steam otherwise you will not see it.\n");
                     release.Installed = true;
                     release.SetSize ();
                     Cancel (false, true);

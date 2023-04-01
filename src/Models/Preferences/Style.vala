@@ -1,6 +1,6 @@
 namespace Models.Preferences {
-    public class Style : Object, Interfaces.IModel {
-        public string Title { get; set; }
+    public class Style : Object {
+        public string Title;
         public string JsonValue;
         public Adw.ColorScheme ColorScheme;
         public int Position;
@@ -24,9 +24,9 @@ namespace Models.Preferences {
         public static GLib.List<Style> GetAll () {
             var styles = new GLib.List<Style> ();
 
-            styles.append (new Style (_ ("System"), Adw.ColorScheme.DEFAULT, 0));
-            styles.append (new Style (_ ("Light"), Adw.ColorScheme.FORCE_LIGHT, 1));
-            styles.append (new Style (_ ("Dark"), Adw.ColorScheme.FORCE_DARK, 2));
+            styles.append (new Style (_("System"), Adw.ColorScheme.DEFAULT, 0));
+            styles.append (new Style (_("Light"), Adw.ColorScheme.FORCE_LIGHT, 1));
+            styles.append (new Style (_("Dark"), Adw.ColorScheme.FORCE_DARK, 2));
 
             return styles;
         }
