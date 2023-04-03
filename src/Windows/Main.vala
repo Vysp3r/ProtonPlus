@@ -61,14 +61,14 @@ namespace Windows {
             aboutDialog.set_application_name ("ProtonPlus");
             aboutDialog.set_application_icon ("com.vysp3r.ProtonPlus");
             aboutDialog.set_version ("v" + Utils.Constants.APP_VERSION);
-            aboutDialog.set_comments ("A simple Wine and Proton-based compatiblity tools manager for GNOME");
+            aboutDialog.set_comments (_("A simple Wine and Proton-based compatiblity tools manager for GNOME"));
             aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             aboutDialog.set_copyright ("© 2022 Vysp3r");
             aboutDialog.set_license_type (Gtk.License.GPL_3_0);
             aboutDialog.set_developers (devs);
             aboutDialog.set_designers (designers);
-            aboutDialog.add_credit_section ("Special thanks to", thanks);
+            aboutDialog.add_credit_section (_("Special thanks to"), thanks);
             aboutDialog.set_transient_for (this);
             aboutDialog.set_modal (true);
 

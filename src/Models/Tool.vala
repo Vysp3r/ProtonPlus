@@ -22,12 +22,17 @@ namespace Models {
         }
 
         public enum TitleTypes {
+            RELEASE_NAME, // The title of the release only
             TOOL_NAME, // The title only shows the version number and need to have the tool name added before
             PROTON_HGL, // A custom title specfic to Heroic Games Launcher Proton
             WINE_HGL, // A custom title specfic to Heroic Games Launcher Wine
             BOTTLES, // A custom title specfic to Bottles
             WINE_GE_BOTTLES, // A custom title specfic to Bottles
             WINE_LUTRIS_BOTTLES, // A custom title specfic to Bottles
+            PROTON_TKG, //
+            LUTRIS_DXVK, //
+            LUTRIS_DXVK_ASYNC_SPORIF, //
+            LUTRIS_DXVK_ASYNC_GNUSENPAI, //
             NONE // Bypass and do not rename
         }
 
@@ -39,7 +44,7 @@ namespace Models {
             tools.append (new Tool (launcher, "Boxtron", "Steam Play compatibility tool to run DOS games using native Linux DOSBox.", "https://api.github.com/repos/dreamer/boxtron/releases", 0, TitleTypes.TOOL_NAME));
             tools.append (new Tool (launcher, "Roberta", "Steam Play compatibility tool to run adventure games using native Linux ScummVM.", "https://api.github.com/repos/dreamer/roberta/releases", 0, TitleTypes.TOOL_NAME));
             tools.append (new Tool (launcher, "NorthstarProton", "Custom Proton build for running the Northstar client for Titanfall 2.", "https://api.github.com/repos/cyrv6737/NorthstarProton/releases", 0, TitleTypes.TOOL_NAME));
-            tools.append (new Tool (launcher, "Proton Tkg", "Custom Proton build for running Windows games, built with the Wine-tkg build system.", "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, TitleTypes.NONE, true));
+            tools.append (new Tool (launcher, "Proton Tkg", "Custom Proton build for running Windows games, built with the Wine-tkg build system.", "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, TitleTypes.PROTON_TKG, true));
 
             return tools;
         }
@@ -57,9 +62,9 @@ namespace Models {
         public static GLib.List<Tool> LutrisDXVK (Models.Launcher launcher) {
             var tools = new GLib.List<Tool> ();
 
-            tools.append (new Tool (launcher, "DXVK", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.https://github.com/lutris/docs/blob/master/HowToDXVK.md", "https://api.github.com/repos/doitsujin/dxvk/releases", 0));
-            tools.append (new Tool (launcher, "DXVK Async (Sporif)", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch by Sporif.Warning: Use only with singleplayer games!", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0));
-            tools.append (new Tool (launcher, "DXVK Async (gnusenpai)", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch and RTX fix for Star Citizen by gnusenpai.Warning: Use only with singleplayer games!", "https://api.github.com/repos/gnusenpai/dxvk/releases", 0));
+            tools.append (new Tool (launcher, "DXVK", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.https://github.com/lutris/docs/blob/master/HowToDXVK.md", "https://api.github.com/repos/doitsujin/dxvk/releases", 0, LUTRIS_DXVK));
+            tools.append (new Tool (launcher, "DXVK Async (Sporif)", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch by Sporif.Warning: Use only with singleplayer games!", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, LUTRIS_DXVK_ASYNC_SPORIF));
+            tools.append (new Tool (launcher, "DXVK Async (gnusenpai)", "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch and RTX fix for Star Citizen by gnusenpai.Warning: Use only with singleplayer games!", "https://api.github.com/repos/gnusenpai/dxvk/releases", 0, LUTRIS_DXVK_ASYNC_GNUSENPAI));
 
             return tools;
         }
@@ -177,6 +182,7 @@ namespace Models {
 
                     // Execute a loop with the number of items contained in the Version array and fill it
                     for (var i = 0; i < workflowsRunArray.get_length (); i++) {
+                        string name = "";
                         string status = "";
                         string conclusion = "";
                         string run_id = "";
@@ -190,11 +196,12 @@ namespace Models {
                         status = tempObject.get_string_member ("status");
                         conclusion = tempObject.get_string_member ("conclusion");
                         run_id = tempObject.get_int_member ("id").to_string ();
+                        name = tempObject.get_int_member ("run_number").to_string ();
                         html_url = tempObject.get_string_member ("html_url");
                         release_date = tempObject.get_string_member ("created_at").split ("T")[0];;
 
                         if (status == "completed" && conclusion == "success") {
-                            releases.append (new Release (this, run_id, @"https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/$run_id/proton-tkg-build.zip", html_url, release_date, "", -1, ".zip"));
+                            releases.append (new Release (this, name, @"https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/$run_id/proton-tkg-build.zip", html_url, release_date, "", -1, ".zip"));
                         }
                     }
                 }

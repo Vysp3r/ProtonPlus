@@ -9,8 +9,8 @@ namespace Windows.Tools {
 
             //
             var group = new Adw.PreferencesGroup ();
-            group.set_title ("Launchers");
-            group.set_description ("Select a launcher to proceed");
+            group.set_title (_("Launchers"));
+            group.set_description (_("Select a launcher to proceed"));
 
             //
             var launchers = Models.Launcher.GetAll ();

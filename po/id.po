@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-02 12:16-0500\n"
+"POT-Creation-Date: 2023-04-02 22:16-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: yukidream <mashirokuratamorfo@gmail.com>\n"
 "Language-Team: \n"
@@ -12,212 +12,258 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: src/Windows/About.vala:6 src/Windows/Home.vala:26
-msgid "About"
-msgstr "Tentang"
-
-#: src/Windows/About.vala:23 src/Windows/About.vala:38
-#: src/Windows/About.vala:53
-msgid "Copy"
-msgstr "Salin"
-
-#. Setup rowTool
-#: src/Windows/About.vala:28
-msgid "Name: "
-msgstr "Nama: "
-
-#. Setup rowDirectory
-#: src/Windows/About.vala:43
-msgid "Path: "
+#: src/Windows/Main.vala:64
+msgid "A simple Wine and Proton-based compatiblity tools manager for GNOME"
 msgstr ""
 
-#. Setup rowSize
-#: src/Windows/About.vala:58
-msgid "Used Space: "
+#: src/Windows/Main.vala:71
+msgid "Special thanks to"
 msgstr ""
 
-#. Setup menu_model_about
-#: src/Windows/Home.vala:23
+#.
+#: src/Windows/ViewManager.vala:20
 msgid "Telegram"
 msgstr "Telegram"
 
-#: src/Windows/Home.vala:24
+#: src/Windows/ViewManager.vala:21
 msgid "Documentation"
 msgstr "Dokumentasi"
 
-#: src/Windows/Home.vala:25
+#: src/Windows/ViewManager.vala:22
 msgid "Donation"
 msgstr "Donasi"
 
-#. Setup menu_model_quit
-#: src/Windows/Home.vala:30
+#: src/Windows/ViewManager.vala:23
+msgid "About"
+msgstr "Tentang"
+
+#.
+#: src/Windows/ViewManager.vala:27
 msgid "Quit"
 msgstr "Keluar"
 
-#. Setup menu_model
-#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:9
+#.
+#: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
 msgid "Preferences"
 msgstr "Preferensi"
 
-#. Setup toolsPage
-#: src/Windows/Home.vala:47
+#.
+#: src/Windows/ViewManager.vala:46
 msgid "Tools"
 msgstr "Peralatan"
 
-#. Setup gamesPage
-#: src/Windows/Home.vala:51
+#.
+#: src/Windows/ViewManager.vala:50 src/Windows/Games/Main.vala:10
 msgid "Games"
 msgstr "Permainan"
 
-#. Setup notificationsPage
-#: src/Windows/Home.vala:55
+#.
+#: src/Windows/ViewManager.vala:54 src/Windows/Notifications/Main.vala:10
 msgid "Notifications"
 msgstr "Pemberitahuan"
 
-#: src/Windows/Installer.vala:17 src/Windows/Installer.vala:26
-msgid "Install"
-msgstr "Memasang"
-
-#. Initialize shared widgets
-#: src/Windows/Installer.vala:23
-msgid "Compatibility Tool"
-msgstr "Alat Kompabilitas"
-
-#: src/Windows/Installer.vala:24
-msgid "Version"
-msgstr "Versi"
-
-#: src/Windows/Installer.vala:25
-msgid "Info"
-msgstr "Informasi"
-
-#: src/Windows/Installer.vala:63
-msgid "Open a browser to the tool page"
-msgstr "Membuka peramban menuju ke situs alat"
-
-#: src/Windows/Installer.vala:71
-msgid "Install the selected tool"
-msgstr "Memasang peralatan yang dipilih"
-
-#: src/Windows/Installer.vala:85
-msgid "Downloading..."
-msgstr "Mengunduh..."
-
-#: src/Windows/Installer.vala:123
-msgid "Extracting..."
-msgstr "Mengekstrak..."
-
-#: src/Windows/Installer.vala:157 src/Windows/Installer.vala:224
-#: src/Windows/Installer.vala:260
-msgid "Done!"
-msgstr "Selesai!"
-
-#: src/Windows/Installer.vala:179
-msgid "Cancelled!"
-msgstr ""
-
-#: src/Windows/Installer.vala:190
-msgid "Are you sure you want to cancel the download ?"
-msgstr ""
-
-#: src/Windows/Installer.vala:247
-msgid ""
-"There was an error while fetching data from the GitHub API. You may have "
-"reached the maximum amount of requests per hour or may not be connected to "
-"the internet. If you think this is a bug, please report this to us."
-msgstr ""
-"Ada kesalahan saat mengambil data dari API GitHub. Anda mungkin telah "
-"mencapai jumlah permintaan maksimum per jam atau mungkin tidak terhubung ke "
-"internet. Jika menurut Anda ini adalah bug, harap laporkan ini kepada kami."
-
-#: src/Windows/LauncherSettings.vala:13
-msgid "Launcher Settings"
-msgstr "Pengaturan Peluncur"
-
-#. Setup btnClean
-#: src/Windows/LauncherSettings.vala:28
-msgid "Clean launcher"
-msgstr "Membersihkan peluncur"
-
-#: src/Windows/LauncherSettings.vala:29
-msgid "Delete every installed tools from the launcher"
-msgstr "Menghapus semua alat yang terinstall dari peluncur"
-
-#. Events
-#: src/Windows/LauncherSettings.vala:43
-msgid ""
-"Are you sure you want to clean this launcher? WARNING: It will delete every "
-"installed tools from the launcher!"
-msgstr ""
-"Apa anda yakin ingin membersihkan peluncur ini? PERINGATAN: Ini akan "
-"menghapus setiap alat yang terpasang di peluncur!"
-
-#. Setup mainPage
-#: src/Windows/Preferences.vala:17 src/Windows/Preferences.vala:18
-msgid "Main"
-msgstr ""
-
-#. Setup crStyles
-#: src/Windows/Preferences.vala:22
-msgid "Styles"
-msgstr "Gaya"
-
-#. Setup stylesGroup
-#: src/Windows/Preferences.vala:45
-msgid "Remember last launcher"
-msgstr "Mengingat peluncur terakhir"
-
-#: src/Windows/Preferences.vala:46
-msgid "Show gamescope warning"
-msgstr ""
-
-#. Initialize shared widgets
-#: src/Windows/Views/Tools.vala:24
-msgid "Launcher"
+#.
+#: src/Windows/Tools/LauncherSelector.vala:12
+#, fuzzy
+msgid "Launchers"
 msgstr "Peluncur"
 
-#: src/Windows/Views/Tools.vala:49
-msgid "Launcher information"
-msgstr "Informasi peluncur"
+#: src/Windows/Tools/LauncherSelector.vala:13
+msgid "Select a launcher to proceed"
+msgstr ""
 
-#: src/Windows/Views/Tools.vala:57
-msgid "Launcher settings"
-msgstr "Pengaturan peluncur"
+#: src/Windows/Tools/LauncherInfo.vala:54
+msgid ""
+"If you're using gamescope with Steam (Flatpak), those tools will not work. "
+"Make sure to use the community builds from Flathub (Check for the add-ons "
+"section)"
+msgstr ""
 
-#: src/Windows/Views/Tools.vala:65
-msgid "Install a tool"
-msgstr "Memasang alat"
-
-#: src/Windows/Views/Tools.vala:119
-msgid "Show information"
-msgstr "Menunjukkan informasi"
-
-#: src/Windows/Views/Tools.vala:127
+#: src/Windows/Tools/LauncherInfo.vala:132
 msgid "Delete the tool"
 msgstr "Menghapus alat"
 
-#: src/Windows/Views/Tools.vala:145
-msgid ""
-"If you're using gamescope with Steam (Flatpak), those tools will not work. "
-"Make sure to use the community build made for it. To disable this warning "
-"click on 'yes' otherwise click 'no' to keep it."
+#: src/Windows/Tools/LauncherInfo.vala:143
+#, fuzzy
+msgid "Install the tool"
+msgstr "Memasang alat"
+
+#: src/Windows/Tools/LauncherInfo.vala:240
+msgid "There was an error while fetching data from the GitHub API."
 msgstr ""
 
-#: src/Windows/Views/Tools.vala:193
-msgid "Are you sure you want to delete the selected tool?"
-msgstr "Apakah kamu yakin ingin menghapus alat ini?"
+#: src/Windows/Tools/LauncherInfo.vala:241
+msgid "Learn more"
+msgstr ""
 
-#: src/Models/Preferences/Style.vala:27
-msgid "System"
-msgstr "Sistem"
+#: src/Windows/Tools/ReleaseInfo.vala:37
+msgid "Copy"
+msgstr "Salin"
 
-#: src/Models/Preferences/Style.vala:28
-msgid "Light"
-msgstr "Terang"
+#.
+#.
+#: src/Windows/Tools/ReleaseInfo.vala:65
+msgid "Delete"
+msgstr ""
 
-#: src/Models/Preferences/Style.vala:29
-msgid "Dark"
-msgstr "Gelap"
+#: src/Windows/Tools/ReleaseInfo.vala:71
+msgid "Install"
+msgstr "Memasang"
 
-#~ msgid "Directory: "
-#~ msgstr "Direktori: "
+#.
+#: src/Windows/Tools/ReleaseInfo.vala:80
+msgid "Website"
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInfo.vala:90
+msgid "Directory: "
+msgstr "Direktori: "
+
+#: src/Windows/Tools/ReleaseInfo.vala:91
+msgid "Size: "
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInfo.vala:93
+msgid "Download size (Compressed): "
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInfo.vala:95
+msgid "Release date: "
+msgstr ""
+
+#.
+#: src/Windows/Tools/ReleaseInstaller.vala:49
+msgid "Cancel"
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:63
+msgid "Cancelled the install..."
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:76
+#, fuzzy
+msgid "Download started...\n"
+msgstr "Mengunduh..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:114
+#, fuzzy
+msgid "Download done...\n"
+msgstr "Mengunduh..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:125
+#, fuzzy
+msgid "Extraction started...\n"
+msgstr "Mengekstrak..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:156
+msgid "There was an error while extracting..."
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:166
+#, fuzzy
+msgid "Extraction done...\n"
+msgstr "Mengekstrak..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:167
+msgid ""
+"Make sure to restart Steam if it's open to be able to use it in Steam "
+"otherwise you will not see it.\n"
+msgstr ""
+
+#: src/Windows/Games/Main.vala:11 src/Windows/Notifications/Main.vala:11
+msgid "This page is a work in progress."
+msgstr ""
+
+#.
+#: src/Windows/Preferences/Main.vala:37 src/Windows/Preferences/Main.vala:38
+msgid "Main"
+msgstr ""
+
+#.
+#.
+#: src/Windows/Preferences/Main.vala:49
+msgid "Styles"
+msgstr "Gaya"
+
+#.
+#: src/Windows/Errors/GithubApiRequest.vala:22
+msgid "Github API Request Error"
+msgstr ""
+
+#: src/Windows/Errors/GithubApiRequest.vala:23
+msgid ""
+"Here's a list of the possible reasons why that error happened\n"
+"- You may have reached the GitHub API limit\n"
+"- You may be disconnected from the internet"
+msgstr ""
+
+#~ msgid "Name: "
+#~ msgstr "Nama: "
+
+#~ msgid "Compatibility Tool"
+#~ msgstr "Alat Kompabilitas"
+
+#~ msgid "Version"
+#~ msgstr "Versi"
+
+#~ msgid "Info"
+#~ msgstr "Informasi"
+
+#~ msgid "Open a browser to the tool page"
+#~ msgstr "Membuka peramban menuju ke situs alat"
+
+#~ msgid "Install the selected tool"
+#~ msgstr "Memasang peralatan yang dipilih"
+
+#~ msgid "Done!"
+#~ msgstr "Selesai!"
+
+#~ msgid ""
+#~ "There was an error while fetching data from the GitHub API. You may have "
+#~ "reached the maximum amount of requests per hour or may not be connected "
+#~ "to the internet. If you think this is a bug, please report this to us."
+#~ msgstr ""
+#~ "Ada kesalahan saat mengambil data dari API GitHub. Anda mungkin telah "
+#~ "mencapai jumlah permintaan maksimum per jam atau mungkin tidak terhubung "
+#~ "ke internet. Jika menurut Anda ini adalah bug, harap laporkan ini kepada "
+#~ "kami."
+
+#~ msgid "Launcher Settings"
+#~ msgstr "Pengaturan Peluncur"
+
+#~ msgid "Clean launcher"
+#~ msgstr "Membersihkan peluncur"
+
+#~ msgid "Delete every installed tools from the launcher"
+#~ msgstr "Menghapus semua alat yang terinstall dari peluncur"
+
+#~ msgid ""
+#~ "Are you sure you want to clean this launcher? WARNING: It will delete "
+#~ "every installed tools from the launcher!"
+#~ msgstr ""
+#~ "Apa anda yakin ingin membersihkan peluncur ini? PERINGATAN: Ini akan "
+#~ "menghapus setiap alat yang terpasang di peluncur!"
+
+#~ msgid "Remember last launcher"
+#~ msgstr "Mengingat peluncur terakhir"
+
+#~ msgid "Launcher information"
+#~ msgstr "Informasi peluncur"
+
+#~ msgid "Launcher settings"
+#~ msgstr "Pengaturan peluncur"
+
+#~ msgid "Show information"
+#~ msgstr "Menunjukkan informasi"
+
+#~ msgid "Are you sure you want to delete the selected tool?"
+#~ msgstr "Apakah kamu yakin ingin menghapus alat ini?"
+
+#~ msgid "System"
+#~ msgstr "Sistem"
+
+#~ msgid "Light"
+#~ msgstr "Terang"
+
+#~ msgid "Dark"
+#~ msgstr "Gelap"

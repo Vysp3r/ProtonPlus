@@ -51,7 +51,7 @@ namespace Windows.Tools {
             //
             var group = new Adw.PreferencesGroup ();
             group.set_title (launcher.Title);
-            if (launcher.Title == "Steam (Flatpak)") group.set_description ("If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community builds from Flathub (Check for the add-ons section)");
+            if (launcher.Title == "Steam (Flatpak)") group.set_description (_("If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community builds from Flathub (Check for the add-ons section)"));
             content.append (group);
 
             //
@@ -237,8 +237,8 @@ namespace Windows.Tools {
                         spinner.stop ();
                         spinner.set_visible (false);
 
-                        var toast = new Adw.Toast ("There was an error while fetching data from the GitHub API.");
-                        toast.set_button_label ("Learn more");
+                        var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API."));
+                        toast.set_button_label (_("Learn more"));
                         toast.set_timeout (15000);
                         toast.button_clicked.connect (() => {
                             parentNotebook.set_current_page (2);

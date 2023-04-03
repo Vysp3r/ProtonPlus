@@ -59,6 +59,14 @@ namespace Models {
                 return @"Wine-$Title";
             case Models.Tool.TitleTypes.TOOL_NAME:
                 return Tool.Title + @" $Title";
+            case Models.Tool.TitleTypes.PROTON_TKG:
+                return @"Proton-Tkg-$Title";
+            case Models.Tool.TitleTypes.LUTRIS_DXVK:
+                return @"dxvk-" + Title.replace ("v", "");
+            case Models.Tool.TitleTypes.LUTRIS_DXVK_ASYNC_SPORIF:
+                return @"dxvk-async-$Title";
+            case Models.Tool.TitleTypes.LUTRIS_DXVK_ASYNC_GNUSENPAI:
+                return @"dxvk-sc-async-" + Title.replace ("v", "").replace ("-sc-async", "");
             default:
                 return Title;
             }

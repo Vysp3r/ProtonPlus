@@ -1,5 +1,5 @@
 namespace Windows.Tools {
-    public class ReleaseInfo : Gtk.Box {
+    public class ReleaseInfo : Gtk.Widget {
         Gtk.Notebook notebook;
         Adw.Clamp clamp;
         Adw.StatusPage statusPage;
@@ -11,9 +11,8 @@ namespace Windows.Tools {
             this.launcherInfo = launcherInfo;
 
             //
-            set_orientation (Gtk.Orientation.VERTICAL);
-            set_valign (Gtk.Align.CENTER);
-            set_spacing (0);
+            var layout = new Gtk.BinLayout ();
+            set_layout_manager (layout);
 
             //
             clamp = new Adw.Clamp ();
@@ -22,10 +21,10 @@ namespace Windows.Tools {
             //
             statusPage = new Adw.StatusPage ();
             statusPage.set_child (clamp);
-            append (statusPage);
+            statusPage.set_parent (this);
         }
 
-        Adw.PreferencesRow RowBuilder (string title, string text, Gtk.Widget? extraSuffix = null) {
+        Adw.PreferencesRow RowBuilder (string title, string text) {
             //
             var display = Gdk.Display.get_default ();
             var clipboard = display.get_clipboard ();
@@ -43,7 +42,6 @@ namespace Windows.Tools {
             actions.set_margin_end (10);
             actions.set_valign (Gtk.Align.CENTER);
             actions.append (btn);
-            if (extraSuffix != null) actions.append (extraSuffix);
 
             //
             var row = new Adw.EntryRow ();
@@ -60,28 +58,17 @@ namespace Windows.Tools {
 
         public void Load (Models.Release release, Adw.ActionRow row, Gtk.Box rowActions) {
             //
-            var btnOpenDirectory = new Gtk.Button ();
-            btnOpenDirectory.width_request = 25;
-            btnOpenDirectory.height_request = 25;
-            btnOpenDirectory.set_tooltip_text ("Open directory");
-            btnOpenDirectory.set_icon_name ("folder-symbolic");
-            btnOpenDirectory.add_css_class ("flat");
-
-            //
-            if (GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland") btnOpenDirectory = null;
-
-            //
             var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
 
             //
             if (release.Installed) {
-                var btnDelete = new Gtk.Button.with_label ("Delete");
+                var btnDelete = new Gtk.Button.with_label (_("Delete"));
                 btnDelete.add_css_class ("destructive-action");
                 btnDelete.set_hexpand (true);
                 btnDelete.clicked.connect (() => launcherInfo.DeleteRelease (release, row, rowActions));
                 actions.append (btnDelete);
             } else {
-                var btnInstall = new Gtk.Button.with_label ("Install");
+                var btnInstall = new Gtk.Button.with_label (_("Install"));
                 btnInstall.add_css_class ("suggested-action");
                 btnInstall.set_hexpand (true);
                 btnInstall.clicked.connect (() => launcherInfo.InstallRelease (release, row, rowActions));
@@ -90,7 +77,7 @@ namespace Windows.Tools {
 
             //
             if (GLib.Environment.get_variable ("DESKTOP_SESSION") != "gamescope-wayland") {
-                var btnWebsite = new Gtk.Button.with_label ("Website");
+                var btnWebsite = new Gtk.Button.with_label (_("Website"));
                 btnWebsite.set_hexpand (true);
                 btnWebsite.clicked.connect (() => Gtk.show_uri (null, release.PageURL, Gdk.CURRENT_TIME));
                 actions.append (btnWebsite);
@@ -100,12 +87,12 @@ namespace Windows.Tools {
             var group = new Adw.PreferencesGroup ();
 
             if (release.Installed) {
-                group.add (RowBuilder ("Directory: ", release.Directory, btnOpenDirectory));
-                group.add (RowBuilder ("Size: ", release.GetFormattedSize ()));
+                group.add (RowBuilder (_("Directory: "), release.Directory));
+                group.add (RowBuilder (_("Size: "), release.GetFormattedSize ()));
             } else {
-                group.add (RowBuilder ("Download size (Compressed): ", release.GetFormattedDownloadSize ()));
+                group.add (RowBuilder (_("Download size (Compressed): "), release.GetFormattedDownloadSize ()));
             }
-            group.add (RowBuilder ("Release date: ", release.ReleaseDate));
+            group.add (RowBuilder (_("Release date: "), release.ReleaseDate));
 
             //
             var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
@@ -120,6 +107,7 @@ namespace Windows.Tools {
 
             //
             statusPage.set_title (release.Title);
+            statusPage.set_description (release.Tool.Title);
         }
     }
 }

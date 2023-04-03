@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-02 12:16-0500\n"
+"POT-Creation-Date: 2023-04-02 22:16-0400\n"
 "PO-Revision-Date: 2023-01-11 22:36+0800\n"
 "Last-Translator: neovali <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese - China\n"
@@ -15,210 +15,255 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Gtranslator 42.0\n"
 
-#: src/Windows/About.vala:6 src/Windows/Home.vala:26
-msgid "About"
-msgstr "关于"
-
-#: src/Windows/About.vala:23 src/Windows/About.vala:38
-#: src/Windows/About.vala:53
-msgid "Copy"
+#: src/Windows/Main.vala:64
+msgid "A simple Wine and Proton-based compatiblity tools manager for GNOME"
 msgstr ""
 
-#. Setup rowTool
-#: src/Windows/About.vala:28
-msgid "Name: "
-msgstr "名称： "
-
-#. Setup rowDirectory
-#: src/Windows/About.vala:43
-msgid "Path: "
+#: src/Windows/Main.vala:71
+msgid "Special thanks to"
 msgstr ""
 
-#. Setup rowSize
-#: src/Windows/About.vala:58
-msgid "Used Space: "
-msgstr ""
-
-#. Setup menu_model_about
-#: src/Windows/Home.vala:23
+#.
+#: src/Windows/ViewManager.vala:20
 msgid "Telegram"
 msgstr "Telegram"
 
-#: src/Windows/Home.vala:24
+#: src/Windows/ViewManager.vala:21
 msgid "Documentation"
 msgstr "文档"
 
-#: src/Windows/Home.vala:25
+#: src/Windows/ViewManager.vala:22
 msgid "Donation"
 msgstr "捐赠"
 
-#. Setup menu_model_quit
-#: src/Windows/Home.vala:30
+#: src/Windows/ViewManager.vala:23
+msgid "About"
+msgstr "关于"
+
+#.
+#: src/Windows/ViewManager.vala:27
 msgid "Quit"
 msgstr "退出"
 
-#. Setup menu_model
-#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:9
+#.
+#: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
 msgid "Preferences"
 msgstr "首选项"
 
-#. Setup toolsPage
-#: src/Windows/Home.vala:47
+#.
+#: src/Windows/ViewManager.vala:46
 msgid "Tools"
 msgstr "工具"
 
-#. Setup gamesPage
-#: src/Windows/Home.vala:51
+#.
+#: src/Windows/ViewManager.vala:50 src/Windows/Games/Main.vala:10
 msgid "Games"
 msgstr "游戏"
 
-#. Setup notificationsPage
-#: src/Windows/Home.vala:55
+#.
+#: src/Windows/ViewManager.vala:54 src/Windows/Notifications/Main.vala:10
 msgid "Notifications"
 msgstr "通知"
 
-#: src/Windows/Installer.vala:17 src/Windows/Installer.vala:26
-msgid "Install"
-msgstr "安装"
-
-#. Initialize shared widgets
-#: src/Windows/Installer.vala:23
-msgid "Compatibility Tool"
-msgstr "兼容性工具"
-
-#: src/Windows/Installer.vala:24
-msgid "Version"
-msgstr "版本"
-
-#: src/Windows/Installer.vala:25
-msgid "Info"
-msgstr "关于"
-
-#: src/Windows/Installer.vala:63
-msgid "Open a browser to the tool page"
-msgstr "用浏览器打开工具页面"
-
-#: src/Windows/Installer.vala:71
-msgid "Install the selected tool"
-msgstr "安装选中工具"
-
-#: src/Windows/Installer.vala:85
-msgid "Downloading..."
-msgstr "下载中..."
-
-#: src/Windows/Installer.vala:123
-msgid "Extracting..."
-msgstr "解压中..."
-
-#: src/Windows/Installer.vala:157 src/Windows/Installer.vala:224
-#: src/Windows/Installer.vala:260
-msgid "Done!"
-msgstr "完成！"
-
-#: src/Windows/Installer.vala:179
-msgid "Cancelled!"
-msgstr ""
-
-#: src/Windows/Installer.vala:190
-msgid "Are you sure you want to cancel the download ?"
-msgstr ""
-
-#: src/Windows/Installer.vala:247
-msgid ""
-"There was an error while fetching data from the GitHub API. You may have "
-"reached the maximum amount of requests per hour or may not be connected to "
-"the internet. If you think this is a bug, please report this to us."
-msgstr ""
-"从GitHub API获取数据时出错。您可能已达到每小时请求的最大数量，或者可能未连接"
-"到互联网。如果您认为这是一个错误，请向我们报告。"
-
-#: src/Windows/LauncherSettings.vala:13
-msgid "Launcher Settings"
-msgstr "启动器选项"
-
-#. Setup btnClean
-#: src/Windows/LauncherSettings.vala:28
-msgid "Clean launcher"
-msgstr "清除启动器"
-
-#: src/Windows/LauncherSettings.vala:29
-msgid "Delete every installed tools from the launcher"
-msgstr "删除该启动器下所有工具"
-
-#. Events
-#: src/Windows/LauncherSettings.vala:43
-msgid ""
-"Are you sure you want to clean this launcher? WARNING: It will delete every "
-"installed tools from the launcher!"
-msgstr "是否清理该启动器？ 警告：这会删除该启动器下所有工具！"
-
-#. Setup mainPage
-#: src/Windows/Preferences.vala:17 src/Windows/Preferences.vala:18
-msgid "Main"
-msgstr ""
-
-#. Setup crStyles
-#: src/Windows/Preferences.vala:22
-msgid "Styles"
-msgstr "风格"
-
-#. Setup stylesGroup
-#: src/Windows/Preferences.vala:45
+#.
+#: src/Windows/Tools/LauncherSelector.vala:12
 #, fuzzy
-msgid "Remember last launcher"
-msgstr "清除启动器"
-
-#: src/Windows/Preferences.vala:46
-msgid "Show gamescope warning"
-msgstr ""
-
-#. Initialize shared widgets
-#: src/Windows/Views/Tools.vala:24
-msgid "Launcher"
+msgid "Launchers"
 msgstr "启动器"
 
-#: src/Windows/Views/Tools.vala:49
-msgid "Launcher information"
-msgstr "启动器信息"
+#: src/Windows/Tools/LauncherSelector.vala:13
+msgid "Select a launcher to proceed"
+msgstr ""
 
-#: src/Windows/Views/Tools.vala:57
-msgid "Launcher settings"
-msgstr "启动器选项"
+#: src/Windows/Tools/LauncherInfo.vala:54
+msgid ""
+"If you're using gamescope with Steam (Flatpak), those tools will not work. "
+"Make sure to use the community builds from Flathub (Check for the add-ons "
+"section)"
+msgstr ""
 
-#: src/Windows/Views/Tools.vala:65
-msgid "Install a tool"
-msgstr "安装工具"
-
-#: src/Windows/Views/Tools.vala:119
-msgid "Show information"
-msgstr "显示信息"
-
-#: src/Windows/Views/Tools.vala:127
+#: src/Windows/Tools/LauncherInfo.vala:132
 msgid "Delete the tool"
 msgstr "删除工具"
 
-#: src/Windows/Views/Tools.vala:145
-msgid ""
-"If you're using gamescope with Steam (Flatpak), those tools will not work. "
-"Make sure to use the community build made for it. To disable this warning "
-"click on 'yes' otherwise click 'no' to keep it."
+#: src/Windows/Tools/LauncherInfo.vala:143
+#, fuzzy
+msgid "Install the tool"
+msgstr "安装工具"
+
+#: src/Windows/Tools/LauncherInfo.vala:240
+msgid "There was an error while fetching data from the GitHub API."
 msgstr ""
 
-#: src/Windows/Views/Tools.vala:193
-msgid "Are you sure you want to delete the selected tool?"
-msgstr "是否删除所选工具？"
+#: src/Windows/Tools/LauncherInfo.vala:241
+msgid "Learn more"
+msgstr ""
 
-#: src/Models/Preferences/Style.vala:27
-msgid "System"
-msgstr "系统"
+#: src/Windows/Tools/ReleaseInfo.vala:37
+msgid "Copy"
+msgstr ""
 
-#: src/Models/Preferences/Style.vala:28
-msgid "Light"
-msgstr "明亮"
+#.
+#.
+#: src/Windows/Tools/ReleaseInfo.vala:65
+msgid "Delete"
+msgstr ""
 
-#: src/Models/Preferences/Style.vala:29
-msgid "Dark"
-msgstr "暗色"
+#: src/Windows/Tools/ReleaseInfo.vala:71
+msgid "Install"
+msgstr "安装"
 
-#~ msgid "Directory: "
-#~ msgstr "目录： "
+#.
+#: src/Windows/Tools/ReleaseInfo.vala:80
+msgid "Website"
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInfo.vala:90
+msgid "Directory: "
+msgstr "目录： "
+
+#: src/Windows/Tools/ReleaseInfo.vala:91
+msgid "Size: "
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInfo.vala:93
+msgid "Download size (Compressed): "
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInfo.vala:95
+msgid "Release date: "
+msgstr ""
+
+#.
+#: src/Windows/Tools/ReleaseInstaller.vala:49
+msgid "Cancel"
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:63
+msgid "Cancelled the install..."
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:76
+#, fuzzy
+msgid "Download started...\n"
+msgstr "下载中..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:114
+#, fuzzy
+msgid "Download done...\n"
+msgstr "下载中..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:125
+#, fuzzy
+msgid "Extraction started...\n"
+msgstr "解压中..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:156
+msgid "There was an error while extracting..."
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:166
+#, fuzzy
+msgid "Extraction done...\n"
+msgstr "解压中..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:167
+msgid ""
+"Make sure to restart Steam if it's open to be able to use it in Steam "
+"otherwise you will not see it.\n"
+msgstr ""
+
+#: src/Windows/Games/Main.vala:11 src/Windows/Notifications/Main.vala:11
+msgid "This page is a work in progress."
+msgstr ""
+
+#.
+#: src/Windows/Preferences/Main.vala:37 src/Windows/Preferences/Main.vala:38
+msgid "Main"
+msgstr ""
+
+#.
+#.
+#: src/Windows/Preferences/Main.vala:49
+msgid "Styles"
+msgstr "风格"
+
+#.
+#: src/Windows/Errors/GithubApiRequest.vala:22
+msgid "Github API Request Error"
+msgstr ""
+
+#: src/Windows/Errors/GithubApiRequest.vala:23
+msgid ""
+"Here's a list of the possible reasons why that error happened\n"
+"- You may have reached the GitHub API limit\n"
+"- You may be disconnected from the internet"
+msgstr ""
+
+#~ msgid "Name: "
+#~ msgstr "名称： "
+
+#~ msgid "Compatibility Tool"
+#~ msgstr "兼容性工具"
+
+#~ msgid "Version"
+#~ msgstr "版本"
+
+#~ msgid "Info"
+#~ msgstr "关于"
+
+#~ msgid "Open a browser to the tool page"
+#~ msgstr "用浏览器打开工具页面"
+
+#~ msgid "Install the selected tool"
+#~ msgstr "安装选中工具"
+
+#~ msgid "Done!"
+#~ msgstr "完成！"
+
+#~ msgid ""
+#~ "There was an error while fetching data from the GitHub API. You may have "
+#~ "reached the maximum amount of requests per hour or may not be connected "
+#~ "to the internet. If you think this is a bug, please report this to us."
+#~ msgstr ""
+#~ "从GitHub API获取数据时出错。您可能已达到每小时请求的最大数量，或者可能未连"
+#~ "接到互联网。如果您认为这是一个错误，请向我们报告。"
+
+#~ msgid "Launcher Settings"
+#~ msgstr "启动器选项"
+
+#~ msgid "Clean launcher"
+#~ msgstr "清除启动器"
+
+#~ msgid "Delete every installed tools from the launcher"
+#~ msgstr "删除该启动器下所有工具"
+
+#~ msgid ""
+#~ "Are you sure you want to clean this launcher? WARNING: It will delete "
+#~ "every installed tools from the launcher!"
+#~ msgstr "是否清理该启动器？ 警告：这会删除该启动器下所有工具！"
+
+#, fuzzy
+#~ msgid "Remember last launcher"
+#~ msgstr "清除启动器"
+
+#~ msgid "Launcher information"
+#~ msgstr "启动器信息"
+
+#~ msgid "Launcher settings"
+#~ msgstr "启动器选项"
+
+#~ msgid "Show information"
+#~ msgstr "显示信息"
+
+#~ msgid "Are you sure you want to delete the selected tool?"
+#~ msgstr "是否删除所选工具？"
+
+#~ msgid "System"
+#~ msgstr "系统"
+
+#~ msgid "Light"
+#~ msgstr "明亮"
+
+#~ msgid "Dark"
+#~ msgstr "暗色"

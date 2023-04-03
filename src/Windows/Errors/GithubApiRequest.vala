@@ -19,8 +19,8 @@ namespace Windows.Errors {
 
             //
             var statusPage = new Adw.StatusPage ();
-            statusPage.set_title ("Github API Request Error");
-            statusPage.set_description ("Here's a list of the possible reasons why that error happened\n- You may have reached the GitHub API limit\n- You may be disconnected from the internet");
+            statusPage.set_title (_("Github API Request Error"));
+            statusPage.set_description (_("Here's a list of the possible reasons why that error happened\n- You may have reached the GitHub API limit\n- You may be disconnected from the internet"));
             statusPage.set_icon_name ("computer-fail-symbolic");
             statusPage.set_vexpand (true);
             append (statusPage);

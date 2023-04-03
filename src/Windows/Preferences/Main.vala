@@ -46,7 +46,7 @@ namespace Windows.Preferences {
             if (Adw.StyleManager.get_default ().get_system_supports_color_schemes ()) {
                 //
                 var stylesRow = new Adw.ExpanderRow ();
-                stylesRow.set_title ("Styles");
+                stylesRow.set_title (_("Styles"));
 
                 //
                 styles = Models.Preferences.Style.GetAll ();

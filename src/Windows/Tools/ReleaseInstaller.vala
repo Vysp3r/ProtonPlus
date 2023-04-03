@@ -1,5 +1,5 @@
 namespace Windows.Tools {
-    public class ReleaseInstaller : Gtk.Box {
+    public class ReleaseInstaller : Gtk.Widget {
         Gtk.Notebook notebook;
         Gtk.Button btnBack;
         Gtk.Button btnCancel;
@@ -17,9 +17,8 @@ namespace Windows.Tools {
             this.btnBack = btnBack;
 
             //
-            set_orientation (Gtk.Orientation.VERTICAL);
-            set_valign (Gtk.Align.CENTER);
-            set_spacing (0);
+            var layout = new Gtk.BinLayout ();
+            set_layout_manager (layout);
 
             //
             var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
@@ -47,7 +46,7 @@ namespace Windows.Tools {
             content.append (scrolledWindow);
 
             //
-            btnCancel = new Gtk.Button.with_label ("Cancel");
+            btnCancel = new Gtk.Button.with_label (_("Cancel"));
             btnCancel.set_hexpand (true);
             btnCancel.clicked.connect (() => Cancel ());
             content.append (btnCancel);
@@ -56,12 +55,12 @@ namespace Windows.Tools {
             var clamp = new Adw.Clamp ();
             clamp.set_maximum_size (700);
             clamp.set_child (content);
-            append (clamp);
+            clamp.set_parent (this);
         }
 
         void Cancel (bool showCancelMessage = true, bool isEnd = false) {
             if (!cancelled) cancelled = true;
-            if (showCancelMessage) textBuffer.set_text (text += "Cancelled the install...");
+            if (showCancelMessage) textBuffer.set_text (text += _("Cancelled the install..."));
             if (!isEnd) release.InstallCancelled = true;
             progressBar.set_fraction (0);
             btnCancel.set_sensitive (false);
@@ -74,7 +73,7 @@ namespace Windows.Tools {
 
             btnBack.set_sensitive (false);
             btnCancel.set_sensitive (true);
-            textBuffer.set_text (text = "Download started...\n");
+            textBuffer.set_text (text = _("Download started...\n"));
 
             cancelled = false;
             bool done = false;
@@ -112,7 +111,7 @@ namespace Windows.Tools {
                 else progressBar.set_fraction (state);
 
                 if (done) {
-                    textBuffer.set_text (text += "Download done...\n");
+                    textBuffer.set_text (text += _("Download done...\n"));
                     Extract ();
                     return false;
                 }
@@ -123,7 +122,7 @@ namespace Windows.Tools {
 
         void Extract () {
             progressBar.set_pulse_step (1);
-            textBuffer.set_text (text += "Extraction started...\n");
+            textBuffer.set_text (text += _("Extraction started...\n"));
 
             bool done = false;
             bool error = false;
@@ -138,19 +137,13 @@ namespace Windows.Tools {
                 }
 
                 if (release.Tool.IsUsingGithubActions) {
-                    Utils.File.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", ref cancelled);
+                    sourcePath = Utils.File.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", ref cancelled);
                 }
 
                 if (release.Tool.TitleType != Models.Tool.TitleTypes.NONE) {
                     string path = release.Tool.Launcher.FullPath + "/" + release.GetDirectoryName ();
 
                     Utils.File.Rename (sourcePath, path);
-
-                    GLib.Timeout.add (1000, () => {
-                        if (Utils.File.Exists (path)) return false;
-
-                        return true;
-                    }, 1);
                 }
 
                 release.Tool.Launcher.install (release);
@@ -160,7 +153,7 @@ namespace Windows.Tools {
 
             GLib.Timeout.add (500, () => {
                 if (error) {
-                    textBuffer.set_text (text += "There was an error while extracting...");
+                    textBuffer.set_text (text += _("There was an error while extracting..."));
                     Cancel (false);
                     return false;
                 }
@@ -170,8 +163,8 @@ namespace Windows.Tools {
                 progressBar.pulse ();
 
                 if (done) {
-                    textBuffer.set_text (text += "Extraction done...\n");
-                    textBuffer.set_text (text += "Make sure to restart Steam if it's open to be able to use it in Steam otherwise you will not see it.\n");
+                    textBuffer.set_text (text += _("Extraction done...\n"));
+                    textBuffer.set_text (text += _("Make sure to restart Steam if it's open to be able to use it in Steam otherwise you will not see it.\n"));
                     release.Installed = true;
                     release.SetSize ();
                     Cancel (false, true);
