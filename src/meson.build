@@ -28,6 +28,7 @@ sources = files(
   'Windows/Tools/LauncherInfo.vala',
   'Windows/Tools/ReleaseInstaller.vala',
   'Windows/Tools/ReleaseInfo.vala',
+  'Windows/Tools/ToolInfo.vala',
 
   'Windows/Errors/GithubApiRequest.vala',
 

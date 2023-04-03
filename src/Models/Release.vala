@@ -67,6 +67,12 @@ namespace Models {
                 return @"dxvk-async-$Title";
             case Models.Tool.TitleTypes.LUTRIS_DXVK_ASYNC_GNUSENPAI:
                 return @"dxvk-sc-async-" + Title.replace ("v", "").replace ("-sc-async", "");
+            case Models.Tool.TitleTypes.LUTRIS_WINE_GE:
+                return @"lutris-$Title-x86_64";
+            case Models.Tool.TitleTypes.LUTRIS_WINE:
+                return Title.replace ("-wine", "") + "-x86_64";
+            case Models.Tool.TitleTypes.LUTRIS_KRON4EK:
+                return @"wine-$Title-amd64";
             default:
                 return Title;
             }

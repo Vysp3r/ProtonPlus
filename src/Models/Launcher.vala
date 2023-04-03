@@ -2,6 +2,7 @@ namespace Models {
     public class Launcher : Object {
         public string Title;
         public string FullPath;
+        public string Description;
         public List<Models.Tool> Tools;
         public bool Installed {
             public get { return FullPath.length > 0; }
@@ -84,6 +85,7 @@ namespace Models {
             );
             if (steamFlatpak.Installed) {
                 steamFlatpak.Tools = Models.Tool.Steam (steamFlatpak);
+                steamFlatpak.Description = "If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community builds from Flathub.";
                 launchers.append (steamFlatpak);
             }
 

@@ -25,7 +25,6 @@ namespace Windows.Tools {
                 row.set_activatable (true);
                 row.activated.connect (() => {
                     leaflet.get_pages ().select_item (counter, true);
-                    launcherInfo.Load ();
                 });
 
                 var icon = new Gtk.Image.from_icon_name ("go-next-symbolic");

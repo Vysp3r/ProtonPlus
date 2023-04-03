@@ -71,7 +71,7 @@ namespace Windows.Tools {
                 var btnInstall = new Gtk.Button.with_label (_("Install"));
                 btnInstall.add_css_class ("suggested-action");
                 btnInstall.set_hexpand (true);
-                btnInstall.clicked.connect (() => launcherInfo.InstallRelease (release, row, rowActions));
+                btnInstall.clicked.connect (() => launcherInfo.InstallRelease (release, row, rowActions, false));
                 actions.append (btnInstall);
             }
 

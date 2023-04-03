@@ -1,19 +1,15 @@
 namespace Windows.Tools {
     public class LauncherInfo : Gtk.Box {
         public Gtk.Button btnBack;
+        public Gtk.Notebook notebook;
+        public Gtk.Notebook parentNotebook;
+        public Windows.Tools.ReleaseInstaller releaseInstaller;
+        public Windows.Tools.ReleaseInfo releaseInfo;
+        public Adw.ToastOverlay toastOverlay;
+        public int lastPage;
 
-        Windows.Tools.ReleaseInstaller releaseInstaller;
-        Windows.Tools.ReleaseInfo releaseInfo;
-        Adw.ToastOverlay toastOverlay;
         Models.Launcher launcher;
-        Gtk.Notebook notebook;
-        Gtk.Notebook parentNotebook;
         Gtk.Spinner spinner;
-        GLib.List<Adw.ExpanderRow> toolRows;
-        bool loaded = false;
-        bool done = false;
-        bool error = false;
-        int lastPage;
 
         public LauncherInfo (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay, Models.Launcher launcher, Gtk.Notebook parentNotebook) {
             //
@@ -30,11 +26,8 @@ namespace Windows.Tools {
             btnBack.set_icon_name ("go-previous-symbolic");
             btnBack.clicked.connect (() => {
                 if (notebook.get_current_page () == 0) leaflet.get_pages ().select_item (0, true);
-                if (notebook.get_current_page () == 1) notebook.set_current_page (0);
-                if (notebook.get_current_page () == 2) {
-                    if (lastPage == 0) notebook.set_current_page (0);
-                    if (lastPage == 1) notebook.set_current_page (1);
-                }
+                if (notebook.get_current_page () > 2) notebook.set_current_page (0);
+                else notebook.set_current_page (lastPage);
             });
 
             //
@@ -49,21 +42,28 @@ namespace Windows.Tools {
             content.set_margin_top (15);
 
             //
+            var title = new Gtk.Label (launcher.Title);
+            title.add_css_class ("title-1");
+            content.append (title);
+
+            //
+            if (launcher.Description != null) {
+                var description = new Gtk.Label (launcher.Description);
+                description.set_margin_bottom (10);
+                content.append (description);
+            } else {
+                title.set_margin_bottom (10);
+            }
+
+            //
             var group = new Adw.PreferencesGroup ();
-            group.set_title (launcher.Title);
-            if (launcher.Title == "Steam (Flatpak)") group.set_description (_("If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community builds from Flathub (Check for the add-ons section)"));
+            group.set_title ("Tools");
+            group.set_description ("Select a tool to proceed");
             content.append (group);
 
             //
             spinner = new Gtk.Spinner ();
             group.set_header_suffix (spinner);
-
-            //
-            foreach (var tool in launcher.Tools) {
-                var row = CreateToolRow (tool);
-                toolRows.append (row);
-                group.add (row);
-            }
 
             //
             var clamp = new Adw.Clamp ();
@@ -86,16 +86,95 @@ namespace Windows.Tools {
             notebook.append_page (releaseInfo = new Windows.Tools.ReleaseInfo (notebook, this), new Gtk.Label ("ReleaseInfo"));
             notebook.append_page (releaseInstaller = new Windows.Tools.ReleaseInstaller (notebook, btnBack), new Gtk.Label ("ReleaseInstaller"));
             append (notebook);
+
+            //
+            for (int i = 0; i < launcher.Tools.length (); i++) {
+                var tool = launcher.Tools.nth_data (i);
+
+                var position = i + 3;
+                var toolInfo = new Windows.Tools.ToolInfo (tool, this);
+
+                var row = new Adw.ActionRow ();
+                row.set_title (tool.Title);
+                row.set_activatable (true);
+                row.activated.connect (() => {
+                    notebook.set_current_page (position);
+                    toolInfo.Load ();
+                });
+
+                notebook.append_page (toolInfo, new Gtk.Label ("ToolInfo_" + tool.Title));
+                group.add (row);
+            }
         }
 
-        Adw.ExpanderRow CreateToolRow (Models.Tool tool) {
-            var row = new Adw.ExpanderRow ();
-            row.set_title (tool.Title);
-
-            return row;
+        void InfoRelease (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
+            lastPage = notebook.get_current_page ();
+            notebook.set_current_page (1);
+            releaseInfo.Load (release, row, actions);
         }
 
-        Adw.ActionRow CreateReleaseRow (Models.Release release) {
+        public void DeleteRelease (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
+            var toast = new Adw.Toast ("Deleted " + release.Title);
+            toast.set_button_label ("Undo");
+
+            bool undo = false;
+
+            toast.button_clicked.connect (() => {
+                undo = true;
+                toast.dismiss ();
+            });
+
+            toast.dismissed.connect (() => {
+                if (!undo) {
+                    release.Delete ();
+
+                    GLib.Timeout.add (1000, () => {
+                        if (!release.Installed) {
+                            row.remove (actions);
+                            row.add_suffix (GetActionsBox (release, row));
+
+                            if (notebook.get_current_page () == 1) {
+                                releaseInfo.Load (release, row, actions);
+                            }
+
+                            return false;
+                        }
+
+                        return true;
+                    });
+                }
+            });
+
+
+            toastOverlay.add_toast (toast);
+        }
+
+        public void InstallRelease (Models.Release release, Adw.ActionRow row, Gtk.Box actions, bool setLastPage = true) {
+            if (setLastPage) lastPage = notebook.get_current_page ();
+            notebook.set_current_page (2);
+            releaseInstaller.Download (release);
+
+            GLib.Timeout.add (1000, () => {
+                if (release.InstallCancelled) {
+                    return false;
+                }
+
+                if (release.Installed) {
+                    row.remove (actions);
+                    row.add_suffix (GetActionsBox (release, row));
+
+                    if (lastPage == 1) {
+                        releaseInfo.Load (release, row, actions);
+                    }
+
+                    return false;
+                }
+
+                return true;
+            });
+        }
+
+        public Adw.ActionRow CreateReleaseRow (Models.Release release) {
             var row = new Adw.ActionRow ();
             row.set_title (release.Title);
             row.set_activatable (true);
@@ -143,128 +222,6 @@ namespace Windows.Tools {
             btnInstall.set_tooltip_text (_("Install the tool"));
             btnInstall.clicked.connect (() => InstallRelease (release, row, actions));
             return btnInstall;
-        }
-
-        void InfoRelease (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
-            notebook.set_current_page (1);
-            releaseInfo.Load (release, row, actions);
-        }
-
-        public void DeleteRelease (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
-            //
-            var toast = new Adw.Toast ("Deleted " + release.Title);
-            toast.set_button_label ("Undo");
-
-            //
-            bool undo = false;
-
-            //
-            toast.button_clicked.connect (() => {
-                undo = true;
-                toast.dismiss ();
-            });
-
-            //
-            toast.dismissed.connect (() => {
-                if (!undo) {
-                    release.Delete ();
-
-                    GLib.Timeout.add (1000, () => {
-                        if (!release.Installed) {
-                            row.remove (actions);
-                            row.add_suffix (GetActionsBox (release, row));
-
-                            if (notebook.get_current_page () == 1) {
-                                releaseInfo.Load (release, row, actions);
-                            }
-
-                            return false;
-                        }
-
-                        return true;
-                    });
-                }
-            });
-
-            //
-            toastOverlay.add_toast (toast);
-        }
-
-        public void InstallRelease (Models.Release release, Adw.ActionRow row, Gtk.Box actions) {
-            lastPage = notebook.get_current_page ();
-            notebook.set_current_page (2);
-            releaseInstaller.Download (release);
-
-
-            GLib.Timeout.add (1000, () => {
-                if (release.InstallCancelled) {
-                    return false;
-                }
-
-                if (release.Installed) {
-                    row.remove (actions);
-                    row.add_suffix (GetActionsBox (release, row));
-
-                    if (lastPage == 1) {
-                        releaseInfo.Load (release, row, actions);
-                    }
-
-                    return false;
-                }
-
-                return true;
-            });
-        }
-
-        public void Load () {
-            if (!loaded) {
-                loaded = true;
-
-                spinner.start ();
-
-                //
-                new Thread<void> ("getReleases", () => {
-                    foreach (var tool in launcher.Tools) {
-                        tool.Releases = tool.GetReleases ();
-                        if (tool.Releases.length () == 0) error = true;
-                    }
-                    done = true;
-                });
-
-                //
-                GLib.Timeout.add (1000, () => {
-                    if (error) {
-                        spinner.stop ();
-                        spinner.set_visible (false);
-
-                        var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API."));
-                        toast.set_button_label (_("Learn more"));
-                        toast.set_timeout (15000);
-                        toast.button_clicked.connect (() => {
-                            parentNotebook.set_current_page (2);
-                        });
-                        toastOverlay.add_toast (toast);
-
-                        return false;
-                    } else if (done) {
-                        for (int i = 0; i < toolRows.length (); i++) {
-                            var tool = launcher.Tools.nth_data (i);
-                            var row = toolRows.nth_data (i);
-
-                            foreach (var release in tool.Releases) {
-                                row.add_row (CreateReleaseRow (release));
-                            }
-                        }
-
-                        spinner.stop ();
-                        spinner.set_visible (false);
-
-                        return false;
-                    }
-
-                    return true;
-                });
-            }
         }
     }
 }

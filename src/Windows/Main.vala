@@ -17,7 +17,7 @@ namespace Windows {
             //
             set_application (app);
             set_title ("ProtonPlus");
-            set_size_request (800, 500);
+            set_size_request (900, 600);
 
             //
             var toastOverlay = new Adw.ToastOverlay ();
@@ -47,13 +47,12 @@ namespace Windows {
         }
 
         void on_about_action () {
-            string[] devs = { "Charles Malouin (Vysp3r) https:// github.com/Vysp3r" };
+            string[] devs = { "Charles Malouin (Vysp3r) https:// github.com/Vysp3r", "windblows95 https://github.com/windblows95" };
             string[] designers = { "Charles Malouin (Vysp3r) https://github.com/Vysp3r" };
             string[] thanks = {
                 "GNOME Project https://www.gnome.org/",
                 "ProtonUp-Qt Project https://davidotek.github.io/protonup-qt/",
-                "LUG Helper Project https://github.com/starcitizen-lug/lug-helper",
-                "Lahey"
+                "LUG Helper Project https://github.com/starcitizen-lug/lug-helper"
             };
 
             var aboutDialog = new Adw.AboutWindow ();

@@ -2,6 +2,7 @@ namespace Models {
     public class Tool : Object {
         public string Title;
         public string Description;
+        public string Website;
         public string Endpoint; // For GitHub Actions repository, make this the workflow url. See Proton Tkg for an example.
         public int AssetPosition; // The position of the .tar.xz file in the json tree of the tool > assets
         public TitleTypes TitleType;
@@ -19,6 +20,7 @@ namespace Models {
             TitleType = type;
             IsUsingGithubActions = isUsingGithubActions;
             useNameInsteadOfTagName = false;
+            Website = "";
         }
 
         public enum TitleTypes {
@@ -33,6 +35,9 @@ namespace Models {
             LUTRIS_DXVK, //
             LUTRIS_DXVK_ASYNC_SPORIF, //
             LUTRIS_DXVK_ASYNC_GNUSENPAI, //
+            LUTRIS_WINE_GE, //
+            LUTRIS_WINE, //
+            LUTRIS_KRON4EK, //
             NONE // Bypass and do not rename
         }
 
@@ -52,9 +57,9 @@ namespace Models {
         public static GLib.List<Tool> Lutris (Models.Launcher launcher) {
             var tools = new GLib.List<Tool> ();
 
-            tools.append (new Tool (launcher, "Wine-GE", "Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1));
-            tools.append (new Tool (launcher, "Wine-Lutris", "Compatibility tool \"Wine\" to run Windows games on Linux. Improved by Lutris to offer better compatibility or performance in certain games.", "https://api.github.com/repos/lutris/wine/releases", 0));
-            tools.append (new Tool (launcher, "Kron4ek Wine-Builds Vanilla", "Compatibility tool \"Wine\" to run Windows games on Linux. Official version from the WineHQ sources, compiled by Kron4ek.", "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1));
+            tools.append (new Tool (launcher, "Wine-GE", "Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, LUTRIS_WINE_GE));
+            tools.append (new Tool (launcher, "Wine-Lutris", "Compatibility tool \"Wine\" to run Windows games on Linux. Improved by Lutris to offer better compatibility or performance in certain games.", "https://api.github.com/repos/lutris/wine/releases", 0, LUTRIS_WINE));
+            tools.append (new Tool (launcher, "Kron4ek Wine-Builds Vanilla", "Compatibility tool \"Wine\" to run Windows games on Linux. Official version from the WineHQ sources, compiled by Kron4ek.", "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, LUTRIS_KRON4EK));
 
             return tools;
         }
