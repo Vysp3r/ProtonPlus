@@ -1,13 +1,29 @@
 namespace Windows {
     public class Main : Adw.ApplicationWindow {
-        public bool installing;
+        public States State;
+        public GLib.List<Task> Tasks;
+        public delegate void TaskCallback ();
+
+        public class Task {
+            public TaskCallback Callback;
+
+            public Task (owned TaskCallback callback) {
+                Callback = (owned) callback;
+            }
+        }
+
+        public enum States {
+            NORMAL,
+            INSTALLING_TOOL,
+            CLOSING
+        }
 
         Gtk.Notebook notebook;
         Adw.ToastOverlay toastOverlay;
 
         public Main (Adw.Application app) {
             //
-            installing = false;
+            State = States.NORMAL;
 
             //
             ActionEntry[] action_entries = {
@@ -85,12 +101,21 @@ namespace Windows {
         }
 
         public override bool close_request () {
-            if (installing) {
+            bool busy = false;
+
+            if (State == States.INSTALLING_TOOL) {
                 var toast = new Adw.Toast (_("You cannot close the window while a tool is installing"));
                 toastOverlay.add_toast (toast);
+                busy = true;
             }
 
-            return installing;
+            if (!busy) {
+                State = States.CLOSING;
+                set_visible (false);
+                foreach (var task in Tasks) task.Callback ();
+            }
+
+            return busy;
         }
     }
 }
