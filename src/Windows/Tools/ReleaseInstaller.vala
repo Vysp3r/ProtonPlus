@@ -66,10 +66,13 @@ namespace Windows.Tools {
             btnCancel.set_sensitive (false);
             btnBack.set_sensitive (true);
             release = null;
+            ProtonPlus.get_instance ().mainWindow.installing = false;
         }
 
         public void Download (Models.Release release) {
             this.release = release;
+
+            ProtonPlus.get_instance ().mainWindow.installing = true;
 
             btnBack.set_sensitive (false);
             btnCancel.set_sensitive (!release.Tool.IsUsingGithubActions);

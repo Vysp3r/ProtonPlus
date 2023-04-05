@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 11:35-0400\n"
+"POT-Creation-Date: 2023-04-05 12:12-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/Windows/Main.vala:63
+#: src/Windows/Main.vala:69
 msgid "A simple Wine and Proton-based compatiblity tools manager for GNOME"
 msgstr ""
 
-#: src/Windows/Main.vala:70
+#: src/Windows/Main.vala:76
 msgid "Special thanks to"
+msgstr ""
+
+#: src/Windows/Main.vala:89
+msgid "You cannot close the window while a tool is installing"
 msgstr ""
 
 #.
@@ -125,35 +129,35 @@ msgstr ""
 msgid "Cancelled the install..."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:76
+#: src/Windows/Tools/ReleaseInstaller.vala:79
 msgid "You cannot cancel the operation for tools using Github Actions."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:77
+#: src/Windows/Tools/ReleaseInstaller.vala:80
 msgid "Download started...\n"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:115
+#: src/Windows/Tools/ReleaseInstaller.vala:118
 msgid "Download done...\n"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:126
+#: src/Windows/Tools/ReleaseInstaller.vala:129
 msgid "Extraction started...\n"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:129
+#: src/Windows/Tools/ReleaseInstaller.vala:132
 msgid "You cannot cancel the operation while it's extracting."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:160
+#: src/Windows/Tools/ReleaseInstaller.vala:163
 msgid "There was an error while extracting..."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:170
+#: src/Windows/Tools/ReleaseInstaller.vala:173
 msgid "Extraction done...\n"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:172
+#: src/Windows/Tools/ReleaseInstaller.vala:175
 msgid "You cannot cancel the operation when it's already completed."
 msgstr ""
 

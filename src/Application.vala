@@ -3,6 +3,8 @@ using Utils.Constants;
 public class ProtonPlus : Adw.Application {
     static GLib.Once<ProtonPlus> _instance;
 
+    public Windows.Main mainWindow;
+
     public static unowned ProtonPlus get_instance () {
         return _instance.once (() => { return new ProtonPlus (); });
     }
@@ -32,14 +34,14 @@ public class ProtonPlus : Adw.Application {
                                                    Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
         //
-        var window = new Windows.Main (this);
+        mainWindow = new Windows.Main (this);
 
         //
         if (GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland") {
-            window.fullscreen ();
+            mainWindow.fullscreen ();
         }
 
         //
-        window.show ();
+        mainWindow.show ();
     }
 }
