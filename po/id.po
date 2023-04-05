@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 11:24-0400\n"
+"POT-Creation-Date: 2023-04-05 11:35-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: yukidream <mashirokuratamorfo@gmail.com>\n"
 "Language-Team: \n"
@@ -44,6 +44,7 @@ msgstr "Keluar"
 
 #.
 #: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
+#: src/Windows/Preferences/Main.vala:78
 msgid "Preferences"
 msgstr "Preferensi"
 
@@ -167,10 +168,15 @@ msgstr ""
 
 #.
 #.
-#: src/Windows/Preferences/Main.vala:49
+#.
+#: src/Windows/Preferences/Main.vala:51
 #, fuzzy
 msgid "Style"
 msgstr "Gaya"
+
+#: src/Windows/Preferences/Main.vala:79
+msgid "There is nothing to see here."
+msgstr ""
 
 #.
 #: src/Windows/Errors/GithubApiRequest.vala:22

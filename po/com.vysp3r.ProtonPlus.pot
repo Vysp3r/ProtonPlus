@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 11:24-0400\n"
+"POT-Creation-Date: 2023-04-05 11:35-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,6 +49,7 @@ msgstr ""
 
 #.
 #: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
+#: src/Windows/Preferences/Main.vala:78
 msgid "Preferences"
 msgstr ""
 
@@ -167,8 +168,13 @@ msgstr ""
 
 #.
 #.
-#: src/Windows/Preferences/Main.vala:49
+#.
+#: src/Windows/Preferences/Main.vala:51
 msgid "Style"
+msgstr ""
+
+#: src/Windows/Preferences/Main.vala:79
+msgid "There is nothing to see here."
 msgstr ""
 
 #.

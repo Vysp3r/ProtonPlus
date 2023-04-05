@@ -4,7 +4,7 @@ namespace Windows.Preferences {
         Adw.ActionRow currentStyleRow;
         Gtk.Image currentStyleRowImage;
         GLib.List<Models.Preferences.Style> styles;
-
+        int total = 0;
 
         public Main (Gtk.Notebook notebook) {
             //
@@ -36,7 +36,6 @@ namespace Windows.Preferences {
             var mainPage = new Adw.PreferencesPage ();
             mainPage.set_name (_("Main"));
             mainPage.set_title (_("Main"));
-            append (mainPage);
 
             //
             var group = new Adw.PreferencesGroup ();
@@ -44,6 +43,9 @@ namespace Windows.Preferences {
 
             //
             if (Adw.StyleManager.get_default ().get_system_supports_color_schemes ()) {
+                //
+                total += 1;
+
                 //
                 var stylesRow = new Adw.ExpanderRow ();
                 stylesRow.set_title (_("Style"));
@@ -66,6 +68,18 @@ namespace Windows.Preferences {
                     stylesRow.add_row (row);
                 }
                 group.add (stylesRow);
+            }
+
+            //
+            if (total > 0) {
+                append (mainPage);
+            } else {
+                var statusPage = new Adw.StatusPage ();
+                statusPage.set_title (_("Preferences"));
+                statusPage.set_description (_("There is nothing to see here."));
+                statusPage.set_vexpand (true);
+                statusPage.set_icon_name ("preferences-other-symbolic");
+                append (statusPage);
             }
         }
 
