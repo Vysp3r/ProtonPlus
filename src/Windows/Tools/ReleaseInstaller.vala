@@ -3,6 +3,7 @@ namespace Windows.Tools {
         Gtk.Notebook notebook;
         Gtk.Button btnBack;
         Gtk.Button btnCancel;
+        Gtk.Button btnGoBack;
         Gtk.ProgressBar progressBar;
         Gtk.TextBuffer textBuffer;
         bool cancelled;
@@ -47,9 +48,15 @@ namespace Windows.Tools {
 
             //
             btnCancel = new Gtk.Button.with_label (_("Cancel"));
-            btnCancel.set_hexpand (true);
             btnCancel.clicked.connect (() => Cancel ());
+            btnCancel.set_hexpand (true);
             content.append (btnCancel);
+
+            //
+            btnGoBack = new Gtk.Button.with_label (_("Go back"));
+            btnGoBack.clicked.connect (GoBack);
+            btnGoBack.set_hexpand (true);
+            content.append (btnGoBack);
 
             //
             var clamp = new Adw.Clamp ();
@@ -58,23 +65,30 @@ namespace Windows.Tools {
             clamp.set_parent (this);
         }
 
+        void GoBack () {
+            btnBack.set_visible (true);
+            btnBack.clicked ();
+            btnGoBack.set_visible (false);
+        }
+
         void Cancel (bool showCancelMessage = true, bool isEnd = false) {
             if (!cancelled) cancelled = true;
             if (showCancelMessage) textBuffer.set_text (text += _("Cancelled the install..."));
             if (!isEnd) release.InstallCancelled = true;
             progressBar.set_fraction (0);
-            btnCancel.set_sensitive (false);
-            btnBack.set_sensitive (true);
-            release = null;
+            btnCancel.set_visible (false);
+            btnGoBack.set_visible (true);
             ProtonPlus.get_instance ().mainWindow.installing = false;
         }
 
         public void Download (Models.Release release) {
             this.release = release;
+            btnGoBack.set_visible (false);
+            btnCancel.set_visible (true);
 
             ProtonPlus.get_instance ().mainWindow.installing = true;
 
-            btnBack.set_sensitive (false);
+            btnBack.set_visible (false);
             btnCancel.set_sensitive (!release.Tool.IsUsingGithubActions);
             if (release.Tool.IsUsingGithubActions) btnCancel.set_tooltip_text (_("You cannot cancel the operation for tools using Github Actions."));
             textBuffer.set_text (text = _("Download started...\n"));
@@ -172,7 +186,6 @@ namespace Windows.Tools {
                 if (done) {
                     textBuffer.set_text (text += _("Extraction done...\n"));
                     textBuffer.set_text (text += release.Tool.Launcher.InstallMessage);
-                    btnCancel.set_tooltip_text (_("You cannot cancel the operation when it's already completed."));
                     release.Installed = true;
                     release.SetSize ();
                     Cancel (false, true);

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 12:12-0400\n"
+"POT-Creation-Date: 2023-04-05 15:55-0400\n"
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -111,49 +111,50 @@ msgid "Release date: "
 msgstr ""
 
 #.
-#: src/Windows/Tools/ReleaseInstaller.vala:49
+#: src/Windows/Tools/ReleaseInstaller.vala:50
 msgid "Cancel"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:63
+#.
+#: src/Windows/Tools/ReleaseInstaller.vala:56
+msgid "Go back"
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:76
 msgid "Cancelled the install..."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:79
+#: src/Windows/Tools/ReleaseInstaller.vala:93
 msgid "You cannot cancel the operation for tools using Github Actions."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:80
+#: src/Windows/Tools/ReleaseInstaller.vala:94
 #, fuzzy
 msgid "Download started...\n"
 msgstr "Scaricamento in corso..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:118
+#: src/Windows/Tools/ReleaseInstaller.vala:132
 #, fuzzy
 msgid "Download done...\n"
 msgstr "Scaricamento in corso..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:129
+#: src/Windows/Tools/ReleaseInstaller.vala:143
 #, fuzzy
 msgid "Extraction started...\n"
 msgstr "Estrazione in corso..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:132
+#: src/Windows/Tools/ReleaseInstaller.vala:146
 msgid "You cannot cancel the operation while it's extracting."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:163
+#: src/Windows/Tools/ReleaseInstaller.vala:177
 msgid "There was an error while extracting..."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:173
+#: src/Windows/Tools/ReleaseInstaller.vala:187
 #, fuzzy
 msgid "Extraction done...\n"
 msgstr "Estrazione in corso..."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:175
-msgid "You cannot cancel the operation when it's already completed."
-msgstr ""
 
 #: src/Windows/Games/Main.vala:11 src/Windows/Notifications/Main.vala:11
 msgid "This page is a work in progress."
