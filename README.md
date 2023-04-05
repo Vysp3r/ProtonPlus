@@ -45,7 +45,7 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 ## 💾 Download
 
-[<img align="center" width=150 src="https://camo.githubusercontent.com/1682ee5722ac262c660297d4541837e5c8765c7e239fa2a6ce7c3f4817a79283/68747470733a2f2f666c61746875622e6f72672f6173736574732f6261646765732f666c61746875622d62616467652d656e2e706e67" />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
+[<img width='240' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-en.png' />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
 
 - - - -
 
