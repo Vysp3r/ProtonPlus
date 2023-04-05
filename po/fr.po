@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 11:24-0400\n"
+"POT-Creation-Date: 2023-04-05 11:35-0400\n"
 "Language: fr_CA\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,6 +38,7 @@ msgstr "Quitter"
 
 #.
 #: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
+#: src/Windows/Preferences/Main.vala:78
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -161,10 +162,15 @@ msgstr ""
 
 #.
 #.
-#: src/Windows/Preferences/Main.vala:49
+#.
+#: src/Windows/Preferences/Main.vala:51
 #, fuzzy
 msgid "Style"
 msgstr "Styles"
+
+#: src/Windows/Preferences/Main.vala:79
+msgid "There is nothing to see here."
+msgstr ""
 
 #.
 #: src/Windows/Errors/GithubApiRequest.vala:22
