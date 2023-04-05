@@ -12,9 +12,6 @@ constants = configure_file(
 
 #
 sources = files(
-  'Interfaces/IModel.vala',
-
-  'Utils/Theme.vala',
   'Utils/Web.vala',
   'Utils/File.vala',
   'Utils/Dir.vala',
@@ -24,20 +21,24 @@ sources = files(
   'Models/Release.vala',
   'Models/Preferences/Style.vala',
 
-  'Stores/Main.vala',
+  'Widgets/ProtonActionRow.vala',
 
-  'Widgets/ProtonComboRow.vala',
-  'Widgets/ProtonMessageDialog.vala',
+  'Windows/Main.vala',
+  'Windows/ViewManager.vala',
 
-  'Windows/Home.vala',
-  'Windows/About.vala',
-  'Windows/Preferences.vala',
-  'Windows/Installer.vala',
-  'Windows/LauncherSettings.vala',
+  'Windows/Tools/LauncherSelector.vala',
+  'Windows/Tools/LauncherInfo.vala',
+  'Windows/Tools/ReleaseInstaller.vala',
+  'Windows/Tools/ReleaseInfo.vala',
+  'Windows/Tools/ToolInfo.vala',
 
-  'Windows/Views/Games.vala',
-  'Windows/Views/Tools.vala',
-  'Windows/Views/Notifications.vala',
+  'Windows/Errors/GithubApiRequest.vala',
+
+  'Windows/Games/Main.vala',
+
+  'Windows/Notifications/Main.vala',
+
+  'Windows/Preferences/Main.vala',
 
   'Application.vala',
 )

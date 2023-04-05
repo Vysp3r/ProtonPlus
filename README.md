@@ -1,14 +1,18 @@
 <h1 align="center">ProtonPlus (WIP)</h1>
 
 <p align="center">
-    <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=shield&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22">
+    <a href="https://github.com/Vysp3r/ProtonPlus/stargazers">
+      <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=shield&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22" />
+    </a>
     <a href="https://github.com/Vysp3r/ProtonPlus/releases/latest">
       <img alt="Latest Release (Semver)" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=shield&label=%F0%9F%9A%80%20Release">
     </a>
-    <a>
+    <a href="https://github.com/Vysp3r/ProtonPlus/blob/main/LICENSE.md">
       <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?style=shield" />
     </a>
-    <img src="https://img.shields.io/flathub/downloads/com.vysp3r.ProtonPlus?label=Flathub%20installs">
+    <a href="https://klausenbusk.github.io/flathub-stats/#ref=com.vysp3r.ProtonPlus&interval=infinity&downloadType=installs%2Bupdates">
+      <img src="https://img.shields.io/flathub/downloads/com.vysp3r.ProtonPlus?label=Flathub%20installs">
+    </a>
     <a href="https://t.me/ProtonPlus">
       <img title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=shield&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlus">
     </a>
@@ -18,7 +22,7 @@
 </p>
 
 <p align="center">
-    <i>Join the telegram! — Don't forget to star the repo if you are enjoying the project!</i>
+    <i>Join the telegram/Discord! — Don't forget to star the repo if you are enjoying the project!</i>
 </p>
 
 - - - -
@@ -52,7 +56,8 @@ If you have any questions about ProtonPlus or want to share information with us,
 - - - -
 
 ## 👀 Preview
-<img alt="ProtonPlus Preview" align="center" width="60%" src="Preview-1.png" />
+
+https://user-images.githubusercontent.com/62019735/229851929-9ff76dde-9e72-4acd-8043-8c9e114d57be.mp4
 
 - - - -
 

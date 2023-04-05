@@ -1,6 +1,6 @@
 namespace Models.Preferences {
-    public class Style : Object, Interfaces.IModel {
-        public string Title { get; set; }
+    public class Style : Object {
+        public string Title;
         public string JsonValue;
         public Adw.ColorScheme ColorScheme;
         public int Position;
@@ -11,24 +11,23 @@ namespace Models.Preferences {
             this.Position = position;
         }
 
-        public static GLib.ListStore GetStore (GLib.List<Style> styles) {
-            var model = new GLib.ListStore (typeof (Style));
-
-            styles.@foreach ((style) => {
-                model.append (style);
-            });
-
-            return model;
-        }
-
         public static GLib.List<Style> GetAll () {
             var styles = new GLib.List<Style> ();
 
-            styles.append (new Style (_ ("System"), Adw.ColorScheme.DEFAULT, 0));
-            styles.append (new Style (_ ("Light"), Adw.ColorScheme.FORCE_LIGHT, 1));
-            styles.append (new Style (_ ("Dark"), Adw.ColorScheme.FORCE_DARK, 2));
+            styles.append (new Style (_("System"), Adw.ColorScheme.DEFAULT, 0));
+            styles.append (new Style (_("Light"), Adw.ColorScheme.FORCE_LIGHT, 1));
+            styles.append (new Style (_("Dark"), Adw.ColorScheme.FORCE_DARK, 2));
 
             return styles;
+        }
+
+        public void SetActive (bool updateSetting = true) {
+            if (updateSetting) {
+                var settings = new Settings ("com.vysp3r.ProtonPlus");
+                settings.set_value ("window-style", Position);
+            }
+
+            Adw.StyleManager.get_default ().set_color_scheme (ColorScheme);
         }
     }
 }

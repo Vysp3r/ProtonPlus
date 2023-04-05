@@ -13,7 +13,7 @@ namespace Utils {
             }
         }
 
-        public static void Download (string url, string path) {
+        public static void Download (string url, string path, ref double state, ref bool cancelled, ref bool requestError, ref bool downloadError, ref string errorMessage) {
             var client = new Soup.Session ();
             client.set_user_agent ("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1");
 
@@ -23,8 +23,8 @@ namespace Utils {
                 var input_stream = client.send (request);
 
                 if (request.status_code != 200) {
-                    stderr.printf (request.reason_phrase + "\n");
-                    Stores.Main.get_instance ().IsInstallationCancelled = true;
+                    requestError = true;
+                    errorMessage = request.reason_phrase + "\n"; // TODO
                     return;
                 }
 
@@ -37,7 +37,7 @@ namespace Utils {
                 const int chunk_size = 1024;
                 ulong bytes_downloaded = 0;
                 while (bytes_downloaded < content_length) {
-                    if (Stores.Main.get_instance ().IsInstallationCancelled) {
+                    if (cancelled) {
                         if (file.query_exists ()) file.delete ();
                         break;
                     }
@@ -45,19 +45,19 @@ namespace Utils {
                     ulong bytes_read = output_stream.write (input_stream.read_bytes (chunk_size).get_data ());
 
                     bytes_downloaded += bytes_read;
-                    Stores.Main.get_instance ().ProgressBarValue = (double) bytes_downloaded / content_length;
+                    state = (double) bytes_downloaded / content_length;
                 }
 
                 output_stream.close ();
             } catch (GLib.Error e) {
-                stderr.printf (e.message + "\n");
-                Stores.Main.get_instance ().IsInstallationCancelled = true;
+                downloadError = true;
+                errorMessage = e.message + "\n"; // TODO
             }
 
             client.abort ();
         }
 
-        public static void OldDownload (string url, string path) {
+        public static void OldDownload (string url, string path, ref bool requestError, ref bool downloadError, ref string errorMessage) {
             try {
                 var session = new Soup.Session ();
                 var request = new Soup.Message ("GET", url);
@@ -68,10 +68,12 @@ namespace Utils {
                     var output_stream = file.create (FileCreateFlags.REPLACE_DESTINATION);
                     output_stream.write (response.get_data ());
                 } else {
-                    stdout.printf ("Error: " + request.status_code.to_string () + "\n");
+                    requestError = true;
+                    errorMessage = "Error: " + request.status_code.to_string () + "\n"; // TODO
                 }
             } catch (GLib.Error e) {
-                stderr.printf (e.message + "\n");
+                downloadError = true;
+                errorMessage = e.message + "\n"; // TODO
             }
         }
     }

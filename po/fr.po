@@ -1,218 +1,263 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-02 12:16-0500\n"
+"POT-Creation-Date: 2023-04-04 20:59-0400\n"
 "Language: fr_CA\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/Windows/About.vala:6 src/Windows/Home.vala:26
-msgid "About"
-msgstr "À propos"
-
-#: src/Windows/About.vala:23 src/Windows/About.vala:38
-#: src/Windows/About.vala:53
-msgid "Copy"
-msgstr "Copier"
-
-#. Setup rowTool
-#: src/Windows/About.vala:28
-msgid "Name: "
-msgstr "Nom: "
-
-#. Setup rowDirectory
-#: src/Windows/About.vala:43
-msgid "Path: "
+#: src/Windows/Main.vala:63
+msgid "A simple Wine and Proton-based compatiblity tools manager for GNOME"
 msgstr ""
 
-#. Setup rowSize
-#: src/Windows/About.vala:58
-msgid "Used Space: "
+#: src/Windows/Main.vala:70
+msgid "Special thanks to"
 msgstr ""
 
-#. Setup menu_model_about
-#: src/Windows/Home.vala:23
+#.
+#: src/Windows/ViewManager.vala:20
 msgid "Telegram"
 msgstr "Telegram"
 
-#: src/Windows/Home.vala:24
+#: src/Windows/ViewManager.vala:21
 msgid "Documentation"
 msgstr "Documentation"
 
-#: src/Windows/Home.vala:25
+#: src/Windows/ViewManager.vala:22
 msgid "Donation"
 msgstr "Donation"
 
-#. Setup menu_model_quit
-#: src/Windows/Home.vala:30
+#: src/Windows/ViewManager.vala:23
+msgid "About"
+msgstr "À propos"
+
+#.
+#: src/Windows/ViewManager.vala:27
 msgid "Quit"
 msgstr "Quitter"
 
-#. Setup menu_model
-#: src/Windows/Home.vala:34 src/Windows/Preferences.vala:9
+#.
+#: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
 msgid "Preferences"
 msgstr "Préférences"
 
-#. Setup toolsPage
-#: src/Windows/Home.vala:47
+#.
+#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:67
 msgid "Tools"
 msgstr "Outils"
 
-#. Setup gamesPage
-#: src/Windows/Home.vala:51
+#.
+#: src/Windows/ViewManager.vala:50 src/Windows/Games/Main.vala:10
 msgid "Games"
 msgstr "Jeux"
 
-#. Setup notificationsPage
-#: src/Windows/Home.vala:55
+#.
+#: src/Windows/ViewManager.vala:54 src/Windows/Notifications/Main.vala:10
 msgid "Notifications"
 msgstr "Notifications"
 
-#: src/Windows/Installer.vala:17 src/Windows/Installer.vala:26
+#.
+#: src/Windows/Tools/LauncherSelector.vala:12
+#, fuzzy
+msgid "Launchers"
+msgstr "Launcher"
+
+#: src/Windows/Tools/LauncherSelector.vala:13
+msgid "Select a launcher to proceed"
+msgstr ""
+
+#: src/Windows/Tools/LauncherInfo.vala:68
+msgid "Select a tool to proceed"
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInfo.vala:35
+msgid "Copy"
+msgstr "Copier"
+
+#.
+#.
+#: src/Windows/Tools/ReleaseInfo.vala:63
+msgid "Delete"
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInfo.vala:69
 msgid "Install"
 msgstr "Installer"
 
-#. Initialize shared widgets
-#: src/Windows/Installer.vala:23
-msgid "Compatibility Tool"
-msgstr "Outil de compatiblité"
+#.
+#: src/Windows/Tools/ReleaseInfo.vala:78
+msgid "Website"
+msgstr ""
 
-#: src/Windows/Installer.vala:24
-msgid "Version"
-msgstr "Version"
+#: src/Windows/Tools/ReleaseInfo.vala:88
+msgid "Directory: "
+msgstr "Répertoire: "
 
-#: src/Windows/Installer.vala:25
-msgid "Info"
-msgstr "Info"
+#: src/Windows/Tools/ReleaseInfo.vala:89
+msgid "Size: "
+msgstr ""
 
-#: src/Windows/Installer.vala:63
-msgid "Open a browser to the tool page"
-msgstr "Ouvrir un navigateur sur la page de l'outil"
+#: src/Windows/Tools/ReleaseInfo.vala:91
+msgid "Download size (Compressed): "
+msgstr ""
 
-#: src/Windows/Installer.vala:71
-msgid "Install the selected tool"
-msgstr "Installer l'outil sélectionné"
+#: src/Windows/Tools/ReleaseInfo.vala:93
+msgid "Release date: "
+msgstr ""
 
-#: src/Windows/Installer.vala:85
-msgid "Downloading..."
+#.
+#: src/Windows/Tools/ReleaseInstaller.vala:49
+msgid "Cancel"
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:63
+msgid "Cancelled the install..."
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:76
+msgid "You cannot cancel the operation for tools using Github Actions."
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:77
+#, fuzzy
+msgid "Download started...\n"
 msgstr "En téléchargement..."
 
-#: src/Windows/Installer.vala:123
-msgid "Extracting..."
+#: src/Windows/Tools/ReleaseInstaller.vala:115
+#, fuzzy
+msgid "Download done...\n"
+msgstr "En téléchargement..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:126
+#, fuzzy
+msgid "Extraction started...\n"
 msgstr "En extraction..."
 
-#: src/Windows/Installer.vala:157 src/Windows/Installer.vala:224
-#: src/Windows/Installer.vala:260
-msgid "Done!"
-msgstr "Fini!"
-
-#: src/Windows/Installer.vala:179
-msgid "Cancelled!"
+#: src/Windows/Tools/ReleaseInstaller.vala:129
+msgid "You cannot cancel the operation while it's extracting."
 msgstr ""
 
-#: src/Windows/Installer.vala:190
-msgid "Are you sure you want to cancel the download ?"
+#: src/Windows/Tools/ReleaseInstaller.vala:160
+msgid "There was an error while extracting..."
 msgstr ""
 
-#: src/Windows/Installer.vala:247
+#: src/Windows/Tools/ReleaseInstaller.vala:170
+#, fuzzy
+msgid "Extraction done...\n"
+msgstr "En extraction..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:171
 msgid ""
-"There was an error while fetching data from the GitHub API. You may have "
-"reached the maximum amount of requests per hour or may not be connected to "
-"the internet. If you think this is a bug, please report this to us."
+"Make sure to restart Steam if it's open to be able to use it in Steam "
+"otherwise you will not see it.\n"
 msgstr ""
-"Il y a eu un erreur lors de récupération des données du API de GitHub. Vous "
-"avez peut-être atteind le nombre limite de requête par heure ou vous n`êtes "
-"peut-être pas connecté à internet. Si vous pensez que c'est un problème, "
-"veuillez nous le reporter."
 
-#: src/Windows/LauncherSettings.vala:13
-msgid "Launcher Settings"
-msgstr "Paramètres du launcher"
-
-#. Setup btnClean
-#: src/Windows/LauncherSettings.vala:28
-msgid "Clean launcher"
-msgstr "Nettoyer le launcher"
-
-#: src/Windows/LauncherSettings.vala:29
-msgid "Delete every installed tools from the launcher"
-msgstr "Supprime chaques outils installés du launcher"
-
-#. Events
-#: src/Windows/LauncherSettings.vala:43
-msgid ""
-"Are you sure you want to clean this launcher? WARNING: It will delete every "
-"installed tools from the launcher!"
+#: src/Windows/Tools/ReleaseInstaller.vala:172
+msgid "You cannot cancel the operation when it's already completed."
 msgstr ""
-"Êtes vous sur de vouloir nettoyer le launcher? MISE EN GARDE: Çela va "
-"supprimer chaques outils installés du launcher"
 
-#. Setup mainPage
-#: src/Windows/Preferences.vala:17 src/Windows/Preferences.vala:18
+#: src/Windows/Games/Main.vala:11 src/Windows/Notifications/Main.vala:11
+msgid "This page is a work in progress."
+msgstr ""
+
+#.
+#: src/Windows/Preferences/Main.vala:37 src/Windows/Preferences/Main.vala:38
 msgid "Main"
 msgstr ""
 
-#. Setup crStyles
-#: src/Windows/Preferences.vala:22
-msgid "Styles"
+#.
+#.
+#: src/Windows/Preferences/Main.vala:49
+#, fuzzy
+msgid "Style"
 msgstr "Styles"
 
-#. Setup stylesGroup
-#: src/Windows/Preferences.vala:45
-msgid "Remember last launcher"
-msgstr "Se souvenir du dernier launcher"
-
-#: src/Windows/Preferences.vala:46
-msgid "Show gamescope warning"
+#.
+#: src/Windows/Errors/GithubApiRequest.vala:22
+msgid "Github API Request Error"
 msgstr ""
 
-#. Initialize shared widgets
-#: src/Windows/Views/Tools.vala:24
-msgid "Launcher"
-msgstr "Launcher"
-
-#: src/Windows/Views/Tools.vala:49
-msgid "Launcher information"
-msgstr "Informations du launcher"
-
-#: src/Windows/Views/Tools.vala:57
-msgid "Launcher settings"
-msgstr "Paramètres du launcher"
-
-#: src/Windows/Views/Tools.vala:65
-msgid "Install a tool"
-msgstr "Installer un outil"
-
-#: src/Windows/Views/Tools.vala:119
-msgid "Show information"
-msgstr "Afficher informations"
-
-#: src/Windows/Views/Tools.vala:127
-msgid "Delete the tool"
-msgstr "Supprimer l'outil"
-
-#: src/Windows/Views/Tools.vala:145
+#: src/Windows/Errors/GithubApiRequest.vala:23
 msgid ""
-"If you're using gamescope with Steam (Flatpak), those tools will not work. "
-"Make sure to use the community build made for it. To disable this warning "
-"click on 'yes' otherwise click 'no' to keep it."
+"Here's a list of the possible reasons why that error happened\n"
+"- You may have reached the GitHub API limit\n"
+"- You may be disconnected from the internet"
 msgstr ""
 
-#: src/Windows/Views/Tools.vala:193
-msgid "Are you sure you want to delete the selected tool?"
-msgstr "Êtes vous sure de vouloir supprimer l'outil selectionné?"
+#~ msgid "Delete the tool"
+#~ msgstr "Supprimer l'outil"
 
-#: src/Models/Preferences/Style.vala:27
-msgid "System"
-msgstr "Système"
+#, fuzzy
+#~ msgid "Install the tool"
+#~ msgstr "Installer un outil"
 
-#: src/Models/Preferences/Style.vala:28
-msgid "Light"
-msgstr "Clair"
+#~ msgid "Name: "
+#~ msgstr "Nom: "
 
-#: src/Models/Preferences/Style.vala:29
-msgid "Dark"
-msgstr "Sombre"
+#~ msgid "Compatibility Tool"
+#~ msgstr "Outil de compatiblité"
 
-#~ msgid "Directory: "
-#~ msgstr "Répertoire: "
+#~ msgid "Version"
+#~ msgstr "Version"
+
+#~ msgid "Info"
+#~ msgstr "Info"
+
+#~ msgid "Open a browser to the tool page"
+#~ msgstr "Ouvrir un navigateur sur la page de l'outil"
+
+#~ msgid "Install the selected tool"
+#~ msgstr "Installer l'outil sélectionné"
+
+#~ msgid "Done!"
+#~ msgstr "Fini!"
+
+#~ msgid ""
+#~ "There was an error while fetching data from the GitHub API. You may have "
+#~ "reached the maximum amount of requests per hour or may not be connected "
+#~ "to the internet. If you think this is a bug, please report this to us."
+#~ msgstr ""
+#~ "Il y a eu un erreur lors de récupération des données du API de GitHub. "
+#~ "Vous avez peut-être atteind le nombre limite de requête par heure ou vous "
+#~ "n`êtes peut-être pas connecté à internet. Si vous pensez que c'est un "
+#~ "problème, veuillez nous le reporter."
+
+#~ msgid "Launcher Settings"
+#~ msgstr "Paramètres du launcher"
+
+#~ msgid "Clean launcher"
+#~ msgstr "Nettoyer le launcher"
+
+#~ msgid "Delete every installed tools from the launcher"
+#~ msgstr "Supprime chaques outils installés du launcher"
+
+#~ msgid ""
+#~ "Are you sure you want to clean this launcher? WARNING: It will delete "
+#~ "every installed tools from the launcher!"
+#~ msgstr ""
+#~ "Êtes vous sur de vouloir nettoyer le launcher? MISE EN GARDE: Çela va "
+#~ "supprimer chaques outils installés du launcher"
+
+#~ msgid "Remember last launcher"
+#~ msgstr "Se souvenir du dernier launcher"
+
+#~ msgid "Launcher information"
+#~ msgstr "Informations du launcher"
+
+#~ msgid "Launcher settings"
+#~ msgstr "Paramètres du launcher"
+
+#~ msgid "Show information"
+#~ msgstr "Afficher informations"
+
+#~ msgid "Are you sure you want to delete the selected tool?"
+#~ msgstr "Êtes vous sure de vouloir supprimer l'outil selectionné?"
+
+#~ msgid "System"
+#~ msgstr "Système"
+
+#~ msgid "Light"
+#~ msgstr "Clair"
+
+#~ msgid "Dark"
+#~ msgstr "Sombre"

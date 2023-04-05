@@ -42,14 +42,32 @@
 
     <screenshots>
         <screenshot type="default">
-            <image>https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/Preview-1.png</image>
+            <image>https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-1.png</image>
         </screenshot>
         <screenshot>
-            <image>https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/Preview-2.png</image>
+            <image>https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-2.png</image>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-3.png</image>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-4.png</image>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-5.png</image>
         </screenshot>
     </screenshots>
 
     <releases>
+      <release version="0.4.0" date="2023-03-15">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>✨ Complete UI Overhaul</li>
+              <li>🧑‍💻 Project Refactor</li>
+            </ul>
+          </description>
+      </release>
       <release version="0.3.12" date="2023-03-15">
           <description>
             <p>What's Changed:</p>
