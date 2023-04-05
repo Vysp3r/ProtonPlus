@@ -71,8 +71,10 @@ namespace Models {
                 return @"lutris-$Title-x86_64";
             case Models.Tool.TitleTypes.LUTRIS_WINE:
                 return Title.replace ("-wine", "") + "-x86_64";
-            case Models.Tool.TitleTypes.LUTRIS_KRON4EK:
+            case Models.Tool.TitleTypes.LUTRIS_KRON4EK_VANILLA:
                 return @"wine-$Title-amd64";
+            case Models.Tool.TitleTypes.LUTRIS_KRON4EK_TKG:
+                return @"wine-$Title-staging-tkg-amd64";
             default:
                 return Title;
             }

@@ -56,7 +56,8 @@ If you have any questions about ProtonPlus or want to share information with us,
 - - - -
 
 ## 👀 Preview
-<img alt="ProtonPlus Preview" align="center" width="60%" src="data/previews/Preview-1.png" />
+
+https://user-images.githubusercontent.com/62019735/229851929-9ff76dde-9e72-4acd-8043-8c9e114d57be.mp4
 
 - - - -
 

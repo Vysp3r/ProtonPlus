@@ -10,8 +10,9 @@ namespace Models {
         public bool useNameInsteadOfTagName;
         public Models.Launcher Launcher;
         public List<Models.Release> Releases;
+        public string RequestAssetExclude;
 
-        public Tool (Models.Launcher launcher, string title, string description, string endpoint, int asset_position, TitleTypes type = TitleTypes.NONE, bool isUsingGithubActions = false) {
+        public Tool (Models.Launcher launcher, string title, string description, string endpoint, int asset_position, TitleTypes type = TitleTypes.NONE, bool isUsingGithubActions = false, string requestAssetExclude = "") {
             Launcher = launcher;
             Title = title;
             Description = description;
@@ -20,6 +21,7 @@ namespace Models {
             TitleType = type;
             IsUsingGithubActions = isUsingGithubActions;
             useNameInsteadOfTagName = false;
+            RequestAssetExclude = requestAssetExclude;
             Website = "";
         }
 
@@ -37,7 +39,8 @@ namespace Models {
             LUTRIS_DXVK_ASYNC_GNUSENPAI, //
             LUTRIS_WINE_GE, //
             LUTRIS_WINE, //
-            LUTRIS_KRON4EK, //
+            LUTRIS_KRON4EK_VANILLA, //
+            LUTRIS_KRON4EK_TKG, //
             NONE // Bypass and do not rename
         }
 
@@ -59,7 +62,8 @@ namespace Models {
 
             tools.append (new Tool (launcher, "Wine-GE", "Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, LUTRIS_WINE_GE));
             tools.append (new Tool (launcher, "Wine-Lutris", "Compatibility tool \"Wine\" to run Windows games on Linux. Improved by Lutris to offer better compatibility or performance in certain games.", "https://api.github.com/repos/lutris/wine/releases", 0, LUTRIS_WINE));
-            tools.append (new Tool (launcher, "Kron4ek Wine-Builds Vanilla", "Compatibility tool \"Wine\" to run Windows games on Linux. Official version from the WineHQ sources, compiled by Kron4ek.", "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, LUTRIS_KRON4EK));
+            tools.append (new Tool (launcher, "Kron4ek Wine-Builds Vanilla", "Compatibility tool \"Wine\" to run Windows games on Linux. Official version from the WineHQ sources, compiled by Kron4ek.", "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, LUTRIS_KRON4EK_VANILLA, false, "proton"));
+            tools.append (new Tool (launcher, "Kron4ek Wine-Builds Tkg", "Compatibility tool \"Wine\" to run Windows games on Linux. Official version from the WineHQ sources, compiled by Kron4ek.", "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, LUTRIS_KRON4EK_TKG, false, "proton"));
 
             return tools;
         }
@@ -147,28 +151,31 @@ namespace Models {
                         if (useNameInsteadOfTagName) tag = objRoot.get_string_member ("name");
                         else tag = objRoot.get_string_member ("tag_name");
 
-                        // Set the value of page_url to the html_url object contained in the current node
-                        page_url = objRoot.get_string_member ("html_url");
+                        //
+                        if (!tag.contains (RequestAssetExclude) || RequestAssetExclude == "") {
+                            // Set the value of page_url to the html_url object contained in the current node
+                            page_url = objRoot.get_string_member ("html_url");
 
-                        release_date = objRoot.get_string_member ("created_at").split ("T")[0];
+                            release_date = objRoot.get_string_member ("created_at").split ("T")[0];
 
-                        // Get the temp node array for the assets
-                        var tempNodeArray = objRoot.get_array_member ("assets");
+                            // Get the temp node array for the assets
+                            var tempNodeArray = objRoot.get_array_member ("assets");
 
-                        // Verify weither the temp node array has values
-                        if (tempNodeArray.get_length () >= AssetPosition) {
-                            var tempNodeArrayAssetTest = tempNodeArray.get_element (0);
-                            var objAssetTest = tempNodeArrayAssetTest.get_object ();
+                            // Verify weither the temp node array has values
+                            if (tempNodeArray.get_length () >= AssetPosition) {
+                                var tempNodeArrayAssetTest = tempNodeArray.get_element (0);
+                                var objAssetTest = tempNodeArrayAssetTest.get_object ();
 
-                            checksum_url = objAssetTest.get_string_member ("browser_download_url");
+                                checksum_url = objAssetTest.get_string_member ("browser_download_url");
 
-                            var tempNodeArrayAsset = tempNodeArray.get_element (AssetPosition);
-                            var objAsset = tempNodeArrayAsset.get_object ();
+                                var tempNodeArrayAsset = tempNodeArray.get_element (AssetPosition);
+                                var objAsset = tempNodeArrayAsset.get_object ();
 
-                            download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
-                            download_size = objAsset.get_int_member ("size");
+                                download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
+                                download_size = objAsset.get_int_member ("size");
 
-                            releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size)); // Currently here to prevent showing release with an invalid download_url
+                                releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size)); // Currently here to prevent showing release with an invalid download_url
+                            }
                         }
                     }
                 } else {

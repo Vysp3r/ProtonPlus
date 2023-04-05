@@ -21,6 +21,8 @@ sources = files(
   'Models/Release.vala',
   'Models/Preferences/Style.vala',
 
+  'Widgets/ProtonActionRow.vala',
+
   'Windows/Main.vala',
   'Windows/ViewManager.vala',
 

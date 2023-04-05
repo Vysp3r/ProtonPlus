@@ -1,16 +1,16 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-02 22:16-0400\n"
+"POT-Creation-Date: 2023-04-04 20:59-0400\n"
 "Language: es_ES\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/Windows/Main.vala:64
+#: src/Windows/Main.vala:63
 msgid "A simple Wine and Proton-based compatiblity tools manager for GNOME"
 msgstr ""
 
-#: src/Windows/Main.vala:71
+#: src/Windows/Main.vala:70
 msgid "Special thanks to"
 msgstr ""
 
@@ -42,7 +42,7 @@ msgid "Preferences"
 msgstr "Preferencias"
 
 #.
-#: src/Windows/ViewManager.vala:46
+#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:67
 msgid "Tools"
 msgstr "Herramientas"
 
@@ -66,62 +66,42 @@ msgstr "Lanzador"
 msgid "Select a launcher to proceed"
 msgstr ""
 
-#: src/Windows/Tools/LauncherInfo.vala:54
-msgid ""
-"If you're using gamescope with Steam (Flatpak), those tools will not work. "
-"Make sure to use the community builds from Flathub (Check for the add-ons "
-"section)"
+#: src/Windows/Tools/LauncherInfo.vala:68
+msgid "Select a tool to proceed"
 msgstr ""
 
-#: src/Windows/Tools/LauncherInfo.vala:132
-msgid "Delete the tool"
-msgstr "Eliminar herramienta"
-
-#: src/Windows/Tools/LauncherInfo.vala:143
-#, fuzzy
-msgid "Install the tool"
-msgstr "Instalar una herramienta"
-
-#: src/Windows/Tools/LauncherInfo.vala:240
-msgid "There was an error while fetching data from the GitHub API."
-msgstr ""
-
-#: src/Windows/Tools/LauncherInfo.vala:241
-msgid "Learn more"
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:37
+#: src/Windows/Tools/ReleaseInfo.vala:35
 msgid "Copy"
 msgstr ""
 
 #.
 #.
-#: src/Windows/Tools/ReleaseInfo.vala:65
+#: src/Windows/Tools/ReleaseInfo.vala:63
 msgid "Delete"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInfo.vala:71
+#: src/Windows/Tools/ReleaseInfo.vala:69
 msgid "Install"
 msgstr "Instalar"
 
 #.
-#: src/Windows/Tools/ReleaseInfo.vala:80
+#: src/Windows/Tools/ReleaseInfo.vala:78
 msgid "Website"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInfo.vala:90
+#: src/Windows/Tools/ReleaseInfo.vala:88
 msgid "Directory: "
 msgstr "Directorio: "
 
-#: src/Windows/Tools/ReleaseInfo.vala:91
+#: src/Windows/Tools/ReleaseInfo.vala:89
 msgid "Size: "
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInfo.vala:93
+#: src/Windows/Tools/ReleaseInfo.vala:91
 msgid "Download size (Compressed): "
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInfo.vala:95
+#: src/Windows/Tools/ReleaseInfo.vala:93
 msgid "Release date: "
 msgstr ""
 
@@ -135,33 +115,45 @@ msgid "Cancelled the install..."
 msgstr ""
 
 #: src/Windows/Tools/ReleaseInstaller.vala:76
+msgid "You cannot cancel the operation for tools using Github Actions."
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:77
 #, fuzzy
 msgid "Download started...\n"
 msgstr "Descargando..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:114
+#: src/Windows/Tools/ReleaseInstaller.vala:115
 #, fuzzy
 msgid "Download done...\n"
 msgstr "Descargando..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:125
+#: src/Windows/Tools/ReleaseInstaller.vala:126
 #, fuzzy
 msgid "Extraction started...\n"
 msgstr "Extrayendo..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:156
+#: src/Windows/Tools/ReleaseInstaller.vala:129
+msgid "You cannot cancel the operation while it's extracting."
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:160
 msgid "There was an error while extracting..."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:166
+#: src/Windows/Tools/ReleaseInstaller.vala:170
 #, fuzzy
 msgid "Extraction done...\n"
 msgstr "Extrayendo..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:167
+#: src/Windows/Tools/ReleaseInstaller.vala:171
 msgid ""
 "Make sure to restart Steam if it's open to be able to use it in Steam "
 "otherwise you will not see it.\n"
+msgstr ""
+
+#: src/Windows/Tools/ReleaseInstaller.vala:172
+msgid "You cannot cancel the operation when it's already completed."
 msgstr ""
 
 #: src/Windows/Games/Main.vala:11 src/Windows/Notifications/Main.vala:11
@@ -176,7 +168,8 @@ msgstr ""
 #.
 #.
 #: src/Windows/Preferences/Main.vala:49
-msgid "Styles"
+#, fuzzy
+msgid "Style"
 msgstr "Estilos"
 
 #.
@@ -190,6 +183,13 @@ msgid ""
 "- You may have reached the GitHub API limit\n"
 "- You may be disconnected from the internet"
 msgstr ""
+
+#~ msgid "Delete the tool"
+#~ msgstr "Eliminar herramienta"
+
+#, fuzzy
+#~ msgid "Install the tool"
+#~ msgstr "Instalar una herramienta"
 
 #~ msgid "Name: "
 #~ msgstr "Nombre: "

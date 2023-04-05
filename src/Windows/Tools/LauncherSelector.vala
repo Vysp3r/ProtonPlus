@@ -24,6 +24,7 @@ namespace Windows.Tools {
                 row.set_title (launcher.Title);
                 row.set_activatable (true);
                 row.activated.connect (() => {
+                    launcherInfo.lastPage = 0;
                     leaflet.get_pages ().select_item (counter, true);
                 });
 

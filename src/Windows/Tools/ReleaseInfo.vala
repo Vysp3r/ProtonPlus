@@ -3,12 +3,10 @@ namespace Windows.Tools {
         Gtk.Notebook notebook;
         Adw.Clamp clamp;
         Adw.StatusPage statusPage;
-        Windows.Tools.LauncherInfo launcherInfo;
 
-        public ReleaseInfo (Gtk.Notebook notebook, Windows.Tools.LauncherInfo launcherInfo) {
+        public ReleaseInfo (Gtk.Notebook notebook) {
             //
             this.notebook = notebook;
-            this.launcherInfo = launcherInfo;
 
             //
             var layout = new Gtk.BinLayout ();
@@ -56,7 +54,7 @@ namespace Windows.Tools {
             return row;
         }
 
-        public void Load (Models.Release release, Adw.ActionRow row, Gtk.Box rowActions) {
+        public void Load (Models.Release release, Widgets.ProtonActionRow widget, Windows.Tools.ToolInfo toolInfo) {
             //
             var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
 
@@ -65,13 +63,13 @@ namespace Windows.Tools {
                 var btnDelete = new Gtk.Button.with_label (_("Delete"));
                 btnDelete.add_css_class ("destructive-action");
                 btnDelete.set_hexpand (true);
-                btnDelete.clicked.connect (() => launcherInfo.DeleteRelease (release, row, rowActions));
+                btnDelete.clicked.connect (() => toolInfo.DeleteRelease (release, widget));
                 actions.append (btnDelete);
             } else {
                 var btnInstall = new Gtk.Button.with_label (_("Install"));
                 btnInstall.add_css_class ("suggested-action");
                 btnInstall.set_hexpand (true);
-                btnInstall.clicked.connect (() => launcherInfo.InstallRelease (release, row, rowActions, false));
+                btnInstall.clicked.connect (() => toolInfo.InstallRelease (release, widget, true));
                 actions.append (btnInstall);
             }
 

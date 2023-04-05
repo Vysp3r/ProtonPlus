@@ -72,7 +72,8 @@ namespace Windows.Tools {
             this.release = release;
 
             btnBack.set_sensitive (false);
-            btnCancel.set_sensitive (true);
+            btnCancel.set_sensitive (!release.Tool.IsUsingGithubActions);
+            if (release.Tool.IsUsingGithubActions) btnCancel.set_tooltip_text (_("You cannot cancel the operation for tools using Github Actions."));
             textBuffer.set_text (text = _("Download started...\n"));
 
             cancelled = false;
@@ -124,6 +125,9 @@ namespace Windows.Tools {
             progressBar.set_pulse_step (1);
             textBuffer.set_text (text += _("Extraction started...\n"));
 
+            btnCancel.set_sensitive (false);
+            btnCancel.set_tooltip_text (_("You cannot cancel the operation while it's extracting."));
+
             bool done = false;
             bool error = false;
 
@@ -165,6 +169,7 @@ namespace Windows.Tools {
                 if (done) {
                     textBuffer.set_text (text += _("Extraction done...\n"));
                     textBuffer.set_text (text += _("Make sure to restart Steam if it's open to be able to use it in Steam otherwise you will not see it.\n"));
+                    btnCancel.set_tooltip_text (_("You cannot cancel the operation when it's already completed."));
                     release.Installed = true;
                     release.SetSize ();
                     Cancel (false, true);
