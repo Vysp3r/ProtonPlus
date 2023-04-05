@@ -118,27 +118,34 @@ namespace Windows.Tools {
                 toast.dismiss ();
             });
 
-            toast.dismissed.connect (() => {
-                if (!undo) {
-                    release.Delete ();
+            var task = new Windows.Main.Task (() => {
+                release.Delete (ProtonPlus.get_instance ().mainWindow.State == Windows.Main.States.CLOSING);
 
-                    GLib.Timeout.add (1000, () => {
-                        if (!release.Installed) {
-                            widget.remove (widget.Actions);
+                GLib.Timeout.add (1000, () => {
+                    if (!release.Installed) {
+                        widget.remove (widget.Actions);
 
-                            widget.Actions = GetActionsBox (release, widget);
-                            widget.add_suffix (widget.Actions);
+                        widget.Actions = GetActionsBox (release, widget);
+                        widget.add_suffix (widget.Actions);
 
-                            if (launcherInfo.notebook.get_current_page () == 1) {
-                                launcherInfo.releaseInfo.Load (release, widget, this);
-                            }
-
-                            return false;
+                        if (launcherInfo.notebook.get_current_page () == 1) {
+                            launcherInfo.releaseInfo.Load (release, widget, this);
                         }
 
-                        return true;
-                    });
-                }
+                        return false;
+                    }
+
+                    return true;
+                });
+            });
+
+            if (!undo) ProtonPlus.get_instance ().mainWindow.Tasks.append (task);
+
+            toast.dismissed.connect (() => {
+                if (undo) return;
+
+                ProtonPlus.get_instance ().mainWindow.Tasks.remove (task);
+                task.Callback ();
             });
 
 

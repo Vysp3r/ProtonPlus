@@ -78,7 +78,7 @@ namespace Windows.Tools {
             progressBar.set_fraction (0);
             btnCancel.set_visible (false);
             btnGoBack.set_visible (true);
-            ProtonPlus.get_instance ().mainWindow.installing = false;
+            ProtonPlus.get_instance ().mainWindow.State = Windows.Main.States.NORMAL;
         }
 
         public void Download (Models.Release release) {
@@ -86,7 +86,7 @@ namespace Windows.Tools {
             btnGoBack.set_visible (false);
             btnCancel.set_visible (true);
 
-            ProtonPlus.get_instance ().mainWindow.installing = true;
+            ProtonPlus.get_instance ().mainWindow.State = Windows.Main.States.INSTALLING_TOOL;
 
             btnBack.set_visible (false);
             btnCancel.set_sensitive (!release.Tool.IsUsingGithubActions);

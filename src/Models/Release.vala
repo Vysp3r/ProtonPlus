@@ -80,13 +80,14 @@ namespace Models {
             }
         }
 
-        public void Delete () {
-            new Thread<void> ("deleteThread", () => {
+        public void Delete (bool joinThread = false) {
+            var thread = new Thread<void> ("deleteThread", () => {
                 var dir = new Utils.DirUtil (Tool.Launcher.FullPath);
                 dir.remove_dir (Title);
                 Tool.Launcher.uninstall (this);
                 Installed = false;
             });
+            if (joinThread) thread.join ();
         }
 
         public void Install () {
