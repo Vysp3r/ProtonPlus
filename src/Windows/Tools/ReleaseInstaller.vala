@@ -168,7 +168,7 @@ namespace Windows.Tools {
 
                 if (done) {
                     textBuffer.set_text (text += _("Extraction done...\n"));
-                    textBuffer.set_text (text += _("Make sure to restart Steam if it's open to be able to use it in Steam otherwise you will not see it.\n"));
+                    textBuffer.set_text (text += release.Tool.Launcher.InstallMessage);
                     btnCancel.set_tooltip_text (_("You cannot cancel the operation when it's already completed."));
                     release.Installed = true;
                     release.SetSize ();

@@ -8,3 +8,5 @@ src/Windows/Games/Main.vala
 src/Windows/Notifications/Main.vala
 src/Windows/Preferences/Main.vala
 src/Windows/Errors/GithubApiRequest.vala
+src/Models/Launcher.vala
+src/Models/Preferences/Style.vala

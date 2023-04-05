@@ -59,7 +59,16 @@
     </screenshots>
 
     <releases>
-      <release version="0.4.0" date="2023-03-15">
+      <release version="0.4.1" date="2023-04-05">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>✨ Complete UI Overhaul</li>
+              <li>🧑‍💻 Project Refactor</li>
+            </ul>
+          </description>
+      </release>
+      <release version="0.4.0" date="2023-04-04">
           <description>
             <p>What's Changed:</p>
             <ul>
