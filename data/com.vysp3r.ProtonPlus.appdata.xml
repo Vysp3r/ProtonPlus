@@ -63,8 +63,12 @@
           <description>
             <p>What's Changed:</p>
             <ul>
-              <li>✨ Complete UI Overhaul</li>
-              <li>🧑‍💻 Project Refactor</li>
+              <li>✨ Added a tasks queue system</li>
+              <li>💄 Updated the installer UI</li>
+              <li>🐛 Fix window always being able to be closed</li>
+              <li>🐛 Fix preferences page being empty</li>
+              <li>🐛 Fix Steam install message</li>
+              <li>📝 Updated Flathub download logo</li>
             </ul>
           </description>
       </release>

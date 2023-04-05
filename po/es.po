@@ -1,20 +1,20 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 15:55-0400\n"
+"POT-Creation-Date: 2023-04-05 19:35-0400\n"
 "Language: es_ES\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/Windows/Main.vala:69
+#: src/Windows/Main.vala:85
 msgid "A simple Wine and Proton-based compatiblity tools manager for GNOME"
 msgstr ""
 
-#: src/Windows/Main.vala:76
+#: src/Windows/Main.vala:92
 msgid "Special thanks to"
 msgstr ""
 
-#: src/Windows/Main.vala:89
+#: src/Windows/Main.vala:107
 msgid "You cannot close the window while a tool is installing"
 msgstr ""
 
