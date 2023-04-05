@@ -75,7 +75,7 @@ namespace Windows.Tools {
                         spinner.stop ();
                         spinner.set_visible (false);
 
-                        var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API."));
+                        var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API"));
                         toast.set_button_label (_("Learn more"));
                         toast.set_timeout (15000);
                         toast.button_clicked.connect (() => {

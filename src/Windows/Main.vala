@@ -1,8 +1,14 @@
 namespace Windows {
     public class Main : Adw.ApplicationWindow {
+        public bool installing;
+
         Gtk.Notebook notebook;
+        Adw.ToastOverlay toastOverlay;
 
         public Main (Adw.Application app) {
+            //
+            installing = false;
+
             //
             ActionEntry[] action_entries = {
                 { "preferences", on_preferences_action },
@@ -20,7 +26,7 @@ namespace Windows {
             set_size_request (900, 600);
 
             //
-            var toastOverlay = new Adw.ToastOverlay ();
+            toastOverlay = new Adw.ToastOverlay ();
 
             //
             notebook = new Gtk.Notebook ();
@@ -76,6 +82,15 @@ namespace Windows {
 
         void on_preferences_action () {
             notebook.set_current_page (1);
+        }
+
+        public override bool close_request () {
+            if (installing) {
+                var toast = new Adw.Toast (_("You cannot close the window while a tool is installing"));
+                toastOverlay.add_toast (toast);
+            }
+
+            return installing;
         }
     }
 }
