@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-04 20:59-0400\n"
+"POT-Creation-Date: 2023-04-05 11:24-0400\n"
 "PO-Revision-Date: 2023-01-11 22:36+0800\n"
 "Last-Translator: neovali <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese - China\n"
@@ -155,12 +155,6 @@ msgstr ""
 msgid "Extraction done...\n"
 msgstr "解压中..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:171
-msgid ""
-"Make sure to restart Steam if it's open to be able to use it in Steam "
-"otherwise you will not see it.\n"
-msgstr ""
-
 #: src/Windows/Tools/ReleaseInstaller.vala:172
 msgid "You cannot cancel the operation when it's already completed."
 msgstr ""
@@ -192,6 +186,31 @@ msgid ""
 "- You may have reached the GitHub API limit\n"
 "- You may be disconnected from the internet"
 msgstr ""
+
+#. Steam
+#: src/Models/Launcher.vala:64
+msgid ""
+"Make sure to restart Steam if it's open to be able to use it otherwise you "
+"will not see it.\n"
+msgstr ""
+
+#: src/Models/Launcher.vala:91
+msgid ""
+"If you're using gamescope with Steam (Flatpak), those tools will not work. "
+"Make sure to use the community builds from Flathub."
+msgstr ""
+
+#: src/Models/Preferences/Style.vala:17
+msgid "System"
+msgstr "系统"
+
+#: src/Models/Preferences/Style.vala:18
+msgid "Light"
+msgstr "明亮"
+
+#: src/Models/Preferences/Style.vala:19
+msgid "Dark"
+msgstr "暗色"
 
 #~ msgid "Delete the tool"
 #~ msgstr "删除工具"
@@ -258,12 +277,3 @@ msgstr ""
 
 #~ msgid "Are you sure you want to delete the selected tool?"
 #~ msgstr "是否删除所选工具？"
-
-#~ msgid "System"
-#~ msgstr "系统"
-
-#~ msgid "Light"
-#~ msgstr "明亮"
-
-#~ msgid "Dark"
-#~ msgstr "暗色"

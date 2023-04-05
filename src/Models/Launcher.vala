@@ -3,6 +3,7 @@ namespace Models {
         public string Title;
         public string FullPath;
         public string Description;
+        public string InstallMessage;
         public List<Models.Tool> Tools;
         public bool Installed {
             public get { return FullPath.length > 0; }
@@ -60,7 +61,7 @@ namespace Models {
 
             // Steam
             var steamToolDir = "/compatibilitytools.d";
-
+            var steamInstallMessage = _("Make sure to restart Steam if it's open to be able to use it otherwise you will not see it.\n");
             var steam = new Launcher (
                                       "Steam",
                                       new string[] {
@@ -74,7 +75,9 @@ namespace Models {
             if (steam.Installed) {
                 steam.Tools = Models.Tool.Steam (steam);
                 launchers.append (steam);
+                steam.InstallMessage = steamInstallMessage;
             }
+
 
             var steamFlatpak = new Launcher (
                                              "Steam (Flatpak)",
@@ -85,7 +88,8 @@ namespace Models {
             );
             if (steamFlatpak.Installed) {
                 steamFlatpak.Tools = Models.Tool.Steam (steamFlatpak);
-                steamFlatpak.Description = "If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community builds from Flathub.";
+                steamFlatpak.Description = _("If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community builds from Flathub.");
+                steamFlatpak.InstallMessage = steamInstallMessage;
                 launchers.append (steamFlatpak);
             }
 
@@ -98,6 +102,7 @@ namespace Models {
             );
             if (steamSnap.Installed) {
                 steamSnap.Tools = Models.Tool.Steam (steamSnap);
+                steamSnap.InstallMessage = steamInstallMessage;
                 launchers.append (steamSnap);
             }
 
