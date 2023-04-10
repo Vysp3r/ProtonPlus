@@ -1,0 +1,227 @@
+#
+# Daniel Rusek <mail@asciiwolf.com>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: com.vysp3r.ProtonPlus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-04-05 19:35-0400\n"
+"PO-Revision-Date: 2023-04-10 11:40+0200\n"
+"Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
+"Language-Team: \n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.2.2\n"
+
+#: src/Windows/Main.vala:85
+msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
+msgstr ""
+"Jednoduchý správce nástrojů kompatibility založených na Wine a Protonu pro "
+"GNOME"
+
+#: src/Windows/Main.vala:92
+msgid "Special thanks to"
+msgstr "Zvláštní poděkování patří"
+
+#: src/Windows/Main.vala:107
+msgid "You cannot close the window while a tool is installing"
+msgstr "Během instalace nástroje nelze zavřít okno"
+
+#.
+#: src/Windows/ViewManager.vala:20
+msgid "Telegram"
+msgstr "Telegram"
+
+#: src/Windows/ViewManager.vala:21
+msgid "Documentation"
+msgstr "Dokumentace"
+
+#: src/Windows/ViewManager.vala:22
+msgid "Donation"
+msgstr "Dar"
+
+#: src/Windows/ViewManager.vala:23
+msgid "About"
+msgstr "O aplikaci"
+
+#.
+#: src/Windows/ViewManager.vala:27
+msgid "Quit"
+msgstr "Ukončit"
+
+#.
+#: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
+#: src/Windows/Preferences/Main.vala:78
+msgid "Preferences"
+msgstr "Předvolby"
+
+#.
+#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:67
+msgid "Tools"
+msgstr "Nástroje"
+
+#.
+#: src/Windows/ViewManager.vala:50 src/Windows/Games/Main.vala:10
+msgid "Games"
+msgstr "Hry"
+
+#.
+#: src/Windows/ViewManager.vala:54 src/Windows/Notifications/Main.vala:10
+msgid "Notifications"
+msgstr "Upozornění"
+
+#.
+#: src/Windows/Tools/LauncherSelector.vala:12
+msgid "Launchers"
+msgstr "Spouštěče"
+
+#: src/Windows/Tools/LauncherSelector.vala:13
+msgid "Select a launcher to proceed"
+msgstr "Pro pokračování vyberte spouštěč"
+
+#: src/Windows/Tools/LauncherInfo.vala:68
+msgid "Select a tool to proceed"
+msgstr "Pro pokračování vyberte nástroj"
+
+#: src/Windows/Tools/ReleaseInfo.vala:35
+msgid "Copy"
+msgstr "Kopírovat"
+
+#.
+#.
+#: src/Windows/Tools/ReleaseInfo.vala:63
+msgid "Delete"
+msgstr "Smazat"
+
+#: src/Windows/Tools/ReleaseInfo.vala:69
+msgid "Install"
+msgstr "Nainstalovat"
+
+#.
+#: src/Windows/Tools/ReleaseInfo.vala:78
+msgid "Website"
+msgstr "Webové stránky"
+
+#: src/Windows/Tools/ReleaseInfo.vala:88
+msgid "Directory: "
+msgstr "Adresář: "
+
+#: src/Windows/Tools/ReleaseInfo.vala:89
+msgid "Size: "
+msgstr "Velikost: "
+
+#: src/Windows/Tools/ReleaseInfo.vala:91
+msgid "Download size (Compressed): "
+msgstr "Stahovaná velikost (komprimovaná): "
+
+#: src/Windows/Tools/ReleaseInfo.vala:93
+msgid "Release date: "
+msgstr "Datum vydání: "
+
+#.
+#: src/Windows/Tools/ReleaseInstaller.vala:50
+msgid "Cancel"
+msgstr "Zrušit"
+
+#.
+#: src/Windows/Tools/ReleaseInstaller.vala:56
+msgid "Go back"
+msgstr "Jít zpět"
+
+#: src/Windows/Tools/ReleaseInstaller.vala:76
+msgid "Cancelled the install..."
+msgstr "Instalace byla zrušena..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:93
+msgid "You cannot cancel the operation for tools using Github Actions."
+msgstr "Nelze zrušit operaci pro nástroje využívající Github Actions."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:94
+msgid "Download started...\n"
+msgstr "Stahování zahájeno...\n"
+
+#: src/Windows/Tools/ReleaseInstaller.vala:132
+msgid "Download done...\n"
+msgstr "Stahování bylo dokončeno...\n"
+
+#: src/Windows/Tools/ReleaseInstaller.vala:143
+msgid "Extraction started...\n"
+msgstr "Rozbalování zahájeno...\n"
+
+#: src/Windows/Tools/ReleaseInstaller.vala:146
+msgid "You cannot cancel the operation while it's extracting."
+msgstr "Během rozbalování nelze operaci zrušit."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:177
+msgid "There was an error while extracting..."
+msgstr "Během rozbalování došlo k chybě..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:187
+msgid "Extraction done...\n"
+msgstr "Rozbalování bylo dokončeno...\n"
+
+#: src/Windows/Games/Main.vala:11 src/Windows/Notifications/Main.vala:11
+msgid "This page is a work in progress."
+msgstr "Na této stránce se pracuje."
+
+#.
+#: src/Windows/Preferences/Main.vala:37 src/Windows/Preferences/Main.vala:38
+msgid "Main"
+msgstr "Hlavní"
+
+#.
+#.
+#.
+#: src/Windows/Preferences/Main.vala:51
+msgid "Style"
+msgstr "Styl"
+
+#: src/Windows/Preferences/Main.vala:79
+msgid "There is nothing to see here."
+msgstr "Není zde nic k vidění."
+
+#.
+#: src/Windows/Errors/GithubApiRequest.vala:22
+msgid "Github API Request Error"
+msgstr "Chyba požadavku Github API"
+
+#: src/Windows/Errors/GithubApiRequest.vala:23
+msgid ""
+"Here's a list of the possible reasons why that error happened\n"
+"- You may have reached the GitHub API limit\n"
+"- You may be disconnected from the internet"
+msgstr ""
+"Zde je seznam možných důvodů, proč k této chybě došlo\n"
+"- Možná jste dosáhli limitu GitHub API\n"
+"- Možná jste odpojeni od internetu"
+
+#. Steam
+#: src/Models/Launcher.vala:64
+msgid ""
+"Make sure to restart Steam if it's open to be able to use it otherwise you "
+"will not see it.\n"
+msgstr ""
+"Nezapomeňte restartovat Steam, pokud je otevřený, abyste to mohli "
+"používat, jinak to neuvidíte.\n"
+
+#: src/Models/Launcher.vala:91
+msgid ""
+"If you're using gamescope with Steam (Flatpak), those tools will not work. "
+"Make sure to use the community builds from Flathub."
+msgstr ""
+"Pokud používáte gamescope se Steam (Flatpak), tyto nástroje nebudou "
+"fungovat. Ujistěte se, že používáte komunitní sestavení z Flathubu."
+
+#: src/Models/Preferences/Style.vala:17
+msgid "System"
+msgstr "Systémový"
+
+#: src/Models/Preferences/Style.vala:18
+msgid "Light"
+msgstr "Světlý"
+
+#: src/Models/Preferences/Style.vala:19
+msgid "Dark"
+msgstr "Tmavý"
