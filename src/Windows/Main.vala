@@ -82,7 +82,7 @@ namespace Windows {
             aboutDialog.set_application_name ("ProtonPlus");
             aboutDialog.set_application_icon ("com.vysp3r.ProtonPlus");
             aboutDialog.set_version ("v" + Utils.Constants.APP_VERSION);
-            aboutDialog.set_comments (_("A simple Wine and Proton-based compatiblity tools manager for GNOME"));
+            aboutDialog.set_comments (_("A simple Wine and Proton-based compatibility tools manager for GNOME"));
             aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             aboutDialog.set_copyright ("© 2022 Vysp3r");
