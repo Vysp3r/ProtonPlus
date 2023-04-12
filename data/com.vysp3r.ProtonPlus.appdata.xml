@@ -9,7 +9,7 @@
     <developer_name>Vysp3r</developer_name>
     <summary> A simple Wine and Proton-based compatiblity tools manager for GNOME </summary>
     <description>
-        <p>ProtonPlus a simple Wine and Proton-based compatiblity tools manager for GNOME. It was made in Vala with GTK4 and Libadwaita using GNOME Builder.</p>
+        <p>ProtonPlus a simple Wine and Proton-based compatibility tools manager for GNOME. It was made in Vala with GTK4 and Libadwaita using GNOME Builder.</p>
         <p>Supported launchers: </p>
         <ul>
           <li>Steam</li>
