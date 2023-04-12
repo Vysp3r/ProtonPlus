@@ -4,10 +4,13 @@ namespace Windows.Preferences {
         Adw.ActionRow currentStyleRow;
         Gtk.Image currentStyleRowImage;
         GLib.List<Models.Preferences.Style> styles;
+        Models.Preferences.Steam steam;
+        Adw.ToastOverlay toastOverlay;
         int total = 0;
 
-        public Main (Gtk.Notebook notebook) {
+        public Main (Gtk.Notebook notebook, Adw.ToastOverlay toastOverlay) {
             //
+            this.toastOverlay = toastOverlay;
             set_spacing (0);
             set_orientation (Gtk.Orientation.VERTICAL);
             set_vexpand (true);
@@ -34,8 +37,8 @@ namespace Windows.Preferences {
 
             //
             var mainPage = new Adw.PreferencesPage ();
-            mainPage.set_name (_("Main"));
-            mainPage.set_title (_("Main"));
+            mainPage.set_name (_ ("Main"));
+            mainPage.set_title (_ ("Main"));
 
             //
             var group = new Adw.PreferencesGroup ();
@@ -48,7 +51,7 @@ namespace Windows.Preferences {
 
                 //
                 var stylesRow = new Adw.ExpanderRow ();
-                stylesRow.set_title (_("Style"));
+                stylesRow.set_title (_ ("Style"));
 
                 //
                 styles = Models.Preferences.Style.GetAll ();
@@ -70,13 +73,44 @@ namespace Windows.Preferences {
                 group.add (stylesRow);
             }
 
+            var steamShortcutSwitch = new Gtk.Switch ();
+            var steamGroup = new Adw.PreferencesGroup ();
+            try {
+                steam = new Models.Preferences.Steam ();
+                steamShortcutSwitch.set_active (steam.isShortcutInstalled ());
+            } catch (Error e) {
+                stdout.printf ("Error : %s\n", e.message);
+            }
+
+            steamShortcutSwitch.notify["active"].connect (() => {
+                try {
+                    steam.toggleState ();
+                    string message;
+                    if (steamShortcutSwitch.get_active ()) {
+                        message = _ ("Shortcut installed.");
+                    } else {
+                        message = _ ("Shortcut uninstalled");
+                    }
+
+                    var toast = new Adw.Toast (message);
+                    toastOverlay.add_toast (toast);
+                } catch (Error e) {
+                    var toast = new Adw.Toast (e.message);
+                    toastOverlay.add_toast (toast);
+                }
+            });
+
+            steamGroup.add (CreateRow (steamShortcutSwitch, _ ("Steam shortcut")));
+            mainPage.add (steamGroup);
+            total += 1;
+
             //
             if (total > 0) {
                 append (mainPage);
             } else {
                 var statusPage = new Adw.StatusPage ();
-                statusPage.set_title (_("Preferences"));
-                statusPage.set_description (_("There is nothing to see here."));
+                statusPage.set_title (_ ("Preferences"));
+                statusPage.set_description (_ ("There is nothing to see here."));
                 statusPage.set_vexpand (true);
                 statusPage.set_icon_name ("preferences-other-symbolic");
                 append (statusPage);
@@ -95,6 +129,18 @@ namespace Windows.Preferences {
 
             row.add_suffix (icon);
             style.SetActive (true);
+        }
+
+        Adw.ActionRow CreateRow (Gtk.Widget widget, string row_title) {
+            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            box.set_valign (Gtk.Align.CENTER);
+            box.append (widget);
+
+            var row = new Adw.ActionRow ();
+            row.set_title (row_title);
+            row.add_suffix (box);
+
+            return row;
         }
     }
 }

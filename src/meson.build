@@ -18,12 +18,13 @@ sources = files(
   
   'Utils/VDF/Binary.vala',
   'Utils/VDF/Node.vala',
-  'Utils/VDF/Shortcut.vala,
+  'Utils/VDF/Shortcut.vala',
 
   'Models/Tool.vala',
   'Models/Launcher.vala',
   'Models/Release.vala',
   'Models/Preferences/Style.vala',
+  'Models/Preferences/Steam.vala',
 
   'Widgets/ProtonActionRow.vala',
 

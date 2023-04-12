@@ -58,7 +58,7 @@ namespace Windows {
 
             //
             notebook.append_page (leaflet);
-            notebook.append_page (new Windows.Preferences.Main (notebook));
+            notebook.append_page (new Windows.Preferences.Main (notebook, toastOverlay));
             notebook.append_page (new Windows.Errors.GithubApiRequest (notebook));
 
             //
@@ -82,14 +82,14 @@ namespace Windows {
             aboutDialog.set_application_name ("ProtonPlus");
             aboutDialog.set_application_icon ("com.vysp3r.ProtonPlus");
             aboutDialog.set_version ("v" + Utils.Constants.APP_VERSION);
-            aboutDialog.set_comments (_("A simple Wine and Proton-based compatiblity tools manager for GNOME"));
+            aboutDialog.set_comments (_ ("A simple Wine and Proton-based compatiblity tools manager for GNOME"));
             aboutDialog.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutDialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             aboutDialog.set_copyright ("© 2022 Vysp3r");
             aboutDialog.set_license_type (Gtk.License.GPL_3_0);
             aboutDialog.set_developers (devs);
             aboutDialog.set_designers (designers);
-            aboutDialog.add_credit_section (_("Special thanks to"), thanks);
+            aboutDialog.add_credit_section (_ ("Special thanks to"), thanks);
             aboutDialog.set_transient_for (this);
             aboutDialog.set_modal (true);
 
@@ -104,7 +104,7 @@ namespace Windows {
             bool busy = false;
 
             if (State == States.INSTALLING_TOOL) {
-                var toast = new Adw.Toast (_("You cannot close the window while a tool is installing"));
+                var toast = new Adw.Toast (_ ("You cannot close the window while a tool is installing"));
                 toastOverlay.add_toast (toast);
                 busy = true;
             }
