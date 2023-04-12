@@ -10,3 +10,4 @@ src/Windows/Preferences/Main.vala
 src/Windows/Errors/GithubApiRequest.vala
 src/Models/Launcher.vala
 src/Models/Preferences/Style.vala
+src/Models/Preferences/Steam.vala

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 19:35-0400\n"
+"POT-Creation-Date: 2023-04-11 21:13-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: yukidream <mashirokuratamorfo@gmail.com>\n"
 "Language-Team: \n"
@@ -48,7 +48,7 @@ msgstr "Keluar"
 
 #.
 #: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
-#: src/Windows/Preferences/Main.vala:78
+#: src/Windows/Preferences/Main.vala:112
 msgid "Preferences"
 msgstr "Preferensi"
 
@@ -167,19 +167,31 @@ msgid "This page is a work in progress."
 msgstr ""
 
 #.
-#: src/Windows/Preferences/Main.vala:37 src/Windows/Preferences/Main.vala:38
+#: src/Windows/Preferences/Main.vala:40 src/Windows/Preferences/Main.vala:41
 msgid "Main"
 msgstr ""
 
 #.
 #.
 #.
-#: src/Windows/Preferences/Main.vala:51
+#: src/Windows/Preferences/Main.vala:54
 #, fuzzy
 msgid "Style"
 msgstr "Gaya"
 
-#: src/Windows/Preferences/Main.vala:79
+#: src/Windows/Preferences/Main.vala:90
+msgid "Shortcut installed."
+msgstr ""
+
+#: src/Windows/Preferences/Main.vala:92
+msgid "Shortcut uninstalled"
+msgstr ""
+
+#: src/Windows/Preferences/Main.vala:103
+msgid "Steam shortcut"
+msgstr ""
+
+#: src/Windows/Preferences/Main.vala:113
 msgid "There is nothing to see here."
 msgstr ""
 
@@ -219,6 +231,10 @@ msgstr "Terang"
 #: src/Models/Preferences/Style.vala:19
 msgid "Dark"
 msgstr "Gelap"
+
+#: src/Models/Preferences/Steam.vala:111
+msgid "Shortcut file not found"
+msgstr ""
 
 #~ msgid "Delete the tool"
 #~ msgstr "Menghapus alat"

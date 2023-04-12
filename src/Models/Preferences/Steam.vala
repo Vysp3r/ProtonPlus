@@ -108,7 +108,7 @@ namespace Models.Preferences {
             try {
                 switch (shortcut_status) {
                 case 0:
-                    throw new GLib.Error(GLib.Quark.from_string("vala-vdf"), 0, "Shortcut file not found");
+                    throw new GLib.Error(GLib.Quark.from_string("vala-vdf"), 0, _("Shortcut file not found"));
                 case 1:
                     install();
                     shortcut_status = 2;

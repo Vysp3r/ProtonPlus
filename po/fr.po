@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 19:35-0400\n"
+"POT-Creation-Date: 2023-04-11 21:13-0400\n"
 "Language: fr_CA\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -42,7 +42,7 @@ msgstr "Quitter"
 
 #.
 #: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
-#: src/Windows/Preferences/Main.vala:78
+#: src/Windows/Preferences/Main.vala:112
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -161,19 +161,31 @@ msgid "This page is a work in progress."
 msgstr ""
 
 #.
-#: src/Windows/Preferences/Main.vala:37 src/Windows/Preferences/Main.vala:38
+#: src/Windows/Preferences/Main.vala:40 src/Windows/Preferences/Main.vala:41
 msgid "Main"
 msgstr ""
 
 #.
 #.
 #.
-#: src/Windows/Preferences/Main.vala:51
+#: src/Windows/Preferences/Main.vala:54
 #, fuzzy
 msgid "Style"
 msgstr "Styles"
 
-#: src/Windows/Preferences/Main.vala:79
+#: src/Windows/Preferences/Main.vala:90
+msgid "Shortcut installed."
+msgstr ""
+
+#: src/Windows/Preferences/Main.vala:92
+msgid "Shortcut uninstalled"
+msgstr ""
+
+#: src/Windows/Preferences/Main.vala:103
+msgid "Steam shortcut"
+msgstr ""
+
+#: src/Windows/Preferences/Main.vala:113
 msgid "There is nothing to see here."
 msgstr ""
 
@@ -213,6 +225,10 @@ msgstr "Clair"
 #: src/Models/Preferences/Style.vala:19
 msgid "Dark"
 msgstr "Sombre"
+
+#: src/Models/Preferences/Steam.vala:111
+msgid "Shortcut file not found"
+msgstr ""
 
 #~ msgid "Delete the tool"
 #~ msgstr "Supprimer l'outil"
