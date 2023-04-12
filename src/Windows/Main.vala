@@ -69,7 +69,7 @@ namespace Windows {
         }
 
         void on_about_action () {
-            string[] devs = { "Charles Malouin (Vysp3r) https:// github.com/Vysp3r", "windblows95 https://github.com/windblows95" };
+            string[] devs = { "Charles Malouin (Vysp3r) https://github.com/Vysp3r", "windblows95 https://github.com/windblows95" };
             string[] designers = { "Charles Malouin (Vysp3r) https://github.com/Vysp3r" };
             string[] thanks = {
                 "GNOME Project https://www.gnome.org/",

@@ -15,18 +15,14 @@ namespace Models.Preferences {
             try {
                 foreach (var location in locations) {
                     string path = GLib.Environment.get_home_dir() + location + "/userdata";
-                    stdout.printf("trying %s\n", path);
                     if (FileUtils.test(path, FileTest.IS_DIR)) {
                         Dir directory = Dir.open(path);
                         string? dir;
                         while ((dir = directory.read_name()) != null) {
-                            stdout.printf("trying %s\n", path + "/" + dir);
                             if (dir != "." && dir != "..") {
                                 File file = File.new_for_path(path + "/" + dir);
                                 if (file.query_file_type(FileQueryInfoFlags.NONE) == FileType.DIRECTORY) {
-                                    stdout.printf("trying %s\n", path + "/" + dir + "/config/shortcuts.vdf");
                                     if (FileUtils.test(path + "/" + dir + "/config/shortcuts.vdf", FileTest.IS_REGULAR)) {
-                                        stdout.printf("found %s\n", path + "/" + dir + "/config/shortcuts.vdf");
                                         path += "/" + dir + "/config/shortcuts.vdf";
                                         return path;
                                     } else {

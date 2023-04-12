@@ -94,7 +94,6 @@ namespace Utils {
                     var node_base_name = @"shortcuts.$(node_base_id)";
 
                     foreach (var entry in nodes.entries) {
-                        stdout.printf("old: %s\n", entry.key);
                         if (!entry.key.contains(node_base_name)) {
                             var curr_key = entry.key;
                             if (entry.key.contains(".")) {
@@ -109,10 +108,6 @@ namespace Utils {
                     }
 
                     nodes = new_nodes;
-
-                    foreach (var entry in nodes.entries) {
-                        stdout.printf("new: %s\n", entry.key);
-                    }
                 } catch (Error e) {
                     throw e;
                 }
