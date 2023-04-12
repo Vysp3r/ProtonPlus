@@ -1,7 +1,5 @@
 namespace Windows.Tools {
     public class ReleaseInstaller : Gtk.Widget {
-        Gtk.Notebook notebook;
-        Gtk.Button btnBack;
         Gtk.Button btnCancel;
         Gtk.Button btnGoBack;
         Gtk.ProgressBar progressBar;
@@ -10,12 +8,11 @@ namespace Windows.Tools {
         Thread<void> thread;
         string text;
         Models.Release release;
+        Windows.Tools.LauncherInfo launcherInfo;
 
-        // TODO Add message when trying to close the window if a download is in progress
-        public ReleaseInstaller (Gtk.Notebook notebook, Gtk.Button btnBack) {
+        public ReleaseInstaller (Windows.Tools.LauncherInfo launcherInfo) {
             //
-            this.notebook = notebook;
-            this.btnBack = btnBack;
+            this.launcherInfo = launcherInfo;
 
             //
             var layout = new Gtk.BinLayout ();
@@ -66,8 +63,8 @@ namespace Windows.Tools {
         }
 
         void GoBack () {
-            btnBack.set_visible (true);
-            btnBack.clicked ();
+            launcherInfo.BtnBack.set_visible (true);
+            launcherInfo.BtnBack.clicked ();
             btnGoBack.set_visible (false);
         }
 
@@ -88,7 +85,7 @@ namespace Windows.Tools {
 
             ProtonPlus.get_instance ().mainWindow.State = Windows.Main.States.INSTALLING_TOOL;
 
-            btnBack.set_visible (false);
+            launcherInfo.BtnBack.set_visible (false);
             btnCancel.set_sensitive (!release.Tool.IsUsingGithubActions);
             if (release.Tool.IsUsingGithubActions) btnCancel.set_tooltip_text (_("You cannot cancel the operation for tools using Github Actions."));
             textBuffer.set_text (text = _("Download started...\n"));

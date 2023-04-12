@@ -1,13 +1,9 @@
 namespace Windows.Tools {
     public class ReleaseInfo : Gtk.Widget {
-        Gtk.Notebook notebook;
         Adw.Clamp clamp;
         Adw.StatusPage statusPage;
 
-        public ReleaseInfo (Gtk.Notebook notebook) {
-            //
-            this.notebook = notebook;
-
+        public ReleaseInfo () {
             //
             var layout = new Gtk.BinLayout ();
             set_layout_manager (layout);
@@ -109,3 +105,4 @@ namespace Windows.Tools {
         }
     }
 }
+

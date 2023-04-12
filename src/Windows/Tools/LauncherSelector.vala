@@ -1,6 +1,6 @@
 namespace Windows.Tools {
     public class LauncherSelector : Gtk.Box {
-        public LauncherSelector (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay, Gtk.Notebook parentNotebook) {
+        public LauncherSelector (Windows.Main mainWindow) {
             //
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (15);
@@ -13,19 +13,18 @@ namespace Windows.Tools {
             group.set_description (_("Select a launcher to proceed"));
 
             //
-            var launchers = Models.Launcher.GetAll ();
-            for (int i = 0; i < launchers.length (); i++) {
-                var launcher = launchers.nth_data (i);
+            for (int i = 0; i < mainWindow.Launchers.length (); i++) {
+                var launcher = mainWindow.Launchers.nth_data (i);
                 int counter = i + 1;
 
-                var launcherInfo = new Windows.Tools.LauncherInfo (leaflet, toastOverlay, launcher, parentNotebook);
+                var launcherInfo = new Windows.Tools.LauncherInfo (mainWindow, launcher);
 
                 var row = new Adw.ActionRow ();
                 row.set_title (launcher.Title);
                 row.set_activatable (true);
                 row.activated.connect (() => {
-                    launcherInfo.lastPage = 0;
-                    leaflet.get_pages ().select_item (counter, true);
+                    launcherInfo.LastPage = 0;
+                    mainWindow.Leaflet.get_pages ().select_item (counter, true);
                 });
 
                 var icon = new Gtk.Image.from_icon_name ("go-next-symbolic");
@@ -33,7 +32,7 @@ namespace Windows.Tools {
 
                 group.add (row);
 
-                leaflet.append (launcherInfo);
+                mainWindow.Leaflet.append (launcherInfo);
             }
 
             //

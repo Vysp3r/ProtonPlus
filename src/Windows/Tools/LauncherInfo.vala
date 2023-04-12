@@ -1,46 +1,38 @@
 namespace Windows.Tools {
     public class LauncherInfo : Gtk.Box {
-        public Gtk.Button btnBack;
-        public Gtk.Notebook notebook;
-        public Gtk.Notebook parentNotebook;
-        public Windows.Tools.ReleaseInstaller releaseInstaller;
-        public Windows.Tools.ReleaseInfo releaseInfo;
-        public Adw.ToastOverlay toastOverlay;
-        public int lastPage;
-        public bool installerStartedFromInfoPage;
+        public Gtk.Button BtnBack;
+        public Gtk.Notebook Notebook;
+        public Windows.Tools.ReleaseInstaller ReleaseInstaller;
+        public Windows.Tools.ReleaseInfo ReleaseInfo;
+        public int LastPage;
+        public bool InstallerStartedFromInfoPage;
 
-        Models.Launcher launcher;
         Gtk.Spinner spinner;
 
-        public LauncherInfo (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay, Models.Launcher launcher, Gtk.Notebook parentNotebook) {
-            //
-            this.toastOverlay = toastOverlay;
-            this.launcher = launcher;
-            this.parentNotebook = parentNotebook;
-
+        public LauncherInfo (Windows.Main mainWindow, Models.Launcher launcher) {
             //
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (0);
 
             //
-            btnBack = new Gtk.Button ();
-            btnBack.set_icon_name ("go-previous-symbolic");
-            btnBack.clicked.connect (() => {
-                if (notebook.get_current_page () == 0) {
-                    leaflet.get_pages ().select_item (0, true);
-                } else if (notebook.get_current_page () > 2) {
-                    notebook.set_current_page (0);
-                } else if (notebook.get_current_page () == 2 && installerStartedFromInfoPage) {
-                    notebook.set_current_page (1);
+            BtnBack = new Gtk.Button ();
+            BtnBack.set_icon_name ("go-previous-symbolic");
+            BtnBack.clicked.connect (() => {
+                if (Notebook.get_current_page () == 0) {
+                    mainWindow.Leaflet.get_pages ().select_item (0, true);
+                } else if (Notebook.get_current_page () > 2) {
+                    Notebook.set_current_page (0);
+                } else if (Notebook.get_current_page () == 2 && InstallerStartedFromInfoPage) {
+                    Notebook.set_current_page (1);
                 } else {
-                    notebook.set_current_page (lastPage);
+                    Notebook.set_current_page (LastPage);
                 }
             });
 
             //
             var headerBar = new Adw.HeaderBar ();
             headerBar.set_centering_policy (Adw.CenteringPolicy.STRICT);
-            headerBar.pack_start (btnBack);
+            headerBar.pack_start (BtnBack);
             append (headerBar);
 
             //
@@ -87,29 +79,29 @@ namespace Windows.Tools {
             scrolledWindow.set_vexpand (true);
 
             //
-            notebook = new Gtk.Notebook ();
-            notebook.set_show_tabs (false);
-            notebook.append_page (scrolledWindow, new Gtk.Label ("Main"));
-            notebook.append_page (releaseInfo = new Windows.Tools.ReleaseInfo (notebook), new Gtk.Label ("ReleaseInfo"));
-            notebook.append_page (releaseInstaller = new Windows.Tools.ReleaseInstaller (notebook, btnBack), new Gtk.Label ("ReleaseInstaller"));
-            append (notebook);
+            Notebook = new Gtk.Notebook ();
+            Notebook.set_show_tabs (false);
+            Notebook.append_page (scrolledWindow, new Gtk.Label ("Main"));
+            Notebook.append_page (ReleaseInfo = new Windows.Tools.ReleaseInfo (), new Gtk.Label ("ReleaseInfo"));
+            Notebook.append_page (ReleaseInstaller = new Windows.Tools.ReleaseInstaller (this), new Gtk.Label ("ReleaseInstaller"));
+            append (Notebook);
 
             //
             for (int i = 0; i < launcher.Tools.length (); i++) {
                 var tool = launcher.Tools.nth_data (i);
 
                 var position = i + 3;
-                var toolInfo = new Windows.Tools.ToolInfo (tool, this);
+                var toolInfo = new Windows.Tools.ToolInfo (this, mainWindow, tool);
 
                 var row = new Adw.ActionRow ();
                 row.set_title (tool.Title);
                 row.set_activatable (true);
                 row.activated.connect (() => {
-                    notebook.set_current_page (position);
+                    Notebook.set_current_page (position);
                     toolInfo.Load ();
                 });
 
-                notebook.append_page (toolInfo, new Gtk.Label ("ToolInfo_" + tool.Title));
+                Notebook.append_page (toolInfo, new Gtk.Label ("ToolInfo_" + tool.Title));
                 group.add (row);
             }
         }

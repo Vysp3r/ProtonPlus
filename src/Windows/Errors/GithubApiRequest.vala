@@ -1,6 +1,6 @@
 namespace Windows.Errors {
     public class GithubApiRequest : Gtk.Box {
-        public GithubApiRequest (Gtk.Notebook notebook) {
+        public GithubApiRequest (Windows.Main mainWindow) {
             //
             set_orientation (Gtk.Orientation.VERTICAL);
 
@@ -8,7 +8,7 @@ namespace Windows.Errors {
             var btnBack = new Gtk.Button ();
             btnBack.set_icon_name ("go-previous-symbolic");
             btnBack.clicked.connect (() => {
-                notebook.set_current_page (0);
+                mainWindow.Notebook.set_current_page (0);
             });
 
             //

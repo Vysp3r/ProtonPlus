@@ -5,11 +5,13 @@ namespace Windows.Tools {
         bool loaded;
         Models.Tool tool;
         Windows.Tools.LauncherInfo launcherInfo;
+        Windows.Main mainWindow;
 
-        public ToolInfo (Models.Tool tool, Windows.Tools.LauncherInfo launcherInfo) {
+        public ToolInfo (Windows.Tools.LauncherInfo launcherInfo, Windows.Main mainWindow, Models.Tool tool) {
             //
             this.tool = tool;
             this.launcherInfo = launcherInfo;
+            this.mainWindow = mainWindow;
             this.loaded = false;
 
             //
@@ -79,9 +81,9 @@ namespace Windows.Tools {
                         toast.set_button_label (_("Learn more"));
                         toast.set_timeout (15000);
                         toast.button_clicked.connect (() => {
-                            launcherInfo.parentNotebook.set_current_page (2);
+                            mainWindow.Notebook.set_current_page (2);
                         });
-                        launcherInfo.toastOverlay.add_toast (toast);
+                        mainWindow.ToastOverlay.add_toast (toast);
 
                         return false;
                     }
@@ -102,9 +104,9 @@ namespace Windows.Tools {
         }
 
         void InfoRelease (Models.Release release, Widgets.ProtonActionRow row) {
-            launcherInfo.lastPage = launcherInfo.notebook.get_current_page ();
-            launcherInfo.notebook.set_current_page (1);
-            launcherInfo.releaseInfo.Load (release, row, this);
+            launcherInfo.LastPage = launcherInfo.Notebook.get_current_page ();
+            launcherInfo.Notebook.set_current_page (1);
+            launcherInfo.ReleaseInfo.Load (release, row, this);
         }
 
         public void DeleteRelease (Models.Release release, Widgets.ProtonActionRow widget) {
@@ -128,8 +130,8 @@ namespace Windows.Tools {
                         widget.Actions = GetActionsBox (release, widget);
                         widget.add_suffix (widget.Actions);
 
-                        if (launcherInfo.notebook.get_current_page () == 1) {
-                            launcherInfo.releaseInfo.Load (release, widget, this);
+                        if (launcherInfo.Notebook.get_current_page () == 1) {
+                            launcherInfo.ReleaseInfo.Load (release, widget, this);
                         }
 
                         return false;
@@ -148,15 +150,14 @@ namespace Windows.Tools {
                 task.Callback ();
             });
 
-
-            launcherInfo.toastOverlay.add_toast (toast);
+            mainWindow.ToastOverlay.add_toast (toast);
         }
 
         public void InstallRelease (Models.Release release, Widgets.ProtonActionRow widget, bool installerStartedFromInfoPage) {
-            launcherInfo.installerStartedFromInfoPage = installerStartedFromInfoPage;
-            if (!installerStartedFromInfoPage) launcherInfo.lastPage = launcherInfo.notebook.get_current_page ();
-            launcherInfo.notebook.set_current_page (2);
-            launcherInfo.releaseInstaller.Download (release);
+            launcherInfo.InstallerStartedFromInfoPage = installerStartedFromInfoPage;
+            if (!installerStartedFromInfoPage) launcherInfo.LastPage = launcherInfo.Notebook.get_current_page ();
+            launcherInfo.Notebook.set_current_page (2);
+            launcherInfo.ReleaseInstaller.Download (release);
 
             GLib.Timeout.add (1000, () => {
                 if (release.InstallCancelled) {
@@ -169,8 +170,8 @@ namespace Windows.Tools {
                     widget.Actions = GetActionsBox (release, widget);
                     widget.add_suffix (widget.Actions);
 
-                    if (launcherInfo.notebook.get_current_page () == 2 && installerStartedFromInfoPage) {
-                        launcherInfo.releaseInfo.Load (release, widget, this);
+                    if (launcherInfo.Notebook.get_current_page () == 2 && installerStartedFromInfoPage) {
+                        launcherInfo.ReleaseInfo.Load (release, widget, this);
                     }
 
                     return false;

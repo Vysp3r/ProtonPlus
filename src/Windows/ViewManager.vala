@@ -1,6 +1,6 @@
 namespace Windows {
     public class ViewManager : Gtk.Box {
-        public ViewManager (Adw.Leaflet leaflet, Adw.ToastOverlay toastOverlay, Gtk.Notebook notebook) {
+        public ViewManager (Windows.Main mainWindow) {
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (0);
 
@@ -43,7 +43,7 @@ namespace Windows {
             append (viewStack);
 
             //
-            var toolsPage = viewStack.add_titled (new Windows.Tools.LauncherSelector (leaflet, toastOverlay, notebook), _("Tools"), _("Tools"));
+            var toolsPage = viewStack.add_titled (new Windows.Tools.LauncherSelector (mainWindow), _("Tools"), _("Tools"));
             toolsPage.set_icon_name ("emblem-system-symbolic");
 
             //
@@ -56,7 +56,7 @@ namespace Windows {
 
             //
             if (GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland") {
-                var preferencesPage = viewStack.add_titled (new Windows.Preferences.Main (notebook), _("Preferences"), _("Preferences"));
+                var preferencesPage = viewStack.add_titled (new Windows.Preferences.Main (mainWindow), _("Preferences"), _("Preferences"));
                 preferencesPage.set_icon_name ("preferences-other-symbolic");
             }
 

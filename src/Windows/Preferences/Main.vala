@@ -6,7 +6,7 @@ namespace Windows.Preferences {
         GLib.List<Models.Preferences.Style> styles;
         int total = 0;
 
-        public Main (Gtk.Notebook notebook) {
+        public Main (Windows.Main mainWindow) {
             //
             set_spacing (0);
             set_orientation (Gtk.Orientation.VERTICAL);
@@ -22,7 +22,7 @@ namespace Windows.Preferences {
                 var btnBack = new Gtk.Button ();
                 btnBack.set_icon_name ("go-previous-symbolic");
                 btnBack.clicked.connect (() => {
-                    notebook.set_current_page (0);
+                    mainWindow.Notebook.set_current_page (0);
                 });
 
                 //
