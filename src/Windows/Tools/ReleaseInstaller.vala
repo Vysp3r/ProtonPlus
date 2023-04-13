@@ -147,7 +147,7 @@ namespace Windows.Tools {
 
             thread = new Thread<void> ("extract", () => {
                 string directory = release.Tool.Launcher.FullPath + "/";
-                string sourcePath = Utils.File.Extract (directory, release.Title, release.FileExtension, ref cancelled);
+                string sourcePath = Utils.Filesystem.Extract (directory, release.Title, release.FileExtension, ref cancelled);
 
                 if (sourcePath == "") {
                     error = true;
@@ -155,13 +155,13 @@ namespace Windows.Tools {
                 }
 
                 if (release.Tool.IsUsingGithubActions) {
-                    sourcePath = Utils.File.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", ref cancelled);
+                    sourcePath = Utils.Filesystem.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", ref cancelled);
                 }
 
                 if (release.Tool.TitleType != Models.Tool.TitleTypes.NONE) {
                     string path = release.Tool.Launcher.FullPath + "/" + release.GetDirectoryName ();
 
-                    Utils.File.Rename (sourcePath, path);
+                    Utils.Filesystem.Rename (sourcePath, path);
                 }
 
                 release.Tool.Launcher.install (release);
