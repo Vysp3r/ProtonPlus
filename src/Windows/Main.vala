@@ -71,6 +71,7 @@ namespace Windows {
         void on_about_action () {
             string[] devs = { "Charles Malouin (Vysp3r) https:// github.com/Vysp3r", "windblows95 https://github.com/windblows95" };
             string[] designers = { "Charles Malouin (Vysp3r) https://github.com/Vysp3r" };
+            string[] artists = { "Brage Fuglseth" };
             string[] thanks = {
                 "GNOME Project https://www.gnome.org/",
                 "ProtonUp-Qt Project https://davidotek.github.io/protonup-qt/",
@@ -89,6 +90,7 @@ namespace Windows {
             aboutDialog.set_license_type (Gtk.License.GPL_3_0);
             aboutDialog.set_developers (devs);
             aboutDialog.set_designers (designers);
+            aboutDialog.set_artists (artists);
             aboutDialog.add_credit_section (_("Special thanks to"), thanks);
             aboutDialog.set_transient_for (this);
             aboutDialog.set_modal (true);
