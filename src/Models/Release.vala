@@ -79,7 +79,7 @@ namespace Models {
 
         public void Delete (bool joinThread = false) {
             var thread = new Thread<void> ("deleteThread", () => {
-                Utils.Filesystem.DeleteDirectory (Tool.Launcher.FullPath + "/" + Title);
+                Utils.Filesystem.DeleteDirectory (Tool.Launcher.FullPath + "/" + GetDirectoryName ());
                 Tool.Launcher.uninstall (this);
                 Installed = false;
             });
