@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 19:35-0400\n"
+"POT-Creation-Date: 2023-04-21 15:25-0400\n"
 "PO-Revision-Date: 2023-04-10 11:40+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: \n"
@@ -15,17 +15,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: src/Windows/Main.vala:85
+#: src/Windows/Main.vala:89
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
 msgstr ""
 "Jednoduchý správce nástrojů kompatibility založených na Wine a Protonu pro "
 "GNOME"
 
-#: src/Windows/Main.vala:92
+#: src/Windows/Main.vala:96
 msgid "Special thanks to"
 msgstr "Zvláštní poděkování patří"
 
-#: src/Windows/Main.vala:107
+#: src/Windows/Main.vala:111
 msgid "You cannot close the window while a tool is installing"
 msgstr "Během instalace nástroje nelze zavřít okno"
 
@@ -58,7 +58,7 @@ msgid "Preferences"
 msgstr "Předvolby"
 
 #.
-#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:67
+#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:59
 msgid "Tools"
 msgstr "Nástroje"
 
@@ -81,84 +81,84 @@ msgstr "Spouštěče"
 msgid "Select a launcher to proceed"
 msgstr "Pro pokračování vyberte spouštěč"
 
-#: src/Windows/Tools/LauncherInfo.vala:68
+#: src/Windows/Tools/LauncherInfo.vala:60
 msgid "Select a tool to proceed"
 msgstr "Pro pokračování vyberte nástroj"
 
-#: src/Windows/Tools/ReleaseInfo.vala:35
+#: src/Windows/Tools/ReleaseInfo.vala:31
 msgid "Copy"
 msgstr "Kopírovat"
 
 #.
 #.
-#: src/Windows/Tools/ReleaseInfo.vala:63
+#: src/Windows/Tools/ReleaseInfo.vala:59
 msgid "Delete"
 msgstr "Smazat"
 
-#: src/Windows/Tools/ReleaseInfo.vala:69
+#: src/Windows/Tools/ReleaseInfo.vala:65
 msgid "Install"
 msgstr "Nainstalovat"
 
 #.
-#: src/Windows/Tools/ReleaseInfo.vala:78
+#: src/Windows/Tools/ReleaseInfo.vala:75
 msgid "Website"
 msgstr "Webové stránky"
 
-#: src/Windows/Tools/ReleaseInfo.vala:88
+#: src/Windows/Tools/ReleaseInfo.vala:85
 msgid "Directory: "
 msgstr "Adresář: "
 
-#: src/Windows/Tools/ReleaseInfo.vala:89
+#: src/Windows/Tools/ReleaseInfo.vala:86
 msgid "Size: "
 msgstr "Velikost: "
 
-#: src/Windows/Tools/ReleaseInfo.vala:91
+#: src/Windows/Tools/ReleaseInfo.vala:88
 msgid "Download size (Compressed): "
 msgstr "Stahovaná velikost (komprimovaná): "
 
-#: src/Windows/Tools/ReleaseInfo.vala:93
+#: src/Windows/Tools/ReleaseInfo.vala:90
 msgid "Release date: "
 msgstr "Datum vydání: "
 
 #.
-#: src/Windows/Tools/ReleaseInstaller.vala:50
+#: src/Windows/Tools/ReleaseInstaller.vala:47
 msgid "Cancel"
 msgstr "Zrušit"
 
 #.
-#: src/Windows/Tools/ReleaseInstaller.vala:56
+#: src/Windows/Tools/ReleaseInstaller.vala:53
 msgid "Go back"
 msgstr "Jít zpět"
 
-#: src/Windows/Tools/ReleaseInstaller.vala:76
+#: src/Windows/Tools/ReleaseInstaller.vala:73
 msgid "Cancelled the install..."
 msgstr "Instalace byla zrušena..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:93
+#: src/Windows/Tools/ReleaseInstaller.vala:90
 msgid "You cannot cancel the operation for tools using Github Actions."
 msgstr "Nelze zrušit operaci pro nástroje využívající Github Actions."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:94
+#: src/Windows/Tools/ReleaseInstaller.vala:91
 msgid "Download started...\n"
 msgstr "Stahování zahájeno...\n"
 
-#: src/Windows/Tools/ReleaseInstaller.vala:132
+#: src/Windows/Tools/ReleaseInstaller.vala:129
 msgid "Download done...\n"
 msgstr "Stahování bylo dokončeno...\n"
 
-#: src/Windows/Tools/ReleaseInstaller.vala:143
+#: src/Windows/Tools/ReleaseInstaller.vala:140
 msgid "Extraction started...\n"
 msgstr "Rozbalování zahájeno...\n"
 
-#: src/Windows/Tools/ReleaseInstaller.vala:146
+#: src/Windows/Tools/ReleaseInstaller.vala:143
 msgid "You cannot cancel the operation while it's extracting."
 msgstr "Během rozbalování nelze operaci zrušit."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:177
+#: src/Windows/Tools/ReleaseInstaller.vala:174
 msgid "There was an error while extracting..."
 msgstr "Během rozbalování došlo k chybě..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:187
+#: src/Windows/Tools/ReleaseInstaller.vala:184
 msgid "Extraction done...\n"
 msgstr "Rozbalování bylo dokončeno...\n"
 
@@ -188,10 +188,14 @@ msgid "Github API Request Error"
 msgstr "Chyba požadavku Github API"
 
 #: src/Windows/Errors/GithubApiRequest.vala:23
+#, fuzzy
 msgid ""
-"Here's a list of the possible reasons why that error happened\n"
+"Here's a list of the possible reasons why that error happened:\n"
 "- You may have reached the GitHub API limit\n"
-"- You may be disconnected from the internet"
+"- You may be disconnected from the internet\n"
+"\n"
+"Why can I still see data then?\n"
+"ProtonPlus caches the json of each requests in case that problem happens"
 msgstr ""
 "Zde je seznam možných důvodů, proč k této chybě došlo\n"
 "- Možná jste dosáhli limitu GitHub API\n"
@@ -203,8 +207,8 @@ msgid ""
 "Make sure to restart Steam if it's open to be able to use it otherwise you "
 "will not see it.\n"
 msgstr ""
-"Nezapomeňte restartovat Steam, pokud je otevřený, abyste to mohli "
-"používat, jinak to neuvidíte.\n"
+"Nezapomeňte restartovat Steam, pokud je otevřený, abyste to mohli používat, "
+"jinak to neuvidíte.\n"
 
 #: src/Models/Launcher.vala:91
 msgid ""

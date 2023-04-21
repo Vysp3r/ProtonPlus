@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 19:35-0400\n"
+"POT-Creation-Date: 2023-04-21 15:25-0400\n"
 "PO-Revision-Date: 2023-04-18 19:24+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: \n"
@@ -18,21 +18,21 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: src/Windows/Main.vala:85
-msgid "A simple Wine and Proton-based compatiblity tools manager for GNOME"
+#: src/Windows/Main.vala:89
+#, fuzzy
+msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
 msgstr ""
 "Ein einfacher Wine und Proton-basierter Kompatibilitätswerkzeugmanager für "
 "GNOME"
 
-#: src/Windows/Main.vala:92
+#: src/Windows/Main.vala:96
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
 
-#: src/Windows/Main.vala:107
+#: src/Windows/Main.vala:111
 msgid "You cannot close the window while a tool is installing"
 msgstr ""
-"Sie können das Fenster nicht schliessen während ein Werkzeug installiert "
-"wird"
+"Sie können das Fenster nicht schliessen während ein Werkzeug installiert wird"
 
 #.
 #: src/Windows/ViewManager.vala:20
@@ -63,7 +63,7 @@ msgid "Preferences"
 msgstr "Einstellungen"
 
 #.
-#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:67
+#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:59
 msgid "Tools"
 msgstr "Werkzeuge"
 
@@ -86,86 +86,86 @@ msgstr "Starter"
 msgid "Select a launcher to proceed"
 msgstr "Wählen Sie einen Starter um fortzufahren"
 
-#: src/Windows/Tools/LauncherInfo.vala:68
+#: src/Windows/Tools/LauncherInfo.vala:60
 msgid "Select a tool to proceed"
 msgstr "Wählen Sie ein Werkzeug um fortzufahren"
 
-#: src/Windows/Tools/ReleaseInfo.vala:35
+#: src/Windows/Tools/ReleaseInfo.vala:31
 msgid "Copy"
 msgstr "Kopieren"
 
 #.
 #.
-#: src/Windows/Tools/ReleaseInfo.vala:63
+#: src/Windows/Tools/ReleaseInfo.vala:59
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/Windows/Tools/ReleaseInfo.vala:69
+#: src/Windows/Tools/ReleaseInfo.vala:65
 msgid "Install"
 msgstr "Installieren"
 
 #.
-#: src/Windows/Tools/ReleaseInfo.vala:78
+#: src/Windows/Tools/ReleaseInfo.vala:75
 msgid "Website"
 msgstr "Webseite"
 
-#: src/Windows/Tools/ReleaseInfo.vala:88
+#: src/Windows/Tools/ReleaseInfo.vala:85
 msgid "Directory: "
 msgstr "Verzeichnis: "
 
-#: src/Windows/Tools/ReleaseInfo.vala:89
+#: src/Windows/Tools/ReleaseInfo.vala:86
 msgid "Size: "
 msgstr "Grösse: "
 
-#: src/Windows/Tools/ReleaseInfo.vala:91
+#: src/Windows/Tools/ReleaseInfo.vala:88
 msgid "Download size (Compressed): "
 msgstr "Downloadgrösse (komprimiert): "
 
-#: src/Windows/Tools/ReleaseInfo.vala:93
+#: src/Windows/Tools/ReleaseInfo.vala:90
 msgid "Release date: "
 msgstr "Veröffentlichungsdatum: "
 
 #.
-#: src/Windows/Tools/ReleaseInstaller.vala:50
+#: src/Windows/Tools/ReleaseInstaller.vala:47
 msgid "Cancel"
 msgstr "Abbrechen"
 
 #.
-#: src/Windows/Tools/ReleaseInstaller.vala:56
+#: src/Windows/Tools/ReleaseInstaller.vala:53
 msgid "Go back"
 msgstr "Zurück gehen"
 
-#: src/Windows/Tools/ReleaseInstaller.vala:76
+#: src/Windows/Tools/ReleaseInstaller.vala:73
 msgid "Cancelled the install..."
 msgstr "Breche Installation ab..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:93
+#: src/Windows/Tools/ReleaseInstaller.vala:90
 msgid "You cannot cancel the operation for tools using Github Actions."
 msgstr ""
 "Sie können die Operation für Werkzeuge die Github-Aktionen verwenden nicht "
 "abbrechen."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:94
+#: src/Windows/Tools/ReleaseInstaller.vala:91
 msgid "Download started...\n"
 msgstr "Download gestartet...\n"
 
-#: src/Windows/Tools/ReleaseInstaller.vala:132
+#: src/Windows/Tools/ReleaseInstaller.vala:129
 msgid "Download done...\n"
 msgstr "Download fertig...\n"
 
-#: src/Windows/Tools/ReleaseInstaller.vala:143
+#: src/Windows/Tools/ReleaseInstaller.vala:140
 msgid "Extraction started...\n"
 msgstr "Entpacken gestartet...\n"
 
-#: src/Windows/Tools/ReleaseInstaller.vala:146
+#: src/Windows/Tools/ReleaseInstaller.vala:143
 msgid "You cannot cancel the operation while it's extracting."
 msgstr "Sie können die Operation nicht abbrechen während entpackt wird."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:177
+#: src/Windows/Tools/ReleaseInstaller.vala:174
 msgid "There was an error while extracting..."
 msgstr "Es gab einen Fehler während entpackt wurde..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:187
+#: src/Windows/Tools/ReleaseInstaller.vala:184
 msgid "Extraction done...\n"
 msgstr "Entpacken fertig...\n"
 
@@ -195,10 +195,14 @@ msgid "Github API Request Error"
 msgstr "Github API Anfrage-Fehler"
 
 #: src/Windows/Errors/GithubApiRequest.vala:23
+#, fuzzy
 msgid ""
-"Here's a list of the possible reasons why that error happened\n"
+"Here's a list of the possible reasons why that error happened:\n"
 "- You may have reached the GitHub API limit\n"
-"- You may be disconnected from the internet"
+"- You may be disconnected from the internet\n"
+"\n"
+"Why can I still see data then?\n"
+"ProtonPlus caches the json of each requests in case that problem happens"
 msgstr ""
 "Hier ist eine Liste von möglichen Ursachen warum der Fehler passiert ist\n"
 "- Sie könnten das Gitgub API Limit erreicht haben\n"
@@ -210,8 +214,8 @@ msgid ""
 "Make sure to restart Steam if it's open to be able to use it otherwise you "
 "will not see it.\n"
 msgstr ""
-"Stellen Sie sicher das Steam neu gestartet wurde wenn es geöffnet ist um "
-"es benutzen zu können oder Sie werden es nicht sehen können.\n"
+"Stellen Sie sicher das Steam neu gestartet wurde wenn es geöffnet ist um es "
+"benutzen zu können oder Sie werden es nicht sehen können.\n"
 
 #: src/Models/Launcher.vala:91
 msgid ""

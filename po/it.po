@@ -1,20 +1,20 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 19:35-0400\n"
+"POT-Creation-Date: 2023-04-21 15:25-0400\n"
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/Windows/Main.vala:85
-msgid "A simple Wine and Proton-based compatiblity tools manager for GNOME"
+#: src/Windows/Main.vala:89
+msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
 msgstr ""
 
-#: src/Windows/Main.vala:92
+#: src/Windows/Main.vala:96
 msgid "Special thanks to"
 msgstr ""
 
-#: src/Windows/Main.vala:107
+#: src/Windows/Main.vala:111
 msgid "You cannot close the window while a tool is installing"
 msgstr ""
 
@@ -47,7 +47,7 @@ msgid "Preferences"
 msgstr "Preferenze"
 
 #.
-#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:67
+#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:59
 msgid "Tools"
 msgstr "Strumenti"
 
@@ -71,87 +71,87 @@ msgstr "Lanciatore"
 msgid "Select a launcher to proceed"
 msgstr ""
 
-#: src/Windows/Tools/LauncherInfo.vala:68
+#: src/Windows/Tools/LauncherInfo.vala:60
 msgid "Select a tool to proceed"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInfo.vala:35
+#: src/Windows/Tools/ReleaseInfo.vala:31
 msgid "Copy"
 msgstr ""
 
 #.
 #.
-#: src/Windows/Tools/ReleaseInfo.vala:63
+#: src/Windows/Tools/ReleaseInfo.vala:59
 msgid "Delete"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInfo.vala:69
+#: src/Windows/Tools/ReleaseInfo.vala:65
 msgid "Install"
 msgstr "Installa"
 
 #.
-#: src/Windows/Tools/ReleaseInfo.vala:78
+#: src/Windows/Tools/ReleaseInfo.vala:75
 msgid "Website"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInfo.vala:88
+#: src/Windows/Tools/ReleaseInfo.vala:85
 msgid "Directory: "
 msgstr "Directory: "
 
-#: src/Windows/Tools/ReleaseInfo.vala:89
+#: src/Windows/Tools/ReleaseInfo.vala:86
 msgid "Size: "
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInfo.vala:91
+#: src/Windows/Tools/ReleaseInfo.vala:88
 msgid "Download size (Compressed): "
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInfo.vala:93
+#: src/Windows/Tools/ReleaseInfo.vala:90
 msgid "Release date: "
 msgstr ""
 
 #.
-#: src/Windows/Tools/ReleaseInstaller.vala:50
+#: src/Windows/Tools/ReleaseInstaller.vala:47
 msgid "Cancel"
 msgstr ""
 
 #.
-#: src/Windows/Tools/ReleaseInstaller.vala:56
+#: src/Windows/Tools/ReleaseInstaller.vala:53
 msgid "Go back"
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:76
+#: src/Windows/Tools/ReleaseInstaller.vala:73
 msgid "Cancelled the install..."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:93
+#: src/Windows/Tools/ReleaseInstaller.vala:90
 msgid "You cannot cancel the operation for tools using Github Actions."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:94
+#: src/Windows/Tools/ReleaseInstaller.vala:91
 #, fuzzy
 msgid "Download started...\n"
 msgstr "Scaricamento in corso..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:132
+#: src/Windows/Tools/ReleaseInstaller.vala:129
 #, fuzzy
 msgid "Download done...\n"
 msgstr "Scaricamento in corso..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:143
+#: src/Windows/Tools/ReleaseInstaller.vala:140
 #, fuzzy
 msgid "Extraction started...\n"
 msgstr "Estrazione in corso..."
 
-#: src/Windows/Tools/ReleaseInstaller.vala:146
+#: src/Windows/Tools/ReleaseInstaller.vala:143
 msgid "You cannot cancel the operation while it's extracting."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:177
+#: src/Windows/Tools/ReleaseInstaller.vala:174
 msgid "There was an error while extracting..."
 msgstr ""
 
-#: src/Windows/Tools/ReleaseInstaller.vala:187
+#: src/Windows/Tools/ReleaseInstaller.vala:184
 #, fuzzy
 msgid "Extraction done...\n"
 msgstr "Estrazione in corso..."
@@ -184,9 +184,12 @@ msgstr ""
 
 #: src/Windows/Errors/GithubApiRequest.vala:23
 msgid ""
-"Here's a list of the possible reasons why that error happened\n"
+"Here's a list of the possible reasons why that error happened:\n"
 "- You may have reached the GitHub API limit\n"
-"- You may be disconnected from the internet"
+"- You may be disconnected from the internet\n"
+"\n"
+"Why can I still see data then?\n"
+"ProtonPlus caches the json of each requests in case that problem happens"
 msgstr ""
 
 #. Steam
