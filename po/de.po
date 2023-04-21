@@ -1,0 +1,235 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: com.vysp3r.ProtonPlus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-04-05 19:35-0400\n"
+"PO-Revision-Date: 2023-04-18 19:24+0200\n"
+"Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+
+#: src/Windows/Main.vala:85
+msgid "A simple Wine and Proton-based compatiblity tools manager for GNOME"
+msgstr ""
+"Ein einfacher Wine und Proton-basierter Kompatibilitätswerkzeugmanager für "
+"GNOME"
+
+#: src/Windows/Main.vala:92
+msgid "Special thanks to"
+msgstr "Spezieller Dank an"
+
+#: src/Windows/Main.vala:107
+msgid "You cannot close the window while a tool is installing"
+msgstr ""
+"Sie können das Fenster nicht schliessen während ein Werkzeug installiert "
+"wird"
+
+#.
+#: src/Windows/ViewManager.vala:20
+msgid "Telegram"
+msgstr "Telegramm"
+
+#: src/Windows/ViewManager.vala:21
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: src/Windows/ViewManager.vala:22
+msgid "Donation"
+msgstr "Spende"
+
+#: src/Windows/ViewManager.vala:23
+msgid "About"
+msgstr "Über"
+
+#.
+#: src/Windows/ViewManager.vala:27
+msgid "Quit"
+msgstr "Beenden"
+
+#.
+#: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
+#: src/Windows/Preferences/Main.vala:78
+msgid "Preferences"
+msgstr "Einstellungen"
+
+#.
+#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:67
+msgid "Tools"
+msgstr "Werkzeuge"
+
+#.
+#: src/Windows/ViewManager.vala:50 src/Windows/Games/Main.vala:10
+msgid "Games"
+msgstr "Spiele"
+
+#.
+#: src/Windows/ViewManager.vala:54 src/Windows/Notifications/Main.vala:10
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+#.
+#: src/Windows/Tools/LauncherSelector.vala:12
+msgid "Launchers"
+msgstr "Starter"
+
+#: src/Windows/Tools/LauncherSelector.vala:13
+msgid "Select a launcher to proceed"
+msgstr "Wählen Sie einen Starter um fortzufahren"
+
+#: src/Windows/Tools/LauncherInfo.vala:68
+msgid "Select a tool to proceed"
+msgstr "Wählen Sie ein Werkzeug um fortzufahren"
+
+#: src/Windows/Tools/ReleaseInfo.vala:35
+msgid "Copy"
+msgstr "Kopieren"
+
+#.
+#.
+#: src/Windows/Tools/ReleaseInfo.vala:63
+msgid "Delete"
+msgstr "Löschen"
+
+#: src/Windows/Tools/ReleaseInfo.vala:69
+msgid "Install"
+msgstr "Installieren"
+
+#.
+#: src/Windows/Tools/ReleaseInfo.vala:78
+msgid "Website"
+msgstr "Webseite"
+
+#: src/Windows/Tools/ReleaseInfo.vala:88
+msgid "Directory: "
+msgstr "Verzeichnis: "
+
+#: src/Windows/Tools/ReleaseInfo.vala:89
+msgid "Size: "
+msgstr "Grösse: "
+
+#: src/Windows/Tools/ReleaseInfo.vala:91
+msgid "Download size (Compressed): "
+msgstr "Downloadgrösse (komprimiert): "
+
+#: src/Windows/Tools/ReleaseInfo.vala:93
+msgid "Release date: "
+msgstr "Veröffentlichungsdatum: "
+
+#.
+#: src/Windows/Tools/ReleaseInstaller.vala:50
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#.
+#: src/Windows/Tools/ReleaseInstaller.vala:56
+msgid "Go back"
+msgstr "Zurück gehen"
+
+#: src/Windows/Tools/ReleaseInstaller.vala:76
+msgid "Cancelled the install..."
+msgstr "Breche Installation ab..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:93
+msgid "You cannot cancel the operation for tools using Github Actions."
+msgstr ""
+"Sie können die Operation für Werkzeuge die Github-Aktionen verwenden nicht "
+"abbrechen."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:94
+msgid "Download started...\n"
+msgstr "Download gestartet...\n"
+
+#: src/Windows/Tools/ReleaseInstaller.vala:132
+msgid "Download done...\n"
+msgstr "Download fertig...\n"
+
+#: src/Windows/Tools/ReleaseInstaller.vala:143
+msgid "Extraction started...\n"
+msgstr "Entpacken gestartet...\n"
+
+#: src/Windows/Tools/ReleaseInstaller.vala:146
+msgid "You cannot cancel the operation while it's extracting."
+msgstr "Sie können die Operation nicht abbrechen während entpackt wird."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:177
+msgid "There was an error while extracting..."
+msgstr "Es gab einen Fehler während entpackt wurde..."
+
+#: src/Windows/Tools/ReleaseInstaller.vala:187
+msgid "Extraction done...\n"
+msgstr "Entpacken fertig...\n"
+
+#: src/Windows/Games/Main.vala:11 src/Windows/Notifications/Main.vala:11
+msgid "This page is a work in progress."
+msgstr "Die Seite ist in Arbeit."
+
+#.
+#: src/Windows/Preferences/Main.vala:37 src/Windows/Preferences/Main.vala:38
+msgid "Main"
+msgstr "Hauptsächlich"
+
+#.
+#.
+#.
+#: src/Windows/Preferences/Main.vala:51
+msgid "Style"
+msgstr "Stil"
+
+#: src/Windows/Preferences/Main.vala:79
+msgid "There is nothing to see here."
+msgstr "Es gibt nichts zu sehen hier."
+
+#.
+#: src/Windows/Errors/GithubApiRequest.vala:22
+msgid "Github API Request Error"
+msgstr "Github API Anfrage-Fehler"
+
+#: src/Windows/Errors/GithubApiRequest.vala:23
+msgid ""
+"Here's a list of the possible reasons why that error happened\n"
+"- You may have reached the GitHub API limit\n"
+"- You may be disconnected from the internet"
+msgstr ""
+"Hier ist eine Liste von möglichen Ursachen warum der Fehler passiert ist\n"
+"- Sie könnten das Gitgub API Limit erreicht haben\n"
+"- Sie könnten vom Internet getrennt sein"
+
+#. Steam
+#: src/Models/Launcher.vala:64
+msgid ""
+"Make sure to restart Steam if it's open to be able to use it otherwise you "
+"will not see it.\n"
+msgstr ""
+"Stellen Sie sicher das Steam neu gestartet wurde wenn es geöffnet ist um "
+"es benutzen zu können oder Sie werden es nicht sehen können.\n"
+
+#: src/Models/Launcher.vala:91
+msgid ""
+"If you're using gamescope with Steam (Flatpak), those tools will not work. "
+"Make sure to use the community builds from Flathub."
+msgstr ""
+"Wenn Sie gamescope mit Steam (Faltpak) verwenden, werden diese Werkzeuge "
+"nicht funktionieren. Stellen Sie sicher das Sie die Community builds von "
+"Flathub verwenden."
+
+#: src/Models/Preferences/Style.vala:17
+msgid "System"
+msgstr "System"
+
+#: src/Models/Preferences/Style.vala:18
+msgid "Light"
+msgstr "Hell"
+
+#: src/Models/Preferences/Style.vala:19
+msgid "Dark"
+msgstr "Dunkel"
