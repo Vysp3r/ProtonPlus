@@ -101,6 +101,9 @@ namespace Windows.Tools {
                     toolInfo.Load ();
                 });
 
+                var icon = new Gtk.Image.from_icon_name ("go-next-symbolic");
+                row.add_suffix (icon);
+
                 Notebook.append_page (toolInfo, new Gtk.Label ("ToolInfo_" + tool.Title));
                 group.add (row);
             }
