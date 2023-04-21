@@ -59,6 +59,17 @@
     </screenshots>
 
     <releases>
+      <release version="0.4.2" date="2023-04-21">
+          <description>
+            <p>What's Changed:</p>
+            <ul>
+              <li>🍱 Change preview video file format to webm</li>
+              <li>🌐 Fixed README type and added Czech translation</li>
+              <li>🌐 Added German translation</li>
+              <li>⚡️ Backend optimization</li>
+            </ul>
+          </description>
+      </release>
       <release version="0.4.1" date="2023-04-05">
           <description>
             <p>What's Changed:</p>
