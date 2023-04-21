@@ -13,8 +13,7 @@ constants = configure_file(
 #
 sources = files(
   'Utils/Web.vala',
-  'Utils/File.vala',
-  'Utils/Dir.vala',
+  'Utils/Filesystem.vala',
 
   'Models/Tool.vala',
   'Models/Launcher.vala',

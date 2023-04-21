@@ -30,19 +30,16 @@ namespace Models {
         }
 
         public void SetSize () {
-            if (Installed) {
-                var dirUtil = new Utils.DirUtil (Directory);
-                Size = (int64) dirUtil.get_total_size ();
-            }
+            if (Installed) Size = (int64) Utils.Filesystem.GetDirectorySize (Directory);
         }
 
         public string GetFormattedDownloadSize () {
             if (DownloadSize < 0) return "Not available";
-            return Utils.File.BytesToString (DownloadSize);
+            return Utils.Filesystem.ConvertBytesToString (DownloadSize);
         }
 
         public string GetFormattedSize () {
-            return Utils.File.BytesToString (Size);
+            return Utils.Filesystem.ConvertBytesToString (Size);
         }
 
         public string GetDirectoryName () {
@@ -82,17 +79,11 @@ namespace Models {
 
         public void Delete (bool joinThread = false) {
             var thread = new Thread<void> ("deleteThread", () => {
-                var dir = new Utils.DirUtil (Tool.Launcher.FullPath);
-                dir.remove_dir (Title);
+                Utils.Filesystem.DeleteDirectory (Tool.Launcher.FullPath + "/" + GetDirectoryName ());
                 Tool.Launcher.uninstall (this);
                 Installed = false;
             });
             if (joinThread) thread.join ();
-        }
-
-        public void Install () {
-            new Thread<void> ("deleteThread", () => {
-            });
         }
     }
 }

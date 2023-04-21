@@ -1,6 +1,6 @@
 namespace Windows.Errors {
     public class GithubApiRequest : Gtk.Box {
-        public GithubApiRequest (Gtk.Notebook notebook) {
+        public GithubApiRequest (Windows.Main mainWindow) {
             //
             set_orientation (Gtk.Orientation.VERTICAL);
 
@@ -8,7 +8,7 @@ namespace Windows.Errors {
             var btnBack = new Gtk.Button ();
             btnBack.set_icon_name ("go-previous-symbolic");
             btnBack.clicked.connect (() => {
-                notebook.set_current_page (0);
+                mainWindow.Notebook.set_current_page (0);
             });
 
             //
@@ -20,7 +20,7 @@ namespace Windows.Errors {
             //
             var statusPage = new Adw.StatusPage ();
             statusPage.set_title (_("Github API Request Error"));
-            statusPage.set_description (_("Here's a list of the possible reasons why that error happened\n- You may have reached the GitHub API limit\n- You may be disconnected from the internet"));
+            statusPage.set_description (_("Here's a list of the possible reasons why that error happened:\n- You may have reached the GitHub API limit\n- You may be disconnected from the internet\n\nWhy can I still see data then?\nProtonPlus caches the json of each requests in case that problem happens"));
             statusPage.set_icon_name ("computer-fail-symbolic");
             statusPage.set_vexpand (true);
             append (statusPage);

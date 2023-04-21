@@ -1,13 +1,9 @@
 namespace Windows.Tools {
     public class ReleaseInfo : Gtk.Widget {
-        Gtk.Notebook notebook;
         Adw.Clamp clamp;
         Adw.StatusPage statusPage;
 
-        public ReleaseInfo (Gtk.Notebook notebook) {
-            //
-            this.notebook = notebook;
-
+        public ReleaseInfo () {
             //
             var layout = new Gtk.BinLayout ();
             set_layout_manager (layout);
@@ -70,6 +66,7 @@ namespace Windows.Tools {
                 btnInstall.add_css_class ("suggested-action");
                 btnInstall.set_hexpand (true);
                 btnInstall.clicked.connect (() => toolInfo.InstallRelease (release, widget, true));
+                if (release.Tool.IsUsingCachedData) btnInstall.set_visible (false);
                 actions.append (btnInstall);
             }
 
@@ -109,3 +106,4 @@ namespace Windows.Tools {
         }
     }
 }
+

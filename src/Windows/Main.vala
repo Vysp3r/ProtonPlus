@@ -1,5 +1,11 @@
 namespace Windows {
     public class Main : Adw.ApplicationWindow {
+        public GLib.List<Models.Launcher> Launchers;
+
+        public Adw.Leaflet Leaflet;
+        public Gtk.Notebook Notebook;
+        public Adw.ToastOverlay ToastOverlay;
+
         public States State;
         public GLib.List<Task> Tasks;
         public delegate void TaskCallback ();
@@ -18,11 +24,9 @@ namespace Windows {
             CLOSING
         }
 
-        Gtk.Notebook notebook;
-        Adw.ToastOverlay toastOverlay;
-
         public Main (Adw.Application app) {
             //
+            Launchers = Models.Launcher.GetAll ();
             State = States.NORMAL;
 
             //
@@ -42,30 +46,30 @@ namespace Windows {
             set_size_request (900, 600);
 
             //
-            toastOverlay = new Adw.ToastOverlay ();
+            ToastOverlay = new Adw.ToastOverlay ();
 
             //
-            notebook = new Gtk.Notebook ();
-            notebook.set_show_tabs (false);
+            Notebook = new Gtk.Notebook ();
+            Notebook.set_show_tabs (false);
 
             //
-            var leaflet = new Adw.Leaflet ();
-            leaflet.set_transition_type (Adw.LeafletTransitionType.OVER);
-            leaflet.set_can_unfold (false);
-            leaflet.set_fold_threshold_policy (Adw.FoldThresholdPolicy.NATURAL);
-            leaflet.prepend (new Windows.ViewManager (leaflet, toastOverlay, notebook));
-            leaflet.get_pages ().select_item (0, true);
+            Leaflet = new Adw.Leaflet ();
+            Leaflet.set_transition_type (Adw.LeafletTransitionType.OVER);
+            Leaflet.set_can_unfold (false);
+            Leaflet.set_fold_threshold_policy (Adw.FoldThresholdPolicy.NATURAL);
+            Leaflet.prepend (new Windows.ViewManager (this));
+            Leaflet.get_pages ().select_item (0, true);
 
             //
-            notebook.append_page (leaflet);
-            notebook.append_page (new Windows.Preferences.Main (notebook));
-            notebook.append_page (new Windows.Errors.GithubApiRequest (notebook));
+            Notebook.append_page (Leaflet);
+            Notebook.append_page (new Windows.Preferences.Main (this));
+            Notebook.append_page (new Windows.Errors.GithubApiRequest (this));
 
             //
-            toastOverlay.set_child (notebook);
+            ToastOverlay.set_child (Notebook);
 
             //
-            set_content (toastOverlay);
+            set_content (ToastOverlay);
         }
 
         void on_about_action () {
@@ -97,7 +101,7 @@ namespace Windows {
         }
 
         void on_preferences_action () {
-            notebook.set_current_page (1);
+            Notebook.set_current_page (1);
         }
 
         public override bool close_request () {
@@ -105,7 +109,7 @@ namespace Windows {
 
             if (State == States.INSTALLING_TOOL) {
                 var toast = new Adw.Toast (_("You cannot close the window while a tool is installing"));
-                toastOverlay.add_toast (toast);
+                ToastOverlay.add_toast (toast);
                 busy = true;
             }
 

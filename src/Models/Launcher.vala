@@ -35,7 +35,7 @@ namespace Models {
             // If a directory exist, it makes sure that the tool directory is created
             if (dir.length > 0) {
                 if (!FileUtils.test (GLib.Environment.get_home_dir () + dir, FileTest.IS_DIR)) {
-                    Utils.File.CreateDirectory (GLib.Environment.get_home_dir () + dir);
+                    Utils.Filesystem.CreateDirectory (GLib.Environment.get_home_dir () + dir);
                 }
             }
 
@@ -284,14 +284,9 @@ namespace Models {
             try {
                 string path = "/.config";
                 if (release.Tool.Launcher.Title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
+                path = GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
-                GLib.File file = GLib.File.new_for_path (GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json");
-
-                uint8[] contents;
-                string etag_out;
-                file.load_contents (null, out contents, out etag_out);
-
-                Json.Node rootNode = Json.from_string ((string) contents);
+                Json.Node rootNode = Json.from_string (Utils.Filesystem.GetFileContent (path));
                 Json.Object rootObj = rootNode.get_object ();
 
                 var objArray = rootObj.get_array_member ("wine-releases");
@@ -308,8 +303,7 @@ namespace Models {
                         obj.set_boolean_member ("hasUpdate", false);
                         obj.set_string_member ("installDir", GLib.Environment.get_home_dir () + "/" + obj.get_string_member ("version"));
 
-                        var util = new Utils.DirUtil (obj.get_string_member ("installDir"));
-                        obj.set_int_member ("disksize", (int64) util.get_total_size ());
+                        obj.set_int_member ("disksize", (int64) Utils.Filesystem.GetDirectorySize (obj.get_string_member ("installDir")));
 
                         found = true;
                     }
@@ -329,15 +323,12 @@ namespace Models {
                     obj.set_boolean_member ("hasUpdate", false);
                     obj.set_string_member ("installDir", release.Tool.Launcher.FullPath + "/" + obj.get_string_member ("version"));
 
-                    var util = new Utils.DirUtil (obj.get_string_member ("installDir"));
-                    obj.set_int_member ("disksize", (int64) util.get_total_size ());
+                    obj.set_int_member ("disksize", (int64) Utils.Filesystem.GetDirectorySize (obj.get_string_member ("installDir")));
 
                     objArray.add_object_element (obj);
                 }
-
-                var util = new Utils.DirUtil (GLib.Environment.get_home_dir () + path + "/heroic/store");
-                util.remove_file ("wine-downloader-info.json");
-                Utils.File.Write (GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json", Json.to_string (rootNode, true));
+                ;
+                Utils.Filesystem.ModifyFile (path, Json.to_string (rootNode, true));
             } catch (GLib.Error e) {
                 stderr.printf (e.message + "\n");
             }
@@ -347,14 +338,9 @@ namespace Models {
             try {
                 string path = "/.config";
                 if (release.Tool.Launcher.Title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
+                path = GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
-                GLib.File file = GLib.File.new_for_path (GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json");
-
-                uint8[] contents;
-                string etag_out;
-                file.load_contents (null, out contents, out etag_out);
-
-                Json.Node rootNode = Json.from_string ((string) contents);
+                Json.Node rootNode = Json.from_string (Utils.Filesystem.GetFileContent (path));
                 Json.Object rootObj = rootNode.get_object ();
 
                 var objArray = rootObj.get_array_member ("wine-releases");
@@ -372,9 +358,7 @@ namespace Models {
                     }
                 }
 
-                var util = new Utils.DirUtil (GLib.Environment.get_home_dir () + path + "/heroic/store");
-                util.remove_file ("wine-downloader-info.json");
-                Utils.File.Write (GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json", Json.to_string (rootNode, true));
+                Utils.Filesystem.ModifyFile (path, Json.to_string (rootNode, true));
             } catch (GLib.Error e) {
                 stderr.printf (e.message + "\n");
             }
