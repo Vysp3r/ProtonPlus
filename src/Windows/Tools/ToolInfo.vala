@@ -28,7 +28,7 @@ namespace Windows.Tools {
 
             //
             releasesRow = new Adw.ExpanderRow ();
-            releasesRow.set_title (_("Releases"));
+            releasesRow.set_title (_ ("Releases"));
 
             //
             var group = new Adw.PreferencesGroup ();
@@ -59,34 +59,20 @@ namespace Windows.Tools {
         public void Load () {
             if (!loaded) {
                 bool done = false;
-                bool error = false;
+                bool apiError = false;
                 loaded = true;
 
                 spinner.start ();
 
                 //
-                new Thread<void> ("getReleases", () => {
-                    tool.Releases = tool.GetReleases ();
-                    if (tool.Releases.length () == 0) error = true;
+                new Thread<void> ("loadReleases", () => {
+                    tool.LoadReleases ();
+                    apiError = tool.IsUsingCachedData;
                     done = true;
                 });
 
                 //
                 GLib.Timeout.add (1000, () => {
-                    if (error) {
-                        spinner.stop ();
-                        spinner.set_visible (false);
-
-                        var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API"));
-                        toast.set_button_label (_("Learn more"));
-                        toast.set_timeout (15000);
-                        toast.button_clicked.connect (() => {
-                            mainWindow.Notebook.set_current_page (2);
-                        });
-                        mainWindow.ToastOverlay.add_toast (toast);
-
-                        return false;
-                    }
                     if (done) {
                         foreach (var release in tool.Releases) {
                             releasesRow.add_row (CreateReleaseRow (release));
@@ -94,6 +80,16 @@ namespace Windows.Tools {
 
                         spinner.stop ();
                         spinner.set_visible (false);
+
+                        if (apiError) {
+                            var toast = new Adw.Toast (_ ("There was an error while fetching data from the GitHub API"));
+                            toast.set_button_label (_ ("Learn more"));
+                            toast.set_timeout (15000);
+                            toast.button_clicked.connect (() => {
+                                mainWindow.Notebook.set_current_page (2);
+                            });
+                            mainWindow.ToastOverlay.add_toast (toast);
+                        }
 
                         return false;
                     }
@@ -110,8 +106,8 @@ namespace Windows.Tools {
         }
 
         public void DeleteRelease (Models.Release release, Widgets.ProtonActionRow widget) {
-            var toast = new Adw.Toast (_("Deleted ") + release.Title);
-            toast.set_button_label (_("Undo"));
+            var toast = new Adw.Toast (_ ("Deleted ") + release.Title);
+            toast.set_button_label (_ ("Undo"));
 
             bool undo = false;
 
@@ -200,6 +196,7 @@ namespace Windows.Tools {
             actions.set_valign (Gtk.Align.CENTER);
 
             var btn = release.Installed ? GetDeleteButton (release, widget) : GetInstallButton (release, widget);
+            if (release.Tool.IsUsingCachedData && !release.Installed) btn.set_visible (false);
             actions.append (btn);
 
             var icon = new Gtk.Image.from_icon_name ("go-next-symbolic");
@@ -215,7 +212,7 @@ namespace Windows.Tools {
             btnDelete.set_icon_name ("user-trash-symbolic");
             btnDelete.width_request = 25;
             btnDelete.height_request = 25;
-            btnDelete.set_tooltip_text (_("Delete the tool"));
+            btnDelete.set_tooltip_text (_ ("Delete the tool"));
             btnDelete.clicked.connect (() => DeleteRelease (release, widget));
 
             return btnDelete;
@@ -228,7 +225,7 @@ namespace Windows.Tools {
             btnInstall.add_css_class ("flat");
             btnInstall.width_request = 25;
             btnInstall.height_request = 25;
-            btnInstall.set_tooltip_text (_("Install the tool"));
+            btnInstall.set_tooltip_text (_ ("Install the tool"));
             btnInstall.clicked.connect (() => InstallRelease (release, widget, false));
 
             return btnInstall;

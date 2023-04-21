@@ -66,6 +66,7 @@ namespace Windows.Tools {
                 btnInstall.add_css_class ("suggested-action");
                 btnInstall.set_hexpand (true);
                 btnInstall.clicked.connect (() => toolInfo.InstallRelease (release, widget, true));
+                if (release.Tool.IsUsingCachedData) btnInstall.set_visible (false);
                 actions.append (btnInstall);
             }
 
