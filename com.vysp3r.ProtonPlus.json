@@ -1,10 +1,10 @@
 {
-    "app-id" : "com.vysp3r.ProtonPlus",
-    "runtime" : "org.gnome.Platform",
-    "runtime-version" : "43",
-    "sdk" : "org.gnome.Sdk",
-    "command" : "com.vysp3r.ProtonPlus",
-    "finish-args" : [
+    "id": "com.vysp3r.ProtonPlus",
+    "command": "com.vysp3r.ProtonPlus",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "44",
+    "sdk": "org.gnome.Sdk",
+    "finish-args": [
         "--share=network",
         "--share=ipc",
         "--socket=fallback-x11",
@@ -22,15 +22,26 @@
         "--talk-name=org.gtk.vfs.*",
         "--filesystem=xdg-run/gvfsd"
     ],
-    "modules" : [
+    "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/share/pkgconfig",
+        "/share/aclocal",
+        "/man",
+        "/share/man",
+        "/share/gtk-doc",
+        "*.la",
+        "*.a"
+    ],
+    "modules": [
         {
-            "name" : "ProtonPlus",
-            "builddir" : true,
-            "buildsystem" : "meson",
+            "name": "ProtonPlus",
+            "builddir": true,
+            "buildsystem": "meson",
             "sources": [
                 {
-                    "type" : "dir",
-                    "path" : "."
+                    "type": "dir",
+                    "path": "."
                 }
             ]
         }

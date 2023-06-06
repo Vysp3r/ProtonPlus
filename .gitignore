@@ -1,6 +1,7 @@
-# Ignore meson build dirs
 build/
-
-# Ignore flatpak build dirs
 .flatpak-builder/
 build-dir/
+.vscode
+gdb.sh
+_build/
+.flatpak/
