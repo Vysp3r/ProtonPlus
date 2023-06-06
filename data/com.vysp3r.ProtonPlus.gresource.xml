@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/com/vysp3r/ProtonPlus">
-    <file alias="application.css">css/application.css</file>
-    <file alias="ProtonPlus.png">icons/hicolor/scalable/apps/com.vysp3r.ProtonPlus.svg</file>
+    <file alias="style.css">css/style.css</file>
+    <file alias="bottles.png">icons/launchers/bottles.png</file>
+    <file alias="hgl.png">icons/launchers/hgl.png</file>
+    <file alias="lutris.png">icons/launchers/lutris.png</file>
+    <file alias="steam.png">icons/launchers/steam.png</file>
   </gresource>
 </gresources>
