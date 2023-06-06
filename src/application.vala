@@ -55,7 +55,7 @@ namespace ProtonPlus {
             aboutWindow.set_comments (_("A simple Wine and Proton-based compatibility tools manager for GNOME"));
             aboutWindow.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutWindow.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
-            aboutWindow.set_copyright ("© 2022 Vysp3r");
+            aboutWindow.set_copyright ("© 2022-2023 Vysp3r");
             aboutWindow.set_license_type (Gtk.License.GPL_3_0);
             aboutWindow.set_developers (devs);
             aboutWindow.add_credit_section (_("Special thanks to"), thanks);
