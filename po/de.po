@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-21 15:25-0400\n"
+"POT-Creation-Date: 2023-06-05 22:19-0400\n"
 "PO-Revision-Date: 2023-04-18 19:24+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: \n"
@@ -18,222 +18,195 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: src/Windows/Main.vala:89
+#: src/launcher/launcher-warning-box.vala:21
+msgid "Welcome to "
+msgstr ""
+
+#: src/launcher/launcher-warning-box.vala:22
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+msgstr ""
+
+#: src/launcher/launcher-info-box.vala:105
 #, fuzzy
-msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
-msgstr ""
-"Ein einfacher Wine und Proton-basierter Kompatibilitätswerkzeugmanager für "
-"GNOME"
+msgid "There was an error while fetching data from the GitHub API"
+msgstr "Es gab einen Fehler während entpackt wurde..."
 
-#: src/Windows/Main.vala:96
-msgid "Special thanks to"
-msgstr "Spezieller Dank an"
+#: src/launcher/launcher-info-box.vala:128
+#, fuzzy
+msgid "Deleted "
+msgstr "Löschen"
 
-#: src/Windows/Main.vala:111
-msgid "You cannot close the window while a tool is installing"
+#: src/launcher/launcher-info-box.vala:130
+msgid "Undo"
 msgstr ""
-"Sie können das Fenster nicht schliessen während ein Werkzeug installiert wird"
+
+#: src/launcher/launcher-info-box.vala:171
+#, fuzzy
+msgid "Cancel the installation"
+msgstr "Breche Installation ab..."
+
+#: src/launcher/launcher-info-box.vala:235
+msgid "Delete the runner"
+msgstr ""
+
+#: src/launcher/launcher-info-box.vala:248
+msgid "Install the runner"
+msgstr ""
 
 #.
-#: src/Windows/ViewManager.vala:20
-msgid "Telegram"
-msgstr "Telegramm"
-
-#: src/Windows/ViewManager.vala:21
-msgid "Documentation"
-msgstr "Dokumentation"
-
-#: src/Windows/ViewManager.vala:22
-msgid "Donation"
-msgstr "Spende"
-
-#: src/Windows/ViewManager.vala:23
+#. menu_model.append (_("Preferences"), "app.preferences"); // TODO
+#. menu_model.append (_("Keyboard Shortcuts"), "app.shortcuts"); // TODO
+#: src/launcher/launcher-list-box.vala:15
 msgid "About"
 msgstr "Über"
 
-#.
-#: src/Windows/ViewManager.vala:27
-msgid "Quit"
-msgstr "Beenden"
-
-#.
-#: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
-#: src/Windows/Preferences/Main.vala:78
+#: src/preferences/preferences-window.vala:13
 msgid "Preferences"
 msgstr "Einstellungen"
 
 #.
-#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:59
-msgid "Tools"
-msgstr "Werkzeuge"
-
 #.
-#: src/Windows/ViewManager.vala:50 src/Windows/Games/Main.vala:10
-msgid "Games"
-msgstr "Spiele"
-
-#.
-#: src/Windows/ViewManager.vala:54 src/Windows/Notifications/Main.vala:10
-msgid "Notifications"
-msgstr "Benachrichtigungen"
-
-#.
-#: src/Windows/Tools/LauncherSelector.vala:12
-msgid "Launchers"
-msgstr "Starter"
-
-#: src/Windows/Tools/LauncherSelector.vala:13
-msgid "Select a launcher to proceed"
-msgstr "Wählen Sie einen Starter um fortzufahren"
-
-#: src/Windows/Tools/LauncherInfo.vala:60
-msgid "Select a tool to proceed"
-msgstr "Wählen Sie ein Werkzeug um fortzufahren"
-
-#: src/Windows/Tools/ReleaseInfo.vala:31
-msgid "Copy"
-msgstr "Kopieren"
-
-#.
-#.
-#: src/Windows/Tools/ReleaseInfo.vala:59
-msgid "Delete"
-msgstr "Löschen"
-
-#: src/Windows/Tools/ReleaseInfo.vala:65
-msgid "Install"
-msgstr "Installieren"
-
-#.
-#: src/Windows/Tools/ReleaseInfo.vala:75
-msgid "Website"
-msgstr "Webseite"
-
-#: src/Windows/Tools/ReleaseInfo.vala:85
-msgid "Directory: "
-msgstr "Verzeichnis: "
-
-#: src/Windows/Tools/ReleaseInfo.vala:86
-msgid "Size: "
-msgstr "Grösse: "
-
-#: src/Windows/Tools/ReleaseInfo.vala:88
-msgid "Download size (Compressed): "
-msgstr "Downloadgrösse (komprimiert): "
-
-#: src/Windows/Tools/ReleaseInfo.vala:90
-msgid "Release date: "
-msgstr "Veröffentlichungsdatum: "
-
-#.
-#: src/Windows/Tools/ReleaseInstaller.vala:47
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#.
-#: src/Windows/Tools/ReleaseInstaller.vala:53
-msgid "Go back"
-msgstr "Zurück gehen"
-
-#: src/Windows/Tools/ReleaseInstaller.vala:73
-msgid "Cancelled the install..."
-msgstr "Breche Installation ab..."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:90
-msgid "You cannot cancel the operation for tools using Github Actions."
-msgstr ""
-"Sie können die Operation für Werkzeuge die Github-Aktionen verwenden nicht "
-"abbrechen."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:91
-msgid "Download started...\n"
-msgstr "Download gestartet...\n"
-
-#: src/Windows/Tools/ReleaseInstaller.vala:129
-msgid "Download done...\n"
-msgstr "Download fertig...\n"
-
-#: src/Windows/Tools/ReleaseInstaller.vala:140
-msgid "Extraction started...\n"
-msgstr "Entpacken gestartet...\n"
-
-#: src/Windows/Tools/ReleaseInstaller.vala:143
-msgid "You cannot cancel the operation while it's extracting."
-msgstr "Sie können die Operation nicht abbrechen während entpackt wird."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:174
-msgid "There was an error while extracting..."
-msgstr "Es gab einen Fehler während entpackt wurde..."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:184
-msgid "Extraction done...\n"
-msgstr "Entpacken fertig...\n"
-
-#: src/Windows/Games/Main.vala:11 src/Windows/Notifications/Main.vala:11
-msgid "This page is a work in progress."
-msgstr "Die Seite ist in Arbeit."
-
-#.
-#: src/Windows/Preferences/Main.vala:37 src/Windows/Preferences/Main.vala:38
+#: src/preferences/preferences-window.vala:21
+#: src/preferences/preferences-window.vala:22
 msgid "Main"
 msgstr "Hauptsächlich"
 
-#.
-#.
-#.
-#: src/Windows/Preferences/Main.vala:51
-msgid "Style"
-msgstr "Stil"
-
-#: src/Windows/Preferences/Main.vala:79
-msgid "There is nothing to see here."
-msgstr "Es gibt nichts zu sehen hier."
-
-#.
-#: src/Windows/Errors/GithubApiRequest.vala:22
-msgid "Github API Request Error"
-msgstr "Github API Anfrage-Fehler"
-
-#: src/Windows/Errors/GithubApiRequest.vala:23
 #, fuzzy
-msgid ""
-"Here's a list of the possible reasons why that error happened:\n"
-"- You may have reached the GitHub API limit\n"
-"- You may be disconnected from the internet\n"
-"\n"
-"Why can I still see data then?\n"
-"ProtonPlus caches the json of each requests in case that problem happens"
-msgstr ""
-"Hier ist eine Liste von möglichen Ursachen warum der Fehler passiert ist\n"
-"- Sie könnten das Gitgub API Limit erreicht haben\n"
-"- Sie könnten vom Internet getrennt sein"
+#~ msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
+#~ msgstr ""
+#~ "Ein einfacher Wine und Proton-basierter Kompatibilitätswerkzeugmanager "
+#~ "für GNOME"
 
-#. Steam
-#: src/Models/Launcher.vala:64
-msgid ""
-"Make sure to restart Steam if it's open to be able to use it otherwise you "
-"will not see it.\n"
-msgstr ""
-"Stellen Sie sicher das Steam neu gestartet wurde wenn es geöffnet ist um es "
-"benutzen zu können oder Sie werden es nicht sehen können.\n"
+#~ msgid "Special thanks to"
+#~ msgstr "Spezieller Dank an"
 
-#: src/Models/Launcher.vala:91
-msgid ""
-"If you're using gamescope with Steam (Flatpak), those tools will not work. "
-"Make sure to use the community builds from Flathub."
-msgstr ""
-"Wenn Sie gamescope mit Steam (Faltpak) verwenden, werden diese Werkzeuge "
-"nicht funktionieren. Stellen Sie sicher das Sie die Community builds von "
-"Flathub verwenden."
+#~ msgid "You cannot close the window while a tool is installing"
+#~ msgstr ""
+#~ "Sie können das Fenster nicht schliessen während ein Werkzeug installiert "
+#~ "wird"
 
-#: src/Models/Preferences/Style.vala:17
-msgid "System"
-msgstr "System"
+#~ msgid "Telegram"
+#~ msgstr "Telegramm"
 
-#: src/Models/Preferences/Style.vala:18
-msgid "Light"
-msgstr "Hell"
+#~ msgid "Documentation"
+#~ msgstr "Dokumentation"
 
-#: src/Models/Preferences/Style.vala:19
-msgid "Dark"
-msgstr "Dunkel"
+#~ msgid "Donation"
+#~ msgstr "Spende"
+
+#~ msgid "Quit"
+#~ msgstr "Beenden"
+
+#~ msgid "Tools"
+#~ msgstr "Werkzeuge"
+
+#~ msgid "Games"
+#~ msgstr "Spiele"
+
+#~ msgid "Notifications"
+#~ msgstr "Benachrichtigungen"
+
+#~ msgid "Launchers"
+#~ msgstr "Starter"
+
+#~ msgid "Select a launcher to proceed"
+#~ msgstr "Wählen Sie einen Starter um fortzufahren"
+
+#~ msgid "Select a tool to proceed"
+#~ msgstr "Wählen Sie ein Werkzeug um fortzufahren"
+
+#~ msgid "Copy"
+#~ msgstr "Kopieren"
+
+#~ msgid "Install"
+#~ msgstr "Installieren"
+
+#~ msgid "Website"
+#~ msgstr "Webseite"
+
+#~ msgid "Directory: "
+#~ msgstr "Verzeichnis: "
+
+#~ msgid "Size: "
+#~ msgstr "Grösse: "
+
+#~ msgid "Download size (Compressed): "
+#~ msgstr "Downloadgrösse (komprimiert): "
+
+#~ msgid "Release date: "
+#~ msgstr "Veröffentlichungsdatum: "
+
+#~ msgid "Cancel"
+#~ msgstr "Abbrechen"
+
+#~ msgid "Go back"
+#~ msgstr "Zurück gehen"
+
+#~ msgid "You cannot cancel the operation for tools using Github Actions."
+#~ msgstr ""
+#~ "Sie können die Operation für Werkzeuge die Github-Aktionen verwenden "
+#~ "nicht abbrechen."
+
+#~ msgid "Download started...\n"
+#~ msgstr "Download gestartet...\n"
+
+#~ msgid "Download done...\n"
+#~ msgstr "Download fertig...\n"
+
+#~ msgid "Extraction started...\n"
+#~ msgstr "Entpacken gestartet...\n"
+
+#~ msgid "You cannot cancel the operation while it's extracting."
+#~ msgstr "Sie können die Operation nicht abbrechen während entpackt wird."
+
+#~ msgid "Extraction done...\n"
+#~ msgstr "Entpacken fertig...\n"
+
+#~ msgid "This page is a work in progress."
+#~ msgstr "Die Seite ist in Arbeit."
+
+#~ msgid "Style"
+#~ msgstr "Stil"
+
+#~ msgid "There is nothing to see here."
+#~ msgstr "Es gibt nichts zu sehen hier."
+
+#~ msgid "Github API Request Error"
+#~ msgstr "Github API Anfrage-Fehler"
+
+#, fuzzy
+#~ msgid ""
+#~ "Here's a list of the possible reasons why that error happened:\n"
+#~ "- You may have reached the GitHub API limit\n"
+#~ "- You may be disconnected from the internet\n"
+#~ "\n"
+#~ "Why can I still see data then?\n"
+#~ "ProtonPlus caches the json of each requests in case that problem happens"
+#~ msgstr ""
+#~ "Hier ist eine Liste von möglichen Ursachen warum der Fehler passiert ist\n"
+#~ "- Sie könnten das Gitgub API Limit erreicht haben\n"
+#~ "- Sie könnten vom Internet getrennt sein"
+
+#~ msgid ""
+#~ "Make sure to restart Steam if it's open to be able to use it otherwise "
+#~ "you will not see it.\n"
+#~ msgstr ""
+#~ "Stellen Sie sicher das Steam neu gestartet wurde wenn es geöffnet ist um "
+#~ "es benutzen zu können oder Sie werden es nicht sehen können.\n"
+
+#~ msgid ""
+#~ "If you're using gamescope with Steam (Flatpak), those tools will not "
+#~ "work. Make sure to use the community builds from Flathub."
+#~ msgstr ""
+#~ "Wenn Sie gamescope mit Steam (Faltpak) verwenden, werden diese Werkzeuge "
+#~ "nicht funktionieren. Stellen Sie sicher das Sie die Community builds von "
+#~ "Flathub verwenden."
+
+#~ msgid "System"
+#~ msgstr "System"
+
+#~ msgid "Light"
+#~ msgstr "Hell"
+
+#~ msgid "Dark"
+#~ msgstr "Dunkel"

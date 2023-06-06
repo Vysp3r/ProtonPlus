@@ -1,12 +1,4 @@
-src/Windows/Main.vala
-src/Windows/ViewManager.vala
-src/Windows/Tools/LauncherSelector.vala
-src/Windows/Tools/LauncherInfo.vala
-src/Windows/Tools/ReleaseInfo.vala
-src/Windows/Tools/ReleaseInstaller.vala
-src/Windows/Games/Main.vala
-src/Windows/Notifications/Main.vala
-src/Windows/Preferences/Main.vala
-src/Windows/Errors/GithubApiRequest.vala
-src/Models/Launcher.vala
-src/Models/Preferences/Style.vala
+src/launcher/launcher-warning-box.vala
+src/launcher/launcher-info-box.vala
+src/launcher/launcher-list-box.vala
+src/preferences/preferences-window.vala

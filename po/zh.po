@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-21 15:25-0400\n"
+"POT-Creation-Date: 2023-06-05 22:19-0400\n"
 "PO-Revision-Date: 2023-01-11 22:36+0800\n"
 "Last-Translator: neovali <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese - China\n"
@@ -15,223 +15,119 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Gtranslator 42.0\n"
 
-#: src/Windows/Main.vala:89
-msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
+#: src/launcher/launcher-warning-box.vala:21
+msgid "Welcome to "
 msgstr ""
 
-#: src/Windows/Main.vala:96
-msgid "Special thanks to"
+#: src/launcher/launcher-warning-box.vala:22
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 
-#: src/Windows/Main.vala:111
-msgid "You cannot close the window while a tool is installing"
+#: src/launcher/launcher-info-box.vala:105
+msgid "There was an error while fetching data from the GitHub API"
 msgstr ""
+
+#: src/launcher/launcher-info-box.vala:128
+#, fuzzy
+msgid "Deleted "
+msgstr "删除工具"
+
+#: src/launcher/launcher-info-box.vala:130
+msgid "Undo"
+msgstr ""
+
+#: src/launcher/launcher-info-box.vala:171
+#, fuzzy
+msgid "Cancel the installation"
+msgstr "启动器信息"
+
+#: src/launcher/launcher-info-box.vala:235
+#, fuzzy
+msgid "Delete the runner"
+msgstr "删除工具"
+
+#: src/launcher/launcher-info-box.vala:248
+#, fuzzy
+msgid "Install the runner"
+msgstr "安装工具"
 
 #.
-#: src/Windows/ViewManager.vala:20
-msgid "Telegram"
-msgstr "Telegram"
-
-#: src/Windows/ViewManager.vala:21
-msgid "Documentation"
-msgstr "文档"
-
-#: src/Windows/ViewManager.vala:22
-msgid "Donation"
-msgstr "捐赠"
-
-#: src/Windows/ViewManager.vala:23
+#. menu_model.append (_("Preferences"), "app.preferences"); // TODO
+#. menu_model.append (_("Keyboard Shortcuts"), "app.shortcuts"); // TODO
+#: src/launcher/launcher-list-box.vala:15
 msgid "About"
 msgstr "关于"
 
-#.
-#: src/Windows/ViewManager.vala:27
-msgid "Quit"
-msgstr "退出"
-
-#.
-#: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
-#: src/Windows/Preferences/Main.vala:78
+#: src/preferences/preferences-window.vala:13
 msgid "Preferences"
 msgstr "首选项"
 
 #.
-#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:59
-msgid "Tools"
-msgstr "工具"
-
 #.
-#: src/Windows/ViewManager.vala:50 src/Windows/Games/Main.vala:10
-msgid "Games"
-msgstr "游戏"
-
-#.
-#: src/Windows/ViewManager.vala:54 src/Windows/Notifications/Main.vala:10
-msgid "Notifications"
-msgstr "通知"
-
-#.
-#: src/Windows/Tools/LauncherSelector.vala:12
-#, fuzzy
-msgid "Launchers"
-msgstr "启动器"
-
-#: src/Windows/Tools/LauncherSelector.vala:13
-msgid "Select a launcher to proceed"
-msgstr ""
-
-#: src/Windows/Tools/LauncherInfo.vala:60
-msgid "Select a tool to proceed"
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:31
-msgid "Copy"
-msgstr ""
-
-#.
-#.
-#: src/Windows/Tools/ReleaseInfo.vala:59
-msgid "Delete"
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:65
-msgid "Install"
-msgstr "安装"
-
-#.
-#: src/Windows/Tools/ReleaseInfo.vala:75
-msgid "Website"
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:85
-msgid "Directory: "
-msgstr "目录： "
-
-#: src/Windows/Tools/ReleaseInfo.vala:86
-msgid "Size: "
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:88
-msgid "Download size (Compressed): "
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:90
-msgid "Release date: "
-msgstr ""
-
-#.
-#: src/Windows/Tools/ReleaseInstaller.vala:47
-msgid "Cancel"
-msgstr ""
-
-#.
-#: src/Windows/Tools/ReleaseInstaller.vala:53
-msgid "Go back"
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInstaller.vala:73
-msgid "Cancelled the install..."
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInstaller.vala:90
-msgid "You cannot cancel the operation for tools using Github Actions."
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInstaller.vala:91
-#, fuzzy
-msgid "Download started...\n"
-msgstr "下载中..."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:129
-#, fuzzy
-msgid "Download done...\n"
-msgstr "下载中..."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:140
-#, fuzzy
-msgid "Extraction started...\n"
-msgstr "解压中..."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:143
-msgid "You cannot cancel the operation while it's extracting."
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInstaller.vala:174
-msgid "There was an error while extracting..."
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInstaller.vala:184
-#, fuzzy
-msgid "Extraction done...\n"
-msgstr "解压中..."
-
-#: src/Windows/Games/Main.vala:11 src/Windows/Notifications/Main.vala:11
-msgid "This page is a work in progress."
-msgstr ""
-
-#.
-#: src/Windows/Preferences/Main.vala:37 src/Windows/Preferences/Main.vala:38
+#: src/preferences/preferences-window.vala:21
+#: src/preferences/preferences-window.vala:22
 msgid "Main"
 msgstr ""
 
-#.
-#.
-#.
-#: src/Windows/Preferences/Main.vala:51
-#, fuzzy
-msgid "Style"
-msgstr "风格"
+#~ msgid "Telegram"
+#~ msgstr "Telegram"
 
-#: src/Windows/Preferences/Main.vala:79
-msgid "There is nothing to see here."
-msgstr ""
+#~ msgid "Documentation"
+#~ msgstr "文档"
 
-#.
-#: src/Windows/Errors/GithubApiRequest.vala:22
-msgid "Github API Request Error"
-msgstr ""
+#~ msgid "Donation"
+#~ msgstr "捐赠"
 
-#: src/Windows/Errors/GithubApiRequest.vala:23
-msgid ""
-"Here's a list of the possible reasons why that error happened:\n"
-"- You may have reached the GitHub API limit\n"
-"- You may be disconnected from the internet\n"
-"\n"
-"Why can I still see data then?\n"
-"ProtonPlus caches the json of each requests in case that problem happens"
-msgstr ""
+#~ msgid "Quit"
+#~ msgstr "退出"
 
-#. Steam
-#: src/Models/Launcher.vala:64
-msgid ""
-"Make sure to restart Steam if it's open to be able to use it otherwise you "
-"will not see it.\n"
-msgstr ""
+#~ msgid "Tools"
+#~ msgstr "工具"
 
-#: src/Models/Launcher.vala:91
-msgid ""
-"If you're using gamescope with Steam (Flatpak), those tools will not work. "
-"Make sure to use the community builds from Flathub."
-msgstr ""
+#~ msgid "Games"
+#~ msgstr "游戏"
 
-#: src/Models/Preferences/Style.vala:17
-msgid "System"
-msgstr "系统"
-
-#: src/Models/Preferences/Style.vala:18
-msgid "Light"
-msgstr "明亮"
-
-#: src/Models/Preferences/Style.vala:19
-msgid "Dark"
-msgstr "暗色"
-
-#~ msgid "Delete the tool"
-#~ msgstr "删除工具"
+#~ msgid "Notifications"
+#~ msgstr "通知"
 
 #, fuzzy
-#~ msgid "Install the tool"
-#~ msgstr "安装工具"
+#~ msgid "Launchers"
+#~ msgstr "启动器"
+
+#~ msgid "Install"
+#~ msgstr "安装"
+
+#~ msgid "Directory: "
+#~ msgstr "目录： "
+
+#, fuzzy
+#~ msgid "Download started...\n"
+#~ msgstr "下载中..."
+
+#, fuzzy
+#~ msgid "Download done...\n"
+#~ msgstr "下载中..."
+
+#, fuzzy
+#~ msgid "Extraction started...\n"
+#~ msgstr "解压中..."
+
+#, fuzzy
+#~ msgid "Extraction done...\n"
+#~ msgstr "解压中..."
+
+#, fuzzy
+#~ msgid "Style"
+#~ msgstr "风格"
+
+#~ msgid "System"
+#~ msgstr "系统"
+
+#~ msgid "Light"
+#~ msgstr "明亮"
+
+#~ msgid "Dark"
+#~ msgstr "暗色"
 
 #~ msgid "Name: "
 #~ msgstr "名称： "
@@ -279,9 +175,6 @@ msgstr "暗色"
 #, fuzzy
 #~ msgid "Remember last launcher"
 #~ msgstr "清除启动器"
-
-#~ msgid "Launcher information"
-#~ msgstr "启动器信息"
 
 #~ msgid "Launcher settings"
 #~ msgstr "启动器选项"

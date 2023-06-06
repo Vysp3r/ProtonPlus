@@ -168,7 +168,7 @@ namespace ProtonPlus.Launcher {
             var label = new Gtk.Label ("0%");
 
             var cancel = new Gtk.Button.from_icon_name ("process-stop-symbolic");
-            cancel.set_tooltip_text ("Cancel the installation");
+            cancel.set_tooltip_text (_("Cancel the installation"));
             cancel.add_css_class ("flat");
             cancel.width_request = 25;
             cancel.height_request = 25;

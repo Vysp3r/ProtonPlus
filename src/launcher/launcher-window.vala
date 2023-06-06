@@ -7,6 +7,7 @@ namespace ProtonPlus.Launcher {
         Adw.Leaflet content_leaflet;
         Adw.Leaflet other_leaflet;
 
+        Launcher.LauncherWarningBox launcher_warning_box;
         Launcher.LauncherListBox launcher_list_box;
         Launcher.LauncherInfoBox launcher_info_box;
 
@@ -17,7 +18,7 @@ namespace ProtonPlus.Launcher {
             set_default_size (950, 600);
 
             //
-            var launcher_warning_box = new Launcher.LauncherWarningBox ();
+            launcher_warning_box = new Launcher.LauncherWarningBox ();
 
             //
             launcher_list_box = new Launcher.LauncherListBox ();
@@ -50,6 +51,7 @@ namespace ProtonPlus.Launcher {
             this.add_action (load_info_box ());
             this.add_action (switch_other_page ());
             this.add_action (switch_content_page ());
+            this.add_action (window_initialize ());
             this.add_action (add_task ());
             this.add_action (remove_task ());
 
@@ -80,7 +82,8 @@ namespace ProtonPlus.Launcher {
                 launcher_info_box.initialize (launchers); // Must be loaded before since list_box relies on info_box being initialized
                 launcher_list_box.initialize (launchers);
             } else {
-                this.activate_action_variant ("win.switch-other-page", 2);
+                launcher_warning_box.initialize ();
+                this.activate_action_variant ("win.switch-other-page", 1);
             }
         }
 
@@ -110,6 +113,16 @@ namespace ProtonPlus.Launcher {
             action.activate.connect ((variant) => {
                 if (content_leaflet.get_folded ()) this.activate_action_variant ("win.switch-content-page", 2);
                 launcher_info_box.switch_launcher (launchers.nth_data (variant.get_int32 ()).title, variant.get_int32 ());
+            });
+
+            return action;
+        }
+
+        SimpleAction window_initialize () {
+            SimpleAction action = new SimpleAction ("window-initialize", VariantType.STRING);
+
+            action.activate.connect ((variant) => {
+                initialize ();
             });
 
             return action;
