@@ -18,13 +18,21 @@ namespace ProtonPlus.Launcher {
             //
             var status = new Adw.StatusPage ();
             status.set_vexpand (true);
-            status.set_title ("Welcome to " + Shared.Constants.APP_NAME);
-            status.set_description ("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started.");
+            status.set_title (_("Welcome to ") + Shared.Constants.APP_NAME);
+            status.set_description (_("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
             status.set_icon_name ("application-x-executable-symbolic");
 
             //
             append (header);
             append (status);
+        }
+
+        public void initialize () {
+            GLib.Timeout.add (10000, () => {
+                this.activate_action_variant ("win.window-initialize", "");
+
+                return false;
+            });
         }
     }
 }

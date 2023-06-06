@@ -1,228 +1,127 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-21 15:25-0400\n"
+"POT-Creation-Date: 2023-06-05 22:19-0400\n"
 "Language: pt_BR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/Windows/Main.vala:89
-msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
+#: src/launcher/launcher-warning-box.vala:21
+msgid "Welcome to "
 msgstr ""
 
-#: src/Windows/Main.vala:96
-msgid "Special thanks to"
+#: src/launcher/launcher-warning-box.vala:22
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 
-#: src/Windows/Main.vala:111
-msgid "You cannot close the window while a tool is installing"
+#: src/launcher/launcher-info-box.vala:105
+msgid "There was an error while fetching data from the GitHub API"
 msgstr ""
+
+#: src/launcher/launcher-info-box.vala:128
+#, fuzzy
+msgid "Deleted "
+msgstr "Remover ferramenta"
+
+#: src/launcher/launcher-info-box.vala:130
+msgid "Undo"
+msgstr ""
+
+#: src/launcher/launcher-info-box.vala:171
+#, fuzzy
+msgid "Cancel the installation"
+msgstr "Informações do inicializador"
+
+#: src/launcher/launcher-info-box.vala:235
+#, fuzzy
+msgid "Delete the runner"
+msgstr "Remover ferramenta"
+
+#: src/launcher/launcher-info-box.vala:248
+#, fuzzy
+msgid "Install the runner"
+msgstr "Instalar ferramenta"
 
 #.
-#: src/Windows/ViewManager.vala:20
-msgid "Telegram"
-msgstr "Telegram"
-
-#: src/Windows/ViewManager.vala:21
-msgid "Documentation"
-msgstr "Documentação"
-
-#: src/Windows/ViewManager.vala:22
-msgid "Donation"
-msgstr "Doar"
-
-#: src/Windows/ViewManager.vala:23
+#. menu_model.append (_("Preferences"), "app.preferences"); // TODO
+#. menu_model.append (_("Keyboard Shortcuts"), "app.shortcuts"); // TODO
+#: src/launcher/launcher-list-box.vala:15
 msgid "About"
 msgstr "Sobre"
 
-#.
-#: src/Windows/ViewManager.vala:27
-msgid "Quit"
-msgstr "Sair"
-
-#.
-#: src/Windows/ViewManager.vala:31 src/Windows/ViewManager.vala:59
-#: src/Windows/Preferences/Main.vala:78
+#: src/preferences/preferences-window.vala:13
 msgid "Preferences"
 msgstr "Preferências"
 
 #.
-#: src/Windows/ViewManager.vala:46 src/Windows/Tools/LauncherInfo.vala:59
-msgid "Tools"
-msgstr "Ferramentas"
-
 #.
-#: src/Windows/ViewManager.vala:50 src/Windows/Games/Main.vala:10
-msgid "Games"
-msgstr "Jogos"
-
-#.
-#: src/Windows/ViewManager.vala:54 src/Windows/Notifications/Main.vala:10
-msgid "Notifications"
-msgstr "Notificações"
-
-#.
-#: src/Windows/Tools/LauncherSelector.vala:12
-#, fuzzy
-msgid "Launchers"
-msgstr "Inicializador"
-
-#: src/Windows/Tools/LauncherSelector.vala:13
-msgid "Select a launcher to proceed"
-msgstr ""
-
-#: src/Windows/Tools/LauncherInfo.vala:60
-msgid "Select a tool to proceed"
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:31
-msgid "Copy"
-msgstr "Copiar"
-
-#.
-#.
-#: src/Windows/Tools/ReleaseInfo.vala:59
-msgid "Delete"
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:65
-msgid "Install"
-msgstr "Instalar"
-
-#.
-#: src/Windows/Tools/ReleaseInfo.vala:75
-msgid "Website"
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:85
-msgid "Directory: "
-msgstr "Diretório: "
-
-#: src/Windows/Tools/ReleaseInfo.vala:86
-msgid "Size: "
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:88
-msgid "Download size (Compressed): "
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInfo.vala:90
-msgid "Release date: "
-msgstr ""
-
-#.
-#: src/Windows/Tools/ReleaseInstaller.vala:47
-msgid "Cancel"
-msgstr ""
-
-#.
-#: src/Windows/Tools/ReleaseInstaller.vala:53
-msgid "Go back"
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInstaller.vala:73
-msgid "Cancelled the install..."
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInstaller.vala:90
-msgid "You cannot cancel the operation for tools using Github Actions."
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInstaller.vala:91
-#, fuzzy
-msgid "Download started...\n"
-msgstr "Baixando..."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:129
-#, fuzzy
-msgid "Download done...\n"
-msgstr "Baixando..."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:140
-#, fuzzy
-msgid "Extraction started...\n"
-msgstr "Extraindo..."
-
-#: src/Windows/Tools/ReleaseInstaller.vala:143
-msgid "You cannot cancel the operation while it's extracting."
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInstaller.vala:174
-msgid "There was an error while extracting..."
-msgstr ""
-
-#: src/Windows/Tools/ReleaseInstaller.vala:184
-#, fuzzy
-msgid "Extraction done...\n"
-msgstr "Extraindo..."
-
-#: src/Windows/Games/Main.vala:11 src/Windows/Notifications/Main.vala:11
-msgid "This page is a work in progress."
-msgstr ""
-
-#.
-#: src/Windows/Preferences/Main.vala:37 src/Windows/Preferences/Main.vala:38
+#: src/preferences/preferences-window.vala:21
+#: src/preferences/preferences-window.vala:22
 msgid "Main"
 msgstr ""
 
-#.
-#.
-#.
-#: src/Windows/Preferences/Main.vala:51
-#, fuzzy
-msgid "Style"
-msgstr "Estilos"
+#~ msgid "Telegram"
+#~ msgstr "Telegram"
 
-#: src/Windows/Preferences/Main.vala:79
-msgid "There is nothing to see here."
-msgstr ""
+#~ msgid "Documentation"
+#~ msgstr "Documentação"
 
-#.
-#: src/Windows/Errors/GithubApiRequest.vala:22
-msgid "Github API Request Error"
-msgstr ""
+#~ msgid "Donation"
+#~ msgstr "Doar"
 
-#: src/Windows/Errors/GithubApiRequest.vala:23
-msgid ""
-"Here's a list of the possible reasons why that error happened:\n"
-"- You may have reached the GitHub API limit\n"
-"- You may be disconnected from the internet\n"
-"\n"
-"Why can I still see data then?\n"
-"ProtonPlus caches the json of each requests in case that problem happens"
-msgstr ""
+#~ msgid "Quit"
+#~ msgstr "Sair"
 
-#. Steam
-#: src/Models/Launcher.vala:64
-msgid ""
-"Make sure to restart Steam if it's open to be able to use it otherwise you "
-"will not see it.\n"
-msgstr ""
+#~ msgid "Tools"
+#~ msgstr "Ferramentas"
 
-#: src/Models/Launcher.vala:91
-msgid ""
-"If you're using gamescope with Steam (Flatpak), those tools will not work. "
-"Make sure to use the community builds from Flathub."
-msgstr ""
+#~ msgid "Games"
+#~ msgstr "Jogos"
 
-#: src/Models/Preferences/Style.vala:17
-msgid "System"
-msgstr "Sistema"
-
-#: src/Models/Preferences/Style.vala:18
-msgid "Light"
-msgstr "Claro"
-
-#: src/Models/Preferences/Style.vala:19
-msgid "Dark"
-msgstr "Escuro"
-
-#~ msgid "Delete the tool"
-#~ msgstr "Remover ferramenta"
+#~ msgid "Notifications"
+#~ msgstr "Notificações"
 
 #, fuzzy
-#~ msgid "Install the tool"
-#~ msgstr "Instalar ferramenta"
+#~ msgid "Launchers"
+#~ msgstr "Inicializador"
+
+#~ msgid "Copy"
+#~ msgstr "Copiar"
+
+#~ msgid "Install"
+#~ msgstr "Instalar"
+
+#~ msgid "Directory: "
+#~ msgstr "Diretório: "
+
+#, fuzzy
+#~ msgid "Download started...\n"
+#~ msgstr "Baixando..."
+
+#, fuzzy
+#~ msgid "Download done...\n"
+#~ msgstr "Baixando..."
+
+#, fuzzy
+#~ msgid "Extraction started...\n"
+#~ msgstr "Extraindo..."
+
+#, fuzzy
+#~ msgid "Extraction done...\n"
+#~ msgstr "Extraindo..."
+
+#, fuzzy
+#~ msgid "Style"
+#~ msgstr "Estilos"
+
+#~ msgid "System"
+#~ msgstr "Sistema"
+
+#~ msgid "Light"
+#~ msgstr "Claro"
+
+#~ msgid "Dark"
+#~ msgstr "Escuro"
 
 #~ msgid "Name: "
 #~ msgstr "Nome: "
@@ -272,9 +171,6 @@ msgstr "Escuro"
 
 #~ msgid "Remember last launcher"
 #~ msgstr "Lembrar do último inicializador"
-
-#~ msgid "Launcher information"
-#~ msgstr "Informações do inicializador"
 
 #~ msgid "Launcher settings"
 #~ msgstr "Configurações do inicializador"
