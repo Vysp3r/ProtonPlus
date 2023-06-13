@@ -11,7 +11,7 @@ namespace ProtonPlus.Shared.Models {
             this.directory = directory;
             this.launcher = launcher;
 
-            if (!FileUtils.test (launcher.directory, FileTest.IS_DIR)) {
+            if (!FileUtils.test (launcher.directory + directory, FileTest.IS_DIR)) {
                 Utils.Filesystem.CreateDirectory (launcher.directory + directory);
             }
         }
