@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component type="desktop">
+<component type="desktop-application">
   <id>com.vysp3r.ProtonPlus</id>
-  <metadata_license>FSFAP</metadata_license>
-  <project_license>GPL-3.0-or-later</project_license>
-  <content_rating type="oars-1.1" />
 
   <name>ProtonPlus</name>
-  <developer_name>Vysp3r</developer_name>
-  <summary> A simple Wine and Proton-based compatiblity tools manager for GNOME </summary>
+  <summary>A simple Wine and Proton-based compatiblity tools manager for GNOME</summary>
   <description>
     <p>ProtonPlus a simple Wine and Proton-based compatibility tools manager for GNOME.</p>
     <p>Supported launchers: </p>
@@ -35,10 +31,15 @@
     </ul>
   </description>
 
+  <launchable type="desktop-id">com.vysp3r.ProtonPlus.desktop</launchable>
+
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <content_rating type="oars-1.1" />
+
+  <developer_name>Vysp3r</developer_name>
   <url type="homepage">https://github.com/Vysp3r/ProtonPlus</url>
   <url type="bugtracker">https://github.com/Vysp3r/ProtonPlus/issues</url>
-
-  <launchable type="desktop-id">com.vysp3r.ProtonPlus.desktop</launchable>
 
   <screenshots>
     <screenshot type="default">
