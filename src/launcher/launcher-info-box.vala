@@ -165,6 +165,9 @@ namespace ProtonPlus.Launcher {
 
             widget.remove (widget.Actions);
 
+            var spinner = new Gtk.Spinner ();
+            spinner.set_visible (false);
+
             var label = new Gtk.Label ("0%");
 
             var cancel = new Gtk.Button.from_icon_name ("process-stop-symbolic");
@@ -180,12 +183,19 @@ namespace ProtonPlus.Launcher {
             box.set_margin_end (10);
             box.set_valign (Gtk.Align.CENTER);
             box.append (label);
+            box.append (spinner);
             box.append (cancel);
 
             widget.Actions = box;
             widget.add_suffix (widget.Actions);
 
             release.install ();
+
+            if (release.runner.is_using_github_actions) {
+                label.set_visible (false);
+                spinner.set_visible (true);
+                spinner.start ();
+            }
 
             GLib.Timeout.add (250, () => {
                 if (release.installation_cancelled) send_toast ("The installation of " + release.get_directory_name () + " was cancelled", 5000);
@@ -198,6 +208,8 @@ namespace ProtonPlus.Launcher {
 
                 if (release.installed || release.installation_cancelled || release.installation_error || release.installation_api_error) {
                     label.set_text ("");
+
+                    spinner.stop ();
 
                     widget.remove (widget.Actions);
 
