@@ -66,9 +66,9 @@ namespace ProtonPlus.Shared.Launchers {
             runners.append (new Models.Runner (group, "Roberta", "Steam Play compatibility tool to run adventure games using native Linux ScummVM.", "https://api.github.com/repos/dreamer/roberta/releases", 0, Models.Runner.title_types.TOOL_NAME));
             runners.append (new Models.Runner (group, "NorthstarProton", "Custom Proton build for running the Northstar client for Titanfall 2.", "https://api.github.com/repos/cyrv6737/NorthstarProton/releases", 0, Models.Runner.title_types.TOOL_NAME));
 
-            // var runner = new Models.Runner (group, "Proton Tkg", "Custom Proton build for running Windows games, built with the Wine-tkg build system.", "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
-            // runner.is_using_github_actions = true;
-            // runners.append (runner);
+            var runner = new Models.Runner (group, "Proton Tkg", "Custom Proton build for running Windows games, built with the Wine-tkg build system.", "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
+            runner.is_using_github_actions = true;
+            runners.append (runner);
 
             return runners;
         }
