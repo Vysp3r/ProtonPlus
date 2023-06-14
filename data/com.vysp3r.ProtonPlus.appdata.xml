@@ -48,6 +48,17 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.4" date="2023-06-13">
+      <description>
+        <p>What's Changed:</p>
+        <ul>
+          <li>🍱 Replaced the preview video</li>
+          <li>🐛 Fixed Proton Tkg</li>
+          <li>🐛 Fixed install directories creation</li>
+          <li>🌐 Updated German translation</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.3" date="2023-06-05">
       <description>
         <p>I disabled Proton-Tkg (Steam) for now. I will re-add it for the next update.</p>

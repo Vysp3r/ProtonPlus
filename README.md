@@ -57,7 +57,8 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 ## 👀 Preview
 
-https://user-images.githubusercontent.com/62019735/230777014-c6dcb2ac-3eca-4030-9e84-2c8c88d7a419.webm
+[<img alt='Download on Flathub' src='data/previews/Preview-1.png' />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
+
 
 - - - -
 
