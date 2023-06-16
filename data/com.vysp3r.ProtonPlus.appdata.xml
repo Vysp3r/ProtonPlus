@@ -3,9 +3,8 @@
   <id>com.vysp3r.ProtonPlus</id>
 
   <name>ProtonPlus</name>
-  <summary>A simple Wine and Proton-based compatiblity tools manager for GNOME</summary>
+  <summary>A simple Wine and Proton-based compatiblity tools manager</summary>
   <description>
-    <p>ProtonPlus a simple Wine and Proton-based compatibility tools manager for GNOME.</p>
     <p>Supported launchers: </p>
     <ul>
       <li>Steam</li>
@@ -50,7 +49,6 @@
   <releases>
     <release version="0.4.4" date="2023-06-13">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🍱 Replaced the preview video</li>
           <li>🐛 Fixed Proton Tkg</li>
@@ -62,7 +60,6 @@
     <release version="0.4.3" date="2023-06-05">
       <description>
         <p>I disabled Proton-Tkg (Steam) for now. I will re-add it for the next update.</p>
-        <p>What's Changed:</p>
         <ul>
           <li>🍱 Updated the preview images and video</li>
           <li>💄 Updated the UI</li>
@@ -72,7 +69,6 @@
     </release>
     <release version="0.4.2" date="2023-04-21">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🍱 Change preview video file format to webm</li>
           <li>🌐 Fixed README typo and added Czech translation</li>
@@ -83,7 +79,6 @@
     </release>
     <release version="0.4.1" date="2023-04-05">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>✨ Added a tasks queue system</li>
           <li>💄 Updated the installer UI</li>
@@ -96,7 +91,6 @@
     </release>
     <release version="0.4.0" date="2023-04-04">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>✨ Complete UI Overhaul</li>
           <li>🧑‍💻 Project Refactor</li>
@@ -105,7 +99,6 @@
     </release>
     <release version="0.3.12" date="2023-03-15">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>✨ Added support for Bottles</li>
           <li>🔨 Update appdata</li>
@@ -115,7 +108,6 @@
     </release>
     <release version="0.3.11" date="2023-03-12">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>✨ Added support for Heroic Games Launcher</li>
           <li>🔨 Update appdata</li>
@@ -125,7 +117,6 @@
     </release>
     <release version="0.3.10" date="2023-03-02">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>✨ Updated the About window</li>
           <li>🎨 Added utilities for folders and files</li>
@@ -139,7 +130,6 @@
     </release>
     <release version="0.3.9" date="2023-02-26">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🐛 Fixed installer tool switching</li>
           <li>🔇 Remove debug log</li>
@@ -154,7 +144,6 @@
     </release>
     <release version="0.3.8" date="2023-02-21">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🐛 Fix flathub manifest</li>
           <li>🌐 Added missing russian translations</li>
@@ -165,7 +154,6 @@
     </release>
     <release version="0.3.7" date="2023-02-17">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>✨ Add warning for gamescope compatibility issues</li>
           <li>🔇 Remove debug log</li>
@@ -178,7 +166,6 @@
     </release>
     <release version="0.3.6" date="2023-01-29">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🐛 Fix directory creation</li>
           <li>🐛 Fix releases not always changing</li>
@@ -190,7 +177,6 @@
     </release>
     <release version="0.3.5" date="2023-01-21">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🌐 Add missing translations</li>
           <li>🔨 Update appdata</li>
@@ -200,7 +186,6 @@
     </release>
     <release version="0.3.4" date="2023-01-15">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>📝 Update README.md</li>
           <li>🌐 Add Chinese(Simplified) Translation</li>
@@ -212,7 +197,6 @@
     </release>
     <release version="0.3.3" date="2023-01-04">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🐛 Correct desktop file exec</li>
           <li>🔨 Update appdata</li>
@@ -222,7 +206,6 @@
     </release>
     <release version="0.3.2" date="2023-01-03">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🌐 Add Indonesian translation</li>
           <li>🌐 Add Brazilian Portuguese (pt-BR) translation</li>
@@ -240,7 +223,6 @@
     </release>
     <release version="0.3.1" date="2022-12-13">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🔨 Correct desktop file category</li>
           <li>🌐 Adding a Russian translation</li>
@@ -260,7 +242,6 @@
     </release>
     <release version="0.3.0" date="2022-12-11">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>✨ Add localization system</li>
           <li>🚸 Added more tooltips</li>
@@ -278,7 +259,6 @@
     </release>
     <release version="0.2.3" date="2022-12-05">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>💄 Fix ListBox CSS missing</li>
           <li>🚚 Renamed HomeInfo to AboutTool</li>
@@ -296,7 +276,6 @@
     </release>
     <release version="0.2.2" date="2022-12-03">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🧑‍💻 Project refactor</li>
           <li>🐛 Fix ListBox missing scrollbar</li>
@@ -313,7 +292,6 @@
     </release>
     <release version="0.2.1" date="2022-12-01">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🔨 Update appdata</li>
           <li>🐛 Fix tool renaming for nothing</li>
@@ -328,7 +306,6 @@
       <description>
         <p>For stability reasons, I've decided to disable Bottles and Heroic Games Launcher support
           for now. I also disabled Proton Tkg for the same reasons.</p>
-        <p>What's Changed:</p>
         <ul>
           <li>✨ Add NorthstarProton compatibility tool</li>
           <li>🐛 Fix NorthstarProton not showing up</li>
@@ -344,7 +321,6 @@
     <release version="0.1.9" date="2022-11-21">
       <description>
         <p>We are now officialy on Flathub!</p>
-        <p>What's Changed:</p>
         <ul>
           <li>🔨 Update appdata</li>
           <li>🔨 Update flatpak config</li>
@@ -364,7 +340,6 @@
           installed tools is easily recognizable to make it easier to manage them.</p>
         <p>Naming convention: Tool name + Tool version</p>
         <p>Example: GE-Proton | GE-Proton7-41</p>
-        <p>What's Changed:</p>
         <ul>
           <li>✏️ Fix typo in the release notes</li>
           <li>🍱 Update the preview image</li>
@@ -385,7 +360,6 @@
     <release version="0.1.2" date="2022-11-2">
       <description>
         <p>ProtonPlus now requires Libadwaita version 1.2 or higher.</p>
-        <p>What's Changed:</p>
         <ul>
           <li>📝 Update README.md</li>
           <li>🐛 Fix Preferences window default siz</li>
@@ -405,7 +379,6 @@
     </release>
     <release version="0.1.1" date="2022-10-24">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🐛 Fix Steam not showing up on fresh install</li>
           <li>🐛 Fix Kron4ek Wine-Builds Vanilla not showing properly</li>
@@ -419,7 +392,6 @@
     </release>
     <release version="0.1.0" date="2022-10-23">
       <description>
-        <p>What's Changed:</p>
         <ul>
           <li>🎉 Initial release</li>
           <li>📝 Create pull request template</li>

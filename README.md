@@ -1,75 +1,43 @@
-<h1 align="center">ProtonPlus (WIP)</h1>
+<h1 align="center">
+    <img align="center" width=150 src="data/icons/hicolor/scalable/apps/com.vysp3r.ProtonPlus.svg" />
+    <br><br>
+    ProtonPlus (WIP)
+</h1>
+
+<p align="center">
+  <strong>A simple Wine and Proton-based compatibility tools manager</strong>
+</p>
+
+<p align="center">
+    <img width='240' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-i-en.svg' />
+</p>
 
 <p align="center">
     <a href="https://github.com/Vysp3r/ProtonPlus/stargazers">
-      <img src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=shield&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22" />
+      <img alt="Stars" title="Stars" src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=shield&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22" />
     </a>
     <a href="https://github.com/Vysp3r/ProtonPlus/releases/latest">
-      <img alt="Latest Release (Semver)" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=shield&label=%F0%9F%9A%80%20Release">
+      <img alt="Latest Release" title="Latest Release" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=shield&label=%F0%9F%9A%80%20Release">
     </a>
     <a href="https://github.com/Vysp3r/ProtonPlus/blob/main/LICENSE.md">
-      <img title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?style=shield" />
+      <img alt="License" title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?style=shield" />
     </a>
     <a href="https://klausenbusk.github.io/flathub-stats/#ref=com.vysp3r.ProtonPlus&interval=infinity&downloadType=installs%2Bupdates">
-      <img src="https://img.shields.io/flathub/downloads/com.vysp3r.ProtonPlus?label=Flathub%20installs">
+      <img alt="Flathub Downloads" title="Flathub Downloads" src="https://img.shields.io/badge/dynamic/json?color=informational&label=downloads&logo=flathub&logoColor=white&query=%24.installs_total&url=https%3A%2F%2Fflathub.org%2Fapi%2Fv2%2Fstats%2Fcom.vysp3r.ProtonPlus">
     </a>
     <a href="https://t.me/ProtonPlus">
-      <img title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=shield&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlus">
+      <img alt="Telegram" title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=shield&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlus">
     </a>
     <a href="https://discord.gg/Fyf8bWexpQ">
-      <img title="Discord" src="https://discordapp.com/api/guilds/1062063752779943997/widget.png?style=shield">
+      <img alt="Discord" title="Discord" src="https://dcbadge.vercel.app/api/server/Fyf8bWexpQ?style=flat&theme=default-inverted">
     </a>
 </p>
 
 <p align="center">
-    <i>Join the telegram/Discord! — Don't forget to star the repo if you are enjoying the project!</i>
+    <i>Join the <a href="https://t.me/ProtonPlus">Telegram</a>/<a href="https://discord.gg/Fyf8bWexpQ">Discord</a>! — Don't forget to star the repo if you are enjoying the project!</i>
 </p>
 
-- - - -
-
-ProtonPlus is a simple Proton version manager that make it easy to install and manage Proton versions. It works with Steam, Lutris, Heroic Games Launcher and Bottles. It was made in Vala with GTK4 and Libadwaita using GNOME Builder. <b>This project is still in its early phase, so please keep that in mind before using it.</b>
-
-If you have any questions about ProtonPlus or want to share information with us, please go to one of the following places:
-
-<img align="right" width=150 src="data/icons/hicolor/scalable/apps/com.vysp3r.ProtonPlus.svg" />
-
-- [Github Discussions](https://github.com/Vysp3r/ProtonPlus/discussions)
-- [Telegram Server](https://t.me/ProtonPlusOfficial)
-- [Discord Server](https://discord.gg/Fyf8bWexpQ)
-
-*Before you file an [issue](https://github.com/Vysp3r/ProtonPlus/issues/new/choose), make sure you have read the [known issues](#-known-issues) section.*
-
-**For more information, [read the documentation!](https://github.com/Vysp3r/ProtonPlus/wiki)**
-
-- - - -
-
-## 💾 Download
-
-[<img width='240' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-en.png' />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
-
-- - - -
-
-## ✨ Features
-- Install and manage Proton versions for Steam, Lutris, Bottles and Heroic Games Launcher
-- And much more...
-
-- - - -
-
-## 👀 Preview
-
 [<img alt='Download on Flathub' src='data/previews/Preview-1.png' />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
-
-
-- - - -
-
-## 📝 TODOs
-
-- Comment the code
-- Document the project
-- Add a game list with additional data like Deck compatibility and Anti-cheat status
-- Add the ability to add custom locations
-- Add games specific fixes (ex. Star Citizen)
-- Add an update notification system
 
 - - - -
 
@@ -84,9 +52,11 @@ If you have any questions about ProtonPlus or want to share information with us,
 
 - - - -
 
-## 🛠️ Building from Source
+## 🛠️ Building from source
 
-_Requirements_
+<details>
+  <summary>Requirements</summary>
+
 - [git](https://github.com/git/git)
 - [ninja](https://github.com/ninja-build/ninja)
 - [meson >= 0.59.0](https://github.com/mesonbuild/meson)
@@ -96,8 +66,11 @@ _Requirements_
 - [libsoup](https://gitlab.gnome.org/GNOME/libsoup)
 - [libarchive](https://github.com/libarchive/libarchive)
 - [desktop-file-utils](https://gitlab.freedesktop.org/xdg/desktop-file-utils)
+</details>
 
-### Fedora
+
+<details>
+  <summary>Fedora</summary>
 
 1. Install all dependencies:
     ```bash
@@ -136,8 +109,10 @@ _Requirements_
     cd src && \
     ./com.vysp3r.ProtonPlus
     ```
+</details>
 
-### Flatpak Builder
+<details>
+  <summary>Flatpak Builder</summary>
 
 1. Install the distro dependencies using your package manager (apt, dnf, pacman, etc):
     ```bash
@@ -178,6 +153,7 @@ _Requirements_
     flatpak --user run \
       com.vysp3r.ProtonPlus
     ```
+</details>
 
 - - - -
 
