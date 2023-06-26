@@ -9,7 +9,9 @@
 </p>
 
 <p align="center">
-    <img width='240' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-i-en.svg' />
+    <a align="center" href="https://flathub.org/apps/com.vysp3r.ProtonPlus">
+        <img width='240' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-i-en.svg' />
+    </a>
 </p>
 
 <p align="center">
