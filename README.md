@@ -43,18 +43,17 @@
 
 - - - -
 
-## ⁉️ ProtonPlus vs ProtonUp-Qt
+## 📦️ Alternative installation methods
 
-|                   | ProtonPlus                                  | ProtonUp-Qt                                      |
-| :---------------- | :-----------------------------------------: | :----------------------------------------------: |
-| **GUI Toolkit**   | [GTK4](https://gitlab.gnome.org/GNOME/gtk)  | [QT](https://www.qt.io/)                         |
-| **Language**      | [Vala](https://gitlab.gnome.org/GNOME/vala) | [Python](https://www.python.org/)                |
-| **Based on**      | Nothing                                     | [ProtonUp](https://github.com/AUNaseef/protonup) |
-| **Looks best on** | [GNOME](https://gitlab.gnome.org/GNOME)     | [KDE](https://kde.org/)                          |
+> **Warning**
+> The main installation method is Flatpak from Flathub
+
+### Arch Linux (AUR)
+[https://aur.archlinux.org/packages/protonplus](https://aur.archlinux.org/packages/protonplus) (Maintained by yochananmarqos)
 
 - - - -
 
-## 🛠️ Building from source
+## 🏗️ Building from source
 
 <details>
   <summary>Requirements</summary>
@@ -159,32 +158,32 @@
 
 - - - -
 
-## 💖 Contributing
+## ⁉️ ProtonPlus vs ProtonUp-Qt
+
+|                   | ProtonPlus                                  | ProtonUp-Qt                                      |
+| :---------------- | :-----------------------------------------: | :----------------------------------------------: |
+| **GUI Toolkit**   | [GTK4](https://gitlab.gnome.org/GNOME/gtk)  | [QT](https://www.qt.io/)                         |
+| **Language**      | [Vala](https://gitlab.gnome.org/GNOME/vala) | [Python](https://www.python.org/)                |
+| **Based on**      | Nothing                                     | [ProtonUp](https://github.com/AUNaseef/protonup) |
+| **Looks best on** | [GNOME](https://gitlab.gnome.org/GNOME)     | [KDE](https://kde.org/)                          |
+
+- - - -
+
+## 🙌 Contribute to ProtonPlus
 **Please read our [Contribution Guidelines](/CONTRIBUTING.md)**
 
 All contributions are highly appreciated.
 
 - - - -
 
-## 📜 License
+## ✨️ Contributors
 
-ProtonPlus is licensed under [GPL 3.0](/LICENSE.md)
+[![Contributors](https://contrib.rocks/image?repo=Vysp3r/ProtonPlus)](https://github.com/Vysp3r/ProtonPlus/graphs/contributors)
 
-```
- Copyright © 2022 Charles "Vysp3r" Malouin
- 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-```
+- - - -
+
+## 💝 Acknowledgment
+
+This README is based on the README from [Gradience](https://github.com/GradienceTeam/Gradience) by [Gradience Team](https://github.com/GradienceTeam)
 
 **[⤴️ Back to Top](#ProtonPlus)**
