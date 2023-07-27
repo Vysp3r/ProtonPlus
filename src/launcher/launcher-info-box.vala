@@ -125,20 +125,11 @@ namespace ProtonPlus.Launcher {
         void delete_release (Shared.Models.Release release, Launcher.ActionRow widget) {
             this.activate_action_variant ("win.add-task", "");
 
-            var toast = new Adw.Toast (_("Deleted ") + release.title);
+            var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
             toast.set_timeout (30000);
-            toast.set_button_label (_("Undo"));
-
-            bool undo = false;
+            toast.set_button_label (_("Confirm"));
 
             toast.button_clicked.connect (() => {
-                undo = true;
-                toast.dismiss ();
-            });
-
-            toast.dismissed.connect (() => {
-                if (undo) return;
-
                 release.delete (false);
 
                 GLib.Timeout.add (1000, () => {
@@ -155,6 +146,8 @@ namespace ProtonPlus.Launcher {
 
                     return true;
                 });
+
+                toast.dismiss ();
             });
 
             toast_overlay.add_toast (toast);
