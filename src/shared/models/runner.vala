@@ -186,6 +186,12 @@ namespace ProtonPlus.Shared.Models {
             }
 
             //
+            if (page != 1) {
+                string temp = Utils.Filesystem.GetFileContent (path);
+                json = temp.substring (0, temp.length - 3) + "," + json.substring (1);
+            }
+
+            //
             if (GLib.FileUtils.test (path, GLib.FileTest.EXISTS)) Utils.Filesystem.ModifyFile (path, json);
             else Utils.Filesystem.CreateFile (path, json);
 
