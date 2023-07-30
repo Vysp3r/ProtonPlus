@@ -119,7 +119,7 @@ namespace ProtonPlus.Launcher {
                         actions.set_valign (Gtk.Align.CENTER);
 
                         var row = new Launcher.ActionRow ();
-                        row.set_title (_("Load more releases"));
+                        row.set_title (_("Load more"));
                         row.Actions = actions;
                         row.add_suffix (row.Actions);
 
@@ -128,7 +128,7 @@ namespace ProtonPlus.Launcher {
                         btn.add_css_class ("flat");
                         btn.width_request = 25;
                         btn.height_request = 25;
-                        btn.set_tooltip_text (_("Load more releases"));
+                        btn.set_tooltip_text (_("Load more"));
                         btn.clicked.connect (() => {
                             releasesRow.remove (row);
                             load_releases (spinner, runner, releasesRow);
