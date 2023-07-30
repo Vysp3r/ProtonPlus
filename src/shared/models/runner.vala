@@ -6,16 +6,25 @@ namespace ProtonPlus.Shared.Models {
         public int asset_position; // The position of the .tar.xz file in the json tree of the tool > assets
         public title_types title_type;
 
+        public int old_asset_location; // When the assets changes
+        public int old_asset_position; // Same as asset_position, but for older releases that might have different assets position
+
         public bool is_using_github_actions;
         public bool use_name_instead_of_tag_name;
         public bool is_using_cached_data;
         public string request_asset_exclude;
         public bool loaded;
 
+        public uint page;
+        public uint releases_count;
+
         public Models.Group group;
         public List<Models.Release> releases;
 
         public Runner (Models.Group group, string title, string description, string endpoint, int asset_position, title_types title_type) {
+            this.page = 0;
+            this.releases_count = 0;
+
             this.group = group;
             this.title = title;
             this.description = description;
@@ -23,11 +32,16 @@ namespace ProtonPlus.Shared.Models {
             this.asset_position = asset_position;
             this.title_type = title_type;
 
+            this.old_asset_location = -1;
+            this.old_asset_position = -1;
+
             this.is_using_github_actions = false;
             this.use_name_instead_of_tag_name = false;
             this.is_using_cached_data = false;
             this.request_asset_exclude = "";
             this.loaded = false;
+
+            this.releases = new GLib.List<Release> ();
         }
 
         public enum title_types {
@@ -36,6 +50,7 @@ namespace ProtonPlus.Shared.Models {
             PROTON_HGL,
             WINE_HGL,
             BOTTLES,
+            STEAM_PROTON,
             WINE_GE_BOTTLES,
             WINE_LUTRIS_BOTTLES,
             PROTON_TKG,
@@ -50,10 +65,11 @@ namespace ProtonPlus.Shared.Models {
         }
 
         public void load () {
-            var releases = new GLib.List<Release> ();
+            //
+            page++;
 
             //
-            string json = Utils.Web.GET (endpoint + "?per_page=25&page=1");
+            string json = Utils.Web.GET (endpoint + "?per_page=25&page=" + page.to_string ());
 
             //
             string base_path = GLib.Environment.get_user_data_dir () + "/ProtonPlus/";
@@ -89,6 +105,8 @@ namespace ProtonPlus.Shared.Models {
                 var rootNodeArray = rootNode.get_array ();
                 if (rootNodeArray == null) return;
 
+                releases_count += rootNodeArray.get_length ();
+
                 // Execute a loop with the number of items contained in the Version array and fill it
                 for (var i = 0; i < rootNodeArray.get_length (); i++) {
                     string tag = "";
@@ -116,14 +134,11 @@ namespace ProtonPlus.Shared.Models {
                         // Get the temp node array for the assets
                         var tempNodeArray = objRoot.get_array_member ("assets");
 
+                        int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
+
                         // Verify weither the temp node array has values
-                        if (tempNodeArray.get_length () >= asset_position) {
-                            var tempNodeArrayAssetTest = tempNodeArray.get_element (0);
-                            var objAssetTest = tempNodeArrayAssetTest.get_object ();
-
-                            checksum_url = objAssetTest.get_string_member ("browser_download_url");
-
-                            var tempNodeArrayAsset = tempNodeArray.get_element (asset_position);
+                        if (tempNodeArray.get_length () - 1 >= pos) {
+                            var tempNodeArrayAsset = tempNodeArray.get_element (pos);
                             var objAsset = tempNodeArrayAsset.get_object ();
 
                             download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
@@ -141,6 +156,8 @@ namespace ProtonPlus.Shared.Models {
 
                 var workflowsRunArray = rootObj.get_array_member ("workflow_runs");
                 if (workflowsRunArray == null) return;
+
+                releases_count += workflowsRunArray.get_length ();
 
                 // Execute a loop with the number of items contained in the Version array and fill it
                 for (var i = 0; i < workflowsRunArray.get_length (); i++) {

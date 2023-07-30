@@ -45,17 +45,22 @@ namespace ProtonPlus.Shared.Launchers {
         public static GLib.List<Models.Runner> get_wine_runners (Models.Group group) {
             var runners = new GLib.List<Models.Runner> ();
 
-            var runner1 = new Models.Runner (group, "Wine-GE", "Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.LUTRIS_WINE_GE);
-            var runner2 = new Models.Runner (group, "Wine-Lutris", "Compatibility tool \"Wine\" to run Windows games on Linux. Improved by Lutris to offer better compatibility or performance in certain games.", "https://api.github.com/repos/lutris/wine/releases", 0, Models.Runner.title_types.LUTRIS_WINE);
-            var runner3 = new Models.Runner (group, "Kron4ek Wine-Builds Vanilla", "Compatibility tool \"Wine\" to run Windows games on Linux. Official version from the WineHQ sources, compiled by Kron4ek.", "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, Models.Runner.title_types.LUTRIS_KRON4EK_VANILLA);
-            runner3.request_asset_exclude = "proton";
-            var runner4 = new Models.Runner (group, "Kron4ek Wine-Builds Tkg", "Compatibility tool \"Wine\" to run Windows games on Linux. Official version from the WineHQ sources, compiled by Kron4ek.", "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.LUTRIS_KRON4EK_TKG);
-            runner4.request_asset_exclude = "proton";
+            var wine_ge = new Models.Runner (group, "Wine-GE", "Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.LUTRIS_WINE_GE);
+            wine_ge.old_asset_location = 83;
+            wine_ge.old_asset_position = 0;
 
-            runners.append (runner1);
-            runners.append (runner2);
-            runners.append (runner3);
-            runners.append (runner4);
+            var wine_lutris = new Models.Runner (group, "Wine-Lutris", "Compatibility tool \"Wine\" to run Windows games on Linux. Improved by Lutris to offer better compatibility or performance in certain games.", "https://api.github.com/repos/lutris/wine/releases", 0, Models.Runner.title_types.LUTRIS_WINE);
+
+            var kron4ek_vanilla = new Models.Runner (group, "Kron4ek Wine-Builds Vanilla", "Compatibility tool \"Wine\" to run Windows games on Linux. Official version from the WineHQ sources, compiled by Kron4ek.", "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, Models.Runner.title_types.LUTRIS_KRON4EK_VANILLA);
+            kron4ek_vanilla.request_asset_exclude = "proton";
+
+            var kron4ek_tkg = new Models.Runner (group, "Kron4ek Wine-Builds Tkg", "Compatibility tool \"Wine\" to run Windows games on Linux. Official version from the WineHQ sources, compiled by Kron4ek.", "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.LUTRIS_KRON4EK_TKG);
+            kron4ek_tkg.request_asset_exclude = "proton";
+
+            runners.append (wine_ge);
+            runners.append (wine_lutris);
+            runners.append (kron4ek_vanilla);
+            runners.append (kron4ek_tkg);
 
             return runners;
         }

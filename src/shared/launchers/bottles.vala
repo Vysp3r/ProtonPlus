@@ -45,16 +45,24 @@ namespace ProtonPlus.Shared.Launchers {
         public static GLib.List<Models.Runner> get_runners (Models.Group group) {
             var runners = new GLib.List<Models.Runner> ();
 
-            runners.append (new Models.Runner (group, "Proton-GE", "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.NONE));
-            runners.append (new Models.Runner (group, "Wine-GE", "Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.WINE_GE_BOTTLES));
+            var proton_ge = new Models.Runner (group, "Proton-GE", "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.NONE);
+            proton_ge.old_asset_location = 95;
+            proton_ge.old_asset_position = 0;
 
-            var runner1 = new Models.Runner (group, "Wine-Lutris", "Compatibility tool \"Wine\" to run Windows games on Linux. Improved by Lutris to offer better compatibility or performance in certain games.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 0, Models.Runner.title_types.WINE_LUTRIS_BOTTLES);
-            runner1.request_asset_exclude = "GE-Proton";
-            runners.append (runner1);
+            var wine_ge = new Models.Runner (group, "Wine-GE", "Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.WINE_GE_BOTTLES);
+            wine_ge.old_asset_location = 83;
+            wine_ge.old_asset_position = 0;
 
-            var runner2 = new Models.Runner (group, "Other", "", "https://api.github.com/repos/bottlesdevs/wine/releases", 0, Models.Runner.title_types.BOTTLES);
-            runner2.use_name_instead_of_tag_name = true;
-            runners.append (runner2);
+            var wine_lutris = new Models.Runner (group, "Wine-Lutris", "Compatibility tool \"Wine\" to run Windows games on Linux. Improved by Lutris to offer better compatibility or performance in certain games.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 0, Models.Runner.title_types.WINE_LUTRIS_BOTTLES);
+            wine_lutris.request_asset_exclude = "GE-Proton";
+
+            var other = new Models.Runner (group, "Other", "", "https://api.github.com/repos/bottlesdevs/wine/releases", 0, Models.Runner.title_types.BOTTLES);
+            other.use_name_instead_of_tag_name = true;
+
+            runners.append (proton_ge);
+            runners.append (wine_ge);
+            runners.append (wine_lutris);
+            runners.append (other);
 
             return runners;
         }
