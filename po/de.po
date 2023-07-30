@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-05 22:19-0400\n"
+"POT-Creation-Date: 2023-07-30 13:47-0400\n"
 "PO-Revision-Date: 2023-06-08 08:32+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: \n"
@@ -24,29 +24,36 @@ msgstr "Willkommen zu "
 
 #: src/launcher/launcher-warning-box.vala:22
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr "Installieren Sie Steam, Lutris, Bottles oder Heroic Games Launcher, um loszulegen."
+msgstr ""
+"Installieren Sie Steam, Lutris, Bottles oder Heroic Games Launcher, um "
+"loszulegen."
 
-#: src/launcher/launcher-info-box.vala:105
+#: src/launcher/launcher-info-box.vala:122
+#: src/launcher/launcher-info-box.vala:131
+msgid "Load more"
+msgstr ""
+
+#: src/launcher/launcher-info-box.vala:146
 msgid "There was an error while fetching data from the GitHub API"
 msgstr "Beim Abrufen von Daten von der GitHub-API ist ein Fehler aufgetreten"
 
-#: src/launcher/launcher-info-box.vala:128
-msgid "Deleted "
-msgstr "Gelöscht "
+#: src/launcher/launcher-info-box.vala:162
+msgid "Are you sure you want to delete "
+msgstr ""
 
-#: src/launcher/launcher-info-box.vala:130
-msgid "Undo"
-msgstr "Rückgängig"
+#: src/launcher/launcher-info-box.vala:164
+msgid "Confirm"
+msgstr ""
 
-#: src/launcher/launcher-info-box.vala:171
+#: src/launcher/launcher-info-box.vala:201
 msgid "Cancel the installation"
 msgstr "Breche Installation ab"
 
-#: src/launcher/launcher-info-box.vala:235
+#: src/launcher/launcher-info-box.vala:274
 msgid "Delete the runner"
 msgstr "Löschen des Ausführungswerkzeugs"
 
-#: src/launcher/launcher-info-box.vala:248
+#: src/launcher/launcher-info-box.vala:287
 msgid "Install the runner"
 msgstr "Installieren des Ausführungswerkzeugs"
 
@@ -68,15 +75,25 @@ msgstr "Einstellungen"
 msgid "Main"
 msgstr "Allgemein"
 
+#~ msgid "Deleted "
+#~ msgstr "Gelöscht "
+
+#~ msgid "Undo"
+#~ msgstr "Rückgängig"
+
 #, fuzzy
 #~ msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
-#~ msgstr "Ein einfacher Wine und Proton-basierter Kompatibilitätswerkzeugmanager für GNOME"
+#~ msgstr ""
+#~ "Ein einfacher Wine und Proton-basierter Kompatibilitätswerkzeugmanager "
+#~ "für GNOME"
 
 #~ msgid "Special thanks to"
 #~ msgstr "Spezieller Dank an"
 
 #~ msgid "You cannot close the window while a tool is installing"
-#~ msgstr "Sie können das Fenster nicht schliessen während ein Werkzeug installiert wird"
+#~ msgstr ""
+#~ "Sie können das Fenster nicht schliessen während ein Werkzeug installiert "
+#~ "wird"
 
 #~ msgid "Telegram"
 #~ msgstr "Telegramm"
@@ -136,7 +153,9 @@ msgstr "Allgemein"
 #~ msgstr "Zurück gehen"
 
 #~ msgid "You cannot cancel the operation for tools using Github Actions."
-#~ msgstr "Sie können die Operation für Werkzeuge die Github-Aktionen verwenden nicht abbrechen."
+#~ msgstr ""
+#~ "Sie können die Operation für Werkzeuge die Github-Aktionen verwenden "
+#~ "nicht abbrechen."
 
 #~ msgid "Download started...\n"
 #~ msgstr "Download gestartet...\n"
@@ -178,11 +197,20 @@ msgstr "Allgemein"
 #~ "- Sie könnten das Gitgub API Limit erreicht haben\n"
 #~ "- Sie könnten vom Internet getrennt sein"
 
-#~ msgid "Make sure to restart Steam if it's open to be able to use it otherwise you will not see it.\n"
-#~ msgstr "Stellen Sie sicher das Steam neu gestartet wurde wenn es geöffnet ist um es benutzen zu können oder Sie werden es nicht sehen können.\n"
+#~ msgid ""
+#~ "Make sure to restart Steam if it's open to be able to use it otherwise "
+#~ "you will not see it.\n"
+#~ msgstr ""
+#~ "Stellen Sie sicher das Steam neu gestartet wurde wenn es geöffnet ist um "
+#~ "es benutzen zu können oder Sie werden es nicht sehen können.\n"
 
-#~ msgid "If you're using gamescope with Steam (Flatpak), those tools will not work. Make sure to use the community builds from Flathub."
-#~ msgstr "Wenn Sie gamescope mit Steam (Faltpak) verwenden, werden diese Werkzeuge nicht funktionieren. Stellen Sie sicher das Sie die Community builds von Flathub verwenden."
+#~ msgid ""
+#~ "If you're using gamescope with Steam (Flatpak), those tools will not "
+#~ "work. Make sure to use the community builds from Flathub."
+#~ msgstr ""
+#~ "Wenn Sie gamescope mit Steam (Faltpak) verwenden, werden diese Werkzeuge "
+#~ "nicht funktionieren. Stellen Sie sicher das Sie die Community builds von "
+#~ "Flathub verwenden."
 
 #~ msgid "System"
 #~ msgstr "System"

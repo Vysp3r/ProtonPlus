@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-05 22:19-0400\n"
+"POT-Creation-Date: 2023-07-30 13:47-0400\n"
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,30 +14,35 @@ msgstr ""
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 
-#: src/launcher/launcher-info-box.vala:105
+#: src/launcher/launcher-info-box.vala:122
+#: src/launcher/launcher-info-box.vala:131
+msgid "Load more"
+msgstr ""
+
+#: src/launcher/launcher-info-box.vala:146
 msgid "There was an error while fetching data from the GitHub API"
 msgstr ""
 
-#: src/launcher/launcher-info-box.vala:128
+#: src/launcher/launcher-info-box.vala:162
 #, fuzzy
-msgid "Deleted "
-msgstr "Elimina lo strumento"
+msgid "Are you sure you want to delete "
+msgstr "Sei sicuro di voler eliminare lo strumento selezionato?"
 
-#: src/launcher/launcher-info-box.vala:130
-msgid "Undo"
+#: src/launcher/launcher-info-box.vala:164
+msgid "Confirm"
 msgstr ""
 
-#: src/launcher/launcher-info-box.vala:171
+#: src/launcher/launcher-info-box.vala:201
 #, fuzzy
 msgid "Cancel the installation"
 msgstr "Informazione del lanciatore"
 
-#: src/launcher/launcher-info-box.vala:235
+#: src/launcher/launcher-info-box.vala:274
 #, fuzzy
 msgid "Delete the runner"
 msgstr "Elimina lo strumento"
 
-#: src/launcher/launcher-info-box.vala:248
+#: src/launcher/launcher-info-box.vala:287
 #, fuzzy
 msgid "Install the runner"
 msgstr "Installa uno strumento"
@@ -59,6 +64,10 @@ msgstr "Preferenze"
 #: src/preferences/preferences-window.vala:22
 msgid "Main"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Deleted "
+#~ msgstr "Elimina lo strumento"
 
 #~ msgid "Telegram"
 #~ msgstr "Telegram"
@@ -176,6 +185,3 @@ msgstr ""
 
 #~ msgid "Show information"
 #~ msgstr "Mostra informazioni"
-
-#~ msgid "Are you sure you want to delete the selected tool?"
-#~ msgstr "Sei sicuro di voler eliminare lo strumento selezionato?"
