@@ -47,6 +47,17 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.5" date="2023-07-30">
+      <description>
+        <ul>
+          <li>📝 Updated README, appdata and preview image</li>
+          <li>🐛 Fix Flathub download link</li>
+          <li>♻️ Update delete dialog</li>
+          <li>✨ Added the ability to download older versions</li>
+          <li>🌐 Updated localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.4" date="2023-06-13">
       <description>
         <ul>
