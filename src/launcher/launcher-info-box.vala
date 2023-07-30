@@ -72,54 +72,88 @@ namespace ProtonPlus.Launcher {
                         releasesRow.Runner = runner;
                         releasesRow.add_action (spinner);
                         releasesRow.notify.connect ((pspec) => {
-                            if (pspec.get_name () == "expanded" && releasesRow.get_expanded () && !runner.loaded) {
-                                bool done = false;
-                                bool api_error = false;
-
-                                spinner.start ();
-                                spinner.set_visible (true);
-
-                                //
-                                new Thread<void> ("load_releases", () => {
-                                    runner.load ();
-                                    api_error = runner.is_using_cached_data;
-                                    done = true;
-                                });
-
-                                //
-                                GLib.Timeout.add (1000, () => {
-                                    if (done) {
-                                        foreach (var release in runner.releases) {
-                                            var row = new Launcher.ActionRow ();
-                                            row.set_title (release.title);
-                                            row.Actions = get_actions_box (release, row);
-                                            row.add_suffix (row.Actions);
-
-                                            releasesRow.add_row (row);
-                                        }
-
-                                        spinner.stop ();
-                                        spinner.set_visible (false);
-
-                                        if (api_error) {
-                                            var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API"));
-                                            toast.set_timeout (5000);
-
-                                            toast_overlay.add_toast (toast);
-                                        }
-
-                                        return false;
-                                    }
-
-                                    return true;
-                                });
-                            }
+                            if (pspec.get_name () == "expanded" && releasesRow.get_expanded () && !runner.loaded) load_releases (spinner, runner, releasesRow);
                         });
 
                         preferences_group.add (releasesRow);
                     }
                 }
             }
+        }
+
+        void load_releases (Gtk.Spinner spinner, Shared.Models.Runner runner, Launcher.ExpanderRow releasesRow) {
+            bool done = false;
+            bool api_error = false;
+
+            spinner.start ();
+            spinner.set_visible (true);
+
+            uint previous_count = runner.releases.length ();
+
+            //
+            new Thread<void> ("load_releases", () => {
+                runner.load ();
+                api_error = runner.is_using_cached_data;
+                done = true;
+            });
+
+            //
+            GLib.Timeout.add (1000, () => {
+                if (done) {
+                    for (var i = previous_count; i < runner.releases.length (); i++) {
+                        var release = runner.releases.nth_data (i);
+
+                        if (release != null) {
+                            var row = new Launcher.ActionRow ();
+                            row.set_title (release.title);
+                            row.Actions = get_actions_box (release, row);
+                            row.add_suffix (row.Actions);
+
+                            releasesRow.add_row (row);
+                        }
+                    }
+
+                    if (runner.releases_count == runner.page * 25) {
+                        var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+                        actions.set_margin_end (10);
+                        actions.set_valign (Gtk.Align.CENTER);
+
+                        var row = new Launcher.ActionRow ();
+                        row.set_title (_("Load more releases"));
+                        row.Actions = actions;
+                        row.add_suffix (row.Actions);
+
+                        var btn = new Gtk.Button ();
+                        btn.set_icon_name ("content-loading-symbolic");
+                        btn.add_css_class ("flat");
+                        btn.width_request = 25;
+                        btn.height_request = 25;
+                        btn.set_tooltip_text (_("Load more releases"));
+                        btn.clicked.connect (() => {
+                            releasesRow.remove (row);
+                            load_releases (spinner, runner, releasesRow);
+                        });
+
+                        actions.append (btn);
+
+                        releasesRow.add_row (row);
+                    }
+
+                    spinner.stop ();
+                    spinner.set_visible (false);
+
+                    if (api_error) {
+                        var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API"));
+                        toast.set_timeout (5000);
+
+                        toast_overlay.add_toast (toast);
+                    }
+
+                    return false;
+                }
+
+                return true;
+            });
         }
 
         void delete_release (Shared.Models.Release release, Launcher.ActionRow widget) {

@@ -30,10 +30,7 @@ namespace ProtonPlus.Shared.Models {
             this.directory = runner.group.launcher.directory + runner.group.directory + "/" + get_directory_name ();
             this.installed = FileUtils.test (directory, FileTest.IS_DIR);
             this.size = 0;
-
-            // message (title + "| " + directory);
-
-            set_size ();
+            // set_size (); Disabled since Utils.Filesystem.GetDirectorySize is buggy and we don't have a way to see that data anyway
         }
 
         public void set_size () {
@@ -51,6 +48,11 @@ namespace ProtonPlus.Shared.Models {
 
         public string get_directory_name () {
             switch (runner.title_type) {
+            case Runner.title_types.STEAM_PROTON:
+                if (title.contains (".")) {
+                    return "Proton-" + title;
+                }
+                return title;
             case Runner.title_types.WINE_LUTRIS_BOTTLES:
                 if (title.contains ("LoL")) {
                     var parts = title.split ("-");
@@ -118,7 +120,6 @@ namespace ProtonPlus.Shared.Models {
                 }
 
                 if (installation_error || installation_api_error || installation_cancelled) {
-                    // Cancel (false);
                     return;
                 }
 
@@ -137,12 +138,10 @@ namespace ProtonPlus.Shared.Models {
                 }
 
                 if (runner.is_using_github_actions) {
-                    // message (sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""));
                     sourcePath = Utils.Filesystem.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", ref installation_cancelled);
                 }
 
                 if (installation_error || installation_cancelled) {
-                    // Cancel (false);
                     return;
                 }
 
