@@ -42,10 +42,14 @@ namespace ProtonPlus.Launcher {
             });
 
             //
+            var menu_box = new Menu.MenuBox (this);
+
+            //
             other_leaflet = new Adw.Leaflet ();
             other_leaflet.set_can_unfold (false);
             other_leaflet.append (content_leaflet);
             other_leaflet.append (launcher_warning_box);
+            other_leaflet.append (menu_box);
 
             //
             this.add_action (load_info_box ());

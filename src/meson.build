@@ -7,7 +7,7 @@ sources = files(
 subdir('launcher')
 
 #
-subdir('preferences')
+subdir('menu')
 
 #
 subdir('shared')

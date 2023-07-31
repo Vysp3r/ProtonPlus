@@ -9,20 +9,30 @@ namespace ProtonPlus.Launcher {
             this.set_size_request (280, 0);
 
             //
-            var menu_model = new Menu ();
-            // menu_model.append (_("Preferences"), "app.preferences"); // TODO
-            // menu_model.append (_("Keyboard Shortcuts"), "app.shortcuts"); // TODO
-            menu_model.append (_("About"), "app.about");
-
-            //
-            var menu = new Gtk.MenuButton ();
-            menu.set_icon_name ("open-menu-symbolic");
-            menu.set_menu_model (menu_model);
-
-            //
             header = new Adw.HeaderBar ();
             header.set_show_end_title_buttons (false);
-            header.pack_end (menu);
+
+            //
+            if (GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland") {
+                //
+                var menu = new Gtk.Button.from_icon_name ("open-menu-symbolic");
+                menu.clicked.connect (() => this.activate_action_variant ("win.switch-other-page", 2));
+
+                //
+                header.pack_end (menu);
+            } else {
+                //
+                var menu_model = new GLib.Menu ();
+                menu_model.append (_("About"), "app.about");
+
+                //
+                var menu = new Gtk.MenuButton ();
+                menu.set_icon_name ("open-menu-symbolic");
+                menu.set_menu_model (menu_model);
+
+                //
+                header.pack_end (menu);
+            }
 
             //
             list = new Gtk.ListBox ();
