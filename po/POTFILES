@@ -1,4 +1,8 @@
 src/launcher/launcher-warning-box.vala
 src/launcher/launcher-info-box.vala
 src/launcher/launcher-list-box.vala
-src/preferences/preferences-window.vala
+src/menu/menu-box.vala
+src/shared/launchers/bottles.vala
+src/shared/launchers/hgl.vala
+src/shared/launchers/lutris.vala
+src/shared/launchers/steam.vala

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-30 13:47-0400\n"
+"POT-Creation-Date: 2023-07-31 14:51-0400\n"
 "PO-Revision-Date: 2023-01-11 22:36+0800\n"
 "Last-Translator: neovali <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese - China\n"
@@ -57,22 +57,89 @@ msgid "Install the runner"
 msgstr "安装工具"
 
 #.
-#. menu_model.append (_("Preferences"), "app.preferences"); // TODO
-#. menu_model.append (_("Keyboard Shortcuts"), "app.shortcuts"); // TODO
-#: src/launcher/launcher-list-box.vala:15
+#: src/launcher/launcher-list-box.vala:26
 msgid "About"
 msgstr "关于"
 
-#: src/preferences/preferences-window.vala:13
-msgid "Preferences"
-msgstr "首选项"
-
-#.
-#.
-#: src/preferences/preferences-window.vala:21
-#: src/preferences/preferences-window.vala:22
-msgid "Main"
+#: src/shared/launchers/bottles.vala:6 src/shared/launchers/steam.vala:6
+msgid "Runners"
 msgstr ""
+
+#: src/shared/launchers/bottles.vala:48 src/shared/launchers/hgl.vala:64
+#: src/shared/launchers/steam.vala:63
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton. Use this when you don't know what to choose."
+msgstr ""
+
+#: src/shared/launchers/bottles.vala:52 src/shared/launchers/hgl.vala:52
+#: src/shared/launchers/lutris.vala:48
+msgid ""
+"Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve "
+"Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you "
+"don't know what to choose."
+msgstr ""
+
+#: src/shared/launchers/bottles.vala:56 src/shared/launchers/lutris.vala:52
+msgid ""
+"Compatibility tool \"Wine\" to run Windows games on Linux. Improved by "
+"Lutris to offer better compatibility or performance in certain games."
+msgstr ""
+
+#: src/shared/launchers/bottles.vala:73 src/shared/launchers/lutris.vala:71
+msgid ""
+"Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.https://"
+"github.com/lutris/docs/blob/master/HowToDXVK.md"
+msgstr ""
+
+#: src/shared/launchers/bottles.vala:74 src/shared/launchers/lutris.vala:72
+msgid ""
+"Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with "
+"async patch by Sporif.Warning: Use only with singleplayer games!"
+msgstr ""
+
+#: src/shared/launchers/lutris.vala:54 src/shared/launchers/lutris.vala:57
+msgid ""
+"Compatibility tool \"Wine\" to run Windows games on Linux. Official version "
+"from the WineHQ sources, compiled by Kron4ek."
+msgstr ""
+
+#: src/shared/launchers/lutris.vala:73
+msgid ""
+"Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with "
+"async patch and RTX fix for Star Citizen by gnusenpai.Warning: Use only with "
+"singleplayer games!"
+msgstr ""
+
+#: src/shared/launchers/steam.vala:67
+msgid ""
+"Custom Proton build for running Windows games, built with the Wine-tkg build "
+"system."
+msgstr ""
+
+#: src/shared/launchers/steam.vala:71
+msgid ""
+"Luxtorpeda provides Linux-native game engines for specific Windows-only "
+"games."
+msgstr ""
+
+#: src/shared/launchers/steam.vala:72
+msgid ""
+"Steam Play compatibility tool to run DOS games using native Linux DOSBox."
+msgstr ""
+
+#: src/shared/launchers/steam.vala:73
+msgid ""
+"Steam Play compatibility tool to run adventure games using native Linux "
+"ScummVM."
+msgstr ""
+
+#: src/shared/launchers/steam.vala:74
+msgid "Custom Proton build for running the Northstar client for Titanfall 2."
+msgstr ""
+
+#~ msgid "Preferences"
+#~ msgstr "首选项"
 
 #, fuzzy
 #~ msgid "Deleted "
