@@ -49,7 +49,7 @@ namespace ProtonPlus.Shared.Launchers {
         public static GLib.List<Models.Runner> get_wine_runners (Models.Group group) {
             var runners = new GLib.List<Models.Runner> ();
 
-            var wine_ge = new Models.Runner (group, "Wine-GE", "Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.WINE_HGL);
+            var wine_ge = new Models.Runner (group, "Wine-GE", _("Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you don't know what to choose."), "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.WINE_HGL);
             wine_ge.old_asset_location = 83;
             wine_ge.old_asset_position = 0;
 
@@ -61,7 +61,7 @@ namespace ProtonPlus.Shared.Launchers {
         public static GLib.List<Models.Runner> get_proton_runners (Models.Group group) {
             var runners = new GLib.List<Models.Runner> ();
 
-            var proton_ge = new Models.Runner (group, "Proton-GE", "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. Use this when you don't know what to choose.", "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.PROTON_HGL);
+            var proton_ge = new Models.Runner (group, "Proton-GE", _("Steam compatibility tool for running Windows games with improvements over Valve's default Proton. Use this when you don't know what to choose."), "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.PROTON_HGL);
             proton_ge.old_asset_location = 95;
             proton_ge.old_asset_position = 0;
 
