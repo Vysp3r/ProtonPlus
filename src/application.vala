@@ -19,18 +19,12 @@ namespace ProtonPlus {
 
             //
             ActionEntry[] action_entries = {
-                { "preferences", preferences_action },
                 { "about", about_action },
             };
             add_action_entries (action_entries, this);
 
             //
             window.show ();
-        }
-
-        void preferences_action () {
-            var preferencesWindow = new Preferences.PreferencesWindow (window);
-            preferencesWindow.show ();
         }
 
         void about_action () {
