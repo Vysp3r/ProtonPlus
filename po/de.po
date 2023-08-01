@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-07-31 14:51-0400\n"
-"PO-Revision-Date: 2023-07-31 18:35+0200\n"
+"PO-Revision-Date: 2023-07-31 21:42+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -64,7 +64,7 @@ msgstr "Über"
 
 #: src/shared/launchers/bottles.vala:6 src/shared/launchers/steam.vala:6
 msgid "Runners"
-msgstr ""
+msgstr "Ausführungswerkzeuge"
 
 #: src/shared/launchers/bottles.vala:48 src/shared/launchers/hgl.vala:64
 #: src/shared/launchers/steam.vala:63
@@ -72,6 +72,9 @@ msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. Use this when you don't know what to choose."
 msgstr ""
+"Steam Kompatibilitätswerkzeug um Windowsspiele zu Starten mit Verbesserungen "
+"gegenüber Valves Standard-Proton. Benutzen Sie dies wenn Sie nicht sicher "
+"sind."
 
 #: src/shared/launchers/bottles.vala:52 src/shared/launchers/hgl.vala:52
 #: src/shared/launchers/lutris.vala:48
@@ -80,30 +83,42 @@ msgid ""
 "Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you "
 "don't know what to choose."
 msgstr ""
+"Kompatibilitätswerkzeug \"WIne\" um Windowsspiele unter Linux zu starten. "
+"Basierend auf dem neuesten Stand von Valve Proton Experimental Wine, gebaut "
+"für Lutris. Benutzen Sie dies wenn Sie nicht sicher sind."
 
 #: src/shared/launchers/bottles.vala:56 src/shared/launchers/lutris.vala:52
 msgid ""
 "Compatibility tool \"Wine\" to run Windows games on Linux. Improved by "
 "Lutris to offer better compatibility or performance in certain games."
 msgstr ""
+"Kompatibilitätswerkzeug \"WIne\" um Windowsspiele unter Linux zu starten. "
+"Verbessert von Lutris um bessere Kompatibilität oder Leistung in einigen "
+"Spielen zu bieten."
 
 #: src/shared/launchers/bottles.vala:73 src/shared/launchers/lutris.vala:71
 msgid ""
 "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.https://"
 "github.com/lutris/docs/blob/master/HowToDXVK.md"
 msgstr ""
+"Vulkan basierte Implementierung von DirectX9, 10 und 11 for Linux/Wine. "
+"https://github.com/lutris/docs/blob/master/HowToDXVK.md"
 
 #: src/shared/launchers/bottles.vala:74 src/shared/launchers/lutris.vala:72
 msgid ""
 "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with "
 "async patch by Sporif.Warning: Use only with singleplayer games!"
 msgstr ""
+"Vulkan basierte Implementierung von DirectX9, 10 und 11 for Linux/Wine mit "
+"asnychronem Patch by Sporif. Warnung: Nur für Einzelspieler-Spiele verwenden!"
 
 #: src/shared/launchers/lutris.vala:54 src/shared/launchers/lutris.vala:57
 msgid ""
 "Compatibility tool \"Wine\" to run Windows games on Linux. Official version "
 "from the WineHQ sources, compiled by Kron4ek."
 msgstr ""
+"Kompatibilitätswerkzeug \"WIne\" um Windowsspiele unter Linux zu starten. "
+"Offizielle Version aus den WineHQ -Quellen, kompiliert von Kron4ek."
 
 #: src/shared/launchers/lutris.vala:73
 msgid ""
@@ -111,33 +126,45 @@ msgid ""
 "async patch and RTX fix for Star Citizen by gnusenpai.Warning: Use only with "
 "singleplayer games!"
 msgstr ""
+"Vulkan basierte Implementierung von DirectX9, 10 und 11 for Linux/Wine mit "
+"asnychronem Patch und RTX Behebung für Star Citizen von gnusenpai. Warnung: "
+"Nur für Einzelspieler-Spiele verwenden!"
 
 #: src/shared/launchers/steam.vala:67
 msgid ""
 "Custom Proton build for running Windows games, built with the Wine-tkg build "
 "system."
 msgstr ""
+"Benutzerdefiniertes Proton build um Windowsspiele unter Linux zu starten, "
+"gebaut mit dem WIne-tkg Build-System."
 
 #: src/shared/launchers/steam.vala:71
 msgid ""
 "Luxtorpeda provides Linux-native game engines for specific Windows-only "
 "games."
 msgstr ""
+"Luxtorpeda bietet Linux-native Spiele-Engines für spezifische Windows-Spiele."
 
 #: src/shared/launchers/steam.vala:72
 msgid ""
 "Steam Play compatibility tool to run DOS games using native Linux DOSBox."
 msgstr ""
+"Steam Play Kompatibilitätswerkzeug um DOS-Spiele mit der nativen Linux "
+"DOSBox zu starten."
 
 #: src/shared/launchers/steam.vala:73
 msgid ""
 "Steam Play compatibility tool to run adventure games using native Linux "
 "ScummVM."
 msgstr ""
+"Steam Play Kompatibilitätswerkzeug um Abenteuer-Spiele mit der nativen Linux "
+"ScummVM zu starten."
 
 #: src/shared/launchers/steam.vala:74
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
+"Benutzerdefiniertes Proton build um den Northstar-Klient für Titenfall 2 zu "
+"starten."
 
 #~ msgid "Preferences"
 #~ msgstr "Einstellungen"
