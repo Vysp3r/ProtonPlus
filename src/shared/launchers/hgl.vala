@@ -55,7 +55,19 @@ namespace ProtonPlus.Shared.Launchers {
             wine_ge.old_asset_location = 83;
             wine_ge.old_asset_position = 0;
 
+            var kron4ek_vanilla = new Models.Runner (group, "Wine-Vanilla (Kron4ek)", _("Wine build compiled from the official WineHQ sources."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, Models.Runner.title_types.LUTRIS_KRON4EK_VANILLA);
+            kron4ek_vanilla.request_asset_exclude = { "proton", ".0." };
+
+            var kron4ek_staging = new Models.Runner (group, "Wine-Staging (Kron4ek)", _("Wine build with the Staging patchset applied."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.LUTRIS_KRON4EK_STAGING);
+            kron4ek_staging.request_asset_exclude = { "proton", ".0." };
+
+            var kron4ek_staging_tkg = new Models.Runner (group, "Wine-Staging-Tkg (Kron4ek)", _("Wine build with the Staging patchset applied and with many additional useful patches."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 3, Models.Runner.title_types.LUTRIS_KRON4EK_STAGING_TKG);
+            kron4ek_staging_tkg.request_asset_exclude = { "proton", ".0." };
+
             runners.append (wine_ge);
+            runners.append (kron4ek_vanilla);
+            runners.append (kron4ek_staging);
+            runners.append (kron4ek_staging_tkg);
 
             return runners;
         }
@@ -67,7 +79,11 @@ namespace ProtonPlus.Shared.Launchers {
             proton_ge.old_asset_location = 95;
             proton_ge.old_asset_position = 0;
 
+            var proton_tkg = new Models.Runner (group, "Proton-Tkg", _("Custom Proton build for running Windows games, built with the Wine-tkg build system."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
+            proton_tkg.is_using_github_actions = true;
+
             runners.append (proton_ge);
+            runners.append (proton_tkg);
 
             return runners;
         }
