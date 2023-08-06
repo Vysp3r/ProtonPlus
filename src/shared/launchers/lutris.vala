@@ -68,9 +68,13 @@ namespace ProtonPlus.Shared.Launchers {
         public static GLib.List<Models.Runner> get_dxvk_runners (Models.Group group) {
             var runners = new GLib.List<Models.Runner> ();
 
-            runners.append (new Models.Runner (group, "DXVK", _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.https://github.com/lutris/docs/blob/master/HowToDXVK.md"), "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.LUTRIS_DXVK));
-            runners.append (new Models.Runner (group, "DXVK Async (Sporif)", _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch by Sporif.Warning: Use only with singleplayer games!"), "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_ASYNC_SPORIF));
-            runners.append (new Models.Runner (group, "DXVK Async (gnusenpai)", _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch and RTX fix for Star Citizen by gnusenpai.Warning: Use only with singleplayer games!"), "https://api.github.com/repos/gnusenpai/dxvk/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_ASYNC_GNUSENPAI));
+            var dxvk_gplasync = new Models.Runner (group, "DXVK GPL+Async (Ph42oN)", "", "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/releases", 0, ProtonPlus.Shared.Models.Runner.title_types.LUTRIS_DXVK_GPLASYNC);
+            dxvk_gplasync.endpoint_type = ProtonPlus.Shared.Models.Runner.endpoint_types.GITLAB;
+
+            runners.append (new Models.Runner (group, "DXVK (doitsujin)", _(""), "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.LUTRIS_DXVK));
+            runners.append (new Models.Runner (group, "DXVK Async (Sporif)", _(""), "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_ASYNC_SPORIF));
+            runners.append (new Models.Runner (group, "DXVK Async (gnusenpai)", _("RTX fix for Star Citizen."), "https://api.github.com/repos/gnusenpai/dxvk/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_ASYNC_GNUSENPAI));
+            runners.append (dxvk_gplasync);
 
             return runners;
         }

@@ -77,6 +77,8 @@ namespace ProtonPlus.Shared.Models {
                 return @"dxvk-async-$title";
             case Runner.title_types.LUTRIS_DXVK_ASYNC_GNUSENPAI:
                 return @"dxvk-sc-async-" + title.replace ("v", "").replace ("-sc-async", "");
+            case Runner.title_types.LUTRIS_DXVK_GPLASYNC:
+                return @"dxvk-gplasync-" + title;
             case Runner.title_types.LUTRIS_WINE_GE:
                 if (title.contains ("LoL")) {
                     var parts = title.split ("-");
