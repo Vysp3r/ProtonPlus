@@ -7,6 +7,7 @@ namespace ProtonPlus.Shared.Launchers {
             groups[0].runners = get_runners (groups[0]);
 
             groups[1] = new Models.Group ("DXVK", "/dxvk", launcher);
+            groups[1].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine");
             groups[1].runners = get_dxvk_runners (groups[1]);
 
             return groups;
@@ -70,8 +71,8 @@ namespace ProtonPlus.Shared.Launchers {
         public static GLib.List<Models.Runner> get_dxvk_runners (Models.Group group) {
             var runners = new GLib.List<Models.Runner> ();
 
-            runners.append (new Models.Runner (group, "DXVK", _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.https://github.com/lutris/docs/blob/master/HowToDXVK.md"), "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.LUTRIS_DXVK));
-            runners.append (new Models.Runner (group, "DXVK Async", _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with async patch by Sporif.Warning: Use only with singleplayer games!"), "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_ASYNC_SPORIF));
+            runners.append (new Models.Runner (group, "DXVK", "", "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.LUTRIS_DXVK));
+            runners.append (new Models.Runner (group, "DXVK Async", "", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_ASYNC_SPORIF));
 
             return runners;
         }

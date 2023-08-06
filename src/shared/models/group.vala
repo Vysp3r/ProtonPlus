@@ -1,6 +1,7 @@
 namespace ProtonPlus.Shared.Models {
     public class Group {
         public string title;
+        public string description;
         public string directory;
         public Models.Launcher launcher;
 
