@@ -13,7 +13,7 @@ namespace ProtonPlus.Shared.Models {
         public bool is_using_github_actions;
         public bool use_name_instead_of_tag_name;
         public bool is_using_cached_data;
-        public string request_asset_exclude;
+        public string[] request_asset_exclude;
         public bool loaded;
 
         public uint page;
@@ -40,7 +40,6 @@ namespace ProtonPlus.Shared.Models {
             this.is_using_github_actions = false;
             this.use_name_instead_of_tag_name = false;
             this.is_using_cached_data = false;
-            this.request_asset_exclude = "";
             this.loaded = false;
 
             this.releases = new GLib.List<Release> ();
@@ -63,7 +62,8 @@ namespace ProtonPlus.Shared.Models {
             LUTRIS_WINE_GE,
             LUTRIS_WINE,
             LUTRIS_KRON4EK_VANILLA,
-            LUTRIS_KRON4EK_TKG,
+            LUTRIS_KRON4EK_STAGING,
+            LUTRIS_KRON4EK_STAGING_TKG,
             NONE
         }
 
@@ -156,7 +156,15 @@ namespace ProtonPlus.Shared.Models {
                     else tag = objRoot.get_string_member ("tag_name");
 
                     //
-                    if (!tag.contains (request_asset_exclude) || request_asset_exclude == "") {
+                    var excluded = false;
+                    if (request_asset_exclude != null) {
+                        foreach (var excluded_asset in request_asset_exclude) {
+                            if (tag.contains (excluded_asset)) excluded = true;
+                        }
+                    }
+
+                    //
+                    if (!excluded) {
                         // Set the value of page_url to the html_url object contained in the current node
                         page_url = objRoot.get_string_member ("html_url");
 
@@ -245,7 +253,15 @@ namespace ProtonPlus.Shared.Models {
                 else tag = objRoot.get_string_member ("tag_name");
 
                 //
-                if (!tag.contains (request_asset_exclude) || request_asset_exclude == "") {
+                var excluded = false;
+                if (request_asset_exclude != null) {
+                    foreach (var excluded_asset in request_asset_exclude) {
+                        if (tag.contains (excluded_asset)) excluded = true;
+                    }
+                }
+
+                //
+                if (!excluded) {
                     // Set the value of page_url to the html_url object contained in the current node
                     var pageUrlNode = objRoot.get_member ("_links");
                     var pageUrlObjAsset = pageUrlNode.get_object ();
