@@ -5,6 +5,7 @@ namespace ProtonPlus.Shared.Models {
         public string endpoint; // For GitHub Actions repository, make this the workflow url. See Proton Tkg for an example.
         public int asset_position; // The position of the .tar.xz file in the json tree of the tool > assets
         public title_types title_type;
+        public endpoint_types endpoint_type;
 
         public int old_asset_location; // When the assets changes
         public int old_asset_position; // Same as asset_position, but for older releases that might have different assets position
@@ -12,7 +13,7 @@ namespace ProtonPlus.Shared.Models {
         public bool is_using_github_actions;
         public bool use_name_instead_of_tag_name;
         public bool is_using_cached_data;
-        public string request_asset_exclude;
+        public string[] request_asset_exclude;
         public bool loaded;
 
         public uint page;
@@ -31,6 +32,7 @@ namespace ProtonPlus.Shared.Models {
             this.endpoint = endpoint;
             this.asset_position = asset_position;
             this.title_type = title_type;
+            this.endpoint_type = endpoint_types.GITHUB;
 
             this.old_asset_location = -1;
             this.old_asset_position = -1;
@@ -38,15 +40,14 @@ namespace ProtonPlus.Shared.Models {
             this.is_using_github_actions = false;
             this.use_name_instead_of_tag_name = false;
             this.is_using_cached_data = false;
-            this.request_asset_exclude = "";
             this.loaded = false;
 
             this.releases = new GLib.List<Release> ();
         }
 
         public enum title_types {
-            RELEASE_NAME, // The title of the release only
-            TOOL_NAME, // The title only shows the version number and need to have the tool name added before
+            RELEASE_NAME,
+            TOOL_NAME,
             PROTON_HGL,
             WINE_HGL,
             BOTTLES,
@@ -57,11 +58,20 @@ namespace ProtonPlus.Shared.Models {
             LUTRIS_DXVK,
             LUTRIS_DXVK_ASYNC_SPORIF,
             LUTRIS_DXVK_ASYNC_GNUSENPAI,
+            LUTRIS_DXVK_GPLASYNC,
             LUTRIS_WINE_GE,
             LUTRIS_WINE,
+            LUTRIS_VKD3D,
+            LUTRIS_VKD3D_PROTON,
             LUTRIS_KRON4EK_VANILLA,
-            LUTRIS_KRON4EK_TKG,
-            NONE // Bypass and do not rename
+            LUTRIS_KRON4EK_STAGING,
+            LUTRIS_KRON4EK_STAGING_TKG,
+            NONE
+        }
+
+        public enum endpoint_types {
+            GITHUB,
+            GITLAB
         }
 
         public void load () {
@@ -96,7 +106,30 @@ namespace ProtonPlus.Shared.Models {
 
             if (rootNode == null) return;
 
+            switch (endpoint_type) {
+            case endpoint_types.GITHUB:
+                load_github (rootNode);
+                break;
+            case endpoint_types.GITLAB:
+                load_gitlab (rootNode);
+                break;
+            }
+
             //
+            if (page != 1) {
+                string temp = Utils.Filesystem.GetFileContent (path);
+                json = temp.substring (0, temp.length - 3) + "," + json.substring (1);
+            }
+
+            //
+            if (GLib.FileUtils.test (path, GLib.FileTest.EXISTS)) Utils.Filesystem.ModifyFile (path, json);
+            else Utils.Filesystem.CreateFile (path, json);
+
+            //
+            loaded = true;
+        }
+
+        void load_github (Json.Node rootNode) {
             if (!is_using_github_actions) {
                 // Get the root node from the json
                 if (rootNode.get_node_type () != Json.NodeType.ARRAY) return;
@@ -125,7 +158,15 @@ namespace ProtonPlus.Shared.Models {
                     else tag = objRoot.get_string_member ("tag_name");
 
                     //
-                    if (!tag.contains (request_asset_exclude) || request_asset_exclude == "") {
+                    var excluded = false;
+                    if (request_asset_exclude != null) {
+                        foreach (var excluded_asset in request_asset_exclude) {
+                            if (tag.contains (excluded_asset)) excluded = true;
+                        }
+                    }
+
+                    //
+                    if (!excluded) {
                         // Set the value of page_url to the html_url object contained in the current node
                         page_url = objRoot.get_string_member ("html_url");
 
@@ -184,22 +225,74 @@ namespace ProtonPlus.Shared.Models {
                     }
                 }
             }
+        }
 
-            //
-            if (page != 1) {
-                string temp = Utils.Filesystem.GetFileContent (path);
-                json = temp.substring (0, temp.length - 3) + "," + json.substring (1);
+        void load_gitlab (Json.Node rootNode) {
+            // Get the root node from the json
+            if (rootNode.get_node_type () != Json.NodeType.ARRAY) return;
+
+            // Get the root node array
+            var rootNodeArray = rootNode.get_array ();
+            if (rootNodeArray == null) return;
+
+            releases_count += rootNodeArray.get_length ();
+
+            // Execute a loop with the number of items contained in the Version array and fill it
+            for (var i = 0; i < rootNodeArray.get_length (); i++) {
+                string tag = "";
+                string download_url = "";
+                string page_url = "";
+                string release_date = "";
+                string checksum_url = "";
+                int64 download_size = -1;
+
+                // Get the current node
+                var tempNode = rootNodeArray.get_element (i);
+                var objRoot = tempNode.get_object ();
+
+                // Set the value of tag to the tag_name object contained in the current node
+                if (use_name_instead_of_tag_name) tag = objRoot.get_string_member ("name");
+                else tag = objRoot.get_string_member ("tag_name");
+
+                //
+                var excluded = false;
+                if (request_asset_exclude != null) {
+                    foreach (var excluded_asset in request_asset_exclude) {
+                        if (tag.contains (excluded_asset)) excluded = true;
+                    }
+                }
+
+                //
+                if (!excluded) {
+                    // Set the value of page_url to the html_url object contained in the current node
+                    var pageUrlNode = objRoot.get_member ("_links");
+                    var pageUrlObjAsset = pageUrlNode.get_object ();
+                    page_url = pageUrlObjAsset.get_string_member ("self");
+
+                    //
+                    release_date = objRoot.get_string_member ("created_at").split ("T")[0];
+
+                    // Get the temp node array for the assets
+                    var assetsNode = objRoot.get_member ("assets");
+                    var assetsObjAsset = assetsNode.get_object ();
+
+                    // Get the temp node array for the assets
+                    var linksNodeArray = assetsObjAsset.get_array_member ("links");
+
+                    //
+                    int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
+
+                    // Verify weither the temp node array has values
+                    if (linksNodeArray.get_length () - 1 >= pos) {
+                        var tempNodeArrayAsset = linksNodeArray.get_element (pos);
+                        var objAsset = tempNodeArrayAsset.get_object ();
+
+                        download_url = objAsset.get_string_member ("direct_asset_url"); // Set the value of download_url to the browser_download_url object contained in the current node
+
+                        releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz")); // Currently here to prevent showing release with an invalid download_url
+                    }
+                }
             }
-
-            //
-            if (GLib.FileUtils.test (path, GLib.FileTest.EXISTS)) Utils.Filesystem.ModifyFile (path, json);
-            else Utils.Filesystem.CreateFile (path, json);
-
-            //
-            loaded = true;
-
-            //
-            this.releases = (owned) releases;
         }
     }
 }

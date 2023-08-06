@@ -77,6 +77,8 @@ namespace ProtonPlus.Shared.Models {
                 return @"dxvk-async-$title";
             case Runner.title_types.LUTRIS_DXVK_ASYNC_GNUSENPAI:
                 return @"dxvk-sc-async-" + title.replace ("v", "").replace ("-sc-async", "");
+            case Runner.title_types.LUTRIS_DXVK_GPLASYNC:
+                return @"dxvk-gplasync-" + title;
             case Runner.title_types.LUTRIS_WINE_GE:
                 if (title.contains ("LoL")) {
                     var parts = title.split ("-");
@@ -85,9 +87,15 @@ namespace ProtonPlus.Shared.Models {
                 return @"lutris-$title-x86_64";
             case Runner.title_types.LUTRIS_WINE:
                 return title.replace ("-wine", "") + "-x86_64";
+            case Runner.title_types.LUTRIS_VKD3D:
+                return title;
+            case Runner.title_types.LUTRIS_VKD3D_PROTON:
+                return "vkd3d-proton-" + title;
             case Runner.title_types.LUTRIS_KRON4EK_VANILLA:
                 return @"wine-$title-amd64";
-            case Runner.title_types.LUTRIS_KRON4EK_TKG:
+            case Runner.title_types.LUTRIS_KRON4EK_STAGING:
+                return @"wine-$title-staging-amd64";
+            case Runner.title_types.LUTRIS_KRON4EK_STAGING_TKG:
                 return @"wine-$title-staging-tkg-amd64";
             default:
                 return title;

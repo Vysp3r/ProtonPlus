@@ -59,6 +59,7 @@ namespace ProtonPlus.Launcher {
                 foreach (var group in launcher.groups) {
                     var preferences_group = new Adw.PreferencesGroup ();
                     preferences_group.set_title (group.title);
+                    preferences_group.set_description (group.description);
 
                     content.append (preferences_group);
 

@@ -60,11 +60,11 @@ namespace ProtonPlus.Shared.Launchers {
         public static GLib.List<Models.Runner> get_runners (Models.Group group) {
             var runners = new GLib.List<Models.Runner> ();
 
-            var proton_ge = new Models.Runner (group, "Proton-GE", _("Steam compatibility tool for running Windows games with improvements over Valve's default Proton. Use this when you don't know what to choose."), "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.STEAM_PROTON);
+            var proton_ge = new Models.Runner (group, "Proton-GE", _("Steam compatibility tool for running Windows games with improvements over Valve's default Proton."), "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.STEAM_PROTON);
             proton_ge.old_asset_location = 95;
             proton_ge.old_asset_position = 0;
 
-            var proton_tkg = new Models.Runner (group, "Proton Tkg", _("Custom Proton build for running Windows games, built with the Wine-tkg build system."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
+            var proton_tkg = new Models.Runner (group, "Proton-Tkg", _("Custom Proton build for running Windows games, built with the Wine-tkg build system."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
             proton_tkg.is_using_github_actions = true;
 
             runners.append (proton_ge);
