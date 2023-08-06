@@ -61,6 +61,8 @@ namespace ProtonPlus.Shared.Models {
             LUTRIS_DXVK_GPLASYNC,
             LUTRIS_WINE_GE,
             LUTRIS_WINE,
+            LUTRIS_VKD3D,
+            LUTRIS_VKD3D_PROTON,
             LUTRIS_KRON4EK_VANILLA,
             LUTRIS_KRON4EK_STAGING,
             LUTRIS_KRON4EK_STAGING_TKG,

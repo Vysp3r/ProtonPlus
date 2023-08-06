@@ -64,7 +64,7 @@ namespace ProtonPlus.Shared.Launchers {
             proton_ge.old_asset_location = 95;
             proton_ge.old_asset_position = 0;
 
-            var proton_tkg = new Models.Runner (group, "Proton Tkg", _("Custom Proton build for running Windows games, built with the Wine-tkg build system."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
+            var proton_tkg = new Models.Runner (group, "Proton-Tkg", _("Custom Proton build for running Windows games, built with the Wine-tkg build system."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
             proton_tkg.is_using_github_actions = true;
 
             runners.append (proton_ge);

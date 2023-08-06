@@ -1,7 +1,7 @@
 namespace ProtonPlus.Shared.Launchers {
     public class Lutris {
         static Models.Group[] get_groups (Models.Launcher launcher) {
-            var groups = new Models.Group[2];
+            var groups = new Models.Group[3];
 
             groups[0] = new Models.Group ("Wine", "/runners/wine", launcher);
             groups[0].description = _("Program which allows running Microsoft Windows programs");
@@ -10,6 +10,10 @@ namespace ProtonPlus.Shared.Launchers {
             groups[1] = new Models.Group ("DXVK", "/runtime/dxvk", launcher);
             groups[1].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine");
             groups[1].runners = get_dxvk_runners (groups[1]);
+
+            groups[2] = new Models.Group ("VKD3D", "/runtime/vkd3d", launcher);
+            groups[2].description = _("Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan");
+            groups[2].runners = get_vkd3d_runners (groups[2]);
 
             return groups;
         }
@@ -53,13 +57,13 @@ namespace ProtonPlus.Shared.Launchers {
 
             var wine_lutris = new Models.Runner (group, "Wine-Lutris", _("Improved by Lutris to offer better compatibility or performance in certain games."), "https://api.github.com/repos/lutris/wine/releases", 0, Models.Runner.title_types.LUTRIS_WINE);
 
-            var kron4ek_vanilla = new Models.Runner (group, "Kron4ek Wine-Builds Vanilla", _("Wine build compiled from the official WineHQ sources"), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, Models.Runner.title_types.LUTRIS_KRON4EK_VANILLA);
+            var kron4ek_vanilla = new Models.Runner (group, "Wine-Vanilla (Kron4ek)", _("Wine build compiled from the official WineHQ sources"), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, Models.Runner.title_types.LUTRIS_KRON4EK_VANILLA);
             kron4ek_vanilla.request_asset_exclude = { "proton", ".0." };
 
-            var kron4ek_staging = new Models.Runner (group, "Kron4ek Wine-Builds Staging", _("Wine build with the Staging patchset applied."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.LUTRIS_KRON4EK_STAGING);
+            var kron4ek_staging = new Models.Runner (group, "Wine-Staging (Kron4ek)", _("Wine build with the Staging patchset applied."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.LUTRIS_KRON4EK_STAGING);
             kron4ek_staging.request_asset_exclude = { "proton", ".0." };
 
-            var kron4ek_staging_tkg = new Models.Runner (group, "Kron4ek Wine-Builds Staging-Tkg", _("Wine build with the Staging patchset applied and with many additional useful patches."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 3, Models.Runner.title_types.LUTRIS_KRON4EK_STAGING_TKG);
+            var kron4ek_staging_tkg = new Models.Runner (group, "Wine-Staging-Tkg (Kron4ek)", _("Wine build with the Staging patchset applied and with many additional useful patches."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 3, Models.Runner.title_types.LUTRIS_KRON4EK_STAGING_TKG);
             kron4ek_staging_tkg.request_asset_exclude = { "proton", ".0." };
 
             runners.append (wine_ge);
@@ -81,6 +85,15 @@ namespace ProtonPlus.Shared.Launchers {
             runners.append (new Models.Runner (group, "DXVK Async (Sporif)", "", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_ASYNC_SPORIF));
             runners.append (new Models.Runner (group, "DXVK Async (gnusenpai)", _("Contains RTX fix for Star Citizen."), "https://api.github.com/repos/gnusenpai/dxvk/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_ASYNC_GNUSENPAI));
             runners.append (dxvk_gplasync);
+
+            return runners;
+        }
+
+        public static GLib.List<Models.Runner> get_vkd3d_runners (Models.Group group) {
+            var runners = new GLib.List<Models.Runner> ();
+
+            runners.append (new Models.Runner (group, "VKD3D-Lutris", "", "https://api.github.com/repos/lutris/vkd3d/releases", 0, Models.Runner.title_types.LUTRIS_VKD3D));
+            runners.append (new Models.Runner (group, "VKD3D-Proton", "", "https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases", 0, Models.Runner.title_types.LUTRIS_VKD3D_PROTON));
 
             return runners;
         }
