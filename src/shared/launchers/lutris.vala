@@ -56,14 +56,15 @@ namespace ProtonPlus.Shared.Launchers {
             wine_ge.old_asset_position = 0;
 
             var wine_lutris = new Models.Runner (group, "Wine-Lutris", _("Improved by Lutris to offer better compatibility or performance in certain games."), "https://api.github.com/repos/lutris/wine/releases", 0, Models.Runner.title_types.LUTRIS_WINE);
+            wine_lutris.request_asset_exclude = { "ge-lol" };
 
-            var kron4ek_vanilla = new Models.Runner (group, "Wine-Vanilla (Kron4ek)", _("Wine build compiled from the official WineHQ sources."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, Models.Runner.title_types.LUTRIS_KRON4EK_VANILLA);
+            var kron4ek_vanilla = new Models.Runner (group, "Wine-Vanilla (Kron4ek)", _("Wine build compiled from the official WineHQ sources."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, Models.Runner.title_types.KRON4EK_VANILLA);
             kron4ek_vanilla.request_asset_exclude = { "proton", ".0." };
 
-            var kron4ek_staging = new Models.Runner (group, "Wine-Staging (Kron4ek)", _("Wine build with the Staging patchset applied."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.LUTRIS_KRON4EK_STAGING);
+            var kron4ek_staging = new Models.Runner (group, "Wine-Staging (Kron4ek)", _("Wine build with the Staging patchset applied."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.KRON4EK_STAGING);
             kron4ek_staging.request_asset_exclude = { "proton", ".0." };
 
-            var kron4ek_staging_tkg = new Models.Runner (group, "Wine-Staging-Tkg (Kron4ek)", _("Wine build with the Staging patchset applied and with many additional useful patches."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 3, Models.Runner.title_types.LUTRIS_KRON4EK_STAGING_TKG);
+            var kron4ek_staging_tkg = new Models.Runner (group, "Wine-Staging-Tkg (Kron4ek)", _("Wine build with the Staging patchset applied and with many additional useful patches."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 3, Models.Runner.title_types.KRON4EK_STAGING_TKG);
             kron4ek_staging_tkg.request_asset_exclude = { "proton", ".0." };
 
             runners.append (wine_ge);
@@ -81,8 +82,8 @@ namespace ProtonPlus.Shared.Launchers {
             var dxvk_gplasync = new Models.Runner (group, "DXVK GPL+Async (Ph42oN)", "", "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/releases", 0, ProtonPlus.Shared.Models.Runner.title_types.LUTRIS_DXVK_GPLASYNC);
             dxvk_gplasync.endpoint_type = ProtonPlus.Shared.Models.Runner.endpoint_types.GITLAB;
 
-            runners.append (new Models.Runner (group, "DXVK (doitsujin)", "", "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.LUTRIS_DXVK));
-            runners.append (new Models.Runner (group, "DXVK Async (Sporif)", "", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_ASYNC_SPORIF));
+            runners.append (new Models.Runner (group, "DXVK (doitsujin)", "", "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.DXVK));
+            runners.append (new Models.Runner (group, "DXVK Async (Sporif)", "", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, Models.Runner.title_types.DXVK_ASYNC_SPORIF));
             runners.append (new Models.Runner (group, "DXVK Async (gnusenpai)", _("Contains RTX fix for Star Citizen."), "https://api.github.com/repos/gnusenpai/dxvk/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_ASYNC_GNUSENPAI));
             runners.append (dxvk_gplasync);
 
