@@ -24,9 +24,14 @@
       <li>Wine-Lutris</li>
       <li>Lutris-GE</li>
       <li>Kron4ek Wine-Builds Vanilla</li>
+      <li>Kron4ek Wine-Builds Staging</li>
+      <li>Kron4ek Wine-Builds Staging-Tkg</li>
       <li>DXVK</li>
       <li>DXVK Async (sporif)</li>
       <li>DXVK Async (gnusenpai)</li>
+      <li>DXVK GPL+Async (Ph42oN)</li>
+      <li>VKD3D-Lutris</li>
+      <li>VKD3D-Proton</li>
     </ul>
   </description>
 
@@ -54,7 +59,7 @@
           <li>✨ Added Kron4ek builds and Proton-tkg to HGL</li>
           <li>✨ Added VKD3D support for Lutris</li>
           <li>✨ Added Kron4ek Wine-Builds Staging</li>
-          <li>✨ Added DXVK GPL+Async (Ph42oN) </li>
+          <li>✨ Added DXVK GPL+Async (Ph42oN)</li>
           <li>💄 Added description to groups</li>
           <li>💄 Improved Steam Deck experience</li>
           <li>🧑‍💻 General improvements</li>
