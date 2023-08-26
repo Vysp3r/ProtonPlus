@@ -12,7 +12,7 @@ namespace ProtonPlus.Shared.Models {
 
         public bool is_using_github_actions;
         public bool use_name_instead_of_tag_name;
-        public bool is_using_cached_data;
+        public bool api_error;
         public string[] request_asset_exclude;
         public bool loaded;
 
@@ -39,34 +39,36 @@ namespace ProtonPlus.Shared.Models {
 
             this.is_using_github_actions = false;
             this.use_name_instead_of_tag_name = false;
-            this.is_using_cached_data = false;
+            this.api_error = false;
             this.loaded = false;
 
             this.releases = new GLib.List<Release> ();
         }
 
         public enum title_types {
+            NONE,
             RELEASE_NAME,
             TOOL_NAME,
-            PROTON_HGL,
-            WINE_HGL,
-            BOTTLES,
-            STEAM_PROTON,
-            WINE_GE_BOTTLES,
-            WINE_LUTRIS_BOTTLES,
+            STEAM_PROTON_GE,
             PROTON_TKG,
-            LUTRIS_DXVK,
-            LUTRIS_DXVK_ASYNC_SPORIF,
+            KRON4EK_VANILLA,
+            KRON4EK_STAGING,
+            KRON4EK_STAGING_TKG,
+            DXVK,
+            DXVK_ASYNC_SPORIF,
             LUTRIS_DXVK_ASYNC_GNUSENPAI,
             LUTRIS_DXVK_GPLASYNC,
             LUTRIS_WINE_GE,
             LUTRIS_WINE,
             LUTRIS_VKD3D,
             LUTRIS_VKD3D_PROTON,
-            LUTRIS_KRON4EK_VANILLA,
-            LUTRIS_KRON4EK_STAGING,
-            LUTRIS_KRON4EK_STAGING_TKG,
-            NONE
+            HGL_PROTON_GE,
+            HGL_WINE_GE,
+            HGL_VKD3D,
+            BOTTLES,
+            BOTTLES_PROTON_GE,
+            BOTTLES_WINE_GE,
+            BOTTLES_WINE_LUTRIS
         }
 
         public enum endpoint_types {
@@ -74,7 +76,46 @@ namespace ProtonPlus.Shared.Models {
             GITLAB
         }
 
-        public void load () {
+        public void load (bool installed_only) {
+            if (installed_only) load_installed ();
+            else load_all ();
+        }
+
+        void load_installed () {
+            loaded = false;
+
+            releases = new List<Models.Release> ();
+
+            var dir = Posix.opendir (group.launcher.directory + group.directory);
+            if (dir == null) {
+                return;
+            }
+
+            unowned Posix.DirEnt? cur_d;
+
+            while ((cur_d = Posix.readdir (dir)) != null) {
+                if (cur_d.d_name[0] == '.') {
+                    continue;
+                }
+
+                string old_title = (string) cur_d.d_name;
+                string title = Models.Release.get_directory_name_reverse (this, old_title);
+                var release = new Models.Release (this, title, "", "", "", "", 0, "");
+                message (old_title + "==" + release.get_directory_name ());
+                if (old_title == release.get_directory_name ()) {
+                    releases.append (release);
+                }
+            }
+
+            releases.reverse ();
+
+            loaded = true;
+        }
+
+        void load_all () {
+            //
+            loaded = false;
+
             //
             page++;
 
@@ -82,16 +123,9 @@ namespace ProtonPlus.Shared.Models {
             string json = Utils.Web.GET (endpoint + "?per_page=25&page=" + page.to_string ());
 
             //
-            string base_path = GLib.Environment.get_user_data_dir () + "/ProtonPlus/";
-            string path = base_path + title + ".json";
-
-            //
-            if (!GLib.FileUtils.test (base_path, GLib.FileTest.EXISTS)) Utils.Filesystem.CreateDirectory (base_path);
-
-            //
-            if (GLib.FileUtils.test (path, GLib.FileTest.EXISTS) && (json == "" || json.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"))) {
-                json = Utils.Filesystem.GetFileContent (path);
-                is_using_cached_data = true;
+            if (json == "" || json.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting")) {
+                api_error = true;
+                return;
             }
 
             //
@@ -114,16 +148,6 @@ namespace ProtonPlus.Shared.Models {
                 load_gitlab (rootNode);
                 break;
             }
-
-            //
-            if (page != 1) {
-                string temp = Utils.Filesystem.GetFileContent (path);
-                json = temp.substring (0, temp.length - 3) + "," + json.substring (1);
-            }
-
-            //
-            if (GLib.FileUtils.test (path, GLib.FileTest.EXISTS)) Utils.Filesystem.ModifyFile (path, json);
-            else Utils.Filesystem.CreateFile (path, json);
 
             //
             loaded = true;

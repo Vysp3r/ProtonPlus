@@ -1,7 +1,7 @@
 namespace ProtonPlus.Shared.Launchers {
     public class HeroicGamesLauncher {
         static Models.Group[] get_groups (Models.Launcher launcher) {
-            var groups = new Models.Group[2];
+            var groups = new Models.Group[4];
 
             groups[0] = new Models.Group ("Proton", "/tools/proton", launcher);
             groups[0].description = _("Steam compatibility tool for running Windows games");
@@ -10,6 +10,14 @@ namespace ProtonPlus.Shared.Launchers {
             groups[1] = new Models.Group ("Wine", "/tools/wine", launcher);
             groups[1].description = _("Wine is a program which allows running Microsoft Windows programs");
             groups[1].runners = get_wine_runners (groups[1]);
+
+            groups[2] = new Models.Group ("DXVK", "/tools/dxvk", launcher);
+            groups[2].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine");
+            groups[2].runners = get_dxvk_runners (groups[2]);
+
+            groups[3] = new Models.Group ("VKD3D", "/tools/vkd3d", launcher);
+            groups[3].description = _("Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan");
+            groups[3].runners = get_vkd3d_runners (groups[3]);
 
             return groups;
         }
@@ -51,17 +59,17 @@ namespace ProtonPlus.Shared.Launchers {
         public static GLib.List<Models.Runner> get_wine_runners (Models.Group group) {
             var runners = new GLib.List<Models.Runner> ();
 
-            var wine_ge = new Models.Runner (group, "Wine-GE", _("Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."), "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.WINE_HGL);
+            var wine_ge = new Models.Runner (group, "Wine-GE", _("Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."), "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.HGL_WINE_GE);
             wine_ge.old_asset_location = 83;
             wine_ge.old_asset_position = 0;
 
-            var kron4ek_vanilla = new Models.Runner (group, "Wine-Vanilla (Kron4ek)", _("Wine build compiled from the official WineHQ sources."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, Models.Runner.title_types.LUTRIS_KRON4EK_VANILLA);
+            var kron4ek_vanilla = new Models.Runner (group, "Wine-Vanilla (Kron4ek)", _("Wine build compiled from the official WineHQ sources."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, Models.Runner.title_types.KRON4EK_VANILLA);
             kron4ek_vanilla.request_asset_exclude = { "proton", ".0." };
 
-            var kron4ek_staging = new Models.Runner (group, "Wine-Staging (Kron4ek)", _("Wine build with the Staging patchset applied."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.LUTRIS_KRON4EK_STAGING);
+            var kron4ek_staging = new Models.Runner (group, "Wine-Staging (Kron4ek)", _("Wine build with the Staging patchset applied."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.KRON4EK_STAGING);
             kron4ek_staging.request_asset_exclude = { "proton", ".0." };
 
-            var kron4ek_staging_tkg = new Models.Runner (group, "Wine-Staging-Tkg (Kron4ek)", _("Wine build with the Staging patchset applied and with many additional useful patches."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 3, Models.Runner.title_types.LUTRIS_KRON4EK_STAGING_TKG);
+            var kron4ek_staging_tkg = new Models.Runner (group, "Wine-Staging-Tkg (Kron4ek)", _("Wine build with the Staging patchset applied and with many additional useful patches."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 3, Models.Runner.title_types.KRON4EK_STAGING_TKG);
             kron4ek_staging_tkg.request_asset_exclude = { "proton", ".0." };
 
             runners.append (wine_ge);
@@ -75,7 +83,7 @@ namespace ProtonPlus.Shared.Launchers {
         public static GLib.List<Models.Runner> get_proton_runners (Models.Group group) {
             var runners = new GLib.List<Models.Runner> ();
 
-            var proton_ge = new Models.Runner (group, "Proton-GE", _("Contains improvements over Valve's default Proton."), "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.PROTON_HGL);
+            var proton_ge = new Models.Runner (group, "Proton-GE", _("Contains improvements over Valve's default Proton."), "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.HGL_PROTON_GE);
             proton_ge.old_asset_location = 95;
             proton_ge.old_asset_position = 0;
 
@@ -84,6 +92,23 @@ namespace ProtonPlus.Shared.Launchers {
 
             runners.append (proton_ge);
             runners.append (proton_tkg);
+
+            return runners;
+        }
+
+        public static GLib.List<Models.Runner> get_dxvk_runners (Models.Group group) {
+            var runners = new GLib.List<Models.Runner> ();
+
+            runners.append (new Models.Runner (group, "DXVK (doitsujin)", "", "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.DXVK));
+
+            return runners;
+        }
+
+        public static GLib.List<Models.Runner> get_vkd3d_runners (Models.Group group) {
+            var runners = new GLib.List<Models.Runner> ();
+
+            runners.append (new Models.Runner (group, "VKD3D-Lutris", "", "https://api.github.com/repos/lutris/vkd3d/releases", 0, Models.Runner.title_types.HGL_VKD3D));
+            runners.append (new Models.Runner (group, "VKD3D-Proton", "", "https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases", 0, Models.Runner.title_types.LUTRIS_VKD3D_PROTON));
 
             return runners;
         }

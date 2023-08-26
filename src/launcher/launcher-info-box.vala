@@ -5,6 +5,9 @@ namespace ProtonPlus.Launcher {
         Adw.HeaderBar header;
         Gtk.Notebook notebook;
         Gtk.Button back_btn;
+        Gtk.Switch installedOnlySwitch;
+        bool installedOnly;
+        List<Launcher.ExpanderRow> expanderRows;
 
         construct {
             //
@@ -25,13 +28,46 @@ namespace ProtonPlus.Launcher {
             header.pack_start (back_btn);
 
             //
+            installedOnlySwitch = new Gtk.Switch ();
+            installedOnlySwitch.set_active (installedOnly);
+            installedOnlySwitch.notify.connect (installedOnlySwitch_Notify);
+
+            //
+            var installedOnlyLabel = new Gtk.Label ("Installed only");
+            installedOnlyLabel.add_css_class ("bold");
+
+            //
+            var installedOnlySpacer = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            installedOnlySpacer.set_hexpand (true);
+
+            //
+            var installedOnlyBox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 5);
+            installedOnlyBox.append (installedOnlyLabel);
+            installedOnlyBox.append (installedOnlySpacer);
+            installedOnlyBox.append (installedOnlySwitch);
+
+            //
+            var clamp = new Adw.Clamp ();
+            clamp.set_maximum_size (700);
+            clamp.set_child (installedOnlyBox);
+
+            //
             notebook = new Gtk.Notebook ();
             notebook.set_show_border (false);
             notebook.set_show_tabs (false);
 
             //
+            var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
+            content.append (clamp);
+            content.append (notebook);
+            content.set_margin_start (15);
+            content.set_margin_end (15);
+            content.set_margin_top (15);
+            content.set_margin_bottom (15);
+
+            //
             toast_overlay = new Adw.ToastOverlay ();
-            toast_overlay.set_child (notebook);
+            toast_overlay.set_child (content);
 
             //
             append (header);
@@ -39,12 +75,10 @@ namespace ProtonPlus.Launcher {
         }
 
         public void initialize (List<Shared.Models.Launcher> launchers) {
+            installedOnly = false;
+
             foreach (var launcher in launchers) {
                 var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
-                content.set_margin_start (15);
-                content.set_margin_end (15);
-                content.set_margin_top (15);
-                content.set_margin_bottom (15);
 
                 var clamp = new Adw.Clamp ();
                 clamp.set_maximum_size (700);
@@ -77,6 +111,8 @@ namespace ProtonPlus.Launcher {
                         });
 
                         preferences_group.add (releasesRow);
+
+                        expanderRows.append (releasesRow);
                     }
                 }
             }
@@ -84,7 +120,6 @@ namespace ProtonPlus.Launcher {
 
         void load_releases (Gtk.Spinner spinner, Shared.Models.Runner runner, Launcher.ExpanderRow releasesRow) {
             bool done = false;
-            bool api_error = false;
 
             spinner.start ();
             spinner.set_visible (true);
@@ -93,8 +128,7 @@ namespace ProtonPlus.Launcher {
 
             //
             new Thread<void> ("load_releases", () => {
-                runner.load ();
-                api_error = runner.is_using_cached_data;
+                runner.load (installedOnly);
                 done = true;
             });
 
@@ -114,7 +148,7 @@ namespace ProtonPlus.Launcher {
                         }
                     }
 
-                    if (runner.releases_count == runner.page * 25) {
+                    if (runner.releases_count == runner.page * 25 && !installedOnly) {
                         var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
                         actions.set_margin_end (10);
                         actions.set_valign (Gtk.Align.CENTER);
@@ -137,13 +171,13 @@ namespace ProtonPlus.Launcher {
 
                         actions.append (btn);
 
-                        releasesRow.add_row (row);
+                        releasesRow.add (row);
                     }
 
                     spinner.stop ();
                     spinner.set_visible (false);
 
-                    if (api_error) {
+                    if (runner.api_error) {
                         var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API"));
                         toast.set_timeout (5000);
 
@@ -259,7 +293,7 @@ namespace ProtonPlus.Launcher {
             actions.set_valign (Gtk.Align.CENTER);
 
             var btn = release.installed ? get_delete_button (release, widget) : get_install_button (release, widget);
-            if (release.runner.is_using_cached_data && !release.installed) btn.set_visible (false);
+            if (release.runner.api_error && !release.installed) btn.set_visible (false);
             actions.append (btn);
 
             return actions;
@@ -306,6 +340,16 @@ namespace ProtonPlus.Launcher {
         public void set_back_btn_visible (bool visible) {
             back_btn.set_visible (visible);
         }
+
+        void installedOnlySwitch_Notify (GLib.ParamSpec param) {
+            if (param.get_name () == "active") {
+                installedOnly = !installedOnly;
+                foreach (var expander_row in expanderRows) {
+                    expander_row.set_expanded (false);
+                    expander_row.clear ();
+                }
+            }
+        }
     }
 
     public class ActionRow : Adw.ActionRow {
@@ -314,5 +358,18 @@ namespace ProtonPlus.Launcher {
 
     public class ExpanderRow : Adw.ExpanderRow {
         public Shared.Models.Runner Runner;
+        public List<Adw.PreferencesRow> Rows;
+
+        public void add (Adw.PreferencesRow row) {
+            Rows.append (row);
+            this.add_row (row);
+        }
+
+        public void clear () {
+            foreach (var row in Rows) {
+                this.remove (row);
+                Rows.remove (row);
+            }
+        }
     }
 }
