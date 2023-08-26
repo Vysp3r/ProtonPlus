@@ -47,6 +47,21 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.6" date="2023-08-26">
+      <description>
+        <ul>
+          <li>✨ Added an installed only filter</li>
+          <li>✨ Added Kron4ek builds and Proton-tkg to HGL</li>
+          <li>✨ Added VKD3D support for Lutris</li>
+          <li>✨ Added Kron4ek Wine-Builds Staging</li>
+          <li>✨ Added DXVK GPL+Async (Ph42oN) </li>
+          <li>💄 Added description to groups</li>
+          <li>💄 Improved Steam Deck experience</li>
+          <li>🧑‍💻 General improvements</li>
+          <li>🌐 Updated localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.5" date="2023-07-30">
       <description>
         <ul>

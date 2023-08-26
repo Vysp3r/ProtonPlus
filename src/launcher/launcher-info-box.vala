@@ -33,7 +33,7 @@ namespace ProtonPlus.Launcher {
             installedOnlySwitch.notify.connect (installedOnlySwitch_Notify);
 
             //
-            var installedOnlyLabel = new Gtk.Label ("Installed only");
+            var installedOnlyLabel = new Gtk.Label (_("Installed only"));
             installedOnlyLabel.add_css_class ("bold");
 
             //
@@ -168,8 +168,6 @@ namespace ProtonPlus.Launcher {
             //
             GLib.Timeout.add (1000, () => {
                 if (done) {
-                    message ("Installed only: " + installedOnly.to_string ());
-
                     var length = installedOnly ? runner.installed_releases.length () : runner.releases.length ();
                     for (var i = previous_count; i < length; i++) {
                         var release = installedOnly ? runner.installed_releases.nth_data (i) : runner.releases.nth_data (i);

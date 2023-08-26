@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-31 14:51-0400\n"
+"POT-Creation-Date: 2023-08-26 13:47-0400\n"
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,35 +14,41 @@ msgstr ""
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 
-#: src/launcher/launcher-info-box.vala:122
-#: src/launcher/launcher-info-box.vala:131
+#.
+#: src/launcher/launcher-info-box.vala:36
+#, fuzzy
+msgid "Installed only"
+msgstr "Installa"
+
+#: src/launcher/launcher-info-box.vala:191
+#: src/launcher/launcher-info-box.vala:200
 msgid "Load more"
 msgstr ""
 
-#: src/launcher/launcher-info-box.vala:146
+#: src/launcher/launcher-info-box.vala:215
 msgid "There was an error while fetching data from the GitHub API"
 msgstr ""
 
-#: src/launcher/launcher-info-box.vala:162
+#: src/launcher/launcher-info-box.vala:231
 #, fuzzy
 msgid "Are you sure you want to delete "
 msgstr "Sei sicuro di voler eliminare lo strumento selezionato?"
 
-#: src/launcher/launcher-info-box.vala:164
+#: src/launcher/launcher-info-box.vala:233
 msgid "Confirm"
 msgstr ""
 
-#: src/launcher/launcher-info-box.vala:201
+#: src/launcher/launcher-info-box.vala:270
 #, fuzzy
 msgid "Cancel the installation"
 msgstr "Informazione del lanciatore"
 
-#: src/launcher/launcher-info-box.vala:274
+#: src/launcher/launcher-info-box.vala:343
 #, fuzzy
 msgid "Delete the runner"
 msgstr "Elimina lo strumento"
 
-#: src/launcher/launcher-info-box.vala:287
+#: src/launcher/launcher-info-box.vala:356
 #, fuzzy
 msgid "Install the runner"
 msgstr "Installa uno strumento"
@@ -56,56 +62,77 @@ msgstr "Informazioni"
 msgid "Runners"
 msgstr ""
 
-#: src/shared/launchers/bottles.vala:48 src/shared/launchers/hgl.vala:64
-#: src/shared/launchers/steam.vala:63
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton. Use this when you don't know what to choose."
+#: src/shared/launchers/bottles.vala:11 src/shared/launchers/hgl.vala:15
+#: src/shared/launchers/lutris.vala:11
+msgid "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine"
 msgstr ""
 
-#: src/shared/launchers/bottles.vala:52 src/shared/launchers/hgl.vala:52
-#: src/shared/launchers/lutris.vala:48
-msgid ""
-"Compatibility tool \"Wine\" to run Windows games on Linux. Based on Valve "
-"Proton Experimental's bleeding-edge Wine, built for Lutris.Use this when you "
-"don't know what to choose."
+#: src/shared/launchers/bottles.vala:50 src/shared/launchers/hgl.vala:86
+msgid "Contains improvements over Valve's default Proton."
 msgstr ""
 
-#: src/shared/launchers/bottles.vala:56 src/shared/launchers/lutris.vala:52
+#: src/shared/launchers/bottles.vala:54
 msgid ""
-"Compatibility tool \"Wine\" to run Windows games on Linux. Improved by "
-"Lutris to offer better compatibility or performance in certain games."
+" Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
 
-#: src/shared/launchers/bottles.vala:73 src/shared/launchers/lutris.vala:71
+#: src/shared/launchers/bottles.vala:58 src/shared/launchers/lutris.vala:58
 msgid ""
-"Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.https://"
-"github.com/lutris/docs/blob/master/HowToDXVK.md"
+"Improved by Lutris to offer better compatibility or performance in certain "
+"games."
 msgstr ""
 
-#: src/shared/launchers/bottles.vala:74 src/shared/launchers/lutris.vala:72
-msgid ""
-"Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with "
-"async patch by Sporif.Warning: Use only with singleplayer games!"
+#: src/shared/launchers/hgl.vala:7
+msgid "Steam compatibility tool for running Windows games"
 msgstr ""
 
-#: src/shared/launchers/lutris.vala:54 src/shared/launchers/lutris.vala:57
-msgid ""
-"Compatibility tool \"Wine\" to run Windows games on Linux. Official version "
-"from the WineHQ sources, compiled by Kron4ek."
+#: src/shared/launchers/hgl.vala:11
+msgid "Wine is a program which allows running Microsoft Windows programs"
 msgstr ""
 
-#: src/shared/launchers/lutris.vala:73
+#: src/shared/launchers/hgl.vala:19 src/shared/launchers/lutris.vala:15
 msgid ""
-"Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with "
-"async patch and RTX fix for Star Citizen by gnusenpai.Warning: Use only with "
-"singleplayer games!"
+"Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top "
+"of Vulkan"
 msgstr ""
 
-#: src/shared/launchers/steam.vala:67
+#: src/shared/launchers/hgl.vala:62 src/shared/launchers/lutris.vala:54
+msgid ""
+"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
+msgstr ""
+
+#: src/shared/launchers/hgl.vala:66 src/shared/launchers/lutris.vala:61
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr ""
+
+#: src/shared/launchers/hgl.vala:69 src/shared/launchers/lutris.vala:64
+msgid "Wine build with the Staging patchset applied."
+msgstr ""
+
+#: src/shared/launchers/hgl.vala:72 src/shared/launchers/lutris.vala:67
+msgid ""
+"Wine build with the Staging patchset applied and with many additional useful "
+"patches."
+msgstr ""
+
+#: src/shared/launchers/hgl.vala:90 src/shared/launchers/steam.vala:67
 msgid ""
 "Custom Proton build for running Windows games, built with the Wine-tkg build "
 "system."
+msgstr ""
+
+#: src/shared/launchers/lutris.vala:7
+msgid "Program which allows running Microsoft Windows programs"
+msgstr ""
+
+#: src/shared/launchers/lutris.vala:87
+msgid "Contains RTX fix for Star Citizen."
+msgstr ""
+
+#: src/shared/launchers/steam.vala:63
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton."
 msgstr ""
 
 #: src/shared/launchers/steam.vala:71
@@ -160,9 +187,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Launchers"
 #~ msgstr "Lanciatore"
-
-#~ msgid "Install"
-#~ msgstr "Installa"
 
 #~ msgid "Directory: "
 #~ msgstr "Directory: "

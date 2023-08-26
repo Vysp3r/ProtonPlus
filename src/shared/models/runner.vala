@@ -104,7 +104,7 @@ namespace ProtonPlus.Shared.Models {
                 string old_title = (string) cur_d.d_name;
                 string title = Models.Release.get_directory_name_reverse (this, old_title);
                 var release = new Models.Release (this, title, "", "", "", "", 0, "");
-                message (old_title + "==" + release.get_directory_name ());
+
                 if (old_title == release.get_directory_name ()) {
                     installed_releases.append (release);
                 }
