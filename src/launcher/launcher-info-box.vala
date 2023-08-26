@@ -7,7 +7,7 @@ namespace ProtonPlus.Launcher {
         Gtk.Button back_btn;
         Gtk.Switch installedOnlySwitch;
         bool installedOnly;
-        List<Launcher.ExpanderRow> expanderRows;
+        List<Container> containers;
 
         construct {
             //
@@ -75,10 +75,69 @@ namespace ProtonPlus.Launcher {
         }
 
         public void initialize (List<Shared.Models.Launcher> launchers) {
-            installedOnly = false;
-
+            containers = new List<Container> ();
             foreach (var launcher in launchers) {
-                var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
+                var content_normal = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
+                content_normal.set_visible (!installedOnly);
+
+                foreach (var group in launcher.groups) {
+                    var preferences_group = new Adw.PreferencesGroup ();
+                    preferences_group.set_title (group.title);
+                    preferences_group.set_description (group.description);
+
+                    content_normal.append (preferences_group);
+
+                    foreach (var runner in group.runners) {
+                        var spinner = new Gtk.Spinner ();
+                        spinner.set_visible (false);
+
+                        var releasesRow = new Adw.ExpanderRow ();
+                        releasesRow.set_title (runner.title);
+                        releasesRow.set_subtitle (runner.description);
+                        releasesRow.add_action (spinner);
+                        releasesRow.notify.connect ((pspec) => {
+                            if (pspec.get_name () == "expanded" && releasesRow.get_expanded () && !runner.loaded) load_releases (spinner, runner, releasesRow);
+                        });
+
+                        preferences_group.add (releasesRow);
+                    }
+                }
+
+                var content_filtered = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
+                content_filtered.set_visible (installedOnly);
+
+                foreach (var group in launcher.groups) {
+                    var preferences_group = new Adw.PreferencesGroup ();
+                    preferences_group.set_title (group.title);
+                    preferences_group.set_description (group.description);
+
+                    content_filtered.append (preferences_group);
+
+                    foreach (var runner in group.runners) {
+                        var spinner = new Gtk.Spinner ();
+                        spinner.set_visible (false);
+
+                        var releasesRow = new Adw.ExpanderRow ();
+                        releasesRow.set_title (runner.title);
+                        releasesRow.set_subtitle (runner.description);
+                        releasesRow.add_action (spinner);
+                        releasesRow.notify.connect ((pspec) => {
+                            if (pspec.get_name () == "expanded" && releasesRow.get_expanded ()) {
+                                if (!installedOnly && runner.loaded) return;
+                                if (installedOnly && runner.installed_loaded) return;
+                                load_releases (spinner, runner, releasesRow);
+                            }
+                        });
+
+                        preferences_group.add (releasesRow);
+                    }
+                }
+
+                containers.append (new Container (content_normal, content_filtered));
+
+                var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+                content.append (content_normal);
+                content.append (content_filtered);
 
                 var clamp = new Adw.Clamp ();
                 clamp.set_maximum_size (700);
@@ -89,42 +148,16 @@ namespace ProtonPlus.Launcher {
                 scrolled_window.set_child (clamp);
 
                 notebook.append_page (scrolled_window);
-
-                foreach (var group in launcher.groups) {
-                    var preferences_group = new Adw.PreferencesGroup ();
-                    preferences_group.set_title (group.title);
-                    preferences_group.set_description (group.description);
-
-                    content.append (preferences_group);
-
-                    foreach (var runner in group.runners) {
-                        var spinner = new Gtk.Spinner ();
-                        spinner.set_visible (false);
-
-                        var releasesRow = new Launcher.ExpanderRow ();
-                        releasesRow.set_title (runner.title);
-                        releasesRow.set_subtitle (runner.description);
-                        releasesRow.Runner = runner;
-                        releasesRow.add_action (spinner);
-                        releasesRow.notify.connect ((pspec) => {
-                            if (pspec.get_name () == "expanded" && releasesRow.get_expanded () && !runner.loaded) load_releases (spinner, runner, releasesRow);
-                        });
-
-                        preferences_group.add (releasesRow);
-
-                        expanderRows.append (releasesRow);
-                    }
-                }
             }
         }
 
-        void load_releases (Gtk.Spinner spinner, Shared.Models.Runner runner, Launcher.ExpanderRow releasesRow) {
+        void load_releases (Gtk.Spinner spinner, Shared.Models.Runner runner, Adw.ExpanderRow releasesRow) {
             bool done = false;
 
             spinner.start ();
             spinner.set_visible (true);
 
-            uint previous_count = runner.releases.length ();
+            uint previous_count = installedOnly ? 0 : runner.releases.length ();
 
             //
             new Thread<void> ("load_releases", () => {
@@ -135,8 +168,11 @@ namespace ProtonPlus.Launcher {
             //
             GLib.Timeout.add (1000, () => {
                 if (done) {
-                    for (var i = previous_count; i < runner.releases.length (); i++) {
-                        var release = runner.releases.nth_data (i);
+                    message ("Installed only: " + installedOnly.to_string ());
+
+                    var length = installedOnly ? runner.installed_releases.length () : runner.releases.length ();
+                    for (var i = previous_count; i < length; i++) {
+                        var release = installedOnly ? runner.installed_releases.nth_data (i) : runner.releases.nth_data (i);
 
                         if (release != null) {
                             var row = new Launcher.ActionRow ();
@@ -171,7 +207,7 @@ namespace ProtonPlus.Launcher {
 
                         actions.append (btn);
 
-                        releasesRow.add (row);
+                        releasesRow.add_row (row);
                     }
 
                     spinner.stop ();
@@ -344,9 +380,10 @@ namespace ProtonPlus.Launcher {
         void installedOnlySwitch_Notify (GLib.ParamSpec param) {
             if (param.get_name () == "active") {
                 installedOnly = !installedOnly;
-                foreach (var expander_row in expanderRows) {
-                    expander_row.set_expanded (false);
-                    expander_row.clear ();
+
+                foreach (var container in containers) {
+                    container.box_normal.set_visible (!installedOnly);
+                    container.box_filtered.set_visible (installedOnly);
                 }
             }
         }
@@ -356,20 +393,13 @@ namespace ProtonPlus.Launcher {
         public Gtk.Box Actions;
     }
 
-    public class ExpanderRow : Adw.ExpanderRow {
-        public Shared.Models.Runner Runner;
-        public List<Adw.PreferencesRow> Rows;
+    public class Container {
+        public Gtk.Box box_normal;
+        public Gtk.Box box_filtered;
 
-        public void add (Adw.PreferencesRow row) {
-            Rows.append (row);
-            this.add_row (row);
-        }
-
-        public void clear () {
-            foreach (var row in Rows) {
-                this.remove (row);
-                Rows.remove (row);
-            }
+        public Container (Gtk.Box box_normal, Gtk.Box box_filtered) {
+            this.box_normal = box_normal;
+            this.box_filtered = box_filtered;
         }
     }
 }

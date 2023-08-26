@@ -22,6 +22,9 @@ namespace ProtonPlus.Shared.Models {
         public Models.Group group;
         public List<Models.Release> releases;
 
+        public bool installed_loaded;
+        public List<Models.Release> installed_releases;
+
         public Runner (Models.Group group, string title, string description, string endpoint, int asset_position, title_types title_type) {
             this.page = 0;
             this.releases_count = 0;
@@ -82,9 +85,9 @@ namespace ProtonPlus.Shared.Models {
         }
 
         void load_installed () {
-            loaded = false;
+            installed_loaded = false;
 
-            releases = new List<Models.Release> ();
+            installed_releases = new List<Models.Release> ();
 
             var dir = Posix.opendir (group.launcher.directory + group.directory);
             if (dir == null) {
@@ -103,13 +106,13 @@ namespace ProtonPlus.Shared.Models {
                 var release = new Models.Release (this, title, "", "", "", "", 0, "");
                 message (old_title + "==" + release.get_directory_name ());
                 if (old_title == release.get_directory_name ()) {
-                    releases.append (release);
+                    installed_releases.append (release);
                 }
             }
 
-            releases.reverse ();
+            installed_releases.reverse ();
 
-            loaded = true;
+            installed_loaded = true;
         }
 
         void load_all () {
