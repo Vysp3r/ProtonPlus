@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-26 13:47-0400\n"
+"POT-Creation-Date: 2023-08-27 11:56-0400\n"
 "PO-Revision-Date: 2023-07-31 21:42+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: \n"
@@ -71,6 +71,13 @@ msgstr "Über"
 #: src/shared/launchers/bottles.vala:6 src/shared/launchers/steam.vala:6
 msgid "Runners"
 msgstr "Ausführungswerkzeuge"
+
+#: src/shared/launchers/bottles.vala:7
+#, fuzzy
+msgid "Compatibility tool to run Windows games on Linux"
+msgstr ""
+"Steam Play Kompatibilitätswerkzeug um DOS-Spiele mit der nativen Linux "
+"DOSBox zu starten."
 
 #: src/shared/launchers/bottles.vala:11 src/shared/launchers/hgl.vala:15
 #: src/shared/launchers/lutris.vala:11

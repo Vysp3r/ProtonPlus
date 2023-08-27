@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-26 13:47-0400\n"
+"POT-Creation-Date: 2023-08-27 11:56-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: yukidream <mashirokuratamorfo@gmail.com>\n"
 "Language-Team: \n"
@@ -66,6 +66,10 @@ msgstr "Tentang"
 
 #: src/shared/launchers/bottles.vala:6 src/shared/launchers/steam.vala:6
 msgid "Runners"
+msgstr ""
+
+#: src/shared/launchers/bottles.vala:7
+msgid "Compatibility tool to run Windows games on Linux"
 msgstr ""
 
 #: src/shared/launchers/bottles.vala:11 src/shared/launchers/hgl.vala:15
