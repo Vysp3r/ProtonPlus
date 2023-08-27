@@ -8,50 +8,45 @@ msgstr ""
 
 #: src/launcher/launcher-warning-box.vala:21
 msgid "Welcome to "
-msgstr ""
+msgstr "Benvenuto a"
 
 #: src/launcher/launcher-warning-box.vala:22
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr ""
+msgstr "Installa Steam, Lutris, Bottles o Heroic Games Launcher per iniziare"
 
 #.
 #: src/launcher/launcher-info-box.vala:36
-#, fuzzy
 msgid "Installed only"
-msgstr "Installa"
+msgstr "Solo installato"
 
 #: src/launcher/launcher-info-box.vala:191
 #: src/launcher/launcher-info-box.vala:200
 msgid "Load more"
-msgstr ""
+msgstr "Carica altro"
 
 #: src/launcher/launcher-info-box.vala:215
 msgid "There was an error while fetching data from the GitHub API"
-msgstr ""
+msgstr "Si è verificato un errore durante il recupero dei dati dall'API GitHub"
 
 #: src/launcher/launcher-info-box.vala:231
-#, fuzzy
 msgid "Are you sure you want to delete "
-msgstr "Sei sicuro di voler eliminare lo strumento selezionato?"
+msgstr "Sei sicuro di voler eliminare"
 
 #: src/launcher/launcher-info-box.vala:233
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 #: src/launcher/launcher-info-box.vala:270
-#, fuzzy
 msgid "Cancel the installation"
-msgstr "Informazione del lanciatore"
+msgstr "Annullare l'installazione"
 
 #: src/launcher/launcher-info-box.vala:343
-#, fuzzy
 msgid "Delete the runner"
-msgstr "Elimina lo strumento"
+msgstr "Elimina il runner"
 
 #: src/launcher/launcher-info-box.vala:356
-#, fuzzy
 msgid "Install the runner"
-msgstr "Installa uno strumento"
+msgstr "Installa il runner"
 
 #.
 #: src/launcher/launcher-list-box.vala:26
@@ -65,103 +60,119 @@ msgstr ""
 #: src/shared/launchers/bottles.vala:11 src/shared/launchers/hgl.vala:15
 #: src/shared/launchers/lutris.vala:11
 msgid "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine"
-msgstr ""
+msgstr "Implementazione basata su Vulkan di Direct3D 9, 10 e 11 per Linux/Wine"
 
 #: src/shared/launchers/bottles.vala:50 src/shared/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
-msgstr ""
+msgstr "Contiene miglioramenti rispetto al Proton predefinito di Valve."
 
 #: src/shared/launchers/bottles.vala:54
 msgid ""
 " Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
+Contiene miglioramenti rispetto al Proton predefinito di Valve." Basato sull'innovativo Wine di Valve Proton Experimental, creato per Lutris."
 
 #: src/shared/launchers/bottles.vala:58 src/shared/launchers/lutris.vala:58
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
 "games."
 msgstr ""
+"Migliorato da Lutris per offrire migliore compatibilità o prestazioni in alcuni "
+"giochi."
 
 #: src/shared/launchers/hgl.vala:7
 msgid "Steam compatibility tool for running Windows games"
-msgstr ""
+msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
 
 #: src/shared/launchers/hgl.vala:11
 msgid "Wine is a program which allows running Microsoft Windows programs"
-msgstr ""
+msgstr "Wine è un programma che consente di eseguire programmi Microsoft Windows"
 
 #: src/shared/launchers/hgl.vala:19 src/shared/launchers/lutris.vala:15
 msgid ""
 "Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top "
 "of Vulkan"
 msgstr ""
+"VKD3D di Fork of Wine che mira a implementare l'intera API Direct3D 12 "
+"di Vulkan"
 
 #: src/shared/launchers/hgl.vala:62 src/shared/launchers/lutris.vala:54
 msgid ""
 "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
+"Basato su wine all'avanguardia di Valve Proton Experimental, costruito per Lutris."
 
 #: src/shared/launchers/hgl.vala:66 src/shared/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr ""
+msgstr "Wine build compilato dalle fonti ufficiali WineHQ."
 
 #: src/shared/launchers/hgl.vala:69 src/shared/launchers/lutris.vala:64
 msgid "Wine build with the Staging patchset applied."
-msgstr ""
+msgstr "Wine build con il patchset Staging applicato."
 
 #: src/shared/launchers/hgl.vala:72 src/shared/launchers/lutris.vala:67
 msgid ""
 "Wine build with the Staging patchset applied and with many additional useful "
 "patches."
 msgstr ""
+"Build di Wine con il patchset Staging applicato e con molti altre utili "
+"patches."
 
 #: src/shared/launchers/hgl.vala:90 src/shared/launchers/steam.vala:67
 msgid ""
 "Custom Proton build for running Windows games, built with the Wine-tkg build "
 "system."
 msgstr ""
+"Build Proton personalizzata per l'esecuzione di giochi Windows, creata con la build di sistema "
+"wine-tkg."
 
 #: src/shared/launchers/lutris.vala:7
 msgid "Program which allows running Microsoft Windows programs"
-msgstr ""
+msgstr "Programma che consente di eseguire programmi Microsoft Windows"
 
 #: src/shared/launchers/lutris.vala:87
 msgid "Contains RTX fix for Star Citizen."
-msgstr ""
+msgstr "Contiene la correzione RTX per Star Citizen."
 
 #: src/shared/launchers/steam.vala:63
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
+"Strumento di compatibilità con Steam per l'esecuzione di giochi Windows con miglioramenti rispetto a "
+"Proton predefinito di Valve."
 
 #: src/shared/launchers/steam.vala:71
 msgid ""
 "Luxtorpeda provides Linux-native game engines for specific Windows-only "
 "games."
 msgstr ""
+"Luxtorpeda fornisce motori di gioco nativi Linux per specifici per giochi di sistemi "
+"Windows."
 
 #: src/shared/launchers/steam.vala:72
 msgid ""
 "Steam Play compatibility tool to run DOS games using native Linux DOSBox."
 msgstr ""
+"Strumento di compatibilità Steam Play per eseguire giochi DOS utilizzando DOSBox Linux nativo."
 
 #: src/shared/launchers/steam.vala:73
 msgid ""
 "Steam Play compatibility tool to run adventure games using native Linux "
 "ScummVM."
 msgstr ""
+"Strumento di compatibilità Steam Play per eseguire giochi di avventura utilizzando Linux nativo "
+"ScummVM."
 
 #: src/shared/launchers/steam.vala:74
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
-msgstr ""
+msgstr "Build Proton personalizzata per l'esecuzione del client Northstar per Titanfall 2."
 
 #~ msgid "Preferences"
 #~ msgstr "Preferenze"
 
-#, fuzzy
 #~ msgid "Deleted "
-#~ msgstr "Elimina lo strumento"
+#~ msgstr "Eliminato "
 
 #~ msgid "Telegram"
 #~ msgstr "Telegram"
@@ -184,32 +195,26 @@ msgstr ""
 #~ msgid "Notifications"
 #~ msgstr "Notifiche"
 
-#, fuzzy
 #~ msgid "Launchers"
-#~ msgstr "Lanciatore"
+#~ msgstr "Lanciatori"
 
 #~ msgid "Directory: "
 #~ msgstr "Directory: "
 
-#, fuzzy
 #~ msgid "Download started...\n"
-#~ msgstr "Scaricamento in corso..."
+#~ msgstr "Download avviato...\n"
 
-#, fuzzy
 #~ msgid "Download done...\n"
-#~ msgstr "Scaricamento in corso..."
+#~ msgstr "Download completato...\n"
 
-#, fuzzy
 #~ msgid "Extraction started...\n"
-#~ msgstr "Estrazione in corso..."
+#~ msgstr "Estrazione avviata...\n"
 
-#, fuzzy
 #~ msgid "Extraction done...\n"
-#~ msgstr "Estrazione in corso..."
+#~ msgstr "Estrazione completata...\n"
 
-#, fuzzy
 #~ msgid "Style"
-#~ msgstr "Stili"
+#~ msgstr "Stile"
 
 #~ msgid "System"
 #~ msgstr "Sistema"
@@ -267,9 +272,8 @@ msgstr ""
 #~ "Sei sicuro di voler pulire questo lanciatore? ATTENZIONE: eliminerà tutti "
 #~ "gli strumenti installati nel lanciatore!"
 
-#, fuzzy
 #~ msgid "Remember last launcher"
-#~ msgstr "Pulisci lanciatore"
+#~ msgstr "Ricorda l'ultimo lanciatore"
 
 #~ msgid "Launcher settings"
 #~ msgstr "Impostazioni del lanciatore"
