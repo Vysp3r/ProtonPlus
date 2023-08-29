@@ -36,6 +36,12 @@
 </p>
 
 <p align="center">
+  <a href="https://stopthemingmy.app">
+    <img alt="Please do not theme this app" src="https://stopthemingmy.app/badge.svg"/>
+  </a>
+</p>
+
+<p align="center">
     <i>Join the <a href="https://t.me/ProtonPlus">Telegram</a>/<a href="https://discord.gg/Fyf8bWexpQ">Discord</a>! — Don't forget to star the repo if you are enjoying the project!</i>
 </p>
 
