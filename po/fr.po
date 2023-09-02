@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-27 11:56-0400\n"
-"PO-Revision-Date: 2023-09-02 04:07+0000\n"
+"PO-Revision-Date: 2023-09-02 04:10+0000\n"
 "Last-Translator: Vysp3r <dev@vysp3r.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
@@ -55,9 +55,8 @@ msgid "Delete the runner"
 msgstr "Supprimer l'outil"
 
 #: src/launcher/launcher-info-box.vala:356
-#, fuzzy
 msgid "Install the runner"
-msgstr "Installer un outil"
+msgstr "Installer l'outil"
 
 #.
 #: src/launcher/launcher-list-box.vala:26
