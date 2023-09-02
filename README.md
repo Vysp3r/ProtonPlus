@@ -175,6 +175,12 @@
 
 - - - -
 
+## 🌐 Translate ProtonPlus
+
+You can translate ProtonPlus on Weblate: https://hosted.weblate.org/projects/protonplus/protonplus/**
+
+- - - -
+
 ## 🙌 Contribute to ProtonPlus
 **Please read our [Contribution Guidelines](/CONTRIBUTING.md)**
 
