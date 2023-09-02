@@ -177,7 +177,7 @@
 
 ## 🌐 Translate ProtonPlus
 
-You can translate ProtonPlus on Weblate: https://hosted.weblate.org/projects/protonplus/protonplus/**
+**You can translate ProtonPlus on Weblate: https://hosted.weblate.org/projects/protonplus/protonplus/**
 
 - - - -
 
