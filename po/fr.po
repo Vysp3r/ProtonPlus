@@ -1,10 +1,17 @@
+# Vysp3r <dev@vysp3r.com>, 2023.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-27 11:56-0400\n"
-"Language: fr_CA\n"
+"PO-Revision-Date: 2023-09-02 04:07+0000\n"
+"Last-Translator: Vysp3r <dev@vysp3r.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
+"protonplus/fr/>\n"
+"Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: src/launcher/launcher-warning-box.vala:21
 msgid "Welcome to "
@@ -16,9 +23,8 @@ msgstr ""
 
 #.
 #: src/launcher/launcher-info-box.vala:36
-#, fuzzy
 msgid "Installed only"
-msgstr "Installer"
+msgstr "Installer seulement"
 
 #: src/launcher/launcher-info-box.vala:191
 #: src/launcher/launcher-info-box.vala:200
