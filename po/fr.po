@@ -1,10 +1,12 @@
 # Vysp3r <dev@vysp3r.com>, 2023.
+# Lionel HANNEQUIN <Lionel-Fr-56@users.noreply.hosted.weblate.org>, 2023.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-27 11:56-0400\n"
-"PO-Revision-Date: 2023-09-03 04:28+0000\n"
-"Last-Translator: Vysp3r <dev@vysp3r.com>\n"
+"PO-Revision-Date: 2023-09-12 18:48+0000\n"
+"Last-Translator: Lionel HANNEQUIN <Lionel-Fr-56@users.noreply.hosted.weblate."
+"org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
 "Language: fr\n"
@@ -36,18 +38,16 @@ msgid "There was an error while fetching data from the GitHub API"
 msgstr ""
 
 #: src/launcher/launcher-info-box.vala:231
-#, fuzzy
 msgid "Are you sure you want to delete "
-msgstr "Êtes vous sure de vouloir supprimer l'outil selectionné?"
+msgstr "Voulez-vous vraiment supprimer ? "
 
 #: src/launcher/launcher-info-box.vala:233
 msgid "Confirm"
 msgstr "Confirmer"
 
 #: src/launcher/launcher-info-box.vala:270
-#, fuzzy
 msgid "Cancel the installation"
-msgstr "Informations du launcher"
+msgstr "Annuler l'installation"
 
 #: src/launcher/launcher-info-box.vala:343
 #, fuzzy
@@ -69,7 +69,7 @@ msgstr ""
 
 #: src/shared/launchers/bottles.vala:7
 msgid "Compatibility tool to run Windows games on Linux"
-msgstr ""
+msgstr "Outil de compatibilité pour exécuter des jeux Windows sur Linux"
 
 #: src/shared/launchers/bottles.vala:11 src/shared/launchers/hgl.vala:15
 #: src/shared/launchers/lutris.vala:11
