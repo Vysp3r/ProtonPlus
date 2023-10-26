@@ -1,9 +1,12 @@
 {
     "id": "com.vysp3r.ProtonPlus",
-    "command": "com.vysp3r.ProtonPlus",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "44",
+    "runtime-version": "45",
     "sdk": "org.gnome.Sdk",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.vala"
+    ],
+    "command": "com.vysp3r.ProtonPlus",
     "finish-args": [
         "--share=network",
         "--share=ipc",
@@ -35,13 +38,13 @@
     ],
     "modules": [
         {
-            "name": "ProtonPlus",
+            "name": "com.vysp3r.ProtonPlus",
             "builddir": true,
             "buildsystem": "meson",
             "sources": [
                 {
-                    "type": "dir",
-                    "path": "."
+                    "type": "git",
+                    "url": "file:///mnt/Data/Syncthing/Workstation"
                 }
             ]
         }

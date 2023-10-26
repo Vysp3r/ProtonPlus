@@ -20,7 +20,7 @@ namespace ProtonPlus.Shared.Launchers {
             var launcher = new Models.Launcher (
                                                 "Bottles",
                                                 "System",
-                                                "/com/vysp3r/ProtonPlus/bottles.png",
+                                                "/com/vysp3r/ProtonPlus/images/bottles.png",
                                                 directories
             );
 

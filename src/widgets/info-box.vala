@@ -1,13 +1,13 @@
-namespace ProtonPlus.Launcher {
-    public class LauncherInfoBox : Gtk.Box {
+namespace ProtonPlus.Widgets {
+    public class InfoBox : Gtk.Box {
+        public Gtk.Button sidebar_button;
+        public List<Container> containers;
+        public bool installedOnly;
+
         Adw.ToastOverlay toast_overlay;
         Adw.WindowTitle window_title;
         Adw.HeaderBar header;
         Gtk.Notebook notebook;
-        Gtk.Button back_btn;
-        Gtk.Switch installedOnlySwitch;
-        bool installedOnly;
-        List<Container> containers;
 
         construct {
             //
@@ -17,39 +17,24 @@ namespace ProtonPlus.Launcher {
             window_title = new Adw.WindowTitle ("", "");
 
             //
-            back_btn = new Gtk.Button.from_icon_name ("go-previous-symbolic");
-            back_btn.set_visible (false);
-            back_btn.clicked.connect (() => this.activate_action_variant ("win.switch-content-page", 0));
+            sidebar_button = new Gtk.Button.from_icon_name ("view-dual-symbolic");
+            sidebar_button.set_visible (false);
+
+            //
+            var menu_model = new GLib.Menu ();
+            menu_model.append (_("About"), "app.about");
+            
+            //
+            var menu_button = new Gtk.MenuButton ();
+            menu_button.set_icon_name ("open-menu-symbolic");
+            menu_button.set_menu_model (menu_model);
 
             //
             header = new Adw.HeaderBar ();
-            header.set_show_start_title_buttons (false);
+            header.add_css_class ("flat");
             header.set_title_widget (window_title);
-            header.pack_start (back_btn);
-
-            //
-            installedOnlySwitch = new Gtk.Switch ();
-            installedOnlySwitch.set_active (installedOnly);
-            installedOnlySwitch.notify.connect (installedOnlySwitch_Notify);
-
-            //
-            var installedOnlyLabel = new Gtk.Label (_("Installed only"));
-            installedOnlyLabel.add_css_class ("bold");
-
-            //
-            var installedOnlySpacer = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            installedOnlySpacer.set_hexpand (true);
-
-            //
-            var installedOnlyBox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 5);
-            installedOnlyBox.append (installedOnlyLabel);
-            installedOnlyBox.append (installedOnlySpacer);
-            installedOnlyBox.append (installedOnlySwitch);
-
-            //
-            var clamp = new Adw.Clamp ();
-            clamp.set_maximum_size (700);
-            clamp.set_child (installedOnlyBox);
+            header.pack_start (sidebar_button);
+            header.pack_end (menu_button);
 
             //
             notebook = new Gtk.Notebook ();
@@ -58,7 +43,6 @@ namespace ProtonPlus.Launcher {
 
             //
             var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
-            content.append (clamp);
             content.append (notebook);
             content.set_margin_start (15);
             content.set_margin_end (15);
@@ -94,7 +78,7 @@ namespace ProtonPlus.Launcher {
                         var releasesRow = new Adw.ExpanderRow ();
                         releasesRow.set_title (runner.title);
                         releasesRow.set_subtitle (runner.description);
-                        releasesRow.add_action (spinner);
+                        releasesRow.add_suffix (spinner);
                         releasesRow.notify.connect ((pspec) => {
                             if (pspec.get_name () == "expanded" && releasesRow.get_expanded () && !runner.loaded) load_releases (spinner, runner, releasesRow);
                         });
@@ -120,7 +104,7 @@ namespace ProtonPlus.Launcher {
                         var releasesRow = new Adw.ExpanderRow ();
                         releasesRow.set_title (runner.title);
                         releasesRow.set_subtitle (runner.description);
-                        releasesRow.add_action (spinner);
+                        releasesRow.add_suffix (spinner);
                         releasesRow.notify.connect ((pspec) => {
                             if (pspec.get_name () == "expanded" && releasesRow.get_expanded ()) {
                                 if (!installedOnly && runner.loaded) return;
@@ -173,7 +157,7 @@ namespace ProtonPlus.Launcher {
                         var release = installedOnly ? runner.installed_releases.nth_data (i) : runner.releases.nth_data (i);
 
                         if (release != null) {
-                            var row = new Launcher.ActionRow ();
+                            var row = new Widgets.ActionRow ();
                             row.set_title (release.title);
                             row.Actions = get_actions_box (release, row);
                             row.add_suffix (row.Actions);
@@ -187,7 +171,7 @@ namespace ProtonPlus.Launcher {
                         actions.set_margin_end (10);
                         actions.set_valign (Gtk.Align.CENTER);
 
-                        var row = new Launcher.ActionRow ();
+                        var row = new Widgets.ActionRow ();
                         row.set_title (_("Load more"));
                         row.Actions = actions;
                         row.add_suffix (row.Actions);
@@ -225,7 +209,7 @@ namespace ProtonPlus.Launcher {
             });
         }
 
-        void delete_release (Shared.Models.Release release, Launcher.ActionRow widget) {
+        void delete_release (Shared.Models.Release release, Widgets.ActionRow widget) {
             this.activate_action_variant ("win.add-task", "");
 
             var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
@@ -256,7 +240,7 @@ namespace ProtonPlus.Launcher {
             toast_overlay.add_toast (toast);
         }
 
-        void install_release (Shared.Models.Release release, Launcher.ActionRow widget) {
+        void install_release (Shared.Models.Release release, Widgets.ActionRow widget) {
             this.activate_action_variant ("win.add-task", "");
 
             widget.remove (widget.Actions);
@@ -321,7 +305,7 @@ namespace ProtonPlus.Launcher {
             });
         }
 
-        Gtk.Box get_actions_box (Shared.Models.Release release, Launcher.ActionRow widget) {
+        Gtk.Box get_actions_box (Shared.Models.Release release, Widgets.ActionRow widget) {
             var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
             actions.set_margin_end (10);
             actions.set_valign (Gtk.Align.CENTER);
@@ -333,7 +317,7 @@ namespace ProtonPlus.Launcher {
             return actions;
         }
 
-        Gtk.Button get_delete_button (Shared.Models.Release release, Launcher.ActionRow widget) {
+        Gtk.Button get_delete_button (Shared.Models.Release release, Widgets.ActionRow widget) {
             var btnDelete = new Gtk.Button ();
 
             btnDelete.add_css_class ("flat");
@@ -346,7 +330,7 @@ namespace ProtonPlus.Launcher {
             return btnDelete;
         }
 
-        Gtk.Button get_install_button (Shared.Models.Release release, Launcher.ActionRow widget) {
+        Gtk.Button get_install_button (Shared.Models.Release release, Widgets.ActionRow widget) {
             var btnInstall = new Gtk.Button ();
 
             btnInstall.set_icon_name ("folder-download-symbolic");
@@ -369,21 +353,6 @@ namespace ProtonPlus.Launcher {
         public void switch_launcher (string title, int position) {
             window_title.set_title (title);
             notebook.set_current_page (position);
-        }
-
-        public void set_back_btn_visible (bool visible) {
-            back_btn.set_visible (visible);
-        }
-
-        void installedOnlySwitch_Notify (GLib.ParamSpec param) {
-            if (param.get_name () == "active") {
-                installedOnly = !installedOnly;
-
-                foreach (var container in containers) {
-                    container.box_normal.set_visible (!installedOnly);
-                    container.box_filtered.set_visible (installedOnly);
-                }
-            }
         }
     }
 

@@ -1,10 +1,5 @@
-.launcher-list-item {
-  padding-top: 3px;
-  padding-bottom: 3px;
-  padding-left: 0px;
-  border-radius: 5px;
-}
+/* sidebar */
 
-.bold {
-  font-weight: bold;
+.sidebar-item {
+  padding: 7px;
 }

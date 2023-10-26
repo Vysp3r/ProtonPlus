@@ -1,6 +1,6 @@
 namespace ProtonPlus {
     public class Application : Adw.Application {
-        Launcher.LauncherWindow window;
+        Window window;
 
         construct {
             application_id = Shared.Constants.APP_ID;
@@ -11,7 +11,20 @@ namespace ProtonPlus {
 
         public override void activate () {
             //
-            window = new Launcher.LauncherWindow ();
+            var display = Gdk.Display.get_default ();
+
+            //
+            Gtk.IconTheme.get_for_display (display).add_resource_path ("/com/vysp3r/ProtonPlus/icons");
+
+            //
+            var css_provider = new Gtk.CssProvider ();
+            css_provider.load_from_resource ("/com/vysp3r/ProtonPlus/css/style.css");
+
+            //
+            Gtk.StyleContext.add_provider_for_display (display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+            //
+            window = new Window ();
             window.initialize ();
 
             //
