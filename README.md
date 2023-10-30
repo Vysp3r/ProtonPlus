@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img align="center" width=150 src="data/icons/hicolor/scalable/apps/com.vysp3r.ProtonPlus.svg" />
+    <img align="center" width=150 src="data/logo/com.vysp3r.ProtonPlus.svg" />
     <br><br>
     ProtonPlus
 </h1>
