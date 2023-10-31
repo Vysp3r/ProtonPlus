@@ -1,28 +1,28 @@
-namespace ProtonPlus.Shared.Models {
+namespace ProtonPlus.Models {
     public class Runner {
-        public string title;
-        public string description;
-        public string endpoint; // For GitHub Actions repository, make this the workflow url. See Proton Tkg for an example.
-        public int asset_position; // The position of the .tar.xz file in the json tree of the tool > assets
-        public title_types title_type;
-        public endpoint_types endpoint_type;
+        public string title { get; set; }
+        public string description { get; set; }
+        public string endpoint { get; set; } // For GitHub Actions repository, make this the workflow url. See Proton Tkg for an example.
+        public int asset_position { get; set; } // The position of the .tar.xz file in the json tree of the tool > assets
+        public title_types title_type { get; set; }
+        public endpoint_types endpoint_type { get; set; }
 
-        public int old_asset_location; // When the assets changes
-        public int old_asset_position; // Same as asset_position, but for older releases that might have different assets position
+        public int old_asset_location { get; set; } // When the assets changes
+        public int old_asset_position { get; set; } // Same as asset_position, but for older releases that might have different assets position
 
-        public bool is_using_github_actions;
-        public bool use_name_instead_of_tag_name;
-        public bool api_error;
-        public string[] request_asset_exclude;
-        public bool loaded;
+        public bool is_using_github_actions { get; set; }
+        public bool use_name_instead_of_tag_name { get; set; }
+        public bool api_error { get; set; }
+        public string[] request_asset_exclude { get; set; }
+        public bool loaded { get; set; }
 
-        public uint page;
-        public uint releases_count;
+        public uint page { get; set; }
+        public uint releases_count { get; set; }
 
-        public Models.Group group;
+        public Models.Group group { get; set; }
         public List<Models.Release> releases;
 
-        public bool installed_loaded;
+        public bool installed_loaded { get; set; }
         public List<Models.Release> installed_releases;
 
         public Runner (Models.Group group, string title, string description, string endpoint, int asset_position, title_types title_type) {

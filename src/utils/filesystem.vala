@@ -1,8 +1,10 @@
-namespace ProtonPlus.Shared.Utils {
+namespace ProtonPlus.Utils {
     public class Filesystem {
         // Other
 
-        public static string Extract (string install_location, string tool_name, string extension, ref bool cancelled) {
+        public delegate bool cancel_callback ();
+
+        public static string Extract (string install_location, string tool_name, string extension, cancel_callback cancel_callback) {
             const int bufferSize = 192000;
 
             var archive = new Archive.Read ();
@@ -29,6 +31,7 @@ namespace ProtonPlus.Shared.Utils {
             bool firstRun = true;
 
             for ( ;; ) {
+                if (cancel_callback()) break;
                 r = archive.next_header (out entry);
                 if (r == Archive.Result.EOF) break;
                 if (r < Archive.Result.OK) stderr.printf (ext.error_string ());
@@ -51,9 +54,15 @@ namespace ProtonPlus.Shared.Utils {
 
             archive.close ();
 
+            string full_path = install_location + sourcePath;
+
+            if (cancel_callback()) {
+                DeleteDirectory (full_path);
+            }
+
             DeleteFile (install_location + "/" + tool_name + extension);
 
-            return install_location + sourcePath;
+            return full_path;
         }
 
         static ssize_t copy_data (Archive.Read ar, Archive.WriteDisk aw) {

@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets {
     public class StatusBox : Gtk.Box {
-        Adw.StatusPage status_page;
+        Adw.StatusPage status_page { get; set; }
 
         construct {
             //

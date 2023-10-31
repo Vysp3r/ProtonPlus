@@ -1,14 +1,13 @@
 namespace ProtonPlus {
     public class Window : Adw.ApplicationWindow {
-        List<Shared.Models.Launcher> launchers;
+        List<Models.Launcher> launchers;
 
-        int tasks;
+        int tasks { get; set; }
 
-        Adw.OverlaySplitView overlay_split_view;
-
-        Widgets.StatusBox status_box;
-        Widgets.InfoBox info_box;
-        Widgets.Sidebar sidebar;
+        Adw.OverlaySplitView overlay_split_view { get; set; }
+        Widgets.StatusBox status_box { get; set; }
+        Widgets.InfoBox info_box { get; set; }
+        Widgets.Sidebar sidebar { get; set; }
 
         construct {
             //
@@ -79,11 +78,9 @@ namespace ProtonPlus {
 
             if (busy) {
                 this.set_visible (false);
-
-                GLib.Timeout.add (1000, () => {
+                
+                this.notify["tasks"].connect(() => {
                     if (tasks == 0) this.close ();
-
-                    return true;
                 });
             }
 
@@ -95,7 +92,7 @@ namespace ProtonPlus {
             tasks = 0;
 
             //
-            launchers = Shared.Models.Launcher.get_all ();
+            launchers = Models.Launcher.get_all ();
 
             //
             if (launchers.length () > 0) {

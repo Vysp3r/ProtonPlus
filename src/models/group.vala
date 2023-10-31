@@ -1,13 +1,13 @@
-namespace ProtonPlus.Shared.Models {
+namespace ProtonPlus.Models {
     public class Group {
-        public string title;
-        public string description;
-        public string directory;
-        public Models.Launcher launcher;
+        public string title { get; set; }
+        public string description { get; set; }
+        public string directory { get; set; }
+        public Launcher launcher { get; set; }
 
-        public List<Models.Runner> runners;
+        public List<Runner> runners;
 
-        public Group (string title, string directory, Models.Launcher launcher) {
+        public Group (string title, string directory, Launcher launcher) {
             this.title = title;
             this.directory = directory;
             this.launcher = launcher;

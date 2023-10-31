@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets {
     public class Sidebar : Gtk.Box {
-        public Gtk.Button sidebar_button;
-        public Gtk.Switch installed_only_switch;
+        public Gtk.Button sidebar_button { get; set; }
+        public Gtk.Switch installed_only_switch { get; set; }
 
         Gtk.ListBox list_box;
 
@@ -75,7 +75,7 @@ namespace ProtonPlus.Widgets {
             return action_row;
         }
 
-        public void initialize (List<Shared.Models.Launcher> launchers) {
+        public void initialize (List<Models.Launcher> launchers) {
             list_box.remove_all ();
 
             foreach (var launcher in launchers) {

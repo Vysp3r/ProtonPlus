@@ -1,13 +1,13 @@
 namespace ProtonPlus.Widgets {
     public class InfoBox : Gtk.Box {
-        public Gtk.Button sidebar_button;
+        public Gtk.Button sidebar_button { get; set; }
+        public bool installedOnly { get; set; }
         public List<Container> containers;
-        public bool installedOnly;
 
-        Adw.ToastOverlay toast_overlay;
-        Adw.WindowTitle window_title;
-        Adw.HeaderBar header;
-        Gtk.Notebook notebook;
+        Adw.ToastOverlay toast_overlay { get; set; }
+        Adw.WindowTitle window_title { get; set; }
+        Adw.HeaderBar header { get; set; }
+        Gtk.Notebook notebook { get; set; }
 
         construct {
             //
@@ -58,7 +58,7 @@ namespace ProtonPlus.Widgets {
             append (toast_overlay);
         }
 
-        public void initialize (List<Shared.Models.Launcher> launchers) {
+        public void initialize (List<Models.Launcher> launchers) {
             containers = new List<Container> ();
             foreach (var launcher in launchers) {
                 var content_normal = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
@@ -135,7 +135,7 @@ namespace ProtonPlus.Widgets {
             }
         }
 
-        void load_releases (Gtk.Spinner spinner, Shared.Models.Runner runner, Adw.ExpanderRow releasesRow) {
+        void load_releases (Gtk.Spinner spinner, Models.Runner runner, Adw.ExpanderRow releasesRow) {
             bool done = false;
 
             spinner.start ();
@@ -157,12 +157,7 @@ namespace ProtonPlus.Widgets {
                         var release = installedOnly ? runner.installed_releases.nth_data (i) : runner.releases.nth_data (i);
 
                         if (release != null) {
-                            var row = new Widgets.ActionRow ();
-                            row.set_title (release.title);
-                            row.Actions = get_actions_box (release, row);
-                            row.add_suffix (row.Actions);
-
-                            releasesRow.add_row (row);
+                            releasesRow.add_row (create_release_row(release));
                         }
                     }
 
@@ -171,10 +166,9 @@ namespace ProtonPlus.Widgets {
                         actions.set_margin_end (10);
                         actions.set_valign (Gtk.Align.CENTER);
 
-                        var row = new Widgets.ActionRow ();
+                        var row = new Adw.ActionRow ();
                         row.set_title (_("Load more"));
-                        row.Actions = actions;
-                        row.add_suffix (row.Actions);
+                        row.add_suffix (actions);
 
                         var btn = new Gtk.Button ();
                         btn.set_icon_name ("content-loading-symbolic");
@@ -209,138 +203,164 @@ namespace ProtonPlus.Widgets {
             });
         }
 
-        void delete_release (Shared.Models.Release release, Widgets.ActionRow widget) {
-            this.activate_action_variant ("win.add-task", "");
-
-            var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
-            toast.set_timeout (30000);
-            toast.set_button_label (_("Confirm"));
-
-            toast.button_clicked.connect (() => {
-                release.delete (false);
-
-                GLib.Timeout.add (1000, () => {
-                    if (!release.installed) {
-                        widget.remove (widget.Actions);
-
-                        widget.Actions = get_actions_box (release, widget);
-                        widget.add_suffix (widget.Actions);
-
-                        this.activate_action_variant ("win.remove-task", "");
-
-                        return false;
-                    }
-
-                    return true;
-                });
-
-                toast.dismiss ();
-            });
-
-            toast_overlay.add_toast (toast);
-        }
-
-        void install_release (Shared.Models.Release release, Widgets.ActionRow widget) {
-            this.activate_action_variant ("win.add-task", "");
-
-            widget.remove (widget.Actions);
+        Adw.ActionRow create_release_row (Models.Release release) {
+            var label = new Gtk.Label (null);
+            label.set_visible (false);
 
             var spinner = new Gtk.Spinner ();
             spinner.set_visible (false);
 
-            var label = new Gtk.Label ("0%");
-
             var cancel = new Gtk.Button.from_icon_name ("process-stop-symbolic");
+            cancel.set_visible (false);
             cancel.set_tooltip_text (_("Cancel the installation"));
             cancel.add_css_class ("flat");
             cancel.width_request = 25;
             cancel.height_request = 25;
-            cancel.clicked.connect (() => {
-                release.installation_cancelled = true;
-            });
+            cancel.clicked.connect (() => release.cancel ());
 
-            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-            box.set_margin_end (10);
-            box.set_valign (Gtk.Align.CENTER);
-            box.append (label);
-            box.append (spinner);
-            box.append (cancel);
-
-            widget.Actions = box;
-            widget.add_suffix (widget.Actions);
-
-            release.install ();
-
-            if (release.runner.is_using_github_actions) {
-                label.set_visible (false);
-                spinner.set_visible (true);
-                spinner.start ();
-            }
-
-            GLib.Timeout.add (250, () => {
-                if (release.installation_cancelled) send_toast ("The installation of " + release.get_directory_name () + " was cancelled", 5000);
-
-                if (release.installation_error && !release.installation_cancelled) send_toast ("There was an error while installing " + release.get_directory_name (), 5000);
-
-                if (release.installation_api_error && !release.installation_error && !release.installation_cancelled) send_toast ("There was an error while fetching data from the GitHub API", 5000);
-
-                if (!release.runner.is_using_github_actions && !release.installation_api_error && !release.installation_error && !release.installation_cancelled) label.set_text (release.installation_progress.to_string () + "%");
-
-                if (release.installed || release.installation_cancelled || release.installation_error || release.installation_api_error) {
-                    label.set_text ("");
-
-                    spinner.stop ();
-
-                    widget.remove (widget.Actions);
-
-                    widget.Actions = get_actions_box (release, widget);
-                    widget.add_suffix (widget.Actions);
-
-                    this.activate_action_variant ("win.remove-task", "");
-
-                    return false;
-                }
-
-                return true;
-            });
-        }
-
-        Gtk.Box get_actions_box (Shared.Models.Release release, Widgets.ActionRow widget) {
-            var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-            actions.set_margin_end (10);
-            actions.set_valign (Gtk.Align.CENTER);
-
-            var btn = release.installed ? get_delete_button (release, widget) : get_install_button (release, widget);
-            if (release.runner.api_error && !release.installed) btn.set_visible (false);
-            actions.append (btn);
-
-            return actions;
-        }
-
-        Gtk.Button get_delete_button (Shared.Models.Release release, Widgets.ActionRow widget) {
             var btnDelete = new Gtk.Button ();
-
             btnDelete.add_css_class ("flat");
             btnDelete.set_icon_name ("user-trash-symbolic");
             btnDelete.width_request = 25;
             btnDelete.height_request = 25;
             btnDelete.set_tooltip_text (_("Delete the runner"));
-            btnDelete.clicked.connect (() => delete_release (release, widget));
+            btnDelete.clicked.connect (() => {
+                var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
+                toast.set_timeout (30000);
+                toast.set_button_label (_("Confirm"));
 
-            return btnDelete;
-        }
+                toast.button_clicked.connect (() => {
+                    release.delete ();
 
-        Gtk.Button get_install_button (Shared.Models.Release release, Widgets.ActionRow widget) {
+                    toast.dismiss ();
+                });
+
+                toast_overlay.add_toast (toast);
+            });
+
             var btnInstall = new Gtk.Button ();
-
             btnInstall.set_icon_name ("folder-download-symbolic");
             btnInstall.add_css_class ("flat");
             btnInstall.width_request = 25;
             btnInstall.height_request = 25;
             btnInstall.set_tooltip_text (_("Install the runner"));
-            btnInstall.clicked.connect (() => install_release (release, widget));
+            btnInstall.clicked.connect (() => release.install ());
 
-            return btnInstall;
+            if (release.runner.api_error && !release.installed) {
+                btnDelete.set_visible (false);
+                btnInstall.set_visible (false);
+            } else {
+                btnDelete.set_visible (release.installed);
+                btnInstall.set_visible (!release.installed);
+            }
+
+            var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+            actions.set_margin_end (10);
+            actions.set_valign (Gtk.Align.CENTER);
+            actions.append (label);
+            actions.append (spinner);
+            actions.append (cancel);
+            actions.append (btnDelete);
+            actions.append (btnInstall);
+
+            release.notify["status"].connect(() => {
+                switch(release.status) {
+                    case Models.Release.STATUS.CANCELLED:
+                        send_toast (_("The installation of ") + release.get_directory_name () + _(" was cancelled"), 3);
+
+                        spinner.stop ();
+                        spinner.set_visible (false);
+                        label.set_visible (false);
+                        cancel.set_visible (false);
+
+                        btnDelete.set_visible (false);
+                        btnInstall.set_visible (true);
+
+                        break;
+                    case Models.Release.STATUS.INSTALLING:
+                        send_toast (_("The installation of ") + release.get_directory_name () + _(" was started"), 3);
+
+                        this.activate_action_variant ("win.add-task", "");
+
+                        GLib.Timeout.add (250, () => {
+                            label.set_text (release.installation_progress.to_string () + "%");
+
+                            return release.status == Models.Release.STATUS.INSTALLING;
+                        });
+
+                        spinner.start ();
+                        spinner.set_visible (true);
+                        label.set_visible (!release.runner.is_using_github_actions);
+                        cancel.set_visible (!release.runner.is_using_github_actions);
+
+                        btnDelete.set_visible (false);
+                        btnInstall.set_visible (false);
+
+                        break;
+                    case Models.Release.STATUS.INSTALLED:
+                        send_toast (_("The installation of ") + release.get_directory_name () + _(" is done"), 3);
+
+                        this.activate_action_variant ("win.remove-task", "");
+
+                        spinner.stop ();
+                        spinner.set_visible (false);
+                        label.set_visible (false);
+                        cancel.set_visible (false);
+
+                        btnDelete.set_visible (true);
+                        btnInstall.set_visible (false);
+
+                        break;
+                    case Models.Release.STATUS.UNINSTALLING:
+                        this.activate_action_variant ("win.add-task", "");
+
+                        spinner.start ();
+                        spinner.set_visible (true);
+
+                        btnDelete.set_visible (false);
+                        btnInstall.set_visible (false);
+
+                        break;
+                    case Models.Release.STATUS.UNINSTALLED:
+                        if (release.previous_status != Models.Release.STATUS.CANCELLED && 
+                            release.previous_status != Models.Release.STATUS.INSTALLING &&
+                            release.error == Models.Release.ERRORS.NONE) {
+                            send_toast (_("The deletion of ") + release.get_directory_name () + _(" is done"), 3);
+                        }
+
+                        this.activate_action_variant ("win.remove-task", "");
+
+                        spinner.stop ();
+                        spinner.set_visible (false);
+
+                        btnDelete.set_visible (false);
+                        btnInstall.set_visible (true);
+
+                        break;
+                }
+            });
+
+            release.notify["error"].connect(() => {
+                switch(release.error) {
+                    case Models.Release.ERRORS.API:
+                        send_toast (_("There was an error while fetching data from the GitHub API"), 5000);
+                        break;
+                    case Models.Release.ERRORS.EXTRACT:
+                        send_toast (_("An unexpected error occured while extracting ") + release.title, 5000);
+                        break;
+                    case Models.Release.ERRORS.UNEXPECTED:
+                        send_toast (_("An unexpected error occured while installing ") + release.title, 5000);
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+            var row = new Adw.ActionRow ();
+            row.set_title (release.title);
+            row.add_suffix (actions);
+
+            return row;
         }
 
         void send_toast (string content, int duration) {
@@ -354,10 +374,6 @@ namespace ProtonPlus.Widgets {
             window_title.set_title (title);
             notebook.set_current_page (position);
         }
-    }
-
-    public class ActionRow : Adw.ActionRow {
-        public Gtk.Box Actions;
     }
 
     public class Container {

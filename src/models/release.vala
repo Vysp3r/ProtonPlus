@@ -1,22 +1,44 @@
+namespace ProtonPlus.Models {
+    public class Release : Object {
+        public Runner runner { get; set; }
+        public string title { get; set; }
+        public string download_link { get; set; }
+        public string checksum_link { get; set; }
+        public string info_link { get; set; }
+        public string release_date { get; set; }
+        public int64 download_size { get; set; }
+        public string file_extension { get; set; }
+        public bool installed { get; set; }
+        public string directory { get; set; }
+        public int64 directory_size { get; set; }
 
-
-namespace ProtonPlus.Shared.Models {
-    public class Release {
-        public Models.Runner runner;
-        public string title;
-        public string download_link;
-        public string checksum_link;
-        public string info_link;
-        public string release_date;
-        public int64 download_size;
-        public string file_extension;
-        public bool installed;
-        public string directory;
-        public int64 size;
-        public bool installation_cancelled;
         public int installation_progress;
-        public bool installation_error;
-        public bool installation_api_error;
+
+        public STATUS previous_status;
+        STATUS _status;
+        public STATUS status { 
+            get {
+                return _status;
+            } private set {
+                previous_status = _status;
+                _status = value;
+            } 
+        }
+        public enum STATUS {
+            INSTALLED,
+            UNINSTALLED,
+            INSTALLING,
+            UNINSTALLING,
+            CANCELLED
+        }
+
+        public ERRORS error { get; private set; }
+        public enum ERRORS {
+            NONE,
+            API,
+            EXTRACT,
+            UNEXPECTED
+        }
 
         public Release (Runner runner, string title, string download_url, string info_link, string release_date, string checksum_url, int64 download_size, string file_extension) {
             this.runner = runner;
@@ -29,12 +51,7 @@ namespace ProtonPlus.Shared.Models {
             this.checksum_link = checksum_url;
             this.directory = runner.group.launcher.directory + runner.group.directory + "/" + get_directory_name ();
             this.installed = FileUtils.test (directory, FileTest.IS_DIR);
-            this.size = 0;
-            // set_size (); Disabled since Utils.Filesystem.GetDirectorySize is buggy and we don't have a way to see that data anyway
-        }
-
-        public void set_size () {
-            if (installed) size = (int64) Utils.Filesystem.GetDirectorySize (directory);
+            this.directory_size = 0; // this.directory_size = (int64) Utils.Filesystem.GetDirectorySize (directory); Disabled since Utils.Filesystem.GetDirectorySize is buggy and we don't have a way to see that data anyway
         }
 
         public string get_formatted_download_size () {
@@ -43,7 +60,7 @@ namespace ProtonPlus.Shared.Models {
         }
 
         public string get_formatted_size () {
-            return Utils.Filesystem.ConvertBytesToString (size);
+            return Utils.Filesystem.ConvertBytesToString (directory_size);
         }
 
         public string get_directory_name () {
@@ -203,31 +220,53 @@ namespace ProtonPlus.Shared.Models {
         }
 
         public void delete (bool wait_for_thread = false) {
+            status = STATUS.UNINSTALLING;
             var thread = new Thread<void> ("deleteThread", () => {
                 Utils.Filesystem.DeleteDirectory (directory);
                 runner.group.launcher.uninstall (this);
-                installed = false;
+                status = STATUS.UNINSTALLED;
             });
             if (wait_for_thread) thread.join ();
         }
 
         public void install () {
+            status = STATUS.INSTALLING;
+            error = ERRORS.NONE;
             installation_progress = 0;
-            installation_error = false;
-            installation_api_error = false;
-            installation_cancelled = false;
 
             new Thread<void> ("download", () => {
                 string url = download_link;
                 string path = runner.group.launcher.directory + "/" + runner.group.directory + "/" + title + file_extension;
 
                 if (runner.is_using_github_actions) {
-                    Utils.Web.OldDownload (url, path, ref installation_api_error, ref installation_error);
+                    switch(Utils.Web.OldDownload (url, path)) {
+                        case Utils.Web.DOWNLOAD_CODES.API_ERROR:
+                            error = ERRORS.API;
+                            break;
+                        case Utils.Web.DOWNLOAD_CODES.UNEXPECTED_ERROR:
+                            error = ERRORS.UNEXPECTED;
+                            break;
+                        case Utils.Web.DOWNLOAD_CODES.SUCCESS:
+                            error = ERRORS.NONE;
+                            break;
+                    }
                 } else {
-                    Utils.Web.Download (url, path, ref installation_progress, ref installation_cancelled, ref installation_api_error, ref installation_error);
+                    var result = Utils.Web.Download (url, path, () => status == STATUS.CANCELLED, ref installation_progress);
+                    switch(result) {
+                        case Utils.Web.DOWNLOAD_CODES.API_ERROR:
+                            error = ERRORS.API;
+                            break;
+                        case Utils.Web.DOWNLOAD_CODES.UNEXPECTED_ERROR:
+                            error = ERRORS.UNEXPECTED;
+                            break;
+                        case Utils.Web.DOWNLOAD_CODES.SUCCESS:
+                            error = ERRORS.NONE;
+                            break;
+                    }
                 }
 
-                if (installation_error || installation_api_error || installation_cancelled) {
+                if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
+                    status = STATUS.UNINSTALLED;
                     return;
                 }
 
@@ -238,18 +277,20 @@ namespace ProtonPlus.Shared.Models {
         void extract () {
             new Thread<void> ("extract", () => {
                 string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
-                string sourcePath = Utils.Filesystem.Extract (directory, title, file_extension, ref installation_cancelled);
+                string sourcePath = Utils.Filesystem.Extract (directory, title, file_extension, () => status == STATUS.CANCELLED);
 
                 if (sourcePath == "") {
-                    installation_error = true;
+                    error = ERRORS.EXTRACT;
+                    status = STATUS.UNINSTALLED;
                     return;
                 }
 
                 if (runner.is_using_github_actions) {
-                    sourcePath = Utils.Filesystem.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", ref installation_cancelled);
+                    sourcePath = Utils.Filesystem.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", () => status == STATUS.CANCELLED);
                 }
 
-                if (installation_error || installation_cancelled) {
+                if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
+                    status = STATUS.UNINSTALLED;
                     return;
                 }
 
@@ -261,9 +302,14 @@ namespace ProtonPlus.Shared.Models {
 
                 runner.group.launcher.install (this);
 
-                installed = true;
-                set_size ();
+                status = STATUS.INSTALLED;
+
+                // directory_size = (int64) Utils.Filesystem.GetDirectorySize (directory);
             });
+        }
+
+        public void cancel() {
+            status = Models.Release.STATUS.CANCELLED;
         }
     }
 }

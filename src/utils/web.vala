@@ -1,5 +1,8 @@
-namespace ProtonPlus.Shared.Utils {
+namespace ProtonPlus.Utils {
     public class Web {
+        public delegate bool cancel_callback ();
+        public delegate void progress_callback (int progress);
+
         public static string GET (string url) {
             try {
                 var session = new Soup.Session ();
@@ -13,19 +16,24 @@ namespace ProtonPlus.Shared.Utils {
             }
         }
 
-        public static void Download (string url, string path, ref int state, ref bool cancelled, ref bool api_error, ref bool error) {
-            var client = new Soup.Session ();
-            client.set_user_agent ("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1");
+        public enum DOWNLOAD_CODES {
+            API_ERROR,
+            UNEXPECTED_ERROR,
+            SUCCESS
+        }
 
-            var request = new Soup.Message ("GET", url);
-
+        public static DOWNLOAD_CODES Download (string url, string path, cancel_callback cancel_callback, ref int progress) {
             try {
+                var client = new Soup.Session ();
+                client.set_user_agent ("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1");
+    
+                var request = new Soup.Message ("GET", url);
+
                 var input_stream = client.send (request);
 
                 if (request.status_code != 200) {
-                    api_error = true;
                     message (request.reason_phrase);
-                    return;
+                    return DOWNLOAD_CODES.API_ERROR;
                 }
 
                 var file = GLib.File.new_for_path (path);
@@ -37,7 +45,7 @@ namespace ProtonPlus.Shared.Utils {
                 const int chunk_size = 1024;
                 ulong bytes_downloaded = 0;
                 while (bytes_downloaded < content_length) {
-                    if (cancelled) {
+                    if (cancel_callback()) {
                         if (file.query_exists ()) file.delete ();
                         break;
                     }
@@ -46,34 +54,38 @@ namespace ProtonPlus.Shared.Utils {
 
                     bytes_downloaded += bytes_read;
 
-                    state = (int) (((double) bytes_downloaded / content_length) * 100);
+                    progress = (int) (((double) bytes_downloaded / content_length) * 100);
                 }
                 output_stream.close ();
-            } catch (GLib.Error e) {
-                error = true;
-                message (e.message);
-            }
 
-            client.abort ();
+                client.abort ();
+
+                return DOWNLOAD_CODES.SUCCESS;
+            } catch (GLib.Error e) {
+                message (e.message);
+                return DOWNLOAD_CODES.UNEXPECTED_ERROR;
+            }
         }
 
-        public static void OldDownload (string url, string path, ref bool api_error, ref bool error) {
+        public static DOWNLOAD_CODES OldDownload (string url, string path) {
             try {
                 var session = new Soup.Session ();
                 var request = new Soup.Message ("GET", url);
                 var response = session.send_and_read (request);
 
                 if (request.status_code != 200) {
-                    api_error = true;
                     message (request.reason_phrase);
+                    return DOWNLOAD_CODES.API_ERROR;
                 }
 
                 var file = GLib.File.new_for_path (path);
                 var output_stream = file.create (FileCreateFlags.REPLACE_DESTINATION);
                 output_stream.write (response.get_data ());
+
+                return DOWNLOAD_CODES.SUCCESS;
             } catch (GLib.Error e) {
-                error = true;
                 message (e.message);
+                return DOWNLOAD_CODES.UNEXPECTED_ERROR;
             }
         }
     }

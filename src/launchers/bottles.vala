@@ -1,4 +1,4 @@
-namespace ProtonPlus.Shared.Launchers {
+namespace ProtonPlus.Launchers {
     public class Bottles {
         static Models.Group[] get_groups (Models.Launcher launcher) {
             var groups = new Models.Group[2];
