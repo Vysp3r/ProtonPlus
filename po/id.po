@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-08-27 11:56-0400\n"
-"PO-Revision-Date: 2023-11-01 05:11+0000\n"
+"PO-Revision-Date: 2023-11-12 13:03+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/id/>\n"
@@ -79,22 +79,26 @@ msgstr ""
 
 #: src/shared/launchers/bottles.vala:50 src/shared/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
-msgstr ""
+msgstr "Mengandung peningkatan Proton default Valve."
 
 #: src/shared/launchers/bottles.vala:54
 msgid ""
 " Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
+" Berbasis Valve Proton bleeding-edge eksperimental Wine, dibangun untuk "
+"Lutris."
 
 #: src/shared/launchers/bottles.vala:58 src/shared/launchers/lutris.vala:58
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
 "games."
 msgstr ""
+"Peningkatan oleh Lutris untuk menawarkan kompatibilitas atau kinerja yang "
+"lebih baik dalam permainan tertentu."
 
 #: src/shared/launchers/hgl.vala:7
 msgid "Steam compatibility tool for running Windows games"
-msgstr ""
+msgstr "Alat kompatibilitas Steam untuk menjalankan game Windows"
 
 #: src/shared/launchers/hgl.vala:11
 msgid "Wine is a program which allows running Microsoft Windows programs"
