@@ -1,17 +1,30 @@
+# Lucas Mindêllo de Andrade <lucas.rokam@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-12 12:11-0500\n"
-"Language: pt_BR\n"
+"POT-Creation-Date: 2023-08-27 11:56-0400\n"
+"PO-Revision-Date: 2023-11-11 12:36+0000\n"
+"Last-Translator: Lucas Mindêllo de Andrade <lucas.rokam@gmail.com>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
+"protonplus/pt/>\n"
+"Language: pt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.2-dev\n"
 
-#.
-#.
+#: src/launcher/launcher-warning-box.vala:21
+#msgid "Welcome to "
+#msgstr ""
+
+#: src/launcher/launcher-warning-box.vala:22
+#msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+#msgstr "Instale o Steam, Lutris, Bottles ouHeroic Games Launcher para começar."
+
 #: src/widgets/sidebar.vala:34
 #, fuzzy
 msgid "Installed only"
-msgstr "Instalar"
+msgstr "Apenas instalado"
 
 #.
 #: src/widgets/info-box.vala:25
@@ -20,7 +33,7 @@ msgstr "Sobre"
 
 #: src/widgets/info-box.vala:174 src/widgets/info-box.vala:182
 msgid "Load more"
-msgstr ""
+msgstr "Carregar mais"
 
 #: src/widgets/info-box.vala:197 src/widgets/info-box.vala:338
 msgid "There was an error while fetching data from the GitHub API"
@@ -39,11 +52,11 @@ msgstr "Remover ferramenta"
 #: src/widgets/info-box.vala:226
 #, fuzzy
 msgid "Are you sure you want to delete "
-msgstr "Certeza de que deseja remover a ferramenta selecionada?"
+msgstr "Certeza de que deseja remover "
 
 #: src/widgets/info-box.vala:228
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #: src/widgets/info-box.vala:244
 #, fuzzy
@@ -87,7 +100,7 @@ msgstr ""
 
 #: src/launchers/bottles.vala:7
 msgid "Compatibility tool to run Windows games on Linux"
-msgstr ""
+msgstr "Ferramenta de compatibilidade para rodar jogos Windows no Linux"
 
 #: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
 #: src/launchers/lutris.vala:11
@@ -96,18 +109,22 @@ msgstr ""
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
-msgstr ""
+msgstr "Contém melhorias no Proton da Valve."
 
 #: src/launchers/bottles.vala:54
 msgid ""
 " Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
+" Inspirado no Proton Experimental da Valve com Wine bleeding-edge, feito "
+"para o Lutris."
 
 #: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
 "games."
 msgstr ""
+"Melhorado pelo Lutris para melhor compatibilidade e performance em certos "
+"jogos."
 
 #: src/launchers/hgl.vala:7
 msgid "Steam compatibility tool for running Windows games"
@@ -122,11 +139,15 @@ msgid ""
 "Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top "
 "of Vulkan"
 msgstr ""
+"Fork do VKD3DD do Wine com objetivo de implementar suporte ao Direct3D 12 "
+"com Vulkan"
 
 #: src/launchers/hgl.vala:62 src/launchers/lutris.vala:54
 msgid ""
 "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
+"Inspirado no Proton Experimental da Valve com Wine bleeding-edge, feito para "
+"o Lutris."
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
@@ -147,6 +168,7 @@ msgid ""
 "Custom Proton build for running Windows games, built with the Wine-tkg build "
 "system."
 msgstr ""
+"Versão Proton customizada para rodar jogos de Windows, utilizando Wine-tkg."
 
 #: src/launchers/lutris.vala:7
 msgid "Program which allows running Microsoft Windows programs"
@@ -154,7 +176,7 @@ msgstr ""
 
 #: src/launchers/lutris.vala:87
 msgid "Contains RTX fix for Star Citizen."
-msgstr ""
+msgstr "Contém correção RTX para o Star Citizen."
 
 #: src/launchers/steam.vala:63
 msgid ""
@@ -182,6 +204,7 @@ msgstr ""
 #: src/launchers/steam.vala:74
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
+"Versão Proton customizada para rodar o cliente Northstar para Titanfall 2."
 
 #: src/models/release.vala:60
 msgid "Not available"
