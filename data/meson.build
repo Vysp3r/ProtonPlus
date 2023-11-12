@@ -8,17 +8,20 @@ subdir('icons')
 subdir('images')
 
 #
-install_data(
-		join_paths('logo', 'com.vysp3r.ProtonPlus.svg'),
-		install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', '32x32', 'apps'),
-		rename: meson.project_name() + '.svg'
-)
+icon_sizes = ['32', '48', '64', '128']
+foreach i : icon_sizes
+  install_data(
+      join_paths('logo', 'com.vysp3r.ProtonPlus.svg'),
+      install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i + 'x' + i, 'apps'),
+      rename: meson.project_name() + '.svg'
+  )
 
-install_data(
-		join_paths('logo', 'com.vysp3r.ProtonPlus.svg'),
-		install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', '32x32' + '@2', 'apps'),
-		rename: meson.project_name() + '.svg'
-)
+  install_data(
+      join_paths('logo', 'com.vysp3r.ProtonPlus.svg'),
+      install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i + 'x' + i + '@2', 'apps'),
+      rename: meson.project_name() + '.svg'
+  )
+endforeach
 
 #
 desktop_file = i18n.merge_file(
