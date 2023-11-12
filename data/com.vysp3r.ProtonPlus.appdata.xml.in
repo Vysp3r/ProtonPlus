@@ -52,6 +52,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.7" date="2023-11-12">
+      <description>
+        <ul>
+          <li>💄 Modernised the UI</li>
+          <li>🧑‍💻 Backend improvements</li>
+          <li>🌐 Updated localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.6" date="2023-08-26">
       <description>
         <ul>
