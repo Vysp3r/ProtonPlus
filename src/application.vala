@@ -59,13 +59,13 @@ namespace ProtonPlus {
             aboutWindow.set_application_name (Constants.APP_NAME);
             aboutWindow.set_application_icon (Constants.APP_ID);
             aboutWindow.set_version ("v" + Constants.APP_VERSION);
-            aboutWindow.set_comments ("A simple Wine and Proton-based compatibility tools manager for GNOME");
+            aboutWindow.set_comments (_("A simple Wine and Proton-based compatibility tools manager for GNOME"));
             aboutWindow.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutWindow.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             aboutWindow.set_copyright ("© 2022-2023 Vysp3r");
             aboutWindow.set_license_type (Gtk.License.GPL_3_0);
             aboutWindow.set_developers (devs);
-            aboutWindow.add_credit_section ("Special thanks to", thanks);
+            aboutWindow.add_credit_section (_("Special thanks to"), thanks);
             aboutWindow.set_transient_for (window);
             aboutWindow.set_modal (true);
 
