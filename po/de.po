@@ -1,30 +1,37 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# Rouven Hi! <rouven@himmelstein.info>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-12 09:38-0500\n"
-"PO-Revision-Date: 2023-08-27 18:24+0200\n"
-"Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2023-08-27 11:56-0400\n"
+"PO-Revision-Date: 2023-11-11 12:36+0000\n"
+"Last-Translator: Rouven Hi! <rouven@himmelstein.info>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
+"protonplus/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.2-dev\n"
 
-#.
-#.
+#: src/launcher/launcher-warning-box.vala:21
+#msgid "Welcome to "
+#msgstr "Willkommen zu "
+
+#: src/launcher/launcher-warning-box.vala:22
+#msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+#msgstr ""
+#"Installiere Steam, Lutris, Bottles oder den Heroic Games Launcher, um "
+#"loszulegen."
+
 #: src/widgets/sidebar.vala:34
 msgid "Installed only"
-msgstr "Nur installierte"
+msgstr "Nur installierte anzeigen"
 
-#.
 #: src/widgets/info-box.vala:25
 msgid "About"
 msgstr "Über"
@@ -47,7 +54,7 @@ msgstr "Löschen des Ausführungswerkzeugs"
 
 #: src/widgets/info-box.vala:226
 msgid "Are you sure you want to delete "
-msgstr "Sind Sie sicher das Sie es löschen wollen "
+msgstr "Sind Sie sicher, dass Sie löschen wollen "
 
 #: src/widgets/info-box.vala:228
 msgid "Confirm"
@@ -94,7 +101,7 @@ msgstr "Ausführungswerkzeuge"
 
 #: src/launchers/bottles.vala:7
 msgid "Compatibility tool to run Windows games on Linux"
-msgstr "Kompatibilitätswerkzeug um Windows-Spiele unter Linux starten"
+msgstr "Kompatibilitätstool zum Ausführen von Windows-Spielen unter Linux"
 
 #: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
 #: src/launchers/lutris.vala:11
@@ -103,21 +110,21 @@ msgstr "Vulkan basierte Implementierung von DirectX9, 10 und 11 for Linux/Wine"
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
-msgstr "Enthält Verbesserungen zu Valve's Standard-Proton."
+msgstr "Enthält Verbesserungen gegenüber dem Standard-Proton von Valve."
 
 #: src/launchers/bottles.vala:54
 msgid ""
 " Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
-" Basierend auf dem neuesten Stand von Valve Proton Experimental Wine, gebaut "
-"für Lutris."
+" Basierend auf Valve Proton Experimental's bleeding-edge Wine, gebaut für "
+"Lutris."
 
 #: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
 "games."
 msgstr ""
-"Verbessert von Lutris um bessere Kompatibilität oder Leistung in einigen "
+"Verbessert von Lutris, um bessere Kompatibilität oder Leistung in bestimmten "
 "Spielen zu bieten."
 
 #: src/launchers/hgl.vala:7
@@ -126,22 +133,24 @@ msgstr "Steam Kompatibilitätswerkzeug um Windows-Spiele unter Linux zu starten"
 
 #: src/launchers/hgl.vala:11
 msgid "Wine is a program which allows running Microsoft Windows programs"
-msgstr "Wine ist ein Programm das es erlaubt Microsoft Windows-Programme"
+msgstr ""
+"Wine ist ein Programm, das die Ausführung von Microsoft Windows-Programmen "
+"ermöglicht"
 
 #: src/launchers/hgl.vala:19 src/launchers/lutris.vala:15
 msgid ""
 "Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top "
 "of Vulkan"
 msgstr ""
-"Fork von Wine's VKD3D das darauf abziehlt die ganze Direct3D 12 API auf "
+"Fork von Wine's VKD3D, der darauf abzielt, die volle Direct3D 12 API auf "
 "Vulkan zu implementieren"
 
 #: src/launchers/hgl.vala:62 src/launchers/lutris.vala:54
 msgid ""
 "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
-"Basierend auf dem neuesten Stand von Valve Proton Experimental Wine, gebaut "
-"für Lutris."
+"Basierend auf Valve Proton Experimental's bleeding-edge Wine, gebaut für "
+"Lutris."
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
@@ -163,16 +172,17 @@ msgid ""
 "Custom Proton build for running Windows games, built with the Wine-tkg build "
 "system."
 msgstr ""
-"Benutzerdefiniertes Proton build um Windowsspiele unter Linux zu starten, "
-"gebaut mit dem WIne-tkg Build-System."
+"Benutzerdefiniertes Proton-Build für die Ausführung von Windows-Spielen, "
+"erstellt mit dem Wine-tkg-Build-System."
 
 #: src/launchers/lutris.vala:7
 msgid "Program which allows running Microsoft Windows programs"
-msgstr "Programm das es erlaubt Microsoft Windows-Programme"
+msgstr ""
+"Programm, das die Ausführung von Microsoft Windows-Programmen ermöglicht"
 
 #: src/launchers/lutris.vala:87
 msgid "Contains RTX fix for Star Citizen."
-msgstr "Enthält RTX Behebung für Star Citizen."
+msgstr "Enthält RTX-Korrektur für Star Citizen."
 
 #: src/launchers/steam.vala:63
 msgid ""
@@ -187,7 +197,7 @@ msgid ""
 "Luxtorpeda provides Linux-native game engines for specific Windows-only "
 "games."
 msgstr ""
-"Luxtorpeda bietet Linux-native Spiele-Engines für spezifische Windows-Spiele."
+"Luxtorpeda bietet Linux-native Spiele-Engines für bestimmte Windows-Spiele."
 
 #: src/launchers/steam.vala:72
 msgid ""
@@ -207,8 +217,8 @@ msgstr ""
 #: src/launchers/steam.vala:74
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
-"Benutzerdefiniertes Proton build um den Northstar-Klient für Titenfall 2 zu "
-"starten."
+"Benutzerdefinierter Proton-Build zum Ausführen des Northstar-Clients für "
+"Titanfall 2."
 
 #: src/models/release.vala:59
 msgid "Not available"

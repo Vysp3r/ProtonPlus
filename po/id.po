@@ -1,19 +1,28 @@
+# Reza Almanda <rezaalmanda27@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-12 09:38-0500\n"
-"PO-Revision-Date: \n"
-"Last-Translator: yukidream <mashirokuratamorfo@gmail.com>\n"
-"Language-Team: \n"
-"Language: id_ID\n"
+"POT-Creation-Date: 2023-08-27 11:56-0400\n"
+"PO-Revision-Date: 2023-11-12 13:03+0000\n"
+"Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
+"protonplus/id/>\n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.2.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.2-dev\n"
 
-#.
-#.
+#: src/launcher/launcher-warning-box.vala:21
+#msgid "Welcome to "
+#msgstr "Selamat datang di "
+
+#: src/launcher/launcher-warning-box.vala:22
+#msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+#msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
+
 #: src/widgets/sidebar.vala:34
 #, fuzzy
 msgid "Installed only"
@@ -26,11 +35,11 @@ msgstr "Tentang"
 
 #: src/widgets/info-box.vala:174 src/widgets/info-box.vala:182
 msgid "Load more"
-msgstr ""
+msgstr "Muat lainnya"
 
 #: src/widgets/info-box.vala:197 src/widgets/info-box.vala:338
 msgid "There was an error while fetching data from the GitHub API"
-msgstr ""
+msgstr "Ada error saat mengambil data dari API GitHub"
 
 #: src/widgets/info-box.vala:213
 #, fuzzy
@@ -45,11 +54,11 @@ msgstr "Menghapus alat"
 #: src/widgets/info-box.vala:226
 #, fuzzy
 msgid "Are you sure you want to delete "
-msgstr "Apakah kamu yakin ingin menghapus alat ini?"
+msgstr "Apakah Anda yakin ingin menghapusnya? "
 
 #: src/widgets/info-box.vala:228
 msgid "Confirm"
-msgstr ""
+msgstr "Konfirmasi"
 
 #: src/widgets/info-box.vala:244
 #, fuzzy
@@ -89,35 +98,40 @@ msgstr ""
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
-msgstr ""
+msgstr "Runner"
 
 #: src/launchers/bottles.vala:7
 msgid "Compatibility tool to run Windows games on Linux"
-msgstr ""
+msgstr "Kompatibilitas alat untuk menjalankan game Windows di Linux"
 
 #: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
 #: src/launchers/lutris.vala:11
 msgid "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine"
 msgstr ""
+"Implementasi berbasis Vulkan dari Direct3D 9, 10 dan 11 untuk Linux / Wine"
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
-msgstr ""
+msgstr "Mengandung peningkatan Proton default Valve."
 
 #: src/launchers/bottles.vala:54
 msgid ""
 " Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
+" Berbasis Valve Proton bleeding-edge eksperimental Wine, dibangun untuk "
+"Lutris."
 
 #: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
 "games."
 msgstr ""
+"Peningkatan oleh Lutris untuk menawarkan kompatibilitas atau kinerja yang "
+"lebih baik dalam permainan tertentu."
 
 #: src/launchers/hgl.vala:7
 msgid "Steam compatibility tool for running Windows games"
-msgstr ""
+msgstr "Alat kompatibilitas Steam untuk menjalankan game Windows"
 
 #: src/launchers/hgl.vala:11
 msgid "Wine is a program which allows running Microsoft Windows programs"
