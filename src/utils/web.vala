@@ -1,20 +1,27 @@
 namespace ProtonPlus.Utils {
     public class Web {
-        public delegate bool cancel_callback ();
-        public delegate void progress_callback (int progress);
+        public static string get_user_agent() {
+            return Constants.APP_NAME + "/" + Constants.APP_VERSION;
+        }
 
-        public static string GET (string url) {
+        public static async string? GET (string url) {
             try {
                 var session = new Soup.Session ();
                 var message = new Soup.Message ("GET", url);
-                session.set_user_agent ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246");
-                Bytes bytes = session.send_and_read (message);
+
+                session.set_user_agent (get_user_agent());
+
+                Bytes bytes = yield session.send_and_read_async (message, GLib.Priority.DEFAULT, null);
+                
                 return (string) bytes.get_data ();
             } catch (GLib.Error e) {
                 message (e.message);
-                return "";
+                return null;
             }
         }
+
+        public delegate bool cancel_callback ();
+        public delegate void progress_callback (int progress);
 
         public enum DOWNLOAD_CODES {
             API_ERROR,
@@ -22,65 +29,60 @@ namespace ProtonPlus.Utils {
             SUCCESS
         }
 
-        public static DOWNLOAD_CODES Download (string url, string path, cancel_callback cancel_callback, ref int progress) {
+        public static async DOWNLOAD_CODES Download (string url, string path, int64 download_size, cancel_callback cancel_callback, progress_callback progress_callback) {
             try {
-                var client = new Soup.Session ();
-                client.set_user_agent ("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0) Gecko/20100101 Firefox/15.0.1");
+                var session = new Soup.Session ();
+                session.set_user_agent (get_user_agent());
     
-                var request = new Soup.Message ("GET", url);
+                var message = new Soup.Message ("GET", url);
 
-                var input_stream = client.send (request);
+                var input_stream = yield session.send_async (message, GLib.Priority.DEFAULT, null);
 
-                if (request.status_code != 200) {
-                    message (request.reason_phrase);
+                if (message.status_code != 200) {
+                    GLib.message (message.reason_phrase);
                     return DOWNLOAD_CODES.API_ERROR;
                 }
 
                 var file = GLib.File.new_for_path (path);
-                if (file.query_exists ()) file.delete ();
-                FileOutputStream output_stream = file.create (FileCreateFlags.REPLACE_DESTINATION);
+                if (file.query_exists ()) {
+                    yield file.delete_async (GLib.Priority.DEFAULT, null);
+                }
+                
+                FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, GLib.Priority.DEFAULT, null);
 
-                int64 content_length = request.response_headers.get_content_length ();
-
-                const int chunk_size = 1024;
+                const size_t chunk_size = 4096;
                 ulong bytes_downloaded = 0;
-                while (bytes_downloaded < content_length) {
+                //int64 last_update = 0;
+
+                while (true) {
                     if (cancel_callback()) {
-                        if (file.query_exists ()) file.delete ();
+                        if (file.query_exists ()) {
+                            file.delete ();
+                        }
                         break;
                     }
 
-                    ulong bytes_read = output_stream.write (input_stream.read_bytes (chunk_size).get_data ());
+                    var chunk = yield input_stream.read_bytes_async (chunk_size);
+                    if (chunk.get_size () == 0) {
+                        break;
+                    }
 
-                    bytes_downloaded += bytes_read;
+                    bytes_downloaded += output_stream.write (chunk.get_data ());
 
-                    progress = (int) (((double) bytes_downloaded / content_length) * 100);
-                }
-                output_stream.close ();
-
-                client.abort ();
-
-                return DOWNLOAD_CODES.SUCCESS;
-            } catch (GLib.Error e) {
-                message (e.message);
-                return DOWNLOAD_CODES.UNEXPECTED_ERROR;
-            }
-        }
-
-        public static DOWNLOAD_CODES OldDownload (string url, string path) {
-            try {
-                var session = new Soup.Session ();
-                var request = new Soup.Message ("GET", url);
-                var response = session.send_and_read (request);
-
-                if (request.status_code != 200) {
-                    message (request.reason_phrase);
-                    return DOWNLOAD_CODES.API_ERROR;
+                    if (progress_callback != null) {
+                        var progress = (int) (((double) bytes_downloaded / download_size) * 100);
+                        progress_callback(progress);
+                    }   
+                    
+                    //  if (1 == 0) {
+                    //      var dl_speed = (int) (((double) bytes_downloaded) / (double)(get_real_time() - last_update) * ((double) 1000000));
+                    //      speed_callback (dl_speed);
+                    //  }
                 }
 
-                var file = GLib.File.new_for_path (path);
-                var output_stream = file.create (FileCreateFlags.REPLACE_DESTINATION);
-                output_stream.write (response.get_data ());
+                yield output_stream.close_async ();
+
+                session.abort ();
 
                 return DOWNLOAD_CODES.SUCCESS;
             } catch (GLib.Error e) {

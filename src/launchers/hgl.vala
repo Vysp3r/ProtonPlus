@@ -119,7 +119,7 @@ namespace ProtonPlus.Launchers {
                 if (release.runner.group.launcher.title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
                 path = GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
-                Json.Node rootNode = Json.from_string (Utils.Filesystem.GetFileContent (path));
+                Json.Node rootNode = Json.from_string (Utils.Filesystem.get_file_content (path));
                 Json.Object rootObj = rootNode.get_object ();
 
                 var objArray = rootObj.get_array_member ("wine-releases");
@@ -136,7 +136,7 @@ namespace ProtonPlus.Launchers {
                         obj.set_boolean_member ("hasUpdate", false);
                         obj.set_string_member ("installDir", GLib.Environment.get_home_dir () + "/" + obj.get_string_member ("version"));
 
-                        obj.set_int_member ("disksize", (int64) Utils.Filesystem.GetDirectorySize (obj.get_string_member ("installDir")));
+                        obj.set_int_member ("disksize", (int64) Utils.Filesystem.get_directory_size (obj.get_string_member ("installDir")));
 
                         found = true;
                     }
@@ -156,12 +156,12 @@ namespace ProtonPlus.Launchers {
                     obj.set_boolean_member ("hasUpdate", false);
                     obj.set_string_member ("installDir", release.runner.group.launcher.directory + "/" + obj.get_string_member ("version"));
 
-                    obj.set_int_member ("disksize", (int64) Utils.Filesystem.GetDirectorySize (obj.get_string_member ("installDir")));
+                    obj.set_int_member ("disksize", (int64) Utils.Filesystem.get_directory_size (obj.get_string_member ("installDir")));
 
                     objArray.add_object_element (obj);
                 }
 
-                Utils.Filesystem.ModifyFile (path, Json.to_string (rootNode, true));
+                Utils.Filesystem.modify_file (path, Json.to_string (rootNode, true));
             } catch (GLib.Error e) {
                 message (e.message);
             }
@@ -173,7 +173,7 @@ namespace ProtonPlus.Launchers {
                 if (release.runner.group.launcher.title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
                 path = GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
-                Json.Node rootNode = Json.from_string (Utils.Filesystem.GetFileContent (path));
+                Json.Node rootNode = Json.from_string (Utils.Filesystem.get_file_content (path));
                 Json.Object rootObj = rootNode.get_object ();
 
                 var objArray = rootObj.get_array_member ("wine-releases");
@@ -191,7 +191,7 @@ namespace ProtonPlus.Launchers {
                     }
                 }
 
-                Utils.Filesystem.ModifyFile (path, Json.to_string (rootNode, true));
+                Utils.Filesystem.modify_file (path, Json.to_string (rootNode, true));
             } catch (GLib.Error e) {
                 message (e.message);
             }

@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models {
-    public class Runner {
+    public class Runner : Object {
         public string title { get; set; }
         public string description { get; set; }
         public string endpoint { get; set; } // For GitHub Actions repository, make this the workflow url. See Proton Tkg for an example.
@@ -14,20 +14,19 @@ namespace ProtonPlus.Models {
         public bool use_name_instead_of_tag_name { get; set; }
         public bool api_error { get; set; }
         public string[] request_asset_exclude { get; set; }
-        public bool loaded { get; set; }
-
+        
         public uint page { get; set; }
-        public uint releases_count { get; set; }
 
         public Models.Group group { get; set; }
+        
+        public bool loaded { get; set; }
         public List<Models.Release> releases;
 
         public bool installed_loaded { get; set; }
         public List<Models.Release> installed_releases;
 
         public Runner (Models.Group group, string title, string description, string endpoint, int asset_position, title_types title_type) {
-            this.page = 0;
-            this.releases_count = 0;
+            this.page = 1;
 
             this.group = group;
             this.title = title;
@@ -80,13 +79,19 @@ namespace ProtonPlus.Models {
         }
 
         public void load (bool installed_only) {
-            if (installed_only) load_installed ();
-            else load_all ();
+            new Thread<void>("load", () => {
+                if (installed_only) {
+                    installed_loaded = false;
+                    load_installed ();
+                    installed_loaded = true;
+                } else {
+                    loaded = false;
+                    load_all ();
+                };
+            });
         }
 
         void load_installed () {
-            installed_loaded = false;
-
             installed_releases = new List<Models.Release> ();
 
             var dir = Posix.opendir (group.launcher.directory + group.directory);
@@ -111,144 +116,131 @@ namespace ProtonPlus.Models {
             }
 
             installed_releases.reverse ();
-
-            installed_loaded = true;
         }
 
         void load_all () {
-            //
-            loaded = false;
+            Utils.Web.GET.begin (endpoint + "?per_page=25&page=" + page++.to_string (), (obj, res) => {
+                string? json = Utils.Web.GET.end (res);
 
-            //
-            page++;
+                if (json == null || json?.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting")) {
+                    api_error = true;
+                    return;
+                }
 
-            //
-            string json = Utils.Web.GET (endpoint + "?per_page=25&page=" + page.to_string ());
+                Json.Node? node = Utils.Parser.get_node_from_json (json);
 
-            //
-            if (json == "" || json.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting")) {
-                api_error = true;
-                return;
+                if (node == null) return;
+
+                switch (endpoint_type) {
+                case endpoint_types.GITHUB:
+                    if (is_using_github_actions) {
+                        load_github_action (node);
+                    } else {
+                        load_github (node);
+                    }
+                    break;
+                case endpoint_types.GITLAB:
+                    load_gitlab (node);
+                    break;
+                }
+
+                loaded = true;
+            });
+        }
+
+        void load_github_action (Json.Node rootNode) {
+            var rootObj = rootNode.get_object ();
+
+            if (!rootObj.has_member ("workflow_runs")) return;
+            if (rootObj.get_member ("workflow_runs").get_node_type () != Json.NodeType.ARRAY) return;
+
+            var workflowsRunArray = rootObj.get_array_member ("workflow_runs");
+            if (workflowsRunArray == null) return;
+
+            // Execute a loop with the number of items contained in the Version array and fill it
+            for (var i = 0; i < workflowsRunArray.get_length (); i++) {
+                string name = "";
+                string status = "";
+                string conclusion = "";
+                string run_id = "";
+                string html_url = "";
+                string release_date = "";
+                string artifacts_url = "";
+
+                // Get the current node
+                var tempNode = workflowsRunArray.get_element (i);
+                var tempObject = tempNode.get_object ();
+
+                status = tempObject.get_string_member ("status");
+                conclusion = tempObject.get_string_member ("conclusion");
+                run_id = tempObject.get_int_member ("id").to_string ();
+                name = tempObject.get_int_member ("run_number").to_string ();
+                html_url = tempObject.get_string_member ("html_url");
+                release_date = tempObject.get_string_member ("created_at").split ("T")[0];
+                artifacts_url = tempObject.get_string_member ("artifacts_url");
+
+                if (status == "completed" && conclusion == "success") {
+                    var release = new Release (this, name, @"https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/$run_id/proton-tkg-build.zip", html_url, release_date, "", -1, ".zip");
+                    release.artifacts_url = artifacts_url;
+                    releases.append (release);
+                }
             }
-
-            //
-            Json.Node rootNode;
-
-            try {
-                rootNode = Json.from_string (json);
-            } catch (GLib.Error e) {
-                message (e.message);
-                return;
-            }
-
-            if (rootNode == null) return;
-
-            switch (endpoint_type) {
-            case endpoint_types.GITHUB:
-                load_github (rootNode);
-                break;
-            case endpoint_types.GITLAB:
-                load_gitlab (rootNode);
-                break;
-            }
-
-            //
-            loaded = true;
         }
 
         void load_github (Json.Node rootNode) {
-            if (!is_using_github_actions) {
-                // Get the root node from the json
-                if (rootNode.get_node_type () != Json.NodeType.ARRAY) return;
+            // Get the root node from the json
+            if (rootNode.get_node_type () != Json.NodeType.ARRAY) return;
 
-                // Get the root node array
-                var rootNodeArray = rootNode.get_array ();
-                if (rootNodeArray == null) return;
+            // Get the root node array
+            var rootNodeArray = rootNode.get_array ();
+            if (rootNodeArray == null) return;
 
-                releases_count += rootNodeArray.get_length ();
+            // Execute a loop with the number of items contained in the Version array and fill it
+            for (var i = 0; i < rootNodeArray.get_length (); i++) {
+                string tag = "";
+                string download_url = "";
+                string page_url = "";
+                string release_date = "";
+                string checksum_url = "";
+                int64 download_size = 0;
 
-                // Execute a loop with the number of items contained in the Version array and fill it
-                for (var i = 0; i < rootNodeArray.get_length (); i++) {
-                    string tag = "";
-                    string download_url = "";
-                    string page_url = "";
-                    string release_date = "";
-                    string checksum_url = "";
-                    int64 download_size = 0;
+                // Get the current node
+                var tempNode = rootNodeArray.get_element (i);
+                var objRoot = tempNode.get_object ();
 
-                    // Get the current node
-                    var tempNode = rootNodeArray.get_element (i);
-                    var objRoot = tempNode.get_object ();
+                // Set the value of tag to the tag_name object contained in the current node
+                if (use_name_instead_of_tag_name) tag = objRoot.get_string_member ("name");
+                else tag = objRoot.get_string_member ("tag_name");
 
-                    // Set the value of tag to the tag_name object contained in the current node
-                    if (use_name_instead_of_tag_name) tag = objRoot.get_string_member ("name");
-                    else tag = objRoot.get_string_member ("tag_name");
-
-                    //
-                    var excluded = false;
-                    if (request_asset_exclude != null) {
-                        foreach (var excluded_asset in request_asset_exclude) {
-                            if (tag.contains (excluded_asset)) excluded = true;
-                        }
-                    }
-
-                    //
-                    if (!excluded) {
-                        // Set the value of page_url to the html_url object contained in the current node
-                        page_url = objRoot.get_string_member ("html_url");
-
-                        release_date = objRoot.get_string_member ("created_at").split ("T")[0];
-
-                        // Get the temp node array for the assets
-                        var tempNodeArray = objRoot.get_array_member ("assets");
-
-                        int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
-
-                        // Verify weither the temp node array has values
-                        if (tempNodeArray.get_length () - 1 >= pos) {
-                            var tempNodeArrayAsset = tempNodeArray.get_element (pos);
-                            var objAsset = tempNodeArrayAsset.get_object ();
-
-                            download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
-                            download_size = objAsset.get_int_member ("size");
-
-                            releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz")); // Currently here to prevent showing release with an invalid download_url
-                        }
+                //
+                var excluded = false;
+                if (request_asset_exclude != null) {
+                    foreach (var excluded_asset in request_asset_exclude) {
+                        if (tag.contains (excluded_asset)) excluded = true;
                     }
                 }
-            } else {
-                var rootObj = rootNode.get_object ();
 
-                if (!rootObj.has_member ("workflow_runs")) return;
-                if (rootObj.get_member ("workflow_runs").get_node_type () != Json.NodeType.ARRAY) return;
+                // FIXME Problem in the json (json_array_get_element: assertion 'index_ < array->elements->len' failed)
+                if (!excluded) {
+                    // Set the value of page_url to the html_url object contained in the current node
+                    page_url = objRoot.get_string_member ("html_url");
 
-                var workflowsRunArray = rootObj.get_array_member ("workflow_runs");
-                if (workflowsRunArray == null) return;
+                    release_date = objRoot.get_string_member ("created_at").split ("T")[0];
 
-                releases_count += workflowsRunArray.get_length ();
+                    // Get the temp node array for the assets
+                    var tempNodeArray = objRoot.get_array_member ("assets");
 
-                // Execute a loop with the number of items contained in the Version array and fill it
-                for (var i = 0; i < workflowsRunArray.get_length (); i++) {
-                    string name = "";
-                    string status = "";
-                    string conclusion = "";
-                    string run_id = "";
-                    string html_url = "";
-                    string release_date = "";
+                    int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
 
-                    // Get the current node
-                    var tempNode = workflowsRunArray.get_element (i);
-                    var tempObject = tempNode.get_object ();
+                    // Verify weither the temp node array has values
+                    if (tempNodeArray.get_length () - 1 >= pos) {
+                        var tempNodeArrayAsset = tempNodeArray.get_element (pos);
+                        var objAsset = tempNodeArrayAsset.get_object ();
 
-                    status = tempObject.get_string_member ("status");
-                    conclusion = tempObject.get_string_member ("conclusion");
-                    run_id = tempObject.get_int_member ("id").to_string ();
-                    name = tempObject.get_int_member ("run_number").to_string ();
-                    html_url = tempObject.get_string_member ("html_url");
-                    release_date = tempObject.get_string_member ("created_at").split ("T")[0];;
+                        download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
+                        download_size = objAsset.get_int_member ("size");
 
-                    if (status == "completed" && conclusion == "success") {
-                        releases.append (new Release (this, name, @"https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/$run_id/proton-tkg-build.zip", html_url, release_date, "", -1, ".zip"));
+                        releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz")); // Currently here to prevent showing release with an invalid download_url
                     }
                 }
             }
@@ -261,8 +253,6 @@ namespace ProtonPlus.Models {
             // Get the root node array
             var rootNodeArray = rootNode.get_array ();
             if (rootNodeArray == null) return;
-
-            releases_count += rootNodeArray.get_length ();
 
             // Execute a loop with the number of items contained in the Version array and fill it
             for (var i = 0; i < rootNodeArray.get_length (); i++) {

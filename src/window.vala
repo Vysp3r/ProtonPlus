@@ -12,7 +12,7 @@ namespace ProtonPlus {
         construct {
             //
             this.set_application ((Adw.Application) GLib.Application.get_default ());
-            this.set_title (Shared.Constants.APP_NAME);
+            this.set_title (Constants.APP_NAME);
             this.set_default_size (950, 600);
 
             //
@@ -109,7 +109,7 @@ namespace ProtonPlus {
                 }
             } else {
                 //
-                status_box.initialize (null, _("Welcome to ") + Shared.Constants.APP_NAME, _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
+                status_box.initialize (null, _("Welcome to ") + Constants.APP_NAME, _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
                 
                 //
                 if (status_box.get_parent () == null) {
@@ -136,7 +136,7 @@ namespace ProtonPlus {
         }
 
         SimpleAction add_task () {
-            SimpleAction action = new SimpleAction ("add-task", VariantType.STRING);
+            SimpleAction action = new SimpleAction ("add-tasks", VariantType.STRING);
 
             action.activate.connect (() => {
                 tasks++;

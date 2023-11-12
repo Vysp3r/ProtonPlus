@@ -3,10 +3,10 @@ namespace ProtonPlus {
         Window window;
 
         construct {
-            application_id = Shared.Constants.APP_ID;
+            application_id = Constants.APP_ID;
             flags |= ApplicationFlags.FLAGS_NONE;
 
-            Intl.bindtextdomain (Shared.Constants.APP_ID, Shared.Constants.LOCALE_DIR);
+            Intl.bindtextdomain (Constants.APP_ID, Constants.LOCALE_DIR);
         }
 
         public override void activate () {
@@ -56,9 +56,9 @@ namespace ProtonPlus {
 
             var aboutWindow = new Adw.AboutWindow ();
 
-            aboutWindow.set_application_name (Shared.Constants.APP_NAME);
-            aboutWindow.set_application_icon (Shared.Constants.APP_ID);
-            aboutWindow.set_version ("v" + Shared.Constants.APP_VERSION);
+            aboutWindow.set_application_name (Constants.APP_NAME);
+            aboutWindow.set_application_icon (Constants.APP_ID);
+            aboutWindow.set_version ("v" + Constants.APP_VERSION);
             aboutWindow.set_comments ("A simple Wine and Proton-based compatibility tools manager for GNOME");
             aboutWindow.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
             aboutWindow.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");

@@ -75,15 +75,26 @@ namespace ProtonPlus.Widgets {
                         var spinner = new Gtk.Spinner ();
                         spinner.set_visible (false);
 
-                        var releasesRow = new Adw.ExpanderRow ();
-                        releasesRow.set_title (runner.title);
-                        releasesRow.set_subtitle (runner.description);
-                        releasesRow.add_suffix (spinner);
-                        releasesRow.notify.connect ((pspec) => {
-                            if (pspec.get_name () == "expanded" && releasesRow.get_expanded () && !runner.loaded) load_releases (spinner, runner, releasesRow);
+                        var row = new Adw.ExpanderRow ();
+                        row.set_title (runner.title);
+                        row.set_subtitle (runner.description);
+                        row.add_suffix (spinner);
+
+                        runner.notify["loaded"].connect(() => {
+                            if (runner.loaded) {
+                                load_row(spinner, runner, row);
+                            }
                         });
 
-                        preferences_group.add (releasesRow);
+                        row.notify["expanded"].connect (() => {
+                            if (row.get_expanded () && !runner.loaded) {
+                                spinner.start ();
+                                spinner.set_visible (true);
+                                runner.load (installedOnly);
+                            }
+                        });
+
+                        preferences_group.add (row);
                     }
                 }
 
@@ -101,19 +112,26 @@ namespace ProtonPlus.Widgets {
                         var spinner = new Gtk.Spinner ();
                         spinner.set_visible (false);
 
-                        var releasesRow = new Adw.ExpanderRow ();
-                        releasesRow.set_title (runner.title);
-                        releasesRow.set_subtitle (runner.description);
-                        releasesRow.add_suffix (spinner);
-                        releasesRow.notify.connect ((pspec) => {
-                            if (pspec.get_name () == "expanded" && releasesRow.get_expanded ()) {
+                        var row = new Adw.ExpanderRow ();
+                        row.set_title (runner.title);
+                        row.set_subtitle (runner.description);
+                        row.add_suffix (spinner);
+
+                        runner.notify["installed_loaded"].connect(() => {
+                            if (runner.installed_loaded) load_row(spinner, runner, row);
+                        });
+                        
+                        row.notify["expanded"].connect (() => {
+                            if (row.get_expanded ()) {
                                 if (!installedOnly && runner.loaded) return;
                                 if (installedOnly && runner.installed_loaded) return;
-                                load_releases (spinner, runner, releasesRow);
+                                spinner.start ();
+                                spinner.set_visible (true);
+                                runner.load (installedOnly);
                             }
                         });
 
-                        preferences_group.add (releasesRow);
+                        preferences_group.add (row);
                     }
                 }
 
@@ -134,73 +152,53 @@ namespace ProtonPlus.Widgets {
                 notebook.append_page (scrolled_window);
             }
         }
+        
+        void load_row (Gtk.Spinner spinner, Models.Runner runner, Adw.ExpanderRow runner_row) {
+            uint previous_count = installedOnly ? 0 : runner.releases.length () < 25 ? 0 : runner.releases.length () - 25;
 
-        void load_releases (Gtk.Spinner spinner, Models.Runner runner, Adw.ExpanderRow releasesRow) {
-            bool done = false;
-
-            spinner.start ();
-            spinner.set_visible (true);
-
-            uint previous_count = installedOnly ? 0 : runner.releases.length ();
-
-            //
-            new Thread<void> ("load_releases", () => {
-                runner.load (installedOnly);
-                done = true;
-            });
-
-            //
-            GLib.Timeout.add (1000, () => {
-                if (done) {
-                    var length = installedOnly ? runner.installed_releases.length () : runner.releases.length ();
-                    for (var i = previous_count; i < length; i++) {
-                        var release = installedOnly ? runner.installed_releases.nth_data (i) : runner.releases.nth_data (i);
-
-                        if (release != null) {
-                            releasesRow.add_row (create_release_row(release));
-                        }
-                    }
-
-                    if (runner.releases_count == runner.page * 25 && !installedOnly) {
-                        var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-                        actions.set_margin_end (10);
-                        actions.set_valign (Gtk.Align.CENTER);
-
-                        var row = new Adw.ActionRow ();
-                        row.set_title (_("Load more"));
-                        row.add_suffix (actions);
-
-                        var btn = new Gtk.Button ();
-                        btn.set_icon_name ("content-loading-symbolic");
-                        btn.add_css_class ("flat");
-                        btn.width_request = 25;
-                        btn.height_request = 25;
-                        btn.set_tooltip_text (_("Load more"));
-                        btn.clicked.connect (() => {
-                            releasesRow.remove (row);
-                            load_releases (spinner, runner, releasesRow);
-                        });
-
-                        actions.append (btn);
-
-                        releasesRow.add_row (row);
-                    }
-
-                    spinner.stop ();
-                    spinner.set_visible (false);
-
-                    if (runner.api_error) {
-                        var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API"));
-                        toast.set_timeout (5000);
-
-                        toast_overlay.add_toast (toast);
-                    }
-
-                    return false;
+            var length = installedOnly ? runner.installed_releases.length () : runner.releases.length ();
+            for (var i = previous_count; i < length; i++) {
+                var release = installedOnly ? runner.installed_releases.nth_data (i) : runner.releases.nth_data (i);
+    
+                if (release != null) {
+                    runner_row.add_row (create_release_row(release));
                 }
+            }
 
-                return true;
-            });
+            if (length == (runner.page - 1) * 25 && !installedOnly) {
+                var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+                actions.set_margin_end (10);
+                actions.set_valign (Gtk.Align.CENTER);
+    
+                var release_row = new Adw.ActionRow ();
+                release_row.set_title (_("Load more"));
+                release_row.add_suffix (actions);
+    
+                var btn = new Gtk.Button ();
+                btn.set_icon_name ("content-loading-symbolic");
+                btn.add_css_class ("flat");
+                btn.width_request = 25;
+                btn.height_request = 25;
+                btn.set_tooltip_text (_("Load more"));
+                btn.clicked.connect (() => {
+                    runner_row.remove (release_row);
+                    runner.load (installedOnly);
+                });
+    
+                actions.append (btn);
+    
+                runner_row.add_row (release_row);
+            }
+    
+            spinner.stop ();
+            spinner.set_visible (false);
+    
+            if (runner.api_error) {
+                var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API"));
+                toast.set_timeout (5000);
+    
+                toast_overlay.add_toast (toast);
+            }
         }
 
         Adw.ActionRow create_release_row (Models.Release release) {
@@ -282,16 +280,10 @@ namespace ProtonPlus.Widgets {
 
                         this.activate_action_variant ("win.add-task", "");
 
-                        GLib.Timeout.add (250, () => {
-                            label.set_text (release.installation_progress.to_string () + "%");
-
-                            return release.status == Models.Release.STATUS.INSTALLING;
-                        });
-
                         spinner.start ();
                         spinner.set_visible (true);
-                        label.set_visible (!release.runner.is_using_github_actions);
-                        cancel.set_visible (!release.runner.is_using_github_actions);
+                        label.set_visible (true);
+                        cancel.set_visible (true);
 
                         btnDelete.set_visible (false);
                         btnInstall.set_visible (false);
@@ -354,6 +346,10 @@ namespace ProtonPlus.Widgets {
                     default:
                         break;
                 }
+            });
+
+            release.notify["installation-progress"].connect(() => {
+                label.set_text (release.installation_progress.to_string () + "%");
             });
 
             var row = new Adw.ActionRow ();
