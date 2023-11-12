@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-12 09:38-0500\n"
+"POT-Creation-Date: 2023-11-12 12:11-0500\n"
 "Language: ru_RU\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -183,8 +183,25 @@ msgstr ""
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
 
-#: src/models/release.vala:59
+#: src/models/release.vala:60
 msgid "Not available"
+msgstr ""
+
+#.
+#: src/window.vala:112
+msgid "Welcome to "
+msgstr ""
+
+#: src/window.vala:112
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+msgstr ""
+
+#: src/application.vala:62
+msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
+msgstr ""
+
+#: src/application.vala:68
+msgid "Special thanks to"
 msgstr ""
 
 #~ msgid "Preferences"
