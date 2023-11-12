@@ -1,38 +1,26 @@
+#
 project(
     'com.vysp3r.ProtonPlus', ['c', 'vala'],
-    version: '0.4.6',
-    meson_version: '>= 0.59.0'
+    version: '0.4.7',
+    meson_version: '>= 0.62.0',
+    default_options: [ 'warning_level=2', 'werror=false', ],
 )
 
 #
 i18n = import('i18n')
 gnome = import('gnome')
 
+#
 add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()), language: 'c')
 
 #
 subdir('po')
-subdir('data')
-subdir('src')
 
 #
-executable(
-    meson.project_name(),
-    gresource,
-    constants,
-    sources,
-    dependencies: [
-        dependency('gtk4'),
-        dependency('glib-2.0'),
-        dependency('libadwaita-1', version: '>= 1.2'),
-  	    dependency('json-glib-1.0'),
-  	    dependency('libsoup-3.0'),
-        dependency('gee-0.8'),
-  	    dependency('libarchive'),
-        meson.get_compiler('vala').find_library('posix'),
-    ],
-    install: true
-)
+subdir('data')
+
+#
+subdir('src')
 
 #
 gnome.post_install(

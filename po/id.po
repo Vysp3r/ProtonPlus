@@ -16,79 +16,112 @@ msgstr ""
 "X-Generator: Weblate 5.2-dev\n"
 
 #: src/launcher/launcher-warning-box.vala:21
-msgid "Welcome to "
-msgstr "Selamat datang di "
+#msgid "Welcome to "
+#msgstr "Selamat datang di "
 
 #: src/launcher/launcher-warning-box.vala:22
-msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
+#msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+#msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 
-#.
-#: src/launcher/launcher-info-box.vala:36
+#: src/widgets/sidebar.vala:34
 #, fuzzy
 msgid "Installed only"
 msgstr "Memasang"
 
-#: src/launcher/launcher-info-box.vala:191
-#: src/launcher/launcher-info-box.vala:200
-msgid "Load more"
-msgstr "Muat lainnya"
-
-#: src/launcher/launcher-info-box.vala:215
-msgid "There was an error while fetching data from the GitHub API"
-msgstr "Ada error saat mengambil data dari API GitHub"
-
-#: src/launcher/launcher-info-box.vala:231
-msgid "Are you sure you want to delete "
-msgstr "Apakah Anda yakin ingin menghapusnya? "
-
-#: src/launcher/launcher-info-box.vala:233
-msgid "Confirm"
-msgstr "Konfirmasi"
-
-#: src/launcher/launcher-info-box.vala:270
-msgid "Cancel the installation"
-msgstr "Batalkan instalasi"
-
-#: src/launcher/launcher-info-box.vala:343
-msgid "Delete the runner"
-msgstr "Hapus runner"
-
-#: src/launcher/launcher-info-box.vala:356
-msgid "Install the runner"
-msgstr "Pasang runner"
-
 #.
-#: src/launcher/launcher-list-box.vala:26
+#: src/widgets/info-box.vala:25
 msgid "About"
 msgstr "Tentang"
 
-#: src/shared/launchers/bottles.vala:6 src/shared/launchers/steam.vala:6
+#: src/widgets/info-box.vala:174 src/widgets/info-box.vala:182
+msgid "Load more"
+msgstr "Muat lainnya"
+
+#: src/widgets/info-box.vala:197 src/widgets/info-box.vala:338
+msgid "There was an error while fetching data from the GitHub API"
+msgstr "Ada error saat mengambil data dari API GitHub"
+
+#: src/widgets/info-box.vala:213
+#, fuzzy
+msgid "Cancel the installation"
+msgstr "Informasi peluncur"
+
+#: src/widgets/info-box.vala:224
+#, fuzzy
+msgid "Delete the runner"
+msgstr "Menghapus alat"
+
+#: src/widgets/info-box.vala:226
+#, fuzzy
+msgid "Are you sure you want to delete "
+msgstr "Apakah Anda yakin ingin menghapusnya? "
+
+#: src/widgets/info-box.vala:228
+msgid "Confirm"
+msgstr "Konfirmasi"
+
+#: src/widgets/info-box.vala:244
+#, fuzzy
+msgid "Install the runner"
+msgstr "Memasang alat"
+
+#: src/widgets/info-box.vala:267 src/widgets/info-box.vala:279
+#: src/widgets/info-box.vala:293
+#, fuzzy
+msgid "The installation of "
+msgstr "Informasi peluncur"
+
+#: src/widgets/info-box.vala:267
+msgid " was cancelled"
+msgstr ""
+
+#: src/widgets/info-box.vala:279
+#, fuzzy
+msgid " was started"
+msgstr "Mengunduh..."
+
+#: src/widgets/info-box.vala:293 src/widgets/info-box.vala:320
+msgid " is done"
+msgstr ""
+
+#: src/widgets/info-box.vala:320
+msgid "The deletion of "
+msgstr ""
+
+#: src/widgets/info-box.vala:341
+msgid "An unexpected error occured while extracting "
+msgstr ""
+
+#: src/widgets/info-box.vala:344
+msgid "An unexpected error occured while installing "
+msgstr ""
+
+#: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
 msgstr "Runner"
 
-#: src/shared/launchers/bottles.vala:7
+#: src/launchers/bottles.vala:7
 msgid "Compatibility tool to run Windows games on Linux"
 msgstr "Kompatibilitas alat untuk menjalankan game Windows di Linux"
 
-#: src/shared/launchers/bottles.vala:11 src/shared/launchers/hgl.vala:15
-#: src/shared/launchers/lutris.vala:11
+#: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
+#: src/launchers/lutris.vala:11
 msgid "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine"
 msgstr ""
 "Implementasi berbasis Vulkan dari Direct3D 9, 10 dan 11 untuk Linux / Wine"
 
-#: src/shared/launchers/bottles.vala:50 src/shared/launchers/hgl.vala:86
+#: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
 msgstr "Mengandung peningkatan Proton default Valve."
 
-#: src/shared/launchers/bottles.vala:54
+#: src/launchers/bottles.vala:54
 msgid ""
 " Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
 " Berbasis Valve Proton bleeding-edge eksperimental Wine, dibangun untuk "
 "Lutris."
 
-#: src/shared/launchers/bottles.vala:58 src/shared/launchers/lutris.vala:58
+#: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
 "games."
@@ -96,78 +129,82 @@ msgstr ""
 "Peningkatan oleh Lutris untuk menawarkan kompatibilitas atau kinerja yang "
 "lebih baik dalam permainan tertentu."
 
-#: src/shared/launchers/hgl.vala:7
+#: src/launchers/hgl.vala:7
 msgid "Steam compatibility tool for running Windows games"
 msgstr "Alat kompatibilitas Steam untuk menjalankan game Windows"
 
-#: src/shared/launchers/hgl.vala:11
+#: src/launchers/hgl.vala:11
 msgid "Wine is a program which allows running Microsoft Windows programs"
 msgstr ""
 
-#: src/shared/launchers/hgl.vala:19 src/shared/launchers/lutris.vala:15
+#: src/launchers/hgl.vala:19 src/launchers/lutris.vala:15
 msgid ""
 "Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top "
 "of Vulkan"
 msgstr ""
 
-#: src/shared/launchers/hgl.vala:62 src/shared/launchers/lutris.vala:54
+#: src/launchers/hgl.vala:62 src/launchers/lutris.vala:54
 msgid ""
 "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
 
-#: src/shared/launchers/hgl.vala:66 src/shared/launchers/lutris.vala:61
+#: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr ""
 
-#: src/shared/launchers/hgl.vala:69 src/shared/launchers/lutris.vala:64
+#: src/launchers/hgl.vala:69 src/launchers/lutris.vala:64
 msgid "Wine build with the Staging patchset applied."
 msgstr ""
 
-#: src/shared/launchers/hgl.vala:72 src/shared/launchers/lutris.vala:67
+#: src/launchers/hgl.vala:72 src/launchers/lutris.vala:67
 msgid ""
 "Wine build with the Staging patchset applied and with many additional useful "
 "patches."
 msgstr ""
 
-#: src/shared/launchers/hgl.vala:90 src/shared/launchers/steam.vala:67
+#: src/launchers/hgl.vala:90 src/launchers/steam.vala:67
 msgid ""
 "Custom Proton build for running Windows games, built with the Wine-tkg build "
 "system."
 msgstr ""
 
-#: src/shared/launchers/lutris.vala:7
+#: src/launchers/lutris.vala:7
 msgid "Program which allows running Microsoft Windows programs"
 msgstr ""
 
-#: src/shared/launchers/lutris.vala:87
+#: src/launchers/lutris.vala:87
 msgid "Contains RTX fix for Star Citizen."
 msgstr ""
 
-#: src/shared/launchers/steam.vala:63
+#: src/launchers/steam.vala:63
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
 
-#: src/shared/launchers/steam.vala:71
+#: src/launchers/steam.vala:71
 msgid ""
 "Luxtorpeda provides Linux-native game engines for specific Windows-only "
 "games."
 msgstr ""
 
-#: src/shared/launchers/steam.vala:72
+#: src/launchers/steam.vala:72
 msgid ""
 "Steam Play compatibility tool to run DOS games using native Linux DOSBox."
 msgstr ""
 
-#: src/shared/launchers/steam.vala:73
+#: src/launchers/steam.vala:73
 msgid ""
 "Steam Play compatibility tool to run adventure games using native Linux "
 "ScummVM."
 msgstr ""
 
-#: src/shared/launchers/steam.vala:74
+#: src/launchers/steam.vala:74
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
+msgstr ""
+
+#: src/models/release.vala:59
+msgid "Not available"
 msgstr ""
 
 #~ msgid "Preferences"
@@ -207,10 +244,6 @@ msgstr ""
 
 #~ msgid "Directory: "
 #~ msgstr "Direktori: "
-
-#, fuzzy
-#~ msgid "Download started...\n"
-#~ msgstr "Mengunduh..."
 
 #, fuzzy
 #~ msgid "Download done...\n"

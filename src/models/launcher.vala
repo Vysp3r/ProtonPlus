@@ -1,4 +1,4 @@
-namespace ProtonPlus.Shared.Models {
+namespace ProtonPlus.Models {
     public class Launcher {
         public string title;
         public string type;
@@ -6,11 +6,11 @@ namespace ProtonPlus.Shared.Models {
         public string directory;
         public bool installed;
 
-        public Models.Group[] groups;
+        public Group[] groups;
 
-        public delegate void callback (Models.Release release);
-        public signal void install (Models.Release release);
-        public signal void uninstall (Models.Release release);
+        public delegate void callback (Release release);
+        public signal void install (Release release);
+        public signal void uninstall (Release release);
 
         public Launcher (string title, string type, string icon_path, string[] directories) {
             this.title = title;

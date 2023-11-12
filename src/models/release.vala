@@ -1,22 +1,45 @@
+namespace ProtonPlus.Models {
+    public class Release : Object {
+        public Runner runner { get; set; }
+        public string title { get; set; }
+        public string download_link { get; set; }
+        public string checksum_link { get; set; }
+        public string info_link { get; set; }
+        public string release_date { get; set; }
+        public int64 download_size { get; set; }
+        public string file_extension { get; set; }
+        public bool installed { get; set; }
+        public string directory { get; set; }
+        public int64 directory_size { get; set; }
+        public int installation_progress { get; set; }
+        public string artifacts_url { get; set; }
 
+        public STATUS previous_status;
+        STATUS _status;
+        public STATUS status { 
+            get {
+                return _status;
+            } private set {
+                previous_status = _status;
+                _status = value;
+            } 
+        }
+        public enum STATUS {
+            INSTALLED,
+            UNINSTALLED,
+            INSTALLING,
+            UNINSTALLING,
+            CANCELLED
+        }
 
-namespace ProtonPlus.Shared.Models {
-    public class Release {
-        public Models.Runner runner;
-        public string title;
-        public string download_link;
-        public string checksum_link;
-        public string info_link;
-        public string release_date;
-        public int64 download_size;
-        public string file_extension;
-        public bool installed;
-        public string directory;
-        public int64 size;
-        public bool installation_cancelled;
-        public int installation_progress;
-        public bool installation_error;
-        public bool installation_api_error;
+        public ERRORS error { get; private set; }
+        public enum ERRORS {
+            NONE,
+            API,
+            EXTRACT,
+            DELETE,
+            UNEXPECTED
+        }
 
         public Release (Runner runner, string title, string download_url, string info_link, string release_date, string checksum_url, int64 download_size, string file_extension) {
             this.runner = runner;
@@ -29,21 +52,17 @@ namespace ProtonPlus.Shared.Models {
             this.checksum_link = checksum_url;
             this.directory = runner.group.launcher.directory + runner.group.directory + "/" + get_directory_name ();
             this.installed = FileUtils.test (directory, FileTest.IS_DIR);
-            this.size = 0;
-            // set_size (); Disabled since Utils.Filesystem.GetDirectorySize is buggy and we don't have a way to see that data anyway
-        }
-
-        public void set_size () {
-            if (installed) size = (int64) Utils.Filesystem.GetDirectorySize (directory);
+            this.artifacts_url = "";
+            this.directory_size = 0; // this.directory_size = (int64) Utils.Filesystem.GetDirectorySize (directory); Disabled since Utils.Filesystem.GetDirectorySize is buggy and we don't have a way to see that data anyway
         }
 
         public string get_formatted_download_size () {
-            if (download_size < 0) return "Not available";
-            return Utils.Filesystem.ConvertBytesToString (download_size);
+            if (download_size < 0) return _("Not available");
+            return Utils.Filesystem.covert_bytes_to_string (download_size);
         }
 
         public string get_formatted_size () {
-            return Utils.Filesystem.ConvertBytesToString (size);
+            return Utils.Filesystem.covert_bytes_to_string (directory_size);
         }
 
         public string get_directory_name () {
@@ -202,68 +221,125 @@ namespace ProtonPlus.Shared.Models {
             }
         }
 
-        public void delete (bool wait_for_thread = false) {
-            var thread = new Thread<void> ("deleteThread", () => {
-                Utils.Filesystem.DeleteDirectory (directory);
-                runner.group.launcher.uninstall (this);
-                installed = false;
+        public void delete () {
+            error = ERRORS.NONE;
+            status = STATUS.UNINSTALLING;
+            Utils.Filesystem.delete_directory.begin (directory, (obj, res) => {
+                var deleted = Utils.Filesystem.delete_directory.end (res);
+                if (deleted) {
+                    runner.group.launcher.uninstall (this);
+                    status = STATUS.UNINSTALLED;
+                } else {
+                    error = ERRORS.DELETE;
+                    status = STATUS.INSTALLED;
+                }
             });
-            if (wait_for_thread) thread.join ();
         }
 
         public void install () {
+            error = ERRORS.NONE;
+            status = STATUS.INSTALLING;
             installation_progress = 0;
-            installation_error = false;
-            installation_api_error = false;
-            installation_cancelled = false;
 
-            new Thread<void> ("download", () => {
-                string url = download_link;
-                string path = runner.group.launcher.directory + "/" + runner.group.directory + "/" + title + file_extension;
+            string url = download_link;
+            string path = runner.group.launcher.directory + runner.group.directory + "/" + title + file_extension;
 
-                if (runner.is_using_github_actions) {
-                    Utils.Web.OldDownload (url, path, ref installation_api_error, ref installation_error);
-                } else {
-                    Utils.Web.Download (url, path, ref installation_progress, ref installation_cancelled, ref installation_api_error, ref installation_error);
-                }
+            get_artifact_download_size.begin ((obj, res) => {
+                get_artifact_download_size.end (res);
+                Utils.Web.Download.begin (url, path, download_size, () => status == STATUS.CANCELLED, (progress) => installation_progress = progress, (obj, res) => {
+                    var result = Utils.Web.Download.end (res);
+                    switch(result) {
+                        case Utils.Web.DOWNLOAD_CODES.API_ERROR:
+                            error = ERRORS.API;
+                            break;
+                        case Utils.Web.DOWNLOAD_CODES.UNEXPECTED_ERROR:
+                            error = ERRORS.UNEXPECTED;
+                            break;
+                        case Utils.Web.DOWNLOAD_CODES.SUCCESS:
+                            error = ERRORS.NONE;
+                            break;
+                    }
+    
+                    if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
+                        status = STATUS.UNINSTALLED;
+                        return;
+                    }
+            
+                    string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
+ 
+                    Utils.Filesystem.extract.begin (directory, title, file_extension, () => status == STATUS.CANCELLED, (obj, res) => {
+                        string sourcePath = Utils.Filesystem.extract.end (res);
+            
+                        if (sourcePath == "") {
+                            error = ERRORS.EXTRACT;
+                            status = STATUS.UNINSTALLED;
+                            return;
+                        }
 
-                if (installation_error || installation_api_error || installation_cancelled) {
-                    return;
-                }
-
-                extract ();
+                        if (runner.is_using_github_actions) {
+                            Utils.Filesystem.extract.begin (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", () => status == STATUS.CANCELLED, (obj, res) => {
+                                sourcePath = Utils.Filesystem.extract.end (res);
+    
+                                if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
+                                    status = STATUS.UNINSTALLED;
+                                    return;
+                                }
+                        
+                                if (runner.title_type != Runner.title_types.NONE) {
+                                    Utils.Filesystem.rename (sourcePath, directory + get_directory_name ());
+                                }
+                        
+                                runner.group.launcher.install (this);
+                        
+                                status = STATUS.INSTALLED;
+                            });    
+                        } else {
+                            if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
+                                status = STATUS.UNINSTALLED;
+                                return;
+                            }
+                    
+                            if (runner.title_type != Runner.title_types.NONE) {
+                                Utils.Filesystem.rename (sourcePath, directory + get_directory_name ());
+                            }
+                    
+                            runner.group.launcher.install (this);
+                    
+                            status = STATUS.INSTALLED;
+                        }
+                    });
+                });  
             });
         }
 
-        void extract () {
-            new Thread<void> ("extract", () => {
-                string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
-                string sourcePath = Utils.Filesystem.Extract (directory, title, file_extension, ref installation_cancelled);
+        public void cancel() {
+            status = Models.Release.STATUS.CANCELLED;
+        }
 
-                if (sourcePath == "") {
-                    installation_error = true;
-                    return;
-                }
+        public async void get_artifact_download_size() {
+            if (download_size > 0) return;
 
-                if (runner.is_using_github_actions) {
-                    sourcePath = Utils.Filesystem.Extract (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", ref installation_cancelled);
-                }
+            string json = yield Utils.Web.GET (artifacts_url);
 
-                if (installation_error || installation_cancelled) {
-                    return;
-                }
+            if (json == "" || json.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting")) {
+                return;
+            }
 
-                if (runner.title_type != Runner.title_types.NONE) {
-                    string path = directory + get_directory_name ();
+            Json.Node? node = Utils.Parser.get_node_from_json (json);
 
-                    Utils.Filesystem.Rename (sourcePath, path);
-                }
+            if (node == null) return;
 
-                runner.group.launcher.install (this);
+            var root_obj = node.get_object ();
 
-                installed = true;
-                set_size ();
-            });
+            var artifacts_obj = root_obj.get_array_member ("artifacts");
+            if (artifacts_obj == null) return;
+
+            if (artifacts_obj.get_length () > 0) {
+                var artifact_node = artifacts_obj.get_element (0);
+                var artifact_obj = artifact_node.get_object ();
+
+                download_size = artifact_obj.get_int_member ("size_in_bytes");
+            }
         }
     }
 }
