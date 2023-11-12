@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-12 12:11-0500\n"
+"POT-Creation-Date: 2023-11-12 12:19-0500\n"
 "PO-Revision-Date: 2023-09-12 18:48+0000\n"
 "Last-Translator: Lionel HANNEQUIN <Lionel-Fr-56@users.noreply.hosted.weblate."
 "org>\n"

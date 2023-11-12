@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-27 11:56-0400\n"
+"POT-Creation-Date: 2023-11-12 12:19-0500\n"
 "PO-Revision-Date: 2023-11-11 12:36+0000\n"
 "Last-Translator: Rouven Hi! <rouven@himmelstein.info>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -18,20 +18,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.2-dev\n"
 
-#: src/launcher/launcher-warning-box.vala:21
-#msgid "Welcome to "
-#msgstr "Willkommen zu "
-
-#: src/launcher/launcher-warning-box.vala:22
-#msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-#msgstr ""
-#"Installiere Steam, Lutris, Bottles oder den Heroic Games Launcher, um "
-#"loszulegen."
-
+#.
+#.
 #: src/widgets/sidebar.vala:34
 msgid "Installed only"
 msgstr "Nur installierte anzeigen"
 
+#.
 #: src/widgets/info-box.vala:25
 msgid "About"
 msgstr "Über"

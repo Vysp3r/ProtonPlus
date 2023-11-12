@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-27 11:56-0400\n"
+"POT-Creation-Date: 2023-11-12 12:19-0500\n"
 "PO-Revision-Date: 2023-11-12 13:03+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -15,14 +15,8 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.2-dev\n"
 
-#: src/launcher/launcher-warning-box.vala:21
-#msgid "Welcome to "
-#msgstr "Selamat datang di "
-
-#: src/launcher/launcher-warning-box.vala:22
-#msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-#msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
-
+#.
+#.
 #: src/widgets/sidebar.vala:34
 #, fuzzy
 msgid "Installed only"
@@ -210,11 +204,11 @@ msgstr ""
 #.
 #: src/window.vala:112
 msgid "Welcome to "
-msgstr ""
+msgstr "Selamat datang di "
 
 #: src/window.vala:112
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr ""
+msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 
 #: src/application.vala:62
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
