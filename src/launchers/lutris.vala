@@ -1,4 +1,4 @@
-namespace ProtonPlus.Shared.Launchers {
+namespace ProtonPlus.Launchers {
     public class Lutris {
         static Models.Group[] get_groups (Models.Launcher launcher) {
             var groups = new Models.Group[3];
@@ -79,8 +79,8 @@ namespace ProtonPlus.Shared.Launchers {
         public static GLib.List<Models.Runner> get_dxvk_runners (Models.Group group) {
             var runners = new GLib.List<Models.Runner> ();
 
-            var dxvk_gplasync = new Models.Runner (group, "DXVK GPL+Async (Ph42oN)", "", "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/releases", 0, ProtonPlus.Shared.Models.Runner.title_types.LUTRIS_DXVK_GPLASYNC);
-            dxvk_gplasync.endpoint_type = ProtonPlus.Shared.Models.Runner.endpoint_types.GITLAB;
+            var dxvk_gplasync = new Models.Runner (group, "DXVK GPL+Async (Ph42oN)", "", "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_GPLASYNC);
+            dxvk_gplasync.endpoint_type = Models.Runner.endpoint_types.GITLAB;
 
             runners.append (new Models.Runner (group, "DXVK (doitsujin)", "", "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.DXVK));
             runners.append (new Models.Runner (group, "DXVK Async (Sporif)", "", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, Models.Runner.title_types.DXVK_ASYNC_SPORIF));

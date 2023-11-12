@@ -1,15 +1,20 @@
 {
     "id": "com.vysp3r.ProtonPlus",
-    "command": "com.vysp3r.ProtonPlus",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "44",
+    "runtime-version": "45",
     "sdk": "org.gnome.Sdk",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.vala"
+    ],
+    "command": "com.vysp3r.ProtonPlus",
     "finish-args": [
         "--share=network",
         "--share=ipc",
         "--socket=fallback-x11",
         "--device=dri",
         "--socket=wayland",
+        "--talk-name=org.gtk.vfs.*",
+        "--filesystem=xdg-run/gvfsd",
         "--filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam",
         "--filesystem=~/.steam/root",
         "--filesystem=~/.local/share/Steam",
@@ -18,9 +23,7 @@
         "--filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic",
         "--filesystem=~/.config/heroic",
         "--filesystem=~/.var/app/com.usebottles.bottles/data/bottles",
-        "--filesystem=~/.local/share/bottles",
-        "--talk-name=org.gtk.vfs.*",
-        "--filesystem=xdg-run/gvfsd"
+        "--filesystem=~/.local/share/bottles"
     ],
     "cleanup": [
         "/include",
@@ -32,18 +35,5 @@
         "/share/gtk-doc",
         "*.la",
         "*.a"
-    ],
-    "modules": [
-        {
-            "name": "ProtonPlus",
-            "builddir": true,
-            "buildsystem": "meson",
-            "sources": [
-                {
-                    "type": "dir",
-                    "path": "."
-                }
-            ]
-        }
     ]
 }
