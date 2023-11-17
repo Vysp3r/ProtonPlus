@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-12 12:19-0500\n"
-"PO-Revision-Date: 2023-11-11 12:36+0000\n"
-"Last-Translator: Rouven Hi! <rouven@himmelstein.info>\n"
+"PO-Revision-Date: 2023-11-15 19:43+0100\n"
+"Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
 "Language: de\n"
@@ -16,13 +16,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #.
 #.
 #: src/widgets/sidebar.vala:34
 msgid "Installed only"
-msgstr "Nur installierte anzeigen"
+msgstr "Nur installierte"
 
 #.
 #: src/widgets/info-box.vala:25
@@ -59,34 +59,32 @@ msgstr "Installieren des Ausführungswerkzeugs"
 
 #: src/widgets/info-box.vala:267 src/widgets/info-box.vala:279
 #: src/widgets/info-box.vala:293
-#, fuzzy
 msgid "The installation of "
-msgstr "Breche Installation ab"
+msgstr "Die Installation von "
 
 #: src/widgets/info-box.vala:267
 msgid " was cancelled"
-msgstr ""
+msgstr " wurde abgebrochen"
 
 #: src/widgets/info-box.vala:279
-#, fuzzy
 msgid " was started"
-msgstr "Download gestartet...\n"
+msgstr " wurde gestartet"
 
 #: src/widgets/info-box.vala:293 src/widgets/info-box.vala:320
 msgid " is done"
-msgstr ""
+msgstr " ist fertig"
 
 #: src/widgets/info-box.vala:320
 msgid "The deletion of "
-msgstr ""
+msgstr "Die Löschung von "
 
 #: src/widgets/info-box.vala:341
 msgid "An unexpected error occured while extracting "
-msgstr ""
+msgstr "Ein unerwarteter Fehler trat auf beim Extrahieren von "
 
 #: src/widgets/info-box.vala:344
 msgid "An unexpected error occured while installing "
-msgstr ""
+msgstr "Ein unerwarteter Fehler trat auf beim Installieren von "
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
@@ -215,7 +213,7 @@ msgstr ""
 
 #: src/models/release.vala:60
 msgid "Not available"
-msgstr ""
+msgstr "Nicht verfügbar"
 
 #.
 #: src/window.vala:112
@@ -229,7 +227,6 @@ msgstr ""
 "loszulegen."
 
 #: src/application.vala:62
-#, fuzzy
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
 msgstr ""
 "Ein einfacher Wine und Proton-basierter Kompatibilitätswerkzeugmanager für "
