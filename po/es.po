@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-12 12:19-0500\n"
-"PO-Revision-Date: 2023-11-05 22:36+0000\n"
+"PO-Revision-Date: 2023-11-16 14:06+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
@@ -11,14 +11,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.2\n"
 
 #.
 #.
 #: src/widgets/sidebar.vala:34
-#, fuzzy
 msgid "Installed only"
-msgstr "Sólo instalado"
+msgstr "Solo instalado"
 
 #.
 #: src/widgets/info-box.vala:25
@@ -34,59 +33,53 @@ msgid "There was an error while fetching data from the GitHub API"
 msgstr "Se ha producido un error al obtener datos de la API de GitHub"
 
 #: src/widgets/info-box.vala:213
-#, fuzzy
 msgid "Cancel the installation"
-msgstr "Información del lanzador"
+msgstr "Cancelar la instalación"
 
 #: src/widgets/info-box.vala:224
-#, fuzzy
 msgid "Delete the runner"
-msgstr "Eliminar herramienta"
+msgstr "Eliminar la herramienta de ejecución"
 
 #: src/widgets/info-box.vala:226
-#, fuzzy
 msgid "Are you sure you want to delete "
-msgstr "¿Estás seguro de que quieres borrar? "
+msgstr "¿Estas seguro que quieres borrarlo "
 
 #: src/widgets/info-box.vala:228
 msgid "Confirm"
 msgstr "Confirmar"
 
 #: src/widgets/info-box.vala:244
-#, fuzzy
 msgid "Install the runner"
-msgstr "Instalar una herramienta"
+msgstr "Instalación de la herramienta de ejecución"
 
 #: src/widgets/info-box.vala:267 src/widgets/info-box.vala:279
 #: src/widgets/info-box.vala:293
-#, fuzzy
 msgid "The installation of "
-msgstr "Información del lanzador"
+msgstr "La instalación de "
 
 #: src/widgets/info-box.vala:267
 msgid " was cancelled"
-msgstr ""
+msgstr " fue cancelada"
 
 #: src/widgets/info-box.vala:279
-#, fuzzy
 msgid " was started"
-msgstr "Descargando..."
+msgstr " empezó"
 
 #: src/widgets/info-box.vala:293 src/widgets/info-box.vala:320
 msgid " is done"
-msgstr ""
+msgstr " está hecha"
 
 #: src/widgets/info-box.vala:320
 msgid "The deletion of "
-msgstr ""
+msgstr "La eliminación de "
 
 #: src/widgets/info-box.vala:341
 msgid "An unexpected error occured while extracting "
-msgstr ""
+msgstr "Se ha producido un error inesperado al extraer "
 
 #: src/widgets/info-box.vala:344
 msgid "An unexpected error occured while installing "
-msgstr ""
+msgstr "Se ha producido un error inesperado al instalar "
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
@@ -216,7 +209,7 @@ msgstr ""
 
 #: src/models/release.vala:60
 msgid "Not available"
-msgstr ""
+msgstr "No disponible"
 
 #.
 #: src/window.vala:112
@@ -230,10 +223,12 @@ msgstr "Instala Steam, Lutris, Bottles o Heroic Games Launcher para empezar."
 #: src/application.vala:62
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
 msgstr ""
+"Un sencillo gestor de herramientas compatible con GNOME, basado en Wine y "
+"Proton"
 
 #: src/application.vala:68
 msgid "Special thanks to"
-msgstr ""
+msgstr "Agradecimientos especiales a"
 
 #~ msgid "Preferences"
 #~ msgstr "Preferencias"
