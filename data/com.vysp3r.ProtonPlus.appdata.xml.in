@@ -52,6 +52,14 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.8" date="2023-11-23">
+      <description>
+        <ul>
+          <li>🐛 Fixed missing Bottles icon</li>
+          <li>🌐 Updated localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.7" date="2023-11-12">
       <description>
         <ul>
