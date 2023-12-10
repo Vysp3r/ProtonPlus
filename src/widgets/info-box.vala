@@ -23,7 +23,7 @@ namespace ProtonPlus.Widgets {
             //
             var menu_model = new GLib.Menu ();
             menu_model.append (_("About"), "app.about");
-            
+
             //
             var menu_button = new Gtk.MenuButton ();
             menu_button.set_icon_name ("open-menu-symbolic");
@@ -80,9 +80,9 @@ namespace ProtonPlus.Widgets {
                         row.set_subtitle (runner.description);
                         row.add_suffix (spinner);
 
-                        runner.notify["loaded"].connect(() => {
+                        runner.notify["loaded"].connect (() => {
                             if (runner.loaded) {
-                                load_row(spinner, runner, row);
+                                load_row (spinner, runner, row);
                             }
                         });
 
@@ -117,14 +117,14 @@ namespace ProtonPlus.Widgets {
                         row.set_subtitle (runner.description);
                         row.add_suffix (spinner);
 
-                        runner.notify["installed_loaded"].connect(() => {
-                            if (runner.installed_loaded) load_row(spinner, runner, row);
+                        runner.notify["installed-loaded"].connect (() => {
+                            if (runner.installed_loaded)load_row (spinner, runner, row);
                         });
-                        
+
                         row.notify["expanded"].connect (() => {
                             if (row.get_expanded ()) {
-                                if (!installedOnly && runner.loaded) return;
-                                if (installedOnly && runner.installed_loaded) return;
+                                if (!installedOnly && runner.loaded)return;
+                                if (installedOnly && runner.installed_loaded)return;
                                 spinner.start ();
                                 spinner.set_visible (true);
                                 runner.load (installedOnly);
@@ -152,16 +152,16 @@ namespace ProtonPlus.Widgets {
                 notebook.append_page (scrolled_window);
             }
         }
-        
+
         void load_row (Gtk.Spinner spinner, Models.Runner runner, Adw.ExpanderRow runner_row) {
             uint previous_count = installedOnly ? 0 : runner.releases.length () < 25 ? 0 : runner.releases.length () - 25;
 
             var length = installedOnly ? runner.installed_releases.length () : runner.releases.length ();
             for (var i = previous_count; i < length; i++) {
                 var release = installedOnly ? runner.installed_releases.nth_data (i) : runner.releases.nth_data (i);
-    
+
                 if (release != null) {
-                    runner_row.add_row (create_release_row(release));
+                    runner_row.add_row (create_release_row (release));
                 }
             }
 
@@ -169,11 +169,11 @@ namespace ProtonPlus.Widgets {
                 var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
                 actions.set_margin_end (10);
                 actions.set_valign (Gtk.Align.CENTER);
-    
+
                 var release_row = new Adw.ActionRow ();
                 release_row.set_title (_("Load more"));
                 release_row.add_suffix (actions);
-    
+
                 var btn = new Gtk.Button ();
                 btn.set_icon_name ("content-loading-symbolic");
                 btn.add_css_class ("flat");
@@ -184,19 +184,19 @@ namespace ProtonPlus.Widgets {
                     runner_row.remove (release_row);
                     runner.load (installedOnly);
                 });
-    
+
                 actions.append (btn);
-    
+
                 runner_row.add_row (release_row);
             }
-    
+
             spinner.stop ();
             spinner.set_visible (false);
-    
+
             if (runner.api_error) {
                 var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API"));
                 toast.set_timeout (5000);
-    
+
                 toast_overlay.add_toast (toast);
             }
         }
@@ -261,8 +261,8 @@ namespace ProtonPlus.Widgets {
             actions.append (btnDelete);
             actions.append (btnInstall);
 
-            release.notify["status"].connect(() => {
-                switch(release.status) {
+            release.notify["status"].connect (() => {
+                switch (release.status) {
                     case Models.Release.STATUS.CANCELLED:
                         send_toast (_("The installation of ") + release.get_directory_name () + _(" was cancelled"), 3);
 
@@ -314,7 +314,7 @@ namespace ProtonPlus.Widgets {
 
                         break;
                     case Models.Release.STATUS.UNINSTALLED:
-                        if (release.previous_status != Models.Release.STATUS.CANCELLED && 
+                        if (release.previous_status != Models.Release.STATUS.CANCELLED &&
                             release.previous_status != Models.Release.STATUS.INSTALLING &&
                             release.error == Models.Release.ERRORS.NONE) {
                             send_toast (_("The deletion of ") + release.get_directory_name () + _(" is done"), 3);
@@ -332,8 +332,8 @@ namespace ProtonPlus.Widgets {
                 }
             });
 
-            release.notify["error"].connect(() => {
-                switch(release.error) {
+            release.notify["error"].connect (() => {
+                switch (release.error) {
                     case Models.Release.ERRORS.API:
                         send_toast (_("There was an error while fetching data from the GitHub API"), 5000);
                         break;
@@ -348,7 +348,7 @@ namespace ProtonPlus.Widgets {
                 }
             });
 
-            release.notify["installation-progress"].connect(() => {
+            release.notify["installation-progress"].connect (() => {
                 label.set_text (release.installation_progress.to_string () + "%");
             });
 
