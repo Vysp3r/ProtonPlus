@@ -28,7 +28,7 @@ namespace ProtonPlus {
             window.initialize ();
 
             //
-            if (GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland") window.fullscreen ();
+            if (GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland")window.fullscreen ();
 
             //
             ActionEntry[] action_entries = {
@@ -54,22 +54,22 @@ namespace ProtonPlus {
                 null
             };
 
-            var aboutWindow = new Adw.AboutWindow ();
+            var about_window = new Adw.AboutWindow ();
 
-            aboutWindow.set_application_name (Constants.APP_NAME);
-            aboutWindow.set_application_icon (Constants.APP_ID);
-            aboutWindow.set_version ("v" + Constants.APP_VERSION);
-            aboutWindow.set_comments (_("A simple Wine and Proton-based compatibility tools manager for GNOME"));
-            aboutWindow.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
-            aboutWindow.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
-            aboutWindow.set_copyright ("© 2022-2023 Vysp3r");
-            aboutWindow.set_license_type (Gtk.License.GPL_3_0);
-            aboutWindow.set_developers (devs);
-            aboutWindow.add_credit_section (_("Special thanks to"), thanks);
-            aboutWindow.set_transient_for (window);
-            aboutWindow.set_modal (true);
+            about_window.set_application_name (Constants.APP_NAME);
+            about_window.set_application_icon (Constants.APP_ID);
+            about_window.set_version ("v" + Constants.APP_VERSION);
+            about_window.set_comments (_("A simple Wine and Proton-based compatibility tools manager for GNOME"));
+            about_window.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
+            about_window.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
+            about_window.set_copyright ("© 2022-2023 Vysp3r");
+            about_window.set_license_type (Gtk.License.GPL_3_0);
+            about_window.set_developers (devs);
+            about_window.add_credit_section (_("Special thanks to"), thanks);
+            about_window.set_transient_for (window);
+            about_window.set_modal (true);
 
-            aboutWindow.show ();
+            about_window.show ();
         }
 
         public static int main (string[] args) {

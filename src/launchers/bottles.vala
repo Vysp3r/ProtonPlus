@@ -20,11 +20,11 @@ namespace ProtonPlus.Launchers {
             var launcher = new Models.Launcher (
                                                 "Bottles",
                                                 "System",
-                                                "/com/vysp3r/ProtonPlus/bottles.png",
+                                                Constants.RESOURCE_BASE + "/bottles.png",
                                                 directories
             );
 
-            if (launcher.installed) launcher.groups = get_groups (launcher);
+            if (launcher.installed)launcher.groups = get_groups (launcher);
 
             return launcher;
         }
@@ -35,11 +35,11 @@ namespace ProtonPlus.Launchers {
             var launcher = new Models.Launcher (
                                                 "Bottles",
                                                 "Flatpak",
-                                                "/com/vysp3r/ProtonPlus/bottles.png",
+                                                Constants.RESOURCE_BASE + "/bottles.png",
                                                 directories
             );
 
-            if (launcher.installed) launcher.groups = get_groups (launcher);
+            if (launcher.installed)launcher.groups = get_groups (launcher);
 
             return launcher;
         }

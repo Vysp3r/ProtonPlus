@@ -18,11 +18,11 @@ namespace ProtonPlus.Launchers {
             var launcher = new Models.Launcher (
                                                 "Steam",
                                                 "System",
-                                                "/com/vysp3r/ProtonPlus/steam.png",
+                                                Constants.RESOURCE_BASE + "/steam.png",
                                                 directories
             );
 
-            if (launcher.installed) launcher.groups = get_groups (launcher);
+            if (launcher.installed)launcher.groups = get_groups (launcher);
 
             return launcher;
         }
@@ -33,11 +33,11 @@ namespace ProtonPlus.Launchers {
             var launcher = new Models.Launcher (
                                                 "Steam",
                                                 "Flatpak",
-                                                "/com/vysp3r/ProtonPlus/steam.png",
+                                                Constants.RESOURCE_BASE + "/steam.png",
                                                 directories
             );
 
-            if (launcher.installed) launcher.groups = get_groups (launcher);
+            if (launcher.installed)launcher.groups = get_groups (launcher);
 
             return launcher;
         }
@@ -48,11 +48,11 @@ namespace ProtonPlus.Launchers {
             var launcher = new Models.Launcher (
                                                 "Steam",
                                                 "Snap",
-                                                "/com/vysp3r/ProtonPlus/steam.png",
+                                                Constants.RESOURCE_BASE + "/steam.png",
                                                 directories
             );
 
-            if (launcher.installed) launcher.groups = get_groups (launcher);
+            if (launcher.installed)launcher.groups = get_groups (launcher);
 
             return launcher;
         }

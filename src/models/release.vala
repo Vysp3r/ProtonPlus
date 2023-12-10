@@ -16,13 +16,13 @@ namespace ProtonPlus.Models {
 
         public STATUS previous_status;
         STATUS _status;
-        public STATUS status { 
+        public STATUS status {
             get {
                 return _status;
             } private set {
                 previous_status = _status;
                 _status = value;
-            } 
+            }
         }
         public enum STATUS {
             INSTALLED,
@@ -57,7 +57,7 @@ namespace ProtonPlus.Models {
         }
 
         public string get_formatted_download_size () {
-            if (download_size < 0) return _("Not available");
+            if (download_size < 0)return _("Not available");
             return Utils.Filesystem.covert_bytes_to_string (download_size);
         }
 
@@ -248,7 +248,7 @@ namespace ProtonPlus.Models {
                 get_artifact_download_size.end (res);
                 Utils.Web.Download.begin (url, path, download_size, () => status == STATUS.CANCELLED, (progress) => installation_progress = progress, (obj, res) => {
                     var result = Utils.Web.Download.end (res);
-                    switch(result) {
+                    switch (result) {
                         case Utils.Web.DOWNLOAD_CODES.API_ERROR:
                             error = ERRORS.API;
                             break;
@@ -259,17 +259,17 @@ namespace ProtonPlus.Models {
                             error = ERRORS.NONE;
                             break;
                     }
-    
+
                     if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
                         status = STATUS.UNINSTALLED;
                         return;
                     }
-            
+
                     string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
- 
+
                     Utils.Filesystem.extract.begin (directory, title, file_extension, () => status == STATUS.CANCELLED, (obj, res) => {
                         string sourcePath = Utils.Filesystem.extract.end (res);
-            
+
                         if (sourcePath == "") {
                             error = ERRORS.EXTRACT;
                             status = STATUS.UNINSTALLED;
@@ -279,45 +279,45 @@ namespace ProtonPlus.Models {
                         if (runner.is_using_github_actions) {
                             Utils.Filesystem.extract.begin (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", () => status == STATUS.CANCELLED, (obj, res) => {
                                 sourcePath = Utils.Filesystem.extract.end (res);
-    
+
                                 if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
                                     status = STATUS.UNINSTALLED;
                                     return;
                                 }
-                        
+
                                 if (runner.title_type != Runner.title_types.NONE) {
                                     Utils.Filesystem.rename (sourcePath, directory + get_directory_name ());
                                 }
-                        
+
                                 runner.group.launcher.install (this);
-                        
+
                                 status = STATUS.INSTALLED;
-                            });    
+                            });
                         } else {
                             if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
                                 status = STATUS.UNINSTALLED;
                                 return;
                             }
-                    
+
                             if (runner.title_type != Runner.title_types.NONE) {
                                 Utils.Filesystem.rename (sourcePath, directory + get_directory_name ());
                             }
-                    
+
                             runner.group.launcher.install (this);
-                    
+
                             status = STATUS.INSTALLED;
                         }
                     });
-                });  
+                });
             });
         }
 
-        public void cancel() {
+        public void cancel () {
             status = Models.Release.STATUS.CANCELLED;
         }
 
-        public async void get_artifact_download_size() {
-            if (download_size > 0) return;
+        public async void get_artifact_download_size () {
+            if (download_size > 0 || artifacts_url == "")return;
 
             string json = yield Utils.Web.GET (artifacts_url);
 
@@ -327,12 +327,12 @@ namespace ProtonPlus.Models {
 
             Json.Node? node = Utils.Parser.get_node_from_json (json);
 
-            if (node == null) return;
+            if (node == null)return;
 
             var root_obj = node.get_object ();
 
             var artifacts_obj = root_obj.get_array_member ("artifacts");
-            if (artifacts_obj == null) return;
+            if (artifacts_obj == null)return;
 
             if (artifacts_obj.get_length () > 0) {
                 var artifact_node = artifacts_obj.get_element (0);

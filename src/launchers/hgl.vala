@@ -28,13 +28,13 @@ namespace ProtonPlus.Launchers {
             var launcher = new Models.Launcher (
                                                 "Heroic Games Launcher",
                                                 "System",
-                                                "/com/vysp3r/ProtonPlus/hgl.png",
+                                                Constants.RESOURCE_BASE + "/hgl.png",
                                                 directories
             );
 
             launcher.setup_callbacks (install_script, uninstall_script);
 
-            if (launcher.installed) launcher.groups = get_groups (launcher);
+            if (launcher.installed)launcher.groups = get_groups (launcher);
 
             return launcher;
         }
@@ -45,13 +45,13 @@ namespace ProtonPlus.Launchers {
             var launcher = new Models.Launcher (
                                                 "Heroic Games Launcher",
                                                 "Flatpak",
-                                                "/com/vysp3r/ProtonPlus/hgl.png",
+                                                Constants.RESOURCE_BASE + "/hgl.png",
                                                 directories
             );
 
             launcher.setup_callbacks (install_script, uninstall_script);
 
-            if (launcher.installed) launcher.groups = get_groups (launcher);
+            if (launcher.installed)launcher.groups = get_groups (launcher);
 
             return launcher;
         }
@@ -116,14 +116,14 @@ namespace ProtonPlus.Launchers {
         static void install_script (Models.Release release) {
             try {
                 string path = "/.config";
-                if (release.runner.group.launcher.title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
+                if (release.runner.group.launcher.title.contains ("Flatpak"))path = "/.var/app/com.heroicgameslauncher.hgl/config";
                 path = GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
                 Json.Node rootNode = Json.from_string (Utils.Filesystem.get_file_content (path));
                 Json.Object rootObj = rootNode.get_object ();
 
                 var objArray = rootObj.get_array_member ("wine-releases");
-                if (objArray == null) return;
+                if (objArray == null)return;
 
                 bool found = false;
 
@@ -170,14 +170,14 @@ namespace ProtonPlus.Launchers {
         static void uninstall_script (Models.Release release) {
             try {
                 string path = "/.config";
-                if (release.runner.group.launcher.title.contains ("Flatpak")) path = "/.var/app/com.heroicgameslauncher.hgl/config";
+                if (release.runner.group.launcher.title.contains ("Flatpak"))path = "/.var/app/com.heroicgameslauncher.hgl/config";
                 path = GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
                 Json.Node rootNode = Json.from_string (Utils.Filesystem.get_file_content (path));
                 Json.Object rootObj = rootNode.get_object ();
 
                 var objArray = rootObj.get_array_member ("wine-releases");
-                if (objArray == null) return;
+                if (objArray == null)return;
 
                 for (var i = 0; i < objArray.get_length (); i++) {
                     var tempNode = objArray.get_element (i);

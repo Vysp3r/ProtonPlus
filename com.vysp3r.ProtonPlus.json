@@ -25,6 +25,10 @@
         "--filesystem=~/.var/app/com.usebottles.bottles/data/bottles",
         "--filesystem=~/.local/share/bottles"
     ],
+    "build-options": {
+        "append-path": "/usr/lib/sdk/vala/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/vala/lib"
+    },
     "cleanup": [
         "/include",
         "/lib/pkgconfig",
@@ -35,5 +39,12 @@
         "/share/gtk-doc",
         "*.la",
         "*.a"
+    ],
+    "modules": [
+        {
+            "name": "com.vysp3r.ProtonPlus",
+            "builddir": true,
+            "buildsystem": "meson"
+        }
     ]
 }

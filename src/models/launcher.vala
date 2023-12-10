@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models {
-    public class Launcher {
+    public class Launcher : Object {
         public string title;
         public string type;
         public string icon_path;
@@ -50,7 +50,7 @@ namespace ProtonPlus.Models {
             launchers.append (Launchers.HeroicGamesLauncher.get_flatpak_launcher ());
 
             launchers.foreach ((launcher) => {
-                if (!launcher.installed) launchers.remove (launcher);
+                if (!launcher.installed)launchers.remove (launcher);
             });
 
             return (owned) launchers;
