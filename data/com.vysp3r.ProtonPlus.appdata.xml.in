@@ -52,6 +52,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.9" date="2023-12-10">
+      <description>
+        <ul>
+          <li>🐛 Fixed installed only infinite loading</li>
+          <li>🐛 Fixed GitLab downloads not working</li>
+          <li>🌐 Updated localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.8" date="2023-11-23">
       <description>
         <ul>
