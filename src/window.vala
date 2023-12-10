@@ -4,6 +4,7 @@ namespace ProtonPlus {
 
         int tasks { get; set; }
 
+        Adw.ToastOverlay toast_overlay { get; set; }
         Adw.OverlaySplitView overlay_split_view { get; set; }
         Widgets.StatusBox status_box { get; set; }
         Widgets.InfoBox info_box { get; set; }
@@ -25,23 +26,16 @@ namespace ProtonPlus {
             this.height_request = 45;
 
             //
+            toast_overlay = new Adw.ToastOverlay ();
+
+            //
             status_box = new Widgets.StatusBox ();
 
             //
-            var info_page = new Adw.NavigationPage.with_tag (info_box = new Widgets.InfoBox (), "InfoBox", "main");
+            var info_page = new Adw.NavigationPage.with_tag (info_box = new Widgets.InfoBox (toast_overlay), "InfoBox", "main");
 
             //
-            var sidebar_page = new Adw.NavigationPage.with_tag (sidebar = new Widgets.Sidebar (), "Sidebar", "sidebar");
-
-            //
-            sidebar.installed_only_switch.notify["active"].connect(() => {
-                info_box.installedOnly = !info_box.installedOnly;
-    
-                foreach (var container in info_box.containers) {
-                    container.box_normal.set_visible (!info_box.installedOnly);
-                    container.box_filtered.set_visible (info_box.installedOnly);
-                }
-            });
+            var sidebar_page = new Adw.NavigationPage.with_tag (sidebar = new Widgets.Sidebar (toast_overlay), "Sidebar", "sidebar");
 
             //
             overlay_split_view = new Adw.OverlaySplitView ();
@@ -51,7 +45,7 @@ namespace ProtonPlus {
             overlay_split_view.set_min_sidebar_width (270);
 
             //
-            overlay_split_view.notify["show-sidebar"].connect(() => {
+            overlay_split_view.notify["show-sidebar"].connect (() => {
                 info_box.sidebar_button.set_visible (!overlay_split_view.get_show_sidebar ());
             });
 
@@ -78,9 +72,9 @@ namespace ProtonPlus {
 
             if (busy) {
                 this.set_visible (false);
-                
-                this.notify["tasks"].connect(() => {
-                    if (tasks == 0) this.close ();
+
+                this.notify["tasks"].connect (() => {
+                    if (tasks == 0)this.close ();
                 });
             }
 
@@ -97,12 +91,17 @@ namespace ProtonPlus {
             //
             if (launchers.length () > 0) {
                 //
+                this.add_action (load_info_box ());
+                this.add_action (add_task ());
+                this.add_action (remove_task ());
+
+                //
                 info_box.initialize (launchers);
                 sidebar.initialize (launchers);
 
                 //
                 info_box.switch_launcher (launchers.nth_data (0).title, 0);
-                
+
                 //
                 if (overlay_split_view.get_parent () == null) {
                     set_content (overlay_split_view);
@@ -110,16 +109,16 @@ namespace ProtonPlus {
             } else {
                 //
                 status_box.initialize (null, _("Welcome to ") + Constants.APP_NAME, _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
-                
+
                 //
                 if (status_box.get_parent () == null) {
                     set_content (status_box);
                 }
-                
+
                 //
                 GLib.Timeout.add (10000, () => {
                     initialize ();
-    
+
                     return false;
                 });
             }

@@ -3,3 +3,9 @@
 .sidebar-item {
   padding: 7px;
 }
+
+/* global */
+
+.bold {
+  font-weight: bold;
+}
