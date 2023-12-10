@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models {
-    public class Group {
+    public class Group : Object {
         public string title { get; set; }
         public string description { get; set; }
         public string directory { get; set; }

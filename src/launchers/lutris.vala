@@ -24,11 +24,11 @@ namespace ProtonPlus.Launchers {
             var launcher = new Models.Launcher (
                                                 "Lutris",
                                                 "System",
-                                                "/com/vysp3r/ProtonPlus/lutris.png",
+                                                Constants.RESOURCE_BASE + "/lutris.png",
                                                 directories
             );
 
-            if (launcher.installed) launcher.groups = get_groups (launcher);
+            if (launcher.installed)launcher.groups = get_groups (launcher);
 
             return launcher;
         }
@@ -39,11 +39,11 @@ namespace ProtonPlus.Launchers {
             var launcher = new Models.Launcher (
                                                 "Lutris",
                                                 "Flatpak",
-                                                "/com/vysp3r/ProtonPlus/lutris.png",
+                                                Constants.RESOURCE_BASE + "/lutris.png",
                                                 directories
             );
 
-            if (launcher.installed) launcher.groups = get_groups (launcher);
+            if (launcher.installed)launcher.groups = get_groups (launcher);
 
             return launcher;
         }

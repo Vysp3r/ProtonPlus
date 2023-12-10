@@ -14,11 +14,11 @@ namespace ProtonPlus.Models {
         public bool use_name_instead_of_tag_name { get; set; }
         public bool api_error { get; set; }
         public string[] request_asset_exclude { get; set; }
-        
+
         public uint page { get; set; }
 
         public Models.Group group { get; set; }
-        
+
         public bool loaded { get; set; }
         public List<Models.Release> releases;
 
@@ -79,11 +79,10 @@ namespace ProtonPlus.Models {
         }
 
         public void load (bool installed_only) {
-            new Thread<void>("load", () => {
+            new Thread<void> ("load", () => {
                 if (installed_only) {
                     installed_loaded = false;
                     load_installed ();
-                    installed_loaded = true;
                 } else {
                     loaded = false;
                     load_all ();
@@ -116,32 +115,34 @@ namespace ProtonPlus.Models {
             }
 
             installed_releases.reverse ();
+
+            installed_loaded = true;
         }
 
         void load_all () {
             Utils.Web.GET.begin (endpoint + "?per_page=25&page=" + page++.to_string (), (obj, res) => {
                 string? json = Utils.Web.GET.end (res);
 
-                if (json == null || json?.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting")) {
+                if (json == null || json.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting")) {
                     api_error = true;
                     return;
                 }
 
                 Json.Node? node = Utils.Parser.get_node_from_json (json);
 
-                if (node == null) return;
+                if (node == null)return;
 
                 switch (endpoint_type) {
-                case endpoint_types.GITHUB:
-                    if (is_using_github_actions) {
-                        load_github_action (node);
-                    } else {
-                        load_github (node);
-                    }
-                    break;
-                case endpoint_types.GITLAB:
-                    load_gitlab (node);
-                    break;
+                    case endpoint_types.GITHUB :
+                        if (is_using_github_actions) {
+                            load_github_action (node);
+                        } else {
+                            load_github (node);
+                        }
+                        break;
+                    case endpoint_types.GITLAB :
+                        load_gitlab (node);
+                        break;
                 }
 
                 loaded = true;
@@ -151,11 +152,11 @@ namespace ProtonPlus.Models {
         void load_github_action (Json.Node rootNode) {
             var rootObj = rootNode.get_object ();
 
-            if (!rootObj.has_member ("workflow_runs")) return;
-            if (rootObj.get_member ("workflow_runs").get_node_type () != Json.NodeType.ARRAY) return;
+            if (!rootObj.has_member ("workflow_runs"))return;
+            if (rootObj.get_member ("workflow_runs").get_node_type () != Json.NodeType.ARRAY)return;
 
             var workflowsRunArray = rootObj.get_array_member ("workflow_runs");
-            if (workflowsRunArray == null) return;
+            if (workflowsRunArray == null)return;
 
             // Execute a loop with the number of items contained in the Version array and fill it
             for (var i = 0; i < workflowsRunArray.get_length (); i++) {
@@ -189,11 +190,11 @@ namespace ProtonPlus.Models {
 
         void load_github (Json.Node rootNode) {
             // Get the root node from the json
-            if (rootNode.get_node_type () != Json.NodeType.ARRAY) return;
+            if (rootNode.get_node_type () != Json.NodeType.ARRAY)return;
 
             // Get the root node array
             var rootNodeArray = rootNode.get_array ();
-            if (rootNodeArray == null) return;
+            if (rootNodeArray == null)return;
 
             // Execute a loop with the number of items contained in the Version array and fill it
             for (var i = 0; i < rootNodeArray.get_length (); i++) {
@@ -209,14 +210,14 @@ namespace ProtonPlus.Models {
                 var objRoot = tempNode.get_object ();
 
                 // Set the value of tag to the tag_name object contained in the current node
-                if (use_name_instead_of_tag_name) tag = objRoot.get_string_member ("name");
+                if (use_name_instead_of_tag_name)tag = objRoot.get_string_member ("name");
                 else tag = objRoot.get_string_member ("tag_name");
 
                 //
                 var excluded = false;
                 if (request_asset_exclude != null) {
                     foreach (var excluded_asset in request_asset_exclude) {
-                        if (tag.contains (excluded_asset)) excluded = true;
+                        if (tag.contains (excluded_asset))excluded = true;
                     }
                 }
 
@@ -248,11 +249,11 @@ namespace ProtonPlus.Models {
 
         void load_gitlab (Json.Node rootNode) {
             // Get the root node from the json
-            if (rootNode.get_node_type () != Json.NodeType.ARRAY) return;
+            if (rootNode.get_node_type () != Json.NodeType.ARRAY)return;
 
             // Get the root node array
             var rootNodeArray = rootNode.get_array ();
-            if (rootNodeArray == null) return;
+            if (rootNodeArray == null)return;
 
             // Execute a loop with the number of items contained in the Version array and fill it
             for (var i = 0; i < rootNodeArray.get_length (); i++) {
@@ -268,14 +269,14 @@ namespace ProtonPlus.Models {
                 var objRoot = tempNode.get_object ();
 
                 // Set the value of tag to the tag_name object contained in the current node
-                if (use_name_instead_of_tag_name) tag = objRoot.get_string_member ("name");
+                if (use_name_instead_of_tag_name)tag = objRoot.get_string_member ("name");
                 else tag = objRoot.get_string_member ("tag_name");
 
                 //
                 var excluded = false;
                 if (request_asset_exclude != null) {
                     foreach (var excluded_asset in request_asset_exclude) {
-                        if (tag.contains (excluded_asset)) excluded = true;
+                        if (tag.contains (excluded_asset))excluded = true;
                     }
                 }
 
@@ -305,6 +306,7 @@ namespace ProtonPlus.Models {
                         var objAsset = tempNodeArrayAsset.get_object ();
 
                         download_url = objAsset.get_string_member ("direct_asset_url"); // Set the value of download_url to the browser_download_url object contained in the current node
+                        download_url = download_url.replace ("?ref_type=heads", "");
 
                         releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz")); // Currently here to prevent showing release with an invalid download_url
                     }
