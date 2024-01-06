@@ -1,10 +1,10 @@
-# Reza Almanda <rezaalmanda27@gmail.com>, 2023.
+# Reza Almanda <rezaalmanda27@gmail.com>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-23 13:13-0500\n"
-"PO-Revision-Date: 2023-11-12 13:03+0000\n"
+"PO-Revision-Date: 2024-01-07 02:06+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/id/>\n"
@@ -13,14 +13,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #.
 #.
 #: src/widgets/sidebar.vala:34
-#, fuzzy
 msgid "Installed only"
-msgstr "Memasang"
+msgstr "Hanya terinstal"
 
 #.
 #: src/widgets/info-box.vala:25
@@ -36,59 +35,53 @@ msgid "There was an error while fetching data from the GitHub API"
 msgstr "Ada error saat mengambil data dari API GitHub"
 
 #: src/widgets/info-box.vala:213
-#, fuzzy
 msgid "Cancel the installation"
-msgstr "Informasi peluncur"
+msgstr "Batalkan penginstalan"
 
 #: src/widgets/info-box.vala:224
-#, fuzzy
 msgid "Delete the runner"
-msgstr "Menghapus alat"
+msgstr "Hapus runner"
 
 #: src/widgets/info-box.vala:226
-#, fuzzy
 msgid "Are you sure you want to delete "
-msgstr "Apakah Anda yakin ingin menghapusnya? "
+msgstr "Apakah Anda yakin ingin menghapusnya "
 
 #: src/widgets/info-box.vala:228
 msgid "Confirm"
 msgstr "Konfirmasi"
 
 #: src/widgets/info-box.vala:244
-#, fuzzy
 msgid "Install the runner"
-msgstr "Memasang alat"
+msgstr "Instal runner"
 
 #: src/widgets/info-box.vala:267 src/widgets/info-box.vala:279
 #: src/widgets/info-box.vala:293
-#, fuzzy
 msgid "The installation of "
-msgstr "Informasi peluncur"
+msgstr "Pemasangan "
 
 #: src/widgets/info-box.vala:267
 msgid " was cancelled"
-msgstr ""
+msgstr " dibatalkan"
 
 #: src/widgets/info-box.vala:279
-#, fuzzy
 msgid " was started"
-msgstr "Mengunduh..."
+msgstr " dimulai"
 
 #: src/widgets/info-box.vala:293 src/widgets/info-box.vala:320
 msgid " is done"
-msgstr ""
+msgstr " selesai"
 
 #: src/widgets/info-box.vala:320
 msgid "The deletion of "
-msgstr ""
+msgstr "Penghapusan "
 
 #: src/widgets/info-box.vala:341
 msgid "An unexpected error occured while extracting "
-msgstr ""
+msgstr "Terjadi error saat mengekstrak "
 
 #: src/widgets/info-box.vala:344
 msgid "An unexpected error occured while installing "
-msgstr ""
+msgstr "Terjadi error saat menginstal "
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
@@ -130,25 +123,30 @@ msgstr "Alat kompatibilitas Steam untuk menjalankan game Windows"
 #: src/launchers/hgl.vala:11
 msgid "Wine is a program which allows running Microsoft Windows programs"
 msgstr ""
+"Wine adalah program yang memungkinkan menjalankan program Microsoft Windows"
 
 #: src/launchers/hgl.vala:19 src/launchers/lutris.vala:15
 msgid ""
 "Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top "
 "of Vulkan"
 msgstr ""
+"Fork of Wine's VKD3D yang bertujuan untuk mengimplementasikan API Direct3D "
+"12 secara penuh di atas Vulkan"
 
 #: src/launchers/hgl.vala:62 src/launchers/lutris.vala:54
 msgid ""
 "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
+"Berdasarkan Wine yang dikembangkan oleh Valve Proton Experimental, dibuat "
+"untuk Lutris."
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr ""
+msgstr "Wine build disusun dari sumber resmi WineHQ."
 
 #: src/launchers/hgl.vala:69 src/launchers/lutris.vala:64
 msgid "Wine build with the Staging patchset applied."
-msgstr ""
+msgstr "Pembuatan wine dengan menerapkan patchset Staging."
 
 #: src/launchers/hgl.vala:72 src/launchers/lutris.vala:67
 msgid ""
