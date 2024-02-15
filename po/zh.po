@@ -1,12 +1,12 @@
-# neovali <valigarmanda55@gmail.com>, 2023.
+# neovali <valigarmanda55@gmail.com>, 2023, 2024.
 # "L.Yang" <yang120120110@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-23 13:13-0500\n"
-"PO-Revision-Date: 2023-12-15 11:09+0000\n"
-"Last-Translator: \"L.Yang\" <yang120120110@gmail.com>\n"
+"PO-Revision-Date: 2024-02-16 17:02+0000\n"
+"Last-Translator: valigarmanda <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "protonplus/protonplus/zh_Hans/>\n"
 "Language: zh\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.3\n"
+"X-Generator: Weblate 5.4\n"
 
 #.
 #.
@@ -149,7 +149,7 @@ msgstr "应用了Staging补丁集以及许多其他有用的补丁的Wine构建"
 msgid ""
 "Custom Proton build for running Windows games, built with the Wine-tkg build "
 "system."
-msgstr "为运行WIndows游戏定制的Proton构建，用Wine-tkg构建系统构建"
+msgstr "为运行Windows游戏定制的Proton构建，用Wine-tkg构建系统构建"
 
 #: src/launchers/lutris.vala:7
 msgid "Program which allows running Microsoft Windows programs"
@@ -157,7 +157,7 @@ msgstr "允许运行Microsoft Windows程序的程序"
 
 #: src/launchers/lutris.vala:87
 msgid "Contains RTX fix for Star Citizen."
-msgstr "包含为星级公民的RTX修复"
+msgstr "包含为星际公民的RTX修复"
 
 #: src/launchers/steam.vala:63
 msgid ""
@@ -174,13 +174,13 @@ msgstr "Luxtorpeda为特定的Windows游戏提供Linux原生游戏引擎"
 #: src/launchers/steam.vala:72
 msgid ""
 "Steam Play compatibility tool to run DOS games using native Linux DOSBox."
-msgstr "Steam Play兼容性工具，可使用原生LInux DOSBox运行DOS游戏"
+msgstr "Steam Play兼容性工具，可使用原生Linux DOSBox运行DOS游戏"
 
 #: src/launchers/steam.vala:73
 msgid ""
 "Steam Play compatibility tool to run adventure games using native Linux "
 "ScummVM."
-msgstr "Steam Play兼容性工具，可使用原生LInux ScummVM运行冒险游戏"
+msgstr "Steam Play兼容性工具，可使用原生Linux ScummVM运行冒险游戏"
 
 #: src/launchers/steam.vala:74
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
