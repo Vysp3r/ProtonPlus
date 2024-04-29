@@ -1,17 +1,18 @@
 # Lucas Mindêllo de Andrade <lucas.rokam@gmail.com>, 2023.
+# Mateus Santos <swyknox@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-11-23 13:13-0500\n"
-"PO-Revision-Date: 2023-11-11 12:36+0000\n"
-"Last-Translator: Lucas Mindêllo de Andrade <lucas.rokam@gmail.com>\n"
+"PO-Revision-Date: 2024-01-14 12:31+0000\n"
+"Last-Translator: Mateus Santos <swyknox@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #.
 #.
@@ -34,9 +35,8 @@ msgid "There was an error while fetching data from the GitHub API"
 msgstr ""
 
 #: src/widgets/info-box.vala:213
-#, fuzzy
 msgid "Cancel the installation"
-msgstr "Informações do inicializador"
+msgstr "Cancelar a instalação"
 
 #: src/widgets/info-box.vala:224
 #, fuzzy
@@ -44,9 +44,8 @@ msgid "Delete the runner"
 msgstr "Remover ferramenta"
 
 #: src/widgets/info-box.vala:226
-#, fuzzy
 msgid "Are you sure you want to delete "
-msgstr "Certeza de que deseja remover "
+msgstr "Tem certeza de que deseja excluir "
 
 #: src/widgets/info-box.vala:228
 msgid "Confirm"
@@ -82,11 +81,11 @@ msgstr ""
 
 #: src/widgets/info-box.vala:341
 msgid "An unexpected error occured while extracting "
-msgstr ""
+msgstr "Ocorreu um erro inesperado durante a extração "
 
 #: src/widgets/info-box.vala:344
 msgid "An unexpected error occured while installing "
-msgstr ""
+msgstr "Ocorreu um erro inesperado durante a instalação "
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
@@ -94,7 +93,7 @@ msgstr ""
 
 #: src/launchers/bottles.vala:7
 msgid "Compatibility tool to run Windows games on Linux"
-msgstr "Ferramenta de compatibilidade para rodar jogos Windows no Linux"
+msgstr "Ferramenta de compatibilidade para executar jogos do Windows no Linux"
 
 #: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
 #: src/launchers/lutris.vala:11
@@ -103,7 +102,7 @@ msgstr ""
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
-msgstr "Contém melhorias no Proton da Valve."
+msgstr "Contém melhorias em relação ao Proton padrão da Valve."
 
 #: src/launchers/bottles.vala:54
 msgid ""
@@ -170,7 +169,7 @@ msgstr ""
 
 #: src/launchers/lutris.vala:87
 msgid "Contains RTX fix for Star Citizen."
-msgstr "Contém correção RTX para o Star Citizen."
+msgstr "Contém correção para RTX para Star Citizen."
 
 #: src/launchers/steam.vala:63
 msgid ""
@@ -216,6 +215,8 @@ msgstr "Instale o Steam, Lutris, Bottles ouHeroic Games Launcher para começar."
 #: src/application.vala:62
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
 msgstr ""
+"Um simples gerenciador de ferramentas de compatibilidade baseado no Wine e "
+"Proton para o GNOME"
 
 #: src/application.vala:68
 msgid "Special thanks to"
