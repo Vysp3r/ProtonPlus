@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-23 13:13-0500\n"
+"POT-Creation-Date: 2024-04-29 20:04-0400\n"
 "PO-Revision-Date: 2024-03-29 10:01+0000\n"
 "Last-Translator: izmyname <vi-mcmxcv@proton.me>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -125,7 +125,8 @@ msgstr "Инструмент совместимости Steam для запус�
 
 #: src/launchers/hgl.vala:11
 msgid "Wine is a program which allows running Microsoft Windows programs"
-msgstr "Wine - программа, позволяющая запустить программы для Microsoft Windows"
+msgstr ""
+"Wine - программа, позволяющая запустить программы для Microsoft Windows"
 
 #: src/launchers/hgl.vala:19 src/launchers/lutris.vala:15
 msgid ""
@@ -191,6 +192,11 @@ msgstr ""
 
 #: src/launchers/steam.vala:74
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
+msgstr ""
+
+#: src/launchers/steam.vala:75
+msgid ""
+"Compatibility tool for Steam Play based on Wine and additional components."
 msgstr ""
 
 #: src/models/release.vala:60
