@@ -19,6 +19,7 @@
       <li>Boxtron</li>
       <li>Roberta</li>
       <li>NorthstarProton</li>
+      <li>Proton-GE RTSP</li>
       <li>Proton Tkg</li>
       <li>Wine-GE</li>
       <li>Wine-Lutris</li>
@@ -52,6 +53,14 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.10" date="2024-04-29">
+      <description>
+        <ul>
+          <li>✨ Added Proton-GE RTSP to Steam</li>
+          <li>🌐 Updated localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.9" date="2023-12-10">
       <description>
         <ul>
