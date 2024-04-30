@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-23 13:13-0500\n"
+"POT-Creation-Date: 2024-04-29 20:04-0400\n"
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -201,6 +201,11 @@ msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
 "Build Proton personalizzata per l'esecuzione del client Northstar per "
 "Titanfall 2."
+
+#: src/launchers/steam.vala:75
+msgid ""
+"Compatibility tool for Steam Play based on Wine and additional components."
+msgstr ""
 
 #: src/models/release.vala:60
 msgid "Not available"

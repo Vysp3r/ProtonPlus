@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-23 13:13-0500\n"
+"POT-Creation-Date: 2024-04-29 20:04-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -185,6 +185,11 @@ msgstr ""
 
 #: src/launchers/steam.vala:74
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
+msgstr ""
+
+#: src/launchers/steam.vala:75
+msgid ""
+"Compatibility tool for Steam Play based on Wine and additional components."
 msgstr ""
 
 #: src/models/release.vala:60
