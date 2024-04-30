@@ -57,6 +57,9 @@
 ### Arch Linux (AUR)
 [https://aur.archlinux.org/packages/protonplus](https://aur.archlinux.org/packages/protonplus) (Maintained by yochananmarqos)
 
+### Fedora (COPR)
+[https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) (Maintained by wehagy)
+
 - - - -
 
 ## 🏗️ Building from source
