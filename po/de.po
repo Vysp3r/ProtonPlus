@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-29 20:04-0400\n"
-"PO-Revision-Date: 2023-11-15 19:43+0100\n"
+"PO-Revision-Date: 2024-05-01 16:11+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #.
 #.
@@ -215,6 +215,8 @@ msgstr ""
 msgid ""
 "Compatibility tool for Steam Play based on Wine and additional components."
 msgstr ""
+"Kompatibilitätswerkzeug für Steam basierend auf Wine und zusätzlichen "
+"Komponenten."
 
 #: src/models/release.vala:60
 msgid "Not available"
