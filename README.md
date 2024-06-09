@@ -30,9 +30,6 @@
     <a href="https://t.me/ProtonPlus">
       <img alt="Telegram" title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=shield&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlus">
     </a>
-    <a href="https://discord.gg/Fyf8bWexpQ">
-      <img alt="Discord" title="Discord" src="https://dcbadge.vercel.app/api/server/Fyf8bWexpQ?style=flat&theme=default-inverted">
-    </a>
 </p>
 
 <p align="center">
