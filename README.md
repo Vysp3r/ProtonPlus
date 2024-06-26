@@ -39,7 +39,7 @@
 </p>
 
 <p align="center">
-    <i>Join the <a href="https://t.me/ProtonPlus">Telegram</a>/<a href="https://discord.gg/Fyf8bWexpQ">Discord</a>! — Don't forget to star the repo if you are enjoying the project!</i>
+    Don't forget to star the repo if you are enjoying the project!</i>
 </p>
 
 [<img alt='Download on Flathub' src='data/previews/Preview-1.png' />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
