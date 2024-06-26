@@ -57,6 +57,9 @@
 ### Fedora (COPR)
 [https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) (Maintained by wehagy)
 
+### NixOS (MyNixOS)
+[https://mynixos.com/nixpkgs/package/protonplus](https://mynixos.com/nixpkgs/package/protonplus) (Maintained by Seth)
+
 - - - -
 
 ## 🏗️ Building from source
