@@ -51,7 +51,7 @@ namespace ProtonPlus.Launchers {
             proton_ge.old_asset_location = 95;
             proton_ge.old_asset_position = 0;
 
-            var wine_ge = new Models.Runner (group, "Wine-GE", _(" Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."), "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.BOTTLES_WINE_GE);
+            var wine_ge = new Models.Runner (group, "Wine-GE", _("Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."), "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.BOTTLES_WINE_GE);
             wine_ge.old_asset_location = 83;
             wine_ge.old_asset_position = 0;
 
