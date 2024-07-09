@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-29 20:04-0400\n"
-"PO-Revision-Date: 2024-07-07 17:09+0000\n"
+"PO-Revision-Date: 2024-07-09 10:09+0000\n"
 "Last-Translator: Noé Lopez <noelopez@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
@@ -40,9 +40,8 @@ msgid "Cancel the installation"
 msgstr "Annuler l’installation"
 
 #: src/widgets/info-box.vala:224
-#, fuzzy
 msgid "Delete the runner"
-msgstr "Supprimer l'outil"
+msgstr "Supprimer l’outil"
 
 #: src/widgets/info-box.vala:226
 msgid "Are you sure you want to delete "
@@ -79,11 +78,11 @@ msgstr "La suppression de "
 
 #: src/widgets/info-box.vala:341
 msgid "An unexpected error occured while extracting "
-msgstr "Une erreur inattendue s'est produite lors de l'extraction. "
+msgstr "Une erreur inattendue s’est produite lors de l’extraction. "
 
 #: src/widgets/info-box.vala:344
 msgid "An unexpected error occured while installing "
-msgstr "Une erreur inattendue s'est produite lors de l'installation. "
+msgstr "Une erreur inattendue s’est produite lors de l'installation. "
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
@@ -100,7 +99,7 @@ msgstr "Implémentation Vulkan de Direct3D 9, 10 et 11 pour Linux/Wine"
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
-msgstr "Contient des améliorations au Proton par défaut de Valve."
+msgstr "Contient des améliorations par rapport au Proton par défaut de Valve."
 
 #: src/launchers/bottles.vala:54
 msgid ""
@@ -230,8 +229,8 @@ msgstr ""
 #: src/application.vala:62
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
 msgstr ""
-"Un gestionnaire d’outils de compatibilités basés sur Wine et Proton pour "
-"GNOME"
+"Un gestionnaire simple d’outils de compatibilité basés sur Wine et Proton "
+"pour GNOME"
 
 #: src/application.vala:68
 msgid "Special thanks to"
