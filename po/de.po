@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-29 20:04-0400\n"
+"POT-Creation-Date: 2024-07-14 09:56-0400\n"
 "PO-Revision-Date: 2024-05-01 16:11+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -103,11 +103,12 @@ msgstr "Vulkan basierte Implementierung von DirectX9, 10 und 11 for Linux/Wine"
 msgid "Contains improvements over Valve's default Proton."
 msgstr "Enthält Verbesserungen gegenüber dem Standard-Proton von Valve."
 
-#: src/launchers/bottles.vala:54
+#: src/launchers/bottles.vala:54 src/launchers/hgl.vala:62
+#: src/launchers/lutris.vala:54
 msgid ""
-" Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
+"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
-" Basierend auf Valve Proton Experimental's bleeding-edge Wine, gebaut für "
+"Basierend auf Valve Proton Experimental's bleeding-edge Wine, gebaut für "
 "Lutris."
 
 #: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
@@ -135,13 +136,6 @@ msgid ""
 msgstr ""
 "Fork von Wine's VKD3D, der darauf abzielt, die volle Direct3D 12 API auf "
 "Vulkan zu implementieren"
-
-#: src/launchers/hgl.vala:62 src/launchers/lutris.vala:54
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr ""
-"Basierend auf Valve Proton Experimental's bleeding-edge Wine, gebaut für "
-"Lutris."
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
@@ -242,6 +236,13 @@ msgstr ""
 #: src/application.vala:68
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
+
+#~ msgid ""
+#~ " Based on Valve Proton Experimental's bleeding-edge Wine, built for "
+#~ "Lutris."
+#~ msgstr ""
+#~ " Basierend auf Valve Proton Experimental's bleeding-edge Wine, gebaut für "
+#~ "Lutris."
 
 #~ msgid ""
 #~ "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine with "

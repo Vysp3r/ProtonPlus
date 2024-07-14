@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-29 20:04-0400\n"
+"POT-Creation-Date: 2024-07-14 09:56-0400\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -99,12 +99,13 @@ msgstr "Implementación basada en Vulkan de Direct3D 9, 10 y 11 para Linux/Wine"
 msgid "Contains improvements over Valve's default Proton."
 msgstr "Contiene mejoras sobre el Proton por defecto de Valve."
 
-#: src/launchers/bottles.vala:54
+#: src/launchers/bottles.vala:54 src/launchers/hgl.vala:62
+#: src/launchers/lutris.vala:54
 msgid ""
-" Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
+"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
-" Basado en el innovador Wine de Valve Proton Experimental, creado para "
-"Lutris."
+"Basado en la última versión de Valve Proton Experimental Wine, desarrollada "
+"para Lutris."
 
 #: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
 msgid ""
@@ -130,13 +131,6 @@ msgid ""
 msgstr ""
 "Bifurcación de Wine's VKD3D que tiene como objetivo implementar la API "
 "Direct3D 12 completa en la parte superior de Vulkan"
-
-#: src/launchers/hgl.vala:62 src/launchers/lutris.vala:54
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr ""
-"Basado en la última versión de Valve Proton Experimental Wine, desarrollada "
-"para Lutris."
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
@@ -236,6 +230,13 @@ msgstr ""
 #: src/application.vala:68
 msgid "Special thanks to"
 msgstr "Agradecimientos especiales a"
+
+#~ msgid ""
+#~ " Based on Valve Proton Experimental's bleeding-edge Wine, built for "
+#~ "Lutris."
+#~ msgstr ""
+#~ " Basado en el innovador Wine de Valve Proton Experimental, creado para "
+#~ "Lutris."
 
 #~ msgid "Preferences"
 #~ msgstr "Preferencias"

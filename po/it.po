@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-29 20:04-0400\n"
+"POT-Creation-Date: 2024-07-14 09:56-0400\n"
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -94,12 +94,13 @@ msgstr "Implementazione basata su Vulkan di Direct3D 9, 10 e 11 per Linux/Wine"
 msgid "Contains improvements over Valve's default Proton."
 msgstr "Contiene miglioramenti rispetto al Proton predefinito di Valve."
 
-#: src/launchers/bottles.vala:54
+#: src/launchers/bottles.vala:54 src/launchers/hgl.vala:62
+#: src/launchers/lutris.vala:54
 msgid ""
-" Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
+"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
-"Contiene miglioramenti rispetto al Proton predefinito di Valve. Basato "
-"sull'innovativo Wine di Valve Proton Experimental, creato per Lutris."
+"Basato su wine all'avanguardia di Valve Proton Experimental, costruito per "
+"Lutris."
 
 #: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
 msgid ""
@@ -125,13 +126,6 @@ msgid ""
 msgstr ""
 "VKD3D di Fork of Wine che mira a implementare l'intera API Direct3D 12 di "
 "Vulkan"
-
-#: src/launchers/hgl.vala:62 src/launchers/lutris.vala:54
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr ""
-"Basato su wine all'avanguardia di Valve Proton Experimental, costruito per "
-"Lutris."
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
@@ -227,6 +221,13 @@ msgstr ""
 #: src/application.vala:68
 msgid "Special thanks to"
 msgstr ""
+
+#~ msgid ""
+#~ " Based on Valve Proton Experimental's bleeding-edge Wine, built for "
+#~ "Lutris."
+#~ msgstr ""
+#~ "Contiene miglioramenti rispetto al Proton predefinito di Valve. Basato "
+#~ "sull'innovativo Wine di Valve Proton Experimental, creato per Lutris."
 
 #~ msgid "Preferences"
 #~ msgstr "Preferenze"
