@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-29 20:04-0400\n"
+"POT-Creation-Date: 2024-07-14 09:56-0400\n"
 "PO-Revision-Date: 2024-01-07 02:06+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -101,12 +101,13 @@ msgstr ""
 msgid "Contains improvements over Valve's default Proton."
 msgstr "Mengandung peningkatan Proton default Valve."
 
-#: src/launchers/bottles.vala:54
+#: src/launchers/bottles.vala:54 src/launchers/hgl.vala:62
+#: src/launchers/lutris.vala:54
 msgid ""
-" Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
+"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
-" Berbasis Valve Proton bleeding-edge eksperimental Wine, dibangun untuk "
-"Lutris."
+"Berdasarkan Wine yang dikembangkan oleh Valve Proton Experimental, dibuat "
+"untuk Lutris."
 
 #: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
 msgid ""
@@ -132,13 +133,6 @@ msgid ""
 msgstr ""
 "Fork of Wine's VKD3D yang bertujuan untuk mengimplementasikan API Direct3D "
 "12 secara penuh di atas Vulkan"
-
-#: src/launchers/hgl.vala:62 src/launchers/lutris.vala:54
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr ""
-"Berdasarkan Wine yang dikembangkan oleh Valve Proton Experimental, dibuat "
-"untuk Lutris."
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
@@ -220,6 +214,13 @@ msgstr ""
 #: src/application.vala:68
 msgid "Special thanks to"
 msgstr ""
+
+#~ msgid ""
+#~ " Based on Valve Proton Experimental's bleeding-edge Wine, built for "
+#~ "Lutris."
+#~ msgstr ""
+#~ " Berbasis Valve Proton bleeding-edge eksperimental Wine, dibangun untuk "
+#~ "Lutris."
 
 #~ msgid "Preferences"
 #~ msgstr "Preferensi"

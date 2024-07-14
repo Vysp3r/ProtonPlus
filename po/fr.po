@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-29 20:04-0400\n"
+"POT-Creation-Date: 2024-07-14 09:56-0400\n"
 "PO-Revision-Date: 2024-07-09 10:09+0000\n"
 "Last-Translator: Noé Lopez <noelopez@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -33,7 +33,8 @@ msgstr "Charger plus"
 
 #: src/widgets/info-box.vala:197 src/widgets/info-box.vala:338
 msgid "There was an error while fetching data from the GitHub API"
-msgstr "Il y a eu une erreur pendant la récupération de données de l’API GitHub"
+msgstr ""
+"Il y a eu une erreur pendant la récupération de données de l’API GitHub"
 
 #: src/widgets/info-box.vala:213
 msgid "Cancel the installation"
@@ -101,10 +102,11 @@ msgstr "Implémentation Vulkan de Direct3D 9, 10 et 11 pour Linux/Wine"
 msgid "Contains improvements over Valve's default Proton."
 msgstr "Contient des améliorations par rapport au Proton par défaut de Valve."
 
-#: src/launchers/bottles.vala:54
+#: src/launchers/bottles.vala:54 src/launchers/hgl.vala:62
+#: src/launchers/lutris.vala:54
 msgid ""
-" Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr " Basé sur Proton Experimental, adapté pour Lutris."
+"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
+msgstr "Basé sur Proton Experimental, adapté pour Lutris."
 
 #: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
 msgid ""
@@ -131,11 +133,6 @@ msgstr ""
 "Fork du VKD3D de Wine avec pour but implémenter l’API Direct3D complète en "
 "utilisant Vulkan"
 
-#: src/launchers/hgl.vala:62 src/launchers/lutris.vala:54
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr "Basé sur Proton Experimental, adapté pour Lutris."
-
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "Wine compilé avec les sources officielles de WineHQ."
@@ -149,8 +146,8 @@ msgid ""
 "Wine build with the Staging patchset applied and with many additional useful "
 "patches."
 msgstr ""
-"Wine compilé avec la collection de correctifs « Staging » et beaucoup d’"
-"autres correctifs utiles."
+"Wine compilé avec la collection de correctifs « Staging » et beaucoup "
+"d’autres correctifs utiles."
 
 #: src/launchers/hgl.vala:90 src/launchers/steam.vala:67
 msgid ""
@@ -188,16 +185,16 @@ msgstr ""
 msgid ""
 "Steam Play compatibility tool to run DOS games using native Linux DOSBox."
 msgstr ""
-"Outil de compatibilité Steam Play pour exécuter des jeux DOS avec l’"
-"émulateur natif DOSBox."
+"Outil de compatibilité Steam Play pour exécuter des jeux DOS avec "
+"l’émulateur natif DOSBox."
 
 #: src/launchers/steam.vala:73
 msgid ""
 "Steam Play compatibility tool to run adventure games using native Linux "
 "ScummVM."
 msgstr ""
-"Outil de compatibilité Steam Play pour exécuter des jeux d’aventures avec l’"
-"outil natif ScummVM."
+"Outil de compatibilité Steam Play pour exécuter des jeux d’aventures avec "
+"l’outil natif ScummVM."
 
 #: src/launchers/steam.vala:74
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
@@ -235,6 +232,11 @@ msgstr ""
 #: src/application.vala:68
 msgid "Special thanks to"
 msgstr "Remerciements à"
+
+#~ msgid ""
+#~ " Based on Valve Proton Experimental's bleeding-edge Wine, built for "
+#~ "Lutris."
+#~ msgstr " Basé sur Proton Experimental, adapté pour Lutris."
 
 #~ msgid "Preferences"
 #~ msgstr "Préférences"

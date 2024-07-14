@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-29 20:04-0400\n"
+"POT-Creation-Date: 2024-07-14 09:56-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -105,11 +105,12 @@ msgstr "Рэалізацыя Direct3D 9, 10 і 11 на аснове Vulkan дл�
 msgid "Contains improvements over Valve's default Proton."
 msgstr "Змяшчае паляпшэнні ў параўнанні з стандартным Proton Valve."
 
-#: src/launchers/bottles.vala:54
+#: src/launchers/bottles.vala:54 src/launchers/hgl.vala:62
+#: src/launchers/lutris.vala:54
 msgid ""
-" Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
+"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
-" Заснаваны на перадавой Wine ад Valve Proton Experimental, створанай для "
+"Заснаваны на перадавой Wine ад Valve Proton Experimental, створанай для "
 "Lutris."
 
 #: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
@@ -134,13 +135,6 @@ msgid ""
 "of Vulkan"
 msgstr ""
 "Форк VKD3D ад Wine, мэта якога - рэалізаваць поўны API Direct3D 12 на Vulkan"
-
-#: src/launchers/hgl.vala:62 src/launchers/lutris.vala:54
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr ""
-"Заснаваны на перадавой Wine ад Valve Proton Experimental, створанай для "
-"Lutris."
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
@@ -239,3 +233,10 @@ msgstr ""
 #: src/application.vala:68
 msgid "Special thanks to"
 msgstr "Асаблівая падзяка"
+
+#~ msgid ""
+#~ " Based on Valve Proton Experimental's bleeding-edge Wine, built for "
+#~ "Lutris."
+#~ msgstr ""
+#~ " Заснаваны на перадавой Wine ад Valve Proton Experimental, створанай для "
+#~ "Lutris."
