@@ -42,9 +42,13 @@
   <project_license>GPL-3.0-or-later</project_license>
   <content_rating type="oars-1.1" />
 
-  <developer_name>Vysp3r</developer_name>
+  <developer id="com.vysp3r">
+    <name>Vysp3r</name>
+  </developer>
+  
   <url type="homepage">https://github.com/Vysp3r/ProtonPlus</url>
   <url type="bugtracker">https://github.com/Vysp3r/ProtonPlus/issues</url>
+  <url type="translate">https://hosted.weblate.org/projects/protonplus/protonplus/</url>
 
   <screenshots>
     <screenshot type="default">
@@ -53,6 +57,13 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.13" date="2024-07-17">
+      <description>
+        <ul>
+          <li>🐛 Fix appdata</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.12" date="2024-07-17">
       <description>
         <ul>

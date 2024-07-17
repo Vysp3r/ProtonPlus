@@ -11,15 +11,15 @@ subdir('images')
 icon_sizes = ['32', '48', '64', '128']
 foreach i : icon_sizes
   install_data(
-      join_paths('logo', 'com.vysp3r.ProtonPlus.svg'),
+      join_paths('logo', 'com.vysp3r.ProtonPlus.png'),
       install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i + 'x' + i, 'apps'),
-      rename: meson.project_name() + '.svg'
+      rename: meson.project_name() + '.png'
   )
 
   install_data(
-      join_paths('logo', 'com.vysp3r.ProtonPlus.svg'),
+      join_paths('logo', 'com.vysp3r.ProtonPlus.png'),
       install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i + 'x' + i + '@2', 'apps'),
-      rename: meson.project_name() + '.svg'
+      rename: meson.project_name() + '.png'
   )
 endforeach
 
@@ -39,11 +39,11 @@ if desktop_utils.found()
 endif
 
 appstream_file = i18n.merge_file(
-        input: 'com.vysp3r.ProtonPlus.appdata.xml.in',
-       output: 'com.vysp3r.ProtonPlus.appdata.xml',
+        input: 'com.vysp3r.ProtonPlus.metainfo.xml.in',
+       output: 'com.vysp3r.ProtonPlus.metainfo.xml',
        po_dir: '../po',
       install: true,
-  install_dir: join_paths(get_option('datadir'), 'appdata')
+  install_dir: join_paths(get_option('datadir'), 'metainfo')
 )
 
 appstream_util = find_program('appstream-util', required: false)
