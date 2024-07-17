@@ -21,6 +21,18 @@ foreach i : icon_sizes
       install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i + 'x' + i + '@2', 'apps'),
       rename: meson.project_name() + '.png'
   )
+
+  install_data(
+      join_paths('logo', 'com.vysp3r.ProtonPlus.svg'),
+      install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i + 'x' + i, 'apps'),
+      rename: meson.project_name() + '.svg'
+  )
+
+  install_data(
+      join_paths('logo', 'com.vysp3r.ProtonPlus.svg'),
+      install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i + 'x' + i + '@2', 'apps'),
+      rename: meson.project_name() + '.svg'
+  )
 endforeach
 
 #
