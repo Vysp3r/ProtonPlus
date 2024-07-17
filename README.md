@@ -10,7 +10,7 @@
 
 <p align="center">
     <a align="center" href="https://flathub.org/apps/com.vysp3r.ProtonPlus">
-        <img width='240' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-i-en.svg' />
+        <img width='240' alt='Download on Flathub' src='https://flathub.org/api/badge?svg&locale=en&light' />
     </a>
 </p>
 
@@ -49,7 +49,7 @@
 ## 📦️ Alternative installation methods
 
 > **Warning**
-> The main installation method is Flatpak from Flathub
+> The main installation method is Flathub
 
 ### Arch Linux (AUR)
 [https://aur.archlinux.org/packages/protonplus](https://aur.archlinux.org/packages/protonplus) (Maintained by yochananmarqos)
