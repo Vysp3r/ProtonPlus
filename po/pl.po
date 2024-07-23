@@ -1,45 +1,25 @@
-#
-# Daniel Rusek <mail@asciiwolf.com>, 2023.
-#
-msgid ""
-msgstr ""
-"Project-Id-Version: com.vysp3r.ProtonPlus\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-22 21:46-0400\n"
-"PO-Revision-Date: 2023-04-10 11:40+0200\n"
-"Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
-"Language-Team: \n"
-"Language: cs\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.2.2\n"
-
 #.
 #.
 #: src/widgets/sidebar.vala:34
-#, fuzzy
 msgid "Installed only"
-msgstr "Nainstalovat"
+msgstr ""
 
 #.
 #: src/widgets/info-box.vala:25
 msgid "About"
-msgstr "O aplikaci"
+msgstr ""
 
 #: src/widgets/info-box.vala:174 src/widgets/info-box.vala:182
 msgid "Load more"
 msgstr ""
 
 #: src/widgets/info-box.vala:197 src/widgets/info-box.vala:338
-#, fuzzy
 msgid "There was an error while fetching data from the GitHub API"
-msgstr "Během rozbalování došlo k chybě..."
+msgstr ""
 
 #: src/widgets/info-box.vala:213
-#, fuzzy
 msgid "Cancel the installation"
-msgstr "Instalace byla zrušena..."
+msgstr ""
 
 #: src/widgets/info-box.vala:224
 msgid "Delete the runner"
@@ -59,18 +39,16 @@ msgstr ""
 
 #: src/widgets/info-box.vala:267 src/widgets/info-box.vala:279
 #: src/widgets/info-box.vala:293
-#, fuzzy
 msgid "The installation of "
-msgstr "Instalace byla zrušena..."
+msgstr ""
 
 #: src/widgets/info-box.vala:267
 msgid " was cancelled"
 msgstr ""
 
 #: src/widgets/info-box.vala:279
-#, fuzzy
 msgid " was started"
-msgstr "Stahování zahájeno...\n"
+msgstr ""
 
 #: src/widgets/info-box.vala:293 src/widgets/info-box.vala:320
 msgid " is done"
@@ -207,139 +185,7 @@ msgstr ""
 #: src/application.vala:62
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
 msgstr ""
-"Jednoduchý správce nástrojů kompatibility založených na Wine a Protonu pro "
-"GNOME"
 
 #: src/application.vala:68
 msgid "Special thanks to"
-msgstr "Zvláštní poděkování patří"
-
-#~ msgid "Preferences"
-#~ msgstr "Předvolby"
-
-#~ msgid "Main"
-#~ msgstr "Hlavní"
-
-#, fuzzy
-#~ msgid "Deleted "
-#~ msgstr "Smazat"
-
-#~ msgid "You cannot close the window while a tool is installing"
-#~ msgstr "Během instalace nástroje nelze zavřít okno"
-
-#~ msgid "Telegram"
-#~ msgstr "Telegram"
-
-#~ msgid "Documentation"
-#~ msgstr "Dokumentace"
-
-#~ msgid "Donation"
-#~ msgstr "Dar"
-
-#~ msgid "Quit"
-#~ msgstr "Ukončit"
-
-#~ msgid "Tools"
-#~ msgstr "Nástroje"
-
-#~ msgid "Games"
-#~ msgstr "Hry"
-
-#~ msgid "Notifications"
-#~ msgstr "Upozornění"
-
-#~ msgid "Launchers"
-#~ msgstr "Spouštěče"
-
-#~ msgid "Select a launcher to proceed"
-#~ msgstr "Pro pokračování vyberte spouštěč"
-
-#~ msgid "Select a tool to proceed"
-#~ msgstr "Pro pokračování vyberte nástroj"
-
-#~ msgid "Copy"
-#~ msgstr "Kopírovat"
-
-#~ msgid "Website"
-#~ msgstr "Webové stránky"
-
-#~ msgid "Directory: "
-#~ msgstr "Adresář: "
-
-#~ msgid "Size: "
-#~ msgstr "Velikost: "
-
-#~ msgid "Download size (Compressed): "
-#~ msgstr "Stahovaná velikost (komprimovaná): "
-
-#~ msgid "Release date: "
-#~ msgstr "Datum vydání: "
-
-#~ msgid "Cancel"
-#~ msgstr "Zrušit"
-
-#~ msgid "Go back"
-#~ msgstr "Jít zpět"
-
-#~ msgid "You cannot cancel the operation for tools using Github Actions."
-#~ msgstr "Nelze zrušit operaci pro nástroje využívající Github Actions."
-
-#~ msgid "Download done...\n"
-#~ msgstr "Stahování bylo dokončeno...\n"
-
-#~ msgid "Extraction started...\n"
-#~ msgstr "Rozbalování zahájeno...\n"
-
-#~ msgid "You cannot cancel the operation while it's extracting."
-#~ msgstr "Během rozbalování nelze operaci zrušit."
-
-#~ msgid "Extraction done...\n"
-#~ msgstr "Rozbalování bylo dokončeno...\n"
-
-#~ msgid "This page is a work in progress."
-#~ msgstr "Na této stránce se pracuje."
-
-#~ msgid "Style"
-#~ msgstr "Styl"
-
-#~ msgid "There is nothing to see here."
-#~ msgstr "Není zde nic k vidění."
-
-#~ msgid "Github API Request Error"
-#~ msgstr "Chyba požadavku Github API"
-
-#, fuzzy
-#~ msgid ""
-#~ "Here's a list of the possible reasons why that error happened:\n"
-#~ "- You may have reached the GitHub API limit\n"
-#~ "- You may be disconnected from the internet\n"
-#~ "\n"
-#~ "Why can I still see data then?\n"
-#~ "ProtonPlus caches the json of each requests in case that problem happens"
-#~ msgstr ""
-#~ "Zde je seznam možných důvodů, proč k této chybě došlo\n"
-#~ "- Možná jste dosáhli limitu GitHub API\n"
-#~ "- Možná jste odpojeni od internetu"
-
-#~ msgid ""
-#~ "Make sure to restart Steam if it's open to be able to use it otherwise "
-#~ "you will not see it.\n"
-#~ msgstr ""
-#~ "Nezapomeňte restartovat Steam, pokud je otevřený, abyste to mohli "
-#~ "používat, jinak to neuvidíte.\n"
-
-#~ msgid ""
-#~ "If you're using gamescope with Steam (Flatpak), those tools will not "
-#~ "work. Make sure to use the community builds from Flathub."
-#~ msgstr ""
-#~ "Pokud používáte gamescope se Steam (Flatpak), tyto nástroje nebudou "
-#~ "fungovat. Ujistěte se, že používáte komunitní sestavení z Flathubu."
-
-#~ msgid "System"
-#~ msgstr "Systémový"
-
-#~ msgid "Light"
-#~ msgstr "Světlý"
-
-#~ msgid "Dark"
-#~ msgstr "Tmavý"
+msgstr ""
