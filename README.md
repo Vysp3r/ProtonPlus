@@ -157,13 +157,13 @@
 
 - - - -
 
-## 🌐 Translate ProtonPlus
+## 🌐 Translate
 
 **You can translate ProtonPlus on [Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/) or by modifying the files directly**
 
 - - - -
 
-## 🙌 Contribute to ProtonPlus
+## 🙌 Contribute
 **Please read our [Contribution Guidelines](/CONTRIBUTING.md)**
 
 All contributions are highly appreciated.
