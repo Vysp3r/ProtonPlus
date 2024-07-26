@@ -9,12 +9,6 @@
 </p>
 
 <p align="center">
-    <a align="center" href="https://flathub.org/apps/com.vysp3r.ProtonPlus">
-        <img width='240' alt='Download on Flathub' src='https://flathub.org/api/badge?svg&locale=en&light' />
-    </a>
-</p>
-
-<p align="center">
     <a href="https://github.com/Vysp3r/ProtonPlus/stargazers">
       <img alt="Stars" title="Stars" src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=shield&label=%E2%AD%90%20Stars&branch=main&kill_cache=1%22" />
     </a>
@@ -33,39 +27,35 @@
 </p>
 
 <p align="center">
-  <a href="https://stopthemingmy.app">
-    <img alt="Please do not theme this app" src="https://stopthemingmy.app/badge.svg"/>
-  </a>
-</p>
-
-<p align="center">
     Don't forget to star the repo if you are enjoying the project!</i>
 </p>
 
-[<img alt='Download on Flathub' src='data/previews/Preview-1.png' />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
+[<img alt='Preview 1' src='data/previews/Preview-1.png' />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
 
 - - - -
 
-## 📦️ Alternative installation methods
+## 📦️ Installation methods
 
-> **Warning**
+<a href="https://flathub.org/apps/com.vysp3r.ProtonPlus">
+    <img width='240' alt='Download on Flathub' src='https://flathub.org/api/badge?svg&locale=en&light' />
+</a>
+
+<p></p>
+
+> [!WARNING]
 > The main installation method is Flathub
 
-### Arch Linux (AUR)
-[https://aur.archlinux.org/packages/protonplus](https://aur.archlinux.org/packages/protonplus) (Maintained by yochananmarqos)
+### [Arch Linux (AUR)](https://aur.archlinux.org/packages/protonplus) (Maintained by yochananmarqos)
 
-### Fedora (COPR)
-[https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) (Maintained by wehagy)
+### [Fedora (COPR)](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) (Maintained by wehagy)
 
-### NixOS (MyNixOS)
-[https://mynixos.com/nixpkgs/package/protonplus](https://mynixos.com/nixpkgs/package/protonplus) (Maintained by Seth)
+### [NixOS (MyNixOS)](https://mynixos.com/nixpkgs/package/protonplus) (Maintained by Seth)
 
 - - - -
 
 ## 🏗️ Building from source
 
-<details>
-  <summary>Requirements</summary>
+**Requirements**
 
 - [git](https://github.com/git/git)
 - [ninja](https://github.com/ninja-build/ninja)
@@ -77,13 +67,11 @@
 - [libarchive](https://github.com/libarchive/libarchive)
 - [desktop-file-utils](https://gitlab.freedesktop.org/xdg/desktop-file-utils)
 - [libgee](https://gitlab.gnome.org/GNOME/libgee)
-</details>
-
 
 <details>
-  <summary>Fedora</summary>
+  <summary>Linux</summary>
 
-1. Install all dependencies:
+1. Install all dependencies (I am on Fedora, so for you this line might be different)
     ```bash
     sudo dnf install \
       git \
@@ -98,25 +86,25 @@
       libgee-devel
     ```
 
-2. Clone the GitHub repo and change to repo directory:
+2. Clone the GitHub repo and change to repo directory
     ```bash
     git clone https://github.com/Vysp3r/ProtonPlus.git && \
       cd ProtonPlus
     ```
 
-3. Build the source:
+3. Build the source
     ```bash
     meson build --prefix=/usr && \
     cd build && \
     ninja
     ```
 
-4. (Optional) Install application:
+4. (Optional) Install application
     ```bash
     ninja install
     ```
 
-5. Start application:
+5. Start application
     ```bash
     cd src && \
     ./com.vysp3r.ProtonPlus
@@ -124,59 +112,48 @@
 </details>
 
 <details>
-  <summary>Flatpak Builder</summary>
+  <summary>Linux (Flatpak Builder)</summary>
 
-1. Install the distro dependencies using your package manager (apt, dnf, pacman, etc):
+1. Install all dependencies (I am on Fedora, so for you this line might be different)
     ```bash
-    sudo <insert your distro package manager and install options here> \
+    sudo dnf install \
       git \
-      flatpak \
-      flatpak-builder
+      flatpak
     ```
 
-2. Add the flathub repo to your user if not added before:
+2. Add the flathub repo to your user if not added before
     ```bash
     flatpak --user --if-not-exists remote-add \
       flathub https://flathub.org/repo/flathub.flatpakrepo
     ```
 
-3. Install the needed runtimes for flatpak:
+3. Install the needed runtimes for flatpak
     ```bash
     flatpak --user install \
-      runtime/org.gnome.Sdk/x86_64/43 \
-      runtime/org.gnome.Platform/x86_64/43
+      runtime/org.gnome.Sdk/x86_64/46 \
+      runtime/org.gnome.Platform/x86_64/46 \
+      org.flatpak.Builder
     ```
 
-4. Clone the GitHub repo and change to repo directory:
+4. Clone the GitHub repo and change to repo directory
     ```bash
     git clone https://github.com/Vysp3r/ProtonPlus.git && \
       cd ProtonPlus
     ```
 
-5. Build the source inside the "build-dir" in the repo directory and install for the current user:
+5. Build the source inside the "build-dir" in the repo directory and install for the current user
     ```bash
     flatpak-builder --user --install --force-clean \
       build-dir \
       com.vysp3r.ProtonPlus.json
     ```
 
-6. Start application:
+6. Start application
     ```bash
     flatpak --user run \
       com.vysp3r.ProtonPlus
     ```
 </details>
-
-- - - -
-
-## ⁉️ ProtonPlus vs ProtonUp-Qt
-
-|                   | ProtonPlus                                  | ProtonUp-Qt                                      |
-| :---------------- | :-----------------------------------------: | :----------------------------------------------: |
-| **GUI Toolkit**   | [GTK4](https://gitlab.gnome.org/GNOME/gtk)  | [QT](https://www.qt.io/)                         |
-| **Language**      | [Vala](https://gitlab.gnome.org/GNOME/vala) | [Python](https://www.python.org/)                |
-| **Based on**      | Nothing                                     | [ProtonUp](https://github.com/AUNaseef/protonup) |
-| **Looks best on** | [GNOME](https://gitlab.gnome.org/GNOME)     | [KDE](https://kde.org/)                          |
 
 - - - -
 
@@ -196,11 +173,5 @@ All contributions are highly appreciated.
 ## ✨️ Contributors
 
 [![Contributors](https://contrib.rocks/image?repo=Vysp3r/ProtonPlus)](https://github.com/Vysp3r/ProtonPlus/graphs/contributors)
-
-- - - -
-
-## 💝 Acknowledgment
-
-This README is based on the README from [Gradience](https://github.com/GradienceTeam/Gradience) by [Gradience Team](https://github.com/GradienceTeam)
 
 **[⤴️ Back to Top](#ProtonPlus)**
