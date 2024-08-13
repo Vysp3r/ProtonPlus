@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-30 02:09+0200\n"
-"PO-Revision-Date: 2024-08-13 19:47+0000\n"
+"PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: T K <konto2y5@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pl/>\n"
@@ -99,7 +99,7 @@ msgstr ""
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
-msgstr ""
+msgstr "Zawiera ulepszenia w stosunku do domyślnej wersji Protona od Valve."
 
 #: src/launchers/bottles.vala:54 src/launchers/hgl.vala:62
 #: src/launchers/lutris.vala:54
