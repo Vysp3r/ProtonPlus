@@ -1,11 +1,12 @@
 # T K <konto2y5@gmail.com>, 2024.
+# Eryk Michalak <gnu.ewm@protonmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-30 02:09+0200\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
-"Last-Translator: T K <konto2y5@gmail.com>\n"
+"Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pl/>\n"
 "Language: pl\n"
@@ -193,12 +194,12 @@ msgstr ""
 
 #: src/models/release.vala:60
 msgid "Not available"
-msgstr "Niedostępny"
+msgstr "Niedostępne"
 
 #.
 #: src/window.vala:112
 msgid "Welcome to "
-msgstr ""
+msgstr "Witamy "
 
 #: src/window.vala:112
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
@@ -210,4 +211,4 @@ msgstr ""
 
 #: src/application.vala:68
 msgid "Special thanks to"
-msgstr ""
+msgstr "Specjalne podziękowania dla"
