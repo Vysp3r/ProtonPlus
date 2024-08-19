@@ -1,10 +1,17 @@
+# Lize58 <pasquale.borrelli05@outlook.it>, 2024.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-22 21:46-0400\n"
-"Language: it_IT\n"
+"PO-Revision-Date: 2024-08-19 10:09+0000\n"
+"Last-Translator: Lize58 <pasquale.borrelli05@outlook.it>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
+"protonplus/it/>\n"
+"Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.7\n"
 
 #.
 #.
@@ -47,43 +54,40 @@ msgstr "Installa il runner"
 
 #: src/widgets/info-box.vala:267 src/widgets/info-box.vala:279
 #: src/widgets/info-box.vala:293
-#, fuzzy
 msgid "The installation of "
-msgstr "Annullare l'installazione"
+msgstr "L'installazione di "
 
 #: src/widgets/info-box.vala:267
 msgid " was cancelled"
-msgstr ""
+msgstr " e' stato cancellato"
 
 #: src/widgets/info-box.vala:279
-#, fuzzy
 msgid " was started"
-msgstr "Download avviato...\n"
+msgstr " Download avviato"
 
 #: src/widgets/info-box.vala:293 src/widgets/info-box.vala:320
 msgid " is done"
-msgstr ""
+msgstr " e' finito"
 
 #: src/widgets/info-box.vala:320
 msgid "The deletion of "
-msgstr ""
+msgstr "La rimozione di "
 
 #: src/widgets/info-box.vala:341
 msgid "An unexpected error occured while extracting "
-msgstr ""
+msgstr "Si e' verificato un errore inaspettato durante l'estrazione "
 
 #: src/widgets/info-box.vala:344
 msgid "An unexpected error occured while installing "
-msgstr ""
+msgstr "Si e' verificato un errore inaspettato durante l'installazione "
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
-msgstr ""
+msgstr "Esecutori"
 
 #: src/launchers/bottles.vala:7
-#, fuzzy
 msgid "Compatibility tool to run Windows games on Linux"
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr "Strumento di compatibilità per l'esecuzione di giochi Windows su Linux"
 
 #: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
 #: src/launchers/lutris.vala:11
@@ -200,10 +204,12 @@ msgstr ""
 msgid ""
 "Compatibility tool for Steam Play based on Wine and additional components."
 msgstr ""
+"Strumento di compatibilita' per Steam Play basato su wine e altri componenti "
+"aggiuntivi"
 
 #: src/models/release.vala:60
 msgid "Not available"
-msgstr ""
+msgstr "Non disponibile"
 
 #.
 #: src/window.vala:112
@@ -216,11 +222,11 @@ msgstr "Installa Steam, Lutris, Bottles o Heroic Games Launcher per iniziare"
 
 #: src/application.vala:62
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
-msgstr ""
+msgstr "Un semplice gestore di compatibilita' basato su Proton e Wine per GNOME"
 
 #: src/application.vala:68
 msgid "Special thanks to"
-msgstr ""
+msgstr "Ringraziamenti speciali a"
 
 #~ msgid ""
 #~ " Based on Valve Proton Experimental's bleeding-edge Wine, built for "
