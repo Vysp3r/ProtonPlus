@@ -1,6 +1,6 @@
 namespace ProtonPlus {
     public class Application : Adw.Application {
-        Window window;
+        public static Window window;
 
         construct {
             application_id = Constants.APP_ID;
@@ -22,6 +22,10 @@ namespace ProtonPlus {
 
             //
             Gtk.StyleContext.add_provider_for_display (display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+            //
+            var file = GLib.File.new_for_path("/.flatpak-info");
+            Utils.System.IS_FLATPAK = file.query_exists();
 
             //
             window = new Window ();

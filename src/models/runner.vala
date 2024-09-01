@@ -11,6 +11,7 @@ namespace ProtonPlus.Models {
         public int old_asset_position { get; set; } // Same as asset_position, but for older releases that might have different assets position
 
         public bool is_using_github_actions { get; set; }
+        public bool use_source_code { get; set; }
         public bool use_name_instead_of_tag_name { get; set; }
         public bool api_error { get; set; }
         public string[] request_asset_exclude { get; set; }
@@ -40,6 +41,7 @@ namespace ProtonPlus.Models {
             this.old_asset_position = -1;
 
             this.is_using_github_actions = false;
+            this.use_source_code = false;
             this.use_name_instead_of_tag_name = false;
             this.api_error = false;
             this.loaded = false;
@@ -52,6 +54,7 @@ namespace ProtonPlus.Models {
             RELEASE_NAME,
             TOOL_NAME,
             STEAM_PROTON_GE,
+            STEAM_TINKER_LAUNCH,
             PROTON_TKG,
             KRON4EK_VANILLA,
             KRON4EK_STAGING,
@@ -228,20 +231,26 @@ namespace ProtonPlus.Models {
 
                     release_date = objRoot.get_string_member ("created_at").split ("T")[0];
 
-                    // Get the temp node array for the assets
-                    var tempNodeArray = objRoot.get_array_member ("assets");
+                    if (use_source_code) {
+                        download_url = objRoot.get_string_member ("tarball_url");
+   
+                        releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz"));
+                    } else {
+                        // Get the temp node array for the assets
+                        var tempNodeArray = objRoot.get_array_member ("assets");
 
-                    int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
+                        int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
 
-                    // Verify weither the temp node array has values
-                    if (tempNodeArray.get_length () - 1 >= pos) {
-                        var tempNodeArrayAsset = tempNodeArray.get_element (pos);
-                        var objAsset = tempNodeArrayAsset.get_object ();
+                        // Verify weither the temp node array has values
+                        if (tempNodeArray.get_length () - 1 >= pos) {
+                            var tempNodeArrayAsset = tempNodeArray.get_element (pos);
+                            var objAsset = tempNodeArrayAsset.get_object ();
 
-                        download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
-                        download_size = objAsset.get_int_member ("size");
+                            download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
+                            download_size = objAsset.get_int_member ("size");
 
-                        releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz")); // Currently here to prevent showing release with an invalid download_url
+                            releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz")); // Currently here to prevent showing release with an invalid download_url
+                        }
                     }
                 }
             }

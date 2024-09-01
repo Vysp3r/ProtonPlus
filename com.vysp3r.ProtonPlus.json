@@ -23,7 +23,8 @@
         "--filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic",
         "--filesystem=~/.config/heroic",
         "--filesystem=~/.var/app/com.usebottles.bottles/data/bottles",
-        "--filesystem=~/.local/share/bottles"
+        "--filesystem=~/.local/share/bottles",
+        "--talk-name=org.freedesktop.Flatpak"
     ],
     "build-options": {
         "append-path": "/usr/lib/sdk/vala/bin",

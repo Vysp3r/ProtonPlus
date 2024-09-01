@@ -242,7 +242,70 @@ namespace ProtonPlus.Widgets {
             btnInstall.width_request = 25;
             btnInstall.height_request = 25;
             btnInstall.set_tooltip_text (_("Install the runner"));
-            btnInstall.clicked.connect (() => release.install ());
+            btnInstall.clicked.connect (() => {
+                if (release.runner.title == "SteamTinkerLaunch") {
+                    var not_installed_count = 0;
+                    var yad_installed = false;
+                    var missing_deps = _("You have unmet dependencies for SteamTinkerLaunch\n\n");
+
+                    if (Utils.System.is_dependency_installed ("yad")) {
+                        yad_installed = Utils.System.check_yad_version ();
+                    }
+
+                    if (!Utils.System.is_dependency_installed ("awk") && !Utils.System.is_dependency_installed ("gawk")) {
+                        not_installed_count++;
+                        missing_deps += "awk-gawk\n";
+                    }
+                    if (!Utils.System.is_dependency_installed ("git")) {
+                        not_installed_count++;
+                        missing_deps += "git\n";
+                    }
+                    if (!Utils.System.is_dependency_installed ("pgrep")) {
+                        not_installed_count++;
+                        missing_deps += "pgrep\n";
+                    }
+                    if (!Utils.System.is_dependency_installed ("unzip")) {
+                        not_installed_count++;
+                        missing_deps += "unzip\n";
+                    }
+                    if (!Utils.System.is_dependency_installed ("wget")) {
+                        not_installed_count++;
+                        missing_deps += "wget\n";
+                    }
+                    if (!Utils.System.is_dependency_installed ("xdotool")) {
+                        not_installed_count++;
+                        missing_deps += "xdotool\n";
+                    }
+                    if (!Utils.System.is_dependency_installed ("xprop")) {
+                        not_installed_count++;
+                        missing_deps += "xprop\n";
+                    }
+                    if (!Utils.System.is_dependency_installed ("xrandr")) {
+                        not_installed_count++;
+                        missing_deps += "xrandr\n";
+                    }
+                    if (!Utils.System.is_dependency_installed ("xxd")) {
+                        not_installed_count++;
+                        missing_deps += "xxd\n";
+                    }
+                    if (!Utils.System.is_dependency_installed ("xwininfo")) {
+                        not_installed_count++;
+                        missing_deps += "xwininfo\n";
+                    }
+                    if (!yad_installed) {
+                        not_installed_count++;
+                        missing_deps += "yad >= 7.2\n";
+                    }
+
+                    missing_deps += _("\nInstallation will be cancelled");
+
+                    var dialog = new Adw.MessageDialog(Application.window, _("Missing dependencies!"), missing_deps);
+                        dialog.add_response ("ok", _("OK"));
+                        dialog.show ();
+                } else {
+                    release.install ();
+                }
+            });
 
             if (release.runner.api_error && !release.installed) {
                 btnDelete.set_visible (false);

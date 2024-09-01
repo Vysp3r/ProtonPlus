@@ -34,6 +34,7 @@ sources = files(
   'utils/filesystem.vala',
   'utils/web.vala',
   'utils/parser.vala',
+  'utils/system.vala',
 )
 
 #
