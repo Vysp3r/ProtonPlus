@@ -69,8 +69,6 @@ namespace ProtonPlus.Releases {
             var has_existing_install = FileUtils.test(STL_BASE_LOCATION, FileTest.EXISTS);
             if (has_existing_install)yield remove();
 
-            message("bob");
-
             if (has_external_install || !has_existing_install) {
                 var dialog = new Adw.MessageDialog(Application.window, _("Add STL to PATH"), _("Do you want ProtonPlus to add STL to all available shell files?\n\nClick 'Skip' if you're unsure."));
                 dialog.add_response("skip", _("Skip"));
