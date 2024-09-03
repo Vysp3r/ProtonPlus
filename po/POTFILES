@@ -1,6 +1,7 @@
 src/widgets/status-box.vala
 src/widgets/sidebar.vala
 src/widgets/info-box.vala
+src/releases/stl_release.vala
 src/launchers/bottles.vala
 src/launchers/hgl.vala
 src/launchers/lutris.vala

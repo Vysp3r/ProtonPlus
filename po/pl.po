@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-30 02:09+0200\n"
+"POT-Creation-Date: 2024-09-03 16:39-0400\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -24,66 +24,135 @@ msgid "Installed only"
 msgstr "Tylko zainstalowane"
 
 #.
-#: src/widgets/info-box.vala:25
+#: src/widgets/info-box.vala:27
 msgid "About"
 msgstr "O aplikacji"
 
-#: src/widgets/info-box.vala:174 src/widgets/info-box.vala:182
+#: src/widgets/info-box.vala:182 src/widgets/info-box.vala:190
 msgid "Load more"
 msgstr "Wczytaj więcej"
 
-#: src/widgets/info-box.vala:197 src/widgets/info-box.vala:338
+#: src/widgets/info-box.vala:205 src/widgets/info-box.vala:388
 msgid "There was an error while fetching data from the GitHub API"
 msgstr "Wystąpił błąd podczas pobierania danych z API GitHub"
 
-#: src/widgets/info-box.vala:213
+#: src/widgets/info-box.vala:221
 msgid "Cancel the installation"
 msgstr "Anuluj instalację"
 
-#: src/widgets/info-box.vala:224
+#: src/widgets/info-box.vala:232
 msgid "Delete the runner"
 msgstr "Odinstaluj środowisko uruchomieniowe"
 
-#: src/widgets/info-box.vala:226
+#: src/widgets/info-box.vala:235
+msgid "Delete SteamTinkerLaunch configuration"
+msgstr ""
+
+#: src/widgets/info-box.vala:235
+msgid "Do you want ProtonPlus to delete your SteamTinkerLaunch configuration?"
+msgstr ""
+
+#: src/widgets/info-box.vala:236
+msgid "No"
+msgstr ""
+
+#: src/widgets/info-box.vala:237
+msgid "Yes"
+msgstr ""
+
+#: src/widgets/info-box.vala:249
 msgid "Are you sure you want to delete "
 msgstr "Jesteś pewien, że chcesz usunąć "
 
-#: src/widgets/info-box.vala:228
+#: src/widgets/info-box.vala:251
 msgid "Confirm"
 msgstr "Potwierdź"
 
-#: src/widgets/info-box.vala:244
+#: src/widgets/info-box.vala:269
 msgid "Install the runner"
 msgstr "Zainstaluj środowisko uruchomieniowe"
 
-#: src/widgets/info-box.vala:267 src/widgets/info-box.vala:279
-#: src/widgets/info-box.vala:293
+#: src/widgets/info-box.vala:312 src/widgets/info-box.vala:324
+#: src/widgets/info-box.vala:338
 msgid "The installation of "
 msgstr "Instalacja "
 
-#: src/widgets/info-box.vala:267
+#: src/widgets/info-box.vala:312
 msgid " was cancelled"
 msgstr " została anulowana"
 
-#: src/widgets/info-box.vala:279
+#: src/widgets/info-box.vala:324
 msgid " was started"
 msgstr " rozpoczęta"
 
-#: src/widgets/info-box.vala:293 src/widgets/info-box.vala:320
+#: src/widgets/info-box.vala:338 src/widgets/info-box.vala:365
 msgid " is done"
 msgstr " została zakończona"
 
-#: src/widgets/info-box.vala:320
+#: src/widgets/info-box.vala:365
 msgid "The deletion of "
 msgstr "Deinstalacja "
 
-#: src/widgets/info-box.vala:341
+#: src/widgets/info-box.vala:391
 msgid "An unexpected error occured while extracting "
 msgstr "Wystąpił nieoczekiwany błąd podczas wypakowywania "
 
-#: src/widgets/info-box.vala:344
+#: src/widgets/info-box.vala:394
 msgid "An unexpected error occured while installing "
 msgstr "Podczas instalacji wystąpił nieoczekiwany błąd "
+
+#: src/releases/stl_release.vala:36
+msgid "Missing dependencies!"
+msgstr ""
+
+#: src/releases/stl_release.vala:36
+msgid ""
+"You have unmet dependencies for SteamTinkerLaunch\n"
+"\n"
+msgstr ""
+
+#: src/releases/stl_release.vala:36
+msgid ""
+"\n"
+"Installation will be cancelled"
+msgstr ""
+
+#: src/releases/stl_release.vala:37 src/releases/stl_release.vala:47
+#: src/releases/stl_release.vala:75
+msgid "OK"
+msgstr ""
+
+#: src/releases/stl_release.vala:45
+#, fuzzy
+msgid "Existing installation of STL"
+msgstr "Instalacja "
+
+#: src/releases/stl_release.vala:45
+msgid ""
+"It looks like there's a version of STL currently installed which was not "
+"installed by ProtonPlus.\n"
+"\n"
+"Do you wish to reinstall it with ProtonPlus?"
+msgstr ""
+
+#: src/releases/stl_release.vala:46
+msgid "Cancel"
+msgstr ""
+
+#: src/releases/stl_release.vala:73
+msgid "Add STL to PATH"
+msgstr ""
+
+#: src/releases/stl_release.vala:73
+msgid ""
+"Do you want ProtonPlus to add STL to all available shell files?\n"
+"\n"
+"Click 'Skip' if you're unsure."
+msgstr ""
+
+#: src/releases/stl_release.vala:74
+msgid "Skip"
+msgstr ""
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
@@ -192,7 +261,13 @@ msgstr ""
 "Narzędzie kompatybilności dla Steam Play oparte na Wine i dodatkowych "
 "komponentach."
 
-#: src/models/release.vala:60
+#: src/launchers/steam.vala:77
+msgid ""
+"Linux wrapper tool for use with the Steam client which allows for easy "
+"graphical configuration of game tools for Proton and native Linux games."
+msgstr ""
+
+#: src/models/release.vala:61
 msgid "Not available"
 msgstr "Niedostępne"
 
@@ -205,10 +280,10 @@ msgstr "Witamy "
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 
-#: src/application.vala:62
+#: src/application.vala:65
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME"
 msgstr ""
 
-#: src/application.vala:68
+#: src/application.vala:71
 msgid "Special thanks to"
 msgstr "Specjalne podziękowania dla"
