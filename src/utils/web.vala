@@ -11,10 +11,10 @@ namespace ProtonPlus.Utils {
 
                 var message = new Soup.Message ("GET", url);
 
-                Bytes bytes = yield session.send_and_read_async (message, GLib.Priority.DEFAULT, null);
+                Bytes bytes = yield session.send_and_read_async (message, Priority.DEFAULT, null);
 
                 return (string) bytes.get_data ();
-            } catch (GLib.Error e) {
+            } catch (Error e) {
                 message (e.message);
                 return null;
             }
@@ -35,25 +35,25 @@ namespace ProtonPlus.Utils {
                 var session = new Soup.Session ();
                 session.set_user_agent (get_user_agent ());
 
-                var message = new Soup.Message ("GET", url);
+                var soup_message = new Soup.Message ("GET", url);
 
-                var input_stream = yield session.send_async (message, GLib.Priority.DEFAULT, null);
+                var input_stream = yield session.send_async (soup_message, Priority.DEFAULT, null);
 
-                if (message.status_code != 200) {
-                    GLib.message (message.reason_phrase);
+                if (soup_message.status_code != 200) {
+                    message (soup_message.reason_phrase);
                     return DOWNLOAD_CODES.API_ERROR;
                 }
 
-                var file = GLib.File.new_for_path (path);
+                var file = File.new_for_path (path);
                 if (file.query_exists ()) {
-                    yield file.delete_async (GLib.Priority.DEFAULT, null);
+                    yield file.delete_async (Priority.DEFAULT, null);
                 }
 
-                FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, GLib.Priority.DEFAULT, null);
+                FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, Priority.DEFAULT, null);
 
                 // Temporary fix for GitLab since they don't give the file size from their API
                 if (download_size == -1) {
-                    download_size = message.get_response_headers ().get_content_length ();
+                    download_size = soup_message.get_response_headers ().get_content_length ();
                 }
 
                 const size_t chunk_size = 4096;
@@ -62,7 +62,7 @@ namespace ProtonPlus.Utils {
                 while (true) {
                     if (cancel_callback ()) {
                         if (file.query_exists ()) {
-                            yield file.delete_async (GLib.Priority.DEFAULT, null);
+                            yield file.delete_async (Priority.DEFAULT, null);
                         }
                         break;
                     }
@@ -86,7 +86,7 @@ namespace ProtonPlus.Utils {
                 session.abort ();
 
                 return DOWNLOAD_CODES.SUCCESS;
-            } catch (GLib.Error e) {
+            } catch (Error e) {
                 message (e.message);
                 return DOWNLOAD_CODES.UNEXPECTED_ERROR;
             }

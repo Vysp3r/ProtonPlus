@@ -57,8 +57,8 @@ namespace ProtonPlus.Launchers {
             return launcher;
         }
 
-        public static GLib.List<Models.Runner> get_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             var proton_ge = new Models.Runner (group, "Proton-GE", _("Steam compatibility tool for running Windows games with improvements over Valve's default Proton."), "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.STEAM_PROTON_GE);
             proton_ge.old_asset_location = 95;

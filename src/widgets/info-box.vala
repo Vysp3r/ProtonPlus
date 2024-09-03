@@ -23,7 +23,7 @@ namespace ProtonPlus.Widgets {
             sidebar_button.set_visible (false);
 
             //
-            var menu_model = new GLib.Menu ();
+            var menu_model = new Menu ();
             menu_model.append (_("About"), "app.about");
 
             //

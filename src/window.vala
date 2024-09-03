@@ -34,9 +34,9 @@ namespace ProtonPlus {
             var sidebar_page = new Adw.NavigationPage.with_tag (sidebar = new Widgets.Sidebar (), "Sidebar", "sidebar");
 
             //
-            sidebar.installed_only_switch.notify["active"].connect(() => {
+            sidebar.installed_only_switch.notify["active"].connect (() => {
                 info_box.installedOnly = !info_box.installedOnly;
-    
+
                 foreach (var container in info_box.containers) {
                     container.box_normal.set_visible (!info_box.installedOnly);
                     container.box_filtered.set_visible (info_box.installedOnly);
@@ -51,7 +51,7 @@ namespace ProtonPlus {
             overlay_split_view.set_min_sidebar_width (270);
 
             //
-            overlay_split_view.notify["show-sidebar"].connect(() => {
+            overlay_split_view.notify["show-sidebar"].connect (() => {
                 info_box.sidebar_button.set_visible (!overlay_split_view.get_show_sidebar ());
             });
 
@@ -78,9 +78,9 @@ namespace ProtonPlus {
 
             if (busy) {
                 this.set_visible (false);
-                
-                this.notify["tasks"].connect(() => {
-                    if (tasks == 0) this.close ();
+
+                this.notify["tasks"].connect (() => {
+                    if (tasks == 0)this.close ();
                 });
             }
 
@@ -102,7 +102,7 @@ namespace ProtonPlus {
 
                 //
                 info_box.switch_launcher (launchers.nth_data (0).title, 0);
-                
+
                 //
                 if (overlay_split_view.get_parent () == null) {
                     set_content (overlay_split_view);
@@ -110,16 +110,16 @@ namespace ProtonPlus {
             } else {
                 //
                 status_box.initialize (null, _("Welcome to ") + Constants.APP_NAME, _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
-                
+
                 //
                 if (status_box.get_parent () == null) {
                     set_content (status_box);
                 }
-                
+
                 //
-                GLib.Timeout.add (10000, () => {
+                Timeout.add (10000, () => {
                     initialize ();
-    
+
                     return false;
                 });
             }

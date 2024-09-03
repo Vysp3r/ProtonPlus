@@ -44,7 +44,7 @@ namespace ProtonPlus.Models {
             this.api_error = false;
             this.loaded = false;
 
-            this.releases = new GLib.List<Release> ();
+            this.releases = new List<Release> ();
         }
 
         public enum title_types {
@@ -199,8 +199,8 @@ namespace ProtonPlus.Models {
 
             //
             string installed_stl_version = "";
-            string stl_path = GLib.Environment.get_home_dir () + "/stl/prefix/steamtinkerlaunch";
-            if (title == "SteamTinkerLaunch" && FileUtils.test (stl_path, GLib.FileTest.EXISTS)) {
+            string stl_path = Environment.get_home_dir () + "/stl/prefix/steamtinkerlaunch";
+            if (title == "SteamTinkerLaunch" && FileUtils.test (stl_path, FileTest.EXISTS)) {
                 var temp = Utils.Filesystem.get_file_content (stl_path);
                 var temp_pos = temp.index_of ("PROGVERS=", 0) + "PROGVERS=".length + 1;
                 var temp_pos2 = temp.index_of ("\"", temp_pos);

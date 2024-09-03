@@ -44,8 +44,8 @@ namespace ProtonPlus.Launchers {
             return launcher;
         }
 
-        public static GLib.List<Models.Runner> get_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             var proton_ge = new Models.Runner (group, "Proton-GE", _("Contains improvements over Valve's default Proton."), "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.BOTTLES_PROTON_GE);
             proton_ge.old_asset_location = 95;
@@ -69,8 +69,8 @@ namespace ProtonPlus.Launchers {
             return runners;
         }
 
-        public static GLib.List<Models.Runner> get_dxvk_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_dxvk_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             runners.append (new Models.Runner (group, "DXVK", "", "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.DXVK));
             runners.append (new Models.Runner (group, "DXVK Async", "", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, Models.Runner.title_types.DXVK_ASYNC_SPORIF));

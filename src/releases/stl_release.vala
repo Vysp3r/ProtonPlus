@@ -1,18 +1,17 @@
 namespace ProtonPlus.Releases {
     public class STLRelease : Models.Release {
-        string STL_BASE_LOCATION = GLib.Environment.get_home_dir() + "/stl";
-        string EXTERNAL_STL_LOCATION = GLib.Environment.get_home_dir() + "/SteamTinkerLaunch";
-        string STL_CONFIG_LOCATION = GLib.Environment.get_home_dir() + "/.config/steamtinkerlaunch";
+        string STL_BASE_LOCATION = Environment.get_home_dir() + "/stl";
+        string EXTERNAL_STL_LOCATION = Environment.get_home_dir() + "/SteamTinkerLaunch";
+        string STL_CONFIG_LOCATION = Environment.get_home_dir() + "/.config/steamtinkerlaunch";
         public bool delete_config;
 
         public STLRelease(Models.Runner runner, string title, string download_url, string info_link, string release_date, string checksum_url, int64 download_size, string file_extension) {
             base(runner, title, download_url, info_link, release_date, checksum_url, download_size, file_extension);
             delete_config = false;
+            directory = STL_BASE_LOCATION + "/prefix";
         }
 
         public override async void install() {
-            directory = STL_BASE_LOCATION + "/prefix";
-
             var missing_dependencies = "";
 
             if (Utils.System.check_dependency("yad")) {
@@ -37,7 +36,7 @@ namespace ProtonPlus.Releases {
                 var dialog = new Adw.MessageDialog(Application.window, _("Missing dependencies!"), _("You have unmet dependencies for SteamTinkerLaunch\n\n") + missing_dependencies + _("\nInstallation will be cancelled"));
                 dialog.add_response("ok", _("OK"));
                 dialog.show();
-                status = Models.Release.STATUS.CANCELLED;
+                status = STATUS.CANCELLED;
                 return;
             }
 
@@ -52,9 +51,12 @@ namespace ProtonPlus.Releases {
                 string response = yield dialog.choose(null);
 
                 if (response != "ok") {
-                    status = Models.Release.STATUS.CANCELLED;
+                    status = STATUS.CANCELLED;
                     return;
                 }
+
+                if (Utils.System.check_dependency("steamtinkerlaunch"))
+                    Utils.System.run_command("steamtinkerlaunch compat del");
 
                 var deleted = yield Utils.Filesystem.delete_directory(EXTERNAL_STL_LOCATION);
 
@@ -62,13 +64,12 @@ namespace ProtonPlus.Releases {
                     error = ERRORS.UNEXPECTED;
                     return;
                 }
-
-                if (Utils.System.check_dependency("steamtinkerlaunch"))
-                    Utils.System.run_command("steamtinkerlaunch compat del");
             }
 
             var has_existing_install = FileUtils.test(STL_BASE_LOCATION, FileTest.EXISTS);
             if (has_existing_install)yield remove();
+
+            message("bob");
 
             if (has_external_install || !has_existing_install) {
                 var dialog = new Adw.MessageDialog(Application.window, _("Add STL to PATH"), _("Do you want ProtonPlus to add STL to all available shell files?\n\nClick 'Skip' if you're unsure."));
@@ -80,68 +81,65 @@ namespace ProtonPlus.Releases {
                 string response = yield dialog.choose(null);
 
                 if (response == "ok") {
-                    string[] supported_shell_files = { ".bashrc", ".zshrc", ".kshrc" };
-                    var shell_files = new List<string> ();
-                    foreach (var sf in supported_shell_files) {
-                        if (FileUtils.test(GLib.Environment.get_home_dir() + @"/$sf", GLib.FileTest.EXISTS))
-                            shell_files.append(sf);
-                    }
                     var datetime = new DateTime.now();
                     string path_date = "# Added by ProtonPlus on " + datetime.to_string();
                     string path_line = @"if [ -d \"$STL_BASE_LOCATION/prefix\" ]; then export PATH=\"" + "$PATH:" + @"$STL_BASE_LOCATION/prefix\"; fi";
-                    foreach (var sf in shell_files) {
-                        var path = GLib.Environment.get_home_dir() + @"/$sf";
-                        var content = Utils.Filesystem.get_file_content(path);
-                        if (!content.contains(path)) {
-                            content += @"\n$path_date\n$path_line\n";
-                            Utils.Filesystem.modify_file(path, content);
+                    string[] supported_shell_files = { ".bashrc", ".zshrc", ".kshrc" };
+                    foreach (var sf in supported_shell_files) {
+                        if (FileUtils.test(Environment.get_home_dir() + @"/$sf", FileTest.EXISTS)) {
+                            var path = Environment.get_home_dir() + @"/$sf";
+                            var content = Utils.Filesystem.get_file_content(path);
+                            if (!content.contains(path)) {
+                                content += @"\n$path_date\n$path_line\n";
+                                Utils.Filesystem.modify_file(path, content);
+                            }
                         }
                     }
                 }
             }
 
-            error = Models.Release.ERRORS.NONE;
-            status = Models.Release.STATUS.INSTALLING;
+            error = ERRORS.NONE;
+            status = STATUS.INSTALLING;
             installation_progress = 0;
 
-            if (!FileUtils.test(STL_BASE_LOCATION, GLib.FileTest.EXISTS))
+            if (!FileUtils.test(STL_BASE_LOCATION, FileTest.EXISTS))
                 Utils.Filesystem.create_directory(STL_BASE_LOCATION);
 
             string path = STL_BASE_LOCATION + "/" + title + file_extension;
 
             yield get_artifact_download_size();
 
-            var result = yield Utils.Web.Download(download_link, path, download_size, () => status == Models.Release.STATUS.CANCELLED, (progress) => {
+            var result = yield Utils.Web.Download(download_link, path, download_size, () => status == STATUS.CANCELLED, (progress) => {
                 installation_progress = 5; // FIXME
             });
 
             switch (result) {
             case Utils.Web.DOWNLOAD_CODES.API_ERROR:
-                error = Models.Release.ERRORS.API;
+                error = ERRORS.API;
                 break;
             case Utils.Web.DOWNLOAD_CODES.UNEXPECTED_ERROR:
-                error = Models.Release.ERRORS.UNEXPECTED;
+                error = ERRORS.UNEXPECTED;
                 break;
             case Utils.Web.DOWNLOAD_CODES.SUCCESS:
-                error = Models.Release.ERRORS.NONE;
+                error = ERRORS.NONE;
                 break;
             }
 
-            if (error != Models.Release.ERRORS.NONE || status == Models.Release.STATUS.CANCELLED) {
-                status = Models.Release.STATUS.UNINSTALLED;
+            if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
+                status = STATUS.UNINSTALLED;
                 return;
             }
 
-            string source_path = yield Utils.Filesystem.extract(GLib.Environment.get_home_dir() + "/stl/", title, file_extension, () => status == Models.Release.STATUS.CANCELLED);
+            string source_path = yield Utils.Filesystem.extract(Environment.get_home_dir() + "/stl/", title, file_extension, () => status == STATUS.CANCELLED);
 
             if (source_path == "") {
-                error = Models.Release.ERRORS.EXTRACT;
-                status = Models.Release.STATUS.UNINSTALLED;
+                error = ERRORS.EXTRACT;
+                status = STATUS.UNINSTALLED;
                 return;
             }
 
-            if (error != Models.Release.ERRORS.NONE || status == Models.Release.STATUS.CANCELLED) {
-                status = Models.Release.STATUS.UNINSTALLED;
+            if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
+                status = STATUS.UNINSTALLED;
                 return;
             }
 
@@ -161,15 +159,16 @@ namespace ProtonPlus.Releases {
 
             installed = true;
 
-            status = Models.Release.STATUS.INSTALLED;
+            status = STATUS.INSTALLED;
         }
 
         public override async void remove() {
             error = ERRORS.NONE;
             status = STATUS.UNINSTALLING;
 
-            if (Utils.System.check_dependency("steamtinkerlaunch"))
-                Utils.System.run_command("steamtinkerlaunch compat del");
+            var stl = @"$directory/steamtinkerlaunch";
+            if (FileUtils.test(stl, FileTest.IS_REGULAR))
+                Utils.System.run_command(@"$stl compat del");
 
             yield Utils.Filesystem.delete_directory(STL_BASE_LOCATION);
 
@@ -178,8 +177,8 @@ namespace ProtonPlus.Releases {
 
             string[] supported_shell_files = { ".bashrc", ".zshrc", ".kshrc" };
             foreach (var sf in supported_shell_files) {
-                if (FileUtils.test(GLib.Environment.get_home_dir() + @"/$sf", GLib.FileTest.EXISTS)) {
-                    var path = GLib.Environment.get_home_dir() + @"/$sf";
+                if (FileUtils.test(Environment.get_home_dir() + @"/$sf", FileTest.EXISTS)) {
+                    var path = Environment.get_home_dir() + @"/$sf";
                     var content = Utils.Filesystem.get_file_content(path);
                     var start_word = "# Added by ProtonPlus";
                     if (content.contains(start_word)) {

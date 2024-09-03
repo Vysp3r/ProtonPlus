@@ -48,8 +48,8 @@ namespace ProtonPlus.Launchers {
             return launcher;
         }
 
-        public static GLib.List<Models.Runner> get_wine_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_wine_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             var wine_ge = new Models.Runner (group, "Wine-GE", _("Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."), "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.LUTRIS_WINE_GE);
             wine_ge.old_asset_location = 83;
@@ -76,8 +76,8 @@ namespace ProtonPlus.Launchers {
             return runners;
         }
 
-        public static GLib.List<Models.Runner> get_dxvk_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_dxvk_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             var dxvk_gplasync = new Models.Runner (group, "DXVK GPL+Async (Ph42oN)", "", "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_GPLASYNC);
             dxvk_gplasync.endpoint_type = Models.Runner.endpoint_types.GITLAB;
@@ -90,8 +90,8 @@ namespace ProtonPlus.Launchers {
             return runners;
         }
 
-        public static GLib.List<Models.Runner> get_vkd3d_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_vkd3d_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             runners.append (new Models.Runner (group, "VKD3D-Lutris", "", "https://api.github.com/repos/lutris/vkd3d/releases", 0, Models.Runner.title_types.LUTRIS_VKD3D));
             runners.append (new Models.Runner (group, "VKD3D-Proton", "", "https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases", 0, Models.Runner.title_types.LUTRIS_VKD3D_PROTON));

@@ -68,7 +68,7 @@ namespace ProtonPlus.Utils {
 
                 delete_file (install_location + "/" + tool_name + extension);
 
-                Idle.add ((owned) callback, GLib.Priority.DEFAULT);
+                Idle.add ((owned) callback, Priority.DEFAULT);
             });
 
             yield;
@@ -103,7 +103,7 @@ namespace ProtonPlus.Utils {
         }
 
         public static void rename (string sourcePath, string destinationPath) {
-            GLib.FileUtils.rename (sourcePath, destinationPath);
+            FileUtils.rename (sourcePath, destinationPath);
         }
 
         // File
@@ -112,14 +112,14 @@ namespace ProtonPlus.Utils {
             string output = "";
 
             try {
-                GLib.File file = GLib.File.new_for_path (path);
+                File file = File.new_for_path (path);
 
                 uint8[] contents;
                 string etag_out;
                 file.load_contents (null, out contents, out etag_out);
 
                 output = (string) contents;
-            } catch (GLib.Error e) {
+            } catch (Error e) {
                 message (e.message);
             }
 
@@ -133,10 +133,10 @@ namespace ProtonPlus.Utils {
 
         public static void create_file (string path, string? content = null) {
             try {
-                var file = GLib.File.new_for_path (path);
+                var file = File.new_for_path (path);
                 FileOutputStream os = file.create (FileCreateFlags.PRIVATE);
                 if (content != null)os.write (content.data);
-            } catch (GLib.Error e) {
+            } catch (Error e) {
                 message (e.message);
             }
         }
@@ -192,7 +192,7 @@ namespace ProtonPlus.Utils {
                         output = true;
                     }
                 }
-                Idle.add ((owned) callback, GLib.Priority.DEFAULT);
+                Idle.add ((owned) callback, Priority.DEFAULT);
             });
 
             yield;
