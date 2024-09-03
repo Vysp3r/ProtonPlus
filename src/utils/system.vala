@@ -1,41 +1,42 @@
 namespace ProtonPlus.Utils {
     public class System {
+        public static bool IS_STEAM_OS = false;
+        public static bool IS_GAMESCOPE = false;
         public static bool IS_FLATPAK = false;
 
-        public static bool is_dependency_installed (string name) {
+        public static void initialize () {
+            IS_FLATPAK = FileUtils.test ("/.flatpak-info", FileTest.IS_REGULAR);
+            IS_GAMESCOPE = GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland";
+            IS_STEAM_OS = get_distribution_name() == "steamos";
+        }
+
+        public static string run_command (string command) {
             try {
                 string command_line = "";
                 if (IS_FLATPAK) command_line += "flatpak-spawn --host ";
-                command_line += @"which $name";
+                command_line += command;
 
                 string stdout = "";
                 var valid = Process.spawn_command_line_sync (command_line, out stdout, null, null);
-                if (!valid) return false;
+                if (!valid) return "";
 
-                return stdout.strip () == "" ? false : true;
+                return stdout;
             } catch (GLib.Error e) {
                 message (e.message);
-                return false;
+                return "";
             }
         }
 
-        public static bool check_yad_version () {
-            try {
-                string command_line = "";
-                if (IS_FLATPAK) command_line += "flatpak-spawn --host ";
-                command_line += "yad --version";
-                
-                string stdout = "";
-                var valid = Process.spawn_command_line_sync (command_line, out stdout, null, null);
-                if (!valid) return false;
+        public static bool check_dependency (string name) {
+            return run_command (@"which $name") == "" ? false : true;
+        }
 
-                float version = float.parse (stdout.split (" ")[0]);
-
-                return version >= 7.2 ? true : false;
-            } catch (GLib.Error e) {
-                message (e.message);
-                return false;
-            }
+        static string get_distribution_name() {
+            var distribution_info = run_command ("cat /etc/lsb-release /etc/os-release").split ("\n", 1)[0];
+            var distribution_name_start = "NAME=".length + 1;
+            var distribution_name_end = distribution_info.index_of ("\"", distribution_name_start);
+            var distribution_name_len = distribution_name_end - distribution_name_start;
+            return distribution_info.substring (distribution_name_start, distribution_name_len).ascii_down ();
         }
     }
 }

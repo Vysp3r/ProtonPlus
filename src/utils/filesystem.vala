@@ -8,64 +8,64 @@ namespace ProtonPlus.Utils {
             SourceFunc callback = extract.callback;
 
             string output = "";
-            new Thread<void>("extract", () => {
+            new Thread<void> ("extract", () => {
                 const int bufferSize = 192000;
 
                 var archive = new Archive.Read ();
                 archive.support_format_all ();
                 archive.support_filter_all ();
-    
+
                 int flags;
                 flags = Archive.ExtractFlags.ACL;
                 flags |= Archive.ExtractFlags.PERM;
                 flags |= Archive.ExtractFlags.TIME;
                 flags |= Archive.ExtractFlags.FFLAGS;
-    
+
                 var ext = new Archive.WriteDisk ();
                 ext.set_standard_lookup ();
                 ext.set_options (flags);
-    
-                if (archive.open_filename (install_location + tool_name + extension, bufferSize) != Archive.Result.OK) return;
-    
+
+                if (archive.open_filename (install_location + tool_name + extension, bufferSize) != Archive.Result.OK)return;
+
                 ssize_t r;
-    
+
                 unowned Archive.Entry entry;
-    
+
                 string sourcePath = "";
                 bool firstRun = true;
-    
+
                 for ( ;; ) {
-                    if (cancel_callback()) break;
+                    if (cancel_callback ())break;
                     r = archive.next_header (out entry);
-                    if (r == Archive.Result.EOF) break;
-                    if (r < Archive.Result.OK) stderr.printf (ext.error_string ());
-                    if (r < Archive.Result.WARN) return;
+                    if (r == Archive.Result.EOF)break;
+                    if (r < Archive.Result.OK)stderr.printf (ext.error_string ());
+                    if (r < Archive.Result.WARN)return;
                     if (firstRun) {
                         sourcePath = entry.pathname ();
                         firstRun = false;
                     }
                     entry.set_pathname (install_location + entry.pathname ());
                     r = ext.write_header (entry);
-                    if (r < Archive.Result.OK) stderr.printf (ext.error_string ());
+                    if (r < Archive.Result.OK)stderr.printf (ext.error_string ());
                     else if (entry.size () > 0) {
                         r = copy_data (archive, ext);
-                        if (r < Archive.Result.WARN) return;
+                        if (r < Archive.Result.WARN)return;
                     }
                     r = ext.finish_entry ();
-                    if (r < Archive.Result.OK) stderr.printf (ext.error_string ());
-                    if (r < Archive.Result.WARN) return;
+                    if (r < Archive.Result.OK)stderr.printf (ext.error_string ());
+                    if (r < Archive.Result.WARN)return;
                 }
-    
+
                 archive.close ();
-    
+
                 output = install_location + sourcePath;
-    
-                if (cancel_callback()) {
+
+                if (cancel_callback ()) {
                     delete_directory.begin (output, (obj, res) => {
                         delete_directory.end (res);
                     });
                 }
-    
+
                 delete_file (install_location + "/" + tool_name + extension);
 
                 Idle.add ((owned) callback, GLib.Priority.DEFAULT);
@@ -82,8 +82,8 @@ namespace ProtonPlus.Utils {
 
             for ( ;; ) {
                 r = ar.read_data_block (out buffer, out offset);
-                if (r == Archive.Result.EOF) return (Archive.Result.OK);
-                if (r < Archive.Result.OK) return (r);
+                if (r == Archive.Result.EOF)return (Archive.Result.OK);
+                if (r < Archive.Result.OK)return (r);
                 r = aw.write_data_block (buffer, offset);
                 if (r < Archive.Result.OK) {
                     stderr.printf (aw.error_string ());
@@ -135,7 +135,7 @@ namespace ProtonPlus.Utils {
             try {
                 var file = GLib.File.new_for_path (path);
                 FileOutputStream os = file.create (FileCreateFlags.PRIVATE);
-                if (content != null) os.write (content.data);
+                if (content != null)os.write (content.data);
             } catch (GLib.Error e) {
                 message (e.message);
             }

@@ -11,7 +11,6 @@ namespace ProtonPlus.Models {
         public int old_asset_position { get; set; } // Same as asset_position, but for older releases that might have different assets position
 
         public bool is_using_github_actions { get; set; }
-        public bool use_source_code { get; set; }
         public bool use_name_instead_of_tag_name { get; set; }
         public bool api_error { get; set; }
         public string[] request_asset_exclude { get; set; }
@@ -41,7 +40,6 @@ namespace ProtonPlus.Models {
             this.old_asset_position = -1;
 
             this.is_using_github_actions = false;
-            this.use_source_code = false;
             this.use_name_instead_of_tag_name = false;
             this.api_error = false;
             this.loaded = false;
@@ -199,6 +197,16 @@ namespace ProtonPlus.Models {
             var rootNodeArray = rootNode.get_array ();
             if (rootNodeArray == null)return;
 
+            //
+            string installed_stl_version = "";
+            string stl_path = GLib.Environment.get_home_dir () + "/stl/prefix/steamtinkerlaunch";
+            if (title == "SteamTinkerLaunch" && FileUtils.test (stl_path, GLib.FileTest.EXISTS)) {
+                var temp = Utils.Filesystem.get_file_content (stl_path);
+                var temp_pos = temp.index_of ("PROGVERS=", 0) + "PROGVERS=".length + 1;
+                var temp_pos2 = temp.index_of ("\"", temp_pos);
+                installed_stl_version = temp.substring (temp_pos, temp_pos2 - temp_pos);
+            }
+
             // Execute a loop with the number of items contained in the Version array and fill it
             for (var i = 0; i < rootNodeArray.get_length (); i++) {
                 string tag = "";
@@ -231,10 +239,14 @@ namespace ProtonPlus.Models {
 
                     release_date = objRoot.get_string_member ("created_at").split ("T")[0];
 
-                    if (use_source_code) {
+                    if (title == "SteamTinkerLaunch") {
                         download_url = objRoot.get_string_member ("tarball_url");
-   
-                        releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz"));
+
+                        var release = new Releases.STLRelease (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz");
+                        releases.append (release);
+
+                        if (tag == installed_stl_version)
+                            release.installed = true;
                     } else {
                         // Get the temp node array for the assets
                         var tempNodeArray = objRoot.get_array_member ("assets");

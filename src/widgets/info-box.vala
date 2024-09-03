@@ -9,6 +9,8 @@ namespace ProtonPlus.Widgets {
         Adw.HeaderBar header { get; set; }
         Gtk.Notebook notebook { get; set; }
 
+        Models.Release installedSTL { get; set; }
+
         construct {
             //
             this.set_orientation (Gtk.Orientation.VERTICAL);
@@ -223,17 +225,34 @@ namespace ProtonPlus.Widgets {
             btnDelete.height_request = 25;
             btnDelete.set_tooltip_text (_("Delete the runner"));
             btnDelete.clicked.connect (() => {
-                var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
-                toast.set_timeout (30000);
-                toast.set_button_label (_("Confirm"));
+                if (release is Releases.STLRelease) {
+                    var dialog = new Adw.MessageDialog (Application.window, _("Delete SteamTinkerLaunch configuration"), _("Do you want ProtonPlus to delete your SteamTinkerLaunch configuration?"));
+                    dialog.add_response ("no", _("No"));
+                    dialog.add_response ("yes", _("Yes"));
+                    dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
+                    dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
+                    dialog.show ();
+                    dialog.response.connect ((response) => {
+                        var stl = (Releases.STLRelease) release;
+                        stl.delete_config = response == "yes";
+                        stl.remove.begin ((obj, res) => {
+                            stl.remove.end (res);
+                        });
+                    });
+                } else {
+                    var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
+                    toast.set_timeout (30000);
+                    toast.set_button_label (_("Confirm"));
 
-                toast.button_clicked.connect (() => {
-                    release.delete ();
+                    toast.button_clicked.connect (() => {
+                        release.remove.begin ((obj, res) => {
+                            release.remove.end (res);
+                            toast.dismiss ();
+                        });
+                    });
 
-                    toast.dismiss ();
-                });
-
-                toast_overlay.add_toast (toast);
+                    toast_overlay.add_toast (toast);
+                }
             });
 
             var btnInstall = new Gtk.Button ();
@@ -243,68 +262,9 @@ namespace ProtonPlus.Widgets {
             btnInstall.height_request = 25;
             btnInstall.set_tooltip_text (_("Install the runner"));
             btnInstall.clicked.connect (() => {
-                if (release.runner.title == "SteamTinkerLaunch") {
-                    var not_installed_count = 0;
-                    var yad_installed = false;
-                    var missing_deps = _("You have unmet dependencies for SteamTinkerLaunch\n\n");
-
-                    if (Utils.System.is_dependency_installed ("yad")) {
-                        yad_installed = Utils.System.check_yad_version ();
-                    }
-
-                    if (!Utils.System.is_dependency_installed ("awk") && !Utils.System.is_dependency_installed ("gawk")) {
-                        not_installed_count++;
-                        missing_deps += "awk-gawk\n";
-                    }
-                    if (!Utils.System.is_dependency_installed ("git")) {
-                        not_installed_count++;
-                        missing_deps += "git\n";
-                    }
-                    if (!Utils.System.is_dependency_installed ("pgrep")) {
-                        not_installed_count++;
-                        missing_deps += "pgrep\n";
-                    }
-                    if (!Utils.System.is_dependency_installed ("unzip")) {
-                        not_installed_count++;
-                        missing_deps += "unzip\n";
-                    }
-                    if (!Utils.System.is_dependency_installed ("wget")) {
-                        not_installed_count++;
-                        missing_deps += "wget\n";
-                    }
-                    if (!Utils.System.is_dependency_installed ("xdotool")) {
-                        not_installed_count++;
-                        missing_deps += "xdotool\n";
-                    }
-                    if (!Utils.System.is_dependency_installed ("xprop")) {
-                        not_installed_count++;
-                        missing_deps += "xprop\n";
-                    }
-                    if (!Utils.System.is_dependency_installed ("xrandr")) {
-                        not_installed_count++;
-                        missing_deps += "xrandr\n";
-                    }
-                    if (!Utils.System.is_dependency_installed ("xxd")) {
-                        not_installed_count++;
-                        missing_deps += "xxd\n";
-                    }
-                    if (!Utils.System.is_dependency_installed ("xwininfo")) {
-                        not_installed_count++;
-                        missing_deps += "xwininfo\n";
-                    }
-                    if (!yad_installed) {
-                        not_installed_count++;
-                        missing_deps += "yad >= 7.2\n";
-                    }
-
-                    missing_deps += _("\nInstallation will be cancelled");
-
-                    var dialog = new Adw.MessageDialog(Application.window, _("Missing dependencies!"), missing_deps);
-                        dialog.add_response ("ok", _("OK"));
-                        dialog.show ();
-                } else {
-                    release.install ();
-                }
+                release.install.begin ((obj, res) => {
+                    release.install.end (res);
+                });
             });
 
             if (release.runner.api_error && !release.installed) {
@@ -313,6 +273,22 @@ namespace ProtonPlus.Widgets {
             } else {
                 btnDelete.set_visible (release.installed);
                 btnInstall.set_visible (!release.installed);
+            }
+
+            if (release.runner.title == "SteamTinkerLaunch") {
+                if (release.installed) {
+                    installedSTL = release;
+                }
+
+                release.notify["installed"].connect (() => {
+                    if (release.installed) {
+                        if (installedSTL != null) {
+                            installedSTL.installed = false;
+                            installedSTL.status = Models.Release.STATUS.UNINSTALLED_SILENTLY;
+                        }
+                        installedSTL = release;
+                    }
+                });
             }
 
             var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
@@ -388,6 +364,11 @@ namespace ProtonPlus.Widgets {
                         spinner.stop ();
                         spinner.set_visible (false);
 
+                        btnDelete.set_visible (false);
+                        btnInstall.set_visible (true);
+
+                        break;
+                    case Models.Release.STATUS.UNINSTALLED_SILENTLY:
                         btnDelete.set_visible (false);
                         btnInstall.set_visible (true);
 

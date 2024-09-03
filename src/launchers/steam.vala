@@ -67,9 +67,6 @@ namespace ProtonPlus.Launchers {
             var proton_tkg = new Models.Runner (group, "Proton-Tkg", _("Custom Proton build for running Windows games, built with the Wine-tkg build system."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
             proton_tkg.is_using_github_actions = true;
 
-            var steamtinkerlaunch = new Models.Runner (group, "SteamTinkerLaunch", _("Linux wrapper tool for use with the Steam client which allows for easy graphical configuration of game tools for Proton and native Linux games."), "https://api.github.com/repos/sonic2kk/steamtinkerlaunch/releases", 0, Models.Runner.title_types.STEAM_TINKER_LAUNCH);
-            steamtinkerlaunch.use_source_code = true;
-
             runners.append (proton_ge);
             runners.append (new Models.Runner (group, "Luxtorpeda", _("Luxtorpeda provides Linux-native game engines for specific Windows-only games."), "https://api.github.com/repos/luxtorpeda-dev/luxtorpeda/releases", 0, Models.Runner.title_types.TOOL_NAME));
             runners.append (new Models.Runner (group, "Boxtron", _("Steam Play compatibility tool to run DOS games using native Linux DOSBox."), "https://api.github.com/repos/dreamer/boxtron/releases", 0, Models.Runner.title_types.TOOL_NAME));
@@ -77,7 +74,7 @@ namespace ProtonPlus.Launchers {
             runners.append (new Models.Runner (group, "NorthstarProton", _("Custom Proton build for running the Northstar client for Titanfall 2."), "https://api.github.com/repos/cyrv6737/NorthstarProton/releases", 0, Models.Runner.title_types.TOOL_NAME));
             runners.append (new Models.Runner (group, "Proton-GE RTSP", _("Compatibility tool for Steam Play based on Wine and additional components."), "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases", 0, Models.Runner.title_types.TOOL_NAME));
             runners.append (proton_tkg);
-            runners.append (steamtinkerlaunch);
+            runners.append (new Models.Runner (group, "SteamTinkerLaunch", _("Linux wrapper tool for use with the Steam client which allows for easy graphical configuration of game tools for Proton and native Linux games."), "https://api.github.com/repos/sonic2kk/steamtinkerlaunch/releases", 0, Models.Runner.title_types.STEAM_TINKER_LAUNCH));
 
             return runners;
         }

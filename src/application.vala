@@ -24,15 +24,14 @@ namespace ProtonPlus {
             Gtk.StyleContext.add_provider_for_display (display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             //
-            var file = GLib.File.new_for_path("/.flatpak-info");
-            Utils.System.IS_FLATPAK = file.query_exists();
+            Utils.System.initialize ();
 
             //
             window = new Window ();
             window.initialize ();
 
             //
-            if (GLib.Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland")window.fullscreen ();
+            if (Utils.System.IS_GAMESCOPE)window.fullscreen ();
 
             //
             ActionEntry[] action_entries = {
