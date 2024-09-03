@@ -245,7 +245,7 @@ namespace ProtonPlus.Models {
                         var release = new Releases.STLRelease (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz");
                         releases.append (release);
 
-                        if (tag == installed_stl_version)
+                        if (tag == installed_stl_version && group.launcher.title == "Steam" && group.launcher.type == "System")
                             release.installed = true;
                     } else {
                         // Get the temp node array for the assets
