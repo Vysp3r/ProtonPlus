@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-03 16:39-0400\n"
+"POT-Creation-Date: 2024-09-04 16:07-0400\n"
 "PO-Revision-Date: 2024-07-09 10:09+0000\n"
 "Last-Translator: Noé Lopez <noelopez@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -31,7 +31,7 @@ msgstr "À propos"
 msgid "Load more"
 msgstr "Charger plus"
 
-#: src/widgets/info-box.vala:205 src/widgets/info-box.vala:388
+#: src/widgets/info-box.vala:205 src/widgets/info-box.vala:398
 msgid "There was an error while fetching data from the GitHub API"
 msgstr ""
 "Il y a eu une erreur pendant la récupération de données de l’API GitHub"
@@ -72,32 +72,58 @@ msgstr "Confirmer"
 msgid "Install the runner"
 msgstr "Installer l’outil"
 
-#: src/widgets/info-box.vala:312 src/widgets/info-box.vala:324
-#: src/widgets/info-box.vala:338
+#: src/widgets/info-box.vala:272
+msgid "Steam Flatpak is not supported"
+msgstr ""
+
+#: src/widgets/info-box.vala:272
+msgid ""
+"To install Steam Tinker Launch for Steam Flatpak, please run the following "
+"command:\n"
+"\n"
+"flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"
+msgstr ""
+
+#: src/widgets/info-box.vala:273 src/widgets/info-box.vala:277
+#: src/releases/stl_release.vala:37 src/releases/stl_release.vala:47
+#: src/releases/stl_release.vala:75
+msgid "OK"
+msgstr ""
+
+#: src/widgets/info-box.vala:276
+msgid "Steam Snap is not supported"
+msgstr ""
+
+#: src/widgets/info-box.vala:276
+msgid "There's currently no known way to install STL for Steam"
+msgstr ""
+
+#: src/widgets/info-box.vala:322 src/widgets/info-box.vala:334
+#: src/widgets/info-box.vala:348
 msgid "The installation of "
 msgstr "L’installation de "
 
-#: src/widgets/info-box.vala:312
+#: src/widgets/info-box.vala:322
 msgid " was cancelled"
 msgstr " a été annulée"
 
-#: src/widgets/info-box.vala:324
+#: src/widgets/info-box.vala:334
 msgid " was started"
 msgstr " est en cours"
 
-#: src/widgets/info-box.vala:338 src/widgets/info-box.vala:365
+#: src/widgets/info-box.vala:348 src/widgets/info-box.vala:375
 msgid " is done"
 msgstr " est finie"
 
-#: src/widgets/info-box.vala:365
+#: src/widgets/info-box.vala:375
 msgid "The deletion of "
 msgstr "La suppression de "
 
-#: src/widgets/info-box.vala:391
+#: src/widgets/info-box.vala:401
 msgid "An unexpected error occured while extracting "
 msgstr "Une erreur inattendue s’est produite lors de l’extraction. "
 
-#: src/widgets/info-box.vala:394
+#: src/widgets/info-box.vala:404
 msgid "An unexpected error occured while installing "
 msgstr "Une erreur inattendue s’est produite lors de l'installation. "
 
@@ -115,11 +141,6 @@ msgstr ""
 msgid ""
 "\n"
 "Installation will be cancelled"
-msgstr ""
-
-#: src/releases/stl_release.vala:37 src/releases/stl_release.vala:47
-#: src/releases/stl_release.vala:75
-msgid "OK"
 msgstr ""
 
 #: src/releases/stl_release.vala:45

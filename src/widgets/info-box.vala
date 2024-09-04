@@ -74,9 +74,6 @@ namespace ProtonPlus.Widgets {
                     content_normal.append (preferences_group);
 
                     foreach (var runner in group.runners) {
-                        if (runner.title == "SteamTinkerLaunch" && launcher.title == "Steam" && launcher.type != "System")
-                            continue;
-
                         var spinner = new Gtk.Spinner ();
                         spinner.set_visible (false);
 
@@ -268,9 +265,19 @@ namespace ProtonPlus.Widgets {
             btnInstall.height_request = 25;
             btnInstall.set_tooltip_text (_("Install the runner"));
             btnInstall.clicked.connect (() => {
-                release.install.begin ((obj, res) => {
-                    release.install.end (res);
-                });
+                if (release.runner.title == "SteamTinkerLaunch" && release.runner.group.launcher.title == "Steam" && release.runner.group.launcher.type == "Flatpak") {
+                    var dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), _("To install Steam Tinker Launch for Steam Flatpak, please run the following command:\n\nflatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
+                    dialog.add_response ("ok", _("OK"));
+                    dialog.show ();
+                } else if (release.runner.title == "SteamTinkerLaunch" && release.runner.group.launcher.title == "Steam" && release.runner.group.launcher.type == "Snap") {
+                    var dialog = new Adw.MessageDialog (Application.window, _("Steam Snap is not supported"), _("There's currently no known way to install STL for Steam"));
+                    dialog.add_response ("ok", _("OK"));
+                    dialog.show ();
+                } else {
+                    release.install.begin ((obj, res) => {
+                        release.install.end (res);
+                    });
+                }
             });
 
             if (release.runner.api_error && !release.installed) {
