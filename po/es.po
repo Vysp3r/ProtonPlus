@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-04 16:07-0400\n"
+"POT-Creation-Date: 2024-09-04 16:46-0400\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -24,28 +24,34 @@ msgstr "Solo instalado"
 msgid "About"
 msgstr "Acerca de"
 
-#: src/widgets/info-box.vala:182 src/widgets/info-box.vala:190
+#: src/widgets/info-box.vala:179 src/widgets/info-box.vala:187
 msgid "Load more"
 msgstr "Más información"
 
-#: src/widgets/info-box.vala:205 src/widgets/info-box.vala:398
+#: src/widgets/info-box.vala:202 src/widgets/info-box.vala:400
 msgid "There was an error while fetching data from the GitHub API"
 msgstr "Se ha producido un error al obtener datos de la API de GitHub"
 
-#: src/widgets/info-box.vala:221
+#: src/widgets/info-box.vala:218
 msgid "Cancel the installation"
 msgstr "Cancelar la instalación"
 
-#: src/widgets/info-box.vala:232
+#: src/widgets/info-box.vala:229
 msgid "Delete the runner"
 msgstr "Eliminar la herramienta de ejecución"
 
-#: src/widgets/info-box.vala:235
-msgid "Delete SteamTinkerLaunch configuration"
+#: src/widgets/info-box.vala:232
+msgid "Check this to also delete your configuration files"
 msgstr ""
 
-#: src/widgets/info-box.vala:235
-msgid "Do you want ProtonPlus to delete your SteamTinkerLaunch configuration?"
+#: src/widgets/info-box.vala:234
+msgid "Delete SteamTinkerLaunch"
+msgstr ""
+
+#: src/widgets/info-box.vala:234
+msgid ""
+"You're about to delete STL from your system\n"
+"Are you sure you want this?"
 msgstr ""
 
 #: src/widgets/info-box.vala:236
@@ -56,23 +62,23 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: src/widgets/info-box.vala:249
+#: src/widgets/info-box.vala:251
 msgid "Are you sure you want to delete "
 msgstr "¿Estas seguro que quieres borrarlo "
 
-#: src/widgets/info-box.vala:251
+#: src/widgets/info-box.vala:253
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: src/widgets/info-box.vala:269
+#: src/widgets/info-box.vala:271
 msgid "Install the runner"
 msgstr "Instalación de la herramienta de ejecución"
 
-#: src/widgets/info-box.vala:272
+#: src/widgets/info-box.vala:274
 msgid "Steam Flatpak is not supported"
 msgstr ""
 
-#: src/widgets/info-box.vala:272
+#: src/widgets/info-box.vala:274
 msgid ""
 "To install Steam Tinker Launch for Steam Flatpak, please run the following "
 "command:\n"
@@ -80,46 +86,46 @@ msgid ""
 "flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"
 msgstr ""
 
-#: src/widgets/info-box.vala:273 src/widgets/info-box.vala:277
+#: src/widgets/info-box.vala:275 src/widgets/info-box.vala:279
 #: src/releases/stl_release.vala:37 src/releases/stl_release.vala:47
 #: src/releases/stl_release.vala:75
 msgid "OK"
 msgstr ""
 
-#: src/widgets/info-box.vala:276
+#: src/widgets/info-box.vala:278
 msgid "Steam Snap is not supported"
 msgstr ""
 
-#: src/widgets/info-box.vala:276
+#: src/widgets/info-box.vala:278
 msgid "There's currently no known way to install STL for Steam"
 msgstr ""
 
-#: src/widgets/info-box.vala:322 src/widgets/info-box.vala:334
-#: src/widgets/info-box.vala:348
+#: src/widgets/info-box.vala:324 src/widgets/info-box.vala:336
+#: src/widgets/info-box.vala:350
 msgid "The installation of "
 msgstr "La instalación de "
 
-#: src/widgets/info-box.vala:322
+#: src/widgets/info-box.vala:324
 msgid " was cancelled"
 msgstr " fue cancelada"
 
-#: src/widgets/info-box.vala:334
+#: src/widgets/info-box.vala:336
 msgid " was started"
 msgstr " empezó"
 
-#: src/widgets/info-box.vala:348 src/widgets/info-box.vala:375
+#: src/widgets/info-box.vala:350 src/widgets/info-box.vala:377
 msgid " is done"
 msgstr " está hecha"
 
-#: src/widgets/info-box.vala:375
+#: src/widgets/info-box.vala:377
 msgid "The deletion of "
 msgstr "La eliminación de "
 
-#: src/widgets/info-box.vala:401
+#: src/widgets/info-box.vala:403
 msgid "An unexpected error occured while extracting "
 msgstr "Se ha producido un error inesperado al extraer "
 
-#: src/widgets/info-box.vala:404
+#: src/widgets/info-box.vala:406
 msgid "An unexpected error occured while installing "
 msgstr "Se ha producido un error inesperado al instalar "
 

@@ -229,18 +229,23 @@ namespace ProtonPlus.Widgets {
             btnDelete.set_tooltip_text (_("Delete the runner"));
             btnDelete.clicked.connect (() => {
                 if (release is Releases.STLRelease) {
-                    var dialog = new Adw.MessageDialog (Application.window, _("Delete SteamTinkerLaunch configuration"), _("Do you want ProtonPlus to delete your SteamTinkerLaunch configuration?"));
+                    var delete_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files"));
+
+                    var dialog = new Adw.MessageDialog (Application.window, _("Delete SteamTinkerLaunch"), _("You're about to delete STL from your system\nAre you sure you want this?"));
+                    dialog.set_extra_child (delete_check);
                     dialog.add_response ("no", _("No"));
                     dialog.add_response ("yes", _("Yes"));
                     dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
                     dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
                     dialog.show ();
                     dialog.response.connect ((response) => {
-                        var stl = (Releases.STLRelease) release;
-                        stl.delete_config = response == "yes";
-                        stl.remove.begin ((obj, res) => {
-                            stl.remove.end (res);
-                        });
+                        if (response == "yes") {
+                            var stl = (Releases.STLRelease) release;
+                            stl.delete_config = delete_check.get_active ();
+                            stl.remove.begin ((obj, res) => {
+                                stl.remove.end (res);
+                            });
+                        }
                     });
                 } else {
                     var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
