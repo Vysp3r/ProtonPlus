@@ -69,33 +69,6 @@ namespace ProtonPlus.Releases {
             var has_existing_install = FileUtils.test(STL_BASE_LOCATION, FileTest.EXISTS);
             if (has_existing_install)yield remove();
 
-            if (has_external_install || !has_existing_install) {
-                var dialog = new Adw.MessageDialog(Application.window, _("Add STL to PATH"), _("Do you want ProtonPlus to add STL to all available shell files?\n\nClick 'Skip' if you're unsure."));
-                dialog.add_response("skip", _("Skip"));
-                dialog.add_response("ok", _("OK"));
-                dialog.set_response_appearance("skip", Adw.ResponseAppearance.DEFAULT);
-                dialog.set_response_appearance("ok", Adw.ResponseAppearance.DESTRUCTIVE);
-
-                string response = yield dialog.choose(null);
-
-                if (response == "ok") {
-                    var datetime = new DateTime.now();
-                    string path_date = "# Added by ProtonPlus on " + datetime.to_string();
-                    string path_line = @"if [ -d \"$STL_BASE_LOCATION/prefix\" ]; then export PATH=\"" + "$PATH:" + @"$STL_BASE_LOCATION/prefix\"; fi";
-                    string[] supported_shell_files = { ".bashrc", ".zshrc", ".kshrc" };
-                    foreach (var sf in supported_shell_files) {
-                        if (FileUtils.test(Environment.get_home_dir() + @"/$sf", FileTest.EXISTS)) {
-                            var path = Environment.get_home_dir() + @"/$sf";
-                            var content = Utils.Filesystem.get_file_content(path);
-                            if (!content.contains(path)) {
-                                content += @"\n$path_date\n$path_line\n";
-                                Utils.Filesystem.modify_file(path, content);
-                            }
-                        }
-                    }
-                }
-            }
-
             error = ERRORS.NONE;
             status = STATUS.INSTALLING;
             installation_progress = 0;
@@ -172,22 +145,6 @@ namespace ProtonPlus.Releases {
 
             if (delete_config)
                 yield Utils.Filesystem.delete_directory(STL_CONFIG_LOCATION);
-
-            string[] supported_shell_files = { ".bashrc", ".zshrc", ".kshrc" };
-            foreach (var sf in supported_shell_files) {
-                if (FileUtils.test(Environment.get_home_dir() + @"/$sf", FileTest.EXISTS)) {
-                    var path = Environment.get_home_dir() + @"/$sf";
-                    var content = Utils.Filesystem.get_file_content(path);
-                    var start_word = "# Added by ProtonPlus";
-                    if (content.contains(start_word)) {
-                        var first_line_start_pos = content.index_of(start_word, 0) - 1;
-                        var second_line_start_pos = content.index_of("if", first_line_start_pos);
-                        var second_line_end_pos = content.index_of("; fi", second_line_start_pos) + "; fi".length + 1;
-                        content = content.splice(first_line_start_pos, second_line_end_pos, null);
-                        Utils.Filesystem.modify_file(path, content);
-                    }
-                }
-            }
 
             status = STATUS.UNINSTALLED;
         }
