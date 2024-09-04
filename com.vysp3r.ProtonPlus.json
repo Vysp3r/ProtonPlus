@@ -16,7 +16,15 @@
         "--talk-name=org.gtk.vfs.*",
         "--filesystem=xdg-run/gvfsd",
         "--talk-name=org.freedesktop.Flatpak",
-        "--filesystem=home"
+        "--filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam",
+        "--filesystem=~/.var/app/net.lutris.Lutris/data/lutris",
+        "--filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic",
+        "--filesystem=~/.var/app/com.usebottles.bottles/data/bottles",
+        "--filesystem=~/.steam/root",
+        "--filesystem=~/.config",
+        "--filesystem=~/.local",
+        "--filesystem=~/SteamTinkerLaunch",
+        "--filesystem=~/stl"
     ],
     "build-options": {
         "append-path": "/usr/lib/sdk/vala/bin",
