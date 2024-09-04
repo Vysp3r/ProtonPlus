@@ -24,6 +24,7 @@
         "--filesystem=~/.config",
         "--filesystem=~/.local",
         "--filesystem=~/SteamTinkerLaunch",
+        "--filesystem=~/stl",
         "--filesystem=~/.bashrc",
         "--filesystem=~/.zshrc",
         "--filesystem=~/.kshrc"
