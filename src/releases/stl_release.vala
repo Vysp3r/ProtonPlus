@@ -20,7 +20,7 @@ namespace ProtonPlus.Releases {
 
             delete_config = false;
             need_upgrade = false;
-            installed = FileUtils.test(STL_BASE_LOCATION, FileTest.EXISTS) && FileUtils.test(@"$STL_BASE_LOCATION/VERSION.txt", FileTest.EXISTS);
+            installed = FileUtils.test(STL_BASE_LOCATION, FileTest.EXISTS) && FileUtils.test(@"$STL_BASE_LOCATION/ProtonPlus.meta", FileTest.EXISTS);
 
             var soup_session = new Soup.Session();
             soup_session.set_user_agent(Utils.Web.get_user_agent());
@@ -45,7 +45,7 @@ namespace ProtonPlus.Releases {
             download_link = @"https://github.com/sonic2kk/steamtinkerlaunch/archive/$last_version.tar.gz";
 
             if (installed) {
-                var local_version = Utils.Filesystem.get_file_content(@"$STL_BASE_LOCATION/VERSION.txt");
+                var local_version = Utils.Filesystem.get_file_content(@"$STL_BASE_LOCATION/ProtonPlus.meta");
 
                 need_upgrade = last_version != local_version;
             }
@@ -194,7 +194,7 @@ namespace ProtonPlus.Releases {
 
             Utils.System.run_command(@"$STL_BASE_LOCATION/steamtinkerlaunch compat add");
 
-            Utils.Filesystem.create_file(@"$STL_BASE_LOCATION/VERSION.txt", last_version);
+            Utils.Filesystem.create_file(@"$STL_BASE_LOCATION/ProtonPlus.meta", last_version);
 
             installed = true;
 
