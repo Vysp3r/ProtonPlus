@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-04 16:46-0400\n"
+"POT-Creation-Date: 2024-09-05 14:06-0400\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -24,161 +24,160 @@ msgid "Installed only"
 msgstr "Tylko zainstalowane"
 
 #.
-#: src/widgets/info-box.vala:27
+#: src/widgets/info-box.vala:25
 msgid "About"
 msgstr "O aplikacji"
 
-#: src/widgets/info-box.vala:179 src/widgets/info-box.vala:187
+#: src/widgets/info-box.vala:181 src/widgets/info-box.vala:189
 msgid "Load more"
 msgstr "Wczytaj więcej"
 
-#: src/widgets/info-box.vala:202 src/widgets/info-box.vala:400
+#: src/widgets/info-box.vala:201 src/widgets/info-box.vala:430
 msgid "There was an error while fetching data from the GitHub API"
 msgstr "Wystąpił błąd podczas pobierania danych z API GitHub"
 
-#: src/widgets/info-box.vala:218
+#: src/widgets/info-box.vala:225
 msgid "Cancel the installation"
 msgstr "Anuluj instalację"
 
-#: src/widgets/info-box.vala:229
-msgid "Delete the runner"
-msgstr "Odinstaluj środowisko uruchomieniowe"
-
-#: src/widgets/info-box.vala:232
+#: src/widgets/info-box.vala:241
 msgid "Check this to also delete your configuration files"
 msgstr ""
 
-#: src/widgets/info-box.vala:234
+#: src/widgets/info-box.vala:243
 msgid "Delete SteamTinkerLaunch"
 msgstr ""
 
-#: src/widgets/info-box.vala:234
+#: src/widgets/info-box.vala:243
 msgid ""
 "You're about to delete STL from your system\n"
 "Are you sure you want this?"
 msgstr ""
 
-#: src/widgets/info-box.vala:236
+#: src/widgets/info-box.vala:245
 msgid "No"
 msgstr ""
 
-#: src/widgets/info-box.vala:237
+#: src/widgets/info-box.vala:246
 msgid "Yes"
 msgstr ""
 
-#: src/widgets/info-box.vala:251
+#: src/widgets/info-box.vala:260
 msgid "Are you sure you want to delete "
 msgstr "Jesteś pewien, że chcesz usunąć "
 
-#: src/widgets/info-box.vala:253
+#: src/widgets/info-box.vala:262
 msgid "Confirm"
 msgstr "Potwierdź"
 
-#: src/widgets/info-box.vala:271
+#: src/widgets/info-box.vala:276
+msgid "Delete STL"
+msgstr ""
+
+#: src/widgets/info-box.vala:278
+msgid "Delete the runner"
+msgstr "Odinstaluj środowisko uruchomieniowe"
+
+#: src/widgets/info-box.vala:289 src/widgets/info-box.vala:299
 msgid "Install the runner"
 msgstr "Zainstaluj środowisko uruchomieniowe"
 
-#: src/widgets/info-box.vala:274
-msgid "Steam Flatpak is not supported"
+#: src/widgets/info-box.vala:297
+#, fuzzy
+msgid "Install STL"
+msgstr "Tylko zainstalowane"
+
+#: src/widgets/info-box.vala:331
+msgid "Update STL to the latest version"
 msgstr ""
 
-#: src/widgets/info-box.vala:274
-msgid ""
-"To install Steam Tinker Launch for Steam Flatpak, please run the following "
-"command:\n"
-"\n"
-"flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"
+#: src/widgets/info-box.vala:334
+msgid "STL is up-to-date"
 msgstr ""
 
-#: src/widgets/info-box.vala:275 src/widgets/info-box.vala:279
-#: src/releases/stl_release.vala:37 src/releases/stl_release.vala:47
-#: src/releases/stl_release.vala:75
-msgid "OK"
-msgstr ""
-
-#: src/widgets/info-box.vala:278
-msgid "Steam Snap is not supported"
-msgstr ""
-
-#: src/widgets/info-box.vala:278
-msgid "There's currently no known way to install STL for Steam"
-msgstr ""
-
-#: src/widgets/info-box.vala:324 src/widgets/info-box.vala:336
-#: src/widgets/info-box.vala:350
+#: src/widgets/info-box.vala:354 src/widgets/info-box.vala:367
+#: src/widgets/info-box.vala:382
 msgid "The installation of "
 msgstr "Instalacja "
 
-#: src/widgets/info-box.vala:324
+#: src/widgets/info-box.vala:354
 msgid " was cancelled"
 msgstr " została anulowana"
 
-#: src/widgets/info-box.vala:336
+#: src/widgets/info-box.vala:367
 msgid " was started"
 msgstr " rozpoczęta"
 
-#: src/widgets/info-box.vala:350 src/widgets/info-box.vala:377
+#: src/widgets/info-box.vala:382 src/widgets/info-box.vala:411
 msgid " is done"
 msgstr " została zakończona"
 
-#: src/widgets/info-box.vala:377
+#: src/widgets/info-box.vala:411
 msgid "The deletion of "
 msgstr "Deinstalacja "
 
-#: src/widgets/info-box.vala:403
+#: src/widgets/info-box.vala:433
 msgid "An unexpected error occured while extracting "
 msgstr "Wystąpił nieoczekiwany błąd podczas wypakowywania "
 
-#: src/widgets/info-box.vala:406
+#: src/widgets/info-box.vala:436
 msgid "An unexpected error occured while installing "
 msgstr "Podczas instalacji wystąpił nieoczekiwany błąd "
 
-#: src/releases/stl_release.vala:36
+#: src/releases/stl_release.vala:59
+msgid "Steam Flatpak is not supported"
+msgstr ""
+
+#: src/releases/stl_release.vala:59
+msgid ""
+"To install Steam Tinker Launch for Steam Flatpak, please run the following "
+"command:"
+msgstr ""
+
+#: src/releases/stl_release.vala:60 src/releases/stl_release.vala:67
+#: src/releases/stl_release.vala:94 src/releases/stl_release.vala:110
+msgid "OK"
+msgstr ""
+
+#: src/releases/stl_release.vala:66
+msgid "Steam Snap is not supported"
+msgstr ""
+
+#: src/releases/stl_release.vala:66
+msgid "There's currently no known way to install STL for Steam Snap"
+msgstr ""
+
+#: src/releases/stl_release.vala:93
 msgid "Missing dependencies!"
 msgstr ""
 
-#: src/releases/stl_release.vala:36
+#: src/releases/stl_release.vala:93
 msgid ""
 "You have unmet dependencies for SteamTinkerLaunch\n"
 "\n"
 msgstr ""
 
-#: src/releases/stl_release.vala:36
+#: src/releases/stl_release.vala:93
 msgid ""
 "\n"
 "Installation will be cancelled"
 msgstr ""
 
-#: src/releases/stl_release.vala:45
+#: src/releases/stl_release.vala:108
 #, fuzzy
 msgid "Existing installation of STL"
 msgstr "Instalacja "
 
-#: src/releases/stl_release.vala:45
+#: src/releases/stl_release.vala:108
 msgid ""
 "It looks like there's a version of STL currently installed which was not "
 "installed by ProtonPlus.\n"
 "\n"
-"Do you wish to reinstall it with ProtonPlus?"
+"Do you want to delete it and install STL with ProtonPlus?"
 msgstr ""
 
-#: src/releases/stl_release.vala:46
+#: src/releases/stl_release.vala:109
 msgid "Cancel"
-msgstr ""
-
-#: src/releases/stl_release.vala:73
-msgid "Add STL to PATH"
-msgstr ""
-
-#: src/releases/stl_release.vala:73
-msgid ""
-"Do you want ProtonPlus to add STL to all available shell files?\n"
-"\n"
-"Click 'Skip' if you're unsure."
-msgstr ""
-
-#: src/releases/stl_release.vala:74
-msgid "Skip"
 msgstr ""
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
@@ -294,7 +293,7 @@ msgid ""
 "graphical configuration of game tools for Proton and native Linux games."
 msgstr ""
 
-#: src/models/release.vala:61
+#: src/models/release.vala:60
 msgid "Not available"
 msgstr "Niedostępne"
 

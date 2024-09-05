@@ -29,8 +29,7 @@ namespace ProtonPlus.Models {
             UNINSTALLED,
             INSTALLING,
             UNINSTALLING,
-            CANCELLED,
-            UNINSTALLED_SILENTLY
+            CANCELLED
         }
 
         public ERRORS error { get; set; }

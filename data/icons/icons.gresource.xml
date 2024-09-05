@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/com/vysp3r/ProtonPlus/icons">
+        <file alias="scalable/actions/circle-check-symbolic.svg">circle-check.svg</file>
+        <file alias="scalable/actions/circle-chevron-up-symbolic.svg">circle-chevron-up.svg</file>
+        <file alias="scalable/actions/trash-symbolic.svg">trash.svg</file>
+        <file alias="scalable/actions/download-symbolic.svg">download.svg</file>
     </gresource>
 </gresources>

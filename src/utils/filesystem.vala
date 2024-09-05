@@ -166,7 +166,7 @@ namespace ProtonPlus.Utils {
                     continue;
                 }
 
-                Posix.stat (path + "/" + (string) cur_d.d_name, out stat_);
+                Posix.lstat (path + "/" + (string) cur_d.d_name, out stat_);
 
                 if (Posix.S_ISDIR (stat_.st_mode)) {
                     if (delete_directory_direct (path + "/" + (string) cur_d.d_name) != true)
@@ -218,7 +218,7 @@ namespace ProtonPlus.Utils {
                     continue;
                 }
 
-                Posix.stat (path + "/" + (string) cur_d.d_name, out stat_);
+                Posix.lstat (path + "/" + (string) cur_d.d_name, out stat_);
 
                 if (Posix.S_ISDIR (stat_.st_mode)) {
                     size += get_directory_size (path + "/" + (string) cur_d.d_name);

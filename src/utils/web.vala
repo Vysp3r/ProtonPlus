@@ -4,7 +4,7 @@ namespace ProtonPlus.Utils {
             return Constants.APP_NAME + "/" + Constants.APP_VERSION;
         }
 
-        public static async string ? GET (string url) {
+        public static async string ? GET (string url, bool stl = false) {
             try {
                 var session = new Soup.Session ();
                 session.set_user_agent (get_user_agent ());
@@ -76,7 +76,7 @@ namespace ProtonPlus.Utils {
                     bytes_downloaded += output_stream.write (chunk.get_data ());
 
                     if (progress_callback != null) {
-                        var progress = (int) (((double) bytes_downloaded / download_size) * 100);
+                        var progress = (int) (((double) bytes_downloaded / download_size) * 99);
                         progress_callback (progress);
                     }
                 }

@@ -80,6 +80,11 @@ namespace ProtonPlus.Models {
         }
 
         public void load (bool installed_only) {
+            if (title == "SteamTinkerLaunch") {
+                loaded = true;
+                return;
+            }
+
             new Thread<void> ("load", () => {
                 if (installed_only) {
                     installed_loaded = false;
@@ -121,7 +126,7 @@ namespace ProtonPlus.Models {
         }
 
         void load_all () {
-            Utils.Web.GET.begin (endpoint + "?per_page=25&page=" + page++.to_string (), (obj, res) => {
+            Utils.Web.GET.begin (endpoint + "?per_page=25&page=" + page++.to_string (), false, (obj, res) => {
                 string? json = Utils.Web.GET.end (res);
 
                 if (json == null || json.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting")) {
@@ -197,16 +202,6 @@ namespace ProtonPlus.Models {
             var rootNodeArray = rootNode.get_array ();
             if (rootNodeArray == null)return;
 
-            //
-            string installed_stl_version = "";
-            string stl_path = Environment.get_home_dir () + "/stl/prefix/steamtinkerlaunch";
-            if (title == "SteamTinkerLaunch" && FileUtils.test (stl_path, FileTest.EXISTS)) {
-                var temp = Utils.Filesystem.get_file_content (stl_path);
-                var temp_pos = temp.index_of ("PROGVERS=", 0) + "PROGVERS=".length + 1;
-                var temp_pos2 = temp.index_of ("\"", temp_pos);
-                installed_stl_version = temp.substring (temp_pos, temp_pos2 - temp_pos);
-            }
-
             // Execute a loop with the number of items contained in the Version array and fill it
             for (var i = 0; i < rootNodeArray.get_length (); i++) {
                 string tag = "";
@@ -239,30 +234,20 @@ namespace ProtonPlus.Models {
 
                     release_date = objRoot.get_string_member ("created_at").split ("T")[0];
 
-                    if (title == "SteamTinkerLaunch") {
-                        download_url = objRoot.get_string_member ("tarball_url");
+                    // Get the temp node array for the assets
+                    var tempNodeArray = objRoot.get_array_member ("assets");
 
-                        var release = new Releases.STLRelease (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz");
-                        releases.append (release);
+                    int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
 
-                        if (tag == installed_stl_version && group.launcher.title == "Steam" && group.launcher.type == "System")
-                            release.installed = true;
-                    } else {
-                        // Get the temp node array for the assets
-                        var tempNodeArray = objRoot.get_array_member ("assets");
+                    // Verify weither the temp node array has values
+                    if (tempNodeArray.get_length () - 1 >= pos) {
+                        var tempNodeArrayAsset = tempNodeArray.get_element (pos);
+                        var objAsset = tempNodeArrayAsset.get_object ();
 
-                        int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
+                        download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
+                        download_size = objAsset.get_int_member ("size");
 
-                        // Verify weither the temp node array has values
-                        if (tempNodeArray.get_length () - 1 >= pos) {
-                            var tempNodeArrayAsset = tempNodeArray.get_element (pos);
-                            var objAsset = tempNodeArrayAsset.get_object ();
-
-                            download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
-                            download_size = objAsset.get_int_member ("size");
-
-                            releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz")); // Currently here to prevent showing release with an invalid download_url
-                        }
+                        releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz")); // Currently here to prevent showing release with an invalid download_url
                     }
                 }
             }
