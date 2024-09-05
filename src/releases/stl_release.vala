@@ -27,6 +27,7 @@ namespace ProtonPlus.Releases {
 
             var soup_message = new Soup.Message("GET", "https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1");
             soup_message.response_headers.append("Accept", "application/vnd.github.sha");
+            soup_message.response_headers.append("X-GitHub-Api-Version", "2022-11-28");
 
             var bytes = soup_session.send_and_read(soup_message, null);
 
