@@ -216,7 +216,7 @@ namespace ProtonPlus.Widgets {
             var spinner = new Gtk.Spinner ();
             spinner.set_visible (false);
 
-            var iconCancel = new Gtk.Image.from_icon_name ("process-stop-symbolic");
+            var iconCancel = new Gtk.Image.from_icon_name ("x-symbolic");
             iconCancel.set_pixel_size (20);
 
             var btnCancel = new Gtk.Button ();
