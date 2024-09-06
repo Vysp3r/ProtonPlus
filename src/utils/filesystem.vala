@@ -166,15 +166,18 @@ namespace ProtonPlus.Utils {
                     continue;
                 }
 
-                Posix.lstat (path + "/" + (string) cur_d.d_name, out stat_);
+                // NOTE: `lstat()` is very important to avoid following symlinks,
+                // otherwise we would wipe out the link target's contents too.
+                if (Posix.lstat (path + "/" + (string) cur_d.d_name, out stat_) != 0)
+                    return false;
 
                 if (Posix.S_ISDIR (stat_.st_mode)) {
-                    if (delete_directory_direct (path + "/" + (string) cur_d.d_name) != true)
+                    if (!delete_directory_direct (path + "/" + (string) cur_d.d_name))
                         return false;
                     if (Posix.rmdir (path + "/" + (string) cur_d.d_name) != 0)
                         return false;
                 } else {
-                    if (delete_file_direct (path + "/" + (string) cur_d.d_name) != true)
+                    if (!delete_file_direct (path + "/" + (string) cur_d.d_name))
                         return false;
                 }
             }
@@ -187,7 +190,7 @@ namespace ProtonPlus.Utils {
 
             bool output = false;
             new Thread<void> ("delete_directory", () => {
-                if (delete_directory_direct (path) == true) {
+                if (delete_directory_direct (path)) {
                     if (Posix.rmdir (path) == 0) {
                         output = true;
                     }
@@ -254,7 +257,11 @@ namespace ProtonPlus.Utils {
                     continue;
                 }
 
-                Posix.lstat (path + "/" + (string) cur_d.d_name, out stat_);
+                // NOTE: `lstat()` is very important to avoid following symlinks,
+                // to get an accurate count of bytes within real files (not links).
+                if (Posix.lstat (path + "/" + (string) cur_d.d_name, out stat_) != 0) {
+                    continue;
+                }
 
                 if (Posix.S_ISDIR (stat_.st_mode)) {
                     size += get_directory_size (path + "/" + (string) cur_d.d_name);
