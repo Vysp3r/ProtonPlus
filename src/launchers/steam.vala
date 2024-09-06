@@ -262,7 +262,7 @@ namespace ProtonPlus.Launchers {
                 if (has_existing_install)
                     yield remove (false);
 
-                if (!FileUtils.test (base_location, FileTest.EXISTS))
+                if (!FileUtils.test (base_location, FileTest.IS_DIR))
                     if (!Utils.Filesystem.create_directory (base_location))
                         return false;
 
@@ -280,21 +280,21 @@ namespace ProtonPlus.Launchers {
 
                 Utils.Filesystem.rename (source_path, base_location);
 
-                try {
-                    if (!Utils.Filesystem.create_directory (link_parent_location))
-                        return false;
+                if (!Utils.Filesystem.create_directory (link_parent_location))
+                    return false;
 
-                    var file = File.new_for_path (link_location);
-                    if (file.query_exists (null)) {
-                        // Only attempt to delete the file if it's already a symlink.
-                        if (FileUtils.test (link_location, FileTest.IS_SYMLINK)) {
-                            var link_deleted = Utils.Filesystem.delete_file (link_location);
-                            if (!link_deleted)
-                                return false;
-                        }
+                var file = File.new_for_path (link_location);
+                if (file.query_exists (null)) {
+                    // Only attempt to delete the file if it's already a symlink.
+                    if (FileUtils.test (link_location, FileTest.IS_SYMLINK)) {
+                        var link_deleted = Utils.Filesystem.delete_file (link_location);
+                        if (!link_deleted)
+                            return false;
                     }
+                }
 
-                    // Try to create the symlink (will fail if file exists or no permission).
+                try {
+                    // Try to create the symlink (will fail if file exists or no permission)
                     yield file.make_symbolic_link_async (binary_location, Priority.DEFAULT, null);
                 } catch (Error e) {
                     return false;
@@ -319,14 +319,14 @@ namespace ProtonPlus.Launchers {
             public static async bool remove (bool delete_config) {
                 exec_stl_if_exists (binary_location, "compat del");
 
-                if (FileUtils.test (link_location, GLib.FileTest.EXISTS)) {
+                if (FileUtils.test (link_location, GLib.FileTest.IS_SYMLINK)) {
                     var link_deleted = Utils.Filesystem.delete_file (link_location);
 
                     if (!link_deleted)
                         return false;
                 }
 
-                if (FileUtils.test (base_location, GLib.FileTest.EXISTS)) {
+                if (FileUtils.test (base_location, GLib.FileTest.IS_DIR)) {
                     var base_deleted = yield Utils.Filesystem.delete_directory (base_location);
 
                     if (!base_deleted)
@@ -334,7 +334,7 @@ namespace ProtonPlus.Launchers {
                 }
 
 
-                if (delete_config && FileUtils.test (config_location, GLib.FileTest.EXISTS)) {
+                if (delete_config && FileUtils.test (config_location, GLib.FileTest.IS_DIR)) {
                     var config_deleted = yield Utils.Filesystem.delete_directory (config_location);
 
                     if (!config_deleted)
