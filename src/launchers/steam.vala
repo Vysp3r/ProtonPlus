@@ -169,7 +169,7 @@ namespace ProtonPlus.Launchers {
 
                     var root_array = root_node.get_array ();
 
-                    if (root_array.get_length () != 1)
+                    if (root_array.get_length () < 1)
                         return "";
 
                     var temp_node = root_array.get_element (0);
