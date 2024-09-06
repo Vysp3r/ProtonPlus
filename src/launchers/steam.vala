@@ -197,7 +197,7 @@ namespace ProtonPlus.Launchers {
                 }
                 if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
 
-                if (!Utils.System.check_dependency ("awk") && !Utils.System.check_dependency ("gawk"))missing_dependencies += "awk-gawk\n";
+                if (!Utils.System.check_dependency ("awk") && !Utils.System.check_dependency ("gawk"))missing_dependencies += "awk/gawk\n";
                 if (!Utils.System.check_dependency ("git"))missing_dependencies += "git\n";
                 if (!Utils.System.check_dependency ("pgrep"))missing_dependencies += "pgrep\n";
                 if (!Utils.System.check_dependency ("unzip"))missing_dependencies += "unzip\n";
