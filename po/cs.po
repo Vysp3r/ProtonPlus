@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-05 14:06-0400\n"
+"POT-Creation-Date: 2024-09-05 21:02-0400\n"
 "PO-Revision-Date: 2023-04-10 11:40+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: \n"
@@ -27,162 +27,70 @@ msgstr "Nainstalovat"
 msgid "About"
 msgstr "O aplikaci"
 
-#: src/widgets/info-box.vala:181 src/widgets/info-box.vala:189
+#: src/widgets/info-box.vala:186 src/widgets/info-box.vala:194
 msgid "Load more"
 msgstr ""
 
-#: src/widgets/info-box.vala:201 src/widgets/info-box.vala:430
+#: src/widgets/info-box.vala:206 src/widgets/info-box.vala:366
 #, fuzzy
 msgid "There was an error while fetching data from the GitHub API"
 msgstr "Během rozbalování došlo k chybě..."
 
-#: src/widgets/info-box.vala:225
+#: src/widgets/info-box.vala:230 src/launchers/steam.vala:341
 #, fuzzy
 msgid "Cancel the installation"
 msgstr "Instalace byla zrušena..."
 
-#: src/widgets/info-box.vala:241
-msgid "Check this to also delete your configuration files"
-msgstr ""
-
-#: src/widgets/info-box.vala:243
-msgid "Delete SteamTinkerLaunch"
-msgstr ""
-
-#: src/widgets/info-box.vala:243
-msgid ""
-"You're about to delete STL from your system\n"
-"Are you sure you want this?"
-msgstr ""
-
-#: src/widgets/info-box.vala:245
-msgid "No"
-msgstr ""
-
-#: src/widgets/info-box.vala:246
-msgid "Yes"
-msgstr ""
-
-#: src/widgets/info-box.vala:260
-msgid "Are you sure you want to delete "
-msgstr ""
-
-#: src/widgets/info-box.vala:262
-msgid "Confirm"
-msgstr ""
-
-#: src/widgets/info-box.vala:276
-#, fuzzy
-msgid "Delete STL"
-msgstr "Smazat"
-
-#: src/widgets/info-box.vala:278
+#: src/widgets/info-box.vala:244
 msgid "Delete the runner"
 msgstr ""
 
-#: src/widgets/info-box.vala:289 src/widgets/info-box.vala:299
+#: src/widgets/info-box.vala:246
+msgid "Are you sure you want to delete "
+msgstr ""
+
+#: src/widgets/info-box.vala:248
+msgid "Confirm"
+msgstr ""
+
+#: src/widgets/info-box.vala:268
 msgid "Install the runner"
 msgstr ""
 
-#: src/widgets/info-box.vala:297
-#, fuzzy
-msgid "Install STL"
-msgstr "Nainstalovat"
-
-#: src/widgets/info-box.vala:331
-msgid "Update STL to the latest version"
-msgstr ""
-
-#: src/widgets/info-box.vala:334
-msgid "STL is up-to-date"
-msgstr ""
-
-#: src/widgets/info-box.vala:354 src/widgets/info-box.vala:367
-#: src/widgets/info-box.vala:382
+#: src/widgets/info-box.vala:295 src/widgets/info-box.vala:307
+#: src/widgets/info-box.vala:321 src/launchers/steam.vala:458
+#: src/launchers/steam.vala:486 src/launchers/steam.vala:488
 #, fuzzy
 msgid "The installation of "
 msgstr "Instalace byla zrušena..."
 
-#: src/widgets/info-box.vala:354
+#: src/widgets/info-box.vala:295 src/launchers/steam.vala:488
 msgid " was cancelled"
 msgstr ""
 
-#: src/widgets/info-box.vala:367
+#: src/widgets/info-box.vala:307 src/launchers/steam.vala:412
+#: src/launchers/steam.vala:458
 #, fuzzy
 msgid " was started"
 msgstr "Stahování zahájeno...\n"
 
-#: src/widgets/info-box.vala:382 src/widgets/info-box.vala:411
+#: src/widgets/info-box.vala:321 src/widgets/info-box.vala:348
+#: src/launchers/steam.vala:392 src/launchers/steam.vala:440
+#: src/launchers/steam.vala:486
 msgid " is done"
 msgstr ""
 
-#: src/widgets/info-box.vala:411
+#: src/widgets/info-box.vala:348 src/launchers/steam.vala:392
 msgid "The deletion of "
 msgstr ""
 
-#: src/widgets/info-box.vala:433
+#: src/widgets/info-box.vala:369
 msgid "An unexpected error occured while extracting "
 msgstr ""
 
-#: src/widgets/info-box.vala:436
+#: src/widgets/info-box.vala:372 src/launchers/steam.vala:490
 msgid "An unexpected error occured while installing "
 msgstr ""
-
-#: src/releases/stl_release.vala:59
-msgid "Steam Flatpak is not supported"
-msgstr ""
-
-#: src/releases/stl_release.vala:59
-msgid ""
-"To install Steam Tinker Launch for Steam Flatpak, please run the following "
-"command:"
-msgstr ""
-
-#: src/releases/stl_release.vala:60 src/releases/stl_release.vala:67
-#: src/releases/stl_release.vala:94 src/releases/stl_release.vala:110
-msgid "OK"
-msgstr ""
-
-#: src/releases/stl_release.vala:66
-msgid "Steam Snap is not supported"
-msgstr ""
-
-#: src/releases/stl_release.vala:66
-msgid "There's currently no known way to install STL for Steam Snap"
-msgstr ""
-
-#: src/releases/stl_release.vala:93
-msgid "Missing dependencies!"
-msgstr ""
-
-#: src/releases/stl_release.vala:93
-msgid ""
-"You have unmet dependencies for SteamTinkerLaunch\n"
-"\n"
-msgstr ""
-
-#: src/releases/stl_release.vala:93
-msgid ""
-"\n"
-"Installation will be cancelled"
-msgstr ""
-
-#: src/releases/stl_release.vala:108
-#, fuzzy
-msgid "Existing installation of STL"
-msgstr "Instalace byla zrušena..."
-
-#: src/releases/stl_release.vala:108
-msgid ""
-"It looks like there's a version of STL currently installed which was not "
-"installed by ProtonPlus.\n"
-"\n"
-"Do you want to delete it and install STL with ProtonPlus?"
-msgstr ""
-
-#: src/releases/stl_release.vala:109
-msgid "Cancel"
-msgstr "Zrušit"
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
@@ -291,6 +199,123 @@ msgstr ""
 msgid ""
 "Linux wrapper tool for use with the Steam client which allows for easy "
 "graphical configuration of game tools for Proton and native Linux games."
+msgstr ""
+
+#: src/launchers/steam.vala:214
+msgid "Missing dependencies!"
+msgstr ""
+
+#: src/launchers/steam.vala:214
+msgid ""
+"You have unmet dependencies for SteamTinkerLaunch\n"
+"\n"
+msgstr ""
+
+#: src/launchers/steam.vala:214
+msgid ""
+"\n"
+"Installation will be cancelled"
+msgstr ""
+
+#: src/launchers/steam.vala:215 src/launchers/steam.vala:231
+#: src/launchers/steam.vala:500 src/launchers/steam.vala:505
+#: src/launchers/steam.vala:510
+msgid "OK"
+msgstr ""
+
+#: src/launchers/steam.vala:229
+#, fuzzy
+msgid "Existing installation of STL"
+msgstr "Instalace byla zrušena..."
+
+#: src/launchers/steam.vala:229
+msgid ""
+"It looks like there's a version of STL currently installed which was not "
+"installed by ProtonPlus.\n"
+"\n"
+"Do you want to delete it and install STL with ProtonPlus?"
+msgstr ""
+
+#: src/launchers/steam.vala:230
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: src/launchers/steam.vala:342
+#, fuzzy
+msgid "Delete STL"
+msgstr "Smazat"
+
+#: src/launchers/steam.vala:345
+#, fuzzy
+msgid "Install STL"
+msgstr "Nainstalovat"
+
+#: src/launchers/steam.vala:346
+msgid "Show more information"
+msgstr ""
+
+#: src/launchers/steam.vala:359
+msgid "Check this to also delete your configuration files"
+msgstr ""
+
+#: src/launchers/steam.vala:361
+msgid "Delete SteamTinkerLaunch"
+msgstr ""
+
+#: src/launchers/steam.vala:361
+msgid ""
+"You're about to delete STL from your system\n"
+"Are you sure you want this?"
+msgstr ""
+
+#: src/launchers/steam.vala:363
+msgid "No"
+msgstr ""
+
+#: src/launchers/steam.vala:364
+msgid "Yes"
+msgstr ""
+
+#: src/launchers/steam.vala:394
+msgid "An unexpected error occured while deleting "
+msgstr ""
+
+#: src/launchers/steam.vala:410
+msgid " is already up-to-date"
+msgstr ""
+
+#: src/launchers/steam.vala:412 src/launchers/steam.vala:440
+msgid "The upgrade of "
+msgstr ""
+
+#: src/launchers/steam.vala:442
+msgid "An unexpected error occured while upgrading "
+msgstr ""
+
+#: src/launchers/steam.vala:450
+msgid "STL is up-to-date"
+msgstr ""
+
+#: src/launchers/steam.vala:453
+msgid "Update STL to the latest version"
+msgstr ""
+
+#: src/launchers/steam.vala:499 src/launchers/steam.vala:509
+msgid "Steam Flatpak is not supported"
+msgstr ""
+
+#: src/launchers/steam.vala:499 src/launchers/steam.vala:509
+msgid ""
+"To install Steam Tinker Launch for Steam Flatpak, please run the following "
+"command:"
+msgstr ""
+
+#: src/launchers/steam.vala:504
+msgid "Steam Snap is not supported"
+msgstr ""
+
+#: src/launchers/steam.vala:504
+msgid "There's currently no known way to install STL for Steam Snap"
 msgstr ""
 
 #: src/models/release.vala:60

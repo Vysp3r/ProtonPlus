@@ -26,8 +26,6 @@ sources = files(
   'launchers/lutris.vala',
   'launchers/steam.vala',
 
-  'releases/stl_release.vala',
-
   'models/group.vala',
   'models/launcher.vala',
   'models/release.vala',

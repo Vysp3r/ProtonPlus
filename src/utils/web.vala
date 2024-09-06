@@ -76,7 +76,7 @@ namespace ProtonPlus.Utils {
                     bytes_downloaded += output_stream.write (chunk.get_data ());
 
                     if (progress_callback != null) {
-                        var progress = (int) (((double) bytes_downloaded / download_size) * 99);
+                        var progress = (int) (((double) bytes_downloaded / download_size) * 100);
                         progress_callback (progress);
                     }
                 }

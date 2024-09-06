@@ -72,6 +72,12 @@ namespace ProtonPlus.Widgets {
                     content_normal.append (preferences_group);
 
                     foreach (var runner in group.runners) {
+                        if (runner.title == "SteamTinkerLaunch" && launcher.title == "Steam" && launcher.type == "System") {
+                            var success = Launchers.Steam.STL.init (runner.group.launcher.directory + "/" + runner.group.directory, toast_overlay);
+                            if (!success)
+                                continue;
+                        }
+
                         var spinner = new Gtk.Spinner ();
                         spinner.set_visible (false);
 
@@ -158,8 +164,7 @@ namespace ProtonPlus.Widgets {
 
         void load_row (Gtk.Spinner spinner, Models.Runner runner, Adw.ExpanderRow runner_row) {
             if (runner.title == "SteamTinkerLaunch") {
-                var release = new Releases.STLRelease (runner);
-                runner_row.add_row (create_release_row (release));
+                runner_row.add_row (Launchers.Steam.STL.create_action_row (runner.group.launcher.type));
             } else {
                 uint previous_count = installedOnly ? 0 : runner.releases.length () < 25 ? 0 : runner.releases.length () - 25;
 
@@ -236,47 +241,21 @@ namespace ProtonPlus.Widgets {
             btnDelete.height_request = 40;
             btnDelete.add_css_class ("flat");
             btnDelete.set_child (iconDelete);
+            btnDelete.set_tooltip_text (_("Delete the runner"));
             btnDelete.clicked.connect (() => {
-                if (release is Releases.STLRelease) {
-                    var delete_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files"));
+                var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
+                toast.set_timeout (30000);
+                toast.set_button_label (_("Confirm"));
 
-                    var dialog = new Adw.MessageDialog (Application.window, _("Delete SteamTinkerLaunch"), _("You're about to delete STL from your system\nAre you sure you want this?"));
-                    dialog.set_extra_child (delete_check);
-                    dialog.add_response ("no", _("No"));
-                    dialog.add_response ("yes", _("Yes"));
-                    dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
-                    dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
-                    dialog.show ();
-                    dialog.response.connect ((response) => {
-                        if (response == "yes") {
-                            var stl = (Releases.STLRelease) release;
-                            stl.delete_config = delete_check.get_active ();
-                            stl.remove.begin ((obj, res) => {
-                                stl.remove.end (res);
-                            });
-                        }
+                toast.button_clicked.connect (() => {
+                    release.remove.begin ((obj, res) => {
+                        release.remove.end (res);
+                        toast.dismiss ();
                     });
-                } else {
-                    var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
-                    toast.set_timeout (30000);
-                    toast.set_button_label (_("Confirm"));
+                });
 
-                    toast.button_clicked.connect (() => {
-                        release.remove.begin ((obj, res) => {
-                            release.remove.end (res);
-                            toast.dismiss ();
-                        });
-                    });
-
-                    toast_overlay.add_toast (toast);
-                }
+                toast_overlay.add_toast (toast);
             });
-
-            if (release is Releases.STLRelease) {
-                btnDelete.set_tooltip_text (_("Delete STL"));
-            } else {
-                btnDelete.set_tooltip_text (_("Delete the runner"));
-            }
 
             var iconInstall = new Gtk.Image.from_icon_name ("download-symbolic");
             iconInstall.set_pixel_size (20);
@@ -293,49 +272,12 @@ namespace ProtonPlus.Widgets {
                 });
             });
 
-            if (release is Releases.STLRelease) {
-                btnInstall.set_tooltip_text (_("Install STL"));
-            } else {
-                btnInstall.set_tooltip_text (_("Install the runner"));
-            }
-
-            var iconUpgrade = new Gtk.Image ();
-            iconUpgrade.set_pixel_size (20);
-
-            var btnUpgrade = new Gtk.Button ();
-            btnUpgrade.set_child (iconUpgrade);
-            btnUpgrade.add_css_class ("flat");
-            btnUpgrade.width_request = 40;
-            btnUpgrade.height_request = 40;
-            btnUpgrade.clicked.connect (() => {
-                var stl_release = (Releases.STLRelease) release;
-                if (stl_release.need_upgrade) {
-                    stl_release.upgrade.begin ((obj, res) => {
-                        stl_release.upgrade.end (res);
-                    });
-                }
-            });
-
             if (release.runner.api_error && !release.installed) {
                 btnDelete.set_visible (false);
                 btnInstall.set_visible (false);
-                btnUpgrade.set_visible (false);
             } else {
                 btnDelete.set_visible (release.installed);
                 btnInstall.set_visible (!release.installed);
-
-                if (release is Releases.STLRelease) {
-                    btnUpgrade.set_visible (release.installed);
-                    var stl_release = (Releases.STLRelease) release;
-                    if (stl_release.need_upgrade) {
-                        btnUpgrade.set_tooltip_text (_("Update STL to the latest version"));
-                        iconUpgrade.set_from_icon_name ("circle-chevron-up-symbolic");
-                    } else {
-                        btnUpgrade.set_tooltip_text (_("STL is up-to-date"));
-                        iconUpgrade.set_from_icon_name ("circle-check-symbolic");
-                    }
-                } else
-                    btnUpgrade.set_visible (false);
             }
 
             var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
@@ -345,7 +287,6 @@ namespace ProtonPlus.Widgets {
             actions.append (spinner);
             actions.append (btnCancel);
             actions.append (btnDelete);
-            actions.append (btnUpgrade);
             actions.append (btnInstall);
 
             release.notify["status"].connect (() => {
@@ -360,7 +301,6 @@ namespace ProtonPlus.Widgets {
 
                         btnDelete.set_visible (false);
                         btnInstall.set_visible (true);
-                        btnUpgrade.set_visible (false);
 
                         break;
                     case Models.Release.STATUS.INSTALLING:
@@ -375,7 +315,6 @@ namespace ProtonPlus.Widgets {
 
                         btnDelete.set_visible (false);
                         btnInstall.set_visible (false);
-                        btnUpgrade.set_visible (false);
 
                         break;
                     case Models.Release.STATUS.INSTALLED:
@@ -390,7 +329,6 @@ namespace ProtonPlus.Widgets {
 
                         btnDelete.set_visible (true);
                         btnInstall.set_visible (false);
-                        btnUpgrade.set_visible (true);
 
                         break;
                     case Models.Release.STATUS.UNINSTALLING:
@@ -401,7 +339,6 @@ namespace ProtonPlus.Widgets {
 
                         btnDelete.set_visible (false);
                         btnInstall.set_visible (false);
-                        btnUpgrade.set_visible (false);
 
                         break;
                     case Models.Release.STATUS.UNINSTALLED:
@@ -418,7 +355,6 @@ namespace ProtonPlus.Widgets {
 
                         btnDelete.set_visible (false);
                         btnInstall.set_visible (true);
-                        btnUpgrade.set_visible (false);
 
                         break;
                 }
