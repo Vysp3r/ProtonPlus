@@ -85,6 +85,7 @@ namespace ProtonPlus.Launchers {
             static string parent_location;
             static string base_location;
             static string meta_location;
+            static string link_location;
             static string config_location;
             static List<string> external_locations;
 
@@ -108,6 +109,7 @@ namespace ProtonPlus.Launchers {
                 parent_location = @"$home_location/.local/share";
                 base_location = @"$parent_location/steamtinkerlaunch";
                 meta_location = @"$base_location/ProtonPlus.meta";
+                link_location = @"$home_location/.local/bin/steamtinkerlaunch";
                 config_location = @"$home_location/.config/steamtinkerlaunch";
                 external_locations = new List<string> ();
                 external_locations.append (@"$home_location/SteamTinkerLaunch");
@@ -275,6 +277,18 @@ namespace ProtonPlus.Launchers {
 
                 Utils.Filesystem.rename (source_path, base_location);
 
+                var file = File.new_for_path (@"$base_location/steamtinkerlaunch");
+                if (!file.query_exists (null)) {
+                    return false;
+                }
+
+                try {
+                    yield file.make_symbolic_link_async (link_location, Priority.DEFAULT, null);
+                } catch (Error e) {
+                    return false;
+                }
+
+
                 if (Utils.System.IS_STEAM_OS) {
                     // Trigger STL's dependency installer for Steam Deck users.
                     exec_stl (@"$base_location/steamtinkerlaunch", "");
@@ -294,6 +308,10 @@ namespace ProtonPlus.Launchers {
             public static async bool remove (bool delete_config) {
                 exec_stl_if_exists (@"$base_location/steamtinkerlaunch", "compat del");
 
+                var link_deleted = Utils.Filesystem.delete_file (link_location);
+                if (!link_deleted)
+                    return false;
+
                 var base_deleted = yield Utils.Filesystem.delete_directory (base_location);
 
                 if (!base_deleted)
@@ -311,7 +329,7 @@ namespace ProtonPlus.Launchers {
 
             static void exec_stl_if_exists (string exec_location, string args) {
                 if (FileUtils.test (exec_location, FileTest.IS_REGULAR)) {
-                    exec_stl(exec_location, args);
+                    exec_stl (exec_location, args);
                 }
             }
 
