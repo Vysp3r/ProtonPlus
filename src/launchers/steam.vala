@@ -305,7 +305,7 @@ namespace ProtonPlus.Launchers {
 
                 // Trigger STL's dependency installer for Steam Deck users.
                 if (Utils.System.IS_STEAM_OS)
-                    exec_stl (@"$base_location/steamtinkerlaunch", "");
+                    exec_stl (binary_location, "");
 
                 exec_stl (binary_location, "compat add");
 
@@ -315,6 +315,16 @@ namespace ProtonPlus.Launchers {
             }
 
             public static async bool upgrade () {
+                var removed = yield remove (false);
+
+                if (!removed)
+                    return false;
+
+                var installed = yield install ();
+
+                if (!installed)
+                    return false;
+
                 return true;
             }
 
