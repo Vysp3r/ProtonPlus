@@ -189,12 +189,13 @@ namespace ProtonPlus.Launchers {
             public static async bool install () {
                 var missing_dependencies = "";
 
+                var yad_installed = false;
                 if (Utils.System.check_dependency ("yad")) {
                     string stdout = Utils.System.run_command ("yad --version");
                     float version = float.parse (stdout.split (" ")[0]);
-                    var yad_installed = version >= 7.2;
-                    if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
+                    yad_installed = version >= 7.2;
                 }
+                if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
 
                 if (!Utils.System.check_dependency ("awk") && !Utils.System.check_dependency ("gawk"))missing_dependencies += "awk-gawk\n";
                 if (!Utils.System.check_dependency ("git"))missing_dependencies += "git\n";
