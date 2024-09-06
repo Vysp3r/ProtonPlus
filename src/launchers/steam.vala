@@ -256,8 +256,10 @@ namespace ProtonPlus.Launchers {
                 if (has_existing_install)
                     yield remove (false);
 
-                if (!FileUtils.test (base_location, FileTest.EXISTS))
-                    Utils.Filesystem.create_directory (base_location);
+                if (!FileUtils.test (base_location, FileTest.EXISTS)) {
+                    if (!Utils.Filesystem.create_directory (base_location))
+                        return false;
+                }
 
                 string download_path = parent_location + "/" + title + ".zip";
 

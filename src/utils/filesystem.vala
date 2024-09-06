@@ -199,8 +199,44 @@ namespace ProtonPlus.Utils {
             return output;
         }
 
-        public static void create_directory (string path) {
-            Posix.mkdir (path, Posix.S_IRWXU);
+        public static bool create_directory (string path) {
+            // We can safely split on slashes since they're illegal as filenames.
+            var has_leading_slash = path.index_of_char ('/') == 0;
+            var parts = path.split ("/");
+
+            // Create the target directory components in a top-down fashion.
+            // NOTE: If caller gives us a path with `..` such as `/foo/bar/../baz`,
+            // then we will end up creating both `/foo/bar` and `/foo/baz`, because
+            // there is no easy way to preprocess such directory traversals. 
+            Posix.Stat stat_;
+            var current_path = "";
+            foreach (string p in parts) {
+                if (p == "")
+                    continue;
+
+                if (current_path == "" && !has_leading_slash)
+                    current_path = p;
+                else
+                    current_path += @"/$p";
+
+                // Attempt to create the current path.
+                // https://pubs.opengroup.org/onlinepubs/9799919799/functions/mkdir.html
+                if (Posix.mkdir (current_path, Posix.S_IRWXU) != 0) {
+                    // Check failures for any reasons other than "it exists".
+                    if (Posix.errno != Posix.EEXIST)
+                        return false;
+
+                    // Verify that it's a directory (or a directory symlink).
+                    // NOTE: We use `stat()` since we ALLOW the dir to be symlinked.
+                    if (Posix.stat (current_path, out stat_) != 0)
+                        return false;
+                    if (!Posix.S_ISDIR (stat_.st_mode))
+                        return false;
+                }
+            }
+
+            // Target path exists and is a directory (or dir symlink).
+            return true;
         }
 
         public static uint64 get_directory_size (string path) {
