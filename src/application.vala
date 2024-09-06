@@ -76,7 +76,7 @@ namespace ProtonPlus {
         }
 
         public static int main (string[] args) {
-            if (Thread.supported () == false) {
+            if (!Thread.supported ()) {
                 message ("Threads are not supported!");
                 return -1;
             }
