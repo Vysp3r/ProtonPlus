@@ -179,10 +179,7 @@ namespace ProtonPlus.Launchers {
 
                     var temp_obj = temp_node.get_object ();
 
-                    if (temp_obj.has_member ("sha"))
-                        return temp_obj.get_string_member ("sha");
-
-                    return "";
+                    return temp_obj.get_string_member_with_default ("sha", "");
                 } catch (Error e) {
                     message (e.message);
                     return "";
