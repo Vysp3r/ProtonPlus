@@ -253,18 +253,21 @@ namespace ProtonPlus.Utils {
             unowned Posix.DirEnt? cur_d;
             Posix.Stat stat_;
             while ((cur_d = Posix.readdir (dir)) != null) {
-                if (cur_d.d_name[0] == '.') {
+                var d_name = (string) cur_d.d_name;
+                if (d_name == "." || d_name == "..") {
                     continue;
                 }
 
+                var cur_path = @"$path/$d_name";
+
                 // NOTE: `lstat()` is very important to avoid following symlinks,
                 // to get an accurate count of bytes within real files (not links).
-                if (Posix.lstat (path + "/" + (string) cur_d.d_name, out stat_) != 0) {
+                if (Posix.lstat (cur_path, out stat_) != 0) {
                     continue;
                 }
 
                 if (Posix.S_ISDIR (stat_.st_mode)) {
-                    size += get_directory_size (path + "/" + (string) cur_d.d_name);
+                    size += get_directory_size (cur_path);
                 } else {
                     size += stat_.st_size;
                 }
