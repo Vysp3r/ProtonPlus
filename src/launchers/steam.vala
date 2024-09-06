@@ -262,10 +262,9 @@ namespace ProtonPlus.Launchers {
                 if (has_existing_install)
                     yield remove (false);
 
-                if (!FileUtils.test (base_location, FileTest.EXISTS)) {
+                if (!FileUtils.test (base_location, FileTest.EXISTS))
                     if (!Utils.Filesystem.create_directory (base_location))
                         return false;
-                }
 
                 string download_path = parent_location + "/" + title + ".zip";
 
@@ -301,10 +300,10 @@ namespace ProtonPlus.Launchers {
                     return false;
                 }
 
-                if (Utils.System.IS_STEAM_OS) {
-                    // Trigger STL's dependency installer for Steam Deck users.
-                    exec_stl (binary_location, "");
-                }
+
+                // Trigger STL's dependency installer for Steam Deck users.
+                if (Utils.System.IS_STEAM_OS)
+                    exec_stl (@"$base_location/steamtinkerlaunch", "");
 
                 exec_stl (binary_location, "compat add");
 
@@ -320,16 +319,22 @@ namespace ProtonPlus.Launchers {
             public static async bool remove (bool delete_config) {
                 exec_stl_if_exists (binary_location, "compat del");
 
-                var link_deleted = Utils.Filesystem.delete_file (link_location);
-                if (!link_deleted)
-                    return false;
+                if (FileUtils.test (link_location, GLib.FileTest.EXISTS)) {
+                    var link_deleted = Utils.Filesystem.delete_file (link_location);
 
-                var base_deleted = yield Utils.Filesystem.delete_directory (base_location);
+                    if (!link_deleted)
+                        return false;
+                }
 
-                if (!base_deleted)
-                    return false;
+                if (FileUtils.test (base_location, GLib.FileTest.EXISTS)) {
+                    var base_deleted = yield Utils.Filesystem.delete_directory (base_location);
 
-                if (delete_config) {
+                    if (!base_deleted)
+                        return false;
+                }
+
+
+                if (delete_config && FileUtils.test (config_location, GLib.FileTest.EXISTS)) {
                     var config_deleted = yield Utils.Filesystem.delete_directory (config_location);
 
                     if (!config_deleted)
@@ -340,9 +345,8 @@ namespace ProtonPlus.Launchers {
             }
 
             static void exec_stl_if_exists (string exec_location, string args) {
-                if (FileUtils.test (exec_location, FileTest.IS_REGULAR)) {
+                if (FileUtils.test (exec_location, FileTest.IS_REGULAR))
                     exec_stl (exec_location, args);
-                }
             }
 
             static void exec_stl (string exec_location, string args) {
