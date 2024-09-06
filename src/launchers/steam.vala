@@ -278,7 +278,9 @@ namespace ProtonPlus.Launchers {
                 if (source_path == "")
                     return false;
 
-                Utils.Filesystem.rename (source_path, base_location);
+                var renamed = Utils.Filesystem.rename (source_path, base_location);
+                if (!renamed)
+                    return false;
 
                 if (!Utils.Filesystem.create_directory (link_parent_location))
                     return false;

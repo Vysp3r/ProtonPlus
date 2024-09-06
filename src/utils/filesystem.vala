@@ -102,8 +102,8 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        public static void rename (string sourcePath, string destinationPath) {
-            FileUtils.rename (sourcePath, destinationPath);
+        public static bool rename (string sourcePath, string destinationPath) {
+            return FileUtils.rename (sourcePath, destinationPath) == 0 ? true : false;
         }
 
         // File
@@ -213,7 +213,7 @@ namespace ProtonPlus.Utils {
             // Create the target directory components in a top-down fashion.
             // NOTE: If caller gives us a path with `..` such as `/foo/bar/../baz`,
             // then we will end up creating both `/foo/bar` and `/foo/baz`, because
-            // there is no easy way to preprocess such directory traversals. 
+            // there is no easy way to preprocess such directory traversals.
             Posix.Stat stat_;
             var current_path = "";
             foreach (string p in parts) {
