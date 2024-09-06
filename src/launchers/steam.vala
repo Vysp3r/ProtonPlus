@@ -84,7 +84,9 @@ namespace ProtonPlus.Launchers {
             static string compat_location;
             static string parent_location;
             static string base_location;
+            static string binary_location;
             static string meta_location;
+            static string link_parent_location;
             static string link_location;
             static string config_location;
             static List<string> external_locations;
@@ -108,8 +110,10 @@ namespace ProtonPlus.Launchers {
                 STL.compat_location = compat_location;
                 parent_location = @"$home_location/.local/share";
                 base_location = @"$parent_location/steamtinkerlaunch";
+                binary_location = @"$base_location/steamtinkerlaunch";
                 meta_location = @"$base_location/ProtonPlus.meta";
-                link_location = @"$home_location/.local/bin/steamtinkerlaunch";
+                link_parent_location = @"$home_location/.local/bin";
+                link_location = @"$link_parent_location/steamtinkerlaunch";
                 config_location = @"$home_location/.config/steamtinkerlaunch";
                 external_locations = new List<string> ();
                 external_locations.append (@"$home_location/SteamTinkerLaunch");
@@ -277,24 +281,32 @@ namespace ProtonPlus.Launchers {
 
                 Utils.Filesystem.rename (source_path, base_location);
 
-                var file = File.new_for_path (@"$base_location/steamtinkerlaunch");
-                if (!file.query_exists (null)) {
-                    return false;
-                }
-
                 try {
-                    yield file.make_symbolic_link_async (link_location, Priority.DEFAULT, null);
+                    if (!Utils.Filesystem.create_directory (link_parent_location))
+                        return false;
+
+                    var file = File.new_for_path (link_location);
+                    if (file.query_exists (null)) {
+                        // Only attempt to delete the file if it's already a symlink.
+                        if (FileUtils.test (link_location, FileTest.IS_SYMLINK)) {
+                            var link_deleted = Utils.Filesystem.delete_file (link_location);
+                            if (!link_deleted)
+                                return false;
+                        }
+                    }
+
+                    // Try to create the symlink (will fail if file exists or no permission).
+                    yield file.make_symbolic_link_async (binary_location, Priority.DEFAULT, null);
                 } catch (Error e) {
                     return false;
                 }
 
-
                 if (Utils.System.IS_STEAM_OS) {
                     // Trigger STL's dependency installer for Steam Deck users.
-                    exec_stl (@"$base_location/steamtinkerlaunch", "");
+                    exec_stl (binary_location, "");
                 }
 
-                exec_stl (@"$base_location/steamtinkerlaunch", "compat add");
+                exec_stl (binary_location, "compat add");
 
                 Utils.Filesystem.create_file (meta_location, latest_hash);
 
@@ -306,7 +318,7 @@ namespace ProtonPlus.Launchers {
             }
 
             public static async bool remove (bool delete_config) {
-                exec_stl_if_exists (@"$base_location/steamtinkerlaunch", "compat del");
+                exec_stl_if_exists (binary_location, "compat del");
 
                 var link_deleted = Utils.Filesystem.delete_file (link_location);
                 if (!link_deleted)
