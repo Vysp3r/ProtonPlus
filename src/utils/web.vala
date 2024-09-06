@@ -51,9 +51,12 @@ namespace ProtonPlus.Utils {
 
                 FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, Priority.DEFAULT, null);
 
-                // Temporary fix for GitLab since they don't give the file size from their API
-                if (download_size == -1) {
-                    download_size = soup_message.get_response_headers ().get_content_length ();
+                // Prefer real Content-Length header from the server if it exists.
+                // NOTE: Servers typically return "0" when it doesn't know (for
+                // live-generated files, such as GitHub's commit-based source archives).
+                var server_download_size = soup_message.get_response_headers ().get_content_length ();
+                if (server_download_size > 0) {
+                    download_size = server_download_size;
                 }
 
                 const size_t chunk_size = 4096;
@@ -76,7 +79,11 @@ namespace ProtonPlus.Utils {
                     bytes_downloaded += output_stream.write (chunk.get_data ());
 
                     if (progress_callback != null) {
-                        var progress = (int) (((double) bytes_downloaded / download_size) * 100);
+                        // Use static "50% Progress" when download size is unknown.
+                        // TODO: Enhance the progress callback so it can display
+                        // "1.13 MiB" (human-formatting "bytes_downloaded" to KiB
+                        // and MiB) if no filesize available? To show actual progress.
+                        var progress = download_size <= 0 ? 50 : (int) (((double) bytes_downloaded / download_size) * 100);
                         progress_callback (progress);
                     }
                 }
