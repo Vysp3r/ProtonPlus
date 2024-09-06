@@ -107,6 +107,7 @@ namespace ProtonPlus.Models {
             unowned Posix.DirEnt? cur_d;
 
             while ((cur_d = Posix.readdir (dir)) != null) {
+                // Skip hidden files and directories (".", ".." and leading ".foo").
                 if (cur_d.d_name[0] == '.') {
                     continue;
                 }

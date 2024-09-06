@@ -162,22 +162,25 @@ namespace ProtonPlus.Utils {
             unowned Posix.DirEnt? cur_d;
             Posix.Stat stat_;
             while ((cur_d = Posix.readdir (dir)) != null) {
-                if (cur_d.d_name[0] == '.' && ((cur_d.d_name[1] == '.' && cur_d.d_name[2] == '\0') || cur_d.d_name[1] == '\0')) {
+                var d_name = (string) cur_d.d_name;
+                if (d_name == "." || d_name == "..") {
                     continue;
                 }
 
+                var cur_path = @"$path/$d_name";
+
                 // NOTE: `lstat()` is very important to avoid following symlinks,
                 // otherwise we would wipe out the link target's contents too.
-                if (Posix.lstat (path + "/" + (string) cur_d.d_name, out stat_) != 0)
+                if (Posix.lstat (cur_path, out stat_) != 0)
                     return false;
 
                 if (Posix.S_ISDIR (stat_.st_mode)) {
-                    if (!delete_directory_direct (path + "/" + (string) cur_d.d_name))
+                    if (!delete_directory_direct (cur_path))
                         return false;
-                    if (Posix.rmdir (path + "/" + (string) cur_d.d_name) != 0)
+                    if (Posix.rmdir (cur_path) != 0)
                         return false;
                 } else {
-                    if (!delete_file_direct (path + "/" + (string) cur_d.d_name))
+                    if (!delete_file_direct (cur_path))
                         return false;
                 }
             }
