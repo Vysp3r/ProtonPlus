@@ -106,7 +106,7 @@ namespace ProtonPlus.Launchers {
                 home_location = Environment.get_home_dir ();
                 STL.compat_location = compat_location;
                 parent_location = @"$home_location/.local/share";
-                base_location = @"$home_location/.local/share/steamtinkerlaunch";
+                base_location = @"$parent_location/steamtinkerlaunch";
                 meta_location = @"$base_location/ProtonPlus.meta";
                 config_location = @"$home_location/.config/steamtinkerlaunch";
                 external_locations = new List<string> ();
@@ -155,8 +155,8 @@ namespace ProtonPlus.Launchers {
                     soup_session.set_user_agent (Utils.Web.get_user_agent ());
 
                     var soup_message = new Soup.Message ("GET", "https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1");
-                    soup_message.response_headers.append ("Accept", "application/vnd.github+json");
-                    soup_message.response_headers.append ("X-GitHub-Api-Version", "2022-11-28");
+                    soup_message.request_headers.append ("Accept", "application/vnd.github+json");
+                    soup_message.request_headers.append ("X-GitHub-Api-Version", "2022-11-28");
 
                     var bytes = soup_session.send_and_read (soup_message, null);
 
@@ -169,7 +169,7 @@ namespace ProtonPlus.Launchers {
 
                     var root_array = root_node.get_array ();
 
-                    if (root_array.get_length () != 1)
+                    if (root_array.get_length () < 1)
                         return "";
 
                     var temp_node = root_array.get_element (0);
@@ -179,10 +179,7 @@ namespace ProtonPlus.Launchers {
 
                     var temp_obj = temp_node.get_object ();
 
-                    if (temp_obj.has_member ("sha"))
-                        return temp_obj.get_string_member ("sha");
-
-                    return "";
+                    return temp_obj.get_string_member_with_default ("sha", "");
                 } catch (Error e) {
                     message (e.message);
                     return "";
@@ -192,14 +189,15 @@ namespace ProtonPlus.Launchers {
             public static async bool install () {
                 var missing_dependencies = "";
 
+                var yad_installed = false;
                 if (Utils.System.check_dependency ("yad")) {
                     string stdout = Utils.System.run_command ("yad --version");
                     float version = float.parse (stdout.split (" ")[0]);
-                    var yad_installed = version >= 7.2;
-                    if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
+                    yad_installed = version >= 7.2;
                 }
+                if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
 
-                if (!Utils.System.check_dependency ("awk") && !Utils.System.check_dependency ("gawk"))missing_dependencies += "awk-gawk\n";
+                if (!Utils.System.check_dependency ("awk") && !Utils.System.check_dependency ("gawk"))missing_dependencies += "awk/gawk\n";
                 if (!Utils.System.check_dependency ("git"))missing_dependencies += "git\n";
                 if (!Utils.System.check_dependency ("pgrep"))missing_dependencies += "pgrep\n";
                 if (!Utils.System.check_dependency ("unzip"))missing_dependencies += "unzip\n";
@@ -242,9 +240,7 @@ namespace ProtonPlus.Launchers {
                     if (Utils.System.check_dependency ("steamtinkerlaunch"))
                         Utils.System.run_command ("steamtinkerlaunch compat del");
 
-                    var exec_location = @"$compat_location/SteamTinkerLaunch/steamtinkerlaunch";
-                    if (FileUtils.test (exec_location, FileTest.EXISTS))
-                        Utils.System.run_command (@"$exec_location compat del");
+                    exec_stl_if_exists (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
 
                     foreach (var location in external_locations) {
                         var deleted = yield Utils.Filesystem.delete_directory (location);
@@ -278,12 +274,11 @@ namespace ProtonPlus.Launchers {
                 Utils.Filesystem.rename (source_path, base_location);
 
                 if (Utils.System.IS_STEAM_OS) {
-                    Utils.System.run_command (@"chmod +x $base_location/steamtinkerlaunch");
-
-                    Utils.System.run_command (@"$base_location/steamtinkerlaunch");
+                    // Trigger STL's dependency installer for Steam Deck users.
+                    exec_stl (@"$base_location/steamtinkerlaunch", "");
                 }
 
-                Utils.System.run_command (@"$base_location/steamtinkerlaunch compat add");
+                exec_stl (@"$base_location/steamtinkerlaunch", "compat add");
 
                 Utils.Filesystem.create_file (meta_location, latest_hash);
 
@@ -295,9 +290,7 @@ namespace ProtonPlus.Launchers {
             }
 
             public static async bool remove (bool delete_config) {
-                var exec_location = @"$base_location/steamtinkerlaunch";
-                if (FileUtils.test (exec_location, FileTest.IS_REGULAR))
-                    Utils.System.run_command (@"$exec_location compat del");
+                exec_stl_if_exists (@"$base_location/steamtinkerlaunch", "compat del");
 
                 var base_deleted = yield Utils.Filesystem.delete_directory (base_location);
 
@@ -312,6 +305,18 @@ namespace ProtonPlus.Launchers {
                 }
 
                 return true;
+            }
+
+            static void exec_stl_if_exists (string exec_location, string args) {
+                if (FileUtils.test (exec_location, FileTest.IS_REGULAR)) {
+                    exec_stl(exec_location, args);
+                }
+            }
+
+            static void exec_stl (string exec_location, string args) {
+                if (FileUtils.test (exec_location, FileTest.IS_REGULAR) && !FileUtils.test (exec_location, FileTest.IS_EXECUTABLE))
+                    Utils.System.run_command (@"chmod +x $exec_location");
+                Utils.System.run_command (@"$exec_location $args");
             }
 
             static void send_toast (string content, int duration) {
