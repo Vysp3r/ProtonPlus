@@ -106,7 +106,7 @@ namespace ProtonPlus.Launchers {
                 home_location = Environment.get_home_dir ();
                 STL.compat_location = compat_location;
                 parent_location = @"$home_location/.local/share";
-                base_location = @"$home_location/.local/share/steamtinkerlaunch";
+                base_location = @"$parent_location/steamtinkerlaunch";
                 meta_location = @"$base_location/ProtonPlus.meta";
                 config_location = @"$home_location/.config/steamtinkerlaunch";
                 external_locations = new List<string> ();
