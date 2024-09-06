@@ -240,9 +240,7 @@ namespace ProtonPlus.Launchers {
                     if (Utils.System.check_dependency ("steamtinkerlaunch"))
                         Utils.System.run_command ("steamtinkerlaunch compat del");
 
-                    var exec_location = @"$compat_location/SteamTinkerLaunch/steamtinkerlaunch";
-                    if (FileUtils.test (exec_location, FileTest.EXISTS))
-                        Utils.System.run_command (@"$exec_location compat del");
+                    exec_stl_if_exists (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
 
                     foreach (var location in external_locations) {
                         var deleted = yield Utils.Filesystem.delete_directory (location);
@@ -276,12 +274,11 @@ namespace ProtonPlus.Launchers {
                 Utils.Filesystem.rename (source_path, base_location);
 
                 if (Utils.System.IS_STEAM_OS) {
-                    Utils.System.run_command (@"chmod +x $base_location/steamtinkerlaunch");
-
-                    Utils.System.run_command (@"$base_location/steamtinkerlaunch");
+                    // Trigger STL's dependency installer for Steam Deck users.
+                    exec_stl (@"$base_location/steamtinkerlaunch", "");
                 }
 
-                Utils.System.run_command (@"$base_location/steamtinkerlaunch compat add");
+                exec_stl (@"$base_location/steamtinkerlaunch", "compat add");
 
                 Utils.Filesystem.create_file (meta_location, latest_hash);
 
@@ -293,9 +290,7 @@ namespace ProtonPlus.Launchers {
             }
 
             public static async bool remove (bool delete_config) {
-                var exec_location = @"$base_location/steamtinkerlaunch";
-                if (FileUtils.test (exec_location, FileTest.IS_REGULAR))
-                    Utils.System.run_command (@"$exec_location compat del");
+                exec_stl_if_exists (@"$base_location/steamtinkerlaunch", "compat del");
 
                 var base_deleted = yield Utils.Filesystem.delete_directory (base_location);
 
@@ -310,6 +305,18 @@ namespace ProtonPlus.Launchers {
                 }
 
                 return true;
+            }
+
+            static void exec_stl_if_exists (string exec_location, string args) {
+                if (FileUtils.test (exec_location, FileTest.IS_REGULAR)) {
+                    exec_stl(exec_location, args);
+                }
+            }
+
+            static void exec_stl (string exec_location, string args) {
+                if (FileUtils.test (exec_location, FileTest.IS_REGULAR) && !FileUtils.test (exec_location, FileTest.IS_EXECUTABLE))
+                    Utils.System.run_command (@"chmod +x $exec_location");
+                Utils.System.run_command (@"$exec_location $args");
             }
 
             static void send_toast (string content, int duration) {
