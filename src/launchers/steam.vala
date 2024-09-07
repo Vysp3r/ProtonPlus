@@ -90,7 +90,7 @@ namespace ProtonPlus.Launchers {
             string link_parent_location { get; set; }
             string link_location { get; set; }
             string config_location { get; set; }
-            Gee.HashMap<string, bool> external_locations { get; set; }
+            List<string> external_locations;
 
             public bool installed { get; set; }
             public bool updated { get; set; }
@@ -117,6 +117,7 @@ namespace ProtonPlus.Launchers {
                 link_parent_location = @"$home_location/.local/bin";
                 link_location = @"$link_parent_location/steamtinkerlaunch";
                 config_location = @"$home_location/.config/steamtinkerlaunch";
+                external_locations = new List<string> ();
 
                 if (Utils.System.IS_STEAM_OS)
                     base_location = @"$home_location/stl/prefix";
@@ -137,9 +138,6 @@ namespace ProtonPlus.Launchers {
                     else if (latest_hash != "")
                         updated = latest_hash == local_hash;
                 }
-
-                if (base_location_exists && !meta_file_exists)
-                    external_locations.set (base_location, false);
 
                 title = "STL";
             }
@@ -236,11 +234,8 @@ namespace ProtonPlus.Launchers {
 
                     exec_stl_if_exists (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
 
-                    foreach (var entry in external_locations) {
-                        if (!entry.value)
-                            continue;
-
-                        var deleted = yield Utils.Filesystem.delete_directory (entry.key);
+                    foreach (var location in external_locations) {
+                        var deleted = yield Utils.Filesystem.delete_directory (location);
 
                         if (!deleted)
                             return false;
@@ -270,20 +265,20 @@ namespace ProtonPlus.Launchers {
             }
 
             bool detect_external_locations () {
-                var has_external_install = false;
-                var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
-                var meta_file_exists = FileUtils.test (meta_location, FileTest.EXISTS);
-                external_locations = new Gee.HashMap<string, bool> ();
-                external_locations.set (@"$home_location/SteamTinkerLaunch", false);
-                if (!Utils.System.IS_STEAM_OS)
-                    external_locations.set (Environment.get_home_dir () + "/stl", false);
-                if (base_location_exists && !meta_file_exists)
-                    external_locations.set (base_location, false);
-                foreach (var entry in external_locations) {
-                    if (FileUtils.test (entry.key, FileTest.EXISTS))
-                        entry.value = has_external_install = true;
-                }
-                return has_external_install;
+                external_locations = new List<string> ();
+
+                var loc1 = @"$home_location/SteamTinkerLaunch";
+                if (FileUtils.test (loc1, FileTest.EXISTS))
+                    external_locations.append (loc1);
+
+                var loc2 = Environment.get_home_dir () + "/stl";
+                if (!Utils.System.IS_STEAM_OS && FileUtils.test (loc2, FileTest.EXISTS))
+                    external_locations.append (loc2);
+
+                if (FileUtils.test (base_location, FileTest.EXISTS) && !FileUtils.test (meta_location, FileTest.EXISTS))
+                    external_locations.append (base_location);
+
+                return external_locations.length () > 0;
             }
 
             async bool _download_and_install () {
