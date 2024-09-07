@@ -103,7 +103,7 @@ namespace ProtonPlus.Utils {
         }
 
         public static bool rename (string sourcePath, string destinationPath) {
-            return FileUtils.rename (sourcePath, destinationPath) == 0 ? true : false;
+            return FileUtils.rename (sourcePath, destinationPath) == 0;
         }
 
         // File

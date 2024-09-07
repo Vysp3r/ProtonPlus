@@ -309,11 +309,12 @@ namespace ProtonPlus.Launchers {
                     return false;
                 }
 
+
                 if (!Utils.Filesystem.create_directory (link_parent_location))
                     return false;
 
-                var file = File.new_for_path (link_location);
-                if (file.query_exists (null)) {
+                var link = File.new_for_path (link_location);
+                if (link.query_exists (null)) {
                     // Only attempt to delete the file if it's already a symlink.
                     if (FileUtils.test (link_location, FileTest.IS_SYMLINK)) {
                         var link_deleted = Utils.Filesystem.delete_file (link_location);
@@ -324,7 +325,7 @@ namespace ProtonPlus.Launchers {
 
                 try {
                     // Try to create the symlink (will fail if file exists or no permission)
-                    yield file.make_symbolic_link_async (binary_location, Priority.DEFAULT, null);
+                    yield link.make_symbolic_link_async (binary_location, Priority.DEFAULT, null);
                 } catch (Error e) {
                     return false;
                 }
