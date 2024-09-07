@@ -215,21 +215,7 @@ namespace ProtonPlus.Launchers {
                     return false;
                 }
 
-                var has_external_install = false;
-
-                var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
-                var meta_file_exists = FileUtils.test (meta_location, FileTest.EXISTS);
-
-                external_locations = new Gee.HashMap<string, bool> ();
-                external_locations.set (@"$home_location/SteamTinkerLaunch", false);
-                if (!Utils.System.IS_STEAM_OS)
-                    external_locations.set (Environment.get_home_dir () + "/stl", false);
-                if (base_location_exists && !meta_file_exists)
-                    external_locations.set (base_location, false);
-                foreach (var entry in external_locations) {
-                    if (FileUtils.test (entry.key, FileTest.EXISTS))
-                        entry.value = has_external_install = true;
-                }
+                var has_external_install = detect_external_locations ();
 
                 if (has_external_install) {
                     var dialog = new Adw.MessageDialog (Application.window, _("Existing installation of STL"), _("It looks like there's a version of STL currently installed which was not installed by ProtonPlus.\n\nDo you want to delete it and install STL with ProtonPlus?"));
@@ -261,7 +247,7 @@ namespace ProtonPlus.Launchers {
                     }
                 }
 
-                var has_existing_install = base_location_exists && meta_file_exists;
+                var has_existing_install = FileUtils.test (base_location, FileTest.EXISTS) && FileUtils.test (meta_location, FileTest.EXISTS);
                 if (has_existing_install)
                     yield remove (false);
 
@@ -281,6 +267,23 @@ namespace ProtonPlus.Launchers {
                 }
 
                 return true;
+            }
+
+            bool detect_external_locations () {
+                var has_external_install = false;
+                var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
+                var meta_file_exists = FileUtils.test (meta_location, FileTest.EXISTS);
+                external_locations = new Gee.HashMap<string, bool> ();
+                external_locations.set (@"$home_location/SteamTinkerLaunch", false);
+                if (!Utils.System.IS_STEAM_OS)
+                    external_locations.set (Environment.get_home_dir () + "/stl", false);
+                if (base_location_exists && !meta_file_exists)
+                    external_locations.set (base_location, false);
+                foreach (var entry in external_locations) {
+                    if (FileUtils.test (entry.key, FileTest.EXISTS))
+                        entry.value = has_external_install = true;
+                }
+                return has_external_install;
             }
 
             async bool _download_and_install () {
