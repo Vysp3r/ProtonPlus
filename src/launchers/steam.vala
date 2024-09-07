@@ -278,6 +278,7 @@ namespace ProtonPlus.Launchers {
             }
 
             static async bool _download_and_install () {
+                // Download the source code archive.
                 if (!FileUtils.test (download_location, FileTest.IS_DIR))
                     if (!Utils.Filesystem.create_directory (download_location))
                         return false;
@@ -297,17 +298,24 @@ namespace ProtonPlus.Launchers {
                     return false;
 
 
+                // Extract archive and move its contents to the installation directory.
                 string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => cancelled);
 
                 if (extracted_file_location == "")
                     return false;
 
-
-                var renamed = Utils.Filesystem.rename (extracted_file_location, base_location);
-                if (!renamed)
+                var moved = Utils.Filesystem.move_dir_contents (extracted_file_location, base_location);
+                if (!moved)
                     return false;
 
 
+                // We don't need the download directory anymore.
+                var download_deleted = yield Utils.Filesystem.delete_directory (download_location);
+                if (!download_deleted)
+                    return false;
+
+
+                // Create a symlink for the steamtinkerlaunch binary.
                 if (!Utils.Filesystem.create_directory (link_parent_location))
                     return false;
 
