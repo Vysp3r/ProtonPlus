@@ -85,6 +85,7 @@ namespace ProtonPlus.Launchers {
             static string parent_location;
             static string base_location;
             static string binary_location;
+            static string download_location;
             static string meta_location;
             static string link_parent_location;
             static string link_location;
@@ -112,6 +113,7 @@ namespace ProtonPlus.Launchers {
                 base_location = @"$parent_location/steamtinkerlaunch";
                 binary_location = @"$base_location/steamtinkerlaunch";
                 meta_location = @"$base_location/ProtonPlus.meta";
+                download_location = @"$base_location/temp";
                 link_parent_location = @"$home_location/.local/bin";
                 link_location = @"$link_parent_location/steamtinkerlaunch";
                 config_location = @"$home_location/.config/steamtinkerlaunch";
@@ -262,25 +264,50 @@ namespace ProtonPlus.Launchers {
                 if (has_existing_install)
                     yield remove (false);
 
-                if (!FileUtils.test (base_location, FileTest.IS_DIR))
-                    if (!Utils.Filesystem.create_directory (base_location))
+                if (!FileUtils.test (download_location, FileTest.IS_DIR))
+                    if (!Utils.Filesystem.create_directory (download_location))
                         return false;
 
-                string download_path = parent_location + "/" + title + ".zip";
+                string downloaded_file_location = @"$download_location/$title.zip";
 
-                var download_result = yield Utils.Web.Download (get_download_url (), download_path, -1, () => cancelled, (download_progress) => progress_label.set_text (download_progress.to_string () + "%"));
+                var download_result = yield Utils.Web.Download (get_download_url (), downloaded_file_location, -1, () => cancelled, (download_progress) => progress_label.set_text (download_progress.to_string () + "%"));
 
-                if (download_result != Utils.Web.DOWNLOAD_CODES.SUCCESS)
+                if (download_result != Utils.Web.DOWNLOAD_CODES.SUCCESS) {
+                    if (FileUtils.test (base_location, FileTest.EXISTS)) {
+                        var deleted = yield Utils.Filesystem.delete_directory (base_location);
+
+                        if (!deleted) {
+                        }
+                    }
+
                     return false;
+                }
 
-                string source_path = yield Utils.Filesystem.extract (@"$parent_location/", title, ".zip", () => cancelled);
+                string extracted_file_location = yield Utils.Filesystem.extract (@"$parent_location/", title, ".zip", () => cancelled);
 
-                if (source_path == "")
+                if (extracted_file_location == "") {
+                    if (FileUtils.test (base_location, FileTest.EXISTS)) {
+                        var deleted = yield Utils.Filesystem.delete_directory (base_location);
+
+                        if (!deleted) {
+                        }
+                    }
+
                     return false;
+                }
 
-                var renamed = Utils.Filesystem.rename (source_path, base_location);
-                if (!renamed)
+
+                var renamed = Utils.Filesystem.rename (extracted_file_location, base_location);
+                if (!renamed) {
+                    if (FileUtils.test (base_location, FileTest.EXISTS)) {
+                        var deleted = yield Utils.Filesystem.delete_directory (base_location);
+
+                        if (!deleted) {
+                        }
+                    }
+
                     return false;
+                }
 
                 if (!Utils.Filesystem.create_directory (link_parent_location))
                     return false;
