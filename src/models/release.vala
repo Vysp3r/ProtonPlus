@@ -53,7 +53,10 @@ namespace ProtonPlus.Models {
             this.directory = runner.group.launcher.directory + runner.group.directory + "/" + get_directory_name ();
             this.installed = FileUtils.test (directory, FileTest.IS_DIR);
             this.artifacts_url = "";
-            this.directory_size = 0; // this.directory_size = (int64) Utils.Filesystem.GetDirectorySize (directory); Disabled since Utils.Filesystem.GetDirectorySize is buggy and we don't have a way to see that data anyway
+            this.directory_size = 0;
+            // this.directory_size = (int64) Utils.Filesystem.GetDirectorySize (directory);
+            // ^ Disabled since Utils.Filesystem.GetDirectorySize is buggy and
+            // we don't have a way to see that data anyway.
         }
 
         public string get_formatted_download_size () {

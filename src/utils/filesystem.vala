@@ -1,6 +1,8 @@
 namespace ProtonPlus.Utils {
     public class Filesystem {
-        // Other
+        public const Posix.mode_t S_IRWXUGO = (Posix.S_IRWXU | Posix.S_IRWXG | Posix.S_IRWXO);
+
+        // Miscellaneous.
 
         public delegate bool cancel_callback ();
 
@@ -103,10 +105,34 @@ namespace ProtonPlus.Utils {
         }
 
         public static bool rename (string sourcePath, string destinationPath) {
-            return FileUtils.rename (sourcePath, destinationPath) == 0 ? true : false;
+            return FileUtils.rename (sourcePath, destinationPath) == 0;
         }
 
-        // File
+        public async static bool make_symlink (string link_location, string target_path) {
+            var link_file = File.new_for_path (link_location);
+            if (link_file.query_exists (null)) {
+                // Only attempt to delete link_location if it's already a symlink.
+                if (!FileUtils.test (link_location, FileTest.IS_SYMLINK))
+                    return false;
+
+                var link_deleted = Utils.Filesystem.delete_file (link_location);
+                if (!link_deleted)
+                    return false;
+            }
+
+            try {
+                // Try to create the symlink (will fail if file exists or no permission).
+                var link_created = yield link_file.make_symbolic_link_async (target_path, Priority.DEFAULT, null);
+                if (!link_created)
+                    return false;
+            } catch (Error e) {
+                return false;
+            }
+
+            return true;
+        }
+
+        // Files.
 
         public static string get_file_content (string path) {
             string output = "";
@@ -151,7 +177,33 @@ namespace ProtonPlus.Utils {
             return delete_file_direct (path);
         }
 
-        // Directory
+        // Directories.
+
+        public static bool move_dir_contents (string source_dir, string target_dir) {
+            try {
+                Dir dir = Dir.open (source_dir);
+                string? name = null;
+                while ((name = dir.read_name ()) != null) {
+                    // NOTE: Includes hidden files (".foo") but not "." and "..".
+                    string source_path = Path.build_filename (source_dir, name);
+                    string target_path = Path.build_filename (target_dir, name);
+
+                    print(@"[Move] \"$source_path\"\n    -> \"$target_path\"\n");
+
+                    // Never overwrite existing target (avoids accidental data loss).
+                    if (FileUtils.test (target_path, FileTest.EXISTS))
+                        return false;
+
+                    // Move the "file" regardless of type (such as dir, symlink, etc).
+                    if (FileUtils.rename (source_path, target_path) != 0)
+                        return false;
+                }
+            } catch (Error e) {
+                return false;
+            }
+
+            return true;
+        }
 
         static bool delete_directory_direct (string path) {
             var dir = Posix.opendir (path);
@@ -226,8 +278,13 @@ namespace ProtonPlus.Utils {
                     current_path += @"/$p";
 
                 // Attempt to create the current path.
+                // NOTE: We request full (0777) permission bits. The C library will
+                // then filter it down to the correct `umask` for the current user,
+                // which is almost always 0755. This is how GNU's mkdir util works.
                 // https://pubs.opengroup.org/onlinepubs/9799919799/functions/mkdir.html
-                if (Posix.mkdir (current_path, Posix.S_IRWXU) != 0) {
+                // https://github.com/coreutils/coreutils/blob/408301e4bc171bf5544f373f64bb6ed3351541db/src/mkdir.c#L136
+                // https://github.com/coreutils/gnulib/blob/e87d09bee37eeb742b8a34c9054cd2ebde22b835/lib/sys_stat.in.h#L423
+                if (Posix.mkdir (current_path, S_IRWXUGO) != 0) {
                     // Check failures for any reasons other than "it exists".
                     if (Posix.errno != Posix.EEXIST)
                         return false;
