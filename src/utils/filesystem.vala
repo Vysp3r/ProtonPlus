@@ -179,6 +179,32 @@ namespace ProtonPlus.Utils {
 
         // Directories.
 
+        public static bool move_dir_contents (string source_dir, string target_dir) {
+            try {
+                Dir dir = Dir.open (source_dir);
+                string? name = null;
+                while ((name = dir.read_name ()) != null) {
+                    // NOTE: Includes hidden files (".foo") but not "." and "..".
+                    string source_path = Path.build_filename (source_dir, name);
+                    string target_path = Path.build_filename (target_dir, name);
+
+                    print(@"[Move] \"$source_path\"\n    -> \"$target_path\"\n");
+
+                    // Never overwrite existing target (avoids accidental data loss).
+                    if (FileUtils.test (target_path, FileTest.EXISTS))
+                        return false;
+
+                    // Move the "file" regardless of type (such as dir, symlink, etc).
+                    if (FileUtils.rename (source_path, target_path) != 0)
+                        return false;
+                }
+            } catch (Error e) {
+                return false;
+            }
+
+            return true;
+        }
+
         static bool delete_directory_direct (string path) {
             var dir = Posix.opendir (path);
             if (dir == null) {
