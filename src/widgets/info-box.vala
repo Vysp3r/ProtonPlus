@@ -72,12 +72,6 @@ namespace ProtonPlus.Widgets {
                     content_normal.append (preferences_group);
 
                     foreach (var runner in group.runners) {
-                        if (runner.title == "SteamTinkerLaunch" && launcher.title == "Steam" && launcher.type == "System") {
-                            var success = Launchers.Steam.STL.init (runner.group.launcher.directory + "/" + runner.group.directory, toast_overlay);
-                            if (!success)
-                                continue;
-                        }
-
                         var spinner = new Gtk.Spinner ();
                         spinner.set_visible (false);
 
@@ -164,7 +158,8 @@ namespace ProtonPlus.Widgets {
 
         void load_row (Gtk.Spinner spinner, Models.Runner runner, Adw.ExpanderRow runner_row) {
             if (runner.title == "SteamTinkerLaunch") {
-                runner_row.add_row (Launchers.Steam.STL.create_action_row (runner.group.launcher.type));
+                var stl = new Launchers.Steam.STL (runner.group.launcher.directory + "/" + runner.group.directory, toast_overlay);
+                runner_row.add_row (stl.create_action_row (runner.group.launcher.type));
             } else {
                 uint previous_count = installedOnly ? 0 : runner.releases.length () < 25 ? 0 : runner.releases.length () - 25;
 

@@ -79,36 +79,36 @@ namespace ProtonPlus.Launchers {
             return runners;
         }
 
-        public class STL {
-            static string home_location;
-            static string compat_location;
-            static string parent_location;
-            static string base_location;
-            static string binary_location;
-            static string download_location;
-            static string meta_location;
-            static string link_parent_location;
-            static string link_location;
-            static string config_location;
-            static Gee.HashMap<string, bool> external_locations;
+        public class STL : Object {
+            string home_location { get; set; }
+            string compat_location { get; set; }
+            string parent_location { get; set; }
+            string base_location { get; set; }
+            string binary_location { get; set; }
+            string download_location { get; set; }
+            string meta_location { get; set; }
+            string link_parent_location { get; set; }
+            string link_location { get; set; }
+            string config_location { get; set; }
+            Gee.HashMap<string, bool> external_locations { get; set; }
 
-            static bool installed;
-            static bool updated;
-            static bool cancelled;
+            public bool installed { get; set; }
+            public bool updated { get; set; }
+            public bool cancelled { get; set; }
 
-            static string? latest_hash;
-            static string local_hash;
+            string? latest_hash { get; set; }
+            string local_hash { get; set; }
 
-            static string title;
+            string title { get; set; }
 
-            static Gtk.Label progress_label;
-            static Adw.ToastOverlay toast_overlay;
+            Gtk.Label progress_label { get; set; }
+            Adw.ToastOverlay toast_overlay { get; set; }
 
-            public static bool init (string compat_location, Adw.ToastOverlay toast_overlay) {
-                STL.toast_overlay = toast_overlay;
+            public STL (string compat_location, Adw.ToastOverlay toast_overlay) {
+                this.compat_location = compat_location;
+                this.toast_overlay = toast_overlay;
 
                 home_location = Environment.get_home_dir ();
-                STL.compat_location = compat_location;
                 parent_location = @"$home_location/.local/share";
                 base_location = @"$parent_location/steamtinkerlaunch";
                 binary_location = @"$base_location/steamtinkerlaunch";
@@ -117,13 +117,9 @@ namespace ProtonPlus.Launchers {
                 link_parent_location = @"$home_location/.local/bin";
                 link_location = @"$link_parent_location/steamtinkerlaunch";
                 config_location = @"$home_location/.config/steamtinkerlaunch";
-                external_locations = new Gee.HashMap<string, bool> ();
-                external_locations.set (@"$home_location/SteamTinkerLaunch", false);
 
                 if (Utils.System.IS_STEAM_OS)
                     base_location = @"$home_location/stl/prefix";
-                else
-                    external_locations.set (Environment.get_home_dir () + "/stl", false);
 
                 var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
                 var meta_file_exists = FileUtils.test (meta_location, FileTest.EXISTS);
@@ -131,16 +127,14 @@ namespace ProtonPlus.Launchers {
                 installed = base_location_exists && meta_file_exists;
                 updated = false;
 
-                latest_hash = get_latest_hash ();
-                if (latest_hash == "")
-                    return false;
+                latest_hash = get_latest_hash_ ();
 
                 local_hash = "";
                 if (installed) {
                     local_hash = Utils.Filesystem.get_file_content (meta_location);
                     if (local_hash == "")
                         installed = false;
-                    else
+                    else if (latest_hash != "")
                         updated = latest_hash == local_hash;
                 }
 
@@ -148,15 +142,13 @@ namespace ProtonPlus.Launchers {
                     external_locations.set (base_location, false);
 
                 title = "STL";
-
-                return true;
             }
 
-            static string get_download_url () {
+            string get_download_url () {
                 return @"https://github.com/sonic2kk/steamtinkerlaunch/archive/$latest_hash.zip";
             }
 
-            static string get_latest_hash () {
+            string get_latest_hash_ () {
                 try {
                     var soup_session = new Soup.Session ();
                     soup_session.set_user_agent (Utils.Web.get_user_agent ());
@@ -193,7 +185,7 @@ namespace ProtonPlus.Launchers {
                 }
             }
 
-            public static async bool install () {
+            public async bool install () {
                 var missing_dependencies = "";
 
                 var yad_installed = false;
@@ -225,6 +217,15 @@ namespace ProtonPlus.Launchers {
 
                 var has_external_install = false;
 
+                var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
+                var meta_file_exists = FileUtils.test (meta_location, FileTest.EXISTS);
+
+                external_locations = new Gee.HashMap<string, bool> ();
+                external_locations.set (@"$home_location/SteamTinkerLaunch", false);
+                if (!Utils.System.IS_STEAM_OS)
+                    external_locations.set (Environment.get_home_dir () + "/stl", false);
+                if (base_location_exists && !meta_file_exists)
+                    external_locations.set (base_location, false);
                 foreach (var entry in external_locations) {
                     if (FileUtils.test (entry.key, FileTest.EXISTS))
                         entry.value = has_external_install = true;
@@ -255,14 +256,12 @@ namespace ProtonPlus.Launchers {
 
                         var deleted = yield Utils.Filesystem.delete_directory (entry.key);
 
-                        message (entry.key);
-
                         if (!deleted)
                             return false;
                     }
                 }
 
-                var has_existing_install = FileUtils.test (base_location, FileTest.EXISTS) && FileUtils.test (meta_location, FileTest.EXISTS);
+                var has_existing_install = base_location_exists && meta_file_exists;
                 if (has_existing_install)
                     yield remove (false);
 
@@ -277,8 +276,6 @@ namespace ProtonPlus.Launchers {
                     // Update the ProtonPlus UI state variables.
                     // TODO: Also change the "update" icon to the "fully updated" checkmark instead.
                     local_hash = "";
-                    updated = false;
-                    installed = false;
 
                     return false;
                 }
@@ -286,11 +283,14 @@ namespace ProtonPlus.Launchers {
                 return true;
             }
 
-            static async bool _download_and_install () {
+            async bool _download_and_install () {
                 // Download the source code archive.
-                if (!FileUtils.test (download_location, FileTest.IS_DIR))
-                    if (!Utils.Filesystem.create_directory (download_location))
+                if (!FileUtils.test (download_location, FileTest.IS_DIR)) {
+                    var success = yield Utils.Filesystem.create_directory (download_location);
+
+                    if (!success)
                         return false;
+                }
 
                 string downloaded_file_location = @"$download_location/$title.zip";
 
@@ -313,7 +313,8 @@ namespace ProtonPlus.Launchers {
                 if (extracted_file_location == "")
                     return false;
 
-                var moved = Utils.Filesystem.move_dir_contents (extracted_file_location, base_location);
+                var moved = yield Utils.Filesystem.move_dir_contents (extracted_file_location, base_location);
+
                 if (!moved)
                     return false;
 
@@ -326,7 +327,9 @@ namespace ProtonPlus.Launchers {
 
 
                 // Create a symlink for the steamtinkerlaunch binary.
-                if (!Utils.Filesystem.create_directory (link_parent_location))
+                var link_parent_location_success = yield Utils.Filesystem.create_directory (link_parent_location);
+
+                if (!link_parent_location_success)
                     return false;
 
                 var link_created = yield Utils.Filesystem.make_symlink (link_location, binary_location);
@@ -352,7 +355,7 @@ namespace ProtonPlus.Launchers {
                 return true;
             }
 
-            public static async bool upgrade () {
+            public async bool upgrade () {
                 var removed = yield remove (false);
 
                 if (!removed)
@@ -366,7 +369,7 @@ namespace ProtonPlus.Launchers {
                 return true;
             }
 
-            public static async bool remove (bool delete_config) {
+            public async bool remove (bool delete_config) {
                 exec_stl_if_exists (binary_location, "compat del");
 
                 if (FileUtils.test (link_location, GLib.FileTest.IS_SYMLINK)) {
@@ -393,25 +396,25 @@ namespace ProtonPlus.Launchers {
                 return true;
             }
 
-            static void exec_stl_if_exists (string exec_location, string args) {
+            void exec_stl_if_exists (string exec_location, string args) {
                 if (FileUtils.test (exec_location, FileTest.IS_REGULAR))
                     exec_stl (exec_location, args);
             }
 
-            static void exec_stl (string exec_location, string args) {
+            void exec_stl (string exec_location, string args) {
                 if (FileUtils.test (exec_location, FileTest.IS_REGULAR) && !FileUtils.test (exec_location, FileTest.IS_EXECUTABLE))
                     Utils.System.run_command (@"chmod +x $exec_location");
                 Utils.System.run_command (@"$exec_location $args");
             }
 
-            static void send_toast (string content, int duration) {
+            void send_toast (string content, int duration) {
                 var toast = new Adw.Toast (content);
                 toast.set_timeout (duration);
 
                 toast_overlay.add_toast (toast);
             }
 
-            static Gtk.Button create_button (string icon_name, string tooltip_text) {
+            Gtk.Button create_button (string icon_name, string tooltip_text) {
                 var icon = new Gtk.Image.from_icon_name (icon_name);
                 icon.set_pixel_size (20);
 
@@ -425,7 +428,7 @@ namespace ProtonPlus.Launchers {
                 return button;
             }
 
-            public static Adw.ActionRow create_action_row (string launcher_type) {
+            public Adw.ActionRow create_action_row (string launcher_type) {
                 progress_label = new Gtk.Label (null);
                 var spinner = new Gtk.Spinner ();
                 var btn_cancel = create_button ("x-symbolic", _("Cancel the installation"));
@@ -444,7 +447,6 @@ namespace ProtonPlus.Launchers {
                 btn_cancel.set_visible (false);
                 btn_cancel.clicked.connect (() => cancelled = true);
 
-                btn_delete.set_visible (installed);
                 btn_delete.clicked.connect (() => {
                     var delete_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files"));
 
@@ -473,12 +475,10 @@ namespace ProtonPlus.Launchers {
 
                                 spinner.stop ();
                                 spinner.set_visible (false);
-                                btn_delete.set_visible (false);
-                                btn_install.set_visible (true);
-                                btn_upgrade.set_visible (false);
+
+                                installed = false;
 
                                 if (success) {
-                                    installed = false;
                                     send_toast (_("The deletion of ") + title + _(" is done"), 3);
                                 } else {
                                     send_toast (_("An unexpected error occured while deleting ") + title, 5000);
@@ -490,7 +490,6 @@ namespace ProtonPlus.Launchers {
 
                 icon_upgrade.set_pixel_size (20);
 
-                btn_upgrade.set_visible (installed);
                 btn_upgrade.set_child (icon_upgrade);
                 btn_upgrade.add_css_class ("flat");
                 btn_upgrade.width_request = 40;
@@ -521,12 +520,11 @@ namespace ProtonPlus.Launchers {
                             spinner.set_visible (false);
                             progress_label.set_visible (false);
                             btn_cancel.set_visible (false);
-                            btn_delete.set_visible (true);
-                            btn_install.set_visible (false);
-                            btn_upgrade.set_visible (true);
+
+                            installed = true;
+                            updated = success;
 
                             if (success) {
-                                updated = true;
                                 send_toast (_("The upgrade of ") + title + _(" is done"), 3);
                             } else {
                                 send_toast (_("An unexpected error occured while upgrading ") + title, 5000);
@@ -535,15 +533,6 @@ namespace ProtonPlus.Launchers {
                     }
                 });
 
-                if (updated) {
-                    icon_upgrade.set_from_icon_name ("circle-check-symbolic");
-                    btn_upgrade.set_tooltip_text (_("STL is up-to-date"));
-                } else {
-                    icon_upgrade.set_from_icon_name ("circle-chevron-up-symbolic");
-                    btn_upgrade.set_tooltip_text (_("Update STL to the latest version"));
-                }
-
-                btn_install.set_visible (!installed);
                 btn_install.clicked.connect (() => {
                     send_toast (_("The installation of ") + title + _(" was started"), 3);
 
@@ -567,12 +556,10 @@ namespace ProtonPlus.Launchers {
                         spinner.set_visible (false);
                         progress_label.set_visible (false);
                         btn_cancel.set_visible (false);
-                        btn_delete.set_visible (success);
-                        btn_install.set_visible (cancelled);
-                        btn_upgrade.set_visible (success);
+
+                        installed = updated = success;
 
                         if (success) {
-                            installed = true;
                             send_toast (_("The installation of ") + title + _(" is done"), 3);
                         } else if (cancelled) {
                             send_toast (_("The installation of ") + title + _(" was cancelled"), 3);
@@ -619,6 +606,25 @@ namespace ProtonPlus.Launchers {
 
                 row.set_title ("SteamTinkerLaunch");
                 row.add_suffix (input_box);
+
+                this.notify["installed"].connect (() => {
+                    btn_delete.set_visible (installed);
+                    btn_install.set_visible (!installed);
+                    btn_upgrade.set_visible (installed);
+                });
+
+                this.notify["updated"].connect (() => {
+                    if (updated) {
+                        icon_upgrade.set_from_icon_name ("circle-check-symbolic");
+                        btn_upgrade.set_tooltip_text (_("STL is up-to-date"));
+                    } else {
+                        icon_upgrade.set_from_icon_name ("circle-chevron-up-symbolic");
+                        btn_upgrade.set_tooltip_text (_("Update STL to the latest version"));
+                    }
+                });
+
+                this.notify_property ("installed");
+                this.notify_property ("updated");
 
                 return row;
             }

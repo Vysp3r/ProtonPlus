@@ -287,7 +287,7 @@ namespace ProtonPlus.Models {
                 }
 
                 if (runner.title_type != Runner.title_types.NONE) {
-                    Utils.Filesystem.rename (source_path, directory + get_directory_name ());
+                    yield Utils.Filesystem.rename (source_path, directory + get_directory_name ());
                 }
 
                 runner.group.launcher.install (this);
@@ -300,7 +300,7 @@ namespace ProtonPlus.Models {
                 }
 
                 if (runner.title_type != Runner.title_types.NONE) {
-                    Utils.Filesystem.rename (source_path, directory + get_directory_name ());
+                    yield Utils.Filesystem.rename (source_path, directory + get_directory_name ());
                 }
 
                 runner.group.launcher.install (this);

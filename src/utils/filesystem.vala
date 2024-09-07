@@ -104,8 +104,17 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        public static bool rename (string sourcePath, string destinationPath) {
-            return FileUtils.rename (sourcePath, destinationPath) == 0;
+        public static async bool rename (string source_path, string destination_path) {
+            SourceFunc callback = rename.callback;
+
+            bool output = false;
+            new Thread<void> ("rename", () => {
+                output = FileUtils.rename (source_path, destination_path) == 0;
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
+
+            yield;
+            return output;
         }
 
         public async static bool make_symlink (string link_location, string target_path) {
@@ -180,30 +189,38 @@ namespace ProtonPlus.Utils {
 
         // Directories.
 
-        public static bool move_dir_contents (string source_dir, string target_dir) {
-            try {
-                Dir dir = Dir.open (source_dir);
-                string? name = null;
-                while ((name = dir.read_name ()) != null) {
-                    // NOTE: Includes hidden files (".foo") but not "." and "..".
-                    string source_path = Path.build_filename (source_dir, name);
-                    string target_path = Path.build_filename (target_dir, name);
+        public static async bool move_dir_contents (string source_dir, string target_dir) {
+            SourceFunc callback = move_dir_contents.callback;
 
-                    // message (@"[Move] \"$source_path\"\n    -> \"$target_path\"\n");
+            bool output = false;
+            new Thread<void> ("move_dir_contents", () => {
+                try {
+                    Dir dir = Dir.open (source_dir);
+                    string? name = null;
+                    while ((name = dir.read_name ()) != null) {
+                        // NOTE: Includes hidden files (".foo") but not "." and "..".
+                        string source_path = Path.build_filename (source_dir, name);
+                        string target_path = Path.build_filename (target_dir, name);
 
-                    // Never overwrite existing target (avoids accidental data loss).
-                    if (FileUtils.test (target_path, FileTest.EXISTS))
-                        return false;
+                        // message (@"[Move] \"$source_path\"\n    -> \"$target_path\"\n");
 
-                    // Move the "file" regardless of type (such as dir, symlink, etc).
-                    if (FileUtils.rename (source_path, target_path) != 0)
-                        return false;
+                        // Never overwrite existing target (avoids accidental data loss).
+                        if (FileUtils.test (target_path, FileTest.EXISTS))
+                            return;
+
+                        // Move the "file" regardless of type (such as dir, symlink, etc).
+                        if (FileUtils.rename (source_path, target_path) != 0)
+                            return;
+                    }
+                    output = true;
+                } catch (Error e) {
+                    message (e.message);
                 }
-            } catch (Error e) {
-                return false;
-            }
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
 
-            return true;
+            yield;
+            return output;
         }
 
         static bool delete_directory_direct (string path) {
@@ -241,7 +258,7 @@ namespace ProtonPlus.Utils {
             return true;
         }
 
-        public async static bool delete_directory (string path) {
+        public static async bool delete_directory (string path) {
             SourceFunc callback = delete_directory.callback;
 
             bool output = false;
@@ -258,49 +275,57 @@ namespace ProtonPlus.Utils {
             return output;
         }
 
-        public static bool create_directory (string path) {
-            // We can safely split on slashes since they're illegal as filenames.
-            var has_leading_slash = path.index_of_char ('/') == 0;
-            var parts = path.split ("/");
+        public static async bool create_directory (string path) {
+            SourceFunc callback = create_directory.callback;
 
-            // Create the target directory components in a top-down fashion.
-            // NOTE: If caller gives us a path with `..` such as `/foo/bar/../baz`,
-            // then we will end up creating both `/foo/bar` and `/foo/baz`, because
-            // there is no easy way to preprocess such directory traversals.
-            Posix.Stat stat_;
-            var current_path = "";
-            foreach (string p in parts) {
-                if (p == "")
-                    continue;
+            bool output = false;
+            new Thread<void> ("create_directory", () => {
+                // We can safely split on slashes since they're illegal as filenames.
+                var has_leading_slash = path.index_of_char ('/') == 0;
+                var parts = path.split ("/");
 
-                if (current_path == "" && !has_leading_slash)
-                    current_path = p;
-                else
-                    current_path += @"/$p";
+                // Create the target directory components in a top-down fashion.
+                // NOTE: If caller gives us a path with `..` such as `/foo/bar/../baz`,
+                // then we will end up creating both `/foo/bar` and `/foo/baz`, because
+                // there is no easy way to preprocess such directory traversals.
+                Posix.Stat stat_;
+                var current_path = "";
+                foreach (string p in parts) {
+                    if (p == "")
+                        continue;
 
-                // Attempt to create the current path.
-                // NOTE: We request full (0777) permission bits. The C library will
-                // then filter it down to the correct `umask` for the current user,
-                // which is almost always 0755. This is how GNU's mkdir util works.
-                // https://pubs.opengroup.org/onlinepubs/9799919799/functions/mkdir.html
-                // https://github.com/coreutils/coreutils/blob/408301e4bc171bf5544f373f64bb6ed3351541db/src/mkdir.c#L136
-                // https://github.com/coreutils/gnulib/blob/e87d09bee37eeb742b8a34c9054cd2ebde22b835/lib/sys_stat.in.h#L423
-                if (Posix.mkdir (current_path, S_IRWXUGO) != 0) {
-                    // Check failures for any reasons other than "it exists".
-                    if (Posix.errno != Posix.EEXIST)
-                        return false;
+                    if (current_path == "" && !has_leading_slash)
+                        current_path = p;
+                    else
+                        current_path += @"/$p";
 
-                    // Verify that it's a directory (or a directory symlink).
-                    // NOTE: We use `stat()` since we ALLOW the dir to be symlinked.
-                    if (Posix.stat (current_path, out stat_) != 0)
-                        return false;
-                    if (!Posix.S_ISDIR (stat_.st_mode))
-                        return false;
+                    // Attempt to create the current path.
+                    // NOTE: We request full (0777) permission bits. The C library will
+                    // then filter it down to the correct `umask` for the current user,
+                    // which is almost always 0755. This is how GNU's mkdir util works.
+                    // https://pubs.opengroup.org/onlinepubs/9799919799/functions/mkdir.html
+                    // https://github.com/coreutils/coreutils/blob/408301e4bc171bf5544f373f64bb6ed3351541db/src/mkdir.c#L136
+                    // https://github.com/coreutils/gnulib/blob/e87d09bee37eeb742b8a34c9054cd2ebde22b835/lib/sys_stat.in.h#L423
+                    if (Posix.mkdir (current_path, S_IRWXUGO) != 0) {
+                        // Check failures for any reasons other than "it exists".
+                        if (Posix.errno != Posix.EEXIST)
+                            return;
+
+                        // Verify that it's a directory (or a directory symlink).
+                        // NOTE: We use `stat()` since we ALLOW the dir to be symlinked.
+                        if (Posix.stat (current_path, out stat_) != 0)
+                            return;
+                        if (!Posix.S_ISDIR (stat_.st_mode))
+                            return;
+                    }
+
+                    output = true;
                 }
-            }
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
 
-            // Target path exists and is a directory (or dir symlink).
-            return true;
+            yield;
+            return output;
         }
 
         public static uint64 get_directory_size (string path) {
