@@ -2,7 +2,7 @@ namespace ProtonPlus.Utils {
     public class Filesystem {
         public const Posix.mode_t S_IRWXUGO = (Posix.S_IRWXU | Posix.S_IRWXG | Posix.S_IRWXO);
 
-        // Other
+        // Miscellaneous.
 
         public delegate bool cancel_callback ();
 
@@ -108,7 +108,7 @@ namespace ProtonPlus.Utils {
             return FileUtils.rename (sourcePath, destinationPath) == 0;
         }
 
-        // File
+        // Files.
 
         public static string get_file_content (string path) {
             string output = "";
@@ -153,7 +153,7 @@ namespace ProtonPlus.Utils {
             return delete_file_direct (path);
         }
 
-        // Directory
+        // Directories.
 
         static bool delete_directory_direct (string path) {
             var dir = Posix.opendir (path);

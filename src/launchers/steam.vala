@@ -322,7 +322,7 @@ namespace ProtonPlus.Launchers {
                 }
 
                 try {
-                    // Try to create the symlink (will fail if file exists or no permission)
+                    // Try to create the symlink (will fail if file exists or no permission).
                     yield link.make_symbolic_link_async (binary_location, Priority.DEFAULT, null);
                 } catch (Error e) {
                     return false;
