@@ -113,7 +113,7 @@ namespace ProtonPlus.Launchers {
                 base_location = @"$parent_location/steamtinkerlaunch";
                 binary_location = @"$base_location/steamtinkerlaunch";
                 meta_location = @"$base_location/ProtonPlus.meta";
-                download_location = @"$base_location/temp";
+                download_location = @"$base_location/ProtonPlus.downloads";
                 link_parent_location = @"$home_location/.local/bin";
                 link_location = @"$link_parent_location/steamtinkerlaunch";
                 config_location = @"$home_location/.config/steamtinkerlaunch";
@@ -264,50 +264,48 @@ namespace ProtonPlus.Launchers {
                 if (has_existing_install)
                     yield remove (false);
 
+
+                var install_success = yield _download_and_install ();
+                if (!install_success) {
+                    // Attempt to clean up any leftover files and symlinks,
+                    // but don't erase the user's STL configuration files.
+                    yield remove (false);
+
+                    return false;
+                }
+
+                return true;
+            }
+
+            static async bool _download_and_install () {
                 if (!FileUtils.test (download_location, FileTest.IS_DIR))
                     if (!Utils.Filesystem.create_directory (download_location))
                         return false;
 
                 string downloaded_file_location = @"$download_location/$title.zip";
 
+                if (FileUtils.test (downloaded_file_location, FileTest.EXISTS)) {
+                    var deleted = Utils.Filesystem.delete_file (downloaded_file_location);
+
+                    if (!deleted)
+                        return false;
+                }
+
                 var download_result = yield Utils.Web.Download (get_download_url (), downloaded_file_location, -1, () => cancelled, (download_progress) => progress_label.set_text (download_progress.to_string () + "%"));
 
-                if (download_result != Utils.Web.DOWNLOAD_CODES.SUCCESS) {
-                    if (FileUtils.test (base_location, FileTest.EXISTS)) {
-                        var deleted = yield Utils.Filesystem.delete_directory (base_location);
-
-                        if (!deleted) {
-                        }
-                    }
-
+                if (download_result != Utils.Web.DOWNLOAD_CODES.SUCCESS)
                     return false;
-                }
 
-                string extracted_file_location = yield Utils.Filesystem.extract (@"$parent_location/", title, ".zip", () => cancelled);
 
-                if (extracted_file_location == "") {
-                    if (FileUtils.test (base_location, FileTest.EXISTS)) {
-                        var deleted = yield Utils.Filesystem.delete_directory (base_location);
+                string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => cancelled);
 
-                        if (!deleted) {
-                        }
-                    }
-
+                if (extracted_file_location == "")
                     return false;
-                }
 
 
                 var renamed = Utils.Filesystem.rename (extracted_file_location, base_location);
-                if (!renamed) {
-                    if (FileUtils.test (base_location, FileTest.EXISTS)) {
-                        var deleted = yield Utils.Filesystem.delete_directory (base_location);
-
-                        if (!deleted) {
-                        }
-                    }
-
+                if (!renamed)
                     return false;
-                }
 
 
                 if (!Utils.Filesystem.create_directory (link_parent_location))
@@ -336,6 +334,7 @@ namespace ProtonPlus.Launchers {
                     exec_stl (binary_location, "");
 
                 exec_stl (binary_location, "compat add");
+
 
                 Utils.Filesystem.create_file (meta_location, latest_hash);
 
@@ -372,7 +371,6 @@ namespace ProtonPlus.Launchers {
                     if (!base_deleted)
                         return false;
                 }
-
 
                 if (delete_config && FileUtils.test (config_location, GLib.FileTest.IS_DIR)) {
                     var config_deleted = yield Utils.Filesystem.delete_directory (config_location);
