@@ -108,6 +108,30 @@ namespace ProtonPlus.Utils {
             return FileUtils.rename (sourcePath, destinationPath) == 0;
         }
 
+        public async static bool make_symlink (string link_location, string target_path) {
+            var link_file = File.new_for_path (link_location);
+            if (link_file.query_exists (null)) {
+                // Only attempt to delete link_location if it's already a symlink.
+                if (!FileUtils.test (link_location, FileTest.IS_SYMLINK))
+                    return false;
+
+                var link_deleted = Utils.Filesystem.delete_file (link_location);
+                if (!link_deleted)
+                    return false;
+            }
+
+            try {
+                // Try to create the symlink (will fail if file exists or no permission).
+                var link_created = yield link_file.make_symbolic_link_async (target_path, Priority.DEFAULT, null);
+                if (!link_created)
+                    return false;
+            } catch (Error e) {
+                return false;
+            }
+
+            return true;
+        }
+
         // Files.
 
         public static string get_file_content (string path) {

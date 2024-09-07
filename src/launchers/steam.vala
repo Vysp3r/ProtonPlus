@@ -311,22 +311,9 @@ namespace ProtonPlus.Launchers {
                 if (!Utils.Filesystem.create_directory (link_parent_location))
                     return false;
 
-                var link = File.new_for_path (link_location);
-                if (link.query_exists (null)) {
-                    // Only attempt to delete the file if it's already a symlink.
-                    if (FileUtils.test (link_location, FileTest.IS_SYMLINK)) {
-                        var link_deleted = Utils.Filesystem.delete_file (link_location);
-                        if (!link_deleted)
-                            return false;
-                    }
-                }
-
-                try {
-                    // Try to create the symlink (will fail if file exists or no permission).
-                    yield link.make_symbolic_link_async (binary_location, Priority.DEFAULT, null);
-                } catch (Error e) {
+                var link_created = yield Utils.Filesystem.make_symlink(link_location, binary_location);
+                if (!link_created)
                     return false;
-                }
 
 
                 // Trigger STL's dependency installer for Steam Deck users.
