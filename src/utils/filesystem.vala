@@ -1,5 +1,7 @@
 namespace ProtonPlus.Utils {
     public class Filesystem {
+        public const Posix.mode_t S_IRWXUGO = (Posix.S_IRWXU | Posix.S_IRWXG | Posix.S_IRWXO);
+
         // Other
 
         public delegate bool cancel_callback ();
@@ -226,8 +228,13 @@ namespace ProtonPlus.Utils {
                     current_path += @"/$p";
 
                 // Attempt to create the current path.
+                // NOTE: We request full (0777) permission bits. The C library will
+                // then filter it down to the correct `umask` for the current user,
+                // which is almost always 0755. This is how GNU's mkdir util works.
                 // https://pubs.opengroup.org/onlinepubs/9799919799/functions/mkdir.html
-                if (Posix.mkdir (current_path, Posix.S_IRWXU) != 0) {
+                // https://github.com/coreutils/coreutils/blob/408301e4bc171bf5544f373f64bb6ed3351541db/src/mkdir.c#L136
+                // https://github.com/coreutils/gnulib/blob/e87d09bee37eeb742b8a34c9054cd2ebde22b835/lib/sys_stat.in.h#L423
+                if (Posix.mkdir (current_path, S_IRWXUGO) != 0) {
                     // Check failures for any reasons other than "it exists".
                     if (Posix.errno != Posix.EEXIST)
                         return false;
