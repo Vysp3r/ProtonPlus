@@ -90,7 +90,7 @@ namespace ProtonPlus.Launchers {
             static string link_parent_location;
             static string link_location;
             static string config_location;
-            static List<string> external_locations;
+            static Gee.HashMap<string, bool> external_locations;
 
             static bool installed;
             static bool updated;
@@ -117,13 +117,13 @@ namespace ProtonPlus.Launchers {
                 link_parent_location = @"$home_location/.local/bin";
                 link_location = @"$link_parent_location/steamtinkerlaunch";
                 config_location = @"$home_location/.config/steamtinkerlaunch";
-                external_locations = new List<string> ();
-                external_locations.append (@"$home_location/SteamTinkerLaunch");
+                external_locations = new Gee.HashMap<string, bool> ();
+                external_locations.set (@"$home_location/SteamTinkerLaunch", false);
 
                 if (Utils.System.IS_STEAM_OS)
                     base_location = @"$home_location/stl/prefix";
                 else
-                    external_locations.append (Environment.get_home_dir () + "/stl");
+                    external_locations.set (Environment.get_home_dir () + "/stl", false);
 
                 var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
                 var meta_file_exists = FileUtils.test (meta_location, FileTest.EXISTS);
@@ -138,16 +138,14 @@ namespace ProtonPlus.Launchers {
                 local_hash = "";
                 if (installed) {
                     local_hash = Utils.Filesystem.get_file_content (meta_location);
-                    if (local_hash == "") {
+                    if (local_hash == "")
                         installed = false;
-                    } else {
+                    else
                         updated = latest_hash == local_hash;
-                    }
                 }
 
-                if (base_location_exists && !meta_file_exists) {
-                    external_locations.append (base_location);
-                }
+                if (base_location_exists && !meta_file_exists)
+                    external_locations.set (base_location, false);
 
                 title = "STL";
 
@@ -227,9 +225,9 @@ namespace ProtonPlus.Launchers {
 
                 var has_external_install = false;
 
-                foreach (var location in external_locations) {
-                    if (FileUtils.test (location, FileTest.EXISTS))
-                        has_external_install = true;
+                foreach (var entry in external_locations) {
+                    if (FileUtils.test (entry.key, FileTest.EXISTS))
+                        entry.value = has_external_install = true;
                 }
 
                 if (has_external_install) {
@@ -251,13 +249,16 @@ namespace ProtonPlus.Launchers {
 
                     exec_stl_if_exists (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
 
-                    foreach (var location in external_locations) {
-                        var deleted = yield Utils.Filesystem.delete_directory (location);
+                    foreach (var entry in external_locations) {
+                        if (!entry.value)
+                            continue;
+
+                        var deleted = yield Utils.Filesystem.delete_directory (entry.key);
+
+                        message (entry.key);
 
                         if (!deleted)
                             return false;
-                        else if (base_location.contains (location))
-                            external_locations.remove (location);
                     }
                 }
 
@@ -267,6 +268,7 @@ namespace ProtonPlus.Launchers {
 
 
                 var install_success = yield _download_and_install ();
+
                 if (!install_success) {
                     // Attempt to clean up any leftover files and symlinks,
                     // but don't erase the user's STL configuration files.
@@ -318,6 +320,7 @@ namespace ProtonPlus.Launchers {
 
                 // We don't need the download directory anymore.
                 var download_deleted = yield Utils.Filesystem.delete_directory (download_location);
+
                 if (!download_deleted)
                     return false;
 
@@ -326,7 +329,8 @@ namespace ProtonPlus.Launchers {
                 if (!Utils.Filesystem.create_directory (link_parent_location))
                     return false;
 
-                var link_created = yield Utils.Filesystem.make_symlink(link_location, binary_location);
+                var link_created = yield Utils.Filesystem.make_symlink (link_location, binary_location);
+
                 if (!link_created)
                     return false;
 

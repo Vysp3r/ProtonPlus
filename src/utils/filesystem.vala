@@ -123,6 +123,7 @@ namespace ProtonPlus.Utils {
             try {
                 // Try to create the symlink (will fail if file exists or no permission).
                 var link_created = yield link_file.make_symbolic_link_async (target_path, Priority.DEFAULT, null);
+
                 if (!link_created)
                     return false;
             } catch (Error e) {
@@ -188,7 +189,7 @@ namespace ProtonPlus.Utils {
                     string source_path = Path.build_filename (source_dir, name);
                     string target_path = Path.build_filename (target_dir, name);
 
-                    print(@"[Move] \"$source_path\"\n    -> \"$target_path\"\n");
+                    // message (@"[Move] \"$source_path\"\n    -> \"$target_path\"\n");
 
                     // Never overwrite existing target (avoids accidental data loss).
                     if (FileUtils.test (target_path, FileTest.EXISTS))
