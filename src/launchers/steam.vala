@@ -135,6 +135,7 @@ namespace ProtonPlus.Launchers {
                 if (latest_hash == "")
                     return false;
 
+                local_hash = "";
                 if (installed) {
                     local_hash = Utils.Filesystem.get_file_content (meta_location);
                     if (local_hash == "") {
@@ -271,6 +272,12 @@ namespace ProtonPlus.Launchers {
                     // but don't erase the user's STL configuration files.
                     yield remove (false);
 
+                    // Update the ProtonPlus UI state variables.
+                    // TODO: Also change the "update" icon to the "fully updated" checkmark instead.
+                    local_hash = "";
+                    updated = false;
+                    installed = false;
+
                     return false;
                 }
 
@@ -331,7 +338,12 @@ namespace ProtonPlus.Launchers {
                 exec_stl (binary_location, "compat add");
 
 
+                // Remember installed hash and fix the ProtonPlus UI state variables.
                 Utils.Filesystem.create_file (meta_location, latest_hash);
+
+                local_hash = latest_hash;
+                updated = true;
+                installed = true;
 
                 return true;
             }
