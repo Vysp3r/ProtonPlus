@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-08 17:26-0400\n"
+"POT-Creation-Date: 2024-09-08 17:56-0400\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -24,64 +24,64 @@ msgstr "Solo instalado"
 msgid "About"
 msgstr "Acerca de"
 
-#: src/widgets/info-box.vala:181 src/widgets/info-box.vala:189
+#: src/widgets/info-box.vala:181 src/widgets/info-box.vala:184
 msgid "Load more"
 msgstr "Más información"
 
-#: src/widgets/info-box.vala:201 src/widgets/info-box.vala:336
+#: src/widgets/info-box.vala:196 src/widgets/info-box.vala:332
 msgid "There was an error while fetching data from the GitHub API"
 msgstr "Se ha producido un error al obtener datos de la API de GitHub"
 
-#: src/widgets/info-box.vala:219 src/launchers/steam.vala:495
+#: src/widgets/info-box.vala:214 src/launchers/steam.vala:495
 msgid "Cancel the installation"
 msgstr "Cancelar la instalación"
 
-#: src/widgets/info-box.vala:222
+#: src/widgets/info-box.vala:218
 msgid "Delete the runner"
 msgstr "Eliminar la herramienta de ejecución"
 
-#: src/widgets/info-box.vala:224
+#: src/widgets/info-box.vala:220
 msgid "Are you sure you want to delete "
 msgstr "¿Estas seguro que quieres borrarlo "
 
-#: src/widgets/info-box.vala:226
+#: src/widgets/info-box.vala:222
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: src/widgets/info-box.vala:238
+#: src/widgets/info-box.vala:234
 msgid "Install the runner"
 msgstr "Instalación de la herramienta de ejecución"
 
-#: src/widgets/info-box.vala:265 src/widgets/info-box.vala:277
-#: src/widgets/info-box.vala:291 src/launchers/steam.vala:587
+#: src/widgets/info-box.vala:261 src/widgets/info-box.vala:273
+#: src/widgets/info-box.vala:287 src/launchers/steam.vala:587
 #: src/launchers/steam.vala:612 src/launchers/steam.vala:614
 msgid "The installation of "
 msgstr "La instalación de "
 
-#: src/widgets/info-box.vala:265 src/launchers/steam.vala:614
+#: src/widgets/info-box.vala:261 src/launchers/steam.vala:614
 msgid " was cancelled"
 msgstr " fue cancelada"
 
-#: src/widgets/info-box.vala:277 src/launchers/steam.vala:553
+#: src/widgets/info-box.vala:273 src/launchers/steam.vala:553
 #: src/launchers/steam.vala:587
 msgid " was started"
 msgstr " empezó"
 
-#: src/widgets/info-box.vala:291 src/widgets/info-box.vala:318
+#: src/widgets/info-box.vala:287 src/widgets/info-box.vala:314
 #: src/launchers/steam.vala:540 src/launchers/steam.vala:578
 #: src/launchers/steam.vala:612
 msgid " is done"
 msgstr " está hecha"
 
-#: src/widgets/info-box.vala:318 src/launchers/steam.vala:540
+#: src/widgets/info-box.vala:314 src/launchers/steam.vala:540
 msgid "The deletion of "
 msgstr "La eliminación de "
 
-#: src/widgets/info-box.vala:339
+#: src/widgets/info-box.vala:335
 msgid "An unexpected error occured while extracting "
 msgstr "Se ha producido un error inesperado al extraer "
 
-#: src/widgets/info-box.vala:342 src/launchers/steam.vala:616
+#: src/widgets/info-box.vala:338 src/launchers/steam.vala:616
 msgid "An unexpected error occured while installing "
 msgstr "Se ha producido un error inesperado al instalar "
 
@@ -223,15 +223,11 @@ msgid "Missing dependencies!"
 msgstr ""
 
 #: src/launchers/steam.vala:304
-msgid ""
-"You have unmet dependencies for SteamTinkerLaunch\n"
-"\n"
+msgid "You have unmet dependencies for SteamTinkerLaunch"
 msgstr ""
 
 #: src/launchers/steam.vala:304
-msgid ""
-"\n"
-"Installation will be cancelled"
+msgid "Installation will be cancelled"
 msgstr ""
 
 #: src/launchers/steam.vala:305 src/launchers/steam.vala:317
@@ -247,9 +243,11 @@ msgstr "La instalación de "
 #: src/launchers/steam.vala:315
 msgid ""
 "It looks like there's a version of STL currently installed which was not "
-"installed by ProtonPlus.\n"
-"\n"
-"Do you want to delete it and install STL with ProtonPlus?"
+"installed by ProtonPlus."
+msgstr ""
+
+#: src/launchers/steam.vala:315
+msgid "Do you want to delete it and install STL with ProtonPlus?"
 msgstr ""
 
 #: src/launchers/steam.vala:316
@@ -280,10 +278,13 @@ msgid "Delete SteamTinkerLaunch"
 msgstr ""
 
 #: src/launchers/steam.vala:513
-msgid ""
-"You're about to delete STL from your system\n"
-"Are you sure you want this?"
+msgid "You're about to delete STL from your system"
 msgstr ""
+
+#: src/launchers/steam.vala:513
+#, fuzzy
+msgid "Are you sure you want this?"
+msgstr "¿Estas seguro que quieres borrarlo "
 
 #: src/launchers/steam.vala:515
 msgid "No"
