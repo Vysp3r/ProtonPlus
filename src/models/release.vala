@@ -61,11 +61,11 @@ namespace ProtonPlus.Models {
 
         public string get_formatted_download_size () {
             if (download_size < 0)return _("Not available");
-            return Utils.Filesystem.covert_bytes_to_string (download_size);
+            return Utils.Filesystem.convert_bytes_to_string (download_size);
         }
 
         public string get_formatted_size () {
-            return Utils.Filesystem.covert_bytes_to_string (directory_size);
+            return Utils.Filesystem.convert_bytes_to_string (directory_size);
         }
 
         public string get_directory_name () {
