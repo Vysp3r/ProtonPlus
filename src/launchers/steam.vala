@@ -454,21 +454,21 @@ namespace ProtonPlus.Launchers {
             async bool _remove_installation (bool delete_config) {
                 exec_stl_if_exists (binary_location, "compat del");
 
-                if (FileUtils.test (link_location, FileTest.IS_SYMLINK)) {
+                if (FileUtils.test (link_location, FileTest.EXISTS)) {
                     var link_deleted = Utils.Filesystem.delete_file (link_location);
 
                     if (!link_deleted)
                         return false;
                 }
 
-                if (FileUtils.test (base_location, FileTest.IS_DIR)) {
+                if (FileUtils.test (base_location, FileTest.EXISTS)) {
                     var base_deleted = yield Utils.Filesystem.delete_directory (base_location);
 
                     if (!base_deleted)
                         return false;
                 }
 
-                if (delete_config && FileUtils.test (config_location, FileTest.IS_DIR)) {
+                if (delete_config && FileUtils.test (config_location, FileTest.EXISTS)) {
                     var config_deleted = yield Utils.Filesystem.delete_directory (config_location);
 
                     if (!config_deleted)
