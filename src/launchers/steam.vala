@@ -489,35 +489,14 @@ namespace ProtonPlus.Launchers {
                 Utils.System.run_command (@"$exec_location $args");
             }
 
-            void send_toast (string content, int duration) {
-                var toast = new Adw.Toast (content);
-                toast.set_timeout (duration);
-
-                toast_overlay.add_toast (toast);
-            }
-
-            Gtk.Button create_button (string icon_name, string tooltip_text) {
-                var icon = new Gtk.Image.from_icon_name (icon_name);
-                icon.set_pixel_size (20);
-
-                var button = new Gtk.Button ();
-                button.set_child (icon);
-                button.set_tooltip_text (tooltip_text);
-                button.add_css_class ("flat");
-                button.width_request = 40;
-                button.height_request = 40;
-
-                return button;
-            }
-
             public Adw.ActionRow create_action_row (string launcher_type) {
                 progress_label = new Gtk.Label (null);
                 var spinner = new Gtk.Spinner ();
-                var btn_cancel = create_button ("x-symbolic", _("Cancel the installation"));
-                var btn_delete = create_button ("trash-symbolic", _("Delete STL"));
-                var btn_upgrade = create_button ("", "");
-                var btn_install = create_button ("download-symbolic", _("Install STL"));
-                var btn_info = create_button ("info-circle-symbolic", _("Show more information"));
+                var btn_cancel = Utils.GUI.create_button ("x-symbolic", _("Cancel the installation"));
+                var btn_delete = Utils.GUI.create_button ("trash-symbolic", _("Delete STL"));
+                var btn_upgrade = Utils.GUI.create_button (null, null);
+                var btn_install = Utils.GUI.create_button ("download-symbolic", _("Install STL"));
+                var btn_info = Utils.GUI.create_button ("info-circle-symbolic", _("Show more information"));
                 var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
                 var row = new Adw.ActionRow ();
 
@@ -558,9 +537,9 @@ namespace ProtonPlus.Launchers {
                                 spinner.set_visible (false);
 
                                 if (success) {
-                                    send_toast (_("The deletion of ") + title + _(" is done"), 3);
+                                    Utils.GUI.send_toast (toast_overlay, _("The deletion of ") + title + _(" is done"), 3);
                                 } else {
-                                    send_toast (_("An unexpected error occured while deleting ") + title, 5000);
+                                    Utils.GUI.send_toast (toast_overlay, _("An unexpected error occured while deleting ") + title, 5000);
                                 }
                             });
                         }
@@ -569,9 +548,9 @@ namespace ProtonPlus.Launchers {
 
                 btn_upgrade.clicked.connect (() => {
                     if (updated) {
-                        send_toast (title + _(" is already up-to-date"), 3);
+                        Utils.GUI.send_toast (toast_overlay, title + _(" is already up-to-date"), 3);
                     } else {
-                        send_toast (_("The upgrade of ") + title + _(" was started"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("The upgrade of ") + title + _(" was started"), 3);
 
                         row.activate_action_variant ("win.add-task", "");
 
@@ -596,16 +575,16 @@ namespace ProtonPlus.Launchers {
                             btn_cancel.set_visible (false);
 
                             if (success) {
-                                send_toast (_("The upgrade of ") + title + _(" is done"), 3);
+                                Utils.GUI.send_toast (toast_overlay, _("The upgrade of ") + title + _(" is done"), 3);
                             } else {
-                                send_toast (_("An unexpected error occured while upgrading ") + title, 5000);
+                                Utils.GUI.send_toast (toast_overlay, _("An unexpected error occured while upgrading ") + title, 5000);
                             }
                         });
                     }
                 });
 
                 btn_install.clicked.connect (() => {
-                    send_toast (_("The installation of ") + title + _(" was started"), 3);
+                    Utils.GUI.send_toast (toast_overlay, _("The installation of ") + title + _(" was started"), 3);
 
                     row.activate_action_variant ("win.add-task", "");
 
@@ -630,11 +609,11 @@ namespace ProtonPlus.Launchers {
                         btn_cancel.set_visible (false);
 
                         if (success) {
-                            send_toast (_("The installation of ") + title + _(" is done"), 3);
+                            Utils.GUI.send_toast (toast_overlay, _("The installation of ") + title + _(" is done"), 3);
                         } else if (cancelled) {
-                            send_toast (_("The installation of ") + title + _(" was cancelled"), 3);
+                            Utils.GUI.send_toast (toast_overlay, _("The installation of ") + title + _(" was cancelled"), 3);
                         } else {
-                            send_toast (_("An unexpected error occured while installing ") + title, 5000);
+                            Utils.GUI.send_toast (toast_overlay, _("An unexpected error occured while installing ") + title, 5000);
                         }
                     });
                 });
@@ -683,7 +662,7 @@ namespace ProtonPlus.Launchers {
                 });
 
                 this.notify["updated"].connect (() => {
-                    var icon_upgrade = (Gtk.Image) btn_upgrade.get_first_child ();
+                    var icon_upgrade = (Gtk.Image) btn_upgrade.get_child ();
                     if (updated) {
                         icon_upgrade.set_from_icon_name ("circle-check-symbolic");
                         btn_upgrade.set_tooltip_text (_("STL is up-to-date"));

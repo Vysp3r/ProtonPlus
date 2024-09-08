@@ -216,28 +216,11 @@ namespace ProtonPlus.Widgets {
             var spinner = new Gtk.Spinner ();
             spinner.set_visible (false);
 
-            var iconCancel = new Gtk.Image.from_icon_name ("x-symbolic");
-            iconCancel.set_pixel_size (20);
+            var btn_cancel = Utils.GUI.create_button ("x-symbolic", _("Cancel the installation"));
+            btn_cancel.clicked.connect (() => release.cancel ());
 
-            var btnCancel = new Gtk.Button ();
-            btnCancel.set_child (iconCancel);
-            btnCancel.set_visible (false);
-            btnCancel.set_tooltip_text (_("Cancel the installation"));
-            btnCancel.add_css_class ("flat");
-            btnCancel.width_request = 40;
-            btnCancel.height_request = 40;
-            btnCancel.clicked.connect (() => release.cancel ());
-
-            var iconDelete = new Gtk.Image.from_icon_name ("trash-symbolic");
-            iconDelete.set_pixel_size (20);
-
-            var btnDelete = new Gtk.Button ();
-            btnDelete.width_request = 40;
-            btnDelete.height_request = 40;
-            btnDelete.add_css_class ("flat");
-            btnDelete.set_child (iconDelete);
-            btnDelete.set_tooltip_text (_("Delete the runner"));
-            btnDelete.clicked.connect (() => {
+            var btn_delete = Utils.GUI.create_button ("trash-symbolic", _("Delete the runner"));
+            btn_delete.clicked.connect (() => {
                 var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
                 toast.set_timeout (30000);
                 toast.set_button_label (_("Confirm"));
@@ -252,27 +235,19 @@ namespace ProtonPlus.Widgets {
                 toast_overlay.add_toast (toast);
             });
 
-            var iconInstall = new Gtk.Image.from_icon_name ("download-symbolic");
-            iconInstall.set_pixel_size (20);
-
-            var btnInstall = new Gtk.Button ();
-            btnInstall.set_child (iconInstall);
-            btnInstall.add_css_class ("flat");
-            btnInstall.width_request = 40;
-            btnInstall.height_request = 40;
-            btnInstall.set_tooltip_text (_("Install the runner"));
-            btnInstall.clicked.connect (() => {
+            var btn_install = Utils.GUI.create_button ("download-symbolic", _("Install the runner"));
+            btn_install.clicked.connect (() => {
                 release.install.begin ((obj, res) => {
                     release.install.end (res);
                 });
             });
 
             if (release.runner.api_error && !release.installed) {
-                btnDelete.set_visible (false);
-                btnInstall.set_visible (false);
+                btn_delete.set_visible (false);
+                btn_install.set_visible (false);
             } else {
-                btnDelete.set_visible (release.installed);
-                btnInstall.set_visible (!release.installed);
+                btn_delete.set_visible (release.installed);
+                btn_install.set_visible (!release.installed);
             }
 
             var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
@@ -280,9 +255,9 @@ namespace ProtonPlus.Widgets {
             actions.set_valign (Gtk.Align.CENTER);
             actions.append (label);
             actions.append (spinner);
-            actions.append (btnCancel);
-            actions.append (btnDelete);
-            actions.append (btnInstall);
+            actions.append (btn_cancel);
+            actions.append (btn_delete);
+            actions.append (btn_install);
 
             release.notify["status"].connect (() => {
                 switch (release.status) {
@@ -292,10 +267,10 @@ namespace ProtonPlus.Widgets {
                         spinner.stop ();
                         spinner.set_visible (false);
                         label.set_visible (false);
-                        btnCancel.set_visible (false);
+                        btn_cancel.set_visible (false);
 
-                        btnDelete.set_visible (false);
-                        btnInstall.set_visible (true);
+                        btn_delete.set_visible (false);
+                        btn_install.set_visible (true);
 
                         break;
                     case Models.Release.STATUS.INSTALLING:
@@ -306,10 +281,10 @@ namespace ProtonPlus.Widgets {
                         spinner.start ();
                         spinner.set_visible (true);
                         label.set_visible (true);
-                        btnCancel.set_visible (true);
+                        btn_cancel.set_visible (true);
 
-                        btnDelete.set_visible (false);
-                        btnInstall.set_visible (false);
+                        btn_delete.set_visible (false);
+                        btn_install.set_visible (false);
 
                         break;
                     case Models.Release.STATUS.INSTALLED:
@@ -320,10 +295,10 @@ namespace ProtonPlus.Widgets {
                         spinner.stop ();
                         spinner.set_visible (false);
                         label.set_visible (false);
-                        btnCancel.set_visible (false);
+                        btn_cancel.set_visible (false);
 
-                        btnDelete.set_visible (true);
-                        btnInstall.set_visible (false);
+                        btn_delete.set_visible (true);
+                        btn_install.set_visible (false);
 
                         break;
                     case Models.Release.STATUS.UNINSTALLING:
@@ -332,8 +307,8 @@ namespace ProtonPlus.Widgets {
                         spinner.start ();
                         spinner.set_visible (true);
 
-                        btnDelete.set_visible (false);
-                        btnInstall.set_visible (false);
+                        btn_delete.set_visible (false);
+                        btn_install.set_visible (false);
 
                         break;
                     case Models.Release.STATUS.UNINSTALLED:
@@ -348,8 +323,8 @@ namespace ProtonPlus.Widgets {
                         spinner.stop ();
                         spinner.set_visible (false);
 
-                        btnDelete.set_visible (false);
-                        btnInstall.set_visible (true);
+                        btn_delete.set_visible (false);
+                        btn_install.set_visible (true);
 
                         break;
                 }
