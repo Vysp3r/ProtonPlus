@@ -96,7 +96,7 @@ namespace ProtonPlus.Launchers {
             public bool updated { get; set; }
             public bool cancelled { get; set; }
 
-            string row_stl_title { get; set; }
+            public string row_stl_title { get; set; }
 
             string? latest_date { get; set; }
             string? latest_hash { get; set; }
@@ -240,16 +240,17 @@ namespace ProtonPlus.Launchers {
 
 
                 // Generate a title for the installed (or latest) release.
-                row_stl_title = "SteamTinkerLaunch"; // Default title/prefix.
+                var _row_stl_title = "SteamTinkerLaunch"; // Default title/prefix.
                 if (local_date != "")
-                    row_stl_title = @"$row_stl_title ($local_date)";
+                    _row_stl_title = @"$_row_stl_title ($local_date)";
                 else if (latest_date != "")
-                    row_stl_title = @"$row_stl_title ($latest_date)";
+                    _row_stl_title = @"$_row_stl_title ($latest_date)";
 
 
                 // Update state to trigger the signals for UI refresh.
                 // WARNING: We MUST do this LAST, after finishing ALL other vars
                 // above, otherwise the UI redraw would happen with old values.
+                row_stl_title = _row_stl_title;
                 installed = _installed;
                 updated = _updated;
             }
@@ -683,15 +684,17 @@ namespace ProtonPlus.Launchers {
                 row.set_title (row_stl_title);
                 row.add_suffix (input_box);
 
-                this.notify["installed"].connect (() => {
+                this.notify["row-stl-title"].connect (() => {
                     row.set_title (row_stl_title);
+                });
+
+                this.notify["installed"].connect (() => {
                     btn_delete.set_visible (installed);
                     btn_install.set_visible (!installed);
                     btn_upgrade.set_visible (installed);
                 });
 
                 this.notify["updated"].connect (() => {
-                    row.set_title (row_stl_title);
                     if (updated) {
                         icon_upgrade.set_from_icon_name ("circle-check-symbolic");
                         btn_upgrade.set_tooltip_text (_("STL is up-to-date"));
@@ -701,6 +704,7 @@ namespace ProtonPlus.Launchers {
                     }
                 });
 
+                this.notify_property ("row-stl-title");
                 this.notify_property ("installed");
                 this.notify_property ("updated");
 
