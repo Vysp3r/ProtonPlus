@@ -217,6 +217,7 @@ namespace ProtonPlus.Widgets {
             spinner.set_visible (false);
 
             var btn_cancel = Utils.GUI.create_button ("x-symbolic", _("Cancel the installation"));
+            btn_cancel.set_visible (false);
             btn_cancel.clicked.connect (() => release.cancel ());
 
             var btn_delete = Utils.GUI.create_button ("trash-symbolic", _("Delete the runner"));
