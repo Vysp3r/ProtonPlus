@@ -218,7 +218,7 @@ namespace ProtonPlus.Launchers {
 
                 var _installed = base_location_exists && binary_location_exists && meta_file_exists;
                 var _updated = false;
-                
+
                 local_date = "";
                 local_hash = "";
 
@@ -272,8 +272,8 @@ namespace ProtonPlus.Launchers {
                     external_locations.append (loc2);
 
                 // Disabled for now, since we always erase base_location before installs.
-                //  if (FileUtils.test (base_location, FileTest.EXISTS) && !FileUtils.test (meta_location, FileTest.EXISTS))
-                //      external_locations.append (base_location);
+                // if (FileUtils.test (base_location, FileTest.EXISTS) && !FileUtils.test (meta_location, FileTest.EXISTS))
+                // external_locations.append (base_location);
 
                 return external_locations.length () > 0;
             }
@@ -515,8 +515,7 @@ namespace ProtonPlus.Launchers {
                 var spinner = new Gtk.Spinner ();
                 var btn_cancel = create_button ("x-symbolic", _("Cancel the installation"));
                 var btn_delete = create_button ("trash-symbolic", _("Delete STL"));
-                var icon_upgrade = new Gtk.Image ();
-                var btn_upgrade = new Gtk.Button ();
+                var btn_upgrade = create_button ("", "");
                 var btn_install = create_button ("download-symbolic", _("Install STL"));
                 var btn_info = create_button ("info-circle-symbolic", _("Show more information"));
                 var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
@@ -568,12 +567,6 @@ namespace ProtonPlus.Launchers {
                     });
                 });
 
-                icon_upgrade.set_pixel_size (20);
-
-                btn_upgrade.set_child (icon_upgrade);
-                btn_upgrade.add_css_class ("flat");
-                btn_upgrade.width_request = 40;
-                btn_upgrade.height_request = 40;
                 btn_upgrade.clicked.connect (() => {
                     if (updated) {
                         send_toast (title + _(" is already up-to-date"), 3);
@@ -648,22 +641,18 @@ namespace ProtonPlus.Launchers {
 
                 btn_info.set_visible (launcher_type != "System");
                 btn_info.clicked.connect (() => {
+                    Adw.MessageDialog? dialog = null;
                     switch (launcher_type) {
-                        case "Flatpak":
-                            var dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), _("To install Steam Tinker Launch for Steam Flatpak, please run the following command:") + "\n\nflatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch");
-                            dialog.add_response ("ok", _("OK"));
-                            dialog.show ();
+                        case "Flatpak" :
+                            dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), _("To install Steam Tinker Launch for Steam Flatpak, please run the following command:") + "\n\nflatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch");
                             break;
                         case "Snap":
-                            var dialog = new Adw.MessageDialog (Application.window, _("Steam Snap is not supported"), _("There's currently no known way to install STL for Steam Snap"));
-                            dialog.add_response ("ok", _("OK"));
-                            dialog.show ();
+                            dialog = new Adw.MessageDialog (Application.window, _("Steam Snap is not supported"), _("There's currently no known way to install STL for Steam Snap"));
                             break;
-                        default:
-                            var dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), _("To install Steam Tinker Launch for Steam Flatpak, please run the following command:") + "\n\nflatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch");
-                            dialog.add_response ("ok", _("OK"));
-                            dialog.show ();
-                            break;
+                    }
+                    if (dialog != null) {
+                        dialog.add_response ("ok", _("OK"));
+                        dialog.show ();
                     }
                 });
 
@@ -681,7 +670,6 @@ namespace ProtonPlus.Launchers {
                     input_box.append (btn_info);
                 }
 
-                row.set_title (row_stl_title);
                 row.add_suffix (input_box);
 
                 this.notify["row-stl-title"].connect (() => {
@@ -695,6 +683,7 @@ namespace ProtonPlus.Launchers {
                 });
 
                 this.notify["updated"].connect (() => {
+                    var icon_upgrade = (Gtk.Image) btn_upgrade.get_first_child ();
                     if (updated) {
                         icon_upgrade.set_from_icon_name ("circle-check-symbolic");
                         btn_upgrade.set_tooltip_text (_("STL is up-to-date"));
