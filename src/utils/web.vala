@@ -22,7 +22,7 @@ namespace ProtonPlus.Utils {
 
         public delegate bool cancel_callback ();
 
-        public delegate void progress_callback (int progress);
+        public delegate void progress_callback (bool is_percent, int64 progress);
 
         public enum DOWNLOAD_CODES {
             API_ERROR,
@@ -52,15 +52,25 @@ namespace ProtonPlus.Utils {
                 FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, Priority.DEFAULT, null);
 
                 // Prefer real Content-Length header from the server if it exists.
-                // NOTE: Servers typically return "0" when it doesn't know (for
-                // live-generated files, such as GitHub's commit-based source archives).
-                var server_download_size = soup_message.get_response_headers ().get_content_length ();
+                // NOTE: Servers typically return "0" when it doesn't know, for
+                // live-generated files (such as GitHub's commit-based source
+                // archives). However, GitHub's server then caches the generated
+                // result for a few minutes to avoid extra work. So the first
+                // download of a GitHub source archive will have an unknown "0"
+                // length, but any download requests after that it will see the
+                // filesize for a few minutes, until GitHub clears their cache.
+                int64 server_download_size = soup_message.get_response_headers ().get_content_length ();
                 if (server_download_size > 0) {
                     download_size = server_download_size;
                 }
 
                 const size_t chunk_size = 4096;
-                ulong bytes_downloaded = 0;
+                bool is_percent = download_size > 0;
+                int64 bytes_downloaded = 0;
+
+                if (progress_callback != null) {
+                    progress_callback (is_percent, 0); // Set initial progress state.
+                }
 
                 while (true) {
                     if (cancel_callback ()) {
@@ -79,12 +89,9 @@ namespace ProtonPlus.Utils {
                     bytes_downloaded += output_stream.write (chunk.get_data ());
 
                     if (progress_callback != null) {
-                        // Use static "50% Progress" when download size is unknown.
-                        // TODO: Enhance the progress callback so it can display
-                        // "1.13 MiB" (human-formatting "bytes_downloaded" to KiB
-                        // and MiB) if no filesize available? To show actual progress.
-                        var progress = download_size <= 0 ? 50 : (int) (((double) bytes_downloaded / download_size) * 100);
-                        progress_callback (progress);
+                        // Use "bytes downloaded" when total size is unknown.
+                        int64 progress = !is_percent ? bytes_downloaded : (int64) (((double) bytes_downloaded / download_size) * 100);
+                        progress_callback (is_percent, progress);
                     }
                 }
 
