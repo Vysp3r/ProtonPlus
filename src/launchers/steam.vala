@@ -122,22 +122,9 @@ namespace ProtonPlus.Launchers {
                 if (Utils.System.IS_STEAM_OS)
                     base_location = @"$home_location/stl/prefix";
 
-                var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
-                var meta_file_exists = FileUtils.test (meta_location, FileTest.EXISTS);
+                latest_hash = fetch_latest_hash ();
 
-                installed = base_location_exists && meta_file_exists;
-                updated = false;
-
-                latest_hash = get_latest_hash_ ();
-
-                local_hash = "";
-                if (installed) {
-                    local_hash = Utils.Filesystem.get_file_content (meta_location);
-                    if (local_hash == "")
-                        installed = false;
-                    else if (latest_hash != "")
-                        updated = latest_hash == local_hash;
-                }
+                refresh_installation_state ();
 
                 title = "STL";
             }
@@ -146,7 +133,7 @@ namespace ProtonPlus.Launchers {
                 return @"https://github.com/sonic2kk/steamtinkerlaunch/archive/$latest_hash.zip";
             }
 
-            string get_latest_hash_ () {
+            string fetch_latest_hash () {
                 try {
                     var soup_session = new Soup.Session ();
                     soup_session.set_user_agent (Utils.Web.get_user_agent ());
@@ -183,6 +170,44 @@ namespace ProtonPlus.Launchers {
                 }
             }
 
+            void refresh_installation_state () {
+                // Update the ProtonPlus UI state variables.
+                var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
+                var binary_location_exists = FileUtils.test (binary_location, FileTest.EXISTS);
+                var meta_file_exists = FileUtils.test (meta_location, FileTest.EXISTS);
+
+                installed = base_location_exists && binary_location_exists && meta_file_exists;
+                updated = false;
+                local_hash = "";
+
+                if (installed) {
+                    local_hash = Utils.Filesystem.get_file_content (meta_location);
+                    if (local_hash == "")
+                        installed = false;
+                    else if (latest_hash != "")
+                        updated = latest_hash == local_hash;
+                }
+            }
+
+            bool detect_external_locations () {
+                if (external_locations.length () > 0)
+                    external_locations = new List<string> ();
+
+                var loc1 = @"$home_location/SteamTinkerLaunch";
+                if (FileUtils.test (loc1, FileTest.EXISTS))
+                    external_locations.append (loc1);
+
+                var loc2 = Environment.get_home_dir () + "/stl";
+                if (!Utils.System.IS_STEAM_OS && FileUtils.test (loc2, FileTest.EXISTS))
+                    external_locations.append (loc2);
+
+                // Disabled for now, since we always erase base_location before installs.
+                //  if (FileUtils.test (base_location, FileTest.EXISTS) && !FileUtils.test (meta_location, FileTest.EXISTS))
+                //      external_locations.append (base_location);
+
+                return external_locations.length () > 0;
+            }
+
             public async bool install () {
                 var missing_dependencies = "";
 
@@ -212,6 +237,7 @@ namespace ProtonPlus.Launchers {
                     cancelled = true;
                     return false;
                 }
+
 
                 var has_external_install = detect_external_locations ();
 
@@ -248,34 +274,15 @@ namespace ProtonPlus.Launchers {
                 if (!install_success) {
                     // Attempt to clean up any leftover files and symlinks,
                     // but don't erase the user's STL configuration files.
-                    yield remove (false);
-
-                    // Update the ProtonPlus UI state variables.
-                    local_hash = "";
+                    yield remove (false); // Refreshes install state too.
 
                     return false;
                 }
 
+
+                refresh_installation_state ();
+
                 return true;
-            }
-
-            bool detect_external_locations () {
-                if (external_locations.length () > 0)
-                    external_locations = new List<string> ();
-
-                var loc1 = @"$home_location/SteamTinkerLaunch";
-                if (FileUtils.test (loc1, FileTest.EXISTS))
-                    external_locations.append (loc1);
-
-                var loc2 = Environment.get_home_dir () + "/stl";
-                if (!Utils.System.IS_STEAM_OS && FileUtils.test (loc2, FileTest.EXISTS))
-                    external_locations.append (loc2);
-
-                // Disabled for now, since we always erase base_location before installs.
-                //  if (FileUtils.test (base_location, FileTest.EXISTS) && !FileUtils.test (meta_location, FileTest.EXISTS))
-                //      external_locations.append (base_location);
-
-                return external_locations.length () > 0;
             }
 
             async bool _download_and_install () {
@@ -346,12 +353,8 @@ namespace ProtonPlus.Launchers {
                 exec_stl (binary_location, "compat add");
 
 
-                // Remember installed hash and fix the ProtonPlus UI state variables.
+                // Remember installed hash.
                 Utils.Filesystem.create_file (meta_location, latest_hash);
-
-                local_hash = latest_hash;
-                updated = true;
-                installed = true;
 
                 return true;
             }
@@ -371,6 +374,14 @@ namespace ProtonPlus.Launchers {
             }
 
             public async bool remove (bool delete_config) {
+                var remove_success = yield _remove_installation (delete_config);
+
+                refresh_installation_state ();
+
+                return remove_success;
+            }
+
+            async bool _remove_installation (bool delete_config) {
                 exec_stl_if_exists (binary_location, "compat del");
 
                 if (FileUtils.test (link_location, GLib.FileTest.IS_SYMLINK)) {
@@ -477,8 +488,6 @@ namespace ProtonPlus.Launchers {
                                 spinner.stop ();
                                 spinner.set_visible (false);
 
-                                installed = false;
-
                                 if (success) {
                                     send_toast (_("The deletion of ") + title + _(" is done"), 3);
                                 } else {
@@ -522,9 +531,6 @@ namespace ProtonPlus.Launchers {
                             progress_label.set_visible (false);
                             btn_cancel.set_visible (false);
 
-                            installed = true;
-                            updated = success;
-
                             if (success) {
                                 send_toast (_("The upgrade of ") + title + _(" is done"), 3);
                             } else {
@@ -557,8 +563,6 @@ namespace ProtonPlus.Launchers {
                         spinner.set_visible (false);
                         progress_label.set_visible (false);
                         btn_cancel.set_visible (false);
-
-                        installed = updated = success;
 
                         if (success) {
                             send_toast (_("The installation of ") + title + _(" is done"), 3);
