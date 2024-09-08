@@ -309,7 +309,7 @@ namespace ProtonPlus.Launchers {
                         return false;
                 }
 
-                var download_result = yield Utils.Web.Download (get_download_url (), downloaded_file_location, -1, () => cancelled, (download_progress) => progress_label.set_text (download_progress.to_string () + "%"));
+                var download_result = yield Utils.Web.Download (get_download_url (), downloaded_file_location, -1, () => cancelled, (is_percent, progress) => progress_label.set_text (is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress)));
 
                 if (download_result != Utils.Web.DOWNLOAD_CODES.SUCCESS)
                     return false;

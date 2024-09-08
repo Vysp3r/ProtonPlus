@@ -11,7 +11,7 @@ namespace ProtonPlus.Models {
         public bool installed { get; set; }
         public string directory { get; set; }
         public int64 directory_size { get; set; }
-        public int installation_progress { get; set; }
+        public int64 installation_progress { get; set; }
         public string artifacts_url { get; set; }
 
         public STATUS previous_status;
@@ -249,7 +249,9 @@ namespace ProtonPlus.Models {
 
             yield get_artifact_download_size ();
 
-            var result = yield Utils.Web.Download (url, path, download_size, () => status == STATUS.CANCELLED, (progress) => installation_progress = progress);
+            // TODO: Add support for `is_percent == false` raw byte formatting,
+            // which happens when size is unknown? See steam.vala for how to do that.
+            var result = yield Utils.Web.Download (url, path, download_size, () => status == STATUS.CANCELLED, (is_percent, progress) => installation_progress = progress);
 
             switch (result) {
             case Utils.Web.DOWNLOAD_CODES.API_ERROR:
