@@ -181,12 +181,7 @@ namespace ProtonPlus.Widgets {
                     release_row.set_title (_("Load more"));
                     release_row.add_suffix (actions);
 
-                    var btn = new Gtk.Button ();
-                    btn.set_icon_name ("content-loading-symbolic");
-                    btn.add_css_class ("flat");
-                    btn.width_request = 25;
-                    btn.height_request = 25;
-                    btn.set_tooltip_text (_("Load more"));
+                    var btn = Utils.GUI.create_button ("dots-symbolic", _("Load more"));
                     btn.clicked.connect (() => {
                         runner_row.remove (release_row);
                         runner.load (installedOnly);

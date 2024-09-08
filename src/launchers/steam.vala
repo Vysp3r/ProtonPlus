@@ -301,7 +301,7 @@ namespace ProtonPlus.Launchers {
                 if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
 
                 if (missing_dependencies != "") {
-                    var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), _("You have unmet dependencies for SteamTinkerLaunch\n\n") + missing_dependencies + _("\nInstallation will be cancelled"));
+                    var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), _("You have unmet dependencies for SteamTinkerLaunch") + @"\n\n$missing_dependencies\n" + _("Installation will be cancelled"));
                     dialog.add_response ("ok", _("OK"));
                     dialog.show ();
                     cancelled = true;
@@ -312,7 +312,7 @@ namespace ProtonPlus.Launchers {
                 var has_external_install = detect_external_locations ();
 
                 if (has_external_install) {
-                    var dialog = new Adw.MessageDialog (Application.window, _("Existing installation of STL"), _("It looks like there's a version of STL currently installed which was not installed by ProtonPlus.\n\nDo you want to delete it and install STL with ProtonPlus?"));
+                    var dialog = new Adw.MessageDialog (Application.window, _("Existing installation of STL"), _("It looks like there's a version of STL currently installed which was not installed by ProtonPlus.") + "\n\n" + _("Do you want to delete it and install STL with ProtonPlus?"));
                     dialog.add_response ("cancel", _("Cancel"));
                     dialog.add_response ("ok", _("OK"));
                     dialog.set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);
@@ -510,7 +510,7 @@ namespace ProtonPlus.Launchers {
                 btn_delete.clicked.connect (() => {
                     var delete_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files"));
 
-                    var dialog = new Adw.MessageDialog (Application.window, _("Delete SteamTinkerLaunch"), _("You're about to delete STL from your system\nAre you sure you want this?"));
+                    var dialog = new Adw.MessageDialog (Application.window, _("Delete SteamTinkerLaunch"), _("You're about to delete STL from your system") + "\n" + _("Are you sure you want this?"));
                     dialog.set_extra_child (delete_check);
                     dialog.add_response ("no", _("No"));
                     dialog.add_response ("yes", _("Yes"));
