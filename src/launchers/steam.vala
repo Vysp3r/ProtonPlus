@@ -514,6 +514,7 @@ namespace ProtonPlus.Launchers {
 
                         spinner.start ();
                         spinner.set_visible (true);
+                        progress_label.set_text (""); // Clear label to erase old progress.
                         progress_label.set_visible (true);
 
                         btn_cancel.set_visible (false);
@@ -547,6 +548,7 @@ namespace ProtonPlus.Launchers {
 
                     spinner.start ();
                     spinner.set_visible (true);
+                    progress_label.set_text (""); // Clear label to erase old progress.
                     progress_label.set_visible (true);
 
                     btn_cancel.set_visible (true);
