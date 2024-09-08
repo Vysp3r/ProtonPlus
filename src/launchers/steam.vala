@@ -242,10 +242,6 @@ namespace ProtonPlus.Launchers {
                     }
                 }
 
-                var has_existing_install = FileUtils.test (base_location, FileTest.EXISTS) && FileUtils.test (meta_location, FileTest.EXISTS);
-                if (has_existing_install)
-                    yield remove (false);
-
 
                 var install_success = yield _download_and_install ();
 
@@ -275,13 +271,20 @@ namespace ProtonPlus.Launchers {
                 if (!Utils.System.IS_STEAM_OS && FileUtils.test (loc2, FileTest.EXISTS))
                     external_locations.append (loc2);
 
-                if (FileUtils.test (base_location, FileTest.EXISTS) && !FileUtils.test (meta_location, FileTest.EXISTS))
-                    external_locations.append (base_location);
+                // Disabled for now, since we always erase base_location before installs.
+                //  if (FileUtils.test (base_location, FileTest.EXISTS) && !FileUtils.test (meta_location, FileTest.EXISTS))
+                //      external_locations.append (base_location);
 
                 return external_locations.length () > 0;
             }
 
             async bool _download_and_install () {
+                // Always clean destination to avoid merging with existing files.
+                var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
+                if (base_location_exists)
+                    yield remove (false);
+
+
                 // Download the source code archive.
                 if (!FileUtils.test (download_location, FileTest.IS_DIR)) {
                     var success = yield Utils.Filesystem.create_directory (download_location);
@@ -336,7 +339,7 @@ namespace ProtonPlus.Launchers {
                     return false;
 
 
-                // Trigger STL's dependency installer for Steam Deck users.
+                // Trigger STL's dependency installer for Steam Deck, and register compat tool.
                 if (Utils.System.IS_STEAM_OS)
                     exec_stl (binary_location, "");
 
@@ -354,14 +357,14 @@ namespace ProtonPlus.Launchers {
             }
 
             public async bool upgrade () {
-                var removed = yield remove (false);
+                var remove_success = yield remove (false);
 
-                if (!removed)
+                if (!remove_success)
                     return false;
 
-                var installed = yield install ();
+                var install_success = yield install ();
 
-                if (!installed)
+                if (!install_success)
                     return false;
 
                 return true;
