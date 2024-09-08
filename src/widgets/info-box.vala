@@ -262,7 +262,7 @@ namespace ProtonPlus.Widgets {
             release.notify["status"].connect (() => {
                 switch (release.status) {
                     case Models.Release.STATUS.CANCELLED:
-                        send_toast (_("The installation of ") + release.get_directory_name () + _(" was cancelled"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("The installation of ") + release.get_directory_name () + _(" was cancelled"), 3);
 
                         spinner.stop ();
                         spinner.set_visible (false);
@@ -274,7 +274,7 @@ namespace ProtonPlus.Widgets {
 
                         break;
                     case Models.Release.STATUS.INSTALLING:
-                        send_toast (_("The installation of ") + release.get_directory_name () + _(" was started"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("The installation of ") + release.get_directory_name () + _(" was started"), 3);
 
                         this.activate_action_variant ("win.add-task", "");
 
@@ -288,7 +288,7 @@ namespace ProtonPlus.Widgets {
 
                         break;
                     case Models.Release.STATUS.INSTALLED:
-                        send_toast (_("The installation of ") + release.get_directory_name () + _(" is done"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("The installation of ") + release.get_directory_name () + _(" is done"), 3);
 
                         this.activate_action_variant ("win.remove-task", "");
 
@@ -315,7 +315,7 @@ namespace ProtonPlus.Widgets {
                         if (release.previous_status != Models.Release.STATUS.CANCELLED &&
                             release.previous_status != Models.Release.STATUS.INSTALLING &&
                             release.error == Models.Release.ERRORS.NONE) {
-                            send_toast (_("The deletion of ") + release.get_directory_name () + _(" is done"), 3);
+                            Utils.GUI.send_toast (toast_overlay, _("The deletion of ") + release.get_directory_name () + _(" is done"), 3);
                         }
 
                         this.activate_action_variant ("win.remove-task", "");
@@ -333,13 +333,13 @@ namespace ProtonPlus.Widgets {
             release.notify["error"].connect (() => {
                 switch (release.error) {
                     case Models.Release.ERRORS.API:
-                        send_toast (_("There was an error while fetching data from the GitHub API"), 5000);
+                        Utils.GUI.send_toast (toast_overlay, _("There was an error while fetching data from the GitHub API"), 5000);
                         break;
                     case Models.Release.ERRORS.EXTRACT:
-                        send_toast (_("An unexpected error occured while extracting ") + release.title, 5000);
+                        Utils.GUI.send_toast (toast_overlay, _("An unexpected error occured while extracting ") + release.title, 5000);
                         break;
                     case Models.Release.ERRORS.UNEXPECTED:
-                        send_toast (_("An unexpected error occured while installing ") + release.title, 5000);
+                        Utils.GUI.send_toast (toast_overlay, _("An unexpected error occured while installing ") + release.title, 5000);
                         break;
                     default:
                         break;
@@ -355,13 +355,6 @@ namespace ProtonPlus.Widgets {
             row.add_suffix (actions);
 
             return row;
-        }
-
-        void send_toast (string content, int duration) {
-            var toast = new Adw.Toast (content);
-            toast.set_timeout (duration);
-
-            toast_overlay.add_toast (toast);
         }
 
         public void switch_launcher (string title, int position) {
