@@ -96,7 +96,11 @@ namespace ProtonPlus.Launchers {
             public bool updated { get; set; }
             public bool cancelled { get; set; }
 
+            public string row_stl_title { get; set; }
+
+            string? latest_date { get; set; }
             string? latest_hash { get; set; }
+            string local_date { get; set; }
             string local_hash { get; set; }
 
             string title { get; set; }
@@ -122,8 +126,7 @@ namespace ProtonPlus.Launchers {
                 if (Utils.System.IS_STEAM_OS)
                     base_location = @"$home_location/stl/prefix";
 
-                latest_hash = fetch_latest_hash ();
-
+                refresh_latest_stl_version ();
                 refresh_installation_state ();
 
                 title = "STL";
@@ -133,7 +136,10 @@ namespace ProtonPlus.Launchers {
                 return @"https://github.com/sonic2kk/steamtinkerlaunch/archive/$latest_hash.zip";
             }
 
-            string fetch_latest_hash () {
+            void refresh_latest_stl_version () {
+                latest_date = "";
+                latest_hash = "";
+
                 try {
                     var soup_session = new Soup.Session ();
                     soup_session.set_user_agent (Utils.Web.get_user_agent ());
@@ -149,24 +155,58 @@ namespace ProtonPlus.Launchers {
                     var root_node = Utils.Parser.get_node_from_json (json);
 
                     if (root_node.get_node_type () != Json.NodeType.ARRAY)
-                        return "";
+                        return;
 
                     var root_array = root_node.get_array ();
 
                     if (root_array.get_length () < 1)
-                        return "";
+                        return;
 
-                    var temp_node = root_array.get_element (0);
 
-                    if (temp_node.get_node_type () != Json.NodeType.OBJECT)
-                        return "";
+                    // Get the first commit in the list.
+                    var commit_node = root_array.get_element (0);
 
-                    var temp_obj = temp_node.get_object ();
+                    if (commit_node.get_node_type () != Json.NodeType.OBJECT)
+                        return;
 
-                    return temp_obj.get_string_member_with_default ("sha", "");
+                    var commit_obj = commit_node.get_object ();
+
+
+                    // Get metadata about the committer (not the author), since
+                    // we want to know when it was committed to the repo.
+                    if (!commit_obj.has_member ("commit"))
+                        return;
+
+                    var commit_metadata_node = commit_obj.get_member ("commit");
+
+                    if (commit_metadata_node.get_node_type () != Json.NodeType.OBJECT)
+                        return;
+
+                    var commit_metadata_obj = commit_metadata_node.get_object ();
+
+
+                    if (!commit_metadata_obj.has_member ("committer"))
+                        return;
+
+                    var committer_metadata_node = commit_metadata_obj.get_member ("committer");
+
+                    if (committer_metadata_node.get_node_type () != Json.NodeType.OBJECT)
+                        return;
+
+                    var committer_metadata_obj = committer_metadata_node.get_object ();
+
+
+                    // Extract the latest commit's date and SHA hash.
+                    // NOTE: The date is in ISO 8601 format (UTC): `YYYY-MM-DDTHH:MM:SSZ`.
+                    string raw_date = committer_metadata_obj.get_string_member_with_default ("date", "");
+                    var date_parts = raw_date.split ("T");
+                    if (date_parts.length > 0) {
+                        latest_date = date_parts[0]; // "YYYY-MM-DD".
+                    }
+
+                    latest_hash = commit_obj.get_string_member_with_default ("sha", "");
                 } catch (Error e) {
                     message (e.message);
-                    return "";
                 }
             }
 
@@ -176,17 +216,47 @@ namespace ProtonPlus.Launchers {
                 var binary_location_exists = FileUtils.test (binary_location, FileTest.EXISTS);
                 var meta_file_exists = FileUtils.test (meta_location, FileTest.EXISTS);
 
-                installed = base_location_exists && binary_location_exists && meta_file_exists;
-                updated = false;
+                var _installed = base_location_exists && binary_location_exists && meta_file_exists;
+                var _updated = false;
+                
+                local_date = "";
                 local_hash = "";
 
-                if (installed) {
-                    local_hash = Utils.Filesystem.get_file_content (meta_location);
+                if (_installed) {
+                    var raw_metadata = Utils.Filesystem.get_file_content (meta_location);
+                    var metadata_parts = raw_metadata.strip ().split (":");
+                    if (metadata_parts.length >= 2) {
+                        local_date = metadata_parts[0];
+                        local_hash = metadata_parts[1];
+                        if (local_date == "" || local_hash == "")
+                            local_date = local_hash = "";
+                    }
+
                     if (local_hash == "")
-                        installed = false;
+                        _installed = false;
                     else if (latest_hash != "")
-                        updated = latest_hash == local_hash;
+                        _updated = latest_hash == local_hash;
                 }
+
+
+                // Generate a title for the installed (or latest) release.
+                var _row_stl_title = "SteamTinkerLaunch"; // Default title/prefix.
+                if (local_date != "")
+                    _row_stl_title = @"$_row_stl_title ($local_date)";
+                else if (latest_date != "")
+                    _row_stl_title = @"$_row_stl_title ($latest_date)";
+
+
+                // Update state to trigger the signals for UI refresh.
+                // WARNING: We MUST do this LAST, after finishing ALL other vars
+                // above, otherwise the UI redraw would happen with old values.
+                row_stl_title = _row_stl_title;
+                installed = _installed;
+                updated = _updated;
+            }
+
+            void write_installation_metadata (string meta_location) {
+                Utils.Filesystem.create_file (meta_location, @"$latest_date:$latest_hash");
             }
 
             bool detect_external_locations () {
@@ -353,8 +423,8 @@ namespace ProtonPlus.Launchers {
                 exec_stl (binary_location, "compat add");
 
 
-                // Remember installed hash.
-                Utils.Filesystem.create_file (meta_location, latest_hash);
+                // Remember installed version.
+                write_installation_metadata (meta_location);
 
                 return true;
             }
@@ -611,8 +681,12 @@ namespace ProtonPlus.Launchers {
                     input_box.append (btn_info);
                 }
 
-                row.set_title ("SteamTinkerLaunch");
+                row.set_title (row_stl_title);
                 row.add_suffix (input_box);
+
+                this.notify["row-stl-title"].connect (() => {
+                    row.set_title (row_stl_title);
+                });
 
                 this.notify["installed"].connect (() => {
                     btn_delete.set_visible (installed);
@@ -630,6 +704,7 @@ namespace ProtonPlus.Launchers {
                     }
                 });
 
+                this.notify_property ("row-stl-title");
                 this.notify_property ("installed");
                 this.notify_property ("updated");
 
