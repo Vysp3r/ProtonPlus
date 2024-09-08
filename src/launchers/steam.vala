@@ -255,7 +255,6 @@ namespace ProtonPlus.Launchers {
                     yield remove (false);
 
                     // Update the ProtonPlus UI state variables.
-                    // TODO: Also change the "update" icon to the "fully updated" checkmark instead.
                     local_hash = "";
 
                     return false;
@@ -265,7 +264,8 @@ namespace ProtonPlus.Launchers {
             }
 
             bool detect_external_locations () {
-                external_locations = new List<string> ();
+                if (external_locations.length () > 0)
+                    external_locations = new List<string> ();
 
                 var loc1 = @"$home_location/SteamTinkerLaunch";
                 if (FileUtils.test (loc1, FileTest.EXISTS))
