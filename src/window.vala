@@ -21,8 +21,10 @@ namespace ProtonPlus {
             this.add_action (remove_task ());
 
             //
-            this.width_request = 270;
-            this.height_request = 45;
+            // NOTE: Minimum size supported by AdwOverlaySplitView = 272x474,
+            // and we have to make our minimum request a bit larger to look nice.
+            this.set_size_request (400, 620);
+            this.set_default_size (960, 690); // Fits every supported Steam Runner.
 
             //
             status_box = new Widgets.StatusBox ();
