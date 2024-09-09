@@ -29,7 +29,7 @@ namespace ProtonPlus.Models {
             UNINSTALLED,
             INSTALLING,
             UNINSTALLING,
-            CANCELLED
+            CANCELED
         }
 
         public ERRORS error { get; set; }
@@ -251,7 +251,7 @@ namespace ProtonPlus.Models {
 
             // TODO: Add support for `is_percent == false` raw byte formatting,
             // which happens when size is unknown? See steam.vala for how to do that.
-            var result = yield Utils.Web.Download (url, path, download_size, () => status == STATUS.CANCELLED, (is_percent, progress) => installation_progress = progress);
+            var result = yield Utils.Web.Download (url, path, download_size, () => status == STATUS.CANCELED, (is_percent, progress) => installation_progress = progress);
 
             switch (result) {
             case Utils.Web.DOWNLOAD_CODES.API_ERROR:
@@ -265,14 +265,14 @@ namespace ProtonPlus.Models {
                 break;
             }
 
-            if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
+            if (error != ERRORS.NONE || status == STATUS.CANCELED) {
                 status = STATUS.UNINSTALLED;
                 return;
             }
 
             string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
 
-            string source_path = yield Utils.Filesystem.extract (directory, title, file_extension, () => status == STATUS.CANCELLED);
+            string source_path = yield Utils.Filesystem.extract (directory, title, file_extension, () => status == STATUS.CANCELED);
 
             if (source_path == "") {
                 error = ERRORS.EXTRACT;
@@ -281,9 +281,9 @@ namespace ProtonPlus.Models {
             }
 
             if (runner.is_using_github_actions) {
-                source_path = yield Utils.Filesystem.extract (directory, source_path.substring (0, source_path.length - 4).replace (directory, ""), ".tar", () => status == STATUS.CANCELLED);
+                source_path = yield Utils.Filesystem.extract (directory, source_path.substring (0, source_path.length - 4).replace (directory, ""), ".tar", () => status == STATUS.CANCELED);
 
-                if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
+                if (error != ERRORS.NONE || status == STATUS.CANCELED) {
                     status = STATUS.UNINSTALLED;
                     return;
                 }
@@ -296,7 +296,7 @@ namespace ProtonPlus.Models {
 
                 status = STATUS.INSTALLED;
             } else {
-                if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
+                if (error != ERRORS.NONE || status == STATUS.CANCELED) {
                     status = STATUS.UNINSTALLED;
                     return;
                 }
@@ -312,7 +312,7 @@ namespace ProtonPlus.Models {
         }
 
         public void cancel () {
-            status = Models.Release.STATUS.CANCELLED;
+            status = Models.Release.STATUS.CANCELED;
         }
 
         public async void get_artifact_download_size () {

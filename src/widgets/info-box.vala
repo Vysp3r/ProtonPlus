@@ -257,8 +257,8 @@ namespace ProtonPlus.Widgets {
 
             release.notify["status"].connect (() => {
                 switch (release.status) {
-                    case Models.Release.STATUS.CANCELLED:
-                        Utils.GUI.send_toast (toast_overlay, _("The installation of %s was cancelled.").printf (release.get_directory_name ()), 3);
+                    case Models.Release.STATUS.CANCELED:
+                        Utils.GUI.send_toast (toast_overlay, _("The installation of %s was canceled.").printf (release.get_directory_name ()), 3);
 
                         spinner.stop ();
                         spinner.set_visible (false);
@@ -308,7 +308,7 @@ namespace ProtonPlus.Widgets {
 
                         break;
                     case Models.Release.STATUS.UNINSTALLED:
-                        if (release.previous_status != Models.Release.STATUS.CANCELLED &&
+                        if (release.previous_status != Models.Release.STATUS.CANCELED &&
                             release.previous_status != Models.Release.STATUS.INSTALLING &&
                             release.error == Models.Release.ERRORS.NONE) {
                             Utils.GUI.send_toast (toast_overlay, _("The deletion of %s is complete.").printf (release.get_directory_name ()), 3);

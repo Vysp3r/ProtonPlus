@@ -80,6 +80,9 @@ namespace ProtonPlus.Launchers {
         }
 
         public class STL : Object {
+            public Utils.GUI.UIState ui_state { get; set; }
+            public string row_title { get; set; }
+
             string home_location { get; set; }
             string compat_location { get; set; }
             string parent_location { get; set; }
@@ -94,9 +97,7 @@ namespace ProtonPlus.Launchers {
 
             public bool installed { get; set; }
             public bool updated { get; set; }
-            public bool cancelled { get; set; }
-
-            public string row_stl_title { get; set; }
+            public bool canceled { get; set; }
 
             string? latest_date { get; set; }
             string? latest_hash { get; set; }
@@ -127,7 +128,7 @@ namespace ProtonPlus.Launchers {
                     base_location = @"$home_location/stl/prefix";
 
                 refresh_latest_stl_version ();
-                refresh_installation_state ();
+                refresh_interface_state ();
 
                 title = "STL";
             }
@@ -163,7 +164,7 @@ namespace ProtonPlus.Launchers {
                         return;
 
 
-                    // Get the first commit in the list.
+                    // Get the first (newest) commit in the list.
                     var commit_node = root_array.get_element (0);
 
                     if (commit_node.get_node_type () != Json.NodeType.OBJECT)
@@ -210,50 +211,63 @@ namespace ProtonPlus.Launchers {
                 }
             }
 
-            void refresh_installation_state () {
+            void refresh_interface_state (bool can_reset_processing = false) {
                 // Update the ProtonPlus UI state variables.
                 // NOTE: We treat a non-executable binary as a "broken installation".
                 var base_location_exists = FileUtils.test (base_location, FileTest.IS_DIR);
                 var binary_location_exists = FileUtils.test (binary_location, FileTest.IS_EXECUTABLE);
                 var meta_file_exists = FileUtils.test (meta_location, FileTest.IS_REGULAR);
 
-                var _installed = base_location_exists && binary_location_exists && meta_file_exists;
-                var _updated = false;
+                installed = base_location_exists && binary_location_exists && meta_file_exists;
+                updated = false;
 
                 local_date = "";
                 local_hash = "";
 
-                if (_installed) {
+                if (installed) {
                     var raw_metadata = Utils.Filesystem.get_file_content (meta_location);
                     var metadata_parts = raw_metadata.strip ().split (":");
                     if (metadata_parts.length >= 2) {
                         local_date = metadata_parts[0];
                         local_hash = metadata_parts[1];
+                        // Ignore both values if either is missing.
                         if (local_date == "" || local_hash == "")
                             local_date = local_hash = "";
                     }
 
                     if (local_hash == "")
-                        _installed = false;
+                        installed = false;
                     else if (latest_hash != "")
-                        _updated = latest_hash == local_hash;
+                        updated = latest_hash == local_hash;
                 }
 
 
                 // Generate a title for the installed (or latest) release.
-                var _row_stl_title = "SteamTinkerLaunch"; // Default title/prefix.
+                var _row_title = "SteamTinkerLaunch"; // Default title/prefix.
                 if (local_date != "")
-                    _row_stl_title = @"$_row_stl_title ($local_date)";
+                    _row_title = @"$_row_title ($local_date)";
                 else if (latest_date != "")
-                    _row_stl_title = @"$_row_stl_title ($latest_date)";
+                    _row_title = @"$_row_title ($latest_date)";
 
 
                 // Update state to trigger the signals for UI refresh.
                 // WARNING: We MUST do this LAST, after finishing ALL other vars
                 // above, otherwise the UI redraw would happen with old values.
-                row_stl_title = _row_stl_title;
-                installed = _installed;
-                updated = _updated;
+                // NOTE: We will NOT change UI state if the UI is "busy processing",
+                // except when we're EXPLICITLY allowed to reset that state. This
+                // avoids "flickering UI" issues during multi-step processes.
+                // NOTE: We ALWAYS allow title change, to ensure the latest version's
+                // title immediately appears during "upgrade" of an installation.
+                row_title = _row_title;
+                var change_state = (can_reset_processing
+                    || (ui_state != Utils.GUI.UIState.BUSY_INSTALLING
+                        && ui_state != Utils.GUI.UIState.BUSY_REMOVING));
+                if (change_state) {
+                    if (installed)
+                        ui_state = updated ? Utils.GUI.UIState.UP_TO_DATE : Utils.GUI.UIState.UPDATE_AVAILABLE;
+                    else
+                        ui_state = Utils.GUI.UIState.NOT_INSTALLED;
+                }
             }
 
             void write_installation_metadata (string meta_location) {
@@ -302,10 +316,10 @@ namespace ProtonPlus.Launchers {
                 if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
 
                 if (missing_dependencies != "") {
-                    var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for SteamTinkerLaunch:"), missing_dependencies, _("Installation will be cancelled.")));
+                    var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for SteamTinkerLaunch:"), missing_dependencies, _("Installation will be canceled.")));
                     dialog.add_response ("ok", _("OK"));
                     dialog.show ();
-                    cancelled = true;
+                    canceled = true;
                     return false;
                 }
 
@@ -322,7 +336,7 @@ namespace ProtonPlus.Launchers {
                     string response = yield dialog.choose (null);
 
                     if (response != "ok") {
-                        cancelled = true;
+                        canceled = true;
                         return false;
                     }
 
@@ -340,6 +354,11 @@ namespace ProtonPlus.Launchers {
                 }
 
 
+                // We have to force the GUI to show the "busy installing" state.
+                ui_state = Utils.GUI.UIState.BUSY_INSTALLING;
+
+
+                // Attempt the installation.
                 var install_success = yield _download_and_install ();
 
                 if (!install_success) {
@@ -351,7 +370,7 @@ namespace ProtonPlus.Launchers {
                 }
 
 
-                refresh_installation_state ();
+                refresh_interface_state (true); // Force UI state refresh.
 
                 return true;
             }
@@ -387,14 +406,14 @@ namespace ProtonPlus.Launchers {
                         return false;
                 }
 
-                var download_result = yield Utils.Web.Download (get_download_url (), downloaded_file_location, -1, () => cancelled, (is_percent, progress) => progress_label.set_text (is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress)));
+                var download_result = yield Utils.Web.Download (get_download_url (), downloaded_file_location, -1, () => canceled, (is_percent, progress) => progress_label.set_text (is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress)));
 
                 if (download_result != Utils.Web.DOWNLOAD_CODES.SUCCESS)
                     return false;
 
 
                 // Extract archive and move its contents to the installation directory.
-                string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => cancelled);
+                string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => canceled);
 
                 if (extracted_file_location == "")
                     return false;
@@ -452,9 +471,14 @@ namespace ProtonPlus.Launchers {
             }
 
             public async bool remove (bool delete_config) {
+                // We have to force the GUI to show the "busy removing" state.
+                ui_state = Utils.GUI.UIState.BUSY_REMOVING;
+
+
+                // Attempt the removal.
                 var remove_success = yield _remove_installation (delete_config);
 
-                refresh_installation_state ();
+                refresh_interface_state (true); // Force UI state refresh.
 
                 return remove_success;
             }
@@ -518,12 +542,7 @@ namespace ProtonPlus.Launchers {
                 var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
                 var row = new Adw.ActionRow ();
 
-                progress_label.set_visible (false);
-
-                spinner.set_visible (false);
-
-                btn_cancel.set_visible (false);
-                btn_cancel.clicked.connect (() => cancelled = true);
+                btn_cancel.clicked.connect (() => canceled = true);
 
                 btn_delete.clicked.connect (() => {
                     var delete_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files."));
@@ -539,20 +558,10 @@ namespace ProtonPlus.Launchers {
                         if (response == "yes") {
                             row.activate_action_variant ("win.add-task", "");
 
-                            spinner.start ();
-                            spinner.set_visible (true);
-
-                            btn_delete.set_visible (false);
-                            btn_install.set_visible (false);
-                            btn_upgrade.set_visible (false);
-
                             remove.begin (delete_check.get_active (), (obj, res) => {
                                 var success = remove.end (res);
 
                                 row.activate_action_variant ("win.remove-task", "");
-
-                                spinner.stop ();
-                                spinner.set_visible (false);
 
                                 if (success) {
                                     Utils.GUI.send_toast (toast_overlay, _("The deletion of %s is complete.").printf (title), 3);
@@ -572,25 +581,10 @@ namespace ProtonPlus.Launchers {
 
                         row.activate_action_variant ("win.add-task", "");
 
-                        spinner.start ();
-                        spinner.set_visible (true);
-                        progress_label.set_text (""); // Clear label to erase old progress.
-                        progress_label.set_visible (true);
-
-                        btn_cancel.set_visible (false);
-                        btn_delete.set_visible (false);
-                        btn_install.set_visible (false);
-                        btn_upgrade.set_visible (false);
-
                         upgrade.begin ((obj, res) => {
                             var success = upgrade.end (res);
 
                             row.activate_action_variant ("win.remove-task", "");
-
-                            spinner.stop ();
-                            spinner.set_visible (false);
-                            progress_label.set_visible (false);
-                            btn_cancel.set_visible (false);
 
                             if (success) {
                                 Utils.GUI.send_toast (toast_overlay, _("The upgrade of %s is complete.").printf (title), 3);
@@ -606,30 +600,15 @@ namespace ProtonPlus.Launchers {
 
                     row.activate_action_variant ("win.add-task", "");
 
-                    spinner.start ();
-                    spinner.set_visible (true);
-                    progress_label.set_text (""); // Clear label to erase old progress.
-                    progress_label.set_visible (true);
-
-                    btn_cancel.set_visible (true);
-                    btn_delete.set_visible (false);
-                    btn_install.set_visible (false);
-                    btn_upgrade.set_visible (false);
-
                     install.begin ((obj, res) => {
                         var success = install.end (res);
 
                         row.activate_action_variant ("win.remove-task", "");
 
-                        spinner.stop ();
-                        spinner.set_visible (false);
-                        progress_label.set_visible (false);
-                        btn_cancel.set_visible (false);
-
                         if (success) {
                             Utils.GUI.send_toast (toast_overlay, _("The installation of %s is complete.").printf (title), 3);
-                        } else if (cancelled) {
-                            Utils.GUI.send_toast (toast_overlay, _("The installation of %s was cancelled.").printf (title), 3);
+                        } else if (canceled) {
+                            Utils.GUI.send_toast (toast_overlay, _("The installation of %s was canceled.").printf (title), 3);
                         } else {
                             Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while installing %s.").printf (title), 5000);
                         }
@@ -640,7 +619,7 @@ namespace ProtonPlus.Launchers {
                 btn_info.clicked.connect (() => {
                     Adw.MessageDialog? dialog = null;
                     switch (launcher_type) {
-                        case "Flatpak" :
+                        case "Flatpak":
                             dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), "%s\n\n%s".printf (_("To install Steam Tinker Launch for the Steam Flatpak, please run the following command:"), "flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
                             break;
                         case "Snap":
@@ -669,30 +648,83 @@ namespace ProtonPlus.Launchers {
 
                 row.add_suffix (input_box);
 
-                this.notify["row-stl-title"].connect (() => {
-                    row.set_title (row_stl_title);
+                this.notify["row-title"].connect (() => {
+                    row.set_title (row_title);
                 });
 
-                this.notify["installed"].connect (() => {
-                    btn_delete.set_visible (installed);
-                    btn_install.set_visible (!installed);
-                    btn_upgrade.set_visible (installed);
-                });
+                this.notify["ui-state"].connect (() => {
+                    // Determine which UI widgets to show in each UI state.
+                    var show_install = false;
+                    var show_delete = false;
+                    var show_upgrade = false;
+                    var show_cancel = false;
+                    var show_progress_label = false;
+                    var show_spinner = false;
 
-                this.notify["updated"].connect (() => {
-                    var icon_upgrade = (Gtk.Image) btn_upgrade.get_child ();
-                    if (updated) {
-                        icon_upgrade.set_from_icon_name ("circle-check-symbolic");
-                        btn_upgrade.set_tooltip_text (_("STL is up-to-date"));
-                    } else {
-                        icon_upgrade.set_from_icon_name ("circle-chevron-up-symbolic");
-                        btn_upgrade.set_tooltip_text (_("Update STL to the latest version"));
+                    switch (ui_state) {
+                        case Utils.GUI.UIState.BUSY_INSTALLING:
+                        case Utils.GUI.UIState.BUSY_REMOVING:
+                            show_spinner = true;
+                            if (ui_state == Utils.GUI.UIState.BUSY_INSTALLING) {
+                                show_cancel = true;
+                                show_progress_label = true;
+                            }
+                            break;
+                        case Utils.GUI.UIState.UP_TO_DATE:
+                        case Utils.GUI.UIState.UPDATE_AVAILABLE:
+                            show_delete = true;
+                            show_upgrade = true;
+                            break;
+                        case Utils.GUI.UIState.NOT_INSTALLED:
+                            show_install = true;
+                            break;
+                        case Utils.GUI.UIState.NO_STATE:
+                            // The UI state is not known yet. This value only exists
+                            // because Gtk doesn't allow nullable Object properties.
+                            break;
+                        default:
+                            // Everything will be hidden in unknown states.
+                            message (@"Unsupported UI State: $ui_state\n");
+                            break;
                     }
+
+
+                    // Use the correct icon and tooltip for the upgrade button.
+                    if (show_upgrade) {
+                        var icon_upgrade = (Gtk.Image) btn_upgrade.get_child ();
+                        if (updated) {
+                            icon_upgrade.set_from_icon_name ("circle-check-symbolic");
+                            btn_upgrade.set_tooltip_text (_("STL is up-to-date"));
+                        } else {
+                            icon_upgrade.set_from_icon_name ("circle-chevron-up-symbolic");
+                            btn_upgrade.set_tooltip_text (_("Update STL to the latest version"));
+                        }
+                    }
+
+
+                    // Configure UI widgets for the new state.
+                    btn_install.set_visible (show_install);
+                    btn_delete.set_visible (show_delete);
+                    btn_upgrade.set_visible (show_upgrade);
+                    btn_cancel.set_visible (show_cancel);
+
+                    if (show_progress_label) // Erase old progress text on state change.
+                        progress_label.set_text ("");
+                    progress_label.set_visible (show_progress_label);
+
+                    if (show_spinner) {
+                        spinner.start ();
+                        spinner.set_visible (true);
+                    } else {
+                        spinner.stop ();
+                        spinner.set_visible (false);
+                    }
+
+                    // message (@"UI State: $ui_state\n"); // For developers.
                 });
 
-                this.notify_property ("row-stl-title");
-                this.notify_property ("installed");
-                this.notify_property ("updated");
+                this.notify_property ("row-title");
+                this.notify_property ("ui-state");
 
                 return row;
             }
