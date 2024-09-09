@@ -46,6 +46,7 @@ namespace ProtonPlus {
         void about_action () {
             const string[] devs = {
                 "Charles Malouin (Vysp3r) https://github.com/Vysp3r",
+                "Johnny Arcitec https://github.com/Arcitec",
                 "windblows95 https://github.com/windblows95",
                 null
             };
