@@ -171,10 +171,12 @@ namespace ProtonPlus.Utils {
             create_file (path, content);
         }
 
-        public static void create_file (string path, string? content = null) {
+        public static void create_file (string path, string? content = null, bool private_mode = false) {
             try {
                 var file = File.new_for_path (path);
-                FileOutputStream os = file.create (FileCreateFlags.PRIVATE);
+                // NOTE: "Private" means "no permissions for Group or Other",
+                // otherwise we use the default `umask` (usually "-rw-r--r--").
+                FileOutputStream os = file.create (private_mode ? FileCreateFlags.PRIVATE : FileCreateFlags.NONE);
                 if (content != null)os.write (content.data);
             } catch (Error e) {
                 message (e.message);
