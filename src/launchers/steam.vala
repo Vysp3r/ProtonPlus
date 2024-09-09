@@ -692,13 +692,8 @@ namespace ProtonPlus.Launchers {
                     // Use the correct icon and tooltip for the upgrade button.
                     if (show_upgrade) {
                         var icon_upgrade = (Gtk.Image) btn_upgrade.get_child ();
-                        if (updated) {
-                            icon_upgrade.set_from_icon_name ("circle-check-symbolic");
-                            btn_upgrade.set_tooltip_text (_("STL is up-to-date"));
-                        } else {
-                            icon_upgrade.set_from_icon_name ("circle-chevron-up-symbolic");
-                            btn_upgrade.set_tooltip_text (_("Update STL to the latest version"));
-                        }
+                        icon_upgrade.set_from_icon_name (updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
+                        btn_upgrade.set_tooltip_text (updated ? _("STL is up-to-date") : _("Update STL to the latest version"));
                     }
 
 
