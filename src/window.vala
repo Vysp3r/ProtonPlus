@@ -13,7 +13,6 @@ namespace ProtonPlus {
             //
             this.set_application ((Adw.Application) GLib.Application.get_default ());
             this.set_title (Constants.APP_NAME);
-            this.set_default_size (950, 600);
 
             //
             this.add_action (load_info_box ());
