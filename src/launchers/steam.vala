@@ -97,7 +97,7 @@ namespace ProtonPlus.Launchers {
 
             public bool installed { get; set; }
             public bool updated { get; set; }
-            public bool cancelled { get; set; }
+            public bool canceled { get; set; }
 
             string? latest_date { get; set; }
             string? latest_hash { get; set; }
@@ -316,10 +316,10 @@ namespace ProtonPlus.Launchers {
                 if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
 
                 if (missing_dependencies != "") {
-                    var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for SteamTinkerLaunch:"), missing_dependencies, _("Installation will be cancelled.")));
+                    var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for SteamTinkerLaunch:"), missing_dependencies, _("Installation will be canceled.")));
                     dialog.add_response ("ok", _("OK"));
                     dialog.show ();
-                    cancelled = true;
+                    canceled = true;
                     return false;
                 }
 
@@ -336,7 +336,7 @@ namespace ProtonPlus.Launchers {
                     string response = yield dialog.choose (null);
 
                     if (response != "ok") {
-                        cancelled = true;
+                        canceled = true;
                         return false;
                     }
 
@@ -406,14 +406,14 @@ namespace ProtonPlus.Launchers {
                         return false;
                 }
 
-                var download_result = yield Utils.Web.Download (get_download_url (), downloaded_file_location, -1, () => cancelled, (is_percent, progress) => progress_label.set_text (is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress)));
+                var download_result = yield Utils.Web.Download (get_download_url (), downloaded_file_location, -1, () => canceled, (is_percent, progress) => progress_label.set_text (is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress)));
 
                 if (download_result != Utils.Web.DOWNLOAD_CODES.SUCCESS)
                     return false;
 
 
                 // Extract archive and move its contents to the installation directory.
-                string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => cancelled);
+                string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => canceled);
 
                 if (extracted_file_location == "")
                     return false;
@@ -542,7 +542,7 @@ namespace ProtonPlus.Launchers {
                 var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
                 var row = new Adw.ActionRow ();
 
-                btn_cancel.clicked.connect (() => cancelled = true);
+                btn_cancel.clicked.connect (() => canceled = true);
 
                 btn_delete.clicked.connect (() => {
                     var delete_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files."));
@@ -607,8 +607,8 @@ namespace ProtonPlus.Launchers {
 
                         if (success) {
                             Utils.GUI.send_toast (toast_overlay, _("The installation of %s is complete.").printf (title), 3);
-                        } else if (cancelled) {
-                            Utils.GUI.send_toast (toast_overlay, _("The installation of %s was cancelled.").printf (title), 3);
+                        } else if (canceled) {
+                            Utils.GUI.send_toast (toast_overlay, _("The installation of %s was canceled.").printf (title), 3);
                         } else {
                             Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while installing %s.").printf (title), 5000);
                         }
