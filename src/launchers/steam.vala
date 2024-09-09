@@ -114,8 +114,15 @@ namespace ProtonPlus.Launchers {
                 this.toast_overlay = toast_overlay;
 
                 home_location = Environment.get_home_dir ();
-                parent_location = @"$home_location/.local/share";
-                base_location = @"$parent_location/steamtinkerlaunch";
+                if (Utils.System.IS_STEAM_OS) {
+                    // Steam Deck uses `~/stl/prefix` instead.
+                    parent_location = @"$home_location/stl";
+                    base_location = @"$parent_location/prefix";
+                } else {
+                    // Normal computers use `~/.local/share/steamtinkerlaunch`.
+                    parent_location = @"$home_location/.local/share";
+                    base_location = @"$parent_location/steamtinkerlaunch";
+                }
                 binary_location = @"$base_location/steamtinkerlaunch";
                 meta_location = @"$base_location/ProtonPlus.meta";
                 download_location = @"$base_location/ProtonPlus.downloads";
@@ -123,9 +130,6 @@ namespace ProtonPlus.Launchers {
                 link_location = @"$link_parent_location/steamtinkerlaunch";
                 config_location = @"$home_location/.config/steamtinkerlaunch";
                 external_locations = new List<string> ();
-
-                if (Utils.System.IS_STEAM_OS)
-                    base_location = @"$home_location/stl/prefix";
 
                 refresh_latest_stl_version ();
                 refresh_interface_state ();
