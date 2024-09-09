@@ -81,7 +81,12 @@ namespace ProtonPlus.Models {
 
         public void load (bool installed_only) {
             if (title == "SteamTinkerLaunch") {
-                loaded = true;
+                if (installed_only) {
+                    installed_loaded = true;
+                } else {
+                    loaded = true;
+                }
+
                 return;
             }
 
@@ -92,7 +97,7 @@ namespace ProtonPlus.Models {
                 } else {
                     loaded = false;
                     load_all ();
-                };
+                }
             });
         }
 
