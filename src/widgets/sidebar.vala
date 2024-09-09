@@ -29,9 +29,10 @@ namespace ProtonPlus.Widgets {
 
             //
             installed_only_switch = new Gtk.Switch ();
+            installed_only_switch.set_tooltip_text(_("Only display the runners that are currently installed on your system"));
             
             //
-            var installed_only_label = new Gtk.Label (_("Installed only"));
+            var installed_only_label = new Gtk.Label (_("Only Installed"));
             installed_only_label.set_hexpand (true);
             installed_only_label.set_halign (Gtk.Align.START);
 

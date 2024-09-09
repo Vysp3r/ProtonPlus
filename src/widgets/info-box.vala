@@ -193,7 +193,7 @@ namespace ProtonPlus.Widgets {
                 }
 
                 if (runner.api_error) {
-                    var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API"));
+                    var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API."));
                     toast.set_timeout (5000);
 
                     toast_overlay.add_toast (toast);
@@ -217,7 +217,7 @@ namespace ProtonPlus.Widgets {
 
             var btn_delete = Utils.GUI.create_button ("trash-symbolic", _("Delete the runner"));
             btn_delete.clicked.connect (() => {
-                var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
+                var toast = new Adw.Toast (_("Are you sure you want to delete %s?").printf (release.title));
                 toast.set_timeout (30000);
                 toast.set_button_label (_("Confirm"));
 
@@ -258,7 +258,7 @@ namespace ProtonPlus.Widgets {
             release.notify["status"].connect (() => {
                 switch (release.status) {
                     case Models.Release.STATUS.CANCELLED:
-                        Utils.GUI.send_toast (toast_overlay, _("The installation of ") + release.get_directory_name () + _(" was cancelled"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("The installation of %s was cancelled.").printf (release.get_directory_name ()), 3);
 
                         spinner.stop ();
                         spinner.set_visible (false);
@@ -270,7 +270,7 @@ namespace ProtonPlus.Widgets {
 
                         break;
                     case Models.Release.STATUS.INSTALLING:
-                        Utils.GUI.send_toast (toast_overlay, _("The installation of ") + release.get_directory_name () + _(" was started"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("The installation of %s has begun.").printf (release.get_directory_name ()), 3);
 
                         this.activate_action_variant ("win.add-task", "");
 
@@ -284,7 +284,7 @@ namespace ProtonPlus.Widgets {
 
                         break;
                     case Models.Release.STATUS.INSTALLED:
-                        Utils.GUI.send_toast (toast_overlay, _("The installation of ") + release.get_directory_name () + _(" is done"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("The installation of %s is complete.").printf (release.get_directory_name ()), 3);
 
                         this.activate_action_variant ("win.remove-task", "");
 
@@ -311,7 +311,7 @@ namespace ProtonPlus.Widgets {
                         if (release.previous_status != Models.Release.STATUS.CANCELLED &&
                             release.previous_status != Models.Release.STATUS.INSTALLING &&
                             release.error == Models.Release.ERRORS.NONE) {
-                            Utils.GUI.send_toast (toast_overlay, _("The deletion of ") + release.get_directory_name () + _(" is done"), 3);
+                            Utils.GUI.send_toast (toast_overlay, _("The deletion of %s is complete.").printf (release.get_directory_name ()), 3);
                         }
 
                         this.activate_action_variant ("win.remove-task", "");
@@ -329,13 +329,13 @@ namespace ProtonPlus.Widgets {
             release.notify["error"].connect (() => {
                 switch (release.error) {
                     case Models.Release.ERRORS.API:
-                        Utils.GUI.send_toast (toast_overlay, _("There was an error while fetching data from the GitHub API"), 5000);
+                        Utils.GUI.send_toast (toast_overlay, _("There was an error while fetching data from the GitHub API."), 5000);
                         break;
                     case Models.Release.ERRORS.EXTRACT:
-                        Utils.GUI.send_toast (toast_overlay, _("An unexpected error occured while extracting ") + release.title, 5000);
+                        Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while extracting %s.").printf (release.title), 5000);
                         break;
                     case Models.Release.ERRORS.UNEXPECTED:
-                        Utils.GUI.send_toast (toast_overlay, _("An unexpected error occured while installing ") + release.title, 5000);
+                        Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while installing %s.").printf (release.title), 5000);
                         break;
                     default:
                         break;

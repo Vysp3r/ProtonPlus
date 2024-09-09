@@ -46,6 +46,7 @@ namespace ProtonPlus {
         void about_action () {
             const string[] devs = {
                 "Charles Malouin (Vysp3r) https://github.com/Vysp3r",
+                "Johnny Arcitec https://github.com/Arcitec",
                 "windblows95 https://github.com/windblows95",
                 null
             };
@@ -62,10 +63,10 @@ namespace ProtonPlus {
             about_window.set_application_name (Constants.APP_NAME);
             about_window.set_application_icon (Constants.APP_ID);
             about_window.set_version ("v" + Constants.APP_VERSION);
-            about_window.set_comments (_("A simple Wine and Proton-based compatibility tools manager for GNOME"));
-            about_window.add_link ("Github", "https://github.com/Vysp3r/ProtonPlus");
+            about_window.set_comments (_("A simple Wine and Proton-based compatibility tools manager for GNOME."));
+            about_window.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
             about_window.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
-            about_window.set_copyright ("© 2022-2023 Vysp3r");
+            about_window.set_copyright ("© 2022-2024 Vysp3r");
             about_window.set_license_type (Gtk.License.GPL_3_0);
             about_window.set_developers (devs);
             about_window.add_credit_section (_("Special thanks to"), thanks);

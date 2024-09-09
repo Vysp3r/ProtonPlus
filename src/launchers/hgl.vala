@@ -4,19 +4,19 @@ namespace ProtonPlus.Launchers {
             var groups = new Models.Group[4];
 
             groups[0] = new Models.Group ("Proton", "/tools/proton", launcher);
-            groups[0].description = _("Steam compatibility tool for running Windows games");
+            groups[0].description = _("Steam compatibility tool for running Windows games.");
             groups[0].runners = get_proton_runners (groups[0]);
 
             groups[1] = new Models.Group ("Wine", "/tools/wine", launcher);
-            groups[1].description = _("Wine is a program which allows running Microsoft Windows programs");
+            groups[1].description = _("Wine is a program which allows running Microsoft Windows programs.");
             groups[1].runners = get_wine_runners (groups[1]);
 
             groups[2] = new Models.Group ("DXVK", "/tools/dxvk", launcher);
-            groups[2].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine");
+            groups[2].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.");
             groups[2].runners = get_dxvk_runners (groups[2]);
 
             groups[3] = new Models.Group ("VKD3D", "/tools/vkd3d", launcher);
-            groups[3].description = _("Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan");
+            groups[3].description = _("Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.");
             groups[3].runners = get_vkd3d_runners (groups[3]);
 
             return groups;

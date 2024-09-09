@@ -8,8 +8,10 @@ namespace ProtonPlus.Utils {
         }
 
         public static Gtk.Button create_button (string? icon_name, string? tooltip_text) {
-            var icon = new Gtk.Image.from_icon_name (icon_name);
+            var icon = new Gtk.Image ();
             icon.set_pixel_size (20);
+            if (icon_name != null)
+                icon.set_from_icon_name (icon_name);
 
             var button = new Gtk.Button ();
             button.set_child (icon);

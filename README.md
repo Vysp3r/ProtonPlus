@@ -92,11 +92,9 @@
       cd ProtonPlus
     ```
 
-3. Build the source
+3. Build the local source code as a native application
     ```bash
-    meson build --prefix=/usr && \
-    cd build && \
-    ninja
+    ./scripts/build-native.sh
     ```
 
 4. (Optional) Install application
