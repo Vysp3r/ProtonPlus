@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 00:28+0200\n"
+"POT-Creation-Date: 2024-09-10 01:15+0200\n"
 "PO-Revision-Date: 2024-02-16 17:02+0000\n"
 "Last-Translator: valigarmanda <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -79,7 +79,7 @@ msgstr "安装 "
 
 #: src/widgets/info-box.vala:314 src/launchers/steam.vala:567
 #, fuzzy, c-format
-msgid "The deletion of %s is complete."
+msgid "The removal of %s is complete."
 msgstr "删除 "
 
 #: src/widgets/info-box.vala:335
@@ -286,7 +286,7 @@ msgstr ""
 
 #: src/launchers/steam.vala:569
 #, fuzzy, c-format
-msgid "An unexpected error occurred while deleting %s."
+msgid "An unexpected error occurred while removing %s."
 msgstr "当解压时出现异常 "
 
 #: src/launchers/steam.vala:578
@@ -327,11 +327,11 @@ msgstr ""
 msgid "There's currently no known way to install STL for the Steam Snap."
 msgstr ""
 
-#: src/launchers/steam.vala:697
+#: src/launchers/steam.vala:696
 msgid "STL is up-to-date"
 msgstr ""
 
-#: src/launchers/steam.vala:700
+#: src/launchers/steam.vala:696
 msgid "Update STL to the latest version"
 msgstr ""
 
@@ -358,6 +358,10 @@ msgstr "一个为GNOME而生的简单Wine和基于Proton兼容性工具的管理
 #: src/application.vala:72
 msgid "Special thanks to"
 msgstr "特别感谢"
+
+#, fuzzy, c-format
+#~ msgid "The deletion of %s is complete."
+#~ msgstr "删除 "
 
 #~ msgid " was cancelled"
 #~ msgstr " 被取消"

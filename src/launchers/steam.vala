@@ -564,9 +564,9 @@ namespace ProtonPlus.Launchers {
                                 row.activate_action_variant ("win.remove-task", "");
 
                                 if (success) {
-                                    Utils.GUI.send_toast (toast_overlay, _("The deletion of %s is complete.").printf (title), 3);
+                                    Utils.GUI.send_toast (toast_overlay, _("The removal of %s is complete.").printf (title), 3);
                                 } else {
-                                    Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while deleting %s.").printf (title), 5000);
+                                    Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while removing %s.").printf (title), 5000);
                                 }
                             });
                         }

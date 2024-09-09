@@ -311,7 +311,7 @@ namespace ProtonPlus.Widgets {
                         if (release.previous_status != Models.Release.STATUS.CANCELED &&
                             release.previous_status != Models.Release.STATUS.INSTALLING &&
                             release.error == Models.Release.ERRORS.NONE) {
-                            Utils.GUI.send_toast (toast_overlay, _("The deletion of %s is complete.").printf (release.get_directory_name ()), 3);
+                            Utils.GUI.send_toast (toast_overlay, _("The removal of %s is complete.").printf (release.get_directory_name ()), 3);
                         }
 
                         this.activate_action_variant ("win.remove-task", "");

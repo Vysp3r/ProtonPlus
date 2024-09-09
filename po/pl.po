@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 00:28+0200\n"
+"POT-Creation-Date: 2024-09-10 01:15+0200\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -80,7 +80,7 @@ msgstr "Instalacja "
 
 #: src/widgets/info-box.vala:314 src/launchers/steam.vala:567
 #, fuzzy, c-format
-msgid "The deletion of %s is complete."
+msgid "The removal of %s is complete."
 msgstr "Deinstalacja "
 
 #: src/widgets/info-box.vala:335
@@ -285,7 +285,7 @@ msgstr ""
 
 #: src/launchers/steam.vala:569
 #, fuzzy, c-format
-msgid "An unexpected error occurred while deleting %s."
+msgid "An unexpected error occurred while removing %s."
 msgstr "Wystąpił nieoczekiwany błąd podczas wypakowywania "
 
 #: src/launchers/steam.vala:578
@@ -326,11 +326,11 @@ msgstr ""
 msgid "There's currently no known way to install STL for the Steam Snap."
 msgstr ""
 
-#: src/launchers/steam.vala:697
+#: src/launchers/steam.vala:696
 msgid "STL is up-to-date"
 msgstr ""
 
-#: src/launchers/steam.vala:700
+#: src/launchers/steam.vala:696
 msgid "Update STL to the latest version"
 msgstr ""
 
@@ -356,6 +356,10 @@ msgstr ""
 #: src/application.vala:72
 msgid "Special thanks to"
 msgstr "Specjalne podziękowania dla"
+
+#, fuzzy, c-format
+#~ msgid "The deletion of %s is complete."
+#~ msgstr "Deinstalacja "
 
 #~ msgid " was cancelled"
 #~ msgstr " została anulowana"
