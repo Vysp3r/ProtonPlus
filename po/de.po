@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 00:28+0200\n"
+"POT-Creation-Date: 2024-09-10 01:15+0200\n"
 "PO-Revision-Date: 2024-05-01 16:11+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -81,7 +81,7 @@ msgstr "Die Installation von "
 
 #: src/widgets/info-box.vala:314 src/launchers/steam.vala:567
 #, fuzzy, c-format
-msgid "The deletion of %s is complete."
+msgid "The removal of %s is complete."
 msgstr "Die Löschung von "
 
 #: src/widgets/info-box.vala:335
@@ -310,7 +310,7 @@ msgstr ""
 
 #: src/launchers/steam.vala:569
 #, fuzzy, c-format
-msgid "An unexpected error occurred while deleting %s."
+msgid "An unexpected error occurred while removing %s."
 msgstr "Ein unerwarteter Fehler trat auf beim Extrahieren von "
 
 #: src/launchers/steam.vala:578
@@ -351,11 +351,11 @@ msgstr ""
 msgid "There's currently no known way to install STL for the Steam Snap."
 msgstr ""
 
-#: src/launchers/steam.vala:697
+#: src/launchers/steam.vala:696
 msgid "STL is up-to-date"
 msgstr ""
 
-#: src/launchers/steam.vala:700
+#: src/launchers/steam.vala:696
 msgid "Update STL to the latest version"
 msgstr ""
 
@@ -386,6 +386,10 @@ msgstr ""
 #: src/application.vala:72
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
+
+#, fuzzy, c-format
+#~ msgid "The deletion of %s is complete."
+#~ msgstr "Die Löschung von "
 
 #~ msgid " was cancelled"
 #~ msgstr " wurde abgebrochen"
