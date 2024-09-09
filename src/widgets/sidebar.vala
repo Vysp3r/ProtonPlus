@@ -31,7 +31,7 @@ namespace ProtonPlus.Widgets {
             installed_only_switch = new Gtk.Switch ();
             
             //
-            var installed_only_label = new Gtk.Label (_("Installed only"));
+            var installed_only_label = new Gtk.Label (_("Only Installed"));
             installed_only_label.set_hexpand (true);
             installed_only_label.set_halign (Gtk.Align.START);
 

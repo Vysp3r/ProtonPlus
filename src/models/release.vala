@@ -60,7 +60,7 @@ namespace ProtonPlus.Models {
         }
 
         public string get_formatted_download_size () {
-            if (download_size < 0)return _("Not available");
+            if (download_size < 0)return _("Not Available");
             return Utils.Filesystem.convert_bytes_to_string (download_size);
         }
 

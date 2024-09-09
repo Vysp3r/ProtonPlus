@@ -109,7 +109,7 @@ namespace ProtonPlus {
                 }
             } else {
                 //
-                status_box.initialize (null, _("Welcome to ") + Constants.APP_NAME, _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
+                status_box.initialize (null, _("Welcome to %s").printf (Constants.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
 
                 //
                 if (status_box.get_parent () == null) {

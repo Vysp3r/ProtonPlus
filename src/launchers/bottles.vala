@@ -4,11 +4,11 @@ namespace ProtonPlus.Launchers {
             var groups = new Models.Group[2];
 
             groups[0] = new Models.Group (_("Runners"), "/runners", launcher);
-            groups[0].description = _("Compatibility tool to run Windows games on Linux");
+            groups[0].description = _("Compatibility tool to run Windows games on Linux.");
             groups[0].runners = get_runners (groups[0]);
 
             groups[1] = new Models.Group ("DXVK", "/dxvk", launcher);
-            groups[1].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine");
+            groups[1].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.");
             groups[1].runners = get_dxvk_runners (groups[1]);
 
             return groups;

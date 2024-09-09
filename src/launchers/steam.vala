@@ -301,7 +301,7 @@ namespace ProtonPlus.Launchers {
                 if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
 
                 if (missing_dependencies != "") {
-                    var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), _("You have unmet dependencies for SteamTinkerLaunch") + @"\n\n$missing_dependencies\n" + _("Installation will be cancelled"));
+                    var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for SteamTinkerLaunch:"), missing_dependencies, _("Installation will be cancelled.")));
                     dialog.add_response ("ok", _("OK"));
                     dialog.show ();
                     cancelled = true;
@@ -312,7 +312,7 @@ namespace ProtonPlus.Launchers {
                 var has_external_install = detect_external_locations ();
 
                 if (has_external_install) {
-                    var dialog = new Adw.MessageDialog (Application.window, _("Existing installation of STL"), _("It looks like there's a version of STL currently installed which was not installed by ProtonPlus.") + "\n\n" + _("Do you want to delete it and install STL with ProtonPlus?"));
+                    var dialog = new Adw.MessageDialog (Application.window, _("Existing installation of STL"), "%s\n\n%s".printf (_("It looks like you currently have another version of STL which was not installed by ProtonPlus."), _("Do you want to delete it and install STL with ProtonPlus?")));
                     dialog.add_response ("cancel", _("Cancel"));
                     dialog.add_response ("ok", _("OK"));
                     dialog.set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);
@@ -508,9 +508,9 @@ namespace ProtonPlus.Launchers {
                 btn_cancel.clicked.connect (() => cancelled = true);
 
                 btn_delete.clicked.connect (() => {
-                    var delete_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files"));
+                    var delete_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files."));
 
-                    var dialog = new Adw.MessageDialog (Application.window, _("Delete SteamTinkerLaunch"), _("You're about to delete STL from your system") + "\n" + _("Are you sure you want this?"));
+                    var dialog = new Adw.MessageDialog (Application.window, _("Delete SteamTinkerLaunch"), "%s\n\n%s".printf (_("You're about to delete STL from your system."), _("Are you sure you want this?")));
                     dialog.set_extra_child (delete_check);
                     dialog.add_response ("no", _("No"));
                     dialog.add_response ("yes", _("Yes"));
@@ -537,9 +537,9 @@ namespace ProtonPlus.Launchers {
                                 spinner.set_visible (false);
 
                                 if (success) {
-                                    Utils.GUI.send_toast (toast_overlay, _("The deletion of ") + title + _(" is done"), 3);
+                                    Utils.GUI.send_toast (toast_overlay, _("The deletion of %s is complete.").printf (title), 3);
                                 } else {
-                                    Utils.GUI.send_toast (toast_overlay, _("An unexpected error occured while deleting ") + title, 5000);
+                                    Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while deleting %s.").printf (title), 5000);
                                 }
                             });
                         }
@@ -548,9 +548,9 @@ namespace ProtonPlus.Launchers {
 
                 btn_upgrade.clicked.connect (() => {
                     if (updated) {
-                        Utils.GUI.send_toast (toast_overlay, title + _(" is already up-to-date"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("%s is already up-to-date.").printf (title), 3);
                     } else {
-                        Utils.GUI.send_toast (toast_overlay, _("The upgrade of ") + title + _(" was started"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("The upgrade of %s has begun.").printf (title), 3);
 
                         row.activate_action_variant ("win.add-task", "");
 
@@ -575,16 +575,16 @@ namespace ProtonPlus.Launchers {
                             btn_cancel.set_visible (false);
 
                             if (success) {
-                                Utils.GUI.send_toast (toast_overlay, _("The upgrade of ") + title + _(" is done"), 3);
+                                Utils.GUI.send_toast (toast_overlay, _("The upgrade of %s is complete.").printf (title), 3);
                             } else {
-                                Utils.GUI.send_toast (toast_overlay, _("An unexpected error occured while upgrading ") + title, 5000);
+                                Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while upgrading %s.").printf (title), 5000);
                             }
                         });
                     }
                 });
 
                 btn_install.clicked.connect (() => {
-                    Utils.GUI.send_toast (toast_overlay, _("The installation of ") + title + _(" was started"), 3);
+                    Utils.GUI.send_toast (toast_overlay, _("The installation of %s has begun.").printf (title), 3);
 
                     row.activate_action_variant ("win.add-task", "");
 
@@ -609,11 +609,11 @@ namespace ProtonPlus.Launchers {
                         btn_cancel.set_visible (false);
 
                         if (success) {
-                            Utils.GUI.send_toast (toast_overlay, _("The installation of ") + title + _(" is done"), 3);
+                            Utils.GUI.send_toast (toast_overlay, _("The installation of %s is complete.").printf (title), 3);
                         } else if (cancelled) {
-                            Utils.GUI.send_toast (toast_overlay, _("The installation of ") + title + _(" was cancelled"), 3);
+                            Utils.GUI.send_toast (toast_overlay, _("The installation of %s was cancelled.").printf (title), 3);
                         } else {
-                            Utils.GUI.send_toast (toast_overlay, _("An unexpected error occured while installing ") + title, 5000);
+                            Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while installing %s.").printf (title), 5000);
                         }
                     });
                 });
@@ -623,10 +623,10 @@ namespace ProtonPlus.Launchers {
                     Adw.MessageDialog? dialog = null;
                     switch (launcher_type) {
                         case "Flatpak" :
-                            dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), _("To install Steam Tinker Launch for Steam Flatpak, please run the following command:") + "\n\nflatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch");
+                            dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), "%s\n\n%s".printf (_("To install Steam Tinker Launch for the Steam Flatpak, please run the following command:"), "flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
                             break;
                         case "Snap":
-                            dialog = new Adw.MessageDialog (Application.window, _("Steam Snap is not supported"), _("There's currently no known way to install STL for Steam Snap"));
+                            dialog = new Adw.MessageDialog (Application.window, _("Steam Snap is not supported"), _("There's currently no known way to install STL for the Steam Snap."));
                             break;
                     }
                     if (dialog != null) {
