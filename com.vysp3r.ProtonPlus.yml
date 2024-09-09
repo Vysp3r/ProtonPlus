@@ -18,6 +18,11 @@ finish-args:
   # Home is required due to "~/stl" installations on Steam Deck.
   - --filesystem=home
   - --filesystem=xdg-run/gvfsd
+  # Request access to supported Flatpak apps (they are not included by "home").
+  - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic
+  - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles
+  - --filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam
+  - --filesystem=~/.var/app/net.lutris.Lutris/data/lutris
 build-options:
   append-path: /usr/lib/sdk/vala/bin
   prepend-ld-library-path: /usr/lib/sdk/vala/lib
