@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-09 01:58+0200\n"
+"POT-Creation-Date: 2024-09-09 02:18+0200\n"
 "PO-Revision-Date: 2024-08-19 10:09+0000\n"
 "Last-Translator: Lize58 <pasquale.borrelli05@outlook.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -14,8 +14,12 @@ msgstr ""
 "X-Generator: Weblate 5.7\n"
 
 #.
+#: src/widgets/sidebar.vala:32
+msgid "Only display the runners that are currently installed on your system"
+msgstr ""
+
 #.
-#: src/widgets/sidebar.vala:34
+#: src/widgets/sidebar.vala:35
 #, fuzzy
 msgid "Only Installed"
 msgstr "Solo installato"

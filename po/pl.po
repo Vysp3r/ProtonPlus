@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-09 01:58+0200\n"
+"POT-Creation-Date: 2024-09-09 02:18+0200\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -18,8 +18,12 @@ msgstr ""
 "X-Generator: Weblate 5.7-dev\n"
 
 #.
+#: src/widgets/sidebar.vala:32
+msgid "Only display the runners that are currently installed on your system"
+msgstr ""
+
 #.
-#: src/widgets/sidebar.vala:34
+#: src/widgets/sidebar.vala:35
 #, fuzzy
 msgid "Only Installed"
 msgstr "Tylko zainstalowane"

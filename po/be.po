@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-09 01:58+0200\n"
+"POT-Creation-Date: 2024-09-09 02:18+0200\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -21,8 +21,12 @@ msgstr ""
 "X-Generator: Weblate 5.6-dev\n"
 
 #.
+#: src/widgets/sidebar.vala:32
+msgid "Only display the runners that are currently installed on your system"
+msgstr ""
+
 #.
-#: src/widgets/sidebar.vala:34
+#: src/widgets/sidebar.vala:35
 #, fuzzy
 msgid "Only Installed"
 msgstr "Толькі ўсталяваныя"

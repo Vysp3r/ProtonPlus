@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-09 01:58+0200\n"
+"POT-Creation-Date: 2024-09-09 02:18+0200\n"
 "PO-Revision-Date: 2024-05-01 16:11+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -19,8 +19,12 @@ msgstr ""
 "X-Generator: Poedit 3.4.2\n"
 
 #.
+#: src/widgets/sidebar.vala:32
+msgid "Only display the runners that are currently installed on your system"
+msgstr ""
+
 #.
-#: src/widgets/sidebar.vala:34
+#: src/widgets/sidebar.vala:35
 #, fuzzy
 msgid "Only Installed"
 msgstr "Nur installierte"
