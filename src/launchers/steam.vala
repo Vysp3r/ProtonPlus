@@ -212,9 +212,10 @@ namespace ProtonPlus.Launchers {
 
             void refresh_installation_state () {
                 // Update the ProtonPlus UI state variables.
-                var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
-                var binary_location_exists = FileUtils.test (binary_location, FileTest.EXISTS);
-                var meta_file_exists = FileUtils.test (meta_location, FileTest.EXISTS);
+                // NOTE: We treat a non-executable binary as a "broken installation".
+                var base_location_exists = FileUtils.test (base_location, FileTest.IS_DIR);
+                var binary_location_exists = FileUtils.test (binary_location, FileTest.IS_EXECUTABLE);
+                var meta_file_exists = FileUtils.test (meta_location, FileTest.IS_REGULAR);
 
                 var _installed = base_location_exists && binary_location_exists && meta_file_exists;
                 var _updated = false;
@@ -263,16 +264,16 @@ namespace ProtonPlus.Launchers {
                 if (external_locations.length () > 0)
                     external_locations = new List<string> ();
 
-                var loc1 = @"$home_location/SteamTinkerLaunch";
-                if (FileUtils.test (loc1, FileTest.EXISTS))
-                    external_locations.append (loc1);
+                var location = @"$home_location/SteamTinkerLaunch";
+                if (FileUtils.test (location, FileTest.IS_DIR))
+                    external_locations.append (location);
 
-                var loc2 = Environment.get_home_dir () + "/stl";
-                if (!Utils.System.IS_STEAM_OS && FileUtils.test (loc2, FileTest.EXISTS))
-                    external_locations.append (loc2);
+                location = Environment.get_home_dir () + "/stl";
+                if (!Utils.System.IS_STEAM_OS && FileUtils.test (location, FileTest.IS_DIR))
+                    external_locations.append (location);
 
                 // Disabled for now, since we always erase base_location before installs.
-                // if (FileUtils.test (base_location, FileTest.EXISTS) && !FileUtils.test (meta_location, FileTest.EXISTS))
+                // if (FileUtils.test (base_location, FileTest.IS_DIR) && !FileUtils.test (meta_location, FileTest.IS_REGULAR))
                 // external_locations.append (base_location);
 
                 return external_locations.length () > 0;
@@ -357,16 +358,23 @@ namespace ProtonPlus.Launchers {
 
             async bool _download_and_install () {
                 // Always clean destination to avoid merging with existing files.
+                // NOTE: We check for ANY existing (conflicting) file, not just
+                // dirs. The `remove` function then validates the actual types.
                 var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
-                if (base_location_exists)
-                    yield remove (false);
+                if (base_location_exists) {
+                    var deleted_old_files = yield remove (false);
+
+                    if (!deleted_old_files)
+                        return false;
+                }
 
 
                 // Download the source code archive.
+                // NOTE: We only create "downloads", since it's a subdir of `base_location`.
                 if (!FileUtils.test (download_location, FileTest.IS_DIR)) {
-                    var success = yield Utils.Filesystem.create_directory (download_location);
+                    var download_dir_exists = yield Utils.Filesystem.create_directory (download_location);
 
-                    if (!success)
+                    if (!download_dir_exists)
                         return false;
                 }
 
@@ -405,9 +413,9 @@ namespace ProtonPlus.Launchers {
 
 
                 // Create a symlink for the steamtinkerlaunch binary.
-                var link_parent_location_success = yield Utils.Filesystem.create_directory (link_parent_location);
+                var link_parent_location_exists = yield Utils.Filesystem.create_directory (link_parent_location);
 
-                if (!link_parent_location_success)
+                if (!link_parent_location_exists)
                     return false;
 
                 var link_created = yield Utils.Filesystem.make_symlink (link_location, binary_location);
@@ -454,7 +462,11 @@ namespace ProtonPlus.Launchers {
             async bool _remove_installation (bool delete_config) {
                 exec_stl_if_exists (binary_location, "compat del");
 
+                // NOTE: We check specific types to avoid deleting unexpected data.
                 if (FileUtils.test (link_location, FileTest.EXISTS)) {
+                    if (!FileUtils.test (link_location, FileTest.IS_SYMLINK))
+                        return false;
+
                     var link_deleted = Utils.Filesystem.delete_file (link_location);
 
                     if (!link_deleted)
@@ -462,6 +474,9 @@ namespace ProtonPlus.Launchers {
                 }
 
                 if (FileUtils.test (base_location, FileTest.EXISTS)) {
+                    if (!FileUtils.test (base_location, FileTest.IS_DIR))
+                        return false;
+
                     var base_deleted = yield Utils.Filesystem.delete_directory (base_location);
 
                     if (!base_deleted)
@@ -469,6 +484,9 @@ namespace ProtonPlus.Launchers {
                 }
 
                 if (delete_config && FileUtils.test (config_location, FileTest.EXISTS)) {
+                    if (!FileUtils.test (config_location, FileTest.IS_DIR))
+                        return false;
+
                     var config_deleted = yield Utils.Filesystem.delete_directory (config_location);
 
                     if (!config_deleted)
