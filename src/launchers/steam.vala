@@ -93,7 +93,7 @@ namespace ProtonPlus.Launchers {
             string link_parent_location { get; set; }
             string link_location { get; set; }
             string config_location { get; set; }
-            string remove_location { get; set; }
+            string manual_remove_location { get; set; }
             List<string> external_locations;
 
             public bool installed { get; set; }
@@ -119,12 +119,12 @@ namespace ProtonPlus.Launchers {
                     // Steam Deck uses `~/stl/prefix` instead.
                     parent_location = @"$home_location/stl";
                     base_location = @"$parent_location/prefix";
-                    remove_location = parent_location;
+                    manual_remove_location = parent_location;
                 } else {
                     // Normal computers use `~/.local/share/steamtinkerlaunch`.
                     parent_location = @"$home_location/.local/share";
                     base_location = @"$parent_location/steamtinkerlaunch";
-                    remove_location = base_location;
+                    manual_remove_location = base_location;
                 }
                 binary_location = @"$base_location/steamtinkerlaunch";
                 meta_location = @"$base_location/ProtonPlus.meta";
@@ -479,20 +479,20 @@ namespace ProtonPlus.Launchers {
                 return true;
             }
 
-            public async bool remove (bool delete_config) {
+            public async bool remove (bool delete_config, bool user_request = false) {
                 // We have to force the GUI to show the "busy removing" state.
                 ui_state = Utils.GUI.UIState.BUSY_REMOVING;
 
 
                 // Attempt the removal.
-                var remove_success = yield _remove_installation (delete_config);
+                var remove_success = yield _remove_installation (delete_config, user_request);
 
                 refresh_interface_state (true); // Force UI state refresh.
 
                 return remove_success;
             }
 
-            async bool _remove_installation (bool delete_config) {
+            async bool _remove_installation (bool delete_config, bool user_request = false) {
                 exec_stl_if_exists (binary_location, "compat del");
 
                 // NOTE: We check specific types to avoid deleting unexpected data.
@@ -506,6 +506,7 @@ namespace ProtonPlus.Launchers {
                         return false;
                 }
 
+                var remove_location = user_request ? manual_remove_location : base_location;
                 if (FileUtils.test (remove_location, FileTest.EXISTS)) {
                     if (!FileUtils.test (remove_location, FileTest.IS_DIR))
                         return false;
@@ -567,7 +568,7 @@ namespace ProtonPlus.Launchers {
                         if (response == "yes") {
                             row.activate_action_variant ("win.add-task", "");
 
-                            remove.begin (delete_check.get_active (), (obj, res) => {
+                            remove.begin (delete_check.get_active (), true, (obj, res) => {
                                 var success = remove.end (res);
 
                                 row.activate_action_variant ("win.remove-task", "");
