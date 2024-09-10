@@ -10,40 +10,39 @@ namespace ProtonPlus {
         }
 
         public override void activate () {
-            //
             var display = Gdk.Display.get_default ();
 
-            //
             Gtk.IconTheme.get_for_display (display).add_resource_path ("/com/vysp3r/ProtonPlus/icons");
 
-            //
             var css_provider = new Gtk.CssProvider ();
             css_provider.load_from_resource ("/com/vysp3r/ProtonPlus/css/style.css");
 
-            //
             Gtk.StyleContext.add_provider_for_display (display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-            //
             Utils.System.initialize ();
 
-            //
             window = new Window ();
             window.initialize ();
 
-            //
             if (Utils.System.IS_GAMESCOPE)window.fullscreen ();
 
-            //
-            ActionEntry[] action_entries = {
-                { "about", about_action },
-            };
-            add_action_entries (action_entries, this);
+            add_shortcuts ();
 
-            //
-            window.show ();
+            window.present ();
         }
 
-        void about_action () {
+        void add_shortcuts () {
+            var about_action = new SimpleAction ("show-about", null);
+            about_action.activate.connect (this.show_about_dialog);
+            this.add_action (about_action);
+
+            var quit_action = new SimpleAction ("quit", null);
+            quit_action.activate.connect (this.quit);
+            this.set_accels_for_action ("app.quit", { "<Ctrl>Q" });
+            this.add_action (quit_action);
+        }
+
+        void show_about_dialog () {
             const string[] devs = {
                 "Charles Malouin (Vysp3r) https://github.com/Vysp3r",
                 "Johnny Arcitec https://github.com/Arcitec",
