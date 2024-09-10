@@ -93,6 +93,7 @@ namespace ProtonPlus.Launchers {
             string link_parent_location { get; set; }
             string link_location { get; set; }
             string config_location { get; set; }
+            string remove_location { get; set; }
             List<string> external_locations;
 
             public bool installed { get; set; }
@@ -118,10 +119,12 @@ namespace ProtonPlus.Launchers {
                     // Steam Deck uses `~/stl/prefix` instead.
                     parent_location = @"$home_location/stl";
                     base_location = @"$parent_location/prefix";
+                    remove_location = parent_location;
                 } else {
                     // Normal computers use `~/.local/share/steamtinkerlaunch`.
                     parent_location = @"$home_location/.local/share";
                     base_location = @"$parent_location/steamtinkerlaunch";
+                    remove_location = base_location;
                 }
                 binary_location = @"$base_location/steamtinkerlaunch";
                 meta_location = @"$base_location/ProtonPlus.meta";
@@ -503,11 +506,11 @@ namespace ProtonPlus.Launchers {
                         return false;
                 }
 
-                if (FileUtils.test (base_location, FileTest.EXISTS)) {
-                    if (!FileUtils.test (base_location, FileTest.IS_DIR))
+                if (FileUtils.test (remove_location, FileTest.EXISTS)) {
+                    if (!FileUtils.test (remove_location, FileTest.IS_DIR))
                         return false;
 
-                    var base_deleted = yield Utils.Filesystem.delete_directory (base_location);
+                    var base_deleted = yield Utils.Filesystem.delete_directory (remove_location);
 
                     if (!base_deleted)
                         return false;
