@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-09 20:38-0400\n"
+"POT-Creation-Date: 2024-09-10 19:23-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgstr ""
 msgid "There was an error while fetching data from the GitHub API."
 msgstr ""
 
-#: src/widgets/info-box.vala:214 src/launchers/steam.vala:543
+#: src/widgets/info-box.vala:214 src/launchers/steam.vala:547
 msgid "Cancel the installation"
 msgstr ""
 
@@ -61,22 +61,22 @@ msgstr ""
 msgid "Install the runner"
 msgstr ""
 
-#: src/widgets/info-box.vala:261 src/launchers/steam.vala:617
+#: src/widgets/info-box.vala:261 src/launchers/steam.vala:621
 #, c-format
 msgid "The installation of %s was canceled."
 msgstr ""
 
-#: src/widgets/info-box.vala:273 src/launchers/steam.vala:605
+#: src/widgets/info-box.vala:273 src/launchers/steam.vala:609
 #, c-format
 msgid "The installation of %s has begun."
 msgstr ""
 
-#: src/widgets/info-box.vala:287 src/launchers/steam.vala:615
+#: src/widgets/info-box.vala:287 src/launchers/steam.vala:619
 #, c-format
 msgid "The installation of %s is complete."
 msgstr ""
 
-#: src/widgets/info-box.vala:314 src/launchers/steam.vala:573
+#: src/widgets/info-box.vala:314 src/launchers/steam.vala:577
 #, c-format
 msgid "The removal of %s is complete."
 msgstr ""
@@ -86,7 +86,7 @@ msgstr ""
 msgid "An unexpected error occurred while extracting %s."
 msgstr ""
 
-#: src/widgets/info-box.vala:338 src/launchers/steam.vala:619
+#: src/widgets/info-box.vala:338 src/launchers/steam.vala:623
 #, c-format
 msgid "An unexpected error occurred while installing %s."
 msgstr ""
@@ -200,125 +200,125 @@ msgid ""
 "graphical configuration of game tools for Proton and native Linux games."
 msgstr ""
 
-#: src/launchers/steam.vala:325
+#: src/launchers/steam.vala:328
 msgid "Missing dependencies!"
 msgstr ""
 
-#: src/launchers/steam.vala:325
+#: src/launchers/steam.vala:328
 msgid "You are missing the following dependencies for SteamTinkerLaunch:"
 msgstr ""
 
-#: src/launchers/steam.vala:325
+#: src/launchers/steam.vala:328
 msgid "Installation will be canceled."
 msgstr ""
 
-#: src/launchers/steam.vala:326 src/launchers/steam.vala:338
-#: src/launchers/steam.vala:636
+#: src/launchers/steam.vala:329 src/launchers/steam.vala:341
+#: src/launchers/steam.vala:640
 msgid "OK"
 msgstr ""
 
-#: src/launchers/steam.vala:336
+#: src/launchers/steam.vala:339
 msgid "Existing installation of STL"
 msgstr ""
 
-#: src/launchers/steam.vala:336
+#: src/launchers/steam.vala:339
 msgid ""
 "It looks like you currently have another version of STL which was not "
 "installed by ProtonPlus."
 msgstr ""
 
-#: src/launchers/steam.vala:336
+#: src/launchers/steam.vala:339
 msgid "Do you want to delete it and install STL with ProtonPlus?"
 msgstr ""
 
-#: src/launchers/steam.vala:337
+#: src/launchers/steam.vala:340
 msgid "Cancel"
 msgstr ""
 
-#: src/launchers/steam.vala:544
+#: src/launchers/steam.vala:548
 msgid "Delete STL"
 msgstr ""
 
-#: src/launchers/steam.vala:546
+#: src/launchers/steam.vala:550
 msgid "Install STL"
 msgstr ""
 
-#: src/launchers/steam.vala:547
+#: src/launchers/steam.vala:551
 msgid "Show more information"
 msgstr ""
 
-#: src/launchers/steam.vala:554
+#: src/launchers/steam.vala:558
 msgid "Check this to also delete your configuration files."
 msgstr ""
 
-#: src/launchers/steam.vala:556
+#: src/launchers/steam.vala:560
 msgid "Delete SteamTinkerLaunch"
 msgstr ""
 
-#: src/launchers/steam.vala:556
+#: src/launchers/steam.vala:560
 msgid "You're about to delete STL from your system."
 msgstr ""
 
-#: src/launchers/steam.vala:556
+#: src/launchers/steam.vala:560
 msgid "Are you sure you want this?"
 msgstr ""
 
-#: src/launchers/steam.vala:558
+#: src/launchers/steam.vala:562
 msgid "No"
 msgstr ""
 
-#: src/launchers/steam.vala:559
+#: src/launchers/steam.vala:563
 msgid "Yes"
 msgstr ""
 
-#: src/launchers/steam.vala:575
+#: src/launchers/steam.vala:579
 #, c-format
 msgid "An unexpected error occurred while removing %s."
 msgstr ""
 
-#: src/launchers/steam.vala:584
+#: src/launchers/steam.vala:588
 #, c-format
 msgid "%s is already up-to-date."
 msgstr ""
 
-#: src/launchers/steam.vala:586
+#: src/launchers/steam.vala:590
 #, c-format
 msgid "The upgrade of %s has begun."
 msgstr ""
 
-#: src/launchers/steam.vala:596
+#: src/launchers/steam.vala:600
 #, c-format
 msgid "The upgrade of %s is complete."
 msgstr ""
 
-#: src/launchers/steam.vala:598
+#: src/launchers/steam.vala:602
 #, c-format
 msgid "An unexpected error occurred while upgrading %s."
 msgstr ""
 
-#: src/launchers/steam.vala:629
+#: src/launchers/steam.vala:633
 msgid "Steam Flatpak is not supported"
 msgstr ""
 
-#: src/launchers/steam.vala:629
+#: src/launchers/steam.vala:633
 msgid ""
 "To install Steam Tinker Launch for the Steam Flatpak, please run the "
 "following command:"
 msgstr ""
 
-#: src/launchers/steam.vala:632
+#: src/launchers/steam.vala:636
 msgid "Steam Snap is not supported"
 msgstr ""
 
-#: src/launchers/steam.vala:632
+#: src/launchers/steam.vala:636
 msgid "There's currently no known way to install STL for the Steam Snap."
 msgstr ""
 
-#: src/launchers/steam.vala:702
+#: src/launchers/steam.vala:706
 msgid "STL is up-to-date"
 msgstr ""
 
-#: src/launchers/steam.vala:702
+#: src/launchers/steam.vala:706
 msgid "Update STL to the latest version"
 msgstr ""
 
@@ -336,10 +336,10 @@ msgstr ""
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 
-#: src/application.vala:66
+#: src/application.vala:65
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME."
 msgstr ""
 
-#: src/application.vala:72
+#: src/application.vala:71
 msgid "Special thanks to"
 msgstr ""

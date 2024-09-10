@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-09 20:38-0400\n"
+"POT-Creation-Date: 2024-09-10 19:23-0400\n"
 "PO-Revision-Date: 2024-07-06 01:09+0000\n"
 "Last-Translator: Kauã Azevedo da Silva Vicente <Kazevic@pm.me>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -40,7 +40,7 @@ msgstr "Carregar mais"
 msgid "There was an error while fetching data from the GitHub API."
 msgstr "Houve um erro ao buscar dados da API do GitHub"
 
-#: src/widgets/info-box.vala:214 src/launchers/steam.vala:543
+#: src/widgets/info-box.vala:214 src/launchers/steam.vala:547
 msgid "Cancel the installation"
 msgstr "Cancelar a instalação"
 
@@ -61,22 +61,22 @@ msgstr "Confirmar"
 msgid "Install the runner"
 msgstr "Instalar o executador"
 
-#: src/widgets/info-box.vala:261 src/launchers/steam.vala:617
+#: src/widgets/info-box.vala:261 src/launchers/steam.vala:621
 #, fuzzy, c-format
 msgid "The installation of %s was canceled."
 msgstr "A instalação de "
 
-#: src/widgets/info-box.vala:273 src/launchers/steam.vala:605
+#: src/widgets/info-box.vala:273 src/launchers/steam.vala:609
 #, fuzzy, c-format
 msgid "The installation of %s has begun."
 msgstr "A instalação de "
 
-#: src/widgets/info-box.vala:287 src/launchers/steam.vala:615
+#: src/widgets/info-box.vala:287 src/launchers/steam.vala:619
 #, fuzzy, c-format
 msgid "The installation of %s is complete."
 msgstr "A instalação de "
 
-#: src/widgets/info-box.vala:314 src/launchers/steam.vala:573
+#: src/widgets/info-box.vala:314 src/launchers/steam.vala:577
 #, fuzzy, c-format
 msgid "The removal of %s is complete."
 msgstr "A exclusão de "
@@ -86,7 +86,7 @@ msgstr "A exclusão de "
 msgid "An unexpected error occurred while extracting %s."
 msgstr "Ocorreu um erro inesperado durante a extração "
 
-#: src/widgets/info-box.vala:338 src/launchers/steam.vala:619
+#: src/widgets/info-box.vala:338 src/launchers/steam.vala:623
 #, fuzzy, c-format
 msgid "An unexpected error occurred while installing %s."
 msgstr "Ocorreu um erro inesperado durante a instalação "
@@ -227,131 +227,131 @@ msgid ""
 "graphical configuration of game tools for Proton and native Linux games."
 msgstr ""
 
-#: src/launchers/steam.vala:325
+#: src/launchers/steam.vala:328
 msgid "Missing dependencies!"
 msgstr ""
 
-#: src/launchers/steam.vala:325
+#: src/launchers/steam.vala:328
 msgid "You are missing the following dependencies for SteamTinkerLaunch:"
 msgstr ""
 
-#: src/launchers/steam.vala:325
+#: src/launchers/steam.vala:328
 #, fuzzy
 msgid "Installation will be canceled."
 msgstr "A instalação de "
 
-#: src/launchers/steam.vala:326 src/launchers/steam.vala:338
-#: src/launchers/steam.vala:636
+#: src/launchers/steam.vala:329 src/launchers/steam.vala:341
+#: src/launchers/steam.vala:640
 msgid "OK"
 msgstr ""
 
-#: src/launchers/steam.vala:336
+#: src/launchers/steam.vala:339
 #, fuzzy
 msgid "Existing installation of STL"
 msgstr "A instalação de "
 
-#: src/launchers/steam.vala:336
+#: src/launchers/steam.vala:339
 msgid ""
 "It looks like you currently have another version of STL which was not "
 "installed by ProtonPlus."
 msgstr ""
 
-#: src/launchers/steam.vala:336
+#: src/launchers/steam.vala:339
 msgid "Do you want to delete it and install STL with ProtonPlus?"
 msgstr ""
 
-#: src/launchers/steam.vala:337
+#: src/launchers/steam.vala:340
 msgid "Cancel"
 msgstr ""
 
-#: src/launchers/steam.vala:544
+#: src/launchers/steam.vala:548
 #, fuzzy
 msgid "Delete STL"
 msgstr "Remover ferramenta"
 
-#: src/launchers/steam.vala:546
+#: src/launchers/steam.vala:550
 #, fuzzy
 msgid "Install STL"
 msgstr "Apenas instalado"
 
-#: src/launchers/steam.vala:547
+#: src/launchers/steam.vala:551
 #, fuzzy
 msgid "Show more information"
 msgstr "Mostrar informação"
 
-#: src/launchers/steam.vala:554
+#: src/launchers/steam.vala:558
 msgid "Check this to also delete your configuration files."
 msgstr ""
 
-#: src/launchers/steam.vala:556
+#: src/launchers/steam.vala:560
 msgid "Delete SteamTinkerLaunch"
 msgstr ""
 
-#: src/launchers/steam.vala:556
+#: src/launchers/steam.vala:560
 msgid "You're about to delete STL from your system."
 msgstr ""
 
-#: src/launchers/steam.vala:556
+#: src/launchers/steam.vala:560
 #, fuzzy
 msgid "Are you sure you want this?"
 msgstr "Tem certeza de que deseja excluir "
 
-#: src/launchers/steam.vala:558
+#: src/launchers/steam.vala:562
 msgid "No"
 msgstr ""
 
-#: src/launchers/steam.vala:559
+#: src/launchers/steam.vala:563
 msgid "Yes"
 msgstr ""
 
-#: src/launchers/steam.vala:575
+#: src/launchers/steam.vala:579
 #, fuzzy, c-format
 msgid "An unexpected error occurred while removing %s."
 msgstr "Ocorreu um erro inesperado durante a extração "
 
-#: src/launchers/steam.vala:584
+#: src/launchers/steam.vala:588
 #, c-format
 msgid "%s is already up-to-date."
 msgstr ""
 
-#: src/launchers/steam.vala:586
+#: src/launchers/steam.vala:590
 #, fuzzy, c-format
 msgid "The upgrade of %s has begun."
 msgstr "A exclusão de "
 
-#: src/launchers/steam.vala:596
+#: src/launchers/steam.vala:600
 #, fuzzy, c-format
 msgid "The upgrade of %s is complete."
 msgstr "A exclusão de "
 
-#: src/launchers/steam.vala:598
+#: src/launchers/steam.vala:602
 #, fuzzy, c-format
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "Ocorreu um erro inesperado durante a extração "
 
-#: src/launchers/steam.vala:629
+#: src/launchers/steam.vala:633
 msgid "Steam Flatpak is not supported"
 msgstr ""
 
-#: src/launchers/steam.vala:629
+#: src/launchers/steam.vala:633
 msgid ""
 "To install Steam Tinker Launch for the Steam Flatpak, please run the "
 "following command:"
 msgstr ""
 
-#: src/launchers/steam.vala:632
+#: src/launchers/steam.vala:636
 msgid "Steam Snap is not supported"
 msgstr ""
 
-#: src/launchers/steam.vala:632
+#: src/launchers/steam.vala:636
 msgid "There's currently no known way to install STL for the Steam Snap."
 msgstr ""
 
-#: src/launchers/steam.vala:702
+#: src/launchers/steam.vala:706
 msgid "STL is up-to-date"
 msgstr ""
 
-#: src/launchers/steam.vala:702
+#: src/launchers/steam.vala:706
 msgid "Update STL to the latest version"
 msgstr ""
 
@@ -371,14 +371,14 @@ msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Instale a Steam, Lutris, Bottles ou Heroic Games Launcher para começar."
 
-#: src/application.vala:66
+#: src/application.vala:65
 #, fuzzy
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME."
 msgstr ""
 "Um simples gerenciador de ferramentas de compatibilidade baseadas no Wine e "
 "Proton para o GNOME"
 
-#: src/application.vala:72
+#: src/application.vala:71
 msgid "Special thanks to"
 msgstr "Agradecimentos especiais a"
 
