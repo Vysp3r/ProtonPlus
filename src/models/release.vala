@@ -11,7 +11,7 @@ namespace ProtonPlus.Models {
         public bool installed { get; set; }
         public string directory { get; set; }
         public int64 directory_size { get; set; }
-        public int installation_progress { get; set; }
+        public int64 installation_progress { get; set; }
         public string artifacts_url { get; set; }
 
         public STATUS previous_status;
@@ -19,7 +19,7 @@ namespace ProtonPlus.Models {
         public STATUS status {
             get {
                 return _status;
-            } private set {
+            } set {
                 previous_status = _status;
                 _status = value;
             }
@@ -29,10 +29,10 @@ namespace ProtonPlus.Models {
             UNINSTALLED,
             INSTALLING,
             UNINSTALLING,
-            CANCELLED
+            CANCELED
         }
 
-        public ERRORS error { get; private set; }
+        public ERRORS error { get; set; }
         public enum ERRORS {
             NONE,
             API,
@@ -53,16 +53,19 @@ namespace ProtonPlus.Models {
             this.directory = runner.group.launcher.directory + runner.group.directory + "/" + get_directory_name ();
             this.installed = FileUtils.test (directory, FileTest.IS_DIR);
             this.artifacts_url = "";
-            this.directory_size = 0; // this.directory_size = (int64) Utils.Filesystem.GetDirectorySize (directory); Disabled since Utils.Filesystem.GetDirectorySize is buggy and we don't have a way to see that data anyway
+            this.directory_size = 0;
+            // this.directory_size = (int64) Utils.Filesystem.GetDirectorySize (directory);
+            // ^ Disabled since Utils.Filesystem.GetDirectorySize is buggy and
+            // we don't have a way to see that data anyway.
         }
 
         public string get_formatted_download_size () {
-            if (download_size < 0)return _("Not available");
-            return Utils.Filesystem.covert_bytes_to_string (download_size);
+            if (download_size < 0)return _("Not Available");
+            return Utils.Filesystem.convert_bytes_to_string (download_size);
         }
 
         public string get_formatted_size () {
-            return Utils.Filesystem.covert_bytes_to_string (directory_size);
+            return Utils.Filesystem.convert_bytes_to_string (directory_size);
         }
 
         public string get_directory_name () {
@@ -221,22 +224,22 @@ namespace ProtonPlus.Models {
             }
         }
 
-        public void delete () {
+        public virtual async void remove () {
             error = ERRORS.NONE;
             status = STATUS.UNINSTALLING;
-            Utils.Filesystem.delete_directory.begin (directory, (obj, res) => {
-                var deleted = Utils.Filesystem.delete_directory.end (res);
-                if (deleted) {
-                    runner.group.launcher.uninstall (this);
-                    status = STATUS.UNINSTALLED;
-                } else {
-                    error = ERRORS.DELETE;
-                    status = STATUS.INSTALLED;
-                }
-            });
+
+            var deleted = yield Utils.Filesystem.delete_directory (directory);
+
+            if (deleted) {
+                runner.group.launcher.uninstall (this);
+                status = STATUS.UNINSTALLED;
+            } else {
+                error = ERRORS.DELETE;
+                status = STATUS.INSTALLED;
+            }
         }
 
-        public void install () {
+        public virtual async void install () {
             error = ERRORS.NONE;
             status = STATUS.INSTALLING;
             installation_progress = 0;
@@ -244,76 +247,72 @@ namespace ProtonPlus.Models {
             string url = download_link;
             string path = runner.group.launcher.directory + runner.group.directory + "/" + title + file_extension;
 
-            get_artifact_download_size.begin ((obj, res) => {
-                get_artifact_download_size.end (res);
-                Utils.Web.Download.begin (url, path, download_size, () => status == STATUS.CANCELLED, (progress) => installation_progress = progress, (obj, res) => {
-                    var result = Utils.Web.Download.end (res);
-                    switch (result) {
-                        case Utils.Web.DOWNLOAD_CODES.API_ERROR:
-                            error = ERRORS.API;
-                            break;
-                        case Utils.Web.DOWNLOAD_CODES.UNEXPECTED_ERROR:
-                            error = ERRORS.UNEXPECTED;
-                            break;
-                        case Utils.Web.DOWNLOAD_CODES.SUCCESS:
-                            error = ERRORS.NONE;
-                            break;
-                    }
+            yield get_artifact_download_size ();
 
-                    if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
-                        status = STATUS.UNINSTALLED;
-                        return;
-                    }
+            // TODO: Add support for `is_percent == false` raw byte formatting,
+            // which happens when size is unknown? See steam.vala for how to do that.
+            var result = yield Utils.Web.Download (url, path, download_size, () => status == STATUS.CANCELED, (is_percent, progress) => installation_progress = progress);
 
-                    string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
+            switch (result) {
+            case Utils.Web.DOWNLOAD_CODES.API_ERROR:
+                error = ERRORS.API;
+                break;
+            case Utils.Web.DOWNLOAD_CODES.UNEXPECTED_ERROR:
+                error = ERRORS.UNEXPECTED;
+                break;
+            case Utils.Web.DOWNLOAD_CODES.SUCCESS:
+                error = ERRORS.NONE;
+                break;
+            }
 
-                    Utils.Filesystem.extract.begin (directory, title, file_extension, () => status == STATUS.CANCELLED, (obj, res) => {
-                        string sourcePath = Utils.Filesystem.extract.end (res);
+            if (error != ERRORS.NONE || status == STATUS.CANCELED) {
+                status = STATUS.UNINSTALLED;
+                return;
+            }
 
-                        if (sourcePath == "") {
-                            error = ERRORS.EXTRACT;
-                            status = STATUS.UNINSTALLED;
-                            return;
-                        }
+            string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
 
-                        if (runner.is_using_github_actions) {
-                            Utils.Filesystem.extract.begin (directory, sourcePath.substring (0, sourcePath.length - 4).replace (directory, ""), ".tar", () => status == STATUS.CANCELLED, (obj, res) => {
-                                sourcePath = Utils.Filesystem.extract.end (res);
+            string source_path = yield Utils.Filesystem.extract (directory, title, file_extension, () => status == STATUS.CANCELED);
 
-                                if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
-                                    status = STATUS.UNINSTALLED;
-                                    return;
-                                }
+            if (source_path == "") {
+                error = ERRORS.EXTRACT;
+                status = STATUS.UNINSTALLED;
+                return;
+            }
 
-                                if (runner.title_type != Runner.title_types.NONE) {
-                                    Utils.Filesystem.rename (sourcePath, directory + get_directory_name ());
-                                }
+            if (runner.is_using_github_actions) {
+                source_path = yield Utils.Filesystem.extract (directory, source_path.substring (0, source_path.length - 4).replace (directory, ""), ".tar", () => status == STATUS.CANCELED);
 
-                                runner.group.launcher.install (this);
+                if (error != ERRORS.NONE || status == STATUS.CANCELED) {
+                    status = STATUS.UNINSTALLED;
+                    return;
+                }
 
-                                status = STATUS.INSTALLED;
-                            });
-                        } else {
-                            if (error != ERRORS.NONE || status == STATUS.CANCELLED) {
-                                status = STATUS.UNINSTALLED;
-                                return;
-                            }
+                if (runner.title_type != Runner.title_types.NONE) {
+                    yield Utils.Filesystem.rename (source_path, directory + get_directory_name ());
+                }
 
-                            if (runner.title_type != Runner.title_types.NONE) {
-                                Utils.Filesystem.rename (sourcePath, directory + get_directory_name ());
-                            }
+                runner.group.launcher.install (this);
 
-                            runner.group.launcher.install (this);
+                status = STATUS.INSTALLED;
+            } else {
+                if (error != ERRORS.NONE || status == STATUS.CANCELED) {
+                    status = STATUS.UNINSTALLED;
+                    return;
+                }
 
-                            status = STATUS.INSTALLED;
-                        }
-                    });
-                });
-            });
+                if (runner.title_type != Runner.title_types.NONE) {
+                    yield Utils.Filesystem.rename (source_path, directory + get_directory_name ());
+                }
+
+                runner.group.launcher.install (this);
+
+                status = STATUS.INSTALLED;
+            }
         }
 
         public void cancel () {
-            status = Models.Release.STATUS.CANCELLED;
+            status = Models.Release.STATUS.CANCELED;
         }
 
         public async void get_artifact_download_size () {

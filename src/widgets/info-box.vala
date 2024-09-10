@@ -21,7 +21,7 @@ namespace ProtonPlus.Widgets {
             sidebar_button.set_visible (false);
 
             //
-            var menu_model = new GLib.Menu ();
+            var menu_model = new Menu ();
             menu_model.append (_("About"), "app.about");
 
             //
@@ -109,6 +109,9 @@ namespace ProtonPlus.Widgets {
                     content_filtered.append (preferences_group);
 
                     foreach (var runner in group.runners) {
+                        if (runner.title == "SteamTinkerLaunch" && launcher.title == "Steam" && launcher.type != "System")
+                            continue;
+
                         var spinner = new Gtk.Spinner ();
                         spinner.set_visible (false);
 
@@ -154,51 +157,51 @@ namespace ProtonPlus.Widgets {
         }
 
         void load_row (Gtk.Spinner spinner, Models.Runner runner, Adw.ExpanderRow runner_row) {
-            uint previous_count = installedOnly ? 0 : runner.releases.length () < 25 ? 0 : runner.releases.length () - 25;
+            if (runner.title == "SteamTinkerLaunch") {
+                var stl = new Launchers.Steam.STL (runner.group.launcher.directory + "/" + runner.group.directory, toast_overlay);
+                runner_row.add_row (stl.create_action_row (runner.group.launcher.type));
+            } else {
+                uint previous_count = installedOnly ? 0 : runner.releases.length () < 25 ? 0 : runner.releases.length () - 25;
 
-            var length = installedOnly ? runner.installed_releases.length () : runner.releases.length ();
-            for (var i = previous_count; i < length; i++) {
-                var release = installedOnly ? runner.installed_releases.nth_data (i) : runner.releases.nth_data (i);
+                var length = installedOnly ? runner.installed_releases.length () : runner.releases.length ();
+                for (var i = previous_count; i < length; i++) {
+                    var release = installedOnly ? runner.installed_releases.nth_data (i) : runner.releases.nth_data (i);
 
-                if (release != null) {
-                    runner_row.add_row (create_release_row (release));
+                    if (release != null) {
+                        runner_row.add_row (create_release_row (release));
+                    }
                 }
-            }
 
-            if (length == (runner.page - 1) * 25 && !installedOnly) {
-                var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-                actions.set_margin_end (10);
-                actions.set_valign (Gtk.Align.CENTER);
+                if (length == (runner.page - 1) * 25 && !installedOnly) {
+                    var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+                    actions.set_margin_end (10);
+                    actions.set_valign (Gtk.Align.CENTER);
 
-                var release_row = new Adw.ActionRow ();
-                release_row.set_title (_("Load more"));
-                release_row.add_suffix (actions);
+                    var release_row = new Adw.ActionRow ();
+                    release_row.set_title (_("Load more"));
+                    release_row.add_suffix (actions);
 
-                var btn = new Gtk.Button ();
-                btn.set_icon_name ("content-loading-symbolic");
-                btn.add_css_class ("flat");
-                btn.width_request = 25;
-                btn.height_request = 25;
-                btn.set_tooltip_text (_("Load more"));
-                btn.clicked.connect (() => {
-                    runner_row.remove (release_row);
-                    runner.load (installedOnly);
-                });
+                    var btn = Utils.GUI.create_button ("dots-symbolic", _("Load more"));
+                    btn.clicked.connect (() => {
+                        runner_row.remove (release_row);
+                        runner.load (installedOnly);
+                    });
 
-                actions.append (btn);
+                    actions.append (btn);
 
-                runner_row.add_row (release_row);
+                    runner_row.add_row (release_row);
+                }
+
+                if (runner.api_error) {
+                    var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API."));
+                    toast.set_timeout (5000);
+
+                    toast_overlay.add_toast (toast);
+                }
             }
 
             spinner.stop ();
             spinner.set_visible (false);
-
-            if (runner.api_error) {
-                var toast = new Adw.Toast (_("There was an error while fetching data from the GitHub API"));
-                toast.set_timeout (5000);
-
-                toast_overlay.add_toast (toast);
-            }
         }
 
         Adw.ActionRow create_release_row (Models.Release release) {
@@ -208,48 +211,39 @@ namespace ProtonPlus.Widgets {
             var spinner = new Gtk.Spinner ();
             spinner.set_visible (false);
 
-            var cancel = new Gtk.Button.from_icon_name ("process-stop-symbolic");
-            cancel.set_visible (false);
-            cancel.set_tooltip_text (_("Cancel the installation"));
-            cancel.add_css_class ("flat");
-            cancel.width_request = 25;
-            cancel.height_request = 25;
-            cancel.clicked.connect (() => release.cancel ());
+            var btn_cancel = Utils.GUI.create_button ("x-symbolic", _("Cancel the installation"));
+            btn_cancel.set_visible (false);
+            btn_cancel.clicked.connect (() => release.cancel ());
 
-            var btnDelete = new Gtk.Button ();
-            btnDelete.add_css_class ("flat");
-            btnDelete.set_icon_name ("user-trash-symbolic");
-            btnDelete.width_request = 25;
-            btnDelete.height_request = 25;
-            btnDelete.set_tooltip_text (_("Delete the runner"));
-            btnDelete.clicked.connect (() => {
-                var toast = new Adw.Toast (_("Are you sure you want to delete ") + release.title + "?");
+            var btn_delete = Utils.GUI.create_button ("trash-symbolic", _("Delete the runner"));
+            btn_delete.clicked.connect (() => {
+                var toast = new Adw.Toast (_("Are you sure you want to delete %s?").printf (release.title));
                 toast.set_timeout (30000);
                 toast.set_button_label (_("Confirm"));
 
                 toast.button_clicked.connect (() => {
-                    release.delete ();
-
-                    toast.dismiss ();
+                    release.remove.begin ((obj, res) => {
+                        release.remove.end (res);
+                        toast.dismiss ();
+                    });
                 });
 
                 toast_overlay.add_toast (toast);
             });
 
-            var btnInstall = new Gtk.Button ();
-            btnInstall.set_icon_name ("folder-download-symbolic");
-            btnInstall.add_css_class ("flat");
-            btnInstall.width_request = 25;
-            btnInstall.height_request = 25;
-            btnInstall.set_tooltip_text (_("Install the runner"));
-            btnInstall.clicked.connect (() => release.install ());
+            var btn_install = Utils.GUI.create_button ("download-symbolic", _("Install the runner"));
+            btn_install.clicked.connect (() => {
+                release.install.begin ((obj, res) => {
+                    release.install.end (res);
+                });
+            });
 
             if (release.runner.api_error && !release.installed) {
-                btnDelete.set_visible (false);
-                btnInstall.set_visible (false);
+                btn_delete.set_visible (false);
+                btn_install.set_visible (false);
             } else {
-                btnDelete.set_visible (release.installed);
-                btnInstall.set_visible (!release.installed);
+                btn_delete.set_visible (release.installed);
+                btn_install.set_visible (!release.installed);
             }
 
             var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
@@ -257,50 +251,50 @@ namespace ProtonPlus.Widgets {
             actions.set_valign (Gtk.Align.CENTER);
             actions.append (label);
             actions.append (spinner);
-            actions.append (cancel);
-            actions.append (btnDelete);
-            actions.append (btnInstall);
+            actions.append (btn_cancel);
+            actions.append (btn_delete);
+            actions.append (btn_install);
 
             release.notify["status"].connect (() => {
                 switch (release.status) {
-                    case Models.Release.STATUS.CANCELLED:
-                        send_toast (_("The installation of ") + release.get_directory_name () + _(" was cancelled"), 3);
+                    case Models.Release.STATUS.CANCELED:
+                        Utils.GUI.send_toast (toast_overlay, _("The installation of %s was canceled.").printf (release.get_directory_name ()), 3);
 
                         spinner.stop ();
                         spinner.set_visible (false);
                         label.set_visible (false);
-                        cancel.set_visible (false);
+                        btn_cancel.set_visible (false);
 
-                        btnDelete.set_visible (false);
-                        btnInstall.set_visible (true);
+                        btn_delete.set_visible (false);
+                        btn_install.set_visible (true);
 
                         break;
                     case Models.Release.STATUS.INSTALLING:
-                        send_toast (_("The installation of ") + release.get_directory_name () + _(" was started"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("The installation of %s has begun.").printf (release.get_directory_name ()), 3);
 
                         this.activate_action_variant ("win.add-task", "");
 
                         spinner.start ();
                         spinner.set_visible (true);
                         label.set_visible (true);
-                        cancel.set_visible (true);
+                        btn_cancel.set_visible (true);
 
-                        btnDelete.set_visible (false);
-                        btnInstall.set_visible (false);
+                        btn_delete.set_visible (false);
+                        btn_install.set_visible (false);
 
                         break;
                     case Models.Release.STATUS.INSTALLED:
-                        send_toast (_("The installation of ") + release.get_directory_name () + _(" is done"), 3);
+                        Utils.GUI.send_toast (toast_overlay, _("The installation of %s is complete.").printf (release.get_directory_name ()), 3);
 
                         this.activate_action_variant ("win.remove-task", "");
 
                         spinner.stop ();
                         spinner.set_visible (false);
                         label.set_visible (false);
-                        cancel.set_visible (false);
+                        btn_cancel.set_visible (false);
 
-                        btnDelete.set_visible (true);
-                        btnInstall.set_visible (false);
+                        btn_delete.set_visible (true);
+                        btn_install.set_visible (false);
 
                         break;
                     case Models.Release.STATUS.UNINSTALLING:
@@ -309,15 +303,15 @@ namespace ProtonPlus.Widgets {
                         spinner.start ();
                         spinner.set_visible (true);
 
-                        btnDelete.set_visible (false);
-                        btnInstall.set_visible (false);
+                        btn_delete.set_visible (false);
+                        btn_install.set_visible (false);
 
                         break;
                     case Models.Release.STATUS.UNINSTALLED:
-                        if (release.previous_status != Models.Release.STATUS.CANCELLED &&
+                        if (release.previous_status != Models.Release.STATUS.CANCELED &&
                             release.previous_status != Models.Release.STATUS.INSTALLING &&
                             release.error == Models.Release.ERRORS.NONE) {
-                            send_toast (_("The deletion of ") + release.get_directory_name () + _(" is done"), 3);
+                            Utils.GUI.send_toast (toast_overlay, _("The removal of %s is complete.").printf (release.get_directory_name ()), 3);
                         }
 
                         this.activate_action_variant ("win.remove-task", "");
@@ -325,8 +319,8 @@ namespace ProtonPlus.Widgets {
                         spinner.stop ();
                         spinner.set_visible (false);
 
-                        btnDelete.set_visible (false);
-                        btnInstall.set_visible (true);
+                        btn_delete.set_visible (false);
+                        btn_install.set_visible (true);
 
                         break;
                 }
@@ -335,13 +329,13 @@ namespace ProtonPlus.Widgets {
             release.notify["error"].connect (() => {
                 switch (release.error) {
                     case Models.Release.ERRORS.API:
-                        send_toast (_("There was an error while fetching data from the GitHub API"), 5000);
+                        Utils.GUI.send_toast (toast_overlay, _("There was an error while fetching data from the GitHub API."), 5000);
                         break;
                     case Models.Release.ERRORS.EXTRACT:
-                        send_toast (_("An unexpected error occured while extracting ") + release.title, 5000);
+                        Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while extracting %s.").printf (release.title), 5000);
                         break;
                     case Models.Release.ERRORS.UNEXPECTED:
-                        send_toast (_("An unexpected error occured while installing ") + release.title, 5000);
+                        Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while installing %s.").printf (release.title), 5000);
                         break;
                     default:
                         break;
@@ -357,13 +351,6 @@ namespace ProtonPlus.Widgets {
             row.add_suffix (actions);
 
             return row;
-        }
-
-        void send_toast (string content, int duration) {
-            var toast = new Adw.Toast (content);
-            toast.set_timeout (duration);
-
-            toast_overlay.add_toast (toast);
         }
 
         public void switch_launcher (string title, int position) {

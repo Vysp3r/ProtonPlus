@@ -92,11 +92,9 @@
       cd ProtonPlus
     ```
 
-3. Build the source
+3. Build the local source code as a native application
     ```bash
-    meson build --prefix=/usr && \
-    cd build && \
-    ninja
+    ./scripts/build-native.sh
     ```
 
 4. (Optional) Install application
@@ -141,11 +139,9 @@
       cd ProtonPlus
     ```
 
-5. Build the source inside the "build-dir" in the repo directory and install for the current user
+5. Build the local source code as a Flatpak and install for the current user
     ```bash
-    flatpak-builder --user --install --force-clean \
-      build-dir \
-      com.vysp3r.ProtonPlus.json
+    ./scripts/build-local.sh
     ```
 
 6. Start application

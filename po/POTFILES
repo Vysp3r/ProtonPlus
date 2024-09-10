@@ -12,5 +12,6 @@ src/models/runner.vala
 src/utils/filesystem.vala
 src/utils/parser.vala
 src/utils/web.vala
+src/utils/gui.vala
 src/window.vala
 src/application.vala

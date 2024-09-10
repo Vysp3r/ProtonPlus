@@ -19,8 +19,8 @@ namespace ProtonPlus.Models {
             this.directory = "";
 
             foreach (var directory in directories) {
-                if (FileUtils.test (GLib.Environment.get_home_dir () + directory, FileTest.IS_DIR)) {
-                    this.directory = GLib.Environment.get_home_dir () + directory;
+                if (FileUtils.test (Environment.get_home_dir () + directory, FileTest.IS_DIR)) {
+                    this.directory = Environment.get_home_dir () + directory;
                     break;
                 }
             }
@@ -33,8 +33,8 @@ namespace ProtonPlus.Models {
             uninstall.connect ((release) => uninstall_callback (release));
         }
 
-        public static GLib.List<Launcher> get_all () {
-            var launchers = new GLib.List<Launcher> ();
+        public static List<Launcher> get_all () {
+            var launchers = new List<Launcher> ();
 
             launchers.append (Launchers.Steam.get_launcher ());
             launchers.append (Launchers.Steam.get_flatpak_launcher ());

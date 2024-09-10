@@ -1,0 +1,46 @@
+id: com.vysp3r.ProtonPlus
+runtime: org.gnome.Platform
+runtime-version: '46'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.vala
+command: com.vysp3r.ProtonPlus
+finish-args:
+  - --device=dri
+  - --share=ipc
+  - --share=network
+  - --socket=fallback-x11
+  - --socket=wayland
+  # Host-spawn access is needed to check if host contains dependencies,
+  # and to execute Steam Tinker Launch's installer script on the host.
+  - --talk-name=org.freedesktop.Flatpak
+  - --talk-name=org.gtk.vfs.*
+  # Home is required due to "~/stl" installations on Steam Deck.
+  - --filesystem=home
+  - --filesystem=xdg-run/gvfsd
+  # Request access to supported Flatpak apps (they are not included by "home").
+  - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic
+  - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles
+  - --filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam
+  - --filesystem=~/.var/app/net.lutris.Lutris/data/lutris
+build-options:
+  append-path: /usr/lib/sdk/vala/bin
+  prepend-ld-library-path: /usr/lib/sdk/vala/lib
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /share/pkgconfig
+  - /share/aclocal
+  - /man
+  - /share/man
+  - /share/gtk-doc
+  - '*.la'
+  - '*.a'
+modules:
+  - name: ProtonPlus
+    builddir: true
+    buildsystem: meson
+    sources:
+      - type: git
+        url: https://github.com/Vysp3r/ProtonPlus.git
+        tag: v0.4.13

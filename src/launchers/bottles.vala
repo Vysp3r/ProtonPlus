@@ -4,11 +4,11 @@ namespace ProtonPlus.Launchers {
             var groups = new Models.Group[2];
 
             groups[0] = new Models.Group (_("Runners"), "/runners", launcher);
-            groups[0].description = _("Compatibility tool to run Windows games on Linux");
+            groups[0].description = _("Compatibility tool to run Windows games on Linux.");
             groups[0].runners = get_runners (groups[0]);
 
             groups[1] = new Models.Group ("DXVK", "/dxvk", launcher);
-            groups[1].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine");
+            groups[1].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.");
             groups[1].runners = get_dxvk_runners (groups[1]);
 
             return groups;
@@ -44,8 +44,8 @@ namespace ProtonPlus.Launchers {
             return launcher;
         }
 
-        public static GLib.List<Models.Runner> get_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             var proton_ge = new Models.Runner (group, "Proton-GE", _("Contains improvements over Valve's default Proton."), "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.BOTTLES_PROTON_GE);
             proton_ge.old_asset_location = 95;
@@ -69,8 +69,8 @@ namespace ProtonPlus.Launchers {
             return runners;
         }
 
-        public static GLib.List<Models.Runner> get_dxvk_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_dxvk_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             runners.append (new Models.Runner (group, "DXVK", "", "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.DXVK));
             runners.append (new Models.Runner (group, "DXVK Async", "", "https://api.github.com/repos/Sporif/dxvk-async/releases", 0, Models.Runner.title_types.DXVK_ASYNC_SPORIF));

@@ -4,19 +4,19 @@ namespace ProtonPlus.Launchers {
             var groups = new Models.Group[4];
 
             groups[0] = new Models.Group ("Proton", "/tools/proton", launcher);
-            groups[0].description = _("Steam compatibility tool for running Windows games");
+            groups[0].description = _("Steam compatibility tool for running Windows games.");
             groups[0].runners = get_proton_runners (groups[0]);
 
             groups[1] = new Models.Group ("Wine", "/tools/wine", launcher);
-            groups[1].description = _("Wine is a program which allows running Microsoft Windows programs");
+            groups[1].description = _("Wine is a program which allows running Microsoft Windows programs.");
             groups[1].runners = get_wine_runners (groups[1]);
 
             groups[2] = new Models.Group ("DXVK", "/tools/dxvk", launcher);
-            groups[2].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine");
+            groups[2].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.");
             groups[2].runners = get_dxvk_runners (groups[2]);
 
             groups[3] = new Models.Group ("VKD3D", "/tools/vkd3d", launcher);
-            groups[3].description = _("Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan");
+            groups[3].description = _("Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.");
             groups[3].runners = get_vkd3d_runners (groups[3]);
 
             return groups;
@@ -56,8 +56,8 @@ namespace ProtonPlus.Launchers {
             return launcher;
         }
 
-        public static GLib.List<Models.Runner> get_wine_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_wine_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             var wine_ge = new Models.Runner (group, "Wine-GE", _("Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."), "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.HGL_WINE_GE);
             wine_ge.old_asset_location = 83;
@@ -80,8 +80,8 @@ namespace ProtonPlus.Launchers {
             return runners;
         }
 
-        public static GLib.List<Models.Runner> get_proton_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_proton_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             var proton_ge = new Models.Runner (group, "Proton-GE", _("Contains improvements over Valve's default Proton."), "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 1, Models.Runner.title_types.HGL_PROTON_GE);
             proton_ge.old_asset_location = 95;
@@ -96,16 +96,16 @@ namespace ProtonPlus.Launchers {
             return runners;
         }
 
-        public static GLib.List<Models.Runner> get_dxvk_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_dxvk_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             runners.append (new Models.Runner (group, "DXVK (doitsujin)", "", "https://api.github.com/repos/doitsujin/dxvk/releases", 0, Models.Runner.title_types.DXVK));
 
             return runners;
         }
 
-        public static GLib.List<Models.Runner> get_vkd3d_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_vkd3d_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             runners.append (new Models.Runner (group, "VKD3D-Lutris", "", "https://api.github.com/repos/lutris/vkd3d/releases", 0, Models.Runner.title_types.HGL_VKD3D));
             runners.append (new Models.Runner (group, "VKD3D-Proton", "", "https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases", 0, Models.Runner.title_types.LUTRIS_VKD3D_PROTON));
@@ -117,7 +117,7 @@ namespace ProtonPlus.Launchers {
             try {
                 string path = "/.config";
                 if (release.runner.group.launcher.title.contains ("Flatpak"))path = "/.var/app/com.heroicgameslauncher.hgl/config";
-                path = GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
+                path = Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
                 Json.Node rootNode = Json.from_string (Utils.Filesystem.get_file_content (path));
                 Json.Object rootObj = rootNode.get_object ();
@@ -134,7 +134,7 @@ namespace ProtonPlus.Launchers {
                     if (obj.get_string_member ("version").contains (release.get_directory_name ())) {
                         obj.set_boolean_member ("isInstalled", true);
                         obj.set_boolean_member ("hasUpdate", false);
-                        obj.set_string_member ("installDir", GLib.Environment.get_home_dir () + "/" + obj.get_string_member ("version"));
+                        obj.set_string_member ("installDir", Environment.get_home_dir () + "/" + obj.get_string_member ("version"));
 
                         obj.set_int_member ("disksize", (int64) Utils.Filesystem.get_directory_size (obj.get_string_member ("installDir")));
 
@@ -162,7 +162,7 @@ namespace ProtonPlus.Launchers {
                 }
 
                 Utils.Filesystem.modify_file (path, Json.to_string (rootNode, true));
-            } catch (GLib.Error e) {
+            } catch (Error e) {
                 message (e.message);
             }
         }
@@ -171,7 +171,7 @@ namespace ProtonPlus.Launchers {
             try {
                 string path = "/.config";
                 if (release.runner.group.launcher.title.contains ("Flatpak"))path = "/.var/app/com.heroicgameslauncher.hgl/config";
-                path = GLib.Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
+                path = Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
                 Json.Node rootNode = Json.from_string (Utils.Filesystem.get_file_content (path));
                 Json.Object rootObj = rootNode.get_object ();
@@ -192,7 +192,7 @@ namespace ProtonPlus.Launchers {
                 }
 
                 Utils.Filesystem.modify_file (path, Json.to_string (rootNode, true));
-            } catch (GLib.Error e) {
+            } catch (Error e) {
                 message (e.message);
             }
         }

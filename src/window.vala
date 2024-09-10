@@ -13,7 +13,6 @@ namespace ProtonPlus {
             //
             this.set_application ((Adw.Application) GLib.Application.get_default ());
             this.set_title (Constants.APP_NAME);
-            this.set_default_size (950, 600);
 
             //
             this.add_action (load_info_box ());
@@ -21,8 +20,10 @@ namespace ProtonPlus {
             this.add_action (remove_task ());
 
             //
-            this.width_request = 270;
-            this.height_request = 45;
+            // NOTE: Minimum size supported by AdwOverlaySplitView = 272x474,
+            // and we have to make our minimum request a bit larger to look nice.
+            this.set_size_request (400, 620);
+            this.set_default_size (960, 690); // Fits every supported Steam Runner.
 
             //
             status_box = new Widgets.StatusBox ();
@@ -34,9 +35,9 @@ namespace ProtonPlus {
             var sidebar_page = new Adw.NavigationPage.with_tag (sidebar = new Widgets.Sidebar (), "Sidebar", "sidebar");
 
             //
-            sidebar.installed_only_switch.notify["active"].connect(() => {
+            sidebar.installed_only_switch.notify["active"].connect (() => {
                 info_box.installedOnly = !info_box.installedOnly;
-    
+
                 foreach (var container in info_box.containers) {
                     container.box_normal.set_visible (!info_box.installedOnly);
                     container.box_filtered.set_visible (info_box.installedOnly);
@@ -51,7 +52,7 @@ namespace ProtonPlus {
             overlay_split_view.set_min_sidebar_width (270);
 
             //
-            overlay_split_view.notify["show-sidebar"].connect(() => {
+            overlay_split_view.notify["show-sidebar"].connect (() => {
                 info_box.sidebar_button.set_visible (!overlay_split_view.get_show_sidebar ());
             });
 
@@ -78,9 +79,9 @@ namespace ProtonPlus {
 
             if (busy) {
                 this.set_visible (false);
-                
-                this.notify["tasks"].connect(() => {
-                    if (tasks == 0) this.close ();
+
+                this.notify["tasks"].connect (() => {
+                    if (tasks == 0)this.close ();
                 });
             }
 
@@ -102,24 +103,24 @@ namespace ProtonPlus {
 
                 //
                 info_box.switch_launcher (launchers.nth_data (0).title, 0);
-                
+
                 //
                 if (overlay_split_view.get_parent () == null) {
                     set_content (overlay_split_view);
                 }
             } else {
                 //
-                status_box.initialize (null, _("Welcome to ") + Constants.APP_NAME, _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
-                
+                status_box.initialize (null, _("Welcome to %s").printf (Constants.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
+
                 //
                 if (status_box.get_parent () == null) {
                     set_content (status_box);
                 }
-                
+
                 //
-                GLib.Timeout.add (10000, () => {
+                Timeout.add (10000, () => {
                     initialize ();
-    
+
                     return false;
                 });
             }

@@ -3,12 +3,12 @@ namespace ProtonPlus.Models {
         public string title { get; set; }
         public string description { get; set; }
         public string endpoint { get; set; } // For GitHub Actions repository, make this the workflow url. See Proton Tkg for an example.
-        public int asset_position { get; set; } // The position of the .tar.xz file in the json tree of the tool > assets
+        public int asset_position { get; set; } // The position of the .tar.xz file in the json tree of the tool > assets.
         public title_types title_type { get; set; }
         public endpoint_types endpoint_type { get; set; }
 
-        public int old_asset_location { get; set; } // When the assets changes
-        public int old_asset_position { get; set; } // Same as asset_position, but for older releases that might have different assets position
+        public int old_asset_location { get; set; } // When the assets changes.
+        public int old_asset_position { get; set; } // Same as asset_position, but for older releases that might have different assets position.
 
         public bool is_using_github_actions { get; set; }
         public bool use_name_instead_of_tag_name { get; set; }
@@ -44,7 +44,7 @@ namespace ProtonPlus.Models {
             this.api_error = false;
             this.loaded = false;
 
-            this.releases = new GLib.List<Release> ();
+            this.releases = new List<Release> ();
         }
 
         public enum title_types {
@@ -52,6 +52,7 @@ namespace ProtonPlus.Models {
             RELEASE_NAME,
             TOOL_NAME,
             STEAM_PROTON_GE,
+            STEAM_TINKER_LAUNCH,
             PROTON_TKG,
             KRON4EK_VANILLA,
             KRON4EK_STAGING,
@@ -79,6 +80,16 @@ namespace ProtonPlus.Models {
         }
 
         public void load (bool installed_only) {
+            if (title == "SteamTinkerLaunch") {
+                if (installed_only) {
+                    installed_loaded = true;
+                } else {
+                    loaded = true;
+                }
+
+                return;
+            }
+
             new Thread<void> ("load", () => {
                 if (installed_only) {
                     installed_loaded = false;
@@ -86,7 +97,7 @@ namespace ProtonPlus.Models {
                 } else {
                     loaded = false;
                     load_all ();
-                };
+                }
             });
         }
 
@@ -101,6 +112,7 @@ namespace ProtonPlus.Models {
             unowned Posix.DirEnt? cur_d;
 
             while ((cur_d = Posix.readdir (dir)) != null) {
+                // Skip hidden files and directories (".", ".." and leading ".foo").
                 if (cur_d.d_name[0] == '.') {
                     continue;
                 }
@@ -120,7 +132,7 @@ namespace ProtonPlus.Models {
         }
 
         void load_all () {
-            Utils.Web.GET.begin (endpoint + "?per_page=25&page=" + page++.to_string (), (obj, res) => {
+            Utils.Web.GET.begin (endpoint + "?per_page=25&page=" + page++.to_string (), false, (obj, res) => {
                 string? json = Utils.Web.GET.end (res);
 
                 if (json == null || json.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting")) {
@@ -158,7 +170,7 @@ namespace ProtonPlus.Models {
             var workflowsRunArray = rootObj.get_array_member ("workflow_runs");
             if (workflowsRunArray == null)return;
 
-            // Execute a loop with the number of items contained in the Version array and fill it
+            // Execute a loop with the number of items contained in the Version array and fill it.
             for (var i = 0; i < workflowsRunArray.get_length (); i++) {
                 string name = "";
                 string status = "";
@@ -168,7 +180,7 @@ namespace ProtonPlus.Models {
                 string release_date = "";
                 string artifacts_url = "";
 
-                // Get the current node
+                // Get the current node.
                 var tempNode = workflowsRunArray.get_element (i);
                 var tempObject = tempNode.get_object ();
 
@@ -189,14 +201,14 @@ namespace ProtonPlus.Models {
         }
 
         void load_github (Json.Node rootNode) {
-            // Get the root node from the json
+            // Get the root node from the json.
             if (rootNode.get_node_type () != Json.NodeType.ARRAY)return;
 
-            // Get the root node array
+            // Get the root node array.
             var rootNodeArray = rootNode.get_array ();
             if (rootNodeArray == null)return;
 
-            // Execute a loop with the number of items contained in the Version array and fill it
+            // Execute a loop with the number of items contained in the Version array and fill it.
             for (var i = 0; i < rootNodeArray.get_length (); i++) {
                 string tag = "";
                 string download_url = "";
@@ -205,11 +217,11 @@ namespace ProtonPlus.Models {
                 string checksum_url = "";
                 int64 download_size = 0;
 
-                // Get the current node
+                // Get the current node.
                 var tempNode = rootNodeArray.get_element (i);
                 var objRoot = tempNode.get_object ();
 
-                // Set the value of tag to the tag_name object contained in the current node
+                // Set the value of tag to the tag_name object contained in the current node.
                 if (use_name_instead_of_tag_name)tag = objRoot.get_string_member ("name");
                 else tag = objRoot.get_string_member ("tag_name");
 
@@ -221,41 +233,43 @@ namespace ProtonPlus.Models {
                     }
                 }
 
-                // FIXME Problem in the json (json_array_get_element: assertion 'index_ < array->elements->len' failed)
+                // FIXME: Problem in the json (json_array_get_element: assertion 'index_ < array->elements->len' failed).
                 if (!excluded) {
-                    // Set the value of page_url to the html_url object contained in the current node
+                    // Set the value of page_url to the html_url object contained in the current node.
                     page_url = objRoot.get_string_member ("html_url");
 
                     release_date = objRoot.get_string_member ("created_at").split ("T")[0];
 
-                    // Get the temp node array for the assets
+                    // Get the temp node array for the assets.
                     var tempNodeArray = objRoot.get_array_member ("assets");
 
                     int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
 
-                    // Verify weither the temp node array has values
+                    // Verify weither the temp node array has values.
                     if (tempNodeArray.get_length () - 1 >= pos) {
                         var tempNodeArrayAsset = tempNodeArray.get_element (pos);
                         var objAsset = tempNodeArrayAsset.get_object ();
 
-                        download_url = objAsset.get_string_member ("browser_download_url"); // Set the value of download_url to the browser_download_url object contained in the current node
+                        // Set the value of download_url to the browser_download_url object contained in the current node.
+                        download_url = objAsset.get_string_member ("browser_download_url");
                         download_size = objAsset.get_int_member ("size");
 
-                        releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz")); // Currently here to prevent showing release with an invalid download_url
+                        // Currently here to prevent showing release with an invalid download_url.
+                        releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz"));
                     }
                 }
             }
         }
 
         void load_gitlab (Json.Node rootNode) {
-            // Get the root node from the json
+            // Get the root node from the json.
             if (rootNode.get_node_type () != Json.NodeType.ARRAY)return;
 
-            // Get the root node array
+            // Get the root node array.
             var rootNodeArray = rootNode.get_array ();
             if (rootNodeArray == null)return;
 
-            // Execute a loop with the number of items contained in the Version array and fill it
+            // Execute a loop with the number of items contained in the Version array and fill it.
             for (var i = 0; i < rootNodeArray.get_length (); i++) {
                 string tag = "";
                 string download_url = "";
@@ -264,11 +278,11 @@ namespace ProtonPlus.Models {
                 string checksum_url = "";
                 int64 download_size = -1;
 
-                // Get the current node
+                // Get the current node.
                 var tempNode = rootNodeArray.get_element (i);
                 var objRoot = tempNode.get_object ();
 
-                // Set the value of tag to the tag_name object contained in the current node
+                // Set the value of tag to the tag_name object contained in the current node.
                 if (use_name_instead_of_tag_name)tag = objRoot.get_string_member ("name");
                 else tag = objRoot.get_string_member ("tag_name");
 
@@ -282,7 +296,7 @@ namespace ProtonPlus.Models {
 
                 //
                 if (!excluded) {
-                    // Set the value of page_url to the html_url object contained in the current node
+                    // Set the value of page_url to the html_url object contained in the current node.
                     var pageUrlNode = objRoot.get_member ("_links");
                     var pageUrlObjAsset = pageUrlNode.get_object ();
                     page_url = pageUrlObjAsset.get_string_member ("self");
@@ -290,25 +304,27 @@ namespace ProtonPlus.Models {
                     //
                     release_date = objRoot.get_string_member ("created_at").split ("T")[0];
 
-                    // Get the temp node array for the assets
+                    // Get the temp node array for the assets.
                     var assetsNode = objRoot.get_member ("assets");
                     var assetsObjAsset = assetsNode.get_object ();
 
-                    // Get the temp node array for the assets
+                    // Get the temp node array for the assets.
                     var linksNodeArray = assetsObjAsset.get_array_member ("links");
 
                     //
                     int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
 
-                    // Verify weither the temp node array has values
+                    // Verify weither the temp node array has values.
                     if (linksNodeArray.get_length () - 1 >= pos) {
                         var tempNodeArrayAsset = linksNodeArray.get_element (pos);
                         var objAsset = tempNodeArrayAsset.get_object ();
 
-                        download_url = objAsset.get_string_member ("direct_asset_url"); // Set the value of download_url to the browser_download_url object contained in the current node
+                        // Set the value of download_url to the browser_download_url object contained in the current node.
+                        download_url = objAsset.get_string_member ("direct_asset_url");
                         download_url = download_url.replace ("?ref_type=heads", "");
 
-                        releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz")); // Currently here to prevent showing release with an invalid download_url
+                        // Currently here to prevent showing release with an invalid download_url.
+                        releases.append (new Release (this, tag, download_url, page_url, release_date, checksum_url, download_size, ".tar.gz"));
                     }
                 }
             }

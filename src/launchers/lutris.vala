@@ -4,15 +4,15 @@ namespace ProtonPlus.Launchers {
             var groups = new Models.Group[3];
 
             groups[0] = new Models.Group ("Wine", "/runners/wine", launcher);
-            groups[0].description = _("Program which allows running Microsoft Windows programs");
+            groups[0].description = _("Program which allows running Microsoft Windows programs.");
             groups[0].runners = get_wine_runners (groups[0]);
 
             groups[1] = new Models.Group ("DXVK", "/runtime/dxvk", launcher);
-            groups[1].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine");
+            groups[1].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.");
             groups[1].runners = get_dxvk_runners (groups[1]);
 
             groups[2] = new Models.Group ("VKD3D", "/runtime/vkd3d", launcher);
-            groups[2].description = _("Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan");
+            groups[2].description = _("Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.");
             groups[2].runners = get_vkd3d_runners (groups[2]);
 
             return groups;
@@ -48,8 +48,8 @@ namespace ProtonPlus.Launchers {
             return launcher;
         }
 
-        public static GLib.List<Models.Runner> get_wine_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_wine_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             var wine_ge = new Models.Runner (group, "Wine-GE", _("Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."), "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases", 1, Models.Runner.title_types.LUTRIS_WINE_GE);
             wine_ge.old_asset_location = 83;
@@ -76,8 +76,8 @@ namespace ProtonPlus.Launchers {
             return runners;
         }
 
-        public static GLib.List<Models.Runner> get_dxvk_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_dxvk_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             var dxvk_gplasync = new Models.Runner (group, "DXVK GPL+Async (Ph42oN)", "", "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/releases", 0, Models.Runner.title_types.LUTRIS_DXVK_GPLASYNC);
             dxvk_gplasync.endpoint_type = Models.Runner.endpoint_types.GITLAB;
@@ -90,8 +90,8 @@ namespace ProtonPlus.Launchers {
             return runners;
         }
 
-        public static GLib.List<Models.Runner> get_vkd3d_runners (Models.Group group) {
-            var runners = new GLib.List<Models.Runner> ();
+        public static List<Models.Runner> get_vkd3d_runners (Models.Group group) {
+            var runners = new List<Models.Runner> ();
 
             runners.append (new Models.Runner (group, "VKD3D-Lutris", "", "https://api.github.com/repos/lutris/vkd3d/releases", 0, Models.Runner.title_types.LUTRIS_VKD3D));
             runners.append (new Models.Runner (group, "VKD3D-Proton", "", "https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases", 0, Models.Runner.title_types.LUTRIS_VKD3D_PROTON));

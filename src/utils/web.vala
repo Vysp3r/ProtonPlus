@@ -4,17 +4,17 @@ namespace ProtonPlus.Utils {
             return Constants.APP_NAME + "/" + Constants.APP_VERSION;
         }
 
-        public static async string ? GET (string url) {
+        public static async string ? GET (string url, bool stl = false) {
             try {
                 var session = new Soup.Session ();
                 session.set_user_agent (get_user_agent ());
 
                 var message = new Soup.Message ("GET", url);
 
-                Bytes bytes = yield session.send_and_read_async (message, GLib.Priority.DEFAULT, null);
+                Bytes bytes = yield session.send_and_read_async (message, Priority.DEFAULT, null);
 
                 return (string) bytes.get_data ();
-            } catch (GLib.Error e) {
+            } catch (Error e) {
                 message (e.message);
                 return null;
             }
@@ -22,7 +22,7 @@ namespace ProtonPlus.Utils {
 
         public delegate bool cancel_callback ();
 
-        public delegate void progress_callback (int progress);
+        public delegate void progress_callback (bool is_percent, int64 progress);
 
         public enum DOWNLOAD_CODES {
             API_ERROR,
@@ -35,34 +35,47 @@ namespace ProtonPlus.Utils {
                 var session = new Soup.Session ();
                 session.set_user_agent (get_user_agent ());
 
-                var message = new Soup.Message ("GET", url);
+                var soup_message = new Soup.Message ("GET", url);
 
-                var input_stream = yield session.send_async (message, GLib.Priority.DEFAULT, null);
+                var input_stream = yield session.send_async (soup_message, Priority.DEFAULT, null);
 
-                if (message.status_code != 200) {
-                    GLib.message (message.reason_phrase);
+                if (soup_message.status_code != 200) {
+                    message (soup_message.reason_phrase);
                     return DOWNLOAD_CODES.API_ERROR;
                 }
 
-                var file = GLib.File.new_for_path (path);
+                var file = File.new_for_path (path);
                 if (file.query_exists ()) {
-                    yield file.delete_async (GLib.Priority.DEFAULT, null);
+                    yield file.delete_async (Priority.DEFAULT, null);
                 }
 
-                FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, GLib.Priority.DEFAULT, null);
+                FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, Priority.DEFAULT, null);
 
-                // Temporary fix for GitLab since they don't give the file size from their API
-                if (download_size == -1) {
-                    download_size = message.get_response_headers ().get_content_length ();
+                // Prefer real Content-Length header from the server if it exists.
+                // NOTE: Servers typically return "0" when it doesn't know, for
+                // live-generated files (such as GitHub's commit-based source
+                // archives). However, GitHub's server then caches the generated
+                // result for a few minutes to avoid extra work. So the first
+                // download of a GitHub source archive will have an unknown "0"
+                // length, but any download requests after that it will see the
+                // filesize for a few minutes, until GitHub clears their cache.
+                int64 server_download_size = soup_message.get_response_headers ().get_content_length ();
+                if (server_download_size > 0) {
+                    download_size = server_download_size;
                 }
 
                 const size_t chunk_size = 4096;
-                ulong bytes_downloaded = 0;
+                bool is_percent = download_size > 0;
+                int64 bytes_downloaded = 0;
+
+                if (progress_callback != null) {
+                    progress_callback (is_percent, 0); // Set initial progress state.
+                }
 
                 while (true) {
                     if (cancel_callback ()) {
                         if (file.query_exists ()) {
-                            yield file.delete_async (GLib.Priority.DEFAULT, null);
+                            yield file.delete_async (Priority.DEFAULT, null);
                         }
                         break;
                     }
@@ -76,8 +89,9 @@ namespace ProtonPlus.Utils {
                     bytes_downloaded += output_stream.write (chunk.get_data ());
 
                     if (progress_callback != null) {
-                        var progress = (int) (((double) bytes_downloaded / download_size) * 100);
-                        progress_callback (progress);
+                        // Use "bytes downloaded" when total size is unknown.
+                        int64 progress = !is_percent ? bytes_downloaded : (int64) (((double) bytes_downloaded / download_size) * 100);
+                        progress_callback (is_percent, progress);
                     }
                 }
 
@@ -86,7 +100,7 @@ namespace ProtonPlus.Utils {
                 session.abort ();
 
                 return DOWNLOAD_CODES.SUCCESS;
-            } catch (GLib.Error e) {
+            } catch (Error e) {
                 message (e.message);
                 return DOWNLOAD_CODES.UNEXPECTED_ERROR;
             }
