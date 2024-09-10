@@ -1,24 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Swedish translations for com.vysp3r.ProtonPlus package.
+# Copyright (C) 2024 THE com.vysp3r.ProtonPlus'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
-# Vysp3r <dev@vysp3r.com>, 2023.
-# Yahor <k1llo2810@protonmail.com>, 2023, 2024.
+# Automatically generated, 2024.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-09 20:38-0400\n"
-"PO-Revision-Date: 2024-05-31 16:22+0000\n"
-"Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
-"Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
-"protonplus/be/>\n"
-"Language: be\n"
+"PO-Revision-Date: 2024-09-09 20:38-0400\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.6-dev\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #.
 #: src/widgets/sidebar.vala:32
@@ -27,203 +24,175 @@ msgstr ""
 
 #.
 #: src/widgets/sidebar.vala:35
-#, fuzzy
 msgid "Only Installed"
-msgstr "Толькі ўсталяваныя"
+msgstr ""
 
 #.
 #: src/widgets/info-box.vala:25
 msgid "About"
-msgstr "Аб праграме"
+msgstr ""
 
 #: src/widgets/info-box.vala:181 src/widgets/info-box.vala:184
 msgid "Load more"
-msgstr "Загрузіць больш"
+msgstr ""
 
 #: src/widgets/info-box.vala:196 src/widgets/info-box.vala:332
-#, fuzzy
 msgid "There was an error while fetching data from the GitHub API."
-msgstr "Адбылася памылка пры атрыманні даных з GitHub API"
+msgstr ""
 
 #: src/widgets/info-box.vala:214 src/launchers/steam.vala:543
 msgid "Cancel the installation"
-msgstr "Адмяніць усталяванне"
+msgstr ""
 
 #: src/widgets/info-box.vala:218
 msgid "Delete the runner"
-msgstr "Выдаліць інструмент"
+msgstr ""
 
 #: src/widgets/info-box.vala:220
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete %s?"
-msgstr "Вы ўпэўнены, што хочаце выдаліць "
+msgstr ""
 
 #: src/widgets/info-box.vala:222
 msgid "Confirm"
-msgstr "Пацвердзіць"
+msgstr ""
 
 #: src/widgets/info-box.vala:234
 msgid "Install the runner"
-msgstr "Усталяваць інструмент"
+msgstr ""
 
 #: src/widgets/info-box.vala:261 src/launchers/steam.vala:617
-#, fuzzy, c-format
+#, c-format
 msgid "The installation of %s was canceled."
-msgstr "Усталяванне "
+msgstr ""
 
 #: src/widgets/info-box.vala:273 src/launchers/steam.vala:605
-#, fuzzy, c-format
+#, c-format
 msgid "The installation of %s has begun."
-msgstr "Усталяванне "
+msgstr ""
 
 #: src/widgets/info-box.vala:287 src/launchers/steam.vala:615
-#, fuzzy, c-format
+#, c-format
 msgid "The installation of %s is complete."
-msgstr "Усталяванне "
+msgstr ""
 
 #: src/widgets/info-box.vala:314 src/launchers/steam.vala:573
-#, fuzzy, c-format
+#, c-format
 msgid "The removal of %s is complete."
-msgstr "Выдаленне "
+msgstr ""
 
 #: src/widgets/info-box.vala:335
-#, fuzzy, c-format
+#, c-format
 msgid "An unexpected error occurred while extracting %s."
-msgstr "Падчас распакавання адбылася нечаканая памылка "
+msgstr ""
 
 #: src/widgets/info-box.vala:338 src/launchers/steam.vala:619
-#, fuzzy, c-format
+#, c-format
 msgid "An unexpected error occurred while installing %s."
-msgstr "Падчас усталявання адбылася нечаканая памылка "
+msgstr ""
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
-msgstr "Інструменты"
+msgstr ""
 
 #: src/launchers/bottles.vala:7
-#, fuzzy
 msgid "Compatibility tool to run Windows games on Linux."
-msgstr "Інструмент сумяшчальнасці для запуску гульняў Windows на Linux"
+msgstr ""
 
 #: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
 #: src/launchers/lutris.vala:11
-#, fuzzy
 msgid "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
-msgstr "Рэалізацыя Direct3D 9, 10 і 11 на аснове Vulkan для Linux/Wine"
+msgstr ""
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
-msgstr "Змяшчае паляпшэнні ў параўнанні з стандартным Proton Valve."
+msgstr ""
 
 #: src/launchers/bottles.vala:54 src/launchers/hgl.vala:62
 #: src/launchers/lutris.vala:54
 msgid ""
 "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
-"Заснаваны на перадавой Wine ад Valve Proton Experimental, створанай для "
-"Lutris."
 
 #: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
 "games."
 msgstr ""
-"Палепшана Lutris для забеспячэння лепшай сумяшчальнасці або прадукцыйнасці ў "
-"пэўных гульнях."
 
 #: src/launchers/hgl.vala:7
-#, fuzzy
 msgid "Steam compatibility tool for running Windows games."
-msgstr "Інструмент сумяшчальнасці Steam для запуску Windows гульняў"
+msgstr ""
 
 #: src/launchers/hgl.vala:11
-#, fuzzy
 msgid "Wine is a program which allows running Microsoft Windows programs."
-msgstr "Wine — праграма, якая дазваляе запускаць праграмы Microsoft Windows"
+msgstr ""
 
 #: src/launchers/hgl.vala:19 src/launchers/lutris.vala:15
-#, fuzzy
 msgid ""
 "Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top "
 "of Vulkan."
 msgstr ""
-"Форк VKD3D ад Wine, мэта якога - рэалізаваць поўны API Direct3D 12 на Vulkan"
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr "Зборка Wine скампілявана з афіцыйных крыніц WineHQ."
+msgstr ""
 
 #: src/launchers/hgl.vala:69 src/launchers/lutris.vala:64
 msgid "Wine build with the Staging patchset applied."
-msgstr "Зборка Wine з ужытым наборам выпраўленняў Staging."
+msgstr ""
 
 #: src/launchers/hgl.vala:72 src/launchers/lutris.vala:67
 msgid ""
 "Wine build with the Staging patchset applied and with many additional useful "
 "patches."
 msgstr ""
-"Зборка Wine з ужытым наборам выпраўленняў Staging і мноствам дадатковых "
-"карысных выпраўленняў."
 
 #: src/launchers/hgl.vala:90 src/launchers/steam.vala:67
 msgid ""
 "Custom Proton build for running Windows games, built with the Wine-tkg build "
 "system."
 msgstr ""
-"Спецыяльная зборка Proton для запуску гульняў Windows, створаная з дапамогай "
-"сістэмы зборкі Wine-tkg."
 
 #: src/launchers/lutris.vala:7
-#, fuzzy
 msgid "Program which allows running Microsoft Windows programs."
-msgstr "Праграма, якая дазваляе запускаць праграмы Microsoft Windows"
+msgstr ""
 
 #: src/launchers/lutris.vala:87
 msgid "Contains RTX fix for Star Citizen."
-msgstr "Змяшчае выпраўленне RTX для Star Citizen."
+msgstr ""
 
 #: src/launchers/steam.vala:63
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
-"Інструмент сумяшчальнасці Steam для запуску гульняў Windows з паляпшэннямі ў "
-"параўнанні з стандартным Proton ад Valve."
 
 #: src/launchers/steam.vala:71
 msgid ""
 "Luxtorpeda provides Linux-native game engines for specific Windows-only "
 "games."
 msgstr ""
-"Luxtorpeda прадастаўляе націўныя рухавікі Linux для пэўных гульняў, якія "
-"працуюць толькі пад Windows."
 
 #: src/launchers/steam.vala:72
 msgid ""
 "Steam Play compatibility tool to run DOS games using native Linux DOSBox."
 msgstr ""
-"Інструмент сумяшчальнасці Steam Play для запуску DOS гульняў з выкарыстаннем "
-"націўнага Linux DOSBox."
 
 #: src/launchers/steam.vala:73
 msgid ""
 "Steam Play compatibility tool to run adventure games using native Linux "
 "ScummVM."
 msgstr ""
-"Інструмент сумяшчальнасці Steam Play для запуску прыгодніцкіх гульняў з "
-"выкарыстаннем націўнай Linux ScummVM."
 
 #: src/launchers/steam.vala:74
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
-"Спецыяльная зборка Proton для запуску кліента Northstar для Titanfall 2."
 
 #: src/launchers/steam.vala:75
 msgid ""
 "Compatibility tool for Steam Play based on Wine and additional components."
 msgstr ""
-"Інструмент сумяшчальнасці для Steam Play на аснове Wine і дадатковых "
-"кампанентаў."
 
 #: src/launchers/steam.vala:77
 msgid ""
@@ -240,9 +209,8 @@ msgid "You are missing the following dependencies for SteamTinkerLaunch:"
 msgstr ""
 
 #: src/launchers/steam.vala:325
-#, fuzzy
 msgid "Installation will be canceled."
-msgstr "Усталяванне "
+msgstr ""
 
 #: src/launchers/steam.vala:326 src/launchers/steam.vala:338
 #: src/launchers/steam.vala:636
@@ -250,9 +218,8 @@ msgid "OK"
 msgstr ""
 
 #: src/launchers/steam.vala:336
-#, fuzzy
 msgid "Existing installation of STL"
-msgstr "Усталяванне "
+msgstr ""
 
 #: src/launchers/steam.vala:336
 msgid ""
@@ -273,9 +240,8 @@ msgid "Delete STL"
 msgstr ""
 
 #: src/launchers/steam.vala:546
-#, fuzzy
 msgid "Install STL"
-msgstr "Толькі ўсталяваныя"
+msgstr ""
 
 #: src/launchers/steam.vala:547
 msgid "Show more information"
@@ -294,9 +260,8 @@ msgid "You're about to delete STL from your system."
 msgstr ""
 
 #: src/launchers/steam.vala:556
-#, fuzzy
 msgid "Are you sure you want this?"
-msgstr "Вы ўпэўнены, што хочаце выдаліць "
+msgstr ""
 
 #: src/launchers/steam.vala:558
 msgid "No"
@@ -307,9 +272,9 @@ msgid "Yes"
 msgstr ""
 
 #: src/launchers/steam.vala:575
-#, fuzzy, c-format
+#, c-format
 msgid "An unexpected error occurred while removing %s."
-msgstr "Падчас распакавання адбылася нечаканая памылка "
+msgstr ""
 
 #: src/launchers/steam.vala:584
 #, c-format
@@ -317,19 +282,19 @@ msgid "%s is already up-to-date."
 msgstr ""
 
 #: src/launchers/steam.vala:586
-#, fuzzy, c-format
+#, c-format
 msgid "The upgrade of %s has begun."
-msgstr "Выдаленне "
+msgstr ""
 
 #: src/launchers/steam.vala:596
-#, fuzzy, c-format
+#, c-format
 msgid "The upgrade of %s is complete."
-msgstr "Выдаленне "
+msgstr ""
 
 #: src/launchers/steam.vala:598
-#, fuzzy, c-format
+#, c-format
 msgid "An unexpected error occurred while upgrading %s."
-msgstr "Падчас распакавання адбылася нечаканая памылка "
+msgstr ""
 
 #: src/launchers/steam.vala:629
 msgid "Steam Flatpak is not supported"
@@ -358,47 +323,23 @@ msgid "Update STL to the latest version"
 msgstr ""
 
 #: src/models/release.vala:63
-#, fuzzy
 msgid "Not Available"
-msgstr "Не даступны"
+msgstr ""
 
 #.
 #: src/window.vala:113
-#, fuzzy, c-format
+#, c-format
 msgid "Welcome to %s"
-msgstr "Вітаем у "
+msgstr ""
 
 #: src/window.vala:113
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
-"Каб пачаць, усталюйце Steam, Lutris, Bottles або Heroic Games Launcher."
 
 #: src/application.vala:66
-#, fuzzy
 msgid "A simple Wine and Proton-based compatibility tools manager for GNOME."
 msgstr ""
-"Просты менеджэр інструментаў сумяшчальнасці на базе Wine і Proton для GNOME"
 
 #: src/application.vala:72
 msgid "Special thanks to"
-msgstr "Асаблівая падзяка"
-
-#, fuzzy, c-format
-#~ msgid "The deletion of %s is complete."
-#~ msgstr "Выдаленне "
-
-#~ msgid " was cancelled"
-#~ msgstr " было скасавана"
-
-#~ msgid " was started"
-#~ msgstr " было распачата"
-
-#~ msgid " is done"
-#~ msgstr " гатова"
-
-#~ msgid ""
-#~ " Based on Valve Proton Experimental's bleeding-edge Wine, built for "
-#~ "Lutris."
-#~ msgstr ""
-#~ " Заснаваны на перадавой Wine ад Valve Proton Experimental, створанай для "
-#~ "Lutris."
+msgstr ""
