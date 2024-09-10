@@ -264,8 +264,8 @@ namespace ProtonPlus.Launchers {
                 // title immediately appears during "upgrade" of an installation.
                 row_title = _row_title;
                 var change_state = (can_reset_processing
-                    || (ui_state != Utils.GUI.UIState.BUSY_INSTALLING
-                        && ui_state != Utils.GUI.UIState.BUSY_REMOVING));
+                                    || (ui_state != Utils.GUI.UIState.BUSY_INSTALLING
+                                        && ui_state != Utils.GUI.UIState.BUSY_REMOVING));
                 if (change_state) {
                     if (installed)
                         ui_state = updated ? Utils.GUI.UIState.UP_TO_DATE : Utils.GUI.UIState.UPDATE_AVAILABLE;
@@ -298,35 +298,37 @@ namespace ProtonPlus.Launchers {
             }
 
             public async bool install () {
-                var missing_dependencies = "";
+                // Steam Deck doesn't need any external dependencies.
+                if (!Utils.System.IS_STEAM_OS) {
+                    var missing_dependencies = "";
 
-                var yad_installed = false;
-                if (Utils.System.check_dependency ("yad")) {
-                    string stdout = Utils.System.run_command ("yad --version");
-                    float version = float.parse (stdout.split (" ")[0]);
-                    yad_installed = version >= 7.2;
+                    var yad_installed = false;
+                    if (Utils.System.check_dependency ("yad")) {
+                        string stdout = Utils.System.run_command ("yad --version");
+                        float version = float.parse (stdout.split (" ")[0]);
+                        yad_installed = version >= 7.2;
+                    }
+                    if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
+
+                    if (!Utils.System.check_dependency ("awk") && !Utils.System.check_dependency ("gawk"))missing_dependencies += "awk/gawk\n";
+                    if (!Utils.System.check_dependency ("git"))missing_dependencies += "git\n";
+                    if (!Utils.System.check_dependency ("pgrep"))missing_dependencies += "pgrep\n";
+                    if (!Utils.System.check_dependency ("unzip"))missing_dependencies += "unzip\n";
+                    if (!Utils.System.check_dependency ("wget"))missing_dependencies += "wget\n";
+                    if (!Utils.System.check_dependency ("xdotool"))missing_dependencies += "xdotool\n";
+                    if (!Utils.System.check_dependency ("xprop"))missing_dependencies += "xprop\n";
+                    if (!Utils.System.check_dependency ("xrandr"))missing_dependencies += "xrandr\n";
+                    if (!Utils.System.check_dependency ("xxd"))missing_dependencies += "xxd\n";
+                    if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
+
+                    if (missing_dependencies != "") {
+                        var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for SteamTinkerLaunch:"), missing_dependencies, _("Installation will be canceled.")));
+                        dialog.add_response ("ok", _("OK"));
+                        dialog.show ();
+                        canceled = true;
+                        return false;
+                    }
                 }
-                if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
-
-                if (!Utils.System.check_dependency ("awk") && !Utils.System.check_dependency ("gawk"))missing_dependencies += "awk/gawk\n";
-                if (!Utils.System.check_dependency ("git"))missing_dependencies += "git\n";
-                if (!Utils.System.check_dependency ("pgrep"))missing_dependencies += "pgrep\n";
-                if (!Utils.System.check_dependency ("unzip"))missing_dependencies += "unzip\n";
-                if (!Utils.System.check_dependency ("wget"))missing_dependencies += "wget\n";
-                if (!Utils.System.check_dependency ("xdotool"))missing_dependencies += "xdotool\n";
-                if (!Utils.System.check_dependency ("xprop"))missing_dependencies += "xprop\n";
-                if (!Utils.System.check_dependency ("xrandr"))missing_dependencies += "xrandr\n";
-                if (!Utils.System.check_dependency ("xxd"))missing_dependencies += "xxd\n";
-                if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
-
-                if (missing_dependencies != "") {
-                    var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for SteamTinkerLaunch:"), missing_dependencies, _("Installation will be canceled.")));
-                    dialog.add_response ("ok", _("OK"));
-                    dialog.show ();
-                    canceled = true;
-                    return false;
-                }
-
 
                 var has_external_install = detect_external_locations ();
 
@@ -623,7 +625,7 @@ namespace ProtonPlus.Launchers {
                 btn_info.clicked.connect (() => {
                     Adw.MessageDialog? dialog = null;
                     switch (launcher_type) {
-                        case "Flatpak":
+                        case "Flatpak" :
                             dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), "%s\n\n%s".printf (_("To install Steam Tinker Launch for the Steam Flatpak, please run the following command:"), "flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
                             break;
                         case "Snap":
@@ -707,7 +709,7 @@ namespace ProtonPlus.Launchers {
                     btn_upgrade.set_visible (show_upgrade);
                     btn_cancel.set_visible (show_cancel);
 
-                    if (show_progress_label) // Erase old progress text on state change.
+                    if (show_progress_label)// Erase old progress text on state change.
                         progress_label.set_text ("");
                     progress_label.set_visible (show_progress_label);
 

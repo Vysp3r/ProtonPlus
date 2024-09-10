@@ -30,7 +30,7 @@ namespace ProtonPlus.Widgets {
             //
             installed_only_switch = new Gtk.Switch ();
             installed_only_switch.set_tooltip_text (_("Only display the runners that are currently installed on your system"));
-            
+
             //
             var installed_only_label = new Gtk.Label (_("Only Installed"));
             installed_only_label.set_hexpand (true);
@@ -46,7 +46,7 @@ namespace ProtonPlus.Widgets {
             installed_only_box.set_valign (Gtk.Align.END);
             installed_only_box.append (installed_only_label);
             installed_only_box.append (installed_only_switch);
-            
+
             //
             var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 5);
             content.append (list_box);
