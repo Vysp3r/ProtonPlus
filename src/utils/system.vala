@@ -33,7 +33,8 @@ namespace ProtonPlus.Utils {
 
         static string get_distribution_name () {
             var distribution_info = run_command ("cat /etc/lsb-release /etc/os-release").split ("\n", 1)[0];
-            var distribution_name_start = "NAME=".length + 1;
+            var distribution_name_text = "NAME=\"";
+            var distribution_name_start = distribution_info.index_of (distribution_name_text, 0) + distribution_name_text.length;
             var distribution_name_end = distribution_info.index_of ("\"", distribution_name_start);
             var distribution_name_len = distribution_name_end - distribution_name_start;
             return distribution_info.substring (distribution_name_start, distribution_name_len).ascii_down ();
