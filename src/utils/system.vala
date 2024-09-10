@@ -7,7 +7,7 @@ namespace ProtonPlus.Utils {
         public static void initialize () {
             IS_FLATPAK = FileUtils.test ("/.flatpak-info", FileTest.IS_REGULAR);
             IS_GAMESCOPE = Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland";
-            IS_STEAM_OS = get_distribution_name () == "steamos";
+            IS_STEAM_OS = get_distribution_name ().ascii_down () == "steamos";
         }
 
         public static string run_command (string command) {
@@ -32,12 +32,14 @@ namespace ProtonPlus.Utils {
         }
 
         static string get_distribution_name () {
-            var distribution_info = run_command ("cat /etc/lsb-release /etc/os-release").split ("\n", 1)[0];
-            var distribution_name_text = "PRETTY_NAME=\"";
-            var distribution_name_start = distribution_info.index_of (distribution_name_text, 0) + distribution_name_text.length;
-            var distribution_name_end = distribution_info.index_of ("\"", distribution_name_start);
-            var distribution_name_len = distribution_name_end - distribution_name_start;
-            return distribution_info.substring (distribution_name_start, distribution_name_len).ascii_down ();
+            var distro_info = run_command ("cat /etc/lsb-release /etc/os-release").split ("\n", 1)[0];
+
+            var distro_name = "Unknown";
+            MatchInfo m;
+            if (/^NAME="\s*(.+?)\s*"/m.match (distro_info, 0, out m))
+                distro_name = m.fetch(1);
+
+            return distro_name;
         }
     }
 }
