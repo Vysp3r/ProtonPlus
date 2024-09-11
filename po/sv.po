@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 21:39+0200\n"
+"POT-Creation-Date: 2024-09-11 21:43+0200\n"
 "PO-Revision-Date: 2024-09-09 20:38-0400\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -296,7 +296,7 @@ msgstr ""
 
 #: src/launchers/steam.vala:636
 #, c-format
-msgid "There's currently no known way to install %s for the %s."
+msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
 #: src/launchers/steam.vala:706

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 21:39+0200\n"
+"POT-Creation-Date: 2024-09-11 21:43+0200\n"
 "PO-Revision-Date: 2024-01-07 02:06+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -315,7 +315,7 @@ msgstr ""
 
 #: src/launchers/steam.vala:636
 #, c-format
-msgid "There's currently no known way to install %s for the %s."
+msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
 #: src/launchers/steam.vala:706

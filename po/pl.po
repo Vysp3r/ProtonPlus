@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 21:39+0200\n"
+"POT-Creation-Date: 2024-09-11 21:43+0200\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -312,7 +312,7 @@ msgstr ""
 
 #: src/launchers/steam.vala:636
 #, c-format
-msgid "There's currently no known way to install %s for the %s."
+msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
 #: src/launchers/steam.vala:706
