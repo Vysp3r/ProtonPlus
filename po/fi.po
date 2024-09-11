@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 19:59+0200\n"
+"POT-Creation-Date: 2024-09-11 20:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -203,7 +203,8 @@ msgid "Missing dependencies!"
 msgstr ""
 
 #: src/launchers/steam.vala:328
-msgid "You are missing the following dependencies for SteamTinkerLaunch:"
+#, c-format
+msgid "You are missing the following dependencies for %s:"
 msgstr ""
 
 #: src/launchers/steam.vala:328
@@ -216,29 +217,34 @@ msgid "OK"
 msgstr ""
 
 #: src/launchers/steam.vala:339
-msgid "Existing installation of STL"
+#, c-format
+msgid "Existing installation of %s"
 msgstr ""
 
 #: src/launchers/steam.vala:339
+#, c-format
 msgid ""
-"It looks like you currently have another version of STL which was not "
+"It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
 
 #: src/launchers/steam.vala:339
-msgid "Do you want to delete it and install STL with ProtonPlus?"
+#, c-format
+msgid "Do you want to delete it and install %s with ProtonPlus?"
 msgstr ""
 
 #: src/launchers/steam.vala:340
 msgid "Cancel"
 msgstr ""
 
-#: src/launchers/steam.vala:548
-msgid "Delete STL"
+#: src/launchers/steam.vala:548 src/launchers/steam.vala:560
+#, c-format
+msgid "Delete %s"
 msgstr ""
 
 #: src/launchers/steam.vala:550
-msgid "Install STL"
+#, c-format
+msgid "Install %s"
 msgstr ""
 
 #: src/launchers/steam.vala:551
@@ -250,11 +256,8 @@ msgid "Check this to also delete your configuration files."
 msgstr ""
 
 #: src/launchers/steam.vala:560
-msgid "Delete SteamTinkerLaunch"
-msgstr ""
-
-#: src/launchers/steam.vala:560
-msgid "You're about to delete STL from your system."
+#, c-format
+msgid "You're about to delete %s from your system."
 msgstr ""
 
 #: src/launchers/steam.vala:560
@@ -299,9 +302,8 @@ msgid "Steam Flatpak is not supported"
 msgstr ""
 
 #: src/launchers/steam.vala:633
-msgid ""
-"To install Steam Tinker Launch for the Steam Flatpak, please run the "
-"following command:"
+#, c-format
+msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
 #: src/launchers/steam.vala:636
@@ -309,15 +311,18 @@ msgid "Steam Snap is not supported"
 msgstr ""
 
 #: src/launchers/steam.vala:636
-msgid "There's currently no known way to install STL for the Steam Snap."
+#, c-format
+msgid "There's currently no known way to install %s for the %s."
 msgstr ""
 
 #: src/launchers/steam.vala:706
-msgid "STL is up-to-date"
+#, c-format
+msgid "%s is up-to-date"
 msgstr ""
 
 #: src/launchers/steam.vala:706
-msgid "Update STL to the latest version"
+#, c-format
+msgid "Update %s to the latest version"
 msgstr ""
 
 #: src/models/release.vala:63
