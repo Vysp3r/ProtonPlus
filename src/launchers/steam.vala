@@ -630,10 +630,10 @@ namespace ProtonPlus.Launchers {
                     Adw.MessageDialog? dialog = null;
                     switch (launcher_type) {
                         case "Flatpak" :
-                            dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), "%s\n\n%s".printf (_("To install %s for the %s, please run the following command:").printf (title, "Steam Flatpak"), "flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
+                            dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Flatpak"), "%s\n\n%s".printf (_("To install %s for the %s, please run the following command:").printf (title, "Steam Flatpak"), "flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
                             break;
                         case "Snap":
-                            dialog = new Adw.MessageDialog (Application.window, _("Steam Snap is not supported"), _("There's currently no known way to install %s for the %s.").printf (title, "Steam Snap"));
+                            dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Snap"), _("There's currently no known way to install %s for the %s.").printf (title, "Steam Snap"));
                             break;
                     }
                     if (dialog != null) {

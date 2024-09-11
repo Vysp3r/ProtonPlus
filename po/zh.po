@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 21:32+0200\n"
+"POT-Creation-Date: 2024-09-11 21:39+0200\n"
 "PO-Revision-Date: 2024-02-16 17:02+0000\n"
 "Last-Translator: valigarmanda <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -298,17 +298,14 @@ msgstr "删除 "
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "当解压时出现异常 "
 
-#: src/launchers/steam.vala:633
-msgid "Steam Flatpak is not supported"
+#: src/launchers/steam.vala:633 src/launchers/steam.vala:636
+#, c-format
+msgid "%s is not supported"
 msgstr ""
 
 #: src/launchers/steam.vala:633
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr ""
-
-#: src/launchers/steam.vala:636
-msgid "Steam Snap is not supported"
 msgstr ""
 
 #: src/launchers/steam.vala:636

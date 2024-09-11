@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 21:32+0200\n"
+"POT-Creation-Date: 2024-09-11 21:39+0200\n"
 "PO-Revision-Date: 2024-07-06 01:09+0000\n"
 "Last-Translator: Kauã Azevedo da Silva Vicente <Kazevic@pm.me>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -319,17 +319,14 @@ msgstr "A exclusão de "
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "Ocorreu um erro inesperado durante a extração "
 
-#: src/launchers/steam.vala:633
-msgid "Steam Flatpak is not supported"
+#: src/launchers/steam.vala:633 src/launchers/steam.vala:636
+#, c-format
+msgid "%s is not supported"
 msgstr ""
 
 #: src/launchers/steam.vala:633
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr ""
-
-#: src/launchers/steam.vala:636
-msgid "Steam Snap is not supported"
 msgstr ""
 
 #: src/launchers/steam.vala:636
