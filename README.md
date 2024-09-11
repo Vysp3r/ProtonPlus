@@ -5,7 +5,7 @@
 </h1>
 
 <p align="center">
-  <strong>A simple Wine and Proton-based compatibility tools manager</strong>
+  <strong>A modern compatibility tools manager for Linux.</strong>
 </p>
 
 <p align="center">

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 18:47+0200\n"
+"POT-Creation-Date: 2024-09-11 19:59+0200\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -373,7 +373,7 @@ msgstr "Instala Steam, Lutris, Bottles o Heroic Games Launcher para empezar."
 
 #: src/application.vala:65
 #, fuzzy
-msgid "A simple Wine and Proton-based compatibility tools manager for GNOME."
+msgid "A modern compatibility tools manager for Linux."
 msgstr ""
 "Un sencillo gestor de herramientas compatible con GNOME, basado en Wine y "
 "Proton"
