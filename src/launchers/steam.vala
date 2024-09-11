@@ -72,7 +72,7 @@ namespace ProtonPlus.Launchers {
             runners.append (new Models.Runner (group, "Boxtron", _("Steam compatibility tool for running DOS games using DOSBox for Linux."), "https://api.github.com/repos/dreamer/boxtron/releases", 0, Models.Runner.title_types.TOOL_NAME));
             runners.append (new Models.Runner (group, "Roberta", _("Steam compatibility tool for running adventure games using ScummVM for Linux."), "https://api.github.com/repos/dreamer/roberta/releases", 0, Models.Runner.title_types.TOOL_NAME));
             runners.append (new Models.Runner (group, "NorthstarProton", _("Custom Proton build for running the Northstar client for Titanfall 2."), "https://api.github.com/repos/cyrv6737/NorthstarProton/releases", 0, Models.Runner.title_types.TOOL_NAME));
-            runners.append (new Models.Runner (group, "Proton-GE RTSP", _("Compatibility tool for Steam based on Proton and additional components."), "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases", 0, Models.Runner.title_types.TOOL_NAME));
+            runners.append (new Models.Runner (group, "Proton-GE RTSP", _("Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat."), "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases", 0, Models.Runner.title_types.TOOL_NAME));
             runners.append (proton_tkg);
             runners.append (new Models.Runner (group, "SteamTinkerLaunch", _("Steam tool for easy, graphical configuration of your other compatibility tools for both Windows games and native Linux games."), "https://api.github.com/repos/sonic2kk/steamtinkerlaunch/releases", 0, Models.Runner.title_types.STEAM_TINKER_LAUNCH));
 
