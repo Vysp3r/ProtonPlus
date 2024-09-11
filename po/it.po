@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 21:43+0200\n"
+"POT-Creation-Date: 2024-09-11 22:52+0200\n"
 "PO-Revision-Date: 2024-08-19 10:09+0000\n"
 "Last-Translator: Lize58 <pasquale.borrelli05@outlook.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -205,7 +205,9 @@ msgstr ""
 
 #: src/launchers/steam.vala:75
 #, fuzzy
-msgid "Compatibility tool for Steam based on Proton and additional components."
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
 msgstr ""
 "Strumento di compatibilita' per Steam Play basato su wine e altri componenti "
 "aggiuntivi"

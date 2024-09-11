@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 21:43+0200\n"
+"POT-Creation-Date: 2024-09-11 22:52+0200\n"
 "PO-Revision-Date: 2023-04-10 11:40+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: \n"
@@ -177,7 +177,9 @@ msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
 
 #: src/launchers/steam.vala:75
-msgid "Compatibility tool for Steam based on Proton and additional components."
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
 msgstr ""
 
 #: src/launchers/steam.vala:77
