@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 20:37+0200\n"
+"POT-Creation-Date: 2024-09-11 21:05+0200\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -227,8 +227,8 @@ msgstr ""
 
 #: src/launchers/steam.vala:77
 msgid ""
-"Linux wrapper tool for use with the Steam client which allows for easy "
-"graphical configuration of game tools for Proton and native Linux games."
+"Steam tool for easy, graphical configuration of your other compatibility "
+"tools for both Windows games and native Linux games."
 msgstr ""
 
 #: src/launchers/steam.vala:328
