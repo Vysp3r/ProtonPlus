@@ -24,14 +24,29 @@ namespace ProtonPlus {
             window = new Window ();
             window.initialize ();
 
-            if (Utils.System.IS_GAMESCOPE)window.fullscreen ();
+            init_settings ();
 
-            add_shortcuts ();
+            init_shortcuts ();
+
+            if (Utils.System.IS_GAMESCOPE)window.fullscreen ();
 
             window.present ();
         }
 
-        void add_shortcuts () {
+        void init_settings () {
+            var settings = new Settings ("com.vysp3r.ProtonPlus.State");
+
+            settings.bind ("width", window,
+                           "default-width", SettingsBindFlags.DEFAULT);
+            settings.bind ("height", window,
+                           "default-height", SettingsBindFlags.DEFAULT);
+            settings.bind ("is-maximized", window,
+                           "maximized", SettingsBindFlags.DEFAULT);
+            settings.bind ("is-fullscreen", window,
+                           "fullscreened", SettingsBindFlags.DEFAULT);
+        }
+
+        void init_shortcuts () {
             var about_action = new SimpleAction ("show-about", null);
             about_action.activate.connect (this.show_about_dialog);
             this.add_action (about_action);
