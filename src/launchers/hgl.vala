@@ -4,19 +4,19 @@ namespace ProtonPlus.Launchers {
             var groups = new Models.Group[4];
 
             groups[0] = new Models.Group ("Proton", "/tools/proton", launcher);
-            groups[0].description = _("Steam compatibility tool for running Windows games.");
+            groups[0].description = _("Compatibility tools by Valve for running Windows software on Linux.");
             groups[0].runners = get_proton_runners (groups[0]);
 
             groups[1] = new Models.Group ("Wine", "/tools/wine", launcher);
-            groups[1].description = _("Wine is a program which allows running Microsoft Windows programs.");
+            groups[1].description = _("Compatibility tools for running Windows software on Linux.");
             groups[1].runners = get_wine_runners (groups[1]);
 
             groups[2] = new Models.Group ("DXVK", "/tools/dxvk", launcher);
-            groups[2].description = _("Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine.");
+            groups[2].description = _("Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine.");
             groups[2].runners = get_dxvk_runners (groups[2]);
 
             groups[3] = new Models.Group ("VKD3D", "/tools/vkd3d", launcher);
-            groups[3].description = _("Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.");
+            groups[3].description = _("Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.");
             groups[3].runners = get_vkd3d_runners (groups[3]);
 
             return groups;
@@ -66,10 +66,10 @@ namespace ProtonPlus.Launchers {
             var kron4ek_vanilla = new Models.Runner (group, "Wine-Vanilla (Kron4ek)", _("Wine build compiled from the official WineHQ sources."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 1, Models.Runner.title_types.KRON4EK_VANILLA);
             kron4ek_vanilla.request_asset_exclude = { "proton", ".0." };
 
-            var kron4ek_staging = new Models.Runner (group, "Wine-Staging (Kron4ek)", _("Wine build with the Staging patchset applied."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.KRON4EK_STAGING);
+            var kron4ek_staging = new Models.Runner (group, "Wine-Staging (Kron4ek)", _("Wine build with the Staging patchset."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 2, Models.Runner.title_types.KRON4EK_STAGING);
             kron4ek_staging.request_asset_exclude = { "proton", ".0." };
 
-            var kron4ek_staging_tkg = new Models.Runner (group, "Wine-Staging-Tkg (Kron4ek)", _("Wine build with the Staging patchset applied and with many additional useful patches."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 3, Models.Runner.title_types.KRON4EK_STAGING_TKG);
+            var kron4ek_staging_tkg = new Models.Runner (group, "Wine-Staging-Tkg (Kron4ek)", _("Wine build with the Staging patchset and many other useful patches."), "https://api.github.com/repos/Kron4ek/Wine-Builds/releases", 3, Models.Runner.title_types.KRON4EK_STAGING_TKG);
             kron4ek_staging_tkg.request_asset_exclude = { "proton", ".0." };
 
             runners.append (wine_ge);
@@ -87,7 +87,7 @@ namespace ProtonPlus.Launchers {
             proton_ge.old_asset_location = 95;
             proton_ge.old_asset_position = 0;
 
-            var proton_tkg = new Models.Runner (group, "Proton-Tkg", _("Custom Proton build for running Windows games, built with the Wine-tkg build system."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
+            var proton_tkg = new Models.Runner (group, "Proton-Tkg", _("Custom Proton build for running Windows games, based on Wine-tkg."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
             proton_tkg.is_using_github_actions = true;
 
             runners.append (proton_ge);

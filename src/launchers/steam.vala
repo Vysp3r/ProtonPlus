@@ -64,17 +64,17 @@ namespace ProtonPlus.Launchers {
             proton_ge.old_asset_location = 95;
             proton_ge.old_asset_position = 0;
 
-            var proton_tkg = new Models.Runner (group, "Proton-Tkg", _("Custom Proton build for running Windows games, built with the Wine-tkg build system."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
+            var proton_tkg = new Models.Runner (group, "Proton-Tkg", _("Custom Proton build for running Windows games, based on Wine-tkg."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
             proton_tkg.is_using_github_actions = true;
 
             runners.append (proton_ge);
-            runners.append (new Models.Runner (group, "Luxtorpeda", _("Luxtorpeda provides Linux-native game engines for specific Windows-only games."), "https://api.github.com/repos/luxtorpeda-dev/luxtorpeda/releases", 0, Models.Runner.title_types.TOOL_NAME));
-            runners.append (new Models.Runner (group, "Boxtron", _("Steam Play compatibility tool to run DOS games using native Linux DOSBox."), "https://api.github.com/repos/dreamer/boxtron/releases", 0, Models.Runner.title_types.TOOL_NAME));
-            runners.append (new Models.Runner (group, "Roberta", _("Steam Play compatibility tool to run adventure games using native Linux ScummVM."), "https://api.github.com/repos/dreamer/roberta/releases", 0, Models.Runner.title_types.TOOL_NAME));
+            runners.append (new Models.Runner (group, "Luxtorpeda", _("Luxtorpeda provides Linux-native game engines for certain Windows-only games."), "https://api.github.com/repos/luxtorpeda-dev/luxtorpeda/releases", 0, Models.Runner.title_types.TOOL_NAME));
+            runners.append (new Models.Runner (group, "Boxtron", _("Steam compatibility tool for running DOS games using DOSBox for Linux."), "https://api.github.com/repos/dreamer/boxtron/releases", 0, Models.Runner.title_types.TOOL_NAME));
+            runners.append (new Models.Runner (group, "Roberta", _("Steam compatibility tool for running adventure games using ScummVM for Linux."), "https://api.github.com/repos/dreamer/roberta/releases", 0, Models.Runner.title_types.TOOL_NAME));
             runners.append (new Models.Runner (group, "NorthstarProton", _("Custom Proton build for running the Northstar client for Titanfall 2."), "https://api.github.com/repos/cyrv6737/NorthstarProton/releases", 0, Models.Runner.title_types.TOOL_NAME));
-            runners.append (new Models.Runner (group, "Proton-GE RTSP", _("Compatibility tool for Steam Play based on Wine and additional components."), "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases", 0, Models.Runner.title_types.TOOL_NAME));
+            runners.append (new Models.Runner (group, "Proton-GE RTSP", _("Compatibility tool for Steam based on Proton and additional components."), "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases", 0, Models.Runner.title_types.TOOL_NAME));
             runners.append (proton_tkg);
-            runners.append (new Models.Runner (group, "SteamTinkerLaunch", _("Linux wrapper tool for use with the Steam client which allows for easy graphical configuration of game tools for Proton and native Linux games."), "https://api.github.com/repos/sonic2kk/steamtinkerlaunch/releases", 0, Models.Runner.title_types.STEAM_TINKER_LAUNCH));
+            runners.append (new Models.Runner (group, "SteamTinkerLaunch", _("Steam tool for easy, graphical configuration of your other compatibility tools for both Windows games and native Linux games."), "https://api.github.com/repos/sonic2kk/steamtinkerlaunch/releases", 0, Models.Runner.title_types.STEAM_TINKER_LAUNCH));
 
             return runners;
         }
@@ -630,10 +630,10 @@ namespace ProtonPlus.Launchers {
                     Adw.MessageDialog? dialog = null;
                     switch (launcher_type) {
                         case "Flatpak" :
-                            dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), "%s\n\n%s".printf (_("To install %s for the %s, please run the following command:").printf (title, "Steam Flatpak"), "flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
+                            dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Flatpak"), "%s\n\n%s".printf (_("To install %s for the %s, please run the following command:").printf (title, "Steam Flatpak"), "flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
                             break;
                         case "Snap":
-                            dialog = new Adw.MessageDialog (Application.window, _("Steam Snap is not supported"), _("There's currently no known way to install %s for the %s.").printf (title, "Steam Snap"));
+                            dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Snap"), _("There's currently no known way for us to install %s for the %s.").printf (title, "Steam Snap"));
                             break;
                     }
                     if (dialog != null) {

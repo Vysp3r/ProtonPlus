@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 20:37+0200\n"
+"POT-Creation-Date: 2024-09-11 21:43+0200\n"
 "PO-Revision-Date: 2024-05-01 16:11+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -98,15 +98,16 @@ msgstr "Ein unerwarteter Fehler trat auf beim Installieren von "
 msgid "Runners"
 msgstr "Ausführungswerkzeuge"
 
-#: src/launchers/bottles.vala:7
+#: src/launchers/bottles.vala:7 src/launchers/hgl.vala:11
+#: src/launchers/lutris.vala:7
 #, fuzzy
-msgid "Compatibility tool to run Windows games on Linux."
+msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Kompatibilitätstool zum Ausführen von Windows-Spielen unter Linux"
 
 #: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
 #: src/launchers/lutris.vala:11
 #, fuzzy
-msgid "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
+msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
 msgstr "Vulkan basierte Implementierung von DirectX9, 10 und 11 for Linux/Wine"
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
@@ -131,21 +132,14 @@ msgstr ""
 
 #: src/launchers/hgl.vala:7
 #, fuzzy
-msgid "Steam compatibility tool for running Windows games."
-msgstr "Steam Kompatibilitätswerkzeug um Windows-Spiele unter Linux zu starten"
-
-#: src/launchers/hgl.vala:11
-#, fuzzy
-msgid "Wine is a program which allows running Microsoft Windows programs."
-msgstr ""
-"Wine ist ein Programm, das die Ausführung von Microsoft Windows-Programmen "
-"ermöglicht"
+msgid "Compatibility tools by Valve for running Windows software on Linux."
+msgstr "Kompatibilitätstool zum Ausführen von Windows-Spielen unter Linux"
 
 #: src/launchers/hgl.vala:19 src/launchers/lutris.vala:15
 #, fuzzy
 msgid ""
-"Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top "
-"of Vulkan."
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
 msgstr ""
 "Fork von Wine's VKD3D, der darauf abzielt, die volle Direct3D 12 API auf "
 "Vulkan zu implementieren"
@@ -155,29 +149,22 @@ msgid "Wine build compiled from the official WineHQ sources."
 msgstr "Wine-Build gebaut von den offiziellen WineHQ-Quellen."
 
 #: src/launchers/hgl.vala:69 src/launchers/lutris.vala:64
-msgid "Wine build with the Staging patchset applied."
+#, fuzzy
+msgid "Wine build with the Staging patchset."
 msgstr "Wine gebaut mit dem Staging Patcheset."
 
 #: src/launchers/hgl.vala:72 src/launchers/lutris.vala:67
-msgid ""
-"Wine build with the Staging patchset applied and with many additional useful "
-"patches."
+#, fuzzy
+msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
 "Wine gebaut mit den Staging Patchesets und mit vielen nützlichen Patches."
 
 #: src/launchers/hgl.vala:90 src/launchers/steam.vala:67
-msgid ""
-"Custom Proton build for running Windows games, built with the Wine-tkg build "
-"system."
+#, fuzzy
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 "Benutzerdefiniertes Proton-Build für die Ausführung von Windows-Spielen, "
 "erstellt mit dem Wine-tkg-Build-System."
-
-#: src/launchers/lutris.vala:7
-#, fuzzy
-msgid "Program which allows running Microsoft Windows programs."
-msgstr ""
-"Programm, das die Ausführung von Microsoft Windows-Programmen ermöglicht"
 
 #: src/launchers/lutris.vala:87
 msgid "Contains RTX fix for Star Citizen."
@@ -192,23 +179,23 @@ msgstr ""
 "gegenüber Valves Standard-Proton."
 
 #: src/launchers/steam.vala:71
+#, fuzzy
 msgid ""
-"Luxtorpeda provides Linux-native game engines for specific Windows-only "
-"games."
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 "Luxtorpeda bietet Linux-native Spiele-Engines für bestimmte Windows-Spiele."
 
 #: src/launchers/steam.vala:72
-msgid ""
-"Steam Play compatibility tool to run DOS games using native Linux DOSBox."
+#, fuzzy
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 "Steam Play Kompatibilitätswerkzeug um DOS-Spiele mit der nativen Linux "
 "DOSBox zu starten."
 
 #: src/launchers/steam.vala:73
+#, fuzzy
 msgid ""
-"Steam Play compatibility tool to run adventure games using native Linux "
-"ScummVM."
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 "Steam Play Kompatibilitätswerkzeug um Abenteuer-Spiele mit der nativen Linux "
 "ScummVM zu starten."
@@ -220,16 +207,16 @@ msgstr ""
 "Titanfall 2."
 
 #: src/launchers/steam.vala:75
-msgid ""
-"Compatibility tool for Steam Play based on Wine and additional components."
+#, fuzzy
+msgid "Compatibility tool for Steam based on Proton and additional components."
 msgstr ""
 "Kompatibilitätswerkzeug für Steam basierend auf Wine und zusätzlichen "
 "Komponenten."
 
 #: src/launchers/steam.vala:77
 msgid ""
-"Linux wrapper tool for use with the Steam client which allows for easy "
-"graphical configuration of game tools for Proton and native Linux games."
+"Steam tool for easy, graphical configuration of your other compatibility "
+"tools for both Windows games and native Linux games."
 msgstr ""
 
 #: src/launchers/steam.vala:328
@@ -333,8 +320,9 @@ msgstr "Die Löschung von "
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "Ein unerwarteter Fehler trat auf beim Extrahieren von "
 
-#: src/launchers/steam.vala:633
-msgid "Steam Flatpak is not supported"
+#: src/launchers/steam.vala:633 src/launchers/steam.vala:636
+#, c-format
+msgid "%s is not supported"
 msgstr ""
 
 #: src/launchers/steam.vala:633
@@ -343,12 +331,8 @@ msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
 #: src/launchers/steam.vala:636
-msgid "Steam Snap is not supported"
-msgstr ""
-
-#: src/launchers/steam.vala:636
 #, c-format
-msgid "There's currently no known way to install %s for the %s."
+msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
 #: src/launchers/steam.vala:706
@@ -388,6 +372,22 @@ msgstr ""
 #: src/application.vala:71
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
+
+#, fuzzy
+#~ msgid "Steam compatibility tool for running Windows games."
+#~ msgstr ""
+#~ "Steam Kompatibilitätswerkzeug um Windows-Spiele unter Linux zu starten"
+
+#, fuzzy
+#~ msgid "Wine is a program which allows running Microsoft Windows programs."
+#~ msgstr ""
+#~ "Wine ist ein Programm, das die Ausführung von Microsoft Windows-"
+#~ "Programmen ermöglicht"
+
+#, fuzzy
+#~ msgid "Program which allows running Microsoft Windows programs."
+#~ msgstr ""
+#~ "Programm, das die Ausführung von Microsoft Windows-Programmen ermöglicht"
 
 #~ msgid "About"
 #~ msgstr "Über"
