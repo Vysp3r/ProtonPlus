@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 21:05+0200\n"
+"POT-Creation-Date: 2024-09-11 21:32+0200\n"
 "PO-Revision-Date: 2024-09-09 20:38-0400\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -95,13 +95,14 @@ msgstr ""
 msgid "Runners"
 msgstr ""
 
-#: src/launchers/bottles.vala:7
-msgid "Compatibility tool to run Windows games on Linux."
+#: src/launchers/bottles.vala:7 src/launchers/hgl.vala:11
+#: src/launchers/lutris.vala:7
+msgid "Compatibility tools for running Windows software on Linux."
 msgstr ""
 
 #: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
 #: src/launchers/lutris.vala:11
-msgid "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
+msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
 msgstr ""
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
@@ -121,17 +122,13 @@ msgid ""
 msgstr ""
 
 #: src/launchers/hgl.vala:7
-msgid "Steam compatibility tool for running Windows games."
-msgstr ""
-
-#: src/launchers/hgl.vala:11
-msgid "Wine is a program which allows running Microsoft Windows programs."
+msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 
 #: src/launchers/hgl.vala:19 src/launchers/lutris.vala:15
 msgid ""
-"Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top "
-"of Vulkan."
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
 msgstr ""
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
@@ -139,23 +136,15 @@ msgid "Wine build compiled from the official WineHQ sources."
 msgstr ""
 
 #: src/launchers/hgl.vala:69 src/launchers/lutris.vala:64
-msgid "Wine build with the Staging patchset applied."
+msgid "Wine build with the Staging patchset."
 msgstr ""
 
 #: src/launchers/hgl.vala:72 src/launchers/lutris.vala:67
-msgid ""
-"Wine build with the Staging patchset applied and with many additional useful "
-"patches."
+msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
 
 #: src/launchers/hgl.vala:90 src/launchers/steam.vala:67
-msgid ""
-"Custom Proton build for running Windows games, built with the Wine-tkg build "
-"system."
-msgstr ""
-
-#: src/launchers/lutris.vala:7
-msgid "Program which allows running Microsoft Windows programs."
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 
 #: src/launchers/lutris.vala:87
@@ -170,19 +159,16 @@ msgstr ""
 
 #: src/launchers/steam.vala:71
 msgid ""
-"Luxtorpeda provides Linux-native game engines for specific Windows-only "
-"games."
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 
 #: src/launchers/steam.vala:72
-msgid ""
-"Steam Play compatibility tool to run DOS games using native Linux DOSBox."
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 
 #: src/launchers/steam.vala:73
 msgid ""
-"Steam Play compatibility tool to run adventure games using native Linux "
-"ScummVM."
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 
 #: src/launchers/steam.vala:74
@@ -190,8 +176,7 @@ msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
 
 #: src/launchers/steam.vala:75
-msgid ""
-"Compatibility tool for Steam Play based on Wine and additional components."
+msgid "Compatibility tool for Steam based on Proton and additional components."
 msgstr ""
 
 #: src/launchers/steam.vala:77

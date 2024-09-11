@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 21:05+0200\n"
+"POT-Creation-Date: 2024-09-11 21:32+0200\n"
 "PO-Revision-Date: 2024-02-16 17:02+0000\n"
 "Last-Translator: valigarmanda <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -96,15 +96,16 @@ msgstr "当安装时出现异常 "
 msgid "Runners"
 msgstr "运行器"
 
-#: src/launchers/bottles.vala:7
+#: src/launchers/bottles.vala:7 src/launchers/hgl.vala:11
+#: src/launchers/lutris.vala:7
 #, fuzzy
-msgid "Compatibility tool to run Windows games on Linux."
+msgid "Compatibility tools for running Windows software on Linux."
 msgstr "在Linux上运行WIndows游戏的兼容性工具"
 
 #: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
 #: src/launchers/lutris.vala:11
 #, fuzzy
-msgid "Vulkan based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
+msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
 msgstr "适用于 Linux/Wine的Direct3D 9、10和11基于Vulkan的实现"
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
@@ -125,19 +126,14 @@ msgstr "由Lutris进行改进，以在某些游戏中提供更好的兼容性或
 
 #: src/launchers/hgl.vala:7
 #, fuzzy
-msgid "Steam compatibility tool for running Windows games."
-msgstr "用于运行WIndows游戏的Steam兼容性工具"
-
-#: src/launchers/hgl.vala:11
-#, fuzzy
-msgid "Wine is a program which allows running Microsoft Windows programs."
-msgstr "Wine是一个允许运行Microsoft Windows程序的程序"
+msgid "Compatibility tools by Valve for running Windows software on Linux."
+msgstr "在Linux上运行WIndows游戏的兼容性工具"
 
 #: src/launchers/hgl.vala:19 src/launchers/lutris.vala:15
 #, fuzzy
 msgid ""
-"Fork of Wine's VKD3D which aims to implement the full Direct3D 12 API on top "
-"of Vulkan."
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
 msgstr "Wine的VKD3D的分支，旨在在 Vulkan 之上实现完整的Direct3D 12API"
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
@@ -145,25 +141,19 @@ msgid "Wine build compiled from the official WineHQ sources."
 msgstr "从官方WineHQ源编译的Wine构建"
 
 #: src/launchers/hgl.vala:69 src/launchers/lutris.vala:64
-msgid "Wine build with the Staging patchset applied."
+#, fuzzy
+msgid "Wine build with the Staging patchset."
 msgstr "应用了Staging补丁集的Wine构建"
 
 #: src/launchers/hgl.vala:72 src/launchers/lutris.vala:67
-msgid ""
-"Wine build with the Staging patchset applied and with many additional useful "
-"patches."
+#, fuzzy
+msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr "应用了Staging补丁集以及许多其他有用的补丁的Wine构建"
 
 #: src/launchers/hgl.vala:90 src/launchers/steam.vala:67
-msgid ""
-"Custom Proton build for running Windows games, built with the Wine-tkg build "
-"system."
-msgstr "为运行Windows游戏定制的Proton构建，用Wine-tkg构建系统构建"
-
-#: src/launchers/lutris.vala:7
 #, fuzzy
-msgid "Program which allows running Microsoft Windows programs."
-msgstr "允许运行Microsoft Windows程序的程序"
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr "为运行Windows游戏定制的Proton构建，用Wine-tkg构建系统构建"
 
 #: src/launchers/lutris.vala:87
 msgid "Contains RTX fix for Star Citizen."
@@ -176,20 +166,20 @@ msgid ""
 msgstr "用于运行Windows游戏的Steam兼容性工具，对Valve默认的Proton进行了改进"
 
 #: src/launchers/steam.vala:71
+#, fuzzy
 msgid ""
-"Luxtorpeda provides Linux-native game engines for specific Windows-only "
-"games."
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr "Luxtorpeda为特定的Windows游戏提供Linux原生游戏引擎"
 
 #: src/launchers/steam.vala:72
-msgid ""
-"Steam Play compatibility tool to run DOS games using native Linux DOSBox."
+#, fuzzy
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr "Steam Play兼容性工具，可使用原生Linux DOSBox运行DOS游戏"
 
 #: src/launchers/steam.vala:73
+#, fuzzy
 msgid ""
-"Steam Play compatibility tool to run adventure games using native Linux "
-"ScummVM."
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr "Steam Play兼容性工具，可使用原生Linux ScummVM运行冒险游戏"
 
 #: src/launchers/steam.vala:74
@@ -197,8 +187,7 @@ msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr "为运行泰坦陨落2的Northstar启动器定制的Proton构建"
 
 #: src/launchers/steam.vala:75
-msgid ""
-"Compatibility tool for Steam Play based on Wine and additional components."
+msgid "Compatibility tool for Steam based on Proton and additional components."
 msgstr ""
 
 #: src/launchers/steam.vala:77
@@ -360,6 +349,18 @@ msgstr "一个为GNOME而生的简单Wine和基于Proton兼容性工具的管理
 #: src/application.vala:71
 msgid "Special thanks to"
 msgstr "特别感谢"
+
+#, fuzzy
+#~ msgid "Steam compatibility tool for running Windows games."
+#~ msgstr "用于运行WIndows游戏的Steam兼容性工具"
+
+#, fuzzy
+#~ msgid "Wine is a program which allows running Microsoft Windows programs."
+#~ msgstr "Wine是一个允许运行Microsoft Windows程序的程序"
+
+#, fuzzy
+#~ msgid "Program which allows running Microsoft Windows programs."
+#~ msgstr "允许运行Microsoft Windows程序的程序"
 
 #~ msgid "About"
 #~ msgstr "关于"
