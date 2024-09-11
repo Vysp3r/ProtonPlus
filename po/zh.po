@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 19:23-0400\n"
+"POT-Creation-Date: 2024-09-11 18:47+0200\n"
 "PO-Revision-Date: 2024-02-16 17:02+0000\n"
 "Last-Translator: valigarmanda <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -29,8 +29,8 @@ msgstr "只显示已安装的"
 
 #.
 #: src/widgets/info-box.vala:25
-msgid "About"
-msgstr "关于"
+msgid "_About ProtonPlus"
+msgstr ""
 
 #: src/widgets/info-box.vala:181 src/widgets/info-box.vala:184
 msgid "Load more"
@@ -358,6 +358,9 @@ msgstr "一个为GNOME而生的简单Wine和基于Proton兼容性工具的管理
 #: src/application.vala:71
 msgid "Special thanks to"
 msgstr "特别感谢"
+
+#~ msgid "About"
+#~ msgstr "关于"
 
 #, fuzzy, c-format
 #~ msgid "The deletion of %s is complete."

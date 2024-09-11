@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 19:23-0400\n"
+"POT-Creation-Date: 2024-09-11 18:47+0200\n"
 "PO-Revision-Date: 2024-01-07 02:06+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -28,8 +28,8 @@ msgstr "Hanya terinstal"
 
 #.
 #: src/widgets/info-box.vala:25
-msgid "About"
-msgstr "Tentang"
+msgid "_About ProtonPlus"
+msgstr ""
 
 #: src/widgets/info-box.vala:181 src/widgets/info-box.vala:184
 msgid "Load more"
@@ -364,6 +364,9 @@ msgstr ""
 #: src/application.vala:71
 msgid "Special thanks to"
 msgstr ""
+
+#~ msgid "About"
+#~ msgstr "Tentang"
 
 #, fuzzy, c-format
 #~ msgid "The deletion of %s is complete."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 19:23-0400\n"
+"POT-Creation-Date: 2024-09-11 18:47+0200\n"
 "PO-Revision-Date: 2024-05-01 16:11+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -31,8 +31,8 @@ msgstr "Nur installierte"
 
 #.
 #: src/widgets/info-box.vala:25
-msgid "About"
-msgstr "Über"
+msgid "_About ProtonPlus"
+msgstr ""
 
 #: src/widgets/info-box.vala:181 src/widgets/info-box.vala:184
 msgid "Load more"
@@ -386,6 +386,9 @@ msgstr ""
 #: src/application.vala:71
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
+
+#~ msgid "About"
+#~ msgstr "Über"
 
 #, fuzzy, c-format
 #~ msgid "The deletion of %s is complete."
