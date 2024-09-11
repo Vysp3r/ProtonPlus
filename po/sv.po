@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: none\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -84,12 +84,12 @@ msgstr ""
 #: src/widgets/info-box.vala:335
 #, c-format
 msgid "An unexpected error occurred while extracting %s."
-msgstr ""
+msgstr "Ett oväntat fel inträffade vid extrahering av %s."
 
 #: src/widgets/info-box.vala:338 src/launchers/steam.vala:623
 #, c-format
 msgid "An unexpected error occurred while installing %s."
-msgstr ""
+msgstr "Ett oväntat fel inträffade vid installationen av %s."
 
 #: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
 msgid "Runners"
@@ -343,3 +343,8 @@ msgstr ""
 #: src/application.vala:71
 msgid "Special thanks to"
 msgstr ""
+
+#.
+#: src/widgets/info-box.vala:25
+msgid "About"
+msgstr "Om ProtonPlus"
