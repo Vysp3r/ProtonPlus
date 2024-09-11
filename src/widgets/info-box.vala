@@ -22,7 +22,7 @@ namespace ProtonPlus.Widgets {
 
             //
             var menu_model = new Menu ();
-            menu_model.append (_("About"), "app.show-about");
+            menu_model.append (_("_About ProtonPlus"), "app.show-about");
 
             //
             var menu_button = new Gtk.MenuButton ();

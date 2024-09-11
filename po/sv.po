@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 19:23-0400\n"
+"POT-Creation-Date: 2024-09-11 18:47+0200\n"
 "PO-Revision-Date: 2024-09-09 20:38-0400\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -29,7 +29,7 @@ msgstr ""
 
 #.
 #: src/widgets/info-box.vala:25
-msgid "About"
+msgid "_About ProtonPlus"
 msgstr ""
 
 #: src/widgets/info-box.vala:181 src/widgets/info-box.vala:184

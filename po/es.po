@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 19:23-0400\n"
+"POT-Creation-Date: 2024-09-11 18:47+0200\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -26,8 +26,8 @@ msgstr "Solo instalado"
 
 #.
 #: src/widgets/info-box.vala:25
-msgid "About"
-msgstr "Acerca de"
+msgid "_About ProtonPlus"
+msgstr ""
 
 #: src/widgets/info-box.vala:181 src/widgets/info-box.vala:184
 msgid "Load more"
@@ -381,6 +381,9 @@ msgstr ""
 #: src/application.vala:71
 msgid "Special thanks to"
 msgstr "Agradecimientos especiales a"
+
+#~ msgid "About"
+#~ msgstr "Acerca de"
 
 #, fuzzy, c-format
 #~ msgid "The deletion of %s is complete."

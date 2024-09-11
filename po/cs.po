@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 19:23-0400\n"
+"POT-Creation-Date: 2024-09-11 18:47+0200\n"
 "PO-Revision-Date: 2023-04-10 11:40+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: \n"
@@ -28,8 +28,8 @@ msgstr "Nainstalovat"
 
 #.
 #: src/widgets/info-box.vala:25
-msgid "About"
-msgstr "O aplikaci"
+msgid "_About ProtonPlus"
+msgstr ""
 
 #: src/widgets/info-box.vala:181 src/widgets/info-box.vala:184
 msgid "Load more"
@@ -351,6 +351,9 @@ msgstr ""
 #: src/application.vala:71
 msgid "Special thanks to"
 msgstr "Zvláštní poděkování patří"
+
+#~ msgid "About"
+#~ msgstr "O aplikaci"
 
 #, fuzzy
 #~ msgid " was started"
