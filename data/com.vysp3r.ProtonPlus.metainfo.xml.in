@@ -3,16 +3,16 @@
   <id>com.vysp3r.ProtonPlus</id>
 
   <name>ProtonPlus</name>
-  <summary>A simple Wine and Proton-based compatiblity tools manager</summary>
+  <summary>A modern compatibility tools manager for Linux.</summary>
   <description>
-    <p>Supported launchers: </p>
+    <p>Supported launchers:</p>
     <ul>
       <li>Steam</li>
       <li>Lutris</li>
       <li>Heroic Games Launcher</li>
       <li>Bottles</li>
     </ul>
-    <p>Supported compatibility tools: </p>
+    <p>Supported compatibility tools:</p>
     <ul>
       <li>Proton-GE</li>
       <li>Luxtorpeda</li>

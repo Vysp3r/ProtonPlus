@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 18:47+0200\n"
+"POT-Creation-Date: 2024-09-11 19:59+0200\n"
 "PO-Revision-Date: 2024-07-06 01:09+0000\n"
 "Last-Translator: Kauã Azevedo da Silva Vicente <Kazevic@pm.me>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -373,7 +373,7 @@ msgstr ""
 
 #: src/application.vala:65
 #, fuzzy
-msgid "A simple Wine and Proton-based compatibility tools manager for GNOME."
+msgid "A modern compatibility tools manager for Linux."
 msgstr ""
 "Um simples gerenciador de ferramentas de compatibilidade baseadas no Wine e "
 "Proton para o GNOME"

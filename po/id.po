@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 18:47+0200\n"
+"POT-Creation-Date: 2024-09-11 19:59+0200\n"
 "PO-Revision-Date: 2024-01-07 02:06+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -358,8 +358,9 @@ msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 
 #: src/application.vala:65
-msgid "A simple Wine and Proton-based compatibility tools manager for GNOME."
-msgstr ""
+#, fuzzy
+msgid "A modern compatibility tools manager for Linux."
+msgstr "Kompatibilitas alat untuk menjalankan game Windows di Linux"
 
 #: src/application.vala:71
 msgid "Special thanks to"

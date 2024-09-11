@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 18:47+0200\n"
+"POT-Creation-Date: 2024-09-11 19:59+0200\n"
 "PO-Revision-Date: 2024-09-09 20:38-0400\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -337,7 +337,7 @@ msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 
 #: src/application.vala:65
-msgid "A simple Wine and Proton-based compatibility tools manager for GNOME."
+msgid "A modern compatibility tools manager for Linux."
 msgstr ""
 
 #: src/application.vala:71
