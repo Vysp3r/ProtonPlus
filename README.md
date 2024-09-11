@@ -32,8 +32,6 @@
 
 [<img alt='Preview 1' src='data/previews/Preview-1.png' />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
 
-- - - -
-
 ## 📦️ Installation methods
 
 <a href="https://flathub.org/apps/com.vysp3r.ProtonPlus">
@@ -50,8 +48,6 @@
 ### [Fedora (COPR)](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) (Maintained by wehagy)
 
 ### [NixOS (MyNixOS)](https://mynixos.com/nixpkgs/package/protonplus) (Maintained by Seth)
-
-- - - -
 
 ## 🏗️ Building from source
 
@@ -151,21 +147,14 @@
     ```
 </details>
 
-- - - -
-
 ## 🌐 Translate
 
 **You can translate ProtonPlus on [Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/) or by modifying the files directly**
-
-- - - -
 
 ## 🙌 Contribute
 **Please read our [Contribution Guidelines](/CONTRIBUTING.md)**
 
 All contributions are highly appreciated.
-
-- - - -
-
 ## ✨️ Contributors
 
 [![Contributors](https://contrib.rocks/image?repo=Vysp3r/ProtonPlus)](https://github.com/Vysp3r/ProtonPlus/graphs/contributors)
