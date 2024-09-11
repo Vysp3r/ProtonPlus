@@ -114,6 +114,8 @@ namespace ProtonPlus.Launchers {
                 this.compat_location = compat_location;
                 this.toast_overlay = toast_overlay;
 
+                title = "SteamTinkerLaunch";
+
                 home_location = Environment.get_home_dir ();
                 if (Utils.System.IS_STEAM_OS) {
                     // Steam Deck uses `~/stl/prefix` instead.
@@ -136,8 +138,6 @@ namespace ProtonPlus.Launchers {
 
                 refresh_latest_stl_version ();
                 refresh_interface_state ();
-
-                title = "STL";
             }
 
             string get_download_url () {
@@ -250,7 +250,7 @@ namespace ProtonPlus.Launchers {
 
 
                 // Generate a title for the installed (or latest) release.
-                var _row_title = "SteamTinkerLaunch"; // Default title/prefix.
+                var _row_title = title; // Default title/prefix.
                 if (local_date != "")
                     _row_title = @"$_row_title ($local_date)";
                 else if (latest_date != "")
@@ -325,7 +325,7 @@ namespace ProtonPlus.Launchers {
                     if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
 
                     if (missing_dependencies != "") {
-                        var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for SteamTinkerLaunch:"), missing_dependencies, _("Installation will be canceled.")));
+                        var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
                         dialog.add_response ("ok", _("OK"));
                         dialog.show ();
                         canceled = true;
@@ -336,7 +336,7 @@ namespace ProtonPlus.Launchers {
                 var has_external_install = detect_external_locations ();
 
                 if (has_external_install) {
-                    var dialog = new Adw.MessageDialog (Application.window, _("Existing installation of STL"), "%s\n\n%s".printf (_("It looks like you currently have another version of STL which was not installed by ProtonPlus."), _("Do you want to delete it and install STL with ProtonPlus?")));
+                    var dialog = new Adw.MessageDialog (Application.window, _("Existing installation of %s").printf (title), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title), _("Do you want to delete it and install %s with ProtonPlus?").printf (title)));
                     dialog.add_response ("cancel", _("Cancel"));
                     dialog.add_response ("ok", _("OK"));
                     dialog.set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);
@@ -545,9 +545,9 @@ namespace ProtonPlus.Launchers {
                 progress_label = new Gtk.Label (null);
                 var spinner = new Gtk.Spinner ();
                 var btn_cancel = Utils.GUI.create_button ("x-symbolic", _("Cancel the installation"));
-                var btn_delete = Utils.GUI.create_button ("trash-symbolic", _("Delete STL"));
+                var btn_delete = Utils.GUI.create_button ("trash-symbolic", _("Delete %s").printf (title));
                 var btn_upgrade = Utils.GUI.create_button (null, null);
-                var btn_install = Utils.GUI.create_button ("download-symbolic", _("Install STL"));
+                var btn_install = Utils.GUI.create_button ("download-symbolic", _("Install %s").printf (title));
                 var btn_info = Utils.GUI.create_button ("info-circle-symbolic", _("Show more information"));
                 var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
                 var row = new Adw.ActionRow ();
@@ -557,7 +557,7 @@ namespace ProtonPlus.Launchers {
                 btn_delete.clicked.connect (() => {
                     var delete_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files."));
 
-                    var dialog = new Adw.MessageDialog (Application.window, _("Delete SteamTinkerLaunch"), "%s\n\n%s".printf (_("You're about to delete STL from your system."), _("Are you sure you want this?")));
+                    var dialog = new Adw.MessageDialog (Application.window, _("Delete %s").printf (title), "%s\n\n%s".printf (_("You're about to delete %s from your system.").printf (title), _("Are you sure you want this?")));
                     dialog.set_extra_child (delete_check);
                     dialog.add_response ("no", _("No"));
                     dialog.add_response ("yes", _("Yes"));
@@ -630,10 +630,10 @@ namespace ProtonPlus.Launchers {
                     Adw.MessageDialog? dialog = null;
                     switch (launcher_type) {
                         case "Flatpak" :
-                            dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), "%s\n\n%s".printf (_("To install Steam Tinker Launch for the Steam Flatpak, please run the following command:"), "flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
+                            dialog = new Adw.MessageDialog (Application.window, _("Steam Flatpak is not supported"), "%s\n\n%s".printf (_("To install %s for the %s, please run the following command:").printf (title, "Steam Flatpak"), "flatpak install --user com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
                             break;
                         case "Snap":
-                            dialog = new Adw.MessageDialog (Application.window, _("Steam Snap is not supported"), _("There's currently no known way to install STL for the Steam Snap."));
+                            dialog = new Adw.MessageDialog (Application.window, _("Steam Snap is not supported"), _("There's currently no known way to install %s for the %s.").printf (title, "Steam Snap"));
                             break;
                     }
                     if (dialog != null) {
@@ -703,7 +703,7 @@ namespace ProtonPlus.Launchers {
                     if (show_upgrade) {
                         var icon_upgrade = (Gtk.Image) btn_upgrade.get_child ();
                         icon_upgrade.set_from_icon_name (updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
-                        btn_upgrade.set_tooltip_text (updated ? _("STL is up-to-date") : _("Update STL to the latest version"));
+                        btn_upgrade.set_tooltip_text (updated ? _("%s is up-to-date").printf (title) : _("Update %s to the latest version").printf (title));
                     }
 
 
