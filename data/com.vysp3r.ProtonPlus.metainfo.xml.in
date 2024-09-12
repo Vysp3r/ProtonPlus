@@ -58,6 +58,18 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.16" date="2024-09-12">
+      <description>
+        <ul>
+          <li>✨ Added support for Steam Tinker Launch</li>
+          <li>✨ Made Ctrl-Q quit the application</li>
+          <li>✨ The window now remembers the last-used size</li>
+          <li>💄 Improved UI polish and consistency</li>
+          <li>🌐 Made it easier to translate the application</li>
+          <li>🌐 Added Swedish translation</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.15" date="2024-07-17">
       <description>
         <ul>

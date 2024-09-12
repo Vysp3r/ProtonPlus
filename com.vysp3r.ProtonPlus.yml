@@ -44,4 +44,4 @@ modules:
     sources:
       - type: git
         url: https://github.com/Vysp3r/ProtonPlus.git
-        tag: v0.4.13
+        tag: v0.4.16
