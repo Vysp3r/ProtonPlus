@@ -3,7 +3,7 @@
   <id>com.vysp3r.ProtonPlus</id>
 
   <name>ProtonPlus</name>
-  <summary>A modern compatibility tools manager for Linux.</summary>
+  <summary>Modern compatibility tools manager</summary>
   <description>
     <p>Supported launchers:</p>
     <ul>
@@ -53,6 +53,7 @@
   <screenshots>
     <screenshot type="default">
       <image>https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-1.png</image>
+      <caption>The main interface of ProtonPlus.</caption>
     </screenshot>
   </screenshots>
 
