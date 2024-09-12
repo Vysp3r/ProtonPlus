@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 cd "${SCRIPT_DIR}/.."
 
-flatpak-builder --user --install --force-clean --verbose \
-  build-dir \
-  com.vysp3r.ProtonPlus.yml
+BUILD_VARIANT="flathub"
+BUILD_MANIFEST="com.vysp3r.ProtonPlus.yml"
+BUILD_DIR="build-flatpak/${BUILD_VARIANT}/build"
+BUILD_OSTREE_REPO="build-flatpak/${BUILD_VARIANT}/repo"
+flatpak run org.flatpak.Builder --verbose \
+  --sandbox --force-clean --ccache --user --install \
+  "${BUILD_DIR}" \
+  "${BUILD_MANIFEST}"
+
+if [[ "$1" == "run" ]]; then
+  flatpak run --user com.vysp3r.ProtonPlus
+fi

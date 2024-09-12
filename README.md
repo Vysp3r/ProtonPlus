@@ -91,14 +91,18 @@
 3. Build the local source code as a native application
     ```bash
     ./scripts/build-native.sh
+
+    # Alternative: Runs application after the build.
+    ./scripts/build-native.sh run
     ```
 
-4. (Optional) Install application
+4. (Optional) Install the application
     ```bash
+    cd build-native
     ninja install
     ```
 
-5. Start application
+5. Run the application
     ```bash
     cd src && \
     ./com.vysp3r.ProtonPlus
@@ -115,18 +119,18 @@
       flatpak
     ```
 
-2. Add the flathub repo to your user if not added before
+2. Add the flathub repo to your system if not added before
     ```bash
-    flatpak --user --if-not-exists remote-add \
+    flatpak --if-not-exists remote-add \
       flathub https://flathub.org/repo/flathub.flatpakrepo
     ```
 
-3. Install the needed runtimes for flatpak
+3. Install the necessary runtimes and build tools for Flatpak
     ```bash
-    flatpak --user install \
+    flatpak install \
       runtime/org.gnome.Sdk/x86_64/46 \
       runtime/org.gnome.Platform/x86_64/46 \
-      runtime/org.freedesktop.Sdk.Extension.vala/x86_64/24.08 \
+      runtime/org.freedesktop.Sdk.Extension.vala/x86_64/23.08 \
       org.flatpak.Builder
     ```
 
@@ -139,9 +143,12 @@
 5. Build the local source code as a Flatpak and install for the current user
     ```bash
     ./scripts/build-local.sh
+
+    # Alternative: Runs application after the build.
+    ./scripts/build-local.sh run
     ```
 
-6. Start application
+6. Run the application
     ```bash
     flatpak --user run \
       com.vysp3r.ProtonPlus
