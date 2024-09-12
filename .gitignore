@@ -1,8 +1,13 @@
-build/
-.flatpak-builder/
-build-dir/
-.vscode
-gdb.sh
+# Temporary build files.
 _build/
+.flatpak-builder/
 .flatpak/
+build-dir/
+build-flatpak/
+build-native/
+build/
+
+# Miscellaneous.
+.vscode/
+gdb.sh
 com.vysp3r.ProtonPlus.flatpak
