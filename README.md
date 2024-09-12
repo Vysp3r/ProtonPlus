@@ -126,6 +126,7 @@
     flatpak --user install \
       runtime/org.gnome.Sdk/x86_64/46 \
       runtime/org.gnome.Platform/x86_64/46 \
+      runtime/org.freedesktop.Sdk.Extension.vala/x86_64/24.08 \
       org.flatpak.Builder
     ```
 
