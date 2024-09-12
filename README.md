@@ -91,14 +91,18 @@
 3. Build the local source code as a native application
     ```bash
     ./scripts/build-native.sh
+
+    # Alternative: Runs application after the build.
+    ./scripts/build-native.sh run
     ```
 
-4. (Optional) Install application
+4. (Optional) Install the application
     ```bash
+    cd build-native
     ninja install
     ```
 
-5. Start application
+5. Run the application
     ```bash
     cd src && \
     ./com.vysp3r.ProtonPlus
