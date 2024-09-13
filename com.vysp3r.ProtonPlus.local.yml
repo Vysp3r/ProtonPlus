@@ -12,7 +12,7 @@ finish-args:
   - --socket=fallback-x11
   - --socket=wayland
   # Host-spawn access is needed to check if host contains dependencies,
-  # and to execute Steam Tinker Launch's installer script on the host.
+  # and to execute various compatibility tool installers on the host.
   - --talk-name=org.freedesktop.Flatpak
   # Required GNOME/GTK permissions.
   - --talk-name=org.gtk.vfs.*

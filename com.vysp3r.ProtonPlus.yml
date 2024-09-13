@@ -12,7 +12,7 @@ finish-args:
   - --socket=fallback-x11
   - --socket=wayland
   # Host-spawn access is needed to check if host contains dependencies,
-  # and to execute Steam Tinker Launch's installer script on the host.
+  # and to execute various compatibility tool installers on the host.
   - --talk-name=org.freedesktop.Flatpak
   # Required GNOME/GTK permissions.
   - --talk-name=org.gtk.vfs.*
@@ -45,3 +45,8 @@ modules:
       - type: git
         url: https://github.com/Vysp3r/ProtonPlus.git
         tag: v0.4.16
+        x-checker-data:
+          type: git
+          tag-pattern: ^v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.\-]+)?)$
+          version-scheme: semantic
+          is-main-source: true
