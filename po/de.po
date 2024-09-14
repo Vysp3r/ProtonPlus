@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-11 22:52+0200\n"
-"PO-Revision-Date: 2024-09-14 17:20+0200\n"
+"PO-Revision-Date: 2024-09-15 08:36+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 #.
 #: src/widgets/sidebar.vala:35
 msgid "Only Installed"
-msgstr "Nur installierte"
+msgstr "Nur Installierte"
 
 #.
 #: src/widgets/info-box.vala:25
@@ -44,7 +44,7 @@ msgstr "Beim Abrufen von Daten von der GitHub-API ist ein Fehler aufgetreten."
 
 #: src/widgets/info-box.vala:214 src/launchers/steam.vala:547
 msgid "Cancel the installation"
-msgstr "Breche Installation ab"
+msgstr "Installation abbrechen"
 
 #: src/widgets/info-box.vala:218
 msgid "Delete the runner"
@@ -106,7 +106,7 @@ msgstr "Kompatibilitätstool zum Ausführen von Windows-Spielen unter Linux."
 #: src/launchers/lutris.vala:11
 msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
 msgstr ""
-"Vulkan basierte Implementierung von DirectX9, 10 und 11 for Linux/Wine."
+"Vulkan basierte Implementierung von Direct3D 9, 10 und 11 für Linux/Wine."
 
 #: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
 msgid "Contains improvements over Valve's default Proton."
@@ -137,7 +137,7 @@ msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
-"Fork von Wine's VKD3D, der darauf abzielt, die volle Direct3D 12 API auf "
+"Variante von Wine's VKD3D, die darauf abzielt, die volle Direct3D 12 API auf "
 "Vulkan zu implementieren."
 
 #: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
@@ -157,7 +157,7 @@ msgstr ""
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 "Benutzerdefiniertes Proton-Build für die Ausführung von Windows-Spielen, "
-"erstellt mit dem Wine-tkg-Build-System."
+"basiert auf Wine-tkg."
 
 #: src/launchers/lutris.vala:87
 msgid "Contains RTX fix for Star Citizen."
@@ -248,7 +248,7 @@ msgstr ""
 #: src/launchers/steam.vala:339
 #, c-format
 msgid "Do you want to delete it and install %s with ProtonPlus?"
-msgstr "Möchten Sie %s löschen und von ProtonPlus instllieren lassen ?"
+msgstr "Möchten Sie %s löschen und von ProtonPlus installieren lassen?"
 
 #: src/launchers/steam.vala:340
 msgid "Cancel"
@@ -280,7 +280,7 @@ msgstr "Sie sind dabei %s von Ihrem System zu löschen."
 
 #: src/launchers/steam.vala:560
 msgid "Are you sure you want this?"
-msgstr "Sind Sie sicher, dass Sie das wollen ?"
+msgstr "Sind Sie sicher, dass Sie das wollen?"
 
 #: src/launchers/steam.vala:562
 msgid "No"
@@ -298,7 +298,7 @@ msgstr "Ein unerwarteter Fehler trat auf beim Entfernen von %s."
 #: src/launchers/steam.vala:588
 #, c-format
 msgid "%s is already up-to-date."
-msgstr "%s ist auf dem aktuellen Stand."
+msgstr "%s ist bereits auf dem aktuellen Stand."
 
 #: src/launchers/steam.vala:590
 #, c-format
@@ -344,7 +344,7 @@ msgstr "%s auf die letzte Version aktualisieren"
 
 #: src/models/release.vala:63
 msgid "Not Available"
-msgstr "Nicht verfügbar"
+msgstr "Nicht Verfügbar"
 
 #.
 #: src/window.vala:113
