@@ -1,10 +1,5 @@
-#
 subdir('css')
-
-#
 subdir('icons')
-
-#
 subdir('images')
 
 #
@@ -14,7 +9,6 @@ install_subdir(
       strip_directory: true
 )
 
-#
 desktop_file = i18n.merge_file(
         input: 'com.vysp3r.ProtonPlus.desktop.in',
        output: 'com.vysp3r.ProtonPlus.desktop',

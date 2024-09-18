@@ -80,7 +80,7 @@ namespace ProtonPlus.Widgets {
             list_box.remove_all ();
 
             foreach (var launcher in launchers) {
-                list_box.append (create_row (launcher.title, launcher.type, launcher.icon_path));
+                list_box.append (create_row (launcher.title, launcher.get_installation_type_title (), launcher.icon_path));
             }
 
             if (launchers.length () > 0) {

@@ -7,8 +7,9 @@ namespace ProtonPlus.Models {
 
         public List<Runner> runners;
 
-        public Group (string title, string directory, Launcher launcher) {
+        public Group (string title, string description, string directory, Launcher launcher) {
             this.title = title;
+            this.description = description;
             this.directory = directory;
             this.launcher = launcher;
 

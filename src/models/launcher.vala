@@ -1,20 +1,26 @@
 namespace ProtonPlus.Models {
     public class Launcher : Object {
         public string title;
-        public string type;
         public string icon_path;
         public string directory;
         public bool installed;
 
         public Group[] groups;
 
+        public InstallationTypes installation_type;
+        public enum InstallationTypes {
+            SYSTEM,
+            FLATPAK,
+            SNAP
+        }
+
         public delegate void callback (Release release);
         public signal void install (Release release);
         public signal void uninstall (Release release);
 
-        public Launcher (string title, string type, string icon_path, string[] directories) {
+        public Launcher (string title, InstallationTypes installation_type, string icon_path, string[] directories) {
             this.title = title;
-            this.type = type;
+            this.installation_type = installation_type;
             this.icon_path = icon_path;
             this.directory = "";
 
@@ -28,26 +34,34 @@ namespace ProtonPlus.Models {
             installed = directory.length > 0;
         }
 
-        public void setup_callbacks (callback install_callback, callback uninstall_callback) {
-            install.connect ((release) => install_callback (release));
-            uninstall.connect ((release) => uninstall_callback (release));
+        public string get_installation_type_title () {
+            switch (installation_type) {
+            case InstallationTypes.SYSTEM:
+                return "System";
+            case InstallationTypes.FLATPAK:
+                return "Flatpak";
+            case InstallationTypes.SNAP:
+                return "Snap";
+            default:
+                return "Invalid type";
+            }
         }
 
         public static List<Launcher> get_all () {
             var launchers = new List<Launcher> ();
 
-            launchers.append (Launchers.Steam.get_launcher ());
-            launchers.append (Launchers.Steam.get_flatpak_launcher ());
-            launchers.append (Launchers.Steam.get_snap_launcher ());
+            launchers.append (new Launchers.Steam (InstallationTypes.SYSTEM));
+            launchers.append (new Launchers.Steam (InstallationTypes.FLATPAK));
+            launchers.append (new Launchers.Steam (InstallationTypes.SNAP));
 
-            launchers.append (Launchers.Lutris.get_launcher ());
-            launchers.append (Launchers.Lutris.get_flatpak_launcher ());
+            launchers.append (new Launchers.Lutris (InstallationTypes.SYSTEM));
+            launchers.append (new Launchers.Lutris (InstallationTypes.FLATPAK));
 
-            launchers.append (Launchers.Bottles.get_launcher ());
-            launchers.append (Launchers.Bottles.get_flatpak_launcher ());
+            launchers.append (new Launchers.Bottles (InstallationTypes.SYSTEM));
+            launchers.append (new Launchers.Bottles (InstallationTypes.FLATPAK));
 
-            launchers.append (Launchers.HeroicGamesLauncher.get_launcher ());
-            launchers.append (Launchers.HeroicGamesLauncher.get_flatpak_launcher ());
+            launchers.append (new Launchers.HeroicGamesLauncher (InstallationTypes.SYSTEM));
+            launchers.append (new Launchers.HeroicGamesLauncher (InstallationTypes.FLATPAK));
 
             launchers.foreach ((launcher) => {
                 if (!launcher.installed)launchers.remove (launcher);
