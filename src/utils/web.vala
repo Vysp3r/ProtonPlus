@@ -30,7 +30,7 @@ namespace ProtonPlus.Utils {
             SUCCESS
         }
 
-        public static async DOWNLOAD_CODES Download (string url, string path, int64 download_size, cancel_callback cancel_callback, progress_callback progress_callback) {
+        public static async DOWNLOAD_CODES Download (string url, string path, cancel_callback cancel_callback, progress_callback progress_callback) {
             try {
                 var session = new Soup.Session ();
                 session.set_user_agent (get_user_agent ());
@@ -60,12 +60,9 @@ namespace ProtonPlus.Utils {
                 // length, but any download requests after that it will see the
                 // filesize for a few minutes, until GitHub clears their cache.
                 int64 server_download_size = soup_message.get_response_headers ().get_content_length ();
-                if (server_download_size > 0) {
-                    download_size = server_download_size;
-                }
 
                 const size_t chunk_size = 4096;
-                bool is_percent = download_size > 0;
+                bool is_percent = server_download_size > 0;
                 int64 bytes_downloaded = 0;
 
                 if (progress_callback != null) {
@@ -90,7 +87,7 @@ namespace ProtonPlus.Utils {
 
                     if (progress_callback != null) {
                         // Use "bytes downloaded" when total size is unknown.
-                        int64 progress = !is_percent ? bytes_downloaded : (int64) (((double) bytes_downloaded / download_size) * 100);
+                        int64 progress = !is_percent ? bytes_downloaded : (int64) (((double) bytes_downloaded / server_download_size) * 100);
                         progress_callback (is_percent, progress);
                     }
                 }
