@@ -10,16 +10,16 @@ namespace ProtonPlus.Widgets {
         Widgets.Sidebar sidebar { get; set; }
 
         construct {
-            this.set_application ((Adw.Application) GLib.Application.get_default ());
-            this.set_title (Constants.APP_NAME);
+            set_application ((Adw.Application) GLib.Application.get_default ());
+            set_title (Constants.APP_NAME);
 
-            this.add_action (load_info_box ());
-            this.add_action (add_task ());
-            this.add_action (remove_task ());
+            add_action (load_info_box ());
+            add_action (add_task ());
+            add_action (remove_task ());
 
             // NOTE: Minimum size supported by AdwOverlaySplitView = 272x474,
             // and we have to make our minimum request a bit larger to look nice.
-            this.set_size_request (400, 600);
+            set_size_request (400, 600);
 
             status_box = new Widgets.StatusBox ();
 
@@ -52,17 +52,17 @@ namespace ProtonPlus.Widgets {
             var breakpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 625px"));
             breakpoint.add_setter (overlay_split_view, "collapsed", true);
 
-            this.add_breakpoint (breakpoint);
+            add_breakpoint (breakpoint);
         }
 
         public override bool close_request () {
             bool busy = tasks > 0;
 
             if (busy) {
-                this.set_visible (false);
+                set_visible (false);
 
-                this.notify["tasks"].connect (() => {
-                    if (tasks == 0)this.close ();
+                notify["tasks"].connect (() => {
+                    if (tasks == 0)close ();
                 });
             }
 

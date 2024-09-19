@@ -52,24 +52,12 @@ namespace ProtonPlus.Widgets {
             this.append (toolbar_view);
         }
 
-        Adw.ActionRow create_row (string title, string type, string icon_name) {
-            var icon = new Gtk.Image.from_resource (icon_name);
-            icon.set_pixel_size (48);
-
-            var action_row = new Adw.ActionRow ();
-            action_row.add_css_class ("sidebar-item");
-            action_row.add_prefix (icon);
-            action_row.set_title (title);
-            action_row.set_subtitle (type);
-
-            return action_row;
-        }
-
         public void initialize (List<Models.Launcher> launchers) {
             list_box.remove_all ();
 
             foreach (var launcher in launchers) {
-                list_box.append (create_row (launcher.title, launcher.get_installation_type_title (), launcher.icon_path));
+                var row = new SidebarRow (launcher.title, launcher.get_installation_type_title (), launcher.icon_path);
+                list_box.append (row);
             }
 
             if (launchers.length () > 0) {
