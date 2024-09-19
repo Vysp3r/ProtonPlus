@@ -1,7 +1,9 @@
 namespace ProtonPlus.Models.Runners {
     public class Other : GitHub {
-        public Other (Models.Group group) {
-            Object (group: group, title: "Other", description: _(""),
+        public Other (Group group) {
+            Object (group: group,
+                    title: "Other",
+                    description: "",
                     endpoint: "https://api.github.com/repos/bottlesdevs/wine/releases",
                     asset_position: 0,
                     use_name_instead_of_tag_name: true);

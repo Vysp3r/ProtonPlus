@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class Proton_GE_RSTP : GitHub {
-        public Proton_GE_RSTP (Models.Group group) {
+        public Proton_GE_RSTP (Group group) {
             Object (group: group,
                     title: "Proton-GE RTSP",
                     description: _("Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat."),

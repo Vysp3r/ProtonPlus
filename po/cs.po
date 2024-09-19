@@ -15,52 +15,59 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#.
-#: src/widgets/sidebar.vala:32
+#: src/widgets/sidebar.vala:10 src/widgets/info-box.vala:16
+msgid "Toggle Sidebar"
+msgstr ""
+
+#: src/widgets/sidebar.vala:28
 msgid "Only display the runners that are currently installed on your system"
 msgstr ""
 
-#.
-#: src/widgets/sidebar.vala:35
+#: src/widgets/sidebar.vala:30
 #, fuzzy
 msgid "Only Installed"
 msgstr "Nainstalovat"
 
-#.
-#: src/widgets/info-box.vala:25
+#: src/widgets/info-box.vala:20
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/info-box.vala:181 src/widgets/info-box.vala:184
-msgid "Load more"
-msgstr ""
-
-#: src/widgets/info-box.vala:196 src/widgets/info-box.vala:332
+#: src/widgets/info-box.vala:23
 #, fuzzy
-msgid "There was an error while fetching data from the GitHub API."
-msgstr "Během rozbalování došlo k chybě..."
+msgid "Main Menu"
+msgstr "Hlavní"
 
 #: src/widgets/info-box.vala:214 src/launchers/steam.vala:555
 #, fuzzy
 msgid "Cancel the installation"
 msgstr "Instalace byla zrušena..."
 
-#: src/widgets/info-box.vala:218
-msgid "Delete the runner"
-msgstr ""
+#: src/widgets/release-row.vala:35 src/widgets/release-rows/basic.vala:26
+#: src/widgets/release-rows/steamtinkerlaunch.vala:53
+#, fuzzy, c-format
+msgid "Delete %s"
+msgstr "Smazat"
 
-#: src/widgets/info-box.vala:220
+#: src/widgets/release-row.vala:39
+#, fuzzy, c-format
+msgid "Install %s"
+msgstr "Nainstalovat"
+
+#: src/widgets/window.vala:86
 #, c-format
-msgid "Are you sure you want to delete %s?"
+msgid "Welcome to %s"
 msgstr ""
 
-#: src/widgets/info-box.vala:222
-msgid "Confirm"
+#: src/widgets/window.vala:86
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 
-#: src/widgets/info-box.vala:234
-msgid "Install the runner"
+#: src/widgets/application.vala:92
+#, fuzzy
+msgid "A modern compatibility tools manager for Linux."
 msgstr ""
+"Jednoduchý správce nástrojů kompatibility založených na Wine a Protonu pro "
+"GNOME"
 
 #: src/widgets/info-box.vala:261 src/launchers/steam.vala:629
 #, fuzzy, c-format
@@ -82,80 +89,99 @@ msgstr "Instalace byla zrušena..."
 msgid "The removal of %s is complete."
 msgstr "Instalace byla zrušena..."
 
-#: src/widgets/info-box.vala:335
+#: src/widgets/release-rows/basic.vala:28
+#: src/widgets/release-rows/steamtinkerlaunch.vala:55
+msgid "No"
+msgstr ""
+
+#: src/widgets/release-rows/basic.vala:29
+#: src/widgets/release-rows/steamtinkerlaunch.vala:56
+msgid "Yes"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:13
+msgid "Show more information"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:125
+#: src/widgets/release-rows/steamtinkerlaunch.vala:128
 #, c-format
-msgid "An unexpected error occurred while extracting %s."
+msgid "%s is not supported"
 msgstr ""
 
 #: src/widgets/info-box.vala:338 src/launchers/steam.vala:631
 #, c-format
-msgid "An unexpected error occurred while installing %s."
+msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
-#: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
+#: src/widgets/release-rows/steamtinkerlaunch.vala:128
+#, c-format
+msgid "There's currently no known way for us to install %s for the %s."
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:134
+#: src/models/releases/steamtinkerlaunch.vala:243
+#: src/models/releases/steamtinkerlaunch.vala:255
+msgid "OK"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:180
+#, c-format
+msgid "%s is up-to-date"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:180
+#, c-format
+msgid "Update %s to the latest version"
+msgstr ""
+
+#: src/models/launchers/bottles.vala:27 src/models/launchers/steam.vala:31
 msgid "Runners"
 msgstr ""
 
-#: src/launchers/bottles.vala:7 src/launchers/hgl.vala:11
-#: src/launchers/lutris.vala:7
+#: src/models/launchers/bottles.vala:27 src/models/launchers/hgl.vala:32
+#: src/models/launchers/lutris.vala:27
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr ""
 
-#: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
-#: src/launchers/lutris.vala:11
+#: src/models/launchers/bottles.vala:30 src/models/launchers/hgl.vala:35
+#: src/models/launchers/lutris.vala:30
 msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
 msgstr ""
 
-#: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
-msgid "Contains improvements over Valve's default Proton."
-msgstr ""
-
-#: src/launchers/bottles.vala:54 src/launchers/hgl.vala:62
-#: src/launchers/lutris.vala:54
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr ""
-
-#: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
-msgid ""
-"Improved by Lutris to offer better compatibility or performance in certain "
-"games."
-msgstr ""
-
-#: src/launchers/hgl.vala:7
+#: src/models/launchers/hgl.vala:29
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 
-#: src/launchers/hgl.vala:19 src/launchers/lutris.vala:15
+#: src/models/launchers/hgl.vala:38 src/models/launchers/lutris.vala:33
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
 
-#: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
-msgid "Wine build compiled from the official WineHQ sources."
+#: src/models/runners/boxtron.vala:6
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 
-#: src/launchers/hgl.vala:69 src/launchers/lutris.vala:64
-msgid "Wine build with the Staging patchset."
-msgstr ""
-
-#: src/launchers/hgl.vala:72 src/launchers/lutris.vala:67
-msgid "Wine build with the Staging patchset and many other useful patches."
-msgstr ""
-
-#: src/launchers/hgl.vala:90 src/launchers/steam.vala:67
-msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr ""
-
-#: src/launchers/lutris.vala:87
+#: src/models/runners/dxvk-async-gnusenpai.vala:6
 msgid "Contains RTX fix for Star Citizen."
 msgstr ""
 
-#: src/launchers/steam.vala:63
+#: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
+msgid "Wine build with the Staging patchset and many other useful patches."
+msgstr ""
+
+#: src/models/runners/kron4ek-wine-builds-staging.vala:7
+msgid "Wine build with the Staging patchset."
+msgstr ""
+
+#: src/models/runners/kron4ek-wine-builds-vanilla.vala:7
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr ""
+
+#: src/models/runners/luxtorpeda.vala:6
 msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton."
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 
 #: src/launchers/steam.vala:70 src/launchers/steam.vala:73
@@ -185,8 +211,8 @@ msgstr ""
 
 #: src/launchers/steam.vala:81
 msgid ""
-"Steam compatibility tool based on Proton-GE with additional patches to "
-"improve RTSP codecs for VRChat."
+"Improved by Lutris to offer better compatibility or performance in certain "
+"games."
 msgstr ""
 
 #: src/launchers/steam.vala:85
@@ -237,13 +263,13 @@ msgstr "Zrušit"
 
 #: src/launchers/steam.vala:556 src/launchers/steam.vala:568
 #, fuzzy, c-format
-msgid "Delete %s"
-msgstr "Smazat"
+#~ msgid "The installation of %s was canceled."
+#~ msgstr "Instalace byla zrušena..."
 
 #: src/launchers/steam.vala:558
 #, fuzzy, c-format
-msgid "Install %s"
-msgstr "Nainstalovat"
+#~ msgid "The installation of %s has begun."
+#~ msgstr "Instalace byla zrušena..."
 
 #: src/launchers/steam.vala:559
 msgid "Show more information"
@@ -354,9 +380,6 @@ msgstr "Zvláštní poděkování patří"
 
 #~ msgid "Preferences"
 #~ msgstr "Předvolby"
-
-#~ msgid "Main"
-#~ msgstr "Hlavní"
 
 #~ msgid "You cannot close the window while a tool is installing"
 #~ msgstr "Během instalace nástroje nelze zavřít okno"

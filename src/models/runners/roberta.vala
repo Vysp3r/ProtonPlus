@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class Roberta : GitHub {
-        public Roberta (Models.Group group) {
+        public Roberta (Group group) {
             Object (group: group,
                     title: "Roberta",
                     description: _("Steam compatibility tool for running adventure games using ScummVM for Linux."),

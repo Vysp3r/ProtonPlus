@@ -1,14 +1,17 @@
 namespace ProtonPlus.Widgets.ReleaseRows {
     public class SteamTinkerLaunch : ReleaseRow {
-        public ReleaseRowButton btn_upgrade { get; set; }
-        public ReleaseRowButton btn_info { get; set; }
+        public Gtk.Button btn_upgrade { get; set; }
+        public Gtk.Button btn_info { get; set; }
 
         Models.Releases.SteamTinkerLaunch release;
 
         public SteamTinkerLaunch () {
-            btn_upgrade = new ReleaseRowButton ();
+            btn_upgrade = new Gtk.Button ();
+            btn_upgrade.add_css_class ("flat");
 
-            btn_info = new ReleaseRowButton ("info-circle-symbolic", _("Show more information"));
+            btn_info = new Gtk.Button.from_icon_name ("info-circle-symbolic");
+            btn_info.set_tooltip_text (_("Show more information"));
+            btn_info.add_css_class ("flat");
 
             input_box.append (btn_upgrade);
             input_box.append (btn_info);

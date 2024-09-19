@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class Wine_GE : GitHub {
-        public Wine_GE (Models.Group group) {
+        public Wine_GE (Group group) {
             Object (group: group,
                     title: "Wine-GE",
                     description: _("Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."),

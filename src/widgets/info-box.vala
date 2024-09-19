@@ -3,7 +3,6 @@ namespace ProtonPlus.Widgets {
         public Gtk.Button sidebar_button { get; set; }
         public bool installed_only { get; set; }
 
-        Adw.ToastOverlay toast_overlay { get; set; }
         Adw.WindowTitle window_title { get; set; }
         Adw.HeaderBar header { get; set; }
         Gtk.Notebook notebook { get; set; }
@@ -13,13 +12,15 @@ namespace ProtonPlus.Widgets {
 
             window_title = new Adw.WindowTitle ("", "");
 
-            sidebar_button = new Gtk.Button.from_icon_name ("view-dual-symbolic");
+            sidebar_button = new Gtk.Button.from_icon_name ("layout-sidebar-symbolic");
+            sidebar_button.set_tooltip_text (_("Toggle Sidebar"));
             sidebar_button.set_visible (false);
 
             var menu_model = new Menu ();
             menu_model.append (_("_About ProtonPlus"), "app.show-about");
 
             var menu_button = new Gtk.MenuButton ();
+            menu_button.set_tooltip_text (_("Main Menu"));
             menu_button.set_icon_name ("open-menu-symbolic");
             menu_button.set_menu_model (menu_model);
 
@@ -40,11 +41,8 @@ namespace ProtonPlus.Widgets {
             content.set_margin_top (15);
             content.set_margin_bottom (15);
 
-            toast_overlay = new Adw.ToastOverlay ();
-            toast_overlay.set_child (content);
-
             append (header);
-            append (toast_overlay);
+            append (content);
         }
 
         public void switch_launcher (string title, int position) {

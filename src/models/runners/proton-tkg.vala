@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class Proton_Tkg : GitHubAction {
-        public Proton_Tkg (Models.Group group) {
+        public Proton_Tkg (Group group) {
             Object (group: group,
                     title: "Proton-Tkg",
                     description: _("Custom Proton build for running Windows games, based on Wine-tkg."),

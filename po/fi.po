@@ -15,48 +15,50 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#.
-#: src/widgets/sidebar.vala:32
+#: src/widgets/sidebar.vala:10 src/widgets/info-box.vala:16
+msgid "Toggle Sidebar"
+msgstr ""
+
+#: src/widgets/sidebar.vala:28
 msgid "Only display the runners that are currently installed on your system"
 msgstr ""
 
-#.
-#: src/widgets/sidebar.vala:35
+#: src/widgets/sidebar.vala:30
 msgid "Only Installed"
 msgstr ""
 
-#.
-#: src/widgets/info-box.vala:25
+#: src/widgets/info-box.vala:20
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/info-box.vala:181 src/widgets/info-box.vala:184
-msgid "Load more"
+#: src/widgets/info-box.vala:23
+msgid "Main Menu"
 msgstr ""
 
-#: src/widgets/info-box.vala:196 src/widgets/info-box.vala:332
-msgid "There was an error while fetching data from the GitHub API."
+#: src/widgets/release-row.vala:31
+msgid "Cancel the installation"
 msgstr ""
 
 #: src/widgets/info-box.vala:214 src/launchers/steam.vala:555
 msgid "Cancel the installation"
 msgstr ""
 
-#: src/widgets/info-box.vala:218
-msgid "Delete the runner"
-msgstr ""
-
-#: src/widgets/info-box.vala:220
+#: src/widgets/release-row.vala:39
 #, c-format
-msgid "Are you sure you want to delete %s?"
+msgid "Install %s"
 msgstr ""
 
-#: src/widgets/info-box.vala:222
-msgid "Confirm"
+#: src/widgets/window.vala:86
+#, c-format
+msgid "Welcome to %s"
 msgstr ""
 
-#: src/widgets/info-box.vala:234
-msgid "Install the runner"
+#: src/widgets/window.vala:86
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+msgstr ""
+
+#: src/widgets/application.vala:92
+msgid "A modern compatibility tools manager for Linux."
 msgstr ""
 
 #: src/widgets/info-box.vala:261 src/launchers/steam.vala:629
@@ -71,88 +73,87 @@ msgstr ""
 
 #: src/widgets/info-box.vala:287 src/launchers/steam.vala:627
 #, c-format
-msgid "The installation of %s is complete."
+msgid "You're about to remove %s from your system."
 msgstr ""
 
 #: src/widgets/info-box.vala:314 src/launchers/steam.vala:585
 #, c-format
-msgid "The removal of %s is complete."
+msgid "%s is not supported"
 msgstr ""
 
-#: src/widgets/info-box.vala:335
+#: src/widgets/release-rows/steamtinkerlaunch.vala:125
 #, c-format
-msgid "An unexpected error occurred while extracting %s."
+msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
 #: src/widgets/info-box.vala:338 src/launchers/steam.vala:631
 #, c-format
-msgid "An unexpected error occurred while installing %s."
+msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
-#: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
+#: src/widgets/release-rows/steamtinkerlaunch.vala:134
+#: src/models/releases/steamtinkerlaunch.vala:243
+#: src/models/releases/steamtinkerlaunch.vala:255
+msgid "OK"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:180
+#, c-format
+msgid "%s is up-to-date"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:180
+#, c-format
+msgid "Update %s to the latest version"
+msgstr ""
+
+#: src/models/launchers/bottles.vala:27 src/models/launchers/steam.vala:31
 msgid "Runners"
 msgstr ""
 
-#: src/launchers/bottles.vala:7 src/launchers/hgl.vala:11
-#: src/launchers/lutris.vala:7
+#: src/models/launchers/bottles.vala:27 src/models/launchers/hgl.vala:32
+#: src/models/launchers/lutris.vala:27
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr ""
 
-#: src/launchers/bottles.vala:11 src/launchers/hgl.vala:15
-#: src/launchers/lutris.vala:11
+#: src/models/launchers/bottles.vala:30 src/models/launchers/hgl.vala:35
+#: src/models/launchers/lutris.vala:30
 msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
 msgstr ""
 
-#: src/launchers/bottles.vala:50 src/launchers/hgl.vala:86
-msgid "Contains improvements over Valve's default Proton."
-msgstr ""
-
-#: src/launchers/bottles.vala:54 src/launchers/hgl.vala:62
-#: src/launchers/lutris.vala:54
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr ""
-
-#: src/launchers/bottles.vala:58 src/launchers/lutris.vala:58
-msgid ""
-"Improved by Lutris to offer better compatibility or performance in certain "
-"games."
-msgstr ""
-
-#: src/launchers/hgl.vala:7
+#: src/models/launchers/hgl.vala:29
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 
-#: src/launchers/hgl.vala:19 src/launchers/lutris.vala:15
+#: src/models/launchers/hgl.vala:38 src/models/launchers/lutris.vala:33
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
 
-#: src/launchers/hgl.vala:66 src/launchers/lutris.vala:61
-msgid "Wine build compiled from the official WineHQ sources."
+#: src/models/runners/boxtron.vala:6
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 
-#: src/launchers/hgl.vala:69 src/launchers/lutris.vala:64
-msgid "Wine build with the Staging patchset."
-msgstr ""
-
-#: src/launchers/hgl.vala:72 src/launchers/lutris.vala:67
-msgid "Wine build with the Staging patchset and many other useful patches."
-msgstr ""
-
-#: src/launchers/hgl.vala:90 src/launchers/steam.vala:67
-msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr ""
-
-#: src/launchers/lutris.vala:87
+#: src/models/runners/dxvk-async-gnusenpai.vala:6
 msgid "Contains RTX fix for Star Citizen."
 msgstr ""
 
-#: src/launchers/steam.vala:63
+#: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
+msgid "Wine build with the Staging patchset and many other useful patches."
+msgstr ""
+
+#: src/models/runners/kron4ek-wine-builds-staging.vala:7
+msgid "Wine build with the Staging patchset."
+msgstr ""
+
+#: src/models/runners/kron4ek-wine-builds-vanilla.vala:7
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr ""
+
+#: src/models/runners/luxtorpeda.vala:6
 msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton."
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 
 #: src/launchers/steam.vala:70 src/launchers/steam.vala:73
@@ -182,8 +183,8 @@ msgstr ""
 
 #: src/launchers/steam.vala:81
 msgid ""
-"Steam compatibility tool based on Proton-GE with additional patches to "
-"improve RTSP codecs for VRChat."
+"Improved by Lutris to offer better compatibility or performance in certain "
+"games."
 msgstr ""
 
 #: src/launchers/steam.vala:85

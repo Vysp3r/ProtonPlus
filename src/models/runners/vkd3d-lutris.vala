@@ -1,9 +1,9 @@
 namespace ProtonPlus.Models.Runners {
     public class VKD3D_Lutris : GitHub {
-        public VKD3D_Lutris (Models.Group group) {
+        public VKD3D_Lutris (Group group) {
             Object (group: group,
                     title: "VKD3D-Lutris",
-                    description: _(""),
+                    description: "",
                     endpoint: "https://api.github.com/repos/lutris/vkd3d/releases",
                     asset_position: 0);
         }

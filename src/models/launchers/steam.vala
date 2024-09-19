@@ -28,7 +28,7 @@ namespace ProtonPlus.Models.Launchers {
         Group[] get_groups () {
             var groups = new Group[1];
 
-            groups[0] = new Group (_("Runners"), _(""), "/compatibilitytools.d", this);
+            groups[0] = new Group (_("Runners"), "", "/compatibilitytools.d", this);
             groups[0].runners = get_runners (groups[0]);
 
             return groups;

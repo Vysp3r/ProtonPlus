@@ -239,7 +239,7 @@ namespace ProtonPlus.Models.Releases {
                 if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
 
                 if (missing_dependencies != "") {
-                    var dialog = new Adw.MessageDialog (Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
+                    var dialog = new Adw.MessageDialog (Widgets.Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
                     dialog.add_response ("ok", _("OK"));
                     dialog.show ();
                     canceled = true;
@@ -250,7 +250,7 @@ namespace ProtonPlus.Models.Releases {
             var has_external_install = detect_external_locations ();
 
             if (has_external_install) {
-                var dialog = new Adw.MessageDialog (Application.window, _("Existing installation of %s").printf (title), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title), _("Do you want to delete it and install %s with ProtonPlus?").printf (title)));
+                var dialog = new Adw.MessageDialog (Widgets.Application.window, _("Existing installation of %s").printf (title), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title), _("Do you want to delete it and install %s with ProtonPlus?").printf (title)));
                 dialog.add_response ("cancel", _("Cancel"));
                 dialog.add_response ("ok", _("OK"));
                 dialog.set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);

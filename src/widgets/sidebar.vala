@@ -6,18 +6,15 @@ namespace ProtonPlus.Widgets {
         Gtk.ListBox list_box;
 
         construct {
-            //
-            sidebar_button = new Gtk.Button.from_icon_name ("view-dual-symbolic");
+            sidebar_button = new Gtk.Button.from_icon_name ("layout-sidebar-symbolic");
+            sidebar_button.set_tooltip_text (_("Toggle Sidebar"));
 
-            //
             var window_title = new Adw.WindowTitle ("ProtonPlus", "");
 
-            //
             var header = new Adw.HeaderBar ();
             header.set_title_widget (window_title);
             header.pack_start (sidebar_button);
 
-            //
             list_box = new Gtk.ListBox ();
             list_box.set_activate_on_single_click (true);
             list_box.set_selection_mode (Gtk.SelectionMode.SINGLE);
@@ -27,16 +24,13 @@ namespace ProtonPlus.Widgets {
                 this.activate_action_variant ("win.load-info-box", row.get_index ());
             });
 
-            //
             installed_only_switch = new Gtk.Switch ();
             installed_only_switch.set_tooltip_text (_("Only display the runners that are currently installed on your system"));
 
-            //
             var installed_only_label = new Gtk.Label (_("Only Installed"));
             installed_only_label.set_hexpand (true);
             installed_only_label.set_halign (Gtk.Align.START);
 
-            //
             var installed_only_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 5);
             installed_only_box.set_margin_bottom (15);
             installed_only_box.set_margin_top (15);
@@ -47,26 +41,21 @@ namespace ProtonPlus.Widgets {
             installed_only_box.append (installed_only_label);
             installed_only_box.append (installed_only_switch);
 
-            //
             var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 5);
             content.append (list_box);
             content.append (installed_only_box);
 
-            //
             var toolbar_view = new Adw.ToolbarView ();
             toolbar_view.add_top_bar (header);
             toolbar_view.set_content (content);
 
-            //
             this.append (toolbar_view);
         }
 
         Adw.ActionRow create_row (string title, string type, string icon_name) {
-            //
             var icon = new Gtk.Image.from_resource (icon_name);
             icon.set_pixel_size (48);
 
-            //
             var action_row = new Adw.ActionRow ();
             action_row.add_css_class ("sidebar-item");
             action_row.add_prefix (icon);
