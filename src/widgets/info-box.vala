@@ -105,8 +105,7 @@ namespace ProtonPlus.Widgets {
                         var releases = runner.load.end (res);
 
                         foreach (var release in releases) {
-                            var release_row = release.create_row ();
-                            row.add_row (release_row);
+                            row.add_row (release.row);
                         }
 
                         // TODO Add a way to add the load more row if needed
