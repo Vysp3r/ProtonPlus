@@ -17,8 +17,12 @@ sources = files(
   'widgets/info-box.vala',
   'widgets/status-box.vala',
   'widgets/sidebar.vala',
+  'widgets/sidebar-row.vala',
   'widgets/release-row.vala',
   'widgets/dialog.vala',
+  'widgets/launcher-box.vala',
+  'widgets/runner-group.vala',
+  'widgets/runner-row.vala',
 
   'widgets/release-rows/steamtinkerlaunch.vala',
   'widgets/release-rows/basic.vala',
