@@ -1,4 +1,4 @@
-namespace ProtonPlus {
+namespace ProtonPlus.Widgets {
     public class Window : Adw.ApplicationWindow {
         List<Models.Launcher> launchers;
 

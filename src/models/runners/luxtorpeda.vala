@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class Luxtorpeda : GitHub {
-        public Luxtorpeda (Models.Group group) {
+        public Luxtorpeda (Group group) {
             Object (group: group,
                     title: "Luxtorpeda",
                     description: _("Luxtorpeda provides Linux-native game engines for certain Windows-only games."),

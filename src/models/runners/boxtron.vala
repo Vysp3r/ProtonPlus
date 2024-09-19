@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class Boxtron : GitHub {
-        public Boxtron(Models.Group group) {
+        public Boxtron(Group group) {
             Object(group: group,
                    title: "Boxtron",
                    description: _("Steam compatibility tool for running DOS games using DOSBox for Linux."),

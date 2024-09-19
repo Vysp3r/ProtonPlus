@@ -1,4 +1,4 @@
-namespace ProtonPlus {
+namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
         public static Window window;
 
@@ -100,17 +100,6 @@ namespace ProtonPlus {
             about_window.set_modal (true);
 
             about_window.show ();
-        }
-
-        public static int main (string[] args) {
-            if (!Thread.supported ()) {
-                message ("Threads are not supported!");
-                return -1;
-            }
-
-            var application = new Application ();
-
-            return application.run (args);
         }
     }
 }

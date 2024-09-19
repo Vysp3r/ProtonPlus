@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class DXVK_Async_gnusenpai : GitHub {
-        public DXVK_Async_gnusenpai (Models.Group group) {
+        public DXVK_Async_gnusenpai (Group group) {
             Object (group: group,
                     title: "DXVK Async (gnusenpai)",
                     description: _("Contains RTX fix for Star Citizen."),

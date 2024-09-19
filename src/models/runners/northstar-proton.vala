@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class Northstar_Proton : GitHub {
-        public Northstar_Proton (Models.Group group) {
+        public Northstar_Proton (Group group) {
             Object (group: group,
                     title: "NorthstarProton",
                     description: _("Custom Proton build for running the Northstar client for Titanfall 2."),

@@ -17,8 +17,11 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Poedit 3.5\n"
 
-#.
-#: src/widgets/sidebar.vala:32
+#: src/widgets/sidebar.vala:10 src/widgets/info-box.vala:16
+msgid "Toggle Sidebar"
+msgstr ""
+
+#: src/widgets/sidebar.vala:28
 msgid "Only display the runners that are currently installed on your system"
 msgstr ""
 "Отображать только те инструменты совместимости, которые в данный момент "
@@ -29,8 +32,7 @@ msgstr ""
 msgid "Only Installed"
 msgstr "Только установленные"
 
-#.
-#: src/widgets/info-box.vala:25
+#: src/widgets/info-box.vala:20
 msgid "_About ProtonPlus"
 msgstr ""
 
@@ -46,8 +48,10 @@ msgstr "Произошла ошибка во время скачивания д�
 msgid "Cancel the installation"
 msgstr "Отменить установку"
 
-#: src/widgets/info-box.vala:218
-msgid "Delete the runner"
+#: src/widgets/release-row.vala:35 src/widgets/release-rows/basic.vala:26
+#: src/widgets/release-rows/steamtinkerlaunch.vala:53
+#, fuzzy, c-format
+msgid "Delete %s"
 msgstr "Удалить инструмент"
 
 #: src/widgets/info-box.vala:220
@@ -55,13 +59,15 @@ msgstr "Удалить инструмент"
 msgid "Are you sure you want to delete %s?"
 msgstr "Вы уверены, что хотите удалить %s?"
 
-#: src/widgets/info-box.vala:222
-msgid "Confirm"
-msgstr "Подтвердить"
+#: src/widgets/release-rows/basic.vala:28
+#: src/widgets/release-rows/steamtinkerlaunch.vala:55
+msgid "No"
+msgstr ""
 
-#: src/widgets/info-box.vala:234
-msgid "Install the runner"
-msgstr "Установить инструмент"
+#: src/widgets/release-rows/basic.vala:29
+#: src/widgets/release-rows/steamtinkerlaunch.vala:56
+msgid "Yes"
+msgstr ""
 
 #: src/widgets/info-box.vala:261 src/launchers/steam.vala:629
 #, c-format
@@ -93,7 +99,12 @@ msgstr "При извлечении %s произошла непредвиден
 msgid "An unexpected error occurred while installing %s."
 msgstr "При установке %s произошла непредвиденная ошибка."
 
-#: src/launchers/bottles.vala:6 src/launchers/steam.vala:6
+#: src/widgets/release-rows/steamtinkerlaunch.vala:180
+#, c-format
+msgid "Update %s to the latest version"
+msgstr ""
+
+#: src/models/launchers/bottles.vala:27 src/models/launchers/steam.vala:31
 msgid "Runners"
 msgstr "Инструменты"
 
@@ -162,7 +173,16 @@ msgstr ""
 msgid "Contains RTX fix for Star Citizen."
 msgstr "Содержит RTX-фикс для Star Citizen."
 
-#: src/launchers/steam.vala:63
+#: src/models/runners/proton-ge-rstp.vala:6
+#, fuzzy
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
+msgstr ""
+"Инструмент совместимости для Steam Play на основе Wine и дополнительных "
+"компонентов."
+
+#: src/models/runners/proton-ge.vala:6
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
@@ -206,8 +226,8 @@ msgstr ""
 
 #: src/launchers/steam.vala:81
 msgid ""
-"Steam compatibility tool based on Proton-GE with additional patches to "
-"improve RTSP codecs for VRChat."
+"Improved by Lutris to offer better compatibility or performance in certain "
+"games."
 msgstr ""
 "Инструмент совместимости Steam на основе Proton-GE с дополнительными "
 "исправлениями для улучшения RTSP-кодеков для VRChat."
@@ -407,9 +427,6 @@ msgstr "Отдельная благодарность"
 
 #~ msgid "Preferences"
 #~ msgstr "Настройки"
-
-#~ msgid "Main"
-#~ msgstr "Главная"
 
 #~ msgid "Telegram"
 #~ msgstr "Telegram"

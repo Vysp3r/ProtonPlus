@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class Proton_GE : GitHub {
-        public Proton_GE (Models.Group group) {
+        public Proton_GE (Group group) {
             Object (group: group,
                     title: "Proton-GE",
                     description: _("Steam compatibility tool for running Windows games with improvements over Valve's default Proton."),

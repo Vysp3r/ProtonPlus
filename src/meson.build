@@ -10,14 +10,13 @@ constants = configure_file(
 )
 
 sources = files(
-  'application.vala',
+  'main.vala',
 
-  'window.vala',
-
+  'widgets/application.vala',
+  'widgets/window.vala',
   'widgets/info-box.vala',
   'widgets/status-box.vala',
   'widgets/sidebar.vala',
-  'widgets/release-row-button.vala',
   'widgets/release-row.vala',
   'widgets/dialog.vala',
 

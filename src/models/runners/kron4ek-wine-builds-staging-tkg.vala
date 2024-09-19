@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class Wine_Staging_Tkg_Kron4ek : GitHub {
-        public Wine_Staging_Tkg_Kron4ek (Models.Group group) {
+        public Wine_Staging_Tkg_Kron4ek (Group group) {
             var request_asset_exclude = new string[] { "proton", ".0." };
             Object (group: group,
                     title: "Wine-Staging-Tkg (Kron4ek)",

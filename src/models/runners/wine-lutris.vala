@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Runners {
     public class Wine_Lutris : GitHub {
-        public Wine_Lutris (Models.Group group) {
+        public Wine_Lutris (Group group) {
             var request_asset_exclude = new string[] { "ge-lol" };
             Object (group: group,
                     title: "Wine-Lutris",
