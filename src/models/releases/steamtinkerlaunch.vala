@@ -241,7 +241,7 @@ namespace ProtonPlus.Models.Releases {
                 if (missing_dependencies != "") {
                     var dialog = new Adw.MessageDialog (Widgets.Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
                     dialog.add_response ("ok", _("OK"));
-                    dialog.show ();
+                    dialog.present ();
                     canceled = true;
                     return false;
                 }
@@ -329,9 +329,9 @@ namespace ProtonPlus.Models.Releases {
                     return false;
             }
 
-            var download_result = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, (is_percent, progress) => row.progress_label.set_text (is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress)));
+            var download_valid = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, (is_percent, progress) => row.install_dialog.progress_text = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
 
-            if (download_result != Utils.Web.DOWNLOAD_CODES.SUCCESS)
+            if (!download_valid)
                 return false;
 
 

@@ -1,29 +1,23 @@
 namespace ProtonPlus.Widgets.ReleaseRows {
     public class SteamTinkerLaunch : ReleaseRow {
         public Gtk.Button btn_upgrade { get; set; }
-        public Gtk.Button btn_info { get; set; }
+        public Dialogs.UpgradeDialog upgrade_dialog { get; set; }
 
         Models.Releases.SteamTinkerLaunch release;
 
-        public SteamTinkerLaunch () {
+        construct {
+            upgrade_dialog = new Dialogs.UpgradeDialog ();
+
             btn_upgrade = new Gtk.Button ();
             btn_upgrade.add_css_class ("flat");
 
-            btn_info = new Gtk.Button.from_icon_name ("info-circle-symbolic");
-            btn_info.set_tooltip_text (_("Show more information"));
-            btn_info.add_css_class ("flat");
-
             input_box.append (btn_upgrade);
-            input_box.append (btn_info);
         }
 
         public void initialize (Models.Releases.SteamTinkerLaunch release) {
             this.release = release;
 
             if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
-                input_box.remove (progress_label);
-                input_box.remove (spinner);
-                input_box.remove (btn_cancel);
                 input_box.remove (btn_remove);
                 input_box.remove (btn_upgrade);
                 input_box.remove (btn_install);
@@ -32,7 +26,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             } else {
                 input_box.remove (btn_info);
 
-                btn_cancel.clicked.connect (btn_cancel_clicked);
                 btn_remove.clicked.connect (btn_remove_clicked);
                 btn_install.clicked.connect (btn_install_clicked);
                 btn_upgrade.clicked.connect (btn_upgrade_clicked);
@@ -43,41 +36,57 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             notify_property ("ui-state");
         }
 
-        void btn_cancel_clicked () {
-            release.canceled = true;
-        }
-
         void btn_remove_clicked () {
             var remove_check = new Gtk.CheckButton.with_label (_("Check this to also remove your configuration files."));
 
-            var dialog = new Adw.MessageDialog (Application.window, _("Delete %s").printf (title), "%s\n\n%s".printf (_("You're about to remove %s from your system.").printf (title), _("Are you sure you want this?")));
-            dialog.set_extra_child (remove_check);
-            dialog.add_response ("no", _("No"));
-            dialog.add_response ("yes", _("Yes"));
-            dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
-            dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
-            dialog.show ();
-            dialog.response.connect ((response) => {
-                if (response == "yes") {
-                    activate_action_variant ("win.add-task", "");
+            var message_dialog = new Adw.MessageDialog (Application.window, _("Delete %s").printf (title), "%s\n\n%s".printf (_("You're about to remove %s from your system.").printf (title), _("Are you sure you want this?")));
 
-                    release.remove.begin (remove_check.get_active (), true, (obj, res) => {
-                        var success = release.remove.end (res);
+            message_dialog.add_response ("no", _("No"));
+            message_dialog.add_response ("yes", _("Yes"));
 
-                        activate_action_variant ("win.remove-task", "");
+            message_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
+            message_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
 
-                        if (success) {
-                            // Utils.GUI.send_toast (toast_overlay, _("The removal of %s is complete.").printf (title), 3);
-                        } else {
-                            // Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while removing %s.").printf (title), 5000);
-                        }
+            message_dialog.response.connect ((response) => {
+                if (response != "yes")
+                    return;
+
+                remove_dialog.reset ();
+
+                remove_dialog.present ();
+
+                remove_dialog.add_text (_("The removal of %s has begun.").printf (title));
+
+                activate_action_variant ("win.add-task", "");
+
+                release.remove.begin (remove_check.get_active (), true, (obj, res) => {
+                    var success = release.remove.end (res);
+
+                    activate_action_variant ("win.remove-task", "");
+
+                    if (success) {
+                        remove_dialog.add_text (_("The removal of %s is complete.").printf (title));
+                    } else {
+                        remove_dialog.add_text (_("An unexpected error occurred while removing %s.").printf (title));
+                    }
+
+                    Utils.System.sleep.begin (5000, (obj, res) => {
+                        Utils.System.sleep.end (res);
+
+                        remove_dialog.hide ();
                     });
-                }
+                });
             });
+
+            message_dialog.present ();
         }
 
         void btn_install_clicked () {
-            // Utils.GUI.send_toast (toast_overlay, _("The installation of %s has begun.").printf (title), 3);
+            install_dialog.reset ();
+
+            install_dialog.present ();
+
+            install_dialog.add_text (_("The installation of %s has begun.").printf (title));
 
             activate_action_variant ("win.add-task", "");
 
@@ -87,35 +96,50 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 activate_action_variant ("win.remove-task", "");
 
                 if (success) {
-                    // Utils.GUI.send_toast (toast_overlay, _("The installation of %s is complete.").printf (title), 3);
+                    install_dialog.add_text (_("The installation of %s is complete.").printf (title));
                 } else if (release.canceled) {
-                    // Utils.GUI.send_toast (toast_overlay, _("The installation of %s was canceled.").printf (title), 3);
+                    install_dialog.add_text (_("The installation of %s was canceled.").printf (title));
                 } else {
-                    // Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while installing %s.").printf (title), 5000);
+                    install_dialog.add_text (_("An unexpected error occurred while installing %s.").printf (title));
                 }
+
+                Utils.System.sleep.begin (5000, (obj, res) => {
+                    Utils.System.sleep.end (res);
+
+                    install_dialog.hide ();
+                });
             });
         }
 
         void btn_upgrade_clicked () {
-            if (release.updated) {
-                // Utils.GUI.send_toast (toast_overlay, _("%s is already up-to-date.").printf (title), 3);
-            } else {
-                // Utils.GUI.send_toast (toast_overlay, _("The upgrade of %s has begun.").printf (title), 3);
+            if (release.updated)
+                return;
 
-                activate_action_variant ("win.add-task", "");
+            upgrade_dialog.reset ();
 
-                release.upgrade.begin ((obj, res) => {
-                    var success = release.upgrade.end (res);
+            upgrade_dialog.present ();
 
-                    activate_action_variant ("win.remove-task", "");
+            upgrade_dialog.add_text (_("The upgrade of %s has begun.").printf (title));
 
-                    if (success) {
-                        // Utils.GUI.send_toast (toast_overlay, _("The upgrade of %s is complete.").printf (title), 3);
-                    } else {
-                        // Utils.GUI.send_toast (toast_overlay, _("An unexpected error occurred while upgrading %s.").printf (title), 5000);
-                    }
+            activate_action_variant ("win.add-task", "");
+
+            release.upgrade.begin ((obj, res) => {
+                var success = release.upgrade.end (res);
+
+                activate_action_variant ("win.remove-task", "");
+
+                if (success) {
+                    upgrade_dialog.add_text (_("The upgrade of %s is complete.").printf (title));
+                } else {
+                    upgrade_dialog.add_text (_("An unexpected error occurred while upgrading %s.").printf (title));
+                }
+
+                Utils.System.sleep.begin (5000, (obj, res) => {
+                    Utils.System.sleep.end (res);
+
+                    upgrade_dialog.hide ();
                 });
-            }
+            });
         }
 
         void btn_info_clicked () {
@@ -132,7 +156,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             }
             if (dialog != null) {
                 dialog.add_response ("ok", _("OK"));
-                dialog.show ();
+                dialog.present ();
             }
         }
 
@@ -141,18 +165,12 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             var show_install = false;
             var show_remove = false;
             var show_upgrade = false;
-            var show_cancel = false;
-            var show_progress_label = false;
-            var show_spinner = false;
+            var show_info = true;
 
             switch (ui_state) {
             case UIState.BUSY_INSTALLING:
             case UIState.BUSY_REMOVING:
-                show_spinner = true;
-                if (ui_state == UIState.BUSY_INSTALLING) {
-                    show_cancel = true;
-                    show_progress_label = true;
-                }
+                show_info = false;
                 break;
             case UIState.UP_TO_DATE:
             case UIState.UPDATE_AVAILABLE:
@@ -162,13 +180,8 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             case UIState.NOT_INSTALLED:
                 show_install = true;
                 break;
-            case UIState.NO_STATE:
-                // The UI state is not known yet. This value only exists
-                // because Gtk doesn't allow nullable Object properties.
-                break;
             default:
                 // Everything will be hidden in unknown states.
-                message (@"Unsupported UI State: $ui_state\n");
                 break;
             }
 
@@ -185,21 +198,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             btn_install.set_visible (show_install);
             btn_remove.set_visible (show_remove);
             btn_upgrade.set_visible (show_upgrade);
-            btn_cancel.set_visible (show_cancel);
-
-            if (show_progress_label)// Erase old progress text on state change.
-                progress_label.set_text ("");
-            progress_label.set_visible (show_progress_label);
-
-            if (show_spinner) {
-                spinner.start ();
-                spinner.set_visible (true);
-            } else {
-                spinner.stop ();
-                spinner.set_visible (false);
-            }
-
-            // message (@"UI State: $ui_state\n"); // For developers.
+            btn_info.set_visible (show_info);
         }
     }
 }

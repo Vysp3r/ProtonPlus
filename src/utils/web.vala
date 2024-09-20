@@ -24,13 +24,7 @@ namespace ProtonPlus.Utils {
 
         public delegate void progress_callback (bool is_percent, int64 progress);
 
-        public enum DOWNLOAD_CODES {
-            API_ERROR,
-            UNEXPECTED_ERROR,
-            SUCCESS
-        }
-
-        public static async DOWNLOAD_CODES Download (string url, string path, cancel_callback cancel_callback, progress_callback progress_callback) {
+        public static async bool Download (string url, string path, cancel_callback cancel_callback, progress_callback progress_callback) {
             try {
                 var session = new Soup.Session ();
                 session.set_user_agent (get_user_agent ());
@@ -41,7 +35,7 @@ namespace ProtonPlus.Utils {
 
                 if (soup_message.status_code != 200) {
                     message (soup_message.reason_phrase);
-                    return DOWNLOAD_CODES.API_ERROR;
+                    return false;
                 }
 
                 var file = File.new_for_path (path);
@@ -96,10 +90,10 @@ namespace ProtonPlus.Utils {
 
                 session.abort ();
 
-                return DOWNLOAD_CODES.SUCCESS;
+                return true;
             } catch (Error e) {
                 message (e.message);
-                return DOWNLOAD_CODES.UNEXPECTED_ERROR;
+                return false;
             }
         }
     }

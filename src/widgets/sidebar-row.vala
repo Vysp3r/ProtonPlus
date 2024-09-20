@@ -7,7 +7,7 @@ namespace ProtonPlus.Widgets {
             icon.set_pixel_size (48);
 
             add_prefix (icon);
-            add_css_class ("sidebar-item");
+            add_css_class ("sidebar-row");
             set_title (title);
             set_subtitle (type);
         }

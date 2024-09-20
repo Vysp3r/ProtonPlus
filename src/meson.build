@@ -27,6 +27,10 @@ sources = files(
   'widgets/release-rows/steamtinkerlaunch.vala',
   'widgets/release-rows/basic.vala',
 
+  'widgets/dialogs/install-dialog.vala',
+  'widgets/dialogs/upgrade-dialog.vala',
+  'widgets/dialogs/remove-dialog.vala',
+
   'models/group.vala',
   'models/launcher.vala',
   'models/release.vala',
@@ -63,6 +67,7 @@ sources = files(
   'models/runners/vkd3d-proton.vala',
 
   'models/releases/basic.vala',
+  'models/releases/github-action.vala',
   'models/releases/steamtinkerlaunch.vala',
 
   'utils/filesystem.vala',
