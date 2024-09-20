@@ -1,5 +1,7 @@
-/* sidebar */
-
-.sidebar-item {
+.sidebar-row {
   padding: 7px;
+}
+
+.console-dialog {
+  padding: 10px;
 }

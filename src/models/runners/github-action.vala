@@ -31,7 +31,7 @@ namespace ProtonPlus.Models.Runners {
                 string artifacts_url = object.get_string_member ("artifacts_url");
 
                 if (object.get_string_member_with_default ("status", "") == "completed" && object.get_string_member_with_default ("conclusion", "") == "success") {
-                    var release = new Releases.Basic.github_action (this, title, release_date, download_url, page_url, artifacts_url);
+                    var release = new Releases.GitHubAction (this, title, release_date, download_url, page_url, artifacts_url);
 
                     releases.append (release);
                     temp_releases.append (release);

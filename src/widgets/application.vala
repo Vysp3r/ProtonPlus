@@ -99,7 +99,7 @@ namespace ProtonPlus.Widgets {
             about_window.set_transient_for (window);
             about_window.set_modal (true);
 
-            about_window.show ();
+            about_window.present ();
         }
     }
 }
