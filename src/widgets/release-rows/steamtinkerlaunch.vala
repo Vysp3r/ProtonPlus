@@ -31,15 +31,21 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 btn_upgrade.clicked.connect (btn_upgrade_clicked);
             }
 
-            notify["ui-state"].connect (ui_state_changed);
+            release.send_message.connect (dialog_message_received);
 
-            notify_property ("ui-state");
+            release.notify["installed"].connect (refresh_ui);
+
+            release.notify["updated"].connect (refresh_ui);
+
+            refresh_ui ();
         }
 
         void btn_remove_clicked () {
             var remove_check = new Gtk.CheckButton.with_label (_("Check this to also remove your configuration files."));
 
-            var message_dialog = new Adw.MessageDialog (Application.window, _("Delete %s").printf (title), "%s\n\n%s".printf (_("You're about to remove %s from your system.").printf (title), _("Are you sure you want this?")));
+            var message_dialog = new Adw.MessageDialog (Application.window, _("Delete %s").printf (release.title), "%s\n\n%s".printf (_("You're about to remove %s from your system.").printf (release.title), _("Are you sure you want this?")));
+
+            message_dialog.set_extra_child (remove_check);
 
             message_dialog.add_response ("no", _("No"));
             message_dialog.add_response ("yes", _("Yes"));
@@ -51,30 +57,18 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 if (response != "yes")
                     return;
 
+                activate_action_variant ("win.add-task", "");
+
                 remove_dialog.reset ();
 
                 remove_dialog.present ();
 
-                remove_dialog.add_text (_("The removal of %s has begun.").printf (title));
-
-                activate_action_variant ("win.add-task", "");
-
                 release.remove.begin (remove_check.get_active (), true, (obj, res) => {
                     var success = release.remove.end (res);
 
+                    remove_dialog.done (success);
+
                     activate_action_variant ("win.remove-task", "");
-
-                    if (success) {
-                        remove_dialog.add_text (_("The removal of %s is complete.").printf (title));
-                    } else {
-                        remove_dialog.add_text (_("An unexpected error occurred while removing %s.").printf (title));
-                    }
-
-                    Utils.System.sleep.begin (5000, (obj, res) => {
-                        Utils.System.sleep.end (res);
-
-                        remove_dialog.hide ();
-                    });
                 });
             });
 
@@ -82,32 +76,77 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         void btn_install_clicked () {
+            // Steam Deck doesn't need any external dependencies.
+            if (!Utils.System.IS_STEAM_OS) {
+                var missing_dependencies = "";
+
+                var yad_installed = false;
+                if (Utils.System.check_dependency ("yad")) {
+                    string stdout = Utils.System.run_command ("yad --version");
+                    float version = float.parse (stdout.split (" ")[0]);
+                    yad_installed = version >= 7.2;
+                }
+                if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
+
+                if (!Utils.System.check_dependency ("awk") && !Utils.System.check_dependency ("gawk"))missing_dependencies += "awk/gawk\n";
+                if (!Utils.System.check_dependency ("git"))missing_dependencies += "git\n";
+                if (!Utils.System.check_dependency ("pgrep"))missing_dependencies += "pgrep\n";
+                if (!Utils.System.check_dependency ("unzip"))missing_dependencies += "unzip\n";
+                if (!Utils.System.check_dependency ("wget"))missing_dependencies += "wget\n";
+                if (!Utils.System.check_dependency ("xdotool"))missing_dependencies += "xdotool\n";
+                if (!Utils.System.check_dependency ("xprop"))missing_dependencies += "xprop\n";
+                if (!Utils.System.check_dependency ("xrandr"))missing_dependencies += "xrandr\n";
+                if (!Utils.System.check_dependency ("xxd"))missing_dependencies += "xxd\n";
+                if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
+
+                if (missing_dependencies != "") {
+                    var dialog = new Adw.MessageDialog (Widgets.Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
+
+                    dialog.add_response ("ok", _("OK"));
+
+                    dialog.present ();
+
+                    return;
+                }
+            }
+
+            var has_external_install = release.detect_external_locations ();
+
+            if (has_external_install) {
+                var dialog = new Adw.MessageDialog (Widgets.Application.window, _("Existing installation of %s").printf (title), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title), _("Do you want to delete it and install %s with ProtonPlus?").printf (title)));
+
+                dialog.add_response ("cancel", _("Cancel"));
+                dialog.add_response ("ok", _("OK"));
+
+                dialog.set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);
+                dialog.set_response_appearance ("ok", Adw.ResponseAppearance.DESTRUCTIVE);
+
+                dialog.choose.begin (null, (obj, res) => {
+                    string response = dialog.choose.end (res);
+
+                    if (response != "ok")
+                        return;
+
+                    start_install ();
+                });
+            } else {
+                start_install ();
+            }
+        }
+
+        void start_install () {
+            activate_action_variant ("win.add-task", "");
+
             install_dialog.reset ();
 
             install_dialog.present ();
 
-            install_dialog.add_text (_("The installation of %s has begun.").printf (title));
-
-            activate_action_variant ("win.add-task", "");
-
             release.install.begin ((obj, res) => {
                 var success = release.install.end (res);
 
+                install_dialog.done (success);
+
                 activate_action_variant ("win.remove-task", "");
-
-                if (success) {
-                    install_dialog.add_text (_("The installation of %s is complete.").printf (title));
-                } else if (release.canceled) {
-                    install_dialog.add_text (_("The installation of %s was canceled.").printf (title));
-                } else {
-                    install_dialog.add_text (_("An unexpected error occurred while installing %s.").printf (title));
-                }
-
-                Utils.System.sleep.begin (5000, (obj, res) => {
-                    Utils.System.sleep.end (res);
-
-                    install_dialog.hide ();
-                });
             });
         }
 
@@ -115,30 +154,18 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             if (release.updated)
                 return;
 
+            activate_action_variant ("win.add-task", "");
+
             upgrade_dialog.reset ();
 
-            upgrade_dialog.present ();
-
-            upgrade_dialog.add_text (_("The upgrade of %s has begun.").printf (title));
-
-            activate_action_variant ("win.add-task", "");
+            upgrade_dialog.show ();
 
             release.upgrade.begin ((obj, res) => {
                 var success = release.upgrade.end (res);
 
+                upgrade_dialog.done (success);
+
                 activate_action_variant ("win.remove-task", "");
-
-                if (success) {
-                    upgrade_dialog.add_text (_("The upgrade of %s is complete.").printf (title));
-                } else {
-                    upgrade_dialog.add_text (_("An unexpected error occurred while upgrading %s.").printf (title));
-                }
-
-                Utils.System.sleep.begin (5000, (obj, res) => {
-                    Utils.System.sleep.end (res);
-
-                    upgrade_dialog.hide ();
-                });
             });
         }
 
@@ -146,59 +173,37 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             Adw.MessageDialog? dialog = null;
             switch (release.runner.group.launcher.installation_type) {
             case Models.Launcher.InstallationTypes.FLATPAK :
-                dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Flatpak"), "%s\n\n%s".printf (_("To install %s for the %s, please run the following command:").printf (title, "Steam Flatpak"), "flatpak install com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
+                dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Flatpak"), "%s\n\n%s".printf (_("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"), "flatpak install com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
                 break;
             case Models.Launcher.InstallationTypes.SNAP:
-                dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Snap"), _("There's currently no known way for us to install %s for the %s.").printf (title, "Steam Snap"));
+                dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Snap"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
                 break;
             default:
                 break;
             }
             if (dialog != null) {
                 dialog.add_response ("ok", _("OK"));
+
                 dialog.present ();
             }
         }
 
-        void ui_state_changed () {
-            // Determine which UI widgets to show in each UI state.
-            var show_install = false;
-            var show_remove = false;
-            var show_upgrade = false;
-            var show_info = true;
+        void refresh_ui () {
+            btn_install.set_visible (!release.installed);
+            btn_remove.set_visible (release.installed);
+            btn_upgrade.set_visible (release.installed);
 
-            switch (ui_state) {
-            case UIState.BUSY_INSTALLING:
-            case UIState.BUSY_REMOVING:
-                show_info = false;
-                break;
-            case UIState.UP_TO_DATE:
-            case UIState.UPDATE_AVAILABLE:
-                show_remove = true;
-                show_upgrade = true;
-                break;
-            case UIState.NOT_INSTALLED:
-                show_install = true;
-                break;
-            default:
-                // Everything will be hidden in unknown states.
-                break;
+            if (btn_upgrade.get_visible ()) {
+                btn_upgrade.set_icon_name (release.updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
+                btn_upgrade.set_tooltip_text (release.updated ? _("%s is up-to-date").printf (release.title) : _("Update %s to the latest version").printf (release.title));
             }
+        }
 
-
-            // Use the correct icon and tooltip for the upgrade button.
-            if (show_upgrade) {
-                var icon_upgrade = (Gtk.Image) btn_upgrade.get_child ();
-                icon_upgrade.set_from_icon_name (release.updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
-                btn_upgrade.set_tooltip_text (release.updated ? _("%s is up-to-date").printf (title) : _("Update %s to the latest version").printf (title));
-            }
-
-
-            // Configure UI widgets for the new state.
-            btn_install.set_visible (show_install);
-            btn_remove.set_visible (show_remove);
-            btn_upgrade.set_visible (show_upgrade);
-            btn_info.set_visible (show_info);
+        void dialog_message_received (string message) {
+            if (release.installed)
+                remove_dialog.add_text (message);
+            else
+                install_dialog.add_text (message);
         }
     }
 }

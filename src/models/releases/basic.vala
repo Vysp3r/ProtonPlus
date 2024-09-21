@@ -31,59 +31,86 @@ namespace ProtonPlus.Models.Releases {
 
             this.row = row;
 
-            refresh_interface_state ();
-        }
-
-        internal override void refresh_interface_state (bool can_reset_processing = false) {
             installed = FileUtils.test (install_location, FileTest.IS_DIR);
-
-            var change_state = (can_reset_processing
-                                || (row.ui_state != Widgets.ReleaseRow.UIState.BUSY_INSTALLING
-                                    && row.ui_state != Widgets.ReleaseRow.UIState.BUSY_REMOVING));
-            if (change_state)
-                row.ui_state = installed ? Widgets.ReleaseRow.UIState.INSTALLED : Widgets.ReleaseRow.UIState.NOT_INSTALLED;
         }
 
         public virtual async bool install () {
-            row.ui_state = Widgets.ReleaseRow.UIState.BUSY_INSTALLING;
+            send_message (_("The installation of %s has begun.").printf (title));
+
+            send_message (_("Downloading..."));
 
             string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".tar.gz";
 
             var download_valid = yield Utils.Web.Download (download_url, path, () => canceled, (is_percent, progress) => row.install_dialog.progress_text = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
 
-            if (!download_valid)
+            if (!download_valid) {
+                install_error ();
                 return false;
+            }
+
+            send_message (_("Extracting..."));
 
             string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
 
             string source_path = yield Utils.Filesystem.extract (directory, title, ".tar.gz", () => canceled);
 
-            if (source_path == "")
+            if (source_path == "") {
+                install_error ();
                 return false;
+            }
+
+            send_message (_("Renaming..."));
 
             var runner = this.runner as Runners.Basic;
 
-            yield Utils.Filesystem.rename (source_path, directory + runner.get_directory_name (title));
+            var renaming_valid = yield Utils.Filesystem.rename (source_path, directory + runner.get_directory_name (title));
+
+            if (!renaming_valid) {
+                install_error ();
+                return false;
+            }
+
+            send_message (_("Running post installation script..."));
 
             runner.group.launcher.install (this);
 
-            refresh_interface_state (true);
+            send_message (_("The installation of %s is complete.").printf (title));
+
+            installed = true;
 
             return true;
         }
 
+        protected void install_error () {
+            if (canceled)
+                send_message (_("The installation of %s was canceled.").printf (title));
+            else
+                send_message (_("An unexpected error occurred while installing %s.").printf (title));
+        }
+
         public virtual async bool remove () {
-            row.ui_state = Widgets.ReleaseRow.UIState.BUSY_REMOVING;
+            send_message (_("The removal of %s has begun.").printf (title));
 
             var deleted = yield Utils.Filesystem.delete_directory (install_location);
 
-            if (deleted) {
-                runner.group.launcher.uninstall (this);
+            if (!deleted) {
+                remove_error ();
+                return false;
             }
 
-            refresh_interface_state (true);
+            send_message (_("Running post removal script..."));
 
-            return deleted;
+            runner.group.launcher.uninstall (this);
+
+            send_message (_("The removal of %s is complete.").printf (title));
+
+            installed = false;
+
+            return true;
+        }
+
+        protected void remove_error () {
+            send_message (_("An unexpected error occurred while removing %s.").printf (title));
         }
     }
 }

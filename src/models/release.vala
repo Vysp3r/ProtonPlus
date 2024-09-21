@@ -9,9 +9,9 @@ namespace ProtonPlus.Models {
         public string download_url { get; set; }
         public string page_url { get; set; }
 
-        internal bool installed { get; set; }
+        public bool installed { get; set; }
         internal bool canceled { get; set; }
 
-        internal abstract void refresh_interface_state(bool can_reset_processing = false);
+        public signal void send_message (string message);
     }
 }

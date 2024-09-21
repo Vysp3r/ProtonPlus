@@ -1,6 +1,7 @@
 namespace ProtonPlus.Models.Releases {
     public class SteamTinkerLaunch : Release {
         public bool updated { get; set; }
+        public bool upgrading { get; set; } // TODO Find better solution
 
         string home_location { get; set; }
         string compat_location { get; set; }
@@ -132,7 +133,7 @@ namespace ProtonPlus.Models.Releases {
             }
         }
 
-        internal override void refresh_interface_state (bool can_reset_processing = false) {
+        void refresh_interface_state (bool can_reset_processing = false) {
             // Update the ProtonPlus UI state variables.
             // NOTE: We treat a non-executable binary as a "broken installation".
             var base_location_exists = FileUtils.test (base_location, FileTest.IS_DIR);
@@ -180,22 +181,13 @@ namespace ProtonPlus.Models.Releases {
             // NOTE: We ALWAYS allow title change, to ensure the latest version's
             // title immediately appears during "upgrade" of an installation.
             row.set_title (_row_title);
-            var change_state = (can_reset_processing
-                                || (row.ui_state != Widgets.ReleaseRow.UIState.BUSY_INSTALLING
-                                    && row.ui_state != Widgets.ReleaseRow.UIState.BUSY_REMOVING));
-            if (change_state) {
-                if (installed)
-                    row.ui_state = updated ? Widgets.ReleaseRow.UIState.UP_TO_DATE : Widgets.ReleaseRow.UIState.UPDATE_AVAILABLE;
-                else
-                    row.ui_state = Widgets.ReleaseRow.UIState.NOT_INSTALLED;
-            }
         }
 
         void write_installation_metadata (string meta_location) {
             Utils.Filesystem.create_file (meta_location, @"$latest_date:$latest_hash");
         }
 
-        bool detect_external_locations () {
+        public bool detect_external_locations () {
             if (external_locations.length () > 0)
                 external_locations = new List<string> ();
 
@@ -215,74 +207,10 @@ namespace ProtonPlus.Models.Releases {
         }
 
         public async bool install () {
-            // Steam Deck doesn't need any external dependencies.
-            if (!Utils.System.IS_STEAM_OS) {
-                var missing_dependencies = "";
-
-                var yad_installed = false;
-                if (Utils.System.check_dependency ("yad")) {
-                    string stdout = Utils.System.run_command ("yad --version");
-                    float version = float.parse (stdout.split (" ")[0]);
-                    yad_installed = version >= 7.2;
-                }
-                if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
-
-                if (!Utils.System.check_dependency ("awk") && !Utils.System.check_dependency ("gawk"))missing_dependencies += "awk/gawk\n";
-                if (!Utils.System.check_dependency ("git"))missing_dependencies += "git\n";
-                if (!Utils.System.check_dependency ("pgrep"))missing_dependencies += "pgrep\n";
-                if (!Utils.System.check_dependency ("unzip"))missing_dependencies += "unzip\n";
-                if (!Utils.System.check_dependency ("wget"))missing_dependencies += "wget\n";
-                if (!Utils.System.check_dependency ("xdotool"))missing_dependencies += "xdotool\n";
-                if (!Utils.System.check_dependency ("xprop"))missing_dependencies += "xprop\n";
-                if (!Utils.System.check_dependency ("xrandr"))missing_dependencies += "xrandr\n";
-                if (!Utils.System.check_dependency ("xxd"))missing_dependencies += "xxd\n";
-                if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
-
-                if (missing_dependencies != "") {
-                    var dialog = new Adw.MessageDialog (Widgets.Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
-                    dialog.add_response ("ok", _("OK"));
-                    dialog.present ();
-                    canceled = true;
-                    return false;
-                }
-            }
-
-            var has_external_install = detect_external_locations ();
-
-            if (has_external_install) {
-                var dialog = new Adw.MessageDialog (Widgets.Application.window, _("Existing installation of %s").printf (title), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title), _("Do you want to delete it and install %s with ProtonPlus?").printf (title)));
-                dialog.add_response ("cancel", _("Cancel"));
-                dialog.add_response ("ok", _("OK"));
-                dialog.set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);
-                dialog.set_response_appearance ("ok", Adw.ResponseAppearance.DESTRUCTIVE);
-
-                string response = yield dialog.choose (null);
-
-                if (response != "ok") {
-                    canceled = true;
-                    return false;
-                }
-
-                if (Utils.System.check_dependency ("steamtinkerlaunch"))
-                    Utils.System.run_command ("steamtinkerlaunch compat del");
-
-                exec_stl_if_exists (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
-
-                foreach (var location in external_locations) {
-                    var deleted = yield Utils.Filesystem.delete_directory (location);
-
-                    if (!deleted)
-                        return false;
-                }
-            }
-
-
-            // We have to force the GUI to show the "busy installing" state.
-            row.ui_state = Widgets.ReleaseRow.UIState.BUSY_INSTALLING;
-
+            send_message (_("The installation of %s has begun.").printf (title));
 
             // Attempt the installation.
-            var install_success = yield _download_and_install ();
+            var install_success = yield start_install ();
 
             if (!install_success) {
                 // Attempt to clean up any leftover files and symlinks,
@@ -292,13 +220,26 @@ namespace ProtonPlus.Models.Releases {
                 return false;
             }
 
-
             refresh_interface_state (true); // Force UI state refresh.
+
+            send_message (_("The installation of %s is complete.").printf (title));
 
             return true;
         }
 
-        async bool _download_and_install () {
+        async bool start_install () {
+            if (Utils.System.check_dependency ("steamtinkerlaunch"))
+                Utils.System.run_command ("steamtinkerlaunch compat del");
+
+            exec_stl_if_exists (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
+
+            foreach (var location in external_locations) {
+                var deleted = yield Utils.Filesystem.delete_directory (location);
+
+                if (!deleted)
+                    return false;
+            }
+
             // Always clean destination to avoid merging with existing files.
             // NOTE: We check for ANY existing (conflicting) file, not just
             // dirs. The `remove` function then validates the actual types.
@@ -329,11 +270,14 @@ namespace ProtonPlus.Models.Releases {
                     return false;
             }
 
+            send_message (_("Downloading..."));
+
             var download_valid = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, (is_percent, progress) => row.install_dialog.progress_text = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
 
             if (!download_valid)
                 return false;
 
+            send_message (_("Extracting..."));
 
             // Extract archive and move its contents to the installation directory.
             string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => canceled);
@@ -380,12 +324,31 @@ namespace ProtonPlus.Models.Releases {
         }
 
         public async bool upgrade () {
-            var remove_success = yield remove (false);
+            send_message (_("The upgrade of %s has begun.").printf (title));
+
+            upgrading = true;
+
+            var upgrade_success = yield start_upgrade ();
+
+            if (!upgrade_success) {
+                send_message (_("An unexpected error occurred while upgrading %s."));
+                return false;
+            }
+
+            send_message (_("The upgrade of %s is complete.").printf (title));
+
+            upgrading = false;
+
+            return true;
+        }
+
+        async bool start_upgrade () {
+            var remove_success = yield start_remove (false);
 
             if (!remove_success)
                 return false;
 
-            var install_success = yield install ();
+            var install_success = yield start_install ();
 
             if (!install_success)
                 return false;
@@ -394,19 +357,19 @@ namespace ProtonPlus.Models.Releases {
         }
 
         public async bool remove (bool delete_config, bool user_request = false) {
-            // We have to force the GUI to show the "busy removing" state.
-            row.ui_state = Widgets.ReleaseRow.UIState.BUSY_REMOVING;
-
+            send_message (_("The removal of %s has begun.").printf (title));
 
             // Attempt the removal.
-            var remove_success = yield _remove_installation (delete_config, user_request);
+            var remove_success = yield start_remove (delete_config, user_request);
 
             refresh_interface_state (true); // Force UI state refresh.
+
+            send_message (_("The removal of %s is complete.").printf (title));
 
             return remove_success;
         }
 
-        async bool _remove_installation (bool delete_config, bool user_request = false) {
+        async bool start_remove (bool delete_config, bool user_request = false) {
             exec_stl_if_exists (binary_location, "compat del");
 
             // NOTE: We check specific types to avoid deleting unexpected data.
