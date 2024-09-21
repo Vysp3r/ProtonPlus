@@ -52,16 +52,5 @@ namespace ProtonPlus.Utils {
                 }
             });
         }
-
-        public static async void sleep (int miliseconds) {
-            SourceFunc callback = sleep.callback;
-
-            new Thread<void> ("sleep", () => {
-                Thread.usleep (miliseconds * 1000);
-                Idle.add ((owned) callback, Priority.DEFAULT);
-            });
-
-            yield;
-        }
     }
 }

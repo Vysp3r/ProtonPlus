@@ -90,7 +90,7 @@ namespace ProtonPlus.Utils {
 
                 session.abort ();
 
-                return true;
+                return !cancel_callback ();
             } catch (Error e) {
                 message (e.message);
                 return false;
