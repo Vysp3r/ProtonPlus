@@ -28,33 +28,13 @@ namespace ProtonPlus.Models.Releases {
             install_location = runner.group.launcher.directory + runner.group.directory + "/" + runner.get_directory_name (title);
         }
 
-        protected void refresh_state () {
+        protected override void refresh_state () {
             canceled = false;
 
             state = FileUtils.test (install_location, FileTest.IS_DIR) ? State.UP_TO_DATE : State.NOT_INSTALLED;
         }
 
-        public async bool install () {
-            state = State.BUSY_INSTALLING;
-
-            var install_success = yield _start_install ();
-
-            if (canceled)
-                send_message (_("The installation of %s was canceled.").printf (title));
-            else if (install_success)
-                send_message (_("The installation of %s is complete.").printf (title));
-            else
-                send_message (_("An unexpected error occurred while installing %s.").printf (title));
-
-            if (canceled || !install_success)
-                yield remove ();
-
-            refresh_state ();
-
-            return true;
-        }
-
-        protected virtual async bool _start_install () {
+        protected override async bool _start_install () {
             send_message (_("Downloading..."));
 
             string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".tar.gz";
@@ -92,25 +72,7 @@ namespace ProtonPlus.Models.Releases {
             return true;
         }
 
-        public async bool remove () {
-            var busy_installing = state == State.BUSY_INSTALLING;
-
-            if (!busy_installing)
-                state = State.BUSY_REMOVING;
-
-            var remove_success = yield _start_remove ();
-
-            if (remove_success && !busy_installing)
-                send_message (_("The removal of %s is complete.").printf (title));
-            else if (!busy_installing)
-                send_message (_("An unexpected error occurred while removing %s.").printf (title));
-
-            refresh_state ();
-
-            return true;
-        }
-
-        protected virtual async bool _start_remove () {
+        protected override async bool _start_remove (Variant variant) {
             send_message (_("Deleting..."));
 
             var deleted = yield Utils.Filesystem.delete_directory (install_location);

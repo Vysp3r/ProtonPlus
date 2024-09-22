@@ -49,7 +49,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
                 remove_dialog.present ();
 
-                release.remove.begin ((obj, res) => {
+                release.remove.begin ("", (obj, res) => {
                     var success = release.remove.end (res);
 
                     remove_dialog.done (success);
