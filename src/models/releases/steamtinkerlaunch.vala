@@ -220,9 +220,9 @@ namespace ProtonPlus.Models.Releases {
                 return false;
             }
 
-            refresh_interface_state (true); // Force UI state refresh.
-
             send_message (_("The installation of %s is complete.").printf (title));
+
+            refresh_interface_state (true); // Force UI state refresh.
 
             return true;
         }
@@ -324,9 +324,9 @@ namespace ProtonPlus.Models.Releases {
         }
 
         public async bool upgrade () {
-            send_message (_("The upgrade of %s has begun.").printf (title));
-
             upgrading = true;
+
+            send_message (_("The upgrade of %s has begun.").printf (title));
 
             var upgrade_success = yield start_upgrade ();
 
@@ -338,6 +338,8 @@ namespace ProtonPlus.Models.Releases {
             send_message (_("The upgrade of %s is complete.").printf (title));
 
             upgrading = false;
+
+            refresh_interface_state (true); // Force UI state refresh.
 
             return true;
         }
@@ -362,9 +364,9 @@ namespace ProtonPlus.Models.Releases {
             // Attempt the removal.
             var remove_success = yield start_remove (delete_config, user_request);
 
-            refresh_interface_state (true); // Force UI state refresh.
-
             send_message (_("The removal of %s is complete.").printf (title));
+
+            refresh_interface_state (true); // Force UI state refresh.
 
             return remove_success;
         }

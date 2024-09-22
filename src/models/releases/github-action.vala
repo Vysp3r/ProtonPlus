@@ -5,9 +5,9 @@ namespace ProtonPlus.Models.Releases {
         public GitHubAction (Runners.Basic runner, string title, string release_date, string download_url, string page_url, string artifacts_url) {
             this.artifacts_url = artifacts_url;
 
-            row.set_title (@"$title ($release_date)");
-
             shared (runner, title, release_date, download_url, page_url);
+
+            row.set_title (@"$title ($release_date)");
         }
 
         public override async bool install () {
@@ -51,7 +51,7 @@ namespace ProtonPlus.Models.Releases {
 
             installed = true;
 
-            return false;
+            return true;
         }
     }
 }
