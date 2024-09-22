@@ -24,7 +24,15 @@ namespace ProtonPlus.Widgets {
                     var releases = runner.load.end (res);
 
                     foreach (var release in releases) {
-                        add_row (release.row);
+                        if (release is Models.Releases.Basic || release is Models.Releases.GitHubAction) {
+                            var row = new Widgets.ReleaseRows.Basic ();
+                            row.initialize ((Models.Releases.Basic) release);
+                            add_row (row);
+                        } else if (release is Models.Releases.SteamTinkerLaunch) {
+                            var row = new Widgets.ReleaseRows.SteamTinkerLaunch ();
+                            row.initialize ((Models.Releases.SteamTinkerLaunch) release);
+                            add_row (row);
+                        }
                     }
 
                     // TODO Add a way to add the load more row if needed

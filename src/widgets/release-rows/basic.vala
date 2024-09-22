@@ -6,23 +6,26 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             btn_remove.clicked.connect (btn_remove_clicked);
             btn_install.clicked.connect (btn_install_clicked);
             btn_info.clicked.connect (btn_info_clicked);
-
-            install_dialog.cancel_button.clicked.connect (() => release.canceled = true);
         }
 
         public void initialize (Models.Releases.Basic release) {
             this.release = release;
 
-            set_title (release.title);
+            install_dialog.initialize (release);
+            remove_dialog.initialize (release);
 
             if (release.description == null || release.page_url == null)
                 input_box.remove (btn_info);
 
             release.send_message.connect (dialog_message_received);
 
-            release.notify["installed"].connect (refresh_ui);
+            release.notify["displayed-title"].connect (release_displayed_title_changed);
 
-            refresh_ui ();
+            release_displayed_title_changed ();
+
+            release.notify["state"].connect (release_state_changed);
+
+            release_state_changed ();
         }
 
         void btn_remove_clicked () {
@@ -89,16 +92,27 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             });
         }
 
-        void refresh_ui () {
-            btn_install.set_visible (!release.installed);
-            btn_remove.set_visible (release.installed);
+        void release_displayed_title_changed () {
+            set_title (release.displayed_title);
+        }
+
+        void release_state_changed () {
+            var installed = release.state == Models.Releases.Basic.State.INSTALLED;
+
+            btn_install.set_visible (!installed);
+            btn_remove.set_visible (installed);
         }
 
         void dialog_message_received (string message) {
-            if (release.installed) {
-                remove_dialog.add_text (message);
-            } else {
+            switch (release.state) {
+            case Models.Releases.Basic.State.BUSY_INSTALLING:
                 install_dialog.add_text (message);
+                break;
+            case Models.Releases.Basic.State.BUSY_REMOVING:
+                remove_dialog.add_text (message);
+                break;
+            default:
+                break;
             }
         }
     }

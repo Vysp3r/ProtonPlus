@@ -39,9 +39,8 @@ namespace ProtonPlus.Utils {
                 }
 
                 var file = File.new_for_path (path);
-                if (file.query_exists ()) {
+                if (file.query_exists ())
                     yield file.delete_async (Priority.DEFAULT, null);
-                }
 
                 FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, Priority.DEFAULT, null);
 
@@ -59,23 +58,21 @@ namespace ProtonPlus.Utils {
                 bool is_percent = server_download_size > 0;
                 int64 bytes_downloaded = 0;
 
-                if (progress_callback != null) {
+                if (progress_callback != null)
                     progress_callback (is_percent, 0); // Set initial progress state.
-                }
+
+                var is_canceled = false;
 
                 while (true) {
                     if (cancel_callback ()) {
-                        if (file.query_exists ()) {
-                            yield file.delete_async (Priority.DEFAULT, null);
-                        }
+                        is_canceled = true;
                         break;
                     }
 
                     var chunk = yield input_stream.read_bytes_async (chunk_size);
 
-                    if (chunk.get_size () == 0) {
+                    if (chunk.get_size () == 0)
                         break;
-                    }
 
                     bytes_downloaded += output_stream.write (chunk.get_data ());
 
@@ -90,7 +87,10 @@ namespace ProtonPlus.Utils {
 
                 session.abort ();
 
-                return !cancel_callback ();
+                if (is_canceled && file.query_exists ())
+                    yield file.delete_async (Priority.DEFAULT, null);
+
+                return !is_canceled;
             } catch (Error e) {
                 message (e.message);
                 return false;

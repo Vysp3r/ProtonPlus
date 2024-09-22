@@ -17,6 +17,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         public void initialize (Models.Releases.SteamTinkerLaunch release) {
             this.release = release;
 
+            install_dialog.initialize (release);
+            remove_dialog.initialize (release);
+            upgrade_dialog.initialize (release);
+
             if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
                 input_box.remove (btn_remove);
                 input_box.remove (btn_upgrade);
@@ -33,11 +37,13 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
             release.send_message.connect (dialog_message_received);
 
-            release.notify["installed"].connect (refresh_ui);
+            release.notify["displayed-title"].connect (release_displayed_title_changed);
 
-            release.notify["updated"].connect (refresh_ui);
+            release_displayed_title_changed ();
 
-            refresh_ui ();
+            release.notify["state"].connect (release_state_changed);
+
+            release_state_changed ();
         }
 
         void btn_remove_clicked () {
@@ -151,7 +157,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         void btn_upgrade_clicked () {
-            if (release.updated)
+            if (release.state == Models.Releases.SteamTinkerLaunch.State.UP_TO_DATE)
                 return;
 
             activate_action_variant ("win.add-task", "");
@@ -191,25 +197,38 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             }
         }
 
-        void refresh_ui () {
-            btn_install.set_visible (!release.installed);
-            btn_remove.set_visible (release.installed);
-            btn_upgrade.set_visible (release.installed);
+        void release_displayed_title_changed () {
+            set_title (release.displayed_title);
+        }
+
+        void release_state_changed () {
+            var installed = release.state == Models.Releases.SteamTinkerLaunch.State.UP_TO_DATE || release.state == Models.Releases.SteamTinkerLaunch.State.UPDATE_AVAILABLE;
+            var updated = release.state == Models.Releases.SteamTinkerLaunch.State.UP_TO_DATE;
+
+            btn_install.set_visible (!installed);
+            btn_remove.set_visible (installed);
+            btn_upgrade.set_visible (installed);
 
             if (btn_upgrade.get_visible ()) {
-                btn_upgrade.set_icon_name (release.updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
-                btn_upgrade.set_tooltip_text (release.updated ? _("%s is up-to-date").printf (release.title) : _("Update %s to the latest version").printf (release.title));
+                btn_upgrade.set_icon_name (updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
+                btn_upgrade.set_tooltip_text (updated ? _("%s is up-to-date").printf (release.title) : _("Update %s to the latest version").printf (release.title));
             }
         }
 
         void dialog_message_received (string message) {
-            if (release.installed)
-                if (release.upgrading)
-                    upgrade_dialog.add_text (message);
-                else
-                    remove_dialog.add_text (message);
-            else
+            switch (release.state) {
+            case Models.Releases.SteamTinkerLaunch.State.BUSY_INSTALLING:
                 install_dialog.add_text (message);
+                break;
+            case Models.Releases.SteamTinkerLaunch.State.BUSY_REMOVING:
+                remove_dialog.add_text (message);
+                break;
+            case Models.Releases.SteamTinkerLaunch.State.BUSY_UPGRADING:
+                upgrade_dialog.add_text (message);
+                break;
+            default:
+                break;
+            }
         }
     }
 }

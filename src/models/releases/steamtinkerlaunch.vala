@@ -1,8 +1,5 @@
 namespace ProtonPlus.Models.Releases {
     public class SteamTinkerLaunch : Release {
-        public bool updated { get; set; }
-        public bool upgrading { get; set; } // TODO Find better solution
-
         string home_location { get; set; }
         string compat_location { get; set; }
         string parent_location { get; set; }
@@ -20,6 +17,16 @@ namespace ProtonPlus.Models.Releases {
         string? latest_hash { get; set; }
         string local_date { get; set; }
         string local_hash { get; set; }
+
+        public State state { get; set; }
+        public enum State {
+            NOT_INSTALLED,
+            UPDATE_AVAILABLE,
+            UP_TO_DATE,
+            BUSY_INSTALLING,
+            BUSY_REMOVING,
+            BUSY_UPGRADING,
+        }
 
         public SteamTinkerLaunch (Runner runner) {
             Object (runner: runner,
@@ -46,13 +53,8 @@ namespace ProtonPlus.Models.Releases {
             config_location = @"$home_location/.config/steamtinkerlaunch";
             external_locations = new List<string> ();
 
-            var row = new Widgets.ReleaseRows.SteamTinkerLaunch ();
-            row.initialize (this);
-
-            this.row = row;
-
             refresh_latest_stl_version ();
-            refresh_interface_state ();
+            refresh_state ();
         }
 
         string get_download_url () {
@@ -133,15 +135,15 @@ namespace ProtonPlus.Models.Releases {
             }
         }
 
-        void refresh_interface_state (bool can_reset_processing = false) {
+        void refresh_state () {
             // Update the ProtonPlus UI state variables.
             // NOTE: We treat a non-executable binary as a "broken installation".
             var base_location_exists = FileUtils.test (base_location, FileTest.IS_DIR);
             var binary_location_exists = FileUtils.test (binary_location, FileTest.IS_EXECUTABLE);
             var meta_file_exists = FileUtils.test (meta_location, FileTest.IS_REGULAR);
 
-            installed = base_location_exists && binary_location_exists && meta_file_exists;
-            updated = false;
+            var installed = base_location_exists && binary_location_exists && meta_file_exists;
+            var updated = false;
 
             local_date = "";
             local_hash = "";
@@ -180,7 +182,9 @@ namespace ProtonPlus.Models.Releases {
             // avoids "flickering UI" issues during multi-step processes.
             // NOTE: We ALWAYS allow title change, to ensure the latest version's
             // title immediately appears during "upgrade" of an installation.
-            row.set_title (_row_title);
+            displayed_title = _row_title;
+
+            state = !installed ? State.NOT_INSTALLED : updated ? State.UP_TO_DATE : State.UPDATE_AVAILABLE;
         }
 
         void write_installation_metadata (string meta_location) {
@@ -207,24 +211,26 @@ namespace ProtonPlus.Models.Releases {
         }
 
         public async bool install () {
+            state = State.BUSY_INSTALLING;
+
             send_message (_("The installation of %s has begun.").printf (title));
 
             // Attempt the installation.
             var install_success = yield start_install ();
 
-            if (!install_success) {
+            if (install_success)
+                send_message (_("The installation of %s is complete.").printf (title));
+            else {
                 // Attempt to clean up any leftover files and symlinks,
                 // but don't erase the user's STL configuration files.
                 yield remove (false); // Refreshes install state too.
 
-                return false;
+                send_message (_("An unexpected error occurred while installing %s.").printf (title));
             }
 
-            send_message (_("The installation of %s is complete.").printf (title));
+            refresh_state (); // Force UI state refresh.
 
-            refresh_interface_state (true); // Force UI state refresh.
-
-            return true;
+            return install_success;
         }
 
         async bool start_install () {
@@ -272,7 +278,7 @@ namespace ProtonPlus.Models.Releases {
 
             send_message (_("Downloading..."));
 
-            var download_valid = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, (is_percent, progress) => row.install_dialog.progress_text = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
+            var download_valid = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, (is_percent, progress) => this.progress = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
 
             if (!download_valid)
                 return false;
@@ -324,24 +330,20 @@ namespace ProtonPlus.Models.Releases {
         }
 
         public async bool upgrade () {
-            upgrading = true;
+            state = State.BUSY_UPGRADING;
 
             send_message (_("The upgrade of %s has begun.").printf (title));
 
             var upgrade_success = yield start_upgrade ();
 
-            if (!upgrade_success) {
+            if (upgrade_success)
+                send_message (_("The upgrade of %s is complete.").printf (title));
+            else
                 send_message (_("An unexpected error occurred while upgrading %s."));
-                return false;
-            }
 
-            send_message (_("The upgrade of %s is complete.").printf (title));
+            refresh_state (); // Force UI state refresh.
 
-            upgrading = false;
-
-            refresh_interface_state (true); // Force UI state refresh.
-
-            return true;
+            return upgrade_success;
         }
 
         async bool start_upgrade () {
@@ -359,14 +361,19 @@ namespace ProtonPlus.Models.Releases {
         }
 
         public async bool remove (bool delete_config, bool user_request = false) {
+            state = State.BUSY_REMOVING;
+
             send_message (_("The removal of %s has begun.").printf (title));
 
             // Attempt the removal.
             var remove_success = yield start_remove (delete_config, user_request);
 
-            send_message (_("The removal of %s is complete.").printf (title));
+            if (remove_success)
+                send_message (_("The removal of %s is complete.").printf (title));
+            else
+                send_message (_("An unexpected error occurred while removing %s.").printf (title));
 
-            refresh_interface_state (true); // Force UI state refresh.
+            refresh_state (); // Force UI state refresh.
 
             return remove_success;
         }
