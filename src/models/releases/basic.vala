@@ -2,14 +2,6 @@ namespace ProtonPlus.Models.Releases {
     public class Basic : Release {
         public string install_location { get; set; }
         public int64 download_size { get; set; }
-        public State state { get; set; }
-
-        public enum State {
-            NOT_INSTALLED,
-            INSTALLED,
-            BUSY_INSTALLING,
-            BUSY_REMOVING,
-        }
 
         public Basic.github (Runners.Basic runner, string title, string description, string release_date, int64 download_size, string download_url, string page_url) {
             this.description = description;
@@ -37,15 +29,15 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected void refresh_state () {
-            state = FileUtils.test (install_location, FileTest.IS_DIR) ? State.INSTALLED : State.NOT_INSTALLED;
+            canceled = false;
+
+            state = FileUtils.test (install_location, FileTest.IS_DIR) ? State.UP_TO_DATE : State.NOT_INSTALLED;
         }
 
         public async bool install () {
             state = State.BUSY_INSTALLING;
 
-            send_message (_("The installation of %s has begun.").printf (title));
-
-            var install_success = yield start_install ();
+            var install_success = yield _start_install ();
 
             if (canceled)
                 send_message (_("The installation of %s was canceled.").printf (title));
@@ -55,14 +47,14 @@ namespace ProtonPlus.Models.Releases {
                 send_message (_("An unexpected error occurred while installing %s.").printf (title));
 
             if (canceled || !install_success)
-                yield start_remove ();
+                yield remove ();
 
             refresh_state ();
 
             return true;
         }
 
-        protected virtual async bool start_install () {
+        protected virtual async bool _start_install () {
             send_message (_("Downloading..."));
 
             string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".tar.gz";
@@ -101,15 +93,16 @@ namespace ProtonPlus.Models.Releases {
         }
 
         public async bool remove () {
-            state = State.BUSY_REMOVING;
+            var busy_installing = state == State.BUSY_INSTALLING;
 
-            send_message (_("The removal of %s has begun.").printf (title));
+            if (!busy_installing)
+                state = State.BUSY_REMOVING;
 
-            var remove_success = yield start_remove ();
+            var remove_success = yield _start_remove ();
 
-            if (remove_success)
+            if (remove_success && !busy_installing)
                 send_message (_("The removal of %s is complete.").printf (title));
-            else
+            else if (!busy_installing)
                 send_message (_("An unexpected error occurred while removing %s.").printf (title));
 
             refresh_state ();
@@ -117,7 +110,7 @@ namespace ProtonPlus.Models.Releases {
             return true;
         }
 
-        protected virtual async bool start_remove () {
+        protected virtual async bool _start_remove () {
             send_message (_("Deleting..."));
 
             var deleted = yield Utils.Filesystem.delete_directory (install_location);

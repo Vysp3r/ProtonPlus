@@ -18,6 +18,8 @@ namespace ProtonPlus.Models.Launchers {
 
             if (installed) {
                 groups = get_groups ();
+                install.connect ((release) => true);
+                uninstall.connect ((release) => true);
             }
         }
 

@@ -2,6 +2,10 @@
   padding: 7px;
 }
 
-.console-dialog {
+.dialog-list {
+  background: transparent;
+}
+
+.dialog {
   padding: 10px;
 }

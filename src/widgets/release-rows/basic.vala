@@ -97,7 +97,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         void release_state_changed () {
-            var installed = release.state == Models.Releases.Basic.State.INSTALLED;
+            var installed = release.state == Models.Release.State.UP_TO_DATE;
 
             btn_install.set_visible (!installed);
             btn_remove.set_visible (installed);
@@ -105,10 +105,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
         void dialog_message_received (string message) {
             switch (release.state) {
-            case Models.Releases.Basic.State.BUSY_INSTALLING:
+            case Models.Release.State.BUSY_INSTALLING:
                 install_dialog.add_text (message);
                 break;
-            case Models.Releases.Basic.State.BUSY_REMOVING:
+            case Models.Release.State.BUSY_REMOVING:
                 remove_dialog.add_text (message);
                 break;
             default:

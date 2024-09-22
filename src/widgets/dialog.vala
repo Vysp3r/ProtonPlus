@@ -2,22 +2,26 @@ namespace ProtonPlus.Widgets {
     public abstract class Dialog : Adw.Window {
         protected Gtk.Box content_box { get; set; }
         protected Gtk.ScrolledWindow scrolled_window { get; set; }
-        protected Gtk.Label label { get; set; }
+        protected Gtk.ListBox list { get; set; }
+        protected Gtk.Label progress_label { get; set; }
         public Gtk.Button close_button { get; set; }
 
         protected Models.Release release { get; set; }
         int count { get; set; }
 
         construct {
-            label = new Gtk.Label ("");
-            label.set_valign (Gtk.Align.START);
+            progress_label = new Gtk.Label ("");
+
+            list = new Gtk.ListBox ();
+            list.add_css_class ("dialog-list");
+            list.set_selection_mode (Gtk.SelectionMode.NONE);
 
             scrolled_window = new Gtk.ScrolledWindow ();
-            scrolled_window.set_child (label);
+            scrolled_window.set_child (list);
             scrolled_window.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.ALWAYS);
-            scrolled_window.set_size_request (100, 100);
+            scrolled_window.set_size_request (200, 125);
             scrolled_window.add_css_class ("card");
-            scrolled_window.add_css_class ("console-dialog");
+            scrolled_window.add_css_class ("dialog");
 
             close_button = new Gtk.Button ();
             close_button.clicked.connect (close_button_clicked);
@@ -43,7 +47,9 @@ namespace ProtonPlus.Widgets {
         public virtual void reset () {
             count = 5;
 
-            label.set_text ("");
+            progress_label.set_text ("");
+
+            list.remove_all ();
 
             close_button.set_label (_("Close"));
             close_button.set_sensitive (false);
@@ -73,11 +79,8 @@ namespace ProtonPlus.Widgets {
         }
 
         public void add_text (string text) {
-            var current_text = label.get_text ();
-            if (current_text == "")
-                label.set_text (text);
-            else
-                label.set_text ("%s\n%s".printf (current_text, text));
+            var label = new Gtk.Label (text);
+            list.append (label);
         }
 
         void close_button_clicked () {

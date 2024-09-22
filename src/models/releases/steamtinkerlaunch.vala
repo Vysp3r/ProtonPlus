@@ -18,16 +18,6 @@ namespace ProtonPlus.Models.Releases {
         string local_date { get; set; }
         string local_hash { get; set; }
 
-        public State state { get; set; }
-        public enum State {
-            NOT_INSTALLED,
-            UPDATE_AVAILABLE,
-            UP_TO_DATE,
-            BUSY_INSTALLING,
-            BUSY_REMOVING,
-            BUSY_UPGRADING,
-        }
-
         public SteamTinkerLaunch (Runner runner) {
             Object (runner: runner,
                     title: "SteamTinkerLaunch");
@@ -59,6 +49,17 @@ namespace ProtonPlus.Models.Releases {
 
         string get_download_url () {
             return @"https://github.com/sonic2kk/steamtinkerlaunch/archive/$latest_hash.zip";
+        }
+
+        void exec_stl_if_exists (string exec_location, string args) {
+            if (FileUtils.test (exec_location, FileTest.IS_REGULAR))
+                exec_stl (exec_location, args);
+        }
+
+        void exec_stl (string exec_location, string args) {
+            if (FileUtils.test (exec_location, FileTest.IS_REGULAR) && !FileUtils.test (exec_location, FileTest.IS_EXECUTABLE))
+                Utils.System.run_command (@"chmod +x $exec_location");
+            Utils.System.run_command (@"$exec_location $args");
         }
 
         void refresh_latest_stl_version () {
@@ -165,6 +166,8 @@ namespace ProtonPlus.Models.Releases {
                     updated = latest_hash == local_hash;
             }
 
+            canceled = false;
+
 
             // Generate a title for the installed (or latest) release.
             var _row_title = title; // Default title/prefix.
@@ -211,21 +214,23 @@ namespace ProtonPlus.Models.Releases {
         }
 
         public async bool install () {
-            state = State.BUSY_INSTALLING;
+            var busy_upgrading = state == State.BUSY_UPGRADING;
 
-            send_message (_("The installation of %s has begun.").printf (title));
+            if (!busy_upgrading)
+                state = State.BUSY_INSTALLING;
 
             // Attempt the installation.
-            var install_success = yield start_install ();
+            var install_success = yield _start_install ();
 
-            if (install_success)
+            if (install_success && !busy_upgrading)
                 send_message (_("The installation of %s is complete.").printf (title));
             else {
                 // Attempt to clean up any leftover files and symlinks,
                 // but don't erase the user's STL configuration files.
                 yield remove (false); // Refreshes install state too.
 
-                send_message (_("An unexpected error occurred while installing %s.").printf (title));
+                if (!busy_upgrading)
+                    send_message (_("An unexpected error occurred while installing %s.").printf (title));
             }
 
             refresh_state (); // Force UI state refresh.
@@ -233,7 +238,7 @@ namespace ProtonPlus.Models.Releases {
             return install_success;
         }
 
-        async bool start_install () {
+        async bool _start_install () {
             if (Utils.System.check_dependency ("steamtinkerlaunch"))
                 Utils.System.run_command ("steamtinkerlaunch compat del");
 
@@ -332,30 +337,23 @@ namespace ProtonPlus.Models.Releases {
         public async bool upgrade () {
             state = State.BUSY_UPGRADING;
 
-            send_message (_("The upgrade of %s has begun.").printf (title));
-
-            var upgrade_success = yield start_upgrade ();
+            var upgrade_success = yield _start_upgrade ();
 
             if (upgrade_success)
                 send_message (_("The upgrade of %s is complete.").printf (title));
-            else {
+            else
                 send_message (_("An unexpected error occurred while upgrading %s."));
-
-                yield start_remove (false);
-            }
-
-            refresh_state (); // Force UI state refresh.
 
             return upgrade_success;
         }
 
-        async bool start_upgrade () {
-            var remove_success = yield start_remove (false);
+        async bool _start_upgrade () {
+            var remove_success = yield remove (false);
 
             if (!remove_success)
                 return false;
 
-            var install_success = yield start_install ();
+            var install_success = yield install ();
 
             if (!install_success)
                 return false;
@@ -364,16 +362,17 @@ namespace ProtonPlus.Models.Releases {
         }
 
         public async bool remove (bool delete_config, bool user_request = false) {
-            state = State.BUSY_REMOVING;
+            var busy_upgrading_or_instaling = state == State.BUSY_UPGRADING || state == State.BUSY_INSTALLING;
 
-            send_message (_("The removal of %s has begun.").printf (title));
+            if (!busy_upgrading_or_instaling)
+                state = State.BUSY_REMOVING;
 
             // Attempt the removal.
-            var remove_success = yield start_remove (delete_config, user_request);
+            var remove_success = yield _start_remove (delete_config, user_request);
 
-            if (remove_success)
+            if (remove_success && !busy_upgrading_or_instaling)
                 send_message (_("The removal of %s is complete.").printf (title));
-            else
+            else if (!busy_upgrading_or_instaling)
                 send_message (_("An unexpected error occurred while removing %s.").printf (title));
 
             refresh_state (); // Force UI state refresh.
@@ -381,7 +380,7 @@ namespace ProtonPlus.Models.Releases {
             return remove_success;
         }
 
-        async bool start_remove (bool delete_config, bool user_request = false) {
+        async bool _start_remove (bool delete_config, bool user_request = false) {
             exec_stl_if_exists (binary_location, "compat del");
 
             // NOTE: We check specific types to avoid deleting unexpected data.
@@ -417,17 +416,6 @@ namespace ProtonPlus.Models.Releases {
             }
 
             return true;
-        }
-
-        void exec_stl_if_exists (string exec_location, string args) {
-            if (FileUtils.test (exec_location, FileTest.IS_REGULAR))
-                exec_stl (exec_location, args);
-        }
-
-        void exec_stl (string exec_location, string args) {
-            if (FileUtils.test (exec_location, FileTest.IS_REGULAR) && !FileUtils.test (exec_location, FileTest.IS_EXECUTABLE))
-                Utils.System.run_command (@"chmod +x $exec_location");
-            Utils.System.run_command (@"$exec_location $args");
         }
     }
 }
