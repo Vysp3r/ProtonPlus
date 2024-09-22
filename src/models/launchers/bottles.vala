@@ -1,7 +1,7 @@
 namespace ProtonPlus.Models.Launchers {
     public class Bottles : Launcher {
         public Bottles (Launcher.InstallationTypes installation_type) {
-            string[] directories = null;;
+            string[] directories = null;
 
             switch (installation_type) {
             case Launcher.InstallationTypes.SYSTEM:

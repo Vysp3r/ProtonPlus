@@ -36,7 +36,7 @@ namespace ProtonPlus.Utils {
 
             var distro_name = "Unknown";
             MatchInfo m;
-            if (/^NAME = "\s*(.+?)\s*"/m.match (distro_info, 0, out m))
+            if (/^NAME="\s*(.+?)\s*"/m.match (distro_info, 0, out m))
                 distro_name = m.fetch (1);
 
             return distro_name;

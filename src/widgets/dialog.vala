@@ -3,8 +3,9 @@ namespace ProtonPlus.Widgets {
         protected Gtk.Box content_box { get; set; }
         protected Gtk.ScrolledWindow scrolled_window { get; set; }
         protected Gtk.Label label { get; set; }
-        public Gtk.Button close_buttton { get; set; }
+        public Gtk.Button close_button { get; set; }
 
+        protected Models.Release release { get; set; }
         int count { get; set; }
 
         construct {
@@ -18,8 +19,8 @@ namespace ProtonPlus.Widgets {
             scrolled_window.add_css_class ("card");
             scrolled_window.add_css_class ("console-dialog");
 
-            close_buttton = new Gtk.Button ();
-            close_buttton.clicked.connect (close_button_clicked);
+            close_button = new Gtk.Button ();
+            close_button.clicked.connect (close_button_clicked);
 
             content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
             content_box.set_margin_top (25);
@@ -27,7 +28,7 @@ namespace ProtonPlus.Widgets {
             content_box.set_margin_start (25);
             content_box.set_margin_end (25);
             content_box.append (scrolled_window);
-            content_box.append (close_buttton);
+            content_box.append (close_button);
 
             set_resizable (false);
             set_content (content_box);
@@ -35,17 +36,21 @@ namespace ProtonPlus.Widgets {
             set_modal (true);
         }
 
+        public virtual void initialize (Models.Release release) {
+            this.release = release;
+        }
+
         public virtual void reset () {
             count = 5;
 
             label.set_text ("");
 
-            close_buttton.set_label (_("Close"));
-            close_buttton.set_sensitive (false);
+            close_button.set_label (_("Close"));
+            close_button.set_sensitive (false);
         }
 
         public virtual void done (bool success) {
-            close_buttton.set_sensitive (true);
+            close_button.set_sensitive (true);
 
             if (success) {
                 refresh_close_button_label ();
@@ -64,13 +69,13 @@ namespace ProtonPlus.Widgets {
         }
 
         void refresh_close_button_label () {
-            close_buttton.set_label ("%s (%i)".printf (_("Close"), count--));
+            close_button.set_label ("%s (%i)".printf (_("Close"), count--));
         }
 
         public void add_text (string text) {
             var current_text = label.get_text ();
             if (current_text == "")
-                label.set_text ("%s".printf (text));
+                label.set_text (text);
             else
                 label.set_text ("%s\n%s".printf (current_text, text));
         }

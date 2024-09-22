@@ -7,49 +7,44 @@ namespace ProtonPlus.Models.Releases {
 
             shared (runner, title, release_date, download_url, page_url);
 
-            row.set_title (@"$title ($release_date)");
+            displayed_title = @"$title ($release_date)";
         }
 
-        public override async bool install () {
-            send_message (_("The installation of %s has begun.").printf (title));
-
+        protected override async bool start_install () {
             send_message (_("Downloading..."));
 
-            string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".zip";
+            string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".tar.gz";
 
-            var download_valid = yield Utils.Web.Download (download_url, path, () => canceled, (is_percent, progress) => row.install_dialog.progress_text = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
+            var download_valid = yield Utils.Web.Download (download_url, path, () => canceled, (is_percent, progress) => this.progress = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
 
-            if (!download_valid) {
-                install_error ();
+            if (!download_valid)
                 return false;
-            }
 
             send_message (_("Extracting..."));
 
             string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
 
-            string source_path = yield Utils.Filesystem.extract (directory, title, ".zip", () => canceled);
+            string source_path = yield Utils.Filesystem.extract (directory, title, ".tar.gz", () => canceled);
 
-            if (source_path == "") {
-                install_error ();
+            if (source_path == "")
                 return false;
-            }
 
             source_path = yield Utils.Filesystem.extract (directory, source_path.substring (0, source_path.length - 4).replace (directory, ""), ".tar", () => canceled);
+
+            // TODO Check if the second extraction was good
 
             send_message (_("Renaming..."));
 
             var runner = this.runner as Runners.Basic;
 
-            yield Utils.Filesystem.rename (source_path, directory + runner.get_directory_name (title));
+            var renaming_valid = yield Utils.Filesystem.rename (source_path, directory + runner.get_directory_name (title));
 
-            send_message (_("Running post installation script..."));
+            if (!renaming_valid)
+                return false;
+
+            send_message (_("Running installation script..."));
 
             runner.group.launcher.install (this);
-
-            send_message (_("The installation of %s is complete.").printf (title));
-
-            installed = true;
 
             return true;
         }

@@ -1,14 +1,19 @@
 namespace ProtonPlus.Widgets.Dialogs {
     public class InstallDialog : Dialog {
         public Gtk.Button cancel_button { get; set; }
-        public string progress_text { get; set; }
 
         construct {
             cancel_button = new Gtk.Button.with_label (_("Cancel"));
 
-            content_box.append (cancel_button);
+            cancel_button.clicked.connect (() => release.canceled = true);
 
-            notify["progress-text"].connect (progress_text_changed);
+            content_box.append (cancel_button);
+        }
+
+        public override void initialize (Models.Release release) {
+            base.initialize (release);
+
+            release.notify["progress"].connect (release_progress_changed);
         }
 
         public override void reset () {
@@ -16,21 +21,21 @@ namespace ProtonPlus.Widgets.Dialogs {
 
             cancel_button.set_visible (true);
 
-            close_buttton.set_visible (false);
+            close_button.set_visible (false);
         }
 
         public override void done (bool success) {
             cancel_button.set_visible (false);
 
-            close_buttton.set_visible (true);
+            close_button.set_visible (true);
 
             base.done (success);
         }
 
-        void progress_text_changed () {
+        void release_progress_changed () {
             var current_text = label.get_text ();
-            if (!current_text.contains (progress_text))
-                label.set_text ("%s\n%s".printf (current_text, progress_text));
+            if (!current_text.contains (release.progress))
+                label.set_text ("%s\n%s".printf (current_text, release.progress));
         }
     }
 }
