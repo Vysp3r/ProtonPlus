@@ -173,7 +173,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             Adw.MessageDialog? dialog = null;
             switch (release.runner.group.launcher.installation_type) {
             case Models.Launcher.InstallationTypes.FLATPAK :
-                dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Flatpak"), "%s\n\n%s".printf (_("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"), "flatpak install com.valvesoftware.Steam.Utility.steamtinkerlaunch"));
+                var command_label = new Gtk.Label ("flatpak install com.valvesoftware.Steam.Utility.steamtinkerlaunch");
+                command_label.set_selectable (true);
+                dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Flatpak"), _("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
+                dialog.set_extra_child (command_label);
                 break;
             case Models.Launcher.InstallationTypes.SNAP:
                 dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Snap"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
@@ -201,7 +204,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
         void dialog_message_received (string message) {
             if (release.installed)
-                remove_dialog.add_text (message);
+                if (release.upgrading)
+                    upgrade_dialog.add_text (message);
+                else
+                    remove_dialog.add_text (message);
             else
                 install_dialog.add_text (message);
         }

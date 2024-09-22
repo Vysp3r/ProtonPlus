@@ -66,7 +66,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             release.install.begin ((obj, res) => {
                 var success = release.install.end (res);
 
-                install_dialog.done (success);
+                install_dialog.done (success || release.canceled);
 
                 activate_action_variant ("win.remove-task", "");
             });
