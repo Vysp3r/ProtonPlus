@@ -33,9 +33,9 @@ namespace ProtonPlus.Widgets.Dialogs {
         }
 
         void release_progress_changed () {
-            var current_text = label.get_text ();
-            if (!current_text.contains (release.progress))
-                label.set_text ("%s\n%s".printf (current_text, release.progress));
+            progress_label.set_text (release.progress);
+            if (progress_label.get_parent () == null)
+                list.append (progress_label);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ProtonPlus.Models.Releases {
             displayed_title = @"$title ($release_date)";
         }
 
-        protected override async bool start_install () {
+        protected override async bool _start_install () {
             send_message (_("Downloading..."));
 
             string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".tar.gz";

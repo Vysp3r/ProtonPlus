@@ -157,7 +157,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         void btn_upgrade_clicked () {
-            if (release.state == Models.Releases.SteamTinkerLaunch.State.UP_TO_DATE)
+            if (release.state == Models.Release.State.UP_TO_DATE)
                 return;
 
             activate_action_variant ("win.add-task", "");
@@ -202,8 +202,8 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         void release_state_changed () {
-            var installed = release.state == Models.Releases.SteamTinkerLaunch.State.UP_TO_DATE || release.state == Models.Releases.SteamTinkerLaunch.State.UPDATE_AVAILABLE;
-            var updated = release.state == Models.Releases.SteamTinkerLaunch.State.UP_TO_DATE;
+            var installed = release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
+            var updated = release.state == Models.Release.State.UP_TO_DATE;
 
             btn_install.set_visible (!installed);
             btn_remove.set_visible (installed);
@@ -217,13 +217,13 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
         void dialog_message_received (string message) {
             switch (release.state) {
-            case Models.Releases.SteamTinkerLaunch.State.BUSY_INSTALLING:
+            case Models.Release.State.BUSY_INSTALLING:
                 install_dialog.add_text (message);
                 break;
-            case Models.Releases.SteamTinkerLaunch.State.BUSY_REMOVING:
+            case Models.Release.State.BUSY_REMOVING:
                 remove_dialog.add_text (message);
                 break;
-            case Models.Releases.SteamTinkerLaunch.State.BUSY_UPGRADING:
+            case Models.Release.State.BUSY_UPGRADING:
                 upgrade_dialog.add_text (message);
                 break;
             default:
