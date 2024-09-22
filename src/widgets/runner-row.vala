@@ -35,8 +35,6 @@ namespace ProtonPlus.Widgets {
                         }
                     }
 
-                    // TODO Add a way to add the load more row if needed
-
                     spinner.stop ();
                     spinner.set_visible (false);
                 });

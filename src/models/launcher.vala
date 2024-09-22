@@ -14,9 +14,9 @@ namespace ProtonPlus.Models {
             SNAP
         }
 
-        public delegate void callback (Release release);
-        public signal void install (Release release);
-        public signal void uninstall (Release release);
+        public delegate bool callback (Release release);
+        public signal bool install (Release release);
+        public signal bool uninstall (Release release);
 
         public Launcher (string title, InstallationTypes installation_type, string icon_path, string[] directories) {
             this.title = title;
