@@ -31,7 +31,8 @@ namespace ProtonPlus.Models.Releases {
 
             source_path = yield Utils.Filesystem.extract (directory, source_path.substring (0, source_path.length - 4).replace (directory, ""), ".tar", () => canceled);
 
-            // TODO Check if the second extraction was good
+            if (source_path == "")
+                return false;
 
             send_message (_("Renaming..."));
 
@@ -44,7 +45,10 @@ namespace ProtonPlus.Models.Releases {
 
             send_message (_("Running installation script..."));
 
-            runner.group.launcher.install (this);
+            var install_script_success = runner.group.launcher.install (this);
+
+            if (!install_script_success)
+                return false;
 
             return true;
         }

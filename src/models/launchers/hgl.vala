@@ -18,8 +18,8 @@ namespace ProtonPlus.Models.Launchers {
 
             if (installed) {
                 groups = get_groups ();
-                install.connect ((release) => install_script);
-                uninstall.connect ((release) => uninstall_script);
+                install.connect ((release) => install_script (release));
+                uninstall.connect ((release) => uninstall_script (release));
             }
         }
 
@@ -78,24 +78,25 @@ namespace ProtonPlus.Models.Launchers {
             return runners;
         }
 
-        void install_script (Release release) {
+        bool install_script (Release release) {
             try {
                 string path = "/.config";
                 if (release.runner.group.launcher.title.contains ("Flatpak"))path = "/.var/app/com.heroicgameslauncher.hgl/config";
                 path = Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
-                Json.Node rootNode = Json.from_string (Utils.Filesystem.get_file_content (path));
-                Json.Object rootObj = rootNode.get_object ();
+                Json.Node root_node = Json.from_string (Utils.Filesystem.get_file_content (path));
+                Json.Object root_object = root_node.get_object ();
 
-                var objArray = rootObj.get_array_member ("wine-releases");
-                if (objArray == null)return;
+                var wine_release_array = root_object.get_array_member ("wine-releases");
+                if (wine_release_array == null)
+                    return false;
 
                 bool found = false;
 
                 var runner = release.runner as Runners.Basic;
 
-                for (var i = 0; i < objArray.get_length (); i++) {
-                    var obj = objArray.get_object_element (i);
+                for (var i = 0; i < wine_release_array.get_length (); i++) {
+                    var obj = wine_release_array.get_object_element (i);
 
                     if (obj.get_string_member ("version").contains (runner.get_directory_name (release.title))) {
                         obj.set_boolean_member ("isInstalled", true);
@@ -124,29 +125,34 @@ namespace ProtonPlus.Models.Launchers {
 
                     obj.set_int_member ("disksize", (int64) Utils.Filesystem.get_directory_size (obj.get_string_member ("installDir")));
 
-                    objArray.add_object_element (obj);
+                    wine_release_array.add_object_element (obj);
                 }
 
-                Utils.Filesystem.modify_file (path, Json.to_string (rootNode, true));
+                Utils.Filesystem.modify_file (path, Json.to_string (root_node, true));
+
+                return true;
             } catch (Error e) {
                 message (e.message);
+
+                return false;
             }
         }
 
-        void uninstall_script (Release release) {
+        bool uninstall_script (Release release) {
             try {
                 string path = "/.config";
                 if (release.runner.group.launcher.title.contains ("Flatpak"))path = "/.var/app/com.heroicgameslauncher.hgl/config";
                 path = Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
-                Json.Node rootNode = Json.from_string (Utils.Filesystem.get_file_content (path));
-                Json.Object rootObj = rootNode.get_object ();
+                Json.Node root_node = Json.from_string (Utils.Filesystem.get_file_content (path));
+                Json.Object root_object = root_node.get_object ();
 
-                var objArray = rootObj.get_array_member ("wine-releases");
-                if (objArray == null)return;
+                var wine_release_array = root_object.get_array_member ("wine-releases");
+                if (wine_release_array == null)
+                    return false;
 
-                for (var i = 0; i < objArray.get_length (); i++) {
-                    var obj = objArray.get_object_element (i);
+                for (var i = 0; i < wine_release_array.get_length (); i++) {
+                    var obj = wine_release_array.get_object_element (i);
 
                     var runner = release.runner as Runners.Basic;
 
@@ -158,9 +164,13 @@ namespace ProtonPlus.Models.Launchers {
                     }
                 }
 
-                Utils.Filesystem.modify_file (path, Json.to_string (rootNode, true));
+                Utils.Filesystem.modify_file (path, Json.to_string (root_node, true));
+
+                return true;
             } catch (Error e) {
                 message (e.message);
+
+                return false;
             }
         }
     }

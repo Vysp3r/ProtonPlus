@@ -338,8 +338,11 @@ namespace ProtonPlus.Models.Releases {
 
             if (upgrade_success)
                 send_message (_("The upgrade of %s is complete.").printf (title));
-            else
+            else {
                 send_message (_("An unexpected error occurred while upgrading %s."));
+
+                yield start_remove (false);
+            }
 
             refresh_state (); // Force UI state refresh.
 

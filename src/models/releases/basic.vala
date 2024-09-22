@@ -54,6 +54,9 @@ namespace ProtonPlus.Models.Releases {
             else
                 send_message (_("An unexpected error occurred while installing %s.").printf (title));
 
+            if (canceled || !install_success)
+                yield start_remove ();
+
             refresh_state ();
 
             return true;
@@ -66,9 +69,8 @@ namespace ProtonPlus.Models.Releases {
 
             var download_valid = yield Utils.Web.Download (download_url, path, () => canceled, (is_percent, progress) => this.progress = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
 
-            if (!download_valid) {
+            if (!download_valid)
                 return false;
-            }
 
             send_message (_("Extracting..."));
 
@@ -90,7 +92,10 @@ namespace ProtonPlus.Models.Releases {
 
             send_message (_("Running installation script..."));
 
-            runner.group.launcher.install (this);
+            var install_script_success = runner.group.launcher.install (this);
+
+            if (!install_script_success)
+                return false;
 
             return true;
         }
@@ -122,7 +127,10 @@ namespace ProtonPlus.Models.Releases {
 
             send_message (_("Running removal script..."));
 
-            runner.group.launcher.uninstall (this);
+            var uninstall_script_success = runner.group.launcher.uninstall (this);
+
+            if (!uninstall_script_success)
+                return false;
 
             return true;
         }
