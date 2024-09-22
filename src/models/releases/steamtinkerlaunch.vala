@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Releases {
-    public class SteamTinkerLaunch : Release {
+    public class SteamTinkerLaunch : Upgrade {
         string home_location { get; set; }
         string compat_location { get; set; }
         string parent_location { get; set; }
@@ -136,7 +136,30 @@ namespace ProtonPlus.Models.Releases {
             }
         }
 
-        void refresh_state () {
+        void write_installation_metadata (string meta_location) {
+            Utils.Filesystem.create_file (meta_location, @"$latest_date:$latest_hash");
+        }
+
+        public bool detect_external_locations () {
+            if (external_locations.length () > 0)
+                external_locations = new List<string> ();
+
+            var location = @"$home_location/SteamTinkerLaunch";
+            if (FileUtils.test (location, FileTest.IS_DIR))
+                external_locations.append (location);
+
+            location = Environment.get_home_dir () + "/stl";
+            if (!Utils.System.IS_STEAM_OS && FileUtils.test (location, FileTest.IS_DIR))
+                external_locations.append (location);
+
+            // Disabled for now, since we always erase base_location before installs.
+            // if (FileUtils.test (base_location, FileTest.IS_DIR) && !FileUtils.test (meta_location, FileTest.IS_REGULAR))
+            // external_locations.append (base_location);
+
+            return external_locations.length () > 0;
+        }
+
+        protected override void refresh_state () {
             // Update the ProtonPlus UI state variables.
             // NOTE: We treat a non-executable binary as a "broken installation".
             var base_location_exists = FileUtils.test (base_location, FileTest.IS_DIR);
@@ -190,55 +213,7 @@ namespace ProtonPlus.Models.Releases {
             state = !installed ? State.NOT_INSTALLED : updated ? State.UP_TO_DATE : State.UPDATE_AVAILABLE;
         }
 
-        void write_installation_metadata (string meta_location) {
-            Utils.Filesystem.create_file (meta_location, @"$latest_date:$latest_hash");
-        }
-
-        public bool detect_external_locations () {
-            if (external_locations.length () > 0)
-                external_locations = new List<string> ();
-
-            var location = @"$home_location/SteamTinkerLaunch";
-            if (FileUtils.test (location, FileTest.IS_DIR))
-                external_locations.append (location);
-
-            location = Environment.get_home_dir () + "/stl";
-            if (!Utils.System.IS_STEAM_OS && FileUtils.test (location, FileTest.IS_DIR))
-                external_locations.append (location);
-
-            // Disabled for now, since we always erase base_location before installs.
-            // if (FileUtils.test (base_location, FileTest.IS_DIR) && !FileUtils.test (meta_location, FileTest.IS_REGULAR))
-            // external_locations.append (base_location);
-
-            return external_locations.length () > 0;
-        }
-
-        public async bool install () {
-            var busy_upgrading = state == State.BUSY_UPGRADING;
-
-            if (!busy_upgrading)
-                state = State.BUSY_INSTALLING;
-
-            // Attempt the installation.
-            var install_success = yield _start_install ();
-
-            if (install_success && !busy_upgrading)
-                send_message (_("The installation of %s is complete.").printf (title));
-            else {
-                // Attempt to clean up any leftover files and symlinks,
-                // but don't erase the user's STL configuration files.
-                yield remove (false); // Refreshes install state too.
-
-                if (!busy_upgrading)
-                    send_message (_("An unexpected error occurred while installing %s.").printf (title));
-            }
-
-            refresh_state (); // Force UI state refresh.
-
-            return install_success;
-        }
-
-        async bool _start_install () {
+        protected async override bool _start_install () {
             if (Utils.System.check_dependency ("steamtinkerlaunch"))
                 Utils.System.run_command ("steamtinkerlaunch compat del");
 
@@ -334,53 +309,17 @@ namespace ProtonPlus.Models.Releases {
             return true;
         }
 
-        public async bool upgrade () {
-            state = State.BUSY_UPGRADING;
+        // Variant (delete_config, user_request)
+        protected override async bool _start_remove (Variant variant) {
+            bool delete_config = false;
+            bool user_request = false;
 
-            var upgrade_success = yield _start_upgrade ();
+            var iterator = variant.iterator ();
+            if (variant.n_children () >= 1)
+                iterator.next ("b", &delete_config);
+            if (variant.n_children () == 2)
+                iterator.next ("b", &user_request);
 
-            if (upgrade_success)
-                send_message (_("The upgrade of %s is complete.").printf (title));
-            else
-                send_message (_("An unexpected error occurred while upgrading %s."));
-
-            return upgrade_success;
-        }
-
-        async bool _start_upgrade () {
-            var remove_success = yield remove (false);
-
-            if (!remove_success)
-                return false;
-
-            var install_success = yield install ();
-
-            if (!install_success)
-                return false;
-
-            return true;
-        }
-
-        public async bool remove (bool delete_config, bool user_request = false) {
-            var busy_upgrading_or_instaling = state == State.BUSY_UPGRADING || state == State.BUSY_INSTALLING;
-
-            if (!busy_upgrading_or_instaling)
-                state = State.BUSY_REMOVING;
-
-            // Attempt the removal.
-            var remove_success = yield _start_remove (delete_config, user_request);
-
-            if (remove_success && !busy_upgrading_or_instaling)
-                send_message (_("The removal of %s is complete.").printf (title));
-            else if (!busy_upgrading_or_instaling)
-                send_message (_("An unexpected error occurred while removing %s.").printf (title));
-
-            refresh_state (); // Force UI state refresh.
-
-            return remove_success;
-        }
-
-        async bool _start_remove (bool delete_config, bool user_request = false) {
             exec_stl_if_exists (binary_location, "compat del");
 
             // NOTE: We check specific types to avoid deleting unexpected data.
@@ -414,6 +353,20 @@ namespace ProtonPlus.Models.Releases {
                 if (!config_deleted)
                     return false;
             }
+
+            return true;
+        }
+
+        protected override async bool _start_upgrade () {
+            var remove_success = yield remove (false);
+
+            if (!remove_success)
+                return false;
+
+            var install_success = yield install ();
+
+            if (!install_success)
+                return false;
 
             return true;
         }

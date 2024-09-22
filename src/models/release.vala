@@ -40,5 +40,55 @@ namespace ProtonPlus.Models {
                 break;
             }
         }
+
+        public async bool install () {
+            var busy_upgrading = state == State.BUSY_UPGRADING;
+
+            if (!busy_upgrading)
+                state = State.BUSY_INSTALLING;
+
+            // Attempt the installation.
+            var install_success = yield _start_install ();
+
+            if (install_success && !busy_upgrading)
+                send_message (_("The installation of %s is complete.").printf (title));
+            else {
+                // Attempt to clean up any leftover files and symlinks,
+                // but don't erase the user's STL configuration files.
+                yield remove (false); // Refreshes install state too.
+
+                if (!busy_upgrading)
+                    send_message (_("An unexpected error occurred while installing %s.").printf (title));
+            }
+
+            refresh_state (); // Force UI state refresh.
+
+            return install_success;
+        }
+
+        protected abstract async bool _start_install ();
+
+        public async bool remove (Variant variant) {
+            var busy_upgrading_or_instaling = state == State.BUSY_UPGRADING || state == State.BUSY_INSTALLING;
+
+            if (!busy_upgrading_or_instaling)
+                state = State.BUSY_REMOVING;
+
+            // Attempt the removal.
+            var remove_success = yield _start_remove (variant);
+
+            if (remove_success && !busy_upgrading_or_instaling)
+                send_message (_("The removal of %s is complete.").printf (title));
+            else if (!busy_upgrading_or_instaling)
+                send_message (_("An unexpected error occurred while removing %s.").printf (title));
+
+            refresh_state (); // Force UI state refresh.
+
+            return remove_success;
+        }
+
+        protected abstract async bool _start_remove (Variant variant);
+
+        protected abstract void refresh_state ();
     }
 }

@@ -68,6 +68,7 @@ sources = files(
 
   'models/releases/basic.vala',
   'models/releases/github-action.vala',
+  'models/releases/upgrade.vala',
   'models/releases/steamtinkerlaunch.vala',
 
   'utils/filesystem.vala',
