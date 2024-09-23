@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Releases {
-    public class SteamTinkerLaunch : Upgrade {
+    public class SteamTinkerLaunch : Upgrade<STL_Remove_Parameters> {
         string home_location { get; set; }
         string compat_location { get; set; }
         string parent_location { get; set; }
@@ -231,7 +231,7 @@ namespace ProtonPlus.Models.Releases {
             // dirs. The `remove` function then validates the actual types.
             var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
             if (base_location_exists) {
-                var deleted_old_files = yield remove (false);
+                var deleted_old_files = yield remove ();
 
                 if (!deleted_old_files)
                     return false;
@@ -309,17 +309,7 @@ namespace ProtonPlus.Models.Releases {
             return true;
         }
 
-        // Variant (delete_config, user_request)
-        protected override async bool _start_remove (Variant variant) {
-            bool delete_config = false;
-            bool user_request = false;
-
-            var iterator = variant.iterator ();
-            if (variant.n_children () >= 1)
-                iterator.next ("b", &delete_config);
-            if (variant.n_children () == 2)
-                iterator.next ("b", &user_request);
-
+        protected override async bool _start_remove (STL_Remove_Parameters parameters) {
             exec_stl_if_exists (binary_location, "compat del");
 
             // NOTE: We check specific types to avoid deleting unexpected data.
@@ -333,7 +323,7 @@ namespace ProtonPlus.Models.Releases {
                     return false;
             }
 
-            var remove_location = user_request ? manual_remove_location : base_location;
+            var remove_location = parameters.user_request ? manual_remove_location : base_location;
             if (FileUtils.test (remove_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (remove_location, FileTest.IS_DIR))
                     return false;
@@ -344,7 +334,7 @@ namespace ProtonPlus.Models.Releases {
                     return false;
             }
 
-            if (delete_config && FileUtils.test (config_location, FileTest.EXISTS)) {
+            if (parameters.delete_config && FileUtils.test (config_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (config_location, FileTest.IS_DIR))
                     return false;
 
@@ -358,7 +348,7 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override async bool _start_upgrade () {
-            var remove_success = yield remove (false);
+            var remove_success = yield remove ();
 
             if (!remove_success)
                 return false;
@@ -369,6 +359,11 @@ namespace ProtonPlus.Models.Releases {
                 return false;
 
             return true;
+        }
+
+        public class STL_Remove_Parameters : Parameters {
+            public bool delete_config { get; set; default = false; }
+            public bool user_request { get; set; default = false; }
         }
     }
 }

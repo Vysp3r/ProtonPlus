@@ -1,14 +1,13 @@
 namespace ProtonPlus.Models.Releases {
-    public abstract class Upgrade : Release {
+    public abstract class Upgrade<R>: Release<R> {
         public async bool upgrade () {
             state = State.BUSY_UPGRADING;
 
             var upgrade_success = yield _start_upgrade ();
 
-            if (upgrade_success)
-                send_message (_("The upgrade of %s is complete.").printf (title));
-            else
-                send_message (_("An unexpected error occurred while upgrading %s."));
+            send_message ((upgrade_success ? _("The upgrade of %s is complete.") : _("An unexpected error occurred while upgrading %s.")).printf (title));
+
+            refresh_state ();
 
             return upgrade_success;
         }

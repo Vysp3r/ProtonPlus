@@ -2,22 +2,26 @@ namespace ProtonPlus.Widgets {
     public class RunnerRow : Adw.ExpanderRow {
         Models.Runner runner { get; set; }
         Gtk.Spinner spinner { get; set; }
+        LoadMoreRow load_more_row { get; set; }
 
         public RunnerRow (Models.Runner runner) {
             this.runner = runner;
 
+            load_more_row = new LoadMoreRow ();
+            load_more_row.activated.connect (load_more_row_activated);
+
             spinner = new Gtk.Spinner ();
             spinner.set_visible (false);
 
-            notify["expanded"].connect (expanded_changed);
+            notify["expanded"].connect (() => expanded_changed (false));
 
             set_title (runner.title);
             set_subtitle (runner.description);
             add_suffix (spinner);
         }
 
-        void expanded_changed () {
-            if (get_expanded () && runner.releases.length () == 0) {
+        void expanded_changed (bool force_load = false) {
+            if ((get_expanded () && runner.releases.length () == 0) || force_load) {
                 spinner.start ();
                 spinner.set_visible (true);
                 runner.load.begin ((obj, res) => {
@@ -35,10 +39,18 @@ namespace ProtonPlus.Widgets {
                         }
                     }
 
+                    if (runner.has_more)
+                        add_row (load_more_row);
+
                     spinner.stop ();
                     spinner.set_visible (false);
                 });
             }
+        }
+
+        void load_more_row_activated () {
+            remove (load_more_row);
+            expanded_changed (true);
         }
     }
 }

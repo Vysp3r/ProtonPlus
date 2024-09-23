@@ -20,6 +20,7 @@ sources = files(
   'widgets/sidebar-row.vala',
   'widgets/release-row.vala',
   'widgets/dialog.vala',
+  'widgets/load-more-row.vala',
   'widgets/launcher-box.vala',
   'widgets/runner-group.vala',
   'widgets/runner-row.vala',
@@ -35,6 +36,7 @@ sources = files(
   'models/launcher.vala',
   'models/release.vala',
   'models/runner.vala',
+  'models/parameters.vala',
 
   'models/launchers/bottles.vala',
   'models/launchers/hgl.vala',

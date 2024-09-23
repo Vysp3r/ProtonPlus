@@ -5,8 +5,8 @@ namespace ProtonPlus.Models.Runners {
         internal bool use_name_instead_of_tag_name { get; set; } // TODO Describe this
         internal string[] request_asset_exclude { get; set; } // TODO Describe this
 
-        public override async List<Models.Release> load () {
-            var temp_releases = new List<Models.Release> ();
+        public override async List<Release> load () {
+            var temp_releases = new List<Release> ();
 
             var json = yield Utils.Web.GET (endpoint + "?per_page=25&page=" + page ++.to_string (), false);
 

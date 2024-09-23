@@ -3,8 +3,8 @@ namespace ProtonPlus.Models {
         public string title { get; set; }
         public string description { get; set; }
         public Group group { get; set; }
+        public bool has_more { get; set; } // TODO Find a better name
         public List<Release> releases;
-        public bool busy { get; set; }
 
         public abstract async List<Release> load();
     }
