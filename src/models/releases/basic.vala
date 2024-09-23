@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Releases {
-    public class Basic : Release {
+    public class Basic : Release<Parameters> {
         public string install_location { get; set; }
         public int64 download_size { get; set; }
 
@@ -72,7 +72,7 @@ namespace ProtonPlus.Models.Releases {
             return true;
         }
 
-        protected override async bool _start_remove (Variant variant) {
+        protected override async bool _start_remove (Parameters parameters) {
             send_message (_("Deleting..."));
 
             var deleted = yield Utils.Filesystem.delete_directory (install_location);

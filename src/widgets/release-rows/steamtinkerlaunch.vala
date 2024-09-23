@@ -69,7 +69,11 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
                 remove_dialog.present ();
 
-                release.remove.begin (new Variant ("(bb)", remove_check.get_active (), true), (obj, res) => {
+                var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
+                parameters.delete_config = remove_check.get_active ();
+                parameters.user_request = true;
+
+                release.remove.begin (parameters, (obj, res) => {
                     var success = release.remove.end (res);
 
                     remove_dialog.done (success);
