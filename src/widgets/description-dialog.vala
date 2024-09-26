@@ -13,7 +13,7 @@ namespace ProtonPlus.Widgets {
             window_title = new Adw.WindowTitle (_("More information"), "");
 
             web_button = new Gtk.Button.from_icon_name ("world-www-symbolic");
-            web_button.set_tooltip_text (_("Open in a browser"));
+            web_button.set_tooltip_text (_("Open in your web browser"));
             web_button.clicked.connect (web_button_clicked);
 
             header_bar = new Adw.HeaderBar ();
