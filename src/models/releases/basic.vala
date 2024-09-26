@@ -26,6 +26,8 @@ namespace ProtonPlus.Models.Releases {
             this.page_url = page_url;
 
             install_location = runner.group.launcher.directory + runner.group.directory + "/" + runner.get_directory_name (title);
+
+            refresh_state ();
         }
 
         protected override void refresh_state () {

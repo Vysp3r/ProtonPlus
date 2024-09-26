@@ -1,16 +1,26 @@
 namespace ProtonPlus.Widgets {
-    public abstract class Dialog : Adw.Window {
+    public abstract class BusyDialog : Adw.Window {
+        protected Adw.ToolbarView toolbar_view { get; set; }
+        protected Adw.WindowTitle window_title { get; set; }
+        protected Adw.HeaderBar header_bar { get; set; }
         protected Gtk.Box content_box { get; set; }
         protected Gtk.ScrolledWindow scrolled_window { get; set; }
         protected Gtk.ListBox list { get; set; }
         protected Gtk.Label progress_label { get; set; }
-        public Gtk.Button close_button { get; set; }
+        protected Gtk.Label closing_label { get; set; }
 
         protected Models.Release release { get; set; }
         int count { get; set; }
 
         construct {
+            window_title = new Adw.WindowTitle ("", "");
+
+            header_bar = new Adw.HeaderBar ();
+            header_bar.set_title_widget (window_title);
+
             progress_label = new Gtk.Label ("");
+
+            closing_label = new Gtk.Label ("");
 
             list = new Gtk.ListBox ();
             list.add_css_class ("dialog-list");
@@ -23,68 +33,57 @@ namespace ProtonPlus.Widgets {
             scrolled_window.add_css_class ("card");
             scrolled_window.add_css_class ("dialog");
 
-            close_button = new Gtk.Button ();
-            close_button.clicked.connect (close_button_clicked);
-
-            content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
-            content_box.set_margin_top (25);
-            content_box.set_margin_bottom (25);
-            content_box.set_margin_start (25);
-            content_box.set_margin_end (25);
+            content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+            content_box.set_margin_top (7);
+            content_box.set_margin_bottom (12);
+            content_box.set_margin_start (12);
+            content_box.set_margin_end (12);
             content_box.append (scrolled_window);
-            content_box.append (close_button);
+
+            toolbar_view = new Adw.ToolbarView ();
+            toolbar_view.add_top_bar (header_bar);
+            toolbar_view.set_content (content_box);
 
             set_resizable (false);
-            set_content (content_box);
+            set_content (toolbar_view);
             set_transient_for (Application.window);
             set_modal (true);
         }
 
         public virtual void initialize (Models.Release release) {
             this.release = release;
-        }
 
-        public virtual void reset () {
-            count = 5;
-
-            progress_label.set_text ("");
-
-            list.remove_all ();
-
-            close_button.set_label (_("Close"));
-            close_button.set_sensitive (false);
+            window_title.set_subtitle (release.displayed_title);
         }
 
         public virtual void done (bool success) {
-            close_button.set_sensitive (true);
+            header_bar.set_show_end_title_buttons (true);
 
             if (success) {
-                refresh_close_button_label ();
+                refresh_closing_label ();
 
                 GLib.Timeout.add_seconds_full (Priority.DEFAULT, 1, () => {
                     if (count == 0) {
-                        hide ();
+                        close ();
                         return false;
                     }
 
-                    refresh_close_button_label ();
+                    refresh_closing_label ();
 
                     return true;
                 });
             }
         }
 
-        void refresh_close_button_label () {
-            close_button.set_label ("%s (%i)".printf (_("Close"), count--));
+        void refresh_closing_label () {
+            closing_label.set_text ("%s %i".printf (_("Closing in"), count--));
+            if (closing_label.get_parent () == null)
+                list.append (closing_label);
         }
 
         public void add_text (string text) {
             var label = new Gtk.Label (text);
             list.append (label);
-        }
-
-        void close_button_clicked () {
-            hide ();
         }
     }
 }

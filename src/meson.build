@@ -19,18 +19,19 @@ sources = files(
   'widgets/sidebar.vala',
   'widgets/sidebar-row.vala',
   'widgets/release-row.vala',
-  'widgets/dialog.vala',
+  'widgets/busy-dialog.vala',
   'widgets/load-more-row.vala',
   'widgets/launcher-box.vala',
   'widgets/runner-group.vala',
   'widgets/runner-row.vala',
+  'widgets/description-dialog.vala',
 
   'widgets/release-rows/steamtinkerlaunch.vala',
   'widgets/release-rows/basic.vala',
 
-  'widgets/dialogs/install-dialog.vala',
-  'widgets/dialogs/upgrade-dialog.vala',
-  'widgets/dialogs/remove-dialog.vala',
+  'widgets/busy-dialogs/install-dialog.vala',
+  'widgets/busy-dialogs/upgrade-dialog.vala',
+  'widgets/busy-dialogs/remove-dialog.vala',
 
   'models/group.vala',
   'models/launcher.vala',
