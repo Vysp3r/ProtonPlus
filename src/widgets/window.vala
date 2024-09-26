@@ -27,9 +27,7 @@ namespace ProtonPlus.Widgets {
 
             var sidebar_page = new Adw.NavigationPage.with_tag (sidebar = new Widgets.Sidebar (), "Sidebar", "sidebar");
 
-            sidebar.installed_only_switch.notify["active"].connect (() => {
-                info_box.installed_only = sidebar.installed_only_switch.active;
-            });
+            sidebar.installed_only_switch.notify["active"].connect (() => info_box.installed_only = sidebar.installed_only_switch.active);
 
             overlay_split_view = new Adw.OverlaySplitView ();
             overlay_split_view.set_sidebar (sidebar_page);
@@ -37,17 +35,11 @@ namespace ProtonPlus.Widgets {
             overlay_split_view.set_max_sidebar_width (270);
             overlay_split_view.set_min_sidebar_width (270);
 
-            overlay_split_view.notify["show-sidebar"].connect (() => {
-                info_box.sidebar_button.set_visible (!overlay_split_view.get_show_sidebar ());
-            });
+            overlay_split_view.notify["show-sidebar"].connect (() => info_box.sidebar_button.set_visible (!overlay_split_view.get_show_sidebar ()));
 
-            sidebar.sidebar_button.clicked.connect (() => {
-                overlay_split_view.set_show_sidebar (!overlay_split_view.get_show_sidebar ());
-            });
+            sidebar.sidebar_button.clicked.connect (() => overlay_split_view.set_show_sidebar (!overlay_split_view.get_show_sidebar ()));
 
-            info_box.sidebar_button.clicked.connect (() => {
-                overlay_split_view.set_show_sidebar (!overlay_split_view.get_show_sidebar ());
-            });
+            info_box.sidebar_button.clicked.connect (() => overlay_split_view.set_show_sidebar (!overlay_split_view.get_show_sidebar ()));
 
             var breakpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 625px"));
             breakpoint.add_setter (overlay_split_view, "collapsed", true);

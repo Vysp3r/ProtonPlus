@@ -9,5 +9,6 @@
         <file alias="scalable/actions/info-circle-symbolic.svg">info-circle.svg</file>
         <file alias="scalable/actions/dots-symbolic.svg">dots.svg</file>
         <file alias="scalable/actions/layout-sidebar-symbolic.svg">layout-sidebar.svg</file>
+        <file alias="scalable/actions/world-www-symbolic.svg">world-www.svg</file>
     </gresource>
 </gresources>

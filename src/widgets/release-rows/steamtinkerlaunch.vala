@@ -1,38 +1,37 @@
 namespace ProtonPlus.Widgets.ReleaseRows {
     public class SteamTinkerLaunch : ReleaseRow {
-        public Gtk.Button btn_upgrade { get; set; }
         public Dialogs.UpgradeDialog upgrade_dialog { get; set; }
+        public Gtk.Button upgrade_button { get; set; }
 
         Models.Releases.SteamTinkerLaunch release;
 
         construct {
             upgrade_dialog = new Dialogs.UpgradeDialog ();
 
-            btn_upgrade = new Gtk.Button ();
-            btn_upgrade.add_css_class ("flat");
+            upgrade_button = new Gtk.Button ();
+            upgrade_button.add_css_class ("flat");
+            upgrade_button.clicked.connect (upgrade_button_clicked);
 
-            input_box.append (btn_upgrade);
+            input_box.append (upgrade_button);
+
+            notify["release"].connect (release_changed);
         }
 
-        public void initialize (Models.Releases.SteamTinkerLaunch release) {
+        public SteamTinkerLaunch (Models.Releases.SteamTinkerLaunch release) {
             this.release = release;
+        }
 
+        void release_changed () {
             install_dialog.initialize (release);
             remove_dialog.initialize (release);
             upgrade_dialog.initialize (release);
 
             if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
-                input_box.remove (btn_remove);
-                input_box.remove (btn_upgrade);
-                input_box.remove (btn_install);
-
-                btn_info.clicked.connect (btn_info_clicked);
+                input_box.remove (install_button);
+                input_box.remove (remove_button);
+                input_box.remove (upgrade_button);
             } else {
-                input_box.remove (btn_info);
-
-                btn_remove.clicked.connect (btn_remove_clicked);
-                btn_install.clicked.connect (btn_install_clicked);
-                btn_upgrade.clicked.connect (btn_upgrade_clicked);
+                input_box.remove (info_button);
             }
 
             release.send_message.connect (dialog_message_received);
@@ -46,46 +45,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             release_state_changed ();
         }
 
-        void btn_remove_clicked () {
-            var remove_check = new Gtk.CheckButton.with_label (_("Check this to also remove your configuration files."));
-
-            var message_dialog = new Adw.MessageDialog (Application.window, _("Delete %s").printf (release.title), "%s\n\n%s".printf (_("You're about to remove %s from your system.").printf (release.title), _("Are you sure you want this?")));
-
-            message_dialog.set_extra_child (remove_check);
-
-            message_dialog.add_response ("no", _("No"));
-            message_dialog.add_response ("yes", _("Yes"));
-
-            message_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
-            message_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
-
-            message_dialog.response.connect ((response) => {
-                if (response != "yes")
-                    return;
-
-                activate_action_variant ("win.add-task", "");
-
-                remove_dialog.reset ();
-
-                remove_dialog.present ();
-
-                var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
-                parameters.delete_config = remove_check.get_active ();
-                parameters.user_request = true;
-
-                release.remove.begin (parameters, (obj, res) => {
-                    var success = release.remove.end (res);
-
-                    remove_dialog.done (success);
-
-                    activate_action_variant ("win.remove-task", "");
-                });
-            });
-
-            message_dialog.present ();
-        }
-
-        void btn_install_clicked () {
+        protected override void install_button_clicked () {
             // Steam Deck doesn't need any external dependencies.
             if (!Utils.System.IS_STEAM_OS) {
                 var missing_dependencies = "";
@@ -147,7 +107,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         void start_install () {
             activate_action_variant ("win.add-task", "");
 
-            install_dialog.reset ();
+            install_dialog = new Dialogs.InstallDialog ();
 
             install_dialog.present ();
 
@@ -160,15 +120,54 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             });
         }
 
-        void btn_upgrade_clicked () {
+        protected override void remove_button_clicked () {
+            var remove_check = new Gtk.CheckButton.with_label (_("Check this to also remove your configuration files."));
+
+            var message_dialog = new Adw.MessageDialog (Application.window, _("Delete %s").printf (release.title), "%s\n\n%s".printf (_("You're about to remove %s from your system.").printf (release.title), _("Are you sure you want this?")));
+
+            message_dialog.set_extra_child (remove_check);
+
+            message_dialog.add_response ("no", _("No"));
+            message_dialog.add_response ("yes", _("Yes"));
+
+            message_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
+            message_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
+
+            message_dialog.response.connect ((response) => {
+                if (response != "yes")
+                    return;
+
+                activate_action_variant ("win.add-task", "");
+
+                remove_dialog = new Dialogs.RemoveDialog ();
+
+                remove_dialog.present ();
+
+                var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
+                parameters.delete_config = remove_check.get_active ();
+                parameters.user_request = true;
+
+                release.remove.begin (parameters, (obj, res) => {
+                    var success = release.remove.end (res);
+
+                    remove_dialog.done (success);
+
+                    activate_action_variant ("win.remove-task", "");
+                });
+            });
+
+            message_dialog.present ();
+        }
+
+        void upgrade_button_clicked () {
             if (release.state == Models.Release.State.UP_TO_DATE)
                 return;
 
             activate_action_variant ("win.add-task", "");
 
-            upgrade_dialog.reset ();
+            upgrade_dialog = new Dialogs.UpgradeDialog ();
 
-            upgrade_dialog.show ();
+            upgrade_dialog.present ();
 
             release.upgrade.begin ((obj, res) => {
                 var success = release.upgrade.end (res);
@@ -179,7 +178,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             });
         }
 
-        void btn_info_clicked () {
+        protected override void info_button_clicked () {
             Adw.MessageDialog? dialog = null;
             switch (release.runner.group.launcher.installation_type) {
             case Models.Launcher.InstallationTypes.FLATPAK :
@@ -201,6 +200,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             }
         }
 
+        public override void show_installed_only (bool installed_only) {
+            set_visible (installed_only ? release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE : true);
+        }
+
         void release_displayed_title_changed () {
             set_title (release.displayed_title);
         }
@@ -209,13 +212,13 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             var installed = release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
             var updated = release.state == Models.Release.State.UP_TO_DATE;
 
-            btn_install.set_visible (!installed);
-            btn_remove.set_visible (installed);
-            btn_upgrade.set_visible (installed);
+            install_button.set_visible (!installed);
+            remove_button.set_visible (installed);
+            upgrade_button.set_visible (installed);
 
-            if (btn_upgrade.get_visible ()) {
-                btn_upgrade.set_icon_name (updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
-                btn_upgrade.set_tooltip_text (updated ? _("%s is up-to-date").printf (release.title) : _("Update %s to the latest version").printf (release.title));
+            if (upgrade_button.get_visible ()) {
+                upgrade_button.set_icon_name (updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
+                upgrade_button.set_tooltip_text (updated ? _("%s is up-to-date").printf (release.title) : _("Update %s to the latest version").printf (release.title));
             }
         }
 

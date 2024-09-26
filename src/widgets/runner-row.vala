@@ -2,10 +2,13 @@ namespace ProtonPlus.Widgets {
     public class RunnerRow : Adw.ExpanderRow {
         Models.Runner runner { get; set; }
         Gtk.Spinner spinner { get; set; }
-        LoadMoreRow load_more_row { get; set; }
+        public LoadMoreRow load_more_row { get; set; }
+        public List<ReleaseRow> release_rows;
 
         public RunnerRow (Models.Runner runner) {
             this.runner = runner;
+
+            release_rows = new List<ReleaseRow> ();
 
             load_more_row = new LoadMoreRow ();
             load_more_row.activated.connect (load_more_row_activated);
@@ -29,12 +32,12 @@ namespace ProtonPlus.Widgets {
 
                     foreach (var release in releases) {
                         if (release is Models.Releases.Basic || release is Models.Releases.GitHubAction) {
-                            var row = new Widgets.ReleaseRows.Basic ();
-                            row.initialize ((Models.Releases.Basic) release);
+                            var row = new Widgets.ReleaseRows.Basic ((Models.Releases.Basic) release);
+                            release_rows.append (row);
                             add_row (row);
                         } else if (release is Models.Releases.SteamTinkerLaunch) {
-                            var row = new Widgets.ReleaseRows.SteamTinkerLaunch ();
-                            row.initialize ((Models.Releases.SteamTinkerLaunch) release);
+                            var row = new Widgets.ReleaseRows.SteamTinkerLaunch ((Models.Releases.SteamTinkerLaunch) release);
+                            release_rows.append (row);
                             add_row (row);
                         }
                     }

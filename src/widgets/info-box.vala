@@ -9,7 +9,7 @@ namespace ProtonPlus.Widgets {
         Adw.HeaderBar header { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
 
-        List<Widgets.LauncherBox> launcher_boxes;
+        List<LauncherBox> launcher_boxes;
 
         construct {
             set_orientation (Gtk.Orientation.VERTICAL);
@@ -39,6 +39,8 @@ namespace ProtonPlus.Widgets {
 
             launcher_boxes = new List<Widgets.LauncherBox> ();
 
+            notify["installed-only"].connect (installed_only_changed);
+
             append (toolbar_view);
         }
 
@@ -51,6 +53,19 @@ namespace ProtonPlus.Widgets {
             foreach (var launcher in launchers) {
                 var launcher_box = new Widgets.LauncherBox (launcher);
                 launcher_boxes.append (launcher_box);
+            }
+        }
+
+        void installed_only_changed () {
+            foreach (var box in launcher_boxes) {
+                foreach (var group in box.group_rows) {
+                    foreach (var runner in group.runner_rows) {
+                        runner.load_more_row.set_visible (!installed_only);
+                        foreach (var release in runner.release_rows) {
+                            release.show_installed_only (installed_only);
+                        }
+                    }
+                }
             }
         }
     }

@@ -26,7 +26,7 @@ namespace ProtonPlus.Models.Runners {
                 var object = root_array.get_object_element (i);
 
                 string title = use_name_instead_of_tag_name ? object.get_string_member ("name") : object.get_string_member ("tag_name");
-                string description = object.get_string_member ("description");
+                string description = object.get_string_member ("description").strip ();;
                 string release_date = object.get_string_member ("created_at").split ("T")[0];
 
                 if (request_asset_exclude != null) {

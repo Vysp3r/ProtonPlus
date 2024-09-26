@@ -33,7 +33,7 @@ namespace ProtonPlus.Models.Runners {
                     continue;
 
                 string title = use_name_instead_of_tag_name ? object.get_string_member ("name") : object.get_string_member ("tag_name");
-                string description = object.get_string_member ("body");
+                string description = object.get_string_member ("body").strip ();
                 string page_url = object.get_string_member ("html_url");
                 string release_date = object.get_string_member ("created_at").split ("T")[0];
 
