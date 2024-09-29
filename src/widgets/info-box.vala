@@ -1,7 +1,5 @@
 namespace ProtonPlus.Widgets {
     public class InfoBox : Gtk.Box {
-        public bool installed_only { get; set; }
-
         public Gtk.Button sidebar_button { get; set; }
         Menu menu_model { get; set; }
         Gtk.MenuButton menu_button { get; set; }
@@ -39,8 +37,6 @@ namespace ProtonPlus.Widgets {
 
             launcher_boxes = new List<Widgets.LauncherBox> ();
 
-            notify["installed-only"].connect (installed_only_changed);
-
             append (toolbar_view);
         }
 
@@ -53,19 +49,6 @@ namespace ProtonPlus.Widgets {
             foreach (var launcher in launchers) {
                 var launcher_box = new Widgets.LauncherBox (launcher);
                 launcher_boxes.append (launcher_box);
-            }
-        }
-
-        void installed_only_changed () {
-            foreach (var box in launcher_boxes) {
-                foreach (var group in box.group_rows) {
-                    foreach (var runner in group.runner_rows) {
-                        runner.load_more_row.set_visible (!installed_only);
-                        foreach (var release in runner.release_rows) {
-                            release.show_installed_only (installed_only);
-                        }
-                    }
-                }
             }
         }
     }

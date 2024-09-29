@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
-        public static Window window;
+        public static Window window { get; set; }
 
         construct {
             application_id = Constants.APP_ID;

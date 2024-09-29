@@ -1,18 +1,16 @@
 namespace ProtonPlus.Widgets {
     public class LauncherBox : Gtk.Widget {
         Models.Launcher launcher { get; set; }
+        Gtk.BinLayout bin_layout { get; set; }
         Gtk.Box content { get; set; }
         Adw.Clamp clamp { get; set; }
         Gtk.ScrolledWindow scrolled_window { get; set; }
-        public List<RunnerGroup> group_rows;
 
         public LauncherBox (Models.Launcher launcher) {
             this.launcher = launcher;
 
-            group_rows = new List<RunnerGroup> ();
-
-            var bin = new Gtk.BinLayout ();
-            set_layout_manager (bin);
+            bin_layout = new Gtk.BinLayout ();
+            set_layout_manager (bin_layout);
 
             content = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
 
@@ -28,7 +26,6 @@ namespace ProtonPlus.Widgets {
 
             foreach (var group in launcher.groups) {
                 var runner_group = new RunnerGroup (group);
-                group_rows.append (runner_group);
                 content.append (runner_group);
             }
         }
