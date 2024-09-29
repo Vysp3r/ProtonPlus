@@ -43,7 +43,5 @@ namespace ProtonPlus.Widgets {
         protected abstract void remove_button_clicked ();
 
         protected abstract void info_button_clicked ();
-
-        public abstract void show_installed_only (bool installed_only);
     }
 }

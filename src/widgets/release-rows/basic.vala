@@ -76,10 +76,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             description_dialog.present ();
         }
 
-        public override void show_installed_only (bool installed_only) {
-            set_visible (installed_only ? release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE : true);
-        }
-
         void release_displayed_title_changed () {
             set_title (release.displayed_title);
         }

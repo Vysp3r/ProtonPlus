@@ -5,9 +5,12 @@ namespace ProtonPlus.Widgets {
         int tasks { get; set; }
 
         Adw.OverlaySplitView overlay_split_view { get; set; }
+        Adw.NavigationPage info_page { get; set; }
+        Adw.NavigationPage sidebar_page { get; set; }
         Widgets.StatusBox status_box { get; set; }
         Widgets.InfoBox info_box { get; set; }
         Widgets.Sidebar sidebar { get; set; }
+        Adw.Breakpoint breakpoint { get; set; }
 
         construct {
             set_application ((Adw.Application) GLib.Application.get_default ());
@@ -23,11 +26,9 @@ namespace ProtonPlus.Widgets {
 
             status_box = new Widgets.StatusBox ();
 
-            var info_page = new Adw.NavigationPage.with_tag (info_box = new Widgets.InfoBox (), "InfoBox", "main");
+            info_page = new Adw.NavigationPage.with_tag (info_box = new Widgets.InfoBox (), "InfoBox", "main");
 
-            var sidebar_page = new Adw.NavigationPage.with_tag (sidebar = new Widgets.Sidebar (), "Sidebar", "sidebar");
-
-            sidebar.installed_only_switch.notify["active"].connect (() => info_box.installed_only = sidebar.installed_only_switch.active);
+            sidebar_page = new Adw.NavigationPage.with_tag (sidebar = new Widgets.Sidebar (), "Sidebar", "sidebar");
 
             overlay_split_view = new Adw.OverlaySplitView ();
             overlay_split_view.set_sidebar (sidebar_page);
@@ -41,7 +42,7 @@ namespace ProtonPlus.Widgets {
 
             info_box.sidebar_button.clicked.connect (() => overlay_split_view.set_show_sidebar (!overlay_split_view.get_show_sidebar ()));
 
-            var breakpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 625px"));
+            breakpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 625px"));
             breakpoint.add_setter (overlay_split_view, "collapsed", true);
 
             add_breakpoint (breakpoint);

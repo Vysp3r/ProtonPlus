@@ -13,15 +13,11 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             upgrade_button.clicked.connect (upgrade_button_clicked);
 
             input_box.append (upgrade_button);
-
-            notify["release"].connect (release_changed);
         }
 
         public SteamTinkerLaunch (Models.Releases.SteamTinkerLaunch release) {
             this.release = release;
-        }
 
-        void release_changed () {
             install_dialog.initialize (release);
             remove_dialog.initialize (release);
             upgrade_dialog.initialize (release);
@@ -198,10 +194,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
                 dialog.present ();
             }
-        }
-
-        public override void show_installed_only (bool installed_only) {
-            set_visible (installed_only ? release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE : true);
         }
 
         void release_displayed_title_changed () {

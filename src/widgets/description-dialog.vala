@@ -4,6 +4,7 @@ namespace ProtonPlus.Widgets {
 
         Adw.ToolbarView toolbar_view { get; set; }
         Adw.WindowTitle window_title { get; set; }
+        Adw.ButtonContent web_button_content { get; set; }
         Gtk.Button web_button { get; set; }
         Adw.HeaderBar header_bar { get; set; }
         Gtk.ScrolledWindow scrolled_window { get; set; }
@@ -12,7 +13,12 @@ namespace ProtonPlus.Widgets {
         construct {
             window_title = new Adw.WindowTitle (_("More information"), "");
 
-            web_button = new Gtk.Button.from_icon_name ("world-www-symbolic");
+            web_button_content = new Adw.ButtonContent ();
+            web_button_content.set_icon_name ("world-www-symbolic");
+            web_button_content.set_label (_("Open"));
+
+            web_button = new Gtk.Button ();
+            web_button.set_child (web_button_content);
             web_button.set_tooltip_text (_("Open in your web browser"));
             web_button.clicked.connect (web_button_clicked);
 
@@ -42,15 +48,11 @@ namespace ProtonPlus.Widgets {
             set_content (toolbar_view);
             set_transient_for (Application.window);
             set_modal (true);
-
-            notify["release"].connect (release_changed);
         }
 
         public DescriptionDialog (Models.Release release) {
             this.release = release;
-        }
 
-        void release_changed () {
             window_title.set_subtitle (release.displayed_title);
             description_label.set_label (release.description);
         }
