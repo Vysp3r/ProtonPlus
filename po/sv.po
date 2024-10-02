@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-11 22:52+0200\n"
+"POT-Creation-Date: 2024-10-02 18:36-0400\n"
 "PO-Revision-Date: 2024-09-11 21:05+0000\n"
 "Last-Translator: Johnny Arcitec <Arcitec@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
@@ -44,7 +44,7 @@ msgstr "Hämta mer"
 msgid "There was an error while fetching data from the GitHub API."
 msgstr "Det uppstod ett fel vid hämtning av data från GitHubs API."
 
-#: src/widgets/info-box.vala:214 src/launchers/steam.vala:547
+#: src/widgets/info-box.vala:214 src/launchers/steam.vala:555
 msgid "Cancel the installation"
 msgstr "Avbryt installationen"
 
@@ -65,22 +65,22 @@ msgstr "Fortsätt"
 msgid "Install the runner"
 msgstr "Installera körprogrammet"
 
-#: src/widgets/info-box.vala:261 src/launchers/steam.vala:621
+#: src/widgets/info-box.vala:261 src/launchers/steam.vala:629
 #, c-format
 msgid "The installation of %s was canceled."
 msgstr "Installationen av %s har avbrutits."
 
-#: src/widgets/info-box.vala:273 src/launchers/steam.vala:609
+#: src/widgets/info-box.vala:273 src/launchers/steam.vala:617
 #, c-format
 msgid "The installation of %s has begun."
 msgstr "Installationen av %s har påbörjats."
 
-#: src/widgets/info-box.vala:287 src/launchers/steam.vala:619
+#: src/widgets/info-box.vala:287 src/launchers/steam.vala:627
 #, c-format
 msgid "The installation of %s is complete."
 msgstr "Installationen av %s är slutförd."
 
-#: src/widgets/info-box.vala:314 src/launchers/steam.vala:577
+#: src/widgets/info-box.vala:314 src/launchers/steam.vala:585
 #, c-format
 msgid "The removal of %s is complete."
 msgstr "Borttagningen av %s är slutförd."
@@ -90,7 +90,7 @@ msgstr "Borttagningen av %s är slutförd."
 msgid "An unexpected error occurred while extracting %s."
 msgstr "Ett oväntat fel inträffade vid extrahering av %s."
 
-#: src/widgets/info-box.vala:338 src/launchers/steam.vala:623
+#: src/widgets/info-box.vala:338 src/launchers/steam.vala:631
 #, c-format
 msgid "An unexpected error occurred while installing %s."
 msgstr "Ett oväntat fel inträffade vid installationen av %s."
@@ -169,32 +169,41 @@ msgstr ""
 "Steam-kompatibilitetsverktyg för att köra Windows-spel med förbättringar "
 "jämfört med Valves egna Proton."
 
-#: src/launchers/steam.vala:71
+#: src/launchers/steam.vala:70 src/launchers/steam.vala:73
+#, fuzzy
+msgid ""
+"Steam compatibility tool based on Proton-GE with modifications for very old "
+"GPUs."
+msgstr ""
+"Steam-kompatibilitetsverktyg baserat på Proton-GE med ytterligare patchar "
+"för att förbättra RTSP-codecs för VRChat."
+
+#: src/launchers/steam.vala:77
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 "Luxtorpeda hanterar alternativa, Linux-anpassade spelmotorer för vissa "
 "Windows-spel."
 
-#: src/launchers/steam.vala:72
+#: src/launchers/steam.vala:78
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 "Steam-kompatibilitetsverktyg för att köra DOS-spel med hjälp av DOSBox för "
 "Linux."
 
-#: src/launchers/steam.vala:73
+#: src/launchers/steam.vala:79
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 "Steam-kompatibilitetsverktyg för att köra äventyrsspel med hjälp av ScummVM "
 "för Linux."
 
-#: src/launchers/steam.vala:74
+#: src/launchers/steam.vala:80
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
 "Anpassad version av Proton för att köra Northstar-klienten för Titanfall 2."
 
-#: src/launchers/steam.vala:75
+#: src/launchers/steam.vala:81
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
@@ -202,7 +211,7 @@ msgstr ""
 "Steam-kompatibilitetsverktyg baserat på Proton-GE med ytterligare patchar "
 "för att förbättra RTSP-codecs för VRChat."
 
-#: src/launchers/steam.vala:77
+#: src/launchers/steam.vala:85
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
@@ -210,30 +219,30 @@ msgstr ""
 "Steam-verktyg för enkel, grafisk konfiguration av dina andra "
 "kompatibilitetsverktyg för både Windows-spel och Linux-spel."
 
-#: src/launchers/steam.vala:328
+#: src/launchers/steam.vala:336
 msgid "Missing dependencies!"
 msgstr "Saknar verktyg!"
 
-#: src/launchers/steam.vala:328
+#: src/launchers/steam.vala:336
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "Du saknar följande verktyg för %s:"
 
-#: src/launchers/steam.vala:328
+#: src/launchers/steam.vala:336
 msgid "Installation will be canceled."
 msgstr "Installationen kommer att avbrytas."
 
-#: src/launchers/steam.vala:329 src/launchers/steam.vala:341
-#: src/launchers/steam.vala:640
+#: src/launchers/steam.vala:337 src/launchers/steam.vala:349
+#: src/launchers/steam.vala:648
 msgid "OK"
 msgstr "OK"
 
-#: src/launchers/steam.vala:339
+#: src/launchers/steam.vala:347
 #, c-format
 msgid "Existing installation of %s"
 msgstr "Befintlig installation av %s"
 
-#: src/launchers/steam.vala:339
+#: src/launchers/steam.vala:347
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -242,96 +251,96 @@ msgstr ""
 "Det verkar som att du för närvarande har en annan version av %s som inte "
 "installerades av ProtonPlus."
 
-#: src/launchers/steam.vala:339
+#: src/launchers/steam.vala:347
 #, c-format
 msgid "Do you want to delete it and install %s with ProtonPlus?"
 msgstr "Vill du ta bort den och installera %s med ProtonPlus?"
 
-#: src/launchers/steam.vala:340
+#: src/launchers/steam.vala:348
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: src/launchers/steam.vala:548 src/launchers/steam.vala:560
+#: src/launchers/steam.vala:556 src/launchers/steam.vala:568
 #, c-format
 msgid "Delete %s"
 msgstr "Radera %s"
 
-#: src/launchers/steam.vala:550
+#: src/launchers/steam.vala:558
 #, c-format
 msgid "Install %s"
 msgstr "Installera %s"
 
-#: src/launchers/steam.vala:551
+#: src/launchers/steam.vala:559
 msgid "Show more information"
 msgstr "Visa mer information"
 
-#: src/launchers/steam.vala:558
+#: src/launchers/steam.vala:566
 msgid "Check this to also delete your configuration files."
 msgstr "Markera detta för att även radera dina konfigurationsfiler."
 
-#: src/launchers/steam.vala:560
+#: src/launchers/steam.vala:568
 #, c-format
 msgid "You're about to delete %s from your system."
 msgstr "Du är på väg att radera %s från ditt system."
 
-#: src/launchers/steam.vala:560
+#: src/launchers/steam.vala:568
 msgid "Are you sure you want this?"
 msgstr "Är du säker på att du vill göra detta?"
 
-#: src/launchers/steam.vala:562
+#: src/launchers/steam.vala:570
 msgid "No"
 msgstr "Nej"
 
-#: src/launchers/steam.vala:563
+#: src/launchers/steam.vala:571
 msgid "Yes"
 msgstr "Ja"
 
-#: src/launchers/steam.vala:579
+#: src/launchers/steam.vala:587
 #, c-format
 msgid "An unexpected error occurred while removing %s."
 msgstr "Ett oväntat fel inträffade när %s skulle tas bort."
 
-#: src/launchers/steam.vala:588
+#: src/launchers/steam.vala:596
 #, c-format
 msgid "%s is already up-to-date."
 msgstr "%s är redan senaste versionen."
 
-#: src/launchers/steam.vala:590
+#: src/launchers/steam.vala:598
 #, c-format
 msgid "The upgrade of %s has begun."
 msgstr "Uppgraderingen av %s har påbörjats."
 
-#: src/launchers/steam.vala:600
+#: src/launchers/steam.vala:608
 #, c-format
 msgid "The upgrade of %s is complete."
 msgstr "Uppgraderingen av %s har slutförts."
 
-#: src/launchers/steam.vala:602
+#: src/launchers/steam.vala:610
 #, c-format
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "Ett oväntat fel inträffade under uppgraderingen av %s."
 
-#: src/launchers/steam.vala:633 src/launchers/steam.vala:636
+#: src/launchers/steam.vala:641 src/launchers/steam.vala:644
 #, c-format
 msgid "%s is not supported"
 msgstr "%s stöds ej"
 
-#: src/launchers/steam.vala:633
+#: src/launchers/steam.vala:641
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "För att installera %s för %s, vänligen kör följande kommando:"
 
-#: src/launchers/steam.vala:636
+#: src/launchers/steam.vala:644
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Det finns för närvarande inget sätt för oss att installera %s för %s."
 
-#: src/launchers/steam.vala:706
+#: src/launchers/steam.vala:714
 #, c-format
 msgid "%s is up-to-date"
 msgstr "%s är redan senaste versionen"
 
-#: src/launchers/steam.vala:706
+#: src/launchers/steam.vala:714
 #, c-format
 msgid "Update %s to the latest version"
 msgstr "Uppdatera %s till den senaste versionen"
@@ -341,21 +350,21 @@ msgid "Not Available"
 msgstr "Inte Tillgängligt"
 
 #.
-#: src/window.vala:113
+#: src/window.vala:112
 #, c-format
 msgid "Welcome to %s"
 msgstr "Välkommen till %s"
 
-#: src/window.vala:113
+#: src/window.vala:112
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Installera Steam, Lutris, Bottles eller Heroic Games Launcher för att komma "
 "igång."
 
-#: src/application.vala:65
+#: src/application.vala:80
 msgid "A modern compatibility tools manager for Linux."
 msgstr "En modern kompatibilitetsverktygshanterare för Linux."
 
-#: src/application.vala:71
+#: src/application.vala:86
 msgid "Special thanks to"
 msgstr "Ett särskilt tack till"
