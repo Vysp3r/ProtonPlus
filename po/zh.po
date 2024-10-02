@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-02 18:36-0400\n"
+"POT-Creation-Date: 2024-10-02 18:56-0400\n"
 "PO-Revision-Date: 2024-02-16 17:02+0000\n"
 "Last-Translator: valigarmanda <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -166,9 +166,10 @@ msgid ""
 msgstr "用于运行Windows游戏的Steam兼容性工具，对Valve默认的Proton进行了改进"
 
 #: src/launchers/steam.vala:70 src/launchers/steam.vala:73
+#, c-format
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs."
+"GPUs, with %s."
 msgstr ""
 
 #: src/launchers/steam.vala:77

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-02 18:36-0400\n"
+"POT-Creation-Date: 2024-10-02 18:56-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -181,10 +181,10 @@ msgstr ""
 "параўнанні з стандартным Proton ад Valve."
 
 #: src/launchers/steam.vala:70 src/launchers/steam.vala:73
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs."
+"GPUs, with %s."
 msgstr ""
 "Інструмент сумяшчальнасці для Steam Play на аснове Wine і дадатковых "
 "кампанентаў."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-02 18:36-0400\n"
+"POT-Creation-Date: 2024-10-02 18:56-0400\n"
 "PO-Revision-Date: 2024-09-11 21:05+0000\n"
 "Last-Translator: Johnny Arcitec <Arcitec@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
@@ -170,10 +170,10 @@ msgstr ""
 "jämfört med Valves egna Proton."
 
 #: src/launchers/steam.vala:70 src/launchers/steam.vala:73
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs."
+"GPUs, with %s."
 msgstr ""
 "Steam-kompatibilitetsverktyg baserat på Proton-GE med ytterligare patchar "
 "för att förbättra RTSP-codecs för VRChat."

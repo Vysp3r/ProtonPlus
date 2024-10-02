@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-02 18:36-0400\n"
+"POT-Creation-Date: 2024-10-02 18:56-0400\n"
 "PO-Revision-Date: 2024-01-07 02:06+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -172,9 +172,10 @@ msgid ""
 msgstr ""
 
 #: src/launchers/steam.vala:70 src/launchers/steam.vala:73
+#, c-format
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs."
+"GPUs, with %s."
 msgstr ""
 
 #: src/launchers/steam.vala:77

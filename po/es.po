@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-02 18:36-0400\n"
+"POT-Creation-Date: 2024-10-02 18:56-0400\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -177,10 +177,10 @@ msgstr ""
 "mejoras respecto al Proton predeterminado de Valve."
 
 #: src/launchers/steam.vala:70 src/launchers/steam.vala:73
-#, fuzzy
+#, fuzzy, c-format
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs."
+"GPUs, with %s."
 msgstr ""
 "Herramienta de compatibilidad para Steam Play basada en Wine y componentes "
 "adicionales."
