@@ -71,7 +71,9 @@ namespace ProtonPlus.Models {
             BOTTLES,
             BOTTLES_PROTON_GE,
             BOTTLES_WINE_GE,
-            BOTTLES_WINE_LUTRIS
+            BOTTLES_WINE_LUTRIS,
+            SAREK,
+            SAREK_ASYNC
         }
 
         public enum endpoint_types {

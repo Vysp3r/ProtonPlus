@@ -127,6 +127,10 @@ namespace ProtonPlus.Models {
                     return "lutris-" + title.down ();
                 }
                 return title.down ().replace ("-wine", "");
+            case Runner.title_types.SAREK:
+                return title + "_Stable";
+            case Runner.title_types.SAREK_ASYNC:
+                return title + "_Async";
             default:
                 return title;
             }
