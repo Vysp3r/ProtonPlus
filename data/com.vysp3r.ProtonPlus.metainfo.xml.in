@@ -46,7 +46,7 @@
   <developer id="com.vysp3r">
     <name>Vysp3r</name>
   </developer>
-  
+
   <url type="homepage">https://github.com/Vysp3r/ProtonPlus</url>
   <url type="bugtracker">https://github.com/Vysp3r/ProtonPlus/issues</url>
   <url type="translate">https://hosted.weblate.org/projects/protonplus/protonplus/</url>
@@ -59,6 +59,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.18" date="2024-10-02">
+      <description>
+        <ul>
+          <li>✨ Added support for Proton-Sarek</li>
+          <li>💄 Updated the application icon</li>
+          <li>🌐 Updated Swedish translation</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.17" date="2024-09-16">
       <description>
         <ul>
