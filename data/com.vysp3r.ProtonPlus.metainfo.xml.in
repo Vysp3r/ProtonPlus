@@ -66,6 +66,13 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.19" date="2024-10-02">
+      <description>
+        <ul>
+          <li>🐛 Fix for Proton-Sarek support</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.18" date="2024-10-02">
       <description>
         <ul>
