@@ -38,6 +38,12 @@
     </ul>
   </description>
 
+  <keywords>
+    <keyword>Proton</keyword>
+    <keyword>Wine</keyword>
+    <keyword>Steam Tinker Launch</keyword>
+  </keywords>
+
   <launchable type="desktop-id">com.vysp3r.ProtonPlus.desktop</launchable>
 
   <metadata_license>FSFAP</metadata_license>
