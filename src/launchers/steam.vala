@@ -67,10 +67,10 @@ namespace ProtonPlus.Launchers {
             var proton_tkg = new Models.Runner (group, "Proton-Tkg", _("Custom Proton build for running Windows games, based on Wine-tkg."), "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs", 0, Models.Runner.title_types.PROTON_TKG);
             proton_tkg.is_using_github_actions = true;
 
-            var sarek = new Models.Runner (group, "Proton-Sarek", _("Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with %s.").printf ("DXVK"), "https://api.github.com/repos/pythonlover02/Proton-Sarek/releases", 0, Models.Runner.title_types.SAREK);
+            var sarek = new Models.Runner (group, "Proton-Sarek", _("Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with %s.").printf ("DXVK"), "https://api.github.com/repos/pythonlover02/Proton-Sarek/releases", 1, Models.Runner.title_types.SAREK);
             sarek.request_asset_exclude = new string[] { "Sarek9-13" };
 
-            var sarek_async = new Models.Runner (group, "Proton-Sarek (Async)", _("Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with %s.").printf ("DXVK-Async"), "https://api.github.com/repos/pythonlover02/Proton-Sarek/releases", 1, Models.Runner.title_types.SAREK_ASYNC);
+            var sarek_async = new Models.Runner (group, "Proton-Sarek (Async)", _("Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with %s.").printf ("DXVK-Async"), "https://api.github.com/repos/pythonlover02/Proton-Sarek/releases", 0, Models.Runner.title_types.SAREK_ASYNC);
             sarek_async.request_asset_exclude = new string[] { "Sarek9-13" };
 
             runners.append (proton_ge);
