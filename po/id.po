@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-02 18:56-0400\n"
+"POT-Creation-Date: 2024-10-04 13:49-0400\n"
 "PO-Revision-Date: 2024-01-07 02:06+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -15,53 +15,61 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.4-dev\n"
 
-#: src/widgets/sidebar.vala:10 src/widgets/info-box.vala:16
+#: src/widgets/sidebar.vala:11 src/widgets/info-box.vala:18
 msgid "Toggle Sidebar"
 msgstr ""
 
-#: src/widgets/sidebar.vala:28
-msgid "Only display the runners that are currently installed on your system"
-msgstr ""
-
-#: src/widgets/sidebar.vala:30
-#, fuzzy
-msgid "Only Installed"
-msgstr "Hanya terinstal"
-
-#: src/widgets/info-box.vala:20
+#: src/widgets/info-box.vala:22
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/info-box.vala:23
+#: src/widgets/info-box.vala:25
 msgid "Main Menu"
 msgstr ""
 
-#: src/widgets/info-box.vala:196 src/widgets/info-box.vala:332
+#: src/widgets/description-dialog.vala:14
 #, fuzzy
-msgid "There was an error while fetching data from the GitHub API."
-msgstr "Ada error saat mengambil data dari API GitHub"
+msgid "More information"
+msgstr "Menunjukkan informasi"
 
-#: src/widgets/info-box.vala:214 src/launchers/steam.vala:555
-msgid "Cancel the installation"
-msgstr "Batalkan penginstalan"
+#: src/widgets/description-dialog.vala:18
+msgid "Open"
+msgstr ""
 
-#: src/widgets/release-row.vala:35 src/widgets/release-rows/basic.vala:26
-#: src/widgets/release-rows/steamtinkerlaunch.vala:53
+#: src/widgets/description-dialog.vala:22
+msgid "Open in your web browser"
+msgstr ""
+
+#: src/widgets/busy-dialog.vala:79
+msgid "Closing in"
+msgstr ""
+
+#: src/widgets/release-row.vala:16 src/widgets/release-rows/basic.vala:42
+#: src/widgets/release-rows/steamtinkerlaunch.vala:122
 #, fuzzy, c-format
 msgid "Delete %s"
 msgstr "Menghapus alat"
 
-#: src/widgets/release-row.vala:39
+#: src/widgets/release-row.vala:20
 #, fuzzy, c-format
 msgid "Install %s"
 msgstr "Hanya terinstal"
 
-#: src/widgets/window.vala:86
+#: src/widgets/release-row.vala:24
+#, fuzzy
+msgid "Show more information"
+msgstr "Menunjukkan informasi"
+
+#: src/widgets/load-more-row.vala:8 src/widgets/load-more-row.vala:17
+msgid "Load more"
+msgstr "Muat lainnya"
+
+#: src/widgets/window.vala:79
 #, fuzzy, c-format
 msgid "Welcome to %s"
 msgstr "Selamat datang di "
 
-#: src/widgets/window.vala:86
+#: src/widgets/window.vala:79
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 
@@ -74,81 +82,159 @@ msgstr "Kompatibilitas alat untuk menjalankan game Windows di Linux"
 msgid "Special thanks to"
 msgstr ""
 
-#: src/widgets/release-rows/basic.vala:24
-#: src/widgets/release-rows/steamtinkerlaunch.vala:51
-msgid "Check this to also remove your configuration files."
-msgstr ""
-
-#: src/widgets/release-rows/basic.vala:26
-#: src/widgets/release-rows/steamtinkerlaunch.vala:53
+#: src/widgets/release-rows/basic.vala:42
+#: src/widgets/release-rows/steamtinkerlaunch.vala:122
 #, c-format
 msgid "You're about to remove %s from your system."
 msgstr ""
 
-#: src/widgets/release-rows/basic.vala:26
-#: src/widgets/release-rows/steamtinkerlaunch.vala:53
+#: src/widgets/release-rows/basic.vala:42
+#: src/widgets/release-rows/steamtinkerlaunch.vala:122
 #, fuzzy
 msgid "Are you sure you want this?"
 msgstr "Apakah Anda yakin ingin menghapusnya "
 
-#: src/widgets/release-rows/basic.vala:28
-#: src/widgets/release-rows/steamtinkerlaunch.vala:55
+#: src/widgets/release-rows/basic.vala:44
+#: src/widgets/release-rows/steamtinkerlaunch.vala:126
 msgid "No"
 msgstr ""
 
-#: src/widgets/release-rows/basic.vala:29
-#: src/widgets/release-rows/steamtinkerlaunch.vala:56
+#: src/widgets/release-rows/basic.vala:45
+#: src/widgets/release-rows/steamtinkerlaunch.vala:127
 msgid "Yes"
 msgstr ""
 
-#: src/widgets/info-box.vala:261 src/launchers/steam.vala:629
-#, fuzzy, c-format
-msgid "The installation of %s was canceled."
+#: src/widgets/release-rows/steamtinkerlaunch.vala:69
+msgid "Missing dependencies!"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:69
+#, c-format
+msgid "You are missing the following dependencies for %s:"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:69
+#, fuzzy
+msgid "Installation will be canceled."
 msgstr "Pemasangan "
 
-#: src/widgets/info-box.vala:273 src/launchers/steam.vala:617
-#, fuzzy, c-format
-msgid "The installation of %s has begun."
-msgstr "Pemasangan "
-
-#: src/widgets/info-box.vala:287 src/launchers/steam.vala:627
-#, fuzzy, c-format
-msgid "The installation of %s is complete."
-msgstr "Pemasangan "
-
-#: src/widgets/info-box.vala:314 src/launchers/steam.vala:585
-#, fuzzy, c-format
-msgid "The removal of %s is complete."
-msgstr "Penghapusan "
-
-#: src/widgets/release-rows/steamtinkerlaunch.vala:134
-#: src/models/releases/steamtinkerlaunch.vala:243
-#: src/models/releases/steamtinkerlaunch.vala:255
+#: src/widgets/release-rows/steamtinkerlaunch.vala:71
+#: src/widgets/release-rows/steamtinkerlaunch.vala:85
+#: src/widgets/release-rows/steamtinkerlaunch.vala:193
 msgid "OK"
 msgstr ""
 
-#: src/widgets/info-box.vala:338 src/launchers/steam.vala:631
+#: src/widgets/release-rows/steamtinkerlaunch.vala:82
 #, fuzzy, c-format
-msgid "An unexpected error occurred while installing %s."
-msgstr "Terjadi error saat menginstal "
+msgid "Existing installation of %s"
+msgstr "Pemasangan "
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:180
+#: src/widgets/release-rows/steamtinkerlaunch.vala:82
+#, c-format
+msgid ""
+"It looks like you currently have another version of %s which was not "
+"installed by ProtonPlus."
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:82
+#, c-format
+msgid "Do you want to delete it and install %s with ProtonPlus?"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:84
+msgid "Cancel"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:120
+msgid "Check this to also remove your configuration files."
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:183
+#: src/widgets/release-rows/steamtinkerlaunch.vala:187
+#, c-format
+msgid "%s is not supported"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:183
+#, c-format
+msgid "To install %s for the %s, please run the following command:"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:187
+#, c-format
+msgid "There's currently no known way for us to install %s for the %s."
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:213
+#, c-format
+msgid "%s is up-to-date"
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch.vala:213
 #, c-format
 msgid "Update %s to the latest version"
 msgstr ""
 
-#: src/models/launchers/bottles.vala:27 src/models/launchers/steam.vala:31
+#: src/widgets/busy-dialogs/install-dialog.vala:6
+#, fuzzy
+msgid "Installing"
+msgstr "Hanya terinstal"
+
+#: src/widgets/busy-dialogs/remove-dialog.vala:6
+msgid "Removing"
+msgstr ""
+
+#: src/widgets/busy-dialogs/upgrade-dialog.vala:6
+msgid "Upgrading"
+msgstr ""
+
+#: src/models/release.vala:31
+#, fuzzy, c-format
+msgid "The installation of %s has begun."
+msgstr "Pemasangan "
+
+#: src/models/release.vala:34
+#, fuzzy, c-format
+msgid "The removal of %s has begun."
+msgstr "Penghapusan "
+
+#: src/models/release.vala:37
+#, fuzzy, c-format
+msgid "The upgrade of %s has begun."
+msgstr "Penghapusan "
+
+#: src/models/release.vala:57
+#, fuzzy, c-format
+msgid "An unexpected error occurred while installing %s."
+msgstr "Terjadi error saat menginstal "
+
+#: src/models/release.vala:59
+#, fuzzy, c-format
+msgid "The installation of %s is complete."
+msgstr "Pemasangan "
+
+#: src/models/release.vala:79
+#, fuzzy, c-format
+msgid "The removal of %s is complete."
+msgstr "Penghapusan "
+
+#: src/models/release.vala:79
+#, fuzzy, c-format
+msgid "An unexpected error occurred while removing %s."
+msgstr "Terjadi error saat mengekstrak "
+
+#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:33
 msgid "Runners"
 msgstr "Runner"
 
-#: src/models/launchers/bottles.vala:27 src/models/launchers/hgl.vala:32
-#: src/models/launchers/lutris.vala:27
+#: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
+#: src/models/launchers/lutris.vala:29
 #, fuzzy
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Kompatibilitas alat untuk menjalankan game Windows di Linux"
 
-#: src/models/launchers/bottles.vala:30 src/models/launchers/hgl.vala:35
-#: src/models/launchers/lutris.vala:30
+#: src/models/launchers/bottles.vala:32 src/models/launchers/hgl.vala:35
+#: src/models/launchers/lutris.vala:32
 #, fuzzy
 msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
 msgstr ""
@@ -159,7 +245,7 @@ msgstr ""
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr "Kompatibilitas alat untuk menjalankan game Windows di Linux"
 
-#: src/models/launchers/hgl.vala:38 src/models/launchers/lutris.vala:33
+#: src/models/launchers/hgl.vala:38 src/models/launchers/lutris.vala:35
 #, fuzzy
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
@@ -206,36 +292,31 @@ msgid ""
 "improve RTSP codecs for VRChat."
 msgstr ""
 
-#: src/launchers/steam.vala:70 src/launchers/steam.vala:73
-#, c-format
+#: src/models/runners/proton-ge.vala:6
 msgid ""
-"Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs, with %s."
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton."
 msgstr ""
 
-#: src/launchers/steam.vala:77
-msgid ""
-"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
-msgstr ""
-
-#: src/launchers/steam.vala:78
+#: src/models/runners/proton-tkg.vala:6
 #, fuzzy
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr "Alat kompatibilitas Steam untuk menjalankan game Windows"
 
-#: src/launchers/steam.vala:79
+#: src/models/runners/roberta.vala:6
 #, fuzzy
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr "Alat kompatibilitas Steam untuk menjalankan game Windows"
 
-#: src/launchers/steam.vala:80
-msgid "Custom Proton build for running the Northstar client for Titanfall 2."
+#: src/models/runners/wine-ge.vala:6
+msgid ""
+"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
 msgstr ""
 "Berdasarkan Wine yang dikembangkan oleh Valve Proton Experimental, dibuat "
 "untuk Lutris."
 
-#: src/launchers/steam.vala:81
+#: src/models/runners/wine-lutris.vala:7
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
 "games."
@@ -243,161 +324,85 @@ msgstr ""
 "Peningkatan oleh Lutris untuk menawarkan kompatibilitas atau kinerja yang "
 "lebih baik dalam permainan tertentu."
 
-#: src/launchers/steam.vala:85
+#: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
 msgstr ""
 
-#: src/launchers/steam.vala:336
-msgid "Missing dependencies!"
-msgstr ""
-
-#: src/launchers/steam.vala:336
-#, c-format
-msgid "You are missing the following dependencies for %s:"
-msgstr ""
-
-#: src/launchers/steam.vala:336
+#: src/models/releases/basic.vala:40 src/models/releases/github-action.vala:14
+#: src/models/releases/steamtinkerlaunch.vala:259
 #, fuzzy
-msgid "Installation will be canceled."
+msgid "Downloading..."
+msgstr "Mengunduh..."
+
+#: src/models/releases/basic.vala:49 src/models/releases/github-action.vala:23
+#: src/models/releases/steamtinkerlaunch.vala:266
+#, fuzzy
+msgid "Extracting..."
+msgstr "Mengekstrak..."
+
+#: src/models/releases/basic.vala:58 src/models/releases/github-action.vala:37
+msgid "Renaming..."
+msgstr ""
+
+#: src/models/releases/basic.vala:67 src/models/releases/github-action.vala:46
+#, fuzzy
+msgid "Running installation script..."
 msgstr "Pemasangan "
 
-#: src/launchers/steam.vala:337 src/launchers/steam.vala:349
-#: src/launchers/steam.vala:648
-msgid "OK"
+#: src/models/releases/basic.vala:78
+msgid "Deleting..."
 msgstr ""
 
-#: src/launchers/steam.vala:347
+#: src/models/releases/basic.vala:85
+msgid "Running removal script..."
+msgstr ""
+
+#: src/models/releases/upgrade.vala:8
 #, fuzzy, c-format
-msgid "Existing installation of %s"
-msgstr "Pemasangan "
+msgid "The upgrade of %s is complete."
+msgstr "Penghapusan "
 
-#: src/launchers/steam.vala:347
-#, c-format
-msgid ""
-"It looks like you currently have another version of %s which was not "
-"installed by ProtonPlus."
-msgstr ""
-
-#: src/launchers/steam.vala:347
-#, c-format
-msgid "Do you want to delete it and install %s with ProtonPlus?"
-msgstr ""
-
-#: src/launchers/steam.vala:348
-msgid "Cancel"
-msgstr ""
-
-#: src/launchers/steam.vala:556 src/launchers/steam.vala:568
+#: src/models/releases/upgrade.vala:8
 #, fuzzy, c-format
-msgid "Delete %s"
-msgstr "Menghapus alat"
+msgid "An unexpected error occurred while upgrading %s."
+msgstr "Terjadi error saat mengekstrak "
 
-#: src/launchers/steam.vala:558
-#, fuzzy, c-format
-msgid "Install %s"
-msgstr "Hanya terinstal"
+#, fuzzy
+#~ msgid "Only Installed"
+#~ msgstr "Hanya terinstal"
 
-#: src/launchers/steam.vala:559
 #, fuzzy
 #~ msgid "There was an error while fetching data from the GitHub API."
 #~ msgstr "Ada error saat mengambil data dari API GitHub"
 
-#: src/launchers/steam.vala:566
-msgid "Check this to also delete your configuration files."
-msgstr ""
+#~ msgid "Cancel the installation"
+#~ msgstr "Batalkan penginstalan"
 
-#: src/launchers/steam.vala:568
-#, c-format
-msgid "You're about to delete %s from your system."
-msgstr ""
+#~ msgid "Delete the runner"
+#~ msgstr "Hapus runner"
 
-#: src/launchers/steam.vala:568
-#, fuzzy
-msgid "Are you sure you want this?"
-msgstr "Apakah Anda yakin ingin menghapusnya "
-
-#: src/launchers/steam.vala:570
-msgid "No"
-msgstr ""
-
-#: src/launchers/steam.vala:571
-msgid "Yes"
-msgstr ""
-
-#: src/launchers/steam.vala:587
 #, fuzzy, c-format
-#~ msgid "The installation of %s has begun."
+#~ msgid "Are you sure you want to delete %s?"
+#~ msgstr "Apakah Anda yakin ingin menghapusnya "
+
+#~ msgid "Confirm"
+#~ msgstr "Konfirmasi"
+
+#~ msgid "Install the runner"
+#~ msgstr "Instal runner"
+
+#, fuzzy, c-format
+#~ msgid "The installation of %s was canceled."
 #~ msgstr "Pemasangan "
 
-#: src/launchers/steam.vala:596
-#, c-format
-msgid "%s is already up-to-date."
-msgstr ""
-
-#: src/launchers/steam.vala:598
-#, fuzzy, c-format
-#~ msgid "The removal of %s is complete."
-#~ msgstr "Penghapusan "
-
-#: src/launchers/steam.vala:608
 #, fuzzy, c-format
 #~ msgid "An unexpected error occurred while extracting %s."
 #~ msgstr "Terjadi error saat mengekstrak "
 
-#: src/launchers/steam.vala:610
-#, fuzzy, c-format
-#~ msgid "An unexpected error occurred while installing %s."
-#~ msgstr "Terjadi error saat menginstal "
-
-#: src/launchers/steam.vala:641 src/launchers/steam.vala:644
-#, c-format
-msgid "%s is not supported"
-msgstr ""
-
-#: src/launchers/steam.vala:641
-#, c-format
-msgid "To install %s for the %s, please run the following command:"
-msgstr ""
-
-#: src/launchers/steam.vala:644
-#, c-format
-msgid "There's currently no known way for us to install %s for the %s."
-msgstr ""
-
-#: src/launchers/steam.vala:714
-#, c-format
-msgid "%s is up-to-date"
-msgstr ""
-
-#: src/launchers/steam.vala:714
-#, c-format
-msgid "Update %s to the latest version"
-msgstr ""
-
-#: src/models/release.vala:63
-msgid "Not Available"
-msgstr ""
-
-#.
-#: src/window.vala:112
-#, fuzzy, c-format
-#~ msgid "An unexpected error occurred while upgrading %s."
-#~ msgstr "Terjadi error saat mengekstrak "
-
-#: src/window.vala:112
-msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
-
-#: src/application.vala:80
-#, fuzzy
-msgid "A modern compatibility tools manager for Linux."
-msgstr "Kompatibilitas alat untuk menjalankan game Windows di Linux"
-
-#: src/application.vala:86
-msgid "Special thanks to"
-msgstr ""
+#~ msgid "Contains improvements over Valve's default Proton."
+#~ msgstr "Mengandung peningkatan Proton default Valve."
 
 #, fuzzy
 #~ msgid "Wine is a program which allows running Microsoft Windows programs."
@@ -469,15 +474,7 @@ msgstr ""
 #~ msgstr "Direktori: "
 
 #, fuzzy
-#~ msgid "Download done...\n"
-#~ msgstr "Mengunduh..."
-
-#, fuzzy
 #~ msgid "Extraction started...\n"
-#~ msgstr "Mengekstrak..."
-
-#, fuzzy
-#~ msgid "Extraction done...\n"
 #~ msgstr "Mengekstrak..."
 
 #, fuzzy

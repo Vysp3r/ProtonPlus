@@ -46,6 +46,8 @@ namespace ProtonPlus.Models.Launchers {
             runners.append (new Runners.Northstar_Proton (group));
             runners.append (new Runners.Proton_GE_RSTP (group));
             runners.append (new Runners.Proton_Tkg (group));
+            runners.append (new Runners.Proton_Sarek (group));
+            runners.append (new Runners.Proton_Sarek_Async (group));
             runners.append (new Runners.SteamTinkerLaunch (group));
 
             return runners;

@@ -17,7 +17,7 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Poedit 3.5\n"
 
-#: src/widgets/sidebar.vala:10 src/widgets/info-box.vala:16
+#: src/widgets/sidebar.vala:11 src/widgets/info-box.vala:18
 msgid "Toggle Sidebar"
 msgstr ""
 
@@ -48,8 +48,20 @@ msgstr "Произошла ошибка во время скачивания д�
 msgid "Cancel the installation"
 msgstr "Отменить установку"
 
-#: src/widgets/release-row.vala:35 src/widgets/release-rows/basic.vala:26
-#: src/widgets/release-rows/steamtinkerlaunch.vala:53
+#: src/widgets/description-dialog.vala:18
+msgid "Open"
+msgstr ""
+
+#: src/widgets/description-dialog.vala:22
+msgid "Open in your web browser"
+msgstr ""
+
+#: src/widgets/busy-dialog.vala:79
+msgid "Closing in"
+msgstr ""
+
+#: src/widgets/release-row.vala:16 src/widgets/release-rows/basic.vala:42
+#: src/widgets/release-rows/steamtinkerlaunch.vala:122
 #, fuzzy, c-format
 msgid "Delete %s"
 msgstr "Удалить инструмент"
@@ -64,8 +76,8 @@ msgstr "Вы уверены, что хотите удалить %s?"
 msgid "No"
 msgstr ""
 
-#: src/widgets/release-rows/basic.vala:29
-#: src/widgets/release-rows/steamtinkerlaunch.vala:56
+#: src/widgets/release-rows/basic.vala:45
+#: src/widgets/release-rows/steamtinkerlaunch.vala:127
 msgid "Yes"
 msgstr ""
 
@@ -99,12 +111,22 @@ msgstr "При извлечении %s произошла непредвиден
 msgid "An unexpected error occurred while installing %s."
 msgstr "При установке %s произошла непредвиденная ошибка."
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:180
-#, c-format
-msgid "Update %s to the latest version"
-msgstr ""
+#: src/models/release.vala:59
+#, fuzzy, c-format
+msgid "The installation of %s is complete."
+msgstr "Описание лаунчера "
 
-#: src/models/launchers/bottles.vala:27 src/models/launchers/steam.vala:31
+#: src/models/release.vala:79
+#, fuzzy, c-format
+msgid "The removal of %s is complete."
+msgstr "Удаление "
+
+#: src/models/release.vala:79
+#, fuzzy, c-format
+msgid "An unexpected error occurred while removing %s."
+msgstr "При извлечении произошла непредвиденная ошибка "
+
+#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:33
 msgid "Runners"
 msgstr "Инструменты"
 
@@ -232,7 +254,7 @@ msgstr ""
 "Инструмент совместимости Steam на основе Proton-GE с дополнительными "
 "исправлениями для улучшения RTSP-кодеков для VRChat."
 
-#: src/launchers/steam.vala:85
+#: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
@@ -263,11 +285,8 @@ msgstr "ОК"
 msgid "Existing installation of %s"
 msgstr "Существующая установка %s"
 
-#: src/launchers/steam.vala:347
-#, c-format
-msgid ""
-"It looks like you currently have another version of %s which was not "
-"installed by ProtonPlus."
+#: src/models/releases/basic.vala:78
+msgid "Deleting..."
 msgstr ""
 "Похоже, что в настоящее время у вас установлена другая версия %s, которая не "
 "была установлена программой ProtonPlus."
@@ -387,10 +406,6 @@ msgstr ""
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Современный менеджер инструментов совместимости для Linux."
 
-#: src/application.vala:86
-msgid "Special thanks to"
-msgstr "Отдельная благодарность"
-
 #, fuzzy
 #~ msgid "Steam compatibility tool for running Windows games."
 #~ msgstr "Инструмент совместимости Steam для запуска игр для Windows"
@@ -460,15 +475,7 @@ msgstr "Отдельная благодарность"
 #~ msgstr "Расположение: "
 
 #, fuzzy
-#~ msgid "Download done...\n"
-#~ msgstr "Скачивается..."
-
-#, fuzzy
 #~ msgid "Extraction started...\n"
-#~ msgstr "Распаковывается..."
-
-#, fuzzy
-#~ msgid "Extraction done...\n"
 #~ msgstr "Распаковывается..."
 
 #, fuzzy
