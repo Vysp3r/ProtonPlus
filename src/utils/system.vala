@@ -37,9 +37,20 @@ namespace ProtonPlus.Utils {
             var distro_name = "Unknown";
             MatchInfo m;
             if (/^NAME="\s*(.+?)\s*"/m.match (distro_info, 0, out m))
-                distro_name = m.fetch(1);
+                distro_name = m.fetch (1);
 
             return distro_name;
+        }
+
+        public static void open_url (string url) {
+            var uri_launcher = new Gtk.UriLauncher (url);
+            uri_launcher.launch.begin (Widgets.Application.window, null, (obj, res) => {
+                try {
+                    uri_launcher.launch.end (res);
+                } catch (Error error) {
+                    message (error.message);
+                }
+            });
         }
     }
 }

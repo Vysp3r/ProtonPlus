@@ -1,6 +1,6 @@
-namespace ProtonPlus {
+namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
-        public static Window window;
+        public static Window window { get; set; }
 
         construct {
             application_id = Constants.APP_ID;
@@ -28,7 +28,8 @@ namespace ProtonPlus {
 
             init_shortcuts ();
 
-            if (Utils.System.IS_GAMESCOPE)window.fullscreen ();
+            if (Utils.System.IS_GAMESCOPE)
+                window.fullscreen ();
 
             window.present ();
         }
@@ -36,14 +37,25 @@ namespace ProtonPlus {
         void init_settings () {
             var settings = new Settings ("com.vysp3r.ProtonPlus.State");
 
-            settings.bind ("width", window,
-                           "default-width", SettingsBindFlags.DEFAULT);
-            settings.bind ("height", window,
-                           "default-height", SettingsBindFlags.DEFAULT);
-            settings.bind ("is-maximized", window,
-                           "maximized", SettingsBindFlags.DEFAULT);
-            settings.bind ("is-fullscreen", window,
-                           "fullscreened", SettingsBindFlags.DEFAULT);
+            settings.bind ("width",
+                           window,
+                           "default-width",
+                           SettingsBindFlags.DEFAULT);
+
+            settings.bind ("height",
+                           window,
+                           "default-height",
+                           SettingsBindFlags.DEFAULT);
+
+            settings.bind ("is-maximized",
+                           window,
+                           "maximized",
+                           SettingsBindFlags.DEFAULT);
+
+            settings.bind ("is-fullscreen",
+                           window,
+                           "fullscreened",
+                           SettingsBindFlags.DEFAULT);
         }
 
         void init_shortcuts () {
@@ -87,18 +99,7 @@ namespace ProtonPlus {
             about_window.set_transient_for (window);
             about_window.set_modal (true);
 
-            about_window.show ();
-        }
-
-        public static int main (string[] args) {
-            if (!Thread.supported ()) {
-                message ("Threads are not supported!");
-                return -1;
-            }
-
-            var application = new Application ();
-
-            return application.run (args);
+            about_window.present ();
         }
     }
 }
