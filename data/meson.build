@@ -8,9 +8,10 @@ subdir('icons')
 subdir('images')
 
 #
-install_data(
-      join_paths('logo', 'com.vysp3r.ProtonPlus.svg'),
-      install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', 'scalable', 'apps')
+install_subdir(
+                       join_paths('logo', 'icons'),
+          install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons'),
+      strip_directory: true
 )
 
 #
