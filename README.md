@@ -1,3 +1,6 @@
+> [!NOTE]  
+> The project will not receive updates for some time since I am really busy with my basic military training, but once it's done I will come back to it. I should be back in February 2025 if all goes well.
+
 <h1 align="center">
     <img align="center" width=150 src="data/logo/com.vysp3r.ProtonPlus.svg" />
     <br><br>
