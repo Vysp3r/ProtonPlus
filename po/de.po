@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-02 18:56-0400\n"
+"POT-Creation-Date: 2024-12-23 18:39-0500\n"
 "PO-Revision-Date: 2024-10-15 17:37+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -308,21 +308,12 @@ msgstr ""
 "Steam Kompatibilitätswerkzeug um Windowsspiele zu Starten mit Verbesserungen "
 "gegenüber Valves Standard-Proton."
 
-#: src/launchers/steam.vala:70 src/launchers/steam.vala:73
-#, c-format
-msgid ""
-"Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs, with %s."
+#: src/models/runners/proton-tkg.vala:6
+#, fuzzy
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
-"Steam Kompatibilitätswerkzeug basierend auf Proton-GE mit zusätzlichen "
-"Änderungen für sehr alte GPUs, mit %s."
-
-#: src/launchers/steam.vala:77
-msgid ""
-"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
-msgstr ""
-"Benutzerdefiniertes Proton-Build für die Ausführung von Windows-Spielen, "
-"basiert auf Wine-tkg."
+"Benutzerdefinierter Proton-Build zum Ausführen des Northstar-Clients für "
+"Titanfall 2."
 
 #: src/models/runners/roberta.vala:6
 msgid ""
@@ -392,6 +383,14 @@ msgstr "Die Aktualisierung von %s ist abgeschlossen."
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "Ein unerwarteter Fehler trat auf beim Aktualisieren von %s."
 
+#, c-format
+#~ msgid ""
+#~ "Steam compatibility tool based on Proton-GE with modifications for very "
+#~ "old GPUs, with %s."
+#~ msgstr ""
+#~ "Steam Kompatibilitätswerkzeug basierend auf Proton-GE mit zusätzlichen "
+#~ "Änderungen für sehr alte GPUs, mit %s."
+
 #~ msgid "Only display the runners that are currently installed on your system"
 #~ msgstr ""
 #~ "Nur Ausführungswerkzeuge anzeigen die aktuell auf dem System installiert "
@@ -430,14 +429,6 @@ msgstr "Ein unerwarteter Fehler trat auf beim Aktualisieren von %s."
 
 #~ msgid "Contains improvements over Valve's default Proton."
 #~ msgstr "Enthält Verbesserungen gegenüber dem Standard-Proton von Valve."
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "Steam compatibility tool based on Proton-GE with modifications for very "
-#~ "old GPUs, with %s."
-#~ msgstr ""
-#~ "Steam Kompatibilitätswerkzeug basierend auf Proton-GE mit zusätzlichen "
-#~ "Patches um RTSP codecs für VRChat zu verbessern."
 
 #, c-format
 #~ msgid "%s is already up-to-date."
