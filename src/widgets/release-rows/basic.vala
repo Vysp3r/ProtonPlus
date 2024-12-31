@@ -5,9 +5,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         public Basic (Models.Releases.Basic release) {
             this.release = release;
 
-            install_dialog.initialize (release);
-            remove_dialog.initialize (release);
-
             if (release.description == null || release.page_url == null)
                 input_box.remove (info_button);
 
@@ -26,7 +23,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             activate_action_variant ("win.add-task", "");
 
             install_dialog = new Dialogs.InstallDialog ();
-
+            install_dialog.initialize (release);
             install_dialog.present ();
 
             release.install.begin ((obj, res) => {
@@ -56,7 +53,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 activate_action_variant ("win.add-task", "");
 
                 remove_dialog = new Dialogs.RemoveDialog ();
-
+                remove_dialog.initialize (release);
                 remove_dialog.present ();
 
                 var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();

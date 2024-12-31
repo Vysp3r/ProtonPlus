@@ -8,10 +8,6 @@ namespace ProtonPlus.Widgets {
         protected Dialogs.RemoveDialog remove_dialog { get; set; }
 
         construct {
-            install_dialog = new Dialogs.InstallDialog ();
-
-            remove_dialog = new Dialogs.RemoveDialog ();
-
             remove_button = new Gtk.Button.from_icon_name ("trash-symbolic");
             remove_button.set_tooltip_text (_("Delete %s").printf (title));
             remove_button.add_css_class ("flat");

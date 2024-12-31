@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-23 18:39-0500\n"
+"POT-Creation-Date: 2024-12-30 21:16-0500\n"
 "PO-Revision-Date: 2024-07-06 01:09+0000\n"
 "Last-Translator: Kauã Azevedo da Silva Vicente <Kazevic@pm.me>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -40,22 +40,22 @@ msgstr ""
 msgid "Open in your web browser"
 msgstr ""
 
-#: src/widgets/busy-dialog.vala:79
+#: src/widgets/busy-dialog.vala:83
 msgid "Closing in"
 msgstr ""
 
-#: src/widgets/release-row.vala:16 src/widgets/release-rows/basic.vala:42
+#: src/widgets/release-row.vala:12 src/widgets/release-rows/basic.vala:39
 #: src/widgets/release-rows/steamtinkerlaunch.vala:122
 #, fuzzy, c-format
 msgid "Delete %s"
 msgstr "Remover ferramenta"
 
-#: src/widgets/release-row.vala:20
+#: src/widgets/release-row.vala:16
 #, fuzzy, c-format
 msgid "Install %s"
 msgstr "Apenas instalado"
 
-#: src/widgets/release-row.vala:24
+#: src/widgets/release-row.vala:20
 #, fuzzy
 msgid "Show more information"
 msgstr "Mostrar informação"
@@ -64,45 +64,45 @@ msgstr "Mostrar informação"
 msgid "Load more"
 msgstr "Carregar mais"
 
-#: src/widgets/window.vala:79
+#: src/widgets/window.vala:80
 #, fuzzy, c-format
 msgid "Welcome to %s"
 msgstr "Bem-vindo(a) a "
 
-#: src/widgets/window.vala:79
+#: src/widgets/window.vala:80
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Instale a Steam, Lutris, Bottles ou Heroic Games Launcher para começar."
 
-#: src/widgets/application.vala:92
+#: src/widgets/application.vala:59
 #, fuzzy
 msgid "A modern compatibility tools manager for Linux."
 msgstr ""
 "Um simples gerenciador de ferramentas de compatibilidade baseadas no Wine e "
 "Proton para o GNOME"
 
-#: src/widgets/application.vala:98
+#: src/widgets/application.vala:65
 msgid "Special thanks to"
 msgstr "Agradecimentos especiais a"
 
-#: src/widgets/release-rows/basic.vala:42
+#: src/widgets/release-rows/basic.vala:39
 #: src/widgets/release-rows/steamtinkerlaunch.vala:122
 #, c-format
 msgid "You're about to remove %s from your system."
 msgstr ""
 
-#: src/widgets/release-rows/basic.vala:42
+#: src/widgets/release-rows/basic.vala:39
 #: src/widgets/release-rows/steamtinkerlaunch.vala:122
 #, fuzzy
 msgid "Are you sure you want this?"
 msgstr "Tem certeza de que deseja excluir "
 
-#: src/widgets/release-rows/basic.vala:44
+#: src/widgets/release-rows/basic.vala:41
 #: src/widgets/release-rows/steamtinkerlaunch.vala:126
 msgid "No"
 msgstr ""
 
-#: src/widgets/release-rows/basic.vala:45
+#: src/widgets/release-rows/basic.vala:42
 #: src/widgets/release-rows/steamtinkerlaunch.vala:127
 msgid "Yes"
 msgstr ""
@@ -178,7 +178,7 @@ msgstr ""
 msgid "Update %s to the latest version"
 msgstr ""
 
-#: src/widgets/busy-dialogs/install-dialog.vala:6
+#: src/widgets/busy-dialogs/install-dialog.vala:8
 #, fuzzy
 msgid "Installing"
 msgstr "Apenas instalado"
