@@ -15,6 +15,7 @@ namespace ProtonPlus.Widgets {
         construct {
             set_application ((Adw.Application) GLib.Application.get_default ());
             set_title (Constants.APP_NAME);
+            set_resizable (true);
 
             add_action (load_info_box ());
             add_action (add_task ());

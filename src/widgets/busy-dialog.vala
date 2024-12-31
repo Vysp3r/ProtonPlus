@@ -53,6 +53,8 @@ namespace ProtonPlus.Widgets {
         public virtual void initialize (Models.Release release) {
             this.release = release;
 
+            header_bar.set_show_end_title_buttons (false);
+
             window_title.set_subtitle (release.displayed_title);
         }
 
@@ -60,6 +62,8 @@ namespace ProtonPlus.Widgets {
             header_bar.set_show_end_title_buttons (true);
 
             if (success) {
+                count = 5;
+
                 refresh_closing_label ();
 
                 GLib.Timeout.add_seconds_full (Priority.DEFAULT, 1, () => {

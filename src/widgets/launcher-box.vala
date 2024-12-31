@@ -8,6 +8,10 @@ namespace ProtonPlus.Widgets {
 
         public LauncherBox (Models.Launcher launcher) {
             this.launcher = launcher;
+            
+            set_margin_start (15);
+            set_margin_end (15);
+            set_margin_bottom (15);
 
             bin_layout = new Gtk.BinLayout ();
             set_layout_manager (bin_layout);

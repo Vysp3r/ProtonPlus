@@ -85,7 +85,7 @@ sources = files(
 protonplus_deps = [
     dependency('gtk4'),
     dependency('glib-2.0'),
-    dependency('libadwaita-1', version: '>= 1.4'),
+    dependency('libadwaita-1', version: '>= 1.6'),
   	dependency('json-glib-1.0'),
   	dependency('libsoup-3.0'),
     dependency('gee-0.8'),

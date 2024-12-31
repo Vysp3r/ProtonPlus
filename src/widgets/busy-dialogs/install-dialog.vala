@@ -3,7 +3,9 @@ namespace ProtonPlus.Widgets.Dialogs {
         public override void initialize (Models.Release release) {
             base.initialize (release);
 
-            window_title.set_title (_("Installing"));
+            header_bar.set_show_end_title_buttons (true);
+
+            window_title.set_title  (_("Installing"));
 
             release.notify["progress"].connect (release_progress_changed);
         }

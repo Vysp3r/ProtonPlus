@@ -1,6 +1,7 @@
 namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
         public static Window window { get; set; }
+        Adw.AboutDialog about_dialog { get; set; }
 
         construct {
             application_id = Constants.APP_ID;
@@ -24,6 +25,8 @@ namespace ProtonPlus.Widgets {
             window = new Window ();
             window.initialize ();
 
+            init_about_dialog();
+
             init_settings ();
 
             init_shortcuts ();
@@ -32,6 +35,34 @@ namespace ProtonPlus.Widgets {
                 window.fullscreen ();
 
             window.present ();
+        }
+
+        void init_about_dialog () {
+            const string[] devs = {
+                "Charles Malouin (Vysp3r) https://github.com/Vysp3r",
+                "Johnny Arcitec https://github.com/Arcitec",
+                "windblows95 https://github.com/windblows95",
+                null
+            };
+
+            const string[] thanks = {
+                "GNOME Project https://www.gnome.org/",
+                "ProtonUp-Qt Project https://davidotek.github.io/protonup-qt/",
+                "LUG Helper Project https://github.com/starcitizen-lug/lug-helper",
+                null
+            };
+
+            about_dialog = new Adw.AboutDialog ();
+            about_dialog.set_application_name (Constants.APP_NAME);
+            about_dialog.set_application_icon (Constants.APP_ID);
+            about_dialog.set_version ("v" + Constants.APP_VERSION);
+            about_dialog.set_comments (_("A modern compatibility tools manager for Linux."));
+            about_dialog.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
+            about_dialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
+            about_dialog.set_copyright ("© 2022-2025 Vysp3r");
+            about_dialog.set_license_type (Gtk.License.GPL_3_0);
+            about_dialog.set_developers (devs);
+            about_dialog.add_credit_section (_("Special thanks to"), thanks);
         }
 
         void init_settings () {
@@ -70,36 +101,7 @@ namespace ProtonPlus.Widgets {
         }
 
         void show_about_dialog () {
-            const string[] devs = {
-                "Charles Malouin (Vysp3r) https://github.com/Vysp3r",
-                "Johnny Arcitec https://github.com/Arcitec",
-                "windblows95 https://github.com/windblows95",
-                null
-            };
-
-            const string[] thanks = {
-                "GNOME Project https://www.gnome.org/",
-                "ProtonUp-Qt Project https://davidotek.github.io/protonup-qt/",
-                "LUG Helper Project https://github.com/starcitizen-lug/lug-helper",
-                null
-            };
-
-            var about_window = new Adw.AboutWindow ();
-
-            about_window.set_application_name (Constants.APP_NAME);
-            about_window.set_application_icon (Constants.APP_ID);
-            about_window.set_version ("v" + Constants.APP_VERSION);
-            about_window.set_comments (_("A modern compatibility tools manager for Linux."));
-            about_window.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
-            about_window.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
-            about_window.set_copyright ("© 2022-2024 Vysp3r");
-            about_window.set_license_type (Gtk.License.GPL_3_0);
-            about_window.set_developers (devs);
-            about_window.add_credit_section (_("Special thanks to"), thanks);
-            about_window.set_transient_for (window);
-            about_window.set_modal (true);
-
-            about_window.present ();
+            about_dialog.present (window);
         }
     }
 }

@@ -66,11 +66,11 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
 
                 if (missing_dependencies != "") {
-                    var dialog = new Adw.MessageDialog (Widgets.Application.window, _("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
+                    var alert_dialog = new Adw.AlertDialog (_("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
 
-                    dialog.add_response ("ok", _("OK"));
+                    alert_dialog.add_response ("ok", _("OK"));
 
-                    dialog.present ();
+                    alert_dialog.present (Widgets.Application.window);
 
                     return;
                 }
@@ -79,16 +79,16 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             var has_external_install = release.detect_external_locations ();
 
             if (has_external_install) {
-                var dialog = new Adw.MessageDialog (Widgets.Application.window, _("Existing installation of %s").printf (title), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title), _("Do you want to delete it and install %s with ProtonPlus?").printf (title)));
+                var alert_dialog = new Adw.AlertDialog (_("Existing installation of %s").printf (title), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title), _("Do you want to delete it and install %s with ProtonPlus?").printf (title)));
 
-                dialog.add_response ("cancel", _("Cancel"));
-                dialog.add_response ("ok", _("OK"));
+                alert_dialog.add_response ("cancel", _("Cancel"));
+                alert_dialog.add_response ("ok", _("OK"));
 
-                dialog.set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);
-                dialog.set_response_appearance ("ok", Adw.ResponseAppearance.DESTRUCTIVE);
+                alert_dialog.set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);
+                alert_dialog.set_response_appearance ("ok", Adw.ResponseAppearance.DESTRUCTIVE);
 
-                dialog.choose.begin (null, (obj, res) => {
-                    string response = dialog.choose.end (res);
+                alert_dialog.choose.begin (Widgets.Application.window, null, (obj, res) => {
+                    string response = alert_dialog.choose.end (res);
 
                     if (response != "ok")
                         return;
@@ -119,17 +119,17 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         protected override void remove_button_clicked () {
             var remove_check = new Gtk.CheckButton.with_label (_("Check this to also remove your configuration files."));
 
-            var message_dialog = new Adw.MessageDialog (Application.window, _("Delete %s").printf (release.title), "%s\n\n%s".printf (_("You're about to remove %s from your system.").printf (release.title), _("Are you sure you want this?")));
+            var alert_dialog = new Adw.AlertDialog (_("Delete %s").printf (release.title), "%s\n\n%s".printf (_("You're about to remove %s from your system.").printf (release.title), _("Are you sure you want this?")));
 
-            message_dialog.set_extra_child (remove_check);
+            alert_dialog.set_extra_child (remove_check);
 
-            message_dialog.add_response ("no", _("No"));
-            message_dialog.add_response ("yes", _("Yes"));
+            alert_dialog.add_response ("no", _("No"));
+            alert_dialog.add_response ("yes", _("Yes"));
 
-            message_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
-            message_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
+            alert_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
+            alert_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
 
-            message_dialog.response.connect ((response) => {
+            alert_dialog.response.connect ((response) => {
                 if (response != "yes")
                     return;
 
@@ -152,7 +152,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 });
             });
 
-            message_dialog.present ();
+            alert_dialog.present (Widgets.Application.window);
         }
 
         void upgrade_button_clicked () {
@@ -175,24 +175,24 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         protected override void info_button_clicked () {
-            Adw.MessageDialog? dialog = null;
+            Adw.AlertDialog? alert_dialog = null;
             switch (release.runner.group.launcher.installation_type) {
             case Models.Launcher.InstallationTypes.FLATPAK :
                 var command_label = new Gtk.Label ("flatpak install com.valvesoftware.Steam.Utility.steamtinkerlaunch");
                 command_label.set_selectable (true);
-                dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Flatpak"), _("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
-                dialog.set_extra_child (command_label);
+                alert_dialog = new Adw.AlertDialog ( _("%s is not supported").printf ("Steam Flatpak"), _("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
+                alert_dialog.set_extra_child (command_label);
                 break;
             case Models.Launcher.InstallationTypes.SNAP:
-                dialog = new Adw.MessageDialog (Application.window, _("%s is not supported").printf ("Steam Snap"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
+                alert_dialog = new Adw.AlertDialog ( _("%s is not supported").printf ("Steam Snap"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
                 break;
             default:
                 break;
             }
-            if (dialog != null) {
-                dialog.add_response ("ok", _("OK"));
+            if (alert_dialog != null) {
+                alert_dialog.add_response ("ok", _("OK"));
 
-                dialog.present ();
+                alert_dialog.present (Application.window);
             }
         }
 
