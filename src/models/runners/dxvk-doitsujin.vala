@@ -11,12 +11,5 @@ namespace ProtonPlus.Models.Runners {
         public override string get_directory_name (string release_name) {
             return release_name.replace ("v", "dxvk-");
         }
-
-        public override string get_directory_name_reverse (string release_name) {
-            if (release_name.contains ("async")) {
-                return "";
-            }
-            return release_name.replace ("dxvk-", "v");
-        }
     }
 }

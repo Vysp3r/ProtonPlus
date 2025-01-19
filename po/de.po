@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-18 21:10-0500\n"
+"POT-Creation-Date: 2025-01-19 11:19-0500\n"
 "PO-Revision-Date: 2024-10-15 17:37+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -18,15 +18,20 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 3.5\n"
 
-#: src/widgets/sidebar.vala:11 src/widgets/info-box.vala:18
-msgid "Toggle Sidebar"
+#: src/widgets/sidebar.vala:20
+#, fuzzy
+msgid "Show Installed"
+msgstr "Nur Installierte"
+
+#: src/widgets/info-box.vala:17
+msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widgets/info-box.vala:22
+#: src/widgets/info-box.vala:18
 msgid "_About ProtonPlus"
 msgstr "_Über ProtonPlus"
 
-#: src/widgets/info-box.vala:25
+#: src/widgets/info-box.vala:21
 msgid "Main Menu"
 msgstr ""
 
@@ -47,8 +52,8 @@ msgstr ""
 msgid "Closing in"
 msgstr ""
 
-#: src/widgets/release-row.vala:12 src/widgets/release-rows/basic.vala:39
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
+#: src/widgets/release-row.vala:12 src/widgets/release-rows/basic.vala:35
+#: src/widgets/release-rows/steamtinkerlaunch.vala:118
 #, c-format
 msgid "Delete %s"
 msgstr "Lösche %s"
@@ -66,43 +71,43 @@ msgstr "Mehr Informationen anzeigen"
 msgid "Load more"
 msgstr "Mehr laden"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:51
 #, c-format
 msgid "Welcome to %s"
 msgstr "Willkommen zu %s"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:51
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Installieren Sie Steam, Lutris, Bottles oder Heroic Games Launcher, um "
 "loszulegen."
 
-#: src/widgets/application.vala:59
+#: src/widgets/application.vala:78
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Ein moderner Kompatibilitätswerkzeugmanager für Linux."
 
-#: src/widgets/application.vala:65
+#: src/widgets/application.vala:84
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
 
-#: src/widgets/release-rows/basic.vala:39
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
+#: src/widgets/release-rows/basic.vala:35
+#: src/widgets/release-rows/steamtinkerlaunch.vala:118
 #, fuzzy, c-format
 msgid "You're about to remove %s from your system."
 msgstr "Sie sind dabei %s von Ihrem System zu löschen."
 
-#: src/widgets/release-rows/basic.vala:39
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
+#: src/widgets/release-rows/basic.vala:35
+#: src/widgets/release-rows/steamtinkerlaunch.vala:118
 msgid "Are you sure you want this?"
 msgstr "Sind Sie sicher, dass Sie das wollen?"
 
-#: src/widgets/release-rows/basic.vala:41
-#: src/widgets/release-rows/steamtinkerlaunch.vala:126
+#: src/widgets/release-rows/basic.vala:37
+#: src/widgets/release-rows/steamtinkerlaunch.vala:122
 msgid "No"
 msgstr "Nein"
 
-#: src/widgets/release-rows/basic.vala:42
-#: src/widgets/release-rows/steamtinkerlaunch.vala:127
+#: src/widgets/release-rows/basic.vala:38
+#: src/widgets/release-rows/steamtinkerlaunch.vala:123
 msgid "Yes"
 msgstr "Ja"
 
@@ -121,7 +126,7 @@ msgstr "Die Installation wird abgebrochen."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:71
 #: src/widgets/release-rows/steamtinkerlaunch.vala:85
-#: src/widgets/release-rows/steamtinkerlaunch.vala:193
+#: src/widgets/release-rows/steamtinkerlaunch.vala:181
 msgid "OK"
 msgstr "OK"
 
@@ -148,36 +153,36 @@ msgstr "Möchten Sie %s löschen und von ProtonPlus installieren lassen?"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:120
+#: src/widgets/release-rows/steamtinkerlaunch.vala:116
 #, fuzzy
 msgid "Check this to also remove your configuration files."
 msgstr ""
 "Aktivieren Sie diese Option, um auch Ihre Konfigurationsdateien zu löschen."
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:183
-#: src/widgets/release-rows/steamtinkerlaunch.vala:187
+#: src/widgets/release-rows/steamtinkerlaunch.vala:171
+#: src/widgets/release-rows/steamtinkerlaunch.vala:175
 #, c-format
 msgid "%s is not supported"
 msgstr "%s wird nicht unterstützt"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:183
+#: src/widgets/release-rows/steamtinkerlaunch.vala:171
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "Um %s für %s zu installieren, bitte das folgende Kommando ausführen:"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:187
+#: src/widgets/release-rows/steamtinkerlaunch.vala:175
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 "Es gibt derzeit keine uns bekannte Möglichkeit, %s für die %s zu "
 "installieren."
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:213
+#: src/widgets/release-rows/steamtinkerlaunch.vala:201
 #, c-format
 msgid "%s is up-to-date"
 msgstr "%s ist auf dem neuesten Stand"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:213
+#: src/widgets/release-rows/steamtinkerlaunch.vala:201
 #, c-format
 msgid "Update %s to the latest version"
 msgstr "%s auf die letzte Version aktualisieren"
@@ -322,13 +327,6 @@ msgstr ""
 "Steam Kompatibilitätswerkzeug um Abenteuer-Spiele mit der nativen Linux "
 "ScummVM zu starten."
 
-#: src/models/runners/wine-ge.vala:6
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr ""
-"Basierend auf Valve Proton Experimental's bleeding-edge Wine, gebaut für "
-"Lutris."
-
 #: src/models/runners/wine-lutris.vala:7
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
@@ -383,6 +381,12 @@ msgstr "Die Aktualisierung von %s ist abgeschlossen."
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "Ein unerwarteter Fehler trat auf beim Aktualisieren von %s."
 
+#~ msgid ""
+#~ "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
+#~ msgstr ""
+#~ "Basierend auf Valve Proton Experimental's bleeding-edge Wine, gebaut für "
+#~ "Lutris."
+
 #, c-format
 #~ msgid ""
 #~ "Steam compatibility tool based on Proton-GE with modifications for very "
@@ -395,9 +399,6 @@ msgstr "Ein unerwarteter Fehler trat auf beim Aktualisieren von %s."
 #~ msgstr ""
 #~ "Nur Ausführungswerkzeuge anzeigen die aktuell auf dem System installiert "
 #~ "sind"
-
-#~ msgid "Only Installed"
-#~ msgstr "Nur Installierte"
 
 #~ msgid "There was an error while fetching data from the GitHub API."
 #~ msgstr ""

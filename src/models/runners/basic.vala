@@ -9,7 +9,5 @@ namespace ProtonPlus.Models.Runners {
         }
 
         public abstract string get_directory_name (string release_name);
-
-        public abstract string get_directory_name_reverse (string directory_name);
     }
 }

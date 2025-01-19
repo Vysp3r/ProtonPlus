@@ -30,11 +30,11 @@ build-options:
 cleanup:
   - /include
   - /lib/pkgconfig
-  - /share/pkgconfig
-  - /share/aclocal
   - /man
-  - /share/man
   - /share/gtk-doc
+  - /share/man
+  - /share/pkgconfig
+  - /share/vala
   - '*.la'
   - '*.a'
 modules:

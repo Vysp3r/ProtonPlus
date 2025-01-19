@@ -11,9 +11,5 @@ namespace ProtonPlus.Models.Runners {
         public override string get_directory_name (string release_name) {
             return release_name.replace ("v", "vkd3d-proton-");
         }
-
-        public override string get_directory_name_reverse (string release_name) {
-            return release_name.replace ("vkd3d-proton-", "");
-        }
     }
 }

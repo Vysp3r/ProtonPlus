@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-18 21:10-0500\n"
+"POT-Creation-Date: 2025-01-19 11:19-0500\n"
 "PO-Revision-Date: 2024-10-12 18:02+0500\n"
 "Last-Translator: izmyname <vi-mcmxcv@proton.me>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -17,15 +17,20 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Poedit 3.5\n"
 
-#: src/widgets/sidebar.vala:11 src/widgets/info-box.vala:18
-msgid "Toggle Sidebar"
+#: src/widgets/sidebar.vala:20
+#, fuzzy
+msgid "Show Installed"
+msgstr "Только установленные"
+
+#: src/widgets/info-box.vala:17
+msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widgets/info-box.vala:22
+#: src/widgets/info-box.vala:18
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/info-box.vala:25
+#: src/widgets/info-box.vala:21
 msgid "Main Menu"
 msgstr ""
 
@@ -46,8 +51,8 @@ msgstr ""
 msgid "Closing in"
 msgstr ""
 
-#: src/widgets/release-row.vala:12 src/widgets/release-rows/basic.vala:39
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
+#: src/widgets/release-row.vala:12 src/widgets/release-rows/basic.vala:35
+#: src/widgets/release-rows/steamtinkerlaunch.vala:118
 #, c-format
 msgid "Delete %s"
 msgstr "Удалить %s"
@@ -65,43 +70,43 @@ msgstr "Показать больше информации"
 msgid "Load more"
 msgstr "Загрузить ещё"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:51
 #, c-format
 msgid "Welcome to %s"
 msgstr "Добро пожаловать в %s"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:51
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Установите Steam, Lutris, Bottles или Heroic Games Launcher, чтобы начать "
 "пользоваться программой."
 
-#: src/widgets/application.vala:59
+#: src/widgets/application.vala:78
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Современный менеджер инструментов совместимости для Linux."
 
-#: src/widgets/application.vala:65
+#: src/widgets/application.vala:84
 msgid "Special thanks to"
 msgstr ""
 
-#: src/widgets/release-rows/basic.vala:39
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
+#: src/widgets/release-rows/basic.vala:35
+#: src/widgets/release-rows/steamtinkerlaunch.vala:118
 #, fuzzy, c-format
 msgid "You're about to remove %s from your system."
 msgstr "Вы собираетесь удалить %s из вашей системы."
 
-#: src/widgets/release-rows/basic.vala:39
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
+#: src/widgets/release-rows/basic.vala:35
+#: src/widgets/release-rows/steamtinkerlaunch.vala:118
 msgid "Are you sure you want this?"
 msgstr "Вы уверены, что хотите этого?"
 
-#: src/widgets/release-rows/basic.vala:41
-#: src/widgets/release-rows/steamtinkerlaunch.vala:126
+#: src/widgets/release-rows/basic.vala:37
+#: src/widgets/release-rows/steamtinkerlaunch.vala:122
 msgid "No"
 msgstr "Нет"
 
-#: src/widgets/release-rows/basic.vala:42
-#: src/widgets/release-rows/steamtinkerlaunch.vala:127
+#: src/widgets/release-rows/basic.vala:38
+#: src/widgets/release-rows/steamtinkerlaunch.vala:123
 msgid "Yes"
 msgstr "Да"
 
@@ -120,7 +125,7 @@ msgstr "Установка будет отменена."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:71
 #: src/widgets/release-rows/steamtinkerlaunch.vala:85
-#: src/widgets/release-rows/steamtinkerlaunch.vala:193
+#: src/widgets/release-rows/steamtinkerlaunch.vala:181
 msgid "OK"
 msgstr "ОК"
 
@@ -145,34 +150,34 @@ msgstr "Хотите ли вы удалить ее и установить %s с
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:120
+#: src/widgets/release-rows/steamtinkerlaunch.vala:116
 #, fuzzy
 msgid "Check this to also remove your configuration files."
 msgstr "Установите эту галочку, чтобы также удалить файлы конфигурации."
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:183
-#: src/widgets/release-rows/steamtinkerlaunch.vala:187
+#: src/widgets/release-rows/steamtinkerlaunch.vala:171
+#: src/widgets/release-rows/steamtinkerlaunch.vala:175
 #, c-format
 msgid "%s is not supported"
 msgstr "%s не поддерживается"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:183
+#: src/widgets/release-rows/steamtinkerlaunch.vala:171
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "Чтобы установить %s для %s, выполните следующую команду:"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:187
+#: src/widgets/release-rows/steamtinkerlaunch.vala:175
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 "В настоящее время не существует известного способа установить %s для %s."
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:213
+#: src/widgets/release-rows/steamtinkerlaunch.vala:201
 #, c-format
 msgid "%s is up-to-date"
 msgstr "%s находится в актуальном состоянии"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:213
+#: src/widgets/release-rows/steamtinkerlaunch.vala:201
 #, c-format
 msgid "Update %s to the latest version"
 msgstr "Обновление %s до последней версии"
@@ -318,11 +323,6 @@ msgstr ""
 "Инструмент совместимости Steam для запуска приключенческих игр с "
 "использованием нативного ScummVM."
 
-#: src/models/runners/wine-ge.vala:6
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr "На базе Valve Proton Experimental, разработанного для Lutris."
-
 #: src/models/runners/wine-lutris.vala:7
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
@@ -385,13 +385,14 @@ msgstr "Обновление %s завершено."
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "При обновлении %s произошла непредвиденная ошибка."
 
+#~ msgid ""
+#~ "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
+#~ msgstr "На базе Valve Proton Experimental, разработанного для Lutris."
+
 #~ msgid "Only display the runners that are currently installed on your system"
 #~ msgstr ""
 #~ "Отображать только те инструменты совместимости, которые в данный момент "
 #~ "установлены в вашей системе"
-
-#~ msgid "Only Installed"
-#~ msgstr "Только установленные"
 
 #~ msgid "There was an error while fetching data from the GitHub API."
 #~ msgstr "Произошла ошибка во время скачивания данных с GitHub API."

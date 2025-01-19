@@ -1,26 +1,22 @@
 namespace ProtonPlus.Widgets {
     public class InfoBox : Gtk.Box {
-        public Gtk.Button sidebar_button { get; set; }
         Menu menu_model { get; set; }
         Gtk.MenuButton menu_button { get; set; }
         Adw.WindowTitle window_title { get; set; }
         Adw.HeaderBar header { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
 
-        List<LauncherBox> launcher_boxes;
+        public List<LauncherBox> launcher_boxes;
 
         construct {
             set_orientation (Gtk.Orientation.VERTICAL);
 
             window_title = new Adw.WindowTitle ("", "");
 
-            sidebar_button = new Gtk.Button.from_icon_name ("layout-sidebar-symbolic");
-            sidebar_button.set_tooltip_text (_("Toggle Sidebar"));
-            sidebar_button.set_visible (false);
-
             menu_model = new Menu ();
-            menu_model.append (_("_About ProtonPlus"), "app.show-about");
-
+            menu_model.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
+            menu_model.append (_("_About ProtonPlus"), "app.about");
+            
             menu_button = new Gtk.MenuButton ();
             menu_button.set_tooltip_text (_("Main Menu"));
             menu_button.set_icon_name ("open-menu-symbolic");
@@ -29,7 +25,6 @@ namespace ProtonPlus.Widgets {
             header = new Adw.HeaderBar ();
             header.add_css_class ("flat");
             header.set_title_widget (window_title);
-            header.pack_start (sidebar_button);
             header.pack_end (menu_button);
 
             toolbar_view = new Adw.ToolbarView ();
@@ -42,6 +37,7 @@ namespace ProtonPlus.Widgets {
 
         public void switch_launcher (string title, int position) {
             window_title.set_title (title);
+
             toolbar_view.set_content (launcher_boxes.nth_data (position));
         }
 

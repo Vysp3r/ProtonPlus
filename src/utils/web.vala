@@ -1,7 +1,7 @@
 namespace ProtonPlus.Utils {
     public class Web {
         public static string get_user_agent () {
-            return Constants.APP_NAME + "/" + Constants.APP_VERSION;
+            return Config.APP_NAME + "/" + Config.APP_VERSION;
         }
 
         public static async string ? GET (string url, bool stl = false) {

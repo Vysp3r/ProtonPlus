@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>com.vysp3r.ProtonPlus</id>
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
 
   <name>ProtonPlus</name>
   <summary>Modern compatibility tools manager</summary>
@@ -38,25 +40,38 @@
     </ul>
   </description>
 
+  <developer id="com.vysp3r">
+    <name>Vysp3r</name>
+  </developer>
+
   <keywords>
     <keyword>Proton</keyword>
     <keyword>Wine</keyword>
     <keyword>Steam Tinker Launch</keyword>
   </keywords>
 
-  <launchable type="desktop-id">com.vysp3r.ProtonPlus.desktop</launchable>
+  <!-- Requered: Should be a link to the upstream homepage for the component -->
+  <url type="homepage">https://github.com/Vysp3r/ProtonPlus</url>
+  <!-- Recommended: It is highly recommended for open-source projects to display the source code repository -->
+  <url type="vcs-browser">https://github.com/Vysp3r/ProtonPlus</url>
+  <!-- Should point to the software's bug tracking system, for users to report new bugs -->
+  <url type="bugtracker">https://github.com/Vysp3r/ProtonPlus/issues</url>
+  <!-- Should link a FAQ page for this software, to answer some of the most-asked questions in detail -->
+  <!-- URLs of this type should point to a webpage where users can submit or modify translations of the upstream project -->
+  <url type="translate">https://hosted.weblate.org/projects/protonplus/protonplus</url>
 
-  <metadata_license>FSFAP</metadata_license>
-  <project_license>GPL-3.0-or-later</project_license>
+  <translation type="gettext">fasdfa</translation>
+  <!-- All graphical applications having a desktop file must have this tag in the MetaInfo.
+     If this is present, appstreamcli compose will pull icons, keywords and categories from the desktop file. -->
+  <launchable type="desktop-id">com.vysp3r.ProtonPlus.desktop</launchable>
+  <!-- Use the OARS website (https://hughsie.github.io/oars/generate.html) to generate these and make sure to use oars-1.1 -->
   <content_rating type="oars-1.1" />
 
-  <developer id="com.vysp3r">
-    <name>Vysp3r</name>
-  </developer>
-
-  <url type="homepage">https://github.com/Vysp3r/ProtonPlus</url>
-  <url type="bugtracker">https://github.com/Vysp3r/ProtonPlus/issues</url>
-  <url type="translate">https://hosted.weblate.org/projects/protonplus/protonplus/</url>
+  <!-- Applications should set a brand color in both light and dark variants like so -->
+  <branding>
+    <color type="primary" scheme_preference="light">#ff00ff</color>
+    <color type="primary" scheme_preference="dark">#993d3d</color>
+  </branding>
 
   <screenshots>
     <screenshot type="default">

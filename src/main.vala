@@ -5,8 +5,11 @@ namespace ProtonPlus {
             return -1;
         }
 
-        var application = new Widgets.Application ();
+        Intl.bindtextdomain (Config.APP_ID, Config.LOCALE_DIR);
+        Intl.bind_textdomain_codeset (Config.APP_ID, "UTF-8");
+        Intl.textdomain (Config.APP_ID);
 
+        var application = new Widgets.Application ();
         return application.run (args);
     }
 }

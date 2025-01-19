@@ -28,23 +28,5 @@ namespace ProtonPlus.Models.Runners {
                 return release_name;
             }
         }
-
-        public override string get_directory_name_reverse (string release_name) {
-            switch (group.launcher.title) {
-            case "Lutris":
-                if (release_name.contains ("Proton") || release_name.contains ("ge-lol")) {
-                    return "";
-                }
-                return release_name.replace ("lutris", "lutris-wine").replace ("-x86_64", "");
-
-            case "Bottles":
-                if (!release_name.contains ("lutris-ge-lol-p")) {
-                    return release_name.replace ("lutris-ge-lol-", "").replace ("-", "-GE-") + "-LoL";
-                }
-                return release_name.replace ("lutris-ge-lol-p", "GE-LOL-p");
-            default:
-                return release_name;
-            }
-        }
     }
 }

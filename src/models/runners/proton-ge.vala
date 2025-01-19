@@ -26,29 +26,5 @@ namespace ProtonPlus.Models.Runners {
                 return release_name;
             }
         }
-
-        public override string get_directory_name_reverse (string release_name) {
-            switch (group.launcher.title) {
-            case "Steam":
-                if (release_name.contains ("Tkg")) {
-                    return "";
-                }
-                return release_name.replace ("Proton-", "");
-
-            case "Bottles":
-                if (!release_name.contains ("ge-proton") || release_name.contains ("wine")) {
-                    return "";
-                }
-                return release_name.replace ("ge-proton", "GE-Proton");
-
-            case "Heroic Games Launcher":
-                if (release_name.contains ("Tkg")) {
-                    return "";
-                }
-                return release_name.replace ("Proton-", "");
-            default:
-                return release_name;
-            }
-        }
     }
 }

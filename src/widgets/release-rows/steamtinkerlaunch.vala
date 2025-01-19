@@ -101,8 +101,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         void start_install () {
-            activate_action_variant ("win.add-task", "");
-
             install_dialog = new Dialogs.InstallDialog ();
 
             install_dialog.present ();
@@ -111,8 +109,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 var success = release.install.end (res);
 
                 install_dialog.done (success);
-
-                activate_action_variant ("win.remove-task", "");
             });
         }
 
@@ -133,8 +129,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 if (response != "yes")
                     return;
 
-                activate_action_variant ("win.add-task", "");
-
                 remove_dialog = new Dialogs.RemoveDialog ();
 
                 remove_dialog.present ();
@@ -147,8 +141,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                     var success = release.remove.end (res);
 
                     remove_dialog.done (success);
-
-                    activate_action_variant ("win.remove-task", "");
                 });
             });
 
@@ -159,8 +151,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             if (release.state == Models.Release.State.UP_TO_DATE)
                 return;
 
-            activate_action_variant ("win.add-task", "");
-
             upgrade_dialog = new Dialogs.UpgradeDialog ();
 
             upgrade_dialog.present ();
@@ -169,8 +159,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 var success = release.upgrade.end (res);
 
                 upgrade_dialog.done (success);
-
-                activate_action_variant ("win.remove-task", "");
             });
         }
 

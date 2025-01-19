@@ -1,16 +1,24 @@
 namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
         public static Window window { get; set; }
-        Adw.AboutDialog about_dialog { get; set; }
 
         construct {
-            application_id = Constants.APP_ID;
+            application_id = Config.APP_ID;
             flags |= ApplicationFlags.FLAGS_NONE;
 
-            Intl.bindtextdomain (Constants.APP_ID, Constants.LOCALE_DIR);
+            ActionEntry[] action_entries = {
+                { "about", this.on_about_action },
+                { "quit", this.quit }
+            };
+            this.add_action_entries (action_entries, this);
+            this.set_accels_for_action ("app.quit", { "<Ctrl>Q" });            
         }
 
         public override void activate () {
+            base.activate ();
+
+            window = new Window ();
+
             var display = Gdk.Display.get_default ();
 
             Gtk.IconTheme.get_for_display (display).add_resource_path ("/com/vysp3r/ProtonPlus/icons");
@@ -22,14 +30,25 @@ namespace ProtonPlus.Widgets {
 
             Utils.System.initialize ();
 
-            window = new Window ();
             window.initialize ();
 
-            init_about_dialog();
-
-            init_settings ();
-
-            init_shortcuts ();
+            var settings = new Settings ("com.vysp3r.ProtonPlus.State");
+            settings.bind ("width",
+                           window,
+                           "default-width",
+                           SettingsBindFlags.DEFAULT);
+            settings.bind ("height",
+                           window,
+                           "default-height",
+                           SettingsBindFlags.DEFAULT);
+            settings.bind ("is-maximized",
+                           window,
+                           "maximized",
+                           SettingsBindFlags.DEFAULT);
+            settings.bind ("is-fullscreen",
+                           window,
+                           "fullscreened",
+                           SettingsBindFlags.DEFAULT);
 
             if (Utils.System.IS_GAMESCOPE)
                 window.fullscreen ();
@@ -37,7 +56,7 @@ namespace ProtonPlus.Widgets {
             window.present ();
         }
 
-        void init_about_dialog () {
+        void on_about_action () {
             const string[] devs = {
                 "Charles Malouin (Vysp3r) https://github.com/Vysp3r",
                 "Johnny Arcitec https://github.com/Arcitec",
@@ -52,10 +71,10 @@ namespace ProtonPlus.Widgets {
                 null
             };
 
-            about_dialog = new Adw.AboutDialog ();
-            about_dialog.set_application_name (Constants.APP_NAME);
-            about_dialog.set_application_icon (Constants.APP_ID);
-            about_dialog.set_version ("v" + Constants.APP_VERSION);
+            var about_dialog = new Adw.AboutDialog ();
+            about_dialog.set_application_name (Config.APP_NAME);
+            about_dialog.set_application_icon (Config.APP_ID);
+            about_dialog.set_version ("v" + Config.APP_VERSION);
             about_dialog.set_comments (_("A modern compatibility tools manager for Linux."));
             about_dialog.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
             about_dialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
@@ -63,44 +82,6 @@ namespace ProtonPlus.Widgets {
             about_dialog.set_license_type (Gtk.License.GPL_3_0);
             about_dialog.set_developers (devs);
             about_dialog.add_credit_section (_("Special thanks to"), thanks);
-        }
-
-        void init_settings () {
-            var settings = new Settings ("com.vysp3r.ProtonPlus.State");
-
-            settings.bind ("width",
-                           window,
-                           "default-width",
-                           SettingsBindFlags.DEFAULT);
-
-            settings.bind ("height",
-                           window,
-                           "default-height",
-                           SettingsBindFlags.DEFAULT);
-
-            settings.bind ("is-maximized",
-                           window,
-                           "maximized",
-                           SettingsBindFlags.DEFAULT);
-
-            settings.bind ("is-fullscreen",
-                           window,
-                           "fullscreened",
-                           SettingsBindFlags.DEFAULT);
-        }
-
-        void init_shortcuts () {
-            var about_action = new SimpleAction ("show-about", null);
-            about_action.activate.connect (this.show_about_dialog);
-            this.add_action (about_action);
-
-            var quit_action = new SimpleAction ("quit", null);
-            quit_action.activate.connect (this.quit);
-            this.set_accels_for_action ("app.quit", { "<Ctrl>Q" });
-            this.add_action (quit_action);
-        }
-
-        void show_about_dialog () {
             about_dialog.present (window);
         }
     }

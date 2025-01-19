@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-18 21:10-0500\n"
+"POT-Creation-Date: 2025-01-19 11:19-0500\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -13,15 +13,20 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.5.3-dev\n"
 
-#: src/widgets/sidebar.vala:11 src/widgets/info-box.vala:18
-msgid "Toggle Sidebar"
+#: src/widgets/sidebar.vala:20
+#, fuzzy
+msgid "Show Installed"
+msgstr "Solo instalado"
+
+#: src/widgets/info-box.vala:17
+msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widgets/info-box.vala:22
+#: src/widgets/info-box.vala:18
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/info-box.vala:25
+#: src/widgets/info-box.vala:21
 msgid "Main Menu"
 msgstr ""
 
@@ -42,8 +47,8 @@ msgstr ""
 msgid "Closing in"
 msgstr ""
 
-#: src/widgets/release-row.vala:12 src/widgets/release-rows/basic.vala:39
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
+#: src/widgets/release-row.vala:12 src/widgets/release-rows/basic.vala:35
+#: src/widgets/release-rows/steamtinkerlaunch.vala:118
 #, fuzzy, c-format
 msgid "Delete %s"
 msgstr "Eliminar herramienta"
@@ -62,45 +67,45 @@ msgstr "Mostrar información"
 msgid "Load more"
 msgstr "Más información"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:51
 #, fuzzy, c-format
 msgid "Welcome to %s"
 msgstr "Bienvenido a "
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:51
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Instala Steam, Lutris, Bottles o Heroic Games Launcher para empezar."
 
-#: src/widgets/application.vala:59
+#: src/widgets/application.vala:78
 #, fuzzy
 msgid "A modern compatibility tools manager for Linux."
 msgstr ""
 "Un sencillo gestor de herramientas compatible con GNOME, basado en Wine y "
 "Proton"
 
-#: src/widgets/application.vala:65
+#: src/widgets/application.vala:84
 msgid "Special thanks to"
 msgstr "Agradecimientos especiales a"
 
-#: src/widgets/release-rows/basic.vala:39
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
+#: src/widgets/release-rows/basic.vala:35
+#: src/widgets/release-rows/steamtinkerlaunch.vala:118
 #, c-format
 msgid "You're about to remove %s from your system."
 msgstr ""
 
-#: src/widgets/release-rows/basic.vala:39
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
+#: src/widgets/release-rows/basic.vala:35
+#: src/widgets/release-rows/steamtinkerlaunch.vala:118
 #, fuzzy
 msgid "Are you sure you want this?"
 msgstr "¿Estas seguro que quieres borrarlo "
 
-#: src/widgets/release-rows/basic.vala:41
-#: src/widgets/release-rows/steamtinkerlaunch.vala:126
+#: src/widgets/release-rows/basic.vala:37
+#: src/widgets/release-rows/steamtinkerlaunch.vala:122
 msgid "No"
 msgstr ""
 
-#: src/widgets/release-rows/basic.vala:42
-#: src/widgets/release-rows/steamtinkerlaunch.vala:127
+#: src/widgets/release-rows/basic.vala:38
+#: src/widgets/release-rows/steamtinkerlaunch.vala:123
 msgid "Yes"
 msgstr ""
 
@@ -120,7 +125,7 @@ msgstr "La instalación de "
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:71
 #: src/widgets/release-rows/steamtinkerlaunch.vala:85
-#: src/widgets/release-rows/steamtinkerlaunch.vala:193
+#: src/widgets/release-rows/steamtinkerlaunch.vala:181
 msgid "OK"
 msgstr ""
 
@@ -145,32 +150,32 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:120
+#: src/widgets/release-rows/steamtinkerlaunch.vala:116
 msgid "Check this to also remove your configuration files."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:183
-#: src/widgets/release-rows/steamtinkerlaunch.vala:187
+#: src/widgets/release-rows/steamtinkerlaunch.vala:171
+#: src/widgets/release-rows/steamtinkerlaunch.vala:175
 #, c-format
 msgid "%s is not supported"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:183
+#: src/widgets/release-rows/steamtinkerlaunch.vala:171
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:187
+#: src/widgets/release-rows/steamtinkerlaunch.vala:175
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:213
+#: src/widgets/release-rows/steamtinkerlaunch.vala:201
 #, c-format
 msgid "%s is up-to-date"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:213
+#: src/widgets/release-rows/steamtinkerlaunch.vala:201
 #, c-format
 msgid "Update %s to the latest version"
 msgstr ""
@@ -328,13 +333,6 @@ msgstr ""
 "Herramienta de compatibilidad con Steam Play para ejecutar juegos de "
 "aventuras utilizando ScummVM nativa de Linux."
 
-#: src/models/runners/wine-ge.vala:6
-msgid ""
-"Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-msgstr ""
-"Basado en la última versión de Valve Proton Experimental Wine, desarrollada "
-"para Lutris."
-
 #: src/models/runners/wine-lutris.vala:7
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
@@ -388,9 +386,11 @@ msgstr "La eliminación de "
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "Se ha producido un error inesperado al extraer "
 
-#, fuzzy
-#~ msgid "Only Installed"
-#~ msgstr "Solo instalado"
+#~ msgid ""
+#~ "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
+#~ msgstr ""
+#~ "Basado en la última versión de Valve Proton Experimental Wine, "
+#~ "desarrollada para Lutris."
 
 #, fuzzy
 #~ msgid "There was an error while fetching data from the GitHub API."

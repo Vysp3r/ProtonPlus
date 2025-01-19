@@ -20,8 +20,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         protected override void install_button_clicked () {
-            activate_action_variant ("win.add-task", "");
-
             install_dialog = new Dialogs.InstallDialog ();
             install_dialog.initialize (release);
             install_dialog.present ();
@@ -30,8 +28,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 var success = release.install.end (res);
 
                 install_dialog.done (success || release.canceled);
-
-                activate_action_variant ("win.remove-task", "");
             });
         }
 
@@ -50,20 +46,14 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 if (response != "yes")
                     return;
 
-                activate_action_variant ("win.add-task", "");
-
                 remove_dialog = new Dialogs.RemoveDialog ();
                 remove_dialog.initialize (release);
                 remove_dialog.present ();
 
-                var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
-
-                release.remove.begin (parameters, (obj, res) => {
+                release.remove.begin (new Models.Parameters (), (obj, res) => {
                     var success = release.remove.end (res);
 
                     remove_dialog.done (success);
-
-                    activate_action_variant ("win.remove-task", "");
                 });
             });
         }

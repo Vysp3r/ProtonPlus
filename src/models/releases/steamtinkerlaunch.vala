@@ -231,7 +231,7 @@ namespace ProtonPlus.Models.Releases {
             // dirs. The `remove` function then validates the actual types.
             var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
             if (base_location_exists) {
-                var deleted_old_files = yield remove ();
+                var deleted_old_files = yield remove (new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ());
 
                 if (!deleted_old_files)
                     return false;
@@ -348,7 +348,7 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override async bool _start_upgrade () {
-            var remove_success = yield remove ();
+            var remove_success = yield remove (new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ());
 
             if (!remove_success)
                 return false;

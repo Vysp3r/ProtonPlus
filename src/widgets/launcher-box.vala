@@ -9,6 +9,7 @@ namespace ProtonPlus.Widgets {
         public LauncherBox (Models.Launcher launcher) {
             this.launcher = launcher;
             
+            set_vexpand (true);
             set_margin_start (15);
             set_margin_end (15);
             set_margin_bottom (15);
@@ -25,9 +26,7 @@ namespace ProtonPlus.Widgets {
             scrolled_window = new Gtk.ScrolledWindow ();
             scrolled_window.set_child (clamp);
             scrolled_window.set_parent (this);
-
-            set_vexpand (true);
-
+            
             foreach (var group in launcher.groups) {
                 var runner_group = new RunnerGroup (group);
                 content.append (runner_group);

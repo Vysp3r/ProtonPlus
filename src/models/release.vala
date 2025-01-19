@@ -51,7 +51,7 @@ namespace ProtonPlus.Models {
             var install_success = yield _start_install ();
 
             if (!install_success) {
-                yield remove (); // Refreshes install state too.
+                yield remove (new Models.Parameters ()); // Refreshes install state too.
 
                 if (!busy_upgrading)
                     send_message (_("An unexpected error occurred while installing %s.").printf (title));
@@ -66,7 +66,7 @@ namespace ProtonPlus.Models {
 
         protected abstract async bool _start_install ();
 
-        public async bool remove (R parameters = null) {
+        public async bool remove (R parameters) {
             var busy_upgrading_or_instaling = state == State.BUSY_UPGRADING || state == State.BUSY_INSTALLING;
 
             if (!busy_upgrading_or_instaling)

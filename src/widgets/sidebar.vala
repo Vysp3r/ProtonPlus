@@ -1,31 +1,36 @@
 namespace ProtonPlus.Widgets {
     public class Sidebar : Gtk.Box {
-        public Gtk.Button sidebar_button { get; set; }
-        Adw.ToolbarView toolbar_view { get; set; }
-        Adw.WindowTitle window_title { get; set; }
-        Adw.HeaderBar header_bar { get; set; }
         Gtk.ListBox list_box { get; set; }
 
         construct {
-            sidebar_button = new Gtk.Button.from_icon_name ("layout-sidebar-symbolic");
-            sidebar_button.set_tooltip_text (_("Toggle Sidebar"));
+            var window_title = new Adw.WindowTitle ("ProtonPlus", "");
 
-            window_title = new Adw.WindowTitle ("ProtonPlus", "");
-
-            header_bar = new Adw.HeaderBar ();
+            var header_bar = new Adw.HeaderBar ();
             header_bar.set_title_widget (window_title);
-            header_bar.pack_start (sidebar_button);
 
             list_box = new Gtk.ListBox ();
             list_box.set_activate_on_single_click (true);
             list_box.set_selection_mode (Gtk.SelectionMode.SINGLE);
             list_box.add_css_class ("navigation-sidebar");
             list_box.set_hexpand (true);
+            list_box.set_vexpand (true);
+            list_box.row_activated.connect (list_box_row_activated);
             list_box.row_selected.connect (list_box_row_selected);
 
-            toolbar_view = new Adw.ToolbarView ();
+            var show_installed_button = new Gtk.Button.with_label (_("Show Installed"));
+            show_installed_button.set_margin_start (7);
+            show_installed_button.set_margin_end (7);
+            show_installed_button.set_margin_top (7);
+            show_installed_button.set_margin_bottom (7);
+            show_installed_button.set_hexpand (true);
+
+            var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            content.append (list_box);
+            content.append (show_installed_button);
+
+            var toolbar_view = new Adw.ToolbarView ();
             toolbar_view.add_top_bar (header_bar);
-            toolbar_view.set_content (list_box);
+            toolbar_view.set_content (content);
 
             append (toolbar_view);
         }
@@ -37,10 +42,10 @@ namespace ProtonPlus.Widgets {
                 var row = new SidebarRow (launcher.title, launcher.get_installation_type_title (), launcher.icon_path);
                 list_box.append (row);
             }
+        }
 
-            if (launchers.length () > 0) {
-                list_box.select_row (list_box.get_row_at_index (0));
-            }
+        void list_box_row_activated (Gtk.ListBoxRow? row) {
+            activate_action_variant ("win.set-nav-view-active", true);
         }
 
         void list_box_row_selected (Gtk.ListBoxRow? row) {

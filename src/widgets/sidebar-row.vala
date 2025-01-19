@@ -10,6 +10,7 @@ namespace ProtonPlus.Widgets {
             add_css_class ("sidebar-row");
             set_title (title);
             set_subtitle (type);
+            set_activatable (true);
         }
     }
 }

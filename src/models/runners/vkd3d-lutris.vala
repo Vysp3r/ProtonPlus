@@ -18,19 +18,5 @@ namespace ProtonPlus.Models.Runners {
                 return release_name;
             }
         }
-
-        public override string get_directory_name_reverse (string release_name) {
-            switch (group.launcher.title) {
-            case "Lutris":
-                if (release_name.contains ("vkd3d")) {
-                    return "";
-                }
-                return release_name;
-            case "Heroic Games Launcher":
-                return release_name.replace ("vkd3d-lutris-", "v");
-            default:
-                return release_name;
-            }
-        }
     }
 }

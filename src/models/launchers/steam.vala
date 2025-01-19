@@ -18,7 +18,7 @@ namespace ProtonPlus.Models.Launchers {
                 break;
             }
 
-            base ("Steam", installation_type, Constants.RESOURCE_BASE + "/steam.png", directories);
+            base ("Steam", installation_type, Config.RESOURCE_BASE + "/steam.png", directories);
 
             if (installed) {
                 groups = get_groups ();

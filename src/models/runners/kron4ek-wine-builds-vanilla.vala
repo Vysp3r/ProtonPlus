@@ -13,12 +13,5 @@ namespace ProtonPlus.Models.Runners {
         public override string get_directory_name (string release_name) {
             return @"wine-$release_name-amd64";
         }
-
-        public override string get_directory_name_reverse (string release_name) {
-            if (release_name.contains ("staging")) {
-                return "";
-            }
-            return release_name.replace ("wine-", "").replace ("-amd64", "");
-        }
     }
 }

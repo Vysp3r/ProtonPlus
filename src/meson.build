@@ -1,15 +1,4 @@
-configuration = configuration_data()
-configuration.set_quoted('APP_ID', meson.project_name())
-configuration.set_quoted('APP_VERSION', meson.project_version())
-configuration.set_quoted('LOCALE_DIR', join_paths (get_option('prefix'), get_option('localedir')))
-
-constants = configure_file(
-    input : 'constants.vala.in',
-    output : 'constants.vala',
-    configuration : configuration
-)
-
-sources = files(
+protonplus_sources = files(
   'main.vala',
 
   'widgets/application.vala',
@@ -82,22 +71,24 @@ sources = files(
 )
 
 protonplus_deps = [
-    dependency('gtk4'),
-    dependency('glib-2.0'),
-    dependency('libadwaita-1', version: '>= 1.6'),
-  	dependency('json-glib-1.0'),
-  	dependency('libsoup-3.0'),
-    dependency('gee-0.8'),
-  	dependency('libarchive')
+  config_dep,
+  dependency('gtk4'),
+  dependency('glib-2.0'),
+  dependency('libadwaita-1', version: '>= 1.6'),
+  dependency('json-glib-1.0'),
+  dependency('libsoup-3.0'),
+  dependency('gee-0.8'),
+  dependency('libarchive')
 ]
 
 executable(
-    meson.project_name(),
-    css_gresource,
-    icons_gresource,
-    images_gresource,
-    constants,
-    sources,
-    dependencies: protonplus_deps,
-    install: true
+  meson.project_name(),
+  ui_gresource,
+  css_gresource,
+  icons_gresource,
+  images_gresource,
+  protonplus_sources,
+  dependencies: protonplus_deps,
+  include_directories: config_inc,
+  install: true
 )
