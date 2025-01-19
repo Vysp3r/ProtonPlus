@@ -39,7 +39,6 @@ namespace ProtonPlus.Models.Launchers {
             var runners = new List<Runner> ();
 
             runners.append (new Runners.Proton_GE (group));
-            runners.append (new Runners.Wine_GE (group));
             runners.append (new Runners.Wine_Lutris (group));
             runners.append (new Runners.Other (group));
 

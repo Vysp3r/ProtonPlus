@@ -20,28 +20,45 @@ namespace ProtonPlus.Models.Launchers {
                 groups = get_groups ();
                 install.connect ((release) => true);
                 uninstall.connect ((release) => true);
+
+                Utils.Filesystem.create_directory.begin (directory + "/runners/proton", (obj, res) => {
+                    Utils.Filesystem.create_directory.end (res);
+                });
             }
         }
 
         Group[] get_groups () {
-            var groups = new Group[3];
+            var groups = new Group[4];
 
-            groups[0] = new Group ("Wine", _("Compatibility tools for running Windows software on Linux."), "/runners/wine", this);
-            groups[0].runners = get_wine_runners (groups[0]);
+            groups[0] = new Group ("Proton", _("Compatibility tools by Valve for running Windows software on Linux."), "/runners/proton", this);
+            groups[0].runners = get_proton_runners (groups[0]);
 
-            groups[1] = new Group ("DXVK", _("Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."), "/runtime/dxvk", this);
-            groups[1].runners = get_dxvk_runners (groups[1]);
+            groups[1] = new Group ("Wine", _("Compatibility tools for running Windows software on Linux."), "/runners/wine", this);
+            groups[1].runners = get_wine_runners (groups[1]);
 
-            groups[2] = new Group ("VKD3D", _("Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan."), "/runtime/vkd3d", this);
-            groups[2].runners = get_vkd3d_runners (groups[2]);
+            groups[2] = new Group ("DXVK", _("Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."), "/runtime/dxvk", this);
+            groups[2].runners = get_dxvk_runners (groups[2]);
+
+            groups[3] = new Group ("VKD3D", _("Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan."), "/runtime/vkd3d", this);
+            groups[3].runners = get_vkd3d_runners (groups[3]);
 
             return groups;
+        }
+
+        List<Runner> get_proton_runners (Group group) {
+            var runners = new List<Runner> ();
+
+            runners.append (new Runners.Proton_GE (group));
+            runners.append (new Runners.Proton_Tkg (group));
+            runners.append (new Runners.Proton_Sarek (group));
+            runners.append (new Runners.Proton_Sarek_Async (group));
+
+            return runners;
         }
 
         List<Runner> get_wine_runners (Group group) {
             var runners = new List<Runner> ();
 
-            runners.append (new Runners.Wine_GE (group));
             runners.append (new Runners.Wine_Lutris (group));
             runners.append (new Runners.Wine_Vanilla_Kron4ek (group));
             runners.append (new Runners.Wine_Staging_Kron4ek (group));

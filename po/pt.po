@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-30 21:16-0500\n"
+"POT-Creation-Date: 2025-01-18 21:10-0500\n"
 "PO-Revision-Date: 2024-07-06 01:09+0000\n"
 "Last-Translator: Kauã Azevedo da Silva Vicente <Kazevic@pm.me>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -231,23 +231,23 @@ msgid "Runners"
 msgstr "Executadores"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
-#: src/models/launchers/lutris.vala:29
+#: src/models/launchers/lutris.vala:36
 #, fuzzy
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Ferramenta de compatibilidade para rodar jogos do Windows no Linux"
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/hgl.vala:35
-#: src/models/launchers/lutris.vala:32
+#: src/models/launchers/lutris.vala:39
 #, fuzzy
 msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
 msgstr "Implementação baseada em Vulkan do Direct3D 9, 10 e 11 para Linux/Wine"
 
-#: src/models/launchers/hgl.vala:29
+#: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
 #, fuzzy
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr "Ferramenta de compatibilidade para rodar jogos do Windows no Linux"
 
-#: src/models/launchers/hgl.vala:38 src/models/launchers/lutris.vala:35
+#: src/models/launchers/hgl.vala:38 src/models/launchers/lutris.vala:42
 #, fuzzy
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "

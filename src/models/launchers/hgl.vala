@@ -44,7 +44,6 @@ namespace ProtonPlus.Models.Launchers {
         List<Runner> get_wine_runners (Group group) {
             var runners = new List<Runner> ();
 
-            runners.append (new Runners.Wine_GE (group));
             runners.append (new Runners.Wine_Vanilla_Kron4ek (group));
             runners.append (new Runners.Wine_Staging_Kron4ek (group));
             runners.append (new Runners.Wine_Staging_Tkg_Kron4ek (group));

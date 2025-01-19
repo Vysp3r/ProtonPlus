@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-30 21:16-0500\n"
+"POT-Creation-Date: 2025-01-18 21:10-0500\n"
 "PO-Revision-Date: 2024-02-16 17:02+0000\n"
 "Last-Translator: valigarmanda <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -229,23 +229,23 @@ msgid "Runners"
 msgstr "运行器"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
-#: src/models/launchers/lutris.vala:29
+#: src/models/launchers/lutris.vala:36
 #, fuzzy
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "在Linux上运行WIndows游戏的兼容性工具"
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/hgl.vala:35
-#: src/models/launchers/lutris.vala:32
+#: src/models/launchers/lutris.vala:39
 #, fuzzy
 msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
 msgstr "适用于 Linux/Wine的Direct3D 9、10和11基于Vulkan的实现"
 
-#: src/models/launchers/hgl.vala:29
+#: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
 #, fuzzy
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr "在Linux上运行WIndows游戏的兼容性工具"
 
-#: src/models/launchers/hgl.vala:38 src/models/launchers/lutris.vala:35
+#: src/models/launchers/hgl.vala:38 src/models/launchers/lutris.vala:42
 #, fuzzy
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "

@@ -44,7 +44,6 @@ src/models/runners/proton-tkg.vala
 src/models/runners/roberta.vala
 src/models/runners/vkd3d-lutris.vala
 src/models/runners/vkd3d-proton.vala
-src/models/runners/wine-ge.vala
 src/models/runners/wine-lutris.vala
 src/models/runners/other.vala
 src/models/runners/steamtinkerlaunch.vala

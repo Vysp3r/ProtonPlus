@@ -58,7 +58,6 @@ sources = files(
   'models/runners/proton-sarek.vala',
   'models/runners/proton-sarek-async.vala',
   'models/runners/steamtinkerlaunch.vala',
-  'models/runners/wine-ge.vala',
   'models/runners/wine-lutris.vala',
   'models/runners/kron4ek-wine-builds-staging-tkg.vala',
   'models/runners/kron4ek-wine-builds-staging.vala',
