@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 11:19-0500\n"
+"POT-Creation-Date: 2025-02-01 14:38-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -232,7 +232,7 @@ msgstr ""
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/hgl.vala:35
 #: src/models/launchers/lutris.vala:39
-msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33

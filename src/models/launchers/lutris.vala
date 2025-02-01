@@ -36,7 +36,7 @@ namespace ProtonPlus.Models.Launchers {
             groups[1] = new Group ("Wine", _("Compatibility tools for running Windows software on Linux."), "/runners/wine", this);
             groups[1].runners = get_wine_runners (groups[1]);
 
-            groups[2] = new Group ("DXVK", _("Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."), "/runtime/dxvk", this);
+            groups[2] = new Group ("DXVK", _("Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."), "/runtime/dxvk", this);
             groups[2].runners = get_dxvk_runners (groups[2]);
 
             groups[3] = new Group ("VKD3D", _("Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan."), "/runtime/vkd3d", this);
@@ -74,6 +74,8 @@ namespace ProtonPlus.Models.Launchers {
             runners.append (new Runners.DXVK_Async_Sporif (group));
             runners.append (new Runners.DXVK_Async_gnusenpai (group));
             runners.append (new Runners.DXVK_GPL_Async_Ph42oN (group));
+            runners.append (new Runners.DXVK_Sarek (group));
+            runners.append (new Runners.DXVK_Async_Sarek (group));
 
             return runners;
         }

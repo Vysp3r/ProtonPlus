@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 11:19-0500\n"
+"POT-Creation-Date: 2025-02-01 14:38-0500\n"
 "PO-Revision-Date: 2024-02-16 17:02+0000\n"
 "Last-Translator: valigarmanda <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -242,7 +242,7 @@ msgstr "在Linux上运行WIndows游戏的兼容性工具"
 #: src/models/launchers/bottles.vala:32 src/models/launchers/hgl.vala:35
 #: src/models/launchers/lutris.vala:39
 #, fuzzy
-msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "适用于 Linux/Wine的Direct3D 9、10和11基于Vulkan的实现"
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33

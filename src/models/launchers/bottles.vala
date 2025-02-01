@@ -29,7 +29,7 @@ namespace ProtonPlus.Models.Launchers {
             groups[0] = new Group (_("Runners"), _("Compatibility tools for running Windows software on Linux."), "/runners", this);
             groups[0].runners = get_runners (groups[0]);
 
-            groups[1] = new Group ("DXVK", _("Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."), "/dxvk", this);
+            groups[1] = new Group ("DXVK", _("Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."), "/dxvk", this);
             groups[1].runners = get_dxvk_runners (groups[1]);
 
             return groups;

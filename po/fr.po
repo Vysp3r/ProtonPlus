@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 11:19-0500\n"
+"POT-Creation-Date: 2025-02-01 14:38-0500\n"
 "PO-Revision-Date: 2024-07-09 10:09+0000\n"
 "Last-Translator: Noé Lopez <noelopez@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -245,7 +245,7 @@ msgstr "Outil de compatibilité pour exécuter des jeux Windows sur Linux"
 #: src/models/launchers/bottles.vala:32 src/models/launchers/hgl.vala:35
 #: src/models/launchers/lutris.vala:39
 #, fuzzy
-msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Implémentation Vulkan de Direct3D 9, 10 et 11 pour Linux/Wine"
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33

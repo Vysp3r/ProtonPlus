@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-19 11:19-0500\n"
+"POT-Creation-Date: 2025-02-01 14:38-0500\n"
 "PO-Revision-Date: 2024-10-03 01:10+0200\n"
 "Last-Translator: Johnny Arcitec <Arcitec@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
@@ -245,7 +245,8 @@ msgstr "Kompatibilitetsverktyg för att köra Windows-programvara på Linux."
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/hgl.vala:35
 #: src/models/launchers/lutris.vala:39
-msgid "Vulkan-based implementation of Direct3D 9, 10 and 11 for Linux/Wine."
+#, fuzzy
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Vulkan-baserad implementering av Direct3D 9, 10 och 11 för Linux/Wine."
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
