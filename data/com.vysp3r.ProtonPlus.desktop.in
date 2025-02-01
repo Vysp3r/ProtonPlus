@@ -4,5 +4,5 @@ Exec=com.vysp3r.ProtonPlus
 Icon=com.vysp3r.ProtonPlus
 Terminal=false
 Type=Application
-Categories=Game;
+Categories=Game;Utility;
 StartupNotify=true
