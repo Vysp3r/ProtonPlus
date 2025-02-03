@@ -1,7 +1,7 @@
 namespace ProtonPlus.Utils {
     public class Web {
         public static string get_user_agent () {
-            return Constants.APP_NAME + "/" + Constants.APP_VERSION;
+            return Config.APP_NAME + "/" + Config.APP_VERSION;
         }
 
         public static async string ? GET (string url, bool stl = false) {
@@ -24,13 +24,7 @@ namespace ProtonPlus.Utils {
 
         public delegate void progress_callback (bool is_percent, int64 progress);
 
-        public enum DOWNLOAD_CODES {
-            API_ERROR,
-            UNEXPECTED_ERROR,
-            SUCCESS
-        }
-
-        public static async DOWNLOAD_CODES Download (string url, string path, int64 download_size, cancel_callback cancel_callback, progress_callback progress_callback) {
+        public static async bool Download (string url, string path, cancel_callback cancel_callback, progress_callback progress_callback) {
             try {
                 var session = new Soup.Session ();
                 session.set_user_agent (get_user_agent ());
@@ -41,13 +35,12 @@ namespace ProtonPlus.Utils {
 
                 if (soup_message.status_code != 200) {
                     message (soup_message.reason_phrase);
-                    return DOWNLOAD_CODES.API_ERROR;
+                    return false;
                 }
 
                 var file = File.new_for_path (path);
-                if (file.query_exists ()) {
+                if (file.query_exists ())
                     yield file.delete_async (Priority.DEFAULT, null);
-                }
 
                 FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, Priority.DEFAULT, null);
 
@@ -60,37 +53,32 @@ namespace ProtonPlus.Utils {
                 // length, but any download requests after that it will see the
                 // filesize for a few minutes, until GitHub clears their cache.
                 int64 server_download_size = soup_message.get_response_headers ().get_content_length ();
-                if (server_download_size > 0) {
-                    download_size = server_download_size;
-                }
 
                 const size_t chunk_size = 4096;
-                bool is_percent = download_size > 0;
+                bool is_percent = server_download_size > 0;
                 int64 bytes_downloaded = 0;
 
-                if (progress_callback != null) {
+                if (progress_callback != null)
                     progress_callback (is_percent, 0); // Set initial progress state.
-                }
+
+                var is_canceled = false;
 
                 while (true) {
                     if (cancel_callback ()) {
-                        if (file.query_exists ()) {
-                            yield file.delete_async (Priority.DEFAULT, null);
-                        }
+                        is_canceled = true;
                         break;
                     }
 
                     var chunk = yield input_stream.read_bytes_async (chunk_size);
 
-                    if (chunk.get_size () == 0) {
+                    if (chunk.get_size () == 0)
                         break;
-                    }
 
                     bytes_downloaded += output_stream.write (chunk.get_data ());
 
                     if (progress_callback != null) {
                         // Use "bytes downloaded" when total size is unknown.
-                        int64 progress = !is_percent ? bytes_downloaded : (int64) (((double) bytes_downloaded / download_size) * 100);
+                        int64 progress = !is_percent ? bytes_downloaded : (int64) (((double) bytes_downloaded / server_download_size) * 100);
                         progress_callback (is_percent, progress);
                     }
                 }
@@ -99,10 +87,13 @@ namespace ProtonPlus.Utils {
 
                 session.abort ();
 
-                return DOWNLOAD_CODES.SUCCESS;
+                if (is_canceled && file.query_exists ())
+                    yield file.delete_async (Priority.DEFAULT, null);
+
+                return !is_canceled;
             } catch (Error e) {
                 message (e.message);
-                return DOWNLOAD_CODES.UNEXPECTED_ERROR;
+                return false;
             }
         }
     }
