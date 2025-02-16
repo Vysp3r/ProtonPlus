@@ -24,19 +24,13 @@ namespace ProtonPlus.Models.Launchers {
         }
 
         Group[] get_groups () {
-            var groups = new Group[4];
+            var groups = new Group[2];
 
             groups[0] = new Group ("Proton", _("Compatibility tools by Valve for running Windows software on Linux."), "/tools/proton", this);
             groups[0].runners = get_proton_runners (groups[0]);
 
             groups[1] = new Group ("Wine", _("Compatibility tools for running Windows software on Linux."), "/tools/wine", this);
             groups[1].runners = get_wine_runners (groups[1]);
-
-            groups[2] = new Group ("DXVK", _("Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."), "/tools/dxvk", this);
-            groups[2].runners = get_dxvk_runners (groups[2]);
-
-            groups[3] = new Group ("VKD3D", _("Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan."), "/tools/vkd3d", this);
-            groups[3].runners = get_vkd3d_runners (groups[3]);
 
             return groups;
         }
@@ -60,27 +54,10 @@ namespace ProtonPlus.Models.Launchers {
             return runners;
         }
 
-        List<Runner> get_dxvk_runners (Group group) {
-            var runners = new List<Runner> ();
-
-            runners.append (new Runners.DXVK_doitsujin (group));
-
-            return runners;
-        }
-
-        List<Runner> get_vkd3d_runners (Group group) {
-            var runners = new List<Runner> ();
-
-            runners.append (new Runners.VKD3D_Lutris (group));
-            runners.append (new Runners.VKD3D_Proton (group));
-
-            return runners;
-        }
-
         bool install_script (Release release) {
             try {
                 string path = "/.config";
-                if (release.runner.group.launcher.title.contains ("Flatpak"))path = "/.var/app/com.heroicgameslauncher.hgl/config";
+                if (release.runner.group.launcher.installation_type == Launcher.InstallationTypes.FLATPAK)path = "/.var/app/com.heroicgameslauncher.hgl/config";
                 path = Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
                 Json.Node root_node = Json.from_string (Utils.Filesystem.get_file_content (path));
@@ -94,13 +71,15 @@ namespace ProtonPlus.Models.Launchers {
 
                 var runner = release.runner as Runners.Basic;
 
+                var installDirBase = release.runner.group.launcher.directory + release.runner.group.directory + "/";
+
                 for (var i = 0; i < wine_release_array.get_length (); i++) {
                     var obj = wine_release_array.get_object_element (i);
 
                     if (obj.get_string_member ("version").contains (runner.get_directory_name (release.title))) {
                         obj.set_boolean_member ("isInstalled", true);
                         obj.set_boolean_member ("hasUpdate", false);
-                        obj.set_string_member ("installDir", Environment.get_home_dir () + "/" + obj.get_string_member ("version"));
+                        obj.set_string_member ("installDir", installDirBase + obj.get_string_member ("version"));
 
                         obj.set_int_member ("disksize", (int64) Utils.Filesystem.get_directory_size (obj.get_string_member ("installDir")));
 
@@ -120,7 +99,7 @@ namespace ProtonPlus.Models.Launchers {
 
                     obj.set_boolean_member ("isInstalled", true);
                     obj.set_boolean_member ("hasUpdate", false);
-                    obj.set_string_member ("installDir", release.runner.group.launcher.directory + "/" + obj.get_string_member ("version"));
+                    obj.set_string_member ("installDir", installDirBase + obj.get_string_member ("version"));
 
                     obj.set_int_member ("disksize", (int64) Utils.Filesystem.get_directory_size (obj.get_string_member ("installDir")));
 
@@ -140,7 +119,7 @@ namespace ProtonPlus.Models.Launchers {
         bool uninstall_script (Release release) {
             try {
                 string path = "/.config";
-                if (release.runner.group.launcher.title.contains ("Flatpak"))path = "/.var/app/com.heroicgameslauncher.hgl/config";
+                if (release.runner.group.launcher.installation_type == Launcher.InstallationTypes.FLATPAK)path = "/.var/app/com.heroicgameslauncher.hgl/config";
                 path = Environment.get_home_dir () + path + "/heroic/store/wine-downloader-info.json";
 
                 Json.Node root_node = Json.from_string (Utils.Filesystem.get_file_content (path));

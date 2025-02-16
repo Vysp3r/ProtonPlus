@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-16 13:24-0500\n"
+"POT-Creation-Date: 2025-02-16 15:40-0500\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -248,8 +248,7 @@ msgstr "Інструменты"
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Інструмент сумяшчальнасці для запуску гульняў Windows на Linux"
 
-#: src/models/launchers/bottles.vala:32 src/models/launchers/hgl.vala:35
-#: src/models/launchers/lutris.vala:39
+#: src/models/launchers/bottles.vala:32 src/models/launchers/lutris.vala:39
 #, fuzzy
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Рэалізацыя Direct3D 9, 10 і 11 на аснове Vulkan для Linux/Wine"
@@ -259,7 +258,7 @@ msgstr "Рэалізацыя Direct3D 9, 10 і 11 на аснове Vulkan дл�
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr "Інструмент сумяшчальнасці для запуску гульняў Windows на Linux"
 
-#: src/models/launchers/hgl.vala:38 src/models/launchers/lutris.vala:42
+#: src/models/launchers/lutris.vala:42
 #, fuzzy
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
