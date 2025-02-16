@@ -8,5 +8,7 @@
         <file alias="scalable/actions/x-symbolic.svg">x.svg</file>
         <file alias="scalable/actions/info-circle-symbolic.svg">info-circle.svg</file>
         <file alias="scalable/actions/dots-symbolic.svg">dots.svg</file>
+        <file alias="scalable/actions/world-www-symbolic.svg">world-www.svg</file>
+        <file alias="scalable/actions/journal-text-symbolic.svg">journal-text.svg</file>
     </gresource>
 </gresources>

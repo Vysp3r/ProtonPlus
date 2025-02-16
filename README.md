@@ -60,7 +60,7 @@
 - [ninja](https://github.com/ninja-build/ninja)
 - [meson >= 0.62.0](https://github.com/mesonbuild/meson)
 - [gtk4](https://gitlab.gnome.org/GNOME/gtk/)
-- [libadwaita >= 1.4](https://gitlab.gnome.org/GNOME/libadwaita)
+- [libadwaita >= 1.6](https://gitlab.gnome.org/GNOME/libadwaita)
 - [json-glib](https://gitlab.gnome.org/GNOME/json-glib)
 - [libsoup](https://gitlab.gnome.org/GNOME/libsoup)
 - [libarchive](https://github.com/libarchive/libarchive)
@@ -131,9 +131,9 @@
 3. Install the necessary runtimes and build tools for Flatpak
     ```bash
     flatpak install \
-      runtime/org.gnome.Sdk/x86_64/46 \
-      runtime/org.gnome.Platform/x86_64/46 \
-      runtime/org.freedesktop.Sdk.Extension.vala/x86_64/23.08 \
+      runtime/org.gnome.Sdk/x86_64/47 \
+      runtime/org.gnome.Platform/x86_64/47 \
+      runtime/org.freedesktop.Sdk.Extension.vala/x86_64/24.08 \
       org.flatpak.Builder
     ```
 

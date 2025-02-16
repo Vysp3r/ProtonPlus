@@ -1,20 +1,14 @@
-#
+subdir('ui')
 subdir('css')
-
-#
 subdir('icons')
-
-#
 subdir('images')
 
-#
 install_subdir(
                        join_paths('logo', 'icons'),
           install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons'),
       strip_directory: true
 )
 
-#
 desktop_file = i18n.merge_file(
         input: 'com.vysp3r.ProtonPlus.desktop.in',
        output: 'com.vysp3r.ProtonPlus.desktop',
