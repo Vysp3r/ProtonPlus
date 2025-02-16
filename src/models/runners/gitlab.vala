@@ -1,7 +1,5 @@
 namespace ProtonPlus.Models.Runners {
     public abstract class GitLab : Basic {
-        internal int old_asset_location { get; set; } // TODO Describe this
-        internal int old_asset_position { get; set; } // TODO Describe this
         internal bool use_name_instead_of_tag_name { get; set; } // TODO Describe this
         internal string[] request_asset_exclude { get; set; } // TODO Describe this
 
@@ -57,10 +55,8 @@ namespace ProtonPlus.Models.Runners {
                 if (link_array == null)
                     continue;
 
-                int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
-
-                if (link_array.get_length () - 1 >= pos) {
-                    var link_object = link_array.get_object_element (pos);
+                if (link_array.get_length () - 1 >= asset_position) {
+                    var link_object = link_array.get_object_element (asset_position);
 
                     var download_url = link_object.get_string_member ("direct_asset_url").replace ("?ref_type=heads", "");
 
