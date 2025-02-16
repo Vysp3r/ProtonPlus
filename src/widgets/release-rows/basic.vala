@@ -60,7 +60,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
         protected override void info_button_clicked () {
             var description_dialog = new DescriptionDialog (release);
-            description_dialog.present ();
+            description_dialog.present (Application.window);
         }
 
         void release_displayed_title_changed () {

@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets {
-    public class DescriptionDialog : Adw.Window {
+    public class DescriptionDialog : Adw.Dialog {
         Models.Release release { get; set; }
 
         Adw.ToolbarView toolbar_view { get; set; }
@@ -44,10 +44,7 @@ namespace ProtonPlus.Widgets {
             toolbar_view.add_top_bar (header_bar);
             toolbar_view.set_content (scrolled_window);
 
-            set_resizable (false);
-            set_content (toolbar_view);
-            set_transient_for (Application.window);
-            set_modal (true);
+            set_child (toolbar_view);
         }
 
         public DescriptionDialog (Models.Release release) {

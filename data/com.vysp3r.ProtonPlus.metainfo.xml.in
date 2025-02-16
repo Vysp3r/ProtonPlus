@@ -84,6 +84,18 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.21" date="2025-02-15">
+      <description>
+        <ul>
+          <li>✨ Added a way to view the description of each release</li>
+          <li>✨ Added support for DXVK Sarek</li>
+          <li>✨ Added support for Proton in Lutris (without using Steam)</li>
+          <li>🐛 Fixed installed only filter</li>
+          <li>🧑‍💻 Backend improvements</li>
+          <li>🌐 Updated localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.20" date="2024-10-04">
       <description>
         <ul>
