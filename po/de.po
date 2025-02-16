@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-15 19:38-0500\n"
-"PO-Revision-Date: 2024-10-15 17:37+0200\n"
+"PO-Revision-Date: 2025-02-16 13:23+0100\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: src/widgets/info-box.vala:23
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Tastenkombinationen"
 
 #: src/widgets/info-box.vala:24
 msgid "_About ProtonPlus"
@@ -28,28 +28,27 @@ msgstr "_Über ProtonPlus"
 
 #: src/widgets/info-box.vala:31
 msgid "Main Menu"
-msgstr ""
+msgstr "Hauptmenü"
 
 #: src/widgets/description-dialog.vala:14
-#, fuzzy
 msgid "More information"
 msgstr "Mehr Informationen anzeigen"
 
 #: src/widgets/description-dialog.vala:18
 msgid "Open"
-msgstr ""
+msgstr "Öffnen"
 
 #: src/widgets/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr ""
+msgstr "Im Webbrowser öffnen"
 
 #: src/widgets/busy-dialog.vala:23
 msgid "Show/hide logs"
-msgstr ""
+msgstr "Protokolle anzeigen/verbergen"
 
 #: src/widgets/busy-dialog.vala:120
 msgid "Closing in"
-msgstr ""
+msgstr "Schließe in"
 
 #: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:50
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
@@ -69,7 +68,7 @@ msgstr "Mehr Informationen anzeigen"
 
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
-#, fuzzy, c-format
+#, c-format
 msgid "You're about to remove %s from your system."
 msgstr "Sie sind dabei %s von Ihrem System zu löschen."
 
@@ -154,7 +153,6 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:108
-#, fuzzy
 msgid "Check this to also remove your configuration files."
 msgstr ""
 "Aktivieren Sie diese Option, um auch Ihre Konfigurationsdateien zu löschen."
@@ -188,17 +186,16 @@ msgid "Update %s to the latest version"
 msgstr "%s auf die letzte Version aktualisieren"
 
 #: src/widgets/busy-dialogs/install-dialog.vala:6
-#, fuzzy
 msgid "Installing"
 msgstr "Installiere %s"
 
 #: src/widgets/busy-dialogs/remove-dialog.vala:6
 msgid "Removing"
-msgstr ""
+msgstr "Entferne"
 
 #: src/widgets/busy-dialogs/upgrade-dialog.vala:6
 msgid "Upgrading"
-msgstr ""
+msgstr "Aktualisiere"
 
 #: src/models/release.vala:31
 #, c-format
@@ -206,9 +203,9 @@ msgid "The installation of %s has begun."
 msgstr "Die Installation von %s hat begonnen."
 
 #: src/models/release.vala:34
-#, fuzzy, c-format
+#, c-format
 msgid "The removal of %s has begun."
-msgstr "Die Aktualisierung von %s hat begonnen."
+msgstr "Das Entfernen von %s hat begonnen."
 
 #: src/models/release.vala:37
 #, c-format
@@ -246,7 +243,6 @@ msgstr "Kompatibilitätstool zum Ausführen von Windows-Spielen unter Linux."
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/hgl.vala:35
 #: src/models/launchers/lutris.vala:39
-#, fuzzy
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 "Vulkan basierte Implementierung von Direct3D 9, 10 und 11 für Linux/Wine."
@@ -315,11 +311,10 @@ msgstr ""
 "gegenüber Valves Standard-Proton."
 
 #: src/models/runners/proton-tkg.vala:6
-#, fuzzy
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
-"Benutzerdefinierter Proton-Build zum Ausführen des Northstar-Clients für "
-"Titanfall 2."
+"Benutzerdefinierter Proton-Build zum Ausführen von Windows-Spielen basiert "
+"auf Wine-tkg."
 
 #: src/models/runners/roberta.vala:6
 msgid ""
@@ -348,30 +343,28 @@ msgstr ""
 #: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
 #: src/models/releases/steamtinkerlaunch.vala:259
 msgid "Downloading..."
-msgstr ""
+msgstr "Lade herunter..."
 
 #: src/models/releases/basic.vala:55 src/models/releases/github-action.vala:23
 #: src/models/releases/steamtinkerlaunch.vala:266
 msgid "Extracting..."
-msgstr ""
+msgstr "Extrahiere..."
 
 #: src/models/releases/basic.vala:64 src/models/releases/github-action.vala:37
 msgid "Renaming..."
-msgstr ""
+msgstr "Umbenenne..."
 
 #: src/models/releases/basic.vala:73 src/models/releases/github-action.vala:46
-#, fuzzy
 msgid "Running post installation script..."
-msgstr "Existierende Installation von %s"
+msgstr "Führe Postinstallation-Skript aus..."
 
 #: src/models/releases/basic.vala:84
 msgid "Deleting..."
-msgstr ""
+msgstr "Lösche..."
 
 #: src/models/releases/basic.vala:91
-#, fuzzy
 msgid "Running post removal script..."
-msgstr "Existierende Installation von %s"
+msgstr "Führe Postentfernungs-Skript aus..."
 
 #: src/models/releases/upgrade.vala:8
 #, c-format
@@ -382,64 +375,3 @@ msgstr "Die Aktualisierung von %s ist abgeschlossen."
 #, c-format
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "Ein unerwarteter Fehler trat auf beim Aktualisieren von %s."
-
-#, fuzzy
-#~ msgid "Show Installed"
-#~ msgstr "Nur Installierte"
-
-#~ msgid ""
-#~ "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-#~ msgstr ""
-#~ "Basierend auf Valve Proton Experimental's bleeding-edge Wine, gebaut für "
-#~ "Lutris."
-
-#, c-format
-#~ msgid ""
-#~ "Steam compatibility tool based on Proton-GE with modifications for very "
-#~ "old GPUs, with %s."
-#~ msgstr ""
-#~ "Steam Kompatibilitätswerkzeug basierend auf Proton-GE mit zusätzlichen "
-#~ "Änderungen für sehr alte GPUs, mit %s."
-
-#~ msgid "Only display the runners that are currently installed on your system"
-#~ msgstr ""
-#~ "Nur Ausführungswerkzeuge anzeigen die aktuell auf dem System installiert "
-#~ "sind"
-
-#~ msgid "There was an error while fetching data from the GitHub API."
-#~ msgstr ""
-#~ "Beim Abrufen von Daten von der GitHub-API ist ein Fehler aufgetreten."
-
-#~ msgid "Cancel the installation"
-#~ msgstr "Installation abbrechen"
-
-#~ msgid "Delete the runner"
-#~ msgstr "Löschen des Ausführungswerkzeugs"
-
-#, c-format
-#~ msgid "Are you sure you want to delete %s?"
-#~ msgstr "Sind Sie sicher, dass Sie %s löschen wollen?"
-
-#~ msgid "Confirm"
-#~ msgstr "Bestätigen"
-
-#~ msgid "Install the runner"
-#~ msgstr "Installieren des Ausführungswerkzeugs"
-
-#, c-format
-#~ msgid "The installation of %s was canceled."
-#~ msgstr "Die Installation von %s wude abgebrochen."
-
-#, c-format
-#~ msgid "An unexpected error occurred while extracting %s."
-#~ msgstr "Ein unerwarteter Fehler trat auf beim Extrahieren von %s."
-
-#~ msgid "Contains improvements over Valve's default Proton."
-#~ msgstr "Enthält Verbesserungen gegenüber dem Standard-Proton von Valve."
-
-#, c-format
-#~ msgid "%s is already up-to-date."
-#~ msgstr "%s ist bereits auf dem aktuellen Stand."
-
-#~ msgid "Not Available"
-#~ msgstr "Nicht Verfügbar"
