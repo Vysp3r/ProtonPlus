@@ -13,7 +13,7 @@ namespace ProtonPlus.Widgets {
 
             window_title = new Adw.WindowTitle ("", "");
 
-            var item = new MenuItem ("_Installed Only", null);
+            var item = new MenuItem (_("_Installed Only"), null);
             item.set_action_and_target ("win.set-installed-only", "b");
 
             var filters_section = new Menu ();

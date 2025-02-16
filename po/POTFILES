@@ -32,6 +32,8 @@ src/models/runners/boxtron.vala
 src/models/runners/dxvk-async-gnusenpai.vala
 src/models/runners/dxvk-async-sporif.vala
 src/models/runners/dxvk-doitsujin.vala
+src/models/runners/dxvk-sarek.vala
+src/models/runners/dxvk-async-sarek.vala
 src/models/runners/dxvk-gpl-async-ph42on.vala
 src/models/runners/kron4ek-wine-builds-staging-tkg.vala
 src/models/runners/kron4ek-wine-builds-staging.vala
@@ -42,6 +44,8 @@ src/models/runners/proton-ge-rstp.vala
 src/models/runners/proton-ge.vala
 src/models/runners/proton-tkg.vala
 src/models/runners/roberta.vala
+src/models/runners/proton-sarek.vala
+src/models/runners/proton-sarek-async.vala
 src/models/runners/vkd3d-lutris.vala
 src/models/runners/vkd3d-proton.vala
 src/models/runners/wine-lutris.vala

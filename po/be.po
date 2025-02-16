@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-16 09:56-0500\n"
+"POT-Creation-Date: 2025-02-16 13:24-0500\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -19,6 +19,11 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.6-dev\n"
+
+#: src/widgets/info-box.vala:16
+#, fuzzy
+msgid "_Installed Only"
+msgstr "Толькі ўсталяваныя"
 
 #: src/widgets/info-box.vala:23
 msgid "_Keyboard Shortcuts"
@@ -273,6 +278,11 @@ msgstr ""
 msgid "Contains RTX fix for Star Citizen."
 msgstr "Змяшчае выпраўленне RTX для Star Citizen."
 
+#: src/models/runners/dxvk-sarek.vala:6
+#: src/models/runners/dxvk-async-sarek.vala:6
+msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
+msgstr ""
+
 #: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
 #, fuzzy
 msgid "Wine build with the Staging patchset and many other useful patches."
@@ -333,6 +343,16 @@ msgid ""
 msgstr ""
 "Інструмент сумяшчальнасці Steam Play для запуску прыгодніцкіх гульняў з "
 "выкарыстаннем націўнай Linux ScummVM."
+
+#: src/models/runners/proton-sarek.vala:6
+#: src/models/runners/proton-sarek-async.vala:6
+#, fuzzy, c-format
+msgid ""
+"Steam compatibility tool based on Proton-GE with modifications for very old "
+"GPUs, with %s."
+msgstr ""
+"Інструмент сумяшчальнасці для Steam Play на аснове Wine і дадатковых "
+"кампанентаў."
 
 #: src/models/runners/wine-lutris.vala:7
 msgid ""
@@ -426,14 +446,6 @@ msgstr "Падчас распакавання адбылася нечакана�
 
 #~ msgid "Contains improvements over Valve's default Proton."
 #~ msgstr "Змяшчае паляпшэнні ў параўнанні з стандартным Proton Valve."
-
-#, fuzzy, c-format
-#~ msgid ""
-#~ "Steam compatibility tool based on Proton-GE with modifications for very "
-#~ "old GPUs, with %s."
-#~ msgstr ""
-#~ "Інструмент сумяшчальнасці для Steam Play на аснове Wine і дадатковых "
-#~ "кампанентаў."
 
 #, fuzzy
 #~ msgid "Not Available"
