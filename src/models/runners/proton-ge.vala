@@ -5,9 +5,7 @@ namespace ProtonPlus.Models.Runners {
                     title: "Proton-GE",
                     description: _("Steam compatibility tool for running Windows games with improvements over Valve's default Proton."),
                     endpoint: "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases",
-                    asset_position: 1,
-                    old_asset_location: 95,
-                    old_asset_position: 0);
+                    asset_position: 1);
         }
 
         public override string get_directory_name (string release_name) {

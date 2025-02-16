@@ -84,6 +84,22 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.23" date="2025-02-16">
+      <description>
+        <ul>
+          <li>🐛 Fix Proton-Sarek install issues</li>
+          <li>🌐 Updated German translation</li>
+          <li>🌐 Updated Czech translation</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.4.22" date="2025-02-15">
+      <description>
+        <ul>
+          <li>🐛 Fixed libadwaita version minimum requirement</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.21" date="2025-02-15">
       <description>
         <ul>

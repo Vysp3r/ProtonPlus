@@ -1,7 +1,5 @@
 namespace ProtonPlus.Models.Runners {
     public abstract class GitHub : Basic {
-        internal int old_asset_location { get; set; } // TODO Describe this
-        internal int old_asset_position { get; set; } // TODO Describe this
         internal bool use_name_instead_of_tag_name { get; set; } // TODO Describe this
         internal string[] request_asset_exclude { get; set; } // TODO Describe this
 
@@ -51,10 +49,8 @@ namespace ProtonPlus.Models.Runners {
                         continue;
                 }
 
-                int pos = releases.length () >= old_asset_location ? old_asset_position : asset_position;
-
-                if (asset_array.get_length () - 1 >= pos) {
-                    var asset_object = asset_array.get_object_element (pos);
+                if (asset_array.get_length () - 1 >= asset_position) {
+                    var asset_object = asset_array.get_object_element (asset_position);
 
                     string download_url = asset_object.get_string_member ("browser_download_url");
                     int64 download_size = asset_object.get_int_member ("size");
