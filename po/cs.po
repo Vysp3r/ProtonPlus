@@ -6,104 +6,102 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-15 19:38-0500\n"
-"PO-Revision-Date: 2023-04-10 11:40+0200\n"
+"PO-Revision-Date: 2025-02-16 11:46+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: \n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #: src/widgets/info-box.vala:23
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Klávesové zkratky"
 
 #: src/widgets/info-box.vala:24
 msgid "_About ProtonPlus"
-msgstr ""
+msgstr "O _aplikaci ProtonPlus"
 
 #: src/widgets/info-box.vala:31
-#, fuzzy
 msgid "Main Menu"
-msgstr "Hlavní"
+msgstr "Hlavní nabídka"
 
 #: src/widgets/description-dialog.vala:14
 msgid "More information"
-msgstr ""
+msgstr "Více informací"
 
 #: src/widgets/description-dialog.vala:18
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
 #: src/widgets/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr ""
+msgstr "Otevřít ve webovém prohlížeči"
 
 #: src/widgets/busy-dialog.vala:23
 msgid "Show/hide logs"
-msgstr ""
+msgstr "Zobrazit/skrýt záznamy"
 
 #: src/widgets/busy-dialog.vala:120
 msgid "Closing in"
-msgstr ""
+msgstr "Zavírá se"
 
 #: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:50
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %s"
-msgstr "Smazat"
+msgstr "Smazat %s"
 
 #: src/widgets/release-row.vala:14
-#, fuzzy, c-format
+#, c-format
 msgid "Install %s"
-msgstr "Nainstalovat"
+msgstr "Nainstalovat %s"
 
 #: src/widgets/release-row.vala:18
 msgid "Show more information"
-msgstr ""
+msgstr "Zobrazit více informací"
 
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, c-format
 msgid "You're about to remove %s from your system."
-msgstr ""
+msgstr "Chystáte se odstranit %s ze svého systému."
 
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 msgid "Are you sure you want this?"
-msgstr ""
+msgstr "Opravdu to chcete udělat?"
 
 #: src/widgets/runner-group.vala:64 src/widgets/release-rows/basic.vala:36
 #: src/widgets/release-rows/steamtinkerlaunch.vala:114
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: src/widgets/runner-group.vala:65 src/widgets/release-rows/basic.vala:37
 #: src/widgets/release-rows/steamtinkerlaunch.vala:115
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
 #: src/widgets/load-more-row.vala:8 src/widgets/load-more-row.vala:17
 msgid "Load more"
-msgstr ""
+msgstr "Načíst více"
 
 #: src/widgets/window.vala:50
 #, c-format
 msgid "Welcome to %s"
-msgstr ""
+msgstr "Vítá vás %s"
 
 #: src/widgets/window.vala:50
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
+"Chcete-li začít, nainstalujte si Steam, Lutris, Láhve nebo Heroic Games "
+"Launcher."
 
 #: src/widgets/application.vala:78
-#, fuzzy
 msgid "A modern compatibility tools manager for Linux."
-msgstr ""
-"Jednoduchý správce nástrojů kompatibility založených na Wine a Protonu pro "
-"GNOME"
+msgstr "Moderní správce nástrojů kompatibility pro Linux."
 
 #: src/widgets/application.vala:84
 msgid "Special thanks to"
@@ -111,28 +109,27 @@ msgstr "Zvláštní poděkování patří"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:60
 msgid "Missing dependencies!"
-msgstr ""
+msgstr "Chybějící závislosti!"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:60
 #, c-format
 msgid "You are missing the following dependencies for %s:"
-msgstr ""
+msgstr "Pro %s vám chybí následující závislosti:"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:60
-#, fuzzy
 msgid "Installation will be canceled."
-msgstr "Instalace byla zrušena..."
+msgstr "Instalace bude zrušena."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:62
 #: src/widgets/release-rows/steamtinkerlaunch.vala:76
 #: src/widgets/release-rows/steamtinkerlaunch.vala:175
 msgid "OK"
-msgstr ""
+msgstr "Budiž"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:73
-#, fuzzy, c-format
+#, c-format
 msgid "Existing installation of %s"
-msgstr "Instalace byla zrušena..."
+msgstr "Existující instalace %s"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
@@ -140,11 +137,13 @@ msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
+"Zdá se, že aktuálně máte jinou verzi %s, která nebyla nainstalována přes "
+"ProtonPlus."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
 msgid "Do you want to delete it and install %s with ProtonPlus?"
-msgstr ""
+msgstr "Chcete ji smazat a nainstalovat %s s ProtonPlus?"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:75
 msgid "Cancel"
@@ -152,341 +151,220 @@ msgstr "Zrušit"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:108
 msgid "Check this to also remove your configuration files."
-msgstr ""
+msgstr "Zvolte pro odstranění také konfiguračních souborů."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:165
 #: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "%s is not supported"
-msgstr ""
+msgstr "%s není podporováno"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:165
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr ""
+msgstr "Chcete-li nainstalovat %s pro %s, spusťte následující příkaz:"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
-msgstr ""
+msgstr "Momentálně není znám žádný způsob, jak nainstalovat %s pro %s."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
 msgid "%s is up-to-date"
-msgstr ""
+msgstr "%s je aktuální"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
 msgid "Update %s to the latest version"
-msgstr ""
+msgstr "Aktualizujte %s na nejnovější verzi"
 
 #: src/widgets/busy-dialogs/install-dialog.vala:6
-#, fuzzy
 msgid "Installing"
-msgstr "Nainstalovat"
+msgstr "Instaluje se"
 
 #: src/widgets/busy-dialogs/remove-dialog.vala:6
 msgid "Removing"
-msgstr ""
+msgstr "Odstraňuje se"
 
 #: src/widgets/busy-dialogs/upgrade-dialog.vala:6
 msgid "Upgrading"
-msgstr ""
+msgstr "Aktualizuje se"
 
 #: src/models/release.vala:31
-#, fuzzy, c-format
+#, c-format
 msgid "The installation of %s has begun."
-msgstr "Instalace byla zrušena..."
+msgstr "Instalace %s byla zahájena."
 
 #: src/models/release.vala:34
-#, fuzzy, c-format
+#, c-format
 msgid "The removal of %s has begun."
-msgstr "Instalace byla zrušena..."
+msgstr "Odstranění %s bylo zahájeno."
 
 #: src/models/release.vala:37
 #, c-format
 msgid "The upgrade of %s has begun."
-msgstr ""
+msgstr "Aktualizace %s byla zahájena."
 
 #: src/models/release.vala:57
 #, c-format
 msgid "An unexpected error occurred while installing %s."
-msgstr ""
+msgstr "Při instalaci %s došlo k neočekávané chybě."
 
 #: src/models/release.vala:59
-#, fuzzy, c-format
+#, c-format
 msgid "The installation of %s is complete."
-msgstr "Instalace byla zrušena..."
+msgstr "Instalace %s je dokončena."
 
 #: src/models/release.vala:79
-#, fuzzy, c-format
+#, c-format
 msgid "The removal of %s is complete."
-msgstr "Instalace byla zrušena..."
+msgstr "Odstranění %s je dokončeno."
 
 #: src/models/release.vala:79
 #, c-format
 msgid "An unexpected error occurred while removing %s."
-msgstr ""
+msgstr "Při odstraňování %s došlo k neočekávané chybě."
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:33
 msgid "Runners"
-msgstr ""
+msgstr "Spouštěče"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
 #: src/models/launchers/lutris.vala:36
 msgid "Compatibility tools for running Windows software on Linux."
-msgstr ""
+msgstr "Nástroje kompatibility pro spouštění softwaru pro Windows na Linuxu."
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/hgl.vala:35
 #: src/models/launchers/lutris.vala:39
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
+"Implementace Direct3D 8, 9, 10 a 11 pro Linux/Wine založená na Vulkanu."
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
+"Nástroje kompatibility od Valve pro spouštění softwaru pro Windows na Linuxu."
 
 #: src/models/launchers/hgl.vala:38 src/models/launchers/lutris.vala:42
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
+"Varianta VKD3D z Wine, jejímž cílem je implementovat plné rozhraní API "
+"Direct3D 12 na Vulkanu."
 
 #: src/models/runners/boxtron.vala:6
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
+"Nástroj kompatibility Steam pro spouštění her pro DOS pomocí DOSBoxu pro "
+"Linux."
 
 #: src/models/runners/dxvk-async-gnusenpai.vala:6
 msgid "Contains RTX fix for Star Citizen."
-msgstr ""
+msgstr "Obsahuje opravu RTX pro Star Citizen."
 
 #: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
+"Sestavení Wine se sadou patchů Staging a mnoha dalšími užitečnými patchi."
 
 #: src/models/runners/kron4ek-wine-builds-staging.vala:7
 msgid "Wine build with the Staging patchset."
-msgstr ""
+msgstr "Sestavení Wine se sadou patchů Staging."
 
 #: src/models/runners/kron4ek-wine-builds-vanilla.vala:7
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr ""
+msgstr "Sestavení Wine zkompilované z oficiálních zdrojů WineHQ."
 
 #: src/models/runners/luxtorpeda.vala:6
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
+"Luxtorpeda poskytuje nativní linuxové herní enginy pro některé hry dostupné "
+"pouze pro Windows."
 
 #: src/models/runners/northstar-proton.vala:6
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
+"Vlastní sestavení Protonu pro spouštění klienta Northstar pro Titanfall 2."
 
 #: src/models/runners/proton-ge-rstp.vala:6
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
 msgstr ""
+"Nástroj kompatibility Steam založený na Proton-GE s dalšími patchi pro "
+"vylepšení kodeků RTSP pro VRChat."
 
 #: src/models/runners/proton-ge.vala:6
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
+"Nástroj kompatibility Steam pro spouštění her pro Windows s vylepšeními "
+"oproti výchozímu Protonu od Valve."
 
 #: src/models/runners/proton-tkg.vala:6
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
+"Vlastní sestavení Protonu pro spouštění her pro Windows, založené na Wine-"
+"tkg."
 
 #: src/models/runners/roberta.vala:6
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
+"Nástroj kompatibility Steam pro spouštění her z žánru adventur pomocí "
+"ScummVM pro Linux."
 
 #: src/models/runners/wine-lutris.vala:7
 msgid ""
 "Improved by Lutris to offer better compatibility or performance in certain "
 "games."
 msgstr ""
+"Vylepšeno Lutrisem pro lepší kompatibilitu nebo výkon v určitých hrách."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
 msgstr ""
+"Nástroj Steamu pro snadnou grafickou konfiguraci vašich dalších nástrojů "
+"kompatibility pro Windows hry i nativní hry pro Linux."
 
 #: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
 #: src/models/releases/steamtinkerlaunch.vala:259
-#, fuzzy
 msgid "Downloading..."
-msgstr "Stahování bylo dokončeno...\n"
+msgstr "Stahuje se…"
 
 #: src/models/releases/basic.vala:55 src/models/releases/github-action.vala:23
 #: src/models/releases/steamtinkerlaunch.vala:266
-#, fuzzy
 msgid "Extracting..."
-msgstr "Rozbalování bylo dokončeno...\n"
+msgstr "Rozbaluje se…"
 
 #: src/models/releases/basic.vala:64 src/models/releases/github-action.vala:37
 msgid "Renaming..."
-msgstr ""
+msgstr "Přejmenovává se…"
 
 #: src/models/releases/basic.vala:73 src/models/releases/github-action.vala:46
-#, fuzzy
 msgid "Running post installation script..."
-msgstr "Instalace byla zrušena..."
+msgstr "Spouští se skript po instalaci…"
 
 #: src/models/releases/basic.vala:84
 msgid "Deleting..."
-msgstr ""
+msgstr "Maže se…"
 
 #: src/models/releases/basic.vala:91
-#, fuzzy
 msgid "Running post removal script..."
-msgstr "Instalace byla zrušena..."
+msgstr "Spouští se skript po odstranění…"
 
 #: src/models/releases/upgrade.vala:8
 #, c-format
 msgid "The upgrade of %s is complete."
-msgstr ""
+msgstr "Aktualizace %s je dokončena."
 
 #: src/models/releases/upgrade.vala:8
 #, c-format
 msgid "An unexpected error occurred while upgrading %s."
-msgstr ""
-
-#, fuzzy
-#~ msgid "Show Installed"
-#~ msgstr "Nainstalovat"
-
-#, fuzzy
-#~ msgid "There was an error while fetching data from the GitHub API."
-#~ msgstr "Během rozbalování došlo k chybě..."
-
-#, fuzzy
-#~ msgid "Cancel the installation"
-#~ msgstr "Instalace byla zrušena..."
-
-#, fuzzy, c-format
-#~ msgid "The installation of %s was canceled."
-#~ msgstr "Instalace byla zrušena..."
-
-#~ msgid "About"
-#~ msgstr "O aplikaci"
-
-#, fuzzy
-#~ msgid " was started"
-#~ msgstr "Stahování zahájeno...\n"
-
-#~ msgid "Preferences"
-#~ msgstr "Předvolby"
-
-#~ msgid "You cannot close the window while a tool is installing"
-#~ msgstr "Během instalace nástroje nelze zavřít okno"
-
-#~ msgid "Telegram"
-#~ msgstr "Telegram"
-
-#~ msgid "Documentation"
-#~ msgstr "Dokumentace"
-
-#~ msgid "Donation"
-#~ msgstr "Dar"
-
-#~ msgid "Quit"
-#~ msgstr "Ukončit"
-
-#~ msgid "Tools"
-#~ msgstr "Nástroje"
-
-#~ msgid "Games"
-#~ msgstr "Hry"
-
-#~ msgid "Notifications"
-#~ msgstr "Upozornění"
-
-#~ msgid "Launchers"
-#~ msgstr "Spouštěče"
-
-#~ msgid "Select a launcher to proceed"
-#~ msgstr "Pro pokračování vyberte spouštěč"
-
-#~ msgid "Select a tool to proceed"
-#~ msgstr "Pro pokračování vyberte nástroj"
-
-#~ msgid "Copy"
-#~ msgstr "Kopírovat"
-
-#~ msgid "Website"
-#~ msgstr "Webové stránky"
-
-#~ msgid "Directory: "
-#~ msgstr "Adresář: "
-
-#~ msgid "Size: "
-#~ msgstr "Velikost: "
-
-#~ msgid "Download size (Compressed): "
-#~ msgstr "Stahovaná velikost (komprimovaná): "
-
-#~ msgid "Release date: "
-#~ msgstr "Datum vydání: "
-
-#~ msgid "Go back"
-#~ msgstr "Jít zpět"
-
-#~ msgid "You cannot cancel the operation for tools using Github Actions."
-#~ msgstr "Nelze zrušit operaci pro nástroje využívající Github Actions."
-
-#~ msgid "Extraction started...\n"
-#~ msgstr "Rozbalování zahájeno...\n"
-
-#~ msgid "You cannot cancel the operation while it's extracting."
-#~ msgstr "Během rozbalování nelze operaci zrušit."
-
-#~ msgid "This page is a work in progress."
-#~ msgstr "Na této stránce se pracuje."
-
-#~ msgid "Style"
-#~ msgstr "Styl"
-
-#~ msgid "There is nothing to see here."
-#~ msgstr "Není zde nic k vidění."
-
-#~ msgid "Github API Request Error"
-#~ msgstr "Chyba požadavku Github API"
-
-#, fuzzy
-#~ msgid ""
-#~ "Here's a list of the possible reasons why that error happened:\n"
-#~ "- You may have reached the GitHub API limit\n"
-#~ "- You may be disconnected from the internet\n"
-#~ "\n"
-#~ "Why can I still see data then?\n"
-#~ "ProtonPlus caches the json of each requests in case that problem happens"
-#~ msgstr ""
-#~ "Zde je seznam možných důvodů, proč k této chybě došlo\n"
-#~ "- Možná jste dosáhli limitu GitHub API\n"
-#~ "- Možná jste odpojeni od internetu"
-
-#~ msgid ""
-#~ "Make sure to restart Steam if it's open to be able to use it otherwise "
-#~ "you will not see it.\n"
-#~ msgstr ""
-#~ "Nezapomeňte restartovat Steam, pokud je otevřený, abyste to mohli "
-#~ "používat, jinak to neuvidíte.\n"
-
-#~ msgid ""
-#~ "If you're using gamescope with Steam (Flatpak), those tools will not "
-#~ "work. Make sure to use the community builds from Flathub."
-#~ msgstr ""
-#~ "Pokud používáte gamescope se Steam (Flatpak), tyto nástroje nebudou "
-#~ "fungovat. Ujistěte se, že používáte komunitní sestavení z Flathubu."
-
-#~ msgid "System"
-#~ msgstr "Systémový"
-
-#~ msgid "Light"
-#~ msgstr "Světlý"
-
-#~ msgid "Dark"
-#~ msgstr "Tmavý"
+msgstr "Při aktualizaci %s došlo k neočekávané chybě."
