@@ -4,8 +4,12 @@ namespace ProtonPlus.Widgets {
         Gtk.Spinner spinner { get; set; }
         LoadMoreRow load_more_row { get; set; }
 
+        int count { get; set; }
+
         public RunnerRow (Models.Runner runner) {
             this.runner = runner;
+
+            count = 0;
 
             load_more_row = new LoadMoreRow ();
             load_more_row.activated.connect (load_more_row_activated);
@@ -21,29 +25,42 @@ namespace ProtonPlus.Widgets {
         }
 
         void expanded_changed (bool force_load = false) {
-            if ((get_expanded () && runner.releases.length () == 0) || force_load) {
-                spinner.start ();
-                spinner.set_visible (true);
-                runner.load.begin ((obj, res) => {
-                    var releases = runner.load.end (res);
+            if (get_expanded ()) {
+                var a = runner.releases.length () == 0 || force_load;
+                var b = runner.releases.length () >= 0 && count == 0;
+                if (a || b) {
+                    spinner.start ();
+                    spinner.set_visible (true);
 
-                    foreach (var release in releases) {
-                        if (release is Models.Releases.Basic || release is Models.Releases.GitHubAction) {
-                            var row = new Widgets.ReleaseRows.Basic ((Models.Releases.Basic) release);
-                            add_row (row);
-                        } else if (release is Models.Releases.SteamTinkerLaunch) {
-                            var row = new Widgets.ReleaseRows.SteamTinkerLaunch ((Models.Releases.SteamTinkerLaunch) release);
-                            add_row (row);
-                        }
+                    if (a) {
+                        runner.load.begin ((obj, res) => {
+                            insert_loaded_releases (runner.load.end (res));
+                        });
+                    } else if (b) {
+                        insert_loaded_releases (runner.releases);
                     }
-
-                    if (runner.has_more)
-                        add_row (load_more_row);
-
-                    spinner.stop ();
-                    spinner.set_visible (false);
-                });
+                }
             }
+        }
+
+        void insert_loaded_releases (List<Models.Release> releases) {
+            foreach (var release in releases) {
+                if (release is Models.Releases.Basic || release is Models.Releases.GitHubAction) {
+                    var row = new Widgets.ReleaseRows.Basic ((Models.Releases.Basic) release);
+                    add_row (row);
+                } else if (release is Models.Releases.SteamTinkerLaunch) {
+                    var row = new Widgets.ReleaseRows.SteamTinkerLaunch ((Models.Releases.SteamTinkerLaunch) release);
+                    add_row (row);
+                }
+
+                count++;
+            }
+
+            if (runner.has_more)
+                add_row (load_more_row);
+
+            spinner.stop ();
+            spinner.set_visible (false);
         }
 
         void load_more_row_activated () {

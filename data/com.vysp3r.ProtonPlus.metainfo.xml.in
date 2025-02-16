@@ -32,6 +32,8 @@
       <li>Kron4ek Wine-Builds Staging</li>
       <li>Kron4ek Wine-Builds Staging-Tkg</li>
       <li>DXVK</li>
+      <li>DXVK (Sarek)</li>
+      <li>DXVK Async (Sarek)</li>
       <li>DXVK Async (sporif)</li>
       <li>DXVK Async (gnusenpai)</li>
       <li>DXVK GPL+Async (Ph42oN)</li>
@@ -60,7 +62,8 @@
   <!-- URLs of this type should point to a webpage where users can submit or modify translations of the upstream project -->
   <url type="translate">https://hosted.weblate.org/projects/protonplus/protonplus</url>
 
-  <translation type="gettext">fasdfa</translation>
+  <translation type="gettext">com.vysp3r.ProtonPlus</translation>
+  
   <!-- All graphical applications having a desktop file must have this tag in the MetaInfo.
      If this is present, appstreamcli compose will pull icons, keywords and categories from the desktop file. -->
   <launchable type="desktop-id">com.vysp3r.ProtonPlus.desktop</launchable>

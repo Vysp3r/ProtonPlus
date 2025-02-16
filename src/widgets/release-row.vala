@@ -4,8 +4,6 @@ namespace ProtonPlus.Widgets {
         protected Gtk.Button remove_button { get; set; }
         protected Gtk.Button info_button { get; set; }
         protected Gtk.Box input_box { get; set; }
-        protected Dialogs.InstallDialog install_dialog { get; set; }
-        protected Dialogs.RemoveDialog remove_dialog { get; set; }
 
         construct {
             remove_button = new Gtk.Button.from_icon_name ("trash-symbolic");

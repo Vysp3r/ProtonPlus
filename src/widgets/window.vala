@@ -16,10 +16,9 @@ namespace ProtonPlus.Widgets {
 
             add_action (set_nav_view_active ());
             add_action (load_info_box ());
+            add_action (set_installed_only ());
 
-            // NOTE: Minimum size supported by AdwOverlaySplitView = 272x474,
-            // and we have to make our minimum request a bit larger to look nice.
-            set_size_request (400, 600);
+            set_size_request (460, 600);
 
             status_box = new Widgets.StatusBox ();
 
@@ -32,7 +31,7 @@ namespace ProtonPlus.Widgets {
             navigation_split_view.set_content (info_page);
             navigation_split_view.set_show_content (true);
 
-            breakpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 600px"));
+            breakpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 660px"));
             breakpoint.add_setter (navigation_split_view, "collapsed", true);
 
             add_breakpoint (breakpoint);
@@ -61,11 +60,22 @@ namespace ProtonPlus.Widgets {
             }
         }
 
+        SimpleAction set_installed_only () {
+            SimpleAction action = new SimpleAction.stateful ("set-installed-only", VariantType.BOOLEAN, true);
+
+            action.activate.connect ((variant) => {
+                action.set_state (!action.get_state ().get_boolean ());
+                info_box.switch_mode (!action.get_state ().get_boolean ());
+            });
+
+            return action;
+        }
+
         SimpleAction set_nav_view_active () {
             SimpleAction action = new SimpleAction ("set-nav-view-active", VariantType.BOOLEAN);
 
             action.activate.connect ((variant) => {
-                navigation_split_view.set_show_content (variant.get_boolean());
+                navigation_split_view.set_show_content (variant.get_boolean ());
             });
 
             return action;

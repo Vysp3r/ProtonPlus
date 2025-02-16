@@ -1,13 +1,10 @@
 namespace ProtonPlus.Widgets.ReleaseRows {
     public class SteamTinkerLaunch : ReleaseRow {
-        public Dialogs.UpgradeDialog upgrade_dialog { get; set; }
         public Gtk.Button upgrade_button { get; set; }
 
         Models.Releases.SteamTinkerLaunch release;
 
         construct {
-            upgrade_dialog = new Dialogs.UpgradeDialog ();
-
             upgrade_button = new Gtk.Button ();
             upgrade_button.add_css_class ("flat");
             upgrade_button.clicked.connect (upgrade_button_clicked);
@@ -18,10 +15,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         public SteamTinkerLaunch (Models.Releases.SteamTinkerLaunch release) {
             this.release = release;
 
-            install_dialog.initialize (release);
-            remove_dialog.initialize (release);
-            upgrade_dialog.initialize (release);
-
             if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
                 input_box.remove (install_button);
                 input_box.remove (remove_button);
@@ -29,8 +22,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             } else {
                 input_box.remove (info_button);
             }
-
-            release.send_message.connect (dialog_message_received);
 
             release.notify["displayed-title"].connect (release_displayed_title_changed);
 
@@ -101,9 +92,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         void start_install () {
-            install_dialog = new Dialogs.InstallDialog ();
+            var install_dialog = new Dialogs.InstallDialog (release);
+            install_dialog.present (Application.window);
 
-            install_dialog.present ();
+            release.send_message.connect (install_dialog.add_text);
 
             release.install.begin ((obj, res) => {
                 var success = release.install.end (res);
@@ -129,9 +121,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 if (response != "yes")
                     return;
 
-                remove_dialog = new Dialogs.RemoveDialog ();
+                var remove_dialog = new Dialogs.RemoveDialog (release);
+                remove_dialog.present (Application.window);
 
-                remove_dialog.present ();
+                release.send_message.connect (remove_dialog.add_text);
 
                 var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
                 parameters.delete_config = remove_check.get_active ();
@@ -151,9 +144,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             if (release.state == Models.Release.State.UP_TO_DATE)
                 return;
 
-            upgrade_dialog = new Dialogs.UpgradeDialog ();
+            var upgrade_dialog = new Dialogs.UpgradeDialog (release);
+            upgrade_dialog.present (Application.window);
 
-            upgrade_dialog.present ();
+            release.send_message.connect (upgrade_dialog.add_text);
 
             release.upgrade.begin ((obj, res) => {
                 var success = release.upgrade.end (res);
@@ -168,11 +162,11 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             case Models.Launcher.InstallationTypes.FLATPAK :
                 var command_label = new Gtk.Label ("flatpak install com.valvesoftware.Steam.Utility.steamtinkerlaunch");
                 command_label.set_selectable (true);
-                alert_dialog = new Adw.AlertDialog ( _("%s is not supported").printf ("Steam Flatpak"), _("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
+                alert_dialog = new Adw.AlertDialog (_("%s is not supported").printf ("Steam Flatpak"), _("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
                 alert_dialog.set_extra_child (command_label);
                 break;
             case Models.Launcher.InstallationTypes.SNAP:
-                alert_dialog = new Adw.AlertDialog ( _("%s is not supported").printf ("Steam Snap"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
+                alert_dialog = new Adw.AlertDialog (_("%s is not supported").printf ("Steam Snap"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
                 break;
             default:
                 break;
@@ -199,22 +193,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             if (upgrade_button.get_visible ()) {
                 upgrade_button.set_icon_name (updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
                 upgrade_button.set_tooltip_text (updated ? _("%s is up-to-date").printf (release.title) : _("Update %s to the latest version").printf (release.title));
-            }
-        }
-
-        void dialog_message_received (string message) {
-            switch (release.state) {
-            case Models.Release.State.BUSY_INSTALLING:
-                install_dialog.add_text (message);
-                break;
-            case Models.Release.State.BUSY_REMOVING:
-                remove_dialog.add_text (message);
-                break;
-            case Models.Release.State.BUSY_UPGRADING:
-                upgrade_dialog.add_text (message);
-                break;
-            default:
-                break;
             }
         }
     }

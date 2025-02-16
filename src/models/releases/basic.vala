@@ -3,6 +3,12 @@ namespace ProtonPlus.Models.Releases {
         public string install_location { get; set; }
         public int64 download_size { get; set; }
 
+        public Basic.simple (Runners.Basic runner, string title, string install_location) {
+            this.runner = runner;
+            this.title = title;
+            this.install_location = install_location;
+        }
+
         public Basic.github (Runners.Basic runner, string title, string description, string release_date, int64 download_size, string download_url, string page_url) {
             this.description = description;
             this.download_size = download_size;
@@ -64,7 +70,7 @@ namespace ProtonPlus.Models.Releases {
             if (!renaming_valid)
                 return false;
 
-            send_message (_("Running installation script..."));
+            send_message (_("Running post installation script..."));
 
             var install_script_success = runner.group.launcher.install (this);
 
@@ -82,7 +88,7 @@ namespace ProtonPlus.Models.Releases {
             if (!deleted)
                 return false;
 
-            send_message (_("Running removal script..."));
+            send_message (_("Running post removal script..."));
 
             var uninstall_script_success = runner.group.launcher.uninstall (this);
 

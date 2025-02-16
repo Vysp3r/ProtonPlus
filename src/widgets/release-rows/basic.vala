@@ -8,8 +8,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             if (release.description == null || release.page_url == null)
                 input_box.remove (info_button);
 
-            release.send_message.connect (dialog_message_received);
-
             release.notify["displayed-title"].connect (release_displayed_title_changed);
 
             release_displayed_title_changed ();
@@ -20,9 +18,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         protected override void install_button_clicked () {
-            install_dialog = new Dialogs.InstallDialog ();
-            install_dialog.initialize (release);
-            install_dialog.present ();
+            var install_dialog = new Dialogs.InstallDialog (release);
+            install_dialog.present (Application.window);
+
+            release.send_message.connect (install_dialog.add_text);
 
             release.install.begin ((obj, res) => {
                 var success = release.install.end (res);
@@ -46,9 +45,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 if (response != "yes")
                     return;
 
-                remove_dialog = new Dialogs.RemoveDialog ();
-                remove_dialog.initialize (release);
-                remove_dialog.present ();
+                var remove_dialog = new Dialogs.RemoveDialog (release);
+                remove_dialog.present (Application.window);
+
+                release.send_message.connect (remove_dialog.add_text);
 
                 release.remove.begin (new Models.Parameters (), (obj, res) => {
                     var success = release.remove.end (res);
@@ -72,19 +72,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
             install_button.set_visible (!installed);
             remove_button.set_visible (installed);
-        }
-
-        void dialog_message_received (string message) {
-            switch (release.state) {
-            case Models.Release.State.BUSY_INSTALLING:
-                install_dialog.add_text (message);
-                break;
-            case Models.Release.State.BUSY_REMOVING:
-                remove_dialog.add_text (message);
-                break;
-            default:
-                break;
-            }
         }
     }
 }

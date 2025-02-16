@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-01 14:38-0500\n"
+"POT-Creation-Date: 2025-02-15 19:09-0500\n"
 "PO-Revision-Date: 2024-02-16 17:02+0000\n"
 "Last-Translator: valigarmanda <valigarmanda55@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -16,20 +16,15 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.4\n"
 
-#: src/widgets/sidebar.vala:20
-#, fuzzy
-msgid "Show Installed"
-msgstr "只显示已安装的"
-
-#: src/widgets/info-box.vala:17
+#: src/widgets/info-box.vala:23
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widgets/info-box.vala:18
+#: src/widgets/info-box.vala:24
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/info-box.vala:21
+#: src/widgets/info-box.vala:31
 msgid "Main Menu"
 msgstr ""
 
@@ -46,36 +41,63 @@ msgstr ""
 msgid "Open in your web browser"
 msgstr ""
 
-#: src/widgets/busy-dialog.vala:83
+#: src/widgets/busy-dialog.vala:23
+msgid "Show/hide logs"
+msgstr ""
+
+#: src/widgets/busy-dialog.vala:120
 msgid "Closing in"
 msgstr ""
 
-#: src/widgets/release-row.vala:12 src/widgets/release-rows/basic.vala:35
-#: src/widgets/release-rows/steamtinkerlaunch.vala:118
+#: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:50
+#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, fuzzy, c-format
 msgid "Delete %s"
 msgstr "删除工具"
 
-#: src/widgets/release-row.vala:16
+#: src/widgets/release-row.vala:14
 #, fuzzy, c-format
 msgid "Install %s"
 msgstr "只显示已安装的"
 
-#: src/widgets/release-row.vala:20
+#: src/widgets/release-row.vala:18
 #, fuzzy
 msgid "Show more information"
 msgstr "显示信息"
+
+#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/release-rows/steamtinkerlaunch.vala:110
+#, c-format
+msgid "You're about to remove %s from your system."
+msgstr ""
+
+#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/release-rows/steamtinkerlaunch.vala:110
+#, fuzzy
+msgid "Are you sure you want this?"
+msgstr "你确定要删除么？ "
+
+#: src/widgets/runner-group.vala:64 src/widgets/release-rows/basic.vala:36
+#: src/widgets/release-rows/steamtinkerlaunch.vala:114
+msgid "No"
+msgstr ""
+
+#: src/widgets/runner-group.vala:65 src/widgets/release-rows/basic.vala:37
+#: src/widgets/release-rows/steamtinkerlaunch.vala:115
+msgid "Yes"
+msgstr ""
 
 #: src/widgets/load-more-row.vala:8 src/widgets/load-more-row.vala:17
 msgid "Load more"
 msgstr "加载更多"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:50
 #, fuzzy, c-format
 msgid "Welcome to %s"
 msgstr "欢迎来到 "
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:50
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "安装Steam，Lutris，Bottles或Heroic Game Launcher即可开始使用"
 
@@ -88,100 +110,78 @@ msgstr "一个为GNOME而生的简单Wine和基于Proton兼容性工具的管理
 msgid "Special thanks to"
 msgstr "特别感谢"
 
-#: src/widgets/release-rows/basic.vala:35
-#: src/widgets/release-rows/steamtinkerlaunch.vala:118
-#, c-format
-msgid "You're about to remove %s from your system."
-msgstr ""
-
-#: src/widgets/release-rows/basic.vala:35
-#: src/widgets/release-rows/steamtinkerlaunch.vala:118
-#, fuzzy
-msgid "Are you sure you want this?"
-msgstr "你确定要删除么？ "
-
-#: src/widgets/release-rows/basic.vala:37
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
-msgid "No"
-msgstr ""
-
-#: src/widgets/release-rows/basic.vala:38
-#: src/widgets/release-rows/steamtinkerlaunch.vala:123
-msgid "Yes"
-msgstr ""
-
-#: src/widgets/release-rows/steamtinkerlaunch.vala:69
+#: src/widgets/release-rows/steamtinkerlaunch.vala:60
 msgid "Missing dependencies!"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:69
+#: src/widgets/release-rows/steamtinkerlaunch.vala:60
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:69
+#: src/widgets/release-rows/steamtinkerlaunch.vala:60
 #, fuzzy
 msgid "Installation will be canceled."
 msgstr "安装 "
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:71
-#: src/widgets/release-rows/steamtinkerlaunch.vala:85
-#: src/widgets/release-rows/steamtinkerlaunch.vala:181
+#: src/widgets/release-rows/steamtinkerlaunch.vala:62
+#: src/widgets/release-rows/steamtinkerlaunch.vala:76
+#: src/widgets/release-rows/steamtinkerlaunch.vala:175
 msgid "OK"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:82
+#: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, fuzzy, c-format
 msgid "Existing installation of %s"
 msgstr "安装 "
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:82
+#: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:82
+#: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
 msgid "Do you want to delete it and install %s with ProtonPlus?"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:84
+#: src/widgets/release-rows/steamtinkerlaunch.vala:75
 msgid "Cancel"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:116
+#: src/widgets/release-rows/steamtinkerlaunch.vala:108
 msgid "Check this to also remove your configuration files."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:171
-#: src/widgets/release-rows/steamtinkerlaunch.vala:175
+#: src/widgets/release-rows/steamtinkerlaunch.vala:165
+#: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "%s is not supported"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:171
+#: src/widgets/release-rows/steamtinkerlaunch.vala:165
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:175
+#: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:201
+#: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
 msgid "%s is up-to-date"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:201
+#: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
 msgid "Update %s to the latest version"
 msgstr ""
 
-#: src/widgets/busy-dialogs/install-dialog.vala:8
+#: src/widgets/busy-dialogs/install-dialog.vala:6
 #, fuzzy
 msgid "Installing"
 msgstr "只显示已安装的"
@@ -325,34 +325,35 @@ msgid ""
 "tools for both Windows games and native Linux games."
 msgstr ""
 
-#: src/models/releases/basic.vala:40 src/models/releases/github-action.vala:14
+#: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
 #: src/models/releases/steamtinkerlaunch.vala:259
 #, fuzzy
 msgid "Downloading..."
 msgstr "下载中..."
 
-#: src/models/releases/basic.vala:49 src/models/releases/github-action.vala:23
+#: src/models/releases/basic.vala:55 src/models/releases/github-action.vala:23
 #: src/models/releases/steamtinkerlaunch.vala:266
 #, fuzzy
 msgid "Extracting..."
 msgstr "解压中..."
 
-#: src/models/releases/basic.vala:58 src/models/releases/github-action.vala:37
+#: src/models/releases/basic.vala:64 src/models/releases/github-action.vala:37
 msgid "Renaming..."
 msgstr ""
 
-#: src/models/releases/basic.vala:67 src/models/releases/github-action.vala:46
+#: src/models/releases/basic.vala:73 src/models/releases/github-action.vala:46
 #, fuzzy
-msgid "Running installation script..."
+msgid "Running post installation script..."
 msgstr "安装 "
 
-#: src/models/releases/basic.vala:78
+#: src/models/releases/basic.vala:84
 msgid "Deleting..."
 msgstr ""
 
-#: src/models/releases/basic.vala:85
-msgid "Running removal script..."
-msgstr ""
+#: src/models/releases/basic.vala:91
+#, fuzzy
+msgid "Running post removal script..."
+msgstr "安装 "
 
 #: src/models/releases/upgrade.vala:8
 #, fuzzy, c-format
@@ -363,6 +364,10 @@ msgstr "删除 "
 #, fuzzy, c-format
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "当解压时出现异常 "
+
+#, fuzzy
+#~ msgid "Show Installed"
+#~ msgstr "只显示已安装的"
 
 #~ msgid ""
 #~ "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."

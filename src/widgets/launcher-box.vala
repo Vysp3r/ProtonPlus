@@ -5,10 +5,11 @@ namespace ProtonPlus.Widgets {
         Gtk.Box content { get; set; }
         Adw.Clamp clamp { get; set; }
         Gtk.ScrolledWindow scrolled_window { get; set; }
+        List<RunnerGroup> runner_groups;
 
         public LauncherBox (Models.Launcher launcher) {
             this.launcher = launcher;
-            
+
             set_vexpand (true);
             set_margin_start (15);
             set_margin_end (15);
@@ -26,10 +27,19 @@ namespace ProtonPlus.Widgets {
             scrolled_window = new Gtk.ScrolledWindow ();
             scrolled_window.set_child (clamp);
             scrolled_window.set_parent (this);
-            
+
+            runner_groups = new List<RunnerGroup> ();
+
             foreach (var group in launcher.groups) {
                 var runner_group = new RunnerGroup (group);
+                runner_groups.append (runner_group);
                 content.append (runner_group);
+            }
+        }
+
+        public void switch_mode (bool mode) {
+            foreach (var runner_group in runner_groups) {
+                runner_group.load (mode);
             }
         }
     }

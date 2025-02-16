@@ -43,7 +43,7 @@ namespace ProtonPlus.Models.Releases {
             if (!renaming_valid)
                 return false;
 
-            send_message (_("Running installation script..."));
+            send_message (_("Running post installation script..."));
 
             var install_script_success = runner.group.launcher.install (this);
 

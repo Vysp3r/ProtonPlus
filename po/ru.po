@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-01 14:38-0500\n"
+"POT-Creation-Date: 2025-02-15 19:09-0500\n"
 "PO-Revision-Date: 2024-10-12 18:02+0500\n"
 "Last-Translator: izmyname <vi-mcmxcv@proton.me>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -17,20 +17,15 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Poedit 3.5\n"
 
-#: src/widgets/sidebar.vala:20
-#, fuzzy
-msgid "Show Installed"
-msgstr "Только установленные"
-
-#: src/widgets/info-box.vala:17
+#: src/widgets/info-box.vala:23
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widgets/info-box.vala:18
+#: src/widgets/info-box.vala:24
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/info-box.vala:21
+#: src/widgets/info-box.vala:31
 msgid "Main Menu"
 msgstr ""
 
@@ -47,35 +42,61 @@ msgstr ""
 msgid "Open in your web browser"
 msgstr ""
 
-#: src/widgets/busy-dialog.vala:83
+#: src/widgets/busy-dialog.vala:23
+msgid "Show/hide logs"
+msgstr ""
+
+#: src/widgets/busy-dialog.vala:120
 msgid "Closing in"
 msgstr ""
 
-#: src/widgets/release-row.vala:12 src/widgets/release-rows/basic.vala:35
-#: src/widgets/release-rows/steamtinkerlaunch.vala:118
+#: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:50
+#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, c-format
 msgid "Delete %s"
 msgstr "Удалить %s"
 
-#: src/widgets/release-row.vala:16
+#: src/widgets/release-row.vala:14
 #, c-format
 msgid "Install %s"
 msgstr "Установить %s"
 
-#: src/widgets/release-row.vala:20
+#: src/widgets/release-row.vala:18
 msgid "Show more information"
 msgstr "Показать больше информации"
+
+#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/release-rows/steamtinkerlaunch.vala:110
+#, fuzzy, c-format
+msgid "You're about to remove %s from your system."
+msgstr "Вы собираетесь удалить %s из вашей системы."
+
+#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/release-rows/steamtinkerlaunch.vala:110
+msgid "Are you sure you want this?"
+msgstr "Вы уверены, что хотите этого?"
+
+#: src/widgets/runner-group.vala:64 src/widgets/release-rows/basic.vala:36
+#: src/widgets/release-rows/steamtinkerlaunch.vala:114
+msgid "No"
+msgstr "Нет"
+
+#: src/widgets/runner-group.vala:65 src/widgets/release-rows/basic.vala:37
+#: src/widgets/release-rows/steamtinkerlaunch.vala:115
+msgid "Yes"
+msgstr "Да"
 
 #: src/widgets/load-more-row.vala:8 src/widgets/load-more-row.vala:17
 msgid "Load more"
 msgstr "Загрузить ещё"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:50
 #, c-format
 msgid "Welcome to %s"
 msgstr "Добро пожаловать в %s"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:50
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Установите Steam, Lutris, Bottles или Heroic Games Launcher, чтобы начать "
@@ -89,100 +110,79 @@ msgstr "Современный менеджер инструментов сов�
 msgid "Special thanks to"
 msgstr ""
 
-#: src/widgets/release-rows/basic.vala:35
-#: src/widgets/release-rows/steamtinkerlaunch.vala:118
-#, fuzzy, c-format
-msgid "You're about to remove %s from your system."
-msgstr "Вы собираетесь удалить %s из вашей системы."
-
-#: src/widgets/release-rows/basic.vala:35
-#: src/widgets/release-rows/steamtinkerlaunch.vala:118
-msgid "Are you sure you want this?"
-msgstr "Вы уверены, что хотите этого?"
-
-#: src/widgets/release-rows/basic.vala:37
-#: src/widgets/release-rows/steamtinkerlaunch.vala:122
-msgid "No"
-msgstr "Нет"
-
-#: src/widgets/release-rows/basic.vala:38
-#: src/widgets/release-rows/steamtinkerlaunch.vala:123
-msgid "Yes"
-msgstr "Да"
-
-#: src/widgets/release-rows/steamtinkerlaunch.vala:69
+#: src/widgets/release-rows/steamtinkerlaunch.vala:60
 msgid "Missing dependencies!"
 msgstr "Отсутствующие зависимости!"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:69
+#: src/widgets/release-rows/steamtinkerlaunch.vala:60
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "Для %s вам не хватает следующих зависимостей:"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:69
+#: src/widgets/release-rows/steamtinkerlaunch.vala:60
 msgid "Installation will be canceled."
 msgstr "Установка будет отменена."
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:71
-#: src/widgets/release-rows/steamtinkerlaunch.vala:85
-#: src/widgets/release-rows/steamtinkerlaunch.vala:181
+#: src/widgets/release-rows/steamtinkerlaunch.vala:62
+#: src/widgets/release-rows/steamtinkerlaunch.vala:76
+#: src/widgets/release-rows/steamtinkerlaunch.vala:175
 msgid "OK"
 msgstr "ОК"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:82
+#: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
 msgid "Existing installation of %s"
 msgstr "Существующая установка %s"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:82
+#: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:82
+#: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
 msgid "Do you want to delete it and install %s with ProtonPlus?"
 msgstr "Хотите ли вы удалить ее и установить %s с помощью ProtonPlus?"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:84
+#: src/widgets/release-rows/steamtinkerlaunch.vala:75
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:116
+#: src/widgets/release-rows/steamtinkerlaunch.vala:108
 #, fuzzy
 msgid "Check this to also remove your configuration files."
 msgstr "Установите эту галочку, чтобы также удалить файлы конфигурации."
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:171
-#: src/widgets/release-rows/steamtinkerlaunch.vala:175
+#: src/widgets/release-rows/steamtinkerlaunch.vala:165
+#: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "%s is not supported"
 msgstr "%s не поддерживается"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:171
+#: src/widgets/release-rows/steamtinkerlaunch.vala:165
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "Чтобы установить %s для %s, выполните следующую команду:"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:175
+#: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 "В настоящее время не существует известного способа установить %s для %s."
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:201
+#: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
 msgid "%s is up-to-date"
 msgstr "%s находится в актуальном состоянии"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:201
+#: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
 msgid "Update %s to the latest version"
 msgstr "Обновление %s до последней версии"
 
-#: src/widgets/busy-dialogs/install-dialog.vala:8
+#: src/widgets/busy-dialogs/install-dialog.vala:6
 #, fuzzy
 msgid "Installing"
 msgstr "Установить %s"
@@ -340,7 +340,7 @@ msgstr ""
 "Инструмент Steam для простой графической настройки других инструментов "
 "совместимости как для игр под Windows, так и для игр под Linux."
 
-#: src/models/releases/basic.vala:40 src/models/releases/github-action.vala:14
+#: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
 #: src/models/releases/steamtinkerlaunch.vala:259
 #, fuzzy
 msgid "Downloading..."
@@ -348,33 +348,34 @@ msgstr ""
 "Похоже, что в настоящее время у вас установлена другая версия %s, которая не "
 "была установлена программой ProtonPlus."
 
-#: src/models/releases/basic.vala:49 src/models/releases/github-action.vala:23
+#: src/models/releases/basic.vala:55 src/models/releases/github-action.vala:23
 #: src/models/releases/steamtinkerlaunch.vala:266
 #, fuzzy
 msgid "Extracting..."
 msgstr "Распаковывается..."
 
-#: src/models/releases/basic.vala:58 src/models/releases/github-action.vala:37
+#: src/models/releases/basic.vala:64 src/models/releases/github-action.vala:37
 #, fuzzy
 msgid "Renaming..."
 msgstr ""
 "Похоже, что в настоящее время у вас установлена другая версия %s, которая не "
 "была установлена программой ProtonPlus."
 
-#: src/models/releases/basic.vala:67 src/models/releases/github-action.vala:46
+#: src/models/releases/basic.vala:73 src/models/releases/github-action.vala:46
 #, fuzzy
-msgid "Running installation script..."
+msgid "Running post installation script..."
 msgstr "Существующая установка %s"
 
-#: src/models/releases/basic.vala:78
+#: src/models/releases/basic.vala:84
 msgid "Deleting..."
 msgstr ""
 "Похоже, что в настоящее время у вас установлена другая версия %s, которая не "
 "была установлена программой ProtonPlus."
 
-#: src/models/releases/basic.vala:85
-msgid "Running removal script..."
-msgstr ""
+#: src/models/releases/basic.vala:91
+#, fuzzy
+msgid "Running post removal script..."
+msgstr "Существующая установка %s"
 
 #: src/models/releases/upgrade.vala:8
 #, c-format
@@ -385,6 +386,10 @@ msgstr "Обновление %s завершено."
 #, c-format
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "При обновлении %s произошла непредвиденная ошибка."
+
+#, fuzzy
+#~ msgid "Show Installed"
+#~ msgstr "Только установленные"
 
 #~ msgid ""
 #~ "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
