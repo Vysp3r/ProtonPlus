@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-16 13:24-0500\n"
-"PO-Revision-Date: 2025-02-16 13:23+0100\n"
+"PO-Revision-Date: 2025-02-16 20:04+0100\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -19,9 +19,8 @@ msgstr ""
 "X-Generator: Poedit 3.5\n"
 
 #: src/widgets/info-box.vala:16
-#, fuzzy
 msgid "_Installed Only"
-msgstr "Installiere %s"
+msgstr "_Nur installierte"
 
 #: src/widgets/info-box.vala:23
 msgid "_Keyboard Shortcuts"
@@ -277,7 +276,7 @@ msgstr "Enthält RTX-Korrektur für Star Citizen."
 #: src/models/runners/dxvk-sarek.vala:6
 #: src/models/runners/dxvk-async-sarek.vala:6
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
-msgstr ""
+msgstr "DXVK Builds, die mit Vor-Vulkan 1.3 Versionen funktionieren"
 
 #: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
 msgid "Wine build with the Staging patchset and many other useful patches."
@@ -335,13 +334,13 @@ msgstr ""
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with %s."
 msgstr ""
-"Steam Kompatibilitätswerkzeug basierend auf Proton-GE mit zusätzlichen "
-"Patches um RTSP codecs für VRChat zu verbessern."
+"Steam-Kompatibilitätstool basierend auf Proton-GE mit Modifikationen für "
+"sehr alte GPUs, mit %s."
 
 #: src/models/runners/wine-lutris.vala:7
 msgid ""
