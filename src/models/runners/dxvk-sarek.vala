@@ -9,7 +9,7 @@ namespace ProtonPlus.Models.Runners {
         }
 
         public override string get_directory_name (string release_name) {
-            return title + "_Stable";
+            return release_name;
         }
     }
 }
