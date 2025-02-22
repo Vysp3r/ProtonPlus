@@ -191,7 +191,7 @@ msgstr "%s auf die letzte Version aktualisieren"
 
 #: src/widgets/busy-dialogs/install-dialog.vala:6
 msgid "Installing"
-msgstr "Installiere %s"
+msgstr "Installiere"
 
 #: src/widgets/busy-dialogs/remove-dialog.vala:6
 msgid "Removing"
