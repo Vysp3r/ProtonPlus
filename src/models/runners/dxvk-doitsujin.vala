@@ -2,7 +2,7 @@ namespace ProtonPlus.Models.Runners {
     public class DXVK_doitsujin : GitHub {
         public DXVK_doitsujin (Group group) {
             Object (group: group,
-                    title: "DXVK Async (doitsujin)",
+                    title: "DXVK (doitsujin)",
                     description: "",
                     endpoint: "https://api.github.com/repos/doitsujin/dxvk/releases",
                     asset_position: 0);
