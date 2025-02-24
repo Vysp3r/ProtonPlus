@@ -84,6 +84,14 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.25" date="2025-02-23">
+      <description>
+        <ul>
+          <li>🐛 Fix some DXVK runners using the wrong name</li>
+          <li>🌐 Fix typo in German localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.24" date="2025-02-16">
       <description>
         <ul>
