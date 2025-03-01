@@ -20,15 +20,15 @@ msgstr "Solo instalado"
 
 #: src/widgets/info-box.vala:23
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "Atajos"
 
 #: src/widgets/info-box.vala:24
 msgid "_About ProtonPlus"
-msgstr ""
+msgstr "Acerca de ProtonPlus"
 
 #: src/widgets/info-box.vala:31
 msgid "Main Menu"
-msgstr ""
+msgstr "Menú principal"
 
 #: src/widgets/description-dialog.vala:14
 #, fuzzy
@@ -37,67 +37,67 @@ msgstr "Mostrar información"
 
 #: src/widgets/description-dialog.vala:18
 msgid "Open"
-msgstr ""
+msgstr "Abrir"
 
 #: src/widgets/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr ""
+msgstr "Abrir en tu navegador de web"
 
 #: src/widgets/busy-dialog.vala:23
 msgid "Show/hide logs"
-msgstr ""
+msgstr "Mostrar/ocultar registros"
 
 #: src/widgets/busy-dialog.vala:120
 msgid "Closing in"
-msgstr ""
+msgstr "Acercándose"
 
 #: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:50
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, fuzzy, c-format
 msgid "Delete %s"
-msgstr "Eliminar herramienta"
+msgstr "Eliminar %s"
 
 #: src/widgets/release-row.vala:14
 #, fuzzy, c-format
 msgid "Install %s"
-msgstr "Solo instalado"
+msgstr "Instalar %s"
 
 #: src/widgets/release-row.vala:18
 #, fuzzy
 msgid "Show more information"
-msgstr "Mostrar información"
+msgstr "Mostrar más información"
 
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, c-format
 msgid "You're about to remove %s from your system."
-msgstr ""
+msgstr "Estás a punto de eliminar a %s de tu sistema."
 
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, fuzzy
 msgid "Are you sure you want this?"
-msgstr "¿Estas seguro que quieres borrarlo "
+msgstr "¿Estás seguro que quieres borrarlo?"
 
 #: src/widgets/runner-group.vala:64 src/widgets/release-rows/basic.vala:36
 #: src/widgets/release-rows/steamtinkerlaunch.vala:114
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: src/widgets/runner-group.vala:65 src/widgets/release-rows/basic.vala:37
 #: src/widgets/release-rows/steamtinkerlaunch.vala:115
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 #: src/widgets/load-more-row.vala:8 src/widgets/load-more-row.vala:17
 msgid "Load more"
-msgstr "Más información"
+msgstr "Cargar más"
 
 #: src/widgets/window.vala:50
 #, fuzzy, c-format
 msgid "Welcome to %s"
-msgstr "Bienvenido a "
+msgstr "Bienvenido a %s"
 
 #: src/widgets/window.vala:50
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
@@ -106,9 +106,7 @@ msgstr "Instala Steam, Lutris, Bottles o Heroic Games Launcher para empezar."
 #: src/widgets/application.vala:78
 #, fuzzy
 msgid "A modern compatibility tools manager for Linux."
-msgstr ""
-"Un sencillo gestor de herramientas compatible con GNOME, basado en Wine y "
-"Proton"
+msgstr "Un gestor moderno de herramientas de compatibilidad para Linux."
 
 #: src/widgets/application.vala:84
 msgid "Special thanks to"
@@ -116,122 +114,123 @@ msgstr "Agradecimientos especiales a"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:60
 msgid "Missing dependencies!"
-msgstr ""
+msgstr "¡Dependencias faltantes!"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:60
 #, c-format
 msgid "You are missing the following dependencies for %s:"
-msgstr ""
+msgstr "Te faltan las siguientes dependencias para %s:"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:60
 #, fuzzy
 msgid "Installation will be canceled."
-msgstr "La instalación de "
+msgstr "La instalación será cancelada."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:62
 #: src/widgets/release-rows/steamtinkerlaunch.vala:76
 #: src/widgets/release-rows/steamtinkerlaunch.vala:175
 msgid "OK"
-msgstr ""
+msgstr "Hecho"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, fuzzy, c-format
 msgid "Existing installation of %s"
-msgstr "La instalación de "
+msgstr "Instalación existente de %s"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
-msgstr ""
+msgstr "Parece que actualmente tienes otra versión de %s que no fue"
+"instalada por ProtonPlus."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
 msgid "Do you want to delete it and install %s with ProtonPlus?"
-msgstr ""
+msgstr "¿Quieres eliminarla e instalar %s con ProtonPlus?"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:75
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:108
 msgid "Check this to also remove your configuration files."
-msgstr ""
+msgstr "Marca esto para eliminar también tus archivos de configuración."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:165
 #: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "%s is not supported"
-msgstr ""
+msgstr "%s no es compatible"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:165
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr ""
+msgstr "Para instalar %s para %s, ejecuta el siguiente comando:"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
-msgstr ""
+msgstr "Actualmente, no existe una forma conocida de instalar %s para %s.
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
 msgid "%s is up-to-date"
-msgstr ""
+msgstr "%s está actualizado"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
 msgid "Update %s to the latest version"
-msgstr ""
+msgstr "Actualiza %s a la última versión"
 
 #: src/widgets/busy-dialogs/install-dialog.vala:6
 #, fuzzy
 msgid "Installing"
-msgstr "Solo instalado"
+msgstr "Instalando"
 
 #: src/widgets/busy-dialogs/remove-dialog.vala:6
 msgid "Removing"
-msgstr ""
+msgstr "Eliminando"
 
 #: src/widgets/busy-dialogs/upgrade-dialog.vala:6
 msgid "Upgrading"
-msgstr ""
+msgstr "Actualizando"
 
 #: src/models/release.vala:31
 #, fuzzy, c-format
 msgid "The installation of %s has begun."
-msgstr "La instalación de "
+msgstr "La instalación de % ha comenzado."
 
 #: src/models/release.vala:34
 #, fuzzy, c-format
 msgid "The removal of %s has begun."
-msgstr "La eliminación de "
+msgstr "La eliminación de %s ha comenzado."
 
 #: src/models/release.vala:37
 #, fuzzy, c-format
 msgid "The upgrade of %s has begun."
-msgstr "La eliminación de "
+msgstr "La actualización de %s ha comenzado."
 
 #: src/models/release.vala:57
 #, fuzzy, c-format
 msgid "An unexpected error occurred while installing %s."
-msgstr "Se ha producido un error inesperado al instalar "
+msgstr "Se ha producido un error inesperado al instalar %s."
 
 #: src/models/release.vala:59
 #, fuzzy, c-format
 msgid "The installation of %s is complete."
-msgstr "La instalación de "
+msgstr "La instalación de %s se ha completado."
 
 #: src/models/release.vala:79
 #, fuzzy, c-format
 msgid "The removal of %s is complete."
-msgstr "La eliminación de "
+msgstr "La eliminación de %s se ha completado."
 
 #: src/models/release.vala:79
 #, fuzzy, c-format
 msgid "An unexpected error occurred while removing %s."
-msgstr "Se ha producido un error inesperado al extraer "
+msgstr "Se ha producido un error inesperado al eliminar %s."
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:33
 msgid "Runners"
@@ -241,8 +240,7 @@ msgstr "Corredores"
 #: src/models/launchers/lutris.vala:36
 #, fuzzy
 msgid "Compatibility tools for running Windows software on Linux."
-msgstr ""
-"Herramienta de compatibilidad para ejecutar los juegos de Windows en Linux"
+msgstr "Herramienta de compatibilidad para ejecutar el software de Windows en Linux."
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/lutris.vala:39
 #, fuzzy
@@ -252,17 +250,15 @@ msgstr "Implementación basada en Vulkan de Direct3D 9, 10 y 11 para Linux/Wine"
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
 #, fuzzy
 msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr ""
-"Herramienta de compatibilidad para ejecutar los juegos de Windows en Linux"
+msgstr "Herramienta de compatibilidad por Valve para ejecutar el software de Windows en Linux."
 
 #: src/models/launchers/lutris.vala:42
 #, fuzzy
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
-msgstr ""
-"Bifurcación de Wine's VKD3D que tiene como objetivo implementar la API "
-"Direct3D 12 completa en la parte superior de Vulkan"
+msgstr "Variante de VKD3D de Wine que busca implementar la API completa de Direct3D 12 "
+"sobre Vulkan."
 
 #: src/models/runners/boxtron.vala:6
 #, fuzzy
@@ -278,14 +274,12 @@ msgstr "Contiene la corrección RTX para Star Citizen."
 #: src/models/runners/dxvk-sarek.vala:6
 #: src/models/runners/dxvk-async-sarek.vala:6
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
-msgstr ""
+msgstr "Compilaciones de DXVK que funcionan con versiones anteriores a Vulkan 1.3"
 
 #: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
 #, fuzzy
 msgid "Wine build with the Staging patchset and many other useful patches."
-msgstr ""
-"La compilación de Wine con el conjunto de parches aplicados de Staging y con "
-"muchos parches adicionales útiles."
+msgstr "Compilación de Wine con el conjunto de parches Staging y muchos otros parches útiles."
 
 #: src/models/runners/kron4ek-wine-builds-staging.vala:7
 #, fuzzy
@@ -300,47 +294,37 @@ msgstr "Compilación de Wine a partir de las fuentes oficiales de WineHQ."
 #, fuzzy
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
-msgstr ""
-"Luxtorpeda proporciona motores de juego nativos de Linux para determinados "
-"juegos exclusivos de Windows."
+msgstr "Luxtorpeda proporciona motores de juego nativos de Linux para ciertos juegos exclusivos de Windows."
 
 #: src/models/runners/northstar-proton.vala:6
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
-msgstr ""
-"Compilación personalizada de Proton para ejecutar el cliente Northstar para "
-"Titanfall 2."
+msgstr "Compilación personalizada de Proton para ejecutar el cliente Northstar de Titanfall 2."
 
 #: src/models/runners/proton-ge-rstp.vala:6
 #, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
-msgstr ""
-"Herramienta de compatibilidad para Steam Play basada en Wine y componentes "
-"adicionales."
+msgstr "Herramienta de compatibilidad de Steam basada en Proton-GE con parches adicionales para"
+"mejorar los códecs RTSP en VRChat."
 
 #: src/models/runners/proton-ge.vala:6
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
-msgstr ""
-"Herramienta de compatibilidad de Steam para ejecutar juegos de Windows con "
-"mejoras respecto al Proton predeterminado de Valve."
+msgstr "Herramienta de compatibilidad de Steam para ejecutar juegos de Windows con mejoras sobre"
+"Proton predeterminado de Valve."
 
 #: src/models/runners/proton-tkg.vala:6
 #, fuzzy
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr ""
-"Compilación personalizada de Proton para ejecutar juegos de Windows, creada "
-"con el sistema de compilación Wine-tkg."
+msgstr "Compilación personalizada de Proton para ejecutar juegos de Windows basada en Wine-tkg."
 
 #: src/models/runners/roberta.vala:6
 #, fuzzy
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
-msgstr ""
-"Herramienta de compatibilidad con Steam Play para ejecutar juegos de "
-"aventuras utilizando ScummVM nativa de Linux."
+msgstr "Herramienta de compatibilidad de Steam para ejecutar juegos de aventura en Linux usando ScummVM."
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
@@ -348,9 +332,8 @@ msgstr ""
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with %s."
-msgstr ""
-"Herramienta de compatibilidad para Steam Play basada en Wine y componentes "
-"adicionales."
+msgstr "Herramienta de compatibilidad de Steam basada en Proton-GE con modificaciones para GPU "
+"muy antiguas, con %s."
 
 #: src/models/runners/wine-lutris.vala:7
 msgid ""
@@ -364,7 +347,8 @@ msgstr ""
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
-msgstr ""
+msgstr "Herramienta de Steam para una configuración gráfica sencilla de tus otras"
+"herramientas de compatibilidad, tanto para juegos de Windows como para juegos nativos de Linux."
 
 #: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
 #: src/models/releases/steamtinkerlaunch.vala:259
@@ -380,45 +364,43 @@ msgstr "Extrayendo..."
 
 #: src/models/releases/basic.vala:64 src/models/releases/github-action.vala:37
 msgid "Renaming..."
-msgstr ""
+msgstr "Renombrando..."
 
 #: src/models/releases/basic.vala:73 src/models/releases/github-action.vala:46
 #, fuzzy
 msgid "Running post installation script..."
-msgstr "La instalación de "
+msgstr "Ejecutando script de post-instalación..."
 
 #: src/models/releases/basic.vala:84
 msgid "Deleting..."
-msgstr ""
+msgstr "Eliminando..."
 
 #: src/models/releases/basic.vala:91
 #, fuzzy
 msgid "Running post removal script..."
-msgstr "La instalación de "
+msgstr "Ejecutando script de post-eliminación..."
 
 #: src/models/releases/upgrade.vala:8
 #, fuzzy, c-format
 msgid "The upgrade of %s is complete."
-msgstr "La eliminación de "
+msgstr "La actualización de %s se ha completado."
 
 #: src/models/releases/upgrade.vala:8
 #, fuzzy, c-format
 msgid "An unexpected error occurred while upgrading %s."
-msgstr "Se ha producido un error inesperado al extraer "
+msgstr "Se ha producido un error inesperado al actualizar %s."
 
 #, fuzzy
 #~ msgid "Show Installed"
-#~ msgstr "Solo instalado"
+#~ msgstr "Mostrar instalado"
 
 #~ msgid ""
 #~ "Based on Valve Proton Experimental's bleeding-edge Wine, built for Lutris."
-#~ msgstr ""
-#~ "Basado en la última versión de Valve Proton Experimental Wine, "
-#~ "desarrollada para Lutris."
+#~ msgstr "Basado en la versión más reciente de Wine de Valve Proton Experimental, compilado para Lutris."
 
 #, fuzzy
 #~ msgid "There was an error while fetching data from the GitHub API."
-#~ msgstr "Se ha producido un error al obtener datos de la API de GitHub"
+#~ msgstr "Se ha producido un error al obtener datos de la API de GitHub."
 
 #~ msgid "Cancel the installation"
 #~ msgstr "Cancelar la instalación"
@@ -428,17 +410,17 @@ msgstr "Se ha producido un error inesperado al extraer "
 
 #, fuzzy, c-format
 #~ msgid "Are you sure you want to delete %s?"
-#~ msgstr "¿Estas seguro que quieres borrarlo "
+#~ msgstr "¿Estas seguro que quieres borrar %s?"
 
 #~ msgid "Confirm"
 #~ msgstr "Confirmar"
 
 #~ msgid "Install the runner"
-#~ msgstr "Instalación de la herramienta de ejecución"
+#~ msgstr "Instalación del corredor"
 
 #, fuzzy, c-format
 #~ msgid "The installation of %s was canceled."
-#~ msgstr "La instalación de "
+#~ msgstr "La instalación de %s fue cancelada."
 
 #, fuzzy, c-format
 #~ msgid "An unexpected error occurred while extracting %s."
@@ -453,13 +435,11 @@ msgstr "Se ha producido un error inesperado al extraer "
 
 #, fuzzy
 #~ msgid "Steam compatibility tool for running Windows games."
-#~ msgstr ""
-#~ "Herramienta de compatibilidad de Steam para ejecutar juegos de Windows"
+#~ msgstr "Herramienta de compatibilidad de Steam para ejecutar juegos de Windows."
 
 #, fuzzy
 #~ msgid "Wine is a program which allows running Microsoft Windows programs."
-#~ msgstr ""
-#~ "Wine es un programa que permite ejecutar programas de Microsoft Windows"
+#~ msgstr "Wine es un programa que permite ejecutar programas de Microsoft Windows"
 
 #, fuzzy
 #~ msgid "Program which allows running Microsoft Windows programs."
@@ -470,22 +450,21 @@ msgstr "Se ha producido un error inesperado al extraer "
 
 #, fuzzy, c-format
 #~ msgid "The deletion of %s is complete."
-#~ msgstr "La eliminación de "
+#~ msgstr "La eliminación de %s se ha completado."
 
 #~ msgid " was cancelled"
 #~ msgstr " fue cancelada"
 
 #~ msgid " was started"
-#~ msgstr " empezó"
+#~ msgstr " comenzó"
 
 #~ msgid " is done"
-#~ msgstr " está hecha"
+#~ msgstr " está completada"
 
 #~ msgid ""
 #~ " Based on Valve Proton Experimental's bleeding-edge Wine, built for "
 #~ "Lutris."
-#~ msgstr ""
-#~ " Basado en el innovador Wine de Valve Proton Experimental, creado para "
+#~ msgstr " Basado en el innovador Wine de Valve Proton Experimental, creado para "
 #~ "Lutris."
 
 #~ msgid "Preferences"
@@ -514,7 +493,7 @@ msgstr "Se ha producido un error inesperado al extraer "
 
 #, fuzzy
 #~ msgid "Launchers"
-#~ msgstr "Lanzador"
+#~ msgstr "Lanzadores"
 
 #~ msgid "Directory: "
 #~ msgstr "Directorio: "
@@ -552,7 +531,7 @@ msgstr "Se ha producido un error inesperado al extraer "
 #~ msgstr "Abrir el navegador en la pagina de la herramienta"
 
 #~ msgid "Install the selected tool"
-#~ msgstr "Instalar herramienta seleccionada"
+#~ msgstr "Instalar la herramienta seleccionada"
 
 #~ msgid "Done!"
 #~ msgstr "¡Listo!"
@@ -579,13 +558,12 @@ msgstr "Se ha producido un error inesperado al extraer "
 #~ msgid ""
 #~ "Are you sure you want to clean this launcher? WARNING: It will delete "
 #~ "every installed tools from the launcher!"
-#~ msgstr ""
-#~ "¿Estás seguro de limpiar este lanzador? PRECAUCION: ¡Esto eliminara todas "
+#~ msgstr "¿Estás seguro de limpiar este lanzador? PRECAUCION: ¡Esto eliminara todas "
 #~ "las herramientas instaladas del lanzador!"
 
 #, fuzzy
 #~ msgid "Remember last launcher"
-#~ msgstr "Limpiar lanzador"
+#~ msgstr "Recordar anterior lanzador"
 
 #~ msgid "Launcher settings"
 #~ msgstr "Configuracion del lanzador"
