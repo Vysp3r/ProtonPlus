@@ -172,7 +172,7 @@ msgstr "Para instalar %s para %s, ejecuta el siguiente comando:"
 #: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
-msgstr "Actualmente, no existe una forma conocida de instalar %s para %s.
+msgstr "Actualmente, no existe una forma conocida de instalar %s para %s."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
