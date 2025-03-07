@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-22 10:02-0500\n"
+"POT-Creation-Date: 2025-03-07 11:57-0500\n"
 "PO-Revision-Date: 2024-01-07 02:06+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -322,6 +322,12 @@ msgstr "Alat kompatibilitas Steam untuk menjalankan game Windows"
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr "Alat kompatibilitas Steam untuk menjalankan game Windows"
+
+#: src/models/runners/proton-cachyos.vala:14
+msgid ""
+"Steam compatibility tool from the CachyOS Linux distribution for running "
+"Windows games with improvements over Valve's default Proton."
+msgstr ""
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6

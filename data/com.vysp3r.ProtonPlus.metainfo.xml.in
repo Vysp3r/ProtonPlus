@@ -23,6 +23,7 @@
       <li>Roberta</li>
       <li>NorthstarProton</li>
       <li>Proton-GE RTSP</li>
+      <li>Proton CachyOS</li>
       <li>Proton Tkg</li>
       <li>Sarek</li>
       <li>Wine-GE</li>
@@ -84,6 +85,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.26" date="2025-03-07">
+      <description>
+        <ul>
+          <li>✨ Added support for Proton CachyOS</li>
+          <li>🌐 Updated Spanish localization</li>
+          <li>🌐 Updated Portuguese localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.25" date="2025-02-23">
       <description>
         <ul>

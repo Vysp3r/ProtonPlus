@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-22 10:02-0500\n"
+"POT-Creation-Date: 2025-03-07 11:57-0500\n"
 "PO-Revision-Date: 2025-02-16 20:04+0100\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -330,6 +330,15 @@ msgid ""
 msgstr ""
 "Steam Kompatibilitätswerkzeug um Abenteuer-Spiele mit der nativen Linux "
 "ScummVM zu starten."
+
+#: src/models/runners/proton-cachyos.vala:14
+#, fuzzy
+msgid ""
+"Steam compatibility tool from the CachyOS Linux distribution for running "
+"Windows games with improvements over Valve's default Proton."
+msgstr ""
+"Steam Kompatibilitätswerkzeug um Windowsspiele zu Starten mit Verbesserungen "
+"gegenüber Valves Standard-Proton."
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
