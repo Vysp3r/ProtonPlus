@@ -60,7 +60,6 @@ namespace ProtonPlus.Models.Launchers {
         List<Runner> get_wine_runners (Group group) {
             var runners = new List<Runner> ();
 
-            runners.append (new Runners.Wine_Lutris (group));
             runners.append (new Runners.Wine_Vanilla_Kron4ek (group));
             runners.append (new Runners.Wine_Staging_Kron4ek (group));
             runners.append (new Runners.Wine_Staging_Tkg_Kron4ek (group));
@@ -72,8 +71,6 @@ namespace ProtonPlus.Models.Launchers {
             var runners = new List<Runner> ();
 
             runners.append (new Runners.DXVK_doitsujin (group));
-            runners.append (new Runners.DXVK_Async_Sporif (group));
-            runners.append (new Runners.DXVK_Async_gnusenpai (group));
             runners.append (new Runners.DXVK_GPL_Async_Ph42oN (group));
             runners.append (new Runners.DXVK_Sarek (group));
             runners.append (new Runners.DXVK_Async_Sarek (group));

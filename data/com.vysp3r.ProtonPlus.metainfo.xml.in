@@ -25,18 +25,13 @@
       <li>Proton-GE RTSP</li>
       <li>Proton CachyOS</li>
       <li>Proton Tkg</li>
-      <li>Sarek</li>
-      <li>Wine-GE</li>
-      <li>Wine-Lutris</li>
-      <li>Lutris-GE</li>
+      <li>Proton Sarek</li>
       <li>Kron4ek Wine-Builds Vanilla</li>
       <li>Kron4ek Wine-Builds Staging</li>
       <li>Kron4ek Wine-Builds Staging-Tkg</li>
       <li>DXVK</li>
       <li>DXVK (Sarek)</li>
       <li>DXVK Async (Sarek)</li>
-      <li>DXVK Async (sporif)</li>
-      <li>DXVK Async (gnusenpai)</li>
       <li>DXVK GPL+Async (Ph42oN)</li>
       <li>VKD3D-Lutris</li>
       <li>VKD3D-Proton</li>
