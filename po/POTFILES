@@ -29,8 +29,6 @@ src/models/runners/github.vala
 src/models/runners/github-action.vala
 src/models/runners/gitlab.vala
 src/models/runners/boxtron.vala
-src/models/runners/dxvk-async-gnusenpai.vala
-src/models/runners/dxvk-async-sporif.vala
 src/models/runners/dxvk-doitsujin.vala
 src/models/runners/dxvk-sarek.vala
 src/models/runners/dxvk-async-sarek.vala
@@ -49,7 +47,6 @@ src/models/runners/proton-sarek.vala
 src/models/runners/proton-sarek-async.vala
 src/models/runners/vkd3d-lutris.vala
 src/models/runners/vkd3d-proton.vala
-src/models/runners/wine-lutris.vala
 src/models/runners/other.vala
 src/models/runners/steamtinkerlaunch.vala
 src/models/releases/basic.vala

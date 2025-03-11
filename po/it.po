@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-07 11:57-0500\n"
+"POT-Creation-Date: 2025-03-11 18:47-0400\n"
 "PO-Revision-Date: 2024-08-19 10:09+0000\n"
 "Last-Translator: Lize58 <pasquale.borrelli05@outlook.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -268,10 +268,6 @@ msgstr ""
 "Strumento di compatibilità Steam Play per eseguire giochi DOS utilizzando "
 "DOSBox Linux nativo."
 
-#: src/models/runners/dxvk-async-gnusenpai.vala:6
-msgid "Contains RTX fix for Star Citizen."
-msgstr "Contiene la correzione RTX per Star Citizen."
-
 #: src/models/runners/dxvk-sarek.vala:6
 #: src/models/runners/dxvk-async-sarek.vala:6
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
@@ -358,14 +354,6 @@ msgstr ""
 "Strumento di compatibilita' per Steam Play basato su wine e altri componenti "
 "aggiuntivi"
 
-#: src/models/runners/wine-lutris.vala:7
-msgid ""
-"Improved by Lutris to offer better compatibility or performance in certain "
-"games."
-msgstr ""
-"Migliorato da Lutris per offrire migliore compatibilità o prestazioni in "
-"alcuni giochi."
-
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
@@ -411,6 +399,16 @@ msgstr "La rimozione di "
 #, fuzzy, c-format
 msgid "An unexpected error occurred while upgrading %s."
 msgstr "Si e' verificato un errore inaspettato durante l'estrazione "
+
+#~ msgid "Contains RTX fix for Star Citizen."
+#~ msgstr "Contiene la correzione RTX per Star Citizen."
+
+#~ msgid ""
+#~ "Improved by Lutris to offer better compatibility or performance in "
+#~ "certain games."
+#~ msgstr ""
+#~ "Migliorato da Lutris per offrire migliore compatibilità o prestazioni in "
+#~ "alcuni giochi."
 
 #, fuzzy
 #~ msgid "Show Installed"

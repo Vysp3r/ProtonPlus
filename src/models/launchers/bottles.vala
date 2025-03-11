@@ -39,7 +39,6 @@ namespace ProtonPlus.Models.Launchers {
             var runners = new List<Runner> ();
 
             runners.append (new Runners.Proton_GE (group));
-            runners.append (new Runners.Wine_Lutris (group));
             runners.append (new Runners.Other (group));
 
             return runners;
@@ -49,7 +48,6 @@ namespace ProtonPlus.Models.Launchers {
             var runners = new List<Runner> ();
 
             runners.append (new Runners.DXVK_doitsujin (group));
-            runners.append (new Runners.DXVK_Async_Sporif (group));
 
             return runners;
         }
