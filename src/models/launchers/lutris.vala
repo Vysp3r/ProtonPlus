@@ -49,10 +49,10 @@ namespace ProtonPlus.Models.Launchers {
             var runners = new List<Runner> ();
 
             runners.append (new Runners.Proton_GE (group));
-            runners.append (new Runners.Proton_Tkg (group));
             runners.append (new Runners.Proton_CachyOS (group));
             runners.append (new Runners.Proton_Sarek (group));
             runners.append (new Runners.Proton_Sarek_Async (group));
+            runners.append (new Runners.Proton_Tkg (group));
 
             return runners;
         }

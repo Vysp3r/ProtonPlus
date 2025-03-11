@@ -40,15 +40,15 @@ namespace ProtonPlus.Models.Launchers {
             var runners = new List<Runner> ();
 
             runners.append (new Runners.Proton_GE (group));
+            runners.append (new Runners.Proton_CachyOS (group));
+            runners.append (new Runners.Proton_Sarek (group));
+            runners.append (new Runners.Proton_Sarek_Async (group));
+            runners.append (new Runners.Proton_GE_RSTP (group));
+            runners.append (new Runners.Proton_Tkg (group));
+            runners.append (new Runners.Northstar_Proton (group));
             runners.append (new Runners.Luxtorpeda (group));
             runners.append (new Runners.Boxtron (group));
             runners.append (new Runners.Roberta (group));
-            runners.append (new Runners.Northstar_Proton (group));
-            runners.append (new Runners.Proton_GE_RSTP (group));
-            runners.append (new Runners.Proton_Tkg (group));
-            runners.append (new Runners.Proton_CachyOS(group));
-            runners.append (new Runners.Proton_Sarek (group));
-            runners.append (new Runners.Proton_Sarek_Async (group));
             runners.append (new Runners.SteamTinkerLaunch (group));
 
             return runners;
