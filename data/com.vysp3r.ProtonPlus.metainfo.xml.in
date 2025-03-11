@@ -80,6 +80,16 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.27" date="2025-03-11">
+      <description>
+        <ul>
+          <li>✨ Added Proton CachyOS for Bottles</li>
+          <li>✨ Re-ordered runners</li>
+          <li>✨ Removed deprecated runners</li>
+          <li>🌐 Updated German translation</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.26" date="2025-03-07">
       <description>
         <ul>
