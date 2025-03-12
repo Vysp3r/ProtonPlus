@@ -1,97 +1,93 @@
 # neovali <valigarmanda55@gmail.com>, 2023, 2024.
 # "L.Yang" <yang120120110@gmail.com>, 2023.
+# SPDX-FileCopyrightText: 2025 Zemin Ha <ruojiner@hotmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-11 19:11-0400\n"
-"PO-Revision-Date: 2024-02-16 17:02+0000\n"
-"Last-Translator: valigarmanda <valigarmanda55@gmail.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
-"protonplus/protonplus/zh_Hans/>\n"
+"PO-Revision-Date: 2025-03-12 09:23+0800\n"
+"Last-Translator: Zemin Ha <ruojiner@hotmail.com>\n"
+"Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.4\n"
+"X-Generator: Lokalize 25.07.70\n"
 
 #: src/widgets/info-box.vala:16
-#, fuzzy
 msgid "_Installed Only"
-msgstr "只显示已安装的"
+msgstr "_只显示已安装的"
 
 #: src/widgets/info-box.vala:23
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_键盘快捷方式"
 
 #: src/widgets/info-box.vala:24
 msgid "_About ProtonPlus"
-msgstr ""
+msgstr "_关于 ProtonPlus"
 
 #: src/widgets/info-box.vala:31
 msgid "Main Menu"
-msgstr ""
+msgstr "主菜单"
 
 #: src/widgets/description-dialog.vala:14
-#, fuzzy
 msgid "More information"
-msgstr "显示信息"
+msgstr "显示更多信息"
 
 #: src/widgets/description-dialog.vala:18
 msgid "Open"
-msgstr ""
+msgstr "打开"
 
 #: src/widgets/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr ""
+msgstr "在浏览器中打开"
 
 #: src/widgets/busy-dialog.vala:23
 msgid "Show/hide logs"
-msgstr ""
+msgstr "显示/隐藏日志"
 
 #: src/widgets/busy-dialog.vala:120
 msgid "Closing in"
-msgstr ""
+msgstr "关闭"
 
 #: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:50
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %s"
-msgstr "删除工具"
+msgstr "删除 %s"
 
 #: src/widgets/release-row.vala:14
-#, fuzzy, c-format
+#, c-format
 msgid "Install %s"
-msgstr "只显示已安装的"
+msgstr "安装 %s"
 
 #: src/widgets/release-row.vala:18
-#, fuzzy
 msgid "Show more information"
-msgstr "显示信息"
+msgstr "显示更多信息"
 
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, c-format
 msgid "You're about to remove %s from your system."
-msgstr ""
+msgstr "您即将从系统中删除 %s"
 
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
-#, fuzzy
 msgid "Are you sure you want this?"
-msgstr "你确定要删除么？ "
+msgstr "你确定要删除此项么？ "
 
 #: src/widgets/runner-group.vala:64 src/widgets/release-rows/basic.vala:36
 #: src/widgets/release-rows/steamtinkerlaunch.vala:114
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #: src/widgets/runner-group.vala:65 src/widgets/release-rows/basic.vala:37
 #: src/widgets/release-rows/steamtinkerlaunch.vala:115
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #: src/widgets/load-more-row.vala:8 src/widgets/load-more-row.vala:17
 msgid "Load more"
@@ -100,16 +96,15 @@ msgstr "加载更多"
 #: src/widgets/window.vala:50
 #, fuzzy, c-format
 msgid "Welcome to %s"
-msgstr "欢迎来到 "
+msgstr "欢迎来到 %s"
 
 #: src/widgets/window.vala:50
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr "安装Steam，Lutris，Bottles或Heroic Game Launcher即可开始使用"
+msgstr "安装Steam，Lutris，Bottles或Heroic Game Launcher 即可开始使用"
 
 #: src/widgets/application.vala:78
-#, fuzzy
 msgid "A modern compatibility tools manager for Linux."
-msgstr "一个为GNOME而生的简单Wine和基于Proton兼容性工具的管理器"
+msgstr "Linux的现代兼容性工具管理器"
 
 #: src/widgets/application.vala:84
 msgid "Special thanks to"
@@ -117,12 +112,12 @@ msgstr "特别感谢"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:60
 msgid "Missing dependencies!"
-msgstr ""
+msgstr "缺少依赖！"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:60
 #, c-format
 msgid "You are missing the following dependencies for %s:"
-msgstr ""
+msgstr "您缺少 %s 的以下依赖项："
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:60
 #, fuzzy
@@ -133,197 +128,185 @@ msgstr "安装 "
 #: src/widgets/release-rows/steamtinkerlaunch.vala:76
 #: src/widgets/release-rows/steamtinkerlaunch.vala:175
 msgid "OK"
-msgstr ""
+msgstr "好的"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:73
-#, fuzzy, c-format
+#, c-format
 msgid "Existing installation of %s"
-msgstr "安装 "
+msgstr "%s 的现有安装"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
-msgstr ""
+msgstr "看起来您当前有另一个版本的 %s ，但不是由 ProtonPlus 安装"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:73
 #, c-format
 msgid "Do you want to delete it and install %s with ProtonPlus?"
-msgstr ""
+msgstr "您想删除它并使用ProtonPlus安装 %s 吗？"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:75
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:108
 msgid "Check this to also remove your configuration files."
-msgstr ""
+msgstr "选中此项也可以删除您的配置文件。"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:165
 #: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "%s is not supported"
-msgstr ""
+msgstr "%s 不受支持"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:165
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr ""
+msgstr "要为 %s 安装 %s ，请运行以下命令："
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
-msgstr ""
+msgstr "目前我们还没有为 %s 安装 %s 的已知方法"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
 msgid "%s is up-to-date"
-msgstr ""
+msgstr "%s 是最新的"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:195
 #, c-format
 msgid "Update %s to the latest version"
-msgstr ""
+msgstr "将 %s 更新到最新版本"
 
 #: src/widgets/busy-dialogs/install-dialog.vala:6
-#, fuzzy
 msgid "Installing"
-msgstr "只显示已安装的"
+msgstr "正在安装"
 
 #: src/widgets/busy-dialogs/remove-dialog.vala:6
 msgid "Removing"
-msgstr ""
+msgstr "正在移除"
 
 #: src/widgets/busy-dialogs/upgrade-dialog.vala:6
 msgid "Upgrading"
-msgstr ""
+msgstr "正在更新"
 
 #: src/models/release.vala:31
-#, fuzzy, c-format
+#, c-format
 msgid "The installation of %s has begun."
-msgstr "安装 "
+msgstr "%s 已开始安装"
 
 #: src/models/release.vala:34
-#, fuzzy, c-format
+#, c-format
 msgid "The removal of %s has begun."
-msgstr "删除 "
+msgstr "已开始移除 %s"
 
 #: src/models/release.vala:37
-#, fuzzy, c-format
+#, c-format
 msgid "The upgrade of %s has begun."
-msgstr "删除 "
+msgstr "%s 已开始更新"
 
 #: src/models/release.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "An unexpected error occurred while installing %s."
-msgstr "当安装时出现异常 "
+msgstr "安装 %s 时发生意外错误"
 
 #: src/models/release.vala:59
-#, fuzzy, c-format
+#, c-format
 msgid "The installation of %s is complete."
-msgstr "安装 "
+msgstr "%s 的安装已完成"
 
 #: src/models/release.vala:79
-#, fuzzy, c-format
+#, c-format
 msgid "The removal of %s is complete."
-msgstr "删除 "
+msgstr "%s 的移除已完成"
 
 #: src/models/release.vala:79
-#, fuzzy, c-format
+#, c-format
 msgid "An unexpected error occurred while removing %s."
-msgstr "当解压时出现异常 "
+msgstr "移除 %s 时发生意外错误"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:33
 msgid "Runners"
-msgstr "运行器"
+msgstr "启动器"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
 #: src/models/launchers/lutris.vala:36
-#, fuzzy
 msgid "Compatibility tools for running Windows software on Linux."
-msgstr "在Linux上运行WIndows游戏的兼容性工具"
+msgstr "在 Linux 上运行 Windows 游戏和软件的兼容性工具"
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/lutris.vala:39
-#, fuzzy
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr "适用于 Linux/Wine的Direct3D 9、10和11基于Vulkan的实现"
+msgstr "Linux/Wine 中Direct3D 8、9、10和11的基于 Vulkan 的实现"
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
-#, fuzzy
 msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr "在Linux上运行WIndows游戏的兼容性工具"
+msgstr "在 Linux 上运行 Windows 游戏和软件的兼容性工具"
 
 #: src/models/launchers/lutris.vala:42
-#, fuzzy
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
-msgstr "Wine的VKD3D的分支，旨在在 Vulkan 之上实现完整的Direct3D 12API"
+msgstr "Wine VKD3D 的分支，旨在 Vulkan 之上实现完整的Direct3D 12API"
 
 #: src/models/runners/boxtron.vala:6
-#, fuzzy
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
-msgstr "Steam Play兼容性工具，可使用原生Linux DOSBox运行DOS游戏"
+msgstr "Steam Play 兼容性工具，可使用原生 Linux DOSBox 运行 DOS 游戏"
 
 #: src/models/runners/dxvk-sarek.vala:6
 #: src/models/runners/dxvk-async-sarek.vala:6
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
-msgstr ""
+msgstr "适用于Vulkan 1.3之前版本的DXVK构建"
 
 #: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
-#, fuzzy
 msgid "Wine build with the Staging patchset and many other useful patches."
-msgstr "应用了Staging补丁集以及许多其他有用的补丁的Wine构建"
+msgstr "应用了 Staging 补丁集以及许多其他有用的补丁的 Wine 构建"
 
 #: src/models/runners/kron4ek-wine-builds-staging.vala:7
-#, fuzzy
 msgid "Wine build with the Staging patchset."
-msgstr "应用了Staging补丁集的Wine构建"
+msgstr "应用了 Staging 补丁集的 Wine 构建"
 
 #: src/models/runners/kron4ek-wine-builds-vanilla.vala:7
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr "从官方WineHQ源编译的Wine构建"
+msgstr "从官方 WineHQ 源编译的 Wine 构建"
 
 #: src/models/runners/luxtorpeda.vala:6
-#, fuzzy
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
-msgstr "Luxtorpeda为特定的Windows游戏提供Linux原生游戏引擎"
+msgstr "Luxtorpeda 为特定的 Windows 游戏提供 Linux 原生游戏引擎"
 
 #: src/models/runners/northstar-proton.vala:6
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
-msgstr "为运行泰坦陨落2的Northstar启动器定制的Proton构建"
+msgstr "为运行 Titanfall 2的 Northstar 启动器定制的 Proton 构建"
 
 #: src/models/runners/proton-ge-rstp.vala:6
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
-msgstr ""
+msgstr "基于 Proton GE 的 Steam 兼容性工具，带有额外的补丁改进 VRChat 的 RTSP 编解码器。"
 
 #: src/models/runners/proton-ge.vala:6
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
-msgstr "用于运行Windows游戏的Steam兼容性工具，对Valve默认的Proton进行了改进"
+msgstr "用于运行 Windows 游戏的 Steam 兼容性工具，对 Valve 默认的 Proton 进行了改进"
 
 #: src/models/runners/proton-tkg.vala:6
-#, fuzzy
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr "为运行Windows游戏定制的Proton构建，用Wine-tkg构建系统构建"
+msgstr "为运行 Windows 游戏定制的 Proton 构建，用 Wine-tkg 构建系统构建"
 
 #: src/models/runners/roberta.vala:6
-#, fuzzy
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
-msgstr "Steam Play兼容性工具，可使用原生Linux ScummVM运行冒险游戏"
+msgstr "Steam Play 兼容性工具，可使用原生 Linux ScummVM 运行冒险游戏"
 
 #: src/models/runners/proton-cachyos.vala:14
-#, fuzzy
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
-msgstr "用于运行Windows游戏的Steam兼容性工具，对Valve默认的Proton进行了改进"
+msgstr "用于运行 Windows 游戏的 Steam 兼容性工具，对 Valve 默认的 Proton 进行了改进"
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
@@ -331,13 +314,13 @@ msgstr "用于运行Windows游戏的Steam兼容性工具，对Valve默认的Prot
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with %s."
-msgstr ""
+msgstr "基于Proton GE的蒸汽兼容性工具，对非常旧的GPU进行了优化，带 %s"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
-msgstr ""
+msgstr "Steam 工具，用于轻松、图形化地配置您的其他兼容性 Windows 游戏和原生 Linux 游戏的工具"
 
 #: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
 #: src/models/releases/steamtinkerlaunch.vala:259
@@ -353,31 +336,29 @@ msgstr "解压中..."
 
 #: src/models/releases/basic.vala:64 src/models/releases/github-action.vala:37
 msgid "Renaming..."
-msgstr ""
+msgstr "重命名中..."
 
 #: src/models/releases/basic.vala:73 src/models/releases/github-action.vala:46
-#, fuzzy
 msgid "Running post installation script..."
-msgstr "安装 "
+msgstr "正在运行预安装脚本..."
 
 #: src/models/releases/basic.vala:84
 msgid "Deleting..."
-msgstr ""
+msgstr "删除中..."
 
 #: src/models/releases/basic.vala:91
-#, fuzzy
 msgid "Running post removal script..."
-msgstr "安装 "
+msgstr "正在运行预删除脚本..."
 
 #: src/models/releases/upgrade.vala:8
-#, fuzzy, c-format
+#, c-format
 msgid "The upgrade of %s is complete."
-msgstr "删除 "
+msgstr "%s 的更新已完成"
 
 #: src/models/releases/upgrade.vala:8
-#, fuzzy, c-format
+#, c-format
 msgid "An unexpected error occurred while upgrading %s."
-msgstr "当解压时出现异常 "
+msgstr "更新 %s 时出现了未预期的错误"
 
 #~ msgid "Contains RTX fix for Star Citizen."
 #~ msgstr "包含为星际公民的RTX修复"
