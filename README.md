@@ -128,8 +128,8 @@
 3. Install the necessary runtimes and build tools for Flatpak
     ```bash
     flatpak install \
-      runtime/org.gnome.Sdk/x86_64/47 \
-      runtime/org.gnome.Platform/x86_64/47 \
+      runtime/org.gnome.Sdk/x86_64/48 \
+      runtime/org.gnome.Platform/x86_64/48 \
       runtime/org.freedesktop.Sdk.Extension.vala/x86_64/24.08 \
       org.flatpak.Builder
     ```
