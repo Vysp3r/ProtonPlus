@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-11 19:11-0400\n"
+"POT-Creation-Date: 2025-05-19 10:47-0400\n"
 "PO-Revision-Date: 2025-03-12 09:23+0800\n"
 "Last-Translator: Zemin Ha <ruojiner@hotmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -285,13 +285,16 @@ msgstr "为运行 Titanfall 2的 Northstar 启动器定制的 Proton 构建"
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
-msgstr "基于 Proton GE 的 Steam 兼容性工具，带有额外的补丁改进 VRChat 的 RTSP 编解码器。"
+msgstr ""
+"基于 Proton GE 的 Steam 兼容性工具，带有额外的补丁改进 VRChat 的 RTSP 编解码"
+"器。"
 
 #: src/models/runners/proton-ge.vala:6
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
-msgstr "用于运行 Windows 游戏的 Steam 兼容性工具，对 Valve 默认的 Proton 进行了改进"
+msgstr ""
+"用于运行 Windows 游戏的 Steam 兼容性工具，对 Valve 默认的 Proton 进行了改进"
 
 #: src/models/runners/proton-tkg.vala:6
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
@@ -306,7 +309,8 @@ msgstr "Steam Play 兼容性工具，可使用原生 Linux ScummVM 运行冒险�
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
-msgstr "用于运行 Windows 游戏的 Steam 兼容性工具，对 Valve 默认的 Proton 进行了改进"
+msgstr ""
+"用于运行 Windows 游戏的 Steam 兼容性工具，对 Valve 默认的 Proton 进行了改进"
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
@@ -320,7 +324,9 @@ msgstr "基于Proton GE的蒸汽兼容性工具，对非常旧的GPU进行了优
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
-msgstr "Steam 工具，用于轻松、图形化地配置您的其他兼容性 Windows 游戏和原生 Linux 游戏的工具"
+msgstr ""
+"Steam 工具，用于轻松、图形化地配置您的其他兼容性 Windows 游戏和原生 Linux 游"
+"戏的工具"
 
 #: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
 #: src/models/releases/steamtinkerlaunch.vala:259
