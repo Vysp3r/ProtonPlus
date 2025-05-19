@@ -2,7 +2,7 @@ namespace ProtonPlus.Widgets {
     public class SidebarRow : Adw.ActionRow {
         Gtk.Image icon;
 
-        public SidebarRow (string title, string type, string resource_path) {
+        public SidebarRow (string title, string type, string resource_path, string directory) {
             icon = new Gtk.Image.from_resource (resource_path);
             icon.set_pixel_size (48);
 
@@ -11,6 +11,7 @@ namespace ProtonPlus.Widgets {
             set_title (title);
             set_subtitle (type);
             set_activatable (true);
+            set_tooltip_text (directory);
         }
     }
 }

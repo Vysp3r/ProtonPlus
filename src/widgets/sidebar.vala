@@ -32,7 +32,7 @@ namespace ProtonPlus.Widgets {
             this.launchers = launchers;
 
             foreach (var launcher in launchers) {
-                var row = new SidebarRow (launcher.title, launcher.get_installation_type_title (), launcher.icon_path);
+                var row = new SidebarRow (launcher.title, launcher.get_installation_type_title (), launcher.icon_path, launcher.directory);
                 list_box.append (row);
             }
         }

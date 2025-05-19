@@ -25,9 +25,13 @@ namespace ProtonPlus.Models {
             this.directory = "";
 
             foreach (var directory in directories) {
-                if (FileUtils.test (Environment.get_home_dir () + directory, FileTest.IS_DIR)) {
-                    this.directory = Environment.get_home_dir () + directory;
+                var current_path = Environment.get_home_dir () + directory;
+                if (FileUtils.test (current_path, FileTest.IS_DIR)) {
+                    message(current_path);
+                    if (FileUtils.test (current_path + "/steamclient.dll", FileTest.IS_REGULAR) && FileUtils.test (current_path + "/steamclient64.dll", FileTest.IS_REGULAR)) {
+                        this.directory = current_path;
                     break;
+                    }
                 }
             }
 
