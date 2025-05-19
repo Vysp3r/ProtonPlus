@@ -85,6 +85,7 @@
         <ul>
           <li>🐛 Added check for inactive Steam installations</li>
           <li>🧑‍💻 Updated runtime to GNOME 48</li>
+          <li>🌐 Updated Chinese localization</li>
         </ul>
       </description>
     </release>
