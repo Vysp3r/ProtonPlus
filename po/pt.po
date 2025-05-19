@@ -2,19 +2,20 @@
 # Mateus Santos <swyknox@gmail.com>, 2024.
 # Kauã Azevedo da Silva Vicente <Kazevic@pm.me>, 2024.
 # Otávio <otavioheg123@gmail.com>, 2025.
+# Cirnos <Cirnos@users.noreply.hosted.weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-19 10:47-0400\n"
-"PO-Revision-Date: 2025-02-28 23:02+0000\n"
-"Last-Translator: Otávio <otavioheg123@gmail.com>\n"
+"POT-Creation-Date: 2025-05-19 13:31-0400\n"
+"PO-Revision-Date: 2025-05-16 00:03+0000\n"
+"Last-Translator: Cirnos <Cirnos@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.10.3-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: src/widgets/info-box.vala:16
 msgid "_Installed Only"
@@ -46,7 +47,7 @@ msgstr "Abrir em seu navegador"
 
 #: src/widgets/busy-dialog.vala:23
 msgid "Show/hide logs"
-msgstr "Mostrar/esconder logs"
+msgstr "Mostrar/esconder registros"
 
 #: src/widgets/busy-dialog.vala:120
 msgid "Closing in"
@@ -77,7 +78,7 @@ msgstr "Você está a quase remover %s do seu sistema."
 #: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 msgid "Are you sure you want this?"
-msgstr "Tem certeza de que deseja excluir isto?"
+msgstr "Tem certeza de que deseja isto?"
 
 #: src/widgets/runner-group.vala:64 src/widgets/release-rows/basic.vala:36
 #: src/widgets/release-rows/steamtinkerlaunch.vala:114
@@ -101,11 +102,11 @@ msgstr "Bem-vindo(a) ao %s"
 #: src/widgets/window.vala:50
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
-"Instale a Steam, Lutris, Bottles ou Heroic Games Launcher para começar."
+"Instale o Steam, Lutris, Bottles ou Heroic Games Launcher para começar."
 
 #: src/widgets/application.vala:78
 msgid "A modern compatibility tools manager for Linux."
-msgstr "Um gerenciador moderno de ferramentas para Linux."
+msgstr "Um gerenciador moderno de ferramentas de compatibilidade para Linux."
 
 #: src/widgets/application.vala:84
 msgid "Special thanks to"
@@ -122,7 +123,7 @@ msgstr "Você está com falta das seguintes dependências para %s:"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:60
 msgid "Installation will be canceled."
-msgstr "A instalação será cancelada."
+msgstr "Instalação será cancelada."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:62
 #: src/widgets/release-rows/steamtinkerlaunch.vala:76
@@ -155,7 +156,7 @@ msgstr "Cancelar"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:108
 msgid "Check this to also remove your configuration files."
-msgstr "Verifique isto para também remover seus arquivos de configurações."
+msgstr "Marque isto para também remover seus arquivos de configuração."
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:165
 #: src/widgets/release-rows/steamtinkerlaunch.vala:169
@@ -166,7 +167,7 @@ msgstr "%s não é compatível"
 #: src/widgets/release-rows/steamtinkerlaunch.vala:165
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr "Para instalar %s  em %s, por favor utilize o seguinte comando:"
+msgstr "Para instalar %s para %s, por favor utilize o seguinte comando:"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:169
 #, c-format
@@ -237,31 +238,33 @@ msgstr "Executadores"
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
 #: src/models/launchers/lutris.vala:36
 msgid "Compatibility tools for running Windows software on Linux."
-msgstr "Ferramenta de compatibilidade para rodar programas do Windows no Linux"
+msgstr ""
+"Ferramentas de compatibilidade para executar programas do Windows no Linux."
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/lutris.vala:39
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr "Implementação baseada em Vulkan do Direct3D 9, 10 e 11 para Linux/Wine"
+msgstr ""
+"Implementação baseada em Vulkan do Direct3D 8, 9, 10 e 11 para Linux/Wine."
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
-"Ferramenta de compatibilidade da Valve para rodar programas do Windows no "
-"Linux"
+"Ferramentas de compatibilidade da Valve para executar programas do Windows "
+"no Linux."
 
 #: src/models/launchers/lutris.vala:42
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
-"Fork do VKD3D do Wine que visa implementar a API completa do Direct3D 12 "
-"sobre Vulkan"
+"Variante do VKD3D do Wine que visa implementar a API completa do Direct3D 12 "
+"sobre o Vulkan."
 
 #: src/models/runners/boxtron.vala:6
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
-"Ferramenta de compatibilidade da Steam para rodar jogos de DOS usando o "
-"DOSBox do Linux."
+"Ferramenta de compatibilidade do Steam para executar jogos de DOS usando "
+"DOSBox para Linux."
 
 #: src/models/runners/dxvk-sarek.vala:6
 #: src/models/runners/dxvk-async-sarek.vala:6
@@ -271,16 +274,16 @@ msgstr "DXVK Builds que funcionam com versões pre-Vulkan 1.3"
 #: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
-"Compilação do Wine com o conjunto de patches do Staging aplicados e com "
-"muitos patches adicionais úteis."
+"Compilação do Wine com o conjunto de modificações Staging aplicados e com "
+"muitas outras modificações adicionais úteis."
 
 #: src/models/runners/kron4ek-wine-builds-staging.vala:7
 msgid "Wine build with the Staging patchset."
-msgstr "Compilação do Wine com o conjunto de patches do Staging aplicados."
+msgstr "Compilação do Wine com o conjunto de modificações Staging aplicados."
 
 #: src/models/runners/kron4ek-wine-builds-vanilla.vala:7
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr "Compilação do Wine a partir das fontes oficiais do WineHQ."
+msgstr "Versão do Wine compilada a partir das fontes oficiais do WineHQ."
 
 #: src/models/runners/luxtorpeda.vala:6
 msgid ""
@@ -292,44 +295,45 @@ msgstr ""
 #: src/models/runners/northstar-proton.vala:6
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
-"Versão Proton customizada para rodar o cliente do Northstar para Titanfall 2."
+"Versão Proton customizada para executar o cliente do Northstar para "
+"Titanfall 2."
 
 #: src/models/runners/proton-ge-rstp.vala:6
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
 msgstr ""
-"Ferramenta de compatibilidade para o Steam, baseado no Proton-GE com "
-"componentes adicionais para melhorar codificadores RTSP para VRChat"
+"Ferramenta de compatibilidade do Steam, baseada no Proton-GE com "
+"modificações adicionais para melhorar (de)codificadores RTSP para VRChat."
 
 #: src/models/runners/proton-ge.vala:6
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
-"Ferramenta de compatibilidade da Steam para rodar jogos do Windows com "
+"Ferramenta de compatibilidade do Steam para executar jogos do Windows com "
 "melhorias sobre o Proton padrão da Valve."
 
 #: src/models/runners/proton-tkg.vala:6
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
-"Build customizada do Proton para rodar jogos de Windows, baseado em Wine-tkg."
+"Versão Proton customizada para executar jogos de Windows, baseada em Wine-"
+"tkg."
 
 #: src/models/runners/roberta.vala:6
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
-"Ferramenta de compatibilidade da Steam para rodar jogos de aventura usando o "
-"ScummVM do Linux."
+"Ferramenta de compatibilidade do Steam para executar jogos de aventura "
+"usando ScummVM para Linux."
 
 #: src/models/runners/proton-cachyos.vala:14
-#, fuzzy
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
 msgstr ""
-"Ferramenta de compatibilidade da Steam para rodar jogos do Windows com "
-"melhorias sobre o Proton padrão da Valve."
+"Ferramenta de compatibilidade do Steam da distribuição Linux CachyOS para "
+"executar jogos do Windows com melhorias sobre o Proton padrão da Valve."
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
@@ -338,16 +342,16 @@ msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with %s."
 msgstr ""
-"Ferramenta de compatibilidade para o Steam baseado no Proton-GE com "
-"modificações para GPU bem antigas, com %s"
+"Ferramenta de compatibilidade do Steam baseada no Proton-GE com modificações "
+"para placas de vídeo muito antigas, com %s."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
 msgstr ""
-"Ferramenta Steam fácil, configuração gráfica para suas outras ferramentas de "
-"compatibilidade para jogos de Windows e Linux."
+"Ferramenta do Steam para configuração fácil e gráfica de suas outras "
+"ferramentas de compatibilidade para jogos de Windows e nativos Linux."
 
 #: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
 #: src/models/releases/steamtinkerlaunch.vala:259
@@ -365,15 +369,15 @@ msgstr "Renomeando..."
 
 #: src/models/releases/basic.vala:73 src/models/releases/github-action.vala:46
 msgid "Running post installation script..."
-msgstr "Rodando programa de pós-instalação..."
+msgstr "Executando programa de pós-instalação..."
 
 #: src/models/releases/basic.vala:84
 msgid "Deleting..."
-msgstr "Deletando..."
+msgstr "Excluindo..."
 
 #: src/models/releases/basic.vala:91
 msgid "Running post removal script..."
-msgstr "Rodando programa de pós-remoção..."
+msgstr "Executando programa de pós-remoção..."
 
 #: src/models/releases/upgrade.vala:8
 #, c-format
