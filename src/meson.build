@@ -45,6 +45,7 @@ protonplus_sources = files(
   'models/runners/proton-ge-rstp.vala',
   'models/runners/proton-tkg.vala',
   'models/runners/proton-cachyos.vala',
+  'models/runners/proton-em.vala',
   'models/runners/proton-sarek.vala',
   'models/runners/proton-sarek-async.vala',
   'models/runners/steamtinkerlaunch.vala',
