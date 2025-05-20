@@ -81,6 +81,13 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.30" date="2025-05-26">
+      <description>
+        <ul>
+          <li>✨ Added support for Proton-EM</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.29" date="2025-05-25">
       <description>
         <ul>
