@@ -3,7 +3,7 @@ namespace ProtonPlus.Models.Runners {
         public Proton_EM (Group group) {
             Object (group: group,
                     title: "Proton-EM",
-                    description: _("Includes FSR4 - Steam compatibility tool for running Windows games with improvements over Valve's default Proton."),
+                    description: _("Steam compatibility tool for running Windows games with improvements over Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine wayland tweaks."),
                     endpoint: "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases",
                     asset_position: 1);
         }
