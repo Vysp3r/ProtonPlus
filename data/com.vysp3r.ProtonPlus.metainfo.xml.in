@@ -81,14 +81,14 @@
   </screenshots>
 
   <releases>
-    <release version="0.4.30" date="2025-05-26">
+    <release version="0.4.30" date="2025-05-20">
       <description>
         <ul>
           <li>✨ Added support for Proton EM</li>
         </ul>
       </description>
     </release>
-    <release version="0.4.29" date="2025-05-25">
+    <release version="0.4.29" date="2025-05-19">
       <description>
         <ul>
           <li>🐛 Fix only Steam showing up</li>
@@ -96,7 +96,7 @@
         </ul>
       </description>
     </release>
-    <release version="0.4.28" date="2025-05-25">
+    <release version="0.4.28" date="2025-05-19">
       <description>
         <ul>
           <li>🐛 Added check for inactive Steam installations</li>
