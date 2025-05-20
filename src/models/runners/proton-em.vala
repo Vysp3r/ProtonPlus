@@ -9,20 +9,7 @@ namespace ProtonPlus.Models.Runners {
         }
 
         public override string get_directory_name (string release_name) {
-            switch (group.launcher.title) {
-            case "Steam":
-                if (title.contains (".")) {
-                    return "Proton-" + release_name;
-                }
-                return release_name;
-            case "Bottles":
-                return release_name.down ();
-
-            case "Heroic Games Launcher":
-                return @"Proton-$release_name";
-            default:
-                return release_name;
-            }
+            return release_name;
         }
     }
 }
