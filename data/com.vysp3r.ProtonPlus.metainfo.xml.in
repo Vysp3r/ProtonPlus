@@ -80,6 +80,14 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.29" date="2025-05-25">
+      <description>
+        <ul>
+          <li>🐛 Fix only Steam showing up</li>
+          <li>🌐 Updated Portuguese localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.28" date="2025-05-25">
       <description>
         <ul>
