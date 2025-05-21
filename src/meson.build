@@ -14,6 +14,9 @@ protonplus_sources = files(
   'widgets/runner-group.vala',
   'widgets/runner-row.vala',
   'widgets/description-dialog.vala',
+  'widgets/library-dialog.vala',
+
+  'widgets/sidebar-rows/steam.vala',
 
   'widgets/release-rows/steamtinkerlaunch.vala',
   'widgets/release-rows/basic.vala',
@@ -69,6 +72,10 @@ protonplus_sources = files(
   'utils/web.vala',
   'utils/parser.vala',
   'utils/system.vala',
+
+  'utils/steam/node.vala',
+  'utils/steam/binary.vala',
+  'utils/steam/shortcut.vala',
 )
 
 protonplus_deps = [
