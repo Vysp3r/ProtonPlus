@@ -158,8 +158,24 @@ namespace ProtonPlus.Widgets {
                         current_position = end_pos;
                         //message("start: %i, end: %i, id: %s", start_pos, end_pos, current_appid);
 
+                        bool valid_appid = true;
+                        string[] excluded_appids = { "2230260" , "1826330", "1161040", "1070560", "1391110", "1628350", "2180100", "228980"};
+                        foreach (var excluded_appid in excluded_appids) {
+                            if (current_appid == excluded_appid) {
+                                valid_appid = false;
+                                break;
+                            }
+                        }
+                        if(!valid_appid)
+                            continue;
+
                         current_steamapps_path = "%s/steamapps".printf(current_libraryfolder_path);
+                        if (!FileUtils.test(current_steamapps_path, FileTest.IS_DIR))
+                            continue;
+
                         current_manifest_path = "%s/appmanifest_%s.acf".printf(current_steamapps_path, current_appid);
+                        if (!FileUtils.test(current_manifest_path, FileTest.IS_REGULAR))
+                            continue;
                         current_manifest_content = Utils.Filesystem.get_file_content(current_manifest_path);
                         //message("current_manifest_path: %s", current_manifest_path);
 
@@ -167,8 +183,8 @@ namespace ProtonPlus.Widgets {
                         end_text = "\"";
                         start_pos = current_manifest_content.index_of(start_text, 0) + start_text.length;
                         end_pos = current_manifest_content.index_of(end_text, start_pos);
-                        current_name = current_manifest_content.substring(start_pos, end_pos - start_pos);
-                        message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
+                        current_name = Markup.escape_text(current_manifest_content.substring(start_pos, end_pos - start_pos));
+                        //message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
 
                         start_text = "installdir\"\t\t\"";
                         end_text = "\"";
@@ -179,6 +195,9 @@ namespace ProtonPlus.Widgets {
 
                         if(!FileUtils.test("%s/common/%s".printf(current_steamapps_path, current_installdir), FileTest.IS_DIR))
                             continue;
+
+                        // To get deck compatiblity use this file /home/vysp3r/.steam/root/appcache/appinfo.vdf
+                        // To get anti-cheat status use this list https://github.com/AreWeAntiCheatYet/AreWeAntiCheatYet/blob/master/games.json
 
                         games.append(new Game(int.parse(current_appid), current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path));
                     }
