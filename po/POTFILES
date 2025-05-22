@@ -8,6 +8,7 @@ src/widgets/runner-row.vala
 src/widgets/runner-group.vala
 src/widgets/launcher-box.vala
 src/widgets/load-more-row.vala
+src/widgets/library-dialog.vala
 src/widgets/window.vala
 src/widgets/application.vala
 src/widgets/release-rows/basic.vala
@@ -20,6 +21,7 @@ src/models/group.vala
 src/models/parameters.vala
 src/models/launcher.vala
 src/models/runner.vala
+src/models/game.vala
 src/models/launchers/bottles.vala
 src/models/launchers/hgl.vala
 src/models/launchers/lutris.vala
@@ -59,4 +61,7 @@ src/utils/filesystem.vala
 src/utils/parser.vala
 src/utils/web.vala
 src/utils/system.vala
+src/utils/vdf/binary.vala
+src/utils/vdf/node.vala
+src/utils/vdf/shortcut.vala
 src/main.vala
