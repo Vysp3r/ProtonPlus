@@ -49,6 +49,8 @@
 
 ### [NixOS (MyNixOS)](https://mynixos.com/nixpkgs/package/protonplus) (Maintained by Seth)
 
+### [Ubuntu (Pacstall)](https://pacstall.dev/packages/protonplus) (Maintained by xdavius)
+
 ## 🏗️ Building from source
 
 **Requirements**
