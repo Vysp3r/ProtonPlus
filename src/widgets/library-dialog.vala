@@ -54,13 +54,31 @@ namespace ProtonPlus.Widgets {
             set_child(toolbar_view);
         }
 
-        public LibraryDialog(string launcher_title) {
-            window_title.set_title("%s %s".printf(_("Game library of"), launcher_title));
+        public LibraryDialog(Models.Launchers.Steam steam_launcher) {
+            window_title.set_title("%s %s".printf(_("Game library of"), steam_launcher.title));
 
-            Models.Game.get_installed_games.begin((obj, res) => {
-                var games = Models.Game.get_installed_games.end(res);
+            steam_launcher.load_library_data.begin((obj, res) => {
+                var loaded = steam_launcher.load_library_data.end(res);
 
-                foreach (var game in games) {
+                if (!loaded)
+                    return;
+
+                var compat_tools_liststore = new ListStore(typeof (Models.Launchers.Steam.RunnerDropDownItem));
+                foreach (var ct in steam_launcher.compat_tools)
+                    compat_tools_liststore.append(ct);
+
+                var compat_tools_expression = new Gtk.PropertyExpression(typeof (Models.Launchers.Steam.RunnerDropDownItem), null, "display_title");
+
+                foreach (var game in steam_launcher.games) {
+                    var compat_tool_dropdown = new Gtk.DropDown(compat_tools_liststore, compat_tools_expression);
+
+                    for (var i = 0; i < steam_launcher.compat_tools.length(); i++) {
+                        if (steam_launcher.compat_tools.nth_data(i).title == game.compat_tool) {
+                            compat_tool_dropdown.set_selected(i);
+                            break;
+                        }
+                    }
+
                     var anticheat_button = new Gtk.Button.from_icon_name("shield-symbolic");
                     anticheat_button.set_tooltip_text(_("Open AreWeAntiCheatYet page"));
                     anticheat_button.add_css_class("flat");
@@ -100,20 +118,20 @@ namespace ProtonPlus.Widgets {
                     title_label.set_hexpand(true);
 
                     var box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
-                    box.set_margin_start (10);
-                    box.set_margin_end (10);
-                    box.set_margin_top (10);
-                    box.set_margin_bottom (10);
+                    box.set_margin_start(10);
+                    box.set_margin_end(10);
+                    box.set_margin_top(10);
+                    box.set_margin_bottom(10);
                     box.set_valign(Gtk.Align.CENTER);
                     box.append(title_label);
+                    box.append(compat_tool_dropdown);
                     box.append(anticheat_button);
                     box.append(protondb_button);
-                    box.set_tooltip_markup(game.compat_tool);
 
                     game_list_box.append(box);
                 }
 
-                window_title.set_subtitle("%u games".printf(games.length()));
+                window_title.set_subtitle("%u games".printf(steam_launcher.games.length()));
             });
         }
 
