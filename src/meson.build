@@ -30,6 +30,7 @@ protonplus_sources = files(
   'models/release.vala',
   'models/runner.vala',
   'models/parameters.vala',
+  'models/game.vala',
 
   'models/launchers/bottles.vala',
   'models/launchers/hgl.vala',
@@ -73,9 +74,9 @@ protonplus_sources = files(
   'utils/parser.vala',
   'utils/system.vala',
 
-  'utils/steam/node.vala',
-  'utils/steam/binary.vala',
-  'utils/steam/shortcut.vala',
+  'utils/vdf/node.vala',
+  'utils/vdf/binary.vala',
+  'utils/vdf/shortcut.vala',
 )
 
 protonplus_deps = [
