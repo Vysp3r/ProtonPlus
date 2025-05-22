@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-20 11:46-0400\n"
-"PO-Revision-Date: 2025-03-07 22:04+0100\n"
+"PO-Revision-Date: 2025-05-22 21:43+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #: src/widgets/info-box.vala:16
 msgid "_Installed Only"
@@ -336,14 +336,14 @@ msgstr ""
 "Windowsspiele zu Starten mit Verbesserungen gegenüber Valves Standard-Proton."
 
 #: src/models/runners/proton-em.vala:6
-#, fuzzy
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
 msgstr ""
-"Steam Kompatibilitätswerkzeug um Windowsspiele zu Starten mit Verbesserungen "
-"gegenüber Valves Standard-Proton."
+"Steam-Kompatibilitätstool zum Ausführen von Windows-Spielen mit "
+"Verbesserungen gegenüber dem Standard-Proton von Valve. Von Etaash "
+"Mathamsetty mit FSR4-Unterstützung und wine wayland tweaks."
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
