@@ -2,19 +2,20 @@
 # Lionel HANNEQUIN <Lionel-Fr-56@users.noreply.hosted.weblate.org>, 2023.
 # aleksej0R <omolice@hotmail.fr>, 2024.
 # Noé Lopez <noelopez@free.fr>, 2024.
+# Iwan ASSI <claymorwan@fembois.dev>, 2025.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-20 11:46-0400\n"
-"PO-Revision-Date: 2024-07-09 10:09+0000\n"
-"Last-Translator: Noé Lopez <noelopez@free.fr>\n"
+"PO-Revision-Date: 2025-05-21 21:07+0000\n"
+"Last-Translator: Iwan ASSI <claymorwan@fembois.dev>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
 "Language: fr\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.12-dev\n"
 
 #: src/widgets/info-box.vala:16
 #, fuzzy
@@ -27,7 +28,7 @@ msgstr ""
 
 #: src/widgets/info-box.vala:24
 msgid "_About ProtonPlus"
-msgstr ""
+msgstr "_À propos de ProtonPlus"
 
 #: src/widgets/info-box.vala:31
 msgid "Main Menu"
@@ -157,7 +158,7 @@ msgstr ""
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:75
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: src/widgets/release-rows/steamtinkerlaunch.vala:108
 msgid "Check this to also remove your configuration files."
@@ -398,7 +399,7 @@ msgstr "L’installation de "
 
 #: src/models/releases/basic.vala:84
 msgid "Deleting..."
-msgstr ""
+msgstr "Suppression..."
 
 #: src/models/releases/basic.vala:91
 #, fuzzy
