@@ -27,12 +27,7 @@ namespace ProtonPlus.Models {
             foreach (var directory in directories) {
                 var current_path = Environment.get_home_dir () + directory;
                 if (FileUtils.test (current_path, FileTest.IS_DIR)) {
-                    if (title == "Steam") {
-                        if (FileUtils.test (current_path + "/steamclient.dll", FileTest.IS_REGULAR) && FileUtils.test (current_path + "/steamclient64.dll", FileTest.IS_REGULAR)) {
-                            this.directory = current_path;
-                            break;
-                        }
-                    } else {
+                    if (!(this is Launchers.Steam) || (FileUtils.test (current_path + "/steamclient.dll", FileTest.IS_REGULAR) && FileUtils.test (current_path + "/steamclient64.dll", FileTest.IS_REGULAR))) {
                         this.directory = current_path;
                         break;
                     }
