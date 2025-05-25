@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 18:12-0400\n"
-"PO-Revision-Date: 2025-05-16 00:03+0000\n"
+"POT-Creation-Date: 2025-05-20 11:46-0400\n"
+"PO-Revision-Date: 2025-05-25 22:09+0000\n"
 "Last-Translator: Cirnos <Cirnos@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -336,14 +336,14 @@ msgstr ""
 "executar jogos do Windows com melhorias sobre o Proton padrão da Valve."
 
 #: src/models/runners/proton-em.vala:6
-#, fuzzy
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
 msgstr ""
-"Ferramenta de compatibilidade do Steam para executar jogos do Windows com "
-"melhorias sobre o Proton padrão da Valve."
+"Ferramenta de compatibilidade do Steam para executar jogos de Windows com "
+"melhorias sobre o Proton padrão da Valve. Por Etaash Mathamsetty adicionando "
+"suporte a FSR4 e ajustes para Wine em Wayland."
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
