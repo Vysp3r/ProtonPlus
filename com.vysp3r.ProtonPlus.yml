@@ -44,7 +44,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/Vysp3r/ProtonPlus.git
-        tag: v0.4.30
+        tag: v0.4.31
         x-checker-data:
           type: git
           tag-pattern: ^v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.\-]+)?)$

@@ -5,8 +5,9 @@
   <project_license>GPL-3.0-or-later</project_license>
 
   <name>ProtonPlus</name>
-  <summary>Modern compatibility tools manager</summary>
+  <summary>A modern compatibility tools manager for Linux</summary>
   <description>
+    <p>Install and manage Wine/Proton based compatibility tools with a graphical user interface.</p>
     <p>Supported launchers:</p>
     <ul>
       <li>Steam</li>
@@ -81,6 +82,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.31" date="2025-05-25">
+      <description>
+        <ul>
+          <li>🌐 Updated Chinese localization</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Updated French localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.30" date="2025-05-20">
       <description>
         <ul>
