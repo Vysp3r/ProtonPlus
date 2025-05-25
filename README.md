@@ -170,10 +170,3 @@ All contributions are highly appreciated.
 ## ✨️ Contributors
 
 [![Contributors](https://contrib.rocks/image?repo=Vysp3r/ProtonPlus)](https://github.com/Vysp3r/ProtonPlus/graphs/contributors)
-
-## 💸 Donation
-
-I will not accept any money donation, but if you'd like to add me on Steam and gift me a game, I won't say no.
-
-Here's my profile in case that's something you want to do: [https://steamcommunity.com/id/Vysp3r/](https://steamcommunity.com/id/Vysp3r/)
-
