@@ -1,0 +1,62 @@
+html,
+body,
+main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+body {
+    text-align: center;
+    padding-top: 10px;
+}
+
+header {
+    margin-bottom: auto;
+}
+
+footer {
+    margin-top: auto;
+    padding-bottom: 20px;
+}
+
+* {
+    margin: 0px;
+}
+
+.description {
+    margin-top: 15px;
+}
+
+.screenshots {
+    margin-top: 15px;
+
+    img {
+        max-height: 650px;
+        max-width: 100%;
+    }
+}
+
+.download {
+    h2 {
+        margin-bottom: 15px;
+    }
+
+    h3 {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+}
+
+.links {
+    margin-top: 15px;
+}
+
+.list {
+    list-style-type: none;
+    padding-left: 0px;
+
+    li:not(:last-child) {
+        margin-bottom: 10px;
+    }
+}
