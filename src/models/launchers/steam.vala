@@ -61,6 +61,11 @@ namespace ProtonPlus.Models.Launchers {
             return runners;
         }
 
+        public bool check_shortcut() {
+            //TODO Make this check if the shortcut is installed or not
+            return false;
+        }
+
         public bool install_shortcut() {
             Utils.VDF.Shortcut pp_shortcut = {};
 
