@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-26 22:14-0400\n"
+"POT-Creation-Date: 2025-05-27 10:47-0400\n"
 "PO-Revision-Date: 2024-10-03 01:10+0200\n"
 "Last-Translator: Johnny Arcitec <Arcitec@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
@@ -133,6 +133,22 @@ msgstr ""
 
 #: src/widgets/library-dialog.vala:160
 msgid "Remove the shortcut of ProtonPlus in Steam"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:182 src/widgets/library-dialog.vala:194
+msgid "An error occured"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:182
+msgid "When trying to remove the shortcut in Steam an error occured."
+msgstr ""
+
+#: src/widgets/library-dialog.vala:182 src/widgets/library-dialog.vala:194
+msgid "Please report this issue on GitHub."
+msgstr ""
+
+#: src/widgets/library-dialog.vala:194
+msgid "When trying to create the shortcut in Steam an error occured."
 msgstr ""
 
 #: src/widgets/window.vala:50
@@ -275,7 +291,7 @@ msgstr "Borttagningen av %s är slutförd."
 msgid "An unexpected error occurred while removing %s."
 msgstr "Ett oväntat fel inträffade när %s skulle tas bort."
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:39
+#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
 msgstr "Körprogram"
 

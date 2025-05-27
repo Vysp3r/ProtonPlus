@@ -155,7 +155,7 @@ namespace ProtonPlus.Widgets {
         }
 
         void shortcut_button_refresh() {
-            var shortcut_installed = steam_launcher.check_shortcut();
+            var shortcut_installed = steam_launcher.check_shortcuts_files();
             shortcut_button_content.set_label(!shortcut_installed ? _("Create shortcut") : _("Remove shortcut"));
             shortcut_button.set_tooltip_text(!shortcut_installed ? _("Create a shortcut of ProtonPlus in Steam") : _("Remove the shortcut of ProtonPlus in Steam"));
         }
@@ -166,13 +166,41 @@ namespace ProtonPlus.Widgets {
         }
 
         void shortcut_button_clicked() {
-            // TODO Handle if the install/uninstall function is not ran successfully (show error message)
-            if (steam_launcher.check_shortcut()) {
-                // steam_launcher.install_shortcut();
-            } else {
-                // steam_launcher.uninstall_shortcut();
-            }
+            var installed = steam_launcher.check_shortcuts_files();
 
+            // TODO Improve installed check system
+            // TODO Handle if the install/uninstall function is not ran successfully (show error message)
+
+            foreach (var file in steam_launcher.shortcuts_files) {
+                var status = file.get_installed_status();
+
+                if (installed) {
+                    if (status) {
+                        message("remove");
+                        var success = steam_launcher.uninstall_shortcut(file);
+                        if(success) {
+                            var dialog = new Adw.AlertDialog(_("An error occured"), "%s %s".printf( _("When trying to remove the shortcut in Steam an error occured."), _("Please report this issue on GitHub.")));
+                            dialog.add_response("ok", "OK");
+                            dialog.present(Application.window);
+                        }
+                    } else {
+                        message("remove but not installed");
+                    }
+                } else {
+                    if (!status) {
+                        message("create");
+                        var success = steam_launcher.install_shortcut(file);
+                        if(success) {
+                            var dialog = new Adw.AlertDialog(_("An error occured"), "%s %s".printf( _("When trying to create the shortcut in Steam an error occured."), _("Please report this issue on GitHub.")));
+                            dialog.add_response("ok", "OK");
+                            dialog.present(Application.window);
+                        }
+                    } else {
+                        message("create but already installed");
+                    }
+                }
+            }
+            
             shortcut_button_refresh();
         }
 
