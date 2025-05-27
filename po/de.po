@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 18:12-0400\n"
+"POT-Creation-Date: 2025-05-26 21:49-0400\n"
 "PO-Revision-Date: 2025-05-22 21:43+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -94,6 +94,34 @@ msgstr "Ja"
 #: src/widgets/load-more-row.vala:8 src/widgets/load-more-row.vala:17
 msgid "Load more"
 msgstr "Mehr laden"
+
+#: src/widgets/library-dialog.vala:18
+msgid "Create shortcut"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:21
+msgid "Create a shortcut of ProtonPlus in Steam"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:26
+msgid "Mass edit"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:29
+msgid "Mass edit the compatibility tool of the selected games"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:58
+msgid "Game library of"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:83
+msgid "Open AreWeAntiCheatYet page"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:112
+msgid "Open ProtonDB page"
+msgstr ""
 
 #: src/widgets/window.vala:50
 #, c-format
@@ -236,7 +264,7 @@ msgstr "Die Löschung von %s ist abgeschlossen."
 msgid "An unexpected error occurred while removing %s."
 msgstr "Ein unerwarteter Fehler trat auf beim Entfernen von %s."
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:33
+#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:39
 msgid "Runners"
 msgstr "Ausführungswerkzeuge"
 
