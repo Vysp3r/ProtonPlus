@@ -2,9 +2,8 @@ namespace ProtonPlus.Models.Launchers {
     public class Steam : Launcher {
         public List<Game> games;
         public List<RunnerDropDownItem> compat_tools;
-        public static bool IS_SHORTCUT_INSTALLED = false;
-        private Utils.VDF.Shortcuts shortcuts_file;
-        private int shortcut_status = 0;
+        public List<string> shortcut_locations;
+        public List<Utils.VDF.Shortcuts> shortcuts_files;
 
         public Steam (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
@@ -29,7 +28,10 @@ namespace ProtonPlus.Models.Launchers {
             if (installed) {
                 groups = get_groups ();
                 install.connect ((release) => true);
-                uninstall.connect ((release) => true);           
+                uninstall.connect ((release) => true);
+
+                shortcut_locations = get_shortcuts_locations();
+                shortcuts_files = get_shortcuts_files();
             }
         }
 
@@ -61,32 +63,95 @@ namespace ProtonPlus.Models.Launchers {
             return runners;
         }
 
-        public bool check_shortcut() {
-            //TODO Make this check if the shortcut is installed or not
-            return false;
-        }
-
-        public bool install_shortcut() {
-            Utils.VDF.Shortcut pp_shortcut = {};
+        List<string> get_shortcuts_locations() {
+            var locations = new List<string>();
 
             try {
-                pp_shortcut.AppID = 0;
+                string base_path = "%s/userdata".printf(directory);
+                if (FileUtils.test(base_path, FileTest.IS_DIR)) {
+                    Dir directory = Dir.open(base_path);
+                    string? dir;
+                    while ((dir = directory.read_name()) != null) {
+                        if (dir != "." && dir != "..") {
+                            File file = File.new_for_path(base_path + "/" + dir);
+                            if (file.query_file_type(FileQueryInfoFlags.NONE) == FileType.DIRECTORY) {
+                                var full_path = "%s/%s/config/shortcuts.vdf".printf(base_path, dir);
+                                locations.append(full_path);
+                                if (!FileUtils.test(full_path, FileTest.IS_REGULAR)) {
+                                    Utils.VDF.Shortcuts.create_new_shortcuts_file_at(full_path);
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Error e) {
+                message(e.message);
+            }
+
+            return locations;
+        }
+
+        List<Utils.VDF.Shortcuts> get_shortcuts_files() {
+            var files = new List<Utils.VDF.Shortcuts>();
+
+            foreach (var location in shortcut_locations) {
+                var file = new Utils.VDF.Shortcuts(location);
+                files.append(file);
+            }
+
+            return files;
+        }
+
+        public bool check_shortcuts_files() {
+            var installed = false;
+
+            foreach (var file in shortcuts_files) {
+                if (file.get_installed_status())
+                    installed = true;
+            }
+
+            return installed;
+        }
+
+        public bool install_shortcut(Utils.VDF.Shortcuts shortcuts_file) {
+            Utils.VDF.Shortcut pp_shortcut = {};
+
+            string exe = "";
+            string launch_options = "";
+            string icon = "";
+
+            if (FileUtils.test("/.flatpak-info", FileTest.EXISTS)) {
+                exe = "\"/usr/bin/flatpak\"";
+                launch_options = "\"run\" \"--branch=stable\" \"--arch=x86_64\" \"--command=com.vysp3r.ProtonPlus\" \"com.vysp3r.ProtonPlus\"";
+                icon = "/var/lib/flatpak/app/com.vysp3r.ProtonPlus/current/active/files/share/icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png";
+            } else {
+                var which_output = Utils.System.run_command("which com.vysp3r.ProtonPlus".printf());
+                
+                if (which_output.contains("which: no"))
+                    return false;
+
+                exe = "%s".printf(which_output);
+                icon = "/usr/share/icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png";
+            }
+            
+            try {
+                pp_shortcut.AppID = 1621167220;
+                pp_shortcut.AppName = "ProtonPlus";
+                pp_shortcut.Exe = exe;
+                pp_shortcut.StartDir = "./";
+                pp_shortcut.Icon = icon;
+                pp_shortcut.ShortcutPath = "";
+                pp_shortcut.LaunchOptions = launch_options;
+                pp_shortcut.IsHidden = false;
                 pp_shortcut.AllowDesktopConfig = true;
                 pp_shortcut.AllowOverlay = true;
-                pp_shortcut.AppName = "ProtonPlus";
+                pp_shortcut.OpenVR = 0;
                 pp_shortcut.Devkit = 0;
                 pp_shortcut.DevkitGameID = "\0";
                 pp_shortcut.DevkitOverrideAppID = 0;
-                pp_shortcut.Exe = "\"/usr/bin/flatpak\"";
-                pp_shortcut.FlatpakAppID = "";
-                pp_shortcut.IsHidden = false;
                 pp_shortcut.LastPlayTime = 0;
-                pp_shortcut.LaunchOptions = "\"run\" \"--branch=stable\" \"--arch=x86_64\" \"--command=com.vysp3r.ProtonPlus\" \"com.vysp3r.ProtonPlus\"";
-                pp_shortcut.OpenVR = 0;
-                pp_shortcut.ShortcutPath = "/var/lib/flatpak/exports/share/applications/com.vysp3r.ProtonPlus.desktop";
-                pp_shortcut.StartDir = "\"/usr/bin/\"";
-                pp_shortcut.Icon = "\0";
-
+                pp_shortcut.FlatpakAppID = "";
+                
                 shortcuts_file.append_shortcut(pp_shortcut);
                 shortcuts_file.save();
 
@@ -97,7 +162,7 @@ namespace ProtonPlus.Models.Launchers {
             }
         }
 
-        public bool uninstall_shortcut() {
+        public bool uninstall_shortcut(Utils.VDF.Shortcuts shortcuts_file) {
             try {
                 shortcuts_file.remove_shortcut_by_name("ProtonPlus");
                 shortcuts_file.save();

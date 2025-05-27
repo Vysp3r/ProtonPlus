@@ -25,6 +25,12 @@ namespace ProtonPlus.Utils.VDF {
             base(path);
         }
 
+        public bool get_installed_status() {
+            var shortcut = get_shortcut_by_name("ProtonPlus");
+
+            return shortcut.AppName != null;
+        }
+
         public size_t get_shortcuts_count() {
             size_t count = 0;
             foreach (var entry in nodes.entries) {
