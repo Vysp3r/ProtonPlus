@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-26 21:49-0400\n"
+"POT-Creation-Date: 2025-05-26 22:14-0400\n"
 "PO-Revision-Date: 2024-08-19 10:09+0000\n"
 "Last-Translator: Lize58 <pasquale.borrelli05@outlook.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -51,8 +51,8 @@ msgstr ""
 msgid "Closing in"
 msgstr ""
 
-#: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:50
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:54
+#: src/widgets/runner-group.vala:66 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, fuzzy, c-format
 msgid "Delete %s"
@@ -68,24 +68,24 @@ msgstr "Solo installato"
 msgid "Show more information"
 msgstr "Mostra informazioni"
 
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/runner-group.vala:66 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, c-format
 msgid "You're about to remove %s from your system."
 msgstr ""
 
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/runner-group.vala:66 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, fuzzy
 msgid "Are you sure you want this?"
 msgstr "Sei sicuro di voler eliminare"
 
-#: src/widgets/runner-group.vala:64 src/widgets/release-rows/basic.vala:36
+#: src/widgets/runner-group.vala:68 src/widgets/release-rows/basic.vala:36
 #: src/widgets/release-rows/steamtinkerlaunch.vala:114
 msgid "No"
 msgstr ""
 
-#: src/widgets/runner-group.vala:65 src/widgets/release-rows/basic.vala:37
+#: src/widgets/runner-group.vala:69 src/widgets/release-rows/basic.vala:37
 #: src/widgets/release-rows/steamtinkerlaunch.vala:115
 msgid "Yes"
 msgstr ""
@@ -94,33 +94,41 @@ msgstr ""
 msgid "Load more"
 msgstr "Carica altro"
 
-#: src/widgets/library-dialog.vala:18
-msgid "Create shortcut"
-msgstr ""
-
-#: src/widgets/library-dialog.vala:21
-msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr ""
-
-#: src/widgets/library-dialog.vala:26
+#: src/widgets/library-dialog.vala:28
 msgid "Mass edit"
 msgstr ""
 
-#: src/widgets/library-dialog.vala:29
+#: src/widgets/library-dialog.vala:31
 #, fuzzy
 msgid "Mass edit the compatibility tool of the selected games"
 msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
 
-#: src/widgets/library-dialog.vala:58
+#: src/widgets/library-dialog.vala:73
 msgid "Game library of"
 msgstr ""
 
-#: src/widgets/library-dialog.vala:83
+#: src/widgets/library-dialog.vala:100
 msgid "Open AreWeAntiCheatYet page"
 msgstr ""
 
-#: src/widgets/library-dialog.vala:112
+#: src/widgets/library-dialog.vala:129
 msgid "Open ProtonDB page"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:159
+msgid "Create shortcut"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:159
+msgid "Remove shortcut"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:160
+msgid "Create a shortcut of ProtonPlus in Steam"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:160
+msgid "Remove the shortcut of ProtonPlus in Steam"
 msgstr ""
 
 #: src/widgets/window.vala:50

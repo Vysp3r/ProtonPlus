@@ -43,6 +43,10 @@ namespace ProtonPlus.Widgets {
                             continue;
 
                         var title = file_info.get_name();
+
+                        if (title == "LegacyRuntime")
+                            continue;
+
                         var runner = new Models.Runners.Proton_GE(group); // FIXME This should be replaced by it's own model instead of using Proton_GE
                         var release = new Models.Releases.Basic.simple(runner, title, directory_path + "/" + title);
 

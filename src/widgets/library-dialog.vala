@@ -1,5 +1,6 @@
 namespace ProtonPlus.Widgets {
     public class LibraryDialog : Adw.Dialog {
+        Models.Launchers.Steam steam_launcher { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
         Adw.WindowTitle window_title { get; set; }
         Adw.ButtonContent shortcut_button_content { get; set; }
@@ -9,17 +10,18 @@ namespace ProtonPlus.Widgets {
         Adw.HeaderBar header_bar { get; set; }
         Gtk.ScrolledWindow scrolled_window { get; set; }
         Gtk.ListBox game_list_box { get; set; }
+        Gtk.Spinner spinner { get; set; }
+        Gtk.Overlay overlay { get; set; }
 
         construct {
             window_title = new Adw.WindowTitle("", "");
 
             shortcut_button_content = new Adw.ButtonContent();
             shortcut_button_content.set_icon_name("bookmark-plus-symbolic");
-            shortcut_button_content.set_label(_("Create shortcut"));
 
             shortcut_button = new Gtk.Button();
-            shortcut_button.set_tooltip_text(_("Create a shortcut of ProtonPlus in Steam"));
             shortcut_button.set_child(shortcut_button_content);
+            shortcut_button.clicked.connect(shortcut_button_clicked);
 
             mass_edit_button_content = new Adw.ButtonContent();
             mass_edit_button_content.set_icon_name("edit-symbolic");
@@ -28,6 +30,7 @@ namespace ProtonPlus.Widgets {
             mass_edit_button = new Gtk.Button();
             mass_edit_button.set_tooltip_text(_("Mass edit the compatibility tool of the selected games"));
             mass_edit_button.set_child(mass_edit_button_content);
+            mass_edit_button.clicked.connect(mass_edit_button_clicked);
 
             header_bar = new Adw.HeaderBar();
             header_bar.pack_start(shortcut_button);
@@ -38,8 +41,14 @@ namespace ProtonPlus.Widgets {
             game_list_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE);
             game_list_box.add_css_class("boxed-list");
 
+            spinner = new Gtk.Spinner();
+
+            overlay = new Gtk.Overlay();
+            overlay.set_child(game_list_box);
+            overlay.add_overlay(spinner);
+
             scrolled_window = new Gtk.ScrolledWindow();
-            scrolled_window.set_child(game_list_box);
+            scrolled_window.set_child(overlay);
             scrolled_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC);
             scrolled_window.set_size_request(675, 375);
             scrolled_window.set_margin_top(7);
@@ -55,13 +64,21 @@ namespace ProtonPlus.Widgets {
         }
 
         public LibraryDialog(Models.Launchers.Steam steam_launcher) {
+            spinner.start();
+
+            this.steam_launcher = steam_launcher;
+
+            shortcut_button_refresh();
+
             window_title.set_title("%s %s".printf(_("Game library of"), steam_launcher.title));
 
             steam_launcher.load_library_data.begin((obj, res) => {
                 var loaded = steam_launcher.load_library_data.end(res);
 
-                if (!loaded)
+                if (!loaded) {
+                    overlay_clear();
                     return;
+                }
 
                 var compat_tools_liststore = new ListStore(typeof (Models.Launchers.Steam.RunnerDropDownItem));
                 foreach (var ct in steam_launcher.compat_tools)
@@ -132,7 +149,34 @@ namespace ProtonPlus.Widgets {
                 }
 
                 window_title.set_subtitle("%u games".printf(steam_launcher.games.length()));
+
+                overlay_clear();
             });
+        }
+
+        void shortcut_button_refresh() {
+            var shortcut_installed = steam_launcher.check_shortcut();
+            shortcut_button_content.set_label(!shortcut_installed ? _("Create shortcut") : _("Remove shortcut"));
+            shortcut_button.set_tooltip_text(!shortcut_installed ? _("Create a shortcut of ProtonPlus in Steam") : _("Remove the shortcut of ProtonPlus in Steam"));
+        }
+
+        void overlay_clear() {
+            spinner.stop();
+            overlay.remove_overlay(spinner);
+        }
+
+        void shortcut_button_clicked() {
+            // TODO Handle if the install/uninstall function is not ran successfully (show error message)
+            if (steam_launcher.check_shortcut()) {
+                // steam_launcher.install_shortcut();
+            } else {
+                // steam_launcher.uninstall_shortcut();
+            }
+
+            shortcut_button_refresh();
+        }
+
+        void mass_edit_button_clicked() {
         }
 
         void anticheat_button_clicked(string? awacy_name) {
