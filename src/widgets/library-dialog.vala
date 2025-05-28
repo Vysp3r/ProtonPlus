@@ -96,6 +96,8 @@ namespace ProtonPlus.Widgets {
                         }
                     }
 
+                    compat_tool_dropdown.notify["selected-item"].connect(() => compat_tool_dropdown_selected_item_changed(compat_tool_dropdown, game));
+
                     var anticheat_button = new Gtk.Button.from_icon_name("shield-symbolic");
                     anticheat_button.set_tooltip_text(_("Open AreWeAntiCheatYet page"));
                     anticheat_button.add_css_class("flat");
@@ -154,22 +156,19 @@ namespace ProtonPlus.Widgets {
             });
         }
 
+        void overlay_clear() {
+            spinner.stop();
+            overlay.remove_overlay(spinner);
+        }
+
         void shortcut_button_refresh() {
             var shortcut_installed = steam_launcher.check_shortcuts_files();
             shortcut_button_content.set_label(!shortcut_installed ? _("Create shortcut") : _("Remove shortcut"));
             shortcut_button.set_tooltip_text(!shortcut_installed ? _("Create a shortcut of ProtonPlus in Steam") : _("Remove the shortcut of ProtonPlus in Steam"));
         }
 
-        void overlay_clear() {
-            spinner.stop();
-            overlay.remove_overlay(spinner);
-        }
-
         void shortcut_button_clicked() {
             var installed = steam_launcher.check_shortcuts_files();
-
-            // TODO Improve installed check system
-            // TODO Handle if the install/uninstall function is not ran successfully (show error message)
 
             foreach (var file in steam_launcher.shortcuts_files) {
                 var status = file.get_installed_status();
@@ -178,8 +177,8 @@ namespace ProtonPlus.Widgets {
                     if (status) {
                         message("remove");
                         var success = steam_launcher.uninstall_shortcut(file);
-                        if(success) {
-                            var dialog = new Adw.AlertDialog(_("An error occured"), "%s %s".printf( _("When trying to remove the shortcut in Steam an error occured."), _("Please report this issue on GitHub.")));
+                        if (!success) {
+                            var dialog = new Adw.AlertDialog(_("An error occured"), "%s\n%s".printf(_("When trying to remove the shortcut in Steam an error occured."), _("Please report this issue on GitHub.")));
                             dialog.add_response("ok", "OK");
                             dialog.present(Application.window);
                         }
@@ -190,8 +189,8 @@ namespace ProtonPlus.Widgets {
                     if (!status) {
                         message("create");
                         var success = steam_launcher.install_shortcut(file);
-                        if(success) {
-                            var dialog = new Adw.AlertDialog(_("An error occured"), "%s %s".printf( _("When trying to create the shortcut in Steam an error occured."), _("Please report this issue on GitHub.")));
+                        if (!success) {
+                            var dialog = new Adw.AlertDialog(_("An error occured"), "%s\n%s".printf(_("When trying to create the shortcut in Steam an error occured."), _("Please report this issue on GitHub.")));
                             dialog.add_response("ok", "OK");
                             dialog.present(Application.window);
                         }
@@ -200,7 +199,7 @@ namespace ProtonPlus.Widgets {
                     }
                 }
             }
-            
+
             shortcut_button_refresh();
         }
 
@@ -214,6 +213,17 @@ namespace ProtonPlus.Widgets {
 
         void protondb_button_clicked(int appid) {
             Utils.System.open_url("https://www.protondb.com/app/%i".printf(appid));
+        }
+
+        void compat_tool_dropdown_selected_item_changed(Gtk.DropDown dropdown, Models.Game game) {
+            var item = (Models.Launchers.Steam.RunnerDropDownItem) dropdown.get_selected_item();
+
+            var success = game.set_compatibility_tool(item.title);
+            if (!success) {
+                var dialog = new Adw.AlertDialog(_("An error occured"), "%s\n%s".printf(_("When trying to change the compatibility tool of a game an error occured."), _("Please report this issue on GitHub.")));
+                dialog.add_response("ok", "OK");
+                dialog.present(Application.window);
+            }
         }
     }
 }
