@@ -298,7 +298,7 @@ namespace ProtonPlus.Models.Launchers {
                         if (!FileUtils.test("%s/common/%s".printf(current_steamapps_path, current_installdir), FileTest.IS_DIR))
                             continue;
 
-                        var game = new Game(int.parse(current_appid), current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path);
+                        var game = new Game(int.parse(current_appid), current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
 
                         foreach (var awacy_game in awacy_games) {
                             if (awacy_game.appid == game.appid) {
