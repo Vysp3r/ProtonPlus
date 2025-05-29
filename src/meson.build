@@ -15,6 +15,8 @@ protonplus_sources = files(
   'widgets/runner-row.vala',
   'widgets/description-dialog.vala',
   'widgets/library-dialog.vala',
+  'widgets/game-row.vala',
+  'widgets/mass-edit-dialog.vala',
 
   'widgets/sidebar-rows/steam.vala',
 

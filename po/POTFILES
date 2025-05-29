@@ -9,6 +9,8 @@ src/widgets/runner-group.vala
 src/widgets/launcher-box.vala
 src/widgets/load-more-row.vala
 src/widgets/library-dialog.vala
+src/widgets/game-row.vala
+src/widgets/mass-edit-dialog.vala
 src/widgets/window.vala
 src/widgets/application.vala
 src/widgets/release-rows/basic.vala
