@@ -51,7 +51,7 @@ namespace ProtonPlus.Widgets {
                 dialog.present(Application.window);
             }
 
-            reload();
+            reload(); //TODO Make it so it doesn't reload the whole page, but only the selected rows
 
             close();
         }

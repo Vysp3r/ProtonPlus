@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-27 10:47-0400\n"
+"POT-Creation-Date: 2025-05-28 22:09-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -99,57 +99,79 @@ msgstr ""
 msgid "Load more"
 msgstr "Загрузіць больш"
 
-#: src/widgets/library-dialog.vala:28
+#: src/widgets/library-dialog.vala:30
 msgid "Mass edit"
 msgstr ""
 
-#: src/widgets/library-dialog.vala:31
+#: src/widgets/library-dialog.vala:33
 #, fuzzy
 msgid "Mass edit the compatibility tool of the selected games"
 msgstr "Інструмент сумяшчальнасці Steam для запуску Windows гульняў"
 
-#: src/widgets/library-dialog.vala:73
+#: src/widgets/library-dialog.vala:72
 msgid "Game library of"
 msgstr ""
 
-#: src/widgets/library-dialog.vala:100
-msgid "Open AreWeAntiCheatYet page"
-msgstr ""
-
-#: src/widgets/library-dialog.vala:129
-msgid "Open ProtonDB page"
-msgstr ""
-
-#: src/widgets/library-dialog.vala:159
+#: src/widgets/library-dialog.vala:117
 msgid "Create shortcut"
 msgstr ""
 
-#: src/widgets/library-dialog.vala:159
+#: src/widgets/library-dialog.vala:117
 msgid "Remove shortcut"
 msgstr ""
 
-#: src/widgets/library-dialog.vala:160
+#: src/widgets/library-dialog.vala:118
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr ""
 
-#: src/widgets/library-dialog.vala:160
+#: src/widgets/library-dialog.vala:118
 msgid "Remove the shortcut of ProtonPlus in Steam"
 msgstr ""
 
-#: src/widgets/library-dialog.vala:182 src/widgets/library-dialog.vala:194
+#: src/widgets/library-dialog.vala:132 src/widgets/library-dialog.vala:144
+#: src/widgets/library-dialog.vala:171 src/widgets/game-row.vala:97
+#: src/widgets/mass-edit-dialog.vala:49
 msgid "An error occured"
 msgstr ""
 
-#: src/widgets/library-dialog.vala:182
+#: src/widgets/library-dialog.vala:132
 msgid "When trying to remove the shortcut in Steam an error occured."
 msgstr ""
 
-#: src/widgets/library-dialog.vala:182 src/widgets/library-dialog.vala:194
+#: src/widgets/library-dialog.vala:132 src/widgets/library-dialog.vala:144
+#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:49
 msgid "Please report this issue on GitHub."
 msgstr ""
 
-#: src/widgets/library-dialog.vala:194
+#: src/widgets/library-dialog.vala:144
 msgid "When trying to create the shortcut in Steam an error occured."
+msgstr ""
+
+#: src/widgets/library-dialog.vala:171
+msgid ""
+"Please make sure to select at least one game before using the mass edit "
+"feature."
+msgstr ""
+
+#: src/widgets/game-row.vala:27
+msgid "Open AreWeAntiCheatYet page"
+msgstr ""
+
+#: src/widgets/game-row.vala:56
+msgid "Open ProtonDB page"
+msgstr ""
+
+#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:49
+msgid ""
+"When trying to change the compatibility tool of a game an error occured."
+msgstr ""
+
+#: src/widgets/mass-edit-dialog.vala:15
+msgid "games selected"
+msgstr ""
+
+#: src/widgets/mass-edit-dialog.vala:17
+msgid "Apply"
 msgstr ""
 
 #: src/widgets/window.vala:50
