@@ -14,19 +14,20 @@ namespace ProtonPlus.Models {
         public string awacy_name { get; set; }
         public string awacy_status { get; set; }
         public string compat_tool { get; set; }
-        public Launchers.Steam steam_launcher { get; set; }
+        public Launchers.Steam launcher { get; set; }
 
-        public Game(int appid, string name, string installdir, int library_folder_id, string library_folder_path, Launchers.Steam steam_launcher) {
+        public Game(int appid, string name, string installdir, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
             this.appid = appid;
             this.name = name;
             this.installdir = installdir;
             this.library_folder_id = library_folder_id;
             this.library_folder_path = library_folder_path;
-            this.steam_launcher = steam_launcher;
+            this.launcher = launcher;
         }
 
         public bool set_compatibility_tool(string compat_tool) {
-            var config_path = "%s/config/config.vdf".printf(steam_launcher.directory);
+            return false;
+            var config_path = "%s/config/config.vdf".printf(launcher.directory);
             var config_content = Utils.Filesystem.get_file_content(config_path);
             var compat_tool_mapping_content = "";
             var compat_tool_mapping_item = "";
@@ -70,7 +71,9 @@ namespace ProtonPlus.Models {
                 if (compat_tool_mapping_item_appid != appid)
                     continue;
 
-                start_text = "name\"\t\t\"";
+                message("found");
+
+                start_text = "name\"\t\"";
                 end_text = "\"";
                 start_pos = compat_tool_mapping_item.index_of(start_text, 0) + start_text.length;
                 end_pos = compat_tool_mapping_item.index_of(end_text, start_pos);
@@ -83,14 +86,18 @@ namespace ProtonPlus.Models {
 
                 Utils.Filesystem.modify_file(config_path, config_content_modified);
 
+                this.compat_tool = compat_tool;
+
                 return true;
             }
 
+            message("not found");
+
             var line1 = "\n\t\t\t\t\t\"%i\"\n".printf(appid);
             var line2 = "\t\t\t\t\t{\n";
-            var line3 = "\t\t\t\t\t\t\"name\"\t\"%s\"\n".printf(compat_tool);
-            var line4 = "\t\t\t\t\t\t\"config\"\t\"%s\"\n".printf("");
-            var line5 = "\t\t\t\t\t\t\"priority\"\t\"%i\"\n".printf(250);
+            var line3 = "\t\t\t\t\t\t\"name\"\t\t\"%s\"\n".printf(compat_tool);
+            var line4 = "\t\t\t\t\t\t\"config\"\t\t\"%s\"\n".printf("");
+            var line5 = "\t\t\t\t\t\t\"priority\"\t\t\"%i\"\n".printf(250);
             var line6 = "\t\t\t\t\t}";
             var new_item = line1 + line2 + line3 + line4 + line5 + line6;
 
@@ -99,6 +106,8 @@ namespace ProtonPlus.Models {
             var config_content_modified = config_content.replace(compat_tool_mapping_item, compat_tool_mapping_item_modified);
 
             Utils.Filesystem.modify_file(config_path, config_content_modified);
+
+            this.compat_tool = compat_tool;
 
             return true;
         }
