@@ -1,7 +1,7 @@
 namespace ProtonPlus.Models.Runners {
     public abstract class GitLab : Basic {
-        internal bool use_name_instead_of_tag_name { get; set; } // TODO Describe this
-        internal string[] request_asset_exclude { get; set; } // TODO Describe this
+        internal bool use_name_instead_of_tag_name { get; set; }
+        internal string[] request_asset_exclude { get; set; }
 
         public override async List<Release> load () {
             var temp_releases = new List<Release> ();
