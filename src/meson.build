@@ -83,7 +83,7 @@ protonplus_deps = [
 ]
 
 executable(
-  meson.project_name(),
+  meson.project_name().split('.')[2].to_lower(),
   ui_gresource,
   css_gresource,
   icons_gresource,
