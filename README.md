@@ -59,7 +59,7 @@
 
 - [git](https://github.com/git/git)
 - [ninja](https://github.com/ninja-build/ninja)
-- [meson >= 0.62.0](https://github.com/mesonbuild/meson)
+- [meson >= 1.0.0](https://github.com/mesonbuild/meson)
 - [gtk4](https://gitlab.gnome.org/GNOME/gtk/)
 - [libadwaita >= 1.5](https://gitlab.gnome.org/GNOME/libadwaita)
 - [json-glib](https://gitlab.gnome.org/GNOME/json-glib)
