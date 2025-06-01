@@ -51,7 +51,7 @@
 
 ### [Ubuntu (Pacstall)](https://pacstall.dev/packages/protonplus) (Maintained by xdavius)
 
-### [openSUSE](https://software.opensuse.org/package/ProtonPlus) (Maintained by unknown)
+### [openSUSE](https://software.opensuse.org/package/ProtonPlus) (Maintained by rrahl0)
 
 ## 🏗️ Building from source
 
