@@ -4,7 +4,7 @@ runtime-version: '48'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.vala
-command: com.vysp3r.ProtonPlus
+command: protonplus
 finish-args:
   - --device=dri
   - --share=ipc
