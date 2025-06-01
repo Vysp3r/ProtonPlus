@@ -75,15 +75,18 @@
     ```bash
     sudo dnf install \
       git \
-      ninja-build \
-      meson \
-      gtk4-devel \
-      libadwaita-devel \
-      json-glib-devel \
-      libsoup3-devel \
-      libarchive-devel \
+      gettext \
+      'meson >= 1.0.0'\
+      vala \
       desktop-file-utils \
-      libgee-devel
+      libappstream-glib \
+      'pkgconfig(gee-0.8)' \
+      'pkgconfig(glib-2.0)' \
+      'pkgconfig(gtk4)' \
+      'pkgconfig(json-glib-1.0)' \
+      'pkgconfig(libadwaita-1) >= 1.5' \
+      'pkgconfig(libarchive)' \
+      'pkgconfig(libsoup-3.0)'
     ```
 
 2. Clone the GitHub repo and change to repo directory
