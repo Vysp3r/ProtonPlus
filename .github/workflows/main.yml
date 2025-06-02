@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - name: Prepare
-      run: sudo apt install gettext valac meson libadwaita-1-dev libarchive-dev libgee-0.8-dev libgtk-4-dev libjson-glib-dev libsoup-3.0-dev desktop-file-utils appstream-util
+      run: |
+        sudo apt update
+        sudo apt install gettext valac meson libadwaita-1-dev libarchive-dev libgee-0.8-dev libgtk-4-dev libjson-glib-dev libsoup-3.0-dev desktop-file-utils appstream-util
     - name: Build
       run: |
         mkdir build
