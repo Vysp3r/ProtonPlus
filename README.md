@@ -27,7 +27,7 @@
 </p>
 
 <p align="center">
-    Don't forget to star the repo if you are enjoying the project!</i>
+    Don't forget to star the repo if you are enjoying the projefct!</i>
 </p>
 
 [<img alt='Preview 1' src='data/previews/Preview-1.png' />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
