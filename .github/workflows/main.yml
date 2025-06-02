@@ -1,9 +1,6 @@
 name: Build & Test (WIP)
 
 on: 
-  push:
-    branches:
-      - main
   pull_request:
     branches:
     - main
@@ -13,12 +10,17 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps: 
-    - name: Prepare
+    - name: Install dependencies
       run: |
         sudo apt update
         sudo apt install gettext valac meson libadwaita-1-dev libarchive-dev libgee-0.8-dev libgtk-4-dev libjson-glib-dev libsoup-3.0-dev desktop-file-utils appstream-util
+    - name: Checkout
+      uses: actions/checkout@v4.2.2
+      with:
+          ref: ${{ github.event.pull_request.head.sha }}
     - name: Build
       run: |
+        ls
         mkdir build
         meson --prefix=/usr build
         meson compile -C build
