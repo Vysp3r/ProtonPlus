@@ -51,7 +51,7 @@
   </keywords>
 
   <!-- Requered: Should be a link to the upstream homepage for the component -->
-  <url type="homepage">https://vysp3r.github.io/ProtonPlus/</url>
+  <url type="homepage">https://protonplus.vysp3r.com/</url>
   <!-- Recommended: It is highly recommended for open-source projects to display the source code repository -->
   <url type="vcs-browser">https://github.com/Vysp3r/ProtonPlus</url>
   <!-- Should point to the software's bug tracking system, for users to report new bugs -->
