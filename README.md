@@ -105,7 +105,7 @@
 
 4. (Optional) Install the application
     ```bash
-    cd build-native
+    cd build-nativea
     ninja install
     ```
 
