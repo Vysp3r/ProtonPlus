@@ -6,8 +6,8 @@ on:
     - main
 
 jobs:
-  build:
-    name: Build
+  native-build:
+    name: "Native Build"
     runs-on: ubuntu-latest
     steps: 
     - name: Install dependencies
@@ -25,3 +25,19 @@ jobs:
         meson compile -C build
     - name: Check
       run: 'meson test -C build --print-errorlogs || :'
+
+  flatpak-build:
+    name: "Flatpak Build"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
+      options: --privileged
+    steps:
+    - name: Checkout pull request
+      uses: actions/checkout@v4
+    - name: Build
+      uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      with:
+        bundle: protonplus.flatpak
+        manifest-path: com.vysp3r.ProtonPlus.local.yml
+        cache-key: flatpak-builder-${{ github.sha }}
