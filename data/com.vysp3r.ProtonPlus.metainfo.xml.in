@@ -82,6 +82,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.4.32" date="2025-06-02">
+      <description>
+        <ul>
+          <li>🌐 Updated Portuguese localization</li>
+          <li>🌐 Updated Indonesian localization</li>
+          <li>🌐 Updated French localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.31" date="2025-05-25">
       <description>
         <ul>
