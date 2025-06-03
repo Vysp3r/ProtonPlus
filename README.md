@@ -49,7 +49,7 @@
 
 ### [NixOS (MyNixOS)](https://mynixos.com/nixpkgs/package/protonplus) (Maintained by Seth)
 
-### [Ubuntu (Pacstall)](https://pacstall.dev/packages/protonplus) (Maintained by xdavius)
+### [Ubuntu (Pacstall)](https://pacstall.dev/packages/protonplus) (Maintained by xdavius and Vysp3r)
 
 ### [openSUSE](https://software.opensuse.org/package/ProtonPlus) (Maintained by rrahl0)
 
