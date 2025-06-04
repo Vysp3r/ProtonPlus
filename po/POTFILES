@@ -53,6 +53,7 @@ src/models/runners/proton-sarek-async.vala
 src/models/runners/vkd3d-lutris.vala
 src/models/runners/vkd3d-proton.vala
 src/models/runners/other.vala
+src/models/runners/installed.vala
 src/models/runners/steamtinkerlaunch.vala
 src/models/releases/basic.vala
 src/models/releases/basic.vala

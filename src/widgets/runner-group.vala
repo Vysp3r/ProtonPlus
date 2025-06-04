@@ -47,7 +47,7 @@ namespace ProtonPlus.Widgets {
                         if (title == "LegacyRuntime")
                             continue;
 
-                        var runner = new Models.Runners.Proton_GE(group); // FIXME This should be replaced by it's own model instead of using Proton_GE
+                        var runner = new Models.Runners.Installed(group);
                         var release = new Models.Releases.Basic.simple(runner, title, directory_path + "/" + title);
 
                         var remove_button = new Gtk.Button.from_icon_name("trash-symbolic");
@@ -117,7 +117,8 @@ namespace ProtonPlus.Widgets {
             if (rows == null)return;
 
             foreach (var row in rows) {
-                remove(row);
+                if (row.parent != null)
+                    remove(row);
             }
 
             rows = new List<Adw.PreferencesRow> ();

@@ -65,6 +65,7 @@ protonplus_sources = files(
   'models/runners/dxvk-doitsujin.vala',
   'models/runners/vkd3d-lutris.vala',
   'models/runners/vkd3d-proton.vala',
+  'models/runners/installed.vala',
 
   'models/releases/basic.vala',
   'models/releases/github-action.vala',

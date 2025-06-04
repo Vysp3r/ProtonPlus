@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 18:12-0400\n"
+"POT-Creation-Date: 2025-06-03 20:05-0400\n"
 "PO-Revision-Date: 2025-06-02 20:08-0400\n"
 "Last-Translator: Vysp3r <dev@vysp3r.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -55,8 +55,8 @@ msgstr "Afficher/cacher les logs"
 msgid "Closing in"
 msgstr "Fermeture dans"
 
-#: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:50
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:54
+#: src/widgets/runner-group.vala:66 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, c-format
 msgid "Delete %s"
@@ -71,23 +71,23 @@ msgstr "Installé %s"
 msgid "Show more information"
 msgstr "Afficher plus d'informations"
 
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/runner-group.vala:66 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 #, c-format
 msgid "You're about to remove %s from your system."
 msgstr "Vous êtes sur le point de supprimer %s de votre système."
 
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
+#: src/widgets/runner-group.vala:66 src/widgets/release-rows/basic.vala:34
 #: src/widgets/release-rows/steamtinkerlaunch.vala:110
 msgid "Are you sure you want this?"
 msgstr "Voulez-vous vraiment supprimer ceci?"
 
-#: src/widgets/runner-group.vala:64 src/widgets/release-rows/basic.vala:36
+#: src/widgets/runner-group.vala:68 src/widgets/release-rows/basic.vala:36
 #: src/widgets/release-rows/steamtinkerlaunch.vala:114
 msgid "No"
 msgstr "Non"
 
-#: src/widgets/runner-group.vala:65 src/widgets/release-rows/basic.vala:37
+#: src/widgets/runner-group.vala:69 src/widgets/release-rows/basic.vala:37
 #: src/widgets/release-rows/steamtinkerlaunch.vala:115
 msgid "Yes"
 msgstr "Oui"
@@ -95,6 +95,85 @@ msgstr "Oui"
 #: src/widgets/load-more-row.vala:8 src/widgets/load-more-row.vala:17
 msgid "Load more"
 msgstr "Charger plus"
+
+#: src/widgets/library-dialog.vala:30
+msgid "Mass edit"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:33
+#, fuzzy
+msgid "Mass edit the compatibility tool of the selected games"
+msgstr "Outil de compatibilité Steam pour exécuter des jeux Windows"
+
+#: src/widgets/library-dialog.vala:72
+msgid "Game library of"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:117
+msgid "Create shortcut"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:117
+msgid "Remove shortcut"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:118
+msgid "Create a shortcut of ProtonPlus in Steam"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:118
+msgid "Remove the shortcut of ProtonPlus in Steam"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:132 src/widgets/library-dialog.vala:144
+msgid "An error occured"
+msgstr ""
+
+#: src/widgets/library-dialog.vala:132
+msgid "When trying to remove the shortcut in Steam an error occured."
+msgstr ""
+
+#: src/widgets/library-dialog.vala:132 src/widgets/library-dialog.vala:144
+#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:71
+msgid "Please report this issue on GitHub."
+msgstr ""
+
+#: src/widgets/library-dialog.vala:144
+msgid "When trying to create the shortcut in Steam an error occured."
+msgstr ""
+
+#: src/widgets/library-dialog.vala:170
+msgid ""
+"Please make sure to select at least one game before using the mass edit "
+"feature."
+msgstr ""
+
+#: src/widgets/game-row.vala:27
+msgid "Open AreWeAntiCheatYet page"
+msgstr ""
+
+#: src/widgets/game-row.vala:56
+msgid "Open ProtonDB page"
+msgstr ""
+
+#: src/widgets/game-row.vala:97
+#, c-format
+msgid "When trying to change the compatibility tool of %s an error occured."
+msgstr ""
+
+#: src/widgets/mass-edit-dialog.vala:14
+msgid "games selected"
+msgstr ""
+
+#: src/widgets/mass-edit-dialog.vala:16
+msgid "Apply"
+msgstr ""
+
+#: src/widgets/mass-edit-dialog.vala:71
+msgid ""
+"When trying to change the compatibility tool of the selected games an error "
+"occured for the following games"
+msgstr ""
 
 #: src/widgets/window.vala:50
 #, c-format
@@ -110,7 +189,7 @@ msgstr ""
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Un gestionnaire simple d’outils de compatibilité pour Linux."
 
-#: src/widgets/application.vala:84
+#: src/widgets/application.vala:85
 msgid "Special thanks to"
 msgstr "Remerciements à"
 
@@ -233,7 +312,7 @@ msgstr "La suppression de %s est complété."
 msgid "An unexpected error occurred while removing %s."
 msgstr "Une erreur inattendue s’est produite lors de l’extraction de %s."
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:33
+#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
 msgstr "Outils de compatibilité"
 
@@ -451,10 +530,6 @@ msgstr "Une erreur inattendue s’est produite lors de la mise à jour de %s."
 #, fuzzy
 #~ msgid "Not Available"
 #~ msgstr "Non disponible"
-
-#, fuzzy
-#~ msgid "Steam compatibility tool for running Windows games."
-#~ msgstr "Outil de compatibilité Steam pour exécuter des jeux Windows"
 
 #, fuzzy
 #~ msgid "Wine is a program which allows running Microsoft Windows programs."

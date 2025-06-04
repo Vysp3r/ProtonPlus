@@ -6,13 +6,12 @@ namespace ProtonPlus.Widgets {
         Gtk.DropDown compat_tool_dropdown { get; set; }
         Gtk.Button apply_button { get; set; }
         Gtk.Box box { get; set; }
-        Models.Game[] games;
-        public signal void reload ();
+        GameRow[] rows;
 
-        public MassEditDialog(Models.Game[] games, ListStore model, Gtk.PropertyExpression expression) {
-            this.games = games;
+        public MassEditDialog(GameRow[] rows, ListStore model, Gtk.PropertyExpression expression) {
+            this.rows = rows;
 
-            window_title = new Adw.WindowTitle("Mass edit", "%u %s".printf(games.length, _("games selected")));
+            window_title = new Adw.WindowTitle("Mass edit", "%u %s".printf(rows.length, _("games selected")));
 
             apply_button = new Gtk.Button.with_label(_("Apply"));
             apply_button.clicked.connect(apply_button_clicked);
@@ -36,22 +35,43 @@ namespace ProtonPlus.Widgets {
 
         void apply_button_clicked() {
             var item = (Models.Launchers.Steam.RunnerDropDownItem) compat_tool_dropdown.get_selected_item();
-            var success = true;
+            var valids = new List<GameRow> ();
+            var invalids = new List<string> ();
 
-            foreach (var game in games) {
-                message(game.name + " - " + game.appid.to_string());
-                success = game.set_compatibility_tool(item.title);
+            foreach (var row in rows) {
+                var success = row.game.set_compatibility_tool(item.title);
                 if (!success)
-                    break;
+                    invalids.append(row.game.name);
+                else
+                    valids.append(row);
             }
 
-            if (!success) {
-                var dialog = new Adw.AlertDialog(_("An error occured"), "%s\n%s".printf(_("When trying to change the compatibility tool of a game an error occured."), _("Please report this issue on GitHub.")));
+            if (valids.length() > 0) {
+                foreach (var row in valids) {
+                    row.skip = true;
+                    for (var i = 0; i < row.game.launcher.compat_tools.length(); i++) {
+                        if (row.game.compat_tool == row.game.launcher.compat_tools.nth_data(i).title) {
+                            row.compat_tool_dropdown.set_selected(i);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (invalids.length() > 0) {
+                var names = "";
+
+                for (var i = 0; i < invalids.length(); i++) {
+                    names += "- %s".printf(invalids.nth_data(i));
+
+                    if (i != invalids.length() - 1)
+                        names += "\n";
+                }
+
+                var dialog = new Adw.AlertDialog(null, "%s:\n%s\n%s".printf(_("When trying to change the compatibility tool of the selected games an error occured for the following games"), names, _("Please report this issue on GitHub.")));
                 dialog.add_response("ok", "OK");
                 dialog.present(Application.window);
             }
-
-            reload(); //TODO Make it so it doesn't reload the whole page, but only the selected rows
 
             close();
         }

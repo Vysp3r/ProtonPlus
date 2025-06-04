@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-28 22:09-0400\n"
+"POT-Creation-Date: 2025-06-03 20:05-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -121,8 +121,6 @@ msgid "Remove the shortcut of ProtonPlus in Steam"
 msgstr ""
 
 #: src/widgets/library-dialog.vala:132 src/widgets/library-dialog.vala:144
-#: src/widgets/library-dialog.vala:171 src/widgets/game-row.vala:97
-#: src/widgets/mass-edit-dialog.vala:49
 msgid "An error occured"
 msgstr ""
 
@@ -131,7 +129,7 @@ msgid "When trying to remove the shortcut in Steam an error occured."
 msgstr ""
 
 #: src/widgets/library-dialog.vala:132 src/widgets/library-dialog.vala:144
-#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:49
+#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:71
 msgid "Please report this issue on GitHub."
 msgstr ""
 
@@ -139,7 +137,7 @@ msgstr ""
 msgid "When trying to create the shortcut in Steam an error occured."
 msgstr ""
 
-#: src/widgets/library-dialog.vala:171
+#: src/widgets/library-dialog.vala:170
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
@@ -153,17 +151,23 @@ msgstr ""
 msgid "Open ProtonDB page"
 msgstr ""
 
-#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:49
-msgid ""
-"When trying to change the compatibility tool of a game an error occured."
+#: src/widgets/game-row.vala:97
+#, c-format
+msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
-#: src/widgets/mass-edit-dialog.vala:15
+#: src/widgets/mass-edit-dialog.vala:14
 msgid "games selected"
 msgstr ""
 
-#: src/widgets/mass-edit-dialog.vala:17
+#: src/widgets/mass-edit-dialog.vala:16
 msgid "Apply"
+msgstr ""
+
+#: src/widgets/mass-edit-dialog.vala:71
+msgid ""
+"When trying to change the compatibility tool of the selected games an error "
+"occured for the following games"
 msgstr ""
 
 #: src/widgets/window.vala:50
@@ -179,7 +183,7 @@ msgstr ""
 msgid "A modern compatibility tools manager for Linux."
 msgstr ""
 
-#: src/widgets/application.vala:84
+#: src/widgets/application.vala:85
 msgid "Special thanks to"
 msgstr ""
 

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-28 22:09-0400\n"
+"POT-Creation-Date: 2025-06-03 20:05-0400\n"
 "PO-Revision-Date: 2025-03-12 09:23+0800\n"
 "Last-Translator: Zemin Ha <ruojiner@hotmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -123,8 +123,6 @@ msgid "Remove the shortcut of ProtonPlus in Steam"
 msgstr ""
 
 #: src/widgets/library-dialog.vala:132 src/widgets/library-dialog.vala:144
-#: src/widgets/library-dialog.vala:171 src/widgets/game-row.vala:97
-#: src/widgets/mass-edit-dialog.vala:49
 msgid "An error occured"
 msgstr ""
 
@@ -133,7 +131,7 @@ msgid "When trying to remove the shortcut in Steam an error occured."
 msgstr ""
 
 #: src/widgets/library-dialog.vala:132 src/widgets/library-dialog.vala:144
-#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:49
+#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:71
 msgid "Please report this issue on GitHub."
 msgstr ""
 
@@ -141,7 +139,7 @@ msgstr ""
 msgid "When trying to create the shortcut in Steam an error occured."
 msgstr ""
 
-#: src/widgets/library-dialog.vala:171
+#: src/widgets/library-dialog.vala:170
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
@@ -155,17 +153,23 @@ msgstr ""
 msgid "Open ProtonDB page"
 msgstr ""
 
-#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:49
-msgid ""
-"When trying to change the compatibility tool of a game an error occured."
+#: src/widgets/game-row.vala:97
+#, c-format
+msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
-#: src/widgets/mass-edit-dialog.vala:15
+#: src/widgets/mass-edit-dialog.vala:14
 msgid "games selected"
 msgstr ""
 
-#: src/widgets/mass-edit-dialog.vala:17
+#: src/widgets/mass-edit-dialog.vala:16
 msgid "Apply"
+msgstr ""
+
+#: src/widgets/mass-edit-dialog.vala:71
+msgid ""
+"When trying to change the compatibility tool of the selected games an error "
+"occured for the following games"
 msgstr ""
 
 #: src/widgets/window.vala:50
@@ -181,7 +185,7 @@ msgstr "安装Steam，Lutris，Bottles或Heroic Game Launcher 即可开始使用
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Linux的现代兼容性工具管理器"
 
-#: src/widgets/application.vala:84
+#: src/widgets/application.vala:85
 msgid "Special thanks to"
 msgstr "特别感谢"
 

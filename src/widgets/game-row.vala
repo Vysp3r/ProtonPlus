@@ -1,13 +1,13 @@
 namespace ProtonPlus.Widgets {
     public class GameRow : Gtk.ListBoxRow {
-        Gtk.DropDown compat_tool_dropdown { get; set; }
+        public Gtk.DropDown compat_tool_dropdown { get; set; }
         Gtk.Button anticheat_button { get; set; }
         Gtk.Image protondb_image { get; set; }
         Gtk.Button protondb_button { get; set; }
         Gtk.Label title_label { get; set; }
         Gtk.Box box { get; set; }
         public Models.Game game { get; set; }
-        bool skip { get; set; }
+        public bool skip { get; set; }
 
         public GameRow(Models.Game game, ListStore model, Gtk.PropertyExpression expression) {
             this.game = game;
@@ -94,9 +94,11 @@ namespace ProtonPlus.Widgets {
 
             var success = game.set_compatibility_tool(item.title);
             if (!success) {
-                var dialog = new Adw.AlertDialog(_("An error occured"), "%s\n%s".printf(_("When trying to change the compatibility tool of a game an error occured."), _("Please report this issue on GitHub.")));
+                var dialog = new Adw.AlertDialog(null, "%s\n%s".printf(_("When trying to change the compatibility tool of %s an error occured.").printf(game.name), _("Please report this issue on GitHub.")));
                 dialog.add_response("ok", "OK");
                 dialog.present(Application.window);
+
+                skip = true;
 
                 for (var i = 0; i < game.launcher.compat_tools.length(); i++) {
                     if (game.compat_tool == game.launcher.compat_tools.nth_data(i).title) {
@@ -104,8 +106,6 @@ namespace ProtonPlus.Widgets {
                         break;
                     }
                 }
-
-                skip = true;
             }
         }
     }

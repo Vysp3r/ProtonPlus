@@ -26,7 +26,6 @@ namespace ProtonPlus.Models {
         }
 
         public bool set_compatibility_tool(string compat_tool) {
-            return false;
             var config_path = "%s/config/config.vdf".printf(launcher.directory);
             var config_content = Utils.Filesystem.get_file_content(config_path);
             var compat_tool_mapping_content = "";
@@ -71,9 +70,7 @@ namespace ProtonPlus.Models {
                 if (compat_tool_mapping_item_appid != appid)
                     continue;
 
-                message("found");
-
-                start_text = "name\"\t\"";
+                start_text = "name\"\t\t\"";
                 end_text = "\"";
                 start_pos = compat_tool_mapping_item.index_of(start_text, 0) + start_text.length;
                 end_pos = compat_tool_mapping_item.index_of(end_text, start_pos);
@@ -90,8 +87,6 @@ namespace ProtonPlus.Models {
 
                 return true;
             }
-
-            message("not found");
 
             var line1 = "\n\t\t\t\t\t\"%i\"\n".printf(appid);
             var line2 = "\t\t\t\t\t{\n";

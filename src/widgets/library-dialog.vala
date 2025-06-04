@@ -156,19 +156,18 @@ namespace ProtonPlus.Widgets {
 
         void mass_edit_button_clicked() {
             var rows = game_list_box.get_selected_rows();
-            
+
             if (rows.length() > 0) {
-                var games = new Models.Game[rows.length()];
+                var game_rows = new GameRow[rows.length()];
                 for (var i = 0; i < rows.length(); i++) {
                     var game_row = (GameRow) rows.nth_data(i);
-                    games[i] = game_row.game;
+                    game_rows[i] = game_row;
                 }
-                
-                var mass_edit_dialog = new MassEditDialog(games, compat_tools_liststore, compat_tools_expression);
-                mass_edit_dialog.reload.connect(load);
+
+                var mass_edit_dialog = new MassEditDialog(game_rows, compat_tools_liststore, compat_tools_expression);
                 mass_edit_dialog.present(Application.window);
             } else {
-                var dialog = new Adw.AlertDialog(_("An error occured"), _("Please make sure to select at least one game before using the mass edit feature."));
+                var dialog = new Adw.AlertDialog(null, _("Please make sure to select at least one game before using the mass edit feature."));
                 dialog.add_response("ok", "OK");
                 dialog.present(Application.window);
             }
