@@ -94,7 +94,7 @@ namespace ProtonPlus.Widgets {
 
             var success = game.set_compatibility_tool(item.title);
             if (!success) {
-                var dialog = new Adw.AlertDialog(null, "%s\n%s".printf(_("When trying to change the compatibility tool of %s an error occured.").printf(game.name), _("Please report this issue on GitHub.")));
+                var dialog = new Adw.AlertDialog(_("Error"), "%s\n%s".printf(_("When trying to change the compatibility tool of %s an error occured.").printf(game.name), _("Please report this issue on GitHub.")));
                 dialog.add_response("ok", "OK");
                 dialog.present(Application.window);
 

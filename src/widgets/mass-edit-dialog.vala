@@ -68,7 +68,7 @@ namespace ProtonPlus.Widgets {
                         names += "\n";
                 }
 
-                var dialog = new Adw.AlertDialog(null, "%s:\n%s\n%s".printf(_("When trying to change the compatibility tool of the selected games an error occured for the following games"), names, _("Please report this issue on GitHub.")));
+                var dialog = new Adw.AlertDialog(_("Error"), "%s:\n%s\n%s".printf(_("When trying to change the compatibility tool of the selected games an error occured for the following games"), names, _("Please report this issue on GitHub.")));
                 dialog.add_response("ok", "OK");
                 dialog.present(Application.window);
             }

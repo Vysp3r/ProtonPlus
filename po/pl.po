@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-05 16:19-0400\n"
+"POT-Creation-Date: 2025-06-05 18:34-0400\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -81,11 +81,11 @@ msgid "Library"
 msgstr ""
 
 #: src/widgets/library-box.vala:140
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:47
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:135
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:150
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:154
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:43
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:89
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:130
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:145
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:149
 msgid "Warning"
 msgstr ""
 
@@ -103,14 +103,21 @@ msgstr ""
 msgid "Open ProtonDB page"
 msgstr ""
 
+#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:71
+#: src/widgets/remove-dialog.vala:49 src/widgets/install-dialog.vala:54
+#: src/widgets/upgrade-dialog.vala:56 src/widgets/shortcut-button.vala:36
+#: src/widgets/shortcut-button.vala:48
+msgid "Error"
+msgstr ""
+
 #: src/widgets/game-row.vala:97
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
 #: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:71
-#: src/widgets/remove-dialog.vala:51 src/widgets/install-dialog.vala:47
-#: src/widgets/upgrade-dialog.vala:47 src/widgets/shortcut-button.vala:36
+#: src/widgets/remove-dialog.vala:49 src/widgets/install-dialog.vala:54
+#: src/widgets/upgrade-dialog.vala:56 src/widgets/shortcut-button.vala:36
 #: src/widgets/shortcut-button.vala:48
 msgid "Please report this issue on GitHub."
 msgstr ""
@@ -154,47 +161,42 @@ msgid "Are you sure you want to proceed?"
 msgstr "Jesteś pewien, że chcesz usunąć "
 
 #: src/widgets/remove-dialog.vala:30
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:91
 msgid "No"
 msgstr ""
 
 #: src/widgets/remove-dialog.vala:31
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
 msgid "Yes"
 msgstr ""
 
-#: src/widgets/remove-dialog.vala:51 src/widgets/install-dialog.vala:47
-#: src/widgets/upgrade-dialog.vala:47 src/widgets/shortcut-button.vala:36
-#: src/widgets/shortcut-button.vala:48
-msgid "Error"
-msgstr ""
-
-#: src/widgets/remove-dialog.vala:51
+#: src/widgets/remove-dialog.vala:49
 #, c-format
 msgid "When trying to remove %s an error occured."
 msgstr ""
 
-#: src/widgets/install-dialog.vala:19 src/widgets/upgrade-dialog.vala:19
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:94
+#: src/widgets/install-dialog.vala:23 src/widgets/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr ""
 
-#: src/widgets/install-dialog.vala:47
+#: src/widgets/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occured."
 msgstr ""
 
-#: src/widgets/install-dialog.vala:70 src/widgets/upgrade-dialog.vala:69
+#: src/widgets/install-dialog.vala:76 src/widgets/upgrade-dialog.vala:78
 msgid "Downloading"
 msgstr ""
 
-#: src/widgets/install-dialog.vala:73 src/widgets/upgrade-dialog.vala:72
+#: src/widgets/install-dialog.vala:79 src/widgets/upgrade-dialog.vala:81
 msgid "Extracting"
 msgstr ""
 
-#: src/widgets/install-dialog.vala:76
+#: src/widgets/install-dialog.vala:82
 msgid "Renaming"
 msgstr ""
 
-#: src/widgets/install-dialog.vala:79
+#: src/widgets/install-dialog.vala:85
 #, fuzzy
 msgid "Running post install script"
 msgstr "Instalacja "
@@ -204,7 +206,7 @@ msgstr "Instalacja "
 msgid "Upgrade %s"
 msgstr ""
 
-#: src/widgets/upgrade-dialog.vala:47
+#: src/widgets/upgrade-dialog.vala:56
 #, c-format
 msgid "When trying to upgrade %s an error occured."
 msgstr ""
@@ -259,58 +261,57 @@ msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
 msgid "Special thanks to"
 msgstr "Specjalne podziękowania dla"
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:47
+#: src/widgets/release-rows/installed-row.vala:30
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:118
+msgid "Check this to also remove your configuration files."
+msgstr ""
+
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:47
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:43
 #, fuzzy
 msgid "Installation will be canceled."
 msgstr "Instalacja "
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:49
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:95
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:160
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:45
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:155
 msgid "OK"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:89
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
-#, c-format
-msgid "Do you want to delete it and install %s with ProtonPlus?"
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:89
+msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:123
-msgid "Check this to also remove your configuration files."
-msgstr ""
-
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:135
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:150
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:145
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:154
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:149
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:180
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:175
 msgid "Up-to-date"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:180
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:175
 msgid "Update to the latest version"
 msgstr ""
 

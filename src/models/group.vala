@@ -35,7 +35,7 @@ namespace ProtonPlus.Models {
                             continue;
 
                         var title = file_info.get_name();
-
+                        
                         if (title != "LegacyRuntime")
                             directories.append(title);
                     }

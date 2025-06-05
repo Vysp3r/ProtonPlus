@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-05 16:19-0400\n"
+"POT-Creation-Date: 2025-06-05 18:34-0400\n"
 "PO-Revision-Date: 2025-05-25 01:30+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -81,11 +81,11 @@ msgid "Library"
 msgstr ""
 
 #: src/widgets/library-box.vala:140
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:47
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:135
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:150
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:154
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:43
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:89
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:130
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:145
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:149
 msgid "Warning"
 msgstr ""
 
@@ -103,14 +103,21 @@ msgstr ""
 msgid "Open ProtonDB page"
 msgstr ""
 
+#: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:71
+#: src/widgets/remove-dialog.vala:49 src/widgets/install-dialog.vala:54
+#: src/widgets/upgrade-dialog.vala:56 src/widgets/shortcut-button.vala:36
+#: src/widgets/shortcut-button.vala:48
+msgid "Error"
+msgstr ""
+
 #: src/widgets/game-row.vala:97
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
 #: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:71
-#: src/widgets/remove-dialog.vala:51 src/widgets/install-dialog.vala:47
-#: src/widgets/upgrade-dialog.vala:47 src/widgets/shortcut-button.vala:36
+#: src/widgets/remove-dialog.vala:49 src/widgets/install-dialog.vala:54
+#: src/widgets/upgrade-dialog.vala:56 src/widgets/shortcut-button.vala:36
 #: src/widgets/shortcut-button.vala:48
 msgid "Please report this issue on GitHub."
 msgstr ""
@@ -153,50 +160,45 @@ msgid "Are you sure you want to proceed?"
 msgstr "您確定要繼續嗎？"
 
 #: src/widgets/remove-dialog.vala:30
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:91
 msgid "No"
 msgstr "否"
 
 #: src/widgets/remove-dialog.vala:31
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
 msgid "Yes"
 msgstr "是"
 
-#: src/widgets/remove-dialog.vala:51 src/widgets/install-dialog.vala:47
-#: src/widgets/upgrade-dialog.vala:47 src/widgets/shortcut-button.vala:36
-#: src/widgets/shortcut-button.vala:48
-msgid "Error"
-msgstr ""
-
-#: src/widgets/remove-dialog.vala:51
+#: src/widgets/remove-dialog.vala:49
 #, c-format
 msgid "When trying to remove %s an error occured."
 msgstr ""
 
-#: src/widgets/install-dialog.vala:19 src/widgets/upgrade-dialog.vala:19
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:94
+#: src/widgets/install-dialog.vala:23 src/widgets/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "取消"
 
-#: src/widgets/install-dialog.vala:47
+#: src/widgets/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occured."
 msgstr ""
 
-#: src/widgets/install-dialog.vala:70 src/widgets/upgrade-dialog.vala:69
+#: src/widgets/install-dialog.vala:76 src/widgets/upgrade-dialog.vala:78
 #, fuzzy
 msgid "Downloading"
 msgstr "正在下載..."
 
-#: src/widgets/install-dialog.vala:73 src/widgets/upgrade-dialog.vala:72
+#: src/widgets/install-dialog.vala:79 src/widgets/upgrade-dialog.vala:81
 #, fuzzy
 msgid "Extracting"
 msgstr "正在解壓縮..."
 
-#: src/widgets/install-dialog.vala:76
+#: src/widgets/install-dialog.vala:82
 #, fuzzy
 msgid "Renaming"
 msgstr "正在重新命名..."
 
-#: src/widgets/install-dialog.vala:79
+#: src/widgets/install-dialog.vala:85
 #, fuzzy
 msgid "Running post install script"
 msgstr "正在運行安裝後的腳本..."
@@ -206,7 +208,7 @@ msgstr "正在運行安裝後的腳本..."
 msgid "Upgrade %s"
 msgstr "正在更新"
 
-#: src/widgets/upgrade-dialog.vala:47
+#: src/widgets/upgrade-dialog.vala:56
 #, c-format
 msgid "When trying to upgrade %s an error occured."
 msgstr ""
@@ -260,58 +262,58 @@ msgstr "適用於 Linux 的現代相容性工具管理程式。"
 msgid "Special thanks to"
 msgstr "特別感謝"
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:47
+#: src/widgets/release-rows/installed-row.vala:30
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:118
+msgid "Check this to also remove your configuration files."
+msgstr "勾選此選項也會移除設定檔。"
+
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "您缺少下列 %s 的相依性工具："
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:47
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:43
 msgid "Installation will be canceled."
 msgstr "安裝將被取消。"
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:49
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:95
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:160
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:45
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:155
 msgid "OK"
 msgstr "確定"
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:89
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr "看起來您目前有另一個版本的 %s，但不是透過 ProtonPlus 安裝的。"
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
-#, c-format
-msgid "Do you want to delete it and install %s with ProtonPlus?"
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:89
+#, fuzzy
+msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "您要移除它並使用 ProtonPlus 安裝 %s 嗎？"
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:123
-msgid "Check this to also remove your configuration files."
-msgstr "勾選此選項也會移除設定檔。"
-
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:135
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:130
 #, fuzzy, c-format
 msgid "%s is already up-to-date."
 msgstr "%s 已為最新版本"
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:150
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:145
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "若要為 %2$s 安裝 %1$s，請運行以下命令："
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:154
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:149
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "目前尚無已知的方法來為 %2$s 安裝 %1$s。"
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:180
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:175
 #, fuzzy
 msgid "Up-to-date"
 msgstr "%s 已為最新版本"
 
-#: src/widgets/release-rows/steamtinkerlaunch-row.vala:180
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:175
 #, fuzzy
 msgid "Update to the latest version"
 msgstr "更新 %s 至最新版本"

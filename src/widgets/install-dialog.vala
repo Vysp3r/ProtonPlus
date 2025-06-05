@@ -16,9 +16,16 @@ namespace ProtonPlus.Widgets {
 
             set_heading (_("Install %s").printf (release.title));
             set_extra_child (progress_bar);
-            add_response ("cancel", _("Cancel"));
-            set_response_appearance ("cancel", Adw.ResponseAppearance.DESTRUCTIVE);
-            set_close_response ("cancel");
+
+            if (release.title.contains ("SteamTinkerLaunch")) {
+                set_can_close (false); 
+            } else {
+                add_response ("cancel", _("Cancel"));
+                set_response_appearance ("cancel", Adw.ResponseAppearance.DESTRUCTIVE);
+                set_close_response ("cancel");
+
+                release.notify["progress"].connect (release_progress_changed);
+            }
 
             Timeout.add_full (Priority.DEFAULT, 25, () => {
                 if (stop)
@@ -30,8 +37,6 @@ namespace ProtonPlus.Widgets {
                 return true;
             });
 
-            release.notify["progress"].connect (release_progress_changed);
-
             release.notify["step"].connect (release_step_changed);
 
             release.install.begin ((obj, res) => {
@@ -39,9 +44,11 @@ namespace ProtonPlus.Widgets {
 
                 stop = true;
 
-                done (success);
+                set_can_close (true);
 
-                close ();
+                close();
+
+                done (success);
 
                 if (!success && !canceled) {
                     var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf (_("When trying to install %s an error occured.").printf (release.title), _("Please report this issue on GitHub.")));
@@ -64,7 +71,6 @@ namespace ProtonPlus.Widgets {
         }
 
         void release_step_changed () {
-            // TODO Improve text
             switch (release.step) {
             case Models.Release.Step.DOWNLOADING:
                 progress_bar.set_text (_("Downloading"));

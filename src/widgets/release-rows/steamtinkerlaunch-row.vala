@@ -12,21 +12,17 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             input_box.append (upgrade_button);
         }
 
-        public SteamTinkerLaunchRow (Models.Releases.SteamTinkerLaunch release, bool remove_only = false) {
+        public SteamTinkerLaunchRow (Models.Releases.SteamTinkerLaunch release) {
             this.release = release;
-            
-            if (remove_only) {
-                input_box.remove (install_button);
-                input_box.remove (upgrade_button);
-                input_box.remove (info_button);
-            } else if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
+
+            if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
                 input_box.remove (install_button);
                 input_box.remove (remove_button);
                 input_box.remove (upgrade_button);
             } else {
                 input_box.remove (info_button);
             }
-            
+
 
             release.notify["displayed-title"].connect (release_displayed_title_changed);
 
@@ -40,7 +36,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         protected override void install_button_clicked () {
             // Steam Deck doesn't need any external dependencies.
             if (!Utils.System.IS_STEAM_OS) {
-                dependency_check.begin ((obj,res) => {
+                dependency_check.begin ((obj, res) => {
                     var missing_dependencies = dependency_check.end (res);
 
                     if (missing_dependencies != "") {
@@ -52,11 +48,11 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
                         return;
                     } else {
-                        bob ();
+                        external_install_check ();
                     }
                 });
             } else {
-                bob ();
+                external_install_check ();
             }
         }
 
@@ -65,7 +61,8 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
             var yad_installed = false;
             if (yield Utils.System.check_dependency ("yad")) {
-                string stdout = yield  Utils.System.run_command ("yad --version");
+                string stdout = yield Utils.System.run_command ("yad --version");
+
                 float version = float.parse (stdout.split (" ")[0]);
                 yad_installed = version >= 7.2;
             }
@@ -85,25 +82,23 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             return missing_dependencies;
         }
 
-        void bob () {
+        void external_install_check () {
             var has_external_install = release.detect_external_locations ();
 
             if (has_external_install) {
-                var alert_dialog = new Adw.AlertDialog (_("Warning"), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title), _("Do you want to delete it and install %s with ProtonPlus?").printf (title)));
+                var alert_dialog = new Adw.AlertDialog (_("Warning"), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title.split(" ")[0]), _("Do you want to reinstall it with ProtonPlus?")));
 
-                alert_dialog.add_response ("cancel", _("Cancel"));
-                alert_dialog.add_response ("ok", _("OK"));
+                alert_dialog.add_response ("no", _("No"));
+                alert_dialog.add_response ("yes", _("Yes"));
 
-                alert_dialog.set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);
-                alert_dialog.set_response_appearance ("ok", Adw.ResponseAppearance.DESTRUCTIVE);
+                alert_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
+                alert_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
 
                 alert_dialog.choose.begin (Widgets.Application.window, null, (obj, res) => {
                     string response = alert_dialog.choose.end (res);
 
-                    if (response != "ok")
-                        return;
-
-                    start_install ();
+                    if (response == "yes")
+                        start_install ();
                 });
             } else {
                 start_install ();
