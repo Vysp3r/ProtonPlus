@@ -53,6 +53,8 @@
 
 ### [openSUSE](https://software.opensuse.org/package/ProtonPlus) (Maintained by rrahl0)
 
+### [Void](https://github.com/xJayMorex/ProtonPlus-void) (Maintained by xJayMorex)
+
 ## 🏗️ Building from source
 
 **Requirements**
