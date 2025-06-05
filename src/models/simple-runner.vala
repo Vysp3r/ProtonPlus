@@ -7,7 +7,6 @@ namespace ProtonPlus.Models {
             this.display_title = display_title;
 
             if (display_title == "SteamTinkerLaunch") {
-                message("bob");
                 this.display_title = "Steam Tinker Launch";
                 title = "Proton-stl";
             } else

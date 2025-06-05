@@ -32,9 +32,14 @@ namespace ProtonPlus.Widgets {
 
         void load_installed_only() {
             foreach (var directory in group.get_compatibility_tool_directories()) {
+                if (directory == "SteamTinkerLaunch") {
+                    continue;
+                }
+
                 var runner = new Models.Runners.Installed(group);
                 var release = new Models.Releases.Basic.simple(runner, directory, group.launcher.directory + group.directory + "/" + directory);
 
+                // TODO Add exception for STL
                 var row = new Widgets.ReleaseRows.InstalledRow(release);
                 row.remove_from_parent.connect(row_remove_from_parent);
 

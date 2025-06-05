@@ -46,10 +46,10 @@ namespace ProtonPlus.Widgets {
         void insert_loaded_releases (List<Models.Release> releases) {
             foreach (var release in releases) {
                 if (release is Models.Releases.Basic || release is Models.Releases.GitHubAction) {
-                    var row = new Widgets.ReleaseRows.Basic ((Models.Releases.Basic) release);
+                    var row = new Widgets.ReleaseRows.BasicRow ((Models.Releases.Basic) release);
                     add_row (row);
                 } else if (release is Models.Releases.SteamTinkerLaunch) {
-                    var row = new Widgets.ReleaseRows.SteamTinkerLaunch ((Models.Releases.SteamTinkerLaunch) release);
+                    var row = new Widgets.ReleaseRows.SteamTinkerLaunchRow ((Models.Releases.SteamTinkerLaunch) release);
                     add_row (row);
                 }
 

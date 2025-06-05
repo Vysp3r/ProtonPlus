@@ -42,12 +42,14 @@ namespace ProtonPlus.Widgets {
                     }
                 } else {
                     if (!status) {
-                        var success = launcher.install_shortcut(file);
-                        if (!success) {
-                            var dialog = new Adw.AlertDialog(_("Error"), "%s\n%s".printf(_("When trying to create the shortcut in Steam an error occured."), _("Please report this issue on GitHub.")));
-                            dialog.add_response("ok", "OK");
-                            dialog.present(Application.window);
-                        }
+                        launcher.install_shortcut.begin(file, (obj,res) => {
+                            var success = launcher.install_shortcut.end(res);
+                            if (!success) {
+                                var dialog = new Adw.AlertDialog(_("Error"), "%s\n%s".printf(_("When trying to create the shortcut in Steam an error occured."), _("Please report this issue on GitHub.")));
+                                dialog.add_response("ok", "OK");
+                                dialog.present(Application.window);
+                            }
+                        });
                     } else {
                         message("create but already installed");
                     }

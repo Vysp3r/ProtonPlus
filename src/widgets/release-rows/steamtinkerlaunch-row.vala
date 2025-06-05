@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets.ReleaseRows {
-    public class SteamTinkerLaunch : ReleaseRow {
+    public class SteamTinkerLaunchRow : ReleaseRow {
         public Gtk.Button upgrade_button { get; set; }
 
         Models.Releases.SteamTinkerLaunch release;
@@ -12,16 +12,21 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             input_box.append (upgrade_button);
         }
 
-        public SteamTinkerLaunch (Models.Releases.SteamTinkerLaunch release) {
+        public SteamTinkerLaunchRow (Models.Releases.SteamTinkerLaunch release, bool remove_only = false) {
             this.release = release;
-
-            if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
+            
+            if (remove_only) {
+                input_box.remove (install_button);
+                input_box.remove (upgrade_button);
+                input_box.remove (info_button);
+            } else if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
                 input_box.remove (install_button);
                 input_box.remove (remove_button);
                 input_box.remove (upgrade_button);
             } else {
                 input_box.remove (info_button);
             }
+            
 
             release.notify["displayed-title"].connect (release_displayed_title_changed);
 
@@ -35,38 +40,52 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         protected override void install_button_clicked () {
             // Steam Deck doesn't need any external dependencies.
             if (!Utils.System.IS_STEAM_OS) {
-                var missing_dependencies = "";
+                dependency_check.begin ((obj,res) => {
+                    var missing_dependencies = dependency_check.end (res);
 
-                var yad_installed = false;
-                if (Utils.System.check_dependency ("yad")) {
-                    string stdout = Utils.System.run_command ("yad --version");
-                    float version = float.parse (stdout.split (" ")[0]);
-                    yad_installed = version >= 7.2;
-                }
-                if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
+                    if (missing_dependencies != "") {
+                        var alert_dialog = new Adw.AlertDialog (_("Warning"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
 
-                if (!Utils.System.check_dependency ("awk") && !Utils.System.check_dependency ("gawk"))missing_dependencies += "awk/gawk\n";
-                if (!Utils.System.check_dependency ("git"))missing_dependencies += "git\n";
-                if (!Utils.System.check_dependency ("pgrep"))missing_dependencies += "pgrep\n";
-                if (!Utils.System.check_dependency ("unzip"))missing_dependencies += "unzip\n";
-                if (!Utils.System.check_dependency ("wget"))missing_dependencies += "wget\n";
-                if (!Utils.System.check_dependency ("xdotool"))missing_dependencies += "xdotool\n";
-                if (!Utils.System.check_dependency ("xprop"))missing_dependencies += "xprop\n";
-                if (!Utils.System.check_dependency ("xrandr"))missing_dependencies += "xrandr\n";
-                if (!Utils.System.check_dependency ("xxd"))missing_dependencies += "xxd\n";
-                if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
+                        alert_dialog.add_response ("ok", _("OK"));
 
-                if (missing_dependencies != "") {
-                    var alert_dialog = new Adw.AlertDialog (_("Warning"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
+                        alert_dialog.present (Widgets.Application.window);
 
-                    alert_dialog.add_response ("ok", _("OK"));
-
-                    alert_dialog.present (Widgets.Application.window);
-
-                    return;
-                }
+                        return;
+                    } else {
+                        bob ();
+                    }
+                });
+            } else {
+                bob ();
             }
+        }
 
+        async string dependency_check () {
+            var missing_dependencies = "";
+
+            var yad_installed = false;
+            if (yield Utils.System.check_dependency ("yad")) {
+                string stdout = yield  Utils.System.run_command ("yad --version");
+                float version = float.parse (stdout.split (" ")[0]);
+                yad_installed = version >= 7.2;
+            }
+            if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
+
+            if (!(yield Utils.System.check_dependency ("awk")) && !(yield Utils.System.check_dependency ("gawk")))missing_dependencies += "awk/gawk\n";
+            if (!(yield Utils.System.check_dependency ("git")))missing_dependencies += "git\n";
+            if (!(yield Utils.System.check_dependency ("pgrep")))missing_dependencies += "pgrep\n";
+            if (!(yield Utils.System.check_dependency ("unzip")))missing_dependencies += "unzip\n";
+            if (!(yield Utils.System.check_dependency ("wget")))missing_dependencies += "wget\n";
+            if (!(yield Utils.System.check_dependency ("xdotool")))missing_dependencies += "xdotool\n";
+            if (!(yield Utils.System.check_dependency ("xprop")))missing_dependencies += "xprop\n";
+            if (!(yield Utils.System.check_dependency ("xrandr")))missing_dependencies += "xrandr\n";
+            if (!(yield Utils.System.check_dependency ("xxd")))missing_dependencies += "xxd\n";
+            if (!(yield Utils.System.check_dependency ("xwininfo")))missing_dependencies += "xwininfo\n";
+
+            return missing_dependencies;
+        }
+
+        void bob () {
             var has_external_install = release.detect_external_locations ();
 
             if (has_external_install) {
@@ -92,53 +111,34 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         void start_install () {
-            var install_dialog = new Dialogs.InstallDialog (release);
+            var install_dialog = new InstallDialog (release);
             install_dialog.present (Application.window);
-
-            release.send_message.connect (install_dialog.add_text);
-
-            release.install.begin ((obj, res) => {
-                var success = release.install.end (res);
-
-                install_dialog.done (success);
-            });
         }
 
         protected override void remove_button_clicked () {
-            // TODO Remove the freeze when removing STL
+            var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
+            parameters.delete_config = false;
+            parameters.user_request = true;
 
             var remove_config_check = new Gtk.CheckButton.with_label (_("Check this to also remove your configuration files."));
-
-            var remove_dialog = new RemoveDialog (release);
-            remove_dialog.set_extra_child (remove_config_check);
-            remove_dialog.choose.begin (Application.window, null, (obj, res) => {
-                var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
+            remove_config_check.activate.connect (() => {
                 parameters.delete_config = remove_config_check.get_active ();
-                parameters.user_request = true;
-
-                remove_dialog.response_handler (remove_dialog.choose.end (res), parameters);
             });
+
+            var remove_dialog = new RemoveDialog (release, parameters);
+            remove_dialog.set_extra_child (remove_config_check);
+            remove_dialog.present (Application.window);
         }
 
         void upgrade_button_clicked () {
             if (release.state == Models.Release.State.UP_TO_DATE) {
-                var dialog = new Adw.AlertDialog(_("Warning"), _("%s is already up-to-date.").printf (release.title));
-                dialog.add_response("ok", "OK");
-                dialog.present(Application.window);
-
-                return;
+                var dialog = new Adw.AlertDialog (_("Warning"), _("%s is already up-to-date.").printf (release.title));
+                dialog.add_response ("ok", "OK");
+                dialog.present (Application.window);
+            } else {
+                var upgrade_dialog = new UpgradeDialog (release);
+                upgrade_dialog.present (Application.window);
             }
-
-            var upgrade_dialog = new Dialogs.UpgradeDialog (release);
-            upgrade_dialog.present (Application.window);
-
-            release.send_message.connect (upgrade_dialog.add_text);
-
-            release.upgrade.begin ((obj, res) => {
-                var success = release.upgrade.end (res);
-
-                upgrade_dialog.done (success);
-            });
         }
 
         protected override void info_button_clicked () {

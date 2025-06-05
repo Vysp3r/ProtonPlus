@@ -51,15 +51,15 @@ namespace ProtonPlus.Models.Releases {
             return @"https://github.com/sonic2kk/steamtinkerlaunch/archive/$latest_hash.zip";
         }
 
-        void exec_stl_if_exists (string exec_location, string args) {
+        async void exec_stl_if_exists (string exec_location, string args) {
             if (FileUtils.test (exec_location, FileTest.IS_REGULAR))
-                exec_stl (exec_location, args);
+                yield exec_stl (exec_location, args);
         }
 
-        void exec_stl (string exec_location, string args) {
+        async void exec_stl (string exec_location, string args) {
             if (FileUtils.test (exec_location, FileTest.IS_REGULAR) && !FileUtils.test (exec_location, FileTest.IS_EXECUTABLE))
-                Utils.System.run_command (@"chmod +x $exec_location");
-            Utils.System.run_command (@"$exec_location $args");
+                yield Utils.System.run_command (@"chmod +x $exec_location");
+            yield Utils.System.run_command (@"$exec_location $args");
         }
 
         void refresh_latest_stl_version () {
@@ -191,6 +191,7 @@ namespace ProtonPlus.Models.Releases {
 
             canceled = false;
 
+            step = Step.NOTHING;
 
             // Generate a title for the installed (or latest) release.
             var _row_title = title; // Default title/prefix.
@@ -214,10 +215,10 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected async override bool _start_install () {
-            if (Utils.System.check_dependency ("steamtinkerlaunch"))
-                Utils.System.run_command ("steamtinkerlaunch compat del");
+            if (yield Utils.System.check_dependency ("steamtinkerlaunch"))
+                yield Utils.System.run_command ("steamtinkerlaunch compat del");
 
-            exec_stl_if_exists (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
+            yield exec_stl_if_exists (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
 
             foreach (var location in external_locations) {
                 var deleted = yield Utils.Filesystem.delete_directory (location);
@@ -256,14 +257,14 @@ namespace ProtonPlus.Models.Releases {
                     return false;
             }
 
-            send_message (_("Downloading..."));
+            step = Step.DOWNLOADING;
 
             var download_valid = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, (is_percent, progress) => this.progress = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
 
             if (!download_valid)
                 return false;
 
-            send_message (_("Extracting..."));
+            step = Step.EXTRACTING;
 
             // Extract archive and move its contents to the installation directory.
             string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => canceled);
@@ -298,9 +299,9 @@ namespace ProtonPlus.Models.Releases {
 
             // Trigger STL's dependency installer for Steam Deck, and register compat tool.
             if (Utils.System.IS_STEAM_OS)
-                exec_stl (binary_location, "");
+                yield exec_stl (binary_location, "");
 
-            exec_stl (binary_location, "compat add");
+            yield exec_stl (binary_location, "compat add");
 
 
             // Remember installed version.
@@ -310,7 +311,7 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override async bool _start_remove (STL_Remove_Parameters parameters) {
-            exec_stl_if_exists (binary_location, "compat del");
+            yield exec_stl_if_exists (binary_location, "compat del");
 
             // NOTE: We check specific types to avoid deleting unexpected data.
             if (FileUtils.test (link_location, FileTest.EXISTS)) {

@@ -1,8 +1,8 @@
 namespace ProtonPlus.Widgets.ReleaseRows {
-    public class Basic : ReleaseRow {
+    public class BasicRow : ReleaseRow {
         Models.Releases.Basic release { get; set; }
 
-        public Basic (Models.Releases.Basic release) {
+        public BasicRow (Models.Releases.Basic release) {
             this.release = release;
 
             if (release.description == null || release.page_url == null)
@@ -18,23 +18,13 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         protected override void install_button_clicked () {
-            var install_dialog = new Dialogs.InstallDialog (release);
+            var install_dialog = new InstallDialog (release);
             install_dialog.present (Application.window);
-
-            release.send_message.connect (install_dialog.add_text);
-
-            release.install.begin ((obj, res) => {
-                var success = release.install.end (res);
-
-                install_dialog.done (success || release.canceled);
-            });
         }
 
         protected override void remove_button_clicked () {
             var remove_dialog = new RemoveDialog (release);
-            remove_dialog.choose.begin (Application.window, null, (obj, res) => {
-                remove_dialog.response_handler (remove_dialog.choose.end (res));
-            });
+            remove_dialog.present (Application.window);
         }
 
         protected override void info_button_clicked () {

@@ -8,25 +8,33 @@ namespace ProtonPlus.Utils {
         public static void initialize () {
             IS_FLATPAK = FileUtils.test ("/.flatpak-info", FileTest.IS_REGULAR);
             IS_GAMESCOPE = Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland";
-            IS_STEAM_OS = get_distribution_name ().ascii_down () == "steamos";
+            get_distribution_name.begin ((obj,res)=> {
+                IS_STEAM_OS = get_distribution_name.end (res).ascii_down () == "steamos";
+            });
             HWCAPS = get_hwcaps ();
         }
 
-        public static string run_command (string command) {
-            try {
-                string command_line = "";
-                if (IS_FLATPAK)command_line += "flatpak-spawn --host ";
-                command_line += command;
+        public static async string run_command (string command) {
+            SourceFunc callback = run_command.callback;
 
-                string stdout = "";
-                var valid = Process.spawn_command_line_sync (command_line, out stdout, null, null);
-                if (!valid)return "";
+            string output = "";
+            new Thread<void> ("rename", () => {
+                try {
+                    string command_line = "";
+                    if (IS_FLATPAK)command_line += "flatpak-spawn --host ";
+                    command_line += command;
 
-                return stdout;
-            } catch (Error e) {
-                message (e.message);
-                return "";
-            }
+                    var valid = Process.spawn_command_line_sync (command_line, out output, null, null);
+                    if (!valid) output = "";
+                } catch (Error e) {
+                    message (e.message);
+                }
+
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
+
+            yield;
+            return output;
         }
 
         public static List<string> get_hwcaps () {
@@ -104,12 +112,12 @@ namespace ProtonPlus.Utils {
             return (owned) hwcaps;
         }
 
-        public static bool check_dependency (string name) {
-            return run_command (@"which $name") == "" ? false : true;
+        public static async bool check_dependency (string name) {
+            return (yield run_command (@"which $name")) == "" ? false : true;
         }
 
-        static string get_distribution_name () {
-            var distro_info = run_command ("cat /etc/lsb-release /etc/os-release").split ("\n", 1)[0];
+        static async string get_distribution_name () {
+            var distro_info = (yield run_command ("cat /etc/lsb-release /etc/os-release")).split ("\n", 1)[0];
 
             var distro_name = "Unknown";
             MatchInfo m;

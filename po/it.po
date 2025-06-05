@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-05 08:15-0400\n"
+"POT-Creation-Date: 2025-06-05 16:19-0400\n"
 "PO-Revision-Date: 2024-08-19 10:09+0000\n"
 "Last-Translator: Lize58 <pasquale.borrelli05@outlook.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -43,20 +43,12 @@ msgstr ""
 msgid "Open in your web browser"
 msgstr ""
 
-#: src/widgets/busy-dialog.vala:23
-msgid "Show/hide logs"
-msgstr ""
-
-#: src/widgets/busy-dialog.vala:120
-msgid "Closing in"
-msgstr ""
-
 #: src/widgets/release-row.vala:10
 #, fuzzy, c-format
 msgid "Delete %s"
 msgstr "Eliminato "
 
-#: src/widgets/release-row.vala:14
+#: src/widgets/release-row.vala:14 src/widgets/install-dialog.vala:17
 #, fuzzy, c-format
 msgid "Install %s"
 msgstr "Solo installato"
@@ -88,11 +80,11 @@ msgid "Library"
 msgstr ""
 
 #: src/widgets/library-box.vala:140
-#: src/widgets/release-rows/steamtinkerlaunch.vala:60
-#: src/widgets/release-rows/steamtinkerlaunch.vala:73
-#: src/widgets/release-rows/steamtinkerlaunch.vala:125
-#: src/widgets/release-rows/steamtinkerlaunch.vala:150
-#: src/widgets/release-rows/steamtinkerlaunch.vala:154
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:47
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:135
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:150
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:154
 msgid "Warning"
 msgstr ""
 
@@ -116,8 +108,9 @@ msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
 #: src/widgets/game-row.vala:97 src/widgets/mass-edit-dialog.vala:71
-#: src/widgets/remove-dialog.vala:47 src/widgets/shortcut-button.vala:36
-#: src/widgets/shortcut-button.vala:47
+#: src/widgets/remove-dialog.vala:51 src/widgets/install-dialog.vala:47
+#: src/widgets/upgrade-dialog.vala:47 src/widgets/shortcut-button.vala:36
+#: src/widgets/shortcut-button.vala:48
 msgid "Please report this issue on GitHub."
 msgstr ""
 
@@ -135,46 +128,86 @@ msgid ""
 "occured for the following games"
 msgstr ""
 
-#: src/widgets/remove-dialog.vala:9
+#: src/widgets/remove-dialog.vala:11
 #, c-format
 msgid "Remove %s"
 msgstr ""
 
-#: src/widgets/remove-dialog.vala:11
+#: src/widgets/remove-dialog.vala:13
 #, fuzzy
 msgid "Are you sure you want this?"
 msgstr "Sei sicuro di voler eliminare"
 
-#: src/widgets/remove-dialog.vala:19
+#: src/widgets/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
 msgstr ""
 
-#: src/widgets/remove-dialog.vala:22
+#: src/widgets/remove-dialog.vala:24
 msgid "Used by 1 game."
 msgstr ""
 
-#: src/widgets/remove-dialog.vala:24
+#: src/widgets/remove-dialog.vala:26
 #, fuzzy
 msgid "Are you sure you want to proceed?"
 msgstr "Sei sicuro di voler eliminare"
 
-#: src/widgets/remove-dialog.vala:28
+#: src/widgets/remove-dialog.vala:30
 msgid "No"
 msgstr ""
 
-#: src/widgets/remove-dialog.vala:29
+#: src/widgets/remove-dialog.vala:31
 msgid "Yes"
 msgstr ""
 
-#: src/widgets/remove-dialog.vala:47 src/widgets/shortcut-button.vala:36
-#: src/widgets/shortcut-button.vala:47
+#: src/widgets/remove-dialog.vala:51 src/widgets/install-dialog.vala:47
+#: src/widgets/upgrade-dialog.vala:47 src/widgets/shortcut-button.vala:36
+#: src/widgets/shortcut-button.vala:48
 msgid "Error"
 msgstr ""
 
-#: src/widgets/remove-dialog.vala:47
+#: src/widgets/remove-dialog.vala:51
 #, c-format
 msgid "When trying to remove %s an error occured."
+msgstr ""
+
+#: src/widgets/install-dialog.vala:19 src/widgets/upgrade-dialog.vala:19
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:94
+msgid "Cancel"
+msgstr ""
+
+#: src/widgets/install-dialog.vala:47
+#, c-format
+msgid "When trying to install %s an error occured."
+msgstr ""
+
+#: src/widgets/install-dialog.vala:70 src/widgets/upgrade-dialog.vala:69
+#, fuzzy
+msgid "Downloading"
+msgstr "Download completato...\n"
+
+#: src/widgets/install-dialog.vala:73 src/widgets/upgrade-dialog.vala:72
+#, fuzzy
+msgid "Extracting"
+msgstr "Estrazione completata...\n"
+
+#: src/widgets/install-dialog.vala:76
+msgid "Renaming"
+msgstr ""
+
+#: src/widgets/install-dialog.vala:79
+#, fuzzy
+msgid "Running post install script"
+msgstr "L'installazione di "
+
+#: src/widgets/upgrade-dialog.vala:17
+#, c-format
+msgid "Upgrade %s"
+msgstr ""
+
+#: src/widgets/upgrade-dialog.vala:47
+#, c-format
+msgid "When trying to upgrade %s an error occured."
 msgstr ""
 
 #: src/widgets/shortcut-button.vala:22
@@ -197,7 +230,7 @@ msgstr ""
 msgid "When trying to remove the shortcut in Steam an error occured."
 msgstr ""
 
-#: src/widgets/shortcut-button.vala:47
+#: src/widgets/shortcut-button.vala:48
 msgid "When trying to create the shortcut in Steam an error occured."
 msgstr ""
 
@@ -228,109 +261,60 @@ msgstr ""
 msgid "Special thanks to"
 msgstr "Ringraziamenti speciali a"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:60
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:47
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:60
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:47
 #, fuzzy
 msgid "Installation will be canceled."
 msgstr "L'installazione di "
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:62
-#: src/widgets/release-rows/steamtinkerlaunch.vala:76
-#: src/widgets/release-rows/steamtinkerlaunch.vala:160
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:49
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:95
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:160
 msgid "OK"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:73
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:73
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:92
 #, c-format
 msgid "Do you want to delete it and install %s with ProtonPlus?"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:75
-msgid "Cancel"
-msgstr ""
-
-#. TODO Remove the freeze when removing STL
-#: src/widgets/release-rows/steamtinkerlaunch.vala:110
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:123
 msgid "Check this to also remove your configuration files."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:125
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:135
 #, c-format
 msgid "%s is already up-to-date."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:150
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:150
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:154
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:154
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:180
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:180
 msgid "Up-to-date"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:180
+#: src/widgets/release-rows/steamtinkerlaunch-row.vala:180
 msgid "Update to the latest version"
 msgstr ""
-
-#: src/widgets/busy-dialogs/install-dialog.vala:6
-#, fuzzy
-msgid "Installing"
-msgstr "Solo installato"
-
-#: src/widgets/busy-dialogs/upgrade-dialog.vala:6
-msgid "Upgrading"
-msgstr ""
-
-#: src/models/release.vala:31
-#, fuzzy, c-format
-msgid "The installation of %s has begun."
-msgstr "L'installazione di "
-
-#: src/models/release.vala:34
-#, fuzzy, c-format
-msgid "The removal of %s has begun."
-msgstr "La rimozione di "
-
-#: src/models/release.vala:37
-#, fuzzy, c-format
-msgid "The upgrade of %s has begun."
-msgstr "La rimozione di "
-
-#: src/models/release.vala:57
-#, fuzzy, c-format
-msgid "An unexpected error occurred while installing %s."
-msgstr "Si e' verificato un errore inaspettato durante l'installazione "
-
-#: src/models/release.vala:59
-#, fuzzy, c-format
-msgid "The installation of %s is complete."
-msgstr "L'installazione di "
-
-#: src/models/release.vala:79
-#, fuzzy, c-format
-msgid "The removal of %s is complete."
-msgstr "La rimozione di "
-
-#: src/models/release.vala:79
-#, fuzzy, c-format
-msgid "An unexpected error occurred while removing %s."
-msgstr "Si e' verificato un errore inaspettato durante l'estrazione "
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
@@ -470,45 +454,49 @@ msgid ""
 "tools for both Windows games and native Linux games."
 msgstr ""
 
-#: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
-#: src/models/releases/steamtinkerlaunch.vala:259
 #, fuzzy
-msgid "Downloading..."
-msgstr "Download completato...\n"
+#~ msgid "Installing"
+#~ msgstr "Solo installato"
 
-#: src/models/releases/basic.vala:55 src/models/releases/github-action.vala:23
-#: src/models/releases/steamtinkerlaunch.vala:266
-#, fuzzy
-msgid "Extracting..."
-msgstr "Estrazione completata...\n"
-
-#: src/models/releases/basic.vala:64 src/models/releases/github-action.vala:37
-msgid "Renaming..."
-msgstr ""
-
-#: src/models/releases/basic.vala:73 src/models/releases/github-action.vala:46
-#, fuzzy
-msgid "Running post installation script..."
-msgstr "L'installazione di "
-
-#: src/models/releases/basic.vala:84
-msgid "Deleting..."
-msgstr ""
-
-#: src/models/releases/basic.vala:91
-#, fuzzy
-msgid "Running post removal script..."
-msgstr "L'installazione di "
-
-#: src/models/releases/upgrade.vala:8
 #, fuzzy, c-format
-msgid "The upgrade of %s is complete."
-msgstr "La rimozione di "
+#~ msgid "The installation of %s has begun."
+#~ msgstr "L'installazione di "
 
-#: src/models/releases/upgrade.vala:8
 #, fuzzy, c-format
-msgid "An unexpected error occurred while upgrading %s."
-msgstr "Si e' verificato un errore inaspettato durante l'estrazione "
+#~ msgid "The removal of %s has begun."
+#~ msgstr "La rimozione di "
+
+#, fuzzy, c-format
+#~ msgid "The upgrade of %s has begun."
+#~ msgstr "La rimozione di "
+
+#, fuzzy, c-format
+#~ msgid "An unexpected error occurred while installing %s."
+#~ msgstr "Si e' verificato un errore inaspettato durante l'installazione "
+
+#, fuzzy, c-format
+#~ msgid "The installation of %s is complete."
+#~ msgstr "L'installazione di "
+
+#, fuzzy, c-format
+#~ msgid "The removal of %s is complete."
+#~ msgstr "La rimozione di "
+
+#, fuzzy, c-format
+#~ msgid "An unexpected error occurred while removing %s."
+#~ msgstr "Si e' verificato un errore inaspettato durante l'estrazione "
+
+#, fuzzy
+#~ msgid "Running post removal script..."
+#~ msgstr "L'installazione di "
+
+#, fuzzy, c-format
+#~ msgid "The upgrade of %s is complete."
+#~ msgstr "La rimozione di "
+
+#, fuzzy, c-format
+#~ msgid "An unexpected error occurred while upgrading %s."
+#~ msgstr "Si e' verificato un errore inaspettato durante l'estrazione "
 
 #, fuzzy, c-format
 #~ msgid "Existing installation of %s"

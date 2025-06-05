@@ -9,7 +9,17 @@ namespace ProtonPlus.Models {
         public string page_url { get; set; }
         public bool canceled { get; set; }
         public string progress { get; set; }
-        public signal void send_message (string message);
+        
+        public Step step { get; set; }
+        public enum Step {
+            NOTHING,
+            DOWNLOADING,
+            EXTRACTING,
+            RENAMING,
+            POST_INSTALL_SCRIPT,
+            REMOVING,
+            POST_REMOVAL_SCRIPT,
+        }
 
         public State state { get; set; }
         public enum State {
@@ -21,26 +31,6 @@ namespace ProtonPlus.Models {
             BUSY_UPGRADING,
         }
 
-        construct {
-            notify["state"].connect (state_changed);
-        }
-
-        void state_changed () {
-            switch (state) {
-            case State.BUSY_INSTALLING:
-                send_message (_("The installation of %s has begun.").printf (title));
-                break;
-            case State.BUSY_REMOVING:
-                send_message (_("The removal of %s has begun.").printf (title));
-                break;
-            case State.BUSY_UPGRADING:
-                send_message (_("The upgrade of %s has begun.").printf (title));
-                break;
-            default:
-                break;
-            }
-        }
-
         public async bool install () {
             var busy_upgrading = state == State.BUSY_UPGRADING;
 
@@ -50,13 +40,8 @@ namespace ProtonPlus.Models {
             // Attempt the installation.
             var install_success = yield _start_install ();
 
-            if (!install_success) {
+            if (!install_success)
                 yield remove (new Models.Parameters ()); // Refreshes install state too.
-
-                if (!busy_upgrading)
-                    send_message (_("An unexpected error occurred while installing %s.").printf (title));
-            } else if (!busy_upgrading)
-                send_message (_("The installation of %s is complete.").printf (title));
 
             if (!busy_upgrading)
                 refresh_state (); // Force UI state refresh.
@@ -75,10 +60,8 @@ namespace ProtonPlus.Models {
             // Attempt the removal.
             var remove_success = yield _start_remove (parameters);
 
-            if (!busy_upgrading_or_instaling) {
-                send_message ((remove_success ? _("The removal of %s is complete.") : _("An unexpected error occurred while removing %s.")).printf (title));
+            if (!busy_upgrading_or_instaling)
                 refresh_state (); // Force UI state refresh.
-            }
 
             return remove_success;
         }

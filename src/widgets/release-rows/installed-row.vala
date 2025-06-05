@@ -16,12 +16,11 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
         protected override void remove_button_clicked () {
             var remove_dialog = new RemoveDialog (release);
-            remove_dialog.successful_removing_callback.connect(() => {
-                remove_from_parent(this);
+            remove_dialog.done.connect((result) => {
+                if (result)
+                    remove_from_parent(this);
             });
-            remove_dialog.choose.begin (Application.window, null, (obj, res) => {
-                remove_dialog.response_handler (remove_dialog.choose.end (res));
-            });
+            remove_dialog.present (Application.window);
         }
 
         protected override void info_button_clicked () { }

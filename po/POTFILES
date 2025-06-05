@@ -2,7 +2,6 @@ src/widgets/status-box.vala
 src/widgets/sidebar.vala
 src/widgets/info-box.vala
 src/widgets/description-dialog.vala
-src/widgets/busy-dialog.vala
 src/widgets/release-row.vala
 src/widgets/runner-row.vala
 src/widgets/runner-group.vala
@@ -12,14 +11,14 @@ src/widgets/library-box.vala
 src/widgets/game-row.vala
 src/widgets/mass-edit-dialog.vala
 src/widgets/remove-dialog.vala
+src/widgets/install-dialog.vala
+src/widgets/upgrade-dialog.vala
 src/widgets/shortcut-button.vala
 src/widgets/window.vala
 src/widgets/application.vala
-src/widgets/release-rows/installed.vala
-src/widgets/release-rows/basic.vala
-src/widgets/release-rows/steamtinkerlaunch.vala
-src/widgets/busy-dialogs/install-dialog.vala
-src/widgets/busy-dialogs/upgrade-dialog.vala
+src/widgets/release-rows/installed-row.vala
+src/widgets/release-rows/basic-row.vala
+src/widgets/release-rows/steamtinkerlaunch-row.vala
 src/models/release.vala
 src/models/group.vala
 src/models/parameters.vala
