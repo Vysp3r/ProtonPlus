@@ -80,6 +80,10 @@
       <image>https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-1.png</image>
       <caption>The main interface of ProtonPlus.</caption>
     </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-2.png</image>
+      <caption>The library interface of ProtonPlus.</caption>
+    </screenshot>
   </screenshots>
 
   <releases>
