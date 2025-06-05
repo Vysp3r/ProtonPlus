@@ -31,13 +31,8 @@ namespace ProtonPlus.Widgets {
             this.launchers = launchers;
 
             foreach (var launcher in launchers) {
-                if (launcher is Models.Launchers.Steam) {
-                    var row = new SidebarRows.SteamSidebarRow ((Models.Launchers.Steam)launcher);
-                    list_box.append (row);
-                } else {
-                    var row = new SidebarRow (launcher.title, launcher.get_installation_type_title (), launcher.icon_path, launcher.directory);
-                    list_box.append (row);
-                }
+                var row = new SidebarRow (launcher);
+                list_box.append (row);
             }
         }
 

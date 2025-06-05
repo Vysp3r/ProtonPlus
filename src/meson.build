@@ -20,8 +20,6 @@ protonplus_sources = files(
   'widgets/remove-dialog.vala',
   'widgets/shortcut-button.vala',
 
-  'widgets/sidebar-rows/steam.vala',
-
   'widgets/release-rows/steamtinkerlaunch.vala',
   'widgets/release-rows/basic.vala',
   'widgets/release-rows/installed.vala',

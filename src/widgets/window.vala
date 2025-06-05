@@ -29,7 +29,7 @@ namespace ProtonPlus.Widgets {
 
             status_box = new Widgets.StatusBox ();
 
-            info_page = new Adw.NavigationPage.with_tag (info_box = new Widgets.InfoBox (), "", "main");
+            info_page = new Adw.NavigationPage.with_tag (info_box = new Widgets.InfoBox (), "x", "main");
 
             sidebar_page = new Adw.NavigationPage.with_tag (sidebar = new Widgets.Sidebar (), _("Show sidebar"), "sidebar");
 
@@ -42,7 +42,7 @@ namespace ProtonPlus.Widgets {
 
             runners_page = new Adw.NavigationPage.with_tag (navigation_split_view, _("Go back"), "runners");
 
-            games_page = new Adw.NavigationPage.with_tag (library_box, "", "games");
+            games_page = new Adw.NavigationPage.with_tag (library_box, "y", "games");
 
             navigation_view = new Adw.NavigationView ();
             navigation_view.push (runners_page);
@@ -78,11 +78,12 @@ namespace ProtonPlus.Widgets {
         }
 
         SimpleAction get_set_libray_active_action () {
-            SimpleAction action = new SimpleAction.stateful ("set-library-active", VariantType.BOOLEAN, true);
+            SimpleAction action = new SimpleAction ("set-library-active", VariantType.INT32);
 
             action.activate.connect ((variant) => {
-                if (action.get_state ().get_boolean () && selected_launcher.has_library_support) {
-                    library_box.load (selected_launcher);
+                var launcher = launchers.nth_data (variant.get_int32 ());
+                if (launcher.has_library_support) {
+                    library_box.load (launcher);
                     navigation_view.push (games_page);
                 }
             });
