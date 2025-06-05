@@ -54,6 +54,7 @@ namespace ProtonPlus.Models.Launchers {
             runners.append (new Runners.Proton_Sarek (group));
             runners.append (new Runners.Proton_Sarek_Async (group));
             runners.append (new Runners.Proton_Tkg (group));
+            runners.append (new Runners.Proton_Kron4ek (group));
 
             return runners;
         }
