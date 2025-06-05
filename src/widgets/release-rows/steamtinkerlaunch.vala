@@ -57,7 +57,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                 if (!Utils.System.check_dependency ("xwininfo"))missing_dependencies += "xwininfo\n";
 
                 if (missing_dependencies != "") {
-                    var alert_dialog = new Adw.AlertDialog (_("Missing dependencies!"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
+                    var alert_dialog = new Adw.AlertDialog (_("Warning"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
 
                     alert_dialog.add_response ("ok", _("OK"));
 
@@ -70,7 +70,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             var has_external_install = release.detect_external_locations ();
 
             if (has_external_install) {
-                var alert_dialog = new Adw.AlertDialog (_("Existing installation of %s").printf (title), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title), _("Do you want to delete it and install %s with ProtonPlus?").printf (title)));
+                var alert_dialog = new Adw.AlertDialog (_("Warning"), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title), _("Do you want to delete it and install %s with ProtonPlus?").printf (title)));
 
                 alert_dialog.add_response ("cancel", _("Cancel"));
                 alert_dialog.add_response ("ok", _("OK"));
@@ -105,44 +105,29 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         protected override void remove_button_clicked () {
-            var remove_check = new Gtk.CheckButton.with_label (_("Check this to also remove your configuration files."));
+            // TODO Remove the freeze when removing STL
 
-            var alert_dialog = new Adw.AlertDialog (_("Delete %s").printf (release.title), "%s\n\n%s".printf (_("You're about to remove %s from your system.").printf (release.title), _("Are you sure you want this?")));
+            var remove_config_check = new Gtk.CheckButton.with_label (_("Check this to also remove your configuration files."));
 
-            alert_dialog.set_extra_child (remove_check);
-
-            alert_dialog.add_response ("no", _("No"));
-            alert_dialog.add_response ("yes", _("Yes"));
-
-            alert_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
-            alert_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
-
-            alert_dialog.response.connect ((response) => {
-                if (response != "yes")
-                    return;
-
-                var remove_dialog = new Dialogs.RemoveDialog (release);
-                remove_dialog.present (Application.window);
-
-                release.send_message.connect (remove_dialog.add_text);
-
+            var remove_dialog = new RemoveDialog (release);
+            remove_dialog.set_extra_child (remove_config_check);
+            remove_dialog.choose.begin (Application.window, null, (obj, res) => {
                 var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
-                parameters.delete_config = remove_check.get_active ();
+                parameters.delete_config = remove_config_check.get_active ();
                 parameters.user_request = true;
 
-                release.remove.begin (parameters, (obj, res) => {
-                    var success = release.remove.end (res);
-
-                    remove_dialog.done (success);
-                });
+                remove_dialog.response_handler (remove_dialog.choose.end (res), parameters);
             });
-
-            alert_dialog.present (Widgets.Application.window);
         }
 
         void upgrade_button_clicked () {
-            if (release.state == Models.Release.State.UP_TO_DATE)
+            if (release.state == Models.Release.State.UP_TO_DATE) {
+                var dialog = new Adw.AlertDialog(_("Warning"), _("%s is already up-to-date.").printf (release.title));
+                dialog.add_response("ok", "OK");
+                dialog.present(Application.window);
+
                 return;
+            }
 
             var upgrade_dialog = new Dialogs.UpgradeDialog (release);
             upgrade_dialog.present (Application.window);
@@ -162,11 +147,11 @@ namespace ProtonPlus.Widgets.ReleaseRows {
             case Models.Launcher.InstallationTypes.FLATPAK :
                 var command_label = new Gtk.Label ("flatpak install com.valvesoftware.Steam.Utility.steamtinkerlaunch");
                 command_label.set_selectable (true);
-                alert_dialog = new Adw.AlertDialog (_("%s is not supported").printf ("Steam Flatpak"), _("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
+                alert_dialog = new Adw.AlertDialog (_("Warning"), _("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
                 alert_dialog.set_extra_child (command_label);
                 break;
             case Models.Launcher.InstallationTypes.SNAP:
-                alert_dialog = new Adw.AlertDialog (_("%s is not supported").printf ("Steam Snap"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
+                alert_dialog = new Adw.AlertDialog (_("Warning"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
                 break;
             default:
                 break;
@@ -192,7 +177,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
             if (upgrade_button.get_visible ()) {
                 upgrade_button.set_icon_name (updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
-                upgrade_button.set_tooltip_text (updated ? _("%s is up-to-date").printf (release.title) : _("Update %s to the latest version").printf (release.title));
+                upgrade_button.set_tooltip_text (updated ? _("Up-to-date") : _("Update to the latest version"));
             }
         }
     }

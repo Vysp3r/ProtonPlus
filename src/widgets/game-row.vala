@@ -14,8 +14,8 @@ namespace ProtonPlus.Widgets {
 
             compat_tool_dropdown = new Gtk.DropDown(model, expression);
 
-            for (var i = 0; i < game.launcher.compat_tools.length(); i++) {
-                if (game.launcher.compat_tools.nth_data(i).title == game.compat_tool) {
+            for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
+                if (game.launcher.compatibility_tools.nth_data(i).title == game.compat_tool) {
                     compat_tool_dropdown.set_selected(i);
                     break;
                 }
@@ -90,7 +90,7 @@ namespace ProtonPlus.Widgets {
                 return;
             }
 
-            var item = (Models.Launchers.Steam.RunnerDropDownItem) compat_tool_dropdown.get_selected_item();
+            var item = (Models.SimpleRunner) compat_tool_dropdown.get_selected_item();
 
             var success = game.set_compatibility_tool(item.title);
             if (!success) {
@@ -100,8 +100,8 @@ namespace ProtonPlus.Widgets {
 
                 skip = true;
 
-                for (var i = 0; i < game.launcher.compat_tools.length(); i++) {
-                    if (game.compat_tool == game.launcher.compat_tools.nth_data(i).title) {
+                for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
+                    if (game.compat_tool == game.launcher.compatibility_tools.nth_data(i).title) {
                         compat_tool_dropdown.set_selected(i);
                         break;
                     }

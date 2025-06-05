@@ -7,9 +7,7 @@ namespace ProtonPlus.Widgets {
         Gtk.ScrolledWindow scrolled_window { get; set; }
         List<RunnerGroup> runner_groups;
 
-        public LauncherBox (Models.Launcher launcher) {
-            this.launcher = launcher;
-
+        public LauncherBox () {
             set_vexpand (true);
             set_margin_start (15);
             set_margin_end (15);
@@ -27,11 +25,19 @@ namespace ProtonPlus.Widgets {
             scrolled_window = new Gtk.ScrolledWindow ();
             scrolled_window.set_child (clamp);
             scrolled_window.set_parent (this);
+        }
+
+        public void load (Models.Launcher launcher, bool installed_only) {
+            this.launcher = launcher;
+
+            foreach (var runner_group in runner_groups) {
+                content.remove (runner_group);
+            }
 
             runner_groups = new List<RunnerGroup> ();
 
             foreach (var group in launcher.groups) {
-                var runner_group = new RunnerGroup (group);
+                var runner_group = new RunnerGroup (group, installed_only);
                 runner_groups.append (runner_group);
                 content.append (runner_group);
             }

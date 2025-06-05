@@ -4,6 +4,9 @@ namespace ProtonPlus.Models {
         public string icon_path;
         public string directory;
         public bool installed;
+        public bool has_library_support;
+        public List<Game> games;
+        public List<SimpleRunner> compatibility_tools;
 
         public Group[] groups;
 
@@ -48,6 +51,10 @@ namespace ProtonPlus.Models {
             default:
                 return "Invalid type";
             }
+        }
+
+        public virtual async bool load_game_library () {
+            return false;
         }
 
         public static List<Launcher> get_all () {

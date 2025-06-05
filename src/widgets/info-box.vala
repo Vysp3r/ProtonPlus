@@ -5,8 +5,7 @@ namespace ProtonPlus.Widgets {
         Adw.WindowTitle window_title { get; set; }
         Adw.HeaderBar header { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
-
-        public List<LauncherBox> launcher_boxes;
+        LauncherBox launcher_box { get; set; }
 
         construct {
             set_orientation (Gtk.Orientation.VERTICAL);
@@ -36,34 +35,23 @@ namespace ProtonPlus.Widgets {
             header.set_title_widget (window_title);
             header.pack_end (menu_button);
 
+            launcher_box = new LauncherBox ();
+
             toolbar_view = new Adw.ToolbarView ();
             toolbar_view.add_top_bar (header);
-
-            launcher_boxes = new List<Widgets.LauncherBox> ();
+            toolbar_view.set_content (launcher_box);
 
             append (toolbar_view);
         }
 
         public void switch_mode (bool mode) {
-            foreach (var box in launcher_boxes) {
-                box.switch_mode (mode);
-            }
+            launcher_box.switch_mode (mode);
         }
 
-        public void switch_launcher (string title, int position) {
-            window_title.set_title (title);
+        public void load (Models.Launcher launcher, bool installed_only) {
+            window_title.set_title (launcher.title);
 
-            var current_launcher_box = launcher_boxes.nth_data (position);
-
-            if (current_launcher_box.get_parent () == null)
-                toolbar_view.set_content (current_launcher_box);
-        }
-
-        public void initialize (List<Models.Launcher> launchers) {
-            foreach (var launcher in launchers) {
-                var launcher_box = new Widgets.LauncherBox (launcher);
-                launcher_boxes.append (launcher_box);
-            }
+            launcher_box.load (launcher, installed_only);
         }
     }
 }

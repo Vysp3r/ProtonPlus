@@ -4,13 +4,13 @@ namespace ProtonPlus.Widgets {
 
         public Models.Group group;
 
-        public RunnerGroup(Models.Group group) {
+        public RunnerGroup(Models.Group group, bool installed_only) {
             this.group = group;
 
             set_title(group.title);
             set_description(group.description);
 
-            load(false);
+            load(installed_only);
         }
 
         public void load(bool installed_only) {
@@ -31,85 +31,15 @@ namespace ProtonPlus.Widgets {
         }
 
         void load_installed_only() {
-            try {
-                var directory_path = group.launcher.directory + group.directory;
-                File directory = File.new_for_path(directory_path);
-                FileEnumerator? enumerator = directory.enumerate_children("standard::*", FileQueryInfoFlags.NONE, null);
+            foreach (var directory in group.get_compatibility_tool_directories()) {
+                var runner = new Models.Runners.Installed(group);
+                var release = new Models.Releases.Basic.simple(runner, directory, group.launcher.directory + group.directory + "/" + directory);
 
-                if (enumerator != null) {
-                    FileInfo? file_info;
-                    while ((file_info = enumerator.next_file()) != null) {
-                        if (file_info.get_file_type() != FileType.DIRECTORY)
-                            continue;
+                var row = new Widgets.ReleaseRows.InstalledRow(release);
+                row.remove_from_parent.connect(row_remove_from_parent);
 
-                        var title = file_info.get_name();
-
-                        if (title == "LegacyRuntime")
-                            continue;
-
-                        var runner = new Models.Runners.Installed(group);
-                        var release = new Models.Releases.Basic.simple(runner, title, directory_path + "/" + title);
-
-                        var remove_button = new Gtk.Button.from_icon_name("trash-symbolic");
-                        remove_button.set_tooltip_text(_("Delete %s").printf(release.title));
-                        remove_button.add_css_class("flat");
-
-                        var input_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
-                        input_box.set_valign(Gtk.Align.CENTER);
-                        input_box.append(remove_button);
-
-                        var row = new Adw.ActionRow();
-                        row.set_title(release.title);
-                        row.add_suffix(input_box);
-
-                        remove_button.clicked.connect(() => {
-                            var alert_dialog = new Adw.AlertDialog(_("Delete %s").printf(release.title), "%s\n\n%s".printf(_("You're about to remove %s from your system.").printf(release.title), _("Are you sure you want this?")));
-
-                            alert_dialog.add_response("no", _("No"));
-                            alert_dialog.add_response("yes", _("Yes"));
-
-                            alert_dialog.set_response_appearance("no", Adw.ResponseAppearance.DEFAULT);
-                            alert_dialog.set_response_appearance("yes", Adw.ResponseAppearance.DESTRUCTIVE);
-
-                            alert_dialog.choose.begin(Application.window, null, (obj, res) => {
-                                var response = alert_dialog.choose.end(res);
-
-                                if (response != "yes")
-                                    return;
-
-                                var remove_dialog = new Dialogs.RemoveDialog(release);
-                                remove_dialog.present(Application.window);
-
-                                release.send_message.connect((message) => {
-                                    switch (release.state) {
-                                        case Models.Release.State.BUSY_INSTALLING :
-                                            remove_dialog.add_text(message);
-                                            break;
-                                        case Models.Release.State.BUSY_REMOVING :
-                                            remove_dialog.add_text(message);
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                });
-
-                                release.remove.begin(new Models.Parameters(), (obj, res) => {
-                                    var success = release.remove.end(res);
-
-                                    if (success)
-                                        remove(row);
-
-                                    remove_dialog.done(success);
-                                });
-                            });
-                        });
-
-                        add(row);
-                        rows.append(row);
-                    }
-                }
-            } catch (Error e) {
-                message(e.message);
+                add(row);
+                rows.append(row);
             }
         }
 
@@ -122,6 +52,10 @@ namespace ProtonPlus.Widgets {
             }
 
             rows = new List<Adw.PreferencesRow> ();
+        }
+
+        void row_remove_from_parent(ReleaseRows.InstalledRow row) {
+            remove(row);
         }
     }
 }

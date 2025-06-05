@@ -31,30 +31,9 @@ namespace ProtonPlus.Widgets.ReleaseRows {
         }
 
         protected override void remove_button_clicked () {
-            var alert_dialog = new Adw.AlertDialog (_("Delete %s").printf (release.title), "%s\n\n%s".printf (_("You're about to remove %s from your system.").printf (release.title), _("Are you sure you want this?")));
-
-            alert_dialog.add_response ("no", _("No"));
-            alert_dialog.add_response ("yes", _("Yes"));
-
-            alert_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
-            alert_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
-
-            alert_dialog.choose.begin (Application.window, null, (obj, res) => {
-                var response = alert_dialog.choose.end (res);
-
-                if (response != "yes")
-                    return;
-
-                var remove_dialog = new Dialogs.RemoveDialog (release);
-                remove_dialog.present (Application.window);
-
-                release.send_message.connect (remove_dialog.add_text);
-
-                release.remove.begin (new Models.Parameters (), (obj, res) => {
-                    var success = release.remove.end (res);
-
-                    remove_dialog.done (success);
-                });
+            var remove_dialog = new RemoveDialog (release);
+            remove_dialog.choose.begin (Application.window, null, (obj, res) => {
+                remove_dialog.response_handler (remove_dialog.choose.end (res));
             });
         }
 

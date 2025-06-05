@@ -1,7 +1,5 @@
 namespace ProtonPlus.Models.Launchers {
     public class Steam : Launcher {
-        public List<Game> games;
-        public List<RunnerDropDownItem> compat_tools;
         public List<string> shortcut_locations;
         public List<Utils.VDF.Shortcuts> shortcuts_files;
 
@@ -24,6 +22,8 @@ namespace ProtonPlus.Models.Launchers {
             }
 
             base ("Steam", installation_type, Config.RESOURCE_BASE + "/steam.png", directories);
+
+            has_library_support = true;
 
             if (installed) {
                 groups = get_groups ();
@@ -113,6 +113,17 @@ namespace ProtonPlus.Models.Launchers {
             return installed;
         }
 
+        public int get_compatibility_tool_usage_count (string compatibility_tool_name) {
+            int count = 0;
+
+            foreach (var game in games) {
+                if (game.compat_tool == compatibility_tool_name)
+                    count++;
+            }
+
+            return count;
+        }
+
         public bool install_shortcut(Utils.VDF.Shortcuts shortcuts_file) {
             Utils.VDF.Shortcut pp_shortcut = {};
 
@@ -173,20 +184,10 @@ namespace ProtonPlus.Models.Launchers {
             }
         }
 
-        public class RunnerDropDownItem : Object {
-            public string display_title { get; set; }
-            public string title { get; set; }
-        
-            public RunnerDropDownItem(string display_title, bool format) {
-                this.display_title = display_title;
-                this.title = format ? display_title.down().split(".", 2)[0].replace(" ", "_") : display_title;
-            }
-        }
-
-        public async bool load_library_data() {
+        public override async bool load_game_library() {
             games = new List<Game> ();
 
-            compat_tools = new List<RunnerDropDownItem> ();
+            compatibility_tools = new List<SimpleRunner> ();
 
             var awacy_games = yield get_awacy_games();
 
@@ -284,7 +285,7 @@ namespace ProtonPlus.Models.Launchers {
                         // message("start: %i, end: %i, current_name: %s %s", start_pos, end_pos, current_name);
 
                         if (/Proton \d+.\d+/.match(current_name) || current_appid == "2180100" || current_appid == "1493710") {
-                            compat_tools.append(new RunnerDropDownItem(current_name, true));
+                            compatibility_tools.append(new SimpleRunner(current_name, true));
                             continue;
                         }
 
@@ -332,7 +333,7 @@ namespace ProtonPlus.Models.Launchers {
                                 continue;
 
                             if (file_info.get_name() != "LegacyRuntime")
-                                compat_tools.append(new RunnerDropDownItem(file_info.get_name(), false));
+                                compatibility_tools.append(new SimpleRunner(file_info.get_name(), false));
                         }
                     }
                 }

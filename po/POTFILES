@@ -8,15 +8,17 @@ src/widgets/runner-row.vala
 src/widgets/runner-group.vala
 src/widgets/launcher-box.vala
 src/widgets/load-more-row.vala
-src/widgets/library-dialog.vala
+src/widgets/library-box.vala
 src/widgets/game-row.vala
 src/widgets/mass-edit-dialog.vala
+src/widgets/remove-dialog.vala
+src/widgets/shortcut-button.vala
 src/widgets/window.vala
 src/widgets/application.vala
+src/widgets/release-rows/installed.vala
 src/widgets/release-rows/basic.vala
 src/widgets/release-rows/steamtinkerlaunch.vala
 src/widgets/busy-dialogs/install-dialog.vala
-src/widgets/busy-dialogs/remove-dialog.vala
 src/widgets/busy-dialogs/upgrade-dialog.vala
 src/models/release.vala
 src/models/group.vala
@@ -24,6 +26,7 @@ src/models/parameters.vala
 src/models/launcher.vala
 src/models/runner.vala
 src/models/game.vala
+src/models/simple-runner.vala
 src/models/launchers/bottles.vala
 src/models/launchers/hgl.vala
 src/models/launchers/lutris.vala

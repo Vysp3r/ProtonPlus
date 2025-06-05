@@ -14,18 +14,20 @@ protonplus_sources = files(
   'widgets/runner-group.vala',
   'widgets/runner-row.vala',
   'widgets/description-dialog.vala',
-  'widgets/library-dialog.vala',
+  'widgets/library-box.vala',
   'widgets/game-row.vala',
   'widgets/mass-edit-dialog.vala',
+  'widgets/remove-dialog.vala',
+  'widgets/shortcut-button.vala',
 
   'widgets/sidebar-rows/steam.vala',
 
   'widgets/release-rows/steamtinkerlaunch.vala',
   'widgets/release-rows/basic.vala',
+  'widgets/release-rows/installed.vala',
 
   'widgets/busy-dialogs/install-dialog.vala',
   'widgets/busy-dialogs/upgrade-dialog.vala',
-  'widgets/busy-dialogs/remove-dialog.vala',
 
   'models/group.vala',
   'models/launcher.vala',
@@ -33,6 +35,7 @@ protonplus_sources = files(
   'models/runner.vala',
   'models/parameters.vala',
   'models/game.vala',
+  'models/simple-runner.vala',
 
   'models/launchers/bottles.vala',
   'models/launchers/hgl.vala',

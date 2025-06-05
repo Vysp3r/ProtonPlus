@@ -19,8 +19,7 @@ namespace ProtonPlus.Widgets.SidebarRows {
         }
         
         void library_button_clicked() {
-            var library_dialog = new LibraryDialog(launcher);
-                library_dialog.present (Application.window);
+            activate_action_variant ("win.set-library-active", true);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace ProtonPlus.Widgets {
         }
 
         void apply_button_clicked() {
-            var item = (Models.Launchers.Steam.RunnerDropDownItem) compat_tool_dropdown.get_selected_item();
+            var item = (Models.SimpleRunner) compat_tool_dropdown.get_selected_item();
             var valids = new List<GameRow> ();
             var invalids = new List<string> ();
 
@@ -49,8 +49,8 @@ namespace ProtonPlus.Widgets {
             if (valids.length() > 0) {
                 foreach (var row in valids) {
                     row.skip = true;
-                    for (var i = 0; i < row.game.launcher.compat_tools.length(); i++) {
-                        if (row.game.compat_tool == row.game.launcher.compat_tools.nth_data(i).title) {
+                    for (var i = 0; i < row.game.launcher.compatibility_tools.length(); i++) {
+                        if (row.game.compat_tool == row.game.launcher.compatibility_tools.nth_data(i).title) {
                             row.compat_tool_dropdown.set_selected(i);
                             break;
                         }
