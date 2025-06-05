@@ -49,6 +49,7 @@ protonplus_sources = files(
   'models/runners/northstar-proton.vala',
   'models/runners/proton-ge-rstp.vala',
   'models/runners/proton-tkg.vala',
+  'models/runners/kron4ek-proton-builds.vala',
   'models/runners/proton-cachyos.vala',
   'models/runners/proton-em.vala',
   'models/runners/proton-sarek.vala',
