@@ -2,7 +2,7 @@ namespace ProtonPlus.Models.Runners {
     public class SteamTinkerLaunch : Runner {
         public SteamTinkerLaunch (Models.Group group) {
             Object (group: group,
-                    title: "SteamTinkerLaunch",
+                    title: "Steam Tinker Launch",
                     description: _("Steam tool for easy, graphical configuration of your other compatibility tools for both Windows games and native Linux games."));
         }
 

@@ -5,8 +5,6 @@ namespace ProtonPlus.Models.Releases {
 
             var upgrade_success = yield _start_upgrade ();
 
-            send_message ((upgrade_success ? _("The upgrade of %s is complete.") : _("An unexpected error occurred while upgrading %s.")).printf (title));
-
             refresh_state ();
 
             return upgrade_success;

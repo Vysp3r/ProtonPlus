@@ -39,11 +39,13 @@ namespace ProtonPlus.Models.Releases {
         protected override void refresh_state () {
             canceled = false;
 
+            step = Step.NOTHING;
+
             state = FileUtils.test (install_location, FileTest.IS_DIR) ? State.UP_TO_DATE : State.NOT_INSTALLED;
         }
 
         protected override async bool _start_install () {
-            send_message (_("Downloading..."));
+            step = Step.DOWNLOADING;
 
             string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".tar.gz";
 
@@ -52,7 +54,7 @@ namespace ProtonPlus.Models.Releases {
             if (!download_valid)
                 return false;
 
-            send_message (_("Extracting..."));
+            step = Step.EXTRACTING;
 
             string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
 
@@ -61,7 +63,7 @@ namespace ProtonPlus.Models.Releases {
             if (source_path == "")
                 return false;
 
-            send_message (_("Renaming..."));
+            step = Step.RENAMING;
 
             var runner = this.runner as Runners.Basic;
 
@@ -70,7 +72,7 @@ namespace ProtonPlus.Models.Releases {
             if (!renaming_valid)
                 return false;
 
-            send_message (_("Running post installation script..."));
+            step = Step.POST_INSTALL_SCRIPT;
 
             var install_script_success = runner.group.launcher.install (this);
 
@@ -81,14 +83,14 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override async bool _start_remove (Parameters parameters) {
-            send_message (_("Deleting..."));
+            step = Step.REMOVING;
 
             var deleted = yield Utils.Filesystem.delete_directory (install_location);
 
             if (!deleted)
                 return false;
 
-            send_message (_("Running post removal script..."));
+            step = Step.POST_REMOVAL_SCRIPT;
 
             var uninstall_script_success = runner.group.launcher.uninstall (this);
 

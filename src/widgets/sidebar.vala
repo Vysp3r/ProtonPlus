@@ -2,7 +2,6 @@ namespace ProtonPlus.Widgets {
     public class Sidebar : Gtk.Box {
         Gtk.ListBox list_box { get; set; }
         unowned List<Models.Launcher> launchers;
-        Models.Launcher selected_launcher;
 
         construct {
             var window_title = new Adw.WindowTitle ("ProtonPlus", "");
@@ -32,7 +31,7 @@ namespace ProtonPlus.Widgets {
             this.launchers = launchers;
 
             foreach (var launcher in launchers) {
-                var row = new SidebarRow (launcher.title, launcher.get_installation_type_title (), launcher.icon_path, launcher.directory);
+                var row = new SidebarRow (launcher);
                 list_box.append (row);
             }
         }
@@ -42,8 +41,7 @@ namespace ProtonPlus.Widgets {
         }
 
         void list_box_row_selected (Gtk.ListBoxRow? row) {
-            selected_launcher = launchers.nth_data (row.get_index ());
-            activate_action_variant ("win.load-info-box", row.get_index ());
+            activate_action_variant ("win.set-selected-launcher", row.get_index ());
         }
     }
 }

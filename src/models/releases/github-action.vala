@@ -11,7 +11,7 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override async bool _start_install () {
-            send_message (_("Downloading..."));
+            step = Step.DOWNLOADING;
 
             string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".tar.gz";
 
@@ -20,7 +20,7 @@ namespace ProtonPlus.Models.Releases {
             if (!download_valid)
                 return false;
 
-            send_message (_("Extracting..."));
+            step = Step.EXTRACTING;
 
             string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
 
@@ -34,7 +34,7 @@ namespace ProtonPlus.Models.Releases {
             if (source_path == "")
                 return false;
 
-            send_message (_("Renaming..."));
+            step = Step.RENAMING;
 
             var runner = this.runner as Runners.Basic;
 
@@ -43,7 +43,7 @@ namespace ProtonPlus.Models.Releases {
             if (!renaming_valid)
                 return false;
 
-            send_message (_("Running post installation script..."));
+            step = Step.POST_INSTALL_SCRIPT;
 
             var install_script_success = runner.group.launcher.install (this);
 

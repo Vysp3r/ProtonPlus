@@ -8,25 +8,30 @@ protonplus_sources = files(
   'widgets/sidebar.vala',
   'widgets/sidebar-row.vala',
   'widgets/release-row.vala',
-  'widgets/busy-dialog.vala',
   'widgets/load-more-row.vala',
   'widgets/launcher-box.vala',
   'widgets/runner-group.vala',
   'widgets/runner-row.vala',
   'widgets/description-dialog.vala',
+  'widgets/library-box.vala',
+  'widgets/game-row.vala',
+  'widgets/mass-edit-dialog.vala',
+  'widgets/remove-dialog.vala',
+  'widgets/install-dialog.vala',
+  'widgets/upgrade-dialog.vala',
+  'widgets/shortcut-button.vala',
 
-  'widgets/release-rows/steamtinkerlaunch.vala',
-  'widgets/release-rows/basic.vala',
-
-  'widgets/busy-dialogs/install-dialog.vala',
-  'widgets/busy-dialogs/upgrade-dialog.vala',
-  'widgets/busy-dialogs/remove-dialog.vala',
+  'widgets/release-rows/steamtinkerlaunch-row.vala',
+  'widgets/release-rows/basic-row.vala',
+  'widgets/release-rows/installed-row.vala',
 
   'models/group.vala',
   'models/launcher.vala',
   'models/release.vala',
   'models/runner.vala',
   'models/parameters.vala',
+  'models/game.vala',
+  'models/simple-runner.vala',
 
   'models/launchers/bottles.vala',
   'models/launchers/hgl.vala',
@@ -60,6 +65,7 @@ protonplus_sources = files(
   'models/runners/dxvk-doitsujin.vala',
   'models/runners/vkd3d-lutris.vala',
   'models/runners/vkd3d-proton.vala',
+  'models/runners/installed.vala',
 
   'models/releases/basic.vala',
   'models/releases/github-action.vala',
@@ -70,6 +76,10 @@ protonplus_sources = files(
   'utils/web.vala',
   'utils/parser.vala',
   'utils/system.vala',
+
+  'utils/vdf/node.vala',
+  'utils/vdf/binary.vala',
+  'utils/vdf/shortcut.vala',
 )
 
 protonplus_deps = [
