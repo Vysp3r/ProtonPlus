@@ -190,6 +190,8 @@ namespace ProtonPlus.Models.Launchers {
 
             compatibility_tools = new List<SimpleRunner> ();
 
+            compatibility_tools.append(new SimpleRunner(_("Undefined"), false));
+
             var awacy_games = yield get_awacy_games();
 
             var compat_tool_mapping_table = yield get_compat_tool_mapping_table();
@@ -282,8 +284,8 @@ namespace ProtonPlus.Models.Launchers {
                         end_text = "\"";
                         start_pos = current_manifest_content.index_of(start_text, 0) + start_text.length;
                         end_pos = current_manifest_content.index_of(end_text, start_pos);
-                        current_name = Markup.escape_text(current_manifest_content.substring(start_pos, end_pos - start_pos));
-                        // message("start: %i, end: %i, current_name: %s %s", start_pos, end_pos, current_name);
+                        current_name = current_manifest_content.substring(start_pos, end_pos - start_pos);
+                        // message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
 
                         if (/Proton \d+.\d+/.match(current_name) || current_appid == "2180100" || current_appid == "1493710") {
                             compatibility_tools.append(new SimpleRunner(current_name, true));
@@ -311,7 +313,7 @@ namespace ProtonPlus.Models.Launchers {
 
                         var compat_tool = compat_tool_mapping_table.get(game.appid);
                         if (compat_tool == null)
-                            compat_tool = compat_tool_mapping_table.get(0);
+                            compat_tool = "Undefined";
                         game.compat_tool = compat_tool;
                         // message("compat_tool: %s".printf(compat_tool));
 

@@ -15,5 +15,5 @@ flatpak run org.flatpak.Builder --verbose \
   "${BUILD_MANIFEST}"
 
 if [[ "$1" == "run" ]]; then
-  flatpak run --user com.vysp3r.ProtonPlus
+  flatpak run --user protonplus
 fi

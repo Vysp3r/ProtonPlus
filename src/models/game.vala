@@ -70,6 +70,21 @@ namespace ProtonPlus.Models {
                 if (compat_tool_mapping_item_appid != appid)
                     continue;
 
+                if (compat_tool == _("Undefined")) {
+                    start_pos = config_content.index_of(compat_tool_mapping_item, 0) - 6;
+                    end_pos = config_content.index_of(compat_tool_mapping_item, start_pos);
+
+                    var config_content_modified = config_content.splice(start_pos, end_pos, null);
+
+                    config_content_modified = config_content_modified.replace(compat_tool_mapping_item, "");
+
+                    Utils.Filesystem.modify_file(config_path, config_content_modified);
+
+                    this.compat_tool = compat_tool;
+
+                    return true;
+                }
+
                 start_text = "name\"\t\t\"";
                 end_text = "\"";
                 start_pos = compat_tool_mapping_item.index_of(start_text, 0) + start_text.length;
@@ -87,6 +102,9 @@ namespace ProtonPlus.Models {
 
                 return true;
             }
+
+            if (compat_tool == _("Undefined"))
+                return true;
 
             var line1 = "\n\t\t\t\t\t\"%i\"\n".printf(appid);
             var line2 = "\t\t\t\t\t{\n";

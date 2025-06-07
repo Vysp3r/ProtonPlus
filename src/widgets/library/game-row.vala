@@ -24,7 +24,7 @@ namespace ProtonPlus.Widgets {
             compat_tool_dropdown.notify["selected-item"].connect(compat_tool_dropdown_selected_item_changed);
 
             anticheat_button = new Gtk.Button.from_icon_name("shield-symbolic");
-            anticheat_button.set_tooltip_text(_("Open AreWeAntiCheatYet page"));
+            anticheat_button.set_tooltip_text(game.awacy_status);
             anticheat_button.add_css_class("flat");
             anticheat_button.clicked.connect(anticheat_button_clicked);
 
@@ -45,7 +45,8 @@ namespace ProtonPlus.Widgets {
                 anticheat_button.add_css_class("red");
                 break;
             default:
-                anticheat_button.set_visible(false);
+                anticheat_button.set_tooltip_text(_("Unknown"));
+                anticheat_button.set_sensitive(false);
                 break;
             }
 

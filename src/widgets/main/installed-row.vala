@@ -21,7 +21,6 @@ namespace ProtonPlus.Widgets.ReleaseRows {
                     remove_from_parent (this);
             });
 
-            // TODO Make it so we can use the normal rows for the 'Installed Only' filter
             if (release.title.contains ("SteamTinkerLaunch")) {
                 var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
                 parameters.delete_config = false;

@@ -25,7 +25,7 @@ namespace ProtonPlus.Widgets {
             add_action (get_set_selected_launcher_action ());
             add_action (get_set_installed_only_action ());
 
-            set_size_request (550, 600);
+            set_size_request (1024, 600);
 
             status_box = new Widgets.StatusBox ();
 

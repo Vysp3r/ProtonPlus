@@ -12,5 +12,5 @@ ninja
 
 if [[ "$1" == "run" ]]; then
   cd src
-  ./com.vysp3r.ProtonPlus
+  ./protonplus
 fi

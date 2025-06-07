@@ -3,10 +3,8 @@ namespace ProtonPlus.Widgets {
         Models.Launcher launcher { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
         Adw.WindowTitle window_title { get; set; }
-        Adw.ButtonContent shortcut_button_content { get; set; }
         ShortcutButton shortcut_button { get; set; }
-        Adw.ButtonContent mass_edit_button_content { get; set; }
-        Gtk.Button mass_edit_button { get; set; }
+        MassEditButton mass_edit_button { get; set; }
         Adw.HeaderBar header_bar { get; set; }
         Gtk.ScrolledWindow scrolled_window { get; set; }
         Gtk.ListBox game_list_box { get; set; }
@@ -15,28 +13,10 @@ namespace ProtonPlus.Widgets {
         Gtk.Spinner spinner { get; set; }
         Gtk.Overlay overlay { get; set; }
         Gtk.BinLayout bin_layout { get; set; }
-        ListStore compat_tools_liststore { get; set; }
-        Gtk.PropertyExpression compat_tools_expression { get; set; }
+        ListStore model { get; set; }
+        Gtk.PropertyExpression expression { get; set; }
 
         construct {
-            window_title = new Adw.WindowTitle("", "");
-
-            shortcut_button = new ShortcutButton();
-
-            mass_edit_button_content = new Adw.ButtonContent();
-            mass_edit_button_content.set_icon_name("edit-symbolic");
-            mass_edit_button_content.set_label(_("Mass edit"));
-
-            mass_edit_button = new Gtk.Button();
-            mass_edit_button.set_tooltip_text(_("Mass edit the compatibility tool of the selected games"));
-            mass_edit_button.set_child(mass_edit_button_content);
-            mass_edit_button.clicked.connect(mass_edit_button_clicked);
-
-            header_bar = new Adw.HeaderBar();
-            header_bar.pack_start(shortcut_button);
-            header_bar.pack_end(mass_edit_button);
-            header_bar.set_title_widget(window_title);
-
             game_list_box = new Gtk.ListBox();
             game_list_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE);
             game_list_box.add_css_class("boxed-list");
@@ -64,6 +44,17 @@ namespace ProtonPlus.Widgets {
             content_box.set_margin_end(12);
             content_box.append(scrolled_window);
             content_box.append(warning_label);
+
+            window_title = new Adw.WindowTitle("", "");
+
+            shortcut_button = new ShortcutButton();
+
+            mass_edit_button = new MassEditButton(game_list_box);
+
+            header_bar = new Adw.HeaderBar();
+            header_bar.pack_start(shortcut_button);
+            header_bar.pack_end(mass_edit_button);
+            header_bar.set_title_widget(window_title);
             
             toolbar_view = new Adw.ToolbarView();
             toolbar_view.add_top_bar(header_bar);
@@ -95,52 +86,27 @@ namespace ProtonPlus.Widgets {
             launcher.load_game_library.begin((obj, res) => {
                 var loaded = launcher.load_game_library.end(res);
 
-                if (!loaded) {
-                    overlay_clear();
-                    
-                    return;
+                if (loaded) {
+                    model = new ListStore(typeof (Models.SimpleRunner));
+                    foreach (var ct in launcher.compatibility_tools)
+                        model.append(ct);
+
+                    expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
+
+                    mass_edit_button.load(model, expression);
+
+                    foreach (var game in launcher.games) {
+                        var game_row = new GameRow(game, model, expression);
+
+                        game_list_box.append(game_row);
+                    }
+
+                    window_title.set_subtitle("%u installed games".printf(launcher.games.length()));
                 }
 
-                compat_tools_liststore = new ListStore(typeof (Models.SimpleRunner));
-                foreach (var ct in launcher.compatibility_tools)
-                    compat_tools_liststore.append(ct);
-
-                compat_tools_expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
-
-                foreach (var game in launcher.games) {
-                    var game_row = new GameRow(game, compat_tools_liststore, compat_tools_expression);
-
-                    game_list_box.append(game_row);
-                }
-
-                window_title.set_subtitle("%u installed games".printf(launcher.games.length()));
-
-                overlay_clear();
+                spinner.stop();
+                overlay.remove_overlay(spinner);
             });
-        }
-
-        void overlay_clear() {
-            spinner.stop();
-            overlay.remove_overlay(spinner);
-        }
-
-        void mass_edit_button_clicked() {
-            var rows = game_list_box.get_selected_rows();
-
-            if (rows.length() > 0) {
-                var game_rows = new GameRow[rows.length()];
-                for (var i = 0; i < rows.length(); i++) {
-                    var game_row = (GameRow) rows.nth_data(i);
-                    game_rows[i] = game_row;
-                }
-
-                var mass_edit_dialog = new MassEditDialog(game_rows, compat_tools_liststore, compat_tools_expression);
-                mass_edit_dialog.present(Application.window);
-            } else {
-                var dialog = new Adw.AlertDialog(_("Warning"), _("Please make sure to select at least one game before using the mass edit feature."));
-                dialog.add_response("ok", "OK");
-                dialog.present(Application.window);
-            }
         }
     }
 }
