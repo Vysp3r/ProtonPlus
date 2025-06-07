@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-07 18:02-0400\n"
+"POT-Creation-Date: 2025-06-07 19:38-0400\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -133,7 +133,7 @@ msgstr ""
 #: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:98
 #: src/widgets/library/mass-edit-dialog.vala:71
 #: src/widgets/library/shortcut-button.vala:36
-#: src/widgets/library/shortcut-button.vala:48
+#: src/widgets/library/shortcut-button.vala:46
 msgid "Error"
 msgstr ""
 
@@ -147,7 +147,7 @@ msgstr ""
 #: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:98
 #: src/widgets/library/mass-edit-dialog.vala:71
 #: src/widgets/library/shortcut-button.vala:36
-#: src/widgets/library/shortcut-button.vala:48
+#: src/widgets/library/shortcut-button.vala:46
 msgid "Please report this issue on GitHub."
 msgstr ""
 
@@ -308,7 +308,7 @@ msgstr ""
 msgid "When trying to remove the shortcut in Steam an error occured."
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:48
+#: src/widgets/library/shortcut-button.vala:46
 msgid "When trying to create the shortcut in Steam an error occured."
 msgstr ""
 
@@ -326,8 +326,7 @@ msgid ""
 "feature."
 msgstr ""
 
-#. TODO If the given compat_tool is undefined we need to simply remove the text from the file
-#: src/models/game.vala:74 src/models/game.vala:107
+#: src/models/game.vala:73 src/models/game.vala:106
 #: src/models/launchers/steam.vala:193
 msgid "Undefined"
 msgstr ""

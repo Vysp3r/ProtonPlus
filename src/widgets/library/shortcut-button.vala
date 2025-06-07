@@ -37,8 +37,6 @@ namespace ProtonPlus.Widgets {
                             dialog.add_response("ok", "OK");
                             dialog.present(Application.window);
                         }
-                    } else {
-                        message("remove but not installed");
                     }
                 } else {
                     if (!status) {
@@ -50,8 +48,6 @@ namespace ProtonPlus.Widgets {
                                 dialog.present(Application.window);
                             }
                         });
-                    } else {
-                        message("create but already installed");
                     }
                 }
             }
