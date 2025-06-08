@@ -1,6 +1,7 @@
 namespace ProtonPlus.Models.Runners {
     public abstract class GitHub : Basic {
         internal bool use_name_instead_of_tag_name { get; set; }
+        internal string[] request_asset_filter { get; set; }
         internal string[] request_asset_exclude { get; set; }
 
         public override async List<Release> load () {
@@ -35,7 +36,18 @@ namespace ProtonPlus.Models.Runners {
                 string page_url = object.get_string_member ("html_url");
                 string release_date = object.get_string_member ("created_at").split ("T")[0];
 
-                if (request_asset_exclude != null) {
+                if (request_asset_filter != null) {
+                    var excluded = false;
+                    foreach (var filter in request_asset_filter) {
+                        if (!title.contains (filter)) {
+                            excluded = true;
+                            break;
+                        }
+                    }
+
+                    if (excluded)
+                        continue;
+                } else if (request_asset_exclude != null) {
                     var excluded = false;
 
                     foreach (var excluded_asset in request_asset_exclude) {
