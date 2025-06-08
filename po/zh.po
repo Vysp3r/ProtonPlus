@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 18:12-0400\n"
+"POT-Creation-Date: 2025-06-07 19:38-0400\n"
 "PO-Revision-Date: 2025-03-12 09:23+0800\n"
 "Last-Translator: Zemin Ha <ruojiner@hotmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -16,219 +16,325 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 25.07.70\n"
 
-#: src/widgets/info-box.vala:16
-msgid "_Installed Only"
-msgstr "_只显示已安装的"
-
-#: src/widgets/info-box.vala:23
-msgid "_Keyboard Shortcuts"
-msgstr "_键盘快捷方式"
-
-#: src/widgets/info-box.vala:24
-msgid "_About ProtonPlus"
-msgstr "_关于 ProtonPlus"
-
-#: src/widgets/info-box.vala:31
-msgid "Main Menu"
-msgstr "主菜单"
-
-#: src/widgets/description-dialog.vala:14
-msgid "More information"
-msgstr "显示更多信息"
-
-#: src/widgets/description-dialog.vala:18
-msgid "Open"
-msgstr "打开"
-
-#: src/widgets/description-dialog.vala:22
-msgid "Open in your web browser"
-msgstr "在浏览器中打开"
-
-#: src/widgets/busy-dialog.vala:23
-msgid "Show/hide logs"
-msgstr "显示/隐藏日志"
-
-#: src/widgets/busy-dialog.vala:120
-msgid "Closing in"
-msgstr "关闭"
-
-#: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:50
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
-#: src/widgets/release-rows/steamtinkerlaunch.vala:110
-#, c-format
-msgid "Delete %s"
-msgstr "删除 %s"
-
-#: src/widgets/release-row.vala:14
-#, c-format
-msgid "Install %s"
-msgstr "安装 %s"
-
-#: src/widgets/release-row.vala:18
-msgid "Show more information"
-msgstr "显示更多信息"
-
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
-#: src/widgets/release-rows/steamtinkerlaunch.vala:110
-#, c-format
-msgid "You're about to remove %s from your system."
-msgstr "您即将从系统中删除 %s"
-
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
-#: src/widgets/release-rows/steamtinkerlaunch.vala:110
-msgid "Are you sure you want this?"
-msgstr "你确定要删除此项么？ "
-
-#: src/widgets/runner-group.vala:64 src/widgets/release-rows/basic.vala:36
-#: src/widgets/release-rows/steamtinkerlaunch.vala:114
-msgid "No"
-msgstr "否"
-
-#: src/widgets/runner-group.vala:65 src/widgets/release-rows/basic.vala:37
-#: src/widgets/release-rows/steamtinkerlaunch.vala:115
-msgid "Yes"
-msgstr "是"
-
-#: src/widgets/load-more-row.vala:8 src/widgets/load-more-row.vala:17
-msgid "Load more"
-msgstr "加载更多"
-
-#: src/widgets/window.vala:50
-#, fuzzy, c-format
-msgid "Welcome to %s"
-msgstr "欢迎来到 %s"
-
-#: src/widgets/window.vala:50
-msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr "安装Steam，Lutris，Bottles或Heroic Game Launcher 即可开始使用"
-
 #: src/widgets/application.vala:78
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Linux的现代兼容性工具管理器"
 
-#: src/widgets/application.vala:84
+#: src/widgets/application.vala:85
 msgid "Special thanks to"
 msgstr "特别感谢"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:60
-msgid "Missing dependencies!"
-msgstr "缺少依赖！"
+#: src/widgets/window.vala:34
+msgid "Show sidebar"
+msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:60
+#: src/widgets/window.vala:43
+msgid "Go back"
+msgstr ""
+
+#: src/widgets/window.vala:67
+#, fuzzy, c-format
+msgid "Welcome to %s"
+msgstr "欢迎来到 %s"
+
+#: src/widgets/window.vala:67
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+msgstr "安装Steam，Lutris，Bottles或Heroic Game Launcher 即可开始使用"
+
+#: src/widgets/sidebar/sidebar-row.vala:15
+msgid "Show game library"
+msgstr ""
+
+#: src/widgets/main/info-box.vala:15
+msgid "_Installed Only"
+msgstr "_只显示已安装的"
+
+#: src/widgets/main/info-box.vala:22
+msgid "_Keyboard Shortcuts"
+msgstr "_键盘快捷方式"
+
+#: src/widgets/main/info-box.vala:23
+msgid "_About ProtonPlus"
+msgstr "_关于 ProtonPlus"
+
+#: src/widgets/main/info-box.vala:30
+msgid "Main Menu"
+msgstr "主菜单"
+
+#: src/widgets/main/description-dialog.vala:14
+msgid "More information"
+msgstr "显示更多信息"
+
+#: src/widgets/main/description-dialog.vala:18
+msgid "Open"
+msgstr "打开"
+
+#: src/widgets/main/description-dialog.vala:22
+msgid "Open in your web browser"
+msgstr "在浏览器中打开"
+
+#: src/widgets/main/release-row.vala:10
+#, c-format
+msgid "Delete %s"
+msgstr "删除 %s"
+
+#: src/widgets/main/release-row.vala:14 src/widgets/main/install-dialog.vala:17
+#, c-format
+msgid "Install %s"
+msgstr "安装 %s"
+
+#: src/widgets/main/release-row.vala:18
+msgid "Show more information"
+msgstr "显示更多信息"
+
+#: src/widgets/main/load-more-row.vala:8 src/widgets/main/load-more-row.vala:17
+msgid "Load more"
+msgstr "加载更多"
+
+#: src/widgets/main/remove-dialog.vala:11
+#, c-format
+msgid "Remove %s"
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:13
+msgid "Are you sure you want this?"
+msgstr "你确定要删除此项么？ "
+
+#: src/widgets/main/remove-dialog.vala:21
+#, c-format
+msgid "Used by %i games."
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:24
+msgid "Used by 1 game."
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:26
+#, fuzzy
+msgid "Are you sure you want to proceed?"
+msgstr "你确定要删除么？ "
+
+#: src/widgets/main/remove-dialog.vala:30
+#: src/widgets/main/steamtinkerlaunch-row.vala:91
+msgid "No"
+msgstr "否"
+
+#: src/widgets/main/remove-dialog.vala:31
+#: src/widgets/main/steamtinkerlaunch-row.vala:92
+msgid "Yes"
+msgstr "是"
+
+#: src/widgets/main/remove-dialog.vala:49
+#: src/widgets/main/install-dialog.vala:54
+#: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:98
+#: src/widgets/library/mass-edit-dialog.vala:71
+#: src/widgets/library/shortcut-button.vala:36
+#: src/widgets/library/shortcut-button.vala:46
+msgid "Error"
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:49
+#, c-format
+msgid "When trying to remove %s an error occured."
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:49
+#: src/widgets/main/install-dialog.vala:54
+#: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:98
+#: src/widgets/library/mass-edit-dialog.vala:71
+#: src/widgets/library/shortcut-button.vala:36
+#: src/widgets/library/shortcut-button.vala:46
+msgid "Please report this issue on GitHub."
+msgstr ""
+
+#: src/widgets/main/install-dialog.vala:23
+#: src/widgets/main/upgrade-dialog.vala:23
+msgid "Cancel"
+msgstr "取消"
+
+#: src/widgets/main/install-dialog.vala:54
+#, c-format
+msgid "When trying to install %s an error occured."
+msgstr ""
+
+#: src/widgets/main/install-dialog.vala:76
+#: src/widgets/main/upgrade-dialog.vala:78
+#, fuzzy
+msgid "Downloading"
+msgstr "下载中..."
+
+#: src/widgets/main/install-dialog.vala:79
+#: src/widgets/main/upgrade-dialog.vala:81
+#, fuzzy
+msgid "Extracting"
+msgstr "解压中..."
+
+#: src/widgets/main/install-dialog.vala:82
+#, fuzzy
+msgid "Renaming"
+msgstr "重命名中..."
+
+#: src/widgets/main/install-dialog.vala:85
+#, fuzzy
+msgid "Running post install script"
+msgstr "正在运行预安装脚本..."
+
+#: src/widgets/main/upgrade-dialog.vala:17
+#, fuzzy, c-format
+msgid "Upgrade %s"
+msgstr "正在更新"
+
+#: src/widgets/main/upgrade-dialog.vala:56
+#, c-format
+msgid "When trying to upgrade %s an error occured."
+msgstr ""
+
+#: src/widgets/main/installed-row.vala:29
+#: src/widgets/main/steamtinkerlaunch-row.vala:118
+msgid "Check this to also remove your configuration files."
+msgstr "选中此项也可以删除您的配置文件。"
+
+#: src/widgets/main/steamtinkerlaunch-row.vala:43
+#: src/widgets/main/steamtinkerlaunch-row.vala:89
+#: src/widgets/main/steamtinkerlaunch-row.vala:130
+#: src/widgets/main/steamtinkerlaunch-row.vala:145
+#: src/widgets/main/steamtinkerlaunch-row.vala:149
+#: src/widgets/library/mass-edit-button.vala:41
+msgid "Warning"
+msgstr ""
+
+#: src/widgets/main/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "您缺少 %s 的以下依赖项："
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:60
+#: src/widgets/main/steamtinkerlaunch-row.vala:43
 #, fuzzy
 msgid "Installation will be canceled."
 msgstr "安装 "
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:62
-#: src/widgets/release-rows/steamtinkerlaunch.vala:76
-#: src/widgets/release-rows/steamtinkerlaunch.vala:175
+#: src/widgets/main/steamtinkerlaunch-row.vala:45
+#: src/widgets/main/steamtinkerlaunch-row.vala:155
 msgid "OK"
 msgstr "好的"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:73
-#, c-format
-msgid "Existing installation of %s"
-msgstr "%s 的现有安装"
-
-#: src/widgets/release-rows/steamtinkerlaunch.vala:73
+#: src/widgets/main/steamtinkerlaunch-row.vala:89
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr "看起来您当前有另一个版本的 %s ，但不是由 ProtonPlus 安装"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:73
-#, c-format
-msgid "Do you want to delete it and install %s with ProtonPlus?"
+#: src/widgets/main/steamtinkerlaunch-row.vala:89
+#, fuzzy
+msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "您想删除它并使用ProtonPlus安装 %s 吗？"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:75
-msgid "Cancel"
-msgstr "取消"
+#: src/widgets/main/steamtinkerlaunch-row.vala:130
+#, fuzzy, c-format
+msgid "%s is already up-to-date."
+msgstr "%s 是最新的"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:108
-msgid "Check this to also remove your configuration files."
-msgstr "选中此项也可以删除您的配置文件。"
-
-#: src/widgets/release-rows/steamtinkerlaunch.vala:165
-#: src/widgets/release-rows/steamtinkerlaunch.vala:169
-#, c-format
-msgid "%s is not supported"
-msgstr "%s 不受支持"
-
-#: src/widgets/release-rows/steamtinkerlaunch.vala:165
+#: src/widgets/main/steamtinkerlaunch-row.vala:145
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "要为 %s 安装 %s ，请运行以下命令："
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:169
+#: src/widgets/main/steamtinkerlaunch-row.vala:149
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "目前我们还没有为 %s 安装 %s 的已知方法"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:195
-#, c-format
-msgid "%s is up-to-date"
+#: src/widgets/main/steamtinkerlaunch-row.vala:175
+#, fuzzy
+msgid "Up-to-date"
 msgstr "%s 是最新的"
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:195
-#, c-format
-msgid "Update %s to the latest version"
+#: src/widgets/main/steamtinkerlaunch-row.vala:175
+#, fuzzy
+msgid "Update to the latest version"
 msgstr "将 %s 更新到最新版本"
 
-#: src/widgets/busy-dialogs/install-dialog.vala:6
-msgid "Installing"
-msgstr "正在安装"
+#: src/widgets/library/library-box.vala:37
+msgid "Close the Steam client beforehand so that the changes can be applied."
+msgstr ""
 
-#: src/widgets/busy-dialogs/remove-dialog.vala:6
-msgid "Removing"
-msgstr "正在移除"
+#: src/widgets/library/library-box.vala:71
+msgid "Library"
+msgstr ""
 
-#: src/widgets/busy-dialogs/upgrade-dialog.vala:6
-msgid "Upgrading"
-msgstr "正在更新"
+#: src/widgets/library/game-row.vala:48
+msgid "Unknown"
+msgstr ""
 
-#: src/models/release.vala:31
+#: src/widgets/library/game-row.vala:57
+msgid "Open ProtonDB page"
+msgstr ""
+
+#: src/widgets/library/game-row.vala:98
 #, c-format
-msgid "The installation of %s has begun."
-msgstr "%s 已开始安装"
+msgid "When trying to change the compatibility tool of %s an error occured."
+msgstr ""
 
-#: src/models/release.vala:34
-#, c-format
-msgid "The removal of %s has begun."
-msgstr "已开始移除 %s"
+#: src/widgets/library/mass-edit-dialog.vala:14
+msgid "games selected"
+msgstr ""
 
-#: src/models/release.vala:37
-#, c-format
-msgid "The upgrade of %s has begun."
-msgstr "%s 已开始更新"
+#: src/widgets/library/mass-edit-dialog.vala:16
+msgid "Apply"
+msgstr ""
 
-#: src/models/release.vala:57
-#, c-format
-msgid "An unexpected error occurred while installing %s."
-msgstr "安装 %s 时发生意外错误"
+#: src/widgets/library/mass-edit-dialog.vala:71
+msgid ""
+"When trying to change the compatibility tool of the selected games an error "
+"occured for the following games"
+msgstr ""
 
-#: src/models/release.vala:59
-#, c-format
-msgid "The installation of %s is complete."
-msgstr "%s 的安装已完成"
+#: src/widgets/library/shortcut-button.vala:22
+msgid "Create shortcut"
+msgstr ""
 
-#: src/models/release.vala:79
-#, c-format
-msgid "The removal of %s is complete."
-msgstr "%s 的移除已完成"
+#: src/widgets/library/shortcut-button.vala:22
+msgid "Remove shortcut"
+msgstr ""
 
-#: src/models/release.vala:79
-#, c-format
-msgid "An unexpected error occurred while removing %s."
-msgstr "移除 %s 时发生意外错误"
+#: src/widgets/library/shortcut-button.vala:23
+msgid "Create a shortcut of ProtonPlus in Steam"
+msgstr ""
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:33
+#: src/widgets/library/shortcut-button.vala:23
+msgid "Remove the shortcut of ProtonPlus in Steam"
+msgstr ""
+
+#: src/widgets/library/shortcut-button.vala:36
+msgid "When trying to remove the shortcut in Steam an error occured."
+msgstr ""
+
+#: src/widgets/library/shortcut-button.vala:46
+msgid "When trying to create the shortcut in Steam an error occured."
+msgstr ""
+
+#: src/widgets/library/mass-edit-button.vala:10
+msgid "Mass edit"
+msgstr ""
+
+#: src/widgets/library/mass-edit-button.vala:13
+#, fuzzy
+msgid "Edit the compatibility tool of the selected games at once"
+msgstr "用于运行WIndows游戏的Steam兼容性工具"
+
+#: src/widgets/library/mass-edit-button.vala:41
+msgid ""
+"Please make sure to select at least one game before using the mass edit "
+"feature."
+msgstr ""
+
+#: src/models/game.vala:73 src/models/game.vala:106
+#: src/models/launchers/steam.vala:193
+msgid "Undefined"
+msgstr ""
+
+#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
 msgstr "启动器"
 
@@ -300,6 +406,10 @@ msgstr ""
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr "为运行 Windows 游戏定制的 Proton 构建，用 Wine-tkg 构建系统构建"
 
+#: src/models/runners/kron4ek-proton-builds.vala:7
+msgid "Wine build modified by Valve and other contributors."
+msgstr ""
+
 #: src/models/runners/roberta.vala:6
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
@@ -337,43 +447,74 @@ msgstr ""
 "Steam 工具，用于轻松、图形化地配置您的其他兼容性 Windows 游戏和原生 Linux 游"
 "戏的工具"
 
-#: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
-#: src/models/releases/steamtinkerlaunch.vala:259
-#, fuzzy
-msgid "Downloading..."
-msgstr "下载中..."
+#~ msgid "Show/hide logs"
+#~ msgstr "显示/隐藏日志"
 
-#: src/models/releases/basic.vala:55 src/models/releases/github-action.vala:23
-#: src/models/releases/steamtinkerlaunch.vala:266
-#, fuzzy
-msgid "Extracting..."
-msgstr "解压中..."
+#~ msgid "Closing in"
+#~ msgstr "关闭"
 
-#: src/models/releases/basic.vala:64 src/models/releases/github-action.vala:37
-msgid "Renaming..."
-msgstr "重命名中..."
+#~ msgid "Installing"
+#~ msgstr "正在安装"
 
-#: src/models/releases/basic.vala:73 src/models/releases/github-action.vala:46
-msgid "Running post installation script..."
-msgstr "正在运行预安装脚本..."
-
-#: src/models/releases/basic.vala:84
-msgid "Deleting..."
-msgstr "删除中..."
-
-#: src/models/releases/basic.vala:91
-msgid "Running post removal script..."
-msgstr "正在运行预删除脚本..."
-
-#: src/models/releases/upgrade.vala:8
 #, c-format
-msgid "The upgrade of %s is complete."
-msgstr "%s 的更新已完成"
+#~ msgid "The installation of %s has begun."
+#~ msgstr "%s 已开始安装"
 
-#: src/models/releases/upgrade.vala:8
 #, c-format
-msgid "An unexpected error occurred while upgrading %s."
-msgstr "更新 %s 时出现了未预期的错误"
+#~ msgid "The removal of %s has begun."
+#~ msgstr "已开始移除 %s"
+
+#, c-format
+#~ msgid "The upgrade of %s has begun."
+#~ msgstr "%s 已开始更新"
+
+#, c-format
+#~ msgid "An unexpected error occurred while installing %s."
+#~ msgstr "安装 %s 时发生意外错误"
+
+#, c-format
+#~ msgid "The installation of %s is complete."
+#~ msgstr "%s 的安装已完成"
+
+#, c-format
+#~ msgid "The removal of %s is complete."
+#~ msgstr "%s 的移除已完成"
+
+#, c-format
+#~ msgid "An unexpected error occurred while removing %s."
+#~ msgstr "移除 %s 时发生意外错误"
+
+#~ msgid "Deleting..."
+#~ msgstr "删除中..."
+
+#~ msgid "Running post removal script..."
+#~ msgstr "正在运行预删除脚本..."
+
+#, c-format
+#~ msgid "The upgrade of %s is complete."
+#~ msgstr "%s 的更新已完成"
+
+#, c-format
+#~ msgid "An unexpected error occurred while upgrading %s."
+#~ msgstr "更新 %s 时出现了未预期的错误"
+
+#, c-format
+#~ msgid "You're about to remove %s from your system."
+#~ msgstr "您即将从系统中删除 %s"
+
+#~ msgid "Missing dependencies!"
+#~ msgstr "缺少依赖！"
+
+#, c-format
+#~ msgid "Existing installation of %s"
+#~ msgstr "%s 的现有安装"
+
+#, c-format
+#~ msgid "%s is not supported"
+#~ msgstr "%s 不受支持"
+
+#~ msgid "Removing"
+#~ msgstr "正在移除"
 
 #~ msgid "Contains RTX fix for Star Citizen."
 #~ msgstr "包含为星际公民的RTX修复"
@@ -401,10 +542,6 @@ msgstr "更新 %s 时出现了未预期的错误"
 #~ msgid "Delete the runner"
 #~ msgstr "删除运行器"
 
-#, fuzzy, c-format
-#~ msgid "Are you sure you want to delete %s?"
-#~ msgstr "你确定要删除么？ "
-
 #~ msgid "Confirm"
 #~ msgstr "确认"
 
@@ -425,10 +562,6 @@ msgstr "更新 %s 时出现了未预期的错误"
 #, fuzzy
 #~ msgid "Not Available"
 #~ msgstr "不可用"
-
-#, fuzzy
-#~ msgid "Steam compatibility tool for running Windows games."
-#~ msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
 #, fuzzy
 #~ msgid "Wine is a program which allows running Microsoft Windows programs."

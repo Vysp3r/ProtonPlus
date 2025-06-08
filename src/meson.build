@@ -3,30 +3,38 @@ protonplus_sources = files(
 
   'widgets/application.vala',
   'widgets/window.vala',
-  'widgets/info-box.vala',
   'widgets/status-box.vala',
-  'widgets/sidebar.vala',
-  'widgets/sidebar-row.vala',
-  'widgets/release-row.vala',
-  'widgets/busy-dialog.vala',
-  'widgets/load-more-row.vala',
-  'widgets/launcher-box.vala',
-  'widgets/runner-group.vala',
-  'widgets/runner-row.vala',
-  'widgets/description-dialog.vala',
 
-  'widgets/release-rows/steamtinkerlaunch.vala',
-  'widgets/release-rows/basic.vala',
+  'widgets/sidebar/sidebar.vala',
+  'widgets/sidebar/sidebar-row.vala',
 
-  'widgets/busy-dialogs/install-dialog.vala',
-  'widgets/busy-dialogs/upgrade-dialog.vala',
-  'widgets/busy-dialogs/remove-dialog.vala',
+  'widgets/main/info-box.vala',
+  'widgets/main/release-row.vala',
+  'widgets/main/load-more-row.vala',
+  'widgets/main/launcher-box.vala',
+  'widgets/main/runner-group.vala',
+  'widgets/main/runner-row.vala',
+  'widgets/main/description-dialog.vala',
+  'widgets/main/remove-dialog.vala',
+  'widgets/main/install-dialog.vala',
+  'widgets/main/upgrade-dialog.vala',
+  'widgets/main/steamtinkerlaunch-row.vala',
+  'widgets/main/basic-row.vala',
+  'widgets/main/installed-row.vala',
+
+  'widgets/library/library-box.vala',
+  'widgets/library/game-row.vala',
+  'widgets/library/mass-edit-dialog.vala',
+  'widgets/library/mass-edit-button.vala',
+  'widgets/library/shortcut-button.vala',
 
   'models/group.vala',
   'models/launcher.vala',
   'models/release.vala',
   'models/runner.vala',
   'models/parameters.vala',
+  'models/game.vala',
+  'models/simple-runner.vala',
 
   'models/launchers/bottles.vala',
   'models/launchers/hgl.vala',
@@ -60,6 +68,7 @@ protonplus_sources = files(
   'models/runners/dxvk-doitsujin.vala',
   'models/runners/vkd3d-lutris.vala',
   'models/runners/vkd3d-proton.vala',
+  'models/runners/installed.vala',
 
   'models/releases/basic.vala',
   'models/releases/github-action.vala',
@@ -70,6 +79,10 @@ protonplus_sources = files(
   'utils/web.vala',
   'utils/parser.vala',
   'utils/system.vala',
+
+  'utils/vdf/node.vala',
+  'utils/vdf/binary.vala',
+  'utils/vdf/shortcut.vala',
 )
 
 protonplus_deps = [

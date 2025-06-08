@@ -10,5 +10,9 @@
         <file alias="scalable/actions/dots-symbolic.svg">dots.svg</file>
         <file alias="scalable/actions/world-www-symbolic.svg">world-www.svg</file>
         <file alias="scalable/actions/journal-text-symbolic.svg">journal-text.svg</file>
+        <file alias="scalable/actions/game-library-symbolic.svg">game-library.svg</file>
+        <file alias="scalable/actions/bookmark-plus-symbolic.svg">bookmark-plus.svg</file>
+        <file alias="scalable/actions/shield-symbolic.svg">shield.svg</file>
+        <file alias="scalable/actions/edit-symbolic.svg">edit.svg</file>
     </gresource>
 </gresources>

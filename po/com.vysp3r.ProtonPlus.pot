@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 18:12-0400\n"
+"POT-Creation-Date: 2025-06-07 19:38-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,218 +17,315 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/widgets/info-box.vala:16
-msgid "_Installed Only"
-msgstr ""
-
-#: src/widgets/info-box.vala:23
-msgid "_Keyboard Shortcuts"
-msgstr ""
-
-#: src/widgets/info-box.vala:24
-msgid "_About ProtonPlus"
-msgstr ""
-
-#: src/widgets/info-box.vala:31
-msgid "Main Menu"
-msgstr ""
-
-#: src/widgets/description-dialog.vala:14
-msgid "More information"
-msgstr ""
-
-#: src/widgets/description-dialog.vala:18
-msgid "Open"
-msgstr ""
-
-#: src/widgets/description-dialog.vala:22
-msgid "Open in your web browser"
-msgstr ""
-
-#: src/widgets/busy-dialog.vala:23
-msgid "Show/hide logs"
-msgstr ""
-
-#: src/widgets/busy-dialog.vala:120
-msgid "Closing in"
-msgstr ""
-
-#: src/widgets/release-row.vala:10 src/widgets/runner-group.vala:50
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
-#: src/widgets/release-rows/steamtinkerlaunch.vala:110
-#, c-format
-msgid "Delete %s"
-msgstr ""
-
-#: src/widgets/release-row.vala:14
-#, c-format
-msgid "Install %s"
-msgstr ""
-
-#: src/widgets/release-row.vala:18
-msgid "Show more information"
-msgstr ""
-
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
-#: src/widgets/release-rows/steamtinkerlaunch.vala:110
-#, c-format
-msgid "You're about to remove %s from your system."
-msgstr ""
-
-#: src/widgets/runner-group.vala:62 src/widgets/release-rows/basic.vala:34
-#: src/widgets/release-rows/steamtinkerlaunch.vala:110
-msgid "Are you sure you want this?"
-msgstr ""
-
-#: src/widgets/runner-group.vala:64 src/widgets/release-rows/basic.vala:36
-#: src/widgets/release-rows/steamtinkerlaunch.vala:114
-msgid "No"
-msgstr ""
-
-#: src/widgets/runner-group.vala:65 src/widgets/release-rows/basic.vala:37
-#: src/widgets/release-rows/steamtinkerlaunch.vala:115
-msgid "Yes"
-msgstr ""
-
-#: src/widgets/load-more-row.vala:8 src/widgets/load-more-row.vala:17
-msgid "Load more"
-msgstr ""
-
-#: src/widgets/window.vala:50
-#, c-format
-msgid "Welcome to %s"
-msgstr ""
-
-#: src/widgets/window.vala:50
-msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr ""
-
 #: src/widgets/application.vala:78
 msgid "A modern compatibility tools manager for Linux."
 msgstr ""
 
-#: src/widgets/application.vala:84
+#: src/widgets/application.vala:85
 msgid "Special thanks to"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:60
-msgid "Missing dependencies!"
+#: src/widgets/window.vala:34
+msgid "Show sidebar"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:60
+#: src/widgets/window.vala:43
+msgid "Go back"
+msgstr ""
+
+#: src/widgets/window.vala:67
+#, c-format
+msgid "Welcome to %s"
+msgstr ""
+
+#: src/widgets/window.vala:67
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+msgstr ""
+
+#: src/widgets/sidebar/sidebar-row.vala:15
+msgid "Show game library"
+msgstr ""
+
+#: src/widgets/main/info-box.vala:15
+msgid "_Installed Only"
+msgstr ""
+
+#: src/widgets/main/info-box.vala:22
+msgid "_Keyboard Shortcuts"
+msgstr ""
+
+#: src/widgets/main/info-box.vala:23
+msgid "_About ProtonPlus"
+msgstr ""
+
+#: src/widgets/main/info-box.vala:30
+msgid "Main Menu"
+msgstr ""
+
+#: src/widgets/main/description-dialog.vala:14
+msgid "More information"
+msgstr ""
+
+#: src/widgets/main/description-dialog.vala:18
+msgid "Open"
+msgstr ""
+
+#: src/widgets/main/description-dialog.vala:22
+msgid "Open in your web browser"
+msgstr ""
+
+#: src/widgets/main/release-row.vala:10
+#, c-format
+msgid "Delete %s"
+msgstr ""
+
+#: src/widgets/main/release-row.vala:14 src/widgets/main/install-dialog.vala:17
+#, c-format
+msgid "Install %s"
+msgstr ""
+
+#: src/widgets/main/release-row.vala:18
+msgid "Show more information"
+msgstr ""
+
+#: src/widgets/main/load-more-row.vala:8 src/widgets/main/load-more-row.vala:17
+msgid "Load more"
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:11
+#, c-format
+msgid "Remove %s"
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:13
+msgid "Are you sure you want this?"
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:21
+#, c-format
+msgid "Used by %i games."
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:24
+msgid "Used by 1 game."
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:26
+msgid "Are you sure you want to proceed?"
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:30
+#: src/widgets/main/steamtinkerlaunch-row.vala:91
+msgid "No"
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:31
+#: src/widgets/main/steamtinkerlaunch-row.vala:92
+msgid "Yes"
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:49
+#: src/widgets/main/install-dialog.vala:54
+#: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:98
+#: src/widgets/library/mass-edit-dialog.vala:71
+#: src/widgets/library/shortcut-button.vala:36
+#: src/widgets/library/shortcut-button.vala:46
+msgid "Error"
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:49
+#, c-format
+msgid "When trying to remove %s an error occured."
+msgstr ""
+
+#: src/widgets/main/remove-dialog.vala:49
+#: src/widgets/main/install-dialog.vala:54
+#: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:98
+#: src/widgets/library/mass-edit-dialog.vala:71
+#: src/widgets/library/shortcut-button.vala:36
+#: src/widgets/library/shortcut-button.vala:46
+msgid "Please report this issue on GitHub."
+msgstr ""
+
+#: src/widgets/main/install-dialog.vala:23
+#: src/widgets/main/upgrade-dialog.vala:23
+msgid "Cancel"
+msgstr ""
+
+#: src/widgets/main/install-dialog.vala:54
+#, c-format
+msgid "When trying to install %s an error occured."
+msgstr ""
+
+#: src/widgets/main/install-dialog.vala:76
+#: src/widgets/main/upgrade-dialog.vala:78
+msgid "Downloading"
+msgstr ""
+
+#: src/widgets/main/install-dialog.vala:79
+#: src/widgets/main/upgrade-dialog.vala:81
+msgid "Extracting"
+msgstr ""
+
+#: src/widgets/main/install-dialog.vala:82
+msgid "Renaming"
+msgstr ""
+
+#: src/widgets/main/install-dialog.vala:85
+msgid "Running post install script"
+msgstr ""
+
+#: src/widgets/main/upgrade-dialog.vala:17
+#, c-format
+msgid "Upgrade %s"
+msgstr ""
+
+#: src/widgets/main/upgrade-dialog.vala:56
+#, c-format
+msgid "When trying to upgrade %s an error occured."
+msgstr ""
+
+#: src/widgets/main/installed-row.vala:29
+#: src/widgets/main/steamtinkerlaunch-row.vala:118
+msgid "Check this to also remove your configuration files."
+msgstr ""
+
+#: src/widgets/main/steamtinkerlaunch-row.vala:43
+#: src/widgets/main/steamtinkerlaunch-row.vala:89
+#: src/widgets/main/steamtinkerlaunch-row.vala:130
+#: src/widgets/main/steamtinkerlaunch-row.vala:145
+#: src/widgets/main/steamtinkerlaunch-row.vala:149
+#: src/widgets/library/mass-edit-button.vala:41
+msgid "Warning"
+msgstr ""
+
+#: src/widgets/main/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:60
+#: src/widgets/main/steamtinkerlaunch-row.vala:43
 msgid "Installation will be canceled."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:62
-#: src/widgets/release-rows/steamtinkerlaunch.vala:76
-#: src/widgets/release-rows/steamtinkerlaunch.vala:175
+#: src/widgets/main/steamtinkerlaunch-row.vala:45
+#: src/widgets/main/steamtinkerlaunch-row.vala:155
 msgid "OK"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:73
-#, c-format
-msgid "Existing installation of %s"
-msgstr ""
-
-#: src/widgets/release-rows/steamtinkerlaunch.vala:73
+#: src/widgets/main/steamtinkerlaunch-row.vala:89
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:73
+#: src/widgets/main/steamtinkerlaunch-row.vala:89
+msgid "Do you want to reinstall it with ProtonPlus?"
+msgstr ""
+
+#: src/widgets/main/steamtinkerlaunch-row.vala:130
 #, c-format
-msgid "Do you want to delete it and install %s with ProtonPlus?"
+msgid "%s is already up-to-date."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:75
-msgid "Cancel"
-msgstr ""
-
-#: src/widgets/release-rows/steamtinkerlaunch.vala:108
-msgid "Check this to also remove your configuration files."
-msgstr ""
-
-#: src/widgets/release-rows/steamtinkerlaunch.vala:165
-#: src/widgets/release-rows/steamtinkerlaunch.vala:169
-#, c-format
-msgid "%s is not supported"
-msgstr ""
-
-#: src/widgets/release-rows/steamtinkerlaunch.vala:165
+#: src/widgets/main/steamtinkerlaunch-row.vala:145
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:169
+#: src/widgets/main/steamtinkerlaunch-row.vala:149
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:195
+#: src/widgets/main/steamtinkerlaunch-row.vala:175
+msgid "Up-to-date"
+msgstr ""
+
+#: src/widgets/main/steamtinkerlaunch-row.vala:175
+msgid "Update to the latest version"
+msgstr ""
+
+#: src/widgets/library/library-box.vala:37
+msgid "Close the Steam client beforehand so that the changes can be applied."
+msgstr ""
+
+#: src/widgets/library/library-box.vala:71
+msgid "Library"
+msgstr ""
+
+#: src/widgets/library/game-row.vala:48
+msgid "Unknown"
+msgstr ""
+
+#: src/widgets/library/game-row.vala:57
+msgid "Open ProtonDB page"
+msgstr ""
+
+#: src/widgets/library/game-row.vala:98
 #, c-format
-msgid "%s is up-to-date"
+msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
-#: src/widgets/release-rows/steamtinkerlaunch.vala:195
-#, c-format
-msgid "Update %s to the latest version"
+#: src/widgets/library/mass-edit-dialog.vala:14
+msgid "games selected"
 msgstr ""
 
-#: src/widgets/busy-dialogs/install-dialog.vala:6
-msgid "Installing"
+#: src/widgets/library/mass-edit-dialog.vala:16
+msgid "Apply"
 msgstr ""
 
-#: src/widgets/busy-dialogs/remove-dialog.vala:6
-msgid "Removing"
+#: src/widgets/library/mass-edit-dialog.vala:71
+msgid ""
+"When trying to change the compatibility tool of the selected games an error "
+"occured for the following games"
 msgstr ""
 
-#: src/widgets/busy-dialogs/upgrade-dialog.vala:6
-msgid "Upgrading"
+#: src/widgets/library/shortcut-button.vala:22
+msgid "Create shortcut"
 msgstr ""
 
-#: src/models/release.vala:31
-#, c-format
-msgid "The installation of %s has begun."
+#: src/widgets/library/shortcut-button.vala:22
+msgid "Remove shortcut"
 msgstr ""
 
-#: src/models/release.vala:34
-#, c-format
-msgid "The removal of %s has begun."
+#: src/widgets/library/shortcut-button.vala:23
+msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr ""
 
-#: src/models/release.vala:37
-#, c-format
-msgid "The upgrade of %s has begun."
+#: src/widgets/library/shortcut-button.vala:23
+msgid "Remove the shortcut of ProtonPlus in Steam"
 msgstr ""
 
-#: src/models/release.vala:57
-#, c-format
-msgid "An unexpected error occurred while installing %s."
+#: src/widgets/library/shortcut-button.vala:36
+msgid "When trying to remove the shortcut in Steam an error occured."
 msgstr ""
 
-#: src/models/release.vala:59
-#, c-format
-msgid "The installation of %s is complete."
+#: src/widgets/library/shortcut-button.vala:46
+msgid "When trying to create the shortcut in Steam an error occured."
 msgstr ""
 
-#: src/models/release.vala:79
-#, c-format
-msgid "The removal of %s is complete."
+#: src/widgets/library/mass-edit-button.vala:10
+msgid "Mass edit"
 msgstr ""
 
-#: src/models/release.vala:79
-#, c-format
-msgid "An unexpected error occurred while removing %s."
+#: src/widgets/library/mass-edit-button.vala:13
+msgid "Edit the compatibility tool of the selected games at once"
 msgstr ""
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:33
+#: src/widgets/library/mass-edit-button.vala:41
+msgid ""
+"Please make sure to select at least one game before using the mass edit "
+"feature."
+msgstr ""
+
+#: src/models/game.vala:73 src/models/game.vala:106
+#: src/models/launchers/steam.vala:193
+msgid "Undefined"
+msgstr ""
+
+#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
 msgstr ""
 
@@ -297,6 +394,10 @@ msgstr ""
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 
+#: src/models/runners/kron4ek-proton-builds.vala:7
+msgid "Wine build modified by Valve and other contributors."
+msgstr ""
+
 #: src/models/runners/roberta.vala:6
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
@@ -327,40 +428,4 @@ msgstr ""
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
-msgstr ""
-
-#: src/models/releases/basic.vala:46 src/models/releases/github-action.vala:14
-#: src/models/releases/steamtinkerlaunch.vala:259
-msgid "Downloading..."
-msgstr ""
-
-#: src/models/releases/basic.vala:55 src/models/releases/github-action.vala:23
-#: src/models/releases/steamtinkerlaunch.vala:266
-msgid "Extracting..."
-msgstr ""
-
-#: src/models/releases/basic.vala:64 src/models/releases/github-action.vala:37
-msgid "Renaming..."
-msgstr ""
-
-#: src/models/releases/basic.vala:73 src/models/releases/github-action.vala:46
-msgid "Running post installation script..."
-msgstr ""
-
-#: src/models/releases/basic.vala:84
-msgid "Deleting..."
-msgstr ""
-
-#: src/models/releases/basic.vala:91
-msgid "Running post removal script..."
-msgstr ""
-
-#: src/models/releases/upgrade.vala:8
-#, c-format
-msgid "The upgrade of %s is complete."
-msgstr ""
-
-#: src/models/releases/upgrade.vala:8
-#, c-format
-msgid "An unexpected error occurred while upgrading %s."
 msgstr ""
