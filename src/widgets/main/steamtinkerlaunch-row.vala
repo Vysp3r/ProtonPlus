@@ -61,9 +61,9 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
             var yad_installed = false;
             if (yield Utils.System.check_dependency ("yad")) {
-                string stdout = yield Utils.System.run_command ("yad --version");
+                string yad_version_output = yield Utils.System.run_command ("yad --version");
 
-                float version = float.parse (stdout.split (" ")[0]);
+                float version = float.parse (yad_version_output.split (" ")[0]);
                 yad_installed = version >= 7.2;
             }
             if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
