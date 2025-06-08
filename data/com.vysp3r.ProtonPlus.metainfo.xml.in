@@ -87,6 +87,19 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.0" date="2025-06-02">
+      <description>
+        <ul>
+          <li>✨ Added support for Proton Kron4ek</li>
+          <li>✨ Added a way to add a shortcut of ProtonPlus in Steam</li>
+          <li>✨ Added a way to see if a compatibility tool is used or not for Steam</li>
+          <li>✨ Added the ability to change the compatibility tool of Steam games</li>
+          <li>✨ Added the ability to change the compatibility tool of multiple Steam game at the same time</li>
+          <li>🐛 Fix UI freeze when installing/removing STL</li>
+          <li>💄 Improved the UX of most of the dialogs</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.4.32" date="2025-06-02">
       <description>
         <ul>

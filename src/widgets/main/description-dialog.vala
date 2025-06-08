@@ -27,12 +27,13 @@ namespace ProtonPlus.Widgets {
             header_bar.set_title_widget (window_title);
 
             description_label = new Gtk.Label (null);
+            description_label.set_valign (Gtk.Align.START);
             description_label.set_halign (Gtk.Align.START);
 
             scrolled_window = new Gtk.ScrolledWindow ();
             scrolled_window.set_child (description_label);
             scrolled_window.set_policy (Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC);
-            scrolled_window.set_size_request (375, 175);
+            scrolled_window.set_size_request (750, 425);
             scrolled_window.add_css_class ("card");
             scrolled_window.add_css_class ("dialog");
             scrolled_window.set_margin_top (7);
