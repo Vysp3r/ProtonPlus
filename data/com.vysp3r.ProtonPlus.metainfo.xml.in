@@ -87,7 +87,14 @@
   </screenshots>
 
   <releases>
-    <release version="0.5.0" date="2025-06-02">
+    <release version="0.5.1" date="2025-06-08">
+      <description>
+        <ul>
+          <li>🐛 Fixed Proton Kron4ek</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.5.0" date="2025-06-07">
       <description>
         <ul>
           <li>✨ Added support for Proton Kron4ek</li>
