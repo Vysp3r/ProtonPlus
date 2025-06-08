@@ -17,9 +17,9 @@ finish-args:
   # Required GNOME/GTK permissions.
   - --talk-name=org.gtk.vfs.*
   - --filesystem=xdg-run/gvfsd
-  # Home is required due to "~/stl" installations on Steam Deck.
-  - --filesystem=home
-  # Request access to supported Flatpak apps (they are not included by "home").
+  # Required since we don't know where the user have it's Steam library installed
+  - --filesystem=host
+  # Request access to supported Flatpak apps
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic
   - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles
   - --filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam
