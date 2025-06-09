@@ -7,6 +7,7 @@ namespace ProtonPlus.Widgets {
         Gtk.Box box { get; set; }
         public Models.Game game { get; set; }
         public bool skip { get; set; }
+        public bool selected { get; set; }
 
         public GameRow(Models.Game game, ListStore model, Gtk.PropertyExpression expression) {
             this.game = game;
