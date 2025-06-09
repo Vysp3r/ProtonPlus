@@ -20,6 +20,7 @@ namespace ProtonPlus.Widgets {
             game_list_box = new Gtk.ListBox();
             game_list_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE);
             game_list_box.add_css_class("boxed-list");
+            game_list_box.row_activated.connect(game_list_box_row_activated);
 
             spinner = new Gtk.Spinner();
             spinner.set_halign(Gtk.Align.CENTER);
@@ -107,6 +108,20 @@ namespace ProtonPlus.Widgets {
                 spinner.stop();
                 overlay.remove_overlay(spinner);
             });
+        }
+
+        void game_list_box_row_activated(Gtk.ListBoxRow? row) {
+            if (row == null || !(row is GameRow))
+                return;
+                
+            var game_row = (GameRow) row;
+
+            if (game_row.selected) {
+                game_row.selected = false;
+                game_list_box.unselect_row(game_row);
+            } else {
+                game_row.selected = true;
+            }
         }
     }
 }
