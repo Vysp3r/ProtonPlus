@@ -50,10 +50,7 @@ namespace ProtonPlus.Widgets {
                 break;
             }
 
-            protondb_image = new Gtk.Image.from_resource("/com/vysp3r/ProtonPlus/proton.png");
-
-            protondb_button = new Gtk.Button();
-            protondb_button.set_child(protondb_image);
+            protondb_button = new Gtk.Button.from_icon_name("proton-symbolic");
             protondb_button.set_tooltip_text(_("Open ProtonDB page"));
             protondb_button.add_css_class("flat");
             protondb_button.clicked.connect(protondb_button_clicked);
