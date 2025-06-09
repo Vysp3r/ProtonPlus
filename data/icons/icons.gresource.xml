@@ -15,5 +15,8 @@
         <file alias="scalable/actions/shield-symbolic.svg">shield.svg</file>
         <file alias="scalable/actions/edit-symbolic.svg">edit.svg</file>
         <file alias="scalable/actions/proton-symbolic.svg">proton.svg</file>
+        <file alias="scalable/actions/sort-symbolic.svg">sort.svg</file>
+        <file alias="scalable/actions/select-all-symbolic.svg">select-all.svg</file>
+        <file alias="scalable/actions/deselect-symbolic.svg">deselect.svg</file>
     </gresource>
 </gresources>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-08 18:54-0400\n"
+"POT-Creation-Date: 2025-06-09 17:35-0400\n"
 "PO-Revision-Date: 2024-10-03 01:10+0200\n"
 "Last-Translator: Johnny Arcitec <Arcitec@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
@@ -134,10 +134,10 @@ msgstr "Ja"
 
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
-#: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:98
+#: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:95
 #: src/widgets/library/mass-edit-dialog.vala:71
-#: src/widgets/library/shortcut-button.vala:36
-#: src/widgets/library/shortcut-button.vala:46
+#: src/widgets/library/shortcut-button.vala:39
+#: src/widgets/library/shortcut-button.vala:50
 msgid "Error"
 msgstr ""
 
@@ -148,10 +148,10 @@ msgstr ""
 
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
-#: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:98
+#: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:95
 #: src/widgets/library/mass-edit-dialog.vala:71
-#: src/widgets/library/shortcut-button.vala:36
-#: src/widgets/library/shortcut-button.vala:46
+#: src/widgets/library/shortcut-button.vala:39
+#: src/widgets/library/shortcut-button.vala:50
 msgid "Please report this issue on GitHub."
 msgstr ""
 
@@ -205,7 +205,7 @@ msgstr "Markera detta för att även radera dina konfigurationsfiler."
 #: src/widgets/main/steamtinkerlaunch-row.vala:130
 #: src/widgets/main/steamtinkerlaunch-row.vala:145
 #: src/widgets/main/steamtinkerlaunch-row.vala:149
-#: src/widgets/library/mass-edit-button.vala:41
+#: src/widgets/library/mass-edit-button.vala:43
 msgid "Warning"
 msgstr ""
 
@@ -262,11 +262,11 @@ msgstr "%s är redan senaste versionen"
 msgid "Update to the latest version"
 msgstr "Uppdatera %s till den senaste versionen"
 
-#: src/widgets/library/library-box.vala:37
+#: src/widgets/library/library-box.vala:48
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 
-#: src/widgets/library/library-box.vala:71
+#: src/widgets/library/library-box.vala:94
 msgid "Library"
 msgstr ""
 
@@ -274,11 +274,11 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:57
+#: src/widgets/library/game-row.vala:54
 msgid "Open ProtonDB page"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:98
+#: src/widgets/library/game-row.vala:95
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
@@ -297,47 +297,82 @@ msgid ""
 "occured for the following games"
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:22
+#: src/widgets/library/shortcut-button.vala:25
 msgid "Create shortcut"
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:22
+#: src/widgets/library/shortcut-button.vala:25
 msgid "Remove shortcut"
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:23
+#: src/widgets/library/shortcut-button.vala:26
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:23
+#: src/widgets/library/shortcut-button.vala:26
 msgid "Remove the shortcut of ProtonPlus in Steam"
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:36
+#: src/widgets/library/shortcut-button.vala:39
 msgid "When trying to remove the shortcut in Steam an error occured."
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:46
+#: src/widgets/library/shortcut-button.vala:50
 msgid "When trying to create the shortcut in Steam an error occured."
 msgstr ""
+
+#: src/widgets/library/sort-by-name-button.vala:8
+msgid "Sort by name"
+msgstr ""
+
+#: src/widgets/library/sort-by-name-button.vala:12
+msgid "Sorts the games by their name"
+msgstr ""
+
+#: src/widgets/library/sort-by-tool-button.vala:8
+#, fuzzy
+msgid "Sort by compatibility tool"
+msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+
+#: src/widgets/library/sort-by-tool-button.vala:12
+msgid "Sorts the games by the compatibility tool name"
+msgstr ""
+
+#: src/widgets/library/sort-by-tool-button.vala:28
+#: src/widgets/library/sort-by-tool-button.vala:31 src/models/game.vala:73
+#: src/models/game.vala:106 src/models/launchers/steam.vala:193
+msgid "Undefined"
+msgstr ""
+
+#: src/widgets/library/select-button.vala:8
+msgid "Select all"
+msgstr ""
+
+#: src/widgets/library/select-button.vala:12
+msgid "Select all the games"
+msgstr ""
+
+#: src/widgets/library/unselect-button.vala:8
+msgid "Unselect all"
+msgstr ""
+
+#: src/widgets/library/unselect-button.vala:12
+#, fuzzy
+msgid "Unselect all the games"
+msgstr "Installera körprogrammet"
 
 #: src/widgets/library/mass-edit-button.vala:10
 msgid "Mass edit"
 msgstr ""
 
-#: src/widgets/library/mass-edit-button.vala:13
+#: src/widgets/library/mass-edit-button.vala:14
 msgid "Edit the compatibility tool of the selected games at once"
 msgstr ""
 
-#: src/widgets/library/mass-edit-button.vala:41
+#: src/widgets/library/mass-edit-button.vala:43
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
-msgstr ""
-
-#: src/models/game.vala:73 src/models/game.vala:106
-#: src/models/launchers/steam.vala:193
-msgid "Undefined"
 msgstr ""
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
@@ -565,9 +600,6 @@ msgstr ""
 
 #~ msgid "Confirm"
 #~ msgstr "Fortsätt"
-
-#~ msgid "Install the runner"
-#~ msgstr "Installera körprogrammet"
 
 #, c-format
 #~ msgid "The installation of %s was canceled."

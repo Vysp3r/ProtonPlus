@@ -7,7 +7,10 @@ namespace ProtonPlus.Widgets {
             shortcut_button_content = new Adw.ButtonContent();
             shortcut_button_content.set_icon_name("bookmark-plus-symbolic");
 
+            set_hexpand (true);
+            add_css_class("flat");
             set_child(shortcut_button_content);
+            
             clicked.connect(shortcut_button_clicked);
         }
 
