@@ -10,7 +10,9 @@ namespace ProtonPlus.Widgets {
             mass_edit_button_content.set_label (_("Mass edit"));
             mass_edit_button_content.set_icon_name("edit-symbolic");
 
+            set_hexpand (true);
             set_tooltip_text(_("Edit the compatibility tool of the selected games at once"));
+            add_css_class("flat");
             set_child(mass_edit_button_content);
 
             clicked.connect(mass_edit_button_clicked);
