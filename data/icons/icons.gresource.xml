@@ -14,5 +14,6 @@
         <file alias="scalable/actions/bookmark-plus-symbolic.svg">bookmark-plus.svg</file>
         <file alias="scalable/actions/shield-symbolic.svg">shield.svg</file>
         <file alias="scalable/actions/edit-symbolic.svg">edit.svg</file>
+        <file alias="scalable/actions/proton-symbolic.svg">proton.svg</file>
     </gresource>
 </gresources>
