@@ -137,7 +137,7 @@ namespace ProtonPlus.Models.Launchers {
                 launch_options = "\"run\" \"--branch=stable\" \"--arch=x86_64\" \"--command=com.vysp3r.ProtonPlus\" \"com.vysp3r.ProtonPlus\"";
                 icon = "/var/lib/flatpak/app/com.vysp3r.ProtonPlus/current/active/files/share/icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png";
             } else {
-                var which_output = yield Utils.System.run_command("which com.vysp3r.ProtonPlus".printf());
+                var which_output = yield Utils.System.run_command("which protonplus".printf());
                 
                 if (which_output.contains("which: no"))
                     return false;
