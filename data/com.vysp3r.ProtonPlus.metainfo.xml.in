@@ -87,6 +87,18 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.2" date="2025-06-09">
+      <description>
+        <ul>
+          <li>🐛 Fixed ProtonDB logo not appearing with light theme</li>
+          <li>🐛 Fixed shortcut button not working properly</li>
+          <li>✨ Made the games be sorted by name by default</li>
+          <li>✨ Made it possible to unselect a game by clicking on it</li>
+          <li>✨ Added a way to select/unselect all the games</li>
+          <li>✨ Added a way to sort by game name and sort by compatbility tool name</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.1" date="2025-06-08">
       <description>
         <ul>
