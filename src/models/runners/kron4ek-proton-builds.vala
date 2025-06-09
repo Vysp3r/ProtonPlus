@@ -6,7 +6,7 @@ namespace ProtonPlus.Models.Runners {
                     title: "Proton (Kron4ek)",
                     description: _("Wine build modified by Valve and other contributors."),
                     endpoint: "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
-                    asset_position: 0,
+                    asset_position: 1,
                     request_asset_filter: request_asset_filter);
         }
 
