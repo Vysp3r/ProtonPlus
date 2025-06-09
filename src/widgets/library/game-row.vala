@@ -2,7 +2,6 @@ namespace ProtonPlus.Widgets {
     public class GameRow : Gtk.ListBoxRow {
         public Gtk.DropDown compat_tool_dropdown { get; set; }
         Gtk.Button anticheat_button { get; set; }
-        Gtk.Image protondb_image { get; set; }
         Gtk.Button protondb_button { get; set; }
         Gtk.Label title_label { get; set; }
         Gtk.Box box { get; set; }
