@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-09 17:30-0400\n"
+"POT-Creation-Date: 2025-06-09 17:35-0400\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -313,7 +313,7 @@ msgid "When trying to create the shortcut in Steam an error occured."
 msgstr ""
 
 #: src/widgets/library/sort-by-name-button.vala:8
-msgid "Sort by game name"
+msgid "Sort by name"
 msgstr ""
 
 #: src/widgets/library/sort-by-name-button.vala:12
@@ -322,7 +322,7 @@ msgstr ""
 
 #: src/widgets/library/sort-by-tool-button.vala:8
 #, fuzzy
-msgid "Sort by compatibility tool name"
+msgid "Sort by compatibility tool"
 msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
 
 #: src/widgets/library/sort-by-tool-button.vala:12

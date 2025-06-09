@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-09 17:30-0400\n"
+"POT-Creation-Date: 2025-06-09 17:35-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -307,7 +307,7 @@ msgid "When trying to create the shortcut in Steam an error occured."
 msgstr ""
 
 #: src/widgets/library/sort-by-name-button.vala:8
-msgid "Sort by game name"
+msgid "Sort by name"
 msgstr ""
 
 #: src/widgets/library/sort-by-name-button.vala:12
@@ -315,7 +315,7 @@ msgid "Sorts the games by their name"
 msgstr ""
 
 #: src/widgets/library/sort-by-tool-button.vala:8
-msgid "Sort by compatibility tool name"
+msgid "Sort by compatibility tool"
 msgstr ""
 
 #: src/widgets/library/sort-by-tool-button.vala:12
