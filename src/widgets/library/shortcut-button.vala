@@ -25,10 +25,10 @@ namespace ProtonPlus.Widgets {
 
         void shortcut_button_clicked() {
             var installed = launcher.check_shortcuts_files();
-
+            
             foreach (var file in launcher.shortcuts_files) {
                 var status = file.get_installed_status();
-
+                
                 if (installed) {
                     if (status) {
                         var success = launcher.uninstall_shortcut(file);
@@ -37,6 +37,7 @@ namespace ProtonPlus.Widgets {
                             dialog.add_response("ok", "OK");
                             dialog.present(Application.window);
                         }
+                        refresh();
                     }
                 } else {
                     if (!status) {
@@ -47,12 +48,11 @@ namespace ProtonPlus.Widgets {
                                 dialog.add_response("ok", "OK");
                                 dialog.present(Application.window);
                             }
+                            refresh();
                         });
                     }
                 }
             }
-
-            refresh();
         }
     }
 }
