@@ -25,6 +25,7 @@ src/widgets/library/sort-by-tool-button.vala
 src/widgets/library/select-button.vala
 src/widgets/library/unselect-button.vala
 src/widgets/library/mass-edit-button.vala
+src/widgets/library/launch-options-dialog.vala
 src/models/release.vala
 src/models/group.vala
 src/models/parameters.vala

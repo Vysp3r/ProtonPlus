@@ -124,5 +124,76 @@ namespace ProtonPlus.Models {
 
             return true;
         }
+
+        public bool set_launch_options(string launch_options) {
+            int count = 0;
+
+            foreach(var location in launcher.get_userdata_locations()) {
+                var config_path = "%s/config/localconfig.vdf".printf(location);
+                var config_content = Utils.Filesystem.get_file_content(config_path);
+                var start_text = "";
+                var end_text = "";
+                var start_pos = 0;
+                var end_pos = 0;
+                var app = "";
+                var app_launch_options = "";
+                var app_modified = "";
+
+                start_text = "%i\"\n\t\t\t\t\t{".printf(appid);
+                end_text = "\n\t\t\t\t\t}";
+                start_pos = config_content.index_of(start_text, 0) + start_text.length;
+
+                if (start_pos == -1)
+                    continue;
+
+                end_pos = config_content.index_of(end_text, start_pos);
+                app = config_content.substring(start_pos, end_pos - start_pos);
+                // message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
+
+                if (launch_options.length == 0) {
+                    if (app.contains("LaunchOptions")) {
+                        start_text = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"";
+                        end_text = "\"";
+                        start_pos = app.index_of(start_text, 0);
+
+                        if (start_pos == -1)
+                            continue;
+
+                        end_pos = app.index_of(end_text, start_pos + start_text.length) + 1;
+                        app_launch_options = app.substring(start_pos, end_pos - start_pos);
+                        // message("start: %i, end: %i, app_launch_options: %s", start_pos, end_pos, app_launch_options);
+
+                        app_modified = app.replace(app_launch_options, "");
+                    }
+                } else {
+                    if (app.contains("LaunchOptions")) {
+                        start_text = "LaunchOptions\"\t\t\"";
+                        end_text = "\"";
+                        start_pos = app.index_of(start_text, 0) + start_text.length;
+
+                        if (start_pos == -1)
+                            continue;
+
+                        end_pos = app.index_of(end_text, start_pos);
+                        app_launch_options = app.substring(start_pos, end_pos - start_pos);
+                        // message("start: %i, end: %i, app_launch_options: %s", start_pos, end_pos, app_launch_options);
+                    
+                        app_modified = app.replace(app_launch_options, launch_options);
+                    } else {
+                        app_launch_options = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"%s\"".printf(launch_options);
+
+                        app_modified = app.concat(app_launch_options);
+                    }
+                }
+                
+                config_content = config_content.replace(app, app_modified);
+
+                Utils.Filesystem.modify_file(config_path, config_content);
+
+                count++;
+            }
+            
+            return count > 0;
+        }
     }
 }

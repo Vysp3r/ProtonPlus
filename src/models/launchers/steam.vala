@@ -64,7 +64,7 @@ namespace ProtonPlus.Models.Launchers {
             return runners;
         }
 
-        List<string> get_shortcuts_locations() {
+        public List<string> get_userdata_locations() {
             var locations = new List<string>();
 
             try {
@@ -76,11 +76,7 @@ namespace ProtonPlus.Models.Launchers {
                         if (dir != "." && dir != "..") {
                             File file = File.new_for_path(base_path + "/" + dir);
                             if (file.query_file_type(FileQueryInfoFlags.NONE) == FileType.DIRECTORY) {
-                                var full_path = "%s/%s/config/shortcuts.vdf".printf(base_path, dir);
-                                locations.append(full_path);
-                                if (!FileUtils.test(full_path, FileTest.IS_REGULAR)) {
-                                    Utils.VDF.Shortcuts.create_new_shortcuts_file_at(full_path);
-                                }
+                                locations.append(file.get_path());
                             }
                         }
                     }
@@ -89,6 +85,25 @@ namespace ProtonPlus.Models.Launchers {
                 message(e.message);
             }
 
+            return locations;
+        }
+
+        List<string> get_shortcuts_locations() {
+            var locations = new List<string>();
+
+            try {
+                foreach(var location in get_userdata_locations()) {
+                    var full_path = "%s/config/shortcuts.vdf".printf(location);
+
+                    if (!FileUtils.test(full_path, FileTest.IS_REGULAR))
+                        Utils.VDF.Shortcuts.create_new_shortcuts_file_at(full_path);
+
+                    locations.append(full_path);
+                }
+            } catch (Error e) {
+                message(e.message);
+            }
+            
             return locations;
         }
 

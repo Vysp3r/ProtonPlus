@@ -31,6 +31,7 @@ protonplus_sources = files(
   'widgets/library/sort-by-tool-button.vala',
   'widgets/library/select-button.vala',
   'widgets/library/unselect-button.vala',
+  'widgets/library/launch-options-dialog.vala',
 
   'models/group.vala',
   'models/launcher.vala',
