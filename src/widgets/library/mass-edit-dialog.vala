@@ -3,58 +3,128 @@ namespace ProtonPlus.Widgets {
         Adw.HeaderBar header_bar { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
         Adw.WindowTitle window_title { get; set; }
-        Gtk.DropDown compat_tool_dropdown { get; set; }
         Gtk.Button apply_button { get; set; }
-        Gtk.Box box { get; set; }
+        Adw.SwitchRow modify_compatibility_tool_row { get; set; }
+        Adw.ComboRow compatibility_tool_row { get; set; }
+        Adw.PreferencesGroup compatibility_tool_group { get; set; }
+        Adw.SwitchRow modify_launch_options_row { get; set; }
+        Adw.EntryRow launch_options_row { get; set; }
+        Adw.PreferencesGroup launch_options_group { get; set; }
+        Gtk.Label warning_label { get; set; }
+        Gtk.Box content_box { get; set; }
         GameRow[] rows;
 
         public MassEditDialog(GameRow[] rows, ListStore model, Gtk.PropertyExpression expression) {
             this.rows = rows;
 
-            window_title = new Adw.WindowTitle("Mass edit", "%u %s".printf(rows.length, _("games selected")));
+            window_title = new Adw.WindowTitle("Mass edit", "%u %s".printf(rows.length, rows.length == 1 ? _("game selected") : _("games selected")));
 
             apply_button = new Gtk.Button.with_label(_("Apply"));
+            apply_button.set_tooltip_text(_("Apply the current modifications"));
             apply_button.clicked.connect(apply_button_clicked);
 
             header_bar = new Adw.HeaderBar();
             header_bar.pack_start(apply_button);
             header_bar.set_title_widget(window_title);
 
-            compat_tool_dropdown = new Gtk.DropDown(model, expression);
-            compat_tool_dropdown.set_margin_start(10);
-            compat_tool_dropdown.set_margin_end(10);
-            compat_tool_dropdown.set_margin_top(10);
-            compat_tool_dropdown.set_margin_bottom(10);
+            modify_compatibility_tool_row = new Adw.SwitchRow();
+            modify_compatibility_tool_row.set_title(_("Enabled"));
+            modify_compatibility_tool_row.set_tooltip_text(_("Enable this if you want the mass edit to take the compatibility tool into account."));
+            modify_compatibility_tool_row.notify["active"].connect(modify_row_active_changed);
+
+            compatibility_tool_row = new Adw.ComboRow();
+            compatibility_tool_row.set_title(_("Select your desired compatibility tool"));
+            compatibility_tool_row.set_model(model);
+            compatibility_tool_row.set_expression(expression);
+   
+            compatibility_tool_group = new Adw.PreferencesGroup();
+            compatibility_tool_group.set_title(_("Compatibility tool"));
+            compatibility_tool_group.add(modify_compatibility_tool_row);
+            compatibility_tool_group.add(compatibility_tool_row);
+
+            modify_launch_options_row = new Adw.SwitchRow();
+            modify_launch_options_row.set_title(_("Enabled"));
+            modify_launch_options_row.set_tooltip_text(_("Enable this if you want the mass edit to take the launch options into account."));
+            modify_launch_options_row.notify["active"].connect(modify_row_active_changed);
+
+            launch_options_row = new Adw.EntryRow();
+            launch_options_row.set_title(_("Enter your desired launch options"));
+
+            launch_options_group = new Adw.PreferencesGroup();
+            launch_options_group.set_title(_("Launch options"));
+            launch_options_group.add(modify_launch_options_row);
+            launch_options_group.add(launch_options_row);
+
+            warning_label = new Gtk.Label(_("Enable all the options that you want the mass edit to take into account."));
+            warning_label.add_css_class("warning");
+
+            content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 10);
+            content_box.set_margin_start(10);
+            content_box.set_margin_end(10);
+            content_box.set_margin_top(10);
+            content_box.set_margin_bottom(10);
+            content_box.append(compatibility_tool_group);
+            content_box.append(launch_options_group);
+            content_box.append(warning_label);
 
             toolbar_view = new Adw.ToolbarView();
             toolbar_view.add_top_bar(header_bar);
-            toolbar_view.set_content(compat_tool_dropdown);
+            toolbar_view.set_content(content_box);
 
+            refresh();
+
+            set_size_request(750, 0);
             set_child(toolbar_view);
         }
 
+        void refresh() {
+            var compatibility_tool_check = modify_compatibility_tool_row.get_active();
+            var launch_options_check = modify_launch_options_row.get_active();
+
+            apply_button.set_sensitive(compatibility_tool_check || launch_options_check);
+            compatibility_tool_row.set_sensitive(compatibility_tool_check);
+            launch_options_row.set_sensitive(launch_options_check);
+        }
+
+        void modify_row_active_changed() {
+            refresh();
+        }
+
         void apply_button_clicked() {
-            var item = (Models.SimpleRunner) compat_tool_dropdown.get_selected_item();
-            var valids = new List<GameRow> ();
+            var item = (Models.SimpleRunner) compatibility_tool_row.get_selected_item();
             var invalids = new List<string> ();
 
             foreach (var row in rows) {
-                var success = row.game.set_compatibility_tool(item.title);
-                if (!success)
-                    invalids.append(row.game.name);
-                else
-                    valids.append(row);
-            }
+                if (modify_compatibility_tool_row.get_active()) {
+                    var valids = new List<GameRow> ();
 
-            if (valids.length() > 0) {
-                foreach (var row in valids) {
-                    row.skip = true;
-                    for (var i = 0; i < row.game.launcher.compatibility_tools.length(); i++) {
-                        if (row.game.compat_tool == row.game.launcher.compatibility_tools.nth_data(i).title) {
-                            row.compat_tool_dropdown.set_selected(i);
-                            break;
+                    var success = row.game.set_compatibility_tool(item.title);
+                    if (!success && invalids.find(row.game.name) == null)
+                        invalids.append(row.game.name);
+                    else
+                        valids.append(row);
+
+                    if (valids.length() > 0) {
+                        foreach (var valid_row in valids) {
+                            valid_row.skip = true;
+                            for (var i = 0; i < valid_row.game.launcher.compatibility_tools.length(); i++) {
+                                if (valid_row.game.compat_tool == valid_row.game.launcher.compatibility_tools.nth_data(i).title) {
+                                    valid_row.compat_tool_dropdown.set_selected(i);
+                                    break;
+                                }
+                            }
                         }
                     }
+                }
+
+                if (modify_launch_options_row.get_active()) {
+                    var valids = new List<GameRow> ();
+
+                    var success = row.game.set_launch_options(launch_options_row.get_text());
+                    if (!success && invalids.find(row.game.name) == null)
+                        invalids.append(row.game.name);
+                    else
+                        valids.append(row);
                 }
             }
 
@@ -68,7 +138,7 @@ namespace ProtonPlus.Widgets {
                         names += "\n";
                 }
 
-                var dialog = new Adw.AlertDialog(_("Error"), "%s:\n%s\n%s".printf(_("When trying to change the compatibility tool of the selected games an error occured for the following games"), names, _("Please report this issue on GitHub.")));
+                var dialog = new Adw.AlertDialog(_("Error"), "%s:\n\n%s\n\n%s".printf(_("When trying to change the compatibility tool/launch options of the selected games an error occured for the following games"), names, _("Please report this issue on GitHub.")));
                 dialog.add_response("ok", "OK");
                 dialog.present(Application.window);
             }

@@ -18,5 +18,6 @@
         <file alias="scalable/actions/sort-symbolic.svg">sort.svg</file>
         <file alias="scalable/actions/select-all-symbolic.svg">select-all.svg</file>
         <file alias="scalable/actions/deselect-symbolic.svg">deselect.svg</file>
+        <file alias="scalable/actions/file-settings-symbolic.svg">file-settings.svg</file>
     </gresource>
 </gresources>

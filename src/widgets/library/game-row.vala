@@ -1,16 +1,21 @@
 namespace ProtonPlus.Widgets {
     public class GameRow : Gtk.ListBoxRow {
+        Gtk.Label title_label { get; set; }
         public Gtk.DropDown compat_tool_dropdown { get; set; }
+        Gtk.Button launch_options_button { get; set; }
         Gtk.Button anticheat_button { get; set; }
         Gtk.Button protondb_button { get; set; }
-        Gtk.Label title_label { get; set; }
-        Gtk.Box box { get; set; }
+        Gtk.Box content_box { get; set; }
         public Models.Game game { get; set; }
         public bool skip { get; set; }
         public bool selected { get; set; }
 
         public GameRow(Models.Game game, ListStore model, Gtk.PropertyExpression expression) {
             this.game = game;
+
+            title_label = new Gtk.Label(game.name);
+            title_label.set_halign(Gtk.Align.START);
+            title_label.set_hexpand(true);
 
             compat_tool_dropdown = new Gtk.DropDown(model, expression);
 
@@ -22,6 +27,11 @@ namespace ProtonPlus.Widgets {
             }
 
             compat_tool_dropdown.notify["selected-item"].connect(compat_tool_dropdown_selected_item_changed);
+
+            launch_options_button = new Gtk.Button.from_icon_name("file-settings-symbolic");
+            launch_options_button.set_tooltip_text(_("Modify the game launch options"));
+            launch_options_button.add_css_class("flat");
+            launch_options_button.clicked.connect(launch_options_button_clicked);
 
             anticheat_button = new Gtk.Button.from_icon_name("shield-symbolic");
             anticheat_button.set_tooltip_text(game.awacy_status);
@@ -55,22 +65,24 @@ namespace ProtonPlus.Widgets {
             protondb_button.add_css_class("flat");
             protondb_button.clicked.connect(protondb_button_clicked);
 
-            title_label = new Gtk.Label(game.name);
-            title_label.set_halign(Gtk.Align.START);
-            title_label.set_hexpand(true);
+            content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
+            content_box.set_margin_start(10);
+            content_box.set_margin_end(10);
+            content_box.set_margin_top(10);
+            content_box.set_margin_bottom(10);
+            content_box.set_valign(Gtk.Align.CENTER);
+            content_box.append(title_label);
+            content_box.append(compat_tool_dropdown);
+            content_box.append(launch_options_button);
+            content_box.append(anticheat_button);
+            content_box.append(protondb_button);
 
-            box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
-            box.set_margin_start(10);
-            box.set_margin_end(10);
-            box.set_margin_top(10);
-            box.set_margin_bottom(10);
-            box.set_valign(Gtk.Align.CENTER);
-            box.append(title_label);
-            box.append(compat_tool_dropdown);
-            box.append(anticheat_button);
-            box.append(protondb_button);
+            set_child(content_box);
+        }
 
-            set_child(box);
+        void launch_options_button_clicked() {
+            var dialog = new LaunchOptionsDialog(this);
+            dialog.present(Application.window);
         }
 
         void anticheat_button_clicked() {

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-09 18:11-0400\n"
+"POT-Creation-Date: 2025-06-09 21:54-0400\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -128,10 +128,12 @@ msgstr "Sí"
 
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
-#: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:95
-#: src/widgets/library/mass-edit-dialog.vala:71
+#: src/widgets/main/upgrade-dialog.vala:56
+#: src/widgets/library/game-row.vala:107
+#: src/widgets/library/mass-edit-dialog.vala:141
 #: src/widgets/library/shortcut-button.vala:39
 #: src/widgets/library/shortcut-button.vala:50
+#: src/widgets/library/launch-options-dialog.vala:45
 msgid "Error"
 msgstr ""
 
@@ -142,10 +144,12 @@ msgstr ""
 
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
-#: src/widgets/main/upgrade-dialog.vala:56 src/widgets/library/game-row.vala:95
-#: src/widgets/library/mass-edit-dialog.vala:71
+#: src/widgets/main/upgrade-dialog.vala:56
+#: src/widgets/library/game-row.vala:107
+#: src/widgets/library/mass-edit-dialog.vala:141
 #: src/widgets/library/shortcut-button.vala:39
 #: src/widgets/library/shortcut-button.vala:50
+#: src/widgets/library/launch-options-dialog.vala:45
 msgid "Please report this issue on GitHub."
 msgstr ""
 
@@ -267,32 +271,90 @@ msgstr ""
 msgid "Library"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:48
+#: src/widgets/library/game-row.vala:32
+msgid "Modify the game launch options"
+msgstr ""
+
+#: src/widgets/library/game-row.vala:58
 msgid "Unknown"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:54
+#: src/widgets/library/game-row.vala:64
 msgid "Open ProtonDB page"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:95
+#: src/widgets/library/game-row.vala:107
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:14
+#: src/widgets/library/mass-edit-dialog.vala:20
+msgid "game selected"
+msgstr ""
+
+#: src/widgets/library/mass-edit-dialog.vala:20
 msgid "games selected"
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:16
+#: src/widgets/library/mass-edit-dialog.vala:22
+#: src/widgets/library/launch-options-dialog.vala:13
 msgid "Apply"
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:71
-msgid ""
-"When trying to change the compatibility tool of the selected games an error "
-"occured for the following games"
+#: src/widgets/library/mass-edit-dialog.vala:23
+msgid "Apply the current modifications"
 msgstr ""
+
+#: src/widgets/library/mass-edit-dialog.vala:31
+#: src/widgets/library/mass-edit-dialog.vala:46
+msgid "Enabled"
+msgstr ""
+
+#: src/widgets/library/mass-edit-dialog.vala:32
+msgid ""
+"Enable this if you want the mass edit to take the compatibility tool into "
+"account."
+msgstr ""
+
+#: src/widgets/library/mass-edit-dialog.vala:36
+#, fuzzy
+msgid "Select your desired compatibility tool"
+msgstr "Herramienta de compatibilidad"
+
+#: src/widgets/library/mass-edit-dialog.vala:41
+#, fuzzy
+msgid "Compatibility tool"
+msgstr "Herramienta de compatibilidad"
+
+#: src/widgets/library/mass-edit-dialog.vala:47
+msgid ""
+"Enable this if you want the mass edit to take the launch options into "
+"account."
+msgstr ""
+
+#: src/widgets/library/mass-edit-dialog.vala:51
+#: src/widgets/library/launch-options-dialog.vala:26
+#, fuzzy
+msgid "Enter your desired launch options"
+msgstr "Configuracion del lanzador"
+
+#: src/widgets/library/mass-edit-dialog.vala:54
+#, fuzzy
+msgid "Launch options"
+msgstr "Configuracion del lanzador"
+
+#: src/widgets/library/mass-edit-dialog.vala:58
+msgid ""
+"Enable all the options that you want the mass edit to take into account."
+msgstr ""
+
+#: src/widgets/library/mass-edit-dialog.vala:141
+#, fuzzy
+msgid ""
+"When trying to change the compatibility tool/launch options of the selected "
+"games an error occured for the following games"
+msgstr ""
+"Herramienta de compatibilidad de Steam para ejecutar juegos de Windows."
 
 #: src/widgets/library/shortcut-button.vala:25
 msgid "Create shortcut"
@@ -338,7 +400,7 @@ msgstr "Herramienta de compatibilidad"
 
 #: src/widgets/library/sort-by-tool-button.vala:28
 #: src/widgets/library/sort-by-tool-button.vala:31 src/models/game.vala:73
-#: src/models/game.vala:106 src/models/launchers/steam.vala:193
+#: src/models/game.vala:106 src/models/launchers/steam.vala:208
 msgid "Undefined"
 msgstr ""
 
@@ -374,6 +436,21 @@ msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
+
+#: src/widgets/library/launch-options-dialog.vala:11
+#, fuzzy
+msgid "Modify launch options"
+msgstr "Configuracion del lanzador"
+
+#: src/widgets/library/launch-options-dialog.vala:14
+msgid "Apply the current modification"
+msgstr ""
+
+#: src/widgets/library/launch-options-dialog.vala:45
+#, fuzzy, c-format
+msgid "When trying to change the launch options of %s an error occured."
+msgstr ""
+"Herramienta de compatibilidad de Steam para ejecutar juegos de Windows."
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
@@ -523,6 +600,10 @@ msgstr ""
 "Herramienta de Steam para una configuración gráfica sencilla de tus "
 "otrasherramientas de compatibilidad, tanto para juegos de Windows como para "
 "juegos nativos de Linux."
+
+#, fuzzy
+#~ msgid "Check to modify the compatibility tool"
+#~ msgstr "Herramienta de compatibilidad"
 
 #~ msgid "Show/hide logs"
 #~ msgstr "Mostrar/ocultar registros"
@@ -750,9 +831,6 @@ msgstr ""
 #~ "que hayas llegado a la máxima cantidad de peticiones por hora o podrías "
 #~ "no estar conectado a internet. Si piensas de que esto es un bug, Por "
 #~ "Favor reportalo a nosotros."
-
-#~ msgid "Launcher Settings"
-#~ msgstr "Configuracion del lanzador"
 
 #~ msgid "Clean launcher"
 #~ msgstr "Limpiar lanzador"
