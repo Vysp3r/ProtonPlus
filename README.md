@@ -39,14 +39,13 @@
 
 <details>
   <summary>Supported launchers</summary>
-
+    
   - Steam
   - Lutris
   - Heroic Games Launcher
   - Bottles
 
-  > [!TIP]
-  > The launcher you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md)!
+*The launcher you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md)!*
 
 </details>
 
@@ -75,8 +74,7 @@
   - VKD3D-Lutris
   - VKD3D-Proton
 
-  > [!TIP]
-  > The compatibility tool you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md)!
+  *The compatibility tool you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md)!*
 
 </details>
 
