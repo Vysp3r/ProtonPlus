@@ -31,6 +31,52 @@
             alt="The main interface of ProtonPlus">
     </section>
 
+    <section class="features">
+        <h2>Features</h2>
+
+        <ul class="list">
+            <li>Manage supported compatiblity tools across supported launchers</li>
+            <li>Change the compatibility tool and launch options of your Steam games</li>
+        </ul>
+
+        <button class="accordion">Supported launchers</button>
+        <div class="panel">
+            <ul class="list">
+                <li>Steam</li>
+                <li>Lutris</li>
+                <li>Heroic Games Launcher</li>
+                <li>Bottles</li>
+            </ul>
+        </div>
+
+        <button class="accordion">Supported compatibility tools</button>
+        <div class="panel">
+            <ul class="list">
+                <li>Steam Tinker Launch</li>
+                <li>Proton-GE</li>
+                <li>Luxtorpeda</li>
+                <li>Boxtron</li>
+                <li>Roberta</li>
+                <li>NorthstarProton</li>
+                <li>Proton-GE RTSP</li>
+                <li>Proton CachyOS</li>
+                <li>Proton EM</li>
+                <li>Proton Tkg</li>
+                <li>Proton Sarek</li>
+                <li>Kron4ek Proton</li>
+                <li>Kron4ek Wine-Builds Vanilla</li>
+                <li>Kron4ek Wine-Builds Staging</li>
+                <li>Kron4ek Wine-Builds Staging-Tkg</li>
+                <li>DXVK</li>
+                <li>DXVK (Sarek)</li>
+                <li>DXVK Async (Sarek)</li>
+                <li>DXVK GPL+Async (Ph42oN)</li>
+                <li>VKD3D-Lutris</li>
+                <li>VKD3D-Proton</li>
+            </ul>
+        </div>
+    </section>
+
     <section class="download">
         <h2>Download</h2>
 
@@ -54,8 +100,7 @@
                 <a href="https://mynixos.com/nixpkgs/package/protonplus">NixOS (MyNixOS)</a> (Maintained by Seth)
             </li>
             <li>
-                <a href="https://pacstall.dev/packages/protonplus">Ubuntu (Pacstall)</a> (Maintained by xdavius and
-                Vysp3r)
+                <a href="https://pacstall.dev/packages/protonplus">Ubuntu (Pacstall)</a> (Maintained by Vysp3r)
             </li>
             <li>
                 <a href="https://software.opensuse.org/package/ProtonPlus">openSUSE</a> (Maintained by rrahl0)
@@ -81,5 +126,21 @@
 </body>
 
 <footer></footer>
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>
 
 </html>
