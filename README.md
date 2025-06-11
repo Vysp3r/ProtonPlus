@@ -32,6 +32,54 @@
 
 [<img alt='Preview 1' src='data/previews/Preview-1.png' />](https://flathub.org/apps/details/com.vysp3r.ProtonPlus)
 
+## ✨ Features
+
+- Manage supported compatiblity tools across supported launchers
+- Change the compatibility tool and launch options of your Steam games
+
+<details>
+  <summary>Supported launchers</summary>
+
+  - Steam
+  - Lutris
+  - Heroic Games Launcher
+  - Bottles
+
+  > [!TIP]
+  > The launcher you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md)!
+
+</details>
+
+<details>
+  <summary>Supported compatibility tools</summary>
+
+  - Steam Tinker Launch
+  - Proton-GE
+  - Luxtorpeda
+  - Boxtron
+  - Roberta
+  - NorthstarProton
+  - Proton-GE RTSP
+  - Proton CachyOS
+  - Proton EM
+  - Proton Tkg
+  - Proton Sarek
+  - Kron4ek Proton
+  - Kron4ek Wine-Builds Vanilla
+  - Kron4ek Wine-Builds Staging
+  - Kron4ek Wine-Builds Staging-Tkg
+  - DXVK
+  - DXVK (Sarek)
+  - DXVK Async (Sarek)
+  - DXVK GPL+Async (Ph42oN)
+  - VKD3D-Lutris
+  - VKD3D-Proton
+
+  > [!TIP]
+  > The compatibility tool you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md)!
+
+</details>
+
 ## 📦️ Installation methods
 
 <a href="https://flathub.org/apps/com.vysp3r.ProtonPlus">
@@ -40,7 +88,7 @@
 
 <p></p>
 
-> [!WARNING]
+> [!IMPORTANT]
 > The main installation method is Flathub
 
 ### [Arch Linux (AUR)](https://aur.archlinux.org/packages/protonplus) (Maintained by yochananmarqos)
@@ -174,6 +222,6 @@
 
 All contributions are highly appreciated.
 
-## ✨️ Contributors
+## 👥 Contributors
 
 [![Contributors](https://contrib.rocks/image?repo=Vysp3r/ProtonPlus)](https://github.com/Vysp3r/ProtonPlus/graphs/contributors)
