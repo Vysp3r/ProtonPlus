@@ -1,4 +1,4 @@
-namespace ProtonPlus.Utils.VDF {
+namespace ProtonPlus.Models.VDF {
     public class Node : Gee.TreeMap<string, GLib.Variant> {
         public string node_name;
 

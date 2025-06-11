@@ -26,7 +26,10 @@ src/widgets/library/select-button.vala
 src/widgets/library/unselect-button.vala
 src/widgets/library/mass-edit-button.vala
 src/widgets/library/launch-options-dialog.vala
+src/widgets/library/profile-dialog.vala
+src/widgets/library/profile-button.vala
 src/models/release.vala
+src/models/steam-profile.vala
 src/models/group.vala
 src/models/parameters.vala
 src/models/launcher.vala
@@ -37,6 +40,10 @@ src/models/launchers/bottles.vala
 src/models/launchers/hgl.vala
 src/models/launchers/lutris.vala
 src/models/launchers/steam.vala
+src/models/games/steam.vala
+src/models/vdf/binary.vala
+src/models/vdf/node.vala
+src/models/vdf/shortcut.vala
 src/models/runners/basic.vala
 src/models/runners/github.vala
 src/models/runners/github-action.vala
@@ -74,7 +81,4 @@ src/utils/filesystem.vala
 src/utils/parser.vala
 src/utils/web.vala
 src/utils/system.vala
-src/utils/vdf/binary.vala
-src/utils/vdf/node.vala
-src/utils/vdf/shortcut.vala
 src/main.vala

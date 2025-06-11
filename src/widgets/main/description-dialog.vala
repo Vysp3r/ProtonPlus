@@ -35,7 +35,7 @@ namespace ProtonPlus.Widgets {
             scrolled_window.set_policy (Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC);
             scrolled_window.set_size_request (750, 425);
             scrolled_window.add_css_class ("card");
-            scrolled_window.add_css_class ("dialog");
+            scrolled_window.add_css_class ("p-10");
             scrolled_window.set_margin_top (7);
             scrolled_window.set_margin_bottom (12);
             scrolled_window.set_margin_start (12);

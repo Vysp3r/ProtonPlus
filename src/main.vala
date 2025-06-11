@@ -5,9 +5,9 @@ namespace ProtonPlus {
             return -1;
         }
 
-        Intl.bindtextdomain (Config.APP_ID, Config.LOCALE_DIR);
-        Intl.bind_textdomain_codeset (Config.APP_ID, "UTF-8");
-        Intl.textdomain (Config.APP_ID);
+        Intl.bindtextdomain (Globals.APP_ID, Globals.LOCALE_DIR);
+        Intl.bind_textdomain_codeset (Globals.APP_ID, "UTF-8");
+        Intl.textdomain (Globals.APP_ID);
 
         var application = new Widgets.Application ();
         return application.run (args);

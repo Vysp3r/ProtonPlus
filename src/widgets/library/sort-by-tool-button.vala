@@ -22,8 +22,8 @@ namespace ProtonPlus.Widgets {
 
         void sort_by_tool_button_clicked () {
             game_list_box.set_sort_func((row1, row2) => {
-                var name1 = ((GameRow)row1).game.compat_tool;
-                var name2 = ((GameRow)row2).game.compat_tool;
+                var name1 = ((GameRow)row1).game.compatibility_tool;
+                var name2 = ((GameRow)row2).game.compatibility_tool;
 
                 if (name1 == _("Undefined"))
                     name1 = "zzzz";

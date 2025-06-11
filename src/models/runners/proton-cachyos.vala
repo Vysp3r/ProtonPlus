@@ -2,7 +2,7 @@ namespace ProtonPlus.Models.Runners {
     public class Proton_CachyOS : GitHub {
         public Proton_CachyOS (Group group) {
             int position = 1;
-            foreach (var item in Utils.System.HWCAPS) {
+            foreach (var item in Globals.HWCAPS) {
                 if (item == "x86_64_v3") {
                     position = 3;
                     break;
