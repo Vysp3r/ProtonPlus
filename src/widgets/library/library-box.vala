@@ -17,7 +17,7 @@ namespace ProtonPlus.Widgets {
         Gtk.ListBox game_list_box { get; set; }
         Gtk.Label warning_label { get; set; }
         Gtk.Box content_box { get; set; }
-        Adw.Spinner spinner { get; set; }
+        Gtk.Spinner spinner { get; set; }
         Gtk.Overlay overlay { get; set; }
         Gtk.BinLayout bin_layout { get; set; }
         ListStore model { get; set; }
@@ -34,7 +34,7 @@ namespace ProtonPlus.Widgets {
             game_list_box.add_css_class("boxed-list");
             game_list_box.row_activated.connect(game_list_box_row_activated);
 
-            spinner = new Adw.Spinner();
+            spinner = new Gtk.Spinner();
             spinner.set_halign(Gtk.Align.CENTER);
             spinner.set_valign(Gtk.Align.CENTER);
             spinner.set_size_request(200, 200);
@@ -117,6 +117,8 @@ namespace ProtonPlus.Widgets {
         }
 
         void load_games() {
+            spinner.start();
+
             overlay.add_overlay(spinner);
 
             launcher.load_game_library.begin((obj, res) => {
@@ -143,6 +145,8 @@ namespace ProtonPlus.Widgets {
                 }
 
                 overlay.remove_overlay(spinner);
+
+                spinner.stop();
             });
         }
 
