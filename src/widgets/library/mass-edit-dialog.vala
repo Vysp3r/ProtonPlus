@@ -17,7 +17,7 @@ namespace ProtonPlus.Widgets {
         public MassEditDialog(GameRow[] rows, ListStore model, Gtk.PropertyExpression expression) {
             this.rows = rows;
 
-            window_title = new Adw.WindowTitle("Mass edit", "%u %s".printf(rows.length, rows.length == 1 ? _("game selected") : _("games selected")));
+            window_title = new Adw.WindowTitle(_("Mass edit"), "%u %s".printf(rows.length, rows.length == 1 ? _("game selected") : _("games selected")));
 
             apply_button = new Gtk.Button.with_label(_("Apply"));
             apply_button.set_tooltip_text(_("Apply the current modifications"));
@@ -64,7 +64,10 @@ namespace ProtonPlus.Widgets {
             content_box.set_margin_top(10);
             content_box.set_margin_bottom(10);
             content_box.append(compatibility_tool_group);
-            content_box.append(launch_options_group);
+            
+            if (rows[0].game.launcher is Models.Launchers.Steam)
+                content_box.append(launch_options_group);
+
             content_box.append(warning_label);
 
             toolbar_view = new Adw.ToolbarView();
@@ -98,7 +101,7 @@ namespace ProtonPlus.Widgets {
                 if (modify_compatibility_tool_row.get_active()) {
                     var valids = new List<GameRow> ();
 
-                    var success = row.game.set_compatibility_tool(item.title);
+                    var success = row.game.change_compatibility_tool(item.title);
                     if (!success && invalids.find(row.game.name) == null)
                         invalids.append(row.game.name);
                     else
@@ -108,19 +111,22 @@ namespace ProtonPlus.Widgets {
                         foreach (var valid_row in valids) {
                             valid_row.skip = true;
                             for (var i = 0; i < valid_row.game.launcher.compatibility_tools.length(); i++) {
-                                if (valid_row.game.compat_tool == valid_row.game.launcher.compatibility_tools.nth_data(i).title) {
-                                    valid_row.compat_tool_dropdown.set_selected(i);
+                                if (valid_row.game.compatibility_tool == valid_row.game.launcher.compatibility_tools.nth_data(i).title) {
+                                    valid_row.compatibility_tool_dropdown.set_selected(i);
                                     break;
                                 }
                             }
                         }
                     }
                 }
-
-                if (modify_launch_options_row.get_active()) {
+                
+                if (row.game.launcher is Models.Launchers.Steam && modify_launch_options_row.get_active()) {
                     var valids = new List<GameRow> ();
 
-                    var success = row.game.set_launch_options(launch_options_row.get_text());
+                    var steam_game = (Models.Games.Steam) row.game;
+                    var steam_launcher = (Models.Launchers.Steam) steam_game.launcher;
+
+                    var success = steam_game.change_launch_options(launch_options_row.get_text(), steam_launcher.profile.localconfig_path);
                     if (!success && invalids.find(row.game.name) == null)
                         invalids.append(row.game.name);
                     else

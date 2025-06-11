@@ -35,7 +35,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 
         protected override void install_button_clicked () {
             // Steam Deck doesn't need any external dependencies.
-            if (!Utils.System.IS_STEAM_OS) {
+            if (!Globals.IS_STEAM_OS) {
                 dependency_check.begin ((obj, res) => {
                     var missing_dependencies = dependency_check.end (res);
 

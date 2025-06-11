@@ -1,19 +1,5 @@
 namespace ProtonPlus.Utils {
     public class System {
-        public static bool IS_STEAM_OS = false;
-        public static bool IS_GAMESCOPE = false;
-        public static bool IS_FLATPAK = false;
-        public static List<string> HWCAPS = new List<string> ();
-
-        public static void initialize () {
-            IS_FLATPAK = FileUtils.test ("/.flatpak-info", FileTest.IS_REGULAR);
-            IS_GAMESCOPE = Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland";
-            get_distribution_name.begin ((obj,res)=> {
-                IS_STEAM_OS = get_distribution_name.end (res).ascii_down () == "steamos";
-            });
-            HWCAPS = get_hwcaps ();
-        }
-
         public static async string run_command (string command) {
             SourceFunc callback = run_command.callback;
 
@@ -21,7 +7,7 @@ namespace ProtonPlus.Utils {
             new Thread<void> ("rename", () => {
                 try {
                     string command_line = "";
-                    if (IS_FLATPAK)command_line += "flatpak-spawn --host ";
+                    if (Globals.IS_FLATPAK)command_line += "flatpak-spawn --host ";
                     command_line += command;
 
                     var valid = Process.spawn_command_line_sync (command_line, out output, null, null);
@@ -116,7 +102,7 @@ namespace ProtonPlus.Utils {
             return (yield run_command (@"which $name")) == "" ? false : true;
         }
 
-        static async string get_distribution_name () {
+        public static async string get_distribution_name () {
             var distro_info = (yield run_command ("cat /etc/lsb-release /etc/os-release")).split ("\n", 1)[0];
 
             var distro_name = "Unknown";

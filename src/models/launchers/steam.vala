@@ -1,7 +1,7 @@
 namespace ProtonPlus.Models.Launchers {
     public class Steam : Launcher {
-        public List<string> shortcut_locations;
-        public List<Utils.VDF.Shortcuts> shortcuts_files;
+        public List<SteamProfile> profiles;
+        public SteamProfile profile;
 
         public Steam (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
@@ -21,7 +21,7 @@ namespace ProtonPlus.Models.Launchers {
                 break;
             }
 
-            base ("Steam", installation_type, Config.RESOURCE_BASE + "/steam.png", directories);
+            base ("Steam", installation_type, Globals.RESOURCE_BASE + "/steam.png", directories);
 
             has_library_support = true;
 
@@ -30,8 +30,7 @@ namespace ProtonPlus.Models.Launchers {
                 install.connect ((release) => true);
                 uninstall.connect ((release) => true);
 
-                shortcut_locations = get_shortcuts_locations();
-                shortcuts_files = get_shortcuts_files();
+                profiles = SteamProfile.get_profiles(this);
             }
         }
 
@@ -64,140 +63,15 @@ namespace ProtonPlus.Models.Launchers {
             return runners;
         }
 
-        public List<string> get_userdata_locations() {
-            var locations = new List<string>();
-
-            try {
-                string base_path = "%s/userdata".printf(directory);
-                if (FileUtils.test(base_path, FileTest.IS_DIR)) {
-                    Dir directory = Dir.open(base_path);
-                    string? dir;
-                    while ((dir = directory.read_name()) != null) {
-                        if (dir != "." && dir != "..") {
-                            File file = File.new_for_path(base_path + "/" + dir);
-                            if (file.query_file_type(FileQueryInfoFlags.NONE) == FileType.DIRECTORY) {
-                                locations.append(file.get_path());
-                            }
-                        }
-                    }
-                }
-            } catch (Error e) {
-                message(e.message);
-            }
-
-            return locations;
-        }
-
-        List<string> get_shortcuts_locations() {
-            var locations = new List<string>();
-
-            try {
-                foreach(var location in get_userdata_locations()) {
-                    var full_path = "%s/config/shortcuts.vdf".printf(location);
-
-                    if (!FileUtils.test(full_path, FileTest.IS_REGULAR))
-                        Utils.VDF.Shortcuts.create_new_shortcuts_file_at(full_path);
-
-                    locations.append(full_path);
-                }
-            } catch (Error e) {
-                message(e.message);
-            }
-            
-            return locations;
-        }
-
-        List<Utils.VDF.Shortcuts> get_shortcuts_files() {
-            var files = new List<Utils.VDF.Shortcuts>();
-
-            foreach (var location in shortcut_locations) {
-                var file = new Utils.VDF.Shortcuts(location);
-                files.append(file);
-            }
-
-            return files;
-        }
-
-        public bool check_shortcuts_files() {
-            var installed = false;
-
-            foreach (var file in shortcuts_files) {
-                if (file.get_installed_status())
-                    installed = true;
-            }
-
-            return installed;
-        }
-
         public int get_compatibility_tool_usage_count (string compatibility_tool_name) {
             int count = 0;
 
             foreach (var game in games) {
-                if (game.compat_tool == compatibility_tool_name)
+                if (game.compatibility_tool == compatibility_tool_name)
                     count++;
             }
 
             return count;
-        }
-
-        public async bool install_shortcut(Utils.VDF.Shortcuts shortcuts_file) {
-            Utils.VDF.Shortcut pp_shortcut = {};
-
-            string exe = "";
-            string launch_options = "";
-            string icon = "";
-
-            if (FileUtils.test("/.flatpak-info", FileTest.EXISTS)) {
-                exe = "\"/usr/bin/flatpak\"";
-                launch_options = "\"run\" \"--branch=stable\" \"--arch=x86_64\" \"--command=com.vysp3r.ProtonPlus\" \"com.vysp3r.ProtonPlus\"";
-                icon = "/var/lib/flatpak/app/com.vysp3r.ProtonPlus/current/active/files/share/icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png";
-            } else {
-                var which_output = yield Utils.System.run_command("which protonplus".printf());
-                
-                if (which_output.contains("which: no"))
-                    return false;
-
-                exe = "%s".printf(which_output);
-                icon = "/usr/share/icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png";
-            }
-            
-            try {
-                pp_shortcut.AppID = 1621167220;
-                pp_shortcut.AppName = "ProtonPlus";
-                pp_shortcut.Exe = exe;
-                pp_shortcut.StartDir = "./";
-                pp_shortcut.Icon = icon;
-                pp_shortcut.ShortcutPath = "";
-                pp_shortcut.LaunchOptions = launch_options;
-                pp_shortcut.IsHidden = false;
-                pp_shortcut.AllowDesktopConfig = true;
-                pp_shortcut.AllowOverlay = true;
-                pp_shortcut.OpenVR = 0;
-                pp_shortcut.Devkit = 0;
-                pp_shortcut.DevkitGameID = "\0";
-                pp_shortcut.DevkitOverrideAppID = 0;
-                pp_shortcut.LastPlayTime = 0;
-                pp_shortcut.FlatpakAppID = "";
-                
-                shortcuts_file.append_shortcut(pp_shortcut);
-                shortcuts_file.save();
-
-                return true;
-            } catch (Error e) {
-                message(e.message);
-                return false;
-            }
-        }
-
-        public bool uninstall_shortcut(Utils.VDF.Shortcuts shortcuts_file) {
-            try {
-                shortcuts_file.remove_shortcut_by_name("ProtonPlus");
-                shortcuts_file.save();
-                return true;
-            } catch (Error e) {
-                message(e.message);
-                return true;
-            }
         }
 
         public override async bool load_game_library() {
@@ -207,9 +81,11 @@ namespace ProtonPlus.Models.Launchers {
 
             compatibility_tools.append(new SimpleRunner(_("Undefined"), false));
 
-            var awacy_games = yield get_awacy_games();
+            var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games();
 
-            var compat_tool_mapping_table = yield get_compat_tool_mapping_table();
+            var compatibility_tool_hashtable = yield get_compatibility_tool_hashtable();
+
+            var launch_options_hashtable = yield get_launch_options_hashtable();
 
             var libraryfolder_content = Utils.Filesystem.get_file_content("%s/steamapps/libraryfolders.vdf".printf(directory));
             var current_libraryfolder_content = "";
@@ -274,6 +150,11 @@ namespace ProtonPlus.Models.Launchers {
                         current_position = end_pos;
                         // message("start: %i, end: %i, id: %s", start_pos, end_pos, current_appid);
 
+                        var id = 0;
+                        var id_valid = int.try_parse(current_appid, out id);
+                        if (!id_valid)
+                            continue;
+
                         bool valid_appid = true;
                         string[] excluded_appids = { "2230260", "1826330", "1161040", "1070560", "1391110", "1628350", "228980" };
                         foreach (var excluded_appid in excluded_appids) {
@@ -317,7 +198,7 @@ namespace ProtonPlus.Models.Launchers {
                         if (!FileUtils.test("%s/common/%s".printf(current_steamapps_path, current_installdir), FileTest.IS_DIR))
                             continue;
 
-                        var game = new Game(int.parse(current_appid), current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
+                        var game = new Games.Steam(id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
 
                         foreach (var awacy_game in awacy_games) {
                             if (awacy_game.appid == game.appid) {
@@ -326,10 +207,16 @@ namespace ProtonPlus.Models.Launchers {
                             }
                         }
 
-                        var compat_tool = compat_tool_mapping_table.get(game.appid);
-                        if (compat_tool == null)
-                            compat_tool = "Undefined";
-                        game.compat_tool = compat_tool;
+                        var compatibility_tool = compatibility_tool_hashtable.get(game.appid);
+                        if (compatibility_tool == null)
+                            compatibility_tool = "Undefined";
+                        game.compatibility_tool = compatibility_tool;
+                        // message("compat_tool: %s".printf(compat_tool));
+
+                        var launch_options = launch_options_hashtable.get(game.appid);
+                        if (launch_options == null)
+                            launch_options = "";
+                        game.launch_options = launch_options;
                         // message("compat_tool: %s".printf(compat_tool));
 
                         games.append(game);
@@ -362,65 +249,8 @@ namespace ProtonPlus.Models.Launchers {
             return true;
         }
 
-        async List<Models.AwacyGame?> get_awacy_games() {
-            var games = new List<Models.AwacyGame?> ();
-
-            var json = yield Utils.Web.GET("https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json", false);
-
-            if (json == null)
-                return games;
-
-            var root_node = Utils.Parser.get_node_from_json(json);
-
-            if (root_node == null)
-                return games;
-
-            if (root_node.get_node_type() != Json.NodeType.ARRAY)
-                return games;
-
-            var root_array = root_node.get_array();
-            if (root_array == null)
-                return games;
-
-            for (var i = 0; i < root_array.get_length(); i++) {
-                var object = root_array.get_object_element(i);
-
-                var storeids_object = object.get_object_member("storeIds");
-                if (storeids_object == null)
-                    continue;
-
-                if (!storeids_object.has_member("steam"))
-                    continue;
-
-                int appid = 0;
-                if (!int.try_parse(storeids_object.get_string_member("steam"), out appid))
-                    continue;
-
-                if (!object.has_member("slug"))
-                    continue;
-
-                var name = object.get_string_member("slug");
-
-                if (!object.has_member("status"))
-                    continue;
-
-                var status = object.get_string_member("status");
-
-                // message("appid: %i, slug: %s, status: %s".printf(appid, name, status));
-
-                var game = Models.AwacyGame();
-                game.appid = appid;
-                game.name = name;
-                game.status = status;
-
-                games.append(game);
-            }
-
-            return games;
-        }
-
-        async HashTable<int, string> get_compat_tool_mapping_table() {
-            var compat_tool_mapping_table = new HashTable<int, string> (null, null);
+        async HashTable<int, string> get_compatibility_tool_hashtable() {
+            var compatibility_tool_hashtable = new HashTable<int, string> (null, null);
 
             var config_content = Utils.Filesystem.get_file_content("%s/config/config.vdf".printf(directory));
             var compat_tool_mapping_content = "";
@@ -469,10 +299,99 @@ namespace ProtonPlus.Models.Launchers {
                 compat_tool_mapping_item_name = compat_tool_mapping_item.substring(start_pos, end_pos - start_pos);
                 // message("start: %i, end: %i, compat_tool_mapping_item_name: %s", start_pos, end_pos, compat_tool_mapping_item_name);
 
-                compat_tool_mapping_table.set(compat_tool_mapping_item_appid, compat_tool_mapping_item_name);
+                compatibility_tool_hashtable.set(compat_tool_mapping_item_appid, compat_tool_mapping_item_name);
             }
 
-            return compat_tool_mapping_table;
+            return compatibility_tool_hashtable;
+        }
+
+        async HashTable<int, string> get_launch_options_hashtable() {
+            var launch_options_hashtable = new HashTable<int, string> (null, null);
+
+            var content = Utils.Filesystem.get_file_content(profile.localconfig_path);
+            var start_text = "";
+            var end_text = "";
+            var start_pos = 0;
+            var end_pos = 0;
+            var apps = "";
+            var app = "";
+            var id_text = "";
+            var id_valid = false;
+            var id = 0;
+            var launch_options = "";
+
+            start_text = "apps\"\n\t\t\t\t{";
+            start_pos = content.index_of(start_text, 0) + start_text.length;
+
+            if (start_pos == -1)
+                return launch_options_hashtable;
+
+            end_text = "\n\t\t\t\t}";
+            end_pos = content.index_of(end_text, start_pos);
+
+            if (end_pos == -1)
+                return launch_options_hashtable;
+
+            apps = content.substring(start_pos, end_pos - start_pos);
+            // message("start: %i, end: %i, apps: %s", start_pos, end_pos, apps);
+
+            var position = 0;
+            while (true) {
+                start_text = "\"";
+                start_pos = apps.index_of(start_text, position);
+
+                if (start_pos == -1)
+                    break;
+
+                end_text = "\n\t\t\t\t\t}";
+                position = end_pos = apps.index_of(end_text, start_pos + start_text.length) + end_text.length;
+
+                if (end_pos == -1)
+                    break;
+
+                app = apps.substring(start_pos, end_pos - start_pos);
+                // message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
+
+                if (app.contains("LaunchOptions")) {
+                    start_text = "\"";
+                    start_pos = app.index_of(start_text, 0) + start_text.length;
+
+                    if (start_pos == -1)
+                        break;
+
+                    end_text = "\"";
+                    end_pos = app.index_of(end_text, start_pos);
+
+                    if (end_pos == -1)
+                        break;
+                        
+                    id_text = app.substring(start_pos, end_pos - start_pos);
+                    // message("start: %i, end: %i, id: %s", start_pos, end_pos, id_text);
+
+                    id_valid = int.try_parse(id_text, out id);
+                    if(!id_valid)
+                        break;
+
+                    start_text = "LaunchOptions\"\t\t\"";
+                    start_pos = app.index_of(start_text, 0) + start_text.length;
+
+                    if (start_pos == -1)
+                        break;
+
+                    end_text = "\"";
+                    end_pos = app.index_of(end_text, start_pos);
+
+                    if (end_pos == -1)
+                        break;
+                        
+                    launch_options = app.substring(start_pos, end_pos - start_pos);
+                    // message("start: %i, end: %i, launch_options: %s", start_pos, end_pos, launch_options);
+
+                    launch_options_hashtable.set(id, launch_options);
+                }
+            }
+
+            return launch_options_hashtable;
         }
     }
 }

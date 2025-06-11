@@ -1,5 +1,6 @@
 protonplus_sources = files(
   'main.vala',
+  'globals.vala',
 
   'widgets/application.vala',
   'widgets/window.vala',
@@ -32,8 +33,11 @@ protonplus_sources = files(
   'widgets/library/select-button.vala',
   'widgets/library/unselect-button.vala',
   'widgets/library/launch-options-dialog.vala',
+  'widgets/library/profile-dialog.vala',
+  'widgets/library/profile-button.vala',
 
   'models/group.vala',
+  'models/steam-profile.vala',
   'models/launcher.vala',
   'models/release.vala',
   'models/runner.vala',
@@ -45,6 +49,12 @@ protonplus_sources = files(
   'models/launchers/hgl.vala',
   'models/launchers/lutris.vala',
   'models/launchers/steam.vala',
+
+  'models/games/steam.vala',
+
+  'models/vdf/node.vala',
+  'models/vdf/binary.vala',
+  'models/vdf/shortcut.vala',
 
   'models/runners/basic.vala',
   'models/runners/github.vala',
@@ -84,14 +94,10 @@ protonplus_sources = files(
   'utils/web.vala',
   'utils/parser.vala',
   'utils/system.vala',
-
-  'utils/vdf/node.vala',
-  'utils/vdf/binary.vala',
-  'utils/vdf/shortcut.vala',
 )
 
 protonplus_deps = [
-  config_dep,
+  globals_dep,
   dependency('gtk4'),
   dependency('glib-2.0'),
   dependency('libadwaita-1', version: '>= 1.5'),
@@ -109,6 +115,6 @@ executable(
   images_gresource,
   protonplus_sources,
   dependencies: protonplus_deps,
-  include_directories: config_inc,
+  include_directories: globals_inc,
   install: true
 )

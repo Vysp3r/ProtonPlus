@@ -24,7 +24,7 @@ namespace ProtonPlus.Models.Releases {
 
             home_location = Environment.get_home_dir ();
             compat_location = runner.group.launcher.directory + "/" + runner.group.directory;
-            if (Utils.System.IS_STEAM_OS) {
+            if (Globals.IS_STEAM_OS) {
                 // Steam Deck uses `~/stl/prefix` instead.
                 parent_location = @"$home_location/stl";
                 base_location = @"$parent_location/prefix";
@@ -149,7 +149,7 @@ namespace ProtonPlus.Models.Releases {
                 external_locations.append (location);
 
             location = Environment.get_home_dir () + "/stl";
-            if (!Utils.System.IS_STEAM_OS && FileUtils.test (location, FileTest.IS_DIR))
+            if (!Globals.IS_STEAM_OS && FileUtils.test (location, FileTest.IS_DIR))
                 external_locations.append (location);
 
             // Disabled for now, since we always erase base_location before installs.
@@ -298,7 +298,7 @@ namespace ProtonPlus.Models.Releases {
 
 
             // Trigger STL's dependency installer for Steam Deck, and register compat tool.
-            if (Utils.System.IS_STEAM_OS)
+            if (Globals.IS_STEAM_OS)
                 yield exec_stl (binary_location, "");
 
             yield exec_stl (binary_location, "compat add");

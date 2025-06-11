@@ -18,8 +18,9 @@ namespace ProtonPlus.Widgets {
 
         construct {
             set_application ((Adw.Application) GLib.Application.get_default ());
-            set_title (Config.APP_NAME);
+            set_title (Globals.APP_NAME);
 
+            add_action (get_set_libray_inactive_action ());
             add_action (get_set_libray_active_action ());
             add_action (get_set_nav_view_active_action ());
             add_action (get_set_selected_launcher_action ());
@@ -51,9 +52,11 @@ namespace ProtonPlus.Widgets {
             breakpoint.add_setter (navigation_split_view, "collapsed", true);
 
             add_breakpoint (breakpoint);
+
+            load_launchers();
         }
 
-        public void initialize () {
+        void load_launchers() {
             launchers = Models.Launcher.get_all ();
 
             if (launchers.length () > 0) {
@@ -64,17 +67,27 @@ namespace ProtonPlus.Widgets {
                 if (navigation_view.get_parent () == null)
                     set_content (navigation_view);
             } else {
-                status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Config.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
+                status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
 
                 if (status_box.get_parent () == null)
                     set_content (status_box);
 
                 Timeout.add (10000, () => {
-                    initialize ();
+                    load_launchers ();
 
                     return false;
                 });
             }
+        }
+
+        SimpleAction get_set_libray_inactive_action () {
+            SimpleAction action = new SimpleAction ("set-library-inactive", VariantType.INT32);
+
+            action.activate.connect ((variant) => {
+                navigation_view.pop ();
+            });
+
+            return action;
         }
 
         SimpleAction get_set_libray_active_action () {

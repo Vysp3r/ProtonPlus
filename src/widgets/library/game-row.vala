@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets {
     public class GameRow : Gtk.ListBoxRow {
         Gtk.Label title_label { get; set; }
-        public Gtk.DropDown compat_tool_dropdown { get; set; }
+        public Gtk.DropDown compatibility_tool_dropdown { get; set; }
         Gtk.Button launch_options_button { get; set; }
         Gtk.Button anticheat_button { get; set; }
         Gtk.Button protondb_button { get; set; }
@@ -17,17 +17,33 @@ namespace ProtonPlus.Widgets {
             title_label.set_halign(Gtk.Align.START);
             title_label.set_hexpand(true);
 
-            compat_tool_dropdown = new Gtk.DropDown(model, expression);
+            compatibility_tool_dropdown = new Gtk.DropDown(model, expression);
 
             for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
-                if (game.launcher.compatibility_tools.nth_data(i).title == game.compat_tool) {
-                    compat_tool_dropdown.set_selected(i);
+                if (game.launcher.compatibility_tools.nth_data(i).title == game.compatibility_tool) {
+                    compatibility_tool_dropdown.set_selected(i);
                     break;
                 }
             }
 
-            compat_tool_dropdown.notify["selected-item"].connect(compat_tool_dropdown_selected_item_changed);
+            compatibility_tool_dropdown.notify["selected-item"].connect(compatibility_tool_dropdown_selected_item_changed);
 
+            content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
+            content_box.set_margin_start(10);
+            content_box.set_margin_end(10);
+            content_box.set_margin_top(10);
+            content_box.set_margin_bottom(10);
+            content_box.set_valign(Gtk.Align.CENTER);
+            content_box.append(title_label);
+            content_box.append(compatibility_tool_dropdown);
+
+            if (game is Models.Games.Steam)
+                load_steam((Models.Games.Steam) game);
+
+            set_child(content_box);
+        }
+
+        void load_steam(Models.Games.Steam game) {
             launch_options_button = new Gtk.Button.from_icon_name("file-settings-symbolic");
             launch_options_button.set_tooltip_text(_("Modify the game launch options"));
             launch_options_button.add_css_class("flat");
@@ -65,44 +81,49 @@ namespace ProtonPlus.Widgets {
             protondb_button.add_css_class("flat");
             protondb_button.clicked.connect(protondb_button_clicked);
 
-            content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
-            content_box.set_margin_start(10);
-            content_box.set_margin_end(10);
-            content_box.set_margin_top(10);
-            content_box.set_margin_bottom(10);
-            content_box.set_valign(Gtk.Align.CENTER);
-            content_box.append(title_label);
-            content_box.append(compat_tool_dropdown);
             content_box.append(launch_options_button);
             content_box.append(anticheat_button);
             content_box.append(protondb_button);
-
-            set_child(content_box);
         }
 
         void launch_options_button_clicked() {
+            if (!(game is Models.Games.Steam))
+                return;
+
+            var steam_game = (Models.Games.Steam) game;
+
             var dialog = new LaunchOptionsDialog(this);
             dialog.present(Application.window);
         }
 
         void anticheat_button_clicked() {
-            if (game.awacy_name != null)
-                Utils.System.open_url("https://areweanticheatyet.com/game/%s".printf(game.awacy_name));
+            if (!(game is Models.Games.Steam))
+                return;
+
+             var steam_game = (Models.Games.Steam) game;
+
+            if (steam_game.awacy_name != null)
+                Utils.System.open_url("https://areweanticheatyet.com/game/%s".printf(steam_game.awacy_name));
         }
 
         void protondb_button_clicked() {
-            Utils.System.open_url("https://www.protondb.com/app/%i".printf(game.appid));
+            if (!(game is Models.Games.Steam))
+                return;
+
+             var steam_game = (Models.Games.Steam) game;
+
+            Utils.System.open_url("https://www.protondb.com/app/%i".printf(steam_game.appid));
         }
 
-        void compat_tool_dropdown_selected_item_changed() {
+        void compatibility_tool_dropdown_selected_item_changed() {
             if (skip) {
                 skip = false;
                 return;
             }
 
-            var item = (Models.SimpleRunner) compat_tool_dropdown.get_selected_item();
+            var item = (Models.SimpleRunner) compatibility_tool_dropdown.get_selected_item();
 
-            var success = game.set_compatibility_tool(item.title);
+            var success = game.change_compatibility_tool(item.title);
             if (!success) {
                 var dialog = new Adw.AlertDialog(_("Error"), "%s\n%s".printf(_("When trying to change the compatibility tool of %s an error occured.").printf(game.name), _("Please report this issue on GitHub.")));
                 dialog.add_response("ok", "OK");
@@ -111,8 +132,8 @@ namespace ProtonPlus.Widgets {
                 skip = true;
 
                 for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
-                    if (game.compat_tool == game.launcher.compatibility_tools.nth_data(i).title) {
-                        compat_tool_dropdown.set_selected(i);
+                    if (game.compatibility_tool == game.launcher.compatibility_tools.nth_data(i).title) {
+                        compatibility_tool_dropdown.set_selected(i);
                         break;
                     }
                 }
