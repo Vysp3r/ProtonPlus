@@ -38,16 +38,14 @@ footer {
 }
 
 .features {
-    h2 {
+    h2,
+    .accordion {
         margin-bottom: 15px;
     }
 
-    .accordion {
+    .list {
         margin-top: 15px;
-    }
-
-    .panel {
-        margin-top: 15px;
+        margin-bottom: 15px;
     }
 }
 
