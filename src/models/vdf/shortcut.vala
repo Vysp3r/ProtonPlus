@@ -1,4 +1,4 @@
-namespace ProtonPlus.Utils.VDF {
+namespace ProtonPlus.Models.VDF {
     public struct Shortcut {
         int32 AppID;
         bool AllowDesktopConfig;
@@ -16,13 +16,73 @@ namespace ProtonPlus.Utils.VDF {
         string ShortcutPath;
         string StartDir;
         string Icon;
-        VDF.Node shortcut_node;
-        VDF.Node shortcut_node_tags;
+        Node shortcut_node;
+        Node shortcut_node_tags;
     }
 
-    public class Shortcuts : VDF.Binary {
+    public class Shortcuts : Binary {
         public Shortcuts(string path) {
             base(path);
+        }
+
+        public async bool install() {
+            Shortcut pp_shortcut = {};
+
+            string exe = "";
+            string launch_options = "";
+            string icon = "";
+
+            if (FileUtils.test("/.flatpak-info", FileTest.EXISTS)) {
+                exe = "\"/usr/bin/flatpak\"";
+                launch_options = "\"run\" \"--branch=stable\" \"--arch=x86_64\" \"--command=com.vysp3r.ProtonPlus\" \"com.vysp3r.ProtonPlus\"";
+                icon = "/var/lib/flatpak/app/com.vysp3r.ProtonPlus/current/active/files/share/icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png";
+            } else {
+                var which_output = yield Utils.System.run_command("which protonplus".printf());
+                
+                if (which_output.contains("which: no"))
+                    return false;
+
+                exe = "%s".printf(which_output);
+                icon = "/usr/share/icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png";
+            }
+            
+            try {
+                pp_shortcut.AppID = 1621167220;
+                pp_shortcut.AppName = "ProtonPlus";
+                pp_shortcut.Exe = exe;
+                pp_shortcut.StartDir = "./";
+                pp_shortcut.Icon = icon;
+                pp_shortcut.ShortcutPath = "";
+                pp_shortcut.LaunchOptions = launch_options;
+                pp_shortcut.IsHidden = false;
+                pp_shortcut.AllowDesktopConfig = true;
+                pp_shortcut.AllowOverlay = true;
+                pp_shortcut.OpenVR = 0;
+                pp_shortcut.Devkit = 0;
+                pp_shortcut.DevkitGameID = "\0";
+                pp_shortcut.DevkitOverrideAppID = 0;
+                pp_shortcut.LastPlayTime = 0;
+                pp_shortcut.FlatpakAppID = "";
+                
+                append_shortcut(pp_shortcut);
+                save();
+
+                return true;
+            } catch (Error e) {
+                message(e.message);
+                return false;
+            }
+        }
+
+        public bool uninstall() {
+            try {
+                remove_shortcut_by_name("ProtonPlus");
+                save();
+                return true;
+            } catch (Error e) {
+                message(e.message);
+                return true;
+            }
         }
 
         public bool get_installed_status() {
@@ -94,7 +154,7 @@ namespace ProtonPlus.Utils.VDF {
 
         public void remove_shortcut_by_name(string name) throws Error {
             try {
-                Gee.TreeMap<string, unowned VDF.Node> new_nodes = new Gee.TreeMap<string, unowned VDF.Node> ();
+                Gee.TreeMap<string, unowned Node> new_nodes = new Gee.TreeMap<string, unowned Node> ();
                 var node_base_id = get_shortcut_id_by_name(name);
                 var node_base_name = @"shortcuts.$(node_base_id)";
 
@@ -118,7 +178,7 @@ namespace ProtonPlus.Utils.VDF {
             }
         }
 
-        private void write_shortcut_on_node(VDF.Node node, VDF.Shortcut shortcut) {
+        private void write_shortcut_on_node(Node node, VDF.Shortcut shortcut) {
             node.set("appid", new GLib.Variant.int32(shortcut.AppID));
             node.set("AllowDesktopConfig", new GLib.Variant.int32(shortcut.AllowDesktopConfig ? 1 : 0));
             node.set("AllowOverlay", new GLib.Variant.int32(shortcut.AllowOverlay ? 1 : 0));

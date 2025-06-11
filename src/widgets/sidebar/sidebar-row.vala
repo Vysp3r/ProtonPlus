@@ -34,7 +34,7 @@ namespace ProtonPlus.Widgets {
             content_box.append (icon);
             content_box.append (labels_box);
             content_box.append (library_button);
-            content_box.add_css_class ("sidebar-row");
+            content_box.add_css_class ("p-10");
 
             set_tooltip_text (launcher.directory);
             set_activatable (true);

@@ -1,5 +1,7 @@
 namespace ProtonPlus.Widgets {
     public class LibraryBox : Gtk.Widget {
+        public delegate void load_steam_profile_func(Models.SteamProfile profile);
+
         Models.Launcher launcher { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
         Adw.WindowTitle window_title { get; set; }
@@ -31,7 +33,7 @@ namespace ProtonPlus.Widgets {
             game_list_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE);
             game_list_box.add_css_class("boxed-list");
             game_list_box.row_activated.connect(game_list_box_row_activated);
-            
+
             spinner = new Gtk.Spinner();
             spinner.set_halign(Gtk.Align.CENTER);
             spinner.set_valign(Gtk.Align.CENTER);
@@ -52,17 +54,17 @@ namespace ProtonPlus.Widgets {
 
             mass_edit_button = new MassEditButton(game_list_box);
 
-            select_button = new SelectButton (game_list_box);
+            select_button = new SelectButton(game_list_box);
 
-            unselect_button = new UnselectButton (game_list_box);
+            unselect_button = new UnselectButton(game_list_box);
 
-            sort_by_name_button = new SortByNameButton (game_list_box);
+            sort_by_name_button = new SortByNameButton(game_list_box);
 
-            sort_by_tool_button = new SortByToolButton (game_list_box);
+            sort_by_tool_button = new SortByToolButton(game_list_box);
 
             action_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
             action_box.add_css_class("card");
-            action_box.add_css_class("action-box");
+            action_box.add_css_class("p-10");
             action_box.append(shortcut_button);
             action_box.append(mass_edit_button);
             action_box.append(select_button);
@@ -84,8 +86,8 @@ namespace ProtonPlus.Widgets {
             toolbar_view.set_content(content_box);
             toolbar_view.set_parent(this);
 
-            bin_layout = new Gtk.BinLayout ();
-            set_layout_manager (bin_layout);
+            bin_layout = new Gtk.BinLayout();
+            set_layout_manager(bin_layout);
         }
 
         public void load(Models.Launcher launcher) {
@@ -93,18 +95,31 @@ namespace ProtonPlus.Widgets {
 
             window_title.set_title("%s %s".printf(launcher.title, _("Library")));
 
-            overlay.add_overlay(spinner);
-
-            spinner.start();
-
             game_list_box.remove_all();
 
-            if (launcher is Models.Launchers.Steam)
-                shortcut_button.load ((Models.Launchers.Steam) launcher);
+            if (launcher is Models.Launchers.Steam) {
+                var steam_launcher = (Models.Launchers.Steam) launcher;
 
-            shortcut_button.set_visible(launcher is Models.Launchers.Steam);
+                shortcut_button.reset();
+                shortcut_button.set_visible(true);
 
-            warning_label.set_visible(launcher is Models.Launchers.Steam);
+                warning_label.set_visible(true);
+
+                if (steam_launcher.profiles.length() > 1 || 1 == 1) {
+                    var dialog = new ProfileDialog(steam_launcher, load_steam_profile);
+                    dialog.present(Application.window);
+                } else {
+                    load_steam_profile(steam_launcher.profiles.nth_data(0));
+                }
+            } else {
+                load_games();
+            }
+        }
+
+        void load_games() {
+            spinner.start();
+
+            overlay.add_overlay(spinner);
 
             launcher.load_game_library.begin((obj, res) => {
                 var loaded = launcher.load_game_library.end(res);
@@ -129,15 +144,25 @@ namespace ProtonPlus.Widgets {
                     window_title.set_subtitle("%u installed games".printf(launcher.games.length()));
                 }
 
-                spinner.stop();
                 overlay.remove_overlay(spinner);
+
+                spinner.stop();
             });
+        }
+
+        void load_steam_profile(Models.SteamProfile profile) {
+            var steam_launcher = (Models.Launchers.Steam) launcher;
+            steam_launcher.profile = profile;
+
+            shortcut_button.load(profile);
+
+            load_games();
         }
 
         void game_list_box_row_activated(Gtk.ListBoxRow? row) {
             if (row == null || !(row is GameRow))
                 return;
-                
+
             var game_row = (GameRow) row;
 
             if (game_row.selected) {

@@ -1,16 +1,8 @@
-.sidebar-row {
-  padding: 7px;
-}
-
 .dialog-list {
   background: transparent;
 }
 
-.dialog {
-  padding: 10px;
-}
-
-.action-box {
+.p-10 {
   padding: 10px;
 }
 

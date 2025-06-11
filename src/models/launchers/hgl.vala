@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Launchers {
                 break;
             }
 
-            base ("Heroic Games Launcher", installation_type, Config.RESOURCE_BASE + "/hgl.png", directories);
+            base ("Heroic Games Launcher", installation_type, Globals.RESOURCE_BASE + "/hgl.png", directories);
 
             if (installed) {
                 groups = get_groups ();
