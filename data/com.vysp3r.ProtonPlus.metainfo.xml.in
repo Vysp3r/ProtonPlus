@@ -87,6 +87,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.3" date="2025-06-12">
+      <description>
+        <ul>
+          <li>✨ Added the ability to manage launch options of games</li>
+          <li>✨ Added a way to open the install/prefix directory of games</li>
+          <li>🌐 Updated Chinese localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.2" date="2025-06-09">
       <description>
         <ul>
