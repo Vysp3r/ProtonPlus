@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 12:21-0400\n"
+"POT-Creation-Date: 2025-06-12 12:23-0400\n"
 "PO-Revision-Date: 2025-02-16 11:46+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: \n"
@@ -462,8 +462,8 @@ msgstr ""
 
 #: src/widgets/library/extra-button.vala:28
 #, fuzzy
-msgid "Extra"
-msgstr "Rozbaluje se…"
+msgid "Open menu"
+msgstr "Otevřít"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:40
 msgid "Runners"
@@ -597,6 +597,10 @@ msgid ""
 msgstr ""
 "Nástroj Steamu pro snadnou grafickou konfiguraci vašich dalších nástrojů "
 "kompatibility pro Windows hry i nativní hry pro Linux."
+
+#, fuzzy
+#~ msgid "Extra"
+#~ msgstr "Rozbaluje se…"
 
 #, fuzzy
 #~ msgid "Check to modify the compatibility tool"

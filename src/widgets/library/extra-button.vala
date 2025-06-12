@@ -25,7 +25,7 @@ namespace ProtonPlus.Widgets {
             clicked.connect(extra_button_clicked);
 
             set_icon_name("dots-symbolic");
-            set_tooltip_text (_("Extra"));
+            set_tooltip_text (_("Open menu"));
             add_css_class("flat");
         }
 

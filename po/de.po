@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 12:21-0400\n"
+"POT-Creation-Date: 2025-06-12 12:23-0400\n"
 "PO-Revision-Date: 2025-05-22 21:43+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -467,8 +467,8 @@ msgstr ""
 
 #: src/widgets/library/extra-button.vala:28
 #, fuzzy
-msgid "Extra"
-msgstr "Extrahiere..."
+msgid "Open menu"
+msgstr "Öffnen"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:40
 msgid "Runners"
@@ -601,6 +601,10 @@ msgstr ""
 "Steam Werkzeug für einfache, grafische Konfiguration anderer "
 "Kompatibilitätswerkzeuge für sowohl Windows-Spiele als auch native Linux-"
 "Spiele."
+
+#, fuzzy
+#~ msgid "Extra"
+#~ msgstr "Extrahiere..."
 
 #, fuzzy
 #~ msgid "Check to modify the compatibility tool"

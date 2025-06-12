@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 12:21-0400\n"
+"POT-Creation-Date: 2025-06-12 12:23-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -467,7 +467,7 @@ msgid "Open prefix directory"
 msgstr ""
 
 #: src/widgets/library/extra-button.vala:28
-msgid "Extra"
+msgid "Open menu"
 msgstr ""
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:40

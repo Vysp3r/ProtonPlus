@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 12:21-0400\n"
+"POT-Creation-Date: 2025-06-12 12:23-0400\n"
 "PO-Revision-Date: 2024-10-12 18:02+0500\n"
 "Last-Translator: izmyname <vi-mcmxcv@proton.me>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -475,9 +475,8 @@ msgid "Open prefix directory"
 msgstr ""
 
 #: src/widgets/library/extra-button.vala:28
-#, fuzzy
-msgid "Extra"
-msgstr "Распаковывается..."
+msgid "Open menu"
+msgstr ""
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:40
 msgid "Runners"
@@ -613,6 +612,10 @@ msgid ""
 msgstr ""
 "Инструмент Steam для простой графической настройки других инструментов "
 "совместимости как для игр под Windows, так и для игр под Linux."
+
+#, fuzzy
+#~ msgid "Extra"
+#~ msgstr "Распаковывается..."
 
 #, fuzzy
 #~ msgid "Check to modify the compatibility tool"

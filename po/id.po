@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 12:21-0400\n"
+"POT-Creation-Date: 2025-06-12 12:23-0400\n"
 "PO-Revision-Date: 2025-05-30 02:03+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -465,8 +465,8 @@ msgstr ""
 
 #: src/widgets/library/extra-button.vala:28
 #, fuzzy
-msgid "Extra"
-msgstr "Mengekstrak..."
+msgid "Open menu"
+msgstr "Buka"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:40
 msgid "Runners"
@@ -601,6 +601,10 @@ msgid ""
 msgstr ""
 "Alat Steam untuk konfigurasi grafis yang mudah dari alat kompatibilitas Anda "
 "yang lain untuk game Windows dan game Linux asli."
+
+#, fuzzy
+#~ msgid "Extra"
+#~ msgstr "Mengekstrak..."
 
 #, fuzzy
 #~ msgid "Check to modify the compatibility tool"
