@@ -5,6 +5,7 @@ namespace ProtonPlus.Widgets {
         Gtk.Button launch_options_button { get; set; }
         Gtk.Button anticheat_button { get; set; }
         Gtk.Button protondb_button { get; set; }
+        ExtraButton extra_button { get; set; }
         Gtk.Box content_box { get; set; }
         public Models.Game game { get; set; }
         public bool skip { get; set; }
@@ -28,6 +29,8 @@ namespace ProtonPlus.Widgets {
 
             compatibility_tool_dropdown.notify["selected-item"].connect(compatibility_tool_dropdown_selected_item_changed);
 
+            extra_button = new ExtraButton(game);
+
             content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
             content_box.set_margin_start(10);
             content_box.set_margin_end(10);
@@ -39,6 +42,8 @@ namespace ProtonPlus.Widgets {
 
             if (game is Models.Games.Steam)
                 load_steam((Models.Games.Steam) game);
+
+            content_box.append(extra_button);
 
             set_child(content_box);
         }

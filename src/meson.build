@@ -25,6 +25,7 @@ protonplus_sources = files(
 
   'widgets/library/library-box.vala',
   'widgets/library/game-row.vala',
+  'widgets/library/extra-button.vala',
   'widgets/library/mass-edit-dialog.vala',
   'widgets/library/mass-edit-button.vala',
   'widgets/library/shortcut-button.vala',
