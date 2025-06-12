@@ -108,7 +108,7 @@ namespace ProtonPlus.Widgets {
              var steam_game = (Models.Games.Steam) game;
 
             if (steam_game.awacy_name != null)
-                Utils.System.open_url("https://areweanticheatyet.com/game/%s".printf(steam_game.awacy_name));
+                Utils.System.open_uri("https://areweanticheatyet.com/game/%s".printf(steam_game.awacy_name));
         }
 
         void protondb_button_clicked() {
@@ -117,7 +117,7 @@ namespace ProtonPlus.Widgets {
 
              var steam_game = (Models.Games.Steam) game;
 
-            Utils.System.open_url("https://www.protondb.com/app/%i".printf(steam_game.appid));
+            Utils.System.open_uri("https://www.protondb.com/app/%i".printf(steam_game.appid));
         }
 
         void compatibility_tool_dropdown_selected_item_changed() {

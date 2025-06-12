@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-11 17:41-0400\n"
+"POT-Creation-Date: 2025-06-12 12:21-0400\n"
 "PO-Revision-Date: 2025-06-12 05:08+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -132,7 +132,7 @@ msgstr "是"
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/game-row.vala:128
+#: src/widgets/library/game-row.vala:133
 #: src/widgets/library/mass-edit-dialog.vala:147
 #: src/widgets/library/shortcut-button.vala:39
 #: src/widgets/library/shortcut-button.vala:48
@@ -148,7 +148,7 @@ msgstr "嘗試移除 %s 時發生錯誤。"
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/game-row.vala:128
+#: src/widgets/library/game-row.vala:133
 #: src/widgets/library/mass-edit-dialog.vala:147
 #: src/widgets/library/shortcut-button.vala:39
 #: src/widgets/library/shortcut-button.vala:48
@@ -264,19 +264,19 @@ msgstr "請事先關閉 Steam 用戶端，以便套用變更。"
 msgid "Library"
 msgstr "遊戲庫"
 
-#: src/widgets/library/game-row.vala:48
+#: src/widgets/library/game-row.vala:53
 msgid "Modify the game launch options"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:74
+#: src/widgets/library/game-row.vala:79
 msgid "Unknown"
 msgstr "未知"
 
-#: src/widgets/library/game-row.vala:80
+#: src/widgets/library/game-row.vala:85
 msgid "Open ProtonDB page"
 msgstr "開啟 ProtonDB 頁面"
 
-#: src/widgets/library/game-row.vala:128
+#: src/widgets/library/game-row.vala:133
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr "嘗試變更 %s 的相容性工具時發生錯誤。"
@@ -395,8 +395,8 @@ msgstr "依相容性工具名稱對遊戲進行排序"
 
 #: src/widgets/library/sort-by-tool-button.vala:28
 #: src/widgets/library/sort-by-tool-button.vala:31
-#: src/models/launchers/steam.vala:82 src/models/games/steam.vala:78
-#: src/models/games/steam.vala:99
+#: src/models/launchers/steam.vala:82 src/models/games/steam.vala:76
+#: src/models/games/steam.vala:97
 msgid "Undefined"
 msgstr "未定義"
 
@@ -443,6 +443,19 @@ msgstr "嘗試變更 %s 的相容性工具時發生錯誤。"
 #, fuzzy
 msgid "Select a profile"
 msgstr "全部選取"
+
+#: src/widgets/library/extra-button.vala:10
+msgid "Open install directory"
+msgstr ""
+
+#: src/widgets/library/extra-button.vala:13
+msgid "Open prefix directory"
+msgstr ""
+
+#: src/widgets/library/extra-button.vala:28
+#, fuzzy
+msgid "Extra"
+msgstr "正在解壓縮"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:40
 msgid "Runners"

@@ -113,11 +113,10 @@ namespace ProtonPlus.Utils {
             return distro_name;
         }
 
-        public static void open_url (string url) {
-            var uri_launcher = new Gtk.UriLauncher (url);
-            uri_launcher.launch.begin (Widgets.Application.window, null, (obj, res) => {
+        public static void open_uri (string uri) {
+            AppInfo.launch_default_for_uri_async.begin (uri, null, null, (obj, res) => {
                 try {
-                    uri_launcher.launch.end (res);
+                    AppInfo.launch_default_for_uri_async.end (res);
                 } catch (Error error) {
                     message (error.message);
                 }

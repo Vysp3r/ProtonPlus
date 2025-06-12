@@ -56,7 +56,7 @@ namespace ProtonPlus.Widgets {
         }
 
         void web_button_clicked () {
-            Utils.System.open_url (release.page_url);
+            Utils.System.open_uri (release.page_url);
         }
     }
 }
