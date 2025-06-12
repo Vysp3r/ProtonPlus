@@ -5,6 +5,7 @@ namespace ProtonPlus.Widgets {
         Gtk.Button launch_options_button { get; set; }
         Gtk.Button anticheat_button { get; set; }
         Gtk.Button protondb_button { get; set; }
+        ExtraButton extra_button { get; set; }
         Gtk.Box content_box { get; set; }
         public Models.Game game { get; set; }
         public bool skip { get; set; }
@@ -28,6 +29,8 @@ namespace ProtonPlus.Widgets {
 
             compatibility_tool_dropdown.notify["selected-item"].connect(compatibility_tool_dropdown_selected_item_changed);
 
+            extra_button = new ExtraButton(game);
+
             content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
             content_box.set_margin_start(10);
             content_box.set_margin_end(10);
@@ -39,6 +42,8 @@ namespace ProtonPlus.Widgets {
 
             if (game is Models.Games.Steam)
                 load_steam((Models.Games.Steam) game);
+
+            content_box.append(extra_button);
 
             set_child(content_box);
         }
@@ -103,7 +108,7 @@ namespace ProtonPlus.Widgets {
              var steam_game = (Models.Games.Steam) game;
 
             if (steam_game.awacy_name != null)
-                Utils.System.open_url("https://areweanticheatyet.com/game/%s".printf(steam_game.awacy_name));
+                Utils.System.open_uri("https://areweanticheatyet.com/game/%s".printf(steam_game.awacy_name));
         }
 
         void protondb_button_clicked() {
@@ -112,7 +117,7 @@ namespace ProtonPlus.Widgets {
 
              var steam_game = (Models.Games.Steam) game;
 
-            Utils.System.open_url("https://www.protondb.com/app/%i".printf(steam_game.appid));
+            Utils.System.open_uri("https://www.protondb.com/app/%i".printf(steam_game.appid));
         }
 
         void compatibility_tool_dropdown_selected_item_changed() {

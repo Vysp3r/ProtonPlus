@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-11 17:41-0400\n"
+"POT-Creation-Date: 2025-06-12 12:23-0400\n"
 "PO-Revision-Date: 2024-10-12 18:02+0500\n"
 "Last-Translator: izmyname <vi-mcmxcv@proton.me>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -137,7 +137,7 @@ msgstr "Да"
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/game-row.vala:128
+#: src/widgets/library/game-row.vala:133
 #: src/widgets/library/mass-edit-dialog.vala:147
 #: src/widgets/library/shortcut-button.vala:39
 #: src/widgets/library/shortcut-button.vala:48
@@ -153,7 +153,7 @@ msgstr ""
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/game-row.vala:128
+#: src/widgets/library/game-row.vala:133
 #: src/widgets/library/mass-edit-dialog.vala:147
 #: src/widgets/library/shortcut-button.vala:39
 #: src/widgets/library/shortcut-button.vala:48
@@ -282,19 +282,19 @@ msgstr ""
 msgid "Library"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:48
+#: src/widgets/library/game-row.vala:53
 msgid "Modify the game launch options"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:74
+#: src/widgets/library/game-row.vala:79
 msgid "Unknown"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:80
+#: src/widgets/library/game-row.vala:85
 msgid "Open ProtonDB page"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:128
+#: src/widgets/library/game-row.vala:133
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
@@ -416,8 +416,8 @@ msgstr "Инструмент совместимости"
 
 #: src/widgets/library/sort-by-tool-button.vala:28
 #: src/widgets/library/sort-by-tool-button.vala:31
-#: src/models/launchers/steam.vala:82 src/models/games/steam.vala:78
-#: src/models/games/steam.vala:99
+#: src/models/launchers/steam.vala:82 src/models/games/steam.vala:76
+#: src/models/games/steam.vala:97
 msgid "Undefined"
 msgstr ""
 
@@ -464,6 +464,18 @@ msgstr "Инструмент совместимости Steam для запус�
 
 #: src/widgets/library/profile-dialog.vala:15
 msgid "Select a profile"
+msgstr ""
+
+#: src/widgets/library/extra-button.vala:10
+msgid "Open install directory"
+msgstr ""
+
+#: src/widgets/library/extra-button.vala:13
+msgid "Open prefix directory"
+msgstr ""
+
+#: src/widgets/library/extra-button.vala:28
+msgid "Open menu"
 msgstr ""
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:40
@@ -600,6 +612,10 @@ msgid ""
 msgstr ""
 "Инструмент Steam для простой графической настройки других инструментов "
 "совместимости как для игр под Windows, так и для игр под Linux."
+
+#, fuzzy
+#~ msgid "Extra"
+#~ msgstr "Распаковывается..."
 
 #, fuzzy
 #~ msgid "Check to modify the compatibility tool"
