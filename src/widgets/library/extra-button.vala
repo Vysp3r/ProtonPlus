@@ -33,6 +33,12 @@ namespace ProtonPlus.Widgets {
             this.game = game;
         }
 
+        public override void dispose() {
+			popover.unparent();
+
+			base.dispose();
+		}
+
         void extra_button_clicked() {
             popover.popup();
         }
