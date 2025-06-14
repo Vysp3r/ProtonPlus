@@ -1,7 +1,8 @@
 namespace ProtonPlus.Models.Launchers {
     public class Steam : Launcher {
         public List<SteamProfile> profiles;
-        public SteamProfile profile;
+        public SteamProfile profile { get; set; }
+ 		public string default_compatibility_tool { get; set; }
 
         public Steam (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
@@ -79,11 +80,14 @@ namespace ProtonPlus.Models.Launchers {
 
             compatibility_tools = new List<SimpleRunner> ();
 
-            compatibility_tools.append(new SimpleRunner(_("Undefined"), false));
-
             var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games();
 
             var compatibility_tool_hashtable = yield get_compatibility_tool_hashtable();
+
+ 			var default_compatibility_tool = compatibility_tool_hashtable.get(0);
+ 			if (default_compatibility_tool == null)
+ 				return false;
+ 			this.default_compatibility_tool = default_compatibility_tool;
 
             var launch_options_hashtable = yield get_launch_options_hashtable();
 
@@ -393,5 +397,84 @@ namespace ProtonPlus.Models.Launchers {
 
             return launch_options_hashtable;
         }
+
+        public bool change_default_compatibility_tool (string compatibility_tool) {
+			var default_id = 0;
+			var config_path = "%s/config/config.vdf".printf (directory);
+			var config_content = Utils.Filesystem.get_file_content (config_path);
+			var compat_tool_mapping_content = "";
+			var compat_tool_mapping_item = "";
+			var compat_tool_mapping_item_appid = 0;
+			var compat_tool_mapping_item_name = "";
+			var start_text = "";
+			var end_text = "";
+			var start_pos = 0;
+			var end_pos = 0;
+
+			start_text = "CompatToolMapping\"\n\t\t\t\t{\n";
+			end_text = "\n\t\t\t\t}";
+			start_pos = config_content.index_of (start_text, 0) + start_text.length;
+			end_pos = config_content.index_of (end_text, start_pos);
+			compat_tool_mapping_content = config_content.substring (start_pos, end_pos - start_pos);
+			// message("start: %i, end: %i, compat_tool_mapping_content: %s", start_pos, end_pos, compat_tool_mapping_content);
+
+			if (compat_tool_mapping_content.contains (default_id.to_string ())) {
+				start_text = "\t\t\t\t\t\"%i\"".printf (default_id);
+				start_pos = compat_tool_mapping_content.index_of (start_text, 0);
+				if (start_pos == -1)
+					return false;
+
+				end_text = "}";
+				end_pos = compat_tool_mapping_content.index_of (end_text, start_pos + start_text.length) + end_text.length;
+				if (end_pos == -1)
+					return false;
+
+				compat_tool_mapping_item = compat_tool_mapping_content.substring (start_pos, end_pos - start_pos);
+				// message("start: %i, end: %i, compat_tool_mapping_item: %s", start_pos, end_pos, compat_tool_mapping_item);
+
+				start_text = "\"";
+				start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
+				if (start_pos == -1)
+					return false;
+
+				end_text = "\"";
+				end_pos = compat_tool_mapping_item.index_of (end_text, start_pos);
+				if (end_pos == -1)
+					return false;
+
+				var compat_tool_mapping_item_appid_valid = int.try_parse (compat_tool_mapping_item.substring (start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
+				if (!compat_tool_mapping_item_appid_valid)
+					return false;
+				// message("start: %i, end: %i, compat_tool_mapping_item_appid: %i", start_pos, end_pos, compat_tool_mapping_item_appid);
+
+				if (compat_tool_mapping_item_appid != 0)
+					return false;
+
+				start_text = "name\"\t\t\"";
+				start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
+				if (start_pos == -1)
+					return false;
+
+				end_text = "\"";
+				end_pos = compat_tool_mapping_item.index_of (end_text, start_pos);
+				if (end_pos == -1)
+					return false;
+
+				compat_tool_mapping_item_name = compat_tool_mapping_item.substring (start_pos, end_pos - start_pos);
+				// message("start: %i, end: %i, compat_tool_mapping_item_name: %s", start_pos, end_pos, compat_tool_mapping_item_name);
+
+				var compat_tool_mapping_item_modified = compat_tool_mapping_item.replace (compat_tool_mapping_item_name, compatibility_tool);
+
+				config_content = config_content.replace (compat_tool_mapping_item, compat_tool_mapping_item_modified);
+
+				Utils.Filesystem.modify_file (config_path, config_content);
+
+				this.default_compatibility_tool = compatibility_tool;
+
+				return true;
+			}
+
+			return false;
+		}
     }
 }

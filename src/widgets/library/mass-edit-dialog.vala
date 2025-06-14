@@ -61,7 +61,6 @@ namespace ProtonPlus.Widgets {
             content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 10);
             content_box.set_margin_start(10);
             content_box.set_margin_end(10);
-            content_box.set_margin_top(10);
             content_box.set_margin_bottom(10);
             content_box.append(compatibility_tool_group);
             
