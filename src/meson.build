@@ -36,6 +36,8 @@ protonplus_sources = files(
   'widgets/library/launch-options-dialog.vala',
   'widgets/library/profile-dialog.vala',
   'widgets/library/profile-button.vala',
+  'widgets/library/default-tool-button.vala',
+  'widgets/library/default-tool-dialog.vala',
 
   'models/group.vala',
   'models/steam-profile.vala',

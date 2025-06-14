@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 12:23-0400\n"
+"POT-Creation-Date: 2025-06-14 16:27-0400\n"
 "PO-Revision-Date: 2025-03-12 09:23+0800\n"
 "Last-Translator: Zemin Ha <ruojiner@hotmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -132,10 +132,11 @@ msgstr "是"
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
 #: src/widgets/library/game-row.vala:133
-#: src/widgets/library/mass-edit-dialog.vala:147
-#: src/widgets/library/shortcut-button.vala:39
-#: src/widgets/library/shortcut-button.vala:48
+#: src/widgets/library/mass-edit-dialog.vala:146
+#: src/widgets/library/shortcut-button.vala:38
+#: src/widgets/library/shortcut-button.vala:47
 #: src/widgets/library/launch-options-dialog.vala:57
+#: src/widgets/library/default-tool-dialog.vala:65
 msgid "Error"
 msgstr ""
 
@@ -148,10 +149,11 @@ msgstr ""
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
 #: src/widgets/library/game-row.vala:133
-#: src/widgets/library/mass-edit-dialog.vala:147
-#: src/widgets/library/shortcut-button.vala:39
-#: src/widgets/library/shortcut-button.vala:48
+#: src/widgets/library/mass-edit-dialog.vala:146
+#: src/widgets/library/shortcut-button.vala:38
+#: src/widgets/library/shortcut-button.vala:47
 #: src/widgets/library/launch-options-dialog.vala:57
+#: src/widgets/library/default-tool-dialog.vala:65
 msgid "Please report this issue on GitHub."
 msgstr ""
 
@@ -207,7 +209,7 @@ msgstr "选中此项也可以删除您的配置文件。"
 #: src/widgets/main/steamtinkerlaunch-row.vala:130
 #: src/widgets/main/steamtinkerlaunch-row.vala:145
 #: src/widgets/main/steamtinkerlaunch-row.vala:149
-#: src/widgets/library/mass-edit-button.vala:43
+#: src/widgets/library/mass-edit-button.vala:42
 msgid "Warning"
 msgstr ""
 
@@ -263,12 +265,19 @@ msgstr "%s 是最新的"
 msgid "Update to the latest version"
 msgstr "将 %s 更新到最新版本"
 
-#: src/widgets/library/library-box.vala:50
+#: src/widgets/library/library-box.vala:51
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 
-#: src/widgets/library/library-box.vala:96
+#: src/widgets/library/library-box.vala:102
 msgid "Library"
+msgstr ""
+
+#: src/widgets/library/library-box.vala:137
+#: src/widgets/library/sort-by-tool-button.vala:27
+#: src/widgets/library/sort-by-tool-button.vala:30
+#: src/models/games/steam.vala:73 src/models/games/steam.vala:94
+msgid "Undefined"
 msgstr ""
 
 #: src/widgets/library/game-row.vala:53
@@ -303,6 +312,7 @@ msgstr ""
 
 #: src/widgets/library/mass-edit-dialog.vala:22
 #: src/widgets/library/launch-options-dialog.vala:14
+#: src/widgets/library/default-tool-dialog.vala:14
 msgid "Apply"
 msgstr ""
 
@@ -322,6 +332,7 @@ msgid ""
 msgstr ""
 
 #: src/widgets/library/mass-edit-dialog.vala:36
+#: src/widgets/library/default-tool-dialog.vala:23
 #, fuzzy
 msgid "Select your desired compatibility tool"
 msgstr "兼容性工具"
@@ -353,35 +364,35 @@ msgid ""
 "Enable all the options that you want the mass edit to take into account."
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:147
+#: src/widgets/library/mass-edit-dialog.vala:146
 #, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occured for the following games"
 msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
-#: src/widgets/library/shortcut-button.vala:24
-#: src/widgets/library/shortcut-button.vala:29
+#: src/widgets/library/shortcut-button.vala:23
+#: src/widgets/library/shortcut-button.vala:28
 msgid "Create shortcut"
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:29
+#: src/widgets/library/shortcut-button.vala:28
 msgid "Remove shortcut"
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:30
+#: src/widgets/library/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:30
+#: src/widgets/library/shortcut-button.vala:29
 msgid "Remove the shortcut of ProtonPlus in Steam"
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:39
+#: src/widgets/library/shortcut-button.vala:38
 msgid "When trying to remove the shortcut in Steam an error occured."
 msgstr ""
 
-#: src/widgets/library/shortcut-button.vala:48
+#: src/widgets/library/shortcut-button.vala:47
 msgid "When trying to create the shortcut in Steam an error occured."
 msgstr ""
 
@@ -389,7 +400,7 @@ msgstr ""
 msgid "Sort by name"
 msgstr ""
 
-#: src/widgets/library/sort-by-name-button.vala:12
+#: src/widgets/library/sort-by-name-button.vala:11
 msgid "Sorts the games by their name"
 msgstr ""
 
@@ -398,23 +409,16 @@ msgstr ""
 msgid "Sort by compatibility tool"
 msgstr "兼容性工具"
 
-#: src/widgets/library/sort-by-tool-button.vala:12
+#: src/widgets/library/sort-by-tool-button.vala:11
 #, fuzzy
 msgid "Sorts the games by the compatibility tool name"
 msgstr "兼容性工具"
-
-#: src/widgets/library/sort-by-tool-button.vala:28
-#: src/widgets/library/sort-by-tool-button.vala:31
-#: src/models/launchers/steam.vala:82 src/models/games/steam.vala:76
-#: src/models/games/steam.vala:97
-msgid "Undefined"
-msgstr ""
 
 #: src/widgets/library/select-button.vala:8
 msgid "Select all"
 msgstr ""
 
-#: src/widgets/library/select-button.vala:12
+#: src/widgets/library/select-button.vala:11
 msgid "Select all the games"
 msgstr ""
 
@@ -422,17 +426,17 @@ msgstr ""
 msgid "Unselect all"
 msgstr ""
 
-#: src/widgets/library/unselect-button.vala:12
+#: src/widgets/library/unselect-button.vala:11
 #, fuzzy
 msgid "Unselect all the games"
 msgstr "安装运行器"
 
-#: src/widgets/library/mass-edit-button.vala:14
+#: src/widgets/library/mass-edit-button.vala:13
 #, fuzzy
 msgid "Edit the compatibility tool of the selected games at once"
 msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
-#: src/widgets/library/mass-edit-button.vala:43
+#: src/widgets/library/mass-edit-button.vala:42
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
@@ -444,6 +448,7 @@ msgid "Modify launch options"
 msgstr "启动器选项"
 
 #: src/widgets/library/launch-options-dialog.vala:15
+#: src/widgets/library/default-tool-dialog.vala:15
 msgid "Apply the current modification"
 msgstr ""
 
@@ -469,7 +474,23 @@ msgstr ""
 msgid "Open menu"
 msgstr "打开"
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:40
+#: src/widgets/library/default-tool-button.vala:8
+#, fuzzy
+msgid "Set default compatibility tool"
+msgstr "兼容性工具"
+
+#: src/widgets/library/default-tool-button.vala:14
+#: src/widgets/library/default-tool-dialog.vala:12
+#, fuzzy
+msgid "Set the default compatibility tool"
+msgstr "兼容性工具"
+
+#: src/widgets/library/default-tool-dialog.vala:65
+#, fuzzy
+msgid "When trying to change the default compatibility tool an error occured."
+msgstr "用于运行WIndows游戏的Steam兼容性工具"
+
+#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
 msgstr "启动器"
 

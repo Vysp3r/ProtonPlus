@@ -1,6 +1,4 @@
 namespace ProtonPlus.Models.Games {
-    
-
     public class Steam : Game {
         public int appid { get; set; }
         public int library_folder_id { get; set; }
@@ -18,7 +16,6 @@ namespace ProtonPlus.Models.Games {
             this.launcher = launcher;
         }
 
-        //FIXME Error when a tool when there's already one selected
         public override bool change_compatibility_tool(string compatibility_tool) {
             var config_path = "%s/config/config.vdf".printf(launcher.directory);
             var config_content = Utils.Filesystem.get_file_content(config_path);

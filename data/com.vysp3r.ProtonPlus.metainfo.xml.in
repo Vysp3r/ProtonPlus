@@ -92,7 +92,9 @@
         <ul>
           <li>✨ Added the ability to manage launch options of games</li>
           <li>✨ Added a way to open the install/prefix directory of games</li>
+          <li>✨ Added the ability to set the default compatibility tool for Steam games</li>
           <li>🌐 Updated Chinese localization</li>
+          <li>🌐 Updated German localization</li>
         </ul>
       </description>
     </release>

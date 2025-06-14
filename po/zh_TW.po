@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 12:23-0400\n"
+"POT-Creation-Date: 2025-06-14 16:27-0400\n"
 "PO-Revision-Date: 2025-06-12 05:08+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -133,10 +133,11 @@ msgstr "是"
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
 #: src/widgets/library/game-row.vala:133
-#: src/widgets/library/mass-edit-dialog.vala:147
-#: src/widgets/library/shortcut-button.vala:39
-#: src/widgets/library/shortcut-button.vala:48
+#: src/widgets/library/mass-edit-dialog.vala:146
+#: src/widgets/library/shortcut-button.vala:38
+#: src/widgets/library/shortcut-button.vala:47
 #: src/widgets/library/launch-options-dialog.vala:57
+#: src/widgets/library/default-tool-dialog.vala:65
 msgid "Error"
 msgstr "錯誤"
 
@@ -149,10 +150,11 @@ msgstr "嘗試移除 %s 時發生錯誤。"
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
 #: src/widgets/library/game-row.vala:133
-#: src/widgets/library/mass-edit-dialog.vala:147
-#: src/widgets/library/shortcut-button.vala:39
-#: src/widgets/library/shortcut-button.vala:48
+#: src/widgets/library/mass-edit-dialog.vala:146
+#: src/widgets/library/shortcut-button.vala:38
+#: src/widgets/library/shortcut-button.vala:47
 #: src/widgets/library/launch-options-dialog.vala:57
+#: src/widgets/library/default-tool-dialog.vala:65
 msgid "Please report this issue on GitHub."
 msgstr "請在 GitHub 上回報此問題。"
 
@@ -204,7 +206,7 @@ msgstr "勾選此選項也會移除設定檔。"
 #: src/widgets/main/steamtinkerlaunch-row.vala:130
 #: src/widgets/main/steamtinkerlaunch-row.vala:145
 #: src/widgets/main/steamtinkerlaunch-row.vala:149
-#: src/widgets/library/mass-edit-button.vala:43
+#: src/widgets/library/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "警告"
 
@@ -256,13 +258,20 @@ msgstr "最新版本"
 msgid "Update to the latest version"
 msgstr "更新至最新版本"
 
-#: src/widgets/library/library-box.vala:50
+#: src/widgets/library/library-box.vala:51
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "請事先關閉 Steam 用戶端，以便套用變更。"
 
-#: src/widgets/library/library-box.vala:96
+#: src/widgets/library/library-box.vala:102
 msgid "Library"
 msgstr "遊戲庫"
+
+#: src/widgets/library/library-box.vala:137
+#: src/widgets/library/sort-by-tool-button.vala:27
+#: src/widgets/library/sort-by-tool-button.vala:30
+#: src/models/games/steam.vala:73 src/models/games/steam.vala:94
+msgid "Undefined"
+msgstr "未定義"
 
 #: src/widgets/library/game-row.vala:53
 msgid "Modify the game launch options"
@@ -297,6 +306,7 @@ msgstr "款所選遊戲"
 
 #: src/widgets/library/mass-edit-dialog.vala:22
 #: src/widgets/library/launch-options-dialog.vala:14
+#: src/widgets/library/default-tool-dialog.vala:14
 msgid "Apply"
 msgstr "套用"
 
@@ -316,6 +326,7 @@ msgid ""
 msgstr ""
 
 #: src/widgets/library/mass-edit-dialog.vala:36
+#: src/widgets/library/default-tool-dialog.vala:23
 #, fuzzy
 msgid "Select your desired compatibility tool"
 msgstr "依相容性工具排序"
@@ -345,35 +356,35 @@ msgid ""
 "Enable all the options that you want the mass edit to take into account."
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:147
+#: src/widgets/library/mass-edit-dialog.vala:146
 #, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occured for the following games"
 msgstr "嘗試變更所選遊戲的相容性工具時，下列遊戲發生錯誤"
 
-#: src/widgets/library/shortcut-button.vala:24
-#: src/widgets/library/shortcut-button.vala:29
+#: src/widgets/library/shortcut-button.vala:23
+#: src/widgets/library/shortcut-button.vala:28
 msgid "Create shortcut"
 msgstr "建立捷徑"
 
-#: src/widgets/library/shortcut-button.vala:29
+#: src/widgets/library/shortcut-button.vala:28
 msgid "Remove shortcut"
 msgstr "移除捷徑"
 
-#: src/widgets/library/shortcut-button.vala:30
+#: src/widgets/library/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "在 Steam 中建立 ProtonPlus 捷徑"
 
-#: src/widgets/library/shortcut-button.vala:30
+#: src/widgets/library/shortcut-button.vala:29
 msgid "Remove the shortcut of ProtonPlus in Steam"
 msgstr "移除 Steam 中的 ProtonPlus 捷徑"
 
-#: src/widgets/library/shortcut-button.vala:39
+#: src/widgets/library/shortcut-button.vala:38
 msgid "When trying to remove the shortcut in Steam an error occured."
 msgstr "嘗試移除 Steam 中的捷徑時發生錯誤。"
 
-#: src/widgets/library/shortcut-button.vala:48
+#: src/widgets/library/shortcut-button.vala:47
 msgid "When trying to create the shortcut in Steam an error occured."
 msgstr "嘗試在 Steam 中建立捷徑時發生錯誤。"
 
@@ -381,7 +392,7 @@ msgstr "嘗試在 Steam 中建立捷徑時發生錯誤。"
 msgid "Sort by name"
 msgstr "依名稱排序"
 
-#: src/widgets/library/sort-by-name-button.vala:12
+#: src/widgets/library/sort-by-name-button.vala:11
 msgid "Sorts the games by their name"
 msgstr "依遊戲名稱對遊戲進行排序"
 
@@ -389,22 +400,15 @@ msgstr "依遊戲名稱對遊戲進行排序"
 msgid "Sort by compatibility tool"
 msgstr "依相容性工具排序"
 
-#: src/widgets/library/sort-by-tool-button.vala:12
+#: src/widgets/library/sort-by-tool-button.vala:11
 msgid "Sorts the games by the compatibility tool name"
 msgstr "依相容性工具名稱對遊戲進行排序"
-
-#: src/widgets/library/sort-by-tool-button.vala:28
-#: src/widgets/library/sort-by-tool-button.vala:31
-#: src/models/launchers/steam.vala:82 src/models/games/steam.vala:76
-#: src/models/games/steam.vala:97
-msgid "Undefined"
-msgstr "未定義"
 
 #: src/widgets/library/select-button.vala:8
 msgid "Select all"
 msgstr "全部選取"
 
-#: src/widgets/library/select-button.vala:12
+#: src/widgets/library/select-button.vala:11
 msgid "Select all the games"
 msgstr "選取所有的遊戲"
 
@@ -412,15 +416,15 @@ msgstr "選取所有的遊戲"
 msgid "Unselect all"
 msgstr "全部取消"
 
-#: src/widgets/library/unselect-button.vala:12
+#: src/widgets/library/unselect-button.vala:11
 msgid "Unselect all the games"
 msgstr "取消選取所有的遊戲"
 
-#: src/widgets/library/mass-edit-button.vala:14
+#: src/widgets/library/mass-edit-button.vala:13
 msgid "Edit the compatibility tool of the selected games at once"
 msgstr "一次性編輯所選遊戲的相容性工具"
 
-#: src/widgets/library/mass-edit-button.vala:43
+#: src/widgets/library/mass-edit-button.vala:42
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
@@ -431,6 +435,7 @@ msgid "Modify launch options"
 msgstr ""
 
 #: src/widgets/library/launch-options-dialog.vala:15
+#: src/widgets/library/default-tool-dialog.vala:15
 msgid "Apply the current modification"
 msgstr ""
 
@@ -457,7 +462,23 @@ msgstr ""
 msgid "Open menu"
 msgstr "開啟"
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:40
+#: src/widgets/library/default-tool-button.vala:8
+#, fuzzy
+msgid "Set default compatibility tool"
+msgstr "依相容性工具排序"
+
+#: src/widgets/library/default-tool-button.vala:14
+#: src/widgets/library/default-tool-dialog.vala:12
+#, fuzzy
+msgid "Set the default compatibility tool"
+msgstr "依相容性工具排序"
+
+#: src/widgets/library/default-tool-dialog.vala:65
+#, fuzzy
+msgid "When trying to change the default compatibility tool an error occured."
+msgstr "嘗試變更 %s 的相容性工具時發生錯誤。"
+
+#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
 msgstr "運行器"
 
