@@ -1,259 +1,265 @@
 namespace ProtonPlus.Models.Games {
-    public class Steam : Game {
-        public int appid { get; set; }
-        public int library_folder_id { get; set; }
-        public string library_folder_path { get; set; }
-        public string awacy_name { get; set; }
-        public string awacy_status { get; set; }
-        public string launch_options { get; set; }
+	public class Steam : Game {
+		public int appid { get; set; }
+		public int library_folder_id { get; set; }
+		public string library_folder_path { get; set; }
+		public string awacy_name { get; set; }
+		public string awacy_status { get; set; }
+		public string launch_options { get; set; }
 
-        public Steam(int appid, string name, string game_folder_name, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
-            base (name, "%s/steamapps/common/%s".printf(library_folder_path, game_folder_name), "%s/steamapps/compatdata/%i".printf(library_folder_path, appid), launcher);
+		public Steam(int appid, string name, string game_folder_name, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
+			base(name, "%s/steamapps/common/%s".printf(library_folder_path, game_folder_name), "%s/steamapps/compatdata/%i".printf(library_folder_path, appid), launcher);
 
-            this.appid = appid;
-            this.library_folder_id = library_folder_id;
-            this.library_folder_path = library_folder_path;
-            this.launcher = launcher;
-        }
+			this.appid = appid;
+			this.library_folder_id = library_folder_id;
+			this.library_folder_path = library_folder_path;
+			this.launcher = launcher;
+		}
 
-        public override bool change_compatibility_tool(string compatibility_tool) {
-            var config_path = "%s/config/config.vdf".printf(launcher.directory);
-            var config_content = Utils.Filesystem.get_file_content(config_path);
-            var compat_tool_mapping_content = "";
-            var compat_tool_mapping_item = "";
-            var compat_tool_mapping_item_appid = 0;
-            var compat_tool_mapping_item_name = "";
-            var start_text = "";
-            var end_text = "";
-            var start_pos = 0;
-            var end_pos = 0;
-            var current_position = 0;
+		public override bool change_compatibility_tool(string compatibility_tool) {
+			var config_path = "%s/config/config.vdf".printf(launcher.directory);
+			var config_content = Utils.Filesystem.get_file_content(config_path);
+			var compat_tool_mapping_content = "";
+			var compat_tool_mapping_item = "";
+			var compat_tool_mapping_item_appid = 0;
+			var compat_tool_mapping_item_name = "";
+			var start_text = "";
+			var end_text = "";
+			var start_pos = 0;
+			var end_pos = 0;
+			var current_position = 0;
 
-            start_text = "CompatToolMapping\"\n\t\t\t\t{\n";
-            end_text = "\n\t\t\t\t}";
-            start_pos = config_content.index_of(start_text, 0) + start_text.length;
-            end_pos = config_content.index_of(end_text, start_pos);
-            compat_tool_mapping_content = config_content.substring(start_pos, end_pos - start_pos);
-            // message("start: %i, end: %i, compat_tool_mapping_content: %s", start_pos, end_pos, compat_tool_mapping_content);
+			start_text = "CompatToolMapping\"\n\t\t\t\t{\n";
+			end_text = "\n\t\t\t\t}";
+			start_pos = config_content.index_of(start_text, 0) + start_text.length;
+			end_pos = config_content.index_of(end_text, start_pos);
+			compat_tool_mapping_content = config_content.substring(start_pos, end_pos - start_pos);
+			// message("start: %i, end: %i, compat_tool_mapping_content: %s", start_pos, end_pos, compat_tool_mapping_content);
 
-            if (compat_tool_mapping_content.contains(appid.to_string())) {
-                start_text = "\n\t\t\t\t\t\"%i\"".printf(appid);
-                start_pos = compat_tool_mapping_content.index_of(start_text, current_position);
-                if (start_pos == -1)
-                    return false;
+			if (compat_tool_mapping_content.contains(appid.to_string())) {
+				start_text = "\n\t\t\t\t\t\"%i\"".printf(appid);
+				start_pos = compat_tool_mapping_content.index_of(start_text, current_position);
+				if (start_pos == -1)
+					return false;
 
-                end_text = "}";
-                end_pos = compat_tool_mapping_content.index_of(end_text, start_pos + start_text.length) + end_text.length;
-                if (end_pos == -1)
-                    return false;
+				end_text = "}";
+				end_pos = compat_tool_mapping_content.index_of(end_text, start_pos + start_text.length) + end_text.length;
+				if (end_pos == -1)
+					return false;
 
-                compat_tool_mapping_item = compat_tool_mapping_content.substring(start_pos, end_pos - start_pos);
-                
-                current_position = end_pos;
-                // message("start: %i, end: %i, compat_tool_mapping_item: %s", start_pos, end_pos, compat_tool_mapping_item);
+				compat_tool_mapping_item = compat_tool_mapping_content.substring(start_pos, end_pos - start_pos);
 
-                start_text = "\"";
-                start_pos = compat_tool_mapping_item.index_of(start_text, 0) + start_text.length;
-                if (start_pos == -1)
-                    return false;
+				current_position = end_pos;
+				// message("start: %i, end: %i, compat_tool_mapping_item: %s", start_pos, end_pos, compat_tool_mapping_item);
 
-                end_text = "\"";
-                end_pos = compat_tool_mapping_item.index_of(end_text, start_pos);
-                if (end_pos == -1)
-                    return false;
-                
-                var compat_tool_mapping_item_appid_valid = int.try_parse(compat_tool_mapping_item.substring(start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
-                if (!compat_tool_mapping_item_appid_valid)
-                    return false;
-                // message("start: %i, end: %i, compat_tool_mapping_item_appid: %i", start_pos, end_pos, compat_tool_mapping_item_appid);
+				start_text = "\"";
+				start_pos = compat_tool_mapping_item.index_of(start_text, 0) + start_text.length;
+				if (start_pos == -1)
+					return false;
 
-                if (compat_tool_mapping_item_appid != appid)
-                    return false;
+				end_text = "\"";
+				end_pos = compat_tool_mapping_item.index_of(end_text, start_pos);
+				if (end_pos == -1)
+					return false;
 
-                if (compatibility_tool == _("Undefined")) {
-                    config_content = config_content.replace(compat_tool_mapping_item, "");
-                } else {
-                    start_text = "name\"\t\t\"";
-                    start_pos = compat_tool_mapping_item.index_of(start_text, 0) + start_text.length;
-                    if (start_pos == -1)
-                        return false;
+				var compat_tool_mapping_item_appid_valid = int.try_parse(compat_tool_mapping_item.substring(start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
+				if (!compat_tool_mapping_item_appid_valid)
+					return false;
+				// message("start: %i, end: %i, compat_tool_mapping_item_appid: %i", start_pos, end_pos, compat_tool_mapping_item_appid);
 
-                    end_text = "\"";
-                    end_pos = compat_tool_mapping_item.index_of(end_text, start_pos);
-                    if (end_pos == -1)
-                        return false;
+				if (compat_tool_mapping_item_appid != appid)
+					return false;
 
-                    compat_tool_mapping_item_name = compat_tool_mapping_item.substring(start_pos, end_pos - start_pos);
-                    // message("start: %i, end: %i, compat_tool_mapping_item_name: %s", start_pos, end_pos, compat_tool_mapping_item_name);
+				if (compatibility_tool == _("Undefined")) {
+					config_content = config_content.replace(compat_tool_mapping_item, "");
+				} else {
+					start_text = "name\"\t\t\"";
+					start_pos = compat_tool_mapping_item.index_of(start_text, 0) + start_text.length;
+					if (start_pos == -1)
+						return false;
 
-                    var compat_tool_mapping_item_modified = compat_tool_mapping_item.replace(compat_tool_mapping_item_name, compatibility_tool);
+					end_text = "\"";
+					end_pos = compat_tool_mapping_item.index_of(end_text, start_pos);
+					if (end_pos == -1)
+						return false;
 
-                    config_content = config_content.replace(compat_tool_mapping_item, compat_tool_mapping_item_modified);
-                }
-            } else {
-                if (compatibility_tool == _("Undefined"))
-                    return true;
-                    
-                var line1 = "\n\t\t\t\t\t\"%i\"\n".printf(appid);
-                var line2 = "\t\t\t\t\t{\n";
-                var line3 = "\t\t\t\t\t\t\"name\"\t\t\"%s\"\n".printf(compatibility_tool);
-                var line4 = "\t\t\t\t\t\t\"config\"\t\t\"%s\"\n".printf("");
-                var line5 = "\t\t\t\t\t\t\"priority\"\t\t\"%i\"\n".printf(250);
-                var line6 = "\t\t\t\t\t}";
-                var new_item = line1 + line2 + line3 + line4 + line5 + line6;
+					compat_tool_mapping_item_name = compat_tool_mapping_item.substring(start_pos, end_pos - start_pos);
+					// message("start: %i, end: %i, compat_tool_mapping_item_name: %s", start_pos, end_pos, compat_tool_mapping_item_name);
 
-                var compat_tool_mapping_item_modified = compat_tool_mapping_item + new_item;
+					var compat_tool_mapping_item_modified = compat_tool_mapping_item.replace(compat_tool_mapping_item_name, compatibility_tool);
 
-                var compat_tool_mapping_content_modified = compat_tool_mapping_content.concat(compat_tool_mapping_item_modified);
-                
-                config_content = config_content.replace(compat_tool_mapping_content, compat_tool_mapping_content_modified);
-            }
+					config_content = config_content.replace(compat_tool_mapping_item, compat_tool_mapping_item_modified);
+				}
+			} else {
+				if (compatibility_tool == _("Undefined"))
+					return true;
 
-            Utils.Filesystem.modify_file(config_path, config_content);
+				var line1 = "\n\t\t\t\t\t\"%i\"\n".printf(appid);
+				var line2 = "\t\t\t\t\t{\n";
+				var line3 = "\t\t\t\t\t\t\"name\"\t\t\"%s\"\n".printf(compatibility_tool);
+				var line4 = "\t\t\t\t\t\t\"config\"\t\t\"%s\"\n".printf("");
+				var line5 = "\t\t\t\t\t\t\"priority\"\t\t\"%i\"\n".printf(250);
+				var line6 = "\t\t\t\t\t}";
+				var new_item = line1 + line2 + line3 + line4 + line5 + line6;
 
-            this.compatibility_tool = compatibility_tool;
+				var compat_tool_mapping_item_modified = compat_tool_mapping_item + new_item;
 
-            return true;
-        }
+				var compat_tool_mapping_content_modified = compat_tool_mapping_content.concat(compat_tool_mapping_item_modified);
 
-        public bool change_launch_options(string launch_options, string localconfig_path) {
-            var config_content = Utils.Filesystem.get_file_content(localconfig_path);
-            var start_text = "";
-            var end_text = "";
-            var start_pos = 0;
-            var end_pos = 0;
-            var app = "";
-            var app_launch_options = "";
-            var app_modified = "";
+				config_content = config_content.replace(compat_tool_mapping_content, compat_tool_mapping_content_modified);
+			}
 
-            start_text = "%i\"\n\t\t\t\t\t{".printf(appid);
-            end_text = "\n\t\t\t\t\t}";
-            start_pos = config_content.index_of(start_text, 0) + start_text.length;
+			Utils.Filesystem.modify_file(config_path, config_content);
 
-            if (start_pos == -1)
-                return false;
+			this.compatibility_tool = compatibility_tool;
 
-            end_pos = config_content.index_of(end_text, start_pos);
-            app = config_content.substring(start_pos, end_pos - start_pos);
-            // message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
+			return true;
+		}
 
-            if (launch_options.length == 0) {
-                if (app.contains("LaunchOptions")) {
-                    start_text = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"";
-                    start_pos = app.index_of(start_text, 0);
+		public bool change_launch_options(string launch_options, string localconfig_path) {
+			var config_content = Utils.Filesystem.get_file_content(localconfig_path);
+			var start_text = "";
+			var end_text = "";
+			var start_pos = 0;
+			var end_pos = 0;
+			var app = "";
+			var app_launch_options = "";
+			var app_modified = "";
 
-                    if (start_pos == -1)
-                        return false;
+			start_text = "%i\"\n\t\t\t\t\t{".printf(appid);
+			end_text = "\n\t\t\t\t\t}";
+			start_pos = config_content.index_of(start_text, 0) + start_text.length;
 
-                    end_text = "\"";
-                    end_pos = app.index_of(end_text, start_pos + start_text.length) + end_text.length;
+			if (start_pos == -1)
+				return false;
 
-                    if (end_pos == -1)
-                        return false;
+			end_pos = config_content.index_of(end_text, start_pos);
+			app = config_content.substring(start_pos, end_pos - start_pos);
+			// message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
 
-                    app_launch_options = app.substring(start_pos, end_pos - start_pos);
-                    // message("start: %i, end: %i, app_launch_options: %s", start_pos, end_pos, app_launch_options);
+			if (launch_options.length == 0) {
+				if (app.contains("LaunchOptions")) {
+					start_text = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"";
+					start_pos = app.index_of(start_text, 0);
 
-                    app_modified = app.replace(app_launch_options, "");
-                }
-            } else {
-                if (app.contains("LaunchOptions")) {
-                    start_text = "LaunchOptions\"\t\t\"";
-                    start_pos = app.index_of(start_text, 0) + start_text.length;
+					if (start_pos == -1)
+						return false;
 
-                    if (start_pos == -1)
-                        return false;
+					end_text = "\"";
+					end_pos = app.index_of(end_text, start_pos + start_text.length) + end_text.length;
 
-                    end_text = "\"";
-                    end_pos = app.index_of(end_text, start_pos);
+					if (end_pos == -1)
+						return false;
 
-                    if (end_pos == -1)
-                        return false;
-                        
-                    app_launch_options = app.substring(start_pos, end_pos - start_pos);
-                    // message("start: %i, end: %i, app_launch_options: %s", start_pos, end_pos, app_launch_options);
+					app_launch_options = app.substring(start_pos, end_pos - start_pos);
+					// message("start: %i, end: %i, app_launch_options: %s", start_pos, end_pos, app_launch_options);
 
-                    app_modified = app.replace(app_launch_options, launch_options);
-                } else {
-                    app_launch_options = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"%s\"".printf(launch_options);
+					app_modified = app.replace(app_launch_options, "");
+				}
+			} else {
+				if (app.contains("LaunchOptions")) {
+					start_text = "LaunchOptions\"\t\t\"";
+					start_pos = app.index_of(start_text, 0) + start_text.length;
 
-                    app_modified = app.concat(app_launch_options);
-                }
-            }
+					if (start_pos == -1)
+						return false;
 
-            config_content = config_content.replace(app, app_modified);
+					end_text = "\"";
+					end_pos = app.index_of(end_text, start_pos);
 
-            Utils.Filesystem.modify_file(localconfig_path, config_content);
+					if (end_pos == -1)
+						return false;
 
-            this.launch_options = launch_options;
+					app_launch_options = app.substring(start_pos, end_pos - start_pos);
+					// message("start: %i, end: %i, app_launch_options: %s", start_pos, end_pos, app_launch_options);
 
-            return true;
-        }
+					if (app_launch_options.length > 0) {
+						app_modified = app.replace(app_launch_options, launch_options);
+					} else {
+						var before = app.substring(0, start_pos);
+						var after = app.substring(start_pos, app.length - before.length);
+						app_modified = "%s%s%s".printf(before, launch_options, after);
+					}
+				} else {
+					app_launch_options = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"%s\"".printf(launch_options);
 
-        public class AwacyGame {
-            public int appid { get; set; }
-            public string name { get; set; }
-            public string status { get; set; }
+					app_modified = app.concat(app_launch_options);
+				}
+			}
 
-            public AwacyGame(int appid, string name, string status) {
-                this.appid = appid;
-                this.name = name;
-                this.status = status;
-            }
+			config_content = config_content.replace(app, app_modified);
 
-            public static async List<Models.Games.Steam.AwacyGame?> get_awacy_games() {
-                var games = new List<Models.Games.Steam.AwacyGame?> ();
+			Utils.Filesystem.modify_file(localconfig_path, config_content);
 
-                var json = yield Utils.Web.GET("https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json", false);
+			this.launch_options = launch_options;
 
-                if (json == null)
-                    return games;
+			return true;
+		}
 
-                var root_node = Utils.Parser.get_node_from_json(json);
+		public class AwacyGame {
+			public int appid { get; set; }
+			public string name { get; set; }
+			public string status { get; set; }
 
-                if (root_node == null)
-                    return games;
+			public AwacyGame(int appid, string name, string status) {
+				this.appid = appid;
+				this.name = name;
+				this.status = status;
+			}
 
-                if (root_node.get_node_type() != Json.NodeType.ARRAY)
-                    return games;
+			public static async List<Models.Games.Steam.AwacyGame?> get_awacy_games() {
+				var games = new List<Models.Games.Steam.AwacyGame?> ();
 
-                var root_array = root_node.get_array();
-                if (root_array == null)
-                    return games;
+				var json = yield Utils.Web.GET("https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json", false);
 
-                for (var i = 0; i < root_array.get_length(); i++) {
-                    var object = root_array.get_object_element(i);
+				if (json == null)
+					return games;
 
-                    var storeids_object = object.get_object_member("storeIds");
-                    if (storeids_object == null)
-                        continue;
+				var root_node = Utils.Parser.get_node_from_json(json);
 
-                    if (!storeids_object.has_member("steam"))
-                        continue;
+				if (root_node == null)
+					return games;
 
-                    int appid = 0;
-                    if (!int.try_parse(storeids_object.get_string_member("steam"), out appid))
-                        continue;
+				if (root_node.get_node_type() != Json.NodeType.ARRAY)
+					return games;
 
-                    if (!object.has_member("slug"))
-                        continue;
+				var root_array = root_node.get_array();
+				if (root_array == null)
+					return games;
 
-                    var name = object.get_string_member("slug");
+				for (var i = 0; i < root_array.get_length(); i++) {
+					var object = root_array.get_object_element(i);
 
-                    if (!object.has_member("status"))
-                        continue;
+					var storeids_object = object.get_object_member("storeIds");
+					if (storeids_object == null)
+						continue;
 
-                    var status = object.get_string_member("status");
+					if (!storeids_object.has_member("steam"))
+						continue;
 
-                    // message("appid: %i, slug: %s, status: %s".printf(appid, name, status));
+					int appid = 0;
+					if (!int.try_parse(storeids_object.get_string_member("steam"), out appid))
+						continue;
 
-                    var game = new AwacyGame(appid, name, status);
+					if (!object.has_member("slug"))
+						continue;
 
-                    games.append(game);
-                }
+					var name = object.get_string_member("slug");
 
-                return games;
-            }
-        }
-    }
+					if (!object.has_member("status"))
+						continue;
+
+					var status = object.get_string_member("status");
+
+					// message("appid: %i, slug: %s, status: %s".printf(appid, name, status));
+
+					var game = new AwacyGame(appid, name, status);
+
+					games.append(game);
+				}
+
+				return games;
+			}
+		}
+	}
 }

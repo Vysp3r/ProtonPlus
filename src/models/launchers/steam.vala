@@ -152,7 +152,7 @@ namespace ProtonPlus.Models.Launchers {
                         end_pos = current_apps.index_of(end_text, start_pos + start_text.length);
                         current_appid = current_apps.substring(start_pos, end_pos - start_pos);
                         current_position = end_pos;
-                        // message("start: %i, end: %i, id: %s", start_pos, end_pos, current_appid);
+                        message("start: %i, end: %i, id: %s", start_pos, end_pos, current_appid);
 
                         var id = 0;
                         var id_valid = int.try_parse(current_appid, out id);
@@ -185,7 +185,7 @@ namespace ProtonPlus.Models.Launchers {
                         start_pos = current_manifest_content.index_of(start_text, 0) + start_text.length;
                         end_pos = current_manifest_content.index_of(end_text, start_pos);
                         current_name = current_manifest_content.substring(start_pos, end_pos - start_pos);
-                        // message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
+                        message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
 
                         if (/Proton \d+.\d+/.match(current_name) || current_appid == "2180100" || current_appid == "1493710") {
                             compatibility_tools.append(new SimpleRunner(current_name, true));
@@ -215,7 +215,7 @@ namespace ProtonPlus.Models.Launchers {
                         if (compatibility_tool == null)
                             compatibility_tool = "Undefined";
                         game.compatibility_tool = compatibility_tool;
-                        // message("compat_tool: %s".printf(compat_tool));
+                        message("compat_tool: %s".printf(compatibility_tool));
 
                         var launch_options = launch_options_hashtable.get(game.appid);
                         if (launch_options == null)
@@ -294,14 +294,14 @@ namespace ProtonPlus.Models.Launchers {
                 var compat_tool_mapping_item_appid_valid = int.try_parse(compat_tool_mapping_item.substring(start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
                 if (!compat_tool_mapping_item_appid_valid)
                     continue;
-                // message("start: %i, end: %i, compat_tool_mapping_item_appid: %i", start_pos, end_pos, compat_tool_mapping_item_appid);
+                message("start: %i, end: %i, compat_tool_mapping_item_appid: %i", start_pos, end_pos, compat_tool_mapping_item_appid);
 
                 start_text = "name\"\t\t\"";
                 end_text = "\"";
                 start_pos = compat_tool_mapping_item.index_of(start_text, 0) + start_text.length;
                 end_pos = compat_tool_mapping_item.index_of(end_text, start_pos);
                 compat_tool_mapping_item_name = compat_tool_mapping_item.substring(start_pos, end_pos - start_pos);
-                // message("start: %i, end: %i, compat_tool_mapping_item_name: %s", start_pos, end_pos, compat_tool_mapping_item_name);
+                message("start: %i, end: %i, compat_tool_mapping_item_name: %s", start_pos, end_pos, compat_tool_mapping_item_name);
 
                 compatibility_tool_hashtable.set(compat_tool_mapping_item_appid, compat_tool_mapping_item_name);
             }

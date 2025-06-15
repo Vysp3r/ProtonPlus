@@ -22,7 +22,7 @@ namespace ProtonPlus.Widgets {
 
             for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
                 if (game.launcher.compatibility_tools.nth_data(i).title == game.compatibility_tool) {
-                    compatibility_tool_dropdown.set_selected(i);
+                    compatibility_tool_dropdown.set_selected(i + 1);
                     break;
                 }
             }
