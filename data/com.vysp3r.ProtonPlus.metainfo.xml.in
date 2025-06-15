@@ -87,7 +87,7 @@
   </screenshots>
 
   <releases>
-    <release version="0.5.3" date="2025-06-12">
+    <release version="0.5.3" date="2025-06-14">
       <description>
         <ul>
           <li>✨ Added the ability to manage launch options of games</li>
