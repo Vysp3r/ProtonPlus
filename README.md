@@ -36,6 +36,7 @@
 
 - Manage supported compatiblity tools across supported launchers
 - Change the compatibility tool and launch options of your Steam games
+- And much more...
 
 <details>
   <summary>Supported launchers</summary>
