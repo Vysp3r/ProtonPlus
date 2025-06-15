@@ -124,18 +124,18 @@ namespace ProtonPlus.Models {
 								var localconfig_path = "%s/config/localconfig.vdf".printf (file.get_path ());
 								var localconfig_content = Utils.Filesystem.get_file_content (localconfig_path);
 
-								var start_text = "steamid\\\":\\\"";
+								var start_text = "GetEquippedProfileItemsForUser";
 								var start_pos = localconfig_content.index_of (start_text, 0) + start_text.length;
 								if (start_pos == -1)
 									break;
 
-								var end_text = "\\\"";
+								var end_text = "\"";
 								var end_pos = localconfig_content.index_of (end_text, start_pos);
 								if (end_pos == -1)
 									break;
 
 								var id = localconfig_content.substring (start_pos, end_pos - start_pos);
-								// message("start: %i, end: %i, id: %s", start_pos, end_pos, id);
+								message("start: %i, end: %i, id: %s", start_pos, end_pos, id);
 
 								userdata_hashtable.set (id, file.get_path ());
 							}
