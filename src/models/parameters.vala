@@ -1,5 +1,4 @@
 namespace ProtonPlus.Models {
-    public class Parameters : Object {
-
-    }
+	public class Parameters : Object {
+	}
 }

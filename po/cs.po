@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-14 19:56-0400\n"
+"POT-Creation-Date: 2025-06-14 20:36-0400\n"
 "PO-Revision-Date: 2025-02-16 11:46+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: \n"
@@ -133,8 +133,8 @@ msgstr "Ano"
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/game-row.vala:133
-#: src/widgets/library/mass-edit-dialog.vala:146
+#: src/widgets/library/game-row.vala:137
+#: src/widgets/library/mass-edit-dialog.vala:150
 #: src/widgets/library/shortcut-button.vala:38
 #: src/widgets/library/shortcut-button.vala:47
 #: src/widgets/library/launch-options-dialog.vala:57
@@ -150,8 +150,8 @@ msgstr ""
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/game-row.vala:133
-#: src/widgets/library/mass-edit-dialog.vala:146
+#: src/widgets/library/game-row.vala:137
+#: src/widgets/library/mass-edit-dialog.vala:150
 #: src/widgets/library/shortcut-button.vala:38
 #: src/widgets/library/shortcut-button.vala:47
 #: src/widgets/library/launch-options-dialog.vala:57
@@ -277,25 +277,27 @@ msgid "Library"
 msgstr ""
 
 #: src/widgets/library/library-box.vala:137
+#: src/widgets/library/game-row.vala:23 src/widgets/library/game-row.vala:143
+#: src/widgets/library/mass-edit-dialog.vala:112
 #: src/widgets/library/sort-by-tool-button.vala:27
 #: src/widgets/library/sort-by-tool-button.vala:30
 #: src/models/games/steam.vala:73 src/models/games/steam.vala:94
 msgid "Undefined"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:53
+#: src/widgets/library/game-row.vala:57
 msgid "Modify the game launch options"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:79
+#: src/widgets/library/game-row.vala:83
 msgid "Unknown"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:85
+#: src/widgets/library/game-row.vala:89
 msgid "Open ProtonDB page"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:133
+#: src/widgets/library/game-row.vala:137
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
@@ -365,7 +367,7 @@ msgid ""
 "Enable all the options that you want the mass edit to take into account."
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:146
+#: src/widgets/library/mass-edit-dialog.vala:150
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occured for the following games"
