@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-14 20:36-0400\n"
-"PO-Revision-Date: 2025-06-14 13:36+0200\n"
+"PO-Revision-Date: 2025-06-15 08:26+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -486,22 +486,19 @@ msgid "Open menu"
 msgstr "Öffne Menü"
 
 #: src/widgets/library/default-tool-button.vala:8
-#, fuzzy
 msgid "Set default compatibility tool"
-msgstr "Sortieren nach Kompatibilitätswerkzeug"
+msgstr "Standardkompatibilitätswerkzeug festlegen"
 
 #: src/widgets/library/default-tool-button.vala:14
 #: src/widgets/library/default-tool-dialog.vala:12
-#, fuzzy
 msgid "Set the default compatibility tool"
-msgstr "Sortieren nach Kompatibilitätswerkzeug"
+msgstr "Einstellen des Standardkompatibilitätswerkzeugs"
 
 #: src/widgets/library/default-tool-dialog.vala:65
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occured."
 msgstr ""
-"Beim Versuch, das Kompatibilitätswerkzeug von %s zu ändern, ist ein Fehler "
-"aufgetreten."
+"Beim Versuch, das Standardkompatibilitätswerkzeug zu ändern, trat ein Fehler "
+"auf."
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
