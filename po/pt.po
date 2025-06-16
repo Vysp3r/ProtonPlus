@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-14 20:36-0400\n"
+"POT-Creation-Date: 2025-06-16 11:22-0400\n"
 "PO-Revision-Date: 2025-06-16 12:59+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -133,6 +133,7 @@ msgstr "Sim"
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
+#: src/widgets/library/library-box.vala:117
 #: src/widgets/library/game-row.vala:137
 #: src/widgets/library/mass-edit-dialog.vala:150
 #: src/widgets/library/shortcut-button.vala:38
@@ -270,7 +271,13 @@ msgstr ""
 msgid "Library"
 msgstr "Biblioteca"
 
-#: src/widgets/library/library-box.vala:137
+#: src/widgets/library/library-box.vala:117
+msgid ""
+"No profile was found. Make sure to connect yourself at least one time "
+"otherwise report this issue on GitHub."
+msgstr ""
+
+#: src/widgets/library/library-box.vala:141
 #: src/widgets/library/game-row.vala:23 src/widgets/library/game-row.vala:143
 #: src/widgets/library/mass-edit-dialog.vala:112
 #: src/widgets/library/sort-by-tool-button.vala:27
@@ -483,7 +490,8 @@ msgstr "Definir ferramenta de compatibilidade padrão"
 
 #: src/widgets/library/default-tool-dialog.vala:65
 msgid "When trying to change the default compatibility tool an error occured."
-msgstr "Ocorreu um erro ao tentar mudar a ferramente de compatibilidade padrão."
+msgstr ""
+"Ocorreu um erro ao tentar mudar a ferramente de compatibilidade padrão."
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"

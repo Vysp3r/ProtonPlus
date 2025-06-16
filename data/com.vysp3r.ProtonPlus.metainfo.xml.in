@@ -87,6 +87,16 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.4" date="2025-06-16">
+      <description>
+        <ul>
+          <li>🐛 Fix Steam profile detection</li>
+          <li>🌐 Updated Chinese localization</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Updated Portuguese localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.3" date="2025-06-14">
       <description>
         <ul>
