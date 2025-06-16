@@ -135,7 +135,7 @@ namespace ProtonPlus.Models {
 									break;
 
 								var id = localconfig_content.substring (start_pos, end_pos - start_pos);
-								message("start: %i, end: %i, id: %s", start_pos, end_pos, id);
+								// message("start: %i, end: %i, id: %s", start_pos, end_pos, id);
 
 								userdata_hashtable.set (id, file.get_path ());
 							}
