@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-14 20:36-0400\n"
-"PO-Revision-Date: 2025-06-09 21:45+0000\n"
+"PO-Revision-Date: 2025-06-16 12:59+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -24,7 +24,7 @@ msgstr "Um gerenciador moderno de ferramentas de compatibilidade para Linux."
 
 #: src/widgets/application.vala:85
 msgid "Website"
-msgstr ""
+msgstr "Site"
 
 #: src/widgets/application.vala:90
 msgid "Special thanks to"
@@ -281,7 +281,7 @@ msgstr ""
 
 #: src/widgets/library/game-row.vala:57
 msgid "Modify the game launch options"
-msgstr ""
+msgstr "Modificar as opções de inicialização de jogo"
 
 #: src/widgets/library/game-row.vala:83
 msgid "Unknown"
@@ -302,9 +302,8 @@ msgid "Mass edit"
 msgstr ""
 
 #: src/widgets/library/mass-edit-dialog.vala:20
-#, fuzzy
 msgid "game selected"
-msgstr "jogos selecionados"
+msgstr "jogo selecionado"
 
 #: src/widgets/library/mass-edit-dialog.vala:20
 msgid "games selected"
@@ -323,21 +322,22 @@ msgstr ""
 #: src/widgets/library/mass-edit-dialog.vala:31
 #: src/widgets/library/mass-edit-dialog.vala:46
 msgid "Enabled"
-msgstr ""
+msgstr "Ativo"
 
 #: src/widgets/library/mass-edit-dialog.vala:32
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
 msgstr ""
+"Ative isso se deseja que a edição em massa para levar a ferramenta de "
+"compatibilidade em consideração."
 
 #: src/widgets/library/mass-edit-dialog.vala:36
 #: src/widgets/library/default-tool-dialog.vala:23
 msgid "Select your desired compatibility tool"
-msgstr ""
+msgstr "Selecione sua ferramenta de compatibilidade desejada"
 
 #: src/widgets/library/mass-edit-dialog.vala:41
-#, fuzzy
 msgid "Compatibility tool"
 msgstr "Ferramenta de compatibilidade"
 
@@ -346,30 +346,31 @@ msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
 msgstr ""
+"Ative isto se deseja que a edição em massa leve as opções de inicialização "
+"em consideração."
 
 #: src/widgets/library/mass-edit-dialog.vala:51
 #: src/widgets/library/launch-options-dialog.vala:24
 msgid "Enter your desired launch options"
-msgstr ""
+msgstr "Insira suas opções de inicialização desejadas"
 
 #: src/widgets/library/mass-edit-dialog.vala:54
-#, fuzzy
 msgid "Launch options"
-msgstr "Configurações do Inicializador"
+msgstr "Opções de inicialização"
 
 #: src/widgets/library/mass-edit-dialog.vala:58
 msgid ""
 "Enable all the options that you want the mass edit to take into account."
 msgstr ""
+"Ative todas opções que deseja que a edição em massa leve em consideração."
 
 #: src/widgets/library/mass-edit-dialog.vala:150
-#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occured for the following games"
 msgstr ""
-"Ocorreu um erro ao tentar mudar a ferramenta de compatibilidade dos jogos "
-"selecionados para os seguintes jogos"
+"Ocorreu um erro ao tentar mudar a ferramenta de compatibilidade/opções de "
+"inicialização dos jogos selecionados para os seguintes jogos"
 
 #: src/widgets/library/shortcut-button.vala:23
 #: src/widgets/library/shortcut-button.vala:28
@@ -398,37 +399,35 @@ msgstr "Ocorreu um erro ao tentar criar um atalho no Steam."
 
 #: src/widgets/library/sort-by-name-button.vala:8
 msgid "Sort by name"
-msgstr ""
+msgstr "Classificar por nome"
 
 #: src/widgets/library/sort-by-name-button.vala:11
 msgid "Sorts the games by their name"
-msgstr ""
+msgstr "Classifica os jogos pelo nome deles"
 
 #: src/widgets/library/sort-by-tool-button.vala:8
-#, fuzzy
 msgid "Sort by compatibility tool"
-msgstr "Ferramenta de compatibilidade"
+msgstr "Classificar por ferramenta de compatibilidade"
 
 #: src/widgets/library/sort-by-tool-button.vala:11
 msgid "Sorts the games by the compatibility tool name"
-msgstr ""
+msgstr "Classifica os jogos pelo nome da ferramenta de compatibilidade"
 
 #: src/widgets/library/select-button.vala:8
 msgid "Select all"
-msgstr ""
+msgstr "Selecionar todos"
 
 #: src/widgets/library/select-button.vala:11
 msgid "Select all the games"
-msgstr ""
+msgstr "Selecionar todos jogos"
 
 #: src/widgets/library/unselect-button.vala:8
 msgid "Unselect all"
-msgstr ""
+msgstr "Desselecionar todos"
 
 #: src/widgets/library/unselect-button.vala:11
-#, fuzzy
 msgid "Unselect all the games"
-msgstr "Instalar o executador"
+msgstr "Desselecionar todos jogos"
 
 #: src/widgets/library/mass-edit-button.vala:13
 #, fuzzy
@@ -445,7 +444,7 @@ msgstr ""
 
 #: src/widgets/library/launch-options-dialog.vala:12
 msgid "Modify launch options"
-msgstr ""
+msgstr "Modificar opções de inicialização"
 
 #: src/widgets/library/launch-options-dialog.vala:15
 #: src/widgets/library/default-tool-dialog.vala:15
@@ -453,9 +452,9 @@ msgid "Apply the current modification"
 msgstr ""
 
 #: src/widgets/library/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occured."
-msgstr "Ocorreu um erro ao tentar mudar a ferramente de compatibilidade de %s."
+msgstr "Ocorreu um erro ao tentar mudar as opções de inicialização de %s."
 
 #: src/widgets/library/profile-dialog.vala:15
 msgid "Select a profile"
@@ -463,32 +462,28 @@ msgstr ""
 
 #: src/widgets/library/extra-button.vala:10
 msgid "Open install directory"
-msgstr ""
+msgstr "Abrir diretório de instalação"
 
 #: src/widgets/library/extra-button.vala:13
 msgid "Open prefix directory"
-msgstr ""
+msgstr "Abrir diretório do prefixo"
 
 #: src/widgets/library/extra-button.vala:28
-#, fuzzy
 msgid "Open menu"
-msgstr "Abrir"
+msgstr "Abrir menu"
 
 #: src/widgets/library/default-tool-button.vala:8
-#, fuzzy
 msgid "Set default compatibility tool"
-msgstr "Ferramenta de compatibilidade"
+msgstr "Definir ferramenta de compatibilidade padrão"
 
 #: src/widgets/library/default-tool-button.vala:14
 #: src/widgets/library/default-tool-dialog.vala:12
-#, fuzzy
 msgid "Set the default compatibility tool"
-msgstr "Ferramenta de compatibilidade"
+msgstr "Definir ferramenta de compatibilidade padrão"
 
 #: src/widgets/library/default-tool-dialog.vala:65
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occured."
-msgstr "Ocorreu um erro ao tentar mudar a ferramente de compatibilidade de %s."
+msgstr "Ocorreu um erro ao tentar mudar a ferramente de compatibilidade padrão."
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
