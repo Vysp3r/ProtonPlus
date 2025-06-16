@@ -1,23 +1,27 @@
 namespace ProtonPlus.Models {
 	public class SteamProfile : Object {
+		const int64 steamid64ident = 76561197960265728;
 		public Launchers.Steam launcher { get; set; }
 		public string userdata_path { get; set; }
 		public string localconfig_path { get; set; }
 		public VDF.Shortcuts shortcut_file { get; set; }
-		public string id { get; set; }
+		public string steam_id { get; set; }
+		public string account_id { get; set; }
 		public string username { get; set; }
 		public string image_path { get; set; }
 		public string default_compatibility_tool { get; set; }
 
-		public SteamProfile (Launchers.Steam launcher, string username, string id, string userdata_path) {
+		public SteamProfile (Launchers.Steam launcher, string username, string steam_id, string userdata_path) {
 			this.launcher = launcher;
-			this.id = id;
+			this.steam_id = steam_id;
 			this.username = username;
 			this.userdata_path = userdata_path;
 
+			this.account_id = steam_id_to_account_id(steam_id);
+
 			this.localconfig_path = "%s/config/localconfig.vdf".printf (userdata_path);
 
-			this.image_path = "%s/config/avatarcache/%s.png".printf (launcher.directory, id);
+			this.image_path = "%s/config/avatarcache/%s.png".printf (launcher.directory, steam_id);
 
 			try {
 				var shortcut_file_path = "%s/config/shortcuts.vdf".printf (userdata_path);
@@ -29,6 +33,40 @@ namespace ProtonPlus.Models {
 			} catch (Error e) {
 				message (e.message);
 			}
+		}
+
+		static string steam_id_to_account_id (string steam_id) {
+			var steam_id2 = "STEAM_0:";
+			var steam_id2_account = int64.parse(steam_id) - steamid64ident;
+
+  			if (steam_id2_account % 2 == 0)
+      			steam_id2 += "0:";
+  			else
+      			steam_id2 += "1:";
+
+  			steam_id2 += Math.floor (steam_id2_account / 2).to_string();
+
+  			// message("SteamID2: %s".printf (steam_id2));
+
+			var steam_id2_split = steam_id2.split(":");
+  			var steam_id3 = "[U:1:";
+
+  			var y = int.parse(steam_id2_split[1]);
+  			var z = int.parse(steam_id2_split[2]);
+
+  			var account_id = z * 2 + y;
+
+  			steam_id3 += "%i]".printf (account_id);
+
+			// message("SteamID3: %s".printf (steam_id3));
+
+			return account_id.to_string ();
+		}
+
+		static string account_id_to_steam_id (string account_id) {
+  			var steam_id = int64.parse(account_id) + steamid64ident;
+
+			return steam_id.to_string();
 		}
 
 		public static List<SteamProfile> get_profiles (Launchers.Steam launcher) {
@@ -121,23 +159,7 @@ namespace ProtonPlus.Models {
 						if (dir != "." && dir != "..") {
 							File file = File.new_for_path (userdata_path + "/" + dir);
 							if (file.query_file_type (FileQueryInfoFlags.NONE) == FileType.DIRECTORY) {
-								var localconfig_path = "%s/config/localconfig.vdf".printf (file.get_path ());
-								var localconfig_content = Utils.Filesystem.get_file_content (localconfig_path);
-
-								var start_text = "GetEquippedProfileItemsForUser";
-								var start_pos = localconfig_content.index_of (start_text, 0) + start_text.length;
-								if (start_pos == -1)
-									break;
-
-								var end_text = "\"";
-								var end_pos = localconfig_content.index_of (end_text, start_pos);
-								if (end_pos == -1)
-									break;
-
-								var id = localconfig_content.substring (start_pos, end_pos - start_pos);
-								// message("start: %i, end: %i, id: %s", start_pos, end_pos, id);
-
-								userdata_hashtable.set (id, file.get_path ());
+								userdata_hashtable.set (account_id_to_steam_id(dir), file.get_path ());
 							}
 						}
 					}
