@@ -87,6 +87,13 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.5" date="2025-06-16">
+      <description>
+        <ul>
+          <li>🐛 Fix Steam profile detection</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.4" date="2025-06-16">
       <description>
         <ul>
