@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-14 20:36-0400\n"
-"PO-Revision-Date: 2025-06-12 05:08+0800\n"
+"PO-Revision-Date: 2025-06-15 23:48+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -24,7 +24,7 @@ msgstr "適用於 Linux 的現代相容性工具管理程式。"
 
 #: src/widgets/application.vala:85
 msgid "Website"
-msgstr ""
+msgstr "網站"
 
 #: src/widgets/application.vala:90
 msgid "Special thanks to"
@@ -277,7 +277,7 @@ msgstr "未定義"
 
 #: src/widgets/library/game-row.vala:57
 msgid "Modify the game launch options"
-msgstr ""
+msgstr "修改遊戲啟動選項"
 
 #: src/widgets/library/game-row.vala:83
 msgid "Unknown"
@@ -298,13 +298,12 @@ msgid "Mass edit"
 msgstr "批量編輯"
 
 #: src/widgets/library/mass-edit-dialog.vala:20
-#, fuzzy
 msgid "game selected"
-msgstr "款所選遊戲"
+msgstr "款遊戲已選取"
 
 #: src/widgets/library/mass-edit-dialog.vala:20
 msgid "games selected"
-msgstr "款所選遊戲"
+msgstr "款遊戲已選取"
 
 #: src/widgets/library/mass-edit-dialog.vala:22
 #: src/widgets/library/launch-options-dialog.vala:14
@@ -314,56 +313,53 @@ msgstr "套用"
 
 #: src/widgets/library/mass-edit-dialog.vala:23
 msgid "Apply the current modifications"
-msgstr ""
+msgstr "套用目前修改"
 
 #: src/widgets/library/mass-edit-dialog.vala:31
 #: src/widgets/library/mass-edit-dialog.vala:46
 msgid "Enabled"
-msgstr ""
+msgstr "啟用"
 
 #: src/widgets/library/mass-edit-dialog.vala:32
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
-msgstr ""
+msgstr "若要批量編輯涵蓋相容性工具，請啟用此選項。"
 
 #: src/widgets/library/mass-edit-dialog.vala:36
 #: src/widgets/library/default-tool-dialog.vala:23
-#, fuzzy
 msgid "Select your desired compatibility tool"
-msgstr "依相容性工具排序"
+msgstr "選擇所需的相容性工具"
 
 #: src/widgets/library/mass-edit-dialog.vala:41
-#, fuzzy
 msgid "Compatibility tool"
-msgstr "依相容性工具排序"
+msgstr "相容性工具"
 
 #: src/widgets/library/mass-edit-dialog.vala:47
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
-msgstr ""
+msgstr "若要批量編輯涵蓋啟動選項，請啟用此選項。"
 
 #: src/widgets/library/mass-edit-dialog.vala:51
 #: src/widgets/library/launch-options-dialog.vala:24
 msgid "Enter your desired launch options"
-msgstr ""
+msgstr "輸入所需的啟動選項"
 
 #: src/widgets/library/mass-edit-dialog.vala:54
 msgid "Launch options"
-msgstr ""
+msgstr "啟動選項"
 
 #: src/widgets/library/mass-edit-dialog.vala:58
 msgid ""
 "Enable all the options that you want the mass edit to take into account."
-msgstr ""
+msgstr "請啟用所有要批量編輯涵蓋的選項。"
 
 #: src/widgets/library/mass-edit-dialog.vala:150
-#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occured for the following games"
-msgstr "嘗試變更所選遊戲的相容性工具時，下列遊戲發生錯誤"
+msgstr "嘗試變更所選遊戲的相容性工具/啟動選項時，下列遊戲發生錯誤"
 
 #: src/widgets/library/shortcut-button.vala:23
 #: src/widgets/library/shortcut-button.vala:28
@@ -434,51 +430,46 @@ msgstr "使用批量編輯功能前，請確保至少選取一款遊戲。"
 
 #: src/widgets/library/launch-options-dialog.vala:12
 msgid "Modify launch options"
-msgstr ""
+msgstr "修改啟動選項"
 
 #: src/widgets/library/launch-options-dialog.vala:15
 #: src/widgets/library/default-tool-dialog.vala:15
 msgid "Apply the current modification"
-msgstr ""
+msgstr "套用目前修改"
 
 #: src/widgets/library/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occured."
-msgstr "嘗試變更 %s 的相容性工具時發生錯誤。"
+msgstr "嘗試變更 %s 的啟動選項時發生錯誤。"
 
 #: src/widgets/library/profile-dialog.vala:15
-#, fuzzy
 msgid "Select a profile"
-msgstr "全部選取"
+msgstr "選擇設定檔"
 
 #: src/widgets/library/extra-button.vala:10
 msgid "Open install directory"
-msgstr ""
+msgstr "開啟安裝目錄"
 
 #: src/widgets/library/extra-button.vala:13
 msgid "Open prefix directory"
-msgstr ""
+msgstr "開啟前置環境目錄"
 
 #: src/widgets/library/extra-button.vala:28
-#, fuzzy
 msgid "Open menu"
-msgstr "開啟"
+msgstr "開啟選單"
 
 #: src/widgets/library/default-tool-button.vala:8
-#, fuzzy
 msgid "Set default compatibility tool"
-msgstr "依相容性工具排序"
+msgstr "設定預設的相容性工具"
 
 #: src/widgets/library/default-tool-button.vala:14
 #: src/widgets/library/default-tool-dialog.vala:12
-#, fuzzy
 msgid "Set the default compatibility tool"
-msgstr "依相容性工具排序"
+msgstr "設定預設的相容性工具"
 
 #: src/widgets/library/default-tool-dialog.vala:65
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occured."
-msgstr "嘗試變更 %s 的相容性工具時發生錯誤。"
+msgstr "嘗試變更預設的相容性工具時發生錯誤。"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
