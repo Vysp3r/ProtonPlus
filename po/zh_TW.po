@@ -670,7 +670,3 @@ msgstr ""
 
 msgid "compatibility tool"
 msgstr "相容性工具"
-
-msgctxt "Wine 和 Proton 裡的特殊名詞"
-msgid "prefix"
-msgstr "前置環境"
