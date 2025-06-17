@@ -667,6 +667,3 @@ msgstr ""
 
 #~ msgid "Removing"
 #~ msgstr "正在移除"
-
-msgid "compatibility tool"
-msgstr "相容性工具"
