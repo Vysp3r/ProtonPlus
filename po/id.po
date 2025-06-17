@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-16 18:12-0400\n"
-"PO-Revision-Date: 2025-05-30 02:03+0000\n"
+"PO-Revision-Date: 2025-06-17 08:02+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/id/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 5.12.1\n"
 
 #: src/widgets/application.vala:83
 msgid "A modern compatibility tools manager for Linux."
@@ -22,7 +22,7 @@ msgstr "Pengelola alat kompatibilitas modern untuk Linux."
 
 #: src/widgets/application.vala:85
 msgid "Website"
-msgstr ""
+msgstr "Laman web"
 
 #: src/widgets/application.vala:90
 msgid "Special thanks to"
@@ -30,11 +30,11 @@ msgstr "Terima kasih khusus kepada"
 
 #: src/widgets/window.vala:35
 msgid "Show sidebar"
-msgstr ""
+msgstr "Tampilkan bilah samping"
 
 #: src/widgets/window.vala:44
 msgid "Go back"
-msgstr ""
+msgstr "Kembali"
 
 #: src/widgets/window.vala:70
 #, c-format
@@ -47,7 +47,7 @@ msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 
 #: src/widgets/sidebar/sidebar-row.vala:15
 msgid "Show game library"
-msgstr ""
+msgstr "Tampilkan pustaka game"
 
 #: src/widgets/main/info-box.vala:15
 msgid "_Installed Only"
@@ -98,7 +98,7 @@ msgstr "Muat lainnya"
 #: src/widgets/main/remove-dialog.vala:11
 #, c-format
 msgid "Remove %s"
-msgstr ""
+msgstr "Hapus %s"
 
 #: src/widgets/main/remove-dialog.vala:13
 msgid "Are you sure you want this?"
@@ -107,16 +107,15 @@ msgstr "Apakah Anda yakin menginginkan ini?"
 #: src/widgets/main/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
-msgstr ""
+msgstr "Digunakan oleh %i game."
 
 #: src/widgets/main/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr ""
+msgstr "Digunakan oleh 1 game."
 
 #: src/widgets/main/remove-dialog.vala:26
-#, fuzzy
 msgid "Are you sure you want to proceed?"
-msgstr "Apakah Anda yakin ingin menghapusnya "
+msgstr "Apakah Anda yakin ingin melanjutkannya?"
 
 #: src/widgets/main/remove-dialog.vala:30
 #: src/widgets/main/steamtinkerlaunch-row.vala:91
@@ -139,12 +138,12 @@ msgstr "Ya"
 #: src/widgets/library/launch-options-dialog.vala:57
 #: src/widgets/library/default-tool-dialog.vala:65
 msgid "Error"
-msgstr ""
+msgstr "eror"
 
 #: src/widgets/main/remove-dialog.vala:49
 #, c-format
 msgid "When trying to remove %s an error occured."
-msgstr ""
+msgstr "Saat mencoba menghapus %s terjadi kesalahan."
 
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
@@ -156,7 +155,7 @@ msgstr ""
 #: src/widgets/library/launch-options-dialog.vala:57
 #: src/widgets/library/default-tool-dialog.vala:65
 msgid "Please report this issue on GitHub."
-msgstr ""
+msgstr "Silakan laporkan masalah ini di GitHub."
 
 #: src/widgets/main/install-dialog.vala:23
 #: src/widgets/main/upgrade-dialog.vala:23
@@ -166,39 +165,35 @@ msgstr "Batalkan"
 #: src/widgets/main/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occured."
-msgstr ""
+msgstr "Saat mencoba menginstal %s terjadi kesalahan."
 
 #: src/widgets/main/install-dialog.vala:76
 #: src/widgets/main/upgrade-dialog.vala:78
-#, fuzzy
 msgid "Downloading"
-msgstr "Mengunduh..."
+msgstr "Mengunduh"
 
 #: src/widgets/main/install-dialog.vala:79
 #: src/widgets/main/upgrade-dialog.vala:81
-#, fuzzy
 msgid "Extracting"
-msgstr "Mengekstrak..."
+msgstr "Mengekstrak"
 
 #: src/widgets/main/install-dialog.vala:82
-#, fuzzy
 msgid "Renaming"
-msgstr "Mengubah nama..."
+msgstr "Mengubah nama"
 
 #: src/widgets/main/install-dialog.vala:85
-#, fuzzy
 msgid "Running post install script"
-msgstr "Menjalankan skrip pasca instalasi..."
+msgstr "Menjalankan skrip pasca instalasi"
 
 #: src/widgets/main/upgrade-dialog.vala:17
-#, fuzzy, c-format
+#, c-format
 msgid "Upgrade %s"
-msgstr "Memperbarui"
+msgstr "Perbarui %s"
 
 #: src/widgets/main/upgrade-dialog.vala:56
 #, c-format
 msgid "When trying to upgrade %s an error occured."
-msgstr ""
+msgstr "Saat mencoba meningkatkan %s terjadi kesalahan."
 
 #: src/widgets/main/installed-row.vala:29
 #: src/widgets/main/steamtinkerlaunch-row.vala:118
@@ -212,7 +207,7 @@ msgstr "Periksa ini untuk juga menghapus file konfigurasi Anda."
 #: src/widgets/main/steamtinkerlaunch-row.vala:149
 #: src/widgets/library/mass-edit-button.vala:42
 msgid "Warning"
-msgstr ""
+msgstr "Peringatan"
 
 #: src/widgets/main/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -238,14 +233,13 @@ msgstr ""
 "oleh ProtonPlus."
 
 #: src/widgets/main/steamtinkerlaunch-row.vala:89
-#, fuzzy
 msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr "Apakah Anda ingin menghapusnya dan menginstal %s dengan ProtonPlus?"
+msgstr "Apakah Anda ingin menginstalnya kembali dengan ProtonPlus?"
 
 #: src/widgets/main/steamtinkerlaunch-row.vala:130
-#, fuzzy, c-format
+#, c-format
 msgid "%s is already up-to-date."
-msgstr "%s sudah diperbarui"
+msgstr "%s sudah diperbarui."
 
 #: src/widgets/main/steamtinkerlaunch-row.vala:145
 #, c-format
@@ -258,28 +252,28 @@ msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Saat ini tidak ada cara yang diketahui untuk memasang %s untuk %s."
 
 #: src/widgets/main/steamtinkerlaunch-row.vala:175
-#, fuzzy
 msgid "Up-to-date"
-msgstr "%s sudah diperbarui"
+msgstr "Terbaru"
 
 #: src/widgets/main/steamtinkerlaunch-row.vala:175
-#, fuzzy
 msgid "Update to the latest version"
-msgstr "Perbarui %s ke versi terbaru"
+msgstr "Perbarui  ke versi terbaru"
 
 #: src/widgets/library/library-box.vala:51
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr ""
+msgstr "Tutup klien Steam terlebih dahulu agar perubahan dapat diterapkan."
 
 #: src/widgets/library/library-box.vala:102
 msgid "Library"
-msgstr ""
+msgstr "Pustaka"
 
 #: src/widgets/library/library-box.vala:117
 msgid ""
 "No profile was found. Make sure to connect yourself at least one time "
 "otherwise report this issue on GitHub."
 msgstr ""
+"Profil tidak ditemukan. Pastikan untuk menghubungkan akun Anda setidaknya "
+"satu kali, jika tidak, laporkan masalah ini di GitHub."
 
 #: src/widgets/library/library-box.vala:141
 #: src/widgets/library/game-row.vala:23 src/widgets/library/game-row.vala:143
@@ -288,67 +282,67 @@ msgstr ""
 #: src/widgets/library/sort-by-tool-button.vala:30
 #: src/models/games/steam.vala:73 src/models/games/steam.vala:94
 msgid "Undefined"
-msgstr ""
+msgstr "Tidak terdefinisi"
 
 #: src/widgets/library/game-row.vala:57
 msgid "Modify the game launch options"
-msgstr ""
+msgstr "Modifikasi opsi peluncuran game"
 
 #: src/widgets/library/game-row.vala:83
 msgid "Unknown"
-msgstr ""
+msgstr "Tidak diketahui"
 
 #: src/widgets/library/game-row.vala:89
 msgid "Open ProtonDB page"
-msgstr ""
+msgstr "Buka halaman ProtonDB"
 
 #: src/widgets/library/game-row.vala:137
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
-msgstr ""
+msgstr "Ketika mencoba mengubah alat kompatibilitas %s terjadi kesalahan."
 
 #: src/widgets/library/mass-edit-dialog.vala:20
 #: src/widgets/library/mass-edit-button.vala:10
 msgid "Mass edit"
-msgstr ""
+msgstr "Pengeditan masal"
 
 #: src/widgets/library/mass-edit-dialog.vala:20
 msgid "game selected"
-msgstr ""
+msgstr "game yang dipilih"
 
 #: src/widgets/library/mass-edit-dialog.vala:20
 msgid "games selected"
-msgstr ""
+msgstr "beberapa game yang dipilih"
 
 #: src/widgets/library/mass-edit-dialog.vala:22
 #: src/widgets/library/launch-options-dialog.vala:14
 #: src/widgets/library/default-tool-dialog.vala:14
 msgid "Apply"
-msgstr ""
+msgstr "Terapkan"
 
 #: src/widgets/library/mass-edit-dialog.vala:23
 msgid "Apply the current modifications"
-msgstr ""
+msgstr "Terapkan modifikasi saat ini"
 
 #: src/widgets/library/mass-edit-dialog.vala:31
 #: src/widgets/library/mass-edit-dialog.vala:46
 msgid "Enabled"
-msgstr ""
+msgstr "Diaktifkan"
 
 #: src/widgets/library/mass-edit-dialog.vala:32
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
 msgstr ""
+"Pilih opsi ini jika Anda ingin pengeditan massal mempertimbangkan alat "
+"kompatibilitas."
 
 #: src/widgets/library/mass-edit-dialog.vala:36
 #: src/widgets/library/default-tool-dialog.vala:23
-#, fuzzy
 msgid "Select your desired compatibility tool"
-msgstr "Alat Kompabilitas"
+msgstr "Pilih alat kompatibilitas yang diinginkan"
 
 #: src/widgets/library/mass-edit-dialog.vala:41
-#, fuzzy
 msgid "Compatibility tool"
 msgstr "Alat Kompabilitas"
 
@@ -357,145 +351,143 @@ msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
 msgstr ""
+"Pilih opsi ini jika Anda ingin pengeditan massal mempertimbangkan opsi "
+"peluncuran."
 
 #: src/widgets/library/mass-edit-dialog.vala:51
 #: src/widgets/library/launch-options-dialog.vala:24
-#, fuzzy
 msgid "Enter your desired launch options"
-msgstr "Pengaturan Peluncur"
+msgstr "Masukkan opsi peluncuran yang Anda inginkan"
 
 #: src/widgets/library/mass-edit-dialog.vala:54
-#, fuzzy
 msgid "Launch options"
-msgstr "Pengaturan Peluncur"
+msgstr "Opsi peluncuran"
 
 #: src/widgets/library/mass-edit-dialog.vala:58
 msgid ""
 "Enable all the options that you want the mass edit to take into account."
 msgstr ""
+"Aktifkan semua opsi yang ingin Anda pertimbangkan dalam pengeditan massal."
 
 #: src/widgets/library/mass-edit-dialog.vala:150
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occured for the following games"
 msgstr ""
+"Saat mencoba mengubah alat kompatibilitas/pilihan peluncuran game yang "
+"dipilih, terjadi kesalahan untuk game berikut ini"
 
 #: src/widgets/library/shortcut-button.vala:23
 #: src/widgets/library/shortcut-button.vala:28
 msgid "Create shortcut"
-msgstr ""
+msgstr "Buat pintasan"
 
 #: src/widgets/library/shortcut-button.vala:28
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Hapus pintasan"
 
 #: src/widgets/library/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr ""
+msgstr "Buat pintasan ProtonPlus di Steam"
 
 #: src/widgets/library/shortcut-button.vala:29
 msgid "Remove the shortcut of ProtonPlus in Steam"
-msgstr ""
+msgstr "Hapus pintasan ProtonPlus di Steam"
 
 #: src/widgets/library/shortcut-button.vala:38
 msgid "When trying to remove the shortcut in Steam an error occured."
-msgstr ""
+msgstr "Saat mencoba menghapus pintasan di Steam, terjadi kesalahan."
 
 #: src/widgets/library/shortcut-button.vala:47
 msgid "When trying to create the shortcut in Steam an error occured."
-msgstr ""
+msgstr "Saat mencoba membuat pintasan di Steam, terjadi kesalahan."
 
 #: src/widgets/library/sort-by-name-button.vala:8
 msgid "Sort by name"
-msgstr ""
+msgstr "Urutkan berasarkan nama"
 
 #: src/widgets/library/sort-by-name-button.vala:11
 msgid "Sorts the games by their name"
-msgstr ""
+msgstr "Mengurutkan game berdasarkan namanya"
 
 #: src/widgets/library/sort-by-tool-button.vala:8
-#, fuzzy
 msgid "Sort by compatibility tool"
-msgstr "Alat Kompabilitas"
+msgstr "Urutkan berdasarkan alat kompatibilitas"
 
 #: src/widgets/library/sort-by-tool-button.vala:11
-#, fuzzy
 msgid "Sorts the games by the compatibility tool name"
-msgstr "Alat Kompabilitas"
+msgstr "Mengurutkan game berdasarkan nama alat kompatibilitas"
 
 #: src/widgets/library/select-button.vala:8
 msgid "Select all"
-msgstr ""
+msgstr "Pilih semua"
 
 #: src/widgets/library/select-button.vala:11
 msgid "Select all the games"
-msgstr ""
+msgstr "Pilih semua game"
 
 #: src/widgets/library/unselect-button.vala:8
 msgid "Unselect all"
-msgstr ""
+msgstr "Batalkan pilihan semua"
 
 #: src/widgets/library/unselect-button.vala:11
-#, fuzzy
 msgid "Unselect all the games"
-msgstr "Instal runner"
+msgstr "Batalkan pilihan semua game"
 
 #: src/widgets/library/mass-edit-button.vala:13
 msgid "Edit the compatibility tool of the selected games at once"
-msgstr ""
+msgstr "Edit alat kompatibilitas game yang dipilih sekaligus"
 
 #: src/widgets/library/mass-edit-button.vala:42
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
+"Pastikan untuk memilih setidaknya satu game sebelum menggunakan fitur edit "
+"massal."
 
 #: src/widgets/library/launch-options-dialog.vala:12
-#, fuzzy
 msgid "Modify launch options"
-msgstr "Pengaturan Peluncur"
+msgstr "Modifikasi opsi peluncuran"
 
 #: src/widgets/library/launch-options-dialog.vala:15
 #: src/widgets/library/default-tool-dialog.vala:15
 msgid "Apply the current modification"
-msgstr ""
+msgstr "Terapkan modifikasi saat ini"
 
 #: src/widgets/library/launch-options-dialog.vala:57
 #, c-format
 msgid "When trying to change the launch options of %s an error occured."
-msgstr ""
+msgstr "Saat mencoba mengubah opsi peluncuran %s terjadi kesalahan."
 
 #: src/widgets/library/profile-dialog.vala:15
 msgid "Select a profile"
-msgstr ""
+msgstr "Pilih sebuah profil"
 
 #: src/widgets/library/extra-button.vala:10
 msgid "Open install directory"
-msgstr ""
+msgstr "Buka direktori instalasi"
 
 #: src/widgets/library/extra-button.vala:13
 msgid "Open prefix directory"
-msgstr ""
+msgstr "Buka direktori prefix"
 
 #: src/widgets/library/extra-button.vala:28
-#, fuzzy
 msgid "Open menu"
-msgstr "Buka"
+msgstr "Buka menu"
 
 #: src/widgets/library/default-tool-button.vala:8
-#, fuzzy
 msgid "Set default compatibility tool"
-msgstr "Alat Kompabilitas"
+msgstr "Atur alat kompatibilitas baku"
 
 #: src/widgets/library/default-tool-button.vala:14
 #: src/widgets/library/default-tool-dialog.vala:12
-#, fuzzy
 msgid "Set the default compatibility tool"
-msgstr "Alat Kompabilitas"
+msgstr "Atur alat kompatibilitas baku"
 
 #: src/widgets/library/default-tool-dialog.vala:65
 msgid "When trying to change the default compatibility tool an error occured."
-msgstr ""
+msgstr "Ketika mencoba mengubah alat kompatibilitas default, terjadi kesalahan."
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
 msgid "Runners"
@@ -586,7 +578,7 @@ msgstr ""
 
 #: src/models/runners/kron4ek-proton-builds.vala:7
 msgid "Wine build modified by Valve and other contributors."
-msgstr ""
+msgstr "Wine yang dimodifikasi oleh Valve dan kontributor lainnya."
 
 #: src/models/runners/roberta.vala:6
 msgid ""
