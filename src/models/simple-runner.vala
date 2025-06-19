@@ -9,8 +9,11 @@ namespace ProtonPlus.Models {
 			if (display_title == "SteamTinkerLaunch") {
 				this.display_title = "Steam Tinker Launch";
 				title = "Proton-stl";
-			} else
+			} else if (display_title.contains ("EM-")) {
+				title = "proton-%s-proton".printf (display_title);
+			} else {
 				this.title = format ? display_title.down ().split (".", 2)[0].replace (" ", "_") : display_title;
+			}
 		}
 	}
 }
