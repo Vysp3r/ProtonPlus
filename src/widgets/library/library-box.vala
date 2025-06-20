@@ -138,7 +138,7 @@ namespace ProtonPlus.Widgets {
 
 				if (loaded) {
 					model = new ListStore(typeof (Models.SimpleRunner));
-					model.append(new Models.SimpleRunner(_("Undefined"), false));
+					model.append(new Models.SimpleRunner(_("Undefined"), _("Undefined")));
 					foreach (var ct in launcher.compatibility_tools)
 						model.append(ct);
 

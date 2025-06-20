@@ -50,7 +50,7 @@ namespace ProtonPlus.Widgets {
 			compatibility_tool_row.set_expression(expression);
 
 			for (var i = 0; i < launcher.compatibility_tools.length(); i++) {
-				if (launcher.compatibility_tools.nth_data(i).title == launcher.default_compatibility_tool) {
+				if (launcher.compatibility_tools.nth_data(i).internal_title == launcher.default_compatibility_tool) {
 					compatibility_tool_row.set_selected(i);
 					break;
 				}
@@ -60,7 +60,7 @@ namespace ProtonPlus.Widgets {
 		void apply_button_clicked() {
 			var item = (Models.SimpleRunner) compatibility_tool_row.get_selected_item();
 
-			var success = launcher.change_default_compatibility_tool(item.title);
+			var success = launcher.change_default_compatibility_tool(item.internal_title);
 			if (!success) {
 				var dialog = new Adw.AlertDialog(_("Error"), "%s\n\n%s".printf(_("When trying to change the default compatibility tool an error occured."), _("Please report this issue on GitHub.")));
 				dialog.add_response("ok", "OK");

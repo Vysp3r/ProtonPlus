@@ -100,7 +100,7 @@ namespace ProtonPlus.Widgets {
 				if (modify_compatibility_tool_row.get_active()) {
 					var valids = new List<GameRow> ();
 
-					var success = row.game.change_compatibility_tool(item.title);
+					var success = row.game.change_compatibility_tool(item.internal_title);
 					if (!success && invalids.find(row.game.name) == null)
 						invalids.append(row.game.name);
 					else
@@ -113,7 +113,7 @@ namespace ProtonPlus.Widgets {
 								valid_row.compatibility_tool_dropdown.set_selected(0);
 							} else {
 								for (var i = 0; i < valid_row.game.launcher.compatibility_tools.length(); i++) {
-									if (valid_row.game.compatibility_tool == valid_row.game.launcher.compatibility_tools.nth_data(i).title) {
+									if (valid_row.game.compatibility_tool == valid_row.game.launcher.compatibility_tools.nth_data(i).internal_title) {
 										valid_row.compatibility_tool_dropdown.set_selected(i + 1);
 										break;
 									}
