@@ -24,7 +24,7 @@ namespace ProtonPlus.Widgets {
 				compatibility_tool_dropdown.set_selected(0);
 			} else {
 				for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
-					if (game.launcher.compatibility_tools.nth_data(i).title == game.compatibility_tool) {
+					if (game.launcher.compatibility_tools.nth_data(i).internal_title == game.compatibility_tool) {
 						compatibility_tool_dropdown.set_selected(i + 1);
 						break;
 					}
@@ -132,7 +132,7 @@ namespace ProtonPlus.Widgets {
 
 			var item = (Models.SimpleRunner) compatibility_tool_dropdown.get_selected_item();
 
-			var success = game.change_compatibility_tool(item.title);
+			var success = game.change_compatibility_tool(item.internal_title);
 			if (!success) {
 				var dialog = new Adw.AlertDialog(_("Error"), "%s\n%s".printf(_("When trying to change the compatibility tool of %s an error occured.").printf(game.name), _("Please report this issue on GitHub.")));
 				dialog.add_response("ok", "OK");
@@ -144,7 +144,7 @@ namespace ProtonPlus.Widgets {
 					compatibility_tool_dropdown.set_selected(0);
 				} else {
 					for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
-						if (game.compatibility_tool == game.launcher.compatibility_tools.nth_data(i).title) {
+						if (game.compatibility_tool == game.launcher.compatibility_tools.nth_data(i).internal_title) {
 							compatibility_tool_dropdown.set_selected(i + 1);
 							break;
 						}
