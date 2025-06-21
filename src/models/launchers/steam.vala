@@ -10,8 +10,8 @@ namespace ProtonPlus.Models.Launchers {
             switch (installation_type) {
             case Launcher.InstallationTypes.SYSTEM:
                 directories = new string[] { "/.local/share/Steam",
-                                             "/.steam/root",
                                              "/.steam/steam",
+                                             "/.steam/root",
                                              "/.steam/debian-installation" };
                 break;
             case Launcher.InstallationTypes.FLATPAK:
