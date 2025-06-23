@@ -3,6 +3,7 @@ namespace ProtonPlus.Models.Launchers {
         public List<SteamProfile> profiles;
         public SteamProfile profile { get; set; }
  		public string default_compatibility_tool { get; set; }
+        public bool enable_default_compatibility_tool { get; set; }
 
         public Steam (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
@@ -85,9 +86,9 @@ namespace ProtonPlus.Models.Launchers {
             var compatibility_tool_hashtable = yield get_compatibility_tool_hashtable();
 
  			var default_compatibility_tool = compatibility_tool_hashtable.get(0);
- 			if (default_compatibility_tool == null)
- 				return false;
- 			this.default_compatibility_tool = default_compatibility_tool;
+            enable_default_compatibility_tool = default_compatibility_tool != null;
+ 			if (enable_default_compatibility_tool)
+ 				this.default_compatibility_tool = default_compatibility_tool;
 
             var launch_options_hashtable = yield get_launch_options_hashtable();
 
