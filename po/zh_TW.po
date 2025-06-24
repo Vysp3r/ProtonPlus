@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-23 19:01-0400\n"
+"POT-Creation-Date: 2025-06-24 17:59-0400\n"
 "PO-Revision-Date: 2025-06-17 10:33+0000\n"
 "Last-Translator: \"nick.exe\" <nick.exe@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
@@ -133,7 +133,7 @@ msgstr "是"
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
 #: src/widgets/library/library-box.vala:117
-#: src/widgets/library/library-box.vala:164
+#: src/widgets/library/library-box.vala:167
 #: src/widgets/library/game-row.vala:137
 #: src/widgets/library/mass-edit-dialog.vala:150
 #: src/widgets/library/shortcut-button.vala:38
@@ -151,7 +151,7 @@ msgstr "嘗試移除 %s 時發生錯誤。"
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/library-box.vala:164
+#: src/widgets/library/library-box.vala:167
 #: src/widgets/library/game-row.vala:137
 #: src/widgets/library/mass-edit-dialog.vala:150
 #: src/widgets/library/shortcut-button.vala:38
@@ -270,12 +270,17 @@ msgid "Library"
 msgstr "遊戲庫"
 
 #: src/widgets/library/library-box.vala:117
+msgid "No profile was found."
+msgstr ""
+
+#: src/widgets/library/library-box.vala:117
+#, fuzzy
 msgid ""
-"No profile was found. Make sure to connect yourself at least one time "
-"otherwise report this issue on GitHub."
+"Make sure to connect yourself at least one time otherwise report this issue "
+"on GitHub."
 msgstr "未找到個人檔案。請確保至少連線過一次，否則請在 GitHub 上回報此問題。"
 
-#: src/widgets/library/library-box.vala:141
+#: src/widgets/library/library-box.vala:144
 #: src/widgets/library/game-row.vala:23 src/widgets/library/game-row.vala:143
 #: src/widgets/library/mass-edit-dialog.vala:112
 #: src/widgets/library/sort-by-tool-button.vala:27
@@ -284,7 +289,7 @@ msgstr "未找到個人檔案。請確保至少連線過一次，否則請在 Gi
 msgid "Undefined"
 msgstr "未定義"
 
-#: src/widgets/library/library-box.vala:164
+#: src/widgets/library/library-box.vala:167
 msgid "The library failed loading."
 msgstr ""
 
