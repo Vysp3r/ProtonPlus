@@ -152,9 +152,21 @@ namespace ProtonPlus.Widgets {
 						game_list_box.append(game_row);
 					}
 
+					if (launcher is Models.Launchers.Steam) {
+						var steam_launcher = (Models.Launchers.Steam) launcher;
+						default_tool_button.set_visible(steam_launcher.enable_default_compatibility_tool);
+					}
+					
 					sort_by_name_button.clicked();
 
 					window_title.set_subtitle("%u installed games".printf(launcher.games.length()));
+				} else {
+					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf(_("The library failed loading."), _("Please report this issue on GitHub.")));
+					dialog.add_response ("ok", "OK");
+					dialog.present (Application.window);
+					dialog.response.connect((response) => {
+						activate_action_variant ("win.set-library-inactive", 0);
+					});
 				}
 
 				overlay.remove_overlay(spinner);

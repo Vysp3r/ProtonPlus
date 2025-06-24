@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-20 15:04-0400\n"
+"POT-Creation-Date: 2025-06-23 19:01-0400\n"
 "PO-Revision-Date: 2025-02-16 11:46+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: \n"
@@ -134,6 +134,7 @@ msgstr "Ano"
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
 #: src/widgets/library/library-box.vala:117
+#: src/widgets/library/library-box.vala:164
 #: src/widgets/library/game-row.vala:137
 #: src/widgets/library/mass-edit-dialog.vala:150
 #: src/widgets/library/shortcut-button.vala:38
@@ -151,6 +152,7 @@ msgstr ""
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
+#: src/widgets/library/library-box.vala:164
 #: src/widgets/library/game-row.vala:137
 #: src/widgets/library/mass-edit-dialog.vala:150
 #: src/widgets/library/shortcut-button.vala:38
@@ -290,6 +292,10 @@ msgstr ""
 #: src/widgets/library/sort-by-tool-button.vala:30
 #: src/models/games/steam.vala:73 src/models/games/steam.vala:94
 msgid "Undefined"
+msgstr ""
+
+#: src/widgets/library/library-box.vala:164
+msgid "The library failed loading."
 msgstr ""
 
 #: src/widgets/library/game-row.vala:57
@@ -494,7 +500,7 @@ msgstr "Moderní správce nástrojů kompatibility pro Linux."
 msgid "When trying to change the default compatibility tool an error occured."
 msgstr ""
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:41
+#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:42
 msgid "Runners"
 msgstr "Spouštěče"
 
