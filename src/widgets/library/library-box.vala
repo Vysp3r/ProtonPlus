@@ -114,9 +114,12 @@ namespace ProtonPlus.Widgets {
 				default_tool_button.load(steam_launcher);
 
 				if (steam_launcher.profiles.length() == 0) {
-					var dialog = new Adw.AlertDialog (_("Error"), _("No profile was found. Make sure to connect yourself at least one time otherwise report this issue on GitHub."));
+					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf(_("No profile was found."), _("Make sure to connect yourself at least one time otherwise report this issue on GitHub.")));
 					dialog.add_response ("ok", "OK");
 					dialog.present (Application.window);
+					dialog.response.connect((response) => {
+						activate_action_variant ("win.set-library-inactive", 0);
+					});
 				} else if (steam_launcher.profiles.length() > 1) {
 					var dialog = new ProfileDialog(steam_launcher, load_steam_profile);
 					dialog.present(Application.window);

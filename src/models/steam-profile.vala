@@ -74,6 +74,8 @@ namespace ProtonPlus.Models {
 
 			var path = "%s/config/loginusers.vdf".printf (launcher.directory);
 			var content = Utils.Filesystem.get_file_content (path);
+			if (content.length == 0)
+				return profiles;
 			var start_text = "";
 			var end_text = "";
 			var start_pos = 0;
