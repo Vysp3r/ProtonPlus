@@ -87,6 +87,20 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.6" date="2025-06-27">
+      <description>
+        <ul>
+          <li>✨ Added an header to the library game list</li>
+          <li>✨ Added a donation button</li>
+          <li>🐛 Fix compatibility tool detection</li>
+          <li>🐛 Change DXVK Sarek naming scheme</li>
+          <li>🐛 Fix library loading issue</li>
+          <li>🐛 Fix a crash</li>
+          <li>🌐 Updated Chinese localization</li>
+          <li>🌐 Updated Indonesian localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.5" date="2025-06-16">
       <description>
         <ul>
