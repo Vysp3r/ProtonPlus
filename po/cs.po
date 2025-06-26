@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 17:59-0400\n"
+"POT-Creation-Date: 2025-06-26 12:47-0400\n"
 "PO-Revision-Date: 2025-02-16 11:46+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: \n"
@@ -50,20 +50,24 @@ msgstr ""
 msgid "Show game library"
 msgstr ""
 
-#: src/widgets/main/info-box.vala:15
+#: src/widgets/main/info-box.vala:17
+msgid "Donate"
+msgstr ""
+
+#: src/widgets/main/info-box.vala:20
 #, fuzzy
 msgid "_Installed Only"
 msgstr "Nainstalovat %s"
 
-#: src/widgets/main/info-box.vala:22
+#: src/widgets/main/info-box.vala:27
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: src/widgets/main/info-box.vala:23
+#: src/widgets/main/info-box.vala:28
 msgid "_About ProtonPlus"
 msgstr "O _aplikaci ProtonPlus"
 
-#: src/widgets/main/info-box.vala:30
+#: src/widgets/main/info-box.vala:35
 msgid "Main Menu"
 msgstr "Hlavní nabídka"
 

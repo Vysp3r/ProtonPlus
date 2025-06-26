@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 17:59-0400\n"
+"POT-Creation-Date: 2025-06-26 12:47-0400\n"
 "PO-Revision-Date: 2025-03-12 09:23+0800\n"
 "Last-Translator: Zemin Ha <ruojiner@hotmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -49,19 +49,24 @@ msgstr "安装Steam，Lutris，Bottles或Heroic Game Launcher 即可开始使用
 msgid "Show game library"
 msgstr ""
 
-#: src/widgets/main/info-box.vala:15
+#: src/widgets/main/info-box.vala:17
+#, fuzzy
+msgid "Donate"
+msgstr "捐赠"
+
+#: src/widgets/main/info-box.vala:20
 msgid "_Installed Only"
 msgstr "_只显示已安装的"
 
-#: src/widgets/main/info-box.vala:22
+#: src/widgets/main/info-box.vala:27
 msgid "_Keyboard Shortcuts"
 msgstr "_键盘快捷方式"
 
-#: src/widgets/main/info-box.vala:23
+#: src/widgets/main/info-box.vala:28
 msgid "_About ProtonPlus"
 msgstr "_关于 ProtonPlus"
 
-#: src/widgets/main/info-box.vala:30
+#: src/widgets/main/info-box.vala:35
 msgid "Main Menu"
 msgstr "主菜单"
 
@@ -780,9 +785,6 @@ msgstr ""
 
 #~ msgid "Documentation"
 #~ msgstr "文档"
-
-#~ msgid "Donation"
-#~ msgstr "捐赠"
 
 #~ msgid "Quit"
 #~ msgstr "退出"

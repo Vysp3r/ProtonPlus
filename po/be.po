@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 17:59-0400\n"
+"POT-Creation-Date: 2025-06-26 12:47-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -56,20 +56,24 @@ msgstr ""
 msgid "Show game library"
 msgstr ""
 
-#: src/widgets/main/info-box.vala:15
+#: src/widgets/main/info-box.vala:17
+msgid "Donate"
+msgstr ""
+
+#: src/widgets/main/info-box.vala:20
 #, fuzzy
 msgid "_Installed Only"
 msgstr "Толькі ўсталяваныя"
 
-#: src/widgets/main/info-box.vala:22
+#: src/widgets/main/info-box.vala:27
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widgets/main/info-box.vala:23
+#: src/widgets/main/info-box.vala:28
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/main/info-box.vala:30
+#: src/widgets/main/info-box.vala:35
 msgid "Main Menu"
 msgstr ""
 

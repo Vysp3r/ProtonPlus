@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 17:59-0400\n"
+"POT-Creation-Date: 2025-06-26 12:47-0400\n"
 "PO-Revision-Date: 2025-06-17 08:02+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -49,19 +49,24 @@ msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 msgid "Show game library"
 msgstr "Tampilkan pustaka game"
 
-#: src/widgets/main/info-box.vala:15
+#: src/widgets/main/info-box.vala:17
+#, fuzzy
+msgid "Donate"
+msgstr "Donasi"
+
+#: src/widgets/main/info-box.vala:20
 msgid "_Installed Only"
 msgstr "_Hanya terinstal"
 
-#: src/widgets/main/info-box.vala:22
+#: src/widgets/main/info-box.vala:27
 msgid "_Keyboard Shortcuts"
 msgstr "_ Pintasan Papan Ketik"
 
-#: src/widgets/main/info-box.vala:23
+#: src/widgets/main/info-box.vala:28
 msgid "_About ProtonPlus"
 msgstr "_Tentang ProtonPlus"
 
-#: src/widgets/main/info-box.vala:30
+#: src/widgets/main/info-box.vala:35
 msgid "Main Menu"
 msgstr "Menu Utama"
 
@@ -796,9 +801,6 @@ msgstr ""
 
 #~ msgid "Documentation"
 #~ msgstr "Dokumentasi"
-
-#~ msgid "Donation"
-#~ msgstr "Donasi"
 
 #~ msgid "Quit"
 #~ msgstr "Keluar"

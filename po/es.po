@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 17:59-0400\n"
+"POT-Creation-Date: 2025-06-26 12:47-0400\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -47,20 +47,25 @@ msgstr "Instala Steam, Lutris, Bottles o Heroic Games Launcher para empezar."
 msgid "Show game library"
 msgstr ""
 
-#: src/widgets/main/info-box.vala:15
+#: src/widgets/main/info-box.vala:17
+#, fuzzy
+msgid "Donate"
+msgstr "Donar"
+
+#: src/widgets/main/info-box.vala:20
 #, fuzzy
 msgid "_Installed Only"
 msgstr "Solo instalado"
 
-#: src/widgets/main/info-box.vala:22
+#: src/widgets/main/info-box.vala:27
 msgid "_Keyboard Shortcuts"
 msgstr "Atajos"
 
-#: src/widgets/main/info-box.vala:23
+#: src/widgets/main/info-box.vala:28
 msgid "_About ProtonPlus"
 msgstr "Acerca de ProtonPlus"
 
-#: src/widgets/main/info-box.vala:30
+#: src/widgets/main/info-box.vala:35
 msgid "Main Menu"
 msgstr "Menú principal"
 
@@ -833,9 +838,6 @@ msgstr ""
 
 #~ msgid "Documentation"
 #~ msgstr "Documentación"
-
-#~ msgid "Donation"
-#~ msgstr "Donar"
 
 #~ msgid "Quit"
 #~ msgstr "Salir"
