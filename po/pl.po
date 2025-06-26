@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-26 12:47-0400\n"
+"POT-Creation-Date: 2025-06-26 18:39-0400\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -139,9 +139,9 @@ msgstr ""
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/library-box.vala:117
-#: src/widgets/library/library-box.vala:167
-#: src/widgets/library/game-row.vala:137
+#: src/widgets/library/library-box.vala:135
+#: src/widgets/library/library-box.vala:185
+#: src/widgets/library/game-row.vala:138
 #: src/widgets/library/mass-edit-dialog.vala:150
 #: src/widgets/library/shortcut-button.vala:38
 #: src/widgets/library/shortcut-button.vala:47
@@ -158,8 +158,8 @@ msgstr ""
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/library-box.vala:167
-#: src/widgets/library/game-row.vala:137
+#: src/widgets/library/library-box.vala:185
+#: src/widgets/library/game-row.vala:138
 #: src/widgets/library/mass-edit-dialog.vala:150
 #: src/widgets/library/shortcut-button.vala:38
 #: src/widgets/library/shortcut-button.vala:47
@@ -274,22 +274,36 @@ msgstr ""
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 
-#: src/widgets/library/library-box.vala:102
+#: src/widgets/library/library-box.vala:81
+msgid "Name"
+msgstr ""
+
+#: src/widgets/library/library-box.vala:84
+#: src/widgets/library/mass-edit-dialog.vala:41
+#, fuzzy
+msgid "Compatibility tool"
+msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
+
+#: src/widgets/library/library-box.vala:87
+msgid "Other"
+msgstr ""
+
+#: src/widgets/library/library-box.vala:120
 msgid "Library"
 msgstr ""
 
-#: src/widgets/library/library-box.vala:117
+#: src/widgets/library/library-box.vala:135
 msgid "No profile was found."
 msgstr ""
 
-#: src/widgets/library/library-box.vala:117
+#: src/widgets/library/library-box.vala:135
 msgid ""
 "Make sure to connect yourself at least one time otherwise report this issue "
 "on GitHub."
 msgstr ""
 
-#: src/widgets/library/library-box.vala:144
-#: src/widgets/library/game-row.vala:23 src/widgets/library/game-row.vala:143
+#: src/widgets/library/library-box.vala:162
+#: src/widgets/library/game-row.vala:23 src/widgets/library/game-row.vala:144
 #: src/widgets/library/mass-edit-dialog.vala:112
 #: src/widgets/library/sort-by-tool-button.vala:27
 #: src/widgets/library/sort-by-tool-button.vala:30
@@ -297,23 +311,23 @@ msgstr ""
 msgid "Undefined"
 msgstr ""
 
-#: src/widgets/library/library-box.vala:167
+#: src/widgets/library/library-box.vala:185
 msgid "The library failed loading."
 msgstr ""
 
-#: src/widgets/library/game-row.vala:57
+#: src/widgets/library/game-row.vala:58
 msgid "Modify the game launch options"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:83
+#: src/widgets/library/game-row.vala:84
 msgid "Unknown"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:89
+#: src/widgets/library/game-row.vala:90
 msgid "Open ProtonDB page"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:137
+#: src/widgets/library/game-row.vala:138
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
@@ -356,11 +370,6 @@ msgstr ""
 #: src/widgets/library/default-tool-dialog.vala:23
 #, fuzzy
 msgid "Select your desired compatibility tool"
-msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
-
-#: src/widgets/library/mass-edit-dialog.vala:41
-#, fuzzy
-msgid "Compatibility tool"
 msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
 
 #: src/widgets/library/mass-edit-dialog.vala:47
