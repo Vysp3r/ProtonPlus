@@ -19,7 +19,8 @@
         <file alias="scalable/actions/select-all-symbolic.svg">select-all.svg</file>
         <file alias="scalable/actions/deselect-symbolic.svg">deselect.svg</file>
         <file alias="scalable/actions/file-settings-symbolic.svg">file-settings.svg</file>
-      <file alias="scalable/actions/carambola-symbolic.svg">carambola.svg</file>
+        <file alias="scalable/actions/carambola-symbolic.svg">carambola.svg</file>
+        <file alias="scalable/actions/heart-symbolic.svg">heart.svg</file>
     </gresource>
 </gresources>
 

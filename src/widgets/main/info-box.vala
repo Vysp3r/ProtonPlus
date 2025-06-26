@@ -12,6 +12,11 @@ namespace ProtonPlus.Widgets {
 
 			window_title = new Adw.WindowTitle ("", "");
 
+			var donate_button = new Gtk.Button.from_icon_name ("heart-symbolic");
+			donate_button.add_css_class ("red");
+			donate_button.set_tooltip_text (_("Donate"));
+			donate_button.clicked.connect (donate_button_clicked);
+
 			var item = new MenuItem (_("_Installed Only"), null);
 			item.set_action_and_target ("win.set-installed-only", "b");
 
@@ -34,6 +39,7 @@ namespace ProtonPlus.Widgets {
 			header = new Adw.HeaderBar ();
 			header.set_title_widget (window_title);
 			header.pack_end (menu_button);
+			header.pack_end (donate_button);	
 
 			launcher_box = new LauncherBox ();
 
@@ -52,6 +58,10 @@ namespace ProtonPlus.Widgets {
 			window_title.set_title (launcher.title);
 
 			launcher_box.load (launcher, installed_only);
+		}
+
+		void donate_button_clicked() {
+			Utils.System.open_uri ("https://github.com/sponsors/Vysp3r");
 		}
 	}
 }

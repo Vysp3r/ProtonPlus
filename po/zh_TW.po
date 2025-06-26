@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 17:59-0400\n"
+"POT-Creation-Date: 2025-06-26 12:47-0400\n"
 "PO-Revision-Date: 2025-06-17 10:33+0000\n"
 "Last-Translator: \"nick.exe\" <nick.exe@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
@@ -51,19 +51,23 @@ msgstr "請安裝 Steam、Lutris、Bottles 或 Heroic Games Launcher 以開始�
 msgid "Show game library"
 msgstr "顯示遊戲庫"
 
-#: src/widgets/main/info-box.vala:15
+#: src/widgets/main/info-box.vala:17
+msgid "Donate"
+msgstr ""
+
+#: src/widgets/main/info-box.vala:20
 msgid "_Installed Only"
 msgstr "僅列出已安裝的(_I)"
 
-#: src/widgets/main/info-box.vala:22
+#: src/widgets/main/info-box.vala:27
 msgid "_Keyboard Shortcuts"
 msgstr "鍵盤捷徑鍵(_K)"
 
-#: src/widgets/main/info-box.vala:23
+#: src/widgets/main/info-box.vala:28
 msgid "_About ProtonPlus"
 msgstr "關於 ProtonPlus(_A)"
 
-#: src/widgets/main/info-box.vala:30
+#: src/widgets/main/info-box.vala:35
 msgid "Main Menu"
 msgstr "主選單"
 
