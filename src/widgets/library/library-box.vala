@@ -78,12 +78,30 @@ namespace ProtonPlus.Widgets {
 			flow_box.append(default_tool_button);
 			flow_box.set_selection_mode(Gtk.SelectionMode.NONE);
 
+			var name_label = new Gtk.Label(_("Name"));
+			name_label.set_hexpand(true);
+
+			var compatibility_tool_label = new Gtk.Label(_("Compatibility tool"));
+			compatibility_tool_label.set_size_request(350, 0);
+
+			var other_label = new Gtk.Label(_("Other"));
+			other_label.set_size_request(175, 0);
+
+			var header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+			header_box.set_hexpand(true);
+			header_box.add_css_class("p-10");
+			header_box.add_css_class("card");
+			header_box.append(name_label);
+			header_box.append(compatibility_tool_label);
+			header_box.append(other_label);
+
 			content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
 			content_box.set_margin_top(7);
 			content_box.set_margin_bottom(12);
 			content_box.set_margin_start(12);
 			content_box.set_margin_end(12);
 			content_box.append(flow_box);
+			content_box.append(header_box);
 			content_box.append(scrolled_window);
 			content_box.append(warning_label);
 
