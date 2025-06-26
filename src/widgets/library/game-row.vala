@@ -32,6 +32,7 @@ namespace ProtonPlus.Widgets {
 			}
 
 			compatibility_tool_dropdown.notify["selected-item"].connect(compatibility_tool_dropdown_selected_item_changed);
+			compatibility_tool_dropdown.set_size_request(350, 0);
 
 			extra_button = new ExtraButton(game);
 
