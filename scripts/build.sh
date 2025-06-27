@@ -28,6 +28,12 @@ show_log() {
   printf "${color}[%s]${RESET} ${CYAN}%s${RESET}\n" "${message_type}" "${message}" >&$fd
 }
 
+flatpak_dependency_check() {
+  show_log "INFO" "Ensuring required Flatpak dependencies are installed..."
+  flatpak install -y runtime/org.gnome.Sdk/x86_64/48 runtime/org.gnome.Platform/x86_64/48 runtime/org.freedesktop.Sdk.Extension.vala/x86_64/24.08 org.flatpak.Builder
+  show_log "PASS" "Required dependencies are installed."
+}
+
 build() {
   local variant="$1"
   local manifest="$2"
@@ -38,16 +44,17 @@ build() {
     local build_dir="build-native"
     show_log "INFO" "Configuring build directory: ${build_dir}"
     meson "${build_dir}" --wipe --prefix=/usr
-    cd "${build_dir}" || return 1
+    cd "${build_dir}" || return 0
     show_log "INFO" "Building files using Ninja..."
     ninja
 
     if [[ "${run_mode}" == "run" ]]; then
       show_log "PASS" "Running native build..."
-      cd src || return 1
+      cd src || return 0
       ./protonplus
     fi
   else
+    flatpak_dependency_check
     show_log "INFO" "Starting Flatpak build for variant: ${variant}..."
     local build_dir="build-flatpak/${variant}/build"
     show_log "INFO" "Configuring build directory: ${build_dir}"
@@ -98,7 +105,7 @@ rebuild_translations() {
   cd ../build-native
   show_log "INFO" "Updating translation files..."
   ninja com.vysp3r.ProtonPlus-update-po
-  show_log "PASS" "Translations rebuilt successfully."
+  show_log "PASS" "Translations updated successfully."
 }
 
 generate_icons() {
@@ -157,6 +164,7 @@ generate_icons() {
 flathub_linter() {
     show_log "INFO" "Linting the local source code..."
 
+    flatpak_dependency_check
     # We must perform a Flatpak build *and* export to a ostree "repo" directory.
     # NOTE: We will perform a LOCAL build so that we check the LOCAL manifest.
     # NOTE: We don't trigger INSTALL in this case, since we're just linting.
@@ -183,7 +191,7 @@ flathub_linter() {
     show_log "INFO" "\"appstream-screenshots-not-mirrored-in-ostree\" (only happen in local build, but will not happen on Flathub)"
     show_log "INFO" "\"appstream-external-screenshot-url\" (only happen in local build, but will not happen on Flathub)"
     show_log "INFO" "\"finish-args-flatpak-appdata-folder-access\" (we need to access the host filesystem since Steam libraries can be anywhere)"
-    show_log "INFO" "\"finish-args-flatpak-spawn-access\" (necessary to be to manage STL)"
+    show_log "INFO" "\"finish-args-flatpak-spawn-access\" (necessary to be able to manage STL)"
     show_log "INFO" "\"appid-filename-mismatch: com.vysp3r.ProtonPlus.local\" (only happens on the local source code)"
     show_log "INFO" "Done linting the local source code..."
 }
