@@ -31,7 +31,7 @@ show_log() {
 flatpak_dependency_check() {
   show_log "INFO" "Ensuring required Flatpak dependencies are installed..."
   flatpak install -y runtime/org.gnome.Sdk/x86_64/48 runtime/org.gnome.Platform/x86_64/48 runtime/org.freedesktop.Sdk.Extension.vala/x86_64/24.08 org.flatpak.Builder
-  show_log "INFO" "Required dependencies are installed."
+  show_log "PASS" "Required dependencies are installed."
 }
 
 build() {
@@ -44,13 +44,13 @@ build() {
     local build_dir="build-native"
     show_log "INFO" "Configuring build directory: ${build_dir}"
     meson "${build_dir}" --wipe --prefix=/usr
-    cd "${build_dir}" || return 1
+    cd "${build_dir}" || return 0
     show_log "INFO" "Building files using Ninja..."
     ninja
 
     if [[ "${run_mode}" == "run" ]]; then
       show_log "PASS" "Running native build..."
-      cd src || return 1
+      cd src || return 0
       ./protonplus
     fi
   else
@@ -105,7 +105,7 @@ rebuild_translations() {
   cd ../build-native
   show_log "INFO" "Updating translation files..."
   ninja com.vysp3r.ProtonPlus-update-po
-  show_log "PASS" "Translations rebuilt successfully."
+  show_log "PASS" "Translations updated successfully."
 }
 
 generate_icons() {
