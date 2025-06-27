@@ -183,7 +183,7 @@ flathub_linter() {
     show_log "INFO" "\"appstream-screenshots-not-mirrored-in-ostree\" (only happen in local build, but will not happen on Flathub)"
     show_log "INFO" "\"appstream-external-screenshot-url\" (only happen in local build, but will not happen on Flathub)"
     show_log "INFO" "\"finish-args-flatpak-appdata-folder-access\" (we need to access the host filesystem since Steam libraries can be anywhere)"
-    show_log "INFO" "\"finish-args-flatpak-spawn-access\" (necessary to be to manage STL)"
+    show_log "INFO" "\"finish-args-flatpak-spawn-access\" (necessary to be able to manage STL)"
     show_log "INFO" "\"appid-filename-mismatch: com.vysp3r.ProtonPlus.local\" (only happens on the local source code)"
     show_log "INFO" "Done linting the local source code..."
 }
