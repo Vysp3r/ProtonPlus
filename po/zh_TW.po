@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-26 20:56-0400\n"
-"PO-Revision-Date: 2025-06-17 10:33+0000\n"
-"Last-Translator: \"nick.exe\" <nick.exe@gmail.com>\n"
+"PO-Revision-Date: 2025-06-27 20:16+0800\n"
+"Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/protonplus/protonplus/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.1\n"
+"X-Generator: Poedit 3.6\n"
 
 #: src/widgets/application.vala:83
 msgid "A modern compatibility tools manager for Linux."
@@ -53,11 +53,11 @@ msgstr "顯示遊戲庫"
 
 #: src/widgets/main/info-box.vala:17
 msgid "Donate"
-msgstr ""
+msgstr "捐贈"
 
 #: src/widgets/main/info-box.vala:20
 msgid "_Installed Only"
-msgstr "僅列出已安裝的(_I)"
+msgstr "僅顯示已安裝的(_I)"
 
 #: src/widgets/main/info-box.vala:27
 msgid "_Keyboard Shortcuts"
@@ -271,7 +271,7 @@ msgstr "請事先關閉 Steam 用戶端，以便套用變更。"
 
 #: src/widgets/library/library-box.vala:81
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 #: src/widgets/library/library-box.vala:84
 #: src/widgets/library/mass-edit-dialog.vala:41
@@ -280,7 +280,7 @@ msgstr "相容性工具"
 
 #: src/widgets/library/library-box.vala:87
 msgid "Other"
-msgstr ""
+msgstr "其它"
 
 #: src/widgets/library/library-box.vala:120
 msgid "Library"
@@ -288,14 +288,13 @@ msgstr "遊戲庫"
 
 #: src/widgets/library/library-box.vala:135
 msgid "No profile was found."
-msgstr ""
+msgstr "未找到個人檔案。"
 
 #: src/widgets/library/library-box.vala:135
-#, fuzzy
 msgid ""
 "Make sure to connect yourself at least one time otherwise report this issue "
 "on GitHub."
-msgstr "未找到個人檔案。請確保至少連線過一次，否則請在 GitHub 上回報此問題。"
+msgstr "請確保至少連線過一次，否則請在 GitHub 上回報此問題。"
 
 #: src/widgets/library/library-box.vala:162
 #: src/widgets/library/game-row.vala:23 src/widgets/library/game-row.vala:144
@@ -304,11 +303,11 @@ msgstr "未找到個人檔案。請確保至少連線過一次，否則請在 Gi
 #: src/widgets/library/sort-by-tool-button.vala:30
 #: src/models/games/steam.vala:73 src/models/games/steam.vala:94
 msgid "Undefined"
-msgstr "未定義"
+msgstr "未指定"
 
 #: src/widgets/library/library-box.vala:185
 msgid "The library failed loading."
-msgstr ""
+msgstr "遊戲庫載入失敗。"
 
 #: src/widgets/library/game-row.vala:58
 msgid "Modify the game launch options"
@@ -359,7 +358,7 @@ msgstr "啟用"
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
-msgstr "若要批量編輯涵蓋相容性工具，請啟用此選項。"
+msgstr "若要在批量編輯中涵蓋相容性工具，請啟用此選項。"
 
 #: src/widgets/library/mass-edit-dialog.vala:36
 #: src/widgets/library/default-tool-dialog.vala:23
@@ -370,7 +369,7 @@ msgstr "選擇所需的相容性工具"
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
-msgstr "若要批量編輯涵蓋啟動選項，請啟用此選項。"
+msgstr "若要在批量編輯中涵蓋啟動選項，請啟用此選項。"
 
 #: src/widgets/library/mass-edit-dialog.vala:51
 #: src/widgets/library/launch-options-dialog.vala:24
@@ -384,7 +383,7 @@ msgstr "啟動選項"
 #: src/widgets/library/mass-edit-dialog.vala:58
 msgid ""
 "Enable all the options that you want the mass edit to take into account."
-msgstr "請啟用所有要批量編輯涵蓋的選項。"
+msgstr "請啟用要在批量編輯中涵蓋的所有選項。"
 
 #: src/widgets/library/mass-edit-dialog.vala:150
 msgid ""
@@ -443,7 +442,7 @@ msgstr "選取所有的遊戲"
 
 #: src/widgets/library/unselect-button.vala:8
 msgid "Unselect all"
-msgstr "全部取消"
+msgstr "取消全選"
 
 #: src/widgets/library/unselect-button.vala:11
 msgid "Unselect all the games"
@@ -491,16 +490,16 @@ msgstr "開啟選單"
 
 #: src/widgets/library/default-tool-button.vala:8
 msgid "Set default compatibility tool"
-msgstr "設定預設的相容性工具"
+msgstr "設定預設相容性工具"
 
 #: src/widgets/library/default-tool-button.vala:14
 #: src/widgets/library/default-tool-dialog.vala:12
 msgid "Set the default compatibility tool"
-msgstr "設定預設的相容性工具"
+msgstr "設定預設相容性工具"
 
 #: src/widgets/library/default-tool-dialog.vala:65
 msgid "When trying to change the default compatibility tool an error occured."
-msgstr "嘗試變更預設的相容性工具時發生錯誤。"
+msgstr "嘗試變更預設相容性工具時發生錯誤。"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:42
 msgid "Runners"
@@ -509,7 +508,7 @@ msgstr "運行器"
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
 #: src/models/launchers/lutris.vala:36
 msgid "Compatibility tools for running Windows software on Linux."
-msgstr "用於在 Linux 上運行 Windows 軟體的相容性工具。"
+msgstr "在 Linux 上運行 Windows 軟體的相容性工具。"
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/lutris.vala:39
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
@@ -517,7 +516,7 @@ msgstr "適用於 Linux/Wine 的，基於 Vulkan 的 Direct3D 8、9、10 和 11 
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
 msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr "由 Valve 提供的，用於在 Linux 上運行 Windows 軟體的相容性工具。"
+msgstr "由 Valve 提供的，在 Linux 上運行 Windows 軟體的相容性工具。"
 
 #: src/models/launchers/lutris.vala:42
 msgid ""
@@ -527,7 +526,7 @@ msgstr "Wine VKD3D 的特化版，旨在 Vulkan 之上實作完整的 Direct3D 1
 
 #: src/models/runners/boxtron.vala:6
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
-msgstr "用於使用 Linux 版 DOSBox 運行 DOS 遊戲的 Steam 相容性工具。"
+msgstr "使用 Linux 版 DOSBox 運行 DOS 遊戲的 Steam 相容性工具。"
 
 #: src/models/runners/dxvk-sarek.vala:6
 #: src/models/runners/dxvk-async-sarek.vala:6
@@ -549,11 +548,11 @@ msgstr "從官方 WineHQ 原始碼編譯的 Wine 建構版本。"
 #: src/models/runners/luxtorpeda.vala:6
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
-msgstr "Luxtorpeda 能為特定 Windows 專屬遊戲提供 Linux 原生遊戲引擎。"
+msgstr "Luxtorpeda 能為特定的 Windows 專屬遊戲提供 Linux 原生遊戲引擎。"
 
 #: src/models/runners/northstar-proton.vala:6
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
-msgstr "用於運行 Titanfall 2 Northstar 用戶端的自訂 Proton 建構版本。"
+msgstr "運行 Titanfall 2 Northstar 用戶端的自訂 Proton 建構版本。"
 
 #: src/models/runners/proton-ge-rstp.vala:6
 msgid ""
@@ -568,12 +567,11 @@ msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
-"用於運行 Windows 遊戲的 Steam 相容性工具，並在 Valve 預設的 Proton 上做了改"
-"進。"
+"運行 Windows 遊戲的 Steam 相容性工具，具有優於 Valve 預設 Proton 的改進功能。"
 
 #: src/models/runners/proton-tkg.vala:6
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr "基於 Wine-tkg 的，用於運行 Windows 遊戲的自訂 Proton 建構版本。"
+msgstr "基於 Wine-tkg 的，運行 Windows 遊戲的自訂 Proton 建構版本。"
 
 #: src/models/runners/kron4ek-proton-builds.vala:7
 msgid "Wine build modified by Valve and other contributors."
@@ -582,15 +580,15 @@ msgstr "由 Valve 和其他貢獻者修改的 Wine 建構版本。"
 #: src/models/runners/roberta.vala:6
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
-msgstr "用於使用 Linux 版 ScummVM 運行冒險遊戲的 Steam 相容性工具。"
+msgstr "使用 Linux 版 ScummVM 運行冒險遊戲的 Steam 相容性工具。"
 
 #: src/models/runners/proton-cachyos.vala:14
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
 msgstr ""
-"CachyOS Linux 發行版的 Steam 相容性工具，用於運行 Windows 遊戲，並在 Valve 預"
-"設的 Proton 上做了改進。"
+"CachyOS Linux 發行版的，運行 Windows 遊戲的 Steam 相容性工具，具有優於 Valve "
+"預設 Proton 的改進功能。"
 
 #: src/models/runners/proton-em.vala:6
 msgid ""
@@ -598,8 +596,8 @@ msgid ""
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
 msgstr ""
-"用於運行 Windows 遊戲的 Steam 相容性工具，並在 Valve 預設的 Proton 上做了改"
-"進。由 Etaash Mathamsetty 新增 FSR4 支援和 Wine Wayland 調整。"
+"運行 Windows 遊戲的 Steam 相容性工具，具有優於 Valve 預設 Proton 的改進功能。"
+"由 Etaash Mathamsetty 新增 FSR4 支援和 Wine Wayland 調整。"
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
