@@ -7,7 +7,12 @@
   <name>ProtonPlus</name>
   <summary>A modern compatibility tools manager for Linux</summary>
   <description>
-    <p>Install and manage Wine/Proton based compatibility tools with a graphical user interface.</p>
+    <p>Features:</p>
+    <ul>
+      <li>Manage supported compatiblity tools across supported launchers</li>
+      <li>Change the compatibility tool and launch options of your Steam games</li>
+      <li>And much more... Games Launcher</li>
+    </ul>
     <p>Supported launchers:</p>
     <ul>
       <li>Steam</li>
