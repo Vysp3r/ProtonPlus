@@ -28,6 +28,12 @@ show_log() {
   printf "${color}[%s]${RESET} ${CYAN}%s${RESET}\n" "${message_type}" "${message}" >&$fd
 }
 
+flatpak_dependency_check() {
+  show_log "INFO" "Ensuring required Flatpak dependencies are installed..."
+  flatpak install -y runtime/org.gnome.Sdk/x86_64/48 runtime/org.gnome.Platform/x86_64/48 runtime/org.freedesktop.Sdk.Extension.vala/x86_64/24.08 org.flatpak.Builder
+  show_log "INFO" "Required dependencies are installed."
+}
+
 build() {
   local variant="$1"
   local manifest="$2"
@@ -48,6 +54,7 @@ build() {
       ./protonplus
     fi
   else
+    flatpak_dependency_check
     show_log "INFO" "Starting Flatpak build for variant: ${variant}..."
     local build_dir="build-flatpak/${variant}/build"
     show_log "INFO" "Configuring build directory: ${build_dir}"
@@ -157,6 +164,7 @@ generate_icons() {
 flathub_linter() {
     show_log "INFO" "Linting the local source code..."
 
+    flatpak_dependency_check
     # We must perform a Flatpak build *and* export to a ostree "repo" directory.
     # NOTE: We will perform a LOCAL build so that we check the LOCAL manifest.
     # NOTE: We don't trigger INSTALL in this case, since we're just linting.
