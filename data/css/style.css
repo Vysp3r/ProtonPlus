@@ -25,3 +25,25 @@
 .red {
   color: #fa5252;
 }
+
+.list-header {
+  padding: 14px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 1px solid @card_shade_color;
+  box-shadow: none;
+}
+
+.list-content {
+  box-shadow: none;
+}
+
+.list-content,
+.list-content > row:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.transparent-bg {
+  background-color: transparent;
+}
