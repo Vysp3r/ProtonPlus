@@ -33,6 +33,7 @@ namespace ProtonPlus.Widgets {
 			game_list_box = new Gtk.ListBox();
 			game_list_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE);
 			game_list_box.add_css_class("boxed-list");
+			game_list_box.add_css_class("list-content");
 			game_list_box.row_activated.connect(game_list_box_row_activated);
 
 			spinner = new Gtk.Spinner();
@@ -89,11 +90,17 @@ namespace ProtonPlus.Widgets {
 
 			var header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 			header_box.set_hexpand(true);
-			header_box.add_css_class("p-10");
 			header_box.add_css_class("card");
+			header_box.add_css_class("list-header");
 			header_box.append(name_label);
 			header_box.append(compatibility_tool_label);
 			header_box.append(other_label);
+
+			var headered_list_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+			headered_list_box.add_css_class("card");
+			headered_list_box.add_css_class("transparent-bg");
+			headered_list_box.append(header_box);
+			headered_list_box.append(scrolled_window);
 
 			content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
 			content_box.set_margin_top(7);
@@ -101,8 +108,7 @@ namespace ProtonPlus.Widgets {
 			content_box.set_margin_start(12);
 			content_box.set_margin_end(12);
 			content_box.append(flow_box);
-			content_box.append(header_box);
-			content_box.append(scrolled_window);
+			content_box.append(headered_list_box);
 			content_box.append(warning_label);
 
 			toolbar_view = new Adw.ToolbarView();
