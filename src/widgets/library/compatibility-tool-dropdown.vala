@@ -11,8 +11,6 @@ namespace ProtonPlus.Widgets {
         public CompatibilityToolDropDown (Models.Game game, ListStore model, Gtk.PropertyExpression expression) {
 			this.game = game;
 
-			skip = true;
-
 			list_factory = new Gtk.SignalListItemFactory ();
            	list_factory.setup.connect (list_factory_setup);
             list_factory.bind.connect (list_factory_bind);
