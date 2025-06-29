@@ -5,7 +5,7 @@
 </h1>
 
 <p align="center">
-  <strong>A modern compatibility tools manager for Linux.</strong>
+  <strong>A modern compatibility tools manager</strong>
 </p>
 
 <p align="center">
