@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-29 11:49-0400\n"
+"POT-Creation-Date: 2025-06-29 12:25-0400\n"
 "PO-Revision-Date: 2024-08-14 20:09+0000\n"
 "Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -591,10 +591,6 @@ msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 "Niestandardowa wersja Protona do uruchamiania klienta Northstar dla "
 "Titanfall 2."
-
-#: src/models/runners/kron4ek-proton-builds.vala:7
-msgid "Wine build modified by Valve and other contributors."
-msgstr ""
 
 #: src/models/runners/roberta.vala:6
 #, fuzzy
