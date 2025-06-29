@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-26 20:56-0400\n"
+"POT-Creation-Date: 2025-06-29 11:49-0400\n"
 "PO-Revision-Date: 2024-10-03 01:10+0200\n"
 "Last-Translator: Johnny Arcitec <Arcitec@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
@@ -143,14 +143,14 @@ msgstr "Ja"
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/library-box.vala:135
-#: src/widgets/library/library-box.vala:185
-#: src/widgets/library/game-row.vala:138
-#: src/widgets/library/mass-edit-dialog.vala:150
+#: src/widgets/library/library-box.vala:141
+#: src/widgets/library/library-box.vala:191
+#: src/widgets/library/mass-edit-dialog.vala:147
 #: src/widgets/library/shortcut-button.vala:38
 #: src/widgets/library/shortcut-button.vala:47
 #: src/widgets/library/launch-options-dialog.vala:57
-#: src/widgets/library/default-tool-dialog.vala:65
+#: src/widgets/library/default-tool-dialog.vala:60
+#: src/widgets/library/compatibility-tool-dropdown.vala:70
 msgid "Error"
 msgstr ""
 
@@ -162,13 +162,13 @@ msgstr ""
 #: src/widgets/main/remove-dialog.vala:49
 #: src/widgets/main/install-dialog.vala:54
 #: src/widgets/main/upgrade-dialog.vala:56
-#: src/widgets/library/library-box.vala:185
-#: src/widgets/library/game-row.vala:138
-#: src/widgets/library/mass-edit-dialog.vala:150
+#: src/widgets/library/library-box.vala:191
+#: src/widgets/library/mass-edit-dialog.vala:147
 #: src/widgets/library/shortcut-button.vala:38
 #: src/widgets/library/shortcut-button.vala:47
 #: src/widgets/library/launch-options-dialog.vala:57
-#: src/widgets/library/default-tool-dialog.vala:65
+#: src/widgets/library/default-tool-dialog.vala:60
+#: src/widgets/library/compatibility-tool-dropdown.vala:70
 msgid "Please report this issue on GitHub."
 msgstr ""
 
@@ -279,66 +279,62 @@ msgstr "%s är redan senaste versionen"
 msgid "Update to the latest version"
 msgstr "Uppdatera %s till den senaste versionen"
 
-#: src/widgets/library/library-box.vala:51
+#: src/widgets/library/library-box.vala:52
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 
-#: src/widgets/library/library-box.vala:81
+#: src/widgets/library/library-box.vala:82
 msgid "Name"
 msgstr ""
 
-#: src/widgets/library/library-box.vala:84
-#: src/widgets/library/mass-edit-dialog.vala:41
+#: src/widgets/library/library-box.vala:85
+#: src/widgets/library/mass-edit-dialog.vala:38
 #, fuzzy
 msgid "Compatibility tool"
 msgstr "En modern kompatibilitetsverktygshanterare för Linux."
 
-#: src/widgets/library/library-box.vala:87
+#: src/widgets/library/library-box.vala:88
 msgid "Other"
 msgstr ""
 
-#: src/widgets/library/library-box.vala:120
+#: src/widgets/library/library-box.vala:126
 msgid "Library"
 msgstr ""
 
-#: src/widgets/library/library-box.vala:135
+#: src/widgets/library/library-box.vala:141
 msgid "No profile was found."
 msgstr ""
 
-#: src/widgets/library/library-box.vala:135
+#: src/widgets/library/library-box.vala:141
 msgid ""
 "Make sure to connect yourself at least one time otherwise report this issue "
 "on GitHub."
 msgstr ""
 
-#: src/widgets/library/library-box.vala:162
-#: src/widgets/library/game-row.vala:23 src/widgets/library/game-row.vala:144
-#: src/widgets/library/mass-edit-dialog.vala:112
+#: src/widgets/library/library-box.vala:168
+#: src/widgets/library/mass-edit-dialog.vala:109
 #: src/widgets/library/sort-by-tool-button.vala:27
 #: src/widgets/library/sort-by-tool-button.vala:30
+#: src/widgets/library/compatibility-tool-dropdown.vala:29
+#: src/widgets/library/compatibility-tool-dropdown.vala:76
 #: src/models/games/steam.vala:73 src/models/games/steam.vala:94
 msgid "Undefined"
 msgstr ""
 
-#: src/widgets/library/library-box.vala:185
+#: src/widgets/library/library-box.vala:191
 msgid "The library failed loading."
 msgstr ""
 
-#: src/widgets/library/game-row.vala:58
+#: src/widgets/library/game-row.vala:44
 msgid "Modify the game launch options"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:84
+#: src/widgets/library/game-row.vala:70
 msgid "Unknown"
 msgstr ""
 
-#: src/widgets/library/game-row.vala:90
+#: src/widgets/library/game-row.vala:76
 msgid "Open ProtonDB page"
-msgstr ""
-
-#: src/widgets/library/game-row.vala:138
-#, c-format
-msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
 #: src/widgets/library/mass-edit-dialog.vala:20
@@ -356,7 +352,7 @@ msgstr ""
 
 #: src/widgets/library/mass-edit-dialog.vala:22
 #: src/widgets/library/launch-options-dialog.vala:14
-#: src/widgets/library/default-tool-dialog.vala:14
+#: src/widgets/library/default-tool-dialog.vala:16
 msgid "Apply"
 msgstr ""
 
@@ -365,7 +361,7 @@ msgid "Apply the current modifications"
 msgstr ""
 
 #: src/widgets/library/mass-edit-dialog.vala:31
-#: src/widgets/library/mass-edit-dialog.vala:46
+#: src/widgets/library/mass-edit-dialog.vala:43
 msgid "Enabled"
 msgstr ""
 
@@ -375,33 +371,27 @@ msgid ""
 "account."
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:36
-#: src/widgets/library/default-tool-dialog.vala:23
-#, fuzzy
-msgid "Select your desired compatibility tool"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
-
-#: src/widgets/library/mass-edit-dialog.vala:47
+#: src/widgets/library/mass-edit-dialog.vala:44
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:51
+#: src/widgets/library/mass-edit-dialog.vala:48
 #: src/widgets/library/launch-options-dialog.vala:24
 msgid "Enter your desired launch options"
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:54
+#: src/widgets/library/mass-edit-dialog.vala:51
 msgid "Launch options"
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:58
+#: src/widgets/library/mass-edit-dialog.vala:55
 msgid ""
 "Enable all the options that you want the mass edit to take into account."
 msgstr ""
 
-#: src/widgets/library/mass-edit-dialog.vala:150
+#: src/widgets/library/mass-edit-dialog.vala:147
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occured for the following games"
@@ -481,7 +471,7 @@ msgid "Modify launch options"
 msgstr ""
 
 #: src/widgets/library/launch-options-dialog.vala:15
-#: src/widgets/library/default-tool-dialog.vala:15
+#: src/widgets/library/default-tool-dialog.vala:17
 msgid "Apply the current modification"
 msgstr ""
 
@@ -512,13 +502,23 @@ msgid "Set default compatibility tool"
 msgstr "En modern kompatibilitetsverktygshanterare för Linux."
 
 #: src/widgets/library/default-tool-button.vala:14
-#: src/widgets/library/default-tool-dialog.vala:12
+#: src/widgets/library/default-tool-dialog.vala:14
 #, fuzzy
 msgid "Set the default compatibility tool"
 msgstr "En modern kompatibilitetsverktygshanterare för Linux."
 
-#: src/widgets/library/default-tool-dialog.vala:65
+#: src/widgets/library/default-tool-dialog.vala:60
 msgid "When trying to change the default compatibility tool an error occured."
+msgstr ""
+
+#: src/widgets/library/compatibility-tool-row.vala:11
+#, fuzzy
+msgid "Select your desired compatibility tool"
+msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+
+#: src/widgets/library/compatibility-tool-dropdown.vala:70
+#, c-format
+msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:42
