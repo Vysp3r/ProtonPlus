@@ -19,6 +19,7 @@ namespace ProtonPlus.Models.Games {
 		public override bool change_compatibility_tool(string compatibility_tool) {
 			var config_path = "%s/config/config.vdf".printf(launcher.directory);
 			var config_content = Utils.Filesystem.get_file_content(config_path);
+			StringBuilder compat_tool_mapping_string_builder;
 			var compat_tool_mapping_content = "";
 			var compat_tool_mapping_item = "";
 			var compat_tool_mapping_item_appid = 0;
@@ -29,12 +30,14 @@ namespace ProtonPlus.Models.Games {
 			var end_pos = 0;
 			var current_position = 0;
 
-			start_text = "CompatToolMapping\"\n\t\t\t\t{\n";
+			start_text = "\"CompatToolMapping\"\n\t\t\t\t{";
 			end_text = "\n\t\t\t\t}";
-			start_pos = config_content.index_of(start_text, 0) + start_text.length;
-			end_pos = config_content.index_of(end_text, start_pos);
+			start_pos = config_content.index_of(start_text, 0);
+			end_pos = config_content.index_of(end_text, start_pos) + end_text.length;
 			compat_tool_mapping_content = config_content.substring(start_pos, end_pos - start_pos);
 			// message("start: %i, end: %i, compat_tool_mapping_content: %s", start_pos, end_pos, compat_tool_mapping_content);
+
+			compat_tool_mapping_string_builder = new StringBuilder(compat_tool_mapping_content);
 
 			if (compat_tool_mapping_content.contains(appid.to_string())) {
 				start_text = "\n\t\t\t\t\t\"%i\"".printf(appid);
@@ -102,11 +105,9 @@ namespace ProtonPlus.Models.Games {
 				var line6 = "\t\t\t\t\t}";
 				var new_item = line1 + line2 + line3 + line4 + line5 + line6;
 
-				var compat_tool_mapping_item_modified = compat_tool_mapping_item + new_item;
+				compat_tool_mapping_string_builder.insert(compat_tool_mapping_content.length - "\n\t\t\t\t}".length, new_item);
 
-				var compat_tool_mapping_content_modified = compat_tool_mapping_content.concat(compat_tool_mapping_item_modified);
-
-				config_content = config_content.replace(compat_tool_mapping_content, compat_tool_mapping_content_modified);
+				config_content = config_content.replace(compat_tool_mapping_content, compat_tool_mapping_string_builder.str);
 			}
 
 			Utils.Filesystem.modify_file(config_path, config_content);
