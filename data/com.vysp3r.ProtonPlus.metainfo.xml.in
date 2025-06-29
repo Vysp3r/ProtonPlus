@@ -5,13 +5,13 @@
   <project_license>GPL-3.0-or-later</project_license>
 
   <name>ProtonPlus</name>
-  <summary>A modern compatibility tools manager for Linux</summary>
+  <summary>A modern compatibility tools manager</summary>
   <description>
     <p>Features:</p>
     <ul>
       <li>Manage supported compatiblity tools across supported launchers</li>
       <li>Change the compatibility tool and launch options of your Steam games</li>
-      <li>And much more... Games Launcher</li>
+      <li>And much more...</li>
     </ul>
     <p>Supported launchers:</p>
     <ul>
@@ -92,6 +92,18 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.7" date="2025-06-29">
+      <description>
+        <ul>
+          <li>💄 Refined the game library list header</li>
+          <li>💄 Improved dropdown's in game library</li>
+          <li>✨ Removed Proton Kron4ek</li>
+          <li>🐛 Fix crash when opening mass edit dialog a second time</li>
+          <li>🐛 Fix changing compatibility tool not working in certain cases</li>
+          <li>🌐 Update Czech translations</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.6" date="2025-06-27">
       <description>
         <ul>
