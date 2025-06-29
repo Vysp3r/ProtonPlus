@@ -41,6 +41,8 @@ namespace ProtonPlus.Widgets {
 
 			bin_layout = new Gtk.BinLayout();
 
+			destroy.connect(on_destroy);
+
 			set_layout_manager(bin_layout);
 			set_size_request (350, 0);
         }
@@ -148,5 +150,9 @@ namespace ProtonPlus.Widgets {
 
 			list_item.set_child(title_label);
         }
+
+		void on_destroy () {
+			dropdown.unparent ();
+		}
     }
 }
