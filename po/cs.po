@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-29 12:25-0400\n"
-"PO-Revision-Date: 2025-06-29 16:59+0000\n"
+"PO-Revision-Date: 2025-06-29 21:47+0000\n"
 "Last-Translator: \"M.M.\" <martin.miscikms@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/cs/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:83
@@ -53,7 +53,7 @@ msgstr ""
 
 #: src/widgets/main/info-box.vala:17
 msgid "Donate"
-msgstr ""
+msgstr "Podpořit"
 
 #: src/widgets/main/info-box.vala:20
 #, fuzzy
@@ -121,9 +121,8 @@ msgid "Used by 1 game."
 msgstr ""
 
 #: src/widgets/main/remove-dialog.vala:26
-#, fuzzy
 msgid "Are you sure you want to proceed?"
-msgstr "Opravdu to chcete udělat?"
+msgstr "Opravdu chcete pokračovat?"
 
 #: src/widgets/main/remove-dialog.vala:30
 #: src/widgets/main/steamtinkerlaunch-row.vala:91
@@ -147,7 +146,7 @@ msgstr "Ano"
 #: src/widgets/library/default-tool-dialog.vala:60
 #: src/widgets/library/compatibility-tool-dropdown.vala:70
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: src/widgets/main/remove-dialog.vala:49
 #, c-format
@@ -165,7 +164,7 @@ msgstr ""
 #: src/widgets/library/default-tool-dialog.vala:60
 #: src/widgets/library/compatibility-tool-dropdown.vala:70
 msgid "Please report this issue on GitHub."
-msgstr "Prosím oznamte tuto chybu na GitHubu"
+msgstr "Prosím oznamte tuto chybu na GitHubu."
 
 #: src/widgets/main/install-dialog.vala:23
 #: src/widgets/main/upgrade-dialog.vala:23
@@ -278,7 +277,7 @@ msgstr "Aktualizujte %s na nejnovější verzi"
 
 #: src/widgets/library/library-box.vala:52
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr ""
+msgstr "Nejdříve zavřete Steam klienta jedině tak mohou být změny aplikovány."
 
 #: src/widgets/library/library-box.vala:82
 msgid "Name"
@@ -286,9 +285,8 @@ msgstr "Jméno"
 
 #: src/widgets/library/library-box.vala:85
 #: src/widgets/library/mass-edit-dialog.vala:38
-#, fuzzy
 msgid "Compatibility tool"
-msgstr "Moderní správce nástrojů kompatibility pro Linux."
+msgstr "Kompatibilní nástroj"
 
 #: src/widgets/library/library-box.vala:88
 msgid "Other"
@@ -300,7 +298,7 @@ msgstr "Knihovna"
 
 #: src/widgets/library/library-box.vala:141
 msgid "No profile was found."
-msgstr "Žádný profil nebyl nalezen"
+msgstr "Žádný profil nebyl nalezen."
 
 #: src/widgets/library/library-box.vala:141
 msgid ""
@@ -332,7 +330,7 @@ msgstr ""
 
 #: src/widgets/library/game-row.vala:76
 msgid "Open ProtonDB page"
-msgstr ""
+msgstr "Otevřít ProtonDB stránku"
 
 #: src/widgets/library/mass-edit-dialog.vala:20
 #: src/widgets/library/mass-edit-button.vala:10
@@ -341,26 +339,26 @@ msgstr ""
 
 #: src/widgets/library/mass-edit-dialog.vala:20
 msgid "game selected"
-msgstr ""
+msgstr "hra vybrána"
 
 #: src/widgets/library/mass-edit-dialog.vala:20
 msgid "games selected"
-msgstr ""
+msgstr "hry vybrány"
 
 #: src/widgets/library/mass-edit-dialog.vala:22
 #: src/widgets/library/launch-options-dialog.vala:14
 #: src/widgets/library/default-tool-dialog.vala:16
 msgid "Apply"
-msgstr ""
+msgstr "Použít"
 
 #: src/widgets/library/mass-edit-dialog.vala:23
 msgid "Apply the current modifications"
-msgstr ""
+msgstr "Použít tyto modifikace"
 
 #: src/widgets/library/mass-edit-dialog.vala:31
 #: src/widgets/library/mass-edit-dialog.vala:43
 msgid "Enabled"
-msgstr ""
+msgstr "Povoleno"
 
 #: src/widgets/library/mass-edit-dialog.vala:32
 msgid ""
@@ -397,7 +395,7 @@ msgstr ""
 #: src/widgets/library/shortcut-button.vala:23
 #: src/widgets/library/shortcut-button.vala:28
 msgid "Create shortcut"
-msgstr ""
+msgstr "Vytvořit zástupce"
 
 #: src/widgets/library/shortcut-button.vala:28
 msgid "Remove shortcut"
@@ -405,7 +403,7 @@ msgstr ""
 
 #: src/widgets/library/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr ""
+msgstr "Vytvořit zástupce ProtonPlus ve Steamu"
 
 #: src/widgets/library/shortcut-button.vala:29
 msgid "Remove the shortcut of ProtonPlus in Steam"
@@ -438,11 +436,11 @@ msgstr ""
 
 #: src/widgets/library/select-button.vala:8
 msgid "Select all"
-msgstr ""
+msgstr "Vyber vše"
 
 #: src/widgets/library/select-button.vala:11
 msgid "Select all the games"
-msgstr ""
+msgstr "Vyber všechny hry"
 
 #: src/widgets/library/unselect-button.vala:8
 msgid "Unselect all"
@@ -469,7 +467,7 @@ msgstr ""
 #: src/widgets/library/launch-options-dialog.vala:15
 #: src/widgets/library/default-tool-dialog.vala:17
 msgid "Apply the current modification"
-msgstr ""
+msgstr "Použít tuto modifikaci"
 
 #: src/widgets/library/launch-options-dialog.vala:57
 #, c-format
@@ -478,7 +476,7 @@ msgstr ""
 
 #: src/widgets/library/profile-dialog.vala:15
 msgid "Select a profile"
-msgstr ""
+msgstr "Vyber profil"
 
 #: src/widgets/library/extra-button.vala:10
 msgid "Open install directory"
@@ -489,9 +487,8 @@ msgid "Open prefix directory"
 msgstr ""
 
 #: src/widgets/library/extra-button.vala:28
-#, fuzzy
 msgid "Open menu"
-msgstr "Otevřít"
+msgstr "Otevřít menu"
 
 #: src/widgets/library/default-tool-button.vala:8
 #, fuzzy
@@ -554,7 +551,7 @@ msgstr ""
 #: src/models/runners/dxvk-sarek.vala:6
 #: src/models/runners/dxvk-async-sarek.vala:6
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
-msgstr ""
+msgstr "DXVK verze která fungovala před Vulkanem verze 1.3"
 
 #: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
 msgid "Wine build with the Staging patchset and many other useful patches."
