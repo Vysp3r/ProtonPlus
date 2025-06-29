@@ -9,10 +9,10 @@ namespace ProtonPlus.Widgets {
             compatibility_tool_factory.bind.connect (compatibility_tool_factory_bind);
 
             set_title(_("Select your desired compatibility tool"));
-			notify["selected-item"].connect(compatibility_tool_row_selected_item_changed);
 			set_model(model);
 			set_expression (expression);
 			set_list_factory(compatibility_tool_factory);
+			notify["selected-item"].connect(compatibility_tool_row_selected_item_changed);
         }
 
 		void compatibility_tool_row_selected_item_changed () {
