@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-29 11:49-0400\n"
+"POT-Creation-Date: 2025-06-29 12:25-0400\n"
 "PO-Revision-Date: 2025-02-16 11:46+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: \n"
@@ -601,10 +601,6 @@ msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 "Vlastní sestavení Protonu pro spouštění her pro Windows, založené na Wine-"
 "tkg."
-
-#: src/models/runners/kron4ek-proton-builds.vala:7
-msgid "Wine build modified by Valve and other contributors."
-msgstr ""
 
 #: src/models/runners/roberta.vala:6
 msgid ""

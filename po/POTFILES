@@ -66,7 +66,6 @@ src/models/runners/northstar-proton.vala
 src/models/runners/proton-ge-rstp.vala
 src/models/runners/proton-ge.vala
 src/models/runners/proton-tkg.vala
-src/models/runners/kron4ek-proton-builds.vala
 src/models/runners/roberta.vala
 src/models/runners/proton-cachyos.vala
 src/models/runners/proton-em.vala

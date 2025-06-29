@@ -52,7 +52,6 @@ namespace ProtonPlus.Models.Launchers {
             runners.append (new Runners.Proton_CachyOS (group));
             runners.append (new Runners.Proton_EM (group));
             runners.append (new Runners.Proton_Tkg (group));
-            runners.append (new Runners.Proton_Kron4ek (group));
 
             return runners;
         }
