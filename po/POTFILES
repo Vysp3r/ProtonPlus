@@ -31,6 +31,8 @@ src/widgets/library/profile-button.vala
 src/widgets/library/extra-button.vala
 src/widgets/library/default-tool-button.vala
 src/widgets/library/default-tool-dialog.vala
+src/widgets/library/compatibility-tool-row.vala
+src/widgets/library/compatibility-tool-dropdown.vala
 src/models/release.vala
 src/models/steam-profile.vala
 src/models/group.vala
