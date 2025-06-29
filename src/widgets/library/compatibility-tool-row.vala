@@ -15,9 +15,6 @@ namespace ProtonPlus.Widgets {
 			set_list_factory(compatibility_tool_factory);
         }
 
-        // Make a file for the row widget
-		// Truncate list item after proton cachyos 10 latest release char count
-		// Add tooltip on each list item
 		void compatibility_tool_row_selected_item_changed () {
 			var simple_runner = get_selected_item () as Models.SimpleRunner;
 			var list_item = simple_runner.get_data<Gtk.ListItem> ("item");
