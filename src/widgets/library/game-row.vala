@@ -1,14 +1,14 @@
 namespace ProtonPlus.Widgets {
 	public class GameRow : Gtk.ListBoxRow {
 		Gtk.Label title_label { get; set; }
-		public Gtk.DropDown compatibility_tool_dropdown { get; set; }
+		public CompatibilityToolDropDown compatibility_tool_dropdown { get; set; }
 		Gtk.Button launch_options_button { get; set; }
 		Gtk.Button anticheat_button { get; set; }
 		Gtk.Button protondb_button { get; set; }
 		ExtraButton extra_button { get; set; }
 		Gtk.Box content_box { get; set; }
 		public Models.Game game { get; set; }
-		public bool skip { get; set; }
+		
 		public bool selected { get; set; }
 
 		public GameRow(Models.Game game, ListStore model, Gtk.PropertyExpression expression) {
@@ -18,21 +18,7 @@ namespace ProtonPlus.Widgets {
 			title_label.set_halign(Gtk.Align.START);
 			title_label.set_hexpand(true);
 
-			compatibility_tool_dropdown = new Gtk.DropDown(model, expression);
-
-			if (game.compatibility_tool == _("Undefined")) {
-				compatibility_tool_dropdown.set_selected(0);
-			} else {
-				for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
-					if (game.launcher.compatibility_tools.nth_data(i).internal_title == game.compatibility_tool) {
-						compatibility_tool_dropdown.set_selected(i + 1);
-						break;
-					}
-				}
-			}
-
-			compatibility_tool_dropdown.notify["selected-item"].connect(compatibility_tool_dropdown_selected_item_changed);
-			compatibility_tool_dropdown.set_size_request(350, 0);
+			compatibility_tool_dropdown = new CompatibilityToolDropDown (game, model, expression);
 
 			extra_button = new ExtraButton(game);
 
@@ -123,35 +109,6 @@ namespace ProtonPlus.Widgets {
 			var steam_game = (Models.Games.Steam) game;
 
 			Utils.System.open_uri("https://www.protondb.com/app/%i".printf(steam_game.appid));
-		}
-
-		void compatibility_tool_dropdown_selected_item_changed() {
-			if (skip) {
-				skip = false;
-				return;
-			}
-
-			var item = (Models.SimpleRunner) compatibility_tool_dropdown.get_selected_item();
-
-			var success = game.change_compatibility_tool(item.internal_title);
-			if (!success) {
-				var dialog = new Adw.AlertDialog(_("Error"), "%s\n%s".printf(_("When trying to change the compatibility tool of %s an error occured.").printf(game.name), _("Please report this issue on GitHub.")));
-				dialog.add_response("ok", "OK");
-				dialog.present(Application.window);
-
-				skip = true;
-
-				if (game.compatibility_tool == _("Undefined")) {
-					compatibility_tool_dropdown.set_selected(0);
-				} else {
-					for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
-						if (game.compatibility_tool == game.launcher.compatibility_tools.nth_data(i).internal_title) {
-							compatibility_tool_dropdown.set_selected(i + 1);
-							break;
-						}
-					}
-				}
-			}
 		}
 	}
 }

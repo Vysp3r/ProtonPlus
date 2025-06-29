@@ -8,7 +8,9 @@ namespace ProtonPlus.Widgets {
 		Adw.PreferencesGroup compatibility_tool_group { get; set; }
 		Models.Launchers.Steam launcher { get; set; }
 
-		construct {
+		public DefaultToolDialog(Models.Launchers.Steam launcher) {
+			this.launcher = launcher;
+
 			window_title = new Adw.WindowTitle(_("Set the default compatibility tool"), "");
 
 			apply_button = new Gtk.Button.with_label(_("Apply"));
@@ -19,8 +21,20 @@ namespace ProtonPlus.Widgets {
 			header_bar.pack_start(apply_button);
 			header_bar.set_title_widget(window_title);
 
-			compatibility_tool_row = new Adw.ComboRow();
-			compatibility_tool_row.set_title(_("Select your desired compatibility tool"));
+			var model = new ListStore(typeof (Models.SimpleRunner));
+			foreach (var ct in launcher.compatibility_tools)
+				model.append(ct);
+
+			var expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
+
+			compatibility_tool_row = new CompatibilityToolRow(model, expression);
+
+			for (var i = 0; i < launcher.compatibility_tools.length(); i++) {
+				if (launcher.compatibility_tools.nth_data(i).internal_title == launcher.default_compatibility_tool) {
+					compatibility_tool_row.set_selected(i);
+					break;
+				}
+			}
 
 			compatibility_tool_group = new Adw.PreferencesGroup();
 			compatibility_tool_group.add(compatibility_tool_row);
@@ -35,26 +49,7 @@ namespace ProtonPlus.Widgets {
 
 			set_size_request(750, 0);
 			set_child(toolbar_view);
-		}
 
-		public DefaultToolDialog(Models.Launchers.Steam launcher) {
-			this.launcher = launcher;
-
-			var model = new ListStore(typeof (Models.SimpleRunner));
-			foreach (var ct in launcher.compatibility_tools)
-				model.append(ct);
-
-			var expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
-
-			compatibility_tool_row.set_model(model);
-			compatibility_tool_row.set_expression(expression);
-
-			for (var i = 0; i < launcher.compatibility_tools.length(); i++) {
-				if (launcher.compatibility_tools.nth_data(i).internal_title == launcher.default_compatibility_tool) {
-					compatibility_tool_row.set_selected(i);
-					break;
-				}
-			}
 		}
 
 		void apply_button_clicked() {

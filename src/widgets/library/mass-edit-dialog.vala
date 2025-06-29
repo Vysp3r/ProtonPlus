@@ -5,7 +5,7 @@ namespace ProtonPlus.Widgets {
 		Adw.WindowTitle window_title { get; set; }
 		Gtk.Button apply_button { get; set; }
 		Adw.SwitchRow modify_compatibility_tool_row { get; set; }
-		Adw.ComboRow compatibility_tool_row { get; set; }
+		CompatibilityToolRow compatibility_tool_row { get; set; }
 		Adw.PreferencesGroup compatibility_tool_group { get; set; }
 		Adw.SwitchRow modify_launch_options_row { get; set; }
 		Adw.EntryRow launch_options_row { get; set; }
@@ -32,11 +32,8 @@ namespace ProtonPlus.Widgets {
 			modify_compatibility_tool_row.set_tooltip_text(_("Enable this if you want the mass edit to take the compatibility tool into account."));
 			modify_compatibility_tool_row.notify["active"].connect(modify_row_active_changed);
 
-			compatibility_tool_row = new Adw.ComboRow();
-			compatibility_tool_row.set_title(_("Select your desired compatibility tool"));
-			compatibility_tool_row.set_model(model);
-			compatibility_tool_row.set_expression(expression);
-
+			compatibility_tool_row = new CompatibilityToolRow (model, expression);
+			
 			compatibility_tool_group = new Adw.PreferencesGroup();
 			compatibility_tool_group.set_title(_("Compatibility tool"));
 			compatibility_tool_group.add(modify_compatibility_tool_row);
@@ -58,7 +55,7 @@ namespace ProtonPlus.Widgets {
 			warning_label = new Gtk.Label(_("Enable all the options that you want the mass edit to take into account."));
 			warning_label.add_css_class("warning");
 
-			content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 10);
+			content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
 			content_box.set_margin_start(10);
 			content_box.set_margin_end(10);
 			content_box.set_margin_bottom(10);
@@ -108,13 +105,13 @@ namespace ProtonPlus.Widgets {
 
 					if (valids.length() > 0) {
 						foreach (var valid_row in valids) {
-							valid_row.skip = true;
+							valid_row.compatibility_tool_dropdown.skip = true;
 							if (valid_row.game.compatibility_tool == _("Undefined")) {
-								valid_row.compatibility_tool_dropdown.set_selected(0);
+								valid_row.compatibility_tool_dropdown.dropdown.set_selected(0);
 							} else {
 								for (var i = 0; i < valid_row.game.launcher.compatibility_tools.length(); i++) {
 									if (valid_row.game.compatibility_tool == valid_row.game.launcher.compatibility_tools.nth_data(i).internal_title) {
-										valid_row.compatibility_tool_dropdown.set_selected(i + 1);
+										valid_row.compatibility_tool_dropdown.dropdown.set_selected(i + 1);
 										break;
 									}
 								}
