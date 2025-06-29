@@ -97,7 +97,7 @@
         <ul>
           <li>💄 Refined the game library list header</li>
           <li>💄 Improved dropdown's in game library</li>
-          <li>✨ Removed Proton Kron4ek</li>
+          <li>🐛 Removed Proton Kron4ek</li>
           <li>🐛 Fix crash when opening mass edit dialog a second time</li>
           <li>🐛 Fix changing compatibility tool not working in certain cases</li>
           <li>🌐 Update Czech translations</li>
