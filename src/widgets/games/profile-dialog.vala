@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets {
 	public class ProfileDialog : Adw.Dialog {
-		LibraryBox.load_steam_profile_func load_steam_profile_func;
+		GamesBox.load_steam_profile_func load_steam_profile_func;
 		Models.Launchers.Steam launcher { get; set; }
 		Adw.HeaderBar header_bar { get; set; }
 		Adw.ToolbarView toolbar_view { get; set; }
@@ -8,7 +8,7 @@ namespace ProtonPlus.Widgets {
 		Gtk.Box content_box { get; set; }
 		bool profile_selected { get; set; }
 
-		public ProfileDialog (Models.Launchers.Steam launcher, LibraryBox.load_steam_profile_func load_steam_profile_func) {
+		public ProfileDialog (Models.Launchers.Steam launcher, GamesBox.load_steam_profile_func load_steam_profile_func) {
 			this.launcher = launcher;
 			this.load_steam_profile_func = load_steam_profile_func;
 
