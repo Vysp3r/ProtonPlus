@@ -45,10 +45,14 @@ namespace ProtonPlus.Widgets {
 
 		void open_install_directory_button_clicked() {
 			Utils.System.open_uri("file://%s".printf(game.installdir));
+
+			popover.popdown();
 		}
 
 		void open_prefix_directory_button_clicked() {
 			Utils.System.open_uri("file://%s".printf(game.prefixdir));
+
+			popover.popdown();
 		}
 	}
 }

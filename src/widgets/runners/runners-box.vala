@@ -1,34 +1,33 @@
 namespace ProtonPlus.Widgets {
-	public class LauncherBox : Gtk.Widget {
-		Models.Launcher launcher { get; set; }
-		Gtk.BinLayout bin_layout { get; set; }
-		Gtk.Box content { get; set; }
-		Adw.Clamp clamp { get; set; }
-		Gtk.ScrolledWindow scrolled_window { get; set; }
+	public class RunnersBox : Gtk.Box {
+		bool installed_only;
+
+        Models.Launcher launcher;
+		Gtk.Box content;
+		Adw.Clamp clamp;
+		Gtk.ScrolledWindow scrolled_window;
 		List<RunnerGroup> runner_groups;
 
-		public LauncherBox () {
-			set_vexpand (true);
+        public RunnersBox () {
+            set_vexpand (true);
 			set_margin_start (15);
 			set_margin_end (15);
 			set_margin_bottom (15);
 
-			bin_layout = new Gtk.BinLayout ();
-			set_layout_manager (bin_layout);
-
 			content = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
 
 			clamp = new Adw.Clamp ();
-			clamp.set_maximum_size (700);
+			clamp.set_maximum_size (975);
 			clamp.set_child (content);
 
 			scrolled_window = new Gtk.ScrolledWindow ();
 			scrolled_window.set_child (clamp);
-			scrolled_window.set_parent (this);
-		}
 
-		public void load (Models.Launcher launcher, bool installed_only) {
-			this.launcher = launcher;
+			append (scrolled_window);
+        }
+
+        public void set_selected_launcher (Models.Launcher launcher) {
+            this.launcher = launcher;
 
 			foreach (var runner_group in runner_groups) {
 				content.remove (runner_group);
@@ -41,12 +40,14 @@ namespace ProtonPlus.Widgets {
 				runner_groups.append (runner_group);
 				content.append (runner_group);
 			}
-		}
+        }
 
-		public void switch_mode (bool mode) {
-			foreach (var runner_group in runner_groups) {
-				runner_group.load (mode);
+        public void set_installed_only (bool installed_only) {
+            this.installed_only = installed_only;
+
+            foreach (var runner_group in runner_groups) {
+				runner_group.load (installed_only);
 			}
-		}
-	}
+        }
+    }
 }
