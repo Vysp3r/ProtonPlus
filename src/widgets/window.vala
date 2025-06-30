@@ -1,126 +1,120 @@
 namespace ProtonPlus.Widgets {
 	public class Window : Adw.ApplicationWindow {
 		List<Models.Launcher> launchers;
-		Models.Launcher selected_launcher { get; set; }
-		bool installed_only { get; set; }
 
-		Adw.NavigationView navigation_view { get; set; }
-		Adw.NavigationPage runners_page { get; set; }
-		LibraryBox library_box { get; set; }
-		Adw.NavigationPage games_page { get; set; }
-		Adw.NavigationSplitView navigation_split_view { get; set; }
-		Adw.NavigationPage info_page { get; set; }
-		Adw.NavigationPage sidebar_page { get; set; }
-		Widgets.StatusBox status_box { get; set; }
-		Widgets.InfoBox info_box { get; set; }
-		Widgets.Sidebar sidebar { get; set; }
-		Adw.Breakpoint breakpoint { get; set; }
+		StatusBox status_box;
+		RunnersBox runners_box;
+		GamesBox games_box;
+
+		LaunchersPopoverButton launchers_popover_button;
+		Gtk.Button donate_button;
+		Menu menu;
+		Gtk.MenuButton menu_button;
+
+		Adw.ViewStack view_stack;
+		Adw.ViewSwitcher view_switcher;
+		Adw.HeaderBar header_bar;
+		Adw.ViewSwitcherBar view_switcher_bar;
+		Adw.ToolbarView toolbar_view;
 
 		construct {
 			set_application ((Adw.Application) GLib.Application.get_default ());
 			set_title (Globals.APP_NAME);
 
-			add_action (get_set_libray_inactive_action ());
-			add_action (get_set_libray_active_action ());
-			add_action (get_set_nav_view_active_action ());
 			add_action (get_set_selected_launcher_action ());
 			add_action (get_set_installed_only_action ());
 
 			set_size_request (1024, 600);
 
-			status_box = new Widgets.StatusBox ();
+			status_box = new StatusBox ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
 
-			info_page = new Adw.NavigationPage.with_tag (info_box = new Widgets.InfoBox (), "x", "main");
+			runners_box = new RunnersBox ();
 
-			sidebar_page = new Adw.NavigationPage.with_tag (sidebar = new Widgets.Sidebar (), _("Show sidebar"), "sidebar");
+			games_box = new GamesBox ();
 
-			navigation_split_view = new Adw.NavigationSplitView ();
-			navigation_split_view.set_sidebar (sidebar_page);
-			navigation_split_view.set_content (info_page);
-			navigation_split_view.set_show_content (true);
+			launchers_popover_button = new LaunchersPopoverButton ();
 
-			library_box = new LibraryBox ();
+			donate_button = new Gtk.Button.from_icon_name ("heart-symbolic");
+			donate_button.add_css_class ("red");
+			donate_button.set_tooltip_text (_("Donate"));
+			donate_button.clicked.connect (donate_button_clicked);
 
-			runners_page = new Adw.NavigationPage.with_tag (navigation_split_view, _("Go back"), "runners");
+			menu = new Menu ();
+			menu.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
+			menu.append (_("_About ProtonPlus"), "app.about");
 
-			games_page = new Adw.NavigationPage.with_tag (library_box, "y", "games");
+			menu_button = new Gtk.MenuButton ();
+			menu_button.set_tooltip_text (_("Main Menu"));
+			menu_button.set_icon_name ("open-menu-symbolic");
+			menu_button.set_menu_model (menu);
 
-			navigation_view = new Adw.NavigationView ();
-			navigation_view.push (runners_page);
+			view_stack = new Adw.ViewStack ();
+			view_stack.add_titled_with_icon (runners_box, "runners", "Runners", "preferences-system-symbolic");
+			view_stack.add_titled_with_icon (games_box, "games", "Games", "applications-games-symbolic");
+			view_stack.notify["visible-child-name"].connect(view_stack_visible_child_name_changed);
 
-			breakpoint = new Adw.Breakpoint (Adw.BreakpointCondition.parse ("max-width: 660px"));
-			breakpoint.add_setter (navigation_split_view, "collapsed", true);
+			view_switcher = new Adw.ViewSwitcher ();
+			view_switcher.set_stack (view_stack);
+			view_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
 
-			add_breakpoint (breakpoint);
+			header_bar = new Adw.HeaderBar ();
+			header_bar.set_title_widget (view_switcher);
+			header_bar.pack_start (launchers_popover_button);
+			header_bar.pack_end (menu_button);
+			header_bar.pack_end (donate_button);
 
-			load_launchers ();
+			view_switcher_bar = new Adw.ViewSwitcherBar ();
+			view_switcher_bar.set_stack (view_stack);
+
+			toolbar_view = new Adw.ToolbarView ();
+			toolbar_view.add_top_bar (header_bar);
+			toolbar_view.set_content (view_stack);
+			toolbar_view.add_bottom_bar (view_switcher_bar);
+
+			initialize();
 		}
 
-		void load_launchers () {
+		void initialize () {
 			launchers = Models.Launcher.get_all ();
 
-			if (launchers.length () > 0) {
+			var valid = launchers.length () > 0;
+
+			if (valid) {
+				launchers_popover_button.initialize (launchers);
+
+				if (toolbar_view.get_parent () == null)
+					set_content (toolbar_view);
+
 				activate_action_variant ("win.set-selected-launcher", 0);
+			}
+				
 
-				sidebar.initialize (launchers);
-
-				if (navigation_view.get_parent () == null)
-					set_content (navigation_view);
-			} else {
-				status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
-
+			if (!valid) {
 				if (status_box.get_parent () == null)
 					set_content (status_box);
 
 				Timeout.add (10000, () => {
-					load_launchers ();
+					initialize ();
 
 					return false;
 				});
 			}
 		}
 
-		SimpleAction get_set_libray_inactive_action () {
-			SimpleAction action = new SimpleAction ("set-library-inactive", VariantType.INT32);
-
-			action.activate.connect ((variant) => {
-				navigation_view.pop ();
-			});
-
-			return action;
+		void donate_button_clicked () {
+			Utils.System.open_uri ("https://github.com/sponsors/Vysp3r");
 		}
 
-		SimpleAction get_set_libray_active_action () {
-			SimpleAction action = new SimpleAction ("set-library-active", VariantType.INT32);
-
-			action.activate.connect ((variant) => {
-				var launcher = launchers.nth_data (variant.get_int32 ());
-				if (launcher.has_library_support) {
-					library_box.load (launcher);
-					navigation_view.push (games_page);
-				}
-			});
-
-			return action;
+		void view_stack_visible_child_name_changed () {
+			games_box.active = view_stack.get_visible_child_name () == "games";
 		}
 
 		SimpleAction get_set_installed_only_action () {
 			SimpleAction action = new SimpleAction.stateful ("set-installed-only", VariantType.BOOLEAN, true);
 
 			action.activate.connect ((variant) => {
-				installed_only = action.get_state ().get_boolean ();
+				runners_box.set_installed_only (action.get_state ().get_boolean ());
 				action.set_state (!action.get_state ().get_boolean ());
-				info_box.switch_mode (!action.get_state ().get_boolean ());
-			});
-
-			return action;
-		}
-
-		SimpleAction get_set_nav_view_active_action () {
-			SimpleAction action = new SimpleAction ("set-nav-view-active", VariantType.BOOLEAN);
-
-			action.activate.connect ((variant) => {
-				navigation_split_view.set_show_content (variant.get_boolean ());
 			});
 
 			return action;
@@ -130,8 +124,8 @@ namespace ProtonPlus.Widgets {
 			SimpleAction action = new SimpleAction ("set-selected-launcher", VariantType.INT32);
 
 			action.activate.connect ((variant) => {
-				selected_launcher = launchers.nth_data (variant.get_int32 ());
-				info_box.load (selected_launcher, installed_only);
+				runners_box.set_selected_launcher (launchers.nth_data (variant.get_int32 ()));
+				games_box.set_selected_launcher (launchers.nth_data (variant.get_int32 ()));
 			});
 
 			return action;

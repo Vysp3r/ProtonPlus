@@ -1,28 +1,26 @@
 namespace ProtonPlus.Widgets {
-	public class LibraryBox : Gtk.Widget {
+	public class GamesBox : Gtk.Box {
 		public delegate void load_steam_profile_func(Models.SteamProfile profile);
+		public bool active { get; set; }
 
-		Models.Launcher launcher { get; set; }
-		Adw.HeaderBar header_bar { get; set; }
-		Adw.ToolbarView toolbar_view { get; set; }
-		Adw.WindowTitle window_title { get; set; }
-		ShortcutButton shortcut_button { get; set; }
-		MassEditButton mass_edit_button { get; set; }
-		DefaultToolButton default_tool_button { get; set; }
-		SelectButton select_button { get; set; }
-		UnselectButton unselect_button { get; set; }
-		SortByNameButton sort_by_name_button { get; set; }
-		SortByToolButton sort_by_tool_button { get; set; }
-		Gtk.FlowBox flow_box { get; set; }
-		Gtk.ScrolledWindow scrolled_window { get; set; }
-		Gtk.ListBox game_list_box { get; set; }
-		Gtk.Label warning_label { get; set; }
-		Gtk.Box content_box { get; set; }
-		Gtk.Spinner spinner { get; set; }
-		Gtk.Overlay overlay { get; set; }
-		Gtk.BinLayout bin_layout { get; set; }
-		ListStore model { get; set; }
-		Gtk.PropertyExpression expression { get; set; }
+		Models.Launcher launcher;
+		Adw.HeaderBar header_bar;
+		Adw.WindowTitle window_title;
+		ShortcutButton shortcut_button;
+		MassEditButton mass_edit_button;
+		DefaultToolButton default_tool_button;
+		SelectButton select_button;
+		UnselectButton unselect_button;
+		SortByNameButton sort_by_name_button;
+		SortByToolButton sort_by_tool_button;
+		Gtk.FlowBox flow_box;
+		Gtk.ScrolledWindow scrolled_window;
+		Gtk.ListBox game_list_box;
+		Gtk.Label warning_label;
+		Gtk.Spinner spinner;
+		Gtk.Overlay overlay;
+		ListStore model;
+		Gtk.PropertyExpression expression;
 
 		construct {
 			window_title = new Adw.WindowTitle("", "");
@@ -102,25 +100,41 @@ namespace ProtonPlus.Widgets {
 			headered_list_box.append(header_box);
 			headered_list_box.append(scrolled_window);
 
-			content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
-			content_box.set_margin_top(7);
-			content_box.set_margin_bottom(12);
-			content_box.set_margin_start(12);
-			content_box.set_margin_end(12);
-			content_box.append(flow_box);
-			content_box.append(headered_list_box);
-			content_box.append(warning_label);
+			notify["active"].connect(() => {
+				if (!active || !(launcher is Models.Launchers.Steam))
+					return;
 
-			toolbar_view = new Adw.ToolbarView();
-			toolbar_view.add_top_bar(header_bar);
-			toolbar_view.set_content(content_box);
-			toolbar_view.set_parent(this);
+				var steam_launcher = launcher as Models.Launchers.Steam;
 
-			bin_layout = new Gtk.BinLayout();
-			set_layout_manager(bin_layout);
+				if (steam_launcher.profiles.length() == 0) {
+					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf(_("No profile was found."), _("Make sure to connect yourself at least one time otherwise report this issue on GitHub.")));
+					dialog.add_response ("ok", "OK");
+					dialog.present (Application.window);
+					dialog.response.connect((response) => {
+						activate_action_variant ("win.set-library-inactive", 0);
+					});
+				} else if (steam_launcher.profiles.length() > 1) {
+					game_list_box.remove_all();
+
+					var dialog = new ProfileDialog(steam_launcher, load_steam_profile);
+					dialog.present(Application.window);
+				} else {
+					load_steam_profile(steam_launcher.profiles.nth_data(0));
+				}
+			});
+
+			set_orientation(Gtk.Orientation.VERTICAL);
+			set_spacing(12);
+			set_margin_top(7);
+			set_margin_bottom(12);
+			set_margin_start(12);
+			set_margin_end(12);
+			append(flow_box);
+			append(headered_list_box);
+			append(warning_label);
 		}
 
-		public void load(Models.Launcher launcher) {
+		public void set_selected_launcher(Models.Launcher launcher) {
 			this.launcher = launcher;
 
 			window_title.set_title("%s %s".printf(launcher.title, _("Library")));
@@ -136,20 +150,6 @@ namespace ProtonPlus.Widgets {
 				warning_label.set_visible(true);
 
 				default_tool_button.load(steam_launcher);
-
-				if (steam_launcher.profiles.length() == 0) {
-					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf(_("No profile was found."), _("Make sure to connect yourself at least one time otherwise report this issue on GitHub.")));
-					dialog.add_response ("ok", "OK");
-					dialog.present (Application.window);
-					dialog.response.connect((response) => {
-						activate_action_variant ("win.set-library-inactive", 0);
-					});
-				} else if (steam_launcher.profiles.length() > 1) {
-					var dialog = new ProfileDialog(steam_launcher, load_steam_profile);
-					dialog.present(Application.window);
-				} else {
-					load_steam_profile(steam_launcher.profiles.nth_data(0));
-				}
 			} else {
 				load_games();
 			}
