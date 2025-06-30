@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-29 23:26-0400\n"
-"PO-Revision-Date: 2025-06-29 21:47+0000\n"
+"PO-Revision-Date: 2025-06-30 13:10+0000\n"
 "Last-Translator: \"M.M.\" <martin.miscikms@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/cs/>\n"
@@ -282,7 +282,7 @@ msgstr "Ostatní"
 
 #: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
 msgid "An error occured"
-msgstr ""
+msgstr "Vyskytla se chyba"
 
 #: src/widgets/games/games-box.vala:118
 msgid "No profile was found."
@@ -403,7 +403,7 @@ msgstr "Vytvořit zástupce"
 
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Odstranit zkratku"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
