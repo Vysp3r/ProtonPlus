@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-29 23:26-0400\n"
+"POT-Creation-Date: 2025-06-30 16:42-0400\n"
 "PO-Revision-Date: 2025-06-23 23:06+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -133,7 +133,7 @@ msgstr "Sim"
 #: src/widgets/games/shortcut-button.vala:47
 #: src/widgets/games/launch-options-dialog.vala:57
 #: src/widgets/games/default-tool-dialog.vala:60
-#: src/widgets/games/compatibility-tool-dropdown.vala:70
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Error"
 msgstr "Erro"
 
@@ -151,7 +151,7 @@ msgstr "Um erro ocorreu ao tentar remover %s."
 #: src/widgets/games/shortcut-button.vala:47
 #: src/widgets/games/launch-options-dialog.vala:57
 #: src/widgets/games/default-tool-dialog.vala:60
-#: src/widgets/games/compatibility-tool-dropdown.vala:70
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
 msgstr "Por favor reporte este erro no GitHub."
 
@@ -314,8 +314,8 @@ msgstr ""
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/sort-by-tool-button.vala:27
 #: src/widgets/games/sort-by-tool-button.vala:30
-#: src/widgets/games/compatibility-tool-dropdown.vala:27
-#: src/widgets/games/compatibility-tool-dropdown.vala:76
+#: src/widgets/games/compatibility-tool-dropdown.vala:32
+#: src/widgets/games/compatibility-tool-dropdown.vala:81
 #: src/models/games/steam.vala:76 src/models/games/steam.vala:97
 msgid "Undefined"
 msgstr ""
@@ -517,11 +517,11 @@ msgid "When trying to change the default compatibility tool an error occured."
 msgstr ""
 "Ocorreu um erro ao tentar mudar a ferramente de compatibilidade padrão."
 
-#: src/widgets/games/compatibility-tool-row.vala:11
+#: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
 msgstr "Selecione sua ferramenta de compatibilidade desejada"
 
-#: src/widgets/games/compatibility-tool-dropdown.vala:70
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr "Ocorreu um erro ao tentar mudar a ferramente de compatibilidade de %s."

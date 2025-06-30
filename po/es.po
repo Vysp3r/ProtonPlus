@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-29 23:26-0400\n"
+"POT-Creation-Date: 2025-06-30 16:42-0400\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -133,7 +133,7 @@ msgstr "Sí"
 #: src/widgets/games/shortcut-button.vala:47
 #: src/widgets/games/launch-options-dialog.vala:57
 #: src/widgets/games/default-tool-dialog.vala:60
-#: src/widgets/games/compatibility-tool-dropdown.vala:70
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Error"
 msgstr ""
 
@@ -151,7 +151,7 @@ msgstr ""
 #: src/widgets/games/shortcut-button.vala:47
 #: src/widgets/games/launch-options-dialog.vala:57
 #: src/widgets/games/default-tool-dialog.vala:60
-#: src/widgets/games/compatibility-tool-dropdown.vala:70
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
 msgstr ""
 
@@ -319,8 +319,8 @@ msgstr ""
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/sort-by-tool-button.vala:27
 #: src/widgets/games/sort-by-tool-button.vala:30
-#: src/widgets/games/compatibility-tool-dropdown.vala:27
-#: src/widgets/games/compatibility-tool-dropdown.vala:76
+#: src/widgets/games/compatibility-tool-dropdown.vala:32
+#: src/widgets/games/compatibility-tool-dropdown.vala:81
 #: src/models/games/steam.vala:76 src/models/games/steam.vala:97
 msgid "Undefined"
 msgstr ""
@@ -527,12 +527,12 @@ msgid "When trying to change the default compatibility tool an error occured."
 msgstr ""
 "Herramienta de compatibilidad de Steam para ejecutar juegos de Windows."
 
-#: src/widgets/games/compatibility-tool-row.vala:11
+#: src/widgets/games/compatibility-tool-row.vala:18
 #, fuzzy
 msgid "Select your desired compatibility tool"
 msgstr "Herramienta de compatibilidad"
 
-#: src/widgets/games/compatibility-tool-dropdown.vala:70
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""

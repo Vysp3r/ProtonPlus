@@ -95,12 +95,15 @@
     <release version="0.5.7" date="2025-06-29">
       <description>
         <ul>
+          <li>💄 Improved UI/UX</li>
           <li>💄 Refined the game library list header</li>
           <li>💄 Improved dropdown's in game library</li>
           <li>🐛 Removed Proton Kron4ek</li>
-          <li>🐛 Fix crash when opening mass edit dialog a second time</li>
+          <li>🐛 Fix issue related to the new custom dropdown's</li>
           <li>🐛 Fix changing compatibility tool not working in certain cases</li>
           <li>🌐 Update Czech translations</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Updated Chinese localization</li>
         </ul>
       </description>
     </release>
