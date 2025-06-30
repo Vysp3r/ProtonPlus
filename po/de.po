@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-29 21:52-0400\n"
+"POT-Creation-Date: 2025-06-29 23:26-0400\n"
 "PO-Revision-Date: 2025-06-15 08:26+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -30,30 +30,34 @@ msgstr "Webseite"
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
 
-#: src/widgets/window.vala:29
+#: src/widgets/window.vala:32
 #, c-format
 msgid "Welcome to %s"
 msgstr "Willkommen zu %s"
 
-#: src/widgets/window.vala:29
+#: src/widgets/window.vala:32
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Installieren Sie Steam, Lutris, Bottles oder Heroic Games Launcher, um "
 "loszulegen."
 
-#: src/widgets/window.vala:39
+#: src/widgets/window.vala:42
 msgid "Donate"
 msgstr ""
 
-#: src/widgets/window.vala:43
+#: src/widgets/window.vala:45
+msgid "_Installed Only"
+msgstr "_Nur installierte"
+
+#: src/widgets/window.vala:52
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastenkombinationen"
 
-#: src/widgets/window.vala:44
+#: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
 msgstr "_Über ProtonPlus"
 
-#: src/widgets/window.vala:47
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Hauptmenü"
 
@@ -124,7 +128,6 @@ msgstr "Ja"
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:110 src/widgets/games/games-box.vala:191
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -142,7 +145,7 @@ msgstr "Beim Versuch, %s zu entfernen, ist ein Fehler aufgetreten."
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:191
+#: src/widgets/games/games-box.vala:240
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -257,40 +260,56 @@ msgstr "Auf dem neuesten Stand"
 msgid "Update to the latest version"
 msgstr "Auf die letzte Version aktualisieren"
 
-#: src/widgets/games/games-box.vala:50
+#: src/widgets/games/games-box.vala:57
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 "Schließen Sie den Steam-Client vorher, damit die Änderungen übernommen "
 "werden können."
 
-#: src/widgets/games/games-box.vala:80
+#: src/widgets/games/games-box.vala:87
 msgid "Name"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:83
+#: src/widgets/games/games-box.vala:90
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
 msgstr "Kompatibilitätswerkzeug"
 
-#: src/widgets/games/games-box.vala:86
+#: src/widgets/games/games-box.vala:93
 msgid "Other"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:110
+#: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
+msgid "An error occured"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:118
 msgid "No profile was found."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:110
-msgid ""
-"Make sure to connect yourself at least one time otherwise report this issue "
-"on GitHub."
+#: src/widgets/games/games-box.vala:118
+msgid "Make sure to connect yourself at least once on Steam."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:140
-msgid "Library"
-msgstr "Bibliothek"
+#: src/widgets/games/games-box.vala:118
+msgid "If you think this is an issue, make sure to report this on GitHub."
+msgstr ""
 
-#: src/widgets/games/games-box.vala:168
+#: src/widgets/games/games-box.vala:170
+msgid "Unsuported launcher"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:170
+#, fuzzy
+msgid "is currently not supported."
+msgstr "%s wird nicht unterstützt"
+
+#: src/widgets/games/games-box.vala:170
+msgid ""
+"If you want me to speed up the development make sure to show your support!"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:218
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/sort-by-tool-button.vala:27
 #: src/widgets/games/sort-by-tool-button.vala:30
@@ -300,7 +319,7 @@ msgstr "Bibliothek"
 msgid "Undefined"
 msgstr "Nicht definiert"
 
-#: src/widgets/games/games-box.vala:191
+#: src/widgets/games/games-box.vala:240
 msgid "The library failed loading."
 msgstr ""
 
@@ -643,6 +662,9 @@ msgstr ""
 "Kompatibilitätswerkzeuge für sowohl Windows-Spiele als auch native Linux-"
 "Spiele."
 
+#~ msgid "Library"
+#~ msgstr "Bibliothek"
+
 #~ msgid "Show sidebar"
 #~ msgstr "Seitenleiste anzeigen"
 
@@ -651,9 +673,6 @@ msgstr ""
 
 #~ msgid "Show game library"
 #~ msgstr "Spielebibliothek anzeigen"
-
-#~ msgid "_Installed Only"
-#~ msgstr "_Nur installierte"
 
 #~ msgid "Wine build modified by Valve and other contributors."
 #~ msgstr "Wine-Build, modifiziert von Valve und anderen Mitwirkenden."
@@ -727,10 +746,6 @@ msgstr ""
 #, c-format
 #~ msgid "Existing installation of %s"
 #~ msgstr "Existierende Installation von %s"
-
-#, c-format
-#~ msgid "%s is not supported"
-#~ msgstr "%s wird nicht unterstützt"
 
 #~ msgid "Removing"
 #~ msgstr "Entferne"

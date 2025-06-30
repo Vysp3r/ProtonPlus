@@ -23,6 +23,7 @@ namespace ProtonPlus.Widgets {
 			list_box.add_css_class ("navigation-sidebar");
 			list_box.set_hexpand (true);
 			list_box.set_vexpand (true);
+            list_box.add_css_class ("launchers-popover-list");
 			list_box.row_activated.connect (list_box_row_activated);
 
             popover = new Gtk.Popover ();
@@ -51,6 +52,8 @@ namespace ProtonPlus.Widgets {
             button_label.set_label (selected_launcher.title);
 
             activate_action_variant ("win.set-selected-launcher", row.get_index ());
+
+            popover.popdown ();
         }
 
         public void initialize (List<Models.Launcher> launchers) {

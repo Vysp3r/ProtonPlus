@@ -46,7 +46,7 @@ namespace ProtonPlus.Widgets {
             this.installed_only = installed_only;
 
             foreach (var runner_group in runner_groups) {
-				runner_group.load (!installed_only);
+				runner_group.load (installed_only);
 			}
         }
     }

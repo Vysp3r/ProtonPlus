@@ -8,6 +8,9 @@ namespace ProtonPlus.Widgets {
 
 		LaunchersPopoverButton launchers_popover_button;
 		Gtk.Button donate_button;
+		MenuItem installed_only_menu_item;
+		Menu filters_section;
+		Menu other_section;
 		Menu menu;
 		Gtk.MenuButton menu_button;
 
@@ -38,10 +41,20 @@ namespace ProtonPlus.Widgets {
 			donate_button.add_css_class ("red");
 			donate_button.set_tooltip_text (_("Donate"));
 			donate_button.clicked.connect (donate_button_clicked);
+			
+			installed_only_menu_item = new MenuItem (_("_Installed Only"), null);
+			installed_only_menu_item.set_action_and_target ("win.set-installed-only", "b");
+
+			filters_section = new Menu ();
+			filters_section.append_item (installed_only_menu_item);
+
+			other_section = new Menu ();
+			other_section.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
+			other_section.append (_("_About ProtonPlus"), "app.about");
 
 			menu = new Menu ();
-			menu.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
-			menu.append (_("_About ProtonPlus"), "app.about");
+			menu.append_section (null, filters_section);
+			menu.append_section (null, other_section);
 
 			menu_button = new Gtk.MenuButton ();
 			menu_button.set_tooltip_text (_("Main Menu"));

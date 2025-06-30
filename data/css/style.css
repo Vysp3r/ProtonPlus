@@ -47,3 +47,7 @@
 .transparent-bg {
   background-color: transparent;
 }
+
+.launchers-popover-list > row:not(:last-child) {
+  margin-bottom: 10px;
+}

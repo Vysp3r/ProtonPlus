@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-29 21:52-0400\n"
+"POT-Creation-Date: 2025-06-29 23:26-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -27,28 +27,32 @@ msgstr ""
 msgid "Special thanks to"
 msgstr ""
 
-#: src/widgets/window.vala:29
+#: src/widgets/window.vala:32
 #, c-format
 msgid "Welcome to %s"
 msgstr ""
 
-#: src/widgets/window.vala:29
+#: src/widgets/window.vala:32
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 
-#: src/widgets/window.vala:39
+#: src/widgets/window.vala:42
 msgid "Donate"
 msgstr ""
 
-#: src/widgets/window.vala:43
+#: src/widgets/window.vala:45
+msgid "_Installed Only"
+msgstr ""
+
+#: src/widgets/window.vala:52
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widgets/window.vala:44
+#: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/window.vala:47
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr ""
 
@@ -119,7 +123,6 @@ msgstr ""
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:110 src/widgets/games/games-box.vala:191
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -137,7 +140,7 @@ msgstr ""
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:191
+#: src/widgets/games/games-box.vala:240
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -247,38 +250,53 @@ msgstr ""
 msgid "Update to the latest version"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:50
+#: src/widgets/games/games-box.vala:57
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:80
+#: src/widgets/games/games-box.vala:87
 msgid "Name"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:83
+#: src/widgets/games/games-box.vala:90
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:86
+#: src/widgets/games/games-box.vala:93
 msgid "Other"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:110
+#: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
+msgid "An error occured"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:118
 msgid "No profile was found."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:110
+#: src/widgets/games/games-box.vala:118
+msgid "Make sure to connect yourself at least once on Steam."
+msgstr ""
+
+#: src/widgets/games/games-box.vala:118
+msgid "If you think this is an issue, make sure to report this on GitHub."
+msgstr ""
+
+#: src/widgets/games/games-box.vala:170
+msgid "Unsuported launcher"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:170
+msgid "is currently not supported."
+msgstr ""
+
+#: src/widgets/games/games-box.vala:170
 msgid ""
-"Make sure to connect yourself at least one time otherwise report this issue "
-"on GitHub."
+"If you want me to speed up the development make sure to show your support!"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:140
-msgid "Library"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:168
+#: src/widgets/games/games-box.vala:218
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/sort-by-tool-button.vala:27
 #: src/widgets/games/sort-by-tool-button.vala:30
@@ -288,7 +306,7 @@ msgstr ""
 msgid "Undefined"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:191
+#: src/widgets/games/games-box.vala:240
 msgid "The library failed loading."
 msgstr ""
 

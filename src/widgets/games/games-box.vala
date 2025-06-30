@@ -3,9 +3,11 @@ namespace ProtonPlus.Widgets {
 		public delegate void load_steam_profile_func(Models.SteamProfile profile);
 		public bool active { get; set; }
 		bool error { get; set; }
+		bool invalid { get; set; }
 		Models.Launcher launcher;
 
 		Adw.StatusPage status_page;
+		Gtk.Image status_page_image;
 		ShortcutButton shortcut_button;
 		MassEditButton mass_edit_button;
 		DefaultToolButton default_tool_button;
@@ -29,6 +31,9 @@ namespace ProtonPlus.Widgets {
 
 		construct {
 			status_page = new Adw.StatusPage ();
+			status_page.set_visible(false);
+
+			status_page_image = new Gtk.Image();
 
 			game_list_box = new Gtk.ListBox();
 			game_list_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE);
@@ -109,7 +114,8 @@ namespace ProtonPlus.Widgets {
 				var steam_launcher = launcher as Models.Launchers.Steam;
 
 				if (steam_launcher.profiles.length() == 0) {
-					show_status_box("%s\n%s\n%s".printf(_("No profile was found."), _("Make sure to connect yourself at least once on Steam."), _("If you think this is an issue, make sure to report this on GitHub.")));
+					error = true;
+					show_status_box("bug-symbolic", _("An error occured"), "%s\n%s\n%s".printf(_("No profile was found."), _("Make sure to connect yourself at least once on Steam."), _("If you think this is an issue, make sure to report this on GitHub.")));
 				} else if (steam_launcher.profiles.length() > 1) {
 					game_list_box.remove_all();
 
@@ -127,7 +133,10 @@ namespace ProtonPlus.Widgets {
 			set_margin_start(12);
 			set_margin_end(12);
 
-			show_normal();
+			append(flow_box);
+			append(headered_list_box);
+			append(warning_label);
+			append(status_page);
 		}
 
 		public void set_selected_launcher(Models.Launcher launcher) {
@@ -135,52 +144,65 @@ namespace ProtonPlus.Widgets {
 
 			game_list_box.remove_all();
 
-			if (launcher is Models.Launchers.Steam) {
-				var steam_launcher = (Models.Launchers.Steam) launcher;
+			if (launcher.has_library_support) {
+				if (invalid) {
+					show_normal();
 
-				shortcut_button.reset();
-				shortcut_button.set_visible(true);
+					invalid = false;
+				}
 
-				warning_label.set_visible(true);
+				if (launcher is Models.Launchers.Steam) {
+					var steam_launcher = (Models.Launchers.Steam) launcher;
 
-				default_tool_button.load(steam_launcher);
+					shortcut_button.reset();
+					shortcut_button.set_visible(true);
+
+					warning_label.set_visible(true);
+
+					default_tool_button.load(steam_launcher);
+
+					notify_property("active"); // Ensure that when the launcher is changed, but you're in the Games tab the profile dialog still shows up
+				} else {
+					load_games();
+				}
 			} else {
-				load_games();
+				invalid = true;
+				show_status_box (launcher.icon_path, _("Unsuported launcher"), "%s %s\n%s".printf(launcher.title, _("is currently not supported."), _("If you want me to speed up the development make sure to show your support!")), true);
 			}
 		}
 
 		void show_normal () {
 			error = false;
 
-			if (flow_box.get_parent() == null)
-				append(flow_box);
-			if (headered_list_box.get_parent() == null)
-				append(headered_list_box);
-			if (warning_label.get_parent() == null)
-				append(warning_label);
+			flow_box.set_visible(true);
+			headered_list_box.set_visible(true);
 
-			if (status_page.get_parent() != null)
-				remove(status_page);	
+			status_page.set_visible (false);
 		}
 
-		void show_status_box (string description) {
-			error = true;
-
-			if (flow_box.get_parent() != null)
-				remove(flow_box);
-			if (headered_list_box.get_parent() != null)
-				remove(headered_list_box);
-			if (warning_label.get_parent() != null)
-				remove(warning_label);
+		void show_status_box (string icon, string title, string description, bool image = false) {
+			flow_box.set_visible(false);
+			headered_list_box.set_visible(false);
+			warning_label.set_visible(false);
 
 			status_page.set_vexpand (true);
 			status_page.set_hexpand (true);
-			status_page.set_icon_name ("bug-symbolic");
-			status_page.set_title (_("An error occured"));
+			status_page.set_title (title);
 			status_page.set_description (description);
 
-			if (status_page.get_parent() == null)
-				append(status_page);		
+			if (image) {
+				status_page.set_icon_name (null);
+
+				status_page_image.set_from_resource(icon);
+
+				status_page.set_paintable(status_page_image.get_paintable());
+			} else {
+				status_page.set_paintable (null);
+
+				status_page.set_icon_name (icon);
+			}
+
+			status_page.set_visible (true);
 		}
 
 		void load_games() {
@@ -214,7 +236,8 @@ namespace ProtonPlus.Widgets {
 					
 					sort_by_name_button.clicked();
 				} else {
-					show_status_box("%s\n%s".printf(_("The library failed loading."), _("Please report this issue on GitHub.")));
+					error = true;
+					show_status_box("bug-symbolic", _("An error occured"), "%s\n%s".printf(_("The library failed loading."), _("Please report this issue on GitHub.")));
 				}
 
 				overlay.remove_overlay(spinner);
