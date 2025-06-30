@@ -1,15 +1,20 @@
 namespace ProtonPlus.Widgets {
 	public class CompatibilityToolDropDown : Gtk.Widget {
-        Gtk.SignalListItemFactory factory { get; set; }
-		Gtk.SignalListItemFactory list_factory { get; set; }
-        Gtk.ListItem last_compatibility_tool_list_item { get; set; }
-		public Gtk.DropDown dropdown { get; set; }
-		Gtk.BinLayout bin_layout { get; set; }
-		Models.Game game { get; set; }
-		public bool skip { get; set; }
+        Gtk.SignalListItemFactory factory;
+		Gtk.SignalListItemFactory list_factory;
+        Gtk.ListItem last_compatibility_tool_list_item;
+		public Gtk.DropDown dropdown;
+		Gtk.BinLayout bin_layout;
+		Models.Game game;
+		public bool skip;
+		HashTable<Models.SimpleRunner, Gtk.ListItem> hast_table;
 
         public CompatibilityToolDropDown (Models.Game game, ListStore model, Gtk.PropertyExpression expression) {
 			this.game = game;
+
+			hast_table = new HashTable<Models.SimpleRunner, Gtk.ListItem> (null, (a, b) => {
+				return a.internal_title == b.internal_title;
+			});
 
 			list_factory = new Gtk.SignalListItemFactory ();
            	list_factory.setup.connect (list_factory_setup);
@@ -47,7 +52,7 @@ namespace ProtonPlus.Widgets {
 
 		void selected_item_changed () {
 			var simple_runner = dropdown.get_selected_item () as Models.SimpleRunner;
-			var list_item = simple_runner.get_data<Gtk.ListItem> ("list-item");
+			var list_item = hast_table.get (simple_runner);
 
 			if (list_item == null)
 				return;
@@ -90,7 +95,7 @@ namespace ProtonPlus.Widgets {
             var list_item = object as Gtk.ListItem;
 			var simple_runner = list_item.get_item() as Models.SimpleRunner;
 
-			simple_runner.set_data("list-item", list_item);
+			hast_table.set (simple_runner, list_item);
 
             object.get_data<Gtk.Label> ("title").set_label (simple_runner.display_title);
 
