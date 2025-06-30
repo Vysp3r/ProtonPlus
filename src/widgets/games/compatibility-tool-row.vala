@@ -1,23 +1,29 @@
 namespace ProtonPlus.Widgets {
 	public class CompatibilityToolRow : Adw.ComboRow {
-        Gtk.SignalListItemFactory compatibility_tool_factory { get; set; }
-        Gtk.ListItem last_compatibility_tool_list_item { get; set; }
+        Gtk.SignalListItemFactory compatibility_tool_factory;
+        Gtk.ListItem last_compatibility_tool_list_item;
+		HashTable<Models.SimpleRunner, Gtk.ListItem> hast_table;
 
         public CompatibilityToolRow (ListStore model, Gtk.PropertyExpression expression) {
+			hast_table = new HashTable<Models.SimpleRunner, Gtk.ListItem> (null, (a, b) => {
+				return a.internal_title == b.internal_title;
+			});
+
             compatibility_tool_factory = new Gtk.SignalListItemFactory ();
             compatibility_tool_factory.setup.connect (compatibility_tool_factory_setup);
             compatibility_tool_factory.bind.connect (compatibility_tool_factory_bind);
+
+			notify["selected-item"].connect(compatibility_tool_row_selected_item_changed);
 
             set_title(_("Select your desired compatibility tool"));
 			set_model(model);
 			set_expression (expression);
 			set_list_factory(compatibility_tool_factory);
-			notify["selected-item"].connect(compatibility_tool_row_selected_item_changed);
         }
 
 		void compatibility_tool_row_selected_item_changed () {
 			var simple_runner = get_selected_item () as Models.SimpleRunner;
-			var list_item = simple_runner.get_data<Gtk.ListItem> ("item");
+			var list_item = hast_table.get (simple_runner);
 
 			if (list_item == null)
 				return;
@@ -35,7 +41,7 @@ namespace ProtonPlus.Widgets {
             var list_item = object as Gtk.ListItem;
 			var simple_runner = list_item.get_item() as Models.SimpleRunner;
 
-			simple_runner.set_data("item", list_item);
+			hast_table.set (simple_runner, list_item);
 
             object.get_data<Gtk.Label> ("title").set_label (simple_runner.display_title);
 
