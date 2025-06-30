@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-06-29 23:26-0400\n"
-"PO-Revision-Date: 2025-06-15 08:26+0200\n"
+"PO-Revision-Date: 2025-06-30 22:17+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -43,7 +43,7 @@ msgstr ""
 
 #: src/widgets/window.vala:42
 msgid "Donate"
-msgstr ""
+msgstr "Spenden"
 
 #: src/widgets/window.vala:45
 msgid "_Installed Only"
@@ -268,7 +268,7 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:87
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: src/widgets/games/games-box.vala:90
 #: src/widgets/games/mass-edit-dialog.vala:38
@@ -277,37 +277,39 @@ msgstr "Kompatibilitätswerkzeug"
 
 #: src/widgets/games/games-box.vala:93
 msgid "Other"
-msgstr ""
+msgstr "Andere"
 
 #: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
 msgid "An error occured"
-msgstr ""
+msgstr "Ein Fehler ist aufgetreten"
 
 #: src/widgets/games/games-box.vala:118
 msgid "No profile was found."
-msgstr ""
+msgstr "Es wurde kein Profil gefunden."
 
 #: src/widgets/games/games-box.vala:118
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr ""
+"Stellen Sie sicher, dass Sie sich mindestens einmal auf Steam verbinden."
 
 #: src/widgets/games/games-box.vala:118
 msgid "If you think this is an issue, make sure to report this on GitHub."
-msgstr ""
+msgstr "Wenn Sie glauben, dass dies ein Problem ist, melden Sie es auf GitHub."
 
 #: src/widgets/games/games-box.vala:170
 msgid "Unsuported launcher"
-msgstr ""
+msgstr "Nicht unterstützer Starter"
 
 #: src/widgets/games/games-box.vala:170
-#, fuzzy
 msgid "is currently not supported."
-msgstr "%s wird nicht unterstützt"
+msgstr "wird aktuell nicht unterstützt."
 
 #: src/widgets/games/games-box.vala:170
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
+"Wenn Sie möchten, dass ich die Entwicklung beschleunige, zeigen Sie Ihre "
+"Unterstützung!"
 
 #: src/widgets/games/games-box.vala:218
 #: src/widgets/games/mass-edit-dialog.vala:109
@@ -321,7 +323,7 @@ msgstr "Nicht definiert"
 
 #: src/widgets/games/games-box.vala:240
 msgid "The library failed loading."
-msgstr ""
+msgstr "Die Bibliothek konnte nicht geladen werden."
 
 #: src/widgets/games/game-row.vala:44
 msgid "Modify the game launch options"
