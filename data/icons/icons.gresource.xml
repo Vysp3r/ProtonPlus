@@ -21,6 +21,6 @@
         <file alias="scalable/actions/file-settings-symbolic.svg">file-settings.svg</file>
         <file alias="scalable/actions/carambola-symbolic.svg">carambola.svg</file>
         <file alias="scalable/actions/heart-symbolic.svg">heart.svg</file>
+        <file alias="scalable/actions/bug-symbolic.svg">bug.svg</file>
     </gresource>
 </gresources>
-

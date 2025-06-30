@@ -2,10 +2,10 @@ namespace ProtonPlus.Widgets {
 	public class GamesBox : Gtk.Box {
 		public delegate void load_steam_profile_func(Models.SteamProfile profile);
 		public bool active { get; set; }
-
+		bool error { get; set; }
 		Models.Launcher launcher;
-		Adw.HeaderBar header_bar;
-		Adw.WindowTitle window_title;
+
+		Adw.StatusPage status_page;
 		ShortcutButton shortcut_button;
 		MassEditButton mass_edit_button;
 		DefaultToolButton default_tool_button;
@@ -14,6 +14,11 @@ namespace ProtonPlus.Widgets {
 		SortByNameButton sort_by_name_button;
 		SortByToolButton sort_by_tool_button;
 		Gtk.FlowBox flow_box;
+		Gtk.Label name_label;
+		Gtk.Label compatibility_tool_label;
+		Gtk.Label other_label;
+		Gtk.Box header_box;
+		Gtk.Box headered_list_box;
 		Gtk.ScrolledWindow scrolled_window;
 		Gtk.ListBox game_list_box;
 		Gtk.Label warning_label;
@@ -23,10 +28,7 @@ namespace ProtonPlus.Widgets {
 		Gtk.PropertyExpression expression;
 
 		construct {
-			window_title = new Adw.WindowTitle("", "");
-
-			header_bar = new Adw.HeaderBar();
-			header_bar.set_title_widget(window_title);
+			status_page = new Adw.StatusPage ();
 
 			game_list_box = new Gtk.ListBox();
 			game_list_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE);
@@ -77,16 +79,16 @@ namespace ProtonPlus.Widgets {
 			flow_box.append(default_tool_button);
 			flow_box.set_selection_mode(Gtk.SelectionMode.NONE);
 
-			var name_label = new Gtk.Label(_("Name"));
+			name_label = new Gtk.Label(_("Name"));
 			name_label.set_hexpand(true);
 
-			var compatibility_tool_label = new Gtk.Label(_("Compatibility tool"));
+			compatibility_tool_label = new Gtk.Label(_("Compatibility tool"));
 			compatibility_tool_label.set_size_request(350, 0);
 
-			var other_label = new Gtk.Label(_("Other"));
+			other_label = new Gtk.Label(_("Other"));
 			other_label.set_size_request(175, 0);
 
-			var header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+			header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 			header_box.set_hexpand(true);
 			header_box.add_css_class("card");
 			header_box.add_css_class("list-header");
@@ -94,25 +96,20 @@ namespace ProtonPlus.Widgets {
 			header_box.append(compatibility_tool_label);
 			header_box.append(other_label);
 
-			var headered_list_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+			headered_list_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
 			headered_list_box.add_css_class("card");
 			headered_list_box.add_css_class("transparent-bg");
 			headered_list_box.append(header_box);
 			headered_list_box.append(scrolled_window);
 
 			notify["active"].connect(() => {
-				if (!active || !(launcher is Models.Launchers.Steam))
+				if (!active || error || !(launcher is Models.Launchers.Steam))
 					return;
 
 				var steam_launcher = launcher as Models.Launchers.Steam;
 
 				if (steam_launcher.profiles.length() == 0) {
-					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf(_("No profile was found."), _("Make sure to connect yourself at least one time otherwise report this issue on GitHub.")));
-					dialog.add_response ("ok", "OK");
-					dialog.present (Application.window);
-					dialog.response.connect((response) => {
-						activate_action_variant ("win.set-library-inactive", 0);
-					});
+					show_status_box("%s\n%s\n%s".printf(_("No profile was found."), _("Make sure to connect yourself at least once on Steam."), _("If you think this is an issue, make sure to report this on GitHub.")));
 				} else if (steam_launcher.profiles.length() > 1) {
 					game_list_box.remove_all();
 
@@ -129,15 +126,12 @@ namespace ProtonPlus.Widgets {
 			set_margin_bottom(12);
 			set_margin_start(12);
 			set_margin_end(12);
-			append(flow_box);
-			append(headered_list_box);
-			append(warning_label);
+
+			show_normal();
 		}
 
 		public void set_selected_launcher(Models.Launcher launcher) {
 			this.launcher = launcher;
-
-			window_title.set_title("%s %s".printf(launcher.title, _("Library")));
 
 			game_list_box.remove_all();
 
@@ -153,6 +147,40 @@ namespace ProtonPlus.Widgets {
 			} else {
 				load_games();
 			}
+		}
+
+		void show_normal () {
+			error = false;
+
+			if (flow_box.get_parent() == null)
+				append(flow_box);
+			if (headered_list_box.get_parent() == null)
+				append(headered_list_box);
+			if (warning_label.get_parent() == null)
+				append(warning_label);
+
+			if (status_page.get_parent() != null)
+				remove(status_page);	
+		}
+
+		void show_status_box (string description) {
+			error = true;
+
+			if (flow_box.get_parent() != null)
+				remove(flow_box);
+			if (headered_list_box.get_parent() != null)
+				remove(headered_list_box);
+			if (warning_label.get_parent() != null)
+				remove(warning_label);
+
+			status_page.set_vexpand (true);
+			status_page.set_hexpand (true);
+			status_page.set_icon_name ("bug-symbolic");
+			status_page.set_title (_("An error occured"));
+			status_page.set_description (description);
+
+			if (status_page.get_parent() == null)
+				append(status_page);		
 		}
 
 		void load_games() {
@@ -185,15 +213,8 @@ namespace ProtonPlus.Widgets {
 					}
 					
 					sort_by_name_button.clicked();
-
-					window_title.set_subtitle("%u installed games".printf(launcher.games.length()));
 				} else {
-					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf(_("The library failed loading."), _("Please report this issue on GitHub.")));
-					dialog.add_response ("ok", "OK");
-					dialog.present (Application.window);
-					dialog.response.connect((response) => {
-						activate_action_variant ("win.set-library-inactive", 0);
-					});
+					show_status_box("%s\n%s".printf(_("The library failed loading."), _("Please report this issue on GitHub.")));
 				}
 
 				overlay.remove_overlay(spinner);
