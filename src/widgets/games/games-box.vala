@@ -167,11 +167,11 @@ namespace ProtonPlus.Widgets {
 				}
 			} else {
 				invalid = true;
-				show_status_box (launcher.icon_path, _("Unsuported launcher"), "%s %s\n%s".printf(launcher.title, _("is currently not supported."), _("If you want me to speed up the development make sure to show your support!")), true);
+				show_status_box(launcher.icon_path, _("Unsuported launcher"), "%s\n%s".printf(_("%s is currently not supported.").printf(launcher.title), _("If you want me to speed up the development make sure to show your support!")), true);
 			}
 		}
 
-		void show_normal () {
+		void show_normal() {
 			error = false;
 
 			flow_box.set_visible(true);
@@ -180,7 +180,7 @@ namespace ProtonPlus.Widgets {
 			status_page.set_visible (false);
 		}
 
-		void show_status_box (string icon, string title, string description, bool image = false) {
+		void show_status_box(string icon, string title, string description, bool image = false) {
 			flow_box.set_visible(false);
 			headered_list_box.set_visible(false);
 			warning_label.set_visible(false);

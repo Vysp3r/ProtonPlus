@@ -84,3 +84,4 @@ src/utils/parser.vala
 src/utils/web.vala
 src/utils/system.vala
 src/main.vala
+data/ui/gtk/help-overlay.ui
