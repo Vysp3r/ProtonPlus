@@ -37,6 +37,7 @@ msgstr "Witamy w %s"
 #: src/widgets/window.vala:32
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
+"Aby rozpocząć, zainstaluj Steam, Lutris, Bottles lub Heroic Games Launcher."
 
 #: src/widgets/window.vala:42
 msgid "Donate"
@@ -56,7 +57,7 @@ msgstr "_O ProtonPlus"
 
 #: src/widgets/window.vala:60
 msgid "Main Menu"
-msgstr ""
+msgstr "Menu główne"
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -102,11 +103,11 @@ msgstr "Jesteś pewien, że tego chcesz?"
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
-msgstr ""
+msgstr "Używany przez %i gier."
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr ""
+msgstr "Używany przez 1 grę."
 
 #: src/widgets/runners/remove-dialog.vala:26
 msgid "Are you sure you want to proceed?"
@@ -137,7 +138,7 @@ msgstr "Błąd"
 #: src/widgets/runners/remove-dialog.vala:49
 #, c-format
 msgid "When trying to remove %s an error occured."
-msgstr ""
+msgstr "Podczas próby usunięcia %s wystąpił błąd."
 
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
@@ -160,7 +161,7 @@ msgstr "Anuluj"
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occured."
-msgstr ""
+msgstr "Podczas próby zainstalowania %s wystąpił błąd."
 
 #: src/widgets/runners/install-dialog.vala:76
 #: src/widgets/runners/upgrade-dialog.vala:78
@@ -188,12 +189,12 @@ msgstr "Aktualizuj %s"
 #: src/widgets/runners/upgrade-dialog.vala:56
 #, c-format
 msgid "When trying to upgrade %s an error occured."
-msgstr ""
+msgstr "Podczas próby aktualizacji %s wystąpił błąd."
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
 msgid "Check this to also remove your configuration files."
-msgstr ""
+msgstr "Zaznacz tę opcję, aby usunąć również pliki konfiguracyjne."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
@@ -202,7 +203,7 @@ msgstr ""
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
-msgstr ""
+msgstr "Ostrzeżenie"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -224,10 +225,12 @@ msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
+"Wygląda na to, że masz obecnie inną wersję %s, która nie została "
+"zainstalowana przez ProtonPlus."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr ""
+msgstr "Czy chcesz ponownie zainstalować to za pomocą ProtonPlus?"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
@@ -242,11 +245,11 @@ msgstr "Aby zainstalować %s dla %s, uruchom następujące polecenie:"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
-msgstr ""
+msgstr "Obecnie nie jest znany nam sposób na zainstalowanie %s dla %s."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
 msgid "Up-to-date"
-msgstr ""
+msgstr "Aktualne"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
 msgid "Update to the latest version"
@@ -254,7 +257,7 @@ msgstr "Zaktualizuj do najnowszej wersji"
 
 #: src/widgets/games/games-box.vala:57
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr ""
+msgstr "Zamknij wcześniej Steam, aby zmiany mogły zostać zastosowane."
 
 #: src/widgets/games/games-box.vala:87
 msgid "Name"
@@ -278,12 +281,13 @@ msgid "No profile was found."
 msgstr "Nie znaleziono żadnego profilu."
 
 #: src/widgets/games/games-box.vala:118
+#, fuzzy
 msgid "Make sure to connect yourself at least once on Steam."
-msgstr ""
+msgstr "Upewnij się, że połączyłeś się przynajmniej raz na Steam."
 
 #: src/widgets/games/games-box.vala:118
 msgid "If you think this is an issue, make sure to report this on GitHub."
-msgstr ""
+msgstr "Jeśli uważasz, że jest to problem, zgłoś go na GitHubie."
 
 #: src/widgets/games/games-box.vala:170
 msgid "Unsuported launcher"
@@ -294,9 +298,12 @@ msgid "is currently not supported."
 msgstr ""
 
 #: src/widgets/games/games-box.vala:170
+#, fuzzy
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
+"Jeśli chcesz, abym przyspieszył rozwój, upewnij się, że okażesz swoje "
+"wsparcie!"
 
 #: src/widgets/games/games-box.vala:218
 #: src/widgets/games/mass-edit-dialog.vala:109
@@ -367,8 +374,9 @@ msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
+#, fuzzy
 msgid "Enter your desired launch options"
-msgstr ""
+msgstr "Wprowadź żądane opcje uruchamiania"
 
 #: src/widgets/games/mass-edit-dialog.vala:51
 msgid "Launch options"
@@ -404,11 +412,11 @@ msgstr "Usuń skrót do ProtonPlus w Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
 msgid "When trying to remove the shortcut in Steam an error occured."
-msgstr ""
+msgstr "Podczas próby usunięcia skrótu w Steam wystąpił błąd."
 
 #: src/widgets/games/shortcut-button.vala:47
 msgid "When trying to create the shortcut in Steam an error occured."
-msgstr ""
+msgstr "Podczas próby utworzenia skrótu w Steam wystąpił błąd."
 
 #: src/widgets/games/sort-by-name-button.vala:8
 msgid "Sort by name"
@@ -466,7 +474,7 @@ msgstr "Zastosuj bieżącą zmianę"
 #: src/widgets/games/launch-options-dialog.vala:57
 #, c-format
 msgid "When trying to change the launch options of %s an error occured."
-msgstr ""
+msgstr "Podczas próby zmiany opcji uruchamiania %s wystąpił błąd."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
@@ -515,11 +523,11 @@ msgstr "Uruchamiacze"
 #: src/models/launchers/lutris.vala:36
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr ""
-"Narzędzie kompatybilności do uruchamiania oprogramowania Windows na Linuxie"
+"Narzędzia kompatybilności do uruchamiania oprogramowania Windows na Linuxie"
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/lutris.vala:39
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr ""
+msgstr "Oparta na Vulkan implementacja Direct3D 8, 9, 10 i 11 dla Linux/Wine."
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
 msgid "Compatibility tools by Valve for running Windows software on Linux."
@@ -528,10 +536,13 @@ msgstr ""
 "w systemie Linux."
 
 #: src/models/launchers/lutris.vala:42
+#, fuzzy
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
+"Wariant Wine VKD3D, który ma na celu implementację pełnego API Direct3D 12 "
+"na Vulkan."
 
 #: src/models/runners/boxtron.vala:6
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
@@ -542,24 +553,28 @@ msgstr ""
 #: src/models/runners/dxvk-sarek.vala:6
 #: src/models/runners/dxvk-async-sarek.vala:6
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
-msgstr ""
+msgstr "Kompilacje DXVK działające z wersjami Vulkan wcześniejszymi niż 1.3"
 
 #: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
+"Kompilacja Wine z zestawem łatek Staging i wieloma innymi przydatnymi "
+"łatkami."
 
 #: src/models/runners/kron4ek-wine-builds-staging.vala:7
 msgid "Wine build with the Staging patchset."
-msgstr ""
+msgstr "Kompilacja Wine z zestawem łatek Staging."
 
 #: src/models/runners/kron4ek-wine-builds-vanilla.vala:7
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr ""
+msgstr "Kompilacja Wine z oficjalnych źródeł WineHQ."
 
 #: src/models/runners/luxtorpeda.vala:6
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
+"Luxtorpeda zapewnia natywne dla Linuksa silniki gier dla niektórych gier "
+"przeznaczonych tylko dla systemu Windows."
 
 #: src/models/runners/northstar-proton.vala:6
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
@@ -584,11 +599,10 @@ msgstr ""
 "w stosunku do domyślnego Proton od Valve."
 
 #: src/models/runners/proton-tkg.vala:6
-#, fuzzy
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
-"Niestandardowa wersja Protona do uruchamiania klienta Northstar dla "
-"Titanfall 2."
+"Niestandardowa kompilacja Proton do uruchamiania gier Windows, oparta na "
+"Wine-tkg."
 
 #: src/models/runners/roberta.vala:6
 msgid ""
