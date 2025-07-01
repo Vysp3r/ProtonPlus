@@ -435,7 +435,7 @@ msgstr ""
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
-msgstr "Zaznacz wszystkie"
+msgstr "Wybierz wszystkie"
 
 #: src/widgets/games/select-button.vala:11
 msgid "Select all the games"
