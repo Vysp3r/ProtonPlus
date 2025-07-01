@@ -17,7 +17,7 @@ namespace ProtonPlus.Widgets {
 		public MassEditDialog(GameRow[] rows, ListStore model, Gtk.PropertyExpression expression) {
 			this.rows = rows;
 
-			window_title = new Adw.WindowTitle(_("Mass edit"), "%u %s".printf(rows.length, rows.length == 1 ? _("game selected") : _("games selected")));
+			window_title = new Adw.WindowTitle(_("Mass edit"), rows.length == 1 ? _("1 game selected") : _("%u games selected").printf(rows.length));
 
 			apply_button = new Gtk.Button.with_label(_("Apply"));
 			apply_button.set_tooltip_text(_("Apply the current modifications"));
@@ -144,7 +144,7 @@ namespace ProtonPlus.Widgets {
 						names += "\n";
 				}
 
-				var dialog = new Adw.AlertDialog(_("Error"), "%s:\n\n%s\n\n%s".printf(_("When trying to change the compatibility tool/launch options of the selected games an error occured for the following games"), names, _("Please report this issue on GitHub.")));
+				var dialog = new Adw.AlertDialog(_("Error"), "%s\n\n%s\n\n%s".printf(_("When trying to change the compatibility tool/launch options of the selected games an error occured for the following games:"), names, _("Please report this issue on GitHub.")));
 				dialog.add_response("ok", "OK");
 				dialog.present(Application.window);
 			}
