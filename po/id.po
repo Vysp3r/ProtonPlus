@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-30 16:42-0400\n"
+"POT-Creation-Date: 2025-07-01 13:02-0400\n"
 "PO-Revision-Date: 2025-06-17 08:02+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -57,6 +57,15 @@ msgstr "_Tentang ProtonPlus"
 #: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Menu Utama"
+
+#: src/widgets/window.vala:65 src/models/launchers/bottles.vala:29
+#: src/models/launchers/steam.vala:42
+msgid "Runners"
+msgstr "Runner"
+
+#: src/widgets/window.vala:66
+msgid "Games"
+msgstr "Permainan"
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -297,8 +306,8 @@ msgid "Unsuported launcher"
 msgstr "Membersihkan peluncur"
 
 #: src/widgets/games/games-box.vala:170
-#, fuzzy
-msgid "is currently not supported."
+#, fuzzy, c-format
+msgid "%s is currently not supported."
 msgstr "%s tidak didukung"
 
 #: src/widgets/games/games-box.vala:170
@@ -338,11 +347,13 @@ msgid "Mass edit"
 msgstr "Pengeditan masal"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
-msgid "game selected"
+#, fuzzy
+msgid "1 game selected"
 msgstr "game yang dipilih"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
-msgid "games selected"
+#, fuzzy, c-format
+msgid "%u games selected"
 msgstr "beberapa game yang dipilih"
 
 #: src/widgets/games/mass-edit-dialog.vala:22
@@ -392,9 +403,10 @@ msgstr ""
 "Aktifkan semua opsi yang ingin Anda pertimbangkan dalam pengeditan massal."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
+#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
-"games an error occured for the following games"
+"games an error occured for the following games:"
 msgstr ""
 "Saat mencoba mengubah alat kompatibilitas/pilihan peluncuran game yang "
 "dipilih, terjadi kesalahan untuk game berikut ini"
@@ -521,10 +533,6 @@ msgstr "Pilih alat kompatibilitas yang diinginkan"
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr "Ketika mencoba mengubah alat kompatibilitas %s terjadi kesalahan."
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:42
-msgid "Runners"
-msgstr "Runner"
-
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
 #: src/models/launchers/lutris.vala:36
 msgid "Compatibility tools for running Windows software on Linux."
@@ -650,6 +658,23 @@ msgid ""
 msgstr ""
 "Alat Steam untuk konfigurasi grafis yang mudah dari alat kompatibilitas Anda "
 "yang lain untuk game Windows dan game Linux asli."
+
+#: data/ui/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:14
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "_ Pintasan Papan Ketik"
+
+#: data/ui/gtk/help-overlay.ui:20
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Keluar"
 
 #~ msgid "Library"
 #~ msgstr "Pustaka"
@@ -824,14 +849,8 @@ msgstr ""
 #~ msgid "Documentation"
 #~ msgstr "Dokumentasi"
 
-#~ msgid "Quit"
-#~ msgstr "Keluar"
-
 #~ msgid "Tools"
 #~ msgstr "Peralatan"
-
-#~ msgid "Games"
-#~ msgstr "Permainan"
 
 #~ msgid "Notifications"
 #~ msgstr "Pemberitahuan"
