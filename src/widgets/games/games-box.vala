@@ -142,8 +142,6 @@ namespace ProtonPlus.Widgets {
 		public void set_selected_launcher(Models.Launcher launcher) {
 			this.launcher = launcher;
 
-			game_list_box.remove_all();
-
 			if (launcher.has_library_support) {
 				if (invalid) {
 					show_normal();
@@ -207,6 +205,8 @@ namespace ProtonPlus.Widgets {
 
 		void load_games() {
 			spinner.start();
+
+			game_list_box.remove_all();
 
 			overlay.add_overlay(spinner);
 
