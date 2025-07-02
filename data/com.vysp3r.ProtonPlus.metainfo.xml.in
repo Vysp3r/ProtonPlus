@@ -33,7 +33,6 @@
       <li>Proton EM</li>
       <li>Proton Tkg</li>
       <li>Proton Sarek</li>
-      <li>Kron4ek Proton</li>
       <li>Kron4ek Wine-Builds Vanilla</li>
       <li>Kron4ek Wine-Builds Staging</li>
       <li>Kron4ek Wine-Builds Staging-Tkg</li>
@@ -92,6 +91,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.8" date="2025-07-02">
+      <description>
+        <ul>
+          <li>🐛 Fix games being duplicated when switching tab back and forth </li>
+          <li>🌐 Update Polish translations</li>
+          <li>🌐 Updated German localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.7" date="2025-06-30">
       <description>
         <ul>

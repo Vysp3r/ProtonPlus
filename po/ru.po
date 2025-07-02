@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-01 13:02-0400\n"
+"POT-Creation-Date: 2025-07-01 20:01-0400\n"
 "PO-Revision-Date: 2024-10-12 18:02+0500\n"
 "Last-Translator: izmyname <vi-mcmxcv@proton.me>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -315,17 +315,17 @@ msgstr ""
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:170
+#: src/widgets/games/games-box.vala:168
 #, fuzzy
 msgid "Unsuported launcher"
 msgstr "Очистить лаунчер"
 
-#: src/widgets/games/games-box.vala:170
+#: src/widgets/games/games-box.vala:168
 #, fuzzy, c-format
 msgid "%s is currently not supported."
 msgstr "%s не поддерживается"
 
-#: src/widgets/games/games-box.vala:170
+#: src/widgets/games/games-box.vala:168
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
