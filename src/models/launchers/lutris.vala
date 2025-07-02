@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Launchers {
                 break;
             }
 
-            base ("Lutris", installation_type, Globals.RESOURCE_BASE + "/lutris.png", directories);
+            base ("Lutris", installation_type, Globals.RESOURCE_BASE + "/lutris.svg", directories);
 
             if (installed) {
                 groups = get_groups ();

@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Launchers {
                 break;
             }
 
-            base ("Bottles", installation_type, Globals.RESOURCE_BASE + "/bottles.png", directories);
+            base ("Bottles", installation_type, Globals.RESOURCE_BASE + "/bottles.svg", directories);
 
             if (installed) {
                 groups = get_groups ();
