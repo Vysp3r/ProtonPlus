@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-30 16:42-0400\n"
+"POT-Creation-Date: 2025-07-01 13:02-0400\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -56,6 +56,15 @@ msgstr "Acerca de ProtonPlus"
 #: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Menú principal"
+
+#: src/widgets/window.vala:65 src/models/launchers/bottles.vala:29
+#: src/models/launchers/steam.vala:42
+msgid "Runners"
+msgstr "Corredores"
+
+#: src/widgets/window.vala:66
+msgid "Games"
+msgstr "Juegos"
 
 #: src/widgets/runners/description-dialog.vala:14
 #, fuzzy
@@ -306,8 +315,8 @@ msgid "Unsuported launcher"
 msgstr "Limpiar lanzador"
 
 #: src/widgets/games/games-box.vala:170
-#, fuzzy
-msgid "is currently not supported."
+#, fuzzy, c-format
+msgid "%s is currently not supported."
 msgstr "%s no es compatible"
 
 #: src/widgets/games/games-box.vala:170
@@ -347,11 +356,12 @@ msgid "Mass edit"
 msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:20
-msgid "game selected"
+msgid "1 game selected"
 msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:20
-msgid "games selected"
+#, c-format
+msgid "%u games selected"
 msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:22
@@ -401,7 +411,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
-"games an error occured for the following games"
+"games an error occured for the following games:"
 msgstr ""
 "Herramienta de compatibilidad de Steam para ejecutar juegos de Windows."
 
@@ -536,10 +546,6 @@ msgstr "Herramienta de compatibilidad"
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
-
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:42
-msgid "Runners"
-msgstr "Corredores"
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
 #: src/models/launchers/lutris.vala:36
@@ -681,6 +687,23 @@ msgstr ""
 "Herramienta de Steam para una configuración gráfica sencilla de tus "
 "otrasherramientas de compatibilidad, tanto para juegos de Windows como para "
 "juegos nativos de Linux."
+
+#: data/ui/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:14
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Atajos"
+
+#: data/ui/gtk/help-overlay.ui:20
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Salir"
 
 #, fuzzy
 #~ msgid "Extra"
@@ -846,14 +869,8 @@ msgstr ""
 #~ msgid "Documentation"
 #~ msgstr "Documentación"
 
-#~ msgid "Quit"
-#~ msgstr "Salir"
-
 #~ msgid "Tools"
 #~ msgstr "Herramientas"
-
-#~ msgid "Games"
-#~ msgstr "Juegos"
 
 #~ msgid "Notifications"
 #~ msgstr "Notificaciones"

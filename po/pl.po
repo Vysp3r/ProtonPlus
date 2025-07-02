@@ -1,91 +1,99 @@
-# T K <konto2y5@gmail.com>, 2024.
+# T K <konto2y5@gmail.com>, 2024, 2025.
 # Eryk Michalak <gnu.ewm@protonmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-30 16:42-0400\n"
-"PO-Revision-Date: 2024-08-14 20:09+0000\n"
-"Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
+"POT-Creation-Date: 2025-07-01 13:02-0400\n"
+"PO-Revision-Date: 2025-07-01 23:53+0000\n"
+"Last-Translator: T K <konto2y5@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:83
-#, fuzzy
 msgid "A modern compatibility tools manager for Linux."
-msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
+msgstr "Nowoczesny menedżer narzędzi zgodności dla systemu Linux."
 
 #: src/widgets/application.vala:85
 msgid "Website"
-msgstr ""
+msgstr "Strona internetowa"
 
 #: src/widgets/application.vala:90
 msgid "Special thanks to"
 msgstr "Specjalne podziękowania dla"
 
 #: src/widgets/window.vala:32
-#, fuzzy, c-format
+#, c-format
 msgid "Welcome to %s"
-msgstr "Witamy "
+msgstr "Witamy w %s"
 
 #: src/widgets/window.vala:32
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
+"Aby rozpocząć, zainstaluj Steam, Lutris, Bottles lub Heroic Games Launcher."
 
 #: src/widgets/window.vala:42
 msgid "Donate"
-msgstr ""
+msgstr "Przekaż darowiznę"
 
 #: src/widgets/window.vala:45
-#, fuzzy
 msgid "_Installed Only"
-msgstr "Tylko zainstalowane"
+msgstr "_Tylko zainstalowane"
 
 #: src/widgets/window.vala:52
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Skróty klawiszowe"
 
 #: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
-msgstr ""
+msgstr "_O ProtonPlus"
 
 #: src/widgets/window.vala:60
 msgid "Main Menu"
+msgstr "Menu główne"
+
+#: src/widgets/window.vala:65 src/models/launchers/bottles.vala:29
+#: src/models/launchers/steam.vala:42
+msgid "Runners"
+msgstr "Uruchamiacze"
+
+#: src/widgets/window.vala:66
+msgid "Games"
 msgstr ""
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
-msgstr ""
+msgstr "Więcej informacji"
 
 #: src/widgets/runners/description-dialog.vala:18
 msgid "Open"
-msgstr ""
+msgstr "Otwórz"
 
 #: src/widgets/runners/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr ""
+msgstr "Otwórz w przeglądarce"
 
 #: src/widgets/runners/release-row.vala:10
 #, c-format
 msgid "Delete %s"
-msgstr ""
+msgstr "Usuń %s"
 
 #: src/widgets/runners/release-row.vala:14
 #: src/widgets/runners/install-dialog.vala:17
-#, fuzzy, c-format
+#, c-format
 msgid "Install %s"
-msgstr "Tylko zainstalowane"
+msgstr "Zainstaluj %s"
 
 #: src/widgets/runners/release-row.vala:18
 msgid "Show more information"
-msgstr ""
+msgstr "Pokaż więcej informacji"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -95,36 +103,34 @@ msgstr "Wczytaj więcej"
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Remove %s"
-msgstr ""
+msgstr "Usuń %s"
 
 #: src/widgets/runners/remove-dialog.vala:13
-#, fuzzy
 msgid "Are you sure you want this?"
-msgstr "Jesteś pewien, że chcesz usunąć "
+msgstr "Jesteś pewien, że tego chcesz?"
 
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
-msgstr ""
+msgstr "Używany przez %i gier."
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr ""
+msgstr "Używany przez 1 grę."
 
 #: src/widgets/runners/remove-dialog.vala:26
-#, fuzzy
 msgid "Are you sure you want to proceed?"
-msgstr "Jesteś pewien, że chcesz usunąć "
+msgstr "Jesteś pewien, że chcesz kontynuować?"
 
 #: src/widgets/runners/remove-dialog.vala:30
 #: src/widgets/runners/steamtinkerlaunch-row.vala:91
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
 #: src/widgets/runners/remove-dialog.vala:31
 #: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Yes"
-msgstr ""
+msgstr "Tak"
 
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
@@ -136,12 +142,12 @@ msgstr ""
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Error"
-msgstr ""
+msgstr "Błąd"
 
 #: src/widgets/runners/remove-dialog.vala:49
 #, c-format
 msgid "When trying to remove %s an error occured."
-msgstr ""
+msgstr "Podczas próby usunięcia %s wystąpił błąd."
 
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
@@ -154,51 +160,50 @@ msgstr ""
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
-msgstr ""
+msgstr "Prosimy o zgłoszenie tego błędu na GitHubie."
 
 #: src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occured."
-msgstr ""
+msgstr "Podczas próby zainstalowania %s wystąpił błąd."
 
 #: src/widgets/runners/install-dialog.vala:76
 #: src/widgets/runners/upgrade-dialog.vala:78
 msgid "Downloading"
-msgstr ""
+msgstr "Pobieranie"
 
 #: src/widgets/runners/install-dialog.vala:79
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
-msgstr ""
+msgstr "Wyodrębnianie"
 
 #: src/widgets/runners/install-dialog.vala:82
 msgid "Renaming"
-msgstr ""
+msgstr "Zmiana nazwy"
 
 #: src/widgets/runners/install-dialog.vala:85
-#, fuzzy
 msgid "Running post install script"
-msgstr "Instalacja "
+msgstr "Uruchamianie skryptu poinstalacyjnego"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
 msgid "Upgrade %s"
-msgstr ""
+msgstr "Aktualizuj %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
 #, c-format
 msgid "When trying to upgrade %s an error occured."
-msgstr ""
+msgstr "Podczas próby aktualizacji %s wystąpił błąd."
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
 msgid "Check this to also remove your configuration files."
-msgstr ""
+msgstr "Zaznacz tę opcję, aby usunąć również pliki konfiguracyjne."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
@@ -207,22 +212,21 @@ msgstr ""
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
-msgstr ""
+msgstr "Ostrzeżenie"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
-msgstr ""
+msgstr "Brakuje następujących zależności dla %s:"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
-#, fuzzy
 msgid "Installation will be canceled."
-msgstr "Instalacja "
+msgstr "Instalacja zostanie anulowana."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:45
 #: src/widgets/runners/steamtinkerlaunch-row.vala:155
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, c-format
@@ -230,80 +234,86 @@ msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
+"Wygląda na to, że masz obecnie inną wersję %s, która nie została "
+"zainstalowana przez ProtonPlus."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr ""
+msgstr "Czy chcesz ponownie zainstalować to za pomocą ProtonPlus?"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
-msgstr ""
+msgstr "%s jest już aktualne."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:145
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr ""
+msgstr "Aby zainstalować %s dla %s, uruchom następujące polecenie:"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
-msgstr ""
+msgstr "Obecnie nie jest znany nam sposób na zainstalowanie %s dla %s."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
 msgid "Up-to-date"
-msgstr ""
+msgstr "Aktualne"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
 msgid "Update to the latest version"
-msgstr ""
+msgstr "Zaktualizuj do najnowszej wersji"
 
 #: src/widgets/games/games-box.vala:57
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr ""
+msgstr "Zamknij wcześniej Steam, aby zmiany mogły zostać zastosowane."
 
 #: src/widgets/games/games-box.vala:87
 msgid "Name"
-msgstr ""
+msgstr "Nazwa"
 
 #: src/widgets/games/games-box.vala:90
 #: src/widgets/games/mass-edit-dialog.vala:38
-#, fuzzy
 msgid "Compatibility tool"
-msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
+msgstr "Narzędzie kompatybilności"
 
 #: src/widgets/games/games-box.vala:93
 msgid "Other"
-msgstr ""
+msgstr "Inne"
 
 #: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
 msgid "An error occured"
-msgstr ""
+msgstr "Wystąpił błąd"
 
 #: src/widgets/games/games-box.vala:118
 msgid "No profile was found."
-msgstr ""
+msgstr "Nie znaleziono żadnego profilu."
 
 #: src/widgets/games/games-box.vala:118
+#, fuzzy
 msgid "Make sure to connect yourself at least once on Steam."
-msgstr ""
+msgstr "Upewnij się, że połączyłeś się przynajmniej raz na Steam."
 
 #: src/widgets/games/games-box.vala:118
 msgid "If you think this is an issue, make sure to report this on GitHub."
-msgstr ""
+msgstr "Jeśli uważasz, że jest to problem, zgłoś go na GitHubie."
 
 #: src/widgets/games/games-box.vala:170
 msgid "Unsuported launcher"
+msgstr "Nieobsługiwany launcher"
+
+#: src/widgets/games/games-box.vala:170
+#, c-format
+msgid "%s is currently not supported."
 msgstr ""
 
 #: src/widgets/games/games-box.vala:170
-msgid "is currently not supported."
-msgstr ""
-
-#: src/widgets/games/games-box.vala:170
+#, fuzzy
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
+"Jeśli chcesz, abym przyspieszył rozwój, upewnij się, że okażesz swoje "
+"wsparcie!"
 
 #: src/widgets/games/games-box.vala:218
 #: src/widgets/games/mass-edit-dialog.vala:109
@@ -313,46 +323,48 @@ msgstr ""
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
 #: src/models/games/steam.vala:76 src/models/games/steam.vala:97
 msgid "Undefined"
-msgstr ""
+msgstr "Niezdefiniowane"
 
 #: src/widgets/games/games-box.vala:240
 msgid "The library failed loading."
-msgstr ""
+msgstr "Nie udało się załadować biblioteki."
 
 #: src/widgets/games/game-row.vala:44
+#, fuzzy
 msgid "Modify the game launch options"
-msgstr ""
+msgstr "Zmodyfikuj opcje uruchamiania gry"
 
 #: src/widgets/games/game-row.vala:70
 msgid "Unknown"
-msgstr ""
+msgstr "Nieznane"
 
 #: src/widgets/games/game-row.vala:76
 msgid "Open ProtonDB page"
-msgstr ""
+msgstr "Otwórz stronę ProtonDB"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
+msgstr "Edycja zbiorowa"
+
+#: src/widgets/games/mass-edit-dialog.vala:20
+msgid "1 game selected"
 msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:20
-msgid "game selected"
-msgstr ""
-
-#: src/widgets/games/mass-edit-dialog.vala:20
-msgid "games selected"
+#, c-format
+msgid "%u games selected"
 msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:22
 #: src/widgets/games/launch-options-dialog.vala:14
 #: src/widgets/games/default-tool-dialog.vala:16
 msgid "Apply"
-msgstr ""
+msgstr "Zastosuj"
 
 #: src/widgets/games/mass-edit-dialog.vala:23
 msgid "Apply the current modifications"
-msgstr ""
+msgstr "Zastosuj bieżące zmiany"
 
 #: src/widgets/games/mass-edit-dialog.vala:31
 #: src/widgets/games/mass-edit-dialog.vala:43
@@ -373,12 +385,13 @@ msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
+#, fuzzy
 msgid "Enter your desired launch options"
-msgstr ""
+msgstr "Wprowadź żądane opcje uruchamiania"
 
 #: src/widgets/games/mass-edit-dialog.vala:51
 msgid "Launch options"
-msgstr ""
+msgstr "Opcje uruchamiania"
 
 #: src/widgets/games/mass-edit-dialog.vala:55
 msgid ""
@@ -386,79 +399,80 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:147
+#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
-"games an error occured for the following games"
-msgstr ""
+"games an error occured for the following games:"
+msgstr "Podczas próby zmiany narzędzia zgodności %s wystąpił błąd."
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Create shortcut"
-msgstr ""
+msgstr "Utwórz skrót"
 
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Usuń skrót"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr ""
+msgstr "Utwórz skrót do ProtonPlus w Steam"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Remove the shortcut of ProtonPlus in Steam"
-msgstr ""
+msgstr "Usuń skrót do ProtonPlus w Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
 msgid "When trying to remove the shortcut in Steam an error occured."
-msgstr ""
+msgstr "Podczas próby usunięcia skrótu w Steam wystąpił błąd."
 
 #: src/widgets/games/shortcut-button.vala:47
 msgid "When trying to create the shortcut in Steam an error occured."
-msgstr ""
+msgstr "Podczas próby utworzenia skrótu w Steam wystąpił błąd."
 
 #: src/widgets/games/sort-by-name-button.vala:8
 msgid "Sort by name"
-msgstr ""
+msgstr "Sortuj według nazwy"
 
 #: src/widgets/games/sort-by-name-button.vala:11
 msgid "Sorts the games by their name"
-msgstr ""
+msgstr "Sortuje gry według ich nazwy"
 
 #: src/widgets/games/sort-by-tool-button.vala:8
-#, fuzzy
 msgid "Sort by compatibility tool"
-msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
+msgstr "Sortuj według narzędzia zgodności"
 
 #: src/widgets/games/sort-by-tool-button.vala:11
 msgid "Sorts the games by the compatibility tool name"
-msgstr ""
+msgstr "Sortuje gry według nazwy narzędzia zgodności"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
-msgstr ""
+msgstr "Zaznacz wszystkie"
 
 #: src/widgets/games/select-button.vala:11
 msgid "Select all the games"
-msgstr ""
+msgstr "Zaznacz wszystkie gry"
 
 #: src/widgets/games/unselect-button.vala:8
 msgid "Unselect all"
-msgstr ""
+msgstr "Odznacz wszystkie"
 
 #: src/widgets/games/unselect-button.vala:11
-#, fuzzy
 msgid "Unselect all the games"
-msgstr "Zainstaluj środowisko uruchomieniowe"
+msgstr "Odznacz wszystkie gry"
 
 #: src/widgets/games/mass-edit-button.vala:13
 msgid "Edit the compatibility tool of the selected games at once"
-msgstr ""
+msgstr "Edytuj narzędzie zgodności wybranych gier jednocześnie"
 
 #: src/widgets/games/mass-edit-button.vala:42
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
+"Przed skorzystaniem z funkcji masowej edycji należy wybrać co najmniej jedną "
+"grę."
 
 #: src/widgets/games/launch-options-dialog.vala:12
 msgid "Modify launch options"
@@ -467,105 +481,108 @@ msgstr ""
 #: src/widgets/games/launch-options-dialog.vala:15
 #: src/widgets/games/default-tool-dialog.vala:17
 msgid "Apply the current modification"
-msgstr ""
+msgstr "Zastosuj bieżącą zmianę"
 
 #: src/widgets/games/launch-options-dialog.vala:57
 #, c-format
 msgid "When trying to change the launch options of %s an error occured."
-msgstr ""
+msgstr "Podczas próby zmiany opcji uruchamiania %s wystąpił błąd."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
-msgstr ""
+msgstr "Wybierz profil"
 
 #: src/widgets/games/extra-button.vala:10
 msgid "Open install directory"
-msgstr ""
+msgstr "Otwórz katalog instalacji"
 
 #: src/widgets/games/extra-button.vala:13
 msgid "Open prefix directory"
-msgstr ""
+msgstr "Otwórz katalog prefixu"
 
 #: src/widgets/games/extra-button.vala:28
 msgid "Open menu"
-msgstr ""
+msgstr "Otwórz menu"
 
 #: src/widgets/games/default-tool-button.vala:8
-#, fuzzy
 msgid "Set default compatibility tool"
-msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
+msgstr "Ustaw domyślne narzędzie zgodności"
 
 #: src/widgets/games/default-tool-button.vala:14
 #: src/widgets/games/default-tool-dialog.vala:14
-#, fuzzy
 msgid "Set the default compatibility tool"
-msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
+msgstr "Ustaw domyślne narzędzie zgodności"
 
 #: src/widgets/games/default-tool-dialog.vala:60
 msgid "When trying to change the default compatibility tool an error occured."
-msgstr ""
+msgstr "Podczas próby zmiany domyślnego narzędzia zgodności wystąpił błąd."
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 #, fuzzy
 msgid "Select your desired compatibility tool"
-msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
+msgstr "Wybierz żądane narzędzie zgodności"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
-msgstr ""
-
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:42
-msgid "Runners"
-msgstr ""
+msgstr "Podczas próby zmiany narzędzia zgodności %s wystąpił błąd."
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
 #: src/models/launchers/lutris.vala:36
-#, fuzzy
 msgid "Compatibility tools for running Windows software on Linux."
-msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
+msgstr ""
+"Narzędzia kompatybilności do uruchamiania oprogramowania Windows na Linuxie"
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/lutris.vala:39
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr ""
+msgstr "Oparta na Vulkan implementacja Direct3D 8, 9, 10 i 11 dla Linux/Wine."
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
-#, fuzzy
 msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr "Narzędzie kompatybilności do uruchamiania gier Windows na Linuxie"
+msgstr ""
+"Narzędzia kompatybilności firmy Valve do uruchamiania oprogramowania Windows "
+"w systemie Linux."
 
 #: src/models/launchers/lutris.vala:42
+#, fuzzy
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
+"Wariant Wine VKD3D, który ma na celu implementację pełnego API Direct3D 12 "
+"na Vulkan."
 
 #: src/models/runners/boxtron.vala:6
-#, fuzzy
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
-msgstr "Narzędzie kompatybilności Steam do uruchamiania gier Windows"
+msgstr ""
+"Narzędzie kompatybilności Steam do uruchamiania gier DOS przy użyciu DOSBox "
+"dla Linuksa."
 
 #: src/models/runners/dxvk-sarek.vala:6
 #: src/models/runners/dxvk-async-sarek.vala:6
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
-msgstr ""
+msgstr "Kompilacje DXVK działające z wersjami Vulkan wcześniejszymi niż 1.3"
 
 #: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
+"Kompilacja Wine z zestawem łatek Staging i wieloma innymi przydatnymi "
+"łatkami."
 
 #: src/models/runners/kron4ek-wine-builds-staging.vala:7
 msgid "Wine build with the Staging patchset."
-msgstr ""
+msgstr "Kompilacja Wine z zestawem łatek Staging."
 
 #: src/models/runners/kron4ek-wine-builds-vanilla.vala:7
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr ""
+msgstr "Kompilacja Wine z oficjalnych źródeł WineHQ."
 
 #: src/models/runners/luxtorpeda.vala:6
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
+"Luxtorpeda zapewnia natywne dla Linuksa silniki gier dla niektórych gier "
+"przeznaczonych tylko dla systemu Windows."
 
 #: src/models/runners/northstar-proton.vala:6
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
@@ -574,60 +591,84 @@ msgstr ""
 "Titanfall 2."
 
 #: src/models/runners/proton-ge-rstp.vala:6
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
 msgstr ""
-"Narzędzie kompatybilności dla Steam Play oparte na Wine i dodatkowych "
-"komponentach."
+"Narzędzie kompatybilności Steam oparte na Proton-GE z dodatkowymi łatkami "
+"poprawiającymi kodeki RTSP dla VRChat."
 
 #: src/models/runners/proton-ge.vala:6
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
+"Narzędzie kompatybilności Steam do uruchamiania gier Windows z ulepszeniami "
+"w stosunku do domyślnego Proton od Valve."
 
 #: src/models/runners/proton-tkg.vala:6
-#, fuzzy
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
-"Niestandardowa wersja Protona do uruchamiania klienta Northstar dla "
-"Titanfall 2."
+"Niestandardowa kompilacja Proton do uruchamiania gier Windows, oparta na "
+"Wine-tkg."
 
 #: src/models/runners/roberta.vala:6
-#, fuzzy
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
-msgstr "Narzędzie kompatybilności Steam do uruchamiania gier Windows"
+msgstr ""
+"Narzędzie zgodności ze Steam do uruchamiania gier przygodowych przy użyciu "
+"ScummVM dla systemu Linux."
 
 #: src/models/runners/proton-cachyos.vala:14
+#, fuzzy
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
 msgstr ""
+"Narzędzie kompatybilności Steam z dystrybucji Linuxa CachyOS do uruchamiania "
+"gier Windows z ulepszeniami w stosunku do domyślnego Proton od Valve."
 
 #: src/models/runners/proton-em.vala:6
+#, fuzzy
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
 msgstr ""
+"Narzędzie kompatybilności Steam do uruchamiania gier Windows z ulepszeniami "
+"w stosunku do domyślnego Proton od Valve. Etaash Mathamsetty dodaje obsługę "
+"FSR4 i poprawki wine wayland."
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with %s."
 msgstr ""
-"Narzędzie kompatybilności dla Steam Play oparte na Wine i dodatkowych "
-"komponentach."
+"Narzędzie kompatybilności Steam oparte na Proton-GE z modyfikacjami dla "
+"bardzo starych GPU, z %s."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:14
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "_Skróty klawiszowe"
+
+#: data/ui/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
 msgstr ""
 
 #, fuzzy

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-30 16:42-0400\n"
+"POT-Creation-Date: 2025-07-01 13:02-0400\n"
 "PO-Revision-Date: 2025-06-30 13:10+0000\n"
 "Last-Translator: \"M.M.\" <martin.miscikms@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -59,6 +59,15 @@ msgstr "O _aplikaci ProtonPlus"
 #: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Hlavní nabídka"
+
+#: src/widgets/window.vala:65 src/models/launchers/bottles.vala:29
+#: src/models/launchers/steam.vala:42
+msgid "Runners"
+msgstr "Spouštěče"
+
+#: src/widgets/window.vala:66
+msgid "Games"
+msgstr ""
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -301,8 +310,8 @@ msgid "Unsuported launcher"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:170
-#, fuzzy
-msgid "is currently not supported."
+#, fuzzy, c-format
+msgid "%s is currently not supported."
 msgstr "%s není podporováno"
 
 #: src/widgets/games/games-box.vala:170
@@ -342,11 +351,13 @@ msgid "Mass edit"
 msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:20
-msgid "game selected"
+#, fuzzy
+msgid "1 game selected"
 msgstr "hra vybrána"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
-msgid "games selected"
+#, fuzzy, c-format
+msgid "%u games selected"
 msgstr "hry vybrány"
 
 #: src/widgets/games/mass-edit-dialog.vala:22
@@ -393,7 +404,7 @@ msgstr ""
 #: src/widgets/games/mass-edit-dialog.vala:147
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
-"games an error occured for the following games"
+"games an error occured for the following games:"
 msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:23
@@ -519,10 +530,6 @@ msgstr "Moderní správce nástrojů kompatibility pro Linux."
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/steam.vala:42
-msgid "Runners"
-msgstr "Spouštěče"
-
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
 #: src/models/launchers/lutris.vala:36
 msgid "Compatibility tools for running Windows software on Linux."
@@ -647,6 +654,22 @@ msgid ""
 msgstr ""
 "Nástroj Steamu pro snadnou grafickou konfiguraci vašich dalších nástrojů "
 "kompatibility pro Windows hry i nativní hry pro Linux."
+
+#: data/ui/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:14
+#, fuzzy
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "_Klávesové zkratky"
+
+#: data/ui/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr ""
 
 #~ msgid "Library"
 #~ msgstr "Knihovna"
