@@ -52,7 +52,12 @@ namespace ProtonPlus.Widgets {
 					remove(row);
 			}
 
-			rows = new List<Adw.PreferencesRow> ();
+			rows.foreach((row) => {
+				if (row.parent != null)
+					remove(row);
+
+				rows.remove(row);
+			});
 		}
 
 		void row_remove_from_parent(ReleaseRows.InstalledRow row) {
