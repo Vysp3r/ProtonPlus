@@ -34,7 +34,15 @@ namespace ProtonPlus.Widgets {
 
 					if (a) {
 						runner.load.begin ((obj, res) => {
-							insert_loaded_releases (runner.load.end (res));
+							var releases = runner.load.end (res);
+
+							if (releases.length () + runner.releases.length () == count) {
+								spinner.stop ();
+								spinner.set_visible (false);
+								return;
+							}
+
+							insert_loaded_releases (releases);
 						});
 					} else if (b) {
 						insert_loaded_releases (runner.releases);
