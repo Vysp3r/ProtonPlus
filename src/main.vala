@@ -31,6 +31,7 @@ namespace ProtonPlus {
 			_("Wine build compiled from the official WineHQ sources."),
 			_("Wine build with the Staging patchset."),
 			_("Wine build with the Staging patchset and many other useful patches."),
+			_("Wine build modified by Valve and other contributors."),
 			_("Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."),
 			_("DXVK Builds that work with pre-Vulkan 1.3 versions"),
 			_("DXVK Async Builds that work with pre-Vulkan 1.3 versions"),

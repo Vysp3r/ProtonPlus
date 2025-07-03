@@ -43,6 +43,7 @@ src/models/launchers/bottles.vala
 src/models/launchers/hgl.vala
 src/models/launchers/lutris.vala
 src/models/launchers/steam.vala
+src/models/launchers/winezgui.vala
 src/models/games/steam.vala
 src/models/vdf/binary.vala
 src/models/vdf/node.vala

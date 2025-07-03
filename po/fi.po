@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-03 15:09-0400\n"
+"POT-Creation-Date: 2025-07-03 19:03-0400\n"
 "PO-Revision-Date: 2025-07-03 17:04+0000\n"
 "Last-Translator: Linus Virtanen <linus.virtanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/protonplus/"
@@ -652,20 +652,24 @@ msgstr ""
 "hyödyllisiä paikkauksia."
 
 #: src/main.vala:34
+msgid "Wine build modified by Valve and other contributors."
+msgstr ""
+
+#: src/main.vala:35
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 "Vulkan-perustainen Direct3D 8, 9, 10 ja 11 -toteutus Linuxille Wine:n kautta."
 
-#: src/main.vala:35
+#: src/main.vala:36
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
 msgstr "DXVK-kokoomat jotka toimivat esi-Vulkan 1.3 -versioilla"
 
-#: src/main.vala:36
+#: src/main.vala:37
 #, fuzzy
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
 msgstr "DXVK-kokoomat jotka toimivat esi-Vulkan 1.3 -versioilla"
 
-#: src/main.vala:37
+#: src/main.vala:38
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."

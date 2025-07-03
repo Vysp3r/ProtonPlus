@@ -64,6 +64,7 @@
   <!-- Should link a FAQ page for this software, to answer some of the most-asked questions in detail -->
   <!-- URLs of this type should point to a webpage where users can submit or modify translations of the upstream project -->
   <url type="translate">https://hosted.weblate.org/projects/protonplus/protonplus</url>
+  <url type="donation">https://protonplus.vysp3r.com/#donate</url>
 
   <translation type="gettext">com.vysp3r.ProtonPlus</translation>
   

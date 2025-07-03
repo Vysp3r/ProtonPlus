@@ -30,7 +30,7 @@ namespace ProtonPlus.Models.Runners {
                 var split = directory_name.str.split (":");
                 directory_name.str = split[0].contains(split[1]) ? split[2] : split[3];
             }
-
+            message(directory_name.str);
             return directory_name.str;
         }
     }

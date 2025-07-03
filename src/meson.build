@@ -53,6 +53,7 @@ protonplus_sources = files(
   'models/launchers/hgl.vala',
   'models/launchers/lutris.vala',
   'models/launchers/steam.vala',
+  'models/launchers/winezgui.vala',
 
   'models/games/steam.vala',
 
@@ -94,7 +95,6 @@ executable(
   ui_gresource,
   css_gresource,
   icons_gresource,
-  images_gresource,
   protonplus_sources,
   dependencies: protonplus_deps,
   include_directories: globals_inc,

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-03 15:09-0400\n"
+"POT-Creation-Date: 2025-07-03 19:03-0400\n"
 "PO-Revision-Date: 2025-03-12 09:23+0800\n"
 "Last-Translator: Zemin Ha <ruojiner@hotmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -643,19 +643,23 @@ msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr "应用了 Staging 补丁集以及许多其他有用的补丁的 Wine 构建"
 
 #: src/main.vala:34
+msgid "Wine build modified by Valve and other contributors."
+msgstr ""
+
+#: src/main.vala:35
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Linux/Wine 中Direct3D 8、9、10和11的基于 Vulkan 的实现"
 
-#: src/main.vala:35
+#: src/main.vala:36
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
 msgstr "适用于Vulkan 1.3之前版本的DXVK构建"
 
-#: src/main.vala:36
+#: src/main.vala:37
 #, fuzzy
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
 msgstr "适用于Vulkan 1.3之前版本的DXVK构建"
 
-#: src/main.vala:37
+#: src/main.vala:38
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."

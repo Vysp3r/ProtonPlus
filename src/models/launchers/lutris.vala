@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Launchers {
                 break;
             }
 
-            base ("Lutris", installation_type, Globals.RESOURCE_BASE + "/lutris.svg", directories);
+            base ("Lutris", installation_type, "net.lutris.Lutris", directories);
 
             if (installed) {
                 install.connect ((release) => true);

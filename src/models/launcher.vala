@@ -73,6 +73,9 @@ namespace ProtonPlus.Models {
 			launchers.append (new Launchers.HeroicGamesLauncher (InstallationTypes.SYSTEM));
 			launchers.append (new Launchers.HeroicGamesLauncher (InstallationTypes.FLATPAK));
 
+			launchers.append (new Launchers.WineZGUI (InstallationTypes.SYSTEM));
+			launchers.append (new Launchers.WineZGUI (InstallationTypes.FLATPAK));
+
 			launchers.foreach ((launcher) => {
 				if (!launcher.installed)
 					launchers.remove (launcher);
@@ -235,7 +238,7 @@ namespace ProtonPlus.Models {
 			var download_url = "https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/runners.json";
 			var download_path = "%s/ProtonPlus/runners.json".printf (Environment.get_user_data_dir ());
 
-			yield Utils.Web.Download (download_url, download_path);
+			//yield Utils.Web.Download (download_url, download_path);
 
 			var json = Utils.Filesystem.get_file_content (download_path);
 			if (json == "")
@@ -302,6 +305,22 @@ namespace ProtonPlus.Models {
 					}
 
 					json_runner_item.request_asset_exclude = request_asset_exclude;
+				}
+
+				if (runner_object.has_member ("request_asset_filter")) {
+					var request_asset_filter_array = runner_object.get_array_member ("request_asset_filter");
+
+					var request_asset_filter_length = request_asset_filter_array.get_length ();
+					if (request_asset_filter_length == 0)
+						return null;
+
+					var request_asset_filter = new string[request_asset_filter_length];
+
+					for (var y = 0; y < request_asset_filter_length; y++) {
+						request_asset_filter[y] = request_asset_filter_array.get_string_element (y);
+					}
+
+					json_runner_item.request_asset_filter = request_asset_filter;
 				}
 
 				if (runner_object.has_member ("asset_position_hwcaps_condition")) {
