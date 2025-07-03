@@ -113,31 +113,6 @@ namespace ProtonPlus.Models {
 			public string[] request_asset_filter;
 		}
 
-		static async Json.Object? get_runners_json_object () {
-			var download_url = "https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/runners.json";
-			var download_path = "%s/ProtonPlus/runners.json".printf (Environment.get_user_data_dir ());
-
-			yield Utils.Web.Download (download_url, download_path);
-
-			var json = Utils.Filesystem.get_file_content (download_path);
-			if (json == "")
-				return null;
-
-			var root_node = Utils.Parser.get_node_from_json (json);
-			if (root_node == null)
-				return null;
-			
-			var root_object = root_node.get_object ();
-			if (root_object == null)
-				return null;
-
-			var version = root_object.get_int_member_with_default ("version", 0);
-			if (version == 0)
-				return null;
-
-			return root_object;
-		}
-
 		static async bool initialize_launchers (List<Launcher> launchers) {
 			var root_object = yield get_runners_json_object ();
 			if (root_object == null)
@@ -256,6 +231,31 @@ namespace ProtonPlus.Models {
 			return true;
 		}
 
+		static async Json.Object? get_runners_json_object () {
+			var download_url = "https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/runners.json";
+			var download_path = "%s/ProtonPlus/runners.json".printf (Environment.get_user_data_dir ());
+
+			yield Utils.Web.Download (download_url, download_path);
+
+			var json = Utils.Filesystem.get_file_content (download_path);
+			if (json == "")
+				return null;
+
+			var root_node = Utils.Parser.get_node_from_json (json);
+			if (root_node == null)
+				return null;
+			
+			var root_object = root_node.get_object ();
+			if (root_object == null)
+				return null;
+
+			var version = root_object.get_int_member_with_default ("version", 0);
+			if (version == 0)
+				return null;
+
+			return root_object;
+		}
+
 		static async JsonRunnerItem[]? get_json_runner_items_from_array (Json.Array runners_array) {
 			var runners_length = runners_array.get_length ();
 			if (runners_length == 0)
@@ -265,6 +265,17 @@ namespace ProtonPlus.Models {
 			
 			for (var i = 0; i < runners_length; i++) {
 				var runner_object = runners_array.get_object_element (i);
+				
+				string[] members = { "title", "description", "endpoint", "asset_position", "directory_name_formats", "type" };
+				var members_valid = true;
+				foreach (var member in members) {
+					if (!runner_object.has_member (member)) {
+						members_valid = false;
+						break;
+					}
+				}
+				if (!members_valid)
+					continue;
 
 				var json_runner_item = new JsonRunnerItem ();
 				json_runner_item.title = runner_object.get_string_member ("title");
@@ -291,6 +302,25 @@ namespace ProtonPlus.Models {
 					}
 
 					json_runner_item.request_asset_exclude = request_asset_exclude;
+				}
+
+				if (runner_object.has_member ("asset_position_hwcaps_condition")) {
+					var asset_position_hwcaps_condition = runner_object.get_string_member ("asset_position_hwcaps_condition");
+
+                	var split = asset_position_hwcaps_condition.split (":");
+					if (split.length != 2)
+						return null;
+
+					foreach (var item in Globals.HWCAPS) {
+						if (item != split[0])
+							continue;
+
+						int asset_position = 0;
+						var parsed = int.try_parse (split[1], out asset_position);
+						if (!parsed)
+							return null;
+						json_runner_item.asset_position = asset_position;
+					}
 				}
 
 				json_runner_items[i] = json_runner_item;

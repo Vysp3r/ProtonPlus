@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-01 20:01-0400\n"
+"POT-Creation-Date: 2025-07-03 15:09-0400\n"
 "PO-Revision-Date: 2024-05-01 14:33+0000\n"
 "Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -26,45 +26,66 @@ msgstr ""
 msgid "Special thanks to"
 msgstr "Agradecimientos especiales a"
 
-#: src/widgets/window.vala:32
-#, fuzzy, c-format
-msgid "Welcome to %s"
-msgstr "Bienvenido a %s"
-
-#: src/widgets/window.vala:32
-msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr "Instala Steam, Lutris, Bottles o Heroic Games Launcher para empezar."
-
-#: src/widgets/window.vala:42
+#: src/widgets/window.vala:40
 #, fuzzy
 msgid "Donate"
 msgstr "Donar"
 
-#: src/widgets/window.vala:45
+#: src/widgets/window.vala:43
 #, fuzzy
 msgid "_Installed Only"
 msgstr "Solo instalado"
 
-#: src/widgets/window.vala:52
+#: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
 msgstr "Atajos"
 
-#: src/widgets/window.vala:53
+#: src/widgets/window.vala:51
 msgid "_About ProtonPlus"
 msgstr "Acerca de ProtonPlus"
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:58
 msgid "Main Menu"
 msgstr "Menú principal"
 
-#: src/widgets/window.vala:65 src/models/launchers/bottles.vala:29
-#: src/models/launchers/steam.vala:42
+#: src/widgets/window.vala:63
 msgid "Runners"
 msgstr "Corredores"
 
-#: src/widgets/window.vala:66
+#: src/widgets/window.vala:64
 msgid "Games"
 msgstr "Juegos"
+
+#: src/widgets/window.vala:93
+msgid "An error ocurred"
+msgstr ""
+
+#: src/widgets/window.vala:93
+#, fuzzy
+msgid "There was an error when trying to load the launchers."
+msgstr "Se ha producido un error al obtener datos de la API de GitHub."
+
+#: src/widgets/window.vala:93 src/widgets/runners/remove-dialog.vala:49
+#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/upgrade-dialog.vala:56
+#: src/widgets/games/games-box.vala:240
+#: src/widgets/games/mass-edit-dialog.vala:147
+#: src/widgets/games/shortcut-button.vala:38
+#: src/widgets/games/shortcut-button.vala:47
+#: src/widgets/games/launch-options-dialog.vala:57
+#: src/widgets/games/default-tool-dialog.vala:60
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
+msgid "Please report this issue on GitHub."
+msgstr ""
+
+#: src/widgets/window.vala:114
+#, fuzzy, c-format
+msgid "Welcome to %s"
+msgstr "Bienvenido a %s"
+
+#: src/widgets/window.vala:114
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+msgstr "Instala Steam, Lutris, Bottles o Heroic Games Launcher para empezar."
 
 #: src/widgets/runners/description-dialog.vala:14
 #, fuzzy
@@ -149,19 +170,6 @@ msgstr ""
 #: src/widgets/runners/remove-dialog.vala:49
 #, c-format
 msgid "When trying to remove %s an error occured."
-msgstr ""
-
-#: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
-#: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:240
-#: src/widgets/games/mass-edit-dialog.vala:147
-#: src/widgets/games/shortcut-button.vala:38
-#: src/widgets/games/shortcut-button.vala:47
-#: src/widgets/games/launch-options-dialog.vala:57
-#: src/widgets/games/default-tool-dialog.vala:60
-#: src/widgets/games/compatibility-tool-dropdown.vala:75
-msgid "Please report this issue on GitHub."
 msgstr ""
 
 #: src/widgets/runners/install-dialog.vala:23
@@ -547,87 +555,23 @@ msgstr "Herramienta de compatibilidad"
 msgid "When trying to change the compatibility tool of %s an error occured."
 msgstr ""
 
-#: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
-#: src/models/launchers/lutris.vala:36
-#, fuzzy
-msgid "Compatibility tools for running Windows software on Linux."
+#: src/models/runners/steamtinkerlaunch.vala:6
+msgid ""
+"Steam tool for easy, graphical configuration of your other compatibility "
+"tools for both Windows games and native Linux games."
 msgstr ""
-"Herramienta de compatibilidad para ejecutar el software de Windows en Linux."
+"Herramienta de Steam para una configuración gráfica sencilla de tus "
+"otrasherramientas de compatibilidad, tanto para juegos de Windows como para "
+"juegos nativos de Linux."
 
-#: src/models/launchers/bottles.vala:32 src/models/launchers/lutris.vala:39
-#, fuzzy
-msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr "Implementación basada en Vulkan de Direct3D 9, 10 y 11 para Linux/Wine"
-
-#: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
+#: src/main.vala:18
 #, fuzzy
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 "Herramienta de compatibilidad por Valve para ejecutar el software de Windows "
 "en Linux."
 
-#: src/models/launchers/lutris.vala:42
-#, fuzzy
-msgid ""
-"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
-"top of Vulkan."
-msgstr ""
-"Variante de VKD3D de Wine que busca implementar la API completa de Direct3D "
-"12 sobre Vulkan."
-
-#: src/models/runners/boxtron.vala:6
-#, fuzzy
-msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
-msgstr ""
-"Herramienta de compatibilidad con Steam Play para ejecutar juegos DOS usando "
-"DOSBox nativo de Linux."
-
-#: src/models/runners/dxvk-sarek.vala:6
-#: src/models/runners/dxvk-async-sarek.vala:6
-msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
-msgstr ""
-"Compilaciones de DXVK que funcionan con versiones anteriores a Vulkan 1.3"
-
-#: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
-#, fuzzy
-msgid "Wine build with the Staging patchset and many other useful patches."
-msgstr ""
-"Compilación de Wine con el conjunto de parches Staging y muchos otros "
-"parches útiles."
-
-#: src/models/runners/kron4ek-wine-builds-staging.vala:7
-#, fuzzy
-msgid "Wine build with the Staging patchset."
-msgstr "Compilación de Wine con el conjunto de parches Staging aplicados."
-
-#: src/models/runners/kron4ek-wine-builds-vanilla.vala:7
-msgid "Wine build compiled from the official WineHQ sources."
-msgstr "Compilación de Wine a partir de las fuentes oficiales de WineHQ."
-
-#: src/models/runners/luxtorpeda.vala:6
-#, fuzzy
-msgid ""
-"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
-msgstr ""
-"Luxtorpeda proporciona motores de juego nativos de Linux para ciertos juegos "
-"exclusivos de Windows."
-
-#: src/models/runners/northstar-proton.vala:6
-msgid "Custom Proton build for running the Northstar client for Titanfall 2."
-msgstr ""
-"Compilación personalizada de Proton para ejecutar el cliente Northstar de "
-"Titanfall 2."
-
-#: src/models/runners/proton-ge-rstp.vala:6
-#, fuzzy
-msgid ""
-"Steam compatibility tool based on Proton-GE with additional patches to "
-"improve RTSP codecs for VRChat."
-msgstr ""
-"Herramienta de compatibilidad de Steam basada en Proton-GE con parches "
-"adicionales paramejorar los códecs RTSP en VRChat."
-
-#: src/models/runners/proton-ge.vala:6
+#: src/main.vala:19
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
@@ -635,22 +579,7 @@ msgstr ""
 "Herramienta de compatibilidad de Steam para ejecutar juegos de Windows con "
 "mejoras sobreProton predeterminado de Valve."
 
-#: src/models/runners/proton-tkg.vala:6
-#, fuzzy
-msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr ""
-"Compilación personalizada de Proton para ejecutar juegos de Windows basada "
-"en Wine-tkg."
-
-#: src/models/runners/roberta.vala:6
-#, fuzzy
-msgid ""
-"Steam compatibility tool for running adventure games using ScummVM for Linux."
-msgstr ""
-"Herramienta de compatibilidad de Steam para ejecutar juegos de aventura en "
-"Linux usando ScummVM."
-
-#: src/models/runners/proton-cachyos.vala:14
+#: src/main.vala:20
 #, fuzzy
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
@@ -659,7 +588,7 @@ msgstr ""
 "Herramienta de compatibilidad de Steam para ejecutar juegos de Windows con "
 "mejoras sobreProton predeterminado de Valve."
 
-#: src/models/runners/proton-em.vala:6
+#: src/main.vala:21
 #, fuzzy
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
@@ -669,24 +598,115 @@ msgstr ""
 "Herramienta de compatibilidad de Steam para ejecutar juegos de Windows con "
 "mejoras sobreProton predeterminado de Valve."
 
-#: src/models/runners/proton-sarek.vala:6
-#: src/models/runners/proton-sarek-async.vala:6
-#, fuzzy, c-format
+#: src/main.vala:22
+#, fuzzy
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr ""
+"Compilación personalizada de Proton para ejecutar juegos de Windows basada "
+"en Wine-tkg."
+
+#: src/main.vala:23
+#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs, with %s."
+"GPUs, with DXVK."
 msgstr ""
 "Herramienta de compatibilidad de Steam basada en Proton-GE con "
 "modificaciones para GPU muy antiguas, con %s."
 
-#: src/models/runners/steamtinkerlaunch.vala:6
+#: src/main.vala:24
+#, fuzzy
 msgid ""
-"Steam tool for easy, graphical configuration of your other compatibility "
-"tools for both Windows games and native Linux games."
+"Steam compatibility tool based on Proton-GE with modifications for very old "
+"GPUs, with DXVK-Async."
 msgstr ""
-"Herramienta de Steam para una configuración gráfica sencilla de tus "
-"otrasherramientas de compatibilidad, tanto para juegos de Windows como para "
-"juegos nativos de Linux."
+"Herramienta de compatibilidad de Steam basada en Proton-GE con "
+"modificaciones para GPU muy antiguas, con %s."
+
+#: src/main.vala:25
+#, fuzzy
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
+msgstr ""
+"Herramienta de compatibilidad de Steam basada en Proton-GE con parches "
+"adicionales paramejorar los códecs RTSP en VRChat."
+
+#: src/main.vala:26
+msgid "Custom Proton build for running the Northstar client for Titanfall 2."
+msgstr ""
+"Compilación personalizada de Proton para ejecutar el cliente Northstar de "
+"Titanfall 2."
+
+#: src/main.vala:27
+#, fuzzy
+msgid ""
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
+msgstr ""
+"Luxtorpeda proporciona motores de juego nativos de Linux para ciertos juegos "
+"exclusivos de Windows."
+
+#: src/main.vala:28
+#, fuzzy
+msgid ""
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
+msgstr ""
+"Herramienta de compatibilidad de Steam para ejecutar juegos de aventura en "
+"Linux usando ScummVM."
+
+#: src/main.vala:29
+#, fuzzy
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
+msgstr ""
+"Herramienta de compatibilidad con Steam Play para ejecutar juegos DOS usando "
+"DOSBox nativo de Linux."
+
+#: src/main.vala:30
+#, fuzzy
+msgid "Compatibility tools for running Windows software on Linux."
+msgstr ""
+"Herramienta de compatibilidad para ejecutar el software de Windows en Linux."
+
+#: src/main.vala:31
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr "Compilación de Wine a partir de las fuentes oficiales de WineHQ."
+
+#: src/main.vala:32
+#, fuzzy
+msgid "Wine build with the Staging patchset."
+msgstr "Compilación de Wine con el conjunto de parches Staging aplicados."
+
+#: src/main.vala:33
+#, fuzzy
+msgid "Wine build with the Staging patchset and many other useful patches."
+msgstr ""
+"Compilación de Wine con el conjunto de parches Staging y muchos otros "
+"parches útiles."
+
+#: src/main.vala:34
+#, fuzzy
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+msgstr "Implementación basada en Vulkan de Direct3D 9, 10 y 11 para Linux/Wine"
+
+#: src/main.vala:35
+msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
+msgstr ""
+"Compilaciones de DXVK que funcionan con versiones anteriores a Vulkan 1.3"
+
+#: src/main.vala:36
+#, fuzzy
+msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
+msgstr ""
+"Compilaciones de DXVK que funcionan con versiones anteriores a Vulkan 1.3"
+
+#: src/main.vala:37
+#, fuzzy
+msgid ""
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
+msgstr ""
+"Variante de VKD3D de Wine que busca implementar la API completa de Direct3D "
+"12 sobre Vulkan."
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -799,10 +819,6 @@ msgstr "Salir"
 #~ msgstr ""
 #~ "Basado en la versión más reciente de Wine de Valve Proton Experimental, "
 #~ "compilado para Lutris."
-
-#, fuzzy
-#~ msgid "There was an error while fetching data from the GitHub API."
-#~ msgstr "Se ha producido un error al obtener datos de la API de GitHub."
 
 #~ msgid "Cancel the installation"
 #~ msgstr "Cancelar la instalación"

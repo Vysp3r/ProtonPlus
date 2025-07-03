@@ -35,6 +35,7 @@
                     "description": "Steam compatibility tool from the CachyOS Linux distribution for running Windows games with improvements over Valve's default Proton.",
                     "endpoint": "https://api.github.com/repos/CachyOS/proton-cachyos/releases",
                     "asset_position": 1,
+                    "asset_position_hwcaps_condition": "x86_64_v3:3",
                     "directory_name_formats": [
                         {
                             "launcher": "default",
@@ -51,20 +52,20 @@
                     "directory_name_formats": [
                         {
                             "launcher": "default",
-                            "directory_name_format": "$title $release_name"
+                            "directory_name_format": "$release_name"
                         }
                     ],
                     "type": "github"
                 },
                 {
                     "title": "Proton-Sarek",
-                    "description": "Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with %s.",
+                    "description": "Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with DXVK.",
                     "endpoint": "https://api.github.com/repos/pythonlover02/Proton-Sarek/releases",
                     "asset_position": 1,
                     "directory_name_formats": [
                         {
                             "launcher": "default",
-                            "directory_name_format": "$title $release_name"
+                            "directory_name_format": "$release_name"
                         }
                     ],
                     "request_asset_exclude": [
@@ -80,7 +81,7 @@
                     "directory_name_formats": [
                         {
                             "launcher": "default",
-                            "directory_name_format": "$title $release_name"
+                            "directory_name_format": "$release_name-async"
                         }
                     ],
                     "request_asset_exclude": [
@@ -96,7 +97,7 @@
                     "directory_name_formats": [
                         {
                             "launcher": "default",
-                            "directory_name_format": "$title $release_name"
+                            "directory_name_format": "$title-$release_name"
                         }
                     ],
                     "directory_name_format": "$title-$release_name",
@@ -273,7 +274,7 @@
                 {
                     "title": "DXVK GPL+Async (Ph42oN)",
                     "description": "",
-                    "endpoint": "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs",
+                    "endpoint": "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/releases",
                     "asset_position": 0,
                     "directory_name_formats": [
                         {
@@ -311,6 +312,10 @@
                         {
                             "launcher": "default",
                             "directory_name_format": "$release_name"
+                        },
+                        {
+                            "launcher": "Heroic Games Launcher",
+                            "directory_name_format": "!$release_name:v:vkd3d-lutris-"
                         }
                     ],
                     "type": "github"
