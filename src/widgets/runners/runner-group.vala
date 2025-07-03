@@ -35,22 +35,17 @@ namespace ProtonPlus.Widgets {
 				var runner = new Models.Runners.Installed(group);
 				var release = new Models.Releases.Basic.simple(runner, directory, group.launcher.directory + group.directory + "/" + directory);
 
-
 				var row = new Widgets.ReleaseRows.InstalledRow(release);
 				row.remove_from_parent.connect(row_remove_from_parent);
 
 				add(row);
+				
 				rows.append(row);
 			}
 		}
 
 		void clear() {
 			if (rows == null)return;
-
-			foreach (var row in rows) {
-				if (row.parent != null)
-					remove(row);
-			}
 
 			rows.foreach((row) => {
 				if (row.parent != null)

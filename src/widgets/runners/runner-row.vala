@@ -1,10 +1,10 @@
 namespace ProtonPlus.Widgets {
 	public class RunnerRow : Adw.ExpanderRow {
-		Models.Runner runner { get; set; }
-		Gtk.Spinner spinner { get; set; }
-		LoadMoreRow load_more_row { get; set; }
+		int count;
 
-		int count { get; set; }
+		Models.Runner runner;
+		Gtk.Spinner spinner;
+		LoadMoreRow load_more_row;
 
 		public RunnerRow (Models.Runner runner) {
 			this.runner = runner;
@@ -41,7 +41,7 @@ namespace ProtonPlus.Widgets {
 								spinner.set_visible (false);
 								return;
 							}
-
+							
 							insert_loaded_releases (releases);
 						});
 					} else if (b) {
@@ -56,7 +56,9 @@ namespace ProtonPlus.Widgets {
 				if (release is Models.Releases.Basic || release is Models.Releases.GitHubAction) {
 					var row = new Widgets.ReleaseRows.BasicRow ((Models.Releases.Basic) release);
 					add_row (row);
-				} else if (release is Models.Releases.SteamTinkerLaunch) {
+				}
+				
+				if (release is Models.Releases.SteamTinkerLaunch) {
 					var row = new Widgets.ReleaseRows.SteamTinkerLaunchRow ((Models.Releases.SteamTinkerLaunch) release);
 					add_row (row);
 				}
