@@ -38,7 +38,7 @@ msgstr ""
 
 #: src/widgets/window.vala:32
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr ""
+msgstr "Asenna Steam, Lutris, Bottles tai Heroic Games Launcher aloittaaksesi."
 
 #: src/widgets/window.vala:42
 msgid "Donate"
@@ -46,11 +46,11 @@ msgstr "Lahjoita"
 
 #: src/widgets/window.vala:45
 msgid "_Installed Only"
-msgstr ""
+msgstr "_Vain asennetut"
 
 #: src/widgets/window.vala:52
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Näppäinoikopolut"
 
 #: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
@@ -58,28 +58,28 @@ msgstr "_Tietoja ProtonPlus:sta"
 
 #: src/widgets/window.vala:60
 msgid "Main Menu"
-msgstr ""
+msgstr "Päävalikko"
 
 #: src/widgets/window.vala:65 src/models/launchers/bottles.vala:29
 #: src/models/launchers/steam.vala:42
 msgid "Runners"
-msgstr ""
+msgstr "Ajo-ohjelmat"
 
 #: src/widgets/window.vala:66
 msgid "Games"
-msgstr ""
+msgstr "Pelit"
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
-msgstr ""
+msgstr "Lisätietoja"
 
 #: src/widgets/runners/description-dialog.vala:18
 msgid "Open"
-msgstr ""
+msgstr "Avaa"
 
 #: src/widgets/runners/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr ""
+msgstr "Avaa nettiselaimessa"
 
 #: src/widgets/runners/release-row.vala:10
 #, c-format
@@ -90,21 +90,21 @@ msgstr "Poista %s"
 #: src/widgets/runners/install-dialog.vala:17
 #, c-format
 msgid "Install %s"
-msgstr ""
+msgstr "Asenna %s"
 
 #: src/widgets/runners/release-row.vala:18
 msgid "Show more information"
-msgstr ""
+msgstr "Näytä lisätiedot"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
 msgid "Load more"
-msgstr ""
+msgstr "Lataa lisää"
 
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Remove %s"
-msgstr ""
+msgstr "Poista %s"
 
 #: src/widgets/runners/remove-dialog.vala:13
 msgid "Are you sure you want this?"
@@ -126,7 +126,7 @@ msgstr "Oletko varma että haluat jatkaa?"
 #: src/widgets/runners/remove-dialog.vala:30
 #: src/widgets/runners/steamtinkerlaunch-row.vala:91
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: src/widgets/runners/remove-dialog.vala:31
 #: src/widgets/runners/steamtinkerlaunch-row.vala:92
@@ -143,7 +143,7 @@ msgstr ""
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Error"
-msgstr ""
+msgstr "Virhe"
 
 #: src/widgets/runners/remove-dialog.vala:49
 #, c-format
@@ -161,7 +161,7 @@ msgstr ""
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
-msgstr ""
+msgstr "Ole hyvä ja raportoi tämä ongelma GitHub:issa."
 
 #: src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -181,15 +181,15 @@ msgstr "Lataa"
 #: src/widgets/runners/install-dialog.vala:79
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
-msgstr ""
+msgstr "Puretaan"
 
 #: src/widgets/runners/install-dialog.vala:82
 msgid "Renaming"
-msgstr ""
+msgstr "Uudelleennimeäminen"
 
 #: src/widgets/runners/install-dialog.vala:85
 msgid "Running post install script"
-msgstr ""
+msgstr "Ajetaan asennuksenjälkeistä syötettä"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
@@ -222,12 +222,12 @@ msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 msgid "Installation will be canceled."
-msgstr ""
+msgstr "Asennus tullaan keskeyttämään."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:45
 #: src/widgets/runners/steamtinkerlaunch-row.vala:155
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, c-format
@@ -235,6 +235,8 @@ msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
+"Näyttäisi siltä, että sinulla on jokin toinen versio nimikkeestä %s jota ei "
+"ole asennettu ProtonPlussan kautta."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 msgid "Do you want to reinstall it with ProtonPlus?"
@@ -243,7 +245,7 @@ msgstr "Haluatko uudelleenasentaa sen ProtonPlus:n kanssa?"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
-msgstr ""
+msgstr "%s on jo päivitettynä ajantasalle."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:145
 #, c-format
@@ -269,7 +271,7 @@ msgstr "Sulje Steam jo etukäteen jotta muutokset voidaan toteuttaa."
 
 #: src/widgets/games/games-box.vala:87
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: src/widgets/games/games-box.vala:90
 #: src/widgets/games/mass-edit-dialog.vala:38
@@ -278,7 +280,7 @@ msgstr "Yhteensopivuustyökalu"
 
 #: src/widgets/games/games-box.vala:93
 msgid "Other"
-msgstr ""
+msgstr "Muu"
 
 #: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
 msgid "An error occured"
@@ -286,15 +288,15 @@ msgstr "Ilmeni virhe"
 
 #: src/widgets/games/games-box.vala:118
 msgid "No profile was found."
-msgstr ""
+msgstr "Käyttäjäprofiilia ei löytynyt."
 
 #: src/widgets/games/games-box.vala:118
 msgid "Make sure to connect yourself at least once on Steam."
-msgstr ""
+msgstr "Varmista että käynnistät Steamin kirjautuen tilillesi ainakin kerran."
 
 #: src/widgets/games/games-box.vala:118
 msgid "If you think this is an issue, make sure to report this on GitHub."
-msgstr ""
+msgstr "Mikäli tämä on mielestäsi ongelma, raportoithan siitä GitHub:iin."
 
 #: src/widgets/games/games-box.vala:168
 msgid "Unsuported launcher"
@@ -308,7 +310,7 @@ msgstr ""
 #: src/widgets/games/games-box.vala:168
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
-msgstr ""
+msgstr "Halutessasi nopeampaa kehitystyötä, annathan tukesi!"
 
 #: src/widgets/games/games-box.vala:218
 #: src/widgets/games/mass-edit-dialog.vala:109
@@ -326,7 +328,7 @@ msgstr ""
 
 #: src/widgets/games/game-row.vala:44
 msgid "Modify the game launch options"
-msgstr ""
+msgstr "Muokkaa pelin käynnistysasetuksia"
 
 #: src/widgets/games/game-row.vala:70
 msgid "Unknown"
@@ -334,12 +336,12 @@ msgstr ""
 
 #: src/widgets/games/game-row.vala:76
 msgid "Open ProtonDB page"
-msgstr ""
+msgstr "Avaa ProtonDB -sivusto"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
-msgstr ""
+msgstr "Massamuokkaus"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 msgid "1 game selected"
@@ -378,16 +380,16 @@ msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
 msgstr ""
-"Kytke tämä, jos haluat massamuokkauksen ottavan käynnistysvalinnat huomioon."
+"Kytke tämä, jos haluat massamuokkauksen ottavan käynnistysasetukset huomioon."
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
 msgid "Enter your desired launch options"
-msgstr "Syötä haluamasi käynnistyksen vaihroehdot"
+msgstr "Syötä haluamasi käynnistysasetukset"
 
 #: src/widgets/games/mass-edit-dialog.vala:51
 msgid "Launch options"
-msgstr ""
+msgstr "Käynnistysasetukset"
 
 #: src/widgets/games/mass-edit-dialog.vala:55
 msgid ""
@@ -409,7 +411,7 @@ msgstr "Luo oikopolku"
 
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Poista oikopolku"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
@@ -417,7 +419,7 @@ msgstr "Luo ProtonPlus-oikopolku Steam:iin"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Remove the shortcut of ProtonPlus in Steam"
-msgstr ""
+msgstr "Poista ProtonPlus-oikopolku Steamista"
 
 #: src/widgets/games/shortcut-button.vala:38
 msgid "When trying to remove the shortcut in Steam an error occured."
@@ -445,11 +447,11 @@ msgstr ""
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
-msgstr ""
+msgstr "Valitse kaikki"
 
 #: src/widgets/games/select-button.vala:11
 msgid "Select all the games"
-msgstr ""
+msgstr "Valitse kaikki pelit"
 
 #: src/widgets/games/unselect-button.vala:8
 msgid "Unselect all"
@@ -468,10 +470,12 @@ msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
+"Varmistathan, että valitset vähintään yhden pelin ennen massamuokkauksen "
+"käyttöä."
 
 #: src/widgets/games/launch-options-dialog.vala:12
 msgid "Modify launch options"
-msgstr ""
+msgstr "Muokkaa käynnistysasetuksia"
 
 #: src/widgets/games/launch-options-dialog.vala:15
 #: src/widgets/games/default-tool-dialog.vala:17
@@ -485,28 +489,28 @@ msgstr ""
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
-msgstr ""
+msgstr "Valitse profiili"
 
 #: src/widgets/games/extra-button.vala:10
 msgid "Open install directory"
-msgstr ""
+msgstr "Avaa asennuskansio"
 
 #: src/widgets/games/extra-button.vala:13
 msgid "Open prefix directory"
-msgstr ""
+msgstr "Avaa prefix-hakemisto"
 
 #: src/widgets/games/extra-button.vala:28
 msgid "Open menu"
-msgstr ""
+msgstr "Avaa valikko"
 
 #: src/widgets/games/default-tool-button.vala:8
 msgid "Set default compatibility tool"
-msgstr ""
+msgstr "Aseta vakiollinen yhteensopivuustyökalu"
 
 #: src/widgets/games/default-tool-button.vala:14
 #: src/widgets/games/default-tool-dialog.vala:14
 msgid "Set the default compatibility tool"
-msgstr ""
+msgstr "Aseta vakiollinen yhteensopivuustyökalu"
 
 #: src/widgets/games/default-tool-dialog.vala:60
 msgid "When trying to change the default compatibility tool an error occured."
@@ -514,7 +518,7 @@ msgstr ""
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
-msgstr ""
+msgstr "Valitse haluttu yhteensopivuustyökalu"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 #, c-format
@@ -566,6 +570,8 @@ msgstr ""
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
+"Luxtorpeda tarjoaa kotoperäiset Linux-pelimoottorit, mikäli tarjolla, "
+"alunperin vain-Windowsille tehdyille peleille."
 
 #: src/models/runners/northstar-proton.vala:6
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
@@ -626,14 +632,14 @@ msgstr ""
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Yleiset"
 
 #: data/ui/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Näytä oikopolut"
 
 #: data/ui/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Lopeta"
