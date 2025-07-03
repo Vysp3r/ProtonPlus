@@ -236,11 +236,15 @@ namespace ProtonPlus.Models {
 
 		static async Json.Object? get_runners_json_object () {
 			var download_url = "https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/runners.json";
-			var download_path = "%s/ProtonPlus/runners.json".printf (Environment.get_user_data_dir ());
+			var download_path = "%s/ProtonPlus".printf (Environment.get_user_data_dir ());
+			var download_full_path = "%s/runners.json".printf (download_path);
 
-			//yield Utils.Web.Download (download_url, download_path);
+			if (!FileUtils.test (download_path, FileTest.IS_DIR))
+				yield Utils.Filesystem.create_directory (download_path);
 
-			var json = Utils.Filesystem.get_file_content (download_path);
+			yield Utils.Web.Download (download_url, download_full_path);
+
+			var json = Utils.Filesystem.get_file_content (download_full_path);
 			if (json == "")
 				return null;
 
