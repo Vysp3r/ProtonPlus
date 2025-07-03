@@ -225,6 +225,22 @@
                         ".0."
                     ],
                     "type": "github"
+                },
+                {
+                    "title": "Wine-Proton (Kron4ek)",
+                    "description": "Wine build modified by Valve and other contributors.",
+                    "endpoint": "ttps://api.github.com/repos/Kron4ek/Wine-Builds/releases",
+                    "asset_position": 1,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "wine-$release_name-amd64-wow64"
+                        }
+                    ],
+                    "request_asset_filter": [
+                        "proton"
+                    ],
+                    "type": "github"
                 }
             ]
         },
@@ -377,6 +393,15 @@
                 {
                     "title": "DXVK",
                     "directory": "/dxvk"
+                }
+            ]
+        },
+        {
+            "title": "WineZGUI",
+            "groups": [
+                {
+                    "title": "Wine",
+                    "directory": "/Runners"
                 }
             ]
         }

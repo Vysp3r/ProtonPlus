@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<gresources>
-  <gresource prefix="/com/vysp3r/ProtonPlus">
-    <file alias="bottles.svg">launchers/bottles.svg</file>
-    <file alias="hgl.svg">launchers/hgl.svg</file>
-    <file alias="lutris.svg">launchers/lutris.svg</file>
-    <file alias="steam.svg">launchers/steam.svg</file>
-  </gresource>
-</gresources>

@@ -1,7 +1,6 @@
 subdir('ui')
 subdir('css')
 subdir('icons')
-subdir('images')
 
 install_subdir(
                        join_paths('logo', 'icons'),
