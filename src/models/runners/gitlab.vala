@@ -67,6 +67,8 @@ namespace ProtonPlus.Models.Runners {
                 }
             }
 
+            has_more = root_array.get_length () == 25;
+
             return temp_releases;
         }
     }
