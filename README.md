@@ -48,6 +48,7 @@
   - Lutris
   - Heroic Games Launcher
   - Bottles
+  - WineZGUI
 
 *The launcher you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md)!*
 
