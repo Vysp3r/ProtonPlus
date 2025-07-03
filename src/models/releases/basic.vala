@@ -41,7 +41,7 @@ namespace ProtonPlus.Models.Releases {
 
             step = Step.NOTHING;
 
-            state = FileUtils.test (install_location, FileTest.IS_DIR) ? State.UP_TO_DATE : State.NOT_INSTALLED;
+            state = (((Runners.Basic)runner).get_directory_name (title) != "" && FileUtils.test (install_location, FileTest.IS_DIR)) ? State.UP_TO_DATE : State.NOT_INSTALLED;
         }
 
         protected override async bool _start_install () {

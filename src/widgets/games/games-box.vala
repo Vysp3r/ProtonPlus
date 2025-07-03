@@ -52,7 +52,7 @@ namespace ProtonPlus.Widgets {
 			scrolled_window = new Gtk.ScrolledWindow();
 			scrolled_window.set_vexpand(true);
 			scrolled_window.set_child(overlay);
-			scrolled_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC);
+			scrolled_window.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
 
 			warning_label = new Gtk.Label(_("Close the Steam client beforehand so that the changes can be applied."));
 			warning_label.add_css_class("warning");

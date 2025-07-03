@@ -28,40 +28,11 @@ namespace ProtonPlus.Models.Launchers {
             has_library_support = true;
 
             if (installed) {
-                groups = get_groups ();
                 install.connect ((release) => true);
                 uninstall.connect ((release) => true);
 
                 profiles = SteamProfile.get_profiles(this);
             }
-        }
-
-        Group[] get_groups () {
-            var groups = new Group[1];
-
-            groups[0] = new Group (_("Runners"), "", "/compatibilitytools.d", this);
-            groups[0].runners = get_runners (groups[0]);
-
-            return groups;
-        }
-
-        public static List<Runner> get_runners (Group group) {
-            var runners = new List<Runner> ();
-
-            runners.append (new Runners.Proton_GE (group));
-            runners.append (new Runners.Proton_CachyOS (group));
-            runners.append (new Runners.Proton_EM (group));
-            runners.append (new Runners.Proton_Sarek (group));
-            runners.append (new Runners.Proton_Sarek_Async (group));
-            runners.append (new Runners.Proton_GE_RSTP (group));
-            runners.append (new Runners.Proton_Tkg (group));
-            runners.append (new Runners.Northstar_Proton (group));
-            runners.append (new Runners.Luxtorpeda (group));
-            runners.append (new Runners.Boxtron (group));
-            runners.append (new Runners.Roberta (group));
-            runners.append (new Runners.SteamTinkerLaunch (group));
-
-            return runners;
         }
 
         public int get_compatibility_tool_usage_count (string compatibility_tool_name) {

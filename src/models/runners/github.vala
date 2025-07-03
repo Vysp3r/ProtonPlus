@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Runners {
-    public abstract class GitHub : Basic {
+    public class GitHub : Basic {
         internal bool use_name_instead_of_tag_name { get; set; }
         internal string[] request_asset_filter { get; set; }
         internal string[] request_asset_exclude { get; set; }

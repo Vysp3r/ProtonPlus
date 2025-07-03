@@ -17,43 +17,9 @@ namespace ProtonPlus.Models.Launchers {
             base ("Heroic Games Launcher", installation_type, Globals.RESOURCE_BASE + "/hgl.svg", directories);
 
             if (installed) {
-                groups = get_groups ();
                 install.connect ((release) => install_script (release));
                 uninstall.connect ((release) => uninstall_script (release));
             }
-        }
-
-        Group[] get_groups () {
-            var groups = new Group[2];
-
-            groups[0] = new Group ("Proton", _("Compatibility tools by Valve for running Windows software on Linux."), "/tools/proton", this);
-            groups[0].runners = get_proton_runners (groups[0]);
-
-            groups[1] = new Group ("Wine", _("Compatibility tools for running Windows software on Linux."), "/tools/wine", this);
-            groups[1].runners = get_wine_runners (groups[1]);
-
-            return groups;
-        }
-
-        List<Runner> get_wine_runners (Group group) {
-            var runners = new List<Runner> ();
-
-            runners.append (new Runners.Wine_Vanilla_Kron4ek (group));
-            runners.append (new Runners.Wine_Staging_Kron4ek (group));
-            runners.append (new Runners.Wine_Staging_Tkg_Kron4ek (group));
-
-            return runners;
-        }
-
-        List<Runner> get_proton_runners (Group group) {
-            var runners = new List<Runner> ();
-
-            runners.append (new Runners.Proton_GE (group));
-            runners.append (new Runners.Proton_CachyOS (group));
-            runners.append (new Runners.Proton_EM (group));
-            runners.append (new Runners.Proton_Tkg (group));
-
-            return runners;
         }
 
         bool install_script (Release release) {

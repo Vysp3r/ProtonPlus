@@ -24,7 +24,7 @@ namespace ProtonPlus.Utils {
 
         public delegate void progress_callback (bool is_percent, int64 progress);
 
-        public static async bool Download (string url, string path, cancel_callback cancel_callback, progress_callback progress_callback) {
+        public static async bool Download (string url, string path, cancel_callback? cancel_callback = null, progress_callback? progress_callback = null) {
             try {
                 var session = new Soup.Session ();
                 session.set_user_agent (get_user_agent ());
@@ -64,7 +64,7 @@ namespace ProtonPlus.Utils {
                 var is_canceled = false;
 
                 while (true) {
-                    if (cancel_callback ()) {
+                    if (cancel_callback != null && cancel_callback ()) {
                         is_canceled = true;
                         break;
                     }

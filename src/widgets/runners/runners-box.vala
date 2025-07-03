@@ -22,6 +22,7 @@ namespace ProtonPlus.Widgets {
 
 			scrolled_window = new Gtk.ScrolledWindow ();
 			scrolled_window.set_child (clamp);
+			scrolled_window.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
 
 			append (scrolled_window);
         }

@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Runners {
-    public abstract class GitHubAction : Basic {
+    public class GitHubAction : Basic {
         internal string url_template { get; set; }
 
         public override async List<Models.Release> load () {
