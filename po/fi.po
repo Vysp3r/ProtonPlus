@@ -250,12 +250,12 @@ msgstr "%s on jo päivitetty ajantasalle."
 #: src/widgets/runners/steamtinkerlaunch-row.vala:145
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr ""
+msgstr "Asentaaksesi %s %s :lle, aja seuraava komento:"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
-msgstr ""
+msgstr "Tällä hetkellä ei ole olemassa tunnettua tapaa asentaa %s  %s :lle."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
 msgid "Up-to-date"
@@ -324,7 +324,7 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:240
 msgid "The library failed loading."
-msgstr ""
+msgstr "Kirjaston lataaminen epäonnistui."
 
 #: src/widgets/games/game-row.vala:44
 msgid "Modify the game launch options"
@@ -350,7 +350,7 @@ msgstr "1 peli valittu"
 #: src/widgets/games/mass-edit-dialog.vala:20
 #, c-format
 msgid "%u games selected"
-msgstr ""
+msgstr "%u pelejä valittu"
 
 #: src/widgets/games/mass-edit-dialog.vala:22
 #: src/widgets/games/launch-options-dialog.vala:14
@@ -548,6 +548,8 @@ msgstr ""
 #: src/models/runners/boxtron.vala:6
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
+"Steam-yhteensopivuustyökalu DOS-pelien pelaamiseen käyttäen DOSBox:ia "
+"Linuxissa."
 
 #: src/models/runners/dxvk-sarek.vala:6
 #: src/models/runners/dxvk-async-sarek.vala:6
@@ -584,7 +586,7 @@ msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
 msgstr ""
-"Steam yhteensopivuustyökalu joka perustuu Proton-GE:en sisältäen "
+"Steam-yhteensopivuustyökalu joka perustuu Proton-GE:en sisältäen "
 "lisäpaikkauksia jotka parantavat RTSP koodekkeja VRChat:iin."
 
 #: src/models/runners/proton-ge.vala:6
@@ -592,6 +594,8 @@ msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
+"Steam-yhteensopivuustyökalu Windows-pelien pelaamiseen jossa lisänä "
+"parannuksia verraten Valven oletus-Protoniin."
 
 #: src/models/runners/proton-tkg.vala:6
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
@@ -603,12 +607,16 @@ msgstr ""
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
+"Steam-yhteensopivuustyökalu seikkailupelien pelaamiseen käyttäen ScummVM:ää "
+"Linuxille."
 
 #: src/models/runners/proton-cachyos.vala:14
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
 msgstr ""
+"Steam-yhteensopivuustyökalu CachyOS Linux -jakelusta Windows-pelejä varten. "
+"Mukana parannuksia Valven oletus-Protoniin nähden."
 
 #: src/models/runners/proton-em.vala:6
 msgid ""
@@ -616,6 +624,9 @@ msgid ""
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
 msgstr ""
+"Steam-yhteensopivuustyökalu Windows-pelien käyttämiseen, jossa on "
+"parannuksia Valven oletus-Protoniin nähden. Tehnyt Etaash Mathamsetty joka "
+"lisäsi FSR4-tuen ja Wayland:illa ajetun Wine:n parannukset."
 
 #: src/models/runners/proton-sarek.vala:6
 #: src/models/runners/proton-sarek-async.vala:6
@@ -624,12 +635,16 @@ msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with %s."
 msgstr ""
+"Steam-yhteensopivuustyökalu joka perustuu Proton-GE:n jossa on muokkauksia "
+"erittäin vanhoja näytönohjaimia varten, mukana %s."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
 msgstr ""
+"Steam-työkalu muiden yhteensopivuustyökalujen helppoon, graafiseen "
+"asetteluun niin Windows-peleissä kuin natiiveissa Linux-peleissäkin."
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
