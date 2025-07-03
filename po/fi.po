@@ -370,19 +370,20 @@ msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
 msgstr ""
-"Ota tämä käyttöön, jos haluat massamuokkauksen ottavan "
-"yhteensopivuustyökalun huomioon."
+"Kytke tämä, jos haluat massamuokkauksen ottavan yhteensopivuustyökalun "
+"huomioon."
 
 #: src/widgets/games/mass-edit-dialog.vala:44
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
-msgstr "Kytke, jos haluat massamuokkauksen ottavan käynnistysvalinnat huomioon."
+msgstr ""
+"Kytke tämä, jos haluat massamuokkauksen ottavan käynnistysvalinnat huomioon."
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
 msgid "Enter your desired launch options"
-msgstr ""
+msgstr "Syötä haluamasi käynnistyksen vaihroehdot"
 
 #: src/widgets/games/mass-edit-dialog.vala:51
 msgid "Launch options"
