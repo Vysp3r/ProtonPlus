@@ -2,22 +2,26 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
 # Vysp3r <dev@vysp3r.com>, 2024.
+# Linus Virtanen <linus.virtanen@protonmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-01 20:01-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-07-03 17:04+0000\n"
+"Last-Translator: Linus Virtanen <linus.virtanen@protonmail.com>\n"
+"Language-Team: Finnish <https://hosted.weblate.org/projects/protonplus/"
+"protonplus/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:83
 msgid "A modern compatibility tools manager for Linux."
-msgstr ""
+msgstr "Nykyaikainen yhteensopivuustyökalujen hallinta Linuxille."
 
 #: src/widgets/application.vala:85
 msgid "Website"
@@ -50,7 +54,7 @@ msgstr ""
 
 #: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
-msgstr ""
+msgstr "_Tietoja ProtonPlus:sta"
 
 #: src/widgets/window.vala:60
 msgid "Main Menu"
@@ -104,7 +108,7 @@ msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:13
 msgid "Are you sure you want this?"
-msgstr ""
+msgstr "Oletko varma tästä?"
 
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
@@ -117,7 +121,7 @@ msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:26
 msgid "Are you sure you want to proceed?"
-msgstr ""
+msgstr "Oletko varma että haluat jatkaa?"
 
 #: src/widgets/runners/remove-dialog.vala:30
 #: src/widgets/runners/steamtinkerlaunch-row.vala:91
@@ -162,7 +166,7 @@ msgstr ""
 #: src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
-msgstr ""
+msgstr "Keskeytä"
 
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
@@ -200,7 +204,7 @@ msgstr ""
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
 msgid "Check this to also remove your configuration files."
-msgstr ""
+msgstr "Ruksaa lisäksi tämä poistattaaksesi myös asetustiedostosi."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
@@ -261,7 +265,7 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:57
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr ""
+msgstr "Sulje Steam jo etukäteen jotta muutokset voidaan toteuttaa."
 
 #: src/widgets/games/games-box.vala:87
 msgid "Name"
@@ -270,7 +274,7 @@ msgstr ""
 #: src/widgets/games/games-box.vala:90
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
-msgstr ""
+msgstr "Yhteensopivuustyökalu"
 
 #: src/widgets/games/games-box.vala:93
 msgid "Other"
@@ -278,7 +282,7 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
 msgid "An error occured"
-msgstr ""
+msgstr "Ilmeni virhe"
 
 #: src/widgets/games/games-box.vala:118
 msgid "No profile was found."
@@ -339,7 +343,7 @@ msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 msgid "1 game selected"
-msgstr ""
+msgstr "1 peli valittu"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 #, c-format
@@ -350,11 +354,11 @@ msgstr ""
 #: src/widgets/games/launch-options-dialog.vala:14
 #: src/widgets/games/default-tool-dialog.vala:16
 msgid "Apply"
-msgstr ""
+msgstr "Toteuta"
 
 #: src/widgets/games/mass-edit-dialog.vala:23
 msgid "Apply the current modifications"
-msgstr ""
+msgstr "Toteuta nykyiset muovaukset"
 
 #: src/widgets/games/mass-edit-dialog.vala:31
 #: src/widgets/games/mass-edit-dialog.vala:43
@@ -396,7 +400,7 @@ msgstr ""
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Create shortcut"
-msgstr ""
+msgstr "Luo oikopolku"
 
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Remove shortcut"
@@ -404,7 +408,7 @@ msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr ""
+msgstr "Luo ProtonPlus-pikakuvake Steam:iin"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Remove the shortcut of ProtonPlus in Steam"
@@ -467,7 +471,7 @@ msgstr ""
 #: src/widgets/games/launch-options-dialog.vala:15
 #: src/widgets/games/default-tool-dialog.vala:17
 msgid "Apply the current modification"
-msgstr ""
+msgstr "Toteuta nykyinen muovaus"
 
 #: src/widgets/games/launch-options-dialog.vala:57
 #, c-format
@@ -515,7 +519,7 @@ msgstr ""
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
 #: src/models/launchers/lutris.vala:36
 msgid "Compatibility tools for running Windows software on Linux."
-msgstr ""
+msgstr "Yhteensopivuustyökaluja Windows-ohjelmistojen ajamiseksi Linuxissa."
 
 #: src/models/launchers/bottles.vala:32 src/models/launchers/lutris.vala:39
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
@@ -524,6 +528,7 @@ msgstr ""
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
+"Yhteensopivuustyökaluja Valve:lta Windows-ohjelmistojen ajamiseksi Linuxissa."
 
 #: src/models/launchers/lutris.vala:42
 msgid ""
