@@ -245,7 +245,7 @@ msgstr "Haluatko uudelleenasentaa sen ProtonPlus:n kanssa?"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
-msgstr "%s on jo päivitettynä ajantasalle."
+msgstr "%s on jo päivitetty ajantasalle."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:145
 #, c-format
@@ -305,7 +305,7 @@ msgstr ""
 #: src/widgets/games/games-box.vala:168
 #, c-format
 msgid "%s is currently not supported."
-msgstr ""
+msgstr "%s ei tuettu tällä hetkellä."
 
 #: src/widgets/games/games-box.vala:168
 msgid ""
@@ -431,19 +431,19 @@ msgstr ""
 
 #: src/widgets/games/sort-by-name-button.vala:8
 msgid "Sort by name"
-msgstr ""
+msgstr "Järjestä nimen mukaan"
 
 #: src/widgets/games/sort-by-name-button.vala:11
 msgid "Sorts the games by their name"
-msgstr ""
+msgstr "Järjestää pelit niiden nimen mukaan"
 
 #: src/widgets/games/sort-by-tool-button.vala:8
 msgid "Sort by compatibility tool"
-msgstr ""
+msgstr "Järjestä yhteensopivuustyökalun mukaisesti"
 
 #: src/widgets/games/sort-by-tool-button.vala:11
 msgid "Sorts the games by the compatibility tool name"
-msgstr ""
+msgstr "Järjestää pelit yhteensopivuustyökalun nimen mukaisesti"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
