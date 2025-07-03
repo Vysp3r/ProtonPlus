@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Runners {
-    public abstract class GitLab : Basic {
+    public class GitLab : Basic {
         internal bool use_name_instead_of_tag_name { get; set; }
         internal string[] request_asset_exclude { get; set; }
 

@@ -27,9 +27,7 @@ namespace ProtonPlus.Widgets {
 			add_action (get_set_selected_launcher_action ());
 			add_action (get_set_installed_only_action ());
 
-			set_size_request (1024, 600);
-
-			status_box = new StatusBox ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
+			status_box = new StatusBox ();
 
 			runners_box = new RunnersBox ();
 
@@ -88,30 +86,43 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void initialize () {
-			launchers = Models.Launcher.get_all ();
+			Models.Launcher.get_all.begin((obj, res) => {
+				launchers =  Models.Launcher.get_all.end (res);
 
-			var valid = launchers.length () > 0;
+				if (launchers == null) {
+					status_box.initialize("bug-symbolic", _("An error ocurred"), "%s\n%s".printf( _("There was an error when trying to load the launchers."), _("Please report this issue on GitHub."))); 
 
-			if (valid) {
-				launchers_popover_button.initialize (launchers);
+					if (status_box.get_parent () == null)
+						set_content (status_box);
 
-				if (toolbar_view.get_parent () == null)
-					set_content (toolbar_view);
+					return;
+				}
 
-				activate_action_variant ("win.set-selected-launcher", 0);
-			}
-				
+				var valid = launchers.length () > 0;
 
-			if (!valid) {
-				if (status_box.get_parent () == null)
-					set_content (status_box);
+				if (valid) {
+					launchers_popover_button.initialize (launchers);
 
-				Timeout.add (10000, () => {
-					initialize ();
+					if (toolbar_view.get_parent () == null)
+						set_content (toolbar_view);
 
-					return false;
-				});
-			}
+					activate_action_variant ("win.set-selected-launcher", 0);
+				}
+					
+
+				if (!valid) {
+					status_box.initialize("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
+
+					if (status_box.get_parent () == null)
+						set_content (status_box);
+
+					Timeout.add (10000, () => {
+						initialize ();
+
+						return false;
+					});
+				}
+			});
 		}
 
 		void donate_button_clicked () {

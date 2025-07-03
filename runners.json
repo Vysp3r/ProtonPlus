@@ -1,0 +1,379 @@
+{
+    "version": 1,
+    "groups": [
+        {
+            "title": "Proton",
+            "description": "Compatibility tools by Valve for running Windows software on Linux.",
+            "runners": [
+                {
+                    "title": "Proton-GE",
+                    "description": "Steam compatibility tool for running Windows games with improvements over Valve's default Proton.",
+                    "endpoint": "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases",
+                    "asset_position": 1,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$release_name"
+                        },
+                        {
+                            "launcher": "Steam",
+                            "directory_name_format": "&$release_name:.:Proton-$release_name:$release_name"
+                        },
+                        {
+                            "launcher": "Bottles",
+                            "directory_name_format": "_$release_name"
+                        },
+                        {
+                            "launcher": "Heroic Games Launcher",
+                            "directory_name_format": "Proton-$release_name"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "Proton-CachyOS",
+                    "description": "Steam compatibility tool from the CachyOS Linux distribution for running Windows games with improvements over Valve's default Proton.",
+                    "endpoint": "https://api.github.com/repos/CachyOS/proton-cachyos/releases",
+                    "asset_position": 1,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "Proton-EM",
+                    "description": "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine wayland tweaks.",
+                    "endpoint": "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases",
+                    "asset_position": 1,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "Proton-Sarek",
+                    "description": "Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with %s.",
+                    "endpoint": "https://api.github.com/repos/pythonlover02/Proton-Sarek/releases",
+                    "asset_position": 1,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "request_asset_exclude": [
+                        "Sarek9-13"
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "Proton-Sarek (Async)",
+                    "description": "Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with DXVK-Async.",
+                    "endpoint": "https://api.github.com/repos/pythonlover02/Proton-Sarek/releases",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "request_asset_exclude": [
+                        "Sarek9-13"
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "Proton-Tkg",
+                    "description": "Custom Proton build for running Windows games, based on Wine-tkg.",
+                    "endpoint": "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "directory_name_format": "$title-$release_name",
+                    "url_template": "https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/{id}/proton-tkg-build.zip",
+                    "type": "github-action"
+                },
+                {
+                    "title": "Proton-GE RTSP",
+                    "description": "Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat.",
+                    "endpoint": "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "NorthstarProton",
+                    "description": "Custom Proton build for running the Northstar client for Titanfall 2.",
+                    "endpoint": "https://api.github.com/repos/cyrv6737/NorthstarProton/releases",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "Luxtorpeda",
+                    "description": "Luxtorpeda provides Linux-native game engines for certain Windows-only games.",
+                    "endpoint": "https://api.github.com/repos/luxtorpeda-dev/luxtorpeda/releases",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "Roberta",
+                    "description": "Steam compatibility tool for running adventure games using ScummVM for Linux.",
+                    "endpoint": "https://api.github.com/repos/dreamer/roberta/releases",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "Boxtron",
+                    "description": "Steam compatibility tool for running DOS games using DOSBox for Linux.",
+                    "endpoint": "https://api.github.com/repos/dreamer/boxtron/releases",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "type": "github"
+                }
+            ]
+        },
+        {
+            "title": "Wine",
+            "description": "Compatibility tools for running Windows software on Linux.",
+            "runners": [
+                {
+                    "title": "Wine-Vanilla (Kron4ek)",
+                    "description": "Wine build compiled from the official WineHQ sources.",
+                    "endpoint": "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
+                    "asset_position": 1,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "wine-$release_name-amd64"
+                        }
+                    ],
+                    "request_asset_exclude": [
+                        "proton",
+                        ".0."
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "Wine-Staging (Kron4ek)",
+                    "description": "Wine build with the Staging patchset.",
+                    "endpoint": "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
+                    "asset_position": 2,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "wine-$release_name-staging-amd64"
+                        }
+                    ],
+                    "request_asset_exclude": [
+                        "proton",
+                        ".0."
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "Wine-Staging-Tkg (Kron4ek)",
+                    "description": "Wine build with the Staging patchset and many other useful patches.",
+                    "endpoint": "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
+                    "asset_position": 3,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "wine-$release_name-staging-tkg-amd64"
+                        }
+                    ],
+                    "request_asset_exclude": [
+                        "proton",
+                        ".0."
+                    ],
+                    "type": "github"
+                }
+            ]
+        },
+        {
+            "title": "DXVK",
+            "description": "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine.",
+            "runners": [
+                {
+                    "title": "DXVK (doitsujin)",
+                    "description": "",
+                    "endpoint": "https://api.github.com/repos/doitsujin/dxvk/releases",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "!$release_name:v:dxvk-"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "DXVK (Sarek)",
+                    "description": "DXVK Builds that work with pre-Vulkan 1.3 versions",
+                    "endpoint": "https://api.github.com/repos/pythonlover02/DXVK-Sarek/releases",
+                    "asset_position": 1,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "sarek-$release_name"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "DXVK Async (Sarek)",
+                    "description": "DXVK Async Builds that work with pre-Vulkan 1.3 versions",
+                    "endpoint": "https://api.github.com/repos/pythonlover02/DXVK-Sarek/releases",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "sarek-async-$release_name"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "DXVK GPL+Async (Ph42oN)",
+                    "description": "",
+                    "endpoint": "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "dxvk-gplasync-$release_name"
+                        }
+                    ],
+                    "type": "gitlab"
+                }
+            ]
+        },
+        {
+            "title": "VKD3D",
+            "description": "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.",
+            "runners": [
+                {
+                    "title": "VKD3D-Proton",
+                    "description": "",
+                    "endpoint": "https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "!$release_name:v:vkd3d-proton-"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
+                    "title": "VKD3D-Lutris",
+                    "description": "",
+                    "endpoint": "https://api.github.com/repos/lutris/vkd3d/releases",
+                    "asset_position": 0,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$release_name"
+                        }
+                    ],
+                    "type": "github"
+                }
+            ]
+        }
+    ],
+    "launchers": [
+        {
+            "title": "Steam",
+            "groups": [
+                {
+                    "title": "Proton",
+                    "directory": "/compatibilitytools.d"
+                }
+            ]
+        },
+        {
+            "title": "Lutris",
+            "groups": [
+                {
+                    "title": "Proton",
+                    "directory": "/runners/proton"
+                },
+                {
+                    "title": "Wine",
+                    "directory": "/runners/wine"
+                },
+                {
+                    "title": "DXVK",
+                    "directory": "/runtime/dxvk"
+                },
+                {
+                    "title": "VKD3D",
+                    "directory": "/runtime/vkd3d"
+                }
+            ]
+        },
+        {
+            "title": "Heroic Games Launcher",
+            "groups": [
+                {
+                    "title": "Proton",
+                    "directory": "/tools/proton"
+                },
+                {
+                    "title": "Wine",
+                    "directory": "/tools/wine"
+                }
+            ]
+        },
+        {
+            "title": "Bottles",
+            "groups": [
+                {
+                    "title": "Proton",
+                    "directory": "/runners"
+                },
+                {
+                    "title": "DXVK",
+                    "directory": "/dxvk"
+                }
+            ]
+        }
+    ]
+}
