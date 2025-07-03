@@ -126,7 +126,7 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void donate_button_clicked () {
-			Utils.System.open_uri ("https://github.com/sponsors/Vysp3r");
+			Utils.System.open_uri ("https://protonplus.vysp3r.com/#donate");
 		}
 
 		void view_stack_visible_child_name_changed () {
