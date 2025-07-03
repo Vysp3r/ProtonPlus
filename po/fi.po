@@ -377,7 +377,7 @@ msgstr ""
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
-msgstr ""
+msgstr "Kytke, jos haluat massamuokkauksen ottavan käynnistysvalinnat huomioon."
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
