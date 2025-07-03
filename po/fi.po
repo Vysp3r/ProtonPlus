@@ -25,7 +25,7 @@ msgstr "Nykyaikainen yhteensopivuustyökalujen hallinta Linuxille."
 
 #: src/widgets/application.vala:85
 msgid "Website"
-msgstr ""
+msgstr "Verkkosivusto"
 
 #: src/widgets/application.vala:90
 msgid "Special thanks to"
@@ -34,7 +34,7 @@ msgstr "Erityiskiitokset"
 #: src/widgets/window.vala:32
 #, c-format
 msgid "Welcome to %s"
-msgstr ""
+msgstr "Tervetuloa %s :n"
 
 #: src/widgets/window.vala:32
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
@@ -113,11 +113,11 @@ msgstr "Oletko varma tästä?"
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
-msgstr ""
+msgstr "Tätä käyttää %i peliä."
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr ""
+msgstr "1 peli käyttää tätä."
 
 #: src/widgets/runners/remove-dialog.vala:26
 msgid "Are you sure you want to proceed?"
@@ -131,7 +131,7 @@ msgstr "Ei"
 #: src/widgets/runners/remove-dialog.vala:31
 #: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Yes"
-msgstr ""
+msgstr "Kyllä"
 
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
@@ -148,7 +148,7 @@ msgstr "Virhe"
 #: src/widgets/runners/remove-dialog.vala:49
 #, c-format
 msgid "When trying to remove %s an error occured."
-msgstr ""
+msgstr "%s :n poistamisyritys tuotti virheen."
 
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
@@ -171,7 +171,7 @@ msgstr "Keskeytä"
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occured."
-msgstr ""
+msgstr "%s :n asennusyritys tuotti virheen."
 
 #: src/widgets/runners/install-dialog.vala:76
 #: src/widgets/runners/upgrade-dialog.vala:78
@@ -194,12 +194,12 @@ msgstr "Ajetaan asennuksenjälkeistä syötettä"
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
 msgid "Upgrade %s"
-msgstr ""
+msgstr "Päivitä %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
 #, c-format
 msgid "When trying to upgrade %s an error occured."
-msgstr ""
+msgstr "%s :n päivitysyritys tuotti virheen."
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
@@ -213,12 +213,12 @@ msgstr "Ruksaa lisäksi tämä poistattaaksesi myös asetustiedostosi."
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
-msgstr ""
+msgstr "Varoitus"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
-msgstr ""
+msgstr "Sinulta uupuvat seuraavat riippuvaisuudet kohteelle %s:"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 msgid "Installation will be canceled."
@@ -259,11 +259,11 @@ msgstr "Tällä hetkellä ei ole olemassa tunnettua tapaa asentaa %s  %s :lle."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
 msgid "Up-to-date"
-msgstr ""
+msgstr "Päivitetty"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
 msgid "Update to the latest version"
-msgstr ""
+msgstr "Päivitä viimeisimpään julkaisuun"
 
 #: src/widgets/games/games-box.vala:57
 msgid "Close the Steam client beforehand so that the changes can be applied."
@@ -300,7 +300,7 @@ msgstr "Mikäli tämä on mielestäsi ongelma, raportoithan siitä GitHub:iin."
 
 #: src/widgets/games/games-box.vala:168
 msgid "Unsuported launcher"
-msgstr ""
+msgstr "Tämä käynnistin ei ole tuettu"
 
 #: src/widgets/games/games-box.vala:168
 #, c-format
@@ -320,7 +320,7 @@ msgstr "Halutessasi nopeampaa kehitystyötä, annathan tukesi!"
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
 #: src/models/games/steam.vala:76 src/models/games/steam.vala:97
 msgid "Undefined"
-msgstr ""
+msgstr "Määrittämätön"
 
 #: src/widgets/games/games-box.vala:240
 msgid "The library failed loading."
@@ -332,7 +332,7 @@ msgstr "Muokkaa pelin käynnistysasetuksia"
 
 #: src/widgets/games/game-row.vala:70
 msgid "Unknown"
-msgstr ""
+msgstr "Tuntematon"
 
 #: src/widgets/games/game-row.vala:76
 msgid "Open ProtonDB page"
@@ -350,7 +350,7 @@ msgstr "1 peli valittu"
 #: src/widgets/games/mass-edit-dialog.vala:20
 #, c-format
 msgid "%u games selected"
-msgstr "%u pelejä valittu"
+msgstr "%u pelit valittu"
 
 #: src/widgets/games/mass-edit-dialog.vala:22
 #: src/widgets/games/launch-options-dialog.vala:14
@@ -403,6 +403,8 @@ msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occured for the following games:"
 msgstr ""
+"Yrittäessäsi muuttaa valittujen pelien yhteensopivuustyökalua/"
+"käynnistysasetuksia, tapahtui virhe seuraavien pelien kohdalla:"
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
@@ -423,11 +425,11 @@ msgstr "Poista ProtonPlus-oikopolku Steamista"
 
 #: src/widgets/games/shortcut-button.vala:38
 msgid "When trying to remove the shortcut in Steam an error occured."
-msgstr ""
+msgstr "Tapahtui virhe yrittäessäsi poistaa oikopolkua Steam:issa."
 
 #: src/widgets/games/shortcut-button.vala:47
 msgid "When trying to create the shortcut in Steam an error occured."
-msgstr ""
+msgstr "Tapahtui virhe yrittäessäsi luoda oikopolkua Steam:iin."
 
 #: src/widgets/games/sort-by-name-button.vala:8
 msgid "Sort by name"
@@ -455,11 +457,11 @@ msgstr "Valitse kaikki pelit"
 
 #: src/widgets/games/unselect-button.vala:8
 msgid "Unselect all"
-msgstr ""
+msgstr "Poista kaikki valinnat"
 
 #: src/widgets/games/unselect-button.vala:11
 msgid "Unselect all the games"
-msgstr ""
+msgstr "Poista valinnat kaikista peleistä"
 
 #: src/widgets/games/mass-edit-button.vala:13
 msgid "Edit the compatibility tool of the selected games at once"
@@ -485,7 +487,7 @@ msgstr "Toteuta nykyinen muovaus"
 #: src/widgets/games/launch-options-dialog.vala:57
 #, c-format
 msgid "When trying to change the launch options of %s an error occured."
-msgstr ""
+msgstr "%s :n käynnistysasetusten muuttamisen tuotti virheen."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
@@ -515,6 +517,7 @@ msgstr "Aseta vakiollinen yhteensopivuustyökalu"
 #: src/widgets/games/default-tool-dialog.vala:60
 msgid "When trying to change the default compatibility tool an error occured."
 msgstr ""
+"Tapahtui virhe yrittäessäsi muuttaa oletuksellista yhteensopivuustyökalua."
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
@@ -523,7 +526,7 @@ msgstr "Valitse haluttu yhteensopivuustyökalu"
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
-msgstr ""
+msgstr "Virhe yrittäessäsi muuttaa %s :n yhteensopivuustyökalua."
 
 #: src/models/launchers/bottles.vala:29 src/models/launchers/hgl.vala:32
 #: src/models/launchers/lutris.vala:36
@@ -533,6 +536,7 @@ msgstr "Yhteensopivuustyökaluja Windows-ohjelmistojen ajamiseksi Linuxissa."
 #: src/models/launchers/bottles.vala:32 src/models/launchers/lutris.vala:39
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
+"Vulkan-perustainen Direct3D 8, 9, 10 ja 11 -toteutus Linuxille Wine:n kautta."
 
 #: src/models/launchers/hgl.vala:29 src/models/launchers/lutris.vala:33
 msgid "Compatibility tools by Valve for running Windows software on Linux."
@@ -544,6 +548,8 @@ msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
+"Muunnelma Wine:n VKD3D:stä, jonka tavoitteena on toteuttaa täydellinen "
+"Direct3D 12 -ohjelmointirajapinta Vulkan:ille."
 
 #: src/models/runners/boxtron.vala:6
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
@@ -559,14 +565,16 @@ msgstr "DXVK-kokoomat jotka toimivat esi-Vulkan 1.3 -versioilla"
 #: src/models/runners/kron4ek-wine-builds-staging-tkg.vala:7
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
+"Wine-kokooma jossa mukana uudemmat Staging-paikat sekä monia muita "
+"hyödyllisiä paikkauksia."
 
 #: src/models/runners/kron4ek-wine-builds-staging.vala:7
 msgid "Wine build with the Staging patchset."
-msgstr ""
+msgstr "Wine-kokoona jossa mukana uudemmat Staging-paikat."
 
 #: src/models/runners/kron4ek-wine-builds-vanilla.vala:7
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr ""
+msgstr "Wine-kokooma joka on koottu virallisista WineHQ -lähteistä."
 
 #: src/models/runners/luxtorpeda.vala:6
 msgid ""
