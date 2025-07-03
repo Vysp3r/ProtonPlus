@@ -29,7 +29,7 @@ msgstr ""
 
 #: src/widgets/application.vala:90
 msgid "Special thanks to"
-msgstr ""
+msgstr "Erityiskiitokset"
 
 #: src/widgets/window.vala:32
 #, c-format
@@ -443,7 +443,7 @@ msgstr "Järjestä yhteensopivuustyökalun mukaisesti"
 
 #: src/widgets/games/sort-by-tool-button.vala:11
 msgid "Sorts the games by the compatibility tool name"
-msgstr "Järjestää pelit yhteensopivuustyökalun nimen mukaisesti"
+msgstr "Järjestää pelit yhteensopivuustyökalun nimenmukaisesti"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -584,6 +584,8 @@ msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
 msgstr ""
+"Steam yhteensopivuustyökalu joka perustuu Proton-GE:en sisältäen "
+"lisäpaikkauksia jotka parantavat RTSP koodekkeja VRChat:iin."
 
 #: src/models/runners/proton-ge.vala:6
 msgid ""
