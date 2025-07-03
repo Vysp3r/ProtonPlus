@@ -214,6 +214,10 @@
     ```
 </details>
 
+## 📖 Wiki
+
+**The wiki is slowly getting built, but not fully ready yet. [Access it here](https://github.com/Vysp3r/ProtonPlus/wiki)**
+
 ## 🌐 Translate
 
 **You can translate ProtonPlus on [Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/) or by modifying the files directly**
