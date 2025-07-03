@@ -23,7 +23,7 @@ namespace ProtonPlus.Models.Runners {
 
             for (var i = 0; i < runs_array.get_length (); i++) {
                 var object = runs_array.get_object_element (i);
-
+                
                 string title = object.get_int_member ("run_number").to_string ();
                 string page_url = object.get_string_member ("html_url");
                 string release_date = object.get_string_member ("created_at").split ("T")[0];
@@ -37,6 +37,8 @@ namespace ProtonPlus.Models.Runners {
                     temp_releases.append (release);
                 }
             }
+
+            has_more = runs_array.get_length () == 25;
 
             return temp_releases;
         }
