@@ -205,7 +205,7 @@ namespace ProtonPlus.Models {
 					if (json_group_item == null)
 						return false;
 					
-					groups[i] = new Group (json_launcher_group_item.title, json_group_item.description, json_launcher_group_item.directory, launcher);
+					groups[i] = new Group (json_launcher_group_item.title, Utils.safe_translate(json_group_item.description), json_launcher_group_item.directory, launcher);
             		
 					groups[i].runners = new List<Runner> ();
 
@@ -417,7 +417,7 @@ namespace ProtonPlus.Models {
 
 			if (runner != null) {
 				runner.title = json_runner_item.title;
-				runner.description = _(json_runner_item.description);
+				runner.description = Utils.safe_translate(json_runner_item.description);
 				runner.endpoint = json_runner_item.endpoint;
 				runner.asset_position = json_runner_item.asset_position;
 				runner.directory_name_format = yield get_directory_name_format_from_array(json_runner_item.directory_name_formats, group.launcher.title);

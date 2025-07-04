@@ -77,6 +77,7 @@ protonplus_sources = files(
   'utils/web.vala',
   'utils/parser.vala',
   'utils/system.vala',
+  'utils/i18n.vala',
 )
 
 protonplus_deps = [
