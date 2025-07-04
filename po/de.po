@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-03 19:03-0400\n"
-"PO-Revision-Date: 2025-07-02 15:08+0200\n"
+"PO-Revision-Date: 2025-07-04 09:59+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -59,13 +59,12 @@ msgid "Games"
 msgstr "Spiele"
 
 #: src/widgets/window.vala:93
-#, fuzzy
 msgid "An error ocurred"
 msgstr "Ein Fehler ist aufgetreten"
 
 #: src/widgets/window.vala:93
 msgid "There was an error when trying to load the launchers."
-msgstr ""
+msgstr "Es gab einen Fehler beim Versuch, die Starter zu laden."
 
 #: src/widgets/window.vala:93 src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
@@ -601,22 +600,20 @@ msgstr ""
 "auf Wine-tkg."
 
 #: src/main.vala:23
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK."
 msgstr ""
 "Steam-Kompatibilitätstool basierend auf Proton-GE mit Modifikationen für "
-"sehr alte GPUs, mit %s."
+"sehr alte GPUs, mit DXVK."
 
 #: src/main.vala:24
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK-Async."
 msgstr ""
 "Steam-Kompatibilitätstool basierend auf Proton-GE mit Modifikationen für "
-"sehr alte GPUs, mit %s."
+"sehr alte GPUs, mit DXVK-Async."
 
 #: src/main.vala:25
 msgid ""
@@ -682,9 +679,8 @@ msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
 msgstr "DXVK Builds, die mit Vor-Vulkan 1.3 Versionen funktionieren"
 
 #: src/main.vala:37
-#, fuzzy
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
-msgstr "DXVK Builds, die mit Vor-Vulkan 1.3 Versionen funktionieren"
+msgstr "DXVK Async Builds, die mit Vor-Vulkan 1.3 Versionen funktionieren"
 
 #: src/main.vala:38
 msgid ""
