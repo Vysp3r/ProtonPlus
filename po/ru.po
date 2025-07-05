@@ -24,11 +24,11 @@ msgstr "Современный менеджер инструментов сов�
 
 #: src/widgets/application.vala:85
 msgid "Website"
-msgstr ""
+msgstr "Веб-сайт"
 
 #: src/widgets/application.vala:90
 msgid "Special thanks to"
-msgstr ""
+msgstr "Отдельное спасибо"
 
 #: src/widgets/window.vala:40
 #, fuzzy
@@ -42,7 +42,7 @@ msgstr "Установить %s"
 
 #: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "_Горячие клавиши"
 
 #: src/widgets/window.vala:51
 msgid "_About ProtonPlus"
@@ -50,7 +50,7 @@ msgstr "Информация о ProtonPlus"
 
 #: src/widgets/window.vala:58
 msgid "Main Menu"
-msgstr ""
+msgstr "Основное меню"
 
 #: src/widgets/window.vala:63
 msgid "Runners"
@@ -348,7 +348,7 @@ msgstr "Если хотите ускорить разработку, подде�
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
 #: src/models/games/steam.vala:76 src/models/games/steam.vala:97
 msgid "Undefined"
-msgstr ""
+msgstr "Неопределенно"
 
 #: src/widgets/games/games-box.vala:240
 msgid "The library failed loading."
@@ -369,7 +369,7 @@ msgstr "Открыть страницу ProtonDB"
 #: src/widgets/games/mass-edit-dialog.vala:20
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
-msgstr ""
+msgstr "Массовое редактирование"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 msgid "1 game selected"
@@ -855,7 +855,7 @@ msgstr "Выход"
 #~ msgid ""
 #~ " Based on Valve Proton Experimental's bleeding-edge Wine, built for "
 #~ "Lutris."
-#~ msgstr "На базе Valve Proton Experimental, разработанного для Lutris."
+#~ msgstr "На основе Valve Proton Experimental, разработанного для Lutris."
 
 #~ msgid "Preferences"
 #~ msgstr "Настройки"
