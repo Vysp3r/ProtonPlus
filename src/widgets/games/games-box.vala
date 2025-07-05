@@ -184,7 +184,7 @@ namespace ProtonPlus.Widgets {
 			status_page.set_hexpand (true);
 			status_page.set_title (title);
 			status_page.set_description (description);
-			status_page.set_icon_name (icon); //
+			status_page.set_icon_name (icon);
 			status_page.set_visible (true);
 		}
 
