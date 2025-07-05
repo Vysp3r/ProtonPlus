@@ -100,11 +100,11 @@ msgstr "Показать больше информации"
 
 #: src/widgets/runners/description-dialog.vala:18
 msgid "Open"
-msgstr ""
+msgstr "Открыть"
 
 #: src/widgets/runners/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr ""
+msgstr "Открыть в браузере"
 
 #: src/widgets/runners/release-row.vala:10
 #, c-format
@@ -129,7 +129,7 @@ msgstr "Загрузить ещё"
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Remove %s"
-msgstr ""
+msgstr "Убрать %s"
 
 #: src/widgets/runners/remove-dialog.vala:13
 msgid "Are you sure you want this?"
@@ -138,11 +138,11 @@ msgstr "Вы уверены, что хотите этого?"
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
-msgstr ""
+msgstr "Используется в %i играх."
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr ""
+msgstr "Используется в 1 игре."
 
 #: src/widgets/runners/remove-dialog.vala:26
 #, fuzzy
@@ -169,12 +169,12 @@ msgstr "Да"
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: src/widgets/runners/remove-dialog.vala:49
 #, c-format
 msgid "When trying to remove %s an error occured."
-msgstr ""
+msgstr "При попытке удалить %s произошла ошибка."
 
 #: src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -184,7 +184,7 @@ msgstr "Отмена"
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occured."
-msgstr ""
+msgstr "При попытке установить %s произошла ошибка."
 
 #: src/widgets/runners/install-dialog.vala:76
 #: src/widgets/runners/upgrade-dialog.vala:78
@@ -215,12 +215,12 @@ msgstr "Существующая установка %s"
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
 msgid "Upgrade %s"
-msgstr ""
+msgstr "Обновление %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
 #, c-format
 msgid "When trying to upgrade %s an error occured."
-msgstr ""
+msgstr "При попытке обновить %s произошла ошибка."
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
@@ -235,7 +235,7 @@ msgstr "Установите эту галочку, чтобы также уда
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
-msgstr ""
+msgstr "Предупреждение"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -257,6 +257,7 @@ msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
+"Похоже, что в настоящее время у вас установлена другая версия %s, которая не была установлена программой ProtonPlus."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, fuzzy
@@ -306,7 +307,7 @@ msgstr "Инструмент совместимости"
 
 #: src/widgets/games/games-box.vala:93
 msgid "Other"
-msgstr ""
+msgstr "Другое"
 
 #: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
 msgid "An error occured"
@@ -314,20 +315,20 @@ msgstr "Возникла ошибка"
 
 #: src/widgets/games/games-box.vala:118
 msgid "No profile was found."
-msgstr ""
+msgstr "Профиль не найден"
 
 #: src/widgets/games/games-box.vala:118
 msgid "Make sure to connect yourself at least once on Steam."
-msgstr ""
+msgstr "Убедитесь, что вы хотя бы раз подключились к Steam."
 
 #: src/widgets/games/games-box.vala:118
 msgid "If you think this is an issue, make sure to report this on GitHub."
-msgstr ""
+msgstr "Если вы считаете, что это проблема, обязательно сообщите об этом на GitHub."
 
 #: src/widgets/games/games-box.vala:168
 #, fuzzy
 msgid "Unsuported launcher"
-msgstr "Очистить лаунчер"
+msgstr "Этот лаунчер не поддерживается"
 
 #: src/widgets/games/games-box.vala:168
 #, fuzzy, c-format
@@ -337,7 +338,7 @@ msgstr "%s не поддерживается"
 #: src/widgets/games/games-box.vala:168
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
-msgstr ""
+msgstr "Если хотите ускорить разработку, поддержите проект!"
 
 #: src/widgets/games/games-box.vala:218
 #: src/widgets/games/mass-edit-dialog.vala:109
@@ -351,19 +352,19 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:240
 msgid "The library failed loading."
-msgstr ""
+msgstr "Не удалось загрузить библиотеку."
 
 #: src/widgets/games/game-row.vala:44
 msgid "Modify the game launch options"
-msgstr ""
+msgstr "Изменить параметры запуска игры"
 
 #: src/widgets/games/game-row.vala:70
 msgid "Unknown"
-msgstr ""
+msgstr "Неизвестно"
 
 #: src/widgets/games/game-row.vala:76
 msgid "Open ProtonDB page"
-msgstr ""
+msgstr "Открыть страницу ProtonDB"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 #: src/widgets/games/mass-edit-button.vala:10
@@ -377,7 +378,7 @@ msgstr "Выбрана 1 игра"
 #: src/widgets/games/mass-edit-dialog.vala:20
 #, c-format
 msgid "%u games selected"
-msgstr ""
+msgstr "выбрано игр: %u"
 
 #: src/widgets/games/mass-edit-dialog.vala:22
 #: src/widgets/games/launch-options-dialog.vala:14
@@ -392,19 +393,19 @@ msgstr "Применить текущие модификации"
 #: src/widgets/games/mass-edit-dialog.vala:31
 #: src/widgets/games/mass-edit-dialog.vala:43
 msgid "Enabled"
-msgstr ""
+msgstr "Включено"
 
 #: src/widgets/games/mass-edit-dialog.vala:32
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
-msgstr ""
+msgstr "Включите это, если хотите, чтобы массовое редактирование учитывало инструмент совместимости."
 
 #: src/widgets/games/mass-edit-dialog.vala:44
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
-msgstr ""
+msgstr "Включите это, если хотите, чтобы массовое редактирование учитывало параметры запуска."
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
@@ -420,7 +421,7 @@ msgstr "Настройки лаунчера"
 #: src/widgets/games/mass-edit-dialog.vala:55
 msgid ""
 "Enable all the options that you want the mass edit to take into account."
-msgstr ""
+msgstr "Включите все параметры, которые вы хотите учесть при массовом редактировании."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
 #, fuzzy
@@ -436,7 +437,7 @@ msgstr "Создать ярлык"
 
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Удалить ярлык"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
@@ -444,23 +445,23 @@ msgstr "Создать ярлык ProtonPlus в Steam"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Remove the shortcut of ProtonPlus in Steam"
-msgstr ""
+msgstr "Удалить ярлык ProtonPlus в Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
 msgid "When trying to remove the shortcut in Steam an error occured."
-msgstr ""
+msgstr "При попытке удалить ярлык в Steam произошла ошибка."
 
 #: src/widgets/games/shortcut-button.vala:47
 msgid "When trying to create the shortcut in Steam an error occured."
-msgstr ""
+msgstr "При попытке создать ярлык в Steam произошла ошибка."
 
 #: src/widgets/games/sort-by-name-button.vala:8
 msgid "Sort by name"
-msgstr ""
+msgstr "Сортировать по названию"
 
 #: src/widgets/games/sort-by-name-button.vala:11
 msgid "Sorts the games by their name"
-msgstr ""
+msgstr "Сортирует игры по их названию"
 
 #: src/widgets/games/sort-by-tool-button.vala:8
 #, fuzzy
@@ -474,19 +475,19 @@ msgstr "Инструмент совместимости"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
-msgstr ""
+msgstr "Выбрать все"
 
 #: src/widgets/games/select-button.vala:11
 msgid "Select all the games"
-msgstr ""
+msgstr "Выбрать все игры"
 
 #: src/widgets/games/unselect-button.vala:8
 msgid "Unselect all"
-msgstr ""
+msgstr "Снять выделение со всех"
 
 #: src/widgets/games/unselect-button.vala:11
 msgid "Unselect all the games"
-msgstr ""
+msgstr "Снять выделение со всех игр"
 
 #: src/widgets/games/mass-edit-button.vala:13
 #, fuzzy
@@ -498,6 +499,7 @@ msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
+"Пожалуйста, выберите хотя бы одну игру перед использованием функции массового редактирования."
 
 #: src/widgets/games/launch-options-dialog.vala:12
 #, fuzzy
@@ -516,19 +518,19 @@ msgstr "Инструмент совместимости Steam для запус�
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
-msgstr ""
+msgstr "Выберите профиль"
 
 #: src/widgets/games/extra-button.vala:10
 msgid "Open install directory"
-msgstr ""
+msgstr "Открыть папку установки"
 
 #: src/widgets/games/extra-button.vala:13
 msgid "Open prefix directory"
-msgstr ""
+msgstr "Открыть папку префикса"
 
 #: src/widgets/games/extra-button.vala:28
 msgid "Open menu"
-msgstr ""
+msgstr "Открыть меню"
 
 #: src/widgets/games/default-tool-button.vala:8
 #, fuzzy
@@ -554,7 +556,7 @@ msgstr "Инструмент совместимости"
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occured."
-msgstr ""
+msgstr "При попытке изменить инструмент совместимости для %s произошла ошибка."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
@@ -674,20 +676,20 @@ msgstr ""
 
 #: src/main.vala:34
 msgid "Wine build modified by Valve and other contributors."
-msgstr ""
+msgstr "Сборка Wine, модифицированная Valve и другими участниками."
 
 #: src/main.vala:35
 #, fuzzy
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr "Основанная на Vulkan реализация Direct3D 9, 10 и 11 для Linux/Wine."
+msgstr "Основанная на Vulkan реализация Direct3D 8, 9, 10 и 11 для Linux/Wine."
 
 #: src/main.vala:36
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
-msgstr ""
+msgstr "Сборки DXVK, работающие с версиями Vulkan до 1.3"
 
 #: src/main.vala:37
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
-msgstr ""
+msgstr "Сборки DXVK-Async, работающие с версиями Vulkan до 1.3"
 
 #: src/main.vala:38
 msgid ""
@@ -700,12 +702,12 @@ msgstr ""
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Общие"
 
 #: data/ui/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Показать сочетания клавиш"
 
 #: data/ui/gtk/help-overlay.ui:20
 #, fuzzy
