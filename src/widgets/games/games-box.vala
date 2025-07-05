@@ -103,7 +103,7 @@ namespace ProtonPlus.Widgets {
 
 			headered_list_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
 			headered_list_box.add_css_class("card");
-			headered_list_box.add_css_class("transparent-bg");
+			headered_list_box.add_css_class("transparent-card");
 			headered_list_box.append(header_box);
 			headered_list_box.append(scrolled_window);
 
@@ -165,7 +165,7 @@ namespace ProtonPlus.Widgets {
 				}
 			} else {
 				invalid = true;
-				show_status_box(launcher.icon_path, _("Unsuported launcher"), "%s\n%s".printf(_("%s is currently not supported.").printf(launcher.title), _("If you want me to speed up the development make sure to show your support!")), true);
+				show_status_box(launcher.icon_path, _("Unsuported launcher"), "%s\n%s".printf(_("%s is currently not supported.").printf(launcher.title), _("If you want me to speed up the development make sure to show your support!")));
 			}
 		}
 
@@ -178,7 +178,7 @@ namespace ProtonPlus.Widgets {
 			status_page.set_visible (false);
 		}
 
-		void show_status_box(string icon, string title, string description, bool image = false) {
+		void show_status_box(string icon, string title, string description) {
 			flow_box.set_visible(false);
 			headered_list_box.set_visible(false);
 			warning_label.set_visible(false);
@@ -187,19 +187,8 @@ namespace ProtonPlus.Widgets {
 			status_page.set_hexpand (true);
 			status_page.set_title (title);
 			status_page.set_description (description);
-
-			if (image) {
-				status_page.set_icon_name (null);
-
-				status_page_image.set_from_resource(icon);
-
-				status_page.set_paintable(status_page_image.get_paintable());
-			} else {
-				status_page.set_paintable (null);
-
-				status_page.set_icon_name (icon);
-			}
-
+			status_page.set_paintable (null);
+			status_page.set_icon_name (icon);
 			status_page.set_visible (true);
 		}
 
