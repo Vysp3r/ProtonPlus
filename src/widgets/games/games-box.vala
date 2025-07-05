@@ -7,7 +7,6 @@ namespace ProtonPlus.Widgets {
 		Models.Launcher launcher;
 
 		Adw.StatusPage status_page;
-		Gtk.Image status_page_image;
 		ShortcutButton shortcut_button;
 		MassEditButton mass_edit_button;
 		DefaultToolButton default_tool_button;
@@ -32,8 +31,6 @@ namespace ProtonPlus.Widgets {
 		construct {
 			status_page = new Adw.StatusPage ();
 			status_page.set_visible(false);
-
-			status_page_image = new Gtk.Image();
 
 			game_list_box = new Gtk.ListBox();
 			game_list_box.set_selection_mode(Gtk.SelectionMode.MULTIPLE);
