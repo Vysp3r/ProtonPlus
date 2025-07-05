@@ -72,6 +72,7 @@ protonplus_sources = files(
   'models/releases/github-action.vala',
   'models/releases/upgrade.vala',
   'models/releases/steamtinkerlaunch.vala',
+  'models/releases/latest.vala',
 
   'utils/filesystem.vala',
   'utils/web.vala',

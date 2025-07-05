@@ -15,6 +15,7 @@ namespace ProtonPlus.Widgets {
 		Gtk.MenuButton menu_button;
 
 		Adw.ViewStack view_stack;
+		Adw.ToastOverlay toast_overlay;
 		Adw.ViewSwitcher view_switcher;
 		Adw.HeaderBar header_bar;
 		Adw.ViewSwitcherBar view_switcher_bar;
@@ -64,6 +65,9 @@ namespace ProtonPlus.Widgets {
 			view_stack.add_titled_with_icon (games_box, "games", _("Games"), "game-library-symbolic");
 			view_stack.notify["visible-child-name"].connect(view_stack_visible_child_name_changed);
 
+			toast_overlay = new Adw.ToastOverlay ();
+			toast_overlay.set_child (view_stack);
+
 			view_switcher = new Adw.ViewSwitcher ();
 			view_switcher.set_stack (view_stack);
 			view_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
@@ -79,7 +83,7 @@ namespace ProtonPlus.Widgets {
 
 			toolbar_view = new Adw.ToolbarView ();
 			toolbar_view.add_top_bar (header_bar);
-			toolbar_view.set_content (view_stack);
+			toolbar_view.set_content (toast_overlay);
 			toolbar_view.add_bottom_bar (view_switcher_bar);
 
 			initialize();
@@ -106,9 +110,16 @@ namespace ProtonPlus.Widgets {
 					if (toolbar_view.get_parent () == null)
 						set_content (toolbar_view);
 
+					check_for_updates.begin ((obj, res) => {
+						var success = check_for_updates.end (res);
+						if (!success) {
+							var toast = new Adw.Toast (_("An error occured while checking for updates."));
+							toast_overlay.add_toast (toast);
+						}
+					});
+
 					activate_action_variant ("win.set-selected-launcher", 0);
 				}
-					
 
 				if (!valid) {
 					status_box.initialize("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
@@ -123,6 +134,39 @@ namespace ProtonPlus.Widgets {
 					});
 				}
 			});
+		}
+
+		async bool check_for_updates () {
+			foreach (var launcher in launchers) {
+				foreach (var group in launcher.groups) {
+					foreach (var runner in group.runners) {
+						if (!runner.has_latest_support)
+							continue;
+
+						var directories = group.get_compatibility_tool_directories();
+						var latest_directory_found = false;
+
+						foreach(var directory in directories) {
+							if (directory == "%s Latest".printf (runner.title)) {
+								latest_directory_found = true;
+								break;
+							}
+						}
+
+						if (!latest_directory_found)
+							continue;
+
+						var json = yield Utils.Web.GET (runner.endpoint + "?per_page=1", false);
+
+						// get the latest version
+						// check the latest version againts the installed one
+						// if latest version is newer proceed with install
+						// if latest version is the same skip
+					}
+				}
+			}
+
+			return true;
 		}
 
 		void donate_button_clicked () {

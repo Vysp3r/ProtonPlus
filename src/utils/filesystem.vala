@@ -109,15 +109,17 @@ namespace ProtonPlus.Utils {
         }
 
         public static async bool rename (string source_path, string destination_path) {
-            SourceFunc callback = rename.callback;
-
             bool output = false;
-            new Thread<void> ("rename", () => {
-                output = FileUtils.rename (source_path, destination_path) == 0;
-                Idle.add ((owned) callback, Priority.DEFAULT);
-            });
 
-            yield;
+            try {
+                File source_file = File.parse_name(source_path);
+                File destination_file = File.parse_name(destination_path);
+                
+                output = yield source_file.move_async (destination_file, GLib.FileCopyFlags.OVERWRITE, Priority.DEFAULT, null, null);
+            } catch (Error e) {
+                message(e.message);
+            }
+
             return output;
         }
 
@@ -152,7 +154,7 @@ namespace ProtonPlus.Utils {
             string output = "";
 
             try {
-                File file = File.new_for_path (path);
+                File file = File.parse_name (path);
 
                 uint8[] contents;
                 string etag_out;
@@ -173,7 +175,7 @@ namespace ProtonPlus.Utils {
 
         public static void create_file (string path, string? content = null, bool private_mode = false) {
             try {
-                var file = File.new_for_path (path);
+                var file = File.parse_name (path);
                 // NOTE: "Private" means "no permissions for Group or Other",
                 // otherwise we use the default `umask` (usually "-rw-r--r--").
                 FileOutputStream os = file.create (private_mode ? FileCreateFlags.PRIVATE : FileCreateFlags.NONE);

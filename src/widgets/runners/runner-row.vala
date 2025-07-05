@@ -36,6 +36,13 @@ namespace ProtonPlus.Widgets {
 						runner.load.begin ((obj, res) => {
 							var releases = runner.load.end (res);
 
+							if (runner is Models.Runners.Basic && releases.length () > 0 && count == 0 && runner.has_latest_support) {
+								var latest_release = releases.nth_data (0);
+
+								var release = new Models.Releases.Latest (runner as Models.Runners.Basic, "%s Latest".printf (runner.title), latest_release.description, latest_release.release_date, latest_release.download_url, latest_release.page_url);
+								releases.prepend (release);
+							}
+
 							if (releases.length () + runner.releases.length () == count) {
 								spinner.stop ();
 								spinner.set_visible (false);
@@ -56,11 +63,11 @@ namespace ProtonPlus.Widgets {
 				if (release is Models.Releases.Basic || release is Models.Releases.GitHubAction) {
 					var row = new Widgets.ReleaseRows.BasicRow ((Models.Releases.Basic) release);
 					add_row (row);
-				}
-				
-				if (release is Models.Releases.SteamTinkerLaunch) {
+				} else if (release is Models.Releases.SteamTinkerLaunch) {
 					var row = new Widgets.ReleaseRows.SteamTinkerLaunchRow ((Models.Releases.SteamTinkerLaunch) release);
 					add_row (row);
+				} else {
+					continue;
 				}
 
 				count++;

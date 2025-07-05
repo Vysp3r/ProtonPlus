@@ -111,6 +111,7 @@ namespace ProtonPlus.Models {
 			public int asset_position;
 			public Json.Array directory_name_formats;
 			public string type;
+			public bool has_latest_support;
 			public string url_template;
 			public string[] request_asset_exclude;
 			public string[] request_asset_filter;
@@ -222,9 +223,9 @@ namespace ProtonPlus.Models {
 					}
 
 					if (launcher.title == "Steam") {
-						var runner = new Runners.SteamTinkerLaunch (groups[i]);
+						var stl_runner = new Runners.SteamTinkerLaunch (groups[i]);
 
-						groups[i].runners.append (runner);
+						groups[i].runners.append (stl_runner);
 					}
 				}
 
@@ -242,7 +243,7 @@ namespace ProtonPlus.Models {
 			if (!FileUtils.test (download_path, FileTest.IS_DIR))
 				yield Utils.Filesystem.create_directory (download_path);
 
-			yield Utils.Web.Download (download_url, download_full_path);
+			//yield Utils.Web.Download (download_url, download_full_path);
 
 			var json = Utils.Filesystem.get_file_content (download_full_path);
 			if (json == "")
@@ -291,6 +292,9 @@ namespace ProtonPlus.Models {
 				json_runner_item.asset_position = (int) runner_object.get_int_member ("asset_position");
 				json_runner_item.directory_name_formats = runner_object.get_array_member ("directory_name_formats");
 				json_runner_item.type = runner_object.get_string_member ("type");
+
+				if (runner_object.has_member ("support_latest"))
+					json_runner_item.has_latest_support = runner_object.get_boolean_member ("support_latest");
 
 				if (runner_object.has_member ("url_template"))
 					json_runner_item.url_template = runner_object.get_string_member ("url_template");
@@ -421,6 +425,7 @@ namespace ProtonPlus.Models {
 				runner.endpoint = json_runner_item.endpoint;
 				runner.asset_position = json_runner_item.asset_position;
 				runner.directory_name_format = yield get_directory_name_format_from_array(json_runner_item.directory_name_formats, group.launcher.title);
+				runner.has_latest_support = json_runner_item.has_latest_support;
 				runner.group = group;
 			}
 				

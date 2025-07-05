@@ -2,6 +2,7 @@ namespace ProtonPlus.Models.Releases {
     public class Basic : Release<Parameters> {
         public string install_location { get; set; }
         public int64 download_size { get; set; }
+        protected string destination_path { get; set; }
 
         public Basic.simple (Runners.Basic runner, string title, string install_location) {
             this.runner = runner;
@@ -50,16 +51,14 @@ namespace ProtonPlus.Models.Releases {
             string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".tar.gz";
 
             var download_valid = yield Utils.Web.Download (download_url, path, () => canceled, (is_percent, progress) => this.progress = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
-
             if (!download_valid)
                 return false;
 
             step = Step.EXTRACTING;
 
-            string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
+            string directory = runner.group.launcher.directory + runner.group.directory + "/";
 
             string source_path = yield Utils.Filesystem.extract (directory, title, ".tar.gz", () => canceled);
-
             if (source_path == "")
                 return false;
 
@@ -67,15 +66,15 @@ namespace ProtonPlus.Models.Releases {
 
             var runner = this.runner as Runners.Basic;
 
-            var renaming_valid = yield Utils.Filesystem.rename (source_path, directory + runner.get_directory_name (title));
+            destination_path = directory + runner.get_directory_name (title);
 
+            var renaming_valid = yield Utils.Filesystem.rename (source_path, destination_path);
             if (!renaming_valid)
                 return false;
 
             step = Step.POST_INSTALL_SCRIPT;
 
             var install_script_success = runner.group.launcher.install (this);
-
             if (!install_script_success)
                 return false;
 

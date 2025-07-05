@@ -28,6 +28,7 @@
                             "directory_name_format": "Proton-$release_name"
                         }
                     ],
+                    "support_latest": true,
                     "type": "github"
                 },
                 {

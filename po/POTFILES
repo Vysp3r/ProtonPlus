@@ -59,6 +59,7 @@ src/models/releases/basic.vala
 src/models/releases/github-action.vala
 src/models/releases/upgrade.vala
 src/models/releases/steamtinkerlaunch.vala
+src/models/releases/latest.vala
 src/utils/filesystem.vala
 src/utils/parser.vala
 src/utils/web.vala
