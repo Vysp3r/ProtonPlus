@@ -44,7 +44,7 @@
   border-top-right-radius: 0;
 }
 
-.transparent-bg {
+.card.transparent-card {
   background-color: transparent;
 }
 
