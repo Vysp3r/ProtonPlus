@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-03 19:03-0400\n"
-"PO-Revision-Date: 2025-07-06 19:27+0000\n"
+"PO-Revision-Date: 2025-07-07 00:16+0000\n"
 "Last-Translator: serg <serhii.maleev@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ru/>\n"
@@ -32,14 +32,12 @@ msgid "Special thanks to"
 msgstr "Отдельное спасибо"
 
 #: src/widgets/window.vala:40
-#, fuzzy
 msgid "Donate"
 msgstr "Пожертвование"
 
 #: src/widgets/window.vala:43
-#, fuzzy
 msgid "_Installed Only"
-msgstr "Установить %s"
+msgstr "_Только установленные"
 
 #: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
@@ -144,9 +142,8 @@ msgid "Used by 1 game."
 msgstr "Используется в 1 игре."
 
 #: src/widgets/runners/remove-dialog.vala:26
-#, fuzzy
 msgid "Are you sure you want to proceed?"
-msgstr "Вы уверены, что хотите удалить %s?"
+msgstr "Вы уверены, что хотите продолжить?"
 
 #: src/widgets/runners/remove-dialog.vala:30
 #: src/widgets/runners/steamtinkerlaunch-row.vala:91
@@ -187,9 +184,8 @@ msgstr "При попытке установить %s произошла оши�
 
 #: src/widgets/runners/install-dialog.vala:76
 #: src/widgets/runners/upgrade-dialog.vala:78
-#, fuzzy
 msgid "Downloading"
-msgstr "Загрузка"
+msgstr "Загружается"
 
 #: src/widgets/runners/install-dialog.vala:79
 #: src/widgets/runners/upgrade-dialog.vala:81
@@ -280,7 +276,7 @@ msgstr "Обновите до последней версии"
 
 #: src/widgets/games/games-box.vala:57
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr "Перед этим, закройте клиент Steam, чтобы изменения вступили в силу."
+msgstr "Закройте клиент Steam перед тем, чтобы изменения вступили в силу."
 
 #: src/widgets/games/games-box.vala:87
 msgid "Name"
@@ -288,7 +284,6 @@ msgstr "Название"
 
 #: src/widgets/games/games-box.vala:90
 #: src/widgets/games/mass-edit-dialog.vala:38
-#, fuzzy
 msgid "Compatibility tool"
 msgstr "Инструмент совместимости"
 
@@ -364,7 +359,7 @@ msgstr "Выбрана 1 игра"
 #: src/widgets/games/mass-edit-dialog.vala:20
 #, c-format
 msgid "%u games selected"
-msgstr "выбрано игр: %u"
+msgstr "%u выбранных игр"
 
 #: src/widgets/games/mass-edit-dialog.vala:22
 #: src/widgets/games/launch-options-dialog.vala:14
@@ -493,9 +488,9 @@ msgid "Apply the current modification"
 msgstr "Применить текущую модификацию"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occured."
-msgstr "Инструмент совместимости Steam для запуска игр для Windows"
+msgstr "При попытке изменить параметры запуска %s произошла ошибка."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
