@@ -1,6 +1,7 @@
 namespace ProtonPlus.Widgets {
 	public class Window : Adw.ApplicationWindow {
 		List<Models.Launcher> launchers;
+		bool updating;
 
 		StatusBox status_box;
 		RunnersBox runners_box;
@@ -40,7 +41,7 @@ namespace ProtonPlus.Widgets {
 			donate_button.add_css_class ("red");
 			donate_button.set_tooltip_text (_("Donate"));
 			donate_button.clicked.connect (donate_button_clicked);
-			
+
 			installed_only_menu_item = new MenuItem (_("_Installed Only"), null);
 			installed_only_menu_item.set_action_and_target ("win.set-installed-only", "b");
 
@@ -63,7 +64,7 @@ namespace ProtonPlus.Widgets {
 			view_stack = new Adw.ViewStack ();
 			view_stack.add_titled_with_icon (runners_box, "runners", _("Runners"), "system-run-symbolic");
 			view_stack.add_titled_with_icon (games_box, "games", _("Games"), "game-library-symbolic");
-			view_stack.notify["visible-child-name"].connect(view_stack_visible_child_name_changed);
+			view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
 
 			toast_overlay = new Adw.ToastOverlay ();
 			toast_overlay.set_child (view_stack);
@@ -86,15 +87,15 @@ namespace ProtonPlus.Widgets {
 			toolbar_view.set_content (toast_overlay);
 			toolbar_view.add_bottom_bar (view_switcher_bar);
 
-			initialize();
+			initialize ();
 		}
 
 		void initialize () {
-			Models.Launcher.get_all.begin((obj, res) => {
-				launchers =  Models.Launcher.get_all.end (res);
+			Models.Launcher.get_all.begin ((obj, res) => {
+				launchers = Models.Launcher.get_all.end (res);
 
 				if (launchers == null) {
-					status_box.initialize("bug-symbolic", _("An error ocurred"), "%s\n%s".printf( _("There was an error when trying to load the launchers."), _("Please report this issue on GitHub."))); 
+					status_box.initialize ("bug-symbolic", _("An error ocurred"), "%s\n%s".printf (_("There was an error when trying to load the launchers."), _("Please report this issue on GitHub.")));
 
 					if (status_box.get_parent () == null)
 						set_content (status_box);
@@ -110,19 +111,37 @@ namespace ProtonPlus.Widgets {
 					if (toolbar_view.get_parent () == null)
 						set_content (toolbar_view);
 
-					check_for_updates.begin ((obj, res) => {
-						var success = check_for_updates.end (res);
-						if (!success) {
-							var toast = new Adw.Toast (_("An error occured while checking for updates."));
-							toast_overlay.add_toast (toast);
-						}
-					});
-
 					activate_action_variant ("win.set-selected-launcher", 0);
+
+					updating = true;
+
+					var toast = new Adw.Toast (_("Checking for updates..."));
+					toast_overlay.add_toast (toast);
+
+					Models.Runner.check_for_updates.begin (launchers, (obj, res) => {
+						switch (Models.Runner.check_for_updates.end (res)) {
+							case Models.Runner.UpdateCodes.NOTHING_FOUND:
+								toast.dismiss ();
+								toast = new Adw.Toast (_("Nothing to update."));
+								break;
+							case Models.Runner.UpdateCodes.EVERYTHING_UPDATED:
+								toast.dismiss ();
+								toast = new Adw.Toast (_("Everything is now up-to-date."));
+								break;
+							default:
+								toast.dismiss ();
+								toast = new Adw.Toast (_("An error occured while checking for updates."));
+								break;
+						}
+
+						toast_overlay.add_toast (toast);
+
+						updating = false;
+					});
 				}
 
 				if (!valid) {
-					status_box.initialize("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
+					status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
 
 					if (status_box.get_parent () == null)
 						set_content (status_box);
@@ -134,39 +153,6 @@ namespace ProtonPlus.Widgets {
 					});
 				}
 			});
-		}
-
-		async bool check_for_updates () {
-			foreach (var launcher in launchers) {
-				foreach (var group in launcher.groups) {
-					foreach (var runner in group.runners) {
-						if (!runner.has_latest_support)
-							continue;
-
-						var directories = group.get_compatibility_tool_directories();
-						var latest_directory_found = false;
-
-						foreach(var directory in directories) {
-							if (directory == "%s Latest".printf (runner.title)) {
-								latest_directory_found = true;
-								break;
-							}
-						}
-
-						if (!latest_directory_found)
-							continue;
-
-						var json = yield Utils.Web.GET (runner.endpoint + "?per_page=1", false);
-
-						// get the latest version
-						// check the latest version againts the installed one
-						// if latest version is newer proceed with install
-						// if latest version is the same skip
-					}
-				}
-			}
-
-			return true;
 		}
 
 		void donate_button_clicked () {

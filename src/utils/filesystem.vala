@@ -108,19 +108,20 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        public static async bool rename (string source_path, string destination_path) {
-            bool output = false;
+        public static async bool move_directory (string source_path, string destination_path) {
+            if (source_path == destination_path)
+                return true;
 
             try {
                 File source_file = File.parse_name(source_path);
                 File destination_file = File.parse_name(destination_path);
                 
-                output = yield source_file.move_async (destination_file, GLib.FileCopyFlags.OVERWRITE, Priority.DEFAULT, null, null);
+               return yield source_file.move_async (destination_file, GLib.FileCopyFlags.NONE, Priority.DEFAULT, null, null);
             } catch (Error e) {
                 message(e.message);
             }
 
-            return output;
+            return false;
         }
 
         public async static bool make_symlink (string link_location, string target_path) {
