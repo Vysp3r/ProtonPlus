@@ -366,13 +366,13 @@ namespace ProtonPlus.Models.Launchers {
                     if (start_pos == -1)
                         break;
 
-                    end_text = "\"";
+                    end_text = "\"\n\t";
                     end_pos = app.index_of(end_text, start_pos);
 
                     if (end_pos == -1)
                         break;
                         
-                    launch_options = app.substring(start_pos, end_pos - start_pos);
+                    launch_options = app.substring(start_pos, end_pos - start_pos).replace("\\\"", "\"");
                     // message("start: %i, end: %i, launch_options: %s", start_pos, end_pos, launch_options);
 
                     launch_options_hashtable.set(id, launch_options);
