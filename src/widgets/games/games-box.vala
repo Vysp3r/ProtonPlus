@@ -12,8 +12,6 @@ namespace ProtonPlus.Widgets {
 		DefaultToolButton default_tool_button;
 		SelectButton select_button;
 		UnselectButton unselect_button;
-		SortByNameButton sort_by_name_button;
-		SortByToolButton sort_by_tool_button;
 		Gtk.FlowBox flow_box;
 		Gtk.Label name_label;
 		Gtk.Label compatibility_tool_label;
@@ -62,10 +60,6 @@ namespace ProtonPlus.Widgets {
 
 			unselect_button = new UnselectButton(game_list_box);
 
-			sort_by_name_button = new SortByNameButton(game_list_box);
-
-			sort_by_tool_button = new SortByToolButton(game_list_box);
-
 			default_tool_button = new DefaultToolButton();
 
 			flow_box = new Gtk.FlowBox();
@@ -76,16 +70,22 @@ namespace ProtonPlus.Widgets {
 			flow_box.append(mass_edit_button);
 			flow_box.append(select_button);
 			flow_box.append(unselect_button);
-			flow_box.append(sort_by_name_button);
-			flow_box.append(sort_by_tool_button);
 			flow_box.append(default_tool_button);
 			flow_box.set_selection_mode(Gtk.SelectionMode.NONE);
 
+			var name_label_gesture = new Gtk.GestureClick();
+			name_label_gesture.pressed.connect(name_label_clicked);
+
 			name_label = new Gtk.Label(_("Name"));
 			name_label.set_hexpand(true);
+			name_label.add_controller(name_label_gesture);
+			
+			var compatibility_tool_label_gesture = new Gtk.GestureClick();
+			compatibility_tool_label_gesture.pressed.connect(compatibility_tool_label_clicked);
 
 			compatibility_tool_label = new Gtk.Label(_("Compatibility tool"));
 			compatibility_tool_label.set_size_request(350, 0);
+			compatibility_tool_label.add_controller(compatibility_tool_label_gesture);
 
 			other_label = new Gtk.Label(_("Other"));
 			other_label.set_size_request(175, 0);
@@ -219,7 +219,7 @@ namespace ProtonPlus.Widgets {
 						default_tool_button.set_visible(steam_launcher.enable_default_compatibility_tool);
 					}
 					
-					sort_by_name_button.clicked();
+					name_label_clicked();
 				} else {
 					error = true;
 					show_status_box("bug-symbolic", _("An error occured"), "%s\n%s".printf(_("The library failed loading."), _("Please report this issue on GitHub.")));
@@ -252,6 +252,30 @@ namespace ProtonPlus.Widgets {
 			} else {
 				game_row.selected = true;
 			}
+		}
+
+		void name_label_clicked () {
+			game_list_box.set_sort_func ((row1, row2) => {
+				var name1 = ((GameRow) row1).game.name;
+				var name2 = ((GameRow) row2).game.name;
+
+				return strcmp (name1, name2);
+			});
+		}
+
+		void compatibility_tool_label_clicked () {
+			game_list_box.set_sort_func ((row1, row2) => {
+				var name1 = ((GameRow) row1).game.compatibility_tool;
+				var name2 = ((GameRow) row2).game.compatibility_tool;
+
+				if (name1 == _("Undefined"))
+					name1 = "zzzz";
+
+				if (name2 == _("Undefined"))
+					name2 = "zzzz";
+
+				return strcmp (name1, name2);
+			});
 		}
 	}
 }
