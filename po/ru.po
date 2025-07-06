@@ -276,7 +276,7 @@ msgstr "Обновите до последней версии"
 
 #: src/widgets/games/games-box.vala:57
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr "Закройте клиент Steam перед тем, чтобы изменения вступили в силу."
+msgstr "Закройте клиент Steam, чтобы изменения вступили в силу."
 
 #: src/widgets/games/games-box.vala:87
 msgid "Name"
