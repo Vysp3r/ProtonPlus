@@ -28,8 +28,6 @@ protonplus_sources = files(
   'widgets/games/mass-edit-dialog.vala',
   'widgets/games/mass-edit-button.vala',
   'widgets/games/shortcut-button.vala',
-  'widgets/games/sort-by-name-button.vala',
-  'widgets/games/sort-by-tool-button.vala',
   'widgets/games/select-button.vala',
   'widgets/games/unselect-button.vala',
   'widgets/games/launch-options-dialog.vala',

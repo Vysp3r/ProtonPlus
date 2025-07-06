@@ -18,8 +18,6 @@ src/widgets/games/games-box.vala
 src/widgets/games/game-row.vala
 src/widgets/games/mass-edit-dialog.vala
 src/widgets/games/shortcut-button.vala
-src/widgets/games/sort-by-name-button.vala
-src/widgets/games/sort-by-tool-button.vala
 src/widgets/games/select-button.vala
 src/widgets/games/unselect-button.vala
 src/widgets/games/mass-edit-button.vala
