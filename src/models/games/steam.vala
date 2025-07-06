@@ -127,18 +127,22 @@ namespace ProtonPlus.Models.Games {
 			var app_launch_options = "";
 			var app_modified = "";
 
-			start_text = "%i\"\n\t\t\t\t\t{".printf(appid);
-			end_text = "\n\t\t\t\t\t}";
-			start_pos = config_content.index_of(start_text, 0) + start_text.length;
+			var escaped_launch_options = launch_options.replace("\"", "\\\"");
 
+			start_text = "%i\"\n\t\t\t\t\t{".printf(appid);
+			start_pos = config_content.index_of(start_text, 0) + start_text.length - 1;
 			if (start_pos == -1)
 				return false;
 
-			end_pos = config_content.index_of(end_text, start_pos);
-			app = config_content.substring(start_pos, end_pos - start_pos);
-			// message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
+			end_text = "\n\t\t\t\t\t}";
+			end_pos = config_content.index_of(end_text, start_pos) + end_text.length;
+			if (end_pos == -1)
+				return false;
 
-			if (launch_options.length == 0) {
+			app = config_content.substring(start_pos, end_pos - start_pos);
+			message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
+
+			if (escaped_launch_options.length == 0) {
 				if (app.contains("LaunchOptions")) {
 					start_text = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"";
 					start_pos = app.index_of(start_text, 0);
@@ -146,7 +150,7 @@ namespace ProtonPlus.Models.Games {
 					if (start_pos == -1)
 						return false;
 
-					end_text = "\"";
+					end_text = "\"\n";
 					end_pos = app.index_of(end_text, start_pos + start_text.length) + end_text.length;
 
 					if (end_pos == -1)
@@ -165,7 +169,7 @@ namespace ProtonPlus.Models.Games {
 					if (start_pos == -1)
 						return false;
 
-					end_text = "\"";
+					end_text = "\"\n";
 					end_pos = app.index_of(end_text, start_pos);
 
 					if (end_pos == -1)
@@ -175,14 +179,15 @@ namespace ProtonPlus.Models.Games {
 					// message("start: %i, end: %i, app_launch_options: %s", start_pos, end_pos, app_launch_options);
 
 					if (app_launch_options.length > 0) {
-						app_modified = app.replace(app_launch_options, launch_options);
+						message(app_launch_options + " | " + escaped_launch_options);
+						app_modified = app.replace(app_launch_options, escaped_launch_options);
 					} else {
 						var before = app.substring(0, start_pos);
 						var after = app.substring(start_pos, app.length - before.length);
-						app_modified = "%s%s%s".printf(before, launch_options, after);
+						app_modified = "%s%s%s".printf(before, escaped_launch_options, after);
 					}
 				} else {
-					app_launch_options = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"%s\"".printf(launch_options);
+					app_launch_options = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"%s\"".printf(escaped_launch_options);
 
 					app_modified = app.concat(app_launch_options);
 				}
