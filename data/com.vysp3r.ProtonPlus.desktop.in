@@ -2,6 +2,7 @@
 Name=ProtonPlus
 Exec=protonplus
 Icon=com.vysp3r.ProtonPlus
+Comment=A modern compatibility tools manager
 Terminal=false
 Type=Application
 Categories=Game;Utility;
