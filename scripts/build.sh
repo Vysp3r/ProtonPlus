@@ -101,6 +101,7 @@ clean() {
 
 rebuild_translations() {
   show_log "INFO" "Building native files before updating translations..."
+  python3 scripts/extract-translatables.py runners.json src/translatables.vala
   build "native" "" ""
   cd ../build-native
   show_log "INFO" "Updating translation files..."
