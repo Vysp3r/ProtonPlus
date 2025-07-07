@@ -122,5 +122,16 @@ namespace ProtonPlus.Utils {
                 }
             });
         }
+
+        public static async string? get_protontricks_exec() {
+            string[] protontricks_execs = { "protontricks", "com.github.Matoking.protontricks" };
+			
+            foreach (var protontricks_exec in protontricks_execs) {
+                if (yield Utils.System.check_dependency (protontricks_exec))
+                    return protontricks_exec;
+            }
+
+			return null;
+		}
     }
 }

@@ -46,9 +46,9 @@ namespace ProtonPlus.Widgets {
 			               "fullscreened",
 			               SettingsBindFlags.DEFAULT);
 
-			window.present ();
-
 			load_globals.begin ((obj, res) => {
+				window.present ();
+
 				if (Globals.IS_GAMESCOPE)
 					window.fullscreen ();
 			});
@@ -59,6 +59,7 @@ namespace ProtonPlus.Widgets {
 			Globals.IS_GAMESCOPE = Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland";
 			Globals.IS_STEAM_OS = (yield Utils.System.get_distribution_name ()).ascii_down () == "steamos";
 			Globals.HWCAPS = Utils.System.get_hwcaps ();
+			Globals.PROTONTRICKS_EXEC = yield Utils.System.get_protontricks_exec ();
 		}
 
 		void on_about_action () {
