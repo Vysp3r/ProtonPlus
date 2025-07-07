@@ -82,47 +82,76 @@ namespace ProtonPlus.Widgets {
 			toolbar_view.set_content (view_stack);
 			toolbar_view.add_bottom_bar (view_switcher_bar);
 
-			initialize();
+			initialize.begin ();
 		}
 
-		void initialize () {
-			Models.Launcher.get_all.begin((obj, res) => {
-				launchers =  Models.Launcher.get_all.end (res);
+		async void initialize () {
+			status_box.initialize ("com.vysp3r.ProtonPlus", _("Loading"), "%s\n%s".printf(_("Taking longer than normal?"), _("Please report this issue on GitHub.")));
+			if (status_box.get_parent () == null)
+					set_content (status_box);
 
-				if (launchers == null) {
-					status_box.initialize("bug-symbolic", _("An error ocurred"), "%s\n%s".printf( _("There was an error when trying to load the launchers."), _("Please report this issue on GitHub."))); 
+			yield Globals.load_globals ();
 
-					if (status_box.get_parent () == null)
-						set_content (status_box);
+			launchers = yield Models.Launcher.get_all ();
 
-					return;
-				}
+			if (launchers == null) {
+				status_box.initialize ("bug-symbolic", _("An error ocurred"), "%s\n%s".printf (_("There was an error when trying to load the launchers."), _("Please report this issue on GitHub.")));
 
-				var valid = launchers.length () > 0;
+				if (status_box.get_parent () == null)
+					set_content (status_box);
 
-				if (valid) {
-					launchers_popover_button.initialize (launchers);
+				return;
+			}
 
-					if (toolbar_view.get_parent () == null)
-						set_content (toolbar_view);
+			var valid = launchers.length () > 0;
 
-					activate_action_variant ("win.set-selected-launcher", 0);
-				}
-					
+			if (valid) {
+				launchers_popover_button.initialize (launchers);
 
-				if (!valid) {
-					status_box.initialize("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
+				if (toolbar_view.get_parent () == null)
+					set_content (toolbar_view);
 
-					if (status_box.get_parent () == null)
-						set_content (status_box);
+				activate_action_variant ("win.set-selected-launcher", 0);
 
-					Timeout.add (10000, () => {
-						initialize ();
+				updating = true;
 
-						return false;
-					});
-				}
-			});
+				var toast = new Adw.Toast (_("Checking for updates..."));
+				toast_overlay.add_toast (toast);
+
+				Models.Runner.check_for_updates.begin (launchers, (obj, res) => {
+					switch (Models.Runner.check_for_updates.end (res)) {
+						case Models.Runner.UpdateCodes.NOTHING_FOUND:
+							toast.dismiss ();
+							toast = new Adw.Toast (_("Nothing to update."));
+							break;
+						case Models.Runner.UpdateCodes.EVERYTHING_UPDATED:
+							toast.dismiss ();
+							toast = new Adw.Toast (_("Everything is now up-to-date."));
+							break;
+						default:
+							toast.dismiss ();
+							toast = new Adw.Toast (_("An error occured while checking for updates."));
+							break;
+					}
+
+					toast_overlay.add_toast (toast);
+
+					updating = false;
+				});
+			}
+
+			if (!valid) {
+				status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
+
+				if (status_box.get_parent () == null)
+					set_content (status_box);
+
+				Timeout.add (10000, () => {
+					initialize.begin ();
+
+					return false;
+				});
+			}
 		}
 
 		void donate_button_clicked () {
