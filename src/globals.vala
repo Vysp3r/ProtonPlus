@@ -4,4 +4,5 @@ namespace ProtonPlus.Globals {
 	public static bool IS_FLATPAK;
 	public static GLib.List<string> HWCAPS;
 	public static string DOWNLOAD_CACHE_PATH;
+	public static string PROTONTRICKS_EXEC;
 }

@@ -1,10 +1,11 @@
 namespace ProtonPlus.Widgets {
 	public class ExtraButton : Gtk.Button {
-		Models.Game game { get; set; }
-		Gtk.Button open_install_directory_button { get; set; }
-		Gtk.Button open_prefix_directory_button { get; set; }
-		Gtk.Box content_box { get; set; }
-		Gtk.Popover popover { get; set; }
+		Models.Game game;
+		Gtk.Button open_install_directory_button;
+		Gtk.Button open_prefix_directory_button;
+		Gtk.Button open_protontricks_button;
+		Gtk.Box content_box;
+		Gtk.Popover popover;
 
 		construct {
 			open_install_directory_button = new Gtk.Button.with_label(_("Open install directory"));
@@ -12,6 +13,9 @@ namespace ProtonPlus.Widgets {
 
 			open_prefix_directory_button = new Gtk.Button.with_label(_("Open prefix directory"));
 			open_prefix_directory_button.clicked.connect(open_prefix_directory_button_clicked);
+
+			open_protontricks_button = new Gtk.Button.with_label(_("Open in protontricks"));
+			open_protontricks_button.clicked.connect(open_protontricks_button_clicked);
 
 			content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 10);
 			content_box.append(open_install_directory_button);
@@ -31,6 +35,9 @@ namespace ProtonPlus.Widgets {
 
 		public ExtraButton(Models.Game game) {
 			this.game = game;
+
+			if (game is Models.Games.Steam && Globals.PROTONTRICKS_EXEC != null)
+				content_box.append(open_protontricks_button);
 		}
 
 		public override void dispose() {
@@ -51,6 +58,14 @@ namespace ProtonPlus.Widgets {
 
 		void open_prefix_directory_button_clicked() {
 			Utils.System.open_uri("file://%s".printf(game.prefixdir));
+
+			popover.popdown();
+		}
+
+		void open_protontricks_button_clicked() {
+			var steam_game = game as Models.Games.Steam;
+
+			Utils.System.run_command.begin("%s %i --gui".printf(Globals.PROTONTRICKS_EXEC, steam_game.appid));
 
 			popover.popdown();
 		}
