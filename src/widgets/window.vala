@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets {
 	public class Window : Adw.ApplicationWindow {
+		public bool updating { get; set; }
 		List<Models.Launcher> launchers;
-		bool updating;
 
 		StatusBox status_box;
 		RunnersBox runners_box;

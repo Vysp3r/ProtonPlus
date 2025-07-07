@@ -69,6 +69,7 @@ namespace ProtonPlus.Widgets {
 			const string[] devs = {
 				"Charles Malouin (Vysp3r) https://github.com/Vysp3r",
 				"Johnny Arcitec https://github.com/Arcitec",
+				"nickexe https://github.com/nickexe",
 				"windblows95 https://github.com/windblows95",
 				null
 			};

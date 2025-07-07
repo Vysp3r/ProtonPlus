@@ -42,7 +42,18 @@ namespace ProtonPlus.Models.Releases {
 
             step = Step.NOTHING;
 
-            state = (((Runners.Basic)runner).get_directory_name (title) != "" && FileUtils.test (install_location, FileTest.IS_DIR)) ? State.UP_TO_DATE : State.NOT_INSTALLED;
+            var directory_name = ((Runners.Basic)runner).get_directory_name (title);
+            var directory_name_valid = directory_name != "";
+            var install_directory_valid = FileUtils.test (install_location, FileTest.IS_DIR);
+
+            if (title.contains ("Latest")) {
+                var backup_directory_name = "%s Backup".printf (directory_name);
+                var backup_directory_valid = FileUtils.test ("%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, backup_directory_name), FileTest.IS_DIR);
+
+                state = (directory_name_valid && (install_directory_valid || backup_directory_valid)) ? State.UP_TO_DATE : State.NOT_INSTALLED;
+            } else {
+                state = (directory_name_valid && install_directory_valid) ? State.UP_TO_DATE : State.NOT_INSTALLED;
+            }
         }
 
         protected override async bool _start_install () {
