@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets {
 	public class Application : Adw.Application {
-		public static Window window { get; set; }
+		public static Window window;
 
 		construct {
 			application_id = Globals.APP_ID;
@@ -46,26 +46,10 @@ namespace ProtonPlus.Widgets {
 			               "fullscreened",
 			               SettingsBindFlags.DEFAULT);
 
-			load_globals.begin ((obj, res) => {
-				window.present ();
-
-				if (Globals.IS_GAMESCOPE)
-					window.fullscreen ();
-
-				window.present ();
-			});
+			window.present ();
 		}
 
-		async void load_globals () {
-			Globals.IS_FLATPAK = FileUtils.test ("/.flatpak-info", FileTest.IS_REGULAR);
-			Globals.IS_GAMESCOPE = Environment.get_variable ("DESKTOP_SESSION") == "gamescope-wayland";
-			Globals.IS_STEAM_OS = (yield Utils.System.get_distribution_name ()).ascii_down () == "steamos";
-			Globals.HWCAPS = Utils.System.get_hwcaps ();
-			Globals.DOWNLOAD_CACHE_PATH = "%s/ProtonPlus".printf (Environment.get_user_cache_dir ());
-			if (!FileUtils.test (Globals.DOWNLOAD_CACHE_PATH, FileTest.IS_DIR))
-				yield Utils.Filesystem.create_directory (Globals.DOWNLOAD_CACHE_PATH);
-			Globals.PROTONTRICKS_EXEC = yield Utils.System.get_protontricks_exec ();
-		}
+		
 
 		void on_about_action () {
 			const string[] devs = {
