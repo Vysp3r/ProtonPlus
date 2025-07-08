@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-03 19:03-0400\n"
-"PO-Revision-Date: 2025-07-03 04:01+0000\n"
+"PO-Revision-Date: 2025-07-07 22:01+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -61,7 +61,7 @@ msgstr "Jogos"
 
 #: src/widgets/window.vala:93
 msgid "An error ocurred"
-msgstr ""
+msgstr "Ocorreu um erro"
 
 #: src/widgets/window.vala:93
 #, fuzzy
@@ -295,27 +295,24 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
 msgid "An error occured"
-msgstr ""
+msgstr "Ocorreu um erro"
 
 #: src/widgets/games/games-box.vala:118
 msgid "No profile was found."
 msgstr "Nenhum perfil foi encontrado."
 
 #: src/widgets/games/games-box.vala:118
-#, fuzzy
 msgid "Make sure to connect yourself at least once on Steam."
-msgstr ""
-"Nenhum perfil foi encontrado. Certifique-se de se conectar pelo menos uma "
-"vez, caso contrário, reporte este problema no GitHub."
+msgstr "Certifique-se de se conectar pelo menos uma vez no Steam."
 
 #: src/widgets/games/games-box.vala:118
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
+"Se você acha que isto é um prolema, certifique-se de reportar isto no GitHub."
 
 #: src/widgets/games/games-box.vala:168
-#, fuzzy
 msgid "Unsuported launcher"
-msgstr "Limpar inicializador"
+msgstr "Inicializador não suportado"
 
 #: src/widgets/games/games-box.vala:168
 #, fuzzy, c-format
@@ -326,6 +323,8 @@ msgstr "%s não é compatível"
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
+"Se você quiser que eu acelere o desenvolvimento, certifique-se de mostrar "
+"seu apoio!"
 
 #: src/widgets/games/games-box.vala:218
 #: src/widgets/games/mass-edit-dialog.vala:109
