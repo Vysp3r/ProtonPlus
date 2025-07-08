@@ -112,32 +112,6 @@ namespace ProtonPlus.Widgets {
 					set_content (toolbar_view);
 
 				activate_action_variant ("win.set-selected-launcher", 0);
-
-				updating = true;
-
-				var toast = new Adw.Toast (_("Checking for updates..."));
-				toast_overlay.add_toast (toast);
-
-				Models.Runner.check_for_updates.begin (launchers, (obj, res) => {
-					switch (Models.Runner.check_for_updates.end (res)) {
-						case Models.Runner.UpdateCodes.NOTHING_FOUND:
-							toast.dismiss ();
-							toast = new Adw.Toast (_("Nothing to update."));
-							break;
-						case Models.Runner.UpdateCodes.EVERYTHING_UPDATED:
-							toast.dismiss ();
-							toast = new Adw.Toast (_("Everything is now up-to-date."));
-							break;
-						default:
-							toast.dismiss ();
-							toast = new Adw.Toast (_("An error occured while checking for updates."));
-							break;
-					}
-
-					toast_overlay.add_toast (toast);
-
-					updating = false;
-				});
 			}
 
 			if (!valid) {
