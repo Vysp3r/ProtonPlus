@@ -23,6 +23,7 @@ protonplus_sources = files(
   'widgets/runners/runners-box.vala',
 
   'widgets/games/games-box.vala',
+  'widgets/games/switch-profile-button.vala',
   'widgets/games/game-row.vala',
   'widgets/games/extra-button.vala',
   'widgets/games/mass-edit-dialog.vala',
