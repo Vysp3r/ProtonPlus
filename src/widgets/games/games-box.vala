@@ -10,6 +10,7 @@ namespace ProtonPlus.Widgets {
 		ShortcutButton shortcut_button;
 		MassEditButton mass_edit_button;
 		DefaultToolButton default_tool_button;
+		SwitchProfileButton switch_profile_button;
 		SelectButton select_button;
 		UnselectButton unselect_button;
 		Gtk.FlowBox flow_box;
@@ -62,6 +63,8 @@ namespace ProtonPlus.Widgets {
 
 			default_tool_button = new DefaultToolButton();
 
+			switch_profile_button = new SwitchProfileButton();
+
 			flow_box = new Gtk.FlowBox();
 			flow_box.add_css_class("card");
 			flow_box.add_css_class("p-10");
@@ -71,6 +74,7 @@ namespace ProtonPlus.Widgets {
 			flow_box.append(select_button);
 			flow_box.append(unselect_button);
 			flow_box.append(default_tool_button);
+			flow_box.append(switch_profile_button);
 			flow_box.set_selection_mode(Gtk.SelectionMode.NONE);
 
 			var name_label_gesture = new Gtk.GestureClick();
@@ -139,6 +143,10 @@ namespace ProtonPlus.Widgets {
 		public void set_selected_launcher(Models.Launcher launcher) {
 			this.launcher = launcher;
 
+			shortcut_button.set_visible(false);
+			warning_label.set_visible(false);
+			switch_profile_button.set_visible(false);
+
 			if (launcher.has_library_support) {
 				if (invalid) {
 					show_normal();
@@ -154,7 +162,13 @@ namespace ProtonPlus.Widgets {
 
 					warning_label.set_visible(true);
 
+					default_tool_button.set_visible(steam_launcher.enable_default_compatibility_tool);
 					default_tool_button.load(steam_launcher);
+
+					if (steam_launcher.profiles.length() > 1) {
+						switch_profile_button.set_visible(true);
+						switch_profile_button.load(steam_launcher, load_steam_profile, game_list_box);
+					}
 
 					notify_property("active"); // Ensure that when the launcher is changed, but you're in the Games tab the profile dialog still shows up
 				} else {
@@ -214,11 +228,6 @@ namespace ProtonPlus.Widgets {
 						game_list_box.append(game_row);
 					}
 
-					if (launcher is Models.Launchers.Steam) {
-						var steam_launcher = (Models.Launchers.Steam) launcher;
-						default_tool_button.set_visible(steam_launcher.enable_default_compatibility_tool);
-					}
-					
 					name_label_clicked();
 				} else {
 					error = true;

@@ -49,8 +49,6 @@ namespace ProtonPlus.Widgets {
 			window.present ();
 		}
 
-		
-
 		void on_about_action () {
 			const string[] devs = {
 				"Charles Malouin (Vysp3r) https://github.com/Vysp3r",
