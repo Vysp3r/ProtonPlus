@@ -32,6 +32,15 @@ namespace ProtonPlus.Models.Games {
 
 			start_text = "\"CompatToolMapping\"\n\t\t\t\t{";
 			end_text = "\n\t\t\t\t}";
+			if (config_content.index_of(start_text, 0) == -1) {
+				var start_steam_text = "\"Steam\"\n\t\t\t{";
+				var start_steam_pos = config_content.index_of(start_steam_text, 0);
+				var insert_pos = start_steam_pos + start_steam_text.length;
+				config_content =
+					config_content.substring(0, insert_pos) +
+					"\n\t\t\t\t\"CompatToolMapping\"\n\t\t\t\t{\n\t\t\t\t}" +
+					config_content.substring(insert_pos);
+			}
 			start_pos = config_content.index_of(start_text, 0);
 			end_pos = config_content.index_of(end_text, start_pos) + end_text.length;
 			compat_tool_mapping_content = config_content.substring(start_pos, end_pos - start_pos);
