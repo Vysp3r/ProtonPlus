@@ -252,70 +252,67 @@ msgstr "Vuoi reinstallarlo con ProtonPlus?"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
-msgstr "%s è già all'ultima versione."
+msgstr "%s  è già all'ultima versione."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:145
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr ""
+msgstr "Per installare %s per %s, esegui i seguenti comandi:"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
-msgstr ""
+msgstr "Al momento non conosciamo metodi per installare %s per %s."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
 msgid "Up-to-date"
-msgstr ""
+msgstr "Aggiornato"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
 msgid "Update to the latest version"
-msgstr ""
+msgstr "Aggiorna all'ultima versione"
 
 #: src/widgets/games/games-box.vala:53
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr ""
+msgstr "Chiudere il client di Steam prima di applicare le modifiche."
 
 #: src/widgets/games/games-box.vala:83
-#, fuzzy
 msgid "Name"
-msgstr "Nome: "
+msgstr "Nome"
 
 #: src/widgets/games/games-box.vala:90
 #: src/widgets/games/mass-edit-dialog.vala:38
-#, fuzzy
 msgid "Compatibility tool"
 msgstr "Strumento di compatibilità"
 
 #: src/widgets/games/games-box.vala:94
 msgid "Other"
-msgstr ""
+msgstr "Altro"
 
 #: src/widgets/games/games-box.vala:119 src/widgets/games/games-box.vala:234
 msgid "An error occurred"
-msgstr ""
+msgstr "Si è verificato un errore"
 
 #: src/widgets/games/games-box.vala:119
 msgid "No profile was found."
-msgstr ""
+msgstr "Nessun profilo trovato."
 
 #: src/widgets/games/games-box.vala:119
 msgid "Make sure to connect yourself at least once on Steam."
-msgstr ""
+msgstr "Assicurati di esserti connesso almeno una volta a Steam."
 
 #: src/widgets/games/games-box.vala:119
 msgid "If you think this is an issue, make sure to report this on GitHub."
-msgstr ""
+msgstr "Se credi sia un errore, puoi segnalarlo su GitHub."
 
 #: src/widgets/games/games-box.vala:179
-#, fuzzy
 msgid "Unsuported launcher"
-msgstr "Pulisci lanciatore"
+msgstr "Launcher non supportato"
 
 #: src/widgets/games/games-box.vala:179
 #, c-format
 msgid "%s is currently not supported."
-msgstr ""
+msgstr "% non è supportato al momento."
 
 #: src/widgets/games/games-box.vala:179
 msgid ""
