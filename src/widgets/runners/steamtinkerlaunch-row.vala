@@ -115,7 +115,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 			parameters.delete_config = false;
 			parameters.user_request = true;
 
-			var remove_config_check = new Gtk.CheckButton.with_label (_("Check this to also remove your configuration files."));
+			var remove_config_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files."));
 			remove_config_check.activate.connect (() => {
 				parameters.delete_config = remove_config_check.get_active ();
 			});

@@ -5,7 +5,7 @@ namespace ProtonPlus.Widgets {
 
 		construct {
 			default_tool_button_content = new Adw.ButtonContent();
-			default_tool_button_content.set_label(_("Set default compatibility tool"));
+			default_tool_button_content.set_label(_("Set the default compatibility tool"));
 			default_tool_button_content.set_icon_name("carambola-symbolic");
 
 			clicked.connect(default_tool_button_clicked);
