@@ -252,7 +252,7 @@ msgstr "Vuoi reinstallarlo con ProtonPlus?"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
-msgstr "%s  è già all'ultima versione."
+msgstr "%s è già all'ultima versione."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:145
 #, c-format
@@ -312,7 +312,7 @@ msgstr "Launcher non supportato"
 #: src/widgets/games/games-box.vala:179
 #, c-format
 msgid "%s is currently not supported."
-msgstr "% non è supportato al momento."
+msgstr "%s non è supportato al momento."
 
 #: src/widgets/games/games-box.vala:179
 msgid ""
@@ -545,7 +545,7 @@ msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
-"Strumento di compatibilità con Steam per l'esecuzione di giochi Windows con "
+"Strumento di compatibilità di Steam per l'esecuzione di giochi Windows con "
 "miglioramenti rispetto a Proton predefinito di Valve."
 
 #: src/translatables.vala:6
@@ -558,32 +558,30 @@ msgstr ""
 "miglioramenti rispetto a Proton predefinito di Valve."
 
 #: src/translatables.vala:7
-#, fuzzy
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
 msgstr ""
 "Strumento di compatibilità con Steam per l'esecuzione di giochi Windows con "
-"miglioramenti rispetto a Proton predefinito di Valve."
+"miglioramenti rispetto a Proton predefinito di Valve. Fatto da Etaash "
+"Mathamsetty aggiungendo supporto a FSR4 e modifiche per wayland."
 
 #: src/translatables.vala:8
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK."
 msgstr ""
-"Strumento di compatibilita' per Steam Play basato su wine e altri componenti "
-"aggiuntivi"
+"Strumento di compatibilità basato su Proton-GE con modifiche per schede "
+"video molto vecchie, con DXVK."
 
 #: src/translatables.vala:9
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK-Async."
 msgstr ""
-"Strumento di compatibilita' per Steam Play basato su wine e altri componenti "
-"aggiuntivi"
+"Strumento di compatibilità basato su Proton-GE con modifiche per schede "
+"video molto vecchie, con DXVK-Async"
 
 #: src/translatables.vala:10
 #, fuzzy
@@ -593,13 +591,12 @@ msgstr ""
 "la build di sistema wine-tkg."
 
 #: src/translatables.vala:11
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
 msgstr ""
-"Strumento di compatibilita' per Steam Play basato su wine e altri componenti "
-"aggiuntivi"
+"Strumento di compatibilità basato su Proton-GE con modifiche aggiuntive per "
+"migliorare i codec RTSP per VRChat."
 
 #: src/translatables.vala:12
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
@@ -616,19 +613,17 @@ msgstr ""
 "sistemi Windows."
 
 #: src/translatables.vala:14
-#, fuzzy
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
-"Strumento di compatibilità Steam Play per eseguire giochi di avventura "
-"utilizzando Linux nativo ScummVM."
+"Strumento di compatibilità di Steam per eseguire giochi di avventura "
+"utilizzando ScummVM per Linux."
 
 #: src/translatables.vala:15
-#, fuzzy
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
-"Strumento di compatibilità Steam Play per eseguire giochi DOS utilizzando "
-"DOSBox Linux nativo."
+"Strumento di compatibilità di Steam per eseguire giochi DOS utilizzando "
+"DOSBox per Linux."
 
 #: src/translatables.vala:16
 #, fuzzy
