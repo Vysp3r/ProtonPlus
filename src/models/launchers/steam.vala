@@ -397,6 +397,9 @@ namespace ProtonPlus.Models.Launchers {
 
 			start_text = "CompatToolMapping\"\n\t\t\t\t{\n";
 			end_text = "\n\t\t\t\t}";
+			if (config_content.index_of(start_text, 0) == -1)
+				return false;
+
 			start_pos = config_content.index_of (start_text, 0) + start_text.length;
 			end_pos = config_content.index_of (end_text, start_pos);
 			compat_tool_mapping_content = config_content.substring (start_pos, end_pos - start_pos);
