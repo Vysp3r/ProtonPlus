@@ -1,17 +1,18 @@
 # Lize58 <pasquale.borrelli05@outlook.it>, 2024.
+# Alessandro Marigliano <alemarigliano22@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-10 12:24-0400\n"
-"PO-Revision-Date: 2024-08-19 10:09+0000\n"
-"Last-Translator: Lize58 <pasquale.borrelli05@outlook.it>\n"
+"PO-Revision-Date: 2025-07-11 05:01+0000\n"
+"Last-Translator: Alessandro Marigliano <alemarigliano22@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/it/>\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:71
 #, fuzzy
@@ -21,50 +22,47 @@ msgstr ""
 
 #: src/widgets/application.vala:73
 msgid "Website"
-msgstr ""
+msgstr "Sito Web"
 
 #: src/widgets/application.vala:78
 msgid "Special thanks to"
 msgstr "Ringraziamenti speciali a"
 
 #: src/widgets/window.vala:40
-#, fuzzy
 msgid "Donate"
-msgstr "Donazione"
+msgstr "Donazioni"
 
 #: src/widgets/window.vala:43
-#, fuzzy
 msgid "_Installed Only"
-msgstr "Solo installato"
+msgstr "Solo installati"
 
 #: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "Scorciatoie da tastiera"
 
 #: src/widgets/window.vala:51
 msgid "_About ProtonPlus"
-msgstr ""
+msgstr "_Su ProtonPlus"
 
 #: src/widgets/window.vala:58
 msgid "Main Menu"
-msgstr ""
+msgstr "Menù Principale"
 
 #: src/widgets/window.vala:63
 msgid "Runners"
-msgstr "Esecutori"
+msgstr "Eseguibili"
 
 #: src/widgets/window.vala:64
 msgid "Games"
 msgstr "Giochi"
 
 #: src/widgets/window.vala:89
-#, fuzzy
 msgid "Loading"
-msgstr "Download completato...\n"
+msgstr "Caricamento"
 
 #: src/widgets/window.vala:89
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "Sta impiegando più del normale?"
 
 #: src/widgets/window.vala:89 src/widgets/window.vala:98
 #: src/widgets/runners/remove-dialog.vala:49
@@ -78,16 +76,15 @@ msgstr ""
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
-msgstr ""
+msgstr "Si prega di segnalare il problema su GitHub."
 
 #: src/widgets/window.vala:98
 msgid "An error ocurred"
-msgstr ""
+msgstr "C'è stato un errore"
 
 #: src/widgets/window.vala:98
-#, fuzzy
 msgid "There was an error when trying to load the launchers."
-msgstr "Si è verificato un errore durante il recupero dei dati dall'API GitHub"
+msgstr "Si è verificato un errore durante il caricamento dei launcher."
 
 #: src/widgets/window.vala:118
 #, fuzzy, c-format
@@ -96,71 +93,67 @@ msgstr "Benvenuto a"
 
 #: src/widgets/window.vala:118
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr "Installa Steam, Lutris, Bottles o Heroic Games Launcher per iniziare"
+msgstr "Installa Steam, Lutris, Bottles o Heroic Games Launcher per iniziare."
 
 #: src/widgets/runners/description-dialog.vala:14
-#, fuzzy
 msgid "More information"
-msgstr "Mostra informazioni"
+msgstr "Altre informazioni"
 
 #: src/widgets/runners/description-dialog.vala:18
 msgid "Open"
-msgstr ""
+msgstr "Apri"
 
 #: src/widgets/runners/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr ""
+msgstr "Apri sul browser"
 
 #: src/widgets/runners/release-row.vala:10
 #: src/widgets/runners/remove-dialog.vala:11
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %s"
-msgstr "Eliminato "
+msgstr "Cancella %s"
 
 #: src/widgets/runners/release-row.vala:14
 #: src/widgets/runners/install-dialog.vala:17
-#, fuzzy, c-format
+#, c-format
 msgid "Install %s"
-msgstr "Solo installato"
+msgstr "Installa %s"
 
 #: src/widgets/runners/release-row.vala:18
-#, fuzzy
 msgid "Show more information"
-msgstr "Mostra informazioni"
+msgstr "Mostra altre informazioni"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
 msgid "Load more"
-msgstr "Carica altro"
+msgstr "Carica di più"
 
 #: src/widgets/runners/remove-dialog.vala:13
-#, fuzzy
 msgid "Are you sure you want this?"
-msgstr "Sei sicuro di voler eliminare"
+msgstr "Sei sicuro di volerlo?"
 
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
-msgstr ""
+msgstr "Usato da %i giochi."
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr ""
+msgstr "Usato da 1 gioco."
 
 #: src/widgets/runners/remove-dialog.vala:26
-#, fuzzy
 msgid "Are you sure you want to proceed?"
-msgstr "Sei sicuro di voler eliminare"
+msgstr "Sei sicuro di voler procedere?"
 
 #: src/widgets/runners/remove-dialog.vala:30
 #: src/widgets/runners/steamtinkerlaunch-row.vala:91
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: src/widgets/runners/remove-dialog.vala:31
 #: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Yes"
-msgstr ""
+msgstr "Sì"
 
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
@@ -172,58 +165,55 @@ msgstr ""
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Error"
-msgstr ""
+msgstr "Errore"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to delete %s an error occurred."
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr "Si è verificato un errore nel tentativo di cancellare %s."
 
 #: src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
-msgstr ""
+msgstr "Cancella"
 
 #: src/widgets/runners/install-dialog.vala:54
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to install %s an error occurred."
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr "Si è verificato un errore nel tentativo di installare %s."
 
 #: src/widgets/runners/install-dialog.vala:76
 #: src/widgets/runners/upgrade-dialog.vala:78
-#, fuzzy
 msgid "Downloading"
-msgstr "Download completato...\n"
+msgstr "Download in corso"
 
 #: src/widgets/runners/install-dialog.vala:79
 #: src/widgets/runners/upgrade-dialog.vala:81
-#, fuzzy
 msgid "Extracting"
-msgstr "Estrazione completata...\n"
+msgstr "Estraendo"
 
 #: src/widgets/runners/install-dialog.vala:82
 msgid "Renaming"
-msgstr ""
+msgstr "Rinominando"
 
 #: src/widgets/runners/install-dialog.vala:85
-#, fuzzy
 msgid "Running post install script"
-msgstr "L'installazione di "
+msgstr "Eseguendo script post-installazione"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
 msgid "Upgrade %s"
-msgstr ""
+msgstr "Aggiorna %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to upgrade %s an error occurred."
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr "Si è verificato un errore durante il tentativo di aggiornare %s."
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
 msgid "Check this to also delete your configuration files."
-msgstr ""
+msgstr "Seleziona qui per cancellare anche le tue configurazioni."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
@@ -232,38 +222,37 @@ msgstr ""
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
-msgstr ""
+msgstr "Avvertenza"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
-msgstr ""
+msgstr "Ti mancano le seguenti dipendenze per %s:"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
-#, fuzzy
 msgid "Installation will be canceled."
-msgstr "L'installazione di "
+msgstr "L'installazione verrà cancellata."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:45
 #: src/widgets/runners/steamtinkerlaunch-row.vala:155
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
-msgstr ""
+msgstr "Sembra tu abbia un'altra versione di %s non installata da ProtonPlus."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr ""
+msgstr "Vuoi reinstallarlo con ProtonPlus?"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
-msgstr ""
+msgstr "%s è già all'ultima versione."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:145
 #, c-format
