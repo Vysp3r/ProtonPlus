@@ -54,7 +54,7 @@ namespace ProtonPlus.Widgets {
 
 			var success = steam_game.change_launch_options(launch_options_entry_row.get_text(), steam_launcher.profile.localconfig_path);
 			if (!success) {
-				var dialog = new Adw.AlertDialog(_("Error"), "%s\n\n%s".printf(_("When trying to change the launch options of %s an error occured.").printf(row.game.name), _("Please report this issue on GitHub.")));
+				var dialog = new Adw.AlertDialog(_("Error"), "%s\n\n%s".printf(_("When trying to change the launch options of %s an error occurred.").printf(row.game.name), _("Please report this issue on GitHub.")));
 				dialog.add_response("ok", "OK");
 				dialog.present(Application.window);
 			}

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-03 19:03-0400\n"
+"POT-Creation-Date: 2025-07-10 12:24-0400\n"
 "PO-Revision-Date: 2025-03-12 09:23+0800\n"
 "Last-Translator: Zemin Ha <ruojiner@hotmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 25.07.70\n"
 
-#: src/widgets/application.vala:83
+#: src/widgets/application.vala:71
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Linux的现代兼容性工具管理器"
 
-#: src/widgets/application.vala:85
+#: src/widgets/application.vala:73
 msgid "Website"
 msgstr ""
 
-#: src/widgets/application.vala:90
+#: src/widgets/application.vala:78
 msgid "Special thanks to"
 msgstr "特别感谢"
 
@@ -57,19 +57,20 @@ msgstr "启动器"
 msgid "Games"
 msgstr "游戏"
 
-#: src/widgets/window.vala:93
-msgid "An error ocurred"
+#: src/widgets/window.vala:89
+#, fuzzy
+msgid "Loading"
+msgstr "下载中..."
+
+#: src/widgets/window.vala:89
+msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:93
-#, fuzzy
-msgid "There was an error when trying to load the launchers."
-msgstr "当从GitHub API获取数据时出现错误"
-
-#: src/widgets/window.vala:93 src/widgets/runners/remove-dialog.vala:49
+#: src/widgets/window.vala:89 src/widgets/window.vala:98
+#: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:240
+#: src/widgets/games/games-box.vala:234
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -79,12 +80,21 @@ msgstr "当从GitHub API获取数据时出现错误"
 msgid "Please report this issue on GitHub."
 msgstr ""
 
-#: src/widgets/window.vala:114
+#: src/widgets/window.vala:98
+msgid "An error ocurred"
+msgstr ""
+
+#: src/widgets/window.vala:98
+#, fuzzy
+msgid "There was an error when trying to load the launchers."
+msgstr "当从GitHub API获取数据时出现错误"
+
+#: src/widgets/window.vala:118
 #, fuzzy, c-format
 msgid "Welcome to %s"
 msgstr "欢迎来到 %s"
 
-#: src/widgets/window.vala:114
+#: src/widgets/window.vala:118
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "安装Steam，Lutris，Bottles或Heroic Game Launcher 即可开始使用"
 
@@ -101,6 +111,7 @@ msgid "Open in your web browser"
 msgstr "在浏览器中打开"
 
 #: src/widgets/runners/release-row.vala:10
+#: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
 msgstr "删除 %s"
@@ -119,11 +130,6 @@ msgstr "显示更多信息"
 #: src/widgets/runners/load-more-row.vala:17
 msgid "Load more"
 msgstr "加载更多"
-
-#: src/widgets/runners/remove-dialog.vala:11
-#, c-format
-msgid "Remove %s"
-msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:13
 msgid "Are you sure you want this?"
@@ -166,9 +172,9 @@ msgid "Error"
 msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, c-format
-msgid "When trying to remove %s an error occured."
-msgstr ""
+#, fuzzy, c-format
+msgid "When trying to delete %s an error occurred."
+msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
 #: src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -176,9 +182,9 @@ msgid "Cancel"
 msgstr "取消"
 
 #: src/widgets/runners/install-dialog.vala:54
-#, c-format
-msgid "When trying to install %s an error occured."
-msgstr ""
+#, fuzzy, c-format
+msgid "When trying to install %s an error occurred."
+msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
 #: src/widgets/runners/install-dialog.vala:76
 #: src/widgets/runners/upgrade-dialog.vala:78
@@ -208,13 +214,14 @@ msgid "Upgrade %s"
 msgstr "正在更新"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, c-format
-msgid "When trying to upgrade %s an error occured."
-msgstr ""
+#, fuzzy, c-format
+msgid "When trying to upgrade %s an error occurred."
+msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
-msgid "Check this to also remove your configuration files."
+#, fuzzy
+msgid "Check this to also delete your configuration files."
 msgstr "选中此项也可以删除您的配置文件。"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -278,11 +285,11 @@ msgstr "%s 是最新的"
 msgid "Update to the latest version"
 msgstr "将 %s 更新到最新版本"
 
-#: src/widgets/games/games-box.vala:57
+#: src/widgets/games/games-box.vala:53
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:87
+#: src/widgets/games/games-box.vala:83
 #, fuzzy
 msgid "Name"
 msgstr "名称： "
@@ -293,52 +300,51 @@ msgstr "名称： "
 msgid "Compatibility tool"
 msgstr "兼容性工具"
 
-#: src/widgets/games/games-box.vala:93
+#: src/widgets/games/games-box.vala:94
 msgid "Other"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
-msgid "An error occured"
+#: src/widgets/games/games-box.vala:119 src/widgets/games/games-box.vala:234
+msgid "An error occurred"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:118
+#: src/widgets/games/games-box.vala:119
 msgid "No profile was found."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:118
+#: src/widgets/games/games-box.vala:119
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:118
+#: src/widgets/games/games-box.vala:119
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:168
+#: src/widgets/games/games-box.vala:179
 #, fuzzy
 msgid "Unsuported launcher"
 msgstr "清除启动器"
 
-#: src/widgets/games/games-box.vala:168
+#: src/widgets/games/games-box.vala:179
 #, fuzzy, c-format
 msgid "%s is currently not supported."
 msgstr "%s 不受支持"
 
-#: src/widgets/games/games-box.vala:168
+#: src/widgets/games/games-box.vala:179
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:218
+#: src/widgets/games/games-box.vala:217 src/widgets/games/games-box.vala:280
+#: src/widgets/games/games-box.vala:283
 #: src/widgets/games/mass-edit-dialog.vala:109
-#: src/widgets/games/sort-by-tool-button.vala:27
-#: src/widgets/games/sort-by-tool-button.vala:30
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
-#: src/models/games/steam.vala:76 src/models/games/steam.vala:97
+#: src/models/games/steam.vala:85 src/models/games/steam.vala:106
 msgid "Undefined"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:240
+#: src/widgets/games/games-box.vala:234
 msgid "The library failed loading."
 msgstr ""
 
@@ -415,7 +421,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
-"games an error occured for the following games:"
+"games an error occurred for the following games:"
 msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
 #: src/widgets/games/shortcut-button.vala:23
@@ -424,42 +430,35 @@ msgid "Create shortcut"
 msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:28
-msgid "Remove shortcut"
-msgstr ""
+#, fuzzy
+msgid "Delete shortcut"
+msgstr "删除 %s"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:29
-msgid "Remove the shortcut of ProtonPlus in Steam"
+msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:38
-msgid "When trying to remove the shortcut in Steam an error occured."
-msgstr ""
+#, fuzzy
+msgid "When trying to delete the shortcut in Steam an error occurred."
+msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
 #: src/widgets/games/shortcut-button.vala:47
-msgid "When trying to create the shortcut in Steam an error occured."
-msgstr ""
-
-#: src/widgets/games/sort-by-name-button.vala:8
-msgid "Sort by name"
-msgstr ""
-
-#: src/widgets/games/sort-by-name-button.vala:11
-msgid "Sorts the games by their name"
-msgstr ""
-
-#: src/widgets/games/sort-by-tool-button.vala:8
 #, fuzzy
-msgid "Sort by compatibility tool"
-msgstr "兼容性工具"
+msgid "When trying to create the shortcut in Steam an error occurred."
+msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
-#: src/widgets/games/sort-by-tool-button.vala:11
-#, fuzzy
-msgid "Sorts the games by the compatibility tool name"
-msgstr "兼容性工具"
+#: src/widgets/games/switch-profile-button.vala:14
+msgid "Switch profile"
+msgstr ""
+
+#: src/widgets/games/switch-profile-button.vala:23
+msgid "Switch to another profile"
+msgstr ""
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -501,31 +500,31 @@ msgstr ""
 
 #: src/widgets/games/launch-options-dialog.vala:57
 #, fuzzy, c-format
-msgid "When trying to change the launch options of %s an error occured."
+msgid "When trying to change the launch options of %s an error occurred."
 msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
 msgstr ""
 
-#: src/widgets/games/extra-button.vala:10
+#: src/widgets/games/extra-button.vala:11
 msgid "Open install directory"
 msgstr ""
 
-#: src/widgets/games/extra-button.vala:13
+#: src/widgets/games/extra-button.vala:14
 msgid "Open prefix directory"
 msgstr ""
 
-#: src/widgets/games/extra-button.vala:28
+#: src/widgets/games/extra-button.vala:17
+msgid "Open in protontricks"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:32
 #, fuzzy
 msgid "Open menu"
 msgstr "打开"
 
 #: src/widgets/games/default-tool-button.vala:8
-#, fuzzy
-msgid "Set default compatibility tool"
-msgstr "兼容性工具"
-
 #: src/widgets/games/default-tool-button.vala:14
 #: src/widgets/games/default-tool-dialog.vala:14
 #, fuzzy
@@ -534,7 +533,7 @@ msgstr "兼容性工具"
 
 #: src/widgets/games/default-tool-dialog.vala:60
 #, fuzzy
-msgid "When trying to change the default compatibility tool an error occured."
+msgid "When trying to change the default compatibility tool an error occurred."
 msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
@@ -543,9 +542,9 @@ msgid "Select your desired compatibility tool"
 msgstr "兼容性工具"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, c-format
-msgid "When trying to change the compatibility tool of %s an error occured."
-msgstr ""
+#, fuzzy, c-format
+msgid "When trying to change the compatibility tool of %s an error occurred."
+msgstr "用于运行WIndows游戏的Steam兼容性工具"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
@@ -555,25 +554,25 @@ msgstr ""
 "Steam 工具，用于轻松、图形化地配置您的其他兼容性 Windows 游戏和原生 Linux 游"
 "戏的工具"
 
-#: src/main.vala:18
+#: src/translatables.vala:4
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr "在 Linux 上运行 Windows 游戏和软件的兼容性工具"
 
-#: src/main.vala:19
+#: src/translatables.vala:5
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
 "用于运行 Windows 游戏的 Steam 兼容性工具，对 Valve 默认的 Proton 进行了改进"
 
-#: src/main.vala:20
+#: src/translatables.vala:6
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
 msgstr ""
 "用于运行 Windows 游戏的 Steam 兼容性工具，对 Valve 默认的 Proton 进行了改进"
 
-#: src/main.vala:21
+#: src/translatables.vala:7
 #, fuzzy
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
@@ -582,25 +581,25 @@ msgid ""
 msgstr ""
 "用于运行 Windows 游戏的 Steam 兼容性工具，对 Valve 默认的 Proton 进行了改进"
 
-#: src/main.vala:22
-msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr "为运行 Windows 游戏定制的 Proton 构建，用 Wine-tkg 构建系统构建"
-
-#: src/main.vala:23
+#: src/translatables.vala:8
 #, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK."
 msgstr "基于Proton GE的蒸汽兼容性工具，对非常旧的GPU进行了优化，带 %s"
 
-#: src/main.vala:24
+#: src/translatables.vala:9
 #, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK-Async."
 msgstr "基于Proton GE的蒸汽兼容性工具，对非常旧的GPU进行了优化，带 %s"
 
-#: src/main.vala:25
+#: src/translatables.vala:10
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr "为运行 Windows 游戏定制的 Proton 构建，用 Wine-tkg 构建系统构建"
+
+#: src/translatables.vala:11
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
@@ -608,58 +607,58 @@ msgstr ""
 "基于 Proton GE 的 Steam 兼容性工具，带有额外的补丁改进 VRChat 的 RTSP 编解码"
 "器。"
 
-#: src/main.vala:26
+#: src/translatables.vala:12
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr "为运行 Titanfall 2的 Northstar 启动器定制的 Proton 构建"
 
-#: src/main.vala:27
+#: src/translatables.vala:13
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr "Luxtorpeda 为特定的 Windows 游戏提供 Linux 原生游戏引擎"
 
-#: src/main.vala:28
+#: src/translatables.vala:14
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr "Steam Play 兼容性工具，可使用原生 Linux ScummVM 运行冒险游戏"
 
-#: src/main.vala:29
+#: src/translatables.vala:15
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr "Steam Play 兼容性工具，可使用原生 Linux DOSBox 运行 DOS 游戏"
 
-#: src/main.vala:30
+#: src/translatables.vala:16
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "在 Linux 上运行 Windows 游戏和软件的兼容性工具"
 
-#: src/main.vala:31
+#: src/translatables.vala:17
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "从官方 WineHQ 源编译的 Wine 构建"
 
-#: src/main.vala:32
+#: src/translatables.vala:18
 msgid "Wine build with the Staging patchset."
 msgstr "应用了 Staging 补丁集的 Wine 构建"
 
-#: src/main.vala:33
+#: src/translatables.vala:19
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr "应用了 Staging 补丁集以及许多其他有用的补丁的 Wine 构建"
 
-#: src/main.vala:34
+#: src/translatables.vala:20
 msgid "Wine build modified by Valve and other contributors."
 msgstr ""
 
-#: src/main.vala:35
+#: src/translatables.vala:21
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Linux/Wine 中Direct3D 8、9、10和11的基于 Vulkan 的实现"
 
-#: src/main.vala:36
+#: src/translatables.vala:22
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
 msgstr "适用于Vulkan 1.3之前版本的DXVK构建"
 
-#: src/main.vala:37
+#: src/translatables.vala:23
 #, fuzzy
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
 msgstr "适用于Vulkan 1.3之前版本的DXVK构建"
 
-#: src/main.vala:38
+#: src/translatables.vala:24
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
@@ -681,6 +680,18 @@ msgstr "_键盘快捷方式"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "退出"
+
+#, fuzzy
+#~ msgid "Sort by compatibility tool"
+#~ msgstr "兼容性工具"
+
+#, fuzzy
+#~ msgid "Sorts the games by the compatibility tool name"
+#~ msgstr "兼容性工具"
+
+#, fuzzy
+#~ msgid "Set default compatibility tool"
+#~ msgstr "兼容性工具"
 
 #, fuzzy
 #~ msgid "Extra"

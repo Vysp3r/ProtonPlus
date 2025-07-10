@@ -51,7 +51,7 @@ namespace ProtonPlus.Widgets {
 				done (success);
 
 				if (!success && !canceled) {
-					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf (_("When trying to install %s an error occured.").printf (release.title), _("Please report this issue on GitHub.")));
+					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf (_("When trying to install %s an error occurred.").printf (release.title), _("Please report this issue on GitHub.")));
 					dialog.add_response ("ok", "OK");
 					dialog.present (Application.window);
 				}
