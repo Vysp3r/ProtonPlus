@@ -549,13 +549,13 @@ msgstr ""
 "miglioramenti rispetto a Proton predefinito di Valve."
 
 #: src/translatables.vala:6
-#, fuzzy
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
 msgstr ""
-"Strumento di compatibilità con Steam per l'esecuzione di giochi Windows con "
-"miglioramenti rispetto a Proton predefinito di Valve."
+"Strumento di compatibilità per Steam della distribuzione Linux CachyOS per "
+"l'esecuzione di giochi Windows con miglioramento rispetto a Proton "
+"predefinito di Valve."
 
 #: src/translatables.vala:7
 msgid ""
@@ -565,7 +565,7 @@ msgid ""
 msgstr ""
 "Strumento di compatibilità di Steam per l'esecuzione di giochi Windows con "
 "miglioramenti rispetto a Proton predefinito di Valve. Fatto da Etaash "
-"Mathamsetty aggiungendo supporto a FSR4 e modifiche per wayland."
+"Mathamsetty aggiungendo supporto a FSR4 e modifiche per wine wayland."
 
 #: src/translatables.vala:8
 msgid ""
