@@ -15,10 +15,8 @@ msgstr ""
 "X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:71
-#, fuzzy
 msgid "A modern compatibility tools manager for Linux."
-msgstr ""
-"Un semplice gestore di compatibilita' basato su Proton e Wine per GNOME"
+msgstr "Un gestore moderno per gli strumenti di compatibilità per Linux."
 
 #: src/widgets/application.vala:73
 msgid "Website"
@@ -194,7 +192,7 @@ msgstr "Estraendo"
 
 #: src/widgets/runners/install-dialog.vala:82
 msgid "Renaming"
-msgstr "Rinominando"
+msgstr "Rinomina"
 
 #: src/widgets/runners/install-dialog.vala:85
 msgid "Running post install script"
@@ -318,6 +316,8 @@ msgstr "%s non è supportato al momento."
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
+"Se vuoi che velocizzi lo sviluppo non dimenticare di mostrare il tuo "
+"supporto!"
 
 #: src/widgets/games/games-box.vala:217 src/widgets/games/games-box.vala:280
 #: src/widgets/games/games-box.vala:283
@@ -334,7 +334,7 @@ msgstr "La libreria ha fallito il caricamento."
 
 #: src/widgets/games/game-row.vala:44
 msgid "Modify the game launch options"
-msgstr ""
+msgstr "Modifica le opzioni di lancio"
 
 #: src/widgets/games/game-row.vala:70
 msgid "Unknown"
@@ -342,12 +342,12 @@ msgstr "Sconosciuto"
 
 #: src/widgets/games/game-row.vala:76
 msgid "Open ProtonDB page"
-msgstr ""
+msgstr "Apri pagina di ProtonDB"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
-msgstr ""
+msgstr "Modifica multipla"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 msgid "1 game selected"
@@ -356,7 +356,7 @@ msgstr "1 gioco selezionato"
 #: src/widgets/games/mass-edit-dialog.vala:20
 #, c-format
 msgid "%u games selected"
-msgstr ""
+msgstr "%u giochi selezionati"
 
 #: src/widgets/games/mass-edit-dialog.vala:22
 #: src/widgets/games/launch-options-dialog.vala:14
@@ -378,39 +378,37 @@ msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
 msgstr ""
-"Abilita questo se vuoi che la modifica multipla applichi lo strumento di "
+"Abilita se vuoi che la modifica multipla applichi lo strumento di "
 "compatibilità."
 
 #: src/widgets/games/mass-edit-dialog.vala:44
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
-msgstr ""
+msgstr "Abilita se vuoi che la modifica multipla applichi le opzioni di lancio"
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
-#, fuzzy
 msgid "Enter your desired launch options"
-msgstr "Impostazioni del lanciatore"
+msgstr "Inserisci le opzioni di lancio desiderate"
 
 #: src/widgets/games/mass-edit-dialog.vala:51
-#, fuzzy
 msgid "Launch options"
-msgstr "Impostazioni del lanciatore"
+msgstr "Opzioni di lancio"
 
 #: src/widgets/games/mass-edit-dialog.vala:55
 msgid ""
 "Enable all the options that you want the mass edit to take into account."
-msgstr ""
-"Abilita tutte le opzioni che vuoi che la modifica multipla prenda in "
-"considerazione."
+msgstr "Abilita tutte le opzioni che vuoi che la modifica multipla applichi."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr ""
+"Si è verificato un errore durante il tentativo di modifica degli strumenti "
+"di compatibilità e/o opzioni di lancio dei giochi selezionati per i seguenti "
+"giochi:"
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
@@ -418,9 +416,8 @@ msgid "Create shortcut"
 msgstr "Crea collegamento"
 
 #: src/widgets/games/shortcut-button.vala:28
-#, fuzzy
 msgid "Delete shortcut"
-msgstr "Eliminato "
+msgstr "Elimina  collegamento"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
@@ -454,7 +451,7 @@ msgstr "Seleziona tutti"
 
 #: src/widgets/games/select-button.vala:11
 msgid "Select all the games"
-msgstr ""
+msgstr "Seleziona tutti i giochi"
 
 #: src/widgets/games/unselect-button.vala:8
 msgid "Unselect all"
@@ -465,20 +462,21 @@ msgid "Unselect all the games"
 msgstr "Deseleziona tutti i giochi"
 
 #: src/widgets/games/mass-edit-button.vala:13
-#, fuzzy
 msgid "Edit the compatibility tool of the selected games at once"
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr ""
+"Modifica lo strumento di compatibilità dei giochi selezionati in una volta"
 
 #: src/widgets/games/mass-edit-button.vala:42
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
+"Assicurati di selezionare almeno un gioco prima di usare la funzione di "
+"modifica multipla."
 
 #: src/widgets/games/launch-options-dialog.vala:12
-#, fuzzy
 msgid "Modify launch options"
-msgstr "Impostazioni del lanciatore"
+msgstr "Modifica le opzioni di lancio"
 
 #: src/widgets/games/launch-options-dialog.vala:15
 #: src/widgets/games/default-tool-dialog.vala:17
@@ -492,30 +490,29 @@ msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
-msgstr ""
+msgstr "Seleziona un profilo"
 
 #: src/widgets/games/extra-button.vala:11
 msgid "Open install directory"
-msgstr ""
+msgstr "Apri cartella di installazione"
 
 #: src/widgets/games/extra-button.vala:14
 msgid "Open prefix directory"
-msgstr ""
+msgstr "Apri cartella del prefix"
 
 #: src/widgets/games/extra-button.vala:17
 msgid "Open in protontricks"
-msgstr ""
+msgstr "Apri in protontricks"
 
 #: src/widgets/games/extra-button.vala:32
 msgid "Open menu"
-msgstr ""
+msgstr "Apri menù"
 
 #: src/widgets/games/default-tool-button.vala:8
 #: src/widgets/games/default-tool-button.vala:14
 #: src/widgets/games/default-tool-dialog.vala:14
-#, fuzzy
 msgid "Set the default compatibility tool"
-msgstr "Strumento di compatibilità"
+msgstr "Seleziona lo strumento di compatibilità predefinito"
 
 #: src/widgets/games/default-tool-dialog.vala:60
 #, fuzzy
@@ -523,14 +520,15 @@ msgid "When trying to change the default compatibility tool an error occurred."
 msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
-#, fuzzy
 msgid "Select your desired compatibility tool"
-msgstr "Strumento di compatibilità"
+msgstr "Seleziona lo strumento di compatibilità desiderato"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the compatibility tool of %s an error occurred."
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr ""
+"Si è verificato un errore durante il tentativo di modifica dello strumento "
+"di compatibilità per %s"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
@@ -542,9 +540,10 @@ msgstr ""
 "Linux."
 
 #: src/translatables.vala:4
-#, fuzzy
 msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr "Strumento di compatibilità per l'esecuzione di giochi Windows su Linux"
+msgstr ""
+"Strumenti di compatibilità di Valve per l'esecuzione di applicazioni Windows "
+"su Linux."
 
 #: src/translatables.vala:5
 msgid ""
@@ -590,11 +589,10 @@ msgstr ""
 "schede video molto vecchie, con DXVK-Async"
 
 #: src/translatables.vala:10
-#, fuzzy
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
-"Build Proton personalizzata per l'esecuzione di giochi Windows, creata con "
-"la build di sistema wine-tkg."
+"Versione di Proton personalizzata per l'esecuzione di giochi Windows, basata "
+"su wine-tkg."
 
 #: src/translatables.vala:11
 msgid ""
@@ -611,12 +609,11 @@ msgstr ""
 "Titanfall 2."
 
 #: src/translatables.vala:13
-#, fuzzy
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
-"Luxtorpeda fornisce motori di gioco nativi Linux per specifici per giochi di "
-"sistemi Windows."
+"Luxtorpeda fornisce motori di gioco nativi Linux per specifici giochi "
+"Windows."
 
 #: src/translatables.vala:14
 msgid ""
@@ -632,9 +629,9 @@ msgstr ""
 "DOSBox per Linux."
 
 #: src/translatables.vala:16
-#, fuzzy
 msgid "Compatibility tools for running Windows software on Linux."
-msgstr "Strumento di compatibilità per l'esecuzione di giochi Windows su Linux"
+msgstr ""
+"Strumenti di compatibilità per l'esecuzione di applicazioni Windows su Linux."
 
 #: src/translatables.vala:17
 msgid "Wine build compiled from the official WineHQ sources."
@@ -654,12 +651,12 @@ msgstr ""
 
 #: src/translatables.vala:20
 msgid "Wine build modified by Valve and other contributors."
-msgstr ""
+msgstr "Versione di Wine modificata da Valve e altri contributori."
 
 #: src/translatables.vala:21
-#, fuzzy
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr "Implementazione basata su Vulkan di Direct3D 9, 10 e 11 per Linux/Wine"
+msgstr ""
+"Implementazione basata su Vulkan di Direct3D 8, 9, 10 e 11 per Linux/Wine."
 
 #: src/translatables.vala:22
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
@@ -671,26 +668,24 @@ msgstr ""
 "Versioni di DXVK Async che funzionano con le versioni precedenti a Vulkan 1.3"
 
 #: src/translatables.vala:24
-#, fuzzy
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
-"VKD3D di Fork of Wine che mira a implementare l'intera API Direct3D 12 di "
-"Vulkan"
+"Variante di VKD3D di Wine che punta a implementare tutte le API di Direct3D "
+"12 su Vulkan."
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Generico"
 
 #: data/ui/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "Mostra scorciatoie"
 
 #: data/ui/gtk/help-overlay.ui:20
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Esci"
