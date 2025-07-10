@@ -32,11 +32,11 @@ msgstr "Donazioni"
 
 #: src/widgets/window.vala:43
 msgid "_Installed Only"
-msgstr "Solo installati"
+msgstr "_Solo installati"
 
 #: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
-msgstr "Scorciatoie da tastiera"
+msgstr "_Scorciatoie da tastiera"
 
 #: src/widgets/window.vala:51
 msgid "_About ProtonPlus"
@@ -109,7 +109,7 @@ msgstr "Apri sul browser"
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
-msgstr "Cancella %s"
+msgstr "Elimina %s"
 
 #: src/widgets/runners/release-row.vala:14
 #: src/widgets/runners/install-dialog.vala:17
@@ -417,7 +417,7 @@ msgstr "Crea collegamento"
 
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Delete shortcut"
-msgstr "Elimina  collegamento"
+msgstr "Elimina collegamento"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
@@ -428,14 +428,16 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Elimina il collegamento di ProtonPlus su Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "When trying to delete the shortcut in Steam an error occurred."
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr ""
+"Si è verificato un errore durante il tentativo di eliminazione del "
+"collegamento su Steam."
 
 #: src/widgets/games/shortcut-button.vala:47
-#, fuzzy
 msgid "When trying to create the shortcut in Steam an error occurred."
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr ""
+"Si è verificato un errore durante il tentativo di creazione del collegamento "
+"su Steam."
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
@@ -484,9 +486,11 @@ msgid "Apply the current modification"
 msgstr "Applica la modifica attuale"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occurred."
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr ""
+"Si è verificato un errore durante il tentativo di modifica delle "
+"impostazioni di lancio di %s."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
@@ -515,9 +519,10 @@ msgid "Set the default compatibility tool"
 msgstr "Seleziona lo strumento di compatibilità predefinito"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occurred."
-msgstr "Strumento di compatibilità Steam per l'esecuzione di giochi Windows"
+msgstr ""
+"Si è verificato un errore nel tentativo di modificare lo strumento di "
+"compatibilità predefinito."
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
@@ -528,7 +533,7 @@ msgstr "Seleziona lo strumento di compatibilità desiderato"
 msgid "When trying to change the compatibility tool of %s an error occurred."
 msgstr ""
 "Si è verificato un errore durante il tentativo di modifica dello strumento "
-"di compatibilità per %s"
+"di compatibilità per %s."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
@@ -638,16 +643,14 @@ msgid "Wine build compiled from the official WineHQ sources."
 msgstr "Wine build compilato dalle fonti ufficiali WineHQ."
 
 #: src/translatables.vala:18
-#, fuzzy
 msgid "Wine build with the Staging patchset."
-msgstr "Wine build con il patchset Staging applicato."
+msgstr "Versione di Wine con le modifiche di Staging applicate."
 
 #: src/translatables.vala:19
-#, fuzzy
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
-"Build di Wine con il patchset Staging applicato e con molti altre utili "
-"patches."
+"Versione di Wine con le modifiche di Staging applicate e molte altre "
+"modifiche utili."
 
 #: src/translatables.vala:20
 msgid "Wine build modified by Valve and other contributors."
