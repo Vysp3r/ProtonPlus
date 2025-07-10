@@ -198,7 +198,14 @@ namespace ProtonPlus.Models.Games {
 				} else {
 					app_launch_options = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"%s\"".printf(escaped_launch_options);
 
-					app_modified = app.concat(app_launch_options);
+					end_pos = app.last_index_of("\n\t\t\t\t\t}");
+					if (end_pos == -1)
+						return false;
+
+					app_modified =
+						app.substring(0, end_pos) +
+						app_launch_options + 
+						app.substring(end_pos);
 				}
 			}
 
