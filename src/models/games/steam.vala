@@ -155,15 +155,15 @@ namespace ProtonPlus.Models.Games {
 				if (app.contains("LaunchOptions")) {
 					start_text = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"";
 					start_pos = app.index_of(start_text, 0);
-
 					if (start_pos == -1)
 						return false;
 
 					end_text = "\"\n";
-					end_pos = app.index_of(end_text, start_pos + start_text.length) + end_text.length;
-
+					end_pos = app.index_of(end_text, start_pos + start_text.length);
 					if (end_pos == -1)
 						return false;
+
+					end_pos = end_pos + end_text.length - 1;
 
 					app_launch_options = app.substring(start_pos, end_pos - start_pos);
 					// message("start: %i, end: %i, app_launch_options: %s", start_pos, end_pos, app_launch_options);
