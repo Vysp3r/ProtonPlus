@@ -1,0 +1,702 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
+# SecularSteve <fairfull.playing@gmail.com>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: com.vysp3r.ProtonPlus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-10 10:32+0200\n"
+"PO-Revision-Date: 2025-07-10 11:19+0200\n"
+"Last-Translator: \n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/protonplus/>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.6\n"
+
+#: src/widgets/application.vala:83
+msgid "A modern compatibility tools manager for Linux."
+msgstr "Een moderne compatibiliteitstoolmanager voor Linux."
+
+#: src/widgets/application.vala:85
+msgid "Website"
+msgstr "Webpagina"
+
+#: src/widgets/application.vala:90
+msgid "Special thanks to"
+msgstr "Speciale dank aan"
+
+#: src/widgets/window.vala:40
+msgid "Donate"
+msgstr "Doneren"
+
+#: src/widgets/window.vala:43
+msgid "_Installed Only"
+msgstr "_Alleen Geïnstalleerd"
+
+#: src/widgets/window.vala:50
+msgid "_Keyboard Shortcuts"
+msgstr "_Sneltoetsen"
+
+#: src/widgets/window.vala:51
+msgid "_About ProtonPlus"
+msgstr "_Over ProtonPlus"
+
+#: src/widgets/window.vala:58
+msgid "Main Menu"
+msgstr "Hoofdmenu"
+
+#: src/widgets/window.vala:63
+msgid "Runners"
+msgstr "Hardlopers"
+
+#: src/widgets/window.vala:64
+msgid "Games"
+msgstr "Spellen"
+
+#: src/widgets/window.vala:93
+msgid "An error ocurred"
+msgstr "Er is een fout opgetreden"
+
+#: src/widgets/window.vala:93
+msgid "There was an error when trying to load the launchers."
+msgstr "Er was een fout bij het laden van de launchers."
+
+#: src/widgets/window.vala:93 src/widgets/runners/remove-dialog.vala:49
+#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/upgrade-dialog.vala:56
+#: src/widgets/games/games-box.vala:240
+#: src/widgets/games/mass-edit-dialog.vala:147
+#: src/widgets/games/shortcut-button.vala:38
+#: src/widgets/games/shortcut-button.vala:47
+#: src/widgets/games/launch-options-dialog.vala:57
+#: src/widgets/games/default-tool-dialog.vala:60
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
+msgid "Please report this issue on GitHub."
+msgstr "Rapporteer dit probleem op GitHub."
+
+#: src/widgets/window.vala:114
+#, c-format
+msgid "Welcome to %s"
+msgstr "Welkom bij %s"
+
+#: src/widgets/window.vala:114
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+msgstr ""
+"Installeer Steam, Lutris, Bottles of Heroic Games Launcher om te beginnen."
+
+#: src/widgets/runners/description-dialog.vala:14
+msgid "More information"
+msgstr "Meer informatie"
+
+#: src/widgets/runners/description-dialog.vala:18
+msgid "Open"
+msgstr "Open"
+
+#: src/widgets/runners/description-dialog.vala:22
+msgid "Open in your web browser"
+msgstr "Open in uw webbrowser"
+
+#: src/widgets/runners/release-row.vala:10
+#, c-format
+msgid "Delete %s"
+msgstr "%s verwijderen"
+
+#: src/widgets/runners/release-row.vala:14
+#: src/widgets/runners/install-dialog.vala:17
+#, c-format
+msgid "Install %s"
+msgstr "Installeer %s"
+
+#: src/widgets/runners/release-row.vala:18
+msgid "Show more information"
+msgstr "Meer informatie tonen"
+
+#: src/widgets/runners/load-more-row.vala:8
+#: src/widgets/runners/load-more-row.vala:17
+msgid "Load more"
+msgstr "Meer laden"
+
+#: src/widgets/runners/remove-dialog.vala:11
+#, c-format
+msgid "Remove %s"
+msgstr "%s verwijderen"
+
+#: src/widgets/runners/remove-dialog.vala:13
+msgid "Are you sure you want this?"
+msgstr "Weet u zeker dat u dit wilt?"
+
+#: src/widgets/runners/remove-dialog.vala:21
+#, c-format
+msgid "Used by %i games."
+msgstr "Gebruikt door %i-spellen."
+
+#: src/widgets/runners/remove-dialog.vala:24
+msgid "Used by 1 game."
+msgstr "Gebruikt door 1 spel."
+
+#: src/widgets/runners/remove-dialog.vala:26
+msgid "Are you sure you want to proceed?"
+msgstr "Weet u zeker dat u wilt doorgaan?"
+
+#: src/widgets/runners/remove-dialog.vala:30
+#: src/widgets/runners/steamtinkerlaunch-row.vala:91
+msgid "No"
+msgstr "Nee"
+
+#: src/widgets/runners/remove-dialog.vala:31
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+msgid "Yes"
+msgstr "Ja"
+
+#: src/widgets/runners/remove-dialog.vala:49
+#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/upgrade-dialog.vala:56
+#: src/widgets/games/mass-edit-dialog.vala:147
+#: src/widgets/games/shortcut-button.vala:38
+#: src/widgets/games/shortcut-button.vala:47
+#: src/widgets/games/launch-options-dialog.vala:57
+#: src/widgets/games/default-tool-dialog.vala:60
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
+msgid "Error"
+msgstr "Fout"
+
+#: src/widgets/runners/remove-dialog.vala:49
+#, c-format
+msgid "When trying to remove %s an error occured."
+msgstr "Bij het verwijderen van %s is een fout opgetreden."
+
+#: src/widgets/runners/install-dialog.vala:23
+#: src/widgets/runners/upgrade-dialog.vala:23
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: src/widgets/runners/install-dialog.vala:54
+#, c-format
+msgid "When trying to install %s an error occured."
+msgstr "Tijdens het installeren van %s is er een fout opgetreden."
+
+#: src/widgets/runners/install-dialog.vala:76
+#: src/widgets/runners/upgrade-dialog.vala:78
+msgid "Downloading"
+msgstr "Downloaden"
+
+#: src/widgets/runners/install-dialog.vala:79
+#: src/widgets/runners/upgrade-dialog.vala:81
+msgid "Extracting"
+msgstr "Uitpakken"
+
+#: src/widgets/runners/install-dialog.vala:82
+msgid "Renaming"
+msgstr "Hernoemen"
+
+#: src/widgets/runners/install-dialog.vala:85
+msgid "Running post install script"
+msgstr "Post-installatiescript uitvoeren"
+
+#: src/widgets/runners/upgrade-dialog.vala:17
+#, c-format
+msgid "Upgrade %s"
+msgstr "%s opwaarderen"
+
+#: src/widgets/runners/upgrade-dialog.vala:56
+#, c-format
+msgid "When trying to upgrade %s an error occured."
+msgstr "Bij het upgraden %s is een fout opgetreden."
+
+#: src/widgets/runners/installed-row.vala:29
+#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+msgid "Check this to also remove your configuration files."
+msgstr "Vink dit aan om ook je configuratiebestanden te verwijderen."
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:145
+#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/games/mass-edit-button.vala:42
+msgid "Warning"
+msgstr "Waarschuwing"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#, c-format
+msgid "You are missing the following dependencies for %s:"
+msgstr "U mist de volgende afhankelijkheden voor %s:"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+msgid "Installation will be canceled."
+msgstr "De installatie wordt geannuleerd."
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:45
+#: src/widgets/runners/steamtinkerlaunch-row.vala:155
+msgid "OK"
+msgstr "Oké"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#, c-format
+msgid ""
+"It looks like you currently have another version of %s which was not "
+"installed by ProtonPlus."
+msgstr ""
+"Het lijkt erop dat u momenteel een andere versie van %s hebt die niet door "
+"ProtonPlus is geïnstalleerd."
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+msgid "Do you want to reinstall it with ProtonPlus?"
+msgstr "Wilt u het opnieuw installeren met ProtonPlus?"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#, c-format
+msgid "%s is already up-to-date."
+msgstr "%s is al bijgewerkt."
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:145
+#, c-format
+msgid "To install %s for the %s, please run the following command:"
+msgstr "Voer het volgende commando uit om %s te installeren voor de %s:"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#, c-format
+msgid "There's currently no known way for us to install %s for the %s."
+msgstr ""
+"Er is momenteel geen manier bekend waarop we %s voor de %s kunnen "
+"installeren."
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:175
+msgid "Up-to-date"
+msgstr "Bijgewerkt"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:175
+msgid "Update to the latest version"
+msgstr "Bijwerken naar de nieuwste versie"
+
+#: src/widgets/games/games-box.vala:57
+msgid "Close the Steam client beforehand so that the changes can be applied."
+msgstr ""
+"Sluit de Steam-client van tevoren zodat de wijzigingen kunnen worden "
+"toegepast."
+
+#: src/widgets/games/games-box.vala:87
+msgid "Name"
+msgstr "Naam"
+
+#: src/widgets/games/games-box.vala:90
+#: src/widgets/games/mass-edit-dialog.vala:38
+msgid "Compatibility tool"
+msgstr "Compatibiliteitstool"
+
+#: src/widgets/games/games-box.vala:93
+msgid "Other"
+msgstr "Andere"
+
+#: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
+msgid "An error occured"
+msgstr "Er is een fout opgetreden"
+
+#: src/widgets/games/games-box.vala:118
+msgid "No profile was found."
+msgstr "Er is geen profiel gevonden."
+
+#: src/widgets/games/games-box.vala:118
+msgid "Make sure to connect yourself at least once on Steam."
+msgstr "Zorg ervoor dat u uzelf minstens één keer aansluit op Steam."
+
+#: src/widgets/games/games-box.vala:118
+msgid "If you think this is an issue, make sure to report this on GitHub."
+msgstr "Als u denkt dat dit een probleem is, meld dit dan op GitHub."
+
+#: src/widgets/games/games-box.vala:168
+msgid "Unsuported launcher"
+msgstr "Onaangepaste draagraket"
+
+#: src/widgets/games/games-box.vala:168
+#, c-format
+msgid "%s is currently not supported."
+msgstr "%s wordt momenteel niet ondersteund."
+
+#: src/widgets/games/games-box.vala:168
+msgid ""
+"If you want me to speed up the development make sure to show your support!"
+msgstr ""
+"Als u wilt dat ik de ontwikkeling bespoedig, laat dan zeker uw steun zien!"
+
+#: src/widgets/games/games-box.vala:218
+#: src/widgets/games/mass-edit-dialog.vala:109
+#: src/widgets/games/sort-by-tool-button.vala:27
+#: src/widgets/games/sort-by-tool-button.vala:30
+#: src/widgets/games/compatibility-tool-dropdown.vala:32
+#: src/widgets/games/compatibility-tool-dropdown.vala:81
+#: src/models/games/steam.vala:76 src/models/games/steam.vala:97
+msgid "Undefined"
+msgstr "Onbepaald"
+
+#: src/widgets/games/games-box.vala:240
+msgid "The library failed loading."
+msgstr "Het laden van de bibliotheek is mislukt."
+
+#: src/widgets/games/game-row.vala:44
+msgid "Modify the game launch options"
+msgstr "De opstartopties van het spel aanpassen"
+
+#: src/widgets/games/game-row.vala:70
+msgid "Unknown"
+msgstr "Onbekend"
+
+#: src/widgets/games/game-row.vala:76
+msgid "Open ProtonDB page"
+msgstr "Open ProtonDB pagina"
+
+#: src/widgets/games/mass-edit-dialog.vala:20
+#: src/widgets/games/mass-edit-button.vala:10
+msgid "Mass edit"
+msgstr "Massaal bewerken"
+
+#: src/widgets/games/mass-edit-dialog.vala:20
+msgid "1 game selected"
+msgstr "1 spel geselecteerd"
+
+#: src/widgets/games/mass-edit-dialog.vala:20
+#, c-format
+msgid "%u games selected"
+msgstr "%u games geselecteerd"
+
+#: src/widgets/games/mass-edit-dialog.vala:22
+#: src/widgets/games/launch-options-dialog.vala:14
+#: src/widgets/games/default-tool-dialog.vala:16
+msgid "Apply"
+msgstr "Toepassen"
+
+#: src/widgets/games/mass-edit-dialog.vala:23
+msgid "Apply the current modifications"
+msgstr "De huidige wijzigingen toepassen"
+
+#: src/widgets/games/mass-edit-dialog.vala:31
+#: src/widgets/games/mass-edit-dialog.vala:43
+msgid "Enabled"
+msgstr "Ingeschakeld"
+
+#: src/widgets/games/mass-edit-dialog.vala:32
+msgid ""
+"Enable this if you want the mass edit to take the compatibility tool into "
+"account."
+msgstr ""
+"Schakel dit in als u wilt dat de massale bewerking rekening houdt met het "
+"compatibiliteitstool."
+
+#: src/widgets/games/mass-edit-dialog.vala:44
+msgid ""
+"Enable this if you want the mass edit to take the launch options into "
+"account."
+msgstr ""
+"Schakel dit in als je wilt dat de massale bewerking rekening houdt met de "
+"lanceeropties."
+
+#: src/widgets/games/mass-edit-dialog.vala:48
+#: src/widgets/games/launch-options-dialog.vala:24
+msgid "Enter your desired launch options"
+msgstr "Voer de gewenste lanceeropties in"
+
+#: src/widgets/games/mass-edit-dialog.vala:51
+msgid "Launch options"
+msgstr "Lanceeropties"
+
+#: src/widgets/games/mass-edit-dialog.vala:55
+msgid ""
+"Enable all the options that you want the mass edit to take into account."
+msgstr ""
+"Schakel alle opties in waarmee u bij de massale bewerking rekening wilt "
+"houden."
+
+#: src/widgets/games/mass-edit-dialog.vala:147
+msgid ""
+"When trying to change the compatibility tool/launch options of the selected "
+"games an error occured for the following games:"
+msgstr ""
+"Bij het wijzigen van de compatibiliteitstool/launch-opties van de "
+"geselecteerde spellen trad een fout op voor de volgende spellen:"
+
+#: src/widgets/games/shortcut-button.vala:23
+#: src/widgets/games/shortcut-button.vala:28
+msgid "Create shortcut"
+msgstr "Snelkoppeling maken"
+
+#: src/widgets/games/shortcut-button.vala:28
+msgid "Remove shortcut"
+msgstr "Verwijder sneltoets"
+
+#: src/widgets/games/shortcut-button.vala:29
+msgid "Create a shortcut of ProtonPlus in Steam"
+msgstr "Maak een snelkoppeling van ProtonPlus in Steam"
+
+#: src/widgets/games/shortcut-button.vala:29
+msgid "Remove the shortcut of ProtonPlus in Steam"
+msgstr "De snelkoppeling van ProtonPlus in Steam verwijderen"
+
+#: src/widgets/games/shortcut-button.vala:38
+msgid "When trying to remove the shortcut in Steam an error occured."
+msgstr ""
+"Toen ik de snelkoppeling in Steam probeerde te verwijderen, trad er een fout "
+"op."
+
+#: src/widgets/games/shortcut-button.vala:47
+msgid "When trying to create the shortcut in Steam an error occured."
+msgstr "Bij het maken van de snelkoppeling in Steam trad er een fout op."
+
+#: src/widgets/games/sort-by-name-button.vala:8
+msgid "Sort by name"
+msgstr "Sorteer op naam"
+
+#: src/widgets/games/sort-by-name-button.vala:11
+msgid "Sorts the games by their name"
+msgstr "Sorteert de spellen op naam"
+
+#: src/widgets/games/sort-by-tool-button.vala:8
+msgid "Sort by compatibility tool"
+msgstr "Sorteren op compatibiliteitstool"
+
+#: src/widgets/games/sort-by-tool-button.vala:11
+msgid "Sorts the games by the compatibility tool name"
+msgstr "Sorteert de spellen op de naam van het compatibiliteitstool"
+
+#: src/widgets/games/select-button.vala:8
+msgid "Select all"
+msgstr "Selecteer alles"
+
+#: src/widgets/games/select-button.vala:11
+msgid "Select all the games"
+msgstr "Selecteer alle spellen"
+
+#: src/widgets/games/unselect-button.vala:8
+msgid "Unselect all"
+msgstr "Alles deselecteren"
+
+#: src/widgets/games/unselect-button.vala:11
+msgid "Unselect all the games"
+msgstr "Alle spellen deselecteren"
+
+#: src/widgets/games/mass-edit-button.vala:13
+msgid "Edit the compatibility tool of the selected games at once"
+msgstr ""
+"Bewerk de compatibiliteitstool van de geselecteerde spellen in één keer"
+
+#: src/widgets/games/mass-edit-button.vala:42
+msgid ""
+"Please make sure to select at least one game before using the mass edit "
+"feature."
+msgstr ""
+"Zorg ervoor dat u ten minste één spel selecteert voordat u de functie voor "
+"massawijzigingen gebruikt."
+
+#: src/widgets/games/launch-options-dialog.vala:12
+msgid "Modify launch options"
+msgstr "Lanceeropties wijzigen"
+
+#: src/widgets/games/launch-options-dialog.vala:15
+#: src/widgets/games/default-tool-dialog.vala:17
+msgid "Apply the current modification"
+msgstr "De huidige wijziging toepassen"
+
+#: src/widgets/games/launch-options-dialog.vala:57
+#, c-format
+msgid "When trying to change the launch options of %s an error occured."
+msgstr ""
+"Toen ik de lanceeropties van %s probeerde te wijzigen, trad er een fout op."
+
+#: src/widgets/games/profile-dialog.vala:15
+msgid "Select a profile"
+msgstr "Selecteer een profiel"
+
+#: src/widgets/games/extra-button.vala:10
+msgid "Open install directory"
+msgstr "Installatiemap openen"
+
+#: src/widgets/games/extra-button.vala:13
+msgid "Open prefix directory"
+msgstr "Voorvoegselmap openen"
+
+#: src/widgets/games/extra-button.vala:28
+msgid "Open menu"
+msgstr "Menu openen"
+
+#: src/widgets/games/default-tool-button.vala:8
+msgid "Set default compatibility tool"
+msgstr "Standaard compatibiliteitstool instellen"
+
+#: src/widgets/games/default-tool-button.vala:14
+#: src/widgets/games/default-tool-dialog.vala:14
+msgid "Set the default compatibility tool"
+msgstr "Standaard compatibiliteitstool instellen"
+
+#: src/widgets/games/default-tool-dialog.vala:60
+msgid "When trying to change the default compatibility tool an error occured."
+msgstr ""
+"Bij het wijzigen van het standaard compatibiliteitstool is een fout "
+"opgetreden."
+
+#: src/widgets/games/compatibility-tool-row.vala:18
+msgid "Select your desired compatibility tool"
+msgstr "Selecteer het gewenste compatibiliteitshulpmiddel"
+
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
+#, c-format
+msgid "When trying to change the compatibility tool of %s an error occured."
+msgstr ""
+"Bij het wijzigen van de compatibiliteitstool van %s is een fout opgetreden."
+
+#: src/models/runners/steamtinkerlaunch.vala:6
+msgid ""
+"Steam tool for easy, graphical configuration of your other compatibility "
+"tools for both Windows games and native Linux games."
+msgstr ""
+"Steam-tool voor eenvoudige, grafische configuratie van uw andere "
+"compatibiliteitstools voor zowel Windows-spellen als native Linux-spellen."
+
+#: src/main.vala:18
+msgid "Compatibility tools by Valve for running Windows software on Linux."
+msgstr ""
+"Compatibiliteitstools van Valve voor het uitvoeren van Windows software op "
+"Linux."
+
+#: src/main.vala:19
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton."
+msgstr ""
+"Steam-compatibiliteitstool voor het uitvoeren van Windows-spellen met "
+"verbeteringen ten opzichte van Valve's standaard Proton."
+
+#: src/main.vala:20
+msgid ""
+"Steam compatibility tool from the CachyOS Linux distribution for running "
+"Windows games with improvements over Valve's default Proton."
+msgstr ""
+"Steam-compatibiliteitstool van de CachyOS Linux-distributie voor het "
+"uitvoeren van Windows-spellen met verbeteringen ten opzichte van Valve's "
+"standaard Proton."
+
+#: src/main.vala:21
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
+"wayland tweaks."
+msgstr ""
+"Steam-compatibiliteitstool voor het uitvoeren van Windows-spellen met "
+"verbeteringen ten opzichte van Valve's standaard Proton. Door Etaash "
+"Mathamsetty met FSR4 ondersteuning en wine wayland tweaks."
+
+#: src/main.vala:22
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr ""
+"Aangepaste Proton-beeld voor het draaien van Windows spellen, gebaseerd op "
+"Wine-tkg."
+
+#: src/main.vala:23
+msgid ""
+"Steam compatibility tool based on Proton-GE with modifications for very old "
+"GPUs, with DXVK."
+msgstr ""
+"Steam-compatibiliteitstool gebaseerd op Proton-GE met aanpassingen voor zeer "
+"oude GPU's, met DXVK."
+
+#: src/main.vala:24
+msgid ""
+"Steam compatibility tool based on Proton-GE with modifications for very old "
+"GPUs, with DXVK-Async."
+msgstr ""
+"Steam-compatibiliteitstool gebaseerd op Proton-GE met aanpassingen voor zeer "
+"oude GPU's, met DXVK-Async."
+
+#: src/main.vala:25
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
+msgstr ""
+"Steam-compatibiliteitstool gebaseerd op Proton-GE met extra pleisters om "
+"RTSP-codecs voor VRChat te verbeteren."
+
+#: src/main.vala:26
+msgid "Custom Proton build for running the Northstar client for Titanfall 2."
+msgstr "Aangepaste Proton-beeld voor de Northstar-client voor Titanfall 2."
+
+#: src/main.vala:27
+msgid ""
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
+msgstr ""
+"Luxtorpeda levert Linux-oorspronkelijke spelmotoren voor bepaalde Windows-"
+"geschikte spellen."
+
+#: src/main.vala:28
+msgid ""
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
+msgstr ""
+"Steam-compatibiliteitstool voor het uitvoeren van avonturenspellen met "
+"ScummVM voor Linux."
+
+#: src/main.vala:29
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
+msgstr ""
+"Steam-compatibiliteitstool om DOS-spellen uit te voeren met DOSBox voor "
+"Linux."
+
+#: src/main.vala:30
+msgid "Compatibility tools for running Windows software on Linux."
+msgstr "Compatibiliteitstools voor het draaien van Windows software op Linux."
+
+#: src/main.vala:31
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr "Wine-beeld samengesteld uit de officiële WineHQ broncode."
+
+#: src/main.vala:32
+msgid "Wine build with the Staging patchset."
+msgstr "Wine bouwen met de Enscenering-pleisterset."
+
+#: src/main.vala:33
+msgid "Wine build with the Staging patchset and many other useful patches."
+msgstr ""
+"Wine-beeld met de Enscenering-pleisterset en vele andere nuttige patches."
+
+#: src/main.vala:34
+msgid "Wine build modified by Valve and other contributors."
+msgstr "Wine-beeld aangepast door Valve en andere medewerkers."
+
+#: src/main.vala:35
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+msgstr ""
+"Op Vulkan gebaseerde implementatie van Direct3D 8, 9, 10 en 11 voor Linux/"
+"Wine."
+
+#: src/main.vala:36
+msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
+msgstr "DXVK-beelden die werken met pre-Vulkan 1.3-versies"
+
+#: src/main.vala:37
+msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
+msgstr "DXVK Async Builds die werken met pre-Vulkan 1.3 versies"
+
+#: src/main.vala:38
+msgid ""
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
+msgstr ""
+"Variant van Wine's VKD3D die als doel heeft om de volledige Direct3D 12 API "
+"bovenop Vulkan te implementeren."
+
+#: data/ui/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Algemeen"
+
+#: data/ui/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "Snelkoppelingen weergeven"
+
+#: data/ui/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "Afsluiten"
