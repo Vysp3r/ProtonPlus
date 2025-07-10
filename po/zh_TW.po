@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-10 12:24-0400\n"
-"PO-Revision-Date: 2025-07-04 20:18+0800\n"
+"PO-Revision-Date: 2025-07-11 02:02+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -58,13 +58,12 @@ msgid "Games"
 msgstr "遊戲庫"
 
 #: src/widgets/window.vala:89
-#, fuzzy
 msgid "Loading"
 msgstr "正在下載"
 
 #: src/widgets/window.vala:89
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "載入時間是不是比平常久？"
 
 #: src/widgets/window.vala:89 src/widgets/window.vala:98
 #: src/widgets/runners/remove-dialog.vala:49
@@ -170,7 +169,7 @@ msgid "Error"
 msgstr "錯誤"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to delete %s an error occurred."
 msgstr "嘗試移除 %s 時發生錯誤。"
 
@@ -180,7 +179,7 @@ msgid "Cancel"
 msgstr "取消"
 
 #: src/widgets/runners/install-dialog.vala:54
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "嘗試安裝 %s 時發生錯誤。"
 
@@ -208,13 +207,12 @@ msgid "Upgrade %s"
 msgstr "更新 %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to upgrade %s an error occurred."
 msgstr "嘗試更新 %s 時發生錯誤。"
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
-#, fuzzy
 msgid "Check this to also delete your configuration files."
 msgstr "勾選此選項也會移除設定檔。"
 
@@ -293,7 +291,6 @@ msgid "Other"
 msgstr "其它"
 
 #: src/widgets/games/games-box.vala:119 src/widgets/games/games-box.vala:234
-#, fuzzy
 msgid "An error occurred"
 msgstr "發生錯誤"
 
@@ -404,7 +401,6 @@ msgid ""
 msgstr "請啟用要在批量編輯中涵蓋的所有選項。"
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
@@ -416,38 +412,32 @@ msgid "Create shortcut"
 msgstr "建立捷徑"
 
 #: src/widgets/games/shortcut-button.vala:28
-#, fuzzy
 msgid "Delete shortcut"
-msgstr "建立捷徑"
+msgstr "移除捷徑"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "在 Steam 中建立 ProtonPlus 捷徑"
 
 #: src/widgets/games/shortcut-button.vala:29
-#, fuzzy
 msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "移除 Steam 中的 ProtonPlus 捷徑"
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "When trying to delete the shortcut in Steam an error occurred."
-msgstr "嘗試在 Steam 中建立捷徑時發生錯誤。"
+msgstr "嘗試移除 Steam 中的捷徑時發生錯誤。"
 
 #: src/widgets/games/shortcut-button.vala:47
-#, fuzzy
 msgid "When trying to create the shortcut in Steam an error occurred."
 msgstr "嘗試在 Steam 中建立捷徑時發生錯誤。"
 
 #: src/widgets/games/switch-profile-button.vala:14
-#, fuzzy
 msgid "Switch profile"
-msgstr "選擇個人檔案"
+msgstr "切換個人檔案"
 
 #: src/widgets/games/switch-profile-button.vala:23
-#, fuzzy
 msgid "Switch to another profile"
-msgstr "選擇個人檔案"
+msgstr "切換至其它個人檔案"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -485,7 +475,7 @@ msgid "Apply the current modification"
 msgstr "套用目前修改"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occurred."
 msgstr "嘗試變更 %s 的啟動選項時發生錯誤。"
 
@@ -503,7 +493,7 @@ msgstr "開啟前置環境目錄"
 
 #: src/widgets/games/extra-button.vala:17
 msgid "Open in protontricks"
-msgstr ""
+msgstr "於 protontricks 中開啟"
 
 #: src/widgets/games/extra-button.vala:32
 msgid "Open menu"
@@ -516,7 +506,6 @@ msgid "Set the default compatibility tool"
 msgstr "設定預設相容性工具"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occurred."
 msgstr "嘗試變更預設相容性工具時發生錯誤。"
 
@@ -525,7 +514,7 @@ msgid "Select your desired compatibility tool"
 msgstr "選擇所需的相容性工具"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the compatibility tool of %s an error occurred."
 msgstr "嘗試變更 %s 的相容性工具時發生錯誤。"
 
