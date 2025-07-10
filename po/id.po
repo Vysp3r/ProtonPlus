@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-03 19:03-0400\n"
+"POT-Creation-Date: 2025-07-10 12:24-0400\n"
 "PO-Revision-Date: 2025-07-05 12:27+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -16,15 +16,15 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:83
+#: src/widgets/application.vala:71
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Pengelola alat kompatibilitas modern untuk Linux."
 
-#: src/widgets/application.vala:85
+#: src/widgets/application.vala:73
 msgid "Website"
 msgstr "Laman web"
 
-#: src/widgets/application.vala:90
+#: src/widgets/application.vala:78
 msgid "Special thanks to"
 msgstr "Terima kasih khusus kepada"
 
@@ -56,18 +56,20 @@ msgstr "Runner"
 msgid "Games"
 msgstr "Permainan"
 
-#: src/widgets/window.vala:93
-msgid "An error ocurred"
-msgstr "Terjadi kesalahan"
+#: src/widgets/window.vala:89
+#, fuzzy
+msgid "Loading"
+msgstr "Mengunduh"
 
-#: src/widgets/window.vala:93
-msgid "There was an error when trying to load the launchers."
-msgstr "Terjadi kesalahan saat mencoba memuat peluncur."
+#: src/widgets/window.vala:89
+msgid "Taking longer than normal?"
+msgstr ""
 
-#: src/widgets/window.vala:93 src/widgets/runners/remove-dialog.vala:49
+#: src/widgets/window.vala:89 src/widgets/window.vala:98
+#: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:240
+#: src/widgets/games/games-box.vala:234
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -77,12 +79,20 @@ msgstr "Terjadi kesalahan saat mencoba memuat peluncur."
 msgid "Please report this issue on GitHub."
 msgstr "Silakan laporkan masalah ini di GitHub."
 
-#: src/widgets/window.vala:114
+#: src/widgets/window.vala:98
+msgid "An error ocurred"
+msgstr "Terjadi kesalahan"
+
+#: src/widgets/window.vala:98
+msgid "There was an error when trying to load the launchers."
+msgstr "Terjadi kesalahan saat mencoba memuat peluncur."
+
+#: src/widgets/window.vala:118
 #, c-format
 msgid "Welcome to %s"
 msgstr "Selamat datang di %s"
 
-#: src/widgets/window.vala:114
+#: src/widgets/window.vala:118
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 
@@ -99,6 +109,7 @@ msgid "Open in your web browser"
 msgstr "Buka di browser web Anda"
 
 #: src/widgets/runners/release-row.vala:10
+#: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
 msgstr "Hapus %s"
@@ -117,11 +128,6 @@ msgstr "Tampilkan informasi selengkapnya"
 #: src/widgets/runners/load-more-row.vala:17
 msgid "Load more"
 msgstr "Muat lainnya"
-
-#: src/widgets/runners/remove-dialog.vala:11
-#, c-format
-msgid "Remove %s"
-msgstr "Hapus %s"
 
 #: src/widgets/runners/remove-dialog.vala:13
 msgid "Are you sure you want this?"
@@ -163,8 +169,8 @@ msgid "Error"
 msgstr "eror"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, c-format
-msgid "When trying to remove %s an error occured."
+#, fuzzy, c-format
+msgid "When trying to delete %s an error occurred."
 msgstr "Saat mencoba menghapus %s terjadi kesalahan."
 
 #: src/widgets/runners/install-dialog.vala:23
@@ -173,8 +179,8 @@ msgid "Cancel"
 msgstr "Batalkan"
 
 #: src/widgets/runners/install-dialog.vala:54
-#, c-format
-msgid "When trying to install %s an error occured."
+#, fuzzy, c-format
+msgid "When trying to install %s an error occurred."
 msgstr "Saat mencoba menginstal %s terjadi kesalahan."
 
 #: src/widgets/runners/install-dialog.vala:76
@@ -201,13 +207,14 @@ msgid "Upgrade %s"
 msgstr "Perbarui %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, c-format
-msgid "When trying to upgrade %s an error occured."
+#, fuzzy, c-format
+msgid "When trying to upgrade %s an error occurred."
 msgstr "Saat mencoba meningkatkan %s terjadi kesalahan."
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
-msgid "Check this to also remove your configuration files."
+#, fuzzy
+msgid "Check this to also delete your configuration files."
 msgstr "Periksa ini untuk juga menghapus file konfigurasi Anda."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -269,11 +276,11 @@ msgstr "Terbaru"
 msgid "Update to the latest version"
 msgstr "Perbarui  ke versi terbaru"
 
-#: src/widgets/games/games-box.vala:57
+#: src/widgets/games/games-box.vala:53
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "Tutup klien Steam terlebih dahulu agar perubahan dapat diterapkan."
 
-#: src/widgets/games/games-box.vala:87
+#: src/widgets/games/games-box.vala:83
 msgid "Name"
 msgstr "Nama"
 
@@ -282,55 +289,55 @@ msgstr "Nama"
 msgid "Compatibility tool"
 msgstr "Alat Kompabilitas"
 
-#: src/widgets/games/games-box.vala:93
+#: src/widgets/games/games-box.vala:94
 msgid "Other"
 msgstr "Lainnya"
 
-#: src/widgets/games/games-box.vala:118 src/widgets/games/games-box.vala:240
-msgid "An error occured"
+#: src/widgets/games/games-box.vala:119 src/widgets/games/games-box.vala:234
+#, fuzzy
+msgid "An error occurred"
 msgstr "Terjadi kesalahan"
 
-#: src/widgets/games/games-box.vala:118
+#: src/widgets/games/games-box.vala:119
 msgid "No profile was found."
 msgstr "Tidak ada profil yang ditemukan"
 
-#: src/widgets/games/games-box.vala:118
+#: src/widgets/games/games-box.vala:119
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Pastikan untuk menghubungkan akun Anda setidaknya satu kali di Steam."
 
-#: src/widgets/games/games-box.vala:118
+#: src/widgets/games/games-box.vala:119
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 "Jika Anda yakin ini merupakan sebuah masalah, pastikan untuk melaporkannya "
 "di GitHub."
 
-#: src/widgets/games/games-box.vala:168
+#: src/widgets/games/games-box.vala:179
 msgid "Unsuported launcher"
 msgstr "Peluncur tidak didukung"
 
-#: src/widgets/games/games-box.vala:168
+#: src/widgets/games/games-box.vala:179
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s saat ini tidak didukung."
 
-#: src/widgets/games/games-box.vala:168
+#: src/widgets/games/games-box.vala:179
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Jika kalian ingin saya mempercepat pengembangan, pastikan untuk menunjukkan "
 "dukungan Anda!"
 
-#: src/widgets/games/games-box.vala:218
+#: src/widgets/games/games-box.vala:217 src/widgets/games/games-box.vala:280
+#: src/widgets/games/games-box.vala:283
 #: src/widgets/games/mass-edit-dialog.vala:109
-#: src/widgets/games/sort-by-tool-button.vala:27
-#: src/widgets/games/sort-by-tool-button.vala:30
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
-#: src/models/games/steam.vala:76 src/models/games/steam.vala:97
+#: src/models/games/steam.vala:85 src/models/games/steam.vala:106
 msgid "Undefined"
 msgstr "Tidak terdefinisi"
 
-#: src/widgets/games/games-box.vala:240
+#: src/widgets/games/games-box.vala:234
 msgid "The library failed loading."
 msgstr "Pustaka gagal dimuat."
 
@@ -407,9 +414,10 @@ msgstr ""
 "Aktifkan semua opsi yang ingin Anda pertimbangkan dalam pengeditan massal."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
+#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
-"games an error occured for the following games:"
+"games an error occurred for the following games:"
 msgstr ""
 "Saat mencoba mengubah alat kompatibilitas/pilihan peluncuran game yang "
 "dipilih, terjadi kesalahan untuk game berikut ini:"
@@ -420,40 +428,38 @@ msgid "Create shortcut"
 msgstr "Buat pintasan"
 
 #: src/widgets/games/shortcut-button.vala:28
-msgid "Remove shortcut"
-msgstr "Hapus pintasan"
+#, fuzzy
+msgid "Delete shortcut"
+msgstr "Buat pintasan"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Buat pintasan ProtonPlus di Steam"
 
 #: src/widgets/games/shortcut-button.vala:29
-msgid "Remove the shortcut of ProtonPlus in Steam"
+#, fuzzy
+msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Hapus pintasan ProtonPlus di Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
-msgid "When trying to remove the shortcut in Steam an error occured."
-msgstr "Saat mencoba menghapus pintasan di Steam, terjadi kesalahan."
-
-#: src/widgets/games/shortcut-button.vala:47
-msgid "When trying to create the shortcut in Steam an error occured."
+#, fuzzy
+msgid "When trying to delete the shortcut in Steam an error occurred."
 msgstr "Saat mencoba membuat pintasan di Steam, terjadi kesalahan."
 
-#: src/widgets/games/sort-by-name-button.vala:8
-msgid "Sort by name"
-msgstr "Urutkan berasarkan nama"
+#: src/widgets/games/shortcut-button.vala:47
+#, fuzzy
+msgid "When trying to create the shortcut in Steam an error occurred."
+msgstr "Saat mencoba membuat pintasan di Steam, terjadi kesalahan."
 
-#: src/widgets/games/sort-by-name-button.vala:11
-msgid "Sorts the games by their name"
-msgstr "Mengurutkan game berdasarkan namanya"
+#: src/widgets/games/switch-profile-button.vala:14
+#, fuzzy
+msgid "Switch profile"
+msgstr "Pilih sebuah profil"
 
-#: src/widgets/games/sort-by-tool-button.vala:8
-msgid "Sort by compatibility tool"
-msgstr "Urutkan berdasarkan alat kompatibilitas"
-
-#: src/widgets/games/sort-by-tool-button.vala:11
-msgid "Sorts the games by the compatibility tool name"
-msgstr "Mengurutkan game berdasarkan nama alat kompatibilitas"
+#: src/widgets/games/switch-profile-button.vala:23
+#, fuzzy
+msgid "Switch to another profile"
+msgstr "Pilih sebuah profil"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -493,37 +499,39 @@ msgid "Apply the current modification"
 msgstr "Terapkan modifikasi saat ini"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, c-format
-msgid "When trying to change the launch options of %s an error occured."
+#, fuzzy, c-format
+msgid "When trying to change the launch options of %s an error occurred."
 msgstr "Saat mencoba mengubah opsi peluncuran %s terjadi kesalahan."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
 msgstr "Pilih sebuah profil"
 
-#: src/widgets/games/extra-button.vala:10
+#: src/widgets/games/extra-button.vala:11
 msgid "Open install directory"
 msgstr "Buka direktori instalasi"
 
-#: src/widgets/games/extra-button.vala:13
+#: src/widgets/games/extra-button.vala:14
 msgid "Open prefix directory"
 msgstr "Buka direktori prefix"
 
-#: src/widgets/games/extra-button.vala:28
+#: src/widgets/games/extra-button.vala:17
+msgid "Open in protontricks"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:32
 msgid "Open menu"
 msgstr "Buka menu"
 
 #: src/widgets/games/default-tool-button.vala:8
-msgid "Set default compatibility tool"
-msgstr "Atur alat kompatibilitas baku"
-
 #: src/widgets/games/default-tool-button.vala:14
 #: src/widgets/games/default-tool-dialog.vala:14
 msgid "Set the default compatibility tool"
 msgstr "Atur alat kompatibilitas baku"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-msgid "When trying to change the default compatibility tool an error occured."
+#, fuzzy
+msgid "When trying to change the default compatibility tool an error occurred."
 msgstr ""
 "Ketika mencoba mengubah alat kompatibilitas default, terjadi kesalahan."
 
@@ -532,8 +540,8 @@ msgid "Select your desired compatibility tool"
 msgstr "Pilih alat kompatibilitas yang diinginkan"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, c-format
-msgid "When trying to change the compatibility tool of %s an error occured."
+#, fuzzy, c-format
+msgid "When trying to change the compatibility tool of %s an error occurred."
 msgstr "Ketika mencoba mengubah alat kompatibilitas %s terjadi kesalahan."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
@@ -544,13 +552,13 @@ msgstr ""
 "Alat Steam untuk konfigurasi grafis yang mudah dari alat kompatibilitas Anda "
 "yang lain untuk game Windows dan game Linux asli."
 
-#: src/main.vala:18
+#: src/translatables.vala:4
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 "Alat kompatibilitas dari Valve untuk menjalankan perangkat lunak Windows di "
 "Linux."
 
-#: src/main.vala:19
+#: src/translatables.vala:5
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
@@ -558,7 +566,7 @@ msgstr ""
 "Alat kompatibilitas Steam untuk menjalankan game Windows dengan peningkatan "
 "dari Proton bawaan Valve."
 
-#: src/main.vala:20
+#: src/translatables.vala:6
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
@@ -566,7 +574,7 @@ msgstr ""
 "Alat kompatibilitas Steam dari distribusi CachyOS Linux untuk menjalankan "
 "game Windows dengan peningkatan dari Proton bawaan Valve."
 
-#: src/main.vala:21
+#: src/translatables.vala:7
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
@@ -576,13 +584,7 @@ msgstr ""
 "dari Proton bawaan Valve. Oleh Etaash Mathamsetty yang menambahkan dukungan "
 "FSR4 dan tweak Wine Wayland."
 
-#: src/main.vala:22
-msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr ""
-"Proton yang dibuat khusus untuk menjalankan game Windows, berdasarkan Wine-"
-"tkg."
-
-#: src/main.vala:23
+#: src/translatables.vala:8
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK."
@@ -590,7 +592,7 @@ msgstr ""
 "Alat kompatibilitas Steam berdasarkan Proton-GE dengan modifikasi untuk GPU "
 "yang sangat tua, dengan DXVK."
 
-#: src/main.vala:24
+#: src/translatables.vala:9
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK-Async."
@@ -598,7 +600,13 @@ msgstr ""
 "Alat kompatibilitas Steam berdasarkan Proton-GE dengan modifikasi untuk GPU "
 "yang sangat tua, dengan DXVK-Async."
 
-#: src/main.vala:25
+#: src/translatables.vala:10
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr ""
+"Proton yang dibuat khusus untuk menjalankan game Windows, berdasarkan Wine-"
+"tkg."
+
+#: src/translatables.vala:11
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
@@ -606,67 +614,67 @@ msgstr ""
 "Alat kompatibilitas Steam berdasarkan Proton-GE dengan tambalan tambahan "
 "untuk meningkatkan codec RTSP untuk VRChat."
 
-#: src/main.vala:26
+#: src/translatables.vala:12
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
 "Proton yang dibuat khusus untuk menjalankan klien Northstar untuk Titanfall "
 "2."
 
-#: src/main.vala:27
+#: src/translatables.vala:13
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 "Luxtorpeda menyediakan mesin game asli Linux untuk game-game tertentu yang "
 "hanya ada di Windows."
 
-#: src/main.vala:28
+#: src/translatables.vala:14
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 "Alat kompatibilitas Steam untuk menjalankan game petualangan menggunakan "
 "ScummVM untuk Linux."
 
-#: src/main.vala:29
+#: src/translatables.vala:15
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 "Alat kompatibilitas Steam untuk menjalankan game DOS menggunakan DOSBox "
 "untuk Linux."
 
-#: src/main.vala:30
+#: src/translatables.vala:16
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr ""
 "Alat bantu kompatibilitas untuk menjalankan perangkat lunak Windows di Linux."
 
-#: src/main.vala:31
+#: src/translatables.vala:17
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "Wine build disusun dari sumber resmi WineHQ."
 
-#: src/main.vala:32
+#: src/translatables.vala:18
 msgid "Wine build with the Staging patchset."
 msgstr "Wine dibuat dengan patchset Staging."
 
-#: src/main.vala:33
+#: src/translatables.vala:19
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr "Wine dibuat dengan patchset Staging dan banyak patch berguna lainnya."
 
-#: src/main.vala:34
+#: src/translatables.vala:20
 msgid "Wine build modified by Valve and other contributors."
 msgstr "Wine yang dimodifikasi oleh Valve dan kontributor lainnya."
 
-#: src/main.vala:35
+#: src/translatables.vala:21
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 "Implementasi berbasis Vulkan untuk Direct3D 8, 9, 10 dan 11 untuk Linux/Wine."
 
-#: src/main.vala:36
+#: src/translatables.vala:22
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
 msgstr "Berbagai build DXVK yang bekerja dengan versi pra-Vulkan 1.3"
 
-#: src/main.vala:37
+#: src/translatables.vala:23
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
 msgstr "Build DXVK Async yang bekerja dengan versi pra-Vulkan 1.3"
 
-#: src/main.vala:38
+#: src/translatables.vala:24
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
@@ -688,6 +696,34 @@ msgstr "Tampilkan Pintasan"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Keluar"
+
+#, c-format
+#~ msgid "Remove %s"
+#~ msgstr "Hapus %s"
+
+#~ msgid "An error occured"
+#~ msgstr "Terjadi kesalahan"
+
+#~ msgid "Remove shortcut"
+#~ msgstr "Hapus pintasan"
+
+#~ msgid "When trying to remove the shortcut in Steam an error occured."
+#~ msgstr "Saat mencoba menghapus pintasan di Steam, terjadi kesalahan."
+
+#~ msgid "Sort by name"
+#~ msgstr "Urutkan berasarkan nama"
+
+#~ msgid "Sorts the games by their name"
+#~ msgstr "Mengurutkan game berdasarkan namanya"
+
+#~ msgid "Sort by compatibility tool"
+#~ msgstr "Urutkan berdasarkan alat kompatibilitas"
+
+#~ msgid "Sorts the games by the compatibility tool name"
+#~ msgstr "Mengurutkan game berdasarkan nama alat kompatibilitas"
+
+#~ msgid "Set default compatibility tool"
+#~ msgstr "Atur alat kompatibilitas baku"
 
 #~ msgid "Library"
 #~ msgstr "Pustaka"

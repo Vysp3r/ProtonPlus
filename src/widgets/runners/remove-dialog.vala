@@ -8,7 +8,7 @@ namespace ProtonPlus.Widgets {
 			this.release = release;
 			this.parameters = parameters;
 
-			set_heading (_("Remove %s").printf (release.title));
+			set_heading (_("Delete %s").printf (release.title));
 
 			set_body (_("Are you sure you want this?"));
 
@@ -46,7 +46,7 @@ namespace ProtonPlus.Widgets {
 				done (success);
 
 				if (!success) {
-					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf (_("When trying to remove %s an error occured.").printf (release.title), _("Please report this issue on GitHub.")));
+					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf (_("When trying to delete %s an error occurred.").printf (release.title), _("Please report this issue on GitHub.")));
 					dialog.add_response ("ok", "OK");
 					dialog.present (Application.window);
 				}

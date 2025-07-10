@@ -116,7 +116,7 @@ namespace ProtonPlus.Widgets {
 
 				if (steam_launcher.profiles.length() == 0) {
 					error = true;
-					show_status_box("bug-symbolic", _("An error occured"), "%s\n%s\n%s".printf(_("No profile was found."), _("Make sure to connect yourself at least once on Steam."), _("If you think this is an issue, make sure to report this on GitHub.")));
+					show_status_box("bug-symbolic", _("An error occurred"), "%s\n%s\n%s".printf(_("No profile was found."), _("Make sure to connect yourself at least once on Steam."), _("If you think this is an issue, make sure to report this on GitHub.")));
 				} else if (steam_launcher.profiles.length() > 1) {
 					game_list_box.remove_all();
 
@@ -231,7 +231,7 @@ namespace ProtonPlus.Widgets {
 					name_label_clicked();
 				} else {
 					error = true;
-					show_status_box("bug-symbolic", _("An error occured"), "%s\n%s".printf(_("The library failed loading."), _("Please report this issue on GitHub.")));
+					show_status_box("bug-symbolic", _("An error occurred"), "%s\n%s".printf(_("The library failed loading."), _("Please report this issue on GitHub.")));
 				}
 
 				overlay.remove_overlay(spinner);
