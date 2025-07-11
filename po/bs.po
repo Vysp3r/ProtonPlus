@@ -429,7 +429,7 @@ msgstr "Kreiraj prečicu"
 
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Delete shortcut"
-msgstr "Kreiraj prečicu"
+msgstr "Izbriši prečicu"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
