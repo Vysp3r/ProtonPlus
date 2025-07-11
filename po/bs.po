@@ -61,11 +61,11 @@ msgstr "Igre"
 
 #: src/widgets/window.vala:89
 msgid "Loading"
-msgstr "Preuzimanje"
+msgstr "Učitavanje"
 
 #: src/widgets/window.vala:89
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "Traje li duže nego uobičajeno?"
 
 #: src/widgets/window.vala:89 src/widgets/window.vala:98
 #: src/widgets/runners/remove-dialog.vala:49
@@ -173,7 +173,7 @@ msgid "Error"
 msgstr "Greška"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to delete %s an error occurred."
 msgstr "Došlo je do greške prilikom pokušaja uklanjanja %s."
 
@@ -183,7 +183,7 @@ msgid "Cancel"
 msgstr "Otkaži"
 
 #: src/widgets/runners/install-dialog.vala:54
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "Došlo je do greške prilikom pokušaja instaliranja programa %s."
 
@@ -195,7 +195,7 @@ msgstr "Preuzimanje"
 #: src/widgets/runners/install-dialog.vala:79
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
-msgstr "Ekstrakcija"
+msgstr "Izvlačenje"
 
 #: src/widgets/runners/install-dialog.vala:82
 msgid "Renaming"
@@ -211,7 +211,7 @@ msgid "Upgrade %s"
 msgstr "Nadogradite %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to upgrade %s an error occurred."
 msgstr "Došlo je do greške prilikom pokušaja nadogradnje %s."
 
@@ -413,7 +413,6 @@ msgstr ""
 "uređivanja."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
@@ -439,24 +438,20 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Uklonite prečicu ProtonPlus-a u Steam-u"
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "When trying to delete the shortcut in Steam an error occurred."
 msgstr "Došlo je do greške prilikom pokušaja kreiranja prečice u Steam-u."
 
 #: src/widgets/games/shortcut-button.vala:47
-#, fuzzy
 msgid "When trying to create the shortcut in Steam an error occurred."
 msgstr "Došlo je do greške prilikom pokušaja kreiranja prečice u Steam-u."
 
 #: src/widgets/games/switch-profile-button.vala:14
-#, fuzzy
 msgid "Switch profile"
 msgstr "Odaberite profil"
 
 #: src/widgets/games/switch-profile-button.vala:23
-#, fuzzy
 msgid "Switch to another profile"
-msgstr "Odaberite profil"
+msgstr "Odaberite drugi profil"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -496,7 +491,7 @@ msgid "Apply the current modification"
 msgstr "Primijeni trenutnu promjenu"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occurred."
 msgstr ""
 "Došlo je do greške prilikom pokušaja promjene opcija pokretanja za program "
@@ -516,7 +511,7 @@ msgstr "Otvori direktorij prefiksa"
 
 #: src/widgets/games/extra-button.vala:17
 msgid "Open in protontricks"
-msgstr ""
+msgstr "Otvori u protontricks-u"
 
 #: src/widgets/games/extra-button.vala:32
 msgid "Open menu"
@@ -529,7 +524,6 @@ msgid "Set the default compatibility tool"
 msgstr "Postavljanje zadanog alata za kompatibilnost"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occurred."
 msgstr ""
 "Došlo je do greške prilikom pokušaja promjene zadanog alata za "
@@ -540,7 +534,7 @@ msgid "Select your desired compatibility tool"
 msgstr "Odaberite željeni alat za kompatibilnost"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the compatibility tool of %s an error occurred."
 msgstr ""
 "Došlo je do greške prilikom pokušaja promjene alata za kompatibilnost za %s."
