@@ -194,7 +194,7 @@ msgstr "Preuzimanje"
 #: src/widgets/runners/install-dialog.vala:79
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
-msgstr "Ekstrakcija"
+msgstr "Izvlačenje"
 
 #: src/widgets/runners/install-dialog.vala:82
 msgid "Renaming"
