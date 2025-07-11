@@ -60,7 +60,6 @@ msgid "Games"
 msgstr "Igre"
 
 #: src/widgets/window.vala:89
-#, fuzzy
 msgid "Loading"
 msgstr "Preuzimanje"
 
@@ -429,16 +428,15 @@ msgstr "Kreiraj prečicu"
 
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Delete shortcut"
-msgstr "Izbriši prečicu"
+msgstr "Uklonite prečicu"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Napravite prečicu za ProtonPlus u Steam-u"
 
 #: src/widgets/games/shortcut-button.vala:29
-#, fuzzy
 msgid "Delete the shortcut of ProtonPlus in Steam"
-msgstr "Uklonite prečicu ProtonPlus u Steam-u"
+msgstr "Uklonite prečicu ProtonPlus-a u Steam-u"
 
 #: src/widgets/games/shortcut-button.vala:38
 #, fuzzy
