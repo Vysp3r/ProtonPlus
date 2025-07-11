@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-10 12:24-0400\n"
-"PO-Revision-Date: 2025-07-11 05:01+0000\n"
+"PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: Alessandro Marigliano <alemarigliano22@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/it/>\n"
@@ -28,7 +28,7 @@ msgstr "Ringraziamenti speciali a"
 
 #: src/widgets/window.vala:40
 msgid "Donate"
-msgstr "Donazioni"
+msgstr "Dona"
 
 #: src/widgets/window.vala:43
 msgid "_Installed Only"
@@ -48,7 +48,7 @@ msgstr "Menù Principale"
 
 #: src/widgets/window.vala:63
 msgid "Runners"
-msgstr "Eseguibili"
+msgstr "Strumenti"
 
 #: src/widgets/window.vala:64
 msgid "Games"
@@ -56,7 +56,7 @@ msgstr "Giochi"
 
 #: src/widgets/window.vala:89
 msgid "Loading"
-msgstr "Caricamento"
+msgstr "Caricamento in corso"
 
 #: src/widgets/window.vala:89
 msgid "Taking longer than normal?"
@@ -78,7 +78,7 @@ msgstr "Si prega di segnalare il problema su GitHub."
 
 #: src/widgets/window.vala:98
 msgid "An error ocurred"
-msgstr "C'è stato un errore"
+msgstr "Sì è verificato un errore"
 
 #: src/widgets/window.vala:98
 msgid "There was an error when trying to load the launchers."
@@ -124,7 +124,7 @@ msgstr "Mostra altre informazioni"
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
 msgid "Load more"
-msgstr "Carica di più"
+msgstr "Carica altri"
 
 #: src/widgets/runners/remove-dialog.vala:13
 msgid "Are you sure you want this?"
@@ -168,7 +168,7 @@ msgstr "Errore"
 #: src/widgets/runners/remove-dialog.vala:49
 #, c-format
 msgid "When trying to delete %s an error occurred."
-msgstr "Si è verificato un errore nel tentativo di cancellare %s."
+msgstr "Si è verificato un errore durante la cancellazione di %s."
 
 #: src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -178,7 +178,7 @@ msgstr "Cancella"
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occurred."
-msgstr "Si è verificato un errore nel tentativo di installare %s."
+msgstr "Si è verificato durante l'installazione di %s."
 
 #: src/widgets/runners/install-dialog.vala:76
 #: src/widgets/runners/upgrade-dialog.vala:78
@@ -188,11 +188,11 @@ msgstr "Download in corso"
 #: src/widgets/runners/install-dialog.vala:79
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
-msgstr "Estraendo"
+msgstr "Estrazione in corso"
 
 #: src/widgets/runners/install-dialog.vala:82
 msgid "Renaming"
-msgstr "Rinomina"
+msgstr "Rinomina in corso"
 
 #: src/widgets/runners/install-dialog.vala:85
 msgid "Running post install script"
@@ -206,7 +206,7 @@ msgstr "Aggiorna %s"
 #: src/widgets/runners/upgrade-dialog.vala:56
 #, c-format
 msgid "When trying to upgrade %s an error occurred."
-msgstr "Si è verificato un errore durante il tentativo di aggiornare %s."
+msgstr "Si è verificato un errore durante l'aggiornamento di %s."
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
@@ -334,7 +334,7 @@ msgstr "La libreria ha fallito il caricamento."
 
 #: src/widgets/games/game-row.vala:44
 msgid "Modify the game launch options"
-msgstr "Modifica le opzioni di lancio"
+msgstr "Modifica le opzioni di lancio di gioco"
 
 #: src/widgets/games/game-row.vala:70
 msgid "Unknown"
@@ -385,12 +385,12 @@ msgstr ""
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
-msgstr "Abilita se vuoi che la modifica multipla applichi le opzioni di lancio"
+msgstr "Abilita se vuoi che la modifica multipla applichi le opzioni di lancio."
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
 msgid "Enter your desired launch options"
-msgstr "Inserisci le opzioni di lancio desiderate"
+msgstr "Inserisci le opzioni di lancio"
 
 #: src/widgets/games/mass-edit-dialog.vala:51
 msgid "Launch options"
@@ -406,8 +406,8 @@ msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
 msgstr ""
-"Si è verificato un errore durante il tentativo di modifica degli strumenti "
-"di compatibilità e/o opzioni di lancio dei giochi selezionati per i seguenti "
+"Si è verificato un errore durante la modifica degli strumenti di "
+"compatibilità e/o opzioni di lancio dei giochi selezionati per i seguenti "
 "giochi:"
 
 #: src/widgets/games/shortcut-button.vala:23
@@ -430,14 +430,12 @@ msgstr "Elimina il collegamento di ProtonPlus su Steam"
 #: src/widgets/games/shortcut-button.vala:38
 msgid "When trying to delete the shortcut in Steam an error occurred."
 msgstr ""
-"Si è verificato un errore durante il tentativo di eliminazione del "
-"collegamento su Steam."
+"Si è verificato un errore durante la cancellazione del collegamento su Steam."
 
 #: src/widgets/games/shortcut-button.vala:47
 msgid "When trying to create the shortcut in Steam an error occurred."
 msgstr ""
-"Si è verificato un errore durante il tentativo di creazione del collegamento "
-"su Steam."
+"Si è verificato un errore durante la creazione del collegamento su Steam."
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
@@ -489,8 +487,8 @@ msgstr "Applica la modifica attuale"
 #, c-format
 msgid "When trying to change the launch options of %s an error occurred."
 msgstr ""
-"Si è verificato un errore durante il tentativo di modifica delle "
-"impostazioni di lancio di %s."
+"Si è verificato un errore durante la modifica delle impostazioni di lancio "
+"di %s."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
@@ -521,19 +519,19 @@ msgstr "Seleziona lo strumento di compatibilità predefinito"
 #: src/widgets/games/default-tool-dialog.vala:60
 msgid "When trying to change the default compatibility tool an error occurred."
 msgstr ""
-"Si è verificato un errore nel tentativo di modificare lo strumento di "
+"Si è verificato un errore durante la modifica dello strumento di "
 "compatibilità predefinito."
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
-msgstr "Seleziona lo strumento di compatibilità desiderato"
+msgstr "Seleziona lo strumento di compatibilità"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occurred."
 msgstr ""
-"Si è verificato un errore durante il tentativo di modifica dello strumento "
-"di compatibilità per %s."
+"Si è verificato un errore durante la modifica dello strumento di "
+"compatibilità per %s."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
@@ -610,7 +608,7 @@ msgstr ""
 #: src/translatables.vala:12
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
 msgstr ""
-"Build Proton personalizzata per l'esecuzione del client Northstar per "
+"Verisione di Proton personalizzata per l'esecuzione del client Northstar per "
 "Titanfall 2."
 
 #: src/translatables.vala:13
@@ -640,7 +638,7 @@ msgstr ""
 
 #: src/translatables.vala:17
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr "Wine build compilato dalle fonti ufficiali WineHQ."
+msgstr "Versione di Wine compilata dalle fonti ufficiali WineHQ."
 
 #: src/translatables.vala:18
 msgid "Wine build with the Staging patchset."
@@ -681,7 +679,7 @@ msgstr ""
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
-msgstr "Generico"
+msgstr "Generiche"
 
 #: data/ui/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
