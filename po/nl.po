@@ -2,22 +2,21 @@
 # Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
 # SecularSteve <fairfull.playing@gmail.com>, 2025.
-#
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-10 12:24-0400\n"
-"PO-Revision-Date: 2025-07-10 11:19+0200\n"
-"Last-Translator: \n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/protonplus/>\n"
+"PO-Revision-Date: 2025-07-11 14:50+0000\n"
+"Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/protonplus/"
+"protonplus/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.6\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:71
 msgid "A modern compatibility tools manager for Linux."
@@ -60,13 +59,12 @@ msgid "Games"
 msgstr "Spellen"
 
 #: src/widgets/window.vala:89
-#, fuzzy
 msgid "Loading"
-msgstr "Downloaden"
+msgstr "Laden"
 
 #: src/widgets/window.vala:89
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "Duurt het langer dan normaal?"
 
 #: src/widgets/window.vala:89 src/widgets/window.vala:98
 #: src/widgets/runners/remove-dialog.vala:49
@@ -173,7 +171,7 @@ msgid "Error"
 msgstr "Fout"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to delete %s an error occurred."
 msgstr "Bij het verwijderen van %s is een fout opgetreden."
 
@@ -183,7 +181,7 @@ msgid "Cancel"
 msgstr "Annuleren"
 
 #: src/widgets/runners/install-dialog.vala:54
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "Tijdens het installeren van %s is er een fout opgetreden."
 
@@ -211,15 +209,14 @@ msgid "Upgrade %s"
 msgstr "%s opwaarderen"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to upgrade %s an error occurred."
 msgstr "Bij het upgraden %s is een fout opgetreden."
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
-#, fuzzy
 msgid "Check this to also delete your configuration files."
-msgstr "Vink dit aan om ook je configuratiebestanden te verwijderen."
+msgstr "Vink dit aan om ook uw configuratiebestanden te verwijderen."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
@@ -302,7 +299,6 @@ msgid "Other"
 msgstr "Andere"
 
 #: src/widgets/games/games-box.vala:119 src/widgets/games/games-box.vala:234
-#, fuzzy
 msgid "An error occurred"
 msgstr "Er is een fout opgetreden"
 
@@ -420,12 +416,11 @@ msgstr ""
 "houden."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
 msgstr ""
-"Bij het wijzigen van de compatibiliteitstool/launch-opties van de "
+"Bij het wijzigen van de compatibiliteitstool/lanseer-opties van de "
 "geselecteerde spellen trad een fout op voor de volgende spellen:"
 
 #: src/widgets/games/shortcut-button.vala:23
@@ -434,38 +429,32 @@ msgid "Create shortcut"
 msgstr "Snelkoppeling maken"
 
 #: src/widgets/games/shortcut-button.vala:28
-#, fuzzy
 msgid "Delete shortcut"
-msgstr "Snelkoppeling maken"
+msgstr "Snelkoppeling verwijderen"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Maak een snelkoppeling van ProtonPlus in Steam"
 
 #: src/widgets/games/shortcut-button.vala:29
-#, fuzzy
 msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "De snelkoppeling van ProtonPlus in Steam verwijderen"
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "When trying to delete the shortcut in Steam an error occurred."
 msgstr "Bij het maken van de snelkoppeling in Steam trad er een fout op."
 
 #: src/widgets/games/shortcut-button.vala:47
-#, fuzzy
 msgid "When trying to create the shortcut in Steam an error occurred."
 msgstr "Bij het maken van de snelkoppeling in Steam trad er een fout op."
 
 #: src/widgets/games/switch-profile-button.vala:14
-#, fuzzy
 msgid "Switch profile"
 msgstr "Selecteer een profiel"
 
 #: src/widgets/games/switch-profile-button.vala:23
-#, fuzzy
 msgid "Switch to another profile"
-msgstr "Selecteer een profiel"
+msgstr "Selecteer een andere profiel"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -506,7 +495,7 @@ msgid "Apply the current modification"
 msgstr "De huidige wijziging toepassen"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occurred."
 msgstr ""
 "Toen ik de lanceeropties van %s probeerde te wijzigen, trad er een fout op."
