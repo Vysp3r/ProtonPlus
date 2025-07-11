@@ -74,8 +74,13 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void load_more_row_activated () {
+			ScrollController scroll_ctrl = new ScrollController(get_ancestor(typeof(Gtk.ScrolledWindow)) as Gtk.ScrolledWindow);
+			scroll_ctrl.save();
+
 			remove (load_more_row);
 			expanded_changed (true);
+
+			scroll_ctrl.restore(10);
 		}
 	}
 }
