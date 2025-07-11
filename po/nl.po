@@ -446,7 +446,7 @@ msgstr "Bij het maken van de snelkoppeling in Steam trad er een fout op."
 
 #: src/widgets/games/shortcut-button.vala:47
 msgid "When trying to create the shortcut in Steam an error occurred."
-msgstr "Bij het maken van de snelkoppeling in Steam trad er een fout op."
+msgstr "Bij het maken van de snelkoppeling in Steam is een fout opgetreden."
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
@@ -497,8 +497,7 @@ msgstr "De huidige wijziging toepassen"
 #: src/widgets/games/launch-options-dialog.vala:57
 #, c-format
 msgid "When trying to change the launch options of %s an error occurred."
-msgstr ""
-"Toen ik de lanceeropties van %s probeerde te wijzigen, trad er een fout op."
+msgstr "Bij het wijzigen van de opstartopties van %s is een fout opgetreden."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
@@ -514,7 +513,7 @@ msgstr "Voorvoegselmap openen"
 
 #: src/widgets/games/extra-button.vala:17
 msgid "Open in protontricks"
-msgstr ""
+msgstr "Open in protontricks"
 
 #: src/widgets/games/extra-button.vala:32
 msgid "Open menu"
@@ -527,7 +526,6 @@ msgid "Set the default compatibility tool"
 msgstr "Standaard compatibiliteitstool instellen"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occurred."
 msgstr ""
 "Bij het wijzigen van het standaard compatibiliteitstool is een fout "
@@ -538,7 +536,7 @@ msgid "Select your desired compatibility tool"
 msgstr "Selecteer het gewenste compatibiliteitshulpmiddel"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the compatibility tool of %s an error occurred."
 msgstr ""
 "Bij het wijzigen van de compatibiliteitstool van %s is een fout opgetreden."
