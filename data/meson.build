@@ -1,6 +1,7 @@
-subdir('ui')
-subdir('css')
-subdir('icons')
+resources = gnome.compile_resources(
+    'resources',
+    'com.vysp3r.ProtonPlus.gresource.xml'
+)
 
 install_subdir(
                        join_paths('logo', 'icons'),
