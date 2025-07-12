@@ -8,6 +8,14 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 			if (release.description == null || release.page_url == null)
 				input_box.remove (info_button);
 
+			if (release.title.contains ("Latest")) {
+				remove_button.set_sensitive (!Application.window.updating);
+
+				Application.window.notify["updating"].connect(() => {
+					remove_button.set_sensitive (!Application.window.updating);
+				});
+			}
+
 			release.notify["displayed-title"].connect (release_displayed_title_changed);
 
 			release_displayed_title_changed ();
