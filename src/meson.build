@@ -5,6 +5,7 @@ protonplus_sources = files(
   'widgets/application.vala',
   'widgets/status-box.vala',
   'widgets/window.vala',
+  'widgets/scroll-controller.vala',
 
   'widgets/launchers-popover/launchers-popover-button.vala',
   'widgets/launchers-popover/launchers-popover-list-row.vala',
