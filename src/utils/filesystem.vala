@@ -151,11 +151,16 @@ namespace ProtonPlus.Utils {
 
         // Files.
 
-        public static string get_file_content (string path) {
+        public static string get_file_content (string path, bool use_uri = false) {
             string output = "";
 
             try {
-                File file = File.parse_name (path);
+                File file;
+                
+                if (use_uri)
+                    file = File.new_for_uri (path);
+                else
+                    file = File.new_for_path (path);
 
                 uint8[] contents;
                 string etag_out;

@@ -239,13 +239,29 @@ namespace ProtonPlus.Models {
 			var download_url = "https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/runners.json";
 			var download_path = "%s/ProtonPlus".printf (Environment.get_user_data_dir ());
 			var download_full_path = "%s/runners.json".printf (download_path);
+			var backup_full_path = "%s/runners.json.bak".printf (download_path);
+			var resource_full_path = "resource://com/vysp3r/ProtonPlus/runners.json";
 
 			if (!FileUtils.test (download_path, FileTest.IS_DIR))
 				yield Utils.Filesystem.create_directory (download_path);
 
-			//yield Utils.Web.Download (download_url, download_full_path);
+			if (FileUtils.test (download_full_path, FileTest.IS_REGULAR))
+				yield Utils.Filesystem.rename (download_full_path, backup_full_path);
 
-			var json = Utils.Filesystem.get_file_content (download_full_path);
+			var downloaded = yield Utils.Web.Download (download_url, download_full_path);
+			if (!downloaded && FileUtils.test (backup_full_path, FileTest.IS_REGULAR))
+				yield Utils.Filesystem.rename (backup_full_path, download_full_path);
+			else
+				Utils.Filesystem.delete_file (backup_full_path);
+
+			var json = "";
+			
+			if (!downloaded && !FileUtils.test (download_full_path, FileTest.IS_REGULAR)) {
+				json = Utils.Filesystem.get_file_content (resource_full_path, true);
+			} else {
+				json = Utils.Filesystem.get_file_content (download_full_path, false);
+			}
+
 			if (json == "")
 				return null;
 

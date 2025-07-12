@@ -1,4 +1,4 @@
-protonplus_sources = files(
+sources = files(
   'main.vala',
   'globals.vala',
 
@@ -81,7 +81,7 @@ protonplus_sources = files(
   'utils/i18n.vala',
 )
 
-protonplus_deps = [
+deps = [
   globals_dep,
   dependency('gtk4'),
   dependency('glib-2.0'),
@@ -94,11 +94,9 @@ protonplus_deps = [
 
 executable(
   meson.project_name().split('.')[2].to_lower(),
-  ui_gresource,
-  css_gresource,
-  icons_gresource,
-  protonplus_sources,
-  dependencies: protonplus_deps,
+  resources,
+  sources,
+  dependencies: deps,
   include_directories: globals_inc,
   install: true
 )
