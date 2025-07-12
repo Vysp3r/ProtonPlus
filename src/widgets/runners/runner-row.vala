@@ -84,10 +84,13 @@ namespace ProtonPlus.Widgets {
 			ScrollController scroll_ctrl = new ScrollController(get_ancestor(typeof(Gtk.ScrolledWindow)) as Gtk.ScrolledWindow);
 			scroll_ctrl.save();
 
-			remove (load_more_row);
-			expanded_changed (true);
+			GLib.Idle.add (() => {
+				remove (load_more_row);
+				expanded_changed (true);
 
-			scroll_ctrl.restore(10);
+				scroll_ctrl.restore(10);
+				return false;
+			});
 		}
 	}
 }
