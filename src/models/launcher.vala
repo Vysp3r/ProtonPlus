@@ -236,7 +236,7 @@ namespace ProtonPlus.Models {
 		}
 
 		static async Json.Object? get_runners_json_object () {
-			var download_url = "https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/runners.json";
+			var download_url = "https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/runners.json";
 			var download_path = "%s/ProtonPlus".printf (Environment.get_user_data_dir ());
 			var download_full_path = "%s/runners.json".printf (download_path);
 			var backup_full_path = "%s/runners.json.bak".printf (download_path);
