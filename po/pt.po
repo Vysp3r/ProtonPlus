@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-10 12:24-0400\n"
-"PO-Revision-Date: 2025-07-08 22:01+0000\n"
+"PO-Revision-Date: 2025-07-10 19:18+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -87,9 +87,8 @@ msgid "An error ocurred"
 msgstr "Ocorreu um erro"
 
 #: src/widgets/window.vala:98
-#, fuzzy
 msgid "There was an error when trying to load the launchers."
-msgstr "Houve um erro ao buscar dados da API do GitHub"
+msgstr "Houve um erro ao tentar carregar os inicializadores."
 
 #: src/widgets/window.vala:118
 #, c-format
@@ -590,22 +589,20 @@ msgstr ""
 "suporte a FSR4 e ajustes para Wine em Wayland."
 
 #: src/translatables.vala:8
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK."
 msgstr ""
 "Ferramenta de compatibilidade do Steam baseada no Proton-GE com modificações "
-"para placas de vídeo muito antigas, com %s."
+"para placas de vídeo muito antigas, com DXVK."
 
 #: src/translatables.vala:9
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK-Async."
 msgstr ""
 "Ferramenta de compatibilidade do Steam baseada no Proton-GE com modificações "
-"para placas de vídeo muito antigas, com %s."
+"para placas de vídeo muito antigas, com DXVK-Async."
 
 #: src/translatables.vala:10
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
@@ -677,12 +674,11 @@ msgstr ""
 
 #: src/translatables.vala:22
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
-msgstr "DXVK Builds que funcionam com versões pre-Vulkan 1.3"
+msgstr "Versões do DXVK que funcionam com versões pré-Vulkan 1.3"
 
 #: src/translatables.vala:23
-#, fuzzy
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
-msgstr "DXVK Builds que funcionam com versões pre-Vulkan 1.3"
+msgstr "Versões do DXVK Async que funcionam com versões pré-Vulkan 1.3"
 
 #: src/translatables.vala:24
 msgid ""

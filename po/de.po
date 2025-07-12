@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
 # Rouven Hi! <rouven@himmelstein.info>, 2023.
+# SecularSteve <fairfull.playing@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-10 12:24-0400\n"
-"PO-Revision-Date: 2025-07-04 09:59+0200\n"
-"Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
+"PO-Revision-Date: 2025-07-11 14:50+0000\n"
+"Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
 "Language: de\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:71
 msgid "A modern compatibility tools manager for Linux."
@@ -59,13 +60,12 @@ msgid "Games"
 msgstr "Spiele"
 
 #: src/widgets/window.vala:89
-#, fuzzy
 msgid "Loading"
-msgstr "Lade herunter"
+msgstr "Laden"
 
 #: src/widgets/window.vala:89
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "Dauert es länger als normal?"
 
 #: src/widgets/window.vala:89 src/widgets/window.vala:98
 #: src/widgets/runners/remove-dialog.vala:49
@@ -173,7 +173,7 @@ msgid "Error"
 msgstr "Fehler"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to delete %s an error occurred."
 msgstr "Beim Versuch, %s zu entfernen, ist ein Fehler aufgetreten."
 
@@ -183,7 +183,7 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: src/widgets/runners/install-dialog.vala:54
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "Beim Versuch, %s zu installieren, ist ein Fehler aufgetreten."
 
@@ -211,13 +211,12 @@ msgid "Upgrade %s"
 msgstr "Aktualisiere %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to upgrade %s an error occurred."
 msgstr "Beim Versuch, %s zu aktualisieren, ist ein Fehler aufgetreten."
 
 #: src/widgets/runners/installed-row.vala:29
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
-#, fuzzy
 msgid "Check this to also delete your configuration files."
 msgstr ""
 "Aktivieren Sie diese Option, um auch Ihre Konfigurationsdateien zu löschen."
@@ -303,7 +302,6 @@ msgid "Other"
 msgstr "Andere"
 
 #: src/widgets/games/games-box.vala:119 src/widgets/games/games-box.vala:234
-#, fuzzy
 msgid "An error occurred"
 msgstr "Ein Fehler ist aufgetreten"
 
@@ -379,7 +377,7 @@ msgstr "%u Spiele ausgewählt"
 #: src/widgets/games/launch-options-dialog.vala:14
 #: src/widgets/games/default-tool-dialog.vala:16
 msgid "Apply"
-msgstr "Übernehmen"
+msgstr "Anwenden"
 
 #: src/widgets/games/mass-edit-dialog.vala:23
 msgid "Apply the current modifications"
@@ -423,7 +421,6 @@ msgstr ""
 "werden sollen."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
@@ -437,42 +434,36 @@ msgid "Create shortcut"
 msgstr "Verknüpfung erstellen"
 
 #: src/widgets/games/shortcut-button.vala:28
-#, fuzzy
 msgid "Delete shortcut"
-msgstr "Verknüpfung erstellen"
+msgstr "Verknüpfung entfernen"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Eine Verknüpfung von ProtonPlus in Steam erstellen"
 
 #: src/widgets/games/shortcut-button.vala:29
-#, fuzzy
 msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Entfernen Sie die Verknüpfung von ProtonPlus in Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "When trying to delete the shortcut in Steam an error occurred."
 msgstr ""
 "Beim Versuch, die Verknüpfung in Steam zu erstellen, ist ein Fehler "
 "aufgetreten."
 
 #: src/widgets/games/shortcut-button.vala:47
-#, fuzzy
 msgid "When trying to create the shortcut in Steam an error occurred."
 msgstr ""
 "Beim Versuch, die Verknüpfung in Steam zu erstellen, ist ein Fehler "
 "aufgetreten."
 
 #: src/widgets/games/switch-profile-button.vala:14
-#, fuzzy
 msgid "Switch profile"
 msgstr "Wählen Sie ein Profil"
 
 #: src/widgets/games/switch-profile-button.vala:23
-#, fuzzy
 msgid "Switch to another profile"
-msgstr "Wählen Sie ein Profil"
+msgstr "Wählen Sie ein anderes Profil"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -513,14 +504,14 @@ msgid "Apply the current modification"
 msgstr "Anwenden der aktuellen Änderung"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occurred."
 msgstr ""
 "Beim Versuch, die Startoptionen von %s zu ändern, ist ein Fehler aufgetreten."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
-msgstr "Wählen Sie ein Profil"
+msgstr "Ein Profil auswählen"
 
 #: src/widgets/games/extra-button.vala:11
 msgid "Open install directory"
@@ -532,11 +523,11 @@ msgstr "Präfixverzeichnis öffnen"
 
 #: src/widgets/games/extra-button.vala:17
 msgid "Open in protontricks"
-msgstr ""
+msgstr "Öffnen in protontricks"
 
 #: src/widgets/games/extra-button.vala:32
 msgid "Open menu"
-msgstr "Öffne Menü"
+msgstr "Menü öffnen"
 
 #: src/widgets/games/default-tool-button.vala:8
 #: src/widgets/games/default-tool-button.vala:14
@@ -545,7 +536,6 @@ msgid "Set the default compatibility tool"
 msgstr "Einstellen des Standardkompatibilitätswerkzeugs"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occurred."
 msgstr ""
 "Beim Versuch, das Standardkompatibilitätswerkzeug zu ändern, trat ein Fehler "
@@ -556,7 +546,7 @@ msgid "Select your desired compatibility tool"
 msgstr "Wählen Sie das gewünschte Kompatibilitätswerkzeug"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the compatibility tool of %s an error occurred."
 msgstr ""
 "Beim Versuch, das Kompatibilitätswerkzeug von %s zu ändern, ist ein Fehler "
