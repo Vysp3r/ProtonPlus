@@ -246,11 +246,11 @@ namespace ProtonPlus.Models {
 				yield Utils.Filesystem.create_directory (download_path);
 
 			if (FileUtils.test (download_full_path, FileTest.IS_REGULAR))
-				yield Utils.Filesystem.rename (download_full_path, backup_full_path);
+				yield Utils.Filesystem.move_directory (download_full_path, backup_full_path);
 
 			var downloaded = yield Utils.Web.Download (download_url, download_full_path);
 			if (!downloaded && FileUtils.test (backup_full_path, FileTest.IS_REGULAR))
-				yield Utils.Filesystem.rename (backup_full_path, download_full_path);
+				yield Utils.Filesystem.move_directory (backup_full_path, download_full_path);
 			else
 				Utils.Filesystem.delete_file (backup_full_path);
 
