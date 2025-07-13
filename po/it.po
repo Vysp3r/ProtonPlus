@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-12 17:09-0400\n"
+"POT-Creation-Date: 2025-07-13 11:53-0400\n"
 "PO-Revision-Date: 2025-07-11 16:15+0000\n"
 "Last-Translator: Alessandro Marigliano <alemarigliano22@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
