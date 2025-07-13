@@ -123,7 +123,7 @@ namespace ProtonPlus.Models {
 				return false;
 
 			// Groups
-			var groups_array = root_object.get_array_member ("groups");
+			var groups_array = root_object.get_array_member ("compat_layers");
 			if (groups_array == null)
 				return false;
 
@@ -160,7 +160,7 @@ namespace ProtonPlus.Models {
 			for (var i = 0; i < launchers_length; i++) {
 				var launcher_object = launchers_array.get_object_element (i);
 
-				var launcher_group_array = launcher_object.get_array_member ("groups");
+				var launcher_group_array = launcher_object.get_array_member ("compat_layers");
 				if (launcher_group_array == null)
 					return false;
 

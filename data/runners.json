@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "groups": [
+    "compat_layers": [
         {
             "title": "Proton",
             "description": "Compatibility tools by Valve for running Windows software on Linux.",
@@ -343,7 +343,7 @@
     "launchers": [
         {
             "title": "Steam",
-            "groups": [
+            "compat_layers": [
                 {
                     "title": "Proton",
                     "directory": "/compatibilitytools.d"
@@ -352,7 +352,7 @@
         },
         {
             "title": "Lutris",
-            "groups": [
+            "compat_layers": [
                 {
                     "title": "Proton",
                     "directory": "/runners/proton"
@@ -373,7 +373,7 @@
         },
         {
             "title": "Heroic Games Launcher",
-            "groups": [
+            "compat_layers": [
                 {
                     "title": "Proton",
                     "directory": "/tools/proton"
@@ -386,7 +386,7 @@
         },
         {
             "title": "Bottles",
-            "groups": [
+            "compat_layers": [
                 {
                     "title": "Proton",
                     "directory": "/runners"
@@ -399,7 +399,7 @@
         },
         {
             "title": "WineZGUI",
-            "groups": [
+            "compat_layers": [
                 {
                     "title": "Wine",
                     "directory": "/Runners"
