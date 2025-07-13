@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 11:53-0400\n"
+"POT-Creation-Date: 2025-07-13 18:36-0400\n"
 "PO-Revision-Date: 2025-07-11 16:15+0000\n"
 "Last-Translator: Alessandro Marigliano <alemarigliano22@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -110,6 +110,31 @@ msgstr "Benvenuto a %s"
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Installa Steam, Lutris, Bottles o Heroic Games Launcher per iniziare."
 
+#: src/widgets/window.vala:196
+#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:145
+#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/games/mass-edit-button.vala:42
+msgid "Warning"
+msgstr "Avvertenza"
+
+#: src/widgets/window.vala:196
+msgid ""
+"The application is currently checking for updates.\n"
+"Exiting the application early may cause issues."
+msgstr ""
+
+#: src/widgets/window.vala:198
+msgid "Exit"
+msgstr ""
+
+#: src/widgets/window.vala:201 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/runners/upgrade-dialog.vala:23
+msgid "Cancel"
+msgstr "Cancella"
+
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
 msgstr "Altre informazioni"
@@ -187,11 +212,6 @@ msgstr "Errore"
 msgid "When trying to delete %s an error occurred."
 msgstr "Si è verificato un errore durante la cancellazione di %s."
 
-#: src/widgets/runners/install-dialog.vala:23
-#: src/widgets/runners/upgrade-dialog.vala:23
-msgid "Cancel"
-msgstr "Cancella"
-
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occurred."
@@ -229,15 +249,6 @@ msgstr "Si è verificato un errore durante l'aggiornamento di %s."
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
 msgid "Check this to also delete your configuration files."
 msgstr "Seleziona qui per cancellare anche le tue configurazioni."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:145
-#: src/widgets/runners/steamtinkerlaunch-row.vala:149
-#: src/widgets/games/mass-edit-button.vala:42
-msgid "Warning"
-msgstr "Avvertenza"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
