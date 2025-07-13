@@ -94,10 +94,41 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.9" date="2025-07-13">
+      <description>
+        <ul>
+          <li>✨ Added Proton-GE Latest</li>
+          <li>✨ Added WineZGUI support</li>
+          <li>✨ Added a profile switch button</li>
+          <li>✨ Made the runners dynamic</li>
+          <li>✨ Added a loading screen</li>
+          <li>✨ Updated donation button link</li>
+          <li>✨ Made the game list sort-able via the header</li>
+          <li>✨ Added a shortcut to open protontricks</li>
+          <li>🐛 Fix "Load more" scrolling to top after clicking it</li>
+          <li>🐛 Fix SteamTinkerLaunch from being duplicated</li>
+          <li>🐛 Fix launch options parsing issue</li>
+          <li>🐛 Fix Steam shortcut not using system language to launch the application</li>
+          <li>🐛 Fix issue with incorrectly identifying Steam shortcut</li>
+          <li>🐛 Fix crash when CompatToolMapping is missing in config.vdf</li>
+          <li>🐛 Fix incorrect insertion position when launch options are missing</li>
+          <li>🌐 Updated Italian localization</li>
+          <li>🌐 Updated Portuguese localization</li>
+          <li>🌐 Updated Indonesian localization</li>
+          <li>🌐 Updated Russian localization</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Update Dutch translations</li>
+          <li>🌐 Updated Bosnian localization</li>
+          <li>🌐 Updated Serbian localization</li>
+          <li>🌐 Updated Serbian localization</li>
+          <li>🌐 Updated Chinese localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.8" date="2025-07-02">
       <description>
         <ul>
-          <li>🐛 Fix games being duplicated when switching tab back and forth </li>
+          <li>🐛 Fix games being duplicated when switching tab back and forth</li>
           <li>🌐 Update Polish translations</li>
           <li>🌐 Updated German localization</li>
         </ul>
