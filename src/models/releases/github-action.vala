@@ -13,23 +13,23 @@ namespace ProtonPlus.Models.Releases {
         protected override async bool _start_install () {
             step = Step.DOWNLOADING;
 
-            string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".tar.gz";
+            string download_path = "%s/%s.tar.gz".printf (Globals.DOWNLOAD_CACHE_PATH, title);
 
-            var download_valid = yield Utils.Web.Download (download_url, path, () => canceled, (is_percent, progress) => this.progress = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
+            var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, (is_percent, progress) => this.progress = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
 
             if (!download_valid)
                 return false;
 
             step = Step.EXTRACTING;
 
-            string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
+            string extract_path = "%s/".printf (Globals.DOWNLOAD_CACHE_PATH);
 
-            string source_path = yield Utils.Filesystem.extract (directory, title, ".tar.gz", () => canceled);
+            string source_path = yield Utils.Filesystem.extract (extract_path, title, ".tar.gz", () => canceled);
 
             if (source_path == "")
                 return false;
 
-            source_path = yield Utils.Filesystem.extract (directory, source_path.substring (0, source_path.length - 4).replace (directory, ""), ".tar", () => canceled);
+            source_path = yield Utils.Filesystem.extract (extract_path, source_path.substring (0, source_path.length - 4).replace (extract_path, ""), ".tar", () => canceled);
 
             if (source_path == "")
                 return false;
@@ -38,7 +38,9 @@ namespace ProtonPlus.Models.Releases {
 
             var runner = this.runner as Runners.Basic;
 
-            var renaming_valid = yield Utils.Filesystem.rename (source_path, directory + runner.get_directory_name (title));
+            destination_path = "%s%s/%s/".printf (runner.group.launcher.directory, runner.group.directory, runner.get_directory_name (title)) ;
+
+            var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
 
             if (!renaming_valid)
                 return false;

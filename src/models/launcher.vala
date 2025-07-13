@@ -111,6 +111,7 @@ namespace ProtonPlus.Models {
 			public int asset_position;
 			public Json.Array directory_name_formats;
 			public string type;
+			public bool has_latest_support;
 			public string url_template;
 			public string[] request_asset_exclude;
 			public string[] request_asset_filter;
@@ -222,9 +223,9 @@ namespace ProtonPlus.Models {
 					}
 
 					if (launcher.title == "Steam") {
-						var runner = new Runners.SteamTinkerLaunch (groups[i]);
+						var stl_runner = new Runners.SteamTinkerLaunch (groups[i]);
 
-						groups[i].runners.append (runner);
+						groups[i].runners.append (stl_runner);
 					}
 				}
 
@@ -235,7 +236,7 @@ namespace ProtonPlus.Models {
 		}
 
 		static async Json.Object? get_runners_json_object () {
-			var download_url = "https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/runners.json";
+			var download_url = "https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/runners.json";
 			var download_path = "%s/ProtonPlus".printf (Environment.get_user_data_dir ());
 			var download_full_path = "%s/runners.json".printf (download_path);
 			var backup_full_path = "%s/runners.json.bak".printf (download_path);
@@ -245,11 +246,11 @@ namespace ProtonPlus.Models {
 				yield Utils.Filesystem.create_directory (download_path);
 
 			if (FileUtils.test (download_full_path, FileTest.IS_REGULAR))
-				yield Utils.Filesystem.rename (download_full_path, backup_full_path);
+				yield Utils.Filesystem.move_directory (download_full_path, backup_full_path);
 
 			var downloaded = yield Utils.Web.Download (download_url, download_full_path);
 			if (!downloaded && FileUtils.test (backup_full_path, FileTest.IS_REGULAR))
-				yield Utils.Filesystem.rename (backup_full_path, download_full_path);
+				yield Utils.Filesystem.move_directory (backup_full_path, download_full_path);
 			else
 				Utils.Filesystem.delete_file (backup_full_path);
 
@@ -307,6 +308,9 @@ namespace ProtonPlus.Models {
 				json_runner_item.asset_position = (int) runner_object.get_int_member ("asset_position");
 				json_runner_item.directory_name_formats = runner_object.get_array_member ("directory_name_formats");
 				json_runner_item.type = runner_object.get_string_member ("type");
+
+				if (runner_object.has_member ("support_latest"))
+					json_runner_item.has_latest_support = runner_object.get_boolean_member ("support_latest");
 
 				if (runner_object.has_member ("url_template"))
 					json_runner_item.url_template = runner_object.get_string_member ("url_template");
@@ -437,6 +441,7 @@ namespace ProtonPlus.Models {
 				runner.endpoint = json_runner_item.endpoint;
 				runner.asset_position = json_runner_item.asset_position;
 				runner.directory_name_format = yield get_directory_name_format_from_array(json_runner_item.directory_name_formats, group.launcher.title);
+				runner.has_latest_support = json_runner_item.has_latest_support;
 				runner.group = group;
 			}
 				

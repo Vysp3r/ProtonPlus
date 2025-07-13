@@ -2,6 +2,7 @@ namespace ProtonPlus.Models.Releases {
     public class Basic : Release<Parameters> {
         public string install_location { get; set; }
         public int64 download_size { get; set; }
+        protected string destination_path { get; set; }
 
         public Basic.simple (Runners.Basic runner, string title, string install_location) {
             this.runner = runner;
@@ -41,25 +42,34 @@ namespace ProtonPlus.Models.Releases {
 
             step = Step.NOTHING;
 
-            state = (((Runners.Basic)runner).get_directory_name (title) != "" && FileUtils.test (install_location, FileTest.IS_DIR)) ? State.UP_TO_DATE : State.NOT_INSTALLED;
+            var directory_name = ((Runners.Basic)runner).get_directory_name (title);
+            var directory_name_valid = directory_name != "";
+            var install_directory_valid = FileUtils.test (install_location, FileTest.IS_DIR);
+
+            if (title.contains ("Latest")) {
+                var backup_directory_name = "%s Backup".printf (directory_name);
+                var backup_directory_valid = FileUtils.test ("%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, backup_directory_name), FileTest.IS_DIR);
+
+                state = (directory_name_valid && (install_directory_valid || backup_directory_valid)) ? State.UP_TO_DATE : State.NOT_INSTALLED;
+            } else {
+                state = (directory_name_valid && install_directory_valid) ? State.UP_TO_DATE : State.NOT_INSTALLED;
+            }
         }
 
         protected override async bool _start_install () {
             step = Step.DOWNLOADING;
 
-            string path = runner.group.launcher.directory + runner.group.directory + "/" + title + ".tar.gz";
+            string download_path = "%s/%s.tar.gz".printf (Globals.DOWNLOAD_CACHE_PATH, title);
 
-            var download_valid = yield Utils.Web.Download (download_url, path, () => canceled, (is_percent, progress) => this.progress = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
-
+            var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, (is_percent, progress) => this.progress = is_percent? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress));
             if (!download_valid)
                 return false;
 
             step = Step.EXTRACTING;
 
-            string directory = runner.group.launcher.directory + "/" + runner.group.directory + "/";
+            string extract_path = "%s/".printf (Globals.DOWNLOAD_CACHE_PATH);
 
-            string source_path = yield Utils.Filesystem.extract (directory, title, ".tar.gz", () => canceled);
-
+            string source_path = yield Utils.Filesystem.extract (extract_path, title, ".tar.gz", () => canceled);
             if (source_path == "")
                 return false;
 
@@ -67,15 +77,15 @@ namespace ProtonPlus.Models.Releases {
 
             var runner = this.runner as Runners.Basic;
 
-            var renaming_valid = yield Utils.Filesystem.rename (source_path, directory + runner.get_directory_name (title));
+            destination_path = "%s%s/%s/".printf (runner.group.launcher.directory, runner.group.directory, runner.get_directory_name (title)) ;
 
+            var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
             if (!renaming_valid)
                 return false;
 
             step = Step.POST_INSTALL_SCRIPT;
 
             var install_script_success = runner.group.launcher.install (this);
-
             if (!install_script_success)
                 return false;
 

@@ -1,5 +1,6 @@
 namespace ProtonPlus.Widgets {
 	public class Window : Adw.ApplicationWindow {
+		public bool updating { get; set; }
 		List<Models.Launcher> launchers;
 
 		StatusBox status_box;
@@ -15,6 +16,7 @@ namespace ProtonPlus.Widgets {
 		Gtk.MenuButton menu_button;
 
 		Adw.ViewStack view_stack;
+		Adw.ToastOverlay toast_overlay;
 		Adw.ViewSwitcher view_switcher;
 		Adw.HeaderBar header_bar;
 		Adw.ViewSwitcherBar view_switcher_bar;
@@ -39,7 +41,7 @@ namespace ProtonPlus.Widgets {
 			donate_button.add_css_class ("red");
 			donate_button.set_tooltip_text (_("Donate"));
 			donate_button.clicked.connect (donate_button_clicked);
-			
+
 			installed_only_menu_item = new MenuItem (_("_Installed Only"), null);
 			installed_only_menu_item.set_action_and_target ("win.set-installed-only", "b");
 
@@ -62,7 +64,10 @@ namespace ProtonPlus.Widgets {
 			view_stack = new Adw.ViewStack ();
 			view_stack.add_titled_with_icon (runners_box, "runners", _("Runners"), "system-run-symbolic");
 			view_stack.add_titled_with_icon (games_box, "games", _("Games"), "game-library-symbolic");
-			view_stack.notify["visible-child-name"].connect(view_stack_visible_child_name_changed);
+			view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
+
+			toast_overlay = new Adw.ToastOverlay ();
+			toast_overlay.set_child (view_stack);
 
 			view_switcher = new Adw.ViewSwitcher ();
 			view_switcher.set_stack (view_stack);
@@ -79,7 +84,7 @@ namespace ProtonPlus.Widgets {
 
 			toolbar_view = new Adw.ToolbarView ();
 			toolbar_view.add_top_bar (header_bar);
-			toolbar_view.set_content (view_stack);
+			toolbar_view.set_content (toast_overlay);
 			toolbar_view.add_bottom_bar (view_switcher_bar);
 
 			initialize.begin ();
@@ -112,6 +117,32 @@ namespace ProtonPlus.Widgets {
 					set_content (toolbar_view);
 
 				activate_action_variant ("win.set-selected-launcher", 0);
+
+				updating = true;
+
+				var toast = new Adw.Toast (_("Checking for updates..."));
+				toast_overlay.add_toast (toast);
+
+				Models.Runner.check_for_updates.begin (launchers, (obj, res) => {
+					switch (Models.Runner.check_for_updates.end (res)) {
+						case Models.Runner.UpdateCodes.NOTHING_FOUND:
+							toast.dismiss ();
+							toast = new Adw.Toast (_("Nothing to update."));
+							break;
+						case Models.Runner.UpdateCodes.EVERYTHING_UPDATED:
+							toast.dismiss ();
+							toast = new Adw.Toast (_("Everything is now up-to-date."));
+							break;
+						default:
+							toast.dismiss ();
+							toast = new Adw.Toast (_("An error occured while checking for updates."));
+							break;
+					}
+
+					toast_overlay.add_toast (toast);
+
+					updating = false;
+				});
 			}
 
 			if (!valid) {
