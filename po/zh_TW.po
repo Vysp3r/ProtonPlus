@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-12 17:09-0400\n"
-"PO-Revision-Date: 2025-07-11 02:02+0800\n"
+"PO-Revision-Date: 2025-07-14 00:51+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -89,20 +89,19 @@ msgstr "嘗試載入啟動器時發生錯誤。"
 
 #: src/widgets/window.vala:123
 msgid "Checking for updates..."
-msgstr ""
+msgstr "正在檢查更新..."
 
 #: src/widgets/window.vala:130
 msgid "Nothing to update."
-msgstr ""
+msgstr "無任何更新。"
 
 #: src/widgets/window.vala:134
 msgid "Everything is now up-to-date."
-msgstr ""
+msgstr "目前皆已為最新版本。"
 
 #: src/widgets/window.vala:138
-#, fuzzy
 msgid "An error occured while checking for updates."
-msgstr "移除 %s 時發生意外錯誤。"
+msgstr "檢查更新時發生錯誤。"
 
 #: src/widgets/window.vala:149
 #, c-format
