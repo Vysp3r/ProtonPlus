@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 11:53-0400\n"
+"POT-Creation-Date: 2025-07-13 18:36-0400\n"
 "PO-Revision-Date: 2024-10-03 01:10+0200\n"
 "Last-Translator: Johnny Arcitec <Arcitec@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
@@ -120,6 +120,31 @@ msgstr ""
 "Installera Steam, Lutris, Bottles eller Heroic Games Launcher för att komma "
 "igång."
 
+#: src/widgets/window.vala:196
+#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:145
+#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/games/mass-edit-button.vala:42
+msgid "Warning"
+msgstr ""
+
+#: src/widgets/window.vala:196
+msgid ""
+"The application is currently checking for updates.\n"
+"Exiting the application early may cause issues."
+msgstr ""
+
+#: src/widgets/window.vala:198
+msgid "Exit"
+msgstr ""
+
+#: src/widgets/window.vala:201 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/runners/upgrade-dialog.vala:23
+msgid "Cancel"
+msgstr "Avbryt"
+
 #: src/widgets/runners/description-dialog.vala:14
 #, fuzzy
 msgid "More information"
@@ -199,11 +224,6 @@ msgstr ""
 msgid "When trying to delete %s an error occurred."
 msgstr ""
 
-#: src/widgets/runners/install-dialog.vala:23
-#: src/widgets/runners/upgrade-dialog.vala:23
-msgid "Cancel"
-msgstr "Avbryt"
-
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occurred."
@@ -243,15 +263,6 @@ msgstr ""
 #, fuzzy
 msgid "Check this to also delete your configuration files."
 msgstr "Markera detta för att även radera dina konfigurationsfiler."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:145
-#: src/widgets/runners/steamtinkerlaunch-row.vala:149
-#: src/widgets/games/mass-edit-button.vala:42
-msgid "Warning"
-msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format

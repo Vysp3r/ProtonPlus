@@ -188,5 +188,30 @@ namespace ProtonPlus.Widgets {
 
 			return action;
 		}
+
+		public override bool close_request () {
+			if (!updating)
+				return false;
+
+			var dialog = new Adw.AlertDialog (_("Warning"), _("The application is currently checking for updates.\nExiting the application early may cause issues."));
+			
+			dialog.add_response ("exit", _("Exit"));
+			dialog.set_response_appearance ("exit", Adw.ResponseAppearance.DESTRUCTIVE);
+
+			dialog.add_response ("cancel", _("Cancel"));
+			dialog.set_response_appearance ("cancel", Adw.ResponseAppearance.SUGGESTED);
+
+			dialog.set_default_response ("cancel");
+			dialog.set_close_response ("cancel");
+
+			dialog.response.connect ((response) => {
+				if (response == "exit")
+					close ();
+			});
+
+			dialog.present (this);
+
+			return true;
+		}
 	}
 }

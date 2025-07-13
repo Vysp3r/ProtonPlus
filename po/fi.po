@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 11:53-0400\n"
+"POT-Creation-Date: 2025-07-13 18:36-0400\n"
 "PO-Revision-Date: 2025-07-03 17:04+0000\n"
 "Last-Translator: Linus Virtanen <linus.virtanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/protonplus/"
@@ -116,6 +116,31 @@ msgstr "Tervetuloa %s :n"
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Asenna Steam, Lutris, Bottles tai Heroic Games Launcher aloittaaksesi."
 
+#: src/widgets/window.vala:196
+#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:145
+#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/games/mass-edit-button.vala:42
+msgid "Warning"
+msgstr "Varoitus"
+
+#: src/widgets/window.vala:196
+msgid ""
+"The application is currently checking for updates.\n"
+"Exiting the application early may cause issues."
+msgstr ""
+
+#: src/widgets/window.vala:198
+msgid "Exit"
+msgstr ""
+
+#: src/widgets/window.vala:201 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/runners/upgrade-dialog.vala:23
+msgid "Cancel"
+msgstr "Keskeytä"
+
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
 msgstr "Lisätietoja"
@@ -193,11 +218,6 @@ msgstr "Virhe"
 msgid "When trying to delete %s an error occurred."
 msgstr "%s :n poistamisyritys tuotti virheen."
 
-#: src/widgets/runners/install-dialog.vala:23
-#: src/widgets/runners/upgrade-dialog.vala:23
-msgid "Cancel"
-msgstr "Keskeytä"
-
 #: src/widgets/runners/install-dialog.vala:54
 #, fuzzy, c-format
 msgid "When trying to install %s an error occurred."
@@ -236,15 +256,6 @@ msgstr "%s :n päivitysyritys tuotti virheen."
 #, fuzzy
 msgid "Check this to also delete your configuration files."
 msgstr "Ruksaa lisäksi tämä poistattaaksesi myös asetustiedostosi."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:145
-#: src/widgets/runners/steamtinkerlaunch-row.vala:149
-#: src/widgets/games/mass-edit-button.vala:42
-msgid "Warning"
-msgstr "Varoitus"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
