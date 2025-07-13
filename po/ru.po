@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-12 09:15-0400\n"
+"POT-Creation-Date: 2025-07-12 17:09-0400\n"
 "PO-Revision-Date: 2025-07-07 00:16+0000\n"
 "Last-Translator: serg <serhii.maleev@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -19,56 +19,56 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:71
+#: src/widgets/application.vala:72
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Современный менеджер инструментов совместимости для Linux."
 
-#: src/widgets/application.vala:73
+#: src/widgets/application.vala:74
 msgid "Website"
 msgstr "Веб-сайт"
 
-#: src/widgets/application.vala:78
+#: src/widgets/application.vala:79
 msgid "Special thanks to"
 msgstr "Отдельное спасибо"
 
-#: src/widgets/window.vala:40
+#: src/widgets/window.vala:42
 msgid "Donate"
 msgstr "Пожертвование"
 
-#: src/widgets/window.vala:43
+#: src/widgets/window.vala:45
 msgid "_Installed Only"
 msgstr "_Только установленные"
 
-#: src/widgets/window.vala:50
+#: src/widgets/window.vala:52
 msgid "_Keyboard Shortcuts"
 msgstr "_Горячие клавиши"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
 msgstr "Информация о ProtonPlus"
 
-#: src/widgets/window.vala:58
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Основное меню"
 
-#: src/widgets/window.vala:63
+#: src/widgets/window.vala:65
 msgid "Runners"
 msgstr "Инструменты"
 
-#: src/widgets/window.vala:64
+#: src/widgets/window.vala:66
 msgid "Games"
 msgstr "Игры"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:94
 #, fuzzy
 msgid "Loading"
 msgstr "Загружается"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:94
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:89 src/widgets/window.vala:98
+#: src/widgets/window.vala:94 src/widgets/window.vala:103
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -82,20 +82,37 @@ msgstr ""
 msgid "Please report this issue on GitHub."
 msgstr "Пожалуйста, сообщите об этой проблеме на GitHub."
 
-#: src/widgets/window.vala:98
+#: src/widgets/window.vala:103
 msgid "An error ocurred"
 msgstr "Возникла ошибка"
 
-#: src/widgets/window.vala:98
+#: src/widgets/window.vala:103
 msgid "There was an error when trying to load the launchers."
 msgstr "При попытке загрузить лаунчер произошла ошибка."
 
-#: src/widgets/window.vala:118
+#: src/widgets/window.vala:123
+msgid "Checking for updates..."
+msgstr ""
+
+#: src/widgets/window.vala:130
+msgid "Nothing to update."
+msgstr ""
+
+#: src/widgets/window.vala:134
+msgid "Everything is now up-to-date."
+msgstr ""
+
+#: src/widgets/window.vala:138
+#, fuzzy
+msgid "An error occured while checking for updates."
+msgstr "При извлечении %s произошла непредвиденная ошибка."
+
+#: src/widgets/window.vala:149
 #, c-format
 msgid "Welcome to %s"
 msgstr "Добро пожаловать в %s"
 
-#: src/widgets/window.vala:118
+#: src/widgets/window.vala:149
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Установите Steam, Lutris, Bottles или Heroic Games Launcher, чтобы начать "
@@ -827,10 +844,6 @@ msgstr "Выход"
 #, c-format
 #~ msgid "The installation of %s was canceled."
 #~ msgstr "Установка %s была отменена."
-
-#, c-format
-#~ msgid "An unexpected error occurred while extracting %s."
-#~ msgstr "При извлечении %s произошла непредвиденная ошибка."
 
 #~ msgid "Contains improvements over Valve's default Proton."
 #~ msgstr "Содержит улучшения по сравнению со стандартным Proton от Valve."

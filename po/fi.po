@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-12 09:15-0400\n"
+"POT-Creation-Date: 2025-07-12 17:09-0400\n"
 "PO-Revision-Date: 2025-07-03 17:04+0000\n"
 "Last-Translator: Linus Virtanen <linus.virtanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/protonplus/"
@@ -19,56 +19,56 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:71
+#: src/widgets/application.vala:72
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Nykyaikainen yhteensopivuustyökalujen hallinta Linuxille."
 
-#: src/widgets/application.vala:73
+#: src/widgets/application.vala:74
 msgid "Website"
 msgstr "Verkkosivusto"
 
-#: src/widgets/application.vala:78
+#: src/widgets/application.vala:79
 msgid "Special thanks to"
 msgstr "Erityiskiitokset"
 
-#: src/widgets/window.vala:40
+#: src/widgets/window.vala:42
 msgid "Donate"
 msgstr "Lahjoita"
 
-#: src/widgets/window.vala:43
+#: src/widgets/window.vala:45
 msgid "_Installed Only"
 msgstr "_Vain asennetut"
 
-#: src/widgets/window.vala:50
+#: src/widgets/window.vala:52
 msgid "_Keyboard Shortcuts"
 msgstr "_Näppäinoikopolut"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
 msgstr "_Tietoja ProtonPlus:sta"
 
-#: src/widgets/window.vala:58
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Päävalikko"
 
-#: src/widgets/window.vala:63
+#: src/widgets/window.vala:65
 msgid "Runners"
 msgstr "Ajo-ohjelmat"
 
-#: src/widgets/window.vala:64
+#: src/widgets/window.vala:66
 msgid "Games"
 msgstr "Pelit"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:94
 #, fuzzy
 msgid "Loading"
 msgstr "Lataa"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:94
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:89 src/widgets/window.vala:98
+#: src/widgets/window.vala:94 src/widgets/window.vala:103
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -82,21 +82,37 @@ msgstr ""
 msgid "Please report this issue on GitHub."
 msgstr "Ole hyvä ja raportoi tämä ongelma GitHub:issa."
 
-#: src/widgets/window.vala:98
+#: src/widgets/window.vala:103
 #, fuzzy
 msgid "An error ocurred"
 msgstr "Ilmeni virhe"
 
-#: src/widgets/window.vala:98
+#: src/widgets/window.vala:103
 msgid "There was an error when trying to load the launchers."
 msgstr ""
 
-#: src/widgets/window.vala:118
+#: src/widgets/window.vala:123
+msgid "Checking for updates..."
+msgstr ""
+
+#: src/widgets/window.vala:130
+msgid "Nothing to update."
+msgstr ""
+
+#: src/widgets/window.vala:134
+msgid "Everything is now up-to-date."
+msgstr ""
+
+#: src/widgets/window.vala:138
+msgid "An error occured while checking for updates."
+msgstr ""
+
+#: src/widgets/window.vala:149
 #, c-format
 msgid "Welcome to %s"
 msgstr "Tervetuloa %s :n"
 
-#: src/widgets/window.vala:118
+#: src/widgets/window.vala:149
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Asenna Steam, Lutris, Bottles tai Heroic Games Launcher aloittaaksesi."
 

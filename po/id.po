@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-12 09:15-0400\n"
+"POT-Creation-Date: 2025-07-12 17:09-0400\n"
 "PO-Revision-Date: 2025-07-05 12:27+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -16,56 +16,56 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:71
+#: src/widgets/application.vala:72
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Pengelola alat kompatibilitas modern untuk Linux."
 
-#: src/widgets/application.vala:73
+#: src/widgets/application.vala:74
 msgid "Website"
 msgstr "Laman web"
 
-#: src/widgets/application.vala:78
+#: src/widgets/application.vala:79
 msgid "Special thanks to"
 msgstr "Terima kasih khusus kepada"
 
-#: src/widgets/window.vala:40
+#: src/widgets/window.vala:42
 msgid "Donate"
 msgstr "Donasi"
 
-#: src/widgets/window.vala:43
+#: src/widgets/window.vala:45
 msgid "_Installed Only"
 msgstr "_Hanya terinstal"
 
-#: src/widgets/window.vala:50
+#: src/widgets/window.vala:52
 msgid "_Keyboard Shortcuts"
 msgstr "_ Pintasan Papan Ketik"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
 msgstr "_Tentang ProtonPlus"
 
-#: src/widgets/window.vala:58
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Menu Utama"
 
-#: src/widgets/window.vala:63
+#: src/widgets/window.vala:65
 msgid "Runners"
 msgstr "Runner"
 
-#: src/widgets/window.vala:64
+#: src/widgets/window.vala:66
 msgid "Games"
 msgstr "Permainan"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:94
 #, fuzzy
 msgid "Loading"
 msgstr "Mengunduh"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:94
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:89 src/widgets/window.vala:98
+#: src/widgets/window.vala:94 src/widgets/window.vala:103
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -79,20 +79,37 @@ msgstr ""
 msgid "Please report this issue on GitHub."
 msgstr "Silakan laporkan masalah ini di GitHub."
 
-#: src/widgets/window.vala:98
+#: src/widgets/window.vala:103
 msgid "An error ocurred"
 msgstr "Terjadi kesalahan"
 
-#: src/widgets/window.vala:98
+#: src/widgets/window.vala:103
 msgid "There was an error when trying to load the launchers."
 msgstr "Terjadi kesalahan saat mencoba memuat peluncur."
 
-#: src/widgets/window.vala:118
+#: src/widgets/window.vala:123
+msgid "Checking for updates..."
+msgstr ""
+
+#: src/widgets/window.vala:130
+msgid "Nothing to update."
+msgstr ""
+
+#: src/widgets/window.vala:134
+msgid "Everything is now up-to-date."
+msgstr ""
+
+#: src/widgets/window.vala:138
+#, fuzzy
+msgid "An error occured while checking for updates."
+msgstr "Terjadi error saat mengekstrak "
+
+#: src/widgets/window.vala:149
 #, c-format
 msgid "Welcome to %s"
 msgstr "Selamat datang di %s"
 
-#: src/widgets/window.vala:118
+#: src/widgets/window.vala:149
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 
@@ -839,10 +856,6 @@ msgstr "Keluar"
 #, fuzzy, c-format
 #~ msgid "The installation of %s was canceled."
 #~ msgstr "Pemasangan "
-
-#, fuzzy, c-format
-#~ msgid "An unexpected error occurred while extracting %s."
-#~ msgstr "Terjadi error saat mengekstrak "
 
 #~ msgid "Contains improvements over Valve's default Proton."
 #~ msgstr "Mengandung peningkatan Proton default Valve."

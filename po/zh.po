@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-12 09:15-0400\n"
+"POT-Creation-Date: 2025-07-12 17:09-0400\n"
 "PO-Revision-Date: 2025-03-12 09:23+0800\n"
 "Last-Translator: Zemin Ha <ruojiner@hotmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -16,57 +16,57 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 25.07.70\n"
 
-#: src/widgets/application.vala:71
+#: src/widgets/application.vala:72
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Linux的现代兼容性工具管理器"
 
-#: src/widgets/application.vala:73
+#: src/widgets/application.vala:74
 msgid "Website"
 msgstr ""
 
-#: src/widgets/application.vala:78
+#: src/widgets/application.vala:79
 msgid "Special thanks to"
 msgstr "特别感谢"
 
-#: src/widgets/window.vala:40
+#: src/widgets/window.vala:42
 #, fuzzy
 msgid "Donate"
 msgstr "捐赠"
 
-#: src/widgets/window.vala:43
+#: src/widgets/window.vala:45
 msgid "_Installed Only"
 msgstr "_只显示已安装的"
 
-#: src/widgets/window.vala:50
+#: src/widgets/window.vala:52
 msgid "_Keyboard Shortcuts"
 msgstr "_键盘快捷方式"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
 msgstr "_关于 ProtonPlus"
 
-#: src/widgets/window.vala:58
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "主菜单"
 
-#: src/widgets/window.vala:63
+#: src/widgets/window.vala:65
 msgid "Runners"
 msgstr "启动器"
 
-#: src/widgets/window.vala:64
+#: src/widgets/window.vala:66
 msgid "Games"
 msgstr "游戏"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:94
 #, fuzzy
 msgid "Loading"
 msgstr "下载中..."
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:94
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:89 src/widgets/window.vala:98
+#: src/widgets/window.vala:94 src/widgets/window.vala:103
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -80,21 +80,38 @@ msgstr ""
 msgid "Please report this issue on GitHub."
 msgstr ""
 
-#: src/widgets/window.vala:98
+#: src/widgets/window.vala:103
 msgid "An error ocurred"
 msgstr ""
 
-#: src/widgets/window.vala:98
+#: src/widgets/window.vala:103
 #, fuzzy
 msgid "There was an error when trying to load the launchers."
 msgstr "当从GitHub API获取数据时出现错误"
 
-#: src/widgets/window.vala:118
+#: src/widgets/window.vala:123
+msgid "Checking for updates..."
+msgstr ""
+
+#: src/widgets/window.vala:130
+msgid "Nothing to update."
+msgstr ""
+
+#: src/widgets/window.vala:134
+msgid "Everything is now up-to-date."
+msgstr ""
+
+#: src/widgets/window.vala:138
+#, fuzzy
+msgid "An error occured while checking for updates."
+msgstr "当解压时出现异常 "
+
+#: src/widgets/window.vala:149
 #, fuzzy, c-format
 msgid "Welcome to %s"
 msgstr "欢迎来到 %s"
 
-#: src/widgets/window.vala:118
+#: src/widgets/window.vala:149
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "安装Steam，Lutris，Bottles或Heroic Game Launcher 即可开始使用"
 
@@ -794,10 +811,6 @@ msgstr "退出"
 #, fuzzy, c-format
 #~ msgid "The installation of %s was canceled."
 #~ msgstr "安装 "
-
-#, fuzzy, c-format
-#~ msgid "An unexpected error occurred while extracting %s."
-#~ msgstr "当解压时出现异常 "
 
 #~ msgid "Contains improvements over Valve's default Proton."
 #~ msgstr "包含对Valve默认Proton的改进"
