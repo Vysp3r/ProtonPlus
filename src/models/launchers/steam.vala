@@ -32,9 +32,6 @@ namespace ProtonPlus.Models.Launchers {
             has_library_support = true;
 
             if (installed) {
-                install.connect ((release) => true);
-                uninstall.connect ((release) => true);
-
                 profiles = SteamProfile.get_profiles(this);
             }
         }

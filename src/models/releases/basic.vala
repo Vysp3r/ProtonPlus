@@ -73,7 +73,7 @@ namespace ProtonPlus.Models.Releases {
             if (source_path == "")
                 return false;
 
-            step = Step.RENAMING;
+            step = Step.MOVING;
 
             var runner = this.runner as Runners.Basic;
 
@@ -81,12 +81,6 @@ namespace ProtonPlus.Models.Releases {
 
             var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
             if (!renaming_valid)
-                return false;
-
-            step = Step.POST_INSTALL_SCRIPT;
-
-            var install_script_success = runner.group.launcher.install (this);
-            if (!install_script_success)
                 return false;
 
             return true;
@@ -98,13 +92,6 @@ namespace ProtonPlus.Models.Releases {
             var deleted = yield Utils.Filesystem.delete_directory (install_location);
 
             if (!deleted)
-                return false;
-
-            step = Step.POST_REMOVAL_SCRIPT;
-
-            var uninstall_script_success = runner.group.launcher.uninstall (this);
-
-            if (!uninstall_script_success)
                 return false;
 
             return true;

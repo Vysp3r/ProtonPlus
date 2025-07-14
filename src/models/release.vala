@@ -15,10 +15,8 @@ namespace ProtonPlus.Models {
 			NOTHING,
 			DOWNLOADING,
 			EXTRACTING,
-			RENAMING,
-			POST_INSTALL_SCRIPT,
+			MOVING,
 			REMOVING,
-			POST_REMOVAL_SCRIPT,
 		}
 
 		public State state { get; set; }

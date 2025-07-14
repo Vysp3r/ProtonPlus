@@ -78,11 +78,8 @@ namespace ProtonPlus.Widgets {
 			case Models.Release.Step.EXTRACTING:
 				progress_bar.set_text (_("Extracting"));
 				break;
-			case Models.Release.Step.RENAMING:
-				progress_bar.set_text (_("Renaming"));
-				break;
-			case Models.Release.Step.POST_INSTALL_SCRIPT:
-				progress_bar.set_text (_("Running post install script"));
+			case Models.Release.Step.MOVING:
+				progress_bar.set_text (_("Moving"));
 				break;
 			default:
 				progress_bar.set_text (null);
