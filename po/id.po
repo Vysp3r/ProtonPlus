@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 18:36-0400\n"
+"POT-Creation-Date: 2025-07-14 18:47-0400\n"
 "PO-Revision-Date: 2025-07-05 12:27+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -113,7 +113,7 @@ msgstr "Selamat datang di %s"
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -123,17 +123,17 @@ msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 msgid "Warning"
 msgstr "Peringatan"
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:198
+#: src/widgets/window.vala:201
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:201 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:204 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Batalkan"
@@ -231,12 +231,9 @@ msgid "Extracting"
 msgstr "Mengekstrak"
 
 #: src/widgets/runners/install-dialog.vala:82
-msgid "Renaming"
-msgstr "Mengubah nama"
-
-#: src/widgets/runners/install-dialog.vala:85
-msgid "Running post install script"
-msgstr "Menjalankan skrip pasca instalasi"
+#, fuzzy
+msgid "Moving"
+msgstr "Menghapus"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
@@ -725,6 +722,12 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Keluar"
 
+#~ msgid "Renaming"
+#~ msgstr "Mengubah nama"
+
+#~ msgid "Running post install script"
+#~ msgstr "Menjalankan skrip pasca instalasi"
+
 #, c-format
 #~ msgid "Remove %s"
 #~ msgstr "Hapus %s"
@@ -834,9 +837,6 @@ msgstr "Keluar"
 #, c-format
 #~ msgid "Existing installation of %s"
 #~ msgstr "Instalasi %s yang ada saat ini"
-
-#~ msgid "Removing"
-#~ msgstr "Menghapus"
 
 #~ msgid ""
 #~ "Improved by Lutris to offer better compatibility or performance in "

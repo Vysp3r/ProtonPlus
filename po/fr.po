@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 18:36-0400\n"
+"POT-Creation-Date: 2025-07-14 18:47-0400\n"
 "PO-Revision-Date: 2025-06-02 20:08-0400\n"
 "Last-Translator: Vysp3r <dev@vysp3r.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -120,7 +120,7 @@ msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Installez Steam, Lutris, Bottles ou Heroic Games Launcher pour commencer."
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -130,17 +130,17 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:198
+#: src/widgets/window.vala:201
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:201 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:204 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Annuler"
@@ -242,13 +242,8 @@ msgstr "En extraction..."
 
 #: src/widgets/runners/install-dialog.vala:82
 #, fuzzy
-msgid "Renaming"
-msgstr "En train de renommer..."
-
-#: src/widgets/runners/install-dialog.vala:85
-#, fuzzy
-msgid "Running post install script"
-msgstr "Éxecution du script d'installation..."
+msgid "Moving"
+msgstr "Suppression"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, fuzzy, c-format
@@ -737,6 +732,14 @@ msgid "Quit"
 msgstr "Quitter"
 
 #, fuzzy
+#~ msgid "Renaming"
+#~ msgstr "En train de renommer..."
+
+#, fuzzy
+#~ msgid "Running post install script"
+#~ msgstr "Éxecution du script d'installation..."
+
+#, fuzzy
 #~ msgid "Sort by compatibility tool"
 #~ msgstr "Outil de compatiblité"
 
@@ -817,9 +820,6 @@ msgstr "Quitter"
 #, c-format
 #~ msgid "Existing installation of %s"
 #~ msgstr "L’installation existante de %s"
-
-#~ msgid "Removing"
-#~ msgstr "Suppression"
 
 #~ msgid "Contains RTX fix for Star Citizen."
 #~ msgstr "Contient un fix du RTX pour Star Citizen."

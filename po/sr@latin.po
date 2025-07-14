@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 18:36-0400\n"
+"POT-Creation-Date: 2025-07-14 18:47-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Serbian (Latin script) <https://hosted.weblate.org/projects/"
@@ -116,7 +116,7 @@ msgstr ""
 "Instalirajte Steam, Lutris, Boce, ili Heroic Games Launcher da biste "
 "započeli."
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -126,17 +126,17 @@ msgstr ""
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:198
+#: src/widgets/window.vala:201
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:201 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:204 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Otkaži"
@@ -234,12 +234,8 @@ msgid "Extracting"
 msgstr "Izvlačenje"
 
 #: src/widgets/runners/install-dialog.vala:82
-msgid "Renaming"
-msgstr "Preimenovanje"
-
-#: src/widgets/runners/install-dialog.vala:85
-msgid "Running post install script"
-msgstr "Pokretanje skripte nakon instalacije"
+msgid "Moving"
+msgstr ""
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
@@ -714,6 +710,12 @@ msgstr "Prikaži prečice"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Izađi"
+
+#~ msgid "Renaming"
+#~ msgstr "Preimenovanje"
+
+#~ msgid "Running post install script"
+#~ msgstr "Pokretanje skripte nakon instalacije"
 
 #, c-format
 #~ msgid "Remove %s"

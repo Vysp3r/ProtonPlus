@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 18:36-0400\n"
+"POT-Creation-Date: 2025-07-14 18:47-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -121,7 +121,7 @@ msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Каб пачаць, усталюйце Steam, Lutris, Bottles або Heroic Games Launcher."
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -131,17 +131,17 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:198
+#: src/widgets/window.vala:201
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:201 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:204 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr ""
@@ -241,13 +241,8 @@ msgid "Extracting"
 msgstr ""
 
 #: src/widgets/runners/install-dialog.vala:82
-msgid "Renaming"
+msgid "Moving"
 msgstr ""
-
-#: src/widgets/runners/install-dialog.vala:85
-#, fuzzy
-msgid "Running post install script"
-msgstr "Усталяванне "
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
@@ -731,6 +726,10 @@ msgstr ""
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Running post install script"
+#~ msgstr "Усталяванне "
 
 #, fuzzy
 #~ msgid "Sort by compatibility tool"

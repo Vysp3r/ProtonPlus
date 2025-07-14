@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 18:36-0400\n"
+"POT-Creation-Date: 2025-07-14 18:47-0400\n"
 "PO-Revision-Date: 2025-07-11 16:15+0000\n"
 "Last-Translator: Alessandro Marigliano <alemarigliano22@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -110,7 +110,7 @@ msgstr "Benvenuto a %s"
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Installa Steam, Lutris, Bottles o Heroic Games Launcher per iniziare."
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -120,17 +120,17 @@ msgstr "Installa Steam, Lutris, Bottles o Heroic Games Launcher per iniziare."
 msgid "Warning"
 msgstr "Avvertenza"
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:198
+#: src/widgets/window.vala:201
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:201 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:204 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Cancella"
@@ -228,12 +228,8 @@ msgid "Extracting"
 msgstr "Estrazione in corso"
 
 #: src/widgets/runners/install-dialog.vala:82
-msgid "Renaming"
-msgstr "Rinomina in corso"
-
-#: src/widgets/runners/install-dialog.vala:85
-msgid "Running post install script"
-msgstr "Eseguendo script post-installazione"
+msgid "Moving"
+msgstr ""
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
@@ -720,6 +716,12 @@ msgstr "Mostra scorciatoie"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Esci"
+
+#~ msgid "Renaming"
+#~ msgstr "Rinomina in corso"
+
+#~ msgid "Running post install script"
+#~ msgstr "Eseguendo script post-installazione"
 
 #, fuzzy
 #~ msgid "Sort by compatibility tool"

@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 18:36-0400\n"
+"POT-Creation-Date: 2025-07-14 18:47-0400\n"
 "PO-Revision-Date: 2025-07-14 18:01+0000\n"
 "Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -115,7 +115,7 @@ msgstr "Bienvenido a %s"
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Instala Steam, Lutris, Bottles o Heroic Games Launcher para empezar."
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -125,7 +125,7 @@ msgstr "Instala Steam, Lutris, Bottles o Heroic Games Launcher para empezar."
 msgid "Warning"
 msgstr "Advertencia"
 
-#: src/widgets/window.vala:196
+#: src/widgets/window.vala:199
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -133,11 +133,11 @@ msgstr ""
 "La aplicación está buscando actualizaciones.\n"
 "Si cierras la aplicación ahora, podrían surgir problemas."
 
-#: src/widgets/window.vala:198
+#: src/widgets/window.vala:201
 msgid "Exit"
 msgstr "Salir"
 
-#: src/widgets/window.vala:201 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:204 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Cancelar"
@@ -242,13 +242,8 @@ msgstr "Extrayendo..."
 
 #: src/widgets/runners/install-dialog.vala:82
 #, fuzzy
-msgid "Renaming"
-msgstr "Renombrando"
-
-#: src/widgets/runners/install-dialog.vala:85
-#, fuzzy
-msgid "Running post install script"
-msgstr "Ejecutando script de post-instalación"
+msgid "Moving"
+msgstr "Eliminando"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, fuzzy, c-format
@@ -769,6 +764,14 @@ msgid "Quit"
 msgstr "Salir"
 
 #, fuzzy
+#~ msgid "Renaming"
+#~ msgstr "Renombrando"
+
+#, fuzzy
+#~ msgid "Running post install script"
+#~ msgstr "Ejecutando script de post-instalación"
+
+#, fuzzy
 #~ msgid "Sort by compatibility tool"
 #~ msgstr "Herramienta de compatibilidad"
 
@@ -851,9 +854,6 @@ msgstr "Salir"
 #, fuzzy, c-format
 #~ msgid "Existing installation of %s"
 #~ msgstr "Instalación existente de %s"
-
-#~ msgid "Removing"
-#~ msgstr "Eliminando"
 
 #~ msgid "Contains RTX fix for Star Citizen."
 #~ msgstr "Contiene la corrección RTX para Star Citizen."
