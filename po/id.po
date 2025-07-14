@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-14 18:47-0400\n"
+"POT-Creation-Date: 2025-07-14 19:50-0400\n"
 "PO-Revision-Date: 2025-07-05 12:27+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -69,7 +69,7 @@ msgstr ""
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:234
+#: src/widgets/games/games-box.vala:242
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -301,60 +301,60 @@ msgstr "Terbaru"
 msgid "Update to the latest version"
 msgstr "Perbarui  ke versi terbaru"
 
-#: src/widgets/games/games-box.vala:53
+#: src/widgets/games/games-box.vala:56
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "Tutup klien Steam terlebih dahulu agar perubahan dapat diterapkan."
 
-#: src/widgets/games/games-box.vala:83
+#: src/widgets/games/games-box.vala:86
 msgid "Name"
 msgstr "Nama"
 
-#: src/widgets/games/games-box.vala:90
+#: src/widgets/games/games-box.vala:93
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
 msgstr "Alat Kompabilitas"
 
-#: src/widgets/games/games-box.vala:94
+#: src/widgets/games/games-box.vala:97
 msgid "Other"
 msgstr "Lainnya"
 
-#: src/widgets/games/games-box.vala:119 src/widgets/games/games-box.vala:234
+#: src/widgets/games/games-box.vala:122 src/widgets/games/games-box.vala:242
 #, fuzzy
 msgid "An error occurred"
 msgstr "Terjadi kesalahan"
 
-#: src/widgets/games/games-box.vala:119
+#: src/widgets/games/games-box.vala:122
 msgid "No profile was found."
 msgstr "Tidak ada profil yang ditemukan"
 
-#: src/widgets/games/games-box.vala:119
+#: src/widgets/games/games-box.vala:122
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Pastikan untuk menghubungkan akun Anda setidaknya satu kali di Steam."
 
-#: src/widgets/games/games-box.vala:119
+#: src/widgets/games/games-box.vala:122
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 "Jika Anda yakin ini merupakan sebuah masalah, pastikan untuk melaporkannya "
 "di GitHub."
 
-#: src/widgets/games/games-box.vala:179
+#: src/widgets/games/games-box.vala:182
 msgid "Unsuported launcher"
 msgstr "Peluncur tidak didukung"
 
-#: src/widgets/games/games-box.vala:179
+#: src/widgets/games/games-box.vala:182
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s saat ini tidak didukung."
 
-#: src/widgets/games/games-box.vala:179
+#: src/widgets/games/games-box.vala:182
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Jika kalian ingin saya mempercepat pengembangan, pastikan untuk menunjukkan "
 "dukungan Anda!"
 
-#: src/widgets/games/games-box.vala:217 src/widgets/games/games-box.vala:280
-#: src/widgets/games/games-box.vala:283
+#: src/widgets/games/games-box.vala:225 src/widgets/games/games-box.vala:288
+#: src/widgets/games/games-box.vala:291
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
@@ -362,7 +362,7 @@ msgstr ""
 msgid "Undefined"
 msgstr "Tidak terdefinisi"
 
-#: src/widgets/games/games-box.vala:234
+#: src/widgets/games/games-box.vala:242
 msgid "The library failed loading."
 msgstr "Pustaka gagal dimuat."
 

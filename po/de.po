@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-14 18:47-0400\n"
+"POT-Creation-Date: 2025-07-14 19:50-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -71,7 +71,7 @@ msgstr "Dauert es länger als normal?"
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:234
+#: src/widgets/games/games-box.vala:242
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -307,60 +307,60 @@ msgstr "Auf dem neuesten Stand"
 msgid "Update to the latest version"
 msgstr "Auf die letzte Version aktualisieren"
 
-#: src/widgets/games/games-box.vala:53
+#: src/widgets/games/games-box.vala:56
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 "Schließen Sie den Steam-Client vorher, damit die Änderungen übernommen "
 "werden können."
 
-#: src/widgets/games/games-box.vala:83
+#: src/widgets/games/games-box.vala:86
 msgid "Name"
 msgstr "Name"
 
-#: src/widgets/games/games-box.vala:90
+#: src/widgets/games/games-box.vala:93
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
 msgstr "Kompatibilitätswerkzeug"
 
-#: src/widgets/games/games-box.vala:94
+#: src/widgets/games/games-box.vala:97
 msgid "Other"
 msgstr "Andere"
 
-#: src/widgets/games/games-box.vala:119 src/widgets/games/games-box.vala:234
+#: src/widgets/games/games-box.vala:122 src/widgets/games/games-box.vala:242
 msgid "An error occurred"
 msgstr "Ein Fehler ist aufgetreten"
 
-#: src/widgets/games/games-box.vala:119
+#: src/widgets/games/games-box.vala:122
 msgid "No profile was found."
 msgstr "Es wurde kein Profil gefunden."
 
-#: src/widgets/games/games-box.vala:119
+#: src/widgets/games/games-box.vala:122
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr ""
 "Stellen Sie sicher, dass Sie sich mindestens einmal auf Steam verbinden."
 
-#: src/widgets/games/games-box.vala:119
+#: src/widgets/games/games-box.vala:122
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "Wenn Sie glauben, dass dies ein Problem ist, melden Sie es auf GitHub."
 
-#: src/widgets/games/games-box.vala:179
+#: src/widgets/games/games-box.vala:182
 msgid "Unsuported launcher"
 msgstr "Nicht unterstützer Starter"
 
-#: src/widgets/games/games-box.vala:179
+#: src/widgets/games/games-box.vala:182
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s wird aktuell nicht unterstützt."
 
-#: src/widgets/games/games-box.vala:179
+#: src/widgets/games/games-box.vala:182
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Wenn Sie möchten, dass ich die Entwicklung beschleunige, zeigen Sie Ihre "
 "Unterstützung!"
 
-#: src/widgets/games/games-box.vala:217 src/widgets/games/games-box.vala:280
-#: src/widgets/games/games-box.vala:283
+#: src/widgets/games/games-box.vala:225 src/widgets/games/games-box.vala:288
+#: src/widgets/games/games-box.vala:291
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
@@ -368,7 +368,7 @@ msgstr ""
 msgid "Undefined"
 msgstr "Nicht definiert"
 
-#: src/widgets/games/games-box.vala:234
+#: src/widgets/games/games-box.vala:242
 msgid "The library failed loading."
 msgstr "Die Bibliothek konnte nicht geladen werden."
 
