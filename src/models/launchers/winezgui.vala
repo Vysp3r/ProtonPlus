@@ -15,11 +15,6 @@ namespace ProtonPlus.Models.Launchers {
             }
 
             base ("WineZGUI", installation_type, "io.github.fastrizwaan.WineZGUI", directories);
-
-            if (installed) {
-                install.connect ((release) => true);
-                uninstall.connect ((release) => true);
-            }
         }
     }
 }

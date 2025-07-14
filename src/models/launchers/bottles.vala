@@ -15,11 +15,6 @@ namespace ProtonPlus.Models.Launchers {
             }
 
             base ("Bottles", installation_type, "com.usebottles.bottles", directories);
-
-            if (installed) {
-                install.connect ((release) => true);
-                uninstall.connect ((release) => true);
-            }
         }
     }
 }
