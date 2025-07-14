@@ -6,6 +6,7 @@ namespace ProtonPlus.Widgets {
 		bool invalid { get; set; }
 		Models.Launcher launcher;
 
+		Gtk.Image image;
 		Adw.StatusPage status_page;
 		ShortcutButton shortcut_button;
 		MassEditButton mass_edit_button;
@@ -28,6 +29,8 @@ namespace ProtonPlus.Widgets {
 		Gtk.PropertyExpression expression;
 
 		construct {
+			image = new Gtk.Image();
+
 			status_page = new Adw.StatusPage ();
 			status_page.set_visible(false);
 
@@ -176,7 +179,7 @@ namespace ProtonPlus.Widgets {
 				}
 			} else {
 				invalid = true;
-				show_status_box(launcher.icon_path, _("Unsuported launcher"), "%s\n%s".printf(_("%s is currently not supported.").printf(launcher.title), _("If you want me to speed up the development make sure to show your support!")));
+				show_status_box(launcher.icon_path, _("Unsuported launcher"), "%s\n%s".printf(_("%s is currently not supported.").printf(launcher.title), _("If you want me to speed up the development make sure to show your support!")), true);
 			}
 		}
 
@@ -189,16 +192,21 @@ namespace ProtonPlus.Widgets {
 			status_page.set_visible (false);
 		}
 
-		void show_status_box(string icon, string title, string description) {
+		void show_status_box(string icon, string title, string description, bool is_image = false) {
 			flow_box.set_visible(false);
 			headered_list_box.set_visible(false);
 			warning_label.set_visible(false);
+
+			if (is_image)
+				image.set_from_resource(icon);
+			else
+				image.set_from_icon_name(icon);
 
 			status_page.set_vexpand (true);
 			status_page.set_hexpand (true);
 			status_page.set_title (title);
 			status_page.set_description (description);
-			status_page.set_icon_name (icon);
+			status_page.set_paintable(image.get_paintable());
 			status_page.set_visible (true);
 		}
 

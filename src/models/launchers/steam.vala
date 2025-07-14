@@ -23,11 +23,7 @@ namespace ProtonPlus.Models.Launchers {
                 break;
             }
 
-            var icon_path = "steam";
-            if (installation_type == Launcher.InstallationTypes.FLATPAK)
-                icon_path = "com.valvesoftware.Steam";
-
-            base ("Steam", installation_type, icon_path, directories);
+            base ("Steam", installation_type, "%s/steam.svg".printf (Globals.RESOURCE_BASE), directories);
 
             has_library_support = true;
 
