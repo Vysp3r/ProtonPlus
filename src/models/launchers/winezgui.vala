@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Launchers {
                 break;
             }
 
-            base ("WineZGUI", installation_type, "io.github.fastrizwaan.WineZGUI", directories);
+            base ("WineZGUI", installation_type, "%s/winezgui.svg".printf (Globals.RESOURCE_BASE), directories);
         }
     }
 }

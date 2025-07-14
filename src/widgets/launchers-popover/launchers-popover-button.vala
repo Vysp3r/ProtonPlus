@@ -48,7 +48,7 @@ namespace ProtonPlus.Widgets {
 
             selected_launcher = launchers_popover_list_row.launcher;
 
-            button_image.set_from_icon_name (selected_launcher.icon_path);
+            button_image.set_from_resource (selected_launcher.icon_path);
             button_label.set_label (selected_launcher.title);
 
             activate_action_variant ("win.set-selected-launcher", row.get_index ());

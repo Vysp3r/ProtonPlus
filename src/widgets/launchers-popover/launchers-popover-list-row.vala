@@ -12,7 +12,7 @@ namespace ProtonPlus.Widgets {
 		public LaunchersPopoverListRow (Models.Launcher launcher) {
 			this.launcher = launcher;
 
-			icon = new Gtk.Image.from_icon_name (launcher.icon_path);
+			icon = new Gtk.Image.from_resource (launcher.icon_path);
 			icon.set_pixel_size (48);
 
 			title_label = new Gtk.Label (launcher.title);

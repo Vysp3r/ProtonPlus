@@ -14,11 +14,7 @@ namespace ProtonPlus.Models.Launchers {
                 break;
             }
 
-            var icon_path = "heroic";
-            if (installation_type == Launcher.InstallationTypes.FLATPAK)
-                icon_path = "com.heroicgameslauncher.hgl";
-
-            base ("Heroic Games Launcher", installation_type, icon_path, directories);
+            base ("Heroic Games Launcher", installation_type, "%s/hgl.svg".printf (Globals.RESOURCE_BASE), directories);
         }
     }
 }
