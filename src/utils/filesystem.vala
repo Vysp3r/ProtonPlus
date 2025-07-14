@@ -108,22 +108,6 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        public static async bool move_directory (string source_path, string destination_path) {
-            if (source_path == destination_path)
-                return true;
-
-            try {
-                File source_file = File.parse_name(source_path);
-                File destination_file = File.parse_name(destination_path);
-                
-               return yield source_file.move_async (destination_file, GLib.FileCopyFlags.NONE, Priority.DEFAULT, null, null);
-            } catch (Error e) {
-                message(e.message);
-            }
-
-            return false;
-        }
-
         public async static bool make_symlink (string link_location, string target_path) {
             var link_file = File.new_for_path (link_location);
             if (link_file.query_exists (null)) {
@@ -156,7 +140,7 @@ namespace ProtonPlus.Utils {
 
             try {
                 File file;
-                
+
                 if (use_uri)
                     file = File.new_for_uri (path);
                 else
@@ -201,7 +185,85 @@ namespace ProtonPlus.Utils {
             return delete_file_direct (path);
         }
 
+        public static async bool move_file (string source, string destination) {
+            if (source == destination)
+                return true;
+
+            try {
+                File source_file = File.parse_name (source);
+                File destination_file = File.parse_name (destination);
+
+                return yield source_file.move_async (destination_file, GLib.FileCopyFlags.NONE, Priority.DEFAULT, null, null);
+            } catch (Error e) {
+                message (e.message);
+            }
+
+            return false;
+        }
+
         // Directories.
+
+        public static async bool move_directory (string source, string destination) {
+            var copied = yield copy_directory (source, destination);
+
+            if (!copied) {
+                if (FileUtils.test (destination, GLib.FileTest.IS_DIR))
+                    yield delete_directory (destination);
+
+                return false;
+            }
+
+            yield delete_directory (source);
+
+            return true;
+        }
+
+        public static async bool copy_directory (string source, string destination) {
+            try {
+                File src = File.parse_name (source);
+                File dest = File.parse_name (destination);
+
+                // Check if the source directory exists
+                if (!src.query_exists ()) {
+                    stderr.printf ("Source directory does not exist\n");
+                    return false;
+                }
+
+                // Create the destination directory if it doesn't exist
+                if (!dest.query_exists ()) {
+                    yield dest.make_directory_async ();
+                }
+
+                // Enumerate the contents of the source directory
+                FileEnumerator enumerator = yield src.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
+
+                FileInfo? file_info;
+                while ((file_info = enumerator.next_file ()) != null) {
+                    string file_name = file_info.get_name ();
+                    File src_file = src.get_child (file_name);
+                    File dest_file = dest.get_child (file_name);
+
+                    // If it's a directory, recurse
+                    if (file_info.get_file_type () == FileType.DIRECTORY) {
+                        yield copy_directory (src_file.get_path (), dest_file.get_path ());
+                    } else {
+                        // Otherwise, copy the file
+                        try {
+                            yield src_file.copy_async (dest_file, FileCopyFlags.NONE);
+                        } catch (Error e) {
+                            stderr.printf ("Failed to copy %s: %s\n", file_name, e.message);
+                            return false;
+                        }
+                    }
+                }
+            } catch (Error e) {
+                message(e.message);
+
+                return false;
+            }
+
+            return true;
+        }
 
         public static async bool move_dir_contents (string source_dir, string target_dir) {
             SourceFunc callback = move_dir_contents.callback;
