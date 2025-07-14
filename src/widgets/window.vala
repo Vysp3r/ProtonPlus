@@ -190,9 +190,12 @@ namespace ProtonPlus.Widgets {
 		}
 
 		public override bool close_request () {
-			if (!updating)
-				return false;
+			if (!updating) {
+				Utils.Filesystem.delete_directory.begin (Globals.DOWNLOAD_CACHE_PATH);
 
+				return false;
+			}
+				
 			var dialog = new Adw.AlertDialog (_("Warning"), _("The application is currently checking for updates.\nExiting the application early may cause issues."));
 			
 			dialog.add_response ("exit", _("Exit"));
@@ -205,8 +208,12 @@ namespace ProtonPlus.Widgets {
 			dialog.set_close_response ("cancel");
 
 			dialog.response.connect ((response) => {
-				if (response == "exit")
-					close ();
+				if (response != "exit")
+					return;
+
+				Utils.Filesystem.delete_directory.begin (Globals.DOWNLOAD_CACHE_PATH);
+
+				close();
 			});
 
 			dialog.present (this);
