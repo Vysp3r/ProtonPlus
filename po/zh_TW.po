@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-13 18:36-0400\n"
-"PO-Revision-Date: 2025-07-14 00:51+0800\n"
+"PO-Revision-Date: 2025-07-14 23:52+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -127,10 +127,12 @@ msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
+"目前正在檢查更新。\n"
+"提前離開可能會導致問題。"
 
 #: src/widgets/window.vala:198
 msgid "Exit"
-msgstr ""
+msgstr "離開"
 
 #: src/widgets/window.vala:201 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
