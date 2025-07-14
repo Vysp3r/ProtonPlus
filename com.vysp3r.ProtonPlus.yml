@@ -24,6 +24,7 @@ finish-args:
   - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles
   - --filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam
   - --filesystem=~/.var/app/net.lutris.Lutris/data/lutris
+  - --filesystem=~/.var/app/io.github.fastrizwaan.WineZGUI/data/winezgui/
 build-options:
   append-path: /usr/lib/sdk/vala/bin
   prepend-ld-library-path: /usr/lib/sdk/vala/lib
