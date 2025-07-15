@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-14 20:13-0400\n"
-"PO-Revision-Date: 2025-07-11 14:50+0000\n"
-"Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
+"PO-Revision-Date: 2025-07-15 19:23+0200\n"
+"Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Poedit 3.6\n"
 
 #: src/widgets/application.vala:72
 msgid "A modern compatibility tools manager for Linux."
@@ -91,20 +91,19 @@ msgstr "Es gab einen Fehler beim Versuch, die Starter zu laden."
 
 #: src/widgets/window.vala:123
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Prüfe auf Aktualisierungen..."
 
 #: src/widgets/window.vala:130
 msgid "Nothing to update."
-msgstr ""
+msgstr "Nichts zu aktualisieren."
 
 #: src/widgets/window.vala:134
 msgid "Everything is now up-to-date."
-msgstr ""
+msgstr "Alles ist jetzt aktuell."
 
 #: src/widgets/window.vala:138
-#, fuzzy
 msgid "An error occured while checking for updates."
-msgstr "Ein unerwarteter Fehler trat auf beim Entfernen von %s."
+msgstr "Ein Fehler trat auf während auf Aktualiserungen überprüft wurde."
 
 #: src/widgets/window.vala:149
 #, c-format
@@ -132,10 +131,12 @@ msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
+"Die Anwendung sucht gerade nach Updates.\n"
+"Ein vorzeitiges Beenden der Anwendung kann zu Problemen führen."
 
 #: src/widgets/window.vala:201
 msgid "Exit"
-msgstr ""
+msgstr "Beenden"
 
 #: src/widgets/window.vala:204 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -235,9 +236,8 @@ msgid "Extracting"
 msgstr "Extrahiere"
 
 #: src/widgets/runners/install-dialog.vala:82
-#, fuzzy
 msgid "Moving"
-msgstr "Entferne"
+msgstr "Verschiebe"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
@@ -450,7 +450,7 @@ msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
 msgstr ""
-"Beim Versuch, das Kompatibilitätstool/die Startoptionen der ausgewählten "
+"Beim Versuch, das Kompatibilitätswerkzeug/die Startoptionen der ausgewählten "
 "Spiele zu ändern, trat bei den folgenden Spielen ein Fehler auf:"
 
 #: src/widgets/games/shortcut-button.vala:23
@@ -509,7 +509,8 @@ msgstr "Alle Spiele abwählen"
 #: src/widgets/games/mass-edit-button.vala:13
 msgid "Edit the compatibility tool of the selected games at once"
 msgstr ""
-"Bearbeiten Sie das Kompatibilitätstool für die ausgewählten Spiele auf einmal"
+"Bearbeiten Sie das Kompatibilitätswerkzeug für die ausgewählten Spiele auf "
+"einmal"
 
 #: src/widgets/games/mass-edit-button.vala:42
 msgid ""
@@ -588,7 +589,7 @@ msgstr ""
 
 #: src/translatables.vala:4
 msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr "Kompatibilitätstool zum Ausführen von Windows-Spielen unter Linux."
+msgstr "Kompatibilitätswerkzeug zum Ausführen von Windows-Spielen unter Linux."
 
 #: src/translatables.vala:5
 msgid ""
@@ -612,7 +613,7 @@ msgid ""
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
 msgstr ""
-"Steam-Kompatibilitätstool zum Ausführen von Windows-Spielen mit "
+"Steam-Kompatibilitätswerkzeug zum Ausführen von Windows-Spielen mit "
 "Verbesserungen gegenüber dem Standard-Proton von Valve. Von Etaash "
 "Mathamsetty mit FSR4-Unterstützung und wine wayland tweaks."
 
@@ -621,7 +622,7 @@ msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK."
 msgstr ""
-"Steam-Kompatibilitätstool basierend auf Proton-GE mit Modifikationen für "
+"Steam-Kompatibilitätswerkzeug basierend auf Proton-GE mit Modifikationen für "
 "sehr alte GPUs, mit DXVK."
 
 #: src/translatables.vala:9
@@ -629,7 +630,7 @@ msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK-Async."
 msgstr ""
-"Steam-Kompatibilitätstool basierend auf Proton-GE mit Modifikationen für "
+"Steam-Kompatibilitätswerkzeug basierend auf Proton-GE mit Modifikationen für "
 "sehr alte GPUs, mit DXVK-Async."
 
 #: src/translatables.vala:10
