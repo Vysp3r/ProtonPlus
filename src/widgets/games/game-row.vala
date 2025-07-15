@@ -86,8 +86,6 @@ namespace ProtonPlus.Widgets {
 			if (!(game is Models.Games.Steam))
 				return;
 
-			var steam_game = (Models.Games.Steam) game;
-
 			var dialog = new LaunchOptionsDialog(this);
 			dialog.present(Application.window);
 		}
