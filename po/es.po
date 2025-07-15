@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-14 19:50-0400\n"
-"PO-Revision-Date: 2025-07-14 18:01+0000\n"
+"PO-Revision-Date: 2025-07-15 16:01+0000\n"
 "Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
@@ -15,7 +15,6 @@ msgstr ""
 "X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:72
-#, fuzzy
 msgid "A modern compatibility tools manager for Linux."
 msgstr "Un gestor moderno de herramientas de compatibilidad para Linux."
 
@@ -28,12 +27,10 @@ msgid "Special thanks to"
 msgstr "Agradecimientos especiales a"
 
 #: src/widgets/window.vala:42
-#, fuzzy
 msgid "Donate"
 msgstr "Donar"
 
 #: src/widgets/window.vala:45
-#, fuzzy
 msgid "_Installed Only"
 msgstr "Solo instalado"
 
@@ -58,9 +55,8 @@ msgid "Games"
 msgstr "Juegos"
 
 #: src/widgets/window.vala:94
-#, fuzzy
 msgid "Loading"
-msgstr "Descargando..."
+msgstr "Descargando"
 
 #: src/widgets/window.vala:94
 msgid "Taking longer than normal?"
@@ -95,7 +91,7 @@ msgstr "Comprobando actualizaciones..."
 
 #: src/widgets/window.vala:130
 msgid "Nothing to update."
-msgstr "Nada que actualizar."
+msgstr "Nada que actualizar"
 
 #: src/widgets/window.vala:134
 msgid "Everything is now up-to-date."
@@ -282,7 +278,7 @@ msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
-"Parece que actualmente tienes otra versión de %s que no fueinstalada por "
+"Parece que actualmente tienes otra versión de %s que no fue instalada por "
 "ProtonPlus."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
@@ -614,7 +610,6 @@ msgstr ""
 "mejoras sobre el Proton predeterminado de Valve."
 
 #: src/translatables.vala:6
-#, fuzzy
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
