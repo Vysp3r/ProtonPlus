@@ -16,7 +16,7 @@ msgstr ""
 
 #: src/widgets/application.vala:72
 msgid "A modern compatibility tools manager for Linux."
-msgstr "Un gestor moderno de herramientas de compatibilidad para Linux."
+msgstr "Un moderno gestor de herramientas de compatibilidad para Linux."
 
 #: src/widgets/application.vala:74
 msgid "Website"
