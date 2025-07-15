@@ -94,6 +94,19 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.10" date="2025-07-14">
+      <description>
+        <ul>
+          <li>✨ Delete cache on exit</li>
+          <li>🐛 Fix runners not downloading for HGL</li>
+          <li>🐛 Fix recursive copy error</li>
+          <li>🐛 Fix icons not showing up when running under Flatpak</li>
+          <li>🐛 Fix WineZGUI Flatpak not appearing in launcher list</li>
+          <li>🌐 Updated Chinese localization</li>
+          <li>🌐 Updated Spanish localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.9" date="2025-07-13">
       <description>
         <ul>
@@ -119,7 +132,6 @@
           <li>🌐 Updated German localization</li>
           <li>🌐 Update Dutch translations</li>
           <li>🌐 Updated Bosnian localization</li>
-          <li>🌐 Updated Serbian localization</li>
           <li>🌐 Updated Serbian localization</li>
           <li>🌐 Updated Chinese localization</li>
         </ul>
