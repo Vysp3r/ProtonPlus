@@ -16,6 +16,7 @@ namespace ProtonPlus.Widgets {
 		UnselectButton unselect_button;
 		Gtk.FlowBox flow_box;
 		Gtk.Label name_label;
+		Gtk.Label prefix_label;
 		Gtk.Label compatibility_tool_label;
 		Gtk.Label other_label;
 		Gtk.Box header_box;
@@ -86,7 +87,11 @@ namespace ProtonPlus.Widgets {
 			name_label = new Gtk.Label(_("Name"));
 			name_label.set_hexpand(true);
 			name_label.add_controller(name_label_gesture);
-			
+
+			prefix_label = new Gtk.Label(_("Prefix"));
+			prefix_label.set_margin_end(10);
+			prefix_label.set_size_request(100, 0);
+
 			var compatibility_tool_label_gesture = new Gtk.GestureClick();
 			compatibility_tool_label_gesture.pressed.connect(compatibility_tool_label_clicked);
 
@@ -102,6 +107,7 @@ namespace ProtonPlus.Widgets {
 			header_box.add_css_class("card");
 			header_box.add_css_class("list-header");
 			header_box.append(name_label);
+			header_box.append(prefix_label);
 			header_box.append(compatibility_tool_label);
 			header_box.append(other_label);
 

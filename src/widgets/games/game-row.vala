@@ -1,12 +1,13 @@
 namespace ProtonPlus.Widgets {
 	public class GameRow : Gtk.ListBoxRow {
-		Gtk.Label title_label { get; set; }
-		public CompatibilityToolDropDown compatibility_tool_dropdown { get; set; }
-		Gtk.Button launch_options_button { get; set; }
-		Gtk.Button anticheat_button { get; set; }
-		Gtk.Button protondb_button { get; set; }
-		ExtraButton extra_button { get; set; }
-		Gtk.Box content_box { get; set; }
+		Gtk.Label title_label;
+		Gtk.Label prefix_label;
+		public CompatibilityToolDropDown compatibility_tool_dropdown;
+		Gtk.Button launch_options_button;
+		Gtk.Button anticheat_button;
+		Gtk.Button protondb_button;
+		ExtraButton extra_button;
+		Gtk.Box content_box;
 		public Models.Game game { get; set; }
 		
 		public bool selected { get; set; }
@@ -15,8 +16,17 @@ namespace ProtonPlus.Widgets {
 			this.game = game;
 
 			title_label = new Gtk.Label(game.name);
+			title_label.set_tooltip_text(title_label.get_label());
 			title_label.set_halign(Gtk.Align.START);
 			title_label.set_hexpand(true);
+			title_label.set_ellipsize (Pango.EllipsizeMode.END);
+
+			prefix_label = new Gtk.Label(game.prefix.to_string());
+			prefix_label.set_tooltip_text(prefix_label.get_label());
+			prefix_label.set_max_width_chars (8);
+			prefix_label.set_ellipsize (Pango.EllipsizeMode.END);
+			prefix_label.set_selectable(true);
+			prefix_label.set_size_request(100, 0);
 
 			compatibility_tool_dropdown = new CompatibilityToolDropDown (game, model, expression);
 
@@ -29,6 +39,7 @@ namespace ProtonPlus.Widgets {
 			content_box.set_margin_bottom(10);
 			content_box.set_valign(Gtk.Align.CENTER);
 			content_box.append(title_label);
+			content_box.append(prefix_label);
 			content_box.append(compatibility_tool_dropdown);
 
 			if (game is Models.Games.Steam)
