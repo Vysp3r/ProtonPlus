@@ -9,9 +9,6 @@ namespace ProtonPlus.Widgets {
 
 		LaunchersPopoverButton launchers_popover_button;
 		Gtk.Button donate_button;
-		MenuItem installed_only_menu_item;
-		Menu filters_section;
-		Menu other_section;
 		Menu menu;
 		Gtk.MenuButton menu_button;
 
@@ -27,7 +24,6 @@ namespace ProtonPlus.Widgets {
 			set_title (Globals.APP_NAME);
 
 			add_action (get_set_selected_launcher_action ());
-			add_action (get_set_installed_only_action ());
 
 			status_box = new StatusBox ();
 
@@ -42,19 +38,9 @@ namespace ProtonPlus.Widgets {
 			donate_button.set_tooltip_text (_("Donate"));
 			donate_button.clicked.connect (donate_button_clicked);
 
-			installed_only_menu_item = new MenuItem (_("_Installed Only"), null);
-			installed_only_menu_item.set_action_and_target ("win.set-installed-only", "b");
-
-			filters_section = new Menu ();
-			filters_section.append_item (installed_only_menu_item);
-
-			other_section = new Menu ();
-			other_section.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
-			other_section.append (_("_About ProtonPlus"), "app.about");
-
 			menu = new Menu ();
-			menu.append_section (null, filters_section);
-			menu.append_section (null, other_section);
+			menu.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
+			menu.append (_("_About ProtonPlus"), "app.about");
 
 			menu_button = new Gtk.MenuButton ();
 			menu_button.set_tooltip_text (_("Main Menu"));
@@ -165,17 +151,6 @@ namespace ProtonPlus.Widgets {
 
 		void view_stack_visible_child_name_changed () {
 			games_box.active = view_stack.get_visible_child_name () == "games";
-		}
-
-		SimpleAction get_set_installed_only_action () {
-			SimpleAction action = new SimpleAction.stateful ("set-installed-only", VariantType.BOOLEAN, true);
-
-			action.activate.connect ((variant) => {
-				runners_box.set_installed_only (action.get_state ().get_boolean ());
-				action.set_state (!action.get_state ().get_boolean ());
-			});
-
-			return action;
 		}
 
 		SimpleAction get_set_selected_launcher_action () {

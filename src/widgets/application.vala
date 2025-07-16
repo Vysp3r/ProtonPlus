@@ -69,7 +69,7 @@ namespace ProtonPlus.Widgets {
 			about_dialog.set_application_name (Globals.APP_NAME);
 			about_dialog.set_application_icon (Globals.APP_ID);
 			about_dialog.set_version ("v" + Globals.APP_VERSION);
-			about_dialog.set_comments (_("A modern compatibility tools manager for Linux."));
+			about_dialog.set_comments (_("A modern compatibility tools manager"));
 			about_dialog.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
 			about_dialog.add_link (_("Website"), "https://protonplus.vysp3r.com/");
 			about_dialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
