@@ -47,7 +47,7 @@ namespace ProtonPlus.Widgets {
 
 				if (!success) {
 					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf (_("When trying to delete %s an error occurred.").printf (release.title), _("Please report this issue on GitHub.")));
-					dialog.add_response ("ok", "OK");
+					dialog.add_response ("ok", _("OK"));
 					dialog.present (Application.window);
 				}
 			});
