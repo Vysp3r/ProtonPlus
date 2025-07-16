@@ -8,7 +8,7 @@ namespace ProtonPlus.Models.Games {
 		public string launch_options { get; set; }
 
 		public Steam(int appid, string name, string game_folder_name, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
-			base(name, "%s/steamapps/common/%s".printf(library_folder_path, game_folder_name), "%s/steamapps/compatdata/%i".printf(library_folder_path, appid), launcher);
+			base(name, "%s/steamapps/common/%s".printf(library_folder_path, game_folder_name), "%s/steamapps/compatdata/%i".printf(library_folder_path, appid), appid, launcher);
 
 			this.appid = appid;
 			this.library_folder_id = library_folder_id;
