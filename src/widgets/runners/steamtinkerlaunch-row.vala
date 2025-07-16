@@ -128,7 +128,7 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 		void upgrade_button_clicked () {
 			if (release.state == Models.Release.State.UP_TO_DATE) {
 				var dialog = new Adw.AlertDialog (_("Warning"), _("%s is already up-to-date.").printf (release.title));
-				dialog.add_response ("ok", "OK");
+				dialog.add_response ("ok", _("OK"));
 				dialog.present (Application.window);
 			} else {
 				var upgrade_dialog = new UpgradeDialog (release);

@@ -58,7 +58,7 @@ namespace ProtonPlus.Widgets {
 			var success = launcher.change_default_compatibility_tool(item.internal_title);
 			if (!success) {
 				var dialog = new Adw.AlertDialog(_("Error"), "%s\n\n%s".printf(_("When trying to change the default compatibility tool an error occurred."), _("Please report this issue on GitHub.")));
-				dialog.add_response("ok", "OK");
+				dialog.add_response("ok", _("OK"));
 				dialog.present(Application.window);
 			}
 
