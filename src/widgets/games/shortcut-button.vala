@@ -36,7 +36,7 @@ namespace ProtonPlus.Widgets {
 				var success = profile.shortcut_file.uninstall();
 				if (!success) {
 					var dialog = new Adw.AlertDialog(_("Error"), "%s\n%s".printf(_("When trying to delete the shortcut in Steam an error occurred."), _("Please report this issue on GitHub.")));
-					dialog.add_response("ok", "OK");
+					dialog.add_response("ok", _("OK"));
 					dialog.present(Application.window);
 				}
 				refresh();
@@ -45,7 +45,7 @@ namespace ProtonPlus.Widgets {
 					var success = profile.shortcut_file.install.end(res);
 					if (!success) {
 						var dialog = new Adw.AlertDialog(_("Error"), "%s\n%s".printf(_("When trying to create the shortcut in Steam an error occurred."), _("Please report this issue on GitHub.")));
-						dialog.add_response("ok", "OK");
+						dialog.add_response("ok", _("OK"));
 						dialog.present(Application.window);
 					}
 					refresh();
