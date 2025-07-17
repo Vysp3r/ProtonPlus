@@ -1,0 +1,723 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: com.vysp3r.ProtonPlus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-17 12:24-0400\n"
+"PO-Revision-Date: 2025-07-16 12:10+0300\n"
+"Last-Translator: MUJTABA ALSALEH <Mujtaba.m.Alsaleh@gmail.com>\n"
+"Language-Team: Arabic <LL@li.org>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/widgets/application.vala:72
+#, fuzzy
+msgid "A modern compatibility tools manager"
+msgstr "Linux مدير أدوات التوافق حديث لنظام"
+
+#: src/widgets/application.vala:74
+msgid "Website"
+msgstr "الموقع"
+
+#: src/widgets/application.vala:79
+msgid "Special thanks to"
+msgstr "شكر خاص"
+
+#: src/widgets/window.vala:40
+msgid "Donate"
+msgstr "تبرع"
+
+#: src/widgets/window.vala:44
+msgid "_Keyboard Shortcuts"
+msgstr "اختصارات لوحة المفاتيح"
+
+#: src/widgets/window.vala:45
+msgid "_About ProtonPlus"
+msgstr "_حول بروتون بلس"
+
+#: src/widgets/window.vala:48
+msgid "Main Menu"
+msgstr "القائمة الرئيسية"
+
+#: src/widgets/window.vala:53
+msgid "Runners"
+msgstr "المشغلات"
+
+#: src/widgets/window.vala:54
+msgid "Games"
+msgstr "الألعاب"
+
+#: src/widgets/window.vala:82
+msgid "Loading"
+msgstr "جاري التحميل"
+
+#: src/widgets/window.vala:82
+msgid "Taking longer than normal?"
+msgstr "هل الإجراء يأخذ وقتاً أكثر من المعتاد؟"
+
+#: src/widgets/window.vala:82 src/widgets/window.vala:91
+#: src/widgets/runners/remove-dialog.vala:49
+#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/upgrade-dialog.vala:56
+#: src/widgets/games/mass-edit-dialog.vala:147
+#: src/widgets/games/shortcut-button.vala:38
+#: src/widgets/games/shortcut-button.vala:47
+#: src/widgets/games/launch-options-dialog.vala:57
+#: src/widgets/games/default-tool-dialog.vala:60
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
+msgid "Please report this issue on GitHub."
+msgstr ".GitHub يرجى الإبلاغ عن هذه المشكلة على منصة"
+
+#: src/widgets/window.vala:91
+msgid "An error ocurred"
+msgstr "خطأ حدث"
+
+#: src/widgets/window.vala:91
+msgid "There was an error when trying to load the launchers."
+msgstr ".هناك خطأ يحدث عند محاولة تحميل مشغلات البرامج"
+
+#: src/widgets/window.vala:111
+msgid "Checking for updates..."
+msgstr "...جاري التحقق من التحديثات"
+
+#: src/widgets/window.vala:118
+msgid "Nothing to update."
+msgstr ".لا توجد تحديثات"
+
+#: src/widgets/window.vala:122
+msgid "Everything is now up-to-date."
+msgstr ".كل شيء محدث لآخر إصدار"
+
+#: src/widgets/window.vala:126
+msgid "An error occured while checking for updates."
+msgstr ".حدث خطأ أثناء البحث عن التحديثات"
+
+#: src/widgets/window.vala:137
+#, c-format
+msgid "Welcome to %s"
+msgstr "%s مرحباً بك في"
+
+#: src/widgets/window.vala:137
+msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+msgstr "الرجاء تثبيت إحدى البرامج التالية للبدأ"
+
+#: src/widgets/window.vala:176
+#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:145
+#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/games/mass-edit-button.vala:42
+msgid "Warning"
+msgstr "تحذير"
+
+#: src/widgets/window.vala:176
+msgid ""
+"The application is currently checking for updates.\n"
+"Exiting the application early may cause issues."
+msgstr ""
+"التطبيق حالياً يبحث عن التحديثات. الخروج أثناء هذه العملية قد يسبب مشاكل"
+
+#: src/widgets/window.vala:178
+msgid "Exit"
+msgstr "خروج"
+
+#: src/widgets/window.vala:181 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/runners/upgrade-dialog.vala:23
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: src/widgets/runners/description-dialog.vala:14
+msgid "More information"
+msgstr "مزيد من المعلومات"
+
+#: src/widgets/runners/description-dialog.vala:18
+msgid "Open"
+msgstr "فتح"
+
+#: src/widgets/runners/description-dialog.vala:22
+msgid "Open in your web browser"
+msgstr "فتح في متصفح الويب الخاص بك"
+
+#: src/widgets/runners/release-row.vala:10
+#: src/widgets/runners/remove-dialog.vala:11
+#, c-format
+msgid "Delete %s"
+msgstr "%s حَذف"
+
+#: src/widgets/runners/release-row.vala:14
+#: src/widgets/runners/install-dialog.vala:17
+#, c-format
+msgid "Install %s"
+msgstr "%s تثبيت"
+
+#: src/widgets/runners/release-row.vala:18
+msgid "Show more information"
+msgstr "عرض المزيد من المعلومات"
+
+#: src/widgets/runners/release-row.vala:42
+#: src/widgets/runners/release-row.vala:44
+#: src/widgets/runners/installed-row.vala:11
+#: src/widgets/runners/basic-row.vala:48
+msgid "Used"
+msgstr ""
+
+#: src/widgets/runners/load-more-row.vala:8
+#: src/widgets/runners/load-more-row.vala:17
+msgid "Load more"
+msgstr "تحميل المزيد"
+
+#: src/widgets/runners/remove-dialog.vala:13
+msgid "Are you sure you want this?"
+msgstr "هل أنت متأكد من رغبتك في ذلك؟"
+
+#: src/widgets/runners/remove-dialog.vala:21
+#, c-format
+msgid "Used by %i games."
+msgstr "من الألعاب %i يستخدم بواسطة"
+
+#: src/widgets/runners/remove-dialog.vala:24
+msgid "Used by 1 game."
+msgstr "يستخدم بواسطة لعبة واحدة"
+
+#: src/widgets/runners/remove-dialog.vala:26
+msgid "Are you sure you want to proceed?"
+msgstr "هل أنت متأكد من أنك تريد المتابعة؟"
+
+#: src/widgets/runners/remove-dialog.vala:30
+#: src/widgets/runners/steamtinkerlaunch-row.vala:91
+msgid "No"
+msgstr "لا"
+
+#: src/widgets/runners/remove-dialog.vala:31
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+msgid "Yes"
+msgstr "نعم"
+
+#: src/widgets/runners/remove-dialog.vala:49
+#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/upgrade-dialog.vala:56
+#: src/widgets/games/mass-edit-dialog.vala:147
+#: src/widgets/games/shortcut-button.vala:38
+#: src/widgets/games/shortcut-button.vala:47
+#: src/widgets/games/launch-options-dialog.vala:57
+#: src/widgets/games/default-tool-dialog.vala:60
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
+msgid "Error"
+msgstr "خطأ"
+
+#: src/widgets/runners/remove-dialog.vala:49
+#, c-format
+msgid "When trying to delete %s an error occurred."
+msgstr "%s حدث خطأ أثناء محاولة حذف"
+
+#: src/widgets/runners/remove-dialog.vala:50
+#: src/widgets/runners/install-dialog.vala:55
+#: src/widgets/runners/upgrade-dialog.vala:57
+#: src/widgets/runners/steamtinkerlaunch-row.vala:45
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
+#: src/widgets/runners/steamtinkerlaunch-row.vala:155
+#: src/widgets/games/mass-edit-dialog.vala:148
+#: src/widgets/games/shortcut-button.vala:39
+#: src/widgets/games/shortcut-button.vala:48
+#: src/widgets/games/mass-edit-button.vala:43
+#: src/widgets/games/launch-options-dialog.vala:58
+#: src/widgets/games/default-tool-dialog.vala:61
+#: src/widgets/games/compatibility-tool-dropdown.vala:76
+msgid "OK"
+msgstr "حسنا"
+
+#: src/widgets/runners/install-dialog.vala:54
+#, c-format
+msgid "When trying to install %s an error occurred."
+msgstr "%s حدث خطأ أثناء محاولة تثبيت"
+
+#: src/widgets/runners/install-dialog.vala:76
+#: src/widgets/runners/upgrade-dialog.vala:78
+msgid "Downloading"
+msgstr "جاري التنزيل"
+
+#: src/widgets/runners/install-dialog.vala:79
+#: src/widgets/runners/upgrade-dialog.vala:81
+msgid "Extracting"
+msgstr "...جاري الإستخراج"
+
+#: src/widgets/runners/install-dialog.vala:82
+msgid "Moving"
+msgstr "جاري النقل"
+
+#: src/widgets/runners/upgrade-dialog.vala:17
+#, c-format
+msgid "Upgrade %s"
+msgstr "%s ترقية"
+
+#: src/widgets/runners/upgrade-dialog.vala:56
+#, c-format
+msgid "When trying to upgrade %s an error occurred."
+msgstr "%s حدث خطأ أثناء محاولة ترقية"
+
+#: src/widgets/runners/installed-row.vala:12
+#: src/widgets/runners/basic-row.vala:49
+#, fuzzy, c-format
+msgid "%s is used by %i game(s)"
+msgstr "من الألعاب %i يستخدم بواسطة"
+
+#: src/widgets/runners/installed-row.vala:32
+#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+msgid "Check this to also delete your configuration files."
+msgstr "حدد هنا لحذف ملفات التخصيص الخاص بك أيضاً"
+
+#: src/widgets/runners/filters-box.vala:12
+#, fuzzy
+msgid "Show installed only"
+msgstr "المثبت فقط"
+
+#: src/widgets/runners/filters-box.vala:21
+msgid "Show used only"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:30
+msgid "Show unused only"
+msgstr ""
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#, c-format
+msgid "You are missing the following dependencies for %s:"
+msgstr "%s: ينقصك مايلي من التبعيات من أجل"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+msgid "Installation will be canceled."
+msgstr "سيتم إلغاء التثبيت."
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#, c-format
+msgid ""
+"It looks like you currently have another version of %s which was not "
+"installed by ProtonPlus."
+msgstr "ProtonPlus ليست مثبتة بواسطة %s يبدو بان لديك حالياً نسخة أخرى من"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+msgid "Do you want to reinstall it with ProtonPlus?"
+msgstr "؟ ProtonPlus هل تريد إعادة تثبيتها بواسطة"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#, c-format
+msgid "%s is already up-to-date."
+msgstr "محدث بالفعل لآخر نسخة %s"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:145
+#, c-format
+msgid "To install %s for the %s, please run the following command:"
+msgstr "للتثبيت %s لـ %s، الرجاء تشغيل الأمر التالي:"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#, c-format
+msgid "There's currently no known way for us to install %s for the %s."
+msgstr "%s لـ %s لا توجد حاليًا طريقة معروفة لنا لتثبيت"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:175
+msgid "Up-to-date"
+msgstr "محدث"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:175
+msgid "Update to the latest version"
+msgstr "تحديث إلى أحدث إصدار"
+
+#: src/widgets/games/games-box.vala:58
+msgid "Close the Steam client beforehand so that the changes can be applied."
+msgstr " إغلق عميلSteam مسبقاً لتتمكن من تطبيق التغييرات"
+
+#: src/widgets/games/games-box.vala:88
+msgid "Name"
+msgstr "الاسم"
+
+#: src/widgets/games/games-box.vala:92
+msgid "Prefix"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:99
+#: src/widgets/games/mass-edit-dialog.vala:38
+msgid "Compatibility tool"
+msgstr "أداة التوافق"
+
+#: src/widgets/games/games-box.vala:103
+msgid "Other"
+msgstr "أخرى"
+
+#: src/widgets/games/games-box.vala:129
+msgid "An error occurred"
+msgstr "حدث خطأ"
+
+#: src/widgets/games/games-box.vala:129
+msgid "No profile was found."
+msgstr ".لم يتم العثور على ملف تعريف"
+
+#: src/widgets/games/games-box.vala:129
+msgid "Make sure to connect yourself at least once on Steam."
+msgstr ".Steam تأكد من الإتصال مرة واحدة على الأقل على"
+
+#: src/widgets/games/games-box.vala:129
+msgid "If you think this is an issue, make sure to report this on GitHub."
+msgstr ".GitHub إذا كنت تعتقد أن هذه مشكلة ، فتأكد من الإبلاغ عن ذلك على"
+
+#: src/widgets/games/games-box.vala:189
+msgid "Unsuported launcher"
+msgstr "مشغل برامج غير مدعوم"
+
+#: src/widgets/games/games-box.vala:189
+#, c-format
+msgid "%s is currently not supported."
+msgstr ".غير مدعوم حالياً %s"
+
+#: src/widgets/games/games-box.vala:189
+msgid ""
+"If you want me to speed up the development make sure to show your support!"
+msgstr "إن أردت مني إسراع عملية التطوير الرجاء التطوع للمشروع لإظهار دعمك لي"
+
+#: src/widgets/games/games-box.vala:229 src/widgets/games/games-box.vala:289
+#: src/widgets/games/games-box.vala:292
+#: src/widgets/games/mass-edit-dialog.vala:109
+#: src/widgets/games/compatibility-tool-dropdown.vala:32
+#: src/widgets/games/compatibility-tool-dropdown.vala:81
+#: src/models/games/steam.vala:85 src/models/games/steam.vala:106
+msgid "Undefined"
+msgstr "غير مُعَرَف"
+
+#: src/widgets/games/game-row.vala:55
+msgid "Modify the game launch options"
+msgstr "تعديل خيارات إطلاق اللعبة"
+
+#: src/widgets/games/game-row.vala:81
+msgid "Unknown"
+msgstr "مجهول"
+
+#: src/widgets/games/game-row.vala:87
+msgid "Open ProtonDB page"
+msgstr "ProtonDB إفتح صفحة"
+
+#: src/widgets/games/mass-edit-dialog.vala:20
+#: src/widgets/games/mass-edit-button.vala:10
+msgid "Mass edit"
+msgstr "تحرير بالجُمْلَة"
+
+#: src/widgets/games/mass-edit-dialog.vala:20
+msgid "1 game selected"
+msgstr "لعبة واحدة مختارة"
+
+#: src/widgets/games/mass-edit-dialog.vala:20
+#, c-format
+msgid "%u games selected"
+msgstr "ألعاب مختارة %u"
+
+#: src/widgets/games/mass-edit-dialog.vala:22
+#: src/widgets/games/launch-options-dialog.vala:14
+#: src/widgets/games/default-tool-dialog.vala:16
+msgid "Apply"
+msgstr "تطبيق"
+
+#: src/widgets/games/mass-edit-dialog.vala:23
+msgid "Apply the current modifications"
+msgstr "تطبيق التعديلات الحالية"
+
+#: src/widgets/games/mass-edit-dialog.vala:31
+#: src/widgets/games/mass-edit-dialog.vala:43
+msgid "Enabled"
+msgstr "تمكين"
+
+#: src/widgets/games/mass-edit-dialog.vala:32
+msgid ""
+"Enable this if you want the mass edit to take the compatibility tool into "
+"account."
+msgstr ".حدد هذا الخيار إن كنت تريد التعديل بالجُملَة يأخذ أداة التوافق بالحٌسبان"
+
+#: src/widgets/games/mass-edit-dialog.vala:44
+msgid ""
+"Enable this if you want the mass edit to take the launch options into "
+"account."
+msgstr ""
+".حدد هذا الخيار إن كنت تريد التعديل بالجُملَة يأخذ خيارات التشغيل بالحٌسبان"
+
+#: src/widgets/games/mass-edit-dialog.vala:48
+#: src/widgets/games/launch-options-dialog.vala:24
+msgid "Enter your desired launch options"
+msgstr "أدخل خيارات الإطلاق المرغوبة"
+
+#: src/widgets/games/mass-edit-dialog.vala:51
+msgid "Launch options"
+msgstr "خيارات التشغيل"
+
+#: src/widgets/games/mass-edit-dialog.vala:55
+msgid ""
+"Enable all the options that you want the mass edit to take into account."
+msgstr ".حدد جميع الخيارات إن كنت تريد التعديل بالجُملَة أن يأخذ كل شيءبالحٌسبان"
+
+#: src/widgets/games/mass-edit-dialog.vala:147
+msgid ""
+"When trying to change the compatibility tool/launch options of the selected "
+"games an error occurred for the following games:"
+msgstr ""
+":حدث خطأ أثناء تغيير أداة التوافق أو خيارات التشغيل للألعاب المحددة التالية"
+
+#: src/widgets/games/shortcut-button.vala:23
+#: src/widgets/games/shortcut-button.vala:28
+msgid "Create shortcut"
+msgstr "إنشاء إختصار"
+
+#: src/widgets/games/shortcut-button.vala:28
+msgid "Delete shortcut"
+msgstr "حذف الإختصار"
+
+#: src/widgets/games/shortcut-button.vala:29
+msgid "Create a shortcut of ProtonPlus in Steam"
+msgstr "Steam في منصة ProtonPlus إنشاء إختصار لـ"
+
+#: src/widgets/games/shortcut-button.vala:29
+msgid "Delete the shortcut of ProtonPlus in Steam"
+msgstr "Steam من منصة ProtonPlus حذف إختصار"
+
+#: src/widgets/games/shortcut-button.vala:38
+msgid "When trying to delete the shortcut in Steam an error occurred."
+msgstr "Steam من منصة ProtonPlus حدث خطأ أثناء محاولة حذف إختصار"
+
+#: src/widgets/games/shortcut-button.vala:47
+msgid "When trying to create the shortcut in Steam an error occurred."
+msgstr "Steam في منصة ProtonPlus حدث خطأ أثناء محاولة إنشاء إختصار"
+
+#: src/widgets/games/switch-profile-button.vala:14
+msgid "Switch profile"
+msgstr "تبديل الملف الشخصي"
+
+#: src/widgets/games/switch-profile-button.vala:23
+msgid "Switch to another profile"
+msgstr "بَدّل الملف الشخصي"
+
+#: src/widgets/games/select-button.vala:8
+msgid "Select all"
+msgstr "حدد الكل"
+
+#: src/widgets/games/select-button.vala:11
+msgid "Select all the games"
+msgstr "حدد كل الألعاب"
+
+#: src/widgets/games/unselect-button.vala:8
+msgid "Unselect all"
+msgstr "إلغاء تحديد الكل"
+
+#: src/widgets/games/unselect-button.vala:11
+msgid "Unselect all the games"
+msgstr "إلغاء تحديد جميع الألعاب"
+
+#: src/widgets/games/mass-edit-button.vala:13
+msgid "Edit the compatibility tool of the selected games at once"
+msgstr "تحرير أداة توافق الألعاب المحددة في وقت واحد"
+
+#: src/widgets/games/mass-edit-button.vala:42
+msgid ""
+"Please make sure to select at least one game before using the mass edit "
+"feature."
+msgstr ""
+"الرجاء التأكد من تحديد لعبة واحدة على الأقل قبل إستخدام ميزة التحرير بالجُملًة"
+
+#: src/widgets/games/launch-options-dialog.vala:12
+msgid "Modify launch options"
+msgstr "تعديل خيارات التشغيل"
+
+#: src/widgets/games/launch-options-dialog.vala:15
+#: src/widgets/games/default-tool-dialog.vala:17
+msgid "Apply the current modification"
+msgstr "تطبيق التعديل الحالي"
+
+#: src/widgets/games/launch-options-dialog.vala:57
+#, c-format
+msgid "When trying to change the launch options of %s an error occurred."
+msgstr "%s حدث خطأ عند محاولة تغيير خيارات تشغيل"
+
+#: src/widgets/games/profile-dialog.vala:15
+msgid "Select a profile"
+msgstr "إختر الملف الشخصي"
+
+#: src/widgets/games/extra-button.vala:11
+msgid "Open install directory"
+msgstr "فتح دليل التثبيت"
+
+#: src/widgets/games/extra-button.vala:14
+msgid "Open prefix directory"
+msgstr "فتح دليل البادِئة"
+
+#: src/widgets/games/extra-button.vala:17
+msgid "Open in protontricks"
+msgstr "protontricks فتح بواسطة"
+
+#: src/widgets/games/extra-button.vala:32
+msgid "Open menu"
+msgstr "فتح القائمة"
+
+#: src/widgets/games/default-tool-button.vala:8
+#: src/widgets/games/default-tool-button.vala:14
+#: src/widgets/games/default-tool-dialog.vala:14
+msgid "Set the default compatibility tool"
+msgstr "تعيين أداة التوافق الافتراضية"
+
+#: src/widgets/games/default-tool-dialog.vala:60
+msgid "When trying to change the default compatibility tool an error occurred."
+msgstr "حدث خطأ عند محاولة تغيير أداة التوافق الافتراضية"
+
+#: src/widgets/games/compatibility-tool-row.vala:18
+msgid "Select your desired compatibility tool"
+msgstr "اختر أداة التوافق المرغوبة"
+
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
+#, c-format
+msgid "When trying to change the compatibility tool of %s an error occurred."
+msgstr ".%s حدث خطأ عند محاولة تغيير أداة التوافق"
+
+#: src/models/runners/steamtinkerlaunch.vala:6
+msgid ""
+"Steam tool for easy, graphical configuration of your other compatibility "
+"tools for both Windows games and native Linux games."
+msgstr ""
+"Linux و Windows من أجل تخصيص سهل عبر واجهة رسومية لأدواة التوافق الأخرى لكلاً "
+"من ألعاب Steamأداة لـ"
+
+#: src/translatables.vala:4
+msgid "Compatibility tools by Valve for running Windows software on Linux."
+msgstr "Linux على Windows لتشغيل برامج Valve أدوات التوافق بواسطة"
+
+#: src/translatables.vala:5
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton."
+msgstr ""
+"Valve الخاصة بـ Proton مع تحسينات فوق نسخة Windows لتشغيل ألعاب Steamأداة "
+"توافق لـ"
+
+#: src/translatables.vala:6
+msgid ""
+"Steam compatibility tool from the CachyOS Linux distribution for running "
+"Windows games with improvements over Valve's default Proton."
+msgstr ""
+"Valve الخاصة بـ Proton مع تحسينات فوق نسخة Windows لتشغيل ألعاب CachyOS "
+"توزيعة Steamأداة توافق لـ"
+
+#: src/translatables.vala:7
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
+"wayland tweaks."
+msgstr ""
+"Valve الخاصة بـ Proton مع تحسينات فوق نسخة Windows لتشغيل ألعاب Steamأداة "
+"توافق لـ\n"
+"wayland من أجل wine و تعديلات FSR4لتضيف دعم لـ Etaash Mathamsetty تمت بواسطة"
+
+#: src/translatables.vala:8
+msgid ""
+"Steam compatibility tool based on Proton-GE with modifications for very old "
+"GPUs, with DXVK."
+msgstr ""
+"DXVK من أجل كروت الشاشة القديمة جداً مع Proton-GE مبنية على Steamأداة توافق لـ"
+
+#: src/translatables.vala:9
+msgid ""
+"Steam compatibility tool based on Proton-GE with modifications for very old "
+"GPUs, with DXVK-Async."
+msgstr ""
+"DXVK-Async من أجل كروت الشاشة القديمة جداً مع Proton-GE مبنية على Steamأداة "
+"توافق لـ"
+
+#: src/translatables.vala:10
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr ".Wine-tkg مبنية على Windows لتشغيل ألعاب Proton نسخة مخصصة من"
+
+#: src/translatables.vala:11
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
+msgstr ""
+"VRChat من أجل RTSP مع إصلاحات إضافية لتحسين مُفَكّكَاتْ ترميز Proton-GE مبنية على "
+"Steamأداة توافق لـ"
+
+#: src/translatables.vala:12
+msgid "Custom Proton build for running the Northstar client for Titanfall 2."
+msgstr ".Titanfall 2 من أجل Northstar لتشغيل عميل Proton نسخة مخصصة من"
+
+#: src/translatables.vala:13
+msgid ""
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
+msgstr ""
+"Luxtorpeda\n"
+"يوفر محركات ألعاب Linux أصلية لبعض الألعاب الخاصة بـWindows فقط"
+
+#: src/translatables.vala:14
+msgid ""
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
+msgstr "Linux لـ ScummVM لتشغيل ألعاب المغامرات بإستخدام Steamأداة توافق لـ"
+
+#: src/translatables.vala:15
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
+msgstr "Linux لـ DOSBox بواسطة DOS لتشغيل ألعاب Steam أداة توافق بواسطة"
+
+#: src/translatables.vala:16
+msgid "Compatibility tools for running Windows software on Linux."
+msgstr "Linux على Windows أدوات توافق لتشغيل برامج"
+
+#: src/translatables.vala:17
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr "الرسمية WineHQ مبنية من مصادر Wine نسخ"
+
+#: src/translatables.vala:18
+msgid "Wine build with the Staging patchset."
+msgstr "مبنية مع مجموعة إصلاحات فترة التشغيل المرحلي Wine نسخ"
+
+#: src/translatables.vala:19
+msgid "Wine build with the Staging patchset and many other useful patches."
+msgstr ""
+"مبنية مع مجموعة إصلاحات فترة التشغيل المرحلي مع المزيد من الإصلاحات المفيدة "
+"Wine نسخ"
+
+#: src/translatables.vala:20
+msgid "Wine build modified by Valve and other contributors."
+msgstr "ومساهمين أخرين Valve معدلة من قبل Wine نسخة"
+
+#: src/translatables.vala:21
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+msgstr "Linux/Wine لـ Vulkan مبني على Direct3D 8, 9, 10, 11 تطبيق"
+
+#: src/translatables.vala:22
+msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
+msgstr "ذو إصدار يسبق 1.3 Vulakn تعمل مع DXVK نسخ"
+
+#: src/translatables.vala:23
+msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
+msgstr "ذو إصدار يسبق 1.3 Vulakn تعمل مع DXVK Async نسخ"
+
+#: src/translatables.vala:24
+msgid ""
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
+msgstr ""
+"بالكامل Vulkan فوق Direct3D 12 تهدف لتطبيق واجهة برمجة Wine VKD3D مختلفة من"
+
+#: data/ui/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
+msgid "General"
+msgstr "عام"
+
+#: data/ui/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "إظهار اختصارات"
+
+#: data/ui/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "خروج"
+
+#~ msgid "The library failed loading."
+#~ msgstr "فشلت المكتبة في التحميل"
