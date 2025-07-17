@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-14 20:13-0400\n"
+"POT-Creation-Date: 2025-07-16 20:07-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/widgets/application.vala:72
-msgid "A modern compatibility tools manager for Linux."
+msgid "A modern compatibility tools manager"
 msgstr ""
 
 #: src/widgets/application.vala:74
@@ -29,47 +29,42 @@ msgstr ""
 msgid "Special thanks to"
 msgstr ""
 
-#: src/widgets/window.vala:42
+#: src/widgets/window.vala:38
 msgid "Donate"
 msgstr ""
 
-#: src/widgets/window.vala:45
-msgid "_Installed Only"
-msgstr ""
-
-#: src/widgets/window.vala:52
+#: src/widgets/window.vala:42
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widgets/window.vala:53
+#: src/widgets/window.vala:43
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:46
 msgid "Main Menu"
 msgstr ""
 
-#: src/widgets/window.vala:65
+#: src/widgets/window.vala:51
 msgid "Runners"
 msgstr ""
 
-#: src/widgets/window.vala:66
+#: src/widgets/window.vala:52
 msgid "Games"
 msgstr ""
 
-#: src/widgets/window.vala:94
+#: src/widgets/window.vala:80
 msgid "Loading"
 msgstr ""
 
-#: src/widgets/window.vala:94
+#: src/widgets/window.vala:80
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:94 src/widgets/window.vala:103
+#: src/widgets/window.vala:80 src/widgets/window.vala:89
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:242
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -79,40 +74,40 @@ msgstr ""
 msgid "Please report this issue on GitHub."
 msgstr ""
 
-#: src/widgets/window.vala:103
+#: src/widgets/window.vala:89
 msgid "An error ocurred"
 msgstr ""
 
-#: src/widgets/window.vala:103
+#: src/widgets/window.vala:89
 msgid "There was an error when trying to load the launchers."
 msgstr ""
 
-#: src/widgets/window.vala:123
+#: src/widgets/window.vala:109
 msgid "Checking for updates..."
 msgstr ""
 
-#: src/widgets/window.vala:130
+#: src/widgets/window.vala:116
 msgid "Nothing to update."
 msgstr ""
 
-#: src/widgets/window.vala:134
+#: src/widgets/window.vala:120
 msgid "Everything is now up-to-date."
 msgstr ""
 
-#: src/widgets/window.vala:138
+#: src/widgets/window.vala:124
 msgid "An error occured while checking for updates."
 msgstr ""
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:135
 #, c-format
 msgid "Welcome to %s"
 msgstr ""
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:135
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 
-#: src/widgets/window.vala:199
+#: src/widgets/window.vala:174
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -122,17 +117,17 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: src/widgets/window.vala:199
+#: src/widgets/window.vala:174
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:201
+#: src/widgets/window.vala:176
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:204 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:179 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr ""
@@ -214,6 +209,22 @@ msgstr ""
 msgid "When trying to delete %s an error occurred."
 msgstr ""
 
+#: src/widgets/runners/remove-dialog.vala:50
+#: src/widgets/runners/install-dialog.vala:55
+#: src/widgets/runners/upgrade-dialog.vala:57
+#: src/widgets/runners/steamtinkerlaunch-row.vala:45
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
+#: src/widgets/runners/steamtinkerlaunch-row.vala:155
+#: src/widgets/games/mass-edit-dialog.vala:148
+#: src/widgets/games/shortcut-button.vala:39
+#: src/widgets/games/shortcut-button.vala:48
+#: src/widgets/games/mass-edit-button.vala:43
+#: src/widgets/games/launch-options-dialog.vala:58
+#: src/widgets/games/default-tool-dialog.vala:61
+#: src/widgets/games/compatibility-tool-dropdown.vala:76
+msgid "OK"
+msgstr ""
+
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occurred."
@@ -248,6 +259,15 @@ msgstr ""
 msgid "Check this to also delete your configuration files."
 msgstr ""
 
+#: src/widgets/runners/basic-row.vala:48
+msgid "Used"
+msgstr ""
+
+#: src/widgets/runners/basic-row.vala:49
+#, c-format
+msgid "%s is used by %i game(s)"
+msgstr ""
+
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
@@ -255,11 +275,6 @@ msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 msgid "Installation will be canceled."
-msgstr ""
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:45
-#: src/widgets/runners/steamtinkerlaunch-row.vala:155
-msgid "OK"
 msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
@@ -296,55 +311,59 @@ msgstr ""
 msgid "Update to the latest version"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:56
+#: src/widgets/games/games-box.vala:58
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:86
+#: src/widgets/games/games-box.vala:88
 msgid "Name"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:93
+#: src/widgets/games/games-box.vala:92
+msgid "Prefix"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:97
+#: src/widgets/games/games-box.vala:103
 msgid "Other"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:122 src/widgets/games/games-box.vala:242
+#: src/widgets/games/games-box.vala:129
 msgid "An error occurred"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:122
+#: src/widgets/games/games-box.vala:129
 msgid "No profile was found."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:122
+#: src/widgets/games/games-box.vala:129
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:122
+#: src/widgets/games/games-box.vala:129
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:189
 msgid "Unsuported launcher"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:189
 #, c-format
 msgid "%s is currently not supported."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:189
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:225 src/widgets/games/games-box.vala:288
-#: src/widgets/games/games-box.vala:291
+#: src/widgets/games/games-box.vala:229 src/widgets/games/games-box.vala:289
+#: src/widgets/games/games-box.vala:292
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
@@ -352,19 +371,15 @@ msgstr ""
 msgid "Undefined"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:242
-msgid "The library failed loading."
-msgstr ""
-
-#: src/widgets/games/game-row.vala:44
+#: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
 msgstr ""
 
-#: src/widgets/games/game-row.vala:70
+#: src/widgets/games/game-row.vala:81
 msgid "Unknown"
 msgstr ""
 
-#: src/widgets/games/game-row.vala:76
+#: src/widgets/games/game-row.vala:87
 msgid "Open ProtonDB page"
 msgstr ""
 

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-14 20:13-0400\n"
+"POT-Creation-Date: 2025-07-16 20:07-0400\n"
 "PO-Revision-Date: 2025-07-05 12:27+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -17,7 +17,8 @@ msgstr ""
 "X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:72
-msgid "A modern compatibility tools manager for Linux."
+#, fuzzy
+msgid "A modern compatibility tools manager"
 msgstr "Pengelola alat kompatibilitas modern untuk Linux."
 
 #: src/widgets/application.vala:74
@@ -28,48 +29,43 @@ msgstr "Laman web"
 msgid "Special thanks to"
 msgstr "Terima kasih khusus kepada"
 
-#: src/widgets/window.vala:42
+#: src/widgets/window.vala:38
 msgid "Donate"
 msgstr "Donasi"
 
-#: src/widgets/window.vala:45
-msgid "_Installed Only"
-msgstr "_Hanya terinstal"
-
-#: src/widgets/window.vala:52
+#: src/widgets/window.vala:42
 msgid "_Keyboard Shortcuts"
 msgstr "_ Pintasan Papan Ketik"
 
-#: src/widgets/window.vala:53
+#: src/widgets/window.vala:43
 msgid "_About ProtonPlus"
 msgstr "_Tentang ProtonPlus"
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:46
 msgid "Main Menu"
 msgstr "Menu Utama"
 
-#: src/widgets/window.vala:65
+#: src/widgets/window.vala:51
 msgid "Runners"
 msgstr "Runner"
 
-#: src/widgets/window.vala:66
+#: src/widgets/window.vala:52
 msgid "Games"
 msgstr "Permainan"
 
-#: src/widgets/window.vala:94
+#: src/widgets/window.vala:80
 #, fuzzy
 msgid "Loading"
 msgstr "Mengunduh"
 
-#: src/widgets/window.vala:94
+#: src/widgets/window.vala:80
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:94 src/widgets/window.vala:103
+#: src/widgets/window.vala:80 src/widgets/window.vala:89
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:242
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -79,41 +75,41 @@ msgstr ""
 msgid "Please report this issue on GitHub."
 msgstr "Silakan laporkan masalah ini di GitHub."
 
-#: src/widgets/window.vala:103
+#: src/widgets/window.vala:89
 msgid "An error ocurred"
 msgstr "Terjadi kesalahan"
 
-#: src/widgets/window.vala:103
+#: src/widgets/window.vala:89
 msgid "There was an error when trying to load the launchers."
 msgstr "Terjadi kesalahan saat mencoba memuat peluncur."
 
-#: src/widgets/window.vala:123
+#: src/widgets/window.vala:109
 msgid "Checking for updates..."
 msgstr ""
 
-#: src/widgets/window.vala:130
+#: src/widgets/window.vala:116
 msgid "Nothing to update."
 msgstr ""
 
-#: src/widgets/window.vala:134
+#: src/widgets/window.vala:120
 msgid "Everything is now up-to-date."
 msgstr ""
 
-#: src/widgets/window.vala:138
+#: src/widgets/window.vala:124
 #, fuzzy
 msgid "An error occured while checking for updates."
 msgstr "Terjadi error saat mengekstrak "
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:135
 #, c-format
 msgid "Welcome to %s"
 msgstr "Selamat datang di %s"
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:135
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 
-#: src/widgets/window.vala:199
+#: src/widgets/window.vala:174
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -123,17 +119,17 @@ msgstr "Pasang Steam, Lutris, Bottle atau Peluncur Game Heroic untuk memulai."
 msgid "Warning"
 msgstr "Peringatan"
 
-#: src/widgets/window.vala:199
+#: src/widgets/window.vala:174
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:201
+#: src/widgets/window.vala:176
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:204 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:179 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Batalkan"
@@ -215,6 +211,22 @@ msgstr "eror"
 msgid "When trying to delete %s an error occurred."
 msgstr "Saat mencoba menghapus %s terjadi kesalahan."
 
+#: src/widgets/runners/remove-dialog.vala:50
+#: src/widgets/runners/install-dialog.vala:55
+#: src/widgets/runners/upgrade-dialog.vala:57
+#: src/widgets/runners/steamtinkerlaunch-row.vala:45
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
+#: src/widgets/runners/steamtinkerlaunch-row.vala:155
+#: src/widgets/games/mass-edit-dialog.vala:148
+#: src/widgets/games/shortcut-button.vala:39
+#: src/widgets/games/shortcut-button.vala:48
+#: src/widgets/games/mass-edit-button.vala:43
+#: src/widgets/games/launch-options-dialog.vala:58
+#: src/widgets/games/default-tool-dialog.vala:61
+#: src/widgets/games/compatibility-tool-dropdown.vala:76
+msgid "OK"
+msgstr "Oke"
+
 #: src/widgets/runners/install-dialog.vala:54
 #, fuzzy, c-format
 msgid "When trying to install %s an error occurred."
@@ -251,6 +263,15 @@ msgstr "Saat mencoba meningkatkan %s terjadi kesalahan."
 msgid "Check this to also delete your configuration files."
 msgstr "Periksa ini untuk juga menghapus file konfigurasi Anda."
 
+#: src/widgets/runners/basic-row.vala:48
+msgid "Used"
+msgstr ""
+
+#: src/widgets/runners/basic-row.vala:49
+#, fuzzy, c-format
+msgid "%s is used by %i game(s)"
+msgstr "Digunakan oleh %i game."
+
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
@@ -259,11 +280,6 @@ msgstr "Anda melewatkan ketergantungan berikut untuk %s:"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 msgid "Installation will be canceled."
 msgstr "Instalasi akan dibatalkan."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:45
-#: src/widgets/runners/steamtinkerlaunch-row.vala:155
-msgid "OK"
-msgstr "Oke"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, c-format
@@ -301,60 +317,64 @@ msgstr "Terbaru"
 msgid "Update to the latest version"
 msgstr "Perbarui  ke versi terbaru"
 
-#: src/widgets/games/games-box.vala:56
+#: src/widgets/games/games-box.vala:58
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "Tutup klien Steam terlebih dahulu agar perubahan dapat diterapkan."
 
-#: src/widgets/games/games-box.vala:86
+#: src/widgets/games/games-box.vala:88
 msgid "Name"
 msgstr "Nama"
 
-#: src/widgets/games/games-box.vala:93
+#: src/widgets/games/games-box.vala:92
+msgid "Prefix"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
 msgstr "Alat Kompabilitas"
 
-#: src/widgets/games/games-box.vala:97
+#: src/widgets/games/games-box.vala:103
 msgid "Other"
 msgstr "Lainnya"
 
-#: src/widgets/games/games-box.vala:122 src/widgets/games/games-box.vala:242
+#: src/widgets/games/games-box.vala:129
 #, fuzzy
 msgid "An error occurred"
 msgstr "Terjadi kesalahan"
 
-#: src/widgets/games/games-box.vala:122
+#: src/widgets/games/games-box.vala:129
 msgid "No profile was found."
 msgstr "Tidak ada profil yang ditemukan"
 
-#: src/widgets/games/games-box.vala:122
+#: src/widgets/games/games-box.vala:129
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Pastikan untuk menghubungkan akun Anda setidaknya satu kali di Steam."
 
-#: src/widgets/games/games-box.vala:122
+#: src/widgets/games/games-box.vala:129
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 "Jika Anda yakin ini merupakan sebuah masalah, pastikan untuk melaporkannya "
 "di GitHub."
 
-#: src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:189
 msgid "Unsuported launcher"
 msgstr "Peluncur tidak didukung"
 
-#: src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:189
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s saat ini tidak didukung."
 
-#: src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:189
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Jika kalian ingin saya mempercepat pengembangan, pastikan untuk menunjukkan "
 "dukungan Anda!"
 
-#: src/widgets/games/games-box.vala:225 src/widgets/games/games-box.vala:288
-#: src/widgets/games/games-box.vala:291
+#: src/widgets/games/games-box.vala:229 src/widgets/games/games-box.vala:289
+#: src/widgets/games/games-box.vala:292
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
@@ -362,19 +382,15 @@ msgstr ""
 msgid "Undefined"
 msgstr "Tidak terdefinisi"
 
-#: src/widgets/games/games-box.vala:242
-msgid "The library failed loading."
-msgstr "Pustaka gagal dimuat."
-
-#: src/widgets/games/game-row.vala:44
+#: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
 msgstr "Modifikasi opsi peluncuran game"
 
-#: src/widgets/games/game-row.vala:70
+#: src/widgets/games/game-row.vala:81
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: src/widgets/games/game-row.vala:76
+#: src/widgets/games/game-row.vala:87
 msgid "Open ProtonDB page"
 msgstr "Buka halaman ProtonDB"
 
@@ -721,6 +737,12 @@ msgstr "Tampilkan Pintasan"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Keluar"
+
+#~ msgid "_Installed Only"
+#~ msgstr "_Hanya terinstal"
+
+#~ msgid "The library failed loading."
+#~ msgstr "Pustaka gagal dimuat."
 
 #~ msgid "Renaming"
 #~ msgstr "Mengubah nama"

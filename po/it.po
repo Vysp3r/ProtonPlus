@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-14 20:13-0400\n"
+"POT-Creation-Date: 2025-07-16 20:07-0400\n"
 "PO-Revision-Date: 2025-07-11 16:15+0000\n"
 "Last-Translator: Alessandro Marigliano <alemarigliano22@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -15,7 +15,8 @@ msgstr ""
 "X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:72
-msgid "A modern compatibility tools manager for Linux."
+#, fuzzy
+msgid "A modern compatibility tools manager"
 msgstr "Un gestore moderno per gli strumenti di compatibilità per Linux."
 
 #: src/widgets/application.vala:74
@@ -26,47 +27,42 @@ msgstr "Sito Web"
 msgid "Special thanks to"
 msgstr "Ringraziamenti speciali a"
 
-#: src/widgets/window.vala:42
+#: src/widgets/window.vala:38
 msgid "Donate"
 msgstr "Dona"
 
-#: src/widgets/window.vala:45
-msgid "_Installed Only"
-msgstr "_Solo installati"
-
-#: src/widgets/window.vala:52
+#: src/widgets/window.vala:42
 msgid "_Keyboard Shortcuts"
 msgstr "_Scorciatoie da tastiera"
 
-#: src/widgets/window.vala:53
+#: src/widgets/window.vala:43
 msgid "_About ProtonPlus"
 msgstr "_Su ProtonPlus"
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:46
 msgid "Main Menu"
 msgstr "Menù Principale"
 
-#: src/widgets/window.vala:65
+#: src/widgets/window.vala:51
 msgid "Runners"
 msgstr "Strumenti"
 
-#: src/widgets/window.vala:66
+#: src/widgets/window.vala:52
 msgid "Games"
 msgstr "Giochi"
 
-#: src/widgets/window.vala:94
+#: src/widgets/window.vala:80
 msgid "Loading"
 msgstr "Caricamento in corso"
 
-#: src/widgets/window.vala:94
+#: src/widgets/window.vala:80
 msgid "Taking longer than normal?"
 msgstr "Sta impiegando più del normale?"
 
-#: src/widgets/window.vala:94 src/widgets/window.vala:103
+#: src/widgets/window.vala:80 src/widgets/window.vala:89
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/games-box.vala:242
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:47
@@ -76,41 +72,41 @@ msgstr "Sta impiegando più del normale?"
 msgid "Please report this issue on GitHub."
 msgstr "Si prega di segnalare il problema su GitHub."
 
-#: src/widgets/window.vala:103
+#: src/widgets/window.vala:89
 msgid "An error ocurred"
 msgstr "Sì è verificato un errore"
 
-#: src/widgets/window.vala:103
+#: src/widgets/window.vala:89
 msgid "There was an error when trying to load the launchers."
 msgstr "Si è verificato un errore durante il caricamento dei launcher."
 
-#: src/widgets/window.vala:123
+#: src/widgets/window.vala:109
 msgid "Checking for updates..."
 msgstr ""
 
-#: src/widgets/window.vala:130
+#: src/widgets/window.vala:116
 msgid "Nothing to update."
 msgstr ""
 
-#: src/widgets/window.vala:134
+#: src/widgets/window.vala:120
 msgid "Everything is now up-to-date."
 msgstr ""
 
-#: src/widgets/window.vala:138
+#: src/widgets/window.vala:124
 #, fuzzy
 msgid "An error occured while checking for updates."
 msgstr "Si e' verificato un errore inaspettato durante l'estrazione "
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:135
 #, c-format
 msgid "Welcome to %s"
 msgstr "Benvenuto a %s"
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:135
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "Installa Steam, Lutris, Bottles o Heroic Games Launcher per iniziare."
 
-#: src/widgets/window.vala:199
+#: src/widgets/window.vala:174
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -120,17 +116,17 @@ msgstr "Installa Steam, Lutris, Bottles o Heroic Games Launcher per iniziare."
 msgid "Warning"
 msgstr "Avvertenza"
 
-#: src/widgets/window.vala:199
+#: src/widgets/window.vala:174
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:201
+#: src/widgets/window.vala:176
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:204 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:179 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Cancella"
@@ -212,6 +208,22 @@ msgstr "Errore"
 msgid "When trying to delete %s an error occurred."
 msgstr "Si è verificato un errore durante la cancellazione di %s."
 
+#: src/widgets/runners/remove-dialog.vala:50
+#: src/widgets/runners/install-dialog.vala:55
+#: src/widgets/runners/upgrade-dialog.vala:57
+#: src/widgets/runners/steamtinkerlaunch-row.vala:45
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
+#: src/widgets/runners/steamtinkerlaunch-row.vala:155
+#: src/widgets/games/mass-edit-dialog.vala:148
+#: src/widgets/games/shortcut-button.vala:39
+#: src/widgets/games/shortcut-button.vala:48
+#: src/widgets/games/mass-edit-button.vala:43
+#: src/widgets/games/launch-options-dialog.vala:58
+#: src/widgets/games/default-tool-dialog.vala:61
+#: src/widgets/games/compatibility-tool-dropdown.vala:76
+msgid "OK"
+msgstr "OK"
+
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occurred."
@@ -246,6 +258,15 @@ msgstr "Si è verificato un errore durante l'aggiornamento di %s."
 msgid "Check this to also delete your configuration files."
 msgstr "Seleziona qui per cancellare anche le tue configurazioni."
 
+#: src/widgets/runners/basic-row.vala:48
+msgid "Used"
+msgstr ""
+
+#: src/widgets/runners/basic-row.vala:49
+#, fuzzy, c-format
+msgid "%s is used by %i game(s)"
+msgstr "Usato da %i giochi."
+
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
@@ -254,11 +275,6 @@ msgstr "Ti mancano le seguenti dipendenze per %s:"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 msgid "Installation will be canceled."
 msgstr "L'installazione verrà cancellata."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:45
-#: src/widgets/runners/steamtinkerlaunch-row.vala:155
-msgid "OK"
-msgstr "OK"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, c-format
@@ -294,57 +310,61 @@ msgstr "Aggiornato"
 msgid "Update to the latest version"
 msgstr "Aggiorna all'ultima versione"
 
-#: src/widgets/games/games-box.vala:56
+#: src/widgets/games/games-box.vala:58
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "Chiudere il client di Steam prima di applicare le modifiche."
 
-#: src/widgets/games/games-box.vala:86
+#: src/widgets/games/games-box.vala:88
 msgid "Name"
 msgstr "Nome"
 
-#: src/widgets/games/games-box.vala:93
+#: src/widgets/games/games-box.vala:92
+msgid "Prefix"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
 msgstr "Strumento di compatibilità"
 
-#: src/widgets/games/games-box.vala:97
+#: src/widgets/games/games-box.vala:103
 msgid "Other"
 msgstr "Altro"
 
-#: src/widgets/games/games-box.vala:122 src/widgets/games/games-box.vala:242
+#: src/widgets/games/games-box.vala:129
 msgid "An error occurred"
 msgstr "Si è verificato un errore"
 
-#: src/widgets/games/games-box.vala:122
+#: src/widgets/games/games-box.vala:129
 msgid "No profile was found."
 msgstr "Nessun profilo trovato."
 
-#: src/widgets/games/games-box.vala:122
+#: src/widgets/games/games-box.vala:129
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Assicurati di esserti connesso almeno una volta a Steam."
 
-#: src/widgets/games/games-box.vala:122
+#: src/widgets/games/games-box.vala:129
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "Se credi sia un errore, puoi segnalarlo su GitHub."
 
-#: src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:189
 msgid "Unsuported launcher"
 msgstr "Launcher non supportato"
 
-#: src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:189
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s non è supportato al momento."
 
-#: src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:189
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Se vuoi che velocizzi lo sviluppo non dimenticare di mostrare il tuo "
 "supporto!"
 
-#: src/widgets/games/games-box.vala:225 src/widgets/games/games-box.vala:288
-#: src/widgets/games/games-box.vala:291
+#: src/widgets/games/games-box.vala:229 src/widgets/games/games-box.vala:289
+#: src/widgets/games/games-box.vala:292
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
@@ -352,19 +372,15 @@ msgstr ""
 msgid "Undefined"
 msgstr "Non definito"
 
-#: src/widgets/games/games-box.vala:242
-msgid "The library failed loading."
-msgstr "La libreria ha fallito il caricamento."
-
-#: src/widgets/games/game-row.vala:44
+#: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
 msgstr "Modifica le opzioni di lancio di gioco"
 
-#: src/widgets/games/game-row.vala:70
+#: src/widgets/games/game-row.vala:81
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/widgets/games/game-row.vala:76
+#: src/widgets/games/game-row.vala:87
 msgid "Open ProtonDB page"
 msgstr "Apri pagina di ProtonDB"
 
@@ -716,6 +732,12 @@ msgstr "Mostra scorciatoie"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Esci"
+
+#~ msgid "_Installed Only"
+#~ msgstr "_Solo installati"
+
+#~ msgid "The library failed loading."
+#~ msgstr "La libreria ha fallito il caricamento."
 
 #~ msgid "Renaming"
 #~ msgstr "Rinomina in corso"
