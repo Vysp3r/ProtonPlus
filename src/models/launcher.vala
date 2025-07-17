@@ -50,7 +50,7 @@ namespace ProtonPlus.Models {
 		}
 
 		public virtual async bool load_game_library () {
-			return false;
+			return true;
 		}
 
 		public static async List<Launcher>? get_all () {
@@ -226,8 +226,22 @@ namespace ProtonPlus.Models {
 				}
 
 				launcher.groups = groups;
+
+				var games_loaded = yield launcher.load_game_library ();
+				if (!games_loaded)
+					return false;
+
+				if (launcher is Launchers.Steam) {
+					var steam_launcher = launcher as Launchers.Steam;
+
+					steam_launcher.profiles = SteamProfile.get_profiles(steam_launcher);
+
+					foreach(var profile in steam_launcher.profiles) {
+						yield profile.load_launch_options ();
+					}
+				}
 			}
-			
+
 			return true;
 		}
 
@@ -442,6 +456,10 @@ namespace ProtonPlus.Models {
 			}
 				
 			return runner;
+		}
+
+		public virtual int get_compatibility_tool_usage_count (string compatibility_tool_name) {
+			return 0;
 		}
 	}
 }

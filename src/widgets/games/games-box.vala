@@ -1,6 +1,7 @@
 namespace ProtonPlus.Widgets {
 	public class GamesBox : Gtk.Box {
 		public delegate void load_steam_profile_func(Models.SteamProfile profile);
+
 		public bool active { get; set; }
 		bool error { get; set; }
 		bool invalid { get; set; }
@@ -32,7 +33,7 @@ namespace ProtonPlus.Widgets {
 		construct {
 			image = new Gtk.Image();
 
-			status_page = new Adw.StatusPage ();
+			status_page = new Adw.StatusPage();
 			status_page.set_visible(false);
 
 			game_list_box = new Gtk.ListBox();
@@ -179,7 +180,7 @@ namespace ProtonPlus.Widgets {
 						switch_profile_button.load(steam_launcher, load_steam_profile, game_list_box);
 					}
 
-					notify_property("active"); // Ensure that when the launcher is changed, but you're in the Games tab the profile dialog still shows up
+					notify_property("active");                     // Ensure that when the launcher is changed, but you're in the Games tab the profile dialog still shows up
 				} else {
 					load_games();
 				}
@@ -195,7 +196,7 @@ namespace ProtonPlus.Widgets {
 			flow_box.set_visible(true);
 			headered_list_box.set_visible(true);
 
-			status_page.set_visible (false);
+			status_page.set_visible(false);
 		}
 
 		void show_status_box(string icon, string title, string description, bool is_image = false) {
@@ -208,59 +209,53 @@ namespace ProtonPlus.Widgets {
 			else
 				image.set_from_icon_name(icon);
 
-			status_page.set_vexpand (true);
-			status_page.set_hexpand (true);
-			status_page.set_title (title);
-			status_page.set_description (description);
+			status_page.set_vexpand(true);
+			status_page.set_hexpand(true);
+			status_page.set_title(title);
+			status_page.set_description(description);
 			status_page.set_paintable(image.get_paintable());
-			status_page.set_visible (true);
+			status_page.set_visible(true);
 		}
 
 		void load_games() {
-			spinner.start();
+			if (!spinner.spinning)
+				spinner.start();
 
 			game_list_box.remove_all();
 
 			overlay.add_overlay(spinner);
 
-			launcher.load_game_library.begin((obj, res) => {
-				var loaded = launcher.load_game_library.end(res);
+			model = new ListStore(typeof (Models.SimpleRunner));
+			model.append(new Models.SimpleRunner(_("Undefined"), _("Undefined")));
+			foreach (var ct in launcher.compatibility_tools)
+				model.append(ct);
 
-				if (loaded) {
-					model = new ListStore(typeof (Models.SimpleRunner));
-					model.append(new Models.SimpleRunner(_("Undefined"), _("Undefined")));
-					foreach (var ct in launcher.compatibility_tools)
-						model.append(ct);
+			expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
 
-					expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
+			mass_edit_button.load(model, expression);
 
-					mass_edit_button.load(model, expression);
+			foreach (var game in launcher.games) {
+				var game_row = new GameRow(game, model, expression);
 
-					foreach (var game in launcher.games) {
-						var game_row = new GameRow(game, model, expression);
+				game_list_box.append(game_row);
+			}
 
-						game_list_box.append(game_row);
-					}
+			name_label_clicked();
 
-					name_label_clicked();
-				} else {
-					error = true;
-					show_status_box("bug-symbolic", _("An error occurred"), "%s\n%s".printf(_("The library failed loading."), _("Please report this issue on GitHub.")));
-				}
+			overlay.remove_overlay(spinner);
 
-				overlay.remove_overlay(spinner);
-
-				spinner.stop();
-			});
+			spinner.stop();
 		}
 
 		void load_steam_profile(Models.SteamProfile profile) {
-			var steam_launcher = (Models.Launchers.Steam) launcher;
-			steam_launcher.profile = profile;
+			spinner.start();
 
 			shortcut_button.load(profile);
 
-			load_games();
+			var steam_launcher = (Models.Launchers.Steam) launcher;
+			steam_launcher.switch_profile.begin(profile, (obj, res) => {
+				load_games();
+			});
 		}
 
 		void game_list_box_row_activated(Gtk.ListBoxRow? row) {
@@ -277,17 +272,17 @@ namespace ProtonPlus.Widgets {
 			}
 		}
 
-		void name_label_clicked () {
-			game_list_box.set_sort_func ((row1, row2) => {
+		void name_label_clicked() {
+			game_list_box.set_sort_func((row1, row2) => {
 				var name1 = ((GameRow) row1).game.name;
 				var name2 = ((GameRow) row2).game.name;
 
-				return strcmp (name1, name2);
+				return strcmp(name1, name2);
 			});
 		}
 
-		void compatibility_tool_label_clicked () {
-			game_list_box.set_sort_func ((row1, row2) => {
+		void compatibility_tool_label_clicked() {
+			game_list_box.set_sort_func((row1, row2) => {
 				var name1 = ((GameRow) row1).game.compatibility_tool;
 				var name2 = ((GameRow) row2).game.compatibility_tool;
 
@@ -297,7 +292,7 @@ namespace ProtonPlus.Widgets {
 				if (name2 == _("Undefined"))
 					name2 = "zzzz";
 
-				return strcmp (name1, name2);
+				return strcmp(name1, name2);
 			});
 		}
 	}

@@ -26,13 +26,18 @@ namespace ProtonPlus.Models.Launchers {
             base ("Steam", installation_type, "%s/steam.svg".printf (Globals.RESOURCE_BASE), directories);
 
             has_library_support = true;
+        }
 
-            if (installed) {
-                profiles = SteamProfile.get_profiles(this);
+        public async void switch_profile (SteamProfile profile) {
+            this.profile = profile;
+
+            foreach(var game in (List<Games.Steam>) games) {
+                var launch_options = profile.launch_options_hashtable.get(game.appid);
+                game.launch_options = launch_options;
             }
         }
 
-        public int get_compatibility_tool_usage_count (string compatibility_tool_name) {
+        public override int get_compatibility_tool_usage_count (string compatibility_tool_name) {
             int count = 0;
 
             foreach (var game in games) {
@@ -56,8 +61,6 @@ namespace ProtonPlus.Models.Launchers {
             enable_default_compatibility_tool = default_compatibility_tool != null;
  			if (enable_default_compatibility_tool)
  				this.default_compatibility_tool = default_compatibility_tool;
-
-            var launch_options_hashtable = yield get_launch_options_hashtable();
 
             var libraryfolder_content = Utils.Filesystem.get_file_content("%s/steamapps/libraryfolders.vdf".printf(directory));
             var current_libraryfolder_content = "";
@@ -185,12 +188,6 @@ namespace ProtonPlus.Models.Launchers {
                         game.compatibility_tool = compatibility_tool;
                         // message("compatibility_tool: %s".printf(compatibility_tool));
 
-                        var launch_options = launch_options_hashtable.get(game.appid);
-                        if (launch_options == null)
-                            launch_options = "";
-                        game.launch_options = launch_options;
-                        // message("compat_tool: %s".printf(compat_tool));
-
                         games.append(game);
                     }
                 } else {
@@ -286,7 +283,7 @@ namespace ProtonPlus.Models.Launchers {
             return compatibility_tool_hashtable;
         }
 
-        async HashTable<int, string> get_launch_options_hashtable() {
+        public static async HashTable<int, string> get_launch_options_hashtable(SteamProfile profile) {
             var launch_options_hashtable = new HashTable<int, string> (null, null);
 
             var content = Utils.Filesystem.get_file_content(profile.localconfig_path);
