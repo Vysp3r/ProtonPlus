@@ -22,6 +22,7 @@ sources = files(
   'widgets/runners/basic-row.vala',
   'widgets/runners/installed-row.vala',
   'widgets/runners/runners-box.vala',
+  'widgets/runners/filters-box.vala',
 
   'widgets/games/games-box.vala',
   'widgets/games/switch-profile-button.vala',

@@ -13,6 +13,7 @@ src/widgets/runners/install-dialog.vala
 src/widgets/runners/upgrade-dialog.vala
 src/widgets/runners/installed-row.vala
 src/widgets/runners/basic-row.vala
+src/widgets/runners/filters-box.vala
 src/widgets/runners/steamtinkerlaunch-row.vala
 src/widgets/games/games-box.vala
 src/widgets/games/game-row.vala

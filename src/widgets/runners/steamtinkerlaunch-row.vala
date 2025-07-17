@@ -1,4 +1,4 @@
-namespace ProtonPlus.Widgets.ReleaseRows {
+namespace ProtonPlus.Widgets {
 	public class SteamTinkerLaunchRow : ReleaseRow {
 		public Gtk.Button upgrade_button { get; set; }
 
