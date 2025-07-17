@@ -217,7 +217,9 @@
 
 ## 📖 Wiki
 
-**The wiki is slowly getting built, but not fully ready yet. [Access it here](https://github.com/Vysp3r/ProtonPlus/wiki)**
+**The wiki is slowly getting built, but not fully ready yet.**
+
+**[Access it here!](https://github.com/Vysp3r/ProtonPlus/wiki)**
 
 ## 🌐 Translate
 
