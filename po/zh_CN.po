@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-17 12:24-0400\n"
-"PO-Revision-Date: 2025-07-15 01:03+0800\n"
+"PO-Revision-Date: 2025-07-18 05:16+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
 "Language: zh\n"
@@ -17,9 +17,8 @@ msgstr ""
 "X-Generator: Poedit 3.6\n"
 
 #: src/widgets/application.vala:72
-#, fuzzy
 msgid "A modern compatibility tools manager"
-msgstr "适用于 Linux 的现代兼容性工具管理器。"
+msgstr "现代的兼容性工具管理器。"
 
 #: src/widgets/application.vala:74
 msgid "Website"
@@ -167,7 +166,7 @@ msgstr "显示更多信息"
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:48
 msgid "Used"
-msgstr ""
+msgstr "已使用"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -181,11 +180,11 @@ msgstr "您确定要继续吗？"
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
-msgstr "有 %i 款游戏使用。"
+msgstr "已有 %i 款游戏使用。"
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr "有 1 款游戏使用。"
+msgstr "已有 1 款游戏使用。"
 
 #: src/widgets/runners/remove-dialog.vala:26
 msgid "Are you sure you want to proceed?"
@@ -250,9 +249,8 @@ msgid "Extracting"
 msgstr "正在解压"
 
 #: src/widgets/runners/install-dialog.vala:82
-#, fuzzy
 msgid "Moving"
-msgstr "正在移除"
+msgstr "正在搬移"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
@@ -266,9 +264,9 @@ msgstr "尝试更新 %s 时发生错误。"
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "%s is used by %i game(s)"
-msgstr "有 %i 款游戏使用。"
+msgstr "%1$s 已有 %2$i 款游戏使用。"
 
 #: src/widgets/runners/installed-row.vala:32
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
@@ -276,18 +274,16 @@ msgid "Check this to also delete your configuration files."
 msgstr "勾选此项也会删除配置文件。"
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Show installed only"
-msgstr "只显示已安装的"
+msgstr "仅显示已安装的"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr ""
+msgstr "仅显示已使用的"
 
 #: src/widgets/runners/filters-box.vala:30
-#, fuzzy
 msgid "Show unused only"
-msgstr "只显示已安装的"
+msgstr "仅显示未使用的"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -342,7 +338,7 @@ msgstr "名称"
 
 #: src/widgets/games/games-box.vala:92
 msgid "Prefix"
-msgstr ""
+msgstr "前置环境"
 
 #: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
