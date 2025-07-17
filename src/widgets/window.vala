@@ -1,5 +1,7 @@
 namespace ProtonPlus.Widgets {
 	public class Window : Adw.ApplicationWindow {
+		public bool only_show_used { get; set; }
+		public bool only_show_unused { get; set; }
 		public bool updating { get; set; }
 		List<Models.Launcher> launchers;
 

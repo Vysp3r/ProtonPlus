@@ -1,4 +1,4 @@
-namespace ProtonPlus.Widgets.ReleaseRows {
+namespace ProtonPlus.Widgets {
 	public class BasicRow : ReleaseRow {
 		Models.Releases.Basic release { get; set; }
 

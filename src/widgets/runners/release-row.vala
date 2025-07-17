@@ -30,6 +30,21 @@ namespace ProtonPlus.Widgets {
 			install_button.clicked.connect (install_button_clicked);
 			remove_button.clicked.connect (remove_button_clicked);
 			info_button.clicked.connect (info_button_clicked);
+
+			Application.window.notify["only-show-used"].connect(only_show);
+			Application.window.notify["only-show-unused"].connect(only_show);
+
+			only_show();
+		}
+
+		void only_show () {
+			if (Application.window.only_show_used) {
+				set_visible (get_title().contains("(%s)".printf(_("Used"))));
+			} else if (Application.window.only_show_unused) {
+				set_visible (!get_title().contains("(%s)".printf(_("Used"))));
+			} else {
+				set_visible (true);
+			}
 		}
 
 		protected abstract void install_button_clicked ();

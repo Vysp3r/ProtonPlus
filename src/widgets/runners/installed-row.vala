@@ -1,4 +1,4 @@
-namespace ProtonPlus.Widgets.ReleaseRows {
+namespace ProtonPlus.Widgets {
 	public class InstalledRow : ReleaseRow {
 		Models.Releases.Basic release { get; set; }
 		public signal void remove_from_parent (InstalledRow row);
@@ -6,7 +6,10 @@ namespace ProtonPlus.Widgets.ReleaseRows {
 		public InstalledRow (Models.Releases.Basic release) {
 			this.release = release;
 
-			set_title (release.title);
+			var usage_count = release.runner.group.launcher.get_compatibility_tool_usage_count (release.title != "SteamTinkerLaunch" ? release.title : "Proton-stl");
+
+			set_title ("%s%s".printf (release.title, usage_count > 0 ? " (%s)".printf (_("Used")) : ""));
+			set_tooltip_text (usage_count > 0 ? _("%s is used by %i game(s)").printf (release.title, usage_count) : release.title);
 
 			install_button.set_visible (false);
 			info_button.set_visible (false);

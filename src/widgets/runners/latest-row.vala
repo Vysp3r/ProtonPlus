@@ -1,4 +1,4 @@
-namespace ProtonPlus.Widgets.ReleaseRows {
+namespace ProtonPlus.Widgets {
 	public class LatestRow : ReleaseRow {
         Models.Releases.Latest release { get; set; }
 

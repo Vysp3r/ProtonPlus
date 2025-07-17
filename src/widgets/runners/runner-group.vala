@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets {
 	public class RunnerGroup : Adw.PreferencesGroup {
-		List<Adw.PreferencesRow> rows;
+		public List<Adw.PreferencesRow> rows;
 
 		public Models.Group group;
 
@@ -25,7 +25,9 @@ namespace ProtonPlus.Widgets {
 		void load_normal() {
 			foreach (var runner in group.runners) {
 				var runner_row = new RunnerRow(runner);
+
 				add(runner_row);
+				
 				rows.append(runner_row);
 			}
 		}
@@ -35,7 +37,7 @@ namespace ProtonPlus.Widgets {
 				var runner = new Models.Runners.Installed(group);
 				var release = new Models.Releases.Basic.simple(runner, directory, group.launcher.directory + group.directory + "/" + directory);
 
-				var row = new Widgets.ReleaseRows.InstalledRow(release);
+				var row = new Widgets.InstalledRow(release);
 				row.remove_from_parent.connect(row_remove_from_parent);
 
 				add(row);
@@ -55,7 +57,7 @@ namespace ProtonPlus.Widgets {
 			});
 		}
 
-		void row_remove_from_parent(ReleaseRows.InstalledRow row) {
+		void row_remove_from_parent(InstalledRow row) {
 			remove(row);
 		}
 	}
