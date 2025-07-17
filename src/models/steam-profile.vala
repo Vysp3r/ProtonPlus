@@ -10,6 +10,7 @@ namespace ProtonPlus.Models {
 		public string username { get; set; }
 		public string image_path { get; set; }
 		public string default_compatibility_tool { get; set; }
+		public HashTable<int, string> launch_options_hashtable;
 
 		public SteamProfile (Launchers.Steam launcher, string username, string steam_id, string userdata_path) {
 			this.launcher = launcher;
@@ -33,6 +34,20 @@ namespace ProtonPlus.Models {
 			} catch (Error e) {
 				message (e.message);
 			}
+		}
+
+		public async void load_launch_options () {
+			this.launch_options_hashtable = new HashTable<int, string> (null, null);
+
+			var launch_options_hashtable = yield Launchers.Steam.get_launch_options_hashtable(this);
+
+            foreach (var game in (List<Games.Steam>) launcher.games) {
+                var launch_options = launch_options_hashtable.get(game.appid);
+                if (launch_options == null)
+                    launch_options = "";
+                this.launch_options_hashtable.set (game.appid, launch_options);
+                // message("launch_options: %s".printf(launch_options));
+            }
 		}
 
 		static string steam_id_to_account_id (string steam_id) {
