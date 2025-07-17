@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-16 20:07-0400\n"
+"POT-Creation-Date: 2025-07-17 12:24-0400\n"
 "PO-Revision-Date: 2025-06-30 13:10+0000\n"
 "Last-Translator: \"M.M.\" <martin.miscikms@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -29,40 +29,40 @@ msgstr ""
 msgid "Special thanks to"
 msgstr "Zvláštní poděkování patří"
 
-#: src/widgets/window.vala:38
+#: src/widgets/window.vala:40
 msgid "Donate"
 msgstr "Podpořit"
 
-#: src/widgets/window.vala:42
+#: src/widgets/window.vala:44
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: src/widgets/window.vala:43
+#: src/widgets/window.vala:45
 msgid "_About ProtonPlus"
 msgstr "O _aplikaci ProtonPlus"
 
-#: src/widgets/window.vala:46
+#: src/widgets/window.vala:48
 msgid "Main Menu"
 msgstr "Hlavní nabídka"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:53
 msgid "Runners"
 msgstr "Spouštěče"
 
-#: src/widgets/window.vala:52
+#: src/widgets/window.vala:54
 msgid "Games"
 msgstr ""
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:82
 #, fuzzy
 msgid "Loading"
 msgstr "Stahuje se…"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:82
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:80 src/widgets/window.vala:89
+#: src/widgets/window.vala:82 src/widgets/window.vala:91
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -75,44 +75,44 @@ msgstr ""
 msgid "Please report this issue on GitHub."
 msgstr "Prosím oznamte tuto chybu na GitHubu."
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:91
 #, fuzzy
 msgid "An error ocurred"
 msgstr "Vyskytla se chyba"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:91
 msgid "There was an error when trying to load the launchers."
 msgstr ""
 
-#: src/widgets/window.vala:109
+#: src/widgets/window.vala:111
 msgid "Checking for updates..."
 msgstr ""
 
-#: src/widgets/window.vala:116
+#: src/widgets/window.vala:118
 msgid "Nothing to update."
 msgstr ""
 
-#: src/widgets/window.vala:120
+#: src/widgets/window.vala:122
 msgid "Everything is now up-to-date."
 msgstr ""
 
-#: src/widgets/window.vala:124
+#: src/widgets/window.vala:126
 #, fuzzy
 msgid "An error occured while checking for updates."
 msgstr "Při odstraňování %s došlo k neočekávané chybě."
 
-#: src/widgets/window.vala:135
+#: src/widgets/window.vala:137
 #, c-format
 msgid "Welcome to %s"
 msgstr "Vítá vás %s"
 
-#: src/widgets/window.vala:135
+#: src/widgets/window.vala:137
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Chcete-li začít, nainstalujte si Steam, Lutris, Láhve nebo Heroic Games "
 "Launcher."
 
-#: src/widgets/window.vala:174
+#: src/widgets/window.vala:176
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -122,17 +122,17 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: src/widgets/window.vala:174
+#: src/widgets/window.vala:176
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:176
+#: src/widgets/window.vala:178
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:179 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:181 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Zrušit"
@@ -164,6 +164,13 @@ msgstr "Nainstalovat %s"
 #: src/widgets/runners/release-row.vala:18
 msgid "Show more information"
 msgstr "Zobrazit více informací"
+
+#: src/widgets/runners/release-row.vala:42
+#: src/widgets/runners/release-row.vala:44
+#: src/widgets/runners/installed-row.vala:11
+#: src/widgets/runners/basic-row.vala:48
+msgid "Used"
+msgstr ""
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -262,19 +269,29 @@ msgstr "Aktualizuje se"
 msgid "When trying to upgrade %s an error occurred."
 msgstr ""
 
-#: src/widgets/runners/installed-row.vala:29
+#: src/widgets/runners/installed-row.vala:12
+#: src/widgets/runners/basic-row.vala:49
+#, c-format
+msgid "%s is used by %i game(s)"
+msgstr ""
+
+#: src/widgets/runners/installed-row.vala:32
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
 #, fuzzy
 msgid "Check this to also delete your configuration files."
 msgstr "Zvolte pro odstranění také konfiguračních souborů."
 
-#: src/widgets/runners/basic-row.vala:48
-msgid "Used"
+#: src/widgets/runners/filters-box.vala:12
+#, fuzzy
+msgid "Show installed only"
+msgstr "Nainstalovat %s"
+
+#: src/widgets/runners/filters-box.vala:21
+msgid "Show used only"
 msgstr ""
 
-#: src/widgets/runners/basic-row.vala:49
-#, c-format
-msgid "%s is used by %i game(s)"
+#: src/widgets/runners/filters-box.vala:30
+msgid "Show unused only"
 msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -734,10 +751,6 @@ msgstr "_Klávesové zkratky"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr ""
-
-#, fuzzy
-#~ msgid "_Installed Only"
-#~ msgstr "Nainstalovat %s"
 
 #, fuzzy
 #~ msgid "Renaming"

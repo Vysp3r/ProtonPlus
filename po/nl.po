@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-16 20:07-0400\n"
+"POT-Creation-Date: 2025-07-17 12:24-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/protonplus/"
@@ -31,39 +31,39 @@ msgstr "Webpagina"
 msgid "Special thanks to"
 msgstr "Speciale dank aan"
 
-#: src/widgets/window.vala:38
+#: src/widgets/window.vala:40
 msgid "Donate"
 msgstr "Doneren"
 
-#: src/widgets/window.vala:42
+#: src/widgets/window.vala:44
 msgid "_Keyboard Shortcuts"
 msgstr "_Sneltoetsen"
 
-#: src/widgets/window.vala:43
+#: src/widgets/window.vala:45
 msgid "_About ProtonPlus"
 msgstr "_Over ProtonPlus"
 
-#: src/widgets/window.vala:46
+#: src/widgets/window.vala:48
 msgid "Main Menu"
 msgstr "Hoofdmenu"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:53
 msgid "Runners"
 msgstr "Hardlopers"
 
-#: src/widgets/window.vala:52
+#: src/widgets/window.vala:54
 msgid "Games"
 msgstr "Spellen"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:82
 msgid "Loading"
 msgstr "Laden"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:82
 msgid "Taking longer than normal?"
 msgstr "Duurt het langer dan normaal?"
 
-#: src/widgets/window.vala:80 src/widgets/window.vala:89
+#: src/widgets/window.vala:82 src/widgets/window.vala:91
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -76,41 +76,41 @@ msgstr "Duurt het langer dan normaal?"
 msgid "Please report this issue on GitHub."
 msgstr "Rapporteer dit probleem op GitHub."
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:91
 msgid "An error ocurred"
 msgstr "Er is een fout opgetreden"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:91
 msgid "There was an error when trying to load the launchers."
 msgstr "Er was een fout bij het laden van de launchers."
 
-#: src/widgets/window.vala:109
+#: src/widgets/window.vala:111
 msgid "Checking for updates..."
 msgstr ""
 
-#: src/widgets/window.vala:116
+#: src/widgets/window.vala:118
 msgid "Nothing to update."
 msgstr ""
 
-#: src/widgets/window.vala:120
+#: src/widgets/window.vala:122
 msgid "Everything is now up-to-date."
 msgstr ""
 
-#: src/widgets/window.vala:124
+#: src/widgets/window.vala:126
 msgid "An error occured while checking for updates."
 msgstr ""
 
-#: src/widgets/window.vala:135
+#: src/widgets/window.vala:137
 #, c-format
 msgid "Welcome to %s"
 msgstr "Welkom bij %s"
 
-#: src/widgets/window.vala:135
+#: src/widgets/window.vala:137
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Installeer Steam, Lutris, Bottles of Heroic Games Launcher om te beginnen."
 
-#: src/widgets/window.vala:174
+#: src/widgets/window.vala:176
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -120,17 +120,17 @@ msgstr ""
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: src/widgets/window.vala:174
+#: src/widgets/window.vala:176
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:176
+#: src/widgets/window.vala:178
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:179 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:181 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Annuleren"
@@ -162,6 +162,13 @@ msgstr "Installeer %s"
 #: src/widgets/runners/release-row.vala:18
 msgid "Show more information"
 msgstr "Meer informatie tonen"
+
+#: src/widgets/runners/release-row.vala:42
+#: src/widgets/runners/release-row.vala:44
+#: src/widgets/runners/installed-row.vala:11
+#: src/widgets/runners/basic-row.vala:48
+msgid "Used"
+msgstr ""
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -257,19 +264,29 @@ msgstr "%s opwaarderen"
 msgid "When trying to upgrade %s an error occurred."
 msgstr "Bij het upgraden %s is een fout opgetreden."
 
-#: src/widgets/runners/installed-row.vala:29
-#: src/widgets/runners/steamtinkerlaunch-row.vala:118
-msgid "Check this to also delete your configuration files."
-msgstr "Vink dit aan om ook uw configuratiebestanden te verwijderen."
-
-#: src/widgets/runners/basic-row.vala:48
-msgid "Used"
-msgstr ""
-
+#: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:49
 #, fuzzy, c-format
 msgid "%s is used by %i game(s)"
 msgstr "Gebruikt door %i-spellen."
+
+#: src/widgets/runners/installed-row.vala:32
+#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+msgid "Check this to also delete your configuration files."
+msgstr "Vink dit aan om ook uw configuratiebestanden te verwijderen."
+
+#: src/widgets/runners/filters-box.vala:12
+#, fuzzy
+msgid "Show installed only"
+msgstr "_Alleen Geïnstalleerd"
+
+#: src/widgets/runners/filters-box.vala:21
+msgid "Show used only"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:30
+msgid "Show unused only"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -732,9 +749,6 @@ msgstr "Snelkoppelingen weergeven"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Afsluiten"
-
-#~ msgid "_Installed Only"
-#~ msgstr "_Alleen Geïnstalleerd"
 
 #~ msgid "The library failed loading."
 #~ msgstr "Het laden van de bibliotheek is mislukt."

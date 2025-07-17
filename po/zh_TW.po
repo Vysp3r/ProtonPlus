@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-16 20:07-0400\n"
+"POT-Creation-Date: 2025-07-17 12:24-0400\n"
 "PO-Revision-Date: 2025-07-14 23:52+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -30,39 +30,39 @@ msgstr "網站"
 msgid "Special thanks to"
 msgstr "特別感謝"
 
-#: src/widgets/window.vala:38
+#: src/widgets/window.vala:40
 msgid "Donate"
 msgstr "捐贈"
 
-#: src/widgets/window.vala:42
+#: src/widgets/window.vala:44
 msgid "_Keyboard Shortcuts"
 msgstr "鍵盤捷徑鍵(_K)"
 
-#: src/widgets/window.vala:43
+#: src/widgets/window.vala:45
 msgid "_About ProtonPlus"
 msgstr "關於 ProtonPlus(_A)"
 
-#: src/widgets/window.vala:46
+#: src/widgets/window.vala:48
 msgid "Main Menu"
 msgstr "主選單"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:53
 msgid "Runners"
 msgstr "運行器"
 
-#: src/widgets/window.vala:52
+#: src/widgets/window.vala:54
 msgid "Games"
 msgstr "遊戲庫"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:82
 msgid "Loading"
 msgstr "正在下載"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:82
 msgid "Taking longer than normal?"
 msgstr "載入時間是不是比平常久？"
 
-#: src/widgets/window.vala:80 src/widgets/window.vala:89
+#: src/widgets/window.vala:82 src/widgets/window.vala:91
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -75,40 +75,40 @@ msgstr "載入時間是不是比平常久？"
 msgid "Please report this issue on GitHub."
 msgstr "請在 GitHub 上回報此問題。"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:91
 msgid "An error ocurred"
 msgstr "發生錯誤"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:91
 msgid "There was an error when trying to load the launchers."
 msgstr "嘗試載入啟動器時發生錯誤。"
 
-#: src/widgets/window.vala:109
+#: src/widgets/window.vala:111
 msgid "Checking for updates..."
 msgstr "正在檢查更新..."
 
-#: src/widgets/window.vala:116
+#: src/widgets/window.vala:118
 msgid "Nothing to update."
 msgstr "無任何更新。"
 
-#: src/widgets/window.vala:120
+#: src/widgets/window.vala:122
 msgid "Everything is now up-to-date."
 msgstr "目前皆已為最新版本。"
 
-#: src/widgets/window.vala:124
+#: src/widgets/window.vala:126
 msgid "An error occured while checking for updates."
 msgstr "檢查更新時發生錯誤。"
 
-#: src/widgets/window.vala:135
+#: src/widgets/window.vala:137
 #, c-format
 msgid "Welcome to %s"
 msgstr "歡迎來到 %s"
 
-#: src/widgets/window.vala:135
+#: src/widgets/window.vala:137
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "請安裝 Steam、Lutris、Bottles 或 Heroic Games Launcher 以開始使用。"
 
-#: src/widgets/window.vala:174
+#: src/widgets/window.vala:176
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -118,7 +118,7 @@ msgstr "請安裝 Steam、Lutris、Bottles 或 Heroic Games Launcher 以開始�
 msgid "Warning"
 msgstr "警告"
 
-#: src/widgets/window.vala:174
+#: src/widgets/window.vala:176
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -126,11 +126,11 @@ msgstr ""
 "目前正在檢查更新。\n"
 "提前離開可能會導致問題。"
 
-#: src/widgets/window.vala:176
+#: src/widgets/window.vala:178
 msgid "Exit"
 msgstr "離開"
 
-#: src/widgets/window.vala:179 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:181 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "取消"
@@ -162,6 +162,13 @@ msgstr "安裝 %s"
 #: src/widgets/runners/release-row.vala:18
 msgid "Show more information"
 msgstr "顯示更多資訊"
+
+#: src/widgets/runners/release-row.vala:42
+#: src/widgets/runners/release-row.vala:44
+#: src/widgets/runners/installed-row.vala:11
+#: src/widgets/runners/basic-row.vala:48
+msgid "Used"
+msgstr ""
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -258,19 +265,29 @@ msgstr "更新 %s"
 msgid "When trying to upgrade %s an error occurred."
 msgstr "嘗試更新 %s 時發生錯誤。"
 
-#: src/widgets/runners/installed-row.vala:29
-#: src/widgets/runners/steamtinkerlaunch-row.vala:118
-msgid "Check this to also delete your configuration files."
-msgstr "勾選此選項也會移除設定檔。"
-
-#: src/widgets/runners/basic-row.vala:48
-msgid "Used"
-msgstr ""
-
+#: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:49
 #, fuzzy, c-format
 msgid "%s is used by %i game(s)"
 msgstr "有 %i 款遊戲使用。"
+
+#: src/widgets/runners/installed-row.vala:32
+#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+msgid "Check this to also delete your configuration files."
+msgstr "勾選此選項也會移除設定檔。"
+
+#: src/widgets/runners/filters-box.vala:12
+#, fuzzy
+msgid "Show installed only"
+msgstr "僅顯示已安裝的(_I)"
+
+#: src/widgets/runners/filters-box.vala:21
+msgid "Show used only"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:30
+msgid "Show unused only"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -694,9 +711,6 @@ msgstr "顯示捷徑鍵"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "離開"
-
-#~ msgid "_Installed Only"
-#~ msgstr "僅顯示已安裝的(_I)"
 
 #~ msgid "The library failed loading."
 #~ msgstr "遊戲庫載入失敗。"

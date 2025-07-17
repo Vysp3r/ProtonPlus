@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-16 20:07-0400\n"
+"POT-Creation-Date: 2025-07-17 12:24-0400\n"
 "PO-Revision-Date: 2025-07-01 23:53+0000\n"
 "Last-Translator: T K <konto2y5@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -30,40 +30,40 @@ msgstr "Strona internetowa"
 msgid "Special thanks to"
 msgstr "Specjalne podziękowania dla"
 
-#: src/widgets/window.vala:38
+#: src/widgets/window.vala:40
 msgid "Donate"
 msgstr "Przekaż darowiznę"
 
-#: src/widgets/window.vala:42
+#: src/widgets/window.vala:44
 msgid "_Keyboard Shortcuts"
 msgstr "_Skróty klawiszowe"
 
-#: src/widgets/window.vala:43
+#: src/widgets/window.vala:45
 msgid "_About ProtonPlus"
 msgstr "_O ProtonPlus"
 
-#: src/widgets/window.vala:46
+#: src/widgets/window.vala:48
 msgid "Main Menu"
 msgstr "Menu główne"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:53
 msgid "Runners"
 msgstr "Uruchamiacze"
 
-#: src/widgets/window.vala:52
+#: src/widgets/window.vala:54
 msgid "Games"
 msgstr ""
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:82
 #, fuzzy
 msgid "Loading"
 msgstr "Pobieranie"
 
-#: src/widgets/window.vala:80
+#: src/widgets/window.vala:82
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:80 src/widgets/window.vala:89
+#: src/widgets/window.vala:82 src/widgets/window.vala:91
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -76,44 +76,44 @@ msgstr ""
 msgid "Please report this issue on GitHub."
 msgstr "Prosimy o zgłoszenie tego błędu na GitHubie."
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:91
 #, fuzzy
 msgid "An error ocurred"
 msgstr "Wystąpił błąd"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:91
 #, fuzzy
 msgid "There was an error when trying to load the launchers."
 msgstr "Wystąpił błąd podczas pobierania danych z API GitHub"
 
-#: src/widgets/window.vala:109
+#: src/widgets/window.vala:111
 msgid "Checking for updates..."
 msgstr ""
 
-#: src/widgets/window.vala:116
+#: src/widgets/window.vala:118
 msgid "Nothing to update."
 msgstr ""
 
-#: src/widgets/window.vala:120
+#: src/widgets/window.vala:122
 msgid "Everything is now up-to-date."
 msgstr ""
 
-#: src/widgets/window.vala:124
+#: src/widgets/window.vala:126
 #, fuzzy
 msgid "An error occured while checking for updates."
 msgstr "Wystąpił nieoczekiwany błąd podczas wypakowywania "
 
-#: src/widgets/window.vala:135
+#: src/widgets/window.vala:137
 #, c-format
 msgid "Welcome to %s"
 msgstr "Witamy w %s"
 
-#: src/widgets/window.vala:135
+#: src/widgets/window.vala:137
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Aby rozpocząć, zainstaluj Steam, Lutris, Bottles lub Heroic Games Launcher."
 
-#: src/widgets/window.vala:174
+#: src/widgets/window.vala:176
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -123,17 +123,17 @@ msgstr ""
 msgid "Warning"
 msgstr "Ostrzeżenie"
 
-#: src/widgets/window.vala:174
+#: src/widgets/window.vala:176
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:176
+#: src/widgets/window.vala:178
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:179 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:181 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Anuluj"
@@ -165,6 +165,13 @@ msgstr "Zainstaluj %s"
 #: src/widgets/runners/release-row.vala:18
 msgid "Show more information"
 msgstr "Pokaż więcej informacji"
+
+#: src/widgets/runners/release-row.vala:42
+#: src/widgets/runners/release-row.vala:44
+#: src/widgets/runners/installed-row.vala:11
+#: src/widgets/runners/basic-row.vala:48
+msgid "Used"
+msgstr ""
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -260,20 +267,31 @@ msgstr "Aktualizuj %s"
 msgid "When trying to upgrade %s an error occurred."
 msgstr "Podczas próby aktualizacji %s wystąpił błąd."
 
-#: src/widgets/runners/installed-row.vala:29
+#: src/widgets/runners/installed-row.vala:12
+#: src/widgets/runners/basic-row.vala:49
+#, fuzzy, c-format
+msgid "%s is used by %i game(s)"
+msgstr "Używany przez %i gier."
+
+#: src/widgets/runners/installed-row.vala:32
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
 #, fuzzy
 msgid "Check this to also delete your configuration files."
 msgstr "Zaznacz tę opcję, aby usunąć również pliki konfiguracyjne."
 
-#: src/widgets/runners/basic-row.vala:48
-msgid "Used"
+#: src/widgets/runners/filters-box.vala:12
+#, fuzzy
+msgid "Show installed only"
+msgstr "Tylko zainstalowane"
+
+#: src/widgets/runners/filters-box.vala:21
+msgid "Show used only"
 msgstr ""
 
-#: src/widgets/runners/basic-row.vala:49
-#, fuzzy, c-format
-msgid "%s is used by %i game(s)"
-msgstr "Używany przez %i gier."
+#: src/widgets/runners/filters-box.vala:30
+#, fuzzy
+msgid "Show unused only"
+msgstr "Tylko zainstalowane"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -836,10 +854,6 @@ msgstr ""
 
 #~ msgid "Contains RTX fix for Star Citizen."
 #~ msgstr "Zawiera poprawkę RTX dla gry Star Citizen."
-
-#, fuzzy
-#~ msgid "Show Installed"
-#~ msgstr "Tylko zainstalowane"
 
 #~ msgid "Cancel the installation"
 #~ msgstr "Anuluj instalację"
