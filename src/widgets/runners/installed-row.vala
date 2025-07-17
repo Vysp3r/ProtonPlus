@@ -13,6 +13,8 @@ namespace ProtonPlus.Widgets {
 
 			install_button.set_visible (false);
 			info_button.set_visible (false);
+
+			only_show();
 		}
 
 		protected override void install_button_clicked () {}

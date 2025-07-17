@@ -50,6 +50,8 @@ namespace ProtonPlus.Widgets {
 			}
 
 			filters_box.runner_groups = runner_groups;
+
+			filters_box.apply_filters ();
         }
     }
 }

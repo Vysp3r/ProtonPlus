@@ -47,6 +47,8 @@ namespace ProtonPlus.Widgets {
 
 			set_title ("%s%s".printf (release.displayed_title, usage_count > 0 ? " (%s)".printf (_("Used")) : ""));
 			set_tooltip_text (usage_count > 0 ? _("%s is used by %i game(s)").printf (release.displayed_title, usage_count) : release.displayed_title);
+
+			only_show();
 		}
 
 		void release_state_changed () {
