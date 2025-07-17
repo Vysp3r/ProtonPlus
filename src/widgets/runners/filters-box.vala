@@ -55,6 +55,17 @@ namespace ProtonPlus.Widgets {
 			set_layout_manager(bin_layout);
         }
 
+        public void apply_filters () {
+            if (installed_only_switch.active)
+                installed_only_switch_active_changed();
+            
+            if (used_only_switch.get_active ())
+                used_only_switch_active_changed ();
+            
+            if (unused_only_switch.get_active ())
+                unused_only_switch_active_changed ();
+        }
+
         void installed_only_switch_active_changed () {
             foreach (var runner_group in runner_groups) {
 				runner_group.load (installed_only_switch.active);

@@ -33,11 +33,9 @@ namespace ProtonPlus.Widgets {
 
 			Application.window.notify["only-show-used"].connect(only_show);
 			Application.window.notify["only-show-unused"].connect(only_show);
-
-			only_show();
 		}
 
-		void only_show () {
+		internal void only_show () {
 			if (Application.window.only_show_used) {
 				set_visible (get_title().contains("(%s)".printf(_("Used"))));
 			} else if (Application.window.only_show_unused) {

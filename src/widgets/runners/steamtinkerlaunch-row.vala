@@ -160,6 +160,8 @@ namespace ProtonPlus.Widgets {
 
 		void release_displayed_title_changed () {
 			set_title (release.displayed_title);
+
+			only_show();
 		}
 
 		void release_state_changed () {
