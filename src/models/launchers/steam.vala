@@ -4,6 +4,7 @@ namespace ProtonPlus.Models.Launchers {
         public SteamProfile profile { get; set; }
  		public string default_compatibility_tool { get; set; }
         public bool enable_default_compatibility_tool { get; set; }
+        public HashTable<uint, string> compatibility_tool_hashtable;
 
         public Steam (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
@@ -29,11 +30,21 @@ namespace ProtonPlus.Models.Launchers {
         }
 
         public async void switch_profile (SteamProfile profile) {
+            if (this.profile != null) {
+                foreach (var non_steam_game in this.profile.non_steam_games) {
+                    games.remove (non_steam_game);
+                }
+            }
+            
             this.profile = profile;
 
             foreach(var game in (List<Games.Steam>) games) {
                 var launch_options = profile.launch_options_hashtable.get(game.appid);
                 game.launch_options = launch_options;
+            }
+
+            foreach (var non_steam_game in profile.non_steam_games) {
+                games.append (non_steam_game);
             }
         }
 
@@ -55,7 +66,9 @@ namespace ProtonPlus.Models.Launchers {
 
             var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games();
 
-            var compatibility_tool_hashtable = yield get_compatibility_tool_hashtable();
+            var compatibility_tool_hashtable_loaded = yield load_compatibility_tool_hashtable();
+            if (!compatibility_tool_hashtable_loaded)
+                return false;
 
  			var default_compatibility_tool = compatibility_tool_hashtable.get(0);
             enable_default_compatibility_tool = default_compatibility_tool != null;
@@ -125,8 +138,8 @@ namespace ProtonPlus.Models.Launchers {
                         current_position = end_pos;
                         // message("start: %i, end: %i, id: %s", start_pos, end_pos, current_appid);
 
-                        var id = 0;
-                        var id_valid = int.try_parse(current_appid, out id);
+                        uint id = 0;
+                        var id_valid = uint.try_parse(current_appid, out id);
                         if (!id_valid)
                             continue;
 
@@ -227,13 +240,13 @@ namespace ProtonPlus.Models.Launchers {
             return true;
         }
 
-        async HashTable<int, string> get_compatibility_tool_hashtable() {
-            var compatibility_tool_hashtable = new HashTable<int, string> (null, null);
+        async bool load_compatibility_tool_hashtable() {
+            compatibility_tool_hashtable = new HashTable<uint, string> (null, null);
 
             var config_content = Utils.Filesystem.get_file_content("%s/config/config.vdf".printf(directory));
             var compat_tool_mapping_content = "";
             var compat_tool_mapping_item = "";
-            var compat_tool_mapping_item_appid = 0;
+            uint compat_tool_mapping_item_appid = 0;
             var compat_tool_mapping_item_name = "";
             var start_text = "";
             var end_text = "";
@@ -265,7 +278,7 @@ namespace ProtonPlus.Models.Launchers {
                 end_text = "\"";
                 start_pos = compat_tool_mapping_item.index_of(start_text, 0) + start_text.length;
                 end_pos = compat_tool_mapping_item.index_of(end_text, start_pos);
-                var compat_tool_mapping_item_appid_valid = int.try_parse(compat_tool_mapping_item.substring(start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
+                var compat_tool_mapping_item_appid_valid = uint.try_parse(compat_tool_mapping_item.substring(start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
                 if (!compat_tool_mapping_item_appid_valid)
                     continue;
                 // message("start: %i, end: %i, compat_tool_mapping_item_appid: %i", start_pos, end_pos, compat_tool_mapping_item_appid);
@@ -280,96 +293,7 @@ namespace ProtonPlus.Models.Launchers {
                 compatibility_tool_hashtable.set(compat_tool_mapping_item_appid, compat_tool_mapping_item_name);
             }
 
-            return compatibility_tool_hashtable;
-        }
-
-        public static async HashTable<int, string> get_launch_options_hashtable(SteamProfile profile) {
-            var launch_options_hashtable = new HashTable<int, string> (null, null);
-
-            var content = Utils.Filesystem.get_file_content(profile.localconfig_path);
-            var start_text = "";
-            var end_text = "";
-            var start_pos = 0;
-            var end_pos = 0;
-            var apps = "";
-            var app = "";
-            var id_text = "";
-            var id_valid = false;
-            var id = 0;
-            var launch_options = "";
-
-            start_text = "apps\"\n\t\t\t\t{";
-            start_pos = content.index_of(start_text, 0) + start_text.length;
-
-            if (start_pos == -1)
-                return launch_options_hashtable;
-
-            end_text = "\n\t\t\t\t}";
-            end_pos = content.index_of(end_text, start_pos);
-
-            if (end_pos == -1)
-                return launch_options_hashtable;
-
-            apps = content.substring(start_pos, end_pos - start_pos);
-            // message("start: %i, end: %i, apps: %s", start_pos, end_pos, apps);
-
-            var position = 0;
-            while (true) {
-                start_text = "\"";
-                start_pos = apps.index_of(start_text, position);
-
-                if (start_pos == -1)
-                    break;
-
-                end_text = "\n\t\t\t\t\t}";
-                position = end_pos = apps.index_of(end_text, start_pos + start_text.length) + end_text.length;
-
-                if (end_pos == -1)
-                    break;
-
-                app = apps.substring(start_pos, end_pos - start_pos);
-                // message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
-
-                if (app.contains("LaunchOptions")) {
-                    start_text = "\"";
-                    start_pos = app.index_of(start_text, 0) + start_text.length;
-
-                    if (start_pos == -1)
-                        break;
-
-                    end_text = "\"";
-                    end_pos = app.index_of(end_text, start_pos);
-
-                    if (end_pos == -1)
-                        break;
-                        
-                    id_text = app.substring(start_pos, end_pos - start_pos);
-                    // message("start: %i, end: %i, id: %s", start_pos, end_pos, id_text);
-
-                    id_valid = int.try_parse(id_text, out id);
-                    if(!id_valid)
-                        break;
-
-                    start_text = "LaunchOptions\"\t\t\"";
-                    start_pos = app.index_of(start_text, 0) + start_text.length;
-
-                    if (start_pos == -1)
-                        break;
-
-                    end_text = "\"\n\t";
-                    end_pos = app.index_of(end_text, start_pos);
-
-                    if (end_pos == -1)
-                        break;
-                        
-                    launch_options = app.substring(start_pos, end_pos - start_pos).replace("\\\"", "\"");
-                    // message("start: %i, end: %i, launch_options: %s", start_pos, end_pos, launch_options);
-
-                    launch_options_hashtable.set(id, launch_options);
-                }
-            }
-
-            return launch_options_hashtable;
+            return true;
         }
 
         public bool change_default_compatibility_tool (string compatibility_tool) {

@@ -4,13 +4,14 @@ namespace ProtonPlus.Models {
 		public Launchers.Steam launcher { get; set; }
 		public string userdata_path { get; set; }
 		public string localconfig_path { get; set; }
-		public VDF.Shortcuts shortcut_file { get; set; }
+		public VDF.Shortcuts shortcuts { get; set; }
 		public string steam_id { get; set; }
 		public string account_id { get; set; }
 		public string username { get; set; }
 		public string image_path { get; set; }
 		public string default_compatibility_tool { get; set; }
-		public HashTable<int, string> launch_options_hashtable;
+		public HashTable<uint, string> launch_options_hashtable;
+		public List<Games.Steam> non_steam_games;
 
 		public SteamProfile (Launchers.Steam launcher, string username, string steam_id, string userdata_path) {
 			this.launcher = launcher;
@@ -25,29 +26,149 @@ namespace ProtonPlus.Models {
 			this.image_path = "%s/config/avatarcache/%s.png".printf (launcher.directory, steam_id);
 
 			try {
-				var shortcut_file_path = "%s/config/shortcuts.vdf".printf (userdata_path);
+				var shortcuts_file_path = "%s/config/shortcuts.vdf".printf (userdata_path);
 
-				if (!FileUtils.test (shortcut_file_path, FileTest.IS_REGULAR))
-					VDF.Shortcuts.create_new_shortcuts_file_at (shortcut_file_path);
+				if (!FileUtils.test (shortcuts_file_path, FileTest.IS_REGULAR))
+					VDF.Shortcuts.create_new_shortcuts_file_at (shortcuts_file_path);
 
-				shortcut_file = new VDF.Shortcuts (shortcut_file_path);
+				shortcuts = new VDF.Shortcuts (shortcuts_file_path);
 			} catch (Error e) {
 				message (e.message);
 			}
 		}
 
-		public async void load_launch_options () {
-			this.launch_options_hashtable = new HashTable<int, string> (null, null);
+		public async bool load_extra_data () {
+			var launch_options_loaded = yield load_launch_options ();
+			if (!launch_options_loaded)
+				return false;
 
-			var launch_options_hashtable = yield Launchers.Steam.get_launch_options_hashtable(this);
+			var non_steam_games_loaded = yield load_non_steam_games ();
+			if (!non_steam_games_loaded)
+				return false;
 
-            foreach (var game in (List<Games.Steam>) launcher.games) {
-                var launch_options = launch_options_hashtable.get(game.appid);
+			return true;
+		}
+
+		async bool load_launch_options() {
+            this.launch_options_hashtable = new HashTable<uint, string> (null, null);
+
+            var content = Utils.Filesystem.get_file_content(localconfig_path);
+            var start_text = "";
+            var end_text = "";
+            var start_pos = 0;
+            var end_pos = 0;
+            var apps = "";
+            var app = "";
+            var id_text = "";
+            var id_valid = false;
+            var id = 0;
+            var launch_options = "";
+
+            start_text = "apps\"\n\t\t\t\t{";
+            start_pos = content.index_of(start_text, 0) + start_text.length;
+
+            if (start_pos == -1)
+                return false;
+
+            end_text = "\n\t\t\t\t}";
+            end_pos = content.index_of(end_text, start_pos);
+
+            if (end_pos == -1)
+                return false;
+
+            apps = content.substring(start_pos, end_pos - start_pos);
+            // message("start: %i, end: %i, apps: %s", start_pos, end_pos, apps);
+
+            var position = 0;
+            while (true) {
+                start_text = "\"";
+                start_pos = apps.index_of(start_text, position);
+
+                if (start_pos == -1)
+                    break;
+
+                end_text = "\n\t\t\t\t\t}";
+                position = end_pos = apps.index_of(end_text, start_pos + start_text.length) + end_text.length;
+
+                if (end_pos == -1)
+                    break;
+
+                app = apps.substring(start_pos, end_pos - start_pos);
+                // message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
+
+                if (app.contains("LaunchOptions")) {
+                    start_text = "\"";
+                    start_pos = app.index_of(start_text, 0) + start_text.length;
+
+                    if (start_pos == -1)
+                        break;
+
+                    end_text = "\"";
+                    end_pos = app.index_of(end_text, start_pos);
+
+                    if (end_pos == -1)
+                        break;
+                        
+                    id_text = app.substring(start_pos, end_pos - start_pos);
+                    // message("start: %i, end: %i, id: %s", start_pos, end_pos, id_text);
+
+                    id_valid = int.try_parse(id_text, out id);
+                    if(!id_valid)
+                        break;
+
+                    start_text = "LaunchOptions\"\t\t\"";
+                    start_pos = app.index_of(start_text, 0) + start_text.length;
+
+                    if (start_pos == -1)
+                        break;
+
+                    end_text = "\"\n\t";
+                    end_pos = app.index_of(end_text, start_pos);
+
+                    if (end_pos == -1)
+                        break;
+                        
+                    launch_options = app.substring(start_pos, end_pos - start_pos).replace("\\\"", "\"");
+                    // message("start: %i, end: %i, launch_options: %s", start_pos, end_pos, launch_options);
+
+                    launch_options_hashtable.set(id, launch_options);
+                }
+            }
+
+			foreach (var game in (List<Games.Steam>) launcher.games) {
+                launch_options = launch_options_hashtable.get(game.appid);
                 if (launch_options == null)
                     launch_options = "";
                 this.launch_options_hashtable.set (game.appid, launch_options);
-                // message("launch_options: %s".printf(launch_options));
             }
+
+            return true;
+        }
+
+		async bool load_non_steam_games () {
+			this.non_steam_games = new List<Games.Steam> ();
+
+			foreach (var entry in shortcuts.nodes.entries) {
+                if (entry.key.contains("shortcuts.") && !entry.key.contains(".tags")) {
+					uint appid = entry.value.get("appid").get_int32();
+					if (appid < 0)
+						appid += (1u << 32);
+
+					string name = entry.value.get("AppName").get_string();
+
+					string launch_options = entry.value.get("LaunchOptions").get_string().replace("\\\"", "\"");
+
+					var compatibility_tool = launcher.compatibility_tool_hashtable.get (appid);
+					if (compatibility_tool == null)
+                        compatibility_tool = "Undefined";
+                        
+					var game = new Games.Steam.non_steam (appid, name, launch_options, compatibility_tool, launcher);
+
+					non_steam_games.append (game);
+                }
+            }
+			
+			return true;
 		}
 
 		static string steam_id_to_account_id (string steam_id) {

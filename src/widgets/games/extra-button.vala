@@ -36,8 +36,15 @@ namespace ProtonPlus.Widgets {
 		public ExtraButton(Models.Game game) {
 			this.game = game;
 
-			if (game is Models.Games.Steam && Globals.PROTONTRICKS_EXEC != null)
-				content_box.append(open_protontricks_button);
+			if (game is Models.Games.Steam) {
+				if (Globals.PROTONTRICKS_EXEC != null)
+					content_box.append(open_protontricks_button);
+
+				var steam_game = game as Models.Games.Steam;
+				open_install_directory_button.set_sensitive(!steam_game.is_non_steam);
+				open_prefix_directory_button.set_sensitive (FileUtils.test(game.prefixdir, GLib.FileTest.IS_DIR));
+				open_protontricks_button.set_sensitive(!steam_game.is_non_steam);
+			}
 		}
 
 		public override void dispose() {
@@ -65,7 +72,7 @@ namespace ProtonPlus.Widgets {
 		void open_protontricks_button_clicked() {
 			var steam_game = game as Models.Games.Steam;
 
-			Utils.System.run_command.begin("%s %i --gui".printf(Globals.PROTONTRICKS_EXEC, steam_game.appid));
+			Utils.System.run_command.begin("%s %u --gui".printf(Globals.PROTONTRICKS_EXEC, steam_game.appid));
 
 			popover.popdown();
 		}

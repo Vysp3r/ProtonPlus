@@ -91,7 +91,7 @@ namespace ProtonPlus.Widgets {
 
 			prefix_label = new Gtk.Label(_("Prefix"));
 			prefix_label.set_margin_end(10);
-			prefix_label.set_size_request(100, 0);
+			prefix_label.set_size_request(110, 0);
 
 			var compatibility_tool_label_gesture = new Gtk.GestureClick();
 			compatibility_tool_label_gesture.pressed.connect(compatibility_tool_label_clicked);

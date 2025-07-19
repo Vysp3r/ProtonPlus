@@ -24,16 +24,16 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void refresh() {
-			var shortcut_installed = profile.shortcut_file.get_installed_status();
+			var shortcut_installed = profile.shortcuts.get_installed_status();
 			shortcut_button_content.set_label(!shortcut_installed ? _("Create shortcut") : _("Delete shortcut"));
 			set_tooltip_text(!shortcut_installed ? _("Create a shortcut of ProtonPlus in Steam") : _("Delete the shortcut of ProtonPlus in Steam"));
 		}
 
 		void shortcut_button_clicked() {
-			var installed = profile.shortcut_file.get_installed_status();
+			var installed = profile.shortcuts.get_installed_status();
 
 			if (installed) {
-				var success = profile.shortcut_file.uninstall();
+				var success = profile.shortcuts.uninstall();
 				if (!success) {
 					var dialog = new Adw.AlertDialog(_("Error"), "%s\n%s".printf(_("When trying to delete the shortcut in Steam an error occurred."), _("Please report this issue on GitHub.")));
 					dialog.add_response("ok", _("OK"));
@@ -41,8 +41,8 @@ namespace ProtonPlus.Widgets {
 				}
 				refresh();
 			} else {
-				profile.shortcut_file.install.begin((obj, res) => {
-					var success = profile.shortcut_file.install.end(res);
+				profile.shortcuts.install.begin((obj, res) => {
+					var success = profile.shortcuts.install.end(res);
 					if (!success) {
 						var dialog = new Adw.AlertDialog(_("Error"), "%s\n%s".printf(_("When trying to create the shortcut in Steam an error occurred."), _("Please report this issue on GitHub.")));
 						dialog.add_response("ok", _("OK"));

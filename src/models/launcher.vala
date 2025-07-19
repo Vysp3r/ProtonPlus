@@ -237,7 +237,7 @@ namespace ProtonPlus.Models {
 					steam_launcher.profiles = SteamProfile.get_profiles(steam_launcher);
 
 					foreach(var profile in steam_launcher.profiles) {
-						yield profile.load_launch_options ();
+						yield profile.load_extra_data ();
 					}
 				}
 			}
