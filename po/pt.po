@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-17 12:24-0400\n"
-"PO-Revision-Date: 2025-07-10 19:18+0000\n"
+"PO-Revision-Date: 2025-07-19 02:03+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -63,7 +63,7 @@ msgstr "Baixando"
 
 #: src/widgets/window.vala:82
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "Demorando mais que o normal?"
 
 #: src/widgets/window.vala:82 src/widgets/window.vala:91
 #: src/widgets/runners/remove-dialog.vala:49
@@ -218,9 +218,9 @@ msgid "Error"
 msgstr "Erro"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to delete %s an error occurred."
-msgstr "Um erro ocorreu ao tentar remover %s."
+msgstr "Ocorreu um erro ao tentar remover %s."
 
 #: src/widgets/runners/remove-dialog.vala:50
 #: src/widgets/runners/install-dialog.vala:55
@@ -239,7 +239,7 @@ msgid "OK"
 msgstr "Tudo Bem"
 
 #: src/widgets/runners/install-dialog.vala:54
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "Um erro ocorreu ao tentar instalar %s."
 
@@ -264,7 +264,7 @@ msgid "Upgrade %s"
 msgstr "Atualize %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to upgrade %s an error occurred."
 msgstr "Um erro ocorreu ao tentar atualizar %s."
 
@@ -276,9 +276,8 @@ msgstr "Usado por %i jogos."
 
 #: src/widgets/runners/installed-row.vala:32
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
-#, fuzzy
 msgid "Check this to also delete your configuration files."
-msgstr "Marque isto para também remover seus arquivos de configuração."
+msgstr "Marque isto para também excuir seus arquivos de configuração."
 
 #: src/widgets/runners/filters-box.vala:12
 #, fuzzy
@@ -363,7 +362,6 @@ msgid "Other"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:129
-#, fuzzy
 msgid "An error occurred"
 msgstr "Ocorreu um erro"
 
@@ -478,7 +476,6 @@ msgstr ""
 "Ative todas opções que deseja que a edição em massa leve em consideração."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
@@ -492,36 +489,32 @@ msgid "Create shortcut"
 msgstr "Criar atalho"
 
 #: src/widgets/games/shortcut-button.vala:28
-#, fuzzy
 msgid "Delete shortcut"
-msgstr "Criar atalho"
+msgstr "Excluir atalho"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Criar um atalho do ProtonPlus no Steam"
 
 #: src/widgets/games/shortcut-button.vala:29
-#, fuzzy
 msgid "Delete the shortcut of ProtonPlus in Steam"
-msgstr "Remover atalho do ProtonPlus no Steam"
+msgstr "Excluir atalho do ProtonPlus no Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "When trying to delete the shortcut in Steam an error occurred."
-msgstr "Ocorreu um erro ao tentar criar um atalho no Steam."
+msgstr "Ocorreu um erro ao tentar excluir o atalho no Steam."
 
 #: src/widgets/games/shortcut-button.vala:47
-#, fuzzy
 msgid "When trying to create the shortcut in Steam an error occurred."
 msgstr "Ocorreu um erro ao tentar criar um atalho no Steam."
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
-msgstr ""
+msgstr "Trocar perfil"
 
 #: src/widgets/games/switch-profile-button.vala:23
 msgid "Switch to another profile"
-msgstr ""
+msgstr "Trocar para outro perfil"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -562,7 +555,7 @@ msgid "Apply the current modification"
 msgstr ""
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occurred."
 msgstr "Ocorreu um erro ao tentar mudar as opções de inicialização de %s."
 
@@ -593,17 +586,15 @@ msgid "Set the default compatibility tool"
 msgstr "Definir ferramenta de compatibilidade padrão"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occurred."
-msgstr ""
-"Ocorreu um erro ao tentar mudar a ferramente de compatibilidade padrão."
+msgstr "Ocorreu um erro ao tentar mudar a ferramente de compatibilidade padrão."
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
 msgstr "Selecione sua ferramenta de compatibilidade desejada"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the compatibility tool of %s an error occurred."
 msgstr "Ocorreu um erro ao tentar mudar a ferramente de compatibilidade de %s."
 
