@@ -120,7 +120,7 @@ namespace ProtonPlus.Models.Launchers {
                     start_text = "apps\"\n\t\t{\n";
                     end_text = "}";
                     start_pos = current_libraryfolder_content.index_of(start_text, current_position) + start_text.length;
-                    end_pos = current_libraryfolder_content.index_of(end_text, start_pos + start_text.length);
+                    end_pos = current_libraryfolder_content.index_of(end_text, start_pos);
                     current_apps = current_libraryfolder_content.substring(start_pos, end_pos - start_pos);
                     current_position = 0;
                     // message("start: %i, end: %i, apps: %s", start_pos, end_pos, current_apps);

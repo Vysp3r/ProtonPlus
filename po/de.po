@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-17 12:24-0400\n"
-"PO-Revision-Date: 2025-07-15 19:23+0200\n"
+"PO-Revision-Date: 2025-07-19 17:26+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -20,9 +20,8 @@ msgstr ""
 "X-Generator: Poedit 3.6\n"
 
 #: src/widgets/application.vala:72
-#, fuzzy
 msgid "A modern compatibility tools manager"
-msgstr "Ein moderner Kompatibilitätswerkzeugmanager für Linux."
+msgstr "Ein moderner Verwalter für Kompatibilitätstools"
 
 #: src/widgets/application.vala:74
 msgid "Website"
@@ -172,7 +171,7 @@ msgstr "Mehr Informationen anzeigen"
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:48
 msgid "Used"
-msgstr ""
+msgstr "Nicht benutzt"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -270,9 +269,9 @@ msgstr "Beim Versuch, %s zu aktualisieren, ist ein Fehler aufgetreten."
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "%s is used by %i game(s)"
-msgstr "Verwendet von %i Spielen."
+msgstr "%s wird von %i Spiel(en) verwendet."
 
 #: src/widgets/runners/installed-row.vala:32
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
@@ -281,17 +280,16 @@ msgstr ""
 "Aktivieren Sie diese Option, um auch Ihre Konfigurationsdateien zu löschen."
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Show installed only"
-msgstr "_Nur installierte"
+msgstr "Nur installierte anzeigen"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr ""
+msgstr "Nur benutzte anzeigen"
 
 #: src/widgets/runners/filters-box.vala:30
 msgid "Show unused only"
-msgstr ""
+msgstr "Nur nicht benutze anzeigen"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -352,7 +350,7 @@ msgstr "Name"
 
 #: src/widgets/games/games-box.vala:92
 msgid "Prefix"
-msgstr ""
+msgstr "Präfix"
 
 #: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
