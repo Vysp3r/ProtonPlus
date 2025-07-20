@@ -1,11 +1,12 @@
 # gallegonovato <fran-carro@hotmail.es>, 2023, 2024.
 # Luis Miguel <luismiguelfm96@gmail.com>, 2025.
+# Marco Rodriguez <marcorguezhdez@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-17 12:24-0400\n"
-"PO-Revision-Date: 2025-07-15 16:01+0000\n"
-"Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
+"PO-Revision-Date: 2025-07-20 16:03+0000\n"
+"Last-Translator: Marco Rodriguez <marcorguezhdez@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
 "Language: es\n"
@@ -15,9 +16,8 @@ msgstr ""
 "X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:72
-#, fuzzy
 msgid "A modern compatibility tools manager"
-msgstr "Un gestor moderno de herramientas de compatibilidad para Linux."
+msgstr "Un gestor de herramientas de compatibilidad moderno para Linux."
 
 #: src/widgets/application.vala:74
 msgid "Website"
@@ -165,7 +165,7 @@ msgstr "Mostrar más información"
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:48
 msgid "Used"
-msgstr ""
+msgstr "Usado"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -248,45 +248,41 @@ msgid "Extracting"
 msgstr "Extrayendo"
 
 #: src/widgets/runners/install-dialog.vala:82
-#, fuzzy
 msgid "Moving"
-msgstr "Eliminando"
+msgstr "Moviendo"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
-#, fuzzy, c-format
+#, c-format
 msgid "Upgrade %s"
 msgstr "Actualizar %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to upgrade %s an error occurred."
 msgstr "Al intentar actualizar %s, ocurrió un error."
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "%s is used by %i game(s)"
-msgstr "Usado por %i juegos"
+msgstr "%s es usado por %i juego(s)"
 
 #: src/widgets/runners/installed-row.vala:32
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
-#, fuzzy
 msgid "Check this to also delete your configuration files."
 msgstr "Marca esto para eliminar también tus archivos de configuración."
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Show installed only"
-msgstr "Mostrar instalado"
+msgstr "Mostrar solo instalados"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr ""
+msgstr "Mostrar solo usados"
 
 #: src/widgets/runners/filters-box.vala:30
-#, fuzzy
 msgid "Show unused only"
-msgstr "Mostrar instalado"
+msgstr "Mostrar no usados solo"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -294,7 +290,6 @@ msgid "You are missing the following dependencies for %s:"
 msgstr "Te faltan las siguientes dependencias para %s:"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
-#, fuzzy
 msgid "Installation will be canceled."
 msgstr "La instalación será cancelada."
 
@@ -308,9 +303,8 @@ msgstr ""
 "ProtonPlus."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#, fuzzy
 msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr "¿Quieres eliminarla e instalar %s con ProtonPlus?"
+msgstr "¿Quieres reinstalar %s con ProtonPlus?"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
@@ -328,12 +322,10 @@ msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Actualmente, no existe una forma conocida de instalar %s para %s."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
-#, fuzzy
 msgid "Up-to-date"
 msgstr "Actualizado"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:175
-#, fuzzy
 msgid "Update to the latest version"
 msgstr "Actualizar a la última versión"
 
@@ -348,7 +340,7 @@ msgstr "Nombre"
 
 #: src/widgets/games/games-box.vala:92
 msgid "Prefix"
-msgstr ""
+msgstr "Prefijo"
 
 #: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
@@ -376,12 +368,11 @@ msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "Si crees que esto es un problema, asegúrate de reportarlo en GitHub."
 
 #: src/widgets/games/games-box.vala:189
-#, fuzzy
 msgid "Unsuported launcher"
-msgstr "Lanzador no compatible"
+msgstr "Launcher no compatible"
 
 #: src/widgets/games/games-box.vala:189
-#, fuzzy, c-format
+#, c-format
 msgid "%s is currently not supported."
 msgstr "%s no es compatible actualmente."
 
@@ -458,14 +449,12 @@ msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
-#, fuzzy
 msgid "Enter your desired launch options"
-msgstr "Configuracion del lanzador"
+msgstr "Configuración de los argumentos de inicio"
 
 #: src/widgets/games/mass-edit-dialog.vala:51
-#, fuzzy
 msgid "Launch options"
-msgstr "Configuracion del lanzador"
+msgstr "Configuración de inicio"
 
 #: src/widgets/games/mass-edit-dialog.vala:55
 msgid ""
