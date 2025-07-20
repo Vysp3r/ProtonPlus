@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-17 12:24-0400\n"
-"PO-Revision-Date: 2025-07-05 12:27+0000\n"
+"PO-Revision-Date: 2025-07-20 07:02+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/id/>\n"
@@ -17,9 +17,8 @@ msgstr ""
 "X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:72
-#, fuzzy
 msgid "A modern compatibility tools manager"
-msgstr "Pengelola alat kompatibilitas modern untuk Linux."
+msgstr "Manajer alat kompatibilitas modern"
 
 #: src/widgets/application.vala:74
 msgid "Website"
@@ -54,13 +53,12 @@ msgid "Games"
 msgstr "Permainan"
 
 #: src/widgets/window.vala:82
-#, fuzzy
 msgid "Loading"
-msgstr "Mengunduh"
+msgstr "Memuat"
 
 #: src/widgets/window.vala:82
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "Memakan waktu lebih lama dari biasanya?"
 
 #: src/widgets/window.vala:82 src/widgets/window.vala:91
 #: src/widgets/runners/remove-dialog.vala:49
@@ -85,20 +83,19 @@ msgstr "Terjadi kesalahan saat mencoba memuat peluncur."
 
 #: src/widgets/window.vala:111
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Memeriksa pembaruan..."
 
 #: src/widgets/window.vala:118
 msgid "Nothing to update."
-msgstr ""
+msgstr "Tidak ada yang perlu diperbarui."
 
 #: src/widgets/window.vala:122
 msgid "Everything is now up-to-date."
-msgstr ""
+msgstr "Semua sudah diperbarui."
 
 #: src/widgets/window.vala:126
-#, fuzzy
 msgid "An error occured while checking for updates."
-msgstr "Terjadi error saat mengekstrak "
+msgstr "Terjadi kesalahan saat memeriksa pembaruan."
 
 #: src/widgets/window.vala:137
 #, c-format
@@ -124,10 +121,12 @@ msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
+"Aplikasi saat ini sedang memeriksa pembaruan.\n"
+"Keluar dari aplikasi secara prematur dapat menyebabkan masalah."
 
 #: src/widgets/window.vala:178
 msgid "Exit"
-msgstr ""
+msgstr "Keluar"
 
 #: src/widgets/window.vala:181 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -167,7 +166,7 @@ msgstr "Tampilkan informasi selengkapnya"
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:48
 msgid "Used"
-msgstr ""
+msgstr "Digunakan"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -214,9 +213,9 @@ msgid "Error"
 msgstr "eror"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to delete %s an error occurred."
-msgstr "Saat mencoba menghapus %s terjadi kesalahan."
+msgstr "Terjadi kesalahan ketika mencoba menghapus %s."
 
 #: src/widgets/runners/remove-dialog.vala:50
 #: src/widgets/runners/install-dialog.vala:55
@@ -235,9 +234,9 @@ msgid "OK"
 msgstr "Oke"
 
 #: src/widgets/runners/install-dialog.vala:54
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to install %s an error occurred."
-msgstr "Saat mencoba menginstal %s terjadi kesalahan."
+msgstr "Terjadi kesalahan ketika mencoba memasang %s."
 
 #: src/widgets/runners/install-dialog.vala:76
 #: src/widgets/runners/upgrade-dialog.vala:78
@@ -250,9 +249,8 @@ msgid "Extracting"
 msgstr "Mengekstrak"
 
 #: src/widgets/runners/install-dialog.vala:82
-#, fuzzy
 msgid "Moving"
-msgstr "Menghapus"
+msgstr "Memindahkan"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
@@ -260,35 +258,32 @@ msgid "Upgrade %s"
 msgstr "Perbarui %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to upgrade %s an error occurred."
-msgstr "Saat mencoba meningkatkan %s terjadi kesalahan."
+msgstr "Terjadi kesalahan ketika mencoba memperbarui %s."
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "%s is used by %i game(s)"
-msgstr "Digunakan oleh %i game."
+msgstr "%s digunakan oleh %i game(s)"
 
 #: src/widgets/runners/installed-row.vala:32
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
-#, fuzzy
 msgid "Check this to also delete your configuration files."
-msgstr "Periksa ini untuk juga menghapus file konfigurasi Anda."
+msgstr "Centang opsi ini untuk juga menghapus berkas konfigurasi Anda."
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Show installed only"
-msgstr "Hanya terinstal"
+msgstr "Tampilkan yang terpasang saja"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr ""
+msgstr "Tampilkan yang digunakan saja"
 
 #: src/widgets/runners/filters-box.vala:30
-#, fuzzy
 msgid "Show unused only"
-msgstr "Hanya terinstal"
+msgstr "Tampilkan yang tidak digunakan saja"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -345,7 +340,7 @@ msgstr "Nama"
 
 #: src/widgets/games/games-box.vala:92
 msgid "Prefix"
-msgstr ""
+msgstr "Prefix"
 
 #: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
@@ -357,7 +352,6 @@ msgid "Other"
 msgstr "Lainnya"
 
 #: src/widgets/games/games-box.vala:129
-#, fuzzy
 msgid "An error occurred"
 msgstr "Terjadi kesalahan"
 
@@ -473,13 +467,12 @@ msgstr ""
 "Aktifkan semua opsi yang ingin Anda pertimbangkan dalam pengeditan massal."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
 msgstr ""
-"Saat mencoba mengubah alat kompatibilitas/pilihan peluncuran game yang "
-"dipilih, terjadi kesalahan untuk game berikut ini:"
+"Ketika mencoba mengubah opsi kompatibilitas/peluncuran game yang dipilih, "
+"terjadi kesalahan pada game-game berikut:"
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
@@ -487,38 +480,32 @@ msgid "Create shortcut"
 msgstr "Buat pintasan"
 
 #: src/widgets/games/shortcut-button.vala:28
-#, fuzzy
 msgid "Delete shortcut"
-msgstr "Buat pintasan"
+msgstr "Hapus pintasan"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Buat pintasan ProtonPlus di Steam"
 
 #: src/widgets/games/shortcut-button.vala:29
-#, fuzzy
 msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Hapus pintasan ProtonPlus di Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "When trying to delete the shortcut in Steam an error occurred."
-msgstr "Saat mencoba membuat pintasan di Steam, terjadi kesalahan."
+msgstr "Terjadi kesalahan ketika mencoba membuat pintasan di Steam."
 
 #: src/widgets/games/shortcut-button.vala:47
-#, fuzzy
 msgid "When trying to create the shortcut in Steam an error occurred."
-msgstr "Saat mencoba membuat pintasan di Steam, terjadi kesalahan."
+msgstr "Terjadi kesalahan ketika mencoba membuat pintasan di Steam."
 
 #: src/widgets/games/switch-profile-button.vala:14
-#, fuzzy
 msgid "Switch profile"
-msgstr "Pilih sebuah profil"
+msgstr "Ganti profil"
 
 #: src/widgets/games/switch-profile-button.vala:23
-#, fuzzy
 msgid "Switch to another profile"
-msgstr "Pilih sebuah profil"
+msgstr "Ganti ke profil lain"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -558,9 +545,9 @@ msgid "Apply the current modification"
 msgstr "Terapkan modifikasi saat ini"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occurred."
-msgstr "Saat mencoba mengubah opsi peluncuran %s terjadi kesalahan."
+msgstr "Terjadi kesalahan ketika mencoba mengubah opsi peluncuran %s."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
@@ -576,7 +563,7 @@ msgstr "Buka direktori prefix"
 
 #: src/widgets/games/extra-button.vala:17
 msgid "Open in protontricks"
-msgstr ""
+msgstr "Buka di protontricks"
 
 #: src/widgets/games/extra-button.vala:32
 msgid "Open menu"
@@ -589,19 +576,17 @@ msgid "Set the default compatibility tool"
 msgstr "Atur alat kompatibilitas baku"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occurred."
-msgstr ""
-"Ketika mencoba mengubah alat kompatibilitas default, terjadi kesalahan."
+msgstr "Terjadi kesalahan ketika mencoba mengubah alat kompatibilitas baku"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
 msgstr "Pilih alat kompatibilitas yang diinginkan"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the compatibility tool of %s an error occurred."
-msgstr "Ketika mencoba mengubah alat kompatibilitas %s terjadi kesalahan."
+msgstr "Terjadi kesalahan ketika mencoba mengubah alat kompatibilitas %s."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
