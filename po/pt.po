@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-17 12:24-0400\n"
-"PO-Revision-Date: 2025-07-20 16:03+0000\n"
+"PO-Revision-Date: 2025-07-21 02:03+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -88,7 +88,7 @@ msgstr "Houve um erro ao tentar carregar os inicializadores."
 
 #: src/widgets/window.vala:111
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Procurando atualizações..."
 
 #: src/widgets/window.vala:118
 msgid "Nothing to update."
@@ -96,12 +96,11 @@ msgstr "Nada para atualizar."
 
 #: src/widgets/window.vala:122
 msgid "Everything is now up-to-date."
-msgstr ""
+msgstr "Tudo agora está atualizado."
 
 #: src/widgets/window.vala:126
-#, fuzzy
 msgid "An error occured while checking for updates."
-msgstr "Ocorreu um erro inesperado durante a extração "
+msgstr "Ocorreu um erro ao procurar atualizações."
 
 #: src/widgets/window.vala:137
 #, c-format
@@ -128,6 +127,8 @@ msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
+"A aplicação atualmente procura atualizações.\n"
+"Sair da aplicação cedo pode causar problemas."
 
 #: src/widgets/window.vala:178
 msgid "Exit"
