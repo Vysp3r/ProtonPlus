@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-17 12:24-0400\n"
-"PO-Revision-Date: 2025-07-21 02:03+0000\n"
+"PO-Revision-Date: 2025-07-22 03:03+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -255,9 +255,8 @@ msgid "Extracting"
 msgstr "Extraindo"
 
 #: src/widgets/runners/install-dialog.vala:82
-#, fuzzy
 msgid "Moving"
-msgstr "Removendo"
+msgstr "Movendo"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
