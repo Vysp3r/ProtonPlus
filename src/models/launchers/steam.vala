@@ -49,9 +49,6 @@ namespace ProtonPlus.Models.Launchers {
         }
 
         public override async bool load_game_library() {
-            if (!installed)
-                return true;
-
             games = new List<Game> ();
 
             compatibility_tools = new List<SimpleRunner> ();

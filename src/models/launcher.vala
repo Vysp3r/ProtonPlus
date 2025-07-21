@@ -227,17 +227,19 @@ namespace ProtonPlus.Models {
 
 				launcher.groups = groups;
 
-				var games_loaded = yield launcher.load_game_library ();
-				if (!games_loaded)
-					return false;
+				if (launcher.installed) {
+					var games_loaded = yield launcher.load_game_library ();
+					if (!games_loaded)
+						return false;
 
-				if (launcher is Launchers.Steam) {
-					var steam_launcher = launcher as Launchers.Steam;
+					if (launcher is Launchers.Steam) {
+						var steam_launcher = launcher as Launchers.Steam;
 
-					steam_launcher.profiles = SteamProfile.get_profiles(steam_launcher);
+						steam_launcher.profiles = SteamProfile.get_profiles(steam_launcher);
 
-					foreach(var profile in steam_launcher.profiles) {
-						yield profile.load_launch_options ();
+						foreach(var profile in steam_launcher.profiles) {
+								yield profile.load_launch_options ();
+						}
 					}
 				}
 			}
