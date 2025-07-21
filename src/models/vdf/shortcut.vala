@@ -101,15 +101,26 @@ namespace ProtonPlus.Models.VDF {
             return count;
         }
 
+        public string? get_appname_from_entry (Gee.Map.Entry<string, weak VDF.Node> entry) {
+            if (entry.value.has_key("AppName"))
+                return entry.value.get("AppName").get_string();
+
+            if (entry.value.has_key("appname"))
+                return entry.value.get("appname").get_string();
+
+            return null;
+        }
+
         public VDF.Shortcut get_shortcut_by_name(string name) {
             VDF.Shortcut shortcut = {};
             foreach (var entry in nodes.entries) {
                 if (entry.key.contains("shortcuts.") && !entry.key.contains(".tags")) {
-                    if (entry.value.get("AppName").get_string() == name) {
+                    var appname = get_appname_from_entry(entry);
+                    if (appname == name) {
                         shortcut.AppID = entry.value.get("appid").get_int32();
                         shortcut.AllowDesktopConfig = entry.value.get("AllowDesktopConfig").get_int32() > 0 ? true : false;
                         shortcut.AllowOverlay = entry.value.get("AllowOverlay").get_int32() > 0 ? true : false;
-                        shortcut.AppName = entry.value.get("AppName").get_string();
+                        shortcut.AppName = appname;
                         shortcut.Devkit = entry.value.get("Devkit").get_int32();
                         shortcut.DevkitGameID = entry.value.get("DevkitGameID").get_string();
                         shortcut.DevkitOverrideAppID = entry.value.get("DevkitOverrideAppID").get_int32();
@@ -131,7 +142,7 @@ namespace ProtonPlus.Models.VDF {
         public void replace_shortcut_by_name(string name, VDF.Shortcut shortcut) {
             foreach (var entry in nodes.entries) {
                 if (entry.key.contains("shortcuts.") && !entry.key.contains(".tags")) {
-                    if (entry.value.get("AppName").get_string() == name) {
+                    if (get_appname_from_entry(entry)== name) {
                         write_shortcut_on_node(entry.value, shortcut);
                         return;
                     }
@@ -142,7 +153,7 @@ namespace ProtonPlus.Models.VDF {
         public int get_shortcut_id_by_name(string name) throws Error {
             foreach (var entry in nodes.entries) {
                 if (entry.key.contains("shortcuts.") && !entry.key.contains(".tags")) {
-                    if (entry.value.get("AppName").get_string() == name) {
+                    if (get_appname_from_entry(entry) == name) {
                         return int.parse(entry.key.split(".")[1]);
                     }
                 }
@@ -182,7 +193,7 @@ namespace ProtonPlus.Models.VDF {
             node.set("appid", new GLib.Variant.int32(shortcut.AppID));
             node.set("AllowDesktopConfig", new GLib.Variant.int32(shortcut.AllowDesktopConfig ? 1 : 0));
             node.set("AllowOverlay", new GLib.Variant.int32(shortcut.AllowOverlay ? 1 : 0));
-            node.set("appname", new GLib.Variant.string(shortcut.AppName));
+            node.set("AppName", new GLib.Variant.string(shortcut.AppName));
             node.set("Devkit", new GLib.Variant.int32(shortcut.Devkit));
             node.set("DevkitGameID", new GLib.Variant.string(shortcut.DevkitGameID));
             node.set("DevkitOverrideAppID", new GLib.Variant.int32(shortcut.DevkitOverrideAppID));

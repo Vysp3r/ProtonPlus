@@ -154,7 +154,9 @@ namespace ProtonPlus.Models {
 					if (appid < 0)
 						appid += (1u << 32);
 
-					string name = entry.value.get("AppName").get_string();
+					string name = shortcuts.get_appname_from_entry (entry);
+					if (name == null)
+						continue;
 
 					string launch_options = entry.value.get("LaunchOptions").get_string().replace("\\\"", "\"");
 
