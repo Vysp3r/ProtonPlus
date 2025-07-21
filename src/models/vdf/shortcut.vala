@@ -101,26 +101,15 @@ namespace ProtonPlus.Models.VDF {
             return count;
         }
 
-        public string? get_appname_from_entry (Gee.Map.Entry<string, weak VDF.Node> entry) {
-            if (entry.value.has_key("AppName"))
-                return entry.value.get("AppName").get_string();
-
-            if (entry.value.has_key("appname"))
-                return entry.value.get("appname").get_string();
-
-            return null;
-        }
-
         public VDF.Shortcut get_shortcut_by_name(string name) {
             VDF.Shortcut shortcut = {};
             foreach (var entry in nodes.entries) {
                 if (entry.key.contains("shortcuts.") && !entry.key.contains(".tags")) {
-                    var appname = get_appname_from_entry(entry);
-                    if (appname == name) {
+                    if (entry.value.has_key("AppName") && entry.value.get("AppName").get_string() == name) {
                         shortcut.AppID = entry.value.get("appid").get_int32();
                         shortcut.AllowDesktopConfig = entry.value.get("AllowDesktopConfig").get_int32() > 0 ? true : false;
                         shortcut.AllowOverlay = entry.value.get("AllowOverlay").get_int32() > 0 ? true : false;
-                        shortcut.AppName = appname;
+                        shortcut.AppName = entry.value.get("AppName").get_string();
                         shortcut.Devkit = entry.value.get("Devkit").get_int32();
                         shortcut.DevkitGameID = entry.value.get("DevkitGameID").get_string();
                         shortcut.DevkitOverrideAppID = entry.value.get("DevkitOverrideAppID").get_int32();
@@ -142,7 +131,7 @@ namespace ProtonPlus.Models.VDF {
         public void replace_shortcut_by_name(string name, VDF.Shortcut shortcut) {
             foreach (var entry in nodes.entries) {
                 if (entry.key.contains("shortcuts.") && !entry.key.contains(".tags")) {
-                    if (get_appname_from_entry(entry)== name) {
+                    if (entry.value.get("AppName").get_string() == name) {
                         write_shortcut_on_node(entry.value, shortcut);
                         return;
                     }
@@ -153,7 +142,7 @@ namespace ProtonPlus.Models.VDF {
         public int get_shortcut_id_by_name(string name) throws Error {
             foreach (var entry in nodes.entries) {
                 if (entry.key.contains("shortcuts.") && !entry.key.contains(".tags")) {
-                    if (get_appname_from_entry(entry) == name) {
+                    if (entry.value.get("AppName").get_string() == name) {
                         return int.parse(entry.key.split(".")[1]);
                     }
                 }
