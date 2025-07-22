@@ -1,19 +1,29 @@
 namespace ProtonPlus.Models.Games {
 	public class Steam : Game {
-		public int appid { get; set; }
+		public uint appid { get; set; }
 		public int library_folder_id { get; set; }
 		public string library_folder_path { get; set; }
 		public string awacy_name { get; set; }
 		public string awacy_status { get; set; }
 		public string launch_options { get; set; }
+		public bool is_non_steam { get; set; }
 
-		public Steam(int appid, string name, string game_folder_name, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
-			base(name, "%s/steamapps/common/%s".printf(library_folder_path, game_folder_name), "%s/steamapps/compatdata/%i".printf(library_folder_path, appid), appid, launcher);
+		public Steam(uint appid, string name, string game_folder_name, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
+			base(name, "%s/steamapps/common/%s".printf(library_folder_path, game_folder_name), "%s/steamapps/compatdata/%u".printf(library_folder_path, appid), appid, launcher);
 
 			this.appid = appid;
 			this.library_folder_id = library_folder_id;
 			this.library_folder_path = library_folder_path;
 			this.launcher = launcher;
+		}
+
+		public Steam.non_steam (uint appid, string name, string launch_options, string compatibility_tool, Launchers.Steam launcher) {
+			base (name, "", "%s/steamapps/compatdata/%u".printf(launcher.directory, appid), appid, launcher);
+			
+			this.appid = appid;
+			this.launch_options = launch_options;
+			this.compatibility_tool = compatibility_tool;
+			this.is_non_steam = true;
 		}
 
 		public override bool change_compatibility_tool(string compatibility_tool) {
@@ -22,7 +32,7 @@ namespace ProtonPlus.Models.Games {
 			StringBuilder compat_tool_mapping_string_builder;
 			var compat_tool_mapping_content = "";
 			var compat_tool_mapping_item = "";
-			var compat_tool_mapping_item_appid = 0;
+			uint compat_tool_mapping_item_appid = 0;
 			var compat_tool_mapping_item_name = "";
 			var start_text = "";
 			var end_text = "";
@@ -49,7 +59,7 @@ namespace ProtonPlus.Models.Games {
 			compat_tool_mapping_string_builder = new StringBuilder(compat_tool_mapping_content);
 
 			if (compat_tool_mapping_content.contains(appid.to_string())) {
-				start_text = "\n\t\t\t\t\t\"%i\"".printf(appid);
+				start_text = "\n\t\t\t\t\t\"%u\"".printf(appid);
 				start_pos = compat_tool_mapping_content.index_of(start_text, current_position);
 				if (start_pos == -1)
 					return false;
@@ -74,7 +84,7 @@ namespace ProtonPlus.Models.Games {
 				if (end_pos == -1)
 					return false;
 
-				var compat_tool_mapping_item_appid_valid = int.try_parse(compat_tool_mapping_item.substring(start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
+				var compat_tool_mapping_item_appid_valid = uint.try_parse(compat_tool_mapping_item.substring(start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
 				if (!compat_tool_mapping_item_appid_valid)
 					return false;
 				// message("start: %i, end: %i, compat_tool_mapping_item_appid: %i", start_pos, end_pos, compat_tool_mapping_item_appid);
@@ -106,7 +116,7 @@ namespace ProtonPlus.Models.Games {
 				if (compatibility_tool == _("Undefined"))
 					return true;
 
-				var line1 = "\n\t\t\t\t\t\"%i\"\n".printf(appid);
+				var line1 = "\n\t\t\t\t\t\"%u\"\n".printf(appid);
 				var line2 = "\t\t\t\t\t{\n";
 				var line3 = "\t\t\t\t\t\t\"name\"\t\t\"%s\"\n".printf(compatibility_tool);
 				var line4 = "\t\t\t\t\t\t\"config\"\t\t\"%s\"\n".printf("");
@@ -127,6 +137,29 @@ namespace ProtonPlus.Models.Games {
 		}
 
 		public bool change_launch_options(string launch_options, string localconfig_path) {
+			var escaped_launch_options = launch_options.replace("\"", "\\\"");
+
+			if (is_non_steam) {
+				var steam_launcher = launcher as Launchers.Steam;
+
+				var shortcut = steam_launcher.profile.shortcuts.get_shortcut_by_name(name);
+				shortcut.LaunchOptions = escaped_launch_options;
+
+				steam_launcher.profile.shortcuts.replace_shortcut_by_name(name, shortcut);
+
+				try {
+					steam_launcher.profile.shortcuts.save();
+				} catch (Error error) {
+					message (error.message);
+
+					return false;
+				}
+				
+				this.launch_options = launch_options;
+
+				return true;
+			}
+
 			var config_content = Utils.Filesystem.get_file_content(localconfig_path);
 			var start_text = "";
 			var end_text = "";
@@ -136,9 +169,7 @@ namespace ProtonPlus.Models.Games {
 			var app_launch_options = "";
 			var app_modified = "";
 
-			var escaped_launch_options = launch_options.replace("\"", "\\\"");
-
-			start_text = "%i\"\n\t\t\t\t\t{".printf(appid);
+			start_text = "%u\"\n\t\t\t\t\t{".printf(appid);
 			start_pos = config_content.index_of(start_text, 0) + start_text.length - 1;
 			if (start_pos == -1)
 				return false;

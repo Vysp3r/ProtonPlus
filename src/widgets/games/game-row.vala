@@ -23,10 +23,10 @@ namespace ProtonPlus.Widgets {
 
 			prefix_label = new Gtk.Label(game.prefix.to_string());
 			prefix_label.set_tooltip_text(prefix_label.get_label());
-			prefix_label.set_max_width_chars (8);
+			prefix_label.set_max_width_chars (10);
 			prefix_label.set_ellipsize (Pango.EllipsizeMode.END);
 			prefix_label.set_selectable(true);
-			prefix_label.set_size_request(100, 0);
+			prefix_label.set_size_request(110, 0);
 
 			compatibility_tool_dropdown = new CompatibilityToolDropDown (game, model, expression);
 
@@ -87,6 +87,7 @@ namespace ProtonPlus.Widgets {
 			protondb_button.set_tooltip_text(_("Open ProtonDB page"));
 			protondb_button.add_css_class("flat");
 			protondb_button.clicked.connect(protondb_button_clicked);
+			protondb_button.set_sensitive(!game.is_non_steam);
 
 			content_box.append(launch_options_button);
 			content_box.append(anticheat_button);
@@ -117,7 +118,7 @@ namespace ProtonPlus.Widgets {
 
 			var steam_game = (Models.Games.Steam) game;
 
-			Utils.System.open_uri("https://www.protondb.com/app/%i".printf(steam_game.appid));
+			Utils.System.open_uri("https://www.protondb.com/app/%u".printf(steam_game.appid));
 		}
 	}
 }
