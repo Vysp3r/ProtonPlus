@@ -25,18 +25,78 @@ namespace ProtonPlus.Utils {
 
         public async static List<string> get_hwcaps () {
             var hwcaps = new List<string> ();
-            
-            string flags = yield run_command ("ld.so --help");
-            
-            
-            if (flags.contains ("x86-64-v4 (supported, searched)"))
+            hwcaps.append ("x86_64");
+
+            // flags according to https://gitlab.com/x86-psABIs/x86-64-ABI/-/blob/master/x86-64-ABI/low-level-sys-info.tex
+            var flags_v2 = new List<string> ();
+            flags_v2.append ("sse4_1");
+            flags_v2.append ("sse4_2");
+            flags_v2.append ("ssse3");
+
+            var flags_v3 = new List<string> ();
+            foreach (var flag in flags_v2)
+                flags_v3.append (flag);
+            flags_v3.append ("avx");
+            flags_v3.append ("avx2");
+
+            var flags_v4 = new List<string> ();
+            foreach (var flag in flags_v3)
+                flags_v4.append (flag);
+            flags_v4.append ("avx512f");
+            flags_v4.append ("avx512bw");
+            flags_v4.append ("avx512cd");
+            flags_v4.append ("avx512dq");
+            flags_v4.append ("avx512vl");
+
+            string flags = "";
+
+            try {
+                // Open the file for reading
+                File file = File.new_for_path ("/proc/cpuinfo");
+                InputStream input_stream = file.read ();
+                DataInputStream dis = new DataInputStream (input_stream);
+
+                // Read lines from the input stream
+                string? line;
+                while ((line = dis.read_line ()) != null) {
+                    if (line.slice (0, 5) == "flags") {
+                        flags = line;
+                        break;
+                    }
+                }
+
+                // Close the input stream
+                input_stream.close ();
+            } catch (Error e) {
+                message ("Error: %s\n", e.message);
+            }
+
+            int count = 0;
+            foreach (var flag in flags_v4) {
+                if (flags.contains (flag))
+                    count++;
+            }
+            if (flags_v4.length () == count)
                 hwcaps.append ("x86_64_v4");
 
-            if (flags.contains ("x86-64-v3 (supported, searched)"))
+            count = 0;
+            foreach (var flag in flags_v3) {
+                if (flags.contains (flag))
+                    count++;
+            }
+            if (flags_v3.length () == count)
                 hwcaps.append ("x86_64_v3");
 
-            if (flags.contains ("x86-64-v2 (supported, searched)"))
+            count = 0;
+            foreach (var flag in flags_v2) {
+                if (flags.contains (flag))
+                    count++;
+            }
+            if (flags_v2.length () == count)
                 hwcaps.append ("x86_64_v2");
+
+            foreach(var hwcap in hwcaps)
+                message("HWCAPS Found: " + hwcap);
 
             return (owned) hwcaps;
         }
