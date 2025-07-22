@@ -6,6 +6,7 @@ sources = files(
   'widgets/status-box.vala',
   'widgets/window.vala',
   'widgets/scroll-controller.vala',
+  'widgets/update-button.vala',
 
   'widgets/launchers-popover/launchers-popover-button.vala',
   'widgets/launchers-popover/launchers-popover-list-row.vala',
