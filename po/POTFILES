@@ -1,6 +1,7 @@
 src/widgets/application.vala
 src/widgets/status-box.vala
 src/widgets/window.vala
+src/widgets/update-button.vala
 src/widgets/launchers-popover/launchers-popover-button.vala
 src/widgets/launchers-popover/launchers-popover-list-row.vala
 src/widgets/runners/description-dialog.vala
