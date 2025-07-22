@@ -29,7 +29,14 @@ namespace ProtonPlus.Models {
 						foreach (var directory in directories) {
 							if (directory == "%s Latest".printf (runner.title)) {
 								latest_runners.append (runner as Models.Runners.Basic);
-								break;
+								continue;
+							}
+
+							if (directory == "%s Latest Backup".printf (runner.title)) {
+								var deleted_old_backup = yield Utils.Filesystem.delete_directory ("%s/%s/%s Latest Backup".printf (launcher.directory, group.directory, runner.title));
+								if (!deleted_old_backup)
+									return UpdateCodes.ERROR;
+								continue;
 							}
 						}
 					}

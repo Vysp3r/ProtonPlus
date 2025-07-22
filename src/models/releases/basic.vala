@@ -46,11 +46,19 @@ namespace ProtonPlus.Models.Releases {
             var directory_name_valid = directory_name != "";
             var install_directory_valid = FileUtils.test (install_location, FileTest.IS_DIR);
 
-            if (title.contains ("Latest")) {
+            if (title.contains ("Latest") && Widgets.Application.window.updating) {
                 var backup_directory_name = "%s Backup".printf (directory_name);
                 var backup_directory_valid = FileUtils.test ("%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, backup_directory_name), FileTest.IS_DIR);
 
                 state = (directory_name_valid && (install_directory_valid || backup_directory_valid)) ? State.UP_TO_DATE : State.NOT_INSTALLED;
+
+                Widgets.Application.window.notify["updating"].connect(() => {
+                    install_directory_valid = FileUtils.test (install_location, FileTest.IS_DIR);
+                    backup_directory_valid = FileUtils.test ("%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, backup_directory_name), FileTest.IS_DIR);
+
+                    if (!directory_name_valid || (backup_directory_valid && !install_directory_valid) || (!backup_directory_valid && !install_directory_valid))
+                        state = State.NOT_INSTALLED;
+                });
             } else {
                 state = (directory_name_valid && install_directory_valid) ? State.UP_TO_DATE : State.NOT_INSTALLED;
             }
