@@ -374,6 +374,7 @@ namespace ProtonPlus.Models {
 						var parsed = int.try_parse (split[1], out asset_position);
 						if (!parsed)
 							return null;
+							
 						json_runner_item.asset_position = asset_position;
 					}
 				}
