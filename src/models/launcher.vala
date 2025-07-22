@@ -367,15 +367,17 @@ namespace ProtonPlus.Models {
 						return null;
 
 					foreach (var item in Globals.HWCAPS) {
-						message("%s == %s".printf (item, split[0]));
-
 						if (item != split[0])
 							continue;
+
+						message("v3 supported");
 
 						int asset_position = 0;
 						var parsed = int.try_parse (split[1], out asset_position);
 						if (!parsed)
 							return null;
+
+						message("asset_position " + asset_position.to_string ());
 							
 						json_runner_item.asset_position = asset_position;
 					}
