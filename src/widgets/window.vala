@@ -10,6 +10,7 @@ namespace ProtonPlus.Widgets {
 		GamesBox games_box;
 
 		LaunchersPopoverButton launchers_popover_button;
+		UpdateButton update_button;
 		Gtk.Button donate_button;
 		Menu menu;
 		Gtk.MenuButton menu_button;
@@ -34,6 +35,9 @@ namespace ProtonPlus.Widgets {
 			games_box = new GamesBox ();
 
 			launchers_popover_button = new LaunchersPopoverButton ();
+
+			update_button = new UpdateButton ();
+			update_button.set_visible (false);
 
 			donate_button = new Gtk.Button.from_icon_name ("heart-symbolic");
 			donate_button.add_css_class ("red");
@@ -64,6 +68,7 @@ namespace ProtonPlus.Widgets {
 			header_bar = new Adw.HeaderBar ();
 			header_bar.set_title_widget (view_switcher);
 			header_bar.pack_start (launchers_popover_button);
+			header_bar.pack_start (update_button);
 			header_bar.pack_end (menu_button);
 			header_bar.pack_end (donate_button);
 
@@ -106,6 +111,8 @@ namespace ProtonPlus.Widgets {
 
 				activate_action_variant ("win.set-selected-launcher", 0);
 
+				update_button.set_visible (true);
+
 				updating = true;
 
 				var toast = new Adw.Toast (_("Checking for updates..."));
@@ -128,6 +135,8 @@ namespace ProtonPlus.Widgets {
 					}
 
 					toast_overlay.add_toast (toast);
+
+					update_button.set_visible (false);
 
 					updating = false;
 				});
