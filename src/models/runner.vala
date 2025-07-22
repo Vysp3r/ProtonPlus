@@ -85,8 +85,7 @@ namespace ProtonPlus.Models {
 				if (version_content == "")
 					return UpdateCodes.ERROR;
 
-				var current_title = version_content.split (" ")[1];
-
+				var current_title = version_content.split (" ")[1].strip ();
 				if (title == current_title)
 					continue;
 
