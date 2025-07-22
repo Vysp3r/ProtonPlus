@@ -95,9 +95,6 @@ namespace ProtonPlus.Utils {
             if (flags_v2.length () == count)
                 hwcaps.append ("x86_64_v2");
 
-            foreach(var hwcap in hwcaps)
-                message("HWCAPS Found: " + hwcap);
-
             return (owned) hwcaps;
         }
 

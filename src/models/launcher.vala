@@ -367,6 +367,8 @@ namespace ProtonPlus.Models {
 						return null;
 
 					foreach (var item in Globals.HWCAPS) {
+						message("%s == %s".printf (item, split[0]));
+
 						if (item != split[0])
 							continue;
 
