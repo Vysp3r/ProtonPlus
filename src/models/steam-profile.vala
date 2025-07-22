@@ -158,6 +158,8 @@ namespace ProtonPlus.Models {
 						continue;
 
 					string name = entry.value.get("AppName").get_string();
+					if (name == "ProtonPlus")
+						continue;
 
 					string launch_options = entry.value.get("LaunchOptions").get_string().replace("\\\"", "\"");
 
