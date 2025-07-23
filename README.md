@@ -114,7 +114,7 @@
 - [ninja](https://github.com/ninja-build/ninja)
 - [meson >= 1.0.0](https://github.com/mesonbuild/meson)
 - [gtk4](https://gitlab.gnome.org/GNOME/gtk/)
-- [libadwaita >= 1.5](https://gitlab.gnome.org/GNOME/libadwaita)
+- [libadwaita >= 1.6](https://gitlab.gnome.org/GNOME/libadwaita)
 - [json-glib](https://gitlab.gnome.org/GNOME/json-glib)
 - [libsoup](https://gitlab.gnome.org/GNOME/libsoup)
 - [libarchive](https://github.com/libarchive/libarchive)
@@ -137,7 +137,7 @@
       'pkgconfig(glib-2.0)' \
       'pkgconfig(gtk4)' \
       'pkgconfig(json-glib-1.0)' \
-      'pkgconfig(libadwaita-1) >= 1.5' \
+      'pkgconfig(libadwaita-1) >= 1.6' \
       'pkgconfig(libarchive)' \
       'pkgconfig(libsoup-3.0)'
     ```
