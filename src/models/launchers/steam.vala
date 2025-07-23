@@ -69,9 +69,9 @@ namespace ProtonPlus.Models.Launchers {
             if (!compatibility_tool_hashtable_loaded)
                 return false;
 
- 			var default_compatibility_tool = compatibility_tool_hashtable.get(0);
- 			if (default_compatibility_tool == null)
- 				return false;
+            var default_compatibility_tool = compatibility_tool_hashtable.get(0);
+            if (default_compatibility_tool != null)
+                this.default_compatibility_tool = default_compatibility_tool;
 
             var libraryfolder_content = Utils.Filesystem.get_file_content("%s/steamapps/libraryfolders.vdf".printf(directory));
             var current_libraryfolder_content = "";
@@ -307,17 +307,23 @@ namespace ProtonPlus.Models.Launchers {
 			var start_pos = 0;
 			var end_pos = 0;
 
-			start_text = "CompatToolMapping\"\n\t\t\t\t{\n";
+			start_text = "\"CompatToolMapping\"\n\t\t\t\t{";
 			end_text = "\n\t\t\t\t}";
-			if (config_content.index_of(start_text, 0) == -1)
-				return false;
-
+			if (config_content.index_of(start_text, 0) == -1) {
+				var start_steam_text = "\"Steam\"\n\t\t\t{";
+				var start_steam_pos = config_content.index_of(start_steam_text, 0);
+				var insert_pos = start_steam_pos + start_steam_text.length;
+				config_content =
+					config_content.substring(0, insert_pos) +
+					"\n\t\t\t\t\"CompatToolMapping\"\n\t\t\t\t{\n\t\t\t\t}" +
+					config_content.substring(insert_pos);
+			}
 			start_pos = config_content.index_of (start_text, 0) + start_text.length;
 			end_pos = config_content.index_of (end_text, start_pos);
 			compat_tool_mapping_content = config_content.substring (start_pos, end_pos - start_pos);
 			// message("start: %i, end: %i, compat_tool_mapping_content: %s", start_pos, end_pos, compat_tool_mapping_content);
 
-			if (compat_tool_mapping_content.contains (default_id.to_string ())) {
+			if (compat_tool_mapping_content.contains ("\"%i\"".printf(default_id))) {
 				start_text = "\t\t\t\t\t\"%i\"".printf (default_id);
 				start_pos = compat_tool_mapping_content.index_of (start_text, 0);
 				if (start_pos == -1)
@@ -365,15 +371,22 @@ namespace ProtonPlus.Models.Launchers {
 				var compat_tool_mapping_item_modified = compat_tool_mapping_item.replace (compat_tool_mapping_item_name, compatibility_tool);
 
 				config_content = config_content.replace (compat_tool_mapping_item, compat_tool_mapping_item_modified);
+			} else {
+				config_content =
+					config_content.substring(0, start_pos) +
+					"\n\t\t\t\t\t\"%i\"\n\t\t\t\t\t{\n".printf(default_id) +
+                    "\t\t\t\t\t\t\"name\"\t\t\"%s\"\n".printf(compatibility_tool) +
+                    "\t\t\t\t\t\t\"config\"\t\t\"\"\n" +
+                    "\t\t\t\t\t\t\"priority\"\t\t\"75\"\n" +
+                    "\t\t\t\t\t}" +
+					config_content.substring(start_pos);
+            }
 
-				Utils.Filesystem.modify_file (config_path, config_content);
+            Utils.Filesystem.modify_file (config_path, config_content);
 
-				this.default_compatibility_tool = compatibility_tool;
+            this.default_compatibility_tool = compatibility_tool;
 
-				return true;
-			}
-
-			return false;
+            return true;
 		}
     }
 }
