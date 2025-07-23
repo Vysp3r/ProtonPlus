@@ -37,7 +37,7 @@
 
 ## ✨ Features
 
-- Manage supported compatiblity tools across supported launchers
+- Manage supported compatibility tools across supported launchers
 - Change the compatibility tool and launch options of your Steam games
 - And much more...
 
