@@ -172,7 +172,6 @@ namespace ProtonPlus.Widgets {
 
 					warning_label.set_visible(true);
 
-					default_tool_button.set_visible(steam_launcher.enable_default_compatibility_tool);
 					default_tool_button.load(steam_launcher);
 
 					if (steam_launcher.profiles.length() > 1) {

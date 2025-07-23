@@ -3,7 +3,6 @@ namespace ProtonPlus.Models.Launchers {
         public List<SteamProfile> profiles;
         public SteamProfile profile { get; set; }
  		public string default_compatibility_tool { get; set; }
-        public bool enable_default_compatibility_tool { get; set; }
         public HashTable<uint, string> compatibility_tool_hashtable;
 
         public Steam (Launcher.InstallationTypes installation_type) {
@@ -71,9 +70,8 @@ namespace ProtonPlus.Models.Launchers {
                 return false;
 
  			var default_compatibility_tool = compatibility_tool_hashtable.get(0);
-            enable_default_compatibility_tool = default_compatibility_tool != null;
- 			if (enable_default_compatibility_tool)
- 				this.default_compatibility_tool = default_compatibility_tool;
+ 			if (default_compatibility_tool == null)
+ 				return false;
 
             var libraryfolder_content = Utils.Filesystem.get_file_content("%s/steamapps/libraryfolders.vdf".printf(directory));
             var current_libraryfolder_content = "";
