@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-22 16:31-0400\n"
+"POT-Creation-Date: 2025-07-23 19:10-0400\n"
 "PO-Revision-Date: 2025-07-18 05:16+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -365,22 +365,22 @@ msgstr "请确保至少连接过一次 Steam。"
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "若您认为这是个问题，请务必在 GitHub 上回报。"
 
-#: src/widgets/games/games-box.vala:189
+#: src/widgets/games/games-box.vala:188
 msgid "Unsuported launcher"
 msgstr "未支援的启动器"
 
-#: src/widgets/games/games-box.vala:189
+#: src/widgets/games/games-box.vala:188
 #, c-format
 msgid "%s is currently not supported."
 msgstr "当前尚未支持 %s。"
 
-#: src/widgets/games/games-box.vala:189
+#: src/widgets/games/games-box.vala:188
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "若希望我加快开发速度，请务必表达您的支持！"
 
-#: src/widgets/games/games-box.vala:229 src/widgets/games/games-box.vala:289
-#: src/widgets/games/games-box.vala:292
+#: src/widgets/games/games-box.vala:228 src/widgets/games/games-box.vala:288
+#: src/widgets/games/games-box.vala:291
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81

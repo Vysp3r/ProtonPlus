@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-22 16:31-0400\n"
+"POT-Creation-Date: 2025-07-23 19:10-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -379,22 +379,22 @@ msgstr ""
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:189
+#: src/widgets/games/games-box.vala:188
 msgid "Unsuported launcher"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:189
+#: src/widgets/games/games-box.vala:188
 #, c-format
 msgid "%s is currently not supported."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:189
+#: src/widgets/games/games-box.vala:188
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:229 src/widgets/games/games-box.vala:289
-#: src/widgets/games/games-box.vala:292
+#: src/widgets/games/games-box.vala:228 src/widgets/games/games-box.vala:288
+#: src/widgets/games/games-box.vala:291
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81

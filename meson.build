@@ -1,6 +1,6 @@
 project(
     'com.vysp3r.ProtonPlus', ['c', 'vala'],
-    version: '0.5.10',
+    version: '0.5.11',
     meson_version: '>= 1.0.0',
     default_options: [ 'warning_level=2', 'werror=false', ],
 )

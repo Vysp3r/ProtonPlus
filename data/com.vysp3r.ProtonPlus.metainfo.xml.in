@@ -94,14 +94,35 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.11" date="2025-07-24">
+      <description>
+        <ul>
+          <li>✨ Added non-steam games support</li>
+          <li>✨ Added an update indicator</li>
+          <li>✨ Added a way to see the games prefix</li>
+          <li>✨ Added a sticky filter bar to the "Runners" tab</li>
+          <li>✨ Added a way to see which runners are used</li>
+          <li>✨ Improve Proton-GE Latest handling</li>
+          <li>🐛 Fixed a launcher loading issue</li>
+          <li>🌐 Added Ukrainian localization</li>
+          <li>🌐 Added Arabic localization</li>
+          <li>🌐 Updated Indonesian localization</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Updated Chinese localization</li>
+          <li>🌐 Updated Spanish localization</li>
+          <li>🌐 Updated Portuguese localization</li>
+          <li>🌐 Updated Dutch localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.10" date="2025-07-14">
       <description>
         <ul>
           <li>✨ Delete cache on exit</li>
-          <li>🐛 Fix runners not downloading for HGL</li>
-          <li>🐛 Fix recursive copy error</li>
-          <li>🐛 Fix icons not showing up when running under Flatpak</li>
-          <li>🐛 Fix WineZGUI Flatpak not appearing in launcher list</li>
+          <li>🐛 Fixed runners not downloading for HGL</li>
+          <li>🐛 Fixed recursive copy error</li>
+          <li>🐛 Fixed icons not showing up when running under Flatpak</li>
+          <li>🐛 Fixed WineZGUI Flatpak not appearing in launcher list</li>
           <li>🌐 Updated Chinese localization</li>
           <li>🌐 Updated Spanish localization</li>
         </ul>
@@ -118,19 +139,19 @@
           <li>✨ Updated donation button link</li>
           <li>✨ Made the game list sort-able via the header</li>
           <li>✨ Added a shortcut to open protontricks</li>
-          <li>🐛 Fix "Load more" scrolling to top after clicking it</li>
-          <li>🐛 Fix SteamTinkerLaunch from being duplicated</li>
-          <li>🐛 Fix launch options parsing issue</li>
-          <li>🐛 Fix Steam shortcut not using system language to launch the application</li>
-          <li>🐛 Fix issue with incorrectly identifying Steam shortcut</li>
-          <li>🐛 Fix crash when CompatToolMapping is missing in config.vdf</li>
-          <li>🐛 Fix incorrect insertion position when launch options are missing</li>
+          <li>🐛 Fixed "Load more" scrolling to top after clicking it</li>
+          <li>🐛 Fixed SteamTinkerLaunch from being duplicated</li>
+          <li>🐛 Fixed launch options parsing issue</li>
+          <li>🐛 Fixed Steam shortcut not using system language to launch the application</li>
+          <li>🐛 Fixed issue with incorrectly identifying Steam shortcut</li>
+          <li>🐛 Fixed crash when CompatToolMapping is missing in config.vdf</li>
+          <li>🐛 Fixed incorrect insertion position when launch options are missing</li>
           <li>🌐 Updated Italian localization</li>
           <li>🌐 Updated Portuguese localization</li>
           <li>🌐 Updated Indonesian localization</li>
           <li>🌐 Updated Russian localization</li>
           <li>🌐 Updated German localization</li>
-          <li>🌐 Update Dutch translations</li>
+          <li>🌐 Updated Dutch localization</li>
           <li>🌐 Updated Bosnian localization</li>
           <li>🌐 Updated Serbian localization</li>
           <li>🌐 Updated Chinese localization</li>
@@ -141,7 +162,7 @@
       <description>
         <ul>
           <li>🐛 Fix games being duplicated when switching tab back and forth</li>
-          <li>🌐 Update Polish translations</li>
+          <li>🌐 Update Polish localization</li>
           <li>🌐 Updated German localization</li>
         </ul>
       </description>
@@ -155,7 +176,7 @@
           <li>🐛 Removed Proton Kron4ek</li>
           <li>🐛 Fix issue related to the new custom dropdown's</li>
           <li>🐛 Fix changing compatibility tool not working in certain cases</li>
-          <li>🌐 Update Czech translations</li>
+          <li>🌐 Update Czech localization</li>
           <li>🌐 Updated German localization</li>
           <li>🌐 Updated Chinese localization</li>
         </ul>
