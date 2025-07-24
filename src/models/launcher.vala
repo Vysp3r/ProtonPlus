@@ -53,35 +53,40 @@ namespace ProtonPlus.Models {
 			return true;
 		}
 
-		public static async List<Launcher>? get_all () {
-			var launchers = new List<Launcher> ();
+		public static async bool get_all (out List<Launcher> launchers) {
+			var _launchers = new List<Launcher> ();
 
-			launchers.append (new Launchers.Steam (InstallationTypes.SYSTEM));
-			launchers.append (new Launchers.Steam (InstallationTypes.FLATPAK));
-			launchers.append (new Launchers.Steam (InstallationTypes.SNAP));
+			_launchers.append (new Launchers.Steam (InstallationTypes.SYSTEM));
+			_launchers.append (new Launchers.Steam (InstallationTypes.FLATPAK));
+			_launchers.append (new Launchers.Steam (InstallationTypes.SNAP));
 
-			launchers.append (new Launchers.Lutris (InstallationTypes.SYSTEM));
-			launchers.append (new Launchers.Lutris (InstallationTypes.FLATPAK));
+			_launchers.append (new Launchers.Lutris (InstallationTypes.SYSTEM));
+			_launchers.append (new Launchers.Lutris (InstallationTypes.FLATPAK));
 
-			launchers.append (new Launchers.Bottles (InstallationTypes.SYSTEM));
-			launchers.append (new Launchers.Bottles (InstallationTypes.FLATPAK));
+			_launchers.append (new Launchers.Bottles (InstallationTypes.SYSTEM));
+			_launchers.append (new Launchers.Bottles (InstallationTypes.FLATPAK));
 
-			launchers.append (new Launchers.HeroicGamesLauncher (InstallationTypes.SYSTEM));
-			launchers.append (new Launchers.HeroicGamesLauncher (InstallationTypes.FLATPAK));
+			_launchers.append (new Launchers.HeroicGamesLauncher (InstallationTypes.SYSTEM));
+			_launchers.append (new Launchers.HeroicGamesLauncher (InstallationTypes.FLATPAK));
 
-			launchers.append (new Launchers.WineZGUI (InstallationTypes.SYSTEM));
-			launchers.append (new Launchers.WineZGUI (InstallationTypes.FLATPAK));
+			_launchers.append (new Launchers.WineZGUI (InstallationTypes.SYSTEM));
+			_launchers.append (new Launchers.WineZGUI (InstallationTypes.FLATPAK));
 
-			launchers.foreach ((launcher) => {
+			_launchers.foreach ((launcher) => {
 				if (!launcher.installed)
-					launchers.remove (launcher);
+					_launchers.remove (launcher);
 			});
+
+			launchers = (owned) _launchers;
+
+			if (launchers == null)
+				return true;
 
 			var initialized = yield initialize_launchers (launchers);
 			if (!initialized)
-				return null;
+				return false;
 		
-			return (owned) launchers;
+			return true;
 		}
 
 		class JsonGroupItem {
