@@ -253,6 +253,13 @@ namespace ProtonPlus.Models.Launchers {
             var current_position = 0;
 
             start_text = "CompatToolMapping\"\n\t\t\t\t";
+
+            if (!config_content.contains (start_text)) {
+                compatibility_tool_hashtable.set (0, "proton_experimental");
+
+                return true;
+            }
+
             end_text = "\n\t\t\t\t}";
             start_pos = config_content.index_of(start_text, 0) + start_text.length;
             end_pos = config_content.index_of(end_text, start_pos);
