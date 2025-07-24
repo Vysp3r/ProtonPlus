@@ -90,9 +90,8 @@ namespace ProtonPlus.Widgets {
 
 			yield Globals.load_globals ();
 
-			launchers = yield Models.Launcher.get_all ();
-
-			if (launchers == null) {
+			var launchers_loaded = yield Models.Launcher.get_all (out launchers);
+			if (!launchers_loaded) {
 				status_box.initialize ("bug-symbolic", _("An error ocurred"), "%s\n%s".printf (_("There was an error when trying to load the launchers."), _("Please report this issue on GitHub.")));
 
 				if (status_box.get_parent () == null)
