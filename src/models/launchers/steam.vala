@@ -74,135 +74,138 @@ namespace ProtonPlus.Models.Launchers {
                 this.default_compatibility_tool = default_compatibility_tool;
 
             var libraryfolder_content = Utils.Filesystem.get_file_content("%s/steamapps/libraryfolders.vdf".printf(directory));
-            var current_libraryfolder_content = "";
-            var current_libraryfolder_id = 0;
-            var current_libraryfolder_path = "";
-            var current_apps = "";
-            var current_appid = "";
-            var current_steamapps_path = "";
-            var current_manifest_path = "";
-            var current_manifest_content = "";
-            var current_name = "";
-            var current_installdir = "";
-            var start_text = "";
-            var end_text = "";
-            var start_pos = 0;
-            var end_pos = 0;
-            var current_position = 0;
 
-            while (true) {
-                start_text = "%i\"\n\t{".printf(current_libraryfolder_id++);
-                end_text = "}";
-                start_pos = libraryfolder_content.index_of(start_text, 0) + start_text.length;
+            if (libraryfolder_content.length > 0) {
+                var current_libraryfolder_content = "";
+                var current_libraryfolder_id = 0;
+                var current_libraryfolder_path = "";
+                var current_apps = "";
+                var current_appid = "";
+                var current_steamapps_path = "";
+                var current_manifest_path = "";
+                var current_manifest_content = "";
+                var current_name = "";
+                var current_installdir = "";
+                var start_text = "";
+                var end_text = "";
+                var start_pos = 0;
+                var end_pos = 0;
+                var current_position = 0;
 
-                if (start_pos - start_text.length == -1)
-                    break;
-
-                end_pos = libraryfolder_content.index_of(end_text, start_pos);
-                current_libraryfolder_content = libraryfolder_content.substring(start_pos, end_pos - start_pos);
-                current_position = end_pos;
-
-                if (current_libraryfolder_content.contains("apps")) {
-                    end_pos = libraryfolder_content.index_of(end_text, current_position + 1);
-                    current_libraryfolder_content = libraryfolder_content.substring(start_pos, end_pos - start_pos);
-                    // message("current_libraryfolder_id: %i, start: %i, end: %i, current_libraryfolder_content: %s", current_libraryfolder_id, start_pos, end_pos, current_libraryfolder_content);
-
-                    start_text = "path\"\t\t\"";
-                    end_text = "\"";
-                    start_pos = current_libraryfolder_content.index_of(start_text, 0) + start_text.length;
-                    end_pos = current_libraryfolder_content.index_of(end_text, start_pos);
-                    current_libraryfolder_path = current_libraryfolder_content.substring(start_pos, end_pos - start_pos);
-                    current_position = end_pos;
-                    // message("start: %i, end: %i, current_libraryfolder_path: %s", start_pos, end_pos, current_libraryfolder_path);
-
-                    start_text = "apps\"\n\t\t{\n";
+                while (true) {
+                    start_text = "%i\"\n\t{".printf(current_libraryfolder_id++);
                     end_text = "}";
-                    start_pos = current_libraryfolder_content.index_of(start_text, current_position) + start_text.length;
-                    end_pos = current_libraryfolder_content.index_of(end_text, start_pos);
-                    current_apps = current_libraryfolder_content.substring(start_pos, end_pos - start_pos);
-                    current_position = 0;
-                    // message("start: %i, end: %i, apps: %s", start_pos, end_pos, current_apps);
+                    start_pos = libraryfolder_content.index_of(start_text, 0) + start_text.length;
 
-                    while (true) {
-                        start_text = "\t\t\t\"";
+                    if (start_pos - start_text.length == -1)
+                        break;
+
+                    end_pos = libraryfolder_content.index_of(end_text, start_pos);
+                    current_libraryfolder_content = libraryfolder_content.substring(start_pos, end_pos - start_pos);
+                    current_position = end_pos;
+
+                    if (current_libraryfolder_content.contains("apps")) {
+                        end_pos = libraryfolder_content.index_of(end_text, current_position + 1);
+                        current_libraryfolder_content = libraryfolder_content.substring(start_pos, end_pos - start_pos);
+                        // message("current_libraryfolder_id: %i, start: %i, end: %i, current_libraryfolder_content: %s", current_libraryfolder_id, start_pos, end_pos, current_libraryfolder_content);
+
+                        start_text = "path\"\t\t\"";
                         end_text = "\"";
-                        start_pos = current_apps.index_of(start_text, current_position) + start_text.length;
-
-                        if (start_pos - start_text.length == -1)
-                            break;
-
-                        end_pos = current_apps.index_of(end_text, start_pos + start_text.length);
-                        current_appid = current_apps.substring(start_pos, end_pos - start_pos);
+                        start_pos = current_libraryfolder_content.index_of(start_text, 0) + start_text.length;
+                        end_pos = current_libraryfolder_content.index_of(end_text, start_pos);
+                        current_libraryfolder_path = current_libraryfolder_content.substring(start_pos, end_pos - start_pos);
                         current_position = end_pos;
-                        // message("start: %i, end: %i, id: %s", start_pos, end_pos, current_appid);
+                        // message("start: %i, end: %i, current_libraryfolder_path: %s", start_pos, end_pos, current_libraryfolder_path);
 
-                        uint id = 0;
-                        var id_valid = uint.try_parse(current_appid, out id);
-                        if (!id_valid)
-                            continue;
+                        start_text = "apps\"\n\t\t{\n";
+                        end_text = "}";
+                        start_pos = current_libraryfolder_content.index_of(start_text, current_position) + start_text.length;
+                        end_pos = current_libraryfolder_content.index_of(end_text, start_pos);
+                        current_apps = current_libraryfolder_content.substring(start_pos, end_pos - start_pos);
+                        current_position = 0;
+                        // message("start: %i, end: %i, apps: %s", start_pos, end_pos, current_apps);
 
-                        bool valid_appid = true;
-                        string[] excluded_appids = { "2230260", "1826330", "1161040", "1070560", "1391110", "1628350", "228980" };
-                        foreach (var excluded_appid in excluded_appids) {
-                            if (current_appid == excluded_appid) {
-                                valid_appid = false;
+                        while (true) {
+                            start_text = "\t\t\t\"";
+                            end_text = "\"";
+                            start_pos = current_apps.index_of(start_text, current_position) + start_text.length;
+
+                            if (start_pos - start_text.length == -1)
                                 break;
+
+                            end_pos = current_apps.index_of(end_text, start_pos + start_text.length);
+                            current_appid = current_apps.substring(start_pos, end_pos - start_pos);
+                            current_position = end_pos;
+                            // message("start: %i, end: %i, id: %s", start_pos, end_pos, current_appid);
+
+                            uint id = 0;
+                            var id_valid = uint.try_parse(current_appid, out id);
+                            if (!id_valid)
+                                continue;
+
+                            bool valid_appid = true;
+                            string[] excluded_appids = { "2230260", "1826330", "1161040", "1070560", "1391110", "1628350", "228980" };
+                            foreach (var excluded_appid in excluded_appids) {
+                                if (current_appid == excluded_appid) {
+                                    valid_appid = false;
+                                    break;
+                                }
                             }
-                        }
-                        if (!valid_appid)
-                            continue;
+                            if (!valid_appid)
+                                continue;
 
-                        current_steamapps_path = "%s/steamapps".printf(current_libraryfolder_path);
-                        if (!FileUtils.test(current_steamapps_path, FileTest.IS_DIR))
-                            continue;
+                            current_steamapps_path = "%s/steamapps".printf(current_libraryfolder_path);
+                            if (!FileUtils.test(current_steamapps_path, FileTest.IS_DIR))
+                                continue;
 
-                        current_manifest_path = "%s/appmanifest_%s.acf".printf(current_steamapps_path, current_appid);
-                        if (!FileUtils.test(current_manifest_path, FileTest.IS_REGULAR))
-                            continue;
-                        current_manifest_content = Utils.Filesystem.get_file_content(current_manifest_path);
-                        // message("current_manifest_path: %s", current_manifest_path);
+                            current_manifest_path = "%s/appmanifest_%s.acf".printf(current_steamapps_path, current_appid);
+                            if (!FileUtils.test(current_manifest_path, FileTest.IS_REGULAR))
+                                continue;
+                            current_manifest_content = Utils.Filesystem.get_file_content(current_manifest_path);
+                            // message("current_manifest_path: %s", current_manifest_path);
 
-                        start_text = "name\"\t\t\"";
-                        end_text = "\"";
-                        start_pos = current_manifest_content.index_of(start_text, 0) + start_text.length;
-                        end_pos = current_manifest_content.index_of(end_text, start_pos);
-                        current_name = current_manifest_content.substring(start_pos, end_pos - start_pos);
-                        // message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
+                            start_text = "name\"\t\t\"";
+                            end_text = "\"";
+                            start_pos = current_manifest_content.index_of(start_text, 0) + start_text.length;
+                            end_pos = current_manifest_content.index_of(end_text, start_pos);
+                            current_name = current_manifest_content.substring(start_pos, end_pos - start_pos);
+                            // message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
 
-                        if (/Proton \d+.\d+/.match(current_name) || current_appid == "2180100" || current_appid == "1493710") {
-                            compatibility_tools.append(new SimpleRunner(current_name, current_name.down ().split (".", 2)[0].replace (" ", "_")));
-                            continue;
-                        }
-
-                        start_text = "installdir\"\t\t\"";
-                        end_text = "\"";
-                        start_pos = current_manifest_content.index_of(start_text, 0) + start_text.length;
-                        end_pos = current_manifest_content.index_of(end_text, start_pos);
-                        current_installdir = current_manifest_content.substring(start_pos, end_pos - start_pos);
-                        // message("start: %i, end: %i, current_installdir: %s", start_pos, end_pos, current_installdir);
-
-                        if (!FileUtils.test("%s/common/%s".printf(current_steamapps_path, current_installdir), FileTest.IS_DIR))
-                            continue;
-
-                        var game = new Games.Steam(id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
-
-                        foreach (var awacy_game in awacy_games) {
-                            if (awacy_game.appid == game.appid) {
-                                game.awacy_name = awacy_game.name;
-                                game.awacy_status = awacy_game.status;
+                            if (/Proton \d+.\d+/.match(current_name) || current_appid == "2180100" || current_appid == "1493710") {
+                                compatibility_tools.append(new SimpleRunner(current_name, current_name.down ().split (".", 2)[0].replace (" ", "_")));
+                                continue;
                             }
+
+                            start_text = "installdir\"\t\t\"";
+                            end_text = "\"";
+                            start_pos = current_manifest_content.index_of(start_text, 0) + start_text.length;
+                            end_pos = current_manifest_content.index_of(end_text, start_pos);
+                            current_installdir = current_manifest_content.substring(start_pos, end_pos - start_pos);
+                            // message("start: %i, end: %i, current_installdir: %s", start_pos, end_pos, current_installdir);
+
+                            if (!FileUtils.test("%s/common/%s".printf(current_steamapps_path, current_installdir), FileTest.IS_DIR))
+                                continue;
+
+                            var game = new Games.Steam(id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
+
+                            foreach (var awacy_game in awacy_games) {
+                                if (awacy_game.appid == game.appid) {
+                                    game.awacy_name = awacy_game.name;
+                                    game.awacy_status = awacy_game.status;
+                                }
+                            }
+
+                            var compatibility_tool = compatibility_tool_hashtable.get(game.appid);
+                            if (compatibility_tool == null)
+                                compatibility_tool = "Undefined";
+                            game.compatibility_tool = compatibility_tool;
+                            // message("compatibility_tool: %s".printf(compatibility_tool));
+
+                            games.append(game);
                         }
-
-                        var compatibility_tool = compatibility_tool_hashtable.get(game.appid);
-                        if (compatibility_tool == null)
-                            compatibility_tool = "Undefined";
-                        game.compatibility_tool = compatibility_tool;
-                        // message("compatibility_tool: %s".printf(compatibility_tool));
-
-                        games.append(game);
+                    } else {
+                        continue;
                     }
-                } else {
-                    continue;
                 }
             }
 
