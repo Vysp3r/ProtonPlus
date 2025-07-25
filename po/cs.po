@@ -1,12 +1,13 @@
 # Daniel Rusek <mail@asciiwolf.com>, 2023.
 # "M.M." <martin.miscikms@gmail.com>, 2025.
+# AsciiWolf <mail@asciiwolf.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-23 19:10-0400\n"
-"PO-Revision-Date: 2025-06-30 13:10+0000\n"
-"Last-Translator: \"M.M.\" <martin.miscikms@gmail.com>\n"
+"PO-Revision-Date: 2025-07-25 02:03+0000\n"
+"Last-Translator: AsciiWolf <mail@asciiwolf.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/cs/>\n"
 "Language: cs\n"
@@ -17,13 +18,12 @@ msgstr ""
 "X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:72
-#, fuzzy
 msgid "A modern compatibility tools manager"
-msgstr "Moderní správce nástrojů kompatibility pro Linux."
+msgstr "Moderní správce nástrojů kompatibility"
 
 #: src/widgets/application.vala:74
 msgid "Website"
-msgstr ""
+msgstr "Webové stránky"
 
 #: src/widgets/application.vala:79
 msgid "Special thanks to"
@@ -51,16 +51,15 @@ msgstr "Spouštěče"
 
 #: src/widgets/window.vala:58
 msgid "Games"
-msgstr ""
+msgstr "Hry"
 
 #: src/widgets/window.vala:87
-#, fuzzy
 msgid "Loading"
-msgstr "Stahuje se…"
+msgstr "Načítá se"
 
 #: src/widgets/window.vala:87
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "Trvá to déle než obvykle?"
 
 #: src/widgets/window.vala:87 src/widgets/window.vala:96
 #: src/widgets/runners/remove-dialog.vala:49
@@ -76,30 +75,28 @@ msgid "Please report this issue on GitHub."
 msgstr "Prosím oznamte tuto chybu na GitHubu."
 
 #: src/widgets/window.vala:96
-#, fuzzy
 msgid "An error ocurred"
 msgstr "Vyskytla se chyba"
 
 #: src/widgets/window.vala:96
 msgid "There was an error when trying to load the launchers."
-msgstr ""
+msgstr "Při pokusu o načtení spouštěčů došlo k chybě."
 
 #: src/widgets/window.vala:118 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Kontrolují se aktualizace..."
 
 #: src/widgets/window.vala:125
 msgid "Nothing to update."
-msgstr ""
+msgstr "Nic k aktualizaci."
 
 #: src/widgets/window.vala:129
 msgid "Everything is now up-to-date."
-msgstr ""
+msgstr "Vše je nyní aktuální."
 
 #: src/widgets/window.vala:133
-#, fuzzy
 msgid "An error occured while checking for updates."
-msgstr "Při odstraňování %s došlo k neočekávané chybě."
+msgstr "Při kontrole aktualizací došlo k chybě."
 
 #: src/widgets/window.vala:146
 #, c-format
@@ -120,17 +117,19 @@ msgstr ""
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
-msgstr ""
+msgstr "Varování"
 
 #: src/widgets/window.vala:185
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
+"Aplikace právě kontroluje aktualizace.\n"
+"Předčasné ukončení aplikace může způsobit problémy."
 
 #: src/widgets/window.vala:187
 msgid "Exit"
-msgstr ""
+msgstr "Ukončit"
 
 #: src/widgets/window.vala:190 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -170,7 +169,7 @@ msgstr "Zobrazit více informací"
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:48
 msgid "Used"
-msgstr ""
+msgstr "Použito"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -184,11 +183,11 @@ msgstr "Opravdu to chcete udělat?"
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
-msgstr ""
+msgstr "Používáno %i hrami."
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr ""
+msgstr "Používá 1 hra."
 
 #: src/widgets/runners/remove-dialog.vala:26
 msgid "Are you sure you want to proceed?"
@@ -219,7 +218,7 @@ msgstr "Chyba"
 #: src/widgets/runners/remove-dialog.vala:49
 #, c-format
 msgid "When trying to delete %s an error occurred."
-msgstr ""
+msgstr "Při pokusu o smazání %s došlo k chybě."
 
 #: src/widgets/runners/remove-dialog.vala:50
 #: src/widgets/runners/install-dialog.vala:55
@@ -240,59 +239,54 @@ msgstr "Budiž"
 #: src/widgets/runners/install-dialog.vala:54
 #, c-format
 msgid "When trying to install %s an error occurred."
-msgstr ""
+msgstr "Při pokusu o instalaci %s došlo k chybě."
 
 #: src/widgets/runners/install-dialog.vala:76
 #: src/widgets/runners/upgrade-dialog.vala:78
-#, fuzzy
 msgid "Downloading"
-msgstr "Stahuje se…"
+msgstr "Stahuje se"
 
 #: src/widgets/runners/install-dialog.vala:79
 #: src/widgets/runners/upgrade-dialog.vala:81
-#, fuzzy
 msgid "Extracting"
-msgstr "Rozbaluje se…"
+msgstr "Rozbaluje se"
 
 #: src/widgets/runners/install-dialog.vala:82
-#, fuzzy
 msgid "Moving"
-msgstr "Odstraňuje se"
+msgstr "Přesouvá se"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
-#, fuzzy, c-format
+#, c-format
 msgid "Upgrade %s"
-msgstr "Aktualizuje se"
+msgstr "Aktualizovat %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
 #, c-format
 msgid "When trying to upgrade %s an error occurred."
-msgstr ""
+msgstr "Při pokusu o aktualizaci %s došlo k chybě."
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:49
 #, c-format
 msgid "%s is used by %i game(s)"
-msgstr ""
+msgstr "%s používá %i her"
 
 #: src/widgets/runners/installed-row.vala:34
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
-#, fuzzy
 msgid "Check this to also delete your configuration files."
 msgstr "Zvolte pro odstranění také konfiguračních souborů."
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Show installed only"
-msgstr "Nainstalovat %s"
+msgstr "Zobrazit pouze nainstalované"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr ""
+msgstr "Zobrazit pouze použité"
 
 #: src/widgets/runners/filters-box.vala:30
 msgid "Show unused only"
-msgstr ""
+msgstr "Zobrazit pouze nepoužité"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -313,14 +307,13 @@ msgstr ""
 "ProtonPlus."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#, fuzzy
 msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr "Chcete ji smazat a nainstalovat %s s ProtonPlus?"
+msgstr "Chcete ji znovu nainstalovat s ProtonPlus?"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#, fuzzy, c-format
+#, c-format
 msgid "%s is already up-to-date."
-msgstr "%s je aktuální"
+msgstr "%s je již aktuální."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:145
 #, c-format
@@ -333,14 +326,12 @@ msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Momentálně není znám žádný způsob, jak nainstalovat %s pro %s."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:177
-#, fuzzy
 msgid "Up-to-date"
-msgstr "%s je aktuální"
+msgstr "Aktuální"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:177
-#, fuzzy
 msgid "Update to the latest version"
-msgstr "Aktualizujte %s na nejnovější verzi"
+msgstr "Aktualizovat na nejnovější verzi"
 
 #: src/widgets/games/games-box.vala:58
 msgid "Close the Steam client beforehand so that the changes can be applied."
@@ -352,7 +343,7 @@ msgstr "Jméno"
 
 #: src/widgets/games/games-box.vala:92
 msgid "Prefix"
-msgstr ""
+msgstr "Prefix"
 
 #: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
@@ -364,7 +355,6 @@ msgid "Other"
 msgstr "Ostatní"
 
 #: src/widgets/games/games-box.vala:129
-#, fuzzy
 msgid "An error occurred"
 msgstr "Vyskytla se chyba"
 
@@ -374,25 +364,27 @@ msgstr "Žádný profil nebyl nalezen."
 
 #: src/widgets/games/games-box.vala:129
 msgid "Make sure to connect yourself at least once on Steam."
-msgstr ""
+msgstr "Ujistěte se, že se alespoň jednou připojíte ke službě Steam."
 
 #: src/widgets/games/games-box.vala:129
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
+"Pokud si myslíte, že se jedná o problém, nezapomeňte to nahlásit na GitHubu."
 
 #: src/widgets/games/games-box.vala:188
 msgid "Unsuported launcher"
-msgstr ""
+msgstr "Nepodporovaný spouštěč"
 
 #: src/widgets/games/games-box.vala:188
-#, fuzzy, c-format
+#, c-format
 msgid "%s is currently not supported."
-msgstr "%s není podporováno"
+msgstr "%s není momentálně podporováno."
 
 #: src/widgets/games/games-box.vala:188
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
+"Pokud chcete, abych urychlil vývoj, nezapomeňte mi projevit svou podporu!"
 
 #: src/widgets/games/games-box.vala:228 src/widgets/games/games-box.vala:288
 #: src/widgets/games/games-box.vala:291
@@ -401,15 +393,15 @@ msgstr ""
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
-msgstr ""
+msgstr "Neurčeno"
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
-msgstr ""
+msgstr "Upravit možnosti spouštění hry"
 
 #: src/widgets/games/game-row.vala:81
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámé"
 
 #: src/widgets/games/game-row.vala:87
 msgid "Open ProtonDB page"
@@ -418,17 +410,16 @@ msgstr "Otevřít ProtonDB stránku"
 #: src/widgets/games/mass-edit-dialog.vala:20
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
-msgstr ""
+msgstr "Hromadná úprava"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
-#, fuzzy
 msgid "1 game selected"
-msgstr "hra vybrána"
+msgstr "1 hra vybrána"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
-#, fuzzy, c-format
+#, c-format
 msgid "%u games selected"
-msgstr "hry vybrány"
+msgstr "%u her vybráno"
 
 #: src/widgets/games/mass-edit-dialog.vala:22
 #: src/widgets/games/launch-options-dialog.vala:14
@@ -450,32 +441,38 @@ msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
 msgstr ""
+"Povolte tuto možnost, pokud chcete, aby hromadná úprava zohledňovala nástroj "
+"kompatibility."
 
 #: src/widgets/games/mass-edit-dialog.vala:44
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
 msgstr ""
+"Povolte tuto možnost, pokud chcete, aby hromadná úprava zohledňovala "
+"možnosti spouštění."
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
 msgid "Enter your desired launch options"
-msgstr ""
+msgstr "Zadejte požadované možnosti spouštění"
 
 #: src/widgets/games/mass-edit-dialog.vala:51
 msgid "Launch options"
-msgstr ""
+msgstr "Možnosti spuštění"
 
 #: src/widgets/games/mass-edit-dialog.vala:55
 msgid ""
 "Enable all the options that you want the mass edit to take into account."
-msgstr ""
+msgstr "Povolte všechny možnosti, které chcete při hromadné úpravě zohlednit."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
 msgstr ""
+"Při pokusu o změnu nástroje kompatibility/možností spouštění vybraných her "
+"došlo k chybě u následujících her:"
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
@@ -483,36 +480,32 @@ msgid "Create shortcut"
 msgstr "Vytvořit zástupce"
 
 #: src/widgets/games/shortcut-button.vala:28
-#, fuzzy
 msgid "Delete shortcut"
-msgstr "Vytvořit zástupce"
+msgstr "Smazat zástupce"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Vytvořit zástupce ProtonPlus ve Steamu"
 
 #: src/widgets/games/shortcut-button.vala:29
-#, fuzzy
 msgid "Delete the shortcut of ProtonPlus in Steam"
-msgstr "Vytvořit zástupce ProtonPlus ve Steamu"
+msgstr "Smazat zástupce ProtonPlus ve Steamu"
 
 #: src/widgets/games/shortcut-button.vala:38
 msgid "When trying to delete the shortcut in Steam an error occurred."
-msgstr ""
+msgstr "Při pokusu o smazání zástupce ve službě Steam došlo k chybě."
 
 #: src/widgets/games/shortcut-button.vala:47
 msgid "When trying to create the shortcut in Steam an error occurred."
-msgstr ""
+msgstr "Při pokusu o vytvoření zástupce ve službě Steam došlo k chybě."
 
 #: src/widgets/games/switch-profile-button.vala:14
-#, fuzzy
 msgid "Switch profile"
-msgstr "Vyber profil"
+msgstr "Přepnout profil"
 
 #: src/widgets/games/switch-profile-button.vala:23
-#, fuzzy
 msgid "Switch to another profile"
-msgstr "Vyber profil"
+msgstr "Přepnout na jiný profil"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -524,25 +517,27 @@ msgstr "Vyber všechny hry"
 
 #: src/widgets/games/unselect-button.vala:8
 msgid "Unselect all"
-msgstr ""
+msgstr "Zrušit výběr všeho"
 
 #: src/widgets/games/unselect-button.vala:11
 msgid "Unselect all the games"
-msgstr ""
+msgstr "Zrušit výběr všech her"
 
 #: src/widgets/games/mass-edit-button.vala:13
 msgid "Edit the compatibility tool of the selected games at once"
-msgstr ""
+msgstr "Upravit nástroj kompatibility vybraných her najednou"
 
 #: src/widgets/games/mass-edit-button.vala:42
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
+"Před použitím funkce hromadné úpravy se prosím ujistěte, že jste vybrali "
+"alespoň jednu hru."
 
 #: src/widgets/games/launch-options-dialog.vala:12
 msgid "Modify launch options"
-msgstr ""
+msgstr "Upravit možnosti spouštění"
 
 #: src/widgets/games/launch-options-dialog.vala:15
 #: src/widgets/games/default-tool-dialog.vala:17
@@ -552,7 +547,7 @@ msgstr "Použít tuto modifikaci"
 #: src/widgets/games/launch-options-dialog.vala:57
 #, c-format
 msgid "When trying to change the launch options of %s an error occurred."
-msgstr ""
+msgstr "Při pokusu o změnu možností spuštění %s došlo k chybě."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
@@ -560,15 +555,15 @@ msgstr "Vyber profil"
 
 #: src/widgets/games/extra-button.vala:11
 msgid "Open install directory"
-msgstr ""
+msgstr "Otevřít instalační adresář"
 
 #: src/widgets/games/extra-button.vala:14
 msgid "Open prefix directory"
-msgstr ""
+msgstr "Otevřít adresář prefixu"
 
 #: src/widgets/games/extra-button.vala:17
 msgid "Open in protontricks"
-msgstr ""
+msgstr "Otevřít v protontricks"
 
 #: src/widgets/games/extra-button.vala:32
 msgid "Open menu"
@@ -577,24 +572,21 @@ msgstr "Otevřít menu"
 #: src/widgets/games/default-tool-button.vala:8
 #: src/widgets/games/default-tool-button.vala:14
 #: src/widgets/games/default-tool-dialog.vala:14
-#, fuzzy
 msgid "Set the default compatibility tool"
-msgstr "Moderní správce nástrojů kompatibility pro Linux."
+msgstr "Nastavte výchozí nástroj kompatibility"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occurred."
-msgstr "Moderní správce nástrojů kompatibility pro Linux."
+msgstr "Při pokusu o změnu výchozího nástroje kompatibility došlo k chybě."
 
 #: src/widgets/games/compatibility-tool-row.vala:18
-#, fuzzy
 msgid "Select your desired compatibility tool"
-msgstr "Moderní správce nástrojů kompatibility pro Linux."
+msgstr "Vyberte požadovaný nástroj kompatibility"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 #, c-format
 msgid "When trying to change the compatibility tool of %s an error occurred."
-msgstr ""
+msgstr "Při pokusu o změnu nástroje kompatibility pro %s došlo k chybě."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
@@ -618,41 +610,38 @@ msgstr ""
 "oproti výchozímu Protonu od Valve."
 
 #: src/translatables.vala:6
-#, fuzzy
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
 msgstr ""
-"Nástroj kompatibility Steam pro spouštění her pro Windows s vylepšeními "
-"oproti výchozímu Protonu od Valve."
+"Nástroj kompatibility Steam z linuxové distribuce CachyOS pro spouštění her "
+"pro Windows s vylepšeními oproti výchozímu Protonu od Valve."
 
 #: src/translatables.vala:7
-#, fuzzy
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
 msgstr ""
 "Nástroj kompatibility Steam pro spouštění her pro Windows s vylepšeními "
-"oproti výchozímu Protonu od Valve."
+"oproti výchozímu Protonu od Valve. Od Etaashe Mathamsetty přidávající "
+"podporu FSR4 a úpravy wine wayland."
 
 #: src/translatables.vala:8
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK."
 msgstr ""
-"Nástroj kompatibility Steam založený na Proton-GE s dalšími patchi pro "
-"vylepšení kodeků RTSP pro VRChat."
+"Nástroj kompatibility Steam založený na Proton-GE s úpravami pro velmi staré "
+"GPU, s DXVK."
 
 #: src/translatables.vala:9
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK-Async."
 msgstr ""
-"Nástroj kompatibility Steam založený na Proton-GE s dalšími patchi pro "
-"vylepšení kodeků RTSP pro VRChat."
+"Nástroj kompatibility Steam založený na Proton-GE s úpravami pro velmi staré "
+"GPU, s DXVK-Async."
 
 #: src/translatables.vala:10
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
@@ -712,7 +701,7 @@ msgstr ""
 
 #: src/translatables.vala:20
 msgid "Wine build modified by Valve and other contributors."
-msgstr ""
+msgstr "Sestavení Wine upravené společností Valve a dalšími přispěvateli."
 
 #: src/translatables.vala:21
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
@@ -721,12 +710,11 @@ msgstr ""
 
 #: src/translatables.vala:22
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
-msgstr "DXVK verze která fungovala před Vulkanem verze 1.3"
+msgstr "DXVK verze, která fungovala před Vulkanem verze 1.3"
 
 #: src/translatables.vala:23
-#, fuzzy
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
-msgstr "DXVK verze která fungovala před Vulkanem verze 1.3"
+msgstr "DXVK Async verze, která fungovala před Vulkanem verze 1.3"
 
 #: src/translatables.vala:24
 msgid ""
@@ -739,18 +727,17 @@ msgstr ""
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Obecné"
 
 #: data/ui/gtk/help-overlay.ui:14
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr "_Klávesové zkratky"
+msgstr "Zobrazit zkratky"
 
 #: data/ui/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "Ukončit"
 
 #, fuzzy
 #~ msgid "Renaming"
