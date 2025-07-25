@@ -2,13 +2,14 @@
 # izmyname <vi-mcmxcv@proton.me>, 2024.
 # pinkyzet366 <maximgamburglol77@gmail.com>, 2025.
 # serg <serhii.maleev@gmail.com>, 2025.
+# Vazgen <norvardyanvazgen@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-23 19:10-0400\n"
-"PO-Revision-Date: 2025-07-07 00:16+0000\n"
-"Last-Translator: serg <serhii.maleev@gmail.com>\n"
+"PO-Revision-Date: 2025-07-25 22:06+0000\n"
+"Last-Translator: Vazgen <norvardyanvazgen@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ru/>\n"
 "Language: ru\n"
@@ -20,9 +21,8 @@ msgstr ""
 "X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:72
-#, fuzzy
 msgid "A modern compatibility tools manager"
-msgstr "Современный менеджер инструментов совместимости для Linux."
+msgstr "Современный менеджер инструментов совместимости"
 
 #: src/widgets/application.vala:74
 msgid "Website"
@@ -57,13 +57,12 @@ msgid "Games"
 msgstr "Игры"
 
 #: src/widgets/window.vala:87
-#, fuzzy
 msgid "Loading"
-msgstr "Загружается"
+msgstr "Загрузка"
 
 #: src/widgets/window.vala:87
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "Длиться дольше чем обычно?"
 
 #: src/widgets/window.vala:87 src/widgets/window.vala:96
 #: src/widgets/runners/remove-dialog.vala:49
@@ -92,16 +91,15 @@ msgstr ""
 
 #: src/widgets/window.vala:125
 msgid "Nothing to update."
-msgstr ""
+msgstr "Обновлять нечего."
 
 #: src/widgets/window.vala:129
 msgid "Everything is now up-to-date."
-msgstr ""
+msgstr "Обновлений нет."
 
 #: src/widgets/window.vala:133
-#, fuzzy
 msgid "An error occured while checking for updates."
-msgstr "При извлечении %s произошла непредвиденная ошибка."
+msgstr "Произошла ошибка во времемя проверки обновлений."
 
 #: src/widgets/window.vala:146
 #, c-format
@@ -129,10 +127,12 @@ msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
+"Приложение проверяет на наличие обновлений.\n"
+"Выход из приложения может вызвать ошибки."
 
 #: src/widgets/window.vala:187
 msgid "Exit"
-msgstr ""
+msgstr "Выйти"
 
 #: src/widgets/window.vala:190 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -172,7 +172,7 @@ msgstr "Показать больше информации"
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:48
 msgid "Used"
-msgstr ""
+msgstr "Использованное"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -219,7 +219,7 @@ msgid "Error"
 msgstr "Ошибка"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to delete %s an error occurred."
 msgstr "При попытке удалить %s произошла ошибка."
 
@@ -240,7 +240,7 @@ msgid "OK"
 msgstr "ОК"
 
 #: src/widgets/runners/install-dialog.vala:54
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "При попытке установить %s произошла ошибка."
 
@@ -264,15 +264,15 @@ msgid "Upgrade %s"
 msgstr "Обновление %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to upgrade %s an error occurred."
 msgstr "При попытке обновить %s произошла ошибка."
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "%s is used by %i game(s)"
-msgstr "Используется в %i играх."
+msgstr "%s используется в %i играх."
 
 #: src/widgets/runners/installed-row.vala:34
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
@@ -281,18 +281,16 @@ msgid "Check this to also delete your configuration files."
 msgstr "Отметить для удаления файлов конфигурации."
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Show installed only"
-msgstr "Только установленные"
+msgstr "Показать только установленные"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr ""
+msgstr "Показать только используемые"
 
 #: src/widgets/runners/filters-box.vala:30
-#, fuzzy
 msgid "Show unused only"
-msgstr "Только установленные"
+msgstr "Показать только неиспользуемые"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -350,7 +348,7 @@ msgstr "Название"
 
 #: src/widgets/games/games-box.vala:92
 msgid "Prefix"
-msgstr ""
+msgstr "Префикс"
 
 #: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
@@ -475,7 +473,6 @@ msgstr ""
 "Включите все параметры, которые вы хотите учесть при массовом редактировании."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "When trying to change the compatibility tool/launch options of the selected "
 "games an error occurred for the following games:"
@@ -489,9 +486,8 @@ msgid "Create shortcut"
 msgstr "Создать ярлык"
 
 #: src/widgets/games/shortcut-button.vala:28
-#, fuzzy
 msgid "Delete shortcut"
-msgstr "Создать ярлык"
+msgstr "Удалить ярлык"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
@@ -503,24 +499,20 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Удалить ярлык ProtonPlus в Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "When trying to delete the shortcut in Steam an error occurred."
 msgstr "При попытке создать ярлык в Steam произошла ошибка."
 
 #: src/widgets/games/shortcut-button.vala:47
-#, fuzzy
 msgid "When trying to create the shortcut in Steam an error occurred."
 msgstr "При попытке создать ярлык в Steam произошла ошибка."
 
 #: src/widgets/games/switch-profile-button.vala:14
-#, fuzzy
 msgid "Switch profile"
-msgstr "Выберите профиль"
+msgstr "Переключить профиль"
 
 #: src/widgets/games/switch-profile-button.vala:23
-#, fuzzy
 msgid "Switch to another profile"
-msgstr "Выберите профиль"
+msgstr "Переключиться на другой профиль"
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
@@ -560,7 +552,7 @@ msgid "Apply the current modification"
 msgstr "Применить текущую модификацию"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the launch options of %s an error occurred."
 msgstr "При попытке изменить параметры запуска %s произошла ошибка."
 
@@ -578,7 +570,7 @@ msgstr "Открыть папку префикса"
 
 #: src/widgets/games/extra-button.vala:17
 msgid "Open in protontricks"
-msgstr ""
+msgstr "Открыть в protontricks"
 
 #: src/widgets/games/extra-button.vala:32
 msgid "Open menu"
@@ -591,7 +583,6 @@ msgid "Set the default compatibility tool"
 msgstr "Установить инструмент совместимости по умолчанию"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occurred."
 msgstr ""
 "Произошла ошибка при попытке изменить инструмент совместимости по умолчанию."
@@ -601,7 +592,7 @@ msgid "Select your desired compatibility tool"
 msgstr "Выберите желаемый инструмент совместимости"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to change the compatibility tool of %s an error occurred."
 msgstr "При попытке изменить инструмент совместимости для %s произошла ошибка."
 
