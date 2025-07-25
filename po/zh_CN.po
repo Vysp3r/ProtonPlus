@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 19:10-0400\n"
+"POT-Creation-Date: 2025-07-25 11:08-0400\n"
 "PO-Revision-Date: 2025-07-18 05:16+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -60,7 +60,7 @@ msgstr "正在下载"
 msgid "Taking longer than normal?"
 msgstr "加载时间是不是比平常久？"
 
-#: src/widgets/window.vala:87 src/widgets/window.vala:96
+#: src/widgets/window.vala:87 src/widgets/window.vala:95
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -73,40 +73,40 @@ msgstr "加载时间是不是比平常久？"
 msgid "Please report this issue on GitHub."
 msgstr "请在 GitHub 上回报此问题。"
 
-#: src/widgets/window.vala:96
+#: src/widgets/window.vala:95
 msgid "An error ocurred"
 msgstr "发生错误"
 
-#: src/widgets/window.vala:96
+#: src/widgets/window.vala:95
 msgid "There was an error when trying to load the launchers."
 msgstr "尝试加载启动器时发生错误。"
 
-#: src/widgets/window.vala:118 src/widgets/update-button.vala:9
+#: src/widgets/window.vala:117 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
 msgstr "正在检查更新..."
 
-#: src/widgets/window.vala:125
+#: src/widgets/window.vala:124
 msgid "Nothing to update."
 msgstr "无任何更新。"
 
-#: src/widgets/window.vala:129
+#: src/widgets/window.vala:128
 msgid "Everything is now up-to-date."
 msgstr "当前皆已为最新版本。"
 
-#: src/widgets/window.vala:133
+#: src/widgets/window.vala:132
 msgid "An error occured while checking for updates."
 msgstr "检查更新时发生错误。"
 
-#: src/widgets/window.vala:146
+#: src/widgets/window.vala:145
 #, c-format
 msgid "Welcome to %s"
 msgstr "欢迎来到 %s"
 
-#: src/widgets/window.vala:146
+#: src/widgets/window.vala:145
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "请安装 Steam、Lutris、Bottles 或 Heroic Games Launcher 即可开始使用。"
 
-#: src/widgets/window.vala:185
+#: src/widgets/window.vala:184
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -116,7 +116,7 @@ msgstr "请安装 Steam、Lutris、Bottles 或 Heroic Games Launcher 即可开�
 msgid "Warning"
 msgstr "警告"
 
-#: src/widgets/window.vala:185
+#: src/widgets/window.vala:184
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -124,11 +124,11 @@ msgstr ""
 "当前正在检查更新。\n"
 "提前离开可能会导致问题。"
 
-#: src/widgets/window.vala:187
+#: src/widgets/window.vala:186
 msgid "Exit"
 msgstr "离开"
 
-#: src/widgets/window.vala:190 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:189 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "取消"

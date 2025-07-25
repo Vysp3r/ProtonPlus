@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 19:10-0400\n"
+"POT-Creation-Date: 2025-07-25 11:08-0400\n"
 "PO-Revision-Date: 2025-07-16 12:10+0300\n"
 "Last-Translator: MUJTABA ALSALEH <Mujtaba.m.Alsaleh@gmail.com>\n"
 "Language-Team: Arabic <LL@li.org>\n"
@@ -62,7 +62,7 @@ msgstr "جاري التحميل"
 msgid "Taking longer than normal?"
 msgstr "هل الإجراء يأخذ وقتاً أكثر من المعتاد؟"
 
-#: src/widgets/window.vala:87 src/widgets/window.vala:96
+#: src/widgets/window.vala:87 src/widgets/window.vala:95
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -75,40 +75,40 @@ msgstr "هل الإجراء يأخذ وقتاً أكثر من المعتاد؟"
 msgid "Please report this issue on GitHub."
 msgstr ".GitHub يرجى الإبلاغ عن هذه المشكلة على منصة"
 
-#: src/widgets/window.vala:96
+#: src/widgets/window.vala:95
 msgid "An error ocurred"
 msgstr "خطأ حدث"
 
-#: src/widgets/window.vala:96
+#: src/widgets/window.vala:95
 msgid "There was an error when trying to load the launchers."
 msgstr ".هناك خطأ يحدث عند محاولة تحميل مشغلات البرامج"
 
-#: src/widgets/window.vala:118 src/widgets/update-button.vala:9
+#: src/widgets/window.vala:117 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
 msgstr "...جاري التحقق من التحديثات"
 
-#: src/widgets/window.vala:125
+#: src/widgets/window.vala:124
 msgid "Nothing to update."
 msgstr ".لا توجد تحديثات"
 
-#: src/widgets/window.vala:129
+#: src/widgets/window.vala:128
 msgid "Everything is now up-to-date."
 msgstr ".كل شيء محدث لآخر إصدار"
 
-#: src/widgets/window.vala:133
+#: src/widgets/window.vala:132
 msgid "An error occured while checking for updates."
 msgstr ".حدث خطأ أثناء البحث عن التحديثات"
 
-#: src/widgets/window.vala:146
+#: src/widgets/window.vala:145
 #, c-format
 msgid "Welcome to %s"
 msgstr "%s مرحباً بك في"
 
-#: src/widgets/window.vala:146
+#: src/widgets/window.vala:145
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr "الرجاء تثبيت إحدى البرامج التالية للبدأ"
 
-#: src/widgets/window.vala:185
+#: src/widgets/window.vala:184
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -118,18 +118,18 @@ msgstr "الرجاء تثبيت إحدى البرامج التالية للبد�
 msgid "Warning"
 msgstr "تحذير"
 
-#: src/widgets/window.vala:185
+#: src/widgets/window.vala:184
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 "التطبيق حالياً يبحث عن التحديثات. الخروج أثناء هذه العملية قد يسبب مشاكل"
 
-#: src/widgets/window.vala:187
+#: src/widgets/window.vala:186
 msgid "Exit"
 msgstr "خروج"
 
-#: src/widgets/window.vala:190 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:189 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "إلغاء"

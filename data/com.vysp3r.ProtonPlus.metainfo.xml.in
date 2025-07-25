@@ -94,6 +94,18 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.12" date="2025-07-25">
+      <description>
+        <ul>
+          <li>🐛 Fixed launchers loading issu</li>
+          <li>🐛 Fixed possible parsing issue</li>
+          <li>🐛 Fixed force exit not working in the warning dialog when closing the application</li>
+          <li>🐛 Fixed application freezing in a certain scenario</li>
+          <li>🌐 Updated Czech localization</li>
+          <li>🌐 Updated Russian localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.11" date="2025-07-24">
       <description>
         <ul>

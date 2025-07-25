@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-23 19:10-0400\n"
+"POT-Creation-Date: 2025-07-25 11:08-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/protonplus/"
@@ -64,7 +64,7 @@ msgstr "Učitavanje"
 msgid "Taking longer than normal?"
 msgstr "Traje li dulje nego inače?"
 
-#: src/widgets/window.vala:87 src/widgets/window.vala:96
+#: src/widgets/window.vala:87 src/widgets/window.vala:95
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:54
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -77,41 +77,41 @@ msgstr "Traje li dulje nego inače?"
 msgid "Please report this issue on GitHub."
 msgstr "Molimo prijavite ovaj problem na GitHub-u."
 
-#: src/widgets/window.vala:96
+#: src/widgets/window.vala:95
 msgid "An error ocurred"
 msgstr "Došlo je do pogreške"
 
-#: src/widgets/window.vala:96
+#: src/widgets/window.vala:95
 msgid "There was an error when trying to load the launchers."
 msgstr "Došlo je do pogreške prilikom pokušaja učitavanja lansera."
 
-#: src/widgets/window.vala:118 src/widgets/update-button.vala:9
+#: src/widgets/window.vala:117 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
 msgstr ""
 
-#: src/widgets/window.vala:125
+#: src/widgets/window.vala:124
 msgid "Nothing to update."
 msgstr ""
 
-#: src/widgets/window.vala:129
+#: src/widgets/window.vala:128
 msgid "Everything is now up-to-date."
 msgstr ""
 
-#: src/widgets/window.vala:133
+#: src/widgets/window.vala:132
 msgid "An error occured while checking for updates."
 msgstr ""
 
-#: src/widgets/window.vala:146
+#: src/widgets/window.vala:145
 #, c-format
 msgid "Welcome to %s"
 msgstr "Dobrodošli u %s"
 
-#: src/widgets/window.vala:146
+#: src/widgets/window.vala:145
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
 msgstr ""
 "Instalirajte Steam, Lutris, Bottles ili Heroic Games Launcher za početak."
 
-#: src/widgets/window.vala:185
+#: src/widgets/window.vala:184
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -121,17 +121,17 @@ msgstr ""
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: src/widgets/window.vala:185
+#: src/widgets/window.vala:184
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:187
+#: src/widgets/window.vala:186
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:190 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:189 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Otkaži"
