@@ -198,7 +198,7 @@ namespace ProtonPlus.Widgets {
 
 				Utils.Filesystem.delete_directory.begin (Globals.DOWNLOAD_CACHE_PATH);
 
-				close();
+				application.quit ();
 			});
 
 			dialog.present (this);
