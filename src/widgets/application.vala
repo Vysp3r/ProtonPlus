@@ -28,23 +28,37 @@ namespace ProtonPlus.Widgets {
 
 			window = new Window ();
 
-			var settings = new Settings ("com.vysp3r.ProtonPlus.State");
-			settings.bind ("width",
-			               window,
-			               "default-width",
-			               SettingsBindFlags.DEFAULT);
-			settings.bind ("height",
-			               window,
-			               "default-height",
-			               SettingsBindFlags.DEFAULT);
-			settings.bind ("is-maximized",
-			               window,
-			               "maximized",
-			               SettingsBindFlags.DEFAULT);
-			settings.bind ("is-fullscreen",
-			               window,
-			               "fullscreened",
-			               SettingsBindFlags.DEFAULT);
+			var schema_source = SettingsSchemaSource.get_default ();
+			SettingsSchema schema = null;
+			if (schema_source != null)
+				schema = schema_source.lookup ("com.vysp3r.ProtonPlus.State", true);
+
+			if (schema != null) {
+				var settings = new Settings (schema.get_id ());
+				settings.bind ("width",
+								window,
+								"default-width",
+								SettingsBindFlags.DEFAULT);
+				settings.bind ("height",
+								window,
+								"default-height",
+								SettingsBindFlags.DEFAULT);
+				settings.bind ("is-maximized",
+								window,
+								"maximized",
+								SettingsBindFlags.DEFAULT);
+				settings.bind ("is-fullscreen",
+								window,
+								"fullscreened",
+								SettingsBindFlags.DEFAULT);
+			} else {
+				warning ("GSettings schema not found: 'com.vysp3r.ProtonPlus.State'");
+
+				window.default_width = 950;
+				window.default_height = 600;
+				window.maximized = false;
+				window.fullscreened = false;
+			}
 
 			window.present ();
 		}
