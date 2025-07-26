@@ -11,6 +11,8 @@ finish-args:
   - --share=network
   - --socket=fallback-x11
   - --socket=wayland
+  # To prevent certain environments from failing to locate the schema
+  - --env=GSETTINGS_SCHEMA_DIR=/app/share/glib-2.0/schemas
   # Host-spawn access is needed to check if host contains dependencies,
   # and to execute various compatibility tool installers on the host.
   - --talk-name=org.freedesktop.Flatpak
