@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-25 11:08-0400\n"
-"PO-Revision-Date: 2025-07-20 16:03+0000\n"
-"Last-Translator: Marco Rodriguez <marcorguezhdez@gmail.com>\n"
+"PO-Revision-Date: 2025-07-31 15:02+0000\n"
+"Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: src/widgets/application.vala:72
 msgid "A modern compatibility tools manager"
-msgstr "Un gestor de herramientas de compatibilidad moderno para Linux."
+msgstr "Un administrador moderno de herramientas de compatibilidad"
 
 #: src/widgets/application.vala:74
 msgid "Website"
@@ -33,7 +33,7 @@ msgstr "Donar"
 
 #: src/widgets/window.vala:48
 msgid "_Keyboard Shortcuts"
-msgstr "Atajos"
+msgstr "_Atajos de teclado"
 
 #: src/widgets/window.vala:49
 msgid "_About ProtonPlus"
@@ -45,7 +45,7 @@ msgstr "Menú principal"
 
 #: src/widgets/window.vala:57
 msgid "Runners"
-msgstr "Corredores"
+msgstr "Motores de ejecución"
 
 #: src/widgets/window.vala:58
 msgid "Games"
@@ -274,15 +274,15 @@ msgstr "Marca esto para eliminar también tus archivos de configuración."
 
 #: src/widgets/runners/filters-box.vala:12
 msgid "Show installed only"
-msgstr "Mostrar solo instalados"
+msgstr "Mostrar instalados"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr "Mostrar solo usados"
+msgstr "Mostrar usados"
 
 #: src/widgets/runners/filters-box.vala:30
 msgid "Show unused only"
-msgstr "Mostrar no usados solo"
+msgstr "Mostrar no usados"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -332,7 +332,8 @@ msgstr "Actualizar a la última versión"
 #: src/widgets/games/games-box.vala:58
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
-"Cierra el cliente de Steam antes para que los cambios se puedan aplicar."
+"Cierra primero el cliente de Steam para que los cambios se apliquen "
+"correctamente"
 
 #: src/widgets/games/games-box.vala:88
 msgid "Name"
@@ -450,7 +451,7 @@ msgstr ""
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
 msgid "Enter your desired launch options"
-msgstr "Configuración de los argumentos de inicio"
+msgstr "Introduce las opciones de lanzamiento"
 
 #: src/widgets/games/mass-edit-dialog.vala:51
 msgid "Launch options"
@@ -535,7 +536,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-dialog.vala:12
 msgid "Modify launch options"
-msgstr "Configuración del lanzador"
+msgstr "Modificar las opciones de lanzamiento"
 
 #: src/widgets/games/launch-options-dialog.vala:15
 #: src/widgets/games/default-tool-dialog.vala:17
@@ -571,7 +572,7 @@ msgstr "Abrir menú"
 #: src/widgets/games/default-tool-button.vala:14
 #: src/widgets/games/default-tool-dialog.vala:14
 msgid "Set the default compatibility tool"
-msgstr "Establecer la herramienta de compatibilidad predeterminada"
+msgstr "Establecer herramienta de compatibilidad por defecto"
 
 #: src/widgets/games/default-tool-dialog.vala:60
 msgid "When trying to change the default compatibility tool an error occurred."
@@ -599,7 +600,7 @@ msgstr ""
 #: src/translatables.vala:4
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
-"Herramienta de compatibilidad por Valve para ejecutar el software de Windows "
+"Herramienta de compatibilidad de Valve para ejecutar el software de Windows "
 "en Linux."
 
 #: src/translatables.vala:5
