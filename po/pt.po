@@ -4,12 +4,13 @@
 # Otávio <otavioheg123@gmail.com>, 2025.
 # Cirnos <Cirnos@users.noreply.hosted.weblate.org>, 2025.
 # Cirnos <cirnos@tuta.io>, 2025.
+# Esther <sterzinhabr2006@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-25 11:08-0400\n"
-"PO-Revision-Date: 2025-07-23 23:08+0000\n"
-"Last-Translator: Cirnos <cirnos@tuta.io>\n"
+"PO-Revision-Date: 2025-08-02 22:02+0000\n"
+"Last-Translator: Esther <sterzinhabr2006@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
@@ -31,7 +32,6 @@ msgid "Special thanks to"
 msgstr "Agradecimentos especiais a"
 
 #: src/widgets/window.vala:44
-#, fuzzy
 msgid "Donate"
 msgstr "Doar"
 
@@ -56,7 +56,6 @@ msgid "Games"
 msgstr "Jogos"
 
 #: src/widgets/window.vala:87
-#, fuzzy
 msgid "Loading"
 msgstr "Baixando"
 
@@ -131,7 +130,7 @@ msgstr ""
 
 #: src/widgets/window.vala:186
 msgid "Exit"
-msgstr ""
+msgstr "Sair"
 
 #: src/widgets/window.vala:189 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -170,7 +169,6 @@ msgstr "Mostrar mais informação"
 #: src/widgets/runners/release-row.vala:42
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:48
-#, fuzzy
 msgid "Used"
 msgstr "Usado"
 
@@ -190,7 +188,7 @@ msgstr "Usado por %i jogos."
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr ""
+msgstr "Usado por %1 jogo."
 
 #: src/widgets/runners/remove-dialog.vala:26
 msgid "Are you sure you want to proceed?"
@@ -280,18 +278,16 @@ msgid "Check this to also delete your configuration files."
 msgstr "Marque isto para também excuir seus arquivos de configuração."
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Show installed only"
-msgstr "Apenas instalado"
+msgstr "Mostrar apenas os instalados"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr ""
+msgstr "Mostrar apenas os utilizados"
 
 #: src/widgets/runners/filters-box.vala:30
-#, fuzzy
 msgid "Show unused only"
-msgstr "Apenas instalado"
+msgstr "Mostrar apenas os não utilizados"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -331,7 +327,6 @@ msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Atualmente não há forma de nós instalarmos %s para %s."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:177
-#, fuzzy
 msgid "Up-to-date"
 msgstr "%s está atualizado"
 
@@ -342,11 +337,11 @@ msgstr "Atualizar para a versão mais recente"
 #: src/widgets/games/games-box.vala:58
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
+"Feche o cliente Steam antes para que as alterações possam ser aplicadas."
 
 #: src/widgets/games/games-box.vala:88
-#, fuzzy
 msgid "Name"
-msgstr "Nome: "
+msgstr "Nome"
 
 #: src/widgets/games/games-box.vala:92
 msgid "Prefix"
@@ -359,7 +354,7 @@ msgstr "Ferramenta de compatibilidade"
 
 #: src/widgets/games/games-box.vala:103
 msgid "Other"
-msgstr ""
+msgstr "Outro"
 
 #: src/widgets/games/games-box.vala:129
 msgid "An error occurred"
@@ -401,7 +396,7 @@ msgstr ""
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
-msgstr ""
+msgstr "Indefinido"
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
@@ -409,7 +404,7 @@ msgstr "Modificar as opções de inicialização de jogo"
 
 #: src/widgets/games/game-row.vala:81
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: src/widgets/games/game-row.vala:87
 msgid "Open ProtonDB page"
@@ -418,11 +413,11 @@ msgstr "Abrir página da ProtonDB"
 #: src/widgets/games/mass-edit-dialog.vala:20
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
-msgstr ""
+msgstr "Edição em massa"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 msgid "1 game selected"
-msgstr "1 jogo selecionado"
+msgstr "%u jogo selecionado"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 #, c-format
@@ -437,7 +432,7 @@ msgstr "Aplicar"
 
 #: src/widgets/games/mass-edit-dialog.vala:23
 msgid "Apply the current modifications"
-msgstr ""
+msgstr "Aplicar as modificações atuais"
 
 #: src/widgets/games/mass-edit-dialog.vala:31
 #: src/widgets/games/mass-edit-dialog.vala:43
@@ -533,9 +528,9 @@ msgid "Unselect all the games"
 msgstr "Desselecionar todos jogos"
 
 #: src/widgets/games/mass-edit-button.vala:13
-#, fuzzy
 msgid "Edit the compatibility tool of the selected games at once"
-msgstr "Ferramenta de compatibilidade da Steam para rodar jogos do Windows"
+msgstr ""
+"Editar a ferramenta de compatibilidade dos jogos selecionados de uma vez"
 
 #: src/widgets/games/mass-edit-button.vala:42
 msgid ""
@@ -552,7 +547,7 @@ msgstr "Modificar opções de inicialização"
 #: src/widgets/games/launch-options-dialog.vala:15
 #: src/widgets/games/default-tool-dialog.vala:17
 msgid "Apply the current modification"
-msgstr ""
+msgstr "Aplicar a modificação atual"
 
 #: src/widgets/games/launch-options-dialog.vala:57
 #, c-format
@@ -561,7 +556,7 @@ msgstr "Ocorreu um erro ao tentar mudar as opções de inicialização de %s."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
-msgstr ""
+msgstr "Selecione um perfil"
 
 #: src/widgets/games/extra-button.vala:11
 msgid "Open install directory"
@@ -750,7 +745,6 @@ msgid "Show Shortcuts"
 msgstr "Mostrar Atalhos"
 
 #: data/ui/gtk/help-overlay.ui:20
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Sair"
