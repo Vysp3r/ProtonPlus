@@ -1,11 +1,12 @@
 # Lize58 <pasquale.borrelli05@outlook.it>, 2024.
 # Alessandro Marigliano <alemarigliano22@gmail.com>, 2025.
+# Alessandro Marigliano <alemarigliano22@proton.me>, 2025.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-25 11:08-0400\n"
-"PO-Revision-Date: 2025-07-11 16:15+0000\n"
-"Last-Translator: Alessandro Marigliano <alemarigliano22@gmail.com>\n"
+"PO-Revision-Date: 2025-08-05 23:01+0000\n"
+"Last-Translator: Alessandro Marigliano <alemarigliano22@proton.me>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/it/>\n"
 "Language: it\n"
@@ -15,9 +16,8 @@ msgstr ""
 "X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:72
-#, fuzzy
 msgid "A modern compatibility tools manager"
-msgstr "Un gestore moderno per gli strumenti di compatibilità per Linux."
+msgstr "Un gestore moderno per strumenti di compatibilità"
 
 #: src/widgets/application.vala:74
 msgid "Website"
@@ -82,20 +82,19 @@ msgstr "Si è verificato un errore durante il caricamento dei launcher."
 
 #: src/widgets/window.vala:117 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Ricerca aggiornamenti..."
 
 #: src/widgets/window.vala:124
 msgid "Nothing to update."
-msgstr ""
+msgstr "Niente da aggiornare."
 
 #: src/widgets/window.vala:128
 msgid "Everything is now up-to-date."
-msgstr ""
+msgstr "È tutto all'ultima versione."
 
 #: src/widgets/window.vala:132
-#, fuzzy
 msgid "An error occured while checking for updates."
-msgstr "Si e' verificato un errore inaspettato durante l'estrazione "
+msgstr "Si è verificato un errore durante la verifica degli aggiornamenti."
 
 #: src/widgets/window.vala:145
 #, c-format
@@ -121,10 +120,12 @@ msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
+"L'applicazione sta verificando aggiornamenti.\n"
+"Chiudere l'applicazione porrebbe causare problemi."
 
 #: src/widgets/window.vala:186
 msgid "Exit"
-msgstr ""
+msgstr "Esci"
 
 #: src/widgets/window.vala:189 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -164,7 +165,7 @@ msgstr "Mostra altre informazioni"
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:48
 msgid "Used"
-msgstr ""
+msgstr "Usato"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -248,7 +249,7 @@ msgstr "Estrazione in corso"
 
 #: src/widgets/runners/install-dialog.vala:82
 msgid "Moving"
-msgstr ""
+msgstr "Spostando"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
@@ -262,9 +263,9 @@ msgstr "Si è verificato un errore durante l'aggiornamento di %s."
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "%s is used by %i game(s)"
-msgstr "Usato da %i giochi."
+msgstr "%s è usato da %i gioco/giochi"
 
 #: src/widgets/runners/installed-row.vala:34
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
@@ -272,18 +273,16 @@ msgid "Check this to also delete your configuration files."
 msgstr "Seleziona qui per cancellare anche le tue configurazioni."
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Show installed only"
-msgstr "Solo installato"
+msgstr "Mostra solo installati"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr ""
+msgstr "Mostra solo in uso"
 
 #: src/widgets/runners/filters-box.vala:30
-#, fuzzy
 msgid "Show unused only"
-msgstr "Solo installato"
+msgstr "Mostra solo non in uso"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -338,7 +337,7 @@ msgstr "Nome"
 
 #: src/widgets/games/games-box.vala:92
 msgid "Prefix"
-msgstr ""
+msgstr "Prefix"
 
 #: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
