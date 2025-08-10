@@ -22,7 +22,7 @@ namespace ProtonPlus.Utils {
 
         public delegate bool cancel_callback ();
 
-        public delegate void progress_callback (bool is_percent, int64 progress);
+        public delegate void progress_callback (bool is_percent, int64 progress_percentage, double speed_kbps, double remaining_seconds);
 
         public static async bool Download (string url, string path, cancel_callback? cancel_callback = null, progress_callback? progress_callback = null) {
             try {
@@ -59,9 +59,11 @@ namespace ProtonPlus.Utils {
                 int64 bytes_downloaded = 0;
 
                 if (progress_callback != null)
-                    progress_callback (is_percent, 0); // Set initial progress state.
+                    progress_callback (is_percent, 0, 0, 0); // Set initial progress state.
 
                 var is_canceled = false;
+
+                int64 start_time = get_monotonic_time ();
 
                 while (true) {
                     if (cancel_callback != null && cancel_callback ()) {
@@ -77,9 +79,21 @@ namespace ProtonPlus.Utils {
                     bytes_downloaded += output_stream.write (chunk.get_data ());
 
                     if (progress_callback != null) {
+                        int64 elapsed_us = get_monotonic_time () - start_time;
+                        double elapsed_s = elapsed_us / 1000000.0;
+
+                        double speed_kbps = elapsed_s > 0 ? (bytes_downloaded / 1024.0) / elapsed_s : 0.0;
+                        double speed_bps = elapsed_s > 0 ? bytes_downloaded / elapsed_s : 0.0;
+
+                        double? remaining_seconds = null;
+                        if (speed_bps > 0.0) {
+                            int64 bytes_left = server_download_size - bytes_downloaded;
+                            remaining_seconds = bytes_left / speed_bps;
+                        }
+
                         // Use "bytes downloaded" when total size is unknown.
                         int64 progress = !is_percent ? bytes_downloaded : (int64) (((double) bytes_downloaded / server_download_size) * 100);
-                        progress_callback (is_percent, progress);
+                        progress_callback (is_percent, progress, speed_kbps, remaining_seconds);
                     }
                 }
 

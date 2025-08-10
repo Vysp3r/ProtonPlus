@@ -9,6 +9,8 @@ namespace ProtonPlus.Models {
 		public string page_url { get; set; }
 		public bool canceled { get; set; }
 		public string progress { get; set; }
+		public double speed_kbps { get; set; }
+		public double seconds_remaining { get; set; }
 
 		public Step step { get; set; }
 		public enum Step {

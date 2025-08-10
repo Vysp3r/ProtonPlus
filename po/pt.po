@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-25 11:08-0400\n"
+"POT-Creation-Date: 2025-08-10 19:13-0400\n"
 "PO-Revision-Date: 2025-08-02 22:02+0000\n"
 "Last-Translator: Esther <sterzinhabr2006@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:72
+#: src/widgets/application.vala:86
 msgid "A modern compatibility tools manager"
 msgstr "Um gerenciador de ferramentas de compatibilidade moderno"
 
-#: src/widgets/application.vala:74
+#: src/widgets/application.vala:88
 msgid "Website"
 msgstr "Site"
 
-#: src/widgets/application.vala:79
+#: src/widgets/application.vala:93
 msgid "Special thanks to"
 msgstr "Agradecimentos especiais a"
 
@@ -65,7 +65,7 @@ msgstr "Demorando mais que o normal?"
 
 #: src/widgets/window.vala:87 src/widgets/window.vala:95
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -205,7 +205,7 @@ msgid "Yes"
 msgstr "Sim"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -222,7 +222,7 @@ msgid "When trying to delete %s an error occurred."
 msgstr "Ocorreu um erro ao tentar remover %s."
 
 #: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:55
+#: src/widgets/runners/install-dialog.vala:57
 #: src/widgets/runners/upgrade-dialog.vala:57
 #: src/widgets/runners/steamtinkerlaunch-row.vala:45
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
@@ -237,22 +237,22 @@ msgstr "Ocorreu um erro ao tentar remover %s."
 msgid "OK"
 msgstr "Tudo Bem"
 
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "Um erro ocorreu ao tentar instalar %s."
 
-#: src/widgets/runners/install-dialog.vala:76
+#: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
 msgid "Downloading"
 msgstr "Baixando"
 
-#: src/widgets/runners/install-dialog.vala:79
+#: src/widgets/runners/install-dialog.vala:100
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
 msgstr "Extraindo"
 
-#: src/widgets/runners/install-dialog.vala:82
+#: src/widgets/runners/install-dialog.vala:103
 msgid "Moving"
 msgstr "Movendo"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-25 11:08-0400\n"
+"POT-Creation-Date: 2025-08-10 19:13-0400\n"
 "PO-Revision-Date: 2025-06-02 20:08-0400\n"
 "Last-Translator: Vysp3r <dev@vysp3r.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -19,16 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Poedit 3.6\n"
 
-#: src/widgets/application.vala:72
+#: src/widgets/application.vala:86
 #, fuzzy
 msgid "A modern compatibility tools manager"
 msgstr "Un gestionnaire simple d’outils de compatibilité pour Linux."
 
-#: src/widgets/application.vala:74
+#: src/widgets/application.vala:88
 msgid "Website"
 msgstr ""
 
-#: src/widgets/application.vala:79
+#: src/widgets/application.vala:93
 msgid "Special thanks to"
 msgstr "Remerciements à"
 
@@ -68,7 +68,7 @@ msgstr ""
 
 #: src/widgets/window.vala:87 src/widgets/window.vala:95
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -210,7 +210,7 @@ msgid "Yes"
 msgstr "Oui"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -227,7 +227,7 @@ msgid "When trying to delete %s an error occurred."
 msgstr "Outil de compatibilité Steam pour exécuter des jeux Windows"
 
 #: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:55
+#: src/widgets/runners/install-dialog.vala:57
 #: src/widgets/runners/upgrade-dialog.vala:57
 #: src/widgets/runners/steamtinkerlaunch-row.vala:45
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
@@ -242,24 +242,24 @@ msgstr "Outil de compatibilité Steam pour exécuter des jeux Windows"
 msgid "OK"
 msgstr "OK"
 
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #, fuzzy, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "Outil de compatibilité Steam pour exécuter des jeux Windows"
 
-#: src/widgets/runners/install-dialog.vala:76
+#: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
 #, fuzzy
 msgid "Downloading"
 msgstr "En téléchargement..."
 
-#: src/widgets/runners/install-dialog.vala:79
+#: src/widgets/runners/install-dialog.vala:100
 #: src/widgets/runners/upgrade-dialog.vala:81
 #, fuzzy
 msgid "Extracting"
 msgstr "En extraction..."
 
-#: src/widgets/runners/install-dialog.vala:82
+#: src/widgets/runners/install-dialog.vala:103
 #, fuzzy
 msgid "Moving"
 msgstr "Suppression"
