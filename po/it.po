@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-25 11:08-0400\n"
+"POT-Creation-Date: 2025-08-10 19:13-0400\n"
 "PO-Revision-Date: 2025-08-05 23:01+0000\n"
 "Last-Translator: Alessandro Marigliano <alemarigliano22@proton.me>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -15,15 +15,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:72
+#: src/widgets/application.vala:86
 msgid "A modern compatibility tools manager"
 msgstr "Un gestore moderno per strumenti di compatibilità"
 
-#: src/widgets/application.vala:74
+#: src/widgets/application.vala:88
 msgid "Website"
 msgstr "Sito Web"
 
-#: src/widgets/application.vala:79
+#: src/widgets/application.vala:93
 msgid "Special thanks to"
 msgstr "Ringraziamenti speciali a"
 
@@ -61,7 +61,7 @@ msgstr "Sta impiegando più del normale?"
 
 #: src/widgets/window.vala:87 src/widgets/window.vala:95
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -200,7 +200,7 @@ msgid "Yes"
 msgstr "Sì"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -217,7 +217,7 @@ msgid "When trying to delete %s an error occurred."
 msgstr "Si è verificato un errore durante la cancellazione di %s."
 
 #: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:55
+#: src/widgets/runners/install-dialog.vala:57
 #: src/widgets/runners/upgrade-dialog.vala:57
 #: src/widgets/runners/steamtinkerlaunch-row.vala:45
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
@@ -232,22 +232,22 @@ msgstr "Si è verificato un errore durante la cancellazione di %s."
 msgid "OK"
 msgstr "OK"
 
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "Si è verificato durante l'installazione di %s."
 
-#: src/widgets/runners/install-dialog.vala:76
+#: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
 msgid "Downloading"
 msgstr "Download in corso"
 
-#: src/widgets/runners/install-dialog.vala:79
+#: src/widgets/runners/install-dialog.vala:100
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
 msgstr "Estrazione in corso"
 
-#: src/widgets/runners/install-dialog.vala:82
+#: src/widgets/runners/install-dialog.vala:103
 msgid "Moving"
 msgstr "Spostando"
 

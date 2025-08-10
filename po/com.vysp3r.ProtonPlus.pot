@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-25 11:08-0400\n"
+"POT-Creation-Date: 2025-08-10 19:13-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/widgets/application.vala:72
+#: src/widgets/application.vala:86
 msgid "A modern compatibility tools manager"
 msgstr ""
 
-#: src/widgets/application.vala:74
+#: src/widgets/application.vala:88
 msgid "Website"
 msgstr ""
 
-#: src/widgets/application.vala:79
+#: src/widgets/application.vala:93
 msgid "Special thanks to"
 msgstr ""
 
@@ -63,7 +63,7 @@ msgstr ""
 
 #: src/widgets/window.vala:87 src/widgets/window.vala:95
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -200,7 +200,7 @@ msgid "Yes"
 msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -217,7 +217,7 @@ msgid "When trying to delete %s an error occurred."
 msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:55
+#: src/widgets/runners/install-dialog.vala:57
 #: src/widgets/runners/upgrade-dialog.vala:57
 #: src/widgets/runners/steamtinkerlaunch-row.vala:45
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
@@ -232,22 +232,22 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #, c-format
 msgid "When trying to install %s an error occurred."
 msgstr ""
 
-#: src/widgets/runners/install-dialog.vala:76
+#: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
 msgid "Downloading"
 msgstr ""
 
-#: src/widgets/runners/install-dialog.vala:79
+#: src/widgets/runners/install-dialog.vala:100
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
 msgstr ""
 
-#: src/widgets/runners/install-dialog.vala:82
+#: src/widgets/runners/install-dialog.vala:103
 msgid "Moving"
 msgstr ""
 

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-25 11:08-0400\n"
+"POT-Creation-Date: 2025-08-10 19:13-0400\n"
 "PO-Revision-Date: 2025-07-20 07:02+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -16,15 +16,15 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:72
+#: src/widgets/application.vala:86
 msgid "A modern compatibility tools manager"
 msgstr "Manajer alat kompatibilitas modern"
 
-#: src/widgets/application.vala:74
+#: src/widgets/application.vala:88
 msgid "Website"
 msgstr "Laman web"
 
-#: src/widgets/application.vala:79
+#: src/widgets/application.vala:93
 msgid "Special thanks to"
 msgstr "Terima kasih khusus kepada"
 
@@ -62,7 +62,7 @@ msgstr "Memakan waktu lebih lama dari biasanya?"
 
 #: src/widgets/window.vala:87 src/widgets/window.vala:95
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -201,7 +201,7 @@ msgid "Yes"
 msgstr "Ya"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -218,7 +218,7 @@ msgid "When trying to delete %s an error occurred."
 msgstr "Terjadi kesalahan ketika mencoba menghapus %s."
 
 #: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:55
+#: src/widgets/runners/install-dialog.vala:57
 #: src/widgets/runners/upgrade-dialog.vala:57
 #: src/widgets/runners/steamtinkerlaunch-row.vala:45
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
@@ -233,22 +233,22 @@ msgstr "Terjadi kesalahan ketika mencoba menghapus %s."
 msgid "OK"
 msgstr "Oke"
 
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "Terjadi kesalahan ketika mencoba memasang %s."
 
-#: src/widgets/runners/install-dialog.vala:76
+#: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
 msgid "Downloading"
 msgstr "Mengunduh"
 
-#: src/widgets/runners/install-dialog.vala:79
+#: src/widgets/runners/install-dialog.vala:100
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
 msgstr "Mengekstrak"
 
-#: src/widgets/runners/install-dialog.vala:82
+#: src/widgets/runners/install-dialog.vala:103
 msgid "Moving"
 msgstr "Memindahkan"
 

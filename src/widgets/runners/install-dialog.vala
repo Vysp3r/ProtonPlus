@@ -25,6 +25,8 @@ namespace ProtonPlus.Widgets {
 				set_close_response ("cancel");
 
 				release.notify["progress"].connect (release_progress_changed);
+				release.notify["speed"].connect (update_download_stat);
+				release.notify["time"].connect (update_download_stat);
 			}
 
 			Timeout.add_full (Priority.DEFAULT, 25, () => {
@@ -66,14 +68,33 @@ namespace ProtonPlus.Widgets {
 			}
 		}
 
+		void update_download_stat () {
+			var download_speed = release.speed_kbps >= 1000 ? "%.2f MB/s".printf(release.speed_kbps / 1024.0) : "%.2f KB/s".printf(release.speed_kbps);
+
+			var time_remaining = "";
+			int s = (int) release.seconds_remaining % 60;
+			int m = ((int) release.seconds_remaining / 60) % 60;
+			int h = (int) release.seconds_remaining / 3600;
+			if (h > 0)
+				time_remaining = "%02d:%02d:%02d".printf(h, m, s);
+			else if (m > 0)
+				time_remaining = "%02d:%02d".printf(m, s);
+			else
+				time_remaining = "%ds".printf(s);
+
+			progress_bar.set_text ("%s - %s (%s)".printf(_("Downloading"), download_speed, time_remaining));
+		}
+
 		void release_progress_changed () {
-			progress_bar.set_fraction (double.parse (release.progress) / 100);
+			update_download_stat ();
+
+			progress_bar.set_fraction (release.progress != null ? double.parse (release.progress) / 100 : 0);
 		}
 
 		void release_step_changed () {
 			switch (release.step) {
 			case Models.Release.Step.DOWNLOADING:
-				progress_bar.set_text (_("Downloading"));
+				release_progress_changed ();
 				break;
 			case Models.Release.Step.EXTRACTING:
 				progress_bar.set_text (_("Extracting"));

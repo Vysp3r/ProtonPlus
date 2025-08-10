@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-25 11:08-0400\n"
+"POT-Creation-Date: 2025-08-10 19:13-0400\n"
 "PO-Revision-Date: 2025-07-19 17:26+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 3.6\n"
 
-#: src/widgets/application.vala:72
+#: src/widgets/application.vala:86
 msgid "A modern compatibility tools manager"
 msgstr "Ein moderner Verwalter für Kompatibilitätstools"
 
-#: src/widgets/application.vala:74
+#: src/widgets/application.vala:88
 msgid "Website"
 msgstr "Webseite"
 
-#: src/widgets/application.vala:79
+#: src/widgets/application.vala:93
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
 
@@ -65,7 +65,7 @@ msgstr "Dauert es länger als normal?"
 
 #: src/widgets/window.vala:87 src/widgets/window.vala:95
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -206,7 +206,7 @@ msgid "Yes"
 msgstr "Ja"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -223,7 +223,7 @@ msgid "When trying to delete %s an error occurred."
 msgstr "Beim Versuch, %s zu entfernen, ist ein Fehler aufgetreten."
 
 #: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:55
+#: src/widgets/runners/install-dialog.vala:57
 #: src/widgets/runners/upgrade-dialog.vala:57
 #: src/widgets/runners/steamtinkerlaunch-row.vala:45
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
@@ -238,22 +238,22 @@ msgstr "Beim Versuch, %s zu entfernen, ist ein Fehler aufgetreten."
 msgid "OK"
 msgstr "OK"
 
-#: src/widgets/runners/install-dialog.vala:54
+#: src/widgets/runners/install-dialog.vala:56
 #, c-format
 msgid "When trying to install %s an error occurred."
 msgstr "Beim Versuch, %s zu installieren, ist ein Fehler aufgetreten."
 
-#: src/widgets/runners/install-dialog.vala:76
+#: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
 msgid "Downloading"
 msgstr "Lade herunter"
 
-#: src/widgets/runners/install-dialog.vala:79
+#: src/widgets/runners/install-dialog.vala:100
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
 msgstr "Extrahiere"
 
-#: src/widgets/runners/install-dialog.vala:82
+#: src/widgets/runners/install-dialog.vala:103
 msgid "Moving"
 msgstr "Verschiebe"
 
