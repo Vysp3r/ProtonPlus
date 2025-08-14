@@ -1,26 +1,27 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-10 19:13-0400\n"
-"PO-Revision-Date: 2025-07-16 12:10+0300\n"
-"Last-Translator: MUJTABA ALSALEH <Mujtaba.m.Alsaleh@gmail.com>\n"
-"Language-Team: Arabic <LL@li.org>\n"
+"PO-Revision-Date: 2025-08-14 11:01+0000\n"
+"Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
+"Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
+"protonplus/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: src/widgets/application.vala:86
-#, fuzzy
 msgid "A modern compatibility tools manager"
-msgstr "Linux مدير أدوات التوافق حديث لنظام"
+msgstr "مدير لأدوات التوافق بطابع حديث"
 
 #: src/widgets/application.vala:88
 msgid "Website"
@@ -167,7 +168,7 @@ msgstr "عرض المزيد من المعلومات"
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:48
 msgid "Used"
-msgstr ""
+msgstr "مُستخدَم"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -275,17 +276,16 @@ msgid "Check this to also delete your configuration files."
 msgstr "حدد هنا لحذف ملفات التخصيص الخاص بك أيضاً"
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Show installed only"
-msgstr "المثبت فقط"
+msgstr "أظهر المثبت فقط"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr ""
+msgstr "أظهر المُستخدَم فقط"
 
 #: src/widgets/runners/filters-box.vala:30
 msgid "Show unused only"
-msgstr ""
+msgstr "أظهر الغير مُستخدَم فقط"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -340,7 +340,7 @@ msgstr "الاسم"
 
 #: src/widgets/games/games-box.vala:92
 msgid "Prefix"
-msgstr ""
+msgstr "البادئة"
 
 #: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
