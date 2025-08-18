@@ -8,8 +8,6 @@
     <file alias="lutris.svg">images/lutris.svg</file>
     <file alias="steam.svg">images/steam.svg</file>
     <file alias="winezgui.svg">images/winezgui.svg</file>
-  </gresource>
-  <gresource prefix="/com/vysp3r/ProtonPlus/css">
     <file alias="style.css">css/style.css</file>
   </gresource>
   <gresource prefix="/com/vysp3r/ProtonPlus/icons">
@@ -34,5 +32,6 @@
     <file alias="scalable/actions/carambola-symbolic.svg">icons/carambola.svg</file>
     <file alias="scalable/actions/heart-symbolic.svg">icons/heart.svg</file>
     <file alias="scalable/actions/bug-symbolic.svg">icons/bug.svg</file>
+    <file alias="scalable/actions/search-symbolic.svg">icons/search.svg</file>
   </gresource>
 </gresources>
