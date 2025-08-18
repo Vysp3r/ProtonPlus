@@ -21,11 +21,6 @@ namespace ProtonPlus.Widgets {
 
 			Gtk.IconTheme.get_for_display (display).add_resource_path ("/com/vysp3r/ProtonPlus/icons");
 
-			var css_provider = new Gtk.CssProvider ();
-			css_provider.load_from_resource ("/com/vysp3r/ProtonPlus/css/style.css");
-
-			Gtk.StyleContext.add_provider_for_display (display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-
 			window = new Window ();
 
 			var schema_source = SettingsSchemaSource.get_default ();

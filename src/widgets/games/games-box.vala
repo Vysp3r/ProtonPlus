@@ -5,6 +5,7 @@ namespace ProtonPlus.Widgets {
 		public bool active { get; set; }
 		bool error { get; set; }
 		bool invalid { get; set; }
+		bool show_search { get; set; }
 		Models.Launcher launcher;
 
 		Gtk.Image image;
@@ -15,7 +16,10 @@ namespace ProtonPlus.Widgets {
 		SwitchProfileButton switch_profile_button;
 		SelectButton select_button;
 		UnselectButton unselect_button;
+		Adw.ButtonContent search_button_content;
+		Gtk.Button search_button;
 		Gtk.FlowBox flow_box;
+		Gtk.Entry search_entry;
 		Gtk.Label name_label;
 		Gtk.Label prefix_label;
 		Gtk.Label compatibility_tool_label;
@@ -68,6 +72,17 @@ namespace ProtonPlus.Widgets {
 
 			default_tool_button = new DefaultToolButton();
 
+			search_button_content = new Adw.ButtonContent() {
+				icon_name = "search-symbolic",
+				label = _("Show search"),
+			};
+			
+			search_button = new Gtk.Button () {
+				css_classes = { "flat" },
+				child = search_button_content,
+			};
+			search_button.clicked.connect(search_button_clicked);
+
 			switch_profile_button = new SwitchProfileButton();
 
 			flow_box = new Gtk.FlowBox();
@@ -79,8 +94,15 @@ namespace ProtonPlus.Widgets {
 			flow_box.append(select_button);
 			flow_box.append(unselect_button);
 			flow_box.append(default_tool_button);
+			flow_box.append(search_button);
 			flow_box.append(switch_profile_button);
 			flow_box.set_selection_mode(Gtk.SelectionMode.NONE);
+
+			search_entry = new Gtk.Entry() {
+				visible = false,
+				placeholder_text = _("Search for a game"),
+			};
+			search_entry.changed.connect(load_games);
 
 			var name_label_gesture = new Gtk.GestureClick();
 			name_label_gesture.pressed.connect(name_label_clicked);
@@ -145,6 +167,7 @@ namespace ProtonPlus.Widgets {
 			set_margin_end(12);
 
 			append(flow_box);
+			append(search_entry);
 			append(headered_list_box);
 			append(warning_label);
 			append(status_page);
@@ -179,7 +202,7 @@ namespace ProtonPlus.Widgets {
 						switch_profile_button.load(steam_launcher, load_steam_profile, game_list_box);
 					}
 
-					notify_property("active");                     // Ensure that when the launcher is changed, but you're in the Games tab the profile dialog still shows up
+					notify_property("active"); // Ensure that when the launcher is changed, but you're in the Games tab the profile dialog still shows up
 				} else {
 					load_games();
 				}
@@ -234,6 +257,9 @@ namespace ProtonPlus.Widgets {
 			mass_edit_button.load(model, expression);
 
 			foreach (var game in launcher.games) {
+				if (show_search && !game.name.down().contains(search_entry.get_text().down()))
+					continue;
+
 				var game_row = new GameRow(game, model, expression);
 
 				game_list_box.append(game_row);
@@ -293,6 +319,16 @@ namespace ProtonPlus.Widgets {
 
 				return strcmp(name1, name2);
 			});
+		}
+
+		void search_button_clicked () {
+			show_search = !show_search;
+
+			search_button_content.set_label (show_search ? _("Hide search") : _("Show search"));
+
+			search_entry.set_visible(show_search);
+
+			search_entry.set_text("");
 		}
 	}
 }
