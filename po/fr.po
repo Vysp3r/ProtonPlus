@@ -3,13 +3,14 @@
 # aleksej0R <omolice@hotmail.fr>, 2024.
 # Noé Lopez <noelopez@free.fr>, 2024.
 # Iwan ASSI <claymorwan@fembois.dev>, 2025.
+# Loïc Nussbaumer <axelolo68@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-10 19:13-0400\n"
-"PO-Revision-Date: 2025-06-02 20:08-0400\n"
-"Last-Translator: Vysp3r <dev@vysp3r.com>\n"
+"PO-Revision-Date: 2025-09-11 13:03+0000\n"
+"Last-Translator: Loïc Nussbaumer <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
 "Language: fr\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: src/widgets/application.vala:86
 #, fuzzy
@@ -81,7 +82,7 @@ msgstr ""
 
 #: src/widgets/window.vala:95
 msgid "An error ocurred"
-msgstr ""
+msgstr "Une erreur est survenue"
 
 #: src/widgets/window.vala:95
 #, fuzzy
@@ -91,20 +92,20 @@ msgstr ""
 
 #: src/widgets/window.vala:117 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
-msgstr ""
+msgstr "Vérification des mises à jour..."
 
 #: src/widgets/window.vala:124
 msgid "Nothing to update."
-msgstr ""
+msgstr "Aucune mise à jour."
 
 #: src/widgets/window.vala:128
 msgid "Everything is now up-to-date."
-msgstr ""
+msgstr "Tout est maintenant à jour"
 
 #: src/widgets/window.vala:132
 #, fuzzy
 msgid "An error occured while checking for updates."
-msgstr "Une erreur inattendue s’est produite lors de l’extraction. "
+msgstr "Une erreur inattendue s’est produite lors de l’extraction."
 
 #: src/widgets/window.vala:145
 #, c-format
@@ -134,7 +135,7 @@ msgstr ""
 
 #: src/widgets/window.vala:186
 msgid "Exit"
-msgstr ""
+msgstr "Quitter"
 
 #: src/widgets/window.vala:189 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
@@ -174,7 +175,7 @@ msgstr "Afficher plus d'informations"
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:48
 msgid "Used"
-msgstr ""
+msgstr "Utilisé"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -192,12 +193,11 @@ msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr ""
+msgstr "Utiliser par un jeu."
 
 #: src/widgets/runners/remove-dialog.vala:26
-#, fuzzy
 msgid "Are you sure you want to proceed?"
-msgstr "Voulez-vous vraiment supprimer "
+msgstr "Voulez-vous vraiment supprimer ?"
 
 #: src/widgets/runners/remove-dialog.vala:30
 #: src/widgets/runners/steamtinkerlaunch-row.vala:91
@@ -219,7 +219,7 @@ msgstr "Oui"
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #: src/widgets/runners/remove-dialog.vala:49
 #, fuzzy, c-format
@@ -260,9 +260,8 @@ msgid "Extracting"
 msgstr "En extraction..."
 
 #: src/widgets/runners/install-dialog.vala:103
-#, fuzzy
 msgid "Moving"
-msgstr "Suppression"
+msgstr "Déplacement"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, fuzzy, c-format
@@ -319,9 +318,8 @@ msgstr ""
 "installé par ProtonPlus."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#, fuzzy
 msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr "Voulez vous le supprimer et installer %s avec ProtonPlus?"
+msgstr "Voulez-vous le supprimer et installer %s avec ProtonPlus?"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, fuzzy, c-format
@@ -350,12 +348,11 @@ msgstr "Mettre %s à jour vers la dernière version"
 
 #: src/widgets/games/games-box.vala:58
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr ""
+msgstr "Fermer le client Steam avant que les changements soient appliqués"
 
 #: src/widgets/games/games-box.vala:88
-#, fuzzy
 msgid "Name"
-msgstr "Nom: "
+msgstr "Nom"
 
 #: src/widgets/games/games-box.vala:92
 msgid "Prefix"
@@ -363,29 +360,29 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:99
 #: src/widgets/games/mass-edit-dialog.vala:38
-#, fuzzy
 msgid "Compatibility tool"
-msgstr "Outil de compatiblité"
+msgstr "Outil de compatibilité"
 
 #: src/widgets/games/games-box.vala:103
 msgid "Other"
-msgstr ""
+msgstr "Autres"
 
 #: src/widgets/games/games-box.vala:129
 msgid "An error occurred"
-msgstr ""
+msgstr "Une erreur est survenue"
 
 #: src/widgets/games/games-box.vala:129
 msgid "No profile was found."
-msgstr ""
+msgstr "Aucun profile trouvé"
 
 #: src/widgets/games/games-box.vala:129
 msgid "Make sure to connect yourself at least once on Steam."
-msgstr ""
+msgstr "Assurez-vous de vous connecter au moins une fois sur Steam."
 
 #: src/widgets/games/games-box.vala:129
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
+"Si vous pensez que c'est un problème, vous pouvez le signaler sur GitHub."
 
 #: src/widgets/games/games-box.vala:188
 #, fuzzy
@@ -400,7 +397,7 @@ msgstr "%s n'est pas supporté"
 #: src/widgets/games/games-box.vala:188
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
-msgstr ""
+msgstr "Envie d'accélérer le développement ? Montrez votre soutien !"
 
 #: src/widgets/games/games-box.vala:228 src/widgets/games/games-box.vala:288
 #: src/widgets/games/games-box.vala:291
@@ -413,24 +410,24 @@ msgstr ""
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
-msgstr ""
+msgstr "Modifier les paramètre du lancement de jeu"
 
 #: src/widgets/games/game-row.vala:81
 msgid "Unknown"
-msgstr ""
+msgstr "Inconnu"
 
 #: src/widgets/games/game-row.vala:87
 msgid "Open ProtonDB page"
-msgstr ""
+msgstr "Ouvrir la page ProtonDB"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
-msgstr ""
+msgstr "Édition groupée"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 msgid "1 game selected"
-msgstr ""
+msgstr "1 jeu sélectionné"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 #, c-format
@@ -441,16 +438,16 @@ msgstr ""
 #: src/widgets/games/launch-options-dialog.vala:14
 #: src/widgets/games/default-tool-dialog.vala:16
 msgid "Apply"
-msgstr ""
+msgstr "Appliquer"
 
 #: src/widgets/games/mass-edit-dialog.vala:23
 msgid "Apply the current modifications"
-msgstr ""
+msgstr "Appliquer les modifications"
 
 #: src/widgets/games/mass-edit-dialog.vala:31
 #: src/widgets/games/mass-edit-dialog.vala:43
 msgid "Enabled"
-msgstr ""
+msgstr "Activer"
 
 #: src/widgets/games/mass-edit-dialog.vala:32
 msgid ""
@@ -479,6 +476,8 @@ msgstr "Paramètres du launcher"
 msgid ""
 "Enable all the options that you want the mass edit to take into account."
 msgstr ""
+"Activez toutes les options que vous souhaitez prendre en compte pour "
+"l'édition groupée."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
 #, fuzzy
@@ -490,20 +489,19 @@ msgstr "Outil de compatibilité Steam pour exécuter des jeux Windows"
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Create shortcut"
-msgstr ""
+msgstr "Créer un raccourci"
 
 #: src/widgets/games/shortcut-button.vala:28
-#, fuzzy
 msgid "Delete shortcut"
-msgstr "Supprimer %s"
+msgstr "Supprimé un raccourci"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr ""
+msgstr "Créer un raccourci ProtonPlus sur Steam"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Delete the shortcut of ProtonPlus in Steam"
-msgstr ""
+msgstr "Supprimé le raccourci ProtonPlus dans Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
 #, fuzzy
@@ -533,7 +531,7 @@ msgstr ""
 
 #: src/widgets/games/unselect-button.vala:8
 msgid "Unselect all"
-msgstr ""
+msgstr "Tout désélectionner"
 
 #: src/widgets/games/unselect-button.vala:11
 #, fuzzy
@@ -541,9 +539,8 @@ msgid "Unselect all the games"
 msgstr "Installer l’outil"
 
 #: src/widgets/games/mass-edit-button.vala:13
-#, fuzzy
 msgid "Edit the compatibility tool of the selected games at once"
-msgstr "Outil de compatibilité Steam pour exécuter des jeux Windows"
+msgstr "Modifier l'outil de compatibilité pour les jeux sélectionné"
 
 #: src/widgets/games/mass-edit-button.vala:42
 msgid ""
@@ -552,14 +549,13 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-dialog.vala:12
-#, fuzzy
 msgid "Modify launch options"
-msgstr "Paramètres du launcher"
+msgstr "Modifier les paramètres de lancement"
 
 #: src/widgets/games/launch-options-dialog.vala:15
 #: src/widgets/games/default-tool-dialog.vala:17
 msgid "Apply the current modification"
-msgstr ""
+msgstr "Appliquer les modifications"
 
 #: src/widgets/games/launch-options-dialog.vala:57
 #, fuzzy, c-format
@@ -572,15 +568,15 @@ msgstr ""
 
 #: src/widgets/games/extra-button.vala:11
 msgid "Open install directory"
-msgstr ""
+msgstr "Ouvrir le dossier d'installation"
 
 #: src/widgets/games/extra-button.vala:14
 msgid "Open prefix directory"
-msgstr ""
+msgstr "Ouvrir le dossier prefix"
 
 #: src/widgets/games/extra-button.vala:17
 msgid "Open in protontricks"
-msgstr ""
+msgstr "Ouvrir dans protontricks"
 
 #: src/widgets/games/extra-button.vala:32
 #, fuzzy
@@ -736,9 +732,9 @@ msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
 msgstr "Build DXVK qui marche avec les versions antérieur à 1.3 de Vulkan"
 
 #: src/translatables.vala:23
-#, fuzzy
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
-msgstr "Build DXVK qui marche avec les versions antérieur à 1.3 de Vulkan"
+msgstr ""
+"Build DXVK Async qui marche avec les versions antérieures à 1.3 de Vulkan"
 
 #: src/translatables.vala:24
 msgid ""
@@ -751,7 +747,7 @@ msgstr ""
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "Général"
 
 #: data/ui/gtk/help-overlay.ui:14
 #, fuzzy
