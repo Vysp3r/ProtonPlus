@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-10 19:13-0400\n"
-"PO-Revision-Date: 2025-09-12 03:01+0000\n"
+"PO-Revision-Date: 2025-09-17 15:05+0000\n"
 "Last-Translator: Loïc Nussbaumer <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
@@ -21,9 +21,8 @@ msgstr ""
 "X-Generator: Weblate 5.14-dev\n"
 
 #: src/widgets/application.vala:86
-#, fuzzy
 msgid "A modern compatibility tools manager"
-msgstr "Un gestionnaire simple d’outils de compatibilité pour Linux."
+msgstr "Un gestionnaire moderne d’outils de compatibilité pour Linux."
 
 #: src/widgets/application.vala:88
 msgid "Website"
@@ -34,7 +33,6 @@ msgid "Special thanks to"
 msgstr "Remerciements à"
 
 #: src/widgets/window.vala:44
-#, fuzzy
 msgid "Donate"
 msgstr "Donation"
 
@@ -59,9 +57,8 @@ msgid "Games"
 msgstr "Jeux"
 
 #: src/widgets/window.vala:87
-#, fuzzy
 msgid "Loading"
-msgstr "En téléchargement..."
+msgstr "Chargement"
 
 #: src/widgets/window.vala:87
 msgid "Taking longer than normal?"
@@ -180,7 +177,7 @@ msgstr "Utilisé"
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
 msgid "Load more"
-msgstr "Charger plus"
+msgstr "Chargez plus"
 
 #: src/widgets/runners/remove-dialog.vala:13
 msgid "Are you sure you want this?"
@@ -254,9 +251,8 @@ msgstr "Téléchargement"
 
 #: src/widgets/runners/install-dialog.vala:100
 #: src/widgets/runners/upgrade-dialog.vala:81
-#, fuzzy
 msgid "Extracting"
-msgstr "En extraction..."
+msgstr "Extraction"
 
 #: src/widgets/runners/install-dialog.vala:103
 msgid "Moving"
@@ -416,7 +412,7 @@ msgstr "Ouvrir la page ProtonDB"
 #: src/widgets/games/mass-edit-dialog.vala:20
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
-msgstr "Édition groupée"
+msgstr "Modification groupée"
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 msgid "1 game selected"
@@ -447,6 +443,8 @@ msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
 msgstr ""
+"Activer ceci si vous voulez que la modification groupée inclus l'outil de "
+"compatibilité"
 
 #: src/widgets/games/mass-edit-dialog.vala:44
 msgid ""
@@ -454,16 +452,14 @@ msgid ""
 "account."
 msgstr ""
 "Activez cette option pour inclure les options de lancement dans la "
-"modification en masse."
+"modification groupé."
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
-#, fuzzy
 msgid "Enter your desired launch options"
-msgstr "Paramètres du launcher"
+msgstr "Entrez vos options de lancement souhaitées"
 
 #: src/widgets/games/mass-edit-dialog.vala:51
-#, fuzzy
 msgid "Launch options"
 msgstr "Paramètres du launcher"
 
@@ -546,7 +542,7 @@ msgid ""
 "feature."
 msgstr ""
 "Veuillez vous assurer de sélectionner au moins un jeu avant d'utiliser la "
-"fonction de modification de masse."
+"fonction de modification de groupé."
 
 #: src/widgets/games/launch-options-dialog.vala:12
 msgid "Modify launch options"
@@ -581,7 +577,6 @@ msgid "Open in protontricks"
 msgstr "Ouvrir dans protontricks"
 
 #: src/widgets/games/extra-button.vala:32
-#, fuzzy
 msgid "Open menu"
 msgstr "Ouvrir"
 
@@ -751,13 +746,11 @@ msgid "General"
 msgstr "Général"
 
 #: data/ui/gtk/help-overlay.ui:14
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
 msgstr "_Raccourcis clavier"
 
 #: data/ui/gtk/help-overlay.ui:20
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Quitter"
