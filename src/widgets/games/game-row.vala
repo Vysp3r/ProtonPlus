@@ -51,7 +51,7 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void load_steam(Models.Games.Steam game) {
-			launch_options_button = new Gtk.Button.from_icon_name("file-settings-symbolic");
+			launch_options_button = new Gtk.Button.from_icon_name("edit-symbolic");
 			launch_options_button.set_tooltip_text(_("Modify the game launch options"));
 			launch_options_button.add_css_class("flat");
 			launch_options_button.clicked.connect(launch_options_button_clicked);
