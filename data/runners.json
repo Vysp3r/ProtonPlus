@@ -185,6 +185,10 @@
                         {
                             "launcher": "default",
                             "directory_name_format": "wine-$release_name-amd64"
+                        },
+                        {
+                            "launcher": "Bottles",
+                            "directory_name_format": "kron4ek-wine-$release_name-amd64"
                         }
                     ],
                     "request_asset_exclude": [
@@ -202,6 +206,10 @@
                         {
                             "launcher": "default",
                             "directory_name_format": "wine-$release_name-staging-amd64"
+                        },
+                        {
+                            "launcher": "Bottles",
+                            "directory_name_format": "kron4ek-wine-$release_name-staging-amd64"
                         }
                     ],
                     "request_asset_exclude": [
@@ -219,6 +227,10 @@
                         {
                             "launcher": "default",
                             "directory_name_format": "wine-$release_name-staging-tkg-amd64"
+                        },
+                        {
+                            "launcher": "Bottles",
+                            "directory_name_format": "kron4ek-wine-$release_name-staging-tkg-amd64"
                         }
                     ],
                     "request_asset_exclude": [
@@ -236,6 +248,10 @@
                         {
                             "launcher": "default",
                             "directory_name_format": "wine-$release_name-amd64-wow64"
+                        },
+                        {
+                            "launcher": "Bottles",
+                            "directory_name_format": "kron4ek-wine-$release_name-amd64-wow64"
                         }
                     ],
                     "request_asset_filter": [
@@ -389,6 +405,10 @@
             "compat_layers": [
                 {
                     "title": "Proton",
+                    "directory": "/runners"
+                },
+                {
+                    "title": "Wine",
                     "directory": "/runners"
                 },
                 {
