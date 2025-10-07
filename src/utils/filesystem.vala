@@ -66,6 +66,8 @@ namespace ProtonPlus.Utils {
                     delete_directory.begin (output, (obj, res) => {
                         delete_directory.end (res);
                     });
+
+                    output = "";
                 }
 
                 delete_file (install_location + "/" + tool_name + extension);
