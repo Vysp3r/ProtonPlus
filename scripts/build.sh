@@ -30,7 +30,7 @@ show_log() {
 
 flatpak_dependency_check() {
   show_log "INFO" "Ensuring required Flatpak dependencies are installed..."
-  flatpak install -y runtime/org.gnome.Sdk/x86_64/48 runtime/org.gnome.Platform/x86_64/48 runtime/org.freedesktop.Sdk.Extension.vala/x86_64/24.08 org.flatpak.Builder
+  flatpak install -y runtime/org.gnome.Sdk/x86_64/49 runtime/org.gnome.Platform/x86_64/49 runtime/org.freedesktop.Sdk.Extension.vala/x86_64/25.08 org.flatpak.Builder
   show_log "PASS" "Required dependencies are installed."
 }
 
