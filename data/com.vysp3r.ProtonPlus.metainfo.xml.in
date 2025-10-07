@@ -94,10 +94,31 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.13" date="2025-10-07">
+      <description>
+        <ul>
+          <li>✨ Added a search bar in the "Games" tab</li>
+          <li>✨ Added a way to see the speed and remaining time of downloads</li>
+          <li>✨ Added Wine runners to Bottles</li>
+          <li>✨ Update runtime to GNOME 49</li>
+          <li>🐛 Fixed icons issue</li>
+          <li>🐛 Fixed Proton-GE RTSP</li>
+          <li>🐛 Fixed error when cancelling install during extraction</li>
+          <li>🌐 Updated Spanish localization</li>
+          <li>🌐 Updated Portuguese localization</li>
+          <li>🌐 Updated Italian localization</li>
+          <li>🌐 Updated Arabic localization</li>
+          <li>🌐 Updated Finnish localization</li>
+          <li>🌐 Updated Polish localization</li>
+          <li>🌐 Updated French localization</li>
+          <li>🌐 Updated Ukrainian localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.12" date="2025-07-25">
       <description>
         <ul>
-          <li>🐛 Fixed launchers loading issu</li>
+          <li>🐛 Fixed launchers loading issue</li>
           <li>🐛 Fixed possible parsing issue</li>
           <li>🐛 Fixed force exit not working in the warning dialog when closing the application</li>
           <li>🐛 Fixed application freezing in a certain scenario</li>
