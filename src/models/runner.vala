@@ -96,6 +96,13 @@ namespace ProtonPlus.Models {
 				if (title == current_title)
 					continue;
 
+				var settings_path = "%s/user_settings.py".printf (runner_directory);
+				var settings_exists = FileUtils.test (settings_path, FileTest.IS_REGULAR);
+				var settings_content = "";
+				if (settings_exists) {
+					settings_content = Utils.Filesystem.get_file_content (settings_path);
+				}
+
 				var backup_runner_directory = "%s/%s Latest Backup".printf (base_runner_directory, runner.title);
 
 				var moved = yield Utils.Filesystem.move_directory (runner_directory, backup_runner_directory);
@@ -112,6 +119,10 @@ namespace ProtonPlus.Models {
 						yield Utils.Filesystem.move_directory (backup_runner_directory, runner_directory);
 
 					return UpdateCodes.ERROR;
+				}
+
+				if (settings_exists) {
+					Utils.Filesystem.create_file (settings_path, settings_content);
 				}
 
 				var deleted = yield Utils.Filesystem.delete_directory (backup_runner_directory);
