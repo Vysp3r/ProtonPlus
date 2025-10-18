@@ -31,5 +31,6 @@
     <file alias="scalable/actions/heart-symbolic.svg">icons/heart.svg</file>
     <file alias="scalable/actions/bug-symbolic.svg">icons/bug.svg</file>
     <file alias="scalable/actions/search-symbolic.svg">icons/search.svg</file>
+    <file alias="scalable/actions/folder-symbolic.svg">icons/folder.svg</file>
   </gresource>
 </gresources>

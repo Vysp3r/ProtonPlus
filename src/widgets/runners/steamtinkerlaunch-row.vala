@@ -158,6 +158,10 @@ namespace ProtonPlus.Widgets {
 			}
 		}
 
+		protected override void open_button_clicked () {
+			Utils.System.open_uri ("file://%s".printf (release.base_location));
+		}
+
 		void release_displayed_title_changed () {
 			set_title (release.displayed_title);
 
@@ -171,6 +175,7 @@ namespace ProtonPlus.Widgets {
 			install_button.set_visible (!installed);
 			remove_button.set_visible (installed);
 			upgrade_button.set_visible (installed);
+			open_button.set_visible (installed);
 
 			if (upgrade_button.get_visible ()) {
 				upgrade_button.set_icon_name (updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");

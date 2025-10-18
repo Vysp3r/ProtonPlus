@@ -3,7 +3,7 @@ namespace ProtonPlus.Models.Releases {
         string home_location { get; set; }
         string compat_location { get; set; }
         string parent_location { get; set; }
-        string base_location { get; set; }
+        public string base_location { get; set; }
         string binary_location { get; set; }
         string download_location { get; set; }
         string meta_location { get; set; }
