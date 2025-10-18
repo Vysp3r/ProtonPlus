@@ -110,6 +110,7 @@ namespace ProtonPlus.Models {
 			public string description;
 			public string endpoint;
 			public int asset_position;
+			public string asset_position_time_condition;
 			public Json.Array directory_name_formats;
 			public string type;
 			public bool has_latest_support;
@@ -384,6 +385,10 @@ namespace ProtonPlus.Models {
 					}
 				}
 
+				if (runner_object.has_member ("asset_position_time_condition")) {
+					json_runner_item.asset_position_time_condition = runner_object.get_string_member ("asset_position_time_condition");
+				}
+
 				json_runner_items[i] = json_runner_item;
 
 				// message ("Runner #%i: %s - %s".printf (i, json_runner_item.title, json_runner_item.description));
@@ -458,6 +463,7 @@ namespace ProtonPlus.Models {
 				runner.description = Utils.safe_translate(json_runner_item.description);
 				runner.endpoint = json_runner_item.endpoint;
 				runner.asset_position = json_runner_item.asset_position;
+				runner.asset_position_time_condition = json_runner_item.asset_position_time_condition;
 				runner.directory_name_format = yield get_directory_name_format_from_array(json_runner_item.directory_name_formats, group.launcher.title);
 				runner.has_latest_support = json_runner_item.has_latest_support;
 				runner.group = group;

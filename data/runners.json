@@ -109,7 +109,8 @@
                     "title": "Proton-GE RTSP",
                     "description": "Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat.",
                     "endpoint": "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases",
-                    "asset_position": 0,
+                    "asset_position": 1,
+                    "asset_position_time_condition": "2025-02-01T07:55:01Z|0",
                     "directory_name_formats": [
                         {
                             "launcher": "default",
@@ -185,6 +186,10 @@
                         {
                             "launcher": "default",
                             "directory_name_format": "wine-$release_name-amd64"
+                        },
+                        {
+                            "launcher": "Bottles",
+                            "directory_name_format": "kron4ek-wine-$release_name-amd64"
                         }
                     ],
                     "request_asset_exclude": [
@@ -202,6 +207,10 @@
                         {
                             "launcher": "default",
                             "directory_name_format": "wine-$release_name-staging-amd64"
+                        },
+                        {
+                            "launcher": "Bottles",
+                            "directory_name_format": "kron4ek-wine-$release_name-staging-amd64"
                         }
                     ],
                     "request_asset_exclude": [
@@ -219,6 +228,10 @@
                         {
                             "launcher": "default",
                             "directory_name_format": "wine-$release_name-staging-tkg-amd64"
+                        },
+                        {
+                            "launcher": "Bottles",
+                            "directory_name_format": "kron4ek-wine-$release_name-staging-tkg-amd64"
                         }
                     ],
                     "request_asset_exclude": [
@@ -236,6 +249,10 @@
                         {
                             "launcher": "default",
                             "directory_name_format": "wine-$release_name-amd64-wow64"
+                        },
+                        {
+                            "launcher": "Bottles",
+                            "directory_name_format": "kron4ek-wine-$release_name-amd64-wow64"
                         }
                     ],
                     "request_asset_filter": [
@@ -389,6 +406,10 @@
             "compat_layers": [
                 {
                     "title": "Proton",
+                    "directory": "/runners"
+                },
+                {
+                    "title": "Wine",
                     "directory": "/runners"
                 },
                 {

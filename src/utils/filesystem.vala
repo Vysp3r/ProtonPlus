@@ -66,6 +66,8 @@ namespace ProtonPlus.Utils {
                     delete_directory.begin (output, (obj, res) => {
                         delete_directory.end (res);
                     });
+
+                    output = "";
                 }
 
                 Idle.add ((owned) callback, Priority.DEFAULT);

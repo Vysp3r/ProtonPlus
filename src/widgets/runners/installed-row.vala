@@ -17,6 +17,10 @@ namespace ProtonPlus.Widgets {
 			only_show();
 		}
 
+		protected override void open_button_clicked () {
+			Utils.System.open_uri ("file://%s".printf (release.install_location));
+		}
+
 		protected override void install_button_clicked () {}
 
 		protected override void remove_button_clicked () {

@@ -1,20 +1,21 @@
 # Luke Dawnsey <luke.dawnsey@proton.me>, 2025.
+# Damglador <vse.stopchanskyi@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-10 19:13-0400\n"
-"PO-Revision-Date: 2025-07-07 00:16+0000\n"
-"Last-Translator: Luke Dawnsey <luke.dawnsey@proton.me>\n"
+"PO-Revision-Date: 2025-09-22 22:01+0000\n"
+"Last-Translator: Damglador <vse.stopchanskyi@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
-"protonplus/ru/>\n"
+"protonplus/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: src/widgets/application.vala:86
 #, fuzzy
@@ -39,7 +40,7 @@ msgstr "_Комбінації клавіш"
 
 #: src/widgets/window.vala:49
 msgid "_About ProtonPlus"
-msgstr "Інформація про ProtonPlus"
+msgstr "Про ProtonPlus"
 
 #: src/widgets/window.vala:52
 msgid "Main Menu"
@@ -93,12 +94,11 @@ msgstr "Нічого оновлювати."
 
 #: src/widgets/window.vala:128
 msgid "Everything is now up-to-date."
-msgstr "Наразі все актуально."
+msgstr "Наразі все найновішої версії."
 
 #: src/widgets/window.vala:132
-#, fuzzy
 msgid "An error occured while checking for updates."
-msgstr "Виникла помилка при перевірці оновлень."
+msgstr "Виникла помилка під час перевірки оновлень."
 
 #: src/widgets/window.vala:145
 #, c-format
@@ -107,9 +107,7 @@ msgstr "Ласкаво просимо до %s"
 
 #: src/widgets/window.vala:145
 msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
-msgstr ""
-"Встановіть Steam, Lutris, Bottles, або Heroic Games Launcher, щоб почати "
-"пользоваться программой."
+msgstr "Спочатку встановіть Steam, Lutris, Bottles, або Heroic Games Launcher."
 
 #: src/widgets/window.vala:184
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -134,7 +132,7 @@ msgstr "Вийти"
 #: src/widgets/window.vala:189 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
-msgstr "Відміна"
+msgstr "Скасувати"
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -158,7 +156,7 @@ msgstr "Видалити %s"
 #: src/widgets/runners/install-dialog.vala:17
 #, c-format
 msgid "Install %s"
-msgstr "Встановити %s"
+msgstr "Встановлення %s"
 
 #: src/widgets/runners/release-row.vala:18
 msgid "Show more information"
@@ -237,9 +235,9 @@ msgid "OK"
 msgstr "ОК"
 
 #: src/widgets/runners/install-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to install %s an error occurred."
-msgstr "При спробі встановити %s виникла помилка."
+msgstr "Під час встановлення %s виникла помилка."
 
 #: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
@@ -261,9 +259,9 @@ msgid "Upgrade %s"
 msgstr "Оновлення %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "When trying to upgrade %s an error occurred."
-msgstr "При спробі оновити %s виникла помилка."
+msgstr "Під час оновлення %s виникла помилка."
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:49
@@ -278,17 +276,16 @@ msgid "Check this to also delete your configuration files."
 msgstr "Поставте галочку, щоб також видалити файли конфігурації."
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Show installed only"
-msgstr "_Лише встановлені"
+msgstr "Лише встановлені"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Show used only"
-msgstr ""
+msgstr "Використані"
 
 #: src/widgets/runners/filters-box.vala:30
 msgid "Show unused only"
-msgstr ""
+msgstr "Не використані"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -305,8 +302,8 @@ msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
-"Схоже, що наразі використовуєте іншу версію %s, яка не була встановлена "
-"ProtonPlus."
+"Здається, наразі використовується інша версія %s, яка не була встановлена "
+"через ProtonPlus."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 msgid "Do you want to reinstall it with ProtonPlus?"
@@ -366,6 +363,7 @@ msgid "No profile was found."
 msgstr "Не знайдено профіль."
 
 #: src/widgets/games/games-box.vala:129
+#, fuzzy
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Переконайтеся, що ви хоча б раз підключилися до Steam."
 
@@ -553,7 +551,7 @@ msgstr "Змінити параметри запуску"
 #: src/widgets/games/launch-options-dialog.vala:15
 #: src/widgets/games/default-tool-dialog.vala:17
 msgid "Apply the current modification"
-msgstr "Застосувати поточну модифікацію"
+msgstr "Застосувати поточну зміну"
 
 #: src/widgets/games/launch-options-dialog.vala:57
 #, fuzzy, c-format
@@ -584,13 +582,11 @@ msgstr "Відкрити меню"
 #: src/widgets/games/default-tool-button.vala:14
 #: src/widgets/games/default-tool-dialog.vala:14
 msgid "Set the default compatibility tool"
-msgstr "Встановіть інструмент сумісності за замовчуванням"
+msgstr "Встановити стандартний інструмент сумісності"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "When trying to change the default compatibility tool an error occurred."
-msgstr ""
-"При спробі змінити інструмент сумісності за замовчуванням виникла помилка."
+msgstr "Під час зміни стандартного інструменту сумісності виникла помилка."
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
@@ -660,7 +656,8 @@ msgstr ""
 
 #: src/translatables.vala:10
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr "Кастомна збірка Proton для запуску Windows-ігор на основі Wine-tkg."
+msgstr ""
+"Користувацька збірка Proton для запуску Windows-ігор на основі Wine-tkg."
 
 #: src/translatables.vala:11
 msgid ""
@@ -672,14 +669,15 @@ msgstr ""
 
 #: src/translatables.vala:12
 msgid "Custom Proton build for running the Northstar client for Titanfall 2."
-msgstr "Кастомна збірка Proton для запуску клієнта Northstar для Titanfall 2."
+msgstr ""
+"Користувацька збірка Proton для запуску клієнта Northstar для Titanfall 2."
 
 #: src/translatables.vala:13
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
-"Luxtorpeda надає ігрові рушії під Linux для деяких ігор, що існують лише під "
-"Windows."
+"Luxtorpeda надає ігрові рушії під Linux для деяких ігор, що доступні лише "
+"для Windows."
 
 #: src/translatables.vala:14
 msgid ""

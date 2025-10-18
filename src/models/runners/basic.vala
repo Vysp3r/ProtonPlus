@@ -1,6 +1,7 @@
 namespace ProtonPlus.Models.Runners {
     public abstract class Basic : Runner {
         internal int asset_position { get; set; }
+        internal string asset_position_time_condition { get; set; }
         internal string endpoint { get; set; }
         internal int page { get; set; }
         internal string directory_name_format { get; set; }

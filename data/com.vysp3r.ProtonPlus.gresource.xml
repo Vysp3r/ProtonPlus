@@ -19,7 +19,6 @@
     <file alias="scalable/actions/info-circle-symbolic.svg">icons/info-circle.svg</file>
     <file alias="scalable/actions/dots-symbolic.svg">icons/dots.svg</file>
     <file alias="scalable/actions/world-www-symbolic.svg">icons/world-www.svg</file>
-    <file alias="scalable/actions/journal-text-symbolic.svg">icons/journal-text.svg</file>
     <file alias="scalable/actions/game-library-symbolic.svg">icons/game-library.svg</file>
     <file alias="scalable/actions/bookmark-plus-symbolic.svg">icons/bookmark-plus.svg</file>
     <file alias="scalable/actions/shield-symbolic.svg">icons/shield.svg</file>
@@ -28,10 +27,10 @@
     <file alias="scalable/actions/sort-symbolic.svg">icons/sort.svg</file>
     <file alias="scalable/actions/select-all-symbolic.svg">icons/select-all.svg</file>
     <file alias="scalable/actions/deselect-symbolic.svg">icons/deselect.svg</file>
-    <file alias="scalable/actions/file-settings-symbolic.svg">icons/file-settings.svg</file>
     <file alias="scalable/actions/carambola-symbolic.svg">icons/carambola.svg</file>
     <file alias="scalable/actions/heart-symbolic.svg">icons/heart.svg</file>
     <file alias="scalable/actions/bug-symbolic.svg">icons/bug.svg</file>
     <file alias="scalable/actions/search-symbolic.svg">icons/search.svg</file>
+    <file alias="scalable/actions/folder-symbolic.svg">icons/folder.svg</file>
   </gresource>
 </gresources>

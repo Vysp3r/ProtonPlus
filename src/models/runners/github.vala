@@ -34,7 +34,7 @@ namespace ProtonPlus.Models.Runners {
                 string title = use_name_instead_of_tag_name ? object.get_string_member ("name") : object.get_string_member ("tag_name");
                 string description = object.get_string_member ("body").strip ();
                 string page_url = object.get_string_member ("html_url");
-                string release_date = object.get_string_member ("created_at").split ("T")[0];
+                string release_date = object.get_string_member ("created_at");
 
                 if (request_asset_filter != null) {
                     var excluded = false;
@@ -61,8 +61,30 @@ namespace ProtonPlus.Models.Runners {
                         continue;
                 }
 
-                if (asset_array.get_length () - 1 >= asset_position) {
-                    var asset_object = asset_array.get_object_element (asset_position);
+                var real_asset_position = asset_position;
+
+                if (asset_position_time_condition != null) {
+                    var asset_position_time_condition_split = asset_position_time_condition.split ("|");
+
+                    if (asset_position_time_condition_split.length == 2) {
+                        var condition_time = new DateTime.from_iso8601 (asset_position_time_condition_split[0], null);
+
+                        var release_time = new DateTime.from_iso8601 (release_date, null);
+
+                        var result = release_time.compare (condition_time);
+                        if (result <= 0) {
+                            int number = 0;
+                            var parsed = int.try_parse (asset_position_time_condition_split[1], out number);
+                            if (!parsed)
+                                continue;
+
+                            real_asset_position = number;
+                        }
+                    }
+                }
+
+                if (asset_array.get_length () - 1 >= real_asset_position) {
+                    var asset_object = asset_array.get_object_element (real_asset_position);
 
                     string download_url = asset_object.get_string_member ("browser_download_url");
                     int64 download_size = asset_object.get_int_member ("size");

@@ -25,6 +25,10 @@ namespace ProtonPlus.Widgets {
 			release_state_changed ();
 		}
 
+		protected override void open_button_clicked () {
+			Utils.System.open_uri ("file://%s".printf (release.install_location));
+		}
+
 		protected override void install_button_clicked () {
 			var install_dialog = new InstallDialog (release);
 			install_dialog.present (Application.window);
@@ -56,6 +60,7 @@ namespace ProtonPlus.Widgets {
 
 			install_button.set_visible (!installed);
 			remove_button.set_visible (installed);
+			open_button.set_visible (installed);
 		}
 	}
 }
