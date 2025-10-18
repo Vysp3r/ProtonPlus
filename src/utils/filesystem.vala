@@ -70,8 +70,6 @@ namespace ProtonPlus.Utils {
                     output = "";
                 }
 
-                delete_file (install_location + "/" + tool_name + extension);
-
                 Idle.add ((owned) callback, Priority.DEFAULT);
             });
 
