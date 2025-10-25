@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-10 19:13-0400\n"
+"POT-Creation-Date: 2025-10-25 18:56-0400\n"
 "PO-Revision-Date: 2025-09-22 22:01+0000\n"
 "Last-Translator: Damglador <vse.stopchanskyi@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
@@ -17,53 +17,53 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.14-dev\n"
 
-#: src/widgets/application.vala:86
+#: src/widgets/application.vala:81
 #, fuzzy
 msgid "A modern compatibility tools manager"
 msgstr "Сучасний менеджер інструментів сумісності для Linux."
 
-#: src/widgets/application.vala:88
+#: src/widgets/application.vala:83
 msgid "Website"
 msgstr "Веб-сайт"
 
-#: src/widgets/application.vala:93
+#: src/widgets/application.vala:88
 msgid "Special thanks to"
 msgstr "Окреме дякую"
 
-#: src/widgets/window.vala:44
+#: src/widgets/window.vala:45
 msgid "Donate"
 msgstr "Пожертвування"
 
-#: src/widgets/window.vala:48
+#: src/widgets/window.vala:49
 msgid "_Keyboard Shortcuts"
 msgstr "_Комбінації клавіш"
 
-#: src/widgets/window.vala:49
+#: src/widgets/window.vala:50
 msgid "_About ProtonPlus"
 msgstr "Про ProtonPlus"
 
-#: src/widgets/window.vala:52
+#: src/widgets/window.vala:53
 msgid "Main Menu"
 msgstr "Головне меню"
 
-#: src/widgets/window.vala:57
+#: src/widgets/window.vala:58
 msgid "Runners"
 msgstr "Інструменти"
 
-#: src/widgets/window.vala:58
+#: src/widgets/window.vala:59
 msgid "Games"
 msgstr "Ігри"
 
-#: src/widgets/window.vala:87
+#: src/widgets/window.vala:89
 #, fuzzy
 msgid "Loading"
 msgstr "Завантажується"
 
-#: src/widgets/window.vala:87
+#: src/widgets/window.vala:89
 msgid "Taking longer than normal?"
 msgstr "Це займає більше часу, ніж зазвичай?"
 
-#: src/widgets/window.vala:87 src/widgets/window.vala:95
+#: src/widgets/window.vala:89 src/widgets/window.vala:100
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -76,40 +76,43 @@ msgstr "Це займає більше часу, ніж зазвичай?"
 msgid "Please report this issue on GitHub."
 msgstr "Будь ласка, повідомте про це на GitHub."
 
-#: src/widgets/window.vala:95
+#: src/widgets/window.vala:100
 msgid "An error ocurred"
 msgstr "Виникла помилка"
 
-#: src/widgets/window.vala:95
+#: src/widgets/window.vala:100
 msgid "There was an error when trying to load the launchers."
 msgstr "Виникла помилка при спробі завантажити лаунчери."
 
-#: src/widgets/window.vala:117 src/widgets/update-button.vala:9
+#: src/widgets/window.vala:122 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
 msgstr "Перевірка оновлень..."
 
-#: src/widgets/window.vala:124
+#: src/widgets/window.vala:129
 msgid "Nothing to update."
 msgstr "Нічого оновлювати."
 
-#: src/widgets/window.vala:128
+#: src/widgets/window.vala:133
 msgid "Everything is now up-to-date."
 msgstr "Наразі все найновішої версії."
 
-#: src/widgets/window.vala:132
+#: src/widgets/window.vala:137
 msgid "An error occured while checking for updates."
 msgstr "Виникла помилка під час перевірки оновлень."
 
-#: src/widgets/window.vala:145
+#: src/widgets/window.vala:150
 #, c-format
 msgid "Welcome to %s"
 msgstr "Ласкаво просимо до %s"
 
-#: src/widgets/window.vala:145
-msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+#: src/widgets/window.vala:150
+#, fuzzy
+msgid ""
+"Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
+"started."
 msgstr "Спочатку встановіть Steam, Lutris, Bottles, або Heroic Games Launcher."
 
-#: src/widgets/window.vala:184
+#: src/widgets/window.vala:189
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -119,17 +122,17 @@ msgstr "Спочатку встановіть Steam, Lutris, Bottles, або Her
 msgid "Warning"
 msgstr "Попередження"
 
-#: src/widgets/window.vala:184
+#: src/widgets/window.vala:189
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:186
+#: src/widgets/window.vala:191
 msgid "Exit"
 msgstr "Вийти"
 
-#: src/widgets/window.vala:189 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:194 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Скасувати"
@@ -146,26 +149,31 @@ msgstr "Відкрити"
 msgid "Open in your web browser"
 msgstr "Відкрити в браузері"
 
-#: src/widgets/runners/release-row.vala:10
+#: src/widgets/runners/release-row.vala:11
+#, fuzzy
+msgid "Open runner directory"
+msgstr "Відкрити каталог префіксів"
+
+#: src/widgets/runners/release-row.vala:15
+msgid "Show more information"
+msgstr "Показати більше інформації"
+
+#: src/widgets/runners/release-row.vala:19
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
 msgstr "Видалити %s"
 
-#: src/widgets/runners/release-row.vala:14
+#: src/widgets/runners/release-row.vala:23
 #: src/widgets/runners/install-dialog.vala:17
 #, c-format
 msgid "Install %s"
 msgstr "Встановлення %s"
 
-#: src/widgets/runners/release-row.vala:18
-msgid "Show more information"
-msgstr "Показати більше інформації"
-
-#: src/widgets/runners/release-row.vala:40
-#: src/widgets/runners/release-row.vala:42
+#: src/widgets/runners/release-row.vala:47
+#: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:48
+#: src/widgets/runners/basic-row.vala:52
 msgid "Used"
 msgstr ""
 
@@ -264,12 +272,12 @@ msgid "When trying to upgrade %s an error occurred."
 msgstr "Під час оновлення %s виникла помилка."
 
 #: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:49
+#: src/widgets/runners/basic-row.vala:53
 #, fuzzy, c-format
 msgid "%s is used by %i game(s)"
 msgstr "Використовується в %i іграх."
 
-#: src/widgets/runners/installed-row.vala:34
+#: src/widgets/runners/installed-row.vala:38
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
 #, fuzzy
 msgid "Check this to also delete your configuration files."
@@ -324,77 +332,89 @@ msgstr "Щоб встановити %s для %s, виконайте насту�
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Наразі ми не знаємо, як встановити %s для %s."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:177
+#: src/widgets/runners/steamtinkerlaunch-row.vala:182
 msgid "Up-to-date"
 msgstr "Актуально"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:177
+#: src/widgets/runners/steamtinkerlaunch-row.vala:182
 msgid "Update to the latest version"
 msgstr "Оновіть до останньої версії"
 
-#: src/widgets/games/games-box.vala:58
+#: src/widgets/games/games-box.vala:62
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "Закрийте клієнт Steam заздалегідь, щоб можна було застосувати зміни."
 
-#: src/widgets/games/games-box.vala:88
+#: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:327
+msgid "Show search"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:103
+msgid "Search for a game"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:110
 msgid "Name"
 msgstr "Назва"
 
-#: src/widgets/games/games-box.vala:92
+#: src/widgets/games/games-box.vala:114
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:99
+#: src/widgets/games/games-box.vala:121
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
 msgstr "Інструмент сумісності"
 
-#: src/widgets/games/games-box.vala:103
+#: src/widgets/games/games-box.vala:125
 msgid "Other"
 msgstr "Інше"
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:151
 #, fuzzy
 msgid "An error occurred"
 msgstr "Виникла помилка"
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:151
 msgid "No profile was found."
 msgstr "Не знайдено профіль."
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:151
 #, fuzzy
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Переконайтеся, що ви хоча б раз підключилися до Steam."
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:151
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 "Якщо ви вважаєте, що це проблема, обов'язково повідомте про це на GitHub."
 
-#: src/widgets/games/games-box.vala:188
+#: src/widgets/games/games-box.vala:211
 msgid "Unsuported launcher"
 msgstr "Непідтримуваний лаунчер"
 
-#: src/widgets/games/games-box.vala:188
+#: src/widgets/games/games-box.vala:211
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s наразі не підтримується."
 
-#: src/widgets/games/games-box.vala:188
+#: src/widgets/games/games-box.vala:211
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Якщо ви хочете прискорити розробку, не забудьте висловити свою підтримку!"
 
-#: src/widgets/games/games-box.vala:228 src/widgets/games/games-box.vala:288
-#: src/widgets/games/games-box.vala:291
+#: src/widgets/games/games-box.vala:251 src/widgets/games/games-box.vala:314
+#: src/widgets/games/games-box.vala:317
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "Не визначено"
+
+#: src/widgets/games/games-box.vala:327
+msgid "Hide search"
+msgstr ""
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"

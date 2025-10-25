@@ -3,6 +3,7 @@ namespace ProtonPlus.Widgets {
 		public bool only_show_used { get; set; }
 		public bool only_show_unused { get; set; }
 		public bool updating { get; set; }
+		bool first_load = true;
 		List<Models.Launcher> launchers;
 
 		StatusBox status_box;
@@ -84,9 +85,13 @@ namespace ProtonPlus.Widgets {
 		}
 
 		async void initialize () {
-			status_box.initialize ("com.vysp3r.ProtonPlus", _("Loading"), "%s\n%s".printf(_("Taking longer than normal?"), _("Please report this issue on GitHub.")));
-			if (status_box.get_parent () == null)
-					set_content (status_box);
+			if (first_load) {
+				status_box.initialize ("com.vysp3r.ProtonPlus", _("Loading"), "%s\n%s".printf(_("Taking longer than normal?"), _("Please report this issue on GitHub.")));
+				if (status_box.get_parent () == null)
+						set_content (status_box);
+
+				first_load = false;
+			}
 
 			yield Globals.load_globals ();
 
@@ -142,7 +147,7 @@ namespace ProtonPlus.Widgets {
 			}
 
 			if (!valid) {
-				status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), _("Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."));
+				status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), "%s\n(%s)".printf (_("Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get started."), ("Make sure to run the launchers at least once to ensure they're properly initialised")));
 
 				if (status_box.get_parent () == null)
 					set_content (status_box);
