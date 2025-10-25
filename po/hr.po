@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-10 19:13-0400\n"
+"POT-Creation-Date: 2025-10-25 18:59-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/protonplus/"
@@ -19,52 +19,52 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:86
+#: src/widgets/application.vala:81
 #, fuzzy
 msgid "A modern compatibility tools manager"
 msgstr "Moderni upravitelj alata za kompatibilnost za Linuks."
 
-#: src/widgets/application.vala:88
+#: src/widgets/application.vala:83
 msgid "Website"
 msgstr "Web stranica"
 
-#: src/widgets/application.vala:93
+#: src/widgets/application.vala:88
 msgid "Special thanks to"
 msgstr "Posebna zahvala"
 
-#: src/widgets/window.vala:44
+#: src/widgets/window.vala:45
 msgid "Donate"
 msgstr "Doniraj"
 
-#: src/widgets/window.vala:48
+#: src/widgets/window.vala:49
 msgid "_Keyboard Shortcuts"
 msgstr "_Tipkovnički prečaci"
 
-#: src/widgets/window.vala:49
+#: src/widgets/window.vala:50
 msgid "_About ProtonPlus"
 msgstr "_O ProtonPlus-u"
 
-#: src/widgets/window.vala:52
+#: src/widgets/window.vala:53
 msgid "Main Menu"
 msgstr "Glavni izbornik"
 
-#: src/widgets/window.vala:57
+#: src/widgets/window.vala:58
 msgid "Runners"
 msgstr "Trkači"
 
-#: src/widgets/window.vala:58
+#: src/widgets/window.vala:59
 msgid "Games"
 msgstr "Igre"
 
-#: src/widgets/window.vala:87
+#: src/widgets/window.vala:89
 msgid "Loading"
 msgstr "Učitavanje"
 
-#: src/widgets/window.vala:87
+#: src/widgets/window.vala:89
 msgid "Taking longer than normal?"
 msgstr "Traje li dulje nego inače?"
 
-#: src/widgets/window.vala:87 src/widgets/window.vala:95
+#: src/widgets/window.vala:89 src/widgets/window.vala:101
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -77,41 +77,44 @@ msgstr "Traje li dulje nego inače?"
 msgid "Please report this issue on GitHub."
 msgstr "Molimo prijavite ovaj problem na GitHub-u."
 
-#: src/widgets/window.vala:95
+#: src/widgets/window.vala:101
 msgid "An error ocurred"
 msgstr "Došlo je do pogreške"
 
-#: src/widgets/window.vala:95
+#: src/widgets/window.vala:101
 msgid "There was an error when trying to load the launchers."
 msgstr "Došlo je do pogreške prilikom pokušaja učitavanja lansera."
 
-#: src/widgets/window.vala:117 src/widgets/update-button.vala:9
+#: src/widgets/window.vala:123 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
 msgstr ""
 
-#: src/widgets/window.vala:124
+#: src/widgets/window.vala:130
 msgid "Nothing to update."
 msgstr ""
 
-#: src/widgets/window.vala:128
+#: src/widgets/window.vala:134
 msgid "Everything is now up-to-date."
 msgstr ""
 
-#: src/widgets/window.vala:132
+#: src/widgets/window.vala:138
 msgid "An error occured while checking for updates."
 msgstr ""
 
-#: src/widgets/window.vala:145
+#: src/widgets/window.vala:151
 #, c-format
 msgid "Welcome to %s"
 msgstr "Dobrodošli u %s"
 
-#: src/widgets/window.vala:145
-msgid "Install Steam, Lutris, Bottles or Heroic Games Launcher to get started."
+#: src/widgets/window.vala:151
+#, fuzzy
+msgid ""
+"Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
+"started."
 msgstr ""
 "Instalirajte Steam, Lutris, Bottles ili Heroic Games Launcher za početak."
 
-#: src/widgets/window.vala:184
+#: src/widgets/window.vala:190
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -121,17 +124,17 @@ msgstr ""
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: src/widgets/window.vala:184
+#: src/widgets/window.vala:190
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:186
+#: src/widgets/window.vala:192
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:189 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:195 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Otkaži"
@@ -148,26 +151,31 @@ msgstr "Otvori"
 msgid "Open in your web browser"
 msgstr "Otvori u svom web pregledniku"
 
-#: src/widgets/runners/release-row.vala:10
+#: src/widgets/runners/release-row.vala:11
+#, fuzzy
+msgid "Open runner directory"
+msgstr "Otvori direktorij prefiksa"
+
+#: src/widgets/runners/release-row.vala:15
+msgid "Show more information"
+msgstr "Prikaži više informacija"
+
+#: src/widgets/runners/release-row.vala:19
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
 msgstr "Izbriši %s"
 
-#: src/widgets/runners/release-row.vala:14
+#: src/widgets/runners/release-row.vala:23
 #: src/widgets/runners/install-dialog.vala:17
 #, c-format
 msgid "Install %s"
 msgstr "Instaliraj %s"
 
-#: src/widgets/runners/release-row.vala:18
-msgid "Show more information"
-msgstr "Prikaži više informacija"
-
-#: src/widgets/runners/release-row.vala:40
-#: src/widgets/runners/release-row.vala:42
+#: src/widgets/runners/release-row.vala:47
+#: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:48
+#: src/widgets/runners/basic-row.vala:52
 msgid "Used"
 msgstr ""
 
@@ -266,12 +274,12 @@ msgid "When trying to upgrade %s an error occurred."
 msgstr "Prilikom pokušaja nadogradnje %s došlo je do pogreške."
 
 #: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:49
+#: src/widgets/runners/basic-row.vala:53
 #, fuzzy, c-format
 msgid "%s is used by %i game(s)"
 msgstr "Koristi se u %i igrama."
 
-#: src/widgets/runners/installed-row.vala:34
+#: src/widgets/runners/installed-row.vala:38
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
 msgid "Check this to also delete your configuration files."
 msgstr "Označite ovo kako biste uklonili i konfiguracijske datoteke."
@@ -326,74 +334,86 @@ msgstr "Za instalaciju %s za %s, pokrenite sljedeću naredbu:"
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Trenutno ne postoji poznati način za instaliranje %s za %s."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:177
+#: src/widgets/runners/steamtinkerlaunch-row.vala:182
 msgid "Up-to-date"
 msgstr "Ažurno"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:177
+#: src/widgets/runners/steamtinkerlaunch-row.vala:182
 msgid "Update to the latest version"
 msgstr "Ažuriraj na najnoviju verziju"
 
-#: src/widgets/games/games-box.vala:58
+#: src/widgets/games/games-box.vala:62
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 "Prethodno zatvorite Steam klijenat kako bi se promjene mogle primijeniti."
 
-#: src/widgets/games/games-box.vala:88
+#: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:327
+msgid "Show search"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:103
+msgid "Search for a game"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:110
 msgid "Name"
 msgstr "Ime"
 
-#: src/widgets/games/games-box.vala:92
+#: src/widgets/games/games-box.vala:114
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:99
+#: src/widgets/games/games-box.vala:121
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
 msgstr "Alat za kompatibilnost"
 
-#: src/widgets/games/games-box.vala:103
+#: src/widgets/games/games-box.vala:125
 msgid "Other"
 msgstr "Ostalo"
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:151
 msgid "An error occurred"
 msgstr "Došlo je do pogreške"
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:151
 msgid "No profile was found."
 msgstr "Nije pronađen nijedan profil."
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:151
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Obavezno se barem jednom povežite na Steam."
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:151
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "Ako mislite da je ovo problem, obavezno prijavite to na GitHub-u."
 
-#: src/widgets/games/games-box.vala:188
+#: src/widgets/games/games-box.vala:211
 msgid "Unsuported launcher"
 msgstr "Nepodržani pokretač"
 
-#: src/widgets/games/games-box.vala:188
+#: src/widgets/games/games-box.vala:211
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s trenutno nije podržan."
 
-#: src/widgets/games/games-box.vala:188
+#: src/widgets/games/games-box.vala:211
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "Ako želite da ubrzam razvoj, svakako pokažite svoju podršku!"
 
-#: src/widgets/games/games-box.vala:228 src/widgets/games/games-box.vala:288
-#: src/widgets/games/games-box.vala:291
+#: src/widgets/games/games-box.vala:251 src/widgets/games/games-box.vala:314
+#: src/widgets/games/games-box.vala:317
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "Nedefinirano"
+
+#: src/widgets/games/games-box.vala:327
+msgid "Hide search"
+msgstr ""
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
