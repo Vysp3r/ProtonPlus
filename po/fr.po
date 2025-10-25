@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 18:56-0400\n"
+"POT-Creation-Date: 2025-10-25 18:59-0400\n"
 "PO-Revision-Date: 2025-09-17 15:05+0000\n"
 "Last-Translator: Loïc Nussbaumer <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -64,7 +64,7 @@ msgstr "Chargement"
 msgid "Taking longer than normal?"
 msgstr "Prend plus de temps que d'habitude ?"
 
-#: src/widgets/window.vala:89 src/widgets/window.vala:100
+#: src/widgets/window.vala:89 src/widgets/window.vala:101
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -77,37 +77,37 @@ msgstr "Prend plus de temps que d'habitude ?"
 msgid "Please report this issue on GitHub."
 msgstr "S'il vous plait rapportez ce bug sur Github."
 
-#: src/widgets/window.vala:100
+#: src/widgets/window.vala:101
 msgid "An error ocurred"
 msgstr "Une erreur est survenue"
 
-#: src/widgets/window.vala:100
+#: src/widgets/window.vala:101
 msgid "There was an error when trying to load the launchers."
 msgstr "Il y a eu une erreur pendant le chargement du launcher."
 
-#: src/widgets/window.vala:122 src/widgets/update-button.vala:9
+#: src/widgets/window.vala:123 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
 msgstr "Vérification des mises à jour..."
 
-#: src/widgets/window.vala:129
+#: src/widgets/window.vala:130
 msgid "Nothing to update."
 msgstr "Aucune mise à jour."
 
-#: src/widgets/window.vala:133
+#: src/widgets/window.vala:134
 msgid "Everything is now up-to-date."
 msgstr "Tout est maintenant à jour"
 
-#: src/widgets/window.vala:137
+#: src/widgets/window.vala:138
 msgid "An error occured while checking for updates."
 msgstr ""
 "Une erreur inattendue s’est produite lors de la vérification des mises à jour"
 
-#: src/widgets/window.vala:150
+#: src/widgets/window.vala:151
 #, c-format
 msgid "Welcome to %s"
 msgstr "Bienvenue dans %s"
 
-#: src/widgets/window.vala:150
+#: src/widgets/window.vala:151
 #, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
@@ -115,7 +115,7 @@ msgid ""
 msgstr ""
 "Installez Steam, Lutris, Bottles ou Heroic Games Launcher pour commencer."
 
-#: src/widgets/window.vala:189
+#: src/widgets/window.vala:190
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Attention"
 
-#: src/widgets/window.vala:189
+#: src/widgets/window.vala:190
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -133,11 +133,11 @@ msgstr ""
 "L'application vérifie actuellement les mises à jour.\n"
 "Quitter l'application maintenant peu causée des problèmes."
 
-#: src/widgets/window.vala:191
+#: src/widgets/window.vala:192
 msgid "Exit"
 msgstr "Quitter"
 
-#: src/widgets/window.vala:194 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:195 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Annuler"
