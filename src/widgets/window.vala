@@ -148,7 +148,7 @@ namespace ProtonPlus.Widgets {
 			}
 
 			if (!valid) {
-				status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), "%s\n(%s)".printf (_("Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get started."), ("Make sure to run the launchers at least once to ensure they're properly initialised")));
+				status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), "%s\n(%s)".printf (_("Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get started."), ("Make sure to run the launchers at least once to ensure they're properly initialized")));
 
 				if (status_box.get_parent () == null)
 					set_content (status_box);
