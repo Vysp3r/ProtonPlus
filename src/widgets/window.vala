@@ -87,8 +87,9 @@ namespace ProtonPlus.Widgets {
 		async void initialize () {
 			if (first_load) {
 				status_box.initialize ("com.vysp3r.ProtonPlus", _("Loading"), "%s\n%s".printf(_("Taking longer than normal?"), _("Please report this issue on GitHub.")));
+				
 				if (status_box.get_parent () == null)
-						set_content (status_box);
+					set_content (status_box);
 
 				first_load = false;
 			}
