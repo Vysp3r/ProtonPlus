@@ -4,7 +4,7 @@ namespace ProtonPlus.Utils {
             return Globals.APP_NAME + "/" + Globals.APP_VERSION;
         }
 
-        public static async string ? GET (string url, bool stl = false) {
+        public static async string ? GET (string url, bool return_error_message = false) {
             try {
                 var session = new Soup.Session ();
                 session.set_user_agent (get_user_agent ());
@@ -16,7 +16,7 @@ namespace ProtonPlus.Utils {
                 return (string) bytes.get_data ();
             } catch (Error e) {
                 message (e.message);
-                return null;
+                return return_error_message ? e.message : null;
             }
         }
 

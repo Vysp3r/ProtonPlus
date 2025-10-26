@@ -5,9 +5,17 @@ namespace ProtonPlus.Models {
 		public Group group { get; set; }
 		public bool has_more { get; set; }
 		public bool has_latest_support { get; set; }
+		public FetchCodes fetch_code { get; set; }
 		public List<Release> releases;
 
 		public abstract async List<Release> load ();
+
+		public enum FetchCodes {
+			GOOD,
+			UNKNOWN_ERROR,
+			CONNECTION_ISSUE,
+			API_LIMIT_REACHED,
+		}
 
 		public enum UpdateCodes {
 			ERROR,
