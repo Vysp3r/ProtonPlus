@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-25 18:59-0400\n"
-"PO-Revision-Date: 2025-09-17 15:05+0000\n"
+"PO-Revision-Date: 2025-10-27 14:02+0000\n"
 "Last-Translator: Loïc Nussbaumer <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
@@ -108,7 +108,6 @@ msgid "Welcome to %s"
 msgstr "Bienvenue dans %s"
 
 #: src/widgets/window.vala:151
-#, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
@@ -155,9 +154,8 @@ msgid "Open in your web browser"
 msgstr "Ouvrir dans votre navigateur"
 
 #: src/widgets/runners/release-row.vala:11
-#, fuzzy
 msgid "Open runner directory"
-msgstr "Ouvrir le dossier prefix"
+msgstr "Ouvrir le dossier de l'exécutable"
 
 #: src/widgets/runners/release-row.vala:15
 msgid "Show more information"
@@ -350,11 +348,11 @@ msgstr "Fermer le client Steam avant que les changements soient appliqués"
 
 #: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:327
 msgid "Show search"
-msgstr ""
+msgstr "Afficher la recherche"
 
 #: src/widgets/games/games-box.vala:103
 msgid "Search for a game"
-msgstr ""
+msgstr "Rechercher un jeu"
 
 #: src/widgets/games/games-box.vala:110
 msgid "Name"
@@ -415,7 +413,7 @@ msgstr "Non défini"
 
 #: src/widgets/games/games-box.vala:327
 msgid "Hide search"
-msgstr ""
+msgstr "Masquer la recherche"
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
