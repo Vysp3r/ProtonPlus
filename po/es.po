@@ -5,15 +5,15 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-25 18:59-0400\n"
-"PO-Revision-Date: 2025-09-17 15:05+0000\n"
-"Last-Translator: Marco Rodriguez <marcorguezhdez@gmail.com>\n"
+"PO-Revision-Date: 2025-10-27 14:02+0000\n"
+"Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
 "Language: es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
@@ -102,11 +102,12 @@ msgid "Welcome to %s"
 msgstr "Bienvenido a %s"
 
 #: src/widgets/window.vala:151
-#, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
-msgstr "Instala Steam, Lutris, Bottles o Heroic Games Launcher para empezar."
+msgstr ""
+"Instala Steam, Lutris, Bottles, Heroic Games Launcher o WineZGUI para "
+"empezar."
 
 #: src/widgets/window.vala:190
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -148,7 +149,6 @@ msgid "Open in your web browser"
 msgstr "Abrir en tu navegador web"
 
 #: src/widgets/runners/release-row.vala:11
-#, fuzzy
 msgid "Open runner directory"
 msgstr "Abrir directorio de prefijos"
 
@@ -345,11 +345,11 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:327
 msgid "Show search"
-msgstr ""
+msgstr "Mostrar búsqueda"
 
 #: src/widgets/games/games-box.vala:103
 msgid "Search for a game"
-msgstr ""
+msgstr "Buscar un juego"
 
 #: src/widgets/games/games-box.vala:110
 msgid "Name"
@@ -409,7 +409,7 @@ msgstr "Indefinido"
 
 #: src/widgets/games/games-box.vala:327
 msgid "Hide search"
-msgstr ""
+msgstr "Ocultar búsqueda"
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
