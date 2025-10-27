@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 18:59-0400\n"
+"POT-Creation-Date: 2025-10-25 22:49-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -67,6 +67,7 @@ msgid "Taking longer than normal?"
 msgstr ""
 
 #: src/widgets/window.vala:89 src/widgets/window.vala:101
+#: src/widgets/runners/runner-row.vala:48
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -117,6 +118,12 @@ msgid ""
 "started."
 msgstr ""
 "Каб пачаць, усталюйце Steam, Lutris, Bottles або Heroic Games Launcher."
+
+#: src/widgets/window.vala:151
+msgid ""
+"Make sure to run the launchers at least once to ensure they're properly "
+"initialized"
+msgstr ""
 
 #: src/widgets/window.vala:190
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -182,6 +189,43 @@ msgstr "Толькі ўсталяваныя"
 msgid "Used"
 msgstr ""
 
+#: src/widgets/runners/runner-row.vala:47
+msgid "Unknown error"
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:51
+msgid "API limit reached"
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:52
+msgid "Try again in a few minutes."
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:56
+msgid "Unable to reach the API"
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:57
+msgid "Make sure you're connected to the internet."
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:61
+#: src/widgets/runners/remove-dialog.vala:50
+#: src/widgets/runners/install-dialog.vala:57
+#: src/widgets/runners/upgrade-dialog.vala:57
+#: src/widgets/runners/steamtinkerlaunch-row.vala:45
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
+#: src/widgets/runners/steamtinkerlaunch-row.vala:155
+#: src/widgets/games/mass-edit-dialog.vala:148
+#: src/widgets/games/shortcut-button.vala:39
+#: src/widgets/games/shortcut-button.vala:48
+#: src/widgets/games/mass-edit-button.vala:43
+#: src/widgets/games/launch-options-dialog.vala:58
+#: src/widgets/games/default-tool-dialog.vala:61
+#: src/widgets/games/compatibility-tool-dropdown.vala:76
+msgid "OK"
+msgstr ""
+
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
 msgid "Load more"
@@ -232,22 +276,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "When trying to delete %s an error occurred."
 msgstr "Інструмент сумяшчальнасці Steam для запуску Windows гульняў"
-
-#: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:57
-#: src/widgets/runners/upgrade-dialog.vala:57
-#: src/widgets/runners/steamtinkerlaunch-row.vala:45
-#: src/widgets/runners/steamtinkerlaunch-row.vala:131
-#: src/widgets/runners/steamtinkerlaunch-row.vala:155
-#: src/widgets/games/mass-edit-dialog.vala:148
-#: src/widgets/games/shortcut-button.vala:39
-#: src/widgets/games/shortcut-button.vala:48
-#: src/widgets/games/mass-edit-button.vala:43
-#: src/widgets/games/launch-options-dialog.vala:58
-#: src/widgets/games/default-tool-dialog.vala:61
-#: src/widgets/games/compatibility-tool-dropdown.vala:76
-msgid "OK"
-msgstr ""
 
 #: src/widgets/runners/install-dialog.vala:56
 #, fuzzy, c-format

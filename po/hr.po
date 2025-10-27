@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 18:59-0400\n"
+"POT-Creation-Date: 2025-10-25 22:49-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/protonplus/"
@@ -65,6 +65,7 @@ msgid "Taking longer than normal?"
 msgstr "Traje li dulje nego inače?"
 
 #: src/widgets/window.vala:89 src/widgets/window.vala:101
+#: src/widgets/runners/runner-row.vala:48
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -113,6 +114,12 @@ msgid ""
 "started."
 msgstr ""
 "Instalirajte Steam, Lutris, Bottles ili Heroic Games Launcher za početak."
+
+#: src/widgets/window.vala:151
+msgid ""
+"Make sure to run the launchers at least once to ensure they're properly "
+"initialized"
+msgstr ""
 
 #: src/widgets/window.vala:190
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -179,6 +186,45 @@ msgstr "Instaliraj %s"
 msgid "Used"
 msgstr ""
 
+#: src/widgets/runners/runner-row.vala:47
+#, fuzzy
+msgid "Unknown error"
+msgstr "Nepoznato"
+
+#: src/widgets/runners/runner-row.vala:51
+msgid "API limit reached"
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:52
+msgid "Try again in a few minutes."
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:56
+msgid "Unable to reach the API"
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:57
+#, fuzzy
+msgid "Make sure you're connected to the internet."
+msgstr "Obavezno se barem jednom povežite na Steam."
+
+#: src/widgets/runners/runner-row.vala:61
+#: src/widgets/runners/remove-dialog.vala:50
+#: src/widgets/runners/install-dialog.vala:57
+#: src/widgets/runners/upgrade-dialog.vala:57
+#: src/widgets/runners/steamtinkerlaunch-row.vala:45
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
+#: src/widgets/runners/steamtinkerlaunch-row.vala:155
+#: src/widgets/games/mass-edit-dialog.vala:148
+#: src/widgets/games/shortcut-button.vala:39
+#: src/widgets/games/shortcut-button.vala:48
+#: src/widgets/games/mass-edit-button.vala:43
+#: src/widgets/games/launch-options-dialog.vala:58
+#: src/widgets/games/default-tool-dialog.vala:61
+#: src/widgets/games/compatibility-tool-dropdown.vala:76
+msgid "OK"
+msgstr "U redu"
+
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
 msgid "Load more"
@@ -227,22 +273,6 @@ msgstr "Greška"
 #, c-format
 msgid "When trying to delete %s an error occurred."
 msgstr "Prilikom pokušaja uklanjanja %s došlo je do pogreške."
-
-#: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:57
-#: src/widgets/runners/upgrade-dialog.vala:57
-#: src/widgets/runners/steamtinkerlaunch-row.vala:45
-#: src/widgets/runners/steamtinkerlaunch-row.vala:131
-#: src/widgets/runners/steamtinkerlaunch-row.vala:155
-#: src/widgets/games/mass-edit-dialog.vala:148
-#: src/widgets/games/shortcut-button.vala:39
-#: src/widgets/games/shortcut-button.vala:48
-#: src/widgets/games/mass-edit-button.vala:43
-#: src/widgets/games/launch-options-dialog.vala:58
-#: src/widgets/games/default-tool-dialog.vala:61
-#: src/widgets/games/compatibility-tool-dropdown.vala:76
-msgid "OK"
-msgstr "U redu"
 
 #: src/widgets/runners/install-dialog.vala:56
 #, c-format
