@@ -40,7 +40,27 @@ namespace ProtonPlus.Widgets {
 						runner.load.begin ((obj, res) => {
 							var releases = runner.load.end (res);
 
-							if (runner is Models.Runners.Basic && releases.length () > 0 && count == 0 && runner.has_latest_support) {
+							if (runner.fetch_code != Models.Runner.FetchCodes.GOOD) {
+								if (count == 0)
+									set_expanded (false);
+
+								var heading = _("Unknown error");
+								var body = _("Please report this issue on GitHub.");
+
+								if (runner.fetch_code == Models.Runner.FetchCodes.API_LIMIT_REACHED) {
+									heading = _("API limit reached");
+									body = _("Try again in a few minutes.");
+								}
+
+								if (runner.fetch_code == Models.Runner.FetchCodes.CONNECTION_ISSUE) {
+									heading = _("Unable to reach the API");
+									body = _("Make sure you're connected to the internet.");
+								}
+
+								var dialog = new Adw.AlertDialog(heading, body);
+								dialog.add_response("ok", _("OK"));
+								dialog.present(Application.window);
+							} else if (runner is Models.Runners.Basic && releases.length () > 0 && count == 0 && runner.has_latest_support) {
 								var latest_release = releases.nth_data (0);
 
 								var release = new Models.Releases.Latest (runner as Models.Runners.Basic, "%s Latest".printf (runner.title), latest_release.description, latest_release.release_date, latest_release.download_url, latest_release.page_url);
@@ -50,6 +70,7 @@ namespace ProtonPlus.Widgets {
 							if (releases.length () + runner.releases.length () == count) {
 								spinner.stop ();
 								spinner.set_visible (false);
+
 								return;
 							}
 							

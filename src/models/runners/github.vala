@@ -7,10 +7,19 @@ namespace ProtonPlus.Models.Runners {
         public override async List<Release> load () {
             var temp_releases = new List<Release> ();
 
-            var json = yield Utils.Web.GET (endpoint + "?per_page=25&page=" + page ++.to_string (), false);
+            fetch_code = Runner.FetchCodes.GOOD;
 
-            if (json == null || json.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"))
+            var json = yield Utils.Web.GET (endpoint + "?per_page=25&page=" + page.to_string (), true);
+
+            var api_limit_reached = json.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting");
+            var connection_issue = json.contains ("Temporary failure in name resolution");
+            if (json == null || api_limit_reached  || connection_issue) {
+                fetch_code = connection_issue ? Runner.FetchCodes.CONNECTION_ISSUE : api_limit_reached ? Runner.FetchCodes.API_LIMIT_REACHED : Runner.FetchCodes.UNKNOWN_ERROR;
+
                 return temp_releases;
+            }
+
+            page++;
 
             var root_node = Utils.Parser.get_node_from_json (json);
 
