@@ -5,19 +5,20 @@
 # Cirnos <Cirnos@users.noreply.hosted.weblate.org>, 2025.
 # Cirnos <cirnos@tuta.io>, 2025.
 # Esther <sterzinhabr2006@gmail.com>, 2025.
+# vfssant <60822730+vfssant@users.noreply.github.com>, 2025.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-25 22:49-0400\n"
-"PO-Revision-Date: 2025-08-02 22:02+0000\n"
-"Last-Translator: Esther <sterzinhabr2006@gmail.com>\n"
+"PO-Revision-Date: 2025-10-28 10:02+0000\n"
+"Last-Translator: vfssant <60822730+vfssant@users.noreply.github.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
@@ -107,18 +108,20 @@ msgid "Welcome to %s"
 msgstr "Bem-vindo(a) ao %s"
 
 #: src/widgets/window.vala:151
-#, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
 msgstr ""
-"Instale o Steam, Lutris, Bottles ou Heroic Games Launcher para começar."
+"Instale o Steam, Lutris, Bottles, Heroic Games Launcher ou WineZGUI para "
+"começar."
 
 #: src/widgets/window.vala:151
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
+"Certifique-se de iniciar os launchers pelo menos uma vez para garantir que "
+"estejam devidamente inicializados."
 
 #: src/widgets/window.vala:190
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -188,26 +191,24 @@ msgid "Used"
 msgstr "Usado"
 
 #: src/widgets/runners/runner-row.vala:47
-#, fuzzy
 msgid "Unknown error"
-msgstr "Desconhecido"
+msgstr "Erro desconhecido"
 
 #: src/widgets/runners/runner-row.vala:51
 msgid "API limit reached"
-msgstr ""
+msgstr "Limite de API atingido"
 
 #: src/widgets/runners/runner-row.vala:52
 msgid "Try again in a few minutes."
-msgstr ""
+msgstr "Tente novamente em alguns minutos."
 
 #: src/widgets/runners/runner-row.vala:56
 msgid "Unable to reach the API"
-msgstr ""
+msgstr "Não foi possível acessar a API"
 
 #: src/widgets/runners/runner-row.vala:57
-#, fuzzy
 msgid "Make sure you're connected to the internet."
-msgstr "Certifique-se de se conectar pelo menos uma vez no Steam."
+msgstr "Certifique-se que você está conectado à internet."
 
 #: src/widgets/runners/runner-row.vala:61
 #: src/widgets/runners/remove-dialog.vala:50
@@ -378,13 +379,12 @@ msgstr ""
 "Feche o cliente Steam antes para que as alterações possam ser aplicadas."
 
 #: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:327
-#, fuzzy
 msgid "Show search"
-msgstr "Mostrar barra lateral"
+msgstr "Mostrar busca"
 
 #: src/widgets/games/games-box.vala:103
 msgid "Search for a game"
-msgstr ""
+msgstr "Procurar por um jogo"
 
 #: src/widgets/games/games-box.vala:110
 msgid "Name"
@@ -447,7 +447,7 @@ msgstr "Indefinido"
 
 #: src/widgets/games/games-box.vala:327
 msgid "Hide search"
-msgstr ""
+msgstr "Esconder busca"
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
