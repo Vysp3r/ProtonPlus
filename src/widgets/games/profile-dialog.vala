@@ -46,7 +46,7 @@ namespace ProtonPlus.Widgets {
 
 		void profile_dialog_closed () {
 			if (!profile_selected)
-				activate_action_variant ("win.set-library-inactive", 0);
+				Application.window.view_stack.set_visible_child_name ("runners");
 		}
 	}
 }
