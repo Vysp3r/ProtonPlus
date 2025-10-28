@@ -16,7 +16,7 @@ namespace ProtonPlus.Widgets {
 		Menu menu;
 		Gtk.MenuButton menu_button;
 
-		public Adw.ViewStack view_stack;
+		Adw.ViewStack view_stack;
 		Adw.ToastOverlay toast_overlay;
 		Adw.ViewSwitcher view_switcher;
 		Adw.HeaderBar header_bar;
