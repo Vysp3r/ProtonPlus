@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-25 22:49-0400\n"
-"PO-Revision-Date: 2025-07-18 05:15+0800\n"
+"PO-Revision-Date: 2025-10-29 01:28+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.8\n"
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
@@ -105,17 +105,17 @@ msgid "Welcome to %s"
 msgstr "歡迎來到 %s"
 
 #: src/widgets/window.vala:151
-#, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
-msgstr "請安裝 Steam、Lutris、Bottles 或 Heroic Games Launcher 以開始使用。"
+msgstr ""
+"請安裝 Steam、Lutris、Bottles、Heroic Games Launcher 或 WineZGUI 以開始使用。"
 
 #: src/widgets/window.vala:151
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
-msgstr ""
+msgstr "請務必至少運行過一次啟動器，以確保其正確初始化"
 
 #: src/widgets/window.vala:190
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -157,9 +157,8 @@ msgid "Open in your web browser"
 msgstr "於瀏覽器中開啟"
 
 #: src/widgets/runners/release-row.vala:11
-#, fuzzy
 msgid "Open runner directory"
-msgstr "開啟前置環境目錄"
+msgstr "開啟運行器目錄"
 
 #: src/widgets/runners/release-row.vala:15
 msgid "Show more information"
@@ -185,26 +184,24 @@ msgid "Used"
 msgstr "已使用"
 
 #: src/widgets/runners/runner-row.vala:47
-#, fuzzy
 msgid "Unknown error"
-msgstr "未知"
+msgstr "未知錯誤"
 
 #: src/widgets/runners/runner-row.vala:51
 msgid "API limit reached"
-msgstr ""
+msgstr "已達到 API 限制"
 
 #: src/widgets/runners/runner-row.vala:52
 msgid "Try again in a few minutes."
-msgstr ""
+msgstr "請稍後幾分鐘後再試。"
 
 #: src/widgets/runners/runner-row.vala:56
 msgid "Unable to reach the API"
-msgstr ""
+msgstr "無法存取 API"
 
 #: src/widgets/runners/runner-row.vala:57
-#, fuzzy
 msgid "Make sure you're connected to the internet."
-msgstr "請確保至少連接過一次 Steam。"
+msgstr "請確保連接至網際網路。"
 
 #: src/widgets/runners/runner-row.vala:61
 #: src/widgets/runners/remove-dialog.vala:50
@@ -372,13 +369,12 @@ msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "請事先關閉 Steam 用戶端，以便套用變更。"
 
 #: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:327
-#, fuzzy
 msgid "Show search"
-msgstr "顯示側邊欄"
+msgstr "顯示搜尋"
 
 #: src/widgets/games/games-box.vala:103
 msgid "Search for a game"
-msgstr ""
+msgstr "搜尋遊戲"
 
 #: src/widgets/games/games-box.vala:110
 msgid "Name"
@@ -438,7 +434,7 @@ msgstr "未指定"
 
 #: src/widgets/games/games-box.vala:327
 msgid "Hide search"
-msgstr ""
+msgstr "隱藏搜尋"
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"

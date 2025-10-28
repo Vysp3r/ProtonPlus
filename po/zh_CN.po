@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-25 22:49-0400\n"
-"PO-Revision-Date: 2025-07-18 05:16+0800\n"
+"PO-Revision-Date: 2025-10-29 01:34+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
 "Language: zh\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.8\n"
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
@@ -104,17 +104,18 @@ msgid "Welcome to %s"
 msgstr "欢迎来到 %s"
 
 #: src/widgets/window.vala:151
-#, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
-msgstr "请安装 Steam、Lutris、Bottles 或 Heroic Games Launcher 即可开始使用。"
+msgstr ""
+"请安装 Steam、Lutris、Bottles、Heroic Games Launcher 或 WineZGUI 即可开始使"
+"用。"
 
 #: src/widgets/window.vala:151
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
-msgstr ""
+msgstr "请务必至少运行过一次启动器，以确保其正确初始化"
 
 #: src/widgets/window.vala:190
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -156,9 +157,8 @@ msgid "Open in your web browser"
 msgstr "在浏览器中打开"
 
 #: src/widgets/runners/release-row.vala:11
-#, fuzzy
 msgid "Open runner directory"
-msgstr "打开前置环境目录"
+msgstr "打开运行器目录"
 
 #: src/widgets/runners/release-row.vala:15
 msgid "Show more information"
@@ -184,26 +184,24 @@ msgid "Used"
 msgstr "已使用"
 
 #: src/widgets/runners/runner-row.vala:47
-#, fuzzy
 msgid "Unknown error"
-msgstr "未知"
+msgstr "未知错误"
 
 #: src/widgets/runners/runner-row.vala:51
 msgid "API limit reached"
-msgstr ""
+msgstr "已达 API 限制"
 
 #: src/widgets/runners/runner-row.vala:52
 msgid "Try again in a few minutes."
-msgstr ""
+msgstr "请稍后几分钟后再试。"
 
 #: src/widgets/runners/runner-row.vala:56
 msgid "Unable to reach the API"
-msgstr ""
+msgstr "无法存取 API"
 
 #: src/widgets/runners/runner-row.vala:57
-#, fuzzy
 msgid "Make sure you're connected to the internet."
-msgstr "请确保至少连接过一次 Steam。"
+msgstr "请确保连接至互连网。"
 
 #: src/widgets/runners/runner-row.vala:61
 #: src/widgets/runners/remove-dialog.vala:50
@@ -372,11 +370,11 @@ msgstr "请事先关闭 Steam 用户端，以便应用变更。"
 
 #: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:327
 msgid "Show search"
-msgstr ""
+msgstr "显示搜寻"
 
 #: src/widgets/games/games-box.vala:103
 msgid "Search for a game"
-msgstr ""
+msgstr "搜寻游戏"
 
 #: src/widgets/games/games-box.vala:110
 msgid "Name"
@@ -436,7 +434,7 @@ msgstr "未指定"
 
 #: src/widgets/games/games-box.vala:327
 msgid "Hide search"
-msgstr ""
+msgstr "隐藏搜寻"
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
