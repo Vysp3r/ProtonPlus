@@ -16,6 +16,7 @@ namespace ProtonPlus.Widgets {
 
 			header_bar = new Adw.HeaderBar ();
 			header_bar.set_title_widget (window_title);
+			header_bar.set_show_end_title_buttons (false);
 
 			content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 			content_box.set_margin_start (10);
@@ -33,20 +34,15 @@ namespace ProtonPlus.Widgets {
 			toolbar_view.add_top_bar (header_bar);
 			toolbar_view.set_content (content_box);
 
-			closed.connect (profile_dialog_closed);
-
+			set_can_close (false);
 			set_child (toolbar_view);
 		}
 
 		void profile_button_clicked (Models.SteamProfile profile) {
 			profile_selected = true;
 			load_steam_profile_func (profile);
+			set_can_close (true);
 			close ();
-		}
-
-		void profile_dialog_closed () {
-			if (!profile_selected)
-				Application.window.view_stack.set_visible_child_name ("runners");
 		}
 	}
 }
