@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-25 22:49-0400\n"
-"PO-Revision-Date: 2025-10-28 10:02+0000\n"
+"PO-Revision-Date: 2025-10-29 08:06+0000\n"
 "Last-Translator: vfssant <60822730+vfssant@users.noreply.github.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -163,7 +163,6 @@ msgid "Open in your web browser"
 msgstr "Abrir em seu navegador"
 
 #: src/widgets/runners/release-row.vala:11
-#, fuzzy
 msgid "Open runner directory"
 msgstr "Abrir diretório do prefixo"
 
