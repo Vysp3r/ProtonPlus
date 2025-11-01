@@ -86,7 +86,7 @@ namespace ProtonPlus.Utils {
                         double speed_bps = elapsed_s > 0 ? bytes_downloaded / elapsed_s : 0.0;
 
                         double? remaining_seconds = null;
-                        if (speed_bps > 0.0) {
+                        if (is_percent && speed_bps > 0.0) {
                             int64 bytes_left = server_download_size - bytes_downloaded;
                             remaining_seconds = bytes_left / speed_bps;
                         }
