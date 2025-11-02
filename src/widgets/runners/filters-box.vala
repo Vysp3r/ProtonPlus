@@ -9,7 +9,7 @@ namespace ProtonPlus.Widgets {
             installed_only_switch = new Gtk.Switch ();
 			installed_only_switch.notify["active"].connect (installed_only_switch_active_changed);
 
-			var installed_only_label = new Gtk.Label (_("Show installed only"));
+			var installed_only_label = new Gtk.Label (_("Installed"));
 
 			var installed_only_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 			installed_only_box.append (installed_only_switch);
@@ -18,7 +18,7 @@ namespace ProtonPlus.Widgets {
             used_only_switch = new Gtk.Switch ();
 			used_only_switch.notify["active"].connect (used_only_switch_active_changed);
 
-			var used_only_label = new Gtk.Label (_("Show used only"));
+			var used_only_label = new Gtk.Label (_("Used"));
 
 			var used_only_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 			used_only_box.append (used_only_switch);
@@ -27,7 +27,7 @@ namespace ProtonPlus.Widgets {
             unused_only_switch = new Gtk.Switch ();
 			unused_only_switch.notify["active"].connect (unused_only_switch_active_changed);
 
-			var unused_only_label = new Gtk.Label (_("Show unused only"));
+			var unused_only_label = new Gtk.Label (_("Unused"));
 
 			var unused_only_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 			unused_only_box.append (unused_only_switch);
