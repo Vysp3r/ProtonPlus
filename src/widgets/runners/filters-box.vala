@@ -14,6 +14,7 @@ namespace ProtonPlus.Widgets {
 			var installed_only_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 			installed_only_box.append (installed_only_switch);
 			installed_only_box.append (installed_only_label);
+            installed_only_box.set_tooltip_text (_("Show installed runners"));
 
             used_only_switch = new Gtk.Switch ();
 			used_only_switch.notify["active"].connect (used_only_switch_active_changed);
@@ -23,6 +24,7 @@ namespace ProtonPlus.Widgets {
 			var used_only_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 			used_only_box.append (used_only_switch);
 			used_only_box.append (used_only_label);
+            used_only_box.set_tooltip_text (_("Show runners that are used by one game or more"));
 
             unused_only_switch = new Gtk.Switch ();
 			unused_only_switch.notify["active"].connect (unused_only_switch_active_changed);
@@ -32,6 +34,7 @@ namespace ProtonPlus.Widgets {
 			var unused_only_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 			unused_only_box.append (unused_only_switch);
 			unused_only_box.append (unused_only_label);
+            unused_only_box.set_tooltip_text (_("Show runners that aren't used by any games"));
 
             var separator1 = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
 
