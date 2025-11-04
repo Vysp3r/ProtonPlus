@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 22:49-0400\n"
+"POT-Creation-Date: 2025-11-03 16:37-0500\n"
 "PO-Revision-Date: 2025-08-21 19:02+0000\n"
 "Last-Translator: Linus Virtanen <linus.virtanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/protonplus/"
@@ -183,6 +183,7 @@ msgstr "Asenna %s"
 #: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "Käytetty"
 
@@ -315,16 +316,26 @@ msgid "Check this to also delete your configuration files."
 msgstr "Valitse tämä poistaaksesi myös asetustiedostosi."
 
 #: src/widgets/runners/filters-box.vala:12
-msgid "Show installed only"
+#, fuzzy
+msgid "Installed"
+msgstr "Asenna %s"
+
+#: src/widgets/runners/filters-box.vala:17
+#, fuzzy
+msgid "Show installed runners"
 msgstr "Näytä vain asennetut"
 
-#: src/widgets/runners/filters-box.vala:21
-msgid "Show used only"
-msgstr "Näytä vain käytetyt"
+#: src/widgets/runners/filters-box.vala:27
+msgid "Show runners that are used by one game or more"
+msgstr ""
 
-#: src/widgets/runners/filters-box.vala:30
-msgid "Show unused only"
-msgstr "Näytä vain käyttämättömät"
+#: src/widgets/runners/filters-box.vala:32
+msgid "Unused"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that aren't used by any games"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -790,6 +801,12 @@ msgstr "Näytä oikopolut"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Lopeta"
+
+#~ msgid "Show used only"
+#~ msgstr "Näytä vain käytetyt"
+
+#~ msgid "Show unused only"
+#~ msgstr "Näytä vain käyttämättömät"
 
 #~ msgid "The library failed loading."
 #~ msgstr "Kirjaston lataaminen epäonnistui."

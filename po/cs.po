@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 22:49-0400\n"
+"POT-Creation-Date: 2025-11-03 16:37-0500\n"
 "PO-Revision-Date: 2025-07-25 02:03+0000\n"
 "Last-Translator: AsciiWolf <mail@asciiwolf.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -183,6 +183,7 @@ msgstr "Nainstalovat %s"
 #: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "Použito"
 
@@ -315,16 +316,26 @@ msgid "Check this to also delete your configuration files."
 msgstr "Zvolte pro odstranění také konfiguračních souborů."
 
 #: src/widgets/runners/filters-box.vala:12
-msgid "Show installed only"
+#, fuzzy
+msgid "Installed"
+msgstr "Nainstalovat %s"
+
+#: src/widgets/runners/filters-box.vala:17
+#, fuzzy
+msgid "Show installed runners"
 msgstr "Zobrazit pouze nainstalované"
 
-#: src/widgets/runners/filters-box.vala:21
-msgid "Show used only"
-msgstr "Zobrazit pouze použité"
+#: src/widgets/runners/filters-box.vala:27
+msgid "Show runners that are used by one game or more"
+msgstr ""
 
-#: src/widgets/runners/filters-box.vala:30
-msgid "Show unused only"
-msgstr "Zobrazit pouze nepoužité"
+#: src/widgets/runners/filters-box.vala:32
+msgid "Unused"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that aren't used by any games"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -788,6 +799,12 @@ msgstr "Zobrazit zkratky"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Ukončit"
+
+#~ msgid "Show used only"
+#~ msgstr "Zobrazit pouze použité"
+
+#~ msgid "Show unused only"
+#~ msgstr "Zobrazit pouze nepoužité"
 
 #, fuzzy
 #~ msgid "Renaming"

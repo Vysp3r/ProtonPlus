@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 22:49-0400\n"
+"POT-Creation-Date: 2025-11-03 16:37-0500\n"
 "PO-Revision-Date: 2025-10-29 01:34+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -180,6 +180,7 @@ msgstr "安装 %s"
 #: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "已使用"
 
@@ -310,16 +311,26 @@ msgid "Check this to also delete your configuration files."
 msgstr "勾选此项也会删除配置文件。"
 
 #: src/widgets/runners/filters-box.vala:12
-msgid "Show installed only"
+#, fuzzy
+msgid "Installed"
+msgstr "仅显示已安装的(_I)"
+
+#: src/widgets/runners/filters-box.vala:17
+#, fuzzy
+msgid "Show installed runners"
 msgstr "仅显示已安装的"
 
-#: src/widgets/runners/filters-box.vala:21
-msgid "Show used only"
-msgstr "仅显示已使用的"
+#: src/widgets/runners/filters-box.vala:27
+msgid "Show runners that are used by one game or more"
+msgstr ""
 
-#: src/widgets/runners/filters-box.vala:30
-msgid "Show unused only"
-msgstr "仅显示未使用的"
+#: src/widgets/runners/filters-box.vala:32
+msgid "Unused"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that aren't used by any games"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -756,8 +767,11 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "退出"
 
-#~ msgid "_Installed Only"
-#~ msgstr "仅显示已安装的(_I)"
+#~ msgid "Show used only"
+#~ msgstr "仅显示已使用的"
+
+#~ msgid "Show unused only"
+#~ msgstr "仅显示未使用的"
 
 #~ msgid "The library failed loading."
 #~ msgstr "游戏库加载失败。"

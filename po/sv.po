@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 22:49-0400\n"
+"POT-Creation-Date: 2025-11-03 16:37-0500\n"
 "PO-Revision-Date: 2024-10-03 01:10+0200\n"
 "Last-Translator: Johnny Arcitec <Arcitec@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
@@ -187,6 +187,7 @@ msgstr "Installera %s"
 #: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr ""
 
@@ -320,17 +321,25 @@ msgstr "Markera detta för att även radera dina konfigurationsfiler."
 
 #: src/widgets/runners/filters-box.vala:12
 #, fuzzy
-msgid "Show installed only"
+msgid "Installed"
+msgstr "Installera %s"
+
+#: src/widgets/runners/filters-box.vala:17
+#, fuzzy
+msgid "Show installed runners"
 msgstr "Endast Installerade"
 
-#: src/widgets/runners/filters-box.vala:21
-msgid "Show used only"
+#: src/widgets/runners/filters-box.vala:27
+msgid "Show runners that are used by one game or more"
 msgstr ""
 
-#: src/widgets/runners/filters-box.vala:30
-#, fuzzy
-msgid "Show unused only"
-msgstr "Endast Installerade"
+#: src/widgets/runners/filters-box.vala:32
+msgid "Unused"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that aren't used by any games"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -796,8 +805,8 @@ msgid "Quit"
 msgstr ""
 
 #, fuzzy
-#~ msgid "_Installed Only"
-#~ msgstr "Installera %s"
+#~ msgid "Show unused only"
+#~ msgstr "Endast Installerade"
 
 #, fuzzy
 #~ msgid "Running post install script"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 22:49-0400\n"
+"POT-Creation-Date: 2025-11-03 16:37-0500\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Serbian (Latin script) <https://hosted.weblate.org/projects/"
@@ -184,6 +184,7 @@ msgstr "Instalirajte %s"
 #: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr ""
 
@@ -317,15 +318,24 @@ msgstr "Označite ovo da biste uklonili i konfiguracione datoteke."
 
 #: src/widgets/runners/filters-box.vala:12
 #, fuzzy
-msgid "Show installed only"
+msgid "Installed"
+msgstr "Instalirajte %s"
+
+#: src/widgets/runners/filters-box.vala:17
+#, fuzzy
+msgid "Show installed runners"
 msgstr "_Upravo instalirano"
 
-#: src/widgets/runners/filters-box.vala:21
-msgid "Show used only"
+#: src/widgets/runners/filters-box.vala:27
+msgid "Show runners that are used by one game or more"
 msgstr ""
 
-#: src/widgets/runners/filters-box.vala:30
-msgid "Show unused only"
+#: src/widgets/runners/filters-box.vala:32
+msgid "Unused"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that aren't used by any games"
 msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
