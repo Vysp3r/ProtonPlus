@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-25 22:49-0400\n"
-"PO-Revision-Date: 2025-10-27 14:02+0000\n"
+"PO-Revision-Date: 2025-11-04 15:51+0000\n"
 "Last-Translator: Loïc Nussbaumer <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
@@ -120,6 +120,7 @@ msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
+"Lancez les programmes au moins une fois pour les initialiser correctement"
 
 #: src/widgets/window.vala:190
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -188,26 +189,24 @@ msgid "Used"
 msgstr "Utilisé"
 
 #: src/widgets/runners/runner-row.vala:47
-#, fuzzy
 msgid "Unknown error"
-msgstr "Inconnu"
+msgstr "Erreur inconnue"
 
 #: src/widgets/runners/runner-row.vala:51
 msgid "API limit reached"
-msgstr ""
+msgstr "Quota de l'API dépassé"
 
 #: src/widgets/runners/runner-row.vala:52
 msgid "Try again in a few minutes."
-msgstr ""
+msgstr "Réessayez dans quelques minutes"
 
 #: src/widgets/runners/runner-row.vala:56
 msgid "Unable to reach the API"
-msgstr ""
+msgstr "Impossible de joindre l'API"
 
 #: src/widgets/runners/runner-row.vala:57
-#, fuzzy
 msgid "Make sure you're connected to the internet."
-msgstr "Assurez-vous de vous connecter au moins une fois sur Steam."
+msgstr "Vérifiez votre connexion internet."
 
 #: src/widgets/runners/runner-row.vala:61
 #: src/widgets/runners/remove-dialog.vala:50
