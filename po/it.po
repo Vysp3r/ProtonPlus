@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 22:49-0400\n"
+"POT-Creation-Date: 2025-11-03 16:37-0500\n"
 "PO-Revision-Date: 2025-08-05 23:01+0000\n"
 "Last-Translator: Alessandro Marigliano <alemarigliano22@proton.me>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -179,6 +179,7 @@ msgstr "Installa %s"
 #: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "Usato"
 
@@ -311,16 +312,26 @@ msgid "Check this to also delete your configuration files."
 msgstr "Seleziona qui per cancellare anche le tue configurazioni."
 
 #: src/widgets/runners/filters-box.vala:12
-msgid "Show installed only"
+#, fuzzy
+msgid "Installed"
+msgstr "_Solo installati"
+
+#: src/widgets/runners/filters-box.vala:17
+#, fuzzy
+msgid "Show installed runners"
 msgstr "Mostra solo installati"
 
-#: src/widgets/runners/filters-box.vala:21
-msgid "Show used only"
-msgstr "Mostra solo in uso"
+#: src/widgets/runners/filters-box.vala:27
+msgid "Show runners that are used by one game or more"
+msgstr ""
 
-#: src/widgets/runners/filters-box.vala:30
-msgid "Show unused only"
-msgstr "Mostra solo non in uso"
+#: src/widgets/runners/filters-box.vala:32
+msgid "Unused"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that aren't used by any games"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -800,8 +811,11 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Esci"
 
-#~ msgid "_Installed Only"
-#~ msgstr "_Solo installati"
+#~ msgid "Show used only"
+#~ msgstr "Mostra solo in uso"
+
+#~ msgid "Show unused only"
+#~ msgstr "Mostra solo non in uso"
 
 #~ msgid "The library failed loading."
 #~ msgstr "La libreria ha fallito il caricamento."

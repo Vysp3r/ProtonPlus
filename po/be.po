@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 22:49-0400\n"
+"POT-Creation-Date: 2025-11-03 16:37-0500\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -186,6 +186,7 @@ msgstr "Толькі ўсталяваныя"
 #: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr ""
 
@@ -319,17 +320,25 @@ msgstr ""
 
 #: src/widgets/runners/filters-box.vala:12
 #, fuzzy
-msgid "Show installed only"
+msgid "Installed"
 msgstr "Толькі ўсталяваныя"
 
-#: src/widgets/runners/filters-box.vala:21
-msgid "Show used only"
+#: src/widgets/runners/filters-box.vala:17
+#, fuzzy
+msgid "Show installed runners"
+msgstr "Толькі ўсталяваныя"
+
+#: src/widgets/runners/filters-box.vala:27
+msgid "Show runners that are used by one game or more"
 msgstr ""
 
-#: src/widgets/runners/filters-box.vala:30
-#, fuzzy
-msgid "Show unused only"
-msgstr "Толькі ўсталяваныя"
+#: src/widgets/runners/filters-box.vala:32
+msgid "Unused"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that aren't used by any games"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -807,7 +816,7 @@ msgid "Quit"
 msgstr ""
 
 #, fuzzy
-#~ msgid "_Installed Only"
+#~ msgid "Show unused only"
 #~ msgstr "Толькі ўсталяваныя"
 
 #, fuzzy

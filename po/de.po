@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 22:49-0400\n"
+"POT-Creation-Date: 2025-11-03 16:37-0500\n"
 "PO-Revision-Date: 2025-07-19 17:26+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -185,6 +185,7 @@ msgstr "Installiere %s"
 #: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "Nicht benutzt"
 
@@ -319,16 +320,26 @@ msgstr ""
 "Aktivieren Sie diese Option, um auch Ihre Konfigurationsdateien zu löschen."
 
 #: src/widgets/runners/filters-box.vala:12
-msgid "Show installed only"
+#, fuzzy
+msgid "Installed"
+msgstr "Installiere %s"
+
+#: src/widgets/runners/filters-box.vala:17
+#, fuzzy
+msgid "Show installed runners"
 msgstr "Nur installierte anzeigen"
 
-#: src/widgets/runners/filters-box.vala:21
-msgid "Show used only"
-msgstr "Nur benutzte anzeigen"
+#: src/widgets/runners/filters-box.vala:27
+msgid "Show runners that are used by one game or more"
+msgstr ""
 
-#: src/widgets/runners/filters-box.vala:30
-msgid "Show unused only"
-msgstr "Nur nicht benutze anzeigen"
+#: src/widgets/runners/filters-box.vala:32
+msgid "Unused"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that aren't used by any games"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -811,6 +822,12 @@ msgstr "Tastenkombinationen anzeigen"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Beenden"
+
+#~ msgid "Show used only"
+#~ msgstr "Nur benutzte anzeigen"
+
+#~ msgid "Show unused only"
+#~ msgstr "Nur nicht benutze anzeigen"
 
 #~ msgid "The library failed loading."
 #~ msgstr "Die Bibliothek konnte nicht geladen werden."

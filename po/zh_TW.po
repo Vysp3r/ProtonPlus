@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 22:49-0400\n"
+"POT-Creation-Date: 2025-11-03 16:37-0500\n"
 "PO-Revision-Date: 2025-10-29 01:28+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -180,6 +180,7 @@ msgstr "安裝 %s"
 #: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "已使用"
 
@@ -310,16 +311,26 @@ msgid "Check this to also delete your configuration files."
 msgstr "勾選此選項也會移除設定檔。"
 
 #: src/widgets/runners/filters-box.vala:12
-msgid "Show installed only"
+#, fuzzy
+msgid "Installed"
+msgstr "安裝 %s"
+
+#: src/widgets/runners/filters-box.vala:17
+#, fuzzy
+msgid "Show installed runners"
 msgstr "僅顯示已安裝的"
 
-#: src/widgets/runners/filters-box.vala:21
-msgid "Show used only"
-msgstr "僅顯示已使用的"
+#: src/widgets/runners/filters-box.vala:27
+msgid "Show runners that are used by one game or more"
+msgstr ""
 
-#: src/widgets/runners/filters-box.vala:30
-msgid "Show unused only"
-msgstr "僅顯示未使用的"
+#: src/widgets/runners/filters-box.vala:32
+msgid "Unused"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that aren't used by any games"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -755,6 +766,12 @@ msgstr "顯示捷徑鍵"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "離開"
+
+#~ msgid "Show used only"
+#~ msgstr "僅顯示已使用的"
+
+#~ msgid "Show unused only"
+#~ msgstr "僅顯示未使用的"
 
 #~ msgid "The library failed loading."
 #~ msgstr "遊戲庫載入失敗。"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 22:49-0400\n"
+"POT-Creation-Date: 2025-11-03 16:37-0500\n"
 "PO-Revision-Date: 2025-08-14 11:01+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -182,6 +182,7 @@ msgstr "%s تثبيت"
 #: src/widgets/runners/release-row.vala:49
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "مُستخدَم"
 
@@ -314,16 +315,26 @@ msgid "Check this to also delete your configuration files."
 msgstr "حدد هنا لحذف ملفات التخصيص الخاص بك أيضاً"
 
 #: src/widgets/runners/filters-box.vala:12
-msgid "Show installed only"
+#, fuzzy
+msgid "Installed"
+msgstr "%s تثبيت"
+
+#: src/widgets/runners/filters-box.vala:17
+#, fuzzy
+msgid "Show installed runners"
 msgstr "أظهر المثبت فقط"
 
-#: src/widgets/runners/filters-box.vala:21
-msgid "Show used only"
-msgstr "أظهر المُستخدَم فقط"
+#: src/widgets/runners/filters-box.vala:27
+msgid "Show runners that are used by one game or more"
+msgstr ""
 
-#: src/widgets/runners/filters-box.vala:30
-msgid "Show unused only"
-msgstr "أظهر الغير مُستخدَم فقط"
+#: src/widgets/runners/filters-box.vala:32
+msgid "Unused"
+msgstr ""
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that aren't used by any games"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
@@ -768,6 +779,12 @@ msgstr "إظهار اختصارات"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "خروج"
+
+#~ msgid "Show used only"
+#~ msgstr "أظهر المُستخدَم فقط"
+
+#~ msgid "Show unused only"
+#~ msgstr "أظهر الغير مُستخدَم فقط"
 
 #~ msgid "The library failed loading."
 #~ msgstr "فشلت المكتبة في التحميل"
