@@ -51,3 +51,7 @@
 .launchers-popover-list > row:not(:last-child) {
   margin-bottom: 10px;
 }
+
+flowboxchild {
+  background-color: transparent;
+}
