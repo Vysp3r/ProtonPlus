@@ -20,6 +20,11 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void unselect_button_clicked () {
+			foreach (var row in game_list_box.get_selected_rows ()) {
+				if (row is GameRow)
+					((GameRow) row).selected = false;
+			}
+			
 			game_list_box.unselect_all ();
 		}
 	}
