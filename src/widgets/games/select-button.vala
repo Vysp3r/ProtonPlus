@@ -21,6 +21,12 @@ namespace ProtonPlus.Widgets {
 
 		void selection_button_clicked () {
 			game_list_box.select_all ();
+
+			foreach (var row in game_list_box.get_selected_rows ()) {
+				message ("bob");
+				if (row is GameRow)
+					((GameRow) row).selected = true;
+			}
 		}
 	}
 }
