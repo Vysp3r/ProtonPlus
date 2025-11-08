@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-03 16:37-0500\n"
-"PO-Revision-Date: 2025-11-09 06:15+0900\n"
+"PO-Revision-Date: 2025-11-09 06:48+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
-msgstr ""
+msgstr "モダンな互換性ツールマネージャー"
 
 #: src/widgets/application.vala:83
 msgid "Website"
@@ -32,19 +32,19 @@ msgstr ""
 
 #: src/widgets/window.vala:45
 msgid "Donate"
-msgstr ""
+msgstr "寄付する"
 
 #: src/widgets/window.vala:49
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "キーボードショートカット(_K)"
 
 #: src/widgets/window.vala:50
 msgid "_About ProtonPlus"
-msgstr ""
+msgstr "ProtonPlus について(_A)"
 
 #: src/widgets/window.vala:53
 msgid "Main Menu"
-msgstr ""
+msgstr "メインメニュー"
 
 #: src/widgets/window.vala:58
 msgid "Runners"
@@ -52,15 +52,15 @@ msgstr ""
 
 #: src/widgets/window.vala:59
 msgid "Games"
-msgstr ""
+msgstr "ゲーム"
 
 #: src/widgets/window.vala:89
 msgid "Loading"
-msgstr ""
+msgstr "ロード中"
 
 #: src/widgets/window.vala:89
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "この画面が長く表示されていますか?"
 
 #: src/widgets/window.vala:89 src/widgets/window.vala:101
 #: src/widgets/runners/runner-row.vala:48
@@ -74,36 +74,36 @@ msgstr ""
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
-msgstr ""
+msgstr "この問題を GitHub で報告してください。"
 
 #: src/widgets/window.vala:101
 msgid "An error ocurred"
-msgstr ""
+msgstr "エラーが発生しました"
 
 #: src/widgets/window.vala:101
 msgid "There was an error when trying to load the launchers."
-msgstr ""
+msgstr "ランチャーをロード途中にエラーが発生しました。"
 
 #: src/widgets/window.vala:123 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
-msgstr ""
+msgstr "更新を確認中..."
 
 #: src/widgets/window.vala:130
 msgid "Nothing to update."
-msgstr ""
+msgstr "更新するものはありませんでした。"
 
 #: src/widgets/window.vala:134
 msgid "Everything is now up-to-date."
-msgstr ""
+msgstr "全て最新になりました。"
 
 #: src/widgets/window.vala:138
 msgid "An error occured while checking for updates."
-msgstr ""
+msgstr "更新を確認中にエラーが発生しました。"
 
 #: src/widgets/window.vala:151
 #, c-format
 msgid "Welcome to %s"
-msgstr ""
+msgstr "%s へようこそ"
 
 #: src/widgets/window.vala:151
 msgid ""
@@ -116,6 +116,8 @@ msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
+"ランチャーを少なくとも一度は起動して、初期セットアップが完了していることを確"
+"認してください"
 
 #: src/widgets/window.vala:190
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
@@ -125,34 +127,36 @@ msgstr ""
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: src/widgets/window.vala:190
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
+"アプリケーションは更新の確認中です。\n"
+"アプリケーションを終了すると問題が発生することがあります。"
 
 #: src/widgets/window.vala:192
 msgid "Exit"
-msgstr ""
+msgstr "終了"
 
 #: src/widgets/window.vala:195 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
-msgstr ""
+msgstr "詳細情報"
 
 #: src/widgets/runners/description-dialog.vala:18
 msgid "Open"
-msgstr ""
+msgstr "開く"
 
 #: src/widgets/runners/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr ""
+msgstr "ウェブブラウザで開く"
 
 #: src/widgets/runners/release-row.vala:11
 msgid "Open runner directory"
@@ -160,19 +164,19 @@ msgstr ""
 
 #: src/widgets/runners/release-row.vala:15
 msgid "Show more information"
-msgstr ""
+msgstr "詳細情報を表示"
 
 #: src/widgets/runners/release-row.vala:19
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
-msgstr ""
+msgstr "%s を削除"
 
 #: src/widgets/runners/release-row.vala:23
 #: src/widgets/runners/install-dialog.vala:17
 #, c-format
 msgid "Install %s"
-msgstr ""
+msgstr "%s をインストール"
 
 #: src/widgets/runners/release-row.vala:47
 #: src/widgets/runners/release-row.vala:49
@@ -180,27 +184,27 @@ msgstr ""
 #: src/widgets/runners/basic-row.vala:52
 #: src/widgets/runners/filters-box.vala:22
 msgid "Used"
-msgstr ""
+msgstr "使用済み"
 
 #: src/widgets/runners/runner-row.vala:47
 msgid "Unknown error"
-msgstr ""
+msgstr "不明なエラー"
 
 #: src/widgets/runners/runner-row.vala:51
 msgid "API limit reached"
-msgstr ""
+msgstr "API の制限に達しました"
 
 #: src/widgets/runners/runner-row.vala:52
 msgid "Try again in a few minutes."
-msgstr ""
+msgstr "数分待ってからお試しください。"
 
 #: src/widgets/runners/runner-row.vala:56
 msgid "Unable to reach the API"
-msgstr ""
+msgstr "API にアクセスできません"
 
 #: src/widgets/runners/runner-row.vala:57
 msgid "Make sure you're connected to the internet."
-msgstr ""
+msgstr "インターネットに接続されていることを確認してください。"
 
 #: src/widgets/runners/runner-row.vala:61
 #: src/widgets/runners/remove-dialog.vala:50
@@ -217,12 +221,12 @@ msgstr ""
 #: src/widgets/games/default-tool-dialog.vala:61
 #: src/widgets/games/compatibility-tool-dropdown.vala:76
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
 msgid "Load more"
-msgstr ""
+msgstr "もっと読み込む"
 
 #: src/widgets/runners/remove-dialog.vala:13
 msgid "Are you sure you want this?"
@@ -231,25 +235,25 @@ msgstr ""
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
-msgstr ""
+msgstr "%i つのゲームで使用されています。"
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr ""
+msgstr "1 つのゲームで使用されています。"
 
 #: src/widgets/runners/remove-dialog.vala:26
 msgid "Are you sure you want to proceed?"
-msgstr ""
+msgstr "本当に続行しますか?"
 
 #: src/widgets/runners/remove-dialog.vala:30
 #: src/widgets/runners/steamtinkerlaunch-row.vala:91
 msgid "No"
-msgstr ""
+msgstr "いいえ"
 
 #: src/widgets/runners/remove-dialog.vala:31
 #: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Yes"
-msgstr ""
+msgstr "はい"
 
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
@@ -261,47 +265,47 @@ msgstr ""
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Error"
-msgstr ""
+msgstr "エラー"
 
 #: src/widgets/runners/remove-dialog.vala:49
 #, c-format
 msgid "When trying to delete %s an error occurred."
-msgstr ""
+msgstr "%s の削除中にエラーが発生しました。"
 
 #: src/widgets/runners/install-dialog.vala:56
 #, c-format
 msgid "When trying to install %s an error occurred."
-msgstr ""
+msgstr "%s のインストール中にエラーが発生しました。"
 
 #: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
 msgid "Downloading"
-msgstr ""
+msgstr "ダウンロード中"
 
 #: src/widgets/runners/install-dialog.vala:100
 #: src/widgets/runners/upgrade-dialog.vala:81
 msgid "Extracting"
-msgstr ""
+msgstr "展開中"
 
 #: src/widgets/runners/install-dialog.vala:103
 msgid "Moving"
-msgstr ""
+msgstr "移動中"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
 msgid "Upgrade %s"
-msgstr ""
+msgstr "%s をアップグレード"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
 #, c-format
 msgid "When trying to upgrade %s an error occurred."
-msgstr ""
+msgstr "%s をアップグレード中にエラーが発生しました。"
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:53
 #, c-format
 msgid "%s is used by %i game(s)"
-msgstr ""
+msgstr "%s は %i つのゲームで使われています"
 
 #: src/widgets/runners/installed-row.vala:38
 #: src/widgets/runners/steamtinkerlaunch-row.vala:118
@@ -310,7 +314,7 @@ msgstr ""
 
 #: src/widgets/runners/filters-box.vala:12
 msgid "Installed"
-msgstr ""
+msgstr "インストール済み"
 
 #: src/widgets/runners/filters-box.vala:17
 msgid "Show installed runners"
@@ -322,7 +326,7 @@ msgstr ""
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
-msgstr ""
+msgstr "未使用"
 
 #: src/widgets/runners/filters-box.vala:37
 msgid "Show runners that aren't used by any games"
@@ -331,11 +335,11 @@ msgstr ""
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
 msgid "You are missing the following dependencies for %s:"
-msgstr ""
+msgstr "%s には以下の前提ソフトが不足しています:"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 msgid "Installation will be canceled."
-msgstr ""
+msgstr "インストールはキャンセルされます。"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, c-format
@@ -343,20 +347,22 @@ msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
+"ProtonPlus 以外の方法でインストールした %s の別のバージョンがあるようです。"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr ""
+msgstr "そのバージョンを ProtonPlus で再インストールしますか?"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
-msgstr ""
+msgstr "%s は既に最新です。"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:145
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr ""
+"%s に必要な %s をインストールするには、以下のコマンドを実行してください:"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:149
 #, c-format
@@ -365,7 +371,7 @@ msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:182
 msgid "Up-to-date"
-msgstr ""
+msgstr "最新"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:182
 msgid "Update to the latest version"
@@ -418,17 +424,17 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:211
 msgid "Unsuported launcher"
-msgstr ""
+msgstr "サポートされていないランチャー"
 
 #: src/widgets/games/games-box.vala:211
 #, c-format
 msgid "%s is currently not supported."
-msgstr ""
+msgstr "%s は現在サポートされていません。"
 
 #: src/widgets/games/games-box.vala:211
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
-msgstr ""
+msgstr "開発をスピードアップしてほしい場合は、私を支援してください!"
 
 #: src/widgets/games/games-box.vala:251 src/widgets/games/games-box.vala:314
 #: src/widgets/games/games-box.vala:317
@@ -738,14 +744,14 @@ msgstr ""
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
-msgstr ""
+msgstr "一般"
 
 #: data/ui/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr ""
+msgstr "ショートカットの表示"
 
 #: data/ui/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr ""
+msgstr "アプリの終了"
