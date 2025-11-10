@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-03 16:37-0500\n"
-"PO-Revision-Date: 2025-11-09 01:48+0000\n"
+"PO-Revision-Date: 2025-11-10 19:51+0000\n"
 "Last-Translator: Loïc Nussbaumer <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
@@ -163,7 +163,7 @@ msgstr "Ouvrir dans votre navigateur"
 
 #: src/widgets/runners/release-row.vala:11
 msgid "Open runner directory"
-msgstr "Ouvrir le dossier de l'exécutable"
+msgstr "Ouvrir le dossier de l'outil de compatibilité"
 
 #: src/widgets/runners/release-row.vala:15
 msgid "Show more information"
@@ -316,18 +316,16 @@ msgid "Check this to also delete your configuration files."
 msgstr "Regarder ceci pour enlever les fichiers de configurations."
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Installed"
-msgstr "_Installés seulement"
+msgstr "Installés seulement"
 
 #: src/widgets/runners/filters-box.vala:17
-#, fuzzy
 msgid "Show installed runners"
-msgstr "Installés seulement"
+msgstr "Afficher les outils de compatibilité installés"
 
 #: src/widgets/runners/filters-box.vala:27
 msgid "Show runners that are used by one game or more"
-msgstr ""
+msgstr "Afficher les outils de compatibilité utilisé par 1 ou jeu ou plus"
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
@@ -335,7 +333,7 @@ msgstr "Inutilisé"
 
 #: src/widgets/runners/filters-box.vala:37
 msgid "Show runners that aren't used by any games"
-msgstr ""
+msgstr "Afficher les outils de compatibilité utilisés par aucun jeu"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
