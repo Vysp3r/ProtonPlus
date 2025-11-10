@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-03 16:37-0500\n"
-"PO-Revision-Date: 2025-11-09 15:51+0000\n"
+"PO-Revision-Date: 2025-11-10 11:51+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ja/>\n"
@@ -500,14 +500,13 @@ msgstr "有効化"
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
-msgstr "互換性ツールをまとめて変更したい場合のみ、この設定を有効にしてください"
+msgstr "互換性ツールをまとめて変更したい場合のみ、この設定を有効にしてください。"
 
 #: src/widgets/games/mass-edit-dialog.vala:44
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
-msgstr ""
-"起動オプションをまとめて変更したい場合のみ、この設定を有効にしてください"
+msgstr "起動オプションをまとめて変更したい場合のみ、この設定を有効にしてください。"
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
