@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-03 16:37-0500\n"
-"PO-Revision-Date: 2025-11-11 21:51+0000\n"
+"PO-Revision-Date: 2025-11-12 05:51+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -322,13 +322,12 @@ msgid "Installed"
 msgstr "Instalados"
 
 #: src/widgets/runners/filters-box.vala:17
-#, fuzzy
 msgid "Show installed runners"
-msgstr "Mostrar apenas os instalados"
+msgstr "Mostrar executadores instalados"
 
 #: src/widgets/runners/filters-box.vala:27
 msgid "Show runners that are used by one game or more"
-msgstr ""
+msgstr "Mostrar executadores que são usados por um ou mais jogos"
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
