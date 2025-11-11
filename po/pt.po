@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-03 16:37-0500\n"
-"PO-Revision-Date: 2025-11-03 17:51+0000\n"
+"PO-Revision-Date: 2025-11-11 21:51+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
@@ -319,7 +319,7 @@ msgstr "Marque isto para também excuir seus arquivos de configuração."
 #: src/widgets/runners/filters-box.vala:12
 #, fuzzy
 msgid "Installed"
-msgstr "_Instalados Apenas"
+msgstr "Instalados"
 
 #: src/widgets/runners/filters-box.vala:17
 #, fuzzy
