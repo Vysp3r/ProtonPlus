@@ -243,7 +243,7 @@
                 {
                     "title": "Wine-Proton (Kron4ek)",
                     "description": "Wine build modified by Valve and other contributors.",
-                    "endpoint": "ttps://api.github.com/repos/Kron4ek/Wine-Builds/releases",
+                    "endpoint": "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
                     "asset_position": 1,
                     "directory_name_formats": [
                         {
