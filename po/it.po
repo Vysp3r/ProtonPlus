@@ -1,19 +1,20 @@
 # Lize58 <pasquale.borrelli05@outlook.it>, 2024.
 # Alessandro Marigliano <alemarigliano22@gmail.com>, 2025.
 # Alessandro Marigliano <alemarigliano22@proton.me>, 2025.
+# M4ttiA <sensoriale_echidna_0w@icloud.com>, 2025.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-03 16:37-0500\n"
-"PO-Revision-Date: 2025-08-05 23:01+0000\n"
-"Last-Translator: Alessandro Marigliano <alemarigliano22@proton.me>\n"
+"PO-Revision-Date: 2025-11-14 00:51+0000\n"
+"Last-Translator: M4ttiA <sensoriale_echidna_0w@icloud.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/it/>\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
@@ -327,7 +328,7 @@ msgstr ""
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
-msgstr ""
+msgstr "Non usato"
 
 #: src/widgets/runners/filters-box.vala:37
 msgid "Show runners that aren't used by any games"
@@ -386,7 +387,7 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:103
 msgid "Search for a game"
-msgstr ""
+msgstr "Ricerca gioco"
 
 #: src/widgets/games/games-box.vala:110
 msgid "Name"
