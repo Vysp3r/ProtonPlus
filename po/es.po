@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-03 16:37-0500\n"
-"PO-Revision-Date: 2025-11-03 17:51+0000\n"
+"PO-Revision-Date: 2025-11-15 00:51+0000\n"
 "Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
@@ -45,7 +45,7 @@ msgstr "Menú principal"
 
 #: src/widgets/window.vala:58
 msgid "Runners"
-msgstr "Motores de ejecución"
+msgstr "Ejecutores"
 
 #: src/widgets/window.vala:59
 msgid "Games"
@@ -159,7 +159,7 @@ msgstr "Abrir en tu navegador web"
 
 #: src/widgets/runners/release-row.vala:11
 msgid "Open runner directory"
-msgstr "Abrir directorio de prefijos"
+msgstr "Abrir directorio de ejecutores"
 
 #: src/widgets/runners/release-row.vala:15
 msgid "Show more information"
@@ -312,26 +312,24 @@ msgid "Check this to also delete your configuration files."
 msgstr "Marca esto para eliminar también tus archivos de configuración."
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Installed"
-msgstr "Sólo instalado"
+msgstr "Instalado"
 
 #: src/widgets/runners/filters-box.vala:17
-#, fuzzy
 msgid "Show installed runners"
-msgstr "Mostrar instalados"
+msgstr "Mostrar ejecutores instalados"
 
 #: src/widgets/runners/filters-box.vala:27
 msgid "Show runners that are used by one game or more"
-msgstr ""
+msgstr "Mostrar ejecutores usados por uno o más juegos"
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
-msgstr ""
+msgstr "Sin usar"
 
 #: src/widgets/runners/filters-box.vala:37
 msgid "Show runners that aren't used by any games"
-msgstr ""
+msgstr "Mostrar ejecutores que no usa ningún juego"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
