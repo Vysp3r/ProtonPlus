@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-03 16:37-0500\n"
-"PO-Revision-Date: 2025-10-29 01:28+0800\n"
+"PO-Revision-Date: 2025-11-16 03:53+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.6\n"
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
@@ -311,26 +311,24 @@ msgid "Check this to also delete your configuration files."
 msgstr "勾選此選項也會移除設定檔。"
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Installed"
-msgstr "安裝 %s"
+msgstr "已安裝"
 
 #: src/widgets/runners/filters-box.vala:17
-#, fuzzy
 msgid "Show installed runners"
-msgstr "僅顯示已安裝的"
+msgstr "顯示已安裝的運行器"
 
 #: src/widgets/runners/filters-box.vala:27
 msgid "Show runners that are used by one game or more"
-msgstr ""
+msgstr "顯示已被遊戲使用的運行器"
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
-msgstr ""
+msgstr "未使用"
 
 #: src/widgets/runners/filters-box.vala:37
 msgid "Show runners that aren't used by any games"
-msgstr ""
+msgstr "顯示未被遊戲使用的運行器"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format

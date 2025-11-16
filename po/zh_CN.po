@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-03 16:37-0500\n"
-"PO-Revision-Date: 2025-10-29 01:34+0800\n"
+"PO-Revision-Date: 2025-11-16 03:57+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
 "Language: zh\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.6\n"
 
 #: src/widgets/application.vala:81
 msgid "A modern compatibility tools manager"
@@ -190,7 +190,7 @@ msgstr "未知错误"
 
 #: src/widgets/runners/runner-row.vala:51
 msgid "API limit reached"
-msgstr "已达 API 限制"
+msgstr "已达到 API 限制"
 
 #: src/widgets/runners/runner-row.vala:52
 msgid "Try again in a few minutes."
@@ -311,26 +311,24 @@ msgid "Check this to also delete your configuration files."
 msgstr "勾选此项也会删除配置文件。"
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Installed"
-msgstr "仅显示已安装的(_I)"
+msgstr "已安装"
 
 #: src/widgets/runners/filters-box.vala:17
-#, fuzzy
 msgid "Show installed runners"
-msgstr "仅显示已安装的"
+msgstr "显示已安装的运行器"
 
 #: src/widgets/runners/filters-box.vala:27
 msgid "Show runners that are used by one game or more"
-msgstr ""
+msgstr "显示已被游戏使用的运行器"
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
-msgstr ""
+msgstr "未使用"
 
 #: src/widgets/runners/filters-box.vala:37
 msgid "Show runners that aren't used by any games"
-msgstr ""
+msgstr "显示未被游戏使用的运行器"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:43
 #, c-format
