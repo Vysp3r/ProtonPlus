@@ -39,8 +39,7 @@ namespace ProtonPlus.Widgets {
 				var mass_edit_dialog = new MassEditDialog (game_rows, model, expression);
 				mass_edit_dialog.present (Application.window);
 			} else {
-				var dialog = new Adw.AlertDialog (_("Warning"), _("Please make sure to select at least one game before using the mass edit feature."));
-				dialog.add_response ("ok", _("OK"));
+				var dialog = new WarningDialog (_("Warning"), _("Please make sure to select at least one game before using the mass edit feature."));
 				dialog.present (Application.window);
 			}
 		}

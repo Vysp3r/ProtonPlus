@@ -2,6 +2,8 @@ src/widgets/application.vala
 src/widgets/status-box.vala
 src/widgets/window.vala
 src/widgets/update-button.vala
+src/widgets/warning-dialog.vala
+src/widgets/error-dialog.vala
 src/widgets/preferences/preferences-dialog.vala
 src/widgets/preferences/theme-row.vala
 src/widgets/preferences/refresh-steam-profiles-row.vala

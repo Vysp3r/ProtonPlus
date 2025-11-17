@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-16 20:49-0500\n"
+"POT-Creation-Date: 2025-11-16 21:46-0500\n"
 "PO-Revision-Date: 2025-11-16 03:53+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.6\n"
 
-#: src/widgets/application.vala:86
+#: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
 msgstr "現代的相容性工具管理程式。"
 
-#: src/widgets/application.vala:88
+#: src/widgets/application.vala:93
 msgid "Website"
 msgstr "網站"
 
-#: src/widgets/application.vala:93
+#: src/widgets/application.vala:98
 msgid "Special thanks to"
 msgstr "特別感謝"
 
@@ -38,13 +38,13 @@ msgid "Taking longer than normal?"
 msgstr "載入時間是不是比平常久？"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:48
+#: src/widgets/runners/runner-row.vala:54
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
-#: src/widgets/games/shortcut-button.vala:47
+#: src/widgets/games/shortcut-button.vala:46
 #: src/widgets/games/launch-options-dialog.vala:57
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
@@ -117,37 +117,42 @@ msgstr "目前皆已為最新版本。"
 msgid "An error occured while checking for updates."
 msgstr "檢查更新時發生錯誤。"
 
-#: src/widgets/window.vala:156
+#: src/widgets/window.vala:139 src/widgets/window.vala:172
+#: src/widgets/error-dialog.vala:7
+msgid "Report"
+msgstr ""
+
+#: src/widgets/window.vala:158
 #, c-format
 msgid "Updating %s."
 msgstr ""
 
-#: src/widgets/window.vala:163
+#: src/widgets/window.vala:165
 #, c-format
 msgid "No update found for %s."
 msgstr ""
 
-#: src/widgets/window.vala:166
+#: src/widgets/window.vala:168
 #, fuzzy, c-format
 msgid "%s is now up-to-date."
 msgstr "%s 已為最新版本。"
 
-#: src/widgets/window.vala:169
+#: src/widgets/window.vala:171
 #, fuzzy, c-format
 msgid "An error occured while updating %s."
 msgstr "更新 %s 時發生意外錯誤。"
 
-#: src/widgets/window.vala:208
+#: src/widgets/window.vala:212
 #: src/widgets/runners/steamtinkerlaunch-row.vala:46
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
-#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:144
 #: src/widgets/runners/steamtinkerlaunch-row.vala:148
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "警告"
 
-#: src/widgets/window.vala:208
+#: src/widgets/window.vala:212
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -155,14 +160,18 @@ msgstr ""
 "目前正在檢查更新。\n"
 "提前離開可能會導致問題。"
 
-#: src/widgets/window.vala:210
+#: src/widgets/window.vala:214
 msgid "Exit"
 msgstr "離開"
 
-#: src/widgets/window.vala:213 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:217 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "取消"
+
+#: src/widgets/warning-dialog.vala:7 src/widgets/error-dialog.vala:10
+msgid "OK"
+msgstr "確定"
 
 #: src/widgets/preferences/preferences-dialog.vala:9
 #, fuzzy
@@ -269,42 +278,25 @@ msgstr "安裝 %s"
 msgid "Used"
 msgstr "已使用"
 
-#: src/widgets/runners/runner-row.vala:47
-msgid "Unknown error"
-msgstr "未知錯誤"
-
-#: src/widgets/runners/runner-row.vala:51
+#: src/widgets/runners/runner-row.vala:48
 msgid "API limit reached"
 msgstr "已達到 API 限制"
 
-#: src/widgets/runners/runner-row.vala:52
+#: src/widgets/runners/runner-row.vala:48
 msgid "Try again in a few minutes."
 msgstr "請稍後幾分鐘後再試。"
 
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:51
 msgid "Unable to reach the API"
 msgstr "無法存取 API"
 
-#: src/widgets/runners/runner-row.vala:57
+#: src/widgets/runners/runner-row.vala:51
 msgid "Make sure you're connected to the internet."
 msgstr "請確保連接至網際網路。"
 
-#: src/widgets/runners/runner-row.vala:61
-#: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:57
-#: src/widgets/runners/upgrade-dialog.vala:57
-#: src/widgets/runners/steamtinkerlaunch-row.vala:48
-#: src/widgets/runners/steamtinkerlaunch-row.vala:134
-#: src/widgets/runners/steamtinkerlaunch-row.vala:158
-#: src/widgets/games/mass-edit-dialog.vala:148
-#: src/widgets/games/shortcut-button.vala:39
-#: src/widgets/games/shortcut-button.vala:48
-#: src/widgets/games/mass-edit-button.vala:43
-#: src/widgets/games/launch-options-dialog.vala:58
-#: src/widgets/games/default-tool-dialog.vala:61
-#: src/widgets/games/compatibility-tool-dropdown.vala:76
-msgid "OK"
-msgstr "確定"
+#: src/widgets/runners/runner-row.vala:54
+msgid "Unknown error"
+msgstr "未知錯誤"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -329,47 +321,36 @@ msgid "Are you sure you want to proceed?"
 msgstr "您確定要繼續嗎？"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:94
+#: src/widgets/runners/steamtinkerlaunch-row.vala:91
 msgid "No"
 msgstr "否"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:95
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Yes"
 msgstr "是"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-dialog.vala:147
-#: src/widgets/games/shortcut-button.vala:38
-#: src/widgets/games/shortcut-button.vala:47
-#: src/widgets/games/launch-options-dialog.vala:57
-#: src/widgets/games/default-tool-dialog.vala:60
-#: src/widgets/games/compatibility-tool-dropdown.vala:75
-msgid "Error"
-msgstr "錯誤"
-
-#: src/widgets/runners/remove-dialog.vala:49
-#, c-format
-msgid "When trying to delete %s an error occurred."
-msgstr "嘗試移除 %s 時發生錯誤。"
+#, fuzzy, c-format
+msgid "Couldn't delete %s"
+msgstr "安裝 %s"
 
 #: src/widgets/runners/install-dialog.vala:56
 #, fuzzy, c-format
 msgid "Couldn't install %s"
 msgstr "安裝 %s"
 
-#: src/widgets/runners/install-dialog.vala:85
-#: src/widgets/runners/upgrade-dialog.vala:78
+#: src/widgets/runners/install-dialog.vala:84
+#: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
 msgstr "正在下載"
 
-#: src/widgets/runners/install-dialog.vala:100
-#: src/widgets/runners/upgrade-dialog.vala:81
+#: src/widgets/runners/install-dialog.vala:99
+#: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
 msgstr "正在解壓縮"
 
-#: src/widgets/runners/install-dialog.vala:103
+#: src/widgets/runners/install-dialog.vala:102
 msgid "Moving"
 msgstr "正在搬移"
 
@@ -379,9 +360,9 @@ msgid "Upgrade %s"
 msgstr "更新 %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, c-format
-msgid "When trying to upgrade %s an error occurred."
-msgstr "嘗試更新 %s 時發生錯誤。"
+#, fuzzy, c-format
+msgid "Couldn't upgrade %s"
+msgstr "安裝 %s"
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:63
@@ -390,7 +371,7 @@ msgid "%s is used by %i game(s)"
 msgstr "%1$s 已有 %2$i 款遊戲使用。"
 
 #: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:121
+#: src/widgets/runners/steamtinkerlaunch-row.vala:118
 msgid "Check this to also delete your configuration files."
 msgstr "勾選此選項也會移除設定檔。"
 
@@ -429,37 +410,37 @@ msgstr "您缺少下列 %s 的相依性工具："
 msgid "Installation will be canceled."
 msgstr "安裝將被取消。"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr "看起來您目前有另一個版本的 %s，但不是透過 ProtonPlus 安裝的。"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "您想使用 ProtonPlus 將其重新安裝嗎？"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
 msgstr "%s 已為最新版本。"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:144
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "若要為 %2$s 安裝 %1$s，請運行以下命令："
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "目前尚無已知的方法來為 %2$s 安裝 %1$s。"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:185
+#: src/widgets/runners/steamtinkerlaunch-row.vala:179
 msgid "Up-to-date"
 msgstr "最新版本"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:185
+#: src/widgets/runners/steamtinkerlaunch-row.vala:179
 msgid "Update to the latest version"
 msgstr "更新至最新版本"
 
@@ -522,7 +503,7 @@ msgstr "若希望我加快開發速度，請務必表達您的支持！"
 #: src/widgets/games/games-box.vala:329
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
-#: src/widgets/games/compatibility-tool-dropdown.vala:81
+#: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "未指定"
@@ -599,10 +580,14 @@ msgid ""
 msgstr "請啟用要在批量編輯中涵蓋的所有選項。"
 
 #: src/widgets/games/mass-edit-dialog.vala:147
+#, fuzzy
 msgid ""
-"When trying to change the compatibility tool/launch options of the selected "
-"games an error occurred for the following games:"
-msgstr "嘗試變更所選遊戲的相容性工具/啟動選項時，下列遊戲發生錯誤："
+"Couldn't change the compatibility tool/launch options of the selected games"
+msgstr "嘗試變更 %s 的相容性工具時發生錯誤。"
+
+#: src/widgets/games/mass-edit-dialog.vala:147
+msgid "The following games had an issue:"
+msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
@@ -622,12 +607,14 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "移除 Steam 中的 ProtonPlus 捷徑"
 
 #: src/widgets/games/shortcut-button.vala:38
-msgid "When trying to delete the shortcut in Steam an error occurred."
-msgstr "嘗試移除 Steam 中的捷徑時發生錯誤。"
+#, fuzzy
+msgid "Couldn't delete the shortcut in Steam"
+msgstr "移除 Steam 中的 ProtonPlus 捷徑"
 
-#: src/widgets/games/shortcut-button.vala:47
-msgid "When trying to create the shortcut in Steam an error occurred."
-msgstr "嘗試在 Steam 中建立捷徑時發生錯誤。"
+#: src/widgets/games/shortcut-button.vala:46
+#, fuzzy
+msgid "Couldn't create the shortcut in Steam"
+msgstr "移除 Steam 中的 ProtonPlus 捷徑"
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
@@ -673,8 +660,8 @@ msgid "Apply the current modification"
 msgstr "套用目前修改"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, c-format
-msgid "When trying to change the launch options of %s an error occurred."
+#, fuzzy, c-format
+msgid "Couldn't change the launch options of %s"
 msgstr "嘗試變更 %s 的啟動選項時發生錯誤。"
 
 #: src/widgets/games/profile-dialog.vala:15
@@ -704,16 +691,17 @@ msgid "Set the default compatibility tool"
 msgstr "設定預設相容性工具"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-msgid "When trying to change the default compatibility tool an error occurred."
-msgstr "嘗試變更預設相容性工具時發生錯誤。"
+#, fuzzy
+msgid "Couldn't change the default compatibility tool"
+msgstr "設定預設相容性工具"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
 msgstr "選擇所需的相容性工具"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, c-format
-msgid "When trying to change the compatibility tool of %s an error occurred."
+#, fuzzy, c-format
+msgid "Couldn't change the compatibility tool of %s"
 msgstr "嘗試變更 %s 的相容性工具時發生錯誤。"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
@@ -850,6 +838,32 @@ msgstr "顯示捷徑鍵"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "離開"
+
+#~ msgid "Error"
+#~ msgstr "錯誤"
+
+#~ msgid ""
+#~ "When trying to change the compatibility tool/launch options of the "
+#~ "selected games an error occurred for the following games:"
+#~ msgstr "嘗試變更所選遊戲的相容性工具/啟動選項時，下列遊戲發生錯誤："
+
+#, c-format
+#~ msgid "When trying to delete %s an error occurred."
+#~ msgstr "嘗試移除 %s 時發生錯誤。"
+
+#, c-format
+#~ msgid "When trying to upgrade %s an error occurred."
+#~ msgstr "嘗試更新 %s 時發生錯誤。"
+
+#~ msgid "When trying to delete the shortcut in Steam an error occurred."
+#~ msgstr "嘗試移除 Steam 中的捷徑時發生錯誤。"
+
+#~ msgid "When trying to create the shortcut in Steam an error occurred."
+#~ msgstr "嘗試在 Steam 中建立捷徑時發生錯誤。"
+
+#~ msgid ""
+#~ "When trying to change the default compatibility tool an error occurred."
+#~ msgstr "嘗試變更預設相容性工具時發生錯誤。"
 
 #~ msgid "An error ocurred"
 #~ msgstr "發生錯誤"

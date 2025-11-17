@@ -43,10 +43,7 @@ namespace ProtonPlus.Widgets {
 					var missing_dependencies = dependency_check.end (res);
 
 					if (missing_dependencies != "") {
-						var alert_dialog = new Adw.AlertDialog (_("Warning"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
-
-						alert_dialog.add_response ("ok", _("OK"));
-
+						var alert_dialog = new WarningDialog (_("Warning"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
 						alert_dialog.present (Widgets.Application.window);
 
 						return;
@@ -130,8 +127,7 @@ namespace ProtonPlus.Widgets {
 
 		void upgrade_button_clicked () {
 			if (release.state == Models.Release.State.UP_TO_DATE) {
-				var dialog = new Adw.AlertDialog (_("Warning"), _("%s is already up-to-date.").printf (release.title));
-				dialog.add_response ("ok", _("OK"));
+				var dialog = new WarningDialog (_("Warning"), _("%s is already up-to-date.").printf (release.title));
 				dialog.present (Application.window);
 			} else {
 				var upgrade_dialog = new UpgradeDialog (release);
@@ -145,20 +141,18 @@ namespace ProtonPlus.Widgets {
 			case Models.Launcher.InstallationTypes.FLATPAK :
 				var command_label = new Gtk.Label ("flatpak install com.valvesoftware.Steam.Utility.steamtinkerlaunch");
 				command_label.set_selectable (true);
-				alert_dialog = new Adw.AlertDialog (_("Warning"), _("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
+				alert_dialog = new WarningDialog (_("Warning"), _("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
 				alert_dialog.set_extra_child (command_label);
 				break;
 			case Models.Launcher.InstallationTypes.SNAP:
-				alert_dialog = new Adw.AlertDialog (_("Warning"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
+				alert_dialog = new WarningDialog (_("Warning"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
 				break;
 			default:
 				break;
 			}
-			if (alert_dialog != null) {
-				alert_dialog.add_response ("ok", _("OK"));
 
+			if (alert_dialog != null)
 				alert_dialog.present (Application.window);
-			}
 		}
 
 		protected override void open_button_clicked () {

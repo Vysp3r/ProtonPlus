@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-16 20:49-0500\n"
+"POT-Creation-Date: 2025-11-16 21:46-0500\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Bosnian <https://hosted.weblate.org/projects/protonplus/"
@@ -19,16 +19,16 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:86
+#: src/widgets/application.vala:91
 #, fuzzy
 msgid "A modern compatibility tools manager"
 msgstr "Moderni alat za upravljanje kompatibilnosti za Linuks."
 
-#: src/widgets/application.vala:88
+#: src/widgets/application.vala:93
 msgid "Website"
 msgstr "Web stranica"
 
-#: src/widgets/application.vala:93
+#: src/widgets/application.vala:98
 msgid "Special thanks to"
 msgstr "Posebna zahvala"
 
@@ -41,13 +41,13 @@ msgid "Taking longer than normal?"
 msgstr "Traje li duže nego uobičajeno?"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:48
+#: src/widgets/runners/runner-row.vala:54
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
-#: src/widgets/games/shortcut-button.vala:47
+#: src/widgets/games/shortcut-button.vala:46
 #: src/widgets/games/launch-options-dialog.vala:57
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
@@ -122,50 +122,59 @@ msgstr ""
 msgid "An error occured while checking for updates."
 msgstr ""
 
-#: src/widgets/window.vala:156
+#: src/widgets/window.vala:139 src/widgets/window.vala:172
+#: src/widgets/error-dialog.vala:7
+msgid "Report"
+msgstr ""
+
+#: src/widgets/window.vala:158
 #, c-format
 msgid "Updating %s."
 msgstr ""
 
-#: src/widgets/window.vala:163
+#: src/widgets/window.vala:165
 #, c-format
 msgid "No update found for %s."
 msgstr ""
 
-#: src/widgets/window.vala:166
+#: src/widgets/window.vala:168
 #, fuzzy, c-format
 msgid "%s is now up-to-date."
 msgstr "%s je već ažuriran."
 
-#: src/widgets/window.vala:169
+#: src/widgets/window.vala:171
 #, fuzzy, c-format
 msgid "An error occured while updating %s."
 msgstr "Došlo je do greške"
 
-#: src/widgets/window.vala:208
+#: src/widgets/window.vala:212
 #: src/widgets/runners/steamtinkerlaunch-row.vala:46
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
-#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:144
 #: src/widgets/runners/steamtinkerlaunch-row.vala:148
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: src/widgets/window.vala:208
+#: src/widgets/window.vala:212
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:210
+#: src/widgets/window.vala:214
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:213 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:217 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Otkaži"
+
+#: src/widgets/warning-dialog.vala:7 src/widgets/error-dialog.vala:10
+msgid "OK"
+msgstr "U redu"
 
 #: src/widgets/preferences/preferences-dialog.vala:9
 #, fuzzy
@@ -272,44 +281,27 @@ msgstr "Instaliraj %s"
 msgid "Used"
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:47
-#, fuzzy
-msgid "Unknown error"
-msgstr "Nepoznato"
-
-#: src/widgets/runners/runner-row.vala:51
+#: src/widgets/runners/runner-row.vala:48
 msgid "API limit reached"
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:52
+#: src/widgets/runners/runner-row.vala:48
 msgid "Try again in a few minutes."
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:51
 msgid "Unable to reach the API"
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:57
+#: src/widgets/runners/runner-row.vala:51
 #, fuzzy
 msgid "Make sure you're connected to the internet."
 msgstr "Obavezno se povežite na Steam barem jednom."
 
-#: src/widgets/runners/runner-row.vala:61
-#: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:57
-#: src/widgets/runners/upgrade-dialog.vala:57
-#: src/widgets/runners/steamtinkerlaunch-row.vala:48
-#: src/widgets/runners/steamtinkerlaunch-row.vala:134
-#: src/widgets/runners/steamtinkerlaunch-row.vala:158
-#: src/widgets/games/mass-edit-dialog.vala:148
-#: src/widgets/games/shortcut-button.vala:39
-#: src/widgets/games/shortcut-button.vala:48
-#: src/widgets/games/mass-edit-button.vala:43
-#: src/widgets/games/launch-options-dialog.vala:58
-#: src/widgets/games/default-tool-dialog.vala:61
-#: src/widgets/games/compatibility-tool-dropdown.vala:76
-msgid "OK"
-msgstr "U redu"
+#: src/widgets/runners/runner-row.vala:54
+#, fuzzy
+msgid "Unknown error"
+msgstr "Nepoznato"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -334,47 +326,36 @@ msgid "Are you sure you want to proceed?"
 msgstr "Jeste li sigurni da želite nastaviti?"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:94
+#: src/widgets/runners/steamtinkerlaunch-row.vala:91
 msgid "No"
 msgstr "Ne"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:95
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Yes"
 msgstr "Da"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-dialog.vala:147
-#: src/widgets/games/shortcut-button.vala:38
-#: src/widgets/games/shortcut-button.vala:47
-#: src/widgets/games/launch-options-dialog.vala:57
-#: src/widgets/games/default-tool-dialog.vala:60
-#: src/widgets/games/compatibility-tool-dropdown.vala:75
-msgid "Error"
-msgstr "Greška"
-
-#: src/widgets/runners/remove-dialog.vala:49
-#, c-format
-msgid "When trying to delete %s an error occurred."
-msgstr "Došlo je do greške prilikom pokušaja uklanjanja %s."
+#, fuzzy, c-format
+msgid "Couldn't delete %s"
+msgstr "Instaliraj %s"
 
 #: src/widgets/runners/install-dialog.vala:56
 #, fuzzy, c-format
 msgid "Couldn't install %s"
 msgstr "Instaliraj %s"
 
-#: src/widgets/runners/install-dialog.vala:85
-#: src/widgets/runners/upgrade-dialog.vala:78
+#: src/widgets/runners/install-dialog.vala:84
+#: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
 msgstr "Preuzimanje"
 
-#: src/widgets/runners/install-dialog.vala:100
-#: src/widgets/runners/upgrade-dialog.vala:81
+#: src/widgets/runners/install-dialog.vala:99
+#: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
 msgstr "Izvlačenje"
 
-#: src/widgets/runners/install-dialog.vala:103
+#: src/widgets/runners/install-dialog.vala:102
 msgid "Moving"
 msgstr ""
 
@@ -384,9 +365,9 @@ msgid "Upgrade %s"
 msgstr "Nadogradite %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, c-format
-msgid "When trying to upgrade %s an error occurred."
-msgstr "Došlo je do greške prilikom pokušaja nadogradnje %s."
+#, fuzzy, c-format
+msgid "Couldn't upgrade %s"
+msgstr "Instaliraj %s"
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:63
@@ -395,7 +376,7 @@ msgid "%s is used by %i game(s)"
 msgstr "Korišteno u %i igrama."
 
 #: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:121
+#: src/widgets/runners/steamtinkerlaunch-row.vala:118
 msgid "Check this to also delete your configuration files."
 msgstr "Označite ovo da biste uklonili i konfiguracijske datoteke."
 
@@ -436,7 +417,7 @@ msgstr "Nedostaju vam sljedeće zavisnosti za %s:"
 msgid "Installation will be canceled."
 msgstr "Instalacija će biti otkazana."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -445,30 +426,30 @@ msgstr ""
 "Izgleda da trenutno imate drugu verziju programa %s koju ProtonPlus nije "
 "instalirao."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Želite li ga ponovo instalirati sa ProtonPlus-om?"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
 msgstr "%s je već ažuriran."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:144
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "Da biste instalirali %s za %s, pokrenite sljedeću naredbu:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Trenutno ne postoji poznati način za instaliranje %s za %s."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:185
+#: src/widgets/runners/steamtinkerlaunch-row.vala:179
 msgid "Up-to-date"
 msgstr "Ažurirano"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:185
+#: src/widgets/runners/steamtinkerlaunch-row.vala:179
 msgid "Update to the latest version"
 msgstr "Ažuriraj na najnoviju verziju"
 
@@ -531,7 +512,7 @@ msgstr "Ako želite da ubrzam razvoj, obavezno pokažite svoju podršku!"
 #: src/widgets/games/games-box.vala:329
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
-#: src/widgets/games/compatibility-tool-dropdown.vala:81
+#: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "Nedefinirano"
@@ -614,12 +595,15 @@ msgstr ""
 "uređivanja."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
+#, fuzzy
 msgid ""
-"When trying to change the compatibility tool/launch options of the selected "
-"games an error occurred for the following games:"
+"Couldn't change the compatibility tool/launch options of the selected games"
 msgstr ""
-"Došlo je do greške za sljedeće igre prilikom pokušaja promjene alata za "
-"kompatibilnost/opcija pokretanja za odabrane igre:"
+"Došlo je do greške prilikom pokušaja promjene alata za kompatibilnost za %s."
+
+#: src/widgets/games/mass-edit-dialog.vala:147
+msgid "The following games had an issue:"
+msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
@@ -639,12 +623,14 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Uklonite prečicu ProtonPlus-a u Steam-u"
 
 #: src/widgets/games/shortcut-button.vala:38
-msgid "When trying to delete the shortcut in Steam an error occurred."
-msgstr "Došlo je do greške prilikom pokušaja kreiranja prečice u Steam-u."
+#, fuzzy
+msgid "Couldn't delete the shortcut in Steam"
+msgstr "Uklonite prečicu ProtonPlus-a u Steam-u"
 
-#: src/widgets/games/shortcut-button.vala:47
-msgid "When trying to create the shortcut in Steam an error occurred."
-msgstr "Došlo je do greške prilikom pokušaja kreiranja prečice u Steam-u."
+#: src/widgets/games/shortcut-button.vala:46
+#, fuzzy
+msgid "Couldn't create the shortcut in Steam"
+msgstr "Uklonite prečicu ProtonPlus-a u Steam-u"
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
@@ -692,8 +678,8 @@ msgid "Apply the current modification"
 msgstr "Primijeni trenutnu promjenu"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, c-format
-msgid "When trying to change the launch options of %s an error occurred."
+#, fuzzy, c-format
+msgid "Couldn't change the launch options of %s"
 msgstr ""
 "Došlo je do greške prilikom pokušaja promjene opcija pokretanja za program "
 "%s."
@@ -725,18 +711,17 @@ msgid "Set the default compatibility tool"
 msgstr "Postavljanje zadanog alata za kompatibilnost"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-msgid "When trying to change the default compatibility tool an error occurred."
-msgstr ""
-"Došlo je do greške prilikom pokušaja promjene zadanog alata za "
-"kompatibilnost."
+#, fuzzy
+msgid "Couldn't change the default compatibility tool"
+msgstr "Postavljanje zadanog alata za kompatibilnost"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
 msgstr "Odaberite željeni alat za kompatibilnost"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, c-format
-msgid "When trying to change the compatibility tool of %s an error occurred."
+#, fuzzy, c-format
+msgid "Couldn't change the compatibility tool of %s"
 msgstr ""
 "Došlo je do greške prilikom pokušaja promjene alata za kompatibilnost za %s."
 
@@ -892,6 +877,36 @@ msgstr "Prikaži prečice"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Izlazi"
+
+#~ msgid "Error"
+#~ msgstr "Greška"
+
+#~ msgid ""
+#~ "When trying to change the compatibility tool/launch options of the "
+#~ "selected games an error occurred for the following games:"
+#~ msgstr ""
+#~ "Došlo je do greške za sljedeće igre prilikom pokušaja promjene alata za "
+#~ "kompatibilnost/opcija pokretanja za odabrane igre:"
+
+#, c-format
+#~ msgid "When trying to delete %s an error occurred."
+#~ msgstr "Došlo je do greške prilikom pokušaja uklanjanja %s."
+
+#, c-format
+#~ msgid "When trying to upgrade %s an error occurred."
+#~ msgstr "Došlo je do greške prilikom pokušaja nadogradnje %s."
+
+#~ msgid "When trying to delete the shortcut in Steam an error occurred."
+#~ msgstr "Došlo je do greške prilikom pokušaja kreiranja prečice u Steam-u."
+
+#~ msgid "When trying to create the shortcut in Steam an error occurred."
+#~ msgstr "Došlo je do greške prilikom pokušaja kreiranja prečice u Steam-u."
+
+#~ msgid ""
+#~ "When trying to change the default compatibility tool an error occurred."
+#~ msgstr ""
+#~ "Došlo je do greške prilikom pokušaja promjene zadanog alata za "
+#~ "kompatibilnost."
 
 #~ msgid "An error ocurred"
 #~ msgstr "Došlo je do greške"
