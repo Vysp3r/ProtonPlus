@@ -148,14 +148,26 @@ namespace ProtonPlus.Widgets {
 
 				if (steam_launcher.profiles.length() == 0) {
 					error = true;
-					show_status_box("bug-symbolic", _("An error occurred"), "%s\n%s\n%s".printf(_("No profile was found."), _("Make sure to connect yourself at least once on Steam."), _("If you think this is an issue, make sure to report this on GitHub.")));
-				} else if (steam_launcher.profiles.length() > 1) {
-					game_list_box.remove_all();
-
-					var dialog = new ProfileDialog(steam_launcher, load_steam_profile);
-					dialog.present(Application.window);
+					show_status_box("bug-symbolic", _("No profile was found."), "%s\n%s".printf(_("Make sure to connect yourself at least once on Steam."), _("If you think this is an issue, make sure to report this on GitHub.")));
 				} else {
-					load_steam_profile(steam_launcher.profiles.nth_data(0));
+					if (Globals.SETTINGS != null && Globals.SETTINGS.get_boolean("steam-remember-last-profile")) {
+						var steam_id = Globals.SETTINGS.get_string("steam-last-profile-id");
+						foreach (var profile in steam_launcher.profiles) {
+							if (profile.steam_id == steam_id) {
+								load_steam_profile(profile);
+								return;
+							}
+						}
+					}
+
+					if (steam_launcher.profiles.length() > 1) {
+						game_list_box.remove_all();
+
+						var dialog = new ProfileDialog(steam_launcher, load_steam_profile);
+						dialog.present(Application.window);
+					} else {
+						load_steam_profile(steam_launcher.profiles.nth_data(0));
+					}
 				}
 			});
 

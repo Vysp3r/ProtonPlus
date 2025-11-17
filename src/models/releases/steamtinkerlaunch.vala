@@ -20,7 +20,7 @@ namespace ProtonPlus.Models.Releases {
 
         public SteamTinkerLaunch (Runner runner) {
             Object (runner: runner,
-                    title: "SteamTinkerLaunch");
+                    title: "Steam Tinker Launch");
 
             home_location = Environment.get_home_dir ();
             compat_location = runner.group.launcher.directory + "/" + runner.group.directory;
@@ -306,7 +306,6 @@ namespace ProtonPlus.Models.Releases {
                 yield exec_stl (binary_location, "");
 
             yield exec_stl (binary_location, "compat add");
-
 
             // Remember installed version.
             write_installation_metadata (meta_location);

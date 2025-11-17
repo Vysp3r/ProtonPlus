@@ -3,8 +3,7 @@ namespace ProtonPlus.Widgets {
 		public bool only_show_used { get; set; }
 		public bool only_show_unused { get; set; }
 		public bool updating { get; set; }
-		bool first_load = true;
-		List<Models.Launcher> launchers;
+		public List<Models.Launcher> launchers;
 
 		StatusBox status_box;
 		RunnersBox runners_box;
@@ -25,11 +24,12 @@ namespace ProtonPlus.Widgets {
 
 		construct {
 			set_application ((Adw.Application) GLib.Application.get_default ());
-			set_title (Globals.APP_NAME);
+			set_title (Config.APP_NAME);
 
 			add_action (get_set_selected_launcher_action ());
 
 			status_box = new StatusBox ();
+			status_box.initialize ("com.vysp3r.ProtonPlus", _("Loading"), "%s\n%s".printf(_("Taking longer than normal?"), _("Please report this issue on GitHub.")));
 
 			runners_box = new RunnersBox ();
 
@@ -46,6 +46,7 @@ namespace ProtonPlus.Widgets {
 			donate_button.clicked.connect (donate_button_clicked);
 
 			menu = new Menu ();
+			menu.append (_("_Preferences"), "app.preferences");
 			menu.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
 			menu.append (_("_About ProtonPlus"), "app.about");
 
@@ -81,74 +82,29 @@ namespace ProtonPlus.Widgets {
 			toolbar_view.set_content (toast_overlay);
 			toolbar_view.add_bottom_bar (view_switcher_bar);
 
+			set_content (status_box);
+
 			initialize.begin ();
 		}
 
-		async void initialize () {
-			if (first_load) {
-				status_box.initialize ("com.vysp3r.ProtonPlus", _("Loading"), "%s\n%s".printf(_("Taking longer than normal?"), _("Please report this issue on GitHub.")));
-				
-				if (status_box.get_parent () == null)
-					set_content (status_box);
-
-				first_load = false;
+		public async void initialize () {
+			var loaded = yield Models.Launcher.get_all (out launchers);
+			if (!loaded) {
+				status_box.initialize ("bug-symbolic", _("Couldn't load the launchers"), _("Please report this issue on GitHub."));
 			}
 
-			yield Globals.load_globals ();
-
-			var launchers_loaded = yield Models.Launcher.get_all (out launchers);
-			if (!launchers_loaded) {
-				status_box.initialize ("bug-symbolic", _("An error ocurred"), "%s\n%s".printf (_("There was an error when trying to load the launchers."), _("Please report this issue on GitHub.")));
-
-				if (status_box.get_parent () == null)
-					set_content (status_box);
-
-				return;
-			}
-
-			var valid = launchers.length () > 0;
-
-			if (valid) {
-				launchers_popover_button.initialize (launchers);
-
+			if (launchers.length () > 0) {
 				if (toolbar_view.get_parent () == null)
 					set_content (toolbar_view);
 
+				launchers_popover_button.initialize (launchers);
+
 				activate_action_variant ("win.set-selected-launcher", 0);
 
-				update_button.set_visible (true);
-
-				updating = true;
-
-				var toast = new Adw.Toast (_("Checking for updates..."));
-				toast_overlay.add_toast (toast);
-
-				Models.Runner.check_for_updates.begin (launchers, (obj, res) => {
-					switch (Models.Runner.check_for_updates.end (res)) {
-						case Models.Runner.UpdateCodes.NOTHING_FOUND:
-							toast.dismiss ();
-							toast = new Adw.Toast (_("Nothing to update."));
-							break;
-						case Models.Runner.UpdateCodes.EVERYTHING_UPDATED:
-							toast.dismiss ();
-							toast = new Adw.Toast (_("Everything is now up-to-date."));
-							break;
-						default:
-							toast.dismiss ();
-							toast = new Adw.Toast (_("An error occured while checking for updates."));
-							break;
-					}
-
-					toast_overlay.add_toast (toast);
-
-					update_button.set_visible (false);
-
-					updating = false;
-				});
-			}
-
-			if (!valid) {
-				status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Globals.APP_NAME), "%s\n(%s)".printf (_("Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get started."), _("Make sure to run the launchers at least once to ensure they're properly initialized")));
+				if (Globals.SETTINGS == null || (Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("automatic-update")))
+					yield check_for_updates ();
+			} else {
+				status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Config.APP_NAME), "%s\n(%s)".printf (_("Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get started."), _("Make sure to run the launchers at least once to ensure they're properly initialized")));
 
 				if (status_box.get_parent () == null)
 					set_content (status_box);
@@ -159,6 +115,68 @@ namespace ProtonPlus.Widgets {
 					return false;
 				});
 			}
+		}
+
+		public async void check_for_updates () {
+			update_button.set_visible (true);
+
+			updating = true;
+
+			var toast = new Adw.Toast (_("Checking for updates..."));
+			toast_overlay.add_toast (toast);
+
+			var code = yield Models.Runner.check_for_updates (launchers);
+
+			switch (code) {
+				case Models.Runner.UpdateCode.NOTHING_FOUND:
+					toast = new Adw.Toast (_("Nothing to update."));
+					break;
+				case Models.Runner.UpdateCode.EVERYTHING_UPDATED:
+					toast = new Adw.Toast (_("Everything is now up-to-date."));
+					break;
+				default:
+					toast = new Adw.Toast (_("An error occured while checking for updates."));
+					break;
+			}
+
+			toast.dismiss ();
+
+			toast_overlay.add_toast (toast);
+
+			update_button.set_visible (false);
+
+			updating = false;
+		}
+
+		public async void update_specific_runner (Models.Runners.Basic runner) {
+			update_button.set_visible (true);
+
+			updating = true;
+
+			var toast = new Adw.Toast (_("Updating %s.").printf ("%s Latest".printf (runner.title)));
+			toast_overlay.add_toast (toast);
+
+			var code = yield Models.Runner.update_specific_runner (runner);
+
+			switch (code) {
+				case Models.Runner.UpdateCode.NOTHING_FOUND:
+					toast = new Adw.Toast (_("No update found for %s.").printf ("%s Latest".printf (runner.title)));
+					break;
+				case Models.Runner.UpdateCode.EVERYTHING_UPDATED:
+					toast = new Adw.Toast (_("%s is now up-to-date.").printf ("%s Latest".printf (runner.title)));
+					break;
+				default:
+					toast = new Adw.Toast (_("An error occured while updating %s.").printf ("%s Latest".printf (runner.title)));
+					break;
+			}
+
+			toast.dismiss ();
+
+			toast_overlay.add_toast (toast);
+
+			update_button.set_visible (false);
+
+			updating = false;
 		}
 
 		void donate_button_clicked () {

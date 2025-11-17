@@ -43,6 +43,7 @@
                             "directory_name_format": "$title $release_name"
                         }
                     ],
+                    "support_latest": true,
                     "type": "github"
                 },
                 {

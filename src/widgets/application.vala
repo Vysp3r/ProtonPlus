@@ -3,15 +3,17 @@ namespace ProtonPlus.Widgets {
 		public static Window window;
 
 		construct {
-			application_id = Globals.APP_ID;
+			application_id = Config.APP_ID;
 			flags |= ApplicationFlags.FLAGS_NONE;
 
 			ActionEntry[] action_entries = {
+				{ "preferences", this.on_preferences_action },
 				{ "about", this.on_about_action },
 				{ "quit", this.quit }
 			};
 			this.add_action_entries (action_entries, this);
 			this.set_accels_for_action ("app.quit", { "<Ctrl>Q" });
+			this.set_accels_for_action ("app.preferences", { "<Ctrl>comma" });
 		}
 
 		public override void activate () {
@@ -23,45 +25,48 @@ namespace ProtonPlus.Widgets {
 
 			window = new Window ();
 
-			var schema_source = SettingsSchemaSource.get_default ();
-			SettingsSchema schema = null;
-			if (schema_source != null)
-				schema = schema_source.lookup ("com.vysp3r.ProtonPlus.State", true);
+			Globals.load.begin ((obj, res) => {
+				if (Globals.SETTINGS != null) {
+					Globals.SETTINGS.bind ("width",
+									window,
+									"default-width",
+									SettingsBindFlags.DEFAULT);
+					Globals.SETTINGS.bind ("height",
+									window,
+									"default-height",
+									SettingsBindFlags.DEFAULT);
+					Globals.SETTINGS.bind ("is-maximized",
+									window,
+									"maximized",
+									SettingsBindFlags.DEFAULT);
+					Globals.SETTINGS.bind ("is-fullscreen",
+									window,
+									"fullscreened",
+									SettingsBindFlags.DEFAULT);
 
-			if (schema != null) {
-				var settings = new Settings (schema.get_id ());
-				settings.bind ("width",
-								window,
-								"default-width",
-								SettingsBindFlags.DEFAULT);
-				settings.bind ("height",
-								window,
-								"default-height",
-								SettingsBindFlags.DEFAULT);
-				settings.bind ("is-maximized",
-								window,
-								"maximized",
-								SettingsBindFlags.DEFAULT);
-				settings.bind ("is-fullscreen",
-								window,
-								"fullscreened",
-								SettingsBindFlags.DEFAULT);
-			} else {
-				warning ("GSettings schema not found: 'com.vysp3r.ProtonPlus.State'");
+					var style_manager = Adw.StyleManager.get_default();
+					style_manager.set_color_scheme(Globals.SETTINGS.get_enum ("theme"));
+				} else {
+					warning ("GSettings schema not found: 'com.vysp3r.ProtonPlus.State'");
 
-				window.default_width = 950;
-				window.default_height = 600;
-				window.maximized = false;
-				window.fullscreened = false;
-			}
+					window.default_width = 950;
+					window.default_height = 600;
+					window.maximized = false;
+					window.fullscreened = false;
+				}
 
-			window.present ();
+				window.present ();
+			});
+		}
+
+		void on_preferences_action () {
+			var preferences_dialog = new Preferences.PreferencesDialog ();
+			preferences_dialog.present (window);
 		}
 
 		void on_about_action () {
 			const string[] devs = {
 				"Vysp3r https://github.com/Vysp3r",
-				"Johnny Arcitec https://github.com/Arcitec",
 				"nick.exe https://github.com/nickexe",
 				"windblows95 https://github.com/windblows95",
 				null
@@ -75,9 +80,9 @@ namespace ProtonPlus.Widgets {
 			};
 
 			var about_dialog = new Adw.AboutDialog ();
-			about_dialog.set_application_name (Globals.APP_NAME);
-			about_dialog.set_application_icon (Globals.APP_ID);
-			about_dialog.set_version ("v" + Globals.APP_VERSION);
+			about_dialog.set_application_name (Config.APP_NAME);
+			about_dialog.set_application_icon (Config.APP_ID);
+			about_dialog.set_version ("v" + Config.APP_VERSION);
 			about_dialog.set_comments (_("A modern compatibility tools manager"));
 			about_dialog.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
 			about_dialog.add_link (_("Website"), "https://protonplus.vysp3r.com/");

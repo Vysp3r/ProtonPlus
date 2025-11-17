@@ -10,10 +10,16 @@ namespace ProtonPlus.Widgets {
 
 			if (release.title.contains ("Latest")) {
 				remove_button.set_sensitive (!Application.window.updating);
+				update_button.set_sensitive (!Application.window.updating);
 
 				Application.window.notify["updating"].connect(() => {
 					remove_button.set_sensitive (!Application.window.updating);
+					update_button.set_sensitive (!Application.window.updating);
 				});
+
+				set_subtitle (_("This version will get automatically updated when there's an update available each time your launch the application if automatic updates is enabled"));
+			} else {
+				input_box.remove (update_button);
 			}
 
 			release.notify["displayed-title"].connect (release_displayed_title_changed);
@@ -23,6 +29,10 @@ namespace ProtonPlus.Widgets {
 			release.notify["state"].connect (release_state_changed);
 
 			release_state_changed ();
+		}
+
+		protected override void update_button_clicked () {
+			Application.window.update_specific_runner.begin (release.runner as Models.Runners.Basic);
 		}
 
 		protected override void open_button_clicked () {

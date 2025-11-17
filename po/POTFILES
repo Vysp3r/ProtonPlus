@@ -2,6 +2,11 @@ src/widgets/application.vala
 src/widgets/status-box.vala
 src/widgets/window.vala
 src/widgets/update-button.vala
+src/widgets/preferences/preferences-dialog.vala
+src/widgets/preferences/theme-row.vala
+src/widgets/preferences/refresh-steam-profiles-row.vala
+src/widgets/preferences/refresh-launchers-runners-row.vala
+src/widgets/preferences/check-updates-row.vala
 src/widgets/launchers-popover/launchers-popover-button.vala
 src/widgets/launchers-popover/launchers-popover-list-row.vala
 src/widgets/runners/description-dialog.vala

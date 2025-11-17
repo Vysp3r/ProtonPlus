@@ -1,12 +1,17 @@
 namespace ProtonPlus.Widgets {
 	public abstract class ReleaseRow : Adw.ActionRow {
-		protected Gtk.Button open_button { get; set; }
-		protected Gtk.Button install_button { get; set; }
-		protected Gtk.Button remove_button { get; set; }
-		protected Gtk.Button info_button { get; set; }
-		protected Gtk.Box input_box { get; set; }
+		protected Gtk.Button update_button;
+		protected Gtk.Button open_button;
+		protected Gtk.Button install_button;
+		protected Gtk.Button remove_button;
+		protected Gtk.Button info_button;
+		protected Gtk.Box input_box;
 
 		construct {
+			update_button = new Gtk.Button.from_icon_name ("arrow-rotate-symbolic");
+			update_button.add_css_class ("flat");
+			update_button.set_tooltip_text (_("Update the runner if a newer version is available"));
+
 			open_button = new Gtk.Button.from_icon_name ("folder-symbolic");
 			open_button.set_tooltip_text (_("Open runner directory"));
 			open_button.add_css_class ("flat");
@@ -26,6 +31,7 @@ namespace ProtonPlus.Widgets {
 			input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 			input_box.set_margin_end (10);
 			input_box.set_valign (Gtk.Align.CENTER);
+			input_box.append (update_button);
 			input_box.append (open_button);
 			input_box.append (info_button);
 			input_box.append (remove_button);
@@ -33,6 +39,7 @@ namespace ProtonPlus.Widgets {
 
 			add_suffix (input_box);
 
+			update_button.clicked.connect (update_button_clicked);
 			open_button.clicked.connect (open_button_clicked);
 			install_button.clicked.connect (install_button_clicked);
 			remove_button.clicked.connect (remove_button_clicked);
@@ -51,6 +58,8 @@ namespace ProtonPlus.Widgets {
 				set_visible (true);
 			}
 		}
+
+		protected abstract void update_button_clicked ();
 
 		protected abstract void open_button_clicked ();
 

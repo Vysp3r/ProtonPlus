@@ -41,6 +41,8 @@ namespace ProtonPlus.Widgets {
 		void profile_button_clicked (Models.SteamProfile profile) {
 			profile_selected = true;
 			load_steam_profile_func (profile);
+			if (Globals.SETTINGS != null)
+				Globals.SETTINGS.set_string ("steam-last-profile-id", profile.steam_id);
 			set_can_close (true);
 			close ();
 		}

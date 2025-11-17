@@ -15,6 +15,8 @@ namespace ProtonPlus.Widgets {
 		public SteamTinkerLaunchRow (Models.Releases.SteamTinkerLaunch release) {
 			this.release = release;
 
+			input_box.remove (update_button);
+
 			if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
 				input_box.remove (install_button);
 				input_box.remove (remove_button);
@@ -22,7 +24,6 @@ namespace ProtonPlus.Widgets {
 			} else {
 				input_box.remove (info_button);
 			}
-
 
 			release.notify["displayed-title"].connect (release_displayed_title_changed);
 
@@ -32,6 +33,8 @@ namespace ProtonPlus.Widgets {
 
 			release_state_changed ();
 		}
+
+		protected override void update_button_clicked () {}
 
 		protected override void install_button_clicked () {
 			// Steam Deck doesn't need any external dependencies.

@@ -27,8 +27,13 @@ namespace ProtonPlus.Models {
 
 			display_title = content.substring (start_pos, end_pos - start_pos);
 
-			start_text = "compat_tools\"\n  {\n    \"";
+			start_text = "compat_tools\"";
 			start_pos = content.index_of (start_text, 0) + start_text.length;
+			if (start_pos == -1)
+				throw new Error(Quark.from_string ("simple-runner"), 0, "Error parsing the file");
+			
+			start_text = "\"";
+			start_pos = content.index_of (start_text, start_pos) + start_text.length;
 			if (start_pos == -1)
 				throw new Error(Quark.from_string ("simple-runner"), 0, "Error parsing the file");
 
@@ -36,7 +41,7 @@ namespace ProtonPlus.Models {
 			end_pos = content.index_of (end_text, start_pos);
 			if (end_pos == -1)
 				throw new Error(Quark.from_string ("simple-runner"), 0, "Error parsing the file");
-
+			
 			internal_title = content.substring (start_pos, end_pos - start_pos);
 		}
 	}

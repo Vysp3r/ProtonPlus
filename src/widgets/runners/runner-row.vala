@@ -40,19 +40,19 @@ namespace ProtonPlus.Widgets {
 						runner.load.begin ((obj, res) => {
 							var releases = runner.load.end (res);
 
-							if (runner.fetch_code != Models.Runner.FetchCodes.GOOD) {
+							if (runner.fetch_code != Models.Runner.FetchCode.GOOD) {
 								if (count == 0)
 									set_expanded (false);
 
 								var heading = _("Unknown error");
 								var body = _("Please report this issue on GitHub.");
 
-								if (runner.fetch_code == Models.Runner.FetchCodes.API_LIMIT_REACHED) {
+								if (runner.fetch_code == Models.Runner.FetchCode.API_LIMIT_REACHED) {
 									heading = _("API limit reached");
 									body = _("Try again in a few minutes.");
 								}
 
-								if (runner.fetch_code == Models.Runner.FetchCodes.CONNECTION_ISSUE) {
+								if (runner.fetch_code == Models.Runner.FetchCode.CONNECTION_ISSUE) {
 									heading = _("Unable to reach the API");
 									body = _("Make sure you're connected to the internet.");
 								}

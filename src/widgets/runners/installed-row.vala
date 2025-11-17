@@ -11,11 +11,14 @@ namespace ProtonPlus.Widgets {
 			set_title ("%s%s".printf (release.title, usage_count > 0 ? " (%s)".printf (_("Used")) : ""));
 			set_tooltip_text (usage_count > 0 ? _("%s is used by %i game(s)").printf (release.title, usage_count) : release.title);
 
-			install_button.set_visible (false);
-			info_button.set_visible (false);
+			input_box.remove (update_button);
+			input_box.remove (info_button);
+			input_box.remove (install_button);
 
 			only_show();
 		}
+
+		protected override void update_button_clicked () {}
 
 		protected override void open_button_clicked () {
 			Utils.System.open_uri ("file://%s".printf (release.install_location));

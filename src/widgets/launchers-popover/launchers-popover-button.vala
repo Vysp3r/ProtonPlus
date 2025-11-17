@@ -41,6 +41,9 @@ namespace ProtonPlus.Widgets {
 		}
 
         void list_box_row_activated (Gtk.ListBoxRow? row) {
+            if (row == null || row.get_type () != typeof(LaunchersPopoverListRow))
+                return;
+
             var launchers_popover_list_row = row as LaunchersPopoverListRow;
 
             if (selected_launcher == launchers_popover_list_row.launcher)
@@ -59,10 +62,10 @@ namespace ProtonPlus.Widgets {
         public void initialize (List<Models.Launcher> launchers) {
             list_box.remove_all ();
 
-            for (var i = 0; i < launchers.length (); i++) {
-                var launchers_popover_list_row = new LaunchersPopoverListRow (launchers.nth_data(i));
+            foreach (var launcher in launchers) {
+                var launchers_popover_list_row = new LaunchersPopoverListRow (launcher);
 
-				list_box.append (launchers_popover_list_row);
+                list_box.append (launchers_popover_list_row);
             }
 
             list_box.row_activated (list_box.get_row_at_index (0));
