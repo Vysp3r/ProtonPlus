@@ -90,7 +90,7 @@ namespace ProtonPlus.Widgets {
 		public async void initialize () {
 			var loaded = yield Models.Launcher.get_all (out launchers);
 			if (!loaded) {
-				status_box.initialize ("bug-symbolic", _("Couldn't load the launchers"), _("Please report this issue on GitHub."));
+				status_box.initialize ("bug-symbolic", _("Couldn't load the launchers"), _("Please report this issue on GitHub."), true);
 			}
 
 			if (launchers.length () > 0) {
@@ -136,6 +136,8 @@ namespace ProtonPlus.Widgets {
 					break;
 				default:
 					toast = new Adw.Toast (_("An error occured while checking for updates."));
+					toast.set_button_label (_("Report"));
+					toast.set_action_name ("app.report");
 					break;
 			}
 
@@ -167,6 +169,8 @@ namespace ProtonPlus.Widgets {
 					break;
 				default:
 					toast = new Adw.Toast (_("An error occured while updating %s.").printf ("%s Latest".printf (runner.title)));
+					toast.set_button_label (_("Report"));
+					toast.set_action_name ("app.report");
 					break;
 			}
 

@@ -71,6 +71,7 @@ namespace ProtonPlus.Widgets {
 			install_button.set_visible (!installed);
 			remove_button.set_visible (installed);
 			open_button.set_visible (installed);
+			update_button.set_visible (installed);
 		}
 	}
 }

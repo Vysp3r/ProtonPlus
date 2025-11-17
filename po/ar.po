@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-16 20:49-0500\n"
+"POT-Creation-Date: 2025-11-16 21:46-0500\n"
 "PO-Revision-Date: 2025-08-14 11:01+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -19,15 +19,15 @@ msgstr ""
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:86
+#: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
 msgstr "مدير لأدوات التوافق بطابع حديث"
 
-#: src/widgets/application.vala:88
+#: src/widgets/application.vala:93
 msgid "Website"
 msgstr "الموقع"
 
-#: src/widgets/application.vala:93
+#: src/widgets/application.vala:98
 msgid "Special thanks to"
 msgstr "شكر خاص"
 
@@ -40,13 +40,13 @@ msgid "Taking longer than normal?"
 msgstr "هل الإجراء يأخذ وقتاً أكثر من المعتاد؟"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:48
+#: src/widgets/runners/runner-row.vala:54
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
-#: src/widgets/games/shortcut-button.vala:47
+#: src/widgets/games/shortcut-button.vala:46
 #: src/widgets/games/launch-options-dialog.vala:57
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
@@ -119,51 +119,60 @@ msgstr ".كل شيء محدث لآخر إصدار"
 msgid "An error occured while checking for updates."
 msgstr ".حدث خطأ أثناء البحث عن التحديثات"
 
-#: src/widgets/window.vala:156
+#: src/widgets/window.vala:139 src/widgets/window.vala:172
+#: src/widgets/error-dialog.vala:7
+msgid "Report"
+msgstr ""
+
+#: src/widgets/window.vala:158
 #, c-format
 msgid "Updating %s."
 msgstr ""
 
-#: src/widgets/window.vala:163
+#: src/widgets/window.vala:165
 #, c-format
 msgid "No update found for %s."
 msgstr ""
 
-#: src/widgets/window.vala:166
+#: src/widgets/window.vala:168
 #, fuzzy, c-format
 msgid "%s is now up-to-date."
 msgstr "محدث بالفعل لآخر نسخة %s"
 
-#: src/widgets/window.vala:169
+#: src/widgets/window.vala:171
 #, fuzzy, c-format
 msgid "An error occured while updating %s."
 msgstr ".حدث خطأ أثناء البحث عن التحديثات"
 
-#: src/widgets/window.vala:208
+#: src/widgets/window.vala:212
 #: src/widgets/runners/steamtinkerlaunch-row.vala:46
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
-#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:144
 #: src/widgets/runners/steamtinkerlaunch-row.vala:148
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "تحذير"
 
-#: src/widgets/window.vala:208
+#: src/widgets/window.vala:212
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 "التطبيق حالياً يبحث عن التحديثات. الخروج أثناء هذه العملية قد يسبب مشاكل"
 
-#: src/widgets/window.vala:210
+#: src/widgets/window.vala:214
 msgid "Exit"
 msgstr "خروج"
 
-#: src/widgets/window.vala:213 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:217 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "إلغاء"
+
+#: src/widgets/warning-dialog.vala:7 src/widgets/error-dialog.vala:10
+msgid "OK"
+msgstr "حسنا"
 
 #: src/widgets/preferences/preferences-dialog.vala:9
 #, fuzzy
@@ -271,44 +280,27 @@ msgstr "%s تثبيت"
 msgid "Used"
 msgstr "مُستخدَم"
 
-#: src/widgets/runners/runner-row.vala:47
-#, fuzzy
-msgid "Unknown error"
-msgstr "مجهول"
-
-#: src/widgets/runners/runner-row.vala:51
+#: src/widgets/runners/runner-row.vala:48
 msgid "API limit reached"
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:52
+#: src/widgets/runners/runner-row.vala:48
 msgid "Try again in a few minutes."
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:51
 msgid "Unable to reach the API"
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:57
+#: src/widgets/runners/runner-row.vala:51
 #, fuzzy
 msgid "Make sure you're connected to the internet."
 msgstr ".Steam تأكد من الإتصال مرة واحدة على الأقل على"
 
-#: src/widgets/runners/runner-row.vala:61
-#: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:57
-#: src/widgets/runners/upgrade-dialog.vala:57
-#: src/widgets/runners/steamtinkerlaunch-row.vala:48
-#: src/widgets/runners/steamtinkerlaunch-row.vala:134
-#: src/widgets/runners/steamtinkerlaunch-row.vala:158
-#: src/widgets/games/mass-edit-dialog.vala:148
-#: src/widgets/games/shortcut-button.vala:39
-#: src/widgets/games/shortcut-button.vala:48
-#: src/widgets/games/mass-edit-button.vala:43
-#: src/widgets/games/launch-options-dialog.vala:58
-#: src/widgets/games/default-tool-dialog.vala:61
-#: src/widgets/games/compatibility-tool-dropdown.vala:76
-msgid "OK"
-msgstr "حسنا"
+#: src/widgets/runners/runner-row.vala:54
+#, fuzzy
+msgid "Unknown error"
+msgstr "مجهول"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -333,47 +325,36 @@ msgid "Are you sure you want to proceed?"
 msgstr "هل أنت متأكد من أنك تريد المتابعة؟"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:94
+#: src/widgets/runners/steamtinkerlaunch-row.vala:91
 msgid "No"
 msgstr "لا"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:95
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Yes"
 msgstr "نعم"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-dialog.vala:147
-#: src/widgets/games/shortcut-button.vala:38
-#: src/widgets/games/shortcut-button.vala:47
-#: src/widgets/games/launch-options-dialog.vala:57
-#: src/widgets/games/default-tool-dialog.vala:60
-#: src/widgets/games/compatibility-tool-dropdown.vala:75
-msgid "Error"
-msgstr "خطأ"
-
-#: src/widgets/runners/remove-dialog.vala:49
-#, c-format
-msgid "When trying to delete %s an error occurred."
-msgstr "%s حدث خطأ أثناء محاولة حذف"
+#, fuzzy, c-format
+msgid "Couldn't delete %s"
+msgstr "%s تثبيت"
 
 #: src/widgets/runners/install-dialog.vala:56
 #, fuzzy, c-format
 msgid "Couldn't install %s"
 msgstr "%s تثبيت"
 
-#: src/widgets/runners/install-dialog.vala:85
-#: src/widgets/runners/upgrade-dialog.vala:78
+#: src/widgets/runners/install-dialog.vala:84
+#: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
 msgstr "جاري التنزيل"
 
-#: src/widgets/runners/install-dialog.vala:100
-#: src/widgets/runners/upgrade-dialog.vala:81
+#: src/widgets/runners/install-dialog.vala:99
+#: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
 msgstr "...جاري الإستخراج"
 
-#: src/widgets/runners/install-dialog.vala:103
+#: src/widgets/runners/install-dialog.vala:102
 msgid "Moving"
 msgstr "جاري النقل"
 
@@ -383,9 +364,9 @@ msgid "Upgrade %s"
 msgstr "%s ترقية"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, c-format
-msgid "When trying to upgrade %s an error occurred."
-msgstr "%s حدث خطأ أثناء محاولة ترقية"
+#, fuzzy, c-format
+msgid "Couldn't upgrade %s"
+msgstr "%s تثبيت"
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:63
@@ -394,7 +375,7 @@ msgid "%s is used by %i game(s)"
 msgstr "من الألعاب %i يستخدم بواسطة"
 
 #: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:121
+#: src/widgets/runners/steamtinkerlaunch-row.vala:118
 msgid "Check this to also delete your configuration files."
 msgstr "حدد هنا لحذف ملفات التخصيص الخاص بك أيضاً"
 
@@ -435,37 +416,37 @@ msgstr "%s: ينقصك مايلي من التبعيات من أجل"
 msgid "Installation will be canceled."
 msgstr "سيتم إلغاء التثبيت."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr "ProtonPlus ليست مثبتة بواسطة %s يبدو بان لديك حالياً نسخة أخرى من"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "؟ ProtonPlus هل تريد إعادة تثبيتها بواسطة"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
 msgstr "محدث بالفعل لآخر نسخة %s"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:144
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "للتثبيت %s لـ %s، الرجاء تشغيل الأمر التالي:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "%s لـ %s لا توجد حاليًا طريقة معروفة لنا لتثبيت"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:185
+#: src/widgets/runners/steamtinkerlaunch-row.vala:179
 msgid "Up-to-date"
 msgstr "محدث"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:185
+#: src/widgets/runners/steamtinkerlaunch-row.vala:179
 msgid "Update to the latest version"
 msgstr "تحديث إلى أحدث إصدار"
 
@@ -528,7 +509,7 @@ msgstr "إن أردت مني إسراع عملية التطوير الرجاء �
 #: src/widgets/games/games-box.vala:329
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
-#: src/widgets/games/compatibility-tool-dropdown.vala:81
+#: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "غير مُعَرَف"
@@ -606,11 +587,14 @@ msgid ""
 msgstr ".حدد جميع الخيارات إن كنت تريد التعديل بالجُملَة أن يأخذ كل شيءبالحٌسبان"
 
 #: src/widgets/games/mass-edit-dialog.vala:147
+#, fuzzy
 msgid ""
-"When trying to change the compatibility tool/launch options of the selected "
-"games an error occurred for the following games:"
+"Couldn't change the compatibility tool/launch options of the selected games"
+msgstr ".%s حدث خطأ عند محاولة تغيير أداة التوافق"
+
+#: src/widgets/games/mass-edit-dialog.vala:147
+msgid "The following games had an issue:"
 msgstr ""
-":حدث خطأ أثناء تغيير أداة التوافق أو خيارات التشغيل للألعاب المحددة التالية"
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
@@ -630,12 +614,14 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Steam من منصة ProtonPlus حذف إختصار"
 
 #: src/widgets/games/shortcut-button.vala:38
-msgid "When trying to delete the shortcut in Steam an error occurred."
-msgstr "Steam من منصة ProtonPlus حدث خطأ أثناء محاولة حذف إختصار"
+#, fuzzy
+msgid "Couldn't delete the shortcut in Steam"
+msgstr "Steam من منصة ProtonPlus حذف إختصار"
 
-#: src/widgets/games/shortcut-button.vala:47
-msgid "When trying to create the shortcut in Steam an error occurred."
-msgstr "Steam في منصة ProtonPlus حدث خطأ أثناء محاولة إنشاء إختصار"
+#: src/widgets/games/shortcut-button.vala:46
+#, fuzzy
+msgid "Couldn't create the shortcut in Steam"
+msgstr "Steam من منصة ProtonPlus حذف إختصار"
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
@@ -682,8 +668,8 @@ msgid "Apply the current modification"
 msgstr "تطبيق التعديل الحالي"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, c-format
-msgid "When trying to change the launch options of %s an error occurred."
+#, fuzzy, c-format
+msgid "Couldn't change the launch options of %s"
 msgstr "%s حدث خطأ عند محاولة تغيير خيارات تشغيل"
 
 #: src/widgets/games/profile-dialog.vala:15
@@ -713,16 +699,17 @@ msgid "Set the default compatibility tool"
 msgstr "تعيين أداة التوافق الافتراضية"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-msgid "When trying to change the default compatibility tool an error occurred."
-msgstr "حدث خطأ عند محاولة تغيير أداة التوافق الافتراضية"
+#, fuzzy
+msgid "Couldn't change the default compatibility tool"
+msgstr "تعيين أداة التوافق الافتراضية"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
 msgstr "اختر أداة التوافق المرغوبة"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, c-format
-msgid "When trying to change the compatibility tool of %s an error occurred."
+#, fuzzy, c-format
+msgid "Couldn't change the compatibility tool of %s"
 msgstr ".%s حدث خطأ عند محاولة تغيير أداة التوافق"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
@@ -865,6 +852,34 @@ msgstr "إظهار اختصارات"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "خروج"
+
+#~ msgid "Error"
+#~ msgstr "خطأ"
+
+#~ msgid ""
+#~ "When trying to change the compatibility tool/launch options of the "
+#~ "selected games an error occurred for the following games:"
+#~ msgstr ""
+#~ ":حدث خطأ أثناء تغيير أداة التوافق أو خيارات التشغيل للألعاب المحددة "
+#~ "التالية"
+
+#, c-format
+#~ msgid "When trying to delete %s an error occurred."
+#~ msgstr "%s حدث خطأ أثناء محاولة حذف"
+
+#, c-format
+#~ msgid "When trying to upgrade %s an error occurred."
+#~ msgstr "%s حدث خطأ أثناء محاولة ترقية"
+
+#~ msgid "When trying to delete the shortcut in Steam an error occurred."
+#~ msgstr "Steam من منصة ProtonPlus حدث خطأ أثناء محاولة حذف إختصار"
+
+#~ msgid "When trying to create the shortcut in Steam an error occurred."
+#~ msgstr "Steam في منصة ProtonPlus حدث خطأ أثناء محاولة إنشاء إختصار"
+
+#~ msgid ""
+#~ "When trying to change the default compatibility tool an error occurred."
+#~ msgstr "حدث خطأ عند محاولة تغيير أداة التوافق الافتراضية"
 
 #~ msgid "An error ocurred"
 #~ msgstr "خطأ حدث"

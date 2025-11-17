@@ -7,6 +7,8 @@ sources = files(
   'widgets/window.vala',
   'widgets/scroll-controller.vala',
   'widgets/update-button.vala',
+  'widgets/error-dialog.vala',
+  'widgets/warning-dialog.vala',
 
   'widgets/preferences/preferences-dialog.vala',
   'widgets/preferences/theme-row.vala',

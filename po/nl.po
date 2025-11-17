@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-16 20:49-0500\n"
+"POT-Creation-Date: 2025-11-16 21:46-0500\n"
 "PO-Revision-Date: 2025-07-21 02:03+0000\n"
 "Last-Translator: WeAreGeek <weblate@wearegeek.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/protonplus/"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.13-dev\n"
 
-#: src/widgets/application.vala:86
+#: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
 msgstr "Een moderne compatibiliteitstoolbeheerder"
 
-#: src/widgets/application.vala:88
+#: src/widgets/application.vala:93
 msgid "Website"
 msgstr "Webpagina"
 
-#: src/widgets/application.vala:93
+#: src/widgets/application.vala:98
 msgid "Special thanks to"
 msgstr "Speciale dank aan"
 
@@ -40,13 +40,13 @@ msgid "Taking longer than normal?"
 msgstr "Duurt het langer dan normaal?"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:48
+#: src/widgets/runners/runner-row.vala:54
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
-#: src/widgets/games/shortcut-button.vala:47
+#: src/widgets/games/shortcut-button.vala:46
 #: src/widgets/games/launch-options-dialog.vala:57
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
@@ -120,37 +120,42 @@ msgstr "Alles is bijgewerkt."
 msgid "An error occured while checking for updates."
 msgstr "Er is een fout opgetreden bij het controleren op updates."
 
-#: src/widgets/window.vala:156
+#: src/widgets/window.vala:139 src/widgets/window.vala:172
+#: src/widgets/error-dialog.vala:7
+msgid "Report"
+msgstr ""
+
+#: src/widgets/window.vala:158
 #, c-format
 msgid "Updating %s."
 msgstr ""
 
-#: src/widgets/window.vala:163
+#: src/widgets/window.vala:165
 #, c-format
 msgid "No update found for %s."
 msgstr ""
 
-#: src/widgets/window.vala:166
+#: src/widgets/window.vala:168
 #, fuzzy, c-format
 msgid "%s is now up-to-date."
 msgstr "%s is al bijgewerkt."
 
-#: src/widgets/window.vala:169
+#: src/widgets/window.vala:171
 #, fuzzy, c-format
 msgid "An error occured while updating %s."
 msgstr "Er is een fout opgetreden bij het controleren op updates."
 
-#: src/widgets/window.vala:208
+#: src/widgets/window.vala:212
 #: src/widgets/runners/steamtinkerlaunch-row.vala:46
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
-#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:144
 #: src/widgets/runners/steamtinkerlaunch-row.vala:148
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: src/widgets/window.vala:208
+#: src/widgets/window.vala:212
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -158,14 +163,18 @@ msgstr ""
 "Het programma controleert momenteel op updates\n"
 "Nu afsluiten kan problemen opleveren."
 
-#: src/widgets/window.vala:210
+#: src/widgets/window.vala:214
 msgid "Exit"
 msgstr "Afsluiten"
 
-#: src/widgets/window.vala:213 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:217 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Annuleren"
+
+#: src/widgets/warning-dialog.vala:7 src/widgets/error-dialog.vala:10
+msgid "OK"
+msgstr "Oké"
 
 #: src/widgets/preferences/preferences-dialog.vala:9
 #, fuzzy
@@ -273,44 +282,27 @@ msgstr "Installeer %s"
 msgid "Used"
 msgstr "Gebruikt"
 
-#: src/widgets/runners/runner-row.vala:47
-#, fuzzy
-msgid "Unknown error"
-msgstr "Onbekend"
-
-#: src/widgets/runners/runner-row.vala:51
+#: src/widgets/runners/runner-row.vala:48
 msgid "API limit reached"
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:52
+#: src/widgets/runners/runner-row.vala:48
 msgid "Try again in a few minutes."
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:51
 msgid "Unable to reach the API"
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:57
+#: src/widgets/runners/runner-row.vala:51
 #, fuzzy
 msgid "Make sure you're connected to the internet."
 msgstr "Zorg ervoor dat u uzelf minstens één keer aansluit op Steam."
 
-#: src/widgets/runners/runner-row.vala:61
-#: src/widgets/runners/remove-dialog.vala:50
-#: src/widgets/runners/install-dialog.vala:57
-#: src/widgets/runners/upgrade-dialog.vala:57
-#: src/widgets/runners/steamtinkerlaunch-row.vala:48
-#: src/widgets/runners/steamtinkerlaunch-row.vala:134
-#: src/widgets/runners/steamtinkerlaunch-row.vala:158
-#: src/widgets/games/mass-edit-dialog.vala:148
-#: src/widgets/games/shortcut-button.vala:39
-#: src/widgets/games/shortcut-button.vala:48
-#: src/widgets/games/mass-edit-button.vala:43
-#: src/widgets/games/launch-options-dialog.vala:58
-#: src/widgets/games/default-tool-dialog.vala:61
-#: src/widgets/games/compatibility-tool-dropdown.vala:76
-msgid "OK"
-msgstr "Oké"
+#: src/widgets/runners/runner-row.vala:54
+#, fuzzy
+msgid "Unknown error"
+msgstr "Onbekend"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -335,47 +327,36 @@ msgid "Are you sure you want to proceed?"
 msgstr "Weet u zeker dat u wilt doorgaan?"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:94
+#: src/widgets/runners/steamtinkerlaunch-row.vala:91
 msgid "No"
 msgstr "Nee"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:95
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Yes"
 msgstr "Ja"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-dialog.vala:147
-#: src/widgets/games/shortcut-button.vala:38
-#: src/widgets/games/shortcut-button.vala:47
-#: src/widgets/games/launch-options-dialog.vala:57
-#: src/widgets/games/default-tool-dialog.vala:60
-#: src/widgets/games/compatibility-tool-dropdown.vala:75
-msgid "Error"
-msgstr "Fout"
-
-#: src/widgets/runners/remove-dialog.vala:49
-#, c-format
-msgid "When trying to delete %s an error occurred."
-msgstr "Bij het verwijderen van %s is een fout opgetreden."
+#, fuzzy, c-format
+msgid "Couldn't delete %s"
+msgstr "Installeer %s"
 
 #: src/widgets/runners/install-dialog.vala:56
 #, fuzzy, c-format
 msgid "Couldn't install %s"
 msgstr "Installeer %s"
 
-#: src/widgets/runners/install-dialog.vala:85
-#: src/widgets/runners/upgrade-dialog.vala:78
+#: src/widgets/runners/install-dialog.vala:84
+#: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
 msgstr "Downloaden"
 
-#: src/widgets/runners/install-dialog.vala:100
-#: src/widgets/runners/upgrade-dialog.vala:81
+#: src/widgets/runners/install-dialog.vala:99
+#: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
 msgstr "Uitpakken"
 
-#: src/widgets/runners/install-dialog.vala:103
+#: src/widgets/runners/install-dialog.vala:102
 msgid "Moving"
 msgstr "Verplaatsen"
 
@@ -385,9 +366,9 @@ msgid "Upgrade %s"
 msgstr "%s opwaarderen"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, c-format
-msgid "When trying to upgrade %s an error occurred."
-msgstr "Bij het upgraden van %s is een fout opgetreden."
+#, fuzzy, c-format
+msgid "Couldn't upgrade %s"
+msgstr "Installeer %s"
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:63
@@ -396,7 +377,7 @@ msgid "%s is used by %i game(s)"
 msgstr "%s wordt gebruikt door %i spel(len)"
 
 #: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:121
+#: src/widgets/runners/steamtinkerlaunch-row.vala:118
 msgid "Check this to also delete your configuration files."
 msgstr "Vink dit aan om uw configuratiebestanden ook te verwijderen."
 
@@ -437,7 +418,7 @@ msgstr "U mist de volgende afhankelijkheden voor %s:"
 msgid "Installation will be canceled."
 msgstr "De installatie wordt geannuleerd."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -446,32 +427,32 @@ msgstr ""
 "Het lijkt erop dat u momenteel een andere versie van %s hebt die niet door "
 "ProtonPlus is geïnstalleerd."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:89
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Wilt u het opnieuw installeren met ProtonPlus?"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:130
 #, c-format
 msgid "%s is already up-to-date."
 msgstr "%s is al bijgewerkt."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:144
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "Voer het volgende commando uit om %s te installeren voor de %s:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 "Er is momenteel geen manier bekend waarop we %s voor de %s kunnen "
 "installeren."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:185
+#: src/widgets/runners/steamtinkerlaunch-row.vala:179
 msgid "Up-to-date"
 msgstr "Bijgewerkt"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:185
+#: src/widgets/runners/steamtinkerlaunch-row.vala:179
 msgid "Update to the latest version"
 msgstr "Bijwerken naar de nieuwste versie"
 
@@ -536,7 +517,7 @@ msgstr ""
 #: src/widgets/games/games-box.vala:329
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
-#: src/widgets/games/compatibility-tool-dropdown.vala:81
+#: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "Onbepaald"
@@ -619,12 +600,15 @@ msgstr ""
 "houden."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
+#, fuzzy
 msgid ""
-"When trying to change the compatibility tool/launch options of the selected "
-"games an error occurred for the following games:"
+"Couldn't change the compatibility tool/launch options of the selected games"
 msgstr ""
-"Bij het wijzigen van de compatibiliteitstool/lanseer-opties van de "
-"geselecteerde spellen trad een fout op voor de volgende spellen:"
+"Bij het wijzigen van de compatibiliteitstool van %s is een fout opgetreden."
+
+#: src/widgets/games/mass-edit-dialog.vala:147
+msgid "The following games had an issue:"
+msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
@@ -644,12 +628,14 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "De snelkoppeling van ProtonPlus in Steam verwijderen"
 
 #: src/widgets/games/shortcut-button.vala:38
-msgid "When trying to delete the shortcut in Steam an error occurred."
-msgstr "Bij het maken van de snelkoppeling in Steam trad er een fout op."
+#, fuzzy
+msgid "Couldn't delete the shortcut in Steam"
+msgstr "De snelkoppeling van ProtonPlus in Steam verwijderen"
 
-#: src/widgets/games/shortcut-button.vala:47
-msgid "When trying to create the shortcut in Steam an error occurred."
-msgstr "Bij het maken van de snelkoppeling in Steam is een fout opgetreden."
+#: src/widgets/games/shortcut-button.vala:46
+#, fuzzy
+msgid "Couldn't create the shortcut in Steam"
+msgstr "De snelkoppeling van ProtonPlus in Steam verwijderen"
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
@@ -698,8 +684,8 @@ msgid "Apply the current modification"
 msgstr "De huidige wijziging toepassen"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, c-format
-msgid "When trying to change the launch options of %s an error occurred."
+#, fuzzy, c-format
+msgid "Couldn't change the launch options of %s"
 msgstr "Bij het wijzigen van de opstartopties van %s is een fout opgetreden."
 
 #: src/widgets/games/profile-dialog.vala:15
@@ -729,18 +715,17 @@ msgid "Set the default compatibility tool"
 msgstr "Standaard compatibiliteitstool instellen"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-msgid "When trying to change the default compatibility tool an error occurred."
-msgstr ""
-"Bij het wijzigen van het standaard compatibiliteitstool is een fout "
-"opgetreden."
+#, fuzzy
+msgid "Couldn't change the default compatibility tool"
+msgstr "Standaard compatibiliteitstool instellen"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
 msgstr "Selecteer het gewenste compatibiliteitshulpmiddel"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, c-format
-msgid "When trying to change the compatibility tool of %s an error occurred."
+#, fuzzy, c-format
+msgid "Couldn't change the compatibility tool of %s"
 msgstr ""
 "Bij het wijzigen van de compatibiliteitstool van %s is een fout opgetreden."
 
@@ -895,6 +880,36 @@ msgstr "Snelkoppelingen weergeven"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Afsluiten"
+
+#~ msgid "Error"
+#~ msgstr "Fout"
+
+#~ msgid ""
+#~ "When trying to change the compatibility tool/launch options of the "
+#~ "selected games an error occurred for the following games:"
+#~ msgstr ""
+#~ "Bij het wijzigen van de compatibiliteitstool/lanseer-opties van de "
+#~ "geselecteerde spellen trad een fout op voor de volgende spellen:"
+
+#, c-format
+#~ msgid "When trying to delete %s an error occurred."
+#~ msgstr "Bij het verwijderen van %s is een fout opgetreden."
+
+#, c-format
+#~ msgid "When trying to upgrade %s an error occurred."
+#~ msgstr "Bij het upgraden van %s is een fout opgetreden."
+
+#~ msgid "When trying to delete the shortcut in Steam an error occurred."
+#~ msgstr "Bij het maken van de snelkoppeling in Steam trad er een fout op."
+
+#~ msgid "When trying to create the shortcut in Steam an error occurred."
+#~ msgstr "Bij het maken van de snelkoppeling in Steam is een fout opgetreden."
+
+#~ msgid ""
+#~ "When trying to change the default compatibility tool an error occurred."
+#~ msgstr ""
+#~ "Bij het wijzigen van het standaard compatibiliteitstool is een fout "
+#~ "opgetreden."
 
 #, fuzzy
 #~ msgid "An error ocurred"

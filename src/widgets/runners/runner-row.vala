@@ -44,22 +44,16 @@ namespace ProtonPlus.Widgets {
 								if (count == 0)
 									set_expanded (false);
 
-								var heading = _("Unknown error");
-								var body = _("Please report this issue on GitHub.");
-
 								if (runner.fetch_code == Models.Runner.FetchCode.API_LIMIT_REACHED) {
-									heading = _("API limit reached");
-									body = _("Try again in a few minutes.");
+									var dialog = new WarningDialog (_("API limit reached"), _("Try again in a few minutes."));
+									dialog.present(Application.window);
+								} else if (runner.fetch_code == Models.Runner.FetchCode.CONNECTION_ISSUE) {
+									var dialog = new WarningDialog (_("Unable to reach the API"), _("Make sure you're connected to the internet."));
+									dialog.present(Application.window);
+								} else {
+									var dialog = new ErrorDialog (_("Unknown error"), _("Please report this issue on GitHub."));
+									dialog.present(Application.window);
 								}
-
-								if (runner.fetch_code == Models.Runner.FetchCode.CONNECTION_ISSUE) {
-									heading = _("Unable to reach the API");
-									body = _("Make sure you're connected to the internet.");
-								}
-
-								var dialog = new Adw.AlertDialog(heading, body);
-								dialog.add_response("ok", _("OK"));
-								dialog.present(Application.window);
 							} else if (runner is Models.Runners.Basic && releases.length () > 0 && count == 0 && runner.has_latest_support) {
 								var latest_release = releases.nth_data (0);
 

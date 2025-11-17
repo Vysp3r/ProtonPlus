@@ -7,6 +7,7 @@ namespace ProtonPlus.Widgets {
 			flags |= ApplicationFlags.FLAGS_NONE;
 
 			ActionEntry[] action_entries = {
+				{ "report", this.on_report_action },
 				{ "preferences", this.on_preferences_action },
 				{ "about", this.on_about_action },
 				{ "quit", this.quit }
@@ -57,6 +58,10 @@ namespace ProtonPlus.Widgets {
 
 				window.present ();
 			});
+		}
+
+		void on_report_action () {
+			Utils.System.open_uri ("https://github.com/Vysp3r/ProtonPlus/issues/new?template=bug_report.md");
 		}
 
 		void on_preferences_action () {
