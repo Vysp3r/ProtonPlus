@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-16 21:46-0500\n"
-"PO-Revision-Date: 2025-11-14 00:51+0000\n"
-"Last-Translator: M4ttiA <sensoriale_echidna_0w@icloud.com>\n"
+"PO-Revision-Date: 2025-11-17 15:51+0000\n"
+"Last-Translator: Alessandro Marigliano <alemarigliano22@proton.me>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/it/>\n"
 "Language: it\n"
@@ -89,11 +89,12 @@ msgid "Welcome to %s"
 msgstr "Benvenuto a %s"
 
 #: src/widgets/window.vala:107
-#, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
-msgstr "Installa Steam, Lutris, Bottles o Heroic Games Launcher per iniziare."
+msgstr ""
+"Installa Steam, Lutris, Bottles, Heroic Games Launcher o WineZGUI per "
+"iniziare."
 
 #: src/widgets/window.vala:107
 msgid ""

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-16 21:46-0500\n"
-"PO-Revision-Date: 2025-11-10 11:51+0000\n"
+"PO-Revision-Date: 2025-11-17 15:51+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ja/>\n"
@@ -124,7 +124,7 @@ msgstr "更新を確認中にエラーが発生しました。"
 #: src/widgets/window.vala:139 src/widgets/window.vala:172
 #: src/widgets/error-dialog.vala:7
 msgid "Report"
-msgstr ""
+msgstr "報告"
 
 #: src/widgets/window.vala:158
 #, c-format
