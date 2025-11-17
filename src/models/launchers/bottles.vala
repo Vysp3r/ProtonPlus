@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Launchers {
                 break;
             }
 
-            base ("Bottles", installation_type, "%s/bottles.svg".printf (Globals.RESOURCE_BASE), directories);
+            base ("Bottles", installation_type, "%s/bottles.svg".printf (Config.RESOURCE_BASE), directories);
         }
     }
 }

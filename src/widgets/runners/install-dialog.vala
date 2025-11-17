@@ -17,17 +17,17 @@ namespace ProtonPlus.Widgets {
 			set_heading (_("Install %s").printf (release.title));
 			set_extra_child (progress_bar);
 
-			if (release.title.contains ("SteamTinkerLaunch")) {
+			if (release.title.contains ("Steam Tinker Launch")) {
 				set_can_close (false);
 			} else {
 				add_response ("cancel", _("Cancel"));
 				set_response_appearance ("cancel", Adw.ResponseAppearance.DESTRUCTIVE);
 				set_close_response ("cancel");
-
-				release.notify["progress"].connect (release_progress_changed);
-				release.notify["speed"].connect (update_download_stat);
-				release.notify["time"].connect (update_download_stat);
 			}
+
+			release.notify["progress"].connect (release_progress_changed);
+			release.notify["speed"].connect (update_download_stat);
+			release.notify["time"].connect (update_download_stat);
 
 			Timeout.add_full (Priority.DEFAULT, 25, () => {
 				if (stop)
@@ -53,7 +53,7 @@ namespace ProtonPlus.Widgets {
 				done (success);
 
 				if (!success && !canceled) {
-					var dialog = new Adw.AlertDialog (_("Error"), "%s\n%s".printf (_("When trying to install %s an error occurred.").printf (release.title), _("Please report this issue on GitHub.")));
+					var dialog = new Adw.AlertDialog (_("Couldn't install %s").printf (release.title), _("Please report this issue on GitHub."));
 					dialog.add_response ("ok", _("OK"));
 					dialog.present (Application.window);
 				}

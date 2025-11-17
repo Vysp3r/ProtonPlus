@@ -1,5 +1,5 @@
-[CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "globals.h")]
-namespace ProtonPlus.Globals {
+[CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "config.h")]
+namespace ProtonPlus.Config {
 	public const string APP_NAME;
 	public const string APP_ID;
 	public const string APP_VERSION;

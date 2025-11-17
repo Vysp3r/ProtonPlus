@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="com.vysp3r.ProtonPlus">
+	<enum id="com.vysp3r.ProtonPlus.Theme">
+    	<value nick="system" value="0"/>
+		<value nick="dark" value="4"/>
+    	<value nick="light" value="1"/>
+  	</enum>
+
 	<schema id="com.vysp3r.ProtonPlus.State" path="/com/vysp3r/ProtonPlus/State/">
 		<key name="width" type="i">
       		<default>950</default>
@@ -12,6 +18,18 @@
 		</key>
 		<key name="is-fullscreen" type="b">
 			<default>false</default>
+		</key>
+		<key name="automatic-update" type="b">
+			<default>true</default>
+		</key>
+		<key name="steam-last-profile-id" type="s">
+			<default>''</default>
+		</key>
+		<key name="steam-remember-last-profile" type="b">
+			<default>true</default>
+		</key>
+		<key name="theme" enum="com.vysp3r.ProtonPlus.Theme">
+			<default>'system'</default>
 		</key>
 	</schema>
 </schemalist>

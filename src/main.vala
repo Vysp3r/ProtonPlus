@@ -6,9 +6,9 @@ namespace ProtonPlus {
 		}
 
 		Intl.setlocale ();
-		Intl.bindtextdomain (Globals.APP_ID, Environment.get_variable("LOCALE_DIR") ?? Globals.LOCALE_DIR);
-		Intl.bind_textdomain_codeset (Globals.APP_ID, "UTF-8");
-		Intl.textdomain (Globals.APP_ID);
+		Intl.bindtextdomain (Config.APP_ID, Environment.get_variable("LOCALE_DIR") ?? Config.LOCALE_DIR);
+		Intl.bind_textdomain_codeset (Config.APP_ID, "UTF-8");
+		Intl.textdomain (Config.APP_ID);
 
 		var application = new Widgets.Application ();
 		return application.run (args);

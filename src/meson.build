@@ -8,6 +8,12 @@ sources = files(
   'widgets/scroll-controller.vala',
   'widgets/update-button.vala',
 
+  'widgets/preferences/preferences-dialog.vala',
+  'widgets/preferences/theme-row.vala',
+  'widgets/preferences/refresh-launchers-runners-row.vala',
+  'widgets/preferences/refresh-steam-profiles-row.vala',
+  'widgets/preferences/check-updates-row.vala',
+
   'widgets/launchers-popover/launchers-popover-button.vala',
   'widgets/launchers-popover/launchers-popover-list-row.vala',
 
@@ -84,7 +90,7 @@ sources = files(
 )
 
 deps = [
-  globals_dep,
+  config_dep,
   dependency('gtk4'),
   dependency('glib-2.0'),
   dependency('libadwaita-1', version: '>= 1.6'),
@@ -99,6 +105,6 @@ executable(
   resources,
   sources,
   dependencies: deps,
-  include_directories: globals_inc,
+  include_directories: config_inc,
   install: true
 )
