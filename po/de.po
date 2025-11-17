@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-03 16:37-0500\n"
+"POT-Creation-Date: 2025-11-16 20:49-0500\n"
 "PO-Revision-Date: 2025-07-19 17:26+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -19,51 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 3.6\n"
 
-#: src/widgets/application.vala:81
+#: src/widgets/application.vala:86
 msgid "A modern compatibility tools manager"
 msgstr "Ein moderner Verwalter für Kompatibilitätstools"
 
-#: src/widgets/application.vala:83
+#: src/widgets/application.vala:88
 msgid "Website"
 msgstr "Webseite"
 
-#: src/widgets/application.vala:88
+#: src/widgets/application.vala:93
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
 
-#: src/widgets/window.vala:45
-msgid "Donate"
-msgstr "Spenden"
-
-#: src/widgets/window.vala:49
-msgid "_Keyboard Shortcuts"
-msgstr "_Tastenkombinationen"
-
-#: src/widgets/window.vala:50
-msgid "_About ProtonPlus"
-msgstr "_Über ProtonPlus"
-
-#: src/widgets/window.vala:53
-msgid "Main Menu"
-msgstr "Hauptmenü"
-
-#: src/widgets/window.vala:58
-msgid "Runners"
-msgstr "Ausführungswerkzeuge"
-
-#: src/widgets/window.vala:59
-msgid "Games"
-msgstr "Spiele"
-
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:32
 msgid "Loading"
 msgstr "Laden"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:32
 msgid "Taking longer than normal?"
 msgstr "Dauert es länger als normal?"
 
-#: src/widgets/window.vala:89 src/widgets/window.vala:101
+#: src/widgets/window.vala:32 src/widgets/window.vala:93
 #: src/widgets/runners/runner-row.vala:48
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
@@ -77,36 +53,44 @@ msgstr "Dauert es länger als normal?"
 msgid "Please report this issue on GitHub."
 msgstr "Bitte melden Sie dieses Problem auf GitHub."
 
-#: src/widgets/window.vala:101
-msgid "An error ocurred"
-msgstr "Ein Fehler ist aufgetreten"
+#: src/widgets/window.vala:45
+msgid "Donate"
+msgstr "Spenden"
 
-#: src/widgets/window.vala:101
-msgid "There was an error when trying to load the launchers."
-msgstr "Es gab einen Fehler beim Versuch, die Starter zu laden."
+#: src/widgets/window.vala:49
+msgid "_Preferences"
+msgstr ""
 
-#: src/widgets/window.vala:123 src/widgets/update-button.vala:9
-msgid "Checking for updates..."
-msgstr "Prüfe auf Aktualisierungen..."
+#: src/widgets/window.vala:50
+msgid "_Keyboard Shortcuts"
+msgstr "_Tastenkombinationen"
 
-#: src/widgets/window.vala:130
-msgid "Nothing to update."
-msgstr "Nichts zu aktualisieren."
+#: src/widgets/window.vala:51
+msgid "_About ProtonPlus"
+msgstr "_Über ProtonPlus"
 
-#: src/widgets/window.vala:134
-msgid "Everything is now up-to-date."
-msgstr "Alles ist jetzt aktuell."
+#: src/widgets/window.vala:54
+msgid "Main Menu"
+msgstr "Hauptmenü"
 
-#: src/widgets/window.vala:138
-msgid "An error occured while checking for updates."
-msgstr "Ein Fehler trat auf während auf Aktualiserungen überprüft wurde."
+#: src/widgets/window.vala:59
+msgid "Runners"
+msgstr "Ausführungswerkzeuge"
 
-#: src/widgets/window.vala:151
+#: src/widgets/window.vala:60
+msgid "Games"
+msgstr "Spiele"
+
+#: src/widgets/window.vala:93
+msgid "Couldn't load the launchers"
+msgstr ""
+
+#: src/widgets/window.vala:107
 #, c-format
 msgid "Welcome to %s"
 msgstr "Willkommen zu %s"
 
-#: src/widgets/window.vala:151
+#: src/widgets/window.vala:107
 #, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
@@ -115,23 +99,59 @@ msgstr ""
 "Installieren Sie Steam, Lutris, Bottles oder Heroic Games Launcher, um "
 "loszulegen."
 
-#: src/widgets/window.vala:151
+#: src/widgets/window.vala:107
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
 
-#: src/widgets/window.vala:190
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:145
-#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/window.vala:125 src/widgets/update-button.vala:9
+msgid "Checking for updates..."
+msgstr "Prüfe auf Aktualisierungen..."
+
+#: src/widgets/window.vala:132
+msgid "Nothing to update."
+msgstr "Nichts zu aktualisieren."
+
+#: src/widgets/window.vala:135
+msgid "Everything is now up-to-date."
+msgstr "Alles ist jetzt aktuell."
+
+#: src/widgets/window.vala:138
+msgid "An error occured while checking for updates."
+msgstr "Ein Fehler trat auf während auf Aktualiserungen überprüft wurde."
+
+#: src/widgets/window.vala:156
+#, c-format
+msgid "Updating %s."
+msgstr ""
+
+#: src/widgets/window.vala:163
+#, c-format
+msgid "No update found for %s."
+msgstr ""
+
+#: src/widgets/window.vala:166
+#, fuzzy, c-format
+msgid "%s is now up-to-date."
+msgstr "%s ist schon auf dem neuesten Stand."
+
+#: src/widgets/window.vala:169
+#, fuzzy, c-format
+msgid "An error occured while updating %s."
+msgstr "Ein unerwarteter Fehler trat auf beim Aktualisieren von %s."
+
+#: src/widgets/window.vala:208
+#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "Warnung"
 
-#: src/widgets/window.vala:190
+#: src/widgets/window.vala:208
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -139,14 +159,75 @@ msgstr ""
 "Die Anwendung sucht gerade nach Updates.\n"
 "Ein vorzeitiges Beenden der Anwendung kann zu Problemen führen."
 
-#: src/widgets/window.vala:192
+#: src/widgets/window.vala:210
 msgid "Exit"
 msgstr "Beenden"
 
-#: src/widgets/window.vala:195 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:213 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Abbrechen"
+
+#: src/widgets/preferences/preferences-dialog.vala:9
+#, fuzzy
+msgid "General"
+msgstr "Allgemein"
+
+#: src/widgets/preferences/preferences-dialog.vala:14
+msgid "Automatic updates"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:15
+msgid ""
+"Whether or not to update the installed 'Latest' runners when the application "
+"start"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:20
+msgid "Latest"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:25
+msgid "Remember last used profile"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:26
+msgid "Whether or not to remember the last used Steam profile"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:15
+msgid "System"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:16
+msgid "Light"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:17
+msgid "Dark"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:25
+msgid "Current theme"
+msgstr ""
+
+#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
+#, fuzzy
+msgid "Refresh profiles"
+msgstr "Ein Profil auswählen"
+
+#: src/widgets/preferences/refresh-launchers-runners-row.vala:15
+msgid "Refresh launchers/runners"
+msgstr ""
+
+#: src/widgets/preferences/check-updates-row.vala:11
+msgid "Check if any of the installed 'Latest' runners needs to be updated"
+msgstr ""
+
+#: src/widgets/preferences/check-updates-row.vala:16
+#, fuzzy
+msgid "Check for updates"
+msgstr "Prüfe auf Aktualisierungen..."
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -160,31 +241,35 @@ msgstr "Öffnen"
 msgid "Open in your web browser"
 msgstr "Im Webbrowser öffnen"
 
-#: src/widgets/runners/release-row.vala:11
+#: src/widgets/runners/release-row.vala:13
+msgid "Update the runner if a newer version is available"
+msgstr ""
+
+#: src/widgets/runners/release-row.vala:16
 #, fuzzy
 msgid "Open runner directory"
 msgstr "Präfixverzeichnis öffnen"
 
-#: src/widgets/runners/release-row.vala:15
+#: src/widgets/runners/release-row.vala:20
 msgid "Show more information"
 msgstr "Mehr Informationen anzeigen"
 
-#: src/widgets/runners/release-row.vala:19
+#: src/widgets/runners/release-row.vala:24
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
 msgstr "Lösche %s"
 
-#: src/widgets/runners/release-row.vala:23
+#: src/widgets/runners/release-row.vala:28
 #: src/widgets/runners/install-dialog.vala:17
 #, c-format
 msgid "Install %s"
 msgstr "Installiere %s"
 
-#: src/widgets/runners/release-row.vala:47
-#: src/widgets/runners/release-row.vala:49
+#: src/widgets/runners/release-row.vala:54
+#: src/widgets/runners/release-row.vala:56
 #: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/basic-row.vala:62
 #: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "Nicht benutzt"
@@ -216,9 +301,9 @@ msgstr ""
 #: src/widgets/runners/remove-dialog.vala:50
 #: src/widgets/runners/install-dialog.vala:57
 #: src/widgets/runners/upgrade-dialog.vala:57
-#: src/widgets/runners/steamtinkerlaunch-row.vala:45
-#: src/widgets/runners/steamtinkerlaunch-row.vala:131
-#: src/widgets/runners/steamtinkerlaunch-row.vala:155
+#: src/widgets/runners/steamtinkerlaunch-row.vala:48
+#: src/widgets/runners/steamtinkerlaunch-row.vala:134
+#: src/widgets/runners/steamtinkerlaunch-row.vala:158
 #: src/widgets/games/mass-edit-dialog.vala:148
 #: src/widgets/games/shortcut-button.vala:39
 #: src/widgets/games/shortcut-button.vala:48
@@ -252,17 +337,16 @@ msgid "Are you sure you want to proceed?"
 msgstr "Sind Sie sicher, dass Sie fortfahren wollen?"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:91
+#: src/widgets/runners/steamtinkerlaunch-row.vala:94
 msgid "No"
 msgstr "Nein"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:95
 msgid "Yes"
 msgstr "Ja"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -279,9 +363,9 @@ msgid "When trying to delete %s an error occurred."
 msgstr "Beim Versuch, %s zu entfernen, ist ein Fehler aufgetreten."
 
 #: src/widgets/runners/install-dialog.vala:56
-#, c-format
-msgid "When trying to install %s an error occurred."
-msgstr "Beim Versuch, %s zu installieren, ist ein Fehler aufgetreten."
+#, fuzzy, c-format
+msgid "Couldn't install %s"
+msgstr "Installiere %s"
 
 #: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
@@ -308,16 +392,22 @@ msgid "When trying to upgrade %s an error occurred."
 msgstr "Beim Versuch, %s zu aktualisieren, ist ein Fehler aufgetreten."
 
 #: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:53
+#: src/widgets/runners/basic-row.vala:63
 #, c-format
 msgid "%s is used by %i game(s)"
 msgstr "%s wird von %i Spiel(en) verwendet."
 
-#: src/widgets/runners/installed-row.vala:38
-#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+#: src/widgets/runners/installed-row.vala:41
+#: src/widgets/runners/steamtinkerlaunch-row.vala:121
 msgid "Check this to also delete your configuration files."
 msgstr ""
 "Aktivieren Sie diese Option, um auch Ihre Konfigurationsdateien zu löschen."
+
+#: src/widgets/runners/basic-row.vala:20
+msgid ""
+"This version will get automatically updated when there's an update available "
+"each time your launch the application if automatic updates is enabled"
+msgstr ""
 
 #: src/widgets/runners/filters-box.vala:12
 #, fuzzy
@@ -341,16 +431,16 @@ msgstr ""
 msgid "Show runners that aren't used by any games"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:46
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "Es fehlen Ihnen die folgenden Abhängigkeiten für %s:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:46
 msgid "Installation will be canceled."
 msgstr "Die Installation wird abgebrochen."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -359,32 +449,32 @@ msgstr ""
 "Es sieht so aus als ob Sie aktuell eine andere Version von %s haben, die "
 "nicht von ProtonPlus installiert wurde."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Möchten Sie es mit ProtonPlus neu installieren?"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:133
 #, c-format
 msgid "%s is already up-to-date."
 msgstr "%s ist schon auf dem neuesten Stand."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:145
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "Um %s für %s zu installieren, bitte das folgende Kommando ausführen:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 "Es gibt derzeit keine uns bekannte Möglichkeit, %s für die %s zu "
 "installieren."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:182
+#: src/widgets/runners/steamtinkerlaunch-row.vala:185
 msgid "Up-to-date"
 msgstr "Auf dem neuesten Stand"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:182
+#: src/widgets/runners/steamtinkerlaunch-row.vala:185
 msgid "Update to the latest version"
 msgstr "Auf die letzte Version aktualisieren"
 
@@ -394,7 +484,7 @@ msgstr ""
 "Schließen Sie den Steam-Client vorher, damit die Änderungen übernommen "
 "werden können."
 
-#: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:327
+#: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:339
 #, fuzzy
 msgid "Show search"
 msgstr "Seitenleiste anzeigen"
@@ -421,10 +511,6 @@ msgid "Other"
 msgstr "Andere"
 
 #: src/widgets/games/games-box.vala:151
-msgid "An error occurred"
-msgstr "Ein Fehler ist aufgetreten"
-
-#: src/widgets/games/games-box.vala:151
 msgid "No profile was found."
 msgstr "Es wurde kein Profil gefunden."
 
@@ -437,24 +523,24 @@ msgstr ""
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "Wenn Sie glauben, dass dies ein Problem ist, melden Sie es auf GitHub."
 
-#: src/widgets/games/games-box.vala:211
+#: src/widgets/games/games-box.vala:223
 msgid "Unsuported launcher"
 msgstr "Nicht unterstützer Starter"
 
-#: src/widgets/games/games-box.vala:211
+#: src/widgets/games/games-box.vala:223
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s wird aktuell nicht unterstützt."
 
-#: src/widgets/games/games-box.vala:211
+#: src/widgets/games/games-box.vala:223
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Wenn Sie möchten, dass ich die Entwicklung beschleunige, zeigen Sie Ihre "
 "Unterstützung!"
 
-#: src/widgets/games/games-box.vala:251 src/widgets/games/games-box.vala:314
-#: src/widgets/games/games-box.vala:317
+#: src/widgets/games/games-box.vala:263 src/widgets/games/games-box.vala:326
+#: src/widgets/games/games-box.vala:329
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
@@ -462,7 +548,7 @@ msgstr ""
 msgid "Undefined"
 msgstr "Nicht definiert"
 
-#: src/widgets/games/games-box.vala:327
+#: src/widgets/games/games-box.vala:339
 msgid "Hide search"
 msgstr ""
 
@@ -823,6 +909,19 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Beenden"
 
+#~ msgid "An error ocurred"
+#~ msgstr "Ein Fehler ist aufgetreten"
+
+#~ msgid "There was an error when trying to load the launchers."
+#~ msgstr "Es gab einen Fehler beim Versuch, die Starter zu laden."
+
+#, c-format
+#~ msgid "When trying to install %s an error occurred."
+#~ msgstr "Beim Versuch, %s zu installieren, ist ein Fehler aufgetreten."
+
+#~ msgid "An error occurred"
+#~ msgstr "Ein Fehler ist aufgetreten"
+
 #~ msgid "Show used only"
 #~ msgstr "Nur benutzte anzeigen"
 
@@ -927,10 +1026,6 @@ msgstr "Beenden"
 #, c-format
 #~ msgid "The upgrade of %s is complete."
 #~ msgstr "Die Aktualisierung von %s ist abgeschlossen."
-
-#, c-format
-#~ msgid "An unexpected error occurred while upgrading %s."
-#~ msgstr "Ein unerwarteter Fehler trat auf beim Aktualisieren von %s."
 
 #, c-format
 #~ msgid "You're about to remove %s from your system."

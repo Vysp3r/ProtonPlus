@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-03 16:37-0500\n"
+"POT-Creation-Date: 2025-11-16 20:49-0500\n"
 "PO-Revision-Date: 2025-08-21 19:02+0000\n"
 "Last-Translator: Linus Virtanen <linus.virtanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/protonplus/"
@@ -19,51 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.13\n"
 
-#: src/widgets/application.vala:81
+#: src/widgets/application.vala:86
 msgid "A modern compatibility tools manager"
 msgstr "Nykyaikainen hallintakeskus yhteensopivuustyökaluille."
 
-#: src/widgets/application.vala:83
+#: src/widgets/application.vala:88
 msgid "Website"
 msgstr "Verkkosivusto"
 
-#: src/widgets/application.vala:88
+#: src/widgets/application.vala:93
 msgid "Special thanks to"
 msgstr "Erityiskiitokset"
 
-#: src/widgets/window.vala:45
-msgid "Donate"
-msgstr "Lahjoita"
-
-#: src/widgets/window.vala:49
-msgid "_Keyboard Shortcuts"
-msgstr "_Näppäinoikopolut"
-
-#: src/widgets/window.vala:50
-msgid "_About ProtonPlus"
-msgstr "_Tietoja ProtonPlus:sta"
-
-#: src/widgets/window.vala:53
-msgid "Main Menu"
-msgstr "Päävalikko"
-
-#: src/widgets/window.vala:58
-msgid "Runners"
-msgstr "Ajo-ohjelmat"
-
-#: src/widgets/window.vala:59
-msgid "Games"
-msgstr "Pelit"
-
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:32
 msgid "Loading"
 msgstr "Ladataan"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:32
 msgid "Taking longer than normal?"
 msgstr "Kuluuko aikaa totuttua pidempään?"
 
-#: src/widgets/window.vala:89 src/widgets/window.vala:101
+#: src/widgets/window.vala:32 src/widgets/window.vala:93
 #: src/widgets/runners/runner-row.vala:48
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
@@ -77,23 +53,65 @@ msgstr "Kuluuko aikaa totuttua pidempään?"
 msgid "Please report this issue on GitHub."
 msgstr "Ole hyvä ja raportoi tämä ongelma GitHub:issa."
 
-#: src/widgets/window.vala:101
-msgid "An error ocurred"
-msgstr "Tapahtui virhe"
+#: src/widgets/window.vala:45
+msgid "Donate"
+msgstr "Lahjoita"
 
-#: src/widgets/window.vala:101
-msgid "There was an error when trying to load the launchers."
-msgstr "Käynnistimien lataamisessa tapahtui virhe."
+#: src/widgets/window.vala:49
+msgid "_Preferences"
+msgstr ""
 
-#: src/widgets/window.vala:123 src/widgets/update-button.vala:9
+#: src/widgets/window.vala:50
+msgid "_Keyboard Shortcuts"
+msgstr "_Näppäinoikopolut"
+
+#: src/widgets/window.vala:51
+msgid "_About ProtonPlus"
+msgstr "_Tietoja ProtonPlus:sta"
+
+#: src/widgets/window.vala:54
+msgid "Main Menu"
+msgstr "Päävalikko"
+
+#: src/widgets/window.vala:59
+msgid "Runners"
+msgstr "Ajo-ohjelmat"
+
+#: src/widgets/window.vala:60
+msgid "Games"
+msgstr "Pelit"
+
+#: src/widgets/window.vala:93
+msgid "Couldn't load the launchers"
+msgstr ""
+
+#: src/widgets/window.vala:107
+#, c-format
+msgid "Welcome to %s"
+msgstr "Tervetuloa %s :n"
+
+#: src/widgets/window.vala:107
+#, fuzzy
+msgid ""
+"Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
+"started."
+msgstr "Asenna Steam, Lutris, Bottles tai Heroic Games Launcher aloittaaksesi."
+
+#: src/widgets/window.vala:107
+msgid ""
+"Make sure to run the launchers at least once to ensure they're properly "
+"initialized"
+msgstr ""
+
+#: src/widgets/window.vala:125 src/widgets/update-button.vala:9
 msgid "Checking for updates..."
 msgstr "Tarkistetaan päivityksiä..."
 
-#: src/widgets/window.vala:130
+#: src/widgets/window.vala:132
 msgid "Nothing to update."
 msgstr "Ei mitään päivitettävää."
 
-#: src/widgets/window.vala:134
+#: src/widgets/window.vala:135
 msgid "Everything is now up-to-date."
 msgstr "Kaikki on nyt päivitetty ajan tasalle."
 
@@ -101,35 +119,37 @@ msgstr "Kaikki on nyt päivitetty ajan tasalle."
 msgid "An error occured while checking for updates."
 msgstr "Päivitysten tarkistamisessa ilmeni virhe."
 
-#: src/widgets/window.vala:151
+#: src/widgets/window.vala:156
 #, c-format
-msgid "Welcome to %s"
-msgstr "Tervetuloa %s :n"
-
-#: src/widgets/window.vala:151
-#, fuzzy
-msgid ""
-"Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
-"started."
-msgstr "Asenna Steam, Lutris, Bottles tai Heroic Games Launcher aloittaaksesi."
-
-#: src/widgets/window.vala:151
-msgid ""
-"Make sure to run the launchers at least once to ensure they're properly "
-"initialized"
+msgid "Updating %s."
 msgstr ""
 
-#: src/widgets/window.vala:190
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:145
-#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/window.vala:163
+#, c-format
+msgid "No update found for %s."
+msgstr ""
+
+#: src/widgets/window.vala:166
+#, fuzzy, c-format
+msgid "%s is now up-to-date."
+msgstr "%s on jo päivitetty ajantasalle."
+
+#: src/widgets/window.vala:169
+#, fuzzy, c-format
+msgid "An error occured while updating %s."
+msgstr "Päivitysten tarkistamisessa ilmeni virhe."
+
+#: src/widgets/window.vala:208
+#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "Varoitus"
 
-#: src/widgets/window.vala:190
+#: src/widgets/window.vala:208
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -137,14 +157,75 @@ msgstr ""
 "Sovellus tarkistaa parhaillaan päivityksiä.\n"
 "Sovelluksesta poistuminen liian aikaisin voi aiheuttaa ongelmia."
 
-#: src/widgets/window.vala:192
+#: src/widgets/window.vala:210
 msgid "Exit"
 msgstr "Poistu"
 
-#: src/widgets/window.vala:195 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:213 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Keskeytä"
+
+#: src/widgets/preferences/preferences-dialog.vala:9
+#, fuzzy
+msgid "General"
+msgstr "Yleiset"
+
+#: src/widgets/preferences/preferences-dialog.vala:14
+msgid "Automatic updates"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:15
+msgid ""
+"Whether or not to update the installed 'Latest' runners when the application "
+"start"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:20
+msgid "Latest"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:25
+msgid "Remember last used profile"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:26
+msgid "Whether or not to remember the last used Steam profile"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:15
+msgid "System"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:16
+msgid "Light"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:17
+msgid "Dark"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:25
+msgid "Current theme"
+msgstr ""
+
+#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
+#, fuzzy
+msgid "Refresh profiles"
+msgstr "Valitse profiili"
+
+#: src/widgets/preferences/refresh-launchers-runners-row.vala:15
+msgid "Refresh launchers/runners"
+msgstr ""
+
+#: src/widgets/preferences/check-updates-row.vala:11
+msgid "Check if any of the installed 'Latest' runners needs to be updated"
+msgstr ""
+
+#: src/widgets/preferences/check-updates-row.vala:16
+#, fuzzy
+msgid "Check for updates"
+msgstr "Tarkistetaan päivityksiä..."
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -158,31 +239,35 @@ msgstr "Avaa"
 msgid "Open in your web browser"
 msgstr "Avaa nettiselaimessa"
 
-#: src/widgets/runners/release-row.vala:11
+#: src/widgets/runners/release-row.vala:13
+msgid "Update the runner if a newer version is available"
+msgstr ""
+
+#: src/widgets/runners/release-row.vala:16
 #, fuzzy
 msgid "Open runner directory"
 msgstr "Avaa prefix-hakemisto"
 
-#: src/widgets/runners/release-row.vala:15
+#: src/widgets/runners/release-row.vala:20
 msgid "Show more information"
 msgstr "Näytä lisätiedot"
 
-#: src/widgets/runners/release-row.vala:19
+#: src/widgets/runners/release-row.vala:24
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
 msgstr "Poista %s"
 
-#: src/widgets/runners/release-row.vala:23
+#: src/widgets/runners/release-row.vala:28
 #: src/widgets/runners/install-dialog.vala:17
 #, c-format
 msgid "Install %s"
 msgstr "Asenna %s"
 
-#: src/widgets/runners/release-row.vala:47
-#: src/widgets/runners/release-row.vala:49
+#: src/widgets/runners/release-row.vala:54
+#: src/widgets/runners/release-row.vala:56
 #: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/basic-row.vala:62
 #: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "Käytetty"
@@ -213,9 +298,9 @@ msgstr "Varmista että käynnistät Steamin kirjautuen tilillesi ainakin kerran.
 #: src/widgets/runners/remove-dialog.vala:50
 #: src/widgets/runners/install-dialog.vala:57
 #: src/widgets/runners/upgrade-dialog.vala:57
-#: src/widgets/runners/steamtinkerlaunch-row.vala:45
-#: src/widgets/runners/steamtinkerlaunch-row.vala:131
-#: src/widgets/runners/steamtinkerlaunch-row.vala:155
+#: src/widgets/runners/steamtinkerlaunch-row.vala:48
+#: src/widgets/runners/steamtinkerlaunch-row.vala:134
+#: src/widgets/runners/steamtinkerlaunch-row.vala:158
 #: src/widgets/games/mass-edit-dialog.vala:148
 #: src/widgets/games/shortcut-button.vala:39
 #: src/widgets/games/shortcut-button.vala:48
@@ -249,17 +334,16 @@ msgid "Are you sure you want to proceed?"
 msgstr "Oletko varma että haluat jatkaa?"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:91
+#: src/widgets/runners/steamtinkerlaunch-row.vala:94
 msgid "No"
 msgstr "Ei"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:95
 msgid "Yes"
 msgstr "Kyllä"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -276,9 +360,9 @@ msgid "When trying to delete %s an error occurred."
 msgstr "Ilmeni virhe yrittäessä poistaa kohdetta %s"
 
 #: src/widgets/runners/install-dialog.vala:56
-#, c-format
-msgid "When trying to install %s an error occurred."
-msgstr "Ilmeni virhe yrittäessä asentaa kohdetta %s"
+#, fuzzy, c-format
+msgid "Couldn't install %s"
+msgstr "Asenna %s"
 
 #: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
@@ -305,15 +389,21 @@ msgid "When trying to upgrade %s an error occurred."
 msgstr "Ilmeni virhe yrittäessä päivittää kohdetta %s"
 
 #: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:53
+#: src/widgets/runners/basic-row.vala:63
 #, c-format
 msgid "%s is used by %i game(s)"
 msgstr "%s on %i pelin käyttämä"
 
-#: src/widgets/runners/installed-row.vala:38
-#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+#: src/widgets/runners/installed-row.vala:41
+#: src/widgets/runners/steamtinkerlaunch-row.vala:121
 msgid "Check this to also delete your configuration files."
 msgstr "Valitse tämä poistaaksesi myös asetustiedostosi."
+
+#: src/widgets/runners/basic-row.vala:20
+msgid ""
+"This version will get automatically updated when there's an update available "
+"each time your launch the application if automatic updates is enabled"
+msgstr ""
 
 #: src/widgets/runners/filters-box.vala:12
 #, fuzzy
@@ -337,16 +427,16 @@ msgstr ""
 msgid "Show runners that aren't used by any games"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:46
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "Sinulta uupuvat seuraavat riippuvaisuudet kohteelle %s:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:46
 msgid "Installation will be canceled."
 msgstr "Asennus tullaan keskeyttämään."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -355,30 +445,30 @@ msgstr ""
 "Näyttäisi siltä, että sinulla on jokin toinen versio nimikkeestä %s jota ei "
 "ole asennettu ProtonPlussan kautta."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Haluatko uudelleenasentaa sen ProtonPlus:n kanssa?"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:133
 #, c-format
 msgid "%s is already up-to-date."
 msgstr "%s on jo päivitetty ajantasalle."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:145
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "Asentaaksesi %s %s :lle, aja seuraava komento:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Tällä hetkellä ei ole olemassa tunnettua tapaa asentaa %s  %s :lle."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:182
+#: src/widgets/runners/steamtinkerlaunch-row.vala:185
 msgid "Up-to-date"
 msgstr "Päivitetty"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:182
+#: src/widgets/runners/steamtinkerlaunch-row.vala:185
 msgid "Update to the latest version"
 msgstr "Päivitä viimeisimpään julkaisuun"
 
@@ -386,7 +476,7 @@ msgstr "Päivitä viimeisimpään julkaisuun"
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "Sulje Steam jo etukäteen jotta muutokset voidaan toteuttaa."
 
-#: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:327
+#: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:339
 msgid "Show search"
 msgstr ""
 
@@ -412,10 +502,6 @@ msgid "Other"
 msgstr "Muu"
 
 #: src/widgets/games/games-box.vala:151
-msgid "An error occurred"
-msgstr "Tapahtui virhe"
-
-#: src/widgets/games/games-box.vala:151
 msgid "No profile was found."
 msgstr "Käyttäjäprofiilia ei löytynyt."
 
@@ -427,22 +513,22 @@ msgstr "Varmista että käynnistät Steamin kirjautuen tilillesi ainakin kerran.
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "Mikäli tämä on mielestäsi ongelma, raportoithan siitä GitHub:iin."
 
-#: src/widgets/games/games-box.vala:211
+#: src/widgets/games/games-box.vala:223
 msgid "Unsuported launcher"
 msgstr "Tämä käynnistin ei ole tuettu"
 
-#: src/widgets/games/games-box.vala:211
+#: src/widgets/games/games-box.vala:223
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s ei tuettu tällä hetkellä."
 
-#: src/widgets/games/games-box.vala:211
+#: src/widgets/games/games-box.vala:223
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "Halutessasi nopeampaa kehitystyötä, annathan tukesi!"
 
-#: src/widgets/games/games-box.vala:251 src/widgets/games/games-box.vala:314
-#: src/widgets/games/games-box.vala:317
+#: src/widgets/games/games-box.vala:263 src/widgets/games/games-box.vala:326
+#: src/widgets/games/games-box.vala:329
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
@@ -450,7 +536,7 @@ msgstr "Halutessasi nopeampaa kehitystyötä, annathan tukesi!"
 msgid "Undefined"
 msgstr "Määrittämätön"
 
-#: src/widgets/games/games-box.vala:327
+#: src/widgets/games/games-box.vala:339
 msgid "Hide search"
 msgstr ""
 
@@ -801,6 +887,19 @@ msgstr "Näytä oikopolut"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Lopeta"
+
+#~ msgid "An error ocurred"
+#~ msgstr "Tapahtui virhe"
+
+#~ msgid "There was an error when trying to load the launchers."
+#~ msgstr "Käynnistimien lataamisessa tapahtui virhe."
+
+#, c-format
+#~ msgid "When trying to install %s an error occurred."
+#~ msgstr "Ilmeni virhe yrittäessä asentaa kohdetta %s"
+
+#~ msgid "An error occurred"
+#~ msgstr "Tapahtui virhe"
 
 #~ msgid "Show used only"
 #~ msgstr "Näytä vain käytetyt"

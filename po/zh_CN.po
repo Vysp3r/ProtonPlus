@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-03 16:37-0500\n"
+"POT-Creation-Date: 2025-11-16 20:49-0500\n"
 "PO-Revision-Date: 2025-11-16 03:57+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -16,51 +16,27 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.6\n"
 
-#: src/widgets/application.vala:81
+#: src/widgets/application.vala:86
 msgid "A modern compatibility tools manager"
 msgstr "现代的兼容性工具管理器。"
 
-#: src/widgets/application.vala:83
+#: src/widgets/application.vala:88
 msgid "Website"
 msgstr "网站"
 
-#: src/widgets/application.vala:88
+#: src/widgets/application.vala:93
 msgid "Special thanks to"
 msgstr "特别感谢"
 
-#: src/widgets/window.vala:45
-msgid "Donate"
-msgstr "捐赠"
-
-#: src/widgets/window.vala:49
-msgid "_Keyboard Shortcuts"
-msgstr "键盘快捷键(_K)"
-
-#: src/widgets/window.vala:50
-msgid "_About ProtonPlus"
-msgstr "关于 ProtonPlus(_A)"
-
-#: src/widgets/window.vala:53
-msgid "Main Menu"
-msgstr "主菜单"
-
-#: src/widgets/window.vala:58
-msgid "Runners"
-msgstr "运行器"
-
-#: src/widgets/window.vala:59
-msgid "Games"
-msgstr "游戏库"
-
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:32
 msgid "Loading"
 msgstr "正在下载"
 
-#: src/widgets/window.vala:89
+#: src/widgets/window.vala:32
 msgid "Taking longer than normal?"
 msgstr "加载时间是不是比平常久？"
 
-#: src/widgets/window.vala:89 src/widgets/window.vala:101
+#: src/widgets/window.vala:32 src/widgets/window.vala:93
 #: src/widgets/runners/runner-row.vala:48
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
@@ -74,36 +50,45 @@ msgstr "加载时间是不是比平常久？"
 msgid "Please report this issue on GitHub."
 msgstr "请在 GitHub 上回报此问题。"
 
-#: src/widgets/window.vala:101
-msgid "An error ocurred"
-msgstr "发生错误"
+#: src/widgets/window.vala:45
+msgid "Donate"
+msgstr "捐赠"
 
-#: src/widgets/window.vala:101
-msgid "There was an error when trying to load the launchers."
-msgstr "尝试加载启动器时发生错误。"
+#: src/widgets/window.vala:49
+#, fuzzy
+msgid "_Preferences"
+msgstr "首选项"
 
-#: src/widgets/window.vala:123 src/widgets/update-button.vala:9
-msgid "Checking for updates..."
-msgstr "正在检查更新..."
+#: src/widgets/window.vala:50
+msgid "_Keyboard Shortcuts"
+msgstr "键盘快捷键(_K)"
 
-#: src/widgets/window.vala:130
-msgid "Nothing to update."
-msgstr "无任何更新。"
+#: src/widgets/window.vala:51
+msgid "_About ProtonPlus"
+msgstr "关于 ProtonPlus(_A)"
 
-#: src/widgets/window.vala:134
-msgid "Everything is now up-to-date."
-msgstr "当前皆已为最新版本。"
+#: src/widgets/window.vala:54
+msgid "Main Menu"
+msgstr "主菜单"
 
-#: src/widgets/window.vala:138
-msgid "An error occured while checking for updates."
-msgstr "检查更新时发生错误。"
+#: src/widgets/window.vala:59
+msgid "Runners"
+msgstr "运行器"
 
-#: src/widgets/window.vala:151
+#: src/widgets/window.vala:60
+msgid "Games"
+msgstr "游戏库"
+
+#: src/widgets/window.vala:93
+msgid "Couldn't load the launchers"
+msgstr ""
+
+#: src/widgets/window.vala:107
 #, c-format
 msgid "Welcome to %s"
 msgstr "欢迎来到 %s"
 
-#: src/widgets/window.vala:151
+#: src/widgets/window.vala:107
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
@@ -111,23 +96,59 @@ msgstr ""
 "请安装 Steam、Lutris、Bottles、Heroic Games Launcher 或 WineZGUI 即可开始使"
 "用。"
 
-#: src/widgets/window.vala:151
+#: src/widgets/window.vala:107
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr "请务必至少运行过一次启动器，以确保其正确初始化"
 
-#: src/widgets/window.vala:190
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:145
-#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/window.vala:125 src/widgets/update-button.vala:9
+msgid "Checking for updates..."
+msgstr "正在检查更新..."
+
+#: src/widgets/window.vala:132
+msgid "Nothing to update."
+msgstr "无任何更新。"
+
+#: src/widgets/window.vala:135
+msgid "Everything is now up-to-date."
+msgstr "当前皆已为最新版本。"
+
+#: src/widgets/window.vala:138
+msgid "An error occured while checking for updates."
+msgstr "检查更新时发生错误。"
+
+#: src/widgets/window.vala:156
+#, c-format
+msgid "Updating %s."
+msgstr ""
+
+#: src/widgets/window.vala:163
+#, c-format
+msgid "No update found for %s."
+msgstr ""
+
+#: src/widgets/window.vala:166
+#, fuzzy, c-format
+msgid "%s is now up-to-date."
+msgstr "%s 已为最新版本。"
+
+#: src/widgets/window.vala:169
+#, fuzzy, c-format
+msgid "An error occured while updating %s."
+msgstr "更新 %s 时出现了未预期的错误"
+
+#: src/widgets/window.vala:208
+#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:133
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "警告"
 
-#: src/widgets/window.vala:190
+#: src/widgets/window.vala:208
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -135,14 +156,76 @@ msgstr ""
 "当前正在检查更新。\n"
 "提前离开可能会导致问题。"
 
-#: src/widgets/window.vala:192
+#: src/widgets/window.vala:210
 msgid "Exit"
 msgstr "离开"
 
-#: src/widgets/window.vala:195 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:213 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "取消"
+
+#: src/widgets/preferences/preferences-dialog.vala:9
+#, fuzzy
+msgid "General"
+msgstr "一般"
+
+#: src/widgets/preferences/preferences-dialog.vala:14
+msgid "Automatic updates"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:15
+msgid ""
+"Whether or not to update the installed 'Latest' runners when the application "
+"start"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:20
+msgid "Latest"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:25
+#, fuzzy
+msgid "Remember last used profile"
+msgstr "清除启动器"
+
+#: src/widgets/preferences/preferences-dialog.vala:26
+msgid "Whether or not to remember the last used Steam profile"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:15
+msgid "System"
+msgstr "系统"
+
+#: src/widgets/preferences/theme-row.vala:16
+msgid "Light"
+msgstr "明亮"
+
+#: src/widgets/preferences/theme-row.vala:17
+msgid "Dark"
+msgstr "暗色"
+
+#: src/widgets/preferences/theme-row.vala:25
+msgid "Current theme"
+msgstr ""
+
+#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
+#, fuzzy
+msgid "Refresh profiles"
+msgstr "选择个人资料"
+
+#: src/widgets/preferences/refresh-launchers-runners-row.vala:15
+msgid "Refresh launchers/runners"
+msgstr ""
+
+#: src/widgets/preferences/check-updates-row.vala:11
+msgid "Check if any of the installed 'Latest' runners needs to be updated"
+msgstr ""
+
+#: src/widgets/preferences/check-updates-row.vala:16
+#, fuzzy
+msgid "Check for updates"
+msgstr "正在检查更新..."
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -156,30 +239,34 @@ msgstr "打开"
 msgid "Open in your web browser"
 msgstr "在浏览器中打开"
 
-#: src/widgets/runners/release-row.vala:11
+#: src/widgets/runners/release-row.vala:13
+msgid "Update the runner if a newer version is available"
+msgstr ""
+
+#: src/widgets/runners/release-row.vala:16
 msgid "Open runner directory"
 msgstr "打开运行器目录"
 
-#: src/widgets/runners/release-row.vala:15
+#: src/widgets/runners/release-row.vala:20
 msgid "Show more information"
 msgstr "显示更多信息"
 
-#: src/widgets/runners/release-row.vala:19
+#: src/widgets/runners/release-row.vala:24
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
 msgstr "删除 %s"
 
-#: src/widgets/runners/release-row.vala:23
+#: src/widgets/runners/release-row.vala:28
 #: src/widgets/runners/install-dialog.vala:17
 #, c-format
 msgid "Install %s"
 msgstr "安装 %s"
 
-#: src/widgets/runners/release-row.vala:47
-#: src/widgets/runners/release-row.vala:49
+#: src/widgets/runners/release-row.vala:54
+#: src/widgets/runners/release-row.vala:56
 #: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/basic-row.vala:62
 #: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "已使用"
@@ -208,9 +295,9 @@ msgstr "请确保连接至互连网。"
 #: src/widgets/runners/remove-dialog.vala:50
 #: src/widgets/runners/install-dialog.vala:57
 #: src/widgets/runners/upgrade-dialog.vala:57
-#: src/widgets/runners/steamtinkerlaunch-row.vala:45
-#: src/widgets/runners/steamtinkerlaunch-row.vala:131
-#: src/widgets/runners/steamtinkerlaunch-row.vala:155
+#: src/widgets/runners/steamtinkerlaunch-row.vala:48
+#: src/widgets/runners/steamtinkerlaunch-row.vala:134
+#: src/widgets/runners/steamtinkerlaunch-row.vala:158
 #: src/widgets/games/mass-edit-dialog.vala:148
 #: src/widgets/games/shortcut-button.vala:39
 #: src/widgets/games/shortcut-button.vala:48
@@ -244,17 +331,16 @@ msgid "Are you sure you want to proceed?"
 msgstr "您确定要继续吗？"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:91
+#: src/widgets/runners/steamtinkerlaunch-row.vala:94
 msgid "No"
 msgstr "否"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:95
 msgid "Yes"
 msgstr "是"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -271,9 +357,9 @@ msgid "When trying to delete %s an error occurred."
 msgstr "尝试删除 %s 时发生错误。"
 
 #: src/widgets/runners/install-dialog.vala:56
-#, c-format
-msgid "When trying to install %s an error occurred."
-msgstr "尝试安装 %s 时发生错误。"
+#, fuzzy, c-format
+msgid "Couldn't install %s"
+msgstr "安装 %s"
 
 #: src/widgets/runners/install-dialog.vala:85
 #: src/widgets/runners/upgrade-dialog.vala:78
@@ -300,15 +386,21 @@ msgid "When trying to upgrade %s an error occurred."
 msgstr "尝试更新 %s 时发生错误。"
 
 #: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:53
+#: src/widgets/runners/basic-row.vala:63
 #, c-format
 msgid "%s is used by %i game(s)"
 msgstr "%1$s 已有 %2$i 款游戏使用。"
 
-#: src/widgets/runners/installed-row.vala:38
-#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+#: src/widgets/runners/installed-row.vala:41
+#: src/widgets/runners/steamtinkerlaunch-row.vala:121
 msgid "Check this to also delete your configuration files."
 msgstr "勾选此项也会删除配置文件。"
+
+#: src/widgets/runners/basic-row.vala:20
+msgid ""
+"This version will get automatically updated when there's an update available "
+"each time your launch the application if automatic updates is enabled"
+msgstr ""
 
 #: src/widgets/runners/filters-box.vala:12
 msgid "Installed"
@@ -330,46 +422,46 @@ msgstr "未使用"
 msgid "Show runners that aren't used by any games"
 msgstr "显示未被游戏使用的运行器"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:46
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "您缺少下列 %s 的依赖项："
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:43
+#: src/widgets/runners/steamtinkerlaunch-row.vala:46
 msgid "Installation will be canceled."
 msgstr "安装将被取消。"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr "看起来您当前有另一个版本的 %s，但不是透过 ProtonPlus 安装的。"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:92
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "您想使用 ProtonPlus 将其重新安装吗？"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
+#: src/widgets/runners/steamtinkerlaunch-row.vala:133
 #, c-format
 msgid "%s is already up-to-date."
 msgstr "%s 已为最新版本。"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:145
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "若要为 %2$s 安装 %1$s，请运行以下命令："
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:149
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "当前尚无已知的方法来为 %2$s 安装 %1$s。"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:182
+#: src/widgets/runners/steamtinkerlaunch-row.vala:185
 msgid "Up-to-date"
 msgstr "最新版本"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:182
+#: src/widgets/runners/steamtinkerlaunch-row.vala:185
 msgid "Update to the latest version"
 msgstr "更新至最新版本"
 
@@ -377,7 +469,7 @@ msgstr "更新至最新版本"
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "请事先关闭 Steam 用户端，以便应用变更。"
 
-#: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:327
+#: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:339
 msgid "Show search"
 msgstr "显示搜寻"
 
@@ -403,10 +495,6 @@ msgid "Other"
 msgstr "其它"
 
 #: src/widgets/games/games-box.vala:151
-msgid "An error occurred"
-msgstr "发生错误"
-
-#: src/widgets/games/games-box.vala:151
 msgid "No profile was found."
 msgstr "未找到個人資料。"
 
@@ -418,22 +506,22 @@ msgstr "请确保至少连接过一次 Steam。"
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "若您认为这是个问题，请务必在 GitHub 上回报。"
 
-#: src/widgets/games/games-box.vala:211
+#: src/widgets/games/games-box.vala:223
 msgid "Unsuported launcher"
 msgstr "未支援的启动器"
 
-#: src/widgets/games/games-box.vala:211
+#: src/widgets/games/games-box.vala:223
 #, c-format
 msgid "%s is currently not supported."
 msgstr "当前尚未支持 %s。"
 
-#: src/widgets/games/games-box.vala:211
+#: src/widgets/games/games-box.vala:223
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "若希望我加快开发速度，请务必表达您的支持！"
 
-#: src/widgets/games/games-box.vala:251 src/widgets/games/games-box.vala:314
-#: src/widgets/games/games-box.vala:317
+#: src/widgets/games/games-box.vala:263 src/widgets/games/games-box.vala:326
+#: src/widgets/games/games-box.vala:329
 #: src/widgets/games/mass-edit-dialog.vala:109
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:81
@@ -441,7 +529,7 @@ msgstr "若希望我加快开发速度，请务必表达您的支持！"
 msgid "Undefined"
 msgstr "未指定"
 
-#: src/widgets/games/games-box.vala:327
+#: src/widgets/games/games-box.vala:339
 msgid "Hide search"
 msgstr "隐藏搜寻"
 
@@ -765,6 +853,19 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "退出"
 
+#~ msgid "An error ocurred"
+#~ msgstr "发生错误"
+
+#~ msgid "There was an error when trying to load the launchers."
+#~ msgstr "尝试加载启动器时发生错误。"
+
+#, c-format
+#~ msgid "When trying to install %s an error occurred."
+#~ msgstr "尝试安装 %s 时发生错误。"
+
+#~ msgid "An error occurred"
+#~ msgstr "发生错误"
+
 #~ msgid "Show used only"
 #~ msgstr "仅显示已使用的"
 
@@ -848,10 +949,6 @@ msgstr "退出"
 #~ msgstr "%s 的更新已完成"
 
 #, c-format
-#~ msgid "An unexpected error occurred while upgrading %s."
-#~ msgstr "更新 %s 时出现了未预期的错误"
-
-#, c-format
 #~ msgid "You're about to remove %s from your system."
 #~ msgstr "您即将从系统中删除 %s"
 
@@ -923,9 +1020,6 @@ msgstr "退出"
 #~ "Lutris."
 #~ msgstr " 基于Valve的Proton实验性的前沿Wine，为Lutris构建"
 
-#~ msgid "Preferences"
-#~ msgstr "首选项"
-
 #~ msgid "Telegram"
 #~ msgstr "Telegram"
 
@@ -952,15 +1046,6 @@ msgstr "退出"
 #, fuzzy
 #~ msgid "Style"
 #~ msgstr "风格"
-
-#~ msgid "System"
-#~ msgstr "系统"
-
-#~ msgid "Light"
-#~ msgstr "明亮"
-
-#~ msgid "Dark"
-#~ msgstr "暗色"
 
 #~ msgid "Version"
 #~ msgstr "版本"
@@ -992,10 +1077,6 @@ msgstr "退出"
 #~ "Are you sure you want to clean this launcher? WARNING: It will delete "
 #~ "every installed tools from the launcher!"
 #~ msgstr "是否清理该启动器？ 警告：这会删除该启动器下所有工具！"
-
-#, fuzzy
-#~ msgid "Remember last launcher"
-#~ msgstr "清除启动器"
 
 #~ msgid "Launcher settings"
 #~ msgstr "启动器选项"
