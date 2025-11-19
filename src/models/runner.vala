@@ -5,6 +5,7 @@ namespace ProtonPlus.Models {
 		public Group group { get; set; }
 		public bool has_more { get; set; }
 		public bool has_latest_support { get; set; }
+		public bool asset_position_hwcaps_condition { get; set; }
 		public Utils.Web.GetType get_type { get; set; }
 		public List<Release> releases;
 

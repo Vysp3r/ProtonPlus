@@ -26,6 +26,9 @@ namespace ProtonPlus.Widgets {
 			set_title (runner.title);
 			set_subtitle (runner.description);
 			add_suffix (spinner);
+
+			if (runner.title == "Proton-CachyOS")
+                title += " (%s)".printf (Globals.HWCAPS.nth_data (0));
 		}
 
 		void expanded_changed (bool force_load = false) {

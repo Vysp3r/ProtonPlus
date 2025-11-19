@@ -91,6 +91,18 @@ namespace ProtonPlus.Models.Runners {
                     }
                 }
 
+                if (asset_position_hwcaps_condition) {
+                    for (int y = 0; y < asset_array.get_length (); y++) {
+                        var asset_object = asset_array.get_object_element (y);
+
+                        if (asset_object.get_string_member ("name").contains ("%s.tar.xz".printf (Globals.HWCAPS.nth_data (0)))) {
+                            real_asset_position = y;
+
+                            break;
+                        }
+                    }
+                }
+
                 if (asset_array.get_length () - 1 >= real_asset_position) {
                     var asset_object = asset_array.get_object_element (real_asset_position);
 

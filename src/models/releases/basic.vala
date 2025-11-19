@@ -32,9 +32,6 @@ namespace ProtonPlus.Models.Releases {
             this.download_url = download_url;
             this.page_url = page_url;
 
-            if (runner.title == "Proton-CachyOS" && runner.asset_position == 3)
-                this.displayed_title += "-v3";
-
             install_location = runner.group.launcher.directory + runner.group.directory + "/" + runner.get_directory_name (title);
 
             refresh_state ();
