@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-16 21:46-0500\n"
+"POT-Creation-Date: 2025-11-18 20:00-0500\n"
 "PO-Revision-Date: 2025-11-16 03:57+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -37,7 +37,7 @@ msgid "Taking longer than normal?"
 msgstr "加载时间是不是比平常久？"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:54
+#: src/widgets/runners/runner-row.vala:62
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -102,48 +102,73 @@ msgid ""
 "initialized"
 msgstr "请务必至少运行过一次启动器，以确保其正确初始化"
 
-#: src/widgets/window.vala:125 src/widgets/update-button.vala:9
-msgid "Checking for updates..."
+#: src/widgets/window.vala:130
+#, fuzzy
+msgid "Checking for updates"
 msgstr "正在检查更新..."
 
-#: src/widgets/window.vala:132
-msgid "Nothing to update."
+#: src/widgets/window.vala:131
+#, c-format
+msgid "Updating %s"
+msgstr ""
+
+#: src/widgets/window.vala:148
+#, fuzzy
+msgid "Nothing to update"
 msgstr "无任何更新。"
 
-#: src/widgets/window.vala:135
-msgid "Everything is now up-to-date."
+#: src/widgets/window.vala:149
+#, c-format
+msgid "No update found for %s"
+msgstr ""
+
+#: src/widgets/window.vala:154
+#, fuzzy
+msgid "Everything is now up-to-date"
 msgstr "当前皆已为最新版本。"
 
-#: src/widgets/window.vala:138
-msgid "An error occured while checking for updates."
-msgstr "检查更新时发生错误。"
+#: src/widgets/window.vala:155
+#, fuzzy, c-format
+msgid "%s is now up-to-date"
+msgstr "%s 已为最新版本。"
 
-#: src/widgets/window.vala:139 src/widgets/window.vala:172
-#: src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:160 src/widgets/window.vala:166
+#: src/widgets/window.vala:172 src/widgets/window.vala:178
+#, fuzzy, c-format
+msgid "Couldn't check for updates (Reason: %s)"
+msgstr "正在检查更新..."
+
+#: src/widgets/window.vala:160 src/widgets/window.vala:161
+#: src/widgets/runners/runner-row.vala:53
+msgid "API limit reached"
+msgstr "已达到 API 限制"
+
+#: src/widgets/window.vala:161 src/widgets/window.vala:167
+#: src/widgets/window.vala:173 src/widgets/window.vala:179
+#, fuzzy, c-format
+msgid "Couldn't update %s (Reason: %s)"
+msgstr "安装 %s"
+
+#: src/widgets/window.vala:166 src/widgets/window.vala:167
+#: src/widgets/runners/runner-row.vala:56
+msgid "Unable to reach the API"
+msgstr "无法存取 API"
+
+#: src/widgets/window.vala:172 src/widgets/window.vala:173
+#: src/widgets/runners/runner-row.vala:59
+msgid "Invalid access token"
+msgstr ""
+
+#: src/widgets/window.vala:178 src/widgets/window.vala:179
+#: src/widgets/runners/runner-row.vala:62
+msgid "Unknown error"
+msgstr "未知错误"
+
+#: src/widgets/window.vala:180 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr ""
 
-#: src/widgets/window.vala:158
-#, c-format
-msgid "Updating %s."
-msgstr ""
-
-#: src/widgets/window.vala:165
-#, c-format
-msgid "No update found for %s."
-msgstr ""
-
-#: src/widgets/window.vala:168
-#, fuzzy, c-format
-msgid "%s is now up-to-date."
-msgstr "%s 已为最新版本。"
-
-#: src/widgets/window.vala:171
-#, fuzzy, c-format
-msgid "An error occured while updating %s."
-msgstr "更新 %s 时出现了未预期的错误"
-
-#: src/widgets/window.vala:212
+#: src/widgets/window.vala:218
 #: src/widgets/runners/steamtinkerlaunch-row.vala:46
 #: src/widgets/runners/steamtinkerlaunch-row.vala:89
 #: src/widgets/runners/steamtinkerlaunch-row.vala:130
@@ -153,7 +178,7 @@ msgstr "更新 %s 时出现了未预期的错误"
 msgid "Warning"
 msgstr "警告"
 
-#: src/widgets/window.vala:212
+#: src/widgets/window.vala:218
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -161,14 +186,18 @@ msgstr ""
 "当前正在检查更新。\n"
 "提前离开可能会导致问题。"
 
-#: src/widgets/window.vala:214
+#: src/widgets/window.vala:220
 msgid "Exit"
 msgstr "离开"
 
-#: src/widgets/window.vala:217 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:223 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "取消"
+
+#: src/widgets/update-button.vala:9
+msgid "Checking for updates..."
+msgstr "正在检查更新..."
 
 #: src/widgets/warning-dialog.vala:7 src/widgets/error-dialog.vala:10
 msgid "OK"
@@ -179,26 +208,26 @@ msgstr "确定"
 msgid "General"
 msgstr "一般"
 
-#: src/widgets/preferences/preferences-dialog.vala:14
+#: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Automatic updates"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:15
+#: src/widgets/preferences/preferences-dialog.vala:16
 msgid ""
 "Whether or not to update the installed 'Latest' runners when the application "
 "start"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:20
+#: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Latest"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:25
+#: src/widgets/preferences/preferences-dialog.vala:42
 #, fuzzy
 msgid "Remember last used profile"
 msgstr "清除启动器"
 
-#: src/widgets/preferences/preferences-dialog.vala:26
+#: src/widgets/preferences/preferences-dialog.vala:43
 msgid "Whether or not to remember the last used Steam profile"
 msgstr ""
 
@@ -236,6 +265,14 @@ msgstr ""
 msgid "Check for updates"
 msgstr "正在检查更新..."
 
+#: src/widgets/preferences/access-token-row.vala:4
+msgid "Access token"
+msgstr ""
+
+#: src/widgets/preferences/access-token-row.vala:5
+msgid "Enter an access token to reduce your chances of being rate limited"
+msgstr ""
+
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
 msgstr "更多信息"
@@ -248,17 +285,17 @@ msgstr "打开"
 msgid "Open in your web browser"
 msgstr "在浏览器中打开"
 
-#: src/widgets/runners/release-row.vala:13
+#: src/widgets/runners/release-row.vala:12
+msgid "Show more information"
+msgstr "显示更多信息"
+
+#: src/widgets/runners/release-row.vala:17
 msgid "Update the runner if a newer version is available"
 msgstr ""
 
-#: src/widgets/runners/release-row.vala:16
+#: src/widgets/runners/release-row.vala:20
 msgid "Open runner directory"
 msgstr "打开运行器目录"
-
-#: src/widgets/runners/release-row.vala:20
-msgid "Show more information"
-msgstr "显示更多信息"
 
 #: src/widgets/runners/release-row.vala:24
 #: src/widgets/runners/remove-dialog.vala:11
@@ -280,25 +317,17 @@ msgstr "安装 %s"
 msgid "Used"
 msgstr "已使用"
 
-#: src/widgets/runners/runner-row.vala:48
-msgid "API limit reached"
-msgstr "已达到 API 限制"
-
-#: src/widgets/runners/runner-row.vala:48
+#: src/widgets/runners/runner-row.vala:53
 msgid "Try again in a few minutes."
 msgstr "请稍后几分钟后再试。"
 
-#: src/widgets/runners/runner-row.vala:51
-msgid "Unable to reach the API"
-msgstr "无法存取 API"
-
-#: src/widgets/runners/runner-row.vala:51
+#: src/widgets/runners/runner-row.vala:56
 msgid "Make sure you're connected to the internet."
 msgstr "请确保连接至互连网。"
 
-#: src/widgets/runners/runner-row.vala:54
-msgid "Unknown error"
-msgstr "未知错误"
+#: src/widgets/runners/runner-row.vala:59
+msgid "Make sure the access token you provided is valid."
+msgstr ""
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -840,6 +869,13 @@ msgstr "显示快捷键"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "退出"
+
+#~ msgid "An error occured while checking for updates."
+#~ msgstr "检查更新时发生错误。"
+
+#, fuzzy, c-format
+#~ msgid "An error occured while updating %s."
+#~ msgstr "更新 %s 时出现了未预期的错误"
 
 #~ msgid "Error"
 #~ msgstr "错误"
