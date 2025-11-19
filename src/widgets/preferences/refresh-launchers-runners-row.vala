@@ -25,7 +25,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
             refresh_launchers_runners_button.set_child (spinner);
 
-            yield Application.window.initialize ();
+            yield Application.window.initialize (true);
 
             spinner.unparent ();
 

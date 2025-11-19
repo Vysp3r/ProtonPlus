@@ -1,6 +1,7 @@
 sources = files(
   'main.vala',
   'globals.vala',
+  'return-code.vala',
 
   'widgets/application.vala',
   'widgets/status-box.vala',
@@ -15,7 +16,9 @@ sources = files(
   'widgets/preferences/refresh-launchers-runners-row.vala',
   'widgets/preferences/refresh-steam-profiles-row.vala',
   'widgets/preferences/check-updates-row.vala',
-
+  'widgets/preferences/check-updates-row.vala',
+  'widgets/preferences/access-token-row.vala',
+  
   'widgets/launchers-popover/launchers-popover-button.vala',
   'widgets/launchers-popover/launchers-popover-list-row.vala',
 

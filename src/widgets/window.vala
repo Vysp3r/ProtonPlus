@@ -87,7 +87,7 @@ namespace ProtonPlus.Widgets {
 			initialize.begin ();
 		}
 
-		public async void initialize () {
+		public async void initialize (bool disable_update_check = false) {
 			var loaded = yield Models.Launcher.get_all (out launchers);
 			if (!loaded) {
 				status_box.initialize ("bug-symbolic", _("Couldn't load the launchers"), _("Please report this issue on GitHub."), true);
@@ -101,7 +101,7 @@ namespace ProtonPlus.Widgets {
 
 				activate_action_variant ("win.set-selected-launcher", 0);
 
-				if (Globals.SETTINGS == null || (Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("automatic-update")))
+				if (!disable_update_check && Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("automatic-updates"))
 					yield check_for_updates ();
 			} else {
 				status_box.initialize ("com.vysp3r.ProtonPlus", _("Welcome to %s").printf (Config.APP_NAME), "%s\n(%s)".printf (_("Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get started."), _("Make sure to run the launchers at least once to ensure they're properly initialized")));
@@ -117,64 +117,70 @@ namespace ProtonPlus.Widgets {
 			}
 		}
 
-		public async void check_for_updates () {
+		public async void check_for_updates (Models.Runners.Basic? runner = null) {
 			update_button.set_visible (true);
 
 			updating = true;
 
-			var toast = new Adw.Toast (_("Checking for updates..."));
+			Adw.Toast toast;
+			ReturnCode code;
+
+			toast = new Adw.Toast (
+				runner == null ?
+				_("Checking for updates") :
+				_("Updating %s").printf ("%s Latest".printf (runner.title))
+				);
+
 			toast_overlay.add_toast (toast);
 
-			var code = yield Models.Runner.check_for_updates (launchers);
+			code = (
+				runner == null ? 
+				yield Models.Runner.check_for_updates (launchers) : 
+				yield Models.Runner.update_specific_runner (runner)
+				);
 
+			toast.dismiss ();
+			
 			switch (code) {
-				case Models.Runner.UpdateCode.NOTHING_FOUND:
-					toast = new Adw.Toast (_("Nothing to update."));
+				case ReturnCode.NOTHING_TO_UPDATE:
+					toast = new Adw.Toast (
+							runner == null ?
+							_("Nothing to update") :
+							_("No update found for %s").printf ("%s Latest".printf (runner.title)));
 					break;
-				case Models.Runner.UpdateCode.EVERYTHING_UPDATED:
-					toast = new Adw.Toast (_("Everything is now up-to-date."));
+				case ReturnCode.RUNNERS_UPDATED:
+					toast = new Adw.Toast (
+							runner == null ?
+							_("Everything is now up-to-date") :
+							_("%s is now up-to-date").printf ("%s Latest".printf (runner.title)));
+					break;
+				case ReturnCode.API_LIMIT_REACHED:
+					toast = new Adw.Toast (
+						runner == null ?
+						_("Couldn't check for updates (Reason: %s)").printf (_("API limit reached")) :
+						_("Couldn't update %s (Reason: %s)").printf (runner.title, _("API limit reached")));
+					break;
+				case ReturnCode.CONNECTION_ISSUE:
+					toast = new Adw.Toast (
+						runner == null ?
+						_("Couldn't check for updates (Reason: %s)").printf (_("Unable to reach the API")) :
+						_("Couldn't update %s (Reason: %s)").printf (runner.title, _("Unable to reach the API")));
+					break;
+				case ReturnCode.INVALID_ACCESS_TOKEN:
+					toast = new Adw.Toast (
+						runner == null ?
+						_("Couldn't check for updates (Reason: %s)").printf (_("Invalid access token")) :
+						_("Couldn't update %s (Reason: %s)").printf (runner.title, _("Invalid access token")));
 					break;
 				default:
-					toast = new Adw.Toast (_("An error occured while checking for updates."));
+					toast = new Adw.Toast (
+						runner == null ?
+						_("Couldn't check for updates (Reason: %s)").printf (_("Unknown error")) :
+						_("Couldn't update %s (Reason: %s)").printf (runner.title, _("Unknown error")));
 					toast.set_button_label (_("Report"));
 					toast.set_action_name ("app.report");
 					break;
 			}
-
-			toast.dismiss ();
-
-			toast_overlay.add_toast (toast);
-
-			update_button.set_visible (false);
-
-			updating = false;
-		}
-
-		public async void update_specific_runner (Models.Runners.Basic runner) {
-			update_button.set_visible (true);
-
-			updating = true;
-
-			var toast = new Adw.Toast (_("Updating %s.").printf ("%s Latest".printf (runner.title)));
-			toast_overlay.add_toast (toast);
-
-			var code = yield Models.Runner.update_specific_runner (runner);
-
-			switch (code) {
-				case Models.Runner.UpdateCode.NOTHING_FOUND:
-					toast = new Adw.Toast (_("No update found for %s.").printf ("%s Latest".printf (runner.title)));
-					break;
-				case Models.Runner.UpdateCode.EVERYTHING_UPDATED:
-					toast = new Adw.Toast (_("%s is now up-to-date.").printf ("%s Latest".printf (runner.title)));
-					break;
-				default:
-					toast = new Adw.Toast (_("An error occured while updating %s.").printf ("%s Latest".printf (runner.title)));
-					toast.set_button_label (_("Report"));
-					toast.set_action_name ("app.report");
-					break;
-			}
-
-			toast.dismiss ();
 
 			toast_overlay.add_toast (toast);
 

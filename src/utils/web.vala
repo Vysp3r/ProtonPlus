@@ -1,22 +1,75 @@
 namespace ProtonPlus.Utils {
     public class Web {
-        public static string get_user_agent () {
+        public enum GetType {
+            OTHER,
+            GITHUB,
+            GITLAB,
+            STEAMTINKERLAUNCH,
+        }
+
+        static string get_user_agent () {
             return Config.APP_NAME + "/" + Config.APP_VERSION;
         }
 
-        public static async string ? GET (string url, bool return_error_message = false) {
+        public static async ReturnCode get_request (string uri, GetType get_type = GetType.OTHER, out string? response) {
             try {
                 var session = new Soup.Session ();
                 session.set_user_agent (get_user_agent ());
 
-                var message = new Soup.Message ("GET", url);
+                var message = new Soup.Message ("GET", uri);
+
+                if (Globals.SETTINGS != null) {
+                    if (get_type == GetType.GITHUB || get_type == GetType.STEAMTINKERLAUNCH) {
+                        var key = Globals.SETTINGS.get_string ("github-api-key");
+                        if (key.length > 0)
+                            message.request_headers.append ("Authorization", "token %s".printf (key));
+                    }
+
+                    if (get_type == GetType.GITLAB) {
+                        var key = Globals.SETTINGS.get_string ("gitlab-api-key");
+                        if (key.length > 0)
+                            message.request_headers.append ("Authorization", "Bearer %s".printf (key));
+                    }
+                    
+                    if (get_type == GetType.STEAMTINKERLAUNCH) {
+                        message.request_headers.append ("Accept", "application/vnd.github+json");
+                        message.request_headers.append ("X-GitHub-Api-Version", "2022-11-28");
+                    }
+                }
 
                 Bytes bytes = yield session.send_and_read_async (message, Priority.DEFAULT, null);
 
-                return (string) bytes.get_data ();
+                response = (string) bytes.get_data ();
+
+                if (response == null)
+                    return ReturnCode.UNKNOWN_ERROR;
+
+                if (response.contains ("Temporary failure in name resolution"))
+                    return ReturnCode.CONNECTION_ISSUE;
+
+                switch (get_type) {
+                    case GetType.GITHUB:
+                        if (response.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"))
+                            return ReturnCode.API_LIMIT_REACHED;
+
+                        if (response.contains ("Bad credentials"))
+                            return ReturnCode.INVALID_ACCESS_TOKEN;
+
+                        break;
+                    case GetType.GITLAB:
+                        if (response.contains ("401 Unauthorized"))
+                            return ReturnCode.INVALID_ACCESS_TOKEN;
+
+                        break;
+                    default:
+                        break;
+                }
+
+                return ReturnCode.VALID_REQUEST;
             } catch (Error e) {
                 message (e.message);
-                return return_error_message ? e.message : null;
+
+                return ReturnCode.UNKNOWN_ERROR;
             }
         }
 

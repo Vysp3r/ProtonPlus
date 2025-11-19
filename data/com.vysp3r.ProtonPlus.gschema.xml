@@ -19,8 +19,14 @@
 		<key name="is-fullscreen" type="b">
 			<default>false</default>
 		</key>
-		<key name="automatic-update" type="b">
+		<key name="automatic-updates" type="b">
 			<default>true</default>
+		</key>
+		<key name="github-api-key" type="s">
+			<default>''</default>
+		</key>
+		<key name="gitlab-api-key" type="s">
+			<default>''</default>
 		</key>
 		<key name="steam-last-profile-id" type="s">
 			<default>''</default>
