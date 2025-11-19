@@ -25,7 +25,6 @@ namespace ProtonPlus.Utils {
 
         public static List<string> get_hwcaps () {
             var hwcaps = new List<string> ();
-            hwcaps.append ("x86_64");
 
             // flags according to https://gitlab.com/x86-psABIs/x86-64-ABI/-/blob/master/x86-64-ABI/low-level-sys-info.tex
             var flags_v2 = new List<string> ();
@@ -94,6 +93,8 @@ namespace ProtonPlus.Utils {
             }
             if (flags_v2.length () == count)
                 hwcaps.append ("x86_64_v2");
+
+            hwcaps.append ("x86_64");
 
             return (owned) hwcaps;
         }
