@@ -9,6 +9,7 @@ src/widgets/preferences/theme-row.vala
 src/widgets/preferences/refresh-steam-profiles-row.vala
 src/widgets/preferences/refresh-launchers-runners-row.vala
 src/widgets/preferences/check-updates-row.vala
+src/widgets/preferences/access-token-row.vala
 src/widgets/launchers-popover/launchers-popover-button.vala
 src/widgets/launchers-popover/launchers-popover-list-row.vala
 src/widgets/runners/description-dialog.vala

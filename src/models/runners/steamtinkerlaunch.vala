@@ -6,14 +6,14 @@ namespace ProtonPlus.Models.Runners {
                     description: _("Steam tool for easy, graphical configuration of your other compatibility tools for both Windows games and native Linux games."));
         }
 
-        public override async List<Models.Release> load () {
+        public override async ReturnCode load (out List<Models.Release> releases) {
             releases = new List<Models.Release> ();
 
             var release = new Releases.SteamTinkerLaunch (this);
 
             releases.append (release);
 
-            return (owned) releases;
+            return ReturnCode.RELEASES_LOADED;
         }
     }
 }

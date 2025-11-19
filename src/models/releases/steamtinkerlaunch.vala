@@ -43,8 +43,9 @@ namespace ProtonPlus.Models.Releases {
             config_location = @"$home_location/.config/steamtinkerlaunch";
             external_locations = new List<string> ();
 
-            refresh_latest_stl_version ();
-            refresh_state ();
+            refresh_latest_stl_version.begin ((obj, res) => {
+                refresh_state ();
+            });
         }
 
         string get_download_url () {
@@ -62,23 +63,19 @@ namespace ProtonPlus.Models.Releases {
             yield Utils.System.run_command (@"$exec_location $args");
         }
 
-        void refresh_latest_stl_version () {
+        async void refresh_latest_stl_version () {
             latest_date = "";
             latest_hash = "";
 
             try {
-                var soup_session = new Soup.Session ();
-                soup_session.set_user_agent (Utils.Web.get_user_agent ());
+                string? response;
 
-                var soup_message = new Soup.Message ("GET", "https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1");
-                soup_message.request_headers.append ("Accept", "application/vnd.github+json");
-                soup_message.request_headers.append ("X-GitHub-Api-Version", "2022-11-28");
+                var code = yield Utils.Web.get_request ("https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1", Utils.Web.GetType.STEAMTINKERLAUNCH, out response);
 
-                var bytes = soup_session.send_and_read (soup_message, null);
+                if (code != ReturnCode.VALID_REQUEST)
+                    return;
 
-                var json = (string) bytes.get_data ();
-
-                var root_node = Utils.Parser.get_node_from_json (json);
+                var root_node = Utils.Parser.get_node_from_json (response);
 
                 if (root_node.get_node_type () != Json.NodeType.ARRAY)
                     return;

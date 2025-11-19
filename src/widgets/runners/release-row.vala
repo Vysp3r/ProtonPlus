@@ -8,6 +8,10 @@ namespace ProtonPlus.Widgets {
 		protected Gtk.Box input_box;
 
 		construct {
+			info_button = new Gtk.Button.from_icon_name ("info-circle-symbolic");
+			info_button.set_tooltip_text (_("Show more information"));
+			info_button.add_css_class ("flat");
+
 			update_button = new Gtk.Button.from_icon_name ("arrow-rotate-symbolic");
 			update_button.add_css_class ("flat");
 			update_button.set_tooltip_text (_("Update the runner if a newer version is available"));
@@ -15,10 +19,6 @@ namespace ProtonPlus.Widgets {
 			open_button = new Gtk.Button.from_icon_name ("folder-symbolic");
 			open_button.set_tooltip_text (_("Open runner directory"));
 			open_button.add_css_class ("flat");
-
-			info_button = new Gtk.Button.from_icon_name ("info-circle-symbolic");
-			info_button.set_tooltip_text (_("Show more information"));
-			info_button.add_css_class ("flat");
 
 			remove_button = new Gtk.Button.from_icon_name ("trash-symbolic");
 			remove_button.set_tooltip_text (_("Delete %s").printf (title));
@@ -31,9 +31,9 @@ namespace ProtonPlus.Widgets {
 			input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
 			input_box.set_margin_end (10);
 			input_box.set_valign (Gtk.Align.CENTER);
+			input_box.append (info_button);
 			input_box.append (update_button);
 			input_box.append (open_button);
-			input_box.append (info_button);
 			input_box.append (remove_button);
 			input_box.append (install_button);
 

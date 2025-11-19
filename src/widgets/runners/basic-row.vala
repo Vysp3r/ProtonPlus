@@ -32,7 +32,7 @@ namespace ProtonPlus.Widgets {
 		}
 
 		protected override void update_button_clicked () {
-			Application.window.update_specific_runner.begin (release.runner as Models.Runners.Basic);
+			Application.window.check_for_updates.begin (release.runner as Models.Runners.Basic);
 		}
 
 		protected override void open_button_clicked () {

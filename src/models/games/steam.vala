@@ -263,12 +263,14 @@ namespace ProtonPlus.Models.Games {
 			public static async List<Models.Games.Steam.AwacyGame?> get_awacy_games() {
 				var games = new List<Models.Games.Steam.AwacyGame?> ();
 
-				var json = yield Utils.Web.GET("https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json", false);
+				string? response;
 
-				if (json == null)
+				var get_code = yield Utils.Web.get_request ("https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json", Utils.Web.GetType.OTHER, out response);
+
+				if (get_code != ReturnCode.VALID_REQUEST)
 					return games;
 
-				var root_node = Utils.Parser.get_node_from_json(json);
+				var root_node = Utils.Parser.get_node_from_json(response);
 
 				if (root_node == null)
 					return games;

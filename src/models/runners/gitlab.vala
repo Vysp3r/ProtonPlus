@@ -3,30 +3,30 @@ namespace ProtonPlus.Models.Runners {
         internal bool use_name_instead_of_tag_name { get; set; }
         internal string[] request_asset_exclude { get; set; }
 
-        public override async List<Release> load () {
-            var temp_releases = new List<Release> ();
+        public GitLab () {
+            get_type = Utils.Web.GetType.GITLAB;
+        }
 
-            fetch_code = Runner.FetchCode.GOOD;
+        public override async ReturnCode load (out List<Models.Release> releases) {
+            releases = new List<Release> ();
 
-            var json = yield Utils.Web.GET (endpoint + "?per_page=25&page=" + page.to_string (), true);
+            string? response;
 
-            var connection_issue = json.contains ("Temporary failure in name resolution");
-            if (json == null || connection_issue) {
-                fetch_code = connection_issue ? Runner.FetchCode.CONNECTION_ISSUE : Runner.FetchCode.UNKNOWN_ERROR;
+            var code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_type, out response);
 
-                return temp_releases;
-            }
+            if (code != ReturnCode.VALID_REQUEST)
+                return code;
                 
             page++;
 
-            var root_node = Utils.Parser.get_node_from_json (json);
+            var root_node = Utils.Parser.get_node_from_json (response);
 
             if (root_node == null || root_node.get_node_type () != Json.NodeType.ARRAY)
-                return temp_releases;
+                return ReturnCode.UNKNOWN_ERROR;
 
             var root_array = root_node.get_array ();
             if (root_array == null)
-                return temp_releases;
+                return ReturnCode.UNKNOWN_ERROR;
 
             for (var i = 0; i < root_array.get_length (); i++) {
                 var object = root_array.get_object_element (i);
@@ -71,13 +71,13 @@ namespace ProtonPlus.Models.Runners {
                     var release = new Releases.Basic.gitlab (this, title, description, release_date, download_url, page_url);
 
                     releases.append (release);
-                    temp_releases.append (release);
+                    this.releases.append (release);
                 }
             }
 
             has_more = root_array.get_length () == 25;
 
-            return temp_releases;
+            return ReturnCode.RELEASES_LOADED;
         }
     }
 }

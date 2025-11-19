@@ -5,25 +5,12 @@ namespace ProtonPlus.Models {
 		public Group group { get; set; }
 		public bool has_more { get; set; }
 		public bool has_latest_support { get; set; }
-		public FetchCode fetch_code { get; set; }
+		public Utils.Web.GetType get_type { get; set; }
 		public List<Release> releases;
 
-		public abstract async List<Release> load ();
+		public abstract async ReturnCode load (out List<Release> releases);
 
-		public enum FetchCode {
-			GOOD,
-			UNKNOWN_ERROR,
-			CONNECTION_ISSUE,
-			API_LIMIT_REACHED,
-		}
-
-		public enum UpdateCode {
-			ERROR,
-			NOTHING_FOUND,
-			EVERYTHING_UPDATED
-		}
-
-		public static async UpdateCode check_for_updates (List<Launcher> launchers) {
+		public static async ReturnCode check_for_updates (List<Launcher> launchers) {
 			var latest_runners = new List<Models.Runners.Basic> ();
 
 			foreach (var launcher in launchers) {
@@ -43,7 +30,7 @@ namespace ProtonPlus.Models {
 							if (directory == "%s Latest Backup".printf (runner.title)) {
 								var deleted_old_backup = yield Utils.Filesystem.delete_directory ("%s/%s/%s Latest Backup".printf (launcher.directory, group.directory, runner.title));
 								if (!deleted_old_backup)
-									return UpdateCode.ERROR;
+									return ReturnCode.UNKNOWN_ERROR;
 								continue;
 							}
 						}
@@ -52,43 +39,48 @@ namespace ProtonPlus.Models {
 			}
 
 			if (latest_runners.length () == 0)
-				return UpdateCode.NOTHING_FOUND;
+				return ReturnCode.NOTHING_TO_UPDATE;
 
 			var updated_count = 0;
 
 			foreach (var runner in latest_runners) {
 				var code = yield update_specific_runner (runner);
-				if (code == UpdateCode.ERROR)
-					return code;
-				if (code == UpdateCode.EVERYTHING_UPDATED)
+				if (code == ReturnCode.RUNNER_UPDATED)
 					updated_count++;
+				else
+					return code;
 			}
 
-			return updated_count > 0 ? UpdateCode.EVERYTHING_UPDATED : UpdateCode.NOTHING_FOUND;
+			return updated_count > 0 ? ReturnCode.RUNNERS_UPDATED : ReturnCode.NOTHING_TO_UPDATE;
 		}
 
-		public static async UpdateCode update_specific_runner (Models.Runners.Basic runner) {
-			var json = yield Utils.Web.GET (runner.endpoint + "?per_page=1", false);
+		public static async ReturnCode update_specific_runner (Models.Runners.Basic runner) {
+			string? response;
 
-			var root_node = Utils.Parser.get_node_from_json (json);
+			var code = yield Utils.Web.get_request ("%s?per_page=1".printf (runner.endpoint), runner.get_type, out response);
+
+			if (code != ReturnCode.VALID_REQUEST)
+				return code;
+			
+			var root_node = Utils.Parser.get_node_from_json (response);
 			if (root_node == null)
-				return UpdateCode.ERROR;
+				return ReturnCode.UNKNOWN_ERROR;
 
 			if (root_node.get_node_type () != Json.NodeType.ARRAY)
-				return UpdateCode.ERROR;
+				return ReturnCode.UNKNOWN_ERROR;
 
 			var root_array = root_node.get_array ();
 			if (root_array == null)
-				return UpdateCode.ERROR;
+				return ReturnCode.UNKNOWN_ERROR;
 
 			if (root_array.get_length () != 1)
-				return UpdateCode.ERROR;
+				return ReturnCode.UNKNOWN_ERROR;
 
 			var object = root_array.get_object_element (0);
 
 			var asset_array = object.get_array_member ("assets");
 			if (asset_array == null)
-				return UpdateCode.ERROR;
+				return ReturnCode.UNKNOWN_ERROR;
 
 			string title = object.get_string_member ("tag_name");
 			string description = object.get_string_member ("body").strip ();
@@ -103,7 +95,7 @@ namespace ProtonPlus.Models {
 			}
 
 			if (download_url == "")
-				return UpdateCode.ERROR;
+				return ReturnCode.UNKNOWN_ERROR;
 
 			var base_runner_directory = "%s/%s".printf (runner.group.launcher.directory, runner.group.directory);
 
@@ -111,11 +103,11 @@ namespace ProtonPlus.Models {
 
 			var version_content = Utils.Filesystem.get_file_content ("%s/version".printf (runner_directory));
 			if (version_content == "")
-				return UpdateCode.ERROR;
+				return ReturnCode.UNKNOWN_ERROR;
 
 			var current_title = version_content.split (" ")[1].strip ();
 			if (title == current_title)
-				return UpdateCode.NOTHING_FOUND;
+				return ReturnCode.NOTHING_TO_UPDATE;
 
 			var settings_path = "%s/user_settings.py".printf (runner_directory);
 			var settings_exists = FileUtils.test (settings_path, FileTest.IS_REGULAR);
@@ -128,7 +120,7 @@ namespace ProtonPlus.Models {
 
 			var moved = yield Utils.Filesystem.move_directory (runner_directory, backup_runner_directory);
 			if (!moved)
-				return UpdateCode.ERROR;
+				return ReturnCode.UNKNOWN_ERROR;
 
 			var release = new Models.Releases.Latest (runner as Models.Runners.Basic, "%s Latest".printf (runner.title), description, release_date, download_url, page_url);
 
@@ -139,7 +131,7 @@ namespace ProtonPlus.Models {
 				if (deleted)
 					yield Utils.Filesystem.move_directory (backup_runner_directory, runner_directory);
 
-				return UpdateCode.ERROR;
+				return ReturnCode.UNKNOWN_ERROR;
 			}
 
 			if (settings_exists) {
@@ -148,9 +140,9 @@ namespace ProtonPlus.Models {
 
 			var deleted = yield Utils.Filesystem.delete_directory (backup_runner_directory);
 			if (!deleted)
-				return UpdateCode.ERROR;
+				return ReturnCode.UNKNOWN_ERROR;
 
-			return UpdateCode.EVERYTHING_UPDATED;
+			return ReturnCode.RUNNER_UPDATED;
 		}
 	}
 }

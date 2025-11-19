@@ -2,33 +2,32 @@ namespace ProtonPlus.Models.Runners {
     public class GitHubAction : Basic {
         internal string url_template { get; set; }
 
-        public override async List<Models.Release> load () {
-            var temp_releases = new List<Models.Release> ();
+        public GitHubAction () {
+            get_type = Utils.Web.GetType.GITHUB;
+        }
 
-            fetch_code = Runner.FetchCode.GOOD;
+        public override async ReturnCode load (out List<Models.Release> releases) {
+            releases = new List<Models.Release> ();
 
-            var json = yield Utils.Web.GET (endpoint + "?per_page=25&page=" + page.to_string (), true);
+            string? response;
 
-            var api_limit_reached = json.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting");
-            var connection_issue = json.contains ("Temporary failure in name resolution");
-            if (json == null || api_limit_reached  || connection_issue) {
-                fetch_code = connection_issue ? Runner.FetchCode.CONNECTION_ISSUE : api_limit_reached ? Runner.FetchCode.API_LIMIT_REACHED : Runner.FetchCode.UNKNOWN_ERROR;
+            var code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_type, out response);
 
-                return temp_releases;
-            }
+            if (code != ReturnCode.VALID_REQUEST)
+                return code;
 
             page++;
 
-            var root_node = Utils.Parser.get_node_from_json (json);
+            var root_node = Utils.Parser.get_node_from_json (response);
 
             var root_object = root_node.get_object ();
 
             if (!root_object.has_member ("workflow_runs") || root_object.get_member ("workflow_runs").get_node_type () != Json.NodeType.ARRAY)
-                return temp_releases;
+                return ReturnCode.UNKNOWN_ERROR;
 
             var runs_array = root_object.get_array_member ("workflow_runs");
             if (runs_array == null)
-                return temp_releases;
+                return ReturnCode.UNKNOWN_ERROR;
 
             for (var i = 0; i < runs_array.get_length (); i++) {
                 var object = runs_array.get_object_element (i);
@@ -43,13 +42,13 @@ namespace ProtonPlus.Models.Runners {
                     var release = new Releases.GitHubAction (this, title, release_date, download_url, page_url, artifacts_url);
 
                     releases.append (release);
-                    temp_releases.append (release);
+                    this.releases.append (release);
                 }
             }
 
             has_more = runs_array.get_length () == 25;
 
-            return temp_releases;
+            return ReturnCode.RELEASES_LOADED;
         }
     }
 }

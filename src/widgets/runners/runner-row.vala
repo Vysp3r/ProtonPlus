@@ -37,23 +37,33 @@ namespace ProtonPlus.Widgets {
 					spinner.set_visible (true);
 
 					if (a) {
+						List<Models.Release> releases = null;
+						
 						runner.load.begin ((obj, res) => {
-							var releases = runner.load.end (res);
+							var code = runner.load.end (res, out releases);
 
-							if (runner.fetch_code != Models.Runner.FetchCode.GOOD) {
+							if (code != ReturnCode.RELEASES_LOADED) {
 								if (count == 0)
 									set_expanded (false);
 
-								if (runner.fetch_code == Models.Runner.FetchCode.API_LIMIT_REACHED) {
-									var dialog = new WarningDialog (_("API limit reached"), _("Try again in a few minutes."));
-									dialog.present(Application.window);
-								} else if (runner.fetch_code == Models.Runner.FetchCode.CONNECTION_ISSUE) {
-									var dialog = new WarningDialog (_("Unable to reach the API"), _("Make sure you're connected to the internet."));
-									dialog.present(Application.window);
-								} else {
-									var dialog = new ErrorDialog (_("Unknown error"), _("Please report this issue on GitHub."));
-									dialog.present(Application.window);
+								Adw.AlertDialog dialog;
+
+								switch (code) {
+									case ReturnCode.API_LIMIT_REACHED:
+										dialog = new WarningDialog (_("API limit reached"), _("Try again in a few minutes."));
+										break;
+									case ReturnCode.CONNECTION_ISSUE:
+										dialog = new WarningDialog (_("Unable to reach the API"), _("Make sure you're connected to the internet."));
+										break;
+									case ReturnCode.INVALID_ACCESS_TOKEN:
+										dialog = new WarningDialog (_("Invalid access token"), _("Make sure the access token you provided is valid."));
+										break;
+									default:
+										dialog = new ErrorDialog (_("Unknown error"), _("Please report this issue on GitHub."));
+										break;
 								}
+
+								dialog.present(Application.window);
 							} else if (runner is Models.Runners.Basic && releases.length () > 0 && count == 0 && runner.has_latest_support) {
 								var latest_release = releases.nth_data (0);
 
