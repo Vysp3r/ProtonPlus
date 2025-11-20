@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-All versions are currently supported!
+Only the latest version is supported.
 
 ## Reporting a Vulnerability
 
