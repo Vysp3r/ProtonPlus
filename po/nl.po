@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-18 20:00-0500\n"
+"POT-Creation-Date: 2025-11-19 19:22-0500\n"
 "PO-Revision-Date: 2025-07-21 02:03+0000\n"
 "Last-Translator: WeAreGeek <weblate@wearegeek.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/protonplus/"
@@ -40,7 +40,7 @@ msgid "Taking longer than normal?"
 msgstr "Duurt het langer dan normaal?"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -141,7 +141,7 @@ msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Controleren op updates..."
 
 #: src/widgets/window.vala:160 src/widgets/window.vala:161
-#: src/widgets/runners/runner-row.vala:53
+#: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr ""
 
@@ -152,17 +152,17 @@ msgid "Couldn't update %s (Reason: %s)"
 msgstr "Installeer %s"
 
 #: src/widgets/window.vala:166 src/widgets/window.vala:167
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:59
 msgid "Unable to reach the API"
 msgstr ""
 
 #: src/widgets/window.vala:172 src/widgets/window.vala:173
-#: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
 msgid "Invalid access token"
 msgstr ""
 
 #: src/widgets/window.vala:178 src/widgets/window.vala:179
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 #, fuzzy
 msgid "Unknown error"
 msgstr "Onbekend"
@@ -320,16 +320,16 @@ msgstr "Installeer %s"
 msgid "Used"
 msgstr "Gebruikt"
 
-#: src/widgets/runners/runner-row.vala:53
+#: src/widgets/runners/runner-row.vala:56
 msgid "Try again in a few minutes."
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:59
 #, fuzzy
 msgid "Make sure you're connected to the internet."
 msgstr "Zorg ervoor dat u uzelf minstens één keer aansluit op Steam."
 
-#: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
 msgid "Make sure the access token you provided is valid."
 msgstr ""
 
@@ -830,64 +830,60 @@ msgstr ""
 "RTSP-codecs voor VRChat te verbeteren."
 
 #: src/translatables.vala:12
-msgid "Custom Proton build for running the Northstar client for Titanfall 2."
-msgstr "Aangepaste Proton-versie voor de Northstar-client voor Titanfall 2."
-
-#: src/translatables.vala:13
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 "Luxtorpeda biedt een verzameling Linux-geschikte game engines voor bepaalde "
 "Windows spellen."
 
-#: src/translatables.vala:14
+#: src/translatables.vala:13
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 "Steam-compatibiliteitstool voor het uitvoeren van avonturenspellen met "
 "ScummVM voor Linux."
 
-#: src/translatables.vala:15
+#: src/translatables.vala:14
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 "Steam-compatibiliteitstool om DOS-spellen uit te voeren met DOSBox voor "
 "Linux."
 
-#: src/translatables.vala:16
+#: src/translatables.vala:15
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Compatibiliteitstools voor het draaien van Windows software op Linux."
 
-#: src/translatables.vala:17
+#: src/translatables.vala:16
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "Wine-versie samengesteld uit de officiële WineHQ broncode."
 
-#: src/translatables.vala:18
+#: src/translatables.vala:17
 msgid "Wine build with the Staging patchset."
 msgstr "Wine versie met de Enscenering-patches."
 
-#: src/translatables.vala:19
+#: src/translatables.vala:18
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr "Wine-versie met de Enscenering-patches en vele andere nuttige patches."
 
-#: src/translatables.vala:20
+#: src/translatables.vala:19
 msgid "Wine build modified by Valve and other contributors."
 msgstr "Wine-versie aangepast door Valve en andere medewerkers."
 
-#: src/translatables.vala:21
+#: src/translatables.vala:20
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 "Op Vulkan gebaseerde implementatie van Direct3D 8, 9, 10 en 11 voor Linux/"
 "Wine."
 
-#: src/translatables.vala:22
+#: src/translatables.vala:21
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
 msgstr "DXVK-beelden die werken met pre-Vulkan 1.3-versies"
 
-#: src/translatables.vala:23
+#: src/translatables.vala:22
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
 msgstr "DXVK Async Builds die werken met pre-Vulkan 1.3 versies"
 
-#: src/translatables.vala:24
+#: src/translatables.vala:23
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
@@ -909,6 +905,10 @@ msgstr "Snelkoppelingen weergeven"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Afsluiten"
+
+#~ msgid ""
+#~ "Custom Proton build for running the Northstar client for Titanfall 2."
+#~ msgstr "Aangepaste Proton-versie voor de Northstar-client voor Titanfall 2."
 
 #~ msgid "An error occured while checking for updates."
 #~ msgstr "Er is een fout opgetreden bij het controleren op updates."

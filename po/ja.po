@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-18 20:00-0500\n"
+"POT-Creation-Date: 2025-11-19 19:22-0500\n"
 "PO-Revision-Date: 2025-11-17 15:51+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -39,7 +39,7 @@ msgid "Taking longer than normal?"
 msgstr "この画面が長く表示されていますか?"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -142,7 +142,7 @@ msgid "Couldn't check for updates (Reason: %s)"
 msgstr "更新を確認中..."
 
 #: src/widgets/window.vala:160 src/widgets/window.vala:161
-#: src/widgets/runners/runner-row.vala:53
+#: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr "API の制限に達しました"
 
@@ -153,17 +153,17 @@ msgid "Couldn't update %s (Reason: %s)"
 msgstr "%s をインストール"
 
 #: src/widgets/window.vala:166 src/widgets/window.vala:167
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:59
 msgid "Unable to reach the API"
 msgstr "API にアクセスできません"
 
 #: src/widgets/window.vala:172 src/widgets/window.vala:173
-#: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
 msgid "Invalid access token"
 msgstr ""
 
 #: src/widgets/window.vala:178 src/widgets/window.vala:179
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 msgid "Unknown error"
 msgstr "不明なエラー"
 
@@ -319,15 +319,15 @@ msgstr "%s をインストール"
 msgid "Used"
 msgstr "使用済み"
 
-#: src/widgets/runners/runner-row.vala:53
+#: src/widgets/runners/runner-row.vala:56
 msgid "Try again in a few minutes."
 msgstr "数分待ってからお試しください。"
 
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:59
 msgid "Make sure you're connected to the internet."
 msgstr "インターネットに接続されていることを確認してください。"
 
-#: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
 msgid "Make sure the access token you provided is valid."
 msgstr ""
 
@@ -815,63 +815,57 @@ msgstr ""
 "た Steam 互換性ツール。"
 
 #: src/translatables.vala:12
-msgid "Custom Proton build for running the Northstar client for Titanfall 2."
-msgstr ""
-"Titanfall 2 の Northstar クライアントを動作させるためのカスタムの Proton ビル"
-"ド。"
-
-#: src/translatables.vala:13
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 "Luxtorpeda はいくつかの Windows 限定ゲームをサポートする Linux ネイティブな"
 "ゲームエンジンです。"
 
-#: src/translatables.vala:14
+#: src/translatables.vala:13
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 "ScummVM を使用した、アドベンチャーゲームを実行するための Steam 互換性ツール。"
 
-#: src/translatables.vala:15
+#: src/translatables.vala:14
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 "DOS のゲームを Linux で動かすための、DOSBoxを使用した Steam 互換性ツール。"
 
-#: src/translatables.vala:16
+#: src/translatables.vala:15
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Windows ソフトウェアを Linux で動かすための互換性ツール。"
 
-#: src/translatables.vala:17
+#: src/translatables.vala:16
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "WineHQ 公式のソースからコンパイルされた Wine のビルド"
 
-#: src/translatables.vala:18
+#: src/translatables.vala:17
 msgid "Wine build with the Staging patchset."
 msgstr "テスト用の Staging パッチが適用された Wine のビルド。"
 
-#: src/translatables.vala:19
+#: src/translatables.vala:18
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
 "Staging パッチや、その他の有用なパッチの数々が適用された Wine のビルド。"
 
-#: src/translatables.vala:20
+#: src/translatables.vala:19
 msgid "Wine build modified by Valve and other contributors."
 msgstr "Valve やほかの貢献者によって改変された Wine のビルド。"
 
-#: src/translatables.vala:21
+#: src/translatables.vala:20
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Vulkan ベースの Linux/Wine 向けの Direct3D 8, 9, 10 と 11 の実装"
 
-#: src/translatables.vala:22
+#: src/translatables.vala:21
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
 msgstr "Vulkan バージョン 1.3 未満で動作させるための DXVK のビルド。"
 
-#: src/translatables.vala:23
+#: src/translatables.vala:22
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
 msgstr "Vulkan バージョン 1.3 未満で動作させるための DXVK Async のビルド。"
 
-#: src/translatables.vala:24
+#: src/translatables.vala:23
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
@@ -892,6 +886,12 @@ msgstr "ショートカットの表示"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "アプリの終了"
+
+#~ msgid ""
+#~ "Custom Proton build for running the Northstar client for Titanfall 2."
+#~ msgstr ""
+#~ "Titanfall 2 の Northstar クライアントを動作させるためのカスタムの Proton "
+#~ "ビルド。"
 
 #~ msgid "An error occured while checking for updates."
 #~ msgstr "更新を確認中にエラーが発生しました。"

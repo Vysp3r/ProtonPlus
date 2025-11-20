@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-18 20:00-0500\n"
+"POT-Creation-Date: 2025-11-19 19:22-0500\n"
 "PO-Revision-Date: 2025-11-16 03:57+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -37,7 +37,7 @@ msgid "Taking longer than normal?"
 msgstr "加载时间是不是比平常久？"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -139,7 +139,7 @@ msgid "Couldn't check for updates (Reason: %s)"
 msgstr "正在检查更新..."
 
 #: src/widgets/window.vala:160 src/widgets/window.vala:161
-#: src/widgets/runners/runner-row.vala:53
+#: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr "已达到 API 限制"
 
@@ -150,17 +150,17 @@ msgid "Couldn't update %s (Reason: %s)"
 msgstr "安装 %s"
 
 #: src/widgets/window.vala:166 src/widgets/window.vala:167
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:59
 msgid "Unable to reach the API"
 msgstr "无法存取 API"
 
 #: src/widgets/window.vala:172 src/widgets/window.vala:173
-#: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
 msgid "Invalid access token"
 msgstr ""
 
 #: src/widgets/window.vala:178 src/widgets/window.vala:179
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 msgid "Unknown error"
 msgstr "未知错误"
 
@@ -317,15 +317,15 @@ msgstr "安装 %s"
 msgid "Used"
 msgstr "已使用"
 
-#: src/widgets/runners/runner-row.vala:53
+#: src/widgets/runners/runner-row.vala:56
 msgid "Try again in a few minutes."
 msgstr "请稍后几分钟后再试。"
 
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:59
 msgid "Make sure you're connected to the internet."
 msgstr "请确保连接至互连网。"
 
-#: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
 msgid "Make sure the access token you provided is valid."
 msgstr ""
 
@@ -800,56 +800,52 @@ msgstr ""
 "码器。"
 
 #: src/translatables.vala:12
-msgid "Custom Proton build for running the Northstar client for Titanfall 2."
-msgstr "运行 Titanfall 2 Northstar 用户端的定制 Proton 建构版本。"
-
-#: src/translatables.vala:13
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr "Luxtorpeda 能为特定的 Windows 专属游戏提供 Linux 原生游戏引擎。"
 
-#: src/translatables.vala:14
+#: src/translatables.vala:13
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr "使用 Linux 版 ScummVM 运行冒险游戏的 Steam 兼容性工具。"
 
-#: src/translatables.vala:15
+#: src/translatables.vala:14
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr "使用 Linux 版 DOSBox 运行 DOS 游戏的 Steam 兼容性工具。"
 
-#: src/translatables.vala:16
+#: src/translatables.vala:15
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "在 Linux 上运行 Windows 软件的兼容性工具。"
 
-#: src/translatables.vala:17
+#: src/translatables.vala:16
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "从官方 WineHQ 源代码编译的 Wine 建构版本。"
 
-#: src/translatables.vala:18
+#: src/translatables.vala:17
 msgid "Wine build with the Staging patchset."
 msgstr "包含 Staging 补丁集的 Wine 建构版本。"
 
-#: src/translatables.vala:19
+#: src/translatables.vala:18
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr "包含 Staging 补丁集，以及多项实用补丁的 Wine 建构版本。"
 
-#: src/translatables.vala:20
+#: src/translatables.vala:19
 msgid "Wine build modified by Valve and other contributors."
 msgstr "由 Valve 和其他贡献者修改的 Wine 建构版本。"
 
-#: src/translatables.vala:21
+#: src/translatables.vala:20
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "适用于 Linux/Wine 的，基于 Vulkan 的 Direct3D 8、9、10 和 11 的实作。"
 
-#: src/translatables.vala:22
+#: src/translatables.vala:21
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
 msgstr "适用于 Vulkan 1.3 之前版本的 DXVK 建构版本。"
 
-#: src/translatables.vala:23
+#: src/translatables.vala:22
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
 msgstr "适用于 Vulkan 1.3 之前版本的 DXVK-Async 建构版本。"
 
-#: src/translatables.vala:24
+#: src/translatables.vala:23
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
@@ -869,6 +865,10 @@ msgstr "显示快捷键"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "退出"
+
+#~ msgid ""
+#~ "Custom Proton build for running the Northstar client for Titanfall 2."
+#~ msgstr "运行 Titanfall 2 Northstar 用户端的定制 Proton 建构版本。"
 
 #~ msgid "An error occured while checking for updates."
 #~ msgstr "检查更新时发生错误。"

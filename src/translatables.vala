@@ -9,7 +9,6 @@ namespace ProtonPlus {
 			N_("Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with DXVK-Async."),
 			N_("Custom Proton build for running Windows games, based on Wine-tkg."),
 			N_("Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat."),
-			N_("Custom Proton build for running the Northstar client for Titanfall 2."),
 			N_("Luxtorpeda provides Linux-native game engines for certain Windows-only games."),
 			N_("Steam compatibility tool for running adventure games using ScummVM for Linux."),
 			N_("Steam compatibility tool for running DOS games using DOSBox for Linux."),

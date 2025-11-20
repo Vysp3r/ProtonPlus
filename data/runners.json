@@ -121,19 +121,6 @@
                     "type": "github"
                 },
                 {
-                    "title": "NorthstarProton",
-                    "description": "Custom Proton build for running the Northstar client for Titanfall 2.",
-                    "endpoint": "https://api.github.com/repos/cyrv6737/NorthstarProton/releases",
-                    "asset_position": 0,
-                    "directory_name_formats": [
-                        {
-                            "launcher": "default",
-                            "directory_name_format": "$title $release_name"
-                        }
-                    ],
-                    "type": "github"
-                },
-                {
                     "title": "Luxtorpeda",
                     "description": "Luxtorpeda provides Linux-native game engines for certain Windows-only games.",
                     "endpoint": "https://api.github.com/repos/luxtorpeda-dev/luxtorpeda/releases",

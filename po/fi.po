@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-18 20:00-0500\n"
+"POT-Creation-Date: 2025-11-19 19:22-0500\n"
 "PO-Revision-Date: 2025-08-21 19:02+0000\n"
 "Last-Translator: Linus Virtanen <linus.virtanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/protonplus/"
@@ -40,7 +40,7 @@ msgid "Taking longer than normal?"
 msgstr "Kuluuko aikaa totuttua pidempään?"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:56
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -140,7 +140,7 @@ msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Tarkistetaan päivityksiä..."
 
 #: src/widgets/window.vala:160 src/widgets/window.vala:161
-#: src/widgets/runners/runner-row.vala:53
+#: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr ""
 
@@ -151,17 +151,17 @@ msgid "Couldn't update %s (Reason: %s)"
 msgstr "Asenna %s"
 
 #: src/widgets/window.vala:166 src/widgets/window.vala:167
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:59
 msgid "Unable to reach the API"
 msgstr ""
 
 #: src/widgets/window.vala:172 src/widgets/window.vala:173
-#: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
 msgid "Invalid access token"
 msgstr ""
 
 #: src/widgets/window.vala:178 src/widgets/window.vala:179
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 #, fuzzy
 msgid "Unknown error"
 msgstr "Tuntematon"
@@ -319,16 +319,16 @@ msgstr "Asenna %s"
 msgid "Used"
 msgstr "Käytetty"
 
-#: src/widgets/runners/runner-row.vala:53
+#: src/widgets/runners/runner-row.vala:56
 msgid "Try again in a few minutes."
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:56
+#: src/widgets/runners/runner-row.vala:59
 #, fuzzy
 msgid "Make sure you're connected to the internet."
 msgstr "Varmista että käynnistät Steamin kirjautuen tilillesi ainakin kerran."
 
-#: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
 msgid "Make sure the access token you provided is valid."
 msgstr ""
 
@@ -819,67 +819,61 @@ msgstr ""
 "lisäpaikkauksia jotka parantavat RTSP koodekkeja VRChat:iin."
 
 #: src/translatables.vala:12
-msgid "Custom Proton build for running the Northstar client for Titanfall 2."
-msgstr ""
-"Räätälöity Proton-kokooma tarvittavalle Northstar-asiakasohjelmalle jotta "
-"voit pelataTitanfall 2:sta."
-
-#: src/translatables.vala:13
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 "Luxtorpeda tarjoaa kotoperäiset Linux-pelimoottorit, mikäli tarjolla, "
 "alunperin vain-Windowsille tehdyille peleille."
 
-#: src/translatables.vala:14
+#: src/translatables.vala:13
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 "Steam-yhteensopivuustyökalu seikkailupelien pelaamiseen käyttäen ScummVM:ää "
 "Linuxille."
 
-#: src/translatables.vala:15
+#: src/translatables.vala:14
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 "Steam-yhteensopivuustyökalu DOS-pelien pelaamiseen käyttäen DOSBox:ia "
 "Linuxissa."
 
-#: src/translatables.vala:16
+#: src/translatables.vala:15
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Yhteensopivuustyökaluja Windows-ohjelmistojen ajamiseksi Linuxissa."
 
-#: src/translatables.vala:17
+#: src/translatables.vala:16
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "Wine-kokooma joka on koottu virallisista WineHQ -lähteistä."
 
-#: src/translatables.vala:18
+#: src/translatables.vala:17
 msgid "Wine build with the Staging patchset."
 msgstr "Wine-kokoona jossa mukana uudemmat Staging-paikat."
 
-#: src/translatables.vala:19
+#: src/translatables.vala:18
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
 "Wine-kokooma jossa mukana uudemmat Staging-paikat sekä monia muita "
 "hyödyllisiä paikkauksia."
 
-#: src/translatables.vala:20
+#: src/translatables.vala:19
 msgid "Wine build modified by Valve and other contributors."
 msgstr "Valven ja muiden tekijöiden muovaama Wine -kokooma."
 
-#: src/translatables.vala:21
+#: src/translatables.vala:20
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 "Vulkan-perustainen Direct3D 8, 9, 10 ja 11 -toteutus Linuxille Wine:n kautta."
 
-#: src/translatables.vala:22
+#: src/translatables.vala:21
 msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
 msgstr "DXVK-kokoomat jotka toimivat esi-Vulkan 1.3 -versioilla"
 
-#: src/translatables.vala:23
+#: src/translatables.vala:22
 msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
 msgstr "DXVK-kokoomat jotka toimivat Vulkan 1.3 esiversioilla"
 
-#: src/translatables.vala:24
+#: src/translatables.vala:23
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
@@ -901,6 +895,12 @@ msgstr "Näytä oikopolut"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Lopeta"
+
+#~ msgid ""
+#~ "Custom Proton build for running the Northstar client for Titanfall 2."
+#~ msgstr ""
+#~ "Räätälöity Proton-kokooma tarvittavalle Northstar-asiakasohjelmalle jotta "
+#~ "voit pelataTitanfall 2:sta."
 
 #~ msgid "An error occured while checking for updates."
 #~ msgstr "Päivitysten tarkistamisessa ilmeni virhe."
