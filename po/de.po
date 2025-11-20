@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 19:22-0500\n"
+"POT-Creation-Date: 2025-11-19 19:56-0500\n"
 "PO-Revision-Date: 2025-07-19 17:26+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -884,14 +884,20 @@ msgstr ""
 "Vulkan basierte Implementierung von Direct3D 9, 10 und 11 für Linux/Wine."
 
 #: src/translatables.vala:21
-msgid "DXVK Builds that work with pre-Vulkan 1.3 versions"
+#, fuzzy
+msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 msgstr "DXVK Builds, die mit Vor-Vulkan 1.3 Versionen funktionieren"
 
 #: src/translatables.vala:22
-msgid "DXVK Async Builds that work with pre-Vulkan 1.3 versions"
+#, fuzzy
+msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 msgstr "DXVK Async Builds, die mit Vor-Vulkan 1.3 Versionen funktionieren"
 
 #: src/translatables.vala:23
+msgid "DXVK builds with gplasync patch by Ph42oN."
+msgstr ""
+
+#: src/translatables.vala:24
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
