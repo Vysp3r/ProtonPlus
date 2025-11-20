@@ -169,7 +169,7 @@
                     "title": "Wine-Vanilla (Kron4ek)",
                     "description": "Wine build compiled from the official WineHQ sources.",
                     "endpoint": "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
-                    "asset_position": 1,
+                    "asset_position": 2,
                     "directory_name_formats": [
                         {
                             "launcher": "default",
@@ -190,7 +190,7 @@
                     "title": "Wine-Staging (Kron4ek)",
                     "description": "Wine build with the Staging patchset.",
                     "endpoint": "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
-                    "asset_position": 2,
+                    "asset_position": 4,
                     "directory_name_formats": [
                         {
                             "launcher": "default",
@@ -211,7 +211,7 @@
                     "title": "Wine-Staging-Tkg (Kron4ek)",
                     "description": "Wine build with the Staging patchset and many other useful patches.",
                     "endpoint": "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
-                    "asset_position": 3,
+                    "asset_position": 6,
                     "directory_name_formats": [
                         {
                             "launcher": "default",
@@ -232,15 +232,15 @@
                     "title": "Wine-Proton (Kron4ek)",
                     "description": "Wine build modified by Valve and other contributors.",
                     "endpoint": "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
-                    "asset_position": 1,
+                    "asset_position": 2,
                     "directory_name_formats": [
                         {
                             "launcher": "default",
-                            "directory_name_format": "wine-$release_name-amd64-wow64"
+                            "directory_name_format": "wine-$release_name-amd64"
                         },
                         {
                             "launcher": "Bottles",
-                            "directory_name_format": "kron4ek-wine-$release_name-amd64-wow64"
+                            "directory_name_format": "kron4ek-wine-$release_name-amd64"
                         }
                     ],
                     "request_asset_filter": [
