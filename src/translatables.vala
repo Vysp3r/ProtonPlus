@@ -18,8 +18,9 @@ namespace ProtonPlus {
 			N_("Wine build with the Staging patchset and many other useful patches."),
 			N_("Wine build modified by Valve and other contributors."),
 			N_("Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."),
-			N_("DXVK Builds that work with pre-Vulkan 1.3 versions"),
-			N_("DXVK Async Builds that work with pre-Vulkan 1.3 versions"),
+			N_("DXVK builds that work with pre-Vulkan 1.3 versions."),
+			N_("DXVK Async builds that work with pre-Vulkan 1.3 versions."),
+			N_("DXVK builds with gplasync patch by Ph42oN."),
 			N_("Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.")
 		};
 	}
