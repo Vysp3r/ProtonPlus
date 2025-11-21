@@ -46,16 +46,16 @@ namespace ProtonPlus.Widgets {
 
 				stop = true;
 
-				set_can_close (true);
+                done (success);
 
-				close ();
-
-				done (success);
-
-				if (!success && !canceled) {
+                if (!success && !canceled) {
 					var dialog = new ErrorDialog (_("Couldn't install %s").printf (release.title), _("Please report this issue on GitHub."));
 					dialog.present (Application.window);
 				}
+
+				set_can_close (true);
+
+				close ();
 			});
 		}
 
