@@ -89,13 +89,26 @@ namespace ProtonPlus.Models {
 			string release_date = object.get_string_member ("created_at").split ("T")[0];
 			string download_url = "";
 
-			if (asset_array.get_length () - 1 >= runner.asset_position) {
-				var asset_object = asset_array.get_object_element (runner.asset_position);
+			var real_asset_position = runner.asset_position;
+			if (runner.asset_position_hwcaps_condition) {
+                for (int y = 0; y < asset_array.get_length (); y++) {
+                    var asset_object = asset_array.get_object_element (y);
+
+                    if (asset_object.get_string_member ("name").contains ("%s.tar.xz".printf (Globals.HWCAPS.nth_data (0)))) {
+                        real_asset_position = y;
+
+                        break;
+                    }
+                }
+            }
+
+			if (asset_array.get_length () - 1 >= real_asset_position) {
+				var asset_object = asset_array.get_object_element (real_asset_position);
 
 				download_url = asset_object.get_string_member ("browser_download_url");
 			}
 
-			if (download_url == "")
+			if (download_url == "" || !download_url.contains (".tar"))
 				return ReturnCode.UNKNOWN_ERROR;
 
 			var base_runner_directory = "%s/%s".printf (runner.group.launcher.directory, runner.group.directory);

@@ -13,6 +13,9 @@ namespace ProtonPlus.Models.Releases {
         protected override async bool _start_install () {
             step = Step.DOWNLOADING;
 
+            if (!download_url.contains (".tar"))
+                return false;
+
             string download_path = "%s/%s.tar.gz".printf (Globals.DOWNLOAD_CACHE_PATH, title);
 
             if (!FileUtils.test (download_path, FileTest.EXISTS)) {
