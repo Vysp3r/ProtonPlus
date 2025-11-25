@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-19 19:56-0500\n"
-"PO-Revision-Date: 2025-11-16 03:53+0800\n"
+"PO-Revision-Date: 2025-11-25 23:00+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -57,7 +57,7 @@ msgstr "捐贈"
 
 #: src/widgets/window.vala:49
 msgid "_Preferences"
-msgstr ""
+msgstr "偏好設定(_P)"
 
 #: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
@@ -81,7 +81,7 @@ msgstr "遊戲庫"
 
 #: src/widgets/window.vala:93
 msgid "Couldn't load the launchers"
-msgstr ""
+msgstr "無法載入啟動器"
 
 #: src/widgets/window.vala:107
 #, c-format
@@ -102,40 +102,37 @@ msgid ""
 msgstr "請務必至少運行過一次啟動器，以確保其正確初始化"
 
 #: src/widgets/window.vala:130
-#, fuzzy
 msgid "Checking for updates"
-msgstr "正在檢查更新..."
+msgstr "正在檢查更新"
 
 #: src/widgets/window.vala:131
 #, c-format
 msgid "Updating %s"
-msgstr ""
+msgstr "正在更新 %s"
 
 #: src/widgets/window.vala:148
-#, fuzzy
 msgid "Nothing to update"
-msgstr "無任何更新。"
+msgstr "無任何更新"
 
 #: src/widgets/window.vala:149
 #, c-format
 msgid "No update found for %s"
-msgstr ""
+msgstr "未找到 %s 的更新"
 
 #: src/widgets/window.vala:154
-#, fuzzy
 msgid "Everything is now up-to-date"
-msgstr "目前皆已為最新版本。"
+msgstr "目前皆已為最新版本"
 
 #: src/widgets/window.vala:155
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now up-to-date"
-msgstr "%s 已為最新版本。"
+msgstr "%s 已為最新版本"
 
 #: src/widgets/window.vala:160 src/widgets/window.vala:166
 #: src/widgets/window.vala:172 src/widgets/window.vala:178
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't check for updates (Reason: %s)"
-msgstr "正在檢查更新..."
+msgstr "無法檢查更新（原因：%s）"
 
 #: src/widgets/window.vala:160 src/widgets/window.vala:161
 #: src/widgets/runners/runner-row.vala:56
@@ -144,9 +141,9 @@ msgstr "已達到 API 限制"
 
 #: src/widgets/window.vala:161 src/widgets/window.vala:167
 #: src/widgets/window.vala:173 src/widgets/window.vala:179
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't update %s (Reason: %s)"
-msgstr "安裝 %s"
+msgstr "無法更新 %1$s（原因：%2$s）"
 
 #: src/widgets/window.vala:166 src/widgets/window.vala:167
 #: src/widgets/runners/runner-row.vala:59
@@ -156,7 +153,7 @@ msgstr "無法存取 API"
 #: src/widgets/window.vala:172 src/widgets/window.vala:173
 #: src/widgets/runners/runner-row.vala:62
 msgid "Invalid access token"
-msgstr ""
+msgstr "無效的存取令牌"
 
 #: src/widgets/window.vala:178 src/widgets/window.vala:179
 #: src/widgets/runners/runner-row.vala:65
@@ -165,7 +162,7 @@ msgstr "未知錯誤"
 
 #: src/widgets/window.vala:180 src/widgets/error-dialog.vala:7
 msgid "Report"
-msgstr ""
+msgstr "回報"
 
 #: src/widgets/window.vala:218
 #: src/widgets/runners/steamtinkerlaunch-row.vala:46
@@ -203,73 +200,70 @@ msgid "OK"
 msgstr "確定"
 
 #: src/widgets/preferences/preferences-dialog.vala:9
-#, fuzzy
 msgid "General"
 msgstr "一般"
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Automatic updates"
-msgstr ""
+msgstr "自動更新"
 
 #: src/widgets/preferences/preferences-dialog.vala:16
 msgid ""
 "Whether or not to update the installed 'Latest' runners when the application "
 "start"
-msgstr ""
+msgstr "是否在啟動時更新已安裝的「Latest」運行器"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Latest"
-msgstr ""
+msgstr "最新版本"
 
 #: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Remember last used profile"
-msgstr ""
+msgstr "記住上次使用的個人檔案"
 
 #: src/widgets/preferences/preferences-dialog.vala:43
 msgid "Whether or not to remember the last used Steam profile"
-msgstr ""
+msgstr "是否記住上次使用的 Steam 個人檔案"
 
 #: src/widgets/preferences/theme-row.vala:15
 msgid "System"
-msgstr ""
+msgstr "系統"
 
 #: src/widgets/preferences/theme-row.vala:16
 msgid "Light"
-msgstr ""
+msgstr "淺色"
 
 #: src/widgets/preferences/theme-row.vala:17
 msgid "Dark"
-msgstr ""
+msgstr "深色"
 
 #: src/widgets/preferences/theme-row.vala:25
 msgid "Current theme"
-msgstr ""
+msgstr "目前主題"
 
 #: src/widgets/preferences/refresh-steam-profiles-row.vala:15
-#, fuzzy
 msgid "Refresh profiles"
-msgstr "選擇個人檔案"
+msgstr "刷新個人檔案"
 
 #: src/widgets/preferences/refresh-launchers-runners-row.vala:15
 msgid "Refresh launchers/runners"
-msgstr ""
+msgstr "刷新啟動器/運行器"
 
 #: src/widgets/preferences/check-updates-row.vala:11
 msgid "Check if any of the installed 'Latest' runners needs to be updated"
-msgstr ""
+msgstr "檢查已安裝的「Latest」運行器是否需要更新"
 
 #: src/widgets/preferences/check-updates-row.vala:16
-#, fuzzy
 msgid "Check for updates"
-msgstr "正在檢查更新..."
+msgstr "檢查更新"
 
 #: src/widgets/preferences/access-token-row.vala:4
 msgid "Access token"
-msgstr ""
+msgstr "存取令牌"
 
 #: src/widgets/preferences/access-token-row.vala:5
 msgid "Enter an access token to reduce your chances of being rate limited"
-msgstr ""
+msgstr "輸入存取令牌以降低被限速的機會"
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -289,7 +283,7 @@ msgstr "顯示更多資訊"
 
 #: src/widgets/runners/release-row.vala:17
 msgid "Update the runner if a newer version is available"
-msgstr ""
+msgstr "若有新版本運行器，請更新"
 
 #: src/widgets/runners/release-row.vala:20
 msgid "Open runner directory"
@@ -325,7 +319,7 @@ msgstr "請確保連接至網際網路。"
 
 #: src/widgets/runners/runner-row.vala:62
 msgid "Make sure the access token you provided is valid."
-msgstr ""
+msgstr "請確保提供的存取令牌是有效的。"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -360,14 +354,14 @@ msgid "Yes"
 msgstr "是"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't delete %s"
-msgstr "安裝 %s"
+msgstr "無法移除 %s"
 
 #: src/widgets/runners/install-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't install %s"
-msgstr "安裝 %s"
+msgstr "無法安裝 %s"
 
 #: src/widgets/runners/install-dialog.vala:84
 #: src/widgets/runners/upgrade-dialog.vala:77
@@ -389,9 +383,9 @@ msgid "Upgrade %s"
 msgstr "更新 %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't upgrade %s"
-msgstr "安裝 %s"
+msgstr "無法更新 %s"
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:63
@@ -408,7 +402,7 @@ msgstr "勾選此選項也會移除設定檔。"
 msgid ""
 "This version will get automatically updated when there's an update available "
 "each time your launch the application if automatic updates is enabled"
-msgstr ""
+msgstr "若啟用自動更新功能，此版本將於每次啟動，在有可用更新時自動更新。"
 
 #: src/widgets/runners/filters-box.vala:12
 msgid "Installed"
@@ -609,14 +603,13 @@ msgid ""
 msgstr "請啟用要在批量編輯中涵蓋的所有選項。"
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
-msgstr "嘗試變更 %s 的相容性工具時發生錯誤。"
+msgstr "無法變更所選遊戲的相容性工具/啟動選項"
 
 #: src/widgets/games/mass-edit-dialog.vala:147
 msgid "The following games had an issue:"
-msgstr ""
+msgstr "下列遊戲存在問題："
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
@@ -636,14 +629,12 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "移除 Steam 中的 ProtonPlus 捷徑"
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "Couldn't delete the shortcut in Steam"
-msgstr "移除 Steam 中的 ProtonPlus 捷徑"
+msgstr "無法移除 Steam 中的捷徑"
 
 #: src/widgets/games/shortcut-button.vala:46
-#, fuzzy
 msgid "Couldn't create the shortcut in Steam"
-msgstr "移除 Steam 中的 ProtonPlus 捷徑"
+msgstr "無法在 Steam 中建立捷徑"
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
@@ -689,9 +680,9 @@ msgid "Apply the current modification"
 msgstr "套用目前修改"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't change the launch options of %s"
-msgstr "嘗試變更 %s 的啟動選項時發生錯誤。"
+msgstr "無法變更 %s 的啟動選項"
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
@@ -720,18 +711,17 @@ msgid "Set the default compatibility tool"
 msgstr "設定預設相容性工具"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "Couldn't change the default compatibility tool"
-msgstr "設定預設相容性工具"
+msgstr "無法變更預設相容性工具"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
 msgstr "選擇所需的相容性工具"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't change the compatibility tool of %s"
-msgstr "嘗試變更 %s 的相容性工具時發生錯誤。"
+msgstr "無法變更 %s 的相容性工具"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
@@ -836,18 +826,16 @@ msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "適用於 Linux/Wine 的，基於 Vulkan 的 Direct3D 8、9、10 和 11 的實作。"
 
 #: src/translatables.vala:21
-#, fuzzy
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 msgstr "適用於 Vulkan 1.3 之前版本的 DXVK 建構版本。"
 
 #: src/translatables.vala:22
-#, fuzzy
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
-msgstr "適用於 Vulkan 1.3 之前版本的 DXVK-Async 建構版本。"
+msgstr "適用於 Vulkan 1.3 之前版本的 DXVK Async 建構版本。"
 
 #: src/translatables.vala:23
 msgid "DXVK builds with gplasync patch by Ph42oN."
-msgstr ""
+msgstr "包含 Ph42oN 開發的 gplasync 修補程式的 DXVK 建構版本。"
 
 #: src/translatables.vala:24
 msgid ""
