@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-19 19:56-0500\n"
-"PO-Revision-Date: 2025-11-17 15:51+0000\n"
+"PO-Revision-Date: 2025-11-25 10:51+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ja/>\n"
@@ -58,7 +58,7 @@ msgstr "寄付する"
 
 #: src/widgets/window.vala:49
 msgid "_Preferences"
-msgstr ""
+msgstr "設定 (_P)"
 
 #: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
@@ -82,7 +82,7 @@ msgstr "ゲーム"
 
 #: src/widgets/window.vala:93
 msgid "Couldn't load the launchers"
-msgstr ""
+msgstr "ランチャーを読み込めませんでした"
 
 #: src/widgets/window.vala:107
 #, c-format
@@ -106,40 +106,37 @@ msgstr ""
 "認してください"
 
 #: src/widgets/window.vala:130
-#, fuzzy
 msgid "Checking for updates"
-msgstr "更新を確認中..."
+msgstr "更新を確認中"
 
 #: src/widgets/window.vala:131
 #, c-format
 msgid "Updating %s"
-msgstr ""
+msgstr "%s を更新中"
 
 #: src/widgets/window.vala:148
-#, fuzzy
 msgid "Nothing to update"
-msgstr "更新するものはありませんでした。"
+msgstr "更新するものはありません"
 
 #: src/widgets/window.vala:149
 #, c-format
 msgid "No update found for %s"
-msgstr ""
+msgstr "%s の更新は見つかりませんでした"
 
 #: src/widgets/window.vala:154
-#, fuzzy
 msgid "Everything is now up-to-date"
 msgstr "全て最新になりました。"
 
 #: src/widgets/window.vala:155
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now up-to-date"
-msgstr "%s は既に最新です。"
+msgstr "%s は最新になりました"
 
 #: src/widgets/window.vala:160 src/widgets/window.vala:166
 #: src/widgets/window.vala:172 src/widgets/window.vala:178
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't check for updates (Reason: %s)"
-msgstr "更新を確認中..."
+msgstr "更新を確認できませんでした (理由: %s)"
 
 #: src/widgets/window.vala:160 src/widgets/window.vala:161
 #: src/widgets/runners/runner-row.vala:56
@@ -148,9 +145,9 @@ msgstr "API の制限に達しました"
 
 #: src/widgets/window.vala:161 src/widgets/window.vala:167
 #: src/widgets/window.vala:173 src/widgets/window.vala:179
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't update %s (Reason: %s)"
-msgstr "%s をインストール"
+msgstr "%s を更新できませんでした (理由: %s)"
 
 #: src/widgets/window.vala:166 src/widgets/window.vala:167
 #: src/widgets/runners/runner-row.vala:59
@@ -160,7 +157,7 @@ msgstr "API にアクセスできません"
 #: src/widgets/window.vala:172 src/widgets/window.vala:173
 #: src/widgets/runners/runner-row.vala:62
 msgid "Invalid access token"
-msgstr ""
+msgstr "無効なアクセストークン"
 
 #: src/widgets/window.vala:178 src/widgets/window.vala:179
 #: src/widgets/runners/runner-row.vala:65
@@ -207,13 +204,12 @@ msgid "OK"
 msgstr "OK"
 
 #: src/widgets/preferences/preferences-dialog.vala:9
-#, fuzzy
 msgid "General"
 msgstr "一般"
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Automatic updates"
-msgstr ""
+msgstr "自動更新"
 
 #: src/widgets/preferences/preferences-dialog.vala:16
 msgid ""
@@ -223,36 +219,35 @@ msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Latest"
-msgstr ""
+msgstr "最新"
 
 #: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Remember last used profile"
-msgstr ""
+msgstr "最後に使用したプロファイルを記憶する"
 
 #: src/widgets/preferences/preferences-dialog.vala:43
 msgid "Whether or not to remember the last used Steam profile"
-msgstr ""
+msgstr "最後に使用した Steam のプロファイルを記憶するかどうか"
 
 #: src/widgets/preferences/theme-row.vala:15
 msgid "System"
-msgstr ""
+msgstr "システム"
 
 #: src/widgets/preferences/theme-row.vala:16
 msgid "Light"
-msgstr ""
+msgstr "ライト"
 
 #: src/widgets/preferences/theme-row.vala:17
 msgid "Dark"
-msgstr ""
+msgstr "ダーク"
 
 #: src/widgets/preferences/theme-row.vala:25
 msgid "Current theme"
-msgstr ""
+msgstr "現在のテーマ"
 
 #: src/widgets/preferences/refresh-steam-profiles-row.vala:15
-#, fuzzy
 msgid "Refresh profiles"
-msgstr "プロファイルを選択"
+msgstr "プロファイルを再読み込み"
 
 #: src/widgets/preferences/refresh-launchers-runners-row.vala:15
 msgid "Refresh launchers/runners"
@@ -263,17 +258,16 @@ msgid "Check if any of the installed 'Latest' runners needs to be updated"
 msgstr ""
 
 #: src/widgets/preferences/check-updates-row.vala:16
-#, fuzzy
 msgid "Check for updates"
-msgstr "更新を確認中..."
+msgstr "更新を確認"
 
 #: src/widgets/preferences/access-token-row.vala:4
 msgid "Access token"
-msgstr ""
+msgstr "アクセストークン"
 
 #: src/widgets/preferences/access-token-row.vala:5
 msgid "Enter an access token to reduce your chances of being rate limited"
-msgstr ""
+msgstr "レート制限に掛かる頻度を減らすためにアクセストークンを入力する"
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -329,7 +323,7 @@ msgstr "インターネットに接続されていることを確認してくだ
 
 #: src/widgets/runners/runner-row.vala:62
 msgid "Make sure the access token you provided is valid."
-msgstr ""
+msgstr "あなたが入力したアクセストークンが有効であることを確認してください。"
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
@@ -364,14 +358,14 @@ msgid "Yes"
 msgstr "はい"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't delete %s"
-msgstr "%s をインストール"
+msgstr "%s を削除できませんでした"
 
 #: src/widgets/runners/install-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't install %s"
-msgstr "%s をインストール"
+msgstr "%s をインストールできませんでした"
 
 #: src/widgets/runners/install-dialog.vala:84
 #: src/widgets/runners/upgrade-dialog.vala:77
@@ -393,9 +387,9 @@ msgid "Upgrade %s"
 msgstr "%s をアップグレード"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't upgrade %s"
-msgstr "%s をインストール"
+msgstr "%s を更新できませんでした"
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:63
@@ -621,14 +615,14 @@ msgid ""
 msgstr "まとめて変更したい全てのオプションを有効化してください。"
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
-msgstr "%s に使用する互換性ツールを変更中にエラーが発生しました。"
+msgstr "選択したゲームに使用する互換性ツールや起動オプションを変更中にエラーが発生し"
+"ました。"
 
 #: src/widgets/games/mass-edit-dialog.vala:147
 msgid "The following games had an issue:"
-msgstr ""
+msgstr "以下のゲームに問題があります:"
 
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
@@ -648,14 +642,12 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Steam に作成した ProtonPlus のショートカットを削除する"
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "Couldn't delete the shortcut in Steam"
-msgstr "Steam に作成した ProtonPlus のショートカットを削除する"
+msgstr "Steam に作成したショートカットを削除できませんでした"
 
 #: src/widgets/games/shortcut-button.vala:46
-#, fuzzy
 msgid "Couldn't create the shortcut in Steam"
-msgstr "Steam に作成した ProtonPlus のショートカットを削除する"
+msgstr "Steam にショートカットを作成できませんでした"
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
@@ -702,9 +694,9 @@ msgid "Apply the current modification"
 msgstr "現在の変更を適用する"
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't change the launch options of %s"
-msgstr "%s の起動オプションを変更中にエラーが発生しました。"
+msgstr "%s の起動オプションを変更できませんでした"
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
@@ -733,18 +725,17 @@ msgid "Set the default compatibility tool"
 msgstr "デフォルトの互換性ツールを設定する"
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "Couldn't change the default compatibility tool"
-msgstr "デフォルトの互換性ツールを設定する"
+msgstr "デフォルトの互換性ツールを変更できませんでした"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
 msgstr "使用したい互換性ツールを選択"
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't change the compatibility tool of %s"
-msgstr "%s に使用する互換性ツールを変更中にエラーが発生しました。"
+msgstr "%s に使用する互換性ツールを変更できませんでした"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
@@ -858,12 +849,10 @@ msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Vulkan ベースの Linux/Wine 向けの Direct3D 8, 9, 10 と 11 の実装"
 
 #: src/translatables.vala:21
-#, fuzzy
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 msgstr "Vulkan バージョン 1.3 未満で動作させるための DXVK のビルド。"
 
 #: src/translatables.vala:22
-#, fuzzy
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 msgstr "Vulkan バージョン 1.3 未満で動作させるための DXVK Async のビルド。"
 
