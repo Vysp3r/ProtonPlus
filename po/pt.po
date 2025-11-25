@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-19 19:56-0500\n"
-"PO-Revision-Date: 2025-11-12 05:51+0000\n"
+"PO-Revision-Date: 2025-11-23 19:51+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -59,9 +59,8 @@ msgid "Donate"
 msgstr "Doar"
 
 #: src/widgets/window.vala:49
-#, fuzzy
 msgid "_Preferences"
-msgstr "Preferências"
+msgstr "_Preferências"
 
 #: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
@@ -85,7 +84,7 @@ msgstr "Jogos"
 
 #: src/widgets/window.vala:93
 msgid "Couldn't load the launchers"
-msgstr ""
+msgstr "Não foi possível carregar os inicializadores"
 
 #: src/widgets/window.vala:107
 #, c-format
@@ -368,9 +367,9 @@ msgid "Yes"
 msgstr "Sim"
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't delete %s"
-msgstr "Instalando %s"
+msgstr "Não foi possível excluir %s"
 
 #: src/widgets/runners/install-dialog.vala:56
 #, fuzzy, c-format
@@ -397,9 +396,9 @@ msgid "Upgrade %s"
 msgstr "Atualize %s"
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't upgrade %s"
-msgstr "Instalando %s"
+msgstr "Não foi possível atualizar  %s"
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:63
