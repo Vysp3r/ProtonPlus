@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-19 19:56-0500\n"
-"PO-Revision-Date: 2025-11-23 19:51+0000\n"
+"PO-Revision-Date: 2025-11-25 19:56+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -108,19 +108,17 @@ msgstr ""
 "garantir que estejam devidamente inicializados"
 
 #: src/widgets/window.vala:130
-#, fuzzy
 msgid "Checking for updates"
-msgstr "Procurando atualizações..."
+msgstr "Procurando atualizações"
 
 #: src/widgets/window.vala:131
 #, c-format
 msgid "Updating %s"
-msgstr ""
+msgstr "Atualizando %s"
 
 #: src/widgets/window.vala:148
-#, fuzzy
 msgid "Nothing to update"
-msgstr "Nada para atualizar."
+msgstr "Nada para atualizar"
 
 #: src/widgets/window.vala:149
 #, c-format
