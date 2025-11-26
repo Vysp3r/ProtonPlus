@@ -6,13 +6,14 @@
 # Loïc Nussbaumer <axelolo68@gmail.com>, 2025.
 # MrBretzel <axelolo68@gmail.com>, 2025.
 # Azrael Queenston <azrael.queenston@proton.me>, 2025.
+# Nota Inutilis <hugo@notainutilis.fr>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-19 19:56-0500\n"
-"PO-Revision-Date: 2025-11-24 13:51+0000\n"
-"Last-Translator: MrBretzel <axelolo68@gmail.com>\n"
+"PO-Revision-Date: 2025-11-26 05:51+0000\n"
+"Last-Translator: Nota Inutilis <hugo@notainutilis.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
 "Language: fr\n"
@@ -825,7 +826,7 @@ msgstr ""
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
-"Luxtorpeda fournit des moteurs de jeux natifs à Linux pour certains jeux "
+"Luxtorpeda fournit des moteurs de jeu natifs à Linux pour certains jeux "
 "exclusifs à Windows."
 
 #: src/translatables.vala:13
