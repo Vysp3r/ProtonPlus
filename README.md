@@ -24,9 +24,6 @@
     <a href="https://hosted.weblate.org/engage/protonplus/">
         <img src="https://hosted.weblate.org/widget/protonplus/protonplus/svg-badge.svg" alt="Translation status" />
     </a>
-    <a href="https://t.me/ProtonPlus">
-      <img alt="Telegram" title="Telegram" src="https://img.shields.io/endpoint?color=neon&style=shield&url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FProtonPlus">
-    </a>
 </p>
 
 <p align="center">
