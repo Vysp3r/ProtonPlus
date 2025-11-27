@@ -98,7 +98,7 @@
 
 ### [Fedora (COPR)](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) (Maintained by wehagy)
 
-### [NixOS (MyNixOS)](https://mynixos.com/nixpkgs/package/protonplus) (Maintained by Seth)
+### [NixOS (nixpkgs)](https://mynixos.com/nixpkgs/package/protonplus) (Maintained by Seth)
 
 ### [Ubuntu (Pacstall)](https://pacstall.dev/packages/protonplus) (Maintained by Vysp3r)
 
