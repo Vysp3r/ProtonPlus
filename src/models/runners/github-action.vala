@@ -34,7 +34,7 @@ namespace ProtonPlus.Models.Runners {
                 
                 string title = object.get_int_member ("run_number").to_string ();
                 string page_url = object.get_string_member ("html_url");
-                string release_date = object.get_string_member ("created_at").split ("T")[0];
+                string release_date = object.get_string_member ("created_at");
                 string download_url = url_template.replace ("{id}", object.get_int_member ("id").to_string ());
                 string artifacts_url = object.get_string_member ("artifacts_url");
 

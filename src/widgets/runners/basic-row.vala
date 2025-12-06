@@ -5,6 +5,10 @@ namespace ProtonPlus.Widgets {
 		public BasicRow (Models.Releases.Basic release) {
 			this.release = release;
 
+			var time = new DateTime.from_iso8601 (release.release_date, new GLib.TimeZone.local ());
+
+			this.set_subtitle (time.format ("%c"));
+
 			if (release.description == null || release.page_url == null)
 				input_box.remove (info_button);
 
