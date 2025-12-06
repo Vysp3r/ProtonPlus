@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 19:56-0500\n"
+"POT-Creation-Date: 2025-12-06 13:10-0500\n"
 "PO-Revision-Date: 2025-07-20 07:02+0000\n"
 "Last-Translator: Mie <miesiva@tutanota.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -39,7 +39,7 @@ msgstr "Memakan waktu lebih lama dari biasanya?"
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
 #: src/widgets/runners/runner-row.vala:65
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:56
+#: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -169,11 +169,10 @@ msgid "Report"
 msgstr ""
 
 #: src/widgets/window.vala:218
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:144
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
+#: src/widgets/runners/steamtinkerlaunch-row.vala:127
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "Peringatan"
@@ -354,12 +353,12 @@ msgid "Are you sure you want to proceed?"
 msgstr "Apakah Anda yakin ingin melanjutkannya?"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:91
+#: src/widgets/runners/steamtinkerlaunch-row.vala:84
 msgid "No"
 msgstr "Tidak"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:85
 msgid "Yes"
 msgstr "Ya"
 
@@ -368,22 +367,22 @@ msgstr "Ya"
 msgid "Couldn't delete %s"
 msgstr "Pasang %s"
 
-#: src/widgets/runners/install-dialog.vala:56
+#: src/widgets/runners/install-dialog.vala:52
 #, fuzzy, c-format
 msgid "Couldn't install %s"
 msgstr "Pasang %s"
 
-#: src/widgets/runners/install-dialog.vala:84
+#: src/widgets/runners/install-dialog.vala:73
 #: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
 msgstr "Mengunduh"
 
-#: src/widgets/runners/install-dialog.vala:99
+#: src/widgets/runners/install-dialog.vala:103
 #: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
 msgstr "Mengekstrak"
 
-#: src/widgets/runners/install-dialog.vala:102
+#: src/widgets/runners/install-dialog.vala:106
 msgid "Moving"
 msgstr "Memindahkan"
 
@@ -404,7 +403,7 @@ msgid "%s is used by %i game(s)"
 msgstr "%s digunakan oleh %i game(s)"
 
 #: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+#: src/widgets/runners/steamtinkerlaunch-row.vala:111
 msgid "Check this to also delete your configuration files."
 msgstr "Centang opsi ini untuk juga menghapus berkas konfigurasi Anda."
 
@@ -436,16 +435,20 @@ msgstr ""
 msgid "Show runners that aren't used by any games"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:8
+msgid "Update to the latest version"
+msgstr "Perbarui  ke versi terbaru"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "Anda melewatkan ketergantungan berikut untuk %s:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
 msgid "Installation will be canceled."
 msgstr "Instalasi akan dibatalkan."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -454,32 +457,19 @@ msgstr ""
 "Sepertinya Anda saat ini memiliki versi lain dari %s yang tidak diinstal "
 "oleh ProtonPlus."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Apakah Anda ingin menginstalnya kembali dengan ProtonPlus?"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#, c-format
-msgid "%s is already up-to-date."
-msgstr "%s sudah diperbarui."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:144
+#: src/widgets/runners/steamtinkerlaunch-row.vala:127
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "Untuk menginstal %s untuk %s, silakan jalankan perintah berikut:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Saat ini tidak ada cara yang diketahui untuk memasang %s untuk %s."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:179
-msgid "Up-to-date"
-msgstr "Terbaru"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:179
-msgid "Update to the latest version"
-msgstr "Perbarui  ke versi terbaru"
 
 #: src/widgets/games/games-box.vala:62
 msgid "Close the Steam client beforehand so that the changes can be applied."
@@ -905,6 +895,13 @@ msgstr "Tampilkan Pintasan"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Keluar"
+
+#, c-format
+#~ msgid "%s is already up-to-date."
+#~ msgstr "%s sudah diperbarui."
+
+#~ msgid "Up-to-date"
+#~ msgstr "Terbaru"
 
 #~ msgid ""
 #~ "Custom Proton build for running the Northstar client for Titanfall 2."

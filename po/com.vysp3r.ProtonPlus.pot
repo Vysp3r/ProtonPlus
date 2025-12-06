@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 19:56-0500\n"
+"POT-Creation-Date: 2025-12-06 13:10-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgstr ""
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
 #: src/widgets/runners/runner-row.vala:65
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:56
+#: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -164,11 +164,10 @@ msgid "Report"
 msgstr ""
 
 #: src/widgets/window.vala:218
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:144
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
+#: src/widgets/runners/steamtinkerlaunch-row.vala:127
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr ""
@@ -341,12 +340,12 @@ msgid "Are you sure you want to proceed?"
 msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:91
+#: src/widgets/runners/steamtinkerlaunch-row.vala:84
 msgid "No"
 msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:85
 msgid "Yes"
 msgstr ""
 
@@ -355,22 +354,22 @@ msgstr ""
 msgid "Couldn't delete %s"
 msgstr ""
 
-#: src/widgets/runners/install-dialog.vala:56
+#: src/widgets/runners/install-dialog.vala:52
 #, c-format
 msgid "Couldn't install %s"
 msgstr ""
 
-#: src/widgets/runners/install-dialog.vala:84
+#: src/widgets/runners/install-dialog.vala:73
 #: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
 msgstr ""
 
-#: src/widgets/runners/install-dialog.vala:99
+#: src/widgets/runners/install-dialog.vala:103
 #: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
 msgstr ""
 
-#: src/widgets/runners/install-dialog.vala:102
+#: src/widgets/runners/install-dialog.vala:106
 msgid "Moving"
 msgstr ""
 
@@ -391,7 +390,7 @@ msgid "%s is used by %i game(s)"
 msgstr ""
 
 #: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+#: src/widgets/runners/steamtinkerlaunch-row.vala:111
 msgid "Check this to also delete your configuration files."
 msgstr ""
 
@@ -421,47 +420,38 @@ msgstr ""
 msgid "Show runners that aren't used by any games"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:8
+msgid "Update to the latest version"
+msgstr ""
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
 msgid "Installation will be canceled."
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#, c-format
-msgid "%s is already up-to-date."
-msgstr ""
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:144
+#: src/widgets/runners/steamtinkerlaunch-row.vala:127
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
-msgstr ""
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:179
-msgid "Up-to-date"
-msgstr ""
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:179
-msgid "Update to the latest version"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:62

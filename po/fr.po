@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 19:56-0500\n"
+"POT-Creation-Date: 2025-12-06 13:10-0500\n"
 "PO-Revision-Date: 2025-11-29 03:00+0000\n"
 "Last-Translator: MrBretzel <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -46,7 +46,7 @@ msgstr "Prend plus de temps que d'habitude ?"
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
 #: src/widgets/runners/runner-row.vala:65
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:56
+#: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -173,11 +173,10 @@ msgid "Report"
 msgstr "Rapport"
 
 #: src/widgets/window.vala:218
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:144
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
+#: src/widgets/runners/steamtinkerlaunch-row.vala:127
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "Attention"
@@ -220,8 +219,8 @@ msgid ""
 "Whether or not to update the installed 'Latest' runners when the application "
 "start"
 msgstr ""
-"Mettre à jour ou non les outils de compatibilité installés "
-"(version 'Dernière') au démarrage de l'application"
+"Mettre à jour ou non les outils de compatibilité installés (version "
+"'Dernière') au démarrage de l'application"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Latest"
@@ -275,7 +274,8 @@ msgstr "Jeton d'accès"
 
 #: src/widgets/preferences/access-token-row.vala:5
 msgid "Enter an access token to reduce your chances of being rate limited"
-msgstr "Entrer un jeton d'accès pour réduire les risques de limitation de débit"
+msgstr ""
+"Entrer un jeton d'accès pour réduire les risques de limitation de débit"
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -358,12 +358,12 @@ msgid "Are you sure you want to proceed?"
 msgstr "Voulez-vous vraiment supprimer ?"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:91
+#: src/widgets/runners/steamtinkerlaunch-row.vala:84
 msgid "No"
 msgstr "Non"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:85
 msgid "Yes"
 msgstr "Oui"
 
@@ -372,22 +372,22 @@ msgstr "Oui"
 msgid "Couldn't delete %s"
 msgstr "Impossible de supprimer %s"
 
-#: src/widgets/runners/install-dialog.vala:56
+#: src/widgets/runners/install-dialog.vala:52
 #, c-format
 msgid "Couldn't install %s"
 msgstr "Impossible d'installer %s"
 
-#: src/widgets/runners/install-dialog.vala:84
+#: src/widgets/runners/install-dialog.vala:73
 #: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
 msgstr "Téléchargement"
 
-#: src/widgets/runners/install-dialog.vala:99
+#: src/widgets/runners/install-dialog.vala:103
 #: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
 msgstr "Extraction"
 
-#: src/widgets/runners/install-dialog.vala:102
+#: src/widgets/runners/install-dialog.vala:106
 msgid "Moving"
 msgstr "Déplacement"
 
@@ -408,7 +408,7 @@ msgid "%s is used by %i game(s)"
 msgstr "%s est utilisé par %i jeux"
 
 #: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+#: src/widgets/runners/steamtinkerlaunch-row.vala:111
 msgid "Check this to also delete your configuration files."
 msgstr "Regarder ceci pour enlever les fichiers de configurations."
 
@@ -441,16 +441,20 @@ msgstr "Inutilisé"
 msgid "Show runners that aren't used by any games"
 msgstr "Afficher les outils de compatibilité utilisés par aucun jeu"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:8
+msgid "Update to the latest version"
+msgstr "Mettre à jour vers la dernière version"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "Il vous manque les dépendences suivantes pour %s:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
 msgid "Installation will be canceled."
 msgstr "L’installation va être annulée."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -459,32 +463,19 @@ msgstr ""
 "Apparemment, vous avez déjà une autre version de %s qui n'a pas été "
 "installée par ProtonPlus."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Voulez-vous le supprimer et installer %s avec ProtonPlus?"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#, c-format
-msgid "%s is already up-to-date."
-msgstr "%s est déjà à jour."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:144
+#: src/widgets/runners/steamtinkerlaunch-row.vala:127
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "Pour installer %s pour %s, s.v.p. exécutez la commande suivante :"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Il n'y a actuellement pour nous aucune manière d'installer %s pour %s."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:179
-msgid "Up-to-date"
-msgstr "À jour"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:179
-msgid "Update to the latest version"
-msgstr "Mettre à jour vers la dernière version"
 
 #: src/widgets/games/games-box.vala:62
 msgid "Close the Steam client beforehand so that the changes can be applied."
@@ -869,7 +860,8 @@ msgstr "Implémentation Vulkan de Direct3D 9, 10 et 11 pour Linux/Wine."
 
 #: src/translatables.vala:21
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-msgstr "Build DXVK qui fonctionne avec les versions antérieures à 1.3 de Vulkan"
+msgstr ""
+"Build DXVK qui fonctionne avec les versions antérieures à 1.3 de Vulkan"
 
 #: src/translatables.vala:22
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
@@ -902,6 +894,13 @@ msgstr "_Montrer les raccourcis clavier"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Quitter"
+
+#, c-format
+#~ msgid "%s is already up-to-date."
+#~ msgstr "%s est déjà à jour."
+
+#~ msgid "Up-to-date"
+#~ msgstr "À jour"
 
 #~ msgid ""
 #~ "Custom Proton build for running the Northstar client for Titanfall 2."
@@ -1192,6 +1191,6 @@ msgstr "Quitter"
 #~ msgid "Launcher settings"
 #~ msgstr "Paramètres du launcher"
 
-msgctxt "1"
-msgid "Runners"
-msgstr "Outils de compatibilité"
+#~ msgctxt "1"
+#~ msgid "Runners"
+#~ msgstr "Outils de compatibilité"

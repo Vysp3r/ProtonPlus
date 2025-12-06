@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 19:56-0500\n"
+"POT-Creation-Date: 2025-12-06 13:10-0500\n"
 "PO-Revision-Date: 2025-11-30 21:00+0000\n"
 "Last-Translator: serg <serhii.maleev@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -16,9 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural="
-"(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? "
-"1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.15-dev\n"
 
 #: src/widgets/application.vala:91
@@ -44,7 +43,7 @@ msgstr "Длиться дольше чем обычно?"
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
 #: src/widgets/runners/runner-row.vala:65
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:56
+#: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -172,11 +171,10 @@ msgid "Report"
 msgstr "Отчет"
 
 #: src/widgets/window.vala:218
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:144
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
+#: src/widgets/runners/steamtinkerlaunch-row.vala:127
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "Предупреждение"
@@ -354,12 +352,12 @@ msgid "Are you sure you want to proceed?"
 msgstr "Вы уверены, что хотите продолжить?"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:91
+#: src/widgets/runners/steamtinkerlaunch-row.vala:84
 msgid "No"
 msgstr "Нет"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:85
 msgid "Yes"
 msgstr "Да"
 
@@ -368,22 +366,22 @@ msgstr "Да"
 msgid "Couldn't delete %s"
 msgstr "Не удается удалить %s"
 
-#: src/widgets/runners/install-dialog.vala:56
+#: src/widgets/runners/install-dialog.vala:52
 #, c-format
 msgid "Couldn't install %s"
 msgstr "Не удается установить %s"
 
-#: src/widgets/runners/install-dialog.vala:84
+#: src/widgets/runners/install-dialog.vala:73
 #: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
 msgstr "Загружается"
 
-#: src/widgets/runners/install-dialog.vala:99
+#: src/widgets/runners/install-dialog.vala:103
 #: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
 msgstr "Распаковывается..."
 
-#: src/widgets/runners/install-dialog.vala:102
+#: src/widgets/runners/install-dialog.vala:106
 msgid "Moving"
 msgstr "Перемещение"
 
@@ -404,7 +402,7 @@ msgid "%s is used by %i game(s)"
 msgstr "%s используется в %i играх."
 
 #: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+#: src/widgets/runners/steamtinkerlaunch-row.vala:111
 msgid "Check this to also delete your configuration files."
 msgstr "Отметить для удаления файлов конфигурации."
 
@@ -436,16 +434,20 @@ msgstr "Неиспользуемый"
 msgid "Show runners that aren't used by any games"
 msgstr "Покажите раннеры, которые не используются ни в каких играх"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:8
+msgid "Update to the latest version"
+msgstr "Обновите до последней версии"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "Для %s вам не хватает следующих зависимостей:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
 msgid "Installation will be canceled."
 msgstr "Установка будет отменена."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -454,33 +456,20 @@ msgstr ""
 "Похоже, что в настоящее время у вас установлена другая версия %s, которая не "
 "была установлена программой ProtonPlus."
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Хотите ли вы переустановить это с помощью ProtonPlus?"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#, c-format
-msgid "%s is already up-to-date."
-msgstr "%s уже обновлен."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:144
+#: src/widgets/runners/steamtinkerlaunch-row.vala:127
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr "Чтобы установить %s для %s, выполните следующую команду:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 "В настоящее время не существует известного способа установить %s для %s."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:179
-msgid "Up-to-date"
-msgstr "Актуальный"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:179
-msgid "Update to the latest version"
-msgstr "Обновите до последней версии"
 
 #: src/widgets/games/games-box.vala:62
 msgid "Close the Steam client beforehand so that the changes can be applied."
@@ -896,6 +885,13 @@ msgstr "Показать сочетания клавиш"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Выход"
+
+#, c-format
+#~ msgid "%s is already up-to-date."
+#~ msgstr "%s уже обновлен."
+
+#~ msgid "Up-to-date"
+#~ msgstr "Актуальный"
 
 #~ msgid ""
 #~ "Custom Proton build for running the Northstar client for Titanfall 2."

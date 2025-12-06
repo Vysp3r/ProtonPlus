@@ -1,26 +1,16 @@
 namespace ProtonPlus.Widgets {
 	public class SteamTinkerLaunchRow : ReleaseRow {
-		public Gtk.Button upgrade_button { get; set; }
-
 		Models.Releases.SteamTinkerLaunch release;
-
-		construct {
-			upgrade_button = new Gtk.Button ();
-			upgrade_button.add_css_class ("flat");
-			upgrade_button.clicked.connect (upgrade_button_clicked);
-
-			input_box.append (upgrade_button);
-		}
 
 		public SteamTinkerLaunchRow (Models.Releases.SteamTinkerLaunch release) {
 			this.release = release;
 
-			input_box.remove (update_button);
+			update_button.set_tooltip_text (_("Update to the latest version"));
 
 			if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
 				input_box.remove (install_button);
 				input_box.remove (remove_button);
-				input_box.remove (upgrade_button);
+				input_box.remove (update_button);
 			} else {
 				input_box.remove (info_button);
 			}
@@ -34,7 +24,10 @@ namespace ProtonPlus.Widgets {
 			release_state_changed ();
 		}
 
-		protected override void update_button_clicked () {}
+		protected override void update_button_clicked () {
+			var upgrade_dialog = new UpgradeDialog (release);
+			upgrade_dialog.present (Application.window);
+		}
 
 		protected override void install_button_clicked () {
 			// Steam Deck doesn't need any external dependencies.
@@ -125,16 +118,6 @@ namespace ProtonPlus.Widgets {
 			remove_dialog.present (Application.window);
 		}
 
-		void upgrade_button_clicked () {
-			if (release.state == Models.Release.State.UP_TO_DATE) {
-				var dialog = new WarningDialog (_("Warning"), _("%s is already up-to-date.").printf (release.title));
-				dialog.present (Application.window);
-			} else {
-				var upgrade_dialog = new UpgradeDialog (release);
-				upgrade_dialog.present (Application.window);
-			}
-		}
-
 		protected override void info_button_clicked () {
 			Adw.AlertDialog? alert_dialog = null;
 			switch (release.runner.group.launcher.installation_type) {
@@ -171,13 +154,8 @@ namespace ProtonPlus.Widgets {
 
 			install_button.set_visible (!installed);
 			remove_button.set_visible (installed);
-			upgrade_button.set_visible (installed);
+			update_button.set_visible (installed && !updated);
 			open_button.set_visible (installed);
-
-			if (upgrade_button.get_visible ()) {
-				upgrade_button.set_icon_name (updated ? "circle-check-symbolic" : "circle-chevron-up-symbolic");
-				upgrade_button.set_tooltip_text (updated ? _("Up-to-date") : _("Update to the latest version"));
-			}
 		}
 	}
 }

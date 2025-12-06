@@ -23,7 +23,7 @@ namespace ProtonPlus.Models.Releases {
                     title: "Steam Tinker Launch");
 
             home_location = Environment.get_home_dir ();
-            compat_location = runner.group.launcher.directory + "/" + runner.group.directory;
+            compat_location = runner.group.launcher.directory + runner.group.directory;
             if (Globals.IS_STEAM_OS) {
                 // Steam Deck uses `~/stl/prefix` instead.
                 parent_location = @"$home_location/stl";
@@ -52,14 +52,13 @@ namespace ProtonPlus.Models.Releases {
             return @"https://github.com/sonic2kk/steamtinkerlaunch/archive/$latest_hash.zip";
         }
 
-        async void exec_stl_if_exists (string exec_location, string args) {
-            if (FileUtils.test (exec_location, FileTest.IS_REGULAR))
-                yield exec_stl (exec_location, args);
-        }
-
         async void exec_stl (string exec_location, string args) {
-            if (FileUtils.test (exec_location, FileTest.IS_REGULAR) && !FileUtils.test (exec_location, FileTest.IS_EXECUTABLE))
+            if (!FileUtils.test (exec_location, FileTest.IS_REGULAR))
+                return;
+
+            if (!FileUtils.test (exec_location, FileTest.IS_EXECUTABLE))
                 yield Utils.System.run_command (@"chmod +x $exec_location");
+
             yield Utils.System.run_command (@"$exec_location $args");
         }
 
@@ -67,70 +66,66 @@ namespace ProtonPlus.Models.Releases {
             latest_date = "";
             latest_hash = "";
 
-            try {
-                string? response;
+            string? response;
 
-                var code = yield Utils.Web.get_request ("https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1", Utils.Web.GetType.STEAMTINKERLAUNCH, out response);
+            var code = yield Utils.Web.get_request ("https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1", Utils.Web.GetType.STEAMTINKERLAUNCH, out response);
 
-                if (code != ReturnCode.VALID_REQUEST)
-                    return;
+            if (code != ReturnCode.VALID_REQUEST)
+                return;
 
-                var root_node = Utils.Parser.get_node_from_json (response);
+            var root_node = Utils.Parser.get_node_from_json (response);
 
-                if (root_node.get_node_type () != Json.NodeType.ARRAY)
-                    return;
+            if (root_node.get_node_type () != Json.NodeType.ARRAY)
+                return;
 
-                var root_array = root_node.get_array ();
+            var root_array = root_node.get_array ();
 
-                if (root_array.get_length () < 1)
-                    return;
-
-
-                // Get the first (newest) commit in the list.
-                var commit_node = root_array.get_element (0);
-
-                if (commit_node.get_node_type () != Json.NodeType.OBJECT)
-                    return;
-
-                var commit_obj = commit_node.get_object ();
+            if (root_array.get_length () < 1)
+                return;
 
 
-                // Get metadata about the committer (not the author), since
-                // we want to know when it was committed to the repo.
-                if (!commit_obj.has_member ("commit"))
-                    return;
+            // Get the first (newest) commit in the list.
+            var commit_node = root_array.get_element (0);
 
-                var commit_metadata_node = commit_obj.get_member ("commit");
+            if (commit_node.get_node_type () != Json.NodeType.OBJECT)
+                return;
 
-                if (commit_metadata_node.get_node_type () != Json.NodeType.OBJECT)
-                    return;
-
-                var commit_metadata_obj = commit_metadata_node.get_object ();
+            var commit_obj = commit_node.get_object ();
 
 
-                if (!commit_metadata_obj.has_member ("committer"))
-                    return;
+            // Get metadata about the committer (not the author), since
+            // we want to know when it was committed to the repo.
+            if (!commit_obj.has_member ("commit"))
+                return;
 
-                var committer_metadata_node = commit_metadata_obj.get_member ("committer");
+            var commit_metadata_node = commit_obj.get_member ("commit");
 
-                if (committer_metadata_node.get_node_type () != Json.NodeType.OBJECT)
-                    return;
+            if (commit_metadata_node.get_node_type () != Json.NodeType.OBJECT)
+                return;
 
-                var committer_metadata_obj = committer_metadata_node.get_object ();
+            var commit_metadata_obj = commit_metadata_node.get_object ();
 
 
-                // Extract the latest commit's date and SHA hash.
-                // NOTE: The date is in ISO 8601 format (UTC): `YYYY-MM-DDTHH:MM:SSZ`.
-                string raw_date = committer_metadata_obj.get_string_member_with_default ("date", "");
-                var date_parts = raw_date.split ("T");
-                if (date_parts.length > 0) {
-                    latest_date = date_parts[0]; // "YYYY-MM-DD".
-                }
+            if (!commit_metadata_obj.has_member ("committer"))
+                return;
 
-                latest_hash = commit_obj.get_string_member_with_default ("sha", "");
-            } catch (Error e) {
-                message (e.message);
+            var committer_metadata_node = commit_metadata_obj.get_member ("committer");
+
+            if (committer_metadata_node.get_node_type () != Json.NodeType.OBJECT)
+                return;
+
+            var committer_metadata_obj = committer_metadata_node.get_object ();
+
+
+            // Extract the latest commit's date and SHA hash.
+            // NOTE: The date is in ISO 8601 format (UTC): `YYYY-MM-DDTHH:MM:SSZ`.
+            string raw_date = committer_metadata_obj.get_string_member_with_default ("date", "");
+            var date_parts = raw_date.split ("T");
+            if (date_parts.length > 0) {
+                latest_date = date_parts[0];     // "YYYY-MM-DD".
             }
+
+            latest_hash = commit_obj.get_string_member_with_default ("sha", "");
         }
 
         void write_installation_metadata (string meta_location) {
@@ -215,7 +210,7 @@ namespace ProtonPlus.Models.Releases {
             if (yield Utils.System.check_dependency ("steamtinkerlaunch"))
                 yield Utils.System.run_command ("steamtinkerlaunch compat del");
 
-            yield exec_stl_if_exists (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
+            yield exec_stl (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
 
             foreach (var location in external_locations) {
                 var deleted = yield Utils.Filesystem.delete_directory (location);
@@ -311,7 +306,7 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override async bool _start_remove (STL_Remove_Parameters parameters) {
-            yield exec_stl_if_exists (binary_location, "compat del");
+            yield exec_stl (binary_location, "compat del");
 
             // NOTE: We check specific types to avoid deleting unexpected data.
             if (FileUtils.test (link_location, FileTest.EXISTS)) {
