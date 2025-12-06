@@ -6,12 +6,13 @@
 # Cirnos <cirnos@tuta.io>, 2025.
 # Esther <sterzinhabr2006@gmail.com>, 2025.
 # vfssant <60822730+vfssant@users.noreply.github.com>, 2025.
+# Leandro Paz <leandropaz@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-19 19:56-0500\n"
-"PO-Revision-Date: 2025-11-27 05:03+0000\n"
-"Last-Translator: Cirnos <cirnos@tuta.io>\n"
+"PO-Revision-Date: 2025-12-06 07:00+0000\n"
+"Last-Translator: Leandro Paz <leandropaz@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
@@ -123,7 +124,7 @@ msgstr "Nada para atualizar"
 #: src/widgets/window.vala:149
 #, c-format
 msgid "No update found for %s"
-msgstr ""
+msgstr "Nenhuma atualização encontrada para %s"
 
 #: src/widgets/window.vala:154
 #, fuzzy
@@ -213,7 +214,7 @@ msgstr "Geral"
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Automatic updates"
-msgstr ""
+msgstr "Atualizações automáticas"
 
 #: src/widgets/preferences/preferences-dialog.vala:16
 msgid ""
@@ -270,7 +271,7 @@ msgstr "Procurando atualizações..."
 
 #: src/widgets/preferences/access-token-row.vala:4
 msgid "Access token"
-msgstr ""
+msgstr "Token de acesso"
 
 #: src/widgets/preferences/access-token-row.vala:5
 msgid "Enter an access token to reduce your chances of being rate limited"
@@ -330,7 +331,7 @@ msgstr "Certifique-se que você está conectado à internet."
 
 #: src/widgets/runners/runner-row.vala:62
 msgid "Make sure the access token you provided is valid."
-msgstr ""
+msgstr "Certifique-se de que o token de acesso fornecido é válido."
 
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
