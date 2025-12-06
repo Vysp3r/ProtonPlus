@@ -12,8 +12,8 @@ namespace ProtonPlus.Widgets {
 			title_label.set_halign (Gtk.Align.START);
 
 			var subtitle_label = new Gtk.Label (launcher.get_installation_type_title ());
+			subtitle_label.add_css_class ("dimmed");
 			subtitle_label.set_halign (Gtk.Align.START);
-			subtitle_label.add_css_class ("subtitle");
 
 			var labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 			labels_box.set_valign (Gtk.Align.CENTER);

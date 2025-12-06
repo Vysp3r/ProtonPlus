@@ -6,8 +6,6 @@ namespace ProtonPlus.Models.Releases {
             this.artifacts_url = artifacts_url;
 
             shared (runner, title, release_date, download_url, page_url);
-
-            displayed_title = @"$title ($release_date)";
         }
 
         protected override async bool _start_install () {
