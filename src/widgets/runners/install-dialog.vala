@@ -70,18 +70,22 @@ namespace ProtonPlus.Widgets {
 		void update_download_stat () {
 			var download_speed = release.speed_kbps >= 1000 ? "%.2f MB/s".printf(release.speed_kbps / 1024.0) : "%.2f KB/s".printf(release.speed_kbps);
 
-			var time_remaining = "";
-			int s = (int) release.seconds_remaining % 60;
-			int m = ((int) release.seconds_remaining / 60) % 60;
-			int h = (int) release.seconds_remaining / 3600;
-			if (h > 0)
-				time_remaining = "%02d:%02d:%02d".printf(h, m, s);
-			else if (m > 0)
-				time_remaining = "%02d:%02d".printf(m, s);
-			else
-				time_remaining = "%ds".printf(s);
+            var progress_text = "%s - %s".printf (_("Downloading"), download_speed);
 
-			progress_bar.set_text ("%s - %s (%s)".printf(_("Downloading"), download_speed, time_remaining));
+            if (release.seconds_remaining != null) {
+			    int s = (int) release.seconds_remaining % 60;
+			    int m = ((int) release.seconds_remaining / 60) % 60;
+			    int h = (int) release.seconds_remaining / 3600;
+
+			    if (h > 0)
+				    progress_text += " (%02d:%02d:%02d)".printf(h, m, s);
+			    else if (m > 0)
+				    progress_text += " (%02d:%02d)".printf(m, s);
+			    else
+				    progress_text += " (%ds)".printf(s);
+            }
+
+			progress_bar.set_text (progress_text);
 		}
 
 		void release_progress_changed () {

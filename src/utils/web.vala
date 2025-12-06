@@ -75,7 +75,7 @@ namespace ProtonPlus.Utils {
 
         public delegate bool cancel_callback ();
 
-        public delegate void progress_callback (bool is_percent, int64 progress_percentage, double speed_kbps, double remaining_seconds);
+        public delegate void progress_callback (bool is_percent, int64 progress_percentage, double speed_kbps, double? remaining_seconds);
 
         public static async bool Download (string url, string path, cancel_callback? cancel_callback = null, progress_callback? progress_callback = null) {
             try {

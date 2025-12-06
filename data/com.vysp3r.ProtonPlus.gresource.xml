@@ -11,8 +11,6 @@
     <file alias="style.css">css/style.css</file>
   </gresource>
   <gresource prefix="/com/vysp3r/ProtonPlus/icons">
-    <file alias="scalable/actions/circle-check-symbolic.svg">icons/circle-check.svg</file>
-    <file alias="scalable/actions/circle-chevron-up-symbolic.svg">icons/circle-chevron-up.svg</file>
     <file alias="scalable/actions/trash-symbolic.svg">icons/trash.svg</file>
     <file alias="scalable/actions/download-symbolic.svg">icons/download.svg</file>
     <file alias="scalable/actions/x-symbolic.svg">icons/x.svg</file>

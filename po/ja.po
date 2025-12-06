@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-19 19:56-0500\n"
+"POT-Creation-Date: 2025-12-06 13:10-0500\n"
 "PO-Revision-Date: 2025-11-25 10:51+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -41,7 +41,7 @@ msgstr "この画面が長く表示されていますか?"
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
 #: src/widgets/runners/runner-row.vala:65
 #: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:56
+#: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
 #: src/widgets/games/mass-edit-dialog.vala:147
 #: src/widgets/games/shortcut-button.vala:38
@@ -169,11 +169,10 @@ msgid "Report"
 msgstr "報告"
 
 #: src/widgets/window.vala:218
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#: src/widgets/runners/steamtinkerlaunch-row.vala:144
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
+#: src/widgets/runners/steamtinkerlaunch-row.vala:127
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
 msgstr "警告"
@@ -348,12 +347,12 @@ msgid "Are you sure you want to proceed?"
 msgstr "本当に続行しますか?"
 
 #: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:91
+#: src/widgets/runners/steamtinkerlaunch-row.vala:84
 msgid "No"
 msgstr "いいえ"
 
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:92
+#: src/widgets/runners/steamtinkerlaunch-row.vala:85
 msgid "Yes"
 msgstr "はい"
 
@@ -362,22 +361,22 @@ msgstr "はい"
 msgid "Couldn't delete %s"
 msgstr "%s を削除できませんでした"
 
-#: src/widgets/runners/install-dialog.vala:56
+#: src/widgets/runners/install-dialog.vala:52
 #, c-format
 msgid "Couldn't install %s"
 msgstr "%s をインストールできませんでした"
 
-#: src/widgets/runners/install-dialog.vala:84
+#: src/widgets/runners/install-dialog.vala:73
 #: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
 msgstr "ダウンロード中"
 
-#: src/widgets/runners/install-dialog.vala:99
+#: src/widgets/runners/install-dialog.vala:103
 #: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
 msgstr "展開中"
 
-#: src/widgets/runners/install-dialog.vala:102
+#: src/widgets/runners/install-dialog.vala:106
 msgid "Moving"
 msgstr "移動中"
 
@@ -398,7 +397,7 @@ msgid "%s is used by %i game(s)"
 msgstr "%s は %i つのゲームで使われています"
 
 #: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:118
+#: src/widgets/runners/steamtinkerlaunch-row.vala:111
 msgid "Check this to also delete your configuration files."
 msgstr "ここをチェックすると、設定ファイルまで削除されます。"
 
@@ -428,16 +427,20 @@ msgstr "未使用"
 msgid "Show runners that aren't used by any games"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:8
+msgid "Update to the latest version"
+msgstr "最新のバージョンに更新する"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "%s には以下の前提ソフトが不足しています:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:46
+#: src/widgets/runners/steamtinkerlaunch-row.vala:39
 msgid "Installation will be canceled."
 msgstr "インストールはキャンセルされます。"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -445,34 +448,21 @@ msgid ""
 msgstr ""
 "ProtonPlus 以外の方法でインストールした %s の別のバージョンがあるようです。"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:89
+#: src/widgets/runners/steamtinkerlaunch-row.vala:82
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "そのバージョンを ProtonPlus で再インストールしますか?"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:130
-#, c-format
-msgid "%s is already up-to-date."
-msgstr "%s は既に最新です。"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:144
+#: src/widgets/runners/steamtinkerlaunch-row.vala:127
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 "%s に必要な %s をインストールするには、以下のコマンドを実行してください:"
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 "現在、%s に必要な %s をインストールしているかを確認するすべがありません。"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:179
-msgid "Up-to-date"
-msgstr "最新"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:179
-msgid "Update to the latest version"
-msgstr "最新のバージョンに更新する"
 
 #: src/widgets/games/games-box.vala:62
 msgid "Close the Steam client beforehand so that the changes can be applied."
@@ -617,7 +607,8 @@ msgstr "まとめて変更したい全てのオプションを有効化してく
 #: src/widgets/games/mass-edit-dialog.vala:147
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
-msgstr "選択したゲームに使用する互換性ツールや起動オプションを変更中にエラーが発生し"
+msgstr ""
+"選択したゲームに使用する互換性ツールや起動オプションを変更中にエラーが発生し"
 "ました。"
 
 #: src/widgets/games/mass-edit-dialog.vala:147
@@ -881,6 +872,13 @@ msgstr "ショートカットの表示"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "アプリの終了"
+
+#, c-format
+#~ msgid "%s is already up-to-date."
+#~ msgstr "%s は既に最新です。"
+
+#~ msgid "Up-to-date"
+#~ msgstr "最新"
 
 #~ msgid ""
 #~ "Custom Proton build for running the Northstar client for Titanfall 2."

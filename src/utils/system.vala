@@ -4,14 +4,16 @@ namespace ProtonPlus.Utils {
             SourceFunc callback = run_command.callback;
 
             string output = "";
-            new Thread<void> ("rename", () => {
+            new Thread<void> ("run-command", () => {
                 try {
                     string command_line = "";
-                    if (Globals.IS_FLATPAK)command_line += "flatpak-spawn --host ";
+                    if (Globals.IS_FLATPAK)
+                        command_line += "flatpak-spawn --host ";
                     command_line += command;
 
                     var valid = Process.spawn_command_line_sync (command_line, out output, null, null);
-                    if (!valid) output = "";
+                    if (!valid)
+                        output = "";
                 } catch (Error e) {
                     message (e.message);
                 }
