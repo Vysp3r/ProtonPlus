@@ -119,8 +119,25 @@ namespace ProtonPlus.Models {
 			if (version_content == "")
 				return ReturnCode.UNKNOWN_ERROR;
 
-			var current_title = version_content.split (" ")[1].strip ();
-			if (title == current_title)
+			var version_title = version_content.split (" ")[1].strip ();
+
+			var proton_content = Utils.Filesystem.get_file_content ("%s/proton".printf (runner_directory));
+			if (proton_content == "")
+				return ReturnCode.UNKNOWN_ERROR;
+
+			var proton_start_word = "CURRENT_PREFIX_VERSION=\"";
+			var proton_start_index = proton_content.index_of (proton_start_word, 0);
+			if (proton_start_index == -1)
+				return ReturnCode.UNKNOWN_ERROR;
+			proton_start_index += proton_start_word.length;
+
+			var proton_end_index = proton_content.index_of ("\"", proton_start_index);
+			if (proton_end_index == -1)
+				return ReturnCode.UNKNOWN_ERROR;
+
+			var proton_title = proton_content.substring (proton_start_index, proton_end_index - proton_start_index);
+
+			if (title == version_title || title == proton_title)
 				return ReturnCode.NOTHING_TO_UPDATE;
 
 			var settings_path = "%s/user_settings.py".printf (runner_directory);
