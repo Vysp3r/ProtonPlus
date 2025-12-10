@@ -93,6 +93,37 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.14" date="2025-12-08">
+      <description>
+        <ul>
+          <li>✨ Migrate user_settings.py on update</li>
+          <li>✨ Added a button to open runners install directory</li>
+          <li>✨ Added a basic cache system for downloaded runners</li>
+          <li>✨ Improved new user experience</li>
+          <li>✨ Added API limit/connection issue warning dialog</li>
+          <li>✨ Improved "Runners" tab filters</li>
+          <li>✨ Added preferences dialog</li>
+          <li>✨ Added report button to error dialogs</li>
+          <li>✨ Added GitHub/GitLab access token</li>
+          <li>✨ Added release date under release name</li>
+          <li>🐛 Fixed possible negative remaining download time</li>
+          <li>🐛 Fixed select/unselect all</li>
+          <li>🐛 Fixed Proton-CachyOS not downloading the good version</li>
+          <li>🐛 Fixed invalid files from being downloaded</li>
+          <li>🐛 Fixed Wine-Proton invalid download url</li>
+          <li>🐛 Fixed SteamTinkerLaunch download issue</li>
+          <li>🐛 Fixed Proton-GE Latest version check issue</li>
+          <li>🐛 Fixed Proton-CachyOS invalid directory name</li>
+          <li>🌐 Added Japanese localization</li>
+          <li>🌐 Updated Chinese localization</li>
+          <li>🌐 Updated French localization</li>
+          <li>🌐 Updated Spanish localization</li>
+          <li>🌐 Updated Italian localization</li>
+          <li>🌐 Updated Portuguese localization</li>
+          <li>🌐 Updated Russian localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.13" date="2025-10-07">
       <description>
         <ul>

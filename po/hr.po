@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-06 13:10-0500\n"
+"POT-Creation-Date: 2025-12-07 13:47-0500\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/protonplus/"
@@ -310,7 +310,7 @@ msgstr "Instaliraj %s"
 #: src/widgets/runners/release-row.vala:54
 #: src/widgets/runners/release-row.vala:56
 #: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:62
+#: src/widgets/runners/basic-row.vala:66
 #: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr ""
@@ -395,7 +395,7 @@ msgid "Couldn't upgrade %s"
 msgstr "Instaliraj %s"
 
 #: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:63
+#: src/widgets/runners/basic-row.vala:67
 #, fuzzy, c-format
 msgid "%s is used by %i game(s)"
 msgstr "Koristi se u %i igrama."
@@ -405,7 +405,7 @@ msgstr "Koristi se u %i igrama."
 msgid "Check this to also delete your configuration files."
 msgstr "Označite ovo kako biste uklonili i konfiguracijske datoteke."
 
-#: src/widgets/runners/basic-row.vala:20
+#: src/widgets/runners/basic-row.vala:24
 msgid ""
 "This version will get automatically updated when there's an update available "
 "each time your launch the application if automatic updates is enabled"

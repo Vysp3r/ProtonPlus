@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-06 13:10-0500\n"
+"POT-Creation-Date: 2025-12-07 13:47-0500\n"
 "PO-Revision-Date: 2025-08-14 11:01+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -312,7 +312,7 @@ msgstr "%s تثبيت"
 #: src/widgets/runners/release-row.vala:54
 #: src/widgets/runners/release-row.vala:56
 #: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:62
+#: src/widgets/runners/basic-row.vala:66
 #: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "مُستخدَم"
@@ -397,7 +397,7 @@ msgid "Couldn't upgrade %s"
 msgstr "%s تثبيت"
 
 #: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:63
+#: src/widgets/runners/basic-row.vala:67
 #, fuzzy, c-format
 msgid "%s is used by %i game(s)"
 msgstr "من الألعاب %i يستخدم بواسطة"
@@ -407,7 +407,7 @@ msgstr "من الألعاب %i يستخدم بواسطة"
 msgid "Check this to also delete your configuration files."
 msgstr "حدد هنا لحذف ملفات التخصيص الخاص بك أيضاً"
 
-#: src/widgets/runners/basic-row.vala:20
+#: src/widgets/runners/basic-row.vala:24
 msgid ""
 "This version will get automatically updated when there's an update available "
 "each time your launch the application if automatic updates is enabled"

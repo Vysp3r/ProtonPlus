@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-06 13:10-0500\n"
+"POT-Creation-Date: 2025-12-07 13:47-0500\n"
 "PO-Revision-Date: 2025-11-29 03:00+0000\n"
 "Last-Translator: MrBretzel <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -318,7 +318,7 @@ msgstr "Installer %s"
 #: src/widgets/runners/release-row.vala:54
 #: src/widgets/runners/release-row.vala:56
 #: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:62
+#: src/widgets/runners/basic-row.vala:66
 #: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr "Utilisé"
@@ -402,7 +402,7 @@ msgid "Couldn't upgrade %s"
 msgstr "Impossible de mettre à niveau %s"
 
 #: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:63
+#: src/widgets/runners/basic-row.vala:67
 #, c-format
 msgid "%s is used by %i game(s)"
 msgstr "%s est utilisé par %i jeux"
@@ -412,7 +412,7 @@ msgstr "%s est utilisé par %i jeux"
 msgid "Check this to also delete your configuration files."
 msgstr "Regarder ceci pour enlever les fichiers de configurations."
 
-#: src/widgets/runners/basic-row.vala:20
+#: src/widgets/runners/basic-row.vala:24
 msgid ""
 "This version will get automatically updated when there's an update available "
 "each time your launch the application if automatic updates is enabled"

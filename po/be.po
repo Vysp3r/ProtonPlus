@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-06 13:10-0500\n"
+"POT-Creation-Date: 2025-12-07 13:47-0500\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -307,7 +307,7 @@ msgstr "Толькі ўсталяваныя"
 #: src/widgets/runners/release-row.vala:54
 #: src/widgets/runners/release-row.vala:56
 #: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:62
+#: src/widgets/runners/basic-row.vala:66
 #: src/widgets/runners/filters-box.vala:22
 msgid "Used"
 msgstr ""
@@ -393,7 +393,7 @@ msgid "Couldn't upgrade %s"
 msgstr "Толькі ўсталяваныя"
 
 #: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:63
+#: src/widgets/runners/basic-row.vala:67
 #, c-format
 msgid "%s is used by %i game(s)"
 msgstr ""
@@ -403,7 +403,7 @@ msgstr ""
 msgid "Check this to also delete your configuration files."
 msgstr ""
 
-#: src/widgets/runners/basic-row.vala:20
+#: src/widgets/runners/basic-row.vala:24
 msgid ""
 "This version will get automatically updated when there's an update available "
 "each time your launch the application if automatic updates is enabled"
