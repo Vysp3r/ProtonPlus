@@ -21,7 +21,8 @@ namespace ProtonPlus {
 			N_("DXVK builds that work with pre-Vulkan 1.3 versions."),
 			N_("DXVK Async builds that work with pre-Vulkan 1.3 versions."),
 			N_("DXVK builds with gplasync patch by Ph42oN."),
-			N_("Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.")
+			N_("Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan."),
+			N_("Dawn Winery's custom Proton fork with fixes for various games :xdd:")
 		};
 	}
 }
