@@ -121,6 +121,19 @@
                     "type": "github"
                 },
                 {
+                    "title": "DW-Proton",
+                    "description": "Dawn Winery's custom Proton fork with fixes for various games :xdd:",
+                    "endpoint": "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases",
+                    "asset_position": 1,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$title $release_name"
+                        }
+                    ],
+                    "type": "forgejo"
+                },
+                {
                     "title": "Luxtorpeda",
                     "description": "Luxtorpeda provides Linux-native game engines for certain Windows-only games.",
                     "endpoint": "https://api.github.com/repos/luxtorpeda-dev/luxtorpeda/releases",
