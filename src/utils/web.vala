@@ -4,6 +4,7 @@ namespace ProtonPlus.Utils {
             OTHER,
             GITHUB,
             GITLAB,
+            FORGEJO,
             STEAMTINKERLAUNCH,
         }
 

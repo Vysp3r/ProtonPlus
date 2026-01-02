@@ -411,6 +411,11 @@ namespace ProtonPlus.Models {
 
 					runner = gitlab_runner;
 					break;
+				case "forgejo":
+					var forgejo_runner = new Runners.Forgejo ();
+
+					runner = forgejo_runner;
+					break;
 				default:
 					message ("%s %s".printf ("Invalid type for runner named", json_runner_item.title));
 					break;

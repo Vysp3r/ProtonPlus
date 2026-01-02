@@ -78,6 +78,7 @@ sources = files(
   'models/runners/github.vala',
   'models/runners/github-action.vala',
   'models/runners/gitlab.vala',
+  'models/runners/forgejo.vala',
   'models/runners/installed.vala',
   'models/runners/steamtinkerlaunch.vala',
 
