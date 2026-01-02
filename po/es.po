@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-02 11:53-0500\n"
+"POT-Creation-Date: 2026-01-02 13:19-0500\n"
 "PO-Revision-Date: 2025-11-24 13:51+0000\n"
 "Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -878,6 +878,10 @@ msgid ""
 msgstr ""
 "Variante de VKD3D de Wine que busca implementar la API completa de Direct3D "
 "12 sobre Vulkan."
+
+#: src/translatables.vala:25
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+msgstr ""
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"

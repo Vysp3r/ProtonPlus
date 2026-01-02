@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-02 11:53-0500\n"
+"POT-Creation-Date: 2026-01-02 13:19-0500\n"
 "PO-Revision-Date: 2025-07-21 02:03+0000\n"
 "Last-Translator: WeAreGeek <weblate@wearegeek.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/protonplus/"
@@ -886,6 +886,10 @@ msgid ""
 msgstr ""
 "Variant van Wine's VKD3D die als doel heeft om de volledige Direct3D 12 API "
 "bovenop Vulkan te implementeren."
+
+#: src/translatables.vala:25
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+msgstr ""
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"

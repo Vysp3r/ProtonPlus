@@ -93,6 +93,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.15" date="2026-01-02">
+      <description>
+        <ul>
+          <li>✨ Added DW-Proton</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Updated Portuguese localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.14" date="2025-12-08">
       <description>
         <ul>

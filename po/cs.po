@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-02 11:53-0500\n"
+"POT-Creation-Date: 2026-01-02 13:19-0500\n"
 "PO-Revision-Date: 2025-07-25 02:03+0000\n"
 "Last-Translator: AsciiWolf <mail@asciiwolf.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -876,6 +876,10 @@ msgid ""
 msgstr ""
 "Varianta VKD3D z Wine, jejímž cílem je implementovat plné rozhraní API "
 "Direct3D 12 na Vulkanu."
+
+#: src/translatables.vala:25
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+msgstr ""
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-02 11:53-0500\n"
+"POT-Creation-Date: 2026-01-02 13:19-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -815,6 +815,10 @@ msgstr ""
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
+msgstr ""
+
+#: src/translatables.vala:25
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
 msgstr ""
 
 #: data/ui/gtk/help-overlay.ui:11

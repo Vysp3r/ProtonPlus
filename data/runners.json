@@ -128,7 +128,7 @@
                     "directory_name_formats": [
                         {
                             "launcher": "default",
-                            "directory_name_format": "$title $release_name"
+                            "directory_name_format": "$release_name"
                         }
                     ],
                     "type": "forgejo"
