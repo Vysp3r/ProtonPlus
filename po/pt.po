@@ -7,19 +7,20 @@
 # Esther <sterzinhabr2006@gmail.com>, 2025.
 # vfssant <60822730+vfssant@users.noreply.github.com>, 2025.
 # Leandro Paz <leandropaz@gmail.com>, 2025.
+# "LucasR." <thelucasr2@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-07 13:47-0500\n"
-"PO-Revision-Date: 2025-12-06 07:00+0000\n"
-"Last-Translator: Leandro Paz <leandropaz@gmail.com>\n"
+"PO-Revision-Date: 2025-12-29 05:00+0000\n"
+"Last-Translator: \"LucasR.\" <thelucasr2@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
@@ -127,9 +128,8 @@ msgid "No update found for %s"
 msgstr "Nenhuma atualização encontrada para %s"
 
 #: src/widgets/window.vala:154
-#, fuzzy
 msgid "Everything is now up-to-date"
-msgstr "Tudo agora está atualizado."
+msgstr "Tudo está atualizado agora."
 
 #: src/widgets/window.vala:155
 #, fuzzy, c-format
@@ -161,7 +161,7 @@ msgstr "Não foi possível acessar a API"
 #: src/widgets/window.vala:172 src/widgets/window.vala:173
 #: src/widgets/runners/runner-row.vala:62
 msgid "Invalid access token"
-msgstr ""
+msgstr "Token de acesso inválido"
 
 #: src/widgets/window.vala:178 src/widgets/window.vala:179
 #: src/widgets/runners/runner-row.vala:65
