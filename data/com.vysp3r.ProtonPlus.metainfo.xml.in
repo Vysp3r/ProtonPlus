@@ -93,7 +93,7 @@
   </screenshots>
 
   <releases>
-  <release version="0.5.15" date="2026-01-02">
+    <release version="0.5.15" date="2026-01-02">
       <description>
         <ul>
           <li>✨ Added DW-Proton</li>
