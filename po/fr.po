@@ -4,7 +4,7 @@
 # Noé Lopez <noelopez@free.fr>, 2024.
 # Iwan ASSI <claymorwan@fembois.dev>, 2025.
 # Loïc Nussbaumer <axelolo68@gmail.com>, 2025.
-# MrBretzel <axelolo68@gmail.com>, 2025.
+# MrBretzel <axelolo68@gmail.com>, 2025, 2026.
 # Azrael Queenston <azrael.queenston@proton.me>, 2025.
 # Nota Inutilis <hugo@notainutilis.fr>, 2025.
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-02 13:19-0500\n"
-"PO-Revision-Date: 2025-11-29 03:00+0000\n"
+"PO-Revision-Date: 2026-01-04 06:01+0000\n"
 "Last-Translator: MrBretzel <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
@@ -295,13 +295,11 @@ msgstr "Afficher plus d'informations"
 
 #: src/widgets/runners/release-row.vala:17
 msgid "Update the runner if a newer version is available"
-msgstr ""
-"Mettre à jour l'outil de compatibilité si une version plus récente est "
-"disponible"
+msgstr "Mettre à jour si une version plus récente est disponible"
 
 #: src/widgets/runners/release-row.vala:20
 msgid "Open runner directory"
-msgstr "Ouvrir le dossier de l'outil de compatibilité"
+msgstr "Ouvrir le dossier"
 
 #: src/widgets/runners/release-row.vala:24
 #: src/widgets/runners/remove-dialog.vala:11
@@ -883,6 +881,7 @@ msgstr ""
 #: src/translatables.vala:25
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
 msgstr ""
+"Version personnalisée de Proton pour différents jeux par Dawn Winery's  :xdd:"
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
