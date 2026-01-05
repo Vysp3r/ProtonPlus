@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-02 13:19-0500\n"
-"PO-Revision-Date: 2025-11-25 23:00+0800\n"
+"PO-Revision-Date: 2026-01-05 21:58+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -835,7 +835,7 @@ msgstr "Wine VKD3D 的特化版，旨在 Vulkan 之上實作完整的 Direct3D 1
 
 #: src/translatables.vala:25
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-msgstr ""
+msgstr "包含多種遊戲修正的 Dawn Winery 自訂的 Proton 分支版本 :xdd:"
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"

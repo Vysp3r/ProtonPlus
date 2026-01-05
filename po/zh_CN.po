@@ -6,9 +6,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-02 13:19-0500\n"
-"PO-Revision-Date: 2025-11-25 23:08+0800\n"
+"PO-Revision-Date: 2026-01-05 22:02+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
-"Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
+"Language-Team: CodeBay.IN\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -767,7 +767,7 @@ msgstr ""
 
 #: src/translatables.vala:10
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr "基于 Wine-tkg 的，运行 Windows 游戏的定制 Proton 建构版本。"
+msgstr "基于 Wine-tkg 的，运行 Windows 游戏的自定义 Proton 建构版本。"
 
 #: src/translatables.vala:11
 msgid ""
@@ -835,7 +835,7 @@ msgstr "Wine VKD3D 的特化版，旨在 Vulkan 之上实作完整的 Direct3D 1
 
 #: src/translatables.vala:25
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-msgstr ""
+msgstr "包含多种游戏修正的 Dawn Winery 自定义的 Proton 分支版本 :xdd:"
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
