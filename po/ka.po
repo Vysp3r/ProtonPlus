@@ -3,18 +3,22 @@
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
 # Automatically generated, 2026.
 #
+# Temuri Doghonadze <temuri.doghonadze@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-02 13:22-0500\n"
-"PO-Revision-Date: 2026-01-02 13:22-0500\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2026-01-09 05:01+0000\n"
+"Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
+"Language-Team: Georgian <https://hosted.weblate.org/projects/protonplus/"
+"protonplus/ka/>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
@@ -22,7 +26,7 @@ msgstr ""
 
 #: src/widgets/application.vala:93
 msgid "Website"
-msgstr ""
+msgstr "ვებსაიტი"
 
 #: src/widgets/application.vala:98
 msgid "Special thanks to"
@@ -30,7 +34,7 @@ msgstr ""
 
 #: src/widgets/window.vala:32
 msgid "Loading"
-msgstr ""
+msgstr "იტვირთება"
 
 #: src/widgets/window.vala:32
 msgid "Taking longer than normal?"
@@ -52,11 +56,11 @@ msgstr ""
 
 #: src/widgets/window.vala:45
 msgid "Donate"
-msgstr ""
+msgstr "შეწირვა"
 
 #: src/widgets/window.vala:49
 msgid "_Preferences"
-msgstr ""
+msgstr "_მორგება"
 
 #: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
@@ -72,11 +76,11 @@ msgstr ""
 
 #: src/widgets/window.vala:59
 msgid "Runners"
-msgstr ""
+msgstr "დამხმარე პროცესები"
 
 #: src/widgets/window.vala:60
 msgid "Games"
-msgstr ""
+msgstr "თამაშები"
 
 #: src/widgets/window.vala:93
 msgid "Couldn't load the launchers"
@@ -160,7 +164,7 @@ msgstr ""
 
 #: src/widgets/window.vala:180 src/widgets/error-dialog.vala:7
 msgid "Report"
-msgstr ""
+msgstr "ანგარიში"
 
 #: src/widgets/window.vala:218
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
@@ -169,7 +173,7 @@ msgstr ""
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
-msgstr ""
+msgstr "გაფრთხილება"
 
 #: src/widgets/window.vala:218
 msgid ""
@@ -179,12 +183,12 @@ msgstr ""
 
 #: src/widgets/window.vala:220
 msgid "Exit"
-msgstr ""
+msgstr "გასვლა"
 
 #: src/widgets/window.vala:223 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
-msgstr ""
+msgstr "გაუქმება"
 
 #: src/widgets/update-button.vala:9
 msgid "Checking for updates..."
@@ -192,11 +196,11 @@ msgstr ""
 
 #: src/widgets/warning-dialog.vala:7 src/widgets/error-dialog.vala:10
 msgid "OK"
-msgstr ""
+msgstr "დიახ"
 
 #: src/widgets/preferences/preferences-dialog.vala:9
 msgid "General"
-msgstr ""
+msgstr "ზოგადი"
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Automatic updates"
@@ -210,7 +214,7 @@ msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Latest"
-msgstr ""
+msgstr "უახლესი"
 
 #: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Remember last used profile"
@@ -222,15 +226,15 @@ msgstr ""
 
 #: src/widgets/preferences/theme-row.vala:15
 msgid "System"
-msgstr ""
+msgstr "სისტემა"
 
 #: src/widgets/preferences/theme-row.vala:16
 msgid "Light"
-msgstr ""
+msgstr "ღია"
 
 #: src/widgets/preferences/theme-row.vala:17
 msgid "Dark"
-msgstr ""
+msgstr "მუქი"
 
 #: src/widgets/preferences/theme-row.vala:25
 msgid "Current theme"
@@ -266,7 +270,7 @@ msgstr ""
 
 #: src/widgets/runners/description-dialog.vala:18
 msgid "Open"
-msgstr ""
+msgstr "გახსნა"
 
 #: src/widgets/runners/description-dialog.vala:22
 msgid "Open in your web browser"
@@ -302,7 +306,7 @@ msgstr ""
 #: src/widgets/runners/basic-row.vala:66
 #: src/widgets/runners/filters-box.vala:22
 msgid "Used"
-msgstr ""
+msgstr "გამოყენებულია"
 
 #: src/widgets/runners/runner-row.vala:56
 msgid "Try again in a few minutes."
@@ -341,12 +345,12 @@ msgstr ""
 #: src/widgets/runners/remove-dialog.vala:30
 #: src/widgets/runners/steamtinkerlaunch-row.vala:84
 msgid "No"
-msgstr ""
+msgstr "არა"
 
 #: src/widgets/runners/remove-dialog.vala:31
 #: src/widgets/runners/steamtinkerlaunch-row.vala:85
 msgid "Yes"
-msgstr ""
+msgstr "დიახ"
 
 #: src/widgets/runners/remove-dialog.vala:49
 #, c-format
@@ -361,16 +365,16 @@ msgstr ""
 #: src/widgets/runners/install-dialog.vala:73
 #: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
-msgstr ""
+msgstr "გადმოწერა"
 
 #: src/widgets/runners/install-dialog.vala:103
 #: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
-msgstr ""
+msgstr "ამოღება"
 
 #: src/widgets/runners/install-dialog.vala:106
 msgid "Moving"
-msgstr ""
+msgstr "გადატანა"
 
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
@@ -401,7 +405,7 @@ msgstr ""
 
 #: src/widgets/runners/filters-box.vala:12
 msgid "Installed"
-msgstr ""
+msgstr "დაყენებულია"
 
 #: src/widgets/runners/filters-box.vala:17
 msgid "Show installed runners"
@@ -413,7 +417,7 @@ msgstr ""
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
-msgstr ""
+msgstr "გამოუყენებელი"
 
 #: src/widgets/runners/filters-box.vala:37
 msgid "Show runners that aren't used by any games"
@@ -467,11 +471,11 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:110
 msgid "Name"
-msgstr ""
+msgstr "სახელი"
 
 #: src/widgets/games/games-box.vala:114
 msgid "Prefix"
-msgstr ""
+msgstr "პრეფიქსი"
 
 #: src/widgets/games/games-box.vala:121
 #: src/widgets/games/mass-edit-dialog.vala:38
@@ -480,7 +484,7 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:125
 msgid "Other"
-msgstr ""
+msgstr "სხვა"
 
 #: src/widgets/games/games-box.vala:151
 msgid "No profile was found."
