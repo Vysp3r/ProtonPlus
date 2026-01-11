@@ -1,13 +1,14 @@
 # Daniel Rusek <mail@asciiwolf.com>, 2023.
 # "M.M." <martin.miscikms@gmail.com>, 2025.
 # AsciiWolf <mail@asciiwolf.com>, 2025.
+# Valentin Ljuba <7fnndt50@anonaddy.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-02 13:22-0500\n"
-"PO-Revision-Date: 2025-07-25 02:03+0000\n"
-"Last-Translator: AsciiWolf <mail@asciiwolf.com>\n"
+"PO-Revision-Date: 2026-01-11 17:01+0000\n"
+"Last-Translator: Valentin Ljuba <7fnndt50@anonaddy.me>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/cs/>\n"
 "Language: cs\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
@@ -57,7 +58,7 @@ msgstr "Podpořit"
 
 #: src/widgets/window.vala:49
 msgid "_Preferences"
-msgstr ""
+msgstr "Nastavení"
 
 #: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
