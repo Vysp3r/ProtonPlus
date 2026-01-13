@@ -3,7 +3,7 @@
 # Kauã Azevedo da Silva Vicente <Kazevic@pm.me>, 2024.
 # Otávio <otavioheg123@gmail.com>, 2025.
 # Cirnos <Cirnos@users.noreply.hosted.weblate.org>, 2025.
-# Cirnos <cirnos@tuta.io>, 2025.
+# Cirnos <cirnos@tuta.io>, 2025, 2026.
 # Esther <sterzinhabr2006@gmail.com>, 2025.
 # vfssant <60822730+vfssant@users.noreply.github.com>, 2025.
 # Leandro Paz <leandropaz@gmail.com>, 2025.
@@ -12,15 +12,15 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-02 13:22-0500\n"
-"PO-Revision-Date: 2025-12-29 05:00+0000\n"
-"Last-Translator: \"LucasR.\" <thelucasr2@gmail.com>\n"
+"PO-Revision-Date: 2026-01-13 22:04+0000\n"
+"Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2-dev\n"
 
 #: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
@@ -885,6 +885,7 @@ msgstr ""
 #: src/translatables.vala:25
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
 msgstr ""
+"Derivação do Proton por Dawn Winery com correções para vários jogos :xdd:"
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
