@@ -103,7 +103,8 @@ deps = [
   dependency('json-glib-1.0'),
   dependency('libsoup-3.0'),
   dependency('gee-0.8'),
-  dependency('libarchive')
+  dependency('libarchive'),
+  meson.get_compiler('c').find_library('m', required: false)
 ]
 
 executable(
