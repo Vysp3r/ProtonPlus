@@ -47,9 +47,9 @@
                     "type": "github"
                 },
                 {
-                    "title": "Proton-EM",
-                    "description": "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine wayland tweaks.",
-                    "endpoint": "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases",
+                    "title": "DW-Proton",
+                    "description": "Dawn Winery's custom Proton fork with fixes for various games :xdd:",
+                    "endpoint": "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases",
                     "asset_position": 1,
                     "directory_name_formats": [
                         {
@@ -57,7 +57,8 @@
                             "directory_name_format": "$release_name"
                         }
                     ],
-                    "type": "github"
+                    "support_latest": true,
+                    "type": "forgejo"
                 },
                 {
                     "title": "Proton-Sarek",
@@ -92,6 +93,19 @@
                     "type": "github"
                 },
                 {
+                    "title": "Proton-EM",
+                    "description": "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine wayland tweaks.",
+                    "endpoint": "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases",
+                    "asset_position": 1,
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$release_name"
+                        }
+                    ],
+                    "type": "github"
+                },
+                {
                     "title": "Proton-Tkg",
                     "description": "Custom Proton build for running Windows games, based on Wine-tkg.",
                     "endpoint": "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs",
@@ -119,19 +133,6 @@
                         }
                     ],
                     "type": "github"
-                },
-                {
-                    "title": "DW-Proton",
-                    "description": "Dawn Winery's custom Proton fork with fixes for various games :xdd:",
-                    "endpoint": "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases",
-                    "asset_position": 1,
-                    "directory_name_formats": [
-                        {
-                            "launcher": "default",
-                            "directory_name_format": "$release_name"
-                        }
-                    ],
-                    "type": "forgejo"
                 },
                 {
                     "title": "Luxtorpeda",
