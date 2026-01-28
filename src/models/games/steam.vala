@@ -150,7 +150,7 @@ namespace ProtonPlus.Models.Games {
 				try {
 					steam_launcher.profile.shortcuts.save();
 				} catch (Error error) {
-					message (error.message);
+					GLib.error (error.message);
 
 					return false;
 				}
@@ -180,7 +180,7 @@ namespace ProtonPlus.Models.Games {
 				return false;
 
 			app = config_content.substring(start_pos, end_pos - start_pos);
-			message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
+			// message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
 
 			if (escaped_launch_options.length == 0) {
 				if (app.contains("LaunchOptions")) {
@@ -219,7 +219,7 @@ namespace ProtonPlus.Models.Games {
 					// message("start: %i, end: %i, app_launch_options: %s", start_pos, end_pos, app_launch_options);
 
 					if (app_launch_options.length > 0) {
-						message(app_launch_options + " | " + escaped_launch_options);
+						// message(app_launch_options + " | " + escaped_launch_options);
 						app_modified = app.replace(app_launch_options, escaped_launch_options);
 					} else {
 						var before = app.substring(0, start_pos);

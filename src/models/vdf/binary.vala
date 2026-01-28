@@ -29,7 +29,7 @@ namespace ProtonPlus.Models.VDF {
                 reader.read_byte();
                 return str;
             } catch (Error e) {
-                stdout.printf("ERROR %s", e.message);
+                error ("Error: %s", e.message);
                 throw e;
             }
         }
@@ -62,7 +62,7 @@ namespace ProtonPlus.Models.VDF {
                     }
                 }
             } catch (Error e) {
-                stdout.printf("ERROR %s", e.message);
+                error ("Error: %s", e.message);
                 throw e;
             }
         }
@@ -207,7 +207,7 @@ namespace ProtonPlus.Models.VDF {
                     }
                 }
             } catch (Error e) {
-                stderr.printf("%s\n", e.message);
+                error ("%s\n", e.message);
             }
         }
     }
