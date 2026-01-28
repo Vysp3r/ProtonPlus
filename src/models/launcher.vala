@@ -417,7 +417,7 @@ namespace ProtonPlus.Models {
 					runner = forgejo_runner;
 					break;
 				default:
-					message ("%s %s".printf ("Invalid type for runner named", json_runner_item.title));
+					error ("%s %s".printf ("Invalid type for runner named", json_runner_item.title));
 					break;
 			}
 
