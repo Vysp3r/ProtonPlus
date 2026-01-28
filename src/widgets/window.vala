@@ -149,6 +149,7 @@ namespace ProtonPlus.Widgets {
 							_("No update found for %s").printf ("%s Latest".printf (runner.title)));
 					break;
 				case ReturnCode.RUNNERS_UPDATED:
+				case ReturnCode.RUNNER_UPDATED:
 					toast = new Adw.Toast (
 							runner == null ?
 							_("Everything is now up-to-date") :
