@@ -45,9 +45,6 @@ namespace ProtonPlus.Utils {
                 if (response == null)
                     return ReturnCode.UNKNOWN_ERROR;
 
-                if (response.contains ("Temporary failure in name resolution"))
-                    return ReturnCode.CONNECTION_ISSUE;
-
                 switch (get_type) {
                     case GetType.GITHUB:
                         if (response.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"))
@@ -68,7 +65,16 @@ namespace ProtonPlus.Utils {
 
                 return ReturnCode.VALID_REQUEST;
             } catch (Error e) {
-                error (e.message);
+                warning (e.message);
+
+                if (e.message.contains ("Temporary failure in name resolution"))
+                    return ReturnCode.CONNECTION_ISSUE;
+
+                if (e.message.contains ("Connection refused"))
+                    return ReturnCode.CONNECTION_REFUSED;
+
+                if (e.message.contains ("Name or service not known"))
+                    return ReturnCode.CONNECTION_UNKNOWN;
 
                 return ReturnCode.UNKNOWN_ERROR;
             }
@@ -88,7 +94,7 @@ namespace ProtonPlus.Utils {
                 var input_stream = yield session.send_async (soup_message, Priority.DEFAULT, null);
 
                 if (soup_message.status_code != 200) {
-                    error (soup_message.reason_phrase);
+                    warning (soup_message.reason_phrase);
                     return false;
                 }
 
@@ -160,7 +166,7 @@ namespace ProtonPlus.Utils {
 
                 return !is_canceled;
             } catch (Error e) {
-                error (e.message);
+                warning (e.message);
 
                 return false;
             }

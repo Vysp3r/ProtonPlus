@@ -150,7 +150,7 @@ namespace ProtonPlus.Models.Games {
 				try {
 					steam_launcher.profile.shortcuts.save();
 				} catch (Error error) {
-					GLib.error (error.message);
+					GLib.warning (error.message);
 
 					return false;
 				}

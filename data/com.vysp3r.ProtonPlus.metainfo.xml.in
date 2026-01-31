@@ -101,6 +101,8 @@
           <li>✨ Added Proton-Sarek (Async) Latest</li>
           <li>✨ Added Proton-EM Latest</li>
           <li>✨ Added Proton-GE RTSP Latest</li>
+          <li>🐛 Fixed network error not being displayed when they should</li>
+          <li>🐛 Fixed "Unknown error" dialog appearing on successful update</li>
           <li>🐛 Fixed "Games" tab runners not refreshing when installing/removing a runner</li>
         </ul>
       </description>
