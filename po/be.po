@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-02 13:22-0500\n"
+"POT-Creation-Date: 2026-01-31 12:14-0500\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -125,52 +125,52 @@ msgstr ""
 msgid "No update found for %s"
 msgstr ""
 
-#: src/widgets/window.vala:154
+#: src/widgets/window.vala:155
 msgid "Everything is now up-to-date"
 msgstr ""
 
-#: src/widgets/window.vala:155
+#: src/widgets/window.vala:156
 #, c-format
 msgid "%s is now up-to-date"
 msgstr ""
 
-#: src/widgets/window.vala:160 src/widgets/window.vala:166
-#: src/widgets/window.vala:172 src/widgets/window.vala:178
+#: src/widgets/window.vala:161 src/widgets/window.vala:167
+#: src/widgets/window.vala:173 src/widgets/window.vala:179
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr ""
 
-#: src/widgets/window.vala:160 src/widgets/window.vala:161
+#: src/widgets/window.vala:161 src/widgets/window.vala:162
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr ""
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:167
-#: src/widgets/window.vala:173 src/widgets/window.vala:179
+#: src/widgets/window.vala:162 src/widgets/window.vala:168
+#: src/widgets/window.vala:174 src/widgets/window.vala:180
 #, fuzzy, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "Толькі ўсталяваныя"
 
-#: src/widgets/window.vala:166 src/widgets/window.vala:167
+#: src/widgets/window.vala:167 src/widgets/window.vala:168
 #: src/widgets/runners/runner-row.vala:59
 msgid "Unable to reach the API"
 msgstr ""
 
-#: src/widgets/window.vala:172 src/widgets/window.vala:173
+#: src/widgets/window.vala:173 src/widgets/window.vala:174
 #: src/widgets/runners/runner-row.vala:62
 msgid "Invalid access token"
 msgstr ""
 
-#: src/widgets/window.vala:178 src/widgets/window.vala:179
+#: src/widgets/window.vala:179 src/widgets/window.vala:180
 #: src/widgets/runners/runner-row.vala:65
 msgid "Unknown error"
 msgstr ""
 
-#: src/widgets/window.vala:180 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:181 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr ""
 
-#: src/widgets/window.vala:218
+#: src/widgets/window.vala:219
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -179,17 +179,17 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: src/widgets/window.vala:218
+#: src/widgets/window.vala:219
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:220
+#: src/widgets/window.vala:221
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:223 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:224 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr ""
@@ -765,14 +765,8 @@ msgstr ""
 "параўнанні з стандартным Proton ад Valve."
 
 #: src/translatables.vala:7
-#, fuzzy
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
-"wayland tweaks."
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
 msgstr ""
-"Інструмент сумяшчальнасці Steam для запуску гульняў Windows з паляпшэннямі ў "
-"параўнанні з стандартным Proton ад Valve."
 
 #: src/translatables.vala:8
 #, fuzzy
@@ -794,12 +788,22 @@ msgstr ""
 
 #: src/translatables.vala:10
 #, fuzzy
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
+"wayland tweaks."
+msgstr ""
+"Інструмент сумяшчальнасці Steam для запуску гульняў Windows з паляпшэннямі ў "
+"параўнанні з стандартным Proton ад Valve."
+
+#: src/translatables.vala:11
+#, fuzzy
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 "Спецыяльная зборка Proton для запуску гульняў Windows, створаная з дапамогай "
 "сістэмы зборкі Wine-tkg."
 
-#: src/translatables.vala:11
+#: src/translatables.vala:12
 #, fuzzy
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
@@ -808,7 +812,7 @@ msgstr ""
 "Інструмент сумяшчальнасці для Steam Play на аснове Wine і дадатковых "
 "кампанентаў."
 
-#: src/translatables.vala:12
+#: src/translatables.vala:13
 #, fuzzy
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
@@ -816,7 +820,7 @@ msgstr ""
 "Luxtorpeda прадастаўляе націўныя рухавікі Linux для пэўных гульняў, якія "
 "працуюць толькі пад Windows."
 
-#: src/translatables.vala:13
+#: src/translatables.vala:14
 #, fuzzy
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
@@ -824,66 +828,62 @@ msgstr ""
 "Інструмент сумяшчальнасці Steam Play для запуску прыгодніцкіх гульняў з "
 "выкарыстаннем націўнай Linux ScummVM."
 
-#: src/translatables.vala:14
+#: src/translatables.vala:15
 #, fuzzy
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 "Інструмент сумяшчальнасці Steam Play для запуску DOS гульняў з выкарыстаннем "
 "націўнага Linux DOSBox."
 
-#: src/translatables.vala:15
+#: src/translatables.vala:16
 #, fuzzy
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Інструмент сумяшчальнасці для запуску гульняў Windows на Linux"
 
-#: src/translatables.vala:16
+#: src/translatables.vala:17
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "Зборка Wine скампілявана з афіцыйных крыніц WineHQ."
 
-#: src/translatables.vala:17
+#: src/translatables.vala:18
 #, fuzzy
 msgid "Wine build with the Staging patchset."
 msgstr "Зборка Wine з ужытым наборам выпраўленняў Staging."
 
-#: src/translatables.vala:18
+#: src/translatables.vala:19
 #, fuzzy
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
 "Зборка Wine з ужытым наборам выпраўленняў Staging і мноствам дадатковых "
 "карысных выпраўленняў."
 
-#: src/translatables.vala:19
+#: src/translatables.vala:20
 msgid "Wine build modified by Valve and other contributors."
 msgstr ""
 
-#: src/translatables.vala:20
+#: src/translatables.vala:21
 #, fuzzy
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Рэалізацыя Direct3D 9, 10 і 11 на аснове Vulkan для Linux/Wine"
 
-#: src/translatables.vala:21
+#: src/translatables.vala:22
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 msgstr ""
 
-#: src/translatables.vala:22
+#: src/translatables.vala:23
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 msgstr ""
 
-#: src/translatables.vala:23
+#: src/translatables.vala:24
 msgid "DXVK builds with gplasync patch by Ph42oN."
 msgstr ""
 
-#: src/translatables.vala:24
+#: src/translatables.vala:25
 #, fuzzy
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
 "Форк VKD3D ад Wine, мэта якога - рэалізаваць поўны API Direct3D 12 на Vulkan"
-
-#: src/translatables.vala:25
-msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-msgstr ""
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"

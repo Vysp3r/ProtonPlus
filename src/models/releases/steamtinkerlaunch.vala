@@ -299,8 +299,14 @@ namespace ProtonPlus.Models.Releases {
 
             yield exec_stl (binary_location, "compat add");
 
+
             // Remember installed version.
             write_installation_metadata (meta_location);
+
+
+            // Add STL to Games tab
+            var simple_runner = new SimpleRunner.from_path("%s/SteamTinkerLaunch".printf (compat_location));
+            runner.group.launcher.compatibility_tools.add (simple_runner);
 
             return true;
         }
@@ -338,6 +344,13 @@ namespace ProtonPlus.Models.Releases {
 
                 if (!config_deleted)
                     return false;
+            }
+
+            foreach (var simple_runner in runner.group.launcher.compatibility_tools) {
+                if (simple_runner.path == "%s/SteamTinkerLaunch".printf (compat_location)) {
+                    runner.group.launcher.compatibility_tools.remove (simple_runner);
+                    break;
+                }
             }
 
             return true;

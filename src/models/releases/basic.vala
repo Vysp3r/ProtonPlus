@@ -101,6 +101,8 @@ namespace ProtonPlus.Models.Releases {
             if (!renaming_valid)
                 return false;
 
+            add_to_games_tab ();
+
             return true;
         }
 
@@ -112,7 +114,24 @@ namespace ProtonPlus.Models.Releases {
             if (!deleted)
                 return false;
 
+            remove_from_games_tab ();
+
             return true;
+        }
+
+        internal void add_to_games_tab () {
+            var simple_runner = new SimpleRunner.from_path(install_location);
+
+            runner.group.launcher.compatibility_tools.add (simple_runner);
+        }
+
+        internal void remove_from_games_tab () {
+            foreach (var simple_runner in runner.group.launcher.compatibility_tools) {
+                if (simple_runner.path == install_location) {
+                    runner.group.launcher.compatibility_tools.remove (simple_runner);
+                    break;
+                }
+            }
         }
     }
 }

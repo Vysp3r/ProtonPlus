@@ -52,6 +52,8 @@ namespace ProtonPlus.Models.Releases {
             if (!renaming_valid)
                 return false;
 
+            add_to_games_tab ();
+
             return true;
         }
     }

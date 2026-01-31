@@ -29,8 +29,8 @@ namespace ProtonPlus.Widgets {
 
 			compatibility_tool_row = new CompatibilityToolRow(model, expression);
 
-			for (var i = 0; i < launcher.compatibility_tools.length(); i++) {
-				if (launcher.compatibility_tools.nth_data(i).internal_title == launcher.default_compatibility_tool) {
+			for (var i = 0; i < launcher.compatibility_tools.size; i++) {
+				if (launcher.compatibility_tools[i].internal_title == launcher.default_compatibility_tool) {
 					compatibility_tool_row.set_selected(i);
 					break;
 				}

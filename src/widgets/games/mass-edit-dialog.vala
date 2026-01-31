@@ -109,8 +109,8 @@ namespace ProtonPlus.Widgets {
 							if (valid_row.game.compatibility_tool == _("Undefined")) {
 								valid_row.compatibility_tool_dropdown.dropdown.set_selected(0);
 							} else {
-								for (var i = 0; i < valid_row.game.launcher.compatibility_tools.length(); i++) {
-									if (valid_row.game.compatibility_tool == valid_row.game.launcher.compatibility_tools.nth_data(i).internal_title) {
+								for (var i = 0; i < valid_row.game.launcher.compatibility_tools.size; i++) {
+									if (valid_row.game.compatibility_tool == valid_row.game.launcher.compatibility_tools[i].internal_title) {
 										valid_row.compatibility_tool_dropdown.dropdown.set_selected(i + 1);
 										break;
 									}

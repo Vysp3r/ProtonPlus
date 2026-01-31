@@ -2,6 +2,7 @@ namespace ProtonPlus.Models {
 	public class SimpleRunner : Object {
 		public string display_title { get; set; }
 		public string internal_title { get; set; }
+		public string path { get; set; }
 
 		public SimpleRunner (string display_title, string internal_title) {
 			this.display_title = display_title;
@@ -9,6 +10,8 @@ namespace ProtonPlus.Models {
 		}
 
 		public SimpleRunner.from_path (string path) throws Error {
+			this.path = path;
+
 			var content = Utils.Filesystem.get_file_content ("%s/compatibilitytool.vdf".printf (path));
 			var start_text = "";
 			var end_text = "";
