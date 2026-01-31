@@ -97,6 +97,10 @@
       <description>
         <ul>
           <li>✨ Added DW-Proton Latest</li>
+          <li>✨ Added Proton-Sarek Latest</li>
+          <li>✨ Added Proton-Sarek (Async) Latest</li>
+          <li>✨ Added Proton-EM Latest</li>
+          <li>✨ Added Proton-GE RTSP Latest</li>
           <li>🐛 Fixed "Games" tab runners not refreshing when installing/removing a runner</li>
         </ul>
       </description>
