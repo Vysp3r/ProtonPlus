@@ -91,6 +91,7 @@
                     "request_asset_exclude": [
                         "Sarek9-13"
                     ],
+                    "support_latest": true,
                     "type": "github"
                 },
                 {
