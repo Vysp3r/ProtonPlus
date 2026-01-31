@@ -119,6 +119,7 @@
                             "directory_name_format": "$release_name"
                         }
                     ],
+                    "support_latest": true,
                     "type": "github"
                 },
                 {
