@@ -6,7 +6,7 @@ namespace ProtonPlus.Models {
 		public bool installed;
 		public bool has_library_support;
 		public List<Game> games;
-		public List<SimpleRunner> compatibility_tools;
+		public Gee.ArrayList<SimpleRunner> compatibility_tools;
 
 		public Group[] groups;
 
@@ -32,6 +32,8 @@ namespace ProtonPlus.Models {
 					}
 				}
 			}
+
+			compatibility_tools = new Gee.ArrayList<SimpleRunner> ();
 
 			installed = directory.length > 0;
 		}

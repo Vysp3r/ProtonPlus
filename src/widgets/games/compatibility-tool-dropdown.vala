@@ -32,8 +32,8 @@ namespace ProtonPlus.Widgets {
 			if (game.compatibility_tool == _("Undefined")) {
 				dropdown.set_selected(0);
 			} else {
-				for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
-					if (game.launcher.compatibility_tools.nth_data(i).internal_title == game.compatibility_tool) {
+				for (var i = 0; i < game.launcher.compatibility_tools.size; i++) {
+					if (game.launcher.compatibility_tools[i].internal_title == game.compatibility_tool) {
 						dropdown.set_selected(i + 1);
 						break;
 					}
@@ -80,8 +80,8 @@ namespace ProtonPlus.Widgets {
 				if (game.compatibility_tool == _("Undefined")) {
 					dropdown.set_selected(0);
 				} else {
-					for (var i = 0; i < game.launcher.compatibility_tools.length(); i++) {
-						if (game.compatibility_tool == game.launcher.compatibility_tools.nth_data(i).internal_title) {
+					for (var i = 0; i < game.launcher.compatibility_tools.size; i++) {
+						if (game.compatibility_tool == game.launcher.compatibility_tools[i].internal_title) {
 							dropdown.set_selected(i + 1);
 							break;
 						}
@@ -155,6 +155,10 @@ namespace ProtonPlus.Widgets {
 
 		void on_destroy () {
 			dropdown.unparent ();
+		}
+
+		void on_compatibility_tools_changed () {
+
 		}
     }
 }
