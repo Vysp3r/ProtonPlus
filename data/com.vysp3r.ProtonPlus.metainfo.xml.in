@@ -97,6 +97,7 @@
       <description>
         <ul>
           <li>✨ Added DW-Proton Latest</li>
+          <li>🐛 Fixed "Games" tab runners not refreshing when installing/removing a runner</li>
         </ul>
       </description>
     </release>
