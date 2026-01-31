@@ -4,7 +4,7 @@ namespace ProtonPlus.Utils {
             try {
                 return Json.from_string (json);
             } catch (Error e) {
-                error (e.message);
+                warning (e.message);
                 return null;
             }
         }

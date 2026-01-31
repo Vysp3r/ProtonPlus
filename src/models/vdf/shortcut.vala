@@ -69,7 +69,7 @@ namespace ProtonPlus.Models.VDF {
 
                 return true;
             } catch (Error e) {
-                error (e.message);
+                warning (e.message);
                 return false;
             }
         }
@@ -80,7 +80,7 @@ namespace ProtonPlus.Models.VDF {
                 save();
                 return true;
             } catch (Error e) {
-                error (e.message);
+                warning (e.message);
                 return true;
             }
         }

@@ -58,6 +58,12 @@ namespace ProtonPlus.Widgets {
 									case ReturnCode.CONNECTION_ISSUE:
 										dialog = new WarningDialog (_("Unable to reach the API"), _("Make sure you're connected to the internet."));
 										break;
+									case ReturnCode.CONNECTION_REFUSED:
+										dialog = new WarningDialog (_("Unable to reach the API"), _("Make sure your DNS is not blocking this."));
+										break;
+									case ReturnCode.CONNECTION_UNKNOWN:
+										dialog = new WarningDialog (_("Unable to reach the API"), _("The requested website does not seem to be valid."));
+										break;
 									case ReturnCode.INVALID_ACCESS_TOKEN:
 										dialog = new WarningDialog (_("Invalid access token"), _("Make sure the access token you provided is valid."));
 										break;

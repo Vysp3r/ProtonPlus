@@ -162,6 +162,8 @@ namespace ProtonPlus.Widgets {
 						_("Couldn't update %s (Reason: %s)").printf (runner.title, _("API limit reached")));
 					break;
 				case ReturnCode.CONNECTION_ISSUE:
+				case ReturnCode.CONNECTION_REFUSED:
+				case ReturnCode.CONNECTION_UNKNOWN:
 					toast = new Adw.Toast (
 						runner == null ?
 						_("Couldn't check for updates (Reason: %s)").printf (_("Unable to reach the API")) :

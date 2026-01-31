@@ -41,7 +41,7 @@ namespace ProtonPlus.Models {
 					}
 				}
 			} catch (Error e) {
-				error (e.message);
+				warning (e.message);
 			}
 
 			return directories;

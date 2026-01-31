@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-31 12:14-0500\n"
+"POT-Creation-Date: 2026-01-31 13:36-0500\n"
 "PO-Revision-Date: 2026-01-05 22:02+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -37,7 +37,7 @@ msgid "Taking longer than normal?"
 msgstr "加载时间是不是比平常久？"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:65
+#: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -128,8 +128,8 @@ msgstr "当前皆已为最新版本"
 msgid "%s is now up-to-date"
 msgstr "%s 已为最新版本"
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:167
-#: src/widgets/window.vala:173 src/widgets/window.vala:179
+#: src/widgets/window.vala:161 src/widgets/window.vala:169
+#: src/widgets/window.vala:175 src/widgets/window.vala:181
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "无法检查更新（原因：%s）"
@@ -139,32 +139,34 @@ msgstr "无法检查更新（原因：%s）"
 msgid "API limit reached"
 msgstr "已达到 API 限制"
 
-#: src/widgets/window.vala:162 src/widgets/window.vala:168
-#: src/widgets/window.vala:174 src/widgets/window.vala:180
+#: src/widgets/window.vala:162 src/widgets/window.vala:170
+#: src/widgets/window.vala:176 src/widgets/window.vala:182
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "无法更新 %1$s（原因：%2$s）"
 
-#: src/widgets/window.vala:167 src/widgets/window.vala:168
+#: src/widgets/window.vala:169 src/widgets/window.vala:170
 #: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr "无法存取 API"
 
-#: src/widgets/window.vala:173 src/widgets/window.vala:174
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/window.vala:175 src/widgets/window.vala:176
+#: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr "无效的存取令牌"
 
-#: src/widgets/window.vala:179 src/widgets/window.vala:180
-#: src/widgets/runners/runner-row.vala:65
+#: src/widgets/window.vala:181 src/widgets/window.vala:182
+#: src/widgets/runners/runner-row.vala:71
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/widgets/window.vala:181 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:183 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr "回报"
 
-#: src/widgets/window.vala:219
+#: src/widgets/window.vala:221
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -173,7 +175,7 @@ msgstr "回报"
 msgid "Warning"
 msgstr "警告"
 
-#: src/widgets/window.vala:219
+#: src/widgets/window.vala:221
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -181,11 +183,11 @@ msgstr ""
 "当前正在检查更新。\n"
 "提前离开可能会导致问题。"
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:223
 msgid "Exit"
 msgstr "离开"
 
-#: src/widgets/window.vala:224 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:226 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "取消"
@@ -317,6 +319,14 @@ msgid "Make sure you're connected to the internet."
 msgstr "请确保连接至互连网。"
 
 #: src/widgets/runners/runner-row.vala:62
+msgid "Make sure your DNS is not blocking this."
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:65
+msgid "The requested website does not seem to be valid."
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:68
 msgid "Make sure the access token you provided is valid."
 msgstr "请确保提供的存取令牌是有效的。"
 

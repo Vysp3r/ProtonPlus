@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-31 12:14-0500\n"
+"POT-Creation-Date: 2026-01-31 13:36-0500\n"
 "PO-Revision-Date: 2026-01-13 22:04+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -43,7 +43,7 @@ msgid "Taking longer than normal?"
 msgstr "Demorando mais que o normal?"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:65
+#: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -136,8 +136,8 @@ msgstr "Tudo está atualizado agora."
 msgid "%s is now up-to-date"
 msgstr "%s já está atualizado."
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:167
-#: src/widgets/window.vala:173 src/widgets/window.vala:179
+#: src/widgets/window.vala:161 src/widgets/window.vala:169
+#: src/widgets/window.vala:175 src/widgets/window.vala:181
 #, fuzzy, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Procurando atualizações..."
@@ -147,32 +147,34 @@ msgstr "Procurando atualizações..."
 msgid "API limit reached"
 msgstr "Limite da API atingido"
 
-#: src/widgets/window.vala:162 src/widgets/window.vala:168
-#: src/widgets/window.vala:174 src/widgets/window.vala:180
+#: src/widgets/window.vala:162 src/widgets/window.vala:170
+#: src/widgets/window.vala:176 src/widgets/window.vala:182
 #, fuzzy, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "Instalando %s"
 
-#: src/widgets/window.vala:167 src/widgets/window.vala:168
+#: src/widgets/window.vala:169 src/widgets/window.vala:170
 #: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr "Não foi possível acessar a API"
 
-#: src/widgets/window.vala:173 src/widgets/window.vala:174
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/window.vala:175 src/widgets/window.vala:176
+#: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr "Token de acesso inválido"
 
-#: src/widgets/window.vala:179 src/widgets/window.vala:180
-#: src/widgets/runners/runner-row.vala:65
+#: src/widgets/window.vala:181 src/widgets/window.vala:182
+#: src/widgets/runners/runner-row.vala:71
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: src/widgets/window.vala:181 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:183 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr ""
 
-#: src/widgets/window.vala:219
+#: src/widgets/window.vala:221
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -181,7 +183,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Aviso"
 
-#: src/widgets/window.vala:219
+#: src/widgets/window.vala:221
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -189,11 +191,11 @@ msgstr ""
 "A aplicação atualmente procura atualizações.\n"
 "Sair da aplicação cedo pode causar problemas."
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:223
 msgid "Exit"
 msgstr "Sair"
 
-#: src/widgets/window.vala:224 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:226 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Cancelar"
@@ -329,6 +331,14 @@ msgid "Make sure you're connected to the internet."
 msgstr "Certifique-se que você está conectado à internet."
 
 #: src/widgets/runners/runner-row.vala:62
+msgid "Make sure your DNS is not blocking this."
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:65
+msgid "The requested website does not seem to be valid."
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:68
 msgid "Make sure the access token you provided is valid."
 msgstr "Certifique-se de que o token de acesso fornecido é válido."
 

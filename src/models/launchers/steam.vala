@@ -228,14 +228,14 @@ namespace ProtonPlus.Models.Launchers {
 									var simple_runner = new SimpleRunner.from_path(file_path);
                                 	compatibility_tools.add (simple_runner);
 								} catch (Error e) {
-                                    error (e.message);
+                                    warning (e.message);
 								}
 							}
                         }
                     }
                 }
             } catch (Error e) {
-                error (e.message);
+                warning (e.message);
             }
             
             return true;

@@ -33,7 +33,7 @@ namespace ProtonPlus.Models {
 
 				shortcuts = new VDF.Shortcuts (shortcuts_file_path);
 			} catch (Error e) {
-				error (e.message);
+				warning (e.message);
 			}
 		}
 
@@ -308,7 +308,7 @@ namespace ProtonPlus.Models {
 					}
 				}
 			} catch (Error e) {
-				error (e.message);
+				warning (e.message);
 			}
 
 			return userdata_hashtable;

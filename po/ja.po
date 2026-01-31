@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-31 12:14-0500\n"
+"POT-Creation-Date: 2026-01-31 13:36-0500\n"
 "PO-Revision-Date: 2025-11-25 10:51+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -39,7 +39,7 @@ msgid "Taking longer than normal?"
 msgstr "この画面が長く表示されていますか?"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
-#: src/widgets/runners/runner-row.vala:65
+#: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
@@ -132,8 +132,8 @@ msgstr "全て最新になりました。"
 msgid "%s is now up-to-date"
 msgstr "%s は最新になりました"
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:167
-#: src/widgets/window.vala:173 src/widgets/window.vala:179
+#: src/widgets/window.vala:161 src/widgets/window.vala:169
+#: src/widgets/window.vala:175 src/widgets/window.vala:181
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "更新を確認できませんでした (理由: %s)"
@@ -143,32 +143,34 @@ msgstr "更新を確認できませんでした (理由: %s)"
 msgid "API limit reached"
 msgstr "API の制限に達しました"
 
-#: src/widgets/window.vala:162 src/widgets/window.vala:168
-#: src/widgets/window.vala:174 src/widgets/window.vala:180
+#: src/widgets/window.vala:162 src/widgets/window.vala:170
+#: src/widgets/window.vala:176 src/widgets/window.vala:182
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "%s を更新できませんでした (理由: %s)"
 
-#: src/widgets/window.vala:167 src/widgets/window.vala:168
+#: src/widgets/window.vala:169 src/widgets/window.vala:170
 #: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr "API にアクセスできません"
 
-#: src/widgets/window.vala:173 src/widgets/window.vala:174
-#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/window.vala:175 src/widgets/window.vala:176
+#: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr "無効なアクセストークン"
 
-#: src/widgets/window.vala:179 src/widgets/window.vala:180
-#: src/widgets/runners/runner-row.vala:65
+#: src/widgets/window.vala:181 src/widgets/window.vala:182
+#: src/widgets/runners/runner-row.vala:71
 msgid "Unknown error"
 msgstr "不明なエラー"
 
-#: src/widgets/window.vala:181 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:183 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr "報告"
 
-#: src/widgets/window.vala:219
+#: src/widgets/window.vala:221
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -177,7 +179,7 @@ msgstr "報告"
 msgid "Warning"
 msgstr "警告"
 
-#: src/widgets/window.vala:219
+#: src/widgets/window.vala:221
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -185,11 +187,11 @@ msgstr ""
 "アプリケーションは更新の確認中です。\n"
 "アプリケーションを終了すると問題が発生することがあります。"
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:223
 msgid "Exit"
 msgstr "終了"
 
-#: src/widgets/window.vala:224 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:226 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "キャンセル"
@@ -321,6 +323,14 @@ msgid "Make sure you're connected to the internet."
 msgstr "インターネットに接続されていることを確認してください。"
 
 #: src/widgets/runners/runner-row.vala:62
+msgid "Make sure your DNS is not blocking this."
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:65
+msgid "The requested website does not seem to be valid."
+msgstr ""
+
+#: src/widgets/runners/runner-row.vala:68
 msgid "Make sure the access token you provided is valid."
 msgstr "あなたが入力したアクセストークンが有効であることを確認してください。"
 
