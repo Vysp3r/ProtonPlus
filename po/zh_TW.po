@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-02 13:22-0500\n"
+"POT-Creation-Date: 2026-01-31 12:14-0500\n"
 "PO-Revision-Date: 2026-01-05 21:58+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -119,52 +119,52 @@ msgstr "無任何更新"
 msgid "No update found for %s"
 msgstr "未找到 %s 的更新"
 
-#: src/widgets/window.vala:154
+#: src/widgets/window.vala:155
 msgid "Everything is now up-to-date"
 msgstr "目前皆已為最新版本"
 
-#: src/widgets/window.vala:155
+#: src/widgets/window.vala:156
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s 已為最新版本"
 
-#: src/widgets/window.vala:160 src/widgets/window.vala:166
-#: src/widgets/window.vala:172 src/widgets/window.vala:178
+#: src/widgets/window.vala:161 src/widgets/window.vala:167
+#: src/widgets/window.vala:173 src/widgets/window.vala:179
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "無法檢查更新（原因：%s）"
 
-#: src/widgets/window.vala:160 src/widgets/window.vala:161
+#: src/widgets/window.vala:161 src/widgets/window.vala:162
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr "已達到 API 限制"
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:167
-#: src/widgets/window.vala:173 src/widgets/window.vala:179
+#: src/widgets/window.vala:162 src/widgets/window.vala:168
+#: src/widgets/window.vala:174 src/widgets/window.vala:180
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "無法更新 %1$s（原因：%2$s）"
 
-#: src/widgets/window.vala:166 src/widgets/window.vala:167
+#: src/widgets/window.vala:167 src/widgets/window.vala:168
 #: src/widgets/runners/runner-row.vala:59
 msgid "Unable to reach the API"
 msgstr "無法存取 API"
 
-#: src/widgets/window.vala:172 src/widgets/window.vala:173
+#: src/widgets/window.vala:173 src/widgets/window.vala:174
 #: src/widgets/runners/runner-row.vala:62
 msgid "Invalid access token"
 msgstr "無效的存取令牌"
 
-#: src/widgets/window.vala:178 src/widgets/window.vala:179
+#: src/widgets/window.vala:179 src/widgets/window.vala:180
 #: src/widgets/runners/runner-row.vala:65
 msgid "Unknown error"
 msgstr "未知錯誤"
 
-#: src/widgets/window.vala:180 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:181 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr "回報"
 
-#: src/widgets/window.vala:218
+#: src/widgets/window.vala:219
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -173,7 +173,7 @@ msgstr "回報"
 msgid "Warning"
 msgstr "警告"
 
-#: src/widgets/window.vala:218
+#: src/widgets/window.vala:219
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -181,11 +181,11 @@ msgstr ""
 "目前正在檢查更新。\n"
 "提前離開可能會導致問題。"
 
-#: src/widgets/window.vala:220
+#: src/widgets/window.vala:221
 msgid "Exit"
 msgstr "離開"
 
-#: src/widgets/window.vala:223 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:224 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "取消"
@@ -741,13 +741,8 @@ msgstr ""
 "預設 Proton 的改進功能。"
 
 #: src/translatables.vala:7
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
-"wayland tweaks."
-msgstr ""
-"運行 Windows 遊戲的 Steam 相容性工具，具有優於 Valve 預設 Proton 的改進功能。"
-"由 Etaash Mathamsetty 新增 FSR4 支援和 Wine Wayland 調整。"
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+msgstr "包含多種遊戲修正的 Dawn Winery 自訂的 Proton 分支版本 :xdd:"
 
 #: src/translatables.vala:8
 msgid ""
@@ -766,10 +761,19 @@ msgstr ""
 "Async。"
 
 #: src/translatables.vala:10
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
+"wayland tweaks."
+msgstr ""
+"運行 Windows 遊戲的 Steam 相容性工具，具有優於 Valve 預設 Proton 的改進功能。"
+"由 Etaash Mathamsetty 新增 FSR4 支援和 Wine Wayland 調整。"
+
+#: src/translatables.vala:11
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr "基於 Wine-tkg 的，運行 Windows 遊戲的自訂 Proton 建構版本。"
 
-#: src/translatables.vala:11
+#: src/translatables.vala:12
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
@@ -777,65 +781,61 @@ msgstr ""
 "基於 Proton-GE 的 Steam 相容性工具，包含額外的修補程式以改善 VRChat 的 RTSP "
 "編解碼器。"
 
-#: src/translatables.vala:12
+#: src/translatables.vala:13
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr "Luxtorpeda 能為特定的 Windows 專屬遊戲提供 Linux 原生遊戲引擎。"
 
-#: src/translatables.vala:13
+#: src/translatables.vala:14
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr "使用 Linux 版 ScummVM 運行冒險遊戲的 Steam 相容性工具。"
 
-#: src/translatables.vala:14
+#: src/translatables.vala:15
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr "使用 Linux 版 DOSBox 運行 DOS 遊戲的 Steam 相容性工具。"
 
-#: src/translatables.vala:15
+#: src/translatables.vala:16
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "在 Linux 上運行 Windows 軟體的相容性工具。"
 
-#: src/translatables.vala:16
+#: src/translatables.vala:17
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "從官方 WineHQ 原始碼編譯的 Wine 建構版本。"
 
-#: src/translatables.vala:17
+#: src/translatables.vala:18
 msgid "Wine build with the Staging patchset."
 msgstr "包含 Staging 修補程式集的 Wine 建構版本。"
 
-#: src/translatables.vala:18
+#: src/translatables.vala:19
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr "包含 Staging 修補程式集，以及多項實用修補程式的 Wine 建構版本。"
 
-#: src/translatables.vala:19
+#: src/translatables.vala:20
 msgid "Wine build modified by Valve and other contributors."
 msgstr "由 Valve 和其他貢獻者修改的 Wine 建構版本。"
 
-#: src/translatables.vala:20
+#: src/translatables.vala:21
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "適用於 Linux/Wine 的，基於 Vulkan 的 Direct3D 8、9、10 和 11 的實作。"
 
-#: src/translatables.vala:21
+#: src/translatables.vala:22
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 msgstr "適用於 Vulkan 1.3 之前版本的 DXVK 建構版本。"
 
-#: src/translatables.vala:22
+#: src/translatables.vala:23
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 msgstr "適用於 Vulkan 1.3 之前版本的 DXVK Async 建構版本。"
 
-#: src/translatables.vala:23
+#: src/translatables.vala:24
 msgid "DXVK builds with gplasync patch by Ph42oN."
 msgstr "包含 Ph42oN 開發的 gplasync 修補程式的 DXVK 建構版本。"
 
-#: src/translatables.vala:24
+#: src/translatables.vala:25
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr "Wine VKD3D 的特化版，旨在 Vulkan 之上實作完整的 Direct3D 12 API。"
-
-#: src/translatables.vala:25
-msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-msgstr "包含多種遊戲修正的 Dawn Winery 自訂的 Proton 分支版本 :xdd:"
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"

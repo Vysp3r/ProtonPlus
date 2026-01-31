@@ -152,7 +152,7 @@ namespace ProtonPlus.Utils {
 
                 output = (string) contents;
             } catch (Error e) {
-                message (e.message);
+                error (e.message);
             }
 
             return output;
@@ -171,7 +171,7 @@ namespace ProtonPlus.Utils {
                 FileOutputStream os = file.create (private_mode ? FileCreateFlags.PRIVATE : FileCreateFlags.NONE);
                 if (content != null)os.write (content.data);
             } catch (Error e) {
-                message (e.message);
+                error (e.message);
             }
         }
 
@@ -195,7 +195,7 @@ namespace ProtonPlus.Utils {
 
                 return yield source_file.move_async (destination_file, GLib.FileCopyFlags.NONE, Priority.DEFAULT, null, null);
             } catch (Error e) {
-                message (e.message);
+                error (e.message);
             }
 
             return false;
@@ -251,13 +251,13 @@ namespace ProtonPlus.Utils {
                         try {
                             yield src_file.copy_async (dest_file, FileCopyFlags.NONE);
                         } catch (Error e) {
-                            stderr.printf ("Failed to copy %s: %s\n", file_name, e.message);
+                            error ("Failed to copy %s: %s\n", file_name, e.message);
                             return false;
                         }
                     }
                 }
             } catch (Error e) {
-                message(e.message);
+                error (e.message);
 
                 return false;
             }
@@ -290,7 +290,7 @@ namespace ProtonPlus.Utils {
                     }
                     output = true;
                 } catch (Error e) {
-                    message (e.message);
+                    error (e.message);
                 }
                 Idle.add ((owned) callback, Priority.DEFAULT);
             });

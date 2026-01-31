@@ -61,7 +61,7 @@ namespace ProtonPlus.Models.Launchers {
         public override async bool load_game_library() {
             games = new List<Game> ();
 
-            compatibility_tools = new List<SimpleRunner> ();
+            compatibility_tools.clear ();
 
             var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games();
 
@@ -172,7 +172,7 @@ namespace ProtonPlus.Models.Launchers {
                             // message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
 
                             if (/Proton \d+.\d+/.match(current_name) || current_appid == "2180100" || current_appid == "1493710") {
-                                compatibility_tools.append(new SimpleRunner(current_name, current_name.down ().split (".", 2)[0].replace (" ", "_")));
+                                compatibility_tools.add(new SimpleRunner(current_name, current_name.down ().split (".", 2)[0].replace (" ", "_")));
                                 continue;
                             }
 
@@ -226,16 +226,16 @@ namespace ProtonPlus.Models.Launchers {
 								var file_path = "%s/%s".printf (directory.get_path (), file_info.get_name ());
 								try {
 									var simple_runner = new SimpleRunner.from_path(file_path);
-                                	compatibility_tools.append(simple_runner);
+                                	compatibility_tools.add (simple_runner);
 								} catch (Error e) {
-									message (e.message);
+                                    error (e.message);
 								}
 							}
                         }
                     }
                 }
             } catch (Error e) {
-                message(e.message);
+                error (e.message);
             }
             
             return true;

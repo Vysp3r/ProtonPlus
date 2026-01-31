@@ -15,7 +15,7 @@ namespace ProtonPlus.Utils {
                     if (!valid)
                         output = "";
                 } catch (Error e) {
-                    message (e.message);
+                    error (e.message);
                 }
 
                 Idle.add ((owned) callback, Priority.DEFAULT);
@@ -69,7 +69,7 @@ namespace ProtonPlus.Utils {
                 // Close the input stream
                 input_stream.close ();
             } catch (Error e) {
-                message ("Error: %s\n", e.message);
+                error ("Error: %s\n", e.message);
             }
 
             int count = 0;
@@ -121,7 +121,7 @@ namespace ProtonPlus.Utils {
                 try {
                     AppInfo.launch_default_for_uri_async.end (res);
                 } catch (Error error) {
-                    message (error.message);
+                    GLib.error (error.message);
                 }
             });
         }

@@ -68,7 +68,7 @@ namespace ProtonPlus.Utils {
 
                 return ReturnCode.VALID_REQUEST;
             } catch (Error e) {
-                message (e.message);
+                error (e.message);
 
                 return ReturnCode.UNKNOWN_ERROR;
             }
@@ -88,7 +88,7 @@ namespace ProtonPlus.Utils {
                 var input_stream = yield session.send_async (soup_message, Priority.DEFAULT, null);
 
                 if (soup_message.status_code != 200) {
-                    message (soup_message.reason_phrase);
+                    error (soup_message.reason_phrase);
                     return false;
                 }
 
@@ -160,7 +160,8 @@ namespace ProtonPlus.Utils {
 
                 return !is_canceled;
             } catch (Error e) {
-                message (e.message);
+                error (e.message);
+
                 return false;
             }
         }
