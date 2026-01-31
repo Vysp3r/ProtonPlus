@@ -11,7 +11,11 @@ namespace ProtonPlus.Models.Runners {
         }
 
         public virtual string get_directory_name (string release_name) {
+            if (release_name == "Proton-Sarek (Async) Latest")
+                return release_name;
+
             var directory_name = new StringBuilder(directory_name_format);
+
             directory_name.replace ("$release_name", release_name);
             directory_name.replace ("$title", title);
 

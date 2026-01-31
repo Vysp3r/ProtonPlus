@@ -74,6 +74,7 @@
                     "request_asset_exclude": [
                         "Sarek9-13"
                     ],
+                    "support_latest": true,
                     "type": "github"
                 },
                 {
@@ -90,6 +91,7 @@
                     "request_asset_exclude": [
                         "Sarek9-13"
                     ],
+                    "support_latest": true,
                     "type": "github"
                 },
                 {
@@ -103,6 +105,22 @@
                             "directory_name_format": "$release_name"
                         }
                     ],
+                    "support_latest": true,
+                    "type": "github"
+                },
+                {
+                    "title": "Proton-GE RTSP",
+                    "description": "Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat.",
+                    "endpoint": "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases",
+                    "asset_position": 1,
+                    "asset_position_time_condition": "2025-02-01T07:55:01Z|0",
+                    "directory_name_formats": [
+                        {
+                            "launcher": "default",
+                            "directory_name_format": "$release_name"
+                        }
+                    ],
+                    "support_latest": true,
                     "type": "github"
                 },
                 {
@@ -119,20 +137,6 @@
                     "directory_name_format": "$title-$release_name",
                     "url_template": "https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/{id}/proton-tkg-build.zip",
                     "type": "github-action"
-                },
-                {
-                    "title": "Proton-GE RTSP",
-                    "description": "Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat.",
-                    "endpoint": "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases",
-                    "asset_position": 1,
-                    "asset_position_time_condition": "2025-02-01T07:55:01Z|0",
-                    "directory_name_formats": [
-                        {
-                            "launcher": "default",
-                            "directory_name_format": "$title $release_name"
-                        }
-                    ],
-                    "type": "github"
                 },
                 {
                     "title": "Luxtorpeda",
