@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-31 13:36-0500\n"
-"PO-Revision-Date: 2026-01-05 21:58+0800\n"
+"PO-Revision-Date: 2026-02-02 22:20+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -320,11 +320,11 @@ msgstr "請確保連接至網際網路。"
 
 #: src/widgets/runners/runner-row.vala:62
 msgid "Make sure your DNS is not blocking this."
-msgstr ""
+msgstr "請確保 DNS 未封鎖該網域。"
 
 #: src/widgets/runners/runner-row.vala:65
 msgid "The requested website does not seem to be valid."
-msgstr ""
+msgstr "請求的網站似乎是無效的。"
 
 #: src/widgets/runners/runner-row.vala:68
 msgid "Make sure the access token you provided is valid."
