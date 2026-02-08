@@ -104,6 +104,14 @@
           <li>🐛 Fixed network error not being displayed when they should</li>
           <li>🐛 Fixed "Unknown error" dialog appearing on successful update</li>
           <li>🐛 Fixed "Games" tab runners not refreshing when installing/removing a runner</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Updated French localization</li>
+          <li>🌐 Updated Portuguese localization</li>
+          <li>🌐 Updated Chinese localization</li>
+          <li>🌐 Updated Spanish localization</li>
+          <li>🌐 Updated Czech localization</li>
+          <li>🌐 Updated Arabic localization</li>
+          <li>🌐 Added Georgian localization</li>
         </ul>
       </description>
     </release>
