@@ -65,6 +65,7 @@
   - Proton EM
   - Proton Tkg
   - Proton Sarek
+  - Proton DW
   - Kron4ek Wine-Builds Proton
   - Kron4ek Wine-Builds Vanilla
   - Kron4ek Wine-Builds Staging
