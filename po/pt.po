@@ -8,12 +8,13 @@
 # vfssant <60822730+vfssant@users.noreply.github.com>, 2025.
 # Leandro Paz <leandropaz@gmail.com>, 2025.
 # "LucasR." <thelucasr2@gmail.com>, 2025.
+# Henrique Araujo De Almeida <henriquearaujo7478@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-31 13:37-0500\n"
-"PO-Revision-Date: 2026-02-08 00:09+0000\n"
-"Last-Translator: Cirnos <cirnos@tuta.io>\n"
+"PO-Revision-Date: 2026-02-15 11:09+0000\n"
+"Last-Translator: Henrique Araujo De Almeida <henriquearaujo7478@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
@@ -149,9 +150,9 @@ msgstr "Limite da API atingido"
 
 #: src/widgets/window.vala:162 src/widgets/window.vala:170
 #: src/widgets/window.vala:176 src/widgets/window.vala:182
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't update %s (Reason: %s)"
-msgstr "Instalando %s"
+msgstr "Não foi possível atulizar %s"
 
 #: src/widgets/window.vala:169 src/widgets/window.vala:170
 #: src/widgets/runners/runner-row.vala:59
@@ -250,7 +251,7 @@ msgstr "Escuro"
 
 #: src/widgets/preferences/theme-row.vala:25
 msgid "Current theme"
-msgstr ""
+msgstr "Tema atual"
 
 #: src/widgets/preferences/refresh-steam-profiles-row.vala:15
 #, fuzzy
@@ -380,9 +381,9 @@ msgid "Couldn't delete %s"
 msgstr "Não foi possível excluir %s"
 
 #: src/widgets/runners/install-dialog.vala:52
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't install %s"
-msgstr "Instalando %s"
+msgstr "Não foi possível instalar %s"
 
 #: src/widgets/runners/install-dialog.vala:73
 #: src/widgets/runners/upgrade-dialog.vala:77
