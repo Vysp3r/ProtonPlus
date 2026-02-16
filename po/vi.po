@@ -1,44 +1,41 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# Vietnamese translations for com.vysp3r.ProtonPlus package.
+# Copyright (C) 2026 THE com.vysp3r.ProtonPlus'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
-# SecularSteve <fairfull.playing@gmail.com>, 2025.
+# Automatically generated, 2026.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:23-0500\n"
-"PO-Revision-Date: 2025-07-11 14:50+0000\n"
-"Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
-"Language-Team: Serbian (Latin script) <https://hosted.weblate.org/projects/"
-"protonplus/protonplus/sr_Latn/>\n"
-"Language: sr@latin\n"
+"PO-Revision-Date: 2026-02-16 17:22-0500\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/widgets/application.vala:91
-#, fuzzy
 msgid "A modern compatibility tools manager"
-msgstr "Moderan menadžer alata za kompatibilnost za Linuks."
+msgstr ""
 
 #: src/widgets/application.vala:93
 msgid "Website"
-msgstr "Veb stranica"
+msgstr ""
 
 #: src/widgets/application.vala:98
 msgid "Special thanks to"
-msgstr "Posebna zahvalnost"
+msgstr ""
 
 #: src/widgets/window.vala:32
 msgid "Loading"
-msgstr "Učitavanje"
+msgstr ""
 
 #: src/widgets/window.vala:32
 msgid "Taking longer than normal?"
-msgstr "Traje li duže nego uobičajeno?"
+msgstr ""
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
 #: src/widgets/runners/runner-row.vala:71
@@ -52,11 +49,11 @@ msgstr "Traje li duže nego uobičajeno?"
 #: src/widgets/games/default-tool-dialog.vala:60
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
-msgstr "Molimo Vas da prijavite ovaj problem na GitHub."
+msgstr ""
 
 #: src/widgets/window.vala:45
 msgid "Donate"
-msgstr "Donirajte"
+msgstr ""
 
 #: src/widgets/window.vala:49
 msgid "_Preferences"
@@ -64,23 +61,23 @@ msgstr ""
 
 #: src/widgets/window.vala:50
 msgid "_Keyboard Shortcuts"
-msgstr "_Tastaturne prečice"
+msgstr ""
 
 #: src/widgets/window.vala:51
 msgid "_About ProtonPlus"
-msgstr "_O ProtonPlus-u"
+msgstr ""
 
 #: src/widgets/window.vala:54
 msgid "Main Menu"
-msgstr "Glavni meni"
+msgstr ""
 
 #: src/widgets/window.vala:59
 msgid "Runners"
-msgstr "Trkači"
+msgstr ""
 
 #: src/widgets/window.vala:60
 msgid "Games"
-msgstr "Igre"
+msgstr ""
 
 #: src/widgets/window.vala:93
 msgid "Couldn't load the launchers"
@@ -89,16 +86,13 @@ msgstr ""
 #: src/widgets/window.vala:107
 #, c-format
 msgid "Welcome to %s"
-msgstr "Dobrodošli u %s"
+msgstr ""
 
 #: src/widgets/window.vala:107
-#, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
 msgstr ""
-"Instalirajte Steam, Lutris, Boce, ili Heroic Games Launcher da biste "
-"započeli."
 
 #: src/widgets/window.vala:107
 msgid ""
@@ -125,14 +119,13 @@ msgid "No update found for %s"
 msgstr ""
 
 #: src/widgets/window.vala:155
-#, fuzzy
 msgid "Everything is now up-to-date"
-msgstr "%s je već ažuriran."
+msgstr ""
 
 #: src/widgets/window.vala:156
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now up-to-date"
-msgstr "%s je već ažuriran."
+msgstr ""
 
 #: src/widgets/window.vala:161 src/widgets/window.vala:169
 #: src/widgets/window.vala:175 src/widgets/window.vala:181
@@ -147,9 +140,9 @@ msgstr ""
 
 #: src/widgets/window.vala:162 src/widgets/window.vala:170
 #: src/widgets/window.vala:176 src/widgets/window.vala:182
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't update %s (Reason: %s)"
-msgstr "Instalirajte %s"
+msgstr ""
 
 #: src/widgets/window.vala:169 src/widgets/window.vala:170
 #: src/widgets/runners/runner-row.vala:59
@@ -165,9 +158,8 @@ msgstr ""
 
 #: src/widgets/window.vala:181 src/widgets/window.vala:182
 #: src/widgets/runners/runner-row.vala:71
-#, fuzzy
 msgid "Unknown error"
-msgstr "Nepoznato"
+msgstr ""
 
 #: src/widgets/window.vala:183 src/widgets/error-dialog.vala:7
 msgid "Report"
@@ -180,7 +172,7 @@ msgstr ""
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
-msgstr "Upozorenje"
+msgstr ""
 
 #: src/widgets/window.vala:221
 msgid ""
@@ -195,7 +187,7 @@ msgstr ""
 #: src/widgets/window.vala:226 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
-msgstr "Otkaži"
+msgstr ""
 
 #: src/widgets/update-button.vala:9
 msgid "Checking for updates..."
@@ -203,12 +195,11 @@ msgstr ""
 
 #: src/widgets/warning-dialog.vala:7 src/widgets/error-dialog.vala:10
 msgid "OK"
-msgstr "U redu"
+msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:9
-#, fuzzy
 msgid "General"
-msgstr "Opšte"
+msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Automatic updates"
@@ -249,9 +240,8 @@ msgid "Current theme"
 msgstr ""
 
 #: src/widgets/preferences/refresh-steam-profiles-row.vala:15
-#, fuzzy
 msgid "Refresh profiles"
-msgstr "Izaberite profil"
+msgstr ""
 
 #: src/widgets/preferences/refresh-launchers-runners-row.vala:15
 msgid "Refresh launchers/runners"
@@ -275,40 +265,39 @@ msgstr ""
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
-msgstr "Više Informacija"
+msgstr ""
 
 #: src/widgets/runners/description-dialog.vala:18
 msgid "Open"
-msgstr "Otvorite"
+msgstr ""
 
 #: src/widgets/runners/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr "Otvorite u svom veb pretraživaču"
+msgstr ""
 
 #: src/widgets/runners/release-row.vala:12
 msgid "Show more information"
-msgstr "Prikaži više informacija"
+msgstr ""
 
 #: src/widgets/runners/release-row.vala:17
 msgid "Update the runner if a newer version is available"
 msgstr ""
 
 #: src/widgets/runners/release-row.vala:20
-#, fuzzy
 msgid "Open runner directory"
-msgstr "Otvori direktorijum prefiksa"
+msgstr ""
 
 #: src/widgets/runners/release-row.vala:24
 #: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
-msgstr "Izbriši %s"
+msgstr ""
 
 #: src/widgets/runners/release-row.vala:28
 #: src/widgets/runners/install-dialog.vala:17
 #, c-format
 msgid "Install %s"
-msgstr "Instalirajte %s"
+msgstr ""
 
 #: src/widgets/runners/release-row.vala:54
 #: src/widgets/runners/release-row.vala:56
@@ -323,9 +312,8 @@ msgid "Try again in a few minutes."
 msgstr ""
 
 #: src/widgets/runners/runner-row.vala:59
-#, fuzzy
 msgid "Make sure you're connected to the internet."
-msgstr "Obavezno se povežite sa Steam-om bar jednom."
+msgstr ""
 
 #: src/widgets/runners/runner-row.vala:62
 msgid "Make sure your DNS is not blocking this."
@@ -342,54 +330,54 @@ msgstr ""
 #: src/widgets/runners/load-more-row.vala:8
 #: src/widgets/runners/load-more-row.vala:17
 msgid "Load more"
-msgstr "Učitaj više"
+msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:13
 msgid "Are you sure you want this?"
-msgstr "Da li ste sigurni da želite ovo?"
+msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
 msgid "Used by %i games."
-msgstr "Koristi se u %i igrama."
+msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:24
 msgid "Used by 1 game."
-msgstr "Koristi se u 1 igri."
+msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:26
 msgid "Are you sure you want to proceed?"
-msgstr "Da li ste sigurni da želite da nastavite?"
+msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:30
 #: src/widgets/runners/steamtinkerlaunch-row.vala:84
 msgid "No"
-msgstr "Ne"
+msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:31
 #: src/widgets/runners/steamtinkerlaunch-row.vala:85
 msgid "Yes"
-msgstr "Da"
+msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:49
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't delete %s"
-msgstr "Instalirajte %s"
+msgstr ""
 
 #: src/widgets/runners/install-dialog.vala:52
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't install %s"
-msgstr "Instalirajte %s"
+msgstr ""
 
 #: src/widgets/runners/install-dialog.vala:73
 #: src/widgets/runners/upgrade-dialog.vala:77
 msgid "Downloading"
-msgstr "Preuzimanje"
+msgstr ""
 
 #: src/widgets/runners/install-dialog.vala:103
 #: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
-msgstr "Izvlačenje"
+msgstr ""
 
 #: src/widgets/runners/install-dialog.vala:106
 msgid "Moving"
@@ -398,23 +386,23 @@ msgstr ""
 #: src/widgets/runners/upgrade-dialog.vala:17
 #, c-format
 msgid "Upgrade %s"
-msgstr "Nadogradite %s"
+msgstr ""
 
 #: src/widgets/runners/upgrade-dialog.vala:56
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't upgrade %s"
-msgstr "Instalirajte %s"
+msgstr ""
 
 #: src/widgets/runners/installed-row.vala:12
 #: src/widgets/runners/basic-row.vala:67
-#, fuzzy, c-format
+#, c-format
 msgid "%s is used by %i game(s)"
-msgstr "Koristi se u %i igrama."
+msgstr ""
 
 #: src/widgets/runners/installed-row.vala:41
 #: src/widgets/runners/steamtinkerlaunch-row.vala:111
 msgid "Check this to also delete your configuration files."
-msgstr "Označite ovo da biste uklonili i konfiguracione datoteke."
+msgstr ""
 
 #: src/widgets/runners/basic-row.vala:24
 msgid ""
@@ -423,14 +411,12 @@ msgid ""
 msgstr ""
 
 #: src/widgets/runners/filters-box.vala:12
-#, fuzzy
 msgid "Installed"
-msgstr "Instalirajte %s"
+msgstr ""
 
 #: src/widgets/runners/filters-box.vala:17
-#, fuzzy
 msgid "Show installed runners"
-msgstr "_Upravo instalirano"
+msgstr ""
 
 #: src/widgets/runners/filters-box.vala:27
 msgid "Show runners that are used by one game or more"
@@ -446,16 +432,16 @@ msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:8
 msgid "Update to the latest version"
-msgstr "Ažuriranje na najnoviju verziju"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #, c-format
 msgid "You are missing the following dependencies for %s:"
-msgstr "Nedostaju vam sledeće zavisnosti za %s:"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 msgid "Installation will be canceled."
-msgstr "Instalacija će biti otkazana."
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #, c-format
@@ -463,26 +449,24 @@ msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
-"Izgleda da trenutno imate drugačiju verziju %s koju ProtonPlus nije "
-"instalirao."
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr "Da li želite da ga ponovo instalirate sa ProtonPlus-om?"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr "Da biste instalirali %s za %s, pokrenite sledeću komandu:"
+msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
-msgstr "Trenutno ne postoji poznati način da se instalira %s za %s."
+msgstr ""
 
 #: src/widgets/games/games-box.vala:62
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr "Zatvorite Steam klijent unapred tako da se promene mogu primeniti."
+msgstr ""
 
 #: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:339
 msgid "Show search"
@@ -494,7 +478,7 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:110
 msgid "Name"
-msgstr "Ime"
+msgstr ""
 
 #: src/widgets/games/games-box.vala:114
 msgid "Prefix"
@@ -503,38 +487,37 @@ msgstr ""
 #: src/widgets/games/games-box.vala:121
 #: src/widgets/games/mass-edit-dialog.vala:38
 msgid "Compatibility tool"
-msgstr "Alat za kompatibilnost"
+msgstr ""
 
 #: src/widgets/games/games-box.vala:125
 msgid "Other"
-msgstr "Ostalo"
+msgstr ""
 
 #: src/widgets/games/games-box.vala:151
 msgid "No profile was found."
-msgstr "Nije pronađen profil."
+msgstr ""
 
 #: src/widgets/games/games-box.vala:151
 msgid "Make sure to connect yourself at least once on Steam."
-msgstr "Obavezno se povežite sa Steam-om bar jednom."
+msgstr ""
 
 #: src/widgets/games/games-box.vala:151
 msgid "If you think this is an issue, make sure to report this on GitHub."
-msgstr "Ako mislite da je ovo problem, obavezno ga prijavite na GitHub-u."
+msgstr ""
 
 #: src/widgets/games/games-box.vala:223
 msgid "Unsuported launcher"
-msgstr "Nepodržani lanser"
+msgstr ""
 
 #: src/widgets/games/games-box.vala:223
 #, c-format
 msgid "%s is currently not supported."
-msgstr "%s trenutno nije podržan."
+msgstr ""
 
 #: src/widgets/games/games-box.vala:223
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
-"Ako želite da ubrzate razvoj, budite sigurni da pokažete svoju podršku!"
 
 #: src/widgets/games/games-box.vala:263 src/widgets/games/games-box.vala:326
 #: src/widgets/games/games-box.vala:329
@@ -543,7 +526,7 @@ msgstr ""
 #: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
-msgstr "Nedefinisano"
+msgstr ""
 
 #: src/widgets/games/games-box.vala:339
 msgid "Hide search"
@@ -551,83 +534,75 @@ msgstr ""
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
-msgstr "Promenite opcije pokretanja igara"
+msgstr ""
 
 #: src/widgets/games/game-row.vala:81
 msgid "Unknown"
-msgstr "Nepoznato"
+msgstr ""
 
 #: src/widgets/games/game-row.vala:87
 msgid "Open ProtonDB page"
-msgstr "Otvorite ProtonDB stranicu"
+msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
-msgstr "Masovno uređivanje"
+msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 msgid "1 game selected"
-msgstr "Izabrana 1 igra"
+msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:20
 #, c-format
 msgid "%u games selected"
-msgstr "Odabrano je %u igara"
+msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:22
 #: src/widgets/games/launch-options-dialog.vala:14
 #: src/widgets/games/default-tool-dialog.vala:16
 msgid "Apply"
-msgstr "Primenite"
+msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:23
 msgid "Apply the current modifications"
-msgstr "Primenite trenutne promene"
+msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:31
 #: src/widgets/games/mass-edit-dialog.vala:43
 msgid "Enabled"
-msgstr "Omogućeno"
+msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:32
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
 msgstr ""
-"Omogućite ovo ako želite da masovno uređivanje uzme u obzir alatka za "
-"kompatibilnost."
 
 #: src/widgets/games/mass-edit-dialog.vala:44
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
 msgstr ""
-"Omogućite ovo ako želite da masovno uređivanje uzme u obzir opcije "
-"pokretanja."
 
 #: src/widgets/games/mass-edit-dialog.vala:48
 #: src/widgets/games/launch-options-dialog.vala:24
 msgid "Enter your desired launch options"
-msgstr "Unesite željene opcije pokretanja"
+msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:51
 msgid "Launch options"
-msgstr "Opcije pokretanja"
+msgstr ""
 
 #: src/widgets/games/mass-edit-dialog.vala:55
 msgid ""
 "Enable all the options that you want the mass edit to take into account."
 msgstr ""
-"Omogućite sve opcije koje želite da se uzme u obzir masovno uređivanje."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
-#, fuzzy
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
 msgstr ""
-"Došlo je do greške prilikom pokušaja da promenite alat za kompatibilnost za "
-"%s."
 
 #: src/widgets/games/mass-edit-dialog.vala:147
 msgid "The following games had an issue:"
@@ -636,151 +611,136 @@ msgstr ""
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Create shortcut"
-msgstr "Kreirajte prečicu"
+msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Delete shortcut"
-msgstr "Uklonite prečicu"
+msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr "Kreirajte prečicu za ProtonPlus u Steam-u"
+msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Delete the shortcut of ProtonPlus in Steam"
-msgstr "Uklonite prečicu ProtonPlus-a u Steam-u"
+msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:38
-#, fuzzy
 msgid "Couldn't delete the shortcut in Steam"
-msgstr "Uklonite prečicu ProtonPlus-a u Steam-u"
+msgstr ""
 
 #: src/widgets/games/shortcut-button.vala:46
-#, fuzzy
 msgid "Couldn't create the shortcut in Steam"
-msgstr "Uklonite prečicu ProtonPlus-a u Steam-u"
+msgstr ""
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
-msgstr "Izaberite profil"
+msgstr ""
 
 #: src/widgets/games/switch-profile-button.vala:23
 msgid "Switch to another profile"
-msgstr "Izaberite drugi profil"
+msgstr ""
 
 #: src/widgets/games/select-button.vala:8
 msgid "Select all"
-msgstr "Izaberi sve"
+msgstr ""
 
 #: src/widgets/games/select-button.vala:11
 msgid "Select all the games"
-msgstr "Izaberite sve igre"
+msgstr ""
 
 #: src/widgets/games/unselect-button.vala:8
 msgid "Unselect all"
-msgstr "Poništite izbor svih"
+msgstr ""
 
 #: src/widgets/games/unselect-button.vala:11
 msgid "Unselect all the games"
-msgstr "Poništite izbor svih igara"
+msgstr ""
 
 #: src/widgets/games/mass-edit-button.vala:13
 msgid "Edit the compatibility tool of the selected games at once"
-msgstr "Izmenite alat za kompatibilnost za izabrane igre izjedna"
+msgstr ""
 
 #: src/widgets/games/mass-edit-button.vala:42
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
-"Molimo vas da izaberete najmanje jednu igru pre nego što koristite funkciju "
-"masovnog uređivanja."
 
 #: src/widgets/games/launch-options-dialog.vala:12
 msgid "Modify launch options"
-msgstr "Izmena opcija pokretanja"
+msgstr ""
 
 #: src/widgets/games/launch-options-dialog.vala:15
 #: src/widgets/games/default-tool-dialog.vala:17
 msgid "Apply the current modification"
-msgstr "Primeni trenutnu izmenu"
+msgstr ""
 
 #: src/widgets/games/launch-options-dialog.vala:57
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't change the launch options of %s"
 msgstr ""
-"Došlo je do greške prilikom pokušaja da promenite %s iz opcija pokretanja."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
-msgstr "Izaberite profil"
+msgstr ""
 
 #: src/widgets/games/extra-button.vala:11
 msgid "Open install directory"
-msgstr "Otvorite direktorijum za instalaciju."
+msgstr ""
 
 #: src/widgets/games/extra-button.vala:14
 msgid "Open prefix directory"
-msgstr "Otvori direktorijum prefiksa"
+msgstr ""
 
 #: src/widgets/games/extra-button.vala:17
 msgid "Open in protontricks"
-msgstr "Otvorite u protontricks-u"
+msgstr ""
 
 #: src/widgets/games/extra-button.vala:32
 msgid "Open menu"
-msgstr "Otvori meni"
+msgstr ""
 
 #: src/widgets/games/default-tool-button.vala:8
 #: src/widgets/games/default-tool-button.vala:14
 #: src/widgets/games/default-tool-dialog.vala:14
 msgid "Set the default compatibility tool"
-msgstr "Podešavanje podrazumevanog alata za kompatibilnost"
+msgstr ""
 
 #: src/widgets/games/default-tool-dialog.vala:60
-#, fuzzy
 msgid "Couldn't change the default compatibility tool"
-msgstr "Podešavanje podrazumevanog alata za kompatibilnost"
+msgstr ""
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
-msgstr "Izaberite željeni alat za kompatibilnost"
+msgstr ""
 
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't change the compatibility tool of %s"
 msgstr ""
-"Došlo je do greške prilikom pokušaja da promenite alat za kompatibilnost za "
-"%s."
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
 msgstr ""
-"Steam alatka za jednostavnu, grafičku konfiguraciju vaših drugih alata "
-"kompatibilnosti za Windows igre i izvorne Linuks igre."
 
 #: src/translatables.vala:4
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
-"Valve-ovi alati za kompatibilnost za pokretanje Windows softvera na Linuksu."
 
 #: src/translatables.vala:5
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
 msgstr ""
-"Alat za kompatibilnost sa Steam-om za pokretanje Windows igara sa "
-"poboljšanjima u odnosu na podrazumevani Proton Valve-a."
 
 #: src/translatables.vala:6
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
 msgstr ""
-"Steam alatka za kompatibilnost iz CachyOS Linuks distribucije za pokretanje "
-"Windows igara sa poboljšanjima u odnosu na Valve-ov podrazumevani Proton."
 
 #: src/translatables.vala:7
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
@@ -791,16 +751,12 @@ msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK."
 msgstr ""
-"Steam alatka za kompatibilnost zasnovana na Proton-GE-u sa modifikacijama za "
-"veoma stare grafičke, sa DXVK-om."
 
 #: src/translatables.vala:9
 msgid ""
 "Steam compatibility tool based on Proton-GE with modifications for very old "
 "GPUs, with DXVK-Async."
 msgstr ""
-"Alat za kompatibilnost sa Steam-om zasnovan na Proton-GE sa modifikacijama "
-"za veoma stare grafičke, sa DXVK-Async."
 
 #: src/translatables.vala:10
 msgid ""
@@ -808,77 +764,62 @@ msgid ""
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
 msgstr ""
-"Alat za kompatibilnost sa Steam-om za pokretanje Windows igara sa "
-"poboljšanjima u odnosu na podrazumevani Proton Valve-a. Autor: Etaash "
-"Mathamsetti, dodaje podršku za FSR4 i tveaks za Vine Vailand."
 
 #: src/translatables.vala:11
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
-"Protonova prilagođena verzija za pokretanje Windows igara, zasnovana na Wine-"
-"tkg-u."
 
 #: src/translatables.vala:12
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
 msgstr ""
-"Alat za kompatibilnost sa Steam-om zasnovan na Proton-GE-u sa dodatnim "
-"zakrpama za poboljšanje RTSP kodeka za VRChat."
 
 #: src/translatables.vala:13
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
-"Luktorpeda nudi Linuks-rodan motor igre za određene igre samo za Windows."
 
 #: src/translatables.vala:14
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
-"Steam alatka za kompatibilnost za pokretanje avanturističkih igara koristeći "
-"ScummVM za Linuks."
 
 #: src/translatables.vala:15
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
-"Steam alatka za kompatibilnost za pokretanje DOS igara koristeći DOSBok za "
-"Linuks."
 
 #: src/translatables.vala:16
 msgid "Compatibility tools for running Windows software on Linux."
-msgstr "Alati za kompatibilnost za pokretanje Windows softvera na Linuksu."
+msgstr ""
 
 #: src/translatables.vala:17
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr "Verzija Wine-a sastavljena od zvaničnih izvora WineHQ-a."
+msgstr ""
 
 #: src/translatables.vala:18
 msgid "Wine build with the Staging patchset."
-msgstr "Obrada Wine-a sa Pripremno-zakrpnim setom."
+msgstr ""
 
 #: src/translatables.vala:19
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
-"Obrada Wine-a sa Pripremno-zakrpnim setom i mnogim drugim korisnim zakrpama."
 
 #: src/translatables.vala:20
 msgid "Wine build modified by Valve and other contributors."
-msgstr "Verzija Wine-a modifikovana od strane Valve i drugih saradnika."
+msgstr ""
 
 #: src/translatables.vala:21
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr "Vulkanska implementacija Direct3D 8, 9, 10 i 11 za Linuks/Wine."
+msgstr ""
 
 #: src/translatables.vala:22
-#, fuzzy
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-msgstr "DXVK verzije koje rade sa verzijama Vulkana pre verzije 1.3"
+msgstr ""
 
 #: src/translatables.vala:23
-#, fuzzy
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
-msgstr "DXVK Async verzije koje rade sa verzijama Vulkana pre verzije 1.3"
+msgstr ""
 
 #: src/translatables.vala:24
 msgid "DXVK builds with gplasync patch by Ph42oN."
@@ -889,8 +830,6 @@ msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
-"Varijanta Vine-ovog VKD3D-a koja ima za cilj da implementira puni Direct3D "
-"12 API preko Vulkana."
 
 #: src/cli/cli.vala:61
 #, c-format
@@ -898,14 +837,13 @@ msgid "Error: Unknown command '%s'\n"
 msgstr ""
 
 #: src/cli/cli.vala:69
-#, fuzzy
 msgid "Detected launchers:\n"
-msgstr "Nepodržani lanser"
+msgstr ""
 
 #: src/cli/cli.vala:81
-#, fuzzy, c-format
+#, c-format
 msgid "Installed runners for %s:\n"
-msgstr "_Upravo instalirano"
+msgstr ""
 
 #: src/cli/cli.vala:94
 msgid "No runners installed\n"
@@ -936,9 +874,9 @@ msgid "Available releases for %s:\n"
 msgstr ""
 
 #: src/cli/cli.vala:212
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s...\n"
-msgstr "Instalirajte %s"
+msgstr ""
 
 #: src/cli/cli.vala:214
 #, c-format
@@ -970,14 +908,14 @@ msgid "Uninstalling all releases for launcher %s...\n"
 msgstr ""
 
 #: src/cli/cli.vala:261
-#, fuzzy, c-format
+#, c-format
 msgid "Uninstalled %s\n"
-msgstr "Instalirajte %s"
+msgstr ""
 
 #: src/cli/cli.vala:271
-#, fuzzy, c-format
+#, c-format
 msgid "Uninstalling %s...\n"
-msgstr "Instalirajte %s"
+msgstr ""
 
 #: src/cli/cli.vala:273
 #, c-format
@@ -1003,9 +941,9 @@ msgid "Successfully updated %s\n"
 msgstr ""
 
 #: src/cli/cli.vala:302 src/cli/cli.vala:358
-#, fuzzy, c-format
+#, c-format
 msgid "Already up to date: %s\n"
-msgstr "%s je već ažuriran."
+msgstr ""
 
 #: src/cli/cli.vala:305 src/cli/cli.vala:361
 #, c-format
@@ -1013,14 +951,13 @@ msgid "Error: Failed to update %s\n"
 msgstr ""
 
 #: src/cli/cli.vala:344
-#, fuzzy
 msgid "Already up to date\n"
-msgstr "%s je već ažuriran."
+msgstr ""
 
 #: src/cli/cli.vala:369
-#, fuzzy, c-format
+#, c-format
 msgid "Updating %s..."
-msgstr "Instalirajte %s"
+msgstr ""
 
 #: src/cli/cli.vala:381
 msgid "Error: Failed to load launchers\n"
@@ -1068,19 +1005,16 @@ msgid "Show this help\n"
 msgstr ""
 
 #: src/cli/cli.vala:476
-#, fuzzy
 msgid "List launchers or installed runners\n"
-msgstr "_Upravo instalirano"
+msgstr ""
 
 #: src/cli/cli.vala:477
-#, fuzzy
 msgid "Install runner\n"
-msgstr "_Upravo instalirano"
+msgstr ""
 
 #: src/cli/cli.vala:478
-#, fuzzy
 msgid "Uninstall runner\n"
-msgstr "_Upravo instalirano"
+msgstr ""
 
 #: src/cli/cli.vala:479
 msgid "Update runner\n"
@@ -1102,106 +1036,14 @@ msgstr ""
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
-msgstr "Opšte"
+msgstr ""
 
 #: data/ui/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr "Prikaži prečice"
+msgstr ""
 
 #: data/ui/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
 msgid "Quit"
-msgstr "Izađi"
-
-#~ msgid "Up-to-date"
-#~ msgstr "Ažurirano"
-
-#~ msgid ""
-#~ "Custom Proton build for running the Northstar client for Titanfall 2."
-#~ msgstr ""
-#~ "Prilagođena verzija Protona za pokretanje Northstar klijenta za Titanfall "
-#~ "2."
-
-#, fuzzy, c-format
-#~ msgid "An error occured while updating %s."
-#~ msgstr "Došlo je do greške"
-
-#~ msgid "Error"
-#~ msgstr "Greška"
-
-#~ msgid ""
-#~ "When trying to change the compatibility tool/launch options of the "
-#~ "selected games an error occurred for the following games:"
-#~ msgstr ""
-#~ "Kada pokušavate da promenite alate za kompatibilnost/opcije pokretanja za "
-#~ "odabrane igre, došlo je do greške za sledeće igre:"
-
-#, c-format
-#~ msgid "When trying to delete %s an error occurred."
-#~ msgstr "Došlo je do greške prilikom pokušaja uklanjanja %s."
-
-#, c-format
-#~ msgid "When trying to upgrade %s an error occurred."
-#~ msgstr "Došlo je do greške prilikom pokušaja nadogradnje %s."
-
-#~ msgid "When trying to delete the shortcut in Steam an error occurred."
-#~ msgstr ""
-#~ "Došlo je do greške prilikom pokušaja da napravite prečicu u Steam-u."
-
-#~ msgid "When trying to create the shortcut in Steam an error occurred."
-#~ msgstr ""
-#~ "Došlo je do greške prilikom pokušaja da napravite prečicu u Steam-u."
-
-#~ msgid ""
-#~ "When trying to change the default compatibility tool an error occurred."
-#~ msgstr ""
-#~ "Došlo je do greške prilikom pokušaja da promenite podrazumevani alat "
-#~ "kompatibilnosti."
-
-#~ msgid "An error ocurred"
-#~ msgstr "Došlo je do greške"
-
-#~ msgid "There was an error when trying to load the launchers."
-#~ msgstr "Došlo je do greške prilikom pokušaja učitavanja pokretača."
-
-#, c-format
-#~ msgid "When trying to install %s an error occurred."
-#~ msgstr "Došlo je do greške prilikom pokušaja da instalirate %s program."
-
-#~ msgid "An error occurred"
-#~ msgstr "Došlo je do greške"
-
-#~ msgid "The library failed loading."
-#~ msgstr "Učitavanje biblioteke nije uspelo."
-
-#~ msgid "Renaming"
-#~ msgstr "Preimenovanje"
-
-#~ msgid "Running post install script"
-#~ msgstr "Pokretanje skripte nakon instalacije"
-
-#, c-format
-#~ msgid "Remove %s"
-#~ msgstr "Uklonite %s"
-
-#~ msgid "Remove shortcut"
-#~ msgstr "Uklonite prečicu"
-
-#~ msgid "When trying to remove the shortcut in Steam an error occured."
-#~ msgstr "Došlo je do greške prilikom pokušaja da uklonite prečicu u Steam-u."
-
-#~ msgid "Sort by name"
-#~ msgstr "Sortiraj po imenu"
-
-#~ msgid "Sorts the games by their name"
-#~ msgstr "Sortira igre po imenu"
-
-#~ msgid "Sort by compatibility tool"
-#~ msgstr "Alat za sortiranje po kompatibilnosti"
-
-#~ msgid "Sorts the games by the compatibility tool name"
-#~ msgstr "Sortira igre po nazivu alata kompatibilnosti"
-
-#~ msgid "Set default compatibility tool"
-#~ msgstr "Podesite podrazumevani alat za kompatibilnost"
+msgstr ""

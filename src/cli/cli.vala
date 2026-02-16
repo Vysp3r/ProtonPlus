@@ -366,12 +366,12 @@ namespace ProtonPlus.CLI {
 		}
 
 		private async ReturnCode update_runner_with_progress (Models.Runners.Basic runner) {
-			Output.info (_("Updating %s...\r"), runner.title);
+			Output.info (_("Updating %s...") + "\r", runner.title);
 			stdout.flush ();
 
 			var code = yield Models.Runner.update_specific_runner (runner);
 
-			Output.info (_("\r\033[2K\r"));
+			Output.info ("\r\033[2K\r");
 			return code;
 		}
 

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-16 17:06-0500\n"
+"POT-Creation-Date: 2026-02-16 17:23-0500\n"
 "PO-Revision-Date: 2026-01-04 06:01+0000\n"
 "Last-Translator: MrBretzel <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -1020,12 +1020,8 @@ msgstr "%s est déjà à jour."
 
 #: src/cli/cli.vala:369
 #, fuzzy, c-format
-msgid "Updating %s...\r"
+msgid "Updating %s..."
 msgstr "Mise à jour de %s"
-
-#: src/cli/cli.vala:374
-msgid "\r[2K\r"
-msgstr ""
 
 #: src/cli/cli.vala:381
 #, fuzzy
