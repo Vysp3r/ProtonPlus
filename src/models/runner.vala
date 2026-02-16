@@ -70,11 +70,19 @@ namespace ProtonPlus.Models {
 					break;
 			}
 
+			var base_runner_directory = "%s/%s".printf (runner.group.launcher.directory, runner.group.directory);
+			var runner_directory = "%s/%s Latest".printf (base_runner_directory, runner.title);
+			var tag_path = "%s/.protonplus_tag".printf (runner_directory);
+
 			var code = yield Utils.Web.get_request ("%s?%s".printf (runner.endpoint, query_param), runner.get_type, out response);
 
-			if (code != ReturnCode.VALID_REQUEST)
+			if (code != ReturnCode.VALID_REQUEST) {
+				// If API is unavailable but we have a tag file, assume up to date
+				if (FileUtils.test (tag_path, FileTest.IS_REGULAR))
+					return ReturnCode.NOTHING_TO_UPDATE;
 				return code;
-			
+			}
+
 			var root_node = Utils.Parser.get_node_from_json (response);
 			if (root_node == null)
 				return ReturnCode.UNKNOWN_ERROR;
@@ -123,9 +131,11 @@ namespace ProtonPlus.Models {
 			if (download_url == "" || !download_url.contains (".tar"))
 				return ReturnCode.UNKNOWN_ERROR;
 
-			var base_runner_directory = "%s/%s".printf (runner.group.launcher.directory, runner.group.directory);
-
-			var runner_directory = "%s/%s Latest".printf (base_runner_directory, runner.title);
+			if (FileUtils.test (tag_path, FileTest.IS_REGULAR)) {
+				var stored_tag = Utils.Filesystem.get_file_content (tag_path).strip ();
+				if (stored_tag != "" && title == stored_tag)
+					return ReturnCode.NOTHING_TO_UPDATE;
+			}
 
 			var version_content = Utils.Filesystem.get_file_content ("%s/version".printf (runner_directory));
 			if (version_content == "")
@@ -149,8 +159,10 @@ namespace ProtonPlus.Models {
 
 			var proton_title = proton_content.substring (proton_start_index, proton_end_index - proton_start_index);
 
-			if (title == version_title || title == proton_title)
+			if (title == version_title || title == proton_title) {
+				Utils.Filesystem.create_file (tag_path, title);
 				return ReturnCode.NOTHING_TO_UPDATE;
+			}
 
 			var settings_path = "%s/user_settings.py".printf (runner_directory);
 			var settings_exists = FileUtils.test (settings_path, FileTest.IS_REGULAR);
@@ -180,6 +192,8 @@ namespace ProtonPlus.Models {
 			if (settings_exists) {
 				Utils.Filesystem.create_file (settings_path, settings_content);
 			}
+
+			Utils.Filesystem.create_file (tag_path, title);
 
 			var deleted = yield Utils.Filesystem.delete_directory (backup_runner_directory);
 			if (!deleted)
