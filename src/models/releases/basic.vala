@@ -46,7 +46,7 @@ namespace ProtonPlus.Models.Releases {
             var directory_name_valid = directory_name != "";
             var install_directory_valid = FileUtils.test (install_location, FileTest.IS_DIR);
 
-            if (title.contains ("Latest") && Widgets.Application.window.updating) {
+            if (title.contains ("Latest") && Widgets.Application.window != null && Widgets.Application.window.updating) {
                 var backup_directory_name = "%s Backup".printf (directory_name);
                 var backup_directory_valid = FileUtils.test ("%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, backup_directory_name), FileTest.IS_DIR);
 

@@ -3,6 +3,8 @@ sources = files(
   'globals.vala',
   'return-code.vala',
 
+  'cli/cli.vala',
+
   'widgets/application.vala',
   'widgets/status-box.vala',
   'widgets/window.vala',
