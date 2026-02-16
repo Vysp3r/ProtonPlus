@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-16 17:06-0500\n"
+"POT-Creation-Date: 2026-02-16 17:23-0500\n"
 "PO-Revision-Date: 2025-09-22 22:01+0000\n"
 "Last-Translator: Damglador <vse.stopchanskyi@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
@@ -1023,13 +1023,9 @@ msgid "Already up to date\n"
 msgstr "%s вже оновлено."
 
 #: src/cli/cli.vala:369
-#, c-format
-msgid "Updating %s...\r"
-msgstr ""
-
-#: src/cli/cli.vala:374
-msgid "\r[2K\r"
-msgstr ""
+#, fuzzy, c-format
+msgid "Updating %s..."
+msgstr "Встановлення %s"
 
 #: src/cli/cli.vala:381
 msgid "Error: Failed to load launchers\n"

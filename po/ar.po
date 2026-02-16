@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-16 17:06-0500\n"
+"POT-Creation-Date: 2026-02-16 17:23-0500\n"
 "PO-Revision-Date: 2026-02-03 11:54+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -988,12 +988,8 @@ msgstr "محدث بالفعل لآخر نسخة %s"
 
 #: src/cli/cli.vala:369
 #, fuzzy, c-format
-msgid "Updating %s...\r"
+msgid "Updating %s..."
 msgstr "جاري تحديث %s"
-
-#: src/cli/cli.vala:374
-msgid "\r[2K\r"
-msgstr ""
 
 #: src/cli/cli.vala:381
 #, fuzzy
