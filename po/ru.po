@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-31 13:37-0500\n"
+"POT-Creation-Date: 2026-02-16 17:06-0500\n"
 "PO-Revision-Date: 2025-11-30 21:00+0000\n"
 "Last-Translator: serg <serhii.maleev@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -885,6 +885,219 @@ msgstr ""
 "Вариант VKD3D от Wine, который призван реализовать полный API Direct3D 12 "
 "поверх Vulkan."
 
+#: src/cli/cli.vala:61
+#, c-format
+msgid "Error: Unknown command '%s'\n"
+msgstr ""
+
+#: src/cli/cli.vala:69
+#, fuzzy
+msgid "Detected launchers:\n"
+msgstr "Неподдерживаемый лаунчер"
+
+#: src/cli/cli.vala:81
+#, fuzzy, c-format
+msgid "Installed runners for %s:\n"
+msgstr "Показать установленные раннеры"
+
+#: src/cli/cli.vala:94
+msgid "No runners installed\n"
+msgstr ""
+
+#: src/cli/cli.vala:167
+#, c-format
+msgid "Error: Runner '%s' does not support 'latest' installation\n"
+msgstr ""
+
+#: src/cli/cli.vala:187
+#, c-format
+msgid "Installing %s Latest...\n"
+msgstr ""
+
+#: src/cli/cli.vala:189
+#, c-format
+msgid "Successfully installed %s Latest\n"
+msgstr ""
+
+#: src/cli/cli.vala:189 src/cli/cli.vala:214
+msgid "Error: Installation failed\n"
+msgstr ""
+
+#: src/cli/cli.vala:200
+#, c-format
+msgid "Available releases for %s:\n"
+msgstr ""
+
+#: src/cli/cli.vala:212
+#, fuzzy, c-format
+msgid "Installing %s...\n"
+msgstr "Установить %s"
+
+#: src/cli/cli.vala:214
+#, c-format
+msgid "Successfully installed %s\n"
+msgstr ""
+
+#: src/cli/cli.vala:221 src/cli/cli.vala:242
+#, fuzzy, c-format
+msgid "No installed releases found for %s\n"
+msgstr "Не найдено обновления для %s"
+
+#: src/cli/cli.vala:225
+#, c-format
+msgid "Installed releases for %s:\n"
+msgstr ""
+
+#: src/cli/cli.vala:230
+msgid "Select release number"
+msgstr ""
+
+#: src/cli/cli.vala:246
+#, c-format
+msgid "Uninstalling all releases for %s...\n"
+msgstr ""
+
+#: src/cli/cli.vala:254
+#, c-format
+msgid "Uninstalling all releases for launcher %s...\n"
+msgstr ""
+
+#: src/cli/cli.vala:261
+#, fuzzy, c-format
+msgid "Uninstalled %s\n"
+msgstr "Установить %s"
+
+#: src/cli/cli.vala:271
+#, fuzzy, c-format
+msgid "Uninstalling %s...\n"
+msgstr "Установить %s"
+
+#: src/cli/cli.vala:273
+#, c-format
+msgid "Successfully uninstalled %s\n"
+msgstr ""
+
+#: src/cli/cli.vala:273
+msgid "Error: Uninstallation failed\n"
+msgstr ""
+
+#: src/cli/cli.vala:278
+msgid "Updating all runners...\n"
+msgstr ""
+
+#: src/cli/cli.vala:284
+#, c-format
+msgid "Updating runners for %s...\n"
+msgstr ""
+
+#: src/cli/cli.vala:299 src/cli/cli.vala:354
+#, c-format
+msgid "Successfully updated %s\n"
+msgstr ""
+
+#: src/cli/cli.vala:302 src/cli/cli.vala:358
+#, fuzzy, c-format
+msgid "Already up to date: %s\n"
+msgstr "%s уже обновлен."
+
+#: src/cli/cli.vala:305 src/cli/cli.vala:361
+#, c-format
+msgid "Error: Failed to update %s\n"
+msgstr ""
+
+#: src/cli/cli.vala:344
+#, fuzzy
+msgid "Already up to date\n"
+msgstr "%s уже обновлен."
+
+#: src/cli/cli.vala:369
+#, fuzzy, c-format
+msgid "Updating %s...\r"
+msgstr "Обновление %s"
+
+#: src/cli/cli.vala:374
+msgid "\r[2K\r"
+msgstr ""
+
+#: src/cli/cli.vala:381
+#, fuzzy
+msgid "Error: Failed to load launchers\n"
+msgstr "Не удалось загрузить программы запуска"
+
+#: src/cli/cli.vala:390
+msgid "Error: Failed to load releases\n"
+msgstr ""
+
+#: src/cli/cli.vala:401
+#, c-format
+msgid "Error: Launcher '%s' not found\n"
+msgstr ""
+
+#: src/cli/cli.vala:414
+#, c-format
+msgid "Error: Runner '%s' not found\n"
+msgstr ""
+
+#: src/cli/cli.vala:453
+#, c-format
+msgid "Usage: %s\n"
+msgstr ""
+
+#: src/cli/cli.vala:465
+msgid "Error: Invalid selection\n"
+msgstr ""
+
+#: src/cli/cli.vala:472
+msgid ""
+"Usage: protonplus <command> [options]\n"
+"\n"
+msgstr ""
+
+#: src/cli/cli.vala:473
+msgid "Commands:\n"
+msgstr ""
+
+#: src/cli/cli.vala:474
+#, fuzzy
+msgid "Show version\n"
+msgstr "Версия"
+
+#: src/cli/cli.vala:475
+msgid "Show this help\n"
+msgstr ""
+
+#: src/cli/cli.vala:476
+#, fuzzy
+msgid "List launchers or installed runners\n"
+msgstr "Показать установленные раннеры"
+
+#: src/cli/cli.vala:477
+#, fuzzy
+msgid "Install runner\n"
+msgstr "Показать установленные раннеры"
+
+#: src/cli/cli.vala:478
+#, fuzzy
+msgid "Uninstall runner\n"
+msgstr "Показать установленные раннеры"
+
+#: src/cli/cli.vala:479
+msgid "Update runner\n"
+msgstr ""
+
+#: src/cli/cli.vala:483
+msgid ""
+"\n"
+"Available launchers:\n"
+msgstr ""
+
+#: src/cli/cli.vala:490
+#, c-format
+msgid ""
+"\n"
+"Available runners for %s:\n"
+msgstr ""
+
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
@@ -899,10 +1112,6 @@ msgstr "Показать сочетания клавиш"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Выход"
-
-#, c-format
-#~ msgid "%s is already up-to-date."
-#~ msgstr "%s уже обновлен."
 
 #~ msgid "Up-to-date"
 #~ msgstr "Актуальный"
@@ -1018,10 +1227,6 @@ msgstr "Выход"
 #, fuzzy
 #~ msgid "Check to modify the compatibility tool"
 #~ msgstr "Инструмент совместимости"
-
-#, fuzzy
-#~ msgid "Installing"
-#~ msgstr "Установить %s"
 
 #, c-format
 #~ msgid "The installation of %s has begun."
@@ -1172,9 +1377,6 @@ msgstr "Выход"
 #~ "работать. Необходимо использовать совеместимый билд от сообщества. Чтобы "
 #~ "отключить это предупреждение нажмите 'да'. Или выберите 'нет', чтобы "
 #~ "сохранить его."
-
-#~ msgid "Version"
-#~ msgstr "Версия"
 
 #~ msgid "Info"
 #~ msgstr "Информация"

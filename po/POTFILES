@@ -75,4 +75,5 @@ src/utils/web.vala
 src/utils/system.vala
 src/main.vala
 src/translatables.vala
+src/cli/cli.vala
 data/ui/gtk/help-overlay.ui
