@@ -378,7 +378,7 @@
             "compat_layers": [
                 {
                     "title": "Proton",
-                    "directory": "/runners/proton"
+                    "directory": "/runners/wine"
                 },
                 {
                     "title": "Wine",
