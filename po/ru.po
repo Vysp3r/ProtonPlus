@@ -524,7 +524,7 @@ msgstr ""
 "Если вы считаете, что это проблема, обязательно сообщите об этом на GitHub."
 
 #: src/widgets/games/games-box.vala:223
-msgid "Unsuported launcher"
+msgid "Unsupported launcher"
 msgstr "Неподдерживаемый лаунчер"
 
 #: src/widgets/games/games-box.vala:223

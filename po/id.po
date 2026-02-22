@@ -526,7 +526,7 @@ msgstr ""
 "di GitHub."
 
 #: src/widgets/games/games-box.vala:223
-msgid "Unsuported launcher"
+msgid "Unsupported launcher"
 msgstr "Peluncur tidak didukung"
 
 #: src/widgets/games/games-box.vala:223
