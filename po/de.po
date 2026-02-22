@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2026-01-03 08:56+0100\n"
+"PO-Revision-Date: 2026-02-22 10:04+0100\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -332,11 +332,11 @@ msgstr "Stellen Sie sicher, dass Sie mit dem Internet verbunden sind."
 
 #: src/widgets/runners/runner-row.vala:62
 msgid "Make sure your DNS is not blocking this."
-msgstr ""
+msgstr "Stellen Sie sicher, dass Ihr DNS dies nicht blockiert."
 
 #: src/widgets/runners/runner-row.vala:65
 msgid "The requested website does not seem to be valid."
-msgstr ""
+msgstr "Die angeforderte Website scheint nicht gültig zu sein."
 
 #: src/widgets/runners/runner-row.vala:68
 msgid "Make sure the access token you provided is valid."
@@ -905,203 +905,205 @@ msgstr ""
 #: src/cli/cli.vala:61
 #, c-format
 msgid "Error: Unknown command '%s'\n"
-msgstr ""
+msgstr "Fehler: Unbekannter Befehl '%s'\n"
 
 #: src/cli/cli.vala:69
-#, fuzzy
 msgid "Detected launchers:\n"
-msgstr "Nicht unterstützer Starter"
+msgstr "Erkannte Starter:\n"
 
 #: src/cli/cli.vala:81
-#, fuzzy, c-format
+#, c-format
 msgid "Installed runners for %s:\n"
-msgstr "Zeige installierte Ausführungswerkzeuge"
+msgstr "Installierte Ausführungswerkzeuge für %s:\r\n"
 
 #: src/cli/cli.vala:94
 msgid "No runners installed\n"
-msgstr ""
+msgstr "Keine Ausführungswerkzeuge installiert\n"
 
 #: src/cli/cli.vala:167
 #, c-format
 msgid "Error: Runner '%s' does not support 'latest' installation\n"
 msgstr ""
+"Fehler: Das Ausführungswerkzeug „%s“ unterstützt keine „latest“-"
+"Installation.\n"
 
 #: src/cli/cli.vala:187
 #, c-format
 msgid "Installing %s Latest...\n"
-msgstr ""
+msgstr "Installiere %s Aktuellste Version...\n"
 
 #: src/cli/cli.vala:189
 #, c-format
 msgid "Successfully installed %s Latest\n"
-msgstr ""
+msgstr "Erfolgreich installiert %s Neueste\n"
 
 #: src/cli/cli.vala:189 src/cli/cli.vala:214
 msgid "Error: Installation failed\n"
-msgstr ""
+msgstr "Fehler: Installation fehlgeschlagen\n"
 
 #: src/cli/cli.vala:200
 #, c-format
 msgid "Available releases for %s:\n"
-msgstr ""
+msgstr "Verfügbare Versionen für %s:\n"
 
 #: src/cli/cli.vala:212
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s...\n"
-msgstr "Installiere"
+msgstr "%s wird installiert...\n"
 
 #: src/cli/cli.vala:214
 #, c-format
 msgid "Successfully installed %s\n"
-msgstr ""
+msgstr "%s erfolgreich installiert\n"
 
 #: src/cli/cli.vala:221 src/cli/cli.vala:242
-#, fuzzy, c-format
+#, c-format
 msgid "No installed releases found for %s\n"
-msgstr "Kein Update für %s gefunden"
+msgstr "Keine installierten Versionen für %s gefunden\n"
 
 #: src/cli/cli.vala:225
 #, c-format
 msgid "Installed releases for %s:\n"
-msgstr ""
+msgstr "Installierte Versionen für %s:\n"
 
 #: src/cli/cli.vala:230
 msgid "Select release number"
-msgstr ""
+msgstr "Version auswählen"
 
 #: src/cli/cli.vala:246
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
-msgstr ""
+msgstr "Deinstallation aller Versionen für %s...\n"
 
 #: src/cli/cli.vala:254
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
-msgstr ""
+msgstr "Deinstallation aller Versionen für Starter %s...\n"
 
 #: src/cli/cli.vala:261
-#, fuzzy, c-format
+#, c-format
 msgid "Uninstalled %s\n"
-msgstr "Installiere %s"
+msgstr ""
+"%s Deinstalliert \n"
+"\n"
 
 #: src/cli/cli.vala:271
-#, fuzzy, c-format
+#, c-format
 msgid "Uninstalling %s...\n"
-msgstr "Installiere"
+msgstr "Deinstallation von %s...\n"
 
 #: src/cli/cli.vala:273
 #, c-format
 msgid "Successfully uninstalled %s\n"
-msgstr ""
+msgstr "%s wurde erfolgreich deinstalliert.\n"
 
 #: src/cli/cli.vala:273
 msgid "Error: Uninstallation failed\n"
-msgstr ""
+msgstr "Fehler: Deinstallation fehlgeschlagen\n"
 
 #: src/cli/cli.vala:278
 msgid "Updating all runners...\n"
-msgstr ""
+msgstr "Aktualisierung aller Ausführungswerkzeuge...\n"
 
 #: src/cli/cli.vala:284
 #, c-format
 msgid "Updating runners for %s...\n"
-msgstr ""
+msgstr "Aktualisierung der Ausführungswerkzeuge für %s...\n"
 
 #: src/cli/cli.vala:299 src/cli/cli.vala:354
 #, c-format
 msgid "Successfully updated %s\n"
-msgstr ""
+msgstr "%s erfolgreich aktualisiert\n"
 
 #: src/cli/cli.vala:302 src/cli/cli.vala:358
-#, fuzzy, c-format
+#, c-format
 msgid "Already up to date: %s\n"
-msgstr "%s ist schon auf dem neuesten Stand."
+msgstr "Bereits auf dem neuesten Stand: %s\n"
 
 #: src/cli/cli.vala:305 src/cli/cli.vala:361
 #, c-format
 msgid "Error: Failed to update %s\n"
-msgstr ""
+msgstr "Fehler: Aktualisierung von %s fehlgeschlagen\n"
 
 #: src/cli/cli.vala:344
-#, fuzzy
 msgid "Already up to date\n"
-msgstr "%s ist schon auf dem neuesten Stand."
+msgstr "Bereits auf dem neuesten Stand\n"
 
 #: src/cli/cli.vala:369
-#, fuzzy, c-format
+#, c-format
 msgid "Updating %s..."
-msgstr "Aktualisiere %s"
+msgstr "Aktualisiere %s..."
 
 #: src/cli/cli.vala:381
-#, fuzzy
 msgid "Error: Failed to load launchers\n"
-msgstr "Die Starter konnten nicht geladen werden"
+msgstr "Fehler: Starter konnten nicht geladen werden\n"
 
 #: src/cli/cli.vala:390
 msgid "Error: Failed to load releases\n"
-msgstr ""
+msgstr "Fehler: Versionen konnten nicht geladen werden\n"
 
 #: src/cli/cli.vala:401
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
-msgstr ""
+msgstr "Fehler: Starter ‚%s‘ nicht gefunden\n"
 
 #: src/cli/cli.vala:414
 #, c-format
 msgid "Error: Runner '%s' not found\n"
-msgstr ""
+msgstr "Fehler: Ausführungswerkzeug „%s“ nicht gefunden\n"
 
 #: src/cli/cli.vala:453
 #, c-format
 msgid "Usage: %s\n"
-msgstr ""
+msgstr "Verwendung: %s\n"
 
 #: src/cli/cli.vala:465
 msgid "Error: Invalid selection\n"
-msgstr ""
+msgstr "Fehler: Ungültige Auswahl\n"
 
 #: src/cli/cli.vala:472
 msgid ""
 "Usage: protonplus <command> [options]\n"
 "\n"
 msgstr ""
+"Verwendung: protonplus <Befehl> [Optionen]\n"
+"\n"
 
 #: src/cli/cli.vala:473
 msgid "Commands:\n"
-msgstr ""
+msgstr "Befehle:\n"
 
 #: src/cli/cli.vala:474
 msgid "Show version\n"
-msgstr ""
+msgstr "Version anzeigen\n"
 
 #: src/cli/cli.vala:475
 msgid "Show this help\n"
-msgstr ""
+msgstr "Diese Hilfe anzeigen\n"
 
 #: src/cli/cli.vala:476
-#, fuzzy
 msgid "List launchers or installed runners\n"
-msgstr "Zeige installierte Ausführungswerkzeuge"
+msgstr "Starter oder installierte Ausführungswerkzeuge auflisten\n"
 
 #: src/cli/cli.vala:477
-#, fuzzy
 msgid "Install runner\n"
-msgstr "Zeige installierte Ausführungswerkzeuge"
+msgstr "Installiere Ausführungswerkzeuge\n"
 
 #: src/cli/cli.vala:478
-#, fuzzy
 msgid "Uninstall runner\n"
-msgstr "Zeige installierte Ausführungswerkzeuge"
+msgstr "Deinstalliere Ausführungswerkzeuge\n"
 
 #: src/cli/cli.vala:479
 msgid "Update runner\n"
-msgstr ""
+msgstr "Aktualisiere Ausführungswerkzeug\n"
 
 #: src/cli/cli.vala:483
 msgid ""
 "\n"
 "Available launchers:\n"
 msgstr ""
+"\n"
+"Verfügbare Starter:\n"
 
 #: src/cli/cli.vala:490
 #, c-format
@@ -1109,6 +1111,8 @@ msgid ""
 "\n"
 "Available runners for %s:\n"
 msgstr ""
+"\n"
+"Verfügbare Ausführungswerkzeuge für %s:\n"
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -1124,190 +1128,3 @@ msgstr "Tastenkombinationen anzeigen"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Beenden"
-
-#~ msgid "Up-to-date"
-#~ msgstr "Auf dem neuesten Stand"
-
-#~ msgid ""
-#~ "Custom Proton build for running the Northstar client for Titanfall 2."
-#~ msgstr ""
-#~ "Benutzerdefinierter Proton-Build zum Ausführen des Northstar-Clients für "
-#~ "Titanfall 2."
-
-#~ msgid "An error occured while checking for updates."
-#~ msgstr "Ein Fehler trat auf während auf Aktualiserungen überprüft wurde."
-
-#, fuzzy, c-format
-#~ msgid "An error occured while updating %s."
-#~ msgstr "Ein unerwarteter Fehler trat auf beim Aktualisieren von %s."
-
-#~ msgid "Error"
-#~ msgstr "Fehler"
-
-#~ msgid ""
-#~ "When trying to change the compatibility tool/launch options of the "
-#~ "selected games an error occurred for the following games:"
-#~ msgstr ""
-#~ "Beim Versuch, das Kompatibilitätswerkzeug/die Startoptionen der "
-#~ "ausgewählten Spiele zu ändern, trat bei den folgenden Spielen ein Fehler "
-#~ "auf:"
-
-#, c-format
-#~ msgid "When trying to delete %s an error occurred."
-#~ msgstr "Beim Versuch, %s zu entfernen, ist ein Fehler aufgetreten."
-
-#, c-format
-#~ msgid "When trying to upgrade %s an error occurred."
-#~ msgstr "Beim Versuch, %s zu aktualisieren, ist ein Fehler aufgetreten."
-
-#~ msgid "When trying to delete the shortcut in Steam an error occurred."
-#~ msgstr ""
-#~ "Beim Versuch, die Verknüpfung in Steam zu erstellen, ist ein Fehler "
-#~ "aufgetreten."
-
-#~ msgid "When trying to create the shortcut in Steam an error occurred."
-#~ msgstr ""
-#~ "Beim Versuch, die Verknüpfung in Steam zu erstellen, ist ein Fehler "
-#~ "aufgetreten."
-
-#~ msgid ""
-#~ "When trying to change the default compatibility tool an error occurred."
-#~ msgstr ""
-#~ "Beim Versuch, das Standardkompatibilitätswerkzeug zu ändern, trat ein "
-#~ "Fehler auf."
-
-#~ msgid "An error ocurred"
-#~ msgstr "Ein Fehler ist aufgetreten"
-
-#~ msgid "There was an error when trying to load the launchers."
-#~ msgstr "Es gab einen Fehler beim Versuch, die Starter zu laden."
-
-#, c-format
-#~ msgid "When trying to install %s an error occurred."
-#~ msgstr "Beim Versuch, %s zu installieren, ist ein Fehler aufgetreten."
-
-#~ msgid "An error occurred"
-#~ msgstr "Ein Fehler ist aufgetreten"
-
-#~ msgid "Show used only"
-#~ msgstr "Nur benutzte anzeigen"
-
-#~ msgid "Show unused only"
-#~ msgstr "Nur nicht benutze anzeigen"
-
-#~ msgid "The library failed loading."
-#~ msgstr "Die Bibliothek konnte nicht geladen werden."
-
-#~ msgid "Renaming"
-#~ msgstr "Benenne um"
-
-#~ msgid "Running post install script"
-#~ msgstr "Führe Postinstallation-Skript aus"
-
-#, c-format
-#~ msgid "Remove %s"
-#~ msgstr "Entferne %s"
-
-#~ msgid "An error occured"
-#~ msgstr "Ein Fehler ist aufgetreten"
-
-#~ msgid "Remove shortcut"
-#~ msgstr "Verknüpfung entfernen"
-
-#~ msgid "When trying to remove the shortcut in Steam an error occured."
-#~ msgstr ""
-#~ "Beim Versuch, die Verknüpfung in Steam zu entfernen, ist ein Fehler "
-#~ "aufgetreten."
-
-#~ msgid "Sort by name"
-#~ msgstr "Nach Name sortieren"
-
-#~ msgid "Sorts the games by their name"
-#~ msgstr "Sortiert die Spiele nach ihrem Namen"
-
-#~ msgid "Sort by compatibility tool"
-#~ msgstr "Sortieren nach Kompatibilitätswerkzeug"
-
-#~ msgid "Sorts the games by the compatibility tool name"
-#~ msgstr "Sortiert die Spiele nach dem Namen des Kompatibilitätswerkzeugs"
-
-#~ msgid "Set default compatibility tool"
-#~ msgstr "Standardkompatibilitätswerkzeug festlegen"
-
-#~ msgid "Library"
-#~ msgstr "Bibliothek"
-
-#~ msgid "Go back"
-#~ msgstr "Zurück gehen"
-
-#~ msgid "Show game library"
-#~ msgstr "Spielebibliothek anzeigen"
-
-#, fuzzy
-#~ msgid "Extra"
-#~ msgstr "Extrahiere..."
-
-#, fuzzy
-#~ msgid "Check to modify the compatibility tool"
-#~ msgstr "Ein moderner Kompatibilitätswerkzeugmanager für Linux."
-
-#~ msgid "Show/hide logs"
-#~ msgstr "Protokolle anzeigen/verbergen"
-
-#~ msgid "Closing in"
-#~ msgstr "Schließe in"
-
-#, c-format
-#~ msgid "The installation of %s has begun."
-#~ msgstr "Die Installation von %s hat begonnen."
-
-#, c-format
-#~ msgid "The removal of %s has begun."
-#~ msgstr "Das Entfernen von %s hat begonnen."
-
-#, c-format
-#~ msgid "The upgrade of %s has begun."
-#~ msgstr "Die Aktualisierung von %s hat begonnen."
-
-#, c-format
-#~ msgid "An unexpected error occurred while installing %s."
-#~ msgstr "Ein unerwarteter Fehler trat auf beim Installieren von %s."
-
-#, c-format
-#~ msgid "The installation of %s is complete."
-#~ msgstr "Die Installation von %s ist abgeschlossen."
-
-#, c-format
-#~ msgid "The removal of %s is complete."
-#~ msgstr "Die Löschung von %s ist abgeschlossen."
-
-#~ msgid "Deleting..."
-#~ msgstr "Lösche..."
-
-#~ msgid "Running post removal script..."
-#~ msgstr "Führe Postentfernungs-Skript aus..."
-
-#, c-format
-#~ msgid "The upgrade of %s is complete."
-#~ msgstr "Die Aktualisierung von %s ist abgeschlossen."
-
-#, c-format
-#~ msgid "You're about to remove %s from your system."
-#~ msgstr "Sie sind dabei %s von Ihrem System zu löschen."
-
-#~ msgid "Missing dependencies!"
-#~ msgstr "Fehlende Abhängigkeiten!"
-
-#, c-format
-#~ msgid "Existing installation of %s"
-#~ msgstr "Existierende Installation von %s"
-
-#~ msgid "Contains RTX fix for Star Citizen."
-#~ msgstr "Enthält RTX-Korrektur für Star Citizen."
-
-#~ msgid ""
-#~ "Improved by Lutris to offer better compatibility or performance in "
-#~ "certain games."
-#~ msgstr ""
-#~ "Verbessert von Lutris, um bessere Kompatibilität oder Leistung in "
-#~ "bestimmten Spielen zu bieten."
