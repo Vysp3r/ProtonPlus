@@ -36,11 +36,12 @@
 
 - Manage supported compatibility tools across supported launchers
 - Change the compatibility tool and launch options of your Steam games
+- CLI support
 - And much more...
 
 <details>
   <summary>Supported launchers</summary>
-    
+
   - Steam
   - Lutris
   - Heroic Games Launcher
@@ -148,10 +149,10 @@
 
 3. Build the local source code as a native application
     ```bash
-    ./scripts/build-native.sh
+    ./scripts/build.sh
 
     # Alternative: Runs application after the build.
-    ./scripts/build-native.sh run
+    ./scripts/build.sh run
     ```
 
 4. (Optional) Install the application
