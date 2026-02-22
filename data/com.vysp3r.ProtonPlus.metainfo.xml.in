@@ -93,6 +93,17 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.17" date="2026-02-21">
+      <description>
+        <ul>
+          <li>✨ Added CLI support</li>
+          <li>🐛 Fix Lutris install directory for Proton runners</li>
+          <li>🐛 Fixed unnecessary re-downloads of the same runner as an "update"</li>
+          <li>🌐 Updated Portuguese localization</li>
+          <li>🌐 Added Vietnamese localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.16" date="2026-02-01">
       <description>
         <ul>
