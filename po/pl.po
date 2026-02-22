@@ -1,13 +1,14 @@
 # T K <konto2y5@gmail.com>, 2024, 2025.
 # Eryk Michalak <gnu.ewm@protonmail.com>, 2024.
 # Beniamin Remis <nawo266@gmail.com>, 2025.
+# Łukasz Zając <sec@rbtv.pl>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2025-09-04 02:01+0000\n"
-"Last-Translator: Beniamin Remis <nawo266@gmail.com>\n"
+"PO-Revision-Date: 2026-02-23 02:08+0000\n"
+"Last-Translator: Łukasz Zając <sec@rbtv.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pl/>\n"
 "Language: pl\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13.1-rc\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: src/widgets/application.vala:91
 #, fuzzy
@@ -32,9 +33,8 @@ msgid "Special thanks to"
 msgstr "Specjalne podziękowania dla"
 
 #: src/widgets/window.vala:32
-#, fuzzy
 msgid "Loading"
-msgstr "Pobieranie"
+msgstr "Wczytywanie"
 
 #: src/widgets/window.vala:32
 msgid "Taking longer than normal?"
