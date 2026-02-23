@@ -527,7 +527,7 @@ msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "თუ ფიქრობთ, რომ ეს პრობლემაა, მოგვწერეთ ამის შესახებ GitHub-ზე."
 
 #: src/widgets/games/games-box.vala:223
-msgid "Unsuported launcher"
+msgid "Unsupported launcher"
 msgstr "მხარდაუჭერელი გამშვები"
 
 #: src/widgets/games/games-box.vala:223

@@ -527,7 +527,7 @@ msgstr ""
 "Se você acha que isto é um prolema, certifique-se de reportar isto no GitHub."
 
 #: src/widgets/games/games-box.vala:223
-msgid "Unsuported launcher"
+msgid "Unsupported launcher"
 msgstr "Inicializador não suportado"
 
 #: src/widgets/games/games-box.vala:223

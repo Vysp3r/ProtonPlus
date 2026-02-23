@@ -220,7 +220,7 @@ namespace ProtonPlus.Widgets {
 				}
 			} else {
 				invalid = true;
-				show_status_box(launcher.icon_path, _("Unsuported launcher"), "%s\n%s".printf(_("%s is currently not supported.").printf(launcher.title), _("If you want me to speed up the development make sure to show your support!")), true);
+				show_status_box(launcher.icon_path, _("Unsupported launcher"), "%s\n%s".printf(_("%s is currently not supported.").printf(launcher.title), _("If you want me to speed up the development make sure to show your support!")), true);
 			}
 		}
 
