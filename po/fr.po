@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2026-01-04 06:01+0000\n"
+"PO-Revision-Date: 2026-02-24 05:09+0000\n"
 "Last-Translator: MrBretzel <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
@@ -333,11 +333,11 @@ msgstr "Vérifiez votre connexion internet."
 
 #: src/widgets/runners/runner-row.vala:62
 msgid "Make sure your DNS is not blocking this."
-msgstr ""
+msgstr "Assurez-vous que votre DNS ne bloque pas la requête"
 
 #: src/widgets/runners/runner-row.vala:65
 msgid "The requested website does not seem to be valid."
-msgstr ""
+msgstr "Le site Web demandé ne semble pas être valide"
 
 #: src/widgets/runners/runner-row.vala:68
 msgid "Make sure the access token you provided is valid."
@@ -896,7 +896,7 @@ msgstr ""
 #: src/cli/cli.vala:61
 #, c-format
 msgid "Error: Unknown command '%s'\n"
-msgstr ""
+msgstr "Erreur : Commande inconnue '%s'\n"
 
 #: src/cli/cli.vala:69
 #, fuzzy
@@ -910,31 +910,33 @@ msgstr "Afficher les outils de compatibilité installés"
 
 #: src/cli/cli.vala:94
 msgid "No runners installed\n"
-msgstr ""
+msgstr "Aucun outil de compatibilité installé\n"
 
 #: src/cli/cli.vala:167
 #, c-format
 msgid "Error: Runner '%s' does not support 'latest' installation\n"
 msgstr ""
+"Erreur : L'outil de compatibilité '%s' ne supporte pas l'installation de la "
+"'dernière' version\n"
 
 #: src/cli/cli.vala:187
 #, c-format
 msgid "Installing %s Latest...\n"
-msgstr ""
+msgstr "Installer %s Dernière version\n"
 
 #: src/cli/cli.vala:189
 #, c-format
 msgid "Successfully installed %s Latest\n"
-msgstr ""
+msgstr "Installation de la dernière version de %s avec succès\n"
 
 #: src/cli/cli.vala:189 src/cli/cli.vala:214
 msgid "Error: Installation failed\n"
-msgstr ""
+msgstr "Erreur : Échec de l'installation\n"
 
 #: src/cli/cli.vala:200
 #, c-format
 msgid "Available releases for %s:\n"
-msgstr ""
+msgstr "Version disponible pour %s\n"
 
 #: src/cli/cli.vala:212
 #, fuzzy, c-format
@@ -944,7 +946,7 @@ msgstr "Installation"
 #: src/cli/cli.vala:214
 #, c-format
 msgid "Successfully installed %s\n"
-msgstr ""
+msgstr "Installation de %s avec succès\n"
 
 #: src/cli/cli.vala:221 src/cli/cli.vala:242
 #, fuzzy, c-format
@@ -954,16 +956,16 @@ msgstr "Aucune mise à jour trouvée pour %s"
 #: src/cli/cli.vala:225
 #, c-format
 msgid "Installed releases for %s:\n"
-msgstr ""
+msgstr "Version installée pour %s\n"
 
 #: src/cli/cli.vala:230
 msgid "Select release number"
-msgstr ""
+msgstr "Sélectionnez la version"
 
 #: src/cli/cli.vala:246
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
-msgstr ""
+msgstr "Désinstallations de toutes les versions pour %s...\n"
 
 #: src/cli/cli.vala:254
 #, c-format
