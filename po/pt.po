@@ -13,15 +13,15 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2026-02-15 11:09+0000\n"
-"Last-Translator: Henrique Araujo De Almeida <henriquearaujo7478@gmail.com>\n"
+"PO-Revision-Date: 2026-02-26 21:09+0000\n"
+"Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
@@ -901,17 +901,16 @@ msgstr ""
 #: src/cli/cli.vala:61
 #, c-format
 msgid "Error: Unknown command '%s'\n"
-msgstr ""
+msgstr "Erro: Comando desconhecido \"%s\"\n"
 
 #: src/cli/cli.vala:69
-#, fuzzy
 msgid "Detected launchers:\n"
-msgstr "Inicializador não suportado"
+msgstr "Inicializadores detectados:\n"
 
 #: src/cli/cli.vala:81
-#, fuzzy, c-format
+#, c-format
 msgid "Installed runners for %s:\n"
-msgstr "Mostrar executadores instalados"
+msgstr "Executadores instalados para %s:\n"
 
 #: src/cli/cli.vala:94
 msgid "No runners installed\n"
@@ -942,9 +941,9 @@ msgid "Available releases for %s:\n"
 msgstr ""
 
 #: src/cli/cli.vala:212
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s...\n"
-msgstr "Instalando"
+msgstr "Instalando %s...\n"
 
 #: src/cli/cli.vala:214
 #, c-format
