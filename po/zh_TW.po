@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2026-02-02 22:20+0800\n"
+"PO-Revision-Date: 2026-02-27 07:27+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -460,7 +460,7 @@ msgstr "您想使用 ProtonPlus 將其重新安裝嗎？"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
-msgstr "若要為 %2$s 安裝 %1$s，請運行以下命令："
+msgstr "若要為 %2$s 安裝 %1$s，請運行以下指令："
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #, c-format
@@ -850,203 +850,201 @@ msgstr "Wine VKD3D 的特化版，旨在 Vulkan 之上實作完整的 Direct3D 1
 #: src/cli/cli.vala:61
 #, c-format
 msgid "Error: Unknown command '%s'\n"
-msgstr ""
+msgstr "錯誤：未知的指令「%s」\n"
 
 #: src/cli/cli.vala:69
-#, fuzzy
 msgid "Detected launchers:\n"
-msgstr "未支援的啟動器"
+msgstr "偵測到的啟動器：\n"
 
 #: src/cli/cli.vala:81
-#, fuzzy, c-format
+#, c-format
 msgid "Installed runners for %s:\n"
-msgstr "顯示已安裝的運行器"
+msgstr "%s 已安裝的運行器：\n"
 
 #: src/cli/cli.vala:94
 msgid "No runners installed\n"
-msgstr ""
+msgstr "尚未安裝運行器\n"
 
 #: src/cli/cli.vala:167
 #, c-format
 msgid "Error: Runner '%s' does not support 'latest' installation\n"
-msgstr ""
+msgstr "錯誤：運行器「%s」不支援「Latest」安裝\n"
 
 #: src/cli/cli.vala:187
 #, c-format
 msgid "Installing %s Latest...\n"
-msgstr ""
+msgstr "正在安裝 %s Latest...\n"
 
 #: src/cli/cli.vala:189
 #, c-format
 msgid "Successfully installed %s Latest\n"
-msgstr ""
+msgstr "已成功安裝 %s Latest\n"
 
 #: src/cli/cli.vala:189 src/cli/cli.vala:214
 msgid "Error: Installation failed\n"
-msgstr ""
+msgstr "錯誤：安裝失敗\n"
 
 #: src/cli/cli.vala:200
 #, c-format
 msgid "Available releases for %s:\n"
-msgstr ""
+msgstr "%s 的可用版本：\n"
 
 #: src/cli/cli.vala:212
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s...\n"
-msgstr "正在安裝"
+msgstr "正在安裝 %s...\n"
 
 #: src/cli/cli.vala:214
 #, c-format
 msgid "Successfully installed %s\n"
-msgstr ""
+msgstr "已成功安裝 %s\n"
 
 #: src/cli/cli.vala:221 src/cli/cli.vala:242
-#, fuzzy, c-format
+#, c-format
 msgid "No installed releases found for %s\n"
-msgstr "未找到 %s 的更新"
+msgstr "未找到 %s 的已安裝版本\n"
 
 #: src/cli/cli.vala:225
 #, c-format
 msgid "Installed releases for %s:\n"
-msgstr ""
+msgstr "%s 的已安裝版本：\n"
 
 #: src/cli/cli.vala:230
 msgid "Select release number"
-msgstr ""
+msgstr "請選擇版本號"
 
 #: src/cli/cli.vala:246
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
-msgstr ""
+msgstr "正在卸載 %s 的所有版本…\n"
 
 #: src/cli/cli.vala:254
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
-msgstr ""
+msgstr "正在卸載啟動器 %s 的所有版本...\n"
 
 #: src/cli/cli.vala:261
-#, fuzzy, c-format
+#, c-format
 msgid "Uninstalled %s\n"
-msgstr "安裝 %s"
+msgstr "已卸載 %s\n"
 
 #: src/cli/cli.vala:271
-#, fuzzy, c-format
+#, c-format
 msgid "Uninstalling %s...\n"
-msgstr "正在安裝"
+msgstr "正在卸載 %s...\n"
 
 #: src/cli/cli.vala:273
 #, c-format
 msgid "Successfully uninstalled %s\n"
-msgstr ""
+msgstr "已成功卸載 %s\n"
 
 #: src/cli/cli.vala:273
 msgid "Error: Uninstallation failed\n"
-msgstr ""
+msgstr "錯誤：卸載失敗\n"
 
 #: src/cli/cli.vala:278
 msgid "Updating all runners...\n"
-msgstr ""
+msgstr "正在更新所有運行器…\n"
 
 #: src/cli/cli.vala:284
 #, c-format
 msgid "Updating runners for %s...\n"
-msgstr ""
+msgstr "正在更新 %s 的運行器…\n"
 
 #: src/cli/cli.vala:299 src/cli/cli.vala:354
 #, c-format
 msgid "Successfully updated %s\n"
-msgstr ""
+msgstr "已成功更新 %s\n"
 
 #: src/cli/cli.vala:302 src/cli/cli.vala:358
-#, fuzzy, c-format
+#, c-format
 msgid "Already up to date: %s\n"
-msgstr "%s 已為最新版本。"
+msgstr "已為最新版本：%s\n"
 
 #: src/cli/cli.vala:305 src/cli/cli.vala:361
 #, c-format
 msgid "Error: Failed to update %s\n"
-msgstr ""
+msgstr "錯誤：更新 %s 失敗\n"
 
 #: src/cli/cli.vala:344
-#, fuzzy
 msgid "Already up to date\n"
-msgstr "%s 已為最新版本。"
+msgstr "已為最新版本\n"
 
 #: src/cli/cli.vala:369
-#, fuzzy, c-format
+#, c-format
 msgid "Updating %s..."
-msgstr "正在更新 %s"
+msgstr "正在更新 %s..."
 
 #: src/cli/cli.vala:381
-#, fuzzy
 msgid "Error: Failed to load launchers\n"
-msgstr "無法載入啟動器"
+msgstr "錯誤：載入啟動器失敗\n"
 
 #: src/cli/cli.vala:390
 msgid "Error: Failed to load releases\n"
-msgstr ""
+msgstr "錯誤：載入版本失敗\n"
 
 #: src/cli/cli.vala:401
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
-msgstr ""
+msgstr "錯誤：未找到啟動器「%s」\n"
 
 #: src/cli/cli.vala:414
 #, c-format
 msgid "Error: Runner '%s' not found\n"
-msgstr ""
+msgstr "錯誤：未找到運行器「%s」\n"
 
 #: src/cli/cli.vala:453
 #, c-format
 msgid "Usage: %s\n"
-msgstr ""
+msgstr "用法：%s\n"
 
 #: src/cli/cli.vala:465
 msgid "Error: Invalid selection\n"
-msgstr ""
+msgstr "錯誤：無效的選擇\n"
 
 #: src/cli/cli.vala:472
 msgid ""
 "Usage: protonplus <command> [options]\n"
 "\n"
 msgstr ""
+"用法：protonplus <command> [options]\n"
+"\n"
 
 #: src/cli/cli.vala:473
 msgid "Commands:\n"
-msgstr ""
+msgstr "指令：\n"
 
 #: src/cli/cli.vala:474
 msgid "Show version\n"
-msgstr ""
+msgstr "顯示版本\n"
 
 #: src/cli/cli.vala:475
 msgid "Show this help\n"
-msgstr ""
+msgstr "顯示本說明\n"
 
 #: src/cli/cli.vala:476
-#, fuzzy
 msgid "List launchers or installed runners\n"
-msgstr "顯示已安裝的運行器"
+msgstr "列出啟動器或已安裝的運行器\n"
 
 #: src/cli/cli.vala:477
-#, fuzzy
 msgid "Install runner\n"
-msgstr "顯示已安裝的運行器"
+msgstr "安裝運行器\n"
 
 #: src/cli/cli.vala:478
-#, fuzzy
 msgid "Uninstall runner\n"
-msgstr "顯示已安裝的運行器"
+msgstr "卸載運行器\n"
 
 #: src/cli/cli.vala:479
 msgid "Update runner\n"
-msgstr ""
+msgstr "更新運行器\n"
 
 #: src/cli/cli.vala:483
 msgid ""
 "\n"
 "Available launchers:\n"
 msgstr ""
+"\n"
+"可用啟動器：\n"
 
 #: src/cli/cli.vala:490
 #, c-format
@@ -1054,6 +1052,8 @@ msgid ""
 "\n"
 "Available runners for %s:\n"
 msgstr ""
+"\n"
+"%s 的可用運行器：\n"
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
