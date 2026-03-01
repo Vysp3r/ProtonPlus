@@ -1,13 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
-# camegone <kuroneko0308kw@gmail.com>, 2025.
+# camegone <kuroneko0308kw@gmail.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2025-11-25 10:51+0000\n"
+"PO-Revision-Date: 2026-03-01 14:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ja/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
@@ -74,7 +74,7 @@ msgstr "メインメニュー"
 
 #: src/widgets/window.vala:59
 msgid "Runners"
-msgstr ""
+msgstr "実行環境"
 
 #: src/widgets/window.vala:60
 msgid "Games"
@@ -216,7 +216,7 @@ msgstr "自動更新"
 msgid ""
 "Whether or not to update the installed 'Latest' runners when the application "
 "start"
-msgstr ""
+msgstr "インストール済みの「最新」の実行環境をアプリケーション開始時に更新するか否か"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Latest"
@@ -252,11 +252,11 @@ msgstr "プロファイルを再読み込み"
 
 #: src/widgets/preferences/refresh-launchers-runners-row.vala:15
 msgid "Refresh launchers/runners"
-msgstr ""
+msgstr "ランチャーや実行環境を再読み込み"
 
 #: src/widgets/preferences/check-updates-row.vala:11
 msgid "Check if any of the installed 'Latest' runners needs to be updated"
-msgstr ""
+msgstr "インストール済みの「最新 (Latest)」な実行環境に更新が必要かどうか確認する"
 
 #: src/widgets/preferences/check-updates-row.vala:16
 msgid "Check for updates"
@@ -324,11 +324,11 @@ msgstr "インターネットに接続されていることを確認してくだ
 
 #: src/widgets/runners/runner-row.vala:62
 msgid "Make sure your DNS is not blocking this."
-msgstr ""
+msgstr "使用している DNS によってブロックされていないかを確認してください。"
 
 #: src/widgets/runners/runner-row.vala:65
 msgid "The requested website does not seem to be valid."
-msgstr ""
+msgstr "要求されたウェブサイトが正しくないようです。"
 
 #: src/widgets/runners/runner-row.vala:68
 msgid "Make sure the access token you provided is valid."
@@ -416,6 +416,9 @@ msgid ""
 "This version will get automatically updated when there's an update available "
 "each time your launch the application if automatic updates is enabled"
 msgstr ""
+"このバージョンを選択すると、設定の「自動更新」が有効になっている場合、"
+"アプリケーションの起動のタイミングで更新版が利用可能な時、自動的に更新されま"
+"す"
 
 #: src/widgets/runners/filters-box.vala:12
 msgid "Installed"
@@ -423,11 +426,11 @@ msgstr "インストール済み"
 
 #: src/widgets/runners/filters-box.vala:17
 msgid "Show installed runners"
-msgstr ""
+msgstr "インストール済みの実行環境を表示"
 
 #: src/widgets/runners/filters-box.vala:27
 msgid "Show runners that are used by one game or more"
-msgstr ""
+msgstr "1つ以上のゲームで使用している実行環境を表示"
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
@@ -435,7 +438,7 @@ msgstr "未使用"
 
 #: src/widgets/runners/filters-box.vala:37
 msgid "Show runners that aren't used by any games"
-msgstr ""
+msgstr "どのゲームにも使用していない実行環境を表示"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:8
 msgid "Update to the latest version"
@@ -476,8 +479,7 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:62
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr ""
-"変更を適用する前に、Steam クライアントを終了していることを確認してください。"
+msgstr "変更を適用する前に、必ず Steam クライアントを終了してください。"
 
 #: src/widgets/games/games-box.vala:77 src/widgets/games/games-box.vala:339
 msgid "Show search"
@@ -770,6 +772,8 @@ msgstr ""
 #: src/translatables.vala:7
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
 msgstr ""
+"Dawn Winery によってカスタムされた Proton のフォークで、沢山のゲームに向けた"
+"修正がなされています。:xdd:"
 
 #: src/translatables.vala:8
 msgid ""
@@ -863,7 +867,7 @@ msgstr "Vulkan バージョン 1.3 未満で動作させるための DXVK Async 
 
 #: src/translatables.vala:24
 msgid "DXVK builds with gplasync patch by Ph42oN."
-msgstr ""
+msgstr "gplasync のパッチが適用された Ph42oN 氏による DXVK のビルド"
 
 #: src/translatables.vala:25
 msgid ""
@@ -875,12 +879,11 @@ msgstr ""
 #: src/cli/cli.vala:61
 #, c-format
 msgid "Error: Unknown command '%s'\n"
-msgstr ""
+msgstr "エラー: 「%s」は未知のコマンドです\n"
 
 #: src/cli/cli.vala:69
-#, fuzzy
 msgid "Detected launchers:\n"
-msgstr "サポートされていないランチャー"
+msgstr "ランチャーを検出しました:\n"
 
 #: src/cli/cli.vala:81
 #, c-format
@@ -889,46 +892,46 @@ msgstr ""
 
 #: src/cli/cli.vala:94
 msgid "No runners installed\n"
-msgstr ""
+msgstr "実行環境が何もインストールされていません\n"
 
 #: src/cli/cli.vala:167
 #, c-format
 msgid "Error: Runner '%s' does not support 'latest' installation\n"
-msgstr ""
+msgstr "エラー: 実行環境「%s」は「最新」のインストールをサポートしていません\n"
 
 #: src/cli/cli.vala:187
 #, c-format
 msgid "Installing %s Latest...\n"
-msgstr ""
+msgstr "%s の最新版をインストール中...\n"
 
 #: src/cli/cli.vala:189
 #, c-format
 msgid "Successfully installed %s Latest\n"
-msgstr ""
+msgstr "最新の %s のインストールに成功しました\n"
 
 #: src/cli/cli.vala:189 src/cli/cli.vala:214
 msgid "Error: Installation failed\n"
-msgstr ""
+msgstr "エラー: インストールに失敗しました\n"
 
 #: src/cli/cli.vala:200
 #, c-format
 msgid "Available releases for %s:\n"
-msgstr ""
+msgstr "%s の利用可能なリリース一覧:\n"
 
 #: src/cli/cli.vala:212
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s...\n"
-msgstr "%s をインストール"
+msgstr "%s をインストール中...\n"
 
 #: src/cli/cli.vala:214
 #, c-format
 msgid "Successfully installed %s\n"
-msgstr ""
+msgstr "%s のインストールに成功しました\n"
 
 #: src/cli/cli.vala:221 src/cli/cli.vala:242
-#, fuzzy, c-format
+#, c-format
 msgid "No installed releases found for %s\n"
-msgstr "%s の更新は見つかりませんでした"
+msgstr "インストール済みの %s のバージョンが見つかりませんでした\n"
 
 #: src/cli/cli.vala:225
 #, c-format
@@ -937,12 +940,12 @@ msgstr ""
 
 #: src/cli/cli.vala:230
 msgid "Select release number"
-msgstr ""
+msgstr "リリース番号を選択"
 
 #: src/cli/cli.vala:246
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
-msgstr ""
+msgstr "%s の全てのバージョンをアンインストールしています...\n"
 
 #: src/cli/cli.vala:254
 #, c-format
@@ -950,23 +953,23 @@ msgid "Uninstalling all releases for launcher %s...\n"
 msgstr ""
 
 #: src/cli/cli.vala:261
-#, fuzzy, c-format
+#, c-format
 msgid "Uninstalled %s\n"
-msgstr "%s をインストール"
+msgstr "%s をアンインストールしました\n"
 
 #: src/cli/cli.vala:271
-#, fuzzy, c-format
+#, c-format
 msgid "Uninstalling %s...\n"
-msgstr "%s をインストール"
+msgstr "%s をアンインストール中...\n"
 
 #: src/cli/cli.vala:273
 #, c-format
 msgid "Successfully uninstalled %s\n"
-msgstr ""
+msgstr "%s のアンインストールに成功しました\n"
 
 #: src/cli/cli.vala:273
 msgid "Error: Uninstallation failed\n"
-msgstr ""
+msgstr "エラー: アンインストールに失敗しました\n"
 
 #: src/cli/cli.vala:278
 msgid "Updating all runners...\n"
@@ -980,22 +983,21 @@ msgstr ""
 #: src/cli/cli.vala:299 src/cli/cli.vala:354
 #, c-format
 msgid "Successfully updated %s\n"
-msgstr ""
+msgstr "%s の更新に成功しました\n"
 
 #: src/cli/cli.vala:302 src/cli/cli.vala:358
-#, fuzzy, c-format
+#, c-format
 msgid "Already up to date: %s\n"
-msgstr "%s は既に最新です。"
+msgstr "%s は既に最新です\n"
 
 #: src/cli/cli.vala:305 src/cli/cli.vala:361
 #, c-format
 msgid "Error: Failed to update %s\n"
-msgstr ""
+msgstr "エラー: %s のアップデートに失敗しました\n"
 
 #: src/cli/cli.vala:344
-#, fuzzy
 msgid "Already up to date\n"
-msgstr "%s は既に最新です。"
+msgstr "既に最新です\n"
 
 #: src/cli/cli.vala:369
 #, fuzzy, c-format
@@ -1003,74 +1005,75 @@ msgid "Updating %s..."
 msgstr "%s を更新中"
 
 #: src/cli/cli.vala:381
-#, fuzzy
 msgid "Error: Failed to load launchers\n"
-msgstr "ランチャーを読み込めませんでした"
+msgstr "エラー: ランチャーを読み込めませんでした\n"
 
 #: src/cli/cli.vala:390
 msgid "Error: Failed to load releases\n"
-msgstr ""
+msgstr "エラー: リリース一覧を読み込めませんでした\n"
 
 #: src/cli/cli.vala:401
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
-msgstr ""
+msgstr "エラー: ランチャー「%s」が見つかりませんでした\n"
 
 #: src/cli/cli.vala:414
 #, c-format
 msgid "Error: Runner '%s' not found\n"
-msgstr ""
+msgstr "エラー: 実行環境「%s」が見つかりませんでした\n"
 
 #: src/cli/cli.vala:453
 #, c-format
 msgid "Usage: %s\n"
-msgstr ""
+msgstr "使用方法: %s\n"
 
 #: src/cli/cli.vala:465
 msgid "Error: Invalid selection\n"
-msgstr ""
+msgstr "エラー: 選択内容が不正です\n"
 
 #: src/cli/cli.vala:472
 msgid ""
 "Usage: protonplus <command> [options]\n"
 "\n"
 msgstr ""
+"使用方法: protonplus <コマンド> [オプション]\n"
+"\n"
 
 #: src/cli/cli.vala:473
 msgid "Commands:\n"
-msgstr ""
+msgstr "コマンド:\n"
 
 #: src/cli/cli.vala:474
 msgid "Show version\n"
-msgstr ""
+msgstr "バージョンを表示\n"
 
 #: src/cli/cli.vala:475
 msgid "Show this help\n"
-msgstr ""
+msgstr "このヘルプを表示\n"
 
 #: src/cli/cli.vala:476
 msgid "List launchers or installed runners\n"
-msgstr ""
+msgstr "ランチャーや実行環境を一覧表示する\n"
 
 #: src/cli/cli.vala:477
-#, fuzzy
 msgid "Install runner\n"
-msgstr "インストール済み"
+msgstr "実行環境をインストール\n"
 
 #: src/cli/cli.vala:478
-#, fuzzy
 msgid "Uninstall runner\n"
-msgstr "インストール先のディレクトリを開く"
+msgstr "実行環境をアンインストール\n"
 
 #: src/cli/cli.vala:479
 msgid "Update runner\n"
-msgstr ""
+msgstr "実行環境を更新\n"
 
 #: src/cli/cli.vala:483
 msgid ""
 "\n"
 "Available launchers:\n"
 msgstr ""
+"\n"
+"利用可能なランチャー:\n"
 
 #: src/cli/cli.vala:490
 #, c-format
@@ -1078,6 +1081,8 @@ msgid ""
 "\n"
 "Available runners for %s:\n"
 msgstr ""
+"\n"
+"%s に対応した実行環境一覧:\n"
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
