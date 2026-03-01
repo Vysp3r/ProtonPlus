@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2026-03-01 14:09+0000\n"
+"PO-Revision-Date: 2026-03-01 21:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ja/>\n"
@@ -1000,9 +1000,9 @@ msgid "Already up to date\n"
 msgstr "既に最新です\n"
 
 #: src/cli/cli.vala:369
-#, fuzzy, c-format
+#, c-format
 msgid "Updating %s..."
-msgstr "%s を更新中"
+msgstr "%s を更新中..."
 
 #: src/cli/cli.vala:381
 msgid "Error: Failed to load launchers\n"
