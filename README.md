@@ -105,6 +105,8 @@
 
 ### [Void](https://github.com/xJayMorex/ProtonPlus-void) (Maintained by xJayMorex)
 
+### [Gentoo](https://github.com/amielke/amielke-overlay/tree/master/games-util/ProtonPlus) (Maintained by amielke)
+
 ## 🏗️ Building from source
 
 **Requirements**
