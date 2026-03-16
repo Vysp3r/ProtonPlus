@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2026-03-16 14:09+0000\n"
+"PO-Revision-Date: 2026-03-17 01:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -291,9 +291,8 @@ msgid "Show more information"
 msgstr "Показати більше інформації"
 
 #: src/widgets/runners/release-row.vala:17
-#, fuzzy
 msgid "Update the runner if a newer version is available"
-msgstr "Оновити інструмент, коли доступна новіша версія"
+msgstr "Оновлювати інструмент при наявності нової версії"
 
 #: src/widgets/runners/release-row.vala:20
 msgid "Open runner directory"
@@ -433,9 +432,8 @@ msgid "Show installed runners"
 msgstr "Показати встановлені інструменти"
 
 #: src/widgets/runners/filters-box.vala:27
-#, fuzzy
 msgid "Show runners that are used by one game or more"
-msgstr "Показати інструменти, які використовуються однією або кількома іграми"
+msgstr "Показати інструменти, які використовуються іграми"
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
@@ -902,7 +900,6 @@ msgid "Installed runners for %s:\n"
 msgstr "Встановлені інструменти для %s:\n"
 
 #: src/cli/cli.vala:94
-#, fuzzy
 msgid "No runners installed\n"
 msgstr "Інструменти відсутні\n"
 
