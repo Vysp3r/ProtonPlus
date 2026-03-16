@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2026-03-16 00:11+0000\n"
+"PO-Revision-Date: 2026-03-16 14:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -28,7 +28,7 @@ msgstr "Вебсайт"
 
 #: src/widgets/application.vala:98
 msgid "Special thanks to"
-msgstr "Окреме дякую"
+msgstr "Особлива подяка"
 
 #: src/widgets/window.vala:32
 msgid "Loading"
@@ -36,7 +36,7 @@ msgstr "Завантажується"
 
 #: src/widgets/window.vala:32
 msgid "Taking longer than normal?"
-msgstr "Це займає більше часу, ніж зазвичай?"
+msgstr "Займає більше часу, ніж зазвичай?"
 
 #: src/widgets/window.vala:32 src/widgets/window.vala:93
 #: src/widgets/runners/runner-row.vala:71
@@ -54,7 +54,7 @@ msgstr "Будь ласка, повідомте про це на GitHub."
 
 #: src/widgets/window.vala:45
 msgid "Donate"
-msgstr "Пожертвування"
+msgstr "Пожертвувати"
 
 #: src/widgets/window.vala:49
 msgid "_Preferences"
@@ -82,7 +82,7 @@ msgstr "Ігри"
 
 #: src/widgets/window.vala:93
 msgid "Couldn't load the launchers"
-msgstr ""
+msgstr "Не вдалося завантажити запускачі"
 
 #: src/widgets/window.vala:107
 #, c-format
@@ -101,7 +101,7 @@ msgstr ""
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
-msgstr "Переконайтеся, що запускали ці запускачі хоча б раз для підготовки"
+msgstr "Переконайтеся, що хоча б раз запускали ці запускачі для підготовки"
 
 #: src/widgets/window.vala:130
 msgid "Checking for updates"
@@ -119,7 +119,7 @@ msgstr "Нічого оновлювати"
 #: src/widgets/window.vala:149
 #, c-format
 msgid "No update found for %s"
-msgstr ""
+msgstr "Оновлень для %s не знайдено"
 
 #: src/widgets/window.vala:155
 msgid "Everything is now up-to-date"
@@ -145,7 +145,7 @@ msgstr "Досягнуто ліміт API"
 #: src/widgets/window.vala:176 src/widgets/window.vala:182
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
-msgstr "Не вдалося оновити %s (Reason: %s)"
+msgstr "Не вдалося оновити %s (Причина: %s)"
 
 #: src/widgets/window.vala:169 src/widgets/window.vala:170
 #: src/widgets/runners/runner-row.vala:59
@@ -175,7 +175,7 @@ msgstr ""
 #: src/widgets/runners/steamtinkerlaunch-row.vala:131
 #: src/widgets/games/mass-edit-button.vala:42
 msgid "Warning"
-msgstr "Попередження"
+msgstr "Увага"
 
 #: src/widgets/window.vala:221
 msgid ""
@@ -211,10 +211,13 @@ msgid "Automatic updates"
 msgstr "Автоматичні оновлення"
 
 #: src/widgets/preferences/preferences-dialog.vala:16
+#, fuzzy
 msgid ""
 "Whether or not to update the installed 'Latest' runners when the application "
 "start"
 msgstr ""
+"Чи оновлювати встановлені версії Нещодавні інструментів під час запуску "
+"застосунку"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 #, fuzzy
@@ -223,7 +226,7 @@ msgstr "Останній"
 
 #: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Remember last used profile"
-msgstr ""
+msgstr "Запам’ятати останній профіль"
 
 #: src/widgets/preferences/preferences-dialog.vala:43
 msgid "Whether or not to remember the last used Steam profile"
@@ -254,8 +257,10 @@ msgid "Refresh launchers/runners"
 msgstr "Оновити запускачі й інструменти"
 
 #: src/widgets/preferences/check-updates-row.vala:11
+#, fuzzy
 msgid "Check if any of the installed 'Latest' runners needs to be updated"
 msgstr ""
+"Перевірити, чи потребують оновлення встановлені інструменти версії Нещодавні"
 
 #: src/widgets/preferences/check-updates-row.vala:16
 msgid "Check for updates"
@@ -267,7 +272,7 @@ msgstr "Ключ доступу"
 
 #: src/widgets/preferences/access-token-row.vala:5
 msgid "Enter an access token to reduce your chances of being rate limited"
-msgstr ""
+msgstr "Введіть ключ доступу, щоб зменшити ризик обмеження запитів"
 
 #: src/widgets/runners/description-dialog.vala:14
 msgid "More information"
@@ -286,8 +291,9 @@ msgid "Show more information"
 msgstr "Показати більше інформації"
 
 #: src/widgets/runners/release-row.vala:17
+#, fuzzy
 msgid "Update the runner if a newer version is available"
-msgstr ""
+msgstr "Оновити інструмент, коли доступна новіша версія"
 
 #: src/widgets/runners/release-row.vala:20
 msgid "Open runner directory"
@@ -353,7 +359,7 @@ msgstr "Використовується в одній грі."
 
 #: src/widgets/runners/remove-dialog.vala:26
 msgid "Are you sure you want to proceed?"
-msgstr "Ви впевнені що хочете продовжити?"
+msgstr "Ви впевнені, що хочете продовжити?"
 
 #: src/widgets/runners/remove-dialog.vala:30
 #: src/widgets/runners/steamtinkerlaunch-row.vala:84
@@ -403,7 +409,7 @@ msgstr "Не вдалося оновити %s"
 #: src/widgets/runners/basic-row.vala:67
 #, c-format
 msgid "%s is used by %i game(s)"
-msgstr "%s Використовується в %i іграх"
+msgstr "%s використовується в %i іграх"
 
 #: src/widgets/runners/installed-row.vala:41
 #: src/widgets/runners/steamtinkerlaunch-row.vala:111
@@ -415,6 +421,8 @@ msgid ""
 "This version will get automatically updated when there's an update available "
 "each time your launch the application if automatic updates is enabled"
 msgstr ""
+"Ця версія автоматично оновлюватиметься при запуску застосунку, якщо доступне "
+"оновлення і ввімкнено автоматичні оновлення"
 
 #: src/widgets/runners/filters-box.vala:12
 msgid "Installed"
@@ -920,7 +928,7 @@ msgstr ""
 #: src/cli/cli.vala:200
 #, c-format
 msgid "Available releases for %s:\n"
-msgstr ""
+msgstr "Доступні випуски для %s:\n"
 
 #: src/cli/cli.vala:212
 #, c-format
@@ -930,17 +938,17 @@ msgstr "Встановлення %s...\n"
 #: src/cli/cli.vala:214
 #, c-format
 msgid "Successfully installed %s\n"
-msgstr ""
+msgstr "%s успішно встановлено\n"
 
 #: src/cli/cli.vala:221 src/cli/cli.vala:242
 #, c-format
 msgid "No installed releases found for %s\n"
-msgstr ""
+msgstr "Не встановлені випуски для %s:\n"
 
 #: src/cli/cli.vala:225
 #, c-format
 msgid "Installed releases for %s:\n"
-msgstr ""
+msgstr "Встановлені випуски для %s:\n"
 
 #: src/cli/cli.vala:230
 msgid "Select release number"
@@ -987,7 +995,7 @@ msgstr "Оновлення інструментів для %s...\n"
 #: src/cli/cli.vala:299 src/cli/cli.vala:354
 #, c-format
 msgid "Successfully updated %s\n"
-msgstr ""
+msgstr "%s успішно оновлено\n"
 
 #: src/cli/cli.vala:302 src/cli/cli.vala:358
 #, c-format
@@ -995,9 +1003,9 @@ msgid "Already up to date: %s\n"
 msgstr "%s вже оновлено\n"
 
 #: src/cli/cli.vala:305 src/cli/cli.vala:361
-#, c-format
+#, c-format, fuzzy
 msgid "Error: Failed to update %s\n"
-msgstr ""
+msgstr "Помилка: не вдалося оновити %s\n"
 
 #: src/cli/cli.vala:344
 msgid "Already up to date\n"
@@ -1029,7 +1037,7 @@ msgstr ""
 #: src/cli/cli.vala:453
 #, c-format
 msgid "Usage: %s\n"
-msgstr ""
+msgstr "Використання: %s\n"
 
 #: src/cli/cli.vala:465
 msgid "Error: Invalid selection\n"
@@ -1047,16 +1055,16 @@ msgstr ""
 
 #: src/cli/cli.vala:474
 msgid "Show version\n"
-msgstr "Випуск\n"
+msgstr "Показати версію\n"
 
 #: src/cli/cli.vala:475
 msgid "Show this help\n"
-msgstr ""
+msgstr "Показати довідку\n"
 
 #: src/cli/cli.vala:476
 #, fuzzy
 msgid "List launchers or installed runners\n"
-msgstr "Лише встановлені"
+msgstr "Показати запускачі або встановлені інструменти\n"
 
 #: src/cli/cli.vala:477
 msgid "Install runner\n"
