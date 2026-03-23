@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2026-03-17 15:11+0000\n"
+"PO-Revision-Date: 2026-03-23 21:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -1053,7 +1053,7 @@ msgstr ""
 
 #: src/cli/cli.vala:473
 msgid "Commands:\n"
-msgstr ""
+msgstr "Команди:\n"
 
 #: src/cli/cli.vala:474
 msgid "Show version\n"
