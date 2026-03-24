@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 17:25-0500\n"
-"PO-Revision-Date: 2026-03-23 21:09+0000\n"
+"PO-Revision-Date: 2026-03-24 21:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -211,18 +211,14 @@ msgid "Automatic updates"
 msgstr "Автоматичні оновлення"
 
 #: src/widgets/preferences/preferences-dialog.vala:16
-#, fuzzy
 msgid ""
 "Whether or not to update the installed 'Latest' runners when the application "
 "start"
-msgstr ""
-"Чи оновлювати встановлені версії Нещодавні інструментів під час запуску "
-"застосунку"
+msgstr "Чи оновлювати встановлені найновіші версії інструментів під час запуску"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
-#, fuzzy
 msgid "Latest"
-msgstr "Останній"
+msgstr "Найновіші"
 
 #: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Remember last used profile"
@@ -246,7 +242,7 @@ msgstr "Темна"
 
 #: src/widgets/preferences/theme-row.vala:25
 msgid "Current theme"
-msgstr "Поточна тема"
+msgstr "Тема"
 
 #: src/widgets/preferences/refresh-steam-profiles-row.vala:15
 msgid "Refresh profiles"
@@ -257,10 +253,8 @@ msgid "Refresh launchers/runners"
 msgstr "Оновити запускачі й інструменти"
 
 #: src/widgets/preferences/check-updates-row.vala:11
-#, fuzzy
 msgid "Check if any of the installed 'Latest' runners needs to be updated"
-msgstr ""
-"Перевірити, чи потребують оновлення встановлені інструменти версії Нещодавні"
+msgstr "Перевірити оновлення найновіших інструментів"
 
 #: src/widgets/preferences/check-updates-row.vala:16
 msgid "Check for updates"
@@ -284,7 +278,7 @@ msgstr "Відкрити"
 
 #: src/widgets/runners/description-dialog.vala:22
 msgid "Open in your web browser"
-msgstr "Відкрити в браузері"
+msgstr "Відкрити у вебпереглядачі"
 
 #: src/widgets/runners/release-row.vala:12
 msgid "Show more information"
@@ -433,7 +427,7 @@ msgstr "Показати встановлені інструменти"
 
 #: src/widgets/runners/filters-box.vala:27
 msgid "Show runners that are used by one game or more"
-msgstr "Показати інструменти, які використовуються іграми"
+msgstr "Показати задіяні інструменти"
 
 #: src/widgets/runners/filters-box.vala:32
 msgid "Unused"
@@ -547,7 +541,7 @@ msgstr "Не визначено"
 
 #: src/widgets/games/games-box.vala:339
 msgid "Hide search"
-msgstr "Приховати пошук"
+msgstr "Сховати пошук"
 
 #: src/widgets/games/game-row.vala:55
 msgid "Modify the game launch options"
@@ -859,7 +853,7 @@ msgstr ""
 
 #: src/translatables.vala:20
 msgid "Wine build modified by Valve and other contributors."
-msgstr "Збірку вина модифіковано Valve та іншими учасниками.."
+msgstr "Збірка Wine, модифікована Valve та іншими учасниками.."
 
 #: src/translatables.vala:21
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
@@ -906,17 +900,17 @@ msgstr "Інструменти відсутні\n"
 #: src/cli/cli.vala:167
 #, c-format
 msgid "Error: Runner '%s' does not support 'latest' installation\n"
-msgstr ""
+msgstr "Помилка: інструмент '%s' не підтримує встановлення найновішої версії\n"
 
 #: src/cli/cli.vala:187
 #, c-format
 msgid "Installing %s Latest...\n"
-msgstr ""
+msgstr "Встановлення найновішої версії %s...\n"
 
 #: src/cli/cli.vala:189
 #, c-format
 msgid "Successfully installed %s Latest\n"
-msgstr ""
+msgstr "Найновішу версію %s встановлено\n"
 
 #: src/cli/cli.vala:189 src/cli/cli.vala:214
 msgid "Error: Installation failed\n"
@@ -972,7 +966,7 @@ msgid "Uninstalling %s...\n"
 msgstr "Видалення %s...\n"
 
 #: src/cli/cli.vala:273
-#, c-format, fuzzy
+#, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr "%s успішно видалено\n"
 
@@ -1000,7 +994,7 @@ msgid "Already up to date: %s\n"
 msgstr "%s вже оновлено\n"
 
 #: src/cli/cli.vala:305 src/cli/cli.vala:361
-#, c-format, fuzzy
+#, c-format
 msgid "Error: Failed to update %s\n"
 msgstr "Помилка: не вдалося оновити %s\n"
 
@@ -1014,22 +1008,20 @@ msgid "Updating %s..."
 msgstr "Оновлення %s..."
 
 #: src/cli/cli.vala:381
-#, fuzzy
 msgid "Error: Failed to load launchers\n"
 msgstr "Помилка: не вдалося завантажити запускачі\n"
 
 #: src/cli/cli.vala:390
-#, fuzzy
 msgid "Error: Failed to load releases\n"
 msgstr "Помилка: не вдалося завантажити випуски\n"
 
 #: src/cli/cli.vala:401
-#, c-format, fuzzy
+#, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "Помилка: запускач '%s' не знайдено\n"
 
 #: src/cli/cli.vala:414
-#, c-format, fuzzy
+#, c-format
 msgid "Error: Runner '%s' not found\n"
 msgstr "Помилка: інструмент '%s' не знайдено\n"
 
@@ -1043,7 +1035,6 @@ msgid "Error: Invalid selection\n"
 msgstr "Помилка: некоректний вибір\n"
 
 #: src/cli/cli.vala:472
-#, fuzzy
 msgid ""
 "Usage: protonplus <command> [options]\n"
 "\n"
