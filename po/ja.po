@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-16 17:25-0500\n"
+"POT-Creation-Date: 2026-03-27 07:18-0400\n"
 "PO-Revision-Date: 2026-03-01 21:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -216,7 +216,8 @@ msgstr "自動更新"
 msgid ""
 "Whether or not to update the installed 'Latest' runners when the application "
 "start"
-msgstr "インストール済みの「最新」の実行環境をアプリケーション開始時に更新するか否か"
+msgstr ""
+"インストール済みの「最新」の実行環境をアプリケーション開始時に更新するか否か"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Latest"
@@ -256,7 +257,8 @@ msgstr "ランチャーや実行環境を再読み込み"
 
 #: src/widgets/preferences/check-updates-row.vala:11
 msgid "Check if any of the installed 'Latest' runners needs to be updated"
-msgstr "インストール済みの「最新 (Latest)」な実行環境に更新が必要かどうか確認する"
+msgstr ""
+"インストール済みの「最新 (Latest)」な実行環境に更新が必要かどうか確認する"
 
 #: src/widgets/preferences/check-updates-row.vala:16
 msgid "Check for updates"
@@ -416,9 +418,8 @@ msgid ""
 "This version will get automatically updated when there's an update available "
 "each time your launch the application if automatic updates is enabled"
 msgstr ""
-"このバージョンを選択すると、設定の「自動更新」が有効になっている場合、"
-"アプリケーションの起動のタイミングで更新版が利用可能な時、自動的に更新されま"
-"す"
+"このバージョンを選択すると、設定の「自動更新」が有効になっている場合、アプリ"
+"ケーションの起動のタイミングで更新版が利用可能な時、自動的に更新されます"
 
 #: src/widgets/runners/filters-box.vala:12
 msgid "Installed"
@@ -777,22 +778,6 @@ msgstr ""
 
 #: src/translatables.vala:8
 msgid ""
-"Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs, with DXVK."
-msgstr ""
-"Proton-GE をベースにした Steam 互換性ツールで、とても古い GPU に向けた調整が"
-"されており、DXVK を使用しています。"
-
-#: src/translatables.vala:9
-msgid ""
-"Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs, with DXVK-Async."
-msgstr ""
-"Proton-GE をベースにした Steam 互換性ツールで、とても古い GPU に向けた調整が"
-"されており、DXVKｰAsync を使用しています。"
-
-#: src/translatables.vala:10
-msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
@@ -801,12 +786,12 @@ msgstr ""
 "性ツール。Etaash Mathamsetty 氏によって FSR4 サポートと wine wayland のへの変"
 "更が追加されています。"
 
-#: src/translatables.vala:11
+#: src/translatables.vala:9
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 "Wine-tkg を元にした、Windows ゲームを動かすためのカスタム Proton ビルド"
 
-#: src/translatables.vala:12
+#: src/translatables.vala:10
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
@@ -814,62 +799,62 @@ msgstr ""
 "VRChat での RTSP コーデックへの対応パッチを適応した、Proton-GE をベースにし"
 "た Steam 互換性ツール。"
 
-#: src/translatables.vala:13
+#: src/translatables.vala:11
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 "Luxtorpeda はいくつかの Windows 限定ゲームをサポートする Linux ネイティブな"
 "ゲームエンジンです。"
 
-#: src/translatables.vala:14
+#: src/translatables.vala:12
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 "ScummVM を使用した、アドベンチャーゲームを実行するための Steam 互換性ツール。"
 
-#: src/translatables.vala:15
+#: src/translatables.vala:13
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 "DOS のゲームを Linux で動かすための、DOSBoxを使用した Steam 互換性ツール。"
 
-#: src/translatables.vala:16
+#: src/translatables.vala:14
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Windows ソフトウェアを Linux で動かすための互換性ツール。"
 
-#: src/translatables.vala:17
+#: src/translatables.vala:15
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "WineHQ 公式のソースからコンパイルされた Wine のビルド"
 
-#: src/translatables.vala:18
+#: src/translatables.vala:16
 msgid "Wine build with the Staging patchset."
 msgstr "テスト用の Staging パッチが適用された Wine のビルド。"
 
-#: src/translatables.vala:19
+#: src/translatables.vala:17
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
 "Staging パッチや、その他の有用なパッチの数々が適用された Wine のビルド。"
 
-#: src/translatables.vala:20
+#: src/translatables.vala:18
 msgid "Wine build modified by Valve and other contributors."
 msgstr "Valve やほかの貢献者によって改変された Wine のビルド。"
 
-#: src/translatables.vala:21
+#: src/translatables.vala:19
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Vulkan ベースの Linux/Wine 向けの Direct3D 8, 9, 10 と 11 の実装"
 
-#: src/translatables.vala:22
+#: src/translatables.vala:20
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 msgstr "Vulkan バージョン 1.3 未満で動作させるための DXVK のビルド。"
 
-#: src/translatables.vala:23
+#: src/translatables.vala:21
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 msgstr "Vulkan バージョン 1.3 未満で動作させるための DXVK Async のビルド。"
 
-#: src/translatables.vala:24
+#: src/translatables.vala:22
 msgid "DXVK builds with gplasync patch by Ph42oN."
 msgstr "gplasync のパッチが適用された Ph42oN 氏による DXVK のビルド"
 
-#: src/translatables.vala:25
+#: src/translatables.vala:23
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
@@ -1098,6 +1083,20 @@ msgstr "ショートカットの表示"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "アプリの終了"
+
+#~ msgid ""
+#~ "Steam compatibility tool based on Proton-GE with modifications for very "
+#~ "old GPUs, with DXVK."
+#~ msgstr ""
+#~ "Proton-GE をベースにした Steam 互換性ツールで、とても古い GPU に向けた調整"
+#~ "がされており、DXVK を使用しています。"
+
+#~ msgid ""
+#~ "Steam compatibility tool based on Proton-GE with modifications for very "
+#~ "old GPUs, with DXVK-Async."
+#~ msgstr ""
+#~ "Proton-GE をベースにした Steam 互換性ツールで、とても古い GPU に向けた調整"
+#~ "がされており、DXVKｰAsync を使用しています。"
 
 #~ msgid "Up-to-date"
 #~ msgstr "最新"

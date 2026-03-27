@@ -61,40 +61,6 @@
                     "type": "forgejo"
                 },
                 {
-                    "title": "Proton-Sarek",
-                    "description": "Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with DXVK.",
-                    "endpoint": "https://api.github.com/repos/pythonlover02/Proton-Sarek/releases",
-                    "asset_position": 1,
-                    "directory_name_formats": [
-                        {
-                            "launcher": "default",
-                            "directory_name_format": "$release_name"
-                        }
-                    ],
-                    "request_asset_exclude": [
-                        "Sarek9-13"
-                    ],
-                    "support_latest": true,
-                    "type": "github"
-                },
-                {
-                    "title": "Proton-Sarek (Async)",
-                    "description": "Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with DXVK-Async.",
-                    "endpoint": "https://api.github.com/repos/pythonlover02/Proton-Sarek/releases",
-                    "asset_position": 0,
-                    "directory_name_formats": [
-                        {
-                            "launcher": "default",
-                            "directory_name_format": "$release_name-async"
-                        }
-                    ],
-                    "request_asset_exclude": [
-                        "Sarek9-13"
-                    ],
-                    "support_latest": true,
-                    "type": "github"
-                },
-                {
                     "title": "Proton-EM",
                     "description": "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine wayland tweaks.",
                     "endpoint": "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases",
