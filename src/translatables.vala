@@ -5,8 +5,6 @@ namespace ProtonPlus {
 			N_("Steam compatibility tool for running Windows games with improvements over Valve's default Proton."),
 			N_("Steam compatibility tool from the CachyOS Linux distribution for running Windows games with improvements over Valve's default Proton."),
 			N_("Dawn Winery's custom Proton fork with fixes for various games :xdd:"),
-			N_("Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with DXVK."),
-			N_("Steam compatibility tool based on Proton-GE with modifications for very old GPUs, with DXVK-Async."),
 			N_("Steam compatibility tool for running Windows games with improvements over Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine wayland tweaks."),
 			N_("Custom Proton build for running Windows games, based on Wine-tkg."),
 			N_("Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat."),

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-16 17:25-0500\n"
+"POT-Creation-Date: 2026-03-27 07:18-0400\n"
 "PO-Revision-Date: 2024-10-03 01:10+0200\n"
 "Last-Translator: Johnny Arcitec <Arcitec@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
@@ -781,24 +781,6 @@ msgstr ""
 #: src/translatables.vala:8
 #, fuzzy
 msgid ""
-"Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs, with DXVK."
-msgstr ""
-"Steam-kompatibilitetsverktyg baserat på Proton-GE med justeringar för "
-"väldigt gamla grafikkort, med %s."
-
-#: src/translatables.vala:9
-#, fuzzy
-msgid ""
-"Steam compatibility tool based on Proton-GE with modifications for very old "
-"GPUs, with DXVK-Async."
-msgstr ""
-"Steam-kompatibilitetsverktyg baserat på Proton-GE med justeringar för "
-"väldigt gamla grafikkort, med %s."
-
-#: src/translatables.vala:10
-#, fuzzy
-msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
 "wayland tweaks."
@@ -806,12 +788,12 @@ msgstr ""
 "Steam-kompatibilitetsverktyg för att köra Windows-spel med förbättringar "
 "jämfört med Valves egna Proton."
 
-#: src/translatables.vala:11
+#: src/translatables.vala:9
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 "Anpassad version av Proton för att köra Windows-spel, baserad på Wine-tkg."
 
-#: src/translatables.vala:12
+#: src/translatables.vala:10
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
@@ -819,64 +801,64 @@ msgstr ""
 "Steam-kompatibilitetsverktyg baserat på Proton-GE med ytterligare patchar "
 "för att förbättra RTSP-codecs för VRChat."
 
-#: src/translatables.vala:13
+#: src/translatables.vala:11
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 "Luxtorpeda hanterar alternativa, Linux-anpassade spelmotorer för vissa "
 "Windows-spel."
 
-#: src/translatables.vala:14
+#: src/translatables.vala:12
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 "Steam-kompatibilitetsverktyg för att köra äventyrsspel med hjälp av ScummVM "
 "för Linux."
 
-#: src/translatables.vala:15
+#: src/translatables.vala:13
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 "Steam-kompatibilitetsverktyg för att köra DOS-spel med hjälp av DOSBox för "
 "Linux."
 
-#: src/translatables.vala:16
+#: src/translatables.vala:14
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Kompatibilitetsverktyg för att köra Windows-programvara på Linux."
 
-#: src/translatables.vala:17
+#: src/translatables.vala:15
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "Wine kompilerat från den officiella WineHQ-koden."
 
-#: src/translatables.vala:18
+#: src/translatables.vala:16
 msgid "Wine build with the Staging patchset."
 msgstr "Wine med Staging-patchar."
 
-#: src/translatables.vala:19
+#: src/translatables.vala:17
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr "Wine med Staging-patchar och många andra nyttiga patchar."
 
-#: src/translatables.vala:20
+#: src/translatables.vala:18
 msgid "Wine build modified by Valve and other contributors."
 msgstr ""
 
-#: src/translatables.vala:21
+#: src/translatables.vala:19
 #, fuzzy
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Vulkan-baserad implementering av Direct3D 9, 10 och 11 för Linux/Wine."
 
-#: src/translatables.vala:22
+#: src/translatables.vala:20
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 msgstr ""
 
-#: src/translatables.vala:23
+#: src/translatables.vala:21
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 msgstr ""
 
-#: src/translatables.vala:24
+#: src/translatables.vala:22
 msgid "DXVK builds with gplasync patch by Ph42oN."
 msgstr ""
 
-#: src/translatables.vala:25
+#: src/translatables.vala:23
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
@@ -1104,6 +1086,22 @@ msgstr ""
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "Steam compatibility tool based on Proton-GE with modifications for very "
+#~ "old GPUs, with DXVK."
+#~ msgstr ""
+#~ "Steam-kompatibilitetsverktyg baserat på Proton-GE med justeringar för "
+#~ "väldigt gamla grafikkort, med %s."
+
+#, fuzzy
+#~ msgid ""
+#~ "Steam compatibility tool based on Proton-GE with modifications for very "
+#~ "old GPUs, with DXVK-Async."
+#~ msgstr ""
+#~ "Steam-kompatibilitetsverktyg baserat på Proton-GE med justeringar för "
+#~ "väldigt gamla grafikkort, med %s."
 
 #, fuzzy
 #~ msgid "Up-to-date"
