@@ -5,10 +5,10 @@ namespace ProtonPlus.Models.Launchers {
 
             switch (installation_type) {
             case Launcher.InstallationTypes.SYSTEM:
-                directories = new string[] { "/.config/heroic" };
+                directories = new string[] { "%s/heroic".printf (Environment.get_user_config_dir ()) };
                 break;
             case Launcher.InstallationTypes.FLATPAK:
-                directories = new string[] { "/.var/app/com.heroicgameslauncher.hgl/config/heroic" };
+                directories = new string[] { "%s/.var/app/com.heroicgameslauncher.hgl/config/heroic".printf (Environment.get_home_dir ()) };
                 break;
             case Launcher.InstallationTypes.SNAP:
                 break;

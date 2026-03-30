@@ -10,16 +10,16 @@ namespace ProtonPlus.Models.Launchers {
 
             switch (installation_type) {
             case Launcher.InstallationTypes.SYSTEM:
-                directories = new string[] { "/.local/share/Steam",
-                                             "/.steam/steam",
-                                             "/.steam/root",
-                                             "/.steam/debian-installation" };
+                directories = new string[] { "%s/Steam".printf (Environment.get_user_data_dir ()),
+                                             "%s/.steam/steam".printf (Environment.get_home_dir ()),
+                                             "%s/.steam/root".printf (Environment.get_home_dir ()),
+                                             "%s/.steam/debian-installation".printf (Environment.get_home_dir ()) };
                 break;
             case Launcher.InstallationTypes.FLATPAK:
-                directories = new string[] { "/.var/app/com.valvesoftware.Steam/data/Steam" };
+                directories = new string[] { "%s/.var/app/com.valvesoftware.Steam/data/Steam".printf (Environment.get_home_dir ()) };
                 break;
             case Launcher.InstallationTypes.SNAP:
-                directories = new string[] { "/snap/steam/common/.steam/root" };
+                directories = new string[] { "%s/snap/steam/common/.steam/root".printf (Environment.get_home_dir ()) };
                 break;
             }
 

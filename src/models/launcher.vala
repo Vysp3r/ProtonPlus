@@ -23,8 +23,7 @@ namespace ProtonPlus.Models {
 			this.icon_path = icon_path;
 			this.directory = "";
 
-			foreach (var directory in directories) {
-				var current_path = Environment.get_home_dir () + directory;
+			foreach (var current_path in directories) {
 				if (FileUtils.test (current_path, FileTest.IS_DIR)) {
 					if (!(this is Launchers.Steam) || (FileUtils.test (current_path + "/steamclient.dll", FileTest.IS_REGULAR) && FileUtils.test (current_path + "/steamclient64.dll", FileTest.IS_REGULAR))) {
 						this.directory = current_path;
