@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-27 07:18-0400\n"
-"PO-Revision-Date: 2026-03-24 21:09+0000\n"
+"PO-Revision-Date: 2026-04-03 21:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -32,7 +32,7 @@ msgstr "Особлива подяка"
 
 #: src/widgets/window.vala:32
 msgid "Loading"
-msgstr "Завантажується"
+msgstr "Завантаження"
 
 #: src/widgets/window.vala:32
 msgid "Taking longer than normal?"
@@ -94,7 +94,7 @@ msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
 msgstr ""
-"Встановіть Steam, Lutris, Пляшки, Heroic Games Launcher або WineZGUI, щоб "
+"Встановіть Steam, Lutris, Heroic Games Launcher, Пляшки або WineZGUI, щоб "
 "почати."
 
 #: src/widgets/window.vala:107
@@ -231,7 +231,7 @@ msgstr "Запам’ятати останній профіль Steam чи ні"
 
 #: src/widgets/preferences/theme-row.vala:15
 msgid "System"
-msgstr "Система"
+msgstr "Системна"
 
 #: src/widgets/preferences/theme-row.vala:16
 msgid "Light"
@@ -383,7 +383,7 @@ msgstr "Завантажується"
 #: src/widgets/runners/install-dialog.vala:103
 #: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Extracting"
-msgstr "Витягання..."
+msgstr "Витягання"
 
 #: src/widgets/runners/install-dialog.vala:106
 msgid "Moving"
@@ -629,27 +629,27 @@ msgstr "У таких іграх виникла проблема:"
 #: src/widgets/games/shortcut-button.vala:23
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Create shortcut"
-msgstr "Створити ярлик"
+msgstr "Злучити"
 
 #: src/widgets/games/shortcut-button.vala:28
 msgid "Delete shortcut"
-msgstr "Видалити ярлик"
+msgstr "Вилучити"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr "Створити ярлик ProtonPlus у Steam"
+msgstr "Додати ProtonPlus до Steam"
 
 #: src/widgets/games/shortcut-button.vala:29
 msgid "Delete the shortcut of ProtonPlus in Steam"
-msgstr "Видалити ярлик ProtonPlus у Steam"
+msgstr "Вилучити ProtonPlus зі Steam"
 
 #: src/widgets/games/shortcut-button.vala:38
 msgid "Couldn't delete the shortcut in Steam"
-msgstr "Не вдалося видалити ярлик у Steam"
+msgstr "Не вдалося вилучити зі Steam"
 
 #: src/widgets/games/shortcut-button.vala:46
 msgid "Couldn't create the shortcut in Steam"
-msgstr "Не вдалося створити ярлик у Steam"
+msgstr "Не вдалося додати до Steam"
 
 #: src/widgets/games/switch-profile-button.vala:14
 msgid "Switch profile"
@@ -725,7 +725,7 @@ msgstr "Відкрити меню"
 #: src/widgets/games/default-tool-button.vala:14
 #: src/widgets/games/default-tool-dialog.vala:14
 msgid "Set the default compatibility tool"
-msgstr "Встановити стандартний інструмент сумісності"
+msgstr "Встановити стандартний засіб сумісності"
 
 #: src/widgets/games/default-tool-dialog.vala:60
 msgid "Couldn't change the default compatibility tool"
@@ -795,7 +795,7 @@ msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
 msgstr ""
-"Інструмент сумісності зі Steam на основі Proton-GE з додатковими патчами для "
+"Інструмент сумісності зі Steam на основі Proton-GE з додатковими латками для "
 "покращення RTSP-кодеків для VRChat."
 
 #: src/translatables.vala:11
@@ -829,16 +829,15 @@ msgstr "Збірка Wine зібрана з офіційних джерел Wine
 
 #: src/translatables.vala:16
 msgid "Wine build with the Staging patchset."
-msgstr "Збірка Wine з набором патчів Staging."
+msgstr "Збірка Wine з набором латок Staging."
 
 #: src/translatables.vala:17
 msgid "Wine build with the Staging patchset and many other useful patches."
-msgstr ""
-"Збірка Wine з набором патчів Staging та багатьма іншими корисними патчами."
+msgstr "Збірка Wine з набором латок Staging та іншими корисними виправленнями."
 
 #: src/translatables.vala:18
 msgid "Wine build modified by Valve and other contributors."
-msgstr "Збірка Wine, модифікована Valve та іншими учасниками.."
+msgstr "Збірка Wine, модифікована Valve та іншими учасниками."
 
 #: src/translatables.vala:19
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
