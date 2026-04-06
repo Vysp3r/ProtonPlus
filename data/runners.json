@@ -35,8 +35,7 @@
                     "title": "Proton-CachyOS",
                     "description": "Steam compatibility tool from the CachyOS Linux distribution for running Windows games with improvements over Valve's default Proton.",
                     "endpoint": "https://api.github.com/repos/CachyOS/proton-cachyos/releases",
-                    "asset_position": 1,
-                    "asset_position_hwcaps_condition": "x86_64_v3:3",
+                    "asset_position": 3,
                     "directory_name_formats": [
                         {
                             "launcher": "default",
