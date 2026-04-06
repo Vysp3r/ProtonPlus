@@ -54,6 +54,7 @@ sources = files(
   'widgets/games/default-tool-dialog.vala',
   'widgets/games/compatibility-tool-row.vala',
   'widgets/games/compatibility-tool-dropdown.vala',
+  'widgets/games/optiscaler-dialog.vala',
 
   'models/group.vala',
   'models/steam-profile.vala',
@@ -94,6 +95,7 @@ sources = files(
   'utils/web.vala',
   'utils/parser.vala',
   'utils/system.vala',
+  'utils/optiscaler-manager.vala',
   'utils/i18n.vala',
 )
 

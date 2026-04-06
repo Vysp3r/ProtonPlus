@@ -163,6 +163,31 @@ namespace ProtonPlus.Utils {
             create_file (path, content);
         }
 
+        // Atomic write: write content to a temporary file then rename over target.
+        public static void atomic_write (string path, string content) {
+            try {
+                string dir = Path.get_dirname(path);
+                string fname = Path.get_basename(path);
+            // Simple temp naming; collision unlikely, loop if exists.
+                for (int i = 0; i < 5; i++) {
+                    string tmp = Path.build_filename(dir, fname + ".tmp" + i.to_string());
+                    if (FileUtils.test(tmp, FileTest.EXISTS)) continue;
+                    create_file(tmp, content);
+                    // Attempt rename via GLib FileUtils.
+                    if (FileUtils.rename(tmp, path) != 0) {
+                    // Fallback to copy semantics.
+                        modify_file(path, content);
+                    }
+                    return;
+                }
+            // Fallback after attempts
+                modify_file(path, content);
+            } catch (Error e) {
+                message(e.message);
+                modify_file(path, content);
+            }
+        }
+
         public static void create_file (string path, string? content = null, bool private_mode = false) {
             try {
                 var file = File.parse_name (path);
