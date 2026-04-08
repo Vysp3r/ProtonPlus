@@ -87,6 +87,7 @@ namespace ProtonPlus.Widgets {
 
 			header_clamp = new Adw.Clamp ();
 			header_clamp.set_maximum_size (1180);
+			header_clamp.set_tightening_threshold (1180);
 			header_clamp.set_margin_start (18);
 			header_clamp.set_margin_end (18);
 			header_clamp.set_margin_top (10);
@@ -129,6 +130,7 @@ namespace ProtonPlus.Widgets {
 
 			content_clamp = new Adw.Clamp ();
 			content_clamp.set_maximum_size (1180);
+			content_clamp.set_tightening_threshold (1180);
 			content_clamp.set_margin_start (18);
 			content_clamp.set_margin_end (18);
 			content_clamp.set_margin_top (10);
