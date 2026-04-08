@@ -6,11 +6,11 @@ namespace ProtonPlus.Widgets {
 	}
 
 	class LaunchOptionBinding : Object {
-		public string token { get; set; }
+		public string[] tokens { get; set; }
 		public Gtk.Switch toggle { get; set; }
 
-		public LaunchOptionBinding (string token, Gtk.Switch toggle) {
-			this.token = token;
+		public LaunchOptionBinding (string[] tokens, Gtk.Switch toggle) {
+			this.tokens = tokens;
 			this.toggle = toggle;
 		}
 	}
@@ -62,6 +62,7 @@ namespace ProtonPlus.Widgets {
 		public Gtk.Switch toggle { get; private set; }
 		public Gtk.Entry value_entry { get; private set; }
 		public Gtk.Button apply_button { get; private set; }
+		Gtk.Revealer value_revealer;
 		public signal void value_applied ();
 		int lower_value;
 		int upper_value;
@@ -127,8 +128,12 @@ namespace ProtonPlus.Widgets {
 			value_box.append (value_entry);
 			value_box.append (apply_button);
 
+			value_revealer = new Gtk.Revealer ();
+			value_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+			value_revealer.set_child (value_box);
+
 			content_box.append (header_box);
-			content_box.append (value_box);
+			content_box.append (value_revealer);
 
 			append (content_box);
 
@@ -178,6 +183,7 @@ namespace ProtonPlus.Widgets {
 
 		void refresh_value_state () {
 			var is_active = toggle.get_active ();
+			value_revealer.set_reveal_child (is_active);
 			value_entry.set_sensitive (is_active);
 
 			int pending_value;
@@ -211,6 +217,7 @@ namespace ProtonPlus.Widgets {
 			subtitle_label.set_xalign (0);
 			subtitle_label.set_wrap (true);
 			subtitle_label.add_css_class ("dim-label");
+			subtitle_label.set_visible (subtitle != "");
 
 			entry = new Gtk.Entry ();
 			entry.set_placeholder_text (placeholder);
@@ -278,11 +285,14 @@ namespace ProtonPlus.Widgets {
 	}
 
 	class LaunchOptionResolutionField : Gtk.Box {
+		public Gtk.Switch toggle { get; private set; }
 		public Gtk.DropDown dropdown { get; private set; }
 		public Gtk.Box custom_box { get; private set; }
 		public Gtk.Entry width_entry { get; private set; }
 		public Gtk.Entry height_entry { get; private set; }
 		public Gtk.Button apply_button { get; private set; }
+		Gtk.Revealer options_revealer;
+		Gtk.Revealer custom_revealer;
 		public signal void value_applied ();
 		Gee.ArrayList<LaunchOptionResolutionChoice> choices;
 		int committed_width;
@@ -317,6 +327,12 @@ namespace ProtonPlus.Widgets {
 			content_box.set_margin_top (14);
 			content_box.set_margin_bottom (14);
 
+			var header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+			header_box.set_hexpand (true);
+
+			var labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
+			labels_box.set_hexpand (true);
+
 			var title_label = new Gtk.Label (title);
 			title_label.set_xalign (0);
 
@@ -324,6 +340,16 @@ namespace ProtonPlus.Widgets {
 			subtitle_label.set_xalign (0);
 			subtitle_label.set_wrap (true);
 			subtitle_label.add_css_class ("dim-label");
+
+			toggle = new Gtk.Switch ();
+			toggle.set_valign (Gtk.Align.START);
+			toggle.set_halign (Gtk.Align.END);
+
+			labels_box.append (title_label);
+			labels_box.append (subtitle_label);
+
+			header_box.append (labels_box);
+			header_box.append (toggle);
 
 			var expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
 			dropdown = new Gtk.DropDown (new Gtk.StringList (labels), expression);
@@ -357,33 +383,46 @@ namespace ProtonPlus.Widgets {
 			custom_box.append (height_entry);
 			custom_box.append (apply_button);
 
-			content_box.append (title_label);
-			content_box.append (subtitle_label);
-			content_box.append (dropdown);
-			content_box.append (custom_box);
+			custom_revealer = new Gtk.Revealer ();
+			custom_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+			custom_revealer.set_child (custom_box);
+
+			var options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
+			options_box.append (dropdown);
+			options_box.append (custom_revealer);
+
+			options_revealer = new Gtk.Revealer ();
+			options_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+			options_revealer.set_child (options_box);
+
+			content_box.append (header_box);
+			content_box.append (options_revealer);
 
 			append (content_box);
 
+			toggle.notify["active"].connect (refresh_options_visibility);
 			dropdown.notify["selected"].connect (refresh_custom_visibility);
 			width_entry.changed.connect (refresh_custom_state);
 			height_entry.changed.connect (refresh_custom_state);
-			refresh_custom_visibility ();
+			refresh_options_visibility ();
 		}
 
 		public void reset () {
+			toggle.set_active (false);
 			dropdown.set_selected (0);
 			committed_width = 1920;
 			committed_height = 1080;
 			width_entry.set_text (committed_width.to_string ());
 			height_entry.set_text (committed_height.to_string ());
-			refresh_custom_visibility ();
+			refresh_options_visibility ();
 		}
 
 		public void set_auto () {
 			for (var index = 0; index < choices.size; index++) {
 				if (choices[index].is_auto) {
+					toggle.set_active (true);
 					dropdown.set_selected ((uint) index);
-					refresh_custom_visibility ();
+					refresh_options_visibility ();
 					return;
 				}
 			}
@@ -392,8 +431,9 @@ namespace ProtonPlus.Widgets {
 		public void set_resolution (int width, int height) {
 			for (var index = 0; index < choices.size; index++) {
 				if (choices[index].width == width && choices[index].height == height && !choices[index].is_custom) {
+					toggle.set_active (true);
 					dropdown.set_selected ((uint) index);
-					refresh_custom_visibility ();
+					refresh_options_visibility ();
 					return;
 				}
 			}
@@ -406,21 +446,28 @@ namespace ProtonPlus.Widgets {
 				committed_height = height;
 				width_entry.set_text (committed_width.to_string ());
 				height_entry.set_text (committed_height.to_string ());
+				toggle.set_active (true);
 				dropdown.set_selected ((uint) index);
-				refresh_custom_visibility ();
+				refresh_options_visibility ();
 				return;
 			}
 		}
 
 		public bool is_default () {
+			if (!toggle.get_active ())
+				return true;
+
 			return get_selected_choice ().width == 0 && get_selected_choice ().height == 0 && !get_selected_choice ().is_auto && !get_selected_choice ().is_custom;
 		}
 
 		public bool is_auto () {
-			return get_selected_choice ().is_auto;
+			return toggle.get_active () && get_selected_choice ().is_auto;
 		}
 
 		public bool has_resolution () {
+			if (!toggle.get_active ())
+				return false;
+
 			return get_selected_choice ().is_custom || get_selected_choice ().width > 0 || get_selected_choice ().height > 0;
 		}
 
@@ -439,8 +486,15 @@ namespace ProtonPlus.Widgets {
 			return choices[(int) dropdown.get_selected ()];
 		}
 
+		void refresh_options_visibility () {
+			var is_active = toggle.get_active ();
+			options_revealer.set_reveal_child (is_active);
+			dropdown.set_sensitive (is_active);
+			refresh_custom_visibility ();
+		}
+
 		void refresh_custom_visibility () {
-			custom_box.set_visible (get_selected_choice ().is_custom);
+			custom_revealer.set_reveal_child (toggle.get_active () && get_selected_choice ().is_custom);
 			refresh_custom_state ();
 		}
 
@@ -474,7 +528,7 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void refresh_custom_state () {
-			var is_custom = get_selected_choice ().is_custom;
+			var is_custom = toggle.get_active () && get_selected_choice ().is_custom;
 			width_entry.set_sensitive (is_custom);
 			height_entry.set_sensitive (is_custom);
 
@@ -488,24 +542,19 @@ namespace ProtonPlus.Widgets {
 	class LaunchOptionPreviewField : Gtk.Box {
 		public Gtk.Label preview_label { get; private set; }
 
-		public LaunchOptionPreviewField (string title, string subtitle) {
+		public LaunchOptionPreviewField (string title) {
 			Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
 			add_css_class ("card");
 
-			var content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
+			var content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 8);
 			content_box.set_margin_start (14);
 			content_box.set_margin_end (14);
-			content_box.set_margin_top (14);
-			content_box.set_margin_bottom (14);
+			content_box.set_margin_top (10);
+			content_box.set_margin_bottom (10);
 
 			var title_label = new Gtk.Label (title);
 			title_label.set_xalign (0);
-
-			var subtitle_label = new Gtk.Label (subtitle);
-			subtitle_label.set_xalign (0);
-			subtitle_label.set_wrap (true);
-			subtitle_label.add_css_class ("dim-label");
 
 			preview_label = new Gtk.Label ("");
 			preview_label.set_xalign (0);
@@ -516,11 +565,10 @@ namespace ProtonPlus.Widgets {
 
 			var scrolled_window = new Gtk.ScrolledWindow ();
 			scrolled_window.set_policy (Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC);
-			scrolled_window.set_min_content_height (90);
+			scrolled_window.set_min_content_height (56);
 			scrolled_window.set_child (preview_label);
 
 			content_box.append (title_label);
-			content_box.append (subtitle_label);
 			content_box.append (scrolled_window);
 
 			append (content_box);
@@ -531,18 +579,26 @@ namespace ProtonPlus.Widgets {
 		public signal void content_changed ();
 
 		Gtk.Grid common_options_grid { get; set; }
+		Gtk.Grid more_options_grid { get; set; }
+		Gtk.Revealer preview_revealer { get; set; }
+		Gtk.Revealer gamescope_advanced_revealer { get; set; }
+		Gtk.Revealer scopebuddy_advanced_revealer { get; set; }
+		Gtk.Revealer more_options_revealer { get; set; }
+		Gtk.Revealer advanced_options_revealer { get; set; }
 		LaunchOptionTile mangohud_tile { get; set; }
-		LaunchOptionTile vkbasalt_tile { get; set; }
 		LaunchOptionTile steam_deck_tile { get; set; }
-		LaunchOptionTile wayland_tile { get; set; }
-		LaunchOptionTile hdr_tile { get; set; }
+		LaunchOptionTile native_hdr_tile { get; set; }
+		LaunchOptionTile vkbasalt_tile { get; set; }
 		LaunchOptionTile wined3d_tile { get; set; }
 		LaunchOptionTile nvapi_tile { get; set; }
 		LaunchOptionEntryField additional_args_field { get; set; }
+		LaunchOptionTile additional_args_tile { get; set; }
+		Gtk.Revealer additional_args_revealer { get; set; }
 		LaunchOptionTile command_tile { get; set; }
 		LaunchOptionTile skip_launcher_tile { get; set; }
 		LaunchOptionPreviewField preview_field { get; set; }
 		Gtk.Stack wrapper_stack { get; set; }
+		Gtk.Revealer wrapper_options_revealer { get; set; }
 		Gtk.StackSwitcher wrapper_switcher { get; set; }
 		LaunchOptionTile gamescope_fullscreen_tile { get; set; }
 		LaunchOptionTile gamescope_vrr_tile { get; set; }
@@ -556,45 +612,47 @@ namespace ProtonPlus.Widgets {
 		LaunchOptionEntryField scopebuddy_args_field { get; set; }
 		List<LaunchOptionBinding> common_bindings;
 		List<LaunchOptionBinding> scopebuddy_bindings;
+		bool advanced_visible;
 		bool refreshing_controls;
 		bool can_auto_enable_command;
 
 		construct {
 			common_bindings = new List<LaunchOptionBinding> ();
 			scopebuddy_bindings = new List<LaunchOptionBinding> ();
+			advanced_visible = false;
 			can_auto_enable_command = true;
 			refreshing_controls = true;
 
 			set_orientation (Gtk.Orientation.VERTICAL);
 			set_spacing (18);
 
-			mangohud_tile = create_common_tile (_("MangoHud"), _("Shows the MangoHud overlay."), "mangohud");
-			vkbasalt_tile = create_common_tile (_("VKBasalt"), _("Adds VKBasalt post-processing."), "ENABLE_VKBASALT=1");
-			steam_deck_tile = create_common_tile (_("Disable Steam Deck mode"), _("Forces Steam Deck mode off."), "SteamDeck=0");
-			wayland_tile = create_common_tile (_("Wayland"), _("Uses Proton's Wayland driver."), "PROTON_ENABLE_WAYLAND=1");
-			hdr_tile = create_common_tile (_("HDR"), _("Enables HDR output."), "PROTON_ENABLE_HDR=1");
-			wined3d_tile = create_common_tile (_("Use WineD3D"), _("Uses WineD3D instead of DXVK."), "PROTON_USE_WINED3D=1");
-			nvapi_tile = create_common_tile (_("NVAPI"), _("Enables NVIDIA NVAPI features."), "PROTON_ENABLE_NVAPI=1");
+			mangohud_tile = create_common_tile (_("Performance overlay"), _("Shows your FPS and system stats in-game."), { "mangohud" });
+			steam_deck_tile = create_common_tile (_("Steam Deck mode off"), _("Fixes games that behave like they are running on a Steam Deck."), { "SteamDeck=0" });
+			native_hdr_tile = create_common_tile (_("Native HDR"), _("Uses native Linux HDR for supported games and displays."), { "PROTON_ENABLE_WAYLAND=1", "PROTON_ENABLE_HDR=1" });
+			vkbasalt_tile = create_common_tile (_("VKBasalt"), _("Adds VKBasalt sharpening and visual effects."), { "ENABLE_VKBASALT=1" });
+			wined3d_tile = create_common_tile (_("Fallback graphics"), _("Uses WineD3D when DXVK causes problems."), { "PROTON_USE_WINED3D=1" });
+			nvapi_tile = create_common_tile (_("NVIDIA features"), _("Enables NVIDIA features for supported games."), { "PROTON_ENABLE_NVAPI=1" });
 
-			preview_field = new LaunchOptionPreviewField (_("Launch command preview"), _("This is the exact launch command ProtonPlus will save for Steam."));
-			append (preview_field);
+			preview_field = new LaunchOptionPreviewField (_("Launch command preview"));
+			preview_revealer = new Gtk.Revealer ();
+			preview_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+			preview_revealer.set_child (preview_field);
+			append (preview_revealer);
 
 			common_options_grid = new Gtk.Grid ();
 			common_options_grid.set_column_spacing (12);
 			common_options_grid.set_row_spacing (12);
 			common_options_grid.set_column_homogeneous (true);
 			common_options_grid.attach (mangohud_tile, 0, 0, 1, 1);
-			common_options_grid.attach (vkbasalt_tile, 1, 0, 1, 1);
+			common_options_grid.attach (native_hdr_tile, 1, 0, 1, 1);
 			common_options_grid.attach (steam_deck_tile, 0, 1, 1, 1);
-			common_options_grid.attach (wayland_tile, 1, 1, 1, 1);
-			common_options_grid.attach (hdr_tile, 0, 2, 1, 1);
-			common_options_grid.attach (wined3d_tile, 1, 2, 1, 1);
-			common_options_grid.attach (nvapi_tile, 0, 3, 1, 1);
 
 			append (create_section_header (_("Common options"), _("Quick toggles for the launch options people reach for most often.")));
 			append (common_options_grid);
 
 			wrapper_stack = new Gtk.Stack ();
+			wrapper_stack.set_hhomogeneous (false);
+			wrapper_stack.set_vhomogeneous (false);
 			wrapper_stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
 			wrapper_stack.notify["visible-child-name"].connect (wrapper_selection_changed);
 
@@ -606,12 +664,19 @@ namespace ProtonPlus.Widgets {
 			wrapper_stack.add_titled (create_gamescope_page (), "gamescope", _("Gamescope"));
 			wrapper_stack.add_titled (create_scopebuddy_page (), "scopebuddy", _("ScopeBuddy"));
 
-			append (create_section_header (_("Wrapper"), _("Gamescope and ScopeBuddy are different launch wrappers, so only one can be active at a time.")));
-			append (wrapper_switcher);
-			append (wrapper_stack);
+			wrapper_options_revealer = new Gtk.Revealer ();
+			wrapper_options_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+			wrapper_options_revealer.set_child (wrapper_stack);
 
-			additional_args_field = new LaunchOptionEntryField (_("Additional arguments"), _("Keeps extra launch options that ProtonPlus does not model yet."), _("Add extra launch options"));
+			append (create_section_header (_("Launch tools"), _("Choose one to configure FPS caps, resolution, and other display options.")));
+			append (wrapper_switcher);
+			append (wrapper_options_revealer);
+
+			additional_args_field = new LaunchOptionEntryField (_("Additional arguments"), "", _("Add extra launch options"));
 			additional_args_field.value_applied.connect (standard_control_changed);
+
+			additional_args_tile = new LaunchOptionTile (_("Custom launch arguments"), _("Lets you add launch options ProtonPlus does not cover yet."));
+			additional_args_tile.toggle.notify["active"].connect (additional_args_toggle_changed);
 
 			command_tile = new LaunchOptionTile ("%command%", _("Appends Steam's game command."));
 			command_tile.toggle.notify["active"].connect (command_toggle_changed);
@@ -619,14 +684,99 @@ namespace ProtonPlus.Widgets {
 			skip_launcher_tile = new LaunchOptionTile (_("Skip launcher"), _("Adds -skip-launcher after the game command."));
 			skip_launcher_tile.toggle.notify["active"].connect (standard_control_changed);
 
-			append (create_section_header (_("Extra options"), _("Use this for custom arguments and Steam's command placeholder.")));
-			append (additional_args_field);
-			append (command_tile);
-			append (skip_launcher_tile);
+			more_options_grid = new Gtk.Grid ();
+			more_options_grid.set_column_spacing (12);
+			more_options_grid.set_row_spacing (12);
+			more_options_grid.set_column_homogeneous (true);
+			more_options_grid.attach (vkbasalt_tile, 0, 0, 1, 1);
+			more_options_grid.attach (wined3d_tile, 1, 0, 1, 1);
+			more_options_grid.attach (nvapi_tile, 0, 1, 1, 1);
+			more_options_grid.attach (skip_launcher_tile, 1, 1, 1, 1);
+
+			additional_args_revealer = new Gtk.Revealer ();
+			additional_args_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+			additional_args_revealer.set_child (additional_args_field);
+
+			var more_options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
+			more_options_box.append (create_section_header (_("More options"), _("Extra graphics settings and launch behaviors.")));
+			more_options_box.append (more_options_grid);
+
+			more_options_revealer = new Gtk.Revealer ();
+			more_options_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+			more_options_revealer.set_child (more_options_box);
+			append (more_options_revealer);
+
+			var advanced_options_grid = new Gtk.Grid ();
+			advanced_options_grid.set_column_spacing (12);
+			advanced_options_grid.set_row_spacing (12);
+			advanced_options_grid.set_column_homogeneous (true);
+			advanced_options_grid.attach (command_tile, 0, 0, 1, 1);
+			advanced_options_grid.attach (additional_args_tile, 1, 0, 1, 1);
+
+			var advanced_options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
+			advanced_options_box.append (create_section_header (_("Advanced options"), _("Extra control over the final Steam launch command.")));
+			advanced_options_box.append (advanced_options_grid);
+			advanced_options_box.append (additional_args_revealer);
+
+			advanced_options_revealer = new Gtk.Revealer ();
+			advanced_options_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+			advanced_options_revealer.set_child (advanced_options_box);
+			append (advanced_options_revealer);
 
 			set_selected_wrapper_mode (WrapperMode.NONE);
+			refresh_advanced_visibility ();
 			refreshing_controls = false;
 			refresh_preview ();
+		}
+
+		public bool get_advanced_visible () {
+			return advanced_visible;
+		}
+
+		public void set_advanced_visible (bool visible) {
+			advanced_visible = visible;
+			refresh_advanced_visibility ();
+		}
+
+		public void clear () {
+			var keep_advanced_visible = advanced_visible;
+			set_text ("");
+			set_advanced_visible (keep_advanced_visible);
+		}
+
+		public bool has_clearable_state () {
+			foreach (var binding in common_bindings) {
+				if (binding.toggle.get_active ())
+					return true;
+			}
+
+			foreach (var binding in scopebuddy_bindings) {
+				if (binding.toggle.get_active ())
+					return true;
+			}
+
+			if (get_selected_wrapper_mode () != WrapperMode.NONE)
+				return true;
+
+			if (gamescope_fullscreen_tile.toggle.get_active ()
+				|| gamescope_vrr_tile.toggle.get_active ()
+				|| gamescope_framerate_tile.toggle.get_active ()
+				|| gamescope_resolution_field.toggle.get_active ()
+				|| gamescope_args_field.get_text () != "")
+				return true;
+
+			if (scopebuddy_framerate_tile.toggle.get_active ()
+				|| scopebuddy_resolution_field.toggle.get_active ()
+				|| scopebuddy_args_field.get_text () != "")
+				return true;
+
+			if (additional_args_tile.toggle.get_active ()
+				|| additional_args_field.get_text () != ""
+				|| command_tile.toggle.get_active ()
+				|| skip_launcher_tile.toggle.get_active ())
+				return true;
+
+			return false;
 		}
 
 		public string get_text () {
@@ -672,18 +822,22 @@ namespace ProtonPlus.Widgets {
 				consumed[skip_launcher_index] = true;
 
 			set_selected_wrapper_mode (selected_wrapper_mode);
-			additional_args_field.set_text (join_unconsumed_tokens (tokens, consumed));
+			var additional_args = join_unconsumed_tokens (tokens, consumed);
+			additional_args_field.set_text (additional_args);
+			additional_args_tile.toggle.set_active (additional_args != "");
+			advanced_visible = should_show_advanced_controls ();
+			refresh_advanced_visibility ();
 
 			can_auto_enable_command = command_index < 0;
 			refreshing_controls = false;
 			refresh_preview ();
 		}
 
-		LaunchOptionTile create_common_tile (string title, string subtitle, string token) {
+		LaunchOptionTile create_common_tile (string title, string subtitle, string[] tokens) {
 			var tile = new LaunchOptionTile (title, subtitle);
 			tile.toggle.notify["active"].connect (standard_control_changed);
 
-			common_bindings.append (new LaunchOptionBinding (token, tile.toggle));
+			common_bindings.append (new LaunchOptionBinding (tokens, tile.toggle));
 
 			return tile;
 		}
@@ -715,10 +869,10 @@ namespace ProtonPlus.Widgets {
 			content_box.set_margin_top (18);
 			content_box.set_margin_bottom (18);
 
-			var title_label = new Gtk.Label (_("No wrapper selected"));
+			var title_label = new Gtk.Label (_("No launch tool selected"));
 			title_label.set_xalign (0);
 
-			var subtitle_label = new Gtk.Label (_("Choose Gamescope or ScopeBuddy to expose wrapper-specific settings."));
+			var subtitle_label = new Gtk.Label (_("Choose Gamescope or ScopeBuddy to show its settings."));
 			subtitle_label.set_xalign (0);
 			subtitle_label.set_wrap (true);
 			subtitle_label.add_css_class ("dim-label");
@@ -738,30 +892,35 @@ namespace ProtonPlus.Widgets {
 			grid.set_row_spacing (12);
 			grid.set_column_homogeneous (true);
 
-			gamescope_fullscreen_tile = new LaunchOptionTile (_("Fullscreen"), _("Starts Gamescope in fullscreen mode."));
+			gamescope_fullscreen_tile = new LaunchOptionTile (_("Fullscreen"), _("Runs the game in a fullscreen Gamescope session."));
 			gamescope_fullscreen_tile.toggle.notify["active"].connect (standard_control_changed);
 
-			gamescope_vrr_tile = new LaunchOptionTile (_("VRR"), _("Enables adaptive sync with --adaptive-sync."));
+			gamescope_vrr_tile = new LaunchOptionTile (_("Variable refresh rate"), _("Uses VRR when your display supports it."));
 			gamescope_vrr_tile.toggle.notify["active"].connect (standard_control_changed);
 
-			gamescope_framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Sets a refresh limit for Gamescope."), _("FPS"), 30, 360, 60);
+			gamescope_framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside Gamescope."), _("FPS"), 30, 360, 60);
 			gamescope_framerate_tile.toggle.notify["active"].connect (standard_control_changed);
 			gamescope_framerate_tile.value_applied.connect (standard_control_changed);
 
-			grid.attach (gamescope_fullscreen_tile, 0, 0, 1, 1);
-			grid.attach (gamescope_framerate_tile, 1, 0, 1, 1);
-			grid.attach (gamescope_vrr_tile, 0, 1, 1, 1);
-
-			gamescope_resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Sets Gamescope output resolution with -W and -H."));
+			gamescope_resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Sets the Gamescope output resolution."));
+			gamescope_resolution_field.toggle.notify["active"].connect (standard_control_changed);
 			gamescope_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
 			gamescope_resolution_field.value_applied.connect (standard_control_changed);
+
+			grid.attach (gamescope_fullscreen_tile, 0, 0, 1, 1);
+			grid.attach (gamescope_vrr_tile, 1, 0, 1, 1);
+			grid.attach (gamescope_framerate_tile, 0, 1, 1, 1);
+			grid.attach (gamescope_resolution_field, 1, 1, 1, 1);
 
 			gamescope_args_field = new LaunchOptionEntryField (_("Additional Gamescope arguments"), _("Keeps extra Gamescope flags such as output or resolution tweaks."), _("Add Gamescope arguments"));
 			gamescope_args_field.value_applied.connect (standard_control_changed);
 
+			gamescope_advanced_revealer = new Gtk.Revealer ();
+			gamescope_advanced_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+			gamescope_advanced_revealer.set_child (gamescope_args_field);
+
 			page.append (grid);
-			page.append (gamescope_resolution_field);
-			page.append (gamescope_args_field);
+			page.append (gamescope_advanced_revealer);
 
 			return page;
 		}
@@ -774,33 +933,38 @@ namespace ProtonPlus.Widgets {
 			grid.set_row_spacing (12);
 			grid.set_column_homogeneous (true);
 
-			scopebuddy_auto_hdr_tile = new LaunchOptionTile (_("Auto HDR"), _("Lets ScopeBuddy set HDR variables when the display supports them."));
+			scopebuddy_auto_hdr_tile = new LaunchOptionTile (_("Auto HDR"), _("Turns HDR on automatically when your display supports it."));
 			scopebuddy_auto_hdr_tile.toggle.notify["active"].connect (standard_control_changed);
 
-			scopebuddy_auto_vrr_tile = new LaunchOptionTile (_("VRR"), _("Lets ScopeBuddy enable adaptive sync when VRR is active on the display."));
+			scopebuddy_auto_vrr_tile = new LaunchOptionTile (_("Variable refresh rate"), _("Turns on VRR automatically when your display supports it."));
 			scopebuddy_auto_vrr_tile.toggle.notify["active"].connect (standard_control_changed);
 
-			scopebuddy_framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Sets a refresh limit for ScopeBuddy's Gamescope session."), _("FPS"), 30, 360, 60);
+			scopebuddy_framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside ScopeBuddy."), _("FPS"), 30, 360, 60);
 			scopebuddy_framerate_tile.toggle.notify["active"].connect (standard_control_changed);
 			scopebuddy_framerate_tile.value_applied.connect (standard_control_changed);
 
-			scopebuddy_bindings.append (new LaunchOptionBinding ("SCB_AUTO_HDR=1", scopebuddy_auto_hdr_tile.toggle));
-			scopebuddy_bindings.append (new LaunchOptionBinding ("SCB_AUTO_VRR=1", scopebuddy_auto_vrr_tile.toggle));
+			scopebuddy_bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_HDR=1" }, scopebuddy_auto_hdr_tile.toggle));
+			scopebuddy_bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_VRR=1" }, scopebuddy_auto_vrr_tile.toggle));
+
+			scopebuddy_resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Sets the ScopeBuddy output resolution."), true);
+			scopebuddy_resolution_field.toggle.notify["active"].connect (standard_control_changed);
+			scopebuddy_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
+			scopebuddy_resolution_field.value_applied.connect (standard_control_changed);
 
 			grid.attach (scopebuddy_auto_hdr_tile, 0, 0, 1, 1);
 			grid.attach (scopebuddy_auto_vrr_tile, 1, 0, 1, 1);
 			grid.attach (scopebuddy_framerate_tile, 0, 1, 1, 1);
-
-			scopebuddy_resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Auto detect uses SCB_AUTO_RES=1. Presets and custom values pass -W and -H to Gamescope through ScopeBuddy."), true);
-			scopebuddy_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
-			scopebuddy_resolution_field.value_applied.connect (standard_control_changed);
+			grid.attach (scopebuddy_resolution_field, 1, 1, 1, 1);
 
 			scopebuddy_args_field = new LaunchOptionEntryField (_("Additional ScopeBuddy arguments"), _("Keeps extra ScopeBuddy flags such as preferred output selection."), _("Add ScopeBuddy arguments"));
 			scopebuddy_args_field.value_applied.connect (standard_control_changed);
 
+			scopebuddy_advanced_revealer = new Gtk.Revealer ();
+			scopebuddy_advanced_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
+			scopebuddy_advanced_revealer.set_child (scopebuddy_args_field);
+
 			page.append (grid);
-			page.append (scopebuddy_resolution_field);
-			page.append (scopebuddy_args_field);
+			page.append (scopebuddy_advanced_revealer);
 
 			return page;
 		}
@@ -821,6 +985,7 @@ namespace ProtonPlus.Widgets {
 			gamescope_resolution_field.reset ();
 			scopebuddy_framerate_tile.toggle.set_active (false);
 			scopebuddy_framerate_tile.set_value (60);
+			additional_args_tile.toggle.set_active (false);
 			command_tile.toggle.set_active (false);
 			skip_launcher_tile.toggle.set_active (false);
 
@@ -834,6 +999,27 @@ namespace ProtonPlus.Widgets {
 			if (refreshing_controls)
 				return;
 
+			maybe_auto_enable_command ();
+			refresh_preview ();
+			content_changed ();
+		}
+
+		void refresh_advanced_visibility () {
+			var is_advanced = advanced_visible;
+			preview_revealer.set_reveal_child (is_advanced);
+			more_options_revealer.set_reveal_child (is_advanced);
+			gamescope_advanced_revealer.set_reveal_child (is_advanced);
+			scopebuddy_advanced_revealer.set_reveal_child (is_advanced);
+			advanced_options_revealer.set_reveal_child (is_advanced);
+			additional_args_revealer.set_reveal_child (is_advanced && additional_args_tile.toggle.get_active ());
+			wrapper_options_revealer.set_reveal_child (get_selected_wrapper_mode () != WrapperMode.NONE);
+		}
+
+		void additional_args_toggle_changed () {
+			if (refreshing_controls)
+				return;
+
+			refresh_advanced_visibility ();
 			maybe_auto_enable_command ();
 			refresh_preview ();
 			content_changed ();
@@ -858,9 +1044,21 @@ namespace ProtonPlus.Widgets {
 			if (refreshing_controls)
 				return;
 
+			refresh_advanced_visibility ();
 			maybe_auto_enable_command ();
 			refresh_preview ();
 			content_changed ();
+		}
+
+		bool should_show_advanced_controls () {
+			return vkbasalt_tile.toggle.get_active ()
+				|| wined3d_tile.toggle.get_active ()
+				|| nvapi_tile.toggle.get_active ()
+				|| additional_args_tile.toggle.get_active ()
+				|| additional_args_field.get_text () != ""
+				|| gamescope_args_field.get_text () != ""
+				|| scopebuddy_args_field.get_text () != ""
+				|| skip_launcher_tile.toggle.get_active ();
 		}
 
 		void maybe_auto_enable_command () {
@@ -880,7 +1078,7 @@ namespace ProtonPlus.Widgets {
 					return true;
 			}
 
-			if (additional_args_field.get_text () != "")
+			if (additional_args_tile.toggle.get_active () && additional_args_field.get_text () != "")
 				return true;
 
 			if (skip_launcher_tile.toggle.get_active ())
@@ -891,7 +1089,10 @@ namespace ProtonPlus.Widgets {
 					if (gamescope_fullscreen_tile.toggle.get_active () || gamescope_vrr_tile.toggle.get_active () || gamescope_framerate_tile.toggle.get_active () || gamescope_resolution_field.has_resolution ())
 						return true;
 
-					return true;
+					if (gamescope_args_field.get_text () != "")
+						return true;
+
+					return false;
 				case WrapperMode.SCOPEBUDDY:
 					foreach (var binding in scopebuddy_bindings) {
 						if (binding.toggle.get_active ())
@@ -904,7 +1105,10 @@ namespace ProtonPlus.Widgets {
 					if (!scopebuddy_resolution_field.is_default ())
 						return true;
 
-					return true;
+					if (scopebuddy_args_field.get_text () != "")
+						return true;
+
+					return false;
 				default:
 					return false;
 			}
@@ -915,7 +1119,8 @@ namespace ProtonPlus.Widgets {
 			var selected_wrapper_mode = get_selected_wrapper_mode ();
 
 			append_binding_segments (segments, common_bindings);
-			append_segments_from_text (segments, additional_args_field.get_text ());
+			if (additional_args_tile.toggle.get_active ())
+				append_segments_from_text (segments, additional_args_field.get_text ());
 
 			switch (selected_wrapper_mode) {
 				case WrapperMode.GAMESCOPE:
@@ -980,8 +1185,12 @@ namespace ProtonPlus.Widgets {
 
 		void append_binding_segments (Gee.ArrayList<string> segments, List<LaunchOptionBinding> bindings) {
 			foreach (var binding in bindings) {
-				if (binding.toggle.get_active ())
-					segments.add (binding.token);
+				if (!binding.toggle.get_active ())
+					continue;
+
+				foreach (var token in binding.tokens) {
+					segments.add (token);
+				}
 			}
 		}
 
@@ -1029,12 +1238,26 @@ namespace ProtonPlus.Widgets {
 
 		void apply_bindings_from_tokens (List<LaunchOptionBinding> bindings, string[] tokens, bool[] consumed) {
 			foreach (var binding in bindings) {
-				var token_index = get_unconsumed_token_index (tokens, binding.token, consumed);
-				if (token_index < 0)
+				var token_indexes = new Gee.ArrayList<int> ();
+				var all_tokens_present = true;
+
+				foreach (var token in binding.tokens) {
+					var token_index = get_unconsumed_token_index (tokens, token, consumed);
+					if (token_index < 0) {
+						all_tokens_present = false;
+						break;
+					}
+
+					token_indexes.add (token_index);
+				}
+
+				if (!all_tokens_present)
 					continue;
 
 				binding.toggle.set_active (true);
-				consumed[token_index] = true;
+				foreach (var token_index in token_indexes) {
+					consumed[token_index] = true;
+				}
 			}
 		}
 
