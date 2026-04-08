@@ -32,7 +32,8 @@ src/widgets/games/switch-profile-button.vala
 src/widgets/games/select-button.vala
 src/widgets/games/unselect-button.vala
 src/widgets/games/mass-edit-button.vala
-src/widgets/games/launch-options-dialog.vala
+src/widgets/games/launch-options-view.vala
+src/widgets/games/launch-options-editor.vala
 src/widgets/games/profile-dialog.vala
 src/widgets/games/profile-button.vala
 src/widgets/games/extra-button.vala

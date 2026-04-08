@@ -4,12 +4,13 @@ namespace ProtonPlus.Widgets {
 		Adw.ToolbarView toolbar_view { get; set; }
 		Adw.WindowTitle window_title { get; set; }
 		Gtk.Button apply_button { get; set; }
+		Gtk.ScrolledWindow scrolled_window { get; set; }
 		Adw.SwitchRow modify_compatibility_tool_row { get; set; }
 		CompatibilityToolRow compatibility_tool_row { get; set; }
 		Adw.PreferencesGroup compatibility_tool_group { get; set; }
 		Adw.SwitchRow modify_launch_options_row { get; set; }
-		Adw.EntryRow launch_options_row { get; set; }
 		Adw.PreferencesGroup launch_options_group { get; set; }
+		LaunchOptionsEditor launch_options_editor { get; set; }
 		Gtk.Label warning_label { get; set; }
 		Gtk.Box content_box { get; set; }
 		GameRow[] rows;
@@ -44,13 +45,10 @@ namespace ProtonPlus.Widgets {
 			modify_launch_options_row.set_tooltip_text(_("Enable this if you want the mass edit to take the launch options into account."));
 			modify_launch_options_row.notify["active"].connect(modify_row_active_changed);
 
-			launch_options_row = new Adw.EntryRow();
-			launch_options_row.set_title(_("Enter your desired launch options"));
+			launch_options_editor = new LaunchOptionsEditor ();
 
 			launch_options_group = new Adw.PreferencesGroup();
-			launch_options_group.set_title(_("Launch options"));
 			launch_options_group.add(modify_launch_options_row);
-			launch_options_group.add(launch_options_row);
 
 			warning_label = new Gtk.Label(_("Enable all the options that you want the mass edit to take into account."));
 			warning_label.add_css_class("warning");
@@ -61,18 +59,26 @@ namespace ProtonPlus.Widgets {
 			content_box.set_margin_bottom(10);
 			content_box.append(compatibility_tool_group);
 
-			if (rows[0].game.launcher is Models.Launchers.Steam)
+			if (rows[0].game.launcher is Models.Launchers.Steam) {
 				content_box.append(launch_options_group);
+				content_box.append(launch_options_editor);
+			}
 
 			content_box.append(warning_label);
 
 			toolbar_view = new Adw.ToolbarView();
 			toolbar_view.add_top_bar(header_bar);
-			toolbar_view.set_content(content_box);
+
+			scrolled_window = new Gtk.ScrolledWindow ();
+			scrolled_window.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
+			scrolled_window.set_size_request (920, 680);
+			scrolled_window.set_child (content_box);
+
+			toolbar_view.set_content(scrolled_window);
 
 			refresh();
 
-			set_size_request(750, 0);
+			set_size_request(920, 0);
 			set_child(toolbar_view);
 		}
 
@@ -82,7 +88,7 @@ namespace ProtonPlus.Widgets {
 
 			apply_button.set_sensitive(compatibility_tool_check || launch_options_check);
 			compatibility_tool_row.set_sensitive(compatibility_tool_check);
-			launch_options_row.set_sensitive(launch_options_check);
+			launch_options_editor.set_sensitive(launch_options_check);
 		}
 
 		void modify_row_active_changed() {
@@ -126,7 +132,7 @@ namespace ProtonPlus.Widgets {
 					var steam_game = (Models.Games.Steam) row.game;
 					var steam_launcher = (Models.Launchers.Steam) steam_game.launcher;
 
-					var success = steam_game.change_launch_options(launch_options_row.get_text(), steam_launcher.profile.localconfig_path);
+					var success = steam_game.change_launch_options(launch_options_editor.get_text(), steam_launcher.profile.localconfig_path);
 					if (!success && invalids.find(row.game.name) == null)
 						invalids.append(row.game.name);
 					else
