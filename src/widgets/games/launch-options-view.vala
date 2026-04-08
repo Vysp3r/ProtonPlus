@@ -8,11 +8,13 @@ namespace ProtonPlus.Widgets {
 		Gtk.Box title_box { get; set; }
 		Gtk.Box header_start_box { get; set; }
 		Gtk.Box actions_box { get; set; }
+		Gtk.Box advanced_box { get; set; }
 		Gtk.Label title_label { get; set; }
 		Gtk.Label subtitle_label { get; set; }
+		Gtk.Label advanced_label { get; set; }
 		Gtk.Button back_button { get; set; }
 		Gtk.Button clear_button { get; set; }
-		Gtk.ToggleButton advanced_button { get; set; }
+		Gtk.Switch advanced_switch { get; set; }
 		Gtk.Button apply_button { get; set; }
 		Gtk.ScrolledWindow scrolled_window { get; set; }
 		LaunchOptionsEditor launch_options_editor { get; set; }
@@ -53,14 +55,23 @@ namespace ProtonPlus.Widgets {
 			header_start_box.append (back_button);
 			header_start_box.append (clear_button);
 
-			advanced_button = new Gtk.ToggleButton.with_label (_("Advanced"));
+			advanced_label = new Gtk.Label (_("Advanced"));
+			advanced_label.set_xalign (0);
+
+			advanced_switch = new Gtk.Switch ();
+			advanced_switch.set_valign (Gtk.Align.CENTER);
+
+			advanced_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+			advanced_box.set_valign (Gtk.Align.CENTER);
+			advanced_box.append (advanced_label);
+			advanced_box.append (advanced_switch);
 
 			apply_button = new Gtk.Button.with_label (_("Apply"));
 			apply_button.set_tooltip_text (_("Apply the current modification"));
 			apply_button.clicked.connect (apply_button_clicked);
 
 			actions_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-			actions_box.append (advanced_button);
+			actions_box.append (advanced_box);
 			actions_box.append (apply_button);
 
 			page_header = new Gtk.CenterBox ();
@@ -71,19 +82,19 @@ namespace ProtonPlus.Widgets {
 
 			header_clamp = new Adw.Clamp ();
 			header_clamp.set_maximum_size (1180);
-			header_clamp.set_margin_start (10);
-			header_clamp.set_margin_end (10);
+			header_clamp.set_margin_start (18);
+			header_clamp.set_margin_end (18);
 			header_clamp.set_margin_top (10);
 			header_clamp.set_child (page_header);
 
 			launch_options_editor = new LaunchOptionsEditor ();
 			launch_options_editor.content_changed.connect (launch_options_editor_content_changed);
-			advanced_button.toggled.connect (() => launch_options_editor.set_advanced_visible (advanced_button.get_active ()));
+			advanced_switch.notify["active"].connect (() => launch_options_editor.set_advanced_visible (advanced_switch.get_active ()));
 
 			content_clamp = new Adw.Clamp ();
 			content_clamp.set_maximum_size (1180);
-			content_clamp.set_margin_start (10);
-			content_clamp.set_margin_end (10);
+			content_clamp.set_margin_start (18);
+			content_clamp.set_margin_end (18);
 			content_clamp.set_margin_top (10);
 			content_clamp.set_margin_bottom (10);
 			content_clamp.set_child (launch_options_editor);
@@ -108,7 +119,7 @@ namespace ProtonPlus.Widgets {
 			applied_verified = false;
 			applied_launch_options = steam_game.launch_options;
 			launch_options_editor.set_text (steam_game.launch_options);
-			advanced_button.set_active (launch_options_editor.get_advanced_visible ());
+			advanced_switch.set_active (launch_options_editor.get_advanced_visible ());
 			refresh_apply_button ();
 		}
 
@@ -136,7 +147,7 @@ namespace ProtonPlus.Widgets {
 
 		void clear_button_clicked () {
 			launch_options_editor.clear ();
-			advanced_button.set_active (launch_options_editor.get_advanced_visible ());
+			advanced_switch.set_active (launch_options_editor.get_advanced_visible ());
 			refresh_apply_button ();
 		}
 

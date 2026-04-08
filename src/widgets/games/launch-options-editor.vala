@@ -62,7 +62,8 @@ namespace ProtonPlus.Widgets {
 		public Gtk.Switch toggle { get; private set; }
 		public Gtk.Entry value_entry { get; private set; }
 		public Gtk.Button apply_button { get; private set; }
-		Gtk.Revealer value_revealer;
+		Gtk.Box spacer_box;
+		Gtk.Box value_box;
 		public signal void value_applied ();
 		int lower_value;
 		int upper_value;
@@ -103,10 +104,16 @@ namespace ProtonPlus.Widgets {
 			labels_box.append (title_label);
 			labels_box.append (subtitle_label);
 
-			header_box.append (labels_box);
-			header_box.append (toggle);
+			var controls_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+			controls_box.set_size_request (190, -1);
+			controls_box.set_halign (Gtk.Align.END);
+			controls_box.set_valign (Gtk.Align.START);
 
-			var value_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+			spacer_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+			spacer_box.set_hexpand (true);
+
+			value_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+			value_box.set_valign (Gtk.Align.START);
 
 			var value_caption = new Gtk.Label (value_label);
 			value_caption.set_xalign (0);
@@ -128,12 +135,14 @@ namespace ProtonPlus.Widgets {
 			value_box.append (value_entry);
 			value_box.append (apply_button);
 
-			value_revealer = new Gtk.Revealer ();
-			value_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
-			value_revealer.set_child (value_box);
+			controls_box.append (spacer_box);
+			controls_box.append (value_box);
+			controls_box.append (toggle);
+
+			header_box.append (labels_box);
+			header_box.append (controls_box);
 
 			content_box.append (header_box);
-			content_box.append (value_revealer);
 
 			append (content_box);
 
@@ -183,7 +192,7 @@ namespace ProtonPlus.Widgets {
 
 		void refresh_value_state () {
 			var is_active = toggle.get_active ();
-			value_revealer.set_reveal_child (is_active);
+			value_box.set_visible (is_active);
 			value_entry.set_sensitive (is_active);
 
 			int pending_value;
@@ -246,6 +255,10 @@ namespace ProtonPlus.Widgets {
 			return committed_text;
 		}
 
+		public void focus_entry () {
+			entry.grab_focus ();
+		}
+
 		public void set_text (string text) {
 			committed_text = text.strip ();
 			entry.set_text (committed_text);
@@ -287,12 +300,13 @@ namespace ProtonPlus.Widgets {
 	class LaunchOptionResolutionField : Gtk.Box {
 		public Gtk.Switch toggle { get; private set; }
 		public Gtk.DropDown dropdown { get; private set; }
+		Gtk.Box top_controls_box;
+		Gtk.Box controls_spacer_box;
+		Gtk.Box options_box;
 		public Gtk.Box custom_box { get; private set; }
 		public Gtk.Entry width_entry { get; private set; }
 		public Gtk.Entry height_entry { get; private set; }
 		public Gtk.Button apply_button { get; private set; }
-		Gtk.Revealer options_revealer;
-		Gtk.Revealer custom_revealer;
 		public signal void value_applied ();
 		Gee.ArrayList<LaunchOptionResolutionChoice> choices;
 		int committed_width;
@@ -341,26 +355,29 @@ namespace ProtonPlus.Widgets {
 			subtitle_label.set_wrap (true);
 			subtitle_label.add_css_class ("dim-label");
 
+			var controls_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+			controls_box.set_size_request (260, -1);
+			controls_box.set_hexpand (false);
+			controls_box.set_valign (Gtk.Align.START);
+
 			toggle = new Gtk.Switch ();
 			toggle.set_valign (Gtk.Align.START);
 			toggle.set_halign (Gtk.Align.END);
 
-			labels_box.append (title_label);
-			labels_box.append (subtitle_label);
-
-			header_box.append (labels_box);
-			header_box.append (toggle);
-
 			var expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
 			dropdown = new Gtk.DropDown (new Gtk.StringList (labels), expression);
-			dropdown.set_hexpand (true);
+			dropdown.set_size_request (140, -1);
+			dropdown.set_valign (Gtk.Align.START);
+			dropdown.set_hexpand (false);
 
 			custom_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+			custom_box.set_halign (Gtk.Align.END);
+			custom_box.set_valign (Gtk.Align.START);
 
 			width_entry = new Gtk.Entry ();
 			width_entry.set_input_purpose (Gtk.InputPurpose.DIGITS);
-			width_entry.set_width_chars (6);
-			width_entry.set_max_width_chars (6);
+			width_entry.set_width_chars (4);
+			width_entry.set_max_width_chars (4);
 			width_entry.set_text (committed_width.to_string ());
 			width_entry.activate.connect (apply_pending_resolution);
 
@@ -369,8 +386,8 @@ namespace ProtonPlus.Widgets {
 
 			height_entry = new Gtk.Entry ();
 			height_entry.set_input_purpose (Gtk.InputPurpose.DIGITS);
-			height_entry.set_width_chars (6);
-			height_entry.set_max_width_chars (6);
+			height_entry.set_width_chars (4);
+			height_entry.set_max_width_chars (4);
 			height_entry.set_text (committed_height.to_string ());
 			height_entry.activate.connect (apply_pending_resolution);
 
@@ -383,20 +400,29 @@ namespace ProtonPlus.Widgets {
 			custom_box.append (height_entry);
 			custom_box.append (apply_button);
 
-			custom_revealer = new Gtk.Revealer ();
-			custom_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
-			custom_revealer.set_child (custom_box);
+			options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 8);
+			options_box.set_valign (Gtk.Align.START);
+			top_controls_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+			top_controls_box.set_hexpand (true);
 
-			var options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
-			options_box.append (dropdown);
-			options_box.append (custom_revealer);
+			controls_spacer_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+			controls_spacer_box.set_hexpand (true);
 
-			options_revealer = new Gtk.Revealer ();
-			options_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
-			options_revealer.set_child (options_box);
+			top_controls_box.append (controls_spacer_box);
+			top_controls_box.append (dropdown);
+			top_controls_box.append (toggle);
+
+			options_box.append (top_controls_box);
+			options_box.append (custom_box);
+			controls_box.append (options_box);
+
+			labels_box.append (title_label);
+			labels_box.append (subtitle_label);
+
+			header_box.append (labels_box);
+			header_box.append (controls_box);
 
 			content_box.append (header_box);
-			content_box.append (options_revealer);
 
 			append (content_box);
 
@@ -488,13 +514,13 @@ namespace ProtonPlus.Widgets {
 
 		void refresh_options_visibility () {
 			var is_active = toggle.get_active ();
-			options_revealer.set_reveal_child (is_active);
+			dropdown.set_visible (is_active);
 			dropdown.set_sensitive (is_active);
 			refresh_custom_visibility ();
 		}
 
 		void refresh_custom_visibility () {
-			custom_revealer.set_reveal_child (toggle.get_active () && get_selected_choice ().is_custom);
+			custom_box.set_visible (toggle.get_active () && get_selected_choice ().is_custom);
 			refresh_custom_state ();
 		}
 
@@ -587,7 +613,8 @@ namespace ProtonPlus.Widgets {
 		Gtk.Revealer advanced_options_revealer { get; set; }
 		LaunchOptionTile mangohud_tile { get; set; }
 		LaunchOptionTile steam_deck_tile { get; set; }
-		LaunchOptionTile native_hdr_tile { get; set; }
+		LaunchOptionTile hdr_tile { get; set; }
+		LaunchOptionTile wayland_tile { get; set; }
 		LaunchOptionTile vkbasalt_tile { get; set; }
 		LaunchOptionTile wined3d_tile { get; set; }
 		LaunchOptionTile nvapi_tile { get; set; }
@@ -626,12 +653,13 @@ namespace ProtonPlus.Widgets {
 			set_orientation (Gtk.Orientation.VERTICAL);
 			set_spacing (18);
 
-			mangohud_tile = create_common_tile (_("Performance overlay"), _("Shows your FPS and system stats in-game."), { "mangohud" });
-			steam_deck_tile = create_common_tile (_("Steam Deck mode off"), _("Fixes games that behave like they are running on a Steam Deck."), { "SteamDeck=0" });
-			native_hdr_tile = create_common_tile (_("Native HDR"), _("Uses native Linux HDR for supported games and displays."), { "PROTON_ENABLE_WAYLAND=1", "PROTON_ENABLE_HDR=1" });
-			vkbasalt_tile = create_common_tile (_("VKBasalt"), _("Adds VKBasalt sharpening and visual effects."), { "ENABLE_VKBASALT=1" });
-			wined3d_tile = create_common_tile (_("Fallback graphics"), _("Uses WineD3D when DXVK causes problems."), { "PROTON_USE_WINED3D=1" });
-			nvapi_tile = create_common_tile (_("NVIDIA features"), _("Enables NVIDIA features for supported games."), { "PROTON_ENABLE_NVAPI=1" });
+			mangohud_tile = create_common_tile (_("Performance overlay"), _("Shows an in-game overlay with FPS, CPU/GPU usage, and temps."), { "mangohud" });
+			steam_deck_tile = create_common_tile (_("Disable Steam Deck Mode"), _("Disables the Steam Deck-specific profile that some games use."), { "SteamDeck=0" });
+			hdr_tile = create_common_tile (_("HDR"), _("Outputs HDR colors if your display supports it."), { "PROTON_ENABLE_HDR=1" });
+			wayland_tile = create_common_tile (_("Wayland"), _("Runs the game natively on Wayland instead of through XWayland."), { "PROTON_ENABLE_WAYLAND=1" });
+			vkbasalt_tile = create_common_tile (_("VKBasalt"), _("Adds visual effects like sharpening and color adjustments."), { "ENABLE_VKBASALT=1" });
+			wined3d_tile = create_common_tile (_("WineD3D"), _("Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."), { "PROTON_USE_WINED3D=1" });
+			nvapi_tile = create_common_tile (_("NVAPI"), _("Lets games access NVIDIA-specific features (DLSS, etc.)."), { "PROTON_ENABLE_NVAPI=1" });
 
 			preview_field = new LaunchOptionPreviewField (_("Launch command preview"));
 			preview_revealer = new Gtk.Revealer ();
@@ -644,8 +672,9 @@ namespace ProtonPlus.Widgets {
 			common_options_grid.set_row_spacing (12);
 			common_options_grid.set_column_homogeneous (true);
 			common_options_grid.attach (mangohud_tile, 0, 0, 1, 1);
-			common_options_grid.attach (native_hdr_tile, 1, 0, 1, 1);
+			common_options_grid.attach (hdr_tile, 1, 0, 1, 1);
 			common_options_grid.attach (steam_deck_tile, 0, 1, 1, 1);
+			common_options_grid.attach (wayland_tile, 1, 1, 1, 1);
 
 			append (create_section_header (_("Common options"), _("Quick toggles for the launch options people reach for most often.")));
 			append (common_options_grid);
@@ -696,6 +725,10 @@ namespace ProtonPlus.Widgets {
 			additional_args_revealer = new Gtk.Revealer ();
 			additional_args_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
 			additional_args_revealer.set_child (additional_args_field);
+			additional_args_revealer.notify["child-revealed"].connect (() => {
+				if (additional_args_revealer.get_child_revealed () && additional_args_tile.toggle.get_active ())
+					additional_args_field.focus_entry ();
+			});
 
 			var more_options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
 			more_options_box.append (create_section_header (_("More options"), _("Extra graphics settings and launch behaviors.")));
@@ -895,7 +928,7 @@ namespace ProtonPlus.Widgets {
 			gamescope_fullscreen_tile = new LaunchOptionTile (_("Fullscreen"), _("Runs the game in a fullscreen Gamescope session."));
 			gamescope_fullscreen_tile.toggle.notify["active"].connect (standard_control_changed);
 
-			gamescope_vrr_tile = new LaunchOptionTile (_("Variable refresh rate"), _("Uses VRR when your display supports it."));
+			gamescope_vrr_tile = new LaunchOptionTile (_("VRR"), _("Matches your display's refresh rate to the game's FPS."));
 			gamescope_vrr_tile.toggle.notify["active"].connect (standard_control_changed);
 
 			gamescope_framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside Gamescope."), _("FPS"), 30, 360, 60);
@@ -936,7 +969,7 @@ namespace ProtonPlus.Widgets {
 			scopebuddy_auto_hdr_tile = new LaunchOptionTile (_("Auto HDR"), _("Turns HDR on automatically when your display supports it."));
 			scopebuddy_auto_hdr_tile.toggle.notify["active"].connect (standard_control_changed);
 
-			scopebuddy_auto_vrr_tile = new LaunchOptionTile (_("Variable refresh rate"), _("Turns on VRR automatically when your display supports it."));
+			scopebuddy_auto_vrr_tile = new LaunchOptionTile (_("VRR"), _("Matches your display's refresh rate to the game's FPS."));
 			scopebuddy_auto_vrr_tile.toggle.notify["active"].connect (standard_control_changed);
 
 			scopebuddy_framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside ScopeBuddy."), _("FPS"), 30, 360, 60);
@@ -1020,6 +1053,8 @@ namespace ProtonPlus.Widgets {
 				return;
 
 			refresh_advanced_visibility ();
+			if (additional_args_tile.toggle.get_active () && additional_args_revealer.get_child_revealed ())
+				additional_args_field.focus_entry ();
 			maybe_auto_enable_command ();
 			refresh_preview ();
 			content_changed ();
