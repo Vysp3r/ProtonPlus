@@ -26,11 +26,14 @@ namespace ProtonPlus.Widgets {
 		Gtk.Label other_label;
 		Gtk.Box header_box;
 		Gtk.Box headered_list_box;
+		Gtk.Box games_page_box;
+		Gtk.Stack content_stack;
 		Gtk.ScrolledWindow scrolled_window;
 		Gtk.ListBox game_list_box;
 		Gtk.Label warning_label;
 		Gtk.Spinner spinner;
 		Gtk.Overlay overlay;
+		LaunchOptionsView launch_options_view;
 		ListStore model;
 		Gtk.PropertyExpression expression;
 
@@ -140,6 +143,9 @@ namespace ProtonPlus.Widgets {
 			headered_list_box.append(header_box);
 			headered_list_box.append(scrolled_window);
 
+			launch_options_view = new LaunchOptionsView ();
+			launch_options_view.back_requested.connect (show_games_list_page);
+
 			notify["active"].connect(() => {
 				if (!active || error || !(launcher is Models.Launchers.Steam))
 					return;
@@ -178,15 +184,27 @@ namespace ProtonPlus.Widgets {
 			set_margin_start(12);
 			set_margin_end(12);
 
-			append(flow_box);
-			append(search_entry);
-			append(headered_list_box);
-			append(warning_label);
-			append(status_page);
+			games_page_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+			games_page_box.append (flow_box);
+			games_page_box.append (search_entry);
+			games_page_box.append (headered_list_box);
+			games_page_box.append (warning_label);
+			games_page_box.append (status_page);
+
+			content_stack = new Gtk.Stack ();
+			content_stack.set_vexpand (true);
+			content_stack.set_hexpand (true);
+			content_stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
+			content_stack.add_named (games_page_box, "games");
+			content_stack.add_named (launch_options_view, "launch-options");
+			content_stack.set_visible_child_name ("games");
+
+			append (content_stack);
 		}
 
 		public void set_selected_launcher(Models.Launcher launcher) {
 			this.launcher = launcher;
+			show_games_list_page ();
 
 			shortcut_button.set_visible(false);
 			warning_label.set_visible(false);
@@ -226,6 +244,7 @@ namespace ProtonPlus.Widgets {
 
 		void show_normal() {
 			error = false;
+			show_games_list_page ();
 
 			flow_box.set_visible(true);
 			headered_list_box.set_visible(true);
@@ -234,6 +253,8 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void show_status_box(string icon, string title, string description, bool is_image = false) {
+			show_games_list_page ();
+
 			flow_box.set_visible(false);
 			headered_list_box.set_visible(false);
 			warning_label.set_visible(false);
@@ -273,6 +294,7 @@ namespace ProtonPlus.Widgets {
 					continue;
 
 				var game_row = new GameRow(game, model, expression);
+				game_row.launch_options_requested.connect (open_launch_options);
 
 				game_list_box.append(game_row);
 			}
@@ -286,6 +308,7 @@ namespace ProtonPlus.Widgets {
 
 		void load_steam_profile(Models.SteamProfile profile) {
 			spinner.start();
+			show_games_list_page ();
 
 			shortcut_button.load(profile);
 
@@ -341,6 +364,18 @@ namespace ProtonPlus.Widgets {
 			search_entry.set_visible(show_search);
 
 			search_entry.set_text("");
+		}
+
+		void open_launch_options (GameRow row) {
+			launch_options_view.load (row);
+			content_stack.set_visible_child_name ("launch-options");
+		}
+
+		void show_games_list_page () {
+			if (content_stack == null)
+				return;
+
+			content_stack.set_visible_child_name ("games");
 		}
 	}
 }
