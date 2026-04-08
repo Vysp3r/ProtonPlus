@@ -74,9 +74,11 @@ namespace ProtonPlus.Models.Releases {
 
             compatibilitytoolvdf_content = compatibilitytoolvdf_content.replace (display_title_line, display_title_line_modified);
 
-            Utils.Filesystem.modify_file (compatibilitytoolvdf_path, compatibilitytoolvdf_content);
+			var modified = Utils.Filesystem.modify_file (compatibilitytoolvdf_path, compatibilitytoolvdf_content);
+			if (!modified)
+				return false;
 
-            add_to_games_tab ();
+			add_to_games_tab ();
 
             return true;
         }
