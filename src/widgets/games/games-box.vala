@@ -34,6 +34,7 @@ namespace ProtonPlus.Widgets {
 		Gtk.Spinner spinner;
 		Gtk.Overlay overlay;
 		LaunchOptionsView launch_options_view;
+		MassEditView mass_edit_view;
 		ListStore model;
 		Gtk.PropertyExpression expression;
 
@@ -68,6 +69,7 @@ namespace ProtonPlus.Widgets {
 			shortcut_button = new ShortcutButton();
 
 			mass_edit_button = new MassEditButton(game_list_box);
+			mass_edit_button.mass_edit_requested.connect (open_mass_edit);
 
 			select_button = new SelectButton(game_list_box);
 
@@ -146,6 +148,9 @@ namespace ProtonPlus.Widgets {
 			launch_options_view = new LaunchOptionsView ();
 			launch_options_view.back_requested.connect (show_games_list_page);
 
+			mass_edit_view = new MassEditView ();
+			mass_edit_view.back_requested.connect (show_games_list_page);
+
 			notify["active"].connect(() => {
 				if (!active || error || !(launcher is Models.Launchers.Steam))
 					return;
@@ -197,6 +202,7 @@ namespace ProtonPlus.Widgets {
 			content_stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
 			content_stack.add_named (games_page_box, "games");
 			content_stack.add_named (launch_options_view, "launch-options");
+			content_stack.add_named (mass_edit_view, "mass-edit");
 			content_stack.set_visible_child_name ("games");
 
 			append (content_stack);
@@ -287,8 +293,6 @@ namespace ProtonPlus.Widgets {
 
 			expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
 
-			mass_edit_button.load(model, expression);
-
 			foreach (var game in launcher.games) {
 				if (show_search && !game.name.down().contains(search_entry.get_text().down()))
 					continue;
@@ -369,6 +373,11 @@ namespace ProtonPlus.Widgets {
 		void open_launch_options (GameRow row) {
 			launch_options_view.load (row);
 			content_stack.set_visible_child_name ("launch-options");
+		}
+
+		void open_mass_edit (GameRow[] rows) {
+			mass_edit_view.load (rows, model, expression);
+			content_stack.set_visible_child_name ("mass-edit");
 		}
 
 		void show_games_list_page () {

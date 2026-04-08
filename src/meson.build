@@ -42,7 +42,7 @@ sources = files(
   'widgets/games/switch-profile-button.vala',
   'widgets/games/game-row.vala',
   'widgets/games/extra-button.vala',
-  'widgets/games/mass-edit-dialog.vala',
+  'widgets/games/mass-edit-view.vala',
   'widgets/games/mass-edit-button.vala',
   'widgets/games/shortcut-button.vala',
   'widgets/games/select-button.vala',

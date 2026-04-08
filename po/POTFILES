@@ -26,7 +26,7 @@ src/widgets/runners/filters-box.vala
 src/widgets/runners/steamtinkerlaunch-row.vala
 src/widgets/games/games-box.vala
 src/widgets/games/game-row.vala
-src/widgets/games/mass-edit-dialog.vala
+src/widgets/games/mass-edit-view.vala
 src/widgets/games/shortcut-button.vala
 src/widgets/games/switch-profile-button.vala
 src/widgets/games/select-button.vala
