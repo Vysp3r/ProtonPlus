@@ -35,6 +35,7 @@ namespace ProtonPlus.Widgets {
 		Gtk.Overlay overlay;
 		LaunchOptionsView launch_options_view;
 		MassEditView mass_edit_view;
+		DefaultToolView default_tool_view;
 		ListStore model;
 		Gtk.PropertyExpression expression;
 
@@ -76,6 +77,7 @@ namespace ProtonPlus.Widgets {
 			unselect_button = new UnselectButton(game_list_box);
 
 			default_tool_button = new DefaultToolButton();
+			default_tool_button.default_tool_requested.connect (open_default_tool);
 
 			search_button_content = new Adw.ButtonContent() {
 				icon_name = "search-symbolic",
@@ -151,6 +153,9 @@ namespace ProtonPlus.Widgets {
 			mass_edit_view = new MassEditView ();
 			mass_edit_view.back_requested.connect (show_games_list_page);
 
+			default_tool_view = new DefaultToolView ();
+			default_tool_view.back_requested.connect (show_games_list_page);
+
 			notify["active"].connect(() => {
 				if (!active || error || !(launcher is Models.Launchers.Steam))
 					return;
@@ -203,6 +208,7 @@ namespace ProtonPlus.Widgets {
 			content_stack.add_named (games_page_box, "games");
 			content_stack.add_named (launch_options_view, "launch-options");
 			content_stack.add_named (mass_edit_view, "mass-edit");
+			content_stack.add_named (default_tool_view, "default-tool");
 			content_stack.set_visible_child_name ("games");
 
 			append (content_stack);
@@ -378,6 +384,11 @@ namespace ProtonPlus.Widgets {
 		void open_mass_edit (GameRow[] rows) {
 			mass_edit_view.load (rows, model, expression);
 			content_stack.set_visible_child_name ("mass-edit");
+		}
+
+		void open_default_tool (Models.Launchers.Steam launcher) {
+			default_tool_view.load (launcher);
+			content_stack.set_visible_child_name ("default-tool");
 		}
 
 		void show_games_list_page () {

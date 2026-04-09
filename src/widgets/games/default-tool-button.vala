@@ -1,5 +1,7 @@
 namespace ProtonPlus.Widgets {
 	public class DefaultToolButton : Gtk.Button {
+		public signal void default_tool_requested (Models.Launchers.Steam launcher);
+
 		Adw.ButtonContent default_tool_button_content { get; set; }
 		Models.Launchers.Steam launcher { get; set; }
 
@@ -21,8 +23,10 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void default_tool_button_clicked() {
-			var dialog = new DefaultToolDialog(launcher);
-			dialog.present(Application.window);
+			if (launcher == null)
+				return;
+
+			default_tool_requested (launcher);
 		}
 	}
 }

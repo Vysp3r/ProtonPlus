@@ -52,7 +52,7 @@ sources = files(
   'widgets/games/profile-dialog.vala',
   'widgets/games/profile-button.vala',
   'widgets/games/default-tool-button.vala',
-  'widgets/games/default-tool-dialog.vala',
+  'widgets/games/default-tool-view.vala',
   'widgets/games/compatibility-tool-row.vala',
   'widgets/games/compatibility-tool-dropdown.vala',
 
