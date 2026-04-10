@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-27 07:18-0400\n"
-"PO-Revision-Date: 2026-03-01 21:09+0000\n"
+"PO-Revision-Date: 2026-04-09 23:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ja/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: src/widgets/application.vala:91
 msgid "A modern compatibility tools manager"
@@ -290,11 +290,11 @@ msgstr "詳細情報を表示"
 
 #: src/widgets/runners/release-row.vala:17
 msgid "Update the runner if a newer version is available"
-msgstr ""
+msgstr "新たなバージョンを利用可能なときに実行環境を更新する"
 
 #: src/widgets/runners/release-row.vala:20
 msgid "Open runner directory"
-msgstr ""
+msgstr "実行環境のディレクトリを開く"
 
 #: src/widgets/runners/release-row.vala:24
 #: src/widgets/runners/remove-dialog.vala:11
@@ -823,7 +823,7 @@ msgstr "Windows ソフトウェアを Linux で動かすための互換性ツー
 
 #: src/translatables.vala:15
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr "WineHQ 公式のソースからコンパイルされた Wine のビルド"
+msgstr "WineHQ 公式のソースからコンパイルされた Wine のビルド。"
 
 #: src/translatables.vala:16
 msgid "Wine build with the Staging patchset."
@@ -873,7 +873,7 @@ msgstr "ランチャーを検出しました:\n"
 #: src/cli/cli.vala:81
 #, c-format
 msgid "Installed runners for %s:\n"
-msgstr ""
+msgstr "%s のためにインストールされている実行環境:\n"
 
 #: src/cli/cli.vala:94
 msgid "No runners installed\n"
@@ -958,12 +958,12 @@ msgstr "エラー: アンインストールに失敗しました\n"
 
 #: src/cli/cli.vala:278
 msgid "Updating all runners...\n"
-msgstr ""
+msgstr "すべての実行環境を更新中...\n"
 
 #: src/cli/cli.vala:284
 #, c-format
 msgid "Updating runners for %s...\n"
-msgstr ""
+msgstr "%s のための実行環境を更新中...\n"
 
 #: src/cli/cli.vala:299 src/cli/cli.vala:354
 #, c-format
