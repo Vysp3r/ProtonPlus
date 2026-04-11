@@ -170,6 +170,19 @@ namespace ProtonPlus.Utils {
             return get_file_content (path) == content;
         }
 
+        public static bool copy_symlink(string src_path, string dest_path) {
+            try {
+                File src = File.new_for_path(src_path);
+                File dest = File.new_for_path(dest_path);
+
+                return src.copy(dest, FileCopyFlags.NOFOLLOW_SYMLINKS);
+            } catch (Error e) {
+                warning (e.message);
+
+                return false;
+            }
+        }
+
         public static void create_file (string path, string? content = null, bool private_mode = false) {
             try {
                 var file = File.parse_name (path);
@@ -256,7 +269,7 @@ namespace ProtonPlus.Utils {
                     } else {
                         // Otherwise, copy the file
                         try {
-                            yield src_file.copy_async (dest_file, FileCopyFlags.NONE);
+                            yield src_file.copy_async (dest_file, FileCopyFlags.NOFOLLOW_SYMLINKS);
                         } catch (Error e) {
                             warning ("Failed to copy %s: %s\n", file_name, e.message);
                             return false;

@@ -70,7 +70,7 @@ namespace ProtonPlus.Models {
 					break;
 			}
 
-			var base_runner_directory = "%s/%s".printf (runner.group.launcher.directory, runner.group.directory);
+			var base_runner_directory = "%s%s".printf (runner.group.launcher.directory, runner.group.directory);
 			var runner_directory = "%s/%s Latest".printf (base_runner_directory, runner.title);
 			var tag_path = "%s/.protonplus_tag".printf (runner_directory);
 
@@ -164,13 +164,6 @@ namespace ProtonPlus.Models {
 				return ReturnCode.NOTHING_TO_UPDATE;
 			}
 
-			var settings_path = "%s/user_settings.py".printf (runner_directory);
-			var settings_exists = FileUtils.test (settings_path, FileTest.IS_REGULAR);
-			var settings_content = "";
-			if (settings_exists) {
-				settings_content = Utils.Filesystem.get_file_content (settings_path);
-			}
-
 			var backup_runner_directory = "%s/%s Latest Backup".printf (base_runner_directory, runner.title);
 
 			var moved = yield Utils.Filesystem.move_directory (runner_directory, backup_runner_directory);
@@ -189,8 +182,18 @@ namespace ProtonPlus.Models {
 				return ReturnCode.UNKNOWN_ERROR;
 			}
 
-			if (settings_exists) {
-				Utils.Filesystem.create_file (settings_path, settings_content);
+			var backup_settings_path = "%s/user_settings.py".printf (backup_runner_directory);
+			var backup_settings_exists = FileUtils.test (backup_settings_path, FileTest.IS_REGULAR);
+			var backup_settings_is_symlink = backup_settings_exists ? FileUtils.test (backup_settings_path, FileTest.IS_SYMLINK) : false;
+			if (backup_settings_exists) {
+				var settings_path = "%s/user_settings.py".printf (runner_directory);
+				if (backup_settings_is_symlink) {
+					var copied = Utils.Filesystem.copy_symlink(backup_settings_path, settings_path);
+					if (!copied)
+						return ReturnCode.UNKNOWN_ERROR;
+				} else {
+					Utils.Filesystem.create_file (settings_path, Utils.Filesystem.get_file_content (backup_settings_path));
+				}
 			}
 
 			Utils.Filesystem.create_file (tag_path, title);
