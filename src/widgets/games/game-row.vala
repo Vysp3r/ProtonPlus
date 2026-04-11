@@ -1,5 +1,7 @@
 namespace ProtonPlus.Widgets {
 	public class GameRow : Gtk.ListBoxRow {
+		public signal void launch_options_requested (GameRow row);
+
 		Gtk.Label title_label;
 		Gtk.Label prefix_label;
 		public CompatibilityToolDropDown compatibility_tool_dropdown;
@@ -98,8 +100,7 @@ namespace ProtonPlus.Widgets {
 			if (!(game is Models.Games.Steam))
 				return;
 
-			var dialog = new LaunchOptionsDialog(this);
-			dialog.present(Application.window);
+			launch_options_requested (this);
 		}
 
 		void anticheat_button_clicked() {

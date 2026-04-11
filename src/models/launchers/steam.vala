@@ -392,9 +392,11 @@ namespace ProtonPlus.Models.Launchers {
 					config_content.substring(start_pos);
             }
 
-            Utils.Filesystem.modify_file (config_path, config_content);
+			var modified = Utils.Filesystem.modify_file (config_path, config_content);
+			if (!modified)
+				return false;
 
-            this.default_compatibility_tool = compatibility_tool;
+			this.default_compatibility_tool = compatibility_tool;
 
             return true;
 		}

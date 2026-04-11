@@ -26,11 +26,16 @@ namespace ProtonPlus.Widgets {
 		Gtk.Label other_label;
 		Gtk.Box header_box;
 		Gtk.Box headered_list_box;
+		Gtk.Box games_page_box;
+		Gtk.Stack content_stack;
 		Gtk.ScrolledWindow scrolled_window;
 		Gtk.ListBox game_list_box;
 		Gtk.Label warning_label;
 		Gtk.Spinner spinner;
 		Gtk.Overlay overlay;
+		LaunchOptionsView launch_options_view;
+		MassEditView mass_edit_view;
+		DefaultToolView default_tool_view;
 		ListStore model;
 		Gtk.PropertyExpression expression;
 
@@ -65,12 +70,14 @@ namespace ProtonPlus.Widgets {
 			shortcut_button = new ShortcutButton();
 
 			mass_edit_button = new MassEditButton(game_list_box);
+			mass_edit_button.mass_edit_requested.connect (open_mass_edit);
 
 			select_button = new SelectButton(game_list_box);
 
 			unselect_button = new UnselectButton(game_list_box);
 
 			default_tool_button = new DefaultToolButton();
+			default_tool_button.default_tool_requested.connect (open_default_tool);
 
 			search_button_content = new Adw.ButtonContent() {
 				icon_name = "search-symbolic",
@@ -140,6 +147,15 @@ namespace ProtonPlus.Widgets {
 			headered_list_box.append(header_box);
 			headered_list_box.append(scrolled_window);
 
+			launch_options_view = new LaunchOptionsView ();
+			launch_options_view.back_requested.connect (show_games_list_page);
+
+			mass_edit_view = new MassEditView ();
+			mass_edit_view.back_requested.connect (show_games_list_page);
+
+			default_tool_view = new DefaultToolView ();
+			default_tool_view.back_requested.connect (show_games_list_page);
+
 			notify["active"].connect(() => {
 				if (!active || error || !(launcher is Models.Launchers.Steam))
 					return;
@@ -178,15 +194,29 @@ namespace ProtonPlus.Widgets {
 			set_margin_start(12);
 			set_margin_end(12);
 
-			append(flow_box);
-			append(search_entry);
-			append(headered_list_box);
-			append(warning_label);
-			append(status_page);
+			games_page_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+			games_page_box.append (flow_box);
+			games_page_box.append (search_entry);
+			games_page_box.append (headered_list_box);
+			games_page_box.append (warning_label);
+			games_page_box.append (status_page);
+
+			content_stack = new Gtk.Stack ();
+			content_stack.set_vexpand (true);
+			content_stack.set_hexpand (true);
+			content_stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
+			content_stack.add_named (games_page_box, "games");
+			content_stack.add_named (launch_options_view, "launch-options");
+			content_stack.add_named (mass_edit_view, "mass-edit");
+			content_stack.add_named (default_tool_view, "default-tool");
+			content_stack.set_visible_child_name ("games");
+
+			append (content_stack);
 		}
 
 		public void set_selected_launcher(Models.Launcher launcher) {
 			this.launcher = launcher;
+			show_games_list_page ();
 
 			shortcut_button.set_visible(false);
 			warning_label.set_visible(false);
@@ -226,6 +256,7 @@ namespace ProtonPlus.Widgets {
 
 		void show_normal() {
 			error = false;
+			show_games_list_page ();
 
 			flow_box.set_visible(true);
 			headered_list_box.set_visible(true);
@@ -234,6 +265,8 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void show_status_box(string icon, string title, string description, bool is_image = false) {
+			show_games_list_page ();
+
 			flow_box.set_visible(false);
 			headered_list_box.set_visible(false);
 			warning_label.set_visible(false);
@@ -266,13 +299,12 @@ namespace ProtonPlus.Widgets {
 
 			expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
 
-			mass_edit_button.load(model, expression);
-
 			foreach (var game in launcher.games) {
 				if (show_search && !game.name.down().contains(search_entry.get_text().down()))
 					continue;
 
 				var game_row = new GameRow(game, model, expression);
+				game_row.launch_options_requested.connect (open_launch_options);
 
 				game_list_box.append(game_row);
 			}
@@ -286,6 +318,7 @@ namespace ProtonPlus.Widgets {
 
 		void load_steam_profile(Models.SteamProfile profile) {
 			spinner.start();
+			show_games_list_page ();
 
 			shortcut_button.load(profile);
 
@@ -341,6 +374,28 @@ namespace ProtonPlus.Widgets {
 			search_entry.set_visible(show_search);
 
 			search_entry.set_text("");
+		}
+
+		void open_launch_options (GameRow row) {
+			launch_options_view.load (row);
+			content_stack.set_visible_child_name ("launch-options");
+		}
+
+		void open_mass_edit (GameRow[] rows) {
+			mass_edit_view.load (rows, model, expression);
+			content_stack.set_visible_child_name ("mass-edit");
+		}
+
+		void open_default_tool (Models.Launchers.Steam launcher) {
+			default_tool_view.load (launcher);
+			content_stack.set_visible_child_name ("default-tool");
+		}
+
+		void show_games_list_page () {
+			if (content_stack == null)
+				return;
+
+			content_stack.set_visible_child_name ("games");
 		}
 	}
 }

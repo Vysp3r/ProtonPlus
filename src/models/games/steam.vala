@@ -129,7 +129,9 @@ namespace ProtonPlus.Models.Games {
 				config_content = config_content.replace(compat_tool_mapping_content, compat_tool_mapping_string_builder.str);
 			}
 
-			Utils.Filesystem.modify_file(config_path, config_content);
+			var modified = Utils.Filesystem.modify_file(config_path, config_content);
+			if (!modified)
+				return false;
 
 			this.compatibility_tool = compatibility_tool;
 
@@ -138,10 +140,9 @@ namespace ProtonPlus.Models.Games {
 
 		public bool change_launch_options(string launch_options, string localconfig_path) {
 			var escaped_launch_options = launch_options.replace("\"", "\\\"");
+			var steam_launcher = launcher as Launchers.Steam;
 
 			if (is_non_steam) {
-				var steam_launcher = launcher as Launchers.Steam;
-
 				var shortcut = steam_launcher.profile.shortcuts.get_shortcut_by_name(name);
 				shortcut.LaunchOptions = escaped_launch_options;
 
@@ -242,9 +243,14 @@ namespace ProtonPlus.Models.Games {
 
 			config_content = config_content.replace(app, app_modified);
 
-			Utils.Filesystem.modify_file(localconfig_path, config_content);
+			var modified = Utils.Filesystem.modify_file(localconfig_path, config_content);
+			if (!modified)
+				return false;
 
 			this.launch_options = launch_options;
+
+			if (steam_launcher.profile != null && steam_launcher.profile.launch_options_hashtable != null)
+				steam_launcher.profile.launch_options_hashtable.set (appid, launch_options);
 
 			return true;
 		}

@@ -158,9 +158,16 @@ namespace ProtonPlus.Utils {
             return output;
         }
 
-        public static void modify_file (string path, string content) {
-            delete_file (path);
-            create_file (path, content);
+        public static bool modify_file (string path, string content) {
+            try {
+                FileUtils.set_contents (path, content);
+            } catch (FileError e) {
+                warning (e.message);
+
+                return false;
+            }
+
+            return get_file_content (path) == content;
         }
 
         public static void create_file (string path, string? content = null, bool private_mode = false) {
