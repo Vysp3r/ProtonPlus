@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-08 22:56-0400\n"
+"POT-Creation-Date: 2026-04-12 10:30-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -34,66 +34,66 @@ msgstr ""
 msgid "Special thanks to"
 msgstr "Асаблівая падзяка"
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Loading"
 msgstr ""
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:32 src/widgets/window.vala:93
+#: src/widgets/window.vala:38 src/widgets/window.vala:118
 #: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:46
-#: src/widgets/games/launch-options-view.vala:135
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/launch-options-view.vala:100
+#: src/widgets/games/default-tool-view.vala:178
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
 msgstr ""
 
-#: src/widgets/window.vala:45
+#: src/widgets/window.vala:51
 msgid "Donate"
 msgstr ""
 
-#: src/widgets/window.vala:49
+#: src/widgets/window.vala:55
 msgid "_Preferences"
 msgstr ""
 
-#: src/widgets/window.vala:50
+#: src/widgets/window.vala:56
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:57
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/window.vala:54
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr ""
 
-#: src/widgets/window.vala:59
+#: src/widgets/window.vala:65
 msgid "Runners"
 msgstr "Інструменты"
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:66
 msgid "Games"
 msgstr ""
 
-#: src/widgets/window.vala:93
+#: src/widgets/window.vala:118
 msgid "Couldn't load the launchers"
 msgstr ""
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 #, fuzzy, c-format
 msgid "Welcome to %s"
 msgstr "Вітаем у "
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 #, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
@@ -101,78 +101,78 @@ msgid ""
 msgstr ""
 "Каб пачаць, усталюйце Steam, Lutris, Bottles або Heroic Games Launcher."
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
 
-#: src/widgets/window.vala:130
-msgid "Checking for updates"
-msgstr ""
-
-#: src/widgets/window.vala:131
-#, c-format
-msgid "Updating %s"
-msgstr ""
-
-#: src/widgets/window.vala:148
-msgid "Nothing to update"
-msgstr ""
-
-#: src/widgets/window.vala:149
-#, c-format
-msgid "No update found for %s"
-msgstr ""
-
 #: src/widgets/window.vala:155
-msgid "Everything is now up-to-date"
+msgid "Checking for updates"
 msgstr ""
 
 #: src/widgets/window.vala:156
 #, c-format
+msgid "Updating %s"
+msgstr ""
+
+#: src/widgets/window.vala:173
+msgid "Nothing to update"
+msgstr ""
+
+#: src/widgets/window.vala:174
+#, c-format
+msgid "No update found for %s"
+msgstr ""
+
+#: src/widgets/window.vala:180
+msgid "Everything is now up-to-date"
+msgstr ""
+
+#: src/widgets/window.vala:181
+#, c-format
 msgid "%s is now up-to-date"
 msgstr ""
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:169
-#: src/widgets/window.vala:175 src/widgets/window.vala:181
+#: src/widgets/window.vala:186 src/widgets/window.vala:194
+#: src/widgets/window.vala:200 src/widgets/window.vala:206
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr ""
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:162
+#: src/widgets/window.vala:186 src/widgets/window.vala:187
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr ""
 
-#: src/widgets/window.vala:162 src/widgets/window.vala:170
-#: src/widgets/window.vala:176 src/widgets/window.vala:182
+#: src/widgets/window.vala:187 src/widgets/window.vala:195
+#: src/widgets/window.vala:201 src/widgets/window.vala:207
 #, fuzzy, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "Толькі ўсталяваныя"
 
-#: src/widgets/window.vala:169 src/widgets/window.vala:170
+#: src/widgets/window.vala:194 src/widgets/window.vala:195
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
 #: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr ""
 
-#: src/widgets/window.vala:175 src/widgets/window.vala:176
+#: src/widgets/window.vala:200 src/widgets/window.vala:201
 #: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr ""
 
-#: src/widgets/window.vala:181 src/widgets/window.vala:182
+#: src/widgets/window.vala:206 src/widgets/window.vala:207
 #: src/widgets/runners/runner-row.vala:71
 msgid "Unknown error"
 msgstr ""
 
-#: src/widgets/window.vala:183 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:208 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr ""
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -181,17 +181,17 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:223
+#: src/widgets/window.vala:258
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:226 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:261 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr ""
@@ -476,74 +476,74 @@ msgstr ""
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:67
+#: src/widgets/games/games-box.vala:64
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:84 src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:81 src/widgets/games/games-box.vala:345
 msgid "Show search"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:110
+#: src/widgets/games/games-box.vala:107
 msgid "Search for a game"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:117
+#: src/widgets/games/games-box.vala:114
 msgid "Name"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:121
+#: src/widgets/games/games-box.vala:118
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:128
-#: src/widgets/games/mass-edit-view.vala:102
+#: src/widgets/games/games-box.vala:125
+#: src/widgets/games/mass-edit-view.vala:70
 #: src/widgets/games/default-tool-view.vala:22
 #, fuzzy
 msgid "Compatibility tool"
 msgstr ""
 "Просты менеджэр інструментаў сумяшчальнасці на базе Wine і Proton для GNOME"
 
-#: src/widgets/games/games-box.vala:132
+#: src/widgets/games/games-box.vala:129
 msgid "Other"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "No profile was found."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 msgid "Unsupported launcher"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 #, c-format
 msgid "%s is currently not supported."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:296 src/widgets/games/games-box.vala:359
-#: src/widgets/games/games-box.vala:362
-#: src/widgets/games/mass-edit-view.vala:209
+#: src/widgets/games/games-box.vala:270 src/widgets/games/games-box.vala:332
+#: src/widgets/games/games-box.vala:335
+#: src/widgets/games/mass-edit-view.vala:171
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:345
 msgid "Hide search"
 msgstr ""
 
@@ -559,82 +559,69 @@ msgstr ""
 msgid "Open ProtonDB page"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:36
-#: src/widgets/games/mass-edit-button.vala:10
-msgid "Mass edit"
+#: src/widgets/games/mass-edit-view.vala:28
+#: src/widgets/games/launch-options-view.vala:23
+msgid "Modify launch options"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:51
-#: src/widgets/games/launch-options-view.vala:46
-#: src/widgets/games/default-tool-view.vala:96
+#: src/widgets/games/mass-edit-view.vala:32
+#: src/widgets/games/launch-options-view.vala:27
+#: src/widgets/games/default-tool-view.vala:78
 msgid "Back"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:54
-#: src/widgets/games/launch-options-view.vala:49
-#: src/widgets/games/default-tool-view.vala:99
-msgid "Clear"
-msgstr ""
+#: src/widgets/games/mass-edit-view.vala:38
+#: src/widgets/games/launch-options-view.vala:33
+#, fuzzy
+msgid "Clear the current launch options"
+msgstr "Інструмент сумяшчальнасці Steam для запуску Windows гульняў"
 
-#: src/widgets/games/mass-edit-view.vala:56
-msgid "Clear the current mass edit selections"
-msgstr ""
-
-#: src/widgets/games/mass-edit-view.vala:63
-#: src/widgets/games/launch-options-view.vala:58
+#: src/widgets/games/mass-edit-view.vala:41
+#: src/widgets/games/launch-options-view.vala:36
 msgid "Advanced"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:74
-#: src/widgets/games/launch-options-view.vala:69
-#: src/widgets/games/launch-options-view.vala:166
-#: src/widgets/games/default-tool-view.vala:108
-#: src/widgets/games/default-tool-view.vala:231
-msgid "Apply"
-msgstr ""
-
-#: src/widgets/games/mass-edit-view.vala:75
+#: src/widgets/games/mass-edit-view.vala:54
 msgid "Apply the current modifications"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:97
-#: src/widgets/games/mass-edit-view.vala:106
+#: src/widgets/games/mass-edit-view.vala:65
+#: src/widgets/games/mass-edit-view.vala:74
 msgid "Enabled"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:98
+#: src/widgets/games/mass-edit-view.vala:66
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:107
+#: src/widgets/games/mass-edit-view.vala:75
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:116
-msgid ""
-"Enable all the options that you want the mass edit to take into account."
+#: src/widgets/games/mass-edit-view.vala:82
+msgid "Launch options"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 msgid "1 game selected"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 #, c-format
 msgid "%u games selected"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 #, fuzzy
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
 msgstr "Інструмент сумяшчальнасці Steam для запуску Windows гульняў"
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 msgid "The following games had an issue:"
 msgstr ""
 
@@ -691,6 +678,10 @@ msgstr ""
 msgid "Unselect all the games"
 msgstr "Усталяваць інструмент"
 
+#: src/widgets/games/mass-edit-button.vala:10
+msgid "Mass edit"
+msgstr ""
+
 #: src/widgets/games/mass-edit-button.vala:13
 #, fuzzy
 msgid "Edit the selected games at once"
@@ -702,35 +693,15 @@ msgid ""
 "feature."
 msgstr ""
 
-#: src/widgets/games/launch-options-view.vala:31
-msgid "Modify launch options"
-msgstr ""
-
-#: src/widgets/games/launch-options-view.vala:51
-#, fuzzy
-msgid "Clear the current launch options"
-msgstr "Інструмент сумяшчальнасці Steam для запуску Windows гульняў"
-
-#: src/widgets/games/launch-options-view.vala:70
-#: src/widgets/games/launch-options-view.vala:167
-#: src/widgets/games/default-tool-view.vala:109
-#: src/widgets/games/default-tool-view.vala:232
+#: src/widgets/games/launch-options-view.vala:49
+#: src/widgets/games/default-tool-view.vala:90
 msgid "Apply the current modification"
 msgstr ""
 
-#: src/widgets/games/launch-options-view.vala:135
+#: src/widgets/games/launch-options-view.vala:100
 #, fuzzy, c-format
 msgid "Couldn't change the launch options of %s"
 msgstr "Інструмент сумяшчальнасці Steam для запуску Windows гульняў"
-
-#: src/widgets/games/launch-options-view.vala:163
-#: src/widgets/games/default-tool-view.vala:228
-msgid "Applied"
-msgstr ""
-
-#: src/widgets/games/launch-options-view.vala:164
-msgid "The launch options have been written to disk."
-msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:130
 #: src/widgets/games/launch-options-editor.vala:236
@@ -790,7 +761,9 @@ msgid "Wayland"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:675
-msgid "Runs the game natively on Wayland instead of through XWayland."
+msgid ""
+"Runs the game natively on Wayland instead of through XWayland but it breaks "
+"Steam Input and the Steam Overlay."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:676
@@ -1100,7 +1073,7 @@ msgstr ""
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16
-#: src/widgets/games/default-tool-view.vala:81
+#: src/widgets/games/default-tool-view.vala:74
 #, fuzzy
 msgid "Set the default compatibility tool"
 msgstr ""
@@ -1112,21 +1085,15 @@ msgid ""
 "explicit override."
 msgstr ""
 
-#: src/widgets/games/default-tool-view.vala:101
+#: src/widgets/games/default-tool-view.vala:84
 #, fuzzy
 msgid "Reset to the current default compatibility tool"
 msgstr ""
 "Просты менеджэр інструментаў сумяшчальнасці на базе Wine і Proton для GNOME"
 
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/default-tool-view.vala:178
 #, fuzzy
 msgid "Couldn't change the default compatibility tool"
-msgstr ""
-"Просты менеджэр інструментаў сумяшчальнасці на базе Wine і Proton для GNOME"
-
-#: src/widgets/games/default-tool-view.vala:229
-#, fuzzy
-msgid "The default compatibility tool has been written to disk."
 msgstr ""
 "Просты менеджэр інструментаў сумяшчальнасці на базе Wine і Proton для GNOME"
 
@@ -1491,6 +1458,12 @@ msgstr ""
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr ""
+
+#, fuzzy
+#~ msgid "The default compatibility tool has been written to disk."
+#~ msgstr ""
+#~ "Просты менеджэр інструментаў сумяшчальнасці на базе Wine і Proton для "
+#~ "GNOME"
 
 #, fuzzy
 #~ msgid ""

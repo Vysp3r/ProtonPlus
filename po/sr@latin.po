@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-08 22:56-0400\n"
+"POT-Creation-Date: 2026-04-12 10:30-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Serbian (Latin script) <https://hosted.weblate.org/projects/"
@@ -32,66 +32,66 @@ msgstr "Veb stranica"
 msgid "Special thanks to"
 msgstr "Posebna zahvalnost"
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Loading"
 msgstr "Učitavanje"
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Taking longer than normal?"
 msgstr "Traje li duže nego uobičajeno?"
 
-#: src/widgets/window.vala:32 src/widgets/window.vala:93
+#: src/widgets/window.vala:38 src/widgets/window.vala:118
 #: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:46
-#: src/widgets/games/launch-options-view.vala:135
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/launch-options-view.vala:100
+#: src/widgets/games/default-tool-view.vala:178
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
 msgstr "Molimo Vas da prijavite ovaj problem na GitHub."
 
-#: src/widgets/window.vala:45
+#: src/widgets/window.vala:51
 msgid "Donate"
 msgstr "Donirajte"
 
-#: src/widgets/window.vala:49
+#: src/widgets/window.vala:55
 msgid "_Preferences"
 msgstr ""
 
-#: src/widgets/window.vala:50
+#: src/widgets/window.vala:56
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastaturne prečice"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:57
 msgid "_About ProtonPlus"
 msgstr "_O ProtonPlus-u"
 
-#: src/widgets/window.vala:54
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Glavni meni"
 
-#: src/widgets/window.vala:59
+#: src/widgets/window.vala:65
 msgid "Runners"
 msgstr "Trkači"
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:66
 msgid "Games"
 msgstr "Igre"
 
-#: src/widgets/window.vala:93
+#: src/widgets/window.vala:118
 msgid "Couldn't load the launchers"
 msgstr ""
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 #, c-format
 msgid "Welcome to %s"
 msgstr "Dobrodošli u %s"
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 #, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
@@ -100,80 +100,80 @@ msgstr ""
 "Instalirajte Steam, Lutris, Boce, ili Heroic Games Launcher da biste "
 "započeli."
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
 
-#: src/widgets/window.vala:130
+#: src/widgets/window.vala:155
 msgid "Checking for updates"
 msgstr ""
 
-#: src/widgets/window.vala:131
+#: src/widgets/window.vala:156
 #, c-format
 msgid "Updating %s"
 msgstr ""
 
-#: src/widgets/window.vala:148
+#: src/widgets/window.vala:173
 msgid "Nothing to update"
 msgstr ""
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:174
 #, c-format
 msgid "No update found for %s"
 msgstr ""
 
-#: src/widgets/window.vala:155
+#: src/widgets/window.vala:180
 #, fuzzy
 msgid "Everything is now up-to-date"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/window.vala:156
+#: src/widgets/window.vala:181
 #, fuzzy, c-format
 msgid "%s is now up-to-date"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:169
-#: src/widgets/window.vala:175 src/widgets/window.vala:181
+#: src/widgets/window.vala:186 src/widgets/window.vala:194
+#: src/widgets/window.vala:200 src/widgets/window.vala:206
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr ""
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:162
+#: src/widgets/window.vala:186 src/widgets/window.vala:187
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr ""
 
-#: src/widgets/window.vala:162 src/widgets/window.vala:170
-#: src/widgets/window.vala:176 src/widgets/window.vala:182
+#: src/widgets/window.vala:187 src/widgets/window.vala:195
+#: src/widgets/window.vala:201 src/widgets/window.vala:207
 #, fuzzy, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "Instalirajte %s"
 
-#: src/widgets/window.vala:169 src/widgets/window.vala:170
+#: src/widgets/window.vala:194 src/widgets/window.vala:195
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
 #: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr ""
 
-#: src/widgets/window.vala:175 src/widgets/window.vala:176
+#: src/widgets/window.vala:200 src/widgets/window.vala:201
 #: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr ""
 
-#: src/widgets/window.vala:181 src/widgets/window.vala:182
+#: src/widgets/window.vala:206 src/widgets/window.vala:207
 #: src/widgets/runners/runner-row.vala:71
 #, fuzzy
 msgid "Unknown error"
 msgstr "Nepoznato"
 
-#: src/widgets/window.vala:183 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:208 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr ""
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -182,17 +182,17 @@ msgstr ""
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:223
+#: src/widgets/window.vala:258
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:226 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:261 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Otkaži"
@@ -480,73 +480,73 @@ msgstr "Da biste instalirali %s za %s, pokrenite sledeću komandu:"
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Trenutno ne postoji poznati način da se instalira %s za %s."
 
-#: src/widgets/games/games-box.vala:67
+#: src/widgets/games/games-box.vala:64
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "Zatvorite Steam klijent unapred tako da se promene mogu primeniti."
 
-#: src/widgets/games/games-box.vala:84 src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:81 src/widgets/games/games-box.vala:345
 msgid "Show search"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:110
+#: src/widgets/games/games-box.vala:107
 msgid "Search for a game"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:117
+#: src/widgets/games/games-box.vala:114
 msgid "Name"
 msgstr "Ime"
 
-#: src/widgets/games/games-box.vala:121
+#: src/widgets/games/games-box.vala:118
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:128
-#: src/widgets/games/mass-edit-view.vala:102
+#: src/widgets/games/games-box.vala:125
+#: src/widgets/games/mass-edit-view.vala:70
 #: src/widgets/games/default-tool-view.vala:22
 msgid "Compatibility tool"
 msgstr "Alat za kompatibilnost"
 
-#: src/widgets/games/games-box.vala:132
+#: src/widgets/games/games-box.vala:129
 msgid "Other"
 msgstr "Ostalo"
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "No profile was found."
 msgstr "Nije pronađen profil."
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Obavezno se povežite sa Steam-om bar jednom."
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "Ako mislite da je ovo problem, obavezno ga prijavite na GitHub-u."
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 msgid "Unsupported launcher"
 msgstr "Nepodržani lanser"
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s trenutno nije podržan."
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Ako želite da ubrzate razvoj, budite sigurni da pokažete svoju podršku!"
 
-#: src/widgets/games/games-box.vala:296 src/widgets/games/games-box.vala:359
-#: src/widgets/games/games-box.vala:362
-#: src/widgets/games/mass-edit-view.vala:209
+#: src/widgets/games/games-box.vala:270 src/widgets/games/games-box.vala:332
+#: src/widgets/games/games-box.vala:335
+#: src/widgets/games/mass-edit-view.vala:171
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "Nedefinisano"
 
-#: src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:345
 msgid "Hide search"
 msgstr ""
 
@@ -562,51 +562,38 @@ msgstr "Nepoznato"
 msgid "Open ProtonDB page"
 msgstr "Otvorite ProtonDB stranicu"
 
-#: src/widgets/games/mass-edit-view.vala:36
-#: src/widgets/games/mass-edit-button.vala:10
-msgid "Mass edit"
-msgstr "Masovno uređivanje"
+#: src/widgets/games/mass-edit-view.vala:28
+#: src/widgets/games/launch-options-view.vala:23
+msgid "Modify launch options"
+msgstr "Izmena opcija pokretanja"
 
-#: src/widgets/games/mass-edit-view.vala:51
-#: src/widgets/games/launch-options-view.vala:46
-#: src/widgets/games/default-tool-view.vala:96
+#: src/widgets/games/mass-edit-view.vala:32
+#: src/widgets/games/launch-options-view.vala:27
+#: src/widgets/games/default-tool-view.vala:78
 msgid "Back"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:54
-#: src/widgets/games/launch-options-view.vala:49
-#: src/widgets/games/default-tool-view.vala:99
-msgid "Clear"
-msgstr ""
-
-#: src/widgets/games/mass-edit-view.vala:56
+#: src/widgets/games/mass-edit-view.vala:38
+#: src/widgets/games/launch-options-view.vala:33
 #, fuzzy
-msgid "Clear the current mass edit selections"
-msgstr "Primenite trenutne promene"
+msgid "Clear the current launch options"
+msgstr "Promenite opcije pokretanja igara"
 
-#: src/widgets/games/mass-edit-view.vala:63
-#: src/widgets/games/launch-options-view.vala:58
+#: src/widgets/games/mass-edit-view.vala:41
+#: src/widgets/games/launch-options-view.vala:36
 msgid "Advanced"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:74
-#: src/widgets/games/launch-options-view.vala:69
-#: src/widgets/games/launch-options-view.vala:166
-#: src/widgets/games/default-tool-view.vala:108
-#: src/widgets/games/default-tool-view.vala:231
-msgid "Apply"
-msgstr "Primenite"
-
-#: src/widgets/games/mass-edit-view.vala:75
+#: src/widgets/games/mass-edit-view.vala:54
 msgid "Apply the current modifications"
 msgstr "Primenite trenutne promene"
 
-#: src/widgets/games/mass-edit-view.vala:97
-#: src/widgets/games/mass-edit-view.vala:106
+#: src/widgets/games/mass-edit-view.vala:65
+#: src/widgets/games/mass-edit-view.vala:74
 msgid "Enabled"
 msgstr "Omogućeno"
 
-#: src/widgets/games/mass-edit-view.vala:98
+#: src/widgets/games/mass-edit-view.vala:66
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
@@ -614,7 +601,7 @@ msgstr ""
 "Omogućite ovo ako želite da masovno uređivanje uzme u obzir alatka za "
 "kompatibilnost."
 
-#: src/widgets/games/mass-edit-view.vala:107
+#: src/widgets/games/mass-edit-view.vala:75
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
@@ -622,22 +609,21 @@ msgstr ""
 "Omogućite ovo ako želite da masovno uređivanje uzme u obzir opcije "
 "pokretanja."
 
-#: src/widgets/games/mass-edit-view.vala:116
-msgid ""
-"Enable all the options that you want the mass edit to take into account."
-msgstr ""
-"Omogućite sve opcije koje želite da se uzme u obzir masovno uređivanje."
+#: src/widgets/games/mass-edit-view.vala:82
+#, fuzzy
+msgid "Launch options"
+msgstr "Opcije pokretanja"
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 msgid "1 game selected"
 msgstr "Izabrana 1 igra"
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 #, c-format
 msgid "%u games selected"
 msgstr "Odabrano je %u igara"
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 #, fuzzy
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
@@ -645,7 +631,7 @@ msgstr ""
 "Došlo je do greške prilikom pokušaja da promenite alat za kompatibilnost za "
 "%s."
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 msgid "The following games had an issue:"
 msgstr ""
 
@@ -700,6 +686,10 @@ msgstr "Poništite izbor svih"
 msgid "Unselect all the games"
 msgstr "Poništite izbor svih igara"
 
+#: src/widgets/games/mass-edit-button.vala:10
+msgid "Mass edit"
+msgstr "Masovno uređivanje"
+
 #: src/widgets/games/mass-edit-button.vala:13
 #, fuzzy
 msgid "Edit the selected games at once"
@@ -713,37 +703,16 @@ msgstr ""
 "Molimo vas da izaberete najmanje jednu igru pre nego što koristite funkciju "
 "masovnog uređivanja."
 
-#: src/widgets/games/launch-options-view.vala:31
-msgid "Modify launch options"
-msgstr "Izmena opcija pokretanja"
-
-#: src/widgets/games/launch-options-view.vala:51
-#, fuzzy
-msgid "Clear the current launch options"
-msgstr "Promenite opcije pokretanja igara"
-
-#: src/widgets/games/launch-options-view.vala:70
-#: src/widgets/games/launch-options-view.vala:167
-#: src/widgets/games/default-tool-view.vala:109
-#: src/widgets/games/default-tool-view.vala:232
+#: src/widgets/games/launch-options-view.vala:49
+#: src/widgets/games/default-tool-view.vala:90
 msgid "Apply the current modification"
 msgstr "Primeni trenutnu izmenu"
 
-#: src/widgets/games/launch-options-view.vala:135
+#: src/widgets/games/launch-options-view.vala:100
 #, fuzzy, c-format
 msgid "Couldn't change the launch options of %s"
 msgstr ""
 "Došlo je do greške prilikom pokušaja da promenite %s iz opcija pokretanja."
-
-#: src/widgets/games/launch-options-view.vala:163
-#: src/widgets/games/default-tool-view.vala:228
-#, fuzzy
-msgid "Applied"
-msgstr "Primenite"
-
-#: src/widgets/games/launch-options-view.vala:164
-msgid "The launch options have been written to disk."
-msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:130
 #: src/widgets/games/launch-options-editor.vala:236
@@ -805,7 +774,9 @@ msgid "Wayland"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:675
-msgid "Runs the game natively on Wayland instead of through XWayland."
+msgid ""
+"Runs the game natively on Wayland instead of through XWayland but it breaks "
+"Steam Input and the Steam Overlay."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:676
@@ -1123,7 +1094,7 @@ msgstr "Otvori meni"
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16
-#: src/widgets/games/default-tool-view.vala:81
+#: src/widgets/games/default-tool-view.vala:74
 msgid "Set the default compatibility tool"
 msgstr "Podešavanje podrazumevanog alata za kompatibilnost"
 
@@ -1133,20 +1104,15 @@ msgid ""
 "explicit override."
 msgstr ""
 
-#: src/widgets/games/default-tool-view.vala:101
+#: src/widgets/games/default-tool-view.vala:84
 #, fuzzy
 msgid "Reset to the current default compatibility tool"
 msgstr "Podešavanje podrazumevanog alata za kompatibilnost"
 
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/default-tool-view.vala:178
 #, fuzzy
 msgid "Couldn't change the default compatibility tool"
 msgstr "Podešavanje podrazumevanog alata za kompatibilnost"
-
-#: src/widgets/games/default-tool-view.vala:229
-#, fuzzy
-msgid "The default compatibility tool has been written to disk."
-msgstr "Podesite podrazumevani alat za kompatibilnost"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
@@ -1503,6 +1469,26 @@ msgstr "Prikaži prečice"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Izađi"
+
+#~ msgid ""
+#~ "Enable all the options that you want the mass edit to take into account."
+#~ msgstr ""
+#~ "Omogućite sve opcije koje želite da se uzme u obzir masovno uređivanje."
+
+#, fuzzy
+#~ msgid "Clear the current mass edit selections"
+#~ msgstr "Primenite trenutne promene"
+
+#~ msgid "Apply"
+#~ msgstr "Primenite"
+
+#, fuzzy
+#~ msgid "Applied"
+#~ msgstr "Primenite"
+
+#, fuzzy
+#~ msgid "The default compatibility tool has been written to disk."
+#~ msgstr "Podesite podrazumevani alat za kompatibilnost"
 
 #~ msgid "Enter your desired launch options"
 #~ msgstr "Unesite željene opcije pokretanja"

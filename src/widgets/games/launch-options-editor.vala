@@ -666,13 +666,13 @@ namespace ProtonPlus.Widgets {
 			refreshing_controls = true;
 
 			set_orientation (Gtk.Orientation.VERTICAL);
-			set_spacing (18);
+			set_spacing (15);
 
 			mangohud_tile = create_common_tile (_("Performance overlay"), _("Shows an in-game overlay with FPS, CPU/GPU usage, and temps."), { "mangohud" });
 			steam_deck_tile = create_common_tile (_("Disable Steam Deck Mode"), _("Disables the Steam Deck-specific profile that some games use."), { "SteamDeck=0" });
 			hdr_tile = new LaunchOptionTile (_("HDR"), _("Outputs HDR colors if your display supports it."));
 			hdr_tile.toggle.notify["active"].connect (standard_control_changed);
-			wayland_tile = create_common_tile (_("Wayland"), _("Runs the game natively on Wayland instead of through XWayland."), { "PROTON_ENABLE_WAYLAND=1" });
+			wayland_tile = create_common_tile (_("Wayland"), _("Runs the game natively on Wayland instead of through XWayland but it breaks Steam Input and the Steam Overlay."), { "PROTON_ENABLE_WAYLAND=1" });
 			vkbasalt_tile = create_common_tile (_("VKBasalt"), _("Adds visual effects like sharpening and color adjustments."), { "ENABLE_VKBASALT=1" });
 			wined3d_tile = create_common_tile (_("WineD3D"), _("Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."), { "PROTON_USE_WINED3D=1" });
 			amd_anti_lag_tile = create_gpu_vendor_tile (_("Mesa Anti-Lag"), _("Reduces latency on supported AMD Mesa setups."), { "ENABLE_LAYER_MESA_ANTI_LAG=1" });
@@ -695,8 +695,8 @@ namespace ProtonPlus.Widgets {
 			append (preview_revealer);
 
 			common_options_grid = new Gtk.Grid ();
-			common_options_grid.set_column_spacing (12);
-			common_options_grid.set_row_spacing (12);
+			common_options_grid.set_column_spacing (15);
+			common_options_grid.set_row_spacing (15);
 			common_options_grid.set_column_homogeneous (true);
 			common_options_grid.attach (mangohud_tile, 0, 0, 1, 1);
 			common_options_grid.attach (steam_deck_tile, 1, 0, 1, 1);
@@ -743,8 +743,8 @@ namespace ProtonPlus.Widgets {
 			console_tile = create_game_argument_tile (_("Console"), _("Adds -console to open the game's developer console when supported."), { "-console" });
 
 			more_options_grid = new Gtk.Grid ();
-			more_options_grid.set_column_spacing (12);
-			more_options_grid.set_row_spacing (12);
+			more_options_grid.set_column_spacing (15);
+			more_options_grid.set_row_spacing (15);
 			more_options_grid.set_column_homogeneous (true);
 			more_options_grid.attach (vkbasalt_tile, 0, 0, 1, 1);
 			more_options_grid.attach (wined3d_tile, 1, 0, 1, 1);
@@ -757,7 +757,7 @@ namespace ProtonPlus.Widgets {
 					additional_args_field.focus_entry ();
 			});
 
-			var more_options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
+			var more_options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
 			more_options_box.append (create_section_header (_("More options"), _("Extra graphics settings and launch behaviors.")));
 			more_options_box.append (more_options_grid);
 
@@ -777,7 +777,7 @@ namespace ProtonPlus.Widgets {
 			gpu_vendor_switcher.set_stack (gpu_vendor_stack);
 			gpu_vendor_switcher.set_halign (Gtk.Align.START);
 
-			var gpu_vendor_options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
+			var gpu_vendor_options_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 15);
 			gpu_vendor_options_box.append (create_section_header (_("GPU vendor options"), _("Use GPU-specific compatibility toggles for AMD and NVIDIA hardware.")));
 			gpu_vendor_options_box.append (gpu_vendor_switcher);
 			gpu_vendor_options_box.append (gpu_vendor_stack);
@@ -789,8 +789,8 @@ namespace ProtonPlus.Widgets {
 			append (more_options_revealer);
 
 			var game_arguments_grid = new Gtk.Grid ();
-			game_arguments_grid.set_column_spacing (12);
-			game_arguments_grid.set_row_spacing (12);
+			game_arguments_grid.set_column_spacing (15);
+			game_arguments_grid.set_row_spacing (15);
 			game_arguments_grid.set_column_homogeneous (true);
 			game_arguments_grid.attach (skip_launcher_tile, 0, 0, 1, 1);
 			game_arguments_grid.attach (vulkan_tile, 1, 0, 1, 1);
@@ -808,8 +808,8 @@ namespace ProtonPlus.Widgets {
 			append (game_arguments_revealer);
 
 			var advanced_options_grid = new Gtk.Grid ();
-			advanced_options_grid.set_column_spacing (12);
-			advanced_options_grid.set_row_spacing (12);
+			advanced_options_grid.set_column_spacing (15);
+			advanced_options_grid.set_row_spacing (15);
 			advanced_options_grid.set_column_homogeneous (true);
 			advanced_options_grid.attach (command_tile, 0, 0, 1, 1);
 			advanced_options_grid.attach (additional_args_tile, 1, 0, 1, 1);

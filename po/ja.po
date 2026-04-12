@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-08 22:56-0400\n"
+"POT-Creation-Date: 2026-04-12 10:30-0400\n"
 "PO-Revision-Date: 2026-04-09 23:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -30,66 +30,66 @@ msgstr "ウェブサイト"
 msgid "Special thanks to"
 msgstr ""
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Loading"
 msgstr "ロード中"
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Taking longer than normal?"
 msgstr "この画面が長く表示されていますか?"
 
-#: src/widgets/window.vala:32 src/widgets/window.vala:93
+#: src/widgets/window.vala:38 src/widgets/window.vala:118
 #: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:46
-#: src/widgets/games/launch-options-view.vala:135
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/launch-options-view.vala:100
+#: src/widgets/games/default-tool-view.vala:178
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
 msgstr "この問題を GitHub で報告してください。"
 
-#: src/widgets/window.vala:45
+#: src/widgets/window.vala:51
 msgid "Donate"
 msgstr "寄付する"
 
-#: src/widgets/window.vala:49
+#: src/widgets/window.vala:55
 msgid "_Preferences"
 msgstr "設定 (_P)"
 
-#: src/widgets/window.vala:50
+#: src/widgets/window.vala:56
 msgid "_Keyboard Shortcuts"
 msgstr "キーボードショートカット(_K)"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:57
 msgid "_About ProtonPlus"
 msgstr "ProtonPlus について(_A)"
 
-#: src/widgets/window.vala:54
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "メインメニュー"
 
-#: src/widgets/window.vala:59
+#: src/widgets/window.vala:65
 msgid "Runners"
 msgstr "実行環境"
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:66
 msgid "Games"
 msgstr "ゲーム"
 
-#: src/widgets/window.vala:93
+#: src/widgets/window.vala:118
 msgid "Couldn't load the launchers"
 msgstr "ランチャーを読み込めませんでした"
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 #, c-format
 msgid "Welcome to %s"
 msgstr "%s へようこそ"
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
@@ -97,7 +97,7 @@ msgstr ""
 "開始するには、Steam, Lutris, Bottles, Heroic Games Launcher または WineZGUI "
 "をインストールしてください。"
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
@@ -105,72 +105,72 @@ msgstr ""
 "ランチャーを少なくとも一度は起動して、初期セットアップが完了していることを確"
 "認してください"
 
-#: src/widgets/window.vala:130
+#: src/widgets/window.vala:155
 msgid "Checking for updates"
 msgstr "更新を確認中"
 
-#: src/widgets/window.vala:131
+#: src/widgets/window.vala:156
 #, c-format
 msgid "Updating %s"
 msgstr "%s を更新中"
 
-#: src/widgets/window.vala:148
+#: src/widgets/window.vala:173
 msgid "Nothing to update"
 msgstr "更新するものはありません"
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:174
 #, c-format
 msgid "No update found for %s"
 msgstr "%s の更新は見つかりませんでした"
 
-#: src/widgets/window.vala:155
+#: src/widgets/window.vala:180
 msgid "Everything is now up-to-date"
 msgstr "全て最新になりました。"
 
-#: src/widgets/window.vala:156
+#: src/widgets/window.vala:181
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s は最新になりました"
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:169
-#: src/widgets/window.vala:175 src/widgets/window.vala:181
+#: src/widgets/window.vala:186 src/widgets/window.vala:194
+#: src/widgets/window.vala:200 src/widgets/window.vala:206
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "更新を確認できませんでした (理由: %s)"
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:162
+#: src/widgets/window.vala:186 src/widgets/window.vala:187
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr "API の制限に達しました"
 
-#: src/widgets/window.vala:162 src/widgets/window.vala:170
-#: src/widgets/window.vala:176 src/widgets/window.vala:182
+#: src/widgets/window.vala:187 src/widgets/window.vala:195
+#: src/widgets/window.vala:201 src/widgets/window.vala:207
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "%s を更新できませんでした (理由: %s)"
 
-#: src/widgets/window.vala:169 src/widgets/window.vala:170
+#: src/widgets/window.vala:194 src/widgets/window.vala:195
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
 #: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr "API にアクセスできません"
 
-#: src/widgets/window.vala:175 src/widgets/window.vala:176
+#: src/widgets/window.vala:200 src/widgets/window.vala:201
 #: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr "無効なアクセストークン"
 
-#: src/widgets/window.vala:181 src/widgets/window.vala:182
+#: src/widgets/window.vala:206 src/widgets/window.vala:207
 #: src/widgets/runners/runner-row.vala:71
 msgid "Unknown error"
 msgstr "不明なエラー"
 
-#: src/widgets/window.vala:183 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:208 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr "報告"
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -179,7 +179,7 @@ msgstr "報告"
 msgid "Warning"
 msgstr "警告"
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -187,11 +187,11 @@ msgstr ""
 "アプリケーションは更新の確認中です。\n"
 "アプリケーションを終了すると問題が発生することがあります。"
 
-#: src/widgets/window.vala:223
+#: src/widgets/window.vala:258
 msgid "Exit"
 msgstr "終了"
 
-#: src/widgets/window.vala:226 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:261 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "キャンセル"
@@ -478,74 +478,74 @@ msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
 "現在、%s に必要な %s をインストールしているかを確認するすべがありません。"
 
-#: src/widgets/games/games-box.vala:67
+#: src/widgets/games/games-box.vala:64
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "変更を適用する前に、必ず Steam クライアントを終了してください。"
 
-#: src/widgets/games/games-box.vala:84 src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:81 src/widgets/games/games-box.vala:345
 msgid "Show search"
 msgstr "検索窓を表示"
 
-#: src/widgets/games/games-box.vala:110
+#: src/widgets/games/games-box.vala:107
 msgid "Search for a game"
 msgstr "ゲームを検索"
 
-#: src/widgets/games/games-box.vala:117
+#: src/widgets/games/games-box.vala:114
 msgid "Name"
 msgstr "名前"
 
-#: src/widgets/games/games-box.vala:121
+#: src/widgets/games/games-box.vala:118
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:128
-#: src/widgets/games/mass-edit-view.vala:102
+#: src/widgets/games/games-box.vala:125
+#: src/widgets/games/mass-edit-view.vala:70
 #: src/widgets/games/default-tool-view.vala:22
 msgid "Compatibility tool"
 msgstr "互換性ツール"
 
-#: src/widgets/games/games-box.vala:132
+#: src/widgets/games/games-box.vala:129
 msgid "Other"
 msgstr "その他"
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "No profile was found."
 msgstr "プロファイルが見つかりませんでした。"
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr ""
 "Steam を少なくとも一度は起動して、ログインが完了していることを確認してくださ"
 "い"
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "もしこれが不具合であると考える場合、GitHub で報告してください。"
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 msgid "Unsupported launcher"
 msgstr "サポートされていないランチャー"
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s は現在サポートされていません。"
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "開発をスピードアップしてほしい場合は、私を支援してください!"
 
-#: src/widgets/games/games-box.vala:296 src/widgets/games/games-box.vala:359
-#: src/widgets/games/games-box.vala:362
-#: src/widgets/games/mass-edit-view.vala:209
+#: src/widgets/games/games-box.vala:270 src/widgets/games/games-box.vala:332
+#: src/widgets/games/games-box.vala:335
+#: src/widgets/games/mass-edit-view.vala:171
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "未指定"
 
-#: src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:345
 msgid "Hide search"
 msgstr "検索窓を非表示"
 
@@ -561,86 +561,73 @@ msgstr "不明"
 msgid "Open ProtonDB page"
 msgstr "ProtonDB のページを開く"
 
-#: src/widgets/games/mass-edit-view.vala:36
-#: src/widgets/games/mass-edit-button.vala:10
-msgid "Mass edit"
-msgstr "まとめて設定"
+#: src/widgets/games/mass-edit-view.vala:28
+#: src/widgets/games/launch-options-view.vala:23
+msgid "Modify launch options"
+msgstr "起動オプションの変更"
 
-#: src/widgets/games/mass-edit-view.vala:51
-#: src/widgets/games/launch-options-view.vala:46
-#: src/widgets/games/default-tool-view.vala:96
+#: src/widgets/games/mass-edit-view.vala:32
+#: src/widgets/games/launch-options-view.vala:27
+#: src/widgets/games/default-tool-view.vala:78
 msgid "Back"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:54
-#: src/widgets/games/launch-options-view.vala:49
-#: src/widgets/games/default-tool-view.vala:99
-msgid "Clear"
-msgstr ""
-
-#: src/widgets/games/mass-edit-view.vala:56
+#: src/widgets/games/mass-edit-view.vala:38
+#: src/widgets/games/launch-options-view.vala:33
 #, fuzzy
-msgid "Clear the current mass edit selections"
-msgstr "現在の変更を適用"
+msgid "Clear the current launch options"
+msgstr "ゲームの起動オプションを変更"
 
-#: src/widgets/games/mass-edit-view.vala:63
-#: src/widgets/games/launch-options-view.vala:58
+#: src/widgets/games/mass-edit-view.vala:41
+#: src/widgets/games/launch-options-view.vala:36
 msgid "Advanced"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:74
-#: src/widgets/games/launch-options-view.vala:69
-#: src/widgets/games/launch-options-view.vala:166
-#: src/widgets/games/default-tool-view.vala:108
-#: src/widgets/games/default-tool-view.vala:231
-msgid "Apply"
-msgstr "適用"
-
-#: src/widgets/games/mass-edit-view.vala:75
+#: src/widgets/games/mass-edit-view.vala:54
 msgid "Apply the current modifications"
 msgstr "現在の変更を適用"
 
-#: src/widgets/games/mass-edit-view.vala:97
-#: src/widgets/games/mass-edit-view.vala:106
+#: src/widgets/games/mass-edit-view.vala:65
+#: src/widgets/games/mass-edit-view.vala:74
 msgid "Enabled"
 msgstr "有効化"
 
-#: src/widgets/games/mass-edit-view.vala:98
+#: src/widgets/games/mass-edit-view.vala:66
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
 msgstr ""
 "互換性ツールをまとめて変更したい場合のみ、この設定を有効にしてください。"
 
-#: src/widgets/games/mass-edit-view.vala:107
+#: src/widgets/games/mass-edit-view.vala:75
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
 msgstr ""
 "起動オプションをまとめて変更したい場合のみ、この設定を有効にしてください。"
 
-#: src/widgets/games/mass-edit-view.vala:116
-msgid ""
-"Enable all the options that you want the mass edit to take into account."
-msgstr "まとめて変更したい全てのオプションを有効化してください。"
+#: src/widgets/games/mass-edit-view.vala:82
+#, fuzzy
+msgid "Launch options"
+msgstr "起動オプション"
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 msgid "1 game selected"
 msgstr "1 つのゲームを選択済み"
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 #, c-format
 msgid "%u games selected"
 msgstr "%u つのゲームを選択済み"
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
 msgstr ""
 "選択したゲームに使用する互換性ツールや起動オプションを変更中にエラーが発生し"
 "ました。"
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 msgid "The following games had an issue:"
 msgstr "以下のゲームに問題があります:"
 
@@ -693,6 +680,10 @@ msgstr "全てを選択解除"
 msgid "Unselect all the games"
 msgstr "全てのゲームを選択解除する"
 
+#: src/widgets/games/mass-edit-button.vala:10
+msgid "Mass edit"
+msgstr "まとめて設定"
+
 #: src/widgets/games/mass-edit-button.vala:13
 #, fuzzy
 msgid "Edit the selected games at once"
@@ -705,36 +696,15 @@ msgid ""
 msgstr ""
 "まとめて設定を選択するためには、少なくとも一つのゲームを選択してください。"
 
-#: src/widgets/games/launch-options-view.vala:31
-msgid "Modify launch options"
-msgstr "起動オプションの変更"
-
-#: src/widgets/games/launch-options-view.vala:51
-#, fuzzy
-msgid "Clear the current launch options"
-msgstr "ゲームの起動オプションを変更"
-
-#: src/widgets/games/launch-options-view.vala:70
-#: src/widgets/games/launch-options-view.vala:167
-#: src/widgets/games/default-tool-view.vala:109
-#: src/widgets/games/default-tool-view.vala:232
+#: src/widgets/games/launch-options-view.vala:49
+#: src/widgets/games/default-tool-view.vala:90
 msgid "Apply the current modification"
 msgstr "現在の変更を適用する"
 
-#: src/widgets/games/launch-options-view.vala:135
+#: src/widgets/games/launch-options-view.vala:100
 #, c-format
 msgid "Couldn't change the launch options of %s"
 msgstr "%s の起動オプションを変更できませんでした"
-
-#: src/widgets/games/launch-options-view.vala:163
-#: src/widgets/games/default-tool-view.vala:228
-#, fuzzy
-msgid "Applied"
-msgstr "適用"
-
-#: src/widgets/games/launch-options-view.vala:164
-msgid "The launch options have been written to disk."
-msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:130
 #: src/widgets/games/launch-options-editor.vala:236
@@ -796,7 +766,9 @@ msgid "Wayland"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:675
-msgid "Runs the game natively on Wayland instead of through XWayland."
+msgid ""
+"Runs the game natively on Wayland instead of through XWayland but it breaks "
+"Steam Input and the Steam Overlay."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:676
@@ -1114,7 +1086,7 @@ msgstr "メニューを開く"
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16
-#: src/widgets/games/default-tool-view.vala:81
+#: src/widgets/games/default-tool-view.vala:74
 msgid "Set the default compatibility tool"
 msgstr "デフォルトの互換性ツールを設定する"
 
@@ -1124,19 +1096,14 @@ msgid ""
 "explicit override."
 msgstr ""
 
-#: src/widgets/games/default-tool-view.vala:101
+#: src/widgets/games/default-tool-view.vala:84
 #, fuzzy
 msgid "Reset to the current default compatibility tool"
 msgstr "デフォルトの互換性ツールを設定する"
 
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/default-tool-view.vala:178
 msgid "Couldn't change the default compatibility tool"
 msgstr "デフォルトの互換性ツールを変更できませんでした"
-
-#: src/widgets/games/default-tool-view.vala:229
-#, fuzzy
-msgid "The default compatibility tool has been written to disk."
-msgstr "デフォルトの互換性ツールを設定する"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
@@ -1489,6 +1456,25 @@ msgstr "ショートカットの表示"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "アプリの終了"
+
+#~ msgid ""
+#~ "Enable all the options that you want the mass edit to take into account."
+#~ msgstr "まとめて変更したい全てのオプションを有効化してください。"
+
+#, fuzzy
+#~ msgid "Clear the current mass edit selections"
+#~ msgstr "現在の変更を適用"
+
+#~ msgid "Apply"
+#~ msgstr "適用"
+
+#, fuzzy
+#~ msgid "Applied"
+#~ msgstr "適用"
+
+#, fuzzy
+#~ msgid "The default compatibility tool has been written to disk."
+#~ msgstr "デフォルトの互換性ツールを設定する"
 
 #~ msgid "Enter your desired launch options"
 #~ msgstr "起動オプションに指定したい内容を入力"

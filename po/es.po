@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-08 22:56-0400\n"
+"POT-Creation-Date: 2026-04-12 10:30-0400\n"
 "PO-Revision-Date: 2026-03-13 01:09+0000\n"
 "Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -27,66 +27,66 @@ msgstr "Sitio web"
 msgid "Special thanks to"
 msgstr "Un agradecimiento especial a"
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Loading"
 msgstr "Descargando"
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Taking longer than normal?"
 msgstr "¿Está tardando más de lo normal?"
 
-#: src/widgets/window.vala:32 src/widgets/window.vala:93
+#: src/widgets/window.vala:38 src/widgets/window.vala:118
 #: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:46
-#: src/widgets/games/launch-options-view.vala:135
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/launch-options-view.vala:100
+#: src/widgets/games/default-tool-view.vala:178
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
 msgstr "Por favor informa de este problema en GitHub."
 
-#: src/widgets/window.vala:45
+#: src/widgets/window.vala:51
 msgid "Donate"
 msgstr "Donar"
 
-#: src/widgets/window.vala:49
+#: src/widgets/window.vala:55
 msgid "_Preferences"
 msgstr "_Preferencias"
 
-#: src/widgets/window.vala:50
+#: src/widgets/window.vala:56
 msgid "_Keyboard Shortcuts"
 msgstr "_Atajos de teclado"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:57
 msgid "_About ProtonPlus"
 msgstr "Sobre ProtonPlus"
 
-#: src/widgets/window.vala:54
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Menú principal"
 
-#: src/widgets/window.vala:59
+#: src/widgets/window.vala:65
 msgid "Runners"
 msgstr "Ejecutores"
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:66
 msgid "Games"
 msgstr "Juegos"
 
-#: src/widgets/window.vala:93
+#: src/widgets/window.vala:118
 msgid "Couldn't load the launchers"
 msgstr "No se pudieron cargar los lanzadores"
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 #, c-format
 msgid "Welcome to %s"
 msgstr "Bienvenido a %s"
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
@@ -94,7 +94,7 @@ msgstr ""
 "Instala Steam, Lutris, Bottles, Heroic Games Launcher o WineZGUI para "
 "empezar."
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
@@ -102,72 +102,72 @@ msgstr ""
 "Asegúrate de ejecutar los lanzadores al menos una vez para que se "
 "inicialicen correctamente"
 
-#: src/widgets/window.vala:130
+#: src/widgets/window.vala:155
 msgid "Checking for updates"
 msgstr "Buscando actualizaciones"
 
-#: src/widgets/window.vala:131
+#: src/widgets/window.vala:156
 #, c-format
 msgid "Updating %s"
 msgstr "Actualizando %s"
 
-#: src/widgets/window.vala:148
+#: src/widgets/window.vala:173
 msgid "Nothing to update"
 msgstr "Nada que actualizar"
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:174
 #, c-format
 msgid "No update found for %s"
 msgstr "No se encontró ninguna actualización para %s"
 
-#: src/widgets/window.vala:155
+#: src/widgets/window.vala:180
 msgid "Everything is now up-to-date"
 msgstr "Todo está actualizado"
 
-#: src/widgets/window.vala:156
+#: src/widgets/window.vala:181
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s está actualizado"
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:169
-#: src/widgets/window.vala:175 src/widgets/window.vala:181
+#: src/widgets/window.vala:186 src/widgets/window.vala:194
+#: src/widgets/window.vala:200 src/widgets/window.vala:206
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "No se pudieron buscar actualizaciones (Motivo: %s)"
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:162
+#: src/widgets/window.vala:186 src/widgets/window.vala:187
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr "Límite de API alcanzado"
 
-#: src/widgets/window.vala:162 src/widgets/window.vala:170
-#: src/widgets/window.vala:176 src/widgets/window.vala:182
+#: src/widgets/window.vala:187 src/widgets/window.vala:195
+#: src/widgets/window.vala:201 src/widgets/window.vala:207
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "No se pudo actualizar %s (Motivo: %s)"
 
-#: src/widgets/window.vala:169 src/widgets/window.vala:170
+#: src/widgets/window.vala:194 src/widgets/window.vala:195
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
 #: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr "No se pudo acceder a la API"
 
-#: src/widgets/window.vala:175 src/widgets/window.vala:176
+#: src/widgets/window.vala:200 src/widgets/window.vala:201
 #: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr "Token de acceso no válido"
 
-#: src/widgets/window.vala:181 src/widgets/window.vala:182
+#: src/widgets/window.vala:206 src/widgets/window.vala:207
 #: src/widgets/runners/runner-row.vala:71
 msgid "Unknown error"
 msgstr "Error desconocido"
 
-#: src/widgets/window.vala:183 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:208 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr "Informe"
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -176,7 +176,7 @@ msgstr "Informe"
 msgid "Warning"
 msgstr "Advertencia"
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -184,11 +184,11 @@ msgstr ""
 "La aplicación está buscando actualizaciones.\n"
 "Si cierras la aplicación ahora, podrían surgir problemas."
 
-#: src/widgets/window.vala:223
+#: src/widgets/window.vala:258
 msgid "Exit"
 msgstr "Salir"
 
-#: src/widgets/window.vala:226 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:261 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Cancelar"
@@ -478,74 +478,74 @@ msgstr "Para instalar %s para %s, ejecuta el siguiente comando:"
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Actualmente, no existe una forma conocida de instalar %s para %s."
 
-#: src/widgets/games/games-box.vala:67
+#: src/widgets/games/games-box.vala:64
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr ""
 "Cierra primero el cliente de Steam para que los cambios se apliquen "
 "correctamente"
 
-#: src/widgets/games/games-box.vala:84 src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:81 src/widgets/games/games-box.vala:345
 msgid "Show search"
 msgstr "Mostrar búsqueda"
 
-#: src/widgets/games/games-box.vala:110
+#: src/widgets/games/games-box.vala:107
 msgid "Search for a game"
 msgstr "Buscar un juego"
 
-#: src/widgets/games/games-box.vala:117
+#: src/widgets/games/games-box.vala:114
 msgid "Name"
 msgstr "Nombre"
 
-#: src/widgets/games/games-box.vala:121
+#: src/widgets/games/games-box.vala:118
 msgid "Prefix"
 msgstr "Prefijo"
 
-#: src/widgets/games/games-box.vala:128
-#: src/widgets/games/mass-edit-view.vala:102
+#: src/widgets/games/games-box.vala:125
+#: src/widgets/games/mass-edit-view.vala:70
 #: src/widgets/games/default-tool-view.vala:22
 msgid "Compatibility tool"
 msgstr "Herramienta de compatibilidad"
 
-#: src/widgets/games/games-box.vala:132
+#: src/widgets/games/games-box.vala:129
 msgid "Other"
 msgstr "Otros"
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "No profile was found."
 msgstr "No se encontró ningún perfil."
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Asegúrate de conectarte al menos una vez en Steam."
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:155
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "Si crees que esto es un problema, asegúrate de reportarlo en GitHub."
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 msgid "Unsupported launcher"
 msgstr "Launcher no compatible"
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s no es compatible actualmente."
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:230
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "Si quieres que acelere el desarrollo, ¡asegúrate de mostrar tu apoyo!"
 
-#: src/widgets/games/games-box.vala:296 src/widgets/games/games-box.vala:359
-#: src/widgets/games/games-box.vala:362
-#: src/widgets/games/mass-edit-view.vala:209
+#: src/widgets/games/games-box.vala:270 src/widgets/games/games-box.vala:332
+#: src/widgets/games/games-box.vala:335
+#: src/widgets/games/mass-edit-view.vala:171
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "Indefinido"
 
-#: src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:345
 msgid "Hide search"
 msgstr "Ocultar búsqueda"
 
@@ -561,51 +561,38 @@ msgstr "Desconocido"
 msgid "Open ProtonDB page"
 msgstr "Abrir la página de ProtonDB"
 
-#: src/widgets/games/mass-edit-view.vala:36
-#: src/widgets/games/mass-edit-button.vala:10
-msgid "Mass edit"
-msgstr "Edición masiva"
+#: src/widgets/games/mass-edit-view.vala:28
+#: src/widgets/games/launch-options-view.vala:23
+msgid "Modify launch options"
+msgstr "Modificar las opciones de lanzamiento"
 
-#: src/widgets/games/mass-edit-view.vala:51
-#: src/widgets/games/launch-options-view.vala:46
-#: src/widgets/games/default-tool-view.vala:96
+#: src/widgets/games/mass-edit-view.vala:32
+#: src/widgets/games/launch-options-view.vala:27
+#: src/widgets/games/default-tool-view.vala:78
 msgid "Back"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:54
-#: src/widgets/games/launch-options-view.vala:49
-#: src/widgets/games/default-tool-view.vala:99
-msgid "Clear"
-msgstr ""
-
-#: src/widgets/games/mass-edit-view.vala:56
+#: src/widgets/games/mass-edit-view.vala:38
+#: src/widgets/games/launch-options-view.vala:33
 #, fuzzy
-msgid "Clear the current mass edit selections"
-msgstr "Aplicar las modificaciones actuales"
+msgid "Clear the current launch options"
+msgstr "Modificar las opciones de lanzamiento del juego"
 
-#: src/widgets/games/mass-edit-view.vala:63
-#: src/widgets/games/launch-options-view.vala:58
+#: src/widgets/games/mass-edit-view.vala:41
+#: src/widgets/games/launch-options-view.vala:36
 msgid "Advanced"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:74
-#: src/widgets/games/launch-options-view.vala:69
-#: src/widgets/games/launch-options-view.vala:166
-#: src/widgets/games/default-tool-view.vala:108
-#: src/widgets/games/default-tool-view.vala:231
-msgid "Apply"
-msgstr "Aplicar"
-
-#: src/widgets/games/mass-edit-view.vala:75
+#: src/widgets/games/mass-edit-view.vala:54
 msgid "Apply the current modifications"
 msgstr "Aplicar las modificaciones actuales"
 
-#: src/widgets/games/mass-edit-view.vala:97
-#: src/widgets/games/mass-edit-view.vala:106
+#: src/widgets/games/mass-edit-view.vala:65
+#: src/widgets/games/mass-edit-view.vala:74
 msgid "Enabled"
 msgstr "Activado"
 
-#: src/widgets/games/mass-edit-view.vala:98
+#: src/widgets/games/mass-edit-view.vala:66
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
@@ -613,7 +600,7 @@ msgstr ""
 "Habilita esta opción si quieres que la edición masiva tenga en cuenta la "
 "herramienta de compatibilidad."
 
-#: src/widgets/games/mass-edit-view.vala:107
+#: src/widgets/games/mass-edit-view.vala:75
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
@@ -621,30 +608,28 @@ msgstr ""
 "Habilita esta opción si quieres que la edición masiva tenga en cuenta las "
 "opciones de lanzamiento."
 
-#: src/widgets/games/mass-edit-view.vala:116
-msgid ""
-"Enable all the options that you want the mass edit to take into account."
-msgstr ""
-"Habilita todas las opciones que quieras que la edición masiva tenga en "
-"cuenta."
+#: src/widgets/games/mass-edit-view.vala:82
+#, fuzzy
+msgid "Launch options"
+msgstr "Configuración de inicio"
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 msgid "1 game selected"
 msgstr "1 juego seleccionado"
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 #, c-format
 msgid "%u games selected"
 msgstr "%u juegos seleccionados"
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
 msgstr ""
 "No se pudieron cambiar la herramienta de compatibilidad ni las opciones de "
 "ejecución de los juegos seleccionados"
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 msgid "The following games had an issue:"
 msgstr "Los siguientes juegos tuvieron un problema:"
 
@@ -697,6 +682,10 @@ msgstr "Desmarcar todo"
 msgid "Unselect all the games"
 msgstr "Desmarcar todos los juegos"
 
+#: src/widgets/games/mass-edit-button.vala:10
+msgid "Mass edit"
+msgstr "Edición masiva"
+
 #: src/widgets/games/mass-edit-button.vala:13
 #, fuzzy
 msgid "Edit the selected games at once"
@@ -711,36 +700,15 @@ msgstr ""
 "Asegúrate de seleccionar al menos un juego antes de utilizar la función de "
 "edición masiva."
 
-#: src/widgets/games/launch-options-view.vala:31
-msgid "Modify launch options"
-msgstr "Modificar las opciones de lanzamiento"
-
-#: src/widgets/games/launch-options-view.vala:51
-#, fuzzy
-msgid "Clear the current launch options"
-msgstr "Modificar las opciones de lanzamiento del juego"
-
-#: src/widgets/games/launch-options-view.vala:70
-#: src/widgets/games/launch-options-view.vala:167
-#: src/widgets/games/default-tool-view.vala:109
-#: src/widgets/games/default-tool-view.vala:232
+#: src/widgets/games/launch-options-view.vala:49
+#: src/widgets/games/default-tool-view.vala:90
 msgid "Apply the current modification"
 msgstr "Aplicar la modificación actual"
 
-#: src/widgets/games/launch-options-view.vala:135
+#: src/widgets/games/launch-options-view.vala:100
 #, c-format
 msgid "Couldn't change the launch options of %s"
 msgstr "No se pudieron cambiar las opciones de ejecución de %s"
-
-#: src/widgets/games/launch-options-view.vala:163
-#: src/widgets/games/default-tool-view.vala:228
-#, fuzzy
-msgid "Applied"
-msgstr "Aplicar"
-
-#: src/widgets/games/launch-options-view.vala:164
-msgid "The launch options have been written to disk."
-msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:130
 #: src/widgets/games/launch-options-editor.vala:236
@@ -802,7 +770,9 @@ msgid "Wayland"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:675
-msgid "Runs the game natively on Wayland instead of through XWayland."
+msgid ""
+"Runs the game natively on Wayland instead of through XWayland but it breaks "
+"Steam Input and the Steam Overlay."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:676
@@ -1122,7 +1092,7 @@ msgstr "Abrir menú"
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16
-#: src/widgets/games/default-tool-view.vala:81
+#: src/widgets/games/default-tool-view.vala:74
 msgid "Set the default compatibility tool"
 msgstr "Establecer herramienta de compatibilidad por defecto"
 
@@ -1132,19 +1102,14 @@ msgid ""
 "explicit override."
 msgstr ""
 
-#: src/widgets/games/default-tool-view.vala:101
+#: src/widgets/games/default-tool-view.vala:84
 #, fuzzy
 msgid "Reset to the current default compatibility tool"
 msgstr "Establecer herramienta de compatibilidad por defecto"
 
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/default-tool-view.vala:178
 msgid "Couldn't change the default compatibility tool"
 msgstr "No se pudo cambiar la herramienta de compatibilidad predeterminada"
-
-#: src/widgets/games/default-tool-view.vala:229
-#, fuzzy
-msgid "The default compatibility tool has been written to disk."
-msgstr "Herramienta de compatibilidad"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
@@ -1510,6 +1475,27 @@ msgstr "Mostrar atajos"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Salir"
+
+#~ msgid ""
+#~ "Enable all the options that you want the mass edit to take into account."
+#~ msgstr ""
+#~ "Habilita todas las opciones que quieras que la edición masiva tenga en "
+#~ "cuenta."
+
+#, fuzzy
+#~ msgid "Clear the current mass edit selections"
+#~ msgstr "Aplicar las modificaciones actuales"
+
+#~ msgid "Apply"
+#~ msgstr "Aplicar"
+
+#, fuzzy
+#~ msgid "Applied"
+#~ msgstr "Aplicar"
+
+#, fuzzy
+#~ msgid "The default compatibility tool has been written to disk."
+#~ msgstr "Herramienta de compatibilidad"
 
 #~ msgid "Enter your desired launch options"
 #~ msgstr "Introduce las opciones de lanzamiento"
