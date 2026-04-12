@@ -34,11 +34,6 @@
   color: var(--accent-red);
 }
 
-.content-clamp {
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-
 .list-header {
   padding: 14px;
   border-bottom-left-radius: 0;

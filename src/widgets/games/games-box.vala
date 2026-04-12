@@ -344,9 +344,9 @@ namespace ProtonPlus.Widgets {
 
 			search_button_content.set_label (show_search ? _("Hide search") : _("Show search"));
 
-			search_entry.set_visible(show_search);
-
 			search_entry.set_text("");
+
+			search_entry.set_visible(show_search);
 		}
 
 		void open_launch_options (GameRow row) {

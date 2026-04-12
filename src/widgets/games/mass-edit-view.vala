@@ -25,7 +25,7 @@ namespace ProtonPlus.Widgets {
 		construct {
 			set_orientation (Gtk.Orientation.VERTICAL);
 
-			window_title = new Adw.WindowTitle (_("Modify launch options"), "");
+			window_title = new Adw.WindowTitle (_("Mass edit"), "");
 
 			back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic");
 			back_button.add_css_class ("flat");
@@ -88,7 +88,6 @@ namespace ProtonPlus.Widgets {
 			content_box.append(launch_options_editor);
 
 			content_clamp = new Adw.Clamp ();
-			content_clamp.add_css_class ("content-clamp");
 			content_clamp.set_maximum_size (975);
 			content_clamp.set_child (content_box);
 

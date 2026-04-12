@@ -11,6 +11,7 @@ namespace ProtonPlus.Widgets {
 
         public RunnersBox () {
 			set_orientation (Gtk.Orientation.VERTICAL);
+			set_spacing (15);
             set_vexpand (true);
 			set_margin_top(7);
 			set_margin_start (15);

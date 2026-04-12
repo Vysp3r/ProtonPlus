@@ -33,5 +33,8 @@
     <file alias="scalable/actions/arrow-rotate-symbolic.svg">icons/arrow-rotate.svg</file>
     <file alias="scalable/actions/floppy-disk-symbolic.svg">icons/floppy-disk.svg</file>
     <file alias="scalable/actions/eraser-symbolic.svg">icons/eraser.svg</file>
+    <file alias="scalable/actions/box-archive-symbolic.svg">icons/box-archive.svg</file>
+    <file alias="scalable/actions/box-open-symbolic.svg">icons/box-open.svg</file>
+    <file alias="scalable/actions/boxes-stacked-symbolic.svg">icons/boxes-stacked.svg</file>
   </gresource>
 </gresources>

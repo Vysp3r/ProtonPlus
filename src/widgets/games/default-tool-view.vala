@@ -99,7 +99,6 @@ namespace ProtonPlus.Widgets {
 			content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
 
 			content_clamp = new Adw.Clamp ();
-			content_clamp.add_css_class ("content-clamp");
 			content_clamp.set_maximum_size (975);
 			content_clamp.set_child (content_box);
 
@@ -118,8 +117,6 @@ namespace ProtonPlus.Widgets {
 
 		public void load (Models.Launchers.Steam launcher) {
 			this.launcher = launcher;
-
-			window_title.set_subtitle (launcher.title);
 
 			if (compatibility_tool_field != null)
 				content_box.remove (compatibility_tool_field);
