@@ -1,14 +1,17 @@
 namespace ProtonPlus.Widgets {
 	public class FiltersBox : Gtk.Box {
-        Gtk.ToggleButton installed_only_button;
-        Gtk.ToggleButton used_only_button;
-        Gtk.ToggleButton unused_only_button;
-        public weak List<RunnerGroup> runner_groups;
+        private Gtk.ToggleButton installed_only_button;
+        private Gtk.ToggleButton used_only_button;
+        private Gtk.ToggleButton unused_only_button;
+
+        public bool installed_only {
+            get { return installed_only_button.active; }
+            set { installed_only_button.active = value; }
+        }
 
         public FiltersBox () {
-            set_orientation (Gtk.Orientation.HORIZONTAL);
+            Object (orientation: Gtk.Orientation.HORIZONTAL, spacing: 15);
             set_halign (Gtk.Align.CENTER);
-            set_spacing (15);
             add_css_class ("card");
             add_css_class ("p-10");
 
@@ -19,7 +22,9 @@ namespace ProtonPlus.Widgets {
             });
             installed_only_button.set_tooltip_text (_("Show installed runners"));
             installed_only_button.add_css_class ("flat");
-            installed_only_button.notify["active"].connect (installed_only_button_active_changed);
+            installed_only_button.notify["active"].connect (() => {
+                notify_property ("installed-only");
+            });
 
             used_only_button = new Gtk.ToggleButton ();
             used_only_button.set_child (new Adw.ButtonContent () {
@@ -45,21 +50,12 @@ namespace ProtonPlus.Widgets {
         }
 
         public void apply_filters () {
-            if (installed_only_button.active)
-                installed_only_button_active_changed();
-            
             if (used_only_button.active)
                 used_only_button_active_changed ();
             
             if (unused_only_button.active)
                 unused_only_button_active_changed ();
         }
-
-        void installed_only_button_active_changed () {
-            foreach (var runner_group in runner_groups) {
-				runner_group.load (installed_only_button.active);
-			}
-		}
 
         void used_only_button_active_changed () {
             if (used_only_button.active) {

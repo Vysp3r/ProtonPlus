@@ -1,8 +1,9 @@
+using Gee;
+
 namespace ProtonPlus.Widgets {
 	public class RunnerGroup : Adw.PreferencesGroup {
-		public List<Adw.PreferencesRow> rows;
-
-		public Models.Group group;
+		private ArrayList<Adw.PreferencesRow> rows = new ArrayList<Adw.PreferencesRow>();
+		private Models.Group group;
 
 		public RunnerGroup(Models.Group group, bool installed_only) {
 			this.group = group;
@@ -22,17 +23,17 @@ namespace ProtonPlus.Widgets {
 				load_normal();
 		}
 
-		void load_normal() {
+		private void load_normal() {
 			foreach (var runner in group.runners) {
 				var runner_row = new RunnerRow(runner);
 
 				add(runner_row);
 				
-				rows.append(runner_row);
+				rows.add(runner_row);
 			}
 		}
 
-		void load_installed_only() {
+		private void load_installed_only() {
 			foreach (var directory in group.get_compatibility_tool_directories()) {
 				var runner = new Models.Runners.Installed(group);
 				var release = new Models.Releases.Basic.simple(runner, directory, group.launcher.directory + group.directory + "/" + directory);
@@ -42,23 +43,21 @@ namespace ProtonPlus.Widgets {
 
 				add(row);
 				
-				rows.append(row);
+				rows.add(row);
 			}
 		}
 
-		void clear() {
-			if (rows == null)return;
+		private void clear() {
+			foreach (var row in rows) {
+				remove(row);
+			}
 
-			rows.foreach((row) => {
-				if (row.parent != null)
-					remove(row);
-
-				rows.remove(row);
-			});
+			rows.clear();
 		}
 
-		void row_remove_from_parent(InstalledRow row) {
+		private void row_remove_from_parent(InstalledRow row) {
 			remove(row);
+			rows.remove(row);
 		}
 	}
 }
