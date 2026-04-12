@@ -10,6 +10,13 @@ namespace ProtonPlus.CLI {
 	private const string OPT_ALL = "all";
 
 	private class Output {
+		private const string RESET = "\033[0m";
+		private const string BOLD = "\033[1m";
+		private const string RED = "\033[31m";
+		private const string GREEN = "\033[32m";
+		private const string YELLOW = "\033[33m";
+		private const string BLUE = "\033[34m";
+
 		public static void info (string format, ...) {
 			var args = va_list ();
 			print (format.vprintf (args));
@@ -17,12 +24,22 @@ namespace ProtonPlus.CLI {
 
 		public static void success (string format, ...) {
 			var args = va_list ();
-			print (format.vprintf (args));
+			print (GREEN + format.vprintf (args) + RESET);
 		}
 
 		public static void error (string format, ...) {
 			var args = va_list ();
-			printerr (format.vprintf (args));
+			printerr (RED + format.vprintf (args) + RESET);
+		}
+
+		public static void warning (string format, ...) {
+			var args = va_list ();
+			print (YELLOW + format.vprintf (args) + RESET);
+		}
+
+		public static void header (string format, ...) {
+			var args = va_list ();
+			print (BOLD + BLUE + format.vprintf (args) + RESET);
 		}
 	}
 
@@ -66,9 +83,9 @@ namespace ProtonPlus.CLI {
 
 		private int handle_list (string[] args) {
 			if (args.length < 3) {
-				Output.info (_("Detected launchers:\n"));
+				Output.header (_("Detected launchers:\n"));
 				foreach (var launcher in launchers) {
-					Output.info ("  %s (%s)\n", get_launcher_id (launcher), launcher.title);
+					Output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
 				}
 				return 0;
 			}
@@ -78,7 +95,7 @@ namespace ProtonPlus.CLI {
 				return 1;
 			}
 
-			Output.info (_("Installed runners for %s:\n"), launcher.title);
+			Output.header (_("Installed runners for %s:\n"), launcher.title);
 			var found = false;
 			foreach (var group in launcher.groups) {
 				var installed = group.get_compatibility_tool_directories ();
@@ -91,7 +108,7 @@ namespace ProtonPlus.CLI {
 				}
 			}
 			if (!found) {
-				Output.info (_("No runners installed\n"));
+				Output.warning (_("No runners installed\n"));
 			}
 			return 0;
 		}
@@ -197,13 +214,13 @@ namespace ProtonPlus.CLI {
 				return 1;
 			}
 
-			Output.info (_("Available releases for %s:\n"), runner.title);
+			Output.header (_("Available releases for %s:\n"), runner.title);
 			for (var i = 0; i < basic_runner.releases.length (); i++) {
 				var release = basic_runner.releases.nth_data (i) as Models.Releases.Basic;
 				Output.info ("%d. %s (%s)\n", i + 1, release.title, release.release_date);
 			}
 
-			var index = read_user_selection ("Select release number", (int) basic_runner.releases.length ());
+			var index = read_user_selection (_("Select release number"), (int) basic_runner.releases.length ());
 			if (index < 0) {
 				return 1;
 			}
@@ -218,11 +235,11 @@ namespace ProtonPlus.CLI {
 		private async int uninstall_interactive (Models.Runner runner) {
 			var installed = get_installed_releases (runner);
 			if (installed.length () == 0) {
-				Output.info (_("No installed releases found for %s\n"), runner.title);
+				Output.warning (_("No installed releases found for %s\n"), runner.title);
 				return 0;
 			}
 
-			Output.info (_("Installed releases for %s:\n"), runner.title);
+			Output.header (_("Installed releases for %s:\n"), runner.title);
 			for (var i = 0; i < installed.length (); i++) {
 				Output.info ("%d. %s\n", i + 1, installed.nth_data (i));
 			}
@@ -239,7 +256,7 @@ namespace ProtonPlus.CLI {
 		private async int uninstall_runner_all (Models.Runner runner) {
 			var installed = get_installed_releases (runner);
 			if (installed.length () == 0) {
-				Output.info (_("No installed releases found for %s\n"), runner.title);
+				Output.warning (_("No installed releases found for %s\n"), runner.title);
 				return 0;
 			}
 
@@ -460,37 +477,49 @@ namespace ProtonPlus.CLI {
 			stdout.printf ("%s: ", prompt);
 			stdout.flush ();
 			var input = stdin.read_line ();
-			var index = int.parse (input) - 1;
+
+			if (input == null || input.strip () == "") {
+				return -1;
+			}
+
+			var val = int.parse (input);
+			if (val == 0 && input.strip () != "0") {
+				Output.error (_("Error: Invalid input, please enter a number\n"));
+				return -1;
+			}
+
+			var index = val - 1;
 			if (index < 0 || index >= max) {
-				Output.error (_("Error: Invalid selection\n"));
+				Output.error (_("Error: Selection out of range\n"));
 				return -1;
 			}
 			return index;
 		}
 
 		private void print_usage () {
-			Output.info (_("Usage: protonplus <command> [options]\n\n"));
-			Output.info (_("Commands:\n"));
-			Output.info ("  version                                        " + _("Show version\n"));
-			Output.info ("  help                                           " + _("Show this help\n"));
-			Output.info ("  list [launcher_id]                             " + _("List launchers or installed runners\n"));
-			Output.info ("  install <launcher_id> <runner_id> [latest]     " + _("Install runner\n"));
-			Output.info ("  uninstall <launcher_id> <runner_id|all> [all]  " + _("Uninstall runner\n"));
-			Output.info ("  update <all|launcher_id> [runner_id]           " + _("Update runner\n"));
+			Output.header (_("Usage:\n"));
+			Output.info ("  protonplus <command> [options]\n\n");
+			Output.header (_("Commands:\n"));
+			Output.info ("  %-45s %s\n", "version", _("Show version"));
+			Output.info ("  %-45s %s\n", "help", _("Show this help"));
+			Output.info ("  %-45s %s\n", "list [launcher_id]", _("List launchers or installed runners"));
+			Output.info ("  %-45s %s\n", "install <launcher_id> <runner_id> [latest]", _("Install runner"));
+			Output.info ("  %-45s %s\n", "uninstall <launcher_id> <runner_id|all> [all]", _("Uninstall runner"));
+			Output.info ("  %-45s %s\n", "update <all|launcher_id> [runner_id]", _("Update runner"));
 		}
 
 		private void print_available_launchers () {
-			Output.info (_("\nAvailable launchers:\n"));
+			Output.header (_("\nAvailable launchers:\n"));
 			foreach (var launcher in launchers) {
-				Output.info ("  %s\n", get_launcher_id (launcher));
+				Output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
 			}
 		}
 
 		private void print_available_runners (Models.Launcher launcher) {
-			Output.info (_("\nAvailable runners for %s:\n"), launcher.title);
+			Output.header (_("\nAvailable runners for %s:\n"), launcher.title);
 			foreach (var group in launcher.groups) {
 				foreach (var runner in group.runners) {
-					Output.info ("  %s\n", get_runner_id (runner));
+					Output.info ("  %-45s (%s)\n", get_runner_id (runner), runner.title);
 				}
 			}
 		}
