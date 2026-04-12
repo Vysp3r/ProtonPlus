@@ -12,10 +12,10 @@ namespace ProtonPlus.Widgets {
 		Adw.HeaderBar header_bar { get; set; }
 		Adw.Clamp content_clamp { get; set; }
 		Gtk.ScrolledWindow scrolled_window { get; set; }
-		Adw.SwitchRow modify_compatibility_tool_row { get; set; }
+		Gtk.Switch modify_compatibility_tool_switch { get; set; }
 		CompatibilityToolRow compatibility_tool_row { get; set; }
 		Adw.PreferencesGroup compatibility_tool_group { get; set; }
-		Adw.SwitchRow modify_launch_options_row { get; set; }
+		Gtk.Switch modify_launch_options_switch { get; set; }
 		Adw.PreferencesGroup launch_options_group { get; set; }
 		LaunchOptionsEditor launch_options_editor { get; set; }
 		Gtk.Box content_box { get; set; }
@@ -61,28 +61,29 @@ namespace ProtonPlus.Widgets {
 			header_bar.pack_end (apply_button);
 			header_bar.pack_end (advanced_box);
 
-			modify_compatibility_tool_row = new Adw.SwitchRow();
-			modify_compatibility_tool_row.set_title(_("Enabled"));
-			modify_compatibility_tool_row.set_tooltip_text(_("Enable this if you want the mass edit to take the compatibility tool into account."));
-			modify_compatibility_tool_row.notify["active"].connect(modify_row_active_changed);
-			
+			modify_compatibility_tool_switch = new Gtk.Switch();
+			modify_compatibility_tool_switch.set_valign (Gtk.Align.CENTER);
+			modify_compatibility_tool_switch.set_tooltip_text(_("Enable this if you want the mass edit to take the compatibility tool into account."));
+			modify_compatibility_tool_switch.notify["active"].connect(modify_row_active_changed);
+
 			compatibility_tool_group = new Adw.PreferencesGroup();
 			compatibility_tool_group.set_title(_("Compatibility tool"));
-			compatibility_tool_group.add(modify_compatibility_tool_row);
+			compatibility_tool_group.set_header_suffix(modify_compatibility_tool_switch);
+			compatibility_tool_group.set_margin_bottom(15);
 
-			modify_launch_options_row = new Adw.SwitchRow();
-			modify_launch_options_row.set_title(_("Enabled"));
-			modify_launch_options_row.set_tooltip_text(_("Enable this if you want the mass edit to take the launch options into account."));
-			modify_launch_options_row.notify["active"].connect(modify_row_active_changed);
+			modify_launch_options_switch = new Gtk.Switch();
+			modify_launch_options_switch.set_valign (Gtk.Align.CENTER);
+			modify_launch_options_switch.set_tooltip_text(_("Enable this if you want the mass edit to take the launch options into account."));
+			modify_launch_options_switch.notify["active"].connect(modify_row_active_changed);
 
 			launch_options_editor = new LaunchOptionsEditor ();
 			advanced_switch.notify["active"].connect (() => launch_options_editor.set_advanced_visible (advanced_switch.get_active ()));
 
 			launch_options_group = new Adw.PreferencesGroup();
 			launch_options_group.set_title(_("Launch options"));
-			launch_options_group.add(modify_launch_options_row);
+			launch_options_group.set_header_suffix(modify_launch_options_switch);
 
-			content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 15);
+			content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
 			content_box.append(compatibility_tool_group);
 			content_box.append(launch_options_group);
 			content_box.append(launch_options_editor);
@@ -115,8 +116,8 @@ namespace ProtonPlus.Widgets {
 			compatibility_tool_row = new CompatibilityToolRow (model, expression);
 			compatibility_tool_group.add (compatibility_tool_row);
 
-			modify_compatibility_tool_row.set_active (false);
-			modify_launch_options_row.set_active (false);
+			modify_compatibility_tool_switch.set_active (false);
+			modify_launch_options_switch.set_active (false);
 			advanced_switch.set_active (false);
 			launch_options_editor.set_text ("");
 
@@ -128,8 +129,8 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void refresh() {
-			var compatibility_tool_check = modify_compatibility_tool_row.get_active();
-			var launch_options_check = modify_launch_options_row.get_active();
+			var compatibility_tool_check = modify_compatibility_tool_switch.get_active();
+			var launch_options_check = modify_launch_options_switch.get_active();
 
 			clear_button.set_sensitive (compatibility_tool_check || launch_options_check || launch_options_editor.has_clearable_state ());
 			apply_button.set_sensitive(compatibility_tool_check || launch_options_check);
@@ -144,8 +145,8 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void clear_button_clicked () {
-			modify_compatibility_tool_row.set_active (false);
-			modify_launch_options_row.set_active (false);
+			modify_compatibility_tool_switch.set_active (false);
+			modify_launch_options_switch.set_active (false);
 			launch_options_editor.clear ();
 			refresh ();
 		}
@@ -155,7 +156,7 @@ namespace ProtonPlus.Widgets {
 			var invalids = new List<string> ();
 
 			foreach (var row in rows) {
-				if (modify_compatibility_tool_row.get_active()) {
+				if (modify_compatibility_tool_switch.get_active()) {
 					var valids = new List<GameRow> ();
 
 					var success = row.game.change_compatibility_tool(item.internal_title);
@@ -181,7 +182,7 @@ namespace ProtonPlus.Widgets {
 					}
 				}
 
-				if (row.game.launcher is Models.Launchers.Steam && modify_launch_options_row.get_active()) {
+				if (row.game.launcher is Models.Launchers.Steam && modify_launch_options_switch.get_active()) {
 					var valids = new List<GameRow> ();
 
 					var steam_game = (Models.Games.Steam) row.game;

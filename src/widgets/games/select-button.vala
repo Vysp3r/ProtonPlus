@@ -6,7 +6,7 @@ namespace ProtonPlus.Widgets {
 		construct {
 			selection_button_content = new Adw.ButtonContent ();
 			selection_button_content.set_label (_("Select all"));
-			selection_button_content.set_icon_name ("select-all-symbolic");
+			selection_button_content.set_icon_name ("square-check-symbolic");
 
 			set_tooltip_text (_("Select all the games"));
 			add_css_class ("flat");

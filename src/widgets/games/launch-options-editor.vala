@@ -447,12 +447,10 @@ namespace ProtonPlus.Widgets {
 	public class LaunchOptionsEditor : Gtk.Box {
 		public signal void content_changed ();
 
-		Gtk.Revealer preview_revealer { get; set; }
-		Gtk.Revealer gamescope_advanced_revealer { get; set; }
-		Gtk.Revealer more_options_revealer { get; set; }
-		Gtk.Revealer gpu_vendor_options_revealer { get; set; }
-		Gtk.Revealer game_arguments_revealer { get; set; }
-		Gtk.Revealer advanced_options_revealer { get; set; }
+		Adw.PreferencesGroup more_options_group { get; set; }
+		Adw.PreferencesGroup gpu_vendor_group { get; set; }
+		Adw.PreferencesGroup game_arguments_group { get; set; }
+		Adw.PreferencesGroup advanced_options_group { get; set; }
 		LaunchOptionTile mangohud_tile { get; set; }
 		LaunchOptionTile steam_deck_tile { get; set; }
 		LaunchOptionTile hdr_tile { get; set; }
@@ -475,7 +473,6 @@ namespace ProtonPlus.Widgets {
 		LaunchOptionTile console_tile { get; set; }
 		LaunchOptionPreviewField preview_field { get; set; }
 		Gtk.Stack wrapper_stack { get; set; }
-		Gtk.Revealer wrapper_options_revealer { get; set; }
 		Gtk.StackSwitcher wrapper_switcher { get; set; }
 		Gtk.Stack gpu_vendor_stack { get; set; }
 		Gtk.StackSwitcher gpu_vendor_switcher { get; set; }
@@ -514,10 +511,7 @@ namespace ProtonPlus.Widgets {
 			// Launch command preview
 
 			preview_field = new LaunchOptionPreviewField (_("Launch command preview"));
-			preview_revealer = new Gtk.Revealer ();
-			preview_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
-			preview_revealer.set_child (preview_field);
-			append (preview_revealer);
+			append (preview_field);
 
 			// Common options
 
@@ -551,15 +545,11 @@ namespace ProtonPlus.Widgets {
 			wrapper_switcher.set_stack (wrapper_stack);
 			wrapper_switcher.set_halign (Gtk.Align.START);
 
-			wrapper_options_revealer = new Gtk.Revealer ();
-			wrapper_options_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
-			wrapper_options_revealer.set_child (wrapper_stack);
-
 			var wrapper_group = new PreferencesGroup ();
 			wrapper_group.title = _("Launch tools");
 			wrapper_group.description = _("Choose one to configure FPS caps, resolution, and other display options.");
 			wrapper_group.set_header_suffix (wrapper_switcher);
-			wrapper_group.add (wrapper_options_revealer);
+			wrapper_group.add (wrapper_stack);
 			append (wrapper_group);
 
 			// GPU vendor options
@@ -588,32 +578,24 @@ namespace ProtonPlus.Widgets {
 			gpu_vendor_switcher.set_stack (gpu_vendor_stack);
 			gpu_vendor_switcher.set_halign (Gtk.Align.START);
 
-			var gpu_vendor_group = new PreferencesGroup ();
+			gpu_vendor_group = new PreferencesGroup ();
 			gpu_vendor_group.title = _("GPU vendor options");
 			gpu_vendor_group.description = _("Use GPU-specific compatibility toggles for AMD and NVIDIA hardware.");
 			gpu_vendor_group.set_header_suffix (gpu_vendor_switcher);
 			gpu_vendor_group.add (gpu_vendor_stack);
-
-			gpu_vendor_options_revealer = new Gtk.Revealer ();
-			gpu_vendor_options_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
-			gpu_vendor_options_revealer.set_child (gpu_vendor_group);
-			append (gpu_vendor_options_revealer);
+			append (gpu_vendor_group);
 
 			// More options
 
 			vkbasalt_tile = create_common_tile (_("VKBasalt"), _("Adds visual effects like sharpening and color adjustments."), { "ENABLE_VKBASALT=1" });
 			wined3d_tile = create_common_tile (_("WineD3D"), _("Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."), { "PROTON_USE_WINED3D=1" });
 
-			var more_options_group = new PreferencesGroup ();
+			more_options_group = new PreferencesGroup ();
 			more_options_group.title = _("More options");
 			more_options_group.description = _("Extra graphics settings and launch behaviors.");
 			more_options_group.add (vkbasalt_tile);
 			more_options_group.add (wined3d_tile);
-
-			more_options_revealer = new Gtk.Revealer ();
-			more_options_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
-			more_options_revealer.set_child (more_options_group);
-			append (more_options_revealer);
+			append (more_options_group);
 
 			// Game arguments
 
@@ -623,7 +605,7 @@ namespace ProtonPlus.Widgets {
 			dx12_tile = create_game_argument_tile (_("DirectX 12"), _("Adds -dx12 to make the game use its DirectX 12 renderer."), { "-dx12" });
 			console_tile = create_game_argument_tile (_("Console"), _("Adds -console to open the game's developer console when supported."), { "-console" });
 
-			var game_arguments_group = new PreferencesGroup ();
+			game_arguments_group = new PreferencesGroup ();
 			game_arguments_group.title = _("Game arguments");
 			game_arguments_group.description = _("Flags passed directly to the game.");
 			game_arguments_group.add (skip_launcher_tile);
@@ -631,11 +613,7 @@ namespace ProtonPlus.Widgets {
 			game_arguments_group.add (dx11_tile);
 			game_arguments_group.add (dx12_tile);
 			game_arguments_group.add (console_tile);
-
-			game_arguments_revealer = new Gtk.Revealer ();
-			game_arguments_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
-			game_arguments_revealer.set_child (game_arguments_group);
-			append (game_arguments_revealer);
+			append (game_arguments_group);
 
 			// Advanced options
 
@@ -648,17 +626,14 @@ namespace ProtonPlus.Widgets {
 			additional_args_tile = new LaunchOptionTile (_("Custom launch arguments"), _("Add your own launch options."));
 			additional_args_tile.toggle.notify["active"].connect (additional_args_toggle_changed);
 
-			var advanced_options_group = new PreferencesGroup ();
+			advanced_options_group = new PreferencesGroup ();
+			advanced_options_group.set_margin_bottom (15);
 			advanced_options_group.title = _("Advanced options");
 			advanced_options_group.description = _("Extra control over the final Steam launch command.");
 			advanced_options_group.add (command_tile);
 			advanced_options_group.add (additional_args_tile);
 			advanced_options_group.add (additional_args_field);
-
-			advanced_options_revealer = new Gtk.Revealer ();
-			advanced_options_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
-			advanced_options_revealer.set_child (advanced_options_group);
-			append (advanced_options_revealer);
+			append (advanced_options_group);
 
 			set_selected_wrapper_mode (WrapperMode.NONE);
 			refresh_advanced_visibility ();
@@ -857,11 +832,7 @@ namespace ProtonPlus.Widgets {
 			gamescope_args_field = new LaunchOptionEntryField (_("Additional Gamescope arguments"), _("Keeps extra Gamescope flags such as output or resolution tweaks."), _("Add Gamescope arguments"));
 			gamescope_args_field.value_applied.connect (standard_control_changed);
 
-			gamescope_advanced_revealer = new Gtk.Revealer ();
-			gamescope_advanced_revealer.set_transition_type (Gtk.RevealerTransitionType.SLIDE_DOWN);
-			gamescope_advanced_revealer.set_child (gamescope_args_field);
-
-			group.add (gamescope_advanced_revealer);
+			group.add (gamescope_args_field);
 
 			return group;
 		}
@@ -951,15 +922,15 @@ namespace ProtonPlus.Widgets {
 
 		void refresh_advanced_visibility () {
 			var is_advanced = advanced_visible;
-			preview_revealer.set_reveal_child (is_advanced);
-			more_options_revealer.set_reveal_child (is_advanced);
-			gpu_vendor_options_revealer.set_reveal_child (is_advanced);
-			game_arguments_revealer.set_reveal_child (is_advanced);
-			gamescope_advanced_revealer.set_reveal_child (is_advanced);
+			preview_field.set_visible (is_advanced);
+			more_options_group.set_visible (is_advanced);
+			gpu_vendor_group.set_visible (is_advanced);
+			game_arguments_group.set_visible (is_advanced);
+			gamescope_args_field.set_visible (is_advanced);
 			scopebuddy_args_field.set_visible (is_advanced);
-			advanced_options_revealer.set_reveal_child (is_advanced);
+			advanced_options_group.set_visible (is_advanced);
 			additional_args_field.set_visible (is_advanced && additional_args_tile.toggle.get_active ());
-			wrapper_options_revealer.set_reveal_child (true);
+			wrapper_stack.set_visible (true);
 		}
 
 		void additional_args_toggle_changed () {
