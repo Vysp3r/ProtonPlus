@@ -72,7 +72,7 @@ namespace ProtonPlus.Utils {
         }
 
         public static async bool check_dependency (string name) {
-            return (yield run_command (@"which $name")) == "" ? false : true;
+            return (yield run_command (@"which $name")).contains("which: no") ? false : true;
         }
 
         public static async string get_distribution_name () {
