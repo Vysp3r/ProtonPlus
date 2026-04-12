@@ -1,161 +1,210 @@
 namespace ProtonPlus.Widgets {
-    public class SteamTinkerLaunchRow : ReleaseRow {
-        Models.Releases.SteamTinkerLaunch release;
+	public class SteamTinkerLaunchRow : ReleaseRow {
+		Models.Releases.SteamTinkerLaunch release;
 
-        public SteamTinkerLaunchRow (Models.Releases.SteamTinkerLaunch release) {
-            this.release = release;
+		public SteamTinkerLaunchRow (Models.Releases.SteamTinkerLaunch release) {
+			this.release = release;
 
-            update_button.set_tooltip_text (_ ("Update to the latest version"));
+			update_button.set_tooltip_text (_("Update to the latest version"));
 
-            if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
-                input_box.remove (install_button);
-                input_box.remove (remove_button);
-                input_box.remove (update_button);
-            } else {
-                input_box.remove (info_button);
-            }
+			if (release.runner.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
+				input_box.remove (install_button);
+				input_box.remove (remove_button);
+				input_box.remove (update_button);
+			} else {
+				input_box.remove (info_button);
+			}
 
-            release.notify["displayed-title"].connect (release_displayed_title_changed);
+			release.notify["displayed-title"].connect (release_displayed_title_changed);
 
-            release_displayed_title_changed ();
+			release_displayed_title_changed ();
 
-            release.notify["state"].connect (release_state_changed);
+			release.notify["state"].connect (release_state_changed);
 
-            release_state_changed ();
-        }
+			release_state_changed ();
 
-        protected override void update_button_clicked () {
-            var upgrade_dialog = new UpgradeDialog (release);
-            upgrade_dialog.present (Application.window);
-        }
+			Models.DownloadManager.instance.download_added.connect (on_download_status_changed);
+			Models.DownloadManager.instance.download_removed.connect (on_download_status_changed);
+		}
 
-        protected override void install_button_clicked () {
-        // Steam Deck doesn't need any external dependencies.
-            if (!Globals.IS_STEAM_OS) {
-                dependency_check.begin ((obj, res) => {
-                    var missing_dependencies = dependency_check.end (res);
+		private void on_download_status_changed (Models.Release<Models.Parameters> added_release) {
+			if (added_release.download_url == release.download_url && added_release.title == release.title) {
+				release_state_changed ();
+			}
+		}
 
-                    if (missing_dependencies != "") {
-                        var alert_dialog = new WarningDialog (_ ("Warning"), "%s\n\n%s\n%s".printf (_ ("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _ ("Installation will be canceled.")));
-                        alert_dialog.present (Widgets.Application.window);
+		protected override void update_button_clicked () {
+			release.upgrade.begin ((obj, res) => {
+				var success = release.upgrade.end (res);
+				if (!success && !release.canceled) {
+					var dialog = new ErrorDialog (_("Couldn't upgrade %s").printf (release.title),  _("Please report this issue on GitHub."));
+					dialog.present (Application.window);
+				}
+			});
+			Application.window.show_downloads_page ();
+		}
 
-                        return;
-                    } else {
-                        external_install_check ();
-                    }
-                });
-            } else {
-                external_install_check ();
-            }
-        }
+		protected override void install_button_clicked () {
+			// Steam Deck doesn't need any external dependencies.
+			if (!Globals.IS_STEAM_OS) {
+				dependency_check.begin ((obj, res) => {
+					var missing_dependencies = dependency_check.end (res);
 
-        async string dependency_check () {
-            var missing_dependencies = "";
+					if (missing_dependencies != "") {
+						var alert_dialog = new WarningDialog (_("Warning"), "%s\n\n%s\n%s".printf (_("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _("Installation will be canceled.")));
+						alert_dialog.present (Widgets.Application.window);
 
-            var yad_installed = false;
-            if (yield Utils.System.check_dependency ("yad")) {
-                string yad_version_output = yield Utils.System.run_command ("yad --version");
+						return;
+					} else {
+						external_install_check ();
+					}
+				});
+			} else {
+				external_install_check ();
+			}
+		}
 
-                float version = float.parse (yad_version_output.split (" ")[0]);
-                yad_installed = version >= 7.2;
-            }
-            if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
+		async string dependency_check () {
+			var missing_dependencies = "";
 
-            if (!(yield Utils.System.check_dependency ("awk")) && !(yield Utils.System.check_dependency ("gawk")))missing_dependencies += "awk/gawk\n";
-            if (!(yield Utils.System.check_dependency ("git")))missing_dependencies += "git\n";
-            if (!(yield Utils.System.check_dependency ("pgrep")))missing_dependencies += "pgrep\n";
-            if (!(yield Utils.System.check_dependency ("unzip")))missing_dependencies += "unzip\n";
-            if (!(yield Utils.System.check_dependency ("wget")))missing_dependencies += "wget\n";
-            if (!(yield Utils.System.check_dependency ("xdotool")))missing_dependencies += "xdotool\n";
-            if (!(yield Utils.System.check_dependency ("xprop")))missing_dependencies += "xprop\n";
-            if (!(yield Utils.System.check_dependency ("xrandr")))missing_dependencies += "xrandr\n";
-            if (!(yield Utils.System.check_dependency ("xxd")))missing_dependencies += "xxd\n";
-            if (!(yield Utils.System.check_dependency ("xwininfo")))missing_dependencies += "xwininfo\n";
+			var yad_installed = false;
+			if (yield Utils.System.check_dependency ("yad")) {
+				string yad_version_output = yield Utils.System.run_command ("yad --version");
 
-            return missing_dependencies;
-        }
+				float version = float.parse (yad_version_output.split (" ")[0]);
+				yad_installed = version >= 7.2;
+			}
+			if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
 
-        void external_install_check () {
-            var has_external_install = release.detect_external_locations ();
+			if (!(yield Utils.System.check_dependency ("awk")) && !(yield Utils.System.check_dependency ("gawk")))missing_dependencies += "awk/gawk\n";
+			if (!(yield Utils.System.check_dependency ("git")))missing_dependencies += "git\n";
+			if (!(yield Utils.System.check_dependency ("pgrep")))missing_dependencies += "pgrep\n";
+			if (!(yield Utils.System.check_dependency ("unzip")))missing_dependencies += "unzip\n";
+			if (!(yield Utils.System.check_dependency ("wget")))missing_dependencies += "wget\n";
+			if (!(yield Utils.System.check_dependency ("xdotool")))missing_dependencies += "xdotool\n";
+			if (!(yield Utils.System.check_dependency ("xprop")))missing_dependencies += "xprop\n";
+			if (!(yield Utils.System.check_dependency ("xrandr")))missing_dependencies += "xrandr\n";
+			if (!(yield Utils.System.check_dependency ("xxd")))missing_dependencies += "xxd\n";
+			if (!(yield Utils.System.check_dependency ("xwininfo")))missing_dependencies += "xwininfo\n";
 
-            if (has_external_install) {
-                var alert_dialog = new Adw.AlertDialog (_ ("Warning"), "%s\n\n%s".printf (_ ("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title.split (" ")[0]), _ ("Do you want to reinstall it with ProtonPlus?")));
+			return missing_dependencies;
+		}
 
-                alert_dialog.add_response ("no", _ ("No"));
-                alert_dialog.add_response ("yes", _ ("Yes"));
+		void external_install_check () {
+			var has_external_install = release.detect_external_locations ();
 
-                alert_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
-                alert_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
+			if (has_external_install) {
+				var alert_dialog = new Adw.AlertDialog (_("Warning"), "%s\n\n%s".printf (_("It looks like you currently have another version of %s which was not installed by ProtonPlus.").printf (title.split (" ")[0]), _("Do you want to reinstall it with ProtonPlus?")));
 
-                alert_dialog.choose.begin (Widgets.Application.window, null, (obj, res) => {
-                    string response = alert_dialog.choose.end (res);
+				alert_dialog.add_response ("no", _("No"));
+				alert_dialog.add_response ("yes", _("Yes"));
 
-                    if (response == "yes")
-                    start_install ();
-                });
-            } else {
-                start_install ();
-            }
-        }
+				alert_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
+				alert_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
 
-        void start_install () {
-            var install_dialog = new InstallDialog (release);
-            install_dialog.present (Application.window);
-        }
+				alert_dialog.choose.begin (Widgets.Application.window, null, (obj, res) => {
+					string response = alert_dialog.choose.end (res);
 
-        protected override void remove_button_clicked () {
-            var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
-            parameters.delete_config = false;
-            parameters.user_request = true;
+					if (response == "yes")
+						start_install ();
+				});
+			} else {
+				start_install ();
+			}
+		}
 
-            var remove_config_check = new Gtk.CheckButton.with_label (_ ("Check this to also delete your configuration files."));
-            remove_config_check.activate.connect (() => {
-                parameters.delete_config = remove_config_check.get_active ();
-            });
+		void start_install () {
+			release.install.begin ((obj, res) => {
+				var success = release.install.end (res);
+				if (!success && !release.canceled) {
+					var dialog = new ErrorDialog (_("Couldn't install %s").printf (release.title), _("Please report this issue on GitHub."));
+					dialog.present (Application.window);
+				}
+			});
+			Application.window.show_downloads_page ();
+		}
 
-            var remove_dialog = new RemoveDialog (release, parameters);
-            remove_dialog.set_extra_child (remove_config_check);
-            remove_dialog.present (Application.window);
-        }
+		protected override void remove_button_clicked () {
+			var parameters = new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ();
+			parameters.delete_config = false;
+			parameters.user_request = true;
 
-        protected override void info_button_clicked () {
-            Adw.AlertDialog? alert_dialog = null;
-            switch (release.runner.group.launcher.installation_type) {
-                case Models.Launcher.InstallationTypes.FLATPAK :
-                    var command_label = new Gtk.Label ("flatpak install com.valvesoftware.Steam.Utility.steamtinkerlaunch");
-                    command_label.set_selectable (true);
-                    alert_dialog = new WarningDialog (_ ("Warning"), _ ("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
-                    alert_dialog.set_extra_child (command_label);
-                    break;
-                case Models.Launcher.InstallationTypes.SNAP:
-                    alert_dialog = new WarningDialog (_ ("Warning"), _ ("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
-                    break;
-                default:
-                    break;
-            }
+			var remove_config_check = new Gtk.CheckButton.with_label (_("Check this to also delete your configuration files."));
+			remove_config_check.activate.connect (() => {
+				parameters.delete_config = remove_config_check.get_active ();
+			});
 
-            if (alert_dialog != null)
-            alert_dialog.present (Application.window);
-        }
+			var remove_dialog = new RemoveDialog (release, parameters);
+			remove_dialog.set_extra_child (remove_config_check);
+			remove_dialog.present (Application.window);
+		}
 
-        protected override void open_button_clicked () {
-            Utils.System.open_uri ("file://%s".printf (release.base_location));
-        }
+		protected override void info_button_clicked () {
+			Adw.AlertDialog? alert_dialog = null;
+			switch (release.runner.group.launcher.installation_type) {
+			case Models.Launcher.InstallationTypes.FLATPAK :
+				var command_label = new Gtk.Label ("flatpak install com.valvesoftware.Steam.Utility.steamtinkerlaunch");
+				command_label.set_selectable (true);
+				alert_dialog = new WarningDialog (_("Warning"), _("To install %s for the %s, please run the following command:").printf (release.title, "Steam Flatpak"));
+				alert_dialog.set_extra_child (command_label);
+				break;
+			case Models.Launcher.InstallationTypes.SNAP:
+				alert_dialog = new WarningDialog (_("Warning"), _("There's currently no known way for us to install %s for the %s.").printf (release.title, "Steam Snap"));
+				break;
+			default:
+				break;
+			}
 
-        void release_displayed_title_changed () {
-            set_title (release.displayed_title);
+			if (alert_dialog != null)
+				alert_dialog.present (Application.window);
+		}
 
-            only_show ();
-        }
+		protected override void open_button_clicked () {
+			Utils.System.open_uri ("file://%s".printf (release.base_location));
+		}
 
-        void release_state_changed () {
-            var installed = release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
-            var updated = release.state == Models.Release.State.UP_TO_DATE;
+		void release_displayed_title_changed () {
+			set_title (release.displayed_title);
 
-            install_button.set_visible (!installed);
-            remove_button.set_visible (installed);
-            update_button.set_visible (installed && !updated);
-            open_button.set_visible (installed);
-        }
-    }
+			only_show();
+		}
+
+		void release_state_changed () {
+			var installed = release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
+			var updated = release.state == Models.Release.State.UP_TO_DATE;
+			var busy = release.state == Models.Release.State.BUSY_INSTALLING ||
+						release.state == Models.Release.State.BUSY_REMOVING ||
+						release.state == Models.Release.State.BUSY_UPGRADING;
+
+			install_button.set_visible (!installed);
+			remove_button.set_visible (installed);
+			update_button.set_visible (installed && !updated);
+			open_button.set_visible (installed);
+
+			install_button.set_sensitive (!busy);
+			remove_button.set_sensitive (!busy);
+			update_button.set_sensitive (!busy);
+			open_button.set_sensitive (!busy);
+
+			if (busy) {
+				var tooltip_text = _("This tool is currently being installed");
+				if (Models.DownloadManager.instance.is_downloading (release))
+					tooltip_text = _("This tool is currently being downloaded");
+				if (release.state == Models.Release.State.BUSY_REMOVING)
+					tooltip_text = _("This tool is currently being removed");
+				if (release.state == Models.Release.State.BUSY_UPGRADING)
+					tooltip_text = _("This tool is currently being upgraded");
+
+				install_button.set_tooltip_text (tooltip_text);
+				remove_button.set_tooltip_text (tooltip_text);
+				update_button.set_tooltip_text (tooltip_text);
+				open_button.set_tooltip_text (tooltip_text);
+			} else {
+				install_button.set_tooltip_text (_("Install %s").printf (release.title));
+				remove_button.set_tooltip_text (_("Delete %s").printf (release.title));
+				update_button.set_tooltip_text (_("Update to the latest version"));
+				open_button.set_tooltip_text (_("Open runner directory"));
+			}
+		}
+	}
 }

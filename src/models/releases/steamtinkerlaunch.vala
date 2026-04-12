@@ -126,6 +126,7 @@ namespace ProtonPlus.Models.Releases {
             }
 
             latest_hash = commit_obj.get_string_member_with_default ("sha", "");
+            download_url = get_download_url ();
         }
 
         void write_installation_metadata (string meta_location) {
@@ -180,8 +181,6 @@ namespace ProtonPlus.Models.Releases {
                     else if (latest_hash != "")
                     updated = latest_hash == local_hash;
             }
-
-            canceled = false;
 
             step = Step.NOTHING;
 
