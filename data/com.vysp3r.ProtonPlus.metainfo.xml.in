@@ -32,7 +32,6 @@
       <li>Proton CachyOS</li>
       <li>Proton EM</li>
       <li>Proton Tkg</li>
-      <li>Proton Sarek</li>
       <li>Kron4ek Wine-Builds Proton</li>
       <li>Kron4ek Wine-Builds Vanilla</li>
       <li>Kron4ek Wine-Builds Staging</li>
@@ -93,11 +92,34 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.18" date="2026-04-12">
+      <description>
+        <ul>
+          <li>✨ Improved the launch options, mass edit and default compatibility tool view</li>
+          <li>✨ Removed Proton-Sarek</li>
+          <li>🐛 Fixed a few typos</li>
+          <li>🐛 Fixed broken icons</li>
+          <li>🐛 Fixed XDG base directory specification</li>
+          <li>🐛 Fixed Proton-CachyOS (Temporary fix)</li>
+          <li>🐛 Fixed Latest releases for Bottles</li>
+          <li>🐛 Fixed updates not preserving symlink for user_settings.py</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Updated Polish localization</li>
+          <li>🌐 Updated French localization</li>
+          <li>🌐 Updated Chinese localization</li>
+          <li>🌐 Updated Portuguese localization</li>
+          <li>🌐 Updated Japanese localization</li>
+          <li>🌐 Updated Indonesian localization</li>
+          <li>🌐 Updated Spanish localization</li>
+          <li>🌐 Updated Ukrainian localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.17" date="2026-02-21">
       <description>
         <ul>
           <li>✨ Added CLI support</li>
-          <li>🐛 Fix Lutris install directory for Proton runners</li>
+          <li>🐛 Fixed Lutris install directory for Proton runners</li>
           <li>🐛 Fixed unnecessary re-downloads of the same runner as an "update"</li>
           <li>🌐 Updated Portuguese localization</li>
           <li>🌐 Added Vietnamese localization</li>
