@@ -13,14 +13,6 @@ namespace ProtonPlus.Widgets {
 				input_box.remove (info_button);
 
 			if (release.title.contains ("Latest")) {
-				remove_button.set_sensitive (!Application.window.updating);
-				update_button.set_sensitive (!Application.window.updating);
-
-				Application.window.notify["updating"].connect(() => {
-					remove_button.set_sensitive (!Application.window.updating);
-					update_button.set_sensitive (!Application.window.updating);
-				});
-
 				set_subtitle (_("This version will get automatically updated when there's an update available each time your launch the application if automatic updates is enabled"));
 			} else {
 				input_box.remove (update_button);
@@ -31,8 +23,18 @@ namespace ProtonPlus.Widgets {
 			release_displayed_title_changed ();
 
 			release.notify["state"].connect (release_state_changed);
+			Application.window.notify["updating"].connect (release_state_changed);
 
 			release_state_changed ();
+
+			Models.DownloadManager.instance.download_added.connect (on_download_status_changed);
+			Models.DownloadManager.instance.download_removed.connect (on_download_status_changed);
+		}
+
+		private void on_download_status_changed (Models.Release<Models.Parameters> added_release) {
+			if (added_release.download_url == release.download_url && added_release.title == release.title) {
+				release_state_changed ();
+			}
 		}
 
 		protected override void update_button_clicked () {
@@ -44,8 +46,14 @@ namespace ProtonPlus.Widgets {
 		}
 
 		protected override void install_button_clicked () {
-			var install_dialog = new InstallDialog (release);
-			install_dialog.present (Application.window);
+			release.install.begin ((obj, res) => {
+				var success = release.install.end (res);
+				if (!success && !release.canceled) {
+					var dialog = new ErrorDialog (_("Couldn't install %s").printf (release.title), _("Please report this issue on GitHub."));
+					dialog.present (Application.window);
+				}
+			});
+			Application.window.show_downloads_page ();
 		}
 
 		protected override void remove_button_clicked () {
@@ -71,11 +79,51 @@ namespace ProtonPlus.Widgets {
 
 		void release_state_changed () {
 			var installed = release.state == Models.Release.State.UP_TO_DATE;
+			var busy = release.state == Models.Release.State.BUSY_INSTALLING ||
+						release.state == Models.Release.State.BUSY_REMOVING ||
+						release.state == Models.Release.State.BUSY_UPGRADING;
 
 			install_button.set_visible (!installed);
 			remove_button.set_visible (installed);
 			open_button.set_visible (installed);
 			update_button.set_visible (installed);
+
+			install_button.set_sensitive (!busy);
+			open_button.set_sensitive (!busy);
+
+			if (release.title.contains ("Latest")) {
+				remove_button.set_sensitive (!busy && !Application.window.updating);
+				update_button.set_sensitive (!busy && !Application.window.updating);
+			} else {
+				remove_button.set_sensitive (!busy);
+				update_button.set_sensitive (!busy);
+			}
+
+			if (busy) {
+				var tooltip_text = _("This tool is currently being installed");
+				if (Models.DownloadManager.instance.is_downloading (release))
+					tooltip_text = _("This tool is currently being downloaded");
+				if (release.state == Models.Release.State.BUSY_REMOVING)
+					tooltip_text = _("This tool is currently being removed");
+				if (release.state == Models.Release.State.BUSY_UPGRADING)
+					tooltip_text = _("This tool is currently being upgraded");
+
+				install_button.set_tooltip_text (tooltip_text);
+				remove_button.set_tooltip_text (tooltip_text);
+				update_button.set_tooltip_text (tooltip_text);
+				open_button.set_tooltip_text (tooltip_text);
+			} else {
+				install_button.set_tooltip_text (_("Install %s").printf (release.title));
+				remove_button.set_tooltip_text (_("Delete %s").printf (release.title));
+				update_button.set_tooltip_text (_("Update the runner if a newer version is available"));
+				open_button.set_tooltip_text (_("Open runner directory"));
+
+				if (Application.window.updating && release.title.contains ("Latest")) {
+					var updating_text = _("The application is currently updating its runners");
+					remove_button.set_tooltip_text (updating_text);
+					update_button.set_tooltip_text (updating_text);
+				}
+			}
 		}
 	}
 }

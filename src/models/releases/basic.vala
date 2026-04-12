@@ -38,8 +38,6 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override void refresh_state () {
-            canceled = false;
-
             step = Step.NOTHING;
 
             var directory_name = ((Runners.Basic)runner).get_directory_name (title);

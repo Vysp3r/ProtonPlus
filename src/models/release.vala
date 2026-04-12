@@ -11,6 +11,18 @@ namespace ProtonPlus.Models {
 		public string progress { get; set; }
 		public double speed_kbps { get; set; }
 		public double? seconds_remaining { get; set; }
+		
+		private State _state;
+		public State state { 
+			get {
+				if (_state != State.BUSY_INSTALLING && _state != State.BUSY_REMOVING && _state != State.BUSY_UPGRADING && DownloadManager.instance.is_downloading ((Release<Parameters>) this))
+					return State.BUSY_INSTALLING;
+				return _state; 
+			}
+			set {
+				_state = value;
+			}
+		}
 
 		public Step step { get; set; }
 		public enum Step {
@@ -20,8 +32,6 @@ namespace ProtonPlus.Models {
 			MOVING,
 			REMOVING,
 		}
-
-		public State state { get; set; }
 		public enum State {
 			NOT_INSTALLED,
 			UPDATE_AVAILABLE,
@@ -32,16 +42,25 @@ namespace ProtonPlus.Models {
 		}
 
 		public async bool install () {
+			if (DownloadManager.instance.is_downloading ((Release<Parameters>) this))
+				return false;
+
+			canceled = false;
+
 			var busy_upgrading = state == State.BUSY_UPGRADING;
 
 			if (!busy_upgrading)
 				state = State.BUSY_INSTALLING;
 
+			DownloadManager.instance.add_download ((Release<Parameters>) this);
+
 			// Attempt the installation.
 			var install_success = yield _start_install ();
 
+			DownloadManager.instance.remove_download ((Release<Parameters>) this);
+
 			if (!install_success)
-				yield remove (new Models.Parameters ()); // Refreshes install state too.
+				yield remove ((R) new Models.Parameters ()); // Refreshes install state too.
 
 			if (!busy_upgrading)
 				refresh_state (); // Force UI state refresh.
@@ -54,8 +73,10 @@ namespace ProtonPlus.Models {
 		public async bool remove (R parameters) {
 			var busy_upgrading_or_installing = state == State.BUSY_UPGRADING || state == State.BUSY_INSTALLING;
 
-			if (!busy_upgrading_or_installing)
+			if (!busy_upgrading_or_installing) {
+				canceled = false;
 				state = State.BUSY_REMOVING;
+			}
 
 			// Attempt the removal.
 			var remove_success = yield _start_remove (parameters);

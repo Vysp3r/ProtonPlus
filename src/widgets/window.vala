@@ -8,6 +8,7 @@ namespace ProtonPlus.Widgets {
 		StatusBox status_box;
 		RunnersBox runners_box;
 		GamesBox games_box;
+		DownloadsBox downloads_box;
 
 		LaunchersPopoverButton launchers_popover_button;
 		UpdateButton update_button;
@@ -41,6 +42,8 @@ namespace ProtonPlus.Widgets {
 
 			games_box = new GamesBox ();
 
+			downloads_box = new DownloadsBox ();
+
 			launchers_popover_button = new LaunchersPopoverButton ();
 
 			update_button = new UpdateButton ();
@@ -58,8 +61,9 @@ namespace ProtonPlus.Widgets {
 			menu_button.set_menu_model (menu);
 
 			view_stack = new Adw.ViewStack ();
-			view_stack.add_titled_with_icon (runners_box, "runners", _("Runners"), "system-run-symbolic");
+			view_stack.add_titled_with_icon (runners_box, "tools", _("Tools"), "toolbox-symbolic");
 			view_stack.add_titled_with_icon (games_box, "games", _("Games"), "game-library-symbolic");
+			view_stack.add_titled_with_icon (downloads_box, "downloads", _("Downloads"), "download-symbolic");
 			view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
 
 			toast_overlay = new Adw.ToastOverlay ();
@@ -281,6 +285,10 @@ namespace ProtonPlus.Widgets {
 
 		void show_games_list_page () {
 			content_stack.set_visible_child_name ("main");
+		}
+		
+		public void show_downloads_page () {
+			view_stack.set_visible_child_name ("downloads");
 		}
 	}
 }
