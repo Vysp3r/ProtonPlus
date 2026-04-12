@@ -1,100 +1,70 @@
 namespace ProtonPlus.Utils {
     public class System {
         public static async string run_command (string command) {
-            SourceFunc callback = run_command.callback;
-
             string output = "";
-            new Thread<void> ("run-command", () => {
-                try {
-                    string command_line = "";
-                    if (Globals.IS_FLATPAK)
-                        command_line += "flatpak-spawn --host ";
-                    command_line += command;
+            try {
+                string command_line = "";
+                if (Globals.IS_FLATPAK)
+                    command_line += "flatpak-spawn --host ";
+                command_line += command;
 
-                    var valid = Process.spawn_command_line_sync (command_line, out output, null, null);
-                    if (!valid)
-                        output = "";
-                } catch (Error e) {
-                    warning (e.message);
+                string[] argv;
+                Shell.parse_argv (command_line, out argv);
+
+                var subprocess = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
+                Bytes stdout_bytes;
+                yield subprocess.communicate_async (null, null, out stdout_bytes, null);
+
+                if (stdout_bytes != null) {
+                    unowned uint8[] data = stdout_bytes.get_data ();
+                    char[] str_data = new char[data.length + 1];
+                    Memory.copy (str_data, data, data.length);
+                    str_data[data.length] = '\0';
+                    output = (string) str_data;
                 }
+            } catch (Error e) {
+                warning (e.message);
+            }
 
-                Idle.add ((owned) callback, Priority.DEFAULT);
-            });
-
-            yield;
             return output;
         }
 
         public static List<string> get_hwcaps () {
             var hwcaps = new List<string> ();
-
-            // flags according to https://gitlab.com/x86-psABIs/x86-64-ABI/-/blob/master/x86-64-ABI/low-level-sys-info.tex
-            var flags_v2 = new List<string> ();
-            flags_v2.append ("sse4_1");
-            flags_v2.append ("sse4_2");
-            flags_v2.append ("ssse3");
-
-            var flags_v3 = new List<string> ();
-            foreach (var flag in flags_v2)
-                flags_v3.append (flag);
-            flags_v3.append ("avx");
-            flags_v3.append ("avx2");
-
-            var flags_v4 = new List<string> ();
-            foreach (var flag in flags_v3)
-                flags_v4.append (flag);
-            flags_v4.append ("avx512f");
-            flags_v4.append ("avx512bw");
-            flags_v4.append ("avx512cd");
-            flags_v4.append ("avx512dq");
-            flags_v4.append ("avx512vl");
-
             string flags = "";
 
             try {
-                // Open the file for reading
                 File file = File.new_for_path ("/proc/cpuinfo");
-                InputStream input_stream = file.read ();
-                DataInputStream dis = new DataInputStream (input_stream);
+                if (file.query_exists ()) {
+                    InputStream input_stream = file.read ();
+                    DataInputStream dis = new DataInputStream (input_stream);
 
-                // Read lines from the input stream
-                string? line;
-                while ((line = dis.read_line ()) != null) {
-                    if (line.slice (0, 5) == "flags") {
-                        flags = line;
-                        break;
+                    string? line;
+                    while ((line = dis.read_line ()) != null) {
+                        if (line.has_prefix ("flags")) {
+                            flags = line;
+                            break;
+                        }
                     }
                 }
-
-                // Close the input stream
-                input_stream.close ();
             } catch (Error e) {
                 warning ("Error: %s\n", e.message);
             }
 
-            int count = 0;
-            foreach (var flag in flags_v4) {
-                if (flags.contains (flag))
-                    count++;
-            }
-            if (flags_v4.length () == count)
-                hwcaps.append ("x86_64_v4");
+            if (flags != "") {
+                string[] f = flags.split (" ");
+                var flag_set = new Gee.HashSet<string> ();
+                foreach (var s in f)
+                    flag_set.add (s);
 
-            count = 0;
-            foreach (var flag in flags_v3) {
-                if (flags.contains (flag))
-                    count++;
-            }
-            if (flags_v3.length () == count)
-                hwcaps.append ("x86_64_v3");
+                bool has_v2 = flag_set.contains ("sse4_1") && flag_set.contains ("sse4_2") && flag_set.contains ("ssse3");
+                bool has_v3 = has_v2 && flag_set.contains ("avx") && flag_set.contains ("avx2");
+                bool has_v4 = has_v3 && flag_set.contains ("avx512f") && flag_set.contains ("avx512bw") && flag_set.contains ("avx512cd") && flag_set.contains ("avx512dq") && flag_set.contains ("avx512vl");
 
-            count = 0;
-            foreach (var flag in flags_v2) {
-                if (flags.contains (flag))
-                    count++;
+                if (has_v4) hwcaps.append ("x86_64_v4");
+                if (has_v3) hwcaps.append ("x86_64_v3");
+                if (has_v2) hwcaps.append ("x86_64_v2");
             }
-            if (flags_v2.length () == count)
-                hwcaps.append ("x86_64_v2");
 
             hwcaps.append ("x86_64");
 
@@ -106,12 +76,25 @@ namespace ProtonPlus.Utils {
         }
 
         public static async string get_distribution_name () {
-            var distro_info = (yield run_command ("cat /etc/lsb-release /etc/os-release")).split ("\n", 1)[0];
+            string distro_name = "Unknown";
+            try {
+                var file = File.new_for_path ("/etc/os-release");
+                if (!file.query_exists ())
+                    file = File.new_for_path ("/usr/lib/os-release");
 
-            var distro_name = "Unknown";
-            MatchInfo m;
-            if (/^NAME="\s*(.+?)\s*"/m.match (distro_info, 0, out m))
-                distro_name = m.fetch (1);
+                if (file.query_exists ()) {
+                    var dis = new DataInputStream (file.read ());
+                    string line;
+                    while ((line = dis.read_line ()) != null) {
+                        if (line.has_prefix ("NAME=")) {
+                            distro_name = line.substring (5).replace ("\"", "").replace ("'", "");
+                            break;
+                        }
+                    }
+                }
+            } catch (Error e) {
+                warning (e.message);
+            }
 
             return distro_name;
         }

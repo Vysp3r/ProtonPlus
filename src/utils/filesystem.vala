@@ -27,7 +27,10 @@ namespace ProtonPlus.Utils {
                 ext.set_standard_lookup ();
                 ext.set_options (flags);
 
-                if (archive.open_filename (install_location + tool_name + extension, bufferSize) != Archive.Result.OK)return;
+                if (archive.open_filename (install_location + tool_name + extension, bufferSize) != Archive.Result.OK) {
+                    Idle.add ((owned) callback, Priority.DEFAULT);
+                    return;
+                }
 
                 ssize_t r;
 
@@ -41,7 +44,10 @@ namespace ProtonPlus.Utils {
                     r = archive.next_header (out entry);
                     if (r == Archive.Result.EOF)break;
                     if (r < Archive.Result.OK)stderr.printf (ext.error_string ());
-                    if (r < Archive.Result.WARN)return;
+                    if (r < Archive.Result.WARN) {
+                        Idle.add ((owned) callback, Priority.DEFAULT);
+                        return;
+                    }
                     if (firstRun) {
                         sourcePath = entry.pathname ();
                         firstRun = false;
@@ -51,11 +57,17 @@ namespace ProtonPlus.Utils {
                     if (r < Archive.Result.OK)stderr.printf (ext.error_string ());
                     else if (entry.size () > 0) {
                         r = copy_data (archive, ext);
-                        if (r < Archive.Result.WARN)return;
+                        if (r < Archive.Result.WARN) {
+                            Idle.add ((owned) callback, Priority.DEFAULT);
+                            return;
+                        }
                     }
                     r = ext.finish_entry ();
                     if (r < Archive.Result.OK)stderr.printf (ext.error_string ());
-                    if (r < Archive.Result.WARN)return;
+                    if (r < Archive.Result.WARN) {
+                        Idle.add ((owned) callback, Priority.DEFAULT);
+                        return;
+                    }
                 }
 
                 archive.close ();
@@ -95,17 +107,7 @@ namespace ProtonPlus.Utils {
         }
 
         public static string convert_bytes_to_string (int64 size) {
-            // NOTE: These are technically GiB, MiB and KiB, but we omit that
-            // letter to save some space since people will understand anyway.
-            if (size >= 1073741824) { // 1024 * 1024 * 1024.
-                return "%.2f GB".printf ((double) size / (1073741824));
-            } else if (size >= 1048576) { // 1024 * 1024.
-                return "%.2f MB".printf ((double) size / (1048576));
-            } else if (size >= 1024) {
-                return "%.2f KB".printf ((double) size / (1024));
-            } else {
-                return "%lld B".printf (size);
-            }
+            return format_size (size);
         }
 
         public async static bool make_symlink (string link_location, string target_path) {

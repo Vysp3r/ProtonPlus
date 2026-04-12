@@ -52,15 +52,15 @@ namespace ProtonPlus.Models {
 		protected abstract async bool _start_install ();
 
 		public async bool remove (R parameters) {
-			var busy_upgrading_or_instaling = state == State.BUSY_UPGRADING || state == State.BUSY_INSTALLING;
+			var busy_upgrading_or_installing = state == State.BUSY_UPGRADING || state == State.BUSY_INSTALLING;
 
-			if (!busy_upgrading_or_instaling)
+			if (!busy_upgrading_or_installing)
 				state = State.BUSY_REMOVING;
 
 			// Attempt the removal.
 			var remove_success = yield _start_remove (parameters);
 
-			if (!busy_upgrading_or_instaling)
+			if (!busy_upgrading_or_installing)
 				refresh_state (); // Force UI state refresh.
 
 			return remove_success;

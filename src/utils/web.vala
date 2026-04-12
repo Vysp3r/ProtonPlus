@@ -8,15 +8,20 @@ namespace ProtonPlus.Utils {
             STEAMTINKERLAUNCH,
         }
 
-        static string get_user_agent () {
-            return Config.APP_NAME + "/" + Config.APP_VERSION;
+        static Soup.Session? _session = null;
+        static Soup.Session session {
+            get {
+                if (_session == null) {
+                    _session = new Soup.Session ();
+                    _session.user_agent = Config.APP_NAME + "/" + Config.APP_VERSION;;
+                }
+                return _session;
+            }
         }
 
         public static async ReturnCode get_request (string uri, GetType get_type = GetType.OTHER, out string? response) {
+            response = null;
             try {
-                var session = new Soup.Session ();
-                session.set_user_agent (get_user_agent ());
-
                 var message = new Soup.Message ("GET", uri);
 
                 if (Globals.SETTINGS != null) {
@@ -40,7 +45,11 @@ namespace ProtonPlus.Utils {
 
                 Bytes bytes = yield session.send_and_read_async (message, Priority.DEFAULT, null);
 
-                response = (string) bytes.get_data ();
+                unowned uint8[] data = bytes.get_data ();
+                char[] str_data = new char[data.length + 1];
+                Memory.copy (str_data, data, data.length);
+                str_data[data.length] = '\0';
+                response = (string) str_data;
 
                 if (response == null)
                     return ReturnCode.UNKNOWN_ERROR;
@@ -86,9 +95,6 @@ namespace ProtonPlus.Utils {
 
         public static async bool Download (string url, string path, cancel_callback? cancel_callback = null, progress_callback? progress_callback = null) {
             try {
-                var session = new Soup.Session ();
-                session.set_user_agent (get_user_agent ());
-
                 var soup_message = new Soup.Message ("GET", url);
 
                 var input_stream = yield session.send_async (soup_message, Priority.DEFAULT, null);
@@ -136,7 +142,8 @@ namespace ProtonPlus.Utils {
                     if (chunk.get_size () == 0)
                         break;
 
-                    bytes_downloaded += output_stream.write (chunk.get_data ());
+                    yield output_stream.write_async (chunk.get_data (), Priority.DEFAULT, null);
+                    bytes_downloaded += chunk.get_size ();
 
                     if (progress_callback != null) {
                         int64 elapsed_us = get_monotonic_time () - start_time;
@@ -158,8 +165,6 @@ namespace ProtonPlus.Utils {
                 }
 
                 yield output_stream.close_async ();
-
-                session.abort ();
 
                 if (is_canceled && file.query_exists ())
                     yield file.delete_async (Priority.DEFAULT, null);
