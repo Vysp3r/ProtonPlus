@@ -4,6 +4,27 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description"
+        content="Install and manage Wine/Proton based compatibility tools with a graphical user interface. Made with GTK4 and Adwaita." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://protonplus.vysp3r.com/" />
+    <meta property="og:title" content="ProtonPlus" />
+    <meta property="og:description"
+        content="Install and manage Wine/Proton based compatibility tools with a graphical user interface. Made with GTK4 and Adwaita." />
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-1.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://protonplus.vysp3r.com/" />
+    <meta property="twitter:title" content="ProtonPlus" />
+    <meta property="twitter:description"
+        content="Install and manage Wine/Proton based compatibility tools with a graphical user interface. Made with GTK4 and Adwaita." />
+    <meta property="twitter:image"
+        content="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-1.png" />
+
     <link rel="icon"
         href="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/logo/com.vysp3r.ProtonPlus.svg" />
     <link rel="apple-touch-icon" type="image/svg"
@@ -12,147 +33,240 @@
     <title>ProtonPlus</title>
 </head>
 
-<header></header>
-
 <body>
-    <h1>ProtonPlus</h1>
-
-    <section class="description" id="description">
-        <p>
-            Install and manage Wine/Proton based compatibility tools with a graphical user interface<br>
-            Made with GTK4 and Adwaita
-        </p>
-    </section>
-
-    <section class="screenshots" id="screenshots">
-        <h2>Screenshots</h2>
-
-        <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-1.png"
-            alt="The main interface of ProtonPlus">
-    </section>
-
-    <section class="features" id="features">
-        <h2>Features</h2>
-
-        <ul class="list">
-            <li>Manage supported compatibility tools across supported launchers</li>
-            <li>Change the compatibility tool and launch options of your Steam games</li>
-            <li>CLI support</li>
-            <li>And much more</li>
-        </ul>
-
-        <button class="accordion">Supported launchers</button>
-        <div class="panel">
-            <ul class="list">
-                <li>Steam</li>
-                <li>Lutris</li>
-                <li>Heroic Games Launcher</li>
-                <li>Bottles</li>
-                <li>WineZGUI</li>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="#">
+                    <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/logo/com.vysp3r.ProtonPlus.svg"
+                        alt="ProtonPlus Logo" class="nav-logo">
+                    <span>ProtonPlus</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#screenshots">Screenshots</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="#donate">Donate</a></li>
+                <li><a href="#links">Links</a></li>
+                <li><a href="#contributors">Contributors</a></li>
             </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="hero">
+            <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/logo/com.vysp3r.ProtonPlus.svg" alt="ProtonPlus Logo" class="logo">
+            <h1>ProtonPlus</h1>
         </div>
 
-        <button class="accordion">Supported compatibility tools</button>
-        <div class="panel">
-            <ul class="list">
-                <li>Steam Tinker Launch</li>
-                <li>Proton-GE</li>
-                <li>Luxtorpeda</li>
-                <li>Boxtron</li>
-                <li>Roberta</li>
-                <li>Proton-GE RTSP</li>
-                <li>Proton CachyOS</li>
-                <li>Proton EM</li>
-                <li>Proton Tkg</li>
-                <li>Proton DW</li>
-                <li>Kron4ek Wine-Builds Proton</li>
-                <li>Kron4ek Wine-Builds Vanilla</li>
-                <li>Kron4ek Wine-Builds Staging</li>
-                <li>Kron4ek Wine-Builds Staging-Tkg</li>
-                <li>DXVK</li>
-                <li>DXVK (Sarek)</li>
-                <li>DXVK Async (Sarek)</li>
-                <li>DXVK GPL+Async (Ph42oN)</li>
-                <li>VKD3D-Lutris</li>
-                <li>VKD3D-Proton</li>
-            </ul>
+        <div class="badges">
+            <a href="https://github.com/Vysp3r/ProtonPlus/stargazers" target="_blank" rel="noopener noreferrer">
+                <img alt="Stars" title="Stars" src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=flat-square&label=%E2%AD%90%20Stars&kill_cache=1" />
+            </a>
+            <a href="https://github.com/Vysp3r/ProtonPlus/releases/latest" target="_blank" rel="noopener noreferrer">
+                <img alt="Latest Release" title="Latest Release" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=flat-square&label=%F0%9F%9A%80%20Release">
+            </a>
+            <a href="https://klausenbusk.github.io/flathub-stats/#ref=com.vysp3r.ProtonPlus&interval=infinity&downloadType=installs%2Bupdates" target="_blank" rel="noopener noreferrer">
+                <img alt="Flathub Downloads" title="Flathub Downloads" src="https://img.shields.io/badge/dynamic/json?color=informational&label=Downloads&logo=flathub&logoColor=white&query=%24.installs_total&url=https%3A%2F%2Fflathub.org%2Fapi%2Fv2%2Fstats%2Fcom.vysp3r.ProtonPlus&style=flat-square">
+            </a>
+            <a href="https://github.com/Vysp3r/ProtonPlus/blob/main/LICENSE.md" target="_blank" rel="noopener noreferrer">
+                <img alt="License" title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?label=%F0%9F%93%9C%20License&style=flat-square" />
+            </a>
+            <a href="https://hosted.weblate.org/engage/protonplus/" target="_blank" rel="noopener noreferrer">
+                <img src="https://hosted.weblate.org/widget/protonplus/protonplus/svg-badge.svg" alt="Translation status" />
+            </a>
+            <a href="#donate">
+                <img alt="Donate" title="Donate" src="https://img.shields.io/badge/%E2%9D%A4%EF%B8%8F-Donate-red?style=flat-square" />
+            </a>
         </div>
-    </section>
 
-    <section class="download" id="download">
-        <h2>Download</h2>
+        <section class="description" id="description">
+            <p>
+                A modern compatibility tools manager for Linux. It allows you to easily manage and update various compatibility tools like Proton, Wine, DXVK, and VKD3D across different launchers.
+            </p>
+        </section>
 
-        <a href="https://flathub.org/apps/com.vysp3r.ProtonPlus">
-            <img width='240' alt='Download on Flathub' src='https://flathub.org/api/badge?svg&locale=en'
-                onclick="window.open('appstream://com.vysp3r.ProtonPlus', '_self');" />
-        </a>
+        <section class="screenshots" id="screenshots">
+            <h2>Screenshots</h2>
 
-        <h3>Unofficial download methods</h3>
+            <div class="screenshots-grid">
+                <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-1.png"
+                    alt="The main interface of ProtonPlus">
+                <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-2.png"
+                    alt="Library View">
+                <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-3.png"
+                    alt="Launch Options">
+                <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-4.png"
+                    alt="Mass Edit">
+            </div>
+        </section>
 
-        <ul class="list">
-            <li>
-                <a href="https://aur.archlinux.org/packages/protonplus">Arch Linux (AUR)</a> (Maintained by
-                yochananmarqos)
-            </li>
-            <li>
-                <a href="https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/">Fedora (COPR)</a> (Maintained
-                by wehagy)
-            </li>
-            <li>
-                <a href="https://mynixos.com/nixpkgs/package/protonplus">NixOS (nixpkgs)</a> (Maintained by Seth)
-            </li>
-            <li>
-                <a href="https://pacstall.dev/packages/protonplus">Ubuntu (Pacstall)</a> (Maintained by Vysp3r)
-            </li>
-            <li>
-                <a href="https://software.opensuse.org/package/ProtonPlus">openSUSE</a> (Maintained by rrahl0)
-            </li>
-            <li>
-                <a href="https://github.com/xJayMorex/ProtonPlus-void">Void</a> (Maintained by xJayMorex)
-            </li>
-            <li>
-                <a href="https://github.com/amielke/amielke-overlay/tree/master/games-util/ProtonPlus">Gentoo</a> (Maintained by amielke)
-            </li>
-        </ul>
-    </section>
+        <section class="features" id="features">
+            <h2>Features</h2>
 
-    <section class="donate" id="donate">
-        <h2>Donate</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Multi-Launcher Support</h3>
+                    <p>Manage tools for Steam, Lutris, Heroic, Bottles, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Steam Integration</h3>
+                    <p>Change compatibility tools and launch options for your Steam games directly.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Easy Updates</h3>
+                    <p>One-click updates for your installed compatibility tools.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>CLI Support</h3>
+                    <p>Manage your tools from the comfort of your terminal.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Modern UI</h3>
+                    <p>Built with GTK4 and Libadwaita for a consistent GNOME experience.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Tool Management</h3>
+                    <p>See which tools are currently in use by your games.</p>
+                </div>
+            </div>
 
-        <a href="https://github.com/sponsors/Vysp3r">GitHub Sponsor</a>
-        <a href="https://www.paypal.com/donate/?hosted_button_id=HHTF5LABABD3A">Paypal</a>
-    </section>
+            <div class="accordion-container">
+                <details class="accordion">
+                    <summary>Supported launchers</summary>
+                    <div class="panel">
+                        <ul class="list-grid">
+                            <li>Steam</li>
+                            <li>Lutris</li>
+                            <li>Heroic Games Launcher</li>
+                            <li>Bottles</li>
+                            <li>WineZGUI</li>
+                        </ul>
+                    </div>
+                </details>
 
-    <section class="links" id="links">
-        <h2>Links</h2>
+                <details class="accordion">
+                    <summary>Supported compatibility tools</summary>
+                    <div class="panel">
+                        <div class="tools-container">
+                            <h4>Proton & Wrappers</h4>
+                            <ul class="list-grid">
+                                <li>Steam Tinker Launch</li>
+                                <li>Proton-GE</li>
+                                <li>Proton-GE RTSP</li>
+                                <li>Proton-CachyOS</li>
+                                <li>DW-Proton</li>
+                                <li>Proton-EM</li>
+                                <li>Proton-Tkg</li>
+                                <li>Luxtorpeda</li>
+                                <li>Boxtron</li>
+                                <li>Roberta</li>
+                            </ul>
 
-        <a href="https://github.com/Vysp3r/ProtonPlus/issues/new?template=bug_report.md">Report an issue</a>
-        <a href="https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md">Request a feature</a>
-        <a href="https://hosted.weblate.org/projects/protonplus/protonplus/">Help translate</a>
-        <a href="https://github.com/Vysp3r/ProtonPlus">GitHub repository</a>
-    </section>
+                            <h4>Wine Builds</h4>
+                            <ul class="list-grid">
+                                <li>Wine-Vanilla</li>
+                                <li>Wine-Staging</li>
+                                <li>Wine-Staging-Tkg</li>
+                                <li>Wine-Proton</li>
+                            </ul>
 
-    <section class="copyright" id="copyright">
-        Copyright © <a href="https://vysp3r.com/">Vysp3r</a> 2025
-    </section>
+                            <h4>Graphics Libraries (DXVK & VKD3D)</h4>
+                            <ul class="list-grid">
+                                <li>DXVK (doitsujin)</li>
+                                <li>DXVK (Sarek)</li>
+                                <li>DXVK Async (Sarek)</li>
+                                <li>DXVK GPL+Async (Ph42oN)</li>
+                                <li>VKD3D-Proton</li>
+                                <li>VKD3D-Lutris</li>
+                            </ul>
+                        </div>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section class="download" id="download">
+            <h2>Download</h2>
+
+            <div class="primary-download">
+                <a href="https://flathub.org/apps/com.vysp3r.ProtonPlus" target="_blank" rel="noopener noreferrer">
+                    <img width='240' alt='Download on Flathub' src='https://flathub.org/api/badge?svg&locale=en' />
+                </a>
+            </div>
+
+            <div class="unofficial-downloads">
+                <h3>Community Packages</h3>
+                <div class="methods-grid">
+                    <a href="https://aur.archlinux.org/packages/protonplus" class="method-card" target="_blank" rel="noopener noreferrer">
+                        <span class="method-name">Arch Linux (AUR)</span>
+                        <span class="method-maintainer">Maintained by yochananmarqos</span>
+                    </a>
+                    <a href="https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/" class="method-card" target="_blank" rel="noopener noreferrer">
+                        <span class="method-name">Fedora (COPR)</span>
+                        <span class="method-maintainer">Maintained by wehagy</span>
+                    </a>
+                    <a href="https://mynixos.com/nixpkgs/package/protonplus" class="method-card" target="_blank" rel="noopener noreferrer">
+                        <span class="method-name">NixOS (nixpkgs)</span>
+                        <span class="method-maintainer">Maintained by Seth</span>
+                    </a>
+                    <a href="https://pacstall.dev/packages/protonplus" class="method-card" target="_blank" rel="noopener noreferrer">
+                        <span class="method-name">Ubuntu (Pacstall)</span>
+                        <span class="method-maintainer">Maintained by Vysp3r</span>
+                    </a>
+                    <a href="https://software.opensuse.org/package/ProtonPlus" class="method-card" target="_blank" rel="noopener noreferrer">
+                        <span class="method-name">openSUSE (OBS)</span>
+                        <span class="method-maintainer">Maintained by rrahl0</span>
+                    </a>
+                    <a href="https://github.com/xJayMorex/ProtonPlus-void" class="method-card" target="_blank" rel="noopener noreferrer">
+                        <span class="method-name">Void Linux</span>
+                        <span class="method-maintainer">Maintained by xJayMorex</span>
+                    </a>
+                    <a href="https://github.com/amielke/amielke-overlay/tree/master/games-util/ProtonPlus" class="method-card" target="_blank" rel="noopener noreferrer">
+                        <span class="method-name">Gentoo (Overlay)</span>
+                        <span class="method-maintainer">Maintained by amielke</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="donate" id="donate">
+            <h2>Donate</h2>
+
+            <div class="links-container">
+                <a href="https://github.com/sponsors/Vysp3r">GitHub Sponsor</a>
+                <a href="https://www.paypal.com/donate/?hosted_button_id=HHTF5LABABD3A">Paypal</a>
+            </div>
+        </section>
+
+        <section class="links" id="links">
+            <h2>Links</h2>
+
+            <div class="links-container">
+                <a href="https://github.com/Vysp3r/ProtonPlus/issues/new?template=bug_report.md">Report an issue</a>
+                <a href="https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md">Request a feature</a>
+                <a href="https://hosted.weblate.org/projects/protonplus/protonplus/">Help translate</a>
+                <a href="https://github.com/Vysp3r/ProtonPlus/wiki">Wiki</a>
+                <a href="https://github.com/Vysp3r/ProtonPlus">GitHub repository</a>
+            </div>
+        </section>
+
+        <section class="contributors" id="contributors">
+            <h2>Contributors</h2>
+            <div class="contributors-container">
+                <a href="https://github.com/Vysp3r/ProtonPlus/graphs/contributors" target="_blank" rel="noopener noreferrer">
+                    <img src="https://contrib.rocks/image?repo=Vysp3r/ProtonPlus" alt="Contributors" />
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section class="copyright" id="copyright">
+            Copyright © <a href="https://vysp3r.com/">Vysp3r</a> 2026
+        </section>
+    </footer>
 </body>
-
-<footer></footer>
-
-<script>
-    var acc = document.getElementsByClassName("accordion");
-    var i;
-
-    for (i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function () {
-            var panel = this.nextElementSibling;
-            if (panel.style.maxHeight) {
-                panel.style.maxHeight = null;
-            } else {
-                panel.style.maxHeight = panel.scrollHeight + "px";
-            }
-        });
-    }
-</script>
 
 </html>
