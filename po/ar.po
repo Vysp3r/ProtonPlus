@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-12 14:12-0400\n"
+"POT-Creation-Date: 2026-04-12 15:39-0400\n"
 "PO-Revision-Date: 2026-02-03 11:54+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -28,8 +28,17 @@ msgid "Website"
 msgstr "الموقع"
 
 #: src/widgets/application.vala:98
+msgid "translator-credits"
+msgstr ""
+
+#: src/widgets/application.vala:99
 msgid "Special thanks to"
 msgstr "شكر خاص"
+
+#: src/widgets/status-box.vala:12 src/widgets/window.vala:203
+#: src/widgets/error-dialog.vala:7
+msgid "Report"
+msgstr "بلاغ"
 
 #: src/widgets/window.vala:38
 msgid "Loading"
@@ -39,58 +48,59 @@ msgstr "جاري التحميل"
 msgid "Taking longer than normal?"
 msgstr "هل الإجراء يأخذ وقتاً أكثر من المعتاد؟"
 
-#: src/widgets/window.vala:38 src/widgets/window.vala:118
+#: src/widgets/window.vala:38 src/widgets/window.vala:113
 #: src/widgets/runners/runner-row.vala:71
-#: src/widgets/runners/remove-dialog.vala:49
-#: src/widgets/runners/install-dialog.vala:52
-#: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-view.vala:209
+#: src/widgets/runners/remove-dialog.vala:52
+#: src/widgets/runners/install-dialog.vala:53
+#: src/widgets/runners/upgrade-dialog.vala:57
+#: src/widgets/games/mass-edit-view.vala:208
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:46
-#: src/widgets/games/launch-options-view.vala:100
-#: src/widgets/games/default-tool-view.vala:118
+#: src/widgets/games/launch-options-view.vala:99
+#: src/widgets/games/default-tool-view.vala:117
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
 msgstr ".GitHub يرجى الإبلاغ عن هذه المشكلة على منصة"
 
-#: src/widgets/window.vala:51
-msgid "Donate"
-msgstr "تبرع"
-
-#: src/widgets/window.vala:55
+#: src/widgets/window.vala:50
 msgid "_Preferences"
 msgstr "التفضيلات"
 
-#: src/widgets/window.vala:56
+#: src/widgets/window.vala:51
 msgid "_Keyboard Shortcuts"
 msgstr "اختصارات لوحة المفاتيح"
 
-#: src/widgets/window.vala:57
+#: src/widgets/window.vala:52
+#, fuzzy
+msgid "_Donate"
+msgstr "تبرع"
+
+#: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
 msgstr "_حول بروتون بلس"
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:56
 msgid "Main Menu"
 msgstr "القائمة الرئيسية"
 
-#: src/widgets/window.vala:65
+#: src/widgets/window.vala:61
 msgid "Runners"
 msgstr "المشغلات"
 
-#: src/widgets/window.vala:66
+#: src/widgets/window.vala:62
 msgid "Games"
 msgstr "الألعاب"
 
-#: src/widgets/window.vala:118
+#: src/widgets/window.vala:113
 msgid "Couldn't load the launchers"
 msgstr "لم نستطع تحميل التطبيقات المُشَغِلة"
 
-#: src/widgets/window.vala:132
+#: src/widgets/window.vala:127
 #, c-format
 msgid "Welcome to %s"
 msgstr "مرحباً بك في %s"
 
-#: src/widgets/window.vala:132
+#: src/widgets/window.vala:127
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
@@ -98,79 +108,75 @@ msgstr ""
 "الرجاء تثبيت إحدى البرامج التالية للبدأ (Steam, Lutris, Bottles, Heroic "
 "Games Launcher أو WineZGUI)"
 
-#: src/widgets/window.vala:132
+#: src/widgets/window.vala:127
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
 "تأكد من تشغيلك للبرامج المُشَغِلة عالأقل مرة واحدة لضمان أن تكون مُمَهَدَة بشكل صحيح"
 
-#: src/widgets/window.vala:155
+#: src/widgets/window.vala:150
 msgid "Checking for updates"
 msgstr "جاري التحقق من التحديثات"
 
-#: src/widgets/window.vala:156
+#: src/widgets/window.vala:151
 #, c-format
 msgid "Updating %s"
 msgstr "جاري تحديث %s"
 
-#: src/widgets/window.vala:173
+#: src/widgets/window.vala:168
 msgid "Nothing to update"
 msgstr "لا يوجد ما يتطلب التحديث"
 
-#: src/widgets/window.vala:174
+#: src/widgets/window.vala:169
 #, c-format
 msgid "No update found for %s"
 msgstr "لم يتم إيجاد أي تحديث لـ %s"
 
-#: src/widgets/window.vala:180
+#: src/widgets/window.vala:175
 msgid "Everything is now up-to-date"
 msgstr "كل شيء محدث لآخر إصدار"
 
-#: src/widgets/window.vala:181
+#: src/widgets/window.vala:176
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "محدث الآن %s"
 
-#: src/widgets/window.vala:186 src/widgets/window.vala:194
-#: src/widgets/window.vala:200 src/widgets/window.vala:206
+#: src/widgets/window.vala:181 src/widgets/window.vala:189
+#: src/widgets/window.vala:195 src/widgets/window.vala:201
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "لم نستطع التحقق من وجود التحديثات(السبب: %s)"
 
-#: src/widgets/window.vala:186 src/widgets/window.vala:187
+#: src/widgets/window.vala:181 src/widgets/window.vala:182
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr "تم الوصول إلى الحد الأقصى لواجهة برمجة التطبيقات (API)"
 
-#: src/widgets/window.vala:187 src/widgets/window.vala:195
-#: src/widgets/window.vala:201 src/widgets/window.vala:207
+#: src/widgets/window.vala:182 src/widgets/window.vala:190
+#: src/widgets/window.vala:196 src/widgets/window.vala:202
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "لم نستطع تحديث %s (السبب: %s)"
 
-#: src/widgets/window.vala:194 src/widgets/window.vala:195
+#: src/widgets/window.vala:189 src/widgets/window.vala:190
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
 #: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr "لم نستطع الوصول لواجهة برمجة التطبيقات(API)"
 
-#: src/widgets/window.vala:200 src/widgets/window.vala:201
+#: src/widgets/window.vala:195 src/widgets/window.vala:196
 #: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr "الرمز المميز للوصول غير صالح"
 
-#: src/widgets/window.vala:206 src/widgets/window.vala:207
+#: src/widgets/window.vala:201 src/widgets/window.vala:202
 #: src/widgets/runners/runner-row.vala:71
 msgid "Unknown error"
 msgstr "خطأ غير معروف"
 
-#: src/widgets/window.vala:208 src/widgets/error-dialog.vala:7
-msgid "Report"
-msgstr "بلاغ"
-
-#: src/widgets/window.vala:256
+#: src/widgets/window.vala:257
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -179,18 +185,19 @@ msgstr "بلاغ"
 msgid "Warning"
 msgstr "تحذير"
 
-#: src/widgets/window.vala:256
+#: src/widgets/window.vala:257
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 "التطبيق حالياً يبحث عن التحديثات. الخروج أثناء هذه العملية قد يسبب مشاكل"
 
-#: src/widgets/window.vala:258
+#: src/widgets/window.vala:259
 msgid "Exit"
 msgstr "خروج"
 
-#: src/widgets/window.vala:261 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:262 src/widgets/runners/remove-dialog.vala:30
+#: src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "إلغاء"
@@ -212,9 +219,8 @@ msgid "Automatic updates"
 msgstr "التحديثات التلقائية"
 
 #: src/widgets/preferences/preferences-dialog.vala:16
-msgid ""
-"Whether or not to update the installed 'Latest' runners when the application "
-"start"
+#, fuzzy
+msgid "Update the installed 'Latest' runners when the application starts"
 msgstr ""
 "تحديد ما إذا كان سيتم تحديث أحدث المشغلات المثبتة عند تشغيل التطبيق أم لا"
 
@@ -227,8 +233,9 @@ msgid "Remember last used profile"
 msgstr "تذكر آخر ملف تعريفي مُستَخْدَم"
 
 #: src/widgets/preferences/preferences-dialog.vala:43
-msgid "Whether or not to remember the last used Steam profile"
-msgstr "تحديد ما إذا كان سيتم تَذكُر آخر ملف تعريف مُستخدَم لـSteam أم لا."
+#, fuzzy
+msgid "Remember the last used Steam profile"
+msgstr "تذكر آخر ملف تعريفي مُستَخْدَم"
 
 #: src/widgets/preferences/theme-row.vala:15
 msgid "System"
@@ -271,14 +278,15 @@ msgid "Enter an access token to reduce your chances of being rate limited"
 msgstr "أدخِل الرمز المميز للوصول لتقليل فرصتك للوصول لنسبة التقييد"
 
 #: src/widgets/runners/description-dialog.vala:14
+#: src/widgets/runners/description-dialog.vala:18
 msgid "More information"
 msgstr "مزيد من المعلومات"
 
-#: src/widgets/runners/description-dialog.vala:18
+#: src/widgets/runners/description-dialog.vala:22
 msgid "Open"
 msgstr "فتح"
 
-#: src/widgets/runners/description-dialog.vala:22
+#: src/widgets/runners/description-dialog.vala:26
 msgid "Open in your web browser"
 msgstr "فتح في متصفح الويب الخاص بك"
 
@@ -295,7 +303,6 @@ msgid "Open runner directory"
 msgstr "فتح دليل المشغل"
 
 #: src/widgets/runners/release-row.vala:24
-#: src/widgets/runners/remove-dialog.vala:11
 #, c-format
 msgid "Delete %s"
 msgstr "حَذف %s"
@@ -310,7 +317,7 @@ msgstr "تثبيت %s"
 #: src/widgets/runners/release-row.vala:57
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:66
-#: src/widgets/runners/filters-box.vala:27
+#: src/widgets/runners/filters-box.vala:32
 msgid "Used"
 msgstr "مُستخدَم"
 
@@ -339,9 +346,16 @@ msgstr "تأكد من صلاحية الرمز المميز للوصول المُ
 msgid "Load more"
 msgstr "تحميل المزيد"
 
+#: src/widgets/runners/remove-dialog.vala:11
+#, fuzzy, c-format
+msgid "Delete %s?"
+msgstr "حَذف %s"
+
 #: src/widgets/runners/remove-dialog.vala:13
-msgid "Are you sure you want this?"
-msgstr "هل أنت متأكد من رغبتك في ذلك؟"
+#: src/widgets/runners/remove-dialog.vala:26
+#, c-format
+msgid "%s will be permanently deleted."
+msgstr ""
 
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
@@ -352,41 +366,33 @@ msgstr "من الألعاب %i يستخدم بواسطة"
 msgid "Used by 1 game."
 msgstr "يستخدم بواسطة لعبة واحدة"
 
-#: src/widgets/runners/remove-dialog.vala:26
-msgid "Are you sure you want to proceed?"
-msgstr "هل أنت متأكد من أنك تريد المتابعة؟"
-
-#: src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/steamtinkerlaunch-row.vala:84
-msgid "No"
-msgstr "لا"
-
 #: src/widgets/runners/remove-dialog.vala:31
-#: src/widgets/runners/steamtinkerlaunch-row.vala:85
-msgid "Yes"
-msgstr "نعم"
+#, fuzzy
+msgid "Delete"
+msgstr "حَذف %s"
 
-#: src/widgets/runners/remove-dialog.vala:49
+#: src/widgets/runners/remove-dialog.vala:52
 #, c-format
 msgid "Couldn't delete %s"
 msgstr "لم نستطع حذف %s"
 
-#: src/widgets/runners/install-dialog.vala:52
+#: src/widgets/runners/install-dialog.vala:53
 #, c-format
 msgid "Couldn't install %s"
 msgstr "لم نستطع تثبيت %s"
 
-#: src/widgets/runners/install-dialog.vala:73
-#: src/widgets/runners/upgrade-dialog.vala:77
+#: src/widgets/runners/install-dialog.vala:74
+#: src/widgets/runners/upgrade-dialog.vala:80
 msgid "Downloading"
 msgstr "جاري التنزيل"
 
-#: src/widgets/runners/install-dialog.vala:103
-#: src/widgets/runners/upgrade-dialog.vala:80
+#: src/widgets/runners/install-dialog.vala:104
+#: src/widgets/runners/upgrade-dialog.vala:104
 msgid "Extracting"
 msgstr "...جاري الإستخراج"
 
-#: src/widgets/runners/install-dialog.vala:106
+#: src/widgets/runners/install-dialog.vala:107
+#: src/widgets/runners/upgrade-dialog.vala:107
 msgid "Moving"
 msgstr "جاري النقل"
 
@@ -395,7 +401,7 @@ msgstr "جاري النقل"
 msgid "Upgrade %s"
 msgstr "ترقية %s"
 
-#: src/widgets/runners/upgrade-dialog.vala:56
+#: src/widgets/runners/upgrade-dialog.vala:57
 #, c-format
 msgid "Couldn't upgrade %s"
 msgstr "لم نستطع ترقية %s"
@@ -419,23 +425,23 @@ msgstr ""
 "ستُحدَّث هذه النسخة تلقائياً عند توفر تحديث أثناء تشغيل البرنامج، إذا كان "
 "التحديث التلقائي مفعلاً."
 
-#: src/widgets/runners/filters-box.vala:18
+#: src/widgets/runners/filters-box.vala:21
 msgid "Installed"
 msgstr "مُثبَت"
 
-#: src/widgets/runners/filters-box.vala:20
+#: src/widgets/runners/filters-box.vala:23
 msgid "Show installed runners"
 msgstr "أظهر المُثبَت فقط"
 
-#: src/widgets/runners/filters-box.vala:29
+#: src/widgets/runners/filters-box.vala:34
 msgid "Show runners that are used by one game or more"
 msgstr "أظهر المشغلات المستخدمة بواسطة لعبة أو أكثر"
 
-#: src/widgets/runners/filters-box.vala:36
+#: src/widgets/runners/filters-box.vala:41
 msgid "Unused"
 msgstr "غير مُستَخْدَم"
 
-#: src/widgets/runners/filters-box.vala:38
+#: src/widgets/runners/filters-box.vala:43
 msgid "Show runners that aren't used by any games"
 msgstr "أظهِر المشغلات التي لا تستخدم بواسطة أي لعبة"
 
@@ -463,6 +469,14 @@ msgstr "ProtonPlus ليست مثبتة بواسطة %s يبدو بان لديك 
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "؟ ProtonPlus هل تريد إعادة تثبيتها بواسطة"
 
+#: src/widgets/runners/steamtinkerlaunch-row.vala:84
+msgid "No"
+msgstr "لا"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:85
+msgid "Yes"
+msgstr "نعم"
+
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
@@ -477,7 +491,7 @@ msgstr "لا توجد حاليًا طريقة معروفة لنا لتثبيت %
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "أغلق عميل Steam أولاً لتتمكن من تطبيق التغييرات."
 
-#: src/widgets/games/games-box.vala:81 src/widgets/games/games-box.vala:347
+#: src/widgets/games/games-box.vala:81 src/widgets/games/games-box.vala:351
 msgid "Show search"
 msgstr "أظهر البحث"
 
@@ -494,8 +508,8 @@ msgid "Prefix"
 msgstr "البادئة"
 
 #: src/widgets/games/games-box.vala:127
-#: src/widgets/games/mass-edit-view.vala:70
-#: src/widgets/games/default-tool-view.vala:73
+#: src/widgets/games/mass-edit-view.vala:69
+#: src/widgets/games/default-tool-view.vala:72
 msgid "Compatibility tool"
 msgstr "أداة التوافق"
 
@@ -515,30 +529,30 @@ msgstr ".Steam تأكد من الإتصال مرة واحدة على الأقل 
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ".GitHub إذا كنت تعتقد أن هذه مشكلة ، فتأكد من الإبلاغ عن ذلك على"
 
-#: src/widgets/games/games-box.vala:232
+#: src/widgets/games/games-box.vala:236
 msgid "Unsupported launcher"
 msgstr "مشغل برامج غير مدعوم"
 
-#: src/widgets/games/games-box.vala:232
+#: src/widgets/games/games-box.vala:236
 #, c-format
 msgid "%s is currently not supported."
 msgstr "إن %s غير مدعوم حالياً"
 
-#: src/widgets/games/games-box.vala:232
+#: src/widgets/games/games-box.vala:236
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "إن أردت مني إسراع عملية التطوير الرجاء التطوع للمشروع لإظهار دعمك لي"
 
-#: src/widgets/games/games-box.vala:272 src/widgets/games/games-box.vala:334
-#: src/widgets/games/games-box.vala:337
-#: src/widgets/games/mass-edit-view.vala:171
+#: src/widgets/games/games-box.vala:276 src/widgets/games/games-box.vala:338
+#: src/widgets/games/games-box.vala:341
+#: src/widgets/games/mass-edit-view.vala:170
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "غير مُعَرَف"
 
-#: src/widgets/games/games-box.vala:347
+#: src/widgets/games/games-box.vala:351
 msgid "Hide search"
 msgstr "إخفاء البحث"
 
@@ -576,43 +590,43 @@ msgstr "تعديل خيارات إطلاق اللعبة"
 msgid "Advanced"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:54
+#: src/widgets/games/mass-edit-view.vala:53
 msgid "Apply the current modifications"
 msgstr "تطبيق التعديلات الحالية"
 
-#: src/widgets/games/mass-edit-view.vala:66
+#: src/widgets/games/mass-edit-view.vala:65
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
 msgstr ".حدد هذا الخيار إن كنت تريد التعديل بالجُملَة يأخذ أداة التوافق بالحٌسبان"
 
-#: src/widgets/games/mass-edit-view.vala:76
+#: src/widgets/games/mass-edit-view.vala:75
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
 msgstr ""
 ".حدد هذا الخيار إن كنت تريد التعديل بالجُملَة يأخذ خيارات التشغيل بالحٌسبان"
 
-#: src/widgets/games/mass-edit-view.vala:83
+#: src/widgets/games/mass-edit-view.vala:82
 #, fuzzy
 msgid "Launch options"
 msgstr "خيارات التشغيل"
 
-#: src/widgets/games/mass-edit-view.vala:111
+#: src/widgets/games/mass-edit-view.vala:110
 msgid "1 game selected"
 msgstr "لعبة واحدة مختارة"
 
-#: src/widgets/games/mass-edit-view.vala:111
+#: src/widgets/games/mass-edit-view.vala:110
 #, c-format
 msgid "%u games selected"
 msgstr "مجموع الألعاب المحددة %u"
 
-#: src/widgets/games/mass-edit-view.vala:209
+#: src/widgets/games/mass-edit-view.vala:208
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
 msgstr "لم نستطع تغيير أداة التوافق أو خيارات التشغيل للألعاب المحددة"
 
-#: src/widgets/games/mass-edit-view.vala:209
+#: src/widgets/games/mass-edit-view.vala:208
 msgid "The following games had an issue:"
 msgstr "الألعاب التالية لديها مشكلة:"
 
@@ -681,12 +695,12 @@ msgstr ""
 msgid "Modify launch options"
 msgstr "تعديل خيارات التشغيل"
 
-#: src/widgets/games/launch-options-view.vala:49
-#: src/widgets/games/default-tool-view.vala:36
+#: src/widgets/games/launch-options-view.vala:48
+#: src/widgets/games/default-tool-view.vala:35
 msgid "Apply the current modification"
 msgstr "تطبيق التعديل الحالي"
 
-#: src/widgets/games/launch-options-view.vala:100
+#: src/widgets/games/launch-options-view.vala:99
 #, c-format
 msgid "Couldn't change the launch options of %s"
 msgstr "لم نستطع تغيير خيارات التشغيل لـ%s"
@@ -1081,13 +1095,13 @@ msgstr "تعيين أداة التوافق الافتراضية"
 msgid "Reset to the current default compatibility tool"
 msgstr "تعيين أداة التوافق الافتراضية"
 
-#: src/widgets/games/default-tool-view.vala:74
+#: src/widgets/games/default-tool-view.vala:73
 msgid ""
 "Choose the default compatibility tool Steam should use for games without an "
 "explicit override."
 msgstr ""
 
-#: src/widgets/games/default-tool-view.vala:118
+#: src/widgets/games/default-tool-view.vala:117
 msgid "Couldn't change the default compatibility tool"
 msgstr "لم نستطع تغيير أداة التوافق الافتراضية"
 
@@ -1215,208 +1229,212 @@ msgid ""
 msgstr ""
 "بالكامل Vulkan فوق Direct3D 12 تهدف لتطبيق واجهة برمجة Wine VKD3D مختلفة من"
 
-#: src/cli/cli.vala:61
+#: src/cli/cli.vala:78
 #, c-format
 msgid "Error: Unknown command '%s'\n"
 msgstr ""
 
-#: src/cli/cli.vala:69
+#: src/cli/cli.vala:86
 #, fuzzy
 msgid "Detected launchers:\n"
 msgstr "مشغل برامج غير مدعوم"
 
-#: src/cli/cli.vala:81
+#: src/cli/cli.vala:98
 #, fuzzy, c-format
 msgid "Installed runners for %s:\n"
 msgstr "أظهر المُثبَت فقط"
 
-#: src/cli/cli.vala:94
+#: src/cli/cli.vala:111
 msgid "No runners installed\n"
 msgstr ""
 
-#: src/cli/cli.vala:167
+#: src/cli/cli.vala:184
 #, c-format
 msgid "Error: Runner '%s' does not support 'latest' installation\n"
 msgstr ""
 
-#: src/cli/cli.vala:187
+#: src/cli/cli.vala:204
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr ""
 
-#: src/cli/cli.vala:189
+#: src/cli/cli.vala:206
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr ""
 
-#: src/cli/cli.vala:189 src/cli/cli.vala:214
+#: src/cli/cli.vala:206 src/cli/cli.vala:231
 msgid "Error: Installation failed\n"
 msgstr ""
 
-#: src/cli/cli.vala:200
+#: src/cli/cli.vala:217
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr ""
 
-#: src/cli/cli.vala:212
+#: src/cli/cli.vala:223 src/cli/cli.vala:247
+msgid "Select release number"
+msgstr ""
+
+#: src/cli/cli.vala:229
 #, fuzzy, c-format
 msgid "Installing %s...\n"
 msgstr "تثبيت %s"
 
-#: src/cli/cli.vala:214
+#: src/cli/cli.vala:231
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:221 src/cli/cli.vala:242
+#: src/cli/cli.vala:238 src/cli/cli.vala:259
 #, fuzzy, c-format
 msgid "No installed releases found for %s\n"
 msgstr "لم يتم إيجاد أي تحديث لـ %s"
 
-#: src/cli/cli.vala:225
+#: src/cli/cli.vala:242
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr ""
 
-#: src/cli/cli.vala:230
-msgid "Select release number"
-msgstr ""
-
-#: src/cli/cli.vala:246
+#: src/cli/cli.vala:263
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:254
+#: src/cli/cli.vala:271
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:261
+#: src/cli/cli.vala:278
 #, fuzzy, c-format
 msgid "Uninstalled %s\n"
 msgstr "تثبيت %s"
 
-#: src/cli/cli.vala:271
+#: src/cli/cli.vala:288
 #, fuzzy, c-format
 msgid "Uninstalling %s...\n"
 msgstr "تثبيت %s"
 
-#: src/cli/cli.vala:273
+#: src/cli/cli.vala:290
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:273
+#: src/cli/cli.vala:290
 msgid "Error: Uninstallation failed\n"
 msgstr ""
 
-#: src/cli/cli.vala:278
+#: src/cli/cli.vala:295
 msgid "Updating all runners...\n"
 msgstr ""
 
-#: src/cli/cli.vala:284
+#: src/cli/cli.vala:301
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:299 src/cli/cli.vala:354
+#: src/cli/cli.vala:316 src/cli/cli.vala:371
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:302 src/cli/cli.vala:358
+#: src/cli/cli.vala:319 src/cli/cli.vala:375
 #, fuzzy, c-format
 msgid "Already up to date: %s\n"
 msgstr "محدث بالفعل لآخر نسخة %s"
 
-#: src/cli/cli.vala:305 src/cli/cli.vala:361
+#: src/cli/cli.vala:322 src/cli/cli.vala:378
 #, c-format
 msgid "Error: Failed to update %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:344
+#: src/cli/cli.vala:361
 #, fuzzy
 msgid "Already up to date\n"
 msgstr "محدث بالفعل لآخر نسخة %s"
 
-#: src/cli/cli.vala:369
+#: src/cli/cli.vala:386
 #, fuzzy, c-format
 msgid "Updating %s..."
 msgstr "جاري تحديث %s"
 
-#: src/cli/cli.vala:381
+#: src/cli/cli.vala:398
 #, fuzzy
 msgid "Error: Failed to load launchers\n"
 msgstr "لم نستطع تحميل التطبيقات المُشَغِلة"
 
-#: src/cli/cli.vala:390
+#: src/cli/cli.vala:407
 msgid "Error: Failed to load releases\n"
 msgstr ""
 
-#: src/cli/cli.vala:401
+#: src/cli/cli.vala:418
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr ""
 
-#: src/cli/cli.vala:414
+#: src/cli/cli.vala:431
 #, c-format
 msgid "Error: Runner '%s' not found\n"
 msgstr ""
 
-#: src/cli/cli.vala:453
+#: src/cli/cli.vala:470
 #, c-format
 msgid "Usage: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:465
-msgid "Error: Invalid selection\n"
+#: src/cli/cli.vala:487
+msgid "Error: Invalid input, please enter a number\n"
 msgstr ""
 
-#: src/cli/cli.vala:472
-msgid ""
-"Usage: protonplus <command> [options]\n"
-"\n"
+#: src/cli/cli.vala:493
+msgid "Error: Selection out of range\n"
 msgstr ""
 
-#: src/cli/cli.vala:473
+#: src/cli/cli.vala:500
+msgid "Usage:\n"
+msgstr ""
+
+#: src/cli/cli.vala:502
 msgid "Commands:\n"
 msgstr ""
 
-#: src/cli/cli.vala:474
-msgid "Show version\n"
+#: src/cli/cli.vala:503
+#, fuzzy
+msgid "Show version"
+msgstr "أظهر المُستخدَم فقط"
+
+#: src/cli/cli.vala:504
+msgid "Show this help"
 msgstr ""
 
-#: src/cli/cli.vala:475
-msgid "Show this help\n"
-msgstr ""
-
-#: src/cli/cli.vala:476
+#: src/cli/cli.vala:505
 #, fuzzy
-msgid "List launchers or installed runners\n"
+msgid "List launchers or installed runners"
 msgstr "أظهر المُثبَت فقط"
 
-#: src/cli/cli.vala:477
+#: src/cli/cli.vala:506
 #, fuzzy
-msgid "Install runner\n"
+msgid "Install runner"
 msgstr "أظهر المُثبَت فقط"
 
-#: src/cli/cli.vala:478
+#: src/cli/cli.vala:507
 #, fuzzy
-msgid "Uninstall runner\n"
+msgid "Uninstall runner"
 msgstr "أظهر المُثبَت فقط"
 
-#: src/cli/cli.vala:479
-msgid "Update runner\n"
-msgstr ""
+#: src/cli/cli.vala:508
+#, fuzzy
+msgid "Update runner"
+msgstr "أظهر المُثبَت فقط"
 
-#: src/cli/cli.vala:483
+#: src/cli/cli.vala:512
 msgid ""
 "\n"
 "Available launchers:\n"
 msgstr ""
 
-#: src/cli/cli.vala:490
+#: src/cli/cli.vala:519
 #, c-format
 msgid ""
 "\n"
@@ -1437,6 +1455,15 @@ msgstr "إظهار اختصارات"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "خروج"
+
+#~ msgid "Whether or not to remember the last used Steam profile"
+#~ msgstr "تحديد ما إذا كان سيتم تَذكُر آخر ملف تعريف مُستخدَم لـSteam أم لا."
+
+#~ msgid "Are you sure you want this?"
+#~ msgstr "هل أنت متأكد من رغبتك في ذلك؟"
+
+#~ msgid "Are you sure you want to proceed?"
+#~ msgstr "هل أنت متأكد من أنك تريد المتابعة؟"
 
 #~ msgid "Enabled"
 #~ msgstr "تمكين"
@@ -1536,9 +1563,6 @@ msgstr "خروج"
 
 #~ msgid "An error occurred"
 #~ msgstr "حدث خطأ"
-
-#~ msgid "Show used only"
-#~ msgstr "أظهر المُستخدَم فقط"
 
 #~ msgid "Show unused only"
 #~ msgstr "أظهر الغير مُستخدَم فقط"
