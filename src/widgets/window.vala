@@ -104,11 +104,6 @@ namespace ProtonPlus.Widgets {
 
 			set_content (status_box);
 
-			var breakpoint = new Adw.Breakpoint (new Adw.BreakpointCondition.length (Adw.BreakpointConditionLengthType.MAX_WIDTH, 500, Adw.LengthUnit.PT));
-			breakpoint.add_setter (header_bar, "title-widget", null);
-			breakpoint.add_setter (view_switcher_bar, "reveal", true);
-			add_breakpoint (breakpoint);
-
 			initialize.begin ();
 		}
 
