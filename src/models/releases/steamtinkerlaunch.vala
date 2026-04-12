@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Releases {
-    public class SteamTinkerLaunch : Upgrade<STL_Remove_Parameters> {
+    public class SteamTinkerLaunch : Update<STL_Remove_Parameters> {
         string home_location { get; set; }
         string compat_location { get; set; }
         string parent_location { get; set; }
@@ -25,12 +25,12 @@ namespace ProtonPlus.Models.Releases {
             home_location = Environment.get_home_dir ();
             compat_location = runner.group.launcher.directory + runner.group.directory;
             if (Globals.IS_STEAM_OS) {
-            // Steam Deck uses `~/stl/prefix` instead.
+                // Steam Deck uses `~/stl/prefix` instead.
                 parent_location = @"$home_location/stl";
                 base_location = @"$parent_location/prefix";
                 manual_remove_location = parent_location;
             } else {
-            // Normal computers use `~/.local/share/steamtinkerlaunch`.
+                // Normal computers use `~/.local/share/steamtinkerlaunch`.
                 parent_location = @"$home_location/.local/share";
                 base_location = @"$parent_location/steamtinkerlaunch";
                 manual_remove_location = base_location;
@@ -54,10 +54,10 @@ namespace ProtonPlus.Models.Releases {
 
         async void exec_stl (string exec_location, string args) {
             if (!FileUtils.test (exec_location, FileTest.IS_REGULAR))
-            return;
+                return;
 
             if (!FileUtils.test (exec_location, FileTest.IS_EXECUTABLE))
-            yield Utils.System.run_command (@"chmod +x $exec_location");
+                yield Utils.System.run_command (@"chmod +x $exec_location");
 
             yield Utils.System.run_command (@"$exec_location $args");
         }
@@ -71,24 +71,24 @@ namespace ProtonPlus.Models.Releases {
             var code = yield Utils.Web.get_request ("https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1", Utils.Web.GetType.STEAMTINKERLAUNCH, out response);
 
             if (code != ReturnCode.VALID_REQUEST)
-            return;
+                return;
 
             var root_node = Utils.Parser.get_node_from_json (response);
 
             if (root_node.get_node_type () != Json.NodeType.ARRAY)
-            return;
+                return;
 
             var root_array = root_node.get_array ();
 
             if (root_array.get_length () < 1)
-            return;
+                return;
 
 
             // Get the first (newest) commit in the list.
             var commit_node = root_array.get_element (0);
 
             if (commit_node.get_node_type () != Json.NodeType.OBJECT)
-            return;
+                return;
 
             var commit_obj = commit_node.get_object ();
 
@@ -96,23 +96,23 @@ namespace ProtonPlus.Models.Releases {
             // Get metadata about the committer (not the author), since
             // we want to know when it was committed to the repo.
             if (!commit_obj.has_member ("commit"))
-            return;
+                return;
 
             var commit_metadata_node = commit_obj.get_member ("commit");
 
             if (commit_metadata_node.get_node_type () != Json.NodeType.OBJECT)
-            return;
+                return;
 
             var commit_metadata_obj = commit_metadata_node.get_object ();
 
 
             if (!commit_metadata_obj.has_member ("committer"))
-            return;
+                return;
 
             var committer_metadata_node = commit_metadata_obj.get_member ("committer");
 
             if (committer_metadata_node.get_node_type () != Json.NodeType.OBJECT)
-            return;
+                return;
 
             var committer_metadata_obj = committer_metadata_node.get_object ();
 
@@ -135,15 +135,15 @@ namespace ProtonPlus.Models.Releases {
 
         public bool detect_external_locations () {
             if (external_locations.length () > 0)
-            external_locations = new List<string> ();
+                external_locations = new List<string> ();
 
             var location = @"$home_location/SteamTinkerLaunch";
             if (FileUtils.test (location, FileTest.IS_DIR))
-            external_locations.append (location);
+                external_locations.append (location);
 
             location = Environment.get_home_dir () + "/stl";
             if (!Globals.IS_STEAM_OS && FileUtils.test (location, FileTest.IS_DIR))
-            external_locations.append (location);
+                external_locations.append (location);
 
             // Disabled for now, since we always erase base_location before installs.
             // if (FileUtils.test (base_location, FileTest.IS_DIR) && !FileUtils.test (meta_location, FileTest.IS_REGULAR))
@@ -153,8 +153,8 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override void refresh_state () {
-        // Update the ProtonPlus UI state variables.
-        // NOTE: We treat a non-executable binary as a "broken installation".
+            // Update the ProtonPlus UI state variables.
+            // NOTE: We treat a non-executable binary as a "broken installation".
             var base_location_exists = FileUtils.test (base_location, FileTest.IS_DIR);
             var binary_location_exists = FileUtils.test (binary_location, FileTest.IS_EXECUTABLE);
             var meta_file_exists = FileUtils.test (meta_location, FileTest.IS_REGULAR);
@@ -171,14 +171,14 @@ namespace ProtonPlus.Models.Releases {
                 if (metadata_parts.length >= 2) {
                     local_date = metadata_parts[0];
                     local_hash = metadata_parts[1];
-                // Ignore both values if either is missing.
+                    // Ignore both values if either is missing.
                     if (local_date == "" || local_hash == "")
-                    local_date = local_hash = "";
+                        local_date = local_hash = "";
                 }
 
                 if (local_hash == "")
-                installed = false;
-                    else if (latest_hash != "")
+                    installed = false;
+                else if (latest_hash != "")
                     updated = latest_hash == local_hash;
             }
 
@@ -187,27 +187,27 @@ namespace ProtonPlus.Models.Releases {
             // Generate a title for the installed (or latest) release.
             var _row_title = title; // Default title/prefix.
             if (local_date != "")
-            _row_title = @"$_row_title ($local_date)";
-                else if (latest_date != "")
+                _row_title = @"$_row_title ($local_date)";
+            else if (latest_date != "")
                 _row_title = @"$_row_title ($latest_date)";
 
 
-                // Update state to trigger the signals for UI refresh.
-                // WARNING: We MUST do this LAST, after finishing ALL other vars
-                // above, otherwise the UI redraw would happen with old values.
-                // NOTE: We will NOT change UI state if the UI is "busy processing",
-                // except when we're EXPLICITLY allowed to reset that state. This
-                // avoids "flickering UI" issues during multi-step processes.
-                // NOTE: We ALWAYS allow title change, to ensure the latest version's
-                // title immediately appears during "upgrade" of an installation.
-                displayed_title = _row_title;
+            // Update state to trigger the signals for UI refresh.
+            // WARNING: We MUST do this LAST, after finishing ALL other vars
+            // above, otherwise the UI redraw would happen with old values.
+            // NOTE: We will NOT change UI state if the UI is "busy processing",
+            // except when we're EXPLICITLY allowed to reset that state. This
+            // avoids "flickering UI" issues during multi-step processes.
+            // NOTE: We ALWAYS allow title change, to ensure the latest version's
+            // title immediately appears during "update" of an installation.
+            displayed_title = _row_title;
 
-                state = !installed ? State.NOT_INSTALLED : updated ? State.UP_TO_DATE : State.UPDATE_AVAILABLE;
+            state = !installed ? State.NOT_INSTALLED : updated ? State.UP_TO_DATE : State.UPDATE_AVAILABLE;
         }
 
         protected async override bool _start_install () {
             if (yield Utils.System.check_dependency ("steamtinkerlaunch"))
-            yield Utils.System.run_command ("steamtinkerlaunch compat del");
+                yield Utils.System.run_command ("steamtinkerlaunch compat del");
 
             yield exec_stl (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
 
@@ -215,7 +215,7 @@ namespace ProtonPlus.Models.Releases {
                 var deleted = yield Utils.Filesystem.delete_directory (location);
 
                 if (!deleted)
-                return false;
+                    return false;
             }
 
             // Always clean destination to avoid merging with existing files.
@@ -226,7 +226,7 @@ namespace ProtonPlus.Models.Releases {
                 var deleted_old_files = yield remove (new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ());
 
                 if (!deleted_old_files)
-                return false;
+                    return false;
             }
 
 
@@ -236,7 +236,7 @@ namespace ProtonPlus.Models.Releases {
                 var download_dir_exists = yield Utils.Filesystem.create_directory (download_location);
 
                 if (!download_dir_exists)
-                return false;
+                    return false;
             }
 
             string downloaded_file_location = @"$download_location/$title.zip";
@@ -245,19 +245,20 @@ namespace ProtonPlus.Models.Releases {
                 var deleted = Utils.Filesystem.delete_file (downloaded_file_location);
 
                 if (!deleted)
-                return false;
+                    return false;
             }
 
             step = Step.DOWNLOADING;
 
             var download_valid = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, (is_percent, progress, speed_kbps, seconds_remaining) => {
+                this.is_percent = is_percent;
                 this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
                 this.speed_kbps = speed_kbps;
                 this.seconds_remaining = seconds_remaining;
             });
 
             if (!download_valid)
-            return false;
+                return false;
 
             step = Step.EXTRACTING;
 
@@ -265,36 +266,36 @@ namespace ProtonPlus.Models.Releases {
             string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => canceled);
 
             if (extracted_file_location == "")
-            return false;
+                return false;
 
             var moved = yield Utils.Filesystem.move_dir_contents (extracted_file_location, base_location);
 
             if (!moved)
-            return false;
+                return false;
 
 
             // We don't need the download directory anymore.
             var download_deleted = yield Utils.Filesystem.delete_directory (download_location);
 
             if (!download_deleted)
-            return false;
+                return false;
 
 
             // Create a symlink for the steamtinkerlaunch binary.
             var link_parent_location_exists = yield Utils.Filesystem.create_directory (link_parent_location);
 
             if (!link_parent_location_exists)
-            return false;
+                return false;
 
             var link_created = yield Utils.Filesystem.make_symlink (link_location, binary_location);
 
             if (!link_created)
-            return false;
+                return false;
 
 
             // Trigger STL's dependency installer for Steam Deck, and register compat tool.
             if (Globals.IS_STEAM_OS)
-            yield exec_stl (binary_location, "");
+                yield exec_stl (binary_location, "");
 
             yield exec_stl (binary_location, "compat add");
 
@@ -313,36 +314,36 @@ namespace ProtonPlus.Models.Releases {
         protected override async bool _start_remove (STL_Remove_Parameters parameters) {
             yield exec_stl (binary_location, "compat del");
 
-        // NOTE: We check specific types to avoid deleting unexpected data.
+            // NOTE: We check specific types to avoid deleting unexpected data.
             if (FileUtils.test (link_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (link_location, FileTest.IS_SYMLINK))
-                return false;
+                    return false;
 
                 var link_deleted = Utils.Filesystem.delete_file (link_location);
 
                 if (!link_deleted)
-                return false;
+                    return false;
             }
 
             var remove_location = parameters.user_request ? manual_remove_location : base_location;
             if (FileUtils.test (remove_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (remove_location, FileTest.IS_DIR))
-                return false;
+                    return false;
 
                 var base_deleted = yield Utils.Filesystem.delete_directory (remove_location);
 
                 if (!base_deleted)
-                return false;
+                    return false;
             }
 
             if (parameters.delete_config && FileUtils.test (config_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (config_location, FileTest.IS_DIR))
-                return false;
+                    return false;
 
                 var config_deleted = yield Utils.Filesystem.delete_directory (config_location);
 
                 if (!config_deleted)
-                return false;
+                    return false;
             }
 
             foreach (var simple_runner in runner.group.launcher.compatibility_tools) {
@@ -355,16 +356,16 @@ namespace ProtonPlus.Models.Releases {
             return true;
         }
 
-        protected override async bool _start_upgrade () {
+        protected override async bool _start_update () {
             var remove_success = yield remove (new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ());
 
             if (!remove_success)
-            return false;
+                return false;
 
             var install_success = yield install ();
 
             if (!install_success)
-            return false;
+                return false;
 
             return true;
         }

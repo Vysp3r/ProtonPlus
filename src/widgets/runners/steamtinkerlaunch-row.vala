@@ -27,17 +27,17 @@ namespace ProtonPlus.Widgets {
 			Models.DownloadManager.instance.download_removed.connect (on_download_status_changed);
 		}
 
-		private void on_download_status_changed (Models.Release<Models.Parameters> added_release) {
+		private void on_download_status_changed (Models.BaseRelease added_release) {
 			if (added_release.download_url == release.download_url && added_release.title == release.title) {
 				release_state_changed ();
 			}
 		}
 
 		protected override void update_button_clicked () {
-			release.upgrade.begin ((obj, res) => {
-				var success = release.upgrade.end (res);
+			release.update.begin ((obj, res) => {
+				var success = release.update.end (res);
 				if (!success && !release.canceled) {
-					var dialog = new ErrorDialog (_("Couldn't upgrade %s").printf (release.title),  _("Please report this issue on GitHub."));
+					var dialog = new ErrorDialog (_("Couldn't update %s").printf (release.title),  _("Please report this issue on GitHub."));
 					dialog.present (Application.window);
 				}
 			});
@@ -170,11 +170,11 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void release_state_changed () {
-			var installed = release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
-			var updated = release.state == Models.Release.State.UP_TO_DATE;
-			var busy = release.state == Models.Release.State.BUSY_INSTALLING ||
-						release.state == Models.Release.State.BUSY_REMOVING ||
-						release.state == Models.Release.State.BUSY_UPGRADING;
+			var installed = release.state == Models.BaseRelease.State.UP_TO_DATE || release.state == Models.BaseRelease.State.UPDATE_AVAILABLE;
+			var updated = release.state == Models.BaseRelease.State.UP_TO_DATE;
+			var busy = release.state == Models.BaseRelease.State.BUSY_INSTALLING ||
+						release.state == Models.BaseRelease.State.BUSY_REMOVING ||
+						release.state == Models.BaseRelease.State.BUSY_UPDATING;
 
 			install_button.set_visible (!installed);
 			remove_button.set_visible (installed);
@@ -190,10 +190,10 @@ namespace ProtonPlus.Widgets {
 				var tooltip_text = _("This tool is currently being installed");
 				if (Models.DownloadManager.instance.is_downloading (release))
 					tooltip_text = _("This tool is currently being downloaded");
-				if (release.state == Models.Release.State.BUSY_REMOVING)
+				if (release.state == Models.BaseRelease.State.BUSY_REMOVING)
 					tooltip_text = _("This tool is currently being removed");
-				if (release.state == Models.Release.State.BUSY_UPGRADING)
-					tooltip_text = _("This tool is currently being upgraded");
+				if (release.state == Models.BaseRelease.State.BUSY_UPDATING)
+					tooltip_text = _("This tool is currently being updated");
 
 				install_button.set_tooltip_text (tooltip_text);
 				remove_button.set_tooltip_text (tooltip_text);
