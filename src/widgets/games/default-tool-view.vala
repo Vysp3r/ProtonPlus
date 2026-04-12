@@ -31,8 +31,7 @@ namespace ProtonPlus.Widgets {
 			clear_button.clicked.connect (clear_button_clicked);
 
 			apply_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic");
-			apply_button.add_css_class ("flat");
-			apply_button.add_css_class ("apply-button");
+			apply_button.add_css_class ("suggested-action");
 			apply_button.set_tooltip_text (_("Apply the current modification"));
 			apply_button.clicked.connect (apply_button_clicked);
 

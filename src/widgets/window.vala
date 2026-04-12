@@ -11,7 +11,6 @@ namespace ProtonPlus.Widgets {
 
 		LaunchersPopoverButton launchers_popover_button;
 		UpdateButton update_button;
-		Gtk.Button donate_button;
 		Menu menu;
 		Gtk.MenuButton menu_button;
 
@@ -33,6 +32,7 @@ namespace ProtonPlus.Widgets {
 
 			add_action (get_set_selected_launcher_action ());
 			add_action (get_set_selected_view_action ());
+			add_action (get_donate_action ());
 
 			status_box = new StatusBox ();
 			status_box.initialize ("com.vysp3r.ProtonPlus", _("Loading"), "%s\n%s".printf(_("Taking longer than normal?"), _("Please report this issue on GitHub.")));
@@ -46,14 +46,10 @@ namespace ProtonPlus.Widgets {
 			update_button = new UpdateButton ();
 			update_button.set_visible (false);
 
-			donate_button = new Gtk.Button.from_icon_name ("heart-symbolic");
-			donate_button.add_css_class ("donate-button");
-			donate_button.set_tooltip_text (_("Donate"));
-			donate_button.clicked.connect (donate_button_clicked);
-
 			menu = new Menu ();
 			menu.append (_("_Preferences"), "app.preferences");
 			menu.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
+			menu.append (_("_Donate"), "win.donate");
 			menu.append (_("_About ProtonPlus"), "app.about");
 
 			menu_button = new Gtk.MenuButton ();
@@ -87,7 +83,6 @@ namespace ProtonPlus.Widgets {
 			header_bar.pack_start (launchers_popover_button);
 			header_bar.pack_start (update_button);
 			header_bar.pack_end (menu_button);
-			header_bar.pack_end (donate_button);
 
 			view_switcher_bar = new Adw.ViewSwitcherBar ();
 			view_switcher_bar.set_stack (view_stack);
@@ -108,6 +103,11 @@ namespace ProtonPlus.Widgets {
 			content_stack.set_visible_child_name ("main");
 
 			set_content (status_box);
+
+			var breakpoint = new Adw.Breakpoint (new Adw.BreakpointCondition.length (Adw.BreakpointConditionLengthType.MAX_WIDTH, 500, Adw.LengthUnit.PT));
+			breakpoint.add_setter (header_bar, "title-widget", null);
+			breakpoint.add_setter (view_switcher_bar, "reveal", true);
+			add_breakpoint (breakpoint);
 
 			initialize.begin ();
 		}
@@ -217,12 +217,18 @@ namespace ProtonPlus.Widgets {
 			updating = false;
 		}
 
-		void donate_button_clicked () {
-			Utils.System.open_uri ("https://protonplus.vysp3r.com/#donate");
-		}
-
 		void view_stack_visible_child_name_changed () {
 			games_box.active = view_stack.get_visible_child_name () == "games";
+		}
+
+		SimpleAction get_donate_action () {
+			SimpleAction action = new SimpleAction ("donate", null);
+
+			action.activate.connect (() => {
+				Utils.System.open_uri ("https://protonplus.vysp3r.com/#donate");
+			});
+
+			return action;
 		}
 
 		SimpleAction get_set_selected_launcher_action () {

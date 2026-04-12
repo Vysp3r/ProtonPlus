@@ -9,7 +9,8 @@ namespace ProtonPlus.Widgets {
 			header_bar = new Adw.HeaderBar ();
 			header_bar.add_css_class ("flat");
 
-			report_button = new Gtk.Button.with_label ("Report");
+			report_button = new Gtk.Button.with_label (_("Report"));
+			report_button.add_css_class ("suggested-action");
 			report_button.set_halign (Gtk.Align.CENTER);
 			report_button.set_hexpand (false);
 			report_button.clicked.connect (report_button_clicked);

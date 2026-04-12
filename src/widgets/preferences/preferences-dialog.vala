@@ -13,7 +13,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
             var automatic_updates_row = new Adw.SwitchRow () {
                 title = _("Automatic updates"),
-                tooltip_text = _("Whether or not to update the installed 'Latest' runners when the application start"),
+                subtitle = _("Update the installed 'Latest' runners when the application starts"),
             };
             
             var check_updates_row = new CheckUpdatesRow (this);
@@ -40,7 +40,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
             var steam_remember_last_used_profile_row = new Adw.SwitchRow () {
                 title = _("Remember last used profile"),
-                tooltip_text = _("Whether or not to remember the last used Steam profile"),
+                subtitle = _("Remember the last used Steam profile"),
             };
 
             var refresh_steam_profiles_row = new RefreshSteamProfilesRow (this);

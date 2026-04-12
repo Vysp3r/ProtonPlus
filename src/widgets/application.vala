@@ -95,6 +95,7 @@ namespace ProtonPlus.Widgets {
 			about_dialog.set_copyright ("© 2022-2025 Vysp3r");
 			about_dialog.set_license_type (Gtk.License.GPL_3_0);
 			about_dialog.set_developers (devs);
+			about_dialog.set_translator_credits (_("translator-credits"));
 			about_dialog.add_credit_section (_("Special thanks to"), thanks);
 			about_dialog.present (window);
 		}

@@ -19,7 +19,7 @@ namespace ProtonPlus.Widgets {
 		Adw.ButtonContent search_button_content;
 		Gtk.Button search_button;
 		Gtk.FlowBox flow_box;
-		Gtk.Entry search_entry;
+		Gtk.SearchEntry search_entry;
 		Gtk.Label name_label;
 		Gtk.Label prefix_label;
 		Gtk.Label compatibility_tool_label;
@@ -104,7 +104,7 @@ namespace ProtonPlus.Widgets {
 			flow_box.append(switch_profile_button);
 			flow_box.set_selection_mode(Gtk.SelectionMode.NONE);
 
-			search_entry = new Gtk.Entry() {
+			search_entry = new Gtk.SearchEntry() {
 				visible = false,
 				placeholder_text = _("Search for a game"),
 			};
@@ -191,7 +191,11 @@ namespace ProtonPlus.Widgets {
 			games_page_box.append (warning_label);
 			games_page_box.append (status_page);
 
-			append (games_page_box);
+			var clamp = new Adw.Clamp ();
+			clamp.set_maximum_size (975);
+			clamp.set_child (games_page_box);
+
+			append (clamp);
 		}
 
 		public void set_selected_launcher(Models.Launcher launcher) {
