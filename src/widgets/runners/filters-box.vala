@@ -8,7 +8,7 @@ namespace ProtonPlus.Widgets {
         public FiltersBox () {
             set_orientation (Gtk.Orientation.HORIZONTAL);
             set_halign (Gtk.Align.CENTER);
-            set_spacing (10);
+            set_spacing (15);
             add_css_class ("card");
             add_css_class ("p-10");
 
@@ -40,9 +40,7 @@ namespace ProtonPlus.Widgets {
             unused_only_button.notify["active"].connect (unused_only_button_active_changed);
 
             append (installed_only_button);
-            append (new Gtk.Separator (Gtk.Orientation.VERTICAL));
             append (used_only_button);
-            append (new Gtk.Separator (Gtk.Orientation.VERTICAL));
             append (unused_only_button);
         }
 

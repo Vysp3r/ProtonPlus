@@ -90,6 +90,8 @@ namespace ProtonPlus.Widgets {
 			switch_profile_button = new SwitchProfileButton();
 
 			flow_box = new Gtk.FlowBox();
+			flow_box.set_row_spacing(15);
+			flow_box.set_column_spacing(15);
 			flow_box.add_css_class("card");
 			flow_box.add_css_class("p-10");
 			flow_box.set_halign(Gtk.Align.CENTER);
