@@ -26,6 +26,14 @@
   color: #fa5252;
 }
 
+.apply-button {
+  color: var(--accent-blue);
+}
+
+.donate-button, .clear-button {
+  color: var(--accent-red);
+}
+
 .list-header {
   padding: 14px;
   border-bottom-left-radius: 0;

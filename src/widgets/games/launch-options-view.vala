@@ -2,61 +2,38 @@ namespace ProtonPlus.Widgets {
 	public class LaunchOptionsView : Gtk.Box {
 		public signal void back_requested ();
 
-		Gtk.CenterBox page_header { get; set; }
-		Adw.Clamp header_clamp { get; set; }
-		Adw.Clamp content_clamp { get; set; }
-		Gtk.Box title_box { get; set; }
-		Gtk.Box header_start_box { get; set; }
-		Gtk.Box actions_box { get; set; }
-		Gtk.Box advanced_box { get; set; }
-		Gtk.Label title_label { get; set; }
-		Gtk.Label subtitle_label { get; set; }
-		Gtk.Label advanced_label { get; set; }
+		Adw.WindowTitle window_title { get; set; }
 		Gtk.Button back_button { get; set; }
 		Gtk.Button clear_button { get; set; }
+		Gtk.Label advanced_label { get; set; }
 		Gtk.Switch advanced_switch { get; set; }
+		Gtk.Box advanced_box { get; set; }
 		Gtk.Button apply_button { get; set; }
+		Adw.HeaderBar header_bar { get; set; }
+		Adw.Clamp content_clamp { get; set; }
 		Gtk.ScrolledWindow scrolled_window { get; set; }
 		LaunchOptionsEditor launch_options_editor { get; set; }
+		Adw.ToolbarView toolbar_view { get; set; }
 		GameRow row { get; set; }
 		string applied_launch_options { get; set; }
-		bool applied_verified { get; set; }
 
 		construct {
 			set_orientation (Gtk.Orientation.VERTICAL);
-			set_hexpand (true);
-			set_vexpand (true);
-			set_spacing (10);
 
-			title_label = new Gtk.Label (_("Modify launch options"));
-			title_label.add_css_class ("title-3");
-			title_label.set_halign (Gtk.Align.CENTER);
-
-			subtitle_label = new Gtk.Label ("");
-			subtitle_label.add_css_class ("dim-label");
-			subtitle_label.set_halign (Gtk.Align.CENTER);
-
-			title_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
-			title_box.set_hexpand (true);
-			title_box.append (title_label);
-			title_box.append (subtitle_label);
+			window_title = new Adw.WindowTitle (_("Modify launch options"), "");
 
 			back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic");
 			back_button.add_css_class ("flat");
 			back_button.set_tooltip_text (_("Back"));
 			back_button.clicked.connect (() => back_requested ());
 
-			clear_button = new Gtk.Button.with_label (_("Clear"));
+			clear_button = new Gtk.Button.from_icon_name ("eraser-symbolic");
 			clear_button.add_css_class ("flat");
+			clear_button.add_css_class ("clear-button");
 			clear_button.set_tooltip_text (_("Clear the current launch options"));
 			clear_button.clicked.connect (clear_button_clicked);
 
-			header_start_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-			header_start_box.append (back_button);
-			header_start_box.append (clear_button);
-
 			advanced_label = new Gtk.Label (_("Advanced"));
-			advanced_label.set_xalign (0);
 
 			advanced_switch = new Gtk.Switch ();
 			advanced_switch.set_valign (Gtk.Align.CENTER);
@@ -66,39 +43,25 @@ namespace ProtonPlus.Widgets {
 			advanced_box.append (advanced_label);
 			advanced_box.append (advanced_switch);
 
-			apply_button = new Gtk.Button.with_label (_("Apply"));
+			apply_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic");
+			apply_button.add_css_class ("flat");
+			apply_button.add_css_class ("apply-button");
 			apply_button.set_tooltip_text (_("Apply the current modification"));
 			apply_button.clicked.connect (apply_button_clicked);
 
-			actions_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-			actions_box.append (advanced_box);
-			actions_box.append (apply_button);
-
-			page_header = new Gtk.CenterBox ();
-			page_header.set_hexpand (true);
-			page_header.set_start_widget (header_start_box);
-			page_header.set_center_widget (title_box);
-			page_header.set_end_widget (actions_box);
-
-			header_clamp = new Adw.Clamp ();
-			header_clamp.set_maximum_size (1180);
-			header_clamp.set_tightening_threshold (1180);
-			header_clamp.set_margin_start (18);
-			header_clamp.set_margin_end (18);
-			header_clamp.set_margin_top (10);
-			header_clamp.set_child (page_header);
+			header_bar = new Adw.HeaderBar ();
+			header_bar.set_title_widget (window_title);
+			header_bar.pack_start (back_button);
+			header_bar.pack_start (clear_button);
+			header_bar.pack_end (apply_button);
+			header_bar.pack_end (advanced_box);
 
 			launch_options_editor = new LaunchOptionsEditor ();
 			launch_options_editor.content_changed.connect (launch_options_editor_content_changed);
 			advanced_switch.notify["active"].connect (() => launch_options_editor.set_advanced_visible (advanced_switch.get_active ()));
 
 			content_clamp = new Adw.Clamp ();
-			content_clamp.set_maximum_size (1180);
-			content_clamp.set_tightening_threshold (1180);
-			content_clamp.set_margin_start (18);
-			content_clamp.set_margin_end (18);
-			content_clamp.set_margin_top (10);
-			content_clamp.set_margin_bottom (10);
+			content_clamp.set_maximum_size (975);
 			content_clamp.set_child (launch_options_editor);
 
 			scrolled_window = new Gtk.ScrolledWindow ();
@@ -107,18 +70,20 @@ namespace ProtonPlus.Widgets {
 			scrolled_window.set_vexpand (true);
 			scrolled_window.set_child (content_clamp);
 
-			append (header_clamp);
-			append (scrolled_window);
+			toolbar_view = new Adw.ToolbarView ();
+			toolbar_view.add_top_bar (header_bar);
+			toolbar_view.set_content (scrolled_window);
+
+			append (toolbar_view);
 		}
 
 		public void load (GameRow row) {
 			this.row = row;
 
-			subtitle_label.set_label (row.game.name);
+			window_title.set_subtitle (row.game.name);
 
 			var steam_game = (Models.Games.Steam) row.game;
 
-			applied_verified = false;
 			applied_launch_options = steam_game.launch_options;
 			launch_options_editor.set_text (steam_game.launch_options);
 			advanced_switch.set_active (launch_options_editor.get_advanced_visible ());
@@ -139,7 +104,6 @@ namespace ProtonPlus.Widgets {
 			}
 
 			applied_launch_options = current_launch_options;
-			applied_verified = true;
 			refresh_apply_button ();
 		}
 
@@ -158,14 +122,6 @@ namespace ProtonPlus.Widgets {
 
 			clear_button.set_sensitive (launch_options_editor.has_clearable_state ());
 			apply_button.set_sensitive (has_changes);
-
-			if (!has_changes && applied_verified) {
-				apply_button.set_label (_("Applied"));
-				apply_button.set_tooltip_text (_("The launch options have been written to disk."));
-			} else {
-				apply_button.set_label (_("Apply"));
-				apply_button.set_tooltip_text (_("Apply the current modification"));
-			}
 		}
 	}
 }

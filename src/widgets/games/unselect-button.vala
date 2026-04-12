@@ -6,7 +6,7 @@ namespace ProtonPlus.Widgets {
 		construct {
 			selection_button_content = new Adw.ButtonContent ();
 			selection_button_content.set_label (_("Unselect all"));
-			selection_button_content.set_icon_name ("deselect-symbolic");
+			selection_button_content.set_icon_name ("square-uncheck-symbolic");
 
 			set_tooltip_text (_("Unselect all the games"));
 			add_css_class ("flat");

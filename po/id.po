@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-08 22:56-0400\n"
+"POT-Creation-Date: 2026-04-12 14:12-0400\n"
 "PO-Revision-Date: 2026-04-12 17:09+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -29,66 +29,66 @@ msgstr "Situs web"
 msgid "Special thanks to"
 msgstr "Ucapan terima kasih khusus kepada"
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Loading"
 msgstr "Memuat"
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Taking longer than normal?"
 msgstr "Memerlukan waktu lebih lama dari biasanya?"
 
-#: src/widgets/window.vala:32 src/widgets/window.vala:93
+#: src/widgets/window.vala:38 src/widgets/window.vala:118
 #: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:46
-#: src/widgets/games/launch-options-view.vala:135
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/launch-options-view.vala:100
+#: src/widgets/games/default-tool-view.vala:118
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
 msgstr "Silakan laporkan masalah ini di GitHub."
 
-#: src/widgets/window.vala:45
+#: src/widgets/window.vala:51
 msgid "Donate"
 msgstr "Donasi"
 
-#: src/widgets/window.vala:49
+#: src/widgets/window.vala:55
 msgid "_Preferences"
 msgstr "_Preferensi"
 
-#: src/widgets/window.vala:50
+#: src/widgets/window.vala:56
 msgid "_Keyboard Shortcuts"
 msgstr "Pintasan Keyboard"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:57
 msgid "_About ProtonPlus"
 msgstr "Tentang ProtonPlus"
 
-#: src/widgets/window.vala:54
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Menu Utama"
 
-#: src/widgets/window.vala:59
+#: src/widgets/window.vala:65
 msgid "Runners"
 msgstr "Runner"
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:66
 msgid "Games"
 msgstr "Game"
 
-#: src/widgets/window.vala:93
+#: src/widgets/window.vala:118
 msgid "Couldn't load the launchers"
 msgstr "Tidak dapat memuat peluncur"
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 #, c-format
 msgid "Welcome to %s"
 msgstr "Selamat datang di %s"
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
@@ -96,7 +96,7 @@ msgstr ""
 "Instal Steam, Lutris, Bottles, Heroic Games Launcher, atau WineZGUI untuk "
 "memulai."
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
@@ -104,72 +104,72 @@ msgstr ""
 "Pastikan menjalankan peluncur setidaknya sekali untuk memastikan peluncur "
 "terinisialisasi dengan benar"
 
-#: src/widgets/window.vala:130
+#: src/widgets/window.vala:155
 msgid "Checking for updates"
 msgstr "Memeriksa pembaruan"
 
-#: src/widgets/window.vala:131
+#: src/widgets/window.vala:156
 #, c-format
 msgid "Updating %s"
 msgstr "Memperbarui %s"
 
-#: src/widgets/window.vala:148
+#: src/widgets/window.vala:173
 msgid "Nothing to update"
 msgstr "Tidak ada yang perlu diperbarui"
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:174
 #, c-format
 msgid "No update found for %s"
 msgstr "Tidak ditemukan pembaruan untuk %s"
 
-#: src/widgets/window.vala:155
+#: src/widgets/window.vala:180
 msgid "Everything is now up-to-date"
 msgstr "Semuanya kini sudah yang terbaru"
 
-#: src/widgets/window.vala:156
+#: src/widgets/window.vala:181
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s kini sudah yang terbaru"
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:169
-#: src/widgets/window.vala:175 src/widgets/window.vala:181
+#: src/widgets/window.vala:186 src/widgets/window.vala:194
+#: src/widgets/window.vala:200 src/widgets/window.vala:206
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Tidak dapat memeriksa pembaruan (Alasan: %s)"
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:162
+#: src/widgets/window.vala:186 src/widgets/window.vala:187
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr "Batas API tercapai"
 
-#: src/widgets/window.vala:162 src/widgets/window.vala:170
-#: src/widgets/window.vala:176 src/widgets/window.vala:182
+#: src/widgets/window.vala:187 src/widgets/window.vala:195
+#: src/widgets/window.vala:201 src/widgets/window.vala:207
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "Tidak dapat memperbarui %s (Alasan: %s)"
 
-#: src/widgets/window.vala:169 src/widgets/window.vala:170
+#: src/widgets/window.vala:194 src/widgets/window.vala:195
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
 #: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr "Tidak dapat menjangkau API"
 
-#: src/widgets/window.vala:175 src/widgets/window.vala:176
+#: src/widgets/window.vala:200 src/widgets/window.vala:201
 #: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr "Token akses tidak valid"
 
-#: src/widgets/window.vala:181 src/widgets/window.vala:182
+#: src/widgets/window.vala:206 src/widgets/window.vala:207
 #: src/widgets/runners/runner-row.vala:71
 msgid "Unknown error"
 msgstr "Kesalahan tidak diketahui"
 
-#: src/widgets/window.vala:183 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:208 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr "Laporkan"
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -178,7 +178,7 @@ msgstr "Laporkan"
 msgid "Warning"
 msgstr "Peringatan"
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -186,11 +186,11 @@ msgstr ""
 "Aplikasi saat ini sedang memeriksa pembaruan.\n"
 "Menutup aplikasi lebih awal dapat menyebabkan masalah."
 
-#: src/widgets/window.vala:223
+#: src/widgets/window.vala:258
 msgid "Exit"
 msgstr "Keluar"
 
-#: src/widgets/window.vala:226 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:261 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Batal"
@@ -309,11 +309,11 @@ msgstr "Hapus %s"
 msgid "Install %s"
 msgstr "Instal %s"
 
-#: src/widgets/runners/release-row.vala:54
-#: src/widgets/runners/release-row.vala:56
+#: src/widgets/runners/release-row.vala:55
+#: src/widgets/runners/release-row.vala:57
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:66
-#: src/widgets/runners/filters-box.vala:22
+#: src/widgets/runners/filters-box.vala:27
 msgid "Used"
 msgstr "Digunakan"
 
@@ -422,23 +422,23 @@ msgstr ""
 "Versi ini akan diperbarui secara otomatis saat ada pembaruan yang tersedia "
 "setiap kali Anda meluncurkan aplikasi jika pembaruan otomatis diaktifkan"
 
-#: src/widgets/runners/filters-box.vala:12
+#: src/widgets/runners/filters-box.vala:18
 msgid "Installed"
 msgstr "Terinstal"
 
-#: src/widgets/runners/filters-box.vala:17
+#: src/widgets/runners/filters-box.vala:20
 msgid "Show installed runners"
 msgstr "Tampilkan runner yang terinstal"
 
-#: src/widgets/runners/filters-box.vala:27
+#: src/widgets/runners/filters-box.vala:29
 msgid "Show runners that are used by one game or more"
 msgstr "Tampilkan runner yang digunakan oleh satu game atau lebih"
 
-#: src/widgets/runners/filters-box.vala:32
+#: src/widgets/runners/filters-box.vala:36
 msgid "Unused"
 msgstr "Tidak digunakan"
 
-#: src/widgets/runners/filters-box.vala:37
+#: src/widgets/runners/filters-box.vala:38
 msgid "Show runners that aren't used by any games"
 msgstr "Tampilkan runner yang tidak digunakan oleh game apa pun"
 
@@ -480,75 +480,75 @@ msgstr ""
 "Saat ini tidak ada cara yang diketahui bagi kami untuk menginstal %s untuk "
 "%s."
 
-#: src/widgets/games/games-box.vala:67
+#: src/widgets/games/games-box.vala:64
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "Tutup klien Steam terlebih dahulu agar perubahan dapat diterapkan."
 
-#: src/widgets/games/games-box.vala:84 src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:81 src/widgets/games/games-box.vala:347
 msgid "Show search"
 msgstr "Tampilkan pencarian"
 
-#: src/widgets/games/games-box.vala:110
+#: src/widgets/games/games-box.vala:109
 msgid "Search for a game"
 msgstr "Cari game"
 
-#: src/widgets/games/games-box.vala:117
+#: src/widgets/games/games-box.vala:116
 msgid "Name"
 msgstr "Nama"
 
-#: src/widgets/games/games-box.vala:121
+#: src/widgets/games/games-box.vala:120
 msgid "Prefix"
 msgstr "Prefix"
 
-#: src/widgets/games/games-box.vala:128
-#: src/widgets/games/mass-edit-view.vala:102
-#: src/widgets/games/default-tool-view.vala:22
+#: src/widgets/games/games-box.vala:127
+#: src/widgets/games/mass-edit-view.vala:70
+#: src/widgets/games/default-tool-view.vala:73
 msgid "Compatibility tool"
 msgstr "Alat kompatibilitas"
 
-#: src/widgets/games/games-box.vala:132
+#: src/widgets/games/games-box.vala:131
 msgid "Other"
 msgstr "Lainnya"
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:157
 msgid "No profile was found."
 msgstr "Tidak ditemukan profil."
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:157
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Pastikan Anda masuk setidaknya sekali di Steam."
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:157
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 "Jika Anda pikir ini adalah masalah, pastikan untuk melaporkannya di GitHub."
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:232
 msgid "Unsupported launcher"
 msgstr "Peluncur tidak didukung"
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:232
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s saat ini tidak didukung."
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:232
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Jika Anda ingin saya mempercepat pengembangan, pastikan untuk menunjukkan "
 "dukungan Anda!"
 
-#: src/widgets/games/games-box.vala:296 src/widgets/games/games-box.vala:359
-#: src/widgets/games/games-box.vala:362
-#: src/widgets/games/mass-edit-view.vala:209
+#: src/widgets/games/games-box.vala:272 src/widgets/games/games-box.vala:334
+#: src/widgets/games/games-box.vala:337
+#: src/widgets/games/mass-edit-view.vala:171
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "Tidak ditentukan"
 
-#: src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:347
 msgid "Hide search"
 msgstr "Sembunyikan pencarian"
 
@@ -564,50 +564,32 @@ msgstr "Tidak diketahui"
 msgid "Open ProtonDB page"
 msgstr "Buka halaman ProtonDB"
 
-#: src/widgets/games/mass-edit-view.vala:36
+#: src/widgets/games/mass-edit-view.vala:28
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
 msgstr "Edit massal"
 
-#: src/widgets/games/mass-edit-view.vala:51
-#: src/widgets/games/launch-options-view.vala:46
-#: src/widgets/games/default-tool-view.vala:96
+#: src/widgets/games/mass-edit-view.vala:32
+#: src/widgets/games/launch-options-view.vala:27
+#: src/widgets/games/default-tool-view.vala:24
 msgid "Back"
 msgstr "Kembali"
 
-#: src/widgets/games/mass-edit-view.vala:54
-#: src/widgets/games/launch-options-view.vala:49
-#: src/widgets/games/default-tool-view.vala:99
-msgid "Clear"
-msgstr "Hapus"
+#: src/widgets/games/mass-edit-view.vala:38
+#: src/widgets/games/launch-options-view.vala:33
+msgid "Clear the current launch options"
+msgstr "Hapus opsi peluncuran saat ini"
 
-#: src/widgets/games/mass-edit-view.vala:56
-msgid "Clear the current mass edit selections"
-msgstr "Hapus pilihan pengeditan massal saat ini"
-
-#: src/widgets/games/mass-edit-view.vala:63
-#: src/widgets/games/launch-options-view.vala:58
+#: src/widgets/games/mass-edit-view.vala:41
+#: src/widgets/games/launch-options-view.vala:36
 msgid "Advanced"
 msgstr "Lanjutan"
 
-#: src/widgets/games/mass-edit-view.vala:74
-#: src/widgets/games/launch-options-view.vala:69
-#: src/widgets/games/launch-options-view.vala:166
-#: src/widgets/games/default-tool-view.vala:108
-#: src/widgets/games/default-tool-view.vala:231
-msgid "Apply"
-msgstr "Terapkan"
-
-#: src/widgets/games/mass-edit-view.vala:75
+#: src/widgets/games/mass-edit-view.vala:54
 msgid "Apply the current modifications"
 msgstr "Terapkan modifikasi saat ini"
 
-#: src/widgets/games/mass-edit-view.vala:97
-#: src/widgets/games/mass-edit-view.vala:106
-msgid "Enabled"
-msgstr "Diaktifkan"
-
-#: src/widgets/games/mass-edit-view.vala:98
+#: src/widgets/games/mass-edit-view.vala:66
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
@@ -615,35 +597,35 @@ msgstr ""
 "Aktifkan ini jika Anda ingin edit massal mempertimbangkan alat "
 "kompatibilitas."
 
-#: src/widgets/games/mass-edit-view.vala:107
+#: src/widgets/games/mass-edit-view.vala:76
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
 msgstr ""
 "Aktifkan ini jika Anda ingin edit massal mempertimbangkan opsi peluncuran."
 
-#: src/widgets/games/mass-edit-view.vala:116
-msgid ""
-"Enable all the options that you want the mass edit to take into account."
-msgstr "Aktifkan semua opsi yang Anda ingin edit massal pertimbangkan."
+#: src/widgets/games/mass-edit-view.vala:83
+#, fuzzy
+msgid "Launch options"
+msgstr "Opsi peluncuran"
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 msgid "1 game selected"
 msgstr "1 game dipilih"
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 #, c-format
 msgid "%u games selected"
 msgstr "%u game dipilih"
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
 msgstr ""
 "Tidak dapat mengubah alat kompatibilitas/opsi peluncuran dari game yang "
 "dipilih"
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 msgid "The following games had an issue:"
 msgstr "Game berikut mengalami masalah:"
 
@@ -708,138 +690,141 @@ msgstr ""
 "Pastikan untuk memilih setidaknya satu game sebelum menggunakan fitur edit "
 "massal."
 
-#: src/widgets/games/launch-options-view.vala:31
+#: src/widgets/games/launch-options-view.vala:23
 msgid "Modify launch options"
 msgstr "Ubah opsi peluncuran"
 
-#: src/widgets/games/launch-options-view.vala:51
-msgid "Clear the current launch options"
-msgstr "Hapus opsi peluncuran saat ini"
-
-#: src/widgets/games/launch-options-view.vala:70
-#: src/widgets/games/launch-options-view.vala:167
-#: src/widgets/games/default-tool-view.vala:109
-#: src/widgets/games/default-tool-view.vala:232
+#: src/widgets/games/launch-options-view.vala:49
+#: src/widgets/games/default-tool-view.vala:36
 msgid "Apply the current modification"
 msgstr "Terapkan modifikasi saat ini"
 
-#: src/widgets/games/launch-options-view.vala:135
+#: src/widgets/games/launch-options-view.vala:100
 #, c-format
 msgid "Couldn't change the launch options of %s"
 msgstr "Tidak dapat mengubah opsi peluncuran untuk %s"
 
-#: src/widgets/games/launch-options-view.vala:163
-#: src/widgets/games/default-tool-view.vala:228
-msgid "Applied"
-msgstr "Diterapkan"
-
-#: src/widgets/games/launch-options-view.vala:164
-msgid "The launch options have been written to disk."
-msgstr "Opsi peluncuran telah ditulis ke disk."
-
-#: src/widgets/games/launch-options-editor.vala:130
-#: src/widgets/games/launch-options-editor.vala:236
-#: src/widgets/games/launch-options-editor.vala:393
+#: src/widgets/games/launch-options-editor.vala:67
+#: src/widgets/games/launch-options-editor.vala:261
 msgid "Set"
 msgstr "Atur"
 
-#: src/widgets/games/launch-options-editor.vala:131
+#: src/widgets/games/launch-options-editor.vala:68
 msgid "Apply the FPS value"
 msgstr "Terapkan nilai FPS"
 
-#: src/widgets/games/launch-options-editor.vala:237
-msgid "Apply the current value"
-msgstr "Terapkan nilai saat ini"
-
-#: src/widgets/games/launch-options-editor.vala:329
+#: src/widgets/games/launch-options-editor.vala:229
 msgid "Auto detect"
 msgstr "Deteksi otomatis"
 
-#: src/widgets/games/launch-options-editor.vala:330
+#: src/widgets/games/launch-options-editor.vala:230
 msgid "Custom"
 msgstr "Kustom"
 
-#: src/widgets/games/launch-options-editor.vala:394
+#: src/widgets/games/launch-options-editor.vala:262
 msgid "Apply the custom resolution"
 msgstr "Terapkan resolusi kustom"
 
-#: src/widgets/games/launch-options-editor.vala:671
+#. Launch command preview
+#: src/widgets/games/launch-options-editor.vala:513
+msgid "Launch command preview"
+msgstr "Pratinjau perintah peluncuran"
+
+#. Common options
+#: src/widgets/games/launch-options-editor.vala:518
 msgid "Performance overlay"
 msgstr "Overlay performa"
 
-#: src/widgets/games/launch-options-editor.vala:671
+#: src/widgets/games/launch-options-editor.vala:518
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr ""
 "Menampilkan overlay dalam permainan dengan FPS, penggunaan CPU/GPU, dan suhu."
 
-#: src/widgets/games/launch-options-editor.vala:672
+#: src/widgets/games/launch-options-editor.vala:519
 msgid "Disable Steam Deck Mode"
 msgstr "Nonaktifkan Mode Steam Deck"
 
-#: src/widgets/games/launch-options-editor.vala:672
+#: src/widgets/games/launch-options-editor.vala:519
 msgid "Disables the Steam Deck-specific profile that some games use."
 msgstr ""
 "Menonaktifkan profil khusus Steam Deck yang digunakan oleh beberapa game."
 
-#: src/widgets/games/launch-options-editor.vala:673
-#: src/widgets/games/launch-options-editor.vala:1040
-msgid "HDR"
-msgstr "HDR"
-
-#: src/widgets/games/launch-options-editor.vala:673
-#: src/widgets/games/launch-options-editor.vala:1040
-#: src/widgets/games/launch-options-editor.vala:1085
-msgid "Outputs HDR colors if your display supports it."
-msgstr "Menghasilkan warna HDR jika layar Anda mendukungnya."
-
-#: src/widgets/games/launch-options-editor.vala:675
+#: src/widgets/games/launch-options-editor.vala:520
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/widgets/games/launch-options-editor.vala:675
-msgid "Runs the game natively on Wayland instead of through XWayland."
+#: src/widgets/games/launch-options-editor.vala:520
+#, fuzzy
+msgid ""
+"Runs the game natively on Wayland instead of through XWayland but it breaks "
+"Steam Input and the Steam Overlay."
 msgstr "Menjalankan game secara native di Wayland alih-alih melalui XWayland."
 
-#: src/widgets/games/launch-options-editor.vala:676
-msgid "VKBasalt"
-msgstr "VKBasalt"
+#: src/widgets/games/launch-options-editor.vala:523
+msgid "Common options"
+msgstr "Opsi umum"
 
-#: src/widgets/games/launch-options-editor.vala:676
-msgid "Adds visual effects like sharpening and color adjustments."
-msgstr "Menambahkan efek visual seperti penajaman dan penyesuaian warna."
+#: src/widgets/games/launch-options-editor.vala:524
+msgid "Quick toggles for the launch options people reach for most often."
+msgstr "Pengalih cepat untuk opsi peluncuran yang paling sering digunakan."
 
-#: src/widgets/games/launch-options-editor.vala:677
-msgid "WineD3D"
-msgstr "WineD3D"
+#. Launch tools
+#: src/widgets/games/launch-options-editor.vala:532
+#: src/widgets/games/launch-options-editor.vala:811
+msgid "HDR"
+msgstr "HDR"
 
-#: src/widgets/games/launch-options-editor.vala:677
+#: src/widgets/games/launch-options-editor.vala:532
+#: src/widgets/games/launch-options-editor.vala:811
+#: src/widgets/games/launch-options-editor.vala:846
+msgid "Outputs HDR colors if your display supports it."
+msgstr "Menghasilkan warna HDR jika layar Anda mendukungnya."
+
+#: src/widgets/games/launch-options-editor.vala:540
+msgid "None"
+msgstr "Tidak ada"
+
+#: src/widgets/games/launch-options-editor.vala:541
+msgid "Gamescope"
+msgstr "Gamescope"
+
+#: src/widgets/games/launch-options-editor.vala:542
+msgid "ScopeBuddy"
+msgstr "ScopeBuddy"
+
+#: src/widgets/games/launch-options-editor.vala:549
+msgid "Launch tools"
+msgstr "Alat peluncuran"
+
+#: src/widgets/games/launch-options-editor.vala:550
 msgid ""
-"Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
+"Choose one to configure FPS caps, resolution, and other display options."
 msgstr ""
-"Menggunakan OpenGL alih-alih Vulkan. Aktifkan hanya jika Anda mengalami "
-"masalah DXVK."
+"Pilih salah satu untuk mengonfigurasi batas FPS, resolusi, dan opsi tampilan "
+"lainnya."
 
-#: src/widgets/games/launch-options-editor.vala:678
+#. GPU vendor options
+#: src/widgets/games/launch-options-editor.vala:557
 msgid "Mesa Anti-Lag"
 msgstr "Mesa Anti-Lag"
 
-#: src/widgets/games/launch-options-editor.vala:678
+#: src/widgets/games/launch-options-editor.vala:557
 msgid "Reduces latency on supported AMD Mesa setups."
 msgstr "Mengurangi latensi pada perangkat AMD Mesa yang didukung."
 
-#: src/widgets/games/launch-options-editor.vala:679
+#: src/widgets/games/launch-options-editor.vala:558
 msgid "Use dGPU"
 msgstr "Gunakan dGPU"
 
-#: src/widgets/games/launch-options-editor.vala:679
+#: src/widgets/games/launch-options-editor.vala:558
 msgid "Makes the game use the AMD dGPU on hybrid systems."
 msgstr "Membuat game menggunakan dGPU AMD pada sistem hybrid."
 
-#: src/widgets/games/launch-options-editor.vala:680
+#: src/widgets/games/launch-options-editor.vala:559
 msgid "Hide AMD APU"
 msgstr "Sembunyikan AMD APU"
 
-#: src/widgets/games/launch-options-editor.vala:680
+#: src/widgets/games/launch-options-editor.vala:559
 msgid ""
 "Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
 "integrated graphics."
@@ -847,27 +832,27 @@ msgstr ""
 "Membuat Proton melaporkan AMD APU sebagai GPU diskret untuk game yang salah "
 "mendeteksi grafis terintegrasi."
 
-#: src/widgets/games/launch-options-editor.vala:681
+#: src/widgets/games/launch-options-editor.vala:561
 msgid "NVAPI"
 msgstr "NVAPI"
 
-#: src/widgets/games/launch-options-editor.vala:681
+#: src/widgets/games/launch-options-editor.vala:561
 msgid "Lets games access NVIDIA-specific features like DLSS."
 msgstr "Memungkinkan game mengakses fitur khusus NVIDIA seperti DLSS."
 
-#: src/widgets/games/launch-options-editor.vala:685
+#: src/widgets/games/launch-options-editor.vala:564
 msgid "Update DLSS components"
 msgstr "Perbarui komponen DLSS"
 
-#: src/widgets/games/launch-options-editor.vala:685
+#: src/widgets/games/launch-options-editor.vala:564
 msgid "Auto upgrades DLSS components for supported games."
 msgstr "Memperbarui komponen DLSS secara otomatis untuk game yang didukung."
 
-#: src/widgets/games/launch-options-editor.vala:689
+#: src/widgets/games/launch-options-editor.vala:567
 msgid "Hide NVIDIA GPU"
 msgstr "Sembunyikan GPU NVIDIA"
 
-#: src/widgets/games/launch-options-editor.vala:689
+#: src/widgets/games/launch-options-editor.vala:567
 msgid ""
 "Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
 "NVIDIA driver behavior."
@@ -875,228 +860,215 @@ msgstr ""
 "Membuat Proton melaporkan GPU NVIDIA sebagai AMD untuk game yang "
 "mengharapkan perilaku driver NVIDIA khusus Windows."
 
-#: src/widgets/games/launch-options-editor.vala:691
-msgid "Launch command preview"
-msgstr "Pratinjau perintah peluncuran"
-
-#: src/widgets/games/launch-options-editor.vala:705
-msgid "Common options"
-msgstr "Opsi umum"
-
-#: src/widgets/games/launch-options-editor.vala:705
-msgid "Quick toggles for the launch options people reach for most often."
-msgstr "Pengalih cepat untuk opsi peluncuran yang paling sering digunakan."
-
-#: src/widgets/games/launch-options-editor.vala:718
-msgid "None"
-msgstr "Tidak ada"
-
-#: src/widgets/games/launch-options-editor.vala:719
-msgid "Gamescope"
-msgstr "Gamescope"
-
-#: src/widgets/games/launch-options-editor.vala:720
-msgid "ScopeBuddy"
-msgstr "ScopeBuddy"
-
-#: src/widgets/games/launch-options-editor.vala:726
-msgid "Launch tools"
-msgstr "Alat peluncuran"
-
-#: src/widgets/games/launch-options-editor.vala:726
-msgid ""
-"Choose one to configure FPS caps, resolution, and other display options."
-msgstr ""
-"Pilih salah satu untuk mengonfigurasi batas FPS, resolusi, dan opsi tampilan "
-"lainnya."
-
-#: src/widgets/games/launch-options-editor.vala:730
-msgid "Additional arguments"
-msgstr "Argumen tambahan"
-
-#: src/widgets/games/launch-options-editor.vala:730
-msgid "Add extra launch options"
-msgstr "Tambahkan opsi peluncuran ekstra"
-
-#: src/widgets/games/launch-options-editor.vala:733
-msgid "Custom launch arguments"
-msgstr "Argumen peluncuran kustom"
-
-#: src/widgets/games/launch-options-editor.vala:733
-msgid "Add your own launch options."
-msgstr "Tambahkan opsi peluncuran Anda sendiri."
-
-#: src/widgets/games/launch-options-editor.vala:736
-msgid "Appends Steam's game command."
-msgstr "Menambahkan perintah game Steam."
-
-#: src/widgets/games/launch-options-editor.vala:739
-msgid "Skip launcher"
-msgstr "Lewati peluncur"
-
-#: src/widgets/games/launch-options-editor.vala:739
-msgid "Adds -skip-launcher to bypass launchers in games that support it."
-msgstr ""
-"Menambahkan -skip-launcher untuk melewati peluncur pada game yang "
-"mendukungnya."
-
-#: src/widgets/games/launch-options-editor.vala:740
-msgid "Vulkan"
-msgstr "Vulkan"
-
-#: src/widgets/games/launch-options-editor.vala:740
-msgid "Adds -vulkan to make the game use its Vulkan renderer."
-msgstr "Menambahkan -vulkan agar game menggunakan renderer Vulkan-nya."
-
-#: src/widgets/games/launch-options-editor.vala:741
-msgid "DirectX 11"
-msgstr "DirectX 11"
-
-#: src/widgets/games/launch-options-editor.vala:741
-msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
-msgstr "Menambahkan -dx11 agar game menggunakan renderer DirectX 11-nya."
-
-#: src/widgets/games/launch-options-editor.vala:742
-msgid "DirectX 12"
-msgstr "DirectX 12"
-
-#: src/widgets/games/launch-options-editor.vala:742
-msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
-msgstr "Menambahkan -dx12 agar game menggunakan renderer DirectX 12-nya."
-
-#: src/widgets/games/launch-options-editor.vala:743
-msgid "Console"
-msgstr "Konsol"
-
-#: src/widgets/games/launch-options-editor.vala:743
-msgid "Adds -console to open the game's developer console when supported."
-msgstr ""
-"Menambahkan -console untuk membuka konsol pengembang game jika didukung."
-
-#: src/widgets/games/launch-options-editor.vala:761
-msgid "More options"
-msgstr "Opsi lainnya"
-
-#: src/widgets/games/launch-options-editor.vala:761
-msgid "Extra graphics settings and launch behaviors."
-msgstr "Pengaturan grafis ekstra dan perilaku peluncuran tambahan."
-
-#: src/widgets/games/launch-options-editor.vala:772
+#: src/widgets/games/launch-options-editor.vala:573
 msgid "AMD"
 msgstr "AMD"
 
-#: src/widgets/games/launch-options-editor.vala:773
+#: src/widgets/games/launch-options-editor.vala:574
 msgid "NVIDIA"
 msgstr "NVIDIA"
 
-#: src/widgets/games/launch-options-editor.vala:781
+#: src/widgets/games/launch-options-editor.vala:582
 msgid "GPU vendor options"
 msgstr "Opsi vendor GPU"
 
-#: src/widgets/games/launch-options-editor.vala:781
+#: src/widgets/games/launch-options-editor.vala:583
 msgid "Use GPU-specific compatibility toggles for AMD and NVIDIA hardware."
 msgstr ""
 "Gunakan pengalih kompatibilitas khusus GPU untuk perangkat keras AMD dan "
 "NVIDIA."
 
-#: src/widgets/games/launch-options-editor.vala:802
+#. More options
+#: src/widgets/games/launch-options-editor.vala:590
+msgid "VKBasalt"
+msgstr "VKBasalt"
+
+#: src/widgets/games/launch-options-editor.vala:590
+msgid "Adds visual effects like sharpening and color adjustments."
+msgstr "Menambahkan efek visual seperti penajaman dan penyesuaian warna."
+
+#: src/widgets/games/launch-options-editor.vala:591
+msgid "WineD3D"
+msgstr "WineD3D"
+
+#: src/widgets/games/launch-options-editor.vala:591
+msgid ""
+"Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
+msgstr ""
+"Menggunakan OpenGL alih-alih Vulkan. Aktifkan hanya jika Anda mengalami "
+"masalah DXVK."
+
+#: src/widgets/games/launch-options-editor.vala:594
+msgid "More options"
+msgstr "Opsi lainnya"
+
+#: src/widgets/games/launch-options-editor.vala:595
+msgid "Extra graphics settings and launch behaviors."
+msgstr "Pengaturan grafis ekstra dan perilaku peluncuran tambahan."
+
+#. Game arguments
+#: src/widgets/games/launch-options-editor.vala:602
+msgid "Skip launcher"
+msgstr "Lewati peluncur"
+
+#: src/widgets/games/launch-options-editor.vala:602
+msgid "Adds -skip-launcher to bypass launchers in games that support it."
+msgstr ""
+"Menambahkan -skip-launcher untuk melewati peluncur pada game yang "
+"mendukungnya."
+
+#: src/widgets/games/launch-options-editor.vala:603
+msgid "Vulkan"
+msgstr "Vulkan"
+
+#: src/widgets/games/launch-options-editor.vala:603
+msgid "Adds -vulkan to make the game use its Vulkan renderer."
+msgstr "Menambahkan -vulkan agar game menggunakan renderer Vulkan-nya."
+
+#: src/widgets/games/launch-options-editor.vala:604
+msgid "DirectX 11"
+msgstr "DirectX 11"
+
+#: src/widgets/games/launch-options-editor.vala:604
+msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
+msgstr "Menambahkan -dx11 agar game menggunakan renderer DirectX 11-nya."
+
+#: src/widgets/games/launch-options-editor.vala:605
+msgid "DirectX 12"
+msgstr "DirectX 12"
+
+#: src/widgets/games/launch-options-editor.vala:605
+msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
+msgstr "Menambahkan -dx12 agar game menggunakan renderer DirectX 12-nya."
+
+#: src/widgets/games/launch-options-editor.vala:606
+msgid "Console"
+msgstr "Konsol"
+
+#: src/widgets/games/launch-options-editor.vala:606
+msgid "Adds -console to open the game's developer console when supported."
+msgstr ""
+"Menambahkan -console untuk membuka konsol pengembang game jika didukung."
+
+#: src/widgets/games/launch-options-editor.vala:609
 msgid "Game arguments"
 msgstr "Argumen game"
 
-#: src/widgets/games/launch-options-editor.vala:802
+#: src/widgets/games/launch-options-editor.vala:610
 msgid "Flags passed directly to the game."
 msgstr "Flag yang diteruskan langsung ke game."
 
-#: src/widgets/games/launch-options-editor.vala:818
+#. Advanced options
+#: src/widgets/games/launch-options-editor.vala:620
+msgid "Appends Steam's game command."
+msgstr "Menambahkan perintah game Steam."
+
+#: src/widgets/games/launch-options-editor.vala:623
+msgid "Additional arguments"
+msgstr "Argumen tambahan"
+
+#: src/widgets/games/launch-options-editor.vala:623
+msgid "Add extra launch options"
+msgstr "Tambahkan opsi peluncuran ekstra"
+
+#: src/widgets/games/launch-options-editor.vala:626
+msgid "Custom launch arguments"
+msgstr "Argumen peluncuran kustom"
+
+#: src/widgets/games/launch-options-editor.vala:626
+msgid "Add your own launch options."
+msgstr "Tambahkan opsi peluncuran Anda sendiri."
+
+#: src/widgets/games/launch-options-editor.vala:631
 msgid "Advanced options"
 msgstr "Opsi lanjutan"
 
-#: src/widgets/games/launch-options-editor.vala:818
+#: src/widgets/games/launch-options-editor.vala:632
 msgid "Extra control over the final Steam launch command."
 msgstr "Kontrol ekstra atas perintah peluncuran Steam akhir."
 
-#: src/widgets/games/launch-options-editor.vala:1037
-#: src/widgets/games/launch-options-editor.vala:1082
+#: src/widgets/games/launch-options-editor.vala:808
+#: src/widgets/games/launch-options-editor.vala:843
 msgid "Fullscreen"
 msgstr "Layar penuh"
 
-#: src/widgets/games/launch-options-editor.vala:1037
-#: src/widgets/games/launch-options-editor.vala:1082
+#: src/widgets/games/launch-options-editor.vala:808
+#: src/widgets/games/launch-options-editor.vala:843
 msgid "Runs the game in a fullscreen session."
 msgstr "Menjalankan game dalam sesi layar penuh."
 
-#: src/widgets/games/launch-options-editor.vala:1043
-#: src/widgets/games/launch-options-editor.vala:1088
+#: src/widgets/games/launch-options-editor.vala:814
+#: src/widgets/games/launch-options-editor.vala:849
 msgid "VRR"
 msgstr "VRR"
 
-#: src/widgets/games/launch-options-editor.vala:1043
-#: src/widgets/games/launch-options-editor.vala:1088
+#: src/widgets/games/launch-options-editor.vala:814
+#: src/widgets/games/launch-options-editor.vala:849
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr "Mencocokkan refresh rate layar Anda dengan FPS game."
 
-#: src/widgets/games/launch-options-editor.vala:1046
-#: src/widgets/games/launch-options-editor.vala:1091
+#: src/widgets/games/launch-options-editor.vala:817
+#: src/widgets/games/launch-options-editor.vala:852
 msgid "Frame limit"
 msgstr "Batas frame"
 
-#: src/widgets/games/launch-options-editor.vala:1046
+#: src/widgets/games/launch-options-editor.vala:817
 msgid "Caps the frame rate inside Gamescope."
 msgstr "Membatasi frame rate di dalam Gamescope."
 
-#: src/widgets/games/launch-options-editor.vala:1046
-#: src/widgets/games/launch-options-editor.vala:1091
+#: src/widgets/games/launch-options-editor.vala:817
+#: src/widgets/games/launch-options-editor.vala:852
 msgid "FPS"
 msgstr "FPS"
 
-#: src/widgets/games/launch-options-editor.vala:1050
-#: src/widgets/games/launch-options-editor.vala:1098
+#: src/widgets/games/launch-options-editor.vala:821
+#: src/widgets/games/launch-options-editor.vala:859
 msgid "Resolution"
 msgstr "Resolusi"
 
-#: src/widgets/games/launch-options-editor.vala:1050
+#: src/widgets/games/launch-options-editor.vala:821
 msgid "Sets the Gamescope output resolution."
 msgstr "Mengatur resolusi output Gamescope."
 
-#: src/widgets/games/launch-options-editor.vala:1061
+#: src/widgets/games/launch-options-editor.vala:832
 msgid "Additional Gamescope arguments"
 msgstr "Argumen Gamescope tambahan"
 
-#: src/widgets/games/launch-options-editor.vala:1061
+#: src/widgets/games/launch-options-editor.vala:832
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 "Menyimpan flag Gamescope ekstra seperti penyesuaian output atau resolusi."
 
-#: src/widgets/games/launch-options-editor.vala:1061
+#: src/widgets/games/launch-options-editor.vala:832
 msgid "Add Gamescope arguments"
 msgstr "Tambahkan argumen Gamescope"
 
-#: src/widgets/games/launch-options-editor.vala:1085
+#: src/widgets/games/launch-options-editor.vala:846
 msgid "Auto HDR"
 msgstr "Auto HDR"
 
-#: src/widgets/games/launch-options-editor.vala:1091
+#: src/widgets/games/launch-options-editor.vala:852
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr "Membatasi frame rate di dalam ScopeBuddy."
 
-#: src/widgets/games/launch-options-editor.vala:1098
+#: src/widgets/games/launch-options-editor.vala:859
 msgid "Sets the ScopeBuddy output resolution."
 msgstr "Mengatur resolusi output ScopeBuddy."
 
-#: src/widgets/games/launch-options-editor.vala:1109
+#: src/widgets/games/launch-options-editor.vala:864
 msgid "Additional ScopeBuddy arguments"
 msgstr "Argumen ScopeBuddy tambahan"
 
-#: src/widgets/games/launch-options-editor.vala:1109
+#: src/widgets/games/launch-options-editor.vala:864
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
 "Menyimpan flag ScopeBuddy ekstra seperti pemilihan output yang diinginkan."
 
-#: src/widgets/games/launch-options-editor.vala:1109
+#: src/widgets/games/launch-options-editor.vala:864
 msgid "Add ScopeBuddy arguments"
 msgstr "Tambahkan argumen ScopeBuddy"
 
-#: src/widgets/games/launch-options-editor.vala:1481
+#: src/widgets/games/launch-options-editor.vala:1236
 msgid "No launch options configured yet."
 msgstr "Belum ada opsi peluncuran yang dikonfigurasi."
 
@@ -1122,11 +1094,15 @@ msgstr "Buka menu"
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16
-#: src/widgets/games/default-tool-view.vala:81
+#: src/widgets/games/default-tool-view.vala:20
 msgid "Set the default compatibility tool"
 msgstr "Atur alat kompatibilitas default"
 
-#: src/widgets/games/default-tool-view.vala:25
+#: src/widgets/games/default-tool-view.vala:30
+msgid "Reset to the current default compatibility tool"
+msgstr "Atur ulang ke alat kompatibilitas default saat ini"
+
+#: src/widgets/games/default-tool-view.vala:74
 msgid ""
 "Choose the default compatibility tool Steam should use for games without an "
 "explicit override."
@@ -1134,17 +1110,9 @@ msgstr ""
 "Pilih alat kompatibilitas default yang harus digunakan Steam untuk game "
 "tanpa penggantian eksplisit."
 
-#: src/widgets/games/default-tool-view.vala:101
-msgid "Reset to the current default compatibility tool"
-msgstr "Atur ulang ke alat kompatibilitas default saat ini"
-
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/default-tool-view.vala:118
 msgid "Couldn't change the default compatibility tool"
 msgstr "Tidak dapat mengubah alat kompatibilitas default"
-
-#: src/widgets/games/default-tool-view.vala:229
-msgid "The default compatibility tool has been written to disk."
-msgstr "Alat kompatibilitas default telah ditulis ke disk."
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
@@ -1502,15 +1470,30 @@ msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Keluar"
 
-#~ msgid "Enter your desired launch options"
-#~ msgstr "Masukkan opsi peluncuran yang Anda inginkan"
+#~ msgid "Clear"
+#~ msgstr "Hapus"
+
+#~ msgid "Clear the current mass edit selections"
+#~ msgstr "Hapus pilihan pengeditan massal saat ini"
+
+#~ msgid "Enabled"
+#~ msgstr "Diaktifkan"
+
+#~ msgid "Applied"
+#~ msgstr "Diterapkan"
+
+#~ msgid "The launch options have been written to disk."
+#~ msgstr "Opsi peluncuran telah ditulis ke disk."
+
+#~ msgid "Apply the current value"
+#~ msgstr "Terapkan nilai saat ini"
+
+#~ msgid "The default compatibility tool has been written to disk."
+#~ msgstr "Alat kompatibilitas default telah ditulis ke disk."
 
 #~ msgid ""
-#~ "Steam compatibility tool based on Proton-GE with modifications for very "
-#~ "old GPUs, with DXVK."
-#~ msgstr ""
-#~ "Alat kompatibilitas Steam berbasis Proton-GE dengan modifikasi untuk GPU "
-#~ "yang sangat lama, dengan DXVK."
+#~ "Enable all the options that you want the mass edit to take into account."
+#~ msgstr "Aktifkan semua opsi yang Anda ingin edit massal pertimbangkan."
 
 #~ msgid ""
 #~ "Steam compatibility tool based on Proton-GE with modifications for very "

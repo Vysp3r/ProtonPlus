@@ -28,9 +28,10 @@ namespace ProtonPlus.Widgets {
 			install_button.set_tooltip_text (_("Install %s").printf (title));
 			install_button.add_css_class ("flat");
 
-			input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+			input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 			input_box.set_margin_end (10);
 			input_box.set_valign (Gtk.Align.CENTER);
+			input_box.add_css_class ("linked");
 			input_box.append (info_button);
 			input_box.append (update_button);
 			input_box.append (open_button);

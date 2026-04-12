@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-08 22:56-0400\n"
+"POT-Creation-Date: 2026-04-12 14:12-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Bosnian <https://hosted.weblate.org/projects/protonplus/"
@@ -32,66 +32,66 @@ msgstr "Web stranica"
 msgid "Special thanks to"
 msgstr "Posebna zahvala"
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Loading"
 msgstr "Učitavanje"
 
-#: src/widgets/window.vala:32
+#: src/widgets/window.vala:38
 msgid "Taking longer than normal?"
 msgstr "Traje li duže nego uobičajeno?"
 
-#: src/widgets/window.vala:32 src/widgets/window.vala:93
+#: src/widgets/window.vala:38 src/widgets/window.vala:118
 #: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/remove-dialog.vala:49
 #: src/widgets/runners/install-dialog.vala:52
 #: src/widgets/runners/upgrade-dialog.vala:56
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:46
-#: src/widgets/games/launch-options-view.vala:135
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/launch-options-view.vala:100
+#: src/widgets/games/default-tool-view.vala:118
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 msgid "Please report this issue on GitHub."
 msgstr "Molimo vas da prijavite ovaj problem na GitHub-u."
 
-#: src/widgets/window.vala:45
+#: src/widgets/window.vala:51
 msgid "Donate"
 msgstr "Donirajte"
 
-#: src/widgets/window.vala:49
+#: src/widgets/window.vala:55
 msgid "_Preferences"
 msgstr ""
 
-#: src/widgets/window.vala:50
+#: src/widgets/window.vala:56
 msgid "_Keyboard Shortcuts"
 msgstr "_Prečice na tastaturi"
 
-#: src/widgets/window.vala:51
+#: src/widgets/window.vala:57
 msgid "_About ProtonPlus"
 msgstr "_O ProtonPlus-u"
 
-#: src/widgets/window.vala:54
+#: src/widgets/window.vala:60
 msgid "Main Menu"
 msgstr "Glavni izbornik"
 
-#: src/widgets/window.vala:59
+#: src/widgets/window.vala:65
 msgid "Runners"
 msgstr "Trkači"
 
-#: src/widgets/window.vala:60
+#: src/widgets/window.vala:66
 msgid "Games"
 msgstr "Igre"
 
-#: src/widgets/window.vala:93
+#: src/widgets/window.vala:118
 msgid "Couldn't load the launchers"
 msgstr ""
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 #, c-format
 msgid "Welcome to %s"
 msgstr "Dobrodošli u %s"
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 #, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
@@ -100,80 +100,80 @@ msgstr ""
 "Instalirajte Steam, Lutris, Bottles ili Heroic Games Launcher da biste "
 "započeli."
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:132
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
 
-#: src/widgets/window.vala:130
+#: src/widgets/window.vala:155
 msgid "Checking for updates"
 msgstr ""
 
-#: src/widgets/window.vala:131
+#: src/widgets/window.vala:156
 #, c-format
 msgid "Updating %s"
 msgstr ""
 
-#: src/widgets/window.vala:148
+#: src/widgets/window.vala:173
 msgid "Nothing to update"
 msgstr ""
 
-#: src/widgets/window.vala:149
+#: src/widgets/window.vala:174
 #, c-format
 msgid "No update found for %s"
 msgstr ""
 
-#: src/widgets/window.vala:155
+#: src/widgets/window.vala:180
 #, fuzzy
 msgid "Everything is now up-to-date"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/window.vala:156
+#: src/widgets/window.vala:181
 #, fuzzy, c-format
 msgid "%s is now up-to-date"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:169
-#: src/widgets/window.vala:175 src/widgets/window.vala:181
+#: src/widgets/window.vala:186 src/widgets/window.vala:194
+#: src/widgets/window.vala:200 src/widgets/window.vala:206
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr ""
 
-#: src/widgets/window.vala:161 src/widgets/window.vala:162
+#: src/widgets/window.vala:186 src/widgets/window.vala:187
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr ""
 
-#: src/widgets/window.vala:162 src/widgets/window.vala:170
-#: src/widgets/window.vala:176 src/widgets/window.vala:182
+#: src/widgets/window.vala:187 src/widgets/window.vala:195
+#: src/widgets/window.vala:201 src/widgets/window.vala:207
 #, fuzzy, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "Instaliraj %s"
 
-#: src/widgets/window.vala:169 src/widgets/window.vala:170
+#: src/widgets/window.vala:194 src/widgets/window.vala:195
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
 #: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr ""
 
-#: src/widgets/window.vala:175 src/widgets/window.vala:176
+#: src/widgets/window.vala:200 src/widgets/window.vala:201
 #: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr ""
 
-#: src/widgets/window.vala:181 src/widgets/window.vala:182
+#: src/widgets/window.vala:206 src/widgets/window.vala:207
 #: src/widgets/runners/runner-row.vala:71
 #, fuzzy
 msgid "Unknown error"
 msgstr "Nepoznato"
 
-#: src/widgets/window.vala:183 src/widgets/error-dialog.vala:7
+#: src/widgets/window.vala:208 src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr ""
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 #: src/widgets/runners/steamtinkerlaunch-row.vala:39
 #: src/widgets/runners/steamtinkerlaunch-row.vala:82
 #: src/widgets/runners/steamtinkerlaunch-row.vala:127
@@ -182,17 +182,17 @@ msgstr ""
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: src/widgets/window.vala:221
+#: src/widgets/window.vala:256
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:223
+#: src/widgets/window.vala:258
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:226 src/widgets/runners/install-dialog.vala:23
+#: src/widgets/window.vala:261 src/widgets/runners/install-dialog.vala:23
 #: src/widgets/runners/upgrade-dialog.vala:23
 msgid "Cancel"
 msgstr "Otkaži"
@@ -310,11 +310,11 @@ msgstr "Izbriši %s"
 msgid "Install %s"
 msgstr "Instaliraj %s"
 
-#: src/widgets/runners/release-row.vala:54
-#: src/widgets/runners/release-row.vala:56
+#: src/widgets/runners/release-row.vala:55
+#: src/widgets/runners/release-row.vala:57
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/basic-row.vala:66
-#: src/widgets/runners/filters-box.vala:22
+#: src/widgets/runners/filters-box.vala:27
 msgid "Used"
 msgstr ""
 
@@ -422,25 +422,25 @@ msgid ""
 "each time your launch the application if automatic updates is enabled"
 msgstr ""
 
-#: src/widgets/runners/filters-box.vala:12
+#: src/widgets/runners/filters-box.vala:18
 #, fuzzy
 msgid "Installed"
 msgstr "Instaliraj %s"
 
-#: src/widgets/runners/filters-box.vala:17
+#: src/widgets/runners/filters-box.vala:20
 #, fuzzy
 msgid "Show installed runners"
 msgstr "_Upravo instalirano"
 
-#: src/widgets/runners/filters-box.vala:27
+#: src/widgets/runners/filters-box.vala:29
 msgid "Show runners that are used by one game or more"
 msgstr ""
 
-#: src/widgets/runners/filters-box.vala:32
+#: src/widgets/runners/filters-box.vala:36
 msgid "Unused"
 msgstr ""
 
-#: src/widgets/runners/filters-box.vala:37
+#: src/widgets/runners/filters-box.vala:38
 msgid "Show runners that aren't used by any games"
 msgstr ""
 
@@ -480,72 +480,72 @@ msgstr "Da biste instalirali %s za %s, pokrenite sljedeću naredbu:"
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Trenutno ne postoji poznati način za instaliranje %s za %s."
 
-#: src/widgets/games/games-box.vala:67
+#: src/widgets/games/games-box.vala:64
 msgid "Close the Steam client beforehand so that the changes can be applied."
 msgstr "Prvo zatvorite Steam klijent kako bi se promjene mogle primijeniti."
 
-#: src/widgets/games/games-box.vala:84 src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:81 src/widgets/games/games-box.vala:347
 msgid "Show search"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:110
+#: src/widgets/games/games-box.vala:109
 msgid "Search for a game"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:117
+#: src/widgets/games/games-box.vala:116
 msgid "Name"
 msgstr "Ime"
 
-#: src/widgets/games/games-box.vala:121
+#: src/widgets/games/games-box.vala:120
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:128
-#: src/widgets/games/mass-edit-view.vala:102
-#: src/widgets/games/default-tool-view.vala:22
+#: src/widgets/games/games-box.vala:127
+#: src/widgets/games/mass-edit-view.vala:70
+#: src/widgets/games/default-tool-view.vala:73
 msgid "Compatibility tool"
 msgstr "Alat za kompatibilnost"
 
-#: src/widgets/games/games-box.vala:132
+#: src/widgets/games/games-box.vala:131
 msgid "Other"
 msgstr "Ostalo"
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:157
 msgid "No profile was found."
 msgstr "Nije pronađen nijedan profil."
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:157
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Obavezno se povežite na Steam barem jednom."
 
-#: src/widgets/games/games-box.vala:167
+#: src/widgets/games/games-box.vala:157
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "Ako mislite da je ovo problem, obavezno ga prijavite na GitHub-u."
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:232
 msgid "Unsupported launcher"
 msgstr "Nepodržani pokretač"
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:232
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s trenutno nije podržan."
 
-#: src/widgets/games/games-box.vala:253
+#: src/widgets/games/games-box.vala:232
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "Ako želite da ubrzam razvoj, obavezno pokažite svoju podršku!"
 
-#: src/widgets/games/games-box.vala:296 src/widgets/games/games-box.vala:359
-#: src/widgets/games/games-box.vala:362
-#: src/widgets/games/mass-edit-view.vala:209
+#: src/widgets/games/games-box.vala:272 src/widgets/games/games-box.vala:334
+#: src/widgets/games/games-box.vala:337
+#: src/widgets/games/mass-edit-view.vala:171
 #: src/widgets/games/compatibility-tool-dropdown.vala:32
 #: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
 msgstr "Nedefinirano"
 
-#: src/widgets/games/games-box.vala:372
+#: src/widgets/games/games-box.vala:347
 msgid "Hide search"
 msgstr ""
 
@@ -561,51 +561,33 @@ msgstr "Nepoznato"
 msgid "Open ProtonDB page"
 msgstr "Otvori ProtonDB stranicu"
 
-#: src/widgets/games/mass-edit-view.vala:36
+#: src/widgets/games/mass-edit-view.vala:28
 #: src/widgets/games/mass-edit-button.vala:10
 msgid "Mass edit"
 msgstr "Grupno uređivanje"
 
-#: src/widgets/games/mass-edit-view.vala:51
-#: src/widgets/games/launch-options-view.vala:46
-#: src/widgets/games/default-tool-view.vala:96
+#: src/widgets/games/mass-edit-view.vala:32
+#: src/widgets/games/launch-options-view.vala:27
+#: src/widgets/games/default-tool-view.vala:24
 msgid "Back"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:54
-#: src/widgets/games/launch-options-view.vala:49
-#: src/widgets/games/default-tool-view.vala:99
-msgid "Clear"
-msgstr ""
-
-#: src/widgets/games/mass-edit-view.vala:56
+#: src/widgets/games/mass-edit-view.vala:38
+#: src/widgets/games/launch-options-view.vala:33
 #, fuzzy
-msgid "Clear the current mass edit selections"
-msgstr "Primijeni trenutne promjene"
+msgid "Clear the current launch options"
+msgstr "Promijenite opcije pokretanja igre"
 
-#: src/widgets/games/mass-edit-view.vala:63
-#: src/widgets/games/launch-options-view.vala:58
+#: src/widgets/games/mass-edit-view.vala:41
+#: src/widgets/games/launch-options-view.vala:36
 msgid "Advanced"
 msgstr ""
 
-#: src/widgets/games/mass-edit-view.vala:74
-#: src/widgets/games/launch-options-view.vala:69
-#: src/widgets/games/launch-options-view.vala:166
-#: src/widgets/games/default-tool-view.vala:108
-#: src/widgets/games/default-tool-view.vala:231
-msgid "Apply"
-msgstr "Primijeni"
-
-#: src/widgets/games/mass-edit-view.vala:75
+#: src/widgets/games/mass-edit-view.vala:54
 msgid "Apply the current modifications"
 msgstr "Primijeni trenutne promjene"
 
-#: src/widgets/games/mass-edit-view.vala:97
-#: src/widgets/games/mass-edit-view.vala:106
-msgid "Enabled"
-msgstr "Omogućeno"
-
-#: src/widgets/games/mass-edit-view.vala:98
+#: src/widgets/games/mass-edit-view.vala:66
 msgid ""
 "Enable this if you want the mass edit to take the compatibility tool into "
 "account."
@@ -613,7 +595,7 @@ msgstr ""
 "Omogućite ovo ako želite da se prilikom grupnog uređivanja uzme u obzir alat "
 "za kompatibilnost."
 
-#: src/widgets/games/mass-edit-view.vala:107
+#: src/widgets/games/mass-edit-view.vala:76
 msgid ""
 "Enable this if you want the mass edit to take the launch options into "
 "account."
@@ -621,30 +603,28 @@ msgstr ""
 "Omogućite ovo ako želite da se prilikom grupnog uređivanja uzmu u obzir "
 "opcije pokretanja."
 
-#: src/widgets/games/mass-edit-view.vala:116
-msgid ""
-"Enable all the options that you want the mass edit to take into account."
-msgstr ""
-"Omogućite sve opcije koje želite da se uzmu u obzir prilikom grupnog "
-"uređivanja."
+#: src/widgets/games/mass-edit-view.vala:83
+#, fuzzy
+msgid "Launch options"
+msgstr "Opcije za pokretanje"
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 msgid "1 game selected"
 msgstr "Odabrana je 1 igra"
 
-#: src/widgets/games/mass-edit-view.vala:149
+#: src/widgets/games/mass-edit-view.vala:111
 #, c-format
 msgid "%u games selected"
 msgstr "Odabrano je %u igara"
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 #, fuzzy
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
 msgstr ""
 "Došlo je do greške prilikom pokušaja promjene alata za kompatibilnost za %s."
 
-#: src/widgets/games/mass-edit-view.vala:247
+#: src/widgets/games/mass-edit-view.vala:209
 msgid "The following games had an issue:"
 msgstr ""
 
@@ -712,392 +692,378 @@ msgstr ""
 "Molimo odaberite barem jednu igru prije korištenja funkcije grupnog "
 "uređivanja."
 
-#: src/widgets/games/launch-options-view.vala:31
+#: src/widgets/games/launch-options-view.vala:23
 msgid "Modify launch options"
 msgstr "Promijenite opcije pokretanja"
 
-#: src/widgets/games/launch-options-view.vala:51
-#, fuzzy
-msgid "Clear the current launch options"
-msgstr "Promijenite opcije pokretanja igre"
-
-#: src/widgets/games/launch-options-view.vala:70
-#: src/widgets/games/launch-options-view.vala:167
-#: src/widgets/games/default-tool-view.vala:109
-#: src/widgets/games/default-tool-view.vala:232
+#: src/widgets/games/launch-options-view.vala:49
+#: src/widgets/games/default-tool-view.vala:36
 msgid "Apply the current modification"
 msgstr "Primijeni trenutnu promjenu"
 
-#: src/widgets/games/launch-options-view.vala:135
+#: src/widgets/games/launch-options-view.vala:100
 #, fuzzy, c-format
 msgid "Couldn't change the launch options of %s"
 msgstr ""
 "Došlo je do greške prilikom pokušaja promjene opcija pokretanja za program "
 "%s."
 
-#: src/widgets/games/launch-options-view.vala:163
-#: src/widgets/games/default-tool-view.vala:228
-#, fuzzy
-msgid "Applied"
-msgstr "Primijeni"
-
-#: src/widgets/games/launch-options-view.vala:164
-msgid "The launch options have been written to disk."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:130
-#: src/widgets/games/launch-options-editor.vala:236
-#: src/widgets/games/launch-options-editor.vala:393
+#: src/widgets/games/launch-options-editor.vala:67
+#: src/widgets/games/launch-options-editor.vala:261
 msgid "Set"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:131
+#: src/widgets/games/launch-options-editor.vala:68
 msgid "Apply the FPS value"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:237
-#, fuzzy
-msgid "Apply the current value"
-msgstr "Primijeni trenutnu promjenu"
-
-#: src/widgets/games/launch-options-editor.vala:329
+#: src/widgets/games/launch-options-editor.vala:229
 msgid "Auto detect"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:330
+#: src/widgets/games/launch-options-editor.vala:230
 msgid "Custom"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:394
+#: src/widgets/games/launch-options-editor.vala:262
 #, fuzzy
 msgid "Apply the custom resolution"
 msgstr "Primijeni trenutnu promjenu"
 
-#: src/widgets/games/launch-options-editor.vala:671
+#. Launch command preview
+#: src/widgets/games/launch-options-editor.vala:513
+msgid "Launch command preview"
+msgstr ""
+
+#. Common options
+#: src/widgets/games/launch-options-editor.vala:518
 msgid "Performance overlay"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:671
+#: src/widgets/games/launch-options-editor.vala:518
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:672
+#: src/widgets/games/launch-options-editor.vala:519
 msgid "Disable Steam Deck Mode"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:672
+#: src/widgets/games/launch-options-editor.vala:519
 msgid "Disables the Steam Deck-specific profile that some games use."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:673
-#: src/widgets/games/launch-options-editor.vala:1040
-msgid "HDR"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:673
-#: src/widgets/games/launch-options-editor.vala:1040
-#: src/widgets/games/launch-options-editor.vala:1085
-msgid "Outputs HDR colors if your display supports it."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:675
+#: src/widgets/games/launch-options-editor.vala:520
 msgid "Wayland"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:675
-msgid "Runs the game natively on Wayland instead of through XWayland."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:676
-msgid "VKBasalt"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:676
-msgid "Adds visual effects like sharpening and color adjustments."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:677
-msgid "WineD3D"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:677
+#: src/widgets/games/launch-options-editor.vala:520
 msgid ""
-"Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
+"Runs the game natively on Wayland instead of through XWayland but it breaks "
+"Steam Input and the Steam Overlay."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:678
+#: src/widgets/games/launch-options-editor.vala:523
+#, fuzzy
+msgid "Common options"
+msgstr "Opcije za pokretanje"
+
+#: src/widgets/games/launch-options-editor.vala:524
+msgid "Quick toggles for the launch options people reach for most often."
+msgstr ""
+
+#. Launch tools
+#: src/widgets/games/launch-options-editor.vala:532
+#: src/widgets/games/launch-options-editor.vala:811
+msgid "HDR"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:532
+#: src/widgets/games/launch-options-editor.vala:811
+#: src/widgets/games/launch-options-editor.vala:846
+msgid "Outputs HDR colors if your display supports it."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:540
+msgid "None"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:541
+#, fuzzy
+msgid "Gamescope"
+msgstr "Igre"
+
+#: src/widgets/games/launch-options-editor.vala:542
+msgid "ScopeBuddy"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:549
+#, fuzzy
+msgid "Launch tools"
+msgstr "Opcije za pokretanje"
+
+#: src/widgets/games/launch-options-editor.vala:550
+msgid ""
+"Choose one to configure FPS caps, resolution, and other display options."
+msgstr ""
+
+#. GPU vendor options
+#: src/widgets/games/launch-options-editor.vala:557
 msgid "Mesa Anti-Lag"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:678
+#: src/widgets/games/launch-options-editor.vala:557
 msgid "Reduces latency on supported AMD Mesa setups."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:679
+#: src/widgets/games/launch-options-editor.vala:558
 msgid "Use dGPU"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:679
+#: src/widgets/games/launch-options-editor.vala:558
 msgid "Makes the game use the AMD dGPU on hybrid systems."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:680
+#: src/widgets/games/launch-options-editor.vala:559
 msgid "Hide AMD APU"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:680
+#: src/widgets/games/launch-options-editor.vala:559
 msgid ""
 "Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
 "integrated graphics."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:681
+#: src/widgets/games/launch-options-editor.vala:561
 msgid "NVAPI"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:681
+#: src/widgets/games/launch-options-editor.vala:561
 msgid "Lets games access NVIDIA-specific features like DLSS."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:685
+#: src/widgets/games/launch-options-editor.vala:564
 msgid "Update DLSS components"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:685
+#: src/widgets/games/launch-options-editor.vala:564
 msgid "Auto upgrades DLSS components for supported games."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:689
+#: src/widgets/games/launch-options-editor.vala:567
 msgid "Hide NVIDIA GPU"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:689
+#: src/widgets/games/launch-options-editor.vala:567
 msgid ""
 "Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
 "NVIDIA driver behavior."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:691
-msgid "Launch command preview"
+#: src/widgets/games/launch-options-editor.vala:573
+msgid "AMD"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:705
-#, fuzzy
-msgid "Common options"
-msgstr "Opcije za pokretanje"
-
-#: src/widgets/games/launch-options-editor.vala:705
-msgid "Quick toggles for the launch options people reach for most often."
+#: src/widgets/games/launch-options-editor.vala:574
+msgid "NVIDIA"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:718
-msgid "None"
+#: src/widgets/games/launch-options-editor.vala:582
+msgid "GPU vendor options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:719
-#, fuzzy
-msgid "Gamescope"
-msgstr "Igre"
-
-#: src/widgets/games/launch-options-editor.vala:720
-msgid "ScopeBuddy"
+#: src/widgets/games/launch-options-editor.vala:583
+msgid "Use GPU-specific compatibility toggles for AMD and NVIDIA hardware."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:726
-#, fuzzy
-msgid "Launch tools"
-msgstr "Opcije za pokretanje"
+#. More options
+#: src/widgets/games/launch-options-editor.vala:590
+msgid "VKBasalt"
+msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:726
+#: src/widgets/games/launch-options-editor.vala:590
+msgid "Adds visual effects like sharpening and color adjustments."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:591
+msgid "WineD3D"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:591
 msgid ""
-"Choose one to configure FPS caps, resolution, and other display options."
+"Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:730
-msgid "Additional arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:730
-#, fuzzy
-msgid "Add extra launch options"
-msgstr "Promijenite opcije pokretanja"
-
-#: src/widgets/games/launch-options-editor.vala:733
-msgid "Custom launch arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:733
-#, fuzzy
-msgid "Add your own launch options."
-msgstr "Promijenite opcije pokretanja"
-
-#: src/widgets/games/launch-options-editor.vala:736
-msgid "Appends Steam's game command."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:739
-#, fuzzy
-msgid "Skip launcher"
-msgstr "Nepodržani pokretač"
-
-#: src/widgets/games/launch-options-editor.vala:739
-msgid "Adds -skip-launcher to bypass launchers in games that support it."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:740
-msgid "Vulkan"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:740
-msgid "Adds -vulkan to make the game use its Vulkan renderer."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:741
-msgid "DirectX 11"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:741
-msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:742
-msgid "DirectX 12"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:742
-msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:743
-msgid "Console"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:743
-msgid "Adds -console to open the game's developer console when supported."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:761
+#: src/widgets/games/launch-options-editor.vala:594
 #, fuzzy
 msgid "More options"
 msgstr "Više informacija"
 
-#: src/widgets/games/launch-options-editor.vala:761
+#: src/widgets/games/launch-options-editor.vala:595
 msgid "Extra graphics settings and launch behaviors."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:772
-msgid "AMD"
+#. Game arguments
+#: src/widgets/games/launch-options-editor.vala:602
+#, fuzzy
+msgid "Skip launcher"
+msgstr "Nepodržani pokretač"
+
+#: src/widgets/games/launch-options-editor.vala:602
+msgid "Adds -skip-launcher to bypass launchers in games that support it."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:773
-msgid "NVIDIA"
+#: src/widgets/games/launch-options-editor.vala:603
+msgid "Vulkan"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:781
-msgid "GPU vendor options"
+#: src/widgets/games/launch-options-editor.vala:603
+msgid "Adds -vulkan to make the game use its Vulkan renderer."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:781
-msgid "Use GPU-specific compatibility toggles for AMD and NVIDIA hardware."
+#: src/widgets/games/launch-options-editor.vala:604
+msgid "DirectX 11"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:802
+#: src/widgets/games/launch-options-editor.vala:604
+msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:605
+msgid "DirectX 12"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:605
+msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:606
+msgid "Console"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:606
+msgid "Adds -console to open the game's developer console when supported."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:609
 msgid "Game arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:802
+#: src/widgets/games/launch-options-editor.vala:610
 msgid "Flags passed directly to the game."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:818
+#. Advanced options
+#: src/widgets/games/launch-options-editor.vala:620
+msgid "Appends Steam's game command."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:623
+msgid "Additional arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:623
+#, fuzzy
+msgid "Add extra launch options"
+msgstr "Promijenite opcije pokretanja"
+
+#: src/widgets/games/launch-options-editor.vala:626
+msgid "Custom launch arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:626
+#, fuzzy
+msgid "Add your own launch options."
+msgstr "Promijenite opcije pokretanja"
+
+#: src/widgets/games/launch-options-editor.vala:631
 #, fuzzy
 msgid "Advanced options"
 msgstr "Opcije za pokretanje"
 
-#: src/widgets/games/launch-options-editor.vala:818
+#: src/widgets/games/launch-options-editor.vala:632
 msgid "Extra control over the final Steam launch command."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1037
-#: src/widgets/games/launch-options-editor.vala:1082
+#: src/widgets/games/launch-options-editor.vala:808
+#: src/widgets/games/launch-options-editor.vala:843
 msgid "Fullscreen"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1037
-#: src/widgets/games/launch-options-editor.vala:1082
+#: src/widgets/games/launch-options-editor.vala:808
+#: src/widgets/games/launch-options-editor.vala:843
 msgid "Runs the game in a fullscreen session."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1043
-#: src/widgets/games/launch-options-editor.vala:1088
+#: src/widgets/games/launch-options-editor.vala:814
+#: src/widgets/games/launch-options-editor.vala:849
 msgid "VRR"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1043
-#: src/widgets/games/launch-options-editor.vala:1088
+#: src/widgets/games/launch-options-editor.vala:814
+#: src/widgets/games/launch-options-editor.vala:849
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1046
-#: src/widgets/games/launch-options-editor.vala:1091
+#: src/widgets/games/launch-options-editor.vala:817
+#: src/widgets/games/launch-options-editor.vala:852
 msgid "Frame limit"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1046
+#: src/widgets/games/launch-options-editor.vala:817
 msgid "Caps the frame rate inside Gamescope."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1046
-#: src/widgets/games/launch-options-editor.vala:1091
+#: src/widgets/games/launch-options-editor.vala:817
+#: src/widgets/games/launch-options-editor.vala:852
 msgid "FPS"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1050
-#: src/widgets/games/launch-options-editor.vala:1098
+#: src/widgets/games/launch-options-editor.vala:821
+#: src/widgets/games/launch-options-editor.vala:859
 msgid "Resolution"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1050
+#: src/widgets/games/launch-options-editor.vala:821
 msgid "Sets the Gamescope output resolution."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1061
+#: src/widgets/games/launch-options-editor.vala:832
 msgid "Additional Gamescope arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1061
+#: src/widgets/games/launch-options-editor.vala:832
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1061
+#: src/widgets/games/launch-options-editor.vala:832
 msgid "Add Gamescope arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1085
+#: src/widgets/games/launch-options-editor.vala:846
 msgid "Auto HDR"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1091
+#: src/widgets/games/launch-options-editor.vala:852
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1098
+#: src/widgets/games/launch-options-editor.vala:859
 msgid "Sets the ScopeBuddy output resolution."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1109
+#: src/widgets/games/launch-options-editor.vala:864
 msgid "Additional ScopeBuddy arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1109
+#: src/widgets/games/launch-options-editor.vala:864
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1109
+#: src/widgets/games/launch-options-editor.vala:864
 msgid "Add ScopeBuddy arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:1481
+#: src/widgets/games/launch-options-editor.vala:1236
 msgid "No launch options configured yet."
 msgstr ""
 
@@ -1123,30 +1089,25 @@ msgstr "Otvori meni"
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16
-#: src/widgets/games/default-tool-view.vala:81
+#: src/widgets/games/default-tool-view.vala:20
 msgid "Set the default compatibility tool"
 msgstr "Postavljanje zadanog alata za kompatibilnost"
 
-#: src/widgets/games/default-tool-view.vala:25
+#: src/widgets/games/default-tool-view.vala:30
+#, fuzzy
+msgid "Reset to the current default compatibility tool"
+msgstr "Postavljanje zadanog alata za kompatibilnost"
+
+#: src/widgets/games/default-tool-view.vala:74
 msgid ""
 "Choose the default compatibility tool Steam should use for games without an "
 "explicit override."
 msgstr ""
 
-#: src/widgets/games/default-tool-view.vala:101
-#, fuzzy
-msgid "Reset to the current default compatibility tool"
-msgstr "Postavljanje zadanog alata za kompatibilnost"
-
-#: src/widgets/games/default-tool-view.vala:210
+#: src/widgets/games/default-tool-view.vala:118
 #, fuzzy
 msgid "Couldn't change the default compatibility tool"
 msgstr "Postavljanje zadanog alata za kompatibilnost"
-
-#: src/widgets/games/default-tool-view.vala:229
-#, fuzzy
-msgid "The default compatibility tool has been written to disk."
-msgstr "Postavi zadani alat za kompatibilnost"
 
 #: src/widgets/games/compatibility-tool-row.vala:18
 msgid "Select your desired compatibility tool"
@@ -1506,6 +1467,34 @@ msgstr "Prikaži prečice"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "Izlazi"
+
+#~ msgid "Enabled"
+#~ msgstr "Omogućeno"
+
+#, fuzzy
+#~ msgid "Apply the current value"
+#~ msgstr "Primijeni trenutnu promjenu"
+
+#~ msgid ""
+#~ "Enable all the options that you want the mass edit to take into account."
+#~ msgstr ""
+#~ "Omogućite sve opcije koje želite da se uzmu u obzir prilikom grupnog "
+#~ "uređivanja."
+
+#, fuzzy
+#~ msgid "Clear the current mass edit selections"
+#~ msgstr "Primijeni trenutne promjene"
+
+#~ msgid "Apply"
+#~ msgstr "Primijeni"
+
+#, fuzzy
+#~ msgid "Applied"
+#~ msgstr "Primijeni"
+
+#, fuzzy
+#~ msgid "The default compatibility tool has been written to disk."
+#~ msgstr "Postavi zadani alat za kompatibilnost"
 
 #~ msgid "Enter your desired launch options"
 #~ msgstr "Unesite željene opcije pokretanja"
