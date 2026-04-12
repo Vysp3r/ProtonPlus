@@ -11,6 +11,10 @@ namespace ProtonPlus.Widgets {
 		Gtk.Label description_label { get; set; }
 
 		construct {
+			set_title (_("More information"));
+			set_content_width (750);
+			set_content_height (450);
+
 			window_title = new Adw.WindowTitle (_("More information"), "");
 
 			web_button_content = new Adw.ButtonContent ();
@@ -29,11 +33,14 @@ namespace ProtonPlus.Widgets {
 			description_label = new Gtk.Label (null);
 			description_label.set_valign (Gtk.Align.START);
 			description_label.set_halign (Gtk.Align.START);
+			description_label.set_wrap (true);
+			description_label.set_selectable (true);
+			description_label.set_xalign (0);
+			description_label.set_wrap_mode (Pango.WrapMode.WORD_CHAR);
 
 			scrolled_window = new Gtk.ScrolledWindow ();
 			scrolled_window.set_child (description_label);
-			scrolled_window.set_policy (Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC);
-			scrolled_window.set_size_request (750, 425);
+			scrolled_window.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
 			scrolled_window.add_css_class ("card");
 			scrolled_window.add_css_class ("p-10");
 			scrolled_window.set_margin_top (7);
