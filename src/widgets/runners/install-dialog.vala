@@ -21,8 +21,9 @@ namespace ProtonPlus.Widgets {
 				set_can_close (false);
 			} else {
 				add_response ("cancel", _("Cancel"));
-				set_response_appearance ("cancel", Adw.ResponseAppearance.DESTRUCTIVE);
+				set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);
 				set_close_response ("cancel");
+				set_default_response ("cancel");
 			}
 
 			release.notify["progress"].connect (release_progress_changed);

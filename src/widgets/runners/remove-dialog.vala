@@ -8,9 +8,9 @@ namespace ProtonPlus.Widgets {
 			this.release = release;
 			this.parameters = parameters;
 
-			set_heading (_("Delete %s").printf (release.title));
+			set_heading (_("Delete %s?").printf (release.title));
 
-			set_body (_("Are you sure you want this?"));
+			set_body (_("%s will be permanently deleted.").printf (release.title));
 
 			if (release.runner.group.launcher is Models.Launchers.Steam) {
 				var steam_launcher = (Models.Launchers.Steam) release.runner.group.launcher;
@@ -23,21 +23,24 @@ namespace ProtonPlus.Widgets {
 					if (usage_count == 1)
 						body = _("Used by 1 game.");
 
-					set_body ("%s\n\n%s".printf (body, _("Are you sure you want to proceed?")));
+					set_body ("%s\n\n%s".printf (body, _("%s will be permanently deleted.").printf (release.title)));
 				}
 			}
 
-			add_response ("no", _("No"));
-			add_response ("yes", _("Yes"));
+			add_response ("cancel", _("Cancel"));
+			add_response ("delete", _("Delete"));
 
-			set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
-			set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
+			set_response_appearance ("cancel", Adw.ResponseAppearance.DEFAULT);
+			set_response_appearance ("delete", Adw.ResponseAppearance.DESTRUCTIVE);
+
+			set_default_response ("cancel");
+			set_close_response ("cancel");
 
 			response.connect (response_changed);
 		}
 
 		void response_changed (string response) {
-			if (response != "yes")
+			if (response != "delete")
 				return;
 
 			release.remove.begin (parameters, (obj, res) => {
