@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models {
-	public abstract class Release<R>: Object {
+	public abstract class BaseRelease : Object {
 		public Runner runner { get; set; }
 		public string title { get; set; }
 		public string displayed_title { get; set; }
@@ -11,12 +11,16 @@ namespace ProtonPlus.Models {
 		public string progress { get; set; }
 		public double speed_kbps { get; set; }
 		public double? seconds_remaining { get; set; }
+		public bool is_percent { get; set; }
 		
 		private State _state;
 		public State state { 
 			get {
-				if (_state != State.BUSY_INSTALLING && _state != State.BUSY_REMOVING && _state != State.BUSY_UPGRADING && DownloadManager.instance.is_downloading ((Release<Parameters>) this))
-					return State.BUSY_INSTALLING;
+				if (_state != State.BUSY_INSTALLING && _state != State.BUSY_REMOVING && _state != State.BUSY_UPDATING) {
+					var active_download = DownloadManager.instance.get_active_download (this);
+					if (active_download != null)
+						return active_download.state;
+				}
 				return _state; 
 			}
 			set {
@@ -38,57 +42,60 @@ namespace ProtonPlus.Models {
 			UP_TO_DATE,
 			BUSY_INSTALLING,
 			BUSY_REMOVING,
-			BUSY_UPGRADING,
+			BUSY_UPDATING,
 		}
 
-		public async bool install () {
-			if (DownloadManager.instance.is_downloading ((Release<Parameters>) this))
+		public abstract async bool install ();
+		protected abstract async bool _start_install ();
+		public abstract async bool remove (Parameters parameters);
+		protected abstract void refresh_state ();
+	}
+
+	public abstract class Release<R>: BaseRelease {
+		public override async bool install () {
+			if (state != State.BUSY_UPDATING && DownloadManager.instance.is_downloading (this))
 				return false;
 
 			canceled = false;
 
-			var busy_upgrading = state == State.BUSY_UPGRADING;
+			var busy_updating = state == State.BUSY_UPDATING;
 
-			if (!busy_upgrading)
+			if (!busy_updating)
 				state = State.BUSY_INSTALLING;
 
-			DownloadManager.instance.add_download ((Release<Parameters>) this);
+			DownloadManager.instance.add_download (this);
 
 			// Attempt the installation.
 			var install_success = yield _start_install ();
 
-			DownloadManager.instance.remove_download ((Release<Parameters>) this);
+			DownloadManager.instance.remove_download (this);
 
 			if (!install_success)
-				yield remove ((R) new Models.Parameters ()); // Refreshes install state too.
+				yield remove (new Models.Parameters ()); // Refreshes install state too.
 
-			if (!busy_upgrading)
+			if (!busy_updating)
 				refresh_state (); // Force UI state refresh.
 
 			return install_success;
 		}
 
-		protected abstract async bool _start_install ();
+		public override async bool remove (Parameters parameters) {
+			var busy_updating_or_installing = state == State.BUSY_UPDATING || state == State.BUSY_INSTALLING;
 
-		public async bool remove (R parameters) {
-			var busy_upgrading_or_installing = state == State.BUSY_UPGRADING || state == State.BUSY_INSTALLING;
-
-			if (!busy_upgrading_or_installing) {
+			if (!busy_updating_or_installing) {
 				canceled = false;
 				state = State.BUSY_REMOVING;
 			}
 
 			// Attempt the removal.
-			var remove_success = yield _start_remove (parameters);
+			var remove_success = yield _start_remove ((R) parameters);
 
-			if (!busy_upgrading_or_installing)
+			if (!busy_updating_or_installing)
 				refresh_state (); // Force UI state refresh.
 
 			return remove_success;
 		}
 
 		protected abstract async bool _start_remove (R parameters);
-
-		protected abstract void refresh_state ();
 	}
 }

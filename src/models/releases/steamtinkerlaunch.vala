@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Releases {
-    public class SteamTinkerLaunch : Upgrade<STL_Remove_Parameters> {
+    public class SteamTinkerLaunch : Update<STL_Remove_Parameters> {
         string home_location { get; set; }
         string compat_location { get; set; }
         string parent_location { get; set; }
@@ -199,7 +199,7 @@ namespace ProtonPlus.Models.Releases {
             // except when we're EXPLICITLY allowed to reset that state. This
             // avoids "flickering UI" issues during multi-step processes.
             // NOTE: We ALWAYS allow title change, to ensure the latest version's
-            // title immediately appears during "upgrade" of an installation.
+            // title immediately appears during "update" of an installation.
             displayed_title = _row_title;
 
             state = !installed ? State.NOT_INSTALLED : updated ? State.UP_TO_DATE : State.UPDATE_AVAILABLE;
@@ -251,6 +251,7 @@ namespace ProtonPlus.Models.Releases {
             step = Step.DOWNLOADING;
 
             var download_valid = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, (is_percent, progress, speed_kbps, seconds_remaining) => {
+                this.is_percent = is_percent;
                 this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
                 this.speed_kbps = speed_kbps;
                 this.seconds_remaining = seconds_remaining;
@@ -355,7 +356,7 @@ namespace ProtonPlus.Models.Releases {
             return true;
         }
 
-        protected override async bool _start_upgrade () {
+        protected override async bool _start_update () {
             var remove_success = yield remove (new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ());
 
             if (!remove_success)

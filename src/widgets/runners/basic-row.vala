@@ -31,7 +31,7 @@ namespace ProtonPlus.Widgets {
 			Models.DownloadManager.instance.download_removed.connect (on_download_status_changed);
 		}
 
-		private void on_download_status_changed (Models.Release<Models.Parameters> added_release) {
+		private void on_download_status_changed (Models.BaseRelease added_release) {
 			if (added_release.download_url == release.download_url && added_release.title == release.title) {
 				release_state_changed ();
 			}
@@ -68,7 +68,7 @@ namespace ProtonPlus.Widgets {
 
 		void release_displayed_title_changed () {
 			var usage_count = 0;
-			if (release.state == Models.Release.State.UP_TO_DATE)
+			if (release.state == Models.BaseRelease.State.UP_TO_DATE)
 				usage_count = release.runner.group.launcher.get_compatibility_tool_usage_count (release.title != "SteamTinkerLaunch" ? release.title : "Proton-stl");
 
 			set_title ("%s%s".printf (release.displayed_title, usage_count > 0 ? " (%s)".printf (_("Used")) : ""));
@@ -78,10 +78,10 @@ namespace ProtonPlus.Widgets {
 		}
 
 		void release_state_changed () {
-			var installed = release.state == Models.Release.State.UP_TO_DATE;
-			var busy = release.state == Models.Release.State.BUSY_INSTALLING ||
-						release.state == Models.Release.State.BUSY_REMOVING ||
-						release.state == Models.Release.State.BUSY_UPGRADING;
+			var installed = release.state == Models.BaseRelease.State.UP_TO_DATE;
+			var busy = release.state == Models.BaseRelease.State.BUSY_INSTALLING ||
+						release.state == Models.BaseRelease.State.BUSY_REMOVING ||
+						release.state == Models.BaseRelease.State.BUSY_UPDATING;
 
 			install_button.set_visible (!installed);
 			remove_button.set_visible (installed);
@@ -103,10 +103,10 @@ namespace ProtonPlus.Widgets {
 				var tooltip_text = _("This tool is currently being installed");
 				if (Models.DownloadManager.instance.is_downloading (release))
 					tooltip_text = _("This tool is currently being downloaded");
-				if (release.state == Models.Release.State.BUSY_REMOVING)
+				if (release.state == Models.BaseRelease.State.BUSY_REMOVING)
 					tooltip_text = _("This tool is currently being removed");
-				if (release.state == Models.Release.State.BUSY_UPGRADING)
-					tooltip_text = _("This tool is currently being upgraded");
+				if (release.state == Models.BaseRelease.State.BUSY_UPDATING)
+					tooltip_text = _("This tool is currently being updated");
 
 				install_button.set_tooltip_text (tooltip_text);
 				remove_button.set_tooltip_text (tooltip_text);

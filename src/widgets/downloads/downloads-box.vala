@@ -45,12 +45,12 @@ namespace ProtonPlus.Widgets {
 			}
 		}
 
-		private void on_download_added(Models.Release<Models.Parameters> release) {
+		private void on_download_added(Models.BaseRelease release) {
 			add_download_row(release);
 			update_visibility();
 		}
 
-		private void on_download_removed(Models.Release<Models.Parameters> release) {
+		private void on_download_removed(Models.BaseRelease release) {
 			var child = list_box.get_first_child();
 			while (child != null) {
 				if (child is DownloadRow && ((DownloadRow)child).release == release) {
@@ -62,7 +62,7 @@ namespace ProtonPlus.Widgets {
 			update_visibility();
 		}
 
-		private void add_download_row(Models.Release<Models.Parameters> release) {
+		private void add_download_row(Models.BaseRelease release) {
 			var row = new DownloadRow(release);
 			list_box.append(row);
 		}

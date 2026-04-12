@@ -11,7 +11,6 @@ namespace ProtonPlus.Widgets {
 		DownloadsBox downloads_box;
 
 		LaunchersPopoverButton launchers_popover_button;
-		UpdateButton update_button;
 		Menu menu;
 		Gtk.MenuButton menu_button;
 
@@ -45,9 +44,6 @@ namespace ProtonPlus.Widgets {
 			downloads_box = new DownloadsBox ();
 
 			launchers_popover_button = new LaunchersPopoverButton ();
-
-			update_button = new UpdateButton ();
-			update_button.set_visible (false);
 
 			menu = new Menu ();
 			menu.append (_("_Preferences"), "app.preferences");
@@ -85,7 +81,6 @@ namespace ProtonPlus.Widgets {
 			header_bar = new Adw.HeaderBar ();
 			header_bar.set_title_widget (view_switcher);
 			header_bar.pack_start (launchers_popover_button);
-			header_bar.pack_start (update_button);
 			header_bar.pack_end (menu_button);
 
 			view_switcher_bar = new Adw.ViewSwitcherBar ();
@@ -142,8 +137,6 @@ namespace ProtonPlus.Widgets {
 		}
 
 		public async void check_for_updates (Models.Runners.Basic? runner = null) {
-			update_button.set_visible (true);
-
 			updating = true;
 
 			Adw.Toast toast;
@@ -210,8 +203,6 @@ namespace ProtonPlus.Widgets {
 			}
 
 			toast_overlay.add_toast (toast);
-
-			update_button.set_visible (false);
 
 			updating = false;
 		}

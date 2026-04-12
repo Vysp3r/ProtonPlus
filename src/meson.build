@@ -9,7 +9,6 @@ sources = files(
   'widgets/status-box.vala',
   'widgets/window.vala',
   'widgets/scroll-controller.vala',
-  'widgets/update-button.vala',
   'widgets/error-dialog.vala',
   'widgets/warning-dialog.vala',
 
@@ -88,7 +87,7 @@ sources = files(
 
   'models/releases/basic.vala',
   'models/releases/github-action.vala',
-  'models/releases/upgrade.vala',
+  'models/releases/update.vala',
   'models/releases/steamtinkerlaunch.vala',
   'models/releases/latest.vala',
 

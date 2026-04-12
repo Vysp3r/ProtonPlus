@@ -72,6 +72,7 @@ namespace ProtonPlus.Models.Releases {
 
             if (!FileUtils.test (download_path, FileTest.EXISTS)) {
                 var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, (is_percent, progress, speed_kbps, seconds_remaining) => {
+                    this.is_percent = is_percent;
                     this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
                     this.speed_kbps = speed_kbps;
                     this.seconds_remaining = seconds_remaining;
