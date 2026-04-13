@@ -11,6 +11,7 @@ namespace ProtonPlus.Models.Launchers {
             switch (installation_type) {
             case Launcher.InstallationTypes.SYSTEM:
                 directories = new string[] { "%s/Steam".printf (Environment.get_user_data_dir ()),
+                                             "%s/.local/share/Steam".printf (Environment.get_home_dir ()),
                                              "%s/.steam/steam".printf (Environment.get_home_dir ()),
                                              "%s/.steam/root".printf (Environment.get_home_dir ()),
                                              "%s/.steam/debian-installation".printf (Environment.get_home_dir ()) };

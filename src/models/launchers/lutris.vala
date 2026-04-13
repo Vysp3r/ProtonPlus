@@ -5,7 +5,7 @@ namespace ProtonPlus.Models.Launchers {
 
             switch (installation_type) {
             case Launcher.InstallationTypes.SYSTEM:
-                directories = new string[] { "%s/lutris".printf (Environment.get_user_data_dir ()) };
+                directories = new string[] { "%s/lutris".printf (Environment.get_user_data_dir ()), "%s/.local/share/lutris".printf (Environment.get_home_dir ()) };
                 break;
             case Launcher.InstallationTypes.FLATPAK:
                 directories = new string[] { "%s/.var/app/net.lutris.Lutris/data/lutris".printf (Environment.get_home_dir ()) };
