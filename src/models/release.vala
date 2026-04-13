@@ -12,6 +12,8 @@ namespace ProtonPlus.Models {
 		public double speed_kbps { get; set; }
 		public double? seconds_remaining { get; set; }
 		public bool is_percent { get; set; }
+		public bool is_finished { get; set; default = false; }
+		public bool install_success { get; set; default = false; }
 		
 		private State _state;
 		public State state { 
@@ -66,17 +68,21 @@ namespace ProtonPlus.Models {
 			DownloadManager.instance.add_download (this);
 
 			// Attempt the installation.
-			var install_success = yield _start_install ();
+			var success = yield _start_install ();
+
+			this.is_finished = true;
+			this.install_success = success;
 
 			DownloadManager.instance.remove_download (this);
+			DownloadManager.instance.add_to_history (this, success);
 
-			if (!install_success)
+			if (!success)
 				yield remove (new Models.Parameters ()); // Refreshes install state too.
 
 			if (!busy_updating)
 				refresh_state (); // Force UI state refresh.
 
-			return install_success;
+			return success;
 		}
 
 		public override async bool remove (Parameters parameters) {

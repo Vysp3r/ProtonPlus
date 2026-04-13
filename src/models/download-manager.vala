@@ -13,6 +13,7 @@ namespace ProtonPlus.Models {
 		}
 
 		public ArrayList<BaseRelease> active_downloads { get; private set; }
+		public ArrayList<BaseRelease> history { get; private set; }
 		
 		public bool is_downloading (BaseRelease release) {
 			return get_active_download (release) != null;
@@ -29,9 +30,11 @@ namespace ProtonPlus.Models {
 
 		public signal void download_added (BaseRelease release);
 		public signal void download_removed (BaseRelease release);
+		public signal void download_finished (BaseRelease release, bool success);
 
 		private DownloadManager () {
 			active_downloads = new ArrayList<BaseRelease> ();
+			history = new ArrayList<BaseRelease> ();
 		}
 
 		public void add_download (BaseRelease release) {
@@ -45,6 +48,13 @@ namespace ProtonPlus.Models {
 			if (active_downloads.contains (release)) {
 				active_downloads.remove (release);
 				download_removed (release);
+			}
+		}
+
+		public void add_to_history (BaseRelease release, bool success) {
+			if (!history.contains (release)) {
+				history.add (release);
+				download_finished (release, success);
 			}
 		}
 	}
