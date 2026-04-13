@@ -2,13 +2,14 @@
 # Eryk Michalak <gnu.ewm@protonmail.com>, 2024.
 # Beniamin Remis <nawo266@gmail.com>, 2025.
 # Łukasz Zając <sec@rbtv.pl>, 2026.
+# MattSolo451 <mattsolo45@vivaldi.net>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-12 15:39-0400\n"
-"PO-Revision-Date: 2026-03-27 07:09+0000\n"
-"Last-Translator: Łukasz Zając <sec@rbtv.pl>\n"
+"PO-Revision-Date: 2026-04-13 21:55+0000\n"
+"Last-Translator: MattSolo451 <mattsolo45@vivaldi.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pl/>\n"
 "Language: pl\n"
@@ -29,7 +30,7 @@ msgstr "Strona internetowa"
 
 #: src/widgets/application.vala:98
 msgid "translator-credits"
-msgstr ""
+msgstr "Podziękowania dla tłumaczy"
 
 #: src/widgets/application.vala:99
 msgid "Special thanks to"
@@ -595,7 +596,7 @@ msgstr "Zmodyfikuj opcje uruchamiania gry"
 #: src/widgets/games/mass-edit-view.vala:41
 #: src/widgets/games/launch-options-view.vala:36
 msgid "Advanced"
-msgstr ""
+msgstr "Zaawansowane"
 
 #: src/widgets/games/mass-edit-view.vala:53
 msgid "Apply the current modifications"
@@ -979,9 +980,8 @@ msgid "Add your own launch options."
 msgstr "Zmień parametry startowe"
 
 #: src/widgets/games/launch-options-editor.vala:631
-#, fuzzy
 msgid "Advanced options"
-msgstr "Parametry startowe"
+msgstr "Opcje zaawansowane"
 
 #: src/widgets/games/launch-options-editor.vala:632
 msgid "Extra control over the final Steam launch command."
