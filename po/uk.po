@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-12 15:39-0400\n"
-"PO-Revision-Date: 2026-04-13 14:09+0000\n"
+"PO-Revision-Date: 2026-04-13 21:55+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -676,11 +676,11 @@ msgstr "Вибрати всі ігри"
 
 #: src/widgets/games/unselect-button.vala:8
 msgid "Unselect all"
-msgstr "Зніміть позначку з усіх"
+msgstr "Зняти виділення"
 
 #: src/widgets/games/unselect-button.vala:11
 msgid "Unselect all the games"
-msgstr "Зніміть позначку з усіх ігор"
+msgstr "Зняти виділення з ігор"
 
 #: src/widgets/games/mass-edit-button.vala:13
 #, fuzzy
