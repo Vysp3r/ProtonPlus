@@ -101,12 +101,19 @@ namespace ProtonPlus.Widgets {
 
 			if (busy) {
 				var tooltip_text = _("This tool is currently being installed");
-				if (Models.DownloadManager.instance.is_downloading (release))
+				if (Models.DownloadManager.instance.is_downloading (release)) {
 					tooltip_text = _("This tool is currently being downloaded");
-				if (release.state == Models.BaseRelease.State.BUSY_REMOVING)
+					install_button.add_css_class ("bounce-animation");
+				}
+
+				if (release.state == Models.BaseRelease.State.BUSY_REMOVING) {
 					tooltip_text = _("This tool is currently being removed");
-				if (release.state == Models.BaseRelease.State.BUSY_UPDATING)
+					remove_button.add_css_class ("bounce-animation");
+				}
+				if (release.state == Models.BaseRelease.State.BUSY_UPDATING) {
 					tooltip_text = _("This tool is currently being updated");
+					update_button.add_css_class ("bounce-animation");
+				}
 
 				install_button.set_tooltip_text (tooltip_text);
 				remove_button.set_tooltip_text (tooltip_text);
@@ -114,8 +121,11 @@ namespace ProtonPlus.Widgets {
 				open_button.set_tooltip_text (tooltip_text);
 			} else {
 				install_button.set_tooltip_text (_("Install %s").printf (release.title));
+				install_button.remove_css_class ("bounce-animation");
 				remove_button.set_tooltip_text (_("Delete %s").printf (release.title));
+				remove_button.remove_css_class ("bounce-animation");
 				update_button.set_tooltip_text (_("Update the runner if a newer version is available"));
+				update_button.remove_css_class ("bounce-animation");
 				open_button.set_tooltip_text (_("Open runner directory"));
 
 				if (Application.window.updating && release.title.contains ("Latest")) {

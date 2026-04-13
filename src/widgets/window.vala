@@ -20,6 +20,7 @@ namespace ProtonPlus.Widgets {
 		public DefaultToolView default_tool_view;
 
 		Adw.ViewStack view_stack;
+		Adw.ViewStackPage downloads_page;
 		Adw.ToastOverlay toast_overlay;
 		Adw.ViewSwitcher view_switcher;
 		Adw.HeaderBar header_bar;
@@ -59,8 +60,18 @@ namespace ProtonPlus.Widgets {
 			view_stack = new Adw.ViewStack ();
 			view_stack.add_titled_with_icon (runners_box, "tools", _("Tools"), "toolbox-symbolic");
 			view_stack.add_titled_with_icon (games_box, "games", _("Games"), "game-library-symbolic");
-			view_stack.add_titled_with_icon (downloads_box, "downloads", _("Downloads"), "download-symbolic");
+			downloads_page = view_stack.add_titled_with_icon (downloads_box, "downloads", _("Downloads"), "download-symbolic");
 			view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
+
+			Models.DownloadManager.instance.download_added.connect (() => {
+				update_downloads_status ();
+			});
+
+			Models.DownloadManager.instance.download_removed.connect (() => {
+				update_downloads_status ();
+			});
+
+			update_downloads_status ();
 
 			toast_overlay = new Adw.ToastOverlay ();
 			toast_overlay.set_child (view_stack);
@@ -209,6 +220,16 @@ namespace ProtonPlus.Widgets {
 
 		void view_stack_visible_child_name_changed () {
 			games_box.active = view_stack.get_visible_child_name () == "games";
+		}
+
+		void update_downloads_status () {
+			bool active = Models.DownloadManager.instance.active_downloads.size > 0;
+
+			if (active) {
+				add_css_class ("downloads-attention");
+			} else {
+				remove_css_class ("downloads-attention");
+			}
 		}
 
 		SimpleAction get_donate_action () {

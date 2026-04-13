@@ -63,3 +63,12 @@
 flowboxchild {
   background-color: transparent;
 }
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.downloads-attention viewswitcher button:nth-child(3) image, .bounce-animation image {
+  animation: bounce 1s infinite ease-in-out;
+}
