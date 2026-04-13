@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-12 15:39-0400\n"
-"PO-Revision-Date: 2026-04-03 21:09+0000\n"
+"PO-Revision-Date: 2026-04-13 14:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -70,9 +70,8 @@ msgid "_Keyboard Shortcuts"
 msgstr "_Комбінації клавіш"
 
 #: src/widgets/window.vala:52
-#, fuzzy
 msgid "_Donate"
-msgstr "Пожертвувати"
+msgstr "_Пожертвувати"
 
 #: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
@@ -232,7 +231,6 @@ msgid "Remember last used profile"
 msgstr "Запам’ятати останній профіль"
 
 #: src/widgets/preferences/preferences-dialog.vala:43
-#, fuzzy
 msgid "Remember the last used Steam profile"
 msgstr "Запам’ятати останній профіль"
 
@@ -346,9 +344,9 @@ msgid "Load more"
 msgstr "Завантажити більше"
 
 #: src/widgets/runners/remove-dialog.vala:11
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %s?"
-msgstr "Видалити %s"
+msgstr "Видалити %s?"
 
 #: src/widgets/runners/remove-dialog.vala:13
 #: src/widgets/runners/remove-dialog.vala:26
@@ -366,9 +364,8 @@ msgid "Used by 1 game."
 msgstr "Використовується в одній грі."
 
 #: src/widgets/runners/remove-dialog.vala:31
-#, fuzzy
 msgid "Delete"
-msgstr "Видалити %s"
+msgstr "Видалити"
 
 #: src/widgets/runners/remove-dialog.vala:52
 #, c-format
@@ -580,7 +577,7 @@ msgstr "Масове редагування"
 #: src/widgets/games/launch-options-view.vala:27
 #: src/widgets/games/default-tool-view.vala:24
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: src/widgets/games/mass-edit-view.vala:38
 #: src/widgets/games/launch-options-view.vala:33
@@ -591,7 +588,7 @@ msgstr "Змінити параметри запуску гри"
 #: src/widgets/games/mass-edit-view.vala:41
 #: src/widgets/games/launch-options-view.vala:36
 msgid "Advanced"
-msgstr ""
+msgstr "Розширені"
 
 #: src/widgets/games/mass-edit-view.vala:53
 msgid "Apply the current modifications"
@@ -614,7 +611,6 @@ msgstr ""
 "параметри запуску."
 
 #: src/widgets/games/mass-edit-view.vala:82
-#, fuzzy
 msgid "Launch options"
 msgstr "Параметри запуску"
 
@@ -866,11 +862,11 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "AMD"
-msgstr ""
+msgstr "AMD"
 
 #: src/widgets/games/launch-options-editor.vala:574
 msgid "NVIDIA"
-msgstr ""
+msgstr "NVIDIA"
 
 #: src/widgets/games/launch-options-editor.vala:582
 msgid "GPU vendor options"
@@ -891,7 +887,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:591
 msgid "WineD3D"
-msgstr ""
+msgstr "WineD3D"
 
 #: src/widgets/games/launch-options-editor.vala:591
 msgid ""
@@ -919,7 +915,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:603
 msgid "Vulkan"
-msgstr ""
+msgstr "Vulkan"
 
 #: src/widgets/games/launch-options-editor.vala:603
 msgid "Adds -vulkan to make the game use its Vulkan renderer."
@@ -927,7 +923,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:604
 msgid "DirectX 11"
-msgstr ""
+msgstr "DirectX 11"
 
 #: src/widgets/games/launch-options-editor.vala:604
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
@@ -935,7 +931,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:605
 msgid "DirectX 12"
-msgstr ""
+msgstr "DirectX 12"
 
 #: src/widgets/games/launch-options-editor.vala:605
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
@@ -1440,9 +1436,8 @@ msgid "Uninstall runner"
 msgstr "Видалити інструмент\n"
 
 #: src/cli/cli.vala:508
-#, fuzzy
 msgid "Update runner"
-msgstr "Оновити інструмент\n"
+msgstr "Оновити інструмент"
 
 #: src/cli/cli.vala:512
 msgid ""
