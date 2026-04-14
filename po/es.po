@@ -1,12 +1,13 @@
 # gallegonovato <fran-carro@hotmail.es>, 2023, 2024.
 # Luis Miguel <luismiguelfm96@gmail.com>, 2025, 2026.
 # Marco Rodriguez <marcorguezhdez@gmail.com>, 2025.
+# Marco Rodriguez <marco@invrs.dev>, 2026.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-12 15:39-0400\n"
-"PO-Revision-Date: 2026-03-13 01:09+0000\n"
-"Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
+"PO-Revision-Date: 2026-04-13 14:09+0000\n"
+"Last-Translator: Marco Rodriguez <marco@invrs.dev>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
 "Language: es\n"
@@ -25,7 +26,7 @@ msgstr "Sitio web"
 
 #: src/widgets/application.vala:98
 msgid "translator-credits"
-msgstr ""
+msgstr "creditos-traductores"
 
 #: src/widgets/application.vala:99
 msgid "Special thanks to"
@@ -67,9 +68,8 @@ msgid "_Keyboard Shortcuts"
 msgstr "_Atajos de teclado"
 
 #: src/widgets/window.vala:52
-#, fuzzy
 msgid "_Donate"
-msgstr "Donar"
+msgstr "_Donar"
 
 #: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
@@ -956,6 +956,8 @@ msgstr ""
 #: src/widgets/games/launch-options-editor.vala:606
 msgid "Adds -console to open the game's developer console when supported."
 msgstr ""
+"Añade -console para abrir la consola de desarrollador en el juego cuando se "
+"pueda."
 
 #: src/widgets/games/launch-options-editor.vala:609
 msgid "Game arguments"
@@ -972,12 +974,11 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:623
 msgid "Additional arguments"
-msgstr ""
+msgstr "Argumentos adicionales"
 
 #: src/widgets/games/launch-options-editor.vala:623
-#, fuzzy
 msgid "Add extra launch options"
-msgstr "Modificar las opciones de lanzamiento"
+msgstr "Añadir opciones de lanzamiento extra"
 
 #: src/widgets/games/launch-options-editor.vala:626
 msgid "Custom launch arguments"
@@ -1042,7 +1043,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:832
 msgid "Additional Gamescope arguments"
-msgstr ""
+msgstr "Argumentos de Gamescope adicionales"
 
 #: src/widgets/games/launch-options-editor.vala:832
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
@@ -1050,7 +1051,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:832
 msgid "Add Gamescope arguments"
-msgstr ""
+msgstr "Añadir argumentos de Gamescope"
 
 #: src/widgets/games/launch-options-editor.vala:846
 msgid "Auto HDR"
@@ -1066,7 +1067,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Additional ScopeBuddy arguments"
-msgstr ""
+msgstr "Argumentos de ScopeBuddy adicionales"
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
@@ -1074,7 +1075,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Add ScopeBuddy arguments"
-msgstr ""
+msgstr "Añadir argumentos de ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor.vala:1236
 msgid "No launch options configured yet."
