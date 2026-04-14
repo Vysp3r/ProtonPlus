@@ -18,8 +18,6 @@ src/widgets/runners/runner-row.vala
 src/widgets/runners/runner-group.vala
 src/widgets/runners/load-more-row.vala
 src/widgets/runners/remove-dialog.vala
-src/widgets/runners/install-dialog.vala
-src/widgets/runners/upgrade-dialog.vala
 src/widgets/runners/installed-row.vala
 src/widgets/runners/basic-row.vala
 src/widgets/runners/filters-box.vala

@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.VDF {
+namespace ProtonPlus.VDF {
     public struct Shortcut {
         int32 AppID;
         bool AllowDesktopConfig;

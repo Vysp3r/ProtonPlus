@@ -144,12 +144,13 @@ To help you navigate the codebase, here's a quick overview of the project struct
 - `src/`: The Vala source code for the application.
   - `src/cli/`: Command-line interface logic.
   - `src/models/`: Core data models and business logic.
+  - `src/vdf/`: Valve Data Format (VDF) parser and models.
   - `src/widgets/`: GTK4 and Libadwaita UI widgets.
   - `src/utils/`: Utility functions and helper classes.
 - `data/`: Asset files and UI definitions.
   - `data/ui/`: GTK XML UI definition files.
   - `data/runners.json`: Configuration for supported compatibility tools and launchers.
-  - `data/icons/`: Application and status icons.
+  - `data/icons/`: Application icons (hicolor) and symbolic UI icons.
 - `po/`: Translation files (.po).
 - `scripts/`: Helper scripts for build, translations, and maintenance.
 
