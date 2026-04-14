@@ -265,7 +265,7 @@ namespace ProtonPlus.Widgets {
 
 		public override bool close_request () {
 			if (!updating) {
-				Utils.Filesystem.delete_directory.begin (Globals.DOWNLOAD_CACHE_PATH);
+				Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
 
 				return false;
 			}
@@ -285,7 +285,7 @@ namespace ProtonPlus.Widgets {
 				if (response != "exit")
 					return;
 
-				Utils.Filesystem.delete_directory.begin (Globals.DOWNLOAD_CACHE_PATH);
+				Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
 
 				application.quit ();
 			});

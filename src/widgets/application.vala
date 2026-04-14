@@ -31,6 +31,8 @@ namespace ProtonPlus.Widgets {
 			window = new Window ();
 
 			Globals.load.begin ((obj, res) => {
+
+
 				if (Globals.SETTINGS != null) {
 					Globals.SETTINGS.bind ("width",
 									window,

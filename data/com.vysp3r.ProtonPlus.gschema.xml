@@ -34,6 +34,9 @@
 		<key name="steam-remember-last-profile" type="b">
 			<default>true</default>
 		</key>
+		<key name="save-history" type="b">
+			<default>true</default>
+		</key>
 		<key name="theme" enum="com.vysp3r.ProtonPlus.Theme">
 			<default>'system'</default>
 		</key>
