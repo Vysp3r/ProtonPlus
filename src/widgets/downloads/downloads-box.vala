@@ -92,6 +92,15 @@ namespace ProtonPlus.Widgets {
 		}
 
 		private void on_download_added(Models.BaseRelease release) {
+			var child = completed_list_box.get_first_child();
+			while (child != null) {
+				var next = child.get_next_sibling();
+				if (child is DownloadRow && ((DownloadRow)child).release.title == release.title) {
+					completed_list_box.remove(child);
+				}
+				child = next;
+			}
+
 			add_download_row(release, in_progress_list_box);
 			update_visibility();
 		}

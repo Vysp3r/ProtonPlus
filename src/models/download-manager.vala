@@ -47,6 +47,15 @@ namespace ProtonPlus.Models {
 
 		public void add_download (BaseRelease release) {
 			if (!is_downloading (release)) {
+				for (int i = 0; i < history.size; i++) {
+					var history_release = history.get (i);
+					if (history_release.title == release.title) {
+						history.remove_at (i);
+						save_history ();
+						break;
+					}
+				}
+
 				active_downloads.add (release);
 				download_added (release);
 			}

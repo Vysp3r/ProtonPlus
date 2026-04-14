@@ -59,6 +59,12 @@ namespace ProtonPlus.Models {
 				return false;
 
 			canceled = false;
+			is_finished = false;
+			install_success = false;
+			progress = null;
+			speed_kbps = 0.0;
+			seconds_remaining = null;
+			is_percent = false;
 
 			var busy_updating = state == State.BUSY_UPDATING;
 
