@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-13 17:55-0400\n"
-"PO-Revision-Date: 2026-04-14 09:55+0000\n"
+"PO-Revision-Date: 2026-04-14 16:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -25,7 +25,7 @@ msgid "Website"
 msgstr "Сайт"
 
 msgid "translator-credits"
-msgstr ""
+msgstr "перекладачі"
 
 msgid "Special thanks to"
 msgstr "Особлива подяка"
@@ -151,10 +151,8 @@ msgstr "Загальне"
 msgid "Automatic updates"
 msgstr "Автоматичні оновлення"
 
-#, fuzzy
 msgid "Update the installed 'Latest' runners when the application starts"
-msgstr ""
-"Чи оновлювати встановлені найновіші версії інструментів під час запуску"
+msgstr "Оновлювати встановлені найновіші інструменти під час запуску"
 
 msgid "Latest"
 msgstr "Найновіші"
@@ -248,7 +246,7 @@ msgstr "Видалити %s?"
 
 #, c-format
 msgid "%s will be permanently deleted."
-msgstr ""
+msgstr "%s буде остаточно видалено."
 
 #, c-format
 msgid "Used by %i games."
@@ -413,9 +411,8 @@ msgstr "Масове редагування"
 msgid "Back"
 msgstr "Назад"
 
-#, fuzzy
 msgid "Clear the current launch options"
-msgstr "Змінити параметри запуску гри"
+msgstr "Очистити поточні параметри запуску"
 
 msgid "Advanced"
 msgstr "Розширені"
@@ -491,9 +488,8 @@ msgstr "Скасувати вибір"
 msgid "Unselect all the games"
 msgstr "Скасувати вибір ігор"
 
-#, fuzzy
 msgid "Edit the selected games at once"
-msgstr "Відредагуйте інструмент сумісності вибраних ігор одночасно"
+msgstr "Редагувати вибрані ігри одночасно"
 
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
@@ -513,13 +509,13 @@ msgid "Couldn't change the launch options of %s"
 msgstr "Не вдалося змінити параметри запуску %s"
 
 msgid "Set"
-msgstr ""
+msgstr "Встановити"
 
 msgid "Apply the FPS value"
-msgstr ""
+msgstr "Застосувати значення FPS"
 
 msgid "Auto detect"
-msgstr ""
+msgstr "Автовизначення"
 
 msgid "Custom"
 msgstr ""
@@ -540,32 +536,31 @@ msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr ""
 
 msgid "Disable Steam Deck Mode"
-msgstr ""
+msgstr "Вимкнути режим Steam Deck"
 
 msgid "Disables the Steam Deck-specific profile that some games use."
 msgstr ""
 
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
 msgstr ""
 
-#, fuzzy
 msgid "Common options"
-msgstr "Параметри запуску"
+msgstr "Загальні параметри"
 
 msgid "Quick toggles for the launch options people reach for most often."
-msgstr ""
+msgstr "Швидкі перемикачі для найуживаніших параметрів запуску."
 
 #. Launch tools
 msgid "HDR"
-msgstr ""
+msgstr "HDR"
 
 msgid "Outputs HDR colors if your display supports it."
-msgstr ""
+msgstr "Виводить HDR-кольори, за умови підтримки дисплеєм."
 
 msgid "None"
 msgstr ""
@@ -575,56 +570,68 @@ msgid "Gamescope"
 msgstr "Ігри"
 
 msgid "ScopeBuddy"
-msgstr ""
+msgstr "ScopeBuddy"
 
-#, fuzzy
 msgid "Launch tools"
-msgstr "Параметри запуску"
+msgstr "Інструменти запуску"
 
 msgid ""
 "Choose one to configure FPS caps, resolution, and other display options."
 msgstr ""
+"Оберіть один для налаштування ліміту FPS, роздільності та інших параметрів "
+"дисплею."
 
 #. GPU vendor options
 msgid "Mesa Anti-Lag"
 msgstr ""
 
+#, fuzzy
 msgid "Reduces latency on supported AMD Mesa setups."
-msgstr ""
+msgstr "Зменшує затримку на підтримуваних конфігураціях AMD Mesa."
 
+#, fuzzy
 msgid "Use dGPU"
-msgstr ""
+msgstr "Використовувати дискретний GPU"
 
+#, fuzzy
 msgid "Makes the game use the AMD dGPU on hybrid systems."
-msgstr ""
+msgstr "Змушує гру використовувати дискретний AMD GPU на гібридних системах."
 
+#, fuzzy
 msgid "Hide AMD APU"
-msgstr ""
+msgstr "Приховати AMD APU"
 
+#, fuzzy
 msgid ""
 "Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
 "integrated graphics."
 msgstr ""
+"Proton визначатиме AMD APU як дискретний GPU для ігор, які неправильно "
+"розпізнають інтегровану графіку."
 
 msgid "NVAPI"
-msgstr ""
+msgstr "NVAPI"
 
+#, fuzzy
 msgid "Lets games access NVIDIA-specific features like DLSS."
-msgstr ""
+msgstr "Дозволяє іграм використовувати NVIDIA-функції, такі як DLSS."
 
 msgid "Update DLSS components"
-msgstr ""
+msgstr "Оновити компоненти DLSS"
 
 msgid "Auto upgrades DLSS components for supported games."
-msgstr ""
+msgstr "Автооновлення компонентів DLSS для підтримуваних ігор."
 
 msgid "Hide NVIDIA GPU"
-msgstr ""
+msgstr "Приховати NVIDIA GPU"
 
+#, fuzzy
 msgid ""
 "Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
 "NVIDIA driver behavior."
 msgstr ""
+"Змушує Proton визначати NVIDIA GPU як AMD для ігор, які очікують поведінку "
+"Windows-драйверів NVIDIA."
 
 msgid "AMD"
 msgstr "AMD"
@@ -633,17 +640,18 @@ msgid "NVIDIA"
 msgstr "NVIDIA"
 
 msgid "GPU vendor options"
-msgstr ""
+msgstr "Виробники графічних процесорів"
 
+#, fuzzy
 msgid "Use GPU-specific compatibility toggles for AMD and NVIDIA hardware."
-msgstr ""
+msgstr "Використовувати специфічні перемикачі сумісності для AMD та NVIDIA."
 
 #. More options
 msgid "VKBasalt"
-msgstr ""
+msgstr "VKBasalt"
 
 msgid "Adds visual effects like sharpening and color adjustments."
-msgstr ""
+msgstr "Додає візуальні ефекти, такі як різкість і корекція кольорів."
 
 msgid "WineD3D"
 msgstr "WineD3D"
@@ -652,20 +660,18 @@ msgid ""
 "Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
 msgstr ""
 
-#, fuzzy
 msgid "More options"
-msgstr "Більше інформації"
+msgstr "Додаткові параметри"
 
 msgid "Extra graphics settings and launch behaviors."
-msgstr ""
+msgstr "Додаткові графічні налаштування та параметри запуску."
 
 #. Game arguments
-#, fuzzy
 msgid "Skip launcher"
-msgstr "Непідтримуваний запускач"
+msgstr "Пропустити запускач"
 
 msgid "Adds -skip-launcher to bypass launchers in games that support it."
-msgstr ""
+msgstr "Додає -skip-launcher для пропуску запускачів у підтримуваних іграх."
 
 msgid "Vulkan"
 msgstr "Vulkan"
@@ -686,44 +692,46 @@ msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
 msgstr ""
 
 msgid "Console"
-msgstr ""
+msgstr "Консоль"
 
+#, fuzzy
 msgid "Adds -console to open the game's developer console when supported."
 msgstr ""
+"Додає -console для відкриття розробницької консолі гри, якщо підтримується."
 
+#, fuzzy
 msgid "Game arguments"
-msgstr ""
+msgstr "Аргументи гри"
 
+#, fuzzy
 msgid "Flags passed directly to the game."
-msgstr ""
+msgstr "Прапорці, які передаються безпосередньо грі."
 
 #. Advanced options
 msgid "Appends Steam's game command."
 msgstr ""
 
 msgid "Additional arguments"
-msgstr ""
+msgstr "Додаткові аргументи"
 
-#, fuzzy
 msgid "Add extra launch options"
 msgstr "Змінити параметри запуску"
 
 msgid "Custom launch arguments"
 msgstr ""
 
-#, fuzzy
 msgid "Add your own launch options."
-msgstr "Змінити параметри запуску"
+msgstr "Додати власні параметри запуску."
+
+msgid "Advanced options"
+msgstr "Розширені параметри"
 
 #, fuzzy
-msgid "Advanced options"
-msgstr "Параметри запуску"
-
 msgid "Extra control over the final Steam launch command."
-msgstr ""
+msgstr "Додатковий контроль над фінальною командою запуску Steam."
 
 msgid "Fullscreen"
-msgstr ""
+msgstr "На весь екран"
 
 msgid "Runs the game in a fullscreen session."
 msgstr ""
@@ -744,40 +752,42 @@ msgid "FPS"
 msgstr ""
 
 msgid "Resolution"
-msgstr ""
+msgstr "Роздільність"
 
 msgid "Sets the Gamescope output resolution."
 msgstr ""
 
 msgid "Additional Gamescope arguments"
-msgstr ""
+msgstr "Додаткові аргументи Gamescope"
 
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 
 msgid "Add Gamescope arguments"
-msgstr ""
+msgstr "Додати аргументи Gamescope"
 
 msgid "Auto HDR"
-msgstr ""
+msgstr "Авто HDR"
 
 msgid "Caps the frame rate inside ScopeBuddy."
-msgstr ""
+msgstr "Обмежує частоту кадрів у ScopeBuddy."
 
 msgid "Sets the ScopeBuddy output resolution."
-msgstr ""
+msgstr "Встановлює вихідну роздільність ScopeBuddy."
 
 msgid "Additional ScopeBuddy arguments"
-msgstr ""
+msgstr "Додаткові аргументи ScopeBuddy"
 
+#, fuzzy
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
+"Зберігає додаткові прапорці ScopeBuddy, наприклад вибір вихідного пристрою."
 
 msgid "Add ScopeBuddy arguments"
-msgstr ""
+msgstr "Додати аргументи ScopeBuddy"
 
 msgid "No launch options configured yet."
-msgstr ""
+msgstr "Ще не налаштовано параметри запуску."
 
 msgid "Select a profile"
 msgstr "Оберіть профіль"
@@ -1033,12 +1043,11 @@ msgstr "Помилка: інструмент '%s' не знайдено\n"
 msgid "Usage: %s\n"
 msgstr "Використання: %s\n"
 
-#, fuzzy
 msgid "Error: Invalid input, please enter a number\n"
-msgstr "Помилка: некоректний вибір\n"
+msgstr "Помилка: некоректне введення, введіть число\n"
 
 msgid "Error: Selection out of range\n"
-msgstr ""
+msgstr "Помилка: вибір за межами діапазону\n"
 
 #, fuzzy
 msgid "Usage:\n"
@@ -1047,25 +1056,21 @@ msgstr "Використання: %s\n"
 msgid "Commands:\n"
 msgstr "Команди:\n"
 
-#, fuzzy
 msgid "Show version"
-msgstr "Показати версію\n"
+msgstr "Показати версію"
 
-#, fuzzy
 msgid "Show this help"
-msgstr "Показати довідку\n"
+msgstr "Показати довідку"
 
 #, fuzzy
 msgid "List launchers or installed runners"
 msgstr "Показати запускачі або встановлені інструменти\n"
 
-#, fuzzy
 msgid "Install runner"
-msgstr "Встановити інструменти\n"
+msgstr "Встановити інструмент"
 
-#, fuzzy
 msgid "Uninstall runner"
-msgstr "Видалити інструмент\n"
+msgstr "Видалити інструмент"
 
 msgid "Update runner"
 msgstr "Оновити інструмент"
