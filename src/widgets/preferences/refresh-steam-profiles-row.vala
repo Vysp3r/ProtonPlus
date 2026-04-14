@@ -12,7 +12,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
             spinner = new Adw.Spinner ();
 
-            set_title (_("Refresh profiles"));
+            set_title (_ ("Refresh profiles"));
             add_suffix (refresh_profiles_button);
         }
 
@@ -29,9 +29,9 @@ namespace ProtonPlus.Widgets.Preferences {
                 if (launcher is Models.Launchers.Steam) {
                     var steam_launcher = launcher as Models.Launchers.Steam;
 
-                    steam_launcher.profiles = Models.SteamProfile.get_profiles(steam_launcher);
+                    steam_launcher.profiles = Models.SteamProfile.get_profiles (steam_launcher);
 
-                    foreach(var profile in steam_launcher.profiles) {
+                    foreach (var profile in steam_launcher.profiles) {
                         yield profile.load_extra_data ();
                     }
 

@@ -55,19 +55,19 @@ namespace ProtonPlus.Utils {
                     entry.set_pathname (install_location + entry.pathname ());
                     r = ext.write_header (entry);
                     if (r < Archive.Result.OK)stderr.printf (ext.error_string ());
-                    else if (entry.size () > 0) {
-                        r = copy_data (archive, ext);
+                        else if (entry.size () > 0) {
+                            r = copy_data (archive, ext);
+                            if (r < Archive.Result.WARN) {
+                                Idle.add ((owned) callback, Priority.DEFAULT);
+                                return;
+                            }
+                        }
+                        r = ext.finish_entry ();
+                        if (r < Archive.Result.OK)stderr.printf (ext.error_string ());
                         if (r < Archive.Result.WARN) {
                             Idle.add ((owned) callback, Priority.DEFAULT);
                             return;
                         }
-                    }
-                    r = ext.finish_entry ();
-                    if (r < Archive.Result.OK)stderr.printf (ext.error_string ());
-                    if (r < Archive.Result.WARN) {
-                        Idle.add ((owned) callback, Priority.DEFAULT);
-                        return;
-                    }
                 }
 
                 archive.close ();
@@ -113,21 +113,21 @@ namespace ProtonPlus.Utils {
         public async static bool make_symlink (string link_location, string target_path) {
             var link_file = File.new_for_path (link_location);
             if (link_file.query_exists (null)) {
-                // Only attempt to delete link_location if it's already a symlink.
+            // Only attempt to delete link_location if it's already a symlink.
                 if (!FileUtils.test (link_location, FileTest.IS_SYMLINK))
-                    return false;
+                return false;
 
                 var link_deleted = Utils.Filesystem.delete_file (link_location);
                 if (!link_deleted)
-                    return false;
+                return false;
             }
 
             try {
-                // Try to create the symlink (will fail if file exists or no permission).
+            // Try to create the symlink (will fail if file exists or no permission).
                 var link_created = yield link_file.make_symbolic_link_async (target_path, Priority.DEFAULT, null);
 
                 if (!link_created)
-                    return false;
+                return false;
             } catch (Error e) {
                 return false;
             }
@@ -144,9 +144,9 @@ namespace ProtonPlus.Utils {
                 File file;
 
                 if (use_uri)
-                    file = File.new_for_uri (path);
+                file = File.new_for_uri (path);
                 else
-                    file = File.new_for_path (path);
+                file = File.new_for_path (path);
 
                 uint8[] contents;
                 string etag_out;
@@ -172,12 +172,12 @@ namespace ProtonPlus.Utils {
             return get_file_content (path) == content;
         }
 
-        public static bool copy_symlink(string src_path, string dest_path) {
+        public static bool copy_symlink (string src_path, string dest_path) {
             try {
-                File src = File.new_for_path(src_path);
-                File dest = File.new_for_path(dest_path);
+                File src = File.new_for_path (src_path);
+                File dest = File.new_for_path (dest_path);
 
-                return src.copy(dest, FileCopyFlags.NOFOLLOW_SYMLINKS);
+                return src.copy (dest, FileCopyFlags.NOFOLLOW_SYMLINKS);
             } catch (Error e) {
                 warning (e.message);
 
@@ -188,8 +188,8 @@ namespace ProtonPlus.Utils {
         public static void create_file (string path, string? content = null, bool private_mode = false) {
             try {
                 var file = File.parse_name (path);
-                // NOTE: "Private" means "no permissions for Group or Other",
-                // otherwise we use the default `umask` (usually "-rw-r--r--").
+            // NOTE: "Private" means "no permissions for Group or Other",
+            // otherwise we use the default `umask` (usually "-rw-r--r--").
                 FileOutputStream os = file.create (private_mode ? FileCreateFlags.PRIVATE : FileCreateFlags.NONE);
                 if (content != null)os.write (content.data);
             } catch (Error e) {
@@ -199,7 +199,7 @@ namespace ProtonPlus.Utils {
 
         static bool delete_file_direct (string path) {
             if (Posix.unlink (path) != 0)
-                return false;
+            return false;
             return true;
         }
 
@@ -209,7 +209,7 @@ namespace ProtonPlus.Utils {
 
         public static async bool move_file (string source, string destination) {
             if (source == destination)
-                return true;
+            return true;
 
             try {
                 File source_file = File.parse_name (source);
@@ -230,7 +230,7 @@ namespace ProtonPlus.Utils {
 
             if (!copied) {
                 if (FileUtils.test (destination, GLib.FileTest.IS_DIR))
-                    yield delete_directory (destination);
+                yield delete_directory (destination);
 
                 return false;
             }
@@ -245,7 +245,7 @@ namespace ProtonPlus.Utils {
                 File src = File.parse_name (source);
                 File dest = File.parse_name (destination);
 
-                // Check if the source directory exists
+            // Check if the source directory exists
                 if (!src.query_exists ()) {
                     stderr.printf ("Source directory does not exist\n");
                     return false;
@@ -265,11 +265,11 @@ namespace ProtonPlus.Utils {
                     File src_file = src.get_child (file_name);
                     File dest_file = dest.get_child (file_name);
 
-                    // If it's a directory, recurse
+                // If it's a directory, recurse
                     if (file_info.get_file_type () == FileType.DIRECTORY) {
                         yield copy_directory (src_file.get_path (), dest_file.get_path ());
                     } else {
-                        // Otherwise, copy the file
+                    // Otherwise, copy the file
                         try {
                             yield src_file.copy_async (dest_file, FileCopyFlags.NOFOLLOW_SYMLINKS);
                         } catch (Error e) {
@@ -296,19 +296,19 @@ namespace ProtonPlus.Utils {
                     Dir dir = Dir.open (source_dir);
                     string? name = null;
                     while ((name = dir.read_name ()) != null) {
-                        // NOTE: Includes hidden files (".foo") but not "." and "..".
+                    // NOTE: Includes hidden files (".foo") but not "." and "..".
                         string source_path = Path.build_filename (source_dir, name);
                         string target_path = Path.build_filename (target_dir, name);
 
-                        // message (@"[Move] \"$source_path\"\n    -> \"$target_path\"\n");
+                    // message (@"[Move] \"$source_path\"\n    -> \"$target_path\"\n");
 
-                        // Never overwrite existing target (avoids accidental data loss).
+                    // Never overwrite existing target (avoids accidental data loss).
                         if (FileUtils.test (target_path, FileTest.EXISTS))
-                            return;
+                        return;
 
                         // Move the "file" regardless of type (such as dir, symlink, etc).
                         if (FileUtils.rename (source_path, target_path) != 0)
-                            return;
+                        return;
                     }
                     output = true;
                 } catch (Error e) {
@@ -340,16 +340,16 @@ namespace ProtonPlus.Utils {
                 // NOTE: `lstat()` is very important to avoid following symlinks,
                 // otherwise we would wipe out the link target's contents too.
                 if (Posix.lstat (cur_path, out stat_) != 0)
-                    return false;
+                return false;
 
                 if (Posix.S_ISDIR (stat_.st_mode)) {
                     if (!delete_directory_direct (cur_path))
-                        return false;
+                    return false;
                     if (Posix.rmdir (cur_path) != 0)
-                        return false;
+                    return false;
                 } else {
                     if (!delete_file_direct (cur_path))
-                        return false;
+                    return false;
                 }
             }
 
@@ -378,24 +378,24 @@ namespace ProtonPlus.Utils {
 
             bool output = false;
             new Thread<void> ("create_directory", () => {
-                // We can safely split on slashes since they're illegal as filenames.
+            // We can safely split on slashes since they're illegal as filenames.
                 var has_leading_slash = path.index_of_char ('/') == 0;
                 var parts = path.split ("/");
 
-                // Create the target directory components in a top-down fashion.
-                // NOTE: If caller gives us a path with `..` such as `/foo/bar/../baz`,
-                // then we will end up creating both `/foo/bar` and `/foo/baz`, because
-                // there is no easy way to preprocess such directory traversals.
+            // Create the target directory components in a top-down fashion.
+            // NOTE: If caller gives us a path with `..` such as `/foo/bar/../baz`,
+            // then we will end up creating both `/foo/bar` and `/foo/baz`, because
+            // there is no easy way to preprocess such directory traversals.
                 Posix.Stat stat_;
                 var current_path = "";
                 foreach (string p in parts) {
                     if (p == "")
-                        continue;
+                    continue;
 
                     if (current_path == "" && !has_leading_slash)
-                        current_path = p;
+                    current_path = p;
                     else
-                        current_path += @"/$p";
+                    current_path += @"/$p";
 
                     // Attempt to create the current path.
                     // NOTE: We request full (0777) permission bits. The C library will
@@ -405,16 +405,16 @@ namespace ProtonPlus.Utils {
                     // https://github.com/coreutils/coreutils/blob/408301e4bc171bf5544f373f64bb6ed3351541db/src/mkdir.c#L136
                     // https://github.com/coreutils/gnulib/blob/e87d09bee37eeb742b8a34c9054cd2ebde22b835/lib/sys_stat.in.h#L423
                     if (Posix.mkdir (current_path, S_IRWXUGO) != 0) {
-                        // Check failures for any reasons other than "it exists".
+                    // Check failures for any reasons other than "it exists".
                         if (Posix.errno != Posix.EEXIST)
-                            return;
+                        return;
 
                         // Verify that it's a directory (or a directory symlink).
                         // NOTE: We use `stat()` since we ALLOW the dir to be symlinked.
                         if (Posix.stat (current_path, out stat_) != 0)
-                            return;
+                        return;
                         if (!Posix.S_ISDIR (stat_.st_mode))
-                            return;
+                        return;
                     }
 
                     output = true;

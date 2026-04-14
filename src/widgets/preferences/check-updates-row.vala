@@ -8,12 +8,12 @@ namespace ProtonPlus.Widgets.Preferences {
             check_updates_button = new Gtk.Button.from_icon_name ("arrow-rotate-symbolic");
             check_updates_button.add_css_class ("flat");
             check_updates_button.set_valign (Gtk.Align.CENTER);
-            check_updates_button.set_tooltip_text (_("Check if any of the installed 'Latest' runners needs to be updated"));
+            check_updates_button.set_tooltip_text (_ ("Check if any of the installed 'Latest' runners needs to be updated"));
             check_updates_button.clicked.connect (() => check_for_updates.begin ());
 
             spinner = new Adw.Spinner ();
 
-            set_title (_("Check for updates"));
+            set_title (_ ("Check for updates"));
             add_suffix (check_updates_button);
         }
 

@@ -4,25 +4,25 @@ namespace ProtonPlus.Widgets {
         private double saved_pos = 0;
 
         public ScrollController (Gtk.ScrolledWindow window) {
-            vadjustment = window.get_vadjustment();
+            vadjustment = window.get_vadjustment ();
 
             if (vadjustment == null)
-                warning ("ScrollController: vadjustment is null – window not realized?");
+            warning ("ScrollController: vadjustment is null – window not realized?");
         }
 
         public void save () {
             if (vadjustment == null)
-                return;
+            return;
 
-            saved_pos = vadjustment.get_value();
+            saved_pos = vadjustment.get_value ();
         }
 
-        public void restore(int delay_ms = 50) {
+        public void restore (int delay_ms = 50) {
             if (vadjustment == null)
-                return;
+            return;
 
-            GLib.Timeout.add(delay_ms, () => {
-                vadjustment.set_value(saved_pos);
+            GLib.Timeout.add (delay_ms, () => {
+                vadjustment.set_value (saved_pos);
                 return false;
             });
         }

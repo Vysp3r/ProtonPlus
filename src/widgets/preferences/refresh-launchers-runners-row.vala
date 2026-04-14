@@ -8,11 +8,11 @@ namespace ProtonPlus.Widgets.Preferences {
             refresh_launchers_runners_button = new Gtk.Button.from_icon_name ("arrow-rotate-symbolic");
             refresh_launchers_runners_button.add_css_class ("flat");
             refresh_launchers_runners_button.set_valign (Gtk.Align.CENTER);
-            refresh_launchers_runners_button.clicked.connect(() => refresh_launchers_runners.begin ());
+            refresh_launchers_runners_button.clicked.connect (() => refresh_launchers_runners.begin ());
 
             spinner = new Adw.Spinner ();
 
-            set_title (_("Refresh launchers/runners"));
+            set_title (_ ("Refresh launchers/runners"));
             add_suffix (refresh_launchers_runners_button);
         }
 

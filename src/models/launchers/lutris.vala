@@ -4,14 +4,14 @@ namespace ProtonPlus.Models.Launchers {
             string[] directories = null;
 
             switch (installation_type) {
-            case Launcher.InstallationTypes.SYSTEM:
-                directories = new string[] { "%s/lutris".printf (Environment.get_user_data_dir ()), "%s/.local/share/lutris".printf (Environment.get_home_dir ()) };
-                break;
-            case Launcher.InstallationTypes.FLATPAK:
-                directories = new string[] { "%s/.var/app/net.lutris.Lutris/data/lutris".printf (Environment.get_home_dir ()) };
-                break;
-            case Launcher.InstallationTypes.SNAP:
-                break;
+                case Launcher.InstallationTypes.SYSTEM:
+                    directories = new string[] { "%s/lutris".printf (Environment.get_user_data_dir ()), "%s/.local/share/lutris".printf (Environment.get_home_dir ()) };
+                    break;
+                case Launcher.InstallationTypes.FLATPAK:
+                    directories = new string[] { "%s/.var/app/net.lutris.Lutris/data/lutris".printf (Environment.get_home_dir ()) };
+                    break;
+                case Launcher.InstallationTypes.SNAP:
+                    break;
             }
 
             base ("Lutris", installation_type, "%s/lutris.svg".printf (Config.RESOURCE_BASE), directories);

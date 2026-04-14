@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Runners {
             var code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_type, out response);
 
             if (code != ReturnCode.VALID_REQUEST)
-                return code;
+            return code;
 
             page++;
 
@@ -23,15 +23,15 @@ namespace ProtonPlus.Models.Runners {
             var root_object = root_node.get_object ();
 
             if (!root_object.has_member ("workflow_runs") || root_object.get_member ("workflow_runs").get_node_type () != Json.NodeType.ARRAY)
-                return ReturnCode.UNKNOWN_ERROR;
+            return ReturnCode.UNKNOWN_ERROR;
 
             var runs_array = root_object.get_array_member ("workflow_runs");
             if (runs_array == null)
-                return ReturnCode.UNKNOWN_ERROR;
+            return ReturnCode.UNKNOWN_ERROR;
 
             for (var i = 0; i < runs_array.get_length (); i++) {
                 var object = runs_array.get_object_element (i);
-                
+
                 string title = object.get_int_member ("run_number").to_string ();
                 string page_url = object.get_string_member ("html_url");
                 string release_date = object.get_string_member ("created_at");

@@ -4,8 +4,8 @@ namespace ProtonPlus.Widgets {
             set_heading (heading);
             set_body (body);
 
-			add_response("ok", _("OK"));
-			set_response_appearance ("ok", Adw.ResponseAppearance.DEFAULT);
+            add_response ("ok", _ ("OK"));
+            set_response_appearance ("ok", Adw.ResponseAppearance.DEFAULT);
         }
     }
 }

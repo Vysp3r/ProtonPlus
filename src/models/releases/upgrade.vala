@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Releases {
-    public abstract class Upgrade<R>: Release<R> {
+    public abstract class Upgrade<R> : Release<R> {
         public async bool upgrade () {
             state = State.BUSY_UPGRADING;
 

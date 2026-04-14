@@ -5,7 +5,7 @@ namespace ProtonPlus.Utils {
             try {
                 string command_line = "";
                 if (Globals.IS_FLATPAK)
-                    command_line += "flatpak-spawn --host ";
+                command_line += "flatpak-spawn --host ";
                 command_line += command;
 
                 string[] argv;
@@ -55,7 +55,7 @@ namespace ProtonPlus.Utils {
                 string[] f = flags.split (" ");
                 var flag_set = new Gee.HashSet<string> ();
                 foreach (var s in f)
-                    flag_set.add (s);
+                flag_set.add (s);
 
                 bool has_v2 = flag_set.contains ("sse4_1") && flag_set.contains ("sse4_2") && flag_set.contains ("ssse3");
                 bool has_v3 = has_v2 && flag_set.contains ("avx") && flag_set.contains ("avx2");
@@ -72,7 +72,7 @@ namespace ProtonPlus.Utils {
         }
 
         public static async bool check_dependency (string name) {
-            return (yield run_command (@"which $name")).contains("which: no") ? false : true;
+            return (yield run_command (@"which $name")).contains ("which: no") ? false : true;
         }
 
         public static async string get_distribution_name () {
@@ -80,7 +80,7 @@ namespace ProtonPlus.Utils {
             try {
                 var file = File.new_for_path ("/etc/os-release");
                 if (!file.query_exists ())
-                    file = File.new_for_path ("/usr/lib/os-release");
+                file = File.new_for_path ("/usr/lib/os-release");
 
                 if (file.query_exists ()) {
                     var dis = new DataInputStream (file.read ());
@@ -109,15 +109,15 @@ namespace ProtonPlus.Utils {
             });
         }
 
-        public static async string? get_protontricks_exec() {
+        public static async string? get_protontricks_exec () {
             string[] protontricks_execs = { "protontricks", "com.github.Matoking.protontricks" };
-			
+
             foreach (var protontricks_exec in protontricks_execs) {
                 if (yield Utils.System.check_dependency (protontricks_exec))
-                    return protontricks_exec;
+                return protontricks_exec;
             }
 
-			return null;
-		}
+            return null;
+        }
     }
 }

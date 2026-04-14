@@ -1,58 +1,58 @@
 namespace ProtonPlus.Models {
-	public class SteamProfile : Object {
-		const int64 steamid64ident = 76561197960265728;
-		public Launchers.Steam launcher { get; set; }
-		public string userdata_path { get; set; }
-		public string localconfig_path { get; set; }
-		public VDF.Shortcuts shortcuts { get; set; }
-		public string steam_id { get; set; }
-		public string account_id { get; set; }
-		public string username { get; set; }
-		public string image_path { get; set; }
-		public string default_compatibility_tool { get; set; }
-		public HashTable<uint, string> launch_options_hashtable;
-		public List<Games.Steam> non_steam_games;
+    public class SteamProfile : Object {
+        const int64 steamid64ident = 76561197960265728;
+        public Launchers.Steam launcher { get; set; }
+        public string userdata_path { get; set; }
+        public string localconfig_path { get; set; }
+        public VDF.Shortcuts shortcuts { get; set; }
+        public string steam_id { get; set; }
+        public string account_id { get; set; }
+        public string username { get; set; }
+        public string image_path { get; set; }
+        public string default_compatibility_tool { get; set; }
+        public HashTable<uint, string> launch_options_hashtable;
+        public List<Games.Steam> non_steam_games;
 
-		public SteamProfile (Launchers.Steam launcher, string username, string steam_id, string userdata_path) {
-			this.launcher = launcher;
-			this.steam_id = steam_id;
-			this.username = username;
-			this.userdata_path = userdata_path;
+        public SteamProfile (Launchers.Steam launcher, string username, string steam_id, string userdata_path) {
+            this.launcher = launcher;
+            this.steam_id = steam_id;
+            this.username = username;
+            this.userdata_path = userdata_path;
 
-			this.account_id = steam_id_to_account_id(steam_id);
+            this.account_id = steam_id_to_account_id (steam_id);
 
-			this.localconfig_path = "%s/config/localconfig.vdf".printf (userdata_path);
+            this.localconfig_path = "%s/config/localconfig.vdf".printf (userdata_path);
 
-			this.image_path = "%s/config/avatarcache/%s.png".printf (launcher.directory, steam_id);
+            this.image_path = "%s/config/avatarcache/%s.png".printf (launcher.directory, steam_id);
 
-			try {
-				var shortcuts_file_path = "%s/config/shortcuts.vdf".printf (userdata_path);
+            try {
+                var shortcuts_file_path = "%s/config/shortcuts.vdf".printf (userdata_path);
 
-				if (!FileUtils.test (shortcuts_file_path, FileTest.IS_REGULAR))
-					VDF.Shortcuts.create_new_shortcuts_file_at (shortcuts_file_path);
+                if (!FileUtils.test (shortcuts_file_path, FileTest.IS_REGULAR))
+                VDF.Shortcuts.create_new_shortcuts_file_at (shortcuts_file_path);
 
-				shortcuts = new VDF.Shortcuts (shortcuts_file_path);
-			} catch (Error e) {
-				warning (e.message);
-			}
-		}
+                shortcuts = new VDF.Shortcuts (shortcuts_file_path);
+            } catch (Error e) {
+                warning (e.message);
+            }
+        }
 
-		public async bool load_extra_data () {
-			var launch_options_loaded = yield load_launch_options ();
-			if (!launch_options_loaded)
-				return false;
+        public async bool load_extra_data () {
+            var launch_options_loaded = yield load_launch_options ();
+            if (!launch_options_loaded)
+            return false;
 
-			var non_steam_games_loaded = yield load_non_steam_games ();
-			if (!non_steam_games_loaded)
-				return false;
+            var non_steam_games_loaded = yield load_non_steam_games ();
+            if (!non_steam_games_loaded)
+            return false;
 
-			return true;
-		}
+            return true;
+        }
 
-		async bool load_launch_options() {
+        async bool load_launch_options () {
             this.launch_options_hashtable = new HashTable<uint, string> (null, null);
 
-            var content = Utils.Filesystem.get_file_content(localconfig_path);
+            var content = Utils.Filesystem.get_file_content (localconfig_path);
             var start_text = "";
             var end_text = "";
             var start_pos = 0;
@@ -65,253 +65,253 @@ namespace ProtonPlus.Models {
             var launch_options = "";
 
             start_text = "apps\"\n\t\t\t\t{";
-            start_pos = content.index_of(start_text, 0) + start_text.length;
+            start_pos = content.index_of (start_text, 0) + start_text.length;
 
             if (start_pos == -1)
-                return false;
+            return false;
 
             end_text = "\n\t\t\t\t}";
-            end_pos = content.index_of(end_text, start_pos);
+            end_pos = content.index_of (end_text, start_pos);
 
             if (end_pos == -1)
-                return false;
+            return false;
 
-            apps = content.substring(start_pos, end_pos - start_pos);
+            apps = content.substring (start_pos, end_pos - start_pos);
             // message("start: %i, end: %i, apps: %s", start_pos, end_pos, apps);
 
             var position = 0;
             while (true) {
                 start_text = "\"";
-                start_pos = apps.index_of(start_text, position);
+                start_pos = apps.index_of (start_text, position);
 
                 if (start_pos == -1)
-                    break;
+                break;
 
                 end_text = "\n\t\t\t\t\t}";
-                position = end_pos = apps.index_of(end_text, start_pos + start_text.length) + end_text.length;
+                position = end_pos = apps.index_of (end_text, start_pos + start_text.length) + end_text.length;
 
                 if (end_pos == -1)
-                    break;
+                break;
 
-                app = apps.substring(start_pos, end_pos - start_pos);
+                app = apps.substring (start_pos, end_pos - start_pos);
                 // message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
 
-                if (app.contains("LaunchOptions")) {
+                if (app.contains ("LaunchOptions")) {
                     start_text = "\"";
-                    start_pos = app.index_of(start_text, 0) + start_text.length;
+                    start_pos = app.index_of (start_text, 0) + start_text.length;
 
                     if (start_pos == -1)
-                        break;
+                    break;
 
                     end_text = "\"";
-                    end_pos = app.index_of(end_text, start_pos);
+                    end_pos = app.index_of (end_text, start_pos);
 
                     if (end_pos == -1)
-                        break;
-                        
-                    id_text = app.substring(start_pos, end_pos - start_pos);
+                    break;
+
+                    id_text = app.substring (start_pos, end_pos - start_pos);
                     // message("start: %i, end: %i, id: %s", start_pos, end_pos, id_text);
 
-                    id_valid = int.try_parse(id_text, out id);
-                    if(!id_valid)
-                        break;
+                    id_valid = int.try_parse (id_text, out id);
+                    if (!id_valid)
+                    break;
 
                     start_text = "LaunchOptions\"\t\t\"";
-                    start_pos = app.index_of(start_text, 0) + start_text.length;
+                    start_pos = app.index_of (start_text, 0) + start_text.length;
 
                     if (start_pos == -1)
-                        break;
+                    break;
 
                     end_text = "\"\n\t";
-                    end_pos = app.index_of(end_text, start_pos);
+                    end_pos = app.index_of (end_text, start_pos);
 
                     if (end_pos == -1)
-                        break;
-                        
-                    launch_options = app.substring(start_pos, end_pos - start_pos).replace("\\\"", "\"");
+                    break;
+
+                    launch_options = app.substring (start_pos, end_pos - start_pos).replace ("\\\"", "\"");
                     // message("start: %i, end: %i, launch_options: %s", start_pos, end_pos, launch_options);
 
-                    launch_options_hashtable.set(id, launch_options);
+                    launch_options_hashtable.set (id, launch_options);
                 }
             }
 
-			foreach (var game in (List<Games.Steam>) launcher.games) {
-                launch_options = launch_options_hashtable.get(game.appid);
+            foreach (var game in (List<Games.Steam>) launcher.games) {
+                launch_options = launch_options_hashtable.get (game.appid);
                 if (launch_options == null)
-                    launch_options = "";
+                launch_options = "";
                 this.launch_options_hashtable.set (game.appid, launch_options);
             }
 
             return true;
         }
 
-		async bool load_non_steam_games () {
-			this.non_steam_games = new List<Games.Steam> ();
+        async bool load_non_steam_games () {
+            this.non_steam_games = new List<Games.Steam> ();
 
-			foreach (var entry in shortcuts.nodes.entries) {
-                if (entry.key.contains("shortcuts.") && !entry.key.contains(".tags")) {
-					uint appid = entry.value.get("appid").get_int32();
-					if (appid < 0)
-						appid += (1u << 32);
+            foreach (var entry in shortcuts.nodes.entries) {
+                if (entry.key.contains ("shortcuts.") && !entry.key.contains (".tags")) {
+                    uint appid = entry.value.get ("appid").get_int32 ();
+                    if (appid < 0)
+                    appid += (1u << 32);
 
-					if (!entry.value.has_key ("AppName"))
-						continue;
+                    if (!entry.value.has_key ("AppName"))
+                    continue;
 
-					string name = entry.value.get("AppName").get_string();
-					if (name == "ProtonPlus")
-						continue;
+                    string name = entry.value.get ("AppName").get_string ();
+                    if (name == "ProtonPlus")
+                    continue;
 
-					string launch_options = entry.value.get("LaunchOptions").get_string().replace("\\\"", "\"");
+                    string launch_options = entry.value.get ("LaunchOptions").get_string ().replace ("\\\"", "\"");
 
-					var compatibility_tool = launcher.compatibility_tool_hashtable.get (appid);
-					if (compatibility_tool == null)
-                        compatibility_tool = "Undefined";
-                        
-					var game = new Games.Steam.non_steam (appid, name, launch_options, compatibility_tool, launcher);
+                    var compatibility_tool = launcher.compatibility_tool_hashtable.get (appid);
+                    if (compatibility_tool == null)
+                    compatibility_tool = "Undefined";
 
-					non_steam_games.append (game);
+                    var game = new Games.Steam.non_steam (appid, name, launch_options, compatibility_tool, launcher);
+
+                    non_steam_games.append (game);
                 }
             }
-			
-			return true;
-		}
 
-		static string steam_id_to_account_id (string steam_id) {
-			var steam_id2 = "STEAM_0:";
-			var steam_id2_account = int64.parse(steam_id) - steamid64ident;
+            return true;
+        }
 
-  			if (steam_id2_account % 2 == 0)
-      			steam_id2 += "0:";
-  			else
-      			steam_id2 += "1:";
+        static string steam_id_to_account_id (string steam_id) {
+            var steam_id2 = "STEAM_0:";
+            var steam_id2_account = int64.parse (steam_id) - steamid64ident;
 
-  			steam_id2 += Math.floor (steam_id2_account / 2).to_string();
+            if (steam_id2_account % 2 == 0)
+            steam_id2 += "0:";
+            else
+            steam_id2 += "1:";
 
-  			// message("SteamID2: %s".printf (steam_id2));
+            steam_id2 += Math.floor (steam_id2_account / 2).to_string ();
 
-			var steam_id2_split = steam_id2.split(":");
-  			var steam_id3 = "[U:1:";
+            // message("SteamID2: %s".printf (steam_id2));
 
-  			var y = int.parse(steam_id2_split[1]);
-  			var z = int.parse(steam_id2_split[2]);
+            var steam_id2_split = steam_id2.split (":");
+            var steam_id3 = "[U:1:";
 
-  			var account_id = z * 2 + y;
+            var y = int.parse (steam_id2_split[1]);
+            var z = int.parse (steam_id2_split[2]);
 
-  			steam_id3 += "%i]".printf (account_id);
+            var account_id = z * 2 + y;
 
-			// message("SteamID3: %s".printf (steam_id3));
+            steam_id3 += "%i]".printf (account_id);
 
-			return account_id.to_string ();
-		}
+            // message("SteamID3: %s".printf (steam_id3));
 
-		static string account_id_to_steam_id (string account_id) {
-  			var steam_id = int64.parse(account_id) + steamid64ident;
+            return account_id.to_string ();
+        }
 
-			return steam_id.to_string();
-		}
+        static string account_id_to_steam_id (string account_id) {
+            var steam_id = int64.parse (account_id) + steamid64ident;
 
-		public static List<SteamProfile> get_profiles (Launchers.Steam launcher) {
-			var profiles = new List<SteamProfile> ();
+            return steam_id.to_string ();
+        }
 
-			var path = "%s/config/loginusers.vdf".printf (launcher.directory);
-			var content = Utils.Filesystem.get_file_content (path);
-			if (content.length == 0)
-				return profiles;
-			var start_text = "";
-			var end_text = "";
-			var start_pos = 0;
-			var end_pos = 0;
-			var users = "";
-			var user = "";
-			var id = "";
-			var username = "";
-			var userdata_path = "";
+        public static List<SteamProfile> get_profiles (Launchers.Steam launcher) {
+            var profiles = new List<SteamProfile> ();
 
-			var userdata_hashtable = get_userdata_hashtable (launcher);
+            var path = "%s/config/loginusers.vdf".printf (launcher.directory);
+            var content = Utils.Filesystem.get_file_content (path);
+            if (content.length == 0)
+            return profiles;
+            var start_text = "";
+            var end_text = "";
+            var start_pos = 0;
+            var end_pos = 0;
+            var users = "";
+            var user = "";
+            var id = "";
+            var username = "";
+            var userdata_path = "";
 
-			start_text = "users\"\n{";
-			start_pos = content.index_of (start_text, 0) + start_text.length;
+            var userdata_hashtable = get_userdata_hashtable (launcher);
 
-			end_pos = content.length - 3;
+            start_text = "users\"\n{";
+            start_pos = content.index_of (start_text, 0) + start_text.length;
 
-			users = content.substring (start_pos, end_pos - start_pos);
-			// message("start: %i, end: %i, users: %s", start_pos, end_pos, users);
+            end_pos = content.length - 3;
 
-			int position = 0;
-			while (true) {
-				start_text = "\"";
-				start_pos = users.index_of (start_text, position);
-				if (start_pos == -1)
-					break;
+            users = content.substring (start_pos, end_pos - start_pos);
+            // message("start: %i, end: %i, users: %s", start_pos, end_pos, users);
 
-				end_text = "}";
-				position = end_pos = users.index_of (end_text, start_pos + start_text.length) + 1;
-				if (end_pos == -1)
-					break;
+            int position = 0;
+            while (true) {
+                start_text = "\"";
+                start_pos = users.index_of (start_text, position);
+                if (start_pos == -1)
+                break;
 
-				user = users.substring (start_pos, end_pos - start_pos);
-				// message("start: %i, end: %i, user: %s", start_pos, end_pos, user);
+                end_text = "}";
+                position = end_pos = users.index_of (end_text, start_pos + start_text.length) + 1;
+                if (end_pos == -1)
+                break;
 
-				start_text = "\"";
-				start_pos = user.index_of (start_text, 0) + start_text.length;
-				if (start_pos == -1)
-					break;
+                user = users.substring (start_pos, end_pos - start_pos);
+                // message("start: %i, end: %i, user: %s", start_pos, end_pos, user);
 
-				end_text = "\"";
-				end_pos = user.index_of (end_text, start_pos);
-				if (end_pos == -1)
-					break;
+                start_text = "\"";
+                start_pos = user.index_of (start_text, 0) + start_text.length;
+                if (start_pos == -1)
+                break;
 
-				id = user.substring (start_pos, end_pos - start_pos);
-				// message ("start: %i, end: %i, id: %s", start_pos, end_pos, id);
+                end_text = "\"";
+                end_pos = user.index_of (end_text, start_pos);
+                if (end_pos == -1)
+                break;
 
-				start_text = "PersonaName\"\t\t\"";
-				start_pos = user.index_of (start_text, 0) + start_text.length;
-				if (start_pos == -1)
-					break;
+                id = user.substring (start_pos, end_pos - start_pos);
+                // message ("start: %i, end: %i, id: %s", start_pos, end_pos, id);
 
-				end_text = "\"";
-				end_pos = user.index_of (end_text, start_pos);
-				if (end_pos == -1)
-					break;
+                start_text = "PersonaName\"\t\t\"";
+                start_pos = user.index_of (start_text, 0) + start_text.length;
+                if (start_pos == -1)
+                break;
 
-				username = user.substring (start_pos, end_pos - start_pos);
-				// message ("start: %i, end: %i, username: %s", start_pos, end_pos, username);
+                end_text = "\"";
+                end_pos = user.index_of (end_text, start_pos);
+                if (end_pos == -1)
+                break;
 
-				userdata_path = userdata_hashtable.get (id);
-				if (userdata_path == null)
-					continue;
+                username = user.substring (start_pos, end_pos - start_pos);
+                // message ("start: %i, end: %i, username: %s", start_pos, end_pos, username);
 
-				var profile = new SteamProfile (launcher, username, id, userdata_path);
+                userdata_path = userdata_hashtable.get (id);
+                if (userdata_path == null)
+                continue;
 
-				profiles.append (profile);
-			}
+                var profile = new SteamProfile (launcher, username, id, userdata_path);
 
-			return profiles;
-		}
+                profiles.append (profile);
+            }
 
-		static HashTable<string, string> get_userdata_hashtable (Launchers.Steam launcher) {
-			var userdata_hashtable = new HashTable<string, string> (str_hash, str_equal);
+            return profiles;
+        }
 
-			try {
-				var userdata_path = "%s/userdata".printf (launcher.directory);
-				if (FileUtils.test (userdata_path, FileTest.IS_DIR)) {
-					Dir directory = Dir.open (userdata_path);
-					string? dir;
-					while ((dir = directory.read_name ()) != null) {
-						if (dir != "." && dir != "..") {
-							File file = File.new_for_path (userdata_path + "/" + dir);
-							if (file.query_file_type (FileQueryInfoFlags.NONE) == FileType.DIRECTORY) {
-								userdata_hashtable.set (account_id_to_steam_id(dir), file.get_path ());
-							}
-						}
-					}
-				}
-			} catch (Error e) {
-				warning (e.message);
-			}
+        static HashTable<string, string> get_userdata_hashtable (Launchers.Steam launcher) {
+            var userdata_hashtable = new HashTable<string, string> (str_hash, str_equal);
 
-			return userdata_hashtable;
-		}
-	}
+            try {
+                var userdata_path = "%s/userdata".printf (launcher.directory);
+                if (FileUtils.test (userdata_path, FileTest.IS_DIR)) {
+                    Dir directory = Dir.open (userdata_path);
+                    string? dir;
+                    while ((dir = directory.read_name ()) != null) {
+                        if (dir != "." && dir != "..") {
+                            File file = File.new_for_path (userdata_path + "/" + dir);
+                            if (file.query_file_type (FileQueryInfoFlags.NONE) == FileType.DIRECTORY) {
+                                userdata_hashtable.set (account_id_to_steam_id (dir), file.get_path ());
+                            }
+                        }
+                    }
+                }
+            } catch (Error e) {
+                warning (e.message);
+            }
+
+            return userdata_hashtable;
+        }
+    }
 }

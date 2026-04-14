@@ -1,5 +1,7 @@
 namespace ProtonPlus.Utils {
     public class Web {
+
+
         public enum GetType {
             OTHER,
             GITHUB,
@@ -28,15 +30,15 @@ namespace ProtonPlus.Utils {
                     if (get_type == GetType.GITHUB || get_type == GetType.STEAMTINKERLAUNCH) {
                         var key = Globals.SETTINGS.get_string ("github-api-key");
                         if (key.length > 0)
-                            message.request_headers.append ("Authorization", "token %s".printf (key));
+                        message.request_headers.append ("Authorization", "token %s".printf (key));
                     }
 
                     if (get_type == GetType.GITLAB) {
                         var key = Globals.SETTINGS.get_string ("gitlab-api-key");
                         if (key.length > 0)
-                            message.request_headers.append ("Authorization", "Bearer %s".printf (key));
+                        message.request_headers.append ("Authorization", "Bearer %s".printf (key));
                     }
-                    
+
                     if (get_type == GetType.STEAMTINKERLAUNCH) {
                         message.request_headers.append ("Accept", "application/vnd.github+json");
                         message.request_headers.append ("X-GitHub-Api-Version", "2022-11-28");
@@ -52,20 +54,20 @@ namespace ProtonPlus.Utils {
                 response = (string) str_data;
 
                 if (response == null)
-                    return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
                 switch (get_type) {
                     case GetType.GITHUB:
                         if (response.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"))
-                            return ReturnCode.API_LIMIT_REACHED;
+                        return ReturnCode.API_LIMIT_REACHED;
 
                         if (response.contains ("Bad credentials"))
-                            return ReturnCode.INVALID_ACCESS_TOKEN;
+                        return ReturnCode.INVALID_ACCESS_TOKEN;
 
                         break;
                     case GetType.GITLAB:
                         if (response.contains ("401 Unauthorized"))
-                            return ReturnCode.INVALID_ACCESS_TOKEN;
+                        return ReturnCode.INVALID_ACCESS_TOKEN;
 
                         break;
                     default:
@@ -77,13 +79,13 @@ namespace ProtonPlus.Utils {
                 warning (e.message);
 
                 if (e.message.contains ("Temporary failure in name resolution"))
-                    return ReturnCode.CONNECTION_ISSUE;
+                return ReturnCode.CONNECTION_ISSUE;
 
                 if (e.message.contains ("Connection refused"))
-                    return ReturnCode.CONNECTION_REFUSED;
+                return ReturnCode.CONNECTION_REFUSED;
 
                 if (e.message.contains ("Name or service not known"))
-                    return ReturnCode.CONNECTION_UNKNOWN;
+                return ReturnCode.CONNECTION_UNKNOWN;
 
                 return ReturnCode.UNKNOWN_ERROR;
             }
@@ -106,7 +108,7 @@ namespace ProtonPlus.Utils {
 
                 var file = File.new_for_path (path);
                 if (file.query_exists ())
-                    yield file.delete_async (Priority.DEFAULT, null);
+                yield file.delete_async (Priority.DEFAULT, null);
 
                 FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, Priority.DEFAULT, null);
 
@@ -125,7 +127,7 @@ namespace ProtonPlus.Utils {
                 int64 bytes_downloaded = 0;
 
                 if (progress_callback != null)
-                    progress_callback (is_percent, 0, 0, 0); // Set initial progress state.
+                progress_callback (is_percent, 0, 0, 0); // Set initial progress state.
 
                 var is_canceled = false;
 
@@ -140,7 +142,7 @@ namespace ProtonPlus.Utils {
                     var chunk = yield input_stream.read_bytes_async (chunk_size);
 
                     if (chunk.get_size () == 0)
-                        break;
+                    break;
 
                     yield output_stream.write_async (chunk.get_data (), Priority.DEFAULT, null);
                     bytes_downloaded += chunk.get_size ();
@@ -167,7 +169,7 @@ namespace ProtonPlus.Utils {
                 yield output_stream.close_async ();
 
                 if (is_canceled && file.query_exists ())
-                    yield file.delete_async (Priority.DEFAULT, null);
+                yield file.delete_async (Priority.DEFAULT, null);
 
                 return !is_canceled;
             } catch (Error e) {

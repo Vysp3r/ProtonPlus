@@ -52,12 +52,12 @@ namespace ProtonPlus.Models.Releases {
 
                 state = (directory_name_valid && (install_directory_valid || backup_directory_valid)) ? State.UP_TO_DATE : State.NOT_INSTALLED;
 
-                Widgets.Application.window.notify["updating"].connect(() => {
+                Widgets.Application.window.notify["updating"].connect (() => {
                     install_directory_valid = FileUtils.test (install_location, FileTest.IS_DIR);
                     backup_directory_valid = FileUtils.test ("%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, backup_directory_name), FileTest.IS_DIR);
 
                     if (!directory_name_valid || (backup_directory_valid && !install_directory_valid) || (!backup_directory_valid && !install_directory_valid))
-                        state = State.NOT_INSTALLED;
+                    state = State.NOT_INSTALLED;
                 });
             } else {
                 state = (directory_name_valid && install_directory_valid) ? State.UP_TO_DATE : State.NOT_INSTALLED;
@@ -68,7 +68,7 @@ namespace ProtonPlus.Models.Releases {
             step = Step.DOWNLOADING;
 
             if (!download_url.contains (".tar"))
-                return false;
+            return false;
 
             string download_path = "%s/%s.tar.gz".printf (Globals.DOWNLOAD_CACHE_PATH, title);
 
@@ -80,7 +80,7 @@ namespace ProtonPlus.Models.Releases {
                 });
 
                 if (!download_valid)
-                    return false;
+                return false;
             }
 
             step = Step.EXTRACTING;
@@ -89,7 +89,7 @@ namespace ProtonPlus.Models.Releases {
 
             string source_path = yield Utils.Filesystem.extract (extract_path, title, ".tar.gz", () => canceled);
             if (source_path == "")
-                return false;
+            return false;
 
             step = Step.MOVING;
 
@@ -99,7 +99,7 @@ namespace ProtonPlus.Models.Releases {
 
             var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
             if (!renaming_valid)
-                return false;
+            return false;
 
             add_to_games_tab ();
 
@@ -112,7 +112,7 @@ namespace ProtonPlus.Models.Releases {
             var deleted = yield Utils.Filesystem.delete_directory (install_location);
 
             if (!deleted)
-                return false;
+            return false;
 
             remove_from_games_tab ();
 

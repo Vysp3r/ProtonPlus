@@ -12,8 +12,8 @@ namespace ProtonPlus.Models.Runners {
 
         public virtual string get_directory_name (string release_name) {
             if (release_name.contains ("Latest"))
-                return release_name;
-            
+            return release_name;
+
             var directory_name = new StringBuilder(directory_name_format);
 
             directory_name.replace ("$release_name", release_name);
@@ -33,7 +33,7 @@ namespace ProtonPlus.Models.Runners {
             if (directory_name.len > 0 && directory_name.str[0] == '&') {
                 directory_name.replace ("&", "", 1);
                 var split = directory_name.str.split (":");
-                directory_name.str = split[0].contains(split[1]) ? split[2] : split[3];
+                directory_name.str = split[0].contains (split[1]) ? split[2] : split[3];
             }
 
             return directory_name.str;

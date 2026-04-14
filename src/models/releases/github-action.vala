@@ -12,7 +12,7 @@ namespace ProtonPlus.Models.Releases {
             step = Step.DOWNLOADING;
 
             if (!download_url.contains (".zip"))
-                return false;
+            return false;
 
             string download_path = "%s/%s.zip".printf (Globals.DOWNLOAD_CACHE_PATH, title);
 
@@ -24,9 +24,9 @@ namespace ProtonPlus.Models.Releases {
                 });
 
                 if (!download_valid)
-                    return false;
+                return false;
             }
-            
+
             step = Step.EXTRACTING;
 
             string extract_path = "%s/".printf (Globals.DOWNLOAD_CACHE_PATH);
@@ -34,12 +34,12 @@ namespace ProtonPlus.Models.Releases {
             string source_path = yield Utils.Filesystem.extract (extract_path, title, ".zip", () => canceled);
 
             if (source_path == "")
-                return false;
+            return false;
 
             source_path = yield Utils.Filesystem.extract (extract_path, source_path.substring (0, source_path.length - 4).replace (extract_path, ""), ".tar", () => canceled);
 
             if (source_path == "")
-                return false;
+            return false;
 
             step = Step.MOVING;
 
@@ -50,7 +50,7 @@ namespace ProtonPlus.Models.Releases {
             var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
 
             if (!renaming_valid)
-                return false;
+            return false;
 
             add_to_games_tab ();
 

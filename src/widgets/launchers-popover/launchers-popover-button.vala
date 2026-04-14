@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets {
-	public class LaunchersPopoverButton : Gtk.Button {
+    public class LaunchersPopoverButton : Gtk.Button {
         Models.Launcher selected_launcher;
 
         Gtk.Popover popover;
@@ -7,7 +7,7 @@ namespace ProtonPlus.Widgets {
         Gtk.Label button_label;
         Gtk.Box button_content;
         Gtk.ListBox list_box;
-        
+
         public LaunchersPopoverButton () {
             button_image = new Gtk.Image ();
 
@@ -18,18 +18,18 @@ namespace ProtonPlus.Widgets {
             button_content.append (button_label);
 
             list_box = new Gtk.ListBox ();
-			list_box.set_activate_on_single_click (true);
-			list_box.set_selection_mode (Gtk.SelectionMode.SINGLE);
-			list_box.add_css_class ("navigation-sidebar");
-			list_box.set_hexpand (true);
-			list_box.set_vexpand (true);
+            list_box.set_activate_on_single_click (true);
+            list_box.set_selection_mode (Gtk.SelectionMode.SINGLE);
+            list_box.add_css_class ("navigation-sidebar");
+            list_box.set_hexpand (true);
+            list_box.set_vexpand (true);
             list_box.add_css_class ("launchers-popover-list");
-			list_box.row_activated.connect (list_box_row_activated);
+            list_box.row_activated.connect (list_box_row_activated);
 
             popover = new Gtk.Popover ();
             popover.set_child (list_box);
             popover.set_parent (this);
-			
+
             clicked.connect (popover_button_clicked);
 
             add_css_class ("flat");
@@ -37,17 +37,17 @@ namespace ProtonPlus.Widgets {
         }
 
         void popover_button_clicked () {
-			popover.popup ();
-		}
+            popover.popup ();
+        }
 
         void list_box_row_activated (Gtk.ListBoxRow? row) {
             if (row == null || row.get_type () != typeof(LaunchersPopoverListRow))
-                return;
+            return;
 
             var launchers_popover_list_row = row as LaunchersPopoverListRow;
 
             if (selected_launcher == launchers_popover_list_row.launcher)
-                return;
+            return;
 
             selected_launcher = launchers_popover_list_row.launcher;
 

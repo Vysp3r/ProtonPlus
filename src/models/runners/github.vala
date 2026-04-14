@@ -16,28 +16,28 @@ namespace ProtonPlus.Models.Runners {
             var code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_type, out response);
 
             if (code != ReturnCode.VALID_REQUEST)
-                return code;
+            return code;
 
             page++;
 
             var root_node = Utils.Parser.get_node_from_json (response);
 
             if (root_node == null)
-                return ReturnCode.UNKNOWN_ERROR;
+            return ReturnCode.UNKNOWN_ERROR;
 
             if (root_node.get_node_type () != Json.NodeType.ARRAY)
-                return ReturnCode.UNKNOWN_ERROR;
+            return ReturnCode.UNKNOWN_ERROR;
 
             var root_array = root_node.get_array ();
             if (root_array == null)
-                return ReturnCode.UNKNOWN_ERROR;
+            return ReturnCode.UNKNOWN_ERROR;
 
             for (var i = 0; i < root_array.get_length (); i++) {
                 var object = root_array.get_object_element (i);
 
                 var asset_array = object.get_array_member ("assets");
                 if (asset_array == null)
-                    continue;
+                continue;
 
                 string title = use_name_instead_of_tag_name ? object.get_string_member ("name") : object.get_string_member ("tag_name");
                 string description = object.get_string_member ("body").strip ();
@@ -54,7 +54,7 @@ namespace ProtonPlus.Models.Runners {
                     }
 
                     if (excluded)
-                        continue;
+                    continue;
                 } else if (request_asset_exclude != null) {
                     var excluded = false;
 
@@ -66,7 +66,7 @@ namespace ProtonPlus.Models.Runners {
                     }
 
                     if (excluded)
-                        continue;
+                    continue;
                 }
 
                 var real_asset_position = asset_position;
@@ -84,7 +84,7 @@ namespace ProtonPlus.Models.Runners {
                             int number = 0;
                             var parsed = int.try_parse (asset_position_time_condition_split[1], out number);
                             if (!parsed)
-                                continue;
+                            continue;
 
                             real_asset_position = number;
                         }
@@ -117,7 +117,7 @@ namespace ProtonPlus.Models.Runners {
             }
 
             has_more = root_array.get_length () == 25;
-            
+
             return ReturnCode.RELEASES_LOADED;
         }
     }
