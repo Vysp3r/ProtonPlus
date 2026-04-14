@@ -6,27 +6,27 @@ namespace ProtonPlus.Widgets.Preferences {
             var refresh_launchers_runners_row = new RefreshLaunchersRunnersRow (this);
 
             var general_group = new Adw.PreferencesGroup () {
-                title = _("General"),
+                title = _ ("General"),
             };
             general_group.add (theme_row);
 
             var save_history_row = new Adw.SwitchRow () {
-                title = _("Save download history"),
-                subtitle = _("Save the download history to a file"),
+                title = _ ("Save download history"),
+                subtitle = _ ("Save the download history to a file"),
             };
             general_group.add (save_history_row);
 
             general_group.add (refresh_launchers_runners_row);
 
             var automatic_updates_row = new Adw.SwitchRow () {
-                title = _("Automatic updates"),
-                subtitle = _("Update the installed 'Latest' runners when the application starts"),
+                title = _ ("Automatic updates"),
+                subtitle = _ ("Update the installed 'Latest' runners when the application starts"),
             };
-            
+
             var check_updates_row = new CheckUpdatesRow (this);
-            
+
             var latest_group = new Adw.PreferencesGroup () {
-                title = _("Latest"),
+                title = _ ("Latest"),
             };
             latest_group.add (automatic_updates_row);
             latest_group.add (check_updates_row);
@@ -46,8 +46,8 @@ namespace ProtonPlus.Widgets.Preferences {
             gitlab_group.add (gitlab_access_token_row);
 
             var steam_remember_last_used_profile_row = new Adw.SwitchRow () {
-                title = _("Remember last used profile"),
-                subtitle = _("Remember the last used Steam profile"),
+                title = _ ("Remember last used profile"),
+                subtitle = _ ("Remember the last used Steam profile"),
             };
 
             var refresh_steam_profiles_row = new RefreshSteamProfilesRow (this);
@@ -57,7 +57,7 @@ namespace ProtonPlus.Widgets.Preferences {
             };
             steam_group.add (steam_remember_last_used_profile_row);
             steam_group.add (refresh_steam_profiles_row);
-            
+
             var page = new Adw.PreferencesPage ();
             page.add (general_group);
             page.add (latest_group);
@@ -72,7 +72,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 Globals.SETTINGS.bind ("steam-remember-last-profile", steam_remember_last_used_profile_row, "active", SettingsBindFlags.DEFAULT);
                 Globals.SETTINGS.bind ("save-history", save_history_row, "active", SettingsBindFlags.DEFAULT);
             }
-                
+
             set_search_enabled (true);
             add (page);
         }

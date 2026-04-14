@@ -1,8 +1,8 @@
 namespace ProtonPlus.Models.Releases {
-    public abstract class Update<R>: Release<R> {
+    public abstract class Update<R> : Release<R> {
         public async bool update () {
             if (DownloadManager.instance.is_downloading (this))
-                return false;
+            return false;
 
             canceled = false;
 
