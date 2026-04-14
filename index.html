@@ -43,7 +43,12 @@
                     <span>ProtonPlus</span>
                 </a>
             </div>
-            <ul class="nav-links">
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
                 <li><a href="#screenshots">Screenshots</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#download">Download</a></li>
@@ -267,6 +272,24 @@
             Copyright © <a href="https://vysp3r.com/">Vysp3r</a> 2026
         </section>
     </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 
 </html>
