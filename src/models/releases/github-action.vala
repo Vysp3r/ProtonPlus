@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Releases {
             if (!download_url.contains (".zip"))
             return false;
 
-            string download_path = "%s/%s.zip".printf (Globals.DOWNLOAD_CACHE_PATH, title);
+            string download_path = "%s/%s.zip".printf (Globals.CACHE_PATH, title);
 
             if (!FileUtils.test (download_path, FileTest.EXISTS)) {
                 var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, (is_percent, progress, speed_kbps, seconds_remaining) => {
@@ -29,7 +29,7 @@ namespace ProtonPlus.Models.Releases {
 
             step = Step.EXTRACTING;
 
-            string extract_path = "%s/".printf (Globals.DOWNLOAD_CACHE_PATH);
+            string extract_path = "%s/".printf (Globals.CACHE_PATH);
 
             string source_path = yield Utils.Filesystem.extract (extract_path, title, ".zip", () => canceled);
 
