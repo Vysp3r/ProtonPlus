@@ -100,6 +100,16 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.19" date="2026-04-13">
+      <description>
+        <ul>
+          <li>🐛 Fixed launchers not being detected on certain distro</li>
+          <li>🌐 Updated Polish localization</li>
+          <li>🌐 Updated Spanish localization</li>
+          <li>🌐 Updated Ukrainian localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.18" date="2026-04-12">
       <description>
         <ul>
