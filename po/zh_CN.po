@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-13 17:55-0400\n"
-"PO-Revision-Date: 2026-02-27 07:47+0800\n"
+"PO-Revision-Date: 2026-04-15 23:17+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh\n"
@@ -23,7 +23,7 @@ msgid "Website"
 msgstr "网站"
 
 msgid "translator-credits"
-msgstr ""
+msgstr "nick.exe <nick.exe@gmail.com>"
 
 msgid "Special thanks to"
 msgstr "特别感谢"
@@ -46,9 +46,8 @@ msgstr "偏好设定(_P)"
 msgid "_Keyboard Shortcuts"
 msgstr "键盘快捷键(_K)"
 
-#, fuzzy
 msgid "_Donate"
-msgstr "捐赠"
+msgstr "捐赠(_D)"
 
 msgid "_About ProtonPlus"
 msgstr "关于 ProtonPlus(_A)"
@@ -150,9 +149,8 @@ msgstr "一般"
 msgid "Automatic updates"
 msgstr "自动更新"
 
-#, fuzzy
 msgid "Update the installed 'Latest' runners when the application starts"
-msgstr "是否在启动时更新已安装的“Latest”运行器"
+msgstr "于启动时更新已安装的“Latest”运行器"
 
 msgid "Latest"
 msgstr "最新版本"
@@ -160,9 +158,8 @@ msgstr "最新版本"
 msgid "Remember last used profile"
 msgstr "记住上次使用的个人资料"
 
-#, fuzzy
 msgid "Remember the last used Steam profile"
-msgstr "记住上次使用的个人资料"
+msgstr "记住上次使用的 Steam 个人资料"
 
 msgid "System"
 msgstr "系统"
@@ -241,13 +238,13 @@ msgstr "请确保提供的存取令牌是有效的。"
 msgid "Load more"
 msgstr "加载更多"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %s?"
-msgstr "删除 %s"
+msgstr "是否删除 %s？"
 
 #, c-format
 msgid "%s will be permanently deleted."
-msgstr ""
+msgstr "%s 将被永久删除。"
 
 #, c-format
 msgid "Used by %i games."
@@ -256,13 +253,12 @@ msgstr "已有 %i 款游戏使用。"
 msgid "Used by 1 game."
 msgstr "已有 1 款游戏使用。"
 
-#, fuzzy
 msgid "Delete"
-msgstr "删除 %s"
+msgstr "删除"
 
 #, c-format
 msgid "Couldn't delete %s"
-msgstr "无法移除 %s"
+msgstr "无法删除 %s"
 
 #, c-format
 msgid "Couldn't install %s"
@@ -376,7 +372,7 @@ msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "若您认为这是个问题，请务必在 GitHub 上回报。"
 
 msgid "Unsupported launcher"
-msgstr "未支援的启动器"
+msgstr "未支持的启动器"
 
 #, c-format
 msgid "%s is currently not supported."
@@ -405,14 +401,13 @@ msgid "Mass edit"
 msgstr "批量编辑"
 
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
-#, fuzzy
 msgid "Clear the current launch options"
-msgstr "修改游戏启动选项"
+msgstr "清空当前启动选项"
 
 msgid "Advanced"
-msgstr ""
+msgstr "进阶"
 
 msgid "Apply the current modifications"
 msgstr "应用当前修改"
@@ -427,7 +422,6 @@ msgid ""
 "account."
 msgstr "若要在批量编辑中涵盖启动选项，请启用此项。"
 
-#, fuzzy
 msgid "Launch options"
 msgstr "启动选项"
 
@@ -458,7 +452,7 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "删除 Steam 中的 ProtonPlus 捷径"
 
 msgid "Couldn't delete the shortcut in Steam"
-msgstr "无法移除 Steam 中的捷径"
+msgstr "无法删除 Steam 中的捷径"
 
 msgid "Couldn't create the shortcut in Steam"
 msgstr "无法在 Steam 中建立捷径"
@@ -481,9 +475,8 @@ msgstr "取消全选"
 msgid "Unselect all the games"
 msgstr "取消选取所有的游戏"
 
-#, fuzzy
 msgid "Edit the selected games at once"
-msgstr "一次性编辑所选游戏的兼容性工具"
+msgstr "一次性编辑所选游戏"
 
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
@@ -501,273 +494,266 @@ msgid "Couldn't change the launch options of %s"
 msgstr "无法变更 %s 的启动选项"
 
 msgid "Set"
-msgstr ""
+msgstr "设置"
 
 msgid "Apply the FPS value"
-msgstr ""
+msgstr "应用帧率值"
 
 msgid "Auto detect"
-msgstr ""
+msgstr "自动侦测"
 
 msgid "Custom"
-msgstr ""
+msgstr "自定义"
 
-#, fuzzy
 msgid "Apply the custom resolution"
-msgstr "应用当前修改"
+msgstr "应用自定义分辨率"
 
 #. Launch command preview
 msgid "Launch command preview"
-msgstr ""
+msgstr "启动指令预览"
 
 #. Common options
 msgid "Performance overlay"
-msgstr ""
+msgstr "效能叠加界面"
 
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
-msgstr ""
+msgstr "显示包含帧率、CPU/GPU 使用率和温度等讯息的游戏叠加界面。"
 
 msgid "Disable Steam Deck Mode"
-msgstr ""
+msgstr "停用 Steam Deck 模式"
 
 msgid "Disables the Steam Deck-specific profile that some games use."
-msgstr ""
+msgstr "停用某些游戏使用的 Steam Deck 专属设定档。"
 
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
 msgstr ""
+"让游戏直接在 Wayland 上运行，而非通过 XWayland，但这会导致 Steam 输入和叠加介"
+"面无法正常运作。"
 
-#, fuzzy
 msgid "Common options"
-msgstr "启动选项"
+msgstr "常用选项"
 
 msgid "Quick toggles for the launch options people reach for most often."
-msgstr ""
+msgstr "常用启动选项的快速切换开关。"
 
 #. Launch tools
 msgid "HDR"
-msgstr ""
+msgstr "HDR"
 
 msgid "Outputs HDR colors if your display supports it."
-msgstr ""
+msgstr "若您的显示器支持，将显示 HDR 色彩。"
 
 msgid "None"
-msgstr ""
+msgstr "无"
 
-#, fuzzy
 msgid "Gamescope"
-msgstr "游戏库"
+msgstr "Gamescope"
 
 msgid "ScopeBuddy"
-msgstr ""
+msgstr "ScopeBuddy"
 
-#, fuzzy
 msgid "Launch tools"
-msgstr "启动选项"
+msgstr "启动工具"
 
 msgid ""
 "Choose one to configure FPS caps, resolution, and other display options."
-msgstr ""
+msgstr "请选择一项以配置帧率上限、分辨率，以及其它显示选项。"
 
 #. GPU vendor options
 msgid "Mesa Anti-Lag"
-msgstr ""
+msgstr "Mesa 防延迟"
 
 msgid "Reduces latency on supported AMD Mesa setups."
-msgstr ""
+msgstr "在支持的 AMD Mesa 环境下，能降低延迟。"
 
 msgid "Use dGPU"
-msgstr ""
+msgstr "使用独立显卡"
 
 msgid "Makes the game use the AMD dGPU on hybrid systems."
-msgstr ""
+msgstr "让游戏在混合系统上使用 AMD 独立显卡。"
 
 msgid "Hide AMD APU"
-msgstr ""
+msgstr "隐藏 AMD APU"
 
 msgid ""
 "Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
 "integrated graphics."
-msgstr ""
+msgstr "让 Proton 将 AMD APU 识别为独立显卡，以应对会误判为集成显卡的游戏。"
 
 msgid "NVAPI"
-msgstr ""
+msgstr "NVAPI"
 
 msgid "Lets games access NVIDIA-specific features like DLSS."
-msgstr ""
+msgstr "让游戏能使用 NVIDIA 专属功能，例如 DLSS。"
 
 msgid "Update DLSS components"
-msgstr ""
+msgstr "更新 DLSS 组件"
 
 msgid "Auto upgrades DLSS components for supported games."
-msgstr ""
+msgstr "自动为支持 DLSS 的游戏升级相关组件。"
 
 msgid "Hide NVIDIA GPU"
-msgstr ""
+msgstr "隐藏 NVIDIA GPU"
 
 msgid ""
 "Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
 "NVIDIA driver behavior."
 msgstr ""
+"让 Proton 将 NVIDIA GPU 识别为 AMD，以应对会预期使用 Windows 专属 NVIDIA 驱动"
+"程式的游戏。"
 
 msgid "AMD"
-msgstr ""
+msgstr "AMD"
 
 msgid "NVIDIA"
-msgstr ""
+msgstr "NVIDIA"
 
 msgid "GPU vendor options"
-msgstr ""
+msgstr "GPU 供应商选项"
 
 msgid "Use GPU-specific compatibility toggles for AMD and NVIDIA hardware."
-msgstr ""
+msgstr "针对 AMD 和 NVIDIA 硬件，使用各自专属的兼容性切换开关。"
 
 #. More options
 msgid "VKBasalt"
-msgstr ""
+msgstr "VKBasalt"
 
 msgid "Adds visual effects like sharpening and color adjustments."
-msgstr ""
+msgstr "添加锐化和色彩调整等视觉特效。"
 
 msgid "WineD3D"
-msgstr ""
+msgstr "WineD3D"
 
 msgid ""
 "Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
-msgstr ""
+msgstr "使用 OpenGL 取代 Vulkan。请在遇到 DXVK 问题时才启用此选项。"
 
-#, fuzzy
 msgid "More options"
-msgstr "更多信息"
+msgstr "更多选项"
 
 msgid "Extra graphics settings and launch behaviors."
-msgstr ""
+msgstr "额外的图形设置和启动行为。"
 
 #. Game arguments
-#, fuzzy
 msgid "Skip launcher"
-msgstr "启动器"
+msgstr "跳过启动器"
 
 msgid "Adds -skip-launcher to bypass launchers in games that support it."
-msgstr ""
+msgstr "添加 -skip-launcher，以在支持此功能的游戏中跳过启动器。"
 
 msgid "Vulkan"
-msgstr ""
+msgstr "Vulkan"
 
 msgid "Adds -vulkan to make the game use its Vulkan renderer."
-msgstr ""
+msgstr "添加 -vulkan，以让游戏使用其 Vulkan 渲染器。"
 
-#, fuzzy
 msgid "DirectX 11"
-msgstr "目录： "
+msgstr "DirectX 11"
 
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
-msgstr ""
+msgstr "添加 -dx11，以让游戏使用其 DirectX 11 渲染器。"
 
-#, fuzzy
 msgid "DirectX 12"
-msgstr "目录： "
+msgstr "DirectX 12"
 
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
-msgstr ""
+msgstr "添加 -dx12，以让游戏使用其 DirectX 12 渲染器。"
 
 msgid "Console"
-msgstr ""
+msgstr "控制台"
 
 msgid "Adds -console to open the game's developer console when supported."
-msgstr ""
+msgstr "添加 -console，以在游戏支持的情况下打开其开发者控制台。"
 
 msgid "Game arguments"
-msgstr ""
+msgstr "游戏引数"
 
 msgid "Flags passed directly to the game."
-msgstr ""
+msgstr "直接传递给游戏的引数。"
 
 #. Advanced options
 msgid "Appends Steam's game command."
-msgstr ""
+msgstr "追加 Steam 的游戏指令。"
 
 msgid "Additional arguments"
-msgstr ""
+msgstr "额外引数"
 
-#, fuzzy
 msgid "Add extra launch options"
-msgstr "修改启动选项"
+msgstr "添加额外的启动选项。"
 
 msgid "Custom launch arguments"
-msgstr ""
+msgstr "自定义启动引数"
 
-#, fuzzy
 msgid "Add your own launch options."
-msgstr "修改启动选项"
+msgstr "添加您自定义的启动选项。"
 
-#, fuzzy
 msgid "Advanced options"
-msgstr "启动选项"
+msgstr "进阶选项"
 
 msgid "Extra control over the final Steam launch command."
-msgstr ""
+msgstr "对最终的 Steam 启动指令进行额外的控制。"
 
 msgid "Fullscreen"
-msgstr ""
+msgstr "全屏"
 
 msgid "Runs the game in a fullscreen session."
-msgstr ""
+msgstr "以全屏模式运行游戏。"
 
 msgid "VRR"
-msgstr ""
+msgstr "VRR"
 
 msgid "Matches your display's refresh rate to the game's FPS."
-msgstr ""
+msgstr "将屏幕刷新率与游戏帧率同步。"
 
 msgid "Frame limit"
-msgstr ""
+msgstr "帧数上限"
 
 msgid "Caps the frame rate inside Gamescope."
-msgstr ""
+msgstr "限制 Gamescope 内的帧率。"
 
 msgid "FPS"
-msgstr ""
+msgstr "帧率"
 
 msgid "Resolution"
-msgstr ""
+msgstr "分辨率"
 
 msgid "Sets the Gamescope output resolution."
-msgstr ""
+msgstr "设定 Gamescope 的输出分辨率。"
 
 msgid "Additional Gamescope arguments"
-msgstr ""
+msgstr "额外 Gamescope 引数"
 
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
-msgstr ""
+msgstr "保留额外的 Gamescope 引数，例如输出或分辨率调整。"
 
 msgid "Add Gamescope arguments"
-msgstr ""
+msgstr "添加 Gamescope 引数"
 
 msgid "Auto HDR"
-msgstr ""
+msgstr "自动 HDR"
 
 msgid "Caps the frame rate inside ScopeBuddy."
-msgstr ""
+msgstr "限制 ScopeBuddy 内的帧率。"
 
 msgid "Sets the ScopeBuddy output resolution."
-msgstr ""
+msgstr "设定 ScopeBuddy 的输出分辨率。"
 
 msgid "Additional ScopeBuddy arguments"
-msgstr ""
+msgstr "额外 ScopeBuddy 引数"
 
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
-msgstr ""
+msgstr "保留额外的 ScopeBuddy 引数，例如偏好的输出选择。"
 
 msgid "Add ScopeBuddy arguments"
-msgstr ""
+msgstr "添加 ScopeBuddy 引数"
 
 msgid "No launch options configured yet."
-msgstr ""
+msgstr "尚未配置任何启动选项。"
 
 msgid "Select a profile"
 msgstr "选择个人资料"
@@ -787,14 +773,14 @@ msgstr "打开菜单"
 msgid "Set the default compatibility tool"
 msgstr "设定默认兼容性工具"
 
-#, fuzzy
 msgid "Reset to the current default compatibility tool"
-msgstr "设定默认兼容性工具"
+msgstr "重置当前默认兼容性工具"
 
 msgid ""
 "Choose the default compatibility tool Steam should use for games without an "
 "explicit override."
 msgstr ""
+"针对未明确指定兼容性工具的游戏，请选择 Steam 所要使用的默认兼容性工具。"
 
 msgid "Couldn't change the default compatibility tool"
 msgstr "无法变更预设兼容性工具"
@@ -838,7 +824,7 @@ msgid ""
 "wayland tweaks."
 msgstr ""
 "运行 Windows 游戏的 Steam 兼容性工具，具有优于 Valve 默认 Proton 的改进功能。"
-"由 Etaash Mathamsetty 新增 FSR4 支援和 Wine Wayland 调整。"
+"由 Etaash Mathamsetty 新增 FSR4 支持和 Wine Wayland 调整。"
 
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr "基于 Wine-tkg 的，运行 Windows 游戏的自定义 Proton 建构版本。"
@@ -909,7 +895,7 @@ msgstr "尚未安装运行器\n"
 
 #, c-format
 msgid "Error: Runner '%s' does not support 'latest' installation\n"
-msgstr "错误：运行器“%s”不支援“Latest”安装\n"
+msgstr "错误：运行器“%s”不支持“Latest”安装\n"
 
 #, c-format
 msgid "Installing %s Latest...\n"
@@ -1012,43 +998,35 @@ msgstr "错误：未找到运行器“%s”\n"
 msgid "Usage: %s\n"
 msgstr "用法：%s\n"
 
-#, fuzzy
 msgid "Error: Invalid input, please enter a number\n"
-msgstr "错误：无效的选择\n"
+msgstr "错误：无效的输入，请输入数字\n"
 
 msgid "Error: Selection out of range\n"
-msgstr ""
+msgstr "错误：选择超出范围\n"
 
-#, fuzzy
 msgid "Usage:\n"
-msgstr "用法：%s\n"
+msgstr "用法：\n"
 
 msgid "Commands:\n"
 msgstr "指令：\n"
 
-#, fuzzy
 msgid "Show version"
-msgstr "显示版本\n"
+msgstr "显示版本"
 
-#, fuzzy
 msgid "Show this help"
-msgstr "显示本说明\n"
+msgstr "显示本说明"
 
-#, fuzzy
 msgid "List launchers or installed runners"
-msgstr "列出启动器或已安装的运行器\n"
+msgstr "列出启动器或已安装的运行器"
 
-#, fuzzy
 msgid "Install runner"
-msgstr "安装运行器\n"
+msgstr "安装运行器"
 
-#, fuzzy
 msgid "Uninstall runner"
-msgstr "卸载运行器\n"
+msgstr "卸载运行器"
 
-#, fuzzy
 msgid "Update runner"
-msgstr "更新运行器\n"
+msgstr "更新运行器"
 
 msgid ""
 "\n"
