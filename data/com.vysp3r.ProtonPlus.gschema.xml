@@ -39,6 +39,9 @@
 		<key name="save-history" type="b">
 			<default>true</default>
 		</key>
+		<key name="first-run" type="b">
+			<default>true</default>
+		</key>
 		<key name="theme" enum="com.vysp3r.ProtonPlus.Theme">
 			<default>'system'</default>
 		</key>

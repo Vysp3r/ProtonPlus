@@ -49,6 +49,14 @@ namespace ProtonPlus.Widgets {
                             "fullscreened",
                             SettingsBindFlags.DEFAULT);
 
+                    if (Globals.SETTINGS.get_boolean ("first-run")) {
+                        if (Globals.IS_STEAM_OS) {
+                            Globals.SETTINGS.set_enum ("theme", 5);
+                        }
+
+                        Globals.SETTINGS.set_boolean ("first-run", false);
+                    }
+
                     ThemeManager.get_default ().apply_theme ();
                 } else {
                     warning ("GSettings schema not found: 'com.vysp3r.ProtonPlus.State'");
