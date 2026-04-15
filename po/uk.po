@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-13 17:55-0400\n"
-"PO-Revision-Date: 2026-04-15 16:07+0000\n"
+"PO-Revision-Date: 2026-04-15 23:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -565,9 +565,8 @@ msgstr "Виводить HDR-кольори, за умови підтримки 
 msgid "None"
 msgstr ""
 
-#, fuzzy
 msgid "Gamescope"
-msgstr "Ігри"
+msgstr "Gamescope"
 
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
@@ -583,21 +582,19 @@ msgstr ""
 
 #. GPU vendor options
 msgid "Mesa Anti-Lag"
-msgstr ""
+msgstr "Mesa Anti-Lag"
 
-#, fuzzy
 msgid "Reduces latency on supported AMD Mesa setups."
-msgstr "Зменшує затримку на підтримуваних конфігураціях AMD Mesa."
+msgstr "Скорочує затримку на підтримуваних системах AMD Mesa."
 
 #, fuzzy
 msgid "Use dGPU"
 msgstr "Використовувати дискретну відеокарту"
 
-#, fuzzy
 msgid "Makes the game use the AMD dGPU on hybrid systems."
-msgstr "Змушує гру використовувати дискретний AMD GPU на гібридних системах."
+msgstr ""
+"Змушує гру використовувати дискретну відеокарту AMD у гібридних системах."
 
-#, fuzzy
 msgid "Hide AMD APU"
 msgstr "Приховати вбудовану відеокарту AMD"
 
@@ -731,10 +728,10 @@ msgid "Extra control over the final Steam launch command."
 msgstr "Додатковий контроль над фінальною командою запуску Steam."
 
 msgid "Fullscreen"
-msgstr "На весь екран"
+msgstr "Повноекранний режим"
 
 msgid "Runs the game in a fullscreen session."
-msgstr ""
+msgstr "Запускає гру на весь екран."
 
 msgid "VRR"
 msgstr ""
@@ -746,7 +743,7 @@ msgid "Frame limit"
 msgstr ""
 
 msgid "Caps the frame rate inside Gamescope."
-msgstr ""
+msgstr "Обмежує частоту кадрів у Gamescope."
 
 msgid "FPS"
 msgstr ""
