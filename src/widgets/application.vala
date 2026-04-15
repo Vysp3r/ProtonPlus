@@ -31,8 +31,6 @@ namespace ProtonPlus.Widgets {
             window = new Window ();
 
             Globals.load.begin ((obj, res) => {
-
-
                 if (Globals.SETTINGS != null) {
                     Globals.SETTINGS.bind ("width",
                             window,
@@ -51,8 +49,7 @@ namespace ProtonPlus.Widgets {
                             "fullscreened",
                             SettingsBindFlags.DEFAULT);
 
-                    var style_manager = Adw.StyleManager.get_default ();
-                    style_manager.set_color_scheme (Globals.SETTINGS.get_enum ("theme"));
+                    ThemeManager.get_default ().apply_theme ();
                 } else {
                     warning ("GSettings schema not found: 'com.vysp3r.ProtonPlus.State'");
 

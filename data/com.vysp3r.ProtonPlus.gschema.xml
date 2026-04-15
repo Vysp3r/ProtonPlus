@@ -4,6 +4,8 @@
     	<value nick="system" value="0"/>
 		<value nick="dark" value="4"/>
     	<value nick="light" value="1"/>
+		<value nick="steamos" value="5"/>
+		<value nick="oled" value="6"/>
   	</enum>
 
 	<schema id="com.vysp3r.ProtonPlus.State" path="/com/vysp3r/ProtonPlus/State/">

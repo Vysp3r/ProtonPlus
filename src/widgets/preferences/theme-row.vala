@@ -2,9 +2,9 @@ namespace ProtonPlus.Widgets.Preferences {
     public class ThemeRow : Adw.ComboRow {
         class Theme : Object {
             public string title { get; private set; }
-            public Adw.ColorScheme color_scheme { get; private set; }
+            public int color_scheme { get; private set; }
 
-            public Theme (string title, Adw.ColorScheme color_scheme) {
+            public Theme (string title, int color_scheme) {
                 this.title = title;
                 this.color_scheme = color_scheme;
             }
@@ -15,6 +15,8 @@ namespace ProtonPlus.Widgets.Preferences {
             model.append (new Theme(_ ("System"), Adw.ColorScheme.DEFAULT));
             model.append (new Theme(_ ("Light"), Adw.ColorScheme.FORCE_LIGHT));
             model.append (new Theme(_ ("Dark"), Adw.ColorScheme.FORCE_DARK));
+            model.append (new Theme(_ ("SteamOS"), 5));
+            model.append (new Theme(_ ("OLED"), 6));
 
             var expression = new Gtk.PropertyExpression(typeof (Theme), null, "title");
 
@@ -30,7 +32,23 @@ namespace ProtonPlus.Widgets.Preferences {
             if (Globals.SETTINGS != null) {
                 var theme = Globals.SETTINGS.get_enum ("theme");
 
-                set_selected (theme == 4 ? 2 : theme);
+                switch (theme) {
+                    case 0:
+                        set_selected (0);
+                        break;
+                    case 1:
+                        set_selected (1);
+                        break;
+                    case 4:
+                        set_selected (2);
+                        break;
+                    case 5:
+                        set_selected (3);
+                        break;
+                    case 6:
+                        set_selected (4);
+                        break;
+                }
             }
 
             notify["selected-item"].connect (selected_item_changed);
@@ -38,9 +56,6 @@ namespace ProtonPlus.Widgets.Preferences {
 
         void selected_item_changed () {
             var theme = get_selected_item () as Theme;
-
-            var style_manager = Adw.StyleManager.get_default ();
-            style_manager.set_color_scheme (theme.color_scheme);
 
             if (Globals.SETTINGS != null)
             Globals.SETTINGS.set_enum ("theme", theme.color_scheme);
