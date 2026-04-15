@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-13 17:55-0400\n"
-"PO-Revision-Date: 2026-04-13 14:09+0000\n"
-"Last-Translator: Marco Rodriguez <marco@invrs.dev>\n"
+"PO-Revision-Date: 2026-04-14 09:55+0000\n"
+"Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
 "Language: es\n"
@@ -151,11 +151,8 @@ msgstr "General"
 msgid "Automatic updates"
 msgstr "Actualizaciones automáticas"
 
-#, fuzzy
 msgid "Update the installed 'Latest' runners when the application starts"
-msgstr ""
-"Actualizar o no los ejecutores de última versión instalados al iniciar la "
-"aplicación"
+msgstr "Actualizar los ejecutores «Latest» instalados al iniciar la aplicación"
 
 msgid "Latest"
 msgstr "Última versión"
@@ -163,9 +160,8 @@ msgstr "Última versión"
 msgid "Remember last used profile"
 msgstr "Recordar el último perfil usado"
 
-#, fuzzy
 msgid "Remember the last used Steam profile"
-msgstr "Recordar el último perfil usado"
+msgstr "Recordar el último perfil de Steam usado"
 
 msgid "System"
 msgstr "Sistema"
@@ -248,13 +244,13 @@ msgstr "Asegúrate de que el token de acceso que has proporcionado es válido."
 msgid "Load more"
 msgstr "Cargar más"
 
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %s?"
-msgstr "Eliminar %s"
+msgstr "¿Eliminar %s?"
 
 #, c-format
 msgid "%s will be permanently deleted."
-msgstr ""
+msgstr "%s se eliminará permanentemente."
 
 #, c-format
 msgid "Used by %i games."
@@ -263,9 +259,8 @@ msgstr "Usado por %i juegos"
 msgid "Used by 1 game."
 msgstr "Usado por un juego."
 
-#, fuzzy
 msgid "Delete"
-msgstr "Eliminar %s"
+msgstr "Eliminar"
 
 #, c-format
 msgid "Couldn't delete %s"
@@ -418,14 +413,13 @@ msgid "Mass edit"
 msgstr "Edición masiva"
 
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
-#, fuzzy
 msgid "Clear the current launch options"
-msgstr "Modificar las opciones de lanzamiento del juego"
+msgstr "Borrar las opciones de lanzamiento actuales"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 msgid "Apply the current modifications"
 msgstr "Aplicar las modificaciones actuales"
@@ -444,9 +438,8 @@ msgstr ""
 "Habilita esta opción si quieres que la edición masiva tenga en cuenta las "
 "opciones de lanzamiento."
 
-#, fuzzy
 msgid "Launch options"
-msgstr "Configuración de inicio"
+msgstr "Opciones de lanzamiento"
 
 msgid "1 game selected"
 msgstr "1 juego seleccionado"
@@ -500,10 +493,8 @@ msgstr "Desmarcar todo"
 msgid "Unselect all the games"
 msgstr "Desmarcar todos los juegos"
 
-#, fuzzy
 msgid "Edit the selected games at once"
-msgstr ""
-"Edita la herramienta de compatibilidad de los juegos seleccionados a la vez"
+msgstr "Editar los juegos seleccionados a la vez"
 
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
@@ -523,182 +514,189 @@ msgid "Couldn't change the launch options of %s"
 msgstr "No se pudieron cambiar las opciones de ejecución de %s"
 
 msgid "Set"
-msgstr ""
+msgstr "Establecer"
 
 msgid "Apply the FPS value"
-msgstr ""
+msgstr "Aplicar el valor de FPS"
 
 msgid "Auto detect"
-msgstr ""
+msgstr "Detección automática"
 
 msgid "Custom"
-msgstr ""
+msgstr "Personalizado"
 
-#, fuzzy
 msgid "Apply the custom resolution"
-msgstr "Aplicar la modificación actual"
+msgstr "Aplicar la resolución personalizada"
 
 #. Launch command preview
 msgid "Launch command preview"
-msgstr ""
+msgstr "Vista previa del comando de lanzamiento"
 
 #. Common options
 msgid "Performance overlay"
-msgstr ""
+msgstr "Superposición de rendimiento"
 
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr ""
+"Muestra una superposición en el juego con FPS, uso de CPU/GPU y temperaturas."
 
 msgid "Disable Steam Deck Mode"
-msgstr ""
+msgstr "Desactivar el modo Steam Deck"
 
 msgid "Disables the Steam Deck-specific profile that some games use."
-msgstr ""
+msgstr "Desactiva el perfil específico de Steam Deck que usan algunos juegos."
 
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
 msgstr ""
+"Ejecuta el juego de forma nativa en Wayland en lugar de usar XWayland, pero "
+"rompe Steam Input y la superposición de Steam."
 
-#, fuzzy
 msgid "Common options"
-msgstr "Configuración de inicio"
+msgstr "Opciones comunes"
 
 msgid "Quick toggles for the launch options people reach for most often."
-msgstr ""
+msgstr "Accesos rápidos para las opciones de lanzamiento más utilizadas."
 
 #. Launch tools
 msgid "HDR"
-msgstr ""
+msgstr "HDR"
 
 msgid "Outputs HDR colors if your display supports it."
-msgstr ""
+msgstr "Muestra colores HDR si tu pantalla lo admite."
 
 msgid "None"
-msgstr ""
+msgstr "Ninguno"
 
-#, fuzzy
 msgid "Gamescope"
-msgstr "Juegos"
+msgstr "Gamescope"
 
 msgid "ScopeBuddy"
-msgstr ""
+msgstr "ScopeBuddy"
 
-#, fuzzy
 msgid "Launch tools"
-msgstr "Configuración de inicio"
+msgstr "Herramientas de lanzamiento"
 
 msgid ""
 "Choose one to configure FPS caps, resolution, and other display options."
 msgstr ""
+"Elige uno para configurar los límites de FPS, la resolución y otras opciones "
+"de pantalla."
 
 #. GPU vendor options
 msgid "Mesa Anti-Lag"
-msgstr ""
+msgstr "Anti-Lag de Mesa"
 
 msgid "Reduces latency on supported AMD Mesa setups."
-msgstr ""
+msgstr "Reduce la latencia en configuraciones compatibles con AMD Mesa."
 
 msgid "Use dGPU"
-msgstr ""
+msgstr "Usar GPU dedicada"
 
 msgid "Makes the game use the AMD dGPU on hybrid systems."
-msgstr ""
+msgstr "Hace que el juego utilice la GPU dedicada de AMD en sistemas híbridos."
 
 msgid "Hide AMD APU"
-msgstr ""
+msgstr "Ocultar APU de AMD"
 
 msgid ""
 "Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
 "integrated graphics."
 msgstr ""
+"Hace que Proton informe una APU de AMD como una GPU dedicada para juegos que "
+"detectan mal los gráficos integrados."
 
 msgid "NVAPI"
-msgstr ""
+msgstr "NVAPI"
 
 msgid "Lets games access NVIDIA-specific features like DLSS."
 msgstr ""
+"Permite que los juegos accedan a funciones específicas de NVIDIA como DLSS."
 
 msgid "Update DLSS components"
-msgstr ""
+msgstr "Actualizar componentes de DLSS"
 
 msgid "Auto upgrades DLSS components for supported games."
 msgstr ""
+"Actualiza automáticamente los componentes DLSS en los juegos compatibles."
 
 msgid "Hide NVIDIA GPU"
-msgstr ""
+msgstr "Ocultar GPU de NVIDIA"
 
 msgid ""
 "Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
 "NVIDIA driver behavior."
 msgstr ""
+"Hace que Proton informe una GPU de NVIDIA como AMD para juegos que esperan "
+"un comportamiento de controlador NVIDIA exclusivo de Windows."
 
 msgid "AMD"
-msgstr ""
+msgstr "AMD"
 
 msgid "NVIDIA"
-msgstr ""
+msgstr "NVIDIA"
 
 msgid "GPU vendor options"
-msgstr ""
+msgstr "Opciones del fabricante de la GPU"
 
 msgid "Use GPU-specific compatibility toggles for AMD and NVIDIA hardware."
 msgstr ""
+"Usar opciones de compatibilidad específicas de la GPU para hardware AMD y "
+"NVIDIA."
 
 #. More options
 msgid "VKBasalt"
-msgstr ""
+msgstr "VKBasalt"
 
 msgid "Adds visual effects like sharpening and color adjustments."
-msgstr ""
+msgstr "Añade efectos visuales como nitidez y ajustes de color."
 
 msgid "WineD3D"
-msgstr ""
+msgstr "WineD3D"
 
 msgid ""
 "Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
 msgstr ""
+"Usa OpenGL en lugar de Vulkan. Actívalo solo si tienes problemas con DXVK."
 
-#, fuzzy
 msgid "More options"
-msgstr "Más información"
+msgstr "Más opciones"
 
 msgid "Extra graphics settings and launch behaviors."
-msgstr ""
+msgstr "Ajustes gráficos adicionales y comportamientos de lanzamiento."
 
 #. Game arguments
-#, fuzzy
 msgid "Skip launcher"
-msgstr "Lanzadores"
+msgstr "Omitir el lanzador"
 
 msgid "Adds -skip-launcher to bypass launchers in games that support it."
 msgstr ""
+"Añade -skip-launcher para omitir los lanzadores en juegos que lo admitan."
 
 msgid "Vulkan"
-msgstr ""
+msgstr "Vulkan"
 
 msgid "Adds -vulkan to make the game use its Vulkan renderer."
-msgstr ""
+msgstr "Añade -vulkan para que el juego utilice su renderizador Vulkan."
 
-#, fuzzy
 msgid "DirectX 11"
-msgstr "Directorio: "
+msgstr "DirectX 11"
 
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
-msgstr ""
+msgstr "Añade -dx11 para que el juego utilice su renderizador DirectX 11."
 
-#, fuzzy
 msgid "DirectX 12"
-msgstr "Directorio: "
+msgstr "DirectX 12"
 
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
-msgstr ""
+msgstr "Añade -dx12 para que el juego utilice su renderizador DirectX 12."
 
 msgid "Console"
-msgstr ""
+msgstr "Consola"
 
 msgid "Adds -console to open the game's developer console when supported."
 msgstr ""
@@ -706,14 +704,14 @@ msgstr ""
 "pueda."
 
 msgid "Game arguments"
-msgstr ""
+msgstr "Argumentos del juego"
 
 msgid "Flags passed directly to the game."
-msgstr ""
+msgstr "Parámetros pasados directamente al juego."
 
 #. Advanced options
 msgid "Appends Steam's game command."
-msgstr ""
+msgstr "Añade el comando del juego de Steam."
 
 msgid "Additional arguments"
 msgstr "Argumentos adicionales"
@@ -722,75 +720,77 @@ msgid "Add extra launch options"
 msgstr "Añadir opciones de lanzamiento extra"
 
 msgid "Custom launch arguments"
-msgstr ""
+msgstr "Argumentos de lanzamiento personalizados"
 
-#, fuzzy
 msgid "Add your own launch options."
-msgstr "Modificar las opciones de lanzamiento"
+msgstr "Añade tus propias opciones de lanzamiento."
 
-#, fuzzy
 msgid "Advanced options"
-msgstr "Configuración de inicio"
+msgstr "Opciones avanzadas"
 
 msgid "Extra control over the final Steam launch command."
-msgstr ""
+msgstr "Control adicional sobre el comando final de lanzamiento de Steam."
 
 msgid "Fullscreen"
-msgstr ""
+msgstr "Pantalla completa"
 
 msgid "Runs the game in a fullscreen session."
-msgstr ""
+msgstr "Ejecuta el juego en una sesión de pantalla completa."
 
 msgid "VRR"
-msgstr ""
+msgstr "VRR"
 
 msgid "Matches your display's refresh rate to the game's FPS."
-msgstr ""
+msgstr "Ajusta la tasa de refresco de tu pantalla a los FPS del juego."
 
 msgid "Frame limit"
-msgstr ""
+msgstr "Límite de FPS"
 
 msgid "Caps the frame rate inside Gamescope."
-msgstr ""
+msgstr "Limita la tasa de fotogramas dentro de Gamescope."
 
 msgid "FPS"
-msgstr ""
+msgstr "FPS"
 
 msgid "Resolution"
-msgstr ""
+msgstr "Resolución"
 
 msgid "Sets the Gamescope output resolution."
-msgstr ""
+msgstr "Establece la resolución de salida de Gamescope."
 
 msgid "Additional Gamescope arguments"
 msgstr "Argumentos de Gamescope adicionales"
 
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
+"Mantiene opciones adicionales de Gamescope como salida o ajustes de "
+"resolución."
 
 msgid "Add Gamescope arguments"
 msgstr "Añadir argumentos de Gamescope"
 
 msgid "Auto HDR"
-msgstr ""
+msgstr "HDR automático"
 
 msgid "Caps the frame rate inside ScopeBuddy."
-msgstr ""
+msgstr "Limita la tasa de fotogramas dentro de ScopeBuddy."
 
 msgid "Sets the ScopeBuddy output resolution."
-msgstr ""
+msgstr "Establece la resolución de salida de ScopeBuddy."
 
 msgid "Additional ScopeBuddy arguments"
 msgstr "Argumentos de ScopeBuddy adicionales"
 
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
+"Mantiene opciones adicionales de ScopeBuddy como la selección de salida "
+"preferida."
 
 msgid "Add ScopeBuddy arguments"
 msgstr "Añadir argumentos de ScopeBuddy"
 
 msgid "No launch options configured yet."
-msgstr ""
+msgstr "Aún no hay opciones de lanzamiento configuradas."
 
 msgid "Select a profile"
 msgstr "Seleccionar un perfil"
@@ -810,14 +810,15 @@ msgstr "Abrir menú"
 msgid "Set the default compatibility tool"
 msgstr "Establecer herramienta de compatibilidad por defecto"
 
-#, fuzzy
 msgid "Reset to the current default compatibility tool"
-msgstr "Establecer herramienta de compatibilidad por defecto"
+msgstr "Restablecer a la herramienta de compatibilidad predeterminada actual"
 
 msgid ""
 "Choose the default compatibility tool Steam should use for games without an "
 "explicit override."
 msgstr ""
+"Elige la herramienta de compatibilidad predeterminada que Steam debe usar "
+"para los juegos sin una configuración específica."
 
 msgid "Couldn't change the default compatibility tool"
 msgstr "No se pudo cambiar la herramienta de compatibilidad predeterminada"
@@ -1060,43 +1061,35 @@ msgstr "Error: ejecutor '%s' no encontrado\n"
 msgid "Usage: %s\n"
 msgstr "Uso: %s\n"
 
-#, fuzzy
 msgid "Error: Invalid input, please enter a number\n"
-msgstr "Error: selección no válida\n"
+msgstr "Error: entrada no válida, introduce un número\n"
 
 msgid "Error: Selection out of range\n"
-msgstr ""
+msgstr "Error: selección fuera de rango\n"
 
-#, fuzzy
 msgid "Usage:\n"
-msgstr "Uso: %s\n"
+msgstr "Uso:\n"
 
 msgid "Commands:\n"
 msgstr "Commandos:\n"
 
-#, fuzzy
 msgid "Show version"
-msgstr "Mostrar versión\n"
+msgstr "Mostrar versión"
 
-#, fuzzy
 msgid "Show this help"
-msgstr "Mostrar esta ayuda\n"
+msgstr "Mostrar esta ayuda"
 
-#, fuzzy
 msgid "List launchers or installed runners"
-msgstr "Listar lanzadores o ejecutores instalados\n"
+msgstr "Listar lanzadores o ejecutores instalados"
 
-#, fuzzy
 msgid "Install runner"
-msgstr "Instalar ejecutor\n"
+msgstr "Instalar ejecutor"
 
-#, fuzzy
 msgid "Uninstall runner"
-msgstr "Desinstalar ejecutor\n"
+msgstr "Desinstalar ejecutor"
 
-#, fuzzy
 msgid "Update runner"
-msgstr "Actualizar ejecutor\n"
+msgstr "Actualizar ejecutor"
 
 msgid ""
 "\n"
