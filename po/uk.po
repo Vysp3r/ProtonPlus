@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-13 17:55-0400\n"
-"PO-Revision-Date: 2026-04-14 16:09+0000\n"
+"PO-Revision-Date: 2026-04-15 16:07+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 msgid "A modern compatibility tools manager"
 msgstr "Сучасний менеджер інструментів сумісності"
@@ -348,7 +348,7 @@ msgid "There's currently no known way for us to install %s for the %s."
 msgstr "Наразі ми не знаємо, як встановити %s для %s."
 
 msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr "Закрийте клієнт Steam заздалегідь, щоб можна було застосувати зміни."
+msgstr "Закрийте клієнт Steam заздалегідь, щоб застосувати зміни."
 
 msgid "Show search"
 msgstr "Показати пошук"
@@ -512,7 +512,7 @@ msgid "Set"
 msgstr "Встановити"
 
 msgid "Apply the FPS value"
-msgstr "Застосувати значення FPS"
+msgstr "Застосувати значення к/с"
 
 msgid "Auto detect"
 msgstr "Автовизначення"
@@ -591,7 +591,7 @@ msgstr "Зменшує затримку на підтримуваних конф
 
 #, fuzzy
 msgid "Use dGPU"
-msgstr "Використовувати дискретний GPU"
+msgstr "Використовувати дискретну відеокарту"
 
 #, fuzzy
 msgid "Makes the game use the AMD dGPU on hybrid systems."
@@ -599,7 +599,7 @@ msgstr "Змушує гру використовувати дискретний 
 
 #, fuzzy
 msgid "Hide AMD APU"
-msgstr "Приховати AMD APU"
+msgstr "Приховати вбудовану відеокарту AMD"
 
 #, fuzzy
 msgid ""
