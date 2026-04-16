@@ -7,9 +7,12 @@
   <name>ProtonPlus</name>
   <summary>A modern compatibility tools manager</summary>
   <description>
+    <p>
+      ProtonPlus is a simple tool to help you manage your compatibility tools for Steam, Lutris, Heroic Games Launcher and Bottles.
+    </p>
     <p>Features:</p>
     <ul>
-      <li>Manage supported compatiblity tools across supported launchers</li>
+      <li>Manage supported compatibility tools across supported launchers</li>
       <li>Change the compatibility tool and launch options of your Steam games</li>
       <li>And much more...</li>
     </ul>
@@ -38,7 +41,6 @@
       <li>Kron4ek Wine-Builds Staging-Tkg</li>
       <li>DXVK</li>
       <li>DXVK (Sarek)</li>
-      <li>DXVK Async (Sarek)</li>
       <li>DXVK GPL+Async (Ph42oN)</li>
       <li>VKD3D-Lutris</li>
       <li>VKD3D-Proton</li>
@@ -52,31 +54,38 @@
   <keywords>
     <keyword>Proton</keyword>
     <keyword>Wine</keyword>
-    <keyword>Steam Tinker Launch</keyword>
+    <keyword>Steam</keyword>
   </keywords>
 
-  <!-- Requered: Should be a link to the upstream homepage for the component -->
   <url type="homepage">https://protonplus.vysp3r.com/</url>
-  <!-- Recommended: It is highly recommended for open-source projects to display the source code repository -->
   <url type="vcs-browser">https://github.com/Vysp3r/ProtonPlus</url>
-  <!-- Should point to the software's bug tracking system, for users to report new bugs -->
   <url type="bugtracker">https://github.com/Vysp3r/ProtonPlus/issues</url>
-  <!-- Should link a FAQ page for this software, to answer some of the most-asked questions in detail -->
-  <!-- URLs of this type should point to a webpage where users can submit or modify translations of the upstream project -->
   <url type="translate">https://hosted.weblate.org/projects/protonplus/protonplus</url>
   <url type="donation">https://protonplus.vysp3r.com/#donate</url>
 
+  <categories>
+    <category>Game</category>
+    <category>Utility</category>
+  </categories>
+
+  <provides>
+    <binary>protonplus</binary>
+  </provides>
+
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+
   <translation type="gettext">com.vysp3r.ProtonPlus</translation>
-  
-  <!-- All graphical applications having a desktop file must have this tag in the MetaInfo.
-     If this is present, appstreamcli compose will pull icons, keywords and categories from the desktop file. -->
+
   <launchable type="desktop-id">com.vysp3r.ProtonPlus.desktop</launchable>
-  <!-- Use the OARS website (https://hughsie.github.io/oars/generate.html) to generate these and make sure to use oars-1.1 -->
+
   <content_rating type="oars-1.1" />
 
-  <!-- Applications should set a brand color in both light and dark variants like so -->
   <branding>
-    <color type="primary" scheme_preference="light">#ff00ff</color>
+    <color type="primary" scheme_preference="light">#e39090</color>
     <color type="primary" scheme_preference="dark">#993d3d</color>
   </branding>
 
@@ -100,6 +109,20 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.20" date="2026-04-16">
+      <description>
+        <ul>
+          <li>✨ Added a new "Downloads" tab</li>
+          <li>✨ Added a SteamOS theme and an OLED theme</li>
+          <li>🐛 Fixed DXVK-Sarek</li>
+          <li>🐛 Fixed tool usage count to account for default tool</li>
+          <li>🐛 Fixed tool usage count to account for non-steam games</li>
+          <li>🌐 Updated Ukrainian localization</li>
+          <li>🌐 Updated Spanish localization</li>
+          <li>🌐 Updated Chinese localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.19" date="2026-04-13">
       <description>
         <ul>

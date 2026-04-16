@@ -24,7 +24,6 @@
     <file alias="scalable/actions/square-check-symbolic.svg">icons/square-check.svg</file>
     <file alias="scalable/actions/square-uncheck-symbolic.svg">icons/square-uncheck.svg</file>
     <file alias="scalable/actions/carambola-symbolic.svg">icons/carambola.svg</file>
-    <file alias="scalable/actions/heart-symbolic.svg">icons/heart.svg</file>
     <file alias="scalable/actions/bug-symbolic.svg">icons/bug.svg</file>
     <file alias="scalable/actions/search-symbolic.svg">icons/search.svg</file>
     <file alias="scalable/actions/folder-symbolic.svg">icons/folder.svg</file>
@@ -34,5 +33,7 @@
     <file alias="scalable/actions/box-archive-symbolic.svg">icons/box-archive.svg</file>
     <file alias="scalable/actions/box-open-symbolic.svg">icons/box-open.svg</file>
     <file alias="scalable/actions/boxes-stacked-symbolic.svg">icons/boxes-stacked.svg</file>
+    <file alias="scalable/actions/home-symbolic.svg">icons/home.svg</file>
+    <file alias="scalable/actions/toolbox-symbolic.svg">icons/toolbox.svg</file>
   </gresource>
 </gresources>

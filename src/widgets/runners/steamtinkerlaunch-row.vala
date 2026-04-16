@@ -22,11 +22,26 @@ namespace ProtonPlus.Widgets {
             release.notify["state"].connect (release_state_changed);
 
             release_state_changed ();
+
+            Models.DownloadManager.instance.download_added.connect (on_download_status_changed);
+            Models.DownloadManager.instance.download_removed.connect (on_download_status_changed);
+        }
+
+        private void on_download_status_changed (Models.BaseRelease added_release) {
+            if (added_release.download_url == release.download_url && added_release.title == release.title) {
+                release_state_changed ();
+            }
         }
 
         protected override void update_button_clicked () {
-            var upgrade_dialog = new UpgradeDialog (release);
-            upgrade_dialog.present (Application.window);
+            release.update.begin ((obj, res) => {
+                var success = release.update.end (res);
+                if (!success && !release.canceled) {
+                    var dialog = new ErrorDialog (_ ("Couldn't update %s").printf (release.title), _ ("Please report this issue on GitHub."));
+                    dialog.present (Application.window);
+                }
+            });
+            Application.window.show_downloads_page ();
         }
 
         protected override void install_button_clicked () {
@@ -99,8 +114,14 @@ namespace ProtonPlus.Widgets {
         }
 
         void start_install () {
-            var install_dialog = new InstallDialog (release);
-            install_dialog.present (Application.window);
+            release.install.begin ((obj, res) => {
+                var success = release.install.end (res);
+                if (!success && !release.canceled) {
+                    var dialog = new ErrorDialog (_ ("Couldn't install %s").printf (release.title), _ ("Please report this issue on GitHub."));
+                    dialog.present (Application.window);
+                }
+            });
+            Application.window.show_downloads_page ();
         }
 
         protected override void remove_button_clicked () {
@@ -149,13 +170,41 @@ namespace ProtonPlus.Widgets {
         }
 
         void release_state_changed () {
-            var installed = release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
-            var updated = release.state == Models.Release.State.UP_TO_DATE;
+            var installed = release.state == Models.BaseRelease.State.UP_TO_DATE || release.state == Models.BaseRelease.State.UPDATE_AVAILABLE;
+            var updated = release.state == Models.BaseRelease.State.UP_TO_DATE;
+            var busy = release.state == Models.BaseRelease.State.BUSY_INSTALLING ||
+            release.state == Models.BaseRelease.State.BUSY_REMOVING ||
+            release.state == Models.BaseRelease.State.BUSY_UPDATING;
 
             install_button.set_visible (!installed);
             remove_button.set_visible (installed);
             update_button.set_visible (installed && !updated);
             open_button.set_visible (installed);
+
+            install_button.set_sensitive (!busy);
+            remove_button.set_sensitive (!busy);
+            update_button.set_sensitive (!busy);
+            open_button.set_sensitive (!busy);
+
+            if (busy) {
+                var tooltip_text = _ ("This tool is currently being installed");
+                if (Models.DownloadManager.instance.is_downloading (release))
+                tooltip_text = _ ("This tool is currently being downloaded");
+                if (release.state == Models.BaseRelease.State.BUSY_REMOVING)
+                tooltip_text = _ ("This tool is currently being removed");
+                if (release.state == Models.BaseRelease.State.BUSY_UPDATING)
+                tooltip_text = _ ("This tool is currently being updated");
+
+                install_button.set_tooltip_text (tooltip_text);
+                remove_button.set_tooltip_text (tooltip_text);
+                update_button.set_tooltip_text (tooltip_text);
+                open_button.set_tooltip_text (tooltip_text);
+            } else {
+                install_button.set_tooltip_text (_ ("Install %s").printf (release.title));
+                remove_button.set_tooltip_text (_ ("Delete %s").printf (release.title));
+                update_button.set_tooltip_text (_ ("Update to the latest version"));
+                open_button.set_tooltip_text (_ ("Open runner directory"));
+            }
         }
     }
 }

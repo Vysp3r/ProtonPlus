@@ -1,7 +1,6 @@
 src/widgets/application.vala
 src/widgets/status-box.vala
 src/widgets/window.vala
-src/widgets/update-button.vala
 src/widgets/warning-dialog.vala
 src/widgets/error-dialog.vala
 src/widgets/preferences/preferences-dialog.vala
@@ -18,8 +17,6 @@ src/widgets/runners/runner-row.vala
 src/widgets/runners/runner-group.vala
 src/widgets/runners/load-more-row.vala
 src/widgets/runners/remove-dialog.vala
-src/widgets/runners/install-dialog.vala
-src/widgets/runners/upgrade-dialog.vala
 src/widgets/runners/installed-row.vala
 src/widgets/runners/basic-row.vala
 src/widgets/runners/filters-box.vala
@@ -41,6 +38,8 @@ src/widgets/games/default-tool-button.vala
 src/widgets/games/default-tool-view.vala
 src/widgets/games/compatibility-tool-row.vala
 src/widgets/games/compatibility-tool-dropdown.vala
+src/widgets/downloads/downloads-box.vala
+src/widgets/downloads/download-row.vala
 src/models/release.vala
 src/models/steam-profile.vala
 src/models/group.vala
@@ -55,9 +54,9 @@ src/models/launchers/lutris.vala
 src/models/launchers/steam.vala
 src/models/launchers/winezgui.vala
 src/models/games/steam.vala
-src/models/vdf/binary.vala
-src/models/vdf/node.vala
-src/models/vdf/shortcut.vala
+src/vdf/binary.vala
+src/vdf/node.vala
+src/vdf/shortcut.vala
 src/models/runners/basic.vala
 src/models/runners/github.vala
 src/models/runners/github-action.vala
@@ -65,9 +64,8 @@ src/models/runners/gitlab.vala
 src/models/runners/installed.vala
 src/models/runners/steamtinkerlaunch.vala
 src/models/releases/basic.vala
-src/models/releases/basic.vala
 src/models/releases/github-action.vala
-src/models/releases/upgrade.vala
+src/models/releases/update.vala
 src/models/releases/steamtinkerlaunch.vala
 src/models/releases/latest.vala
 src/utils/filesystem.vala

@@ -4,9 +4,9 @@ resources = gnome.compile_resources(
 )
 
 install_subdir(
-                       join_paths('logo', 'icons'),
-          install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons'),
-      strip_directory: true
+    'icons/hicolor',
+    install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons'),
+    strip_directory: false
 )
 
 desktop_file = i18n.merge_file(

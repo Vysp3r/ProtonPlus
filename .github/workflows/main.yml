@@ -1,23 +1,34 @@
 name: Build & Check
 
-on: 
+on:
+  push:
+    branches: [main]
   pull_request:
-    branches:
-    - main
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  flatpak-build:
+  flatpak:
     name: "Flatpak Build"
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-50
       options: --privileged
     steps:
-    - name: Checkout pull request
-      uses: actions/checkout@v4
-    - name: Build
-      uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-      with:
-        bundle: protonplus.flatpak
-        manifest-path: com.vysp3r.ProtonPlus.local.yml
-        cache-key: flatpak-builder-${{ github.sha }}
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: protonplus.flatpak
+          manifest-path: com.vysp3r.ProtonPlus.local.yml
+          run-tests: true
+
+      - name: Lint
+        continue-on-error: true
+        run: |
+          flatpak-builder-lint manifest com.vysp3r.ProtonPlus.local.yml
+          if [ -d "flatpak_app/export/share/metainfo" ]; then
+            flatpak-builder-lint appstream flatpak_app/export/share/metainfo/*.xml
+          fi

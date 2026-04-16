@@ -1,10 +1,10 @@
 namespace ProtonPlus.Widgets {
     public class RemoveDialog : Adw.AlertDialog {
-        Models.Release<Models.Parameters> release;
+        Models.BaseRelease release;
         Models.Parameters parameters;
         public signal void done (bool result);
 
-        public RemoveDialog (Models.Release<Models.Parameters> release, Models.Parameters parameters = new Models.Parameters ()) {
+        public RemoveDialog (Models.BaseRelease release, Models.Parameters parameters = new Models.Parameters ()) {
             this.release = release;
             this.parameters = parameters;
 

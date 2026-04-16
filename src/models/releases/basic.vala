@@ -38,8 +38,6 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override void refresh_state () {
-            canceled = false;
-
             step = Step.NOTHING;
 
             var directory_name = ((Runners.Basic)runner).get_directory_name (title);
@@ -70,10 +68,11 @@ namespace ProtonPlus.Models.Releases {
             if (!download_url.contains (".tar"))
             return false;
 
-            string download_path = "%s/%s.tar.gz".printf (Globals.DOWNLOAD_CACHE_PATH, title);
+            string download_path = "%s/%s.tar.gz".printf (Globals.CACHE_PATH, title);
 
             if (!FileUtils.test (download_path, FileTest.EXISTS)) {
                 var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, (is_percent, progress, speed_kbps, seconds_remaining) => {
+                    this.is_percent = is_percent;
                     this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
                     this.speed_kbps = speed_kbps;
                     this.seconds_remaining = seconds_remaining;
@@ -85,7 +84,7 @@ namespace ProtonPlus.Models.Releases {
 
             step = Step.EXTRACTING;
 
-            string extract_path = "%s/".printf (Globals.DOWNLOAD_CACHE_PATH);
+            string extract_path = "%s/".printf (Globals.CACHE_PATH);
 
             string source_path = yield Utils.Filesystem.extract (extract_path, title, ".tar.gz", () => canceled);
             if (source_path == "")

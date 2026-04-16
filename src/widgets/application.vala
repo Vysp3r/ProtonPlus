@@ -24,6 +24,10 @@ namespace ProtonPlus.Widgets {
 
             Gtk.IconTheme.get_for_display (display).add_resource_path ("/com/vysp3r/ProtonPlus/icons");
 
+            var provider = new Gtk.CssProvider ();
+            provider.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
+            Gtk.StyleContext.add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
             window = new Window ();
 
             Globals.load.begin ((obj, res) => {
@@ -45,8 +49,15 @@ namespace ProtonPlus.Widgets {
                             "fullscreened",
                             SettingsBindFlags.DEFAULT);
 
-                    var style_manager = Adw.StyleManager.get_default ();
-                    style_manager.set_color_scheme (Globals.SETTINGS.get_enum ("theme"));
+                    if (Globals.SETTINGS.get_boolean ("first-run")) {
+                        if (Globals.IS_STEAM_OS) {
+                            Globals.SETTINGS.set_enum ("theme", 5);
+                        }
+
+                        Globals.SETTINGS.set_boolean ("first-run", false);
+                    }
+
+                    ThemeManager.get_default ().apply_theme ();
                 } else {
                     warning ("GSettings schema not found: 'com.vysp3r.ProtonPlus.State'");
 

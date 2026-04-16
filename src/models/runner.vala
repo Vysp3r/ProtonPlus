@@ -171,6 +171,7 @@ namespace ProtonPlus.Models {
             return ReturnCode.UNKNOWN_ERROR;
 
             var release = new Models.Releases.Latest (runner as Models.Runners.Basic, "%s Latest".printf (runner.title), description, release_date, download_url, page_url);
+            release.state = Models.BaseRelease.State.BUSY_UPDATING;
 
             var installed = yield release.install ();
             if (!installed) {

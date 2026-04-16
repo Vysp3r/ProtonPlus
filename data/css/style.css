@@ -1,3 +1,45 @@
+.steamos {
+  --window-bg-color: #1a1f24;
+  --window-fg-color: #ffffff;
+  --view-bg-color: #212429;
+  --view-fg-color: #ffffff;
+  --headerbar-bg-color: #1a1f24;
+  --headerbar-fg-color: #ffffff;
+  --card-bg-color: #212429;
+  --card-fg-color: #ffffff;
+  --accent-color: #1a9fff;
+  --accent-bg-color: #1a9fff;
+  --accent-fg-color: #ffffff;
+  --destructive-color: #ff4545;
+  --destructive-bg-color: #ff4545;
+  --destructive-fg-color: #ffffff;
+  --popover-bg-color: #212429;
+  --popover-fg-color: #ffffff;
+  --dialog-bg-color: #1a1f24;
+  --dialog-fg-color: #ffffff;
+}
+
+.oled {
+  --window-bg-color: #000000;
+  --window-fg-color: #ffffff;
+  --view-bg-color: #000000;
+  --view-fg-color: #ffffff;
+  --headerbar-bg-color: #000000;
+  --headerbar-fg-color: #ffffff;
+  --card-bg-color: #161616;
+  --card-fg-color: #ffffff;
+  --accent-color: #3584e4;
+  --accent-bg-color: #3584e4;
+  --accent-fg-color: #ffffff;
+  --destructive-color: #ff4545;
+  --destructive-bg-color: #ff4545;
+  --destructive-fg-color: #ffffff;
+  --popover-bg-color: #161616;
+  --popover-fg-color: #ffffff;
+  --dialog-bg-color: #000000;
+  --dialog-fg-color: #ffffff;
+}
+
 .dialog-list {
   background: transparent;
 }
@@ -62,4 +104,13 @@
 
 flowboxchild {
   background-color: transparent;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.downloads-attention viewswitcher button:nth-child(3) image, .bounce-animation image {
+  animation: bounce 1s infinite ease-in-out;
 }

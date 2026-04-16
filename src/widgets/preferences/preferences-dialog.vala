@@ -9,6 +9,13 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _ ("General"),
             };
             general_group.add (theme_row);
+
+            var save_history_row = new Adw.SwitchRow () {
+                title = _ ("Save download history"),
+                subtitle = _ ("Save the download history to a file"),
+            };
+            general_group.add (save_history_row);
+
             general_group.add (refresh_launchers_runners_row);
 
             var automatic_updates_row = new Adw.SwitchRow () {
@@ -63,6 +70,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 Globals.SETTINGS.bind ("github-api-key", github_access_token_row, "text", SettingsBindFlags.DEFAULT);
                 Globals.SETTINGS.bind ("gitlab-api-key", gitlab_access_token_row, "text", SettingsBindFlags.DEFAULT);
                 Globals.SETTINGS.bind ("steam-remember-last-profile", steam_remember_last_used_profile_row, "active", SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("save-history", save_history_row, "active", SettingsBindFlags.DEFAULT);
             }
 
             set_search_enabled (true);

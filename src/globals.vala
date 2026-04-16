@@ -4,8 +4,9 @@ namespace ProtonPlus.Globals {
     public static bool IS_GAMESCOPE;
     public static bool IS_FLATPAK;
     public static List<string> HWCAPS;
-    public static string DOWNLOAD_CACHE_PATH;
+    public static string CACHE_PATH;
     public static string PROTONTRICKS_EXEC;
+    public static string CONFIG_PATH;
 
     public static async void load () {
         var schema_source = SettingsSchemaSource.get_default ();
@@ -27,8 +28,12 @@ namespace ProtonPlus.Globals {
 
         Globals.PROTONTRICKS_EXEC = yield Utils.System.get_protontricks_exec ();
 
-        Globals.DOWNLOAD_CACHE_PATH = "%s/ProtonPlus".printf (Environment.get_user_cache_dir ());
-        if (!FileUtils.test (Globals.DOWNLOAD_CACHE_PATH, FileTest.IS_DIR))
-        yield Utils.Filesystem.create_directory (Globals.DOWNLOAD_CACHE_PATH);
+        Globals.CACHE_PATH = "%s/ProtonPlus".printf (Environment.get_user_cache_dir ());
+        if (!FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR))
+        yield Utils.Filesystem.create_directory (Globals.CACHE_PATH);
+
+        Globals.CONFIG_PATH = "%s/ProtonPlus".printf (Environment.get_user_config_dir ());
+        if (!FileUtils.test (Globals.CONFIG_PATH, FileTest.IS_DIR))
+        yield Utils.Filesystem.create_directory (Globals.CONFIG_PATH);
     }
 }

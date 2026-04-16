@@ -2,6 +2,7 @@ namespace ProtonPlus.Utils {
     public class Web {
 
 
+
         public enum GetType {
             OTHER,
             GITHUB,

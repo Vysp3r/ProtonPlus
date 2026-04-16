@@ -8,9 +8,9 @@ namespace ProtonPlus.Widgets {
         StatusBox status_box;
         RunnersBox runners_box;
         GamesBox games_box;
+        DownloadsBox downloads_box;
 
         LaunchersPopoverButton launchers_popover_button;
-        UpdateButton update_button;
         Menu menu;
         Gtk.MenuButton menu_button;
 
@@ -20,6 +20,7 @@ namespace ProtonPlus.Widgets {
         public DefaultToolView default_tool_view;
 
         Adw.ViewStack view_stack;
+        Adw.ViewStackPage downloads_page;
         Adw.ToastOverlay toast_overlay;
         Adw.ViewSwitcher view_switcher;
         Adw.HeaderBar header_bar;
@@ -41,10 +42,9 @@ namespace ProtonPlus.Widgets {
 
             games_box = new GamesBox ();
 
-            launchers_popover_button = new LaunchersPopoverButton ();
+            downloads_box = new DownloadsBox ();
 
-            update_button = new UpdateButton ();
-            update_button.set_visible (false);
+            launchers_popover_button = new LaunchersPopoverButton ();
 
             menu = new Menu ();
             menu.append (_ ("_Preferences"), "app.preferences");
@@ -58,9 +58,20 @@ namespace ProtonPlus.Widgets {
             menu_button.set_menu_model (menu);
 
             view_stack = new Adw.ViewStack ();
-            view_stack.add_titled_with_icon (runners_box, "runners", _ ("Runners"), "system-run-symbolic");
+            view_stack.add_titled_with_icon (runners_box, "tools", _ ("Tools"), "toolbox-symbolic");
             view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "game-library-symbolic");
+            downloads_page = view_stack.add_titled_with_icon (downloads_box, "downloads", _ ("Downloads"), "download-symbolic");
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
+
+            Models.DownloadManager.instance.download_added.connect (() => {
+                update_downloads_status ();
+            });
+
+            Models.DownloadManager.instance.download_removed.connect (() => {
+                update_downloads_status ();
+            });
+
+            update_downloads_status ();
 
             toast_overlay = new Adw.ToastOverlay ();
             toast_overlay.set_child (view_stack);
@@ -81,7 +92,6 @@ namespace ProtonPlus.Widgets {
             header_bar = new Adw.HeaderBar ();
             header_bar.set_title_widget (view_switcher);
             header_bar.pack_start (launchers_popover_button);
-            header_bar.pack_start (update_button);
             header_bar.pack_end (menu_button);
 
             view_switcher_bar = new Adw.ViewSwitcherBar ();
@@ -138,8 +148,6 @@ namespace ProtonPlus.Widgets {
         }
 
         public async void check_for_updates (Models.Runners.Basic? runner = null) {
-            update_button.set_visible (true);
-
             updating = true;
 
             Adw.Toast toast;
@@ -207,13 +215,21 @@ namespace ProtonPlus.Widgets {
 
             toast_overlay.add_toast (toast);
 
-            update_button.set_visible (false);
-
             updating = false;
         }
 
         void view_stack_visible_child_name_changed () {
             games_box.active = view_stack.get_visible_child_name () == "games";
+        }
+
+        void update_downloads_status () {
+            bool active = Models.DownloadManager.instance.active_downloads.size > 0;
+
+            if (active) {
+                add_css_class ("downloads-attention");
+            } else {
+                remove_css_class ("downloads-attention");
+            }
         }
 
         SimpleAction get_donate_action () {
@@ -249,7 +265,7 @@ namespace ProtonPlus.Widgets {
 
         public override bool close_request () {
             if (!updating) {
-                Utils.Filesystem.delete_directory.begin (Globals.DOWNLOAD_CACHE_PATH);
+                Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
 
                 return false;
             }
@@ -269,7 +285,7 @@ namespace ProtonPlus.Widgets {
                 if (response != "exit")
                 return;
 
-                Utils.Filesystem.delete_directory.begin (Globals.DOWNLOAD_CACHE_PATH);
+                Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
 
                 application.quit ();
             });
@@ -281,6 +297,10 @@ namespace ProtonPlus.Widgets {
 
         void show_games_list_page () {
             content_stack.set_visible_child_name ("main");
+        }
+
+        public void show_downloads_page () {
+            view_stack.set_visible_child_name ("downloads");
         }
     }
 }

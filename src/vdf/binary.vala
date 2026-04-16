@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.VDF {
+namespace ProtonPlus.VDF {
     enum BIN_TYPES {
         BIN_TYPE_NODE = 0x00,
         BIN_TYPE_STRING = 0x01,
