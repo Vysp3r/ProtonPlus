@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-13 17:55-0400\n"
+"POT-Creation-Date: 2026-04-16 16:16-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,40 +17,41 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/widgets/application.vala:91
+#: src/widgets/application.vala:102
 msgid "A modern compatibility tools manager"
 msgstr ""
 
-#: src/widgets/application.vala:93
+#: src/widgets/application.vala:104
 msgid "Website"
 msgstr ""
 
-#: src/widgets/application.vala:98
+#: src/widgets/application.vala:109
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:99
+#: src/widgets/application.vala:110
 msgid "Special thanks to"
 msgstr ""
 
-#: src/widgets/status-box.vala:12 src/widgets/window.vala:203
+#: src/widgets/status-box.vala:12 src/widgets/window.vala:211
 #: src/widgets/error-dialog.vala:7
 msgid "Report"
 msgstr ""
 
-#: src/widgets/window.vala:38
+#: src/widgets/window.vala:39
 msgid "Loading"
 msgstr ""
 
-#: src/widgets/window.vala:38
+#: src/widgets/window.vala:39
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/window.vala:38 src/widgets/window.vala:113
+#: src/widgets/window.vala:39 src/widgets/window.vala:123
 #: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/remove-dialog.vala:52
-#: src/widgets/runners/install-dialog.vala:53
-#: src/widgets/runners/upgrade-dialog.vala:57
+#: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/steamtinkerlaunch-row.vala:40
+#: src/widgets/runners/steamtinkerlaunch-row.vala:120
 #: src/widgets/games/mass-edit-view.vala:208
 #: src/widgets/games/shortcut-button.vala:38
 #: src/widgets/games/shortcut-button.vala:46
@@ -81,122 +82,120 @@ msgid "Main Menu"
 msgstr ""
 
 #: src/widgets/window.vala:61
-msgid "Runners"
+msgid "Tools"
 msgstr ""
 
 #: src/widgets/window.vala:62
 msgid "Games"
 msgstr ""
 
-#: src/widgets/window.vala:113
+#: src/widgets/window.vala:63
+msgid "Downloads"
+msgstr ""
+
+#: src/widgets/window.vala:123
 msgid "Couldn't load the launchers"
 msgstr ""
 
-#: src/widgets/window.vala:127
+#: src/widgets/window.vala:137
 #, c-format
 msgid "Welcome to %s"
 msgstr ""
 
-#: src/widgets/window.vala:127
+#: src/widgets/window.vala:137
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
 msgstr ""
 
-#: src/widgets/window.vala:127
+#: src/widgets/window.vala:137
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
 
-#: src/widgets/window.vala:150
+#: src/widgets/window.vala:158
 msgid "Checking for updates"
 msgstr ""
 
-#: src/widgets/window.vala:151
+#: src/widgets/window.vala:159
 #, c-format
 msgid "Updating %s"
 msgstr ""
 
-#: src/widgets/window.vala:168
+#: src/widgets/window.vala:176
 msgid "Nothing to update"
 msgstr ""
 
-#: src/widgets/window.vala:169
+#: src/widgets/window.vala:177
 #, c-format
 msgid "No update found for %s"
 msgstr ""
 
-#: src/widgets/window.vala:175
+#: src/widgets/window.vala:183
 msgid "Everything is now up-to-date"
 msgstr ""
 
-#: src/widgets/window.vala:176
+#: src/widgets/window.vala:184
 #, c-format
 msgid "%s is now up-to-date"
 msgstr ""
 
-#: src/widgets/window.vala:181 src/widgets/window.vala:189
-#: src/widgets/window.vala:195 src/widgets/window.vala:201
+#: src/widgets/window.vala:189 src/widgets/window.vala:197
+#: src/widgets/window.vala:203 src/widgets/window.vala:209
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr ""
 
-#: src/widgets/window.vala:181 src/widgets/window.vala:182
+#: src/widgets/window.vala:189 src/widgets/window.vala:190
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
 msgstr ""
 
-#: src/widgets/window.vala:182 src/widgets/window.vala:190
-#: src/widgets/window.vala:196 src/widgets/window.vala:202
+#: src/widgets/window.vala:190 src/widgets/window.vala:198
+#: src/widgets/window.vala:204 src/widgets/window.vala:210
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr ""
 
-#: src/widgets/window.vala:189 src/widgets/window.vala:190
+#: src/widgets/window.vala:197 src/widgets/window.vala:198
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
 #: src/widgets/runners/runner-row.vala:65
 msgid "Unable to reach the API"
 msgstr ""
 
-#: src/widgets/window.vala:195 src/widgets/window.vala:196
+#: src/widgets/window.vala:203 src/widgets/window.vala:204
 #: src/widgets/runners/runner-row.vala:68
 msgid "Invalid access token"
 msgstr ""
 
-#: src/widgets/window.vala:201 src/widgets/window.vala:202
+#: src/widgets/window.vala:209 src/widgets/window.vala:210
 #: src/widgets/runners/runner-row.vala:71
 msgid "Unknown error"
 msgstr ""
 
-#: src/widgets/window.vala:257
-#: src/widgets/runners/steamtinkerlaunch-row.vala:39
-#: src/widgets/runners/steamtinkerlaunch-row.vala:82
-#: src/widgets/runners/steamtinkerlaunch-row.vala:127
-#: src/widgets/runners/steamtinkerlaunch-row.vala:131
+#: src/widgets/window.vala:273
+#: src/widgets/runners/steamtinkerlaunch-row.vala:54
+#: src/widgets/runners/steamtinkerlaunch-row.vala:97
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #: src/widgets/games/mass-edit-button.vala:36
 msgid "Warning"
 msgstr ""
 
-#: src/widgets/window.vala:257
+#: src/widgets/window.vala:273
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:259
+#: src/widgets/window.vala:275
 msgid "Exit"
 msgstr ""
 
-#: src/widgets/window.vala:262 src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/runners/install-dialog.vala:23
-#: src/widgets/runners/upgrade-dialog.vala:23
+#: src/widgets/window.vala:278 src/widgets/runners/remove-dialog.vala:30
 msgid "Cancel"
-msgstr ""
-
-#: src/widgets/update-button.vala:9
-msgid "Checking for updates..."
 msgstr ""
 
 #: src/widgets/warning-dialog.vala:7 src/widgets/error-dialog.vala:10
@@ -207,23 +206,31 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:15
-msgid "Automatic updates"
+#: src/widgets/preferences/preferences-dialog.vala:14
+msgid "Save download history"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:16
-msgid "Update the installed 'Latest' runners when the application starts"
+#: src/widgets/preferences/preferences-dialog.vala:15
+msgid "Save the download history to a file"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:22
+msgid "Automatic updates"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:23
+msgid "Update the installed 'Latest' runners when the application starts"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:29
 msgid "Latest"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:42
+#: src/widgets/preferences/preferences-dialog.vala:49
 msgid "Remember last used profile"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:43
+#: src/widgets/preferences/preferences-dialog.vala:50
 msgid "Remember the last used Steam profile"
 msgstr ""
 
@@ -239,7 +246,15 @@ msgstr ""
 msgid "Dark"
 msgstr ""
 
-#: src/widgets/preferences/theme-row.vala:25
+#: src/widgets/preferences/theme-row.vala:18
+msgid "SteamOS"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:19
+msgid "OLED"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:27
 msgid "Current theme"
 msgstr ""
 
@@ -285,20 +300,26 @@ msgid "Show more information"
 msgstr ""
 
 #: src/widgets/runners/release-row.vala:17
+#: src/widgets/runners/basic-row.vala:127
 msgid "Update the runner if a newer version is available"
 msgstr ""
 
 #: src/widgets/runners/release-row.vala:20
+#: src/widgets/runners/basic-row.vala:129
+#: src/widgets/runners/steamtinkerlaunch-row.vala:206
 msgid "Open runner directory"
 msgstr ""
 
 #: src/widgets/runners/release-row.vala:24
+#: src/widgets/runners/basic-row.vala:125
+#: src/widgets/runners/steamtinkerlaunch-row.vala:204
 #, c-format
 msgid "Delete %s"
 msgstr ""
 
 #: src/widgets/runners/release-row.vala:28
-#: src/widgets/runners/install-dialog.vala:17
+#: src/widgets/runners/basic-row.vala:123
+#: src/widgets/runners/steamtinkerlaunch-row.vala:203
 #, c-format
 msgid "Install %s"
 msgstr ""
@@ -306,7 +327,7 @@ msgstr ""
 #: src/widgets/runners/release-row.vala:55
 #: src/widgets/runners/release-row.vala:57
 #: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:66
+#: src/widgets/runners/basic-row.vala:74
 #: src/widgets/runners/filters-box.vala:32
 msgid "Used"
 msgstr ""
@@ -365,51 +386,51 @@ msgstr ""
 msgid "Couldn't delete %s"
 msgstr ""
 
-#: src/widgets/runners/install-dialog.vala:53
-#, c-format
-msgid "Couldn't install %s"
-msgstr ""
-
-#: src/widgets/runners/install-dialog.vala:74
-#: src/widgets/runners/upgrade-dialog.vala:80
-msgid "Downloading"
-msgstr ""
-
-#: src/widgets/runners/install-dialog.vala:104
-#: src/widgets/runners/upgrade-dialog.vala:104
-msgid "Extracting"
-msgstr ""
-
-#: src/widgets/runners/install-dialog.vala:107
-#: src/widgets/runners/upgrade-dialog.vala:107
-msgid "Moving"
-msgstr ""
-
-#: src/widgets/runners/upgrade-dialog.vala:17
-#, c-format
-msgid "Upgrade %s"
-msgstr ""
-
-#: src/widgets/runners/upgrade-dialog.vala:57
-#, c-format
-msgid "Couldn't upgrade %s"
-msgstr ""
-
 #: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:67
+#: src/widgets/runners/basic-row.vala:75
 #, c-format
 msgid "%s is used by %i game(s)"
 msgstr ""
 
 #: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:111
+#: src/widgets/runners/steamtinkerlaunch-row.vala:132
 msgid "Check this to also delete your configuration files."
 msgstr ""
 
-#: src/widgets/runners/basic-row.vala:24
+#: src/widgets/runners/basic-row.vala:16
 msgid ""
 "This version will get automatically updated when there's an update available "
 "each time your launch the application if automatic updates is enabled"
+msgstr ""
+
+#: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/steamtinkerlaunch-row.vala:120
+#, c-format
+msgid "Couldn't install %s"
+msgstr ""
+
+#: src/widgets/runners/basic-row.vala:103
+#: src/widgets/runners/steamtinkerlaunch-row.vala:190
+msgid "This tool is currently being installed"
+msgstr ""
+
+#: src/widgets/runners/basic-row.vala:105
+#: src/widgets/runners/steamtinkerlaunch-row.vala:192
+msgid "This tool is currently being downloaded"
+msgstr ""
+
+#: src/widgets/runners/basic-row.vala:110
+#: src/widgets/runners/steamtinkerlaunch-row.vala:194
+msgid "This tool is currently being removed"
+msgstr ""
+
+#: src/widgets/runners/basic-row.vala:114
+#: src/widgets/runners/steamtinkerlaunch-row.vala:196
+msgid "This tool is currently being updated"
+msgstr ""
+
+#: src/widgets/runners/basic-row.vala:132
+msgid "The application is currently updating its runners"
 msgstr ""
 
 #: src/widgets/runners/filters-box.vala:21
@@ -433,43 +454,49 @@ msgid "Show runners that aren't used by any games"
 msgstr ""
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:8
+#: src/widgets/runners/steamtinkerlaunch-row.vala:205
 msgid "Update to the latest version"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:39
+#: src/widgets/runners/steamtinkerlaunch-row.vala:40
+#, c-format
+msgid "Couldn't update %s"
+msgstr ""
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:54
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:39
+#: src/widgets/runners/steamtinkerlaunch-row.vala:54
 msgid "Installation will be canceled."
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:82
+#: src/widgets/runners/steamtinkerlaunch-row.vala:97
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:82
+#: src/widgets/runners/steamtinkerlaunch-row.vala:97
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:84
+#: src/widgets/runners/steamtinkerlaunch-row.vala:99
 msgid "No"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:85
+#: src/widgets/runners/steamtinkerlaunch-row.vala:100
 msgid "Yes"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:127
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #, c-format
 msgid "To install %s for the %s, please run the following command:"
 msgstr ""
 
-#: src/widgets/runners/steamtinkerlaunch-row.vala:131
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
 #, c-format
 msgid "There's currently no known way for us to install %s for the %s."
 msgstr ""
@@ -1084,6 +1111,54 @@ msgstr ""
 #: src/widgets/games/compatibility-tool-dropdown.vala:75
 #, c-format
 msgid "Couldn't change the compatibility tool of %s"
+msgstr ""
+
+#: src/widgets/downloads/downloads-box.vala:18
+msgid "No active downloads"
+msgstr ""
+
+#: src/widgets/downloads/downloads-box.vala:19
+msgid "Your downloads will appear here."
+msgstr ""
+
+#: src/widgets/downloads/downloads-box.vala:23
+msgid "In-Progress"
+msgstr ""
+
+#: src/widgets/downloads/downloads-box.vala:36
+msgid "Completed"
+msgstr ""
+
+#: src/widgets/downloads/downloads-box.vala:47
+msgid "Clear History"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:83
+msgid "Updating"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:83
+msgid "Downloading"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:104
+msgid "Extracting"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:107
+msgid "Moving"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:136
+msgid "Canceled"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:139
+msgid "Success"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:142
+msgid "Error"
 msgstr ""
 
 #: src/models/runners/steamtinkerlaunch.vala:6
