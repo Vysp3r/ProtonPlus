@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-13 17:55-0400\n"
-"PO-Revision-Date: 2026-04-15 23:09+0000\n"
+"PO-Revision-Date: 2026-04-16 14:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -161,7 +161,7 @@ msgid "Remember last used profile"
 msgstr "Запам’ятати останній профіль"
 
 msgid "Remember the last used Steam profile"
-msgstr "Запам’ятати останній профіль"
+msgstr "Використовувати останній вибраний профіль Steam"
 
 msgid "System"
 msgstr "Системна"
@@ -529,11 +529,15 @@ msgid "Launch command preview"
 msgstr ""
 
 #. Common options
+#, fuzzy
 msgid "Performance overlay"
-msgstr ""
+msgstr "Моніторинг поверх гри"
 
+#, fuzzy
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr ""
+"Моніторинг поверх гри кадрів за секунду, споживання процесору, відеокарти, і "
+"температуру."
 
 msgid "Disable Steam Deck Mode"
 msgstr "Вимкнути режим Steam Deck"
@@ -589,7 +593,7 @@ msgstr "Скорочує затримку на підтримуваних сис
 
 #, fuzzy
 msgid "Use dGPU"
-msgstr "Використовувати дискретну відеокарту"
+msgstr "Використовувати дискретну відеокарту (dGPU)"
 
 msgid "Makes the game use the AMD dGPU on hybrid systems."
 msgstr ""
@@ -648,7 +652,7 @@ msgid "VKBasalt"
 msgstr "VKBasalt"
 
 msgid "Adds visual effects like sharpening and color adjustments."
-msgstr "Додає візуальні ефекти, такі як різкість і корекція кольорів."
+msgstr "Додає візуальні ефекти, зокрема різкість і корекція кольорів."
 
 msgid "WineD3D"
 msgstr "WineD3D"
@@ -674,27 +678,26 @@ msgid "Vulkan"
 msgstr "Vulkan"
 
 msgid "Adds -vulkan to make the game use its Vulkan renderer."
-msgstr ""
+msgstr "Додає -vulkan для запуску гри через Vulkan."
 
 msgid "DirectX 11"
 msgstr "DirectX 11"
 
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
-msgstr ""
+msgstr "Додає -dx11 для запуску гри через DirectX 11."
 
 msgid "DirectX 12"
 msgstr "DirectX 12"
 
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
-msgstr ""
+msgstr "Додає -dx12 для запуску гри через DirectX 12."
 
 msgid "Console"
 msgstr "Консоль"
 
-#, fuzzy
 msgid "Adds -console to open the game's developer console when supported."
 msgstr ""
-"Додає -console для відкриття розробницької консолі гри, якщо підтримується."
+"Додає -console для відкриття консолі розробника гри, за умови підтримки."
 
 #, fuzzy
 msgid "Game arguments"
