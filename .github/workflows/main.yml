@@ -24,3 +24,11 @@ jobs:
           bundle: protonplus.flatpak
           manifest-path: com.vysp3r.ProtonPlus.local.yml
           run-tests: true
+
+      - name: Lint
+        continue-on-error: true
+        run: |
+          flatpak-builder-lint manifest com.vysp3r.ProtonPlus.local.yml
+          if [ -d "flatpak_app/export/share/metainfo" ]; then
+            flatpak-builder-lint appstream flatpak_app/export/share/metainfo/*.xml
+          fi
