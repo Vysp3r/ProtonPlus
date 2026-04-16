@@ -58,6 +58,13 @@ namespace ProtonPlus.Models.Launchers {
                 count++;
             }
 
+            foreach (var profile in profiles) {
+                foreach (var game in profile.non_steam_games) {
+                    if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Undefined"))
+                    count++;
+                }
+            }
+
             return count;
         }
 
