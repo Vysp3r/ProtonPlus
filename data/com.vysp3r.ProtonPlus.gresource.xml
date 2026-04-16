@@ -35,5 +35,8 @@
     <file alias="scalable/actions/boxes-stacked-symbolic.svg">icons/boxes-stacked.svg</file>
     <file alias="scalable/actions/home-symbolic.svg">icons/home.svg</file>
     <file alias="scalable/actions/toolbox-symbolic.svg">icons/toolbox.svg</file>
+    <file alias="scalable/actions/github-symbolic.svg">icons/github.svg</file>
+    <file alias="scalable/actions/copy-symbolic.svg">icons/copy.svg</file>
+    <file alias="scalable/actions/circle-xmark-symbolic.svg">icons/circle-xmark.svg</file>
   </gresource>
 </gresources>

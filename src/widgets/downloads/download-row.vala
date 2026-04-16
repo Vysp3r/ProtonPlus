@@ -16,9 +16,10 @@ namespace ProtonPlus.Widgets {
             progress_bar.set_valign (Gtk.Align.CENTER);
             progress_bar.set_size_request (180, -1);
 
-            cancel_button = new Gtk.Button.from_icon_name("process-stop-symbolic");
+            cancel_button = new Gtk.Button.from_icon_name("circle-xmark-symbolic");
             cancel_button.add_css_class ("flat");
             cancel_button.add_css_class ("circular");
+            cancel_button.tooltip_text = _ ("Cancel");
             cancel_button.set_valign (Gtk.Align.CENTER);
             cancel_button.visible = release.state != Models.BaseRelease.State.BUSY_UPDATING;
             cancel_button.clicked.connect (() => {
@@ -120,30 +121,44 @@ namespace ProtonPlus.Widgets {
             progress_bar.set_visible (false);
             cancel_button.set_visible (false);
 
-            // Remove existing icons if any (to avoid duplicates)
+            // Remove existing icons/buttons if any (to avoid duplicates)
             var child = box.get_first_child ();
             while (child != null) {
                 var next = child.get_next_sibling ();
-                if (child is Gtk.Image) {
+                if (child != progress_bar && child != cancel_button) {
                     box.remove (child);
                 }
                 child = next;
             }
 
-            Gtk.Image icon;
-
             if (release.canceled) {
                 set_subtitle (_ ("Canceled"));
-                icon = new Gtk.Image.from_icon_name("window-close-symbolic");
             } else if (success) {
                 set_subtitle (_ ("Success"));
-                icon = new Gtk.Image.from_icon_name("emblem-ok-symbolic");
             } else {
                 set_subtitle (_ ("Error"));
-                icon = new Gtk.Image.from_icon_name("dialog-error-symbolic");
-            }
 
-            box.append (icon);
+                var copy_button = new Gtk.Button.from_icon_name ("copy-symbolic");
+                copy_button.set_valign (Gtk.Align.CENTER);
+                copy_button.add_css_class ("flat");
+                copy_button.add_css_class ("circular");
+                copy_button.tooltip_text = _ ("Copy Error Message");
+                copy_button.clicked.connect (() => {
+                    var clipboard = copy_button.get_clipboard ();
+                    clipboard.set_text (release.error_message ?? _ ("Unknown error"));
+                });
+                box.append (copy_button);
+
+                var report_button = new Gtk.Button.from_icon_name ("github-symbolic");
+                report_button.set_valign (Gtk.Align.CENTER);
+                report_button.add_css_class ("flat");
+                report_button.add_css_class ("circular");
+                report_button.tooltip_text = _ ("Report Issue");
+                report_button.clicked.connect (() => {
+                    Utils.System.open_uri ("https://github.com/Vysp3r/ProtonPlus/issues/new?template=bug_report.md");
+                });
+                box.append (report_button);
+            }
         }
     }
 }

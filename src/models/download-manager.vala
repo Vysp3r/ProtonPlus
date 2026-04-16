@@ -99,6 +99,7 @@ namespace ProtonPlus.Models {
                 release_object.set_boolean_member ("is_finished", release.is_finished);
                 release_object.set_boolean_member ("install_success", release.install_success);
                 release_object.set_boolean_member ("canceled", release.canceled);
+                release_object.set_string_member ("error_message", release.error_message != null ? release.error_message : "");
                 root_array.add_object_element (release_object);
             }
 
@@ -146,8 +147,9 @@ namespace ProtonPlus.Models {
                 var is_finished = release_object.get_boolean_member ("is_finished");
                 var install_success = release_object.get_boolean_member ("install_success");
                 var canceled = release_object.get_boolean_member ("canceled");
+                var error_message = release_object.has_member ("error_message") ? release_object.get_string_member ("error_message") : "";
 
-                var release = new Releases.History (title, displayed_title != "" ? displayed_title : null, icon_path, is_finished, install_success, canceled);
+                var release = new Releases.History (title, displayed_title != "" ? displayed_title : null, icon_path, is_finished, install_success, canceled, error_message != "" ? error_message : null);
                 history.add (release);
             }
         }

@@ -23,7 +23,6 @@ namespace ProtonPlus.Widgets {
             var in_progress_label = new Gtk.Label(_ ("In-Progress"));
             in_progress_label.add_css_class ("heading");
             in_progress_label.set_halign (Gtk.Align.START);
-            in_progress_label.set_margin_start (12);
 
             in_progress_list_box = new Gtk.ListBox();
             in_progress_list_box.selection_mode = Gtk.SelectionMode.NONE;
@@ -36,12 +35,11 @@ namespace ProtonPlus.Widgets {
             var completed_label = new Gtk.Label(_ ("Completed"));
             completed_label.add_css_class ("heading");
             completed_label.set_halign (Gtk.Align.START);
-            completed_label.set_margin_start (12);
 
             var spacer = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
             spacer.set_hexpand (true);
 
-            clear_button = new Gtk.Button.from_icon_name("edit-clear-all-symbolic");
+            clear_button = new Gtk.Button.from_icon_name("eraser-symbolic");
             clear_button.add_css_class ("flat");
             clear_button.add_css_class ("circular");
             clear_button.set_tooltip_text (_ ("Clear History"));

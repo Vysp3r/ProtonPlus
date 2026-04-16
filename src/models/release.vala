@@ -14,6 +14,7 @@ namespace ProtonPlus.Models {
         public bool is_percent { get; set; }
         public bool is_finished { get; set; default = false; }
         public bool install_success { get; set; default = false; }
+        public string? error_message { get; set; }
 
         private State _state;
         public State state {

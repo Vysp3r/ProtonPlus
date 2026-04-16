@@ -71,15 +71,18 @@ namespace ProtonPlus.Models.Releases {
             string download_path = "%s/%s.tar.gz".printf (Globals.CACHE_PATH, title);
 
             if (!FileUtils.test (download_path, FileTest.EXISTS)) {
+                string? download_error;
                 var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, (is_percent, progress, speed_kbps, seconds_remaining) => {
                     this.is_percent = is_percent;
                     this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
                     this.speed_kbps = speed_kbps;
                     this.seconds_remaining = seconds_remaining;
-                });
+                }, out download_error);
 
-                if (!download_valid)
-                return false;
+                if (!download_valid) {
+                    this.error_message = download_error;
+                    return false;
+                }
             }
 
             step = Step.EXTRACTING;

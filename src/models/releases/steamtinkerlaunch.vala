@@ -250,15 +250,18 @@ namespace ProtonPlus.Models.Releases {
 
             step = Step.DOWNLOADING;
 
+            string? download_error;
             var download_valid = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, (is_percent, progress, speed_kbps, seconds_remaining) => {
                 this.is_percent = is_percent;
                 this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
                 this.speed_kbps = speed_kbps;
                 this.seconds_remaining = seconds_remaining;
-            });
+            }, out download_error);
 
-            if (!download_valid)
-            return false;
+            if (!download_valid) {
+                this.error_message = download_error;
+                return false;
+            }
 
             step = Step.EXTRACTING;
 

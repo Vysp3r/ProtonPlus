@@ -96,7 +96,8 @@ namespace ProtonPlus.Utils {
 
         public delegate void progress_callback (bool is_percent, int64 progress_percentage, double speed_kbps, double? remaining_seconds);
 
-        public static async bool Download (string url, string path, cancel_callback? cancel_callback = null, progress_callback? progress_callback = null) {
+        public static async bool Download (string url, string path, cancel_callback? cancel_callback = null, progress_callback? progress_callback = null, out string? error_message = null) {
+            error_message = null;
             try {
                 var soup_message = new Soup.Message ("GET", url);
 
@@ -104,6 +105,7 @@ namespace ProtonPlus.Utils {
 
                 if (soup_message.status_code != 200) {
                     warning (soup_message.reason_phrase);
+                    error_message = soup_message.reason_phrase;
                     return false;
                 }
 
@@ -175,6 +177,7 @@ namespace ProtonPlus.Utils {
                 return !is_canceled;
             } catch (Error e) {
                 warning (e.message);
+                error_message = e.message;
 
                 return false;
             }

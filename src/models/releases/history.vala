@@ -1,11 +1,12 @@
 namespace ProtonPlus.Models.Releases {
     public class History : BaseRelease {
-        public History (string title, string? displayed_title, string icon_path, bool is_finished, bool install_success, bool canceled) {
+        public History (string title, string? displayed_title, string icon_path, bool is_finished, bool install_success, bool canceled, string? error_message = null) {
             this.title = title;
             this.displayed_title = displayed_title;
             this.is_finished = is_finished;
             this.install_success = install_success;
             this.canceled = canceled;
+            this.error_message = error_message;
 
             var launcher = Object.new (typeof (Launcher)) as Launcher;
             launcher.icon_path = icon_path;
