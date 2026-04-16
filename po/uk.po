@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-13 17:55-0400\n"
-"PO-Revision-Date: 2026-04-16 14:09+0000\n"
+"PO-Revision-Date: 2026-04-16 21:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -526,7 +526,7 @@ msgstr "Застосувати поточну зміну"
 
 #. Launch command preview
 msgid "Launch command preview"
-msgstr ""
+msgstr "Попередній перегляд команди"
 
 #. Common options
 #, fuzzy
@@ -542,8 +542,9 @@ msgstr ""
 msgid "Disable Steam Deck Mode"
 msgstr "Вимкнути режим Steam Deck"
 
+#, fuzzy
 msgid "Disables the Steam Deck-specific profile that some games use."
-msgstr ""
+msgstr "Вимикає профіль Steam Deck, який використовують деякі ігри."
 
 msgid "Wayland"
 msgstr "Wayland"
