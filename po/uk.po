@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-16 20:49-0400\n"
-"PO-Revision-Date: 2026-04-17 10:06+0000\n"
+"PO-Revision-Date: 2026-04-17 16:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: src/widgets/application.vala:102
 msgid "A modern compatibility tools manager"
-msgstr "Сучасний менеджер інструментів сумісності"
+msgstr "Сучасний менеджер сумісності"
 
 #: src/widgets/application.vala:104
 msgid "Website"
@@ -215,7 +215,7 @@ msgstr "Загальне"
 
 #: src/widgets/preferences/preferences-dialog.vala:14
 msgid "Save download history"
-msgstr "Зберегти історію завантажень"
+msgstr "Зберігати історію завантажень"
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Save the download history to a file"
@@ -813,7 +813,7 @@ msgstr "Виводить HDR-кольори, за умови підтримки 
 
 #: src/widgets/games/launch-options-editor.vala:549
 msgid "None"
-msgstr ""
+msgstr "Немає"
 
 #: src/widgets/games/launch-options-editor.vala:550
 msgid "Gamescope"
@@ -854,16 +854,15 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:568
 msgid "Hide AMD APU"
-msgstr "Приховати вбудовану відеокарту AMD"
+msgstr "Приховати вбудовану відеокарту AMD (AMD APU)"
 
 #: src/widgets/games/launch-options-editor.vala:568
-#, fuzzy
 msgid ""
 "Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
 "integrated graphics."
 msgstr ""
-"Proton визначатиме AMD APU як дискретний GPU для ігор, які неправильно "
-"розпізнають вбудовану графіку."
+"Proton змушує ігри бачити AMD APU як дискретну відеокарту, коли вони "
+"неправильно визначають вбудовану графіку."
 
 #: src/widgets/games/launch-options-editor.vala:569
 msgid "FSR 4 Upgrade"
@@ -874,6 +873,8 @@ msgid ""
 "Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
 "Anti-Lag 2 currently due to various issues."
 msgstr ""
+"Оновлює FSR 3.1 до FSR 4 у підтримуваних іграх. Ця опція також вимикає AMD "
+"Anti-Lag 2 через низку проблем."
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "FSR 4 RDNA3 Upgrade"
@@ -979,6 +980,7 @@ msgstr "WineD3D"
 msgid ""
 "Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
 msgstr ""
+"OpenGL замість Vulkan. Застосовувати за умови виникнення проблем із DXVK."
 
 #: src/widgets/games/launch-options-editor.vala:615
 msgid "Use FSync"
@@ -1122,7 +1124,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor.vala:846
 #: src/widgets/games/launch-options-editor.vala:881
 msgid "Matches your display's refresh rate to the game's FPS."
-msgstr ""
+msgstr "Узгоджує частоту оновлення дисплея з частотою кадрів у грі."
 
 #: src/widgets/games/launch-options-editor.vala:849
 #: src/widgets/games/launch-options-editor.vala:884
@@ -1145,7 +1147,7 @@ msgstr "Роздільність"
 
 #: src/widgets/games/launch-options-editor.vala:853
 msgid "Sets the Gamescope output resolution."
-msgstr ""
+msgstr "Встановлює роздільну здатність Gamescope."
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Additional Gamescope arguments"
