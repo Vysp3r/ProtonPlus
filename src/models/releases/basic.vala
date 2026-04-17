@@ -122,6 +122,9 @@ namespace ProtonPlus.Models.Releases {
         }
 
         internal void add_to_games_tab () {
+            if (runner.group.launcher.title != "Steam")
+                return;
+            
             var simple_runner = new SimpleRunner.from_path(install_location);
 
             runner.group.launcher.compatibility_tools.add (simple_runner);
