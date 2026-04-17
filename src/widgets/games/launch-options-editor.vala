@@ -457,12 +457,21 @@ using Adw;
         LaunchOptionTile wayland_tile { get; set; }
         LaunchOptionTile vkbasalt_tile { get; set; }
         LaunchOptionTile wined3d_tile { get; set; }
+        LaunchOptionTile amd_fsr4_upgrade_tile { get; set; }
+        LaunchOptionTile amd_fsr4_rdna3_upgrade_tile { get; set; }
         LaunchOptionTile amd_anti_lag_tile { get; set; }
         LaunchOptionTile amd_prime_tile { get; set; }
         LaunchOptionTile amd_hide_apu_tile { get; set; }
         LaunchOptionTile nvapi_tile { get; set; }
         LaunchOptionTile nvidia_ngx_updater_tile { get; set; }
         LaunchOptionTile nvidia_hide_gpu_tile { get; set; }
+        LaunchOptionTile dlss_indicator_tile { get; set; }
+        LaunchOptionTile nvidia_libs_tile { get; set; }
+        LaunchOptionTile intel_xess_upgrade_tile { get; set; }
+        LaunchOptionTile prefer_sdl_tile { get; set; }
+        LaunchOptionTile no_steaminput_tile { get; set; }
+        LaunchOptionTile ntsync_tile { get; set; }
+        LaunchOptionTile local_shader_cache_tile { get; set; }
         LaunchOptionEntryField additional_args_field { get; set; }
         LaunchOptionTile additional_args_tile { get; set; }
         LaunchOptionTile command_tile { get; set; }
@@ -557,6 +566,13 @@ using Adw;
             amd_anti_lag_tile = create_gpu_vendor_tile (_ ("Mesa Anti-Lag"), _ ("Reduces latency on supported AMD Mesa setups."), { "ENABLE_LAYER_MESA_ANTI_LAG=1" });
             amd_prime_tile = create_gpu_vendor_tile (_ ("Use dGPU"), _ ("Makes the game use the AMD dGPU on hybrid systems."), { "DRI_PRIME=1" });
             amd_hide_apu_tile = create_gpu_vendor_tile (_ ("Hide AMD APU"), _ ("Makes Proton report an AMD APU as a discrete GPU for games that mis-detect integrated graphics."), { "PROTON_HIDE_APU=1" });
+            amd_fsr4_upgrade_tile = new LaunchOptionTile (_ ("FSR 4 Upgrade"), _ ("Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD Anti-Lag 2 currently due to various issues."));
+            amd_fsr4_upgrade_tile.toggle.notify["active"].connect (amd_fsr4_upgrade_toggle_changed);
+            gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_FSR4_UPGRADE=1" }, amd_fsr4_upgrade_tile.toggle));
+
+            amd_fsr4_rdna3_upgrade_tile = new LaunchOptionTile (_ ("FSR 4 RDNA3 Upgrade"), _ ("Optimizes FSR 4.0 for RDNA3 hardware."));
+            amd_fsr4_rdna3_upgrade_tile.toggle.notify["active"].connect (amd_fsr4_rdna3_upgrade_toggle_changed);
+            gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_FSR4_RDNA3_UPGRADE=1" }, amd_fsr4_rdna3_upgrade_tile.toggle));
 
             nvapi_tile = new LaunchOptionTile (_ ("NVAPI"), _ ("Lets games access NVIDIA-specific features like DLSS."));
             nvapi_tile.toggle.notify["active"].connect (nvidia_nvapi_toggle_changed);
@@ -565,22 +581,29 @@ using Adw;
             nvidia_ngx_updater_tile.toggle.notify["active"].connect (nvidia_dlss_updater_toggle_changed);
             gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NGX_UPDATER=1" }, nvidia_ngx_updater_tile.toggle));
             nvidia_hide_gpu_tile = create_gpu_vendor_tile (_ ("Hide NVIDIA GPU"), _ ("Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only NVIDIA driver behavior."), { "PROTON_HIDE_NVIDIA_GPU=1" });
+            dlss_indicator_tile = create_gpu_vendor_tile (_ ("DLSS Indicator"), _ ("Shows a DLSS status indicator in-game."), { "PROTON_DLSS_INDICATOR=1" });
+            nvidia_libs_tile = create_gpu_vendor_tile (_ ("NVIDIA Libraries"), _ ("Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS or ray tracing."), { "PROTON_NVIDIA_LIBS=1" });
+
+            intel_xess_upgrade_tile = create_gpu_vendor_tile (_ ("XeSS Upgrade"), _ ("Upgrades XeSS in supported games."), { "PROTON_XESS_UPGRADE=1" });
 
             gpu_vendor_stack = new Gtk.Stack ();
             gpu_vendor_stack.set_hhomogeneous (false);
             gpu_vendor_stack.set_vhomogeneous (false);
             gpu_vendor_stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
-            gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ amd_anti_lag_tile, amd_prime_tile, amd_hide_apu_tile }), "amd", _ ("AMD"));
-            gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ nvapi_tile, nvidia_ngx_updater_tile, nvidia_hide_gpu_tile }), "nvidia", _ ("NVIDIA"));
+            gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ amd_anti_lag_tile, amd_fsr4_upgrade_tile, amd_fsr4_rdna3_upgrade_tile, amd_prime_tile, amd_hide_apu_tile }), "amd", _ ("AMD"));
+            gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ nvapi_tile, nvidia_ngx_updater_tile, nvidia_hide_gpu_tile, dlss_indicator_tile, nvidia_libs_tile }), "nvidia", _ ("NVIDIA"));
+            gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ intel_xess_upgrade_tile }), "intel", _ ("Intel"));
             gpu_vendor_stack.set_visible_child_name ("amd");
 
             gpu_vendor_switcher = new Gtk.StackSwitcher ();
             gpu_vendor_switcher.set_stack (gpu_vendor_stack);
             gpu_vendor_switcher.set_halign (Gtk.Align.START);
 
+            gpu_vendor_stack.notify["visible-child-name"].connect (gpu_vendor_selection_changed);
+
             gpu_vendor_group = new PreferencesGroup ();
             gpu_vendor_group.title = _ ("GPU vendor options");
-            gpu_vendor_group.description = _ ("Use GPU-specific compatibility toggles for AMD and NVIDIA hardware.");
+            gpu_vendor_group.description = _ ("Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware.");
             gpu_vendor_group.set_header_suffix (gpu_vendor_switcher);
             gpu_vendor_group.add (gpu_vendor_stack);
             append (gpu_vendor_group);
@@ -589,12 +612,20 @@ using Adw;
 
             vkbasalt_tile = create_common_tile (_ ("VKBasalt"), _ ("Adds visual effects like sharpening and color adjustments."), { "ENABLE_VKBASALT=1" });
             wined3d_tile = create_common_tile (_ ("WineD3D"), _ ("Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."), { "PROTON_USE_WINED3D=1" });
+            ntsync_tile = create_common_tile (_ ("Use FSync"), _ ("Uses FSync instead of NTSync. Can fix issues in certain games that do not pair well with NTSync."), { "PROTON_USE_NTSYNC=0" });
+            local_shader_cache_tile = create_common_tile (_ ("Local shader cache"), _ ("Enables per-game shader cache. This isolates the shader cache of each game but does not compile them ahead-of-time."), { "PROTON_LOCAL_SHADER_CACHE=1" });
+            prefer_sdl_tile = create_common_tile (_ ("Prefer SDL controller"), _ ("Workaround for controller detection issues."), { "PROTON_PREFER_SDL=1" });
+            no_steaminput_tile = create_common_tile (_ ("Disable Steam Input"), _ ("Disables Steam Input support. Fixes Wayland controller/gamepad issues."), { "PROTON_NO_STEAMINPUT=1" });
 
             more_options_group = new PreferencesGroup ();
             more_options_group.title = _ ("More options");
             more_options_group.description = _ ("Extra graphics settings and launch behaviors.");
             more_options_group.add (vkbasalt_tile);
             more_options_group.add (wined3d_tile);
+            more_options_group.add (ntsync_tile);
+            more_options_group.add (local_shader_cache_tile);
+            more_options_group.add (prefer_sdl_tile);
+            more_options_group.add (no_steaminput_tile);
             append (more_options_group);
 
         // Game arguments
@@ -741,6 +772,7 @@ using Adw;
                 parse_scopebuddy_tokens (tokens, consumed);
 
                 normalize_nvidia_vendor_dependencies ();
+                normalize_amd_fsr_upgrade_dependencies ();
 
                 var command_index = get_token_index (tokens, "%command%");
                 apply_game_argument_bindings_from_tokens (tokens, consumed, command_index);
@@ -962,7 +994,38 @@ using Adw;
 
         void wrapper_selection_changed () {
             if (refreshing_controls)
-            return;
+                return;
+
+            refreshing_controls = true;
+
+            var current_wrapper = wrapper_stack.get_visible_child_name ();
+
+            if (current_wrapper != "none") {
+                hdr_tile.toggle.set_active (false);
+            }
+
+            if (current_wrapper != "gamescope") {
+                gamescope_fullscreen_tile.toggle.set_active (false);
+                gamescope_hdr_tile.toggle.set_active (false);
+                gamescope_vrr_tile.toggle.set_active (false);
+                gamescope_framerate_tile.toggle.set_active (false);
+                gamescope_framerate_tile.set_value (60);
+                gamescope_resolution_field.reset ();
+                gamescope_args_field.set_text ("");
+            }
+
+            if (current_wrapper != "scopebuddy") {
+                scopebuddy_fullscreen_tile.toggle.set_active (false);
+                scopebuddy_framerate_tile.toggle.set_active (false);
+                scopebuddy_framerate_tile.set_value (60);
+                scopebuddy_resolution_field.reset ();
+                scopebuddy_args_field.set_text ("");
+                foreach (var binding in scopebuddy_bindings) {
+                    binding.toggle.set_active (false);
+                }
+            }
+
+            refreshing_controls = false;
 
             refresh_advanced_visibility ();
             maybe_auto_enable_command ();
@@ -970,9 +1033,45 @@ using Adw;
             content_changed ();
         }
 
+        void gpu_vendor_selection_changed () {
+            if (refreshing_controls)
+                return;
+
+            refreshing_controls = true;
+
+            var current_vendor = gpu_vendor_stack.get_visible_child_name ();
+
+            if (current_vendor != "amd") {
+                amd_anti_lag_tile.toggle.set_active (false);
+                amd_fsr4_upgrade_tile.toggle.set_active (false);
+                amd_fsr4_rdna3_upgrade_tile.toggle.set_active (false);
+                amd_prime_tile.toggle.set_active (false);
+                amd_hide_apu_tile.toggle.set_active (false);
+            }
+
+            if (current_vendor != "nvidia") {
+                nvapi_tile.toggle.set_active (false);
+                nvidia_ngx_updater_tile.toggle.set_active (false);
+                nvidia_hide_gpu_tile.toggle.set_active (false);
+                dlss_indicator_tile.toggle.set_active (false);
+                nvidia_libs_tile.toggle.set_active (false);
+            }
+
+            if (current_vendor != "intel") {
+                intel_xess_upgrade_tile.toggle.set_active (false);
+            }
+
+            refreshing_controls = false;
+
+            refresh_preview ();
+            content_changed ();
+        }
+
         bool should_show_advanced_controls () {
             return vkbasalt_tile.toggle.get_active ()
             || wined3d_tile.toggle.get_active ()
+            || ntsync_tile.toggle.get_active ()
+            || local_shader_cache_tile.toggle.get_active ()
             || has_active_binding (gpu_vendor_bindings)
             || has_active_binding (game_argument_bindings)
             || additional_args_tile.toggle.get_active ()
@@ -1188,6 +1287,42 @@ using Adw;
             foreach (var binding in bindings) {
                 binding.toggle.set_active (false);
             }
+        }
+
+        void amd_fsr4_upgrade_toggle_changed () {
+            if (refreshing_controls)
+            return;
+
+            if (amd_fsr4_upgrade_tile.toggle.get_active () && amd_fsr4_rdna3_upgrade_tile.toggle.get_active ()) {
+                refreshing_controls = true;
+                amd_fsr4_rdna3_upgrade_tile.toggle.set_active (false);
+                refreshing_controls = false;
+            }
+
+            standard_control_changed ();
+        }
+
+        void amd_fsr4_rdna3_upgrade_toggle_changed () {
+            if (refreshing_controls)
+            return;
+
+            if (amd_fsr4_rdna3_upgrade_tile.toggle.get_active () && amd_fsr4_upgrade_tile.toggle.get_active ()) {
+                refreshing_controls = true;
+                amd_fsr4_upgrade_tile.toggle.set_active (false);
+                refreshing_controls = false;
+            }
+
+            standard_control_changed ();
+        }
+
+        void normalize_amd_fsr_upgrade_dependencies () {
+            if (!amd_fsr4_upgrade_tile.toggle.get_active () || !amd_fsr4_rdna3_upgrade_tile.toggle.get_active ())
+            return;
+
+            var was_refreshing = refreshing_controls;
+            refreshing_controls = true;
+            amd_fsr4_rdna3_upgrade_tile.toggle.set_active (false);
+            refreshing_controls = was_refreshing;
         }
 
         void nvidia_nvapi_toggle_changed () {
@@ -1493,13 +1628,18 @@ using Adw;
         }
 
         void select_preferred_gpu_vendor_page () {
-            if (amd_anti_lag_tile.toggle.get_active () || amd_prime_tile.toggle.get_active () || amd_hide_apu_tile.toggle.get_active ()) {
+            if (amd_anti_lag_tile.toggle.get_active () || amd_prime_tile.toggle.get_active () || amd_hide_apu_tile.toggle.get_active () || amd_fsr4_upgrade_tile.toggle.get_active () || amd_fsr4_rdna3_upgrade_tile.toggle.get_active ()) {
                 gpu_vendor_stack.set_visible_child_name ("amd");
                 return;
             }
 
             if (nvapi_tile.toggle.get_active () || nvidia_ngx_updater_tile.toggle.get_active () || nvidia_hide_gpu_tile.toggle.get_active ()) {
                 gpu_vendor_stack.set_visible_child_name ("nvidia");
+                return;
+            }
+
+            if (intel_xess_upgrade_tile.toggle.get_active ()) {
+                gpu_vendor_stack.set_visible_child_name ("intel");
                 return;
             }
 
