@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-16 20:49-0400\n"
-"PO-Revision-Date: 2026-04-17 08:17+0000\n"
+"PO-Revision-Date: 2026-04-17 10:06+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -844,7 +844,6 @@ msgid "Reduces latency on supported AMD Mesa setups."
 msgstr "Скорочує затримку на підтримуваних системах AMD Mesa."
 
 #: src/widgets/games/launch-options-editor.vala:567
-#, fuzzy
 msgid "Use dGPU"
 msgstr "Використовувати дискретну відеокарту (dGPU)"
 
@@ -1097,7 +1096,6 @@ msgid "Add your own launch options."
 msgstr "Додати власні параметри запуску."
 
 #: src/widgets/games/launch-options-editor.vala:662
-#, fuzzy
 msgid "Advanced options"
 msgstr "Розширені опції"
 
@@ -1129,7 +1127,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor.vala:849
 #: src/widgets/games/launch-options-editor.vala:884
 msgid "Frame limit"
-msgstr ""
+msgstr "Обмеження частоти кадрів"
 
 #: src/widgets/games/launch-options-editor.vala:849
 msgid "Caps the frame rate inside Gamescope."
@@ -1138,7 +1136,7 @@ msgstr "Обмежує частоту кадрів у Gamescope."
 #: src/widgets/games/launch-options-editor.vala:849
 #: src/widgets/games/launch-options-editor.vala:884
 msgid "FPS"
-msgstr ""
+msgstr "Кількість к/с"
 
 #: src/widgets/games/launch-options-editor.vala:853
 #: src/widgets/games/launch-options-editor.vala:891
@@ -1222,10 +1220,13 @@ msgid "Reset to the current default compatibility tool"
 msgstr "Поновити типовий інструмент сумісності"
 
 #: src/widgets/games/default-tool-view.vala:73
+#, fuzzy
 msgid ""
 "Choose the default compatibility tool Steam should use for games without an "
 "explicit override."
 msgstr ""
+"Виберіть типовий інструмент сумісності Steam, який має використовуватися для "
+"ігор за умови відсутності іншого."
 
 #: src/widgets/games/default-tool-view.vala:117
 msgid "Couldn't change the default compatibility tool"
