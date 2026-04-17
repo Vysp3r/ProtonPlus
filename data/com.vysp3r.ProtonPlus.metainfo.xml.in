@@ -113,10 +113,12 @@
       <description>
         <ul>
           <li>✨ Added a new "Downloads" tab</li>
+          <li>✨ Added more launch options</li>
           <li>✨ Added a SteamOS theme and an OLED theme</li>
           <li>🐛 Fixed DXVK-Sarek</li>
           <li>🐛 Fixed tool usage count to account for default tool</li>
           <li>🐛 Fixed tool usage count to account for non-steam games</li>
+          <li>🐛 Fixed an error that occured when installing a tool in any launcher except for Steam</li>
           <li>🌐 Updated Ukrainian localization</li>
           <li>🌐 Updated Spanish localization</li>
           <li>🌐 Updated Chinese localization</li>
