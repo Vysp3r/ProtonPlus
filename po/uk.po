@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-16 20:49-0400\n"
-"PO-Revision-Date: 2026-04-16 21:09+0000\n"
+"PO-Revision-Date: 2026-04-17 10:06+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -84,16 +84,15 @@ msgstr "Головне меню"
 
 #: src/widgets/window.vala:61
 msgid "Tools"
-msgstr ""
+msgstr "Інструменти"
 
 #: src/widgets/window.vala:62
 msgid "Games"
 msgstr "Ігри"
 
 #: src/widgets/window.vala:63
-#, fuzzy
 msgid "Downloads"
-msgstr "Завантажується"
+msgstr "Завантаження"
 
 #: src/widgets/window.vala:123
 msgid "Couldn't load the launchers"
@@ -216,11 +215,11 @@ msgstr "Загальне"
 
 #: src/widgets/preferences/preferences-dialog.vala:14
 msgid "Save download history"
-msgstr ""
+msgstr "Зберегти історію завантажень"
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Save the download history to a file"
-msgstr ""
+msgstr "Зберегти історію завантажень у файл"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Automatic updates"
@@ -256,11 +255,11 @@ msgstr "Темна"
 
 #: src/widgets/preferences/theme-row.vala:18
 msgid "SteamOS"
-msgstr ""
+msgstr "SteamOS"
 
 #: src/widgets/preferences/theme-row.vala:19
 msgid "OLED"
-msgstr ""
+msgstr "OLED"
 
 #: src/widgets/preferences/theme-row.vala:27
 msgid "Current theme"
@@ -421,33 +420,27 @@ msgstr "Не вдалося встановити %s"
 
 #: src/widgets/runners/basic-row.vala:103
 #: src/widgets/runners/steamtinkerlaunch-row.vala:190
-#, fuzzy
 msgid "This tool is currently being installed"
-msgstr "%s наразі не підтримується."
+msgstr "Інструмент зараз встановлюється"
 
 #: src/widgets/runners/basic-row.vala:105
 #: src/widgets/runners/steamtinkerlaunch-row.vala:192
 msgid "This tool is currently being downloaded"
-msgstr ""
+msgstr "Інструмент зараз завантажується"
 
 #: src/widgets/runners/basic-row.vala:110
 #: src/widgets/runners/steamtinkerlaunch-row.vala:194
-#, fuzzy
 msgid "This tool is currently being removed"
-msgstr "%s наразі не підтримується."
+msgstr "Інструмент зараз вилучається"
 
 #: src/widgets/runners/basic-row.vala:114
 #: src/widgets/runners/steamtinkerlaunch-row.vala:196
-#, fuzzy
 msgid "This tool is currently being updated"
-msgstr "%s наразі не підтримується."
+msgstr "Інструмент зараз оновлюється"
 
 #: src/widgets/runners/basic-row.vala:132
-#, fuzzy
 msgid "The application is currently updating its runners"
-msgstr ""
-"Застосунок зараз перевіряє наявність оновлень.\n"
-"Передчасний вихід може спричинити неполадки."
+msgstr "Застосунок зараз оновлює свої інструменти."
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Installed"
@@ -475,7 +468,7 @@ msgid "Update to the latest version"
 msgstr "Оновіть до останньої версії"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:40
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't update %s"
 msgstr "Не вдалося оновити %s"
 
@@ -759,9 +752,8 @@ msgid "Custom"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:262
-#, fuzzy
 msgid "Apply the custom resolution"
-msgstr "Застосувати поточну зміну"
+msgstr "Застосувати роздільну здатність"
 
 #. Launch command preview
 #: src/widgets/games/launch-options-editor.vala:522
@@ -770,16 +762,14 @@ msgstr "Попередній перегляд команди"
 
 #. Common options
 #: src/widgets/games/launch-options-editor.vala:527
-#, fuzzy
 msgid "Performance overlay"
-msgstr "Моніторинг поверх гри"
+msgstr "Показники продуктивності"
 
 #: src/widgets/games/launch-options-editor.vala:527
-#, fuzzy
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr ""
-"Моніторинг поверх гри кадрів за секунду, споживання процесору, відеокарти, і "
-"температуру."
+"Показує поверх гри кількість кадрів за секунду, використання процесора й "
+"відеокарти та їхні температури."
 
 #: src/widgets/games/launch-options-editor.vala:528
 msgid "Disable Steam Deck Mode"
@@ -798,6 +788,8 @@ msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
 msgstr ""
+"Запускає гру напряму через Wayland замість запуску через XWayland, але ламає "
+"Пристрої введення і Оверлей Steam."
 
 #: src/widgets/games/launch-options-editor.vala:532
 msgid "Common options"
@@ -852,7 +844,6 @@ msgid "Reduces latency on supported AMD Mesa setups."
 msgstr "Скорочує затримку на підтримуваних системах AMD Mesa."
 
 #: src/widgets/games/launch-options-editor.vala:567
-#, fuzzy
 msgid "Use dGPU"
 msgstr "Використовувати дискретну відеокарту (dGPU)"
 
@@ -872,12 +863,11 @@ msgid ""
 "integrated graphics."
 msgstr ""
 "Proton визначатиме AMD APU як дискретний GPU для ігор, які неправильно "
-"розпізнають інтегровану графіку."
+"розпізнають вбудовану графіку."
 
 #: src/widgets/games/launch-options-editor.vala:569
-#, fuzzy
 msgid "FSR 4 Upgrade"
-msgstr "Оновлення %s"
+msgstr "Оновлення FSR 4"
 
 #: src/widgets/games/launch-options-editor.vala:569
 msgid ""
@@ -887,7 +877,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "FSR 4 RDNA3 Upgrade"
-msgstr ""
+msgstr "Оновлення FSR 4 RDNA3"
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "Optimizes FSR 4.0 for RDNA3 hardware."
@@ -932,8 +922,9 @@ msgid "Shows a DLSS status indicator in-game."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:585
+#, fuzzy
 msgid "NVIDIA Libraries"
-msgstr ""
+msgstr "Бібліотеки NVIDIA"
 
 #: src/widgets/games/launch-options-editor.vala:585
 msgid ""
@@ -942,14 +933,12 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:587
-#, fuzzy
 msgid "XeSS Upgrade"
-msgstr "Оновлення %s"
+msgstr "Оновлення XeSS"
 
 #: src/widgets/games/launch-options-editor.vala:587
-#, fuzzy
 msgid "Upgrades XeSS in supported games."
-msgstr "Автооновлення компонентів DLSS для підтримуваних ігор."
+msgstr "Оновлює XeSS у підтримуваних іграх."
 
 #: src/widgets/games/launch-options-editor.vala:593
 msgid "AMD"
@@ -961,7 +950,7 @@ msgstr "NVIDIA"
 
 #: src/widgets/games/launch-options-editor.vala:595
 msgid "Intel"
-msgstr ""
+msgstr "Intel"
 
 #: src/widgets/games/launch-options-editor.vala:605
 msgid "GPU vendor options"
@@ -1003,7 +992,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid "Local shader cache"
-msgstr ""
+msgstr "Локальний кеш шейдерів"
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid ""
@@ -1020,9 +1009,8 @@ msgid "Workaround for controller detection issues."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:618
-#, fuzzy
 msgid "Disable Steam Input"
-msgstr "Вимкнути режим Steam Deck"
+msgstr "Вимкнути Пристрої введення Steam"
 
 #: src/widgets/games/launch-options-editor.vala:618
 msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
@@ -1079,14 +1067,12 @@ msgstr ""
 "Додає -console для відкриття консолі розробника гри, за умови підтримки."
 
 #: src/widgets/games/launch-options-editor.vala:640
-#, fuzzy
 msgid "Game arguments"
-msgstr "Аргументи гри"
+msgstr "Параметри гри"
 
 #: src/widgets/games/launch-options-editor.vala:641
-#, fuzzy
 msgid "Flags passed directly to the game."
-msgstr "Прапорці, які передаються безпосередньо грі."
+msgstr "Параметри, які передаються напряму грі."
 
 #. Advanced options
 #: src/widgets/games/launch-options-editor.vala:651
@@ -1095,7 +1081,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:654
 msgid "Additional arguments"
-msgstr "Додаткові аргументи"
+msgstr "Додаткові параметри"
 
 #: src/widgets/games/launch-options-editor.vala:654
 msgid "Add extra launch options"
@@ -1103,7 +1089,7 @@ msgstr "Змінити параметри запуску"
 
 #: src/widgets/games/launch-options-editor.vala:657
 msgid "Custom launch arguments"
-msgstr ""
+msgstr "Власні параметри запуску"
 
 #: src/widgets/games/launch-options-editor.vala:657
 msgid "Add your own launch options."
@@ -1111,7 +1097,7 @@ msgstr "Додати власні параметри запуску."
 
 #: src/widgets/games/launch-options-editor.vala:662
 msgid "Advanced options"
-msgstr "Розширені параметри"
+msgstr "Розширені опції"
 
 #: src/widgets/games/launch-options-editor.vala:663
 #, fuzzy
@@ -1141,7 +1127,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor.vala:849
 #: src/widgets/games/launch-options-editor.vala:884
 msgid "Frame limit"
-msgstr ""
+msgstr "Обмеження частоти кадрів"
 
 #: src/widgets/games/launch-options-editor.vala:849
 msgid "Caps the frame rate inside Gamescope."
@@ -1150,7 +1136,7 @@ msgstr "Обмежує частоту кадрів у Gamescope."
 #: src/widgets/games/launch-options-editor.vala:849
 #: src/widgets/games/launch-options-editor.vala:884
 msgid "FPS"
-msgstr ""
+msgstr "Кількість к/с"
 
 #: src/widgets/games/launch-options-editor.vala:853
 #: src/widgets/games/launch-options-editor.vala:891
@@ -1163,7 +1149,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Additional Gamescope arguments"
-msgstr "Додаткові аргументи Gamescope"
+msgstr "Додаткові параметри Gamescope"
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
@@ -1171,7 +1157,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Add Gamescope arguments"
-msgstr "Додати аргументи Gamescope"
+msgstr "Додати параметри Gamescope"
 
 #: src/widgets/games/launch-options-editor.vala:878
 msgid "Auto HDR"
@@ -1187,7 +1173,7 @@ msgstr "Встановлює вихідну роздільність ScopeBuddy.
 
 #: src/widgets/games/launch-options-editor.vala:896
 msgid "Additional ScopeBuddy arguments"
-msgstr "Додаткові аргументи ScopeBuddy"
+msgstr "Додаткові параметри ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor.vala:896
 #, fuzzy
@@ -1197,7 +1183,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:896
 msgid "Add ScopeBuddy arguments"
-msgstr "Додати аргументи ScopeBuddy"
+msgstr "Додати параметри ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor.vala:1371
 msgid "No launch options configured yet."
@@ -1234,10 +1220,13 @@ msgid "Reset to the current default compatibility tool"
 msgstr "Поновити типовий інструмент сумісності"
 
 #: src/widgets/games/default-tool-view.vala:73
+#, fuzzy
 msgid ""
 "Choose the default compatibility tool Steam should use for games without an "
 "explicit override."
 msgstr ""
+"Виберіть типовий інструмент сумісності Steam, який має використовуватися для "
+"ігор за умови відсутності іншого."
 
 #: src/widgets/games/default-tool-view.vala:117
 msgid "Couldn't change the default compatibility tool"
@@ -1266,21 +1255,19 @@ msgstr ""
 
 #: src/widgets/downloads/downloads-box.vala:35
 msgid "Completed"
-msgstr ""
+msgstr "Завершено"
 
 #: src/widgets/downloads/downloads-box.vala:45
 msgid "Clear History"
-msgstr ""
+msgstr "Очистити"
 
 #: src/widgets/downloads/download-row.vala:84
-#, fuzzy
 msgid "Updating"
-msgstr "Оновлення %s"
+msgstr "Оновлення"
 
 #: src/widgets/downloads/download-row.vala:84
-#, fuzzy
 msgid "Downloading"
-msgstr "Завантажується"
+msgstr "Завантаження"
 
 #: src/widgets/downloads/download-row.vala:105
 msgid "Extracting"
@@ -1291,9 +1278,8 @@ msgid "Moving"
 msgstr "Переміщення"
 
 #: src/widgets/downloads/download-row.vala:135
-#, fuzzy
 msgid "Canceled"
-msgstr "Скасувати"
+msgstr "Скасовано"
 
 #: src/widgets/downloads/download-row.vala:137
 msgid "Success"
@@ -1301,11 +1287,11 @@ msgstr ""
 
 #: src/widgets/downloads/download-row.vala:139
 msgid "Error"
-msgstr ""
+msgstr "Помилка"
 
 #: src/widgets/downloads/download-row.vala:145
 msgid "Copy Error Message"
-msgstr ""
+msgstr "Копіювати текст помилки"
 
 #: src/widgets/downloads/download-row.vala:156
 #, fuzzy
@@ -1609,9 +1595,8 @@ msgid "Show this help"
 msgstr "Показати довідку"
 
 #: src/cli/cli.vala:505
-#, fuzzy
 msgid "List launchers or installed runners"
-msgstr "Показати запускачі або встановлені інструменти\n"
+msgstr "Перелік запускачів або інструментів"
 
 #: src/cli/cli.vala:506
 msgid "Install runner"
