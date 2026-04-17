@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-13 17:55-0400\n"
+"POT-Creation-Date: 2026-04-16 20:49-0400\n"
 "PO-Revision-Date: 2026-04-16 21:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
@@ -176,6 +176,7 @@ msgstr "Недійсний ключ доступу"
 
 #: src/widgets/window.vala:209 src/widgets/window.vala:210
 #: src/widgets/runners/runner-row.vala:71
+#: src/widgets/downloads/download-row.vala:148
 msgid "Unknown error"
 msgstr "Невідома помилка"
 
@@ -201,6 +202,7 @@ msgid "Exit"
 msgstr "Вийти"
 
 #: src/widgets/window.vala:278 src/widgets/runners/remove-dialog.vala:30
+#: src/widgets/downloads/download-row.vala:22
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -762,78 +764,78 @@ msgid "Apply the custom resolution"
 msgstr "Застосувати поточну зміну"
 
 #. Launch command preview
-#: src/widgets/games/launch-options-editor.vala:513
+#: src/widgets/games/launch-options-editor.vala:522
 msgid "Launch command preview"
 msgstr "Попередній перегляд команди"
 
 #. Common options
-#: src/widgets/games/launch-options-editor.vala:518
+#: src/widgets/games/launch-options-editor.vala:527
 #, fuzzy
 msgid "Performance overlay"
 msgstr "Моніторинг поверх гри"
 
-#: src/widgets/games/launch-options-editor.vala:518
+#: src/widgets/games/launch-options-editor.vala:527
 #, fuzzy
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr ""
 "Моніторинг поверх гри кадрів за секунду, споживання процесору, відеокарти, і "
 "температуру."
 
-#: src/widgets/games/launch-options-editor.vala:519
+#: src/widgets/games/launch-options-editor.vala:528
 msgid "Disable Steam Deck Mode"
 msgstr "Вимкнути режим Steam Deck"
 
-#: src/widgets/games/launch-options-editor.vala:519
+#: src/widgets/games/launch-options-editor.vala:528
 msgid "Disables the Steam Deck-specific profile that some games use."
 msgstr "Вимикає профіль Steam Deck, який використовують деякі ігри."
 
-#: src/widgets/games/launch-options-editor.vala:520
+#: src/widgets/games/launch-options-editor.vala:529
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/widgets/games/launch-options-editor.vala:520
+#: src/widgets/games/launch-options-editor.vala:529
 msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:523
+#: src/widgets/games/launch-options-editor.vala:532
 msgid "Common options"
 msgstr "Загальні параметри"
 
-#: src/widgets/games/launch-options-editor.vala:524
+#: src/widgets/games/launch-options-editor.vala:533
 msgid "Quick toggles for the launch options people reach for most often."
 msgstr "Швидкі перемикачі для найуживаніших параметрів запуску."
 
 #. Launch tools
-#: src/widgets/games/launch-options-editor.vala:532
-#: src/widgets/games/launch-options-editor.vala:811
+#: src/widgets/games/launch-options-editor.vala:541
+#: src/widgets/games/launch-options-editor.vala:843
 msgid "HDR"
 msgstr "HDR"
 
-#: src/widgets/games/launch-options-editor.vala:532
-#: src/widgets/games/launch-options-editor.vala:811
-#: src/widgets/games/launch-options-editor.vala:846
+#: src/widgets/games/launch-options-editor.vala:541
+#: src/widgets/games/launch-options-editor.vala:843
+#: src/widgets/games/launch-options-editor.vala:878
 msgid "Outputs HDR colors if your display supports it."
 msgstr "Виводить HDR-кольори, за умови підтримки дисплеєм."
 
-#: src/widgets/games/launch-options-editor.vala:540
+#: src/widgets/games/launch-options-editor.vala:549
 msgid "None"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:541
+#: src/widgets/games/launch-options-editor.vala:550
 msgid "Gamescope"
 msgstr "Gamescope"
 
-#: src/widgets/games/launch-options-editor.vala:542
+#: src/widgets/games/launch-options-editor.vala:551
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
-#: src/widgets/games/launch-options-editor.vala:549
+#: src/widgets/games/launch-options-editor.vala:558
 msgid "Launch tools"
 msgstr "Інструменти запуску"
 
-#: src/widgets/games/launch-options-editor.vala:550
+#: src/widgets/games/launch-options-editor.vala:559
 msgid ""
 "Choose one to configure FPS caps, resolution, and other display options."
 msgstr ""
@@ -841,29 +843,29 @@ msgstr ""
 "дисплею."
 
 #. GPU vendor options
-#: src/widgets/games/launch-options-editor.vala:557
+#: src/widgets/games/launch-options-editor.vala:566
 msgid "Mesa Anti-Lag"
 msgstr "Mesa Anti-Lag"
 
-#: src/widgets/games/launch-options-editor.vala:557
+#: src/widgets/games/launch-options-editor.vala:566
 msgid "Reduces latency on supported AMD Mesa setups."
 msgstr "Скорочує затримку на підтримуваних системах AMD Mesa."
 
-#: src/widgets/games/launch-options-editor.vala:558
+#: src/widgets/games/launch-options-editor.vala:567
 #, fuzzy
 msgid "Use dGPU"
 msgstr "Використовувати дискретну відеокарту (dGPU)"
 
-#: src/widgets/games/launch-options-editor.vala:558
+#: src/widgets/games/launch-options-editor.vala:567
 msgid "Makes the game use the AMD dGPU on hybrid systems."
 msgstr ""
 "Змушує гру використовувати дискретну відеокарту AMD у гібридних системах."
 
-#: src/widgets/games/launch-options-editor.vala:559
+#: src/widgets/games/launch-options-editor.vala:568
 msgid "Hide AMD APU"
 msgstr "Приховати вбудовану відеокарту AMD"
 
-#: src/widgets/games/launch-options-editor.vala:559
+#: src/widgets/games/launch-options-editor.vala:568
 #, fuzzy
 msgid ""
 "Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
@@ -872,28 +874,47 @@ msgstr ""
 "Proton визначатиме AMD APU як дискретний GPU для ігор, які неправильно "
 "розпізнають інтегровану графіку."
 
-#: src/widgets/games/launch-options-editor.vala:561
+#: src/widgets/games/launch-options-editor.vala:569
+#, fuzzy
+msgid "FSR 4 Upgrade"
+msgstr "Оновлення %s"
+
+#: src/widgets/games/launch-options-editor.vala:569
+msgid ""
+"Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
+"Anti-Lag 2 currently due to various issues."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:573
+msgid "FSR 4 RDNA3 Upgrade"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:573
+msgid "Optimizes FSR 4.0 for RDNA3 hardware."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:577
 msgid "NVAPI"
 msgstr "NVAPI"
 
-#: src/widgets/games/launch-options-editor.vala:561
+#: src/widgets/games/launch-options-editor.vala:577
 #, fuzzy
 msgid "Lets games access NVIDIA-specific features like DLSS."
 msgstr "Дозволяє іграм використовувати NVIDIA-функції, такі як DLSS."
 
-#: src/widgets/games/launch-options-editor.vala:564
+#: src/widgets/games/launch-options-editor.vala:580
 msgid "Update DLSS components"
 msgstr "Оновити компоненти DLSS"
 
-#: src/widgets/games/launch-options-editor.vala:564
+#: src/widgets/games/launch-options-editor.vala:580
 msgid "Auto upgrades DLSS components for supported games."
 msgstr "Автооновлення компонентів DLSS для підтримуваних ігор."
 
-#: src/widgets/games/launch-options-editor.vala:567
+#: src/widgets/games/launch-options-editor.vala:583
 msgid "Hide NVIDIA GPU"
 msgstr "Приховати NVIDIA GPU"
 
-#: src/widgets/games/launch-options-editor.vala:567
+#: src/widgets/games/launch-options-editor.vala:583
 #, fuzzy
 msgid ""
 "Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
@@ -902,213 +923,283 @@ msgstr ""
 "Змушує Proton визначати NVIDIA GPU як AMD для ігор, які очікують поведінку "
 "Windows-драйверів NVIDIA."
 
-#: src/widgets/games/launch-options-editor.vala:573
+#: src/widgets/games/launch-options-editor.vala:584
+msgid "DLSS Indicator"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:584
+msgid "Shows a DLSS status indicator in-game."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:585
+msgid "NVIDIA Libraries"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:585
+msgid ""
+"Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
+"or ray tracing."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:587
+#, fuzzy
+msgid "XeSS Upgrade"
+msgstr "Оновлення %s"
+
+#: src/widgets/games/launch-options-editor.vala:587
+#, fuzzy
+msgid "Upgrades XeSS in supported games."
+msgstr "Автооновлення компонентів DLSS для підтримуваних ігор."
+
+#: src/widgets/games/launch-options-editor.vala:593
 msgid "AMD"
 msgstr "AMD"
 
-#: src/widgets/games/launch-options-editor.vala:574
+#: src/widgets/games/launch-options-editor.vala:594
 msgid "NVIDIA"
 msgstr "NVIDIA"
 
-#: src/widgets/games/launch-options-editor.vala:582
+#: src/widgets/games/launch-options-editor.vala:595
+msgid "Intel"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:605
 msgid "GPU vendor options"
 msgstr "Виробники графічних процесорів"
 
-#: src/widgets/games/launch-options-editor.vala:583
+#: src/widgets/games/launch-options-editor.vala:606
 #, fuzzy
-msgid "Use GPU-specific compatibility toggles for AMD and NVIDIA hardware."
+msgid ""
+"Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
 msgstr "Використовувати специфічні перемикачі сумісності для AMD та NVIDIA."
 
 #. More options
-#: src/widgets/games/launch-options-editor.vala:590
+#: src/widgets/games/launch-options-editor.vala:613
 msgid "VKBasalt"
 msgstr "VKBasalt"
 
-#: src/widgets/games/launch-options-editor.vala:590
+#: src/widgets/games/launch-options-editor.vala:613
 msgid "Adds visual effects like sharpening and color adjustments."
 msgstr "Додає візуальні ефекти, зокрема різкість і корекція кольорів."
 
-#: src/widgets/games/launch-options-editor.vala:591
+#: src/widgets/games/launch-options-editor.vala:614
 msgid "WineD3D"
 msgstr "WineD3D"
 
-#: src/widgets/games/launch-options-editor.vala:591
+#: src/widgets/games/launch-options-editor.vala:614
 msgid ""
 "Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:594
+#: src/widgets/games/launch-options-editor.vala:615
+msgid "Use FSync"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:615
+msgid ""
+"Uses FSync instead of NTSync. Can fix issues in certain games that do not "
+"pair well with NTSync."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:616
+msgid "Local shader cache"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:616
+msgid ""
+"Enables per-game shader cache. This isolates the shader cache of each game "
+"but does not compile them ahead-of-time."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:617
+msgid "Prefer SDL controller"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:617
+msgid "Workaround for controller detection issues."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:618
+#, fuzzy
+msgid "Disable Steam Input"
+msgstr "Вимкнути режим Steam Deck"
+
+#: src/widgets/games/launch-options-editor.vala:618
+msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:621
 msgid "More options"
 msgstr "Додаткові параметри"
 
-#: src/widgets/games/launch-options-editor.vala:595
+#: src/widgets/games/launch-options-editor.vala:622
 msgid "Extra graphics settings and launch behaviors."
 msgstr "Додаткові графічні налаштування та параметри запуску."
 
 #. Game arguments
-#: src/widgets/games/launch-options-editor.vala:602
+#: src/widgets/games/launch-options-editor.vala:633
 msgid "Skip launcher"
 msgstr "Пропустити запускач"
 
-#: src/widgets/games/launch-options-editor.vala:602
+#: src/widgets/games/launch-options-editor.vala:633
 msgid "Adds -skip-launcher to bypass launchers in games that support it."
 msgstr "Додає -skip-launcher для пропуску запускачів у підтримуваних іграх."
 
-#: src/widgets/games/launch-options-editor.vala:603
+#: src/widgets/games/launch-options-editor.vala:634
 msgid "Vulkan"
 msgstr "Vulkan"
 
-#: src/widgets/games/launch-options-editor.vala:603
+#: src/widgets/games/launch-options-editor.vala:634
 msgid "Adds -vulkan to make the game use its Vulkan renderer."
 msgstr "Додає -vulkan для запуску гри через Vulkan."
 
-#: src/widgets/games/launch-options-editor.vala:604
+#: src/widgets/games/launch-options-editor.vala:635
 msgid "DirectX 11"
 msgstr "DirectX 11"
 
-#: src/widgets/games/launch-options-editor.vala:604
+#: src/widgets/games/launch-options-editor.vala:635
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
 msgstr "Додає -dx11 для запуску гри через DirectX 11."
 
-#: src/widgets/games/launch-options-editor.vala:605
+#: src/widgets/games/launch-options-editor.vala:636
 msgid "DirectX 12"
 msgstr "DirectX 12"
 
-#: src/widgets/games/launch-options-editor.vala:605
+#: src/widgets/games/launch-options-editor.vala:636
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
 msgstr "Додає -dx12 для запуску гри через DirectX 12."
 
-#: src/widgets/games/launch-options-editor.vala:606
+#: src/widgets/games/launch-options-editor.vala:637
 msgid "Console"
 msgstr "Консоль"
 
-#: src/widgets/games/launch-options-editor.vala:606
+#: src/widgets/games/launch-options-editor.vala:637
 msgid "Adds -console to open the game's developer console when supported."
 msgstr ""
 "Додає -console для відкриття консолі розробника гри, за умови підтримки."
 
-#: src/widgets/games/launch-options-editor.vala:609
+#: src/widgets/games/launch-options-editor.vala:640
 #, fuzzy
 msgid "Game arguments"
 msgstr "Аргументи гри"
 
-#: src/widgets/games/launch-options-editor.vala:610
+#: src/widgets/games/launch-options-editor.vala:641
 #, fuzzy
 msgid "Flags passed directly to the game."
 msgstr "Прапорці, які передаються безпосередньо грі."
 
 #. Advanced options
-#: src/widgets/games/launch-options-editor.vala:620
+#: src/widgets/games/launch-options-editor.vala:651
 msgid "Appends Steam's game command."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:623
+#: src/widgets/games/launch-options-editor.vala:654
 msgid "Additional arguments"
 msgstr "Додаткові аргументи"
 
-#: src/widgets/games/launch-options-editor.vala:623
+#: src/widgets/games/launch-options-editor.vala:654
 msgid "Add extra launch options"
 msgstr "Змінити параметри запуску"
 
-#: src/widgets/games/launch-options-editor.vala:626
+#: src/widgets/games/launch-options-editor.vala:657
 msgid "Custom launch arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:626
+#: src/widgets/games/launch-options-editor.vala:657
 msgid "Add your own launch options."
 msgstr "Додати власні параметри запуску."
 
-#: src/widgets/games/launch-options-editor.vala:631
+#: src/widgets/games/launch-options-editor.vala:662
 msgid "Advanced options"
 msgstr "Розширені параметри"
 
-#: src/widgets/games/launch-options-editor.vala:632
+#: src/widgets/games/launch-options-editor.vala:663
 #, fuzzy
 msgid "Extra control over the final Steam launch command."
 msgstr "Додатковий контроль над фінальною командою запуску Steam."
 
-#: src/widgets/games/launch-options-editor.vala:808
-#: src/widgets/games/launch-options-editor.vala:843
+#: src/widgets/games/launch-options-editor.vala:840
+#: src/widgets/games/launch-options-editor.vala:875
 msgid "Fullscreen"
 msgstr "Повноекранний режим"
 
-#: src/widgets/games/launch-options-editor.vala:808
-#: src/widgets/games/launch-options-editor.vala:843
+#: src/widgets/games/launch-options-editor.vala:840
+#: src/widgets/games/launch-options-editor.vala:875
 msgid "Runs the game in a fullscreen session."
 msgstr "Запускає гру на весь екран."
 
-#: src/widgets/games/launch-options-editor.vala:814
-#: src/widgets/games/launch-options-editor.vala:849
+#: src/widgets/games/launch-options-editor.vala:846
+#: src/widgets/games/launch-options-editor.vala:881
 msgid "VRR"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:814
-#: src/widgets/games/launch-options-editor.vala:849
+#: src/widgets/games/launch-options-editor.vala:846
+#: src/widgets/games/launch-options-editor.vala:881
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:817
-#: src/widgets/games/launch-options-editor.vala:852
+#: src/widgets/games/launch-options-editor.vala:849
+#: src/widgets/games/launch-options-editor.vala:884
 msgid "Frame limit"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:817
+#: src/widgets/games/launch-options-editor.vala:849
 msgid "Caps the frame rate inside Gamescope."
 msgstr "Обмежує частоту кадрів у Gamescope."
 
-#: src/widgets/games/launch-options-editor.vala:817
-#: src/widgets/games/launch-options-editor.vala:852
+#: src/widgets/games/launch-options-editor.vala:849
+#: src/widgets/games/launch-options-editor.vala:884
 msgid "FPS"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:821
-#: src/widgets/games/launch-options-editor.vala:859
+#: src/widgets/games/launch-options-editor.vala:853
+#: src/widgets/games/launch-options-editor.vala:891
 msgid "Resolution"
 msgstr "Роздільність"
 
-#: src/widgets/games/launch-options-editor.vala:821
+#: src/widgets/games/launch-options-editor.vala:853
 msgid "Sets the Gamescope output resolution."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:832
+#: src/widgets/games/launch-options-editor.vala:864
 msgid "Additional Gamescope arguments"
 msgstr "Додаткові аргументи Gamescope"
 
-#: src/widgets/games/launch-options-editor.vala:832
+#: src/widgets/games/launch-options-editor.vala:864
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor.vala:832
+#: src/widgets/games/launch-options-editor.vala:864
 msgid "Add Gamescope arguments"
 msgstr "Додати аргументи Gamescope"
 
-#: src/widgets/games/launch-options-editor.vala:846
+#: src/widgets/games/launch-options-editor.vala:878
 msgid "Auto HDR"
 msgstr "Авто HDR"
 
-#: src/widgets/games/launch-options-editor.vala:852
+#: src/widgets/games/launch-options-editor.vala:884
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr "Обмежує частоту кадрів у ScopeBuddy."
 
-#: src/widgets/games/launch-options-editor.vala:859
+#: src/widgets/games/launch-options-editor.vala:891
 msgid "Sets the ScopeBuddy output resolution."
 msgstr "Встановлює вихідну роздільність ScopeBuddy."
 
-#: src/widgets/games/launch-options-editor.vala:864
+#: src/widgets/games/launch-options-editor.vala:896
 msgid "Additional ScopeBuddy arguments"
 msgstr "Додаткові аргументи ScopeBuddy"
 
-#: src/widgets/games/launch-options-editor.vala:864
+#: src/widgets/games/launch-options-editor.vala:896
 #, fuzzy
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
 "Зберігає додаткові прапорці ScopeBuddy, наприклад вибір вихідного пристрою."
 
-#: src/widgets/games/launch-options-editor.vala:864
+#: src/widgets/games/launch-options-editor.vala:896
 msgid "Add ScopeBuddy arguments"
 msgstr "Додати аргументи ScopeBuddy"
 
-#: src/widgets/games/launch-options-editor.vala:1236
+#: src/widgets/games/launch-options-editor.vala:1371
 msgid "No launch options configured yet."
 msgstr "Ще не налаштовано параметри запуску."
 
@@ -1173,44 +1264,53 @@ msgstr ""
 msgid "In-Progress"
 msgstr ""
 
-#: src/widgets/downloads/downloads-box.vala:36
+#: src/widgets/downloads/downloads-box.vala:35
 msgid "Completed"
 msgstr ""
 
-#: src/widgets/downloads/downloads-box.vala:47
+#: src/widgets/downloads/downloads-box.vala:45
 msgid "Clear History"
 msgstr ""
 
-#: src/widgets/downloads/download-row.vala:83
+#: src/widgets/downloads/download-row.vala:84
 #, fuzzy
 msgid "Updating"
 msgstr "Оновлення %s"
 
-#: src/widgets/downloads/download-row.vala:83
+#: src/widgets/downloads/download-row.vala:84
 #, fuzzy
 msgid "Downloading"
 msgstr "Завантажується"
 
-#: src/widgets/downloads/download-row.vala:104
+#: src/widgets/downloads/download-row.vala:105
 msgid "Extracting"
 msgstr "Витягання"
 
-#: src/widgets/downloads/download-row.vala:107
+#: src/widgets/downloads/download-row.vala:108
 msgid "Moving"
 msgstr "Переміщення"
 
-#: src/widgets/downloads/download-row.vala:136
+#: src/widgets/downloads/download-row.vala:135
 #, fuzzy
 msgid "Canceled"
 msgstr "Скасувати"
 
-#: src/widgets/downloads/download-row.vala:139
+#: src/widgets/downloads/download-row.vala:137
 msgid "Success"
 msgstr ""
 
-#: src/widgets/downloads/download-row.vala:142
+#: src/widgets/downloads/download-row.vala:139
 msgid "Error"
 msgstr ""
+
+#: src/widgets/downloads/download-row.vala:145
+msgid "Copy Error Message"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:156
+#, fuzzy
+msgid "Report Issue"
+msgstr "Повідомити"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
@@ -1562,7 +1662,3 @@ msgstr "Вийти"
 
 #~ msgid "Checking for updates..."
 #~ msgstr "Перевірка оновлень..."
-
-#, c-format
-#~ msgid "Upgrade %s"
-#~ msgstr "Оновлення %s"
