@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-16 20:49-0400\n"
-"PO-Revision-Date: 2026-04-15 23:11+0800\n"
+"PO-Revision-Date: 2026-04-18 03:35+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -83,16 +83,15 @@ msgstr "主選單"
 
 #: src/widgets/window.vala:61
 msgid "Tools"
-msgstr ""
+msgstr "工具"
 
 #: src/widgets/window.vala:62
 msgid "Games"
 msgstr "遊戲庫"
 
 #: src/widgets/window.vala:63
-#, fuzzy
 msgid "Downloads"
-msgstr "正在下載"
+msgstr "下載"
 
 #: src/widgets/window.vala:123
 msgid "Couldn't load the launchers"
@@ -214,11 +213,11 @@ msgstr "一般"
 
 #: src/widgets/preferences/preferences-dialog.vala:14
 msgid "Save download history"
-msgstr ""
+msgstr "儲存下載記錄"
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Save the download history to a file"
-msgstr ""
+msgstr "將下載記錄儲存至檔案"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Automatic updates"
@@ -254,11 +253,11 @@ msgstr "深色"
 
 #: src/widgets/preferences/theme-row.vala:18
 msgid "SteamOS"
-msgstr ""
+msgstr "SteamOS"
 
 #: src/widgets/preferences/theme-row.vala:19
 msgid "OLED"
-msgstr ""
+msgstr "OLED"
 
 #: src/widgets/preferences/theme-row.vala:27
 msgid "Current theme"
@@ -417,33 +416,27 @@ msgstr "無法安裝 %s"
 
 #: src/widgets/runners/basic-row.vala:103
 #: src/widgets/runners/steamtinkerlaunch-row.vala:190
-#, fuzzy
 msgid "This tool is currently being installed"
-msgstr "目前尚未支援 %s。"
+msgstr "此工具正在安裝中"
 
 #: src/widgets/runners/basic-row.vala:105
 #: src/widgets/runners/steamtinkerlaunch-row.vala:192
 msgid "This tool is currently being downloaded"
-msgstr ""
+msgstr "此工具正在下載中"
 
 #: src/widgets/runners/basic-row.vala:110
 #: src/widgets/runners/steamtinkerlaunch-row.vala:194
-#, fuzzy
 msgid "This tool is currently being removed"
-msgstr "目前尚未支援 %s。"
+msgstr "此工具正在移除中"
 
 #: src/widgets/runners/basic-row.vala:114
 #: src/widgets/runners/steamtinkerlaunch-row.vala:196
-#, fuzzy
 msgid "This tool is currently being updated"
-msgstr "目前尚未支援 %s。"
+msgstr "此工具正在更新中"
 
 #: src/widgets/runners/basic-row.vala:132
-#, fuzzy
 msgid "The application is currently updating its runners"
-msgstr ""
-"目前正在檢查更新。\n"
-"提前離開可能會導致問題。"
+msgstr "目前正在更新運行器"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Installed"
@@ -471,7 +464,7 @@ msgid "Update to the latest version"
 msgstr "更新至最新版本"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:40
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't update %s"
 msgstr "無法更新 %s"
 
@@ -851,23 +844,24 @@ msgstr ""
 "讓 Proton 將 AMD APU 識別為獨立顯示卡，以應對會誤判為整合式顯示卡的遊戲。"
 
 #: src/widgets/games/launch-options-editor.vala:569
-#, fuzzy
 msgid "FSR 4 Upgrade"
-msgstr "更新 %s"
+msgstr "FSR 4 升級"
 
 #: src/widgets/games/launch-options-editor.vala:569
 msgid ""
 "Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
 "Anti-Lag 2 currently due to various issues."
 msgstr ""
+"於支援的遊戲中將 FSR 3.1 升級至 FSR 4。由於存在各種問題，目前此選項同時會停"
+"用 AMD 防延遲 2。"
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "FSR 4 RDNA3 Upgrade"
-msgstr ""
+msgstr "FSR 4 RDNA3 升級"
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "Optimizes FSR 4.0 for RDNA3 hardware."
-msgstr ""
+msgstr "針對 RDNA3 硬體優化 FSR 4.0。"
 
 #: src/widgets/games/launch-options-editor.vala:577
 msgid "NVAPI"
@@ -899,31 +893,30 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:584
 msgid "DLSS Indicator"
-msgstr ""
+msgstr "DLSS 指示器"
 
 #: src/widgets/games/launch-options-editor.vala:584
 msgid "Shows a DLSS status indicator in-game."
-msgstr ""
+msgstr "於遊戲內顯示 DLSS 狀態指示器。"
 
 #: src/widgets/games/launch-options-editor.vala:585
 msgid "NVIDIA Libraries"
-msgstr ""
+msgstr "NVIDIA 函式庫"
 
 #: src/widgets/games/launch-options-editor.vala:585
 msgid ""
 "Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
 "or ray tracing."
 msgstr ""
+"啟用 NVIDIA 專屬函式庫（PhysX、CUDA）。此選項對 DLSS 或光線追蹤並非必要。"
 
 #: src/widgets/games/launch-options-editor.vala:587
-#, fuzzy
 msgid "XeSS Upgrade"
-msgstr "更新 %s"
+msgstr "XeSS 升級"
 
 #: src/widgets/games/launch-options-editor.vala:587
-#, fuzzy
 msgid "Upgrades XeSS in supported games."
-msgstr "自動為支援 DLSS 的遊戲升級相關元件。"
+msgstr "於支援的遊戲中升級 XeSS。"
 
 #: src/widgets/games/launch-options-editor.vala:593
 msgid "AMD"
@@ -935,17 +928,16 @@ msgstr "NVIDIA"
 
 #: src/widgets/games/launch-options-editor.vala:595
 msgid "Intel"
-msgstr ""
+msgstr "Intel"
 
 #: src/widgets/games/launch-options-editor.vala:605
 msgid "GPU vendor options"
 msgstr "GPU 供應商選項"
 
 #: src/widgets/games/launch-options-editor.vala:606
-#, fuzzy
 msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
-msgstr "針對 AMD 和 NVIDIA 硬體，使用各自專屬的相容性切換開關。"
+msgstr "針對 AMD、NVIDIA 和 Intel 硬體，使用各自專屬的相容性切換開關。"
 
 #. More options
 #: src/widgets/games/launch-options-editor.vala:613
@@ -967,40 +959,42 @@ msgstr "使用 OpenGL 取代 Vulkan。請在遇到 DXVK 問題時才啟用此選
 
 #: src/widgets/games/launch-options-editor.vala:615
 msgid "Use FSync"
-msgstr ""
+msgstr "使用 FSync"
 
 #: src/widgets/games/launch-options-editor.vala:615
 msgid ""
 "Uses FSync instead of NTSync. Can fix issues in certain games that do not "
 "pair well with NTSync."
 msgstr ""
+"使用 FSync 取代 NTSync。能修正某些遊戲與 NTSync 相容性不佳所導致的問題。"
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid "Local shader cache"
-msgstr ""
+msgstr "本機著色器快取"
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid ""
 "Enables per-game shader cache. This isolates the shader cache of each game "
 "but does not compile them ahead-of-time."
 msgstr ""
+"啟用每款遊戲獨立的著色器快取。此選項會將各遊戲的著色器快取彼此隔離，但不會預"
+"先編譯。"
 
 #: src/widgets/games/launch-options-editor.vala:617
 msgid "Prefer SDL controller"
-msgstr ""
+msgstr "優先使用 SDL 控制器"
 
 #: src/widgets/games/launch-options-editor.vala:617
 msgid "Workaround for controller detection issues."
-msgstr ""
+msgstr "解決控制器偵測問題的變通方案。"
 
 #: src/widgets/games/launch-options-editor.vala:618
-#, fuzzy
 msgid "Disable Steam Input"
-msgstr "停用 Steam Deck 模式"
+msgstr "停用 Steam 輸入"
 
 #: src/widgets/games/launch-options-editor.vala:618
 msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
-msgstr ""
+msgstr "停用 Steam 輸入支援。能修正 Wayland 控制器/手把的問題。"
 
 #: src/widgets/games/launch-options-editor.vala:621
 msgid "More options"
@@ -1222,31 +1216,29 @@ msgstr "無法變更 %s 的相容性工具"
 
 #: src/widgets/downloads/downloads-box.vala:18
 msgid "No active downloads"
-msgstr ""
+msgstr "無正在進行的下載"
 
 #: src/widgets/downloads/downloads-box.vala:19
 msgid "Your downloads will appear here."
-msgstr ""
+msgstr "您的下載將顯示於此。"
 
 #: src/widgets/downloads/downloads-box.vala:23
 msgid "In-Progress"
-msgstr ""
+msgstr "進行中"
 
 #: src/widgets/downloads/downloads-box.vala:35
 msgid "Completed"
-msgstr ""
+msgstr "已完成"
 
 #: src/widgets/downloads/downloads-box.vala:45
 msgid "Clear History"
-msgstr ""
+msgstr "清空記錄"
 
 #: src/widgets/downloads/download-row.vala:84
-#, fuzzy
 msgid "Updating"
-msgstr "正在更新 %s"
+msgstr "正在更新"
 
 #: src/widgets/downloads/download-row.vala:84
-#, fuzzy
 msgid "Downloading"
 msgstr "正在下載"
 
@@ -1259,26 +1251,24 @@ msgid "Moving"
 msgstr "正在搬移"
 
 #: src/widgets/downloads/download-row.vala:135
-#, fuzzy
 msgid "Canceled"
-msgstr "取消"
+msgstr "已取消"
 
 #: src/widgets/downloads/download-row.vala:137
 msgid "Success"
-msgstr ""
+msgstr "成功"
 
 #: src/widgets/downloads/download-row.vala:139
 msgid "Error"
-msgstr ""
+msgstr "錯誤"
 
 #: src/widgets/downloads/download-row.vala:145
 msgid "Copy Error Message"
-msgstr ""
+msgstr "複製錯誤訊息"
 
 #: src/widgets/downloads/download-row.vala:156
-#, fuzzy
 msgid "Report Issue"
-msgstr "回報"
+msgstr "回報問題"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
