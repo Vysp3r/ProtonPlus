@@ -1,3 +1,5 @@
+src/widgets/mangohud/mangohud-box.vala
+src/models/mangohud-config.vala
 src/widgets/application.vala
 src/widgets/status-box.vala
 src/widgets/window.vala

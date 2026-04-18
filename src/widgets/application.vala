@@ -91,7 +91,8 @@ namespace ProtonPlus.Widgets {
             const string[] thanks = {
                 "GNOME Project https://www.gnome.org/",
                 "ProtonUp-Qt Project https://davidotek.github.io/protonup-qt/",
-                "LUG Helper Project https://github.com/starcitizen-lug/lug-helper",
+                "LUG Helper Project https://github.com/starcitizen-lug/lug-helper/",
+                "Font Awesome https://fontawesome.com/",
                 null
             };
 

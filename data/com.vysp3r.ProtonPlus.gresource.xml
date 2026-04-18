@@ -38,5 +38,7 @@
     <file alias="scalable/actions/github-symbolic.svg">icons/github.svg</file>
     <file alias="scalable/actions/copy-symbolic.svg">icons/copy.svg</file>
     <file alias="scalable/actions/circle-xmark-symbolic.svg">icons/circle-xmark.svg</file>
+    <file alias="scalable/actions/gears-symbolic.svg">icons/gears.svg</file>
+    <file alias="scalable/actions/square-poll-horizontal-symbolic.svg">icons/square-poll-horizontal.svg</file>
   </gresource>
 </gresources>

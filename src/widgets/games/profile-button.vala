@@ -30,6 +30,7 @@ namespace ProtonPlus.Widgets {
             add_css_class ("p-10");
             add_css_class ("activatable");
             add_css_class ("card");
+            set_overflow (Gtk.Overflow.HIDDEN);
             add_controller (gesture_click);
             append (profile_avatar);
             append (profile_label);
