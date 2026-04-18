@@ -8,6 +8,7 @@ sources += files(
     'parameters.vala',
     'game.vala',
     'simple-runner.vala',
+    'mangohud-config.vala',
 )
 
 subdir('launchers')

@@ -9,6 +9,7 @@ namespace ProtonPlus.Widgets {
         RunnersBox runners_box;
         GamesBox games_box;
         DownloadsBox downloads_box;
+        MangoHudBox mangohud_box;
 
         LaunchersPopoverButton launchers_popover_button;
         Menu menu;
@@ -44,6 +45,11 @@ namespace ProtonPlus.Widgets {
 
             downloads_box = new DownloadsBox ();
 
+            mangohud_box = new MangoHudBox ();
+            mangohud_box.saved.connect (() => {
+                toast_overlay.add_toast (new Adw.Toast (_ ("MangoHud configuration saved")));
+            });
+
             launchers_popover_button = new LaunchersPopoverButton ();
 
             menu = new Menu ();
@@ -60,6 +66,7 @@ namespace ProtonPlus.Widgets {
             view_stack = new Adw.ViewStack ();
             view_stack.add_titled_with_icon (runners_box, "tools", _ ("Tools"), "toolbox-symbolic");
             view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "game-library-symbolic");
+            view_stack.add_titled_with_icon (mangohud_box, "overlay", _ ("MangoHud"), "speedometer-symbolic");
             downloads_page = view_stack.add_titled_with_icon (downloads_box, "downloads", _ ("Downloads"), "download-symbolic");
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
 

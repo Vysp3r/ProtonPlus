@@ -81,6 +81,7 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   border-bottom: 1px solid @card_shade_color;
+  background-color: @card_bg_color;
   box-shadow: none;
 }
 
@@ -92,6 +93,10 @@
 .list-content > row:first-child {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.card {
+  border-radius: 12px;
 }
 
 .card.transparent-card {

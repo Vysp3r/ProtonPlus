@@ -94,6 +94,7 @@ namespace ProtonPlus.Widgets {
             flow_box.set_column_spacing (15);
             flow_box.add_css_class ("card");
             flow_box.add_css_class ("p-10");
+            flow_box.set_overflow (Gtk.Overflow.HIDDEN);
             flow_box.set_halign (Gtk.Align.CENTER);
             flow_box.append (shortcut_button);
             flow_box.append (mass_edit_button);
@@ -133,8 +134,9 @@ namespace ProtonPlus.Widgets {
 
             header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
             header_box.set_hexpand (true);
-            header_box.add_css_class ("card");
+
             header_box.add_css_class ("list-header");
+            header_box.set_overflow (Gtk.Overflow.HIDDEN);
             header_box.append (name_label);
             header_box.append (prefix_label);
             header_box.append (compatibility_tool_label);
@@ -143,6 +145,7 @@ namespace ProtonPlus.Widgets {
             headered_list_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
             headered_list_box.add_css_class ("card");
             headered_list_box.add_css_class ("transparent-card");
+            headered_list_box.set_overflow (Gtk.Overflow.HIDDEN);
             headered_list_box.append (header_box);
             headered_list_box.append (scrolled_window);
 

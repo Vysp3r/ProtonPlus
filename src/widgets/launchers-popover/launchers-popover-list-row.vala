@@ -27,6 +27,7 @@ namespace ProtonPlus.Widgets {
             content_box.add_css_class ("p-10");
 
             add_css_class ("card");
+            set_overflow (Gtk.Overflow.HIDDEN);
             set_tooltip_text (launcher.directory);
             set_activatable (true);
             set_child (content_box);

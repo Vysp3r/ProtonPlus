@@ -14,6 +14,7 @@ namespace ProtonPlus.Widgets {
             set_halign (Gtk.Align.CENTER);
             add_css_class ("card");
             add_css_class ("p-10");
+            set_overflow (Gtk.Overflow.HIDDEN);
 
             installed_only_button = new Gtk.ToggleButton ();
             installed_only_button.set_child (new Adw.ButtonContent () {
