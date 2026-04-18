@@ -1,0 +1,52 @@
+name: AppImage
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: "Build AppImage (${{ matrix.arch }})"
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      matrix:
+        include:
+          - runs-on: ubuntu-latest
+            arch: x86_64
+    container: ghcr.io/pkgforge-dev/archlinux:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preparing Container
+        uses: pkgforge-dev/anylinux-setup-action@v1
+
+      - name: Install Dependencies
+        run: /bin/sh ./scripts/get-dependencies.sh
+
+      - name: Make AppImage
+        run: /bin/sh ./scripts/make-appimage.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AppImage-${{ matrix.arch }}
+          path: dist
+
+  release:
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    needs: [build]
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: AppImage-*
+          merge-multiple: true
+
+      - name: Release AppImage
+        uses: pkgforge-dev/make-stable-appimage-release@v1
