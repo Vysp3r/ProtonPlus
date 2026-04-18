@@ -437,6 +437,7 @@ using Adw;
             scrolled_window.set_min_content_height (56);
             scrolled_window.set_child (preview_label);
             scrolled_window.add_css_class ("card");
+            scrolled_window.set_overflow (Gtk.Overflow.HIDDEN);
 
             group.add (scrolled_window);
 

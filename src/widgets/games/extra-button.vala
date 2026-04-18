@@ -4,7 +4,8 @@ namespace ProtonPlus.Widgets {
         Gtk.Button open_install_directory_button;
         Gtk.Button open_prefix_directory_button;
         Gtk.Button open_protontricks_button;
-        Gtk.Button run_custom_executable_button;
+        Gtk.Button anticheat_button;
+        Gtk.Button protondb_button;
         Gtk.Box content_box;
         Gtk.Popover popover;
 
@@ -18,8 +19,11 @@ namespace ProtonPlus.Widgets {
             open_protontricks_button = new Gtk.Button.with_label(_ ("Open in protontricks"));
             open_protontricks_button.clicked.connect (open_protontricks_button_clicked);
 
-            run_custom_executable_button = new Gtk.Button.with_label(_ ("Run custom executable"));
-            run_custom_executable_button.clicked.connect (run_custom_executable_button_clicked);
+            protondb_button = new Gtk.Button.with_label(_ ("Open ProtonDB page"));
+            protondb_button.clicked.connect (protondb_button_clicked);
+
+            anticheat_button = new Gtk.Button.with_label(_ ("Open AreWeAntiCheatYet page"));
+            anticheat_button.clicked.connect (anticheat_button_clicked);
 
             content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 10);
             content_box.append (open_install_directory_button);
@@ -49,8 +53,33 @@ namespace ProtonPlus.Widgets {
                 open_prefix_directory_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
                 open_protontricks_button.set_sensitive (!steam_game.is_non_steam);
 
-                content_box.append (run_custom_executable_button);
-                run_custom_executable_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
+                content_box.append (protondb_button);
+                content_box.append (anticheat_button);
+
+                anticheat_button.set_tooltip_text (steam_game.awacy_status);
+                switch (steam_game.awacy_status) {
+                    case "Supported":
+                        anticheat_button.add_css_class ("green");
+                        break;
+                    case "Running":
+                        anticheat_button.add_css_class ("blue");
+                        break;
+                    case "Planned":
+                        anticheat_button.add_css_class ("purple");
+                        break;
+                    case "Broken":
+                        anticheat_button.add_css_class ("orange");
+                        break;
+                    case "Denied":
+                        anticheat_button.add_css_class ("red");
+                        break;
+                    default:
+                        anticheat_button.set_tooltip_text (_ ("Unknown"));
+                        anticheat_button.set_sensitive (false);
+                        break;
+                }
+
+                protondb_button.set_sensitive (!steam_game.is_non_steam);
             }
         }
 
@@ -84,72 +113,21 @@ namespace ProtonPlus.Widgets {
             popover.popdown ();
         }
 
-        void run_custom_executable_button_clicked () {
-            var file_dialog = new Gtk.FileDialog ();
-            file_dialog.set_title (_ ("Select executable"));
+        void anticheat_button_clicked () {
+            var steam_game = game as Models.Games.Steam;
 
-            var filters = new ListStore (typeof (Gtk.FileFilter));
-            var filter = new Gtk.FileFilter ();
-            filter.add_pattern ("*.exe");
-            filter.add_pattern ("*.msi");
-            filter.add_pattern ("*.msu");
-            filter.name = _ ("Executables (*.exe, *.msi, *.msu)");
-            filters.append (filter);
-
-            file_dialog.set_filters (filters);
-
-            file_dialog.open.begin (Application.window, null, (obj, res) => {
-                try {
-                    var file = file_dialog.open.end (res);
-                    if (file != null) {
-                        run_custom_executable (file.get_path ());
-                    }
-                } catch (Error e) {
-                    warning (e.message);
-                }
-            });
+            if (steam_game.awacy_name != null)
+            Utils.System.open_uri ("https://areweanticheatyet.com/game/%s".printf (steam_game.awacy_name));
 
             popover.popdown ();
         }
 
-        void run_custom_executable (string exe_path) {
-            Models.SimpleRunner selected_runner = null;
+        void protondb_button_clicked () {
+            var steam_game = game as Models.Games.Steam;
 
-            foreach (var runner in game.launcher.compatibility_tools) {
-                if (runner.internal_title == game.compatibility_tool) {
-                    selected_runner = runner;
-                    break;
-                }
-            }
+            Utils.System.open_uri ("https://www.protondb.com/app/%u".printf (steam_game.appid));
 
-            if (selected_runner == null && game.launcher is Models.Launchers.Steam) {
-                var steam = game.launcher as Models.Launchers.Steam;
-                foreach (var runner in steam.compatibility_tools) {
-                    if (runner.internal_title == "proton_experimental" || runner.internal_title.contains ("proton")) {
-                        selected_runner = runner;
-                        break;
-                    }
-                }
-            }
-
-            if (selected_runner == null || selected_runner.path == null) {
-                var dialog = new ErrorDialog (_ ("Couldn't find the compatibility tool for %s").printf (game.name), _ ("Please make sure it's installed."));
-                dialog.present (Application.window);
-                return;
-            }
-
-            var proton_path = "%s/proton".printf (selected_runner.path);
-            var steam_compat_data_path = game.prefixdir;
-            var steam_compat_client_install_path = game.launcher.directory;
-
-            var inner_command = "STEAM_COMPAT_DATA_PATH=%s STEAM_COMPAT_CLIENT_INSTALL_PATH=%s %s run %s".printf (
-                Shell.quote (steam_compat_data_path),
-                Shell.quote (steam_compat_client_install_path),
-                Shell.quote (proton_path),
-                Shell.quote (exe_path)
-            );
-
-            Utils.System.run_command.begin ("sh -c " + Shell.quote (inner_command));
+            popover.popdown ();
         }
     }
 }
