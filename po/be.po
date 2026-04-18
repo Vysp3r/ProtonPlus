@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 20:49-0400\n"
+"POT-Creation-Date: 2026-04-18 10:14-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -1174,20 +1174,41 @@ msgstr ""
 msgid "Select a profile"
 msgstr ""
 
-#: src/widgets/games/extra-button.vala:11
+#: src/widgets/games/extra-button.vala:12
 msgid "Open install directory"
 msgstr ""
 
-#: src/widgets/games/extra-button.vala:14
+#: src/widgets/games/extra-button.vala:15
 msgid "Open prefix directory"
 msgstr ""
 
-#: src/widgets/games/extra-button.vala:17
+#: src/widgets/games/extra-button.vala:18
 msgid "Open in protontricks"
 msgstr ""
 
-#: src/widgets/games/extra-button.vala:32
+#: src/widgets/games/extra-button.vala:21
+msgid "Run custom executable"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:36
 msgid "Open menu"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:89
+msgid "Select executable"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:96
+msgid "Executables (*.exe, *.msi, *.msu)"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:136
+#, fuzzy, c-format
+msgid "Couldn't find the compatibility tool for %s"
+msgstr "Інструмент сумяшчальнасці Steam для запуску Windows гульняў"
+
+#: src/widgets/games/extra-button.vala:136
+msgid "Please make sure it's installed."
 msgstr ""
 
 #: src/widgets/games/default-tool-button.vala:10

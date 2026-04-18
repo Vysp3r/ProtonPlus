@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 20:49-0400\n"
+"POT-Creation-Date: 2026-04-18 10:14-0400\n"
 "PO-Revision-Date: 2026-04-18 03:33+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -1168,21 +1168,43 @@ msgstr "尚未配置任何启动选项。"
 msgid "Select a profile"
 msgstr "选择个人资料"
 
-#: src/widgets/games/extra-button.vala:11
+#: src/widgets/games/extra-button.vala:12
 msgid "Open install directory"
 msgstr "打开安装目录"
 
-#: src/widgets/games/extra-button.vala:14
+#: src/widgets/games/extra-button.vala:15
 msgid "Open prefix directory"
 msgstr "打开前置环境目录"
 
-#: src/widgets/games/extra-button.vala:17
+#: src/widgets/games/extra-button.vala:18
 msgid "Open in protontricks"
 msgstr "在 protontricks 中打开"
 
-#: src/widgets/games/extra-button.vala:32
+#: src/widgets/games/extra-button.vala:21
+msgid "Run custom executable"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:36
 msgid "Open menu"
 msgstr "打开菜单"
+
+#: src/widgets/games/extra-button.vala:89
+#, fuzzy
+msgid "Select executable"
+msgstr "全部选取"
+
+#: src/widgets/games/extra-button.vala:96
+msgid "Executables (*.exe, *.msi, *.msu)"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:136
+#, fuzzy, c-format
+msgid "Couldn't find the compatibility tool for %s"
+msgstr "无法变更 %s 的兼容性工具"
+
+#: src/widgets/games/extra-button.vala:136
+msgid "Please make sure it's installed."
+msgstr ""
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16

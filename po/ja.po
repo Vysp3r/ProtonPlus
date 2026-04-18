@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 20:49-0400\n"
+"POT-Creation-Date: 2026-04-18 10:14-0400\n"
 "PO-Revision-Date: 2026-04-09 23:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -1201,21 +1201,43 @@ msgstr ""
 msgid "Select a profile"
 msgstr "プロファイルを選択"
 
-#: src/widgets/games/extra-button.vala:11
+#: src/widgets/games/extra-button.vala:12
 msgid "Open install directory"
 msgstr "インストール先のディレクトリを開く"
 
-#: src/widgets/games/extra-button.vala:14
+#: src/widgets/games/extra-button.vala:15
 msgid "Open prefix directory"
 msgstr ""
 
-#: src/widgets/games/extra-button.vala:17
+#: src/widgets/games/extra-button.vala:18
 msgid "Open in protontricks"
 msgstr "protontricks で開く"
 
-#: src/widgets/games/extra-button.vala:32
+#: src/widgets/games/extra-button.vala:21
+msgid "Run custom executable"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:36
 msgid "Open menu"
 msgstr "メニューを開く"
+
+#: src/widgets/games/extra-button.vala:89
+#, fuzzy
+msgid "Select executable"
+msgstr "全てを選択"
+
+#: src/widgets/games/extra-button.vala:96
+msgid "Executables (*.exe, *.msi, *.msu)"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:136
+#, fuzzy, c-format
+msgid "Couldn't find the compatibility tool for %s"
+msgstr "%s に使用する互換性ツールを変更できませんでした"
+
+#: src/widgets/games/extra-button.vala:136
+msgid "Please make sure it's installed."
+msgstr ""
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16
