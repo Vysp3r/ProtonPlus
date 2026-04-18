@@ -9,6 +9,12 @@ namespace ProtonPlus.Models {
             this.internal_title = internal_title;
         }
 
+        public SimpleRunner.with_path (string display_title, string internal_title, string path) {
+            this.display_title = display_title;
+            this.internal_title = internal_title;
+            this.path = path;
+        }
+
         public SimpleRunner.from_path (string path) throws Error {
             this.path = path;
 

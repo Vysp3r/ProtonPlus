@@ -181,16 +181,17 @@ namespace ProtonPlus.Models.Launchers {
                             current_name = current_manifest_content.substring (start_pos, end_pos - start_pos);
                             // message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
 
-                            if (/Proton \d+.\d+/.match (current_name) || current_appid == "2180100" || current_appid == "1493710") {
-                                compatibility_tools.add (new SimpleRunner(current_name, current_name.down ().split (".", 2)[0].replace (" ", "_")));
-                                continue;
-                            }
-
                             start_text = "installdir\"\t\t\"";
                             end_text = "\"";
                             start_pos = current_manifest_content.index_of (start_text, 0) + start_text.length;
                             end_pos = current_manifest_content.index_of (end_text, start_pos);
                             current_installdir = current_manifest_content.substring (start_pos, end_pos - start_pos);
+
+                            if (/Proton \d+.\d+/.match (current_name) || current_appid == "2180100" || current_appid == "1493710") {
+                                var simple_runner = new SimpleRunner.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
+                                compatibility_tools.add (simple_runner);
+                                continue;
+                            }
                             // message("start: %i, end: %i, current_installdir: %s", start_pos, end_pos, current_installdir);
 
                             if (!FileUtils.test ("%s/common/%s".printf (current_steamapps_path, current_installdir), FileTest.IS_DIR))

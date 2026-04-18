@@ -109,11 +109,12 @@
   </screenshots>
 
   <releases>
-    <release version="0.5.20" date="2026-04-16">
+    <release version="0.5.20" date="2026-04-18">
       <description>
         <ul>
           <li>✨ Added a new "Downloads" tab</li>
           <li>✨ Added more launch options</li>
+          <li>✨ Added a "Run custom executable" button</li>
           <li>✨ Added a SteamOS theme and an OLED theme</li>
           <li>🐛 Fixed DXVK-Sarek</li>
           <li>🐛 Fixed tool usage count to account for default tool</li>
