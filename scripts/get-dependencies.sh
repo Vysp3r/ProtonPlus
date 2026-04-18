@@ -19,7 +19,7 @@ pacman -Syu --noconfirm \
     libarchive \
     gettext \
     desktop-file-utils \
-    libappstream-glib \
+    appstream-glib \
     bluez-libs \
     libnm \
     glib-networking \
