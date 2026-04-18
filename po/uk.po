@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 20:49-0400\n"
+"POT-Creation-Date: 2026-04-18 10:14-0400\n"
 "PO-Revision-Date: 2026-04-17 16:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
@@ -1195,21 +1195,43 @@ msgstr "Ще не налаштовано параметри запуску."
 msgid "Select a profile"
 msgstr "Оберіть профіль"
 
-#: src/widgets/games/extra-button.vala:11
+#: src/widgets/games/extra-button.vala:12
 msgid "Open install directory"
 msgstr "Відкрити каталог встановлення"
 
-#: src/widgets/games/extra-button.vala:14
+#: src/widgets/games/extra-button.vala:15
 msgid "Open prefix directory"
 msgstr "Відкрити каталог префіксів"
 
-#: src/widgets/games/extra-button.vala:17
+#: src/widgets/games/extra-button.vala:18
 msgid "Open in protontricks"
 msgstr "Відкрити в protontricks"
 
-#: src/widgets/games/extra-button.vala:32
+#: src/widgets/games/extra-button.vala:21
+msgid "Run custom executable"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:36
 msgid "Open menu"
 msgstr "Відкрити меню"
+
+#: src/widgets/games/extra-button.vala:89
+#, fuzzy
+msgid "Select executable"
+msgstr "Вибрати все"
+
+#: src/widgets/games/extra-button.vala:96
+msgid "Executables (*.exe, *.msi, *.msu)"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:136
+#, fuzzy, c-format
+msgid "Couldn't find the compatibility tool for %s"
+msgstr "Не вдалося змінити інструмент сумісності для %s"
+
+#: src/widgets/games/extra-button.vala:136
+msgid "Please make sure it's installed."
+msgstr ""
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16

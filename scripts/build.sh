@@ -217,6 +217,7 @@ Commands:
   translations      Update translation files (.po)
   icons             Generate icons from SVG
   linter            Run Flathub linter on local source
+  appimage          Build AppImage using sharun
   clean             Remove all build-related directories
   help              Show this help message
 
@@ -246,6 +247,9 @@ main() {
       ;;
     linter)
       flathub_linter
+      ;;
+    appimage)
+      ./make-appimage.sh
       ;;
     clean)
       clean
