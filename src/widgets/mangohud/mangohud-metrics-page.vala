@@ -58,33 +58,15 @@ namespace ProtonPlus.Widgets {
             gpu_metrics_box.append (gpu_label);
 
             var color_dialog = new Gtk.ColorDialog ();
-            gpu_color_btn = new Gtk.ColorDialogButton (color_dialog);
-            gpu_color_btn.set_valign (Gtk.Align.CENTER);
-            refresh_gpu_color_btn ();
-            gpu_color_btn.notify["rgba"].connect (() => {
-                if (is_updating) return;
-                var rgba = gpu_color_btn.get_rgba ();
-                config.gpu_color = "%02x%02x%02x".printf ((uint) (rgba.red * 255), (uint) (rgba.green * 255), (uint) (rgba.blue * 255));
-                config.save ();
-            });
+            gpu_color_btn = create_color_button (color_dialog, config.gpu_color, (val) => { this.config.gpu_color = val; });
 
-            gpu_custom_name_row = new Adw.EntryRow () {
-                title = _ ("Custom GPU name"),
-                text = config.gpu_text
-            };
+            gpu_custom_name_row = create_entry (_ ("Custom GPU name"), config.gpu_text, (val) => { this.config.gpu_text = val; });
             gpu_custom_name_row.add_suffix (gpu_color_btn);
-            gpu_custom_name_row.notify["text"].connect (() => {
-                if (is_updating) return;
-                config.gpu_text = gpu_custom_name_row.text;
-                config.save ();
-            });
-            var gpu_custom_flow_box = create_flow_box ();
-            gpu_custom_flow_box.append (create_row_card (gpu_custom_name_row));
-            add_group_to_page (gpu_metrics_box, null, gpu_custom_flow_box, "caption");
+            add_flow_group (gpu_metrics_box, null, { gpu_custom_name_row });
 
-            gpu_stats_row = create_switch (_ ("GPU Stats"), config.gpu_stats, (val) => { config.gpu_stats = val; });
+            gpu_stats_row = create_switch (_ ("GPU Stats"), config.gpu_stats, (val) => { this.config.gpu_stats = val; });
 
-            gpu_load_color_row = create_switch (_ ("GPU Load Color"), config.gpu_load_color, (val) => { config.gpu_load_color = val; });
+            gpu_load_color_row = create_switch (_ ("GPU Load Color"), config.gpu_load_color, (val) => { this.config.gpu_load_color = val; });
             gpu_load_color_1_btn = new Gtk.ColorDialogButton (color_dialog) { valign = Gtk.Align.CENTER };
             gpu_load_color_2_btn = new Gtk.ColorDialogButton (color_dialog) { valign = Gtk.Align.CENTER };
             gpu_load_color_3_btn = new Gtk.ColorDialogButton (color_dialog) { valign = Gtk.Align.CENTER };
@@ -100,55 +82,41 @@ namespace ProtonPlus.Widgets {
             gpu_load_color_2_btn.notify["rgba"].connect (update_gpu_load_colors);
             gpu_load_color_3_btn.notify["rgba"].connect (update_gpu_load_colors);
 
-            vram_row = create_switch (_ ("VRAM"), config.vram, (val) => { config.vram = val; });
-            gpu_core_clock_row = create_switch (_ ("GPU Core Clock"), config.gpu_core_clock, (val) => { config.gpu_core_clock = val; });
-            gpu_mem_clock_row = create_switch (_ ("GPU Memory Clock"), config.gpu_mem_clock, (val) => { config.gpu_mem_clock = val; });
-            
-            var gpu_main_flow_box = create_flow_box ();
-            gpu_main_flow_box.append (create_row_card (gpu_stats_row));
-            gpu_main_flow_box.append (create_row_card (gpu_load_color_row));
-            gpu_main_flow_box.append (create_row_card (vram_row));
-            gpu_main_flow_box.append (create_row_card (gpu_core_clock_row));
-            gpu_main_flow_box.append (create_row_card (gpu_mem_clock_row));
-            add_group_to_page (gpu_metrics_box, _ ("Main metrics"), gpu_main_flow_box, "caption");
+            vram_row = create_switch (_ ("VRAM"), config.vram, (val) => { this.config.vram = val; });
+            gpu_core_clock_row = create_switch (_ ("GPU Core Clock"), config.gpu_core_clock, (val) => { this.config.gpu_core_clock = val; });
+            gpu_mem_clock_row = create_switch (_ ("GPU Memory Clock"), config.gpu_mem_clock, (val) => { this.config.gpu_mem_clock = val; });
 
-            gpu_temp_row = create_switch (_ ("GPU Temperature"), config.gpu_temp, (val) => { config.gpu_temp = val; });
-            gpu_mem_temp_row = create_switch (_ ("GPU Memory Temperature"), config.gpu_mem_temp, (val) => { config.gpu_mem_temp = val; });
-            gpu_junction_temp_row = create_switch (_ ("GPU Junction Temperature"), config.gpu_junction_temp, (val) => { config.gpu_junction_temp = val; });
-            gpu_fan_row = create_switch (_ ("GPU Fan"), config.gpu_fan, (val) => { config.gpu_fan = val; });
+            add_flow_group (gpu_metrics_box, _ ("Main metrics"), {
+                gpu_stats_row, gpu_load_color_row, vram_row, gpu_core_clock_row, gpu_mem_clock_row
+            });
 
-            var gpu_temp_flow_box = create_flow_box ();
-            gpu_temp_flow_box.append (create_row_card (gpu_temp_row));
-            gpu_temp_flow_box.append (create_row_card (gpu_mem_temp_row));
-            gpu_temp_flow_box.append (create_row_card (gpu_junction_temp_row));
-            gpu_temp_flow_box.append (create_row_card (gpu_fan_row));
-            add_group_to_page (gpu_metrics_box, _ ("Temperature"), gpu_temp_flow_box, "caption");
+            gpu_temp_row = create_switch (_ ("GPU Temperature"), config.gpu_temp, (val) => { this.config.gpu_temp = val; });
+            gpu_mem_temp_row = create_switch (_ ("GPU Memory Temperature"), config.gpu_mem_temp, (val) => { this.config.gpu_mem_temp = val; });
+            gpu_junction_temp_row = create_switch (_ ("GPU Junction Temperature"), config.gpu_junction_temp, (val) => { this.config.gpu_junction_temp = val; });
+            gpu_fan_row = create_switch (_ ("GPU Fan"), config.gpu_fan, (val) => { this.config.gpu_fan = val; });
 
-            gpu_power_row = create_switch (_ ("GPU Power"), config.gpu_power, (val) => { config.gpu_power = val; });
-            gpu_voltage_row = create_switch (_ ("GPU Voltage"), config.gpu_voltage, (val) => { config.gpu_voltage = val; });
-            throttling_status_row = create_switch (_ ("Throttling Status"), config.throttling_status, (val) => { config.throttling_status = val; });
-            throttling_graph_row = create_switch (_ ("Throttling Graph"), config.throttling_graph, (val) => { config.throttling_graph = val; });
-            gpu_efficiency_row = create_switch (_ ("GPU Efficiency"), config.gpu_efficiency, (val) => { config.gpu_efficiency = val; });
-            gpu_power_limit_row = create_switch (_ ("GPU Power Limit"), config.gpu_power_limit, (val) => { config.gpu_power_limit = val; });
+            add_flow_group (gpu_metrics_box, _ ("Temperature"), {
+                gpu_temp_row, gpu_mem_temp_row, gpu_junction_temp_row, gpu_fan_row
+            });
 
-            var gpu_power_flow_box = create_flow_box ();
-            gpu_power_flow_box.append (create_row_card (gpu_power_row));
-            gpu_power_flow_box.append (create_row_card (gpu_voltage_row));
-            gpu_power_flow_box.append (create_row_card (throttling_status_row));
-            gpu_power_flow_box.append (create_row_card (throttling_graph_row));
-            gpu_power_flow_box.append (create_row_card (gpu_efficiency_row));
-            gpu_power_flow_box.append (create_row_card (gpu_power_limit_row));
-            add_group_to_page (gpu_metrics_box, _ ("Power"), gpu_power_flow_box, "caption");
+            gpu_power_row = create_switch (_ ("GPU Power"), config.gpu_power, (val) => { this.config.gpu_power = val; });
+            gpu_voltage_row = create_switch (_ ("GPU Voltage"), config.gpu_voltage, (val) => { this.config.gpu_voltage = val; });
+            throttling_status_row = create_switch (_ ("Throttling Status"), config.throttling_status, (val) => { this.config.throttling_status = val; });
+            throttling_graph_row = create_switch (_ ("Throttling Graph"), config.throttling_graph, (val) => { this.config.throttling_graph = val; });
+            gpu_efficiency_row = create_switch (_ ("GPU Efficiency"), config.gpu_efficiency, (val) => { this.config.gpu_efficiency = val; });
+            gpu_power_limit_row = create_switch (_ ("GPU Power Limit"), config.gpu_power_limit, (val) => { this.config.gpu_power_limit = val; });
 
-            gpu_name_row = create_switch (_ ("GPU Name"), config.gpu_name, (val) => { config.gpu_name = val; });
-            vulkan_driver_row = create_switch (_ ("Vulkan Driver"), config.vulkan_driver, (val) => { config.vulkan_driver = val; });
-            gpu_procs_row = create_switch (_ ("GPU Processes"), config.procs, (val) => { config.procs = val; });
+            add_flow_group (gpu_metrics_box, _ ("Power"), {
+                gpu_power_row, gpu_voltage_row, throttling_status_row, throttling_graph_row, gpu_efficiency_row, gpu_power_limit_row
+            });
 
-            var gpu_info_flow_box = create_flow_box ();
-            gpu_info_flow_box.append (create_row_card (gpu_name_row));
-            gpu_info_flow_box.append (create_row_card (vulkan_driver_row));
-            gpu_info_flow_box.append (create_row_card (gpu_procs_row));
-            add_group_to_page (gpu_metrics_box, _ ("Information"), gpu_info_flow_box, "caption");
+            gpu_name_row = create_switch (_ ("GPU Name"), config.gpu_name, (val) => { this.config.gpu_name = val; });
+            vulkan_driver_row = create_switch (_ ("Vulkan Driver"), config.vulkan_driver, (val) => { this.config.vulkan_driver = val; });
+            gpu_procs_row = create_switch (_ ("GPU Processes"), config.procs, (val) => { this.config.procs = val; });
+
+            add_flow_group (gpu_metrics_box, _ ("Information"), {
+                gpu_name_row, vulkan_driver_row, gpu_procs_row
+            });
 
             this.append (gpu_metrics_box);
 
@@ -161,33 +129,15 @@ namespace ProtonPlus.Widgets {
             cpu_label.add_css_class ("heading");
             cpu_metrics_box.append (cpu_label);
 
-            cpu_color_btn = new Gtk.ColorDialogButton (color_dialog);
-            cpu_color_btn.set_valign (Gtk.Align.CENTER);
-            refresh_cpu_color_btn ();
-            cpu_color_btn.notify["rgba"].connect (() => {
-                if (is_updating) return;
-                var rgba = cpu_color_btn.get_rgba ();
-                config.cpu_color = "%02x%02x%02x".printf ((uint) (rgba.red * 255), (uint) (rgba.green * 255), (uint) (rgba.blue * 255));
-                config.save ();
-            });
+            cpu_color_btn = create_color_button (color_dialog, config.cpu_color, (val) => { this.config.cpu_color = val; });
 
-            cpu_custom_name_row = new Adw.EntryRow () {
-                title = _ ("Custom CPU name"),
-                text = config.cpu_text
-            };
+            cpu_custom_name_row = create_entry (_ ("Custom CPU name"), config.cpu_text, (val) => { this.config.cpu_text = val; });
             cpu_custom_name_row.add_suffix (cpu_color_btn);
-            cpu_custom_name_row.notify["text"].connect (() => {
-                if (is_updating) return;
-                config.cpu_text = cpu_custom_name_row.text;
-                config.save ();
-            });
-            var cpu_custom_flow_box = create_flow_box ();
-            cpu_custom_flow_box.append (create_row_card (cpu_custom_name_row));
-            add_group_to_page (cpu_metrics_box, null, cpu_custom_flow_box, "caption");
+            add_flow_group (cpu_metrics_box, null, { cpu_custom_name_row });
 
-            cpu_stats_row = create_switch (_ ("CPU Stats"), config.cpu_stats, (val) => { config.cpu_stats = val; });
-            
-            cpu_load_color_row = create_switch (_ ("CPU Load Color"), config.cpu_load_color, (val) => { config.cpu_load_color = val; });
+            cpu_stats_row = create_switch (_ ("CPU Stats"), config.cpu_stats, (val) => { this.config.cpu_stats = val; });
+
+            cpu_load_color_row = create_switch (_ ("CPU Load Color"), config.cpu_load_color, (val) => { this.config.cpu_load_color = val; });
             cpu_load_color_1_btn = new Gtk.ColorDialogButton (color_dialog) { valign = Gtk.Align.CENTER };
             cpu_load_color_2_btn = new Gtk.ColorDialogButton (color_dialog) { valign = Gtk.Align.CENTER };
             cpu_load_color_3_btn = new Gtk.ColorDialogButton (color_dialog) { valign = Gtk.Align.CENTER };
@@ -203,122 +153,79 @@ namespace ProtonPlus.Widgets {
             cpu_load_color_2_btn.notify["rgba"].connect (update_cpu_load_colors);
             cpu_load_color_3_btn.notify["rgba"].connect (update_cpu_load_colors);
 
-            core_load_row = create_switch (_ ("Core Load"), config.core_load, (val) => { config.core_load = val; });
-            cpu_mhz_row = create_switch (_ ("CPU MHz"), config.cpu_mhz, (val) => { config.cpu_mhz = val; });
-            core_pipeline_row = create_switch (_ ("Core Pipeline"), config.core_pipeline, (val) => { config.core_pipeline = val; });
+            core_load_row = create_switch (_ ("Core Load"), config.core_load, (val) => { this.config.core_load = val; });
+            cpu_mhz_row = create_switch (_ ("CPU MHz"), config.cpu_mhz, (val) => { this.config.cpu_mhz = val; });
+            core_pipeline_row = create_switch (_ ("Core Pipeline"), config.core_pipeline, (val) => { this.config.core_pipeline = val; });
 
-            var cpu_main_flow_box = create_flow_box ();
-            cpu_main_flow_box.append (create_row_card (cpu_stats_row));
-            cpu_main_flow_box.append (create_row_card (cpu_load_color_row));
-            cpu_main_flow_box.append (create_row_card (core_load_row));
-            cpu_main_flow_box.append (create_row_card (cpu_mhz_row));
-            cpu_main_flow_box.append (create_row_card (core_pipeline_row));
-            add_group_to_page (cpu_metrics_box, _ ("Main metrics"), cpu_main_flow_box, "caption");
+            add_flow_group (cpu_metrics_box, _ ("Main metrics"), {
+                cpu_stats_row, cpu_load_color_row, core_load_row, cpu_mhz_row, core_pipeline_row
+            });
 
-            cpu_temp_row = create_switch (_ ("CPU Temperature"), config.cpu_temp, (val) => { config.cpu_temp = val; });
-            cpu_power_row = create_switch (_ ("CPU Power"), config.cpu_power, (val) => { config.cpu_power = val; });
-            cpu_efficiency_row = create_switch (_ ("CPU Efficiency"), config.cpu_efficiency, (val) => { config.cpu_efficiency = val; });
-            ram_temp_row = create_switch (_ ("RAM Temperature"), config.ram_temp, (val) => { config.ram_temp = val; });
+            cpu_temp_row = create_switch (_ ("CPU Temperature"), config.cpu_temp, (val) => { this.config.cpu_temp = val; });
+            cpu_power_row = create_switch (_ ("CPU Power"), config.cpu_power, (val) => { this.config.cpu_power = val; });
+            cpu_efficiency_row = create_switch (_ ("CPU Efficiency"), config.cpu_efficiency, (val) => { this.config.cpu_efficiency = val; });
+            ram_temp_row = create_switch (_ ("RAM Temperature"), config.ram_temp, (val) => { this.config.ram_temp = val; });
 
-            var cpu_temp_power_flow_box = create_flow_box ();
-            cpu_temp_power_flow_box.append (create_row_card (cpu_temp_row));
-            cpu_temp_power_flow_box.append (create_row_card (cpu_power_row));
-            cpu_temp_power_flow_box.append (create_row_card (cpu_efficiency_row));
-            cpu_temp_power_flow_box.append (create_row_card (ram_temp_row));
-            add_group_to_page (cpu_metrics_box, _ ("Temperature / Power"), cpu_temp_power_flow_box, "caption");
+            add_flow_group (cpu_metrics_box, _ ("Temperature / Power"), {
+                cpu_temp_row, cpu_power_row, cpu_efficiency_row, ram_temp_row
+            });
 
-            ram_row = create_switch (_ ("RAM"), config.ram, (val) => { config.ram = val; });
-            disks_row = create_switch (_ ("Disks"), config.disks, (val) => { config.disks = val; });
-            cpu_procs_row = create_switch (_ ("CPU Processes"), config.procs, (val) => { config.procs = val; });
-            swap_row = create_switch (_ ("Swap"), config.swap, (val) => { config.swap = val; });
+            ram_row = create_switch (_ ("RAM"), config.ram, (val) => { this.config.ram = val; });
+            disks_row = create_switch (_ ("Disks"), config.disks, (val) => { this.config.disks = val; });
+            cpu_procs_row = create_switch (_ ("CPU Processes"), config.procs, (val) => { this.config.procs = val; });
+            swap_row = create_switch (_ ("Swap"), config.swap, (val) => { this.config.swap = val; });
 
-            var mem_flow_box = create_flow_box ();
-            mem_flow_box.append (create_row_card (ram_row));
-            mem_flow_box.append (create_row_card (disks_row));
-            mem_flow_box.append (create_row_card (cpu_procs_row));
-            mem_flow_box.append (create_row_card (swap_row));
-            add_group_to_page (cpu_metrics_box, _ ("Memory / IO"), mem_flow_box, "caption");
+            add_flow_group (cpu_metrics_box, _ ("Memory / IO"), {
+                ram_row, disks_row, cpu_procs_row, swap_row
+            });
 
             this.append (cpu_metrics_box);
         }
 
-        private delegate void SetValueFunc (bool val);
-
-        private Adw.SwitchRow create_switch (string title, bool initial_value, SetValueFunc set_value) {
-            var row = new Adw.SwitchRow () {
-                title = title,
-                active = initial_value
-            };
-            row.notify["active"].connect (() => {
-                if (is_updating) return;
-                set_value (row.active);
-                config.save ();
-                changed ();
-            });
-            return row;
-        }
 
         private void update_gpu_load_colors () {
             if (is_updating) return;
-            var c1 = gpu_load_color_1_btn.get_rgba ();
-            var c2 = gpu_load_color_2_btn.get_rgba ();
-            var c3 = gpu_load_color_3_btn.get_rgba ();
-            config.gpu_load_colors = "%02x%02x%02x,%02x%02x%02x,%02x%02x%02x".printf (
-                (uint) (c1.red * 255), (uint) (c1.green * 255), (uint) (c1.blue * 255),
-                (uint) (c2.red * 255), (uint) (c2.green * 255), (uint) (c2.blue * 255),
-                (uint) (c3.red * 255), (uint) (c3.green * 255), (uint) (c3.blue * 255)
-            );
-            config.save ();
+            Gdk.RGBA c1, c2, c3;
+            gpu_load_color_1_btn.get ("rgba", out c1);
+            gpu_load_color_2_btn.get ("rgba", out c2);
+            gpu_load_color_3_btn.get ("rgba", out c3);
+            config.gpu_load_colors = "%s,%s,%s".printf (rgba_to_hex (c1), rgba_to_hex (c2), rgba_to_hex (c3));
+            changed ();
         }
 
         private void update_cpu_load_colors () {
             if (is_updating) return;
-            var c1 = cpu_load_color_1_btn.get_rgba ();
-            var c2 = cpu_load_color_2_btn.get_rgba ();
-            var c3 = cpu_load_color_3_btn.get_rgba ();
-            config.cpu_load_colors = "%02x%02x%02x,%02x%02x%02x,%02x%02x%02x".printf (
-                (uint) (c1.red * 255), (uint) (c1.green * 255), (uint) (c1.blue * 255),
-                (uint) (c2.red * 255), (uint) (c2.green * 255), (uint) (c2.blue * 255),
-                (uint) (c3.red * 255), (uint) (c3.green * 255), (uint) (c3.blue * 255)
-            );
-            config.save ();
+            Gdk.RGBA c1, c2, c3;
+            cpu_load_color_1_btn.get ("rgba", out c1);
+            cpu_load_color_2_btn.get ("rgba", out c2);
+            cpu_load_color_3_btn.get ("rgba", out c3);
+            config.cpu_load_colors = "%s,%s,%s".printf (rgba_to_hex (c1), rgba_to_hex (c2), rgba_to_hex (c3));
+            changed ();
         }
 
         private void refresh_gpu_color_btn () {
-            var gpu_rgba = Gdk.RGBA ();
-            if (config.gpu_color != "") {
-                gpu_rgba.parse ("#" + config.gpu_color);
-            } else {
-                gpu_rgba.parse ("#ffffff");
-            }
-            gpu_color_btn.rgba = gpu_rgba;
+            gpu_color_btn.rgba = hex_to_rgba (config.gpu_color);
         }
 
         private void refresh_cpu_color_btn () {
-            var cpu_rgba = Gdk.RGBA ();
-            if (config.cpu_color != "") {
-                cpu_rgba.parse ("#" + config.cpu_color);
-            } else {
-                cpu_rgba.parse ("#ffffff");
-            }
-            cpu_color_btn.rgba = cpu_rgba;
+            cpu_color_btn.rgba = hex_to_rgba (config.cpu_color);
         }
 
         private void refresh_gpu_load_color_btns () {
             var gpu_load_colors = config.gpu_load_colors.split (",");
             if (gpu_load_colors.length == 3) {
-                var rgba1 = Gdk.RGBA (); rgba1.parse ("#" + gpu_load_colors[0]); gpu_load_color_1_btn.rgba = rgba1;
-                var rgba2 = Gdk.RGBA (); rgba2.parse ("#" + gpu_load_colors[1]); gpu_load_color_2_btn.rgba = rgba2;
-                var rgba3 = Gdk.RGBA (); rgba3.parse ("#" + gpu_load_colors[2]); gpu_load_color_3_btn.rgba = rgba3;
+                gpu_load_color_1_btn.rgba = hex_to_rgba (gpu_load_colors[0]);
+                gpu_load_color_2_btn.rgba = hex_to_rgba (gpu_load_colors[1]);
+                gpu_load_color_3_btn.rgba = hex_to_rgba (gpu_load_colors[2]);
             }
         }
 
         private void refresh_cpu_load_color_btns () {
             var cpu_load_colors = config.cpu_load_colors.split (",");
             if (cpu_load_colors.length == 3) {
-                var rgba1 = Gdk.RGBA (); rgba1.parse ("#" + cpu_load_colors[0]); cpu_load_color_1_btn.rgba = rgba1;
-                var rgba2 = Gdk.RGBA (); rgba2.parse ("#" + cpu_load_colors[1]); cpu_load_color_2_btn.rgba = rgba2;
-                var rgba3 = Gdk.RGBA (); rgba3.parse ("#" + cpu_load_colors[2]); cpu_load_color_3_btn.rgba = rgba3;
+                cpu_load_color_1_btn.rgba = hex_to_rgba (cpu_load_colors[0]);
+                cpu_load_color_2_btn.rgba = hex_to_rgba (cpu_load_colors[1]);
+                cpu_load_color_3_btn.rgba = hex_to_rgba (cpu_load_colors[2]);
             }
         }
 

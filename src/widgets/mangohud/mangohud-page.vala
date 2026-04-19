@@ -1,15 +1,97 @@
 namespace ProtonPlus.Widgets {
     public abstract class MangoHudPage : Gtk.Box {
-        public Models.MangoHudConfig config { get; construct; }
+        public Models.MangoHudConfig config { get; set; }
         public bool is_updating { get; set; default = false; }
 
         public signal void changed ();
 
+        protected delegate void SetValueFunc (bool val);
+        protected delegate void SetValueFuncStr (string val);
+        protected delegate void SetValueFuncInt (int val);
+
+        protected Gdk.RGBA hex_to_rgba (string hex, string default_color = "#ffffff") {
+            var rgba = Gdk.RGBA ();
+            if (hex != "") {
+                if (!hex.has_prefix ("#")) {
+                    rgba.parse ("#" + hex);
+                } else {
+                    rgba.parse (hex);
+                }
+            } else {
+                rgba.parse (default_color);
+            }
+            return rgba;
+        }
+
+        protected string rgba_to_hex (Gdk.RGBA rgba) {
+            return "%02x%02x%02x".printf (
+                (uint) Math.round (rgba.red * 255.0),
+                (uint) Math.round (rgba.green * 255.0),
+                (uint) Math.round (rgba.blue * 255.0)
+            );
+        }
+
+        protected Gtk.ColorDialogButton create_color_button (Gtk.ColorDialog dialog, string initial_color, SetValueFuncStr set_color) {
+            var btn = new Gtk.ColorDialogButton (dialog);
+            btn.set_valign (Gtk.Align.CENTER);
+            btn.rgba = hex_to_rgba (initial_color);
+            btn.notify["rgba"].connect (() => {
+                if (is_updating || this.config == null) return;
+                Gdk.RGBA rgba;
+                btn.get ("rgba", out rgba);
+                set_color (rgba_to_hex (rgba));
+                changed ();
+            });
+            return btn;
+        }
+
+        protected Gtk.FlowBox add_flow_group (Gtk.Box page, string? title, Gtk.Widget[] widgets) {
+            var flow_box = create_flow_box ();
+            foreach (var widget in widgets) {
+                if (widget is Gtk.ListBoxRow) {
+                    flow_box.append (create_row_card ((Gtk.ListBoxRow) widget));
+                } else {
+                    flow_box.append (widget);
+                }
+            }
+            add_group_to_page (page, title, flow_box, "caption");
+            return flow_box;
+        }
+
         protected MangoHudPage (Models.MangoHudConfig config) {
-            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12, config: config);
+            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
+            this.config = config;
         }
 
         public abstract void refresh ();
+
+        protected Adw.EntryRow create_entry (string title, string initial_value, SetValueFuncStr set_value) {
+            var row = new Adw.EntryRow () {
+                title = title,
+                text = initial_value
+            };
+            row.notify["text"].connect (() => {
+                if (is_updating || this.config == null) return;
+                set_value (row.text);
+                changed ();
+            });
+            return row;
+        }
+
+        protected Adw.ComboRow create_combo (string title, string[] items, int initial_selected, string? icon_name, SetValueFuncInt set_value) {
+            var row = new Adw.ComboRow () {
+                title = title,
+                icon_name = icon_name,
+                model = new Gtk.StringList (items),
+                selected = initial_selected
+            };
+            row.notify["selected"].connect (() => {
+                if (is_updating || this.config == null) return;
+                set_value ((int) row.selected);
+                changed ();
+            });
+            return row;
+        }
 
         protected void add_group_to_page (Gtk.Box page, string? title, Gtk.Widget content, string title_class = "heading") {
             var group_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
@@ -83,6 +165,54 @@ namespace ProtonPlus.Widgets {
             button.hexpand = true;
 
             return button;
+        }
+
+        protected Gtk.ListBoxRow create_scale (string title, double min, double max, double step, out Gtk.Scale scale_out, SetValueFuncStr set_value) {
+            var row = new Gtk.ListBoxRow ();
+            row.selectable = false;
+
+            var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6) {
+                margin_top = 12,
+                margin_bottom = 12,
+                margin_start = 12,
+                margin_end = 12
+            };
+
+            var label = new Gtk.Label (title) {
+                halign = Gtk.Align.START,
+                hexpand = true
+            };
+            box.append (label);
+
+            var scale = new Gtk.Scale.with_range (Gtk.Orientation.HORIZONTAL, min, max, step) {
+                hexpand = true,
+                draw_value = true,
+                value_pos = Gtk.PositionType.BOTTOM
+            };
+            scale.add_mark (min, Gtk.PositionType.TOP, "%.0f".printf (min));
+            scale.add_mark (max, Gtk.PositionType.TOP, "%.0f".printf (max));
+            scale.value_changed.connect (() => {
+                if (is_updating || this.config == null) return;
+                set_value ("%.0f".printf (scale.get_value ()));
+                changed ();
+            });
+            box.append (scale);
+            row.set_child (box);
+            scale_out = scale;
+            return row;
+        }
+
+        protected Adw.SwitchRow create_switch (string title, bool initial_value, SetValueFunc set_value) {
+            var row = new Adw.SwitchRow () {
+                title = title,
+                active = initial_value
+            };
+            row.notify["active"].connect (() => {
+                if (is_updating || this.config == null) return;
+                set_value (row.active);
+                changed ();
+            });
+            return row;
         }
     }
 }
