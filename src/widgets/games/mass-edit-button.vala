@@ -7,10 +7,10 @@ namespace ProtonPlus.Widgets {
 
         construct {
             mass_edit_button_content = new Adw.ButtonContent ();
-            mass_edit_button_content.set_label (_ ("Mass edit"));
-            mass_edit_button_content.set_icon_name ("pen-to-square-symbolic");
+            mass_edit_button_content.set_label (_ ("Modify the selected games"));
+            mass_edit_button_content.set_icon_name ("screwdriver-wrench-symbolic");
 
-            set_tooltip_text (_ ("Edit the selected games at once"));
+            set_tooltip_text (_ ("Modify the selected games all at once"));
             add_css_class ("flat");
             set_child (mass_edit_button_content);
 
@@ -22,13 +22,25 @@ namespace ProtonPlus.Widgets {
         }
 
         void mass_edit_button_clicked () {
-            var rows = game_list_box.get_selected_rows ();
+            var count = 0;
+            var child = game_list_box.get_first_child ();
+            while (child != null) {
+                if (child is GameRow && ((GameRow)child).selected) {
+                    count++;
+                }
+                child = child.get_next_sibling ();
+            }
 
-            if (rows.length () > 0) {
-                var game_rows = new GameRow[rows.length ()];
-                for (var i = 0; i < rows.length (); i++) {
-                    var game_row = (GameRow) rows.nth_data (i);
-                    game_rows[i] = game_row;
+            if (count > 0) {
+                var game_rows = new GameRow[count];
+                var i = 0;
+                child = game_list_box.get_first_child ();
+                while (child != null) {
+                    if (child is GameRow && ((GameRow)child).selected) {
+                        game_rows[i] = (GameRow) child;
+                        i++;
+                    }
+                    child = child.get_next_sibling ();
                 }
 
                 mass_edit_requested (game_rows);
