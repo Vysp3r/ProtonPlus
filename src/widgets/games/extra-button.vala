@@ -36,8 +36,8 @@ namespace ProtonPlus.Widgets {
 
             clicked.connect (extra_button_clicked);
 
-            set_icon_name ("dots-symbolic");
-            set_tooltip_text (_ ("Open menu"));
+            set_icon_name ("view-more-symbolic");
+            set_tooltip_text (_ ("Extra"));
             add_css_class ("flat");
         }
 
@@ -49,9 +49,9 @@ namespace ProtonPlus.Widgets {
                 content_box.append (open_protontricks_button);
 
                 var steam_game = game as Models.Games.Steam;
-                open_install_directory_button.set_sensitive (!steam_game.is_non_steam);
-                open_prefix_directory_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
-                open_protontricks_button.set_sensitive (!steam_game.is_non_steam);
+                open_install_directory_button.set_visible (!steam_game.is_non_steam);
+                open_prefix_directory_button.set_visible (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
+                open_protontricks_button.set_visible (!steam_game.is_non_steam);
 
                 content_box.append (protondb_button);
                 content_box.append (anticheat_button);
@@ -75,11 +75,11 @@ namespace ProtonPlus.Widgets {
                         break;
                     default:
                         anticheat_button.set_tooltip_text (_ ("Unknown"));
-                        anticheat_button.set_sensitive (false);
+                        anticheat_button.set_visible (false);
                         break;
                 }
 
-                protondb_button.set_sensitive (!steam_game.is_non_steam);
+                protondb_button.set_visible (!steam_game.is_non_steam);
             }
         }
 

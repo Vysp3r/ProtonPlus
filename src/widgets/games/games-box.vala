@@ -5,22 +5,16 @@ namespace ProtonPlus.Widgets {
         public bool active { get; set; }
         bool error { get; set; }
         bool invalid { get; set; }
-        bool show_search { get; set; }
         Models.Launcher launcher;
 
         Gtk.Image image;
         Adw.StatusPage status_page;
-        ShortcutButton shortcut_button;
         MassEditButton mass_edit_button;
         DefaultToolButton default_tool_button;
         SwitchProfileButton switch_profile_button;
-        SelectButton select_button;
-        UnselectButton unselect_button;
-        Adw.ButtonContent search_button_content;
-        Gtk.Button search_button;
-        Gtk.FlowBox flow_box;
+        Gtk.ActionBar action_bar;
         Gtk.SearchEntry search_entry;
-        Gtk.Label name_label;
+        Gtk.CheckButton check_button;
         Gtk.Label prefix_label;
         Gtk.Label compatibility_tool_label;
         Gtk.Label other_label;
@@ -30,7 +24,6 @@ namespace ProtonPlus.Widgets {
         Gtk.Stack content_stack;
         Gtk.ScrolledWindow scrolled_window;
         Gtk.ListBox game_list_box;
-        Gtk.Label warning_label;
         Gtk.Spinner spinner;
         Gtk.Overlay overlay;
         ListStore model;
@@ -43,6 +36,7 @@ namespace ProtonPlus.Widgets {
             status_page.set_visible (false);
 
             game_list_box = new Gtk.ListBox();
+            game_list_box.set_hexpand (true);
             game_list_box.set_selection_mode (Gtk.SelectionMode.MULTIPLE);
             game_list_box.add_css_class ("boxed-list");
             game_list_box.add_css_class ("list-content");
@@ -54,95 +48,75 @@ namespace ProtonPlus.Widgets {
             spinner.set_size_request (200, 200);
 
             overlay = new Gtk.Overlay();
+            overlay.set_hexpand (true);
             overlay.set_child (game_list_box);
 
             scrolled_window = new Gtk.ScrolledWindow();
+            scrolled_window.set_hexpand (true);
             scrolled_window.set_vexpand (true);
             scrolled_window.set_child (overlay);
             scrolled_window.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
 
-            warning_label = new Gtk.Label(_ ("Close the Steam client beforehand so that the changes can be applied."));
-            warning_label.add_css_class ("warning");
-
-            shortcut_button = new ShortcutButton();
-
             mass_edit_button = new MassEditButton(game_list_box);
             mass_edit_button.mass_edit_requested.connect (open_mass_edit);
-
-            select_button = new SelectButton(game_list_box);
-
-            unselect_button = new UnselectButton(game_list_box);
 
             default_tool_button = new DefaultToolButton();
             default_tool_button.default_tool_requested.connect (open_default_tool);
 
-            search_button_content = new Adw.ButtonContent() {
-                icon_name = "search-symbolic",
-                label = _ ("Show search"),
-            };
-
-            search_button = new Gtk.Button () {
-                css_classes = { "flat" },
-                child = search_button_content,
-            };
-            search_button.clicked.connect (search_button_clicked);
-
             switch_profile_button = new SwitchProfileButton();
 
-            flow_box = new Gtk.FlowBox();
-            flow_box.set_row_spacing (15);
-            flow_box.set_column_spacing (15);
-            flow_box.add_css_class ("card");
-            flow_box.add_css_class ("p-10");
-            flow_box.set_overflow (Gtk.Overflow.HIDDEN);
-            flow_box.set_halign (Gtk.Align.CENTER);
-            flow_box.append (shortcut_button);
-            flow_box.append (mass_edit_button);
-            flow_box.append (select_button);
-            flow_box.append (unselect_button);
-            flow_box.append (default_tool_button);
-            flow_box.append (search_button);
-            flow_box.append (switch_profile_button);
-            flow_box.set_selection_mode (Gtk.SelectionMode.NONE);
+            var action_bar_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
+            action_bar_box.set_halign (Gtk.Align.CENTER);
+
+            action_bar_box.append (mass_edit_button);
+            action_bar_box.append (default_tool_button);
+            action_bar_box.append (switch_profile_button);
+
+            action_bar = new Gtk.ActionBar ();
+            action_bar.set_center_widget (action_bar_box);
 
             search_entry = new Gtk.SearchEntry() {
-                visible = false,
-                placeholder_text = _ ("Search for a game"),
+                placeholder_text = _ ("Name"),
+                hexpand = true
             };
+            search_entry.add_css_class ("flat");
             search_entry.changed.connect (load_games);
 
-            var name_label_gesture = new Gtk.GestureClick();
-            name_label_gesture.pressed.connect (name_label_clicked);
-
-            name_label = new Gtk.Label(_ ("Name"));
-            name_label.set_hexpand (true);
-            name_label.add_controller (name_label_gesture);
+            check_button = new Gtk.CheckButton();
+            check_button.set_size_request (26, 26);
+            check_button.toggled.connect (() => {
+                if (check_button.get_active ()) {
+                    game_list_box.select_all ();
+                } else {
+                    game_list_box.unselect_all ();
+                }
+            });
 
             prefix_label = new Gtk.Label(_ ("Prefix"));
-            prefix_label.set_margin_end (10);
+            prefix_label.set_xalign (0);
             prefix_label.set_size_request (110, 0);
 
-            var compatibility_tool_label_gesture = new Gtk.GestureClick();
-            compatibility_tool_label_gesture.pressed.connect (compatibility_tool_label_clicked);
+            compatibility_tool_label = new Gtk.Label(_ ("Tool"));
+            compatibility_tool_label.set_xalign (0);
+            compatibility_tool_label.set_size_request (254, 0);
 
-            compatibility_tool_label = new Gtk.Label(_ ("Compatibility tool"));
-            compatibility_tool_label.set_size_request (350, 0);
-            compatibility_tool_label.add_controller (compatibility_tool_label_gesture);
+            other_label = new Gtk.Label(_ ("Actions"));
+            other_label.set_xalign (0);
+            other_label.set_size_request (166, 0);
 
-            other_label = new Gtk.Label(_ ("Other"));
-            other_label.set_size_request (175, 0);
-
-            header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+            header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
             header_box.set_hexpand (true);
 
             header_box.add_css_class ("list-header");
             header_box.set_overflow (Gtk.Overflow.HIDDEN);
-            header_box.append (name_label);
+            header_box.append (check_button);
+            header_box.append (search_entry);
             header_box.append (prefix_label);
             header_box.append (compatibility_tool_label);
             header_box.append (other_label);
 
             headered_list_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+            headered_list_box.set_hexpand (true);
             headered_list_box.add_css_class ("card");
             headered_list_box.add_css_class ("transparent-card");
             headered_list_box.set_overflow (Gtk.Overflow.HIDDEN);
@@ -181,31 +155,30 @@ namespace ProtonPlus.Widgets {
             });
 
             set_orientation (Gtk.Orientation.VERTICAL);
-            set_spacing (12);
-            set_margin_top (7);
-            set_margin_bottom (12);
-            set_margin_start (12);
-            set_margin_end (12);
+            set_spacing (0);
 
             games_page_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            games_page_box.append (flow_box);
-            games_page_box.append (search_entry);
+            games_page_box.set_hexpand (true);
+            games_page_box.set_vexpand (true);
             games_page_box.append (headered_list_box);
-            games_page_box.append (warning_label);
             games_page_box.append (status_page);
 
             var clamp = new Adw.Clamp ();
+            clamp.set_vexpand (true);
             clamp.set_maximum_size (975);
+            clamp.set_margin_top (7);
+            clamp.set_margin_bottom (12);
+            clamp.set_margin_start (12);
+            clamp.set_margin_end (12);
             clamp.set_child (games_page_box);
 
             append (clamp);
+            append (action_bar);
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {
             this.launcher = launcher;
 
-            shortcut_button.set_visible (false);
-            warning_label.set_visible (false);
             switch_profile_button.set_visible (false);
 
             if (launcher.has_library_support) {
@@ -217,11 +190,6 @@ namespace ProtonPlus.Widgets {
 
                 if (launcher is Models.Launchers.Steam) {
                     var steam_launcher = (Models.Launchers.Steam) launcher;
-
-                    shortcut_button.reset ();
-                    shortcut_button.set_visible (true);
-
-                    warning_label.set_visible (true);
 
                     default_tool_button.load (steam_launcher);
 
@@ -243,16 +211,15 @@ namespace ProtonPlus.Widgets {
         void show_normal () {
             error = false;
 
-            flow_box.set_visible (true);
+            action_bar.set_visible (true);
             headered_list_box.set_visible (true);
 
             status_page.set_visible (false);
         }
 
         void show_status_box (string icon, string title, string description, bool is_image = false) {
-            flow_box.set_visible (false);
+            action_bar.set_visible (false);
             headered_list_box.set_visible (false);
-            warning_label.set_visible (false);
 
             if (is_image)
             image.set_from_resource (icon);
@@ -276,23 +243,34 @@ namespace ProtonPlus.Widgets {
             overlay.add_overlay (spinner);
 
             model = new ListStore(typeof (Models.SimpleRunner));
-            model.append (new Models.SimpleRunner(_ ("Undefined"), _ ("Undefined")));
+            model.append (new Models.SimpleRunner(_ ("Default"), _ ("Default")));
             foreach (var ct in launcher.compatibility_tools)
             model.append (ct);
 
             expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
 
             foreach (var game in launcher.games) {
-                if (show_search && !game.name.down ().contains (search_entry.get_text ().down ()))
+                if (!game.name.down ().contains (search_entry.get_text ().down ()))
                 continue;
 
-                var game_row = new GameRow(game, model, expression);
+                var game_row = new GameRow(game);
                 game_row.launch_options_requested.connect (open_launch_options);
+                game_row.notify["selected"].connect (() => {
+                    if (game_row.selected)
+                    game_list_box.select_row (game_row);
+                    else
+                    game_list_box.unselect_row (game_row);
+                });
 
                 game_list_box.append (game_row);
             }
 
-            name_label_clicked ();
+            game_list_box.set_sort_func ((row1, row2) => {
+                var name1 = ((GameRow) row1).game.name;
+                var name2 = ((GameRow) row2).game.name;
+
+                return strcmp (name1, name2);
+            });
 
             overlay.remove_overlay (spinner);
 
@@ -301,8 +279,6 @@ namespace ProtonPlus.Widgets {
 
         void load_steam_profile (Models.SteamProfile profile) {
             spinner.start ();
-
-            shortcut_button.load (profile);
 
             var steam_launcher = (Models.Launchers.Steam) launcher;
             steam_launcher.switch_profile.begin (profile, (obj, res) => {
@@ -315,47 +291,7 @@ namespace ProtonPlus.Widgets {
             return;
 
             var game_row = (GameRow) row;
-
-            if (game_row.selected) {
-                game_row.selected = false;
-                game_list_box.unselect_row (game_row);
-            } else {
-                game_row.selected = true;
-            }
-        }
-
-        void name_label_clicked () {
-            game_list_box.set_sort_func ((row1, row2) => {
-                var name1 = ((GameRow) row1).game.name;
-                var name2 = ((GameRow) row2).game.name;
-
-                return strcmp (name1, name2);
-            });
-        }
-
-        void compatibility_tool_label_clicked () {
-            game_list_box.set_sort_func ((row1, row2) => {
-                var name1 = ((GameRow) row1).game.compatibility_tool;
-                var name2 = ((GameRow) row2).game.compatibility_tool;
-
-                if (name1 == _ ("Undefined"))
-                name1 = "zzzz";
-
-                if (name2 == _ ("Undefined"))
-                name2 = "zzzz";
-
-                return strcmp (name1, name2);
-            });
-        }
-
-        void search_button_clicked () {
-            show_search = !show_search;
-
-            search_button_content.set_label (show_search ? _ ("Hide search") : _ ("Show search"));
-
-            search_entry.set_text ("");
-
-            search_entry.set_visible (show_search);
+            game_row.selected = !game_row.selected;
         }
 
         void open_launch_options (GameRow row) {

@@ -165,7 +165,7 @@ namespace ProtonPlus.Models {
 
                     var compatibility_tool = launcher.compatibility_tool_hashtable.get (appid);
                     if (compatibility_tool == null)
-                    compatibility_tool = "Undefined";
+                    compatibility_tool = "Default";
 
                     var game = new Games.Steam.non_steam (appid, name, launch_options, compatibility_tool, launcher);
 

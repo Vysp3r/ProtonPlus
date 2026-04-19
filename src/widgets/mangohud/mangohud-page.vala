@@ -61,6 +61,7 @@ namespace ProtonPlus.Widgets {
         protected MangoHudPage (Models.MangoHudConfig config) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
             this.config = config;
+            this.set_hexpand (true);
         }
 
         public abstract void refresh ();

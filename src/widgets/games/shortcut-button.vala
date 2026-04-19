@@ -1,16 +1,9 @@
 namespace ProtonPlus.Widgets {
     public class ShortcutButton : Gtk.Button {
         Models.SteamProfile profile { get; set; }
-        Adw.ButtonContent shortcut_button_content { get; set; }
 
         construct {
-            shortcut_button_content = new Adw.ButtonContent();
-            shortcut_button_content.set_icon_name ("bookmark-symbolic");
-
             clicked.connect (shortcut_button_clicked);
-
-            add_css_class ("flat");
-            set_child (shortcut_button_content);
         }
 
         public void load (Models.SteamProfile profile) {
@@ -20,12 +13,12 @@ namespace ProtonPlus.Widgets {
         }
 
         public void reset () {
-            shortcut_button_content.set_label (_ ("Create shortcut"));
+            set_label (_ ("Create shortcut"));
         }
 
         void refresh () {
             var shortcut_installed = profile.shortcuts.get_installed_status ();
-            shortcut_button_content.set_label (!shortcut_installed ? _ ("Create shortcut") : _ ("Delete shortcut"));
+            set_label (!shortcut_installed ? _ ("Create shortcut") : _ ("Delete shortcut"));
             set_tooltip_text (!shortcut_installed ? _ ("Create a shortcut of ProtonPlus in Steam") : _ ("Delete the shortcut of ProtonPlus in Steam"));
         }
 

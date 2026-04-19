@@ -22,10 +22,7 @@ namespace ProtonPlus.Widgets {
 
             var switcher = new Adw.ViewSwitcher () {
                 stack = stack,
-                policy = Adw.ViewSwitcherPolicy.WIDE,
-                halign = Gtk.Align.CENTER,
-                margin_top = 10,
-                margin_bottom = 10
+                policy = Adw.ViewSwitcherPolicy.WIDE
             };
 
             presets_page = new MangoHudPresetsPage (config);
@@ -46,11 +43,10 @@ namespace ProtonPlus.Widgets {
             metrics_page.changed.connect (refresh_all);
             extras_page.changed.connect (refresh_all);
 
-            append (switcher);
-            append (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
             append (stack);
 
             var action_bar = new Gtk.ActionBar ();
+            action_bar.set_center_widget (switcher);
             var save_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic") {
                 valign = Gtk.Align.CENTER
             };
@@ -73,7 +69,7 @@ namespace ProtonPlus.Widgets {
 
         private Gtk.ScrolledWindow create_scrolled_window (Gtk.Widget child) {
             var scrolled = new Gtk.ScrolledWindow () {
-                child = new Adw.Clamp () { child = child, maximum_size = 975, margin_top = 15, margin_bottom = 15, margin_start = 15, margin_end = 15 },
+                child = new Adw.Clamp () { child = child, maximum_size = 975, margin_top = 0, margin_bottom = 15, margin_start = 0, margin_end = 0 },
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
                 vexpand = true
             };

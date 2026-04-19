@@ -8,7 +8,7 @@ namespace ProtonPlus.Widgets {
         construct {
             mass_edit_button_content = new Adw.ButtonContent ();
             mass_edit_button_content.set_label (_ ("Mass edit"));
-            mass_edit_button_content.set_icon_name ("edit-symbolic");
+            mass_edit_button_content.set_icon_name ("pen-to-square-symbolic");
 
             set_tooltip_text (_ ("Edit the selected games at once"));
             add_css_class ("flat");
