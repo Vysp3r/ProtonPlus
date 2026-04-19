@@ -45,7 +45,7 @@ namespace ProtonPlus.Widgets {
             return btn;
         }
 
-        protected Gtk.FlowBox add_flow_group (Gtk.Box page, string? title, Gtk.Widget[] widgets) {
+        protected Gtk.FlowBox add_flow_group (Gtk.Box page, string? title, Gtk.Widget[] widgets, string title_class = "caption") {
             var flow_box = create_flow_box ();
             foreach (var widget in widgets) {
                 if (widget is Gtk.ListBoxRow) {
@@ -54,7 +54,7 @@ namespace ProtonPlus.Widgets {
                     flow_box.append (widget);
                 }
             }
-            add_group_to_page (page, title, flow_box, "caption");
+            add_group_to_page (page, title, flow_box, title_class);
             return flow_box;
         }
 

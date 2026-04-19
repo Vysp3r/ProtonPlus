@@ -49,7 +49,7 @@ namespace ProtonPlus.Widgets {
             base (config);
 
             // GPU section
-            var gpu_metrics_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+            var gpu_metrics_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 5);
             var gpu_label = new Gtk.Label (_ ("GPU")) {
                 halign = Gtk.Align.START,
                 margin_start = 12

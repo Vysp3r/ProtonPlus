@@ -20,6 +20,7 @@
     <file alias="scalable/actions/bookmark-symbolic.svg">icons/bookmark.svg</file>
     <file alias="scalable/actions/shield-symbolic.svg">icons/shield.svg</file>
     <file alias="scalable/actions/bolt-2-symbolic.svg">icons/bolt.svg</file>
+    <file alias="scalable/actions/cube-symbolic.svg">icons/cube.svg</file>
     <file alias="scalable/actions/rocket-symbolic.svg">icons/rocket.svg</file>
     <file alias="scalable/actions/proton-symbolic.svg">icons/proton.svg</file>
     <file alias="scalable/actions/square-check-symbolic.svg">icons/square-check.svg</file>
