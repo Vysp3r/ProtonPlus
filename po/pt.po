@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-02-26 21:09+0000\n"
+"PO-Revision-Date: 2026-04-19 22:46+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 #: src/widgets/application.vala:102
 msgid "A modern compatibility tools manager"
@@ -33,7 +33,7 @@ msgstr "Site"
 
 #: src/widgets/application.vala:109
 msgid "translator-credits"
-msgstr ""
+msgstr "créditos-de-tradutores"
 
 #: src/widgets/application.vala:110
 msgid "Special thanks to"
@@ -76,9 +76,8 @@ msgid "_Keyboard Shortcuts"
 msgstr "_Atalhos de Teclado"
 
 #: src/widgets/window.vala:52
-#, fuzzy
 msgid "_Donate"
-msgstr "Doar"
+msgstr "_Doar"
 
 #: src/widgets/window.vala:53
 msgid "_About ProtonPlus"
@@ -238,6 +237,8 @@ msgstr "Atualizações automáticas"
 #: src/widgets/preferences/preferences-dialog.vala:23
 msgid "Update the installed 'Latest' runners when the application starts"
 msgstr ""
+"Atualizar os inicializadores \"Mais recentes\" instalados quando a aplicação "
+"iniciar"
 
 #: src/widgets/preferences/preferences-dialog.vala:29
 msgid "Latest"
@@ -626,7 +627,7 @@ msgstr "Edição em massa"
 #: src/widgets/games/launch-options-view.vala:27
 #: src/widgets/games/default-tool-view.vala:24
 msgid "Back"
-msgstr ""
+msgstr "Voltar"
 
 #: src/widgets/games/mass-edit-view.vala:38
 #: src/widgets/games/launch-options-view.vala:33
@@ -815,6 +816,8 @@ msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
 msgstr ""
+"Executa o jogo nativamente no Wayland em vez de pelo XWayland, mas quebra "
+"Steam Input e a Steam Overlay."
 
 #: src/widgets/games/launch-options-editor.vala:532
 #, fuzzy

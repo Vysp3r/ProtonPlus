@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-04-17 16:09+0000\n"
+"PO-Revision-Date: 2026-04-19 22:46+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -882,7 +882,7 @@ msgstr "Оновлення FSR 4 RDNA3"
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "Optimizes FSR 4.0 for RDNA3 hardware."
-msgstr ""
+msgstr "Оптимізує FSR 4.0 для архітектури RDNA3."
 
 #: src/widgets/games/launch-options-editor.vala:577
 msgid "NVAPI"
@@ -1070,7 +1070,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:640
 msgid "Game arguments"
-msgstr "Параметри гри"
+msgstr "Ігрові параметри"
 
 #: src/widgets/games/launch-options-editor.vala:641
 msgid "Flags passed directly to the game."
@@ -1189,7 +1189,7 @@ msgstr "Додати параметри ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor.vala:1371
 msgid "No launch options configured yet."
-msgstr "Ще не налаштовано параметри запуску."
+msgstr "Параметри запуску ще не задано."
 
 #: src/widgets/games/profile-dialog.vala:15
 msgid "Select a profile"
