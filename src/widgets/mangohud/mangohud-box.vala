@@ -51,11 +51,19 @@ namespace ProtonPlus.Widgets {
                 valign = Gtk.Align.CENTER
             };
             save_button.add_css_class ("suggested-action");
+            save_button.set_tooltip_text (_("Save the current configuration"));
             save_button.clicked.connect (() => {
                 config.save ();
                 saved ();
             });
             action_bar.pack_end (save_button);
+            var cube_button = new Gtk.Button.from_icon_name ("cube-symbolic") {
+                valign = Gtk.Align.CENTER
+            };
+            cube_button.add_css_class ("suggested-action");
+            cube_button.set_tooltip_text (_("Show vkcube"));
+            cube_button.clicked.connect (cube_button_clicked);
+            action_bar.pack_start (cube_button);
             append (action_bar);
         }
 
@@ -74,6 +82,20 @@ namespace ProtonPlus.Widgets {
                 vexpand = true
             };
             return scrolled;
+        }
+
+        private void cube_button_clicked () {
+            try {
+                string command = "env MANGOHUD=1 vkcube";
+                if (ProtonPlus.Globals.IS_FLATPAK) {
+                    command = "flatpak-spawn --host " + command;
+                }
+                string[] argv;
+                GLib.Shell.parse_argv (command, out argv);
+                GLib.Process.spawn_async (null, argv, null, GLib.SpawnFlags.SEARCH_PATH | GLib.SpawnFlags.DO_NOT_REAP_CHILD, null, null);
+            } catch (GLib.Error e) {
+                warning (e.message);
+            }
         }
     }
 }

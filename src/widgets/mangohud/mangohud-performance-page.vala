@@ -3,7 +3,6 @@ namespace ProtonPlus.Widgets {
         private Adw.SwitchRow fps_row;
         private Adw.SwitchRow fps_avg_row;
         private Adw.SwitchRow fps_limit_stats_row;
-        private Adw.SwitchRow fps_1_low_row;
         private Adw.SwitchRow frametime_row;
         private Adw.SwitchRow frame_count_row;
         private Adw.SwitchRow vps_row;
@@ -40,7 +39,7 @@ namespace ProtonPlus.Widgets {
 
             add_flow_group (this, _ ("Information"), {
                 fps_row, fps_avg_row, fps_limit_stats_row, frametime_row, frame_count_row, vps_row, ftrace_row
-            });
+            }, "heading");
 
             vsync_row = create_combo (_ ("Vulkan VSYNC"), {_ ("Unset"), _ ("Adaptive"), _ ("Mailbox"), _ ("OFF"), _ ("ON")}, 0, null, (val) => {
                 switch (val) {
@@ -61,7 +60,7 @@ namespace ProtonPlus.Widgets {
                 }
             });
 
-            add_flow_group (this, _ ("VSYNC"), { vsync_row, gl_vsync_row });
+            add_flow_group (this, _ ("VSYNC"), { vsync_row, gl_vsync_row }, "heading");
 
             fps_limit_row = create_entry (_ ("FPS Limit"), config.fps_limit, (val) => { this.config.fps_limit = val; });
             fps_limit_offset_row = create_entry (_ ("Offset"), config.fps_limit_offset.to_string (), (val) => {
@@ -107,7 +106,7 @@ namespace ProtonPlus.Widgets {
 
             add_flow_group (this, _ ("Limiters"), {
                 fps_limit_row, fps_limit_offset_row, change_fps_limit_colors_row, fps_limit_method_row, toggle_fps_limit_row
-            });
+            }, "heading");
 
             picmip_row = create_combo (_ ("Filtering"), {_ ("None"), _ ("Bicubic"), _ ("Trilinear"), _ ("Retro")}, 0, null, (val) => {
                 switch (val) {
@@ -121,7 +120,7 @@ namespace ProtonPlus.Widgets {
             af_row = create_scale (_ ("Anisotropic Filtering"), 0, 16, 1, out af_scale, (val) => { this.config.af = val; });
             lod_bias_row = create_scale (_ ("Mip-map LoD Bias"), -16, 16, 1, out lod_bias_scale, (val) => { this.config.lod_bias = val; });
 
-            add_flow_group (this, _ ("Filters"), { picmip_row, af_row, lod_bias_row });
+            add_flow_group (this, _ ("Filters"), { picmip_row, af_row, lod_bias_row }, "heading");
 
             refresh ();
         }
