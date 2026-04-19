@@ -19,7 +19,7 @@
     <file alias="scalable/actions/game-library-symbolic.svg">icons/game-library.svg</file>
     <file alias="scalable/actions/bookmark-symbolic.svg">icons/bookmark.svg</file>
     <file alias="scalable/actions/shield-symbolic.svg">icons/shield.svg</file>
-    <file alias="scalable/actions/edit-symbolic.svg">icons/edit.svg</file>
+    <file alias="scalable/actions/pen-to-square-symbolic.svg">icons/pen-to-square.svg</file>
     <file alias="scalable/actions/proton-symbolic.svg">icons/proton.svg</file>
     <file alias="scalable/actions/square-check-symbolic.svg">icons/square-check.svg</file>
     <file alias="scalable/actions/square-uncheck-symbolic.svg">icons/square-uncheck.svg</file>
@@ -37,8 +37,9 @@
     <file alias="scalable/actions/toolbox-symbolic.svg">icons/toolbox.svg</file>
     <file alias="scalable/actions/github-symbolic.svg">icons/github.svg</file>
     <file alias="scalable/actions/copy-symbolic.svg">icons/copy.svg</file>
+    <file alias="scalable/actions/swap-symbolic.svg">icons/swap.svg</file>
     <file alias="scalable/actions/circle-xmark-symbolic.svg">icons/circle-xmark.svg</file>
-    <file alias="scalable/actions/gears-symbolic.svg">icons/gears.svg</file>
+    <file alias="scalable/actions/exe-file-format-symbolic.svg">icons/exe-file-format.svg</file>
     <file alias="scalable/actions/square-poll-horizontal-symbolic.svg">icons/square-poll-horizontal.svg</file>
   </gresource>
 </gresources>

@@ -10,11 +10,13 @@ namespace ProtonPlus.Widgets {
         }
 
         public FiltersBox () {
-            Object (orientation: Gtk.Orientation.HORIZONTAL, spacing: 15);
-            set_halign (Gtk.Align.CENTER);
-            add_css_class ("card");
-            add_css_class ("p-10");
-            set_overflow (Gtk.Overflow.HIDDEN);
+            Object (orientation: Gtk.Orientation.VERTICAL);
+
+            var action_bar = new Gtk.ActionBar ();
+            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
+            box.set_halign (Gtk.Align.CENTER);
+            action_bar.set_center_widget (box);
+            append (action_bar);
 
             installed_only_button = new Gtk.ToggleButton ();
             installed_only_button.set_child (new Adw.ButtonContent () {
@@ -45,9 +47,9 @@ namespace ProtonPlus.Widgets {
             unused_only_button.add_css_class ("flat");
             unused_only_button.notify["active"].connect (unused_only_button_active_changed);
 
-            append (installed_only_button);
-            append (used_only_button);
-            append (unused_only_button);
+            box.append (installed_only_button);
+            box.append (used_only_button);
+            box.append (unused_only_button);
         }
 
         public void apply_filters () {

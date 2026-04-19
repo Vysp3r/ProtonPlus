@@ -92,7 +92,7 @@ namespace ProtonPlus.Models.Games {
                 if (compat_tool_mapping_item_appid != appid)
                 return false;
 
-                if (compatibility_tool == _ ("Undefined")) {
+                if (compatibility_tool == _ ("Default")) {
                     config_content = config_content.replace (compat_tool_mapping_item, "");
                 } else {
                     start_text = "name\"\t\t\"";
@@ -113,7 +113,7 @@ namespace ProtonPlus.Models.Games {
                     config_content = config_content.replace (compat_tool_mapping_item, compat_tool_mapping_item_modified);
                 }
             } else {
-                if (compatibility_tool == _ ("Undefined"))
+                if (compatibility_tool == _ ("Default"))
                 return true;
 
                 var line1 = "\n\t\t\t\t\t\"%u\"\n".printf (appid);

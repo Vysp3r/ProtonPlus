@@ -2,20 +2,12 @@ namespace ProtonPlus.Widgets {
     public class DefaultToolButton : Gtk.Button {
         public signal void default_tool_requested (Models.Launchers.Steam launcher);
 
-        Adw.ButtonContent default_tool_button_content { get; set; }
         Models.Launchers.Steam launcher { get; set; }
 
         construct {
-            default_tool_button_content = new Adw.ButtonContent();
-            default_tool_button_content.set_label (_ ("Set the default compatibility tool"));
-            default_tool_button_content.set_icon_name ("carambola-symbolic");
-
             clicked.connect (default_tool_button_clicked);
 
-            set_icon_name ("dots-symbolic");
-            set_tooltip_text (_ ("Set the default compatibility tool"));
-            set_child (default_tool_button_content);
-            add_css_class ("flat");
+            set_label (_ ("Set the default compatibility tool"));
         }
 
         public void load (Models.Launchers.Steam launcher) {

@@ -2,69 +2,107 @@ namespace ProtonPlus.Widgets {
     public class GameRow : Gtk.ListBoxRow {
         public signal void launch_options_requested (GameRow row);
 
+        Gtk.CheckButton select_check_button;
         Gtk.Label title_label;
         Gtk.Label prefix_label;
-        public CompatibilityToolDropDown compatibility_tool_dropdown;
+        Gtk.Label tool_label;
+        Gtk.Button tool_button;
         Gtk.Button launch_options_button;
         Gtk.Button run_custom_executable_button;
         ExtraButton extra_button;
+        Gtk.Box other_box;
         Gtk.Box content_box;
         public Models.Game game { get; set; }
 
         public bool selected { get; set; }
 
-        public GameRow(Models.Game game, ListStore model, Gtk.PropertyExpression expression) {
+        public GameRow(Models.Game game) {
             this.game = game;
 
             title_label = new Gtk.Label(game.name);
             title_label.set_tooltip_text (title_label.get_label ());
             title_label.set_halign (Gtk.Align.START);
             title_label.set_hexpand (true);
+            title_label.set_selectable (true);
             title_label.set_ellipsize (Pango.EllipsizeMode.END);
 
+            select_check_button = new Gtk.CheckButton();
+            select_check_button.set_size_request (30, 0);
+            select_check_button.bind_property ("active", this, "selected", GLib.BindingFlags.BIDIRECTIONAL | GLib.BindingFlags.SYNC_CREATE);
+
             prefix_label = new Gtk.Label(game.prefix.to_string ());
+            prefix_label.set_xalign (0);
             prefix_label.set_tooltip_text (prefix_label.get_label ());
             prefix_label.set_max_width_chars (10);
             prefix_label.set_ellipsize (Pango.EllipsizeMode.END);
             prefix_label.set_selectable (true);
             prefix_label.set_size_request (110, 0);
 
-            compatibility_tool_dropdown = new CompatibilityToolDropDown (game, model, expression);
+            tool_label = new Gtk.Label (null);
+            tool_label.set_xalign (0.0f);
+            tool_label.set_selectable (true);
+            tool_label.set_max_width_chars (30);
+            tool_label.set_ellipsize (Pango.EllipsizeMode.END);
+            tool_label.set_size_request (250, 0);
+            refresh_tool_label ();
 
             extra_button = new ExtraButton(game);
 
+            other_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
+            other_box.set_size_request (166, 0);
+            other_box.append (extra_button);
+
             content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
+            content_box.set_hexpand (true);
             content_box.set_margin_start (10);
             content_box.set_margin_end (10);
             content_box.set_margin_top (10);
             content_box.set_margin_bottom (10);
             content_box.set_valign (Gtk.Align.CENTER);
+            content_box.append (select_check_button);
             content_box.append (title_label);
             content_box.append (prefix_label);
-            content_box.append (compatibility_tool_dropdown);
+            content_box.append (tool_label);
+            content_box.append (other_box);
 
             if (game is Models.Games.Steam)
             load_steam ((Models.Games.Steam) game);
 
-            content_box.append (extra_button);
-
             set_child (content_box);
         }
 
+        public void refresh_tool_label () {
+            string tool_name = _ ("Default");
+            foreach (var tool in game.launcher.compatibility_tools) {
+                if (tool.internal_title == game.compatibility_tool) {
+                    tool_name = tool.display_title;
+                    break;
+                }
+            }
+
+            tool_label.set_label (tool_name);
+            tool_label.set_tooltip_text (tool_name);
+        }
+
         void load_steam (Models.Games.Steam game) {
+            tool_button = new Gtk.Button.from_icon_name("swap-symbolic");
+            tool_button.set_tooltip_text (_ ("Modify the game compatibility tool"));
+            tool_button.add_css_class ("flat");
+
             launch_options_button = new Gtk.Button.from_icon_name("square-poll-horizontal-symbolic");
             launch_options_button.set_tooltip_text (_ ("Modify the game launch options"));
             launch_options_button.add_css_class ("flat");
             launch_options_button.clicked.connect (launch_options_button_clicked);
 
-            run_custom_executable_button = new Gtk.Button.from_icon_name("gears-symbolic");
+            run_custom_executable_button = new Gtk.Button.from_icon_name("exe-file-format-symbolic");
             run_custom_executable_button.set_tooltip_text (_ ("Run custom executable"));
             run_custom_executable_button.add_css_class ("flat");
             run_custom_executable_button.clicked.connect (run_custom_executable_button_clicked);
             run_custom_executable_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
 
-            content_box.append (launch_options_button);
-            content_box.append (run_custom_executable_button);
+            other_box.prepend (run_custom_executable_button);
+            other_box.prepend (launch_options_button);
+            other_box.prepend (tool_button);
         }
 
         void launch_options_button_clicked () {

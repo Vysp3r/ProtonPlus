@@ -6,8 +6,6 @@ sources += files(
     'mass-edit-view.vala',
     'mass-edit-button.vala',
     'shortcut-button.vala',
-    'select-button.vala',
-    'unselect-button.vala',
     'launch-options-view.vala',
     'launch-options-editor.vala',
     'profile-dialog.vala',
@@ -15,5 +13,4 @@ sources += files(
     'default-tool-button.vala',
     'default-tool-view.vala',
     'compatibility-tool-row.vala',
-    'compatibility-tool-dropdown.vala',
 )

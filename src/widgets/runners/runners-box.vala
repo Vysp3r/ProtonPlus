@@ -32,35 +32,40 @@ namespace ProtonPlus.Widgets {
         private Gtk.Label empty_label;
 
         public RunnersBox() {
-            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 15);
+            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
             set_vexpand (true);
-            set_margin_top (7);
-            set_margin_start (15);
-            set_margin_end (15);
-            set_margin_bottom (15);
 
             filters_box = new FiltersBox();
             filters_box.bind_property ("installed-only", this, "installed-only", BindingFlags.BIDIRECTIONAL);
 
             content = new Gtk.Box(Gtk.Orientation.VERTICAL, 15);
+            content.set_hexpand (true);
 
             empty_label = new Gtk.Label(_ ("No runners found."));
             empty_label.add_css_class ("title-2");
             empty_label.vexpand = true;
+            empty_label.set_margin_top (7);
+            empty_label.set_margin_start (15);
+            empty_label.set_margin_end (15);
+            empty_label.set_margin_bottom (15);
             empty_label.hide ();
 
             clamp = new Adw.Clamp();
             clamp.maximum_size = 975;
             clamp.child = content;
+            clamp.set_margin_top (7);
+            clamp.set_margin_start (15);
+            clamp.set_margin_end (15);
+            clamp.set_margin_bottom (15);
 
             scrolled_window = new Gtk.ScrolledWindow();
             scrolled_window.child = clamp;
             scrolled_window.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
             scrolled_window.vexpand = true;
 
-            append (filters_box);
             append (scrolled_window);
             append (empty_label);
+            append (filters_box);
         }
 
         private void update_launcher () {

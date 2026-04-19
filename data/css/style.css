@@ -77,12 +77,18 @@
 }
 
 .list-header {
-  padding: 14px;
+  padding: 10px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   border-bottom: 1px solid @card_shade_color;
   background-color: @card_bg_color;
   box-shadow: none;
+}
+
+.list-header entry {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
 }
 
 .list-content {
