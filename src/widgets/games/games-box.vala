@@ -10,9 +10,13 @@ namespace ProtonPlus.Widgets {
         Gtk.Image image;
         Adw.StatusPage status_page;
         MassEditButton mass_edit_button;
-        DefaultToolButton default_tool_button;
         SwitchProfileButton switch_profile_button;
         Gtk.ActionBar action_bar;
+        Gtk.Button back_button;
+        Gtk.Button clear_button;
+        Gtk.Button apply_button;
+        Gtk.Box advanced_box;
+        Gtk.Switch advanced_switch;
         Gtk.SearchEntry search_entry;
         Gtk.CheckButton check_button;
         Gtk.Label prefix_label;
@@ -26,8 +30,11 @@ namespace ProtonPlus.Widgets {
         Gtk.ListBox game_list_box;
         Gtk.Spinner spinner;
         Gtk.Overlay overlay;
+        MassEditView mass_edit_view;
         ListStore model;
         Gtk.PropertyExpression expression;
+        Gtk.Box action_bar_box;
+        Gtk.Label selection_label;
 
         construct {
             image = new Gtk.Image();
@@ -40,7 +47,6 @@ namespace ProtonPlus.Widgets {
             game_list_box.set_selection_mode (Gtk.SelectionMode.MULTIPLE);
             game_list_box.add_css_class ("boxed-list");
             game_list_box.add_css_class ("list-content");
-            game_list_box.row_activated.connect (game_list_box_row_activated);
 
             spinner = new Gtk.Spinner();
             spinner.set_halign (Gtk.Align.CENTER);
@@ -58,22 +64,58 @@ namespace ProtonPlus.Widgets {
             scrolled_window.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
 
             mass_edit_button = new MassEditButton(game_list_box);
+            mass_edit_button.set_visible (false);
             mass_edit_button.mass_edit_requested.connect (open_mass_edit);
-
-            default_tool_button = new DefaultToolButton();
-            default_tool_button.default_tool_requested.connect (open_default_tool);
 
             switch_profile_button = new SwitchProfileButton();
 
-            var action_bar_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
+            back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic");
+            back_button.add_css_class ("flat");
+            back_button.set_tooltip_text (_ ("Back"));
+            back_button.clicked.connect (show_games_list_page);
+            back_button.set_visible (false);
+
+            clear_button = new Gtk.Button.from_icon_name ("eraser-symbolic");
+            clear_button.add_css_class ("flat");
+            clear_button.add_css_class ("clear-button");
+            clear_button.set_tooltip_text (_ ("Clear the current launch options"));
+            clear_button.set_visible (false);
+
+            apply_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic");
+            apply_button.add_css_class ("suggested-action");
+            apply_button.set_tooltip_text (_ ("Apply the current modification"));
+            apply_button.set_visible (false);
+
+            advanced_switch = new Gtk.Switch ();
+            advanced_switch.set_valign (Gtk.Align.CENTER);
+
+            advanced_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+            advanced_box.set_valign (Gtk.Align.CENTER);
+            advanced_box.append (new Gtk.Label (_ ("Advanced")));
+            advanced_box.append (advanced_switch);
+            advanced_box.set_visible (false);
+
+            selection_label = new Gtk.Label ("");
+            selection_label.set_visible (false);
+            selection_label.add_css_class ("bold");
+
+            action_bar_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
             action_bar_box.set_halign (Gtk.Align.CENTER);
 
             action_bar_box.append (mass_edit_button);
-            action_bar_box.append (default_tool_button);
             action_bar_box.append (switch_profile_button);
 
+            var center_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
+            center_box.set_halign (Gtk.Align.CENTER);
+            center_box.append (action_bar_box);
+            center_box.append (selection_label);
+
             action_bar = new Gtk.ActionBar ();
-            action_bar.set_center_widget (action_bar_box);
+            action_bar.set_center_widget (center_box);
+            action_bar.pack_start (back_button);
+            action_bar.pack_start (clear_button);
+            action_bar.pack_end (apply_button);
+            action_bar.pack_end (advanced_box);
 
             search_entry = new Gtk.SearchEntry() {
                 placeholder_text = _ ("Name"),
@@ -85,10 +127,13 @@ namespace ProtonPlus.Widgets {
             check_button = new Gtk.CheckButton();
             check_button.set_size_request (26, 26);
             check_button.toggled.connect (() => {
-                if (check_button.get_active ()) {
-                    game_list_box.select_all ();
-                } else {
-                    game_list_box.unselect_all ();
+                var is_active = check_button.get_active ();
+                var child = game_list_box.get_first_child ();
+                while (child != null) {
+                    if (child is GameRow) {
+                        ((GameRow) child).selected = is_active;
+                    }
+                    child = child.get_next_sibling ();
                 }
             });
 
@@ -102,7 +147,7 @@ namespace ProtonPlus.Widgets {
 
             other_label = new Gtk.Label(_ ("Actions"));
             other_label.set_xalign (0);
-            other_label.set_size_request (166, 0);
+            other_label.set_size_request (122, 0);
 
             header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
             header_box.set_hexpand (true);
@@ -163,6 +208,27 @@ namespace ProtonPlus.Widgets {
             games_page_box.append (headered_list_box);
             games_page_box.append (status_page);
 
+            mass_edit_view = new MassEditView (back_button, clear_button, apply_button, advanced_box, advanced_switch);
+            mass_edit_view.back_requested.connect (show_games_list_page);
+
+            content_stack = new Gtk.Stack ();
+            content_stack.set_vexpand (true);
+            content_stack.set_hexpand (true);
+            content_stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
+            content_stack.add_named (games_page_box, "main");
+            content_stack.add_named (mass_edit_view, "mass-edit");
+            content_stack.set_visible_child_name ("main");
+
+            content_stack.notify["visible-child-name"].connect (() => {
+                var is_launch_options = content_stack.get_visible_child_name () == "launch-options";
+
+                back_button.set_visible (is_launch_options);
+                clear_button.set_visible (is_launch_options);
+                apply_button.set_visible (is_launch_options);
+                advanced_box.set_visible (is_launch_options);
+                action_bar_box.set_visible (!is_launch_options);
+            });
+
             var clamp = new Adw.Clamp ();
             clamp.set_vexpand (true);
             clamp.set_maximum_size (975);
@@ -170,7 +236,7 @@ namespace ProtonPlus.Widgets {
             clamp.set_margin_bottom (12);
             clamp.set_margin_start (12);
             clamp.set_margin_end (12);
-            clamp.set_child (games_page_box);
+            clamp.set_child (content_stack);
 
             append (clamp);
             append (action_bar);
@@ -190,8 +256,6 @@ namespace ProtonPlus.Widgets {
 
                 if (launcher is Models.Launchers.Steam) {
                     var steam_launcher = (Models.Launchers.Steam) launcher;
-
-                    default_tool_button.load (steam_launcher);
 
                     if (steam_launcher.profiles.length () > 1) {
                         switch_profile_button.set_visible (true);
@@ -254,16 +318,21 @@ namespace ProtonPlus.Widgets {
                 continue;
 
                 var game_row = new GameRow(game);
-                game_row.launch_options_requested.connect (open_launch_options);
+                game_row.mass_edit_requested.connect ((row) => {
+                    open_mass_edit ({row});
+                });
                 game_row.notify["selected"].connect (() => {
                     if (game_row.selected)
-                    game_list_box.select_row (game_row);
+                        game_list_box.select_row (game_row);
                     else
-                    game_list_box.unselect_row (game_row);
+                        game_list_box.unselect_row (game_row);
+                    update_mass_edit_button_visibility ();
                 });
 
                 game_list_box.append (game_row);
             }
+
+            update_mass_edit_button_visibility ();
 
             game_list_box.set_sort_func ((row1, row2) => {
                 var name1 = ((GameRow) row1).game.name;
@@ -286,27 +355,57 @@ namespace ProtonPlus.Widgets {
             });
         }
 
-        void game_list_box_row_activated (Gtk.ListBoxRow? row) {
-            if (row == null || !(row is GameRow))
-            return;
-
-            var game_row = (GameRow) row;
-            game_row.selected = !game_row.selected;
-        }
-
-        void open_launch_options (GameRow row) {
-            Application.window.launch_options_view.load (row);
-            activate_action_variant ("win.set-selected-view", "launch-options");
+        void update_mass_edit_button_visibility () {
+            int selected_count = 0;
+            var child = game_list_box.get_first_child ();
+            while (child != null) {
+                if (child is GameRow) {
+                    if (((GameRow) child).selected)
+                        selected_count++;
+                }
+                child = child.get_next_sibling ();
+            }
+            mass_edit_button.set_visible (selected_count >= 2);
         }
 
         void open_mass_edit (GameRow[] rows) {
-            Application.window.mass_edit_view.load (rows, model, expression);
-            activate_action_variant ("win.set-selected-view", "mass-edit");
+            mass_edit_view.load (rows, model, expression);
+            content_stack.set_visible_child_name ("mass-edit");
+
+            selection_label.set_text (mass_edit_view.get_selection_text ());
+            selection_label.set_visible (true);
+            action_bar_box.set_visible (false);
+
+            back_button.set_visible (true);
+            clear_button.set_visible (true);
+            apply_button.set_visible (true);
+            advanced_box.set_visible (true);
+
+            mass_edit_button.set_visible (false);
+            switch_profile_button.set_visible (false);
         }
 
-        void open_default_tool (Models.Launchers.Steam launcher) {
-            Application.window.default_tool_view.load (launcher);
-            activate_action_variant ("win.set-selected-view", "default-tool");
+        void show_games_list_page () {
+            content_stack.set_visible_child_name ("main");
+
+            selection_label.set_visible (false);
+            action_bar_box.set_visible (true);
+
+            back_button.set_visible (false);
+            clear_button.set_visible (false);
+            apply_button.set_visible (false);
+            advanced_box.set_visible (false);
+
+            update_mass_edit_button_visibility ();
+
+            bool show_profile_button = false;
+            if (launcher is Models.Launchers.Steam) {
+                var steam_launcher = (Models.Launchers.Steam) launcher;
+
+                if (steam_launcher.profiles.length () > 1)
+                    show_profile_button = true;
+            }
+            switch_profile_button.set_visible (show_profile_button);
         }
     }
 }

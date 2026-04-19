@@ -1,46 +1,60 @@
 namespace ProtonPlus.Widgets {
     public class GameRow : Gtk.ListBoxRow {
-        public signal void launch_options_requested (GameRow row);
-
         Gtk.CheckButton select_check_button;
         Gtk.Label title_label;
         Gtk.Label prefix_label;
         Gtk.Label tool_label;
         Gtk.Button tool_button;
-        Gtk.Button launch_options_button;
         Gtk.Button run_custom_executable_button;
         ExtraButton extra_button;
         Gtk.Box other_box;
         Gtk.Box content_box;
         public Models.Game game { get; set; }
 
+        public signal void mass_edit_requested (GameRow row);
+
         public bool selected { get; set; }
 
         public GameRow(Models.Game game) {
             this.game = game;
 
+            select_check_button = new Gtk.CheckButton();
+            select_check_button.set_size_request (30, 0);
+            select_check_button.bind_property ("active", this, "selected", GLib.BindingFlags.BIDIRECTIONAL | GLib.BindingFlags.SYNC_CREATE);
+
             title_label = new Gtk.Label(game.name);
             title_label.set_tooltip_text (title_label.get_label ());
             title_label.set_halign (Gtk.Align.START);
             title_label.set_hexpand (true);
-            title_label.set_selectable (true);
             title_label.set_ellipsize (Pango.EllipsizeMode.END);
+            title_label.set_tooltip_text (_("Browse game install directory"));
 
-            select_check_button = new Gtk.CheckButton();
-            select_check_button.set_size_request (30, 0);
-            select_check_button.bind_property ("active", this, "selected", GLib.BindingFlags.BIDIRECTIONAL | GLib.BindingFlags.SYNC_CREATE);
+            var title_gesture = new Gtk.GestureClick();
+            title_gesture.pressed.connect((gesture, n_press, x, y) => {
+                if (n_press == 1)
+                    open_install_directory_button_clicked();
+            });
+            title_label.add_controller(title_gesture);
+            add_hover_underline (title_label);
 
             prefix_label = new Gtk.Label(game.prefix.to_string ());
             prefix_label.set_xalign (0);
             prefix_label.set_tooltip_text (prefix_label.get_label ());
             prefix_label.set_max_width_chars (10);
             prefix_label.set_ellipsize (Pango.EllipsizeMode.END);
-            prefix_label.set_selectable (true);
             prefix_label.set_size_request (110, 0);
+            prefix_label.set_tooltip_text (_("Browse prefix directory"));
+
+            var prefix_gesture = new Gtk.GestureClick();
+            prefix_gesture.pressed.connect((gesture, n_press, x, y) => {
+                if (n_press == 1)
+                    open_prefix_directory_button_clicked();
+            });
+            prefix_label.add_controller(prefix_gesture);
+            add_hover_underline (prefix_label);
 
             tool_label = new Gtk.Label (null);
             tool_label.set_xalign (0.0f);
-            tool_label.set_selectable (true);
             tool_label.set_max_width_chars (30);
             tool_label.set_ellipsize (Pango.EllipsizeMode.END);
             tool_label.set_size_request (250, 0);
@@ -49,7 +63,7 @@ namespace ProtonPlus.Widgets {
             extra_button = new ExtraButton(game);
 
             other_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
-            other_box.set_size_request (166, 0);
+            other_box.set_size_request (122, 0);
             other_box.append (extra_button);
 
             content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
@@ -69,10 +83,25 @@ namespace ProtonPlus.Widgets {
             load_steam ((Models.Games.Steam) game);
 
             set_child (content_box);
+            set_selectable (false);
+        }
+
+        void add_hover_underline (Gtk.Label label) {
+            var motion = new Gtk.EventControllerMotion();
+            motion.enter.connect((x, y) => {
+                var list = new Pango.AttrList ();
+                list.insert (Pango.attr_underline_new (Pango.Underline.SINGLE));
+                label.attributes = list;
+            });
+            motion.leave.connect(() => {
+                label.attributes = null;
+            });
+            label.add_controller(motion);
         }
 
         public void refresh_tool_label () {
             string tool_name = _ ("Default");
+
             foreach (var tool in game.launcher.compatibility_tools) {
                 if (tool.internal_title == game.compatibility_tool) {
                     tool_name = tool.display_title;
@@ -81,18 +110,13 @@ namespace ProtonPlus.Widgets {
             }
 
             tool_label.set_label (tool_name);
-            tool_label.set_tooltip_text (tool_name);
         }
 
         void load_steam (Models.Games.Steam game) {
-            tool_button = new Gtk.Button.from_icon_name("swap-symbolic");
-            tool_button.set_tooltip_text (_ ("Modify the game compatibility tool"));
+            tool_button = new Gtk.Button.from_icon_name("screwdriver-wrench-symbolic");
+            tool_button.set_tooltip_text (_ ("Modify the game"));
             tool_button.add_css_class ("flat");
-
-            launch_options_button = new Gtk.Button.from_icon_name("square-poll-horizontal-symbolic");
-            launch_options_button.set_tooltip_text (_ ("Modify the game launch options"));
-            launch_options_button.add_css_class ("flat");
-            launch_options_button.clicked.connect (launch_options_button_clicked);
+            tool_button.clicked.connect (() => mass_edit_requested (this));
 
             run_custom_executable_button = new Gtk.Button.from_icon_name("exe-file-format-symbolic");
             run_custom_executable_button.set_tooltip_text (_ ("Run custom executable"));
@@ -101,15 +125,15 @@ namespace ProtonPlus.Widgets {
             run_custom_executable_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
 
             other_box.prepend (run_custom_executable_button);
-            other_box.prepend (launch_options_button);
             other_box.prepend (tool_button);
         }
 
-        void launch_options_button_clicked () {
-            if (!(game is Models.Games.Steam))
-            return;
+        void open_install_directory_button_clicked () {
+            Utils.System.open_uri ("file://%s".printf (game.installdir));
+        }
 
-            launch_options_requested (this);
+        void open_prefix_directory_button_clicked () {
+            Utils.System.open_uri ("file://%s".printf (game.prefixdir));
         }
 
         void run_custom_executable_button_clicked () {

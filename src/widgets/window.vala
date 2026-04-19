@@ -15,11 +15,6 @@ namespace ProtonPlus.Widgets {
         Menu menu;
         Gtk.MenuButton menu_button;
 
-        Gtk.Stack content_stack;
-        public LaunchOptionsView launch_options_view;
-        public MassEditView mass_edit_view;
-        public DefaultToolView default_tool_view;
-
         Adw.ViewStack view_stack;
         Adw.ViewStackPage downloads_page;
         Adw.ToastOverlay toast_overlay;
@@ -33,7 +28,6 @@ namespace ProtonPlus.Widgets {
             set_title (Config.APP_NAME);
 
             add_action (get_set_selected_launcher_action ());
-            add_action (get_set_selected_view_action ());
             add_action (get_donate_action ());
 
             status_box = new StatusBox ();
@@ -83,15 +77,6 @@ namespace ProtonPlus.Widgets {
             toast_overlay = new Adw.ToastOverlay ();
             toast_overlay.set_child (view_stack);
 
-            launch_options_view = new LaunchOptionsView ();
-            launch_options_view.back_requested.connect (show_games_list_page);
-
-            mass_edit_view = new MassEditView ();
-            mass_edit_view.back_requested.connect (show_games_list_page);
-
-            default_tool_view = new DefaultToolView ();
-            default_tool_view.back_requested.connect (show_games_list_page);
-
             view_switcher = new Adw.ViewSwitcher ();
             view_switcher.set_stack (view_stack);
             view_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
@@ -109,16 +94,6 @@ namespace ProtonPlus.Widgets {
             toolbar_view.set_content (toast_overlay);
             toolbar_view.add_bottom_bar (view_switcher_bar);
 
-            content_stack = new Gtk.Stack ();
-            content_stack.set_vexpand (true);
-            content_stack.set_hexpand (true);
-            content_stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
-            content_stack.add_named (toolbar_view, "main");
-            content_stack.add_named (launch_options_view, "launch-options");
-            content_stack.add_named (mass_edit_view, "mass-edit");
-            content_stack.add_named (default_tool_view, "default-tool");
-            content_stack.set_visible_child_name ("main");
-
             set_content (status_box);
 
             initialize.begin ();
@@ -131,8 +106,8 @@ namespace ProtonPlus.Widgets {
             }
 
             if (launchers.length () > 0) {
-                if (content_stack.get_parent () == null)
-                set_content (content_stack);
+                if (toolbar_view.get_parent () == null)
+                set_content (toolbar_view);
 
                 launchers_popover_button.initialize (launchers);
 
@@ -260,16 +235,6 @@ namespace ProtonPlus.Widgets {
             return action;
         }
 
-        SimpleAction get_set_selected_view_action () {
-            SimpleAction action = new SimpleAction ("set-selected-view", VariantType.STRING);
-
-            action.activate.connect ((variant) => {
-                content_stack.set_visible_child_name (variant.get_string ());
-            });
-
-            return action;
-        }
-
         public override bool close_request () {
             if (!updating) {
                 Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
@@ -300,10 +265,6 @@ namespace ProtonPlus.Widgets {
             dialog.present (this);
 
             return true;
-        }
-
-        void show_games_list_page () {
-            content_stack.set_visible_child_name ("main");
         }
 
         public void show_downloads_page () {

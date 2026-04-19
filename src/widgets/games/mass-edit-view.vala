@@ -2,85 +2,49 @@ namespace ProtonPlus.Widgets {
     public class MassEditView : Gtk.Box {
         public signal void back_requested ();
 
-        Adw.WindowTitle window_title { get; set; }
-        Gtk.Button back_button { get; set; }
-        Gtk.Button clear_button { get; set; }
-        Gtk.Label advanced_label { get; set; }
+        Gtk.Button back_button;
+        Gtk.Button clear_button;
         Gtk.Switch advanced_switch { get; set; }
-        Gtk.Box advanced_box { get; set; }
-        Gtk.Button apply_button { get; set; }
+        Gtk.Box advanced_box;
+        Gtk.Button apply_button;
         Adw.HeaderBar header_bar { get; set; }
         Adw.Clamp content_clamp { get; set; }
         Gtk.ScrolledWindow scrolled_window { get; set; }
-        Gtk.Switch modify_compatibility_tool_switch { get; set; }
         CompatibilityToolRow compatibility_tool_row { get; set; }
         Adw.PreferencesGroup compatibility_tool_group { get; set; }
-        Gtk.Switch modify_launch_options_switch { get; set; }
         Adw.PreferencesGroup launch_options_group { get; set; }
         LaunchOptionsEditor launch_options_editor { get; set; }
         Gtk.Box content_box { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
-        GameRow[] rows;
+        public GameRow[] rows;
 
-        construct {
+        public string get_selection_text () {
+            return rows.length == 1 ? _ ("1 game selected") : _ ("%u games selected").printf (rows.length);
+        }
+
+        public MassEditView (Gtk.Button back_button, Gtk.Button clear_button, Gtk.Button apply_button, Gtk.Box advanced_box, Gtk.Switch advanced_switch) {
             set_orientation (Gtk.Orientation.VERTICAL);
 
-            window_title = new Adw.WindowTitle (_ ("Mass edit"), "");
+            this.back_button = back_button;
+            this.clear_button = clear_button;
+            this.apply_button = apply_button;
+            this.advanced_box = advanced_box;
+            this.advanced_switch = advanced_switch;
 
-            back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic");
-            back_button.add_css_class ("flat");
-            back_button.set_tooltip_text (_ ("Back"));
-            back_button.clicked.connect (() => back_requested ());
-
-            clear_button = new Gtk.Button.from_icon_name ("eraser-symbolic");
-            clear_button.add_css_class ("flat");
-            clear_button.add_css_class ("clear-button");
-            clear_button.set_tooltip_text (_ ("Clear the current launch options"));
-            clear_button.clicked.connect (clear_button_clicked);
-
-            advanced_label = new Gtk.Label (_ ("Advanced"));
-
-            advanced_switch = new Gtk.Switch ();
-            advanced_switch.set_valign (Gtk.Align.CENTER);
-
-            advanced_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-            advanced_box.set_valign (Gtk.Align.CENTER);
-            advanced_box.append (advanced_label);
-            advanced_box.append (advanced_switch);
-
-            apply_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic");
-            apply_button.add_css_class ("suggested-action");
-            apply_button.set_tooltip_text (_ ("Apply the current modifications"));
-            apply_button.clicked.connect (apply_button_clicked);
-
-            header_bar = new Adw.HeaderBar ();
-            header_bar.set_title_widget (window_title);
-            header_bar.pack_start (back_button);
-            header_bar.pack_start (clear_button);
-            header_bar.pack_end (apply_button);
-            header_bar.pack_end (advanced_box);
-
-            modify_compatibility_tool_switch = new Gtk.Switch();
-            modify_compatibility_tool_switch.set_valign (Gtk.Align.CENTER);
-            modify_compatibility_tool_switch.set_tooltip_text (_ ("Enable this if you want the mass edit to take the compatibility tool into account."));
-            modify_compatibility_tool_switch.notify["active"].connect (modify_row_active_changed);
+            this.back_button.clicked.connect (() => back_requested ());
+            this.clear_button.clicked.connect (clear_button_clicked);
+            this.apply_button.clicked.connect (apply_button_clicked);
 
             compatibility_tool_group = new Adw.PreferencesGroup();
             compatibility_tool_group.set_title (_ ("Compatibility tool"));
-            compatibility_tool_group.set_header_suffix (modify_compatibility_tool_switch);
             compatibility_tool_group.set_margin_bottom (15);
-
-            modify_launch_options_switch = new Gtk.Switch();
-            modify_launch_options_switch.set_valign (Gtk.Align.CENTER);
-            modify_launch_options_switch.set_tooltip_text (_ ("Enable this if you want the mass edit to take the launch options into account."));
-            modify_launch_options_switch.notify["active"].connect (modify_row_active_changed);
 
             launch_options_editor = new LaunchOptionsEditor ();
             advanced_switch.notify["active"].connect (() => launch_options_editor.set_advanced_visible (advanced_switch.get_active ()));
-
+            launch_options_editor.content_changed.connect (refresh);
+            
             launch_options_group = new Adw.PreferencesGroup();
             launch_options_group.set_title (_ ("Launch options"));
-            launch_options_group.set_header_suffix (modify_launch_options_switch);
 
             content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
             content_box.append (compatibility_tool_group);
@@ -97,17 +61,11 @@ namespace ProtonPlus.Widgets {
             scrolled_window.set_vexpand (true);
             scrolled_window.set_child (content_clamp);
 
-            toolbar_view = new Adw.ToolbarView ();
-            toolbar_view.add_top_bar (header_bar);
-            toolbar_view.set_content (scrolled_window);
-
-            append (toolbar_view);
+            append (scrolled_window);
         }
 
         public void load (GameRow[] rows, ListStore model, Gtk.PropertyExpression expression) {
             this.rows = rows;
-
-            window_title.set_subtitle (rows.length == 1 ? _ ("1 game selected") : _ ("%u games selected").printf (rows.length));
 
             if (compatibility_tool_row != null)
             compatibility_tool_group.remove (compatibility_tool_row);
@@ -115,8 +73,6 @@ namespace ProtonPlus.Widgets {
             compatibility_tool_row = new CompatibilityToolRow (model, expression);
             compatibility_tool_group.add (compatibility_tool_row);
 
-            modify_compatibility_tool_switch.set_active (false);
-            modify_launch_options_switch.set_active (false);
             advanced_switch.set_active (false);
             launch_options_editor.set_text ("");
 
@@ -128,24 +84,11 @@ namespace ProtonPlus.Widgets {
         }
 
         void refresh () {
-            var compatibility_tool_check = modify_compatibility_tool_switch.get_active ();
-            var launch_options_check = modify_launch_options_switch.get_active ();
-
-            clear_button.set_sensitive (compatibility_tool_check || launch_options_check || launch_options_editor.has_clearable_state ());
-            apply_button.set_sensitive (compatibility_tool_check || launch_options_check);
-            compatibility_tool_row.set_sensitive (compatibility_tool_check);
-            launch_options_editor.set_sensitive (launch_options_check);
-            advanced_switch.set_sensitive (launch_options_check);
-            advanced_label.set_sensitive (launch_options_check);
-        }
-
-        void modify_row_active_changed () {
-            refresh ();
+            clear_button.set_sensitive (launch_options_editor.has_clearable_state ());
+            apply_button.set_sensitive (launch_options_editor.has_clearable_state ());
         }
 
         void clear_button_clicked () {
-            modify_compatibility_tool_switch.set_active (false);
-            modify_launch_options_switch.set_active (false);
             launch_options_editor.clear ();
             refresh ();
         }
@@ -155,7 +98,7 @@ namespace ProtonPlus.Widgets {
             var invalids = new List<string> ();
 
             foreach (var row in rows) {
-                if (modify_compatibility_tool_switch.get_active ()) {
+                {
                     var valids = new List<GameRow> ();
 
                     var success = row.game.change_compatibility_tool (item.internal_title);
@@ -171,7 +114,7 @@ namespace ProtonPlus.Widgets {
                     }
                 }
 
-                if (row.game.launcher is Models.Launchers.Steam && modify_launch_options_switch.get_active ()) {
+                if (row.game.launcher is Models.Launchers.Steam) {
                     var valids = new List<GameRow> ();
 
                     var steam_game = (Models.Games.Steam) row.game;
