@@ -15,44 +15,16 @@ namespace ProtonPlus.Widgets {
         public MangoHudVisualPage (Models.MangoHudConfig config) {
             base (config);
 
-            var visual_flow_box = create_flow_box ();
+            hud_title_row = create_entry (_ ("HUD Title"), config.hud_title, (val) => { this.config.hud_title = val; });
+            add_group_to_page (this, null, create_row_card (hud_title_row));
 
-            hud_title_row = new Adw.EntryRow () {
-                title = _ ("HUD Title"),
-                text = config.hud_title
-            };
-            hud_title_row.notify["text"].connect (() => {
-                if (is_updating) return;
-                config.hud_title = hud_title_row.text;
-                config.save ();
+            orientation_row = create_combo (_ ("Orientation"), {_ ("Vertical"), _ ("Horizontal")}, config.horizontal ? 1 : 0, "object-flip-horizontal-symbolic", (val) => {
+                this.config.horizontal = val == 1;
             });
 
-            orientation_row = new Adw.ComboRow () {
-                title = _ ("Orientation"),
-                icon_name = "object-flip-horizontal-symbolic",
-                model = new Gtk.StringList ({_ ("Vertical"), _ ("Horizontal")}),
-                selected = config.horizontal ? 1 : 0
-            };
-            orientation_row.notify["selected"].connect (() => {
-                if (is_updating) return;
-                config.horizontal = orientation_row.selected == 1;
-                config.save ();
-                changed ();
+            border_row = create_combo (_ ("Borders"), {_ ("Squared"), _ ("Rounded")}, config.round_corners > 0 ? 1 : 0, "view-grid-symbolic", (val) => {
+                this.config.round_corners = val == 1 ? 10 : 0;
             });
-            visual_flow_box.append (create_row_card (orientation_row));
-
-            border_row = new Adw.ComboRow () {
-                title = _ ("Borders"),
-                icon_name = "view-grid-symbolic",
-                model = new Gtk.StringList ({_ ("Squared"), _ ("Rounded")}),
-                selected = config.round_corners > 0 ? 1 : 0
-            };
-            border_row.notify["selected"].connect (() => {
-                if (is_updating) return;
-                config.round_corners = border_row.selected == 1 ? 10 : 0;
-                config.save ();
-            });
-            visual_flow_box.append (create_row_card (border_row));
 
             var color_dialog = new Gtk.ColorDialog ();
             var color_dialog_alpha = new Gtk.ColorDialog () {
@@ -61,8 +33,7 @@ namespace ProtonPlus.Widgets {
 
             bg_color_btn = new Gtk.ColorDialogButton (color_dialog_alpha);
             bg_color_btn.set_valign (Gtk.Align.CENTER);
-            var bg_rgba = Gdk.RGBA ();
-            bg_rgba.parse ("#" + config.background_color);
+            var bg_rgba = hex_to_rgba (config.background_color);
             bg_rgba.alpha = float.parse (config.background_alpha);
             bg_color_btn.rgba = bg_rgba;
 
@@ -71,118 +42,56 @@ namespace ProtonPlus.Widgets {
                 icon_name = "fill-color-symbolic",
             };
             bg_color_row.add_suffix (bg_color_btn);
-            visual_flow_box.append (create_row_card (bg_color_row));
 
             bg_color_btn.notify["rgba"].connect (() => {
-                if (is_updating) return;
-                var rgba = bg_color_btn.get_rgba ();
-                config.background_color = "%02x%02x%02x".printf ((uint) (rgba.red * 255), (uint) (rgba.green * 255), (uint) (rgba.blue * 255));
-                config.background_alpha = "%.1f".printf (rgba.alpha);
-                config.save ();
+                if (is_updating || this.config == null) return;
+                Gdk.RGBA rgba;
+                bg_color_btn.get ("rgba", out rgba);
+                this.config.background_color = rgba_to_hex (rgba);
+                this.config.background_alpha = "%.1f".printf (rgba.alpha);
+                changed ();
             });
 
-            font_color_btn = new Gtk.ColorDialogButton (color_dialog);
-            font_color_btn.set_valign (Gtk.Align.CENTER);
-            var font_rgba = Gdk.RGBA ();
-            font_rgba.parse ("#" + config.text_color);
-            font_color_btn.rgba = font_rgba;
+            font_color_btn = create_color_button (color_dialog, config.text_color, (val) => { this.config.text_color = val; });
 
-            font_color_btn.notify["rgba"].connect (() => {
-                if (is_updating) return;
-                var rgba = font_color_btn.get_rgba ();
-                config.text_color = "%02x%02x%02x".printf ((uint) (rgba.red * 255), (uint) (rgba.green * 255), (uint) (rgba.blue * 255));
-                config.save ();
-            });
-
-            font_size_row = new Adw.EntryRow () {
-                title = _ ("Font Size"),
-                text = config.font_size
-            };
+            font_size_row = create_entry (_ ("Font Size"), config.font_size, (val) => { this.config.font_size = val; });
             font_size_row.add_suffix (font_color_btn);
-            font_size_row.notify["text"].connect (() => {
-                if (is_updating) return;
-                config.font_size = font_size_row.text;
-                config.save ();
-            });
-            visual_flow_box.append (create_row_card (font_size_row));
 
-            position_row = new Adw.ComboRow () {
-                title = _ ("Position"),
-                icon_name = "view-fullscreen-symbolic",
-                model = new Gtk.StringList ({_ ("Top Left"), _ ("Top Right"), _ ("Bottom Left"), _ ("Bottom Right")}),
-            };
+            position_row = create_combo (_ ("Position"), {_ ("Top Left"), _ ("Top Right"), _ ("Bottom Left"), _ ("Bottom Right")}, 0, "view-fullscreen-symbolic", (val) => {
+                switch (val) {
+                    case 0: this.config.position = "top-left"; break;
+                    case 1: this.config.position = "top-right"; break;
+                    case 2: this.config.position = "bottom-left"; break;
+                    case 3: this.config.position = "bottom-right"; break;
+                }
+            });
             refresh_position_row ();
-            position_row.notify["selected"].connect (() => {
-                if (is_updating) return;
-                switch (position_row.selected) {
-                    case 0: config.position = "top-left"; break;
-                    case 1: config.position = "top-right"; break;
-                    case 2: config.position = "bottom-left"; break;
-                    case 3: config.position = "bottom-right"; break;
+
+            columns_row = create_combo (_ ("Columns"), {"1", "2", "3", "4", "5", "6"}, config.table_columns > 0 ? config.table_columns - 1 : 0, "view-column-symbolic", (val) => {
+                this.config.table_columns = val + 1;
+            });
+
+            toggle_hud_row = create_combo (_ ("HUD Toggle Key"), {"Shift_R+F12", "Shift_R+F1", "Shift_R+F2", "Shift_R+F3", "Shift_R+F4", _ ("None")}, 0, "preferences-desktop-keyboard-shortcuts-symbolic", (val) => {
+                switch (val) {
+                    case 0: this.config.toggle_hud = "Shift_R+F12"; break;
+                    case 1: this.config.toggle_hud = "Shift_R+F1"; break;
+                    case 2: this.config.toggle_hud = "Shift_R+F2"; break;
+                    case 3: this.config.toggle_hud = "Shift_R+F3"; break;
+                    case 4: this.config.toggle_hud = "Shift_R+F4"; break;
+                    case 5: this.config.toggle_hud = ""; break;
                 }
-                config.save ();
             });
-            visual_flow_box.append (create_row_card (position_row));
-
-            columns_row = new Adw.ComboRow () {
-                title = _ ("Columns"),
-                icon_name = "view-column-symbolic",
-                model = new Gtk.StringList ({"1", "2", "3", "4", "5", "6"}),
-            };
-            columns_row.selected = config.table_columns > 0 ? config.table_columns - 1 : 0;
-            columns_row.notify["selected"].connect (() => {
-                if (is_updating) return;
-                config.table_columns = (int) columns_row.selected + 1;
-                config.save ();
-            });
-            visual_flow_box.append (create_row_card (columns_row));
-
-            toggle_hud_row = new Adw.ComboRow () {
-                title = _ ("HUD Toggle Key"),
-                icon_name = "preferences-desktop-keyboard-shortcuts-symbolic",
-                model = new Gtk.StringList ({"Shift_R+F12", "Shift_R+F1", "Shift_R+F2", "Shift_R+F3", "Shift_R+F4", _ ("None")}),
-            };
             refresh_toggle_hud_row ();
-            toggle_hud_row.notify["selected"].connect (() => {
-                if (is_updating) return;
-                switch (toggle_hud_row.selected) {
-                    case 0: config.toggle_hud = "Shift_R+F12"; break;
-                    case 1: config.toggle_hud = "Shift_R+F1"; break;
-                    case 2: config.toggle_hud = "Shift_R+F2"; break;
-                    case 3: config.toggle_hud = "Shift_R+F3"; break;
-                    case 4: config.toggle_hud = "Shift_R+F4"; break;
-                    case 5: config.toggle_hud = ""; break;
-                }
-                config.save ();
-            });
-            visual_flow_box.append (create_row_card (toggle_hud_row));
 
-            compact_row = new Adw.SwitchRow () {
-                title = _ ("Compact HUD"),
-                icon_name = "view-compact-symbolic",
-                active = config.compact
-            };
-            compact_row.notify["active"].connect (() => {
-                if (is_updating) return;
-                config.compact = compact_row.active;
-                config.save ();
-            });
-            visual_flow_box.append (create_row_card (compact_row));
+            compact_row = create_switch (_ ("Compact HUD"), config.compact, (val) => { this.config.compact = val; });
+            compact_row.icon_name = "view-compact-symbolic";
 
-            no_display_row = new Adw.SwitchRow () {
-                title = _ ("Hide by default"),
-                icon_name = "eye-not-looking-symbolic",
-                active = config.no_display
-            };
-            no_display_row.notify["active"].connect (() => {
-                if (is_updating) return;
-                config.no_display = no_display_row.active;
-                config.save ();
-            });
-            visual_flow_box.append (create_row_card (no_display_row));
+            no_display_row = create_switch (_ ("Hide by default"), config.no_display, (val) => { this.config.no_display = val; });
+            no_display_row.icon_name = "eye-not-looking-symbolic";
 
-            add_group_to_page (this, null, create_row_card (hud_title_row));
-            add_group_to_page (this, null, visual_flow_box);
+            add_flow_group (this, null, {
+                orientation_row, border_row, bg_color_row, font_size_row, position_row, columns_row, toggle_hud_row, compact_row, no_display_row
+            });
         }
 
         private void refresh_position_row () {
@@ -215,14 +124,11 @@ namespace ProtonPlus.Widgets {
             orientation_row.selected = config.horizontal ? 1 : 0;
             border_row.selected = config.round_corners > 0 ? 1 : 0;
             
-            var bg_rgba = Gdk.RGBA ();
-            bg_rgba.parse ("#" + config.background_color);
-            bg_rgba.alpha = float.parse (config.background_alpha);
-            bg_color_btn.rgba = bg_rgba;
+            var bg_rgba_ref = hex_to_rgba (config.background_color);
+            bg_rgba_ref.alpha = float.parse (config.background_alpha);
+            bg_color_btn.rgba = bg_rgba_ref;
 
-            var font_rgba = Gdk.RGBA ();
-            font_rgba.parse ("#" + config.text_color);
-            font_color_btn.rgba = font_rgba;
+            font_color_btn.rgba = hex_to_rgba (config.text_color);
 
             font_size_row.text = config.font_size;
             refresh_position_row ();

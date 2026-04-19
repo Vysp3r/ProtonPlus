@@ -44,18 +44,18 @@ namespace ProtonPlus.Widgets {
         }
 
         private void apply_preset (Models.MangoHudPreset preset) {
-            if (is_updating || preset == Models.MangoHudPreset.CUSTOM) return;
+            if (is_updating || this.config == null || preset == Models.MangoHudPreset.CUSTOM) return;
 
             is_updating = true;
-            config.set_preset (preset);
-            config.save ();
+            this.config.set_preset (preset);
             is_updating = false;
             
             changed (); // Notify MangoHudBox to refresh other pages
         }
 
         public override void refresh () {
-            var selected = (int) config.get_preset ();
+            if (this.config == null) return;
+            var selected = (int) this.config.get_preset ();
             is_updating = true;
             preset_buttons[selected].active = true;
             is_updating = false;
