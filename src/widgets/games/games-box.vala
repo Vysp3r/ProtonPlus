@@ -366,9 +366,12 @@ namespace ProtonPlus.Widgets {
                 child = child.get_next_sibling ();
             }
             mass_edit_button.set_visible (selected_count >= 2);
+            action_bar.set_visible (mass_edit_button.get_visible ());
         }
 
         void open_mass_edit (GameRow[] rows) {
+            action_bar.set_visible (true);
+
             mass_edit_view.load (rows, model, expression);
             content_stack.set_visible_child_name ("mass-edit");
 

@@ -1,5 +1,7 @@
 namespace ProtonPlus.Widgets {
     public class GameRow : Gtk.ListBoxRow {
+        Gtk.GestureClick title_gesture;
+        Gtk.GestureClick prefix_gesture;
         Gtk.CheckButton select_check_button;
         Gtk.Label title_label;
         Gtk.Label prefix_label;
@@ -27,15 +29,12 @@ namespace ProtonPlus.Widgets {
             title_label.set_halign (Gtk.Align.START);
             title_label.set_hexpand (true);
             title_label.set_ellipsize (Pango.EllipsizeMode.END);
-            title_label.set_tooltip_text (_("Browse game install directory"));
 
-            var title_gesture = new Gtk.GestureClick();
+            title_gesture = new Gtk.GestureClick();
             title_gesture.pressed.connect((gesture, n_press, x, y) => {
                 if (n_press == 1)
                     open_install_directory_button_clicked();
             });
-            title_label.add_controller(title_gesture);
-            add_hover_underline (title_label);
 
             prefix_label = new Gtk.Label(game.prefix.to_string ());
             prefix_label.set_xalign (0);
@@ -43,15 +42,12 @@ namespace ProtonPlus.Widgets {
             prefix_label.set_max_width_chars (10);
             prefix_label.set_ellipsize (Pango.EllipsizeMode.END);
             prefix_label.set_size_request (110, 0);
-            prefix_label.set_tooltip_text (_("Browse prefix directory"));
 
-            var prefix_gesture = new Gtk.GestureClick();
+            prefix_gesture = new Gtk.GestureClick();
             prefix_gesture.pressed.connect((gesture, n_press, x, y) => {
                 if (n_press == 1)
                     open_prefix_directory_button_clicked();
             });
-            prefix_label.add_controller(prefix_gesture);
-            add_hover_underline (prefix_label);
 
             tool_label = new Gtk.Label (null);
             tool_label.set_xalign (0.0f);
@@ -123,6 +119,18 @@ namespace ProtonPlus.Widgets {
             run_custom_executable_button.add_css_class ("flat");
             run_custom_executable_button.clicked.connect (run_custom_executable_button_clicked);
             run_custom_executable_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
+
+            if (FileUtils.test (game.installdir, GLib.FileTest.IS_DIR)) {
+                title_label.set_tooltip_text (_("Browse game install directory"));
+                title_label.add_controller(title_gesture);
+                add_hover_underline (title_label);
+            }
+
+            if (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR)) {
+                prefix_label.set_tooltip_text (_("Browse prefix directory"));
+                prefix_label.add_controller(prefix_gesture);
+                add_hover_underline (prefix_label);
+            }
 
             other_box.prepend (run_custom_executable_button);
             other_box.prepend (tool_button);

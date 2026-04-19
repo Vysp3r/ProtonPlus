@@ -74,7 +74,28 @@ namespace ProtonPlus.Widgets {
             compatibility_tool_group.add (compatibility_tool_row);
 
             advanced_switch.set_active (false);
-            launch_options_editor.set_text ("");
+
+            if (rows.length == 1) {
+                var game = rows[0].game;
+
+                var n_items = model.get_n_items();
+                for (uint i = 0; i < n_items; i++) {
+                    var runner = model.get_item(i) as Models.SimpleRunner;
+                    if (runner != null && runner.internal_title == game.compatibility_tool) {
+                        compatibility_tool_row.selected = i;
+                        break;
+                    }
+                }
+
+                if (game is Models.Games.Steam) {
+                    var steam_game = (Models.Games.Steam) game;
+                    launch_options_editor.set_text (steam_game.launch_options ?? "");
+                } else {
+                    launch_options_editor.set_text ("");
+                }
+            } else {
+                launch_options_editor.set_text ("");
+            }
 
             var has_steam_launch_options = rows[0].game.launcher is Models.Launchers.Steam;
             launch_options_group.set_visible (has_steam_launch_options);
