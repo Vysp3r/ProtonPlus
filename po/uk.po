@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-04-19 22:46+0000\n"
+"PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -577,7 +577,7 @@ msgstr ""
 #: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
 msgid "Undefined"
-msgstr "Не визначено"
+msgstr "Не встановлено"
 
 #: src/widgets/games/games-box.vala:351
 msgid "Hide search"
@@ -889,7 +889,6 @@ msgid "NVAPI"
 msgstr "NVAPI"
 
 #: src/widgets/games/launch-options-editor.vala:577
-#, fuzzy
 msgid "Lets games access NVIDIA-specific features like DLSS."
 msgstr "Дозволяє іграм використовувати NVIDIA-функції, такі як DLSS."
 
@@ -906,13 +905,12 @@ msgid "Hide NVIDIA GPU"
 msgstr "Приховати NVIDIA GPU"
 
 #: src/widgets/games/launch-options-editor.vala:583
-#, fuzzy
 msgid ""
 "Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
 "NVIDIA driver behavior."
 msgstr ""
-"Змушує Proton визначати NVIDIA GPU як AMD для ігор, які очікують поведінку "
-"Windows-драйверів NVIDIA."
+"Змушує Proton маскувати відеокарту NVIDIA під AMD для ігор, які коректно "
+"працюють лише з Windows-драйверами NVIDIA."
 
 #: src/widgets/games/launch-options-editor.vala:584
 msgid "DLSS Indicator"
@@ -923,7 +921,6 @@ msgid "Shows a DLSS status indicator in-game."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:585
-#, fuzzy
 msgid "NVIDIA Libraries"
 msgstr "Бібліотеки NVIDIA"
 
@@ -932,6 +929,8 @@ msgid ""
 "Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
 "or ray tracing."
 msgstr ""
+"Активує бібліотеки NVIDIA (PhysX, CUDA). Не потрібно для DLSS або трасування "
+"променів."
 
 #: src/widgets/games/launch-options-editor.vala:587
 msgid "XeSS Upgrade"
@@ -958,10 +957,9 @@ msgid "GPU vendor options"
 msgstr "Виробники графічних процесорів"
 
 #: src/widgets/games/launch-options-editor.vala:606
-#, fuzzy
 msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
-msgstr "Використовувати специфічні перемикачі сумісності для AMD та NVIDIA."
+msgstr "Налаштування сумісності для відеокарт AMD, NVIDIA та Intel."
 
 #. More options
 #: src/widgets/games/launch-options-editor.vala:613
@@ -991,6 +989,8 @@ msgid ""
 "Uses FSync instead of NTSync. Can fix issues in certain games that do not "
 "pair well with NTSync."
 msgstr ""
+"Використовує FSync замість NTSync. Може вирішити проблеми в окремих іграх, "
+"несумісних із NTSync."
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid "Local shader cache"
@@ -1001,14 +1001,16 @@ msgid ""
 "Enables per-game shader cache. This isolates the shader cache of each game "
 "but does not compile them ahead-of-time."
 msgstr ""
+"Увімкнення кешу шейдерів для окремих ігор. Ізолює кеш кожної гри, але не "
+"виконує попередню компіляцію."
 
 #: src/widgets/games/launch-options-editor.vala:617
 msgid "Prefer SDL controller"
-msgstr ""
+msgstr "Надавати перевагу контролеру SDL"
 
 #: src/widgets/games/launch-options-editor.vala:617
 msgid "Workaround for controller detection issues."
-msgstr ""
+msgstr "Обхідне рішення для проблем із визначенням контролера."
 
 #: src/widgets/games/launch-options-editor.vala:618
 msgid "Disable Steam Input"
@@ -1017,6 +1019,7 @@ msgstr "Вимкнути Пристрої введення Steam"
 #: src/widgets/games/launch-options-editor.vala:618
 msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
 msgstr ""
+"Вимикає Пристрої введення Steam. Виправляє проблеми з контролерами в Wayland."
 
 #: src/widgets/games/launch-options-editor.vala:621
 msgid "More options"
@@ -1079,7 +1082,7 @@ msgstr "Параметри, які передаються напряму грі.
 #. Advanced options
 #: src/widgets/games/launch-options-editor.vala:651
 msgid "Appends Steam's game command."
-msgstr ""
+msgstr "Додає команду запуску гри Steam."
 
 #: src/widgets/games/launch-options-editor.vala:654
 msgid "Additional arguments"
@@ -1102,7 +1105,6 @@ msgid "Advanced options"
 msgstr "Розширені опції"
 
 #: src/widgets/games/launch-options-editor.vala:663
-#, fuzzy
 msgid "Extra control over the final Steam launch command."
 msgstr "Додатковий контроль над фінальною командою запуску Steam."
 
@@ -1119,7 +1121,7 @@ msgstr "Запускає гру на весь екран."
 #: src/widgets/games/launch-options-editor.vala:846
 #: src/widgets/games/launch-options-editor.vala:881
 msgid "VRR"
-msgstr ""
+msgstr "VRR (змінна частота оновлення)"
 
 #: src/widgets/games/launch-options-editor.vala:846
 #: src/widgets/games/launch-options-editor.vala:881
@@ -1154,8 +1156,11 @@ msgid "Additional Gamescope arguments"
 msgstr "Додаткові параметри Gamescope"
 
 #: src/widgets/games/launch-options-editor.vala:864
+#, fuzzy
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
+"Зберігає додаткові параметри Gamescope, зокрема параметри виводу та "
+"роздільної здатності."
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Add Gamescope arguments"
@@ -1181,7 +1186,7 @@ msgstr "Додаткові параметри ScopeBuddy"
 #, fuzzy
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
-"Зберігає додаткові прапорці ScopeBuddy, наприклад вибір вихідного пристрою."
+"Зберігає додаткові параметри ScopeBuddy, наприклад вибір вихідного пристрою."
 
 #: src/widgets/games/launch-options-editor.vala:896
 msgid "Add ScopeBuddy arguments"
@@ -1209,29 +1214,28 @@ msgstr "Відкрити в protontricks"
 
 #: src/widgets/games/extra-button.vala:21
 msgid "Run custom executable"
-msgstr ""
+msgstr "Запустити власний виконуваний файл"
 
 #: src/widgets/games/extra-button.vala:36
 msgid "Open menu"
 msgstr "Відкрити меню"
 
 #: src/widgets/games/extra-button.vala:89
-#, fuzzy
 msgid "Select executable"
-msgstr "Вибрати все"
+msgstr "Вибрати виконуваний файл"
 
 #: src/widgets/games/extra-button.vala:96
 msgid "Executables (*.exe, *.msi, *.msu)"
-msgstr ""
+msgstr "Виконувані файли (*.exe, *.msi, *.msu)"
 
 #: src/widgets/games/extra-button.vala:136
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't find the compatibility tool for %s"
-msgstr "Не вдалося змінити інструмент сумісності для %s"
+msgstr "Не вдалося знайти інструмент сумісності для %s"
 
 #: src/widgets/games/extra-button.vala:136
 msgid "Please make sure it's installed."
-msgstr ""
+msgstr "Переконайтеся, що його встановлено."
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16
@@ -1249,8 +1253,8 @@ msgid ""
 "Choose the default compatibility tool Steam should use for games without an "
 "explicit override."
 msgstr ""
-"Виберіть типовий інструмент сумісності Steam, який має використовуватися для "
-"ігор за умови відсутності іншого."
+"Виберіть типовий інструмент сумісності, який Steam використовує для ігор без "
+"окремих налаштувань."
 
 #: src/widgets/games/default-tool-view.vala:117
 msgid "Couldn't change the default compatibility tool"
@@ -1267,15 +1271,15 @@ msgstr "Не вдалося змінити інструмент суміснос
 
 #: src/widgets/downloads/downloads-box.vala:18
 msgid "No active downloads"
-msgstr ""
+msgstr "Немає активних завантажень"
 
 #: src/widgets/downloads/downloads-box.vala:19
 msgid "Your downloads will appear here."
-msgstr ""
+msgstr "Тут з’являтимуться ваші завантаження."
 
 #: src/widgets/downloads/downloads-box.vala:23
 msgid "In-Progress"
-msgstr ""
+msgstr "Триває"
 
 #: src/widgets/downloads/downloads-box.vala:35
 msgid "Completed"
@@ -1307,7 +1311,7 @@ msgstr "Скасовано"
 
 #: src/widgets/downloads/download-row.vala:137
 msgid "Success"
-msgstr ""
+msgstr "Успішно"
 
 #: src/widgets/downloads/download-row.vala:139
 msgid "Error"
@@ -1318,7 +1322,6 @@ msgid "Copy Error Message"
 msgstr "Копіювати текст помилки"
 
 #: src/widgets/downloads/download-row.vala:156
-#, fuzzy
 msgid "Report Issue"
 msgstr "Повідомити"
 
@@ -1602,9 +1605,8 @@ msgid "Error: Selection out of range\n"
 msgstr "Помилка: вибір за межами діапазону\n"
 
 #: src/cli/cli.vala:500
-#, fuzzy
 msgid "Usage:\n"
-msgstr "Використання: %s\n"
+msgstr "Використання:\n"
 
 #: src/cli/cli.vala:502
 msgid "Commands:\n"
