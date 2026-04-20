@@ -31,11 +31,11 @@ namespace ProtonPlus.Widgets {
             metrics_page = new MangoHudMetricsPage (config);
             extras_page = new MangoHudExtrasPage (config);
 
-            stack.add_titled_with_icon (create_scrolled_window (presets_page), "presets", _ ("Presets"), "view-list-symbolic");
-            stack.add_titled_with_icon (create_scrolled_window (visual_page), "visual", _ ("Visual"), "video-display-symbolic");
-            stack.add_titled_with_icon (create_scrolled_window (performance_page), "performance", _ ("Performance"), "speedometer-symbolic");
-            stack.add_titled_with_icon (create_scrolled_window (metrics_page), "metrics", _ ("Metrics"), "utilities-system-monitor-symbolic");
-            stack.add_titled_with_icon (create_scrolled_window (extras_page), "extras", _ ("Extras"), "view-more-symbolic");
+            stack.add_titled_with_icon (create_scrolled_window (presets_page), "presets", _ ("Presets"), "list-symbolic");
+            stack.add_titled_with_icon (create_scrolled_window (visual_page), "visual", _ ("Visual"), "eye-symbolic");
+            stack.add_titled_with_icon (create_scrolled_window (performance_page), "performance", _ ("Performance"), "gauge-high-symbolic");
+            stack.add_titled_with_icon (create_scrolled_window (metrics_page), "metrics", _ ("Metrics"), "chart-area-symbolic");
+            stack.add_titled_with_icon (create_scrolled_window (extras_page), "extras", _ ("Extras"), "plus-symbolic");
 
             presets_page.changed.connect (refresh_all);
             visual_page.changed.connect (refresh_all);
@@ -57,10 +57,13 @@ namespace ProtonPlus.Widgets {
                 saved ();
             });
             action_bar.pack_end (save_button);
-            var cube_button = new Gtk.Button.from_icon_name ("cube-symbolic") {
-                valign = Gtk.Align.CENTER
+            var cube_button_content = new Adw.ButtonContent ();
+            cube_button_content.set_label (_("Preview"));
+            cube_button_content.set_icon_name ("cube-symbolic");
+            var cube_button = new Gtk.Button() {
+                valign = Gtk.Align.CENTER,
+                child = cube_button_content,
             };
-            cube_button.add_css_class ("suggested-action");
             cube_button.set_tooltip_text (_("Show vkcube"));
             cube_button.clicked.connect (cube_button_clicked);
             action_bar.pack_start (cube_button);
