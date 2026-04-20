@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-04-14 09:55+0000\n"
+"PO-Revision-Date: 2026-04-20 13:09+0000\n"
 "Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 #: src/widgets/application.vala:102
 msgid "A modern compatibility tools manager"
@@ -82,16 +82,15 @@ msgstr "Menú principal"
 
 #: src/widgets/window.vala:61
 msgid "Tools"
-msgstr ""
+msgstr "Herramientas"
 
 #: src/widgets/window.vala:62
 msgid "Games"
 msgstr "Juegos"
 
 #: src/widgets/window.vala:63
-#, fuzzy
 msgid "Downloads"
-msgstr "Descargando"
+msgstr "Descargas"
 
 #: src/widgets/window.vala:123
 msgid "Couldn't load the launchers"
@@ -216,11 +215,11 @@ msgstr "General"
 
 #: src/widgets/preferences/preferences-dialog.vala:14
 msgid "Save download history"
-msgstr ""
+msgstr "Guardar historial de descargas"
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Save the download history to a file"
-msgstr ""
+msgstr "Guardar el historial de descargas en un archivo"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Automatic updates"
@@ -256,11 +255,11 @@ msgstr "Oscuro"
 
 #: src/widgets/preferences/theme-row.vala:18
 msgid "SteamOS"
-msgstr ""
+msgstr "SteamOS"
 
 #: src/widgets/preferences/theme-row.vala:19
 msgid "OLED"
-msgstr ""
+msgstr "OLED"
 
 #: src/widgets/preferences/theme-row.vala:27
 msgid "Current theme"
@@ -425,33 +424,27 @@ msgstr "No se pudo instalar %s"
 
 #: src/widgets/runners/basic-row.vala:103
 #: src/widgets/runners/steamtinkerlaunch-row.vala:190
-#, fuzzy
 msgid "This tool is currently being installed"
-msgstr "%s no es compatible actualmente."
+msgstr "Esta herramienta se está instalando actualmente"
 
 #: src/widgets/runners/basic-row.vala:105
 #: src/widgets/runners/steamtinkerlaunch-row.vala:192
 msgid "This tool is currently being downloaded"
-msgstr ""
+msgstr "Esta herramienta se está descargando actualmente"
 
 #: src/widgets/runners/basic-row.vala:110
 #: src/widgets/runners/steamtinkerlaunch-row.vala:194
-#, fuzzy
 msgid "This tool is currently being removed"
-msgstr "%s no es compatible actualmente."
+msgstr "Esta herramienta se está eliminando actualmente"
 
 #: src/widgets/runners/basic-row.vala:114
 #: src/widgets/runners/steamtinkerlaunch-row.vala:196
-#, fuzzy
 msgid "This tool is currently being updated"
-msgstr "%s no es compatible actualmente."
+msgstr "Esta herramienta se está actualizando actualmente"
 
 #: src/widgets/runners/basic-row.vala:132
-#, fuzzy
 msgid "The application is currently updating its runners"
-msgstr ""
-"La aplicación está buscando actualizaciones.\n"
-"Si cierras la aplicación ahora, podrían surgir problemas."
+msgstr "La aplicación está actualizando actualmente sus entornos de ejecución"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Installed"
@@ -479,7 +472,7 @@ msgid "Update to the latest version"
 msgstr "Actualizar a la última versión"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:40
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't update %s"
 msgstr "No se pudo actualizar %s"
 
@@ -875,23 +868,24 @@ msgstr ""
 "detectan mal los gráficos integrados."
 
 #: src/widgets/games/launch-options-editor.vala:569
-#, fuzzy
 msgid "FSR 4 Upgrade"
-msgstr "Actualizar %s"
+msgstr "Actualización a FSR 4"
 
 #: src/widgets/games/launch-options-editor.vala:569
 msgid ""
 "Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
 "Anti-Lag 2 currently due to various issues."
 msgstr ""
+"Actualiza FSR 3.1 a FSR 4 en los juegos compatibles. Esta opción también "
+"desactiva AMD Anti-Lag 2 actualmente debido a diversos problemas."
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "FSR 4 RDNA3 Upgrade"
-msgstr ""
+msgstr "Actualización a FSR 4 (RDNA3)"
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "Optimizes FSR 4.0 for RDNA3 hardware."
-msgstr ""
+msgstr "Optimiza FSR 4.0 para hardware RDNA3"
 
 #: src/widgets/games/launch-options-editor.vala:577
 msgid "NVAPI"
@@ -925,32 +919,31 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:584
 msgid "DLSS Indicator"
-msgstr ""
+msgstr "Indicador de DLSS"
 
 #: src/widgets/games/launch-options-editor.vala:584
 msgid "Shows a DLSS status indicator in-game."
-msgstr ""
+msgstr "Muestra un indicador de estado de DLSS dentro del juego"
 
 #: src/widgets/games/launch-options-editor.vala:585
 msgid "NVIDIA Libraries"
-msgstr ""
+msgstr "Bibliotecas de NVIDIA"
 
 #: src/widgets/games/launch-options-editor.vala:585
 msgid ""
 "Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
 "or ray tracing."
 msgstr ""
+"Habilita bibliotecas específicas de NVIDIA (PhysX, CUDA). No es necesario "
+"para DLSS ni para el trazado de rayos."
 
 #: src/widgets/games/launch-options-editor.vala:587
-#, fuzzy
 msgid "XeSS Upgrade"
-msgstr "Actualizar %s"
+msgstr "Actualización a XeSS"
 
 #: src/widgets/games/launch-options-editor.vala:587
-#, fuzzy
 msgid "Upgrades XeSS in supported games."
-msgstr ""
-"Actualiza automáticamente los componentes DLSS en los juegos compatibles."
+msgstr "Actualiza XeSS en los juegos compatibles"
 
 #: src/widgets/games/launch-options-editor.vala:593
 msgid "AMD"
@@ -962,19 +955,18 @@ msgstr "NVIDIA"
 
 #: src/widgets/games/launch-options-editor.vala:595
 msgid "Intel"
-msgstr ""
+msgstr "Intel"
 
 #: src/widgets/games/launch-options-editor.vala:605
 msgid "GPU vendor options"
 msgstr "Opciones del fabricante de la GPU"
 
 #: src/widgets/games/launch-options-editor.vala:606
-#, fuzzy
 msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
 msgstr ""
-"Usar opciones de compatibilidad específicas de la GPU para hardware AMD y "
-"NVIDIA."
+"Usa opciones de compatibilidad específicas de la GPU para hardware AMD, "
+"NVIDIA e Intel"
 
 #. More options
 #: src/widgets/games/launch-options-editor.vala:613
@@ -997,40 +989,45 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:615
 msgid "Use FSync"
-msgstr ""
+msgstr "Usar FSync"
 
 #: src/widgets/games/launch-options-editor.vala:615
 msgid ""
 "Uses FSync instead of NTSync. Can fix issues in certain games that do not "
 "pair well with NTSync."
 msgstr ""
+"Usa FSync en lugar de NTSync. Puede solucionar problemas en algunos juegos "
+"que no funcionan bien con NTSync."
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid "Local shader cache"
-msgstr ""
+msgstr "Caché local de shaders"
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid ""
 "Enables per-game shader cache. This isolates the shader cache of each game "
 "but does not compile them ahead-of-time."
 msgstr ""
+"Activa una caché de shaders por juego. Aísla la caché de shaders de cada "
+"juego, pero no los compila previamente."
 
 #: src/widgets/games/launch-options-editor.vala:617
 msgid "Prefer SDL controller"
-msgstr ""
+msgstr "Preferir controlador SDL"
 
 #: src/widgets/games/launch-options-editor.vala:617
 msgid "Workaround for controller detection issues."
-msgstr ""
+msgstr "Solución alternativa para problemas de detección de mandos"
 
 #: src/widgets/games/launch-options-editor.vala:618
-#, fuzzy
 msgid "Disable Steam Input"
-msgstr "Desactivar el modo Steam Deck"
+msgstr "Desactivar Steam Input"
 
 #: src/widgets/games/launch-options-editor.vala:618
 msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
 msgstr ""
+"Desactiva la compatibilidad con Steam Input. Soluciona problemas de mandos/"
+"gamepads en Wayland."
 
 #: src/widgets/games/launch-options-editor.vala:621
 msgid "More options"
@@ -1226,29 +1223,28 @@ msgstr "Abrir en Protontricks"
 
 #: src/widgets/games/extra-button.vala:21
 msgid "Run custom executable"
-msgstr ""
+msgstr "Ejecutar ejecutable personalizado"
 
 #: src/widgets/games/extra-button.vala:36
 msgid "Open menu"
 msgstr "Abrir menú"
 
 #: src/widgets/games/extra-button.vala:89
-#, fuzzy
 msgid "Select executable"
-msgstr "Seleccionar todo"
+msgstr "Seleccionar ejecutable"
 
 #: src/widgets/games/extra-button.vala:96
 msgid "Executables (*.exe, *.msi, *.msu)"
-msgstr ""
+msgstr "Ejecutables (*.exe, *.msi, *.msu)"
 
 #: src/widgets/games/extra-button.vala:136
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't find the compatibility tool for %s"
-msgstr "No se pudo cambiar la herramienta de compatibilidad de %s"
+msgstr "No se pudo encontrar la herramienta de compatibilidad para %s"
 
 #: src/widgets/games/extra-button.vala:136
 msgid "Please make sure it's installed."
-msgstr ""
+msgstr "Por favor, asegúrese de que esté instalado."
 
 #: src/widgets/games/default-tool-button.vala:10
 #: src/widgets/games/default-tool-button.vala:16
@@ -1283,31 +1279,29 @@ msgstr "No se pudo cambiar la herramienta de compatibilidad de %s"
 
 #: src/widgets/downloads/downloads-box.vala:18
 msgid "No active downloads"
-msgstr ""
+msgstr "No hay descargas activas"
 
 #: src/widgets/downloads/downloads-box.vala:19
 msgid "Your downloads will appear here."
-msgstr ""
+msgstr "Tus descargas aparecerán aquí."
 
 #: src/widgets/downloads/downloads-box.vala:23
 msgid "In-Progress"
-msgstr ""
+msgstr "En progreso"
 
 #: src/widgets/downloads/downloads-box.vala:35
 msgid "Completed"
-msgstr ""
+msgstr "Completado"
 
 #: src/widgets/downloads/downloads-box.vala:45
 msgid "Clear History"
-msgstr ""
+msgstr "Borrar historial"
 
 #: src/widgets/downloads/download-row.vala:84
-#, fuzzy
 msgid "Updating"
-msgstr "Actualizando %s"
+msgstr "Actualizando"
 
 #: src/widgets/downloads/download-row.vala:84
-#, fuzzy
 msgid "Downloading"
 msgstr "Descargando"
 
@@ -1320,26 +1314,24 @@ msgid "Moving"
 msgstr "Moviendo"
 
 #: src/widgets/downloads/download-row.vala:135
-#, fuzzy
 msgid "Canceled"
-msgstr "Cancelar"
+msgstr "Cancelado"
 
 #: src/widgets/downloads/download-row.vala:137
 msgid "Success"
-msgstr ""
+msgstr "Completado"
 
 #: src/widgets/downloads/download-row.vala:139
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: src/widgets/downloads/download-row.vala:145
 msgid "Copy Error Message"
-msgstr ""
+msgstr "Copiar mensaje de error"
 
 #: src/widgets/downloads/download-row.vala:156
-#, fuzzy
 msgid "Report Issue"
-msgstr "Informe"
+msgstr "Informar de un problema"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
