@@ -57,6 +57,19 @@ namespace ProtonPlus.Widgets {
                 saved ();
             });
             action_bar.pack_end (save_button);
+
+            var advanced_switch = new Gtk.Switch () {
+                valign = Gtk.Align.CENTER,
+                active = false
+            };
+            var advanced_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8) {
+                valign = Gtk.Align.CENTER
+            };
+            advanced_box.append (new Gtk.Label (_("Advanced")));
+            advanced_box.append (advanced_switch);
+            advanced_switch.bind_property ("active", switcher, "visible", BindingFlags.SYNC_CREATE);
+            action_bar.pack_end (advanced_box);
+
             var cube_button_content = new Adw.ButtonContent ();
             cube_button_content.set_label (_("Preview"));
             cube_button_content.set_icon_name ("cube-symbolic");

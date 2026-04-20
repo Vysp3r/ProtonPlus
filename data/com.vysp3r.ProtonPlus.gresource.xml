@@ -42,6 +42,9 @@
     <file alias="scalable/actions/github-symbolic.svg">icons/github.svg</file>
     <file alias="scalable/actions/copy-symbolic.svg">icons/copy.svg</file>
     <file alias="scalable/actions/plus-symbolic.svg">icons/plus.svg</file>
+    <file alias="scalable/actions/gear-symbolic.svg">icons/gear.svg</file>
+    <file alias="scalable/actions/square-poll-vertical-symbolic.svg">icons/square-poll-vertical.svg</file>
+    <file alias="scalable/actions/square-poll-horizontal-symbolic.svg">icons/square-poll-horizontal.svg</file>
     <file alias="scalable/actions/screwdriver-wrench-symbolic.svg">icons/screwdriver-wrench.svg</file>
     <file alias="scalable/actions/circle-xmark-symbolic.svg">icons/circle-xmark.svg</file>
   </gresource>

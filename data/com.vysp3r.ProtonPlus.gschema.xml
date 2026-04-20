@@ -42,6 +42,9 @@
 		<key name="first-run" type="b">
 			<default>true</default>
 		</key>
+		<key name="experimental-mode" type="b">
+			<default>false</default>
+		</key>
 		<key name="theme" enum="com.vysp3r.ProtonPlus.Theme">
 			<default>'system'</default>
 		</key>

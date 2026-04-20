@@ -88,6 +88,19 @@ namespace ProtonPlus.Widgets.Preferences {
                 }
             }
 
+            // Advanced
+
+            var experimental_switch = new Adw.SwitchRow () {
+                title = _ ("Experimental mode"),
+                subtitle = _ ("Add a MangoHud configuration tab to the sidebar"),
+            };
+            Globals.SETTINGS?.bind ("experimental-mode", experimental_switch, "active", SettingsBindFlags.DEFAULT);
+
+            var advanced_group = new Adw.PreferencesGroup () {
+                title = _ ("Advanced"),
+            };
+            advanced_group.add (experimental_switch);
+
             // API Tokens
 
             var github_access_token_row = new AccessTokenRow ("GitHub", "github-symbolic");
@@ -128,6 +141,7 @@ namespace ProtonPlus.Widgets.Preferences {
             var advanced_page = new Adw.PreferencesPage ();
             advanced_page.set_title (_("Advanced"));
             advanced_page.set_icon_name ("bolt-2-symbolic");
+            advanced_page.add (advanced_group);
             advanced_page.add (tokens_group);
             add (advanced_page);
 

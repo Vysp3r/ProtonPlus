@@ -9,6 +9,12 @@ namespace ProtonPlus.Models {
         FPS_ONLY
     }
 
+    public enum MangoHudTheme {
+        STOCK,
+        SIMPLE_WHITE,
+        CUSTOM
+    }
+
     public class MangoHudConfig : Object {
         public string fps_limit { get; set; default = "0"; }
         public string position { get; set; default = "top-left"; }
@@ -190,6 +196,40 @@ namespace ProtonPlus.Models {
             }
         }
 
+        public void set_theme (MangoHudTheme theme) {
+            switch (theme) {
+                case MangoHudTheme.STOCK:
+                    gpu_color = "";
+                    cpu_color = "";
+                    vram_color = "";
+                    ram_color = "";
+                    engine_color = "";
+                    wine_color = "";
+                    battery_color = "";
+                    disks_color = "";
+                    media_player_color = "";
+                    text_color = "ffffff";
+                    background_color = "020202";
+                    break;
+                case MangoHudTheme.SIMPLE_WHITE:
+                    gpu_color = "ffffff";
+                    cpu_color = "ffffff";
+                    vram_color = "ffffff";
+                    ram_color = "ffffff";
+                    engine_color = "ffffff";
+                    wine_color = "ffffff";
+                    battery_color = "ffffff";
+                    disks_color = "ffffff";
+                    media_player_color = "ffffff";
+                    text_color = "ffffff";
+                    background_color = "020202";
+                    break;
+                case MangoHudTheme.CUSTOM:
+                default:
+                    break;
+            }
+        }
+
         public MangoHudPreset get_preset () {
             if (horizontal && cpu_stats && gpu_stats && ram && fps && !cpu_temp && !gpu_temp && !vram && !frametime && !battery && !device_battery && !time)
                 return MangoHudPreset.BASIC_HORIZONTAL;
@@ -200,6 +240,14 @@ namespace ProtonPlus.Models {
             if (!horizontal && cpu_stats && cpu_temp && gpu_stats && gpu_temp && ram && vram && fps && frametime && battery && device_battery && time)
                 return MangoHudPreset.FULL;
             return MangoHudPreset.CUSTOM;
+        }
+
+        public MangoHudTheme get_theme () {
+            if (gpu_color == "" && cpu_color == "" && vram_color == "" && ram_color == "" && engine_color == "" && wine_color == "" && battery_color == "" && disks_color == "" && media_player_color == "" && text_color == "ffffff" && background_color == "020202")
+                return MangoHudTheme.STOCK;
+            if (gpu_color == "ffffff" && cpu_color == "ffffff" && vram_color == "ffffff" && ram_color == "ffffff" && engine_color == "ffffff" && wine_color == "ffffff" && battery_color == "ffffff" && disks_color == "ffffff" && media_player_color == "ffffff" && text_color == "ffffff" && background_color == "020202")
+                return MangoHudTheme.SIMPLE_WHITE;
+            return MangoHudTheme.CUSTOM;
         }
 
         public void load () {
