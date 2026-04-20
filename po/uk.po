@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-19 20:43-0400\n"
+"POT-Creation-Date: 2026-04-19 21:25-0400\n"
 "PO-Revision-Date: 2026-04-19 22:46+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
@@ -243,7 +243,7 @@ msgstr ""
 "Наявні інструменти для %s:\n"
 
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
-#: src/widgets/games/game-row.vala:99 src/widgets/games/games-box.vala:310
+#: src/widgets/games/game-row.vala:98 src/widgets/games/games-box.vala:310
 msgid "Default"
 msgstr ""
 
@@ -468,57 +468,54 @@ msgstr "Виберіть бажаний інструмент сумісност�
 msgid "Open in protontricks"
 msgstr "Відкрити в protontricks"
 
-#: src/widgets/games/extra-button.vala:14
+#: src/widgets/games/extra-button.vala:15
 msgid "Open ProtonDB page"
 msgstr "Відкрити сторінку ProtonDB"
 
-#: src/widgets/games/extra-button.vala:17
-msgid "Open AreWeAntiCheatYet page"
-msgstr ""
-
-#: src/widgets/games/extra-button.vala:30
+#: src/widgets/games/extra-button.vala:31
 #, fuzzy
 msgid "Extra"
 msgstr "Витягання"
 
-#: src/widgets/games/extra-button.vala:65
+#: src/widgets/games/extra-button.vala:66
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: src/widgets/games/game-row.vala:113
+#: src/widgets/games/game-row.vala:112
 #, fuzzy
 msgid "Modify the game"
 msgstr "Змінити параметри запуску гри"
 
-#: src/widgets/games/game-row.vala:118
-msgid "Run custom executable"
-msgstr ""
+#: src/widgets/games/game-row.vala:117
+#, fuzzy
+msgid "Launch custom executable"
+msgstr "Вибрати все"
 
-#: src/widgets/games/game-row.vala:124
+#: src/widgets/games/game-row.vala:123
 #, fuzzy
 msgid "Browse game install directory"
 msgstr "Відкрити каталог встановлення"
 
-#: src/widgets/games/game-row.vala:130
+#: src/widgets/games/game-row.vala:129
 #, fuzzy
 msgid "Browse prefix directory"
 msgstr "Відкрити каталог префіксів"
 
-#: src/widgets/games/game-row.vala:149
+#: src/widgets/games/game-row.vala:148
 #, fuzzy
 msgid "Select executable"
 msgstr "Вибрати все"
 
-#: src/widgets/games/game-row.vala:157
+#: src/widgets/games/game-row.vala:156
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr ""
 
-#: src/widgets/games/game-row.vala:195
+#: src/widgets/games/game-row.vala:194
 #, fuzzy, c-format
 msgid "Couldn't find the compatibility tool for %s"
 msgstr "Не вдалося змінити інструмент сумісності для %s"
 
-#: src/widgets/games/game-row.vala:195
+#: src/widgets/games/game-row.vala:194
 msgid "Please make sure it's installed."
 msgstr ""
 

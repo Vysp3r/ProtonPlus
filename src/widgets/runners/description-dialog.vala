@@ -18,7 +18,7 @@ namespace ProtonPlus.Widgets {
             window_title = new Adw.WindowTitle (_ ("More information"), "");
 
             web_button_content = new Adw.ButtonContent ();
-            web_button_content.set_icon_name ("world-www-symbolic");
+            web_button_content.set_icon_name ("globe-symbolic");
             web_button_content.set_label (_ ("Open"));
 
             web_button = new Gtk.Button ();

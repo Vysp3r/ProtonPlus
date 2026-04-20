@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-19 20:43-0400\n"
+"POT-Creation-Date: 2026-04-19 21:25-0400\n"
 "PO-Revision-Date: 2026-04-19 00:59+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -241,7 +241,7 @@ msgstr ""
 "%s 的可用運行器：\n"
 
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
-#: src/widgets/games/game-row.vala:99 src/widgets/games/games-box.vala:310
+#: src/widgets/games/game-row.vala:98 src/widgets/games/games-box.vala:310
 msgid "Default"
 msgstr ""
 
@@ -453,57 +453,54 @@ msgstr "選擇所需的相容性工具"
 msgid "Open in protontricks"
 msgstr "於 protontricks 中開啟"
 
-#: src/widgets/games/extra-button.vala:14
+#: src/widgets/games/extra-button.vala:15
 msgid "Open ProtonDB page"
 msgstr "開啟 ProtonDB 頁面"
 
-#: src/widgets/games/extra-button.vala:17
-msgid "Open AreWeAntiCheatYet page"
-msgstr ""
-
-#: src/widgets/games/extra-button.vala:30
+#: src/widgets/games/extra-button.vala:31
 #, fuzzy
 msgid "Extra"
 msgstr "正在解壓縮"
 
-#: src/widgets/games/extra-button.vala:65
+#: src/widgets/games/extra-button.vala:66
 msgid "Unknown"
 msgstr "未知"
 
-#: src/widgets/games/game-row.vala:113
+#: src/widgets/games/game-row.vala:112
 #, fuzzy
 msgid "Modify the game"
 msgstr "修改遊戲啟動選項"
 
-#: src/widgets/games/game-row.vala:118
-msgid "Run custom executable"
+#: src/widgets/games/game-row.vala:117
+#, fuzzy
+msgid "Launch custom executable"
 msgstr "運行自訂的執行檔"
 
-#: src/widgets/games/game-row.vala:124
+#: src/widgets/games/game-row.vala:123
 #, fuzzy
 msgid "Browse game install directory"
 msgstr "開啟安裝目錄"
 
-#: src/widgets/games/game-row.vala:130
+#: src/widgets/games/game-row.vala:129
 #, fuzzy
 msgid "Browse prefix directory"
 msgstr "開啟前置環境目錄"
 
-#: src/widgets/games/game-row.vala:149
+#: src/widgets/games/game-row.vala:148
 msgid "Select executable"
 msgstr "選擇執行檔"
 
-#: src/widgets/games/game-row.vala:157
+#: src/widgets/games/game-row.vala:156
 #, fuzzy
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr "執行檔 (*.exe, *.msi, *.msu)"
 
-#: src/widgets/games/game-row.vala:195
+#: src/widgets/games/game-row.vala:194
 #, c-format
 msgid "Couldn't find the compatibility tool for %s"
 msgstr "未找到 %s 的相容性工具"
 
-#: src/widgets/games/game-row.vala:195
+#: src/widgets/games/game-row.vala:194
 msgid "Please make sure it's installed."
 msgstr "請確保已安裝。"
 

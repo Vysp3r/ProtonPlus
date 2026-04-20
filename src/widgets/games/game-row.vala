@@ -38,7 +38,6 @@ namespace ProtonPlus.Widgets {
 
             prefix_label = new Gtk.Label(game.prefix.to_string ());
             prefix_label.set_xalign (0);
-            prefix_label.set_tooltip_text (prefix_label.get_label ());
             prefix_label.set_max_width_chars (10);
             prefix_label.set_ellipsize (Pango.EllipsizeMode.END);
             prefix_label.set_size_request (110, 0);
@@ -114,8 +113,8 @@ namespace ProtonPlus.Widgets {
             tool_button.add_css_class ("flat");
             tool_button.clicked.connect (() => mass_edit_requested (this));
 
-            run_custom_executable_button = new Gtk.Button.from_icon_name("exe-file-format-symbolic");
-            run_custom_executable_button.set_tooltip_text (_ ("Run custom executable"));
+            run_custom_executable_button = new Gtk.Button.from_icon_name("rocket-symbolic");
+            run_custom_executable_button.set_tooltip_text (_ ("Launch custom executable"));
             run_custom_executable_button.add_css_class ("flat");
             run_custom_executable_button.clicked.connect (run_custom_executable_button_clicked);
             run_custom_executable_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));

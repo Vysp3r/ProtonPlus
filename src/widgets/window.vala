@@ -54,7 +54,7 @@ namespace ProtonPlus.Widgets {
 
             menu_button = new Gtk.MenuButton ();
             menu_button.set_tooltip_text (_ ("Main Menu"));
-            menu_button.set_icon_name ("open-menu-symbolic");
+            menu_button.set_icon_name ("bars-symbolic");
             menu_button.set_menu_model (menu);
 
             view_stack = new Adw.ViewStack ();

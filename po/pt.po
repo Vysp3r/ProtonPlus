@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-19 20:43-0400\n"
+"POT-Creation-Date: 2026-04-19 21:25-0400\n"
 "PO-Revision-Date: 2026-04-19 22:46+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -250,7 +250,7 @@ msgid ""
 msgstr ""
 
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
-#: src/widgets/games/game-row.vala:99 src/widgets/games/games-box.vala:310
+#: src/widgets/games/game-row.vala:98 src/widgets/games/games-box.vala:310
 msgid "Default"
 msgstr ""
 
@@ -484,57 +484,54 @@ msgstr "Selecione sua ferramenta de compatibilidade desejada"
 msgid "Open in protontricks"
 msgstr "Abrir em Protontricks"
 
-#: src/widgets/games/extra-button.vala:14
+#: src/widgets/games/extra-button.vala:15
 msgid "Open ProtonDB page"
 msgstr "Abrir página da ProtonDB"
 
-#: src/widgets/games/extra-button.vala:17
-msgid "Open AreWeAntiCheatYet page"
-msgstr ""
-
-#: src/widgets/games/extra-button.vala:30
+#: src/widgets/games/extra-button.vala:31
 #, fuzzy
 msgid "Extra"
 msgstr "Extraindo"
 
-#: src/widgets/games/extra-button.vala:65
+#: src/widgets/games/extra-button.vala:66
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/widgets/games/game-row.vala:113
+#: src/widgets/games/game-row.vala:112
 #, fuzzy
 msgid "Modify the game"
 msgstr "Modificar as opções de inicialização de jogo"
 
-#: src/widgets/games/game-row.vala:118
-msgid "Run custom executable"
-msgstr ""
+#: src/widgets/games/game-row.vala:117
+#, fuzzy
+msgid "Launch custom executable"
+msgstr "Selecionar todos"
 
-#: src/widgets/games/game-row.vala:124
+#: src/widgets/games/game-row.vala:123
 #, fuzzy
 msgid "Browse game install directory"
 msgstr "Abrir diretório de instalação"
 
-#: src/widgets/games/game-row.vala:130
+#: src/widgets/games/game-row.vala:129
 #, fuzzy
 msgid "Browse prefix directory"
 msgstr "Abrir diretório do prefixo"
 
-#: src/widgets/games/game-row.vala:149
+#: src/widgets/games/game-row.vala:148
 #, fuzzy
 msgid "Select executable"
 msgstr "Selecionar todos"
 
-#: src/widgets/games/game-row.vala:157
+#: src/widgets/games/game-row.vala:156
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr ""
 
-#: src/widgets/games/game-row.vala:195
+#: src/widgets/games/game-row.vala:194
 #, fuzzy, c-format
 msgid "Couldn't find the compatibility tool for %s"
 msgstr "Ocorreu um erro ao tentar mudar a ferramente de compatibilidade de %s."
 
-#: src/widgets/games/game-row.vala:195
+#: src/widgets/games/game-row.vala:194
 msgid "Please make sure it's installed."
 msgstr ""
 

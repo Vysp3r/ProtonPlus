@@ -90,10 +90,10 @@ namespace ProtonPlus.Widgets.Preferences {
 
             // API Tokens
 
-            var github_access_token_row = new AccessTokenRow ("GitHub");
+            var github_access_token_row = new AccessTokenRow ("GitHub", "github-symbolic");
             Globals.SETTINGS?.bind ("github-api-key", github_access_token_row, "text", SettingsBindFlags.DEFAULT);
 
-            var gitlab_access_token_row = new AccessTokenRow ("GitLab");
+            var gitlab_access_token_row = new AccessTokenRow ("GitLab", "gitlab-symbolic");
             Globals.SETTINGS?.bind ("gitlab-api-key", gitlab_access_token_row, "text", SettingsBindFlags.DEFAULT);
 
             var tokens_group = new Adw.PreferencesGroup () {
@@ -119,7 +119,7 @@ namespace ProtonPlus.Widgets.Preferences {
             if (launcher_groups.length () > 0) {
                 var launchers_page = new Adw.PreferencesPage ();
                 launchers_page.set_title (_("Launchers"));
-                launchers_page.set_icon_name ("rocket-symbolic");
+                launchers_page.set_icon_name ("grip-symbolic");
                 foreach (var group in launcher_groups)
                     launchers_page.add (group);
                 add (launchers_page);
