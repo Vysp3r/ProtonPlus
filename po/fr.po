@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-19 21:25-0400\n"
+"POT-Creation-Date: 2026-04-20 18:17-0400\n"
 "PO-Revision-Date: 2026-02-24 05:09+0000\n"
 "Last-Translator: MrBretzel <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -399,7 +399,7 @@ msgid "Special thanks to"
 msgstr "Remerciements à"
 
 #: src/widgets/downloads/download-row.vala:22
-#: src/widgets/runners/remove-dialog.vala:30 src/widgets/window.vala:250
+#: src/widgets/runners/remove-dialog.vala:30 src/widgets/window.vala:252
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -439,8 +439,8 @@ msgid "Copy Error Message"
 msgstr ""
 
 #: src/widgets/downloads/download-row.vala:148
-#: src/widgets/runners/runner-row.vala:71 src/widgets/window.vala:191
-#: src/widgets/window.vala:192
+#: src/widgets/runners/runner-row.vala:71 src/widgets/window.vala:193
+#: src/widgets/window.vala:194
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
@@ -470,7 +470,7 @@ msgid "Clear History"
 msgstr ""
 
 #: src/widgets/error-dialog.vala:7 src/widgets/status-box.vala:12
-#: src/widgets/window.vala:193
+#: src/widgets/window.vala:195
 msgid "Report"
 msgstr "Rapport"
 
@@ -551,7 +551,9 @@ msgid "Apply the current modification"
 msgstr "Appliquer les modifications"
 
 #: src/widgets/games/games-box.vala:94
-#: src/widgets/preferences/preferences-dialog.vala:129
+#: src/widgets/mangohud/mangohud-box.vala:68
+#: src/widgets/preferences/preferences-dialog.vala:100
+#: src/widgets/preferences/preferences-dialog.vala:142
 msgid "Advanced"
 msgstr ""
 
@@ -613,7 +615,8 @@ msgid "Auto detect"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:230
-#: src/widgets/mangohud/mangohud-presets-page.vala:22
+#: src/widgets/mangohud/mangohud-presets-page.vala:26
+#: src/widgets/mangohud/mangohud-presets-page.vala:54
 msgid "Custom"
 msgstr ""
 
@@ -1069,7 +1072,7 @@ msgstr "Modifier l'outil de compatibilité pour les jeux sélectionné"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:97
 #: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #: src/widgets/runners/steamtinkerlaunch-row.vala:152
-#: src/widgets/window.vala:245
+#: src/widgets/window.vala:247
 msgid "Warning"
 msgstr "Attention"
 
@@ -1118,7 +1121,7 @@ msgstr "Les jeux suivants ont un problème:"
 #: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/steamtinkerlaunch-row.vala:40
 #: src/widgets/runners/steamtinkerlaunch-row.vala:120
-#: src/widgets/window.vala:34 src/widgets/window.vala:105
+#: src/widgets/window.vala:34 src/widgets/window.vala:107
 msgid "Please report this issue on GitHub."
 msgstr "S'il vous plaît, rapportez ce bug sur Github."
 
@@ -1185,11 +1188,11 @@ msgstr "Extraction"
 msgid "Save the current configuration"
 msgstr "Appliquer les modifications"
 
-#: src/widgets/mangohud/mangohud-box.vala:61
+#: src/widgets/mangohud/mangohud-box.vala:74
 msgid "Preview"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-box.vala:67
+#: src/widgets/mangohud/mangohud-box.vala:80
 #, fuzzy
 msgid "Show vkcube"
 msgstr "Version"
@@ -1634,24 +1637,36 @@ msgstr ""
 msgid "Filters"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:18
+#: src/widgets/mangohud/mangohud-presets-page.vala:22
 msgid "Full"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:19
+#: src/widgets/mangohud/mangohud-presets-page.vala:23
 msgid "Basic"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:20
+#: src/widgets/mangohud/mangohud-presets-page.vala:24
 msgid "Basic Horizontal"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:21
+#: src/widgets/mangohud/mangohud-presets-page.vala:25
 msgid "FPS Only"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:42
+#: src/widgets/mangohud/mangohud-presets-page.vala:46
 msgid "Layouts"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:52
+msgid "MangoHud Stock"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:53
+msgid "Simple White"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:68
+msgid "Color Themes"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:18
@@ -1755,7 +1770,7 @@ msgid "Save the download history to a file"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:16
-#: src/widgets/preferences/preferences-dialog.vala:108
+#: src/widgets/preferences/preferences-dialog.vala:121
 msgid "General"
 msgstr "Général"
 
@@ -1771,7 +1786,7 @@ msgstr ""
 "'Dernière') au démarrage de l'application"
 
 #: src/widgets/preferences/preferences-dialog.vala:33
-#: src/widgets/preferences/preferences-dialog.vala:114
+#: src/widgets/preferences/preferences-dialog.vala:127
 #: src/widgets/window.vala:61
 msgid "Tools"
 msgstr ""
@@ -1790,7 +1805,15 @@ msgstr "Se souvenir du dernier profil utilisé"
 msgid "Default compatibility tool"
 msgstr "Définir l'outil de compatibilité par défaut"
 
-#: src/widgets/preferences/preferences-dialog.vala:121
+#: src/widgets/preferences/preferences-dialog.vala:94
+msgid "Experimental mode"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:95
+msgid "Add a MangoHud configuration tab to the sidebar"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:134
 #, fuzzy
 msgid "Launchers"
 msgstr "Paramètres du launcher"
@@ -1984,8 +2007,8 @@ msgstr "Supprimer %s"
 msgid "Couldn't delete %s"
 msgstr "Impossible de supprimer %s"
 
-#: src/widgets/runners/runner-row.vala:56 src/widgets/window.vala:171
-#: src/widgets/window.vala:172
+#: src/widgets/runners/runner-row.vala:56 src/widgets/window.vala:173
+#: src/widgets/window.vala:174
 msgid "API limit reached"
 msgstr "Quota de l'API dépassé"
 
@@ -1995,8 +2018,8 @@ msgstr "Réessayez dans quelques minutes."
 
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
-#: src/widgets/runners/runner-row.vala:65 src/widgets/window.vala:179
-#: src/widgets/window.vala:180
+#: src/widgets/runners/runner-row.vala:65 src/widgets/window.vala:181
+#: src/widgets/window.vala:182
 msgid "Unable to reach the API"
 msgstr "Impossible de joindre l'API"
 
@@ -2012,8 +2035,8 @@ msgstr "Assurez-vous que votre DNS ne bloque pas la requête"
 msgid "The requested website does not seem to be valid."
 msgstr "Le site Web demandé ne semble pas être valide"
 
-#: src/widgets/runners/runner-row.vala:68 src/widgets/window.vala:185
-#: src/widgets/window.vala:186
+#: src/widgets/runners/runner-row.vala:68 src/widgets/window.vala:187
+#: src/widgets/window.vala:188
 msgid "Invalid access token"
 msgstr "Jeton d'accès invalid"
 
@@ -2117,21 +2140,21 @@ msgstr "Jeux"
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/window.vala:64
+#: src/widgets/window.vala:66
 #, fuzzy
 msgid "Downloads"
 msgstr "Téléchargement"
 
-#: src/widgets/window.vala:105
+#: src/widgets/window.vala:107
 msgid "Couldn't load the launchers"
 msgstr "Impossible de charger les launchers"
 
-#: src/widgets/window.vala:119
+#: src/widgets/window.vala:121
 #, c-format
 msgid "Welcome to %s"
 msgstr "Bienvenue dans %s"
 
-#: src/widgets/window.vala:119
+#: src/widgets/window.vala:121
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
@@ -2139,53 +2162,53 @@ msgstr ""
 "Installez Steam, Lutris, Bottles, Heroic Games Launcher ou WineZGUI pour "
 "commencer."
 
-#: src/widgets/window.vala:119
+#: src/widgets/window.vala:121
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
 "Lancez les programmes au moins une fois pour les initialiser correctement"
 
-#: src/widgets/window.vala:140
+#: src/widgets/window.vala:142
 msgid "Checking for updates"
 msgstr "Vérification des mises à jour"
 
-#: src/widgets/window.vala:141
+#: src/widgets/window.vala:143
 #, c-format
 msgid "Updating %s"
 msgstr "Mise à jour de %s"
 
-#: src/widgets/window.vala:158
+#: src/widgets/window.vala:160
 msgid "Nothing to update"
 msgstr "Aucune mise à jour."
 
-#: src/widgets/window.vala:159
+#: src/widgets/window.vala:161
 #, c-format
 msgid "No update found for %s"
 msgstr "Aucune mise à jour trouvée pour %s"
 
-#: src/widgets/window.vala:165
+#: src/widgets/window.vala:167
 msgid "Everything is now up-to-date"
 msgstr "Tout est maintenant à jour"
 
-#: src/widgets/window.vala:166
+#: src/widgets/window.vala:168
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s est maintenant déjà à jour"
 
-#: src/widgets/window.vala:171 src/widgets/window.vala:179
-#: src/widgets/window.vala:185 src/widgets/window.vala:191
+#: src/widgets/window.vala:173 src/widgets/window.vala:181
+#: src/widgets/window.vala:187 src/widgets/window.vala:193
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Impossible de vérifier les mises à jour (Raison: %s)"
 
-#: src/widgets/window.vala:172 src/widgets/window.vala:180
-#: src/widgets/window.vala:186 src/widgets/window.vala:192
+#: src/widgets/window.vala:174 src/widgets/window.vala:182
+#: src/widgets/window.vala:188 src/widgets/window.vala:194
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "Impossible de mettre à jour %s (Raison: %s)"
 
-#: src/widgets/window.vala:245
+#: src/widgets/window.vala:247
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -2193,7 +2216,7 @@ msgstr ""
 "L'application vérifie actuellement les mises à jour.\n"
 "Quitter l'application maintenant peut causer des problèmes."
 
-#: src/widgets/window.vala:247
+#: src/widgets/window.vala:249
 msgid "Exit"
 msgstr "Quitter"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-19 21:25-0400\n"
+"POT-Creation-Date: 2026-04-20 18:17-0400\n"
 "PO-Revision-Date: 2025-08-21 19:02+0000\n"
 "Last-Translator: Linus Virtanen <linus.virtanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/protonplus/"
@@ -393,7 +393,7 @@ msgid "Special thanks to"
 msgstr "Erityiskiitokset"
 
 #: src/widgets/downloads/download-row.vala:22
-#: src/widgets/runners/remove-dialog.vala:30 src/widgets/window.vala:250
+#: src/widgets/runners/remove-dialog.vala:30 src/widgets/window.vala:252
 msgid "Cancel"
 msgstr "Keskeytä"
 
@@ -433,8 +433,8 @@ msgid "Copy Error Message"
 msgstr ""
 
 #: src/widgets/downloads/download-row.vala:148
-#: src/widgets/runners/runner-row.vala:71 src/widgets/window.vala:191
-#: src/widgets/window.vala:192
+#: src/widgets/runners/runner-row.vala:71 src/widgets/window.vala:193
+#: src/widgets/window.vala:194
 #, fuzzy
 msgid "Unknown error"
 msgstr "Tuntematon"
@@ -464,7 +464,7 @@ msgid "Clear History"
 msgstr ""
 
 #: src/widgets/error-dialog.vala:7 src/widgets/status-box.vala:12
-#: src/widgets/window.vala:193
+#: src/widgets/window.vala:195
 msgid "Report"
 msgstr ""
 
@@ -545,7 +545,9 @@ msgid "Apply the current modification"
 msgstr "Toteuta nykyinen muovaus"
 
 #: src/widgets/games/games-box.vala:94
-#: src/widgets/preferences/preferences-dialog.vala:129
+#: src/widgets/mangohud/mangohud-box.vala:68
+#: src/widgets/preferences/preferences-dialog.vala:100
+#: src/widgets/preferences/preferences-dialog.vala:142
 msgid "Advanced"
 msgstr ""
 
@@ -606,7 +608,8 @@ msgid "Auto detect"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:230
-#: src/widgets/mangohud/mangohud-presets-page.vala:22
+#: src/widgets/mangohud/mangohud-presets-page.vala:26
+#: src/widgets/mangohud/mangohud-presets-page.vala:54
 msgid "Custom"
 msgstr ""
 
@@ -1060,7 +1063,7 @@ msgstr "Muokkaa valittujen pelien yhteensopivuustyökalua yhtenevästi kerralla"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:97
 #: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #: src/widgets/runners/steamtinkerlaunch-row.vala:152
-#: src/widgets/window.vala:245
+#: src/widgets/window.vala:247
 msgid "Warning"
 msgstr "Varoitus"
 
@@ -1108,7 +1111,7 @@ msgstr ""
 #: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/steamtinkerlaunch-row.vala:40
 #: src/widgets/runners/steamtinkerlaunch-row.vala:120
-#: src/widgets/window.vala:34 src/widgets/window.vala:105
+#: src/widgets/window.vala:34 src/widgets/window.vala:107
 msgid "Please report this issue on GitHub."
 msgstr "Ole hyvä ja raportoi tämä ongelma GitHub:issa."
 
@@ -1177,11 +1180,11 @@ msgstr "Puretaan"
 msgid "Save the current configuration"
 msgstr "Toteuta nykyinen muovaus"
 
-#: src/widgets/mangohud/mangohud-box.vala:61
+#: src/widgets/mangohud/mangohud-box.vala:74
 msgid "Preview"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-box.vala:67
+#: src/widgets/mangohud/mangohud-box.vala:80
 #, fuzzy
 msgid "Show vkcube"
 msgstr "Näytä vain käytetyt"
@@ -1626,24 +1629,36 @@ msgstr ""
 msgid "Filters"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:18
+#: src/widgets/mangohud/mangohud-presets-page.vala:22
 msgid "Full"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:19
+#: src/widgets/mangohud/mangohud-presets-page.vala:23
 msgid "Basic"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:20
+#: src/widgets/mangohud/mangohud-presets-page.vala:24
 msgid "Basic Horizontal"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:21
+#: src/widgets/mangohud/mangohud-presets-page.vala:25
 msgid "FPS Only"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:42
+#: src/widgets/mangohud/mangohud-presets-page.vala:46
 msgid "Layouts"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:52
+msgid "MangoHud Stock"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:53
+msgid "Simple White"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:68
+msgid "Color Themes"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:18
@@ -1745,7 +1760,7 @@ msgid "Save the download history to a file"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:16
-#: src/widgets/preferences/preferences-dialog.vala:108
+#: src/widgets/preferences/preferences-dialog.vala:121
 #, fuzzy
 msgid "General"
 msgstr "Yleiset"
@@ -1759,7 +1774,7 @@ msgid "Update the installed 'Latest' runners when the application starts"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:33
-#: src/widgets/preferences/preferences-dialog.vala:114
+#: src/widgets/preferences/preferences-dialog.vala:127
 #: src/widgets/window.vala:61
 msgid "Tools"
 msgstr ""
@@ -1777,7 +1792,15 @@ msgstr ""
 msgid "Default compatibility tool"
 msgstr "Aseta vakiollinen yhteensopivuustyökalu"
 
-#: src/widgets/preferences/preferences-dialog.vala:121
+#: src/widgets/preferences/preferences-dialog.vala:94
+msgid "Experimental mode"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:95
+msgid "Add a MangoHud configuration tab to the sidebar"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:134
 #, fuzzy
 msgid "Launchers"
 msgstr "Käynnistysasetukset"
@@ -1972,8 +1995,8 @@ msgstr "Poista %s"
 msgid "Couldn't delete %s"
 msgstr "Asenna %s"
 
-#: src/widgets/runners/runner-row.vala:56 src/widgets/window.vala:171
-#: src/widgets/window.vala:172
+#: src/widgets/runners/runner-row.vala:56 src/widgets/window.vala:173
+#: src/widgets/window.vala:174
 msgid "API limit reached"
 msgstr ""
 
@@ -1983,8 +2006,8 @@ msgstr ""
 
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
-#: src/widgets/runners/runner-row.vala:65 src/widgets/window.vala:179
-#: src/widgets/window.vala:180
+#: src/widgets/runners/runner-row.vala:65 src/widgets/window.vala:181
+#: src/widgets/window.vala:182
 msgid "Unable to reach the API"
 msgstr ""
 
@@ -2001,8 +2024,8 @@ msgstr ""
 msgid "The requested website does not seem to be valid."
 msgstr ""
 
-#: src/widgets/runners/runner-row.vala:68 src/widgets/window.vala:185
-#: src/widgets/window.vala:186
+#: src/widgets/runners/runner-row.vala:68 src/widgets/window.vala:187
+#: src/widgets/window.vala:188
 msgid "Invalid access token"
 msgstr ""
 
@@ -2106,76 +2129,76 @@ msgstr "Pelit"
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/window.vala:64
+#: src/widgets/window.vala:66
 #, fuzzy
 msgid "Downloads"
 msgstr "Lataa"
 
-#: src/widgets/window.vala:105
+#: src/widgets/window.vala:107
 msgid "Couldn't load the launchers"
 msgstr ""
 
-#: src/widgets/window.vala:119
+#: src/widgets/window.vala:121
 #, c-format
 msgid "Welcome to %s"
 msgstr "Tervetuloa %s :n"
 
-#: src/widgets/window.vala:119
+#: src/widgets/window.vala:121
 #, fuzzy
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
 msgstr "Asenna Steam, Lutris, Bottles tai Heroic Games Launcher aloittaaksesi."
 
-#: src/widgets/window.vala:119
+#: src/widgets/window.vala:121
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr ""
 
-#: src/widgets/window.vala:140
+#: src/widgets/window.vala:142
 #, fuzzy
 msgid "Checking for updates"
 msgstr "Tarkistetaan päivityksiä..."
 
-#: src/widgets/window.vala:141
+#: src/widgets/window.vala:143
 #, c-format
 msgid "Updating %s"
 msgstr ""
 
-#: src/widgets/window.vala:158
+#: src/widgets/window.vala:160
 #, fuzzy
 msgid "Nothing to update"
 msgstr "Ei mitään päivitettävää."
 
-#: src/widgets/window.vala:159
+#: src/widgets/window.vala:161
 #, c-format
 msgid "No update found for %s"
 msgstr ""
 
-#: src/widgets/window.vala:165
+#: src/widgets/window.vala:167
 #, fuzzy
 msgid "Everything is now up-to-date"
 msgstr "Kaikki on nyt päivitetty ajan tasalle."
 
-#: src/widgets/window.vala:166
+#: src/widgets/window.vala:168
 #, fuzzy, c-format
 msgid "%s is now up-to-date"
 msgstr "%s on jo päivitetty ajantasalle."
 
-#: src/widgets/window.vala:171 src/widgets/window.vala:179
-#: src/widgets/window.vala:185 src/widgets/window.vala:191
+#: src/widgets/window.vala:173 src/widgets/window.vala:181
+#: src/widgets/window.vala:187 src/widgets/window.vala:193
 #, fuzzy, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Tarkistetaan päivityksiä..."
 
-#: src/widgets/window.vala:172 src/widgets/window.vala:180
-#: src/widgets/window.vala:186 src/widgets/window.vala:192
+#: src/widgets/window.vala:174 src/widgets/window.vala:182
+#: src/widgets/window.vala:188 src/widgets/window.vala:194
 #, fuzzy, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "Asenna %s"
 
-#: src/widgets/window.vala:245
+#: src/widgets/window.vala:247
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -2183,7 +2206,7 @@ msgstr ""
 "Sovellus tarkistaa parhaillaan päivityksiä.\n"
 "Sovelluksesta poistuminen liian aikaisin voi aiheuttaa ongelmia."
 
-#: src/widgets/window.vala:247
+#: src/widgets/window.vala:249
 msgid "Exit"
 msgstr "Poistu"
 

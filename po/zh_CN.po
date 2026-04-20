@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-19 21:25-0400\n"
+"POT-Creation-Date: 2026-04-20 18:17-0400\n"
 "PO-Revision-Date: 2026-04-19 00:55+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -369,7 +369,7 @@ msgid "Special thanks to"
 msgstr "特别感谢"
 
 #: src/widgets/downloads/download-row.vala:22
-#: src/widgets/runners/remove-dialog.vala:30 src/widgets/window.vala:250
+#: src/widgets/runners/remove-dialog.vala:30 src/widgets/window.vala:252
 msgid "Cancel"
 msgstr "取消"
 
@@ -406,8 +406,8 @@ msgid "Copy Error Message"
 msgstr "複製错误消息"
 
 #: src/widgets/downloads/download-row.vala:148
-#: src/widgets/runners/runner-row.vala:71 src/widgets/window.vala:191
-#: src/widgets/window.vala:192
+#: src/widgets/runners/runner-row.vala:71 src/widgets/window.vala:193
+#: src/widgets/window.vala:194
 msgid "Unknown error"
 msgstr "未知错误"
 
@@ -436,7 +436,7 @@ msgid "Clear History"
 msgstr "清空记录"
 
 #: src/widgets/error-dialog.vala:7 src/widgets/status-box.vala:12
-#: src/widgets/window.vala:193
+#: src/widgets/window.vala:195
 msgid "Report"
 msgstr "回报"
 
@@ -516,7 +516,9 @@ msgid "Apply the current modification"
 msgstr "应用当前修改"
 
 #: src/widgets/games/games-box.vala:94
-#: src/widgets/preferences/preferences-dialog.vala:129
+#: src/widgets/mangohud/mangohud-box.vala:68
+#: src/widgets/preferences/preferences-dialog.vala:100
+#: src/widgets/preferences/preferences-dialog.vala:142
 msgid "Advanced"
 msgstr "进阶"
 
@@ -578,7 +580,8 @@ msgid "Auto detect"
 msgstr "自动侦测"
 
 #: src/widgets/games/launch-options-editor.vala:230
-#: src/widgets/mangohud/mangohud-presets-page.vala:22
+#: src/widgets/mangohud/mangohud-presets-page.vala:26
+#: src/widgets/mangohud/mangohud-presets-page.vala:54
 msgid "Custom"
 msgstr "自定义"
 
@@ -1031,7 +1034,7 @@ msgstr "一次性编辑所选游戏"
 #: src/widgets/runners/steamtinkerlaunch-row.vala:97
 #: src/widgets/runners/steamtinkerlaunch-row.vala:148
 #: src/widgets/runners/steamtinkerlaunch-row.vala:152
-#: src/widgets/window.vala:245
+#: src/widgets/window.vala:247
 msgid "Warning"
 msgstr "警告"
 
@@ -1075,7 +1078,7 @@ msgstr "下列游戏存在问题："
 #: src/widgets/runners/runner-row.vala:71
 #: src/widgets/runners/steamtinkerlaunch-row.vala:40
 #: src/widgets/runners/steamtinkerlaunch-row.vala:120
-#: src/widgets/window.vala:34 src/widgets/window.vala:105
+#: src/widgets/window.vala:34 src/widgets/window.vala:107
 msgid "Please report this issue on GitHub."
 msgstr "请在 GitHub 上回报此问题。"
 
@@ -1143,11 +1146,11 @@ msgstr "正在解压"
 msgid "Save the current configuration"
 msgstr "应用当前修改"
 
-#: src/widgets/mangohud/mangohud-box.vala:61
+#: src/widgets/mangohud/mangohud-box.vala:74
 msgid "Preview"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-box.vala:67
+#: src/widgets/mangohud/mangohud-box.vala:80
 #, fuzzy
 msgid "Show vkcube"
 msgstr "显示版本"
@@ -1603,24 +1606,36 @@ msgstr ""
 msgid "Filters"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:18
+#: src/widgets/mangohud/mangohud-presets-page.vala:22
 msgid "Full"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:19
+#: src/widgets/mangohud/mangohud-presets-page.vala:23
 msgid "Basic"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:20
+#: src/widgets/mangohud/mangohud-presets-page.vala:24
 msgid "Basic Horizontal"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:21
+#: src/widgets/mangohud/mangohud-presets-page.vala:25
 msgid "FPS Only"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-presets-page.vala:42
+#: src/widgets/mangohud/mangohud-presets-page.vala:46
 msgid "Layouts"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:52
+msgid "MangoHud Stock"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:53
+msgid "Simple White"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:68
+msgid "Color Themes"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:18
@@ -1721,7 +1736,7 @@ msgid "Save the download history to a file"
 msgstr "将下载记录保存至文件"
 
 #: src/widgets/preferences/preferences-dialog.vala:16
-#: src/widgets/preferences/preferences-dialog.vala:108
+#: src/widgets/preferences/preferences-dialog.vala:121
 msgid "General"
 msgstr "一般"
 
@@ -1734,7 +1749,7 @@ msgid "Update the installed 'Latest' runners when the application starts"
 msgstr "于启动时更新已安装的“Latest”运行器"
 
 #: src/widgets/preferences/preferences-dialog.vala:33
-#: src/widgets/preferences/preferences-dialog.vala:114
+#: src/widgets/preferences/preferences-dialog.vala:127
 #: src/widgets/window.vala:61
 msgid "Tools"
 msgstr "工具"
@@ -1752,7 +1767,15 @@ msgstr "记住上次使用的 Steam 个人资料"
 msgid "Default compatibility tool"
 msgstr "设定默认兼容性工具"
 
-#: src/widgets/preferences/preferences-dialog.vala:121
+#: src/widgets/preferences/preferences-dialog.vala:94
+msgid "Experimental mode"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:95
+msgid "Add a MangoHud configuration tab to the sidebar"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:134
 #, fuzzy
 msgid "Launchers"
 msgstr "启动工具"
@@ -1936,8 +1959,8 @@ msgstr "删除"
 msgid "Couldn't delete %s"
 msgstr "无法删除 %s"
 
-#: src/widgets/runners/runner-row.vala:56 src/widgets/window.vala:171
-#: src/widgets/window.vala:172
+#: src/widgets/runners/runner-row.vala:56 src/widgets/window.vala:173
+#: src/widgets/window.vala:174
 msgid "API limit reached"
 msgstr "已达到 API 限制"
 
@@ -1947,8 +1970,8 @@ msgstr "请稍后几分钟后再试。"
 
 #: src/widgets/runners/runner-row.vala:59
 #: src/widgets/runners/runner-row.vala:62
-#: src/widgets/runners/runner-row.vala:65 src/widgets/window.vala:179
-#: src/widgets/window.vala:180
+#: src/widgets/runners/runner-row.vala:65 src/widgets/window.vala:181
+#: src/widgets/window.vala:182
 msgid "Unable to reach the API"
 msgstr "无法存取 API"
 
@@ -1964,8 +1987,8 @@ msgstr "请确保 DNS 未封锁该网域。"
 msgid "The requested website does not seem to be valid."
 msgstr "请求的网站似乎是无效的。"
 
-#: src/widgets/runners/runner-row.vala:68 src/widgets/window.vala:185
-#: src/widgets/window.vala:186
+#: src/widgets/runners/runner-row.vala:68 src/widgets/window.vala:187
+#: src/widgets/window.vala:188
 msgid "Invalid access token"
 msgstr "无效的存取令牌"
 
@@ -2066,20 +2089,20 @@ msgstr "游戏库"
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/window.vala:64
+#: src/widgets/window.vala:66
 msgid "Downloads"
 msgstr "下载"
 
-#: src/widgets/window.vala:105
+#: src/widgets/window.vala:107
 msgid "Couldn't load the launchers"
 msgstr "无法加载启动器"
 
-#: src/widgets/window.vala:119
+#: src/widgets/window.vala:121
 #, c-format
 msgid "Welcome to %s"
 msgstr "欢迎来到 %s"
 
-#: src/widgets/window.vala:119
+#: src/widgets/window.vala:121
 msgid ""
 "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 "started."
@@ -2087,52 +2110,52 @@ msgstr ""
 "请安装 Steam、Lutris、Bottles、Heroic Games Launcher 或 WineZGUI 即可开始使"
 "用。"
 
-#: src/widgets/window.vala:119
+#: src/widgets/window.vala:121
 msgid ""
 "Make sure to run the launchers at least once to ensure they're properly "
 "initialized"
 msgstr "请务必至少运行过一次启动器，以确保其正确初始化"
 
-#: src/widgets/window.vala:140
+#: src/widgets/window.vala:142
 msgid "Checking for updates"
 msgstr "正在检查更新"
 
-#: src/widgets/window.vala:141
+#: src/widgets/window.vala:143
 #, c-format
 msgid "Updating %s"
 msgstr "正在更新 %s"
 
-#: src/widgets/window.vala:158
+#: src/widgets/window.vala:160
 msgid "Nothing to update"
 msgstr "无任何更新"
 
-#: src/widgets/window.vala:159
+#: src/widgets/window.vala:161
 #, c-format
 msgid "No update found for %s"
 msgstr "未找到 %s 的更新"
 
-#: src/widgets/window.vala:165
+#: src/widgets/window.vala:167
 msgid "Everything is now up-to-date"
 msgstr "当前皆已为最新版本"
 
-#: src/widgets/window.vala:166
+#: src/widgets/window.vala:168
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s 已为最新版本"
 
-#: src/widgets/window.vala:171 src/widgets/window.vala:179
-#: src/widgets/window.vala:185 src/widgets/window.vala:191
+#: src/widgets/window.vala:173 src/widgets/window.vala:181
+#: src/widgets/window.vala:187 src/widgets/window.vala:193
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "无法检查更新（原因：%s）"
 
-#: src/widgets/window.vala:172 src/widgets/window.vala:180
-#: src/widgets/window.vala:186 src/widgets/window.vala:192
+#: src/widgets/window.vala:174 src/widgets/window.vala:182
+#: src/widgets/window.vala:188 src/widgets/window.vala:194
 #, c-format
 msgid "Couldn't update %s (Reason: %s)"
 msgstr "无法更新 %1$s（原因：%2$s）"
 
-#: src/widgets/window.vala:245
+#: src/widgets/window.vala:247
 msgid ""
 "The application is currently checking for updates.\n"
 "Exiting the application early may cause issues."
@@ -2140,7 +2163,7 @@ msgstr ""
 "当前正在检查更新。\n"
 "提前离开可能会导致问题。"
 
-#: src/widgets/window.vala:247
+#: src/widgets/window.vala:249
 msgid "Exit"
 msgstr "离开"
 
