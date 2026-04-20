@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-19 21:25-0400\n"
-"PO-Revision-Date: 2026-04-09 23:09+0000\n"
+"POT-Creation-Date: 2026-04-18 10:14-0400\n"
+"PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ja/>\n"
@@ -16,243 +16,1313 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
-#: data/ui/gtk/help-overlay.ui:11
-msgctxt "shortcut window"
+#: src/widgets/application.vala:102
+msgid "A modern compatibility tools manager"
+msgstr "モダンな互換性ツールマネージャー"
+
+#: src/widgets/application.vala:104
+msgid "Website"
+msgstr "ウェブサイト"
+
+#: src/widgets/application.vala:109
+msgid "translator-credits"
+msgstr "camegone"
+
+#: src/widgets/application.vala:110
+msgid "Special thanks to"
+msgstr "スペシャルサンクス"
+
+#: src/widgets/status-box.vala:12 src/widgets/window.vala:211
+#: src/widgets/error-dialog.vala:7
+msgid "Report"
+msgstr "報告"
+
+#: src/widgets/window.vala:39
+msgid "Loading"
+msgstr "ロード中"
+
+#: src/widgets/window.vala:39
+msgid "Taking longer than normal?"
+msgstr "この画面が長く表示されていますか?"
+
+#: src/widgets/window.vala:39 src/widgets/window.vala:123
+#: src/widgets/runners/runner-row.vala:71
+#: src/widgets/runners/remove-dialog.vala:52
+#: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/steamtinkerlaunch-row.vala:40
+#: src/widgets/runners/steamtinkerlaunch-row.vala:120
+#: src/widgets/games/mass-edit-view.vala:208
+#: src/widgets/games/shortcut-button.vala:38
+#: src/widgets/games/shortcut-button.vala:46
+#: src/widgets/games/launch-options-view.vala:99
+#: src/widgets/games/default-tool-view.vala:117
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
+msgid "Please report this issue on GitHub."
+msgstr "この問題を GitHub で報告してください。"
+
+#: src/widgets/window.vala:50
+msgid "_Preferences"
+msgstr "設定 (_P)"
+
+#: src/widgets/window.vala:51
+msgid "_Keyboard Shortcuts"
+msgstr "キーボードショートカット(_K)"
+
+#: src/widgets/window.vala:52
+msgid "_Donate"
+msgstr "寄付する(_D)"
+
+#: src/widgets/window.vala:53
+msgid "_About ProtonPlus"
+msgstr "ProtonPlus について(_A)"
+
+#: src/widgets/window.vala:56
+msgid "Main Menu"
+msgstr "メインメニュー"
+
+#: src/widgets/window.vala:61
+msgid "Tools"
+msgstr "ツール"
+
+#: src/widgets/window.vala:62
+msgid "Games"
+msgstr "ゲーム"
+
+#: src/widgets/window.vala:63
+msgid "Downloads"
+msgstr "ダウンロード"
+
+#: src/widgets/window.vala:123
+msgid "Couldn't load the launchers"
+msgstr "ランチャーを読み込めませんでした"
+
+#: src/widgets/window.vala:137
+#, c-format
+msgid "Welcome to %s"
+msgstr "%s へようこそ"
+
+#: src/widgets/window.vala:137
+msgid ""
+"Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
+"started."
+msgstr ""
+"開始するには、Steam, Lutris, Bottles, Heroic Games Launcher または WineZGUI "
+"をインストールしてください。"
+
+#: src/widgets/window.vala:137
+msgid ""
+"Make sure to run the launchers at least once to ensure they're properly "
+"initialized"
+msgstr ""
+"ランチャーを少なくとも一度は起動して、初期セットアップが完了していることを確"
+"認してください"
+
+#: src/widgets/window.vala:158
+msgid "Checking for updates"
+msgstr "更新を確認中"
+
+#: src/widgets/window.vala:159
+#, c-format
+msgid "Updating %s"
+msgstr "%s を更新中"
+
+#: src/widgets/window.vala:176
+msgid "Nothing to update"
+msgstr "更新するものはありません"
+
+#: src/widgets/window.vala:177
+#, c-format
+msgid "No update found for %s"
+msgstr "%s の更新は見つかりませんでした"
+
+#: src/widgets/window.vala:183
+msgid "Everything is now up-to-date"
+msgstr "全て最新になりました。"
+
+#: src/widgets/window.vala:184
+#, c-format
+msgid "%s is now up-to-date"
+msgstr "%s は最新になりました"
+
+#: src/widgets/window.vala:189 src/widgets/window.vala:197
+#: src/widgets/window.vala:203 src/widgets/window.vala:209
+#, c-format
+msgid "Couldn't check for updates (Reason: %s)"
+msgstr "更新を確認できませんでした (理由: %s)"
+
+#: src/widgets/window.vala:189 src/widgets/window.vala:190
+#: src/widgets/runners/runner-row.vala:56
+msgid "API limit reached"
+msgstr "API の制限に達しました"
+
+#: src/widgets/window.vala:190 src/widgets/window.vala:198
+#: src/widgets/window.vala:204 src/widgets/window.vala:210
+#, c-format
+msgid "Couldn't update %s (Reason: %s)"
+msgstr "%s を更新できませんでした (理由: %s)"
+
+#: src/widgets/window.vala:197 src/widgets/window.vala:198
+#: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65
+msgid "Unable to reach the API"
+msgstr "API にアクセスできません"
+
+#: src/widgets/window.vala:203 src/widgets/window.vala:204
+#: src/widgets/runners/runner-row.vala:68
+msgid "Invalid access token"
+msgstr "無効なアクセストークン"
+
+#: src/widgets/window.vala:209 src/widgets/window.vala:210
+#: src/widgets/runners/runner-row.vala:71
+#: src/widgets/downloads/download-row.vala:148
+msgid "Unknown error"
+msgstr "不明なエラー"
+
+#: src/widgets/window.vala:273
+#: src/widgets/runners/steamtinkerlaunch-row.vala:54
+#: src/widgets/runners/steamtinkerlaunch-row.vala:97
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
+#: src/widgets/games/mass-edit-button.vala:36
+msgid "Warning"
+msgstr "警告"
+
+#: src/widgets/window.vala:273
+msgid ""
+"The application is currently checking for updates.\n"
+"Exiting the application early may cause issues."
+msgstr ""
+"アプリケーションは更新の確認中です。\n"
+"アプリケーションを終了すると問題が発生することがあります。"
+
+#: src/widgets/window.vala:275
+msgid "Exit"
+msgstr "終了"
+
+#: src/widgets/window.vala:278 src/widgets/runners/remove-dialog.vala:30
+#: src/widgets/downloads/download-row.vala:22
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: src/widgets/warning-dialog.vala:7 src/widgets/error-dialog.vala:10
+msgid "OK"
+msgstr "OK"
+
+#: src/widgets/preferences/preferences-dialog.vala:9
 msgid "General"
 msgstr "一般"
 
-#: data/ui/gtk/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Show Shortcuts"
-msgstr "ショートカットの表示"
+#: src/widgets/preferences/preferences-dialog.vala:14
+msgid "Save download history"
+msgstr "ダウンロード履歴を保存"
 
-#: data/ui/gtk/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Quit"
-msgstr "アプリの終了"
+#: src/widgets/preferences/preferences-dialog.vala:15
+msgid "Save the download history to a file"
+msgstr "ダウンロード履歴をファイルに保存する"
 
-#: src/cli/cli.vala:78
-#, c-format
-msgid "Error: Unknown command '%s'\n"
-msgstr "エラー: 「%s」は未知のコマンドです\n"
+#: src/widgets/preferences/preferences-dialog.vala:22
+msgid "Automatic updates"
+msgstr "自動更新"
 
-#: src/cli/cli.vala:86
-msgid "Detected launchers:\n"
-msgstr "ランチャーを検出しました:\n"
+#: src/widgets/preferences/preferences-dialog.vala:23
+msgid "Update the installed 'Latest' runners when the application starts"
+msgstr "インストール済みの「最新」の実行環境をアプリケーション開始時に更新する"
 
-#: src/cli/cli.vala:98
-#, c-format
-msgid "Installed runners for %s:\n"
-msgstr "%s のためにインストールされている実行環境:\n"
+#: src/widgets/preferences/preferences-dialog.vala:29
+msgid "Latest"
+msgstr "最新"
 
-#: src/cli/cli.vala:111
-msgid "No runners installed\n"
-msgstr "実行環境が何もインストールされていません\n"
+#: src/widgets/preferences/preferences-dialog.vala:49
+msgid "Remember last used profile"
+msgstr "最後に使用したプロファイルを記憶する"
 
-#: src/cli/cli.vala:184
-#, c-format
-msgid "Error: Runner '%s' does not support 'latest' installation\n"
-msgstr "エラー: 実行環境「%s」は「最新」のインストールをサポートしていません\n"
+#: src/widgets/preferences/preferences-dialog.vala:50
+msgid "Remember the last used Steam profile"
+msgstr "最後に使用した Steam プロファイルを記憶する"
 
-#: src/cli/cli.vala:204
-#, c-format
-msgid "Installing %s Latest...\n"
-msgstr "%s の最新版をインストール中...\n"
+#: src/widgets/preferences/theme-row.vala:15
+msgid "System"
+msgstr "システム"
 
-#: src/cli/cli.vala:206
-#, c-format
-msgid "Successfully installed %s Latest\n"
-msgstr "最新の %s のインストールに成功しました\n"
+#: src/widgets/preferences/theme-row.vala:16
+msgid "Light"
+msgstr "ライト"
 
-#: src/cli/cli.vala:206 src/cli/cli.vala:231
-msgid "Error: Installation failed\n"
-msgstr "エラー: インストールに失敗しました\n"
+#: src/widgets/preferences/theme-row.vala:17
+msgid "Dark"
+msgstr "ダーク"
 
-#: src/cli/cli.vala:217
-#, c-format
-msgid "Available releases for %s:\n"
-msgstr "%s の利用可能なリリース一覧:\n"
-
-#: src/cli/cli.vala:223 src/cli/cli.vala:247
-msgid "Select release number"
-msgstr "リリース番号を選択"
-
-#: src/cli/cli.vala:229
-#, c-format
-msgid "Installing %s...\n"
-msgstr "%s をインストール中...\n"
-
-#: src/cli/cli.vala:231
-#, c-format
-msgid "Successfully installed %s\n"
-msgstr "%s のインストールに成功しました\n"
-
-#: src/cli/cli.vala:238 src/cli/cli.vala:259
-#, c-format
-msgid "No installed releases found for %s\n"
-msgstr "インストール済みの %s のバージョンが見つかりませんでした\n"
-
-#: src/cli/cli.vala:242
-#, c-format
-msgid "Installed releases for %s:\n"
+#: src/widgets/preferences/theme-row.vala:18
+msgid "SteamOS"
 msgstr ""
 
-#: src/cli/cli.vala:263
-#, c-format
-msgid "Uninstalling all releases for %s...\n"
-msgstr "%s の全てのバージョンをアンインストールしています...\n"
+#: src/widgets/preferences/theme-row.vala:19
+msgid "OLED"
+msgstr "OLED (有機EL)"
 
-#: src/cli/cli.vala:271
-#, c-format
-msgid "Uninstalling all releases for launcher %s...\n"
+#: src/widgets/preferences/theme-row.vala:27
+msgid "Current theme"
+msgstr "現在のテーマ"
+
+#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
+msgid "Refresh profiles"
+msgstr "プロファイルを再読み込み"
+
+#: src/widgets/preferences/refresh-launchers-runners-row.vala:15
+msgid "Refresh launchers/runners"
+msgstr "ランチャーや実行環境を再読み込み"
+
+#: src/widgets/preferences/check-updates-row.vala:11
+msgid "Check if any of the installed 'Latest' runners needs to be updated"
 msgstr ""
+"インストール済みの「最新 (Latest)」な実行環境に更新が必要かどうか確認する"
 
-#: src/cli/cli.vala:278
+#: src/widgets/preferences/check-updates-row.vala:16
+msgid "Check for updates"
+msgstr "更新を確認"
+
+#: src/widgets/preferences/access-token-row.vala:4
+msgid "Access token"
+msgstr "アクセストークン"
+
+#: src/widgets/preferences/access-token-row.vala:5
+msgid "Enter an access token to reduce your chances of being rate limited"
+msgstr "レート制限に掛かる頻度を減らすためにアクセストークンを入力する"
+
+#: src/widgets/runners/description-dialog.vala:14
+#: src/widgets/runners/description-dialog.vala:18
+msgid "More information"
+msgstr "詳細情報"
+
+#: src/widgets/runners/description-dialog.vala:22
+msgid "Open"
+msgstr "開く"
+
+#: src/widgets/runners/description-dialog.vala:26
+msgid "Open in your web browser"
+msgstr "ウェブブラウザで開く"
+
+#: src/widgets/runners/release-row.vala:12
+msgid "Show more information"
+msgstr "詳細情報を表示"
+
+#: src/widgets/runners/release-row.vala:17
+#: src/widgets/runners/basic-row.vala:127
+msgid "Update the runner if a newer version is available"
+msgstr "新たなバージョンを利用可能なときに実行環境を更新する"
+
+#: src/widgets/runners/release-row.vala:20
+#: src/widgets/runners/basic-row.vala:129
+#: src/widgets/runners/steamtinkerlaunch-row.vala:206
+msgid "Open runner directory"
+msgstr "実行環境のディレクトリを開く"
+
+#: src/widgets/runners/release-row.vala:24
+#: src/widgets/runners/basic-row.vala:125
+#: src/widgets/runners/steamtinkerlaunch-row.vala:204
 #, c-format
-msgid "Uninstalled %s\n"
-msgstr "%s をアンインストールしました\n"
+msgid "Delete %s"
+msgstr "%s を削除"
 
-#: src/cli/cli.vala:288
+#: src/widgets/runners/release-row.vala:28
+#: src/widgets/runners/basic-row.vala:123
+#: src/widgets/runners/steamtinkerlaunch-row.vala:203
 #, c-format
-msgid "Uninstalling %s...\n"
-msgstr "%s をアンインストール中...\n"
+msgid "Install %s"
+msgstr "%s をインストール"
 
-#: src/cli/cli.vala:290
+#: src/widgets/runners/release-row.vala:55
+#: src/widgets/runners/release-row.vala:57
+#: src/widgets/runners/installed-row.vala:11
+#: src/widgets/runners/basic-row.vala:74
+#: src/widgets/runners/filters-box.vala:32
+msgid "Used"
+msgstr "使用済み"
+
+#: src/widgets/runners/runner-row.vala:56
+msgid "Try again in a few minutes."
+msgstr "数分待ってからお試しください。"
+
+#: src/widgets/runners/runner-row.vala:59
+msgid "Make sure you're connected to the internet."
+msgstr "インターネットに接続されていることを確認してください。"
+
+#: src/widgets/runners/runner-row.vala:62
+msgid "Make sure your DNS is not blocking this."
+msgstr "使用している DNS によってブロックされていないかを確認してください。"
+
+#: src/widgets/runners/runner-row.vala:65
+msgid "The requested website does not seem to be valid."
+msgstr "要求されたウェブサイトが正しくないようです。"
+
+#: src/widgets/runners/runner-row.vala:68
+msgid "Make sure the access token you provided is valid."
+msgstr "あなたが入力したアクセストークンが有効であることを確認してください。"
+
+#: src/widgets/runners/load-more-row.vala:8
+#: src/widgets/runners/load-more-row.vala:17
+msgid "Load more"
+msgstr "もっと読み込む"
+
+#: src/widgets/runners/remove-dialog.vala:11
 #, c-format
-msgid "Successfully uninstalled %s\n"
-msgstr "%s のアンインストールに成功しました\n"
+msgid "Delete %s?"
+msgstr "%s を削除しますか?"
 
-#: src/cli/cli.vala:290
-msgid "Error: Uninstallation failed\n"
-msgstr "エラー: アンインストールに失敗しました\n"
-
-#: src/cli/cli.vala:295
-msgid "Updating all runners...\n"
-msgstr "すべての実行環境を更新中...\n"
-
-#: src/cli/cli.vala:301
+#: src/widgets/runners/remove-dialog.vala:13
+#: src/widgets/runners/remove-dialog.vala:26
 #, c-format
-msgid "Updating runners for %s...\n"
-msgstr "%s のための実行環境を更新中...\n"
+msgid "%s will be permanently deleted."
+msgstr "%s は永久的に削除されます。"
 
-#: src/cli/cli.vala:316 src/cli/cli.vala:371
+#: src/widgets/runners/remove-dialog.vala:21
 #, c-format
-msgid "Successfully updated %s\n"
-msgstr "%s の更新に成功しました\n"
+msgid "Used by %i games."
+msgstr "%i つのゲームで使用されています。"
 
-#: src/cli/cli.vala:319 src/cli/cli.vala:375
+#: src/widgets/runners/remove-dialog.vala:24
+msgid "Used by 1 game."
+msgstr "1 つのゲームで使用されています。"
+
+#: src/widgets/runners/remove-dialog.vala:31
+msgid "Delete"
+msgstr "削除"
+
+#: src/widgets/runners/remove-dialog.vala:52
 #, c-format
-msgid "Already up to date: %s\n"
-msgstr "%s は既に最新です\n"
+msgid "Couldn't delete %s"
+msgstr "%s を削除できませんでした"
 
-#: src/cli/cli.vala:322 src/cli/cli.vala:378
+#: src/widgets/runners/installed-row.vala:12
+#: src/widgets/runners/basic-row.vala:75
 #, c-format
-msgid "Error: Failed to update %s\n"
-msgstr "エラー: %s のアップデートに失敗しました\n"
+msgid "%s is used by %i game(s)"
+msgstr "%s は %i つのゲームで使われています"
 
-#: src/cli/cli.vala:361
-msgid "Already up to date\n"
-msgstr "既に最新です\n"
+#: src/widgets/runners/installed-row.vala:41
+#: src/widgets/runners/steamtinkerlaunch-row.vala:132
+msgid "Check this to also delete your configuration files."
+msgstr "ここをチェックすると、設定ファイルまで削除されます。"
 
-#: src/cli/cli.vala:386
-#, c-format
-msgid "Updating %s..."
-msgstr "%s を更新中..."
-
-#: src/cli/cli.vala:398
-msgid "Error: Failed to load launchers\n"
-msgstr "エラー: ランチャーを読み込めませんでした\n"
-
-#: src/cli/cli.vala:407
-msgid "Error: Failed to load releases\n"
-msgstr "エラー: リリース一覧を読み込めませんでした\n"
-
-#: src/cli/cli.vala:418
-#, c-format
-msgid "Error: Launcher '%s' not found\n"
-msgstr "エラー: ランチャー「%s」が見つかりませんでした\n"
-
-#: src/cli/cli.vala:431
-#, c-format
-msgid "Error: Runner '%s' not found\n"
-msgstr "エラー: 実行環境「%s」が見つかりませんでした\n"
-
-#: src/cli/cli.vala:470
-#, c-format
-msgid "Usage: %s\n"
-msgstr "使用方法: %s\n"
-
-#: src/cli/cli.vala:487
-#, fuzzy
-msgid "Error: Invalid input, please enter a number\n"
-msgstr "エラー: 選択内容が不正です\n"
-
-#: src/cli/cli.vala:493
-msgid "Error: Selection out of range\n"
-msgstr ""
-
-#: src/cli/cli.vala:500
-#, fuzzy
-msgid "Usage:\n"
-msgstr "使用方法: %s\n"
-
-#: src/cli/cli.vala:502
-msgid "Commands:\n"
-msgstr "コマンド:\n"
-
-#: src/cli/cli.vala:503
-#, fuzzy
-msgid "Show version"
-msgstr "バージョンを表示\n"
-
-#: src/cli/cli.vala:504
-#, fuzzy
-msgid "Show this help"
-msgstr "このヘルプを表示\n"
-
-#: src/cli/cli.vala:505
-#, fuzzy
-msgid "List launchers or installed runners"
-msgstr "ランチャーや実行環境を一覧表示する\n"
-
-#: src/cli/cli.vala:506
-#, fuzzy
-msgid "Install runner"
-msgstr "実行環境をインストール\n"
-
-#: src/cli/cli.vala:507
-#, fuzzy
-msgid "Uninstall runner"
-msgstr "実行環境をアンインストール\n"
-
-#: src/cli/cli.vala:508
-#, fuzzy
-msgid "Update runner"
-msgstr "実行環境を更新\n"
-
-#: src/cli/cli.vala:512
+#: src/widgets/runners/basic-row.vala:16
 msgid ""
-"\n"
-"Available launchers:\n"
+"This version will get automatically updated when there's an update available "
+"each time your launch the application if automatic updates is enabled"
 msgstr ""
-"\n"
-"利用可能なランチャー:\n"
+"このバージョンを選択すると、設定の「自動更新」が有効になっている場合、アプリ"
+"ケーションの起動のタイミングで更新版が利用可能な時、自動的に更新されます"
 
-#: src/cli/cli.vala:519
+#: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/steamtinkerlaunch-row.vala:120
+#, c-format
+msgid "Couldn't install %s"
+msgstr "%s をインストールできませんでした"
+
+#: src/widgets/runners/basic-row.vala:103
+#: src/widgets/runners/steamtinkerlaunch-row.vala:190
+msgid "This tool is currently being installed"
+msgstr "このツールは現在インストールされていません"
+
+#: src/widgets/runners/basic-row.vala:105
+#: src/widgets/runners/steamtinkerlaunch-row.vala:192
+msgid "This tool is currently being downloaded"
+msgstr "このツールは現在ダウンロード中です"
+
+#: src/widgets/runners/basic-row.vala:110
+#: src/widgets/runners/steamtinkerlaunch-row.vala:194
+msgid "This tool is currently being removed"
+msgstr "このツールは現在削除中です"
+
+#: src/widgets/runners/basic-row.vala:114
+#: src/widgets/runners/steamtinkerlaunch-row.vala:196
+msgid "This tool is currently being updated"
+msgstr "このツールは現在更新中です"
+
+#: src/widgets/runners/basic-row.vala:132
+msgid "The application is currently updating its runners"
+msgstr "このアプリケーションは現在使用している実行環境を更新中です"
+
+#: src/widgets/runners/filters-box.vala:21
+msgid "Installed"
+msgstr "インストール済み"
+
+#: src/widgets/runners/filters-box.vala:23
+msgid "Show installed runners"
+msgstr "インストール済みの実行環境を表示"
+
+#: src/widgets/runners/filters-box.vala:34
+msgid "Show runners that are used by one game or more"
+msgstr "1つ以上のゲームで使用している実行環境を表示"
+
+#: src/widgets/runners/filters-box.vala:41
+msgid "Unused"
+msgstr "未使用"
+
+#: src/widgets/runners/filters-box.vala:43
+msgid "Show runners that aren't used by any games"
+msgstr "どのゲームにも使用していない実行環境を表示"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:8
+#: src/widgets/runners/steamtinkerlaunch-row.vala:205
+msgid "Update to the latest version"
+msgstr "最新のバージョンに更新する"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:40
+#, c-format
+msgid "Couldn't update %s"
+msgstr "%s を更新できませんでした"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:54
+#, c-format
+msgid "You are missing the following dependencies for %s:"
+msgstr "%s には以下の前提ソフトが不足しています:"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:54
+msgid "Installation will be canceled."
+msgstr "インストールはキャンセルされます。"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:97
 #, c-format
 msgid ""
-"\n"
-"Available runners for %s:\n"
+"It looks like you currently have another version of %s which was not "
+"installed by ProtonPlus."
 msgstr ""
-"\n"
-"%s に対応した実行環境一覧:\n"
+"ProtonPlus 以外の方法でインストールした %s の別のバージョンがあるようです。"
 
+#: src/widgets/runners/steamtinkerlaunch-row.vala:97
+msgid "Do you want to reinstall it with ProtonPlus?"
+msgstr "そのバージョンを ProtonPlus で再インストールしますか?"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:99
+msgid "No"
+msgstr "いいえ"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:100
+msgid "Yes"
+msgstr "はい"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#, c-format
+msgid "To install %s for the %s, please run the following command:"
+msgstr ""
+"%s に必要な %s をインストールするには、以下のコマンドを実行してください:"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
+#, c-format
+msgid "There's currently no known way for us to install %s for the %s."
+msgstr ""
+"現在、%s に必要な %s をインストールしているかを確認するすべがありません。"
+
+#: src/widgets/games/games-box.vala:64
+msgid "Close the Steam client beforehand so that the changes can be applied."
+msgstr "変更を適用する前に、必ず Steam クライアントを終了してください。"
+
+#: src/widgets/games/games-box.vala:81 src/widgets/games/games-box.vala:351
+msgid "Show search"
+msgstr "検索窓を表示"
+
+#: src/widgets/games/games-box.vala:109
+msgid "Search for a game"
+msgstr "ゲームを検索"
+
+#: src/widgets/games/games-box.vala:116
+msgid "Name"
+msgstr "名前"
+
+#: src/widgets/games/games-box.vala:120
+msgid "Prefix"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:127
+#: src/widgets/games/mass-edit-view.vala:69
+#: src/widgets/games/default-tool-view.vala:72
+msgid "Compatibility tool"
+msgstr "互換性ツール"
+
+#: src/widgets/games/games-box.vala:131
+msgid "Other"
+msgstr "その他"
+
+#: src/widgets/games/games-box.vala:157
+msgid "No profile was found."
+msgstr "プロファイルが見つかりませんでした。"
+
+#: src/widgets/games/games-box.vala:157
+msgid "Make sure to connect yourself at least once on Steam."
+msgstr ""
+"Steam を少なくとも一度は起動して、ログインが完了していることを確認してくださ"
+"い"
+
+#: src/widgets/games/games-box.vala:157
+msgid "If you think this is an issue, make sure to report this on GitHub."
+msgstr "もしこれが不具合であると考える場合、GitHub で報告してください。"
+
+#: src/widgets/games/games-box.vala:236
+msgid "Unsupported launcher"
+msgstr "サポートされていないランチャー"
+
+#: src/widgets/games/games-box.vala:236
+#, c-format
+msgid "%s is currently not supported."
+msgstr "%s は現在サポートされていません。"
+
+#: src/widgets/games/games-box.vala:236
+msgid ""
+"If you want me to speed up the development make sure to show your support!"
+msgstr "開発をスピードアップしてほしい場合は、私を支援してください!"
+
+#: src/widgets/games/games-box.vala:276 src/widgets/games/games-box.vala:338
+#: src/widgets/games/games-box.vala:341
+#: src/widgets/games/mass-edit-view.vala:170
+#: src/widgets/games/compatibility-tool-dropdown.vala:32
+#: src/widgets/games/compatibility-tool-dropdown.vala:80
 #: src/models/games/steam.vala:95 src/models/games/steam.vala:116
-#: src/widgets/games/game-row.vala:98 src/widgets/games/games-box.vala:310
-msgid "Default"
+msgid "Undefined"
+msgstr "未指定"
+
+#: src/widgets/games/games-box.vala:351
+msgid "Hide search"
+msgstr "検索窓を非表示"
+
+#: src/widgets/games/game-row.vala:57
+msgid "Modify the game launch options"
+msgstr "ゲームの起動オプションを変更"
+
+#: src/widgets/games/game-row.vala:83
+msgid "Unknown"
+msgstr "不明"
+
+#: src/widgets/games/game-row.vala:89
+msgid "Open ProtonDB page"
+msgstr "ProtonDB のページを開く"
+
+#: src/widgets/games/mass-edit-view.vala:28
+#: src/widgets/games/mass-edit-button.vala:10
+msgid "Mass edit"
+msgstr "まとめて設定"
+
+#: src/widgets/games/mass-edit-view.vala:32
+#: src/widgets/games/launch-options-view.vala:27
+#: src/widgets/games/default-tool-view.vala:24
+msgid "Back"
+msgstr "戻る"
+
+#: src/widgets/games/mass-edit-view.vala:38
+#: src/widgets/games/launch-options-view.vala:33
+msgid "Clear the current launch options"
+msgstr "現在の起動オプションを削除"
+
+#: src/widgets/games/mass-edit-view.vala:41
+#: src/widgets/games/launch-options-view.vala:36
+msgid "Advanced"
+msgstr "上級"
+
+#: src/widgets/games/mass-edit-view.vala:53
+msgid "Apply the current modifications"
+msgstr "現在の変更を適用"
+
+#: src/widgets/games/mass-edit-view.vala:65
+msgid ""
+"Enable this if you want the mass edit to take the compatibility tool into "
+"account."
 msgstr ""
+"互換性ツールをまとめて変更したい場合のみ、この設定を有効にしてください。"
+
+#: src/widgets/games/mass-edit-view.vala:75
+msgid ""
+"Enable this if you want the mass edit to take the launch options into "
+"account."
+msgstr ""
+"起動オプションをまとめて変更したい場合のみ、この設定を有効にしてください。"
+
+#: src/widgets/games/mass-edit-view.vala:82
+msgid "Launch options"
+msgstr "起動オプション"
+
+#: src/widgets/games/mass-edit-view.vala:110
+msgid "1 game selected"
+msgstr "1 つのゲームを選択済み"
+
+#: src/widgets/games/mass-edit-view.vala:110
+#, c-format
+msgid "%u games selected"
+msgstr "%u つのゲームを選択済み"
+
+#: src/widgets/games/mass-edit-view.vala:208
+msgid ""
+"Couldn't change the compatibility tool/launch options of the selected games"
+msgstr ""
+"選択したゲームに使用する互換性ツールや起動オプションを変更中にエラーが発生し"
+"ました。"
+
+#: src/widgets/games/mass-edit-view.vala:208
+msgid "The following games had an issue:"
+msgstr "以下のゲームに問題があります:"
+
+#: src/widgets/games/shortcut-button.vala:23
+#: src/widgets/games/shortcut-button.vala:28
+msgid "Create shortcut"
+msgstr "ショートカットを作成"
+
+#: src/widgets/games/shortcut-button.vala:28
+msgid "Delete shortcut"
+msgstr "ショートカットを削除"
+
+#: src/widgets/games/shortcut-button.vala:29
+msgid "Create a shortcut of ProtonPlus in Steam"
+msgstr "ProtonPlus のショートカットを Steam に作成する"
+
+#: src/widgets/games/shortcut-button.vala:29
+msgid "Delete the shortcut of ProtonPlus in Steam"
+msgstr "Steam に作成した ProtonPlus のショートカットを削除する"
+
+#: src/widgets/games/shortcut-button.vala:38
+msgid "Couldn't delete the shortcut in Steam"
+msgstr "Steam に作成したショートカットを削除できませんでした"
+
+#: src/widgets/games/shortcut-button.vala:46
+msgid "Couldn't create the shortcut in Steam"
+msgstr "Steam にショートカットを作成できませんでした"
+
+#: src/widgets/games/switch-profile-button.vala:14
+msgid "Switch profile"
+msgstr "プロファイルを変更"
+
+#: src/widgets/games/switch-profile-button.vala:23
+msgid "Switch to another profile"
+msgstr "別のプロファイルに変更する"
+
+#: src/widgets/games/select-button.vala:8
+msgid "Select all"
+msgstr "全てを選択"
+
+#: src/widgets/games/select-button.vala:11
+msgid "Select all the games"
+msgstr "全てのゲームを選択する"
+
+#: src/widgets/games/unselect-button.vala:8
+msgid "Unselect all"
+msgstr "全てを選択解除"
+
+#: src/widgets/games/unselect-button.vala:11
+msgid "Unselect all the games"
+msgstr "全てのゲームを選択解除する"
+
+#: src/widgets/games/mass-edit-button.vala:13
+msgid "Edit the selected games at once"
+msgstr "選択したゲームの互換性ツールを一度に変更する"
+
+#: src/widgets/games/mass-edit-button.vala:36
+msgid ""
+"Please make sure to select at least one game before using the mass edit "
+"feature."
+msgstr ""
+"まとめて設定を選択するためには、少なくとも一つのゲームを選択してください。"
+
+#: src/widgets/games/launch-options-view.vala:23
+msgid "Modify launch options"
+msgstr "起動オプションの変更"
+
+#: src/widgets/games/launch-options-view.vala:48
+#: src/widgets/games/default-tool-view.vala:35
+msgid "Apply the current modification"
+msgstr "現在の変更を適用する"
+
+#: src/widgets/games/launch-options-view.vala:99
+#, c-format
+msgid "Couldn't change the launch options of %s"
+msgstr "%s の起動オプションを変更できませんでした"
+
+#: src/widgets/games/launch-options-editor.vala:67
+#: src/widgets/games/launch-options-editor.vala:261
+msgid "Set"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:68
+msgid "Apply the FPS value"
+msgstr "FPS の値を適用する"
+
+#: src/widgets/games/launch-options-editor.vala:229
+msgid "Auto detect"
+msgstr "自動検出"
+
+#: src/widgets/games/launch-options-editor.vala:230
+msgid "Custom"
+msgstr "カスタム"
+
+#: src/widgets/games/launch-options-editor.vala:262
+msgid "Apply the custom resolution"
+msgstr "カスタムの解像度を適用する"
+
+#. Launch command preview
+#: src/widgets/games/launch-options-editor.vala:522
+msgid "Launch command preview"
+msgstr "起動時のコマンドのプレビュー"
+
+#. Common options
+#: src/widgets/games/launch-options-editor.vala:527
+msgid "Performance overlay"
+msgstr "パフォーマンスのオーバーレイ"
+
+#: src/widgets/games/launch-options-editor.vala:527
+msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
+msgstr "ゲーム画面上に FPS や CPU/GPU の使用率、温度などを表示する。"
+
+#: src/widgets/games/launch-options-editor.vala:528
+msgid "Disable Steam Deck Mode"
+msgstr "Steam Deck  モードの無効化"
+
+#: src/widgets/games/launch-options-editor.vala:528
+msgid "Disables the Steam Deck-specific profile that some games use."
+msgstr "いくつかのゲームで使用される Steam Deck 専用のプロファイルを無効にする。"
+
+#: src/widgets/games/launch-options-editor.vala:529
+msgid "Wayland"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:529
+msgid ""
+"Runs the game natively on Wayland instead of through XWayland but it breaks "
+"Steam Input and the Steam Overlay."
+msgstr ""
+"ゲームを XWayland 経由ではなく Wayland ネイティブで動作させる。注意: Steam 入"
+"力や Steam オーバーレイの動作を破壊します。"
+
+#: src/widgets/games/launch-options-editor.vala:532
+msgid "Common options"
+msgstr "一般的なオプション"
+
+#: src/widgets/games/launch-options-editor.vala:533
+msgid "Quick toggles for the launch options people reach for most often."
+msgstr "よく利用される起動オプションのトグルを表示しています。"
+
+#. Launch tools
+#: src/widgets/games/launch-options-editor.vala:541
+#: src/widgets/games/launch-options-editor.vala:843
+msgid "HDR"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:541
+#: src/widgets/games/launch-options-editor.vala:843
+#: src/widgets/games/launch-options-editor.vala:878
+msgid "Outputs HDR colors if your display supports it."
+msgstr "ディスプレイが対応している場合に、HDR 映像を出力します。"
+
+#: src/widgets/games/launch-options-editor.vala:549
+msgid "None"
+msgstr "なし"
+
+#: src/widgets/games/launch-options-editor.vala:550
+msgid "Gamescope"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:551
+msgid "ScopeBuddy"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:558
+msgid "Launch tools"
+msgstr "起動ツール"
+
+#: src/widgets/games/launch-options-editor.vala:559
+msgid ""
+"Choose one to configure FPS caps, resolution, and other display options."
+msgstr ""
+"FPS 制限や解像度、その他のディスプレイ設定にアクセスするためには、一つを選択"
+"してください。"
+
+#. GPU vendor options
+#: src/widgets/games/launch-options-editor.vala:566
+msgid "Mesa Anti-Lag"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:566
+msgid "Reduces latency on supported AMD Mesa setups."
+msgstr "AMD の Mesa が利用できる環境で、反応速度を向上させる。"
+
+#: src/widgets/games/launch-options-editor.vala:567
+msgid "Use dGPU"
+msgstr "ディスクリート GPU を使用"
+
+#: src/widgets/games/launch-options-editor.vala:567
+msgid "Makes the game use the AMD dGPU on hybrid systems."
+msgstr "GPU が複数搭載された環境で、ゲームに AMD のdGPU を使用させる。"
+
+#: src/widgets/games/launch-options-editor.vala:568
+msgid "Hide AMD APU"
+msgstr "AMD の APU を隠す"
+
+#: src/widgets/games/launch-options-editor.vala:568
+msgid ""
+"Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
+"integrated graphics."
+msgstr ""
+"Proton に AMD の APU をディスクリート GPU だと認識させ、内蔵グラフィックを誤"
+"検知するゲームの互換性を向上させます。"
+
+#: src/widgets/games/launch-options-editor.vala:569
+msgid "FSR 4 Upgrade"
+msgstr "FSR 4 にアップグレード"
+
+#: src/widgets/games/launch-options-editor.vala:569
+msgid ""
+"Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
+"Anti-Lag 2 currently due to various issues."
+msgstr ""
+"対応ゲームで、FSR 3.1 を FSR 4 にアップグレードする。注意: このオプションを有"
+"効にすると、様々な問題が発生するため AMD Anti-Lag 2 が無効化されます。"
+
+#: src/widgets/games/launch-options-editor.vala:573
+msgid "FSR 4 RDNA3 Upgrade"
+msgstr "FSR4 の RDNA3 アップグレード"
+
+#: src/widgets/games/launch-options-editor.vala:573
+msgid "Optimizes FSR 4.0 for RDNA3 hardware."
+msgstr "RDNA3 を搭載したハードウェア向けに FSR 4.0 を最適化する"
+
+#: src/widgets/games/launch-options-editor.vala:577
+msgid "NVAPI"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:577
+msgid "Lets games access NVIDIA-specific features like DLSS."
+msgstr "ゲームから NVIDIA 特有の機能 (例: DLSS) へのアクセスを有効にします。"
+
+#: src/widgets/games/launch-options-editor.vala:580
+msgid "Update DLSS components"
+msgstr "DLSS コンポーネントの更新"
+
+#: src/widgets/games/launch-options-editor.vala:580
+msgid "Auto upgrades DLSS components for supported games."
+msgstr "対応したゲームで、自動的に DLSS コンポーネントをアップグレードします。"
+
+#: src/widgets/games/launch-options-editor.vala:583
+msgid "Hide NVIDIA GPU"
+msgstr "NVIDIA GPU を隠す"
+
+#: src/widgets/games/launch-options-editor.vala:583
+msgid ""
+"Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
+"NVIDIA driver behavior."
+msgstr ""
+"Proton に NVIDIA の GPU を AMD 製だと認識させて、 Windows 専用の NVIDIA "
+"ドライバーの動作を利用するゲームの互換性を向上させます。"
+
+#: src/widgets/games/launch-options-editor.vala:584
+msgid "DLSS Indicator"
+msgstr "DLSS インジケーター"
+
+#: src/widgets/games/launch-options-editor.vala:584
+msgid "Shows a DLSS status indicator in-game."
+msgstr "DLSS の状態を示すインジケーターをゲーム画面上に表示します。"
+
+#: src/widgets/games/launch-options-editor.vala:585
+msgid "NVIDIA Libraries"
+msgstr "NVIDIA ライブラリ"
+
+#: src/widgets/games/launch-options-editor.vala:585
+msgid ""
+"Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
+"or ray tracing."
+msgstr ""
+"NVIDIA固有のライブラリ (例: PhysiX, CUDA) を有効化します。この設定は DLSS や "
+"レイトレーシングを使うためには必要ありません。"
+
+#: src/widgets/games/launch-options-editor.vala:587
+msgid "XeSS Upgrade"
+msgstr "XeSS アップグレード"
+
+#: src/widgets/games/launch-options-editor.vala:587
+msgid "Upgrades XeSS in supported games."
+msgstr "対応ゲームで XeSS をアップグレードします。"
+
+#: src/widgets/games/launch-options-editor.vala:593
+msgid "AMD"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:594
+msgid "NVIDIA"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:595
+msgid "Intel"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:605
+msgid "GPU vendor options"
+msgstr "GPU ベンダー設定"
+
+#: src/widgets/games/launch-options-editor.vala:606
+msgid ""
+"Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
+msgstr "AMD、NVIDIA、Intelの GPU メーカー特有の互換性設定を使用する。"
+
+#. More options
+#: src/widgets/games/launch-options-editor.vala:613
+msgid "VKBasalt"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:613
+msgid "Adds visual effects like sharpening and color adjustments."
+msgstr "鮮鋭化や色調補正などの画像処理を追加します。"
+
+#: src/widgets/games/launch-options-editor.vala:614
+msgid "WineD3D"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:614
+msgid ""
+"Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
+msgstr ""
+"Vulkan の代わりに OpenGL を使用します。注意: DXVK の動作に問題がある場合のみ"
+"有効にしてください。"
+
+#: src/widgets/games/launch-options-editor.vala:615
+msgid "Use FSync"
+msgstr "FSync を使用"
+
+#: src/widgets/games/launch-options-editor.vala:615
+msgid ""
+"Uses FSync instead of NTSync. Can fix issues in certain games that do not "
+"pair well with NTSync."
+msgstr ""
+"NTSync の代わりにFSync を使用します。NTSync ではうまく動かない特定のゲームの"
+"問題を解決できることがあります。"
+
+#: src/widgets/games/launch-options-editor.vala:616
+msgid "Local shader cache"
+msgstr "ローカル シェーダー キャッシュ"
+
+#: src/widgets/games/launch-options-editor.vala:616
+msgid ""
+"Enables per-game shader cache. This isolates the shader cache of each game "
+"but does not compile them ahead-of-time."
+msgstr ""
+"ゲーム毎のシェーダー キャッシュを有効にします。この設定は各ゲームの"
+"シェーダー キャッシュを分離しますが、事前のコンパイルができません。"
+
+#: src/widgets/games/launch-options-editor.vala:617
+msgid "Prefer SDL controller"
+msgstr "SDL コントローラーを優先"
+
+#: src/widgets/games/launch-options-editor.vala:617
+msgid "Workaround for controller detection issues."
+msgstr "コントローラーの認識の問題に関する対処方法。"
+
+#: src/widgets/games/launch-options-editor.vala:618
+msgid "Disable Steam Input"
+msgstr "Steam 入力を無効化"
+
+#: src/widgets/games/launch-options-editor.vala:618
+msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
+msgstr ""
+"Steam 入力を無効にします。Wayland での コントローラーやゲームパッドの問題を解"
+"消します。"
+
+#: src/widgets/games/launch-options-editor.vala:621
+msgid "More options"
+msgstr "詳細設定"
+
+#: src/widgets/games/launch-options-editor.vala:622
+msgid "Extra graphics settings and launch behaviors."
+msgstr "追加のグラフィック設定や起動時の動作。"
+
+#. Game arguments
+#: src/widgets/games/launch-options-editor.vala:633
+msgid "Skip launcher"
+msgstr "ランチャーをスキップ"
+
+#: src/widgets/games/launch-options-editor.vala:633
+msgid "Adds -skip-launcher to bypass launchers in games that support it."
+msgstr ""
+"引数に -skip-launcher を追加して、対応したランチャーの起動をゲームがスキップ"
+"できるようにします。"
+
+#: src/widgets/games/launch-options-editor.vala:634
+msgid "Vulkan"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:634
+msgid "Adds -vulkan to make the game use its Vulkan renderer."
+msgstr "引数に -vulkan を追加して、ゲームが Vulkan レンダラーを使うようにします。"
+
+#: src/widgets/games/launch-options-editor.vala:635
+msgid "DirectX 11"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:635
+msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
+msgstr "引数に -dx11 を追加して、ゲームが DirectX 11 レンダラーを使うようにします。"
+
+#: src/widgets/games/launch-options-editor.vala:636
+msgid "DirectX 12"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:636
+msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
+msgstr "引数に -dx12 を追加して、ゲームが DirectX 12 レンダラーを使うようにします。"
+
+#: src/widgets/games/launch-options-editor.vala:637
+msgid "Console"
+msgstr "コンソール"
+
+#: src/widgets/games/launch-options-editor.vala:637
+msgid "Adds -console to open the game's developer console when supported."
+msgstr ""
+"引数に -console を追加して、対応したゲームで開発者向けコンソールを開けるよう"
+"にします。"
+
+#: src/widgets/games/launch-options-editor.vala:640
+msgid "Game arguments"
+msgstr "ゲーム引数"
+
+#: src/widgets/games/launch-options-editor.vala:641
+msgid "Flags passed directly to the game."
+msgstr "直接ゲームに渡されるフラグ。"
+
+#. Advanced options
+#: src/widgets/games/launch-options-editor.vala:651
+msgid "Appends Steam's game command."
+msgstr "Steam のゲームコマンドを追加します"
+
+#: src/widgets/games/launch-options-editor.vala:654
+msgid "Additional arguments"
+msgstr "追加の引数"
+
+#: src/widgets/games/launch-options-editor.vala:654
+#, fuzzy
+msgid "Add extra launch options"
+msgstr "起動オプションの変更"
+
+#: src/widgets/games/launch-options-editor.vala:657
+msgid "Custom launch arguments"
+msgstr "カスタムの起動引数"
+
+#: src/widgets/games/launch-options-editor.vala:657
+msgid "Add your own launch options."
+msgstr "任意の起動オプションを追加します。"
+
+#: src/widgets/games/launch-options-editor.vala:662
+msgid "Advanced options"
+msgstr "上級設定"
+
+#: src/widgets/games/launch-options-editor.vala:663
+msgid "Extra control over the final Steam launch command."
+msgstr "最終的に Steam が使う起動コマンドへの追加のコントロール。"
+
+#: src/widgets/games/launch-options-editor.vala:840
+#: src/widgets/games/launch-options-editor.vala:875
+msgid "Fullscreen"
+msgstr "全画面"
+
+#: src/widgets/games/launch-options-editor.vala:840
+#: src/widgets/games/launch-options-editor.vala:875
+msgid "Runs the game in a fullscreen session."
+msgstr "ゲームを全画面のセッションで開始します。"
+
+#: src/widgets/games/launch-options-editor.vala:846
+#: src/widgets/games/launch-options-editor.vala:881
+msgid "VRR"
+msgstr "VRR （可変リフレッシュレート）"
+
+#: src/widgets/games/launch-options-editor.vala:846
+#: src/widgets/games/launch-options-editor.vala:881
+msgid "Matches your display's refresh rate to the game's FPS."
+msgstr "ディスプレイのリフレッシュレートをゲームの FPS と一致させます。"
+
+#: src/widgets/games/launch-options-editor.vala:849
+#: src/widgets/games/launch-options-editor.vala:884
+msgid "Frame limit"
+msgstr "フレーム制限"
+
+#: src/widgets/games/launch-options-editor.vala:849
+msgid "Caps the frame rate inside Gamescope."
+msgstr "Gamescope の中でフレームレートを制限する。"
+
+#: src/widgets/games/launch-options-editor.vala:849
+#: src/widgets/games/launch-options-editor.vala:884
+msgid "FPS"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:853
+#: src/widgets/games/launch-options-editor.vala:891
+msgid "Resolution"
+msgstr "解像度"
+
+#: src/widgets/games/launch-options-editor.vala:853
+msgid "Sets the Gamescope output resolution."
+msgstr "Gamescope の出力解像度を設定する。"
+
+#: src/widgets/games/launch-options-editor.vala:864
+msgid "Additional Gamescope arguments"
+msgstr "Gamescope への追加の引数"
+
+#: src/widgets/games/launch-options-editor.vala:864
+msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:864
+msgid "Add Gamescope arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:878
+msgid "Auto HDR"
+msgstr "オート HDR"
+
+#: src/widgets/games/launch-options-editor.vala:884
+msgid "Caps the frame rate inside ScopeBuddy."
+msgstr "ScopeBuddy の中でフレームレートを制限します。"
+
+#: src/widgets/games/launch-options-editor.vala:891
+msgid "Sets the ScopeBuddy output resolution."
+msgstr "ScopeBuddy の出力解像度を設定します。"
+
+#: src/widgets/games/launch-options-editor.vala:896
+msgid "Additional ScopeBuddy arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:896
+msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:896
+msgid "Add ScopeBuddy arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:1371
+msgid "No launch options configured yet."
+msgstr "起動オプションがまだ設定されていません。"
+
+#: src/widgets/games/profile-dialog.vala:15
+msgid "Select a profile"
+msgstr "プロファイルを選択"
+
+#: src/widgets/games/extra-button.vala:12
+msgid "Open install directory"
+msgstr "インストール先のディレクトリを開く"
+
+#: src/widgets/games/extra-button.vala:15
+msgid "Open prefix directory"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:18
+msgid "Open in protontricks"
+msgstr "protontricks で開く"
+
+#: src/widgets/games/extra-button.vala:21
+msgid "Run custom executable"
+msgstr "カスタムの起動可能ファイルを実行"
+
+#: src/widgets/games/extra-button.vala:36
+msgid "Open menu"
+msgstr "メニューを開く"
+
+#: src/widgets/games/extra-button.vala:89
+msgid "Select executable"
+msgstr "実行可能ファイルを選択"
+
+#: src/widgets/games/extra-button.vala:96
+msgid "Executables (*.exe, *.msi, *.msu)"
+msgstr "実行可能ファイル (*.exe, *.msi, *.msu)"
+
+#: src/widgets/games/extra-button.vala:136
+#, c-format
+msgid "Couldn't find the compatibility tool for %s"
+msgstr "%s に使用する互換性ツールが見つかりませんでした"
+
+#: src/widgets/games/extra-button.vala:136
+msgid "Please make sure it's installed."
+msgstr "正しくインストールされているか確かめてください。"
+
+#: src/widgets/games/default-tool-button.vala:10
+#: src/widgets/games/default-tool-button.vala:16
+#: src/widgets/games/default-tool-view.vala:20
+msgid "Set the default compatibility tool"
+msgstr "デフォルトの互換性ツールを設定する"
+
+#: src/widgets/games/default-tool-view.vala:30
+msgid "Reset to the current default compatibility tool"
+msgstr "デフォルトの互換性ツールへとリセットする"
+
+#: src/widgets/games/default-tool-view.vala:73
+msgid ""
+"Choose the default compatibility tool Steam should use for games without an "
+"explicit override."
+msgstr ""
+"明示的に互換性ツールを設定していないゲームで、Steam が使用するデフォルトの互"
+"換性ツールを設定する。"
+
+#: src/widgets/games/default-tool-view.vala:117
+msgid "Couldn't change the default compatibility tool"
+msgstr "デフォルトの互換性ツールを変更できませんでした"
+
+#: src/widgets/games/compatibility-tool-row.vala:18
+msgid "Select your desired compatibility tool"
+msgstr "使用したい互換性ツールを選択"
+
+#: src/widgets/games/compatibility-tool-dropdown.vala:75
+#, c-format
+msgid "Couldn't change the compatibility tool of %s"
+msgstr "%s に使用する互換性ツールを変更できませんでした"
+
+#: src/widgets/downloads/downloads-box.vala:18
+msgid "No active downloads"
+msgstr "実行中のダウンロードはありません"
+
+#: src/widgets/downloads/downloads-box.vala:19
+msgid "Your downloads will appear here."
+msgstr "あなたが行ったダウンロードの一覧がここに表示されます。"
+
+#: src/widgets/downloads/downloads-box.vala:23
+msgid "In-Progress"
+msgstr "実行途中"
+
+#: src/widgets/downloads/downloads-box.vala:35
+msgid "Completed"
+msgstr "完了"
+
+#: src/widgets/downloads/downloads-box.vala:45
+msgid "Clear History"
+msgstr "履歴を消去"
+
+#: src/widgets/downloads/download-row.vala:84
+msgid "Updating"
+msgstr "更新中"
+
+#: src/widgets/downloads/download-row.vala:84
+msgid "Downloading"
+msgstr "ダウンロード中"
+
+#: src/widgets/downloads/download-row.vala:105
+msgid "Extracting"
+msgstr "展開中"
+
+#: src/widgets/downloads/download-row.vala:108
+msgid "Moving"
+msgstr "移動中"
+
+#: src/widgets/downloads/download-row.vala:135
+msgid "Canceled"
+msgstr "キャンセル済"
+
+#: src/widgets/downloads/download-row.vala:137
+msgid "Success"
+msgstr "成功"
+
+#: src/widgets/downloads/download-row.vala:139
+msgid "Error"
+msgstr "エラー"
+
+#: src/widgets/downloads/download-row.vala:145
+msgid "Copy Error Message"
+msgstr "エラーメッセージをコピー"
+
+#: src/widgets/downloads/download-row.vala:156
+msgid "Report Issue"
+msgstr "問題を報告"
 
 #: src/models/runners/steamtinkerlaunch.vala:6
 msgid ""
@@ -374,1886 +1444,230 @@ msgid ""
 msgstr ""
 "Wine の VKD3D で完全な Direct3D 12 API を実装することを目指したバージョン。"
 
-#: src/widgets/application.vala:103
-msgid "A modern compatibility tools manager"
-msgstr "モダンな互換性ツールマネージャー"
-
-#: src/widgets/application.vala:105
-msgid "Website"
-msgstr "ウェブサイト"
-
-#: src/widgets/application.vala:110
-msgid "translator-credits"
-msgstr ""
-
-#: src/widgets/application.vala:111
-msgid "Special thanks to"
-msgstr ""
-
-#: src/widgets/downloads/download-row.vala:22
-#: src/widgets/runners/remove-dialog.vala:30 src/widgets/window.vala:250
-msgid "Cancel"
-msgstr "キャンセル"
-
-#: src/widgets/downloads/download-row.vala:84
-#, fuzzy
-msgid "Updating"
-msgstr "%s を更新中"
-
-#: src/widgets/downloads/download-row.vala:84
-#, fuzzy
-msgid "Downloading"
-msgstr "ダウンロード中"
-
-#: src/widgets/downloads/download-row.vala:105
-msgid "Extracting"
-msgstr "展開中"
-
-#: src/widgets/downloads/download-row.vala:108
-msgid "Moving"
-msgstr "移動中"
-
-#: src/widgets/downloads/download-row.vala:135
-#, fuzzy
-msgid "Canceled"
-msgstr "キャンセル"
-
-#: src/widgets/downloads/download-row.vala:137
-msgid "Success"
-msgstr ""
-
-#: src/widgets/downloads/download-row.vala:139
-msgid "Error"
-msgstr ""
-
-#: src/widgets/downloads/download-row.vala:145
-msgid "Copy Error Message"
-msgstr ""
-
-#: src/widgets/downloads/download-row.vala:148
-#: src/widgets/runners/runner-row.vala:71 src/widgets/window.vala:191
-#: src/widgets/window.vala:192
-msgid "Unknown error"
-msgstr "不明なエラー"
-
-#: src/widgets/downloads/download-row.vala:156
-#, fuzzy
-msgid "Report Issue"
-msgstr "報告"
-
-#: src/widgets/downloads/downloads-box.vala:18
-msgid "No active downloads"
-msgstr ""
-
-#: src/widgets/downloads/downloads-box.vala:19
-msgid "Your downloads will appear here."
-msgstr ""
-
-#: src/widgets/downloads/downloads-box.vala:23
-msgid "In-Progress"
-msgstr ""
-
-#: src/widgets/downloads/downloads-box.vala:35
-msgid "Completed"
-msgstr ""
-
-#: src/widgets/downloads/downloads-box.vala:45
-msgid "Clear History"
-msgstr ""
-
-#: src/widgets/error-dialog.vala:7 src/widgets/status-box.vala:12
-#: src/widgets/window.vala:193
-msgid "Report"
-msgstr "報告"
-
-#: src/widgets/error-dialog.vala:10 src/widgets/warning-dialog.vala:7
-msgid "OK"
-msgstr "OK"
-
-#: src/widgets/games/compatibility-tool-row.vala:18
-msgid "Select your desired compatibility tool"
-msgstr "使用したい互換性ツールを選択"
-
-#: src/widgets/games/extra-button.vala:11
-msgid "Open in protontricks"
-msgstr "protontricks で開く"
-
-#: src/widgets/games/extra-button.vala:15
-msgid "Open ProtonDB page"
-msgstr "ProtonDB のページを開く"
-
-#: src/widgets/games/extra-button.vala:31
-#, fuzzy
-msgid "Extra"
-msgstr "展開中"
-
-#: src/widgets/games/extra-button.vala:66
-msgid "Unknown"
-msgstr "不明"
-
-#: src/widgets/games/game-row.vala:112
-#, fuzzy
-msgid "Modify the game"
-msgstr "ゲームの起動オプションを変更"
-
-#: src/widgets/games/game-row.vala:117
-#, fuzzy
-msgid "Launch custom executable"
-msgstr "全てを選択"
-
-#: src/widgets/games/game-row.vala:123
-#, fuzzy
-msgid "Browse game install directory"
-msgstr "インストール先のディレクトリを開く"
-
-#: src/widgets/games/game-row.vala:129
-#, fuzzy
-msgid "Browse prefix directory"
-msgstr "実行環境のディレクトリを開く"
-
-#: src/widgets/games/game-row.vala:148
-#, fuzzy
-msgid "Select executable"
-msgstr "全てを選択"
-
-#: src/widgets/games/game-row.vala:156
-msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
-msgstr ""
-
-#: src/widgets/games/game-row.vala:194
-#, fuzzy, c-format
-msgid "Couldn't find the compatibility tool for %s"
-msgstr "%s に使用する互換性ツールを変更できませんでした"
-
-#: src/widgets/games/game-row.vala:194
-msgid "Please make sure it's installed."
-msgstr ""
-
-#: src/widgets/games/games-box.vala:74
-msgid "Back"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:81
-#, fuzzy
-msgid "Clear the current launch options"
-msgstr "ゲームの起動オプションを変更"
-
-#: src/widgets/games/games-box.vala:86
-msgid "Apply the current modification"
-msgstr "現在の変更を適用する"
-
-#: src/widgets/games/games-box.vala:94
-#: src/widgets/preferences/preferences-dialog.vala:129
-msgid "Advanced"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:121
-msgid "Name"
-msgstr "名前"
-
-#: src/widgets/games/games-box.vala:140
-msgid "Prefix"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:144
-msgid "Tool"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:148
-#, fuzzy
-msgid "Actions"
-msgstr "起動オプション"
-
-#: src/widgets/games/games-box.vala:179
-msgid "No profile was found."
-msgstr "プロファイルが見つかりませんでした。"
-
-#: src/widgets/games/games-box.vala:179
-msgid "Make sure to connect yourself at least once on Steam."
-msgstr ""
-"Steam を少なくとも一度は起動して、ログインが完了していることを確認してくださ"
-"い"
-
-#: src/widgets/games/games-box.vala:179
-msgid "If you think this is an issue, make sure to report this on GitHub."
-msgstr "もしこれが不具合であると考える場合、GitHub で報告してください。"
-
-#: src/widgets/games/games-box.vala:271
-msgid "Unsupported launcher"
-msgstr "サポートされていないランチャー"
-
-#: src/widgets/games/games-box.vala:271
+#: src/cli/cli.vala:78
 #, c-format
-msgid "%s is currently not supported."
-msgstr "%s は現在サポートされていません。"
+msgid "Error: Unknown command '%s'\n"
+msgstr "エラー: 「%s」は未知のコマンドです\n"
 
-#: src/widgets/games/games-box.vala:271
-msgid ""
-"If you want me to speed up the development make sure to show your support!"
-msgstr "開発をスピードアップしてほしい場合は、私を支援してください!"
+#: src/cli/cli.vala:86
+msgid "Detected launchers:\n"
+msgstr "ランチャーを検出しました:\n"
 
-#: src/widgets/games/launch-options-editor.vala:67
-#: src/widgets/games/launch-options-editor.vala:261
-msgid "Set"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:68
-msgid "Apply the FPS value"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:229
-msgid "Auto detect"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:230
-#: src/widgets/mangohud/mangohud-presets-page.vala:22
-msgid "Custom"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:262
-#, fuzzy
-msgid "Apply the custom resolution"
-msgstr "現在の変更を適用する"
-
-#. Launch command preview
-#: src/widgets/games/launch-options-editor.vala:523
-msgid "Launch command preview"
-msgstr ""
-
-#. Common options
-#: src/widgets/games/launch-options-editor.vala:528
-msgid "Performance overlay"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:528
-msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:529
-msgid "Disable Steam Deck Mode"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:529
-msgid "Disables the Steam Deck-specific profile that some games use."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:530
-msgid "Wayland"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:530
-msgid ""
-"Runs the game natively on Wayland instead of through XWayland but it breaks "
-"Steam Input and the Steam Overlay."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:533
-#, fuzzy
-msgid "Common options"
-msgstr "起動オプション"
-
-#: src/widgets/games/launch-options-editor.vala:534
-msgid "Quick toggles for the launch options people reach for most often."
-msgstr ""
-
-#. Launch tools
-#: src/widgets/games/launch-options-editor.vala:542
-#: src/widgets/games/launch-options-editor.vala:844
-msgid "HDR"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:542
-#: src/widgets/games/launch-options-editor.vala:844
-#: src/widgets/games/launch-options-editor.vala:879
-msgid "Outputs HDR colors if your display supports it."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:550
-#: src/widgets/mangohud/mangohud-extras-page.vala:152
-#: src/widgets/mangohud/mangohud-performance-page.vala:97
-#: src/widgets/mangohud/mangohud-performance-page.vala:111
-#: src/widgets/mangohud/mangohud-visual-page.vala:74
-msgid "None"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:551
-#, fuzzy
-msgid "Gamescope"
-msgstr "ゲーム"
-
-#: src/widgets/games/launch-options-editor.vala:552
-msgid "ScopeBuddy"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:559
-#, fuzzy
-msgid "Launch tools"
-msgstr "起動オプション"
-
-#: src/widgets/games/launch-options-editor.vala:560
-msgid ""
-"Choose one to configure FPS caps, resolution, and other display options."
-msgstr ""
-
-#. GPU vendor options
-#: src/widgets/games/launch-options-editor.vala:567
-msgid "Mesa Anti-Lag"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:567
-msgid "Reduces latency on supported AMD Mesa setups."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:568
-msgid "Use dGPU"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:568
-msgid "Makes the game use the AMD dGPU on hybrid systems."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:569
-msgid "Hide AMD APU"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:569
-msgid ""
-"Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
-"integrated graphics."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:570
-#, fuzzy
-msgid "FSR 4 Upgrade"
-msgstr "%s をアップグレード"
-
-#: src/widgets/games/launch-options-editor.vala:570
-msgid ""
-"Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
-"Anti-Lag 2 currently due to various issues."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:574
-msgid "FSR 4 RDNA3 Upgrade"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:574
-msgid "Optimizes FSR 4.0 for RDNA3 hardware."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:578
-msgid "NVAPI"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:578
-msgid "Lets games access NVIDIA-specific features like DLSS."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:581
-msgid "Update DLSS components"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:581
-msgid "Auto upgrades DLSS components for supported games."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:584
-msgid "Hide NVIDIA GPU"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:584
-msgid ""
-"Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
-"NVIDIA driver behavior."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:585
-msgid "DLSS Indicator"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:585
-msgid "Shows a DLSS status indicator in-game."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:586
-msgid "NVIDIA Libraries"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:586
-msgid ""
-"Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
-"or ray tracing."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:588
-#, fuzzy
-msgid "XeSS Upgrade"
-msgstr "%s をアップグレード"
-
-#: src/widgets/games/launch-options-editor.vala:588
-msgid "Upgrades XeSS in supported games."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:594
-msgid "AMD"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:595
-msgid "NVIDIA"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:596
-msgid "Intel"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:606
-msgid "GPU vendor options"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:607
-msgid ""
-"Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
-msgstr ""
-
-#. More options
-#: src/widgets/games/launch-options-editor.vala:614
-msgid "VKBasalt"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:614
-msgid "Adds visual effects like sharpening and color adjustments."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:615
-msgid "WineD3D"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:615
-msgid ""
-"Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:616
-msgid "Use FSync"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:616
-msgid ""
-"Uses FSync instead of NTSync. Can fix issues in certain games that do not "
-"pair well with NTSync."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:617
-msgid "Local shader cache"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:617
-msgid ""
-"Enables per-game shader cache. This isolates the shader cache of each game "
-"but does not compile them ahead-of-time."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:618
-msgid "Prefer SDL controller"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:618
-msgid "Workaround for controller detection issues."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:619
-msgid "Disable Steam Input"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:619
-msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:622
-#, fuzzy
-msgid "More options"
-msgstr "詳細情報"
-
-#: src/widgets/games/launch-options-editor.vala:623
-msgid "Extra graphics settings and launch behaviors."
-msgstr ""
-
-#. Game arguments
-#: src/widgets/games/launch-options-editor.vala:634
-#, fuzzy
-msgid "Skip launcher"
-msgstr "サポートされていないランチャー"
-
-#: src/widgets/games/launch-options-editor.vala:634
-msgid "Adds -skip-launcher to bypass launchers in games that support it."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:635
-#: src/widgets/mangohud/mangohud-performance-page.vala:44
-msgid "Vulkan"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:635
-msgid "Adds -vulkan to make the game use its Vulkan renderer."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:636
-msgid "DirectX 11"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:636
-msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:637
-msgid "DirectX 12"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:637
-msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:638
-msgid "Console"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:638
-msgid "Adds -console to open the game's developer console when supported."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:641
-msgid "Game arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:642
-msgid "Flags passed directly to the game."
-msgstr ""
-
-#. Advanced options
-#: src/widgets/games/launch-options-editor.vala:652
-msgid "Appends Steam's game command."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:655
-msgid "Additional arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:655
-#, fuzzy
-msgid "Add extra launch options"
-msgstr "起動オプションの変更"
-
-#: src/widgets/games/launch-options-editor.vala:658
-msgid "Custom launch arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:658
-#, fuzzy
-msgid "Add your own launch options."
-msgstr "起動オプションの変更"
-
-#: src/widgets/games/launch-options-editor.vala:663
-#, fuzzy
-msgid "Advanced options"
-msgstr "起動オプション"
-
-#: src/widgets/games/launch-options-editor.vala:664
-msgid "Extra control over the final Steam launch command."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:841
-#: src/widgets/games/launch-options-editor.vala:876
-msgid "Fullscreen"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:841
-#: src/widgets/games/launch-options-editor.vala:876
-msgid "Runs the game in a fullscreen session."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:847
-#: src/widgets/games/launch-options-editor.vala:882
-msgid "VRR"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:847
-#: src/widgets/games/launch-options-editor.vala:882
-msgid "Matches your display's refresh rate to the game's FPS."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:850
-#: src/widgets/games/launch-options-editor.vala:885
-msgid "Frame limit"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:850
-msgid "Caps the frame rate inside Gamescope."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:850
-#: src/widgets/games/launch-options-editor.vala:885
-msgid "FPS"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:854
-#: src/widgets/games/launch-options-editor.vala:892
-#: src/widgets/mangohud/mangohud-extras-page.vala:69
-msgid "Resolution"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:854
-msgid "Sets the Gamescope output resolution."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:865
-msgid "Additional Gamescope arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:865
-msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:865
-msgid "Add Gamescope arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:879
-msgid "Auto HDR"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:885
-msgid "Caps the frame rate inside ScopeBuddy."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:892
-msgid "Sets the ScopeBuddy output resolution."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:897
-msgid "Additional ScopeBuddy arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:897
-msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:897
-msgid "Add ScopeBuddy arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:1372
-msgid "No launch options configured yet."
-msgstr ""
-
-#: src/widgets/games/mass-edit-button.vala:10
-#, fuzzy
-msgid "Modify the selected games"
-msgstr "選択したゲームの互換性ツールを一度に変更する"
-
-#: src/widgets/games/mass-edit-button.vala:13
-#, fuzzy
-msgid "Modify the selected games all at once"
-msgstr "選択したゲームの互換性ツールを一度に変更する"
-
-#: src/widgets/games/mass-edit-button.vala:48
-#: src/widgets/runners/steamtinkerlaunch-row.vala:54
-#: src/widgets/runners/steamtinkerlaunch-row.vala:97
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
-#: src/widgets/window.vala:245
-msgid "Warning"
-msgstr "警告"
-
-#: src/widgets/games/mass-edit-button.vala:48
-msgid ""
-"Please make sure to select at least one game before using the mass edit "
-"feature."
-msgstr ""
-"まとめて設定を選択するためには、少なくとも一つのゲームを選択してください。"
-
-#: src/widgets/games/mass-edit-view.vala:22
-msgid "1 game selected"
-msgstr "1 つのゲームを選択済み"
-
-#: src/widgets/games/mass-edit-view.vala:22
+#: src/cli/cli.vala:98
 #, c-format
-msgid "%u games selected"
-msgstr "%u つのゲームを選択済み"
+msgid "Installed runners for %s:\n"
+msgstr "%s のためにインストールされている実行環境:\n"
 
-#: src/widgets/games/mass-edit-view.vala:39
-msgid "Compatibility tool"
-msgstr "互換性ツール"
+#: src/cli/cli.vala:111
+msgid "No runners installed\n"
+msgstr "実行環境が何もインストールされていません\n"
 
-#: src/widgets/games/mass-edit-view.vala:47
-#, fuzzy
-msgid "Launch options"
-msgstr "起動オプション"
+#: src/cli/cli.vala:184
+#, c-format
+msgid "Error: Runner '%s' does not support 'latest' installation\n"
+msgstr ""
+"エラー: 実行環境「%s」は「最新(Latest)」のインストールをサポートしていませ"
+"ん\n"
 
-#: src/widgets/games/mass-edit-view.vala:162
+#: src/cli/cli.vala:204
+#, c-format
+msgid "Installing %s Latest...\n"
+msgstr "%s の最新版をインストール中...\n"
+
+#: src/cli/cli.vala:206
+#, c-format
+msgid "Successfully installed %s Latest\n"
+msgstr "最新の %s のインストールに成功しました\n"
+
+#: src/cli/cli.vala:206 src/cli/cli.vala:231
+msgid "Error: Installation failed\n"
+msgstr "エラー: インストールに失敗しました\n"
+
+#: src/cli/cli.vala:217
+#, c-format
+msgid "Available releases for %s:\n"
+msgstr "%s の利用可能なリリース一覧:\n"
+
+#: src/cli/cli.vala:223 src/cli/cli.vala:247
+msgid "Select release number"
+msgstr "リリース番号を選択"
+
+#: src/cli/cli.vala:229
+#, c-format
+msgid "Installing %s...\n"
+msgstr "%s をインストール中...\n"
+
+#: src/cli/cli.vala:231
+#, c-format
+msgid "Successfully installed %s\n"
+msgstr "%s のインストールに成功しました\n"
+
+#: src/cli/cli.vala:238 src/cli/cli.vala:259
+#, c-format
+msgid "No installed releases found for %s\n"
+msgstr "インストール済みの %s のバージョンが見つかりませんでした\n"
+
+#: src/cli/cli.vala:242
+#, c-format
+msgid "Installed releases for %s:\n"
+msgstr "%s のインストール済みのリリース一覧:\n"
+
+#: src/cli/cli.vala:263
+#, c-format
+msgid "Uninstalling all releases for %s...\n"
+msgstr "%s の全てのバージョンをアンインストールしています...\n"
+
+#: src/cli/cli.vala:271
+#, c-format
+msgid "Uninstalling all releases for launcher %s...\n"
+msgstr ""
+
+#: src/cli/cli.vala:278
+#, c-format
+msgid "Uninstalled %s\n"
+msgstr "%s をアンインストールしました\n"
+
+#: src/cli/cli.vala:288
+#, c-format
+msgid "Uninstalling %s...\n"
+msgstr "%s をアンインストール中...\n"
+
+#: src/cli/cli.vala:290
+#, c-format
+msgid "Successfully uninstalled %s\n"
+msgstr "%s のアンインストールに成功しました\n"
+
+#: src/cli/cli.vala:290
+msgid "Error: Uninstallation failed\n"
+msgstr "エラー: アンインストールに失敗しました\n"
+
+#: src/cli/cli.vala:295
+msgid "Updating all runners...\n"
+msgstr "すべての実行環境を更新中...\n"
+
+#: src/cli/cli.vala:301
+#, c-format
+msgid "Updating runners for %s...\n"
+msgstr "%s のための実行環境を更新中...\n"
+
+#: src/cli/cli.vala:316 src/cli/cli.vala:371
+#, c-format
+msgid "Successfully updated %s\n"
+msgstr "%s の更新に成功しました\n"
+
+#: src/cli/cli.vala:319 src/cli/cli.vala:375
+#, c-format
+msgid "Already up to date: %s\n"
+msgstr "%s は既に最新です\n"
+
+#: src/cli/cli.vala:322 src/cli/cli.vala:378
+#, c-format
+msgid "Error: Failed to update %s\n"
+msgstr "エラー: %s のアップデートに失敗しました\n"
+
+#: src/cli/cli.vala:361
+msgid "Already up to date\n"
+msgstr "既に最新です\n"
+
+#: src/cli/cli.vala:386
+#, c-format
+msgid "Updating %s..."
+msgstr "%s を更新中..."
+
+#: src/cli/cli.vala:398
+msgid "Error: Failed to load launchers\n"
+msgstr "エラー: ランチャーを読み込めませんでした\n"
+
+#: src/cli/cli.vala:407
+msgid "Error: Failed to load releases\n"
+msgstr "エラー: リリース一覧を読み込めませんでした\n"
+
+#: src/cli/cli.vala:418
+#, c-format
+msgid "Error: Launcher '%s' not found\n"
+msgstr "エラー: ランチャー「%s」が見つかりませんでした\n"
+
+#: src/cli/cli.vala:431
+#, c-format
+msgid "Error: Runner '%s' not found\n"
+msgstr "エラー: 実行環境「%s」が見つかりませんでした\n"
+
+#: src/cli/cli.vala:470
+#, c-format
+msgid "Usage: %s\n"
+msgstr "使用方法: %s\n"
+
+#: src/cli/cli.vala:487
+msgid "Error: Invalid input, please enter a number\n"
+msgstr "エラー: 入力内容が不正です。数字を入力してください\n"
+
+#: src/cli/cli.vala:493
+msgid "Error: Selection out of range\n"
+msgstr "エラー: 選択が範囲外です\n"
+
+#: src/cli/cli.vala:500
+msgid "Usage:\n"
+msgstr "使用方法:\n"
+
+#: src/cli/cli.vala:502
+msgid "Commands:\n"
+msgstr "コマンド:\n"
+
+#: src/cli/cli.vala:503
+msgid "Show version"
+msgstr "バージョンを表示"
+
+#: src/cli/cli.vala:504
+msgid "Show this help"
+msgstr "このヘルプを表示"
+
+#: src/cli/cli.vala:505
+msgid "List launchers or installed runners"
+msgstr "ランチャーや実行環境を一覧表示する"
+
+#: src/cli/cli.vala:506
+msgid "Install runner"
+msgstr "実行環境をインストール"
+
+#: src/cli/cli.vala:507
+msgid "Uninstall runner"
+msgstr "実行環境をアンインストール"
+
+#: src/cli/cli.vala:508
+msgid "Update runner"
+msgstr "実行環境を更新"
+
+#: src/cli/cli.vala:512
 msgid ""
-"Couldn't change the compatibility tool/launch options of the selected games"
-msgstr ""
-"選択したゲームに使用する互換性ツールや起動オプションを変更中にエラーが発生し"
-"ました。"
-
-#: src/widgets/games/mass-edit-view.vala:162
-msgid "The following games had an issue:"
-msgstr "以下のゲームに問題があります:"
-
-#: src/widgets/games/mass-edit-view.vala:162
-#: src/widgets/games/shortcut-button.vala:31
-#: src/widgets/games/shortcut-button.vala:39
-#: src/widgets/runners/basic-row.vala:52
-#: src/widgets/runners/remove-dialog.vala:52
-#: src/widgets/runners/runner-row.vala:71
-#: src/widgets/runners/steamtinkerlaunch-row.vala:40
-#: src/widgets/runners/steamtinkerlaunch-row.vala:120
-#: src/widgets/window.vala:34 src/widgets/window.vala:105
-msgid "Please report this issue on GitHub."
-msgstr "この問題を GitHub で報告してください。"
-
-#: src/widgets/games/profile-dialog.vala:15
-msgid "Select a profile"
-msgstr "プロファイルを選択"
-
-#: src/widgets/games/shortcut-button.vala:16
-#: src/widgets/games/shortcut-button.vala:21
-msgid "Create shortcut"
-msgstr "ショートカットを作成"
-
-#: src/widgets/games/shortcut-button.vala:21
-msgid "Delete shortcut"
-msgstr "ショートカットを削除"
-
-#: src/widgets/games/shortcut-button.vala:22
-msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr "ProtonPlus のショートカットを Steam に作成する"
-
-#: src/widgets/games/shortcut-button.vala:22
-msgid "Delete the shortcut of ProtonPlus in Steam"
-msgstr "Steam に作成した ProtonPlus のショートカットを削除する"
-
-#: src/widgets/games/shortcut-button.vala:31
-msgid "Couldn't delete the shortcut in Steam"
-msgstr "Steam に作成したショートカットを削除できませんでした"
-
-#: src/widgets/games/shortcut-button.vala:39
-msgid "Couldn't create the shortcut in Steam"
-msgstr "Steam にショートカットを作成できませんでした"
-
-#: src/widgets/games/switch-profile-button.vala:14
-msgid "Switch profile"
-msgstr "プロファイルを変更"
-
-#: src/widgets/games/switch-profile-button.vala:23
-msgid "Switch to another profile"
-msgstr "別のプロファイルに変更する"
-
-#: src/widgets/mangohud/mangohud-box.vala:34
-msgid "Presets"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-box.vala:35
-msgid "Visual"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-box.vala:36
-msgid "Performance"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-box.vala:37
-msgid "Metrics"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-box.vala:38
-#, fuzzy
-msgid "Extras"
-msgstr "展開中"
-
-#: src/widgets/mangohud/mangohud-box.vala:54
-#, fuzzy
-msgid "Save the current configuration"
-msgstr "現在の変更を適用する"
-
-#: src/widgets/mangohud/mangohud-box.vala:61
-msgid "Preview"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-box.vala:67
-#, fuzzy
-msgid "Show vkcube"
-msgstr "バージョンを表示\n"
-
-#. System Information section
-#: src/widgets/mangohud/mangohud-extras-page.vala:59
-#, fuzzy
-msgid "System Information"
-msgstr "詳細情報"
-
-#. System subsection
-#: src/widgets/mangohud/mangohud-extras-page.vala:67
-msgid "Distro info"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:68
-#, fuzzy
-msgid "Refresh rate*"
-msgstr "プロファイルを再読み込み"
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:70
-msgid "Display Server"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:71
-msgid "Time"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:72
-msgid "Arch"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/theme-row.vala:15
-msgid "System"
-msgstr "システム"
-
-#. Wine subsection
-#: src/widgets/mangohud/mangohud-extras-page.vala:79
-msgid "Wine Ver"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:84
-msgid "Engine Ver"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:89
-msgid "Engine Short"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:90
-msgid "Wine Sync"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:91
-msgid "DX API"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:92
-msgid "FEX Stats"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:94
-msgid "Wine"
-msgstr ""
-
-#. Options subsection
-#: src/widgets/mangohud/mangohud-extras-page.vala:99
-#, fuzzy
-msgid "HUD Version"
-msgstr "バージョンを表示\n"
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:100
-#, fuzzy
-msgid "GameMode"
-msgstr "ゲーム"
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:101
-msgid "vkBasalt"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:102
-msgid "FCAT"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:103
-msgid "FSR*"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:104
-msgid "HDR*"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:106
-#, fuzzy
-msgid "Options"
-msgstr "起動オプション"
-
-#. Battery subsection
-#: src/widgets/mangohud/mangohud-extras-page.vala:111
-msgid "Percentage"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:116
-msgid "Wattage"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:117
-msgid "Time remain"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:118
-msgid "Devices"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:120
-msgid "Battery"
-msgstr ""
-
-#. Others subsection
-#: src/widgets/mangohud/mangohud-extras-page.vala:125
-msgid "Media Info"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:130
-msgid "Network"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:131
-msgid "Fahrenheit"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:132
-msgid "Custom command"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:134
-#, fuzzy
-msgid "Others"
-msgstr "その他"
-
-#. Logging section
-#: src/widgets/mangohud/mangohud-extras-page.vala:142
-msgid "Logging"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:149
-msgid "Duration"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:150
-msgid "Autostart"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:151
-msgid "Interval"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:152
-msgid "Toggle key"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:163
-msgid "Output Folder"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:169
-#, fuzzy
-msgid "Select Output Folder"
-msgstr "プロファイルを選択"
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:181
-msgid "Autoupload Results"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-extras-page.vala:182
-#, fuzzy
-msgid "Log Versioning"
-msgstr "バージョンを表示\n"
-
-#. GPU section
-#: src/widgets/mangohud/mangohud-metrics-page.vala:53
-#: src/widgets/mangohud/mangohud-metrics-page.vala:93
-msgid "GPU"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:63
-msgid "Custom GPU name"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:67
-#: src/widgets/mangohud/mangohud-metrics-page.vala:138
-#, fuzzy
-msgid "Load"
-msgstr "ロード中"
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:69
-#: src/widgets/mangohud/mangohud-metrics-page.vala:140
-#, fuzzy
-msgid "Load Color"
-msgstr "もっと読み込む"
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:85
-msgid "VRAM"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:86
-msgid "Core Freq"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:87
-msgid "Memory Freq"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:89
-#: src/widgets/mangohud/mangohud-metrics-page.vala:160
-msgid "Main metrics"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:94
-msgid "Memory"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:95
-#, fuzzy
-msgid "Junction"
-msgstr "起動オプション"
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:96
-msgid "Fans"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:98
-msgid "Temperature"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:102
-#: src/widgets/mangohud/mangohud-metrics-page.vala:109
-msgid "Power"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:103
-msgid "Voltage"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:104
-msgid "Throttling"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:105
-msgid "Throttling Graph"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:106
-#: src/widgets/mangohud/mangohud-metrics-page.vala:166
-msgid "Efficiency"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:107
-msgid "Power Limit"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:113
-msgid "Model"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:114
-msgid "Vulkan Driver"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:115
-#: src/widgets/mangohud/mangohud-metrics-page.vala:175
-msgid "Process"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:117
-#: src/widgets/mangohud/mangohud-performance-page.vala:40
-#, fuzzy
-msgid "Information"
-msgstr "詳細情報"
-
-#. CPU section
-#: src/widgets/mangohud/mangohud-metrics-page.vala:125
-msgid "CPU"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:134
-msgid "Custom CPU name"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:156
-msgid "Core Load"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:157
-msgid "CPU Freq"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:158
-msgid "Core Type"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:164
-msgid "CPU Temperature"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:165
-msgid "CPU Power"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:167
-msgid "RAM Temperature"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:169
-msgid "Temperature / Power"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:173
-msgid "RAM"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:174
-msgid "DISK IO"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:176
-msgid "Swap"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:178
-msgid "Memory / IO"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:32
-msgid "Show FPS"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:33
-msgid "FPS Average"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:34
-#: src/widgets/mangohud/mangohud-performance-page.vala:65
-msgid "FPS Limit"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:35
-msgid "Frame Time"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:36
-msgid "Count Frames"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:37
-msgid "VPS"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:38
-msgid "ftrace debug"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:44
-#: src/widgets/mangohud/mangohud-performance-page.vala:54
-msgid "Unset"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:44
-#: src/widgets/mangohud/mangohud-performance-page.vala:54
-msgid "Adaptive"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:44
-msgid "Mailbox"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:44
-#: src/widgets/mangohud/mangohud-performance-page.vala:54
-msgid "OFF"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:44
-#: src/widgets/mangohud/mangohud-performance-page.vala:54
-msgid "ON"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:54
-#, fuzzy
-msgid "OpenGL"
-msgstr "開く"
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:63
-msgid "VSYNC"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:66
-msgid "Offset"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:71
-msgid "Change FPS Colors"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:90
-msgid "Method"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:97
-msgid "Limit Toggle Key"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:107
-msgid "Limiters"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:111
-msgid "Filtering"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:111
-msgid "Bicubic"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:111
-msgid "Trilinear"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:111
-msgid "Retro"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:120
-msgid "Anisotropic Filtering"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:121
-msgid "Mip-map LoD Bias"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-performance-page.vala:123
-msgid "Filters"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-presets-page.vala:18
-msgid "Full"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-presets-page.vala:19
-msgid "Basic"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-presets-page.vala:20
-msgid "Basic Horizontal"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-presets-page.vala:21
-msgid "FPS Only"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-presets-page.vala:42
-msgid "Layouts"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:18
-msgid "HUD Title"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:21
-msgid "Orientation"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:21
-msgid "Vertical"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:21
-msgid "Horizontal"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:25
-msgid "Borders"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:25
-msgid "Squared"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:25
-msgid "Rounded"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:41
-msgid "Background Color"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:57
-msgid "Font Size"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:60
-msgid "Position"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:60
-msgid "Top Left"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:60
-msgid "Top Right"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:60
-msgid "Bottom Left"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:60
-msgid "Bottom Right"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:70
-msgid "Columns"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:74
-msgid "HUD Toggle Key"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:86
-msgid "Compact HUD"
-msgstr ""
-
-#: src/widgets/mangohud/mangohud-visual-page.vala:89
-msgid "Hide by default"
-msgstr ""
-
-#: src/widgets/preferences/access-token-row.vala:4
-msgid "Enter an access token to reduce your chances of being rate limited"
-msgstr "レート制限に掛かる頻度を減らすためにアクセストークンを入力する"
-
-#: src/widgets/preferences/access-token-row.vala:8
-#, fuzzy, c-format
-msgid "%s Access token"
-msgstr "アクセストークン"
-
-#: src/widgets/preferences/check-updates-row.vala:11
-msgid "Check if any of the installed 'Latest' runners needs to be updated"
-msgstr ""
-"インストール済みの「最新 (Latest)」な実行環境に更新が必要かどうか確認する"
-
-#: src/widgets/preferences/check-updates-row.vala:16
-msgid "Check for updates"
-msgstr "更新を確認"
-
-#: src/widgets/preferences/preferences-dialog.vala:10
-msgid "Save download history"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:11
-msgid "Save the download history to a file"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:16
-#: src/widgets/preferences/preferences-dialog.vala:108
+"\n"
+"Available launchers:\n"
+msgstr ""
+"\n"
+"利用可能なランチャー:\n"
+
+#: src/cli/cli.vala:519
+#, c-format
+msgid ""
+"\n"
+"Available runners for %s:\n"
+msgstr ""
+"\n"
+"%s に対応した実行環境一覧:\n"
+
+#: data/ui/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
 msgid "General"
 msgstr "一般"
 
-#: src/widgets/preferences/preferences-dialog.vala:25
-msgid "Automatic updates"
-msgstr "自動更新"
-
-#: src/widgets/preferences/preferences-dialog.vala:26
-#, fuzzy
-msgid "Update the installed 'Latest' runners when the application starts"
-msgstr ""
-"インストール済みの「最新」の実行環境をアプリケーション開始時に更新するか否か"
-
-#: src/widgets/preferences/preferences-dialog.vala:33
-#: src/widgets/preferences/preferences-dialog.vala:114
-#: src/widgets/window.vala:61
-msgid "Tools"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:47
-msgid "Remember last used profile"
-msgstr "最後に使用したプロファイルを記憶する"
-
-#: src/widgets/preferences/preferences-dialog.vala:48
-#, fuzzy
-msgid "Remember the last used Steam profile"
-msgstr "最後に使用したプロファイルを記憶する"
-
-#: src/widgets/preferences/preferences-dialog.vala:62
-#, fuzzy
-msgid "Default compatibility tool"
-msgstr "デフォルトの互換性ツールを設定する"
-
-#: src/widgets/preferences/preferences-dialog.vala:121
-#, fuzzy
-msgid "Launchers"
-msgstr "起動オプション"
-
-#: src/widgets/preferences/refresh-launchers-runners-row.vala:15
-msgid "Refresh launchers/runners"
-msgstr "ランチャーや実行環境を再読み込み"
-
-#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
-msgid "Refresh profiles"
-msgstr "プロファイルを再読み込み"
-
-#: src/widgets/preferences/theme-row.vala:16
-msgid "Light"
-msgstr "ライト"
-
-#: src/widgets/preferences/theme-row.vala:17
-msgid "Dark"
-msgstr "ダーク"
-
-#: src/widgets/preferences/theme-row.vala:18
-msgid "SteamOS"
-msgstr ""
-
-#: src/widgets/preferences/theme-row.vala:19
-msgid "OLED"
-msgstr ""
-
-#: src/widgets/preferences/theme-row.vala:27
-msgid "Current theme"
-msgstr "現在のテーマ"
-
-#: src/widgets/runners/basic-row.vala:16
-msgid ""
-"This version will get automatically updated when there's an update available "
-"each time your launch the application if automatic updates is enabled"
-msgstr ""
-"このバージョンを選択すると、設定の「自動更新」が有効になっている場合、アプリ"
-"ケーションの起動のタイミングで更新版が利用可能な時、自動的に更新されます"
-
-#: src/widgets/runners/basic-row.vala:52
-#: src/widgets/runners/steamtinkerlaunch-row.vala:120
-#, c-format
-msgid "Couldn't install %s"
-msgstr "%s をインストールできませんでした"
-
-#: src/widgets/runners/basic-row.vala:74
-#: src/widgets/runners/filters-box.vala:35
-#: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/release-row.vala:55
-#: src/widgets/runners/release-row.vala:57
-msgid "Used"
-msgstr "使用済み"
-
-#: src/widgets/runners/basic-row.vala:75
-#: src/widgets/runners/installed-row.vala:12
-#, c-format
-msgid "%s is used by %i game(s)"
-msgstr "%s は %i つのゲームで使われています"
-
-#: src/widgets/runners/basic-row.vala:103
-#: src/widgets/runners/steamtinkerlaunch-row.vala:190
-#, fuzzy
-msgid "This tool is currently being installed"
-msgstr "%s は現在サポートされていません。"
-
-#: src/widgets/runners/basic-row.vala:105
-#: src/widgets/runners/steamtinkerlaunch-row.vala:192
-msgid "This tool is currently being downloaded"
-msgstr ""
-
-#: src/widgets/runners/basic-row.vala:110
-#: src/widgets/runners/steamtinkerlaunch-row.vala:194
-#, fuzzy
-msgid "This tool is currently being removed"
-msgstr "%s は現在サポートされていません。"
-
-#: src/widgets/runners/basic-row.vala:114
-#: src/widgets/runners/steamtinkerlaunch-row.vala:196
-#, fuzzy
-msgid "This tool is currently being updated"
-msgstr "%s は現在サポートされていません。"
-
-#: src/widgets/runners/basic-row.vala:123
-#: src/widgets/runners/release-row.vala:28
-#: src/widgets/runners/steamtinkerlaunch-row.vala:203
-#, c-format
-msgid "Install %s"
-msgstr "%s をインストール"
-
-#: src/widgets/runners/basic-row.vala:125
-#: src/widgets/runners/release-row.vala:24
-#: src/widgets/runners/steamtinkerlaunch-row.vala:204
-#, c-format
-msgid "Delete %s"
-msgstr "%s を削除"
-
-#: src/widgets/runners/basic-row.vala:127
-#: src/widgets/runners/release-row.vala:17
-msgid "Update the runner if a newer version is available"
-msgstr "新たなバージョンを利用可能なときに実行環境を更新する"
-
-#: src/widgets/runners/basic-row.vala:129
-#: src/widgets/runners/release-row.vala:20
-#: src/widgets/runners/steamtinkerlaunch-row.vala:206
-msgid "Open runner directory"
-msgstr "実行環境のディレクトリを開く"
-
-#: src/widgets/runners/basic-row.vala:132
-#, fuzzy
-msgid "The application is currently updating its runners"
-msgstr ""
-"アプリケーションは更新の確認中です。\n"
-"アプリケーションを終了すると問題が発生することがあります。"
-
-#: src/widgets/runners/description-dialog.vala:14
-#: src/widgets/runners/description-dialog.vala:18
-msgid "More information"
-msgstr "詳細情報"
-
-#: src/widgets/runners/description-dialog.vala:22
-msgid "Open"
-msgstr "開く"
-
-#: src/widgets/runners/description-dialog.vala:26
-msgid "Open in your web browser"
-msgstr "ウェブブラウザで開く"
-
-#: src/widgets/runners/filters-box.vala:24
-msgid "Installed"
-msgstr "インストール済み"
-
-#: src/widgets/runners/filters-box.vala:26
-msgid "Show installed runners"
-msgstr "インストール済みの実行環境を表示"
-
-#: src/widgets/runners/filters-box.vala:37
-msgid "Show runners that are used by one game or more"
-msgstr "1つ以上のゲームで使用している実行環境を表示"
-
-#: src/widgets/runners/filters-box.vala:44
-msgid "Unused"
-msgstr "未使用"
-
-#: src/widgets/runners/filters-box.vala:46
-msgid "Show runners that aren't used by any games"
-msgstr "どのゲームにも使用していない実行環境を表示"
-
-#: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:132
-msgid "Check this to also delete your configuration files."
-msgstr "ここをチェックすると、設定ファイルまで削除されます。"
-
-#: src/widgets/runners/load-more-row.vala:8
-#: src/widgets/runners/load-more-row.vala:17
-msgid "Load more"
-msgstr "もっと読み込む"
-
-#: src/widgets/runners/release-row.vala:12
-msgid "Show more information"
-msgstr "詳細情報を表示"
-
-#: src/widgets/runners/remove-dialog.vala:11
-#, fuzzy, c-format
-msgid "Delete %s?"
-msgstr "%s を削除"
-
-#: src/widgets/runners/remove-dialog.vala:13
-#: src/widgets/runners/remove-dialog.vala:26
-#, c-format
-msgid "%s will be permanently deleted."
-msgstr ""
-
-#: src/widgets/runners/remove-dialog.vala:21
-#, c-format
-msgid "Used by %i games."
-msgstr "%i つのゲームで使用されています。"
-
-#: src/widgets/runners/remove-dialog.vala:24
-msgid "Used by 1 game."
-msgstr "1 つのゲームで使用されています。"
-
-#: src/widgets/runners/remove-dialog.vala:31
-#, fuzzy
-msgid "Delete"
-msgstr "%s を削除"
-
-#: src/widgets/runners/remove-dialog.vala:52
-#, c-format
-msgid "Couldn't delete %s"
-msgstr "%s を削除できませんでした"
-
-#: src/widgets/runners/runner-row.vala:56 src/widgets/window.vala:171
-#: src/widgets/window.vala:172
-msgid "API limit reached"
-msgstr "API の制限に達しました"
-
-#: src/widgets/runners/runner-row.vala:56
-msgid "Try again in a few minutes."
-msgstr "数分待ってからお試しください。"
-
-#: src/widgets/runners/runner-row.vala:59
-#: src/widgets/runners/runner-row.vala:62
-#: src/widgets/runners/runner-row.vala:65 src/widgets/window.vala:179
-#: src/widgets/window.vala:180
-msgid "Unable to reach the API"
-msgstr "API にアクセスできません"
-
-#: src/widgets/runners/runner-row.vala:59
-msgid "Make sure you're connected to the internet."
-msgstr "インターネットに接続されていることを確認してください。"
-
-#: src/widgets/runners/runner-row.vala:62
-msgid "Make sure your DNS is not blocking this."
-msgstr "使用している DNS によってブロックされていないかを確認してください。"
-
-#: src/widgets/runners/runner-row.vala:65
-msgid "The requested website does not seem to be valid."
-msgstr "要求されたウェブサイトが正しくないようです。"
-
-#: src/widgets/runners/runner-row.vala:68 src/widgets/window.vala:185
-#: src/widgets/window.vala:186
-msgid "Invalid access token"
-msgstr "無効なアクセストークン"
-
-#: src/widgets/runners/runner-row.vala:68
-msgid "Make sure the access token you provided is valid."
-msgstr "あなたが入力したアクセストークンが有効であることを確認してください。"
-
-#: src/widgets/runners/runners-box.vala:44
-#, fuzzy
-msgid "No runners found."
-msgstr "実行環境が何もインストールされていません\n"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:8
-#: src/widgets/runners/steamtinkerlaunch-row.vala:205
-msgid "Update to the latest version"
-msgstr "最新のバージョンに更新する"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:40
-#, fuzzy, c-format
-msgid "Couldn't update %s"
-msgstr "%s を更新できませんでした"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:54
-#, c-format
-msgid "You are missing the following dependencies for %s:"
-msgstr "%s には以下の前提ソフトが不足しています:"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:54
-msgid "Installation will be canceled."
-msgstr "インストールはキャンセルされます。"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:97
-#, c-format
-msgid ""
-"It looks like you currently have another version of %s which was not "
-"installed by ProtonPlus."
-msgstr ""
-"ProtonPlus 以外の方法でインストールした %s の別のバージョンがあるようです。"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:97
-msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr "そのバージョンを ProtonPlus で再インストールしますか?"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:99
-msgid "No"
-msgstr "いいえ"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:100
-msgid "Yes"
-msgstr "はい"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
-#, c-format
-msgid "To install %s for the %s, please run the following command:"
-msgstr ""
-"%s に必要な %s をインストールするには、以下のコマンドを実行してください:"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
-#, c-format
-msgid "There's currently no known way for us to install %s for the %s."
-msgstr ""
-"現在、%s に必要な %s をインストールしているかを確認するすべがありません。"
-
-#: src/widgets/window.vala:34
-msgid "Loading"
-msgstr "ロード中"
-
-#: src/widgets/window.vala:34
-msgid "Taking longer than normal?"
-msgstr "この画面が長く表示されていますか?"
-
-#: src/widgets/window.vala:44
-msgid "MangoHud configuration saved"
-msgstr ""
-
-#: src/widgets/window.vala:50
-msgid "_Preferences"
-msgstr "設定 (_P)"
-
-#: src/widgets/window.vala:51
-msgid "_Keyboard Shortcuts"
-msgstr "キーボードショートカット(_K)"
-
-#: src/widgets/window.vala:52
-#, fuzzy
-msgid "_Donate"
-msgstr "寄付する"
-
-#: src/widgets/window.vala:53
-msgid "_About ProtonPlus"
-msgstr "ProtonPlus について(_A)"
-
-#: src/widgets/window.vala:56
-msgid "Main Menu"
-msgstr "メインメニュー"
-
-#: src/widgets/window.vala:62
-msgid "Games"
-msgstr "ゲーム"
-
-#: src/widgets/window.vala:63
-msgid "MangoHud"
-msgstr ""
-
-#: src/widgets/window.vala:64
-#, fuzzy
-msgid "Downloads"
-msgstr "ダウンロード中"
-
-#: src/widgets/window.vala:105
-msgid "Couldn't load the launchers"
-msgstr "ランチャーを読み込めませんでした"
-
-#: src/widgets/window.vala:119
-#, c-format
-msgid "Welcome to %s"
-msgstr "%s へようこそ"
-
-#: src/widgets/window.vala:119
-msgid ""
-"Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
-"started."
-msgstr ""
-"開始するには、Steam, Lutris, Bottles, Heroic Games Launcher または WineZGUI "
-"をインストールしてください。"
-
-#: src/widgets/window.vala:119
-msgid ""
-"Make sure to run the launchers at least once to ensure they're properly "
-"initialized"
-msgstr ""
-"ランチャーを少なくとも一度は起動して、初期セットアップが完了していることを確"
-"認してください"
-
-#: src/widgets/window.vala:140
-msgid "Checking for updates"
-msgstr "更新を確認中"
-
-#: src/widgets/window.vala:141
-#, c-format
-msgid "Updating %s"
-msgstr "%s を更新中"
-
-#: src/widgets/window.vala:158
-msgid "Nothing to update"
-msgstr "更新するものはありません"
-
-#: src/widgets/window.vala:159
-#, c-format
-msgid "No update found for %s"
-msgstr "%s の更新は見つかりませんでした"
-
-#: src/widgets/window.vala:165
-msgid "Everything is now up-to-date"
-msgstr "全て最新になりました。"
-
-#: src/widgets/window.vala:166
-#, c-format
-msgid "%s is now up-to-date"
-msgstr "%s は最新になりました"
-
-#: src/widgets/window.vala:171 src/widgets/window.vala:179
-#: src/widgets/window.vala:185 src/widgets/window.vala:191
-#, c-format
-msgid "Couldn't check for updates (Reason: %s)"
-msgstr "更新を確認できませんでした (理由: %s)"
-
-#: src/widgets/window.vala:172 src/widgets/window.vala:180
-#: src/widgets/window.vala:186 src/widgets/window.vala:192
-#, c-format
-msgid "Couldn't update %s (Reason: %s)"
-msgstr "%s を更新できませんでした (理由: %s)"
-
-#: src/widgets/window.vala:245
-msgid ""
-"The application is currently checking for updates.\n"
-"Exiting the application early may cause issues."
-msgstr ""
-"アプリケーションは更新の確認中です。\n"
-"アプリケーションを終了すると問題が発生することがあります。"
-
-#: src/widgets/window.vala:247
-msgid "Exit"
-msgstr "終了"
-
-#~ msgid "Latest"
-#~ msgstr "最新"
-
-#~ msgid ""
-#~ "Close the Steam client beforehand so that the changes can be applied."
-#~ msgstr "変更を適用する前に、必ず Steam クライアントを終了してください。"
-
-#~ msgid "Show search"
-#~ msgstr "検索窓を表示"
-
-#~ msgid "Search for a game"
-#~ msgstr "ゲームを検索"
-
-#~ msgid "Undefined"
-#~ msgstr "未指定"
-
-#~ msgid "Hide search"
-#~ msgstr "検索窓を非表示"
-
-#~ msgid "Mass edit"
-#~ msgstr "まとめて設定"
-
-#~ msgid "Apply the current modifications"
-#~ msgstr "現在の変更を適用"
-
-#~ msgid ""
-#~ "Enable this if you want the mass edit to take the compatibility tool into "
-#~ "account."
-#~ msgstr ""
-#~ "互換性ツールをまとめて変更したい場合のみ、この設定を有効にしてください。"
-
-#~ msgid ""
-#~ "Enable this if you want the mass edit to take the launch options into "
-#~ "account."
-#~ msgstr ""
-#~ "起動オプションをまとめて変更したい場合のみ、この設定を有効にしてください。"
-
-#~ msgid "Select all"
-#~ msgstr "全てを選択"
-
-#~ msgid "Select all the games"
-#~ msgstr "全てのゲームを選択する"
-
-#~ msgid "Unselect all"
-#~ msgstr "全てを選択解除"
-
-#~ msgid "Unselect all the games"
-#~ msgstr "全てのゲームを選択解除する"
-
-#~ msgid "Modify launch options"
-#~ msgstr "起動オプションの変更"
-
-#, c-format
-#~ msgid "Couldn't change the launch options of %s"
-#~ msgstr "%s の起動オプションを変更できませんでした"
-
-#~ msgid "Open menu"
-#~ msgstr "メニューを開く"
-
-#, fuzzy
-#~ msgid "Reset to the current default compatibility tool"
-#~ msgstr "デフォルトの互換性ツールを設定する"
-
-#~ msgid "Couldn't change the default compatibility tool"
-#~ msgstr "デフォルトの互換性ツールを変更できませんでした"
-
-#, c-format
-#~ msgid "Couldn't change the compatibility tool of %s"
-#~ msgstr "%s に使用する互換性ツールを変更できませんでした"
+#: data/ui/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "ショートカットの表示"
+
+#: data/ui/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "アプリの終了"
 
 #~ msgid "Runners"
 #~ msgstr "実行環境"
