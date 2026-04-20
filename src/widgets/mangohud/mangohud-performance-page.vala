@@ -41,7 +41,7 @@ namespace ProtonPlus.Widgets {
                 fps_row, fps_avg_row, fps_limit_stats_row, frametime_row, frame_count_row, vps_row, ftrace_row
             }, "heading");
 
-            vsync_row = create_combo (_ ("Vulkan VSYNC"), {_ ("Unset"), _ ("Adaptive"), _ ("Mailbox"), _ ("OFF"), _ ("ON")}, 0, null, (val) => {
+            vsync_row = create_combo (_ ("Vulkan"), {_ ("Unset"), _ ("Adaptive"), _ ("Mailbox"), _ ("OFF"), _ ("ON")}, 0, null, (val) => {
                 switch (val) {
                     case 0: this.config.vsync = ""; break;
                     case 1: this.config.vsync = "0"; break;
@@ -51,7 +51,7 @@ namespace ProtonPlus.Widgets {
                 }
             });
 
-            gl_vsync_row = create_combo (_ ("OpenGL VSYNC"), {_ ("Unset"), _ ("Adaptive"), _ ("OFF"), _ ("ON")}, 0, null, (val) => {
+            gl_vsync_row = create_combo (_ ("OpenGL"), {_ ("Unset"), _ ("Adaptive"), _ ("OFF"), _ ("ON")}, 0, null, (val) => {
                 switch (val) {
                     case 0: this.config.gl_vsync = ""; break;
                     case 1: this.config.gl_vsync = "-1"; break;

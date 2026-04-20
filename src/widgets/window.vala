@@ -59,9 +59,9 @@ namespace ProtonPlus.Widgets {
 
             view_stack = new Adw.ViewStack ();
             view_stack.add_titled_with_icon (runners_box, "tools", _ ("Tools"), "toolbox-symbolic");
-            view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "game-library-symbolic");
-            view_stack.add_titled_with_icon (mangohud_box, "overlay", _ ("MangoHud"), "speedometer-symbolic");
-            downloads_page = view_stack.add_titled_with_icon (downloads_box, "downloads", _ ("Downloads"), "download-symbolic");
+            view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "gamepad-symbolic");
+            view_stack.add_titled_with_icon (mangohud_box, "overlay", _ ("MangoHud"), "layer-group-symbolic");
+            downloads_page = view_stack.add_titled_with_icon (downloads_box, "downloads", _ ("Downloads"), "download-2-symbolic");
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
 
             Models.DownloadManager.instance.download_added.connect (() => {

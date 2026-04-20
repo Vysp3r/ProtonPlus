@@ -148,7 +148,7 @@ namespace ProtonPlus.Widgets {
 
             autostart_log_row = create_scale (_ ("Duration"), 0, 200, 1, out log_duration_scale, (val) => { this.config.log_duration = val; });
             log_duration_row = create_scale (_ ("Autostart"), 0, 30, 1, out autostart_log_scale, (val) => { this.config.autostart_log = val; });
-            log_interval_row = create_scale (_ ("Interval"), 0, 500, 10, out log_interval_scale, (val) => { this.config.log_interval = val; });
+            log_interval_row = create_scale (_ ("Interval"), 0, 500, 1, out log_interval_scale, (val) => { this.config.log_interval = val; });
             toggle_logging_row = create_combo (_ ("Toggle key"), {"Shift_L+F2", "Shift_L+F3", "Shift_L+F4", "Shift_L+F5", _ ("None")}, 0, "preferences-desktop-keyboard-shortcuts-symbolic", (val) => {
                 switch (val) {
                     case 0: this.config.toggle_logging = "Shift_L+F2"; break;
@@ -178,7 +178,7 @@ namespace ProtonPlus.Widgets {
                 });
             });
 
-            upload_log_row = create_switch (_ ("Autoupload results"), config.upload_log, (val) => { this.config.upload_log = val; });
+            upload_log_row = create_switch (_ ("Autoupload Results"), config.upload_log, (val) => { this.config.upload_log = val; });
             log_versioning_row = create_switch (_ ("Log Versioning"), config.log_versioning, (val) => { this.config.log_versioning = val; });
 
             add_flow_group (logging_box, null, {

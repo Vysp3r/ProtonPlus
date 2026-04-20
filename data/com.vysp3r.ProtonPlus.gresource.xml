@@ -12,11 +12,11 @@
   </gresource>
   <gresource prefix="/com/vysp3r/ProtonPlus/icons">
     <file alias="scalable/actions/trash-symbolic.svg">icons/trash.svg</file>
-    <file alias="scalable/actions/download-symbolic.svg">icons/download.svg</file>
+    <file alias="scalable/actions/download-2-symbolic.svg">icons/download.svg</file>
     <file alias="scalable/actions/info-circle-symbolic.svg">icons/info-circle.svg</file>
     <file alias="scalable/actions/dots-symbolic.svg">icons/dots.svg</file>
     <file alias="scalable/actions/world-www-symbolic.svg">icons/world-www.svg</file>
-    <file alias="scalable/actions/game-library-symbolic.svg">icons/game-library.svg</file>
+    <file alias="scalable/actions/gamepad-symbolic.svg">icons/gamepad.svg</file>
     <file alias="scalable/actions/bookmark-symbolic.svg">icons/bookmark.svg</file>
     <file alias="scalable/actions/shield-symbolic.svg">icons/shield.svg</file>
     <file alias="scalable/actions/bolt-2-symbolic.svg">icons/bolt.svg</file>
@@ -32,6 +32,11 @@
     <file alias="scalable/actions/arrow-rotate-symbolic.svg">icons/arrow-rotate.svg</file>
     <file alias="scalable/actions/floppy-disk-symbolic.svg">icons/floppy-disk.svg</file>
     <file alias="scalable/actions/eraser-symbolic.svg">icons/eraser.svg</file>
+    <file alias="scalable/actions/list-symbolic.svg">icons/list.svg</file>
+    <file alias="scalable/actions/eye-symbolic.svg">icons/eye.svg</file>
+    <file alias="scalable/actions/layer-group-symbolic.svg">icons/layer-group.svg</file>
+    <file alias="scalable/actions/chart-area-symbolic.svg">icons/chart-area.svg</file>
+    <file alias="scalable/actions/gauge-high-symbolic.svg">icons/gauge-high.svg</file>
     <file alias="scalable/actions/box-archive-symbolic.svg">icons/box-archive.svg</file>
     <file alias="scalable/actions/box-open-symbolic.svg">icons/box-open.svg</file>
     <file alias="scalable/actions/boxes-stacked-symbolic.svg">icons/boxes-stacked.svg</file>
@@ -39,10 +44,9 @@
     <file alias="scalable/actions/toolbox-symbolic.svg">icons/toolbox.svg</file>
     <file alias="scalable/actions/github-symbolic.svg">icons/github.svg</file>
     <file alias="scalable/actions/copy-symbolic.svg">icons/copy.svg</file>
-    <file alias="scalable/actions/swap-symbolic.svg">icons/swap.svg</file>
+    <file alias="scalable/actions/plus-symbolic.svg">icons/plus.svg</file>
     <file alias="scalable/actions/screwdriver-wrench-symbolic.svg">icons/screwdriver-wrench.svg</file>
     <file alias="scalable/actions/circle-xmark-symbolic.svg">icons/circle-xmark.svg</file>
     <file alias="scalable/actions/exe-file-format-symbolic.svg">icons/exe-file-format.svg</file>
-    <file alias="scalable/actions/square-poll-horizontal-symbolic.svg">icons/square-poll-horizontal.svg</file>
   </gresource>
 </gresources>
