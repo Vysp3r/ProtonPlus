@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-04-20 13:09+0000\n"
+"PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ja/>\n"
@@ -28,11 +28,11 @@ msgstr "ウェブサイト"
 
 #: src/widgets/application.vala:109
 msgid "translator-credits"
-msgstr ""
+msgstr "camegone"
 
 #: src/widgets/application.vala:110
 msgid "Special thanks to"
-msgstr ""
+msgstr "スペシャルサンクス"
 
 #: src/widgets/status-box.vala:12 src/widgets/window.vala:211
 #: src/widgets/error-dialog.vala:7
@@ -932,13 +932,12 @@ msgstr ""
 "レイトレーシングを使うためには必要ありません。"
 
 #: src/widgets/games/launch-options-editor.vala:587
-#, fuzzy
 msgid "XeSS Upgrade"
-msgstr "%s をアップグレード"
+msgstr "XeSS アップグレード"
 
 #: src/widgets/games/launch-options-editor.vala:587
 msgid "Upgrades XeSS in supported games."
-msgstr ""
+msgstr "対応ゲームで XeSS をアップグレードします。"
 
 #: src/widgets/games/launch-options-editor.vala:593
 msgid "AMD"
@@ -954,12 +953,12 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:605
 msgid "GPU vendor options"
-msgstr ""
+msgstr "GPU ベンダー設定"
 
 #: src/widgets/games/launch-options-editor.vala:606
 msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
-msgstr ""
+msgstr "AMD、NVIDIA、Intelの GPU メーカー特有の互換性設定を使用する。"
 
 #. More options
 #: src/widgets/games/launch-options-editor.vala:613
@@ -978,20 +977,24 @@ msgstr ""
 msgid ""
 "Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
 msgstr ""
+"Vulkan の代わりに OpenGL を使用します。注意: DXVK の動作に問題がある場合のみ"
+"有効にしてください。"
 
 #: src/widgets/games/launch-options-editor.vala:615
 msgid "Use FSync"
-msgstr ""
+msgstr "FSync を使用"
 
 #: src/widgets/games/launch-options-editor.vala:615
 msgid ""
 "Uses FSync instead of NTSync. Can fix issues in certain games that do not "
 "pair well with NTSync."
 msgstr ""
+"NTSync の代わりにFSync を使用します。NTSync ではうまく動かない特定のゲームの"
+"問題を解決できることがあります。"
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid "Local shader cache"
-msgstr ""
+msgstr "ローカル シェーダー キャッシュ"
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid ""
@@ -1003,11 +1006,11 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:617
 msgid "Prefer SDL controller"
-msgstr ""
+msgstr "SDL コントローラーを優先"
 
 #: src/widgets/games/launch-options-editor.vala:617
 msgid "Workaround for controller detection issues."
-msgstr ""
+msgstr "コントローラーの認識の問題に関する対処方法。"
 
 #: src/widgets/games/launch-options-editor.vala:618
 msgid "Disable Steam Input"
@@ -1020,19 +1023,17 @@ msgstr ""
 "消します。"
 
 #: src/widgets/games/launch-options-editor.vala:621
-#, fuzzy
 msgid "More options"
-msgstr "詳細情報"
+msgstr "詳細設定"
 
 #: src/widgets/games/launch-options-editor.vala:622
 msgid "Extra graphics settings and launch behaviors."
-msgstr ""
+msgstr "追加のグラフィック設定や起動時の動作。"
 
 #. Game arguments
 #: src/widgets/games/launch-options-editor.vala:633
-#, fuzzy
 msgid "Skip launcher"
-msgstr "サポートされていないランチャー"
+msgstr "ランチャーをスキップ"
 
 #: src/widgets/games/launch-options-editor.vala:633
 msgid "Adds -skip-launcher to bypass launchers in games that support it."
@@ -1076,11 +1077,11 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:640
 msgid "Game arguments"
-msgstr ""
+msgstr "ゲーム引数"
 
 #: src/widgets/games/launch-options-editor.vala:641
 msgid "Flags passed directly to the game."
-msgstr ""
+msgstr "直接ゲームに渡されるフラグ。"
 
 #. Advanced options
 #: src/widgets/games/launch-options-editor.vala:651
@@ -1464,7 +1465,9 @@ msgstr "実行環境が何もインストールされていません\n"
 #: src/cli/cli.vala:184
 #, c-format
 msgid "Error: Runner '%s' does not support 'latest' installation\n"
-msgstr "エラー: 実行環境「%s」は「最新」のインストールをサポートしていません\n"
+msgstr ""
+"エラー: 実行環境「%s」は「最新(Latest)」のインストールをサポートしていませ"
+"ん\n"
 
 #: src/cli/cli.vala:204
 #, c-format
