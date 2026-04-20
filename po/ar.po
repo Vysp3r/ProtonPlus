@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-18 10:14-0400\n"
+"POT-Creation-Date: 2026-04-19 20:43-0400\n"
 "PO-Revision-Date: 2026-02-03 11:54+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -19,1419 +19,20 @@ msgstr ""
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 "X-Generator: Weblate 5.16-dev\n"
 
-#: src/widgets/application.vala:102
-msgid "A modern compatibility tools manager"
-msgstr "مدير لأدوات التوافق بطابع حديث"
-
-#: src/widgets/application.vala:104
-msgid "Website"
-msgstr "الموقع"
-
-#: src/widgets/application.vala:109
-msgid "translator-credits"
-msgstr ""
-
-#: src/widgets/application.vala:110
-msgid "Special thanks to"
-msgstr "شكر خاص"
-
-#: src/widgets/status-box.vala:12 src/widgets/window.vala:211
-#: src/widgets/error-dialog.vala:7
-msgid "Report"
-msgstr "بلاغ"
-
-#: src/widgets/window.vala:39
-msgid "Loading"
-msgstr "جاري التحميل"
-
-#: src/widgets/window.vala:39
-msgid "Taking longer than normal?"
-msgstr "هل الإجراء يأخذ وقتاً أكثر من المعتاد؟"
-
-#: src/widgets/window.vala:39 src/widgets/window.vala:123
-#: src/widgets/runners/runner-row.vala:71
-#: src/widgets/runners/remove-dialog.vala:52
-#: src/widgets/runners/basic-row.vala:52
-#: src/widgets/runners/steamtinkerlaunch-row.vala:40
-#: src/widgets/runners/steamtinkerlaunch-row.vala:120
-#: src/widgets/games/mass-edit-view.vala:208
-#: src/widgets/games/shortcut-button.vala:38
-#: src/widgets/games/shortcut-button.vala:46
-#: src/widgets/games/launch-options-view.vala:99
-#: src/widgets/games/default-tool-view.vala:117
-#: src/widgets/games/compatibility-tool-dropdown.vala:75
-msgid "Please report this issue on GitHub."
-msgstr ".GitHub يرجى الإبلاغ عن هذه المشكلة على منصة"
-
-#: src/widgets/window.vala:50
-msgid "_Preferences"
-msgstr "التفضيلات"
-
-#: src/widgets/window.vala:51
-msgid "_Keyboard Shortcuts"
-msgstr "اختصارات لوحة المفاتيح"
-
-#: src/widgets/window.vala:52
-#, fuzzy
-msgid "_Donate"
-msgstr "تبرع"
-
-#: src/widgets/window.vala:53
-msgid "_About ProtonPlus"
-msgstr "_حول بروتون بلس"
-
-#: src/widgets/window.vala:56
-msgid "Main Menu"
-msgstr "القائمة الرئيسية"
-
-#: src/widgets/window.vala:61
-msgid "Tools"
-msgstr ""
-
-#: src/widgets/window.vala:62
-msgid "Games"
-msgstr "الألعاب"
-
-#: src/widgets/window.vala:63
-#, fuzzy
-msgid "Downloads"
-msgstr "جاري التنزيل"
-
-#: src/widgets/window.vala:123
-msgid "Couldn't load the launchers"
-msgstr "لم نستطع تحميل التطبيقات المُشَغِلة"
-
-#: src/widgets/window.vala:137
-#, c-format
-msgid "Welcome to %s"
-msgstr "مرحباً بك في %s"
-
-#: src/widgets/window.vala:137
-msgid ""
-"Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
-"started."
-msgstr ""
-"الرجاء تثبيت إحدى البرامج التالية للبدأ (Steam, Lutris, Bottles, Heroic "
-"Games Launcher أو WineZGUI)"
-
-#: src/widgets/window.vala:137
-msgid ""
-"Make sure to run the launchers at least once to ensure they're properly "
-"initialized"
-msgstr ""
-"تأكد من تشغيلك للبرامج المُشَغِلة عالأقل مرة واحدة لضمان أن تكون مُمَهَدَة بشكل صحيح"
-
-#: src/widgets/window.vala:158
-msgid "Checking for updates"
-msgstr "جاري التحقق من التحديثات"
-
-#: src/widgets/window.vala:159
-#, c-format
-msgid "Updating %s"
-msgstr "جاري تحديث %s"
-
-#: src/widgets/window.vala:176
-msgid "Nothing to update"
-msgstr "لا يوجد ما يتطلب التحديث"
-
-#: src/widgets/window.vala:177
-#, c-format
-msgid "No update found for %s"
-msgstr "لم يتم إيجاد أي تحديث لـ %s"
-
-#: src/widgets/window.vala:183
-msgid "Everything is now up-to-date"
-msgstr "كل شيء محدث لآخر إصدار"
-
-#: src/widgets/window.vala:184
-#, c-format
-msgid "%s is now up-to-date"
-msgstr "محدث الآن %s"
-
-#: src/widgets/window.vala:189 src/widgets/window.vala:197
-#: src/widgets/window.vala:203 src/widgets/window.vala:209
-#, c-format
-msgid "Couldn't check for updates (Reason: %s)"
-msgstr "لم نستطع التحقق من وجود التحديثات(السبب: %s)"
-
-#: src/widgets/window.vala:189 src/widgets/window.vala:190
-#: src/widgets/runners/runner-row.vala:56
-msgid "API limit reached"
-msgstr "تم الوصول إلى الحد الأقصى لواجهة برمجة التطبيقات (API)"
-
-#: src/widgets/window.vala:190 src/widgets/window.vala:198
-#: src/widgets/window.vala:204 src/widgets/window.vala:210
-#, c-format
-msgid "Couldn't update %s (Reason: %s)"
-msgstr "لم نستطع تحديث %s (السبب: %s)"
-
-#: src/widgets/window.vala:197 src/widgets/window.vala:198
-#: src/widgets/runners/runner-row.vala:59
-#: src/widgets/runners/runner-row.vala:62
-#: src/widgets/runners/runner-row.vala:65
-msgid "Unable to reach the API"
-msgstr "لم نستطع الوصول لواجهة برمجة التطبيقات(API)"
-
-#: src/widgets/window.vala:203 src/widgets/window.vala:204
-#: src/widgets/runners/runner-row.vala:68
-msgid "Invalid access token"
-msgstr "الرمز المميز للوصول غير صالح"
-
-#: src/widgets/window.vala:209 src/widgets/window.vala:210
-#: src/widgets/runners/runner-row.vala:71
-#: src/widgets/downloads/download-row.vala:148
-msgid "Unknown error"
-msgstr "خطأ غير معروف"
-
-#: src/widgets/window.vala:273
-#: src/widgets/runners/steamtinkerlaunch-row.vala:54
-#: src/widgets/runners/steamtinkerlaunch-row.vala:97
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
-#: src/widgets/games/mass-edit-button.vala:36
-msgid "Warning"
-msgstr "تحذير"
-
-#: src/widgets/window.vala:273
-msgid ""
-"The application is currently checking for updates.\n"
-"Exiting the application early may cause issues."
-msgstr ""
-"التطبيق حالياً يبحث عن التحديثات. الخروج أثناء هذه العملية قد يسبب مشاكل"
-
-#: src/widgets/window.vala:275
-msgid "Exit"
-msgstr "خروج"
-
-#: src/widgets/window.vala:278 src/widgets/runners/remove-dialog.vala:30
-#: src/widgets/downloads/download-row.vala:22
-msgid "Cancel"
-msgstr "إلغاء"
-
-#: src/widgets/warning-dialog.vala:7 src/widgets/error-dialog.vala:10
-msgid "OK"
-msgstr "حسنا"
-
-#: src/widgets/preferences/preferences-dialog.vala:9
+#: data/ui/gtk/help-overlay.ui:11
+msgctxt "shortcut window"
 msgid "General"
 msgstr "عام"
 
-#: src/widgets/preferences/preferences-dialog.vala:14
-msgid "Save download history"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:15
-msgid "Save the download history to a file"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:22
-msgid "Automatic updates"
-msgstr "التحديثات التلقائية"
-
-#: src/widgets/preferences/preferences-dialog.vala:23
-#, fuzzy
-msgid "Update the installed 'Latest' runners when the application starts"
-msgstr ""
-"تحديد ما إذا كان سيتم تحديث أحدث المشغلات المثبتة عند تشغيل التطبيق أم لا"
-
-#: src/widgets/preferences/preferences-dialog.vala:29
-msgid "Latest"
-msgstr "الأحدث"
-
-#: src/widgets/preferences/preferences-dialog.vala:49
-msgid "Remember last used profile"
-msgstr "تذكر آخر ملف تعريفي مُستَخْدَم"
-
-#: src/widgets/preferences/preferences-dialog.vala:50
-#, fuzzy
-msgid "Remember the last used Steam profile"
-msgstr "تذكر آخر ملف تعريفي مُستَخْدَم"
-
-#: src/widgets/preferences/theme-row.vala:15
-msgid "System"
-msgstr "النظام"
-
-#: src/widgets/preferences/theme-row.vala:16
-msgid "Light"
-msgstr "فاتح"
-
-#: src/widgets/preferences/theme-row.vala:17
-msgid "Dark"
-msgstr "داكن"
-
-#: src/widgets/preferences/theme-row.vala:18
-msgid "SteamOS"
-msgstr ""
-
-#: src/widgets/preferences/theme-row.vala:19
-msgid "OLED"
-msgstr ""
-
-#: src/widgets/preferences/theme-row.vala:27
-msgid "Current theme"
-msgstr "السِمَة الحالية"
-
-#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
-msgid "Refresh profiles"
-msgstr "إعادة تجديد البيانات المعروضة لملفات التعريف"
-
-#: src/widgets/preferences/refresh-launchers-runners-row.vala:15
-msgid "Refresh launchers/runners"
-msgstr "إعادة تجديد البيانات المعروضة للبرامج المشغلة و المشغلات"
-
-#: src/widgets/preferences/check-updates-row.vala:11
-msgid "Check if any of the installed 'Latest' runners needs to be updated"
-msgstr "تأكد من موجود تحديث لأحدث المشغلات المثبتة"
-
-#: src/widgets/preferences/check-updates-row.vala:16
-msgid "Check for updates"
-msgstr "تحقق من التحديثات"
-
-#: src/widgets/preferences/access-token-row.vala:4
-msgid "Access token"
-msgstr "الرمز المميز للوصول"
-
-#: src/widgets/preferences/access-token-row.vala:5
-msgid "Enter an access token to reduce your chances of being rate limited"
-msgstr "أدخِل الرمز المميز للوصول لتقليل فرصتك للوصول لنسبة التقييد"
-
-#: src/widgets/runners/description-dialog.vala:14
-#: src/widgets/runners/description-dialog.vala:18
-msgid "More information"
-msgstr "مزيد من المعلومات"
-
-#: src/widgets/runners/description-dialog.vala:22
-msgid "Open"
-msgstr "فتح"
-
-#: src/widgets/runners/description-dialog.vala:26
-msgid "Open in your web browser"
-msgstr "فتح في متصفح الويب الخاص بك"
-
-#: src/widgets/runners/release-row.vala:12
-msgid "Show more information"
-msgstr "عرض المزيد من المعلومات"
-
-#: src/widgets/runners/release-row.vala:17
-#: src/widgets/runners/basic-row.vala:127
-msgid "Update the runner if a newer version is available"
-msgstr "حَدِث المُشَغِّل في حال توفر إصدار أحدث"
-
-#: src/widgets/runners/release-row.vala:20
-#: src/widgets/runners/basic-row.vala:129
-#: src/widgets/runners/steamtinkerlaunch-row.vala:206
-msgid "Open runner directory"
-msgstr "فتح دليل المشغل"
-
-#: src/widgets/runners/release-row.vala:24
-#: src/widgets/runners/basic-row.vala:125
-#: src/widgets/runners/steamtinkerlaunch-row.vala:204
-#, c-format
-msgid "Delete %s"
-msgstr "حَذف %s"
-
-#: src/widgets/runners/release-row.vala:28
-#: src/widgets/runners/basic-row.vala:123
-#: src/widgets/runners/steamtinkerlaunch-row.vala:203
-#, c-format
-msgid "Install %s"
-msgstr "تثبيت %s"
-
-#: src/widgets/runners/release-row.vala:55
-#: src/widgets/runners/release-row.vala:57
-#: src/widgets/runners/installed-row.vala:11
-#: src/widgets/runners/basic-row.vala:74
-#: src/widgets/runners/filters-box.vala:32
-msgid "Used"
-msgstr "مُستخدَم"
-
-#: src/widgets/runners/runner-row.vala:56
-msgid "Try again in a few minutes."
-msgstr "حاول مرة أخرى بعد بضع دقايق."
-
-#: src/widgets/runners/runner-row.vala:59
-msgid "Make sure you're connected to the internet."
-msgstr "تأكد من إتصالك بالإنترنت"
-
-#: src/widgets/runners/runner-row.vala:62
-msgid "Make sure your DNS is not blocking this."
-msgstr "تأكد مِن أن نظام أسماء المجالات (DNS) لا يحظر هذا."
-
-#: src/widgets/runners/runner-row.vala:65
-msgid "The requested website does not seem to be valid."
-msgstr "يبدو أن الموقع الإلكتروني المطلوب غير صالح"
-
-#: src/widgets/runners/runner-row.vala:68
-msgid "Make sure the access token you provided is valid."
-msgstr "تأكد من صلاحية الرمز المميز للوصول المُعطى."
-
-#: src/widgets/runners/load-more-row.vala:8
-#: src/widgets/runners/load-more-row.vala:17
-msgid "Load more"
-msgstr "تحميل المزيد"
-
-#: src/widgets/runners/remove-dialog.vala:11
-#, fuzzy, c-format
-msgid "Delete %s?"
-msgstr "حَذف %s"
-
-#: src/widgets/runners/remove-dialog.vala:13
-#: src/widgets/runners/remove-dialog.vala:26
-#, c-format
-msgid "%s will be permanently deleted."
-msgstr ""
-
-#: src/widgets/runners/remove-dialog.vala:21
-#, c-format
-msgid "Used by %i games."
-msgstr "من الألعاب %i يستخدم بواسطة"
-
-#: src/widgets/runners/remove-dialog.vala:24
-msgid "Used by 1 game."
-msgstr "يستخدم بواسطة لعبة واحدة"
-
-#: src/widgets/runners/remove-dialog.vala:31
-#, fuzzy
-msgid "Delete"
-msgstr "حَذف %s"
-
-#: src/widgets/runners/remove-dialog.vala:52
-#, c-format
-msgid "Couldn't delete %s"
-msgstr "لم نستطع حذف %s"
-
-#: src/widgets/runners/installed-row.vala:12
-#: src/widgets/runners/basic-row.vala:75
-#, c-format
-msgid "%s is used by %i game(s)"
-msgstr "يُستخدَم %s من قِبل %i من الألعاب"
-
-#: src/widgets/runners/installed-row.vala:41
-#: src/widgets/runners/steamtinkerlaunch-row.vala:132
-msgid "Check this to also delete your configuration files."
-msgstr "حدد هنا لحذف ملفات التخصيص الخاص بك أيضاً"
-
-#: src/widgets/runners/basic-row.vala:16
-msgid ""
-"This version will get automatically updated when there's an update available "
-"each time your launch the application if automatic updates is enabled"
-msgstr ""
-"ستُحدَّث هذه النسخة تلقائياً عند توفر تحديث أثناء تشغيل البرنامج، إذا كان "
-"التحديث التلقائي مفعلاً."
-
-#: src/widgets/runners/basic-row.vala:52
-#: src/widgets/runners/steamtinkerlaunch-row.vala:120
-#, c-format
-msgid "Couldn't install %s"
-msgstr "لم نستطع تثبيت %s"
-
-#: src/widgets/runners/basic-row.vala:103
-#: src/widgets/runners/steamtinkerlaunch-row.vala:190
-#, fuzzy
-msgid "This tool is currently being installed"
-msgstr "إن %s غير مدعوم حالياً"
-
-#: src/widgets/runners/basic-row.vala:105
-#: src/widgets/runners/steamtinkerlaunch-row.vala:192
-msgid "This tool is currently being downloaded"
-msgstr ""
-
-#: src/widgets/runners/basic-row.vala:110
-#: src/widgets/runners/steamtinkerlaunch-row.vala:194
-#, fuzzy
-msgid "This tool is currently being removed"
-msgstr "إن %s غير مدعوم حالياً"
-
-#: src/widgets/runners/basic-row.vala:114
-#: src/widgets/runners/steamtinkerlaunch-row.vala:196
-#, fuzzy
-msgid "This tool is currently being updated"
-msgstr "إن %s غير مدعوم حالياً"
-
-#: src/widgets/runners/basic-row.vala:132
-#, fuzzy
-msgid "The application is currently updating its runners"
-msgstr ""
-"التطبيق حالياً يبحث عن التحديثات. الخروج أثناء هذه العملية قد يسبب مشاكل"
-
-#: src/widgets/runners/filters-box.vala:21
-msgid "Installed"
-msgstr "مُثبَت"
-
-#: src/widgets/runners/filters-box.vala:23
-msgid "Show installed runners"
-msgstr "أظهر المُثبَت فقط"
-
-#: src/widgets/runners/filters-box.vala:34
-msgid "Show runners that are used by one game or more"
-msgstr "أظهر المشغلات المستخدمة بواسطة لعبة أو أكثر"
-
-#: src/widgets/runners/filters-box.vala:41
-msgid "Unused"
-msgstr "غير مُستَخْدَم"
-
-#: src/widgets/runners/filters-box.vala:43
-msgid "Show runners that aren't used by any games"
-msgstr "أظهِر المشغلات التي لا تستخدم بواسطة أي لعبة"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:8
-#: src/widgets/runners/steamtinkerlaunch-row.vala:205
-msgid "Update to the latest version"
-msgstr "تحديث إلى أحدث إصدار"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:40
-#, fuzzy, c-format
-msgid "Couldn't update %s"
-msgstr "لم نستطع ترقية %s"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:54
-#, c-format
-msgid "You are missing the following dependencies for %s:"
-msgstr "ينقصك مايلي من التبعيات من أجل %s :"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:54
-msgid "Installation will be canceled."
-msgstr "سيتم إلغاء التثبيت."
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:97
-#, c-format
-msgid ""
-"It looks like you currently have another version of %s which was not "
-"installed by ProtonPlus."
-msgstr "ProtonPlus ليست مثبتة بواسطة %s يبدو بان لديك حالياً نسخة أخرى من"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:97
-msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr "؟ ProtonPlus هل تريد إعادة تثبيتها بواسطة"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:99
-msgid "No"
-msgstr "لا"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:100
-msgid "Yes"
-msgstr "نعم"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:148
-#, c-format
-msgid "To install %s for the %s, please run the following command:"
-msgstr "للتثبيت %s لـ %s، الرجاء تشغيل الأمر التالي:"
-
-#: src/widgets/runners/steamtinkerlaunch-row.vala:152
-#, c-format
-msgid "There's currently no known way for us to install %s for the %s."
-msgstr "لا توجد حاليًا طريقة معروفة لنا لتثبيت %s من أجل %s ."
-
-#: src/widgets/games/games-box.vala:64
-msgid "Close the Steam client beforehand so that the changes can be applied."
-msgstr "أغلق عميل Steam أولاً لتتمكن من تطبيق التغييرات."
-
-#: src/widgets/games/games-box.vala:81 src/widgets/games/games-box.vala:351
-msgid "Show search"
-msgstr "أظهر البحث"
-
-#: src/widgets/games/games-box.vala:109
-msgid "Search for a game"
-msgstr "إبحث عن لعبة"
-
-#: src/widgets/games/games-box.vala:116
-msgid "Name"
-msgstr "الاسم"
-
-#: src/widgets/games/games-box.vala:120
-msgid "Prefix"
-msgstr "البادئة"
-
-#: src/widgets/games/games-box.vala:127
-#: src/widgets/games/mass-edit-view.vala:69
-#: src/widgets/games/default-tool-view.vala:72
-msgid "Compatibility tool"
-msgstr "أداة التوافق"
-
-#: src/widgets/games/games-box.vala:131
-msgid "Other"
-msgstr "أخرى"
-
-#: src/widgets/games/games-box.vala:157
-msgid "No profile was found."
-msgstr ".لم يتم العثور على ملف تعريف"
-
-#: src/widgets/games/games-box.vala:157
-msgid "Make sure to connect yourself at least once on Steam."
-msgstr ".Steam تأكد من الإتصال مرة واحدة على الأقل على"
-
-#: src/widgets/games/games-box.vala:157
-msgid "If you think this is an issue, make sure to report this on GitHub."
-msgstr ".GitHub إذا كنت تعتقد أن هذه مشكلة ، فتأكد من الإبلاغ عن ذلك على"
-
-#: src/widgets/games/games-box.vala:236
-msgid "Unsupported launcher"
-msgstr "مشغل برامج غير مدعوم"
-
-#: src/widgets/games/games-box.vala:236
-#, c-format
-msgid "%s is currently not supported."
-msgstr "إن %s غير مدعوم حالياً"
-
-#: src/widgets/games/games-box.vala:236
-msgid ""
-"If you want me to speed up the development make sure to show your support!"
-msgstr "إن أردت مني إسراع عملية التطوير الرجاء التطوع للمشروع لإظهار دعمك لي"
-
-#: src/widgets/games/games-box.vala:276 src/widgets/games/games-box.vala:338
-#: src/widgets/games/games-box.vala:341
-#: src/widgets/games/mass-edit-view.vala:170
-#: src/widgets/games/compatibility-tool-dropdown.vala:32
-#: src/widgets/games/compatibility-tool-dropdown.vala:80
-#: src/models/games/steam.vala:95 src/models/games/steam.vala:116
-msgid "Undefined"
-msgstr "غير مُعَرَف"
-
-#: src/widgets/games/games-box.vala:351
-msgid "Hide search"
-msgstr "إخفاء البحث"
-
-#: src/widgets/games/game-row.vala:57
-msgid "Modify the game launch options"
-msgstr "تعديل خيارات إطلاق اللعبة"
-
-#: src/widgets/games/game-row.vala:83
-msgid "Unknown"
-msgstr "مجهول"
-
-#: src/widgets/games/game-row.vala:89
-msgid "Open ProtonDB page"
-msgstr "ProtonDB إفتح صفحة"
-
-#: src/widgets/games/mass-edit-view.vala:28
-#: src/widgets/games/mass-edit-button.vala:10
-msgid "Mass edit"
-msgstr "تحرير بالجُمْلَة"
-
-#: src/widgets/games/mass-edit-view.vala:32
-#: src/widgets/games/launch-options-view.vala:27
-#: src/widgets/games/default-tool-view.vala:24
-msgid "Back"
-msgstr ""
-
-#: src/widgets/games/mass-edit-view.vala:38
-#: src/widgets/games/launch-options-view.vala:33
-#, fuzzy
-msgid "Clear the current launch options"
-msgstr "تعديل خيارات إطلاق اللعبة"
-
-#: src/widgets/games/mass-edit-view.vala:41
-#: src/widgets/games/launch-options-view.vala:36
-msgid "Advanced"
-msgstr ""
-
-#: src/widgets/games/mass-edit-view.vala:53
-msgid "Apply the current modifications"
-msgstr "تطبيق التعديلات الحالية"
-
-#: src/widgets/games/mass-edit-view.vala:65
-msgid ""
-"Enable this if you want the mass edit to take the compatibility tool into "
-"account."
-msgstr ".حدد هذا الخيار إن كنت تريد التعديل بالجُملَة يأخذ أداة التوافق بالحٌسبان"
-
-#: src/widgets/games/mass-edit-view.vala:75
-msgid ""
-"Enable this if you want the mass edit to take the launch options into "
-"account."
-msgstr ""
-".حدد هذا الخيار إن كنت تريد التعديل بالجُملَة يأخذ خيارات التشغيل بالحٌسبان"
-
-#: src/widgets/games/mass-edit-view.vala:82
-#, fuzzy
-msgid "Launch options"
-msgstr "خيارات التشغيل"
-
-#: src/widgets/games/mass-edit-view.vala:110
-msgid "1 game selected"
-msgstr "لعبة واحدة مختارة"
-
-#: src/widgets/games/mass-edit-view.vala:110
-#, c-format
-msgid "%u games selected"
-msgstr "مجموع الألعاب المحددة %u"
-
-#: src/widgets/games/mass-edit-view.vala:208
-msgid ""
-"Couldn't change the compatibility tool/launch options of the selected games"
-msgstr "لم نستطع تغيير أداة التوافق أو خيارات التشغيل للألعاب المحددة"
-
-#: src/widgets/games/mass-edit-view.vala:208
-msgid "The following games had an issue:"
-msgstr "الألعاب التالية لديها مشكلة:"
-
-#: src/widgets/games/shortcut-button.vala:23
-#: src/widgets/games/shortcut-button.vala:28
-msgid "Create shortcut"
-msgstr "إنشاء إختصار"
-
-#: src/widgets/games/shortcut-button.vala:28
-msgid "Delete shortcut"
-msgstr "حذف الإختصار"
-
-#: src/widgets/games/shortcut-button.vala:29
-msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr "Steam في منصة ProtonPlus إنشاء إختصار لـ"
-
-#: src/widgets/games/shortcut-button.vala:29
-msgid "Delete the shortcut of ProtonPlus in Steam"
-msgstr "Steam من منصة ProtonPlus حذف إختصار"
-
-#: src/widgets/games/shortcut-button.vala:38
-msgid "Couldn't delete the shortcut in Steam"
-msgstr "لم نستطع حذف الإختصار في Steam"
-
-#: src/widgets/games/shortcut-button.vala:46
-msgid "Couldn't create the shortcut in Steam"
-msgstr "لم نستطع إنشاء إختصار في Steam"
-
-#: src/widgets/games/switch-profile-button.vala:14
-msgid "Switch profile"
-msgstr "تبديل الملف الشخصي"
-
-#: src/widgets/games/switch-profile-button.vala:23
-msgid "Switch to another profile"
-msgstr "بَدّل الملف الشخصي"
-
-#: src/widgets/games/select-button.vala:8
-msgid "Select all"
-msgstr "حدد الكل"
-
-#: src/widgets/games/select-button.vala:11
-msgid "Select all the games"
-msgstr "حدد كل الألعاب"
-
-#: src/widgets/games/unselect-button.vala:8
-msgid "Unselect all"
-msgstr "إلغاء تحديد الكل"
-
-#: src/widgets/games/unselect-button.vala:11
-msgid "Unselect all the games"
-msgstr "إلغاء تحديد جميع الألعاب"
-
-#: src/widgets/games/mass-edit-button.vala:13
-#, fuzzy
-msgid "Edit the selected games at once"
-msgstr "تحرير أداة توافق الألعاب المحددة في وقت واحد"
-
-#: src/widgets/games/mass-edit-button.vala:36
-msgid ""
-"Please make sure to select at least one game before using the mass edit "
-"feature."
-msgstr ""
-"الرجاء التأكد من تحديد لعبة واحدة على الأقل قبل إستخدام ميزة التحرير بالجُملًة"
-
-#: src/widgets/games/launch-options-view.vala:23
-msgid "Modify launch options"
-msgstr "تعديل خيارات التشغيل"
-
-#: src/widgets/games/launch-options-view.vala:48
-#: src/widgets/games/default-tool-view.vala:35
-msgid "Apply the current modification"
-msgstr "تطبيق التعديل الحالي"
-
-#: src/widgets/games/launch-options-view.vala:99
-#, c-format
-msgid "Couldn't change the launch options of %s"
-msgstr "لم نستطع تغيير خيارات التشغيل لـ%s"
-
-#: src/widgets/games/launch-options-editor.vala:67
-#: src/widgets/games/launch-options-editor.vala:261
-msgid "Set"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:68
-msgid "Apply the FPS value"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:229
-msgid "Auto detect"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:230
-msgid "Custom"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:262
-#, fuzzy
-msgid "Apply the custom resolution"
-msgstr "تطبيق التعديل الحالي"
-
-#. Launch command preview
-#: src/widgets/games/launch-options-editor.vala:522
-msgid "Launch command preview"
-msgstr ""
-
-#. Common options
-#: src/widgets/games/launch-options-editor.vala:527
-msgid "Performance overlay"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:527
-msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:528
-msgid "Disable Steam Deck Mode"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:528
-msgid "Disables the Steam Deck-specific profile that some games use."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:529
-msgid "Wayland"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:529
-msgid ""
-"Runs the game natively on Wayland instead of through XWayland but it breaks "
-"Steam Input and the Steam Overlay."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:532
-#, fuzzy
-msgid "Common options"
-msgstr "خيارات التشغيل"
-
-#: src/widgets/games/launch-options-editor.vala:533
-msgid "Quick toggles for the launch options people reach for most often."
-msgstr ""
-
-#. Launch tools
-#: src/widgets/games/launch-options-editor.vala:541
-#: src/widgets/games/launch-options-editor.vala:843
-msgid "HDR"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:541
-#: src/widgets/games/launch-options-editor.vala:843
-#: src/widgets/games/launch-options-editor.vala:878
-msgid "Outputs HDR colors if your display supports it."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:549
-msgid "None"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:550
-#, fuzzy
-msgid "Gamescope"
-msgstr "الألعاب"
-
-#: src/widgets/games/launch-options-editor.vala:551
-msgid "ScopeBuddy"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:558
-#, fuzzy
-msgid "Launch tools"
-msgstr "خيارات التشغيل"
-
-#: src/widgets/games/launch-options-editor.vala:559
-msgid ""
-"Choose one to configure FPS caps, resolution, and other display options."
-msgstr ""
-
-#. GPU vendor options
-#: src/widgets/games/launch-options-editor.vala:566
-msgid "Mesa Anti-Lag"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:566
-msgid "Reduces latency on supported AMD Mesa setups."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:567
-msgid "Use dGPU"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:567
-msgid "Makes the game use the AMD dGPU on hybrid systems."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:568
-msgid "Hide AMD APU"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:568
-msgid ""
-"Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
-"integrated graphics."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:569
-#, fuzzy
-msgid "FSR 4 Upgrade"
-msgstr "ترقية %s"
-
-#: src/widgets/games/launch-options-editor.vala:569
-msgid ""
-"Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
-"Anti-Lag 2 currently due to various issues."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:573
-msgid "FSR 4 RDNA3 Upgrade"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:573
-msgid "Optimizes FSR 4.0 for RDNA3 hardware."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:577
-msgid "NVAPI"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:577
-msgid "Lets games access NVIDIA-specific features like DLSS."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:580
-msgid "Update DLSS components"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:580
-msgid "Auto upgrades DLSS components for supported games."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:583
-msgid "Hide NVIDIA GPU"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:583
-msgid ""
-"Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
-"NVIDIA driver behavior."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:584
-msgid "DLSS Indicator"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:584
-msgid "Shows a DLSS status indicator in-game."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:585
-msgid "NVIDIA Libraries"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:585
-msgid ""
-"Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
-"or ray tracing."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:587
-#, fuzzy
-msgid "XeSS Upgrade"
-msgstr "ترقية %s"
-
-#: src/widgets/games/launch-options-editor.vala:587
-msgid "Upgrades XeSS in supported games."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:593
-msgid "AMD"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:594
-msgid "NVIDIA"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:595
-msgid "Intel"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:605
-msgid "GPU vendor options"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:606
-msgid ""
-"Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
-msgstr ""
-
-#. More options
-#: src/widgets/games/launch-options-editor.vala:613
-msgid "VKBasalt"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:613
-msgid "Adds visual effects like sharpening and color adjustments."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:614
-msgid "WineD3D"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:614
-msgid ""
-"Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:615
-msgid "Use FSync"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:615
-msgid ""
-"Uses FSync instead of NTSync. Can fix issues in certain games that do not "
-"pair well with NTSync."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:616
-msgid "Local shader cache"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:616
-msgid ""
-"Enables per-game shader cache. This isolates the shader cache of each game "
-"but does not compile them ahead-of-time."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:617
-msgid "Prefer SDL controller"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:617
-msgid "Workaround for controller detection issues."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:618
-msgid "Disable Steam Input"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:618
-msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:621
-#, fuzzy
-msgid "More options"
-msgstr "مزيد من المعلومات"
-
-#: src/widgets/games/launch-options-editor.vala:622
-msgid "Extra graphics settings and launch behaviors."
-msgstr ""
-
-#. Game arguments
-#: src/widgets/games/launch-options-editor.vala:633
-#, fuzzy
-msgid "Skip launcher"
-msgstr "مشغل برامج غير مدعوم"
-
-#: src/widgets/games/launch-options-editor.vala:633
-msgid "Adds -skip-launcher to bypass launchers in games that support it."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:634
-msgid "Vulkan"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:634
-msgid "Adds -vulkan to make the game use its Vulkan renderer."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:635
-msgid "DirectX 11"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:635
-msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:636
-msgid "DirectX 12"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:636
-msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:637
-msgid "Console"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:637
-msgid "Adds -console to open the game's developer console when supported."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:640
-msgid "Game arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:641
-msgid "Flags passed directly to the game."
-msgstr ""
-
-#. Advanced options
-#: src/widgets/games/launch-options-editor.vala:651
-msgid "Appends Steam's game command."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:654
-msgid "Additional arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:654
-#, fuzzy
-msgid "Add extra launch options"
-msgstr "تعديل خيارات التشغيل"
-
-#: src/widgets/games/launch-options-editor.vala:657
-msgid "Custom launch arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:657
-#, fuzzy
-msgid "Add your own launch options."
-msgstr "تعديل خيارات التشغيل"
-
-#: src/widgets/games/launch-options-editor.vala:662
-#, fuzzy
-msgid "Advanced options"
-msgstr "خيارات التشغيل"
-
-#: src/widgets/games/launch-options-editor.vala:663
-msgid "Extra control over the final Steam launch command."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:840
-#: src/widgets/games/launch-options-editor.vala:875
-msgid "Fullscreen"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:840
-#: src/widgets/games/launch-options-editor.vala:875
-msgid "Runs the game in a fullscreen session."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:846
-#: src/widgets/games/launch-options-editor.vala:881
-msgid "VRR"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:846
-#: src/widgets/games/launch-options-editor.vala:881
-msgid "Matches your display's refresh rate to the game's FPS."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:849
-#: src/widgets/games/launch-options-editor.vala:884
-msgid "Frame limit"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:849
-msgid "Caps the frame rate inside Gamescope."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:849
-#: src/widgets/games/launch-options-editor.vala:884
-msgid "FPS"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:853
-#: src/widgets/games/launch-options-editor.vala:891
-msgid "Resolution"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:853
-msgid "Sets the Gamescope output resolution."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:864
-msgid "Additional Gamescope arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:864
-msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:864
-msgid "Add Gamescope arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:878
-msgid "Auto HDR"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:884
-msgid "Caps the frame rate inside ScopeBuddy."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:891
-msgid "Sets the ScopeBuddy output resolution."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:896
-msgid "Additional ScopeBuddy arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:896
-msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:896
-msgid "Add ScopeBuddy arguments"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor.vala:1371
-msgid "No launch options configured yet."
-msgstr ""
-
-#: src/widgets/games/profile-dialog.vala:15
-msgid "Select a profile"
-msgstr "إختر الملف الشخصي"
-
-#: src/widgets/games/extra-button.vala:12
-msgid "Open install directory"
-msgstr "فتح دليل التثبيت"
-
-#: src/widgets/games/extra-button.vala:15
-msgid "Open prefix directory"
-msgstr "فتح دليل البادِئة"
-
-#: src/widgets/games/extra-button.vala:18
-msgid "Open in protontricks"
-msgstr "protontricks فتح بواسطة"
-
-#: src/widgets/games/extra-button.vala:21
-msgid "Run custom executable"
-msgstr ""
-
-#: src/widgets/games/extra-button.vala:36
-msgid "Open menu"
-msgstr "فتح القائمة"
-
-#: src/widgets/games/extra-button.vala:89
-#, fuzzy
-msgid "Select executable"
-msgstr "حدد الكل"
-
-#: src/widgets/games/extra-button.vala:96
-msgid "Executables (*.exe, *.msi, *.msu)"
-msgstr ""
-
-#: src/widgets/games/extra-button.vala:136
-#, fuzzy, c-format
-msgid "Couldn't find the compatibility tool for %s"
-msgstr "لم نستطع تغيير أداة التوافق لـ%s"
-
-#: src/widgets/games/extra-button.vala:136
-msgid "Please make sure it's installed."
-msgstr ""
-
-#: src/widgets/games/default-tool-button.vala:10
-#: src/widgets/games/default-tool-button.vala:16
-#: src/widgets/games/default-tool-view.vala:20
-msgid "Set the default compatibility tool"
-msgstr "تعيين أداة التوافق الافتراضية"
-
-#: src/widgets/games/default-tool-view.vala:30
-#, fuzzy
-msgid "Reset to the current default compatibility tool"
-msgstr "تعيين أداة التوافق الافتراضية"
-
-#: src/widgets/games/default-tool-view.vala:73
-msgid ""
-"Choose the default compatibility tool Steam should use for games without an "
-"explicit override."
-msgstr ""
-
-#: src/widgets/games/default-tool-view.vala:117
-msgid "Couldn't change the default compatibility tool"
-msgstr "لم نستطع تغيير أداة التوافق الافتراضية"
-
-#: src/widgets/games/compatibility-tool-row.vala:18
-msgid "Select your desired compatibility tool"
-msgstr "اختر أداة التوافق المرغوبة"
-
-#: src/widgets/games/compatibility-tool-dropdown.vala:75
-#, c-format
-msgid "Couldn't change the compatibility tool of %s"
-msgstr "لم نستطع تغيير أداة التوافق لـ%s"
-
-#: src/widgets/downloads/downloads-box.vala:18
-msgid "No active downloads"
-msgstr ""
-
-#: src/widgets/downloads/downloads-box.vala:19
-msgid "Your downloads will appear here."
-msgstr ""
-
-#: src/widgets/downloads/downloads-box.vala:23
-msgid "In-Progress"
-msgstr ""
-
-#: src/widgets/downloads/downloads-box.vala:35
-msgid "Completed"
-msgstr ""
-
-#: src/widgets/downloads/downloads-box.vala:45
-msgid "Clear History"
-msgstr ""
-
-#: src/widgets/downloads/download-row.vala:84
-#, fuzzy
-msgid "Updating"
-msgstr "جاري تحديث %s"
-
-#: src/widgets/downloads/download-row.vala:84
-#, fuzzy
-msgid "Downloading"
-msgstr "جاري التنزيل"
-
-#: src/widgets/downloads/download-row.vala:105
-msgid "Extracting"
-msgstr "...جاري الإستخراج"
-
-#: src/widgets/downloads/download-row.vala:108
-msgid "Moving"
-msgstr "جاري النقل"
-
-#: src/widgets/downloads/download-row.vala:135
-#, fuzzy
-msgid "Canceled"
-msgstr "إلغاء"
-
-#: src/widgets/downloads/download-row.vala:137
-msgid "Success"
-msgstr ""
-
-#: src/widgets/downloads/download-row.vala:139
-msgid "Error"
-msgstr ""
-
-#: src/widgets/downloads/download-row.vala:145
-msgid "Copy Error Message"
-msgstr ""
-
-#: src/widgets/downloads/download-row.vala:156
-#, fuzzy
-msgid "Report Issue"
-msgstr "بلاغ"
-
-#: src/models/runners/steamtinkerlaunch.vala:6
-msgid ""
-"Steam tool for easy, graphical configuration of your other compatibility "
-"tools for both Windows games and native Linux games."
-msgstr ""
-"Linux و Windows من أجل تخصيص سهل عبر واجهة رسومية لأدواة التوافق الأخرى لكلاً "
-"من ألعاب Steamأداة لـ"
-
-#: src/translatables.vala:4
-msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr "Linux على Windows لتشغيل برامج Valve أدوات التوافق بواسطة"
-
-#: src/translatables.vala:5
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton."
-msgstr ""
-"Valve الخاصة بـ Proton مع تحسينات فوق نسخة Windows لتشغيل ألعاب Steamأداة "
-"توافق لـ"
-
-#: src/translatables.vala:6
-msgid ""
-"Steam compatibility tool from the CachyOS Linux distribution for running "
-"Windows games with improvements over Valve's default Proton."
-msgstr ""
-"Valve الخاصة بـ Proton مع تحسينات فوق نسخة Windows لتشغيل ألعاب CachyOS "
-"توزيعة Steamأداة توافق لـ"
-
-#: src/translatables.vala:7
-msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-msgstr "نسخة بروتون مخصصة من قبل Dawn Winery مع إصلاحات لمختلف الألعاب"
-
-#: src/translatables.vala:8
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
-"wayland tweaks."
-msgstr ""
-"Valve الخاصة بـ Proton مع تحسينات فوق نسخة Windows لتشغيل ألعاب Steamأداة "
-"توافق لـ\n"
-"wayland من أجل wine و تعديلات FSR4لتضيف دعم لـ Etaash Mathamsetty تمت بواسطة"
-
-#: src/translatables.vala:9
-msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr ".Wine-tkg مبنية على Windows لتشغيل ألعاب Proton نسخة مخصصة من"
-
-#: src/translatables.vala:10
-msgid ""
-"Steam compatibility tool based on Proton-GE with additional patches to "
-"improve RTSP codecs for VRChat."
-msgstr ""
-"VRChat من أجل RTSP مع إصلاحات إضافية لتحسين مُفَكّكَاتْ ترميز Proton-GE مبنية على "
-"Steamأداة توافق لـ"
-
-#: src/translatables.vala:11
-msgid ""
-"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
-msgstr ""
-"Luxtorpeda\n"
-"يوفر محركات ألعاب Linux أصلية لبعض الألعاب الخاصة بـWindows فقط"
-
-#: src/translatables.vala:12
-msgid ""
-"Steam compatibility tool for running adventure games using ScummVM for Linux."
-msgstr "Linux لـ ScummVM لتشغيل ألعاب المغامرات بإستخدام Steamأداة توافق لـ"
-
-#: src/translatables.vala:13
-msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
-msgstr "Linux لـ DOSBox بواسطة DOS لتشغيل ألعاب Steam أداة توافق بواسطة"
-
-#: src/translatables.vala:14
-msgid "Compatibility tools for running Windows software on Linux."
-msgstr "Linux على Windows أدوات توافق لتشغيل برامج"
-
-#: src/translatables.vala:15
-msgid "Wine build compiled from the official WineHQ sources."
-msgstr "الرسمية WineHQ مبنية من مصادر Wine نسخ"
-
-#: src/translatables.vala:16
-msgid "Wine build with the Staging patchset."
-msgstr "مبنية مع مجموعة إصلاحات فترة التشغيل المرحلي Wine نسخ"
-
-#: src/translatables.vala:17
-msgid "Wine build with the Staging patchset and many other useful patches."
-msgstr ""
-"مبنية مع مجموعة إصلاحات فترة التشغيل المرحلي مع المزيد من الإصلاحات المفيدة "
-"Wine نسخ"
-
-#: src/translatables.vala:18
-msgid "Wine build modified by Valve and other contributors."
-msgstr "ومساهمين أخرين Valve معدلة من قبل Wine نسخة"
-
-#: src/translatables.vala:19
-msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr "Linux/Wine لـ Vulkan مبني على Direct3D 8, 9, 10, 11 تطبيق"
-
-#: src/translatables.vala:20
-msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-msgstr "إصدارات DXVK المتوافقة مع نسخ Vulkan الأقدم من 1.3"
-
-#: src/translatables.vala:21
-msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
-msgstr "إصدارات DXVK Async المتوافقة مع نسخ Vulkan الأقدم من 1.3"
-
-#: src/translatables.vala:22
-msgid "DXVK builds with gplasync patch by Ph42oN."
-msgstr "نسخة DXVK مع تصحيح gplasync تم بواسطة Ph42oN"
-
-#: src/translatables.vala:23
-msgid ""
-"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
-"top of Vulkan."
-msgstr ""
-"بالكامل Vulkan فوق Direct3D 12 تهدف لتطبيق واجهة برمجة Wine VKD3D مختلفة من"
+#: data/ui/gtk/help-overlay.ui:14
+msgctxt "shortcut window"
+msgid "Show Shortcuts"
+msgstr "إظهار اختصارات"
+
+#: data/ui/gtk/help-overlay.ui:20
+msgctxt "shortcut window"
+msgid "Quit"
+msgstr "خروج"
 
 #: src/cli/cli.vala:78
 #, c-format
@@ -1645,20 +246,1998 @@ msgid ""
 "Available runners for %s:\n"
 msgstr ""
 
-#: data/ui/gtk/help-overlay.ui:11
-msgctxt "shortcut window"
+#: src/models/games/steam.vala:95 src/models/games/steam.vala:116
+#: src/widgets/games/game-row.vala:99 src/widgets/games/games-box.vala:310
+msgid "Default"
+msgstr ""
+
+#: src/models/runners/steamtinkerlaunch.vala:6
+msgid ""
+"Steam tool for easy, graphical configuration of your other compatibility "
+"tools for both Windows games and native Linux games."
+msgstr ""
+"Linux و Windows من أجل تخصيص سهل عبر واجهة رسومية لأدواة التوافق الأخرى لكلاً "
+"من ألعاب Steamأداة لـ"
+
+#: src/translatables.vala:4
+msgid "Compatibility tools by Valve for running Windows software on Linux."
+msgstr "Linux على Windows لتشغيل برامج Valve أدوات التوافق بواسطة"
+
+#: src/translatables.vala:5
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton."
+msgstr ""
+"Valve الخاصة بـ Proton مع تحسينات فوق نسخة Windows لتشغيل ألعاب Steamأداة "
+"توافق لـ"
+
+#: src/translatables.vala:6
+msgid ""
+"Steam compatibility tool from the CachyOS Linux distribution for running "
+"Windows games with improvements over Valve's default Proton."
+msgstr ""
+"Valve الخاصة بـ Proton مع تحسينات فوق نسخة Windows لتشغيل ألعاب CachyOS "
+"توزيعة Steamأداة توافق لـ"
+
+#: src/translatables.vala:7
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+msgstr "نسخة بروتون مخصصة من قبل Dawn Winery مع إصلاحات لمختلف الألعاب"
+
+#: src/translatables.vala:8
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
+"wayland tweaks."
+msgstr ""
+"Valve الخاصة بـ Proton مع تحسينات فوق نسخة Windows لتشغيل ألعاب Steamأداة "
+"توافق لـ\n"
+"wayland من أجل wine و تعديلات FSR4لتضيف دعم لـ Etaash Mathamsetty تمت بواسطة"
+
+#: src/translatables.vala:9
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr ".Wine-tkg مبنية على Windows لتشغيل ألعاب Proton نسخة مخصصة من"
+
+#: src/translatables.vala:10
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
+msgstr ""
+"VRChat من أجل RTSP مع إصلاحات إضافية لتحسين مُفَكّكَاتْ ترميز Proton-GE مبنية على "
+"Steamأداة توافق لـ"
+
+#: src/translatables.vala:11
+msgid ""
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
+msgstr ""
+"Luxtorpeda\n"
+"يوفر محركات ألعاب Linux أصلية لبعض الألعاب الخاصة بـWindows فقط"
+
+#: src/translatables.vala:12
+msgid ""
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
+msgstr "Linux لـ ScummVM لتشغيل ألعاب المغامرات بإستخدام Steamأداة توافق لـ"
+
+#: src/translatables.vala:13
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
+msgstr "Linux لـ DOSBox بواسطة DOS لتشغيل ألعاب Steam أداة توافق بواسطة"
+
+#: src/translatables.vala:14
+msgid "Compatibility tools for running Windows software on Linux."
+msgstr "Linux على Windows أدوات توافق لتشغيل برامج"
+
+#: src/translatables.vala:15
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr "الرسمية WineHQ مبنية من مصادر Wine نسخ"
+
+#: src/translatables.vala:16
+msgid "Wine build with the Staging patchset."
+msgstr "مبنية مع مجموعة إصلاحات فترة التشغيل المرحلي Wine نسخ"
+
+#: src/translatables.vala:17
+msgid "Wine build with the Staging patchset and many other useful patches."
+msgstr ""
+"مبنية مع مجموعة إصلاحات فترة التشغيل المرحلي مع المزيد من الإصلاحات المفيدة "
+"Wine نسخ"
+
+#: src/translatables.vala:18
+msgid "Wine build modified by Valve and other contributors."
+msgstr "ومساهمين أخرين Valve معدلة من قبل Wine نسخة"
+
+#: src/translatables.vala:19
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+msgstr "Linux/Wine لـ Vulkan مبني على Direct3D 8, 9, 10, 11 تطبيق"
+
+#: src/translatables.vala:20
+msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
+msgstr "إصدارات DXVK المتوافقة مع نسخ Vulkan الأقدم من 1.3"
+
+#: src/translatables.vala:21
+msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
+msgstr "إصدارات DXVK Async المتوافقة مع نسخ Vulkan الأقدم من 1.3"
+
+#: src/translatables.vala:22
+msgid "DXVK builds with gplasync patch by Ph42oN."
+msgstr "نسخة DXVK مع تصحيح gplasync تم بواسطة Ph42oN"
+
+#: src/translatables.vala:23
+msgid ""
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
+msgstr ""
+"بالكامل Vulkan فوق Direct3D 12 تهدف لتطبيق واجهة برمجة Wine VKD3D مختلفة من"
+
+#: src/widgets/application.vala:103
+msgid "A modern compatibility tools manager"
+msgstr "مدير لأدوات التوافق بطابع حديث"
+
+#: src/widgets/application.vala:105
+msgid "Website"
+msgstr "الموقع"
+
+#: src/widgets/application.vala:110
+msgid "translator-credits"
+msgstr ""
+
+#: src/widgets/application.vala:111
+msgid "Special thanks to"
+msgstr "شكر خاص"
+
+#: src/widgets/downloads/download-row.vala:22
+#: src/widgets/runners/remove-dialog.vala:30 src/widgets/window.vala:250
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: src/widgets/downloads/download-row.vala:84
+#, fuzzy
+msgid "Updating"
+msgstr "جاري تحديث %s"
+
+#: src/widgets/downloads/download-row.vala:84
+#, fuzzy
+msgid "Downloading"
+msgstr "جاري التنزيل"
+
+#: src/widgets/downloads/download-row.vala:105
+msgid "Extracting"
+msgstr "...جاري الإستخراج"
+
+#: src/widgets/downloads/download-row.vala:108
+msgid "Moving"
+msgstr "جاري النقل"
+
+#: src/widgets/downloads/download-row.vala:135
+#, fuzzy
+msgid "Canceled"
+msgstr "إلغاء"
+
+#: src/widgets/downloads/download-row.vala:137
+msgid "Success"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:139
+msgid "Error"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:145
+msgid "Copy Error Message"
+msgstr ""
+
+#: src/widgets/downloads/download-row.vala:148
+#: src/widgets/runners/runner-row.vala:71 src/widgets/window.vala:191
+#: src/widgets/window.vala:192
+msgid "Unknown error"
+msgstr "خطأ غير معروف"
+
+#: src/widgets/downloads/download-row.vala:156
+#, fuzzy
+msgid "Report Issue"
+msgstr "بلاغ"
+
+#: src/widgets/downloads/downloads-box.vala:18
+msgid "No active downloads"
+msgstr ""
+
+#: src/widgets/downloads/downloads-box.vala:19
+msgid "Your downloads will appear here."
+msgstr ""
+
+#: src/widgets/downloads/downloads-box.vala:23
+msgid "In-Progress"
+msgstr ""
+
+#: src/widgets/downloads/downloads-box.vala:35
+msgid "Completed"
+msgstr ""
+
+#: src/widgets/downloads/downloads-box.vala:45
+msgid "Clear History"
+msgstr ""
+
+#: src/widgets/error-dialog.vala:7 src/widgets/status-box.vala:12
+#: src/widgets/window.vala:193
+msgid "Report"
+msgstr "بلاغ"
+
+#: src/widgets/error-dialog.vala:10 src/widgets/warning-dialog.vala:7
+msgid "OK"
+msgstr "حسنا"
+
+#: src/widgets/games/compatibility-tool-row.vala:18
+msgid "Select your desired compatibility tool"
+msgstr "اختر أداة التوافق المرغوبة"
+
+#: src/widgets/games/extra-button.vala:11
+msgid "Open in protontricks"
+msgstr "protontricks فتح بواسطة"
+
+#: src/widgets/games/extra-button.vala:14
+msgid "Open ProtonDB page"
+msgstr "ProtonDB إفتح صفحة"
+
+#: src/widgets/games/extra-button.vala:17
+msgid "Open AreWeAntiCheatYet page"
+msgstr ""
+
+#: src/widgets/games/extra-button.vala:30
+#, fuzzy
+msgid "Extra"
+msgstr "...جاري الإستخراج"
+
+#: src/widgets/games/extra-button.vala:65
+msgid "Unknown"
+msgstr "مجهول"
+
+#: src/widgets/games/game-row.vala:113
+#, fuzzy
+msgid "Modify the game"
+msgstr "تعديل خيارات إطلاق اللعبة"
+
+#: src/widgets/games/game-row.vala:118
+msgid "Run custom executable"
+msgstr ""
+
+#: src/widgets/games/game-row.vala:124
+#, fuzzy
+msgid "Browse game install directory"
+msgstr "فتح دليل التثبيت"
+
+#: src/widgets/games/game-row.vala:130
+#, fuzzy
+msgid "Browse prefix directory"
+msgstr "فتح دليل البادِئة"
+
+#: src/widgets/games/game-row.vala:149
+#, fuzzy
+msgid "Select executable"
+msgstr "حدد الكل"
+
+#: src/widgets/games/game-row.vala:157
+msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
+msgstr ""
+
+#: src/widgets/games/game-row.vala:195
+#, fuzzy, c-format
+msgid "Couldn't find the compatibility tool for %s"
+msgstr "لم نستطع تغيير أداة التوافق لـ%s"
+
+#: src/widgets/games/game-row.vala:195
+msgid "Please make sure it's installed."
+msgstr ""
+
+#: src/widgets/games/games-box.vala:74
+msgid "Back"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:81
+#, fuzzy
+msgid "Clear the current launch options"
+msgstr "تعديل خيارات إطلاق اللعبة"
+
+#: src/widgets/games/games-box.vala:86
+msgid "Apply the current modification"
+msgstr "تطبيق التعديل الحالي"
+
+#: src/widgets/games/games-box.vala:94
+#: src/widgets/preferences/preferences-dialog.vala:129
+msgid "Advanced"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:121
+msgid "Name"
+msgstr "الاسم"
+
+#: src/widgets/games/games-box.vala:140
+msgid "Prefix"
+msgstr "البادئة"
+
+#: src/widgets/games/games-box.vala:144
+msgid "Tool"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:148
+#, fuzzy
+msgid "Actions"
+msgstr "خيارات التشغيل"
+
+#: src/widgets/games/games-box.vala:179
+msgid "No profile was found."
+msgstr ".لم يتم العثور على ملف تعريف"
+
+#: src/widgets/games/games-box.vala:179
+msgid "Make sure to connect yourself at least once on Steam."
+msgstr ".Steam تأكد من الإتصال مرة واحدة على الأقل على"
+
+#: src/widgets/games/games-box.vala:179
+msgid "If you think this is an issue, make sure to report this on GitHub."
+msgstr ".GitHub إذا كنت تعتقد أن هذه مشكلة ، فتأكد من الإبلاغ عن ذلك على"
+
+#: src/widgets/games/games-box.vala:271
+msgid "Unsupported launcher"
+msgstr "مشغل برامج غير مدعوم"
+
+#: src/widgets/games/games-box.vala:271
+#, c-format
+msgid "%s is currently not supported."
+msgstr "إن %s غير مدعوم حالياً"
+
+#: src/widgets/games/games-box.vala:271
+msgid ""
+"If you want me to speed up the development make sure to show your support!"
+msgstr "إن أردت مني إسراع عملية التطوير الرجاء التطوع للمشروع لإظهار دعمك لي"
+
+#: src/widgets/games/launch-options-editor.vala:67
+#: src/widgets/games/launch-options-editor.vala:261
+msgid "Set"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:68
+msgid "Apply the FPS value"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:229
+msgid "Auto detect"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:230
+#: src/widgets/mangohud/mangohud-presets-page.vala:22
+msgid "Custom"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:262
+#, fuzzy
+msgid "Apply the custom resolution"
+msgstr "تطبيق التعديل الحالي"
+
+#. Launch command preview
+#: src/widgets/games/launch-options-editor.vala:523
+msgid "Launch command preview"
+msgstr ""
+
+#. Common options
+#: src/widgets/games/launch-options-editor.vala:528
+msgid "Performance overlay"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:528
+msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:529
+msgid "Disable Steam Deck Mode"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:529
+msgid "Disables the Steam Deck-specific profile that some games use."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:530
+msgid "Wayland"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:530
+msgid ""
+"Runs the game natively on Wayland instead of through XWayland but it breaks "
+"Steam Input and the Steam Overlay."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:533
+#, fuzzy
+msgid "Common options"
+msgstr "خيارات التشغيل"
+
+#: src/widgets/games/launch-options-editor.vala:534
+msgid "Quick toggles for the launch options people reach for most often."
+msgstr ""
+
+#. Launch tools
+#: src/widgets/games/launch-options-editor.vala:542
+#: src/widgets/games/launch-options-editor.vala:844
+msgid "HDR"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:542
+#: src/widgets/games/launch-options-editor.vala:844
+#: src/widgets/games/launch-options-editor.vala:879
+msgid "Outputs HDR colors if your display supports it."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:550
+#: src/widgets/mangohud/mangohud-extras-page.vala:152
+#: src/widgets/mangohud/mangohud-performance-page.vala:97
+#: src/widgets/mangohud/mangohud-performance-page.vala:111
+#: src/widgets/mangohud/mangohud-visual-page.vala:74
+msgid "None"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:551
+#, fuzzy
+msgid "Gamescope"
+msgstr "الألعاب"
+
+#: src/widgets/games/launch-options-editor.vala:552
+msgid "ScopeBuddy"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:559
+#, fuzzy
+msgid "Launch tools"
+msgstr "خيارات التشغيل"
+
+#: src/widgets/games/launch-options-editor.vala:560
+msgid ""
+"Choose one to configure FPS caps, resolution, and other display options."
+msgstr ""
+
+#. GPU vendor options
+#: src/widgets/games/launch-options-editor.vala:567
+msgid "Mesa Anti-Lag"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:567
+msgid "Reduces latency on supported AMD Mesa setups."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:568
+msgid "Use dGPU"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:568
+msgid "Makes the game use the AMD dGPU on hybrid systems."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:569
+msgid "Hide AMD APU"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:569
+msgid ""
+"Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
+"integrated graphics."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:570
+#, fuzzy
+msgid "FSR 4 Upgrade"
+msgstr "ترقية %s"
+
+#: src/widgets/games/launch-options-editor.vala:570
+msgid ""
+"Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
+"Anti-Lag 2 currently due to various issues."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:574
+msgid "FSR 4 RDNA3 Upgrade"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:574
+msgid "Optimizes FSR 4.0 for RDNA3 hardware."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:578
+msgid "NVAPI"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:578
+msgid "Lets games access NVIDIA-specific features like DLSS."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:581
+msgid "Update DLSS components"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:581
+msgid "Auto upgrades DLSS components for supported games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:584
+msgid "Hide NVIDIA GPU"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:584
+msgid ""
+"Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
+"NVIDIA driver behavior."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:585
+msgid "DLSS Indicator"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:585
+msgid "Shows a DLSS status indicator in-game."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:586
+msgid "NVIDIA Libraries"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:586
+msgid ""
+"Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
+"or ray tracing."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:588
+#, fuzzy
+msgid "XeSS Upgrade"
+msgstr "ترقية %s"
+
+#: src/widgets/games/launch-options-editor.vala:588
+msgid "Upgrades XeSS in supported games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:594
+msgid "AMD"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:595
+msgid "NVIDIA"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:596
+msgid "Intel"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:606
+msgid "GPU vendor options"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:607
+msgid ""
+"Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
+msgstr ""
+
+#. More options
+#: src/widgets/games/launch-options-editor.vala:614
+msgid "VKBasalt"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:614
+msgid "Adds visual effects like sharpening and color adjustments."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:615
+msgid "WineD3D"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:615
+msgid ""
+"Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:616
+msgid "Use FSync"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:616
+msgid ""
+"Uses FSync instead of NTSync. Can fix issues in certain games that do not "
+"pair well with NTSync."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:617
+msgid "Local shader cache"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:617
+msgid ""
+"Enables per-game shader cache. This isolates the shader cache of each game "
+"but does not compile them ahead-of-time."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:618
+msgid "Prefer SDL controller"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:618
+msgid "Workaround for controller detection issues."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:619
+msgid "Disable Steam Input"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:619
+msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:622
+#, fuzzy
+msgid "More options"
+msgstr "مزيد من المعلومات"
+
+#: src/widgets/games/launch-options-editor.vala:623
+msgid "Extra graphics settings and launch behaviors."
+msgstr ""
+
+#. Game arguments
+#: src/widgets/games/launch-options-editor.vala:634
+#, fuzzy
+msgid "Skip launcher"
+msgstr "مشغل برامج غير مدعوم"
+
+#: src/widgets/games/launch-options-editor.vala:634
+msgid "Adds -skip-launcher to bypass launchers in games that support it."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:635
+#: src/widgets/mangohud/mangohud-performance-page.vala:44
+msgid "Vulkan"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:635
+msgid "Adds -vulkan to make the game use its Vulkan renderer."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:636
+msgid "DirectX 11"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:636
+msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:637
+msgid "DirectX 12"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:637
+msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:638
+msgid "Console"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:638
+msgid "Adds -console to open the game's developer console when supported."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:641
+msgid "Game arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:642
+msgid "Flags passed directly to the game."
+msgstr ""
+
+#. Advanced options
+#: src/widgets/games/launch-options-editor.vala:652
+msgid "Appends Steam's game command."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:655
+msgid "Additional arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:655
+#, fuzzy
+msgid "Add extra launch options"
+msgstr "تعديل خيارات التشغيل"
+
+#: src/widgets/games/launch-options-editor.vala:658
+msgid "Custom launch arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:658
+#, fuzzy
+msgid "Add your own launch options."
+msgstr "تعديل خيارات التشغيل"
+
+#: src/widgets/games/launch-options-editor.vala:663
+#, fuzzy
+msgid "Advanced options"
+msgstr "خيارات التشغيل"
+
+#: src/widgets/games/launch-options-editor.vala:664
+msgid "Extra control over the final Steam launch command."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:841
+#: src/widgets/games/launch-options-editor.vala:876
+msgid "Fullscreen"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:841
+#: src/widgets/games/launch-options-editor.vala:876
+msgid "Runs the game in a fullscreen session."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:847
+#: src/widgets/games/launch-options-editor.vala:882
+msgid "VRR"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:847
+#: src/widgets/games/launch-options-editor.vala:882
+msgid "Matches your display's refresh rate to the game's FPS."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:850
+#: src/widgets/games/launch-options-editor.vala:885
+msgid "Frame limit"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:850
+msgid "Caps the frame rate inside Gamescope."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:850
+#: src/widgets/games/launch-options-editor.vala:885
+msgid "FPS"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:854
+#: src/widgets/games/launch-options-editor.vala:892
+#: src/widgets/mangohud/mangohud-extras-page.vala:69
+msgid "Resolution"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:854
+msgid "Sets the Gamescope output resolution."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:865
+msgid "Additional Gamescope arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:865
+msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:865
+msgid "Add Gamescope arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:879
+msgid "Auto HDR"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:885
+msgid "Caps the frame rate inside ScopeBuddy."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:892
+msgid "Sets the ScopeBuddy output resolution."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:897
+msgid "Additional ScopeBuddy arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:897
+msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:897
+msgid "Add ScopeBuddy arguments"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor.vala:1372
+msgid "No launch options configured yet."
+msgstr ""
+
+#: src/widgets/games/mass-edit-button.vala:10
+#, fuzzy
+msgid "Modify the selected games"
+msgstr "تحرير أداة توافق الألعاب المحددة في وقت واحد"
+
+#: src/widgets/games/mass-edit-button.vala:13
+#, fuzzy
+msgid "Modify the selected games all at once"
+msgstr "تحرير أداة توافق الألعاب المحددة في وقت واحد"
+
+#: src/widgets/games/mass-edit-button.vala:48
+#: src/widgets/runners/steamtinkerlaunch-row.vala:54
+#: src/widgets/runners/steamtinkerlaunch-row.vala:97
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
+#: src/widgets/window.vala:245
+msgid "Warning"
+msgstr "تحذير"
+
+#: src/widgets/games/mass-edit-button.vala:48
+msgid ""
+"Please make sure to select at least one game before using the mass edit "
+"feature."
+msgstr ""
+"الرجاء التأكد من تحديد لعبة واحدة على الأقل قبل إستخدام ميزة التحرير بالجُملًة"
+
+#: src/widgets/games/mass-edit-view.vala:22
+msgid "1 game selected"
+msgstr "لعبة واحدة مختارة"
+
+#: src/widgets/games/mass-edit-view.vala:22
+#, c-format
+msgid "%u games selected"
+msgstr "مجموع الألعاب المحددة %u"
+
+#: src/widgets/games/mass-edit-view.vala:39
+msgid "Compatibility tool"
+msgstr "أداة التوافق"
+
+#: src/widgets/games/mass-edit-view.vala:47
+#, fuzzy
+msgid "Launch options"
+msgstr "خيارات التشغيل"
+
+#: src/widgets/games/mass-edit-view.vala:162
+msgid ""
+"Couldn't change the compatibility tool/launch options of the selected games"
+msgstr "لم نستطع تغيير أداة التوافق أو خيارات التشغيل للألعاب المحددة"
+
+#: src/widgets/games/mass-edit-view.vala:162
+msgid "The following games had an issue:"
+msgstr "الألعاب التالية لديها مشكلة:"
+
+#: src/widgets/games/mass-edit-view.vala:162
+#: src/widgets/games/shortcut-button.vala:31
+#: src/widgets/games/shortcut-button.vala:39
+#: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/remove-dialog.vala:52
+#: src/widgets/runners/runner-row.vala:71
+#: src/widgets/runners/steamtinkerlaunch-row.vala:40
+#: src/widgets/runners/steamtinkerlaunch-row.vala:120
+#: src/widgets/window.vala:34 src/widgets/window.vala:105
+msgid "Please report this issue on GitHub."
+msgstr ".GitHub يرجى الإبلاغ عن هذه المشكلة على منصة"
+
+#: src/widgets/games/profile-dialog.vala:15
+msgid "Select a profile"
+msgstr "إختر الملف الشخصي"
+
+#: src/widgets/games/shortcut-button.vala:16
+#: src/widgets/games/shortcut-button.vala:21
+msgid "Create shortcut"
+msgstr "إنشاء إختصار"
+
+#: src/widgets/games/shortcut-button.vala:21
+msgid "Delete shortcut"
+msgstr "حذف الإختصار"
+
+#: src/widgets/games/shortcut-button.vala:22
+msgid "Create a shortcut of ProtonPlus in Steam"
+msgstr "Steam في منصة ProtonPlus إنشاء إختصار لـ"
+
+#: src/widgets/games/shortcut-button.vala:22
+msgid "Delete the shortcut of ProtonPlus in Steam"
+msgstr "Steam من منصة ProtonPlus حذف إختصار"
+
+#: src/widgets/games/shortcut-button.vala:31
+msgid "Couldn't delete the shortcut in Steam"
+msgstr "لم نستطع حذف الإختصار في Steam"
+
+#: src/widgets/games/shortcut-button.vala:39
+msgid "Couldn't create the shortcut in Steam"
+msgstr "لم نستطع إنشاء إختصار في Steam"
+
+#: src/widgets/games/switch-profile-button.vala:14
+msgid "Switch profile"
+msgstr "تبديل الملف الشخصي"
+
+#: src/widgets/games/switch-profile-button.vala:23
+msgid "Switch to another profile"
+msgstr "بَدّل الملف الشخصي"
+
+#: src/widgets/mangohud/mangohud-box.vala:34
+msgid "Presets"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-box.vala:35
+msgid "Visual"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-box.vala:36
+msgid "Performance"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-box.vala:37
+msgid "Metrics"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-box.vala:38
+#, fuzzy
+msgid "Extras"
+msgstr "...جاري الإستخراج"
+
+#: src/widgets/mangohud/mangohud-box.vala:54
+#, fuzzy
+msgid "Save the current configuration"
+msgstr "تطبيق التعديل الحالي"
+
+#: src/widgets/mangohud/mangohud-box.vala:61
+msgid "Preview"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-box.vala:67
+#, fuzzy
+msgid "Show vkcube"
+msgstr "أظهر المُستخدَم فقط"
+
+#. System Information section
+#: src/widgets/mangohud/mangohud-extras-page.vala:59
+#, fuzzy
+msgid "System Information"
+msgstr "مزيد من المعلومات"
+
+#. System subsection
+#: src/widgets/mangohud/mangohud-extras-page.vala:67
+msgid "Distro info"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:68
+#, fuzzy
+msgid "Refresh rate*"
+msgstr "إعادة تجديد البيانات المعروضة لملفات التعريف"
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:70
+msgid "Display Server"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:71
+msgid "Time"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:72
+msgid "Arch"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:74
+#: src/widgets/preferences/theme-row.vala:15
+msgid "System"
+msgstr "النظام"
+
+#. Wine subsection
+#: src/widgets/mangohud/mangohud-extras-page.vala:79
+msgid "Wine Ver"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:84
+msgid "Engine Ver"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:89
+msgid "Engine Short"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:90
+msgid "Wine Sync"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:91
+msgid "DX API"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:92
+msgid "FEX Stats"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:94
+msgid "Wine"
+msgstr ""
+
+#. Options subsection
+#: src/widgets/mangohud/mangohud-extras-page.vala:99
+#, fuzzy
+msgid "HUD Version"
+msgstr "أظهر المُستخدَم فقط"
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:100
+#, fuzzy
+msgid "GameMode"
+msgstr "الألعاب"
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:101
+msgid "vkBasalt"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:102
+msgid "FCAT"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:103
+msgid "FSR*"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:104
+msgid "HDR*"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:106
+#, fuzzy
+msgid "Options"
+msgstr "خيارات التشغيل"
+
+#. Battery subsection
+#: src/widgets/mangohud/mangohud-extras-page.vala:111
+msgid "Percentage"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:116
+msgid "Wattage"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:117
+msgid "Time remain"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:118
+msgid "Devices"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:120
+msgid "Battery"
+msgstr ""
+
+#. Others subsection
+#: src/widgets/mangohud/mangohud-extras-page.vala:125
+msgid "Media Info"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:130
+msgid "Network"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:131
+msgid "Fahrenheit"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:132
+msgid "Custom command"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:134
+#, fuzzy
+msgid "Others"
+msgstr "أخرى"
+
+#. Logging section
+#: src/widgets/mangohud/mangohud-extras-page.vala:142
+msgid "Logging"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:149
+msgid "Duration"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:150
+msgid "Autostart"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:151
+msgid "Interval"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:152
+msgid "Toggle key"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:163
+msgid "Output Folder"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:169
+#, fuzzy
+msgid "Select Output Folder"
+msgstr "إختر الملف الشخصي"
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:181
+msgid "Autoupload Results"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:182
+#, fuzzy
+msgid "Log Versioning"
+msgstr "أظهر المُستخدَم فقط"
+
+#. GPU section
+#: src/widgets/mangohud/mangohud-metrics-page.vala:53
+#: src/widgets/mangohud/mangohud-metrics-page.vala:93
+msgid "GPU"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:63
+msgid "Custom GPU name"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:67
+#: src/widgets/mangohud/mangohud-metrics-page.vala:138
+#, fuzzy
+msgid "Load"
+msgstr "جاري التحميل"
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:69
+#: src/widgets/mangohud/mangohud-metrics-page.vala:140
+#, fuzzy
+msgid "Load Color"
+msgstr "تحميل المزيد"
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:85
+msgid "VRAM"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:86
+msgid "Core Freq"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:87
+msgid "Memory Freq"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:89
+#: src/widgets/mangohud/mangohud-metrics-page.vala:160
+msgid "Main metrics"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:94
+msgid "Memory"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:95
+#, fuzzy
+msgid "Junction"
+msgstr "خيارات التشغيل"
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:96
+msgid "Fans"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:98
+msgid "Temperature"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:102
+#: src/widgets/mangohud/mangohud-metrics-page.vala:109
+msgid "Power"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:103
+msgid "Voltage"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:104
+msgid "Throttling"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:105
+msgid "Throttling Graph"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:106
+#: src/widgets/mangohud/mangohud-metrics-page.vala:166
+msgid "Efficiency"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:107
+msgid "Power Limit"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:113
+msgid "Model"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:114
+msgid "Vulkan Driver"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:115
+#: src/widgets/mangohud/mangohud-metrics-page.vala:175
+msgid "Process"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:117
+#: src/widgets/mangohud/mangohud-performance-page.vala:40
+#, fuzzy
+msgid "Information"
+msgstr "مزيد من المعلومات"
+
+#. CPU section
+#: src/widgets/mangohud/mangohud-metrics-page.vala:125
+msgid "CPU"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:134
+msgid "Custom CPU name"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:156
+msgid "Core Load"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:157
+msgid "CPU Freq"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:158
+msgid "Core Type"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:164
+msgid "CPU Temperature"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:165
+msgid "CPU Power"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:167
+msgid "RAM Temperature"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:169
+msgid "Temperature / Power"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:173
+msgid "RAM"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:174
+msgid "DISK IO"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:176
+msgid "Swap"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-metrics-page.vala:178
+msgid "Memory / IO"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:32
+msgid "Show FPS"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:33
+msgid "FPS Average"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:34
+#: src/widgets/mangohud/mangohud-performance-page.vala:65
+msgid "FPS Limit"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:35
+msgid "Frame Time"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:36
+msgid "Count Frames"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:37
+msgid "VPS"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:38
+msgid "ftrace debug"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:44
+#: src/widgets/mangohud/mangohud-performance-page.vala:54
+msgid "Unset"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:44
+#: src/widgets/mangohud/mangohud-performance-page.vala:54
+msgid "Adaptive"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:44
+msgid "Mailbox"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:44
+#: src/widgets/mangohud/mangohud-performance-page.vala:54
+msgid "OFF"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:44
+#: src/widgets/mangohud/mangohud-performance-page.vala:54
+msgid "ON"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:54
+#, fuzzy
+msgid "OpenGL"
+msgstr "فتح"
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:63
+msgid "VSYNC"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:66
+msgid "Offset"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:71
+msgid "Change FPS Colors"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:90
+msgid "Method"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:97
+msgid "Limit Toggle Key"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:107
+msgid "Limiters"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:111
+msgid "Filtering"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:111
+msgid "Bicubic"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:111
+msgid "Trilinear"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:111
+msgid "Retro"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:120
+msgid "Anisotropic Filtering"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:121
+msgid "Mip-map LoD Bias"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:123
+msgid "Filters"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:18
+msgid "Full"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:19
+msgid "Basic"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:20
+msgid "Basic Horizontal"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:21
+msgid "FPS Only"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-presets-page.vala:42
+msgid "Layouts"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:18
+msgid "HUD Title"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:21
+msgid "Orientation"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:21
+msgid "Vertical"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:21
+msgid "Horizontal"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:25
+msgid "Borders"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:25
+msgid "Squared"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:25
+msgid "Rounded"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:41
+msgid "Background Color"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:57
+msgid "Font Size"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:60
+msgid "Position"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:60
+msgid "Top Left"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:60
+msgid "Top Right"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:60
+msgid "Bottom Left"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:60
+msgid "Bottom Right"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:70
+msgid "Columns"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:74
+msgid "HUD Toggle Key"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:86
+msgid "Compact HUD"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-visual-page.vala:89
+msgid "Hide by default"
+msgstr ""
+
+#: src/widgets/preferences/access-token-row.vala:4
+msgid "Enter an access token to reduce your chances of being rate limited"
+msgstr "أدخِل الرمز المميز للوصول لتقليل فرصتك للوصول لنسبة التقييد"
+
+#: src/widgets/preferences/access-token-row.vala:8
+#, fuzzy, c-format
+msgid "%s Access token"
+msgstr "الرمز المميز للوصول"
+
+#: src/widgets/preferences/check-updates-row.vala:11
+msgid "Check if any of the installed 'Latest' runners needs to be updated"
+msgstr "تأكد من موجود تحديث لأحدث المشغلات المثبتة"
+
+#: src/widgets/preferences/check-updates-row.vala:16
+msgid "Check for updates"
+msgstr "تحقق من التحديثات"
+
+#: src/widgets/preferences/preferences-dialog.vala:10
+msgid "Save download history"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:11
+msgid "Save the download history to a file"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:16
+#: src/widgets/preferences/preferences-dialog.vala:108
 msgid "General"
 msgstr "عام"
 
-#: data/ui/gtk/help-overlay.ui:14
-msgctxt "shortcut window"
-msgid "Show Shortcuts"
-msgstr "إظهار اختصارات"
+#: src/widgets/preferences/preferences-dialog.vala:25
+msgid "Automatic updates"
+msgstr "التحديثات التلقائية"
 
-#: data/ui/gtk/help-overlay.ui:20
-msgctxt "shortcut window"
-msgid "Quit"
+#: src/widgets/preferences/preferences-dialog.vala:26
+#, fuzzy
+msgid "Update the installed 'Latest' runners when the application starts"
+msgstr ""
+"تحديد ما إذا كان سيتم تحديث أحدث المشغلات المثبتة عند تشغيل التطبيق أم لا"
+
+#: src/widgets/preferences/preferences-dialog.vala:33
+#: src/widgets/preferences/preferences-dialog.vala:114
+#: src/widgets/window.vala:61
+msgid "Tools"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:47
+msgid "Remember last used profile"
+msgstr "تذكر آخر ملف تعريفي مُستَخْدَم"
+
+#: src/widgets/preferences/preferences-dialog.vala:48
+#, fuzzy
+msgid "Remember the last used Steam profile"
+msgstr "تذكر آخر ملف تعريفي مُستَخْدَم"
+
+#: src/widgets/preferences/preferences-dialog.vala:62
+#, fuzzy
+msgid "Default compatibility tool"
+msgstr "تعيين أداة التوافق الافتراضية"
+
+#: src/widgets/preferences/preferences-dialog.vala:121
+#, fuzzy
+msgid "Launchers"
+msgstr "خيارات التشغيل"
+
+#: src/widgets/preferences/refresh-launchers-runners-row.vala:15
+msgid "Refresh launchers/runners"
+msgstr "إعادة تجديد البيانات المعروضة للبرامج المشغلة و المشغلات"
+
+#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
+msgid "Refresh profiles"
+msgstr "إعادة تجديد البيانات المعروضة لملفات التعريف"
+
+#: src/widgets/preferences/theme-row.vala:16
+msgid "Light"
+msgstr "فاتح"
+
+#: src/widgets/preferences/theme-row.vala:17
+msgid "Dark"
+msgstr "داكن"
+
+#: src/widgets/preferences/theme-row.vala:18
+msgid "SteamOS"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:19
+msgid "OLED"
+msgstr ""
+
+#: src/widgets/preferences/theme-row.vala:27
+msgid "Current theme"
+msgstr "السِمَة الحالية"
+
+#: src/widgets/runners/basic-row.vala:16
+msgid ""
+"This version will get automatically updated when there's an update available "
+"each time your launch the application if automatic updates is enabled"
+msgstr ""
+"ستُحدَّث هذه النسخة تلقائياً عند توفر تحديث أثناء تشغيل البرنامج، إذا كان "
+"التحديث التلقائي مفعلاً."
+
+#: src/widgets/runners/basic-row.vala:52
+#: src/widgets/runners/steamtinkerlaunch-row.vala:120
+#, c-format
+msgid "Couldn't install %s"
+msgstr "لم نستطع تثبيت %s"
+
+#: src/widgets/runners/basic-row.vala:74
+#: src/widgets/runners/filters-box.vala:35
+#: src/widgets/runners/installed-row.vala:11
+#: src/widgets/runners/release-row.vala:55
+#: src/widgets/runners/release-row.vala:57
+msgid "Used"
+msgstr "مُستخدَم"
+
+#: src/widgets/runners/basic-row.vala:75
+#: src/widgets/runners/installed-row.vala:12
+#, c-format
+msgid "%s is used by %i game(s)"
+msgstr "يُستخدَم %s من قِبل %i من الألعاب"
+
+#: src/widgets/runners/basic-row.vala:103
+#: src/widgets/runners/steamtinkerlaunch-row.vala:190
+#, fuzzy
+msgid "This tool is currently being installed"
+msgstr "إن %s غير مدعوم حالياً"
+
+#: src/widgets/runners/basic-row.vala:105
+#: src/widgets/runners/steamtinkerlaunch-row.vala:192
+msgid "This tool is currently being downloaded"
+msgstr ""
+
+#: src/widgets/runners/basic-row.vala:110
+#: src/widgets/runners/steamtinkerlaunch-row.vala:194
+#, fuzzy
+msgid "This tool is currently being removed"
+msgstr "إن %s غير مدعوم حالياً"
+
+#: src/widgets/runners/basic-row.vala:114
+#: src/widgets/runners/steamtinkerlaunch-row.vala:196
+#, fuzzy
+msgid "This tool is currently being updated"
+msgstr "إن %s غير مدعوم حالياً"
+
+#: src/widgets/runners/basic-row.vala:123
+#: src/widgets/runners/release-row.vala:28
+#: src/widgets/runners/steamtinkerlaunch-row.vala:203
+#, c-format
+msgid "Install %s"
+msgstr "تثبيت %s"
+
+#: src/widgets/runners/basic-row.vala:125
+#: src/widgets/runners/release-row.vala:24
+#: src/widgets/runners/steamtinkerlaunch-row.vala:204
+#, c-format
+msgid "Delete %s"
+msgstr "حَذف %s"
+
+#: src/widgets/runners/basic-row.vala:127
+#: src/widgets/runners/release-row.vala:17
+msgid "Update the runner if a newer version is available"
+msgstr "حَدِث المُشَغِّل في حال توفر إصدار أحدث"
+
+#: src/widgets/runners/basic-row.vala:129
+#: src/widgets/runners/release-row.vala:20
+#: src/widgets/runners/steamtinkerlaunch-row.vala:206
+msgid "Open runner directory"
+msgstr "فتح دليل المشغل"
+
+#: src/widgets/runners/basic-row.vala:132
+#, fuzzy
+msgid "The application is currently updating its runners"
+msgstr ""
+"التطبيق حالياً يبحث عن التحديثات. الخروج أثناء هذه العملية قد يسبب مشاكل"
+
+#: src/widgets/runners/description-dialog.vala:14
+#: src/widgets/runners/description-dialog.vala:18
+msgid "More information"
+msgstr "مزيد من المعلومات"
+
+#: src/widgets/runners/description-dialog.vala:22
+msgid "Open"
+msgstr "فتح"
+
+#: src/widgets/runners/description-dialog.vala:26
+msgid "Open in your web browser"
+msgstr "فتح في متصفح الويب الخاص بك"
+
+#: src/widgets/runners/filters-box.vala:24
+msgid "Installed"
+msgstr "مُثبَت"
+
+#: src/widgets/runners/filters-box.vala:26
+msgid "Show installed runners"
+msgstr "أظهر المُثبَت فقط"
+
+#: src/widgets/runners/filters-box.vala:37
+msgid "Show runners that are used by one game or more"
+msgstr "أظهر المشغلات المستخدمة بواسطة لعبة أو أكثر"
+
+#: src/widgets/runners/filters-box.vala:44
+msgid "Unused"
+msgstr "غير مُستَخْدَم"
+
+#: src/widgets/runners/filters-box.vala:46
+msgid "Show runners that aren't used by any games"
+msgstr "أظهِر المشغلات التي لا تستخدم بواسطة أي لعبة"
+
+#: src/widgets/runners/installed-row.vala:41
+#: src/widgets/runners/steamtinkerlaunch-row.vala:132
+msgid "Check this to also delete your configuration files."
+msgstr "حدد هنا لحذف ملفات التخصيص الخاص بك أيضاً"
+
+#: src/widgets/runners/load-more-row.vala:8
+#: src/widgets/runners/load-more-row.vala:17
+msgid "Load more"
+msgstr "تحميل المزيد"
+
+#: src/widgets/runners/release-row.vala:12
+msgid "Show more information"
+msgstr "عرض المزيد من المعلومات"
+
+#: src/widgets/runners/remove-dialog.vala:11
+#, fuzzy, c-format
+msgid "Delete %s?"
+msgstr "حَذف %s"
+
+#: src/widgets/runners/remove-dialog.vala:13
+#: src/widgets/runners/remove-dialog.vala:26
+#, c-format
+msgid "%s will be permanently deleted."
+msgstr ""
+
+#: src/widgets/runners/remove-dialog.vala:21
+#, c-format
+msgid "Used by %i games."
+msgstr "من الألعاب %i يستخدم بواسطة"
+
+#: src/widgets/runners/remove-dialog.vala:24
+msgid "Used by 1 game."
+msgstr "يستخدم بواسطة لعبة واحدة"
+
+#: src/widgets/runners/remove-dialog.vala:31
+#, fuzzy
+msgid "Delete"
+msgstr "حَذف %s"
+
+#: src/widgets/runners/remove-dialog.vala:52
+#, c-format
+msgid "Couldn't delete %s"
+msgstr "لم نستطع حذف %s"
+
+#: src/widgets/runners/runner-row.vala:56 src/widgets/window.vala:171
+#: src/widgets/window.vala:172
+msgid "API limit reached"
+msgstr "تم الوصول إلى الحد الأقصى لواجهة برمجة التطبيقات (API)"
+
+#: src/widgets/runners/runner-row.vala:56
+msgid "Try again in a few minutes."
+msgstr "حاول مرة أخرى بعد بضع دقايق."
+
+#: src/widgets/runners/runner-row.vala:59
+#: src/widgets/runners/runner-row.vala:62
+#: src/widgets/runners/runner-row.vala:65 src/widgets/window.vala:179
+#: src/widgets/window.vala:180
+msgid "Unable to reach the API"
+msgstr "لم نستطع الوصول لواجهة برمجة التطبيقات(API)"
+
+#: src/widgets/runners/runner-row.vala:59
+msgid "Make sure you're connected to the internet."
+msgstr "تأكد من إتصالك بالإنترنت"
+
+#: src/widgets/runners/runner-row.vala:62
+msgid "Make sure your DNS is not blocking this."
+msgstr "تأكد مِن أن نظام أسماء المجالات (DNS) لا يحظر هذا."
+
+#: src/widgets/runners/runner-row.vala:65
+msgid "The requested website does not seem to be valid."
+msgstr "يبدو أن الموقع الإلكتروني المطلوب غير صالح"
+
+#: src/widgets/runners/runner-row.vala:68 src/widgets/window.vala:185
+#: src/widgets/window.vala:186
+msgid "Invalid access token"
+msgstr "الرمز المميز للوصول غير صالح"
+
+#: src/widgets/runners/runner-row.vala:68
+msgid "Make sure the access token you provided is valid."
+msgstr "تأكد من صلاحية الرمز المميز للوصول المُعطى."
+
+#: src/widgets/runners/runners-box.vala:44
+#, fuzzy
+msgid "No runners found."
+msgstr ".لم يتم العثور على ملف تعريف"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:8
+#: src/widgets/runners/steamtinkerlaunch-row.vala:205
+msgid "Update to the latest version"
+msgstr "تحديث إلى أحدث إصدار"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:40
+#, fuzzy, c-format
+msgid "Couldn't update %s"
+msgstr "لم نستطع ترقية %s"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:54
+#, c-format
+msgid "You are missing the following dependencies for %s:"
+msgstr "ينقصك مايلي من التبعيات من أجل %s :"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:54
+msgid "Installation will be canceled."
+msgstr "سيتم إلغاء التثبيت."
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:97
+#, c-format
+msgid ""
+"It looks like you currently have another version of %s which was not "
+"installed by ProtonPlus."
+msgstr "ProtonPlus ليست مثبتة بواسطة %s يبدو بان لديك حالياً نسخة أخرى من"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:97
+msgid "Do you want to reinstall it with ProtonPlus?"
+msgstr "؟ ProtonPlus هل تريد إعادة تثبيتها بواسطة"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:99
+msgid "No"
+msgstr "لا"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:100
+msgid "Yes"
+msgstr "نعم"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:148
+#, c-format
+msgid "To install %s for the %s, please run the following command:"
+msgstr "للتثبيت %s لـ %s، الرجاء تشغيل الأمر التالي:"
+
+#: src/widgets/runners/steamtinkerlaunch-row.vala:152
+#, c-format
+msgid "There's currently no known way for us to install %s for the %s."
+msgstr "لا توجد حاليًا طريقة معروفة لنا لتثبيت %s من أجل %s ."
+
+#: src/widgets/window.vala:34
+msgid "Loading"
+msgstr "جاري التحميل"
+
+#: src/widgets/window.vala:34
+msgid "Taking longer than normal?"
+msgstr "هل الإجراء يأخذ وقتاً أكثر من المعتاد؟"
+
+#: src/widgets/window.vala:44
+msgid "MangoHud configuration saved"
+msgstr ""
+
+#: src/widgets/window.vala:50
+msgid "_Preferences"
+msgstr "التفضيلات"
+
+#: src/widgets/window.vala:51
+msgid "_Keyboard Shortcuts"
+msgstr "اختصارات لوحة المفاتيح"
+
+#: src/widgets/window.vala:52
+#, fuzzy
+msgid "_Donate"
+msgstr "تبرع"
+
+#: src/widgets/window.vala:53
+msgid "_About ProtonPlus"
+msgstr "_حول بروتون بلس"
+
+#: src/widgets/window.vala:56
+msgid "Main Menu"
+msgstr "القائمة الرئيسية"
+
+#: src/widgets/window.vala:62
+msgid "Games"
+msgstr "الألعاب"
+
+#: src/widgets/window.vala:63
+msgid "MangoHud"
+msgstr ""
+
+#: src/widgets/window.vala:64
+#, fuzzy
+msgid "Downloads"
+msgstr "جاري التنزيل"
+
+#: src/widgets/window.vala:105
+msgid "Couldn't load the launchers"
+msgstr "لم نستطع تحميل التطبيقات المُشَغِلة"
+
+#: src/widgets/window.vala:119
+#, c-format
+msgid "Welcome to %s"
+msgstr "مرحباً بك في %s"
+
+#: src/widgets/window.vala:119
+msgid ""
+"Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
+"started."
+msgstr ""
+"الرجاء تثبيت إحدى البرامج التالية للبدأ (Steam, Lutris, Bottles, Heroic "
+"Games Launcher أو WineZGUI)"
+
+#: src/widgets/window.vala:119
+msgid ""
+"Make sure to run the launchers at least once to ensure they're properly "
+"initialized"
+msgstr ""
+"تأكد من تشغيلك للبرامج المُشَغِلة عالأقل مرة واحدة لضمان أن تكون مُمَهَدَة بشكل صحيح"
+
+#: src/widgets/window.vala:140
+msgid "Checking for updates"
+msgstr "جاري التحقق من التحديثات"
+
+#: src/widgets/window.vala:141
+#, c-format
+msgid "Updating %s"
+msgstr "جاري تحديث %s"
+
+#: src/widgets/window.vala:158
+msgid "Nothing to update"
+msgstr "لا يوجد ما يتطلب التحديث"
+
+#: src/widgets/window.vala:159
+#, c-format
+msgid "No update found for %s"
+msgstr "لم يتم إيجاد أي تحديث لـ %s"
+
+#: src/widgets/window.vala:165
+msgid "Everything is now up-to-date"
+msgstr "كل شيء محدث لآخر إصدار"
+
+#: src/widgets/window.vala:166
+#, c-format
+msgid "%s is now up-to-date"
+msgstr "محدث الآن %s"
+
+#: src/widgets/window.vala:171 src/widgets/window.vala:179
+#: src/widgets/window.vala:185 src/widgets/window.vala:191
+#, c-format
+msgid "Couldn't check for updates (Reason: %s)"
+msgstr "لم نستطع التحقق من وجود التحديثات(السبب: %s)"
+
+#: src/widgets/window.vala:172 src/widgets/window.vala:180
+#: src/widgets/window.vala:186 src/widgets/window.vala:192
+#, c-format
+msgid "Couldn't update %s (Reason: %s)"
+msgstr "لم نستطع تحديث %s (السبب: %s)"
+
+#: src/widgets/window.vala:245
+msgid ""
+"The application is currently checking for updates.\n"
+"Exiting the application early may cause issues."
+msgstr ""
+"التطبيق حالياً يبحث عن التحديثات. الخروج أثناء هذه العملية قد يسبب مشاكل"
+
+#: src/widgets/window.vala:247
+msgid "Exit"
 msgstr "خروج"
+
+#~ msgid "Latest"
+#~ msgstr "الأحدث"
+
+#~ msgid ""
+#~ "Close the Steam client beforehand so that the changes can be applied."
+#~ msgstr "أغلق عميل Steam أولاً لتتمكن من تطبيق التغييرات."
+
+#~ msgid "Show search"
+#~ msgstr "أظهر البحث"
+
+#~ msgid "Search for a game"
+#~ msgstr "إبحث عن لعبة"
+
+#~ msgid "Undefined"
+#~ msgstr "غير مُعَرَف"
+
+#~ msgid "Hide search"
+#~ msgstr "إخفاء البحث"
+
+#~ msgid "Mass edit"
+#~ msgstr "تحرير بالجُمْلَة"
+
+#~ msgid "Apply the current modifications"
+#~ msgstr "تطبيق التعديلات الحالية"
+
+#~ msgid ""
+#~ "Enable this if you want the mass edit to take the compatibility tool into "
+#~ "account."
+#~ msgstr ""
+#~ ".حدد هذا الخيار إن كنت تريد التعديل بالجُملَة يأخذ أداة التوافق بالحٌسبان"
+
+#~ msgid ""
+#~ "Enable this if you want the mass edit to take the launch options into "
+#~ "account."
+#~ msgstr ""
+#~ ".حدد هذا الخيار إن كنت تريد التعديل بالجُملَة يأخذ خيارات التشغيل بالحٌسبان"
+
+#~ msgid "Select all"
+#~ msgstr "حدد الكل"
+
+#~ msgid "Select all the games"
+#~ msgstr "حدد كل الألعاب"
+
+#~ msgid "Unselect all"
+#~ msgstr "إلغاء تحديد الكل"
+
+#~ msgid "Unselect all the games"
+#~ msgstr "إلغاء تحديد جميع الألعاب"
+
+#~ msgid "Modify launch options"
+#~ msgstr "تعديل خيارات التشغيل"
+
+#, c-format
+#~ msgid "Couldn't change the launch options of %s"
+#~ msgstr "لم نستطع تغيير خيارات التشغيل لـ%s"
+
+#~ msgid "Open menu"
+#~ msgstr "فتح القائمة"
+
+#, fuzzy
+#~ msgid "Reset to the current default compatibility tool"
+#~ msgstr "تعيين أداة التوافق الافتراضية"
+
+#~ msgid "Couldn't change the default compatibility tool"
+#~ msgstr "لم نستطع تغيير أداة التوافق الافتراضية"
+
+#, c-format
+#~ msgid "Couldn't change the compatibility tool of %s"
+#~ msgstr "لم نستطع تغيير أداة التوافق لـ%s"
 
 #~ msgid "Runners"
 #~ msgstr "المشغلات"
