@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-20 21:32-0400\n"
+"POT-Creation-Date: 2026-04-20 21:45-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -1775,11 +1775,7 @@ msgid "Refresh application data"
 msgstr ""
 
 #: src/widgets/preferences/refresh-application-data-row.vala:16
-msgid "Refreshes the launchers, tools and games"
-msgstr ""
-
-#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
-msgid "Refresh profiles"
+msgid "Refreshes the launchers, tools, games"
 msgstr ""
 
 #: src/widgets/preferences/theme-row.vala:16

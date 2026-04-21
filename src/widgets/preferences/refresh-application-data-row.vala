@@ -1,38 +1,37 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class RefreshApplicationDataRow : Adw.ActionRow {
         PreferencesDialog dialog;
-        Gtk.Button refresh_launchers_runners_button;
+        Gtk.Button refresh_button;
         Adw.Spinner spinner;
 
         construct {
-            refresh_launchers_runners_button = new Gtk.Button.from_icon_name ("arrows-rotate-symbolic");
-            refresh_launchers_runners_button.add_css_class ("flat");
-            refresh_launchers_runners_button.set_valign (Gtk.Align.CENTER);
-            refresh_launchers_runners_button.clicked.connect (() => refresh_launchers_runners.begin ());
+            refresh_button = new Gtk.Button.from_icon_name ("arrows-rotate-symbolic");
+            refresh_button.add_css_class ("flat");
+            refresh_button.set_valign (Gtk.Align.CENTER);
+            refresh_button.clicked.connect (() => refresh.begin ());
 
             spinner = new Adw.Spinner ();
 
             set_title (_ ("Refresh application data"));
-            set_subtitle (_("Refreshes the launchers, tools and games"));
-            add_suffix (refresh_launchers_runners_button);
+            set_subtitle (_ ("Refreshes the launchers, tools, games"));
+            add_suffix (refresh_button);
         }
 
         public RefreshApplicationDataRow (PreferencesDialog dialog) {
             this.dialog = dialog;
         }
 
-        async void refresh_launchers_runners () {
-            dialog.set_can_close (false);
+        async void refresh () {
+            refresh_button.set_sensitive (false);
 
-            refresh_launchers_runners_button.set_child (spinner);
+            refresh_button.set_child (spinner);
 
             yield Application.window.initialize (true);
 
-            spinner.unparent ();
+            spinner?.unparent ();
 
-            refresh_launchers_runners_button.set_icon_name ("arrow-rotate-symbolic");
-
-            dialog.set_can_close (true);
+            refresh_button?.set_icon_name ("arrows-rotate-symbolic");
+            refresh_button?.set_sensitive (true);
         }
     }
 }

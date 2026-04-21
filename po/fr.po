@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-20 21:32-0400\n"
+"POT-Creation-Date: 2026-04-20 21:45-0400\n"
 "PO-Revision-Date: 2026-02-24 05:09+0000\n"
 "Last-Translator: MrBretzel <axelolo68@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -1815,12 +1815,8 @@ msgstr ""
 
 #: src/widgets/preferences/refresh-application-data-row.vala:16
 #, fuzzy
-msgid "Refreshes the launchers, tools and games"
+msgid "Refreshes the launchers, tools, games"
 msgstr "Actualiser les launchers/outils de compatibilité"
-
-#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
-msgid "Refresh profiles"
-msgstr "Actualiser les profils"
 
 #: src/widgets/preferences/theme-row.vala:16
 msgid "Light"
@@ -2225,6 +2221,9 @@ msgstr ""
 #: src/widgets/window.vala:249
 msgid "Exit"
 msgstr "Quitter"
+
+#~ msgid "Refresh profiles"
+#~ msgstr "Actualiser les profils"
 
 #~ msgid "Check for updates"
 #~ msgstr "Rechercher des mises a jour"

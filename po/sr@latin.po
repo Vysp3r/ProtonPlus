@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-20 21:32-0400\n"
+"POT-Creation-Date: 2026-04-20 21:45-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Serbian (Latin script) <https://hosted.weblate.org/projects/"
@@ -1806,13 +1806,8 @@ msgid "Refresh application data"
 msgstr ""
 
 #: src/widgets/preferences/refresh-application-data-row.vala:16
-msgid "Refreshes the launchers, tools and games"
+msgid "Refreshes the launchers, tools, games"
 msgstr ""
-
-#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
-#, fuzzy
-msgid "Refresh profiles"
-msgstr "Izaberite profil"
 
 #: src/widgets/preferences/theme-row.vala:16
 msgid "Light"
@@ -2209,6 +2204,10 @@ msgstr ""
 #: src/widgets/window.vala:249
 msgid "Exit"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Refresh profiles"
+#~ msgstr "Izaberite profil"
 
 #~ msgid ""
 #~ "Close the Steam client beforehand so that the changes can be applied."

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-20 21:32-0400\n"
+"POT-Creation-Date: 2026-04-20 21:45-0400\n"
 "PO-Revision-Date: 2025-11-17 15:51+0000\n"
 "Last-Translator: Alessandro Marigliano <alemarigliano22@proton.me>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -1817,13 +1817,8 @@ msgid "Refresh application data"
 msgstr ""
 
 #: src/widgets/preferences/refresh-application-data-row.vala:16
-msgid "Refreshes the launchers, tools and games"
+msgid "Refreshes the launchers, tools, games"
 msgstr ""
-
-#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
-#, fuzzy
-msgid "Refresh profiles"
-msgstr "Seleziona un profilo"
 
 #: src/widgets/preferences/theme-row.vala:16
 msgid "Light"
@@ -2225,6 +2220,10 @@ msgstr ""
 #: src/widgets/window.vala:249
 msgid "Exit"
 msgstr "Esci"
+
+#, fuzzy
+#~ msgid "Refresh profiles"
+#~ msgstr "Seleziona un profilo"
 
 #, fuzzy
 #~ msgid "Check for updates"

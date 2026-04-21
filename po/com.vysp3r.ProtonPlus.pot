@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-20 21:32-0400\n"
+"POT-Creation-Date: 2026-04-20 21:45-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1717,11 +1717,7 @@ msgid "Refresh application data"
 msgstr ""
 
 #: src/widgets/preferences/refresh-application-data-row.vala:16
-msgid "Refreshes the launchers, tools and games"
-msgstr ""
-
-#: src/widgets/preferences/refresh-steam-profiles-row.vala:15
-msgid "Refresh profiles"
+msgid "Refreshes the launchers, tools, games"
 msgstr ""
 
 #: src/widgets/preferences/theme-row.vala:16
