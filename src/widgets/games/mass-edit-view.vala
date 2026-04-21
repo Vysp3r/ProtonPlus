@@ -68,10 +68,33 @@ namespace ProtonPlus.Widgets {
         public void load (GameRow[] rows, ListStore model, Gtk.PropertyExpression expression) {
             this.rows = rows;
 
+            var has_steam_launch_options = false;
+            var all_native = rows.length > 0;
+            foreach (var row in rows) {
+                if (row.game.launcher is Models.Launchers.Steam)
+                has_steam_launch_options = true;
+
+                if (!(row.game is Models.Games.Steam && ((Models.Games.Steam) row.game).is_native))
+                all_native = false;
+            }
+
             if (compatibility_tool_row != null)
             compatibility_tool_group.remove (compatibility_tool_row);
 
-            compatibility_tool_row = new CompatibilityToolRow (model, expression);
+            var filtered_model = new ListStore (typeof (Models.SimpleRunner));
+            var n_items = model.get_n_items ();
+            for (uint i = 0; i < n_items; i++) {
+                var runner = model.get_item (i) as Models.SimpleRunner;
+                if (runner == null)
+                continue;
+                if (runner.display_title.contains ("Steam Linux Runtime")) {
+                    if (!all_native)
+                    continue;
+                }
+                filtered_model.append (runner);
+            }
+
+            compatibility_tool_row = new CompatibilityToolRow (filtered_model, expression);
             compatibility_tool_group.add (compatibility_tool_row);
 
             advanced_switch.set_active (false);
@@ -79,9 +102,9 @@ namespace ProtonPlus.Widgets {
             if (rows.length == 1) {
                 var game = rows[0].game;
 
-                var n_items = model.get_n_items();
-                for (uint i = 0; i < n_items; i++) {
-                    var runner = model.get_item(i) as Models.SimpleRunner;
+                var filtered_n_items = filtered_model.get_n_items();
+                for (uint i = 0; i < filtered_n_items; i++) {
+                    var runner = filtered_model.get_item(i) as Models.SimpleRunner;
                     if (runner != null && runner.internal_title == game.compatibility_tool) {
                         compatibility_tool_row.selected = i;
                         break;
@@ -98,7 +121,6 @@ namespace ProtonPlus.Widgets {
                 launch_options_editor.set_text ("");
             }
 
-            var has_steam_launch_options = rows[0].game.launcher is Models.Launchers.Steam;
             launch_options_group.set_visible (has_steam_launch_options);
             launch_options_editor.set_visible (has_steam_launch_options);
 

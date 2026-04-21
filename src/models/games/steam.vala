@@ -7,6 +7,7 @@ namespace ProtonPlus.Models.Games {
         public string awacy_status { get; set; }
         public string launch_options { get; set; }
         public bool is_non_steam { get; set; }
+        public bool is_native { get; set; }
 
         public Steam(uint appid, string name, string game_folder_name, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
             base (name, "%s/steamapps/common/%s".printf (library_folder_path, game_folder_name), "%s/steamapps/compatdata/%u".printf (library_folder_path, appid), appid, launcher);
@@ -15,6 +16,7 @@ namespace ProtonPlus.Models.Games {
             this.library_folder_id = library_folder_id;
             this.library_folder_path = library_folder_path;
             this.launcher = launcher;
+            this.is_native = detect_native ();
         }
 
         public Steam.non_steam (uint appid, string name, string launch_options, string compatibility_tool, Launchers.Steam launcher) {
@@ -24,6 +26,38 @@ namespace ProtonPlus.Models.Games {
             this.launch_options = launch_options;
             this.compatibility_tool = compatibility_tool;
             this.is_non_steam = true;
+            this.is_native = false;
+        }
+
+        private bool detect_native () {
+            if (is_non_steam)
+                return false;
+
+            if (FileUtils.test (installdir, FileTest.IS_DIR)) {
+                if (!FileUtils.test (prefixdir, FileTest.IS_DIR))
+                    return true;
+
+                try {
+                    var dir = Dir.open (installdir, 0);
+                    string? name;
+                    while ((name = dir.read_name ()) != null) {
+                        var path = Path.build_filename (installdir, name);
+                        if (FileUtils.test (path, FileTest.IS_REGULAR)) {
+                            var file = FileStream.open (path, "r");
+                            if (file != null) {
+                                uint8 magic[4];
+                                if (file.read (magic) == 4) {
+                                    if (magic[0] == 0x7f && magic[1] == 'E' && magic[2] == 'L' && magic[3] == 'F') {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (Error e) {}
+            }
+
+            return false;
         }
 
         public override bool change_compatibility_tool (string compatibility_tool) {

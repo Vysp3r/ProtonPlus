@@ -184,6 +184,12 @@ namespace ProtonPlus.Models.Launchers {
                                 continue;
                             current_installdir = dir_match.fetch (1);
 
+                            if (current_name.contains ("Steam Linux Runtime")) {
+                                var simple_runner = new SimpleRunner.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
+                                compatibility_tools.add (simple_runner);
+                                continue;
+                            }
+
                             if (/(?i)Proton\s*\d+(\.\d+)?/.match (current_name) || current_name == "Proton Hotfix" || current_appid == "2180100" || current_appid == "1493710") {
                                 var simple_runner = new SimpleRunner.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
                                 compatibility_tools.add (simple_runner);

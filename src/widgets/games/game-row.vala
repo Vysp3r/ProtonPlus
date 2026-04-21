@@ -97,10 +97,14 @@ namespace ProtonPlus.Widgets {
         public void refresh_tool_label () {
             string tool_name = _ ("Default");
 
-            foreach (var tool in game.launcher.compatibility_tools) {
-                if (tool.internal_title == game.compatibility_tool) {
-                    tool_name = tool.display_title;
-                    break;
+            if (game is Models.Games.Steam && ((Models.Games.Steam) game).is_native && game.compatibility_tool == "Default") {
+                tool_name = _ ("Native");
+            } else {
+                foreach (var tool in game.launcher.compatibility_tools) {
+                    if (tool.internal_title == game.compatibility_tool) {
+                        tool_name = tool.display_title;
+                        break;
+                    }
                 }
             }
 
