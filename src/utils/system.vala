@@ -29,6 +29,35 @@ namespace ProtonPlus.Utils {
             return output;
         }
 
+        public static string run_command_sync (string command) {
+            string output = "";
+            try {
+                string command_line = "";
+                if (Globals.IS_FLATPAK)
+                command_line += "flatpak-spawn --host ";
+                command_line += command;
+
+                string[] argv;
+                Shell.parse_argv (command_line, out argv);
+
+                var subprocess = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
+                Bytes stdout_bytes;
+                subprocess.communicate (null, null, out stdout_bytes, null);
+
+                if (stdout_bytes != null) {
+                    unowned uint8[] data = stdout_bytes.get_data ();
+                    char[] str_data = new char[data.length + 1];
+                    Memory.copy (str_data, data, data.length);
+                    str_data[data.length] = '\0';
+                    output = (string) str_data;
+                }
+            } catch (Error e) {
+                warning (e.message);
+            }
+
+            return output;
+        }
+
         public static List<string> get_hwcaps () {
             var hwcaps = new List<string> ();
             string flags = "";
@@ -75,7 +104,11 @@ namespace ProtonPlus.Utils {
             return (yield run_command (@"which $name")).contains ("which: no") ? false : true;
         }
 
-        public static async string get_distribution_name () {
+        public static bool check_dependency_sync (string name) {
+            return run_command_sync (@"which $name").contains ("which: no") ? false : true;
+        }
+
+        public static string get_distribution_name () {
             string distro_name = "Unknown";
             try {
                 var file = File.new_for_path ("/etc/os-release");
@@ -114,6 +147,17 @@ namespace ProtonPlus.Utils {
 
             foreach (var protontricks_exec in protontricks_execs) {
                 if (yield Utils.System.check_dependency (protontricks_exec))
+                return protontricks_exec;
+            }
+
+            return null;
+        }
+
+        public static string? get_protontricks_exec_sync () {
+            string[] protontricks_execs = { "protontricks", "com.github.Matoking.protontricks" };
+
+            foreach (var protontricks_exec in protontricks_execs) {
+                if (Utils.System.check_dependency_sync (protontricks_exec))
                 return protontricks_exec;
             }
 

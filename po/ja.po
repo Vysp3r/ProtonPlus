@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-20 18:17-0400\n"
+"POT-Creation-Date: 2026-04-20 21:32-0400\n"
 "PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -368,19 +368,19 @@ msgid ""
 msgstr ""
 "Wine の VKD3D で完全な Direct3D 12 API を実装することを目指したバージョン。"
 
-#: src/widgets/application.vala:103
+#: src/widgets/application.vala:98
 msgid "A modern compatibility tools manager"
 msgstr "モダンな互換性ツールマネージャー"
 
-#: src/widgets/application.vala:105
+#: src/widgets/application.vala:100
 msgid "Website"
 msgstr "ウェブサイト"
 
-#: src/widgets/application.vala:110
+#: src/widgets/application.vala:105
 msgid "translator-credits"
 msgstr "camegone"
 
-#: src/widgets/application.vala:111
+#: src/widgets/application.vala:106
 msgid "Special thanks to"
 msgstr "スペシャルサンクス"
 
@@ -533,8 +533,7 @@ msgstr "現在の変更を適用する"
 
 #: src/widgets/games/games-box.vala:94
 #: src/widgets/mangohud/mangohud-box.vala:68
-#: src/widgets/preferences/preferences-dialog.vala:100
-#: src/widgets/preferences/preferences-dialog.vala:142
+#: src/widgets/preferences/preferences-dialog.vala:130
 msgid "Advanced"
 msgstr "上級"
 
@@ -1082,35 +1081,35 @@ msgid ""
 msgstr ""
 "まとめて設定を選択するためには、少なくとも一つのゲームを選択してください。"
 
-#: src/widgets/games/mass-edit-view.vala:22
+#: src/widgets/games/mass-edit-view.vala:23
 msgid "1 game selected"
 msgstr "1 つのゲームを選択済み"
 
-#: src/widgets/games/mass-edit-view.vala:22
+#: src/widgets/games/mass-edit-view.vala:23
 #, c-format
 msgid "%u games selected"
 msgstr "%u つのゲームを選択済み"
 
-#: src/widgets/games/mass-edit-view.vala:39
+#: src/widgets/games/mass-edit-view.vala:40
 msgid "Compatibility tool"
 msgstr "互換性ツール"
 
-#: src/widgets/games/mass-edit-view.vala:47
+#: src/widgets/games/mass-edit-view.vala:48
 msgid "Launch options"
 msgstr "起動オプション"
 
-#: src/widgets/games/mass-edit-view.vala:162
+#: src/widgets/games/mass-edit-view.vala:168
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
 msgstr ""
 "選択したゲームに使用する互換性ツールや起動オプションを変更中にエラーが発生し"
 "ました。"
 
-#: src/widgets/games/mass-edit-view.vala:162
+#: src/widgets/games/mass-edit-view.vala:168
 msgid "The following games had an issue:"
 msgstr "以下のゲームに問題があります:"
 
-#: src/widgets/games/mass-edit-view.vala:162
+#: src/widgets/games/mass-edit-view.vala:168
 #: src/widgets/games/shortcut-button.vala:31
 #: src/widgets/games/shortcut-button.vala:39
 #: src/widgets/runners/basic-row.vala:52
@@ -1661,15 +1660,15 @@ msgid "Layouts"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:52
-msgid "MangoHud Stock"
+msgid "Stock"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:53
-msgid "Simple White"
+msgid "White"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:68
-msgid "Color Themes"
+msgid "Themes"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:18
@@ -1750,73 +1749,73 @@ msgstr "レート制限に掛かる頻度を減らすためにアクセストー
 
 #: src/widgets/preferences/access-token-row.vala:8
 #, fuzzy, c-format
-msgid "%s Access token"
+msgid "%s access token"
 msgstr "アクセストークン"
 
-#: src/widgets/preferences/check-updates-row.vala:11
-msgid "Check if any of the installed 'Latest' runners needs to be updated"
-msgstr ""
-"インストール済みの「最新 (Latest)」な実行環境に更新が必要かどうか確認する"
-
-#: src/widgets/preferences/check-updates-row.vala:16
-msgid "Check for updates"
-msgstr "更新を確認"
-
-#: src/widgets/preferences/preferences-dialog.vala:10
+#: src/widgets/preferences/preferences-dialog.vala:8
 msgid "Save download history"
 msgstr "ダウンロード履歴を保存"
 
-#: src/widgets/preferences/preferences-dialog.vala:11
+#: src/widgets/preferences/preferences-dialog.vala:9
 msgid "Save the download history to a file"
 msgstr "ダウンロード履歴をファイルに保存する"
 
-#: src/widgets/preferences/preferences-dialog.vala:16
-#: src/widgets/preferences/preferences-dialog.vala:121
-msgid "General"
-msgstr "一般"
-
-#: src/widgets/preferences/preferences-dialog.vala:25
+#: src/widgets/preferences/preferences-dialog.vala:20
 msgid "Automatic updates"
 msgstr "自動更新"
 
-#: src/widgets/preferences/preferences-dialog.vala:26
-msgid "Update the installed 'Latest' runners when the application starts"
+#: src/widgets/preferences/preferences-dialog.vala:21
+#, fuzzy
+msgid "Check if any tool needs to be updated when the application starts"
 msgstr "インストール済みの「最新」の実行環境をアプリケーション開始時に更新する"
 
-#: src/widgets/preferences/preferences-dialog.vala:33
-#: src/widgets/preferences/preferences-dialog.vala:127
-#: src/widgets/window.vala:61
-msgid "Tools"
-msgstr "ツール"
+#: src/widgets/preferences/preferences-dialog.vala:21
+msgid ""
+"When disabled a button to check for updates will be shown in the Tools tab"
+msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:47
-msgid "Remember last used profile"
-msgstr "最後に使用したプロファイルを記憶する"
-
-#: src/widgets/preferences/preferences-dialog.vala:48
-msgid "Remember the last used Steam profile"
-msgstr "最後に使用した Steam プロファイルを記憶する"
-
-#: src/widgets/preferences/preferences-dialog.vala:62
+#: src/widgets/preferences/preferences-dialog.vala:44
 #, fuzzy
 msgid "Default compatibility tool"
 msgstr "デフォルトの互換性ツールを設定する"
 
-#: src/widgets/preferences/preferences-dialog.vala:94
-msgid "Experimental mode"
+#: src/widgets/preferences/preferences-dialog.vala:45
+msgid "The compatibility tool games will use by default"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:95
-msgid "Add a MangoHud configuration tab to the sidebar"
+#: src/widgets/preferences/preferences-dialog.vala:62
+msgid "Remember last used profile"
+msgstr "最後に使用したプロファイルを記憶する"
+
+#: src/widgets/preferences/preferences-dialog.vala:81
+msgid "Preview features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:134
+#: src/widgets/preferences/preferences-dialog.vala:82
+msgid "Enable experimental features for early testing"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:109
+msgid "General"
+msgstr "一般"
+
+#: src/widgets/preferences/preferences-dialog.vala:115
+#: src/widgets/window.vala:61
+msgid "Tools"
+msgstr "ツール"
+
+#: src/widgets/preferences/preferences-dialog.vala:122
 #, fuzzy
 msgid "Launchers"
 msgstr "起動ツール"
 
-#: src/widgets/preferences/refresh-launchers-runners-row.vala:15
-msgid "Refresh launchers/runners"
+#: src/widgets/preferences/refresh-application-data-row.vala:15
+msgid "Refresh application data"
+msgstr ""
+
+#: src/widgets/preferences/refresh-application-data-row.vala:16
+#, fuzzy
+msgid "Refreshes the launchers, tools and games"
 msgstr "ランチャーや実行環境を再読み込み"
 
 #: src/widgets/preferences/refresh-steam-profiles-row.vala:15
@@ -1840,8 +1839,8 @@ msgid "OLED"
 msgstr "OLED (有機EL)"
 
 #: src/widgets/preferences/theme-row.vala:27
-msgid "Current theme"
-msgstr "現在のテーマ"
+msgid "Theme"
+msgstr ""
 
 #: src/widgets/runners/basic-row.vala:16
 msgid ""
@@ -1858,7 +1857,7 @@ msgid "Couldn't install %s"
 msgstr "%s をインストールできませんでした"
 
 #: src/widgets/runners/basic-row.vala:74
-#: src/widgets/runners/filters-box.vala:35
+#: src/widgets/runners/filters-box.vala:53
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/release-row.vala:55
 #: src/widgets/runners/release-row.vala:57
@@ -1934,23 +1933,32 @@ msgid "Open in your web browser"
 msgstr "ウェブブラウザで開く"
 
 #: src/widgets/runners/filters-box.vala:24
+#, fuzzy
+msgid "Check if any tool needs to be updated"
+msgstr ""
+"インストール済みの「最新 (Latest)」な実行環境に更新が必要かどうか確認する"
+
+#: src/widgets/runners/filters-box.vala:42
 msgid "Installed"
 msgstr "インストール済み"
 
-#: src/widgets/runners/filters-box.vala:26
-msgid "Show installed runners"
+#: src/widgets/runners/filters-box.vala:44
+#, fuzzy
+msgid "Show installed tools"
 msgstr "インストール済みの実行環境を表示"
 
-#: src/widgets/runners/filters-box.vala:37
-msgid "Show runners that are used by one game or more"
+#: src/widgets/runners/filters-box.vala:55
+#, fuzzy
+msgid "Show tools that are used by one game or more"
 msgstr "1つ以上のゲームで使用している実行環境を表示"
 
-#: src/widgets/runners/filters-box.vala:44
+#: src/widgets/runners/filters-box.vala:62
 msgid "Unused"
 msgstr "未使用"
 
-#: src/widgets/runners/filters-box.vala:46
-msgid "Show runners that aren't used by any games"
+#: src/widgets/runners/filters-box.vala:64
+#, fuzzy
+msgid "Show tools that aren't used by any games"
 msgstr "どのゲームにも使用していない実行環境を表示"
 
 #: src/widgets/runners/installed-row.vala:41
@@ -2208,6 +2216,15 @@ msgstr ""
 #: src/widgets/window.vala:249
 msgid "Exit"
 msgstr "終了"
+
+#~ msgid "Check for updates"
+#~ msgstr "更新を確認"
+
+#~ msgid "Remember the last used Steam profile"
+#~ msgstr "最後に使用した Steam プロファイルを記憶する"
+
+#~ msgid "Current theme"
+#~ msgstr "現在のテーマ"
 
 #~ msgid "Latest"
 #~ msgstr "最新"

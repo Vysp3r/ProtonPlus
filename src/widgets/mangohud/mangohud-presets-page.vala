@@ -49,8 +49,8 @@ namespace ProtonPlus.Widgets {
             theme_buttons = new Gtk.ToggleButton[3];
             Gtk.ToggleButton? theme_group_button = null;
 
-            theme_stock_btn = create_preset_button (_ ("MangoHud Stock"), "boxes-stacked-symbolic", ref theme_group_button);
-            theme_white_btn = create_preset_button (_ ("Simple White"), "layer-group-symbolic", ref theme_group_button);
+            theme_stock_btn = create_preset_button (_ ("Stock"), "palette-2-symbolic", ref theme_group_button);
+            theme_white_btn = create_preset_button (_ ("White"), "palette-2-symbolic", ref theme_group_button);
             theme_custom_btn = create_preset_button (_ ("Custom"), "gear-symbolic", ref theme_group_button);
 
             theme_buttons[Models.MangoHudTheme.STOCK] = theme_stock_btn;
@@ -65,7 +65,7 @@ namespace ProtonPlus.Widgets {
             theme_white_btn.toggled.connect (() => { if (!is_updating && theme_white_btn.active) apply_theme (Models.MangoHudTheme.SIMPLE_WHITE); });
             theme_custom_btn.toggled.connect (() => { if (!is_updating && theme_custom_btn.active) apply_theme (Models.MangoHudTheme.CUSTOM); });
 
-            add_group_to_page (this, _ ("Color Themes"), themes_flow_box);
+            add_group_to_page (this, _ ("Themes"), themes_flow_box);
             refresh ();
         }
 

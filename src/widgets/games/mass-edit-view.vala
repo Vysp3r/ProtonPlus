@@ -17,6 +17,7 @@ namespace ProtonPlus.Widgets {
         Gtk.Box content_box { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
         public GameRow[] rows;
+        uint initial_compatibility_tool_index;
 
         public string get_selection_text () {
             return rows.length == 1 ? _ ("1 game selected") : _ ("%u games selected").printf (rows.length);
@@ -101,16 +102,21 @@ namespace ProtonPlus.Widgets {
             launch_options_group.set_visible (has_steam_launch_options);
             launch_options_editor.set_visible (has_steam_launch_options);
 
+            initial_compatibility_tool_index = compatibility_tool_row.selected;
+            compatibility_tool_row.notify["selected"].connect (refresh);
+
             refresh ();
         }
 
         void refresh () {
-            clear_button.set_sensitive (launch_options_editor.has_clearable_state ());
-            apply_button.set_sensitive (launch_options_editor.has_clearable_state ());
+            var tool_changed = compatibility_tool_row != null && compatibility_tool_row.selected != initial_compatibility_tool_index;
+            clear_button.set_sensitive (launch_options_editor.has_clearable_state () || tool_changed);
+            apply_button.set_sensitive (launch_options_editor.has_clearable_state () || tool_changed);
         }
 
         void clear_button_clicked () {
             launch_options_editor.clear ();
+            compatibility_tool_row.selected = initial_compatibility_tool_index;
             refresh ();
         }
 

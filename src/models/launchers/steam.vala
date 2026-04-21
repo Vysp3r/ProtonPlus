@@ -154,7 +154,7 @@ namespace ProtonPlus.Models.Launchers {
                             continue;
 
                             bool valid_appid = true;
-                            string[] excluded_appids = { "2230260", "1826330", "1161040", "1070560", "1391110", "1628350", "228980" };
+                            string[] excluded_appids = { "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110" };
                             foreach (var excluded_appid in excluded_appids) {
                                 if (current_appid == excluded_appid) {
                                     valid_appid = false;
@@ -174,20 +174,17 @@ namespace ProtonPlus.Models.Launchers {
                             current_manifest_content = Utils.Filesystem.get_file_content (current_manifest_path);
                             // message("current_manifest_path: %s", current_manifest_path);
 
-                            start_text = "name\"\t\t\"";
-                            end_text = "\"";
-                            start_pos = current_manifest_content.index_of (start_text, 0) + start_text.length;
-                            end_pos = current_manifest_content.index_of (end_text, start_pos);
-                            current_name = current_manifest_content.substring (start_pos, end_pos - start_pos);
-                            // message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
+                            MatchInfo name_match;
+                            if (!/\"name\"\s+\"([^\"]+)\"/.match (current_manifest_content, 0, out name_match))
+                                continue;
+                            current_name = name_match.fetch (1);
 
-                            start_text = "installdir\"\t\t\"";
-                            end_text = "\"";
-                            start_pos = current_manifest_content.index_of (start_text, 0) + start_text.length;
-                            end_pos = current_manifest_content.index_of (end_text, start_pos);
-                            current_installdir = current_manifest_content.substring (start_pos, end_pos - start_pos);
+                            MatchInfo dir_match;
+                            if (!/\"installdir\"\s+\"([^\"]+)\"/.match (current_manifest_content, 0, out dir_match))
+                                continue;
+                            current_installdir = dir_match.fetch (1);
 
-                            if (/Proton \d+.\d+/.match (current_name) || current_appid == "2180100" || current_appid == "1493710") {
+                            if (/(?i)Proton\s*\d+(\.\d+)?/.match (current_name) || current_name == "Proton Hotfix" || current_appid == "2180100" || current_appid == "1493710") {
                                 var simple_runner = new SimpleRunner.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
                                 compatibility_tools.add (simple_runner);
                                 continue;

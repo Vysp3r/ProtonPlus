@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-20 18:17-0400\n"
+"POT-Creation-Date: 2026-04-20 21:32-0400\n"
 "PO-Revision-Date: 2026-04-19 00:55+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -352,19 +352,19 @@ msgid ""
 "top of Vulkan."
 msgstr "Wine VKD3D 的特化版，旨在 Vulkan 之上实作完整的 Direct3D 12 API。"
 
-#: src/widgets/application.vala:103
+#: src/widgets/application.vala:98
 msgid "A modern compatibility tools manager"
 msgstr "现代的兼容性工具管理器。"
 
-#: src/widgets/application.vala:105
+#: src/widgets/application.vala:100
 msgid "Website"
 msgstr "网站"
 
-#: src/widgets/application.vala:110
+#: src/widgets/application.vala:105
 msgid "translator-credits"
 msgstr "nick.exe <nick.exe@gmail.com>"
 
-#: src/widgets/application.vala:111
+#: src/widgets/application.vala:106
 msgid "Special thanks to"
 msgstr "特别感谢"
 
@@ -517,8 +517,7 @@ msgstr "应用当前修改"
 
 #: src/widgets/games/games-box.vala:94
 #: src/widgets/mangohud/mangohud-box.vala:68
-#: src/widgets/preferences/preferences-dialog.vala:100
-#: src/widgets/preferences/preferences-dialog.vala:142
+#: src/widgets/preferences/preferences-dialog.vala:130
 msgid "Advanced"
 msgstr "进阶"
 
@@ -1044,33 +1043,33 @@ msgid ""
 "feature."
 msgstr "使用批量编辑功能前，请确保至少选取一款游戏。"
 
-#: src/widgets/games/mass-edit-view.vala:22
+#: src/widgets/games/mass-edit-view.vala:23
 msgid "1 game selected"
 msgstr "已选取 1 款游戏"
 
-#: src/widgets/games/mass-edit-view.vala:22
+#: src/widgets/games/mass-edit-view.vala:23
 #, c-format
 msgid "%u games selected"
 msgstr "已选取 %u 款游戏"
 
-#: src/widgets/games/mass-edit-view.vala:39
+#: src/widgets/games/mass-edit-view.vala:40
 msgid "Compatibility tool"
 msgstr "兼容性工具"
 
-#: src/widgets/games/mass-edit-view.vala:47
+#: src/widgets/games/mass-edit-view.vala:48
 msgid "Launch options"
 msgstr "启动选项"
 
-#: src/widgets/games/mass-edit-view.vala:162
+#: src/widgets/games/mass-edit-view.vala:168
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
 msgstr "无法变更所选游戏的兼容性工具/启动选项"
 
-#: src/widgets/games/mass-edit-view.vala:162
+#: src/widgets/games/mass-edit-view.vala:168
 msgid "The following games had an issue:"
 msgstr "下列游戏存在问题："
 
-#: src/widgets/games/mass-edit-view.vala:162
+#: src/widgets/games/mass-edit-view.vala:168
 #: src/widgets/games/shortcut-button.vala:31
 #: src/widgets/games/shortcut-button.vala:39
 #: src/widgets/runners/basic-row.vala:52
@@ -1627,15 +1626,15 @@ msgid "Layouts"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:52
-msgid "MangoHud Stock"
+msgid "Stock"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:53
-msgid "Simple White"
+msgid "White"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:68
-msgid "Color Themes"
+msgid "Themes"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:18
@@ -1716,72 +1715,73 @@ msgstr "输入存取令牌以降低被限速的机会"
 
 #: src/widgets/preferences/access-token-row.vala:8
 #, fuzzy, c-format
-msgid "%s Access token"
+msgid "%s access token"
 msgstr "存取令牌"
 
-#: src/widgets/preferences/check-updates-row.vala:11
-msgid "Check if any of the installed 'Latest' runners needs to be updated"
-msgstr "检查已安装的“Latest”运行器是否需要更新"
-
-#: src/widgets/preferences/check-updates-row.vala:16
-msgid "Check for updates"
-msgstr "检查更新"
-
-#: src/widgets/preferences/preferences-dialog.vala:10
+#: src/widgets/preferences/preferences-dialog.vala:8
 msgid "Save download history"
 msgstr "保存下载记录"
 
-#: src/widgets/preferences/preferences-dialog.vala:11
+#: src/widgets/preferences/preferences-dialog.vala:9
 msgid "Save the download history to a file"
 msgstr "将下载记录保存至文件"
 
-#: src/widgets/preferences/preferences-dialog.vala:16
-#: src/widgets/preferences/preferences-dialog.vala:121
-msgid "General"
-msgstr "一般"
-
-#: src/widgets/preferences/preferences-dialog.vala:25
+#: src/widgets/preferences/preferences-dialog.vala:20
 msgid "Automatic updates"
 msgstr "自动更新"
 
-#: src/widgets/preferences/preferences-dialog.vala:26
-msgid "Update the installed 'Latest' runners when the application starts"
+#: src/widgets/preferences/preferences-dialog.vala:21
+#, fuzzy
+msgid "Check if any tool needs to be updated when the application starts"
 msgstr "于启动时更新已安装的“Latest”运行器"
 
-#: src/widgets/preferences/preferences-dialog.vala:33
-#: src/widgets/preferences/preferences-dialog.vala:127
-#: src/widgets/window.vala:61
-msgid "Tools"
-msgstr "工具"
+#: src/widgets/preferences/preferences-dialog.vala:21
+msgid ""
+"When disabled a button to check for updates will be shown in the Tools tab"
+msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:47
-msgid "Remember last used profile"
-msgstr "记住上次使用的个人资料"
-
-#: src/widgets/preferences/preferences-dialog.vala:48
-msgid "Remember the last used Steam profile"
-msgstr "记住上次使用的 Steam 个人资料"
-
-#: src/widgets/preferences/preferences-dialog.vala:62
+#: src/widgets/preferences/preferences-dialog.vala:44
 #, fuzzy
 msgid "Default compatibility tool"
 msgstr "设定默认兼容性工具"
 
-#: src/widgets/preferences/preferences-dialog.vala:94
-msgid "Experimental mode"
+#: src/widgets/preferences/preferences-dialog.vala:45
+msgid "The compatibility tool games will use by default"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:95
-msgid "Add a MangoHud configuration tab to the sidebar"
+#: src/widgets/preferences/preferences-dialog.vala:62
+msgid "Remember last used profile"
+msgstr "记住上次使用的个人资料"
+
+#: src/widgets/preferences/preferences-dialog.vala:81
+msgid "Preview features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:134
+#: src/widgets/preferences/preferences-dialog.vala:82
+msgid "Enable experimental features for early testing"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:109
+msgid "General"
+msgstr "一般"
+
+#: src/widgets/preferences/preferences-dialog.vala:115
+#: src/widgets/window.vala:61
+msgid "Tools"
+msgstr "工具"
+
+#: src/widgets/preferences/preferences-dialog.vala:122
 #, fuzzy
 msgid "Launchers"
 msgstr "启动工具"
 
-#: src/widgets/preferences/refresh-launchers-runners-row.vala:15
-msgid "Refresh launchers/runners"
+#: src/widgets/preferences/refresh-application-data-row.vala:15
+msgid "Refresh application data"
+msgstr ""
+
+#: src/widgets/preferences/refresh-application-data-row.vala:16
+#, fuzzy
+msgid "Refreshes the launchers, tools and games"
 msgstr "刷新启动器/运行器"
 
 #: src/widgets/preferences/refresh-steam-profiles-row.vala:15
@@ -1805,8 +1805,8 @@ msgid "OLED"
 msgstr "OLED"
 
 #: src/widgets/preferences/theme-row.vala:27
-msgid "Current theme"
-msgstr "当前主题"
+msgid "Theme"
+msgstr ""
 
 #: src/widgets/runners/basic-row.vala:16
 msgid ""
@@ -1821,7 +1821,7 @@ msgid "Couldn't install %s"
 msgstr "无法安装 %s"
 
 #: src/widgets/runners/basic-row.vala:74
-#: src/widgets/runners/filters-box.vala:35
+#: src/widgets/runners/filters-box.vala:53
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/release-row.vala:55
 #: src/widgets/runners/release-row.vala:57
@@ -1897,23 +1897,31 @@ msgid "Open in your web browser"
 msgstr "在浏览器中打开"
 
 #: src/widgets/runners/filters-box.vala:24
+#, fuzzy
+msgid "Check if any tool needs to be updated"
+msgstr "检查已安装的“Latest”运行器是否需要更新"
+
+#: src/widgets/runners/filters-box.vala:42
 msgid "Installed"
 msgstr "已安装"
 
-#: src/widgets/runners/filters-box.vala:26
-msgid "Show installed runners"
+#: src/widgets/runners/filters-box.vala:44
+#, fuzzy
+msgid "Show installed tools"
 msgstr "显示已安装的运行器"
 
-#: src/widgets/runners/filters-box.vala:37
-msgid "Show runners that are used by one game or more"
+#: src/widgets/runners/filters-box.vala:55
+#, fuzzy
+msgid "Show tools that are used by one game or more"
 msgstr "显示已被游戏使用的运行器"
 
-#: src/widgets/runners/filters-box.vala:44
+#: src/widgets/runners/filters-box.vala:62
 msgid "Unused"
 msgstr "未使用"
 
-#: src/widgets/runners/filters-box.vala:46
-msgid "Show runners that aren't used by any games"
+#: src/widgets/runners/filters-box.vala:64
+#, fuzzy
+msgid "Show tools that aren't used by any games"
 msgstr "显示未被游戏使用的运行器"
 
 #: src/widgets/runners/installed-row.vala:41
@@ -2166,6 +2174,15 @@ msgstr ""
 #: src/widgets/window.vala:249
 msgid "Exit"
 msgstr "离开"
+
+#~ msgid "Check for updates"
+#~ msgstr "检查更新"
+
+#~ msgid "Remember the last used Steam profile"
+#~ msgstr "记住上次使用的 Steam 个人资料"
+
+#~ msgid "Current theme"
+#~ msgstr "当前主题"
 
 #~ msgid "Latest"
 #~ msgstr "最新版本"

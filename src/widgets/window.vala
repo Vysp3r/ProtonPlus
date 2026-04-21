@@ -61,8 +61,8 @@ namespace ProtonPlus.Widgets {
             view_stack.add_titled_with_icon (runners_box, "tools", _ ("Tools"), "toolbox-symbolic");
             view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "gamepad-symbolic");
             var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "overlay", _ ("MangoHud"), "layer-group-symbolic");
-            mangohud_page.set_visible (false);
-            Globals.SETTINGS?.bind ("experimental-mode", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.bind ("experimental-mode", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
+
             downloads_page = view_stack.add_titled_with_icon (downloads_box, "downloads", _ ("Downloads"), "download-2-symbolic");
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
 

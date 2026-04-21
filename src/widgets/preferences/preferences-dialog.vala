@@ -4,36 +4,26 @@ namespace ProtonPlus.Widgets.Preferences {
             // General
             var theme_row = new ThemeRow ();
 
-            var refresh_launchers_runners_row = new RefreshLaunchersRunnersRow (this);
-
             var save_history_row = new Adw.SwitchRow () {
                 title = _ ("Save download history"),
                 subtitle = _ ("Save the download history to a file"),
             };
-            Globals.SETTINGS?.bind ("save-history", save_history_row, "active", SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.bind ("save-history", save_history_row, "active", SettingsBindFlags.DEFAULT);
 
-            var general_group = new Adw.PreferencesGroup () {
-                title = _ ("General"),
-            };
+            var general_group = new Adw.PreferencesGroup ();
             general_group.add (theme_row);
             general_group.add (save_history_row);
-            general_group.add (refresh_launchers_runners_row);
 
             // Tools
 
             var automatic_updates_row = new Adw.SwitchRow () {
                 title = _ ("Automatic updates"),
-                subtitle = _ ("Update the installed 'Latest' runners when the application starts"),
+                subtitle = "%s\n\n%s".printf (_ ("Check if any tool needs to be updated when the application starts"), _("When disabled a button to check for updates will be shown in the Tools tab")),
             };
-            Globals.SETTINGS?.bind ("automatic-updates", automatic_updates_row, "active", SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.bind ("automatic-updates", automatic_updates_row, "active", SettingsBindFlags.DEFAULT);
 
-            var check_updates_row = new CheckUpdatesRow (this);
-
-            var tools_group = new Adw.PreferencesGroup () {
-                title = _ ("Tools"),
-            };
+            var tools_group = new Adw.PreferencesGroup ();
             tools_group.add (automatic_updates_row);
-            tools_group.add (check_updates_row);
 
             // Launchers
 
@@ -42,14 +32,6 @@ namespace ProtonPlus.Widgets.Preferences {
             foreach (var launcher in ProtonPlus.Widgets.Application.window.launchers) {
                 if (launcher is ProtonPlus.Models.Launchers.Steam) {
                     var steam_launcher = launcher as ProtonPlus.Models.Launchers.Steam;
-
-                    var steam_remember_last_used_profile_row = new Adw.SwitchRow () {
-                        title = _ ("Remember last used profile"),
-                        subtitle = _ ("Remember the last used Steam profile"),
-                    };
-                    Globals.SETTINGS?.bind ("steam-remember-last-profile", steam_remember_last_used_profile_row, "active", SettingsBindFlags.DEFAULT);
-
-                    var refresh_steam_profiles_row = new RefreshSteamProfilesRow (this);
 
                     var model = new GLib.ListStore (typeof (ProtonPlus.Models.SimpleRunner));
                     foreach (var compatibility_tool in steam_launcher.compatibility_tools) {
@@ -60,6 +42,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
                     var compatibility_tool_row = new ProtonPlus.Widgets.CompatibilityToolRow (model, expression);
                     compatibility_tool_row.title = _ ("Default compatibility tool");
+                    compatibility_tool_row.subtitle = _("The compatibility tool games will use by default");
 
                     for (var i = 0; i < (int) steam_launcher.compatibility_tools.size; i++) {
                         if (steam_launcher.compatibility_tools[i].internal_title == steam_launcher.default_compatibility_tool) {
@@ -75,12 +58,16 @@ namespace ProtonPlus.Widgets.Preferences {
                         }
                     });
 
+                    var steam_remember_last_used_profile_row = new Adw.SwitchRow () {
+                        title = _ ("Remember last used profile"),
+                    };
+                    Globals.SETTINGS.bind ("steam-remember-last-profile", steam_remember_last_used_profile_row, "active", SettingsBindFlags.DEFAULT);
+
                     var steam_group = new Adw.PreferencesGroup () {
                         title = "Steam",
                     };
-                    steam_group.add (steam_remember_last_used_profile_row);
                     steam_group.add (compatibility_tool_row);
-                    steam_group.add (refresh_steam_profiles_row);
+                    steam_group.add (steam_remember_last_used_profile_row);
 
                     launcher_groups.append (steam_group);
 
@@ -91,23 +78,24 @@ namespace ProtonPlus.Widgets.Preferences {
             // Advanced
 
             var experimental_switch = new Adw.SwitchRow () {
-                title = _ ("Experimental mode"),
-                subtitle = _ ("Add a MangoHud configuration tab to the sidebar"),
+                title = _ ("Preview features"),
+                subtitle = _ ("Enable experimental features for early testing"),
             };
-            Globals.SETTINGS?.bind ("experimental-mode", experimental_switch, "active", SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.bind ("experimental-mode", experimental_switch, "active", SettingsBindFlags.DEFAULT);
 
-            var advanced_group = new Adw.PreferencesGroup () {
-                title = _ ("Advanced"),
-            };
+            var refresh_application_data_row = new RefreshApplicationDataRow (this);
+
+            var advanced_group = new Adw.PreferencesGroup ();
             advanced_group.add (experimental_switch);
+            advanced_group.add (refresh_application_data_row);
 
             // API Tokens
 
             var github_access_token_row = new AccessTokenRow ("GitHub", "github-symbolic");
-            Globals.SETTINGS?.bind ("github-api-key", github_access_token_row, "text", SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.bind ("github-api-key", github_access_token_row, "text", SettingsBindFlags.DEFAULT);
 
             var gitlab_access_token_row = new AccessTokenRow ("GitLab", "gitlab-symbolic");
-            Globals.SETTINGS?.bind ("gitlab-api-key", gitlab_access_token_row, "text", SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.bind ("gitlab-api-key", gitlab_access_token_row, "text", SettingsBindFlags.DEFAULT);
 
             var tokens_group = new Adw.PreferencesGroup () {
                 title = "API Tokens",

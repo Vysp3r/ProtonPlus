@@ -5,7 +5,7 @@ namespace ProtonPlus.Widgets.Preferences {
         }
 
         public AccessTokenRow (string source, string icon_name) {
-            set_title (_ ("%s Access token").printf (source));
+            set_title (_ ("%s access token").printf (source));
             add_prefix (new Gtk.Image.from_icon_name (icon_name));
         }
     }

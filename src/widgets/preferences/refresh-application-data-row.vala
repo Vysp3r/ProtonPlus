@@ -1,22 +1,23 @@
 namespace ProtonPlus.Widgets.Preferences {
-    public class RefreshLaunchersRunnersRow : Adw.ActionRow {
+    public class RefreshApplicationDataRow : Adw.ActionRow {
         PreferencesDialog dialog;
         Gtk.Button refresh_launchers_runners_button;
         Adw.Spinner spinner;
 
         construct {
-            refresh_launchers_runners_button = new Gtk.Button.from_icon_name ("arrow-rotate-symbolic");
+            refresh_launchers_runners_button = new Gtk.Button.from_icon_name ("arrows-rotate-symbolic");
             refresh_launchers_runners_button.add_css_class ("flat");
             refresh_launchers_runners_button.set_valign (Gtk.Align.CENTER);
             refresh_launchers_runners_button.clicked.connect (() => refresh_launchers_runners.begin ());
 
             spinner = new Adw.Spinner ();
 
-            set_title (_ ("Refresh launchers/runners"));
+            set_title (_ ("Refresh application data"));
+            set_subtitle (_("Refreshes the launchers, tools and games"));
             add_suffix (refresh_launchers_runners_button);
         }
 
-        public RefreshLaunchersRunnersRow (PreferencesDialog dialog) {
+        public RefreshApplicationDataRow (PreferencesDialog dialog) {
             this.dialog = dialog;
         }
 

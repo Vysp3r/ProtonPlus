@@ -24,7 +24,7 @@ namespace ProtonPlus.Widgets.Preferences {
             factory.setup.connect (factory_setup);
             factory.bind.connect (factory_bind);
 
-            set_title (_ ("Current theme"));
+            set_title (_ ("Theme"));
             set_model (model);
             set_expression (expression);
             set_list_factory (factory);

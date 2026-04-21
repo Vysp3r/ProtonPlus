@@ -31,6 +31,8 @@
     <file alias="scalable/actions/eye-symbolic.svg">icons/eye.svg</file>
     <file alias="scalable/actions/grip-symbolic.svg">icons/grip.svg</file>
     <file alias="scalable/actions/gitlab-symbolic.svg">icons/gitlab.svg</file>
+    <file alias="scalable/actions/palette-2-symbolic.svg">icons/palette.svg</file>
+    <file alias="scalable/actions/arrows-rotate-symbolic.svg">icons/arrows-rotate.svg</file>
     <file alias="scalable/actions/layer-group-symbolic.svg">icons/layer-group.svg</file>
     <file alias="scalable/actions/chart-area-symbolic.svg">icons/chart-area.svg</file>
     <file alias="scalable/actions/gauge-high-symbolic.svg">icons/gauge-high.svg</file>

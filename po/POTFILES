@@ -66,9 +66,8 @@ src/widgets/mangohud/mangohud-performance-page.vala
 src/widgets/mangohud/mangohud-presets-page.vala
 src/widgets/mangohud/mangohud-visual-page.vala
 src/widgets/preferences/access-token-row.vala
-src/widgets/preferences/check-updates-row.vala
 src/widgets/preferences/preferences-dialog.vala
-src/widgets/preferences/refresh-launchers-runners-row.vala
+src/widgets/preferences/refresh-application-data-row.vala
 src/widgets/preferences/refresh-steam-profiles-row.vala
 src/widgets/preferences/theme-row.vala
 src/widgets/runners/basic-row.vala

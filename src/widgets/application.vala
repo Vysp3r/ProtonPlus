@@ -28,47 +28,42 @@ namespace ProtonPlus.Widgets {
             provider.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
             Gtk.StyleContext.add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-            window = new Window ();
+            Globals.load ();
 
-            Globals.load.begin ((obj, res) => {
-                if (Globals.SETTINGS != null) {
-                    Globals.SETTINGS.bind ("width",
-                            window,
-                            "default-width",
-                            SettingsBindFlags.DEFAULT);
-                    Globals.SETTINGS.bind ("height",
-                            window,
-                            "default-height",
-                            SettingsBindFlags.DEFAULT);
-                    Globals.SETTINGS.bind ("is-maximized",
-                            window,
-                            "maximized",
-                            SettingsBindFlags.DEFAULT);
-                    Globals.SETTINGS.bind ("is-fullscreen",
-                            window,
-                            "fullscreened",
-                            SettingsBindFlags.DEFAULT);
+            if (Globals.SETTINGS != null) {
+                window = new Window ();
 
-                    if (Globals.SETTINGS.get_boolean ("first-run")) {
-                        if (Globals.IS_STEAM_OS) {
-                            Globals.SETTINGS.set_enum ("theme", 5);
-                        }
+                Globals.SETTINGS.bind ("width",
+                        window,
+                        "default-width",
+                        SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("height",
+                        window,
+                        "default-height",
+                        SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("is-maximized",
+                        window,
+                        "maximized",
+                        SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("is-fullscreen",
+                        window,
+                        "fullscreened",
+                        SettingsBindFlags.DEFAULT);
 
-                        Globals.SETTINGS.set_boolean ("first-run", false);
+                if (Globals.SETTINGS.get_boolean ("first-run")) {
+                    if (Globals.IS_STEAM_OS) {
+                        Globals.SETTINGS.set_enum ("theme", 5);
                     }
 
-                    ThemeManager.get_default ().apply_theme ();
-                } else {
-                    warning ("GSettings schema not found: 'com.vysp3r.ProtonPlus.State'");
-
-                    window.default_width = 950;
-                    window.default_height = 600;
-                    window.maximized = false;
-                    window.fullscreened = false;
+                    Globals.SETTINGS.set_boolean ("first-run", false);
                 }
 
+                ThemeManager.get_default ().apply_theme ();
+
                 window.present ();
-            });
+            } else {
+                error ("GSettings schema not found or invalid: 'com.vysp3r.ProtonPlus.State'");
+            }
         }
 
         void on_report_action () {

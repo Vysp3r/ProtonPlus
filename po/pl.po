@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-20 18:17-0400\n"
+"POT-Creation-Date: 2026-04-20 21:32-0400\n"
 "PO-Revision-Date: 2026-04-13 21:55+0000\n"
 "Last-Translator: MattSolo451 <mattsolo45@vivaldi.net>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -383,19 +383,19 @@ msgstr ""
 "Wariant Wine VKD3D, który ma na celu implementację pełnego API Direct3D 12 "
 "na Vulkan."
 
-#: src/widgets/application.vala:103
+#: src/widgets/application.vala:98
 msgid "A modern compatibility tools manager"
 msgstr "Nowoczesny menedżer narzędzi zgodności dla systemu Linux."
 
-#: src/widgets/application.vala:105
+#: src/widgets/application.vala:100
 msgid "Website"
 msgstr "Strona internetowa"
 
-#: src/widgets/application.vala:110
+#: src/widgets/application.vala:105
 msgid "translator-credits"
 msgstr "Podziękowania dla tłumaczy"
 
-#: src/widgets/application.vala:111
+#: src/widgets/application.vala:106
 msgid "Special thanks to"
 msgstr "Specjalne podziękowania dla"
 
@@ -553,8 +553,7 @@ msgstr "Zastosuj bieżącą zmianę"
 
 #: src/widgets/games/games-box.vala:94
 #: src/widgets/mangohud/mangohud-box.vala:68
-#: src/widgets/preferences/preferences-dialog.vala:100
-#: src/widgets/preferences/preferences-dialog.vala:142
+#: src/widgets/preferences/preferences-dialog.vala:130
 msgid "Advanced"
 msgstr "Zaawansowane"
 
@@ -1081,34 +1080,34 @@ msgid ""
 "feature."
 msgstr "Przed skorzystaniem z edycji masowej, należy wybrać co najmniej 1 grę."
 
-#: src/widgets/games/mass-edit-view.vala:22
+#: src/widgets/games/mass-edit-view.vala:23
 msgid "1 game selected"
 msgstr "wybrana 1 gra"
 
-#: src/widgets/games/mass-edit-view.vala:22
+#: src/widgets/games/mass-edit-view.vala:23
 #, c-format
 msgid "%u games selected"
 msgstr "wybrano %u gier"
 
-#: src/widgets/games/mass-edit-view.vala:39
+#: src/widgets/games/mass-edit-view.vala:40
 msgid "Compatibility tool"
 msgstr "Narzędzie zgodności"
 
-#: src/widgets/games/mass-edit-view.vala:47
+#: src/widgets/games/mass-edit-view.vala:48
 #, fuzzy
 msgid "Launch options"
 msgstr "Parametry startowe"
 
-#: src/widgets/games/mass-edit-view.vala:162
+#: src/widgets/games/mass-edit-view.vala:168
 msgid ""
 "Couldn't change the compatibility tool/launch options of the selected games"
 msgstr "Wystąpił błąd podczas próby zmiany tych gier"
 
-#: src/widgets/games/mass-edit-view.vala:162
+#: src/widgets/games/mass-edit-view.vala:168
 msgid "The following games had an issue:"
 msgstr "Te gry sprawiły problem:"
 
-#: src/widgets/games/mass-edit-view.vala:162
+#: src/widgets/games/mass-edit-view.vala:168
 #: src/widgets/games/shortcut-button.vala:31
 #: src/widgets/games/shortcut-button.vala:39
 #: src/widgets/runners/basic-row.vala:52
@@ -1653,15 +1652,15 @@ msgid "Layouts"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:52
-msgid "MangoHud Stock"
+msgid "Stock"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:53
-msgid "Simple White"
+msgid "White"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:68
-msgid "Color Themes"
+msgid "Themes"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:18
@@ -1742,77 +1741,74 @@ msgstr "Wpisz token by zredukować szansę na przekroczenie limitu"
 
 #: src/widgets/preferences/access-token-row.vala:8
 #, fuzzy, c-format
-msgid "%s Access token"
+msgid "%s access token"
 msgstr "Token dostępu"
 
-#: src/widgets/preferences/check-updates-row.vala:11
-msgid "Check if any of the installed 'Latest' runners needs to be updated"
-msgstr ""
-"Sprawdza czy zainstalowane uruchamiacze z dopiskiem 'latest' potrzebują "
-"aktualizacji"
-
-#: src/widgets/preferences/check-updates-row.vala:16
-msgid "Check for updates"
-msgstr "Sprawdź aktualizacje"
-
-#: src/widgets/preferences/preferences-dialog.vala:10
+#: src/widgets/preferences/preferences-dialog.vala:8
 msgid "Save download history"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:11
+#: src/widgets/preferences/preferences-dialog.vala:9
 msgid "Save the download history to a file"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:16
-#: src/widgets/preferences/preferences-dialog.vala:121
-msgid "General"
-msgstr "Ogólne"
-
-#: src/widgets/preferences/preferences-dialog.vala:25
+#: src/widgets/preferences/preferences-dialog.vala:20
 msgid "Automatic updates"
 msgstr "Automatyczne aktualizacje"
 
-#: src/widgets/preferences/preferences-dialog.vala:26
+#: src/widgets/preferences/preferences-dialog.vala:21
 #, fuzzy
-msgid "Update the installed 'Latest' runners when the application starts"
+msgid "Check if any tool needs to be updated when the application starts"
 msgstr ""
 "Ustala czy uruchomienie programu powinno aktualizować uruchamiacze 'latest'"
 
-#: src/widgets/preferences/preferences-dialog.vala:33
-#: src/widgets/preferences/preferences-dialog.vala:127
-#: src/widgets/window.vala:61
-msgid "Tools"
+#: src/widgets/preferences/preferences-dialog.vala:21
+msgid ""
+"When disabled a button to check for updates will be shown in the Tools tab"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:47
-msgid "Remember last used profile"
-msgstr "Zapamiętaj ostatnio użyty profil"
-
-#: src/widgets/preferences/preferences-dialog.vala:48
-#, fuzzy
-msgid "Remember the last used Steam profile"
-msgstr "Zapamiętaj ostatnio użyty profil"
-
-#: src/widgets/preferences/preferences-dialog.vala:62
+#: src/widgets/preferences/preferences-dialog.vala:44
 #, fuzzy
 msgid "Default compatibility tool"
 msgstr "Ustaw domyślne narzędzie zgodności"
 
-#: src/widgets/preferences/preferences-dialog.vala:94
-msgid "Experimental mode"
+#: src/widgets/preferences/preferences-dialog.vala:45
+msgid "The compatibility tool games will use by default"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:95
-msgid "Add a MangoHud configuration tab to the sidebar"
+#: src/widgets/preferences/preferences-dialog.vala:62
+msgid "Remember last used profile"
+msgstr "Zapamiętaj ostatnio użyty profil"
+
+#: src/widgets/preferences/preferences-dialog.vala:81
+msgid "Preview features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:134
+#: src/widgets/preferences/preferences-dialog.vala:82
+msgid "Enable experimental features for early testing"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:109
+msgid "General"
+msgstr "Ogólne"
+
+#: src/widgets/preferences/preferences-dialog.vala:115
+#: src/widgets/window.vala:61
+msgid "Tools"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:122
 #, fuzzy
 msgid "Launchers"
 msgstr "Parametry startowe"
 
-#: src/widgets/preferences/refresh-launchers-runners-row.vala:15
-msgid "Refresh launchers/runners"
+#: src/widgets/preferences/refresh-application-data-row.vala:15
+msgid "Refresh application data"
+msgstr ""
+
+#: src/widgets/preferences/refresh-application-data-row.vala:16
+#, fuzzy
+msgid "Refreshes the launchers, tools and games"
 msgstr "Odśwież uruchamiacze"
 
 #: src/widgets/preferences/refresh-steam-profiles-row.vala:15
@@ -1836,8 +1832,8 @@ msgid "OLED"
 msgstr ""
 
 #: src/widgets/preferences/theme-row.vala:27
-msgid "Current theme"
-msgstr "Aktualny motyw"
+msgid "Theme"
+msgstr ""
 
 #: src/widgets/runners/basic-row.vala:16
 msgid ""
@@ -1854,7 +1850,7 @@ msgid "Couldn't install %s"
 msgstr "Nie mogę zainstalować %s"
 
 #: src/widgets/runners/basic-row.vala:74
-#: src/widgets/runners/filters-box.vala:35
+#: src/widgets/runners/filters-box.vala:53
 #: src/widgets/runners/installed-row.vala:11
 #: src/widgets/runners/release-row.vala:55
 #: src/widgets/runners/release-row.vala:57
@@ -1936,23 +1932,33 @@ msgid "Open in your web browser"
 msgstr "Otwórz w przeglądarce"
 
 #: src/widgets/runners/filters-box.vala:24
+#, fuzzy
+msgid "Check if any tool needs to be updated"
+msgstr ""
+"Sprawdza czy zainstalowane uruchamiacze z dopiskiem 'latest' potrzebują "
+"aktualizacji"
+
+#: src/widgets/runners/filters-box.vala:42
 msgid "Installed"
 msgstr "Zainstalowane"
 
-#: src/widgets/runners/filters-box.vala:26
-msgid "Show installed runners"
+#: src/widgets/runners/filters-box.vala:44
+#, fuzzy
+msgid "Show installed tools"
 msgstr "Pokaż zainstalowane uruchamiacze"
 
-#: src/widgets/runners/filters-box.vala:37
-msgid "Show runners that are used by one game or more"
+#: src/widgets/runners/filters-box.vala:55
+#, fuzzy
+msgid "Show tools that are used by one game or more"
 msgstr "Pokaż uruchamiacze które są używane przez gry"
 
-#: src/widgets/runners/filters-box.vala:44
+#: src/widgets/runners/filters-box.vala:62
 msgid "Unused"
 msgstr "Nieużywane"
 
-#: src/widgets/runners/filters-box.vala:46
-msgid "Show runners that aren't used by any games"
+#: src/widgets/runners/filters-box.vala:64
+#, fuzzy
+msgid "Show tools that aren't used by any games"
 msgstr "Pokaż uruchamiacze które nie są używane przez żadną grę"
 
 #: src/widgets/runners/installed-row.vala:41
@@ -2211,6 +2217,16 @@ msgstr ""
 #: src/widgets/window.vala:249
 msgid "Exit"
 msgstr "Wyjście"
+
+#~ msgid "Check for updates"
+#~ msgstr "Sprawdź aktualizacje"
+
+#, fuzzy
+#~ msgid "Remember the last used Steam profile"
+#~ msgstr "Zapamiętaj ostatnio użyty profil"
+
+#~ msgid "Current theme"
+#~ msgstr "Aktualny motyw"
 
 #~ msgid "Latest"
 #~ msgstr "Najnowszy"

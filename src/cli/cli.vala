@@ -52,7 +52,7 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            yield Globals.load ();
+            Globals.load ();
 
             if (!yield load_launchers ()) {
                 return 1;

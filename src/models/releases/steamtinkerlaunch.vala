@@ -233,7 +233,7 @@ namespace ProtonPlus.Models.Releases {
             // Download the source code archive.
             // NOTE: We only create "downloads", since it's a subdir of `base_location`.
             if (!FileUtils.test (download_location, FileTest.IS_DIR)) {
-                var download_dir_exists = yield Utils.Filesystem.create_directory (download_location);
+                var download_dir_exists = yield Utils.Filesystem.create_directory_async (download_location);
 
                 if (!download_dir_exists)
                 return false;
@@ -285,7 +285,7 @@ namespace ProtonPlus.Models.Releases {
 
 
             // Create a symlink for the steamtinkerlaunch binary.
-            var link_parent_location_exists = yield Utils.Filesystem.create_directory (link_parent_location);
+            var link_parent_location_exists = yield Utils.Filesystem.create_directory_async (link_parent_location);
 
             if (!link_parent_location_exists)
             return false;

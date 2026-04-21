@@ -14,9 +14,7 @@ namespace ProtonPlus.Models {
             this.launcher = launcher;
 
             if (!FileUtils.test (launcher.directory + directory, FileTest.IS_DIR)) {
-                Utils.Filesystem.create_directory.begin (launcher.directory + directory, (obj, res) => {
-                    Utils.Filesystem.create_directory.end (res);
-                });
+                Utils.Filesystem.create_directory_async.begin (launcher.directory + directory, null);
             }
         }
 
