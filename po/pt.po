@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-04-23 23:09+0000\n"
+"PO-Revision-Date: 2026-04-24 09:09+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -96,9 +96,8 @@ msgid "Games"
 msgstr "Jogos"
 
 #: src/widgets/window.vala:63
-#, fuzzy
 msgid "Downloads"
-msgstr "Baixando"
+msgstr "Descarregamentos"
 
 #: src/widgets/window.vala:123
 msgid "Couldn't load the launchers"
@@ -224,11 +223,11 @@ msgstr "Geral"
 
 #: src/widgets/preferences/preferences-dialog.vala:14
 msgid "Save download history"
-msgstr ""
+msgstr "Salvar histórico de descarregamentos"
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Save the download history to a file"
-msgstr ""
+msgstr "Salvar o histórico de descarregamentos para um arquivo"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Automatic updates"
@@ -891,19 +890,20 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:569
-#, fuzzy
 msgid "FSR 4 Upgrade"
-msgstr "Atualize %s"
+msgstr "Atualização FSR 4"
 
 #: src/widgets/games/launch-options-editor.vala:569
 msgid ""
 "Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
 "Anti-Lag 2 currently due to various issues."
 msgstr ""
+"Atualiza FSR 3.1 para FSR 4 em jogos suportados. Esta opção também desativa "
+"AMD Anti-Lag 2 atualmente devido a vários problemas."
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "FSR 4 RDNA3 Upgrade"
-msgstr ""
+msgstr "Atualização FSR 4 RDNA3"
 
 #: src/widgets/games/launch-options-editor.vala:573
 msgid "Optimizes FSR 4.0 for RDNA3 hardware."
