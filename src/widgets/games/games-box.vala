@@ -1,7 +1,5 @@
 namespace ProtonPlus.Widgets {
     public class GamesBox : Gtk.Box {
-        public delegate void load_steam_profile_func(Models.SteamProfile profile);
-
         public bool active { get; set; }
         bool error { get; set; }
         bool invalid { get; set; }
@@ -68,6 +66,7 @@ namespace ProtonPlus.Widgets {
             mass_edit_button.mass_edit_requested.connect (open_mass_edit);
 
             switch_profile_button = new SwitchProfileButton();
+            switch_profile_button.load_steam_profile.connect (load_steam_profile);
 
             back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic");
             back_button.add_css_class ("flat");
@@ -191,7 +190,8 @@ namespace ProtonPlus.Widgets {
                     if (steam_launcher.profiles.length () > 1) {
                         game_list_box.remove_all ();
 
-                        var dialog = new ProfileDialog(steam_launcher, load_steam_profile);
+                        var dialog = new ProfileDialog(steam_launcher);
+                        dialog.load_steam_profile.connect (load_steam_profile);
                         dialog.present (Application.window);
                     } else {
                         load_steam_profile (steam_launcher.profiles.nth_data (0));
@@ -259,7 +259,7 @@ namespace ProtonPlus.Widgets {
 
                     if (steam_launcher.profiles.length () > 1) {
                         switch_profile_button.set_visible (true);
-                        switch_profile_button.load (steam_launcher, load_steam_profile, game_list_box);
+                        switch_profile_button.load (steam_launcher, game_list_box);
                     }
 
                     notify_property ("active"); // Ensure that when the launcher is changed, but you're in the Games tab the profile dialog still shows up

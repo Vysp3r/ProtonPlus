@@ -72,12 +72,16 @@ namespace ProtonPlus.Widgets {
                 string yad_version_output = yield Utils.System.run_command ("yad --version");
 
                 float version = 0.0f;
-                var regex = new Regex ("""(\d+\.\d+)\s*\(GTK\+""");
-                MatchInfo match_info;
-                if (regex.match (yad_version_output, 0, out match_info)) {
-                    version = float.parse (match_info.fetch (1));
+                try {
+                    var regex = new Regex ("""(\d+\.\d+)\s*\(GTK\+""");
+                    MatchInfo match_info;
+                    if (regex.match (yad_version_output, 0, out match_info)) {
+                        version = float.parse (match_info.fetch (1));
+                    }
+                    yad_installed = version >= 7.2;
+                } catch (Error e) {
+                    return missing_dependencies;
                 }
-                yad_installed = version >= 7.2;
             }
             if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
 

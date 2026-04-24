@@ -10,7 +10,7 @@ namespace ProtonPlus.Models {
         public bool canceled { get; set; }
         public string progress { get; set; }
         public double speed_kbps { get; set; }
-        public double? seconds_remaining { get; set; }
+        public double seconds_remaining { get; set; }
         public bool is_percent { get; set; }
         public bool is_finished { get; set; default = false; }
         public bool install_success { get; set; default = false; }
@@ -68,7 +68,7 @@ namespace ProtonPlus.Models {
             install_success = false;
             progress = null;
             speed_kbps = 0.0;
-            seconds_remaining = null;
+            seconds_remaining = -1.0;
             is_percent = false;
 
             var busy_updating = state == State.BUSY_UPDATING;

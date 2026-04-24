@@ -238,12 +238,8 @@ namespace ProtonPlus.Models.Launchers {
 
                             } else if (file_info.get_name () != "LegacyRuntime") {
                                 var file_path = "%s/%s".printf (directory.get_path (), file_info.get_name ());
-                                try {
-                                    var simple_runner = new SimpleRunner.from_path(file_path);
-                                    compatibility_tools.add (simple_runner);
-                                } catch (Error e) {
-                                    warning (e.message);
-                                }
+                                var simple_runner = new SimpleRunner.from_path(file_path);
+                                compatibility_tools.add (simple_runner);
                             }
                         }
                     }

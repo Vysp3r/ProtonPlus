@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets {
     public class ProfileDialog : Adw.Dialog {
-        GamesBox.load_steam_profile_func load_steam_profile_func;
+        public signal void load_steam_profile (Models.SteamProfile profile);
         Models.Launchers.Steam launcher { get; set; }
         Adw.HeaderBar header_bar { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
@@ -8,9 +8,8 @@ namespace ProtonPlus.Widgets {
         Gtk.Box content_box { get; set; }
         bool profile_selected { get; set; }
 
-        public ProfileDialog (Models.Launchers.Steam launcher, GamesBox.load_steam_profile_func load_steam_profile_func) {
+        public ProfileDialog (Models.Launchers.Steam launcher) {
             this.launcher = launcher;
-            this.load_steam_profile_func = load_steam_profile_func;
 
             window_title = new Adw.WindowTitle (_ ("Select a profile"), "");
 
@@ -40,7 +39,7 @@ namespace ProtonPlus.Widgets {
 
         void profile_button_clicked (Models.SteamProfile profile) {
             profile_selected = true;
-            load_steam_profile_func (profile);
+            load_steam_profile (profile);
             if (Globals.SETTINGS != null)
             Globals.SETTINGS.set_string ("steam-last-profile-id", profile.steam_id);
             set_can_close (true);

@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets {
     public class SwitchProfileButton : Gtk.Button {
+        public signal void load_steam_profile (Models.SteamProfile profile);
         Models.Launchers.Steam launcher;
-        GamesBox.load_steam_profile_func load_steam_profile;
         Gtk.ListBox game_list_box;
 
         Gtk.Image content_image;
@@ -24,9 +24,8 @@ namespace ProtonPlus.Widgets {
             add_css_class ("flat");
         }
 
-        public void load (Models.Launchers.Steam launcher, GamesBox.load_steam_profile_func load_steam_profile, Gtk.ListBox game_list_box) {
+        public void load (Models.Launchers.Steam launcher, Gtk.ListBox game_list_box) {
             this.launcher = launcher;
-            this.load_steam_profile = load_steam_profile;
             this.game_list_box = game_list_box;
 
             content_image.set_visible (false);
@@ -47,7 +46,8 @@ namespace ProtonPlus.Widgets {
         void switch_profile_button_clicked () {
             game_list_box.remove_all ();
 
-            var dialog = new ProfileDialog(launcher, load_steam_profile);
+            var dialog = new ProfileDialog(launcher);
+            dialog.load_steam_profile.connect ((profile) => load_steam_profile (profile));
             dialog.present (Application.window);
         }
     }

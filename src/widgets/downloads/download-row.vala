@@ -57,12 +57,10 @@ namespace ProtonPlus.Widgets {
                     pulse_id = 0;
                 }
 
-                try {
-                    release.notify["progress"].disconnect (update_progress);
-                    release.notify["speed-kbps"].disconnect (update_stats);
-                    release.notify["seconds-remaining"].disconnect (update_stats);
-                    release.notify["step"].disconnect (update_step);
-                } catch (Error e) {}
+                release.notify["progress"].disconnect (update_progress);
+                release.notify["speed-kbps"].disconnect (update_stats);
+                release.notify["seconds-remaining"].disconnect (update_stats);
+                release.notify["step"].disconnect (update_step);
             });
         }
 
@@ -84,7 +82,7 @@ namespace ProtonPlus.Widgets {
             var state_text = release.state == Models.BaseRelease.State.BUSY_UPDATING ? _ ("Updating") : _ ("Downloading");
             var progress_text = "%s - %s".printf (state_text, download_speed);
 
-            if (release.seconds_remaining != null) {
+            if (release.seconds_remaining != -1.0) {
                 int s = (int)release.seconds_remaining % 60;
                 int m = ((int)release.seconds_remaining / 60) % 60;
                 int h = (int)release.seconds_remaining / 3600;
