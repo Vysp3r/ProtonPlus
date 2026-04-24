@@ -149,8 +149,6 @@ namespace ProtonPlus.Utils {
         }
 
         public static string? get_protontricks_exec_sync () {
-
-
             foreach (var protontricks_exec in protontricks_execs) {
                 if (Utils.System.check_dependency_sync (protontricks_exec))
                 return protontricks_exec;
