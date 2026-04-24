@@ -6,15 +6,18 @@ namespace ProtonPlus.Models {
         public bool has_more { get; set; }
         public bool has_latest_support { get; set; }
         public bool asset_position_hwcaps_condition { get; set; }
-        public Utils.Web.GetType get_type { get; set; }
+        public Utils.Web.GetRequestType get_request_type { get; set; }
         public List<Release> releases;
 
         public abstract async ReturnCode load (out List<Release> releases);
 
+        /// Checks all launchers for available updates and applies them.
         public static async ReturnCode check_for_updates (List<Launcher> launchers) {
             var latest_runners = new List<Models.Runners.Basic> ();
 
             foreach (var launcher in launchers) {
+                if (launcher.groups == null) continue;
+
                 foreach (var group in launcher.groups) {
                     var directories = group.get_compatibility_tool_directories ();
 
@@ -30,8 +33,10 @@ namespace ProtonPlus.Models {
 
                             if (directory == "%s Latest Backup".printf (runner.title)) {
                                 var deleted_old_backup = yield Utils.Filesystem.delete_directory ("%s/%s/%s Latest Backup".printf (launcher.directory, group.directory, runner.title));
-                                if (!deleted_old_backup)
-                                return ReturnCode.UNKNOWN_ERROR;
+                                if (!deleted_old_backup) {
+                                    warning ("Failed to delete old backup for %s", runner.title);
+                                    return ReturnCode.UNKNOWN_ERROR;
+                                }
                                 continue;
                             }
                         }
@@ -39,17 +44,19 @@ namespace ProtonPlus.Models {
                 }
             }
 
-            if (latest_runners.length () == 0)
-            return ReturnCode.NOTHING_TO_UPDATE;
+            if (latest_runners.length () == 0) {
+                return ReturnCode.NOTHING_TO_UPDATE;
+            }
 
             var updated_count = 0;
 
             foreach (var runner in latest_runners) {
                 var code = yield update_specific_runner (runner);
-                if (code == ReturnCode.RUNNER_UPDATED)
-                updated_count++;
-                    else if (code != ReturnCode.NOTHING_TO_UPDATE)
+                if (code == ReturnCode.RUNNER_UPDATED) {
+                    updated_count++;
+                } else if (code != ReturnCode.NOTHING_TO_UPDATE) {
                     return code;
+                }
             }
 
             return updated_count > 0 ? ReturnCode.RUNNERS_UPDATED : ReturnCode.NOTHING_TO_UPDATE;
@@ -59,12 +66,12 @@ namespace ProtonPlus.Models {
             string? response;
 
             string query_param;
-            switch (runner.get_type) {
-                case Utils.Web.GetType.FORGEJO:
+            switch (runner.get_request_type) {
+                case Utils.Web.GetRequestType.FORGEJO:
                     query_param = "limit=1";
                     break;
-                case Utils.Web.GetType.GITHUB:
-                case Utils.Web.GetType.GITLAB:
+                case Utils.Web.GetRequestType.GITHUB:
+                case Utils.Web.GetRequestType.GITLAB:
                 default:
                     query_param = "per_page=1";
                     break;
@@ -74,7 +81,7 @@ namespace ProtonPlus.Models {
             var runner_directory = "%s/%s Latest".printf (base_runner_directory, runner.title);
             var tag_path = "%s/.protonplus_tag".printf (runner_directory);
 
-            var code = yield Utils.Web.get_request ("%s?%s".printf (runner.endpoint, query_param), runner.get_type, out response);
+            var code = yield Utils.Web.get_request ("%s?%s".printf (runner.endpoint, query_param), runner.get_request_type, out response);
 
             if (code != ReturnCode.VALID_REQUEST) {
             // If API is unavailable but we have a tag file, assume up to date

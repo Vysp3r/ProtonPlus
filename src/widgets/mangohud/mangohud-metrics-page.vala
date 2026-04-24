@@ -48,7 +48,7 @@ namespace ProtonPlus.Widgets {
         public MangoHudMetricsPage (Models.MangoHudConfig config) {
             base (config);
 
-            // GPU section
+        // GPU section
             var gpu_metrics_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
             var gpu_label = new Gtk.Label (_ ("GPU")) {
                 halign = Gtk.Align.START,
@@ -87,8 +87,8 @@ namespace ProtonPlus.Widgets {
             gpu_mem_clock_row = create_switch (_ ("Memory Freq"), config.gpu_mem_clock, (val) => { this.config.gpu_mem_clock = val; });
 
             add_flow_group (gpu_metrics_box, _ ("Main metrics"), {
-                gpu_stats_row, gpu_load_color_row, vram_row, gpu_core_clock_row, gpu_mem_clock_row
-            });
+                                                                     gpu_stats_row, gpu_load_color_row, vram_row, gpu_core_clock_row, gpu_mem_clock_row
+                                                                 });
 
             gpu_temp_row = create_switch (_ ("GPU"), config.gpu_temp, (val) => { this.config.gpu_temp = val; });
             gpu_mem_temp_row = create_switch (_ ("Memory"), config.gpu_mem_temp, (val) => { this.config.gpu_mem_temp = val; });
@@ -96,8 +96,8 @@ namespace ProtonPlus.Widgets {
             gpu_fan_row = create_switch (_ ("Fans"), config.gpu_fan, (val) => { this.config.gpu_fan = val; });
 
             add_flow_group (gpu_metrics_box, _ ("Temperature"), {
-                gpu_temp_row, gpu_mem_temp_row, gpu_junction_temp_row, gpu_fan_row
-            });
+                                                                    gpu_temp_row, gpu_mem_temp_row, gpu_junction_temp_row, gpu_fan_row
+                                                                });
 
             gpu_power_row = create_switch (_ ("Power"), config.gpu_power, (val) => { this.config.gpu_power = val; });
             gpu_voltage_row = create_switch (_ ("Voltage"), config.gpu_voltage, (val) => { this.config.gpu_voltage = val; });
@@ -107,20 +107,20 @@ namespace ProtonPlus.Widgets {
             gpu_power_limit_row = create_switch (_ ("Power Limit"), config.gpu_power_limit, (val) => { this.config.gpu_power_limit = val; });
 
             add_flow_group (gpu_metrics_box, _ ("Power"), {
-                gpu_power_row, gpu_voltage_row, throttling_status_row, throttling_graph_row, gpu_efficiency_row, gpu_power_limit_row
-            });
+                                                              gpu_power_row, gpu_voltage_row, throttling_status_row, throttling_graph_row, gpu_efficiency_row, gpu_power_limit_row
+                                                          });
 
             gpu_name_row = create_switch (_ ("Model"), config.gpu_name, (val) => { this.config.gpu_name = val; });
             vulkan_driver_row = create_switch (_ ("Vulkan Driver"), config.vulkan_driver, (val) => { this.config.vulkan_driver = val; });
             gpu_procs_row = create_switch (_ ("Process"), config.procs, (val) => { this.config.procs = val; });
 
             add_flow_group (gpu_metrics_box, _ ("Information"), {
-                gpu_name_row, vulkan_driver_row, gpu_procs_row
-            });
+                                                                    gpu_name_row, vulkan_driver_row, gpu_procs_row
+                                                                });
 
             this.append (gpu_metrics_box);
 
-            // CPU section
+        // CPU section
             var cpu_metrics_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
             var cpu_label = new Gtk.Label (_ ("CPU")) {
                 halign = Gtk.Align.START,
@@ -158,8 +158,8 @@ namespace ProtonPlus.Widgets {
             core_pipeline_row = create_switch (_ ("Core Type"), config.core_pipeline, (val) => { this.config.core_pipeline = val; });
 
             add_flow_group (cpu_metrics_box, _ ("Main metrics"), {
-                cpu_stats_row, cpu_load_color_row, core_load_row, cpu_mhz_row, core_pipeline_row
-            });
+                                                                     cpu_stats_row, cpu_load_color_row, core_load_row, cpu_mhz_row, core_pipeline_row
+                                                                 });
 
             cpu_temp_row = create_switch (_ ("CPU Temperature"), config.cpu_temp, (val) => { this.config.cpu_temp = val; });
             cpu_power_row = create_switch (_ ("CPU Power"), config.cpu_power, (val) => { this.config.cpu_power = val; });
@@ -167,8 +167,8 @@ namespace ProtonPlus.Widgets {
             ram_temp_row = create_switch (_ ("RAM Temperature"), config.ram_temp, (val) => { this.config.ram_temp = val; });
 
             add_flow_group (cpu_metrics_box, _ ("Temperature / Power"), {
-                cpu_temp_row, cpu_power_row, cpu_efficiency_row, ram_temp_row
-            });
+                                                                            cpu_temp_row, cpu_power_row, cpu_efficiency_row, ram_temp_row
+                                                                        });
 
             ram_row = create_switch (_ ("RAM"), config.ram, (val) => { this.config.ram = val; });
             disks_row = create_switch (_ ("DISK IO"), config.disks, (val) => { this.config.disks = val; });
@@ -176,12 +176,11 @@ namespace ProtonPlus.Widgets {
             swap_row = create_switch (_ ("Swap"), config.swap, (val) => { this.config.swap = val; });
 
             add_flow_group (cpu_metrics_box, _ ("Memory / IO"), {
-                ram_row, disks_row, cpu_procs_row, swap_row
-            });
+                                                                    ram_row, disks_row, cpu_procs_row, swap_row
+                                                                });
 
             this.append (cpu_metrics_box);
         }
-
 
         private void update_gpu_load_colors () {
             if (is_updating) return;

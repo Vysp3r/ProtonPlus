@@ -12,7 +12,7 @@ namespace ProtonPlus.Widgets {
             open_protontricks_button.clicked.connect (open_protontricks_button_clicked);
 
             protondb_button = new Gtk.Button.with_label("ProtonDB");
-            protondb_button.set_tooltip_text (_("Open ProtonDB page"));
+            protondb_button.set_tooltip_text (_ ("Open ProtonDB page"));
             protondb_button.clicked.connect (protondb_button_clicked);
 
             anticheat_button = new Gtk.Button.with_label("AreWeAntiCheatYet");
@@ -72,15 +72,15 @@ namespace ProtonPlus.Widgets {
             }
 
             bool any_visible = false;
-            var child = content_box.get_first_child();
+            var child = content_box.get_first_child ();
             while (child != null) {
-                if (child.get_visible()) {
+                if (child.get_visible ()) {
                     any_visible = true;
                     break;
                 }
-                child = child.get_next_sibling();
+                child = child.get_next_sibling ();
             }
-            this.set_sensitive(any_visible);
+            this.set_sensitive (any_visible);
         }
 
         public override void dispose () {

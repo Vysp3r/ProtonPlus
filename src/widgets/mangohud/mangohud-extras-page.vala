@@ -54,7 +54,7 @@ namespace ProtonPlus.Widgets {
 
             var color_dialog = new Gtk.ColorDialog ();
 
-            // System Information section
+        // System Information section
             var info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
             var info_label = new Gtk.Label (_ ("System Information")) {
                 halign = Gtk.Align.START,
@@ -63,7 +63,7 @@ namespace ProtonPlus.Widgets {
             info_label.add_css_class ("heading");
             info_box.append (info_label);
 
-            // System subsection
+        // System subsection
             distro_row = create_switch (_ ("Distro info"), config.distro, (val) => { this.config.distro = val; });
             refresh_rate_row = create_switch (_ ("Refresh rate*"), config.refresh_rate, (val) => { this.config.refresh_rate = val; });
             resolution_row = create_switch (_ ("Resolution"), config.resolution, (val) => { this.config.resolution = val; });
@@ -72,10 +72,10 @@ namespace ProtonPlus.Widgets {
             arch_row = create_switch (_ ("Arch"), config.arch, (val) => { this.config.arch = val; });
 
             add_flow_group (info_box, _ ("System"), {
-                distro_row, refresh_rate_row, resolution_row, display_server_row, time_row, arch_row
-            });
+                                                        distro_row, refresh_rate_row, resolution_row, display_server_row, time_row, arch_row
+                                                    });
 
-            // Wine subsection
+        // Wine subsection
             wine_row = create_switch (_ ("Wine Ver"), config.wine, (val) => { this.config.wine = val; });
             wine_color_btn = create_color_button (color_dialog, config.wine_color, (val) => { this.config.wine_color = val; });
             wine_row.add_suffix (wine_color_btn);
@@ -92,10 +92,10 @@ namespace ProtonPlus.Widgets {
             fex_stats_row = create_switch (_ ("FEX Stats"), config.fex_stats, (val) => { this.config.fex_stats = val; });
 
             add_flow_group (info_box, _ ("Wine"), {
-                wine_row, engine_version_row, engine_short_names_row, wine_sync_row, dx_api_row, fex_stats_row
-            });
+                                                      wine_row, engine_version_row, engine_short_names_row, wine_sync_row, dx_api_row, fex_stats_row
+                                                  });
 
-            // Options subsection
+        // Options subsection
             hud_version_row = create_switch (_ ("HUD Version"), config.hud_version, (val) => { this.config.hud_version = val; });
             gamemode_row = create_switch (_ ("GameMode"), config.gamemode, (val) => { this.config.gamemode = val; });
             vkbasalt_row = create_switch (_ ("vkBasalt"), config.vkbasalt, (val) => { this.config.vkbasalt = val; });
@@ -104,10 +104,10 @@ namespace ProtonPlus.Widgets {
             hdr_row = create_switch (_ ("HDR*"), config.hdr, (val) => { this.config.hdr = val; });
 
             add_flow_group (info_box, _ ("Options"), {
-                hud_version_row, gamemode_row, vkbasalt_row, fcat_row, fsr_row, hdr_row
-            });
+                                                         hud_version_row, gamemode_row, vkbasalt_row, fcat_row, fsr_row, hdr_row
+                                                     });
 
-            // Battery subsection
+        // Battery subsection
             battery_row = create_switch (_ ("Percentage"), config.battery, (val) => { this.config.battery = val; });
             battery_color_btn = create_color_button (color_dialog, config.battery_color, (val) => { this.config.battery_color = val; });
             battery_row.add_suffix (battery_color_btn);
@@ -118,10 +118,10 @@ namespace ProtonPlus.Widgets {
             device_battery_row = create_switch (_ ("Devices"), config.device_battery, (val) => { this.config.device_battery = val; });
 
             add_flow_group (info_box, _ ("Battery"), {
-                battery_row, battery_wattage_row, battery_time_row, device_battery_row
-            });
+                                                         battery_row, battery_wattage_row, battery_time_row, device_battery_row
+                                                     });
 
-            // Others subsection
+        // Others subsection
             media_player_row = create_switch (_ ("Media Info"), config.media_player, (val) => { this.config.media_player = val; });
             media_player_color_btn = create_color_button (color_dialog, config.media_player_color, (val) => { this.config.media_player_color = val; });
             media_player_row.add_suffix (media_player_color_btn);
@@ -132,12 +132,12 @@ namespace ProtonPlus.Widgets {
             custom_text_row = create_entry (_ ("Custom command"), config.custom_text, (val) => { this.config.custom_text = val; });
 
             add_flow_group (info_box, _ ("Others"), {
-                media_player_row, network_row, fahrenheit_row, custom_text_row
-            });
+                                                        media_player_row, network_row, fahrenheit_row, custom_text_row
+                                                    });
 
             this.append (info_box);
 
-            // Logging section
+        // Logging section
             var logging_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
             var logging_label = new Gtk.Label (_ ("Logging")) {
                 halign = Gtk.Align.START,
@@ -182,12 +182,11 @@ namespace ProtonPlus.Widgets {
             log_versioning_row = create_switch (_ ("Log Versioning"), config.log_versioning, (val) => { this.config.log_versioning = val; });
 
             add_flow_group (logging_box, null, {
-                autostart_log_row, log_duration_row, log_interval_row, toggle_logging_row, output_folder_row, upload_log_row, log_versioning_row
-            });
+                                                   autostart_log_row, log_duration_row, log_interval_row, toggle_logging_row, output_folder_row, upload_log_row, log_versioning_row
+                                               });
 
             this.append (logging_box);
         }
-
 
         private void refresh_toggle_logging_row () {
             int toggle_index = 4;

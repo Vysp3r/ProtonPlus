@@ -995,7 +995,7 @@ using Adw;
 
         void wrapper_selection_changed () {
             if (refreshing_controls)
-                return;
+            return;
 
             refreshing_controls = true;
 
@@ -1036,7 +1036,7 @@ using Adw;
 
         void gpu_vendor_selection_changed () {
             if (refreshing_controls)
-                return;
+            return;
 
             refreshing_controls = true;
 

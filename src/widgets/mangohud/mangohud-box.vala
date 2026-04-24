@@ -51,7 +51,7 @@ namespace ProtonPlus.Widgets {
                 valign = Gtk.Align.CENTER
             };
             save_button.add_css_class ("suggested-action");
-            save_button.set_tooltip_text (_("Save the current configuration"));
+            save_button.set_tooltip_text (_ ("Save the current configuration"));
             save_button.clicked.connect (() => {
                 config.save ();
                 saved ();
@@ -65,19 +65,19 @@ namespace ProtonPlus.Widgets {
             var advanced_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8) {
                 valign = Gtk.Align.CENTER
             };
-            advanced_box.append (new Gtk.Label (_("Advanced")));
+            advanced_box.append (new Gtk.Label (_ ("Advanced")));
             advanced_box.append (advanced_switch);
             advanced_switch.bind_property ("active", switcher, "visible", BindingFlags.SYNC_CREATE);
             action_bar.pack_end (advanced_box);
 
             var cube_button_content = new Adw.ButtonContent ();
-            cube_button_content.set_label (_("Preview"));
+            cube_button_content.set_label (_ ("Preview"));
             cube_button_content.set_icon_name ("cube-symbolic");
             var cube_button = new Gtk.Button() {
                 valign = Gtk.Align.CENTER,
                 child = cube_button_content,
             };
-            cube_button.set_tooltip_text (_("Show vkcube"));
+            cube_button.set_tooltip_text (_ ("Show vkcube"));
             cube_button.clicked.connect (cube_button_clicked);
             action_bar.pack_start (cube_button);
             append (action_bar);

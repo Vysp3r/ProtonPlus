@@ -323,9 +323,9 @@ namespace ProtonPlus.Widgets {
                 });
                 game_row.notify["selected"].connect (() => {
                     if (game_row.selected)
-                        game_list_box.select_row (game_row);
+                    game_list_box.select_row (game_row);
                     else
-                        game_list_box.unselect_row (game_row);
+                    game_list_box.unselect_row (game_row);
                     update_mass_edit_button_visibility ();
                 });
 
@@ -361,7 +361,7 @@ namespace ProtonPlus.Widgets {
             while (child != null) {
                 if (child is GameRow) {
                     if (((GameRow) child).selected)
-                        selected_count++;
+                    selected_count++;
                 }
                 child = child.get_next_sibling ();
             }
@@ -406,7 +406,7 @@ namespace ProtonPlus.Widgets {
                 var steam_launcher = (Models.Launchers.Steam) launcher;
 
                 if (steam_launcher.profiles.length () > 1)
-                    show_profile_button = true;
+                show_profile_button = true;
             }
             switch_profile_button.set_visible (show_profile_button);
         }

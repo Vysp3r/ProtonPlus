@@ -1,7 +1,7 @@
 namespace ProtonPlus.Models.Runners {
     public class Forgejo : Basic {
         public Forgejo () {
-            get_type = Utils.Web.GetType.FORGEJO;
+            get_request_type = Utils.Web.GetRequestType.FORGEJO;
         }
 
         public override async ReturnCode load (out List<Models.Release> releases) {
@@ -9,7 +9,7 @@ namespace ProtonPlus.Models.Runners {
 
             string? response;
 
-            var code = yield Utils.Web.get_request ("%s?limit=25&page=%i".printf (endpoint, page), get_type, out response);
+            var code = yield Utils.Web.get_request ("%s?limit=25&page=%i".printf (endpoint, page), get_request_type, out response);
 
             if (code != ReturnCode.VALID_REQUEST)
             return code;

@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class PreferencesDialog : Adw.PreferencesDialog {
         construct {
-            // General
+        // General
             var theme_row = new ThemeRow ();
 
             var save_history_row = new Adw.SwitchRow () {
@@ -14,18 +14,18 @@ namespace ProtonPlus.Widgets.Preferences {
             general_group.add (theme_row);
             general_group.add (save_history_row);
 
-            // Tools
+        // Tools
 
             var automatic_updates_row = new Adw.SwitchRow () {
                 title = _ ("Automatic updates"),
-                subtitle = "%s\n\n%s".printf (_ ("Check if any tool needs to be updated when the application starts"), _("When disabled a button to check for updates will be shown in the Tools tab")),
+                subtitle = "%s\n\n%s".printf (_ ("Check if any tool needs to be updated when the application starts"), _ ("When disabled a button to check for updates will be shown in the Tools tab")),
             };
             Globals.SETTINGS.bind ("automatic-updates", automatic_updates_row, "active", SettingsBindFlags.DEFAULT);
 
             var tools_group = new Adw.PreferencesGroup ();
             tools_group.add (automatic_updates_row);
 
-            // Launchers
+        // Launchers
 
             var launcher_groups = new List<Adw.PreferencesGroup>();
 
@@ -42,7 +42,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
                     var compatibility_tool_row = new ProtonPlus.Widgets.CompatibilityToolRow (model, expression);
                     compatibility_tool_row.title = _ ("Default compatibility tool");
-                    compatibility_tool_row.subtitle = _("The compatibility tool games will use by default");
+                    compatibility_tool_row.subtitle = _ ("The compatibility tool games will use by default");
 
                     for (var i = 0; i < (int) steam_launcher.compatibility_tools.size; i++) {
                         if (steam_launcher.compatibility_tools[i].internal_title == steam_launcher.default_compatibility_tool) {
@@ -75,7 +75,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 }
             }
 
-            // Advanced
+        // Advanced
 
             var experimental_switch = new Adw.SwitchRow () {
                 title = _ ("Preview features"),
@@ -89,7 +89,7 @@ namespace ProtonPlus.Widgets.Preferences {
             advanced_group.add (experimental_switch);
             advanced_group.add (refresh_application_data_row);
 
-            // API Tokens
+        // API Tokens
 
             var github_access_token_row = new AccessTokenRow ("GitHub", "github-symbolic");
             Globals.SETTINGS.bind ("github-api-key", github_access_token_row, "text", SettingsBindFlags.DEFAULT);
@@ -103,31 +103,31 @@ namespace ProtonPlus.Widgets.Preferences {
             tokens_group.add (github_access_token_row);
             tokens_group.add (gitlab_access_token_row);
 
-            //
+        //
 
             var general_page = new Adw.PreferencesPage ();
-            general_page.set_title (_("General"));
+            general_page.set_title (_ ("General"));
             general_page.set_icon_name ("home-symbolic");
             general_page.add (general_group);
             add (general_page);
 
             var tools_page = new Adw.PreferencesPage ();
-            tools_page.set_title (_("Tools"));
+            tools_page.set_title (_ ("Tools"));
             tools_page.set_icon_name ("toolbox-symbolic");
             tools_page.add (tools_group);
             add (tools_page);
 
             if (launcher_groups.length () > 0) {
                 var launchers_page = new Adw.PreferencesPage ();
-                launchers_page.set_title (_("Launchers"));
+                launchers_page.set_title (_ ("Launchers"));
                 launchers_page.set_icon_name ("grip-symbolic");
                 foreach (var group in launcher_groups)
-                    launchers_page.add (group);
+                launchers_page.add (group);
                 add (launchers_page);
             }
 
             var advanced_page = new Adw.PreferencesPage ();
-            advanced_page.set_title (_("Advanced"));
+            advanced_page.set_title (_ ("Advanced"));
             advanced_page.set_icon_name ("bolt-2-symbolic");
             advanced_page.add (advanced_group);
             advanced_page.add (tokens_group);

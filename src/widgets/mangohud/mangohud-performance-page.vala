@@ -38,8 +38,8 @@ namespace ProtonPlus.Widgets {
             ftrace_row = create_switch (_ ("ftrace debug"), config.ftrace, (val) => { this.config.ftrace = val; });
 
             add_flow_group (this, _ ("Information"), {
-                fps_row, fps_avg_row, fps_limit_stats_row, frametime_row, frame_count_row, vps_row, ftrace_row
-            }, "heading");
+                                                         fps_row, fps_avg_row, fps_limit_stats_row, frametime_row, frame_count_row, vps_row, ftrace_row
+                                                     }, "heading");
 
             vsync_row = create_combo (_ ("Vulkan"), {_ ("Unset"), _ ("Adaptive"), _ ("Mailbox"), _ ("OFF"), _ ("ON")}, 0, null, (val) => {
                 switch (val) {
@@ -105,8 +105,8 @@ namespace ProtonPlus.Widgets {
             });
 
             add_flow_group (this, _ ("Limiters"), {
-                fps_limit_row, fps_limit_offset_row, change_fps_limit_colors_row, fps_limit_method_row, toggle_fps_limit_row
-            }, "heading");
+                                                      fps_limit_row, fps_limit_offset_row, change_fps_limit_colors_row, fps_limit_method_row, toggle_fps_limit_row
+                                                  }, "heading");
 
             picmip_row = create_combo (_ ("Filtering"), {_ ("None"), _ ("Bicubic"), _ ("Trilinear"), _ ("Retro")}, 0, null, (val) => {
                 switch (val) {
@@ -177,7 +177,7 @@ namespace ProtonPlus.Widgets {
             toggle_fps_limit_row.selected = toggle_fps_limit_index;
 
             if (config.picmip == "") picmip_row.selected = 0;
-            else if (config.picmip == "-1") picmip_row.selected = 3;
+                else if (config.picmip == "-1") picmip_row.selected = 3;
             else picmip_row.selected = 1;
 
             af_scale.set_value (config.af != "" ? double.parse (config.af) : 0);

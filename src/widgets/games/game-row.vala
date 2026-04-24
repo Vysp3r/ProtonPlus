@@ -31,9 +31,9 @@ namespace ProtonPlus.Widgets {
             title_label.set_ellipsize (Pango.EllipsizeMode.END);
 
             title_gesture = new Gtk.GestureClick();
-            title_gesture.pressed.connect((gesture, n_press, x, y) => {
+            title_gesture.pressed.connect ((gesture, n_press, x, y) => {
                 if (n_press == 1)
-                    open_install_directory_button_clicked();
+                open_install_directory_button_clicked ();
             });
 
             prefix_label = new Gtk.Label(game.prefix.to_string ());
@@ -43,9 +43,9 @@ namespace ProtonPlus.Widgets {
             prefix_label.set_size_request (110, 0);
 
             prefix_gesture = new Gtk.GestureClick();
-            prefix_gesture.pressed.connect((gesture, n_press, x, y) => {
+            prefix_gesture.pressed.connect ((gesture, n_press, x, y) => {
                 if (n_press == 1)
-                    open_prefix_directory_button_clicked();
+                open_prefix_directory_button_clicked ();
             });
 
             tool_label = new Gtk.Label (null);
@@ -83,15 +83,15 @@ namespace ProtonPlus.Widgets {
 
         void add_hover_underline (Gtk.Label label) {
             var motion = new Gtk.EventControllerMotion();
-            motion.enter.connect((x, y) => {
+            motion.enter.connect ((x, y) => {
                 var list = new Pango.AttrList ();
                 list.insert (Pango.attr_underline_new (Pango.Underline.SINGLE));
                 label.attributes = list;
             });
-            motion.leave.connect(() => {
+            motion.leave.connect (() => {
                 label.attributes = null;
             });
-            label.add_controller(motion);
+            label.add_controller (motion);
         }
 
         public void refresh_tool_label () {
@@ -124,14 +124,14 @@ namespace ProtonPlus.Widgets {
             run_custom_executable_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
 
             if (FileUtils.test (game.installdir, GLib.FileTest.IS_DIR)) {
-                title_label.set_tooltip_text (_("Browse game install directory"));
-                title_label.add_controller(title_gesture);
+                title_label.set_tooltip_text (_ ("Browse game install directory"));
+                title_label.add_controller (title_gesture);
                 add_hover_underline (title_label);
             }
 
             if (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR)) {
-                prefix_label.set_tooltip_text (_("Browse prefix directory"));
-                prefix_label.add_controller(prefix_gesture);
+                prefix_label.set_tooltip_text (_ ("Browse prefix directory"));
+                prefix_label.add_controller (prefix_gesture);
                 add_hover_underline (prefix_label);
             }
 
@@ -205,10 +205,10 @@ namespace ProtonPlus.Widgets {
             var steam_compat_client_install_path = game.launcher.directory;
 
             var inner_command = "STEAM_COMPAT_DATA_PATH=%s STEAM_COMPAT_CLIENT_INSTALL_PATH=%s %s run %s".printf (
-                Shell.quote (steam_compat_data_path),
-                Shell.quote (steam_compat_client_install_path),
-                Shell.quote (proton_path),
-                Shell.quote (exe_path)
+                    Shell.quote (steam_compat_data_path),
+                    Shell.quote (steam_compat_client_install_path),
+                    Shell.quote (proton_path),
+                    Shell.quote (exe_path)
             );
 
             Utils.System.run_command.begin ("sh -c " + Shell.quote (inner_command));

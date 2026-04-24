@@ -4,18 +4,18 @@ namespace ProtonPlus.Widgets {
         GamesBox.load_steam_profile_func load_steam_profile;
         Gtk.ListBox game_list_box;
 
-        Gtk.Image image;
-        Gtk.Label label;
+        Gtk.Image content_image;
+        Gtk.Label content_label;
         Gtk.Box content;
 
         public SwitchProfileButton () {
-            image = new Gtk.Image ();
+            content_image = new Gtk.Image ();
 
-            label = new Gtk.Label (_ ("Switch profile"));
+            content_label = new Gtk.Label (_ ("Switch profile"));
 
             content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-            content.append (image);
-            content.append (label);
+            content.append (content_image);
+            content.append (content_label);
 
             clicked.connect (switch_profile_button_clicked);
 
@@ -29,7 +29,7 @@ namespace ProtonPlus.Widgets {
             this.load_steam_profile = load_steam_profile;
             this.game_list_box = game_list_box;
 
-            image.set_visible (false);
+            content_image.set_visible (false);
 
             launcher.notify["profile"].connect (() => {
                 profile_changed ();
@@ -39,9 +39,9 @@ namespace ProtonPlus.Widgets {
         void profile_changed () {
             var profile_valid = launcher.profile != null && launcher.profile.image_path != null;
             if (profile_valid)
-            image.set_from_file (launcher.profile.image_path);
+            content_image.set_from_file (launcher.profile.image_path);
 
-            image.set_visible (profile_valid);
+            content_image.set_visible (profile_valid);
         }
 
         void switch_profile_button_clicked () {

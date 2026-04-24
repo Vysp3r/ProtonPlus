@@ -5,7 +5,7 @@ namespace ProtonPlus.Models.Runners {
         internal string[] request_asset_exclude { get; set; }
 
         public GitHub () {
-            get_type = Utils.Web.GetType.GITHUB;
+            get_request_type = Utils.Web.GetRequestType.GITHUB;
         }
 
         public override async ReturnCode load (out List<Models.Release> releases) {
@@ -13,7 +13,7 @@ namespace ProtonPlus.Models.Runners {
 
             string? response;
 
-            var code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_type, out response);
+            var code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_request_type, out response);
 
             if (code != ReturnCode.VALID_REQUEST)
             return code;

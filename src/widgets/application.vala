@@ -50,11 +50,14 @@ namespace ProtonPlus.Widgets {
                         "fullscreened",
                         SettingsBindFlags.DEFAULT);
 
+            // Handle first-run setup
                 if (Globals.SETTINGS.get_boolean ("first-run")) {
+                // Auto-detect theme for SteamOS
                     if (Globals.IS_STEAM_OS) {
                         Globals.SETTINGS.set_enum ("theme", 5);
                     }
 
+                    // Mark as no longer first-run
                     Globals.SETTINGS.set_boolean ("first-run", false);
                 }
 

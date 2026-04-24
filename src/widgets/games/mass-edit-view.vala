@@ -43,7 +43,7 @@ namespace ProtonPlus.Widgets {
             launch_options_editor = new LaunchOptionsEditor ();
             advanced_switch.notify["active"].connect (() => launch_options_editor.set_advanced_visible (advanced_switch.get_active ()));
             launch_options_editor.content_changed.connect (refresh);
-            
+
             launch_options_group = new Adw.PreferencesGroup();
             launch_options_group.set_title (_ ("Launch options"));
 
@@ -102,9 +102,9 @@ namespace ProtonPlus.Widgets {
             if (rows.length == 1) {
                 var game = rows[0].game;
 
-                var filtered_n_items = filtered_model.get_n_items();
+                var filtered_n_items = filtered_model.get_n_items ();
                 for (uint i = 0; i < filtered_n_items; i++) {
-                    var runner = filtered_model.get_item(i) as Models.SimpleRunner;
+                    var runner = filtered_model.get_item (i) as Models.SimpleRunner;
                     if (runner != null && runner.internal_title == game.compatibility_tool) {
                         compatibility_tool_row.selected = i;
                         break;

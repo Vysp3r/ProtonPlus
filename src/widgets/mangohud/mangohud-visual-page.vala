@@ -83,15 +83,13 @@ namespace ProtonPlus.Widgets {
             });
             refresh_toggle_hud_row ();
 
-            compact_row = create_switch (_ ("Compact HUD"), config.compact, (val) => { this.config.compact = val; });
-            compact_row.icon_name = "view-compact-symbolic";
+            compact_row = create_switch (_ ("Compact HUD"), config.compact, (val) => { this.config.compact = val; }, "view-compact-symbolic");
 
-            no_display_row = create_switch (_ ("Hide by default"), config.no_display, (val) => { this.config.no_display = val; });
-            no_display_row.icon_name = "eye-not-looking-symbolic";
+            no_display_row = create_switch (_ ("Hide by default"), config.no_display, (val) => { this.config.no_display = val; }, "eye-not-looking-symbolic");
 
             add_flow_group (this, null, {
-                orientation_row, border_row, bg_color_row, font_size_row, position_row, columns_row, toggle_hud_row, compact_row, no_display_row
-            });
+                                            orientation_row, border_row, bg_color_row, font_size_row, position_row, columns_row, toggle_hud_row, compact_row, no_display_row
+                                        });
         }
 
         private void refresh_position_row () {
@@ -123,7 +121,7 @@ namespace ProtonPlus.Widgets {
             hud_title_row.text = config.hud_title;
             orientation_row.selected = config.horizontal ? 1 : 0;
             border_row.selected = config.round_corners > 0 ? 1 : 0;
-            
+
             var bg_rgba_ref = hex_to_rgba (config.background_color);
             bg_rgba_ref.alpha = float.parse (config.background_alpha);
             bg_color_btn.rgba = bg_rgba_ref;

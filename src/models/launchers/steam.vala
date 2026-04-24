@@ -176,12 +176,12 @@ namespace ProtonPlus.Models.Launchers {
 
                             MatchInfo name_match;
                             if (!/\"name\"\s+\"([^\"]+)\"/.match (current_manifest_content, 0, out name_match))
-                                continue;
+                            continue;
                             current_name = name_match.fetch (1);
 
                             MatchInfo dir_match;
                             if (!/\"installdir\"\s+\"([^\"]+)\"/.match (current_manifest_content, 0, out dir_match))
-                                continue;
+                            continue;
                             current_installdir = dir_match.fetch (1);
 
                             if (current_name.contains ("Steam Linux Runtime")) {

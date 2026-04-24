@@ -75,7 +75,7 @@ namespace ProtonPlus.Widgets {
             is_updating = true;
             this.config.set_preset (preset);
             is_updating = false;
-            
+
             changed (); // Notify MangoHudBox to refresh other pages
         }
 

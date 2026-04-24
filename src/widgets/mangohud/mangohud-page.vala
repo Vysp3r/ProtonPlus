@@ -25,9 +25,9 @@ namespace ProtonPlus.Widgets {
 
         protected string rgba_to_hex (Gdk.RGBA rgba) {
             return "%02x%02x%02x".printf (
-                (uint) Math.round (rgba.red * 255.0),
-                (uint) Math.round (rgba.green * 255.0),
-                (uint) Math.round (rgba.blue * 255.0)
+                    (uint) Math.round (rgba.red * 255.0),
+                    (uint) Math.round (rgba.green * 255.0),
+                    (uint) Math.round (rgba.blue * 255.0)
             );
         }
 
@@ -203,7 +203,7 @@ namespace ProtonPlus.Widgets {
             return row;
         }
 
-        protected Adw.SwitchRow create_switch (string title, bool initial_value, SetValueFunc set_value) {
+        protected Adw.SwitchRow create_switch (string title, bool initial_value, SetValueFunc set_value, string? icon_name = null) {
             var row = new Adw.SwitchRow () {
                 title = title,
                 active = initial_value
@@ -213,6 +213,9 @@ namespace ProtonPlus.Widgets {
                 set_value (row.active);
                 changed ();
             });
+            if (icon_name != null) {
+                row.add_prefix (new Gtk.Image.from_icon_name (icon_name));
+            }
             return row;
         }
     }

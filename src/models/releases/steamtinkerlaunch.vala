@@ -68,7 +68,7 @@ namespace ProtonPlus.Models.Releases {
 
             string? response;
 
-            var code = yield Utils.Web.get_request ("https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1", Utils.Web.GetType.STEAMTINKERLAUNCH, out response);
+            var code = yield Utils.Web.get_request ("https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1", Utils.Web.GetRequestType.STEAMTINKERLAUNCH, out response);
 
             if (code != ReturnCode.VALID_REQUEST)
             return;

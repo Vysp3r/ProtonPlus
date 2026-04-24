@@ -33,6 +33,7 @@ namespace ProtonPlus.Models {
 
         public Step step { get; set; }
 
+
         public enum Step {
             NOTHING,
             DOWNLOADING,
@@ -40,6 +41,7 @@ namespace ProtonPlus.Models {
             MOVING,
             REMOVING,
         }
+
 
         public enum State {
             NOT_INSTALLED,

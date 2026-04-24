@@ -232,21 +232,21 @@ namespace ProtonPlus.Models {
 
         public MangoHudPreset get_preset () {
             if (horizontal && cpu_stats && gpu_stats && ram && fps && !cpu_temp && !gpu_temp && !vram && !frametime && !battery && !device_battery && !time)
-                return MangoHudPreset.BASIC_HORIZONTAL;
+            return MangoHudPreset.BASIC_HORIZONTAL;
             if (!horizontal && cpu_stats && gpu_stats && ram && fps && !cpu_temp && !gpu_temp && !vram && !frametime && !battery && !device_battery && !time)
-                return MangoHudPreset.BASIC;
+            return MangoHudPreset.BASIC;
             if (!horizontal && fps && !cpu_stats && !gpu_stats && !ram && !vram && !cpu_temp && !gpu_temp && !frametime && !battery && !device_battery && !time)
-                return MangoHudPreset.FPS_ONLY;
+            return MangoHudPreset.FPS_ONLY;
             if (!horizontal && cpu_stats && cpu_temp && gpu_stats && gpu_temp && ram && vram && fps && frametime && battery && device_battery && time)
-                return MangoHudPreset.FULL;
+            return MangoHudPreset.FULL;
             return MangoHudPreset.CUSTOM;
         }
 
         public MangoHudTheme get_theme () {
             if (gpu_color == "" && cpu_color == "" && vram_color == "" && ram_color == "" && engine_color == "" && wine_color == "" && battery_color == "" && disks_color == "" && media_player_color == "" && text_color == "ffffff" && background_color == "020202")
-                return MangoHudTheme.STOCK;
+            return MangoHudTheme.STOCK;
             if (gpu_color == "ffffff" && cpu_color == "ffffff" && vram_color == "ffffff" && ram_color == "ffffff" && engine_color == "ffffff" && wine_color == "ffffff" && battery_color == "ffffff" && disks_color == "ffffff" && media_player_color == "ffffff" && text_color == "ffffff" && background_color == "020202")
-                return MangoHudTheme.SIMPLE_WHITE;
+            return MangoHudTheme.SIMPLE_WHITE;
             return MangoHudTheme.CUSTOM;
         }
 

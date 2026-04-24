@@ -2,6 +2,24 @@ namespace ProtonPlus.Utils {
     public class Filesystem {
         public const Posix.mode_t S_IRWXUGO = (Posix.S_IRWXU | Posix.S_IRWXG | Posix.S_IRWXO);
 
+        // Required GSettings keys for the application to function properly
+        private static string[] REQUIRED_SCHEMA_KEYS = {
+            "width", "height", "is-maximized", "is-fullscreen",
+            "automatic-updates", "github-api-key", "gitlab-api-key",
+            "steam-last-profile-id", "steam-remember-last-profile",
+            "save-history", "first-run", "experimental-mode", "theme"
+        };
+
+        public static bool is_valid_schema (SettingsSchema schema) {
+            foreach (var key in REQUIRED_SCHEMA_KEYS) {
+                if (!schema.has_key (key)) {
+                    warning ("Missing required GSettings key: %s", key);
+                    return false;
+                }
+            }
+            return true;
+        }
+
         // Miscellaneous.
 
         public delegate bool cancel_callback ();
@@ -374,14 +392,14 @@ namespace ProtonPlus.Utils {
         }
 
         public static bool create_directory (string path) {
-            // We can safely split on slashes since they're illegal as filenames.
+        // We can safely split on slashes since they're illegal as filenames.
             var has_leading_slash = path.index_of_char ('/') == 0;
             var parts = path.split ("/");
 
-            // Create the target directory components in a top-down fashion.
-            // NOTE: If caller gives us a path with `..` such as `/foo/bar/../baz`,
-            // then we will end up creating both `/foo/bar` and `/foo/baz`, because
-            // there is no easy way to preprocess such directory traversals.
+        // Create the target directory components in a top-down fashion.
+        // NOTE: If caller gives us a path with `..` such as `/foo/bar/../baz`,
+        // then we will end up creating both `/foo/bar` and `/foo/baz`, because
+        // there is no easy way to preprocess such directory traversals.
             Posix.Stat stat_;
             var current_path = "";
             foreach (string p in parts) {
@@ -401,7 +419,7 @@ namespace ProtonPlus.Utils {
                 // https://github.com/coreutils/coreutils/blob/408301e4bc171bf5544f373f64bb6ed3351541db/src/mkdir.c#L136
                 // https://github.com/coreutils/gnulib/blob/e87d09bee37eeb742b8a34c9054cd2ebde22b835/lib/sys_stat.in.h#L423
                 if (Posix.mkdir (current_path, S_IRWXUGO) != 0) {
-                    // Check failures for any reasons other than "it exists".
+                // Check failures for any reasons other than "it exists".
                     if (Posix.errno != Posix.EEXIST)
                     return false;
 

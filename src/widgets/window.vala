@@ -137,18 +137,21 @@ namespace ProtonPlus.Widgets {
             Adw.Toast toast;
             ReturnCode code;
 
+            var runner_title = runner != null ? runner.title : "";
+            var is_specific_update = runner != null;
+
             toast = new Adw.Toast (
-                    runner == null ?
-                    _ ("Checking for updates") :
-                    _ ("Updating %s").printf ("%s Latest".printf (runner.title))
+                    is_specific_update ?
+                    _ ("Updating %s").printf ("%s Latest".printf (runner_title)) :
+                    _ ("Checking for updates")
             );
 
             toast_overlay.add_toast (toast);
 
             code = (
-            runner == null ?
-            yield Models.Runner.check_for_updates (launchers) :
-            yield Models.Runner.update_specific_runner (runner)
+            is_specific_update ?
+            yield Models.Runner.update_specific_runner (runner as Models.Runners.Basic) :
+            yield Models.Runner.check_for_updates (launchers)
             );
 
             toast.dismiss ();
@@ -156,42 +159,42 @@ namespace ProtonPlus.Widgets {
             switch (code) {
                 case ReturnCode.NOTHING_TO_UPDATE:
                     toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Nothing to update") :
-                            _ ("No update found for %s").printf ("%s Latest".printf (runner.title)));
+                            is_specific_update ?
+                            _ ("No update found for %s").printf ("%s Latest".printf (runner_title)) :
+                            _ ("Nothing to update"));
                     break;
                 case ReturnCode.RUNNERS_UPDATED:
                 case ReturnCode.RUNNER_UPDATED:
                     toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Everything is now up-to-date") :
-                            _ ("%s is now up-to-date").printf ("%s Latest".printf (runner.title)));
+                            is_specific_update ?
+                            _ ("%s is now up-to-date").printf ("%s Latest".printf (runner_title)) :
+                            _ ("Everything is now up-to-date"));
                     break;
                 case ReturnCode.API_LIMIT_REACHED:
                     toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("API limit reached")) :
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner.title, _ ("API limit reached")));
+                            is_specific_update ?
+                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("API limit reached")) :
+                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("API limit reached")));
                     break;
                 case ReturnCode.CONNECTION_ISSUE:
                 case ReturnCode.CONNECTION_REFUSED:
                 case ReturnCode.CONNECTION_UNKNOWN:
                     toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unable to reach the API")) :
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner.title, _ ("Unable to reach the API")));
+                            is_specific_update ?
+                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Unable to reach the API")) :
+                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unable to reach the API")));
                     break;
                 case ReturnCode.INVALID_ACCESS_TOKEN:
                     toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Invalid access token")) :
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner.title, _ ("Invalid access token")));
+                            is_specific_update ?
+                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Invalid access token")) :
+                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Invalid access token")));
                     break;
                 default:
                     toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unknown error")) :
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner.title, _ ("Unknown error")));
+                            is_specific_update ?
+                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Unknown error")) :
+                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unknown error")));
                     toast.set_button_label (_ ("Report"));
                     toast.set_action_name ("app.report");
                     break;

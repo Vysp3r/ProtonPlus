@@ -31,11 +31,11 @@ namespace ProtonPlus.Models.Games {
 
         private bool detect_native () {
             if (is_non_steam)
-                return false;
+            return false;
 
             if (FileUtils.test (installdir, FileTest.IS_DIR)) {
                 if (!FileUtils.test (prefixdir, FileTest.IS_DIR))
-                    return true;
+                return true;
 
                 try {
                     var dir = Dir.open (installdir, 0);
@@ -305,7 +305,7 @@ namespace ProtonPlus.Models.Games {
 
                 string? response;
 
-                var get_code = yield Utils.Web.get_request ("https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json", Utils.Web.GetType.OTHER, out response);
+                var get_code = yield Utils.Web.get_request ("https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json", Utils.Web.GetRequestType.OTHER, out response);
 
                 if (get_code != ReturnCode.VALID_REQUEST)
                 return games;

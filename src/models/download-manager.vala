@@ -1,6 +1,7 @@
 namespace ProtonPlus.Models {
+    /// Manages active downloads and download history persistence.
     public class DownloadManager : GLib.Object {
-        private static DownloadManager _instance;
+        private static DownloadManager? _instance = null;
         public static DownloadManager instance {
             get {
                 if (_instance == null) {
@@ -13,10 +14,12 @@ namespace ProtonPlus.Models {
         public Gee.ArrayList<BaseRelease> active_downloads { get; private set; }
         public Gee.ArrayList<BaseRelease> history { get; private set; }
 
+        /// Checks if a release is currently being downloaded.
         public bool is_downloading (BaseRelease release) {
             return get_active_download (release) != null;
         }
 
+        /// Returns the active download if it matches the given release, otherwise null.
         public BaseRelease? get_active_download (BaseRelease release) {
             foreach (var active_download in active_downloads) {
                 if (active_download.download_url == release.download_url && active_download.title == release.title) {
@@ -26,6 +29,7 @@ namespace ProtonPlus.Models {
             return null;
         }
 
+        /// Signals emitted when download state changes.
         public signal void download_added (BaseRelease release);
         public signal void download_removed (BaseRelease release);
         public signal void download_finished (BaseRelease release, bool success);
@@ -36,6 +40,7 @@ namespace ProtonPlus.Models {
 
             load_history ();
 
+        // Automatically clear history when the setting is disabled
             if (Globals.SETTINGS != null) {
                 Globals.SETTINGS.changed["save-history"].connect (() => {
                     if (!Globals.SETTINGS.get_boolean ("save-history")) {

@@ -17,10 +17,7 @@ namespace ProtonPlus.Utils {
 
                 if (stdout_bytes != null) {
                     unowned uint8[] data = stdout_bytes.get_data ();
-                    char[] str_data = new char[data.length + 1];
-                    Memory.copy (str_data, data, data.length);
-                    str_data[data.length] = '\0';
-                    output = (string) str_data;
+                    output = (string)(data);
                 }
             } catch (Error e) {
                 warning (e.message);
@@ -46,10 +43,7 @@ namespace ProtonPlus.Utils {
 
                 if (stdout_bytes != null) {
                     unowned uint8[] data = stdout_bytes.get_data ();
-                    char[] str_data = new char[data.length + 1];
-                    Memory.copy (str_data, data, data.length);
-                    str_data[data.length] = '\0';
-                    output = (string) str_data;
+                    output = (string)(data);
                 }
             } catch (Error e) {
                 warning (e.message);
@@ -112,8 +106,9 @@ namespace ProtonPlus.Utils {
             string distro_name = "Unknown";
             try {
                 var file = File.new_for_path ("/etc/os-release");
-                if (!file.query_exists ())
-                file = File.new_for_path ("/usr/lib/os-release");
+                if (!file.query_exists ()) {
+                    file = File.new_for_path ("/usr/lib/os-release");
+                }
 
                 if (file.query_exists ()) {
                     var dis = new DataInputStream (file.read ());
@@ -142,9 +137,9 @@ namespace ProtonPlus.Utils {
             });
         }
 
-        public static async string? get_protontricks_exec () {
-            string[] protontricks_execs = { "protontricks", "com.github.Matoking.protontricks" };
+        static string[] protontricks_execs = { "protontricks", "com.github.Matoking.protontricks" };
 
+        public static async string? get_protontricks_exec () {
             foreach (var protontricks_exec in protontricks_execs) {
                 if (yield Utils.System.check_dependency (protontricks_exec))
                 return protontricks_exec;
@@ -154,7 +149,7 @@ namespace ProtonPlus.Utils {
         }
 
         public static string? get_protontricks_exec_sync () {
-            string[] protontricks_execs = { "protontricks", "com.github.Matoking.protontricks" };
+
 
             foreach (var protontricks_exec in protontricks_execs) {
                 if (Utils.System.check_dependency_sync (protontricks_exec))
