@@ -5,6 +5,7 @@ namespace ProtonPlus.Widgets {
         public bool updating { get; set; }
         public List<Models.Launcher> launchers;
 
+        ControllerManager controller_manager;
         StatusBox status_box;
         RunnersBox runners_box;
         GamesBox games_box;
@@ -97,6 +98,9 @@ namespace ProtonPlus.Widgets {
             toolbar_view.add_bottom_bar (view_switcher_bar);
 
             set_content (status_box);
+
+            controller_manager = new ControllerManager (this, view_stack);
+            controller_manager.start ();
 
             initialize.begin ();
         }
@@ -242,6 +246,7 @@ namespace ProtonPlus.Widgets {
 
         public override bool close_request () {
             if (!updating) {
+                controller_manager.stop ();
                 Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
 
                 return false;

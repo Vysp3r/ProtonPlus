@@ -1,5 +1,6 @@
 sources += files(
     'application.vala',
+    'controller-manager.vala',
     'theme-manager.vala',
     'status-box.vala',
     'window.vala',

@@ -22,6 +22,12 @@ configure_file(output : 'config.h', configuration : config_h)
 config_dep = valac.find_library ('config', dirs: src_dir)
 config_inc = include_directories('.')
 
+vapi_dir = join_paths(meson.project_source_root(), 'vapi')
+add_project_arguments(['--vapidir', vapi_dir], language : 'vala')
+
+add_project_arguments(['--pkg', 'sdl3'], language : 'vala')
+sdl3_dep = dependency('sdl3')
+
 add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()), language: 'c')
 
 subdir('data')
