@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-04-20 20:09+0000\n"
+"PO-Revision-Date: 2026-04-22 23:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -749,7 +749,7 @@ msgstr "Автовизначення"
 
 #: src/widgets/games/launch-options-editor.vala:230
 msgid "Custom"
-msgstr ""
+msgstr "Власні"
 
 #: src/widgets/games/launch-options-editor.vala:262
 msgid "Apply the custom resolution"
@@ -914,11 +914,11 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:584
 msgid "DLSS Indicator"
-msgstr ""
+msgstr "Індикатор DLSS"
 
 #: src/widgets/games/launch-options-editor.vala:584
 msgid "Shows a DLSS status indicator in-game."
-msgstr ""
+msgstr "Показує індикатор стану DLSS у грі."
 
 #: src/widgets/games/launch-options-editor.vala:585
 msgid "NVIDIA Libraries"
@@ -982,7 +982,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:615
 msgid "Use FSync"
-msgstr ""
+msgstr "Використання FSync"
 
 #: src/widgets/games/launch-options-editor.vala:615
 msgid ""
@@ -1156,11 +1156,10 @@ msgid "Additional Gamescope arguments"
 msgstr "Додаткові параметри Gamescope"
 
 #: src/widgets/games/launch-options-editor.vala:864
-#, fuzzy
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 "Зберігає додаткові параметри Gamescope, зокрема параметри виводу та "
-"роздільної здатності."
+"роздільності."
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Add Gamescope arguments"
@@ -1183,7 +1182,6 @@ msgid "Additional ScopeBuddy arguments"
 msgstr "Додаткові параметри ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor.vala:896
-#, fuzzy
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
 "Зберігає додаткові параметри ScopeBuddy, наприклад вибір вихідного пристрою."
@@ -1248,13 +1246,12 @@ msgid "Reset to the current default compatibility tool"
 msgstr "Поновити типовий інструмент сумісності"
 
 #: src/widgets/games/default-tool-view.vala:73
-#, fuzzy
 msgid ""
 "Choose the default compatibility tool Steam should use for games without an "
 "explicit override."
 msgstr ""
-"Виберіть типовий інструмент сумісності, який Steam використовує для ігор без "
-"окремих налаштувань."
+"Виберіть типовий інструмент сумісності, який Steam використовуватиме для "
+"ігор без окремих налаштувань."
 
 #: src/widgets/games/default-tool-view.vala:117
 msgid "Couldn't change the default compatibility tool"
