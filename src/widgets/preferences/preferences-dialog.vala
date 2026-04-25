@@ -105,17 +105,21 @@ namespace ProtonPlus.Widgets.Preferences {
 
         //
 
+            Adw.PreferencesPage[] ctrl_pages = {};
+
             var general_page = new Adw.PreferencesPage ();
             general_page.set_title (_ ("General"));
             general_page.set_icon_name ("home-symbolic");
             general_page.add (general_group);
             add (general_page);
+            ctrl_pages += general_page;
 
             var tools_page = new Adw.PreferencesPage ();
             tools_page.set_title (_ ("Tools"));
             tools_page.set_icon_name ("toolbox-symbolic");
             tools_page.add (tools_group);
             add (tools_page);
+            ctrl_pages += tools_page;
 
             if (launcher_groups.length () > 0) {
                 var launchers_page = new Adw.PreferencesPage ();
@@ -124,6 +128,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 foreach (var group in launcher_groups)
                 launchers_page.add (group);
                 add (launchers_page);
+                ctrl_pages += launchers_page;
             }
 
             var advanced_page = new Adw.PreferencesPage ();
@@ -132,6 +137,10 @@ namespace ProtonPlus.Widgets.Preferences {
             advanced_page.add (advanced_group);
             advanced_page.add (tokens_group);
             add (advanced_page);
+            ctrl_pages += advanced_page;
+
+            Application.window.set_controller_preferences_dialog (this, ctrl_pages);
+            this.closed.connect (() => Application.window.set_controller_preferences_dialog (null, null));
 
             set_search_enabled (true);
         }

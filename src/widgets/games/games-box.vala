@@ -220,13 +220,13 @@ namespace ProtonPlus.Widgets {
             content_stack.set_visible_child_name ("main");
 
             content_stack.notify["visible-child-name"].connect (() => {
-                var is_launch_options = content_stack.get_visible_child_name () == "launch-options";
+                var is_mass_edit = content_stack.get_visible_child_name () == "mass-edit";
 
-                back_button.set_visible (is_launch_options);
-                clear_button.set_visible (is_launch_options);
-                apply_button.set_visible (is_launch_options);
-                advanced_box.set_visible (is_launch_options);
-                action_bar_box.set_visible (!is_launch_options);
+                back_button.set_visible (is_mass_edit);
+                clear_button.set_visible (is_mass_edit);
+                apply_button.set_visible (is_mass_edit);
+                advanced_box.set_visible (is_mass_edit);
+                action_bar_box.set_visible (!is_mass_edit);
             });
 
             var clamp = new Adw.Clamp ();
@@ -263,8 +263,6 @@ namespace ProtonPlus.Widgets {
                     }
 
                     notify_property ("active"); // Ensure that when the launcher is changed, but you're in the Games tab the profile dialog still shows up
-                } else {
-                    load_games ();
                 }
             } else {
                 invalid = true;

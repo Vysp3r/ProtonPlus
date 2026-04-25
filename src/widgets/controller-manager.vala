@@ -6,6 +6,8 @@ namespace ProtonPlus.Widgets {
         private double stick_y = 0;
         private bool controller_active = false;
         private Gtk.Widget? highlighted = null;
+        private Adw.PreferencesDialog? active_prefs_dialog = null;
+        private Adw.PreferencesPage[]? prefs_pages = null;
 
         private const double DEADZONE = 0.25;
         private const double SCROLL_SPEED = 12.0;
@@ -16,22 +18,19 @@ namespace ProtonPlus.Widgets {
         }
 
         public void start () {
-            stderr.printf ("ControllerManager: start() called\n");
             SDL.Hints.set_hint (SDL.Hints.JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
 
             if (!SDL.Init.init (SDL.Init.InitFlags.GAMEPAD)) {
-                stderr.printf ("ControllerManager: SDL3 gamepad init FAILED: %s\n", SDL.Error.get_error ());
+                warning ("SDL3 gamepad init FAILED: %s", SDL.Error.get_error ());
                 return;
             }
-            stderr.printf ("ControllerManager: SDL3 init OK\n");
 
             var ids = SDL.Gamepad.get_gamepads ();
             if (ids != null) {
-                stderr.printf ("ControllerManager: found %d gamepad(s)\n", ids.length);
                 foreach (var id in ids)
                 SDL.Gamepad.open_gamepad (id);
             } else {
-                stderr.printf ("ControllerManager: no gamepads found at init\n");
+                warning ("No gamepads found at init");
             }
 
             var motion = new Gtk.EventControllerMotion ();
@@ -49,16 +48,19 @@ namespace ProtonPlus.Widgets {
             SDL.Init.quit_subsystem (SDL.Init.InitFlags.GAMEPAD);
         }
 
+        public void set_preferences_dialog (Adw.PreferencesDialog? dialog, Adw.PreferencesPage[]? pages) {
+            active_prefs_dialog = dialog;
+            prefs_pages = pages;
+        }
+
         private bool poll () {
             SDL.Events.Event event;
             while (SDL.Events.poll_event (out event)) {
                 switch (event.type) {
                     case SDL.Events.EventType.GAMEPAD_ADDED:
-                        stderr.printf ("ControllerManager: gamepad connected\n");
                         SDL.Gamepad.open_gamepad (event.gdevice.which);
                         break;
                     case SDL.Events.EventType.GAMEPAD_BUTTON_DOWN:
-                        stderr.printf ("ControllerManager: button %d\n", (int) event.gbutton.button);
                         handle_button (event.gbutton.button);
                         break;
                     case SDL.Events.EventType.GAMEPAD_AXIS_MOTION:
@@ -106,10 +108,16 @@ namespace ProtonPlus.Widgets {
             activate_controller_mode ();
             switch (button) {
                 case DPAD_UP:
+                    if (is_inside_expander_row ())
                     window.child_focus (Gtk.DirectionType.TAB_BACKWARD);
+                    else
+                    window.child_focus (Gtk.DirectionType.UP);
                     break;
                 case DPAD_DOWN:
+                    if (is_inside_expander_row ())
                     window.child_focus (Gtk.DirectionType.TAB_FORWARD);
+                    else
+                    window.child_focus (Gtk.DirectionType.DOWN);
                     break;
                 case DPAD_LEFT:
                     window.child_focus (Gtk.DirectionType.LEFT);
@@ -119,6 +127,16 @@ namespace ProtonPlus.Widgets {
                     break;
                 case SOUTH:
                     activate_focused ();
+                    break;
+                case EAST:
+                    if (!dismiss_popup () && active_prefs_dialog != null)
+                    active_prefs_dialog.close ();
+                    break;
+                case START:
+                    ((ProtonPlus.Widgets.Window) window).open_menu ();
+                    break;
+                case BACK:
+                    ((ProtonPlus.Widgets.Window) window).open_launchers ();
                     break;
                 case LEFT_SHOULDER:
                     switch_tab (-1);
@@ -147,6 +165,17 @@ namespace ProtonPlus.Widgets {
             focused.activate ();
         }
 
+        private bool is_inside_expander_row () {
+            Gtk.Widget? w = window.get_focus ();
+            while (w != null) {
+                if (w is Adw.ExpanderRow) {
+                    return true;
+                }
+                w = w.get_parent ();
+            }
+            return false;
+        }
+
         private void scroll (double delta) {
             Gtk.Widget? w = window.get_focus ();
             while (w != null) {
@@ -162,7 +191,31 @@ namespace ProtonPlus.Widgets {
             }
         }
 
+        private bool dismiss_popup () {
+            Gtk.Widget? w = window.get_focus ();
+            while (w != null) {
+                if (w is Gtk.Popover) {
+                    ((Gtk.Popover) w).popdown ();
+                    return true;
+                }
+                w = w.get_parent ();
+            }
+            return false;
+        }
+
         private void switch_tab (int delta) {
+            if (active_prefs_dialog != null && prefs_pages != null && prefs_pages.length > 0) {
+                int n = prefs_pages.length;
+                var current = active_prefs_dialog.visible_page;
+                int cur_idx = 0;
+                for (int i = 0; i < n; i++) {
+                    if (prefs_pages[i] == current) { cur_idx = i; break; }
+                }
+                int next_idx = ((cur_idx + delta) % n + n) % n;
+                active_prefs_dialog.visible_page = prefs_pages[next_idx];
+                return;
+            }
+
             var model = view_stack.pages;
             int n = (int) model.get_n_items ();
             if (n == 0) return;

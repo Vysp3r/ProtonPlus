@@ -30,13 +30,16 @@ namespace ProtonPlus.Widgets {
             popover.set_child (list_box);
             popover.set_parent (this);
 
-            clicked.connect (popover_button_clicked);
+            clicked.connect (open_popover);
 
             add_css_class ("flat");
             set_child (button_content);
         }
 
-        void popover_button_clicked () {
+        public void open_popover () {
+            if (popover.get_visible ())
+            popover.popdown ();
+            else
             popover.popup ();
         }
 

@@ -18,6 +18,7 @@ namespace ProtonPlus.Widgets {
             status_page.set_title (_ ("No active downloads"));
             status_page.set_description (_ ("Your downloads will appear here."));
             status_page.set_icon_name ("download-2-symbolic");
+            status_page.set_can_focus (false);
             status_page.vexpand = true;
 
             var in_progress_label = new Gtk.Label(_ ("In-Progress"));

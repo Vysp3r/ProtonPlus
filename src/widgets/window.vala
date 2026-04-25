@@ -105,6 +105,14 @@ namespace ProtonPlus.Widgets {
             initialize.begin ();
         }
 
+        public void open_menu () {
+            menu_button.activate ();
+        }
+
+        public void open_launchers () {
+            launchers_popover_button.open_popover ();
+        }
+
         public async void initialize (bool disable_update_check = false) {
             var loaded = yield Models.Launcher.get_all (out launchers);
             if (!loaded) {
@@ -279,6 +287,10 @@ namespace ProtonPlus.Widgets {
 
         public void show_downloads_page () {
             view_stack.set_visible_child_name ("downloads");
+        }
+
+        public void set_controller_preferences_dialog (Adw.PreferencesDialog? dialog, Adw.PreferencesPage[]? pages) {
+            controller_manager.set_preferences_dialog (dialog, pages);
         }
     }
 }

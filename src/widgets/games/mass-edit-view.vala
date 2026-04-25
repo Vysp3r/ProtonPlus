@@ -15,7 +15,6 @@ namespace ProtonPlus.Widgets {
         Adw.PreferencesGroup launch_options_group { get; set; }
         LaunchOptionsEditor launch_options_editor { get; set; }
         Gtk.Box content_box { get; set; }
-        Adw.ToolbarView toolbar_view { get; set; }
         public GameRow[] rows;
         uint initial_compatibility_tool_index;
 
