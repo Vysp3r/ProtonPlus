@@ -218,7 +218,7 @@ namespace ProtonPlus.Widgets {
         }
 
         void view_stack_visible_child_name_changed () {
-            games_box.active = view_stack.get_visible_child_name () == "games";
+        //games_box.active = view_stack.get_visible_child_name () == "games";
         }
 
         void update_downloads_status () {

@@ -1,6 +1,5 @@
 namespace ProtonPlus.Widgets {
     public class GamesBox : Gtk.Box {
-        public bool active { get; set; }
         bool error { get; set; }
         bool invalid { get; set; }
         Models.Launcher launcher;
@@ -167,38 +166,6 @@ namespace ProtonPlus.Widgets {
             headered_list_box.append (header_box);
             headered_list_box.append (scrolled_window);
 
-            notify["active"].connect (() => {
-                if (!active || error || !(launcher is Models.Launchers.Steam))
-                return;
-
-                var steam_launcher = launcher as Models.Launchers.Steam;
-
-                if (steam_launcher.profiles.length () == 0) {
-                    error = true;
-                    show_status_box ("bug-symbolic", _ ("No profile was found."), "%s\n%s".printf (_ ("Make sure to connect yourself at least once on Steam."), _ ("If you think this is an issue, make sure to report this on GitHub.")));
-                } else {
-                    if (Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("steam-remember-last-profile")) {
-                        var steam_id = Globals.SETTINGS.get_string ("steam-last-profile-id");
-                        foreach (var profile in steam_launcher.profiles) {
-                            if (profile.steam_id == steam_id) {
-                                load_steam_profile (profile);
-                                return;
-                            }
-                        }
-                    }
-
-                    if (steam_launcher.profiles.length () > 1) {
-                        game_list_box.remove_all ();
-
-                        var dialog = new ProfileDialog(steam_launcher);
-                        dialog.load_steam_profile.connect (load_steam_profile);
-                        dialog.present (Application.window);
-                    } else {
-                        load_steam_profile (steam_launcher.profiles.nth_data (0));
-                    }
-                }
-            });
-
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (0);
 
@@ -257,12 +224,37 @@ namespace ProtonPlus.Widgets {
                 if (launcher is Models.Launchers.Steam) {
                     var steam_launcher = (Models.Launchers.Steam) launcher;
 
-                    if (steam_launcher.profiles.length () > 1) {
-                        switch_profile_button.set_visible (true);
-                        switch_profile_button.load (steam_launcher, game_list_box);
-                    }
+                    if (steam_launcher.profiles.length () == 0) {
+                        error = true;
+                        show_status_box ("bug-symbolic", _ ("No profile was found."), "%s\n%s".printf (_ ("Make sure to connect yourself at least once on Steam."), _ ("If you think this is an issue, make sure to report this on GitHub.")));
+                    } else {
+                        bool multiple_profiles = steam_launcher.profiles.length () > 1;
 
-                    notify_property ("active"); // Ensure that when the launcher is changed, but you're in the Games tab the profile dialog still shows up
+                        if (multiple_profiles) {
+                            switch_profile_button.set_visible (true);
+                            switch_profile_button.load (steam_launcher, game_list_box);
+                        }
+
+                        if (Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("steam-remember-last-profile")) {
+                            var steam_id = Globals.SETTINGS.get_string ("steam-last-profile-id");
+                            foreach (var profile in steam_launcher.profiles) {
+                                if (profile.steam_id == steam_id) {
+                                    load_steam_profile (profile);
+                                    return;
+                                }
+                            }
+                        }
+
+                        if (multiple_profiles) {
+                            game_list_box.remove_all ();
+
+                            var dialog = new ProfileDialog(steam_launcher);
+                            dialog.load_steam_profile.connect (load_steam_profile);
+                            dialog.present (Application.window);
+                        } else {
+                            load_steam_profile (steam_launcher.profiles.nth_data (0));
+                        }
+                    }
                 }
             } else {
                 invalid = true;
