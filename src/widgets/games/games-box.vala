@@ -205,6 +205,8 @@ namespace ProtonPlus.Widgets {
             clamp.set_margin_end (12);
             clamp.set_child (content_stack);
 
+            expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
+
             append (clamp);
             append (action_bar);
         }
@@ -301,8 +303,6 @@ namespace ProtonPlus.Widgets {
             foreach (var ct in launcher.compatibility_tools)
             model.append (ct);
 
-            expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
-
             foreach (var game in launcher.games) {
                 if (!game.name.down ().contains (search_entry.get_text ().down ()))
                 continue;
@@ -378,7 +378,7 @@ namespace ProtonPlus.Widgets {
             switch_profile_button.set_visible (false);
         }
 
-        void show_games_list_page () {
+        public void show_games_list_page () {
             content_stack.set_visible_child_name ("main");
 
             selection_label.set_visible (false);
@@ -388,6 +388,18 @@ namespace ProtonPlus.Widgets {
             clear_button.set_visible (false);
             apply_button.set_visible (false);
             advanced_box.set_visible (false);
+
+            search_entry.text = "";
+
+            check_button.active = false;
+
+            var child = game_list_box.get_first_child ();
+            while (child != null) {
+                if (child is GameRow) {
+                    ((GameRow) child).selected = false;
+                }
+                child = child.get_next_sibling ();
+            }
 
             update_mass_edit_button_visibility ();
 

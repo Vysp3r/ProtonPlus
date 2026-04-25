@@ -4,6 +4,7 @@ namespace ProtonPlus.Widgets {
         public bool only_show_unused { get; set; }
         public bool updating { get; set; }
         public List<Models.Launcher> launchers;
+        string last_child_name;
 
         ControllerManager controller_manager;
         StatusBox status_box;
@@ -61,7 +62,7 @@ namespace ProtonPlus.Widgets {
             view_stack = new Adw.ViewStack ();
             view_stack.add_titled_with_icon (runners_box, "tools", _ ("Tools"), "toolbox-symbolic");
             view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "gamepad-symbolic");
-            var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "overlay", _ ("MangoHud"), "layer-group-symbolic");
+            var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
             Globals.SETTINGS.bind ("experimental-mode", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
 
             downloads_page = view_stack.add_titled_with_icon (downloads_box, "downloads", _ ("Downloads"), "download-2-symbolic");
@@ -218,7 +219,17 @@ namespace ProtonPlus.Widgets {
         }
 
         void view_stack_visible_child_name_changed () {
-        //games_box.active = view_stack.get_visible_child_name () == "games";
+            if (last_child_name == "games")
+            games_box.show_games_list_page ();
+            switch (last_child_name) {
+                case "games":
+                    games_box.show_games_list_page ();
+                    break;
+                case "mangohud":
+                    mangohud_box.show_presets_page ();
+                    break;
+            }
+            last_child_name = view_stack.get_visible_child_name ();
         }
 
         void update_downloads_status () {

@@ -8,6 +8,7 @@ namespace ProtonPlus.Widgets {
         private MangoHudPerformancePage performance_page;
         private MangoHudMetricsPage metrics_page;
         private MangoHudExtrasPage extras_page;
+        private Adw.ViewStack stack;
 
         public MangoHudBox () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
@@ -16,7 +17,7 @@ namespace ProtonPlus.Widgets {
             config = new Models.MangoHudConfig ();
             config.load ();
 
-            var stack = new Adw.ViewStack () {
+            stack = new Adw.ViewStack () {
                 vexpand = true
             };
 
@@ -112,6 +113,10 @@ namespace ProtonPlus.Widgets {
             } catch (GLib.Error e) {
                 warning (e.message);
             }
+        }
+
+        public void show_presets_page () {
+            stack.set_visible_child_name ("presets");
         }
     }
 }
