@@ -130,6 +130,26 @@ flowboxchild {
   box-shadow: inset 0 0 0 2px @accent_bg_color;
 }
 
+.recommended-pill, .anime-pill, .favorite-pill {
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: var(--accent-fg-color);
+}
+
+.recommended-pill {
+  background-color: var(--accent-blue);
+}
+
+.anime-pill {
+  background-color: var(--accent-yellow);
+}
+
+.favorite-pill {
+  background-color: var(--accent-red);
+}
+
 row.controller-focus {
   background-color: alpha(@accent_bg_color, 0.12);
   box-shadow: inset 0 0 0 2px @accent_bg_color;

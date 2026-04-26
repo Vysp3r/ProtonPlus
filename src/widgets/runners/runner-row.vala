@@ -27,6 +27,17 @@ namespace ProtonPlus.Widgets {
             set_subtitle (runner.description);
             add_suffix (spinner);
 
+            if (runner is Models.Runners.Basic) {
+                var basic_runner = (Models.Runners.Basic) runner;
+
+                if (basic_runner.tag != null) {
+                    var label = new Gtk.Label (basic_runner.tag);
+                    label.add_css_class ("%s-pill".printf (basic_runner.tag.ascii_down ()));
+                    label.set_valign (Gtk.Align.CENTER);
+                    add_suffix (label);
+                }
+            }
+
             if (runner.title == "Proton-CachyOS")
             title += " (%s)".printf (Globals.HWCAPS.nth_data (0));
         }

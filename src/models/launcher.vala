@@ -121,6 +121,7 @@ namespace ProtonPlus.Models {
             public string[] request_asset_exclude;
             public string[] request_asset_filter;
             public bool asset_position_hwcaps_condition;
+            public string tag;
         }
 
         static async bool initialize_launchers (List<Launcher> launchers) {
@@ -350,6 +351,9 @@ namespace ProtonPlus.Models {
                     json_runner_item.asset_position_time_condition = runner_object.get_string_member ("asset_position_time_condition");
                 }
 
+                if (runner_object.has_member ("tag"))
+                json_runner_item.tag = runner_object.get_string_member ("tag");
+
                 json_runner_items[i] = json_runner_item;
 
             // message ("Runner #%i: %s - %s".printf (i, json_runner_item.title, json_runner_item.description));
@@ -434,6 +438,7 @@ namespace ProtonPlus.Models {
                 runner.has_latest_support = json_runner_item.has_latest_support;
                 runner.group = group;
                 runner.asset_position_hwcaps_condition = json_runner_item.asset_position_hwcaps_condition;
+                runner.tag = json_runner_item.tag;
             }
 
             return runner;

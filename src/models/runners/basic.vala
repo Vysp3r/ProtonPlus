@@ -5,6 +5,7 @@ namespace ProtonPlus.Models.Runners {
         internal string endpoint { get; set; }
         internal int page { get; set; }
         internal string directory_name_format { get; set; }
+        public string tag { get; set; }
 
         construct {
             page = 1;
