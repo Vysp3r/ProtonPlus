@@ -26,7 +26,7 @@ namespace ProtonPlus.Widgets.MangoHud {
         private Gtk.ListBoxRow lod_bias_row;
         private Gtk.Scale lod_bias_scale;
 
-        public PerformancePage (Models.MangoHudConfig config) {
+        public PerformancePage (Utils.MangoHudManager config) {
             base (config);
 
             fps_row = create_switch (_ ("Show FPS"), config.fps, (val) => { this.config.fps = val; });

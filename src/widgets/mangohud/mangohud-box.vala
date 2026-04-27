@@ -2,7 +2,7 @@ namespace ProtonPlus.Widgets.MangoHud {
     public class Box : Gtk.Box {
         public signal void saved ();
 
-        private Models.MangoHudConfig config;
+        private Utils.MangoHudManager config;
         private PresetsPage presets_page;
         private VisualPage visual_page;
         private PerformancePage performance_page;
@@ -14,7 +14,7 @@ namespace ProtonPlus.Widgets.MangoHud {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
             set_vexpand (true);
 
-            config = new Models.MangoHudConfig ();
+            config = new Utils.MangoHudManager ();
             config.load ();
 
             stack = new Adw.ViewStack () {

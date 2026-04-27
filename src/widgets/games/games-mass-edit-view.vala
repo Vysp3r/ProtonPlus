@@ -80,10 +80,10 @@ namespace ProtonPlus.Widgets.Games {
             if (compatibility_tool_row != null)
             compatibility_tool_group.remove (compatibility_tool_row);
 
-            var filtered_model = new ListStore (typeof (Models.SimpleRunner));
+            var filtered_model = new ListStore (typeof (Models.Tools.Simple));
             var n_items = model.get_n_items ();
             for (uint i = 0; i < n_items; i++) {
-                var runner = model.get_item (i) as Models.SimpleRunner;
+                var runner = model.get_item (i) as Models.Tools.Simple;
                 if (runner == null)
                 continue;
                 if (runner.display_title.contains ("Steam Linux Runtime")) {
@@ -103,7 +103,7 @@ namespace ProtonPlus.Widgets.Games {
 
                 var filtered_n_items = filtered_model.get_n_items ();
                 for (uint i = 0; i < filtered_n_items; i++) {
-                    var runner = filtered_model.get_item (i) as Models.SimpleRunner;
+                    var runner = filtered_model.get_item (i) as Models.Tools.Simple;
                     if (runner != null && runner.internal_title == game.compatibility_tool) {
                         compatibility_tool_row.selected = i;
                         break;
@@ -142,7 +142,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void apply_button_clicked () {
-            var item = (Models.SimpleRunner) compatibility_tool_row.get_selected_item ();
+            var item = (Models.Tools.Simple) compatibility_tool_row.get_selected_item ();
             var invalids = new List<string> ();
 
             foreach (var row in rows) {
@@ -186,8 +186,8 @@ namespace ProtonPlus.Widgets.Games {
                     names += "\n";
                 }
 
-            //                var dialog = new Main.ErrorDialog (_ ("Couldn't change the compatibility tool/launch options of the selected games"), "%s\n\n%s\n\n%s".printf (_ ("The following games had an issue:"), names, _ ("Please report this issue on GitHub.")));
-            //                dialog.present (Application.window);
+                var dialog = new Main.ErrorDialog (_ ("Couldn't change the compatibility tool/launch options of the selected games"), "%s\n\n%s\n\n%s".printf (_ ("The following games had an issue:"), names, _ ("Please report this issue on GitHub.")));
+                dialog.present ((Gtk.Window) this.get_root ());
             }
 
             back_requested ();

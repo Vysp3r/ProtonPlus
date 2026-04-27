@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets.MangoHud {
     public abstract class Page : Gtk.Box {
-        public Models.MangoHudConfig config { get; set; }
+        public Utils.MangoHudManager config { get; set; }
         public bool is_updating { get; set; default = false; }
 
         public signal void changed ();
@@ -58,7 +58,7 @@ namespace ProtonPlus.Widgets.MangoHud {
             return flow_box;
         }
 
-        protected Page (Models.MangoHudConfig config) {
+        protected Page (Utils.MangoHudManager config) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
             this.config = config;
             this.set_hexpand (true);

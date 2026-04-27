@@ -37,8 +37,6 @@ namespace ProtonPlus.Widgets.Main {
             toast_overlay = new Adw.ToastOverlay ();
             toast_overlay.set_child (view_stack);
 
-            Utils.DownloadManager.instance.active_downloads.notify["size"].connect (update_downloads_status);
-
             append (toast_overlay);
         }
 
@@ -61,16 +59,6 @@ namespace ProtonPlus.Widgets.Main {
             }
 
             previous_view_name = view_stack.get_visible_child_name ();
-        }
-
-        void update_downloads_status () {
-            bool active = Utils.DownloadManager.instance.active_downloads.size > 0;
-
-            if (active) {
-                add_css_class ("downloads-attention");
-            } else {
-                remove_css_class ("downloads-attention");
-            }
         }
 
         //        public async void check_for_updates (Models.Tools.Basic? runner = null) {

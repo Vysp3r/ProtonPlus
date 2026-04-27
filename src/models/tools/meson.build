@@ -6,4 +6,5 @@ sources += files(
     'forgejo.vala',
     'installed.vala',
     'steamtinkerlaunch.vala',
+    'simple.vala'
 )

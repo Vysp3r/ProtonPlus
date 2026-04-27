@@ -7,4 +7,5 @@ sources += files(
     'controller-manager.vala',
     'theme-manager.vala',
     'download-manager.vala',
+    'mangohud-manager.vala',
 )

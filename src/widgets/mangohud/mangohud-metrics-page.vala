@@ -45,7 +45,7 @@ namespace ProtonPlus.Widgets.MangoHud {
         private Adw.SwitchRow cpu_procs_row;
         private Adw.SwitchRow swap_row;
 
-        public MetricsPage (Models.MangoHudConfig config) {
+        public MetricsPage (Utils.MangoHudManager config) {
             base (config);
 
         // GPU section

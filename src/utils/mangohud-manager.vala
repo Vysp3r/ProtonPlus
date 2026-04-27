@@ -1,6 +1,4 @@
-using Gee;
-
-namespace ProtonPlus.Models {
+namespace ProtonPlus.Utils {
     public enum MangoHudPreset {
         CUSTOM,
         FULL,
@@ -15,7 +13,7 @@ namespace ProtonPlus.Models {
         CUSTOM
     }
 
-    public class MangoHudConfig : Object {
+    public class MangoHudManager : Object {
         public string fps_limit { get; set; default = "0"; }
         public string position { get; set; default = "top-left"; }
         public bool cpu_stats { get; set; default = false; }
@@ -127,7 +125,7 @@ namespace ProtonPlus.Models {
         private string config_path;
         private Gee.HashMap<string, string> unknown_settings;
 
-        public MangoHudConfig () {
+        public MangoHudManager () {
             config_path = Path.build_filename (Environment.get_user_config_dir (), "MangoHud", "MangoHud.conf");
             unknown_settings = new Gee.HashMap<string, string> ();
         }

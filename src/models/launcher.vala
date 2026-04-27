@@ -6,7 +6,7 @@ namespace ProtonPlus.Models {
         public bool installed;
         public bool has_library_support;
         public List<Game> games;
-        public Gee.LinkedList<SimpleRunner> compatibility_tools;
+        public Gee.LinkedList<Tools.Simple> compatibility_tools;
 
         public Group[] groups;
 
@@ -34,7 +34,7 @@ namespace ProtonPlus.Models {
                 }
             }
 
-            compatibility_tools = new Gee.LinkedList<SimpleRunner> ();
+            compatibility_tools = new Gee.LinkedList<Tools.Simple> ();
 
             installed = directory.length > 0;
         }
@@ -59,31 +59,29 @@ namespace ProtonPlus.Models {
         public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
             var _launchers = new Gee.LinkedList<Launcher> ();
 
-            _launchers.add (new Launchers.Steam (InstallationTypes.SYSTEM));
-            _launchers.add (new Launchers.Steam (InstallationTypes.FLATPAK));
-            _launchers.add (new Launchers.Steam (InstallationTypes.SNAP));
+            Launcher[] candidates = {
+                new Launchers.Steam (InstallationTypes.SYSTEM),
+                new Launchers.Steam (InstallationTypes.FLATPAK),
+                new Launchers.Steam (InstallationTypes.SNAP),
+                new Launchers.Lutris (InstallationTypes.SYSTEM),
+                new Launchers.Lutris (InstallationTypes.FLATPAK),
+                new Launchers.Bottles (InstallationTypes.SYSTEM),
+                new Launchers.Bottles (InstallationTypes.FLATPAK),
+                new Launchers.HeroicGamesLauncher (InstallationTypes.SYSTEM),
+                new Launchers.HeroicGamesLauncher (InstallationTypes.FLATPAK),
+                new Launchers.WineZGUI (InstallationTypes.SYSTEM),
+                new Launchers.WineZGUI (InstallationTypes.FLATPAK)
+            };
 
-            _launchers.add (new Launchers.Lutris (InstallationTypes.SYSTEM));
-            _launchers.add (new Launchers.Lutris (InstallationTypes.FLATPAK));
-
-            _launchers.add (new Launchers.Bottles (InstallationTypes.SYSTEM));
-            _launchers.add (new Launchers.Bottles (InstallationTypes.FLATPAK));
-
-            _launchers.add (new Launchers.HeroicGamesLauncher (InstallationTypes.SYSTEM));
-            _launchers.add (new Launchers.HeroicGamesLauncher (InstallationTypes.FLATPAK));
-
-            _launchers.add (new Launchers.WineZGUI (InstallationTypes.SYSTEM));
-            _launchers.add (new Launchers.WineZGUI (InstallationTypes.FLATPAK));
-
-            _launchers.foreach ((launcher) => {
-                if (!launcher.installed)
-                _launchers.remove (launcher);
-                return true;
-            });
+            foreach (var launcher in candidates) {
+                if (launcher.installed) {
+                    _launchers.add (launcher);
+                }
+            }
 
             launchers = (owned) _launchers;
 
-            if (launchers == null)
+            if (launchers == null || launchers.size == 0)
             return true;
 
             var initialized = yield initialize_launchers (launchers);

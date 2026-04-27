@@ -119,12 +119,15 @@ namespace ProtonPlus.Widgets.Tools {
 
                 content_stack.set_visible_child_name ("list");
 
-            //dialog.present (Application.window);
+                dialog.present ((Gtk.Window) this.get_root ());
 
                 return;
             }
 
             foreach (var release in releases) {
+                if (release is Models.Releases.SteamTinkerLaunch)
+                list_box.append (new STLReleaseRow (release));
+                else
                 list_box.append (new ReleaseRow (release));
             }
 

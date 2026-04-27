@@ -9,7 +9,7 @@ namespace ProtonPlus.Widgets {
 
         Utils.ControllerManager controller_manager;
 
-        construct {
+        public Window () {
             set_application ((Adw.Application) GLib.Application.get_default ());
             set_title (Config.APP_NAME);
 
@@ -39,6 +39,12 @@ namespace ProtonPlus.Widgets {
             loading_box.load.begin ();
         }
 
+        public void reload () {
+            toolbar_view.set_content (loading_box);
+
+            loading_box.load.begin ();
+        }
+
         public override bool close_request () {
             if (Utils.DownloadManager.instance.active_downloads.size == 0) {
                 controller_manager.stop ();
@@ -48,7 +54,7 @@ namespace ProtonPlus.Widgets {
                 return false;
             }
 
-            var dialog = new Adw.AlertDialog (_ ("Warning"), _ ("The application is currently checking for updates.\nExiting the application early may cause issues."));
+            var dialog = new Adw.AlertDialog (_ ("Warning"), _ ("The application is currently downloading a tool.\nExiting the application early may cause issues."));
 
             dialog.add_response ("exit", _ ("Exit"));
             dialog.set_response_appearance ("exit", Adw.ResponseAppearance.DESTRUCTIVE);

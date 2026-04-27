@@ -205,7 +205,7 @@ namespace ProtonPlus.Widgets.Games {
             clamp.set_margin_end (20);
             clamp.set_child (content_stack);
 
-            expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
+            expression = new Gtk.PropertyExpression(typeof (Models.Tools.Simple), null, "display_title");
 
             append (clamp);
             append (action_bar);
@@ -250,9 +250,9 @@ namespace ProtonPlus.Widgets.Games {
                         if (multiple_profiles) {
                             game_list_box.remove_all ();
 
-                        //                            var dialog = new ProfileDialog(steam_launcher);
-                        //                            dialog.load_steam_profile.connect (load_steam_profile);
-                        //                            dialog.present (Application.window);
+                            var dialog = new ProfileDialog(steam_launcher);
+                            dialog.load_steam_profile.connect (load_steam_profile);
+                            dialog.present ((Gtk.Window) this.get_root ());
                         } else {
                             load_steam_profile (steam_launcher.profiles.nth_data (0));
                         }
@@ -298,8 +298,8 @@ namespace ProtonPlus.Widgets.Games {
 
             overlay.add_overlay (spinner);
 
-            model = new ListStore(typeof (Models.SimpleRunner));
-            model.append (new Models.SimpleRunner(_ ("Default"), _ ("Default")));
+            model = new ListStore(typeof (Models.Tools.Simple));
+            model.append (new Models.Tools.Simple(_ ("Default"), _ ("Default")));
             foreach (var ct in launcher.compatibility_tools)
             model.append (ct);
 

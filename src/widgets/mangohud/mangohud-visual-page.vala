@@ -12,7 +12,7 @@ namespace ProtonPlus.Widgets.MangoHud {
         private Adw.SwitchRow compact_row;
         private Adw.SwitchRow no_display_row;
 
-        public VisualPage (Models.MangoHudConfig config) {
+        public VisualPage (Utils.MangoHudManager config) {
             base (config);
 
             hud_title_row = create_entry (_ ("HUD Title"), config.hud_title, (val) => { this.config.hud_title = val; });

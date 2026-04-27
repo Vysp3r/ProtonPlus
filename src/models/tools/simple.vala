@@ -1,21 +1,21 @@
-namespace ProtonPlus.Models {
-    public class SimpleRunner : Object {
+namespace ProtonPlus.Models.Tools {
+    public class Simple : Tool {
         public string display_title { get; set; }
         public string internal_title { get; set; }
         public string path { get; set; }
 
-        public SimpleRunner (string display_title, string internal_title) {
+        public Simple (string display_title, string internal_title) {
             this.display_title = display_title;
             this.internal_title = internal_title;
         }
 
-        public SimpleRunner.with_path (string display_title, string internal_title, string path) {
+        public Simple.with_path (string display_title, string internal_title, string path) {
             this.display_title = display_title;
             this.internal_title = internal_title;
             this.path = path;
         }
 
-        public SimpleRunner.from_path (string path) {
+        public Simple.from_path (string path) {
             this.path = path;
 
             var content = Utils.Filesystem.get_file_content ("%s/compatibilitytool.vdf".printf (path));
@@ -62,6 +62,11 @@ namespace ProtonPlus.Models {
             }
 
             internal_title = content.substring (start_pos, end_pos - start_pos);
+        }
+
+        public async override Gee.LinkedList<Release> load_more (out ProtonPlus.ReturnCode code) {
+            code = ReturnCode.UNKNOWN_ERROR;
+            return new Gee.LinkedList<Release> ();
         }
     }
 }

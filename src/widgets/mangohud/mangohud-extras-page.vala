@@ -49,7 +49,7 @@ namespace ProtonPlus.Widgets.MangoHud {
         private Adw.SwitchRow upload_log_row;
         private Adw.SwitchRow log_versioning_row;
 
-        public ExtrasPage (Models.MangoHudConfig config) {
+        public ExtrasPage (Utils.MangoHudManager config) {
             base (config);
 
             var color_dialog = new Gtk.ColorDialog ();

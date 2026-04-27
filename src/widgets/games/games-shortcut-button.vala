@@ -28,16 +28,16 @@ namespace ProtonPlus.Widgets.Games {
             if (installed) {
                 var success = profile.shortcuts.uninstall ();
                 if (!success) {
-                //                    var dialog = new Main.ErrorDialog (_ ("Couldn't delete the shortcut in Steam"), _ ("Please report this issue on GitHub."));
-                //                    dialog.present (Application.window);
+                    var dialog = new Main.ErrorDialog (_ ("Couldn't delete the shortcut in Steam"), _ ("Please report this issue on GitHub."));
+                    dialog.present ((Gtk.Window) this.get_root ());
                 }
                 refresh ();
             } else {
                 profile.shortcuts.install.begin ((obj, res) => {
                     var success = profile.shortcuts.install.end (res);
                     if (!success) {
-                    //                        var dialog = new Main.ErrorDialog (_ ("Couldn't create the shortcut in Steam"), _ ("Please report this issue on GitHub."));
-                    //                        dialog.present (Application.window);
+                        var dialog = new Main.ErrorDialog (_ ("Couldn't create the shortcut in Steam"), _ ("Please report this issue on GitHub."));
+                        dialog.present ((Gtk.Window) this.get_root ());
                     }
                     refresh ();
                 });

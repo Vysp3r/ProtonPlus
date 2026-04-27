@@ -175,7 +175,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void run_custom_executable (string exe_path) {
-            Models.SimpleRunner selected_runner = null;
+            Models.Tools.Simple selected_runner = null;
 
             foreach (var runner in game.launcher.compatibility_tools) {
                 if (runner.internal_title == game.compatibility_tool) {
@@ -195,8 +195,8 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             if (selected_runner == null || selected_runner.path == null) {
-            //                var dialog = new Main.ErrorDialog (_ ("Couldn't find the compatibility tool for %s").printf (game.name), _ ("Please make sure it's installed."));
-            //                dialog.present (Application.window);
+                var dialog = new Main.ErrorDialog (_ ("Couldn't find the compatibility tool for %s").printf (game.name), _ ("Please make sure it's installed."));
+                dialog.present ((Gtk.Window) this.get_root ());
                 return;
             }
 

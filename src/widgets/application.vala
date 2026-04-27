@@ -1,6 +1,5 @@
 namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
-
         construct {
             application_id = Config.APP_ID;
             flags |= ApplicationFlags.FLAGS_NONE;
@@ -10,7 +9,8 @@ namespace ProtonPlus.Widgets {
                 { "preferences", this.on_preferences_action },
                 { "about", this.on_about_action },
                 { "donate", this.on_donate_action },
-                { "quit", this.quit }
+                { "reload", this.on_reload_action },
+                { "quit", this.quit },
             };
             this.add_action_entries (action_entries, this);
             this.set_accels_for_action ("app.quit", { "<Ctrl>Q" });
@@ -77,6 +77,10 @@ namespace ProtonPlus.Widgets {
 
         void on_donate_action () {
             Utils.System.open_uri ("https://protonplus.vysp3r.com/#donate");
+        }
+
+        void on_reload_action () {
+            (this.active_window as Window).reload ();
         }
 
         void on_about_action () {

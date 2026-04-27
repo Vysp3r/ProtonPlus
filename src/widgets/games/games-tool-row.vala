@@ -2,10 +2,10 @@ namespace ProtonPlus.Widgets.Games {
     public class CompatibilityToolRow : Adw.ComboRow {
         Gtk.SignalListItemFactory compatibility_tool_factory;
         Gtk.ListItem last_compatibility_tool_list_item;
-        HashTable<Models.SimpleRunner, Gtk.ListItem> hast_table;
+        HashTable<Models.Tools.Simple, Gtk.ListItem> hast_table;
 
         public CompatibilityToolRow (ListStore model, Gtk.PropertyExpression expression) {
-            hast_table = new HashTable<Models.SimpleRunner, Gtk.ListItem> (null, (a, b) => {
+            hast_table = new HashTable<Models.Tools.Simple, Gtk.ListItem> (null, (a, b) => {
                 return a.internal_title == b.internal_title;
             });
 
@@ -22,7 +22,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void compatibility_tool_row_selected_item_changed () {
-            var simple_runner = get_selected_item () as Models.SimpleRunner;
+            var simple_runner = get_selected_item () as Models.Tools.Simple;
             var list_item = hast_table.get (simple_runner);
 
             if (list_item == null)
@@ -39,7 +39,7 @@ namespace ProtonPlus.Widgets.Games {
 
         void compatibility_tool_factory_bind (Object object) {
             var list_item = object as Gtk.ListItem;
-            var simple_runner = list_item.get_item () as Models.SimpleRunner;
+            var simple_runner = list_item.get_item () as Models.Tools.Simple;
 
             hast_table.set (simple_runner, list_item);
 

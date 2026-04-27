@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets.Tools {
     public class STLReleaseRow : ReleaseRow {
-        public STLReleaseRow (Models.Releases.SteamTinkerLaunch release) {
+        public STLReleaseRow (Models.Release release) {
             base (release);
         }
 

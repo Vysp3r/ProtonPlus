@@ -5,8 +5,6 @@ sources += files(
     'release.vala',
     'tool.vala',
     'game.vala',
-    'simple-runner.vala',
-    'mangohud-config.vala',
 )
 
 subdir('launchers')

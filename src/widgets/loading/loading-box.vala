@@ -38,7 +38,7 @@ namespace ProtonPlus.Widgets.Loading {
             append (status_page);
         }
 
-        public async void load (bool disable_update_check = false) {
+        public async void load () {
             if (loading)
             return;
 
