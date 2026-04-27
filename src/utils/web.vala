@@ -4,6 +4,9 @@ namespace ProtonPlus.Utils {
 
 
 
+
+
+
         public enum GetRequestType {
             OTHER,
             GITHUB,
@@ -57,17 +60,16 @@ namespace ProtonPlus.Utils {
 
                 switch (get_request_type) {
                     case GetRequestType.GITHUB:
-                        if (response.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"))
+                        if (message.status_code == 403 || message.status_code == 429)
                         return ReturnCode.API_LIMIT_REACHED;
-
                         if (response.contains ("Bad credentials"))
                         return ReturnCode.INVALID_ACCESS_TOKEN;
-
                         break;
                     case GetRequestType.GITLAB:
+                        if (message.status_code == 403 || message.status_code == 429)
+                        return ReturnCode.API_LIMIT_REACHED;
                         if (response.contains ("401 Unauthorized"))
                         return ReturnCode.INVALID_ACCESS_TOKEN;
-
                         break;
                     default:
                         break;

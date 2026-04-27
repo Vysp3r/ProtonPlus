@@ -1,16 +1,16 @@
-namespace ProtonPlus.Widgets {
-    public class MangoHudBox : Gtk.Box {
+namespace ProtonPlus.Widgets.MangoHud {
+    public class Box : Gtk.Box {
         public signal void saved ();
 
         private Models.MangoHudConfig config;
-        private MangoHudPresetsPage presets_page;
-        private MangoHudVisualPage visual_page;
-        private MangoHudPerformancePage performance_page;
-        private MangoHudMetricsPage metrics_page;
-        private MangoHudExtrasPage extras_page;
+        private PresetsPage presets_page;
+        private VisualPage visual_page;
+        private PerformancePage performance_page;
+        private MetricsPage metrics_page;
+        private ExtrasPage extras_page;
         private Adw.ViewStack stack;
 
-        public MangoHudBox () {
+        public Box () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
             set_vexpand (true);
 
@@ -26,11 +26,11 @@ namespace ProtonPlus.Widgets {
                 policy = Adw.ViewSwitcherPolicy.WIDE
             };
 
-            presets_page = new MangoHudPresetsPage (config);
-            visual_page = new MangoHudVisualPage (config);
-            performance_page = new MangoHudPerformancePage (config);
-            metrics_page = new MangoHudMetricsPage (config);
-            extras_page = new MangoHudExtrasPage (config);
+            presets_page = new PresetsPage (config);
+            visual_page = new VisualPage (config);
+            performance_page = new PerformancePage (config);
+            metrics_page = new MetricsPage (config);
+            extras_page = new ExtrasPage (config);
 
             stack.add_titled_with_icon (create_scrolled_window (presets_page), "presets", _ ("Presets"), "list-symbolic");
             stack.add_titled_with_icon (create_scrolled_window (visual_page), "visual", _ ("Visual"), "eye-symbolic");

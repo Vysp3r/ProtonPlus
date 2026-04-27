@@ -1,7 +1,6 @@
 sources = files(
     'main.vala',
     'globals.vala',
-    'return-code.vala',
 )
 
 subdir('cli')

@@ -1,8 +1,8 @@
 namespace ProtonPlus.Models.Releases {
-    public class GitHubAction : Basic {
+    public class GitHubAction : Release {
         public string artifacts_url { get; set; }
 
-        public GitHubAction (Runners.Basic runner, string title, string release_date, string download_url, string page_url, string artifacts_url) {
+        public GitHubAction (Tools.Basic runner, string title, string release_date, string download_url, string page_url, string artifacts_url) {
             this.artifacts_url = artifacts_url;
 
             shared (runner, title, release_date, download_url, page_url);
@@ -47,7 +47,7 @@ namespace ProtonPlus.Models.Releases {
 
             step = Step.MOVING;
 
-            var runner = this.runner as Runners.Basic;
+            var runner = this.runner as Tools.Basic;
 
             destination_path = "%s%s/%s/".printf (runner.group.launcher.directory, runner.group.directory, runner.get_directory_name (title)) ;
 
@@ -55,8 +55,6 @@ namespace ProtonPlus.Models.Releases {
 
             if (!renaming_valid)
             return false;
-
-            add_to_games_tab ();
 
             return true;
         }

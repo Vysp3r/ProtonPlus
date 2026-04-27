@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Releases {
-    public class History : BaseRelease {
+    public class History : Release {
         public History (string title, string? displayed_title, string icon_path, bool is_finished, bool install_success, bool canceled, string? error_message = null) {
             this.title = title;
             this.displayed_title = displayed_title;
@@ -22,14 +22,17 @@ namespace ProtonPlus.Models.Releases {
 
         public override async bool install () { return false; }
         protected override async bool _start_install () { return false; }
-        public override async bool remove (Parameters parameters) { return false; }
+        public override async bool remove () { return false; }
+        protected async override bool _start_remove () { return false; }
+        protected async override bool _start_update () { return false; }
         protected override void refresh_state () {}
     }
 
-    public class HistoryRunner : Runner {
-        public override async ReturnCode load (out GLib.List<Release> releases) {
-            releases = new List<Release> ();
-            return ReturnCode.VALID_REQUEST;
+    public class HistoryRunner : Tool {
+        public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
+            code = ReturnCode.RELEASES_LOADED;
+
+            return new Gee.LinkedList<Release> ();
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Releases {
-    public class Latest : Basic {
-        public Latest (Runners.Basic runner, string title, string description, string release_date, string download_url, string page_url) {
+    public class Latest : Release {
+        public Latest (Tools.Basic runner, string title, string description, string release_date, string download_url, string page_url) {
             shared (runner, title, release_date, download_url, page_url);
 
             this.description = description;
@@ -77,8 +77,6 @@ namespace ProtonPlus.Models.Releases {
             var modified = Utils.Filesystem.modify_file (compatibilitytoolvdf_path, compatibilitytoolvdf_content);
             if (!modified)
             return false;
-
-            add_to_games_tab ();
 
             return true;
         }

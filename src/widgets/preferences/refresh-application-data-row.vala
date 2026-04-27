@@ -26,7 +26,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
             refresh_button.set_child (spinner);
 
-            yield Application.window.initialize (true);
+        //yield Application.window.initialize (true);
 
             spinner?.unparent ();
 

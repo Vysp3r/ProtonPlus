@@ -154,3 +154,41 @@ row.controller-focus {
   background-color: alpha(@accent_bg_color, 0.12);
   box-shadow: inset 0 0 0 2px @accent_bg_color;
 }
+
+@keyframes dance {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-4px) rotate(8deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-4px) rotate(-8deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+.loading-status-page image {
+  animation: dance 2s infinite ease-in-out;
+}
+
+.loading-status-page button image {
+  animation: none;
+}
+
+.tools-group-card {
+  padding: 16px;
+}
+
+.tools-group-card .title-4 {
+  font-weight: bold;
+}
+
+.tools-releases-card, .tools-tools-card, .tools-spinner-box {
+  background-color: @window_bg_color;
+}

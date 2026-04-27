@@ -1,5 +1,5 @@
-namespace ProtonPlus.Widgets {
-    public class MangoHudExtrasPage : MangoHudPage {
+namespace ProtonPlus.Widgets.MangoHud {
+    public class ExtrasPage : Page {
         // System rows
         private Adw.SwitchRow distro_row;
         private Adw.SwitchRow refresh_rate_row;
@@ -49,7 +49,7 @@ namespace ProtonPlus.Widgets {
         private Adw.SwitchRow upload_log_row;
         private Adw.SwitchRow log_versioning_row;
 
-        public MangoHudExtrasPage (Models.MangoHudConfig config) {
+        public ExtrasPage (Models.MangoHudConfig config) {
             base (config);
 
             var color_dialog = new Gtk.ColorDialog ();

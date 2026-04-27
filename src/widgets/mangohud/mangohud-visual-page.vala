@@ -1,5 +1,5 @@
-namespace ProtonPlus.Widgets {
-    public class MangoHudVisualPage : MangoHudPage {
+namespace ProtonPlus.Widgets.MangoHud {
+    public class VisualPage : Page {
         private Adw.EntryRow hud_title_row;
         private Adw.ComboRow orientation_row;
         private Adw.ComboRow border_row;
@@ -12,7 +12,7 @@ namespace ProtonPlus.Widgets {
         private Adw.SwitchRow compact_row;
         private Adw.SwitchRow no_display_row;
 
-        public MangoHudVisualPage (Models.MangoHudConfig config) {
+        public VisualPage (Models.MangoHudConfig config) {
             base (config);
 
             hud_title_row = create_entry (_ ("HUD Title"), config.hud_title, (val) => { this.config.hud_title = val; });

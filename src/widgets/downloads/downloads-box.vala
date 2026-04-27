@@ -1,5 +1,5 @@
-namespace ProtonPlus.Widgets {
-    public class DownloadsBox : Gtk.Box {
+namespace ProtonPlus.Widgets.Downloads {
+    public class Box : Gtk.Box {
         private Gtk.ListBox in_progress_list_box;
         private Gtk.ListBox completed_list_box;
         private Gtk.Box in_progress_box;
@@ -10,7 +10,7 @@ namespace ProtonPlus.Widgets {
         private Gtk.Box completed_header_box;
         private Gtk.Button clear_button;
 
-        public DownloadsBox() {
+        public Box() {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
             set_vexpand (true);
 
@@ -75,26 +75,26 @@ namespace ProtonPlus.Widgets {
             append (scrolled_window);
             append (status_page);
 
-            Models.DownloadManager.instance.download_added.connect (on_download_added);
-            Models.DownloadManager.instance.download_removed.connect (on_download_removed);
-            Models.DownloadManager.instance.download_finished.connect (on_download_finished);
+            Utils.DownloadManager.instance.download_added.connect (on_download_added);
+            Utils.DownloadManager.instance.download_removed.connect (on_download_removed);
+            Utils.DownloadManager.instance.download_finished.connect (on_download_finished);
 
             update_visibility ();
 
-            foreach (var release in Models.DownloadManager.instance.active_downloads) {
+            foreach (var release in Utils.DownloadManager.instance.active_downloads) {
                 add_download_row (release, in_progress_list_box);
             }
 
-            foreach (var release in Models.DownloadManager.instance.history) {
+            foreach (var release in Utils.DownloadManager.instance.history) {
                 add_download_row (release, completed_list_box);
             }
         }
 
-        private void on_download_added (Models.BaseRelease release) {
+        private void on_download_added (Models.Release release) {
             var child = completed_list_box.get_first_child ();
             while (child != null) {
                 var next = child.get_next_sibling ();
-                if (child is DownloadRow && ((DownloadRow)child).release.title == release.title) {
+                if (child is Row && ((Row)child).release.title == release.title) {
                     completed_list_box.remove (child);
                 }
                 child = next;
@@ -104,14 +104,14 @@ namespace ProtonPlus.Widgets {
             update_visibility ();
         }
 
-        private void on_download_removed (Models.BaseRelease release) {
+        private void on_download_removed (Models.Release release) {
             update_visibility ();
         }
 
-        private void on_download_finished (Models.BaseRelease release, bool success) {
+        private void on_download_finished (Models.Release release, bool success) {
             var child = in_progress_list_box.get_first_child ();
             while (child != null) {
-                if (child is DownloadRow && ((DownloadRow)child).release == release) {
+                if (child is Row && ((Row)child).release == release) {
                     in_progress_list_box.remove (child);
                     break;
                 }
@@ -123,7 +123,7 @@ namespace ProtonPlus.Widgets {
         }
 
         private void on_clear_clicked () {
-            Models.DownloadManager.instance.clear_history ();
+            Utils.DownloadManager.instance.clear_history ();
             var child = completed_list_box.get_first_child ();
             while (child != null) {
                 var next = child.get_next_sibling ();
@@ -133,15 +133,15 @@ namespace ProtonPlus.Widgets {
             update_visibility ();
         }
 
-        private void add_download_row (Models.BaseRelease release, Gtk.ListBox list_box) {
-            var row = new DownloadRow(release);
+        private void add_download_row (Models.Release release, Gtk.ListBox list_box) {
+            var row = new Row(release);
             list_box.prepend (row);
         }
 
         private void update_visibility () {
-            bool has_downloads = Models.DownloadManager.instance.active_downloads.size > 0 || Models.DownloadManager.instance.history.size > 0;
-            bool has_active = Models.DownloadManager.instance.active_downloads.size > 0;
-            bool has_history = Models.DownloadManager.instance.history.size > 0;
+            bool has_downloads = Utils.DownloadManager.instance.active_downloads.size > 0 || Utils.DownloadManager.instance.history.size > 0;
+            bool has_active = Utils.DownloadManager.instance.active_downloads.size > 0;
+            bool has_history = Utils.DownloadManager.instance.history.size > 0;
 
             completed_header_box.set_visible (has_downloads);
             scrolled_window.set_visible (has_downloads);

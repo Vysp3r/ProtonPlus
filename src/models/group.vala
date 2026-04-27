@@ -4,8 +4,7 @@ namespace ProtonPlus.Models {
         public string description { get; set; }
         public string directory { get; set; }
         public Launcher launcher { get; set; }
-
-        public List<Runner> runners;
+        public Gee.LinkedList<Tool> tools { get; set; }
 
         public Group(string title, string description, string directory, Launcher launcher) {
             this.title = title;
@@ -18,7 +17,7 @@ namespace ProtonPlus.Models {
             }
         }
 
-        public List<string> get_compatibility_tool_directories () {
+        public List<string> get_tool_directories () {
             var directories = new List<string> ();
 
             try {
@@ -43,10 +42,6 @@ namespace ProtonPlus.Models {
             }
 
             return directories;
-        }
-
-        public void bob () {
-
         }
     }
 }

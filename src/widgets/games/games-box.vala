@@ -1,5 +1,5 @@
-namespace ProtonPlus.Widgets {
-    public class GamesBox : Gtk.Box {
+namespace ProtonPlus.Widgets.Games {
+    public class Box : Gtk.Box {
         bool error { get; set; }
         bool invalid { get; set; }
         Models.Launcher launcher;
@@ -199,10 +199,10 @@ namespace ProtonPlus.Widgets {
             var clamp = new Adw.Clamp ();
             clamp.set_vexpand (true);
             clamp.set_maximum_size (975);
-            clamp.set_margin_top (7);
+            clamp.set_margin_top (5);
             clamp.set_margin_bottom (12);
-            clamp.set_margin_start (12);
-            clamp.set_margin_end (12);
+            clamp.set_margin_start (20);
+            clamp.set_margin_end (20);
             clamp.set_child (content_stack);
 
             expression = new Gtk.PropertyExpression(typeof (Models.SimpleRunner), null, "display_title");
@@ -250,9 +250,9 @@ namespace ProtonPlus.Widgets {
                         if (multiple_profiles) {
                             game_list_box.remove_all ();
 
-                            var dialog = new ProfileDialog(steam_launcher);
-                            dialog.load_steam_profile.connect (load_steam_profile);
-                            dialog.present (Application.window);
+                        //                            var dialog = new ProfileDialog(steam_launcher);
+                        //                            dialog.load_steam_profile.connect (load_steam_profile);
+                        //                            dialog.present (Application.window);
                         } else {
                             load_steam_profile (steam_launcher.profiles.nth_data (0));
                         }

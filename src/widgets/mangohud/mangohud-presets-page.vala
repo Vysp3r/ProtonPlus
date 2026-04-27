@@ -1,5 +1,5 @@
-namespace ProtonPlus.Widgets {
-    public class MangoHudPresetsPage : MangoHudPage {
+namespace ProtonPlus.Widgets.MangoHud {
+    public class PresetsPage : Page {
         private Gtk.ToggleButton[] preset_buttons;
         private Gtk.ToggleButton preset_custom_btn;
         private Gtk.ToggleButton preset_full_btn;
@@ -11,7 +11,7 @@ namespace ProtonPlus.Widgets {
         private Gtk.ToggleButton theme_white_btn;
         private Gtk.ToggleButton theme_custom_btn;
 
-        public MangoHudPresetsPage (Models.MangoHudConfig config) {
+        public PresetsPage (Models.MangoHudConfig config) {
             base (config);
 
             var presets_flow_box = create_flow_box ();

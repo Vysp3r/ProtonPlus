@@ -1,5 +1,5 @@
-namespace ProtonPlus.Widgets {
-    public class MangoHudPerformancePage : MangoHudPage {
+namespace ProtonPlus.Widgets.MangoHud {
+    public class PerformancePage : Page {
         private Adw.SwitchRow fps_row;
         private Adw.SwitchRow fps_avg_row;
         private Adw.SwitchRow fps_limit_stats_row;
@@ -26,7 +26,7 @@ namespace ProtonPlus.Widgets {
         private Gtk.ListBoxRow lod_bias_row;
         private Gtk.Scale lod_bias_scale;
 
-        public MangoHudPerformancePage (Models.MangoHudConfig config) {
+        public PerformancePage (Models.MangoHudConfig config) {
             base (config);
 
             fps_row = create_switch (_ ("Show FPS"), config.fps, (val) => { this.config.fps = val; });

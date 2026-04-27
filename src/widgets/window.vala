@@ -1,271 +1,48 @@
 namespace ProtonPlus.Widgets {
     public class Window : Adw.ApplicationWindow {
-        public bool only_show_used { get; set; }
-        public bool only_show_unused { get; set; }
-        public bool updating { get; set; }
-        public List<Models.Launcher> launchers;
-        string last_child_name;
+        Header.Box header_box { get; set; }
 
-        ControllerManager controller_manager;
-        StatusBox status_box;
-        RunnersBox runners_box;
-        GamesBox games_box;
-        DownloadsBox downloads_box;
-        MangoHudBox mangohud_box;
+        Loading.Box loading_box { get; set; }
+        Main.Box main_box { get; set; }
 
-        LaunchersPopoverButton launchers_popover_button;
-        Menu menu;
-        Gtk.MenuButton menu_button;
+        Adw.ToolbarView toolbar_view { get; set; }
 
-        Adw.ViewStack view_stack;
-        Adw.ViewStackPage downloads_page;
-        Adw.ToastOverlay toast_overlay;
-        Adw.ViewSwitcher view_switcher;
-        Adw.HeaderBar header_bar;
-        Adw.ViewSwitcherBar view_switcher_bar;
-        Adw.ToolbarView toolbar_view;
+        Utils.ControllerManager controller_manager;
 
         construct {
             set_application ((Adw.Application) GLib.Application.get_default ());
             set_title (Config.APP_NAME);
 
-            add_action (get_set_selected_launcher_action ());
-            add_action (get_donate_action ());
-
-            status_box = new StatusBox ();
-            status_box.initialize ("com.vysp3r.ProtonPlus", _ ("Loading"), "%s\n%s".printf (_ ("Taking longer than normal?"), _ ("Please report this issue on GitHub.")));
-
-            runners_box = new RunnersBox ();
-
-            games_box = new GamesBox ();
-
-            downloads_box = new DownloadsBox ();
-
-            mangohud_box = new MangoHudBox ();
-            mangohud_box.saved.connect (() => {
-                toast_overlay.add_toast (new Adw.Toast (_ ("MangoHud configuration saved")));
+            header_box = new Header.Box ();
+            header_box.launcher_selected.connect ((launcher) => {
+                main_box.set_selected_launcher (launcher);
             });
 
-            launchers_popover_button = new LaunchersPopoverButton ();
+            loading_box = new Loading.Box ();
+            loading_box.loaded.connect ((launchers) => {
+                header_box.initialize (launchers, main_box.view_switcher);
 
-            menu = new Menu ();
-            menu.append (_ ("_Preferences"), "app.preferences");
-            menu.append (_ ("_Keyboard Shortcuts"), "win.show-help-overlay");
-            menu.append (_ ("_Donate"), "win.donate");
-            menu.append (_ ("_About ProtonPlus"), "app.about");
-
-            menu_button = new Gtk.MenuButton ();
-            menu_button.set_tooltip_text (_ ("Main Menu"));
-            menu_button.set_icon_name ("bars-symbolic");
-            menu_button.set_menu_model (menu);
-
-            view_stack = new Adw.ViewStack ();
-            view_stack.add_titled_with_icon (runners_box, "tools", _ ("Tools"), "toolbox-symbolic");
-            view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "gamepad-symbolic");
-            var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
-            Globals.SETTINGS.bind ("experimental-mode", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
-
-            downloads_page = view_stack.add_titled_with_icon (downloads_box, "downloads", _ ("Downloads"), "download-2-symbolic");
-            view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
-
-            Models.DownloadManager.instance.download_added.connect (() => {
-                update_downloads_status ();
+                toolbar_view.set_content (main_box);
             });
 
-            Models.DownloadManager.instance.download_removed.connect (() => {
-                update_downloads_status ();
-            });
-
-            update_downloads_status ();
-
-            toast_overlay = new Adw.ToastOverlay ();
-            toast_overlay.set_child (view_stack);
-
-            view_switcher = new Adw.ViewSwitcher ();
-            view_switcher.set_stack (view_stack);
-            view_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
-
-            header_bar = new Adw.HeaderBar ();
-            header_bar.set_title_widget (view_switcher);
-            header_bar.pack_start (launchers_popover_button);
-            header_bar.pack_end (menu_button);
-
-            view_switcher_bar = new Adw.ViewSwitcherBar ();
-            view_switcher_bar.set_stack (view_stack);
+            main_box = new Main.Box ();
 
             toolbar_view = new Adw.ToolbarView ();
-            toolbar_view.add_top_bar (header_bar);
-            toolbar_view.set_content (toast_overlay);
-            toolbar_view.add_bottom_bar (view_switcher_bar);
+            toolbar_view.add_top_bar (header_box);
+            toolbar_view.set_content (loading_box);
 
-            set_content (status_box);
-
-            controller_manager = new ControllerManager (this, view_stack);
+            controller_manager = new Utils.ControllerManager (this, main_box.view_stack);
             controller_manager.start ();
 
-            initialize.begin ();
-        }
+            set_content (toolbar_view);
 
-        public void open_menu () {
-            menu_button.activate ();
-        }
-
-        public void open_launchers () {
-            launchers_popover_button.open_popover ();
-        }
-
-        public async void initialize (bool disable_update_check = false) {
-            var loaded = yield Models.Launcher.get_all (out launchers);
-            if (!loaded) {
-                status_box.initialize ("bug-symbolic", _ ("Couldn't load the launchers"), _ ("Please report this issue on GitHub."), true);
-            }
-
-            if (launchers.length () > 0) {
-                if (toolbar_view.get_parent () == null)
-                set_content (toolbar_view);
-
-                launchers_popover_button.initialize (launchers);
-
-                activate_action_variant ("win.set-selected-launcher", 0);
-
-                if (!disable_update_check && Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("automatic-updates"))
-                yield check_for_updates ();
-            } else {
-                status_box.initialize ("com.vysp3r.ProtonPlus", _ ("Welcome to %s").printf (Config.APP_NAME), "%s\n(%s)".printf (_ ("Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get started."), _ ("Make sure to run the launchers at least once to ensure they're properly initialized")));
-
-                if (status_box.get_parent () == null)
-                set_content (status_box);
-
-                Timeout.add (10000, () => {
-                    initialize.begin ();
-
-                    return false;
-                });
-            }
-        }
-
-        public async void check_for_updates (Models.Runners.Basic? runner = null) {
-            updating = true;
-
-            Adw.Toast toast;
-            ReturnCode code;
-
-            var runner_title = runner != null ? runner.title : "";
-            var is_specific_update = runner != null;
-
-            toast = new Adw.Toast (
-                    is_specific_update ?
-                    _ ("Updating %s").printf ("%s Latest".printf (runner_title)) :
-                    _ ("Checking for updates")
-            );
-
-            toast_overlay.add_toast (toast);
-
-            code = (
-            is_specific_update ?
-            yield Models.Runner.update_specific_runner (runner as Models.Runners.Basic) :
-            yield Models.Runner.check_for_updates (launchers)
-            );
-
-            toast.dismiss ();
-
-            switch (code) {
-                case ReturnCode.NOTHING_TO_UPDATE:
-                    toast = new Adw.Toast (
-                            is_specific_update ?
-                            _ ("No update found for %s").printf ("%s Latest".printf (runner_title)) :
-                            _ ("Nothing to update"));
-                    break;
-                case ReturnCode.RUNNERS_UPDATED:
-                case ReturnCode.RUNNER_UPDATED:
-                    toast = new Adw.Toast (
-                            is_specific_update ?
-                            _ ("%s is now up-to-date").printf ("%s Latest".printf (runner_title)) :
-                            _ ("Everything is now up-to-date"));
-                    break;
-                case ReturnCode.API_LIMIT_REACHED:
-                    toast = new Adw.Toast (
-                            is_specific_update ?
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("API limit reached")) :
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("API limit reached")));
-                    break;
-                case ReturnCode.CONNECTION_ISSUE:
-                case ReturnCode.CONNECTION_REFUSED:
-                case ReturnCode.CONNECTION_UNKNOWN:
-                    toast = new Adw.Toast (
-                            is_specific_update ?
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Unable to reach the API")) :
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unable to reach the API")));
-                    break;
-                case ReturnCode.INVALID_ACCESS_TOKEN:
-                    toast = new Adw.Toast (
-                            is_specific_update ?
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Invalid access token")) :
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Invalid access token")));
-                    break;
-                default:
-                    toast = new Adw.Toast (
-                            is_specific_update ?
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Unknown error")) :
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unknown error")));
-                    toast.set_button_label (_ ("Report"));
-                    toast.set_action_name ("app.report");
-                    break;
-            }
-
-            toast_overlay.add_toast (toast);
-
-            updating = false;
-        }
-
-        void view_stack_visible_child_name_changed () {
-            if (last_child_name == "games")
-            games_box.show_games_list_page ();
-            switch (last_child_name) {
-                case "games":
-                    games_box.show_games_list_page ();
-                    break;
-                case "mangohud":
-                    mangohud_box.show_presets_page ();
-                    break;
-            }
-            last_child_name = view_stack.get_visible_child_name ();
-        }
-
-        void update_downloads_status () {
-            bool active = Models.DownloadManager.instance.active_downloads.size > 0;
-
-            if (active) {
-                add_css_class ("downloads-attention");
-            } else {
-                remove_css_class ("downloads-attention");
-            }
-        }
-
-        SimpleAction get_donate_action () {
-            SimpleAction action = new SimpleAction ("donate", null);
-
-            action.activate.connect (() => {
-                Utils.System.open_uri ("https://protonplus.vysp3r.com/#donate");
-            });
-
-            return action;
-        }
-
-        SimpleAction get_set_selected_launcher_action () {
-            SimpleAction action = new SimpleAction ("set-selected-launcher", VariantType.INT32);
-
-            action.activate.connect ((variant) => {
-                runners_box.set_selected_launcher (launchers.nth_data (variant.get_int32 ()));
-                games_box.set_selected_launcher (launchers.nth_data (variant.get_int32 ()));
-            });
-
-            return action;
+            loading_box.load.begin ();
         }
 
         public override bool close_request () {
-            if (!updating) {
+            if (Utils.DownloadManager.instance.active_downloads.size == 0) {
                 controller_manager.stop ();
+
                 Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
 
                 return false;
@@ -286,6 +63,8 @@ namespace ProtonPlus.Widgets {
                 if (response != "exit")
                 return;
 
+                controller_manager.stop ();
+
                 Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
 
                 application.quit ();
@@ -294,14 +73,6 @@ namespace ProtonPlus.Widgets {
             dialog.present (this);
 
             return true;
-        }
-
-        public void show_downloads_page () {
-            view_stack.set_visible_child_name ("downloads");
-        }
-
-        public void set_controller_preferences_dialog (Adw.PreferencesDialog? dialog, Adw.PreferencesPage[]? pages) {
-            controller_manager.set_preferences_dialog (dialog, pages);
         }
     }
 }

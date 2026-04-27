@@ -1,5 +1,5 @@
-namespace ProtonPlus.Widgets {
-    public class MangoHudMetricsPage : MangoHudPage {
+namespace ProtonPlus.Widgets.MangoHud {
+    public class MetricsPage : Page {
         // GPU rows
         private Adw.EntryRow gpu_custom_name_row;
         private Gtk.ColorDialogButton gpu_color_btn;
@@ -45,7 +45,7 @@ namespace ProtonPlus.Widgets {
         private Adw.SwitchRow cpu_procs_row;
         private Adw.SwitchRow swap_row;
 
-        public MangoHudMetricsPage (Models.MangoHudConfig config) {
+        public MetricsPage (Models.MangoHudConfig config) {
             base (config);
 
         // GPU section

@@ -31,8 +31,6 @@ src/models/runners/steamtinkerlaunch.vala
 src/models/runner.vala
 src/models/simple-runner.vala
 src/models/steam-profile.vala
-src/return-code.vala
-src/translatables.vala
 src/utils/filesystem.vala
 src/utils/i18n.vala
 src/utils/parser.vala
@@ -80,8 +78,4 @@ src/widgets/runners/runner-group.vala
 src/widgets/runners/runner-row.vala
 src/widgets/runners/runners-box.vala
 src/widgets/runners/steamtinkerlaunch-row.vala
-src/widgets/scroll-controller.vala
-src/widgets/status-box.vala
-src/widgets/theme-manager.vala
-src/widgets/warning-dialog.vala
 src/widgets/window.vala

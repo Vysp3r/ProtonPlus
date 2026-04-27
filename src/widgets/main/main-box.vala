@@ -1,0 +1,146 @@
+namespace ProtonPlus.Widgets.Main {
+    public class Box : Gtk.Box {
+        public Adw.ViewStack view_stack { get; set; }
+        public Adw.ViewSwitcher view_switcher { get; set; }
+        Adw.ToastOverlay toast_overlay { get; set; }
+
+        string previous_view_name { get; set; }
+
+        Tools.Box tools_box { get; set; }
+        Games.Box games_box { get; set; }
+        MangoHud.Box mangohud_box { get; set; }
+        Downloads.Box downloads_box { get; set; }
+
+        public Box () {
+            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
+
+            tools_box = new Tools.Box ();
+
+            games_box = new Games.Box ();
+
+            mangohud_box = new MangoHud.Box ();
+
+            downloads_box = new Downloads.Box ();
+
+            view_stack = new Adw.ViewStack ();
+            view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
+            view_stack.add_titled_with_icon (tools_box, "tools", _ ("Tools"), "toolbox-symbolic");
+            view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "gamepad-symbolic");
+            var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
+            Globals.SETTINGS.bind ("experimental-mode", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
+            view_stack.add_titled_with_icon (downloads_box, "downloads", _ ("Downloads"), "download-2-symbolic");
+
+            view_switcher = new Adw.ViewSwitcher ();
+            view_switcher.set_stack (view_stack);
+            view_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
+
+            toast_overlay = new Adw.ToastOverlay ();
+            toast_overlay.set_child (view_stack);
+
+            Utils.DownloadManager.instance.active_downloads.notify["size"].connect (update_downloads_status);
+
+            append (toast_overlay);
+        }
+
+        public void set_selected_launcher (Models.Launcher launcher) {
+            tools_box.set_selected_launcher (launcher);
+            games_box.set_selected_launcher (launcher);
+        }
+
+        void view_stack_visible_child_name_changed () {
+            if (previous_view_name == "games")
+            games_box.show_games_list_page ();
+
+            switch (previous_view_name) {
+                case "games":
+                    games_box.show_games_list_page ();
+                    break;
+                case "mangohud":
+                    mangohud_box.show_presets_page ();
+                    break;
+            }
+
+            previous_view_name = view_stack.get_visible_child_name ();
+        }
+
+        void update_downloads_status () {
+            bool active = Utils.DownloadManager.instance.active_downloads.size > 0;
+
+            if (active) {
+                add_css_class ("downloads-attention");
+            } else {
+                remove_css_class ("downloads-attention");
+            }
+        }
+
+        //        public async void check_for_updates (Models.Tools.Basic? runner = null) {
+        //            Adw.Toast toast;
+        //            ReturnCode code;
+        //
+        //            var runner_title = runner != null ? runner.title : "";
+        //            var is_specific_update = runner != null;
+        //
+        //            toast = new Adw.Toast (
+        //                    is_specific_update ?
+        //                    _ ("Updating %s").printf ("%s Latest".printf (runner_title)) :
+        //                    _ ("Checking for updates")
+        //            );
+        //
+        //            toast_overlay.add_toast (toast);
+        //
+        //            code = (
+        //            is_specific_update ?
+        //            yield Models.Tool.update_specific_runner (runner as Models.Tools.Basic) :
+        //            yield Models.Tool.check_for_updates (launchers)
+        //            );
+        //
+        //            toast.dismiss ();
+        //
+        //            switch (code) {
+        //                case ReturnCode.NOTHING_TO_UPDATE:
+        //                    toast = new Adw.Toast (
+        //                            is_specific_update ?
+        //                            _ ("No update found for %s").printf ("%s Latest".printf (runner_title)) :
+        //                            _ ("Nothing to update"));
+        //                    break;
+        //                case ReturnCode.RUNNERS_UPDATED:
+        //                case ReturnCode.RUNNER_UPDATED:
+        //                    toast = new Adw.Toast (
+        //                            is_specific_update ?
+        //                            _ ("%s is now up-to-date").printf ("%s Latest".printf (runner_title)) :
+        //                            _ ("Everything is now up-to-date"));
+        //                    break;
+        //                case ReturnCode.API_LIMIT_REACHED:
+        //                    toast = new Adw.Toast (
+        //                            is_specific_update ?
+        //                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("API limit reached")) :
+        //                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("API limit reached")));
+        //                    break;
+        //                case ReturnCode.CONNECTION_ISSUE:
+        //                case ReturnCode.CONNECTION_REFUSED:
+        //                case ReturnCode.CONNECTION_UNKNOWN:
+        //                    toast = new Adw.Toast (
+        //                            is_specific_update ?
+        //                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Unable to reach the API")) :
+        //                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unable to reach the API")));
+        //                    break;
+        //                case ReturnCode.INVALID_ACCESS_TOKEN:
+        //                    toast = new Adw.Toast (
+        //                            is_specific_update ?
+        //                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Invalid access token")) :
+        //                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Invalid access token")));
+        //                    break;
+        //                default:
+        //                    toast = new Adw.Toast (
+        //                            is_specific_update ?
+        //                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Unknown error")) :
+        //                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unknown error")));
+        //                    toast.set_button_label (_ ("Report"));
+        //                    toast.set_action_name ("app.report");
+        //                    break;
+        //            }
+        //
+        //            toast_overlay.add_toast (toast);
+        //        }
+    }
+}

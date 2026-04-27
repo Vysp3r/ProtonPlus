@@ -1,6 +1,5 @@
 namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
-        public static Window window;
 
         construct {
             application_id = Config.APP_ID;
@@ -10,6 +9,7 @@ namespace ProtonPlus.Widgets {
                 { "report", this.on_report_action },
                 { "preferences", this.on_preferences_action },
                 { "about", this.on_about_action },
+                { "donate", this.on_donate_action },
                 { "quit", this.quit }
             };
             this.add_action_entries (action_entries, this);
@@ -31,7 +31,7 @@ namespace ProtonPlus.Widgets {
             Globals.load ();
 
             if (Globals.SETTINGS != null) {
-                window = new Window ();
+                var window = new Window ();
 
                 Globals.SETTINGS.bind ("width",
                         window,
@@ -58,7 +58,7 @@ namespace ProtonPlus.Widgets {
                     Globals.SETTINGS.set_boolean ("first-run", false);
                 }
 
-                ThemeManager.get_default ().apply_theme ();
+                Utils.ThemeManager.get_default ().apply_theme ();
 
                 window.present ();
             } else {
@@ -72,7 +72,11 @@ namespace ProtonPlus.Widgets {
 
         void on_preferences_action () {
             var preferences_dialog = new Preferences.PreferencesDialog ();
-            preferences_dialog.present (window);
+            preferences_dialog.present (this.active_window);
+        }
+
+        void on_donate_action () {
+            Utils.System.open_uri ("https://protonplus.vysp3r.com/#donate");
         }
 
         void on_about_action () {
@@ -104,7 +108,7 @@ namespace ProtonPlus.Widgets {
             about_dialog.set_developers (devs);
             about_dialog.set_translator_credits (_ ("translator-credits"));
             about_dialog.add_credit_section (_ ("Special thanks to"), thanks);
-            about_dialog.present (window);
+            about_dialog.present (this.active_window);
         }
     }
 }
