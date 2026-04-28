@@ -1,6 +1,7 @@
 namespace ProtonPlus.Utils {
     public class Web {
 
+
         public enum GetRequestType {
             OTHER,
             GITHUB,

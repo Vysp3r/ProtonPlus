@@ -3856,9 +3856,6 @@ msgstr "Salir"
 #~ msgid "%s is now up-to-date"
 #~ msgstr "%s está actualizado"
 
-#~ msgid "Everything is now up-to-date"
-#~ msgstr "Todo está actualizado"
-
 #, c-format
 #~ msgid "Couldn't update %s (Reason: %s)"
 #~ msgstr "No se pudo actualizar %s (Motivo: %s)"

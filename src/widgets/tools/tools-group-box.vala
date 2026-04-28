@@ -68,7 +68,7 @@ namespace ProtonPlus.Widgets.Tools {
             status_page = new Adw.StatusPage () {
                 title = _ ("No tools found"),
                 description = _ ("No tools match the current filter."),
-                icon_name = "edit-find-symbolic"
+                icon_name = "magnifying-glass-symbolic"
             };
 
             stack = new Gtk.Stack () {
@@ -93,6 +93,8 @@ namespace ProtonPlus.Widgets.Tools {
                 maximum_size = 975,
                 margin_top = 5,
                 margin_bottom = 12,
+                margin_start = 12,
+                margin_end = 12,
                 child = group_box,
             };
 

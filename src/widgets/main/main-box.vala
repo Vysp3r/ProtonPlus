@@ -20,7 +20,6 @@ namespace ProtonPlus.Widgets.Main {
 
             mangohud_box = new MangoHud.Box ();
 
-
             view_stack = new Adw.ViewStack ();
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
             view_stack.add_titled_with_icon (tools_box, "tools", _ ("Tools"), "toolbox-symbolic");
@@ -117,75 +116,5 @@ namespace ProtonPlus.Widgets.Main {
 
             previous_view_name = view_stack.get_visible_child_name ();
         }
-
-        //        public async void check_for_updates (Models.Tools.Basic? runner = null) {
-        //            Adw.Toast toast;
-        //            ReturnCode code;
-        //
-        //            var runner_title = runner != null ? runner.title : "";
-        //            var is_specific_update = runner != null;
-        //
-        //            toast = new Adw.Toast (
-        //                    is_specific_update ?
-        //                    _ ("Updating %s").printf ("%s Latest".printf (runner_title)) :
-        //                    _ ("Checking for updates")
-        //            );
-        //
-        //            toast_overlay.add_toast (toast);
-        //
-        //            code = (
-        //            is_specific_update ?
-        //            yield Models.Tool.update_specific_runner (runner as Models.Tools.Basic) :
-        //            yield Models.Tool.check_for_updates (launchers)
-        //            );
-        //
-        //            toast.dismiss ();
-        //
-        //            switch (code) {
-        //                case ReturnCode.NOTHING_TO_UPDATE:
-        //                    toast = new Adw.Toast (
-        //                            is_specific_update ?
-        //                            _ ("No update found for %s").printf ("%s Latest".printf (runner_title)) :
-        //                            _ ("Nothing to update"));
-        //                    break;
-        //                case ReturnCode.RUNNERS_UPDATED:
-        //                case ReturnCode.RUNNER_UPDATED:
-        //                    toast = new Adw.Toast (
-        //                            is_specific_update ?
-        //                            _ ("%s is now up-to-date").printf ("%s Latest".printf (runner_title)) :
-        //                            _ ("Everything is now up-to-date"));
-        //                    break;
-        //                case ReturnCode.API_LIMIT_REACHED:
-        //                    toast = new Adw.Toast (
-        //                            is_specific_update ?
-        //                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("API limit reached")) :
-        //                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("API limit reached")));
-        //                    break;
-        //                case ReturnCode.CONNECTION_ISSUE:
-        //                case ReturnCode.CONNECTION_REFUSED:
-        //                case ReturnCode.CONNECTION_UNKNOWN:
-        //                    toast = new Adw.Toast (
-        //                            is_specific_update ?
-        //                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Unable to reach the API")) :
-        //                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unable to reach the API")));
-        //                    break;
-        //                case ReturnCode.INVALID_ACCESS_TOKEN:
-        //                    toast = new Adw.Toast (
-        //                            is_specific_update ?
-        //                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Invalid access token")) :
-        //                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Invalid access token")));
-        //                    break;
-        //                default:
-        //                    toast = new Adw.Toast (
-        //                            is_specific_update ?
-        //                            _ ("Couldn't update %s (Reason: %s)").printf (runner_title, _ ("Unknown error")) :
-        //                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unknown error")));
-        //                    toast.set_button_label (_ ("Report"));
-        //                    toast.set_action_name ("app.report");
-        //                    break;
-        //            }
-        //
-        //            toast_overlay.add_toast (toast);
-        //        }
     }
 }

@@ -115,7 +115,7 @@ namespace ProtonPlus.Widgets.Tools {
             status_page = new Adw.StatusPage () {
                 title = _ ("No releases found"),
                 description = _ ("No releases match the current filter."),
-                icon_name = "edit-find-symbolic"
+                icon_name = "magnifying-glass-symbolic"
             };
 
             content_stack.add_named (scrolled, "list");
@@ -130,6 +130,8 @@ namespace ProtonPlus.Widgets.Tools {
                 maximum_size = 975,
                 margin_top = 5,
                 margin_bottom = 12,
+                margin_start = 12,
+                margin_end = 12,
                 child = tool_box,
             };
 

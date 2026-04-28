@@ -14,7 +14,9 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button back_button { get; set; }
         Gtk.Button refresh_button { get; set; }
         Gtk.Button open_button { get; set; }
+        Gtk.Button search_button { get; set; }
         Gtk.SearchEntry search_entry { get; set; }
+        Gtk.ActionBar action_bar { get; set; }
         Adw.ViewStack groups_stack { get; set; }
         ReleasesBox releases_box { get; set; }
         ReleaseBox release_box { get; set; }
@@ -93,7 +95,7 @@ namespace ProtonPlus.Widgets.Tools {
             search_entry = new Gtk.SearchEntry () {
                 valign = Gtk.Align.CENTER,
                 placeholder_text = _ ("Search"),
-                visible = true
+                width_request = 400,
             };
             search_entry.search_changed.connect (() => {
                 var search_text = search_entry.get_text ();
@@ -105,6 +107,21 @@ namespace ProtonPlus.Widgets.Tools {
                         ((GroupBox) child).search_text = search_text;
                     }
                     child = child.get_next_sibling ();
+                }
+            });
+
+            search_button = new Gtk.Button.from_icon_name ("magnifying-glass-symbolic") {
+                valign = Gtk.Align.CENTER,
+                tooltip_text = _ ("Show search bar"),
+            };
+            search_button.clicked.connect (() => {
+                if (search_entry.get_parent () == null) {
+                    search_button.set_tooltip_text (_ ("Hide search bar"));
+                    action_bar.set_center_widget (search_entry);
+                } else {
+                    search_button.set_tooltip_text (_ ("Show search bar"));
+                    action_bar.set_center_widget (switcher);
+                    stack.notify_property ("visible-child-name");
                 }
             });
 
@@ -169,22 +186,25 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             });
 
-            var action_bar = new Gtk.ActionBar ();
+            action_bar = new Gtk.ActionBar ();
             action_bar.set_center_widget (switcher);
             action_bar.pack_start (back_button);
-            action_bar.pack_start (search_entry);
             action_bar.pack_end (refresh_button);
             action_bar.pack_end (filter_button);
+            action_bar.pack_end (search_button);
             action_bar.pack_end (open_button);
 
             stack.notify["visible-child-name"].connect (() => {
                 back_button.set_visible (stack.get_visible_child_name () != "groups");
                 search_entry.set_visible (stack.get_visible_child_name () != "release");
                 filter_button.set_visible (stack.get_visible_child_name () != "release");
+                search_button.set_visible (stack.get_visible_child_name () != "release");
                 refresh_button.set_visible (stack.get_visible_child_name () != "release");
                 open_button.set_visible (stack.get_visible_child_name () == "release" && current_release != null && current_release.page_url != null);
-                switcher.set_visible (stack.get_visible_child_name () == "groups" && groups_stack.get_pages ().get_n_items () > 1);
+                switcher.set_visible (stack.get_visible_child_name () == "groups" && groups_stack.get_pages ().get_n_items () > 1 && search_entry.get_parent () == null);
             });
+
+            stack.notify_property ("visible-child-name");
 
             append (stack);
             append (action_bar);
@@ -205,6 +225,8 @@ namespace ProtonPlus.Widgets.Tools {
                 group_box.tool_selected.connect (set_selected_tool);
                 groups_stack.add_titled_with_icon (group_box, group.title.down (), group.title, "layer-group-symbolic");
             }
+
+            stack.notify_property ("visible-child-name");
 
             stack.set_visible_child_name ("groups");
         }
