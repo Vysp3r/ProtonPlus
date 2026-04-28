@@ -131,8 +131,12 @@ namespace ProtonPlus.Widgets.Tools {
 
         void update_button_clicked () {
             release.update.begin ((obj, res) => {
-                var success = release.update.end (res);
-                if (!success && !release.canceled) {
+                var code = release.update.end (res);
+                if (code == ReturnCode.RUNNER_UPDATED) {
+                    Utils.DownloadManager.instance.tool_updated (release, true);
+                } else if (code == ReturnCode.NOTHING_TO_UPDATE) {
+                    Utils.DownloadManager.instance.tool_updated (release, false);
+                } else if (!release.canceled) {
                     var dialog = new Main.ErrorDialog (_ ("Couldn't update %s").printf (release.title), _ ("Please report this issue on GitHub."));
                     dialog.present ((Gtk.Window) this.get_root ());
                 }
@@ -178,8 +182,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         protected virtual void install_button_clicked () {
             release.install.begin ((obj, res) => {
-                var success = release.install.end (res);
-                if (!success && !release.canceled) {
+                if (release.install.end (res) != ReturnCode.RUNNER_INSTALLED && !release.canceled) {
                     var dialog = new Main.ErrorDialog (_ ("Couldn't install %s").printf (release.title), _ ("Please report this issue on GitHub."));
                     dialog.present ((Gtk.Window) this.get_root ());
                 }

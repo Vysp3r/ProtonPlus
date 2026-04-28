@@ -98,8 +98,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         void start_install () {
             release.install.begin ((obj, res) => {
-                var success = release.install.end (res);
-                if (!success && !release.canceled) {
+                if (release.install.end (res) != ReturnCode.RUNNER_INSTALLED && !release.canceled) {
                     var dialog = new Main.ErrorDialog (_ ("Couldn't install %s").printf (release.title), _ ("Please report this issue on GitHub."));
                     dialog.present ((Gtk.Window) this.get_root ());
                 }

@@ -202,7 +202,8 @@ namespace ProtonPlus.CLI {
             );
 
             Output.info (_ ("Installing %s Latest...\n"), runner.title);
-            var success = yield latest_release.install ();
+            code = yield latest_release.install ();
+            var success = code == ReturnCode.RUNNER_INSTALLED;
             Output.success (success ? _ ("Successfully installed %s Latest\n") : _ ("Error: Installation failed\n"), runner.title);
             return success ? 0 : 1;
         }
@@ -227,7 +228,8 @@ namespace ProtonPlus.CLI {
 
             var selected = basic_runner.releases[index] as Models.Release;
             Output.info (_ ("Installing %s...\n"), selected.title);
-            var success = yield selected.install ();
+            code = yield selected.install ();
+            var success = code == ReturnCode.RUNNER_INSTALLED;
             Output.success (success ? _ ("Successfully installed %s\n") : _ ("Error: Installation failed\n"), selected.title);
             return success ? 0 : 1;
         }
@@ -274,7 +276,7 @@ namespace ProtonPlus.CLI {
                     var installed = get_installed_releases (runner);
                     foreach (var release_name in installed) {
                         var release = create_release (runner, release_name);
-                        if (yield release.remove ()) {
+                        if ((yield release.remove ()) == ReturnCode.RUNNER_REMOVED) {
                             Output.success (_ ("Uninstalled %s\n"), release_name);
                         }
                     }
@@ -286,7 +288,8 @@ namespace ProtonPlus.CLI {
         private async int uninstall_single_release (Models.Tool runner, string release_name) {
             var release = create_release (runner, release_name);
             Output.info (_ ("Uninstalling %s...\n"), release_name);
-            var success = yield release.remove ();
+            var code = yield release.remove ();
+            var success = code == ReturnCode.RUNNER_REMOVED;
             Output.success (success ? _ ("Successfully uninstalled %s\n") : _ ("Error: Uninstallation failed\n"), release_name);
             return success ? 0 : 1;
         }

@@ -10,6 +10,7 @@ namespace ProtonPlus.Utils {
 
 
 
+
         public enum GetRequestType {
             OTHER,
             GITHUB,

@@ -32,6 +32,7 @@ namespace ProtonPlus.Utils {
         public signal void download_added (Models.Release release);
         public signal void download_removed (Models.Release release);
         public signal void download_finished (Models.Release release, bool success);
+        public signal void tool_updated (Models.Release release, bool updated);
         public signal void tool_removed (Models.Release release);
 
         private DownloadManager () {

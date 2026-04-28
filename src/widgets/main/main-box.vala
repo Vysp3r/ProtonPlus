@@ -24,8 +24,7 @@ namespace ProtonPlus.Widgets.Main {
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
             view_stack.add_titled_with_icon (tools_box, "tools", _ ("Tools"), "toolbox-symbolic");
             view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "gamepad-symbolic");
-            var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
-            Globals.SETTINGS.bind ("experimental-mode", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
+            view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
 
             view_switcher = new Adw.ViewSwitcher ();
             view_switcher.set_stack (view_stack);
@@ -38,6 +37,7 @@ namespace ProtonPlus.Widgets.Main {
 
             Utils.DownloadManager.instance.download_added.connect (on_download_added);
             Utils.DownloadManager.instance.download_finished.connect (on_download_finished);
+            Utils.DownloadManager.instance.tool_updated.connect (on_tool_updated);
             Utils.DownloadManager.instance.tool_removed.connect (on_tool_removed);
         }
 
@@ -53,7 +53,11 @@ namespace ProtonPlus.Widgets.Main {
         }
 
         void on_download_added (Models.Release release) {
-            send_notification (_ ("Download started"), release.displayed_title);
+            if (release.state == Models.Release.State.BUSY_UPDATING) {
+                send_notification (_ ("Update started"), release.displayed_title);
+            } else {
+                send_notification (_ ("Download started"), release.displayed_title);
+            }
         }
 
         void on_download_finished (Models.Release release, bool success) {
@@ -67,6 +71,14 @@ namespace ProtonPlus.Widgets.Main {
                     body = "%s (%s)".printf (release.displayed_title, release.error_message);
                 }
                 send_notification (_ ("Download failed"), body);
+            }
+        }
+
+        void on_tool_updated (Models.Release release, bool updated) {
+            if (updated) {
+                send_notification (_ ("Update finished"), _ ("%s is now up-to-date").printf (release.displayed_title));
+            } else {
+                send_notification (_ ("Update finished"), _ ("%s is already up-to-date").printf (release.displayed_title));
             }
         }
 

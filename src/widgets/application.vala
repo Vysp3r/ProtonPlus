@@ -80,7 +80,7 @@ namespace ProtonPlus.Widgets {
         }
 
         void on_reload_action () {
-            (this.active_window as Window).reload ();
+            (this.active_window as Window)?.reload ();
         }
 
         void on_about_action () {

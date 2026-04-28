@@ -35,6 +35,8 @@ namespace ProtonPlus {
         NOTHING_TO_UPDATE,
         RUNNERS_UPDATED,
         RUNNER_UPDATED,
+        RUNNER_INSTALLED,
+        RUNNER_REMOVED,
         VALID_REQUEST,
         CONNECTION_ISSUE,
         CONNECTION_REFUSED,

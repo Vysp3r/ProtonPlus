@@ -7,7 +7,7 @@ namespace ProtonPlus.Utils {
             "width", "height", "is-maximized", "is-fullscreen",
             "automatic-updates", "github-api-key", "gitlab-api-key",
             "steam-last-profile-id", "steam-remember-last-profile",
-            "first-run", "experimental-mode", "theme"
+            "first-run", "theme"
         };
 
         public static bool is_valid_schema (SettingsSchema schema) {

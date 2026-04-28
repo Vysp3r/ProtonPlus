@@ -88,9 +88,9 @@ namespace ProtonPlus.Models {
             refresh_state ();
         }
 
-        public virtual async bool install () {
+        public virtual async ReturnCode install () {
             if (state != State.BUSY_UPDATING && Utils.DownloadManager.instance.is_downloading (this))
-            return false;
+            return ReturnCode.UNKNOWN_ERROR;
 
             canceled = false;
             is_finished = false;
@@ -108,7 +108,8 @@ namespace ProtonPlus.Models {
             Utils.DownloadManager.instance.add_download (this);
 
             // Attempt the installation.
-            var success = yield _start_install ();
+            var code = yield _start_install ();
+            var success = code == ReturnCode.RUNNER_INSTALLED;
 
             this.is_finished = true;
             this.install_success = success;
@@ -125,14 +126,14 @@ namespace ProtonPlus.Models {
             if (!busy_updating)
             refresh_state (); // Force UI state refresh.
 
-            return success;
+            return code;
         }
 
-        protected virtual async bool _start_install () {
+        protected virtual async ReturnCode _start_install () {
             step = Step.DOWNLOADING;
 
             if (!download_url.contains (".tar"))
-            return false;
+            return ReturnCode.UNKNOWN_ERROR;
 
             string download_path = "%s/%s.tar.gz".printf (Globals.CACHE_PATH, title);
 
@@ -147,7 +148,7 @@ namespace ProtonPlus.Models {
 
                 if (!download_valid) {
                     this.error_message = download_error;
-                    return false;
+                    return ReturnCode.UNKNOWN_ERROR;
                 }
             }
 
@@ -159,7 +160,7 @@ namespace ProtonPlus.Models {
             if (source_path == "") {
                 if (!canceled)
                 error_message = _ ("Extraction failed");
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
             step = Step.MOVING;
@@ -171,13 +172,13 @@ namespace ProtonPlus.Models {
             var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
             if (!renaming_valid) {
                 error_message = _ ("Moving failed");
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
-            return true;
+            return ReturnCode.RUNNER_INSTALLED;
         }
 
-        public virtual async bool remove () {
+        public virtual async ReturnCode remove () {
             var busy_updating_or_installing = state == State.BUSY_UPDATING || state == State.BUSY_INSTALLING;
 
             if (!busy_updating_or_installing) {
@@ -186,28 +187,31 @@ namespace ProtonPlus.Models {
             }
 
             // Attempt the removal.
-            var remove_success = yield _start_remove ();
+            var code = yield _start_remove ();
+            var success = code == ReturnCode.RUNNER_REMOVED;
 
             if (!busy_updating_or_installing)
             refresh_state (); // Force UI state refresh.
 
-            if (remove_success) {
+            if (success) {
                 remove_from_games_tab ();
                 Utils.DownloadManager.instance.tool_removed (this);
             }
 
-            return remove_success;
+            return code;
         }
 
-        protected virtual async bool _start_remove () {
+        protected virtual async ReturnCode _start_remove () {
             step = Step.REMOVING;
 
-            return yield Utils.Filesystem.delete_directory (install_location);
+            var success = yield Utils.Filesystem.delete_directory (install_location);
+
+            return success ? ReturnCode.RUNNER_REMOVED : ReturnCode.UNKNOWN_ERROR;
         }
 
-        public virtual async bool update () {
+        public virtual async ReturnCode update () {
             if (Utils.DownloadManager.instance.is_downloading (this))
-            return false;
+            return ReturnCode.UNKNOWN_ERROR;
 
             canceled = false;
 
@@ -215,16 +219,16 @@ namespace ProtonPlus.Models {
 
             Utils.DownloadManager.instance.add_download (this);
 
-            var update_success = yield _start_update ();
+            var update_code = yield _start_update ();
 
             Utils.DownloadManager.instance.remove_download (this);
 
             refresh_state ();
 
-            return update_success;
+            return update_code;
         }
 
-        protected virtual async bool _start_update () { return false; }
+        protected virtual async ReturnCode _start_update () { return ReturnCode.UNKNOWN_ERROR; }
 
         protected virtual void refresh_state () {
             step = Step.NOTHING;

@@ -211,8 +211,7 @@ namespace ProtonPlus.Models {
             var release = new Models.Releases.Latest (runner as Models.Tools.Basic, "%s Latest".printf (runner.title), description, release_date, download_url, page_url);
             release.state = Models.Release.State.BUSY_UPDATING;
 
-            var installed = yield release.install ();
-            if (!installed) {
+            if ((yield release.install ()) != ReturnCode.RUNNER_INSTALLED) {
                 var deleted = yield Utils.Filesystem.delete_directory (runner_directory);
 
                 if (deleted)

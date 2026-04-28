@@ -71,16 +71,10 @@ namespace ProtonPlus.Widgets.Preferences {
 
         // Advanced
 
-            var experimental_switch = new Adw.SwitchRow () {
-                title = _ ("Preview features"),
-                subtitle = _ ("Enable experimental features for early testing"),
-            };
-            Globals.SETTINGS.bind ("experimental-mode", experimental_switch, "active", SettingsBindFlags.DEFAULT);
 
             var refresh_application_data_row = new RefreshApplicationDataRow (this);
 
             var advanced_group = new Adw.PreferencesGroup ();
-            advanced_group.add (experimental_switch);
             advanced_group.add (refresh_application_data_row);
 
         // API Tokens

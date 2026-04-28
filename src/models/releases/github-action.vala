@@ -8,11 +8,11 @@ namespace ProtonPlus.Models.Releases {
             shared (runner, title, release_date, download_url, page_url);
         }
 
-        protected override async bool _start_install () {
+        protected override async ReturnCode _start_install () {
             step = Step.DOWNLOADING;
 
             if (!download_url.contains (".zip"))
-            return false;
+            return ReturnCode.UNKNOWN_ERROR;
 
             string download_path = "%s/%s.zip".printf (Globals.CACHE_PATH, title);
 
@@ -27,7 +27,7 @@ namespace ProtonPlus.Models.Releases {
 
                 if (!download_valid) {
                     this.error_message = download_error;
-                    return false;
+                    return ReturnCode.UNKNOWN_ERROR;
                 }
             }
 
@@ -40,7 +40,7 @@ namespace ProtonPlus.Models.Releases {
             if (source_path == "") {
                 if (!canceled)
                 error_message = _ ("Extraction failed");
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
             source_path = yield Utils.Filesystem.extract (extract_path, source_path.substring (0, source_path.length - 4).replace (extract_path, ""), ".tar", () => canceled);
@@ -48,7 +48,7 @@ namespace ProtonPlus.Models.Releases {
             if (source_path == "") {
                 if (!canceled)
                 error_message = _ ("Extraction failed");
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
             step = Step.MOVING;
@@ -61,10 +61,10 @@ namespace ProtonPlus.Models.Releases {
 
             if (!renaming_valid) {
                 error_message = _ ("Moving failed");
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
-            return true;
+            return ReturnCode.RUNNER_INSTALLED;
         }
     }
 }

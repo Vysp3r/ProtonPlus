@@ -40,9 +40,7 @@ namespace ProtonPlus.Widgets.Tools {
             return;
 
             release.remove.begin ((obj, res) => {
-                var success = release.remove.end (res);
-
-                if (!success) {
+                if (release.remove.end (res) != ReturnCode.RUNNER_REMOVED) {
                     var dialog = new Main.ErrorDialog (_ ("Couldn't delete %s").printf (release.title), _ ("Please report this issue on GitHub."));
                     dialog.present (((Gtk.Application) GLib.Application.get_default ()).active_window);
                 }
