@@ -8,11 +8,14 @@ namespace ProtonPlus.Widgets.Tools {
 
     public class Box : Gtk.Box {
         Models.Launcher current_launcher { get; set; }
+        Models.Release? current_release;
 
         Adw.ViewStack stack { get; set; }
         Gtk.Button back_button { get; set; }
+        Gtk.Button open_button { get; set; }
         Adw.ViewStack groups_stack { get; set; }
         ReleasesBox releases_box { get; set; }
+        ReleaseBox release_box { get; set; }
 
         private Filter _current_filter = Filter.ALL;
         public Filter current_filter {
@@ -39,12 +42,16 @@ namespace ProtonPlus.Widgets.Tools {
             };
 
             releases_box = new ReleasesBox ();
+            releases_box.release_selected.connect (set_selected_release);
+
+            release_box = new ReleaseBox ();
 
             stack = new Adw.ViewStack () {
                 vexpand = true
             };
             stack.add_named (groups_stack, "groups");
             stack.add_named (releases_box, "releases");
+            stack.add_named (release_box, "release");
 
             back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic") {
                 valign = Gtk.Align.CENTER,
@@ -53,7 +60,18 @@ namespace ProtonPlus.Widgets.Tools {
             back_button.add_css_class ("flat");
             back_button.set_tooltip_text (_ ("Back"));
             back_button.clicked.connect (() => {
-                stack.set_visible_child_name ("groups");
+                stack.set_visible_child_name (stack.get_visible_child_name () == "release" ? "releases" : "groups");
+            });
+
+            open_button = new Gtk.Button.from_icon_name ("globe-symbolic") {
+                valign = Gtk.Align.CENTER,
+                visible = false
+            };
+            open_button.set_tooltip_text (_ ("Open in browser"));
+            open_button.clicked.connect (() => {
+                if (current_release != null && current_release.page_url != null) {
+                    Utils.System.open_uri (current_release.page_url);
+                }
             });
 
             var switcher = new Adw.ViewSwitcher () {
@@ -131,11 +149,15 @@ namespace ProtonPlus.Widgets.Tools {
             var action_bar = new Gtk.ActionBar ();
             action_bar.set_center_widget (switcher);
             action_bar.pack_start (back_button);
-            action_bar.pack_start (filter_button);
             action_bar.pack_end (refresh_button);
+            action_bar.pack_end (filter_button);
+            action_bar.pack_end (open_button);
 
             stack.notify["visible-child-name"].connect (() => {
-                back_button.set_visible (stack.get_visible_child_name () == "releases");
+                back_button.set_visible (stack.get_visible_child_name () != "groups");
+                filter_button.set_visible (stack.get_visible_child_name () != "release");
+                refresh_button.set_visible (stack.get_visible_child_name () != "release");
+                open_button.set_visible (stack.get_visible_child_name () == "release" && current_release != null && current_release.page_url != null);
                 switcher.set_visible (stack.get_visible_child_name () == "groups");
             });
 
@@ -167,6 +189,14 @@ namespace ProtonPlus.Widgets.Tools {
             releases_box.set_selected_tool.begin (tool);
 
             stack.set_visible_child_name ("releases");
+        }
+
+        void set_selected_release (Models.Release release) {
+            current_release = release;
+
+            release_box.set_selected_release (release);
+
+            stack.set_visible_child_name ("release");
         }
 
         void on_refresh_clicked () {

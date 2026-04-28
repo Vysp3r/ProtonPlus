@@ -1,5 +1,6 @@
 namespace ProtonPlus.Widgets.Tools {
     public class ReleaseRow : Adw.ActionRow {
+        public signal void release_selected (Models.Release release);
         protected Models.Release release { get; set; }
 
         Gtk.Button update_button { get; set; }
@@ -12,9 +13,10 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Label speed_label { get; set; }
         Gtk.Label time_label { get; set; }
         Gtk.Popover info_popover { get; set; }
+        Gtk.Popover details_popover { get; set; }
 
         public ReleaseRow (Models.Release release) {
-            Object (title: release.title);
+            Object (title: release.title, subtitle: release.release_date, activatable: true);
 
             this.release = release;
 
@@ -31,7 +33,7 @@ namespace ProtonPlus.Widgets.Tools {
             install_button.clicked.connect (install_button_clicked);
 
             cancel_button = new Gtk.Button.from_icon_name ("circle-xmark-symbolic");
-            cancel_button.set_tooltip_text (_ ("Cancel download"));
+            cancel_button.set_tooltip_text (_ ("Cancel installation"));
             cancel_button.add_css_class ("flat");
             cancel_button.clicked.connect (() => { release.canceled = true; });
 
@@ -44,7 +46,7 @@ namespace ProtonPlus.Widgets.Tools {
             progress_button = new Gtk.Button ();
             progress_button.set_child (progress_bar);
             progress_button.add_css_class ("flat");
-            progress_button.set_tooltip_text (_ ("Show download details"));
+            progress_button.set_tooltip_text (_ ("Show installation details"));
             progress_button.clicked.connect (() => { info_popover.popup (); });
 
             speed_label = new Gtk.Label (_ ("Speed: 0 KB/s"));
@@ -65,6 +67,8 @@ namespace ProtonPlus.Widgets.Tools {
             info_popover.set_autohide (true);
             info_popover.set_child (info_box);
 
+            activated.connect (() => release_selected (release));
+
             var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             input_box.set_margin_end (10);
             input_box.set_valign (Gtk.Align.CENTER);
@@ -82,7 +86,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (release.install_location != null) {
                 open_button = new Gtk.Button.from_icon_name ("folder-open-2-symbolic");
-                open_button.set_tooltip_text (_ ("Open runner directory"));
+                open_button.set_tooltip_text (_ ("Open tool directory"));
                 open_button.add_css_class ("flat");
                 open_button.clicked.connect (open_button_clicked);
 
@@ -107,6 +111,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         public override void dispose () {
             info_popover.unparent ();
+            details_popover.unparent ();
             base.dispose ();
         }
 

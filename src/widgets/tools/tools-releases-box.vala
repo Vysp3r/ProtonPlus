@@ -1,11 +1,18 @@
 namespace ProtonPlus.Widgets.Tools {
     public class ReleasesBox : Gtk.Box {
+        public signal void release_selected (Models.Release release);
+
         Gtk.Box tool_box { get; set; }
         Gtk.Label title_label { get; set; }
         Gtk.Label desc_label { get; set; }
         Gtk.Box header_box { get; set; }
         Gtk.ListBox list_box { get; set; }
         Gtk.Stack content_stack { get; set; }
+        Adw.StatusPage status_page { get; set; }
+
+        private Models.Tool? current_tool;
+        private Gtk.ListBoxRow load_more_row;
+        private Gtk.Button load_more_button;
 
         private Filter _filter = Filter.ALL;
         public Filter filter {
@@ -13,6 +20,7 @@ namespace ProtonPlus.Widgets.Tools {
             set {
                 _filter = value;
                 list_box.invalidate_filter ();
+                update_visibility ();
             }
         }
 
@@ -48,6 +56,25 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.add_css_class ("tools-releases-card");
             list_box.set_filter_func (filter_func);
 
+            load_more_button = new Gtk.Button.with_label (_ ("Load More")) {
+                margin_top = 12,
+                margin_bottom = 12,
+                margin_start = 12,
+                margin_end = 12,
+                halign = Gtk.Align.CENTER,
+                hexpand = true
+            };
+            load_more_button.add_css_class ("pill");
+            load_more_button.clicked.connect (on_load_more_clicked);
+
+            load_more_row = new Gtk.ListBoxRow () {
+                child = load_more_button,
+                activatable = false,
+                selectable = false,
+                visible = false
+            };
+            list_box.append (load_more_row);
+
             var scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,
                 vexpand = true,
@@ -74,8 +101,16 @@ namespace ProtonPlus.Widgets.Tools {
                 overflow = Gtk.Overflow.HIDDEN
             };
             content_stack.add_css_class ("card");
+
+            status_page = new Adw.StatusPage () {
+                title = _ ("No releases found"),
+                description = _ ("No releases match the current filter."),
+                icon_name = "edit-find-symbolic"
+            };
+
             content_stack.add_named (scrolled, "list");
             content_stack.add_named (spinner_box, "spinner");
+            content_stack.add_named (status_page, "empty");
 
             tool_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
             tool_box.append (header_box);
@@ -92,6 +127,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public async void set_selected_tool (Models.Tool tool) {
+            current_tool = tool;
             content_stack.set_visible_child_name ("spinner");
 
             list_box.remove_all ();
@@ -133,17 +169,70 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             foreach (var release in releases) {
-                Gtk.ListBoxRow row;
-                if (release is Models.Releases.SteamTinkerLaunch)
-                row = new STLReleaseRow (release);
-                else
-                row = new ReleaseRow (release);
-
-                row.set_data ("release", release);
-                list_box.append (row);
+                add_release_row (release);
             }
 
+            list_box.append (load_more_row);
+            load_more_row.visible = tool.has_more;
+
             content_stack.set_visible_child_name ("list");
+            update_visibility ();
+        }
+
+        private void add_release_row (Models.Release release) {
+            ReleaseRow row;
+            if (release is Models.Releases.SteamTinkerLaunch)
+            row = new STLReleaseRow (release);
+            else
+            row = new ReleaseRow (release);
+
+            row.set_data ("release", release);
+            row.release_selected.connect ((release) => release_selected (release));
+
+            list_box.append (row);
+        }
+
+        private async void on_load_more_clicked () {
+            if (current_tool == null)
+            return;
+
+            load_more_button.sensitive = false;
+
+            ReturnCode code;
+            Gee.LinkedList<Models.Release> releases = yield current_tool.load_more (out code);
+
+            if (code == ReturnCode.RELEASES_LOADED) {
+                foreach (var release in releases) {
+                    current_tool.releases.add (release);
+                    add_release_row (release);
+                }
+                list_box.remove (load_more_row);
+                list_box.append (load_more_row);
+            }
+
+            load_more_row.visible = current_tool.has_more;
+            load_more_button.sensitive = true;
+            update_visibility ();
+        }
+
+        void update_visibility () {
+            bool has_visible = false;
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                if (child is Gtk.ListBoxRow && child != load_more_row) {
+                    if (filter_func ((Gtk.ListBoxRow) child)) {
+                        has_visible = true;
+                        break;
+                    }
+                }
+                child = child.get_next_sibling ();
+            }
+
+            if (has_visible || (load_more_row != null && load_more_row.visible)) {
+                content_stack.set_visible_child_name ("list");
+            } else {
+                content_stack.set_visible_child_name ("empty");
+            }
         }
 
         bool filter_func (Gtk.ListBoxRow row) {

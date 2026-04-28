@@ -2,6 +2,8 @@ namespace ProtonPlus.Widgets.Tools {
     public class GroupBox : Gtk.Box {
         public signal void tool_selected (Models.Tool tool);
         Gtk.ListBox list_box;
+        Gtk.Stack stack;
+        Adw.StatusPage status_page;
 
         private Filter _filter = Filter.ALL;
         public Filter filter {
@@ -9,6 +11,7 @@ namespace ProtonPlus.Widgets.Tools {
             set {
                 _filter = value;
                 list_box.invalidate_filter ();
+                update_visibility ();
             }
         }
 
@@ -51,7 +54,20 @@ namespace ProtonPlus.Widgets.Tools {
                 vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
                 overflow = Gtk.Overflow.HIDDEN
             };
-            scrolled.add_css_class ("card");
+
+            status_page = new Adw.StatusPage () {
+                title = _ ("No tools found"),
+                description = _ ("No tools match the current filter."),
+                icon_name = "edit-find-symbolic"
+            };
+
+            stack = new Gtk.Stack () {
+                vexpand = true,
+                overflow = Gtk.Overflow.HIDDEN
+            };
+            stack.add_css_class ("card");
+            stack.add_named (scrolled, "list");
+            stack.add_named (status_page, "empty");
 
             foreach (var tool in group.tools) {
                 var row = create_tool_card (tool);
@@ -61,7 +77,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             var group_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
             group_box.append (header_box);
-            group_box.append (scrolled);
+            group_box.append (stack);
 
             var clamp = new Adw.Clamp () {
                 maximum_size = 975,
@@ -71,6 +87,28 @@ namespace ProtonPlus.Widgets.Tools {
             };
 
             append (clamp);
+
+            update_visibility ();
+        }
+
+        void update_visibility () {
+            bool has_visible = false;
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                if (child is Gtk.ListBoxRow) {
+                    if (filter_func ((Gtk.ListBoxRow) child)) {
+                        has_visible = true;
+                        break;
+                    }
+                }
+                child = child.get_next_sibling ();
+            }
+
+            if (has_visible) {
+                stack.set_visible_child_name ("list");
+            } else {
+                stack.set_visible_child_name ("empty");
+            }
         }
 
         Adw.ActionRow create_tool_card (Models.Tool tool) {
