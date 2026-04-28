@@ -1,29 +1,27 @@
 namespace ProtonPlus.Widgets.Tools {
     public class RemoveDialog : Adw.AlertDialog {
         Models.Release release;
-        public signal void done (bool result);
 
         public RemoveDialog (Models.Release release) {
             this.release = release;
 
             set_heading (_ ("Delete %s?").printf (release.title));
 
-            set_body (_ ("%s will be permanently deleted.").printf (release.title));
+            var body = _ ("It will be permanently deleted.");
 
             if (release.runner.group.launcher is Models.Launchers.Steam) {
                 var steam_launcher = (Models.Launchers.Steam) release.runner.group.launcher;
+                var tool_name = (release.runner is Models.Tools.SteamTinkerLaunch) ? "Proton-stl" : release.title;
 
-                var usage_count = steam_launcher.get_compatibility_tool_usage_count (release.title != "SteamTinkerLaunch" ? release.title : "Proton-stl");
+                var usage_count = steam_launcher.get_compatibility_tool_usage_count (tool_name);
 
                 if (usage_count > 0) {
-                    var body = _ ("Used by %i games.").printf (usage_count);
-
-                    if (usage_count == 1)
-                    body = _ ("Used by 1 game.");
-
-                    set_body ("%s\n\n%s".printf (body, _ ("%s will be permanently deleted.").printf (release.title)));
+                    var usage_text = ngettext ("Used by %i game.", "Used by %i games.", usage_count).printf (usage_count);
+                    body = "%s\n\n%s".printf (usage_text, body);
                 }
             }
+
+            set_body (body);
 
             add_response ("cancel", _ ("Cancel"));
             add_response ("delete", _ ("Delete"));
@@ -43,8 +41,6 @@ namespace ProtonPlus.Widgets.Tools {
 
             release.remove.begin ((obj, res) => {
                 var success = release.remove.end (res);
-
-                done (success);
 
                 if (!success) {
                     var dialog = new Main.ErrorDialog (_ ("Couldn't delete %s").printf (release.title), _ ("Please report this issue on GitHub."));

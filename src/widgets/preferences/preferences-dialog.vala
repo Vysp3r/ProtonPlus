@@ -4,15 +4,9 @@ namespace ProtonPlus.Widgets.Preferences {
         // General
             var theme_row = new ThemeRow ();
 
-            var save_history_row = new Adw.SwitchRow () {
-                title = _ ("Save download history"),
-                subtitle = _ ("Save the download history to a file"),
-            };
-            Globals.SETTINGS.bind ("save-history", save_history_row, "active", SettingsBindFlags.DEFAULT);
 
             var general_group = new Adw.PreferencesGroup ();
             general_group.add (theme_row);
-            general_group.add (save_history_row);
 
         // Tools
 

@@ -48,8 +48,10 @@ namespace ProtonPlus.Widgets.Tools {
                 child = list_box,
                 vexpand = true,
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
-                vscrollbar_policy = Gtk.PolicyType.AUTOMATIC
+                vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
+                overflow = Gtk.Overflow.HIDDEN
             };
+            scrolled.add_css_class ("card");
 
             foreach (var tool in group.tools) {
                 var row = create_tool_card (tool);
@@ -58,8 +60,6 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             var group_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            group_box.add_css_class ("card");
-            group_box.add_css_class ("tools-group-card");
             group_box.append (header_box);
             group_box.append (scrolled);
 

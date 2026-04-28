@@ -121,14 +121,6 @@ flowboxchild {
   background-color: transparent;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
-
-.downloads-attention viewswitcher button:nth-child(3) image, .downloads-attention-experimental viewswitcher button:nth-child(4) image {
-  animation: bounce 1s infinite ease-in-out;
-}
 
 .controller-focus {
   box-shadow: inset 0 0 0 2px var(--accent-bg-color);
@@ -193,12 +185,8 @@ row.controller-focus {
   font-weight: bold;
 }
 
-.tools-releases-card, .tools-tools-card, .tools-spinner-box {
-  background-color: var(--window-bg-color);
-}
-
 .tools-release-row-input-box {
-  background-color: var(--card-bg-color);
+  background-color: var(--window-bg-color);
   border-radius: 9px;
 }
 

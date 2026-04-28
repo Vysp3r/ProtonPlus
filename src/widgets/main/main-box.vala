@@ -9,7 +9,6 @@ namespace ProtonPlus.Widgets.Main {
         Tools.Box tools_box { get; set; }
         Games.Box games_box { get; set; }
         MangoHud.Box mangohud_box { get; set; }
-        Downloads.Box downloads_box { get; set; }
 
         public Box () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
@@ -20,7 +19,6 @@ namespace ProtonPlus.Widgets.Main {
 
             mangohud_box = new MangoHud.Box ();
 
-            downloads_box = new Downloads.Box ();
 
             view_stack = new Adw.ViewStack ();
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
@@ -28,7 +26,6 @@ namespace ProtonPlus.Widgets.Main {
             view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "gamepad-symbolic");
             var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
             Globals.SETTINGS.bind ("experimental-mode", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
-            view_stack.add_titled_with_icon (downloads_box, "downloads", _ ("Downloads"), "download-2-symbolic");
 
             view_switcher = new Adw.ViewSwitcher ();
             view_switcher.set_stack (view_stack);

@@ -26,10 +26,6 @@ namespace ProtonPlus.Widgets.Header {
             header_bar.pack_end (menu_button);
             header_bar.set_hexpand (true);
 
-            Utils.DownloadManager.instance.download_added.connect (update_downloads_status);
-            Utils.DownloadManager.instance.download_removed.connect (update_downloads_status);
-
-            Globals.SETTINGS.changed["experimental-mode"].connect (update_downloads_status);
 
             append (header_bar);
         }
@@ -41,21 +37,5 @@ namespace ProtonPlus.Widgets.Header {
             header_bar.set_title_widget (view_switcher);
         }
 
-        void update_downloads_status () {
-            bool active = Utils.DownloadManager.instance.active_downloads.size > 0;
-
-            if (active) {
-                if (Globals.SETTINGS.get_boolean ("experimental-mode")) {
-                    remove_css_class ("downloads-attention");
-                    add_css_class ("downloads-attention-experimental");
-                } else {
-                    remove_css_class ("downloads-attention-experimental");
-                    add_css_class ("downloads-attention");
-                }
-            } else {
-                remove_css_class ("downloads-attention");
-                remove_css_class ("downloads-attention-experimental");
-            }
-        }
     }
 }

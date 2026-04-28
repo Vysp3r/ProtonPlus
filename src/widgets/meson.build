@@ -1,6 +1,7 @@
 sources += files(
     'application.vala',
     'window.vala',
+    'circular-progress-bar.vala',
 )
 
 subdir('preferences')
@@ -10,4 +11,3 @@ subdir('main')
 subdir('tools')
 subdir('games')
 subdir('mangohud')
-subdir('downloads')

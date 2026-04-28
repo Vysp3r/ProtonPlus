@@ -7,6 +7,11 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button remove_button { get; set; }
         Gtk.Button install_button { get; set; }
         Gtk.Button cancel_button { get; set; }
+        Gtk.Button progress_button { get; set; }
+        Widgets.CircularProgressBar progress_bar { get; set; }
+        Gtk.Label speed_label { get; set; }
+        Gtk.Label time_label { get; set; }
+        Gtk.Popover info_popover { get; set; }
 
         public ReleaseRow (Models.Release release) {
             Object (title: release.title);
@@ -29,6 +34,36 @@ namespace ProtonPlus.Widgets.Tools {
             cancel_button.set_tooltip_text (_ ("Cancel download"));
             cancel_button.add_css_class ("flat");
             cancel_button.clicked.connect (() => { release.canceled = true; });
+
+            progress_bar = new Widgets.CircularProgressBar ();
+            progress_bar.set_valign (Gtk.Align.CENTER);
+            progress_bar.set_size_request (24, 24);
+            progress_bar.line_width = 2;
+            progress_bar.show_text = true;
+
+            progress_button = new Gtk.Button ();
+            progress_button.set_child (progress_bar);
+            progress_button.add_css_class ("flat");
+            progress_button.set_tooltip_text (_ ("Show download details"));
+            progress_button.clicked.connect (() => { info_popover.popup (); });
+
+            speed_label = new Gtk.Label (_ ("Speed: 0 KB/s"));
+            speed_label.set_halign (Gtk.Align.START);
+            time_label = new Gtk.Label (_ ("Remaining time: --"));
+            time_label.set_halign (Gtk.Align.START);
+
+            var info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+            info_box.set_margin_top (12);
+            info_box.set_margin_bottom (12);
+            info_box.set_margin_start (12);
+            info_box.set_margin_end (12);
+            info_box.append (speed_label);
+            info_box.append (time_label);
+
+            info_popover = new Gtk.Popover ();
+            info_popover.set_parent (progress_button);
+            info_popover.set_autohide (true);
+            info_popover.set_child (info_box);
 
             var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             input_box.set_margin_end (10);
@@ -56,14 +91,23 @@ namespace ProtonPlus.Widgets.Tools {
 
             input_box.append (remove_button);
             input_box.append (install_button);
+            input_box.append (progress_button);
             input_box.append (cancel_button);
 
             add_prefix (icon);
             add_suffix (input_box);
 
             release.notify["state"].connect (release_state_changed);
+            release.notify["progress"].connect (release_progress_changed);
+            release.notify["speed-kbps"].connect (release_progress_changed);
+            release.notify["seconds-remaining"].connect (release_progress_changed);
 
             release.notify_property ("state");
+        }
+
+        public override void dispose () {
+            info_popover.unparent ();
+            base.dispose ();
         }
 
         void release_state_changed () {
@@ -73,6 +117,7 @@ namespace ProtonPlus.Widgets.Tools {
             var busy = downloading || release.state == Models.Release.State.BUSY_REMOVING;
 
             install_button.set_visible (!installed && !downloading);
+            progress_button.set_visible (downloading);
             cancel_button.set_visible (downloading);
             remove_button.set_visible (installed);
             update_button?.set_visible (installed);
@@ -96,6 +141,39 @@ namespace ProtonPlus.Widgets.Tools {
 
         void open_button_clicked () {
             Utils.System.open_uri ("file://%s".printf (release.install_location));
+        }
+
+        void release_progress_changed () {
+            if (release.is_percent && release.progress != null) {
+                var progress_text = release.progress.replace ("%", "");
+                double fraction = double.parse (progress_text) / 100.0;
+                progress_bar.fraction = fraction;
+            } else {
+                progress_bar.pulse ();
+            }
+
+            speed_label.set_label (_ ("Speed: %s/s").printf (Utils.Filesystem.convert_bytes_to_string ((int64) (release.speed_kbps * 1024))));
+
+            if (release.seconds_remaining >= 0) {
+                time_label.set_label (_ ("Remaining time: %s").printf (format_time (release.seconds_remaining)));
+            } else {
+                time_label.set_label (_ ("Remaining time: --"));
+            }
+        }
+
+        string format_time (double seconds) {
+            int total_seconds = (int) seconds;
+            int h = total_seconds / 3600;
+            int m = (total_seconds % 3600) / 60;
+            int s = total_seconds % 60;
+
+            if (h > 0) {
+                return _ ("%dh %dm %ds").printf (h, m, s);
+            } else if (m > 0) {
+                return _ ("%dm %ds").printf (m, s);
+            } else {
+                return _ ("%ds").printf (s);
+            }
         }
 
         protected virtual void install_button_clicked () {

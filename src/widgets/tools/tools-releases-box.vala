@@ -67,19 +67,17 @@ namespace ProtonPlus.Widgets.Tools {
                 vexpand = true,
                 hexpand = true,
             };
-            spinner_box.add_css_class ("card");
-            spinner_box.add_css_class ("tools-spinner-box");
             spinner_box.append (spinner);
 
             content_stack = new Gtk.Stack () {
-                vexpand = true
+                vexpand = true,
+                overflow = Gtk.Overflow.HIDDEN
             };
+            content_stack.add_css_class ("card");
             content_stack.add_named (scrolled, "list");
             content_stack.add_named (spinner_box, "spinner");
 
             tool_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            tool_box.add_css_class ("card");
-            tool_box.add_css_class ("tools-group-card");
             tool_box.append (header_box);
             tool_box.append (content_stack);
 
