@@ -12,10 +12,14 @@ namespace ProtonPlus.Widgets.Tools {
 
         Adw.ViewStack stack { get; set; }
         Gtk.Button back_button { get; set; }
+        Gtk.Button refresh_button { get; set; }
         Gtk.Button open_button { get; set; }
+        Gtk.SearchEntry search_entry { get; set; }
         Adw.ViewStack groups_stack { get; set; }
         ReleasesBox releases_box { get; set; }
         ReleaseBox release_box { get; set; }
+
+        public signal void toast_sent (string title);
 
         private Filter _current_filter = Filter.ALL;
         public Filter current_filter {
@@ -61,6 +65,7 @@ namespace ProtonPlus.Widgets.Tools {
             back_button.set_tooltip_text (_ ("Back"));
             back_button.clicked.connect (() => {
                 stack.set_visible_child_name (stack.get_visible_child_name () == "release" ? "releases" : "groups");
+                search_entry.set_text ("");
             });
 
             open_button = new Gtk.Button.from_icon_name ("globe-symbolic") {
@@ -79,11 +84,29 @@ namespace ProtonPlus.Widgets.Tools {
                 policy = Adw.ViewSwitcherPolicy.WIDE
             };
 
-            var refresh_button = new Gtk.Button.from_icon_name ("view-refresh-symbolic") {
+            refresh_button = new Gtk.Button.from_icon_name ("view-refresh-symbolic") {
                 valign = Gtk.Align.CENTER
             };
             refresh_button.set_tooltip_text (_ ("Check for updates"));
             refresh_button.clicked.connect (on_refresh_clicked);
+
+            search_entry = new Gtk.SearchEntry () {
+                valign = Gtk.Align.CENTER,
+                placeholder_text = _ ("Search"),
+                visible = true
+            };
+            search_entry.search_changed.connect (() => {
+                var search_text = search_entry.get_text ();
+                releases_box.search_text = search_text;
+
+                var child = groups_stack.get_first_child ();
+                while (child != null) {
+                    if (child is GroupBox) {
+                        ((GroupBox) child).search_text = search_text;
+                    }
+                    child = child.get_next_sibling ();
+                }
+            });
 
             var filter_button = new Gtk.MenuButton () {
                 valign = Gtk.Align.CENTER,
@@ -149,16 +172,18 @@ namespace ProtonPlus.Widgets.Tools {
             var action_bar = new Gtk.ActionBar ();
             action_bar.set_center_widget (switcher);
             action_bar.pack_start (back_button);
+            action_bar.pack_start (search_entry);
             action_bar.pack_end (refresh_button);
             action_bar.pack_end (filter_button);
             action_bar.pack_end (open_button);
 
             stack.notify["visible-child-name"].connect (() => {
                 back_button.set_visible (stack.get_visible_child_name () != "groups");
+                search_entry.set_visible (stack.get_visible_child_name () != "release");
                 filter_button.set_visible (stack.get_visible_child_name () != "release");
                 refresh_button.set_visible (stack.get_visible_child_name () != "release");
                 open_button.set_visible (stack.get_visible_child_name () == "release" && current_release != null && current_release.page_url != null);
-                switcher.set_visible (stack.get_visible_child_name () == "groups");
+                switcher.set_visible (stack.get_visible_child_name () == "groups" && groups_stack.get_pages ().get_n_items () > 1);
             });
 
             append (stack);
@@ -168,16 +193,15 @@ namespace ProtonPlus.Widgets.Tools {
         public void set_selected_launcher (Models.Launcher launcher) {
             current_launcher = launcher;
 
-            var child = groups_stack.get_first_child ();
-            while (child != null) {
-                var next = child.get_next_sibling ();
+            Gtk.Widget? child;
+            while ((child = groups_stack.get_first_child ()) != null) {
                 groups_stack.remove (child);
-                child = next;
             }
 
             foreach (var group in launcher.groups) {
-                var group_box = new GroupBox(group);
+                var group_box = new GroupBox (group);
                 group_box.filter = current_filter;
+                group_box.search_text = search_entry.get_text ();
                 group_box.tool_selected.connect (set_selected_tool);
                 groups_stack.add_titled_with_icon (group_box, group.title.down (), group.title, "layer-group-symbolic");
             }
@@ -204,9 +228,38 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         async void check_for_updates () {
+            refresh_button.sensitive = false;
+            toast_sent (_ ("Checking for updates"));
+
             var launchers = new List<Models.Launcher> ();
             launchers.append (current_launcher);
-            yield Models.Tool.check_for_updates (launchers);
+            var code = yield Models.Tool.check_for_updates (launchers);
+
+            switch (code) {
+                case ReturnCode.NOTHING_TO_UPDATE:
+                    toast_sent (_ ("Nothing to update"));
+                    break;
+                case ReturnCode.RUNNERS_UPDATED:
+                case ReturnCode.RUNNER_UPDATED:
+                    toast_sent (_ ("Everything is now up-to-date"));
+                    break;
+                case ReturnCode.API_LIMIT_REACHED:
+                    toast_sent (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("API limit reached")));
+                    break;
+                case ReturnCode.CONNECTION_ISSUE:
+                case ReturnCode.CONNECTION_REFUSED:
+                case ReturnCode.CONNECTION_UNKNOWN:
+                    toast_sent (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unable to reach the API")));
+                    break;
+                case ReturnCode.INVALID_ACCESS_TOKEN:
+                    toast_sent (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Invalid access token")));
+                    break;
+                default:
+                    toast_sent (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unknown error")));
+                    break;
+            }
+
+            refresh_button.sensitive = true;
         }
     }
 }

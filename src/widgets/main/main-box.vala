@@ -14,6 +14,7 @@ namespace ProtonPlus.Widgets.Main {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
             tools_box = new Tools.Box ();
+            tools_box.toast_sent.connect (send_toast);
 
             games_box = new Games.Box ();
 

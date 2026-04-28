@@ -24,6 +24,16 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
+        private string _search_text = "";
+        public string search_text {
+            get { return _search_text; }
+            set {
+                _search_text = value;
+                list_box.invalidate_filter ();
+                update_visibility ();
+            }
+        }
+
         public ReleasesBox () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
@@ -236,11 +246,14 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         bool filter_func (Gtk.ListBoxRow row) {
-            if (filter == Filter.ALL)
-            return true;
-
             var release = row.get_data<Models.Release> ("release");
             if (release == null)
+            return true;
+
+            if (search_text != "" && !release.title.down ().contains (search_text.down ()))
+            return false;
+
+            if (filter == Filter.ALL)
             return true;
 
             if (filter == Filter.INSTALLED)
