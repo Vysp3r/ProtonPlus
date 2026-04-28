@@ -10,8 +10,9 @@ namespace ProtonPlus.Widgets {
         Utils.ControllerManager controller_manager;
 
         public Window () {
-            set_application ((Adw.Application) GLib.Application.get_default ());
-            set_title (Config.APP_NAME);
+            Object (application: (Adw.Application) GLib.Application.get_default (), title: Config.APP_NAME);
+
+            add_send_toast_action ();
 
             header_box = new Header.Box ();
             header_box.launcher_selected.connect ((launcher) => {
@@ -79,6 +80,14 @@ namespace ProtonPlus.Widgets {
             dialog.present (this);
 
             return true;
+        }
+
+        void add_send_toast_action () {
+            SimpleAction action = new SimpleAction ("send-toast", VariantType.STRING);
+            action.activate.connect ((variant) => {
+                main_box.send_toast (variant.get_string ());
+            });
+            add_action (action);
         }
     }
 }

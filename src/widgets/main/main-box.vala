@@ -38,11 +38,58 @@ namespace ProtonPlus.Widgets.Main {
             toast_overlay.set_child (view_stack);
 
             append (toast_overlay);
+
+            Utils.DownloadManager.instance.download_added.connect (on_download_added);
+            Utils.DownloadManager.instance.download_finished.connect (on_download_finished);
+            Utils.DownloadManager.instance.tool_removed.connect (on_tool_removed);
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {
             tools_box.set_selected_launcher (launcher);
             games_box.set_selected_launcher (launcher);
+        }
+
+        public void send_toast (string title) {
+            var toast = new Adw.Toast (title);
+
+            toast_overlay.add_toast (toast);
+        }
+
+        void on_download_added (Models.Release release) {
+            send_notification (_ ("Download started"), release.displayed_title);
+        }
+
+        void on_download_finished (Models.Release release, bool success) {
+            if (success) {
+                send_notification (_ ("Download finished"), release.displayed_title);
+            } else if (release.canceled) {
+                send_notification (_ ("Download canceled"), release.displayed_title);
+            } else {
+                var body = release.displayed_title;
+                if (release.error_message != null && release.error_message != "") {
+                    body = "%s (%s)".printf (release.displayed_title, release.error_message);
+                }
+                send_notification (_ ("Download failed"), body);
+            }
+        }
+
+        void on_tool_removed (Models.Release release) {
+            send_notification (_ ("Deleted"), release.displayed_title, "user-trash-symbolic");
+        }
+
+        void send_notification (string title, string body, string icon = "folder-download-symbolic") {
+            var window = get_root () as Gtk.Window;
+
+            send_toast ("%s: %s".printf (title, body));
+
+            if (window == null || !window.is_active) {
+                var notification = new Notify.Notification (title, body, icon);
+                try {
+                    notification.show ();
+                } catch (Error e) {
+                    warning ("Failed to send notification: %s", e.message);
+                }
+            }
         }
 
         void view_stack_visible_child_name_changed () {

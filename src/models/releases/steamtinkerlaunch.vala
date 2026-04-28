@@ -268,13 +268,18 @@ namespace ProtonPlus.Models.Releases {
             // Extract archive and move its contents to the installation directory.
             string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => canceled);
 
-            if (extracted_file_location == "")
-            return false;
+            if (extracted_file_location == "") {
+                if (!canceled)
+                error_message = _ ("Extraction failed");
+                return false;
+            }
 
             var moved = yield Utils.Filesystem.move_dir_contents (extracted_file_location, base_location);
 
-            if (!moved)
-            return false;
+            if (!moved) {
+                error_message = _ ("Moving failed");
+                return false;
+            }
 
 
             // We don't need the download directory anymore.

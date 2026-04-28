@@ -6,6 +6,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button open_button { get; set; }
         Gtk.Button remove_button { get; set; }
         Gtk.Button install_button { get; set; }
+        Gtk.Button cancel_button { get; set; }
 
         public ReleaseRow (Models.Release release) {
             Object (title: release.title);
@@ -24,10 +25,16 @@ namespace ProtonPlus.Widgets.Tools {
             install_button.add_css_class ("flat");
             install_button.clicked.connect (install_button_clicked);
 
+            cancel_button = new Gtk.Button.from_icon_name ("circle-xmark-symbolic");
+            cancel_button.set_tooltip_text (_ ("Cancel download"));
+            cancel_button.add_css_class ("flat");
+            cancel_button.clicked.connect (() => { release.canceled = true; });
+
             var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             input_box.set_margin_end (10);
             input_box.set_valign (Gtk.Align.CENTER);
             input_box.add_css_class ("linked");
+            input_box.add_css_class ("tools-release-row-input-box");
 
             if (release.title.contains ("Latest") || release.runner is Models.Tools.SteamTinkerLaunch) {
                 update_button = new Gtk.Button.from_icon_name ("arrow-rotate-symbolic");
@@ -49,6 +56,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             input_box.append (remove_button);
             input_box.append (install_button);
+            input_box.append (cancel_button);
 
             add_prefix (icon);
             add_suffix (input_box);
@@ -60,11 +68,12 @@ namespace ProtonPlus.Widgets.Tools {
 
         void release_state_changed () {
             var installed = release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
-            var busy = release.state == Models.Release.State.BUSY_INSTALLING ||
-            release.state == Models.Release.State.BUSY_REMOVING ||
+            var downloading = release.state == Models.Release.State.BUSY_INSTALLING ||
             release.state == Models.Release.State.BUSY_UPDATING;
+            var busy = downloading || release.state == Models.Release.State.BUSY_REMOVING;
 
-            install_button.set_visible (!installed);
+            install_button.set_visible (!installed && !downloading);
+            cancel_button.set_visible (downloading);
             remove_button.set_visible (installed);
             update_button?.set_visible (installed);
             open_button?.set_visible (installed);
@@ -73,26 +82,6 @@ namespace ProtonPlus.Widgets.Tools {
             remove_button.set_sensitive (!busy);
             update_button?.set_sensitive (!busy);
             open_button?.set_sensitive (!busy);
-
-            if (busy) {
-                var tooltip_text = _ ("This tool is currently being installed");
-                if (Utils.DownloadManager.instance.is_downloading (release))
-                tooltip_text = _ ("This tool is currently being downloaded");
-                if (release.state == Models.Release.State.BUSY_REMOVING)
-                tooltip_text = _ ("This tool is currently being removed");
-                if (release.state == Models.Release.State.BUSY_UPDATING)
-                tooltip_text = _ ("This tool is currently being updated");
-
-                install_button.set_tooltip_text (tooltip_text);
-                remove_button.set_tooltip_text (tooltip_text);
-                update_button?.set_tooltip_text (tooltip_text);
-                open_button?.set_tooltip_text (tooltip_text);
-            } else {
-                install_button.set_tooltip_text (_ ("Install %s").printf (release.title));
-                remove_button.set_tooltip_text (_ ("Delete %s").printf (release.title));
-                update_button?.set_tooltip_text (_ ("Update to the latest version"));
-                open_button?.set_tooltip_text (_ ("Open tool directory"));
-            }
         }
 
         void update_button_clicked () {

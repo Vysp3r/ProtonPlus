@@ -156,8 +156,11 @@ namespace ProtonPlus.Models {
             string extract_path = "%s/".printf (Globals.CACHE_PATH);
 
             string source_path = yield Utils.Filesystem.extract (extract_path, title, ".tar.gz", () => canceled);
-            if (source_path == "")
-            return false;
+            if (source_path == "") {
+                if (!canceled)
+                error_message = _ ("Extraction failed");
+                return false;
+            }
 
             step = Step.MOVING;
 
@@ -166,8 +169,10 @@ namespace ProtonPlus.Models {
             destination_path = "%s%s/%s/".printf (runner.group.launcher.directory, runner.group.directory, runner.get_directory_name (title)) ;
 
             var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
-            if (!renaming_valid)
-            return false;
+            if (!renaming_valid) {
+                error_message = _ ("Moving failed");
+                return false;
+            }
 
             return true;
         }
@@ -186,8 +191,10 @@ namespace ProtonPlus.Models {
             if (!busy_updating_or_installing)
             refresh_state (); // Force UI state refresh.
 
-            if (remove_success)
-            remove_from_games_tab ();
+            if (remove_success) {
+                remove_from_games_tab ();
+                Utils.DownloadManager.instance.tool_removed (this);
+            }
 
             return remove_success;
         }

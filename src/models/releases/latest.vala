@@ -14,8 +14,10 @@ namespace ProtonPlus.Models.Releases {
             var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (destination_path);
 
             var compatibilitytoolvdf_content = Utils.Filesystem.get_file_content (compatibilitytoolvdf_path);
-            if (compatibilitytoolvdf_content == "")
-            return false;
+            if (compatibilitytoolvdf_content == "") {
+                error_message = _ ("Failed to read compatibilitytool.vdf");
+                return false;
+            }
 
             var start_text = "";
             var end_text = "";

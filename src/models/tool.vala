@@ -9,6 +9,14 @@ namespace ProtonPlus.Models {
         public Utils.Web.GetRequestType get_request_type { get; set; }
         public Gee.LinkedList<Release> releases { get; set; default = new Gee.LinkedList<Release> (); }
 
+        public virtual bool is_installed () {
+            return false;
+        }
+
+        public virtual bool is_used () {
+            return false;
+        }
+
         public async Gee.LinkedList<Release> get_releases_async (out ReturnCode code) {
             if (releases.size > 0) {
                 code = ReturnCode.RELEASES_LOADED;

@@ -9,6 +9,7 @@ namespace ProtonPlus {
         Intl.bindtextdomain (Config.APP_ID, Environment.get_variable ("LOCALE_DIR") ?? Config.LOCALE_DIR);
         Intl.bind_textdomain_codeset (Config.APP_ID, "UTF-8");
         Intl.textdomain (Config.APP_ID);
+        Notify.init (Config.APP_NAME);
 
         if (args.length > 1) {
             var cli = new CLI.Handler ();
@@ -23,7 +24,9 @@ namespace ProtonPlus {
         }
 
         var application = new Widgets.Application ();
-        return application.run (args);
+        int status = application.run (args);
+        Notify.uninit ();
+        return status;
     }
 
     public enum ReturnCode {

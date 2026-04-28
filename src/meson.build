@@ -18,6 +18,7 @@ deps = [
     dependency('libsoup-3.0'),
     dependency('gee-0.8'),
     dependency('libarchive'),
+    dependency('libnotify'),
     meson.get_compiler('c').find_library('m', required : false),
     sdl3_dep,
 ]

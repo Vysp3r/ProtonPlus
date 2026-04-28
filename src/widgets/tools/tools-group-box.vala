@@ -1,6 +1,16 @@
 namespace ProtonPlus.Widgets.Tools {
     public class GroupBox : Gtk.Box {
         public signal void tool_selected (Models.Tool tool);
+        Gtk.ListBox list_box;
+
+        private Filter _filter = Filter.ALL;
+        public Filter filter {
+            get { return _filter; }
+            set {
+                _filter = value;
+                list_box.invalidate_filter ();
+            }
+        }
 
         public GroupBox (Models.Group group) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
@@ -27,11 +37,12 @@ namespace ProtonPlus.Widgets.Tools {
             header_box.append (icon);
             header_box.append (title_box);
 
-            var list_box = new Gtk.ListBox () {
+            list_box = new Gtk.ListBox () {
                 selection_mode = Gtk.SelectionMode.NONE
             };
             list_box.add_css_class ("boxed-list");
             list_box.add_css_class ("tools-tools-card");
+            list_box.set_filter_func (filter_func);
 
             var scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,
@@ -41,7 +52,9 @@ namespace ProtonPlus.Widgets.Tools {
             };
 
             foreach (var tool in group.tools) {
-                list_box.append (create_tool_card (tool));
+                var row = create_tool_card (tool);
+                row.set_data ("tool", tool);
+                list_box.append (row);
             }
 
             var group_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
@@ -72,6 +85,26 @@ namespace ProtonPlus.Widgets.Tools {
             row.add_prefix (icon);
 
             return row;
+        }
+
+        bool filter_func (Gtk.ListBoxRow row) {
+            if (filter == Filter.ALL)
+            return true;
+
+            var tool = row.get_data<Models.Tool> ("tool");
+            if (tool == null)
+            return true;
+
+            if (filter == Filter.INSTALLED)
+            return tool.is_installed ();
+
+            if (filter == Filter.USED)
+            return tool.is_used ();
+
+            if (filter == Filter.UNUSED)
+            return !tool.is_used ();
+
+            return true;
         }
     }
 }

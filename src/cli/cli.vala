@@ -44,7 +44,7 @@ namespace ProtonPlus.CLI {
     }
 
     public class Handler {
-        private List<Models.Launcher> launchers;
+        private Gee.LinkedList<Models.Launcher> launchers;
 
         public async int run (string[] args) {
             if (args.length < 2) {
@@ -299,8 +299,8 @@ namespace ProtonPlus.CLI {
 
         private async int update_launcher (Models.Launcher launcher) {
             Output.info (_ ("Updating runners for %s...\n"), launcher.title);
-            var scoped = new List<Models.Launcher> ();
-            scoped.append (launcher);
+            var scoped = new Gee.LinkedList<Models.Launcher> ();
+            scoped.add (launcher);
             var latest_runners = yield collect_latest_runners (scoped);
             return yield update_runner_batch (latest_runners);
         }
@@ -324,8 +324,8 @@ namespace ProtonPlus.CLI {
             }
         }
 
-        private async List<Models.Tools.Basic> collect_latest_runners (List<Models.Launcher> scope) {
-            var latest_runners = new List<Models.Tools.Basic> ();
+        private async Gee.LinkedList<Models.Tools.Basic> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
+            var latest_runners = new Gee.LinkedList<Models.Tools.Basic> ();
 
             foreach (var launcher in scope) {
                 foreach (var group in launcher.groups) {
@@ -338,7 +338,7 @@ namespace ProtonPlus.CLI {
 
                         foreach (var directory in directories) {
                             if (directory == "%s Latest".printf (tool.title)) {
-                                latest_runners.append (tool as Models.Tools.Basic);
+                                latest_runners.add (tool as Models.Tools.Basic);
                                 continue;
                             }
 
@@ -356,8 +356,8 @@ namespace ProtonPlus.CLI {
             return latest_runners;
         }
 
-        private async int update_runner_batch (List<Models.Tools.Basic> runners) {
-            if (runners.length () == 0) {
+        private async int update_runner_batch (Gee.LinkedList<Models.Tools.Basic> runners) {
+            if (runners.size == 0) {
                 Output.success (_ ("Already up to date\n"));
                 return 0;
             }
@@ -393,16 +393,15 @@ namespace ProtonPlus.CLI {
         }
 
         private async bool load_launchers () {
-        //            var success = yield Models.Launcher.get_all (out launchers);
-        //            if (!success || launchers == null) {
-        //                Output.error (_ ("Error: Failed to load launchers\n"));
-        //                return false;
-        //            }
+            var success = yield Models.Launcher.get_all (out launchers);
+            if (!success || launchers == null) {
+                Output.error (_ ("Error: Failed to load launchers\n"));
+                return false;
+            }
             return true;
         }
 
         private async ReturnCode load_runner_releases (Models.Tools.Basic basic_runner) {
-        //TODO Fix this
             ReturnCode code;
             var releases = yield basic_runner.get_releases_async (out code);
             if (code != ReturnCode.RELEASES_LOADED || releases.size == 0) {

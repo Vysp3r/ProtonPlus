@@ -39,5 +39,23 @@ namespace ProtonPlus.Models.Tools {
 
             return directory_name.str;
         }
+
+        public override bool is_installed () {
+            var directories = group.get_tool_directories ();
+            foreach (var directory in directories) {
+                if (directory.contains (title)) return true;
+            }
+            return false;
+        }
+
+        public override bool is_used () {
+            var directories = group.get_tool_directories ();
+            foreach (var directory in directories) {
+                if (directory.contains (title)) {
+                    if (group.launcher.get_compatibility_tool_usage_count (directory) > 0) return true;
+                }
+            }
+            return false;
+        }
     }
 }

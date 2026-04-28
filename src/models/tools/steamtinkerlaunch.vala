@@ -16,5 +16,17 @@ namespace ProtonPlus.Models.Tools {
 
             return _releases;
         }
+
+        public override bool is_installed () {
+            var directories = group.get_tool_directories ();
+            foreach (var directory in directories) {
+                if (directory == "SteamTinkerLaunch") return true;
+            }
+            return false;
+        }
+
+        public override bool is_used () {
+            return group.launcher.get_compatibility_tool_usage_count ("Proton-stl") > 0;
+        }
     }
 }

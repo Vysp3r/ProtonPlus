@@ -7,6 +7,15 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.ListBox list_box { get; set; }
         Gtk.Stack content_stack { get; set; }
 
+        private Filter _filter = Filter.ALL;
+        public Filter filter {
+            get { return _filter; }
+            set {
+                _filter = value;
+                list_box.invalidate_filter ();
+            }
+        }
+
         public ReleasesBox () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
@@ -37,6 +46,7 @@ namespace ProtonPlus.Widgets.Tools {
             };
             list_box.add_css_class ("boxed-list");
             list_box.add_css_class ("tools-releases-card");
+            list_box.set_filter_func (filter_func);
 
             var scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,
@@ -125,13 +135,39 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             foreach (var release in releases) {
+                Gtk.ListBoxRow row;
                 if (release is Models.Releases.SteamTinkerLaunch)
-                list_box.append (new STLReleaseRow (release));
+                row = new STLReleaseRow (release);
                 else
-                list_box.append (new ReleaseRow (release));
+                row = new ReleaseRow (release);
+
+                row.set_data ("release", release);
+                list_box.append (row);
             }
 
             content_stack.set_visible_child_name ("list");
+        }
+
+        bool filter_func (Gtk.ListBoxRow row) {
+            if (filter == Filter.ALL)
+            return true;
+
+            var release = row.get_data<Models.Release> ("release");
+            if (release == null)
+            return true;
+
+            if (filter == Filter.INSTALLED)
+            return release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
+
+            var usage_count = release.runner.group.launcher.get_compatibility_tool_usage_count (release.title != "SteamTinkerLaunch" ? release.title : "Proton-stl");
+
+            if (filter == Filter.USED)
+            return usage_count > 0;
+
+            if (filter == Filter.UNUSED)
+            return usage_count == 0;
+
+            return true;
         }
     }
 }
