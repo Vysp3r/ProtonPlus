@@ -225,21 +225,6 @@ namespace ProtonPlus.Utils {
             return delete_file_direct (path);
         }
 
-        public static async bool move_file (string source, string destination) {
-            if (source == destination)
-            return true;
-
-            try {
-                File source_file = File.parse_name (source);
-                File destination_file = File.parse_name (destination);
-
-                return yield source_file.move_async (destination_file, GLib.FileCopyFlags.NONE, Priority.DEFAULT, null, null);
-            } catch (Error e) {
-                warning (e.message);
-            }
-
-            return false;
-        }
 
         // Directories.
 

@@ -148,8 +148,6 @@ namespace ProtonPlus.Models {
                 json_group_item.runners = group_object.get_array_member ("runners");
 
                 json_group_items.set (json_group_item.title, json_group_item);
-
-            // message ("Group #%i: %s - %s".printf (i, json_group_item.title, json_group_item.description));
             }
 
             // Launchers
@@ -184,8 +182,6 @@ namespace ProtonPlus.Models {
                     json_launcher_group_item.directory = launcher_group_object.get_string_member ("directory");
 
                     json_launcher_group_items[y] = json_launcher_group_item;
-
-                // message ("Launcher Group #%i: %s".printf (y, json_launcher_group_item.title));
                 }
 
                 var json_launcher_item = new JsonLauncherItem ();
@@ -193,8 +189,6 @@ namespace ProtonPlus.Models {
                 json_launcher_item.groups = json_launcher_group_items;
 
                 json_launcher_items.set (json_launcher_item.title, json_launcher_item);
-
-            // message ("Launcher #%i: %s".printf (i, json_launcher_item.title));
             }
 
             foreach (var launcher in launchers) {
@@ -354,8 +348,6 @@ namespace ProtonPlus.Models {
                 json_runner_item.tag = runner_object.get_string_member ("tag");
 
                 json_runner_items[i] = json_runner_item;
-
-            // message ("Tool #%i: %s - %s".printf (i, json_runner_item.title, json_runner_item.description));
             }
 
             return json_runner_items;
