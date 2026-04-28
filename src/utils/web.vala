@@ -2,8 +2,7 @@ namespace ProtonPlus.Utils {
     public class Web {
 
 
-
-        public enum GetType {
+        public enum GetRequestType {
             OTHER,
             GITHUB,
             GITLAB,
@@ -16,31 +15,31 @@ namespace ProtonPlus.Utils {
             get {
                 if (_session == null) {
                     _session = new Soup.Session ();
-                    _session.user_agent = Config.APP_NAME + "/" + Config.APP_VERSION;;
+                    _session.user_agent = Config.APP_NAME + "/" + Config.APP_VERSION;
                 }
                 return _session;
             }
         }
 
-        public static async ReturnCode get_request (string uri, GetType get_type = GetType.OTHER, out string? response) {
+        public static async ReturnCode get_request (string uri, GetRequestType get_request_type = GetRequestType.OTHER, out string? response) {
             response = null;
             try {
                 var message = new Soup.Message ("GET", uri);
 
                 if (Globals.SETTINGS != null) {
-                    if (get_type == GetType.GITHUB || get_type == GetType.STEAMTINKERLAUNCH) {
+                    if (get_request_type == GetRequestType.GITHUB || get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
                         var key = Globals.SETTINGS.get_string ("github-api-key");
                         if (key.length > 0)
                         message.request_headers.append ("Authorization", "token %s".printf (key));
                     }
 
-                    if (get_type == GetType.GITLAB) {
+                    if (get_request_type == GetRequestType.GITLAB) {
                         var key = Globals.SETTINGS.get_string ("gitlab-api-key");
                         if (key.length > 0)
                         message.request_headers.append ("Authorization", "Bearer %s".printf (key));
                     }
 
-                    if (get_type == GetType.STEAMTINKERLAUNCH) {
+                    if (get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
                         message.request_headers.append ("Accept", "application/vnd.github+json");
                         message.request_headers.append ("X-GitHub-Api-Version", "2022-11-28");
                     }
@@ -49,27 +48,23 @@ namespace ProtonPlus.Utils {
                 Bytes bytes = yield session.send_and_read_async (message, Priority.DEFAULT, null);
 
                 unowned uint8[] data = bytes.get_data ();
-                char[] str_data = new char[data.length + 1];
-                Memory.copy (str_data, data, data.length);
-                str_data[data.length] = '\0';
-                response = (string) str_data;
+                response = (string)(data);
 
                 if (response == null)
                 return ReturnCode.UNKNOWN_ERROR;
 
-                switch (get_type) {
-                    case GetType.GITHUB:
-                        if (response.contains ("https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"))
+                switch (get_request_type) {
+                    case GetRequestType.GITHUB:
+                        if (message.status_code == 403 || message.status_code == 429)
                         return ReturnCode.API_LIMIT_REACHED;
-
                         if (response.contains ("Bad credentials"))
                         return ReturnCode.INVALID_ACCESS_TOKEN;
-
                         break;
-                    case GetType.GITLAB:
+                    case GetRequestType.GITLAB:
+                        if (message.status_code == 403 || message.status_code == 429)
+                        return ReturnCode.API_LIMIT_REACHED;
                         if (response.contains ("401 Unauthorized"))
                         return ReturnCode.INVALID_ACCESS_TOKEN;
-
                         break;
                     default:
                         break;

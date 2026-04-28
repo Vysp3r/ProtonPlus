@@ -54,13 +54,13 @@ namespace ProtonPlus.Models.Launchers {
             bool is_default_tool = compatibility_tool_name == default_compatibility_tool;
 
             foreach (var game in games) {
-                if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Undefined"))
+                if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default"))
                 count++;
             }
 
             foreach (var profile in profiles) {
                 foreach (var game in profile.non_steam_games) {
-                    if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Undefined"))
+                    if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default"))
                     count++;
                 }
             }
@@ -117,7 +117,6 @@ namespace ProtonPlus.Models.Launchers {
                     if (current_libraryfolder_content.contains ("apps")) {
                         end_pos = libraryfolder_content.index_of (end_text, current_position + 1);
                         current_libraryfolder_content = libraryfolder_content.substring (start_pos, end_pos - start_pos);
-                    // message("current_libraryfolder_id: %i, start: %i, end: %i, current_libraryfolder_content: %s", current_libraryfolder_id, start_pos, end_pos, current_libraryfolder_content);
 
                         start_text = "path\"\t\t\"";
                         end_text = "\"";
@@ -125,7 +124,6 @@ namespace ProtonPlus.Models.Launchers {
                         end_pos = current_libraryfolder_content.index_of (end_text, start_pos);
                         current_libraryfolder_path = current_libraryfolder_content.substring (start_pos, end_pos - start_pos);
                         current_position = end_pos;
-                    // message("start: %i, end: %i, current_libraryfolder_path: %s", start_pos, end_pos, current_libraryfolder_path);
 
                         start_text = "apps\"\n\t\t{\n";
                         end_text = "}";
@@ -133,7 +131,6 @@ namespace ProtonPlus.Models.Launchers {
                         end_pos = current_libraryfolder_content.index_of (end_text, start_pos);
                         current_apps = current_libraryfolder_content.substring (start_pos, end_pos - start_pos);
                         current_position = 0;
-                    // message("start: %i, end: %i, apps: %s", start_pos, end_pos, current_apps);
 
                         while (true) {
                             start_text = "\t\t\t\"";
@@ -146,7 +143,6 @@ namespace ProtonPlus.Models.Launchers {
                             end_pos = current_apps.index_of (end_text, start_pos + start_text.length);
                             current_appid = current_apps.substring (start_pos, end_pos - start_pos);
                             current_position = end_pos;
-                            // message("start: %i, end: %i, id: %s", start_pos, end_pos, current_appid);
 
                             uint id = 0;
                             var id_valid = uint.try_parse (current_appid, out id);
@@ -154,7 +150,7 @@ namespace ProtonPlus.Models.Launchers {
                             continue;
 
                             bool valid_appid = true;
-                            string[] excluded_appids = { "2230260", "1826330", "1161040", "1070560", "1391110", "1628350", "228980" };
+                            string[] excluded_appids = { "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110" };
                             foreach (var excluded_appid in excluded_appids) {
                                 if (current_appid == excluded_appid) {
                                     valid_appid = false;
@@ -172,27 +168,28 @@ namespace ProtonPlus.Models.Launchers {
                             if (!FileUtils.test (current_manifest_path, FileTest.IS_REGULAR))
                             continue;
                             current_manifest_content = Utils.Filesystem.get_file_content (current_manifest_path);
-                            // message("current_manifest_path: %s", current_manifest_path);
 
-                            start_text = "name\"\t\t\"";
-                            end_text = "\"";
-                            start_pos = current_manifest_content.index_of (start_text, 0) + start_text.length;
-                            end_pos = current_manifest_content.index_of (end_text, start_pos);
-                            current_name = current_manifest_content.substring (start_pos, end_pos - start_pos);
-                            // message("start: %i, end: %i, current_name: %s", start_pos, end_pos, current_name);
+                            MatchInfo name_match;
+                            if (!/\"name\"\s+\"([^\"]+)\"/.match (current_manifest_content, 0, out name_match))
+                            continue;
+                            current_name = name_match.fetch (1);
 
-                            start_text = "installdir\"\t\t\"";
-                            end_text = "\"";
-                            start_pos = current_manifest_content.index_of (start_text, 0) + start_text.length;
-                            end_pos = current_manifest_content.index_of (end_text, start_pos);
-                            current_installdir = current_manifest_content.substring (start_pos, end_pos - start_pos);
+                            MatchInfo dir_match;
+                            if (!/\"installdir\"\s+\"([^\"]+)\"/.match (current_manifest_content, 0, out dir_match))
+                            continue;
+                            current_installdir = dir_match.fetch (1);
 
-                            if (/Proton \d+.\d+/.match (current_name) || current_appid == "2180100" || current_appid == "1493710") {
-                                var simple_runner = new SimpleRunner.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
+                            if (current_name.contains ("Steam Linux Runtime")) {
+                                var simple_runner = new Tools.Simple.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
                                 compatibility_tools.add (simple_runner);
                                 continue;
                             }
-                            // message("start: %i, end: %i, current_installdir: %s", start_pos, end_pos, current_installdir);
+
+                            if (/(?i)Proton\s*\d+(\.\d+)?/.match (current_name) || current_name == "Proton Hotfix" || current_appid == "2180100" || current_appid == "1493710") {
+                                var simple_runner = new Tools.Simple.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
+                                compatibility_tools.add (simple_runner);
+                                continue;
+                            }
 
                             if (!FileUtils.test ("%s/common/%s".printf (current_steamapps_path, current_installdir), FileTest.IS_DIR))
                             continue;
@@ -208,9 +205,8 @@ namespace ProtonPlus.Models.Launchers {
 
                             var compatibility_tool = compatibility_tool_hashtable.get (game.appid);
                             if (compatibility_tool == null)
-                            compatibility_tool = "Undefined";
+                            compatibility_tool = "Default";
                             game.compatibility_tool = compatibility_tool;
-                            // message("compatibility_tool: %s".printf(compatibility_tool));
 
                             games.append (game);
                         }
@@ -235,12 +231,8 @@ namespace ProtonPlus.Models.Launchers {
 
                             } else if (file_info.get_name () != "LegacyRuntime") {
                                 var file_path = "%s/%s".printf (directory.get_path (), file_info.get_name ());
-                                try {
-                                    var simple_runner = new SimpleRunner.from_path(file_path);
-                                    compatibility_tools.add (simple_runner);
-                                } catch (Error e) {
-                                    warning (e.message);
-                                }
+                                var simple_runner = new Tools.Simple.from_path(file_path);
+                                compatibility_tools.add (simple_runner);
                             }
                         }
                     }
@@ -278,7 +270,6 @@ namespace ProtonPlus.Models.Launchers {
             start_pos = config_content.index_of (start_text, 0) + start_text.length;
             end_pos = config_content.index_of (end_text, start_pos);
             compat_tool_mapping_content = config_content.substring (start_pos, end_pos - start_pos);
-            // message("start: %i, end: %i, compat_tool_mapping_content: %s", start_pos, end_pos, compat_tool_mapping_content);
 
             while (true) {
                 start_text = "\"";
@@ -291,7 +282,6 @@ namespace ProtonPlus.Models.Launchers {
                 end_pos = compat_tool_mapping_content.index_of (end_text, start_pos) + 1;
                 compat_tool_mapping_item = compat_tool_mapping_content.substring (start_pos, end_pos - start_pos);
                 current_position = end_pos;
-                // message("start: %i, end: %i, compat_tool_mapping_item: %s", start_pos, end_pos, compat_tool_mapping_item);
 
                 start_text = "\"";
                 end_text = "\"";
@@ -300,14 +290,12 @@ namespace ProtonPlus.Models.Launchers {
                 var compat_tool_mapping_item_appid_valid = uint.try_parse (compat_tool_mapping_item.substring (start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
                 if (!compat_tool_mapping_item_appid_valid)
                 continue;
-                // message("start: %i, end: %i, compat_tool_mapping_item_appid: %i", start_pos, end_pos, compat_tool_mapping_item_appid);
 
                 start_text = "name\"\t\t\"";
                 end_text = "\"";
                 start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
                 end_pos = compat_tool_mapping_item.index_of (end_text, start_pos);
                 compat_tool_mapping_item_name = compat_tool_mapping_item.substring (start_pos, end_pos - start_pos);
-                // message("start: %i, end: %i, compat_tool_mapping_item_name: %s", start_pos, end_pos, compat_tool_mapping_item_name);
 
                 compatibility_tool_hashtable.set (compat_tool_mapping_item_appid, compat_tool_mapping_item_name);
             }
@@ -342,7 +330,6 @@ namespace ProtonPlus.Models.Launchers {
             start_pos = config_content.index_of (start_text, 0) + start_text.length;
             end_pos = config_content.index_of (end_text, start_pos);
             compat_tool_mapping_content = config_content.substring (start_pos, end_pos - start_pos);
-            // message("start: %i, end: %i, compat_tool_mapping_content: %s", start_pos, end_pos, compat_tool_mapping_content);
 
             if (compat_tool_mapping_content.contains ("\"%i\"".printf (default_id))) {
                 start_text = "\t\t\t\t\t\"%i\"".printf (default_id);
@@ -356,7 +343,6 @@ namespace ProtonPlus.Models.Launchers {
                 return false;
 
                 compat_tool_mapping_item = compat_tool_mapping_content.substring (start_pos, end_pos - start_pos);
-                // message("start: %i, end: %i, compat_tool_mapping_item: %s", start_pos, end_pos, compat_tool_mapping_item);
 
                 start_text = "\"";
                 start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
@@ -371,7 +357,6 @@ namespace ProtonPlus.Models.Launchers {
                 var compat_tool_mapping_item_appid_valid = int.try_parse (compat_tool_mapping_item.substring (start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
                 if (!compat_tool_mapping_item_appid_valid)
                 return false;
-                // message("start: %i, end: %i, compat_tool_mapping_item_appid: %i", start_pos, end_pos, compat_tool_mapping_item_appid);
 
                 if (compat_tool_mapping_item_appid != 0)
                 return false;
@@ -387,7 +372,6 @@ namespace ProtonPlus.Models.Launchers {
                 return false;
 
                 compat_tool_mapping_item_name = compat_tool_mapping_item.substring (start_pos, end_pos - start_pos);
-                // message("start: %i, end: %i, compat_tool_mapping_item_name: %s", start_pos, end_pos, compat_tool_mapping_item_name);
 
                 var compat_tool_mapping_item_modified = compat_tool_mapping_item.replace (compat_tool_mapping_item_name, compatibility_tool);
 

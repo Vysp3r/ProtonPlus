@@ -36,9 +36,6 @@
 		<key name="steam-remember-last-profile" type="b">
 			<default>true</default>
 		</key>
-		<key name="save-history" type="b">
-			<default>true</default>
-		</key>
 		<key name="first-run" type="b">
 			<default>true</default>
 		</key>

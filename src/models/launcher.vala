@@ -6,7 +6,7 @@ namespace ProtonPlus.Models {
         public bool installed;
         public bool has_library_support;
         public List<Game> games;
-        public Gee.ArrayList<SimpleRunner> compatibility_tools;
+        public Gee.LinkedList<Tools.Simple> compatibility_tools;
 
         public Group[] groups;
 
@@ -34,7 +34,7 @@ namespace ProtonPlus.Models {
                 }
             }
 
-            compatibility_tools = new Gee.ArrayList<SimpleRunner> ();
+            compatibility_tools = new Gee.LinkedList<Tools.Simple> ();
 
             installed = directory.length > 0;
         }
@@ -56,33 +56,32 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        public static async bool get_all (out List<Launcher> launchers) {
-            var _launchers = new List<Launcher> ();
+        public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
+            var _launchers = new Gee.LinkedList<Launcher> ();
 
-            _launchers.append (new Launchers.Steam (InstallationTypes.SYSTEM));
-            _launchers.append (new Launchers.Steam (InstallationTypes.FLATPAK));
-            _launchers.append (new Launchers.Steam (InstallationTypes.SNAP));
+            Launcher[] candidates = {
+                new Launchers.Steam (InstallationTypes.SYSTEM),
+                new Launchers.Steam (InstallationTypes.FLATPAK),
+                new Launchers.Steam (InstallationTypes.SNAP),
+                new Launchers.Lutris (InstallationTypes.SYSTEM),
+                new Launchers.Lutris (InstallationTypes.FLATPAK),
+                new Launchers.Bottles (InstallationTypes.SYSTEM),
+                new Launchers.Bottles (InstallationTypes.FLATPAK),
+                new Launchers.HeroicGamesLauncher (InstallationTypes.SYSTEM),
+                new Launchers.HeroicGamesLauncher (InstallationTypes.FLATPAK),
+                new Launchers.WineZGUI (InstallationTypes.SYSTEM),
+                new Launchers.WineZGUI (InstallationTypes.FLATPAK)
+            };
 
-            _launchers.append (new Launchers.Lutris (InstallationTypes.SYSTEM));
-            _launchers.append (new Launchers.Lutris (InstallationTypes.FLATPAK));
-
-            _launchers.append (new Launchers.Bottles (InstallationTypes.SYSTEM));
-            _launchers.append (new Launchers.Bottles (InstallationTypes.FLATPAK));
-
-            _launchers.append (new Launchers.HeroicGamesLauncher (InstallationTypes.SYSTEM));
-            _launchers.append (new Launchers.HeroicGamesLauncher (InstallationTypes.FLATPAK));
-
-            _launchers.append (new Launchers.WineZGUI (InstallationTypes.SYSTEM));
-            _launchers.append (new Launchers.WineZGUI (InstallationTypes.FLATPAK));
-
-            _launchers.foreach ((launcher) => {
-                if (!launcher.installed)
-                _launchers.remove (launcher);
-            });
+            foreach (var launcher in candidates) {
+                if (launcher.installed) {
+                    _launchers.add (launcher);
+                }
+            }
 
             launchers = (owned) _launchers;
 
-            if (launchers == null)
+            if (launchers == null || launchers.size == 0)
             return true;
 
             var initialized = yield initialize_launchers (launchers);
@@ -121,9 +120,10 @@ namespace ProtonPlus.Models {
             public string[] request_asset_exclude;
             public string[] request_asset_filter;
             public bool asset_position_hwcaps_condition;
+            public string tag;
         }
 
-        static async bool initialize_launchers (List<Launcher> launchers) {
+        static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers) {
             var root_object = yield get_runners_json_object ();
             if (root_object == null)
             return false;
@@ -148,8 +148,6 @@ namespace ProtonPlus.Models {
                 json_group_item.runners = group_object.get_array_member ("runners");
 
                 json_group_items.set (json_group_item.title, json_group_item);
-
-            // message ("Group #%i: %s - %s".printf (i, json_group_item.title, json_group_item.description));
             }
 
             // Launchers
@@ -184,8 +182,6 @@ namespace ProtonPlus.Models {
                     json_launcher_group_item.directory = launcher_group_object.get_string_member ("directory");
 
                     json_launcher_group_items[y] = json_launcher_group_item;
-
-                // message ("Launcher Group #%i: %s".printf (y, json_launcher_group_item.title));
                 }
 
                 var json_launcher_item = new JsonLauncherItem ();
@@ -193,8 +189,6 @@ namespace ProtonPlus.Models {
                 json_launcher_item.groups = json_launcher_group_items;
 
                 json_launcher_items.set (json_launcher_item.title, json_launcher_item);
-
-            // message ("Launcher #%i: %s".printf (i, json_launcher_item.title));
             }
 
             foreach (var launcher in launchers) {
@@ -214,7 +208,7 @@ namespace ProtonPlus.Models {
 
                     groups[i] = new Group (json_launcher_group_item.title, Utils.safe_translate (json_group_item.description), json_launcher_group_item.directory, launcher);
 
-                    groups[i].runners = new List<Runner> ();
+                    groups[i].tools = new Gee.LinkedList <Tool> ();
 
                     var json_runner_items = yield get_json_runner_items_from_array (json_group_item.runners);
                     if (json_runner_items == null)
@@ -225,13 +219,13 @@ namespace ProtonPlus.Models {
                         if (runner == null)
                         continue;
 
-                        groups[i].runners.append (runner);
+                        groups[i].tools.add (runner);
                     }
 
                     if (launcher.title == "Steam") {
-                        var stl_runner = new Runners.SteamTinkerLaunch (groups[i]);
+                        var stl_runner = new Tools.SteamTinkerLaunch (groups[i]);
 
-                        groups[i].runners.append (stl_runner);
+                        groups[i].tools.add (stl_runner);
                     }
                 }
 
@@ -350,9 +344,10 @@ namespace ProtonPlus.Models {
                     json_runner_item.asset_position_time_condition = runner_object.get_string_member ("asset_position_time_condition");
                 }
 
-                json_runner_items[i] = json_runner_item;
+                if (runner_object.has_member ("tag"))
+                json_runner_item.tag = runner_object.get_string_member ("tag");
 
-            // message ("Runner #%i: %s - %s".printf (i, json_runner_item.title, json_runner_item.description));
+                json_runner_items[i] = json_runner_item;
             }
 
             return json_runner_items;
@@ -384,8 +379,8 @@ namespace ProtonPlus.Models {
             return directory_name_format_item;
         }
 
-        static async Runners.Basic? create_runner_from_json_runner_item (JsonRunnerItem json_runner_item, Models.Group group) {
-            Runners.Basic runner = null;
+        static async Tools.Basic? create_runner_from_json_runner_item (JsonRunnerItem json_runner_item, Models.Group group) {
+            Tools.Basic runner = null;
 
             var directory_name_format = yield get_directory_name_format_from_array(json_runner_item.directory_name_formats, group.launcher.title);
             if (directory_name_format == null)
@@ -393,7 +388,7 @@ namespace ProtonPlus.Models {
 
             switch (json_runner_item.type) {
                 case "github":
-                    var github_runner = new Runners.GitHub ();
+                    var github_runner = new Tools.GitHub ();
 
                     github_runner.request_asset_exclude = json_runner_item.request_asset_exclude;
                     github_runner.request_asset_filter = json_runner_item.request_asset_filter;
@@ -401,21 +396,21 @@ namespace ProtonPlus.Models {
                     runner = github_runner;
                     break;
                 case "github-action":
-                    var github_action_runner = new Runners.GitHubAction ();
+                    var github_action_runner = new Tools.GitHubAction ();
 
                     github_action_runner.url_template = json_runner_item.url_template;
 
                     runner = github_action_runner;
                     break;
                 case "gitlab":
-                    var gitlab_runner = new Runners.GitLab ();
+                    var gitlab_runner = new Tools.GitLab ();
 
                     gitlab_runner.request_asset_exclude = json_runner_item.request_asset_exclude;
 
                     runner = gitlab_runner;
                     break;
                 case "forgejo":
-                    var forgejo_runner = new Runners.Forgejo ();
+                    var forgejo_runner = new Tools.Forgejo ();
 
                     runner = forgejo_runner;
                     break;
@@ -434,6 +429,7 @@ namespace ProtonPlus.Models {
                 runner.has_latest_support = json_runner_item.has_latest_support;
                 runner.group = group;
                 runner.asset_position_hwcaps_condition = json_runner_item.asset_position_hwcaps_condition;
+                runner.tag = json_runner_item.tag;
             }
 
             return runner;

@@ -1,7 +1,5 @@
 namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
-        public static Window window;
-
         construct {
             application_id = Config.APP_ID;
             flags |= ApplicationFlags.FLAGS_NONE;
@@ -10,7 +8,9 @@ namespace ProtonPlus.Widgets {
                 { "report", this.on_report_action },
                 { "preferences", this.on_preferences_action },
                 { "about", this.on_about_action },
-                { "quit", this.quit }
+                { "donate", this.on_donate_action },
+                { "reload", this.on_reload_action },
+                { "quit", this.quit },
             };
             this.add_action_entries (action_entries, this);
             this.set_accels_for_action ("app.quit", { "<Ctrl>Q" });
@@ -28,47 +28,42 @@ namespace ProtonPlus.Widgets {
             provider.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
             Gtk.StyleContext.add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-            window = new Window ();
+            Globals.load ();
 
-            Globals.load.begin ((obj, res) => {
-                if (Globals.SETTINGS != null) {
-                    Globals.SETTINGS.bind ("width",
-                            window,
-                            "default-width",
-                            SettingsBindFlags.DEFAULT);
-                    Globals.SETTINGS.bind ("height",
-                            window,
-                            "default-height",
-                            SettingsBindFlags.DEFAULT);
-                    Globals.SETTINGS.bind ("is-maximized",
-                            window,
-                            "maximized",
-                            SettingsBindFlags.DEFAULT);
-                    Globals.SETTINGS.bind ("is-fullscreen",
-                            window,
-                            "fullscreened",
-                            SettingsBindFlags.DEFAULT);
+            if (Globals.SETTINGS != null) {
+                var window = new Window ();
 
-                    if (Globals.SETTINGS.get_boolean ("first-run")) {
-                        if (Globals.IS_STEAM_OS) {
-                            Globals.SETTINGS.set_enum ("theme", 5);
-                        }
+                Globals.SETTINGS.bind ("width",
+                        window,
+                        "default-width",
+                        SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("height",
+                        window,
+                        "default-height",
+                        SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("is-maximized",
+                        window,
+                        "maximized",
+                        SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("is-fullscreen",
+                        window,
+                        "fullscreened",
+                        SettingsBindFlags.DEFAULT);
 
-                        Globals.SETTINGS.set_boolean ("first-run", false);
+                if (Globals.SETTINGS.get_boolean ("first-run")) {
+                    if (Globals.IS_STEAM_OS) {
+                        Globals.SETTINGS.set_enum ("theme", 5);
                     }
 
-                    ThemeManager.get_default ().apply_theme ();
-                } else {
-                    warning ("GSettings schema not found: 'com.vysp3r.ProtonPlus.State'");
-
-                    window.default_width = 950;
-                    window.default_height = 600;
-                    window.maximized = false;
-                    window.fullscreened = false;
+                    Globals.SETTINGS.set_boolean ("first-run", false);
                 }
 
+                Utils.ThemeManager.get_default ().apply_theme ();
+
                 window.present ();
-            });
+            } else {
+                error ("GSettings schema not found or invalid: 'com.vysp3r.ProtonPlus.State'");
+            }
         }
 
         void on_report_action () {
@@ -77,7 +72,15 @@ namespace ProtonPlus.Widgets {
 
         void on_preferences_action () {
             var preferences_dialog = new Preferences.PreferencesDialog ();
-            preferences_dialog.present (window);
+            preferences_dialog.present (this.active_window);
+        }
+
+        void on_donate_action () {
+            Utils.System.open_uri ("https://protonplus.vysp3r.com/#donate");
+        }
+
+        void on_reload_action () {
+            (this.active_window as Window)?.reload ();
         }
 
         void on_about_action () {
@@ -91,7 +94,8 @@ namespace ProtonPlus.Widgets {
             const string[] thanks = {
                 "GNOME Project https://www.gnome.org/",
                 "ProtonUp-Qt Project https://davidotek.github.io/protonup-qt/",
-                "LUG Helper Project https://github.com/starcitizen-lug/lug-helper",
+                "LUG Helper Project https://github.com/starcitizen-lug/lug-helper/",
+                "Font Awesome https://fontawesome.com/",
                 null
             };
 
@@ -108,7 +112,7 @@ namespace ProtonPlus.Widgets {
             about_dialog.set_developers (devs);
             about_dialog.set_translator_credits (_ ("translator-credits"));
             about_dialog.add_credit_section (_ ("Special thanks to"), thanks);
-            about_dialog.present (window);
+            about_dialog.present (this.active_window);
         }
     }
 }

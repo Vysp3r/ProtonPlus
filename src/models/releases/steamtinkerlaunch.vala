@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Releases {
-    public class SteamTinkerLaunch : Update<STL_Remove_Parameters> {
+    public class SteamTinkerLaunch : Release {
         string home_location { get; set; }
         string compat_location { get; set; }
         string parent_location { get; set; }
@@ -18,7 +18,7 @@ namespace ProtonPlus.Models.Releases {
         string local_date { get; set; }
         string local_hash { get; set; }
 
-        public SteamTinkerLaunch (Runner runner) {
+        public SteamTinkerLaunch (Tool runner) {
             Object (runner: runner,
                     title: "Steam Tinker Launch");
 
@@ -68,7 +68,7 @@ namespace ProtonPlus.Models.Releases {
 
             string? response;
 
-            var code = yield Utils.Web.get_request ("https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1", Utils.Web.GetType.STEAMTINKERLAUNCH, out response);
+            var code = yield Utils.Web.get_request ("https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1", Utils.Web.GetRequestType.STEAMTINKERLAUNCH, out response);
 
             if (code != ReturnCode.VALID_REQUEST)
             return;
@@ -205,7 +205,7 @@ namespace ProtonPlus.Models.Releases {
                 state = !installed ? State.NOT_INSTALLED : updated ? State.UP_TO_DATE : State.UPDATE_AVAILABLE;
         }
 
-        protected async override bool _start_install () {
+        protected async override ReturnCode _start_install () {
             if (yield Utils.System.check_dependency ("steamtinkerlaunch"))
             yield Utils.System.run_command ("steamtinkerlaunch compat del");
 
@@ -215,7 +215,7 @@ namespace ProtonPlus.Models.Releases {
                 var deleted = yield Utils.Filesystem.delete_directory (location);
 
                 if (!deleted)
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
             // Always clean destination to avoid merging with existing files.
@@ -223,20 +223,20 @@ namespace ProtonPlus.Models.Releases {
             // dirs. The `remove` function then validates the actual types.
             var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
             if (base_location_exists) {
-                var deleted_old_files = yield remove (new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ());
+                var code = yield remove ();
 
-                if (!deleted_old_files)
-                return false;
+                if (code != ReturnCode.RUNNER_REMOVED)
+                return code;
             }
 
 
             // Download the source code archive.
             // NOTE: We only create "downloads", since it's a subdir of `base_location`.
             if (!FileUtils.test (download_location, FileTest.IS_DIR)) {
-                var download_dir_exists = yield Utils.Filesystem.create_directory (download_location);
+                var download_dir_exists = yield Utils.Filesystem.create_directory_async (download_location);
 
                 if (!download_dir_exists)
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
             string downloaded_file_location = @"$download_location/$title.zip";
@@ -245,7 +245,7 @@ namespace ProtonPlus.Models.Releases {
                 var deleted = Utils.Filesystem.delete_file (downloaded_file_location);
 
                 if (!deleted)
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
             step = Step.DOWNLOADING;
@@ -260,7 +260,7 @@ namespace ProtonPlus.Models.Releases {
 
             if (!download_valid) {
                 this.error_message = download_error;
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
             step = Step.EXTRACTING;
@@ -268,32 +268,37 @@ namespace ProtonPlus.Models.Releases {
             // Extract archive and move its contents to the installation directory.
             string extracted_file_location = yield Utils.Filesystem.extract (@"$download_location/", title, ".zip", () => canceled);
 
-            if (extracted_file_location == "")
-            return false;
+            if (extracted_file_location == "") {
+                if (!canceled)
+                error_message = _ ("Extraction failed");
+                return ReturnCode.UNKNOWN_ERROR;
+            }
 
             var moved = yield Utils.Filesystem.move_dir_contents (extracted_file_location, base_location);
 
-            if (!moved)
-            return false;
+            if (!moved) {
+                error_message = _ ("Moving failed");
+                return ReturnCode.UNKNOWN_ERROR;
+            }
 
 
             // We don't need the download directory anymore.
             var download_deleted = yield Utils.Filesystem.delete_directory (download_location);
 
             if (!download_deleted)
-            return false;
+            return ReturnCode.UNKNOWN_ERROR;
 
 
             // Create a symlink for the steamtinkerlaunch binary.
-            var link_parent_location_exists = yield Utils.Filesystem.create_directory (link_parent_location);
+            var link_parent_location_exists = yield Utils.Filesystem.create_directory_async (link_parent_location);
 
             if (!link_parent_location_exists)
-            return false;
+            return ReturnCode.UNKNOWN_ERROR;
 
             var link_created = yield Utils.Filesystem.make_symlink (link_location, binary_location);
 
             if (!link_created)
-            return false;
+            return ReturnCode.UNKNOWN_ERROR;
 
 
             // Trigger STL's dependency installer for Steam Deck, and register compat tool.
@@ -308,45 +313,45 @@ namespace ProtonPlus.Models.Releases {
 
 
             // Add STL to Games tab
-            var simple_runner = new SimpleRunner.from_path("%s/SteamTinkerLaunch".printf (compat_location));
+            var simple_runner = new Tools.Simple.from_path("%s/SteamTinkerLaunch".printf (compat_location));
             runner.group.launcher.compatibility_tools.add (simple_runner);
 
-            return true;
+            return ReturnCode.RUNNER_INSTALLED;
         }
 
-        protected override async bool _start_remove (STL_Remove_Parameters parameters) {
+        protected override async ReturnCode _start_remove () {
             yield exec_stl (binary_location, "compat del");
 
         // NOTE: We check specific types to avoid deleting unexpected data.
             if (FileUtils.test (link_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (link_location, FileTest.IS_SYMLINK))
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
 
                 var link_deleted = Utils.Filesystem.delete_file (link_location);
 
                 if (!link_deleted)
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
-            var remove_location = parameters.user_request ? manual_remove_location : base_location;
+            var remove_location = get_data<bool> ("user-request") ? manual_remove_location : base_location;
             if (FileUtils.test (remove_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (remove_location, FileTest.IS_DIR))
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
 
                 var base_deleted = yield Utils.Filesystem.delete_directory (remove_location);
 
                 if (!base_deleted)
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
-            if (parameters.delete_config && FileUtils.test (config_location, FileTest.EXISTS)) {
+            if (get_data<bool> ("delete-config") && FileUtils.test (config_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (config_location, FileTest.IS_DIR))
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
 
                 var config_deleted = yield Utils.Filesystem.delete_directory (config_location);
 
                 if (!config_deleted)
-                return false;
+                return ReturnCode.UNKNOWN_ERROR;
             }
 
             foreach (var simple_runner in runner.group.launcher.compatibility_tools) {
@@ -356,26 +361,19 @@ namespace ProtonPlus.Models.Releases {
                 }
             }
 
-            return true;
+            return ReturnCode.RUNNER_REMOVED;
         }
 
-        protected override async bool _start_update () {
-            var remove_success = yield remove (new Models.Releases.SteamTinkerLaunch.STL_Remove_Parameters ());
+        protected override async ReturnCode _start_update () {
+            var remove_code = yield remove ();
+            if (remove_code != ReturnCode.RUNNER_REMOVED)
+            return remove_code;
 
-            if (!remove_success)
-            return false;
+            var install_code = yield install ();
+            if (install_code != ReturnCode.RUNNER_INSTALLED)
+            return install_code;
 
-            var install_success = yield install ();
-
-            if (!install_success)
-            return false;
-
-            return true;
-        }
-
-        public class STL_Remove_Parameters : Parameters {
-            public bool delete_config { get; set; default = false; }
-            public bool user_request { get; set; default = false; }
+            return ReturnCode.RUNNER_UPDATED;
         }
     }
 }

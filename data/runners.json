@@ -29,6 +29,7 @@
                         }
                     ],
                     "support_latest": true,
+                    "tag": "Recommended",
                     "type": "github"
                 },
                 {
@@ -43,6 +44,7 @@
                         }
                     ],
                     "support_latest": true,
+                    "tag": "Favorite",
                     "type": "github"
                 },
                 {
@@ -57,6 +59,7 @@
                         }
                     ],
                     "support_latest": true,
+                    "tag": "Anime",
                     "type": "forgejo"
                 },
                 {

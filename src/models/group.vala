@@ -4,8 +4,7 @@ namespace ProtonPlus.Models {
         public string description { get; set; }
         public string directory { get; set; }
         public Launcher launcher { get; set; }
-
-        public List<Runner> runners;
+        public Gee.LinkedList<Tool> tools { get; set; }
 
         public Group(string title, string description, string directory, Launcher launcher) {
             this.title = title;
@@ -14,13 +13,11 @@ namespace ProtonPlus.Models {
             this.launcher = launcher;
 
             if (!FileUtils.test (launcher.directory + directory, FileTest.IS_DIR)) {
-                Utils.Filesystem.create_directory.begin (launcher.directory + directory, (obj, res) => {
-                    Utils.Filesystem.create_directory.end (res);
-                });
+                Utils.Filesystem.create_directory_async.begin (launcher.directory + directory, null);
             }
         }
 
-        public List<string> get_compatibility_tool_directories () {
+        public List<string> get_tool_directories () {
             var directories = new List<string> ();
 
             try {
@@ -45,10 +42,6 @@ namespace ProtonPlus.Models {
             }
 
             return directories;
-        }
-
-        public void bob () {
-
         }
     }
 }

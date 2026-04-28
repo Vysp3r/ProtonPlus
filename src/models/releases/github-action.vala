@@ -1,18 +1,18 @@
 namespace ProtonPlus.Models.Releases {
-    public class GitHubAction : Basic {
+    public class GitHubAction : Release {
         public string artifacts_url { get; set; }
 
-        public GitHubAction (Runners.Basic runner, string title, string release_date, string download_url, string page_url, string artifacts_url) {
+        public GitHubAction (Tools.Basic runner, string title, string release_date, string download_url, string page_url, string artifacts_url) {
             this.artifacts_url = artifacts_url;
 
             shared (runner, title, release_date, download_url, page_url);
         }
 
-        protected override async bool _start_install () {
+        protected override async ReturnCode _start_install () {
             step = Step.DOWNLOADING;
 
             if (!download_url.contains (".zip"))
-            return false;
+            return ReturnCode.UNKNOWN_ERROR;
 
             string download_path = "%s/%s.zip".printf (Globals.CACHE_PATH, title);
 
@@ -27,7 +27,7 @@ namespace ProtonPlus.Models.Releases {
 
                 if (!download_valid) {
                     this.error_message = download_error;
-                    return false;
+                    return ReturnCode.UNKNOWN_ERROR;
                 }
             }
 
@@ -37,28 +37,34 @@ namespace ProtonPlus.Models.Releases {
 
             string source_path = yield Utils.Filesystem.extract (extract_path, title, ".zip", () => canceled);
 
-            if (source_path == "")
-            return false;
+            if (source_path == "") {
+                if (!canceled)
+                error_message = _ ("Extraction failed");
+                return ReturnCode.UNKNOWN_ERROR;
+            }
 
             source_path = yield Utils.Filesystem.extract (extract_path, source_path.substring (0, source_path.length - 4).replace (extract_path, ""), ".tar", () => canceled);
 
-            if (source_path == "")
-            return false;
+            if (source_path == "") {
+                if (!canceled)
+                error_message = _ ("Extraction failed");
+                return ReturnCode.UNKNOWN_ERROR;
+            }
 
             step = Step.MOVING;
 
-            var runner = this.runner as Runners.Basic;
+            var runner = this.runner as Tools.Basic;
 
             destination_path = "%s%s/%s/".printf (runner.group.launcher.directory, runner.group.directory, runner.get_directory_name (title)) ;
 
             var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
 
-            if (!renaming_valid)
-            return false;
+            if (!renaming_valid) {
+                error_message = _ ("Moving failed");
+                return ReturnCode.UNKNOWN_ERROR;
+            }
 
-            add_to_games_tab ();
-
-            return true;
+            return ReturnCode.RUNNER_INSTALLED;
         }
     }
 }

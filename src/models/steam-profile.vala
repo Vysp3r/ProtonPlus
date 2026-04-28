@@ -77,7 +77,6 @@ namespace ProtonPlus.Models {
             return false;
 
             apps = content.substring (start_pos, end_pos - start_pos);
-            // message("start: %i, end: %i, apps: %s", start_pos, end_pos, apps);
 
             var position = 0;
             while (true) {
@@ -94,7 +93,6 @@ namespace ProtonPlus.Models {
                 break;
 
                 app = apps.substring (start_pos, end_pos - start_pos);
-                // message("start: %i, end: %i, app: %s", start_pos, end_pos, app);
 
                 if (app.contains ("LaunchOptions")) {
                     start_text = "\"";
@@ -110,7 +108,6 @@ namespace ProtonPlus.Models {
                     break;
 
                     id_text = app.substring (start_pos, end_pos - start_pos);
-                    // message("start: %i, end: %i, id: %s", start_pos, end_pos, id_text);
 
                     id_valid = int.try_parse (id_text, out id);
                     if (!id_valid)
@@ -129,7 +126,6 @@ namespace ProtonPlus.Models {
                     break;
 
                     launch_options = app.substring (start_pos, end_pos - start_pos).replace ("\\\"", "\"");
-                    // message("start: %i, end: %i, launch_options: %s", start_pos, end_pos, launch_options);
 
                     launch_options_hashtable.set (id, launch_options);
                 }
@@ -165,7 +161,7 @@ namespace ProtonPlus.Models {
 
                     var compatibility_tool = launcher.compatibility_tool_hashtable.get (appid);
                     if (compatibility_tool == null)
-                    compatibility_tool = "Undefined";
+                    compatibility_tool = "Default";
 
                     var game = new Games.Steam.non_steam (appid, name, launch_options, compatibility_tool, launcher);
 
@@ -187,8 +183,6 @@ namespace ProtonPlus.Models {
 
             steam_id2 += Math.floor (steam_id2_account / 2).to_string ();
 
-            // message("SteamID2: %s".printf (steam_id2));
-
             var steam_id2_split = steam_id2.split (":");
             var steam_id3 = "[U:1:";
 
@@ -198,8 +192,6 @@ namespace ProtonPlus.Models {
             var account_id = z * 2 + y;
 
             steam_id3 += "%i]".printf (account_id);
-
-            // message("SteamID3: %s".printf (steam_id3));
 
             return account_id.to_string ();
         }
@@ -235,7 +227,6 @@ namespace ProtonPlus.Models {
             end_pos = content.length - 3;
 
             users = content.substring (start_pos, end_pos - start_pos);
-            // message("start: %i, end: %i, users: %s", start_pos, end_pos, users);
 
             int position = 0;
             while (true) {
@@ -250,7 +241,6 @@ namespace ProtonPlus.Models {
                 break;
 
                 user = users.substring (start_pos, end_pos - start_pos);
-                // message("start: %i, end: %i, user: %s", start_pos, end_pos, user);
 
                 start_text = "\"";
                 start_pos = user.index_of (start_text, 0) + start_text.length;
