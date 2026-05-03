@@ -20,6 +20,8 @@ namespace ProtonPlus.Widgets.Tools {
         Adw.ViewStack groups_stack { get; set; }
         ReleasesBox releases_box { get; set; }
         ReleaseBox release_box { get; set; }
+        Adw.ViewSwitcher switcher { get; set; }
+        Adw.ViewStack center_stack { get; set; }
 
         public signal void toast_sent (string title);
 
@@ -81,7 +83,7 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             });
 
-            var switcher = new Adw.ViewSwitcher () {
+            switcher = new Adw.ViewSwitcher () {
                 stack = groups_stack,
                 policy = Adw.ViewSwitcherPolicy.WIDE
             };
@@ -120,7 +122,7 @@ namespace ProtonPlus.Widgets.Tools {
                     action_bar.set_center_widget (search_entry);
                 } else {
                     search_button.set_tooltip_text (_ ("Show search bar"));
-                    action_bar.set_center_widget (switcher);
+                    action_bar.set_center_widget (center_stack);
                     stack.notify_property ("visible-child-name");
                 }
             });
@@ -186,8 +188,12 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             });
 
+            center_stack = new Adw.ViewStack ();
+            center_stack.add_named (switcher, "groups");
+            center_stack.add_named (release_box.stack_switcher, "release");
+
             action_bar = new Gtk.ActionBar ();
-            action_bar.set_center_widget (switcher);
+            action_bar.set_center_widget (center_stack);
             action_bar.pack_start (back_button);
             action_bar.pack_end (refresh_button);
             action_bar.pack_end (filter_button);
@@ -195,13 +201,23 @@ namespace ProtonPlus.Widgets.Tools {
             action_bar.pack_end (open_button);
 
             stack.notify["visible-child-name"].connect (() => {
-                back_button.set_visible (stack.get_visible_child_name () != "groups");
-                search_entry.set_visible (stack.get_visible_child_name () != "release");
-                filter_button.set_visible (stack.get_visible_child_name () != "release");
-                search_button.set_visible (stack.get_visible_child_name () != "release");
-                refresh_button.set_visible (stack.get_visible_child_name () != "release");
-                open_button.set_visible (stack.get_visible_child_name () == "release" && current_release != null && current_release.page_url != null);
-                switcher.set_visible (stack.get_visible_child_name () == "groups" && groups_stack.get_pages ().get_n_items () > 1 && search_entry.get_parent () == null);
+                var visible_child = stack.get_visible_child_name ();
+                back_button.set_visible (visible_child != "groups");
+                search_entry.set_visible (visible_child != "release");
+                filter_button.set_visible (visible_child != "release");
+                search_button.set_visible (visible_child != "release");
+                refresh_button.set_visible (visible_child != "release");
+                open_button.set_visible (visible_child == "release" && current_release != null && current_release.page_url != null);
+
+                if (visible_child == "groups") {
+                    center_stack.set_visible_child_name ("groups");
+                    center_stack.set_visible (groups_stack.get_pages ().get_n_items () > 1 && search_entry.get_parent () == null);
+                } else if (visible_child == "release") {
+                    center_stack.set_visible_child_name ("release");
+                    center_stack.set_visible (search_entry.get_parent () == null);
+                } else {
+                    center_stack.set_visible (false);
+                }
             });
 
             stack.notify_property ("visible-child-name");

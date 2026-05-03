@@ -47,6 +47,7 @@
     <file alias="scalable/actions/gear-symbolic.svg">icons/gear.svg</file>
     <file alias="scalable/actions/magnifying-glass-symbolic.svg">icons/magnifying-glass.svg</file>
     <file alias="scalable/actions/filter-2-symbolic.svg">icons/filter.svg</file>
+    <file alias="scalable/actions/book-open-symbolic.svg">icons/book-open.svg</file>
     <file alias="scalable/actions/square-poll-vertical-symbolic.svg">icons/square-poll-vertical.svg</file>
     <file alias="scalable/actions/square-poll-horizontal-symbolic.svg">icons/square-poll-horizontal.svg</file>
     <file alias="scalable/actions/screwdriver-wrench-symbolic.svg">icons/screwdriver-wrench.svg</file>

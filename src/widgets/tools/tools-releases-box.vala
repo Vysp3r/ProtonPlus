@@ -37,7 +37,7 @@ namespace ProtonPlus.Widgets.Tools {
         public ReleasesBox () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
-            var icon = new Gtk.Image.from_icon_name ("layer-group-symbolic");
+            var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic");
 
             title_label = new Gtk.Label (null) {
                 halign = Gtk.Align.START,
@@ -75,6 +75,7 @@ namespace ProtonPlus.Widgets.Tools {
                 hexpand = true
             };
             load_more_button.add_css_class ("pill");
+            load_more_button.add_css_class ("suggested-action");
             load_more_button.clicked.connect (on_load_more_clicked);
 
             load_more_row = new Gtk.ListBoxRow () {

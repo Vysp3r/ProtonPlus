@@ -73,7 +73,7 @@ namespace ProtonPlus.Widgets.Games {
                 if (row.game.launcher is Models.Launchers.Steam)
                 has_steam_launch_options = true;
 
-                if (!(row.game is Models.Games.Steam && ((Models.Games.Steam) row.game).is_native))
+                if (!row.game.is_native)
                 all_native = false;
             }
 

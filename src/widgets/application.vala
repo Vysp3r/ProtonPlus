@@ -71,8 +71,9 @@ namespace ProtonPlus.Widgets {
         }
 
         void on_preferences_action () {
-            var preferences_dialog = new Preferences.PreferencesDialog ();
-            preferences_dialog.present (this.active_window);
+            var window = this.active_window as Window;
+            var preferences_dialog = new Preferences.PreferencesDialog (window.launchers);
+            preferences_dialog.present (window);
         }
 
         void on_donate_action () {

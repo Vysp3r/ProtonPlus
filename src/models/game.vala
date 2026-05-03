@@ -6,6 +6,7 @@ namespace ProtonPlus.Models {
         public uint prefix { get; set; }
         public string compatibility_tool { get; set; }
         public Launcher launcher { get; set; }
+        public bool is_native { get; set; default = false; }
 
         internal Game(string name, string installdir, string prefixdir, uint prefix, Launcher launcher) {
             this.name = name;

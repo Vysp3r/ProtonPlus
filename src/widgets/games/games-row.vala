@@ -97,7 +97,7 @@ namespace ProtonPlus.Widgets.Games {
         public void refresh_tool_label () {
             string tool_name = _ ("Default");
 
-            if (game is Models.Games.Steam && ((Models.Games.Steam) game).is_native && game.compatibility_tool == "Default") {
+            if (game.is_native && game.compatibility_tool == "Default") {
                 tool_name = _ ("Native");
             } else {
                 foreach (var tool in game.launcher.compatibility_tools) {

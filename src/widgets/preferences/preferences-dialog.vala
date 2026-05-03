@@ -1,9 +1,8 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class PreferencesDialog : Adw.PreferencesDialog {
-        construct {
+        public PreferencesDialog (Gee.LinkedList<Models.Launcher> launchers) {
         // General
             var theme_row = new ThemeRow ();
-
 
             var general_group = new Adw.PreferencesGroup ();
             general_group.add (theme_row);
@@ -23,54 +22,53 @@ namespace ProtonPlus.Widgets.Preferences {
 
             var launcher_groups = new List<Adw.PreferencesGroup>();
 
-        //            foreach (var launcher in ProtonPlus.Widgets.Application.window.launchers) {
-        //                if (launcher is ProtonPlus.Models.Launchers.Steam) {
-        //                    var steam_launcher = launcher as ProtonPlus.Models.Launchers.Steam;
-        //
-        //                    var model = new GLib.ListStore (typeof (ProtonPlus.Models.SimpleRunner));
-        //                    foreach (var compatibility_tool in steam_launcher.compatibility_tools) {
-        //                        model.append (compatibility_tool);
-        //                    }
-        //
-        //                    var expression = new Gtk.PropertyExpression (typeof (ProtonPlus.Models.SimpleRunner), null, "display_title");
-        //
-        //                    var compatibility_tool_row = new ProtonPlus.Widgets.CompatibilityToolRow (model, expression);
-        //                    compatibility_tool_row.title = _ ("Default compatibility tool");
-        //                    compatibility_tool_row.subtitle = _ ("The compatibility tool games will use by default");
-        //
-        //                    for (var i = 0; i < (int) steam_launcher.compatibility_tools.size; i++) {
-        //                        if (steam_launcher.compatibility_tools[i].internal_title == steam_launcher.default_compatibility_tool) {
-        //                            compatibility_tool_row.set_selected ((uint) i);
-        //                            break;
-        //                        }
-        //                    }
-        //
-        //                    compatibility_tool_row.notify["selected-item"].connect (() => {
-        //                        var selected_tool = compatibility_tool_row.get_selected_item () as ProtonPlus.Models.SimpleRunner;
-        //                        if (selected_tool != null) {
-        //                            steam_launcher.change_default_compatibility_tool (selected_tool.internal_title);
-        //                        }
-        //                    });
-        //
-        //                    var steam_remember_last_used_profile_row = new Adw.SwitchRow () {
-        //                        title = _ ("Remember last used profile"),
-        //                    };
-        //                    Globals.SETTINGS.bind ("steam-remember-last-profile", steam_remember_last_used_profile_row, "active", SettingsBindFlags.DEFAULT);
-        //
-        //                    var steam_group = new Adw.PreferencesGroup () {
-        //                        title = "Steam",
-        //                    };
-        //                    steam_group.add (compatibility_tool_row);
-        //                    steam_group.add (steam_remember_last_used_profile_row);
-        //
-        //                    launcher_groups.append (steam_group);
-        //
-        //                    break;
-        //                }
-        //            }
+            foreach (var launcher in launchers) {
+                if (launcher is ProtonPlus.Models.Launchers.Steam) {
+                    var steam_launcher = launcher as ProtonPlus.Models.Launchers.Steam;
+
+                    var model = new GLib.ListStore (typeof (ProtonPlus.Models.Tools.Simple));
+                    foreach (var compatibility_tool in steam_launcher.compatibility_tools) {
+                        model.append (compatibility_tool);
+                    }
+
+                    var expression = new Gtk.PropertyExpression (typeof (ProtonPlus.Models.Tools.Simple), null, "display_title");
+
+                    var compatibility_tool_row = new ToolRow (model, expression);
+                    compatibility_tool_row.title = _ ("Default compatibility tool");
+                    compatibility_tool_row.subtitle = _ ("The compatibility tool games will use by default");
+
+                    for (var i = 0; i < (int) steam_launcher.compatibility_tools.size; i++) {
+                        if (steam_launcher.compatibility_tools[i].internal_title == steam_launcher.default_compatibility_tool) {
+                            compatibility_tool_row.set_selected ((uint) i);
+                            break;
+                        }
+                    }
+
+                    compatibility_tool_row.notify["selected-item"].connect (() => {
+                        var selected_tool = compatibility_tool_row.get_selected_item () as ProtonPlus.Models.Tools.Simple;
+                        if (selected_tool != null) {
+                            steam_launcher.change_default_compatibility_tool (selected_tool.internal_title);
+                        }
+                    });
+
+                    var steam_remember_last_used_profile_row = new Adw.SwitchRow () {
+                        title = _ ("Remember last used profile"),
+                    };
+                    Globals.SETTINGS.bind ("steam-remember-last-profile", steam_remember_last_used_profile_row, "active", SettingsBindFlags.DEFAULT);
+
+                    var steam_group = new Adw.PreferencesGroup () {
+                        title = "Steam",
+                    };
+                    steam_group.add (compatibility_tool_row);
+                    steam_group.add (steam_remember_last_used_profile_row);
+
+                    launcher_groups.append (steam_group);
+
+                    break;
+                }
+            }
 
         // Advanced
-
 
             var refresh_application_data_row = new RefreshApplicationDataRow (this);
 
@@ -91,7 +89,7 @@ namespace ProtonPlus.Widgets.Preferences {
             tokens_group.add (github_access_token_row);
             tokens_group.add (gitlab_access_token_row);
 
-        //
+        // Main
 
             Adw.PreferencesPage[] ctrl_pages = {};
 

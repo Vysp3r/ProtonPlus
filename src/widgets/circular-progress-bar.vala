@@ -4,9 +4,6 @@ namespace ProtonPlus.Widgets {
         private double _fraction;
         private double _pulse_offset = 0;
         private bool _is_pulsing = false;
-        private string _center_fill_color;
-        private string _radius_fill_color;
-        private string _progress_fill_color;
 
         public bool center_filled { set; get; default = false; }
         public bool radius_filled { set; get; default = true; }
@@ -15,41 +12,9 @@ namespace ProtonPlus.Widgets {
 
         public Cairo.LineCap line_cap { set; get; default = Cairo.LineCap.ROUND; }
 
-        public string center_fill_color {
-            get {
-                return _center_fill_color;
-            }
-            set {
-                var color = Gdk.RGBA ();
-                if (color.parse (value)) {
-                    _center_fill_color = value;
-                }
-            }
-        }
-
-        public string radius_fill_color {
-            get {
-                return _radius_fill_color;
-            }
-            set {
-                var color = Gdk.RGBA ();
-                if (color.parse (value)) {
-                    _radius_fill_color = value;
-                }
-            }
-        }
-
-        public string progress_fill_color {
-            get {
-                return _progress_fill_color;
-            }
-            set {
-                var color = Gdk.RGBA ();
-                if (color.parse (value)) {
-                    _progress_fill_color = value;
-                }
-            }
-        }
+        public string center_fill_color { get; set; }
+        public string radius_fill_color { get; set; }
+        public string progress_fill_color { get; set; }
 
         public int line_width {
             get {
@@ -89,12 +54,34 @@ namespace ProtonPlus.Widgets {
             queue_draw ();
         }
 
+        private Gdk.RGBA get_color_from_string (string str, string? fallback = null) {
+            var color = Gdk.RGBA ();
+            if (color.parse (str)) {
+                return color;
+            }
+
+            var style_context = get_style_context ();
+            if (style_context.lookup_color (str, out color)) {
+                return color;
+            }
+
+            if (str == "suggested_action_bg_color" && style_context.lookup_color ("accent_bg_color", out color)) {
+                return color;
+            }
+
+            if (fallback != null) {
+                color.parse (fallback);
+            }
+
+            return color;
+        }
+
         construct {
             _line_width = 4;
             _fraction = 0;
             _center_fill_color = "rgba(0, 0, 0, 0)";
             _radius_fill_color = "rgba(0, 0, 0, 0.1)";
-            _progress_fill_color = "#3584e4"; // GNOME Blue
+            _progress_fill_color = "suggested_action_bg_color";
         }
 
         public CircularProgressBar () {
@@ -115,6 +102,8 @@ namespace ProtonPlus.Widgets {
             Pango.Layout layout;
             Pango.FontDescription desc;
 
+            var style_context = get_style_context ();
+
             cr.save ();
 
             var center_x = width / 2;
@@ -134,8 +123,7 @@ namespace ProtonPlus.Widgets {
             // Center Fill
             if (center_filled) {
                 cr.arc (center_x, center_y, delta, 0, 2 * Math.PI);
-                color = Gdk.RGBA ();
-                color.parse (center_fill_color);
+                color = get_color_from_string (center_fill_color, "rgba(0, 0, 0, 0)");
                 Gdk.cairo_set_source_rgba (cr, color);
                 cr.fill ();
             }
@@ -143,16 +131,14 @@ namespace ProtonPlus.Widgets {
             // Radius Fill (Background circle)
             if (radius_filled) {
                 cr.arc (center_x, center_y, delta, 0, 2 * Math.PI);
-                color = Gdk.RGBA ();
-                color.parse (radius_fill_color);
+                color = get_color_from_string (radius_fill_color, "rgba(0, 0, 0, 0.1)");
                 Gdk.cairo_set_source_rgba (cr, color);
                 cr.stroke ();
             }
 
             // Progress/Percentage Fill
             if (_is_pulsing) {
-                color = Gdk.RGBA ();
-                color.parse (progress_fill_color);
+                color = get_color_from_string (progress_fill_color, "#3584e4");
                 Gdk.cairo_set_source_rgba (cr, color);
                 cr.arc (center_x,
                         center_y,
@@ -161,8 +147,7 @@ namespace ProtonPlus.Widgets {
                         (1.5 + _pulse_offset + 0.5) * Math.PI);
                 cr.stroke ();
             } else if (fraction > 0) {
-                color = Gdk.RGBA ();
-                color.parse (progress_fill_color);
+                color = get_color_from_string (progress_fill_color, "#3584e4");
                 Gdk.cairo_set_source_rgba (cr, color);
                 if (line_width == 0) {
                     cr.move_to (center_x, center_y);
@@ -184,7 +169,6 @@ namespace ProtonPlus.Widgets {
 
             // Textual information
             if (show_text) {
-                var style_context = get_style_context ();
                 style_context.save ();
 
                 color = style_context.get_color ();

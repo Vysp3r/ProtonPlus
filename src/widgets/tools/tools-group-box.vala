@@ -124,7 +124,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         Adw.ActionRow create_tool_card (Models.Tool tool) {
-            var icon = new Gtk.Image.from_icon_name ("box-open-symbolic");
+            var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic");
 
             var row = new Adw.ActionRow () {
                 title = tool.title,

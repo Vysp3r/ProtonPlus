@@ -1,13 +1,14 @@
 namespace ProtonPlus.Widgets {
     public class Window : Adw.ApplicationWindow {
-        Header.Box header_box { get; set; }
+        public Gee.LinkedList<Models.Launcher> launchers { get; set; }
+        Utils.ControllerManager controller_manager { get; set; }
 
+        Header.Box header_box { get; set; }
         Loading.Box loading_box { get; set; }
         Main.Box main_box { get; set; }
-
         Adw.ToolbarView toolbar_view { get; set; }
 
-        Utils.ControllerManager controller_manager;
+
 
         public Window () {
             Object (application: (Adw.Application) GLib.Application.get_default (), title: Config.APP_NAME);
@@ -19,6 +20,8 @@ namespace ProtonPlus.Widgets {
 
             loading_box = new Loading.Box ();
             loading_box.loaded.connect ((launchers) => {
+                this.launchers = launchers;
+
                 header_box.initialize (launchers, main_box.view_switcher);
 
                 toolbar_view.set_content (main_box);

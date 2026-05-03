@@ -13,7 +13,7 @@ namespace ProtonPlus.Widgets.Preferences {
             spinner = new Adw.Spinner ();
 
             set_title (_ ("Refresh application data"));
-            set_subtitle (_ ("Refreshes the launchers, tools, games"));
+            set_subtitle (_ ("Refreshes the launchers, tools and games"));
             add_suffix (refresh_button);
         }
 

@@ -98,6 +98,17 @@ namespace ProtonPlus.Widgets.Tools {
             input_box.append (progress_button);
             input_box.append (cancel_button);
 
+            var tool_name = (release.runner is Models.Tools.SteamTinkerLaunch) ? "Proton-stl" : release.title;
+            var count = release.runner.group.launcher.get_compatibility_tool_usage_count (tool_name);
+            if (count > 0) {
+                var usage_pill = new Gtk.Label (count.to_string ());
+                usage_pill.add_css_class ("usage-pill");
+                usage_pill.set_valign (Gtk.Align.CENTER);
+                usage_pill.set_margin_end (6);
+                usage_pill.set_tooltip_text (ngettext ("Used by %i game", "Used by %i games", count).printf (count));
+                add_suffix (usage_pill);
+            }
+
             add_prefix (icon);
             add_suffix (input_box);
 

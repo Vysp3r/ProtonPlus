@@ -54,13 +54,13 @@ namespace ProtonPlus.Models.Launchers {
             bool is_default_tool = compatibility_tool_name == default_compatibility_tool;
 
             foreach (var game in games) {
-                if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default"))
+                if (!game.is_native && (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")))
                 count++;
             }
 
             foreach (var profile in profiles) {
                 foreach (var game in profile.non_steam_games) {
-                    if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default"))
+                    if (!game.is_native && (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")))
                     count++;
                 }
             }

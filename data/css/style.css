@@ -126,24 +126,13 @@ flowboxchild {
   box-shadow: inset 0 0 0 2px var(--accent-bg-color);
 }
 
-.recommended-pill, .anime-pill, .favorite-pill {
+.usage-pill {
   border-radius: 10px;
   padding: 2px 8px;
   font-size: 0.8em;
   font-weight: bold;
   color: var(--accent-fg-color);
-}
-
-.recommended-pill {
-  background-color: var(--accent-blue);
-}
-
-.anime-pill {
-  background-color: var(--accent-yellow);
-}
-
-.favorite-pill {
-  background-color: var(--accent-red);
+    background-color: var(--accent-bg-color);
 }
 
 row.controller-focus {
