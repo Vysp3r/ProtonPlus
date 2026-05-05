@@ -132,7 +132,8 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 | Distribution | Repository | Maintainer |
 | --- | --- | --- |
 | **Arch Linux** | [AUR](https://aur.archlinux.org/packages/protonplus) | [yochananmarqos](https://github.com/yochananmarqos) |
-| **Fedora** | [COPR](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) | [wehagy](https://github.com/wehagy) |
+| **Fedora** | [Copr](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) | [wehagy](https://github.com/wehagy) |
+| **Fedora** | [Terra](https://terrapkg.com/) | [Owen Zimmerman](https://github.com/Owen-sz) |
 | **NixOS** | [nixpkgs](https://mynixos.com/nixpkgs/package/protonplus) | [Seth](https://github.com/seth-foss) |
 | **Ubuntu** | [Pacstall](https://pacstall.dev/packages/protonplus) | [Vysp3r](https://github.com/Vysp3r) |
 | **openSUSE** | [OBS](https://software.opensuse.org/package/ProtonPlus) | [rrahl0](https://github.com/rrahl0) |
