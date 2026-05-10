@@ -7,13 +7,14 @@
 # MrBretzel <axelolo68@gmail.com>, 2025, 2026.
 # Azrael Queenston <azrael.queenston@proton.me>, 2025.
 # Nota Inutilis <hugo@notainutilis.fr>, 2025.
+# Badreddine-Rezzouk <badreddinerezzouk@protonmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-02-24 05:09+0000\n"
-"Last-Translator: MrBretzel <axelolo68@gmail.com>\n"
+"PO-Revision-Date: 2026-05-10 19:11+0000\n"
+"Last-Translator: Badreddine-Rezzouk <badreddinerezzouk@protonmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/fr/>\n"
 "Language: fr\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 2026.5-dev\n"
 
 #: src/widgets/application.vala:102
 msgid "A modern compatibility tools manager"
@@ -1048,8 +1049,10 @@ msgid "Skip launcher"
 msgstr "Launcher"
 
 #: src/widgets/games/launch-options-editor.vala:633
+#, fuzzy
 msgid "Adds -skip-launcher to bypass launchers in games that support it."
 msgstr ""
+"Ajoutez -skip-launcher afin d'ignorer un launcher en jeu lorsque supporté."
 
 #: src/widgets/games/launch-options-editor.vala:634
 msgid "Vulkan"
@@ -1067,6 +1070,7 @@ msgstr "Répertoire: "
 #: src/widgets/games/launch-options-editor.vala:635
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
 msgstr ""
+"Ajoutez -dx11 pour forcer le jeu à utiliser le moteur de rendu DirectX 11."
 
 #: src/widgets/games/launch-options-editor.vala:636
 #, fuzzy
@@ -1076,6 +1080,7 @@ msgstr "Répertoire: "
 #: src/widgets/games/launch-options-editor.vala:636
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
 msgstr ""
+"Ajoutez -dx12 pour forcer le jeu à utiliser le moteur de rendu DirectX 12."
 
 #: src/widgets/games/launch-options-editor.vala:637
 msgid "Console"
@@ -1084,6 +1089,8 @@ msgstr ""
 #: src/widgets/games/launch-options-editor.vala:637
 msgid "Adds -console to open the game's developer console when supported."
 msgstr ""
+"Ajoutez -console afin d'ouvrir la console développeur du jeu lorsque "
+"supporté."
 
 #: src/widgets/games/launch-options-editor.vala:640
 msgid "Game arguments"
@@ -1100,7 +1107,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:654
 msgid "Additional arguments"
-msgstr ""
+msgstr "Arguments additionnels"
 
 #: src/widgets/games/launch-options-editor.vala:654
 #, fuzzy
@@ -1170,7 +1177,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Additional Gamescope arguments"
-msgstr ""
+msgstr "Arguments additionnels Gamescope"
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
@@ -1178,7 +1185,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Add Gamescope arguments"
-msgstr ""
+msgstr "Ajouter des arguments Gamescope"
 
 #: src/widgets/games/launch-options-editor.vala:878
 msgid "Auto HDR"
@@ -1194,7 +1201,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:896
 msgid "Additional ScopeBuddy arguments"
-msgstr ""
+msgstr "Arguments additionnels ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor.vala:896
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
@@ -1202,7 +1209,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:896
 msgid "Add ScopeBuddy arguments"
-msgstr ""
+msgstr "Ajouter des arguments ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor.vala:1371
 msgid "No launch options configured yet."
