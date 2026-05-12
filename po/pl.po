@@ -3,13 +3,14 @@
 # Beniamin Remis <nawo266@gmail.com>, 2025.
 # Łukasz Zając <sec@rbtv.pl>, 2026.
 # MattSolo451 <mattsolo45@vivaldi.net>, 2026.
+# Jakub Szymański <99kuba11@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-04-13 21:55+0000\n"
-"Last-Translator: MattSolo451 <mattsolo45@vivaldi.net>\n"
+"PO-Revision-Date: 2026-05-12 01:11+0000\n"
+"Last-Translator: Jakub Szymański <99kuba11@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pl/>\n"
 "Language: pl\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 2026.5-dev\n"
 
 #: src/widgets/application.vala:102
 msgid "A modern compatibility tools manager"
@@ -73,7 +74,6 @@ msgid "_Keyboard Shortcuts"
 msgstr "_Skróty klawiszowe"
 
 #: src/widgets/window.vala:52
-#, fuzzy
 msgid "_Donate"
 msgstr "Przekaż darowiznę"
 
@@ -87,14 +87,13 @@ msgstr "Menu główne"
 
 #: src/widgets/window.vala:61
 msgid "Tools"
-msgstr ""
+msgstr "Narzędzia"
 
 #: src/widgets/window.vala:62
 msgid "Games"
 msgstr "Gry"
 
 #: src/widgets/window.vala:63
-#, fuzzy
 msgid "Downloads"
 msgstr "Pobieranie"
 
@@ -220,18 +219,17 @@ msgstr "Ogólne"
 
 #: src/widgets/preferences/preferences-dialog.vala:14
 msgid "Save download history"
-msgstr ""
+msgstr "Zapisz historie pobierania"
 
 #: src/widgets/preferences/preferences-dialog.vala:15
 msgid "Save the download history to a file"
-msgstr ""
+msgstr "Zapisz historie pobierania do pliku"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Automatic updates"
 msgstr "Automatyczne aktualizacje"
 
 #: src/widgets/preferences/preferences-dialog.vala:23
-#, fuzzy
 msgid "Update the installed 'Latest' runners when the application starts"
 msgstr ""
 "Ustala czy uruchomienie programu powinno aktualizować uruchamiacze 'latest'"
@@ -245,9 +243,8 @@ msgid "Remember last used profile"
 msgstr "Zapamiętaj ostatnio użyty profil"
 
 #: src/widgets/preferences/preferences-dialog.vala:50
-#, fuzzy
 msgid "Remember the last used Steam profile"
-msgstr "Zapamiętaj ostatnio użyty profil"
+msgstr "Zapamiętaj ostatnio użyty profil Steam"
 
 #: src/widgets/preferences/theme-row.vala:15
 msgid "System"
@@ -263,11 +260,11 @@ msgstr "Ciemny"
 
 #: src/widgets/preferences/theme-row.vala:18
 msgid "SteamOS"
-msgstr ""
+msgstr "SteamOS"
 
 #: src/widgets/preferences/theme-row.vala:19
 msgid "OLED"
-msgstr ""
+msgstr "OLED"
 
 #: src/widgets/preferences/theme-row.vala:27
 msgid "Current theme"
@@ -375,15 +372,15 @@ msgid "Load more"
 msgstr "Wczytaj więcej"
 
 #: src/widgets/runners/remove-dialog.vala:11
-#, fuzzy, c-format
+#, c-format
 msgid "Delete %s?"
-msgstr "Usuń %s"
+msgstr "Usuń %s?"
 
 #: src/widgets/runners/remove-dialog.vala:13
 #: src/widgets/runners/remove-dialog.vala:26
 #, c-format
 msgid "%s will be permanently deleted."
-msgstr ""
+msgstr "%s będzie pernametnie usunięty."
 
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
@@ -395,9 +392,8 @@ msgid "Used by 1 game."
 msgstr "Używany przez 1 grę."
 
 #: src/widgets/runners/remove-dialog.vala:31
-#, fuzzy
 msgid "Delete"
-msgstr "Usuń %s"
+msgstr "Usuń"
 
 #: src/widgets/runners/remove-dialog.vala:52
 #, c-format
@@ -431,33 +427,27 @@ msgstr "Nie mogę zainstalować %s"
 
 #: src/widgets/runners/basic-row.vala:103
 #: src/widgets/runners/steamtinkerlaunch-row.vala:190
-#, fuzzy
 msgid "This tool is currently being installed"
-msgstr "%s nie jest wspierany."
+msgstr "Te narzędzie jest aktualnie instalowane"
 
 #: src/widgets/runners/basic-row.vala:105
 #: src/widgets/runners/steamtinkerlaunch-row.vala:192
 msgid "This tool is currently being downloaded"
-msgstr ""
+msgstr "Te narzędzie jest aktualnie pobierane"
 
 #: src/widgets/runners/basic-row.vala:110
 #: src/widgets/runners/steamtinkerlaunch-row.vala:194
-#, fuzzy
 msgid "This tool is currently being removed"
-msgstr "%s nie jest wspierany."
+msgstr "Te narzędzie jest aktualnie usuwane"
 
 #: src/widgets/runners/basic-row.vala:114
 #: src/widgets/runners/steamtinkerlaunch-row.vala:196
-#, fuzzy
 msgid "This tool is currently being updated"
-msgstr "%s nie jest wspierany."
+msgstr "Te narzędzie jest aktualnie usuwane"
 
 #: src/widgets/runners/basic-row.vala:132
-#, fuzzy
 msgid "The application is currently updating its runners"
-msgstr ""
-"Program aktualnie poszukuje aktualizacji.\n"
-"Zamknięcie aplikacji teraz może wywołać problemy."
+msgstr "Aplikacja aktualnie aktualizuje swoje runnery"
 
 #: src/widgets/runners/filters-box.vala:21
 msgid "Installed"
@@ -485,7 +475,7 @@ msgid "Update to the latest version"
 msgstr "Zaktualizuj do najnowszej wersji"
 
 #: src/widgets/runners/steamtinkerlaunch-row.vala:40
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't update %s"
 msgstr "Nie mogę zaktualizować %s"
 
@@ -621,11 +611,10 @@ msgstr "Edycja zbiorowa"
 #: src/widgets/games/launch-options-view.vala:27
 #: src/widgets/games/default-tool-view.vala:24
 msgid "Back"
-msgstr ""
+msgstr "Cofnij"
 
 #: src/widgets/games/mass-edit-view.vala:38
 #: src/widgets/games/launch-options-view.vala:33
-#, fuzzy
 msgid "Clear the current launch options"
 msgstr "Zmodyfikuj opcje uruchamiania gry"
 
@@ -652,7 +641,6 @@ msgstr ""
 "Włącz to, jeśli chcesz by edycja zbiorowa wzięła pod uwagę parametry startowe"
 
 #: src/widgets/games/mass-edit-view.vala:82
-#, fuzzy
 msgid "Launch options"
 msgstr "Parametry startowe"
 
@@ -724,9 +712,8 @@ msgid "Unselect all the games"
 msgstr "Odznacz wszystkie gry"
 
 #: src/widgets/games/mass-edit-button.vala:13
-#, fuzzy
 msgid "Edit the selected games at once"
-msgstr "Zmień masowo narzędzie zgodności dla wybranych gier"
+msgstr "Edytuj wybrane gry na raz"
 
 #: src/widgets/games/mass-edit-button.vala:36
 msgid ""
@@ -751,93 +738,91 @@ msgstr "Podczas próby zmiany %s wystąpił błąd."
 #: src/widgets/games/launch-options-editor.vala:67
 #: src/widgets/games/launch-options-editor.vala:261
 msgid "Set"
-msgstr ""
+msgstr "Ustaw"
 
 #: src/widgets/games/launch-options-editor.vala:68
 msgid "Apply the FPS value"
-msgstr ""
+msgstr "Zastostuj wartość FPS"
 
 #: src/widgets/games/launch-options-editor.vala:229
 msgid "Auto detect"
-msgstr ""
+msgstr "Wykryj automatycznie"
 
 #: src/widgets/games/launch-options-editor.vala:230
 msgid "Custom"
-msgstr ""
+msgstr "inwidualny"
 
 #: src/widgets/games/launch-options-editor.vala:262
-#, fuzzy
 msgid "Apply the custom resolution"
-msgstr "Zastosuj bieżącą zmianę"
+msgstr "Zastosuj własną rozdzielczość"
 
 #. Launch command preview
 #: src/widgets/games/launch-options-editor.vala:522
 msgid "Launch command preview"
-msgstr ""
+msgstr "uruchamianie podglądu poleceń"
 
 #. Common options
 #: src/widgets/games/launch-options-editor.vala:527
 msgid "Performance overlay"
-msgstr ""
+msgstr "nakładka wydajności"
 
 #: src/widgets/games/launch-options-editor.vala:527
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
-msgstr ""
+msgstr "Pokazuje w grze nakładkę z FPS, zużyciem CPU/GPU, i temperaturami."
 
 #: src/widgets/games/launch-options-editor.vala:528
 msgid "Disable Steam Deck Mode"
-msgstr ""
+msgstr "Wyłącz tryb Steam Deck"
 
 #: src/widgets/games/launch-options-editor.vala:528
 msgid "Disables the Steam Deck-specific profile that some games use."
-msgstr ""
+msgstr "Wyłącza tryb Steam-Deck który używa kika gier."
 
 #: src/widgets/games/launch-options-editor.vala:529
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 #: src/widgets/games/launch-options-editor.vala:529
 msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
 msgstr ""
+"Gra działa natywnie na Wayland zamiast przez XWayland ale psuje wejścia "
+"Steam Input i Nakładkę Steam"
 
 #: src/widgets/games/launch-options-editor.vala:532
-#, fuzzy
 msgid "Common options"
-msgstr "Parametry startowe"
+msgstr "Opcje podstawowe"
 
 #: src/widgets/games/launch-options-editor.vala:533
 msgid "Quick toggles for the launch options people reach for most often."
-msgstr ""
+msgstr "Szybkie przełączniki dla najczęściej używanych opcji uruchamiania."
 
 #. Launch tools
 #: src/widgets/games/launch-options-editor.vala:541
 #: src/widgets/games/launch-options-editor.vala:843
 msgid "HDR"
-msgstr ""
+msgstr "HDR"
 
 #: src/widgets/games/launch-options-editor.vala:541
 #: src/widgets/games/launch-options-editor.vala:843
 #: src/widgets/games/launch-options-editor.vala:878
 msgid "Outputs HDR colors if your display supports it."
-msgstr ""
+msgstr "Wyjścia kolorów HDR jeżeli twój Wyświetlacz wspiera to."
 
 #: src/widgets/games/launch-options-editor.vala:549
 msgid "None"
-msgstr ""
+msgstr "Żadne"
 
 #: src/widgets/games/launch-options-editor.vala:550
-#, fuzzy
 msgid "Gamescope"
-msgstr "Gry"
+msgstr "Gamescope"
 
 #: src/widgets/games/launch-options-editor.vala:551
 msgid "ScopeBuddy"
-msgstr ""
+msgstr "ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor.vala:558
-#, fuzzy
 msgid "Launch tools"
 msgstr "Parametry startowe"
 
@@ -845,6 +830,8 @@ msgstr "Parametry startowe"
 msgid ""
 "Choose one to configure FPS caps, resolution, and other display options."
 msgstr ""
+"Wybier aby skonfigurować limity FPS, rozdzielczość, i inne opcje "
+"wyświetlania."
 
 #. GPU vendor options
 #: src/widgets/games/launch-options-editor.vala:566
