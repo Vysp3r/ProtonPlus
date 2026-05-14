@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-05-14 23:23+0000\n"
+"PO-Revision-Date: 2026-05-15 06:11+0000\n"
 "Last-Translator: Yasmin Stanchese <yasmin@snowfloke.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -268,11 +268,11 @@ msgstr "Escuro"
 
 #: src/widgets/preferences/theme-row.vala:18
 msgid "SteamOS"
-msgstr ""
+msgstr "SteamOS"
 
 #: src/widgets/preferences/theme-row.vala:19
 msgid "OLED"
-msgstr ""
+msgstr "OLED"
 
 #: src/widgets/preferences/theme-row.vala:27
 msgid "Current theme"
@@ -661,9 +661,8 @@ msgstr ""
 "em consideração."
 
 #: src/widgets/games/mass-edit-view.vala:82
-#, fuzzy
 msgid "Launch options"
-msgstr "Opções de inicialização"
+msgstr "Opções de lançamento"
 
 #: src/widgets/games/mass-edit-view.vala:110
 msgid "1 game selected"
@@ -774,11 +773,11 @@ msgstr "Aplicar o valor de FPS"
 
 #: src/widgets/games/launch-options-editor.vala:229
 msgid "Auto detect"
-msgstr ""
+msgstr "Auto-detectar"
 
 #: src/widgets/games/launch-options-editor.vala:230
 msgid "Custom"
-msgstr ""
+msgstr "Personalizado"
 
 #: src/widgets/games/launch-options-editor.vala:262
 #, fuzzy
@@ -792,24 +791,25 @@ msgstr ""
 
 #. Common options
 #: src/widgets/games/launch-options-editor.vala:527
+#, fuzzy
 msgid "Performance overlay"
-msgstr ""
+msgstr "Overlay de performance"
 
 #: src/widgets/games/launch-options-editor.vala:527
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
-msgstr ""
+msgstr "Mostra overlay em jogo com FPS, utilização de CPU/GPU, e temperaturas."
 
 #: src/widgets/games/launch-options-editor.vala:528
 msgid "Disable Steam Deck Mode"
-msgstr ""
+msgstr "Desativar Modo Steam Deck"
 
 #: src/widgets/games/launch-options-editor.vala:528
 msgid "Disables the Steam Deck-specific profile that some games use."
-msgstr ""
+msgstr "Desativar o perfil Steam Deck-specific que alguns jogos usam."
 
 #: src/widgets/games/launch-options-editor.vala:529
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 #: src/widgets/games/launch-options-editor.vala:529
 msgid ""
@@ -826,7 +826,7 @@ msgstr "Opções de inicialização"
 
 #: src/widgets/games/launch-options-editor.vala:533
 msgid "Quick toggles for the launch options people reach for most often."
-msgstr ""
+msgstr "Opções rápidas para opções de lançamento usados frequentemente"
 
 #. Launch tools
 #: src/widgets/games/launch-options-editor.vala:541
@@ -842,7 +842,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:549
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #: src/widgets/games/launch-options-editor.vala:550
 #, fuzzy
@@ -862,6 +862,8 @@ msgstr "Opções de inicialização"
 msgid ""
 "Choose one to configure FPS caps, resolution, and other display options."
 msgstr ""
+"Escolha um para configurar limite de FPS, resolução e outras opções de "
+"display."
 
 #. GPU vendor options
 #: src/widgets/games/launch-options-editor.vala:566
@@ -924,7 +926,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:580
 msgid "Auto upgrades DLSS components for supported games."
-msgstr ""
+msgstr "Upgrade automático de componentes DLSS para jogos suportados."
 
 #: src/widgets/games/launch-options-editor.vala:583
 msgid "Hide NVIDIA GPU"
@@ -938,7 +940,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:584
 msgid "DLSS Indicator"
-msgstr ""
+msgstr "Indicador DLSS"
 
 #: src/widgets/games/launch-options-editor.vala:584
 msgid "Shows a DLSS status indicator in-game."
@@ -965,7 +967,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:593
 msgid "AMD"
-msgstr ""
+msgstr "AMD"
 
 #: src/widgets/games/launch-options-editor.vala:594
 msgid "NVIDIA"
@@ -990,8 +992,9 @@ msgid "VKBasalt"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:613
+#, fuzzy
 msgid "Adds visual effects like sharpening and color adjustments."
-msgstr ""
+msgstr "Adiciona efeitos visuais como nitidez e ajustes de cor"
 
 #: src/widgets/games/launch-options-editor.vala:614
 msgid "WineD3D"
@@ -1032,11 +1035,13 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:618
 msgid "Disable Steam Input"
-msgstr ""
+msgstr "Desativar entrada Steam"
 
 #: src/widgets/games/launch-options-editor.vala:618
 msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
 msgstr ""
+"Desativa o suporte de entrada da Steam. Resolve problemas com controles e "
+"portáteis em Wayland."
 
 #: src/widgets/games/launch-options-editor.vala:621
 #, fuzzy
@@ -1063,7 +1068,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:634
 msgid "Adds -vulkan to make the game use its Vulkan renderer."
-msgstr ""
+msgstr "Adiciona -vulkan para fazer o jogo usar seu renderizador Vulkan"
 
 #: src/widgets/games/launch-options-editor.vala:635
 #, fuzzy
@@ -1102,7 +1107,7 @@ msgstr ""
 #. Advanced options
 #: src/widgets/games/launch-options-editor.vala:651
 msgid "Appends Steam's game command."
-msgstr ""
+msgstr "Anexa ao comando de jogo da Steam"
 
 #: src/widgets/games/launch-options-editor.vala:654
 msgid "Additional arguments"
@@ -1115,7 +1120,7 @@ msgstr "Modificar opções de inicialização"
 
 #: src/widgets/games/launch-options-editor.vala:657
 msgid "Custom launch arguments"
-msgstr ""
+msgstr "Argumentos de lançamento personalizados"
 
 #: src/widgets/games/launch-options-editor.vala:657
 #, fuzzy
@@ -1157,8 +1162,9 @@ msgid "Frame limit"
 msgstr "Limite de quadros"
 
 #: src/widgets/games/launch-options-editor.vala:849
+#, fuzzy
 msgid "Caps the frame rate inside Gamescope."
-msgstr ""
+msgstr "Limita a taxa de quadros dentro do Gamescope"
 
 #: src/widgets/games/launch-options-editor.vala:849
 #: src/widgets/games/launch-options-editor.vala:884
@@ -1168,7 +1174,7 @@ msgstr "FPS"
 #: src/widgets/games/launch-options-editor.vala:853
 #: src/widgets/games/launch-options-editor.vala:891
 msgid "Resolution"
-msgstr ""
+msgstr "Resolução"
 
 #: src/widgets/games/launch-options-editor.vala:853
 msgid "Sets the Gamescope output resolution."
@@ -1190,11 +1196,12 @@ msgstr "Adicionar argumentos GameScope"
 
 #: src/widgets/games/launch-options-editor.vala:878
 msgid "Auto HDR"
-msgstr ""
+msgstr "HDR automático"
 
 #: src/widgets/games/launch-options-editor.vala:884
+#, fuzzy
 msgid "Caps the frame rate inside ScopeBuddy."
-msgstr ""
+msgstr "Limita a taxa de quadros dentro do ScopeBuddy."
 
 #: src/widgets/games/launch-options-editor.vala:891
 msgid "Sets the ScopeBuddy output resolution."
@@ -1273,6 +1280,8 @@ msgid ""
 "Choose the default compatibility tool Steam should use for games without an "
 "explicit override."
 msgstr ""
+"Escolher a ferramenta de compatibilidade que a Steam deveria usar para os "
+"jogos sem explicitamente sobrepor outras."
 
 #: src/widgets/games/default-tool-view.vala:117
 #, fuzzy
@@ -1302,11 +1311,11 @@ msgstr ""
 
 #: src/widgets/downloads/downloads-box.vala:35
 msgid "Completed"
-msgstr ""
+msgstr "Completo"
 
 #: src/widgets/downloads/downloads-box.vala:45
 msgid "Clear History"
-msgstr ""
+msgstr "Limpar histórico"
 
 #: src/widgets/downloads/download-row.vala:84
 #, fuzzy
@@ -1337,11 +1346,11 @@ msgstr ""
 
 #: src/widgets/downloads/download-row.vala:139
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 #: src/widgets/downloads/download-row.vala:145
 msgid "Copy Error Message"
-msgstr ""
+msgstr "Copiar mensagem de erro"
 
 #: src/widgets/downloads/download-row.vala:156
 msgid "Report Issue"
@@ -1514,7 +1523,7 @@ msgstr ""
 #: src/cli/cli.vala:217
 #, c-format
 msgid "Available releases for %s:\n"
-msgstr ""
+msgstr "Lançamentos disponíveis para %s:\n"
 
 #: src/cli/cli.vala:223 src/cli/cli.vala:247
 msgid "Select release number"
@@ -1641,7 +1650,7 @@ msgstr ""
 
 #: src/cli/cli.vala:502
 msgid "Commands:\n"
-msgstr ""
+msgstr "Comandos:\n"
 
 #: src/cli/cli.vala:503
 #, fuzzy
@@ -1677,6 +1686,8 @@ msgid ""
 "\n"
 "Available launchers:\n"
 msgstr ""
+"\n"
+"Inicializadores disponíveis:\n"
 
 #: src/cli/cli.vala:519
 #, c-format
@@ -1684,6 +1695,8 @@ msgid ""
 "\n"
 "Available runners for %s:\n"
 msgstr ""
+"\n"
+"Inicializadores disponíveis para %s:\n"
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
