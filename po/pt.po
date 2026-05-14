@@ -9,19 +9,20 @@
 # Leandro Paz <leandropaz@gmail.com>, 2025.
 # "LucasR." <thelucasr2@gmail.com>, 2025.
 # Henrique Araujo De Almeida <henriquearaujo7478@gmail.com>, 2026.
+# Yasmin Stanchese <yasmin@snowfloke.com>, 2026.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-04-26 06:09+0000\n"
-"Last-Translator: Cirnos <cirnos@tuta.io>\n"
+"PO-Revision-Date: 2026-05-14 23:23+0000\n"
+"Last-Translator: Yasmin Stanchese <yasmin@snowfloke.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 2026.5.dev0\n"
 
 #: src/widgets/application.vala:102
 msgid "A modern compatibility tools manager"
@@ -241,7 +242,7 @@ msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:29
 msgid "Latest"
-msgstr ""
+msgstr "Mais recente"
 
 #: src/widgets/preferences/preferences-dialog.vala:49
 #, fuzzy
@@ -284,7 +285,7 @@ msgstr "Selecione um perfil"
 
 #: src/widgets/preferences/refresh-launchers-runners-row.vala:15
 msgid "Refresh launchers/runners"
-msgstr ""
+msgstr "Atualizar lançadores/inicializadores"
 
 #: src/widgets/preferences/check-updates-row.vala:11
 msgid "Check if any of the installed 'Latest' runners needs to be updated"
@@ -323,7 +324,7 @@ msgstr "Mostrar mais informação"
 #: src/widgets/runners/release-row.vala:17
 #: src/widgets/runners/basic-row.vala:127
 msgid "Update the runner if a newer version is available"
-msgstr ""
+msgstr "Atualizar o inicializador se uma versão mais recente estiver disponível"
 
 #: src/widgets/runners/release-row.vala:20
 #: src/widgets/runners/basic-row.vala:129
@@ -387,7 +388,7 @@ msgstr "Remover %s"
 #: src/widgets/runners/remove-dialog.vala:26
 #, c-format
 msgid "%s will be permanently deleted."
-msgstr ""
+msgstr "%s será permanentemente deletado."
 
 #: src/widgets/runners/remove-dialog.vala:21
 #, c-format
@@ -440,7 +441,7 @@ msgstr "%s não é suportado atualmente."
 #: src/widgets/runners/basic-row.vala:105
 #: src/widgets/runners/steamtinkerlaunch-row.vala:192
 msgid "This tool is currently being downloaded"
-msgstr ""
+msgstr "Essa ferramenta está sendo baixada"
 
 #: src/widgets/runners/basic-row.vala:110
 #: src/widgets/runners/steamtinkerlaunch-row.vala:194
@@ -476,7 +477,7 @@ msgstr "Mostrar executadores que são usados por um ou mais jogos"
 
 #: src/widgets/runners/filters-box.vala:41
 msgid "Unused"
-msgstr ""
+msgstr "Não utilizado"
 
 #: src/widgets/runners/filters-box.vala:43
 msgid "Show runners that aren't used by any games"
@@ -637,7 +638,7 @@ msgstr "Modificar as opções de inicialização de jogo"
 #: src/widgets/games/mass-edit-view.vala:41
 #: src/widgets/games/launch-options-view.vala:36
 msgid "Advanced"
-msgstr ""
+msgstr "Avançado"
 
 #: src/widgets/games/mass-edit-view.vala:53
 msgid "Apply the current modifications"
@@ -769,7 +770,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:68
 msgid "Apply the FPS value"
-msgstr ""
+msgstr "Aplicar o valor de FPS"
 
 #: src/widgets/games/launch-options-editor.vala:229
 msgid "Auto detect"
@@ -831,7 +832,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor.vala:541
 #: src/widgets/games/launch-options-editor.vala:843
 msgid "HDR"
-msgstr ""
+msgstr "HDR"
 
 #: src/widgets/games/launch-options-editor.vala:541
 #: src/widgets/games/launch-options-editor.vala:843
@@ -881,7 +882,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:568
 msgid "Hide AMD APU"
-msgstr ""
+msgstr "Esconder APU da AMD"
 
 #: src/widgets/games/launch-options-editor.vala:568
 msgid ""
@@ -927,7 +928,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:583
 msgid "Hide NVIDIA GPU"
-msgstr ""
+msgstr "Esconder GPU da NVIDIA"
 
 #: src/widgets/games/launch-options-editor.vala:583
 msgid ""
@@ -976,7 +977,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:605
 msgid "GPU vendor options"
-msgstr ""
+msgstr "Opções do fornecedor da GPU"
 
 #: src/widgets/games/launch-options-editor.vala:606
 msgid ""
@@ -1054,7 +1055,7 @@ msgstr "Inicializador"
 
 #: src/widgets/games/launch-options-editor.vala:633
 msgid "Adds -skip-launcher to bypass launchers in games that support it."
-msgstr ""
+msgstr "Adiciona -skip-launcher para ignorar launchers em jogos que suportem."
 
 #: src/widgets/games/launch-options-editor.vala:634
 msgid "Vulkan"
@@ -1071,7 +1072,7 @@ msgstr "Diretório: "
 
 #: src/widgets/games/launch-options-editor.vala:635
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
-msgstr ""
+msgstr "Adiciona -dx11 para fazer o jogo usar seu renderizador DirectX 11"
 
 #: src/widgets/games/launch-options-editor.vala:636
 #, fuzzy
@@ -1080,7 +1081,7 @@ msgstr "Diretório: "
 
 #: src/widgets/games/launch-options-editor.vala:636
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
-msgstr ""
+msgstr "Adiciona -dx12 para fazer o jogo usar seu renderizador DirectX 12"
 
 #: src/widgets/games/launch-options-editor.vala:637
 msgid "Console"
@@ -1092,7 +1093,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:640
 msgid "Game arguments"
-msgstr ""
+msgstr "Argumentos de jogo"
 
 #: src/widgets/games/launch-options-editor.vala:641
 msgid "Flags passed directly to the game."
@@ -1105,7 +1106,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:654
 msgid "Additional arguments"
-msgstr ""
+msgstr "Argumentos adicionais"
 
 #: src/widgets/games/launch-options-editor.vala:654
 #, fuzzy
@@ -1133,7 +1134,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor.vala:840
 #: src/widgets/games/launch-options-editor.vala:875
 msgid "Fullscreen"
-msgstr ""
+msgstr "Tela-cheia"
 
 #: src/widgets/games/launch-options-editor.vala:840
 #: src/widgets/games/launch-options-editor.vala:875
@@ -1153,7 +1154,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor.vala:849
 #: src/widgets/games/launch-options-editor.vala:884
 msgid "Frame limit"
-msgstr ""
+msgstr "Limite de quadros"
 
 #: src/widgets/games/launch-options-editor.vala:849
 msgid "Caps the frame rate inside Gamescope."
@@ -1162,7 +1163,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor.vala:849
 #: src/widgets/games/launch-options-editor.vala:884
 msgid "FPS"
-msgstr ""
+msgstr "FPS"
 
 #: src/widgets/games/launch-options-editor.vala:853
 #: src/widgets/games/launch-options-editor.vala:891
@@ -1174,16 +1175,18 @@ msgid "Sets the Gamescope output resolution."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:864
+#, fuzzy
 msgid "Additional Gamescope arguments"
-msgstr ""
+msgstr "Argumentos de Gamescope adicionais"
 
 #: src/widgets/games/launch-options-editor.vala:864
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:864
+#, fuzzy
 msgid "Add Gamescope arguments"
-msgstr ""
+msgstr "Adicionar argumentos GameScope"
 
 #: src/widgets/games/launch-options-editor.vala:878
 msgid "Auto HDR"
