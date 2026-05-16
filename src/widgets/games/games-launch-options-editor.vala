@@ -814,6 +814,7 @@ using Adw;
 
                 can_auto_enable_command = command_index < 0;
                 refreshing_controls = false;
+                maybe_auto_enable_command ();
                 refresh_preview ();
         }
 
@@ -1139,29 +1140,8 @@ using Adw;
 
                     return false;
                 case WrapperMode.GAMESCOPE:
-                    if (gamescope_fullscreen_tile.toggle.get_active () || gamescope_hdr_tile.toggle.get_active () || gamescope_vrr_tile.toggle.get_active () || gamescope_framerate_tile.toggle.get_active () || gamescope_resolution_field.has_resolution ())
-                    return true;
-
-                    if (gamescope_args_field.get_text () != "")
-                    return true;
-
-                    return false;
                 case WrapperMode.SCOPEBUDDY:
-                    foreach (var binding in scopebuddy_bindings) {
-                        if (binding.toggle.get_active ())
-                        return true;
-                    }
-
-                    if (scopebuddy_fullscreen_tile.toggle.get_active () || scopebuddy_framerate_tile.toggle.get_active ())
                     return true;
-
-                    if (!scopebuddy_resolution_field.is_default ())
-                    return true;
-
-                    if (scopebuddy_args_field.get_text () != "")
-                    return true;
-
-                    return false;
                 default:
                     return false;
             }

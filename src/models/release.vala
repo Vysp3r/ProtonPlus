@@ -144,6 +144,7 @@ namespace ProtonPlus.Models {
                     this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
                     this.speed_kbps = speed_kbps;
                     this.seconds_remaining = seconds_remaining;
+                    Utils.DownloadManager.instance.progress_updated (this);
                 }, out download_error);
 
                 if (!download_valid) {

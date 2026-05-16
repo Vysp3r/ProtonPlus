@@ -53,6 +53,7 @@ namespace ProtonPlus.CLI {
             }
 
             Globals.load ();
+            Utils.DownloadManager.instance.progress_updated.connect (on_progress_updated);
 
             if (!yield load_launchers ()) {
                 return 1;
@@ -203,6 +204,7 @@ namespace ProtonPlus.CLI {
 
             Output.info (_ ("Installing %s Latest...\n"), runner.title);
             code = yield latest_release.install ();
+            Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
             Output.success (success ? _ ("Successfully installed %s Latest\n") : _ ("Error: Installation failed\n"), runner.title);
             return success ? 0 : 1;
@@ -229,6 +231,7 @@ namespace ProtonPlus.CLI {
             var selected = basic_runner.releases[index] as Models.Release;
             Output.info (_ ("Installing %s...\n"), selected.title);
             code = yield selected.install ();
+            Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
             Output.success (success ? _ ("Successfully installed %s\n") : _ ("Error: Installation failed\n"), selected.title);
             return success ? 0 : 1;
@@ -525,6 +528,38 @@ namespace ProtonPlus.CLI {
                 foreach (var runner in group.tools) {
                     Output.info ("  %-45s (%s)\n", get_runner_id (runner), runner.title);
                 }
+            }
+        }
+
+        private void on_progress_updated (Models.Release release) {
+            var speed = Utils.Filesystem.convert_bytes_to_string ((int64) (release.speed_kbps * 1024));
+            var progress = release.progress;
+
+            string eta_text;
+            if (release.seconds_remaining >= 0) {
+                eta_text = _ ("ETA: %s").printf (format_time (release.seconds_remaining));
+            } else {
+                eta_text = _ ("ETA: --");
+            }
+
+            var label = release.state == Models.Release.State.BUSY_UPDATING ? _ ("Updating") : _ ("Installing");
+
+            Output.info ("\r\033[2K%s %s... %s (%s/s) [%s]\r", label, release.title, progress, speed, eta_text);
+            stdout.flush ();
+        }
+
+        private string format_time (double seconds) {
+            int total_seconds = (int) seconds;
+            int h = total_seconds / 3600;
+            int m = (total_seconds % 3600) / 60;
+            int s = total_seconds % 60;
+
+            if (h > 0) {
+                return _ ("%dh %dm %ds").printf (h, m, s);
+            } else if (m > 0) {
+                return _ ("%dm %ds").printf (m, s);
+            } else {
+                return _ ("%ds").printf (s);
             }
         }
     }
