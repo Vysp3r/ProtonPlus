@@ -526,6 +526,13 @@ using Adw;
         // Common options
 
             mangohud_tile = create_common_tile (_ ("Performance overlay"), _ ("Shows an in-game overlay with FPS, CPU/GPU usage, and temps."), { "mangohud" });
+
+            if (Globals.MANGOHUD_INSTALLED) {
+                Globals.SETTINGS.bind ("experimental-features", mangohud_tile, "visible", SettingsBindFlags.DEFAULT);
+            } else {
+                mangohud_tile.visible = false;
+            }
+
             steam_deck_tile = create_common_tile (_ ("Disable Steam Deck Mode"), _ ("Disables the Steam Deck-specific profile that some games use."), { "SteamDeck=0" });
             wayland_tile = create_common_tile (_ ("Wayland"), _ ("Runs the game natively on Wayland instead of through XWayland but it breaks Steam Input and the Steam Overlay."), { "PROTON_ENABLE_WAYLAND=1" });
 
@@ -537,7 +544,7 @@ using Adw;
             common_group.add (wayland_tile);
             append (common_group);
 
-        // Launch tools
+            // Launch tools
 
             hdr_tile = new LaunchOptionTile (_ ("HDR"), _ ("Outputs HDR colors if your display supports it."));
             hdr_tile.toggle.notify["active"].connect (standard_control_changed);
@@ -547,22 +554,38 @@ using Adw;
             wrapper_stack.set_vhomogeneous (false);
             wrapper_stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
             wrapper_stack.notify["visible-child-name"].connect (wrapper_selection_changed);
-            wrapper_stack.add_titled (create_none_page (), "none", _ ("None"));
-            wrapper_stack.add_titled (create_gamescope_page (), "gamescope", _ ("Gamescope"));
-            wrapper_stack.add_titled (create_scopebuddy_page (), "scopebuddy", _ ("ScopeBuddy"));
+            var none_page = create_none_page ();
+            var gamescope_page = create_gamescope_page ();
+            var scopebuddy_page = create_scopebuddy_page ();
+
+            wrapper_stack.add_titled (none_page, "none", _ ("None"));
+
+            if (Globals.GAMESCOPE_INSTALLED)
+            wrapper_stack.add_titled (gamescope_page, "gamescope", _ ("Gamescope"));
+            else
+            wrapper_stack.add_named (gamescope_page, "gamescope");
+
+            if (Globals.SCOPEBUDDY_INSTALLED)
+            wrapper_stack.add_titled (scopebuddy_page, "scopebuddy", _ ("ScopeBuddy"));
+            else
+            wrapper_stack.add_named (scopebuddy_page, "scopebuddy");
 
             wrapper_switcher = new Gtk.StackSwitcher ();
             wrapper_switcher.set_stack (wrapper_stack);
             wrapper_switcher.set_halign (Gtk.Align.START);
+
+            if (!Globals.GAMESCOPE_INSTALLED && !Globals.SCOPEBUDDY_INSTALLED)
+            wrapper_switcher.visible = false;
 
             var wrapper_group = new PreferencesGroup ();
             wrapper_group.title = _ ("Launch tools");
             wrapper_group.description = _ ("Choose one to configure FPS caps, resolution, and other display options.");
             wrapper_group.set_header_suffix (wrapper_switcher);
             wrapper_group.add (wrapper_stack);
+
             append (wrapper_group);
 
-        // GPU vendor options
+            // GPU vendor options
 
             amd_anti_lag_tile = create_gpu_vendor_tile (_ ("Mesa Anti-Lag"), _ ("Reduces latency on supported AMD Mesa setups."), { "ENABLE_LAYER_MESA_ANTI_LAG=1" });
             amd_prime_tile = create_gpu_vendor_tile (_ ("Use dGPU"), _ ("Makes the game use the AMD dGPU on hybrid systems."), { "DRI_PRIME=1" });
@@ -609,7 +632,7 @@ using Adw;
             gpu_vendor_group.add (gpu_vendor_stack);
             append (gpu_vendor_group);
 
-        // More options
+            // More options
 
             vkbasalt_tile = create_common_tile (_ ("VKBasalt"), _ ("Adds visual effects like sharpening and color adjustments."), { "ENABLE_VKBASALT=1" });
             wined3d_tile = create_common_tile (_ ("WineD3D"), _ ("Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."), { "PROTON_USE_WINED3D=1" });
@@ -629,7 +652,7 @@ using Adw;
             more_options_group.add (no_steaminput_tile);
             append (more_options_group);
 
-        // Game arguments
+            // Game arguments
 
             skip_launcher_tile = create_game_argument_tile (_ ("Skip launcher"), _ ("Adds -skip-launcher to bypass launchers in games that support it."), { "-skip-launcher" });
             vulkan_tile = create_game_argument_tile (_ ("Vulkan"), _ ("Adds -vulkan to make the game use its Vulkan renderer."), { "-vulkan" });
@@ -647,7 +670,7 @@ using Adw;
             game_arguments_group.add (console_tile);
             append (game_arguments_group);
 
-        // Advanced options
+            // Advanced options
 
             command_tile = new LaunchOptionTile ("%command%", _ ("Appends Steam's game command."));
             command_tile.toggle.notify["active"].connect (command_toggle_changed);

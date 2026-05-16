@@ -5,6 +5,9 @@ namespace ProtonPlus.Globals {
     public static List<string> HWCAPS;
     public static string CACHE_PATH;
     public static string PROTONTRICKS_EXEC;
+    public static bool MANGOHUD_INSTALLED;
+    public static bool GAMESCOPE_INSTALLED;
+    public static bool SCOPEBUDDY_INSTALLED;
 
     public static void load () {
         var schema_source = SettingsSchemaSource.get_default ();
@@ -24,6 +27,12 @@ namespace ProtonPlus.Globals {
         Globals.HWCAPS = Utils.System.get_hwcaps ();
 
         Globals.PROTONTRICKS_EXEC = Utils.System.get_protontricks_exec_sync ();
+
+        Globals.MANGOHUD_INSTALLED = Utils.System.check_dependency_sync ("mangohud");
+
+        Globals.GAMESCOPE_INSTALLED = Utils.System.check_dependency_sync ("gamescope");
+
+        Globals.SCOPEBUDDY_INSTALLED = Utils.System.check_dependency_sync ("scopebuddy") || Utils.System.check_dependency_sync ("scb");
 
         Globals.CACHE_PATH = Path.build_filename (Environment.get_user_cache_dir (), "ProtonPlus");
         if (!FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {

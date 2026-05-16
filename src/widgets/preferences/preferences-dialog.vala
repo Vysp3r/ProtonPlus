@@ -69,10 +69,23 @@ namespace ProtonPlus.Widgets.Preferences {
             }
 
         // Advanced
+            var experimental_features_row = new Adw.SwitchRow () {
+                title = _ ("Preview features"),
+                subtitle = _ ("Enable experimental features for early testing"),
+            };
+            Globals.SETTINGS.bind ("experimental-features", experimental_features_row, "active", SettingsBindFlags.DEFAULT);
+
+            var enable_controller_row = new Adw.SwitchRow () {
+                title = _ ("Controller support"),
+                subtitle = _ ("Enable game controller support for navigating the user interface"),
+            };
+            Globals.SETTINGS.bind ("enable-controller", enable_controller_row, "active", SettingsBindFlags.DEFAULT);
 
             var refresh_application_data_row = new RefreshApplicationDataRow (this);
 
             var advanced_group = new Adw.PreferencesGroup ();
+            advanced_group.add (experimental_features_row);
+            advanced_group.add (enable_controller_row);
             advanced_group.add (refresh_application_data_row);
 
         // API Tokens

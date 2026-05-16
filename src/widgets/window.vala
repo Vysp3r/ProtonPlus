@@ -34,7 +34,17 @@ namespace ProtonPlus.Widgets {
             toolbar_view.set_content (loading_box);
 
             controller_manager = new Utils.ControllerManager (this, main_box.view_stack);
-            controller_manager.start ();
+            if (Globals.SETTINGS != null) {
+                if (Globals.SETTINGS.get_boolean ("enable-controller"))
+                controller_manager.start ();
+
+                Globals.SETTINGS.changed["enable-controller"].connect (() => {
+                    if (Globals.SETTINGS.get_boolean ("enable-controller"))
+                    controller_manager.start ();
+                    else
+                    controller_manager.stop ();
+                });
+            }
 
             set_content (toolbar_view);
 

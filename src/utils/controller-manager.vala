@@ -8,6 +8,7 @@ namespace ProtonPlus.Utils {
         private Gtk.Widget? highlighted = null;
         private Adw.PreferencesDialog? active_prefs_dialog = null;
         private Adw.PreferencesPage[]? prefs_pages = null;
+        private Gtk.EventControllerMotion? motion = null;
 
         private const double DEADZONE = 0.25;
         private const double SCROLL_SPEED = 12.0;
@@ -15,9 +16,15 @@ namespace ProtonPlus.Utils {
         public ControllerManager (Gtk.Window window, Adw.ViewStack view_stack) {
             this.window = window;
             this.view_stack = view_stack;
+
+            motion = new Gtk.EventControllerMotion ();
+            motion.motion.connect ((x, y) => deactivate_controller_mode ());
         }
 
         public void start () {
+            if (timeout_id != 0)
+            return;
+
             SDL.Hints.set_hint (SDL.Hints.JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
 
             if (!SDL.Init.init (SDL.Init.InitFlags.GAMEPAD)) {
@@ -33,8 +40,6 @@ namespace ProtonPlus.Utils {
                 warning ("No gamepads found at init");
             }
 
-            var motion = new Gtk.EventControllerMotion ();
-            motion.motion.connect ((x, y) => deactivate_controller_mode ());
             ((Gtk.Widget) window).add_controller (motion);
 
             timeout_id = GLib.Timeout.add (16, poll);
@@ -45,6 +50,10 @@ namespace ProtonPlus.Utils {
                 GLib.Source.remove (timeout_id);
                 timeout_id = 0;
             }
+
+            ((Gtk.Widget) window).remove_controller (motion);
+            deactivate_controller_mode ();
+
             SDL.Init.quit_subsystem (SDL.Init.InitFlags.GAMEPAD);
         }
 

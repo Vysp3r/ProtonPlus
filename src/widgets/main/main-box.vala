@@ -24,7 +24,14 @@ namespace ProtonPlus.Widgets.Main {
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
             view_stack.add_titled_with_icon (tools_box, "tools", _ ("Tools"), "toolbox-symbolic");
             view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "gamepad-symbolic");
-            view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
+
+            var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
+
+            if (Globals.MANGOHUD_INSTALLED) {
+                Globals.SETTINGS.bind ("experimental-features", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
+            } else {
+                mangohud_page.visible = false;
+            }
 
             view_switcher = new Adw.ViewSwitcher ();
             view_switcher.set_stack (view_stack);

@@ -95,11 +95,13 @@ namespace ProtonPlus.Utils {
         }
 
         public static async bool check_dependency (string name) {
-            return (yield run_command (@"which $name")).contains ("which: no") ? false : true;
+            var output = yield run_command (@"which $name");
+            return output != "" && !output.contains ("which: no");
         }
 
         public static bool check_dependency_sync (string name) {
-            return run_command_sync (@"which $name").contains ("which: no") ? false : true;
+            var output = run_command_sync (@"which $name");
+            return output != "" && !output.contains ("which: no");
         }
 
         public static string get_distribution_name () {
