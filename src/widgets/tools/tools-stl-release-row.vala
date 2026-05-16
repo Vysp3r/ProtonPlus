@@ -5,23 +5,18 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         protected override void install_button_clicked () {
-        // Steam Deck doesn't need any external dependencies.
-            if (!Globals.IS_STEAM_OS) {
-                dependency_check.begin ((obj, res) => {
-                    var missing_dependencies = dependency_check.end (res);
+            dependency_check.begin ((obj, res) => {
+                var missing_dependencies = dependency_check.end (res);
 
-                    if (missing_dependencies != "") {
-                        var alert_dialog = new Main.WarningDialog (_ ("Warning"), "%s\n\n%s\n%s".printf (_ ("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _ ("Installation will be canceled.")));
-                        alert_dialog.present ((Gtk.Window) this.get_root ());
+                if (missing_dependencies != "") {
+                    var alert_dialog = new Main.WarningDialog (_ ("Warning"), "%s\n\n%s\n%s".printf (_ ("You are missing the following dependencies for %s:").printf (title), missing_dependencies, _ ("Installation will be canceled.")));
+                    alert_dialog.present ((Gtk.Window) this.get_root ());
 
-                        return;
-                    } else {
-                        external_install_check ();
-                    }
-                });
-            } else {
+                    return;
+                }
+
                 external_install_check ();
-            }
+            });
         }
 
         protected override void remove_button_clicked () {
@@ -41,8 +36,11 @@ namespace ProtonPlus.Widgets.Tools {
         async string dependency_check () {
             var missing_dependencies = "";
 
+            if (Globals.IS_STEAM_OS) return missing_dependencies;
+
             var yad_installed = false;
             if (yield Utils.System.check_dependency ("yad")) {
+                yad_installed = true;
                 string yad_version_output = yield Utils.System.run_command ("yad --version");
 
                 float version = 0.0f;
@@ -57,9 +55,10 @@ namespace ProtonPlus.Widgets.Tools {
                     return missing_dependencies;
                 }
             }
-            if (!yad_installed)missing_dependencies += "yad >= 7.2\n";
 
-            if (!(yield Utils.System.check_dependency ("awk")) && !(yield Utils.System.check_dependency ("gawk")))missing_dependencies += "awk/gawk\n";
+            if (!yad_installed) missing_dependencies += "yad >= 7.2\n";
+
+            if (!(yield Utils.System.check_dependency ("awk")) && !(yield Utils.System.check_dependency ("gawk"))) missing_dependencies += "awk/gawk\n";
             if (!(yield Utils.System.check_dependency ("git")))missing_dependencies += "git\n";
             if (!(yield Utils.System.check_dependency ("pgrep")))missing_dependencies += "pgrep\n";
             if (!(yield Utils.System.check_dependency ("unzip")))missing_dependencies += "unzip\n";
