@@ -24,7 +24,8 @@ pacman -Syu --noconfirm \
     libnm \
     glib-networking \
     libproxy \
-    sdl3
+    sdl3 \
+    libnotify
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"
