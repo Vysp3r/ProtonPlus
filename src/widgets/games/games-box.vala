@@ -25,6 +25,10 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Stack content_stack;
         Gtk.ScrolledWindow scrolled_window;
         Gtk.ListBox game_list_box;
+        Gtk.MenuButton filter_button;
+        Gtk.CheckButton all_filter_check;
+        Gtk.CheckButton non_steam_filter_check;
+        Gtk.CheckButton native_filter_check;
         Gtk.Spinner spinner;
         Gtk.Overlay overlay;
         MassEditView mass_edit_view;
@@ -114,6 +118,60 @@ namespace ProtonPlus.Widgets.Games {
             selection_button.add_css_class ("flat");
             selection_button.add_css_class ("bold");
 
+            all_filter_check = new Gtk.CheckButton ();
+            all_filter_check.set_label (_ ("All"));
+            all_filter_check.active = true;
+
+            native_filter_check = new Gtk.CheckButton ();
+            native_filter_check.set_label (_ ("Native"));
+            native_filter_check.set_group (all_filter_check);
+
+            non_steam_filter_check = new Gtk.CheckButton ();
+            non_steam_filter_check.set_label (_ ("Non-Steam"));
+            non_steam_filter_check.set_group (all_filter_check);
+            
+            var filter_popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
+            filter_popover_box.set_margin_top (10);
+            filter_popover_box.set_margin_bottom (10);
+            filter_popover_box.set_margin_start (10);
+            filter_popover_box.set_margin_end (10);
+            filter_popover_box.append (all_filter_check);
+            filter_popover_box.append (native_filter_check);
+            filter_popover_box.append (non_steam_filter_check);
+
+            var filter_popover = new Gtk.Popover ();
+            filter_popover.set_child (filter_popover_box);
+
+            all_filter_check.toggled.connect (() => {
+                if (all_filter_check.active) {
+                    load_games ();
+                    filter_popover.popdown ();
+                }
+            });
+
+            native_filter_check.toggled.connect (() => {
+                if (native_filter_check.active) {
+                    load_games ();
+                    filter_popover.popdown ();
+                }
+            });
+
+            non_steam_filter_check.toggled.connect (() => {
+                if (non_steam_filter_check.active) {
+                    load_games ();
+                    filter_popover.popdown ();
+                }
+            });
+
+            filter_button = new Gtk.MenuButton () {
+                valign = Gtk.Align.CENTER,
+                icon_name = "filter-2-symbolic",
+                popover = filter_popover,
+                tooltip_text = _ ("Filter"),
+                visible = false,
+                css_classes = {"flat"},
+            };
+
             action_bar_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
             action_bar_box.set_halign (Gtk.Align.CENTER);
 
@@ -171,6 +229,7 @@ namespace ProtonPlus.Widgets.Games {
             header_box.set_overflow (Gtk.Overflow.HIDDEN);
             header_box.append (check_button);
             header_box.append (search_entry);
+            header_box.append (filter_button);
             header_box.append (prefix_label);
             header_box.append (compatibility_tool_label);
             header_box.append (other_label);
@@ -232,6 +291,8 @@ namespace ProtonPlus.Widgets.Games {
             this.launcher = launcher;
 
             switch_profile_button.set_visible (false);
+            filter_button.set_visible (launcher.has_library_support);
+            non_steam_filter_check.set_visible (launcher is Models.Launchers.Steam);
 
             if (launcher.has_library_support) {
                 if (invalid) {
@@ -323,6 +384,14 @@ namespace ProtonPlus.Widgets.Games {
             foreach (var game in launcher.games) {
                 if (!game.name.down ().contains (search_entry.get_text ().down ()))
                 continue;
+
+                if (non_steam_filter_check.active) {
+                    if (!(game is Models.Games.Steam && ((Models.Games.Steam) game).is_non_steam))
+                    continue;
+                } else if (native_filter_check.active) {
+                    if (!game.is_native)
+                    continue;
+                }
 
                 var game_row = new GameRow(game);
                 game_row.mass_edit_requested.connect ((row) => {
@@ -419,6 +488,7 @@ namespace ProtonPlus.Widgets.Games {
             advanced_box.set_visible (false);
 
             search_entry.text = "";
+            all_filter_check.active = true;
 
             check_button.active = false;
 
