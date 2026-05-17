@@ -31,7 +31,9 @@ namespace ProtonPlus.Widgets.Games {
         ListStore model;
         Gtk.PropertyExpression expression;
         Gtk.Box action_bar_box;
-        Gtk.Label selection_label;
+        Gtk.MenuButton selection_button;
+        Gtk.ListBox selection_list_box;
+        Gtk.Popover selection_popover;
 
         construct {
             image = new Gtk.Image();
@@ -93,9 +95,24 @@ namespace ProtonPlus.Widgets.Games {
             advanced_box.append (advanced_switch);
             advanced_box.set_visible (false);
 
-            selection_label = new Gtk.Label ("");
-            selection_label.set_visible (false);
-            selection_label.add_css_class ("bold");
+            selection_list_box = new Gtk.ListBox ();
+            selection_list_box.set_selection_mode (Gtk.SelectionMode.NONE);
+            selection_list_box.add_css_class ("boxed-list");
+
+            var selection_scrolled_window = new Gtk.ScrolledWindow ();
+            selection_scrolled_window.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
+            selection_scrolled_window.set_max_content_height (300);
+            selection_scrolled_window.set_propagate_natural_height (true);
+            selection_scrolled_window.set_child (selection_list_box);
+
+            selection_popover = new Gtk.Popover ();
+            selection_popover.set_child (selection_scrolled_window);
+
+            selection_button = new Gtk.MenuButton ();
+            selection_button.set_popover (selection_popover);
+            selection_button.set_visible (false);
+            selection_button.add_css_class ("flat");
+            selection_button.add_css_class ("bold");
 
             action_bar_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
             action_bar_box.set_halign (Gtk.Align.CENTER);
@@ -106,7 +123,7 @@ namespace ProtonPlus.Widgets.Games {
             var center_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
             center_box.set_halign (Gtk.Align.CENTER);
             center_box.append (action_bar_box);
-            center_box.append (selection_label);
+            center_box.append (selection_button);
 
             action_bar = new Gtk.ActionBar ();
             action_bar.set_center_widget (center_box);
@@ -365,8 +382,20 @@ namespace ProtonPlus.Widgets.Games {
             mass_edit_view.load (rows, model, expression);
             content_stack.set_visible_child_name ("mass-edit");
 
-            selection_label.set_text (mass_edit_view.get_selection_text ());
-            selection_label.set_visible (true);
+            selection_button.set_label (mass_edit_view.get_selection_text ());
+            selection_button.set_visible (true);
+
+            selection_list_box.remove_all ();
+            foreach (var row in rows) {
+                var label = new Gtk.Label (row.game.name);
+                label.set_xalign (0);
+                label.set_margin_start (10);
+                label.set_margin_end (10);
+                label.set_margin_top (5);
+                label.set_margin_bottom (5);
+                selection_list_box.append (label);
+            }
+
             action_bar_box.set_visible (false);
 
             back_button.set_visible (true);
@@ -381,7 +410,7 @@ namespace ProtonPlus.Widgets.Games {
         public void show_games_list_page () {
             content_stack.set_visible_child_name ("main");
 
-            selection_label.set_visible (false);
+            selection_button.set_visible (false);
             action_bar_box.set_visible (true);
 
             back_button.set_visible (false);

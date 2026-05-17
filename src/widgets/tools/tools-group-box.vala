@@ -134,6 +134,17 @@ namespace ProtonPlus.Widgets.Tools {
             row.activated.connect (() => tool_selected (tool));
             row.add_prefix (icon);
 
+            if (tool is Models.Tools.Basic) {
+                var basic_tool = (Models.Tools.Basic) tool;
+                if (basic_tool.tag != null && basic_tool.tag != "") {
+                    var pill = new Gtk.Label (Utils.safe_translate (basic_tool.tag));
+                    pill.add_css_class ("tag-pill");
+                    pill.set_valign (Gtk.Align.CENTER);
+
+                    row.add_suffix (pill);
+                }
+            }
+
             return row;
         }
 
