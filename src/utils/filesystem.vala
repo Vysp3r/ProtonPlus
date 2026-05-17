@@ -5,13 +5,15 @@ namespace ProtonPlus.Utils {
         // Required GSettings keys for the application to function properly
         private static string[] REQUIRED_SCHEMA_KEYS = {
             "width", "height", "is-maximized", "is-fullscreen",
-            "automatic-updates", "github-api-key", "gitlab-api-key",
+            "automatic-updates", "update-frequency", "check-updates-on-boot",
+            "github-api-key", "gitlab-api-key",
             "steam-last-profile-id", "steam-remember-last-profile",
-            "first-run", "theme"
+            "enable-controller", "first-run", "theme", "experimental-features"
         };
 
         public static bool is_valid_schema (SettingsSchema schema) {
             foreach (var key in REQUIRED_SCHEMA_KEYS) {
+                message ("Has key %s".printf (key));
                 if (!schema.has_key (key)) {
                     warning ("Missing required GSettings key: %s", key);
                     return false;

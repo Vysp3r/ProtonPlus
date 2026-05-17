@@ -11,12 +11,23 @@ namespace ProtonPlus.Widgets.Preferences {
 
             var automatic_updates_row = new Adw.SwitchRow () {
                 title = _ ("Automatic updates"),
-                subtitle = "%s\n\n%s".printf (_ ("Check if any tool needs to be updated when the application starts"), _ ("When disabled a button to check for updates will be shown in the Tools tab")),
+                subtitle = "%s\n\n%s".printf (_ ("Check if any tool needs to be updated automatically"), _ ("When disabled a button to check for updates will be shown in the Tools tab")),
             };
             Globals.SETTINGS.bind ("automatic-updates", automatic_updates_row, "active", SettingsBindFlags.DEFAULT);
 
             var tools_group = new Adw.PreferencesGroup ();
+            var update_frequency_row = new UpdateFrequencyRow ();
+            automatic_updates_row.bind_property ("active", update_frequency_row, "sensitive", BindingFlags.SYNC_CREATE);
+
+            var check_updates_on_boot_row = new Adw.SwitchRow () {
+                title = _ ("Check updates on boot"),
+            };
+            Globals.SETTINGS.bind ("check-updates-on-boot", check_updates_on_boot_row, "active", SettingsBindFlags.DEFAULT);
+            automatic_updates_row.bind_property ("active", check_updates_on_boot_row, "sensitive", BindingFlags.SYNC_CREATE);
+
             tools_group.add (automatic_updates_row);
+            tools_group.add (update_frequency_row);
+            tools_group.add (check_updates_on_boot_row);
 
         // Launchers
 
@@ -137,9 +148,6 @@ namespace ProtonPlus.Widgets.Preferences {
             advanced_page.add (tokens_group);
             add (advanced_page);
             ctrl_pages += advanced_page;
-
-            //Application.window.set_controller_preferences_dialog (this, ctrl_pages);
-            //this.closed.connect (() => Application.window.set_controller_preferences_dialog (null, null));
 
             set_search_enabled (true);
         }

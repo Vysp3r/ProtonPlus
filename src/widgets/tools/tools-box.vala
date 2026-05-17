@@ -206,7 +206,7 @@ namespace ProtonPlus.Widgets.Tools {
                 search_entry.set_visible (visible_child != "release");
                 filter_button.set_visible (visible_child != "release");
                 search_button.set_visible (visible_child != "release");
-                refresh_button.set_visible (visible_child != "release");
+                refresh_button.set_visible (visible_child != "release" && (Globals.SETTINGS == null || !Globals.SETTINGS.get_boolean ("automatic-updates")));
                 open_button.set_visible (visible_child == "release" && current_release != null && current_release.page_url != null);
 
                 if (visible_child == "groups") {
@@ -224,6 +224,12 @@ namespace ProtonPlus.Widgets.Tools {
 
             append (stack);
             append (action_bar);
+
+            if (Globals.SETTINGS != null) {
+                Globals.SETTINGS.changed["automatic-updates"].connect (() => {
+                    stack.notify_property ("visible-child-name");
+                });
+            }
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {

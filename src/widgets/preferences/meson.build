@@ -3,5 +3,6 @@ sources += files(
     'preferences-theme-row.vala',
     'preferences-refresh-application-data-row.vala',
     'preferences-access-token-row.vala',
+    'preferences-update-frequency-row.vala',
     'preferences-tool-row.vala',
 )

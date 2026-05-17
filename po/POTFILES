@@ -67,10 +67,11 @@ src/widgets/mangohud/mangohud-page.vala
 src/widgets/mangohud/mangohud-performance-page.vala
 src/widgets/mangohud/mangohud-presets-page.vala
 src/widgets/mangohud/mangohud-visual-page.vala
-src/widgets/preferences/access-token-row.vala
+src/widgets/preferences/preferences-access-token-row.vala
 src/widgets/preferences/preferences-dialog.vala
-src/widgets/preferences/refresh-application-data-row.vala
-src/widgets/preferences/theme-row.vala
+src/widgets/preferences/preferences-refresh-application-data-row.vala
+src/widgets/preferences/preferences-theme-row.vala
+src/widgets/preferences/preferences-tool-row.vala
 src/widgets/tools/tools-box.vala
 src/widgets/tools/tools-group-box.vala
 src/widgets/tools/tools-release-row.vala
