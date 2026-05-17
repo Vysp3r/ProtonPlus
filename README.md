@@ -132,11 +132,12 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 | Distribution | Repository | Maintainer |
 | --- | --- | --- |
 | **Arch Linux** | [AUR](https://aur.archlinux.org/packages/protonplus) | [yochananmarqos](https://github.com/yochananmarqos) |
-| **Fedora** | [COPR](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) | [wehagy](https://github.com/wehagy) |
+| **Fedora** | [Copr](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) | [wehagy](https://github.com/wehagy) |
+| **Fedora** | [Terra](https://terrapkg.com/) | [Owen Zimmerman](https://github.com/Owen-sz) |
 | **NixOS** | [nixpkgs](https://mynixos.com/nixpkgs/package/protonplus) | [Seth](https://github.com/seth-foss) |
 | **Ubuntu** | [Pacstall](https://pacstall.dev/packages/protonplus) | [Vysp3r](https://github.com/Vysp3r) |
 | **openSUSE** | [OBS](https://software.opensuse.org/package/ProtonPlus) | [rrahl0](https://github.com/rrahl0) |
-| **Void Linux** | [GitHub](https://github.com/xJayMorex/ProtonPlus-void) | [xJayMorex](https://github.com/xJayMorex) |
+| **Void Linux** | [Official repository](https://github.com/void-linux/void-packages) | [xJayMorex](https://github.com/xJayMorex) |
 | **Gentoo** | [Overlay](https://github.com/amielke/amielke-overlay/tree/master/games-util/ProtonPlus) | [amielke](https://github.com/amielke) |
 
 ## 🏗️ Building from source
