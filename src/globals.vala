@@ -4,8 +4,10 @@ namespace ProtonPlus.Globals {
     public static bool IS_FLATPAK;
     public static List<string> HWCAPS;
     public static string CACHE_PATH;
-    public static string PROTONTRICKS_EXEC;
+    public static bool PROTONTRICKS_INSTALLED;
+    public static bool PROTONTRICKS_FLATPAK_INSTALLED;
     public static bool MANGOHUD_INSTALLED;
+    public static bool MANGOHUD_FLATPAK_INSTALLED;
     public static bool GAMESCOPE_INSTALLED;
     public static bool SCOPEBUDDY_INSTALLED;
 
@@ -26,9 +28,11 @@ namespace ProtonPlus.Globals {
 
         Globals.HWCAPS = Utils.System.get_hwcaps ();
 
-        Globals.PROTONTRICKS_EXEC = Utils.System.get_protontricks_exec_sync ();
+        Globals.PROTONTRICKS_INSTALLED = Utils.System.check_dependency_sync ("protontricks");
+        Globals.PROTONTRICKS_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync ("com.github.Matoking.protontricks");
 
         Globals.MANGOHUD_INSTALLED = Utils.System.check_dependency_sync ("mangohud");
+        Globals.MANGOHUD_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync ("org.freedesktop.Platform.VulkanLayer.MangoHud");
 
         Globals.GAMESCOPE_INSTALLED = Utils.System.check_dependency_sync ("gamescope");
 

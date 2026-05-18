@@ -149,6 +149,97 @@ namespace ProtonPlus.Widgets.Preferences {
             add (advanced_page);
             ctrl_pages += advanced_page;
 
+            // Status
+            var status_page = new Adw.PreferencesPage ();
+            status_page.set_title (_ ("Status"));
+            status_page.set_icon_name ("dialog-information-symbolic");
+
+            var globals_group = new Adw.PreferencesGroup () {
+                title = _ ("Globals")
+            };
+
+            globals_group.add (new Adw.ActionRow () {
+                title = _ ("SteamOS"),
+                subtitle = Globals.IS_STEAM_OS ? _ ("Yes") : _ ("No")
+            });
+
+            globals_group.add (new Adw.ActionRow () {
+                title = _ ("Flatpak"),
+                subtitle = Globals.IS_FLATPAK ? _ ("Yes") : _ ("No")
+            });
+
+            string hwcaps_str = "";
+            foreach (var hwcap in Globals.HWCAPS) {
+                if (hwcaps_str != "")
+                hwcaps_str += ", ";
+                hwcaps_str += hwcap;
+            }
+
+            globals_group.add (new Adw.ActionRow () {
+                title = _ ("HWCAPS"),
+                subtitle = hwcaps_str
+            });
+
+            globals_group.add (new Adw.ActionRow () {
+                title = _ ("Protontricks"),
+                subtitle = Globals.PROTONTRICKS_INSTALLED ? _ ("Yes") : _ ("No")
+            });
+
+            globals_group.add (new Adw.ActionRow () {
+                title = _ ("Protontricks (Flatpak)"),
+                subtitle = Globals.PROTONTRICKS_FLATPAK_INSTALLED ? _ ("Yes") : _ ("No")
+            });
+
+            globals_group.add (new Adw.ActionRow () {
+                title = _ ("MangoHud"),
+                subtitle = Globals.MANGOHUD_INSTALLED ? _ ("Yes") : _ ("No")
+            });
+
+            globals_group.add (new Adw.ActionRow () {
+                title = _ ("MangoHud (Flatpak)"),
+                subtitle = Globals.MANGOHUD_FLATPAK_INSTALLED ? _ ("Yes") : _ ("No")
+            });
+
+            globals_group.add (new Adw.ActionRow () {
+                title = _ ("Gamescope"),
+                subtitle = Globals.GAMESCOPE_INSTALLED ? _ ("Yes") : _ ("No")
+            });
+
+            globals_group.add (new Adw.ActionRow () {
+                title = _ ("ScopeBuddy"),
+                subtitle = Globals.SCOPEBUDDY_INSTALLED ? _ ("Yes") : _ ("No")
+            });
+
+            var status_launchers_group = new Adw.PreferencesGroup () {
+                title = _ ("Launchers")
+            };
+
+            ProtonPlus.Models.Launcher[] all_launchers = {
+                new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
+                new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
+                new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SNAP),
+                new ProtonPlus.Models.Launchers.Lutris (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
+                new ProtonPlus.Models.Launchers.Lutris (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
+                new ProtonPlus.Models.Launchers.Bottles (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
+                new ProtonPlus.Models.Launchers.Bottles (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
+                new ProtonPlus.Models.Launchers.HeroicGamesLauncher (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
+                new ProtonPlus.Models.Launchers.HeroicGamesLauncher (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
+                new ProtonPlus.Models.Launchers.WineZGUI (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
+                new ProtonPlus.Models.Launchers.WineZGUI (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK)
+            };
+
+            foreach (var launcher in all_launchers) {
+                status_launchers_group.add (new Adw.ActionRow () {
+                    title = "%s (%s)".printf (launcher.title, launcher.get_installation_type_title ()),
+                    subtitle = launcher.installed ? _ ("Installed") : _ ("Not installed")
+                });
+            }
+
+            status_page.add (globals_group);
+            status_page.add (status_launchers_group);
+            add (status_page);
+            ctrl_pages += status_page;
+
             set_search_enabled (true);
         }
     }

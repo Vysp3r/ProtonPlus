@@ -27,7 +27,7 @@ namespace ProtonPlus.Widgets.Main {
 
             var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
 
-            if (Globals.MANGOHUD_INSTALLED) {
+            if (Globals.MANGOHUD_INSTALLED || Globals.MANGOHUD_FLATPAK_INSTALLED) {
                 Globals.SETTINGS.bind ("experimental-features", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
             } else {
                 mangohud_page.visible = false;

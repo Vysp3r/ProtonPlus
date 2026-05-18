@@ -36,7 +36,7 @@ namespace ProtonPlus.Widgets.Games {
             this.game = game;
 
             if (game is Models.Games.Steam) {
-                if (Globals.PROTONTRICKS_EXEC != null)
+                if (Globals.PROTONTRICKS_INSTALLED || Globals.PROTONTRICKS_FLATPAK_INSTALLED)
                 content_box.append (open_protontricks_button);
 
                 var steam_game = game as Models.Games.Steam;
@@ -96,7 +96,15 @@ namespace ProtonPlus.Widgets.Games {
         void open_protontricks_button_clicked () {
             var steam_game = game as Models.Games.Steam;
 
-            Utils.System.run_command.begin ("%s %u --gui".printf (Globals.PROTONTRICKS_EXEC, steam_game.appid));
+            string? protontricks_exec = null;
+
+            if (Globals.PROTONTRICKS_INSTALLED) {
+                protontricks_exec = "protontricks";
+            } else if (Globals.PROTONTRICKS_FLATPAK_INSTALLED) {
+                protontricks_exec = "com.github.Matoking.protontricks";
+            }
+
+            Utils.System.run_command.begin ("%s %u --gui".printf (protontricks_exec, steam_game.appid));
 
             popover.popdown ();
         }

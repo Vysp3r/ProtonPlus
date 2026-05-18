@@ -104,6 +104,11 @@ namespace ProtonPlus.Utils {
             return output != "" && !output.contains ("which: no");
         }
 
+        public static bool check_flatpak_dependency_sync (string name) {
+            var output = run_command_sync (@"flatpak info $name");
+            return output != "" && !output.contains ("error:");
+        }
+
         public static string get_distribution_name () {
             string distro_name = "Unknown";
             try {
@@ -137,17 +142,6 @@ namespace ProtonPlus.Utils {
                     GLib.warning (error.message);
                 }
             });
-        }
-
-        static string[] protontricks_execs = { "protontricks", "com.github.Matoking.protontricks" };
-
-        public static string? get_protontricks_exec_sync () {
-            foreach (var protontricks_exec in protontricks_execs) {
-                if (Utils.System.check_dependency_sync (protontricks_exec))
-                return protontricks_exec;
-            }
-
-            return null;
         }
     }
 }
