@@ -109,10 +109,10 @@ namespace ProtonPlus.Widgets.Main {
         }
 
         void view_stack_visible_child_name_changed () {
-            if (previous_view_name == "games")
-            games_box.show_games_list_page ();
-
             switch (previous_view_name) {
+                case "tools":
+                    tools_box.show_groups_page ();
+                    break;
                 case "games":
                     games_box.show_games_list_page ();
                     break;

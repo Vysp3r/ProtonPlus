@@ -13,6 +13,12 @@ namespace ProtonPlus.Widgets.Games {
         CompatibilityToolRow compatibility_tool_row { get; set; }
         Adw.PreferencesGroup compatibility_tool_group { get; set; }
         Adw.PreferencesGroup launch_options_group { get; set; }
+        Gtk.Label compatibility_tool_label { get; set; }
+        Gtk.Label launch_options_label { get; set; }
+        Gtk.Switch compatibility_tool_switch { get; set; }
+        Gtk.Switch launch_options_switch { get; set; }
+        Gtk.Box compatibility_tool_header;
+        Gtk.Box launch_options_header;
         LaunchOptionsEditor launch_options_editor { get; set; }
         Gtk.Box content_box { get; set; }
         public GameRow[] rows;
@@ -36,18 +42,65 @@ namespace ProtonPlus.Widgets.Games {
             this.apply_button.clicked.connect (apply_button_clicked);
 
             compatibility_tool_group = new Adw.PreferencesGroup();
-            compatibility_tool_group.set_title (_ ("Compatibility tool"));
-            compatibility_tool_group.set_margin_bottom (15);
+            compatibility_tool_group.set_margin_bottom (12);
+
+            compatibility_tool_label = new Gtk.Label (_ ("Compatibility tool")) {
+                halign = Gtk.Align.START,
+                hexpand = true,
+                css_classes = { "title-4" }
+            };
+
+            compatibility_tool_switch = new Gtk.Switch () {
+                valign = Gtk.Align.CENTER
+            };
+
+            compatibility_tool_header = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+                margin_bottom = 12
+            };
+            compatibility_tool_header.append (compatibility_tool_label);
+            compatibility_tool_header.append (compatibility_tool_switch);
+
+            compatibility_tool_switch.notify["active"].connect (() => {
+                compatibility_tool_group.set_sensitive (compatibility_tool_switch.active);
+                refresh ();
+            });
 
             launch_options_editor = new LaunchOptionsEditor ();
             advanced_switch.notify["active"].connect (() => launch_options_editor.set_advanced_visible (advanced_switch.get_active ()));
             launch_options_editor.content_changed.connect (refresh);
 
             launch_options_group = new Adw.PreferencesGroup();
-            launch_options_group.set_title (_ ("Launch options"));
+
+            launch_options_label = new Gtk.Label (_ ("Launch options")) {
+                halign = Gtk.Align.START,
+                hexpand = true,
+                css_classes = { "title-4" }
+            };
+
+            launch_options_switch = new Gtk.Switch () {
+                valign = Gtk.Align.CENTER
+            };
+
+            launch_options_header = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+                margin_bottom = 12
+            };
+            launch_options_header.append (launch_options_label);
+            launch_options_header.append (launch_options_switch);
+
+            launch_options_switch.notify["active"].connect (() => {
+                launch_options_group.set_sensitive (launch_options_switch.active);
+                launch_options_editor.set_sensitive (launch_options_switch.active);
+                refresh ();
+            });
+
+            var separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+            separator.set_margin_bottom (12);
 
             content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+            content_box.append (compatibility_tool_header);
             content_box.append (compatibility_tool_group);
+            content_box.append (separator);
+            content_box.append (launch_options_header);
             content_box.append (launch_options_group);
             content_box.append (launch_options_editor);
 
@@ -121,7 +174,15 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             launch_options_group.set_visible (has_steam_launch_options);
+            launch_options_header.set_visible (has_steam_launch_options);
             launch_options_editor.set_visible (has_steam_launch_options);
+
+            compatibility_tool_switch.set_active (rows.length == 1);
+            launch_options_switch.set_active (rows.length == 1);
+
+            compatibility_tool_group.set_sensitive (compatibility_tool_switch.active);
+            launch_options_group.set_sensitive (launch_options_switch.active);
+            launch_options_editor.set_sensitive (launch_options_switch.active);
 
             initial_compatibility_tool_index = compatibility_tool_row.selected;
             compatibility_tool_row.notify["selected"].connect (refresh);
@@ -130,14 +191,18 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void refresh () {
-            var tool_changed = compatibility_tool_row != null && compatibility_tool_row.selected != initial_compatibility_tool_index;
-            clear_button.set_sensitive (launch_options_editor.has_clearable_state () || tool_changed);
-            apply_button.set_sensitive (launch_options_editor.has_clearable_state () || tool_changed);
+            var tool_changed = compatibility_tool_switch.active && compatibility_tool_row != null && compatibility_tool_row.selected != initial_compatibility_tool_index;
+            var launch_options_changed = launch_options_switch.active && launch_options_editor.has_clearable_state ();
+
+            clear_button.set_sensitive (launch_options_changed || tool_changed);
+            apply_button.set_sensitive (launch_options_changed || tool_changed);
         }
 
         void clear_button_clicked () {
             launch_options_editor.clear ();
             compatibility_tool_row.selected = initial_compatibility_tool_index;
+            compatibility_tool_switch.set_active (rows.length == 1);
+            launch_options_switch.set_active (rows.length == 1);
             refresh ();
         }
 
@@ -146,7 +211,7 @@ namespace ProtonPlus.Widgets.Games {
             var invalids = new List<string> ();
 
             foreach (var row in rows) {
-                {
+                if (compatibility_tool_switch.active) {
                     var valids = new List<GameRow> ();
 
                     var success = row.game.change_compatibility_tool (item.internal_title);
@@ -162,7 +227,7 @@ namespace ProtonPlus.Widgets.Games {
                     }
                 }
 
-                if (row.game.launcher is Models.Launchers.Steam) {
+                if (launch_options_switch.active && row.game.launcher is Models.Launchers.Steam) {
                     var valids = new List<GameRow> ();
 
                     var steam_game = (Models.Games.Steam) row.game;

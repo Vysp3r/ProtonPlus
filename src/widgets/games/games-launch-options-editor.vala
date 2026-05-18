@@ -1106,6 +1106,14 @@ using Adw;
         }
 
         void maybe_auto_enable_command () {
+            if (command_tile.toggle.get_active () && !has_structured_content ()) {
+                refreshing_controls = true;
+                command_tile.toggle.set_active (false);
+                refreshing_controls = false;
+
+                can_auto_enable_command = true;
+            }
+
             if (!can_auto_enable_command || command_tile.toggle.get_active () || !has_structured_content ())
             return;
 

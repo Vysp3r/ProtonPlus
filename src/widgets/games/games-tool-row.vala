@@ -15,7 +15,7 @@ namespace ProtonPlus.Widgets.Games {
 
             notify["selected-item"].connect (compatibility_tool_row_selected_item_changed);
 
-            set_title (_ ("Select your desired compatibility tool"));
+            set_title (_ ("New tool"));
             set_model (model);
             set_expression (expression);
             set_list_factory (compatibility_tool_factory);

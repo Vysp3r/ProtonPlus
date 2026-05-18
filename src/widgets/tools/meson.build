@@ -7,4 +7,5 @@ sources += files(
     'tools-stl-release-row.vala',
     'tools-remove-dialog.vala',
     'tools-game-row.vala',
+    'tools-migrate-box.vala',
 )

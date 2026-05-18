@@ -18,9 +18,11 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button search_button { get; set; }
         Gtk.SearchEntry search_entry { get; set; }
         Gtk.ActionBar action_bar { get; set; }
+        Gtk.CheckButton all_filter_button { get; set; }
         Adw.ViewStack groups_stack { get; set; }
         ReleasesBox releases_box { get; set; }
         ReleaseBox release_box { get; set; }
+        MigrateBox migrate_box { get; set; }
         Adw.ViewSwitcher switcher { get; set; }
         Adw.ViewStack center_stack { get; set; }
 
@@ -55,12 +57,19 @@ namespace ProtonPlus.Widgets.Tools {
 
             release_box = new ReleaseBox ();
 
+            migrate_box = new MigrateBox ();
+            migrate_box.finished.connect (() => {
+                stack.set_visible_child_name ("release");
+                set_selected_release (current_release);
+            });
+
             stack = new Adw.ViewStack () {
                 vexpand = true
             };
             stack.add_named (groups_stack, "groups");
             stack.add_named (releases_box, "releases");
             stack.add_named (release_box, "release");
+            stack.add_named (migrate_box, "migrate");
 
             back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic") {
                 valign = Gtk.Align.CENTER,
@@ -69,7 +78,14 @@ namespace ProtonPlus.Widgets.Tools {
             back_button.add_css_class ("flat");
             back_button.set_tooltip_text (_ ("Back"));
             back_button.clicked.connect (() => {
-                stack.set_visible_child_name (stack.get_visible_child_name () == "release" ? "releases" : "groups");
+                var visible_child = stack.get_visible_child_name ();
+                if (visible_child == "migrate") {
+                    stack.set_visible_child_name ("release");
+                } else if (visible_child == "release") {
+                    stack.set_visible_child_name ("releases");
+                } else {
+                    stack.set_visible_child_name ("groups");
+                }
                 search_entry.set_text ("");
             });
 
@@ -95,14 +111,17 @@ namespace ProtonPlus.Widgets.Tools {
             };
             migrate_button.set_tooltip_text (_ ("Migrate selected games to another tool"));
             migrate_button.clicked.connect (() => {
-                //                if (current_release == null) return;
-                //                var tool_name = (current_release.runner is Models.Tools.SteamTinkerLaunch) ? "Proton-stl" : current_release.title;
-                //                var selected_games = release_box.get_selected_games ();
-                //                foreach (var game in selected_games) {
-                //                    game.change_compatibility_tool (tool_name);
-                //                }
-                //                toast_sent (_ ("Applied %s to %d games").printf (tool_name, selected_games.size));
-                //                release_box.set_selected_release (current_release);
+                if (current_release == null) return;
+                string internal_name = "";
+                if (current_release.runner is Models.Tools.SteamTinkerLaunch) {
+                    internal_name = "Proton-stl";
+                } else if (current_release.runner is Models.Tools.Basic) {
+                    internal_name = ((Models.Tools.Basic)current_release.runner).get_directory_name (current_release.title);
+                } else {
+                    internal_name = current_release.title;
+                }
+                migrate_box.init (release_box.get_selected_games (), internal_name, current_launcher);
+                stack.set_visible_child_name ("migrate");
             });
 
             switcher = new Adw.ViewSwitcher () {
@@ -155,7 +174,7 @@ namespace ProtonPlus.Widgets.Tools {
             };
             filter_button.set_tooltip_text (_ ("Filter"));
 
-            var all_filter_button = new Gtk.CheckButton.with_label (_ ("All"));
+            all_filter_button = new Gtk.CheckButton.with_label (_ ("All"));
             all_filter_button.active = true;
 
             var installed_filter_button = new Gtk.CheckButton.with_label (_ ("Installed"));
@@ -213,6 +232,7 @@ namespace ProtonPlus.Widgets.Tools {
             center_stack = new Adw.ViewStack ();
             center_stack.add_named (switcher, "groups");
             center_stack.add_named (release_box.stack_switcher, "release");
+            center_stack.add_named (migrate_box.games_button, "migrate");
 
             action_bar = new Gtk.ActionBar ();
             action_bar.set_center_widget (center_stack);
@@ -222,14 +242,17 @@ namespace ProtonPlus.Widgets.Tools {
             action_bar.pack_end (search_button);
             action_bar.pack_end (open_button);
             action_bar.pack_end (migrate_button);
+            action_bar.pack_end (migrate_box.migrate_button);
 
             stack.notify["visible-child-name"].connect (() => {
                 var visible_child = stack.get_visible_child_name ();
                 back_button.set_visible (visible_child != "groups");
-                search_entry.set_visible (visible_child != "release");
-                filter_button.set_visible (visible_child != "release");
-                search_button.set_visible (visible_child != "release");
-                refresh_button.set_visible (visible_child != "release" && (Globals.SETTINGS == null || !Globals.SETTINGS.get_boolean ("automatic-updates")));
+                search_entry.set_visible (visible_child != "release" && visible_child != "migrate");
+                filter_button.set_visible (visible_child != "release" && visible_child != "migrate");
+                search_button.set_visible (visible_child != "release" && visible_child != "migrate");
+                refresh_button.set_visible (visible_child != "release" && visible_child != "migrate" && (Globals.SETTINGS == null || !Globals.SETTINGS.get_boolean ("automatic-updates")));
+                migrate_box.games_button.set_visible (visible_child == "migrate");
+                migrate_box.migrate_button.set_visible (visible_child == "migrate");
                 update_open_button_visibility ();
 
                 if (visible_child == "groups") {
@@ -238,6 +261,9 @@ namespace ProtonPlus.Widgets.Tools {
                 } else if (visible_child == "release") {
                     center_stack.set_visible_child_name ("release");
                     center_stack.set_visible (search_entry.get_parent () == null);
+                } else if (visible_child == "migrate") {
+                    center_stack.set_visible_child_name ("migrate");
+                    center_stack.set_visible (true);
                 } else {
                     center_stack.set_visible (false);
                 }
@@ -267,6 +293,12 @@ namespace ProtonPlus.Widgets.Tools {
             var visible_child = stack.get_visible_child_name ();
             open_button.set_visible (visible_child == "release" && current_release != null && current_release.page_url != null && release_box.stack_switcher.stack.visible_child_name == "changelog");
             migrate_button.set_visible (visible_child == "release" && release_box.stack_switcher.stack.visible_child_name == "games" && release_box.get_selected_games_count () > 0);
+        }
+
+        public void show_groups_page () {
+            stack.set_visible_child_name ("groups");
+            search_entry.set_text ("");
+            all_filter_button.active = true;
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {

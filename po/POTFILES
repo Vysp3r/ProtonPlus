@@ -79,4 +79,5 @@ src/widgets/tools/tools-releases-box.vala
 src/widgets/tools/tools-remove-dialog.vala
 src/widgets/tools/tools-stl-release-row.vala
 src/widgets/tools/tools-game-row.vala
+src/widgets/tools/tools-migrate-box.vala
 src/widgets/window.vala
