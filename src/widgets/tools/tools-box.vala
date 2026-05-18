@@ -14,6 +14,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button back_button { get; set; }
         Gtk.Button refresh_button { get; set; }
         Gtk.Button open_button { get; set; }
+        Gtk.Button migrate_button { get; set; }
         Gtk.Button search_button { get; set; }
         Gtk.SearchEntry search_entry { get; set; }
         Gtk.ActionBar action_bar { get; set; }
@@ -81,6 +82,27 @@ namespace ProtonPlus.Widgets.Tools {
                 if (current_release != null && current_release.page_url != null) {
                     Utils.System.open_uri (current_release.page_url);
                 }
+            });
+
+            var migrate_button_content = new Adw.ButtonContent ();
+            migrate_button_content.set_label (_ ("Migrate"));
+            migrate_button_content.set_icon_name ("right-left-symbolic");
+
+            migrate_button = new Gtk.Button () {
+                valign = Gtk.Align.CENTER,
+                visible = false,
+                child = migrate_button_content,
+            };
+            migrate_button.set_tooltip_text (_ ("Migrate selected games to another tool"));
+            migrate_button.clicked.connect (() => {
+                //                if (current_release == null) return;
+                //                var tool_name = (current_release.runner is Models.Tools.SteamTinkerLaunch) ? "Proton-stl" : current_release.title;
+                //                var selected_games = release_box.get_selected_games ();
+                //                foreach (var game in selected_games) {
+                //                    game.change_compatibility_tool (tool_name);
+                //                }
+                //                toast_sent (_ ("Applied %s to %d games").printf (tool_name, selected_games.size));
+                //                release_box.set_selected_release (current_release);
             });
 
             switcher = new Adw.ViewSwitcher () {
@@ -199,6 +221,7 @@ namespace ProtonPlus.Widgets.Tools {
             action_bar.pack_end (filter_button);
             action_bar.pack_end (search_button);
             action_bar.pack_end (open_button);
+            action_bar.pack_end (migrate_button);
 
             stack.notify["visible-child-name"].connect (() => {
                 var visible_child = stack.get_visible_child_name ();
@@ -207,7 +230,7 @@ namespace ProtonPlus.Widgets.Tools {
                 filter_button.set_visible (visible_child != "release");
                 search_button.set_visible (visible_child != "release");
                 refresh_button.set_visible (visible_child != "release" && (Globals.SETTINGS == null || !Globals.SETTINGS.get_boolean ("automatic-updates")));
-                open_button.set_visible (visible_child == "release" && current_release != null && current_release.page_url != null);
+                update_open_button_visibility ();
 
                 if (visible_child == "groups") {
                     center_stack.set_visible_child_name ("groups");
@@ -222,6 +245,14 @@ namespace ProtonPlus.Widgets.Tools {
 
             stack.notify_property ("visible-child-name");
 
+            release_box.stack_switcher.stack.notify["visible-child-name"].connect (() => {
+                update_open_button_visibility ();
+            });
+
+            release_box.selection_changed.connect (() => {
+                update_open_button_visibility ();
+            });
+
             append (stack);
             append (action_bar);
 
@@ -230,6 +261,12 @@ namespace ProtonPlus.Widgets.Tools {
                     stack.notify_property ("visible-child-name");
                 });
             }
+        }
+
+        void update_open_button_visibility () {
+            var visible_child = stack.get_visible_child_name ();
+            open_button.set_visible (visible_child == "release" && current_release != null && current_release.page_url != null && release_box.stack_switcher.stack.visible_child_name == "changelog");
+            migrate_button.set_visible (visible_child == "release" && release_box.stack_switcher.stack.visible_child_name == "games" && release_box.get_selected_games_count () > 0);
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {

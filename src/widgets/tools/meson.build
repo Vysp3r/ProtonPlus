@@ -6,4 +6,5 @@ sources += files(
     'tools-release-row.vala',
     'tools-stl-release-row.vala',
     'tools-remove-dialog.vala',
+    'tools-game-row.vala',
 )
