@@ -53,14 +53,24 @@ namespace ProtonPlus.Widgets.Tools {
             };
 
             releases_box = new ReleasesBox ();
-            releases_box.release_selected.connect (set_selected_release);
+            releases_box.release_selected.connect ((r) => {
+                set_selected_release (r);
+            });
 
             release_box = new ReleaseBox ();
 
             migrate_box = new MigrateBox ();
             migrate_box.finished.connect (() => {
-                stack.set_visible_child_name ("release");
-                set_selected_release (current_release);
+                set_selected_release (current_release, true);
+                releases_box.refresh_usage_pills ();
+
+                var child = groups_stack.get_first_child ();
+                while (child != null) {
+                    if (child is GroupBox) {
+                        ((GroupBox) child).refresh ();
+                    }
+                    child = child.get_next_sibling ();
+                }
             });
 
             stack = new Adw.ViewStack () {
@@ -328,10 +338,10 @@ namespace ProtonPlus.Widgets.Tools {
             stack.set_visible_child_name ("releases");
         }
 
-        void set_selected_release (Models.Release release) {
+        void set_selected_release (Models.Release release, bool show_games = false) {
             current_release = release;
 
-            release_box.set_selected_release (release);
+            release_box.set_selected_release (release, show_games);
 
             stack.set_visible_child_name ("release");
         }

@@ -93,6 +93,11 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             }
 
+            if (launcher is Models.Launchers.Steam && current_tool_name != "Default") {
+                model.append (_ ("Default"));
+                possible_tools_internal.add ("Default");
+            }
+
             foreach (var tool in launcher.compatibility_tools) {
                 if (tool.internal_title != current_tool_name) {
                     if (tool.display_title.contains ("Steam Linux Runtime") && !all_native)
@@ -101,11 +106,6 @@ namespace ProtonPlus.Widgets.Tools {
                     model.append (tool.display_title);
                     possible_tools_internal.add (tool.internal_title);
                 }
-            }
-
-            if (launcher is Models.Launchers.Steam && current_tool_name != "Default") {
-                model.append (_ ("Default"));
-                possible_tools_internal.add ("Default");
             }
 
             combo_row.model = model;

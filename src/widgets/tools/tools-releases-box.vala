@@ -192,6 +192,18 @@ namespace ProtonPlus.Widgets.Tools {
             update_visibility ();
         }
 
+        public void refresh_usage_pills () {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                if (child is ReleaseRow) {
+                    ((ReleaseRow) child).refresh_usage_pill ();
+                }
+                child = child.get_next_sibling ();
+            }
+            list_box.invalidate_filter ();
+            update_visibility ();
+        }
+
         private void add_release_row (Models.Release release) {
             ReleaseRow row;
             if (release is Models.Releases.SteamTinkerLaunch)

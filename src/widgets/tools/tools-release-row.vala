@@ -12,6 +12,7 @@ namespace ProtonPlus.Widgets.Tools {
         Widgets.CircularProgressBar progress_bar { get; set; }
         Gtk.Label speed_label { get; set; }
         Gtk.Label time_label { get; set; }
+        Gtk.Label usage_pill { get; set; }
         Gtk.Popover info_popover { get; set; }
         Gtk.Popover details_popover { get; set; }
 
@@ -105,16 +106,13 @@ namespace ProtonPlus.Widgets.Tools {
             input_box.append (progress_button);
             input_box.append (cancel_button);
 
-            var tool_name = (release.runner is Models.Tools.SteamTinkerLaunch) ? "Proton-stl" : release.title;
-            var count = release.runner.group.launcher.get_compatibility_tool_usage_count (tool_name);
-            if (count > 0) {
-                var usage_pill = new Gtk.Label (count.to_string ());
-                usage_pill.add_css_class ("usage-pill");
-                usage_pill.set_valign (Gtk.Align.CENTER);
-                usage_pill.set_margin_end (6);
-                usage_pill.set_tooltip_text (ngettext ("Used by %i game", "Used by %i games", count).printf (count));
-                add_suffix (usage_pill);
-            }
+            usage_pill = new Gtk.Label ("");
+            usage_pill.add_css_class ("usage-pill");
+            usage_pill.set_valign (Gtk.Align.CENTER);
+            usage_pill.set_margin_end (6);
+            add_suffix (usage_pill);
+
+            refresh_usage_pill ();
 
             add_prefix (icon);
             add_suffix (input_box);
@@ -168,6 +166,19 @@ namespace ProtonPlus.Widgets.Tools {
 
         void open_button_clicked () {
             Utils.System.open_uri ("file://%s".printf (release.install_location));
+        }
+
+        public void refresh_usage_pill () {
+            var tool_name = (release.runner is Models.Tools.SteamTinkerLaunch) ? "Proton-stl" : release.title;
+            var count = release.runner.group.launcher.get_compatibility_tool_usage_count (tool_name);
+
+            if (count > 0) {
+                usage_pill.set_label (count.to_string ());
+                usage_pill.set_tooltip_text (ngettext ("Used by %i game", "Used by %i games", count).printf (count));
+                usage_pill.set_visible (true);
+            } else {
+                usage_pill.set_visible (false);
+            }
         }
 
         void release_progress_changed () {

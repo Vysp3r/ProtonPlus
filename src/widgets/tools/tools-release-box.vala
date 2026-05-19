@@ -144,11 +144,16 @@ namespace ProtonPlus.Widgets.Tools {
             append (clamp);
         }
 
-        public void set_selected_release (Models.Release release) {
+        public void set_selected_release (Models.Release release, bool show_games = false) {
+            check_button.set_active (false);
+
             title_label.set_label (release.title ?? "");
             desc_text.buffer.text = release.description ?? "";
             desc_label.set_label (release.release_date ?? "");
 
+            if (show_games)
+            content_stack.set_visible_child_name ("games");
+            else
             content_stack.set_visible_child_name ("changelog");
 
             list_box.remove_all ();

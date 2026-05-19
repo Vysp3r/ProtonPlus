@@ -123,6 +123,11 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
+        public void refresh () {
+            list_box.invalidate_filter ();
+            update_visibility ();
+        }
+
         Adw.ActionRow create_tool_card (Models.Tool tool) {
             var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic");
 
