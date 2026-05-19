@@ -4,7 +4,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Box tool_box { get; set; }
         Gtk.Label title_label { get; set; }
         Gtk.Label desc_label { get; set; }
-        Gtk.TextView desc_text { get; set; }
+        ReleaseChangelog desc_text { get; set; }
         Gtk.Box header_box { get; set; }
         Gtk.ListBox list_box { get; set; }
         Gtk.CheckButton check_button { get; set; }
@@ -52,23 +52,7 @@ namespace ProtonPlus.Widgets.Tools {
             };
             stack_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
 
-            desc_text = new Gtk.TextView () {
-                editable = false,
-                cursor_visible = false,
-                wrap_mode = Gtk.WrapMode.WORD_CHAR,
-                left_margin = 12,
-                right_margin = 12,
-                top_margin = 12,
-                bottom_margin = 12
-            };
-
-            var scrolled_desc = new Gtk.ScrolledWindow () {
-                vexpand = true,
-                hscrollbar_policy = Gtk.PolicyType.NEVER,
-                vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
-                child = desc_text,
-                overflow = Gtk.Overflow.HIDDEN
-            };
+            desc_text = new ReleaseChangelog ();
 
             list_box = new Gtk.ListBox () {
                 selection_mode = Gtk.SelectionMode.MULTIPLE
@@ -126,7 +110,7 @@ namespace ProtonPlus.Widgets.Tools {
             headered_list_box.append (scrolled_games);
             headered_list_box.append (status_page);
 
-            content_stack.add_titled_with_icon (scrolled_desc, "changelog", _ ("Changelog"), "book-open-symbolic");
+            content_stack.add_titled_with_icon (desc_text, "changelog", _ ("Changelog"), "book-open-symbolic");
             content_stack.add_titled_with_icon (headered_list_box, "games", _ ("Used by"), "gamepad-symbolic");
             content_stack.add_css_class ("card");
 
@@ -148,7 +132,7 @@ namespace ProtonPlus.Widgets.Tools {
             check_button.set_active (false);
 
             title_label.set_label (release.title ?? "");
-            desc_text.buffer.text = release.description ?? "";
+            desc_text.set_markdown (release.description);
             desc_label.set_label (release.release_date ?? "");
 
             if (show_games)
