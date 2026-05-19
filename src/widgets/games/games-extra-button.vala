@@ -99,7 +99,7 @@ namespace ProtonPlus.Widgets.Games {
             if (Globals.PROTONTRICKS_INSTALLED) {
                 Utils.System.run_command.begin ("%s %u --gui".printf ("protontricks", steam_game.appid));
             } else if (Globals.PROTONTRICKS_FLATPAK_INSTALLED) {
-                Utils.System.run_command.begin ("flatpak run %s %u --gui".printf ("com.github.Matoking.protontricks", steam_game.appid), true);
+                Utils.System.run_command.begin ("flatpak run %s %u --gui".printf ("com.github.Matoking.protontricks", steam_game.appid));
             }
 
             popover.popdown ();
