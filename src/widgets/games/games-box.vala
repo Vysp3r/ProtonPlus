@@ -129,7 +129,7 @@ namespace ProtonPlus.Widgets.Games {
             non_steam_filter_check = new Gtk.CheckButton ();
             non_steam_filter_check.set_label (_ ("Non-Steam"));
             non_steam_filter_check.set_group (all_filter_check);
-            
+
             var filter_popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
             filter_popover_box.set_margin_top (10);
             filter_popover_box.set_margin_bottom (10);

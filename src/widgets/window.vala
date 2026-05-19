@@ -8,8 +8,6 @@ namespace ProtonPlus.Widgets {
         Main.Box main_box { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
 
-
-
         public Window () {
             Object (application: (Adw.Application) GLib.Application.get_default (), title: Config.APP_NAME);
 
