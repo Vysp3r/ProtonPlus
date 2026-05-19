@@ -6,6 +6,7 @@ namespace ProtonPlus.Models {
         public bool has_more { get; set; }
         public bool has_latest_support { get; set; }
         public bool asset_position_hwcaps_condition { get; set; }
+        public bool legacy { get; set; }
         public Utils.Web.GetRequestType get_request_type { get; set; }
         public Gee.LinkedList<Release> releases { get; set; default = new Gee.LinkedList<Release> (); }
 

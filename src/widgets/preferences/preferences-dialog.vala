@@ -63,6 +63,19 @@ namespace ProtonPlus.Widgets.Preferences {
             Globals.SETTINGS.bind ("check-updates-on-boot", check_updates_on_boot_row, "active", SettingsBindFlags.DEFAULT);
             updates_group.add (check_updates_on_boot_row);
 
+            var tools_behavior_group = new Adw.PreferencesGroup () {
+                title = _ ("Behavior")
+            };
+            tools_page.add (tools_behavior_group);
+
+            var legacy_tools_row = new Adw.SwitchRow () {
+                title = _ ("Show legacy tools"),
+                subtitle = _ ("Display older tools that are no longer actively maintained"),
+            };
+            legacy_tools_row.add_prefix (new Gtk.Image.from_icon_name ("box-archive-symbolic"));
+            Globals.SETTINGS.bind ("show-legacy-tools", legacy_tools_row, "active", SettingsBindFlags.DEFAULT);
+            tools_behavior_group.add (legacy_tools_row);
+
         // Launchers Page
             var launchers_page = new Adw.PreferencesPage () {
                 title = _ ("Launchers"),

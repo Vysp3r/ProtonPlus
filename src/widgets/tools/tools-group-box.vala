@@ -161,6 +161,9 @@ namespace ProtonPlus.Widgets.Tools {
             if (search_text != "" && !tool.title.down ().contains (search_text.down ()))
             return false;
 
+            if (Globals.SETTINGS != null && !Globals.SETTINGS.get_boolean ("show-legacy-tools") && tool.legacy)
+            return false;
+
             if (filter == Filter.ALL)
             return true;
 

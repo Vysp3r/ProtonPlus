@@ -121,6 +121,7 @@ namespace ProtonPlus.Models {
             public string[] request_asset_filter;
             public bool asset_position_hwcaps_condition;
             public string tag;
+            public bool legacy;
         }
 
         static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers) {
@@ -347,6 +348,9 @@ namespace ProtonPlus.Models {
                 if (runner_object.has_member ("tag"))
                 json_runner_item.tag = runner_object.get_string_member ("tag");
 
+                if (runner_object.has_member ("legacy"))
+                json_runner_item.legacy = runner_object.get_boolean_member ("legacy");
+
                 json_runner_items[i] = json_runner_item;
             }
 
@@ -430,6 +434,7 @@ namespace ProtonPlus.Models {
                 runner.group = group;
                 runner.asset_position_hwcaps_condition = json_runner_item.asset_position_hwcaps_condition;
                 runner.tag = json_runner_item.tag;
+                runner.legacy = json_runner_item.legacy;
             }
 
             return runner;

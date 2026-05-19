@@ -61,5 +61,8 @@
         <key name="experimental-features" type="b">
             <default>false</default>
         </key>
+        <key name="show-legacy-tools" type="b">
+            <default>false</default>
+        </key>
     </schema>
 </schemalist>

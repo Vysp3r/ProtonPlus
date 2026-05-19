@@ -128,7 +128,8 @@
               "directory_name_format": "$title $release_name"
             }
           ],
-          "type": "github"
+          "type": "github",
+          "legacy": true
         },
         {
           "title": "Boxtron",
@@ -141,7 +142,8 @@
               "directory_name_format": "$title $release_name"
             }
           ],
-          "type": "github"
+          "type": "github",
+          "legacy": true
         }
       ]
     },

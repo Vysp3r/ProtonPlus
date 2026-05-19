@@ -296,6 +296,15 @@ namespace ProtonPlus.Widgets.Tools {
                 Globals.SETTINGS.changed["automatic-updates"].connect (() => {
                     stack.notify_property ("visible-child-name");
                 });
+                Globals.SETTINGS.changed["show-legacy-tools"].connect (() => {
+                    var child = groups_stack.get_first_child ();
+                    while (child != null) {
+                        if (child is GroupBox) {
+                            ((GroupBox) child).refresh ();
+                        }
+                        child = child.get_next_sibling ();
+                    }
+                });
             }
         }
 
