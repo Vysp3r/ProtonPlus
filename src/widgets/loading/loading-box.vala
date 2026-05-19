@@ -8,6 +8,8 @@ namespace ProtonPlus.Widgets.Loading {
         Adw.Spinner spinner { get; set; }
         Gtk.Box bug_box { get; set; }
         Gtk.Box welcome_box { get; set; }
+        Gtk.Button retry_button { get; set; }
+        Gtk.Button report_button { get; set; }
 
         public Box () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
@@ -23,7 +25,7 @@ namespace ProtonPlus.Widgets.Loading {
 
             welcome_box = create_welcome_box ();
 
-            var content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+            var content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 30);
             content_box.set_halign (Gtk.Align.CENTER);
             content_box.append (spinner);
             content_box.append (bug_box);
@@ -53,7 +55,10 @@ namespace ProtonPlus.Widgets.Loading {
 
             Timeout.add_seconds (15, () => {
                 if (loading) {
-                    status_page.set_description (_ ("Taking longer than normal?\nPlease report this issue on GitHub."));
+                    status_page.set_description (_ ("Taking longer than normal?"));
+                    retry_button.hide ();
+                    report_button.show ();
+                    bug_box.show ();
                 }
 
                 return false;
@@ -69,9 +74,13 @@ namespace ProtonPlus.Widgets.Loading {
                 status_page.set_icon_name ("bug-symbolic");
                 status_page.set_title (_ ("An unexpected error occurred"));
                 status_page.set_description (_ ("We encountered a problem while loading your application.\nPlease try again or report the problem."));
+                retry_button.show ();
+                report_button.show ();
                 bug_box.show ();
                 return;
             }
+
+            bug_box.hide ();
 
             if (launchers.size > 0) {
                 loaded (launchers);
@@ -115,12 +124,12 @@ namespace ProtonPlus.Widgets.Loading {
         }
 
         Gtk.Box create_bug_box () {
-            var retry_button = create_icon_button (_ ("Retry loading"), "arrow-rotate-symbolic", true);
+            retry_button = create_icon_button (_ ("Retry loading"), "arrow-rotate-symbolic", true);
             retry_button.clicked.connect (() => {
                 load.begin ();
             });
 
-            var report_button = create_icon_button (_ ("Report issue"), "github-symbolic");
+            report_button = create_icon_button (_ ("Report issue"), "github-symbolic");
             report_button.clicked.connect (() => {
                 activate_action ("app.report", null);
             });

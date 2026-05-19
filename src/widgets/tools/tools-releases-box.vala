@@ -170,7 +170,7 @@ namespace ProtonPlus.Widgets.Tools {
                         dialog = new Main.WarningDialog (_ ("Invalid access token"), _ ("Make sure the access token you provided is valid."));
                         break;
                     default:
-                        dialog = new Main.ErrorDialog (_ ("Unknown error"), _ ("Please report this issue on GitHub."));
+                        dialog = new Main.ErrorDialog (_ ("Failed to Fetch Releases"), _ ("ProtonPlus could not retrieve the list of available releases. Please check your internet connection and try again."), "");
                         break;
                 }
 

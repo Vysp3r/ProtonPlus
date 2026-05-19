@@ -251,7 +251,7 @@ namespace ProtonPlus.Widgets.Games {
                     names += "\n";
                 }
 
-                var dialog = new Main.ErrorDialog (_ ("Couldn't change the compatibility tool/launch options of the selected games"), "%s\n\n%s\n\n%s".printf (_ ("The following games had an issue:"), names, _ ("Please report this issue on GitHub.")));
+                var dialog = new Main.ErrorDialog (_ ("Batch Update Failed"), _ ("Some games could not be updated with the new compatibility tool or launch options. This may be due to missing permissions or file access issues."), names);
                 dialog.present ((Gtk.Window) this.get_root ());
             }
 

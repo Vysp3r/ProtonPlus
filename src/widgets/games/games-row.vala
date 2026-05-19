@@ -195,7 +195,7 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             if (selected_runner == null || selected_runner.path == null) {
-                var dialog = new Main.ErrorDialog (_ ("Couldn't find the compatibility tool for %s").printf (game.name), _ ("Please make sure it's installed."));
+                var dialog = new Main.ErrorDialog (_ ("Compatibility Tool Not Found"), _ ("The compatibility tool required for %s is missing from your system. Please ensure it is correctly installed.").printf (game.name), "");
                 dialog.present ((Gtk.Window) this.get_root ());
                 return;
             }

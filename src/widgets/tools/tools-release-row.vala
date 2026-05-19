@@ -158,7 +158,7 @@ namespace ProtonPlus.Widgets.Tools {
                 } else if (code == ReturnCode.NOTHING_TO_UPDATE) {
                     Utils.DownloadManager.instance.tool_updated (release, false);
                 } else if (!release.canceled) {
-                    var dialog = new Main.ErrorDialog (_ ("Couldn't update %s").printf (release.title), _ ("Please report this issue on GitHub."));
+                    var dialog = new Main.ErrorDialog (_ ("Failed to Update %s").printf (release.title), _ ("An error occurred while attempting to update the compatibility tool."), release.error_message ?? _ ("Unknown error"));
                     dialog.present ((Gtk.Window) this.get_root ());
                 }
             });
@@ -217,7 +217,7 @@ namespace ProtonPlus.Widgets.Tools {
         protected virtual void install_button_clicked () {
             release.install.begin ((obj, res) => {
                 if (release.install.end (res) != ReturnCode.RUNNER_INSTALLED && !release.canceled) {
-                    var dialog = new Main.ErrorDialog (_ ("Couldn't install %s").printf (release.title), _ ("Please report this issue on GitHub."));
+                    var dialog = new Main.ErrorDialog (_ ("Installation Failed"), _ ("ProtonPlus could not install %s on your system.").printf (release.title), release.error_message ?? _ ("Unknown error"));
                     dialog.present ((Gtk.Window) this.get_root ());
                 }
             });
