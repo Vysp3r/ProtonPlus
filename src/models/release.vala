@@ -19,6 +19,40 @@ namespace ProtonPlus.Models {
         public int64 download_size { get; set; }
         protected string destination_path { get; set; }
 
+        public virtual Json.Object to_json () {
+            var obj = new Json.Object ();
+            obj.set_string_member ("kind", "generic");
+            obj.set_string_member ("title", title);
+            obj.set_string_member ("description", description);
+            obj.set_string_member ("release_date", release_date);
+            obj.set_string_member ("download_url", download_url);
+            obj.set_string_member ("page_url", page_url);
+            obj.set_int_member ("download_size", download_size);
+            return obj;
+        }
+
+        public static Release? from_json (Tool runner, Json.Object obj) {
+            if (!obj.has_member ("kind") || !obj.has_member ("title")) return null;
+
+            string kind = obj.get_string_member ("kind");
+            string title = obj.get_string_member ("title");
+            string description = obj.has_member ("description") ? obj.get_string_member ("description") : "";
+            string release_date = obj.has_member ("release_date") ? obj.get_string_member ("release_date") : "";
+            string download_url = obj.has_member ("download_url") ? obj.get_string_member ("download_url") : "";
+            string page_url = obj.has_member ("page_url") ? obj.get_string_member ("page_url") : "";
+            int64 download_size = obj.has_member ("download_size") ? obj.get_int_member ("download_size") : 0;
+
+            if (kind == "github-action") {
+                string artifacts_url = obj.has_member ("artifacts_url") ? obj.get_string_member ("artifacts_url") : "";
+                return new Releases.GitHubAction (runner as Tools.Basic, title, release_date, download_url, page_url, artifacts_url);
+            } else if (kind == "latest") {
+                return new Releases.Latest (runner as Tools.Basic, title, description, release_date, download_url, page_url);
+            } else {
+            // Default or generic
+                return new Release.github (runner as Tools.Basic, title, description, release_date, download_size, download_url, page_url);
+            }
+        }
+
         private State _state;
         public State state {
             get {

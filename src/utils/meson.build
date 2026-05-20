@@ -8,4 +8,5 @@ sources += files(
     'theme-manager.vala',
     'download-manager.vala',
     'mangohud-manager.vala',
+    'cache-manager.vala',
 )

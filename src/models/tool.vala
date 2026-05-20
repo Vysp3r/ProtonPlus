@@ -7,6 +7,8 @@ namespace ProtonPlus.Models {
         public bool has_latest_support { get; set; }
         public bool asset_position_hwcaps_condition { get; set; }
         public bool legacy { get; set; }
+        public string last_updated { get; set; }
+        public int page { get; set; default = 1; }
         public Utils.Web.GetRequestType get_request_type { get; set; }
         public Gee.LinkedList<Release> releases { get; set; default = new Gee.LinkedList<Release> (); }
 
@@ -18,15 +20,26 @@ namespace ProtonPlus.Models {
             return false;
         }
 
-        public async Gee.LinkedList<Release> get_releases_async (out ReturnCode code) {
-            if (releases.size > 0) {
+        public async Gee.LinkedList<Release> get_releases_async (bool force_fetch, out ReturnCode code) {
+            if (releases.size > 0 && !force_fetch) {
                 code = ReturnCode.RELEASES_LOADED;
             } else {
+                if (!force_fetch) {
+                    yield Utils.CacheManager.load_releases (this);
+                    if (releases.size > 0) {
+                        code = ReturnCode.RELEASES_LOADED;
+                        return releases;
+                    }
+                } else {
+                    page = 1;
+                }
+
                 var new_releases = yield load_more (out code);
 
                 if (code != ReturnCode.RELEASES_LOADED || new_releases.size == 0)
                 return releases;
 
+                releases.clear ();
                 foreach (var release in new_releases) {
                     releases.add (release);
                 }
@@ -36,6 +49,9 @@ namespace ProtonPlus.Models {
 
                     releases.insert (0, latest_release);
                 }
+
+                last_updated = new DateTime.now_local ().format_iso8601 ();
+                yield Utils.CacheManager.save_releases (this);
             }
 
             return releases;

@@ -6,6 +6,12 @@ namespace ProtonPlus.Models.Releases {
             this.description = description;
         }
 
+        public override Json.Object to_json () {
+            var obj = base.to_json ();
+            obj.set_string_member ("kind", "latest");
+            return obj;
+        }
+
         protected override async ReturnCode _start_install () {
             var code = yield base._start_install ();
             if (code != ReturnCode.RUNNER_INSTALLED)

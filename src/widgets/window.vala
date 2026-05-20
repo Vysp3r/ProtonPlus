@@ -59,8 +59,6 @@ namespace ProtonPlus.Widgets {
             if (Utils.DownloadManager.instance.active_downloads.size == 0) {
                 controller_manager.stop ();
 
-                Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
-
                 return false;
             }
 
@@ -80,8 +78,6 @@ namespace ProtonPlus.Widgets {
                 return;
 
                 controller_manager.stop ();
-
-                Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
 
                 application.quit ();
             });

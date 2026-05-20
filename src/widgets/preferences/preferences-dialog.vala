@@ -174,6 +174,7 @@ namespace ProtonPlus.Widgets.Preferences {
             };
             advanced_page.add (maintenance_group);
             maintenance_group.add (new RefreshApplicationDataRow (this));
+            maintenance_group.add (new DeleteCacheRow ());
 
             // System Page
             var system_page = new Adw.PreferencesPage () {

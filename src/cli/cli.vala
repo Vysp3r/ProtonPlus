@@ -409,7 +409,7 @@ namespace ProtonPlus.CLI {
 
         private async ReturnCode load_runner_releases (Models.Tools.Basic basic_runner) {
             ReturnCode code;
-            var releases = yield basic_runner.get_releases_async (out code);
+            var releases = yield basic_runner.get_releases_async (false, out code);
             if (code != ReturnCode.RELEASES_LOADED || releases.size == 0) {
                 Output.error (_ ("Error: Failed to load releases\n"));
             }

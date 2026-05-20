@@ -8,6 +8,13 @@ namespace ProtonPlus.Models.Releases {
             shared (runner, title, release_date, download_url, page_url);
         }
 
+        public override Json.Object to_json () {
+            var obj = base.to_json ();
+            obj.set_string_member ("kind", "github-action");
+            obj.set_string_member ("artifacts_url", artifacts_url);
+            return obj;
+        }
+
         protected override async ReturnCode _start_install () {
             step = Step.DOWNLOADING;
 

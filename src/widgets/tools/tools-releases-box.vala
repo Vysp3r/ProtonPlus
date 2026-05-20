@@ -5,6 +5,8 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Box tool_box { get; set; }
         Gtk.Label title_label { get; set; }
         Gtk.Label desc_label { get; set; }
+        Gtk.Label last_updated_label { get; set; }
+        Gtk.Button refresh_button { get; set; }
         Gtk.Box header_box { get; set; }
         Gtk.ListBox list_box { get; set; }
         Gtk.Stack content_stack { get; set; }
@@ -55,9 +57,27 @@ namespace ProtonPlus.Widgets.Tools {
             title_box.append (title_label);
             title_box.append (desc_label);
 
+            var info_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+            info_box.append (icon);
+            info_box.append (title_box);
+            info_box.hexpand = true;
+
+            last_updated_label = new Gtk.Label (null) {
+                halign = Gtk.Align.END,
+                css_classes = { "caption" }
+            };
+
+            refresh_button = new Gtk.Button.from_icon_name ("view-refresh-symbolic") {
+                valign = Gtk.Align.CENTER,
+                tooltip_text = _ ("Check for new releases")
+            };
+            refresh_button.add_css_class ("flat");
+            refresh_button.clicked.connect (on_refresh_clicked);
+
             header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-            header_box.append (icon);
-            header_box.append (title_box);
+            header_box.append (info_box);
+            header_box.append (last_updated_label);
+            header_box.append (refresh_button);
 
             list_box = new Gtk.ListBox () {
                 selection_mode = Gtk.SelectionMode.NONE
@@ -147,9 +167,10 @@ namespace ProtonPlus.Widgets.Tools {
 
             title_label.set_label (tool.title);
             desc_label.set_label (tool.description);
+            update_last_updated_label ();
 
             ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (out code);
+            Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (false, out code);
             if (code != ReturnCode.RELEASES_LOADED) {
                 Adw.AlertDialog dialog;
 
@@ -189,7 +210,81 @@ namespace ProtonPlus.Widgets.Tools {
             load_more_row.visible = tool.has_more;
 
             content_stack.set_visible_child_name ("list");
+            update_last_updated_label ();
             update_visibility ();
+        }
+
+        private void on_refresh_clicked () {
+            if (current_tool == null) return;
+            set_selected_tool_forced.begin (current_tool);
+        }
+
+        private async void set_selected_tool_forced (Models.Tool tool) {
+            current_tool = tool;
+            content_stack.set_visible_child_name ("spinner");
+
+            list_box.remove_all ();
+
+            title_label.set_label (tool.title);
+            desc_label.set_label (tool.description);
+
+            ReturnCode code;
+            Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (true, out code);
+            if (code != ReturnCode.RELEASES_LOADED) {
+                Adw.AlertDialog dialog;
+
+                switch (code) {
+                    case ReturnCode.API_LIMIT_REACHED:
+                        dialog = new Main.WarningDialog (_ ("API limit reached"), _ ("Try again in a few minutes."));
+                        break;
+                    case ReturnCode.CONNECTION_ISSUE:
+                        dialog = new Main.WarningDialog (_ ("Unable to reach the API"), _ ("Make sure you're connected to the internet."));
+                        break;
+                    case ReturnCode.CONNECTION_REFUSED:
+                        dialog = new Main.WarningDialog (_ ("Unable to reach the API"), _ ("Make sure your DNS is not blocking this."));
+                        break;
+                    case ReturnCode.CONNECTION_UNKNOWN:
+                        dialog = new Main.WarningDialog (_ ("Unable to reach the API"), _ ("The requested website does not seem to be valid."));
+                        break;
+                    case ReturnCode.INVALID_ACCESS_TOKEN:
+                        dialog = new Main.WarningDialog (_ ("Invalid access token"), _ ("Make sure the access token you provided is valid."));
+                        break;
+                    default:
+                        dialog = new Main.ErrorDialog (_ ("Failed to Fetch Releases"), _ ("ProtonPlus could not retrieve the list of available releases. Please check your internet connection and try again."), "");
+                        break;
+                }
+
+                content_stack.set_visible_child_name ("list");
+
+                dialog.present ((Gtk.Window) this.get_root ());
+
+                return;
+            }
+
+            foreach (var release in releases) {
+                add_release_row (release);
+            }
+
+            list_box.append (load_more_row);
+            load_more_row.visible = tool.has_more;
+
+            content_stack.set_visible_child_name ("list");
+            update_last_updated_label ();
+            update_visibility ();
+        }
+
+        private void update_last_updated_label () {
+            if (current_tool == null || current_tool.last_updated == null || current_tool.last_updated == "") {
+                last_updated_label.set_label ("");
+                return;
+            }
+
+            var date = new DateTime.from_iso8601 (current_tool.last_updated, null);
+            if (date != null) {
+                last_updated_label.set_label (_ ("Last updated: %s").printf (date.format ("%Y-%m-%d %H:%M")));
+            } else {
+                last_updated_label.set_label ("");
+            }
         }
 
         public void refresh_usage_pills () {
@@ -233,6 +328,8 @@ namespace ProtonPlus.Widgets.Tools {
                 }
                 list_box.remove (load_more_row);
                 list_box.append (load_more_row);
+
+                Utils.CacheManager.save_releases.begin (current_tool);
             }
 
             load_more_row.visible = current_tool.has_more;

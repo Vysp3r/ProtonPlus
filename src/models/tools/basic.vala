@@ -3,13 +3,8 @@ namespace ProtonPlus.Models.Tools {
         internal int asset_position { get; set; }
         internal string asset_position_time_condition { get; set; }
         internal string endpoint { get; set; }
-        internal int page { get; set; }
         internal string directory_name_format { get; set; }
         public string tag { get; set; }
-
-        construct {
-            page = 1;
-        }
 
         public virtual string get_directory_name (string release_name) {
             if (release_name.contains ("Latest"))

@@ -5,11 +5,13 @@ namespace ProtonPlus.Models.Tools {
         public string path { get; set; }
 
         public Simple (string display_title, string internal_title) {
+            this.title = display_title;
             this.display_title = display_title;
             this.internal_title = internal_title;
         }
 
         public Simple.with_path (string display_title, string internal_title, string path) {
+            this.title = display_title;
             this.display_title = display_title;
             this.internal_title = internal_title;
             this.path = path;
@@ -38,7 +40,8 @@ namespace ProtonPlus.Models.Tools {
                 return;
             }
 
-            display_title = content.substring (start_pos, end_pos - start_pos);
+            title = content.substring (start_pos, end_pos - start_pos);
+            display_title = title;
 
             start_text = "compat_tools\"";
             start_pos = content.index_of (start_text, 0) + start_text.length;
