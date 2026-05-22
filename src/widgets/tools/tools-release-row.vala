@@ -71,7 +71,7 @@ namespace ProtonPlus.Widgets.Tools {
             activated.connect (() => release_selected (release));
 
             var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            input_box.set_margin_end (10);
+            input_box.set_margin_end (12);
             input_box.set_valign (Gtk.Align.CENTER);
             input_box.add_css_class ("linked");
             input_box.add_css_class ("tools-release-row-input-box");
@@ -84,7 +84,8 @@ namespace ProtonPlus.Widgets.Tools {
 
                 input_box.append (update_button);
 
-                var info_pill = new Gtk.Image.from_icon_name ("info-2-symbolic");
+                var info_pill = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+                info_pill.append (new Gtk.Image.from_icon_name ("info-2-symbolic"));
                 info_pill.set_tooltip_text (_ ("This is a rolling release.\nIt will always be updated to the latest available version when automatic updates is activated."));
                 info_pill.add_css_class ("info-pill");
                 info_pill.set_valign (Gtk.Align.CENTER);

@@ -91,7 +91,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             var clamp = new Adw.Clamp () {
                 maximum_size = 975,
-                margin_top = 5,
+                margin_top = 12,
                 margin_bottom = 12,
                 margin_start = 12,
                 margin_end = 12,

@@ -20,12 +20,12 @@ namespace ProtonPlus.Widgets.Tools {
             title_label.set_hexpand (true);
             title_label.set_ellipsize (Pango.EllipsizeMode.END);
 
-            content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
+            content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 12);
             content_box.set_hexpand (true);
-            content_box.set_margin_start (10);
-            content_box.set_margin_end (10);
-            content_box.set_margin_top (10);
-            content_box.set_margin_bottom (10);
+            content_box.set_margin_start (12);
+            content_box.set_margin_end (12);
+            content_box.set_margin_top (12);
+            content_box.set_margin_bottom (12);
             content_box.set_valign (Gtk.Align.CENTER);
             content_box.append (select_check_button);
             content_box.append (title_label);

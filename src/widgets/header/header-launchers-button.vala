@@ -14,7 +14,7 @@ namespace ProtonPlus.Widgets.Header {
 
             button_label = new Gtk.Label (null);
 
-            var button_content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+            var button_content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             button_content.append (button_image);
             button_content.append (button_label);
 
@@ -87,10 +87,10 @@ namespace ProtonPlus.Widgets.Header {
             labels_box.append (title_label);
             labels_box.append (subtitle_label);
 
-            var content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+            var content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             content_box.append (icon);
             content_box.append (labels_box);
-            content_box.add_css_class ("p-10");
+            content_box.add_css_class ("p-12");
 
             var row = new Gtk.ListBoxRow ();
             row.set_data ("launcher", launcher);

@@ -17,10 +17,10 @@ namespace ProtonPlus.Widgets.Games {
             header_bar.set_title_widget (window_title);
             header_bar.set_show_end_title_buttons (false);
 
-            content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
-            content_box.set_margin_start (10);
-            content_box.set_margin_end (10);
-            content_box.set_margin_bottom (10);
+            content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+            content_box.set_margin_start (12);
+            content_box.set_margin_end (12);
+            content_box.set_margin_bottom (12);
             content_box.set_halign (Gtk.Align.CENTER);
 
             foreach (var profile in launcher.profiles) {

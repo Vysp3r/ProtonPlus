@@ -52,21 +52,21 @@ namespace ProtonPlus.Widgets.Games {
             tool_label.set_xalign (0.0f);
             tool_label.set_max_width_chars (30);
             tool_label.set_ellipsize (Pango.EllipsizeMode.END);
-            tool_label.set_size_request (250, 0);
+            tool_label.set_size_request (254, 0);
             refresh_tool_label ();
 
             extra_button = new ExtraButton(game);
 
-            other_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
+            other_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 12);
             other_box.set_size_request (122, 0);
             other_box.append (extra_button);
 
-            content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
+            content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 12);
             content_box.set_hexpand (true);
-            content_box.set_margin_start (10);
-            content_box.set_margin_end (10);
-            content_box.set_margin_top (10);
-            content_box.set_margin_bottom (10);
+            content_box.set_margin_start (12);
+            content_box.set_margin_end (12);
+            content_box.set_margin_top (12);
+            content_box.set_margin_bottom (12);
             content_box.set_valign (Gtk.Align.CENTER);
             content_box.append (select_check_button);
             content_box.append (title_label);

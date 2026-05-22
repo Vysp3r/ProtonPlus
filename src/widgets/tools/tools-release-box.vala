@@ -87,7 +87,7 @@ namespace ProtonPlus.Widgets.Tools {
             name_label.set_margin_start (5);
             name_label.set_hexpand (true);
 
-            list_header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+            list_header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             list_header_box.add_css_class ("list-header");
             list_header_box.set_hexpand (true);
             list_header_box.set_overflow (Gtk.Overflow.HIDDEN);

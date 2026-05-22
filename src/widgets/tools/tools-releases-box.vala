@@ -39,7 +39,9 @@ namespace ProtonPlus.Widgets.Tools {
         public ReleasesBox () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
-            var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic");
+            var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic") {
+                valign = Gtk.Align.CENTER
+            };
 
             title_label = new Gtk.Label (null) {
                 halign = Gtk.Align.START,
@@ -53,17 +55,22 @@ namespace ProtonPlus.Widgets.Tools {
                 xalign = 0
             };
 
-            var title_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            var title_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
+                valign = Gtk.Align.CENTER
+            };
             title_box.append (title_label);
             title_box.append (desc_label);
 
-            var info_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+            var info_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+                hexpand = true,
+                valign = Gtk.Align.CENTER
+            };
             info_box.append (icon);
             info_box.append (title_box);
-            info_box.hexpand = true;
 
             last_updated_label = new Gtk.Label (null) {
                 halign = Gtk.Align.END,
+                valign = Gtk.Align.CENTER,
                 css_classes = { "caption" }
             };
 
@@ -149,7 +156,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             var clamp = new Adw.Clamp () {
                 maximum_size = 975,
-                margin_top = 5,
+                margin_top = 12,
                 margin_bottom = 12,
                 margin_start = 12,
                 margin_end = 12,

@@ -94,7 +94,7 @@ namespace ProtonPlus.Widgets.MangoHud {
 
         private Gtk.ScrolledWindow create_scrolled_window (Gtk.Widget child) {
             var scrolled = new Gtk.ScrolledWindow () {
-                child = new Adw.Clamp () { child = child, maximum_size = 975, margin_top = 0, margin_bottom = 15, margin_start = 0, margin_end = 0 },
+                child = new Adw.Clamp () { child = child, maximum_size = 975, margin_top = 0, margin_bottom = 12, margin_start = 0, margin_end = 0 },
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
                 vexpand = true
             };

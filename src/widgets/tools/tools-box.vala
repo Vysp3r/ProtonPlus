@@ -196,11 +196,11 @@ namespace ProtonPlus.Widgets.Tools {
             var unused_filter_button = new Gtk.CheckButton.with_label (_ ("Unused"));
             unused_filter_button.set_group (all_filter_button);
 
-            var filter_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 10) {
-                margin_top = 10,
-                margin_bottom = 10,
-                margin_start = 10,
-                margin_end = 10
+            var filter_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12) {
+                margin_top = 12,
+                margin_bottom = 12,
+                margin_start = 12,
+                margin_end = 12
             };
             filter_box.append (all_filter_button);
             filter_box.append (installed_filter_button);

@@ -13,7 +13,7 @@ namespace ProtonPlus.Widgets.Games {
 
             content_label = new Gtk.Label (_ ("Switch profile"));
 
-            content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
+            content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             content.append (content_image);
             content.append (content_label);
 

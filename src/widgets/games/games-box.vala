@@ -29,7 +29,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.CheckButton all_filter_check;
         Gtk.CheckButton non_steam_filter_check;
         Gtk.CheckButton native_filter_check;
-        Gtk.Spinner spinner;
+        Adw.Spinner spinner;
         Gtk.Overlay overlay;
         MassEditView mass_edit_view;
         ListStore model;
@@ -51,10 +51,10 @@ namespace ProtonPlus.Widgets.Games {
             game_list_box.add_css_class ("boxed-list");
             game_list_box.add_css_class ("list-content");
 
-            spinner = new Gtk.Spinner();
+            spinner = new Adw.Spinner();
             spinner.set_halign (Gtk.Align.CENTER);
             spinner.set_valign (Gtk.Align.CENTER);
-            spinner.set_size_request (200, 200);
+            spinner.set_size_request (32, 32);
 
             overlay = new Gtk.Overlay();
             overlay.set_hexpand (true);
@@ -130,11 +130,11 @@ namespace ProtonPlus.Widgets.Games {
             non_steam_filter_check.set_label (_ ("Non-Steam"));
             non_steam_filter_check.set_group (all_filter_check);
 
-            var filter_popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
-            filter_popover_box.set_margin_top (10);
-            filter_popover_box.set_margin_bottom (10);
-            filter_popover_box.set_margin_start (10);
-            filter_popover_box.set_margin_end (10);
+            var filter_popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+            filter_popover_box.set_margin_top (12);
+            filter_popover_box.set_margin_bottom (12);
+            filter_popover_box.set_margin_start (12);
+            filter_popover_box.set_margin_end (12);
             filter_popover_box.append (all_filter_check);
             filter_popover_box.append (native_filter_check);
             filter_popover_box.append (non_steam_filter_check);
@@ -222,7 +222,7 @@ namespace ProtonPlus.Widgets.Games {
             other_label.set_xalign (0);
             other_label.set_size_request (122, 0);
 
-            header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 10);
+            header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 12);
             header_box.set_hexpand (true);
 
             header_box.add_css_class ("list-header");
@@ -275,10 +275,10 @@ namespace ProtonPlus.Widgets.Games {
             var clamp = new Adw.Clamp ();
             clamp.set_vexpand (true);
             clamp.set_maximum_size (975);
-            clamp.set_margin_top (5);
+            clamp.set_margin_top (12);
             clamp.set_margin_bottom (12);
-            clamp.set_margin_start (20);
-            clamp.set_margin_end (20);
+            clamp.set_margin_start (12);
+            clamp.set_margin_end (12);
             clamp.set_child (content_stack);
 
             expression = new Gtk.PropertyExpression(typeof (Models.Tools.Simple), null, "display_title");
@@ -369,8 +369,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void load_games () {
-            if (!spinner.spinning)
-            spinner.start ();
+            spinner.set_visible (true);
 
             game_list_box.remove_all ();
 
@@ -419,11 +418,11 @@ namespace ProtonPlus.Widgets.Games {
 
             overlay.remove_overlay (spinner);
 
-            spinner.stop ();
+            spinner.set_visible (false);
         }
 
         void load_steam_profile (Models.SteamProfile profile) {
-            spinner.start ();
+            spinner.set_visible (true);
 
             var steam_launcher = (Models.Launchers.Steam) launcher;
             steam_launcher.switch_profile.begin (profile, (obj, res) => {
@@ -458,8 +457,8 @@ namespace ProtonPlus.Widgets.Games {
             foreach (var row in rows) {
                 var label = new Gtk.Label (row.game.name);
                 label.set_xalign (0);
-                label.set_margin_start (10);
-                label.set_margin_end (10);
+                label.set_margin_start (12);
+                label.set_margin_end (12);
                 label.set_margin_top (5);
                 label.set_margin_bottom (5);
                 selection_list_box.append (label);

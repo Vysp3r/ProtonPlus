@@ -64,8 +64,8 @@ namespace ProtonPlus.Widgets.Tools {
             foreach (var game in games) {
                 var label = new Gtk.Label (game.name);
                 label.set_xalign (0);
-                label.set_margin_start (10);
-                label.set_margin_end (10);
+                label.set_margin_start (12);
+                label.set_margin_end (12);
                 label.set_margin_top (5);
                 label.set_margin_bottom (5);
                 games_list_box.append (label);

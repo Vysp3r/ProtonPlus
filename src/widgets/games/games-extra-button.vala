@@ -18,7 +18,7 @@ namespace ProtonPlus.Widgets.Games {
             anticheat_button = new Gtk.Button.with_label("AreWeAntiCheatYet");
             anticheat_button.clicked.connect (anticheat_button_clicked);
 
-            content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 10);
+            content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
 
             popover = new Gtk.Popover();
             popover.set_autohide (true);

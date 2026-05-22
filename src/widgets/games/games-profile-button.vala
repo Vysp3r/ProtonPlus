@@ -23,11 +23,11 @@ namespace ProtonPlus.Widgets.Games {
 
             set_orientation (Gtk.Orientation.VERTICAL);
             set_halign (Gtk.Align.CENTER);
-            set_spacing (10);
-            set_margin_start (10);
-            set_margin_end (10);
-            set_margin_bottom (10);
-            add_css_class ("p-10");
+            set_spacing (12);
+            set_margin_start (12);
+            set_margin_end (12);
+            set_margin_bottom (12);
+            add_css_class ("p-12");
             add_css_class ("activatable");
             add_css_class ("card");
             set_overflow (Gtk.Overflow.HIDDEN);
