@@ -448,6 +448,8 @@ using Adw;
     public class LaunchOptionsEditor : Gtk.Box {
         public signal void content_changed ();
 
+        Adw.PreferencesGroup proton_options_group { get; set; }
+        Adw.PreferencesGroup audio_group { get; set; }
         Adw.PreferencesGroup more_options_group { get; set; }
         Adw.PreferencesGroup gpu_vendor_group { get; set; }
         Adw.PreferencesGroup game_arguments_group { get; set; }
@@ -463,6 +465,9 @@ using Adw;
         LaunchOptionTile amd_anti_lag_tile { get; set; }
         LaunchOptionTile amd_prime_tile { get; set; }
         LaunchOptionTile amd_hide_apu_tile { get; set; }
+        LaunchOptionTile amd_staging_shared_memory_tile { get; set; }
+        LaunchOptionTile amd_mesa_glthread_tile { get; set; }
+        LaunchOptionTile amd_mesa_shader_cache_disable_tile { get; set; }
         LaunchOptionTile nvapi_tile { get; set; }
         LaunchOptionTile nvidia_ngx_updater_tile { get; set; }
         LaunchOptionTile nvidia_hide_gpu_tile { get; set; }
@@ -472,6 +477,15 @@ using Adw;
         LaunchOptionTile prefer_sdl_tile { get; set; }
         LaunchOptionTile no_steaminput_tile { get; set; }
         LaunchOptionTile ntsync_tile { get; set; }
+        LaunchOptionTile dxvk_async_tile { get; set; }
+        LaunchOptionTile dxvk_log_level_none_tile { get; set; }
+        LaunchOptionTile wine_vk_use_sync2_tile { get; set; }
+        LaunchOptionTile wine_sync_use_futex_waitv_tile { get; set; }
+        LaunchOptionTile proton_priority_high_tile { get; set; }
+        LaunchOptionTile proton_use_wow64_tile { get; set; }
+        LaunchOptionTile proton_force_large_address_aware_tile { get; set; }
+        LaunchOptionTile proton_logs_tile { get; set; }
+        LaunchOptionSpinTile pulse_latency_tile { get; set; }
         LaunchOptionTile local_shader_cache_tile { get; set; }
         LaunchOptionEntryField additional_args_field { get; set; }
         LaunchOptionTile additional_args_tile { get; set; }
@@ -598,6 +612,10 @@ using Adw;
             amd_fsr4_rdna3_upgrade_tile.toggle.notify["active"].connect (amd_fsr4_rdna3_upgrade_toggle_changed);
             gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_FSR4_RDNA3_UPGRADE=1" }, amd_fsr4_rdna3_upgrade_tile.toggle));
 
+            amd_staging_shared_memory_tile = create_gpu_vendor_tile (_ ("Staging shared memory"), _ ("Enables shared memory support in the AMD GPU driver for better performance in some games."), { "STAGING_SHARED_MEMORY=1" });
+            amd_mesa_glthread_tile = create_gpu_vendor_tile (_ ("Mesa GLThread"), _ ("Enables Mesa's GLThread optimization for better performance in some games."), { "mesa_glthread=true" });
+            amd_mesa_shader_cache_disable_tile = create_gpu_vendor_tile (_ ("Disable Mesa shader cache"), _ ("Disables Mesa's shader cache which can cause stuttering in some games."), { "MESA_SHADER_CACHE_DISABLE=1" });
+
             nvapi_tile = new LaunchOptionTile (_ ("NVAPI"), _ ("Lets games access NVIDIA-specific features like DLSS."));
             nvapi_tile.toggle.notify["active"].connect (nvidia_nvapi_toggle_changed);
             gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NVAPI=1" }, nvapi_tile.toggle));
@@ -614,7 +632,7 @@ using Adw;
             gpu_vendor_stack.set_hhomogeneous (false);
             gpu_vendor_stack.set_vhomogeneous (false);
             gpu_vendor_stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
-            gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ amd_anti_lag_tile, amd_fsr4_upgrade_tile, amd_fsr4_rdna3_upgrade_tile, amd_prime_tile, amd_hide_apu_tile }), "amd", _ ("AMD"));
+            gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ amd_anti_lag_tile, amd_fsr4_upgrade_tile, amd_fsr4_rdna3_upgrade_tile, amd_prime_tile, amd_hide_apu_tile, amd_staging_shared_memory_tile, amd_mesa_glthread_tile, amd_mesa_shader_cache_disable_tile }), "amd", _ ("AMD"));
             gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ nvapi_tile, nvidia_ngx_updater_tile, nvidia_hide_gpu_tile, dlss_indicator_tile, nvidia_libs_tile }), "nvidia", _ ("NVIDIA"));
             gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ intel_xess_upgrade_tile }), "intel", _ ("Intel"));
             gpu_vendor_stack.set_visible_child_name ("amd");
@@ -640,6 +658,10 @@ using Adw;
             local_shader_cache_tile = create_common_tile (_ ("Local shader cache"), _ ("Enables per-game shader cache. This isolates the shader cache of each game but does not compile them ahead-of-time."), { "PROTON_LOCAL_SHADER_CACHE=1" });
             prefer_sdl_tile = create_common_tile (_ ("Prefer SDL controller"), _ ("Workaround for controller detection issues."), { "PROTON_PREFER_SDL=1" });
             no_steaminput_tile = create_common_tile (_ ("Disable Steam Input"), _ ("Disables Steam Input support. Fixes Wayland controller/gamepad issues."), { "PROTON_NO_STEAMINPUT=1" });
+            dxvk_async_tile = create_common_tile (_ ("DXVK Async"), _ ("Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."), { "DXVK_ASYNC=1" });
+            dxvk_log_level_none_tile = create_common_tile (_ ("Disable DXVK logging"), _ ("Sets DXVK's log level to none which can improve performance in some games."), { "DXVK_LOG_LEVEL=none" });
+            wine_vk_use_sync2_tile = create_common_tile (_ ("WINE_VK_USE_SYNC2"), _ ("Enables WINE_VK_USE_SYNC2 which can improve performance and reduce stuttering in some games when using WineD3D."), { "WINE_VK_USE_SYNC2=1" });
+            wine_sync_use_futex_waitv_tile = create_common_tile (_ ("WINE_SYNC_USE_FUTEX_WAITV"), _ ("Enables WINE_SYNC_USE_FUTEX_WAITV which can improve performance and reduce stuttering in some games when using WineD3D."), { "WINE_SYNC_USE_FUTEX_WAITV=1" });
 
             more_options_group = new PreferencesGroup ();
             more_options_group.title = _ ("More options");
@@ -650,9 +672,41 @@ using Adw;
             more_options_group.add (local_shader_cache_tile);
             more_options_group.add (prefer_sdl_tile);
             more_options_group.add (no_steaminput_tile);
+            more_options_group.add (dxvk_async_tile);
+            more_options_group.add (dxvk_log_level_none_tile);
+            more_options_group.add (wine_vk_use_sync2_tile);
+            more_options_group.add (wine_sync_use_futex_waitv_tile);
             append (more_options_group);
+        
+        // Proton options
 
-            // Game arguments
+            proton_priority_high_tile = create_common_tile (_ ("Higher priority for games"), _ ("Gives the game a higher CPU priority which can improve performance in some cases."), { "PROTON_PRIORITY_HIGH=1" });
+            proton_use_wow64_tile = create_common_tile (_ ("Use WoW64"), _ ("Enables WoW64 support for 32-bit games on 64-bit Proton builds. This can improve compatibility for some older games."), { "PROTON_USE_WOW64=1" });
+            proton_force_large_address_aware_tile = create_common_tile (_ ("Allows 32-bit games to use more than 2GB of RAM"), _ ("Forces 32-bit games to use large address aware which can improve performance and stability."), { "PROTON_FORCE_LARGE_ADDRESS_AWARE=1" });
+            proton_logs_tile = create_common_tile (_ ("Enable Proton logs"), _ ("Enables logging for Proton which can help with troubleshooting game issues. Logs are saved in the game's compatibility data folder."), { "PROTON_LOG=1" });
+
+            proton_options_group = new PreferencesGroup ();
+            proton_options_group.title = _ ("Proton options");
+            proton_options_group.description = _ ("Extra Proton settings and launch behaviors.");
+            proton_options_group.add (proton_priority_high_tile);
+            proton_options_group.add (proton_use_wow64_tile);
+            proton_options_group.add (proton_force_large_address_aware_tile);
+            proton_options_group.add (proton_logs_tile);
+            append (proton_options_group);
+
+        // Audio options
+
+            pulse_latency_tile = new LaunchOptionSpinTile (_ ("PulseAudio low latency"), _ ("Enables low latency mode in PulseAudio which can reduce audio latency in some games (60, 90, 120)."), _ ("MSEC"), 30, 360, 90);
+            pulse_latency_tile.toggle.notify["active"].connect (standard_control_changed);
+            pulse_latency_tile.value_applied.connect (standard_control_changed);
+
+            var audio_group = new PreferencesGroup ();
+            audio_group.title = _ ("Audio options");
+            audio_group.description = _ ("Audio-related launch options.");
+            audio_group.add (pulse_latency_tile);
+
+            append (audio_group);
+        // Game arguments
 
             skip_launcher_tile = create_game_argument_tile (_ ("Skip launcher"), _ ("Adds -skip-launcher to bypass launchers in games that support it."), { "-skip-launcher" });
             vulkan_tile = create_game_argument_tile (_ ("Vulkan"), _ ("Adds -vulkan to make the game use its Vulkan renderer."), { "-vulkan" });
@@ -981,6 +1035,7 @@ using Adw;
             var is_advanced = advanced_visible;
             preview_field.set_visible (is_advanced);
             more_options_group.set_visible (is_advanced);
+            proton_options_group.set_visible (is_advanced);
             gpu_vendor_group.set_visible (is_advanced);
             game_arguments_group.set_visible (is_advanced);
             gamescope_args_field.set_visible (is_advanced);
