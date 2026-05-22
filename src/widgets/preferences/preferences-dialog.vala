@@ -31,6 +31,19 @@ namespace ProtonPlus.Widgets.Preferences {
             latest_group.add (automatic_updates_row);
             latest_group.add (check_updates_row);
 
+            var proxy_mode_row = new ProxyModeRow ();
+
+            var proxy_url_row = new Adw.EntryRow () {
+                title = _ ("Proxy URL"),
+            };
+            proxy_url_row.set_tooltip_text (_ ("Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"));
+
+            var network_group = new Adw.PreferencesGroup () {
+                title = _ ("Network"),
+            };
+            network_group.add (proxy_mode_row);
+            network_group.add (proxy_url_row);
+
             var github_access_token_row = new AccessTokenRow ();
 
             var github_group = new Adw.PreferencesGroup () {
@@ -61,6 +74,7 @@ namespace ProtonPlus.Widgets.Preferences {
             var page = new Adw.PreferencesPage ();
             page.add (general_group);
             page.add (latest_group);
+            page.add (network_group);
             page.add (github_group);
             page.add (gitlab_group);
             page.add (steam_group);
@@ -71,6 +85,16 @@ namespace ProtonPlus.Widgets.Preferences {
                 Globals.SETTINGS.bind ("gitlab-api-key", gitlab_access_token_row, "text", SettingsBindFlags.DEFAULT);
                 Globals.SETTINGS.bind ("steam-remember-last-profile", steam_remember_last_used_profile_row, "active", SettingsBindFlags.DEFAULT);
                 Globals.SETTINGS.bind ("save-history", save_history_row, "active", SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("proxy-url", proxy_url_row, "text", SettingsBindFlags.DEFAULT);
+
+                proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
+                Globals.SETTINGS.changed["proxy-mode"].connect (() => {
+                    proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
+                    Utils.Web.update_proxy_settings ();
+                });
+                Globals.SETTINGS.changed["proxy-url"].connect (() => {
+                    Utils.Web.update_proxy_settings ();
+                });
             }
 
             set_search_enabled (true);

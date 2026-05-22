@@ -5,4 +5,5 @@ sources += files(
     'refresh-steam-profiles-row.vala',
     'check-updates-row.vala',
     'access-token-row.vala',
+    'proxy-mode-row.vala',
 )
