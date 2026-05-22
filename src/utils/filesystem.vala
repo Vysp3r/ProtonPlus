@@ -180,6 +180,29 @@ namespace ProtonPlus.Utils {
             return output;
         }
 
+        public async static string get_file_content_async (string path, bool use_uri = false) {
+            string output = "";
+
+            try {
+                File file;
+
+                if (use_uri)
+                file = File.new_for_uri (path);
+                else
+                file = File.new_for_path (path);
+
+                uint8[] contents;
+                string etag_out;
+                yield file.load_contents_async (null, out contents, out etag_out);
+
+                output = (string) contents;
+            } catch (Error e) {
+                warning (e.message);
+            }
+
+            return output;
+        }
+
         public static bool modify_file (string path, string content) {
             try {
                 FileUtils.set_contents (path, content);

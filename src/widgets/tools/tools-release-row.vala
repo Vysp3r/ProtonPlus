@@ -169,7 +169,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public void refresh_usage_pill () {
-            var tool_name = (release.runner is Models.Tools.SteamTinkerLaunch) ? "Proton-stl" : release.title;
+            var tool_name = release.usage_name;
             var count = release.runner.group.launcher.get_compatibility_tool_usage_count (tool_name);
 
             if (count > 0) {
@@ -225,7 +225,10 @@ namespace ProtonPlus.Widgets.Tools {
 
         protected virtual void remove_button_clicked () {
             var remove_dialog = new RemoveDialog (release);
+            customize_remove_dialog (remove_dialog);
             remove_dialog.present ((Gtk.Window) this.get_root ());
         }
+
+        protected virtual void customize_remove_dialog (RemoveDialog dialog) {}
     }
 }

@@ -8,6 +8,19 @@ namespace ProtonPlus.Models.Games {
         public string launch_options { get; set; }
         public bool is_non_steam { get; set; }
 
+        private bool? _is_native = null;
+        public override bool is_native {
+            get {
+                if (_is_native == null)
+                _is_native = detect_native ();
+
+                return _is_native;
+            }
+            set {
+                _is_native = value;
+            }
+        }
+
         public Steam(uint appid, string name, string game_folder_name, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
             base (name, "%s/steamapps/common/%s".printf (library_folder_path, game_folder_name), "%s/steamapps/compatdata/%u".printf (library_folder_path, appid), appid, launcher);
 
@@ -15,7 +28,6 @@ namespace ProtonPlus.Models.Games {
             this.library_folder_id = library_folder_id;
             this.library_folder_path = library_folder_path;
             this.launcher = launcher;
-            this.is_native = detect_native ();
         }
 
         public Steam.non_steam (uint appid, string name, string launch_options, string compatibility_tool, Launchers.Steam launcher) {
@@ -41,7 +53,7 @@ namespace ProtonPlus.Models.Games {
                     string? name;
                     while ((name = dir.read_name ()) != null) {
                         var path = Path.build_filename (installdir, name);
-                        if (FileUtils.test (path, FileTest.IS_REGULAR)) {
+                        if (FileUtils.test (path, FileTest.IS_REGULAR) && FileUtils.test (path, FileTest.IS_EXECUTABLE)) {
                             var file = FileStream.open (path, "r");
                             if (file != null) {
                                 uint8 magic[4];
@@ -281,18 +293,18 @@ namespace ProtonPlus.Models.Games {
         }
 
         public class AwacyGame {
-            public int appid { get; set; }
+            public uint appid { get; set; }
             public string name { get; set; }
             public string status { get; set; }
 
-            public AwacyGame(int appid, string name, string status) {
+            public AwacyGame(uint appid, string name, string status) {
                 this.appid = appid;
                 this.name = name;
                 this.status = status;
             }
 
-            public static async List<Models.Games.Steam.AwacyGame?> get_awacy_games () {
-                var games = new List<Models.Games.Steam.AwacyGame?> ();
+            public static async Gee.HashMap<uint, Models.Games.Steam.AwacyGame?> get_awacy_games () {
+                var games = new Gee.HashMap<uint, Models.Games.Steam.AwacyGame?> ();
 
                 string? response;
 
@@ -323,8 +335,8 @@ namespace ProtonPlus.Models.Games {
                     if (!storeids_object.has_member ("steam"))
                     continue;
 
-                    int appid = 0;
-                    if (!int.try_parse (storeids_object.get_string_member ("steam"), out appid))
+                    uint appid = 0;
+                    if (!uint.try_parse (storeids_object.get_string_member ("steam"), out appid))
                     continue;
 
                     if (!object.has_member ("slug"))
@@ -339,7 +351,7 @@ namespace ProtonPlus.Models.Games {
 
                     var game = new AwacyGame(appid, name, status);
 
-                    games.append (game);
+                    games.set (appid, game);
                 }
 
                 return games;

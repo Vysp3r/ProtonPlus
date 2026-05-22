@@ -51,17 +51,21 @@ namespace ProtonPlus.Models.Launchers {
         public override int get_compatibility_tool_usage_count (string compatibility_tool_name) {
             int count = 0;
 
-            bool is_default_tool = compatibility_tool_name == default_compatibility_tool;
+            bool is_default_tool = (compatibility_tool_name == default_compatibility_tool);
 
             foreach (var game in games) {
-                if (!game.is_native && (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")))
-                count++;
+                if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")) {
+                    if (!game.is_native)
+                    count++;
+                }
             }
 
             foreach (var profile in profiles) {
                 foreach (var game in profile.non_steam_games) {
-                    if (!game.is_native && (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")))
-                    count++;
+                    if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")) {
+                        if (!game.is_native)
+                        count++;
+                    }
                 }
             }
 
@@ -83,7 +87,7 @@ namespace ProtonPlus.Models.Launchers {
             if (default_compatibility_tool != null)
             this.default_compatibility_tool = default_compatibility_tool;
 
-            var libraryfolder_content = Utils.Filesystem.get_file_content ("%s/steamapps/libraryfolders.vdf".printf (directory));
+            var libraryfolder_content = yield Utils.Filesystem.get_file_content_async ("%s/steamapps/libraryfolders.vdf".printf (directory));
 
             if (libraryfolder_content.length > 0) {
                 var current_libraryfolder_content = "";
@@ -102,6 +106,9 @@ namespace ProtonPlus.Models.Launchers {
                 var end_pos = 0;
                 var current_position = 0;
 
+                var proton_regex = /(?i)Proton\s*\d+(\.\d+)?/;
+                var name_regex = /\"name\"\s+\"([^\"]+)\"/;
+                var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
                 while (true) {
                     start_text = "%i\"\n\t{".printf (current_libraryfolder_id++);
                     end_text = "}";
@@ -170,12 +177,12 @@ namespace ProtonPlus.Models.Launchers {
                             current_manifest_content = Utils.Filesystem.get_file_content (current_manifest_path);
 
                             MatchInfo name_match;
-                            if (!/\"name\"\s+\"([^\"]+)\"/.match (current_manifest_content, 0, out name_match))
+                            if (!name_regex.match (current_manifest_content, 0, out name_match))
                             continue;
                             current_name = name_match.fetch (1);
 
                             MatchInfo dir_match;
-                            if (!/\"installdir\"\s+\"([^\"]+)\"/.match (current_manifest_content, 0, out dir_match))
+                            if (!dir_regex.match (current_manifest_content, 0, out dir_match))
                             continue;
                             current_installdir = dir_match.fetch (1);
 
@@ -185,7 +192,7 @@ namespace ProtonPlus.Models.Launchers {
                                 continue;
                             }
 
-                            if (/(?i)Proton\s*\d+(\.\d+)?/.match (current_name) || current_name == "Proton Hotfix" || current_appid == "2180100" || current_appid == "1493710") {
+                            if (proton_regex.match (current_name) || current_name == "Proton Hotfix" || current_appid == "2180100" || current_appid == "1493710") {
                                 var simple_runner = new Tools.Simple.with_path (current_name, current_name.down ().split (".", 2)[0].replace (" ", "_"), "%s/common/%s".printf (current_steamapps_path, current_installdir));
                                 compatibility_tools.add (simple_runner);
                                 continue;
@@ -196,11 +203,10 @@ namespace ProtonPlus.Models.Launchers {
 
                             var game = new Games.Steam(id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
 
-                            foreach (var awacy_game in awacy_games) {
-                                if (awacy_game.appid == game.appid) {
-                                    game.awacy_name = awacy_game.name;
-                                    game.awacy_status = awacy_game.status;
-                                }
+                            if (awacy_games.has_key (game.appid)) {
+                                var awacy_game = awacy_games.get (game.appid);
+                                game.awacy_name = awacy_game.name;
+                                game.awacy_status = awacy_game.status;
                             }
 
                             var compatibility_tool = compatibility_tool_hashtable.get (game.appid);
@@ -247,7 +253,7 @@ namespace ProtonPlus.Models.Launchers {
         async bool load_compatibility_tool_hashtable () {
             compatibility_tool_hashtable = new HashTable<uint, string> (null, null);
 
-            var config_content = Utils.Filesystem.get_file_content ("%s/config/config.vdf".printf (directory));
+            var config_content = yield Utils.Filesystem.get_file_content_async ("%s/config/config.vdf".printf (directory));
             var compat_tool_mapping_content = "";
             var compat_tool_mapping_item = "";
             uint compat_tool_mapping_item_appid = 0;

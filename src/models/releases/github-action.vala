@@ -15,63 +15,8 @@ namespace ProtonPlus.Models.Releases {
             return obj;
         }
 
-        protected override async ReturnCode _start_install () {
-            step = Step.DOWNLOADING;
-
-            if (!download_url.contains (".zip"))
-            return ReturnCode.UNKNOWN_ERROR;
-
-            string download_path = "%s/%s.zip".printf (Globals.CACHE_PATH, title);
-
-            if (!FileUtils.test (download_path, FileTest.EXISTS)) {
-                string? download_error;
-                var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, (is_percent, progress, speed_kbps, seconds_remaining) => {
-                    this.is_percent = is_percent;
-                    this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
-                    this.speed_kbps = speed_kbps;
-                    this.seconds_remaining = seconds_remaining;
-                }, out download_error);
-
-                if (!download_valid) {
-                    this.error_message = download_error;
-                    return ReturnCode.UNKNOWN_ERROR;
-                }
-            }
-
-            step = Step.EXTRACTING;
-
-            string extract_path = "%s/".printf (Globals.CACHE_PATH);
-
-            string source_path = yield Utils.Filesystem.extract (extract_path, title, ".zip", () => canceled);
-
-            if (source_path == "") {
-                if (!canceled)
-                error_message = _ ("Extraction failed");
-                return ReturnCode.UNKNOWN_ERROR;
-            }
-
-            source_path = yield Utils.Filesystem.extract (extract_path, source_path.substring (0, source_path.length - 4).replace (extract_path, ""), ".tar", () => canceled);
-
-            if (source_path == "") {
-                if (!canceled)
-                error_message = _ ("Extraction failed");
-                return ReturnCode.UNKNOWN_ERROR;
-            }
-
-            step = Step.MOVING;
-
-            var runner = this.runner as Tools.Basic;
-
-            destination_path = "%s%s/%s/".printf (runner.group.launcher.directory, runner.group.directory, runner.get_directory_name (title)) ;
-
-            var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
-
-            if (!renaming_valid) {
-                error_message = _ ("Moving failed");
-                return ReturnCode.UNKNOWN_ERROR;
-            }
-
-            return ReturnCode.RUNNER_INSTALLED;
+        protected override async string _after_extraction (string source_path, string extract_path) {
+            return yield Utils.Filesystem.extract (extract_path, source_path.substring (0, source_path.length - 4).replace (extract_path, ""), ".tar", () => canceled);
         }
     }
 }

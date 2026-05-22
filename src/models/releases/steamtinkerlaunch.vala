@@ -18,6 +18,10 @@ namespace ProtonPlus.Models.Releases {
         string local_date { get; set; }
         string local_hash { get; set; }
 
+        public override string usage_name {
+            get { return "Proton-stl"; }
+        }
+
         public SteamTinkerLaunch (Tool runner) {
             Object (runner: runner,
                     title: "Steam Tinker Launch");
@@ -251,12 +255,7 @@ namespace ProtonPlus.Models.Releases {
             step = Step.DOWNLOADING;
 
             string? download_error;
-            var download_valid = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, (is_percent, progress, speed_kbps, seconds_remaining) => {
-                this.is_percent = is_percent;
-                this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
-                this.speed_kbps = speed_kbps;
-                this.seconds_remaining = seconds_remaining;
-            }, out download_error);
+            var download_valid = yield Utils.Web.Download (get_download_url (), downloaded_file_location, () => canceled, on_download_progress, out download_error);
 
             if (!download_valid) {
                 this.error_message = download_error;

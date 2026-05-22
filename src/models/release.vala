@@ -19,6 +19,10 @@ namespace ProtonPlus.Models {
         public int64 download_size { get; set; }
         protected string destination_path { get; set; }
 
+        public virtual string usage_name {
+            get { return title; }
+        }
+
         public virtual Json.Object to_json () {
             var obj = new Json.Object ();
             obj.set_string_member ("kind", "generic");
@@ -166,20 +170,20 @@ namespace ProtonPlus.Models {
         protected virtual async ReturnCode _start_install () {
             step = Step.DOWNLOADING;
 
-            if (!download_url.contains (".tar"))
-            return ReturnCode.UNKNOWN_ERROR;
+            string extension = ".tar.gz";
+            if (download_url.contains (".zip")) {
+                extension = ".zip";
+            } else if (download_url.contains (".tar.xz")) {
+                extension = ".tar.xz";
+            } else if (!download_url.contains (".tar")) {
+                return ReturnCode.UNKNOWN_ERROR;
+            }
 
-            string download_path = "%s/%s.tar.gz".printf (Globals.CACHE_PATH, title);
+            string download_path = "%s/%s%s".printf (Globals.CACHE_PATH, title, extension);
 
             if (!FileUtils.test (download_path, FileTest.EXISTS)) {
                 string? download_error;
-                var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, (is_percent, progress, speed_kbps, seconds_remaining) => {
-                    this.is_percent = is_percent;
-                    this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
-                    this.speed_kbps = speed_kbps;
-                    this.seconds_remaining = seconds_remaining;
-                    Utils.DownloadManager.instance.progress_updated (this);
-                }, out download_error);
+                var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, on_download_progress, out download_error);
 
                 if (!download_valid) {
                     this.error_message = download_error;
@@ -191,9 +195,16 @@ namespace ProtonPlus.Models {
 
             string extract_path = "%s/".printf (Globals.CACHE_PATH);
 
-            string source_path = yield Utils.Filesystem.extract (extract_path, title, ".tar.gz", () => canceled);
+            string source_path = yield Utils.Filesystem.extract (extract_path, title, extension, () => canceled);
             if (source_path == "") {
                 if (!canceled)
+                error_message = _ ("Extraction failed");
+                return ReturnCode.UNKNOWN_ERROR;
+            }
+
+            source_path = yield _after_extraction (source_path, extract_path);
+            if (source_path == "") {
+                if (!canceled && error_message == null)
                 error_message = _ ("Extraction failed");
                 return ReturnCode.UNKNOWN_ERROR;
             }
@@ -211,6 +222,10 @@ namespace ProtonPlus.Models {
             }
 
             return ReturnCode.RUNNER_INSTALLED;
+        }
+
+        protected virtual async string _after_extraction (string source_path, string extract_path) {
+            return source_path;
         }
 
         public virtual async ReturnCode remove () {
@@ -280,6 +295,14 @@ namespace ProtonPlus.Models {
             } else {
                 state = (directory_name_valid && install_directory_valid) ? State.UP_TO_DATE : State.NOT_INSTALLED;
             }
+        }
+
+        protected void on_download_progress (bool is_percent, int64 progress, double speed_kbps, double? remaining_seconds) {
+            this.is_percent = is_percent;
+            this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
+            this.speed_kbps = speed_kbps;
+            this.seconds_remaining = remaining_seconds ?? -1.0;
+            Utils.DownloadManager.instance.progress_updated (this);
         }
 
         void add_to_games_tab () {

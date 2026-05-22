@@ -19,7 +19,7 @@ namespace ProtonPlus.Widgets.Tools {
             });
         }
 
-        protected override void remove_button_clicked () {
+        protected override void customize_remove_dialog (RemoveDialog dialog) {
             release.set_data ("delete-config", false);
             release.set_data ("user-request", true);
 
@@ -28,9 +28,7 @@ namespace ProtonPlus.Widgets.Tools {
                 release.set_data ("delete-config", remove_config_check.get_active ());
             });
 
-            var remove_dialog = new RemoveDialog (release);
-            remove_dialog.set_extra_child (remove_config_check);
-            remove_dialog.present ((Gtk.Window) this.get_root ());
+            dialog.set_extra_child (remove_config_check);
         }
 
         async string dependency_check () {
@@ -88,20 +86,11 @@ namespace ProtonPlus.Widgets.Tools {
                     string response = alert_dialog.choose.end (res);
 
                     if (response == "yes")
-                    start_install ();
+                    base.install_button_clicked ();
                 });
             } else {
-                start_install ();
+                base.install_button_clicked ();
             }
-        }
-
-        void start_install () {
-            release.install.begin ((obj, res) => {
-                if (release.install.end (res) != ReturnCode.RUNNER_INSTALLED && !release.canceled) {
-                    var dialog = new Main.ErrorDialog (_ ("Installation Failed"), _ ("ProtonPlus could not install %s on your system.").printf (release.title), release.error_message ?? _ ("Unknown error"));
-                    dialog.present ((Gtk.Window) this.get_root ());
-                }
-            });
         }
     }
 }
