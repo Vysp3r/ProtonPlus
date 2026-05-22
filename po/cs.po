@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-22 22:24+0200\n"
+"POT-Creation-Date: 2026-05-22 22:50+0200\n"
 "PO-Revision-Date: 2026-01-11 17:01+0000\n"
 "Last-Translator: Valentin Ljuba <7fnndt50@anonaddy.me>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -1894,12 +1894,12 @@ msgstr ""
 msgid "%ds"
 msgstr ""
 
-#: src/main.vala:50
+#: src/main.vala:51
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 "Nástroje kompatibility od Valve pro spouštění softwaru pro Windows na Linuxu."
 
-#: src/main.vala:51
+#: src/main.vala:52
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
@@ -1907,7 +1907,7 @@ msgstr ""
 "Nástroj kompatibility Steam pro spouštění her pro Windows s vylepšeními "
 "oproti výchozímu Protonu od Valve."
 
-#: src/main.vala:52
+#: src/main.vala:53
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
@@ -1915,11 +1915,11 @@ msgstr ""
 "Nástroj kompatibility Steam z linuxové distribuce CachyOS pro spouštění her "
 "pro Windows s vylepšeními oproti výchozímu Protonu od Valve."
 
-#: src/main.vala:53
-msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-msgstr ""
-
 #: src/main.vala:54
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+msgstr "Upravený Proton s opravami pro různé hry od Dawn Winery"
+
+#: src/main.vala:55
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
@@ -1929,13 +1929,13 @@ msgstr ""
 "oproti výchozímu Protonu od Valve. Od Etaashe Mathamsetty přidávající "
 "podporu FSR4 a úpravy wine wayland."
 
-#: src/main.vala:55
+#: src/main.vala:56
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 "Vlastní sestavení Protonu pro spouštění her pro Windows, založené na Wine-"
 "tkg."
 
-#: src/main.vala:56
+#: src/main.vala:57
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
@@ -1943,67 +1943,67 @@ msgstr ""
 "Nástroj kompatibility Steam založený na Proton-GE s dalšími patchi pro "
 "vylepšení kodeků RTSP pro VRChat."
 
-#: src/main.vala:57
+#: src/main.vala:58
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 "Luxtorpeda poskytuje nativní linuxové herní enginy pro některé hry dostupné "
 "pouze pro Windows."
 
-#: src/main.vala:58
+#: src/main.vala:59
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 "Nástroj kompatibility Steam pro spouštění her z žánru adventur pomocí "
 "ScummVM pro Linux."
 
-#: src/main.vala:59
+#: src/main.vala:60
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr ""
 "Nástroj kompatibility Steam pro spouštění her pro DOS pomocí DOSBoxu pro "
 "Linux."
 
-#: src/main.vala:60
+#: src/main.vala:61
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Nástroje kompatibility pro spouštění softwaru pro Windows na Linuxu."
 
-#: src/main.vala:61
+#: src/main.vala:62
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "Sestavení Wine zkompilované z oficiálních zdrojů WineHQ."
 
-#: src/main.vala:62
+#: src/main.vala:63
 msgid "Wine build with the Staging patchset."
 msgstr "Sestavení Wine se sadou patchů Staging."
 
-#: src/main.vala:63
+#: src/main.vala:64
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
 "Sestavení Wine se sadou patchů Staging a mnoha dalšími užitečnými patchi."
 
-#: src/main.vala:64
+#: src/main.vala:65
 msgid "Wine build modified by Valve and other contributors."
 msgstr "Sestavení Wine upravené společností Valve a dalšími přispěvateli."
 
-#: src/main.vala:65
+#: src/main.vala:66
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 "Implementace Direct3D 8, 9, 10 a 11 pro Linux/Wine založená na Vulkanu."
 
-#: src/main.vala:66
+#: src/main.vala:67
 #, fuzzy
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 msgstr "DXVK verze, která fungovala před Vulkanem verze 1.3"
 
-#: src/main.vala:67
+#: src/main.vala:68
 #, fuzzy
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 msgstr "DXVK Async verze, která fungovala před Vulkanem verze 1.3"
 
-#: src/main.vala:68
+#: src/main.vala:69
 msgid "DXVK builds with gplasync patch by Ph42oN."
 msgstr ""
 
-#: src/main.vala:69
+#: src/main.vala:70
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
@@ -2402,7 +2402,7 @@ msgstr ""
 #: src/widgets/games/games-launch-options-editor.vala:648
 msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
-msgstr ""
+msgstr "Použít specifiké přepínače pro Grafické karty AMD, NVIDIA a Intel."
 
 #. More options
 #: src/widgets/games/games-launch-options-editor.vala:655
@@ -2424,7 +2424,7 @@ msgstr ""
 
 #: src/widgets/games/games-launch-options-editor.vala:657
 msgid "Use FSync"
-msgstr ""
+msgstr "Použít FSync"
 
 #: src/widgets/games/games-launch-options-editor.vala:657
 msgid ""
@@ -2597,7 +2597,7 @@ msgstr ""
 
 #: src/widgets/games/games-launch-options-editor.vala:712
 msgid "Adds -vulkan to make the game use its Vulkan renderer."
-msgstr ""
+msgstr "Přidá -vulkan pro použití Vulkan vykreslování."
 
 #: src/widgets/games/games-launch-options-editor.vala:713
 msgid "DirectX 11"
@@ -2605,7 +2605,7 @@ msgstr ""
 
 #: src/widgets/games/games-launch-options-editor.vala:713
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
-msgstr ""
+msgstr "Přidá -dx11 pro použití DirectX 11 vykreslování."
 
 #: src/widgets/games/games-launch-options-editor.vala:714
 msgid "DirectX 12"
@@ -2613,11 +2613,11 @@ msgstr ""
 
 #: src/widgets/games/games-launch-options-editor.vala:714
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
-msgstr ""
+msgstr "Přidá -dx12 pro použití DirectX 12 vykreslování."
 
 #: src/widgets/games/games-launch-options-editor.vala:715
 msgid "Console"
-msgstr ""
+msgstr "Konzole"
 
 #: src/widgets/games/games-launch-options-editor.vala:715
 msgid "Adds -console to open the game's developer console when supported."
@@ -2701,7 +2701,7 @@ msgstr ""
 #: src/widgets/games/games-launch-options-editor.vala:970
 #: src/widgets/mangohud/mangohud-extras-page.vala:69
 msgid "Resolution"
-msgstr ""
+msgstr "Rozlišení"
 
 #: src/widgets/games/games-launch-options-editor.vala:932
 msgid "Sets the Gamescope output resolution."
@@ -2830,7 +2830,7 @@ msgstr "Vyber vše"
 
 #: src/widgets/games/games-row.vala:160
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
-msgstr ""
+msgstr "Spustitelné (*.exe, *.msi, *.msu)"
 
 #: src/widgets/games/games-row.vala:198
 #, fuzzy
@@ -2951,7 +2951,7 @@ msgstr "Načítá se"
 
 #: src/widgets/loading/loading-box.vala:132
 msgid "Report issue"
-msgstr ""
+msgstr "Nahlásit problém"
 
 #: src/widgets/loading/loading-box.vala:184
 msgid "Check again"
@@ -2967,7 +2967,7 @@ msgstr ""
 
 #: src/widgets/main/error-dialog.vala:44 src/widgets/main/warning-dialog.vala:7
 msgid "OK"
-msgstr "Budiž"
+msgstr "Potvrdit"
 
 #. Tools Page
 #: src/widgets/main/main-box.vala:25
@@ -3799,11 +3799,11 @@ msgstr ""
 
 #: src/widgets/preferences/preferences-theme-row.vala:16
 msgid "Light"
-msgstr ""
+msgstr "Světlý"
 
 #: src/widgets/preferences/preferences-theme-row.vala:17
 msgid "Dark"
-msgstr ""
+msgstr "Tmavý"
 
 #: src/widgets/preferences/preferences-theme-row.vala:19
 msgid "OLED"
@@ -3882,7 +3882,7 @@ msgstr "Kontrolují se aktualizace..."
 #: src/widgets/tools/tools-releases-box.vala:186
 #: src/widgets/tools/tools-releases-box.vala:245
 msgid "API limit reached"
-msgstr ""
+msgstr "Dosažen API limit"
 
 #: src/widgets/tools/tools-box.vala:384
 #: src/widgets/tools/tools-releases-box.vala:189
@@ -3892,13 +3892,13 @@ msgstr ""
 #: src/widgets/tools/tools-releases-box.vala:251
 #: src/widgets/tools/tools-releases-box.vala:254
 msgid "Unable to reach the API"
-msgstr ""
+msgstr "Nelze se spojit s API"
 
 #: src/widgets/tools/tools-box.vala:387
 #: src/widgets/tools/tools-releases-box.vala:198
 #: src/widgets/tools/tools-releases-box.vala:257
 msgid "Invalid access token"
-msgstr ""
+msgstr "Invalidní přístupový token"
 
 #: src/widgets/tools/tools-box.vala:390
 #: src/widgets/tools/tools-release-row.vala:162
@@ -3906,7 +3906,7 @@ msgstr ""
 #: src/widgets/tools/tools-remove-dialog.vala:44
 #, fuzzy
 msgid "Unknown error"
-msgstr "Neznámé"
+msgstr "Neznámá chyba"
 
 #: src/widgets/tools/tools-group-box.vala:69
 #, fuzzy
@@ -4020,7 +4020,7 @@ msgstr ""
 #: src/widgets/tools/tools-releases-box.vala:186
 #: src/widgets/tools/tools-releases-box.vala:245
 msgid "Try again in a few minutes."
-msgstr ""
+msgstr "Zkusit znova za pár minut."
 
 #: src/widgets/tools/tools-releases-box.vala:189
 #: src/widgets/tools/tools-releases-box.vala:248
@@ -4258,7 +4258,7 @@ msgstr "Ukončit"
 #~ "Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get "
 #~ "started."
 #~ msgstr ""
-#~ "Chcete-li začít, nainstalujte si Steam, Lutris, Láhve nebo Heroic Games "
+#~ "Chcete-li začít, nainstalujte si Steam, Lutris, Bottles nebo Heroic Games "
 #~ "Launcher."
 
 #, fuzzy, c-format
@@ -4267,7 +4267,7 @@ msgstr "Ukončit"
 
 #, fuzzy
 #~ msgid "Refresh profiles"
-#~ msgstr "Vyber profil"
+#~ msgstr "Obnovit profily"
 
 #~ msgid ""
 #~ "Close the Steam client beforehand so that the changes can be applied."

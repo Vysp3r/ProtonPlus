@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-22 22:24+0200\n"
+"POT-Creation-Date: 2026-05-22 22:50+0200\n"
 "PO-Revision-Date: 2026-04-28 02:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
@@ -1894,13 +1894,13 @@ msgstr ""
 msgid "%ds"
 msgstr ""
 
-#: src/main.vala:50
+#: src/main.vala:51
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 "Інструменти сумісності від Valve для запуску програмного забезпечення "
 "Windows на Linux."
 
-#: src/main.vala:51
+#: src/main.vala:52
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
@@ -1908,7 +1908,7 @@ msgstr ""
 "Інструмент сумісності Steam для запуску Windows-ігор із покращеннями "
 "порівняно зі стандартним Proton від Valve."
 
-#: src/main.vala:52
+#: src/main.vala:53
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
@@ -1916,11 +1916,11 @@ msgstr ""
 "Інструмент сумісності Steam з дистрибутиву CachyOS Linux для запуску Windows-"
 "ігор із покращеннями порівняно зі стандартним Proton від Valve."
 
-#: src/main.vala:53
+#: src/main.vala:54
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
 msgstr "Авторське відгалуження від Dawn Winery для різних ігор :xdd:"
 
-#: src/main.vala:54
+#: src/main.vala:55
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
@@ -1930,12 +1930,12 @@ msgstr ""
 "порівняно зі стандартним Proton від Valve. Автор Etaash Mathamsetty додав "
 "підтримку FSR4 та Wine твіки Wayland."
 
-#: src/main.vala:55
+#: src/main.vala:56
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
 "Користувацька збірка Proton для запуску Windows-ігор на основі Wine-tkg."
 
-#: src/main.vala:56
+#: src/main.vala:57
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
@@ -1943,62 +1943,62 @@ msgstr ""
 "Інструмент сумісності зі Steam на основі Proton-GE з додатковими латками для "
 "покращення RTSP-кодеків для VRChat."
 
-#: src/main.vala:57
+#: src/main.vala:58
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr ""
 "Luxtorpeda надає ігрові рушії під Linux для деяких ігор, що доступні лише "
 "для Windows."
 
-#: src/main.vala:58
+#: src/main.vala:59
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 "Інструмент сумісності Steam для запуску пригодницьких ігор через ScummVM у "
 "Linux."
 
-#: src/main.vala:59
+#: src/main.vala:60
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr "Інструмент сумісності Steam для запуску DOS-ігор через DOSBox у Linux."
 
-#: src/main.vala:60
+#: src/main.vala:61
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr ""
 "Інструменти сумісності для запуску програмного забезпечення Windows у Linux."
 
-#: src/main.vala:61
+#: src/main.vala:62
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "Збірка Wine зібрана з офіційних джерел WineHQ."
 
-#: src/main.vala:62
+#: src/main.vala:63
 msgid "Wine build with the Staging patchset."
 msgstr "Збірка Wine з набором латок Staging."
 
-#: src/main.vala:63
+#: src/main.vala:64
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr "Збірка Wine з набором латок Staging та іншими корисними виправленнями."
 
-#: src/main.vala:64
+#: src/main.vala:65
 msgid "Wine build modified by Valve and other contributors."
 msgstr "Збірка Wine, модифікована Valve та іншими учасниками."
 
-#: src/main.vala:65
+#: src/main.vala:66
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "Реалізація Direct3D 8, 9, 10 та 11 для Linux/Wine на основі Vulkan."
 
-#: src/main.vala:66
+#: src/main.vala:67
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 msgstr "Збірки DXVK, що працюють із версіями Vulkan до 1.3"
 
-#: src/main.vala:67
+#: src/main.vala:68
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 msgstr "Збірки DXVK Async, що працюють із версіями Vulkan до 1.3"
 
-#: src/main.vala:68
+#: src/main.vala:69
 msgid "DXVK builds with gplasync patch by Ph42oN."
 msgstr "Збірки DXVK із латкою gplasync від Ph42oN."
 
-#: src/main.vala:69
+#: src/main.vala:70
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."

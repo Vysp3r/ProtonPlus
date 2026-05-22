@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-22 22:24+0200\n"
+"POT-Creation-Date: 2026-05-22 22:50+0200\n"
 "PO-Revision-Date: 2026-05-02 11:18+0800\n"
 "Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
 "Language-Team: Chinese <>\n"
@@ -1891,11 +1891,11 @@ msgstr ""
 msgid "%ds"
 msgstr ""
 
-#: src/main.vala:50
+#: src/main.vala:51
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr "Valve 提供的兼容性工具，用于在 Linux 系统上运行 Windows 软件。"
 
-#: src/main.vala:51
+#: src/main.vala:52
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton."
@@ -1903,7 +1903,7 @@ msgstr ""
 "一款适用于 Steam 平台的兼容工具，用于运行 Windows 游戏，并且相较于 Valve 的默"
 "认 Proton 版本有所改进。"
 
-#: src/main.vala:52
+#: src/main.vala:53
 msgid ""
 "Steam compatibility tool from the CachyOS Linux distribution for running "
 "Windows games with improvements over Valve's default Proton."
@@ -1911,11 +1911,11 @@ msgstr ""
 "来自 CachyOS Linux 发行版的 Steam 兼容工具，用于运行 Windows 游戏，其性能优"
 "于 Valve 默认的 Proton 工具。"
 
-#: src/main.vala:53
+#: src/main.vala:54
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
 msgstr "Dawn Winery 的定制 Proton 分支，包含针对多款游戏的修复  :xdd:"
 
-#: src/main.vala:54
+#: src/main.vala:55
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
@@ -1925,11 +1925,11 @@ msgstr ""
 "Proton 更出色的性能提升。由 Etaash Mathamsetty 开发，新增了 FSR4 支持以及对 "
 "Wine Wayland 的调整优化。"
 
-#: src/main.vala:55
+#: src/main.vala:56
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr "用于运行 Windows 游戏的自定义 Proton 构建版，基于 Wine-tkg。"
 
-#: src/main.vala:56
+#: src/main.vala:57
 msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
@@ -1937,57 +1937,57 @@ msgstr ""
 "基于 Proton-GE 打造的 Steam 兼容性工具，包含针对 VRChat 的额外补丁以改进 "
 "RTSP 编解码器支持。"
 
-#: src/main.vala:57
+#: src/main.vala:58
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr "Luxtorpeda 为某些仅限 Windows 的游戏提供了 Linux 原生的游戏引擎。"
 
-#: src/main.vala:58
+#: src/main.vala:59
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr "用于在 Linux 上通过 ScummVM 运行冒险游戏的 Steam 兼容性工具。"
 
-#: src/main.vala:59
+#: src/main.vala:60
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr "用于在 Linux 上通过 DOSBox 运行 DOS 游戏的 Steam 兼容性工具。"
 
-#: src/main.vala:60
+#: src/main.vala:61
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "适用于在 Linux 上运行 Windows 软件的兼容性工具。"
 
-#: src/main.vala:61
+#: src/main.vala:62
 msgid "Wine build compiled from the official WineHQ sources."
 msgstr "基于官方 WineHQ 源代码编译的 Wine 版本。"
 
-#: src/main.vala:62
+#: src/main.vala:63
 msgid "Wine build with the Staging patchset."
 msgstr "带有 Staging 补丁集的 Wine 构建版本。"
 
-#: src/main.vala:63
+#: src/main.vala:64
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr "带有 Staging 补丁集及许多其他实用补丁的 Wine 构建版本。"
 
-#: src/main.vala:64
+#: src/main.vala:65
 msgid "Wine build modified by Valve and other contributors."
 msgstr "由 Valve 及其他贡献者修改的 Wine 构建版本。"
 
-#: src/main.vala:65
+#: src/main.vala:66
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "基于 Vulkan 实现的 Direct3D 8、9、10 和 11，适用于 Linux/Wine。"
 
-#: src/main.vala:66
+#: src/main.vala:67
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 msgstr "适用于 Vulkan 1.3 之前版本的 DXVK 构建。"
 
-#: src/main.vala:67
+#: src/main.vala:68
 msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 msgstr "适用于 Vulkan 1.3 以下版本的 DXVK Async 构建。"
 
-#: src/main.vala:68
+#: src/main.vala:69
 msgid "DXVK builds with gplasync patch by Ph42oN."
 msgstr "由 Ph42oN 制作的带有 gplasync 补丁的 DXVK 版本。"
 
-#: src/main.vala:69
+#: src/main.vala:70
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
