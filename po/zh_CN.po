@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-22 23:48+0200\n"
+"POT-Creation-Date: 2026-05-23 08:46+0200\n"
 "PO-Revision-Date: 2026-05-02 11:18+0800\n"
 "Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
 "Language-Team: Chinese <>\n"
@@ -25,7 +25,7 @@ msgstr "关于 ProtonPlus(_A)"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:5
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:8
-#: src/widgets/application.vala:124
+#: src/widgets/application.vala:123
 msgid "A modern compatibility tools manager"
 msgstr "一个现代兼容性工具管理器"
 
@@ -2128,15 +2128,15 @@ msgstr ""
 "适用于 Windows 游戏和原生 Linux 游戏的 Steam 工具，可轻松、直观地配置您的其他"
 "兼容性工具。"
 
-#: src/widgets/application.vala:126
+#: src/widgets/application.vala:125
 msgid "Website"
 msgstr "网站"
 
-#: src/widgets/application.vala:131
+#: src/widgets/application.vala:130
 msgid "translator-credits"
 msgstr "Markson Hosben <marksonhosben@proton.me>"
 
-#: src/widgets/application.vala:132
+#: src/widgets/application.vala:131
 msgid "Special thanks to"
 msgstr "特别鸣谢"
 

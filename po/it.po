@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-22 23:48+0200\n"
+"POT-Creation-Date: 2026-05-23 08:46+0200\n"
 "PO-Revision-Date: 2025-11-17 15:51+0000\n"
 "Last-Translator: Alessandro Marigliano <alemarigliano22@proton.me>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -24,7 +24,7 @@ msgstr "_Su ProtonPlus"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:5
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:8
-#: src/widgets/application.vala:124
+#: src/widgets/application.vala:123
 msgid "A modern compatibility tools manager"
 msgstr "Un gestore moderno per strumenti di compatibilità"
 
@@ -2157,15 +2157,15 @@ msgstr ""
 "strumenti di compatibilità sia per giochi Windows che per giochi nativi "
 "Linux."
 
-#: src/widgets/application.vala:126
+#: src/widgets/application.vala:125
 msgid "Website"
 msgstr "Sito Web"
 
-#: src/widgets/application.vala:131
+#: src/widgets/application.vala:130
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:132
+#: src/widgets/application.vala:131
 msgid "Special thanks to"
 msgstr "Ringraziamenti speciali a"
 

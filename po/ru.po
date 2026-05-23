@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-22 23:48+0200\n"
+"POT-Creation-Date: 2026-05-23 08:46+0200\n"
 "PO-Revision-Date: 2025-11-30 21:00+0000\n"
 "Last-Translator: serg <serhii.maleev@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -28,7 +28,7 @@ msgstr "Информация о ProtonPlus"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:5
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:8
-#: src/widgets/application.vala:124
+#: src/widgets/application.vala:123
 msgid "A modern compatibility tools manager"
 msgstr "Современный менеджер инструментов совместимости"
 
@@ -2149,15 +2149,15 @@ msgstr ""
 "Инструмент Steam для простой графической настройки других инструментов "
 "совместимости как для игр под Windows, так и для игр под Linux."
 
-#: src/widgets/application.vala:126
+#: src/widgets/application.vala:125
 msgid "Website"
 msgstr "Веб-сайт"
 
-#: src/widgets/application.vala:131
+#: src/widgets/application.vala:130
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:132
+#: src/widgets/application.vala:131
 msgid "Special thanks to"
 msgstr "Отдельное спасибо"
 

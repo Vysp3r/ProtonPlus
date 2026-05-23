@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-22 23:48+0200\n"
+"POT-Creation-Date: 2026-05-23 08:46+0200\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Bosnian <https://hosted.weblate.org/projects/protonplus/"
@@ -27,7 +27,7 @@ msgstr "_O ProtonPlus-u"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:5
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:8
-#: src/widgets/application.vala:124
+#: src/widgets/application.vala:123
 #, fuzzy
 msgid "A modern compatibility tools manager"
 msgstr "Moderni alat za upravljanje kompatibilnosti za Linuks."
@@ -2152,15 +2152,15 @@ msgstr ""
 "Steam alat za jednostavnu, grafičku konfiguraciju vaših drugih alata za "
 "kompatibilnost za Windows igre i nativne Linuks igre."
 
-#: src/widgets/application.vala:126
+#: src/widgets/application.vala:125
 msgid "Website"
 msgstr "Web stranica"
 
-#: src/widgets/application.vala:131
+#: src/widgets/application.vala:130
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:132
+#: src/widgets/application.vala:131
 msgid "Special thanks to"
 msgstr "Posebna zahvala"
 

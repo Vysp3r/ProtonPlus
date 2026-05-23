@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-22 23:48+0200\n"
+"POT-Creation-Date: 2026-05-23 08:46+0200\n"
 "PO-Revision-Date: 2026-04-18 18:16+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -27,7 +27,7 @@ msgstr "_Über ProtonPlus"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:5
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:8
-#: src/widgets/application.vala:124
+#: src/widgets/application.vala:123
 msgid "A modern compatibility tools manager"
 msgstr "Ein moderner Verwalter für Kompatibilitätstools"
 
@@ -2153,15 +2153,15 @@ msgstr ""
 "Kompatibilitätswerkzeuge für sowohl Windows-Spiele als auch native Linux-"
 "Spiele."
 
-#: src/widgets/application.vala:126
+#: src/widgets/application.vala:125
 msgid "Website"
 msgstr "Webseite"
 
-#: src/widgets/application.vala:131
+#: src/widgets/application.vala:130
 msgid "translator-credits"
 msgstr "Übersetzer-Credits"
 
-#: src/widgets/application.vala:132
+#: src/widgets/application.vala:131
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-22 23:48+0200\n"
+"POT-Creation-Date: 2026-05-23 08:46+0200\n"
 "PO-Revision-Date: 2026-01-11 17:01+0000\n"
 "Last-Translator: Valentin Ljuba <7fnndt50@anonaddy.me>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -26,7 +26,7 @@ msgstr "O _aplikaci ProtonPlus"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:5
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:8
-#: src/widgets/application.vala:124
+#: src/widgets/application.vala:123
 msgid "A modern compatibility tools manager"
 msgstr "Moderní správce nástrojů kompatibility"
 
@@ -2140,15 +2140,15 @@ msgstr ""
 "Nástroj Steamu pro snadnou grafickou konfiguraci vašich dalších nástrojů "
 "kompatibility pro Windows hry i nativní hry pro Linux."
 
-#: src/widgets/application.vala:126
+#: src/widgets/application.vala:125
 msgid "Website"
 msgstr "Webové stránky"
 
-#: src/widgets/application.vala:131
+#: src/widgets/application.vala:130
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:132
+#: src/widgets/application.vala:131
 msgid "Special thanks to"
 msgstr "Zvláštní poděkování patří"
 
@@ -2242,7 +2242,6 @@ msgid "Open ProtonDB page"
 msgstr "Otevřít ProtonDB stránku"
 
 #: src/widgets/games/games-extra-button.vala:31
-#, fuzzy
 msgid "Extra"
 msgstr ""
 
@@ -3156,7 +3155,6 @@ msgid "Distro info"
 msgstr "Informace o distribuci"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:68
-#, fuzzy
 msgid "Refresh rate*"
 msgstr ""
 
@@ -3206,12 +3204,10 @@ msgstr ""
 
 #. Options subsection
 #: src/widgets/mangohud/mangohud-extras-page.vala:99
-#, fuzzy
 msgid "HUD Version"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:100
-#, fuzzy
 msgid "GameMode"
 msgstr ""
 
@@ -3359,7 +3355,6 @@ msgid "Memory"
 msgstr "Paměť"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:95
-#, fuzzy
 msgid "Junction"
 msgstr ""
 
@@ -3522,7 +3517,6 @@ msgid "ON"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:54
-#, fuzzy
 msgid "OpenGL"
 msgstr ""
 
