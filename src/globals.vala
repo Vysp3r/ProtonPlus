@@ -11,6 +11,72 @@ namespace ProtonPlus.Globals {
     public static bool GAMESCOPE_INSTALLED;
     public static bool SCOPEBUDDY_INSTALLED;
 
+    public struct LanguageItem {
+        public string code;
+        public string name;
+        public int index;
+    }
+
+    public static LanguageItem[] LANGUAGES () {
+        return new LanguageItem[] {
+            { "system", _ ("System Default"), 0 },
+            { "ar", _ ("Arabic"), 1 },
+            { "be", _ ("Belarusian"), 2 },
+            { "bs", _ ("Bosnian"), 3 },
+            { "cs", _ ("Czech"), 4 },
+            { "de", _ ("German"), 5 },
+            { "en", _ ("English"), 6 },
+            { "el", _ ("Greek"), 7 },
+            { "es", _ ("Spanish"), 8 },
+            { "fi", _ ("Finnish"), 9 },
+            { "fr", _ ("French"), 10 },
+            { "hr", _ ("Croatian"), 11 },
+            { "id", _ ("Indonesian"), 12 },
+            { "it", _ ("Italian"), 13 },
+            { "ja", _ ("Japanese"), 14 },
+            { "ka", _ ("Georgian"), 15 },
+            { "nl", _ ("Dutch"), 16 },
+            { "pl", _ ("Polish"), 17 },
+            { "pt", _ ("Portuguese (Portugal)"), 18 },
+            { "ru", _ ("Russian"), 19 },
+            { "sr@latin", _ ("Serbian (Latin)"), 20 },
+            { "sv", _ ("Swedish"), 21 },
+            { "uk", _ ("Ukrainian"), 22 },
+            { "vi", _ ("Vietnamese"), 23 },
+            { "zh-CN", _ ("Chinese"), 24 },
+            { "zh-TW", _ ("Chinese (Traditional)"), 25 }
+        };
+    }
+
+    public static void setupLanguage () {
+        string current_locale = "";
+
+        if (Globals.SETTINGS != null) {
+            int saved_enum_value = Globals.SETTINGS.get_enum ("language");
+            
+            for (uint i = 0; i < LANGUAGES().length; i++) {
+                if (LANGUAGES()[i].index == saved_enum_value) {
+                    current_locale = LANGUAGES()[i].code;
+                    break;
+                }
+            }
+        }
+
+        if (current_locale == "system" || current_locale == "") {
+            Environment.unset_variable ("LANGUAGE");
+            current_locale = ""; 
+        } else {
+            Environment.set_variable ("LANGUAGE", current_locale, true);
+        }
+
+        Intl.setlocale (LocaleCategory.ALL, current_locale);
+        Intl.setlocale (LocaleCategory.MESSAGES, current_locale);
+
+        Intl.bindtextdomain (Config.APP_ID, Environment.get_variable ("LOCALE_DIR") ?? Config.LOCALE_DIR);
+        Intl.bind_textdomain_codeset (Config.APP_ID, "UTF-8");
+        Intl.textdomain (Config.APP_ID);
+    }
+
     public static void load () {
         var schema_source = SettingsSchemaSource.get_default ();
 

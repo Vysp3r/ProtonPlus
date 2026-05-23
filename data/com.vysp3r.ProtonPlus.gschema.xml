@@ -15,6 +15,35 @@
         <value nick="12h" value="3"/>
     </enum>
 
+	<enum id="com.vysp3r.ProtonPlus.Language">
+		<value nick="system" value="0"/>
+        <value nick="ar" value="1"/>
+        <value nick="be" value="2"/>
+        <value nick="bs" value="3"/>
+        <value nick="cs" value="4"/>
+        <value nick="de" value="5"/>
+        <value nick="en" value="6"/>
+        <value nick="el" value="7"/>
+        <value nick="es" value="8"/>
+        <value nick="fi" value="9"/>
+        <value nick="fr" value="10"/>
+        <value nick="hr" value="11"/>
+        <value nick="id" value="12"/>
+        <value nick="it" value="13"/>
+        <value nick="ja" value="14"/>
+        <value nick="ka" value="15"/>
+        <value nick="nl" value="16"/>
+        <value nick="pl" value="17"/>
+        <value nick="pt" value="18"/>
+        <value nick="ru" value="19"/>
+        <value nick="sr@latin" value="20"/>
+        <value nick="sv" value="21"/>
+        <value nick="uk" value="22"/>
+        <value nick="vi" value="23"/>
+        <value nick="zh-CN" value="24"/>
+        <value nick="zh-TW" value="25"/>
+	</enum>
+
     <schema id="com.vysp3r.ProtonPlus.State" path="/com/vysp3r/ProtonPlus/State/">
         <key name="width" type="i">
             <default>950</default>
@@ -58,6 +87,9 @@
         <key name="theme" enum="com.vysp3r.ProtonPlus.Theme">
             <default>'system'</default>
         </key>
+		<key name="language" enum="com.vysp3r.ProtonPlus.Language">
+			<default>'system'</default>
+		</key>
         <key name="experimental-features" type="b">
             <default>false</default>
         </key>

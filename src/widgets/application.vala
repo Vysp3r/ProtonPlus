@@ -1,5 +1,7 @@
 namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
+        Preferences.PreferencesDialog activePreferencesDialog { get; set; }
+
         construct {
             application_id = Config.APP_ID;
             flags |= ApplicationFlags.FLAGS_NONE;
@@ -10,6 +12,7 @@ namespace ProtonPlus.Widgets {
                 { "about", this.on_about_action },
                 { "donate", this.on_donate_action },
                 { "reload", this.on_reload_action },
+                { "on_language_change", this.on_language_change },
                 { "quit", this.quit },
             };
             this.add_action_entries (action_entries, this);
@@ -74,6 +77,7 @@ namespace ProtonPlus.Widgets {
             var window = this.active_window as Window;
             var preferences_dialog = new Preferences.PreferencesDialog (window.launchers);
             preferences_dialog.present (window);
+            activePreferencesDialog = preferences_dialog;
         }
 
         void on_donate_action () {
@@ -82,6 +86,18 @@ namespace ProtonPlus.Widgets {
 
         void on_reload_action () {
             (this.active_window as Window)?.reload ();
+        }
+
+        public void on_language_change () {
+            var main_window = this.active_window as Window;
+
+            if (main_window != null) {
+                main_window.reload_ui ();
+                main_window.reload ();
+
+                activePreferencesDialog.close ();
+                on_preferences_action ();
+            }
         }
 
         void on_about_action () {

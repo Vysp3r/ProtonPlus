@@ -73,7 +73,7 @@ build() {
         glib-compile-schemas "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
 
         cd src || exit 1
-        XDG_DATA_DIRS="${ROOT_DIR}/${build_dir}/data:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" ./protonplus
+        LOCALE_DIR="${ROOT_DIR}/${build_dir}/po" XDG_DATA_DIRS="${ROOT_DIR}/${build_dir}/data:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" ./protonplus
       fi
     )
   else
