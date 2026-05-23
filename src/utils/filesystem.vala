@@ -2,6 +2,26 @@ namespace ProtonPlus.Utils {
     public class Filesystem {
         public const Posix.mode_t S_IRWXUGO = (Posix.S_IRWXU | Posix.S_IRWXG | Posix.S_IRWXO);
 
+        // Required GSettings keys for the application to function properly
+        private static string[] REQUIRED_SCHEMA_KEYS = {
+            "width", "height", "is-maximized", "is-fullscreen",
+            "automatic-updates", "update-frequency", "check-updates-on-boot",
+            "github-api-key", "gitlab-api-key",
+            "steam-last-profile-id", "steam-remember-last-profile",
+            "enable-controller", "first-run", "theme", "experimental-features"
+        };
+
+        public static bool is_valid_schema (SettingsSchema schema) {
+            foreach (var key in REQUIRED_SCHEMA_KEYS) {
+                message ("Has key %s".printf (key));
+                if (!schema.has_key (key)) {
+                    warning ("Missing required GSettings key: %s", key);
+                    return false;
+                }
+            }
+            return true;
+        }
+
         // Miscellaneous.
 
         public delegate bool cancel_callback ();
@@ -160,6 +180,29 @@ namespace ProtonPlus.Utils {
             return output;
         }
 
+        public async static string get_file_content_async (string path, bool use_uri = false) {
+            string output = "";
+
+            try {
+                File file;
+
+                if (use_uri)
+                file = File.new_for_uri (path);
+                else
+                file = File.new_for_path (path);
+
+                uint8[] contents;
+                string etag_out;
+                yield file.load_contents_async (null, out contents, out etag_out);
+
+                output = (string) contents;
+            } catch (Error e) {
+                warning (e.message);
+            }
+
+            return output;
+        }
+
         public static bool modify_file (string path, string content) {
             try {
                 FileUtils.set_contents (path, content);
@@ -207,21 +250,6 @@ namespace ProtonPlus.Utils {
             return delete_file_direct (path);
         }
 
-        public static async bool move_file (string source, string destination) {
-            if (source == destination)
-            return true;
-
-            try {
-                File source_file = File.parse_name (source);
-                File destination_file = File.parse_name (destination);
-
-                return yield source_file.move_async (destination_file, GLib.FileCopyFlags.NONE, Priority.DEFAULT, null, null);
-            } catch (Error e) {
-                warning (e.message);
-            }
-
-            return false;
-        }
 
         // Directories.
 
@@ -373,52 +401,56 @@ namespace ProtonPlus.Utils {
             return output;
         }
 
-        public static async bool create_directory (string path) {
-            SourceFunc callback = create_directory.callback;
+        public static bool create_directory (string path) {
+        // We can safely split on slashes since they're illegal as filenames.
+            var has_leading_slash = path.index_of_char ('/') == 0;
+            var parts = path.split ("/");
+
+        // Create the target directory components in a top-down fashion.
+        // NOTE: If caller gives us a path with `..` such as `/foo/bar/../baz`,
+        // then we will end up creating both `/foo/bar` and `/foo/baz`, because
+        // there is no easy way to preprocess such directory traversals.
+            Posix.Stat stat_;
+            var current_path = "";
+            foreach (string p in parts) {
+                if (p == "")
+                continue;
+
+                if (current_path == "" && !has_leading_slash)
+                current_path = p;
+                else
+                current_path += @"/$p";
+
+                // Attempt to create the current path.
+                // NOTE: We request full (0777) permission bits. The C library will
+                // then filter it down to the correct `umask` for the current user,
+                // which is almost always 0755. This is how GNU's mkdir util works.
+                // https://pubs.opengroup.org/onlinepubs/9799919799/functions/mkdir.html
+                // https://github.com/coreutils/coreutils/blob/408301e4bc171bf5544f373f64bb6ed3351541db/src/mkdir.c#L136
+                // https://github.com/coreutils/gnulib/blob/e87d09bee37eeb742b8a34c9054cd2ebde22b835/lib/sys_stat.in.h#L423
+                if (Posix.mkdir (current_path, S_IRWXUGO) != 0) {
+                // Check failures for any reasons other than "it exists".
+                    if (Posix.errno != Posix.EEXIST)
+                    return false;
+
+                    // Verify that it's a directory (or a directory symlink).
+                    // NOTE: We use `stat()` since we ALLOW the dir to be symlinked.
+                    if (Posix.stat (current_path, out stat_) != 0)
+                    return false;
+                    if (!Posix.S_ISDIR (stat_.st_mode))
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static async bool create_directory_async (string path) {
+            SourceFunc callback = create_directory_async.callback;
 
             bool output = false;
             new Thread<void> ("create_directory", () => {
-            // We can safely split on slashes since they're illegal as filenames.
-                var has_leading_slash = path.index_of_char ('/') == 0;
-                var parts = path.split ("/");
-
-            // Create the target directory components in a top-down fashion.
-            // NOTE: If caller gives us a path with `..` such as `/foo/bar/../baz`,
-            // then we will end up creating both `/foo/bar` and `/foo/baz`, because
-            // there is no easy way to preprocess such directory traversals.
-                Posix.Stat stat_;
-                var current_path = "";
-                foreach (string p in parts) {
-                    if (p == "")
-                    continue;
-
-                    if (current_path == "" && !has_leading_slash)
-                    current_path = p;
-                    else
-                    current_path += @"/$p";
-
-                    // Attempt to create the current path.
-                    // NOTE: We request full (0777) permission bits. The C library will
-                    // then filter it down to the correct `umask` for the current user,
-                    // which is almost always 0755. This is how GNU's mkdir util works.
-                    // https://pubs.opengroup.org/onlinepubs/9799919799/functions/mkdir.html
-                    // https://github.com/coreutils/coreutils/blob/408301e4bc171bf5544f373f64bb6ed3351541db/src/mkdir.c#L136
-                    // https://github.com/coreutils/gnulib/blob/e87d09bee37eeb742b8a34c9054cd2ebde22b835/lib/sys_stat.in.h#L423
-                    if (Posix.mkdir (current_path, S_IRWXUGO) != 0) {
-                    // Check failures for any reasons other than "it exists".
-                        if (Posix.errno != Posix.EEXIST)
-                        return;
-
-                        // Verify that it's a directory (or a directory symlink).
-                        // NOTE: We use `stat()` since we ALLOW the dir to be symlinked.
-                        if (Posix.stat (current_path, out stat_) != 0)
-                        return;
-                        if (!Posix.S_ISDIR (stat_.st_mode))
-                        return;
-                    }
-
-                    output = true;
-                }
+                output = create_directory (path);
                 Idle.add ((owned) callback, Priority.DEFAULT);
             });
 

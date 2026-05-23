@@ -1605,5 +1605,3 @@ msgstr "显示快捷方式"
 msgctxt "shortcut window"
 msgid "Quit"
 msgstr "退出"
-
-

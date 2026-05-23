@@ -1,0 +1,85 @@
+namespace ProtonPlus.Widgets.Preferences {
+    public class ThemeRow : Adw.ComboRow {
+        class Theme : Object {
+            public string title { get; private set; }
+            public int color_scheme { get; private set; }
+
+            public Theme (string title, int color_scheme) {
+                this.title = title;
+                this.color_scheme = color_scheme;
+            }
+        }
+
+        construct {
+            var model = new ListStore(typeof (Theme));
+            model.append (new Theme(_ ("System"), Adw.ColorScheme.DEFAULT));
+            model.append (new Theme(_ ("Light"), Adw.ColorScheme.FORCE_LIGHT));
+            model.append (new Theme(_ ("Dark"), Adw.ColorScheme.FORCE_DARK));
+            model.append (new Theme(_ ("SteamOS"), 5));
+            model.append (new Theme(_ ("OLED"), 6));
+
+            var expression = new Gtk.PropertyExpression(typeof (Theme), null, "title");
+
+            var factory = new Gtk.SignalListItemFactory ();
+            factory.setup.connect (factory_setup);
+            factory.bind.connect (factory_bind);
+
+            set_title (_ ("Theme"));
+            set_model (model);
+            set_expression (expression);
+            set_list_factory (factory);
+
+            if (Globals.SETTINGS != null) {
+                var theme = Globals.SETTINGS.get_enum ("theme");
+
+                switch (theme) {
+                    case 0:
+                        set_selected (0);
+                        break;
+                    case 1:
+                        set_selected (1);
+                        break;
+                    case 4:
+                        set_selected (2);
+                        break;
+                    case 5:
+                        set_selected (3);
+                        break;
+                    case 6:
+                        set_selected (4);
+                        break;
+                }
+            }
+
+            notify["selected-item"].connect (selected_item_changed);
+        }
+
+        void selected_item_changed () {
+            var theme = get_selected_item () as Theme;
+
+            if (Globals.SETTINGS != null)
+            Globals.SETTINGS.set_enum ("theme", theme.color_scheme);
+        }
+
+        void factory_bind (Object object) {
+            var list_item = object as Gtk.ListItem;
+            var theme = list_item.get_item () as Theme;
+
+            object.get_data<Gtk.Label> ("title").set_label (theme.title);
+        }
+
+        void factory_setup (Object object) {
+            var list_item = object as Gtk.ListItem;
+
+            var title_label = new Gtk.Label (null);
+            title_label.set_xalign (0.0f);
+            title_label.set_max_width_chars (30);
+            title_label.set_ellipsize (Pango.EllipsizeMode.END);
+            title_label.set_hexpand (true);
+
+            object.set_data ("title", title_label);
+
+            list_item.set_child (title_label);
+        }
+    }
+}

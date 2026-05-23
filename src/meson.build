@@ -1,7 +1,6 @@
 sources = files(
     'main.vala',
     'globals.vala',
-    'return-code.vala',
 )
 
 subdir('cli')
@@ -19,7 +18,10 @@ deps = [
     dependency('libsoup-3.0'),
     dependency('gee-0.8'),
     dependency('libarchive'),
-    meson.get_compiler('c').find_library('m', required : false)
+    dependency('libnotify'),
+    dependency('cairo'),
+    meson.get_compiler('c').find_library('m', required : false),
+    sdl3_dep,
 ]
 
 executable(

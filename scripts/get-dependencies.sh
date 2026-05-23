@@ -23,7 +23,9 @@ pacman -Syu --noconfirm \
     bluez-libs \
     libnm \
     glib-networking \
-    libproxy
+    libproxy \
+    sdl3 \
+    libnotify
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"

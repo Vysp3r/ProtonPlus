@@ -1,116 +1,195 @@
 .steamos {
-  --window-bg-color: #1a1f24;
-  --window-fg-color: #ffffff;
-  --view-bg-color: #212429;
-  --view-fg-color: #ffffff;
-  --headerbar-bg-color: #1a1f24;
-  --headerbar-fg-color: #ffffff;
-  --card-bg-color: #212429;
-  --card-fg-color: #ffffff;
-  --accent-color: #1a9fff;
-  --accent-bg-color: #1a9fff;
-  --accent-fg-color: #ffffff;
-  --destructive-color: #ff4545;
-  --destructive-bg-color: #ff4545;
-  --destructive-fg-color: #ffffff;
-  --popover-bg-color: #212429;
-  --popover-fg-color: #ffffff;
-  --dialog-bg-color: #1a1f24;
-  --dialog-fg-color: #ffffff;
+    --window-bg-color: #171a21;
+    --window-fg-color: #ffffff;
+    --view-bg-color: #171a21;
+    --view-fg-color: #ffffff;
+    --headerbar-bg-color: #171a21;
+    --headerbar-fg-color: #ffffff;
+    --headerbar-border-color: #171a21;
+    --headerbar-backdrop-color: #171a21;
+    --headerbar-shade-color: transparent;
+    --card-bg-color: #212429;
+    --card-fg-color: #ffffff;
+    --card-shade-color: rgba(0, 0, 0, 0.15);
+    --popover-bg-color: #212429;
+    --popover-fg-color: #ffffff;
+    --dialog-bg-color: #171a21;
+    --dialog-fg-color: #ffffff;
+    --sidebar-bg-color: #171a21;
+    --sidebar-fg-color: #ffffff;
+    --secondary-sidebar-bg-color: #171a21;
+    --secondary-sidebar-fg-color: #ffffff;
 }
 
 .oled {
-  --window-bg-color: #000000;
-  --window-fg-color: #ffffff;
-  --view-bg-color: #000000;
-  --view-fg-color: #ffffff;
-  --headerbar-bg-color: #000000;
-  --headerbar-fg-color: #ffffff;
-  --card-bg-color: #161616;
-  --card-fg-color: #ffffff;
-  --accent-color: #3584e4;
-  --accent-bg-color: #3584e4;
-  --accent-fg-color: #ffffff;
-  --destructive-color: #ff4545;
-  --destructive-bg-color: #ff4545;
-  --destructive-fg-color: #ffffff;
-  --popover-bg-color: #161616;
-  --popover-fg-color: #ffffff;
-  --dialog-bg-color: #000000;
-  --dialog-fg-color: #ffffff;
+    --window-bg-color: #000000;
+    --window-fg-color: #ffffff;
+    --view-bg-color: #000000;
+    --view-fg-color: #ffffff;
+    --headerbar-bg-color: #000000;
+    --headerbar-fg-color: #ffffff;
+    --headerbar-border-color: #000000;
+    --headerbar-backdrop-color: #000000;
+    --headerbar-shade-color: transparent;
+    --card-bg-color: #111111;
+    --card-fg-color: #ffffff;
+    --card-shade-color: rgba(255, 255, 255, 0.1);
+    --popover-bg-color: #111111;
+    --popover-fg-color: #ffffff;
+    --dialog-bg-color: #000000;
+    --dialog-fg-color: #ffffff;
+    --sidebar-bg-color: #000000;
+    --sidebar-fg-color: #ffffff;
+    --secondary-sidebar-bg-color: #000000;
+    --secondary-sidebar-fg-color: #ffffff;
 }
 
 .dialog-list {
-  background: transparent;
+    background: transparent;
 }
 
-.p-10 {
-  padding: 10px;
+.p-12 {
+    padding: 12px;
 }
 
 .green {
-  color: #82c91e;
+    color: var(--accent-green);
 }
 
 .blue {
-  color: #228be6;
+    color: var(--accent-blue);
 }
 
 .purple {
-  color: #be4bdb;
+    color: var(--accent-purple);
 }
 
 .orange {
-  color: #fd7e14;
+    color: var(--accent-orange);
 }
 
 .red {
-  color: #fa5252;
+    color: var(--accent-red);
 }
 
 .apply-button {
-  color: var(--accent-blue);
+    color: var(--accent-blue);
 }
 
 .donate-button, .clear-button {
-  color: var(--accent-red);
+    color: var(--accent-red);
 }
 
 .list-header {
-  padding: 14px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom: 1px solid @card_shade_color;
-  box-shadow: none;
+    padding: 12px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 1px solid var(--card-shade-color);
+    background-color: var(--card-bg-color);
+    box-shadow: none;
+}
+
+.list-header entry {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
 }
 
 .list-content {
-  box-shadow: none;
+    box-shadow: none;
 }
 
 .list-content,
 .list-content > row:first-child {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.card {
+    border-radius: 12px;
 }
 
 .card.transparent-card {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .launchers-popover-list > row:not(:last-child) {
-  margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 flowboxchild {
-  background-color: transparent;
+    background-color: transparent;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+
+.controller-focus {
+    box-shadow: inset 0 0 0 2px var(--accent-bg-color);
 }
 
-.downloads-attention viewswitcher button:nth-child(3) image, .bounce-animation image {
-  animation: bounce 1s infinite ease-in-out;
+.info-pill, .usage-pill, .tag-pill {
+    border-radius: 10px;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.usage-pill {
+    background-color: #2ec27e;
+}
+
+.info-pill {
+    background-color: #c07434;
+}
+
+.tag-pill {
+    background-color: #3584e4;
+}
+
+row.controller-focus {
+    background-color: alpha(var(--accent-bg-color), 0.12);
+    box-shadow: inset 0 0 0 2px var(--accent-bg-color);
+}
+
+@keyframes dance {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-4px) rotate(8deg);
+    }
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-4px) rotate(-8deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+.loading-status-page image {
+    animation: dance 2s infinite ease-in-out;
+}
+
+.loading-status-page button image {
+    animation: none;
+}
+
+.tools-group-card {
+    padding: 16px;
+}
+
+.tools-group-card .title-4 {
+    font-weight: bold;
+}
+
+.tools-release-row-input-box {
+    background-color: var(--window-bg-color);
+    border-radius: 9px;
+}
+
+.tools-release-row-input-box button {
+    padding: 5px;
 }

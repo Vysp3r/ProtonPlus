@@ -1,0 +1,32 @@
+name: Issue Checker
+
+on:
+  issues:
+    types: [ opened ]
+
+jobs:
+  check-title:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Check issue title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo, number } = context.issue;
+            const title = context.payload.issue.title.trim();
+            if (title === '[BUG]' || title === '[FEATURE]') {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: number,
+                body: 'Please fill out issues properly.'
+              });
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: number,
+                state: 'closed'
+              });
+            }
