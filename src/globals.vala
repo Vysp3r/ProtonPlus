@@ -40,6 +40,7 @@ namespace ProtonPlus.Globals {
             { "pt", _ ("Portuguese (Portugal)"), 18 },
             { "ru", _ ("Russian"), 19 },
             { "sr@latin", _ ("Serbian (Latin)"), 20 },
+            { "sk", _ ("Slovak"), 26 },
             { "sv", _ ("Swedish"), 21 },
             { "uk", _ ("Ukrainian"), 22 },
             { "vi", _ ("Vietnamese"), 23 },

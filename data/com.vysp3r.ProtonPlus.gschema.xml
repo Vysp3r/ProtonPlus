@@ -42,6 +42,7 @@
         <value nick="vi" value="23"/>
         <value nick="zh-CN" value="24"/>
         <value nick="zh-TW" value="25"/>
+        <value nick="sk" value="26"/>
 	</enum>
 
     <schema id="com.vysp3r.ProtonPlus.State" path="/com/vysp3r/ProtonPlus/State/">

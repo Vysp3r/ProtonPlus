@@ -1953,22 +1953,26 @@ msgid "Serbian (Latin)"
 msgstr ""
 
 #: src/globals.vala:43
-msgid "Swedish"
+msgid "Slovak"
 msgstr ""
 
 #: src/globals.vala:44
-msgid "Ukrainian"
+msgid "Swedish"
 msgstr ""
 
 #: src/globals.vala:45
-msgid "Vietnamese"
+msgid "Ukrainian"
 msgstr ""
 
 #: src/globals.vala:46
-msgid "Chinese"
+msgid "Vietnamese"
 msgstr ""
 
 #: src/globals.vala:47
+msgid "Chinese"
+msgstr ""
+
+#: src/globals.vala:48
 msgid "Chinese (Traditional)"
 msgstr ""
 

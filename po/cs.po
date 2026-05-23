@@ -1977,22 +1977,26 @@ msgid "Serbian (Latin)"
 msgstr ""
 
 #: src/globals.vala:43
+msgid "Slovak"
+msgstr "Slovenština"
+
+#: src/globals.vala:44
 msgid "Swedish"
 msgstr "Švédština"
 
-#: src/globals.vala:44
+#: src/globals.vala:45
 msgid "Ukrainian"
 msgstr "Ukrajinština"
 
-#: src/globals.vala:45
+#: src/globals.vala:46
 msgid "Vietnamese"
 msgstr "Vietnamština"
 
-#: src/globals.vala:46
+#: src/globals.vala:47
 msgid "Chinese"
 msgstr "Čínština"
 
-#: src/globals.vala:47
+#: src/globals.vala:48
 msgid "Chinese (Traditional)"
 msgstr "Čínština (Tradiční)"
 
@@ -2988,7 +2992,7 @@ msgstr ""
 
 #: src/widgets/header/header-box.vala:14
 msgid "_Preferences"
-msgstr "Nastavení"
+msgstr "Předvolby"
 
 #: src/widgets/header/header-box.vala:15
 msgid "_Keyboard Shortcuts"
@@ -2996,7 +3000,7 @@ msgstr "_Klávesové zkratky"
 
 #: src/widgets/header/header-box.vala:16
 msgid "_Donate"
-msgstr "Podpořit"
+msgstr "_Podpořit"
 
 #: src/widgets/header/header-box.vala:17
 msgid "_About ProtonPlus"
@@ -3008,7 +3012,7 @@ msgstr "Hlavní nabídka"
 
 #: src/widgets/loading/loading-box.vala:53
 msgid "Loading"
-msgstr "Načítá se"
+msgstr "Načítání"
 
 #: src/widgets/loading/loading-box.vala:54
 msgid "Please wait while we're loading your launchers."
