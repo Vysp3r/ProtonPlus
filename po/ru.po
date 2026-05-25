@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 08:46+0200\n"
+"POT-Creation-Date: 2026-05-24 01:10+0200\n"
 "PO-Revision-Date: 2025-11-30 21:00+0000\n"
 "Last-Translator: serg <serhii.maleev@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -2124,7 +2124,7 @@ msgstr ""
 "поверх Vulkan."
 
 #: src/models/games/steam.vala:137 src/models/games/steam.vala:157
-#: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:98
+#: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:99
 #: src/widgets/tools/tools-migrate-box.vala:97
 msgid "Default"
 msgstr ""
@@ -2189,7 +2189,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:126 src/widgets/games/games-row.vala:101
+#: src/widgets/games/games-box.vala:126 src/widgets/games/games-row.vala:102
 msgid "Native"
 msgstr ""
 
@@ -2916,41 +2916,46 @@ msgstr ""
 msgid "Select a profile"
 msgstr "Выберите профиль"
 
-#: src/widgets/games/games-row.vala:116
+#: src/widgets/games/games-row.vala:117
 #, fuzzy
 msgid "Modify the game"
 msgstr "Изменить параметры запуска игры"
 
-#: src/widgets/games/games-row.vala:121
+#: src/widgets/games/games-row.vala:122
 #, fuzzy
 msgid "Launch custom executable"
 msgstr "Выбрать все"
 
-#: src/widgets/games/games-row.vala:127
+#: src/widgets/games/games-row.vala:129
+#, fuzzy
+msgid "Launch game"
+msgstr "Настройки лаунчера"
+
+#: src/widgets/games/games-row.vala:134
 #, fuzzy
 msgid "Browse game install directory"
 msgstr "Открыть папку установки"
 
-#: src/widgets/games/games-row.vala:133
+#: src/widgets/games/games-row.vala:140
 #, fuzzy
 msgid "Browse prefix directory"
 msgstr "Открыть папку префикса"
 
-#: src/widgets/games/games-row.vala:152
+#: src/widgets/games/games-row.vala:160
 #, fuzzy
 msgid "Select executable"
 msgstr "Выбрать все"
 
-#: src/widgets/games/games-row.vala:160
+#: src/widgets/games/games-row.vala:168
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:198
+#: src/widgets/games/games-row.vala:214
 #, fuzzy
 msgid "Compatibility Tool Not Found"
 msgstr "Инструмент совместимости"
 
-#: src/widgets/games/games-row.vala:198
+#: src/widgets/games/games-row.vala:214
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "

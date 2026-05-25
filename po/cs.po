@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 08:46+0200\n"
+"POT-Creation-Date: 2026-05-24 01:10+0200\n"
 "PO-Revision-Date: 2026-01-11 17:01+0000\n"
 "Last-Translator: Valentin Ljuba <7fnndt50@anonaddy.me>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -2118,7 +2118,7 @@ msgstr ""
 "Direct3D 12 na Vulkanu."
 
 #: src/models/games/steam.vala:137 src/models/games/steam.vala:157
-#: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:98
+#: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:99
 #: src/widgets/tools/tools-migrate-box.vala:97
 msgid "Default"
 msgstr "Výchozí"
@@ -2180,7 +2180,7 @@ msgstr "Pokročilé"
 msgid "All"
 msgstr "Vše"
 
-#: src/widgets/games/games-box.vala:126 src/widgets/games/games-row.vala:101
+#: src/widgets/games/games-box.vala:126 src/widgets/games/games-row.vala:102
 msgid "Native"
 msgstr "Nativní"
 
@@ -2897,41 +2897,45 @@ msgstr ""
 msgid "Select a profile"
 msgstr "Vyber profil"
 
-#: src/widgets/games/games-row.vala:116
+#: src/widgets/games/games-row.vala:117
 #, fuzzy
 msgid "Modify the game"
 msgstr "Upravit možnosti spouštění hry"
 
-#: src/widgets/games/games-row.vala:121
+#: src/widgets/games/games-row.vala:122
 #, fuzzy
 msgid "Launch custom executable"
 msgstr "Vyber vše"
 
-#: src/widgets/games/games-row.vala:127
+#: src/widgets/games/games-row.vala:129
+msgid "Launch game"
+msgstr "Spustit hru"
+
+#: src/widgets/games/games-row.vala:134
 #, fuzzy
 msgid "Browse game install directory"
 msgstr "Otevřít instalační adresář"
 
-#: src/widgets/games/games-row.vala:133
+#: src/widgets/games/games-row.vala:140
 #, fuzzy
 msgid "Browse prefix directory"
 msgstr "Otevřít adresář prefixu"
 
-#: src/widgets/games/games-row.vala:152
+#: src/widgets/games/games-row.vala:160
 #, fuzzy
 msgid "Select executable"
 msgstr "Vyber vše"
 
-#: src/widgets/games/games-row.vala:160
+#: src/widgets/games/games-row.vala:168
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr "Spustitelné (*.exe, *.msi, *.msu)"
 
-#: src/widgets/games/games-row.vala:198
+#: src/widgets/games/games-row.vala:214
 #, fuzzy
 msgid "Compatibility Tool Not Found"
 msgstr "Kompatibilní nástroj"
 
-#: src/widgets/games/games-row.vala:198
+#: src/widgets/games/games-row.vala:214
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "
@@ -4239,7 +4243,7 @@ msgstr "Ukončit"
 
 #, fuzzy
 #~ msgid "Canceled"
-#~ msgstr "Zrušit"
+#~ msgstr "Zrušeno"
 
 #, fuzzy
 #~ msgid ""

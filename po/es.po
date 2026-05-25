@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 08:46+0200\n"
+"POT-Creation-Date: 2026-05-24 01:10+0200\n"
 "PO-Revision-Date: 2026-04-20 13:09+0000\n"
 "Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
@@ -2129,7 +2129,7 @@ msgstr ""
 "12 sobre Vulkan."
 
 #: src/models/games/steam.vala:137 src/models/games/steam.vala:157
-#: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:98
+#: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:99
 #: src/widgets/tools/tools-migrate-box.vala:97
 msgid "Default"
 msgstr ""
@@ -2194,7 +2194,7 @@ msgstr "Avanzado"
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:126 src/widgets/games/games-row.vala:101
+#: src/widgets/games/games-box.vala:126 src/widgets/games/games-row.vala:102
 msgid "Native"
 msgstr ""
 
@@ -2941,41 +2941,46 @@ msgstr ""
 msgid "Select a profile"
 msgstr "Seleccionar un perfil"
 
-#: src/widgets/games/games-row.vala:116
+#: src/widgets/games/games-row.vala:117
 #, fuzzy
 msgid "Modify the game"
 msgstr "Modificar las opciones de lanzamiento del juego"
 
-#: src/widgets/games/games-row.vala:121
+#: src/widgets/games/games-row.vala:122
 #, fuzzy
 msgid "Launch custom executable"
 msgstr "Ejecutar ejecutable personalizado"
 
-#: src/widgets/games/games-row.vala:127
+#: src/widgets/games/games-row.vala:129
+#, fuzzy
+msgid "Launch game"
+msgstr "Herramientas de lanzamiento"
+
+#: src/widgets/games/games-row.vala:134
 #, fuzzy
 msgid "Browse game install directory"
 msgstr "Abrir el directorio de instalación"
 
-#: src/widgets/games/games-row.vala:133
+#: src/widgets/games/games-row.vala:140
 #, fuzzy
 msgid "Browse prefix directory"
 msgstr "Abrir directorio de prefijos"
 
-#: src/widgets/games/games-row.vala:152
+#: src/widgets/games/games-row.vala:160
 msgid "Select executable"
 msgstr "Seleccionar ejecutable"
 
-#: src/widgets/games/games-row.vala:160
+#: src/widgets/games/games-row.vala:168
 #, fuzzy
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr "Ejecutables (*.exe, *.msi, *.msu)"
 
-#: src/widgets/games/games-row.vala:198
+#: src/widgets/games/games-row.vala:214
 #, fuzzy
 msgid "Compatibility Tool Not Found"
 msgstr "Herramienta de compatibilidad"
 
-#: src/widgets/games/games-row.vala:198
+#: src/widgets/games/games-row.vala:214
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "

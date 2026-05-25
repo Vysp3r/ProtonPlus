@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 08:46+0200\n"
+"POT-Creation-Date: 2026-05-24 01:10+0200\n"
 "PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -2118,7 +2118,7 @@ msgstr ""
 "Wine の VKD3D で完全な Direct3D 12 API を実装することを目指したバージョン。"
 
 #: src/models/games/steam.vala:137 src/models/games/steam.vala:157
-#: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:98
+#: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:99
 #: src/widgets/tools/tools-migrate-box.vala:97
 msgid "Default"
 msgstr ""
@@ -2182,7 +2182,7 @@ msgstr "上級"
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:126 src/widgets/games/games-row.vala:101
+#: src/widgets/games/games-box.vala:126 src/widgets/games/games-row.vala:102
 msgid "Native"
 msgstr ""
 
@@ -2927,41 +2927,46 @@ msgstr ""
 msgid "Select a profile"
 msgstr "プロファイルを選択"
 
-#: src/widgets/games/games-row.vala:116
+#: src/widgets/games/games-row.vala:117
 #, fuzzy
 msgid "Modify the game"
 msgstr "ゲームの起動オプションを変更"
 
-#: src/widgets/games/games-row.vala:121
+#: src/widgets/games/games-row.vala:122
 #, fuzzy
 msgid "Launch custom executable"
 msgstr "カスタムの起動可能ファイルを実行"
 
-#: src/widgets/games/games-row.vala:127
+#: src/widgets/games/games-row.vala:129
+#, fuzzy
+msgid "Launch game"
+msgstr "起動ツール"
+
+#: src/widgets/games/games-row.vala:134
 #, fuzzy
 msgid "Browse game install directory"
 msgstr "インストール先のディレクトリを開く"
 
-#: src/widgets/games/games-row.vala:133
+#: src/widgets/games/games-row.vala:140
 #, fuzzy
 msgid "Browse prefix directory"
 msgstr "実行環境のディレクトリを開く"
 
-#: src/widgets/games/games-row.vala:152
+#: src/widgets/games/games-row.vala:160
 msgid "Select executable"
 msgstr "実行可能ファイルを選択"
 
-#: src/widgets/games/games-row.vala:160
+#: src/widgets/games/games-row.vala:168
 #, fuzzy
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr "実行可能ファイル (*.exe, *.msi, *.msu)"
 
-#: src/widgets/games/games-row.vala:198
+#: src/widgets/games/games-row.vala:214
 #, fuzzy
 msgid "Compatibility Tool Not Found"
 msgstr "互換性ツール"
 
-#: src/widgets/games/games-row.vala:198
+#: src/widgets/games/games-row.vala:214
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "

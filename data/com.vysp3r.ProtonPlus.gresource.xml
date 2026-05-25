@@ -55,5 +55,6 @@
         <file alias="scalable/actions/square-poll-horizontal-symbolic.svg">icons/square-poll-horizontal.svg</file>
         <file alias="scalable/actions/screwdriver-wrench-symbolic.svg">icons/screwdriver-wrench.svg</file>
         <file alias="scalable/actions/circle-xmark-symbolic.svg">icons/circle-xmark.svg</file>
+        <file alias="scalable/actions/play-fill-symbolic.svg">icons/play-fill.svg</file>
     </gresource>
 </gresources>

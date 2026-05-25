@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 08:46+0200\n"
+"POT-Creation-Date: 2026-05-24 01:10+0200\n"
 "PO-Revision-Date: 2026-01-09 12:01+0000\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <https://hosted.weblate.org/projects/protonplus/"
@@ -2128,7 +2128,7 @@ msgstr ""
 "მხარდაჭერა Vulkan-ის ზემოდან."
 
 #: src/models/games/steam.vala:137 src/models/games/steam.vala:157
-#: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:98
+#: src/widgets/games/games-box.vala:379 src/widgets/games/games-row.vala:99
 #: src/widgets/tools/tools-migrate-box.vala:97
 msgid "Default"
 msgstr ""
@@ -2193,7 +2193,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:126 src/widgets/games/games-row.vala:101
+#: src/widgets/games/games-box.vala:126 src/widgets/games/games-row.vala:102
 msgid "Native"
 msgstr ""
 
@@ -2919,41 +2919,46 @@ msgstr ""
 msgid "Select a profile"
 msgstr "აირჩიეთ პროფილი"
 
-#: src/widgets/games/games-row.vala:116
+#: src/widgets/games/games-row.vala:117
 #, fuzzy
 msgid "Modify the game"
 msgstr "თამაშის გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/games-row.vala:121
+#: src/widgets/games/games-row.vala:122
 #, fuzzy
 msgid "Launch custom executable"
 msgstr "ყველას მონიშვნა"
 
-#: src/widgets/games/games-row.vala:127
+#: src/widgets/games/games-row.vala:129
+#, fuzzy
+msgid "Launch game"
+msgstr "გაშვების მორგება"
+
+#: src/widgets/games/games-row.vala:134
 #, fuzzy
 msgid "Browse game install directory"
 msgstr "დაყენების საქაღალდის გახსნა"
 
-#: src/widgets/games/games-row.vala:133
+#: src/widgets/games/games-row.vala:140
 #, fuzzy
 msgid "Browse prefix directory"
 msgstr "პრეფიქსის საქაღალდის გახსნა"
 
-#: src/widgets/games/games-row.vala:152
+#: src/widgets/games/games-row.vala:160
 #, fuzzy
 msgid "Select executable"
 msgstr "ყველას მონიშვნა"
 
-#: src/widgets/games/games-row.vala:160
+#: src/widgets/games/games-row.vala:168
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:198
+#: src/widgets/games/games-row.vala:214
 #, fuzzy
 msgid "Compatibility Tool Not Found"
 msgstr "თავსებადობის ხელსაწყო"
 
-#: src/widgets/games/games-row.vala:198
+#: src/widgets/games/games-row.vala:214
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "
