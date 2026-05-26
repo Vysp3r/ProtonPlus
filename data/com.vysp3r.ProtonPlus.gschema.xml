@@ -15,6 +15,11 @@
         <value nick="12h" value="3"/>
     </enum>
 
+	<enum id="com.vysp3r.ProtonPlus.ProxyMode">
+		<value nick="system" value="0"/>
+		<value nick="manual" value="1"/>
+  </enum>
+    
 	<enum id="com.vysp3r.ProtonPlus.Language">
 		<value nick="system" value="0"/>
         <value nick="ar" value="1"/>
@@ -97,5 +102,11 @@
         <key name="show-legacy-tools" type="b">
             <default>false</default>
         </key>
+		<key name="proxy-mode" enum="com.vysp3r.ProtonPlus.ProxyMode">
+			<default>'system'</default>
+		</key>
+		<key name="proxy-url" type="s">
+			<default>''</default>
+		</key>
     </schema>
 </schemalist>

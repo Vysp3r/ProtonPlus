@@ -160,6 +160,29 @@ namespace ProtonPlus.Widgets.Preferences {
             Globals.SETTINGS.bind ("gitlab-api-key", gitlab_access_token_row, "text", SettingsBindFlags.DEFAULT);
             tokens_group.add (gitlab_access_token_row);
 
+            var network_group = new Adw.PreferencesGroup () {
+                title = _ ("Network")
+            };
+            advanced_page.add (network_group);
+
+            var proxy_mode_row = new ProxyModeRow ();
+            network_group.add (proxy_mode_row);
+
+            var proxy_url_row = new Adw.EntryRow () {
+                title = _ ("Proxy URL"),
+            };
+            proxy_url_row.set_tooltip_text (_ ("Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"));
+            proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
+            Globals.SETTINGS.bind ("proxy-url", proxy_url_row, "text", SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.changed["proxy-mode"].connect (() => {
+                proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
+                Utils.Web.update_proxy_settings ();
+            });
+            Globals.SETTINGS.changed["proxy-url"].connect (() => {
+                Utils.Web.update_proxy_settings ();
+            });
+            network_group.add (proxy_url_row);
+
             var experimental_group = new Adw.PreferencesGroup () {
                 title = _ ("Experimental")
             };
