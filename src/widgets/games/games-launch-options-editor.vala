@@ -7,7 +7,6 @@ using Adw;
         SCOPEBUDDY
     }
 
-
     public class LaunchOptionsEditor : Gtk.Box {
         public signal void content_changed ();
 
@@ -75,6 +74,7 @@ using Adw;
         Components.LaunchOptionSpinTile scopebuddy_framerate_tile { get; set; }
         Components.LaunchOptionResolutionField scopebuddy_resolution_field { get; set; }
         Components.LaunchOptionEntryField scopebuddy_args_field { get; set; }
+        Components.LaunchOptionDllOverrides dll_overrides_pair_editor { get; set; }
         List<Components.LaunchOptionBinding> common_bindings;
         List<Components.LaunchOptionBinding> gpu_vendor_bindings;
         List<Components.LaunchOptionBinding> game_argument_bindings;
@@ -287,6 +287,11 @@ using Adw;
             game_arguments_group.add (console_tile);
             append (game_arguments_group);
 
+            // DLL overrides
+            dll_overrides_pair_editor = new Components.LaunchOptionDllOverrides ();
+            dll_overrides_pair_editor.changed.connect (standard_control_changed);
+            append (dll_overrides_pair_editor);
+
             // Advanced options
 
             command_tile = new Components.LaunchOptionTile ("%command%", _ ("Appends Steam's game command."));
@@ -398,12 +403,12 @@ using Adw;
             var tokens = get_launch_option_tokens (launch_options);
             var consumed = new bool[tokens.length];
             var selected_wrapper_mode = detect_wrapper_mode (tokens);
-
             refreshing_controls = true;
 
             reset_controls ();
             apply_bindings_from_tokens (common_bindings, tokens, consumed);
             apply_bindings_from_tokens (gpu_vendor_bindings, tokens, consumed);
+            apply_dll_override_bindings_from_tokens (tokens, consumed);
 
             if (selected_wrapper_mode == WrapperMode.NONE)
             parse_none_tokens (tokens, consumed);
@@ -779,6 +784,12 @@ using Adw;
 
             append_binding_segments (segments, common_bindings);
             append_binding_segments (segments, gpu_vendor_bindings);
+
+            string dll_value = dll_overrides_pair_editor.value;
+            if (dll_value != "") {
+                segments.add ("WINEDLLOVERRIDES=" + dll_value); 
+            }
+
             if (additional_args_tile.toggle.get_active ())
             append_segments_from_text (segments, additional_args_field.get_text ());
 
@@ -874,6 +885,19 @@ using Adw;
         void append_none_segments (Gee.LinkedList<string> segments) {
             if (hdr_tile.toggle.get_active ())
             segments.add ("PROTON_ENABLE_HDR=1");
+        }
+
+        void apply_dll_override_bindings_from_tokens (string[] tokens, bool[] consumed) {
+            string winedll_raw = "";
+            for (int i = 0; i < tokens.length; i++) {
+                if (tokens[i].has_prefix ("WINEDLLOVERRIDES=")) {
+                    winedll_raw = tokens[i].substring (17);
+                    consumed[i] = true;
+                    break;
+                }
+            }
+
+            dll_overrides_pair_editor.value = winedll_raw;
         }
 
         void apply_game_argument_bindings_from_tokens (string[] tokens, bool[] consumed, int command_index) {

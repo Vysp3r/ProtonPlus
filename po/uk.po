@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 22:31+0200\n"
+"POT-Creation-Date: 2026-05-26 10:40+0200\n"
 "PO-Revision-Date: 2026-04-28 02:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
@@ -2302,13 +2302,13 @@ msgstr "Швидкі перемикачі для найуживаніших па
 
 #. Launch tools
 #: src/widgets/games/games-launch-options-editor.vala:126
-#: src/widgets/games/games-launch-options-editor.vala:485
+#: src/widgets/games/games-launch-options-editor.vala:490
 msgid "HDR"
 msgstr "HDR"
 
 #: src/widgets/games/games-launch-options-editor.vala:126
-#: src/widgets/games/games-launch-options-editor.vala:485
-#: src/widgets/games/games-launch-options-editor.vala:520
+#: src/widgets/games/games-launch-options-editor.vala:490
+#: src/widgets/games/games-launch-options-editor.vala:525
 msgid "Outputs HDR colors if your display supports it."
 msgstr "Виводить HDR-кольори, за умови підтримки дисплеєм."
 
@@ -2730,118 +2730,118 @@ msgid "Flags passed directly to the game."
 msgstr "Параметри, які передаються напряму грі."
 
 #. Advanced options
-#: src/widgets/games/games-launch-options-editor.vala:292
+#: src/widgets/games/games-launch-options-editor.vala:297
 msgid "Appends Steam's game command."
 msgstr "Додає команду запуску гри Steam."
 
-#: src/widgets/games/games-launch-options-editor.vala:295
+#: src/widgets/games/games-launch-options-editor.vala:300
 msgid "Additional arguments"
 msgstr "Додаткові параметри"
 
-#: src/widgets/games/games-launch-options-editor.vala:295
+#: src/widgets/games/games-launch-options-editor.vala:300
 msgid "Add extra launch options"
 msgstr "Змінити параметри запуску"
 
-#: src/widgets/games/games-launch-options-editor.vala:298
+#: src/widgets/games/games-launch-options-editor.vala:303
 msgid "Custom launch arguments"
 msgstr "Власні параметри запуску"
 
-#: src/widgets/games/games-launch-options-editor.vala:298
+#: src/widgets/games/games-launch-options-editor.vala:303
 msgid "Add your own launch options."
 msgstr "Додати власні параметри запуску."
 
-#: src/widgets/games/games-launch-options-editor.vala:303
+#: src/widgets/games/games-launch-options-editor.vala:308
 msgid "Advanced options"
 msgstr "Розширені опції"
 
-#: src/widgets/games/games-launch-options-editor.vala:304
+#: src/widgets/games/games-launch-options-editor.vala:309
 msgid "Extra control over the final Steam launch command."
 msgstr "Додатковий контроль над фінальною командою запуску Steam."
 
-#: src/widgets/games/games-launch-options-editor.vala:482
-#: src/widgets/games/games-launch-options-editor.vala:517
+#: src/widgets/games/games-launch-options-editor.vala:487
+#: src/widgets/games/games-launch-options-editor.vala:522
 msgid "Fullscreen"
 msgstr "Повноекранний режим"
 
-#: src/widgets/games/games-launch-options-editor.vala:482
-#: src/widgets/games/games-launch-options-editor.vala:517
+#: src/widgets/games/games-launch-options-editor.vala:487
+#: src/widgets/games/games-launch-options-editor.vala:522
 msgid "Runs the game in a fullscreen session."
 msgstr "Запускає гру на весь екран."
 
-#: src/widgets/games/games-launch-options-editor.vala:488
-#: src/widgets/games/games-launch-options-editor.vala:523
+#: src/widgets/games/games-launch-options-editor.vala:493
+#: src/widgets/games/games-launch-options-editor.vala:528
 msgid "VRR"
 msgstr "VRR (змінна частота оновлення)"
 
-#: src/widgets/games/games-launch-options-editor.vala:488
-#: src/widgets/games/games-launch-options-editor.vala:523
+#: src/widgets/games/games-launch-options-editor.vala:493
+#: src/widgets/games/games-launch-options-editor.vala:528
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr "Узгоджує частоту оновлення дисплея з частотою кадрів у грі."
 
-#: src/widgets/games/games-launch-options-editor.vala:491
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:496
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "Frame limit"
 msgstr "Обмеження частоти кадрів"
 
-#: src/widgets/games/games-launch-options-editor.vala:491
+#: src/widgets/games/games-launch-options-editor.vala:496
 msgid "Caps the frame rate inside Gamescope."
 msgstr "Обмежує частоту кадрів у Gamescope."
 
-#: src/widgets/games/games-launch-options-editor.vala:491
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:496
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "FPS"
 msgstr "Кількість к/с"
 
-#: src/widgets/games/games-launch-options-editor.vala:495
-#: src/widgets/games/games-launch-options-editor.vala:533
+#: src/widgets/games/games-launch-options-editor.vala:500
+#: src/widgets/games/games-launch-options-editor.vala:538
 #: src/widgets/mangohud/mangohud-extras-page.vala:69
 msgid "Resolution"
 msgstr "Роздільність"
 
-#: src/widgets/games/games-launch-options-editor.vala:495
+#: src/widgets/games/games-launch-options-editor.vala:500
 msgid "Sets the Gamescope output resolution."
 msgstr "Встановлює роздільну здатність Gamescope."
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Additional Gamescope arguments"
 msgstr "Додаткові параметри Gamescope"
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 "Зберігає додаткові параметри Gamescope, зокрема параметри виводу та "
 "роздільності."
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Add Gamescope arguments"
 msgstr "Додати параметри Gamescope"
 
-#: src/widgets/games/games-launch-options-editor.vala:520
+#: src/widgets/games/games-launch-options-editor.vala:525
 msgid "Auto HDR"
 msgstr "Авто HDR"
 
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr "Обмежує частоту кадрів у ScopeBuddy."
 
-#: src/widgets/games/games-launch-options-editor.vala:533
+#: src/widgets/games/games-launch-options-editor.vala:538
 msgid "Sets the ScopeBuddy output resolution."
 msgstr "Встановлює вихідну роздільність ScopeBuddy."
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Additional ScopeBuddy arguments"
 msgstr "Додаткові параметри ScopeBuddy"
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
 "Зберігає додаткові параметри ScopeBuddy, наприклад вибір вихідного пристрою."
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Add ScopeBuddy arguments"
 msgstr "Додати параметри ScopeBuddy"
 
-#: src/widgets/games/games-launch-options-editor.vala:1001
+#: src/widgets/games/games-launch-options-editor.vala:1025
 msgid "No launch options configured yet."
 msgstr "Параметри запуску ще не задано."
 

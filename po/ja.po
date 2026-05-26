@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 22:31+0200\n"
+"POT-Creation-Date: 2026-05-26 10:40+0200\n"
 "PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -2302,13 +2302,13 @@ msgstr "よく利用される起動オプションのトグルを表示してい
 
 #. Launch tools
 #: src/widgets/games/games-launch-options-editor.vala:126
-#: src/widgets/games/games-launch-options-editor.vala:485
+#: src/widgets/games/games-launch-options-editor.vala:490
 msgid "HDR"
 msgstr ""
 
 #: src/widgets/games/games-launch-options-editor.vala:126
-#: src/widgets/games/games-launch-options-editor.vala:485
-#: src/widgets/games/games-launch-options-editor.vala:520
+#: src/widgets/games/games-launch-options-editor.vala:490
+#: src/widgets/games/games-launch-options-editor.vala:525
 msgid "Outputs HDR colors if your display supports it."
 msgstr "ディスプレイが対応している場合に、HDR 映像を出力します。"
 
@@ -2737,116 +2737,116 @@ msgid "Flags passed directly to the game."
 msgstr "直接ゲームに渡されるフラグ。"
 
 #. Advanced options
-#: src/widgets/games/games-launch-options-editor.vala:292
+#: src/widgets/games/games-launch-options-editor.vala:297
 msgid "Appends Steam's game command."
 msgstr "Steam のゲームコマンドを追加します"
 
-#: src/widgets/games/games-launch-options-editor.vala:295
+#: src/widgets/games/games-launch-options-editor.vala:300
 msgid "Additional arguments"
 msgstr "追加の引数"
 
-#: src/widgets/games/games-launch-options-editor.vala:295
+#: src/widgets/games/games-launch-options-editor.vala:300
 #, fuzzy
 msgid "Add extra launch options"
 msgstr "起動オプションの変更"
 
-#: src/widgets/games/games-launch-options-editor.vala:298
+#: src/widgets/games/games-launch-options-editor.vala:303
 msgid "Custom launch arguments"
 msgstr "カスタムの起動引数"
 
-#: src/widgets/games/games-launch-options-editor.vala:298
+#: src/widgets/games/games-launch-options-editor.vala:303
 msgid "Add your own launch options."
 msgstr "任意の起動オプションを追加します。"
 
-#: src/widgets/games/games-launch-options-editor.vala:303
+#: src/widgets/games/games-launch-options-editor.vala:308
 msgid "Advanced options"
 msgstr "上級設定"
 
-#: src/widgets/games/games-launch-options-editor.vala:304
+#: src/widgets/games/games-launch-options-editor.vala:309
 msgid "Extra control over the final Steam launch command."
 msgstr "最終的に Steam が使う起動コマンドへの追加のコントロール。"
 
-#: src/widgets/games/games-launch-options-editor.vala:482
-#: src/widgets/games/games-launch-options-editor.vala:517
+#: src/widgets/games/games-launch-options-editor.vala:487
+#: src/widgets/games/games-launch-options-editor.vala:522
 msgid "Fullscreen"
 msgstr "全画面"
 
-#: src/widgets/games/games-launch-options-editor.vala:482
-#: src/widgets/games/games-launch-options-editor.vala:517
+#: src/widgets/games/games-launch-options-editor.vala:487
+#: src/widgets/games/games-launch-options-editor.vala:522
 msgid "Runs the game in a fullscreen session."
 msgstr "ゲームを全画面のセッションで開始します。"
 
-#: src/widgets/games/games-launch-options-editor.vala:488
-#: src/widgets/games/games-launch-options-editor.vala:523
+#: src/widgets/games/games-launch-options-editor.vala:493
+#: src/widgets/games/games-launch-options-editor.vala:528
 msgid "VRR"
 msgstr "VRR （可変リフレッシュレート）"
 
-#: src/widgets/games/games-launch-options-editor.vala:488
-#: src/widgets/games/games-launch-options-editor.vala:523
+#: src/widgets/games/games-launch-options-editor.vala:493
+#: src/widgets/games/games-launch-options-editor.vala:528
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr "ディスプレイのリフレッシュレートをゲームの FPS と一致させます。"
 
-#: src/widgets/games/games-launch-options-editor.vala:491
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:496
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "Frame limit"
 msgstr "フレーム制限"
 
-#: src/widgets/games/games-launch-options-editor.vala:491
+#: src/widgets/games/games-launch-options-editor.vala:496
 msgid "Caps the frame rate inside Gamescope."
 msgstr "Gamescope の中でフレームレートを制限する。"
 
-#: src/widgets/games/games-launch-options-editor.vala:491
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:496
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "FPS"
 msgstr ""
 
-#: src/widgets/games/games-launch-options-editor.vala:495
-#: src/widgets/games/games-launch-options-editor.vala:533
+#: src/widgets/games/games-launch-options-editor.vala:500
+#: src/widgets/games/games-launch-options-editor.vala:538
 #: src/widgets/mangohud/mangohud-extras-page.vala:69
 msgid "Resolution"
 msgstr "解像度"
 
-#: src/widgets/games/games-launch-options-editor.vala:495
+#: src/widgets/games/games-launch-options-editor.vala:500
 msgid "Sets the Gamescope output resolution."
 msgstr "Gamescope の出力解像度を設定する。"
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Additional Gamescope arguments"
 msgstr "Gamescope への追加の引数"
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Add Gamescope arguments"
 msgstr ""
 
-#: src/widgets/games/games-launch-options-editor.vala:520
+#: src/widgets/games/games-launch-options-editor.vala:525
 msgid "Auto HDR"
 msgstr "オート HDR"
 
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr "ScopeBuddy の中でフレームレートを制限します。"
 
-#: src/widgets/games/games-launch-options-editor.vala:533
+#: src/widgets/games/games-launch-options-editor.vala:538
 msgid "Sets the ScopeBuddy output resolution."
 msgstr "ScopeBuddy の出力解像度を設定します。"
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Additional ScopeBuddy arguments"
 msgstr ""
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Add ScopeBuddy arguments"
 msgstr ""
 
-#: src/widgets/games/games-launch-options-editor.vala:1001
+#: src/widgets/games/games-launch-options-editor.vala:1025
 msgid "No launch options configured yet."
 msgstr "起動オプションがまだ設定されていません。"
 

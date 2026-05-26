@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 22:31+0200\n"
+"POT-Creation-Date: 2026-05-26 10:40+0200\n"
 "PO-Revision-Date: 2026-04-19 00:59+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -2284,13 +2284,13 @@ msgstr "常用啟動選項的快速切換開關。"
 
 #. Launch tools
 #: src/widgets/games/games-launch-options-editor.vala:126
-#: src/widgets/games/games-launch-options-editor.vala:485
+#: src/widgets/games/games-launch-options-editor.vala:490
 msgid "HDR"
 msgstr "HDR"
 
 #: src/widgets/games/games-launch-options-editor.vala:126
-#: src/widgets/games/games-launch-options-editor.vala:485
-#: src/widgets/games/games-launch-options-editor.vala:520
+#: src/widgets/games/games-launch-options-editor.vala:490
+#: src/widgets/games/games-launch-options-editor.vala:525
 msgid "Outputs HDR colors if your display supports it."
 msgstr "若您的顯示器支援，將顯示 HDR 色彩。"
 
@@ -2703,115 +2703,115 @@ msgid "Flags passed directly to the game."
 msgstr "直接傳遞給遊戲的引數。"
 
 #. Advanced options
-#: src/widgets/games/games-launch-options-editor.vala:292
+#: src/widgets/games/games-launch-options-editor.vala:297
 msgid "Appends Steam's game command."
 msgstr "追加 Steam 的遊戲指令。"
 
-#: src/widgets/games/games-launch-options-editor.vala:295
+#: src/widgets/games/games-launch-options-editor.vala:300
 msgid "Additional arguments"
 msgstr "額外引數"
 
-#: src/widgets/games/games-launch-options-editor.vala:295
+#: src/widgets/games/games-launch-options-editor.vala:300
 msgid "Add extra launch options"
 msgstr "添加額外的啟動選項。"
 
-#: src/widgets/games/games-launch-options-editor.vala:298
+#: src/widgets/games/games-launch-options-editor.vala:303
 msgid "Custom launch arguments"
 msgstr "自訂啟動引數"
 
-#: src/widgets/games/games-launch-options-editor.vala:298
+#: src/widgets/games/games-launch-options-editor.vala:303
 msgid "Add your own launch options."
 msgstr "添加您自訂的啟動選項。"
 
-#: src/widgets/games/games-launch-options-editor.vala:303
+#: src/widgets/games/games-launch-options-editor.vala:308
 msgid "Advanced options"
 msgstr "進階選項"
 
-#: src/widgets/games/games-launch-options-editor.vala:304
+#: src/widgets/games/games-launch-options-editor.vala:309
 msgid "Extra control over the final Steam launch command."
 msgstr "對最終的 Steam 啟動指令進行額外的控制。"
 
-#: src/widgets/games/games-launch-options-editor.vala:482
-#: src/widgets/games/games-launch-options-editor.vala:517
+#: src/widgets/games/games-launch-options-editor.vala:487
+#: src/widgets/games/games-launch-options-editor.vala:522
 msgid "Fullscreen"
 msgstr "全螢幕"
 
-#: src/widgets/games/games-launch-options-editor.vala:482
-#: src/widgets/games/games-launch-options-editor.vala:517
+#: src/widgets/games/games-launch-options-editor.vala:487
+#: src/widgets/games/games-launch-options-editor.vala:522
 msgid "Runs the game in a fullscreen session."
 msgstr "以全螢幕模式運行遊戲。"
 
-#: src/widgets/games/games-launch-options-editor.vala:488
-#: src/widgets/games/games-launch-options-editor.vala:523
+#: src/widgets/games/games-launch-options-editor.vala:493
+#: src/widgets/games/games-launch-options-editor.vala:528
 msgid "VRR"
 msgstr "VRR"
 
-#: src/widgets/games/games-launch-options-editor.vala:488
-#: src/widgets/games/games-launch-options-editor.vala:523
+#: src/widgets/games/games-launch-options-editor.vala:493
+#: src/widgets/games/games-launch-options-editor.vala:528
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr "將螢幕更新率與遊戲幀率同步。"
 
-#: src/widgets/games/games-launch-options-editor.vala:491
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:496
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "Frame limit"
 msgstr "幀數上限"
 
-#: src/widgets/games/games-launch-options-editor.vala:491
+#: src/widgets/games/games-launch-options-editor.vala:496
 msgid "Caps the frame rate inside Gamescope."
 msgstr "限制 Gamescope 內的幀率。"
 
-#: src/widgets/games/games-launch-options-editor.vala:491
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:496
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "FPS"
 msgstr "幀率"
 
-#: src/widgets/games/games-launch-options-editor.vala:495
-#: src/widgets/games/games-launch-options-editor.vala:533
+#: src/widgets/games/games-launch-options-editor.vala:500
+#: src/widgets/games/games-launch-options-editor.vala:538
 #: src/widgets/mangohud/mangohud-extras-page.vala:69
 msgid "Resolution"
 msgstr "解析度"
 
-#: src/widgets/games/games-launch-options-editor.vala:495
+#: src/widgets/games/games-launch-options-editor.vala:500
 msgid "Sets the Gamescope output resolution."
 msgstr "設定 Gamescope 的輸出解析度。"
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Additional Gamescope arguments"
 msgstr "額外 Gamescope 引數"
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr "保留額外的 Gamescope 引數，例如輸出或解析度調整。"
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Add Gamescope arguments"
 msgstr "添加 Gamescope 引數"
 
-#: src/widgets/games/games-launch-options-editor.vala:520
+#: src/widgets/games/games-launch-options-editor.vala:525
 msgid "Auto HDR"
 msgstr "自動 HDR"
 
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr "限制 ScopeBuddy 內的幀率。"
 
-#: src/widgets/games/games-launch-options-editor.vala:533
+#: src/widgets/games/games-launch-options-editor.vala:538
 msgid "Sets the ScopeBuddy output resolution."
 msgstr "設定 ScopeBuddy 的輸出解析度。"
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Additional ScopeBuddy arguments"
 msgstr "額外 ScopeBuddy 引數"
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr "保留額外的 ScopeBuddy 引數，例如偏好的輸出選擇。"
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Add ScopeBuddy arguments"
 msgstr "添加 ScopeBuddy 引數"
 
-#: src/widgets/games/games-launch-options-editor.vala:1001
+#: src/widgets/games/games-launch-options-editor.vala:1025
 msgid "No launch options configured yet."
 msgstr "尚未配置任何啟動選項。"
 

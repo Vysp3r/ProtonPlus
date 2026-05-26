@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-25 22:31+0200\n"
+"POT-Creation-Date: 2026-05-26 10:40+0200\n"
 "PO-Revision-Date: 2026-05-24 00:30+0000\n"
 "Last-Translator: Gemini AI\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/protonplus/"
@@ -2347,13 +2347,13 @@ msgstr ""
 
 #. Launch tools
 #: src/widgets/games/games-launch-options-editor.vala:126
-#: src/widgets/games/games-launch-options-editor.vala:485
+#: src/widgets/games/games-launch-options-editor.vala:490
 msgid "HDR"
 msgstr "HDR"
 
 #: src/widgets/games/games-launch-options-editor.vala:126
-#: src/widgets/games/games-launch-options-editor.vala:485
-#: src/widgets/games/games-launch-options-editor.vala:520
+#: src/widgets/games/games-launch-options-editor.vala:490
+#: src/widgets/games/games-launch-options-editor.vala:525
 msgid "Outputs HDR colors if your display supports it."
 msgstr "Aktivuje HDR farby, ak ich váš displej podporuje."
 
@@ -2805,120 +2805,120 @@ msgid "Flags passed directly to the game."
 msgstr "Príznaky a parametre odovzdané priamo hre."
 
 #. Advanced options
-#: src/widgets/games/games-launch-options-editor.vala:292
+#: src/widgets/games/games-launch-options-editor.vala:297
 msgid "Appends Steam's game command."
 msgstr "Pripája herný príkaz Steamu."
 
-#: src/widgets/games/games-launch-options-editor.vala:295
+#: src/widgets/games/games-launch-options-editor.vala:300
 msgid "Additional arguments"
 msgstr "Dodatočné argumenty"
 
-#: src/widgets/games/games-launch-options-editor.vala:295
+#: src/widgets/games/games-launch-options-editor.vala:300
 #, fuzzy
 msgid "Add extra launch options"
 msgstr "Pridať extra možnosti spustenia"
 
-#: src/widgets/games/games-launch-options-editor.vala:298
+#: src/widgets/games/games-launch-options-editor.vala:303
 msgid "Custom launch arguments"
 msgstr "Vlastné argumenty spustenia"
 
-#: src/widgets/games/games-launch-options-editor.vala:298
+#: src/widgets/games/games-launch-options-editor.vala:303
 #, fuzzy
 msgid "Add your own launch options."
 msgstr "Pridajte svoje vlastné možnosti spustenia."
 
-#: src/widgets/games/games-launch-options-editor.vala:303
+#: src/widgets/games/games-launch-options-editor.vala:308
 msgid "Advanced options"
 msgstr "Pokročilé nastavení"
 
-#: src/widgets/games/games-launch-options-editor.vala:304
+#: src/widgets/games/games-launch-options-editor.vala:309
 msgid "Extra control over the final Steam launch command."
 msgstr "Dodatočná kontrola nad finálnym príkazom spustenia Steamu."
 
-#: src/widgets/games/games-launch-options-editor.vala:482
-#: src/widgets/games/games-launch-options-editor.vala:517
+#: src/widgets/games/games-launch-options-editor.vala:487
+#: src/widgets/games/games-launch-options-editor.vala:522
 msgid "Fullscreen"
 msgstr "Celá obrazovka"
 
-#: src/widgets/games/games-launch-options-editor.vala:482
-#: src/widgets/games/games-launch-options-editor.vala:517
+#: src/widgets/games/games-launch-options-editor.vala:487
+#: src/widgets/games/games-launch-options-editor.vala:522
 msgid "Runs the game in a fullscreen session."
 msgstr "Spustí hru v režime celej obrazovky."
 
-#: src/widgets/games/games-launch-options-editor.vala:488
-#: src/widgets/games/games-launch-options-editor.vala:523
+#: src/widgets/games/games-launch-options-editor.vala:493
+#: src/widgets/games/games-launch-options-editor.vala:528
 msgid "VRR"
 msgstr "VRR"
 
-#: src/widgets/games/games-launch-options-editor.vala:488
-#: src/widgets/games/games-launch-options-editor.vala:523
+#: src/widgets/games/games-launch-options-editor.vala:493
+#: src/widgets/games/games-launch-options-editor.vala:528
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr "Prispôsobí obnovovaciu frekvenciu displeja podľa FPS hry."
 
-#: src/widgets/games/games-launch-options-editor.vala:491
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:496
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "Frame limit"
 msgstr "Limit snímok"
 
-#: src/widgets/games/games-launch-options-editor.vala:491
+#: src/widgets/games/games-launch-options-editor.vala:496
 msgid "Caps the frame rate inside Gamescope."
 msgstr "Obmedzí snímkovú frekvenciu (FPS) v nástroji Gamescope."
 
-#: src/widgets/games/games-launch-options-editor.vala:491
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:496
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "FPS"
 msgstr "FPS"
 
-#: src/widgets/games/games-launch-options-editor.vala:495
-#: src/widgets/games/games-launch-options-editor.vala:533
+#: src/widgets/games/games-launch-options-editor.vala:500
+#: src/widgets/games/games-launch-options-editor.vala:538
 #: src/widgets/mangohud/mangohud-extras-page.vala:69
 msgid "Resolution"
 msgstr "Rozlišení"
 
-#: src/widgets/games/games-launch-options-editor.vala:495
+#: src/widgets/games/games-launch-options-editor.vala:500
 msgid "Sets the Gamescope output resolution."
 msgstr "Nastaví výstupné rozlíšenie pre Gamescope."
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Additional Gamescope arguments"
 msgstr "Dodatočné argumenty pre Gamescope"
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 "Zachová extra príznaky pre Gamescope, ako sú úpravy výstupu alebo rozlíšenia."
 
-#: src/widgets/games/games-launch-options-editor.vala:506
+#: src/widgets/games/games-launch-options-editor.vala:511
 msgid "Add Gamescope arguments"
 msgstr "Pridať argumenty pre Gamescope"
 
-#: src/widgets/games/games-launch-options-editor.vala:520
+#: src/widgets/games/games-launch-options-editor.vala:525
 msgid "Auto HDR"
 msgstr "Auto HDR"
 
-#: src/widgets/games/games-launch-options-editor.vala:526
+#: src/widgets/games/games-launch-options-editor.vala:531
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr "Obmedzí snímkovú frekvenciu (FPS) v nástroji ScopeBuddy."
 
-#: src/widgets/games/games-launch-options-editor.vala:533
+#: src/widgets/games/games-launch-options-editor.vala:538
 msgid "Sets the ScopeBuddy output resolution."
 msgstr "Nastaví výstupné rozlíšenie pre ScopeBuddy."
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Additional ScopeBuddy arguments"
 msgstr "Dodatočné argumenty pre ScopeBuddy"
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
 "Zachová extra príznaky pre ScopeBuddy, ako napríklad výber preferovaného "
 "výstupu."
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:543
 msgid "Add ScopeBuddy arguments"
 msgstr "Pridať argumenty pre ScopeBuddy"
 
-#: src/widgets/games/games-launch-options-editor.vala:1001
+#: src/widgets/games/games-launch-options-editor.vala:1025
 msgid "No launch options configured yet."
 msgstr "Zatiaľ nie sú nastavené žiadne možnosti spustenia."
 
