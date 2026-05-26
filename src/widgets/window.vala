@@ -11,6 +11,26 @@ namespace ProtonPlus.Widgets {
         public Window () {
             Object (application: (Adw.Application) GLib.Application.get_default (), title: Config.APP_NAME);
 
+            build_ui ();
+
+            if (Globals.SETTINGS != null) {
+                if (Globals.SETTINGS.get_boolean ("enable-controller"))
+                controller_manager.start ();
+
+                Globals.SETTINGS.changed["enable-controller"].connect (() => {
+                    if (Globals.SETTINGS.get_boolean ("enable-controller"))
+                    controller_manager.start ();
+                    else
+                    controller_manager.stop ();
+                });
+            }
+
+            set_content (toolbar_view);
+
+            loading_box.load.begin ();
+        }
+
+        private void build_ui () {
             header_box = new Header.Box ();
             header_box.launcher_selected.connect ((launcher) => {
                 main_box.set_selected_launcher (launcher);
@@ -19,9 +39,7 @@ namespace ProtonPlus.Widgets {
             loading_box = new Loading.Box ();
             loading_box.loaded.connect ((launchers) => {
                 this.launchers = launchers;
-
                 header_box.initialize (launchers, main_box.view_switcher);
-
                 toolbar_view.set_content (main_box);
             });
 
@@ -45,6 +63,25 @@ namespace ProtonPlus.Widgets {
             }
 
             set_content (toolbar_view);
+        }
+
+        public void reload_ui () {
+            if (controller_manager != null) {
+                controller_manager.stop ();
+            }
+
+            var toplevels = Gtk.Window.get_toplevels ();
+            for (uint i = 0; i < toplevels.get_n_items (); i++) {
+                var popover = toplevels.get_item (i) as Gtk.Popover;
+
+                if (popover != null && popover.get_root () == this) {
+                    popover.popdown (); // Bezpečně sklopíme/zavřeme bublinu
+                }
+            }
+
+            set_content (loading_box);
+
+            build_ui ();
 
             loading_box.load.begin ();
         }

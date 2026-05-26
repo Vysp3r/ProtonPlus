@@ -7,4 +7,5 @@ sources += files(
     'preferences-update-frequency-row.vala',
     'preferences-tool-row.vala',
     'proxy-mode-row.vala',
+    'preferences-language-row.vala',
 )

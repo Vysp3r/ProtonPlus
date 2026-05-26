@@ -19,6 +19,10 @@ namespace ProtonPlus.Widgets.Preferences {
             theme_row.add_prefix (new Gtk.Image.from_icon_name ("palette-symbolic"));
             appearance_group.add (theme_row);
 
+            var language_row = new LanguageRow ();
+            language_row.add_prefix (new Gtk.Image.from_icon_name ("globe-symbolic"));
+            appearance_group.add (language_row);   
+
             var behavior_group = new Adw.PreferencesGroup () {
                 title = _ ("Behavior")
             };

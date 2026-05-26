@@ -5,10 +5,9 @@ namespace ProtonPlus {
             return -1;
         }
 
-        Intl.setlocale ();
-        Intl.bindtextdomain (Config.APP_ID, Environment.get_variable ("LOCALE_DIR") ?? Config.LOCALE_DIR);
-        Intl.bind_textdomain_codeset (Config.APP_ID, "UTF-8");
-        Intl.textdomain (Config.APP_ID);
+        Globals.load ();
+
+        Globals.setupLanguage ();
         Notify.init (Config.APP_NAME);
 
         if (args.length > 1) {

@@ -4,6 +4,7 @@ sources += files(
     'circular-progress-bar.vala',
 )
 
+subdir('components')
 subdir('preferences')
 subdir('header')
 subdir('loading')
