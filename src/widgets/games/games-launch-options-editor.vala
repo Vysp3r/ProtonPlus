@@ -7,443 +7,6 @@ using Adw;
         SCOPEBUDDY
     }
 
-    class LaunchOptionBinding : Object {
-        public string[] tokens { get; set; }
-        public Gtk.Switch toggle { get; set; }
-
-        public LaunchOptionBinding (string[] tokens, Gtk.Switch toggle) {
-            this.tokens = tokens;
-            this.toggle = toggle;
-        }
-    }
-
-    class LaunchOptionTile : ActionRow {
-        public Gtk.Switch toggle { get; private set; }
-
-        public LaunchOptionTile (string title, string subtitle) {
-            Object (title: title, subtitle: subtitle);
-            subtitle_lines = 0;
-
-            toggle = new Gtk.Switch ();
-            toggle.set_valign (Gtk.Align.CENTER);
-            add_suffix (toggle);
-            activatable_widget = toggle;
-        }
-    }
-
-    class LaunchOptionSpinTile : ActionRow {
-        public Gtk.Switch toggle { get; private set; }
-        public Gtk.Entry value_entry { get; private set; }
-        public Gtk.Button apply_button { get; private set; }
-        Gtk.Box value_box;
-        public signal void value_applied ();
-        int lower_value;
-        int upper_value;
-        int committed_value;
-
-        public LaunchOptionSpinTile (string title, string subtitle, string value_label, double lower, double upper, int default_value) {
-            Object (title: title, subtitle: subtitle);
-            subtitle_lines = 0;
-
-            lower_value = (int) lower;
-            upper_value = (int) upper;
-            committed_value = default_value;
-
-            value_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-            value_box.set_valign (Gtk.Align.CENTER);
-
-            var value_caption = new Gtk.Label (value_label);
-            value_caption.set_xalign (0);
-            value_caption.add_css_class ("dim-label");
-
-            value_entry = new Gtk.Entry ();
-            value_entry.set_input_purpose (Gtk.InputPurpose.DIGITS);
-            value_entry.set_width_chars (5);
-            value_entry.set_max_width_chars (5);
-            value_entry.set_halign (Gtk.Align.START);
-            value_entry.set_text (default_value.to_string ());
-            value_entry.activate.connect (apply_pending_value);
-
-            apply_button = new Gtk.Button.with_label (_ ("Set"));
-            apply_button.set_tooltip_text (_ ("Apply the FPS value"));
-            apply_button.clicked.connect (apply_pending_value);
-
-            value_box.append (value_caption);
-            value_box.append (value_entry);
-            value_box.append (apply_button);
-
-            toggle = new Gtk.Switch ();
-            toggle.set_valign (Gtk.Align.CENTER);
-
-            add_suffix (value_box);
-            add_suffix (toggle);
-            activatable_widget = toggle;
-
-            value_entry.changed.connect (refresh_value_state);
-            toggle.notify["active"].connect (refresh_value_state);
-            refresh_value_state ();
-        }
-
-        public int get_value_as_int () {
-            return committed_value;
-        }
-
-        public void set_value (int value) {
-            committed_value = int.max (lower_value, int.min (upper_value, value));
-            value_entry.set_text (committed_value.to_string ());
-            refresh_value_state ();
-        }
-
-        void apply_pending_value () {
-            int pending_value;
-            if (!get_pending_value (out pending_value))
-            return;
-
-            committed_value = pending_value;
-            value_entry.set_text (committed_value.to_string ());
-            refresh_value_state ();
-            value_applied ();
-        }
-
-        bool get_pending_value (out int value) {
-            value = committed_value;
-
-            var text = value_entry.get_text ().strip ();
-            if (text == "")
-            return false;
-
-            int parsed_value;
-            if (!int.try_parse (text, out parsed_value))
-            return false;
-
-            if (parsed_value < lower_value || parsed_value > upper_value)
-            return false;
-
-            value = parsed_value;
-            return true;
-        }
-
-        void refresh_value_state () {
-            var is_active = toggle.get_active ();
-            value_box.set_visible (is_active);
-            value_entry.set_sensitive (is_active);
-
-            int pending_value;
-            var has_pending_value = get_pending_value (out pending_value);
-            apply_button.set_sensitive (is_active && has_pending_value && pending_value != committed_value);
-        }
-    }
-
-    class LaunchOptionEntryField : EntryRow {
-        public Gtk.Button apply_button { get; private set; }
-        public signal void value_applied ();
-        string committed_text;
-
-        public LaunchOptionEntryField (string title, string subtitle, string placeholder) {
-            Object (title: title);
-        //			description = subtitle;
-        //			placeholder_text = placeholder;
-
-            committed_text = "";
-
-            apply_button = new Gtk.Button.from_icon_name ("check-symbolic");
-            apply_button.set_valign (Gtk.Align.CENTER);
-            apply_button.add_css_class ("flat");
-            apply_button.clicked.connect (apply_pending_text);
-            add_suffix (apply_button);
-
-            this.activate.connect (apply_pending_text);
-            this.changed.connect (refresh_apply_state);
-            refresh_apply_state ();
-        }
-
-        public string get_text () {
-            return committed_text;
-        }
-
-        public void set_text (string text) {
-            committed_text = text.strip ();
-            this.text = committed_text;
-            refresh_apply_state ();
-        }
-
-        public void focus_entry () {
-            grab_focus ();
-        }
-
-        void apply_pending_text () {
-            var pending_text = text.strip ();
-            if (pending_text == committed_text)
-            return;
-
-            committed_text = pending_text;
-            this.text = committed_text;
-            refresh_apply_state ();
-            value_applied ();
-        }
-
-        void refresh_apply_state () {
-            apply_button.set_sensitive (text.strip () != committed_text);
-        }
-    }
-
-    class LaunchOptionResolutionChoice : Object {
-        public string label { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
-        public bool is_auto { get; set; }
-        public bool is_custom { get; set; }
-
-        public LaunchOptionResolutionChoice (string label, int width = 0, int height = 0, bool is_auto = false, bool is_custom = false) {
-            this.label = label;
-            this.width = width;
-            this.height = height;
-            this.is_auto = is_auto;
-            this.is_custom = is_custom;
-        }
-    }
-
-    class LaunchOptionResolutionField : Adw.ActionRow {
-        public Gtk.Switch toggle { get; private set; }
-        public Gtk.DropDown dropdown { get; private set; }
-        public Gtk.Entry width_entry { get; private set; }
-        public Gtk.Entry height_entry { get; private set; }
-        public Gtk.Button apply_button { get; private set; }
-        Gtk.Box custom_box;
-        public signal void value_applied ();
-        Gee.LinkedList<LaunchOptionResolutionChoice> choices;
-        int committed_width;
-        int committed_height;
-
-        public LaunchOptionResolutionField (string title, string subtitle, bool include_auto = false) {
-            committed_width = 3840;
-            committed_height = 2160;
-
-            choices = new Gee.LinkedList<LaunchOptionResolutionChoice> ();
-            choices.add (new LaunchOptionResolutionChoice ("3840 x 2160", 3840, 2160));
-            choices.add (new LaunchOptionResolutionChoice ("2560 x 1440", 2560, 1440));
-            choices.add (new LaunchOptionResolutionChoice ("1920 x 1080", 1920, 1080));
-            choices.add (new LaunchOptionResolutionChoice ("1600 x 900", 1600, 900));
-            choices.add (new LaunchOptionResolutionChoice ("1280 x 720", 1280, 720));
-            if (include_auto)
-            choices.add (new LaunchOptionResolutionChoice (_ ("Auto detect"), 0, 0, true));
-            choices.add (new LaunchOptionResolutionChoice (_ ("Custom"), 0, 0, false, true));
-
-            var labels = new string[choices.size];
-            for (var index = 0; index < choices.size; index++) {
-                labels[index] = choices[index].label;
-            }
-
-            var expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
-            dropdown = new Gtk.DropDown (new Gtk.StringList (labels), expression);
-            dropdown.set_valign (Gtk.Align.CENTER);
-
-            toggle = new Gtk.Switch ();
-            toggle.set_valign (Gtk.Align.CENTER);
-
-            width_entry = new Gtk.Entry ();
-            width_entry.set_input_purpose (Gtk.InputPurpose.DIGITS);
-            width_entry.set_width_chars (5);
-            width_entry.set_max_width_chars (5);
-            width_entry.set_text (committed_width.to_string ());
-            width_entry.activate.connect (apply_pending_resolution);
-
-            var separator_label = new Gtk.Label ("x");
-            separator_label.add_css_class ("dim-label");
-
-            height_entry = new Gtk.Entry ();
-            height_entry.set_input_purpose (Gtk.InputPurpose.DIGITS);
-            height_entry.set_width_chars (5);
-            height_entry.set_max_width_chars (5);
-            height_entry.set_text (committed_height.to_string ());
-            height_entry.activate.connect (apply_pending_resolution);
-
-            apply_button = new Gtk.Button.with_label (_ ("Set"));
-            apply_button.set_tooltip_text (_ ("Apply the custom resolution"));
-            apply_button.clicked.connect (apply_pending_resolution);
-
-            custom_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-            custom_box.set_valign (Gtk.Align.CENTER);
-            custom_box.append (width_entry);
-            custom_box.append (separator_label);
-            custom_box.append (height_entry);
-            custom_box.append (apply_button);
-
-            this.title = title;
-            this.subtitle = subtitle;
-            add_suffix (custom_box);
-            add_suffix (dropdown);
-            add_suffix (toggle);
-            activatable_widget = toggle;
-
-            toggle.notify["active"].connect (refresh_options_visibility);
-            dropdown.notify["selected"].connect (refresh_custom_visibility);
-            width_entry.changed.connect (refresh_custom_state);
-            height_entry.changed.connect (refresh_custom_state);
-            refresh_options_visibility ();
-        }
-
-        public void reset () {
-            toggle.set_active (false);
-            dropdown.set_selected (0);
-            committed_width = 3840;
-            committed_height = 2160;
-            width_entry.set_text (committed_width.to_string ());
-            height_entry.set_text (committed_height.to_string ());
-            refresh_options_visibility ();
-        }
-
-        public void set_auto () {
-            for (var index = 0; index < choices.size; index++) {
-                if (choices[index].is_auto) {
-                    toggle.set_active (true);
-                    dropdown.set_selected ((uint) index);
-                    refresh_options_visibility ();
-                    return;
-                }
-            }
-        }
-
-        public void set_resolution (int width, int height) {
-            for (var index = 0; index < choices.size; index++) {
-                if (choices[index].width == width && choices[index].height == height && !choices[index].is_custom) {
-                    toggle.set_active (true);
-                    dropdown.set_selected ((uint) index);
-                    refresh_options_visibility ();
-                    return;
-                }
-            }
-
-            for (var index = 0; index < choices.size; index++) {
-                if (!choices[index].is_custom)
-                continue;
-
-                committed_width = width;
-                committed_height = height;
-                width_entry.set_text (committed_width.to_string ());
-                height_entry.set_text (committed_height.to_string ());
-                toggle.set_active (true);
-                dropdown.set_selected ((uint) index);
-                refresh_options_visibility ();
-                return;
-            }
-        }
-
-        public bool is_default () {
-            return !toggle.get_active ();
-        }
-
-        public bool is_auto () {
-            return toggle.get_active () && get_selected_choice ().is_auto;
-        }
-
-        public bool has_resolution () {
-            if (!toggle.get_active ())
-            return false;
-
-            return get_selected_choice ().is_custom || get_selected_choice ().width > 0 || get_selected_choice ().height > 0;
-        }
-
-        public void get_resolution (out int width, out int height) {
-            var selected_choice = get_selected_choice ();
-            if (selected_choice.is_custom) {
-                width = committed_width;
-                height = committed_height;
-            } else {
-                width = selected_choice.width;
-                height = selected_choice.height;
-            }
-        }
-
-        LaunchOptionResolutionChoice get_selected_choice () {
-            return choices[(int) dropdown.get_selected ()];
-        }
-
-        void refresh_options_visibility () {
-            var is_active = toggle.get_active ();
-            dropdown.set_visible (is_active);
-            dropdown.set_sensitive (is_active);
-            refresh_custom_visibility ();
-        }
-
-        void refresh_custom_visibility () {
-            custom_box.set_visible (toggle.get_active () && get_selected_choice ().is_custom);
-            refresh_custom_state ();
-        }
-
-        void apply_pending_resolution () {
-            int pending_width;
-            int pending_height;
-            if (!get_pending_resolution (out pending_width, out pending_height))
-            return;
-
-            committed_width = pending_width;
-            committed_height = pending_height;
-            width_entry.set_text (committed_width.to_string ());
-            height_entry.set_text (committed_height.to_string ());
-            refresh_custom_state ();
-            value_applied ();
-        }
-
-        bool get_pending_resolution (out int width, out int height) {
-            width = committed_width;
-            height = committed_height;
-
-            var width_text = width_entry.get_text ().strip ();
-            var height_text = height_entry.get_text ().strip ();
-            if (width_text == "" || height_text == "")
-            return false;
-
-            if (!int.try_parse (width_text, out width) || !int.try_parse (height_text, out height))
-            return false;
-
-            return width >= 320 && width <= 7680 && height >= 240 && height <= 4320;
-        }
-
-        void refresh_custom_state () {
-            var is_custom = toggle.get_active () && get_selected_choice ().is_custom;
-            width_entry.set_sensitive (is_custom);
-            height_entry.set_sensitive (is_custom);
-
-            int pending_width;
-            int pending_height;
-            var has_pending_resolution = get_pending_resolution (out pending_width, out pending_height);
-            apply_button.set_sensitive (is_custom && has_pending_resolution && (pending_width != committed_width || pending_height != committed_height));
-        }
-    }
-
-    class LaunchOptionPreviewField : Gtk.Box {
-        public Gtk.Label preview_label { get; private set; }
-
-        public LaunchOptionPreviewField (string title) {
-            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
-
-            var group = new PreferencesGroup ();
-            group.title = title;
-
-            preview_label = new Gtk.Label ("");
-            preview_label.set_xalign (0);
-            preview_label.set_yalign (0);
-            preview_label.set_use_markup (true);
-            preview_label.set_selectable (true);
-            preview_label.set_wrap (false);
-            preview_label.set_margin_start (12);
-            preview_label.set_margin_end (12);
-            preview_label.set_margin_top (12);
-            preview_label.set_margin_bottom (12);
-
-            var scrolled_window = new Gtk.ScrolledWindow ();
-            scrolled_window.set_policy (Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC);
-            scrolled_window.set_min_content_height (56);
-            scrolled_window.set_child (preview_label);
-            scrolled_window.add_css_class ("card");
-            scrolled_window.set_overflow (Gtk.Overflow.HIDDEN);
-
-            group.add (scrolled_window);
-
-            append (group);
-        }
-    }
 
     public class LaunchOptionsEditor : Gtk.Box {
         public signal void content_changed ();
@@ -454,77 +17,77 @@ using Adw;
         Adw.PreferencesGroup gpu_vendor_group { get; set; }
         Adw.PreferencesGroup game_arguments_group { get; set; }
         Adw.PreferencesGroup advanced_options_group { get; set; }
-        LaunchOptionTile mangohud_tile { get; set; }
-        LaunchOptionTile steam_deck_tile { get; set; }
-        LaunchOptionTile hdr_tile { get; set; }
-        LaunchOptionTile wayland_tile { get; set; }
-        LaunchOptionTile vkbasalt_tile { get; set; }
-        LaunchOptionTile wined3d_tile { get; set; }
-        LaunchOptionTile amd_fsr4_upgrade_tile { get; set; }
-        LaunchOptionTile amd_fsr4_rdna3_upgrade_tile { get; set; }
-        LaunchOptionTile amd_anti_lag_tile { get; set; }
-        LaunchOptionTile amd_prime_tile { get; set; }
-        LaunchOptionTile amd_hide_apu_tile { get; set; }
-        LaunchOptionTile amd_staging_shared_memory_tile { get; set; }
-        LaunchOptionTile amd_mesa_glthread_tile { get; set; }
-        LaunchOptionTile amd_mesa_shader_cache_disable_tile { get; set; }
-        LaunchOptionTile nvapi_tile { get; set; }
-        LaunchOptionTile nvidia_ngx_updater_tile { get; set; }
-        LaunchOptionTile nvidia_hide_gpu_tile { get; set; }
-        LaunchOptionTile dlss_indicator_tile { get; set; }
-        LaunchOptionTile nvidia_libs_tile { get; set; }
-        LaunchOptionTile intel_xess_upgrade_tile { get; set; }
-        LaunchOptionTile prefer_sdl_tile { get; set; }
-        LaunchOptionTile no_steaminput_tile { get; set; }
-        LaunchOptionTile ntsync_tile { get; set; }
-        LaunchOptionTile dxvk_async_tile { get; set; }
-        LaunchOptionTile dxvk_log_level_none_tile { get; set; }
-        LaunchOptionTile wine_vk_use_sync2_tile { get; set; }
-        LaunchOptionTile wine_sync_use_futex_waitv_tile { get; set; }
-        LaunchOptionTile proton_priority_high_tile { get; set; }
-        LaunchOptionTile proton_use_wow64_tile { get; set; }
-        LaunchOptionTile proton_force_large_address_aware_tile { get; set; }
-        LaunchOptionTile proton_logs_tile { get; set; }
-        LaunchOptionSpinTile pulse_latency_tile { get; set; }
-        LaunchOptionTile local_shader_cache_tile { get; set; }
-        LaunchOptionEntryField additional_args_field { get; set; }
-        LaunchOptionTile additional_args_tile { get; set; }
-        LaunchOptionTile command_tile { get; set; }
-        LaunchOptionTile skip_launcher_tile { get; set; }
-        LaunchOptionTile vulkan_tile { get; set; }
-        LaunchOptionTile dx11_tile { get; set; }
-        LaunchOptionTile dx12_tile { get; set; }
-        LaunchOptionTile console_tile { get; set; }
-        LaunchOptionPreviewField preview_field { get; set; }
+        Components.LaunchOptionTile mangohud_tile { get; set; }
+        Components.LaunchOptionTile steam_deck_tile { get; set; }
+        Components.LaunchOptionTile hdr_tile { get; set; }
+        Components.LaunchOptionTile wayland_tile { get; set; }
+        Components.LaunchOptionTile vkbasalt_tile { get; set; }
+        Components.LaunchOptionTile wined3d_tile { get; set; }
+        Components.LaunchOptionTile amd_fsr4_upgrade_tile { get; set; }
+        Components.LaunchOptionTile amd_fsr4_rdna3_upgrade_tile { get; set; }
+        Components.LaunchOptionTile amd_anti_lag_tile { get; set; }
+        Components.LaunchOptionTile amd_prime_tile { get; set; }
+        Components.LaunchOptionTile amd_hide_apu_tile { get; set; }
+        Components.LaunchOptionTile amd_staging_shared_memory_tile { get; set; }
+        Components.LaunchOptionTile amd_mesa_glthread_tile { get; set; }
+        Components.LaunchOptionTile amd_mesa_shader_cache_disable_tile { get; set; }
+        Components.LaunchOptionTile nvapi_tile { get; set; }
+        Components.LaunchOptionTile nvidia_ngx_updater_tile { get; set; }
+        Components.LaunchOptionTile nvidia_hide_gpu_tile { get; set; }
+        Components.LaunchOptionTile dlss_indicator_tile { get; set; }
+        Components.LaunchOptionTile nvidia_libs_tile { get; set; }
+        Components.LaunchOptionTile intel_xess_upgrade_tile { get; set; }
+        Components.LaunchOptionTile prefer_sdl_tile { get; set; }
+        Components.LaunchOptionTile no_steaminput_tile { get; set; }
+        Components.LaunchOptionTile ntsync_tile { get; set; }
+        Components.LaunchOptionTile dxvk_async_tile { get; set; }
+        Components.LaunchOptionTile dxvk_log_level_none_tile { get; set; }
+        Components.LaunchOptionTile wine_vk_use_sync2_tile { get; set; }
+        Components.LaunchOptionTile wine_sync_use_futex_waitv_tile { get; set; }
+        Components.LaunchOptionTile proton_priority_high_tile { get; set; }
+        Components.LaunchOptionTile proton_use_wow64_tile { get; set; }
+        Components.LaunchOptionTile proton_force_large_address_aware_tile { get; set; }
+        Components.LaunchOptionTile proton_logs_tile { get; set; }
+        Components.LaunchOptionSpinTile pulse_latency_tile { get; set; }
+        Components.LaunchOptionTile local_shader_cache_tile { get; set; }
+        Components.LaunchOptionEntryField additional_args_field { get; set; }
+        Components.LaunchOptionTile additional_args_tile { get; set; }
+        Components.LaunchOptionTile command_tile { get; set; }
+        Components.LaunchOptionTile skip_launcher_tile { get; set; }
+        Components.LaunchOptionTile vulkan_tile { get; set; }
+        Components.LaunchOptionTile dx11_tile { get; set; }
+        Components.LaunchOptionTile dx12_tile { get; set; }
+        Components.LaunchOptionTile console_tile { get; set; }
+        Components.LaunchOptionPreviewField preview_field { get; set; }
         Gtk.Stack wrapper_stack { get; set; }
         Gtk.StackSwitcher wrapper_switcher { get; set; }
         Gtk.Stack gpu_vendor_stack { get; set; }
         Gtk.StackSwitcher gpu_vendor_switcher { get; set; }
-        LaunchOptionTile gamescope_fullscreen_tile { get; set; }
-        LaunchOptionTile gamescope_hdr_tile { get; set; }
-        LaunchOptionTile gamescope_vrr_tile { get; set; }
-        LaunchOptionSpinTile gamescope_framerate_tile { get; set; }
-        LaunchOptionResolutionField gamescope_resolution_field { get; set; }
-        LaunchOptionEntryField gamescope_args_field { get; set; }
-        LaunchOptionTile scopebuddy_fullscreen_tile { get; set; }
-        LaunchOptionTile scopebuddy_auto_hdr_tile { get; set; }
-        LaunchOptionTile scopebuddy_auto_vrr_tile { get; set; }
-        LaunchOptionSpinTile scopebuddy_framerate_tile { get; set; }
-        LaunchOptionResolutionField scopebuddy_resolution_field { get; set; }
-        LaunchOptionEntryField scopebuddy_args_field { get; set; }
-        List<LaunchOptionBinding> common_bindings;
-        List<LaunchOptionBinding> gpu_vendor_bindings;
-        List<LaunchOptionBinding> game_argument_bindings;
-        List<LaunchOptionBinding> scopebuddy_bindings;
+        Components.LaunchOptionTile gamescope_fullscreen_tile { get; set; }
+        Components.LaunchOptionTile gamescope_hdr_tile { get; set; }
+        Components.LaunchOptionTile gamescope_vrr_tile { get; set; }
+        Components.LaunchOptionSpinTile gamescope_framerate_tile { get; set; }
+        Components.LaunchOptionResolutionField gamescope_resolution_field { get; set; }
+        Components.LaunchOptionEntryField gamescope_args_field { get; set; }
+        Components.LaunchOptionTile scopebuddy_fullscreen_tile { get; set; }
+        Components.LaunchOptionTile scopebuddy_auto_hdr_tile { get; set; }
+        Components.LaunchOptionTile scopebuddy_auto_vrr_tile { get; set; }
+        Components.LaunchOptionSpinTile scopebuddy_framerate_tile { get; set; }
+        Components.LaunchOptionResolutionField scopebuddy_resolution_field { get; set; }
+        Components.LaunchOptionEntryField scopebuddy_args_field { get; set; }
+        List<Components.LaunchOptionBinding> common_bindings;
+        List<Components.LaunchOptionBinding> gpu_vendor_bindings;
+        List<Components.LaunchOptionBinding> game_argument_bindings;
+        List<Components.LaunchOptionBinding> scopebuddy_bindings;
         bool advanced_visible;
         bool refreshing_controls;
         bool can_auto_enable_command;
 
         construct {
-            common_bindings = new List<LaunchOptionBinding> ();
-            gpu_vendor_bindings = new List<LaunchOptionBinding> ();
-            game_argument_bindings = new List<LaunchOptionBinding> ();
-            scopebuddy_bindings = new List<LaunchOptionBinding> ();
+            common_bindings = new List<Components.LaunchOptionBinding> ();
+            gpu_vendor_bindings = new List<Components.LaunchOptionBinding> ();
+            game_argument_bindings = new List<Components.LaunchOptionBinding> ();
+            scopebuddy_bindings = new List<Components.LaunchOptionBinding> ();
             advanced_visible = false;
             can_auto_enable_command = true;
             refreshing_controls = true;
@@ -534,7 +97,7 @@ using Adw;
 
         // Launch command preview
 
-            preview_field = new LaunchOptionPreviewField (_ ("Launch command preview"));
+            preview_field = new Components.LaunchOptionPreviewField (_ ("Launch command preview"));
             append (preview_field);
 
         // Common options
@@ -560,7 +123,7 @@ using Adw;
 
             // Launch tools
 
-            hdr_tile = new LaunchOptionTile (_ ("HDR"), _ ("Outputs HDR colors if your display supports it."));
+            hdr_tile = new Components.LaunchOptionTile (_ ("HDR"), _ ("Outputs HDR colors if your display supports it."));
             hdr_tile.toggle.notify["active"].connect (standard_control_changed);
 
             wrapper_stack = new Gtk.Stack ();
@@ -604,24 +167,24 @@ using Adw;
             amd_anti_lag_tile = create_gpu_vendor_tile (_ ("Mesa Anti-Lag"), _ ("Reduces latency on supported AMD Mesa setups."), { "ENABLE_LAYER_MESA_ANTI_LAG=1" });
             amd_prime_tile = create_gpu_vendor_tile (_ ("Use dGPU"), _ ("Makes the game use the AMD dGPU on hybrid systems."), { "DRI_PRIME=1" });
             amd_hide_apu_tile = create_gpu_vendor_tile (_ ("Hide AMD APU"), _ ("Makes Proton report an AMD APU as a discrete GPU for games that mis-detect integrated graphics."), { "PROTON_HIDE_APU=1" });
-            amd_fsr4_upgrade_tile = new LaunchOptionTile (_ ("FSR 4 Upgrade"), _ ("Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD Anti-Lag 2 currently due to various issues."));
+            amd_fsr4_upgrade_tile = new Components.LaunchOptionTile (_ ("FSR 4 Upgrade"), _ ("Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD Anti-Lag 2 currently due to various issues."));
             amd_fsr4_upgrade_tile.toggle.notify["active"].connect (amd_fsr4_upgrade_toggle_changed);
-            gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_FSR4_UPGRADE=1" }, amd_fsr4_upgrade_tile.toggle));
+            gpu_vendor_bindings.append (new Components.LaunchOptionBinding ({ "PROTON_FSR4_UPGRADE=1" }, amd_fsr4_upgrade_tile.toggle));
 
-            amd_fsr4_rdna3_upgrade_tile = new LaunchOptionTile (_ ("FSR 4 RDNA3 Upgrade"), _ ("Optimizes FSR 4.0 for RDNA3 hardware."));
+            amd_fsr4_rdna3_upgrade_tile = new Components.LaunchOptionTile (_ ("FSR 4 RDNA3 Upgrade"), _ ("Optimizes FSR 4.0 for RDNA3 hardware."));
             amd_fsr4_rdna3_upgrade_tile.toggle.notify["active"].connect (amd_fsr4_rdna3_upgrade_toggle_changed);
-            gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_FSR4_RDNA3_UPGRADE=1" }, amd_fsr4_rdna3_upgrade_tile.toggle));
+            gpu_vendor_bindings.append (new Components.LaunchOptionBinding ({ "PROTON_FSR4_RDNA3_UPGRADE=1" }, amd_fsr4_rdna3_upgrade_tile.toggle));
 
             amd_staging_shared_memory_tile = create_gpu_vendor_tile (_ ("Staging shared memory"), _ ("Enables shared memory support in the AMD GPU driver for better performance in some games."), { "STAGING_SHARED_MEMORY=1" });
             amd_mesa_glthread_tile = create_gpu_vendor_tile (_ ("Mesa GLThread"), _ ("Enables Mesa's GLThread optimization for better performance in some games."), { "mesa_glthread=true" });
             amd_mesa_shader_cache_disable_tile = create_gpu_vendor_tile (_ ("Disable Mesa shader cache"), _ ("Disables Mesa's shader cache which can cause stuttering in some games."), { "MESA_SHADER_CACHE_DISABLE=1" });
 
-            nvapi_tile = new LaunchOptionTile (_ ("NVAPI"), _ ("Lets games access NVIDIA-specific features like DLSS."));
+            nvapi_tile = new Components.LaunchOptionTile (_ ("NVAPI"), _ ("Lets games access NVIDIA-specific features like DLSS."));
             nvapi_tile.toggle.notify["active"].connect (nvidia_nvapi_toggle_changed);
-            gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NVAPI=1" }, nvapi_tile.toggle));
-            nvidia_ngx_updater_tile = new LaunchOptionTile (_ ("Update DLSS components"), _ ("Auto upgrades DLSS components for supported games."));
+            gpu_vendor_bindings.append (new Components.LaunchOptionBinding ({ "PROTON_ENABLE_NVAPI=1" }, nvapi_tile.toggle));
+            nvidia_ngx_updater_tile = new Components.LaunchOptionTile (_ ("Update DLSS components"), _ ("Auto upgrades DLSS components for supported games."));
             nvidia_ngx_updater_tile.toggle.notify["active"].connect (nvidia_dlss_updater_toggle_changed);
-            gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NGX_UPDATER=1" }, nvidia_ngx_updater_tile.toggle));
+            gpu_vendor_bindings.append (new Components.LaunchOptionBinding ({ "PROTON_ENABLE_NGX_UPDATER=1" }, nvidia_ngx_updater_tile.toggle));
             nvidia_hide_gpu_tile = create_gpu_vendor_tile (_ ("Hide NVIDIA GPU"), _ ("Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only NVIDIA driver behavior."), { "PROTON_HIDE_NVIDIA_GPU=1" });
             dlss_indicator_tile = create_gpu_vendor_tile (_ ("DLSS Indicator"), _ ("Shows a DLSS status indicator in-game."), { "PROTON_DLSS_INDICATOR=1" });
             nvidia_libs_tile = create_gpu_vendor_tile (_ ("NVIDIA Libraries"), _ ("Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS or ray tracing."), { "PROTON_NVIDIA_LIBS=1" });
@@ -696,7 +259,7 @@ using Adw;
 
         // Audio options
 
-            pulse_latency_tile = new LaunchOptionSpinTile (_ ("PulseAudio low latency"), _ ("Enables low latency mode in PulseAudio which can reduce audio latency in some games (60, 90, 120)."), _ ("MSEC"), 30, 360, 90);
+            pulse_latency_tile = new Components.LaunchOptionSpinTile (_ ("PulseAudio low latency"), _ ("Enables low latency mode in PulseAudio which can reduce audio latency in some games (60, 90, 120)."), _ ("MSEC"), 30, 360, 90);
             pulse_latency_tile.toggle.notify["active"].connect (standard_control_changed);
             pulse_latency_tile.value_applied.connect (standard_control_changed);
 
@@ -726,13 +289,13 @@ using Adw;
 
             // Advanced options
 
-            command_tile = new LaunchOptionTile ("%command%", _ ("Appends Steam's game command."));
+            command_tile = new Components.LaunchOptionTile ("%command%", _ ("Appends Steam's game command."));
             command_tile.toggle.notify["active"].connect (command_toggle_changed);
 
-            additional_args_field = new LaunchOptionEntryField (_ ("Additional arguments"), "", _ ("Add extra launch options"));
+            additional_args_field = new Components.LaunchOptionEntryField (_ ("Additional arguments"), "", _ ("Add extra launch options"));
             additional_args_field.value_applied.connect (standard_control_changed);
 
-            additional_args_tile = new LaunchOptionTile (_ ("Custom launch arguments"), _ ("Add your own launch options."));
+            additional_args_tile = new Components.LaunchOptionTile (_ ("Custom launch arguments"), _ ("Add your own launch options."));
             additional_args_tile.toggle.notify["active"].connect (additional_args_toggle_changed);
 
             advanced_options_group = new PreferencesGroup ();
@@ -872,29 +435,29 @@ using Adw;
                 refresh_preview ();
         }
 
-        LaunchOptionTile create_common_tile (string title, string subtitle, string[] tokens) {
-            var tile = new LaunchOptionTile (title, subtitle);
+        Components.LaunchOptionTile create_common_tile (string title, string subtitle, string[] tokens) {
+            var tile = new Components.LaunchOptionTile (title, subtitle);
             tile.toggle.notify["active"].connect (standard_control_changed);
 
-            common_bindings.append (new LaunchOptionBinding (tokens, tile.toggle));
+            common_bindings.append (new Components.LaunchOptionBinding (tokens, tile.toggle));
 
             return tile;
         }
 
-        LaunchOptionTile create_gpu_vendor_tile (string title, string subtitle, string[] tokens) {
-            var tile = new LaunchOptionTile (title, subtitle);
+        Components.LaunchOptionTile create_gpu_vendor_tile (string title, string subtitle, string[] tokens) {
+            var tile = new Components.LaunchOptionTile (title, subtitle);
             tile.toggle.notify["active"].connect (standard_control_changed);
 
-            gpu_vendor_bindings.append (new LaunchOptionBinding (tokens, tile.toggle));
+            gpu_vendor_bindings.append (new Components.LaunchOptionBinding (tokens, tile.toggle));
 
             return tile;
         }
 
-        LaunchOptionTile create_game_argument_tile (string title, string subtitle, string[] tokens) {
-            var tile = new LaunchOptionTile (title, subtitle);
+        Components.LaunchOptionTile create_game_argument_tile (string title, string subtitle, string[] tokens) {
+            var tile = new Components.LaunchOptionTile (title, subtitle);
             tile.toggle.notify["active"].connect (standard_control_changed);
 
-            game_argument_bindings.append (new LaunchOptionBinding (tokens, tile.toggle));
+            game_argument_bindings.append (new Components.LaunchOptionBinding (tokens, tile.toggle));
 
             return tile;
         }
@@ -905,7 +468,7 @@ using Adw;
             return group;
         }
 
-        Gtk.Widget create_gpu_vendor_page (LaunchOptionTile[] tiles) {
+        Gtk.Widget create_gpu_vendor_page (Components.LaunchOptionTile[] tiles) {
             var group = new PreferencesGroup ();
             for (var index = 0; index < tiles.length; index++) {
                 group.add (tiles[index]);
@@ -916,20 +479,20 @@ using Adw;
         Gtk.Widget create_gamescope_page () {
             var group = new PreferencesGroup ();
 
-            gamescope_fullscreen_tile = new LaunchOptionTile (_ ("Fullscreen"), _ ("Runs the game in a fullscreen session."));
+            gamescope_fullscreen_tile = new Components.LaunchOptionTile (_ ("Fullscreen"), _ ("Runs the game in a fullscreen session."));
             gamescope_fullscreen_tile.toggle.notify["active"].connect (standard_control_changed);
 
-            gamescope_hdr_tile = new LaunchOptionTile (_ ("HDR"), _ ("Outputs HDR colors if your display supports it."));
+            gamescope_hdr_tile = new Components.LaunchOptionTile (_ ("HDR"), _ ("Outputs HDR colors if your display supports it."));
             gamescope_hdr_tile.toggle.notify["active"].connect (standard_control_changed);
 
-            gamescope_vrr_tile = new LaunchOptionTile (_ ("VRR"), _ ("Matches your display's refresh rate to the game's FPS."));
+            gamescope_vrr_tile = new Components.LaunchOptionTile (_ ("VRR"), _ ("Matches your display's refresh rate to the game's FPS."));
             gamescope_vrr_tile.toggle.notify["active"].connect (standard_control_changed);
 
-            gamescope_framerate_tile = new LaunchOptionSpinTile (_ ("Frame limit"), _ ("Caps the frame rate inside Gamescope."), _ ("FPS"), 30, 360, 60);
+            gamescope_framerate_tile = new Components.LaunchOptionSpinTile (_ ("Frame limit"), _ ("Caps the frame rate inside Gamescope."), _ ("FPS"), 30, 360, 60);
             gamescope_framerate_tile.toggle.notify["active"].connect (standard_control_changed);
             gamescope_framerate_tile.value_applied.connect (standard_control_changed);
 
-            gamescope_resolution_field = new LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the Gamescope output resolution."));
+            gamescope_resolution_field = new Components.LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the Gamescope output resolution."));
             gamescope_resolution_field.toggle.notify["active"].connect (standard_control_changed);
             gamescope_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
             gamescope_resolution_field.value_applied.connect (standard_control_changed);
@@ -940,7 +503,7 @@ using Adw;
             group.add (gamescope_framerate_tile);
             group.add (gamescope_resolution_field);
 
-            gamescope_args_field = new LaunchOptionEntryField (_ ("Additional Gamescope arguments"), _ ("Keeps extra Gamescope flags such as output or resolution tweaks."), _ ("Add Gamescope arguments"));
+            gamescope_args_field = new Components.LaunchOptionEntryField (_ ("Additional Gamescope arguments"), _ ("Keeps extra Gamescope flags such as output or resolution tweaks."), _ ("Add Gamescope arguments"));
             gamescope_args_field.value_applied.connect (standard_control_changed);
 
             group.add (gamescope_args_field);
@@ -951,28 +514,28 @@ using Adw;
         Gtk.Widget create_scopebuddy_page () {
             var group = new PreferencesGroup ();
 
-            scopebuddy_fullscreen_tile = new LaunchOptionTile (_ ("Fullscreen"), _ ("Runs the game in a fullscreen session."));
+            scopebuddy_fullscreen_tile = new Components.LaunchOptionTile (_ ("Fullscreen"), _ ("Runs the game in a fullscreen session."));
             scopebuddy_fullscreen_tile.toggle.notify["active"].connect (standard_control_changed);
 
-            scopebuddy_auto_hdr_tile = new LaunchOptionTile (_ ("Auto HDR"), _ ("Outputs HDR colors if your display supports it."));
+            scopebuddy_auto_hdr_tile = new Components.LaunchOptionTile (_ ("Auto HDR"), _ ("Outputs HDR colors if your display supports it."));
             scopebuddy_auto_hdr_tile.toggle.notify["active"].connect (standard_control_changed);
 
-            scopebuddy_auto_vrr_tile = new LaunchOptionTile (_ ("VRR"), _ ("Matches your display's refresh rate to the game's FPS."));
+            scopebuddy_auto_vrr_tile = new Components.LaunchOptionTile (_ ("VRR"), _ ("Matches your display's refresh rate to the game's FPS."));
             scopebuddy_auto_vrr_tile.toggle.notify["active"].connect (standard_control_changed);
 
-            scopebuddy_framerate_tile = new LaunchOptionSpinTile (_ ("Frame limit"), _ ("Caps the frame rate inside ScopeBuddy."), _ ("FPS"), 30, 360, 60);
+            scopebuddy_framerate_tile = new Components.LaunchOptionSpinTile (_ ("Frame limit"), _ ("Caps the frame rate inside ScopeBuddy."), _ ("FPS"), 30, 360, 60);
             scopebuddy_framerate_tile.toggle.notify["active"].connect (standard_control_changed);
             scopebuddy_framerate_tile.value_applied.connect (standard_control_changed);
 
-            scopebuddy_bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_HDR=1" }, scopebuddy_auto_hdr_tile.toggle));
-            scopebuddy_bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_VRR=1" }, scopebuddy_auto_vrr_tile.toggle));
+            scopebuddy_bindings.append (new Components.LaunchOptionBinding ({ "SCB_AUTO_HDR=1" }, scopebuddy_auto_hdr_tile.toggle));
+            scopebuddy_bindings.append (new Components.LaunchOptionBinding ({ "SCB_AUTO_VRR=1" }, scopebuddy_auto_vrr_tile.toggle));
 
-            scopebuddy_resolution_field = new LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the ScopeBuddy output resolution."), true);
+            scopebuddy_resolution_field = new Components.LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the ScopeBuddy output resolution."), true);
             scopebuddy_resolution_field.toggle.notify["active"].connect (standard_control_changed);
             scopebuddy_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
             scopebuddy_resolution_field.value_applied.connect (standard_control_changed);
 
-            scopebuddy_args_field = new LaunchOptionEntryField (_ ("Additional ScopeBuddy arguments"), _ ("Keeps extra ScopeBuddy flags such as preferred output selection."), _ ("Add ScopeBuddy arguments"));
+            scopebuddy_args_field = new Components.LaunchOptionEntryField (_ ("Additional ScopeBuddy arguments"), _ ("Keeps extra ScopeBuddy flags such as preferred output selection."), _ ("Add ScopeBuddy arguments"));
             scopebuddy_args_field.value_applied.connect (standard_control_changed);
 
             group.add (scopebuddy_fullscreen_tile);
@@ -1288,7 +851,7 @@ using Adw;
             return segments;
         }
 
-        void append_binding_segments (Gee.LinkedList<string> segments, List<LaunchOptionBinding> bindings) {
+        void append_binding_segments (Gee.LinkedList<string> segments, List<Components.LaunchOptionBinding> bindings) {
             foreach (var binding in bindings) {
                 if (!binding.toggle.get_active ())
                 continue;
@@ -1341,7 +904,7 @@ using Adw;
             }
         }
 
-        bool has_active_binding (List<LaunchOptionBinding> bindings) {
+        bool has_active_binding (List<Components.LaunchOptionBinding> bindings) {
             foreach (var binding in bindings) {
                 if (binding.toggle.get_active ())
                 return true;
@@ -1350,7 +913,7 @@ using Adw;
             return false;
         }
 
-        void reset_binding_toggles (List<LaunchOptionBinding> bindings) {
+        void reset_binding_toggles (List<Components.LaunchOptionBinding> bindings) {
             foreach (var binding in bindings) {
                 binding.toggle.set_active (false);
             }
@@ -1461,7 +1024,7 @@ using Adw;
             return markup.str;
         }
 
-        void apply_bindings_from_tokens (List<LaunchOptionBinding> bindings, string[] tokens, bool[] consumed) {
+        void apply_bindings_from_tokens (List<Components.LaunchOptionBinding> bindings, string[] tokens, bool[] consumed) {
             foreach (var binding in bindings) {
                 var token_indexes = new Gee.LinkedList<int> ();
                 var all_tokens_present = true;
