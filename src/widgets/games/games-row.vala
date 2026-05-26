@@ -7,6 +7,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Label prefix_label;
         Gtk.Label tool_label;
         Gtk.Button tool_button;
+        Gtk.Button launch_button;
         Gtk.Button run_custom_executable_button;
         ExtraButton extra_button;
         Gtk.Box other_box;
@@ -123,6 +124,12 @@ namespace ProtonPlus.Widgets.Games {
             run_custom_executable_button.clicked.connect (run_custom_executable_button_clicked);
             run_custom_executable_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
 
+
+            launch_button = new Gtk.Button.from_icon_name("play-fill");
+            launch_button.set_tooltip_text (_ ("Launch game"));
+            launch_button.add_css_class ("flat");
+            launch_button.clicked.connect (launch_button_clicked);  
+
             if (FileUtils.test (game.installdir, GLib.FileTest.IS_DIR)) {
                 title_label.set_tooltip_text (_ ("Browse game install directory"));
                 title_label.add_controller (title_gesture);
@@ -135,6 +142,7 @@ namespace ProtonPlus.Widgets.Games {
                 add_hover_underline (prefix_label);
             }
 
+            other_box.prepend (launch_button);
             other_box.prepend (run_custom_executable_button);
             other_box.prepend (tool_button);
         }
@@ -172,6 +180,14 @@ namespace ProtonPlus.Widgets.Games {
                     warning (e.message);
                 }
             });
+        }
+
+        void launch_button_clicked () {
+            if (game is Models.Games.Steam) {
+                var steam_game = (Models.Games.Steam) game;
+                var uri = "steam://run/" + steam_game.appid.to_string ();
+                Utils.System.open_uri (uri);
+            }
         }
 
         void run_custom_executable (string exe_path) {

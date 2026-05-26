@@ -6,4 +6,5 @@ sources += files(
     'preferences-access-token-row.vala',
     'preferences-update-frequency-row.vala',
     'preferences-tool-row.vala',
+    'preferences-language-row.vala',
 )
