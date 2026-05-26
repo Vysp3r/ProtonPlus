@@ -54,10 +54,10 @@ namespace ProtonPlus.Globals {
 
         if (Globals.SETTINGS != null) {
             int saved_enum_value = Globals.SETTINGS.get_enum ("language");
-            
-            for (uint i = 0; i < LANGUAGES().length; i++) {
-                if (LANGUAGES()[i].index == saved_enum_value) {
-                    current_locale = LANGUAGES()[i].code;
+
+            for (uint i = 0; i < LANGUAGES ().length; i++) {
+                if (LANGUAGES ()[i].index == saved_enum_value) {
+                    current_locale = LANGUAGES ()[i].code;
                     break;
                 }
             }
@@ -65,7 +65,7 @@ namespace ProtonPlus.Globals {
 
         if (current_locale == "system" || current_locale == "") {
             Environment.unset_variable ("LANGUAGE");
-            current_locale = ""; 
+            current_locale = "";
         } else {
             Environment.set_variable ("LANGUAGE", current_locale, true);
         }

@@ -3,6 +3,7 @@ namespace ProtonPlus.Utils {
         const int PROXY_MODE_SYSTEM = 0;
         const int PROXY_MODE_MANUAL = 1;
 
+
         public enum GetRequestType {
             OTHER,
             GITHUB,

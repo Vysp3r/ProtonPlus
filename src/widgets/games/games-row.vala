@@ -128,7 +128,7 @@ namespace ProtonPlus.Widgets.Games {
             launch_button = new Gtk.Button.from_icon_name("play-fill");
             launch_button.set_tooltip_text (_ ("Launch game"));
             launch_button.add_css_class ("flat");
-            launch_button.clicked.connect (launch_button_clicked);  
+            launch_button.clicked.connect (launch_button_clicked);
 
             if (FileUtils.test (game.installdir, GLib.FileTest.IS_DIR)) {
                 title_label.set_tooltip_text (_ ("Browse game install directory"));

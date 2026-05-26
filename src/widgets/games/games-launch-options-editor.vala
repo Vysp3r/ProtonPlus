@@ -204,7 +204,7 @@ using Adw;
             radv_perf_editor.changed.connect (standard_control_changed);
             amd_icd_editor.changed.connect (standard_control_changed);
             radv_debug_editor.set_tooltip_text (_ ("Configure RADV debug options for troubleshooting and performance testing."));
-            radv_perf_editor.set_tooltip_text (_ ("Configure RADV performance test options for testing experimental driver features. Use with caution as these features can cause instability or other issues."));  
+            radv_perf_editor.set_tooltip_text (_ ("Configure RADV performance test options for testing experimental driver features. Use with caution as these features can cause instability or other issues."));
             amd_icd_editor.set_tooltip_text (_ ("Select which AMD Vulkan driver to use. This can be used to switch between RADV and AMD's official Vulkan driver on supported systems."));
 
             radv_debug_editor.set_margin_top (12);
@@ -263,8 +263,8 @@ using Adw;
             more_options_group.add (wine_vk_use_sync2_tile);
             more_options_group.add (wine_sync_use_futex_waitv_tile);
             append (more_options_group);
-        
-        // Proton options
+
+            // Proton options
 
             proton_priority_high_tile = create_common_tile (_ ("Higher priority for games"), _ ("Gives the game a higher CPU priority which can improve performance in some cases."), { "PROTON_PRIORITY_HIGH=1" });
             proton_use_wow64_tile = create_common_tile (_ ("Use WoW64"), _ ("Enables WoW64 support for 32-bit games on 64-bit Proton builds. This can improve compatibility for some older games."), { "PROTON_USE_WOW64=1" });
@@ -280,7 +280,7 @@ using Adw;
             proton_options_group.add (proton_logs_tile);
             append (proton_options_group);
 
-        // Audio options
+            // Audio options
 
             pulse_latency_tile = new Components.LaunchOptionSpinTile (_ ("PulseAudio low latency"), _ ("Enables low latency mode in PulseAudio which can reduce audio latency in some games (60, 90, 120)."), _ ("MSEC"), 30, 360, 90);
             pulse_latency_tile.toggle.notify["active"].connect (standard_control_changed);
@@ -292,7 +292,7 @@ using Adw;
             audio_group.add (pulse_latency_tile);
 
             append (audio_group);
-        // Game arguments
+            // Game arguments
 
             skip_launcher_tile = create_game_argument_tile (_ ("Skip launcher"), _ ("Adds -skip-launcher to bypass launchers in games that support it."), { "-skip-launcher" });
             vulkan_tile = create_game_argument_tile (_ ("Vulkan"), _ ("Adds -vulkan to make the game use its Vulkan renderer."), { "-vulkan" });
@@ -817,7 +817,7 @@ using Adw;
             append_binding_segments (segments, common_bindings);
             append_binding_segments (segments, gpu_vendor_bindings);
 
-            // RADV_DEBUG
+        // RADV_DEBUG
             string radv_debug_val = radv_debug_editor.value;
             if (radv_debug_val != "") {
                 segments.add ( radv_debug_editor.environment_variable_prefix + radv_debug_val);
@@ -832,7 +832,7 @@ using Adw;
             // AMD_VULKAN_ICD
             string amd_icd_val = amd_icd_editor.value;
             if (amd_icd_val != "") {
-                // Odstraníme "driver=", protože bázová třída by vrátila "driver=RADV"
+            // Odstraníme "driver=", protože bázová třída by vrátila "driver=RADV"
                 string driver_name = amd_icd_val.replace ("driver=", "");
                 segments.add (amd_icd_editor.environment_variable_prefix + driver_name);
             }
@@ -952,7 +952,6 @@ using Adw;
             radv_debug_editor.value = radv_debug_raw;
         }
 
-
         void apply_radv_perf_bindings_from_tokens (string[] tokens, bool[] consumed) {
             string radv_perf_raw = "";
             for (int i = 0; i < tokens.length; i++) {
@@ -965,7 +964,6 @@ using Adw;
 
             radv_perf_editor.value = radv_perf_raw;
         }
-
 
         void apply_amd_icd_bindings_from_tokens (string[] tokens, bool[] consumed) {
             string amd_icd_raw = "";

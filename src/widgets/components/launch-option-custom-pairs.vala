@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets.Components {
-    using Adw;
-    using Gtk;
+using Adw;
+using Gtk;
 
     public class LaunchOptionCustomPairs : Gtk.Box {
         public signal void changed ();
@@ -26,16 +26,16 @@ namespace ProtonPlus.Widgets.Components {
         public string? environment_variable { get; set; }
 
         public LaunchOptionCustomPairs (
-            string group_title,
-            string group_description,
-            string switch_title,
-            string switch_subtitle,
-            string[] predefined_keys,
-            string[] options_display,
-            string[] options_values,
-            HashTable<string, string>? tooltips = null,
-            string? separator = ",",
-            string? environment_variable = null
+                string group_title,
+                string group_description,
+                string switch_title,
+                string switch_subtitle,
+                string[] predefined_keys,
+                string[] options_display,
+                string[] options_values,
+                HashTable<string, string>? tooltips = null,
+                string? separator = ",",
+                string? environment_variable = null
         ) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
 
@@ -60,7 +60,7 @@ namespace ProtonPlus.Widgets.Components {
             items_list.get_style_context ().add_class ("boxed-list");
             items_list.margin_top = 6;
             items_list.selection_mode = Gtk.SelectionMode.NONE;
-            
+
             list_frame = new Gtk.Frame (null);
             list_frame.set_child (items_list);
             list_frame.margin_bottom = 12;
@@ -71,7 +71,7 @@ namespace ProtonPlus.Widgets.Components {
             }
 
             add_custom_row = new Adw.EntryRow ();
-            add_custom_row.title = _("Add custom item (Type name and press Enter)...");
+            add_custom_row.title = _ ("Add custom item (Type name and press Enter)...");
             add_custom_row.activates_default = true;
 
             var add_button = new Gtk.Button.from_icon_name ("list-add-symbolic");
@@ -79,13 +79,13 @@ namespace ProtonPlus.Widgets.Components {
             add_button.valign = Gtk.Align.CENTER;
             add_button.clicked.connect (on_custom_item_added);
             add_custom_row.add_suffix (add_button);
-    
+
             var key_controller = new Gtk.EventControllerKey ();
             key_controller.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
             key_controller.key_pressed.connect ((keyval, keycode, state) => {
                 if (keyval == (uint) Gdk.Key.Return || keyval == (uint) Gdk.Key.KP_Enter) {
                     on_custom_item_added ();
-                    return true; 
+                    return true;
                 }
                 return false;
             });
@@ -94,17 +94,17 @@ namespace ProtonPlus.Widgets.Components {
             items_list.append (add_custom_row);
 
             list_frame.visible = master_switch.active;
-            
+
             master_switch.notify["active"].connect (() => {
                 bool active = master_switch.active;
                 list_frame.visible = active;
-                
+
                 if (active) {
                     rows_map.foreach ((key, row) => {
                         row.queue_resize ();
                     });
                 }
-                
+
                 trigger_changed ();
             });
         }
@@ -133,21 +133,21 @@ namespace ProtonPlus.Widgets.Components {
             }
 
             rows_map.insert (normalized_key, row);
-            
+
             items_list.insert (row, (int) rows_map.size () - 1);
-            
+
             row.show ();
         }
 
         private void on_custom_item_added () {
             string custom_key = add_custom_row.text.strip ().down ();
-            
+
             if (custom_key != "" && !rows_map.contains (custom_key)) {
                 string default_val = options_values.length > 1 ? options_values[1] : "";
-                
+
                 create_item_row (custom_key, default_val);
                 add_custom_row.text = "";
-                
+
                 trigger_changed ();
             } else {
                 add_custom_row.text = "";

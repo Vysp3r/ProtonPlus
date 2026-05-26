@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets.Components {
 using Adw;
-        class LaunchOptionResolutionChoice : Object {
+    class LaunchOptionResolutionChoice : Object {
         public string label { get; set; }
         public int width { get; set; }
         public int height { get; set; }
