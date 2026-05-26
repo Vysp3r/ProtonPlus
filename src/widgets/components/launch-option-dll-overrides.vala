@@ -76,7 +76,9 @@ namespace ProtonPlus.Widgets.Components {
                 default_dlls,
                 dll_display,
                 dll_values,
-                tooltips
+                tooltips,
+                ";",
+                "DLL_OVERRIDES"
             );
         }
     }

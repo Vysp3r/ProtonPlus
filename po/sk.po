@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-26 10:40+0200\n"
+"POT-Creation-Date: 2026-05-26 15:16+0200\n"
 "PO-Revision-Date: 2026-05-24 00:30+0000\n"
 "Last-Translator: Gemini AI\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/protonplus/"
@@ -2302,32 +2302,32 @@ msgid "Unknown"
 msgstr "Neznáme"
 
 #. Launch command preview
-#: src/widgets/games/games-launch-options-editor.vala:100
+#: src/widgets/games/games-launch-options-editor.vala:103
 msgid "Launch command preview"
 msgstr "Náhľad príkazu spustenia"
 
 #. Common options
-#: src/widgets/games/games-launch-options-editor.vala:105
+#: src/widgets/games/games-launch-options-editor.vala:108
 msgid "Performance overlay"
 msgstr "Prekrytie výkonu (OSD)"
 
-#: src/widgets/games/games-launch-options-editor.vala:105
+#: src/widgets/games/games-launch-options-editor.vala:108
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr "Zobrazuje v hre prekrytie s FPS, využitím CPU/GPU a teplotami."
 
-#: src/widgets/games/games-launch-options-editor.vala:113
+#: src/widgets/games/games-launch-options-editor.vala:116
 msgid "Disable Steam Deck Mode"
 msgstr "Zakázať režim Steam Deck"
 
-#: src/widgets/games/games-launch-options-editor.vala:113
+#: src/widgets/games/games-launch-options-editor.vala:116
 msgid "Disables the Steam Deck-specific profile that some games use."
 msgstr "Zakáže špecifický profil pre Steam Deck, ktorý niektoré hry používajú."
 
-#: src/widgets/games/games-launch-options-editor.vala:114
+#: src/widgets/games/games-launch-options-editor.vala:117
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/widgets/games/games-launch-options-editor.vala:114
+#: src/widgets/games/games-launch-options-editor.vala:117
 msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
@@ -2335,29 +2335,29 @@ msgstr ""
 "Spúšťa hru natívne na Waylande namiesto cez XWayland, čo však narúša funkcie "
 "Steam Input a Steam Overlay."
 
-#: src/widgets/games/games-launch-options-editor.vala:117
+#: src/widgets/games/games-launch-options-editor.vala:120
 #, fuzzy
 msgid "Common options"
 msgstr "Spoločné možnosti"
 
-#: src/widgets/games/games-launch-options-editor.vala:118
+#: src/widgets/games/games-launch-options-editor.vala:121
 msgid "Quick toggles for the launch options people reach for most often."
 msgstr ""
 "Rýchle prepínače pre možnosti spustenia, ktoré ľudia využívajú najčastejšie."
 
 #. Launch tools
-#: src/widgets/games/games-launch-options-editor.vala:126
-#: src/widgets/games/games-launch-options-editor.vala:490
+#: src/widgets/games/games-launch-options-editor.vala:129
+#: src/widgets/games/games-launch-options-editor.vala:518
 msgid "HDR"
 msgstr "HDR"
 
-#: src/widgets/games/games-launch-options-editor.vala:126
-#: src/widgets/games/games-launch-options-editor.vala:490
-#: src/widgets/games/games-launch-options-editor.vala:525
+#: src/widgets/games/games-launch-options-editor.vala:129
+#: src/widgets/games/games-launch-options-editor.vala:518
+#: src/widgets/games/games-launch-options-editor.vala:553
 msgid "Outputs HDR colors if your display supports it."
 msgstr "Aktivuje HDR farby, ak ich váš displej podporuje."
 
-#: src/widgets/games/games-launch-options-editor.vala:138
+#: src/widgets/games/games-launch-options-editor.vala:141
 #: src/widgets/mangohud/mangohud-extras-page.vala:152
 #: src/widgets/mangohud/mangohud-performance-page.vala:97
 #: src/widgets/mangohud/mangohud-performance-page.vala:111
@@ -2365,22 +2365,22 @@ msgstr "Aktivuje HDR farby, ak ich váš displej podporuje."
 msgid "None"
 msgstr "Žiadne"
 
-#: src/widgets/games/games-launch-options-editor.vala:141
+#: src/widgets/games/games-launch-options-editor.vala:144
 #: src/widgets/preferences/preferences-dialog.vala:248
 msgid "Gamescope"
 msgstr "Gamescope"
 
-#: src/widgets/games/games-launch-options-editor.vala:146
+#: src/widgets/games/games-launch-options-editor.vala:149
 #: src/widgets/preferences/preferences-dialog.vala:253
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
-#: src/widgets/games/games-launch-options-editor.vala:158
+#: src/widgets/games/games-launch-options-editor.vala:161
 #, fuzzy
 msgid "Launch tools"
 msgstr "Nástroje spustenia"
 
-#: src/widgets/games/games-launch-options-editor.vala:159
+#: src/widgets/games/games-launch-options-editor.vala:162
 msgid ""
 "Choose one to configure FPS caps, resolution, and other display options."
 msgstr ""
@@ -2388,29 +2388,29 @@ msgstr ""
 "zobrazenia."
 
 #. GPU vendor options
-#: src/widgets/games/games-launch-options-editor.vala:167
+#: src/widgets/games/games-launch-options-editor.vala:170
 msgid "Mesa Anti-Lag"
 msgstr "Mesa Anti-Lag"
 
-#: src/widgets/games/games-launch-options-editor.vala:167
+#: src/widgets/games/games-launch-options-editor.vala:170
 msgid "Reduces latency on supported AMD Mesa setups."
 msgstr "Znižuje odozvu na podporovaných zostavách s AMD Mesa ovládačmi."
 
-#: src/widgets/games/games-launch-options-editor.vala:168
+#: src/widgets/games/games-launch-options-editor.vala:171
 msgid "Use dGPU"
 msgstr "Použiť dGPU"
 
-#: src/widgets/games/games-launch-options-editor.vala:168
+#: src/widgets/games/games-launch-options-editor.vala:171
 msgid "Makes the game use the AMD dGPU on hybrid systems."
 msgstr ""
 "Vynúti, aby hra na hybridných systémoch používala dedikovanú grafickú kartu "
 "AMD."
 
-#: src/widgets/games/games-launch-options-editor.vala:169
+#: src/widgets/games/games-launch-options-editor.vala:172
 msgid "Hide AMD APU"
 msgstr "Skryť AMD APU"
 
-#: src/widgets/games/games-launch-options-editor.vala:169
+#: src/widgets/games/games-launch-options-editor.vala:172
 msgid ""
 "Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
 "integrated graphics."
@@ -2418,12 +2418,12 @@ msgstr ""
 "Spôsobí, že Proton nahlási AMD APU ako dedikovanú grafickú kartu pre hry, "
 "ktoré nesprávne detegujú integrovanú grafiku."
 
-#: src/widgets/games/games-launch-options-editor.vala:170
+#: src/widgets/games/games-launch-options-editor.vala:173
 #, fuzzy
 msgid "FSR 4 Upgrade"
 msgstr "Upgrade na FSR 4"
 
-#: src/widgets/games/games-launch-options-editor.vala:170
+#: src/widgets/games/games-launch-options-editor.vala:173
 msgid ""
 "Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
 "Anti-Lag 2 currently due to various issues."
@@ -2431,19 +2431,19 @@ msgstr ""
 "Aktualizuje FSR 3.1 na FSR 4 v podporovaných hrách. Táto možnosť nateraz "
 "tiež vypína AMD Anti-Lag 2 kvôli rôznym problémom."
 
-#: src/widgets/games/games-launch-options-editor.vala:174
+#: src/widgets/games/games-launch-options-editor.vala:177
 msgid "FSR 4 RDNA3 Upgrade"
 msgstr "Upgrade FSR 4 pre RDNA3"
 
-#: src/widgets/games/games-launch-options-editor.vala:174
+#: src/widgets/games/games-launch-options-editor.vala:177
 msgid "Optimizes FSR 4.0 for RDNA3 hardware."
 msgstr "Optimalizuje FSR 4.0 pre hardvér architektúry RDNA3."
 
-#: src/widgets/games/games-launch-options-editor.vala:178
+#: src/widgets/games/games-launch-options-editor.vala:181
 msgid "Staging shared memory"
 msgstr "Staging zdieľaná pamäť"
 
-#: src/widgets/games/games-launch-options-editor.vala:178
+#: src/widgets/games/games-launch-options-editor.vala:181
 msgid ""
 "Enables shared memory support in the AMD GPU driver for better performance "
 "in some games."
@@ -2451,47 +2451,47 @@ msgstr ""
 "Povolí podporu zdieľanej pamäte v ovládači grafickej karty AMD pre lepší "
 "výkon v niektorých hrách."
 
-#: src/widgets/games/games-launch-options-editor.vala:179
+#: src/widgets/games/games-launch-options-editor.vala:182
 msgid "Mesa GLThread"
 msgstr "Mesa GLThread"
 
-#: src/widgets/games/games-launch-options-editor.vala:179
+#: src/widgets/games/games-launch-options-editor.vala:182
 msgid ""
 "Enables Mesa's GLThread optimization for better performance in some games."
 msgstr "Povolí optimalizáciu Mesa GLThread pre lepší výkon v niektorých hrách."
 
-#: src/widgets/games/games-launch-options-editor.vala:180
+#: src/widgets/games/games-launch-options-editor.vala:183
 msgid "Disable Mesa shader cache"
 msgstr "Zakázať Mesa vyrovnávaciu pamäť shaderov"
 
-#: src/widgets/games/games-launch-options-editor.vala:180
+#: src/widgets/games/games-launch-options-editor.vala:183
 msgid "Disables Mesa's shader cache which can cause stuttering in some games."
 msgstr ""
 "Zakáže vyrovnávaciu pamäť shaderov ovládača Mesa, čo v niektorých hrách môže "
 "spôsobiť sekanie."
 
-#: src/widgets/games/games-launch-options-editor.vala:182
+#: src/widgets/games/games-launch-options-editor.vala:186
 msgid "NVAPI"
 msgstr "NVAPI"
 
-#: src/widgets/games/games-launch-options-editor.vala:182
+#: src/widgets/games/games-launch-options-editor.vala:186
 msgid "Lets games access NVIDIA-specific features like DLSS."
 msgstr ""
 "Umožní hrám prístup k špecifickým funkciám NVIDIA, ako je napríklad DLSS."
 
-#: src/widgets/games/games-launch-options-editor.vala:185
+#: src/widgets/games/games-launch-options-editor.vala:189
 msgid "Update DLSS components"
 msgstr "Aktualizovať súčasti DLSS"
 
-#: src/widgets/games/games-launch-options-editor.vala:185
+#: src/widgets/games/games-launch-options-editor.vala:189
 msgid "Auto upgrades DLSS components for supported games."
 msgstr "Automaticky aktualizuje súčasti DLSS pre podporované hry."
 
-#: src/widgets/games/games-launch-options-editor.vala:188
+#: src/widgets/games/games-launch-options-editor.vala:192
 msgid "Hide NVIDIA GPU"
 msgstr "Skryť grafickú kartu NVIDIA"
 
-#: src/widgets/games/games-launch-options-editor.vala:188
+#: src/widgets/games/games-launch-options-editor.vala:192
 msgid ""
 "Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
 "NVIDIA driver behavior."
@@ -2499,19 +2499,19 @@ msgstr ""
 "Spôsobí, že Proton nahlási grafickú kartu NVIDIA ako AMD pre hry, ktoré "
 "očakávajú správanie NVIDIA ovládača špecifické pre Windows."
 
-#: src/widgets/games/games-launch-options-editor.vala:189
+#: src/widgets/games/games-launch-options-editor.vala:193
 msgid "DLSS Indicator"
 msgstr "Indikátor DLSS"
 
-#: src/widgets/games/games-launch-options-editor.vala:189
+#: src/widgets/games/games-launch-options-editor.vala:193
 msgid "Shows a DLSS status indicator in-game."
 msgstr "Zobrazí v hre indikátor stavu DLSS."
 
-#: src/widgets/games/games-launch-options-editor.vala:190
+#: src/widgets/games/games-launch-options-editor.vala:194
 msgid "NVIDIA Libraries"
 msgstr "Knižnice NVIDIA"
 
-#: src/widgets/games/games-launch-options-editor.vala:190
+#: src/widgets/games/games-launch-options-editor.vala:194
 msgid ""
 "Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
 "or ray tracing."
@@ -2519,32 +2519,50 @@ msgstr ""
 "Povolí špecifické knižnice NVIDIA (PhysX, CUDA). Pre DLSS ani sledovanie "
 "lúčov (ray tracing) to nie je potrebné."
 
-#: src/widgets/games/games-launch-options-editor.vala:192
+#: src/widgets/games/games-launch-options-editor.vala:196
 #, fuzzy
 msgid "XeSS Upgrade"
 msgstr "Upgrade na XeSS"
 
-#: src/widgets/games/games-launch-options-editor.vala:192
+#: src/widgets/games/games-launch-options-editor.vala:196
 msgid "Upgrades XeSS in supported games."
 msgstr "Aktualizuje technológiu XeSS v podporovaných hrách."
 
-#: src/widgets/games/games-launch-options-editor.vala:198
+#: src/widgets/games/games-launch-options-editor.vala:206
+msgid ""
+"Configure RADV debug options for troubleshooting and performance testing."
+msgstr ""
+
+#: src/widgets/games/games-launch-options-editor.vala:207
+msgid ""
+"Configure RADV performance test options for testing experimental driver "
+"features. Use with caution as these features can cause instability or other "
+"issues."
+msgstr ""
+
+#: src/widgets/games/games-launch-options-editor.vala:208
+msgid ""
+"Select which AMD Vulkan driver to use. This can be used to switch between "
+"RADV and AMD's official Vulkan driver on supported systems."
+msgstr ""
+
+#: src/widgets/games/games-launch-options-editor.vala:221
 msgid "AMD"
 msgstr "AMD"
 
-#: src/widgets/games/games-launch-options-editor.vala:199
+#: src/widgets/games/games-launch-options-editor.vala:222
 msgid "NVIDIA"
 msgstr "NVIDIA"
 
-#: src/widgets/games/games-launch-options-editor.vala:200
+#: src/widgets/games/games-launch-options-editor.vala:223
 msgid "Intel"
 msgstr "Intel"
 
-#: src/widgets/games/games-launch-options-editor.vala:210
+#: src/widgets/games/games-launch-options-editor.vala:233
 msgid "GPU vendor options"
 msgstr "Možnosti podľa výrobcu GPU"
 
-#: src/widgets/games/games-launch-options-editor.vala:211
+#: src/widgets/games/games-launch-options-editor.vala:234
 msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
 msgstr ""
@@ -2552,30 +2570,30 @@ msgstr ""
 "NVIDIA a Intel."
 
 #. More options
-#: src/widgets/games/games-launch-options-editor.vala:218
+#: src/widgets/games/games-launch-options-editor.vala:241
 msgid "VKBasalt"
 msgstr "VKBasalt"
 
-#: src/widgets/games/games-launch-options-editor.vala:218
+#: src/widgets/games/games-launch-options-editor.vala:241
 msgid "Adds visual effects like sharpening and color adjustments."
 msgstr "Pridáva vizuálne efekty, ako je doostrenie a úprava farieb."
 
-#: src/widgets/games/games-launch-options-editor.vala:219
+#: src/widgets/games/games-launch-options-editor.vala:242
 msgid "WineD3D"
 msgstr "WineD3D"
 
-#: src/widgets/games/games-launch-options-editor.vala:219
+#: src/widgets/games/games-launch-options-editor.vala:242
 msgid ""
 "Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
 msgstr ""
 "Použije OpenGL namiesto Vulkanu. Zapínajte iba v prípade, že máte problémy s "
 "DXVK."
 
-#: src/widgets/games/games-launch-options-editor.vala:220
+#: src/widgets/games/games-launch-options-editor.vala:243
 msgid "Use FSync"
 msgstr "Použiť FSync"
 
-#: src/widgets/games/games-launch-options-editor.vala:220
+#: src/widgets/games/games-launch-options-editor.vala:243
 msgid ""
 "Uses FSync instead of NTSync. Can fix issues in certain games that do not "
 "pair well with NTSync."
@@ -2583,11 +2601,11 @@ msgstr ""
 "Použije FSync namiesto NTSync. Môže vyriešiť problémy v určitých hrách, "
 "ktoré nefungujú správne s NTSync."
 
-#: src/widgets/games/games-launch-options-editor.vala:221
+#: src/widgets/games/games-launch-options-editor.vala:244
 msgid "Local shader cache"
 msgstr "Lokálna vyrovnávacia pamäť shaderov"
 
-#: src/widgets/games/games-launch-options-editor.vala:221
+#: src/widgets/games/games-launch-options-editor.vala:244
 msgid ""
 "Enables per-game shader cache. This isolates the shader cache of each game "
 "but does not compile them ahead-of-time."
@@ -2595,50 +2613,50 @@ msgstr ""
 "Povolí vyrovnávaciu pamäť shaderov pre každú hru zvlášť. Izoluje to pamäť "
 "pre každú hru, ale nekompiluje ich vopred."
 
-#: src/widgets/games/games-launch-options-editor.vala:222
+#: src/widgets/games/games-launch-options-editor.vala:245
 msgid "Prefer SDL controller"
 msgstr "Uprednostniť ovládač SDL"
 
-#: src/widgets/games/games-launch-options-editor.vala:222
+#: src/widgets/games/games-launch-options-editor.vala:245
 msgid "Workaround for controller detection issues."
 msgstr "Obchádzka (workaround) pre problémy s detekciou ovládačov."
 
-#: src/widgets/games/games-launch-options-editor.vala:223
+#: src/widgets/games/games-launch-options-editor.vala:246
 msgid "Disable Steam Input"
 msgstr "Zakázať Steam Input"
 
-#: src/widgets/games/games-launch-options-editor.vala:223
+#: src/widgets/games/games-launch-options-editor.vala:246
 msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
 msgstr ""
 "Zakáže podporu Steam Input. Opravuje problémy s ovládačmi/gamepadmi na "
 "Waylande."
 
-#: src/widgets/games/games-launch-options-editor.vala:224
+#: src/widgets/games/games-launch-options-editor.vala:247
 msgid "DXVK Async"
 msgstr "DXVK Async"
 
-#: src/widgets/games/games-launch-options-editor.vala:224
+#: src/widgets/games/games-launch-options-editor.vala:247
 msgid ""
 "Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."
 msgstr ""
 "Povolí asynchrónnu kompiláciu pipeline v DXVK, čo môže znížiť záseky v hre."
 
-#: src/widgets/games/games-launch-options-editor.vala:225
+#: src/widgets/games/games-launch-options-editor.vala:248
 msgid "Disable DXVK logging"
 msgstr "Zakázať logovanie DXVK"
 
-#: src/widgets/games/games-launch-options-editor.vala:225
+#: src/widgets/games/games-launch-options-editor.vala:248
 msgid ""
 "Sets DXVK's log level to none which can improve performance in some games."
 msgstr ""
 "Nastaví úroveň logovania DXVK na žiadnu, čo môže v niektorých hrách zvýšiť "
 "výkon."
 
-#: src/widgets/games/games-launch-options-editor.vala:226
+#: src/widgets/games/games-launch-options-editor.vala:249
 msgid "WINE_VK_USE_SYNC2"
 msgstr "WINE_VK_USE_SYNC2"
 
-#: src/widgets/games/games-launch-options-editor.vala:226
+#: src/widgets/games/games-launch-options-editor.vala:249
 msgid ""
 "Enables WINE_VK_USE_SYNC2 which can improve performance and reduce "
 "stuttering in some games when using WineD3D."
@@ -2646,11 +2664,11 @@ msgstr ""
 "Povolí premennú WINE_VK_USE_SYNC2, ktorá pri použití WineD3D môže v "
 "niektorých hrách zvýšiť výkon a znížiť sekanie."
 
-#: src/widgets/games/games-launch-options-editor.vala:227
+#: src/widgets/games/games-launch-options-editor.vala:250
 msgid "WINE_SYNC_USE_FUTEX_WAITV"
 msgstr "WINE_SYNC_USE_FUTEX_WAITV"
 
-#: src/widgets/games/games-launch-options-editor.vala:227
+#: src/widgets/games/games-launch-options-editor.vala:250
 msgid ""
 "Enables WINE_SYNC_USE_FUTEX_WAITV which can improve performance and reduce "
 "stuttering in some games when using WineD3D."
@@ -2658,20 +2676,20 @@ msgstr ""
 "Povolí premennú WINE_SYNC_USE_FUTEX_WAITV, ktorá pri použití WineD3D môže v "
 "niektorých hrách zvýšiť výkon a znížiť sekanie."
 
-#: src/widgets/games/games-launch-options-editor.vala:230
+#: src/widgets/games/games-launch-options-editor.vala:253
 msgid "More options"
 msgstr "Viac možností"
 
-#: src/widgets/games/games-launch-options-editor.vala:231
+#: src/widgets/games/games-launch-options-editor.vala:254
 msgid "Extra graphics settings and launch behaviors."
 msgstr "Dodatočné grafické nastavenia a správanie pri spustení."
 
 #. Proton options
-#: src/widgets/games/games-launch-options-editor.vala:246
+#: src/widgets/games/games-launch-options-editor.vala:269
 msgid "Higher priority for games"
 msgstr "Vyššia priorita pre hry"
 
-#: src/widgets/games/games-launch-options-editor.vala:246
+#: src/widgets/games/games-launch-options-editor.vala:269
 msgid ""
 "Gives the game a higher CPU priority which can improve performance in some "
 "cases."
@@ -2679,11 +2697,11 @@ msgstr ""
 "Pridelí hre vyššiu prioritu CPU, čo v niektorých prípadoch môže zlepšiť "
 "výkon."
 
-#: src/widgets/games/games-launch-options-editor.vala:247
+#: src/widgets/games/games-launch-options-editor.vala:270
 msgid "Use WoW64"
 msgstr "Použiť WoW64"
 
-#: src/widgets/games/games-launch-options-editor.vala:247
+#: src/widgets/games/games-launch-options-editor.vala:270
 msgid ""
 "Enables WoW64 support for 32-bit games on 64-bit Proton builds. This can "
 "improve compatibility for some older games."
@@ -2691,11 +2709,11 @@ msgstr ""
 "Povolí podporu WoW64 pre 32-bitové hry v 64-bitových zostaveniach Protonu. "
 "Môže to zlepšiť kompatibilitu starších hier."
 
-#: src/widgets/games/games-launch-options-editor.vala:248
+#: src/widgets/games/games-launch-options-editor.vala:271
 msgid "Allows 32-bit games to use more than 2GB of RAM"
 msgstr "Umožniť 32-bitovým hrám použiť viac ako 2 GB RAM"
 
-#: src/widgets/games/games-launch-options-editor.vala:248
+#: src/widgets/games/games-launch-options-editor.vala:271
 msgid ""
 "Forces 32-bit games to use large address aware which can improve performance "
 "and stability."
@@ -2703,11 +2721,11 @@ msgstr ""
 "Vynúti pre 32-bitové hry príznak „large address aware“, čo môže zvýšiť výkon "
 "a stabilitu."
 
-#: src/widgets/games/games-launch-options-editor.vala:249
+#: src/widgets/games/games-launch-options-editor.vala:272
 msgid "Enable Proton logs"
 msgstr "Povolit logy z Protonu"
 
-#: src/widgets/games/games-launch-options-editor.vala:249
+#: src/widgets/games/games-launch-options-editor.vala:272
 msgid ""
 "Enables logging for Proton which can help with troubleshooting game issues. "
 "Logs are saved in the game's compatibility data folder."
@@ -2715,20 +2733,20 @@ msgstr ""
 "Povolí vytváranie logov pre Proton, čo pomáha pri riešení problémov s hrami. "
 "Logy sa ukladajú do zložky s dátami kompatibility danej hry."
 
-#: src/widgets/games/games-launch-options-editor.vala:252
+#: src/widgets/games/games-launch-options-editor.vala:275
 msgid "Proton options"
 msgstr "Nastavení Protonu"
 
-#: src/widgets/games/games-launch-options-editor.vala:253
+#: src/widgets/games/games-launch-options-editor.vala:276
 msgid "Extra Proton settings and launch behaviors."
 msgstr "Dodatočné nastavenia Protonu a správanie pri spustení."
 
 #. Audio options
-#: src/widgets/games/games-launch-options-editor.vala:262
+#: src/widgets/games/games-launch-options-editor.vala:285
 msgid "PulseAudio low latency"
 msgstr "PulseAudio nízka odozva"
 
-#: src/widgets/games/games-launch-options-editor.vala:262
+#: src/widgets/games/games-launch-options-editor.vala:285
 msgid ""
 "Enables low latency mode in PulseAudio which can reduce audio latency in "
 "some games (60, 90, 120)."
@@ -2736,189 +2754,189 @@ msgstr ""
 "Povolí režim nízkej odozvy v systéme PulseAudio, čo môže znížiť odozvu zvuku "
 "v niektorých hrách (60, 90, 120)."
 
-#: src/widgets/games/games-launch-options-editor.vala:262
+#: src/widgets/games/games-launch-options-editor.vala:285
 msgid "MSEC"
 msgstr "MSEC"
 
-#: src/widgets/games/games-launch-options-editor.vala:267
+#: src/widgets/games/games-launch-options-editor.vala:290
 msgid "Audio options"
 msgstr "Nastavení audia"
 
-#: src/widgets/games/games-launch-options-editor.vala:268
+#: src/widgets/games/games-launch-options-editor.vala:291
 #, fuzzy
 msgid "Audio-related launch options."
 msgstr "Možnosti spustenia súvisiace so zvukom."
 
 #. Game arguments
-#: src/widgets/games/games-launch-options-editor.vala:274
+#: src/widgets/games/games-launch-options-editor.vala:297
 #, fuzzy
 msgid "Skip launcher"
 msgstr "Preskočiť spúšťač"
 
-#: src/widgets/games/games-launch-options-editor.vala:274
+#: src/widgets/games/games-launch-options-editor.vala:297
 msgid "Adds -skip-launcher to bypass launchers in games that support it."
 msgstr ""
 "Pridá parameter -skip-launcher na obídenie interných spúšťačov hier, ktoré "
 "to podporujú."
 
-#: src/widgets/games/games-launch-options-editor.vala:275
+#: src/widgets/games/games-launch-options-editor.vala:298
 #: src/widgets/mangohud/mangohud-performance-page.vala:44
 msgid "Vulkan"
 msgstr "Vulkan"
 
-#: src/widgets/games/games-launch-options-editor.vala:275
+#: src/widgets/games/games-launch-options-editor.vala:298
 msgid "Adds -vulkan to make the game use its Vulkan renderer."
 msgstr "Pridá parameter -vulkan, aby hra použila vykresľovanie cez Vulkan."
 
-#: src/widgets/games/games-launch-options-editor.vala:276
+#: src/widgets/games/games-launch-options-editor.vala:299
 msgid "DirectX 11"
 msgstr "DirectX 11"
 
-#: src/widgets/games/games-launch-options-editor.vala:276
+#: src/widgets/games/games-launch-options-editor.vala:299
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
 msgstr "Pridá parameter -dx11, aby hra použila vykresľovanie cez DirectX 11."
 
-#: src/widgets/games/games-launch-options-editor.vala:277
+#: src/widgets/games/games-launch-options-editor.vala:300
 msgid "DirectX 12"
 msgstr "DirectX 12"
 
-#: src/widgets/games/games-launch-options-editor.vala:277
+#: src/widgets/games/games-launch-options-editor.vala:300
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
 msgstr "Pridá parameter -dx12, aby hra použila vykresľovanie cez DirectX 12."
 
-#: src/widgets/games/games-launch-options-editor.vala:278
+#: src/widgets/games/games-launch-options-editor.vala:301
 msgid "Console"
 msgstr "Konzole"
 
-#: src/widgets/games/games-launch-options-editor.vala:278
+#: src/widgets/games/games-launch-options-editor.vala:301
 msgid "Adds -console to open the game's developer console when supported."
 msgstr ""
 "Pridá parameter -console na otvorenie vývojárskej konzoly hry, ak je "
 "podporovaná."
 
-#: src/widgets/games/games-launch-options-editor.vala:281
+#: src/widgets/games/games-launch-options-editor.vala:304
 msgid "Game arguments"
 msgstr "Argumenty hry"
 
-#: src/widgets/games/games-launch-options-editor.vala:282
+#: src/widgets/games/games-launch-options-editor.vala:305
 msgid "Flags passed directly to the game."
 msgstr "Príznaky a parametre odovzdané priamo hre."
 
 #. Advanced options
-#: src/widgets/games/games-launch-options-editor.vala:297
+#: src/widgets/games/games-launch-options-editor.vala:320
 msgid "Appends Steam's game command."
 msgstr "Pripája herný príkaz Steamu."
 
-#: src/widgets/games/games-launch-options-editor.vala:300
+#: src/widgets/games/games-launch-options-editor.vala:323
 msgid "Additional arguments"
 msgstr "Dodatočné argumenty"
 
-#: src/widgets/games/games-launch-options-editor.vala:300
+#: src/widgets/games/games-launch-options-editor.vala:323
 #, fuzzy
 msgid "Add extra launch options"
 msgstr "Pridať extra možnosti spustenia"
 
-#: src/widgets/games/games-launch-options-editor.vala:303
+#: src/widgets/games/games-launch-options-editor.vala:326
 msgid "Custom launch arguments"
 msgstr "Vlastné argumenty spustenia"
 
-#: src/widgets/games/games-launch-options-editor.vala:303
+#: src/widgets/games/games-launch-options-editor.vala:326
 #, fuzzy
 msgid "Add your own launch options."
 msgstr "Pridajte svoje vlastné možnosti spustenia."
 
-#: src/widgets/games/games-launch-options-editor.vala:308
+#: src/widgets/games/games-launch-options-editor.vala:331
 msgid "Advanced options"
 msgstr "Pokročilé nastavení"
 
-#: src/widgets/games/games-launch-options-editor.vala:309
+#: src/widgets/games/games-launch-options-editor.vala:332
 msgid "Extra control over the final Steam launch command."
 msgstr "Dodatočná kontrola nad finálnym príkazom spustenia Steamu."
 
-#: src/widgets/games/games-launch-options-editor.vala:487
-#: src/widgets/games/games-launch-options-editor.vala:522
+#: src/widgets/games/games-launch-options-editor.vala:515
+#: src/widgets/games/games-launch-options-editor.vala:550
 msgid "Fullscreen"
 msgstr "Celá obrazovka"
 
-#: src/widgets/games/games-launch-options-editor.vala:487
-#: src/widgets/games/games-launch-options-editor.vala:522
+#: src/widgets/games/games-launch-options-editor.vala:515
+#: src/widgets/games/games-launch-options-editor.vala:550
 msgid "Runs the game in a fullscreen session."
 msgstr "Spustí hru v režime celej obrazovky."
 
-#: src/widgets/games/games-launch-options-editor.vala:493
-#: src/widgets/games/games-launch-options-editor.vala:528
+#: src/widgets/games/games-launch-options-editor.vala:521
+#: src/widgets/games/games-launch-options-editor.vala:556
 msgid "VRR"
 msgstr "VRR"
 
-#: src/widgets/games/games-launch-options-editor.vala:493
-#: src/widgets/games/games-launch-options-editor.vala:528
+#: src/widgets/games/games-launch-options-editor.vala:521
+#: src/widgets/games/games-launch-options-editor.vala:556
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr "Prispôsobí obnovovaciu frekvenciu displeja podľa FPS hry."
 
-#: src/widgets/games/games-launch-options-editor.vala:496
-#: src/widgets/games/games-launch-options-editor.vala:531
+#: src/widgets/games/games-launch-options-editor.vala:524
+#: src/widgets/games/games-launch-options-editor.vala:559
 msgid "Frame limit"
 msgstr "Limit snímok"
 
-#: src/widgets/games/games-launch-options-editor.vala:496
+#: src/widgets/games/games-launch-options-editor.vala:524
 msgid "Caps the frame rate inside Gamescope."
 msgstr "Obmedzí snímkovú frekvenciu (FPS) v nástroji Gamescope."
 
-#: src/widgets/games/games-launch-options-editor.vala:496
-#: src/widgets/games/games-launch-options-editor.vala:531
+#: src/widgets/games/games-launch-options-editor.vala:524
+#: src/widgets/games/games-launch-options-editor.vala:559
 msgid "FPS"
 msgstr "FPS"
 
-#: src/widgets/games/games-launch-options-editor.vala:500
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:528
+#: src/widgets/games/games-launch-options-editor.vala:566
 #: src/widgets/mangohud/mangohud-extras-page.vala:69
 msgid "Resolution"
 msgstr "Rozlišení"
 
-#: src/widgets/games/games-launch-options-editor.vala:500
+#: src/widgets/games/games-launch-options-editor.vala:528
 msgid "Sets the Gamescope output resolution."
 msgstr "Nastaví výstupné rozlíšenie pre Gamescope."
 
-#: src/widgets/games/games-launch-options-editor.vala:511
+#: src/widgets/games/games-launch-options-editor.vala:539
 msgid "Additional Gamescope arguments"
 msgstr "Dodatočné argumenty pre Gamescope"
 
-#: src/widgets/games/games-launch-options-editor.vala:511
+#: src/widgets/games/games-launch-options-editor.vala:539
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 "Zachová extra príznaky pre Gamescope, ako sú úpravy výstupu alebo rozlíšenia."
 
-#: src/widgets/games/games-launch-options-editor.vala:511
+#: src/widgets/games/games-launch-options-editor.vala:539
 msgid "Add Gamescope arguments"
 msgstr "Pridať argumenty pre Gamescope"
 
-#: src/widgets/games/games-launch-options-editor.vala:525
+#: src/widgets/games/games-launch-options-editor.vala:553
 msgid "Auto HDR"
 msgstr "Auto HDR"
 
-#: src/widgets/games/games-launch-options-editor.vala:531
+#: src/widgets/games/games-launch-options-editor.vala:559
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr "Obmedzí snímkovú frekvenciu (FPS) v nástroji ScopeBuddy."
 
-#: src/widgets/games/games-launch-options-editor.vala:538
+#: src/widgets/games/games-launch-options-editor.vala:566
 msgid "Sets the ScopeBuddy output resolution."
 msgstr "Nastaví výstupné rozlíšenie pre ScopeBuddy."
 
-#: src/widgets/games/games-launch-options-editor.vala:543
+#: src/widgets/games/games-launch-options-editor.vala:571
 msgid "Additional ScopeBuddy arguments"
 msgstr "Dodatočné argumenty pre ScopeBuddy"
 
-#: src/widgets/games/games-launch-options-editor.vala:543
+#: src/widgets/games/games-launch-options-editor.vala:571
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
 "Zachová extra príznaky pre ScopeBuddy, ako napríklad výber preferovaného "
 "výstupu."
 
-#: src/widgets/games/games-launch-options-editor.vala:543
+#: src/widgets/games/games-launch-options-editor.vala:571
 msgid "Add ScopeBuddy arguments"
 msgstr "Pridať argumenty pre ScopeBuddy"
 
-#: src/widgets/games/games-launch-options-editor.vala:1025
+#: src/widgets/games/games-launch-options-editor.vala:1118
 msgid "No launch options configured yet."
 msgstr "Zatiaľ nie sú nastavené žiadne možnosti spustenia."
 

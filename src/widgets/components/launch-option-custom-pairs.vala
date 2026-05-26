@@ -21,6 +21,9 @@ namespace ProtonPlus.Widgets.Components {
         private HashTable<string, string>? item_tooltips;
         private HashTable<string, Adw.ComboRow> rows_map;
         private bool is_updating = false;
+        private string? separator;
+        public string? environment_variable_prefix { get; set; }
+        public string? environment_variable { get; set; }
 
         public LaunchOptionCustomPairs (
             string group_title,
@@ -30,15 +33,19 @@ namespace ProtonPlus.Widgets.Components {
             string[] predefined_keys,
             string[] options_display,
             string[] options_values,
-            HashTable<string, string>? tooltips = null
+            HashTable<string, string>? tooltips = null,
+            string? separator = ",",
+            string? environment_variable = null
         ) {
-            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
+            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
 
             this.options_display = options_display;
             this.options_values = options_values;
             this.rows_map = new HashTable<string, Adw.ComboRow> (str_hash, str_equal);
             this.item_tooltips = tooltips;
-
+            this.separator = separator;
+            this.environment_variable = environment_variable;
+            this.environment_variable_prefix = environment_variable != null ? environment_variable + "=" : null;
             group = new Adw.PreferencesGroup ();
             group.title = group_title;
             group.description = group_description;
@@ -162,13 +169,25 @@ namespace ProtonPlus.Widgets.Components {
             master_switch.active = true;
             list_frame.visible = true;
 
-            string[] parts = raw_value.split (";");
+            bool is_flag_list = (options_values.length > 1 && options_values[1] == "1");
+            string[] parts = raw_value.split (this.separator);
             foreach (string part in parts) {
-                string[] kv = part.split ("=");
-                if (kv.length == 2) {
-                    string key = kv[0].strip ().down ();
-                    string val = kv[1].strip ();
+                string clean_part = part.strip ().down ();
+                if (clean_part == "") continue;
 
+                string[] kv = clean_part.split ("=");
+                string key = "";
+                string val = "";
+
+                if (kv.length == 2) {
+                    key = kv[0].strip ();
+                    val = kv[1].strip ();
+                } else if (is_flag_list) {
+                    key = clean_part;
+                    val = "1";
+                }
+
+                if (key != "") {
                     if (!rows_map.contains (key)) {
                         create_item_row (key, val);
                     } else {
@@ -189,15 +208,20 @@ namespace ProtonPlus.Widgets.Components {
             if (!master_switch.active) return "";
 
             string[] final_parts = {};
+            bool is_flag_list = (options_values.length > 1 && options_values[1] == "1");
             rows_map.foreach ((key, combo_row) => {
                 uint selected = combo_row.selected;
                 string val = options_values[selected];
                 if (val != "") {
-                    final_parts += @"$key=$val";
+                    if (is_flag_list) {
+                        final_parts += combo_row.title;
+                    } else {
+                        final_parts += @"$key=$val";
+                    }
                 }
             });
 
-            return string.joinv (";", final_parts);
+            return string.joinv (this.separator, final_parts);
         }
 
         private void trigger_changed () {

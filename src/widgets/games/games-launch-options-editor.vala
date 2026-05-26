@@ -75,6 +75,9 @@ using Adw;
         Components.LaunchOptionResolutionField scopebuddy_resolution_field { get; set; }
         Components.LaunchOptionEntryField scopebuddy_args_field { get; set; }
         Components.LaunchOptionDllOverrides dll_overrides_pair_editor { get; set; }
+        Components.LaunchOptionAmdIcd amd_icd_editor { get; set; }
+        Components.LaunchOptionRadvPerftest radv_perf_editor { get; set; }
+        Components.LaunchOptionRadvDebug radv_debug_editor { get; set; }
         List<Components.LaunchOptionBinding> common_bindings;
         List<Components.LaunchOptionBinding> gpu_vendor_bindings;
         List<Components.LaunchOptionBinding> game_argument_bindings;
@@ -179,6 +182,7 @@ using Adw;
             amd_mesa_glthread_tile = create_gpu_vendor_tile (_ ("Mesa GLThread"), _ ("Enables Mesa's GLThread optimization for better performance in some games."), { "mesa_glthread=true" });
             amd_mesa_shader_cache_disable_tile = create_gpu_vendor_tile (_ ("Disable Mesa shader cache"), _ ("Disables Mesa's shader cache which can cause stuttering in some games."), { "MESA_SHADER_CACHE_DISABLE=1" });
 
+
             nvapi_tile = new Components.LaunchOptionTile (_ ("NVAPI"), _ ("Lets games access NVIDIA-specific features like DLSS."));
             nvapi_tile.toggle.notify["active"].connect (nvidia_nvapi_toggle_changed);
             gpu_vendor_bindings.append (new Components.LaunchOptionBinding ({ "PROTON_ENABLE_NVAPI=1" }, nvapi_tile.toggle));
@@ -191,11 +195,30 @@ using Adw;
 
             intel_xess_upgrade_tile = create_gpu_vendor_tile (_ ("XeSS Upgrade"), _ ("Upgrades XeSS in supported games."), { "PROTON_XESS_UPGRADE=1" });
 
+            // AMD
+            radv_debug_editor = new Components.LaunchOptionRadvDebug ();
+            radv_perf_editor = new Components.LaunchOptionRadvPerftest ();
+            amd_icd_editor = new Components.LaunchOptionAmdIcd ();
+
+            radv_debug_editor.changed.connect (standard_control_changed);
+            radv_perf_editor.changed.connect (standard_control_changed);
+            amd_icd_editor.changed.connect (standard_control_changed);
+            radv_debug_editor.set_tooltip_text (_ ("Configure RADV debug options for troubleshooting and performance testing."));
+            radv_perf_editor.set_tooltip_text (_ ("Configure RADV performance test options for testing experimental driver features. Use with caution as these features can cause instability or other issues."));  
+            amd_icd_editor.set_tooltip_text (_ ("Select which AMD Vulkan driver to use. This can be used to switch between RADV and AMD's official Vulkan driver on supported systems."));
+
+            radv_debug_editor.set_margin_top (12);
+            PreferencesGroup gpu_vendor_amd_group = create_gpu_vendor_page ({ amd_anti_lag_tile, amd_fsr4_upgrade_tile, amd_fsr4_rdna3_upgrade_tile, amd_prime_tile, amd_hide_apu_tile, amd_staging_shared_memory_tile, amd_mesa_glthread_tile, amd_mesa_shader_cache_disable_tile });
+
+            gpu_vendor_amd_group.add (radv_debug_editor);
+            gpu_vendor_amd_group.add (radv_perf_editor);
+            gpu_vendor_amd_group.add (amd_icd_editor);
+
             gpu_vendor_stack = new Gtk.Stack ();
             gpu_vendor_stack.set_hhomogeneous (false);
             gpu_vendor_stack.set_vhomogeneous (false);
             gpu_vendor_stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
-            gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ amd_anti_lag_tile, amd_fsr4_upgrade_tile, amd_fsr4_rdna3_upgrade_tile, amd_prime_tile, amd_hide_apu_tile, amd_staging_shared_memory_tile, amd_mesa_glthread_tile, amd_mesa_shader_cache_disable_tile }), "amd", _ ("AMD"));
+            gpu_vendor_stack.add_titled (gpu_vendor_amd_group, "amd", _ ("AMD"));
             gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ nvapi_tile, nvidia_ngx_updater_tile, nvidia_hide_gpu_tile, dlss_indicator_tile, nvidia_libs_tile }), "nvidia", _ ("NVIDIA"));
             gpu_vendor_stack.add_titled (create_gpu_vendor_page ({ intel_xess_upgrade_tile }), "intel", _ ("Intel"));
             gpu_vendor_stack.set_visible_child_name ("amd");
@@ -408,6 +431,11 @@ using Adw;
             reset_controls ();
             apply_bindings_from_tokens (common_bindings, tokens, consumed);
             apply_bindings_from_tokens (gpu_vendor_bindings, tokens, consumed);
+
+            apply_amd_icd_bindings_from_tokens (tokens, consumed);
+            apply_radv_debug_bindings_from_tokens (tokens, consumed);
+            apply_radv_perf_bindings_from_tokens (tokens, consumed);
+
             apply_dll_override_bindings_from_tokens (tokens, consumed);
 
             if (selected_wrapper_mode == WrapperMode.NONE)
@@ -473,7 +501,7 @@ using Adw;
             return group;
         }
 
-        Gtk.Widget create_gpu_vendor_page (Components.LaunchOptionTile[] tiles) {
+        PreferencesGroup create_gpu_vendor_page (Components.LaunchOptionTile[] tiles) {
             var group = new PreferencesGroup ();
             for (var index = 0; index < tiles.length; index++) {
                 group.add (tiles[index]);
@@ -588,6 +616,10 @@ using Adw;
             gamescope_args_field.set_text ("");
             scopebuddy_args_field.set_text ("");
             gpu_vendor_stack.set_visible_child_name ("amd");
+            dll_overrides_pair_editor.value = "";
+            amd_icd_editor.value = "";
+            radv_perf_editor.value = "";
+            radv_debug_editor.value = "";
         }
 
         void standard_control_changed () {
@@ -785,9 +817,29 @@ using Adw;
             append_binding_segments (segments, common_bindings);
             append_binding_segments (segments, gpu_vendor_bindings);
 
+            // RADV_DEBUG
+            string radv_debug_val = radv_debug_editor.value;
+            if (radv_debug_val != "") {
+                segments.add ( radv_debug_editor.environment_variable_prefix + radv_debug_val);
+            }
+
+            // RADV_PERFTEST
+            string radv_perf_val = radv_perf_editor.value;
+            if (radv_perf_val != "") {
+                segments.add (radv_perf_editor.environment_variable_prefix + radv_perf_val);
+            }
+
+            // AMD_VULKAN_ICD
+            string amd_icd_val = amd_icd_editor.value;
+            if (amd_icd_val != "") {
+                // Odstraníme "driver=", protože bázová třída by vrátila "driver=RADV"
+                string driver_name = amd_icd_val.replace ("driver=", "");
+                segments.add (amd_icd_editor.environment_variable_prefix + driver_name);
+            }
+
             string dll_value = dll_overrides_pair_editor.value;
             if (dll_value != "") {
-                segments.add ("WINEDLLOVERRIDES=" + dll_value); 
+                segments.add (dll_overrides_pair_editor.environment_variable_prefix + dll_value);
             }
 
             if (additional_args_tile.toggle.get_active ())
@@ -887,11 +939,52 @@ using Adw;
             segments.add ("PROTON_ENABLE_HDR=1");
         }
 
+        void apply_radv_debug_bindings_from_tokens (string[] tokens, bool[] consumed) {
+            string radv_debug_raw = "";
+            for (int i = 0; i < tokens.length; i++) {
+                if (tokens[i].has_prefix (radv_debug_editor.environment_variable_prefix)) {
+                    radv_debug_raw = tokens[i].substring (radv_debug_editor.environment_variable_prefix.length);
+                    consumed[i] = true;
+                    break;
+                }
+            }
+
+            radv_debug_editor.value = radv_debug_raw;
+        }
+
+
+        void apply_radv_perf_bindings_from_tokens (string[] tokens, bool[] consumed) {
+            string radv_perf_raw = "";
+            for (int i = 0; i < tokens.length; i++) {
+                if (tokens[i].has_prefix (radv_perf_editor.environment_variable_prefix)) {
+                    radv_perf_raw = tokens[i].substring (radv_perf_editor.environment_variable_prefix.length);
+                    consumed[i] = true;
+                    break;
+                }
+            }
+
+            radv_perf_editor.value = radv_perf_raw;
+        }
+
+
+        void apply_amd_icd_bindings_from_tokens (string[] tokens, bool[] consumed) {
+            string amd_icd_raw = "";
+            for (int i = 0; i < tokens.length; i++) {
+                if (tokens[i].has_prefix (amd_icd_editor.environment_variable_prefix)) {
+                    amd_icd_raw = tokens[i].substring (amd_icd_editor.environment_variable_prefix.length);
+                    consumed[i] = true;
+                    break;
+                }
+            }
+
+            amd_icd_editor.value = amd_icd_raw;
+        }
+
         void apply_dll_override_bindings_from_tokens (string[] tokens, bool[] consumed) {
             string winedll_raw = "";
             for (int i = 0; i < tokens.length; i++) {
-                if (tokens[i].has_prefix ("WINEDLLOVERRIDES=")) {
-                    winedll_raw = tokens[i].substring (17);
+                if (tokens[i].has_prefix (dll_overrides_pair_editor.environment_variable_prefix)) {
+                    winedll_raw = tokens[i].substring (dll_overrides_pair_editor.environment_variable_prefix.length);
                     consumed[i] = true;
                     break;
                 }
