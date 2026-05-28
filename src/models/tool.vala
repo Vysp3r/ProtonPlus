@@ -9,6 +9,8 @@ namespace ProtonPlus.Models {
         public bool legacy { get; set; }
         public string last_updated { get; set; }
         public int page { get; set; default = 1; }
+        private string? _last_version = null;
+
         public Utils.Web.GetRequestType get_request_type { get; set; }
         public Gee.LinkedList<Release> releases { get; set; default = new Gee.LinkedList<Release> (); }
 
@@ -18,6 +20,42 @@ namespace ProtonPlus.Models {
 
         public virtual bool is_used () {
             return false;
+        }
+
+        public string? last_version {
+            owned get {
+                if (_last_version != null && _last_version.length > 0)
+                return _last_version;
+
+                Release lastRelease = this.releases[1];
+                string title = lastRelease.title; 
+
+                if (title == null || title == "") {
+                    return "";
+                }
+
+                try {
+                    var regex = new GLib.Regex ("(\\d+[\\d\\.\\-]+?)(?:-[sS][lL][rR]|-[hH][dD][rR])?$", GLib.RegexCompileFlags.OPTIMIZE);
+                    GLib.MatchInfo match;
+
+                    if (regex.match (title, 0, out match)) {
+                        string version = match.fetch (1);
+                        
+                        if (version.has_suffix ("-")) {
+                            version = version.substring (0, version.length - 1);
+                        }
+                        this._last_version = version;
+                        return version;
+                    }
+                } catch (GLib.RegexError e) {
+                    stderr.printf ("Regex error: %s\n", e.message);
+                }
+
+                return title;
+            }
+            set {
+                _last_version = value;
+            }
         }
 
         public async Gee.LinkedList<Release> get_releases_async (bool force_fetch, out ReturnCode code) {
