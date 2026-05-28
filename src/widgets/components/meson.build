@@ -1,4 +1,5 @@
 sources += files(
+    'custom-expander-row.vala',
     'launch-option-amd-icd.vala',
     'launch-option-binding.vala',
     'launch-option-custom-pairs.vala',

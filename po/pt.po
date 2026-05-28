@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-26 15:16+0200\n"
+"POT-Creation-Date: 2026-05-26 23:08+0200\n"
 "PO-Revision-Date: 2026-05-15 06:11+0000\n"
 "Last-Translator: Yasmin Stanchese <yasmin@snowfloke.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -2341,13 +2341,13 @@ msgid "None"
 msgstr "Nenhum"
 
 #: src/widgets/games/games-launch-options-editor.vala:144
-#: src/widgets/preferences/preferences-dialog.vala:248
+#: src/widgets/preferences/preferences-dialog.vala:271
 #, fuzzy
 msgid "Gamescope"
 msgstr "Jogos"
 
 #: src/widgets/games/games-launch-options-editor.vala:149
-#: src/widgets/preferences/preferences-dialog.vala:253
+#: src/widgets/preferences/preferences-dialog.vala:276
 msgid "ScopeBuddy"
 msgstr ""
 
@@ -2877,7 +2877,7 @@ msgstr ""
 msgid "Add ScopeBuddy arguments"
 msgstr ""
 
-#: src/widgets/games/games-launch-options-editor.vala:1118
+#: src/widgets/games/games-launch-options-editor.vala:1116
 msgid "No launch options configured yet."
 msgstr ""
 
@@ -3119,7 +3119,7 @@ msgid "Games"
 msgstr "Jogos"
 
 #: src/widgets/main/main-box.vala:28
-#: src/widgets/preferences/preferences-dialog.vala:238
+#: src/widgets/preferences/preferences-dialog.vala:261
 msgid "MangoHud"
 msgstr ""
 
@@ -3234,7 +3234,7 @@ msgstr ""
 
 #. System Page
 #: src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:185
+#: src/widgets/preferences/preferences-dialog.vala:208
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "Sistema"
@@ -3323,6 +3323,7 @@ msgid "Media Info"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
+#: src/widgets/preferences/preferences-dialog.vala:164
 msgid "Network"
 msgstr ""
 
@@ -3844,97 +3845,105 @@ msgstr "Lembrar do último inicializador"
 msgid "API Tokens"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:164
+#: src/widgets/preferences/preferences-dialog.vala:172
+msgid "Proxy URL"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:174
+msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:187
 msgid "Experimental"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:169
+#: src/widgets/preferences/preferences-dialog.vala:192
 msgid "Preview features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:170
+#: src/widgets/preferences/preferences-dialog.vala:193
 msgid "Enable experimental features for early testing"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:177
+#: src/widgets/preferences/preferences-dialog.vala:200
 #, fuzzy
 msgid "Maintenance"
 msgstr "Menu Principal"
 
-#: src/widgets/preferences/preferences-dialog.vala:191
+#: src/widgets/preferences/preferences-dialog.vala:214
 msgid "Software Environment"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:196
+#: src/widgets/preferences/preferences-dialog.vala:219
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr "SteamOS"
 
-#: src/widgets/preferences/preferences-dialog.vala:197
-#: src/widgets/preferences/preferences-dialog.vala:202
-#: src/widgets/preferences/preferences-dialog.vala:229
-#: src/widgets/preferences/preferences-dialog.vala:234
-#: src/widgets/preferences/preferences-dialog.vala:239
-#: src/widgets/preferences/preferences-dialog.vala:244
-#: src/widgets/preferences/preferences-dialog.vala:249
-#: src/widgets/preferences/preferences-dialog.vala:254
+#: src/widgets/preferences/preferences-dialog.vala:220
+#: src/widgets/preferences/preferences-dialog.vala:225
+#: src/widgets/preferences/preferences-dialog.vala:252
+#: src/widgets/preferences/preferences-dialog.vala:257
+#: src/widgets/preferences/preferences-dialog.vala:262
+#: src/widgets/preferences/preferences-dialog.vala:267
+#: src/widgets/preferences/preferences-dialog.vala:272
+#: src/widgets/preferences/preferences-dialog.vala:277
 #: src/widgets/tools/tools-stl-release-row.vala:80
 msgid "Yes"
 msgstr "Sim"
 
-#: src/widgets/preferences/preferences-dialog.vala:197
-#: src/widgets/preferences/preferences-dialog.vala:202
-#: src/widgets/preferences/preferences-dialog.vala:229
-#: src/widgets/preferences/preferences-dialog.vala:234
-#: src/widgets/preferences/preferences-dialog.vala:239
-#: src/widgets/preferences/preferences-dialog.vala:244
-#: src/widgets/preferences/preferences-dialog.vala:249
-#: src/widgets/preferences/preferences-dialog.vala:254
+#: src/widgets/preferences/preferences-dialog.vala:220
+#: src/widgets/preferences/preferences-dialog.vala:225
+#: src/widgets/preferences/preferences-dialog.vala:252
+#: src/widgets/preferences/preferences-dialog.vala:257
+#: src/widgets/preferences/preferences-dialog.vala:262
+#: src/widgets/preferences/preferences-dialog.vala:267
+#: src/widgets/preferences/preferences-dialog.vala:272
+#: src/widgets/preferences/preferences-dialog.vala:277
 #: src/widgets/tools/tools-stl-release-row.vala:79
 msgid "No"
 msgstr "Não"
 
-#: src/widgets/preferences/preferences-dialog.vala:201
+#: src/widgets/preferences/preferences-dialog.vala:224
 msgid "Flatpak"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:206
+#: src/widgets/preferences/preferences-dialog.vala:229
 msgid "Hardware"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:218
+#: src/widgets/preferences/preferences-dialog.vala:241
 msgid "HWCAPS"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:223
+#: src/widgets/preferences/preferences-dialog.vala:246
 msgid "Dependencies"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:228
+#: src/widgets/preferences/preferences-dialog.vala:251
 #, fuzzy
 msgid "Protontricks"
 msgstr "Abrir em Protontricks"
 
-#: src/widgets/preferences/preferences-dialog.vala:233
+#: src/widgets/preferences/preferences-dialog.vala:256
 msgid "Protontricks (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:243
+#: src/widgets/preferences/preferences-dialog.vala:266
 msgid "MangoHud (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:258
+#: src/widgets/preferences/preferences-dialog.vala:281
 #, fuzzy
 msgid "Detected Launchers"
 msgstr "Inicializadores detectados:\n"
 
-#: src/widgets/preferences/preferences-dialog.vala:279
+#: src/widgets/preferences/preferences-dialog.vala:302
 #: src/widgets/tools/tools-box.vala:190
 #, fuzzy
 msgid "Installed"
 msgstr "Instalados"
 
-#: src/widgets/preferences/preferences-dialog.vala:279
+#: src/widgets/preferences/preferences-dialog.vala:302
 #, fuzzy
 msgid "Not installed"
 msgstr "Instalados"
