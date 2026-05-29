@@ -207,7 +207,6 @@ using Adw;
             radv_perf_editor.set_tooltip_text (_ ("Configure RADV performance test options for testing experimental driver features. Use with caution as these features can cause instability or other issues."));
             amd_icd_editor.set_tooltip_text (_ ("Select which AMD Vulkan driver to use. This can be used to switch between RADV and AMD's official Vulkan driver on supported systems."));
 
-            radv_debug_editor.set_margin_top (12);
             PreferencesGroup gpu_vendor_amd_group = create_gpu_vendor_page ({ amd_anti_lag_tile, amd_fsr4_upgrade_tile, amd_fsr4_rdna3_upgrade_tile, amd_prime_tile, amd_hide_apu_tile, amd_staging_shared_memory_tile, amd_mesa_glthread_tile, amd_mesa_shader_cache_disable_tile });
 
             gpu_vendor_amd_group.add (radv_debug_editor);
@@ -271,6 +270,10 @@ using Adw;
             proton_force_large_address_aware_tile = create_common_tile (_ ("Allows 32-bit games to use more than 2GB of RAM"), _ ("Forces 32-bit games to use large address aware which can improve performance and stability."), { "PROTON_FORCE_LARGE_ADDRESS_AWARE=1" });
             proton_logs_tile = create_common_tile (_ ("Enable Proton logs"), _ ("Enables logging for Proton which can help with troubleshooting game issues. Logs are saved in the game's compatibility data folder."), { "PROTON_LOG=1" });
 
+            // DLL overrides
+            dll_overrides_pair_editor = new Components.LaunchOptionDllOverrides ();
+            dll_overrides_pair_editor.changed.connect (standard_control_changed);
+
             proton_options_group = new PreferencesGroup ();
             proton_options_group.title = _ ("Proton options");
             proton_options_group.description = _ ("Extra Proton settings and launch behaviors.");
@@ -278,6 +281,7 @@ using Adw;
             proton_options_group.add (proton_use_wow64_tile);
             proton_options_group.add (proton_force_large_address_aware_tile);
             proton_options_group.add (proton_logs_tile);
+            proton_options_group.add (dll_overrides_pair_editor);
             append (proton_options_group);
 
             // Audio options
@@ -309,11 +313,6 @@ using Adw;
             game_arguments_group.add (dx12_tile);
             game_arguments_group.add (console_tile);
             append (game_arguments_group);
-
-            // DLL overrides
-            dll_overrides_pair_editor = new Components.LaunchOptionDllOverrides ();
-            dll_overrides_pair_editor.changed.connect (standard_control_changed);
-            append (dll_overrides_pair_editor);
 
             // Advanced options
 
