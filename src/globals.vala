@@ -19,7 +19,7 @@ namespace ProtonPlus.Globals {
 
     public static LanguageItem[] LANGUAGES () {
         return new LanguageItem[] {
-            { "system", _ ("System Default"), 0 },
+            { "system", _ ("System"), 0 },
             { "ar", _ ("Arabic"), 1 },
             { "be", _ ("Belarusian"), 2 },
             { "bs", _ ("Bosnian"), 3 },

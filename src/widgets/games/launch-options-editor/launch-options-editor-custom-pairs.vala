@@ -1,4 +1,4 @@
-namespace ProtonPlus.Widgets.Components {
+namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 using Adw;
 using Gtk;
 
@@ -26,7 +26,7 @@ using Gtk;
                 string? separator = ",",
                 string? environment_variable = null
         ) {
-            base(switch_title, switch_subtitle,  options_display, options_values, tooltips);
+            base (switch_title, switch_subtitle, options_display, options_values, tooltips);
 
             this.separator = separator != null ? separator : ",";
             this.environment_variable = environment_variable;

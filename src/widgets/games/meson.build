@@ -6,8 +6,9 @@ sources += files(
     'games-mass-edit-view.vala',
     'games-mass-edit-button.vala',
     'games-shortcut-button.vala',
-    'games-launch-options-editor.vala',
     'games-profile-dialog.vala',
     'games-profile-button.vala',
     'games-tool-row.vala',
 )
+
+subdir('launch-options-editor')

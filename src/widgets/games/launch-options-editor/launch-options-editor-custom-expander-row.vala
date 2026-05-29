@@ -1,6 +1,6 @@
-namespace ProtonPlus.Widgets.Components {
-    using Adw;
-    using Gtk;
+namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
+using Adw;
+using Gtk;
 
     public class CustomExpanderRow : Adw.ExpanderRow {
         public new signal void changed ();
@@ -9,20 +9,20 @@ namespace ProtonPlus.Widgets.Components {
         protected string[] options_values;
         protected HashTable<string, string>? item_tooltips;
         protected HashTable<string, Adw.ComboRow> rows_map;
-        
+
         private Adw.EntryRow add_custom_row;
 
         public CustomExpanderRow (
-            string switch_title,
-            string switch_subtitle,
-            string[] options_display,
-            string[] options_values,
-            HashTable<string, string>? tooltips = null
+                string switch_title,
+                string switch_subtitle,
+                string[] options_display,
+                string[] options_values,
+                HashTable<string, string>? tooltips = null
         ) {
             Object (
-                title: switch_title,
-                subtitle: switch_subtitle,
-                show_enable_switch: true
+                    title: switch_title,
+                    subtitle: switch_subtitle,
+                    show_enable_switch: true
             );
 
             this.options_display = options_display;
@@ -31,7 +31,7 @@ namespace ProtonPlus.Widgets.Components {
             this.item_tooltips = tooltips;
 
             add_custom_row = new Adw.EntryRow ();
-            add_custom_row.title = _("Add custom item (Type name and press Enter)...");
+            add_custom_row.title = _ ("Add custom item (Type name and press Enter)...");
             add_custom_row.activates_default = true;
 
             var add_button = new Gtk.Button.from_icon_name ("list-add-symbolic");
@@ -39,13 +39,13 @@ namespace ProtonPlus.Widgets.Components {
             add_button.valign = Gtk.Align.CENTER;
             add_button.clicked.connect (on_custom_item_added);
             add_custom_row.add_suffix (add_button);
-    
+
             var key_controller = new Gtk.EventControllerKey ();
             key_controller.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
             key_controller.key_pressed.connect ((keyval, keycode, state) => {
                 if (keyval == (uint) Gdk.Key.Return || keyval == (uint) Gdk.Key.KP_Enter) {
                     on_custom_item_added ();
-                    return true; 
+                    return true;
                 }
                 return false;
             });
@@ -94,10 +94,10 @@ namespace ProtonPlus.Widgets.Components {
 
         private void on_custom_item_added () {
             string custom_key = add_custom_row.text.strip ().down ();
-            
+
             if (custom_key != "" && !rows_map.contains (custom_key)) {
                 string default_val = options_values.length > 1 ? options_values[1] : "";
-                
+
                 this.remove (add_custom_row);
                 create_item_row (custom_key, default_val);
                 this.add_row (add_custom_row);

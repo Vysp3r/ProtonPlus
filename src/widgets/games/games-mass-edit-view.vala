@@ -19,7 +19,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Switch launch_options_switch { get; set; }
         Gtk.Box compatibility_tool_header;
         Gtk.Box launch_options_header;
-        LaunchOptionsEditor launch_options_editor { get; set; }
+        LaunchOptionsEditor.Box launch_options_editor { get; set; }
         Gtk.Box content_box { get; set; }
         public GameRow[] rows;
         uint initial_compatibility_tool_index;
@@ -65,7 +65,7 @@ namespace ProtonPlus.Widgets.Games {
                 refresh ();
             });
 
-            launch_options_editor = new LaunchOptionsEditor ();
+            launch_options_editor = new LaunchOptionsEditor.Box ();
             advanced_switch.notify["active"].connect (() => launch_options_editor.set_advanced_visible (advanced_switch.get_active ()));
             launch_options_editor.content_changed.connect (refresh);
 

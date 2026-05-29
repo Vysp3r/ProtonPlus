@@ -1,4 +1,4 @@
-namespace ProtonPlus.Widgets.Components {
+namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 using Adw;
     class LaunchOptionBinding : Object {
         public string[] tokens { get; set; }
