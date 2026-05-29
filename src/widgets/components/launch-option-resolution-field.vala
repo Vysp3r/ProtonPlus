@@ -32,7 +32,7 @@ using Adw;
                 labels[index] = choices[index].label;
             }
 
-            var expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
+            Gtk.PropertyExpression expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
             dropdown = new Gtk.DropDown (new Gtk.StringList (labels), expression);
             dropdown.set_valign (Gtk.Align.CENTER);
 

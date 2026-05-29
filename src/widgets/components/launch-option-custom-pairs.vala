@@ -47,7 +47,11 @@ using Gtk;
             if (raw_value == null || raw_value == "") {
                 this.enable_expansion = false;
                 if (rows_map != null) {
-                    rows_map.foreach ((key, row) => { row.selected = 0; });
+                    foreach (var row in rows_map.get_values ()) {
+                        if (row != null) {
+                            row.selected = 0;
+                        }
+                    }
                 }
                 is_updating = false;
                 return;
@@ -96,17 +100,22 @@ using Gtk;
 
             string[] final_parts = {};
             bool is_flag_list = (options_values.length > 1 && options_values[1] == "1");
-            rows_map.foreach ((key, combo_row) => {
-                uint selected = combo_row.selected;
-                string val = options_values[selected];
-                if (val != "") {
-                    if (is_flag_list) {
-                        final_parts += combo_row.title;
-                    } else {
-                        final_parts += @"$key=$val";
+            if (rows_map != null) {
+                foreach (string key in rows_map.get_keys ()) {
+                    var combo_row = rows_map.lookup (key);
+                    if (combo_row == null) continue;
+
+                    uint selected = combo_row.selected;
+                    string val = options_values[selected];
+                    if (val != "") {
+                        if (is_flag_list) {
+                            final_parts += combo_row.title;
+                        } else {
+                            final_parts += @"$key=$val";
+                        }
                     }
                 }
-            });
+            }
 
             return string.joinv (this.separator, final_parts);
         }

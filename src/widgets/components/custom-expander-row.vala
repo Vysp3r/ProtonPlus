@@ -3,7 +3,7 @@ namespace ProtonPlus.Widgets.Components {
     using Gtk;
 
     public class CustomExpanderRow : Adw.ExpanderRow {
-        public signal void changed ();
+        public new signal void changed ();
 
         protected string[] options_display;
         protected string[] options_values;
@@ -35,7 +35,7 @@ namespace ProtonPlus.Widgets.Components {
             add_custom_row.activates_default = true;
 
             var add_button = new Gtk.Button.from_icon_name ("list-add-symbolic");
-            add_button.get_style_context ().add_class ("flat");
+            add_button.add_css_class ("flat");
             add_button.valign = Gtk.Align.CENTER;
             add_button.clicked.connect (on_custom_item_added);
             add_custom_row.add_suffix (add_button);
@@ -51,8 +51,6 @@ namespace ProtonPlus.Widgets.Components {
             });
             add_custom_row.add_controller (key_controller);
 
-            this.add_row (add_custom_row);
-
             this.notify["enable-expansion"].connect (() => {
                 this.trigger_changed_if_ready ();
             });
@@ -63,6 +61,8 @@ namespace ProtonPlus.Widgets.Components {
             foreach (string key in predefined_keys) {
                 create_item_row (key, "");
             }
+
+            this.add_row (add_custom_row);
         }
 
         protected void create_item_row (string key_name, string initial_value) {
