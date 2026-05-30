@@ -87,6 +87,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         List<LaunchOptionBinding> gpu_vendor_bindings;
         List<LaunchOptionBinding> game_argument_bindings;
         List<LaunchOptionBinding> scopebuddy_bindings;
+        List<ILaunchOption> launch_option_handlers;
         bool advanced_visible;
         bool refreshing_controls;
         bool can_auto_enable_command;
@@ -96,6 +97,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gpu_vendor_bindings = new List<LaunchOptionBinding> ();
             game_argument_bindings = new List<LaunchOptionBinding> ();
             scopebuddy_bindings = new List<LaunchOptionBinding> ();
+            launch_option_handlers = new List<ILaunchOption> ();
             advanced_visible = false;
             can_auto_enable_command = true;
             refreshing_controls = true;
@@ -204,6 +206,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             radv_debug_editor = new LaunchOptionRadvDebug ();
             radv_perf_editor = new LaunchOptionRadvPerftest ();
             amd_icd_editor = new LaunchOptionAmdIcd ();
+            launch_option_handlers.append (radv_debug_editor);
+            launch_option_handlers.append (radv_perf_editor);
+            launch_option_handlers.append (amd_icd_editor);
 
             radv_debug_editor.changed.connect (standard_control_changed);
             radv_perf_editor.changed.connect (standard_control_changed);
@@ -262,6 +267,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             vkd3d_log_level_editor.changed.connect (standard_control_changed);
             vkd3d_log_level_editor.set_tooltip_text (_ ("VKD3D Logging Level"));
 
+            launch_option_handlers.append (vkd3d_config_editor);
+            launch_option_handlers.append (vkd3d_log_level_editor);
+
             vkd3d_gpuva_tile = create_common_tile (
                 _ ("Enable VKD3D GPUVA"), 
                 _ ("Enables GPU Virtual Addressing. Aligns Vulkan memory management with native DX12 behavior to improve texture streaming and stability in open-world games."), 
@@ -315,6 +323,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             // DLL overrides
             dll_overrides_pair_editor = new LaunchOptionDllOverrides ();
             dll_overrides_pair_editor.changed.connect (standard_control_changed);
+            launch_option_handlers.append (dll_overrides_pair_editor);
 
             proton_options_group = new Adw.PreferencesGroup ();
             proton_options_group.title = _ ("Proton options");
@@ -473,23 +482,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             apply_bindings_from_tokens (common_bindings, tokens, consumed);
             apply_bindings_from_tokens (gpu_vendor_bindings, tokens, consumed);
 
-            apply_amd_icd_bindings_from_tokens (tokens, consumed);
-            apply_radv_debug_bindings_from_tokens (tokens, consumed);
-            apply_radv_perf_bindings_from_tokens (tokens, consumed);
-            apply_custom_pairs_from_tokens (vkd3d_config_editor, tokens, consumed);
-
-
-            for (int i = 0; i < tokens.length; i++) {
-                var token = tokens[i];
-                if (token.has_prefix (vkd3d_log_level_editor.environment_variable_prefix)) {
-                    
-                    vkd3d_log_level_editor.set_current_value (token);
-                    consumed[i] = true;
-                    break;
-                }
+            foreach (var editor in launch_option_handlers) {
+                editor.parse_tokens (tokens, consumed);
             }
-
-            apply_dll_override_bindings_from_tokens (tokens, consumed);
 
             if (selected_wrapper_mode == WrapperMode.NONE)
             parse_none_tokens (tokens, consumed);
@@ -669,12 +664,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gamescope_args_field.set_text ("");
             scopebuddy_args_field.set_text ("");
             gpu_vendor_stack.set_visible_child_name ("amd");
-            dll_overrides_pair_editor.value = "";
-            amd_icd_editor.value = "";
-            radv_perf_editor.value = "";
-            radv_debug_editor.value = "";
-            vkd3d_config_editor.value = "";
-            vkd3d_log_level_editor.value = "";
+
+            foreach (var editor in launch_option_handlers) {
+                editor.clear ();
+            }
         }
 
         void standard_control_changed () {
@@ -872,40 +865,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append_binding_segments (segments, common_bindings);
             append_binding_segments (segments, gpu_vendor_bindings);
 
-            // VKD3D_LOG_LEVEL
-            string vkd3d_log_level_val = vkd3d_log_level_editor.value;
-            if (vkd3d_log_level_val != "") {
-                segments.add ( vkd3d_log_level_editor.environment_variable_prefix + vkd3d_log_level_val);
-            }
-
-            // VKD3D_CONFIG
-            string vkd3d_config_val = vkd3d_config_editor.value;
-            if (vkd3d_config_val != "") {
-                segments.add ( vkd3d_config_editor.environment_variable_prefix + vkd3d_config_val);
-            }
-
-            // RADV_DEBUG
-            string radv_debug_val = radv_debug_editor.value;
-            if (radv_debug_val != "") {
-                segments.add ( radv_debug_editor.environment_variable_prefix + radv_debug_val);
-            }
-
-            // RADV_PERFTEST
-            string radv_perf_val = radv_perf_editor.value;
-            if (radv_perf_val != "") {
-                segments.add (radv_perf_editor.environment_variable_prefix + radv_perf_val);
-            }
-
-            // AMD_VULKAN_ICD
-            string amd_icd_val = amd_icd_editor.value;
-            if (amd_icd_val != "") {
-                string driver_name = amd_icd_val.replace ("driver=", "");
-                segments.add (amd_icd_editor.environment_variable_prefix + driver_name);
-            }
-
-            string dll_value = dll_overrides_pair_editor.value;
-            if (dll_value != "") {
-                segments.add (dll_overrides_pair_editor.environment_variable_prefix + dll_value);
+            foreach (var editor in launch_option_handlers) {
+                editor.append_command_segments (segments);
             }
 
             if (additional_args_tile.toggle.get_active ())
@@ -1003,35 +964,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         void append_none_segments (Gee.LinkedList<string> segments) {
             if (hdr_tile.toggle.get_active ())
             segments.add ("PROTON_ENABLE_HDR=1");
-        }
-
-        void apply_custom_pairs_from_tokens(LaunchOptionCustomPairs editor, string[] tokens, bool[] consumed) {
-            string raw = "";
-            for (int i = 0; i < tokens.length; i++) {
-                if (tokens[i].has_prefix (editor.environment_variable_prefix)) {
-                    raw = tokens[i].substring (editor.environment_variable_prefix.length);
-                    consumed[i] = true;
-                    break;
-                }
-            }
-
-            editor.value = raw;
-        }
-
-        void apply_radv_debug_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            apply_custom_pairs_from_tokens(radv_debug_editor, tokens, consumed);
-        }
-
-        void apply_radv_perf_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            apply_custom_pairs_from_tokens(radv_perf_editor, tokens, consumed);
-        }
-
-        void apply_amd_icd_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            apply_custom_pairs_from_tokens(amd_icd_editor, tokens, consumed);
-        }
-
-        void apply_dll_override_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            apply_custom_pairs_from_tokens(dll_overrides_pair_editor, tokens, consumed);
         }
 
         void apply_game_argument_bindings_from_tokens (string[] tokens, bool[] consumed, int command_index) {

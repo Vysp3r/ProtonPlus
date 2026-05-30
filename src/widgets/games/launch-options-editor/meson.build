@@ -1,4 +1,5 @@
 sources += files(
+    'i-launch-option.vala',
     'launch-options-editor-custom-expander-row.vala',
     'launch-options-editor-amd-icd.vala',
     'launch-options-editor-binding.vala',

@@ -2,7 +2,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 using Adw;
 using Gtk;
 
-    public class LaunchOptionEnvCombo : ComboRow {
+    public class LaunchOptionEnvCombo : ComboRow, ILaunchOption {
         public string environment_variable { get; protected set; }
         public string environment_variable_prefix { get; protected set; }
 
@@ -47,9 +47,40 @@ using Gtk;
 
         public void set_current_value (string current_env_string) {
             if (current_env_string.has_prefix (environment_variable_prefix)) {
-                this.value = current_env_string.split ("=")[1];
+                this.value = current_env_string.substring (environment_variable_prefix.length);
             } else {
                 this.value = "";
+            }
+        }
+
+        public void parse_tokens (string[] tokens, bool[] consumed) {
+            if (tokens.length != consumed.length) {
+                return;
+            }
+
+            for (int i = 0; i < tokens.length; i++) {
+                if (consumed[i]) {
+                    continue;
+                }
+
+                string token = tokens[i];
+                if (token.has_prefix (this.environment_variable_prefix)) {
+                    this.value = token.substring (this.environment_variable_prefix.length);
+                    
+                    consumed[i] = true;
+                    break;
+                }
+            }
+        }
+
+        public void clear () {
+            this.value = "";
+        }
+
+        public virtual void append_command_segments (Gee.LinkedList<string> segments) {
+            string val = this.value;
+            if (val != "") {
+                segments.add (this.environment_variable_prefix + val);
             }
         }
     }

@@ -31,5 +31,13 @@ using Gtk;
                     "AMD_ICD"
             );
         }
+
+        public override void append_command_segments (Gee.LinkedList<string> segments) {
+            string val = this.value;
+            if (val != "") {
+                string driver_name = val.replace ("driver=", "");
+                segments.add (this.environment_variable_prefix + driver_name);
+            }
+        }
     }
 }

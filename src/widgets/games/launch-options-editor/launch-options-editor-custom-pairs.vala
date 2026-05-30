@@ -2,7 +2,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 using Adw;
 using Gtk;
 
-    public class LaunchOptionCustomPairs : CustomExpanderRow {
+    public class LaunchOptionCustomPairs : CustomExpanderRow, ILaunchOption {
 
         public string @value {
             owned get { return get_formatted_value (); }
@@ -122,6 +122,34 @@ using Gtk;
 
         protected override void trigger_changed_if_ready () {
             if (!is_updating) this.changed ();
+        }
+
+        public void parse_tokens(string[] tokens, bool[] consumed) {
+            string raw = "";
+            for (int i = 0; i < tokens.length; i++) {
+                if (consumed[i]) {
+                    continue;
+                }
+
+                if (tokens[i].has_prefix (this.environment_variable_prefix)) {
+                    raw = tokens[i].substring (this.environment_variable_prefix.length);
+                    consumed[i] = true;
+                    break;
+                }
+            }
+
+            this.value = raw;
+        }
+
+        public void clear () {
+            this.value = "";
+        }
+
+        public virtual void append_command_segments (Gee.LinkedList<string> segments) {
+            string val = this.value;
+            if (val != "") {
+                segments.add (this.environment_variable_prefix + val);
+            }
         }
     }
 }
