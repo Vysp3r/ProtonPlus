@@ -103,5 +103,4 @@ using Adw;
             apply_button.set_sensitive (is_active && has_pending_value && pending_value != committed_value);
         }
     }
-
 }
