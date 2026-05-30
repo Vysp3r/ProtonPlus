@@ -18,3 +18,5 @@ sources += files(
     'launch-options-editor-vkd3d-config.vala',
     'launch-options-editor-vkd3d-log-level.vala'
 )
+
+subdir('groups')

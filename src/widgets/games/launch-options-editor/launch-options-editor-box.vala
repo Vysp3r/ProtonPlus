@@ -11,8 +11,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Adw.PreferencesGroup proton_options_group { get; set; }
         Adw.PreferencesGroup audio_group { get; set; }
         Adw.PreferencesGroup more_options_group { get; set; }
-        Adw.PreferencesGroup dxvk_options_group { get; set; }
-        Adw.PreferencesGroup vkd3d_options_group { get; set; }
         Adw.PreferencesGroup gpu_vendor_group { get; set; }
         Adw.PreferencesGroup game_arguments_group { get; set; }
         Adw.PreferencesGroup advanced_options_group { get; set; }
@@ -39,10 +37,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionTile prefer_sdl_tile { get; set; }
         LaunchOptionTile no_steaminput_tile { get; set; }
         LaunchOptionTile ntsync_tile { get; set; }
-        LaunchOptionTile dxvk_async_tile { get; set; }
-        LaunchOptionTile dxvk_log_level_none_tile { get; set; }
-        LaunchOptionTile vkd3d_shader_cache_tile { get; set; }
-        LaunchOptionTile vkd3d_gpuva_tile { get; set; }
         LaunchOptionTile wine_vk_use_sync2_tile { get; set; }
         LaunchOptionTile wine_sync_use_futex_waitv_tile { get; set; }
         LaunchOptionTile wine_writecopy_tile { get; set; }
@@ -81,8 +75,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionAmdIcd amd_icd_editor { get; set; }
         LaunchOptionRadvPerftest radv_perf_editor { get; set; }
         LaunchOptionRadvDebug radv_debug_editor { get; set; }
-        LaunchOptionVKD3DConfig vkd3d_config_editor { get; set; }
-        LaunchOptionVKD3DLogLevel vkd3d_log_level_editor { get; set; }
+        Groups.DxvkOptionsGroup dxvk_options_group { get; set; }
+        Groups.Vkd3dOptionsGroup vkd3d_options_group;
         List<LaunchOptionBinding> common_bindings;
         List<LaunchOptionBinding> gpu_vendor_bindings;
         List<LaunchOptionBinding> game_argument_bindings;
@@ -246,45 +240,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (gpu_vendor_group);
 
             //  DXVK options
-
-            dxvk_async_tile = create_common_tile (_ ("DXVK Async"), _ ("Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."), { "DXVK_ASYNC=1" });
-            dxvk_log_level_none_tile = create_common_tile (_ ("Disable DXVK logging"), _ ("Sets DXVK's log level to none which can improve performance in some games."), { "DXVK_LOG_LEVEL=none" });
-
-            dxvk_options_group = new Adw.PreferencesGroup ();
-            dxvk_options_group.title = _ ("DXVK options");
-            dxvk_options_group.description = _ ("Extra graphics settings and launch behaviors.");
-            dxvk_options_group.add (dxvk_async_tile);
-            dxvk_options_group.add (dxvk_log_level_none_tile);
+            dxvk_options_group = new Groups.DxvkOptionsGroup (standard_control_changed, launch_option_handlers);
             append (dxvk_options_group);
 
             //  VKD3D options
-
-            vkd3d_config_editor = new LaunchOptionVKD3DConfig ();
-            vkd3d_config_editor.changed.connect (standard_control_changed);
-            vkd3d_config_editor.set_tooltip_text (_ ("Configure Direct3D 12 to Vulkan translation behavior"));
-
-            vkd3d_log_level_editor = new LaunchOptionVKD3DLogLevel ();
-            vkd3d_log_level_editor.changed.connect (standard_control_changed);
-            vkd3d_log_level_editor.set_tooltip_text (_ ("VKD3D Logging Level"));
-
-            launch_option_handlers.append (vkd3d_config_editor);
-            launch_option_handlers.append (vkd3d_log_level_editor);
-
-            vkd3d_gpuva_tile = create_common_tile (
-                _ ("Enable VKD3D GPUVA"), 
-                _ ("Enables GPU Virtual Addressing. Aligns Vulkan memory management with native DX12 behavior to improve texture streaming and stability in open-world games."), 
-                { "VKD3D_GPUVA=1" }
-            );
-
-            vkd3d_shader_cache_tile = create_common_tile (_ ("Enable VKD3D Shader Cache"), _ ("Enables VKD3D's internal shader caching mechanism to minimize in-game stutter."), { "VKD3D_SHADER_CACHE=1" });
-            
-            vkd3d_options_group = new Adw.PreferencesGroup ();
-            vkd3d_options_group.title = _ ("VKD3D options");
-            vkd3d_options_group.description = _ ("Extra graphics settings and launch behaviors.");
-            vkd3d_options_group.add(vkd3d_shader_cache_tile);
-            vkd3d_options_group.add (vkd3d_gpuva_tile);
-            vkd3d_options_group.add(vkd3d_config_editor);
-            vkd3d_options_group.add(vkd3d_log_level_editor);
+            vkd3d_options_group = new Groups.Vkd3dOptionsGroup (standard_control_changed, launch_option_handlers);
             append (vkd3d_options_group);
 
             // More options

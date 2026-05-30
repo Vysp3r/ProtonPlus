@@ -1,0 +1,31 @@
+namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
+    using Adw;
+
+    public class DxvkOptionsGroup : BaseOptionsGroup {
+        LaunchOptionTile dxvk_async_tile { get; private set; }
+        LaunchOptionTile dxvk_log_level_none_tile { get; private set; }
+
+        public DxvkOptionsGroup (owned SimpleCallback standard_control_changed, List<ILaunchOption> launch_option_handlers) {
+            base(standard_control_changed, launch_option_handlers);
+
+            this.title = _ ("DXVK options");
+            this.description = _ ("Extra graphics settings and launch behaviors.");
+
+            dxvk_async_tile = create_tile (
+                _ ("DXVK Async"), 
+                _ ("Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."),
+                { "DXVK_ASYNC=1" }
+            );
+
+
+            dxvk_log_level_none_tile = create_tile(
+                _ ("Disable DXVK logging"), 
+                _ ("Sets DXVK's log level to none which can improve performance in some games."),
+                { "DXVK_LOG_LEVEL=none" }
+            );
+
+            this.add (dxvk_log_level_none_tile);
+            this.add (dxvk_async_tile);
+        }
+    }
+}
