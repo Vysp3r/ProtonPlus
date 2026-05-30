@@ -11,6 +11,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Adw.PreferencesGroup proton_options_group { get; set; }
         Adw.PreferencesGroup audio_group { get; set; }
         Adw.PreferencesGroup more_options_group { get; set; }
+        Adw.PreferencesGroup dxvk_options_group { get; set; }
+        Adw.PreferencesGroup vkd3d_options_group { get; set; }
         Adw.PreferencesGroup gpu_vendor_group { get; set; }
         Adw.PreferencesGroup game_arguments_group { get; set; }
         Adw.PreferencesGroup advanced_options_group { get; set; }
@@ -39,8 +41,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionTile ntsync_tile { get; set; }
         LaunchOptionTile dxvk_async_tile { get; set; }
         LaunchOptionTile dxvk_log_level_none_tile { get; set; }
+        LaunchOptionTile vkd3d_shader_cache_tile { get; set; }
+        LaunchOptionTile vkd3d_gpuva_tile { get; set; }
         LaunchOptionTile wine_vk_use_sync2_tile { get; set; }
         LaunchOptionTile wine_sync_use_futex_waitv_tile { get; set; }
+        LaunchOptionTile wine_writecopy_tile { get; set; }
         LaunchOptionTile proton_priority_high_tile { get; set; }
         LaunchOptionTile proton_use_wow64_tile { get; set; }
         LaunchOptionTile proton_force_large_address_aware_tile { get; set; }
@@ -76,6 +81,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionAmdIcd amd_icd_editor { get; set; }
         LaunchOptionRadvPerftest radv_perf_editor { get; set; }
         LaunchOptionRadvDebug radv_debug_editor { get; set; }
+        LaunchOptionVKD3DConfig vkd3d_config_editor { get; set; }
+        LaunchOptionVKD3DLogLevel vkd3d_log_level_editor { get; set; }
         List<LaunchOptionBinding> common_bindings;
         List<LaunchOptionBinding> gpu_vendor_bindings;
         List<LaunchOptionBinding> game_argument_bindings;
@@ -233,6 +240,45 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gpu_vendor_group.add (gpu_vendor_stack);
             append (gpu_vendor_group);
 
+            //  DXVK options
+
+            dxvk_async_tile = create_common_tile (_ ("DXVK Async"), _ ("Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."), { "DXVK_ASYNC=1" });
+            dxvk_log_level_none_tile = create_common_tile (_ ("Disable DXVK logging"), _ ("Sets DXVK's log level to none which can improve performance in some games."), { "DXVK_LOG_LEVEL=none" });
+
+            dxvk_options_group = new Adw.PreferencesGroup ();
+            dxvk_options_group.title = _ ("DXVK options");
+            dxvk_options_group.description = _ ("Extra graphics settings and launch behaviors.");
+            dxvk_options_group.add (dxvk_async_tile);
+            dxvk_options_group.add (dxvk_log_level_none_tile);
+            append (dxvk_options_group);
+
+            //  VKD3D options
+
+            vkd3d_config_editor = new LaunchOptionVKD3DConfig ();
+            vkd3d_config_editor.changed.connect (standard_control_changed);
+            vkd3d_config_editor.set_tooltip_text (_ ("Configure Direct3D 12 to Vulkan translation behavior"));
+
+            vkd3d_log_level_editor = new LaunchOptionVKD3DLogLevel ();
+            vkd3d_log_level_editor.changed.connect (standard_control_changed);
+            vkd3d_log_level_editor.set_tooltip_text (_ ("VKD3D Logging Level"));
+
+            vkd3d_gpuva_tile = create_common_tile (
+                _ ("Enable VKD3D GPUVA"), 
+                _ ("Enables GPU Virtual Addressing. Aligns Vulkan memory management with native DX12 behavior to improve texture streaming and stability in open-world games."), 
+                { "VKD3D_GPUVA=1" }
+            );
+
+            vkd3d_shader_cache_tile = create_common_tile (_ ("Enable VKD3D Shader Cache"), _ ("Enables VKD3D's internal shader caching mechanism to minimize in-game stutter."), { "VKD3D_SHADER_CACHE=1" });
+            
+            vkd3d_options_group = new Adw.PreferencesGroup ();
+            vkd3d_options_group.title = _ ("VKD3D options");
+            vkd3d_options_group.description = _ ("Extra graphics settings and launch behaviors.");
+            vkd3d_options_group.add(vkd3d_shader_cache_tile);
+            vkd3d_options_group.add (vkd3d_gpuva_tile);
+            vkd3d_options_group.add(vkd3d_config_editor);
+            vkd3d_options_group.add(vkd3d_log_level_editor);
+            append (vkd3d_options_group);
+
             // More options
 
             vkbasalt_tile = create_common_tile (_ ("VKBasalt"), _ ("Adds visual effects like sharpening and color adjustments."), { "ENABLE_VKBASALT=1" });
@@ -241,10 +287,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             local_shader_cache_tile = create_common_tile (_ ("Local shader cache"), _ ("Enables per-game shader cache. This isolates the shader cache of each game but does not compile them ahead-of-time."), { "PROTON_LOCAL_SHADER_CACHE=1" });
             prefer_sdl_tile = create_common_tile (_ ("Prefer SDL controller"), _ ("Workaround for controller detection issues."), { "PROTON_PREFER_SDL=1" });
             no_steaminput_tile = create_common_tile (_ ("Disable Steam Input"), _ ("Disables Steam Input support. Fixes Wayland controller/gamepad issues."), { "PROTON_NO_STEAMINPUT=1" });
-            dxvk_async_tile = create_common_tile (_ ("DXVK Async"), _ ("Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."), { "DXVK_ASYNC=1" });
-            dxvk_log_level_none_tile = create_common_tile (_ ("Disable DXVK logging"), _ ("Sets DXVK's log level to none which can improve performance in some games."), { "DXVK_LOG_LEVEL=none" });
             wine_vk_use_sync2_tile = create_common_tile (_ ("WINE_VK_USE_SYNC2"), _ ("Enables WINE_VK_USE_SYNC2 which can improve performance and reduce stuttering in some games when using WineD3D."), { "WINE_VK_USE_SYNC2=1" });
             wine_sync_use_futex_waitv_tile = create_common_tile (_ ("WINE_SYNC_USE_FUTEX_WAITV"), _ ("Enables WINE_SYNC_USE_FUTEX_WAITV which can improve performance and reduce stuttering in some games when using WineD3D."), { "WINE_SYNC_USE_FUTEX_WAITV=1" });
+            wine_writecopy_tile = create_common_tile (_ ("Simulate Write-Copy Memory"), _ ("Forces Wine to simulate page-write protection, fixing initialization errors in certain older titles."), { "WINE_SIMULATE_WRITECOPY=1" });
 
             more_options_group = new Adw.PreferencesGroup ();
             more_options_group.title = _ ("More options");
@@ -255,10 +300,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             more_options_group.add (local_shader_cache_tile);
             more_options_group.add (prefer_sdl_tile);
             more_options_group.add (no_steaminput_tile);
-            more_options_group.add (dxvk_async_tile);
-            more_options_group.add (dxvk_log_level_none_tile);
             more_options_group.add (wine_vk_use_sync2_tile);
             more_options_group.add (wine_sync_use_futex_waitv_tile);
+            more_options_group.add (wine_writecopy_tile);
             append (more_options_group);
 
             // Proton options
@@ -432,6 +476,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             apply_amd_icd_bindings_from_tokens (tokens, consumed);
             apply_radv_debug_bindings_from_tokens (tokens, consumed);
             apply_radv_perf_bindings_from_tokens (tokens, consumed);
+            apply_custom_pairs_from_tokens (vkd3d_config_editor, tokens, consumed);
+
+
+            for (int i = 0; i < tokens.length; i++) {
+                var token = tokens[i];
+                if (token.has_prefix (vkd3d_log_level_editor.environment_variable_prefix)) {
+                    
+                    vkd3d_log_level_editor.set_current_value (token);
+                    consumed[i] = true;
+                    break;
+                }
+            }
 
             apply_dll_override_bindings_from_tokens (tokens, consumed);
 
@@ -617,6 +673,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             amd_icd_editor.value = "";
             radv_perf_editor.value = "";
             radv_debug_editor.value = "";
+            vkd3d_config_editor.value = "";
+            vkd3d_log_level_editor.value = "";
         }
 
         void standard_control_changed () {
@@ -814,7 +872,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append_binding_segments (segments, common_bindings);
             append_binding_segments (segments, gpu_vendor_bindings);
 
-        // RADV_DEBUG
+            // VKD3D_LOG_LEVEL
+            string vkd3d_log_level_val = vkd3d_log_level_editor.value;
+            if (vkd3d_log_level_val != "") {
+                segments.add ( vkd3d_log_level_editor.environment_variable_prefix + vkd3d_log_level_val);
+            }
+
+            // VKD3D_CONFIG
+            string vkd3d_config_val = vkd3d_config_editor.value;
+            if (vkd3d_config_val != "") {
+                segments.add ( vkd3d_config_editor.environment_variable_prefix + vkd3d_config_val);
+            }
+
+            // RADV_DEBUG
             string radv_debug_val = radv_debug_editor.value;
             if (radv_debug_val != "") {
                 segments.add ( radv_debug_editor.environment_variable_prefix + radv_debug_val);
@@ -829,7 +899,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             // AMD_VULKAN_ICD
             string amd_icd_val = amd_icd_editor.value;
             if (amd_icd_val != "") {
-            // Odstraníme "driver=", protože bázová třída by vrátila "driver=RADV"
                 string driver_name = amd_icd_val.replace ("driver=", "");
                 segments.add (amd_icd_editor.environment_variable_prefix + driver_name);
             }
@@ -936,56 +1005,33 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             segments.add ("PROTON_ENABLE_HDR=1");
         }
 
-        void apply_radv_debug_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            string radv_debug_raw = "";
+        void apply_custom_pairs_from_tokens(LaunchOptionCustomPairs editor, string[] tokens, bool[] consumed) {
+            string raw = "";
             for (int i = 0; i < tokens.length; i++) {
-                if (tokens[i].has_prefix (radv_debug_editor.environment_variable_prefix)) {
-                    radv_debug_raw = tokens[i].substring (radv_debug_editor.environment_variable_prefix.length);
+                if (tokens[i].has_prefix (editor.environment_variable_prefix)) {
+                    raw = tokens[i].substring (editor.environment_variable_prefix.length);
                     consumed[i] = true;
                     break;
                 }
             }
 
-            radv_debug_editor.value = radv_debug_raw;
+            editor.value = raw;
+        }
+
+        void apply_radv_debug_bindings_from_tokens (string[] tokens, bool[] consumed) {
+            apply_custom_pairs_from_tokens(radv_debug_editor, tokens, consumed);
         }
 
         void apply_radv_perf_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            string radv_perf_raw = "";
-            for (int i = 0; i < tokens.length; i++) {
-                if (tokens[i].has_prefix (radv_perf_editor.environment_variable_prefix)) {
-                    radv_perf_raw = tokens[i].substring (radv_perf_editor.environment_variable_prefix.length);
-                    consumed[i] = true;
-                    break;
-                }
-            }
-
-            radv_perf_editor.value = radv_perf_raw;
+            apply_custom_pairs_from_tokens(radv_perf_editor, tokens, consumed);
         }
 
         void apply_amd_icd_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            string amd_icd_raw = "";
-            for (int i = 0; i < tokens.length; i++) {
-                if (tokens[i].has_prefix (amd_icd_editor.environment_variable_prefix)) {
-                    amd_icd_raw = tokens[i].substring (amd_icd_editor.environment_variable_prefix.length);
-                    consumed[i] = true;
-                    break;
-                }
-            }
-
-            amd_icd_editor.value = amd_icd_raw;
+            apply_custom_pairs_from_tokens(amd_icd_editor, tokens, consumed);
         }
 
         void apply_dll_override_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            string winedll_raw = "";
-            for (int i = 0; i < tokens.length; i++) {
-                if (tokens[i].has_prefix (dll_overrides_pair_editor.environment_variable_prefix)) {
-                    winedll_raw = tokens[i].substring (dll_overrides_pair_editor.environment_variable_prefix.length);
-                    consumed[i] = true;
-                    break;
-                }
-            }
-
-            dll_overrides_pair_editor.value = winedll_raw;
+            apply_custom_pairs_from_tokens(dll_overrides_pair_editor, tokens, consumed);
         }
 
         void apply_game_argument_bindings_from_tokens (string[] tokens, bool[] consumed, int command_index) {

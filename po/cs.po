@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-30 09:30+0200\n"
+"POT-Creation-Date: 2026-05-30 11:01+0200\n"
 "PO-Revision-Date: 2026-01-11 17:01+0000\n"
 "Last-Translator: Valentin Ljuba <7fnndt50@anonaddy.me>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -2257,59 +2257,59 @@ msgid "Unknown"
 msgstr "Neznámé"
 
 #. Launch command preview
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:101
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:108
 msgid "Launch command preview"
 msgstr ""
 
 #. Common options
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:106
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:113
 msgid "Performance overlay"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:106
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:113
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:114
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:121
 msgid "Disable Steam Deck Mode"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:114
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:121
 msgid "Disables the Steam Deck-specific profile that some games use."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:115
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:122
 msgid "Wayland"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:115
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:122
 msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:118
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:125
 #, fuzzy
 msgid "Common options"
 msgstr "Možnosti spuštění"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:119
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:126
 msgid "Quick toggles for the launch options people reach for most often."
 msgstr ""
 
 #. Launch tools
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:127
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:515
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:134
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:561
 msgid "HDR"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:127
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:515
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:550
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:134
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:561
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:596
 msgid "Outputs HDR colors if your display supports it."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:139
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:146
 #: src/widgets/mangohud/mangohud-extras-page.vala:152
 #: src/widgets/mangohud/mangohud-performance-page.vala:97
 #: src/widgets/mangohud/mangohud-performance-page.vala:111
@@ -2317,531 +2317,585 @@ msgstr ""
 msgid "None"
 msgstr "Žádné"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:142
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:149
 #: src/widgets/preferences/preferences-dialog.vala:271
 msgid "Gamescope"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:147
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:154
 #: src/widgets/preferences/preferences-dialog.vala:276
 msgid "ScopeBuddy"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:159
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:166
 #, fuzzy
 msgid "Launch tools"
 msgstr "Možnosti spuštění"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:160
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:167
 msgid ""
 "Choose one to configure FPS caps, resolution, and other display options."
 msgstr ""
 
 #. GPU vendor options
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:168
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:175
 msgid "Mesa Anti-Lag"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:168
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:175
 msgid "Reduces latency on supported AMD Mesa setups."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:169
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:176
 msgid "Use dGPU"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:169
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:176
 msgid "Makes the game use the AMD dGPU on hybrid systems."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:170
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:177
 msgid "Hide AMD APU"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:170
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:177
 msgid ""
 "Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
 "integrated graphics."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:171
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:178
 #, fuzzy
 msgid "FSR 4 Upgrade"
 msgstr "Aktualizovat %s"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:171
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:178
 msgid ""
 "Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD "
 "Anti-Lag 2 currently due to various issues."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:175
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:182
 msgid "FSR 4 RDNA3 Upgrade"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:175
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:182
 msgid "Optimizes FSR 4.0 for RDNA3 hardware."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:179
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:186
 msgid "Staging shared memory"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:179
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:186
 msgid ""
 "Enables shared memory support in the AMD GPU driver for better performance "
 "in some games."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:180
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:187
 msgid "Mesa GLThread"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:180
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:187
 msgid ""
 "Enables Mesa's GLThread optimization for better performance in some games."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:181
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:188
 msgid "Disable Mesa shader cache"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:181
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:188
 msgid "Disables Mesa's shader cache which can cause stuttering in some games."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:184
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:191
 msgid "NVAPI"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:184
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:191
 msgid "Lets games access NVIDIA-specific features like DLSS."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:187
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:194
 msgid "Update DLSS components"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:187
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:194
 msgid "Auto upgrades DLSS components for supported games."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:190
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:197
 msgid "Hide NVIDIA GPU"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:190
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:197
 msgid ""
 "Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
 "NVIDIA driver behavior."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:191
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:198
 msgid "DLSS Indicator"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:191
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:198
 msgid "Shows a DLSS status indicator in-game."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:192
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:199
 msgid "NVIDIA Libraries"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:192
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:199
 msgid ""
 "Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
 "or ray tracing."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:194
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:201
 #, fuzzy
 msgid "XeSS Upgrade"
 msgstr "Aktualizovat %s"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:194
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:201
 msgid "Upgrades XeSS in supported games."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:204
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:211
 msgid ""
 "Configure RADV debug options for troubleshooting and performance testing."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:205
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:212
 msgid ""
 "Configure RADV performance test options for testing experimental driver "
 "features. Use with caution as these features can cause instability or other "
 "issues."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:206
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:213
 msgid ""
 "Select which AMD Vulkan driver to use. This can be used to switch between "
 "RADV and AMD's official Vulkan driver on supported systems."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:218
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:225
 msgid "AMD"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:219
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:226
 msgid "NVIDIA"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:220
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:227
 msgid "Intel"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:230
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:237
 msgid "GPU vendor options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:231
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:238
 msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
 msgstr "Použít specifiké přepínače pro Grafické karty AMD, NVIDIA a Intel."
 
+#. DXVK options
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:245
+msgid "DXVK Async"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:245
+msgid ""
+"Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:246
+msgid "Disable DXVK logging"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:246
+msgid ""
+"Sets DXVK's log level to none which can improve performance in some games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:249
+#, fuzzy
+msgid "DXVK options"
+msgstr "Více informací"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:250
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:275
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:296
+msgid "Extra graphics settings and launch behaviors."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:259
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:41
+msgid "Configure Direct3D 12 to Vulkan translation behavior"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:263
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:26
+msgid "VKD3D Logging Level"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:266
+msgid "Enable VKD3D GPUVA"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:267
+msgid ""
+"Enables GPU Virtual Addressing. Aligns Vulkan memory management with native "
+"DX12 behavior to improve texture streaming and stability in open-world games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:271
+msgid "Enable VKD3D Shader Cache"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:271
+msgid ""
+"Enables VKD3D's internal shader caching mechanism to minimize in-game "
+"stutter."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:274
+#, fuzzy
+msgid "VKD3D options"
+msgstr "Více informací"
+
 #. More options
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:238
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:284
 msgid "VKBasalt"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:238
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:284
 msgid "Adds visual effects like sharpening and color adjustments."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:239
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:285
 msgid "WineD3D"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:239
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:285
 msgid ""
 "Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:240
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:286
 msgid "Use FSync"
 msgstr "Použít FSync"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:240
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:286
 msgid ""
 "Uses FSync instead of NTSync. Can fix issues in certain games that do not "
 "pair well with NTSync."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:241
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:287
 msgid "Local shader cache"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:241
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:287
 msgid ""
 "Enables per-game shader cache. This isolates the shader cache of each game "
 "but does not compile them ahead-of-time."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:242
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:288
 msgid "Prefer SDL controller"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:242
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:288
 msgid "Workaround for controller detection issues."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:243
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:289
 msgid "Disable Steam Input"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:243
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:289
 msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:244
-msgid "DXVK Async"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:244
-msgid ""
-"Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:245
-msgid "Disable DXVK logging"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:245
-msgid ""
-"Sets DXVK's log level to none which can improve performance in some games."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:246
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:290
 msgid "WINE_VK_USE_SYNC2"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:246
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:290
 msgid ""
 "Enables WINE_VK_USE_SYNC2 which can improve performance and reduce "
 "stuttering in some games when using WineD3D."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:247
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:291
 msgid "WINE_SYNC_USE_FUTEX_WAITV"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:247
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:291
 msgid ""
 "Enables WINE_SYNC_USE_FUTEX_WAITV which can improve performance and reduce "
 "stuttering in some games when using WineD3D."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:250
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:292
+msgid "Simulate Write-Copy Memory"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:292
+msgid ""
+"Forces Wine to simulate page-write protection, fixing initialization errors "
+"in certain older titles."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:295
 msgid "More options"
 msgstr "Více informací"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:251
-msgid "Extra graphics settings and launch behaviors."
-msgstr ""
-
 #. Proton options
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:266
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:310
 msgid "Higher priority for games"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:266
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:310
 msgid ""
 "Gives the game a higher CPU priority which can improve performance in some "
 "cases."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:267
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:311
 msgid "Use WoW64"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:267
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:311
 msgid ""
 "Enables WoW64 support for 32-bit games on 64-bit Proton builds. This can "
 "improve compatibility for some older games."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:268
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:312
 msgid "Allows 32-bit games to use more than 2GB of RAM"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:268
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:312
 msgid ""
 "Forces 32-bit games to use large address aware which can improve performance "
 "and stability."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:269
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:313
 msgid "Enable Proton logs"
 msgstr "Povolit logy z Protonu"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:269
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:313
 msgid ""
 "Enables logging for Proton which can help with troubleshooting game issues. "
 "Logs are saved in the game's compatibility data folder."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:276
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:320
 msgid "Proton options"
 msgstr "Nastavení Protonu"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:277
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:321
 msgid "Extra Proton settings and launch behaviors."
 msgstr ""
 
 #. Audio options
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:287
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:331
 msgid "PulseAudio low latency"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:287
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:331
 msgid ""
 "Enables low latency mode in PulseAudio which can reduce audio latency in "
 "some games (60, 90, 120)."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:287
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:331
 msgid "MSEC"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:292
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:336
 msgid "Audio options"
 msgstr "Nastavení audia"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:293
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:337
 #, fuzzy
 msgid "Audio-related launch options."
 msgstr "Upravit možnosti spouštění"
 
 #. Game arguments
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:299
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:343
 #, fuzzy
 msgid "Skip launcher"
 msgstr "Nepodporovaný spouštěč"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:299
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:343
 msgid "Adds -skip-launcher to bypass launchers in games that support it."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:300
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:344
 #: src/widgets/mangohud/mangohud-performance-page.vala:44
 msgid "Vulkan"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:300
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:344
 msgid "Adds -vulkan to make the game use its Vulkan renderer."
 msgstr "Přidá -vulkan pro použití Vulkan vykreslování."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:301
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:345
 msgid "DirectX 11"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:301
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:345
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
 msgstr "Přidá -dx11 pro použití DirectX 11 vykreslování."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:302
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:346
 msgid "DirectX 12"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:302
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:346
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
 msgstr "Přidá -dx12 pro použití DirectX 12 vykreslování."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:303
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:347
 msgid "Console"
 msgstr "Konzole"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:303
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:347
 msgid "Adds -console to open the game's developer console when supported."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:306
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:350
 msgid "Game arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:307
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:351
 msgid "Flags passed directly to the game."
 msgstr ""
 
 #. Advanced options
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:317
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:361
 msgid "Appends Steam's game command."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:320
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:364
 msgid "Additional arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:320
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:364
 #, fuzzy
 msgid "Add extra launch options"
 msgstr "Upravit možnosti spouštění"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:323
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:367
 msgid "Custom launch arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:323
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:367
 #, fuzzy
 msgid "Add your own launch options."
 msgstr "Upravit možnosti spouštění"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:328
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:372
 msgid "Advanced options"
 msgstr "Pokročilé nastavení"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:329
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:373
 msgid "Extra control over the final Steam launch command."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:512
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:547
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:558
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:593
 msgid "Fullscreen"
 msgstr "Celá obrazovka"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:512
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:547
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:558
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:593
 msgid "Runs the game in a fullscreen session."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:518
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:553
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:564
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:599
 msgid "VRR"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:518
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:553
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:564
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:599
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:521
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:556
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:567
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:602
 msgid "Frame limit"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:521
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:567
 msgid "Caps the frame rate inside Gamescope."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:521
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:556
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:567
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:602
 msgid "FPS"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:525
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:563
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:571
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:609
 #: src/widgets/mangohud/mangohud-extras-page.vala:69
 msgid "Resolution"
 msgstr "Rozlišení"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:525
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:571
 msgid "Sets the Gamescope output resolution."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:536
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:582
 msgid "Additional Gamescope arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:536
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:582
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:536
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:582
 msgid "Add Gamescope arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:550
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:596
 msgid "Auto HDR"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:556
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:602
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:563
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:609
 msgid "Sets the ScopeBuddy output resolution."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:568
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:614
 msgid "Additional ScopeBuddy arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:568
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:614
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:568
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:614
 msgid "Add ScopeBuddy arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:1113
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:1149
 msgid "No launch options configured yet."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala:11
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:11
 msgid "System Default"
 msgstr "Dle systému"
 
@@ -2872,6 +2926,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:36
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:23
 msgid "Disabled"
 msgstr ""
 
@@ -3053,6 +3108,7 @@ msgid "Apply low-level driver bugfixes and overrides"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:23
 msgid "Enabled"
 msgstr ""
 
@@ -3084,8 +3140,9 @@ msgid ""
 "Enables RT features on unsupported hardware at the cost of a drastic "
 "performance drop."
 msgstr ""
-"Emuluje hardwarový Ray Tracing pomocí softwarových výpočtů (Compute Shaders) na grafických kartách AMD. "
-"Zpřístupní RT funkce i na nepodporovaném hardwaru, ale za cenu drastického snížení výkonu (FPS)."
+"Emuluje hardwarový Ray Tracing pomocí softwarových výpočtů (Compute Shaders) "
+"na grafických kartách AMD. Zpřístupní RT funkce i na nepodporovaném "
+"hardwaru, ale za cenu drastického snížení výkonu (FPS)."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:23
 msgid "AMD RADV Performance Tests"
@@ -3125,6 +3182,103 @@ msgstr "Použít tuto modifikaci"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala:38
 msgid "Apply the FPS value"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:27
+msgid ""
+"Uses host-visible VRAM for staging buffers. Drastically reduces stuttering "
+"if Resizable BAR / SAM is enabled."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:28
+msgid ""
+"Disables host-visible VRAM staging buffers. Use as a compatibility fallback "
+"if experiencing memory-related crashes."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:29
+msgid ""
+"Exposes D3D12 Ray Tracing (DXR 1.1 and 1.0) capabilities to the game via "
+"Vulkan extensions."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:30
+msgid ""
+"Restricts Ray Tracing capabilities to DXR 1.0 only. Useful for older RT "
+"games that crash with DXR 1.1."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:31
+msgid ""
+"Forces Ray Tracing BVH acceleration structures to be built on the CPU "
+"instead of the GPU. Severe performance impact!"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:32
+msgid ""
+"Aggressively unifies memory allocators for textures and buffers to save a "
+"small amount of VRAM."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:33
+msgid ""
+"Enables advanced GPU Virtual Addressing to improve Direct3D 12 memory "
+"mapping in massive open-world games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:34
+msgid ""
+"Disables descriptor caches. Workaround for specific games suffering from "
+"memory leaks."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:35
+msgid ""
+"Forces the GPU to maintain stable clock rates. Intended for accurate "
+"benchmarking only."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:36
+msgid ""
+"Alters how root parameters are passed to compute shaders. Can fix specific "
+"rendering glitches."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:37
+msgid ""
+"Allows unaligned stencil buffer clears. Workaround for certain older "
+"Direct3D 12 renderers."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:40
+#, fuzzy
+msgid "VKD3D Proton Configurations"
+msgstr "Nastavení Protonu"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:42
+msgid "Enable VKD3D Option"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:43
+msgid "Test specific Direct3D 12 compatibility workarounds and optimizations"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:23
+msgid ""
+"Adjust how much debugging information VKD3D prints to the terminal. Setting "
+"to 'none' can slightly improve performance."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:27
+msgid "Configure the verbosity of Direct3D 12 translation logs"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:28
+msgid "Set Log Level"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:29
+msgid "Adjust how much debugging information VKD3D prints to the terminal"
 msgstr ""
 
 #: src/widgets/games/games-mass-edit-button.vala:10

@@ -56,6 +56,8 @@ src/widgets/games/launch-options-editor/launch-options-editor-resolution-choice.
 src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala
 src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala
 src/widgets/games/launch-options-editor/launch-options-editor-tile.vala
+src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala
+src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala
 src/widgets/games/games-mass-edit-button.vala
 src/widgets/games/games-mass-edit-view.vala
 src/widgets/games/games-profile-button.vala
