@@ -1,4 +1,5 @@
 sources += files(
+    'audio-options-group.vala',
     'base-options-group.vala',
     'common-options-group.vala',
     'dxvk-options-group.vala',

@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 using Adw;
 
-    class LaunchOptionSpinTile : ActionRow {
+    class LaunchOptionSpinTile : ActionRow, ILaunchOption {
         public Gtk.Switch toggle { get; private set; }
         public Gtk.Entry value_entry { get; private set; }
         public Gtk.Button apply_button { get; private set; }
@@ -10,9 +10,12 @@ using Adw;
         int lower_value;
         int upper_value;
         int committed_value;
+        public bool is_advanced { get; set; default = false; }
+        private string env_prefix;
 
-        public LaunchOptionSpinTile (string title, string subtitle, string value_label, double lower, double upper, int default_value) {
+        public LaunchOptionSpinTile (string title, string subtitle, string value_label, double lower, double upper, int default_value, string env_prefix) {
             Object (title: title, subtitle: subtitle);
+            this.env_prefix = env_prefix;
             subtitle_lines = 0;
 
             lower_value = (int) lower;
@@ -102,5 +105,38 @@ using Adw;
             var has_pending_value = get_pending_value (out pending_value);
             apply_button.set_sensitive (is_active && has_pending_value && pending_value != committed_value);
         }
+
+        public void clear () {
+            this.toggle.set_active (false);
+            this.set_value (this.committed_value);
+        }
+
+        public bool is_active () {
+            return this.toggle.get_active ();
+        }
+
+        public void parse_tokens (string[] tokens, bool[] consumed) {
+            for (int i = 0; i < tokens.length; i++) {
+                if (consumed[i]) continue;
+
+                if (tokens[i].has_prefix (this.env_prefix)) {
+                    string val_str = tokens[i].replace (this.env_prefix, "");
+                    int val_int;
+                    if (int.try_parse (val_str, out val_int)) {
+                        this.toggle.set_active (true);
+                        this.set_value (val_int);
+                        consumed[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void append_command_segments (Gee.LinkedList<string> segments) {
+            if (this.toggle.get_active ()) {
+                segments.add ("%s%d".printf (this.env_prefix, this.get_value_as_int ()));
+            }
+        }
+
     }
 }

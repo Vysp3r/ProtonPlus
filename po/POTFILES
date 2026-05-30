@@ -58,6 +58,13 @@ src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala
 src/widgets/games/launch-options-editor/launch-options-editor-tile.vala
 src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala
 src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala
+src/widgets/games/launch-options-editor/groups/audio-options-group.vala
+src/widgets/games/launch-options-editor/groups/base-options-group.vala
+src/widgets/games/launch-options-editor/groups/common-options-group.vala
+src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala
+src/widgets/games/launch-options-editor/groups/more-options-group.vala
+src/widgets/games/launch-options-editor/groups/proton-options-group.vala
+src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala
 src/widgets/games/games-mass-edit-button.vala
 src/widgets/games/games-mass-edit-view.vala
 src/widgets/games/games-profile-button.vala

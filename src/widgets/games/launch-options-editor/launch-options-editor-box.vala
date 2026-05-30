@@ -9,7 +9,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public signal void content_changed ();
 
         Groups.ProtonOptionsGroup proton_options_group { get; set; }
-        Adw.PreferencesGroup audio_group { get; set; }
+        Groups.AudioOptionsGroup audio_group { get; set; }
         Groups.MoreOptionsGroup more_options_group { get; set; }
         Adw.PreferencesGroup gpu_vendor_group { get; set; }
         Adw.PreferencesGroup game_arguments_group { get; set; }
@@ -225,16 +225,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             // Audio options
 
-            pulse_latency_tile = new LaunchOptionSpinTile (_ ("PulseAudio low latency"), _ ("Enables low latency mode in PulseAudio which can reduce audio latency in some games (60, 90, 120)."), _ ("MSEC"), 30, 360, 90);
-            pulse_latency_tile.toggle.notify["active"].connect (standard_control_changed);
-            pulse_latency_tile.value_applied.connect (standard_control_changed);
-
-            var audio_group = new Adw.PreferencesGroup ();
-            audio_group.title = _ ("Audio options");
-            audio_group.description = _ ("Audio-related launch options.");
-            audio_group.add (pulse_latency_tile);
-
+            audio_group = new Groups.AudioOptionsGroup (standard_control_changed, launch_option_handlers);
             append (audio_group);
+
             // Game arguments
 
             skip_launcher_tile = create_game_argument_tile (_ ("Skip launcher"), _ ("Adds -skip-launcher to bypass launchers in games that support it."), { "-skip-launcher" });
@@ -312,9 +305,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (hdr_tile.toggle.get_active ())
             return true;
 
-            foreach (var binding in common_bindings) {
-                if (binding.toggle.get_active ())
-                return true;
+            foreach (var handler in this.launch_option_handlers) {
+                if (handler.is_active()) {
+                    return true;
+                }
             }
 
             foreach (var binding in gpu_vendor_bindings) {
@@ -460,7 +454,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gamescope_vrr_tile = new LaunchOptionTile (_ ("VRR"), _ ("Matches your display's refresh rate to the game's FPS."));
             gamescope_vrr_tile.toggle.notify["active"].connect (standard_control_changed);
 
-            gamescope_framerate_tile = new LaunchOptionSpinTile (_ ("Frame limit"), _ ("Caps the frame rate inside Gamescope."), _ ("FPS"), 30, 360, 60);
+            gamescope_framerate_tile = new LaunchOptionSpinTile (_ ("Frame limit"), _ ("Caps the frame rate inside Gamescope."), _ ("FPS"), 30, 360, 60, "-r ");
             gamescope_framerate_tile.toggle.notify["active"].connect (standard_control_changed);
             gamescope_framerate_tile.value_applied.connect (standard_control_changed);
 
@@ -497,7 +491,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             scopebuddy_auto_vrr_tile = new LaunchOptionTile (_ ("VRR"), _ ("Matches your display's refresh rate to the game's FPS."));
             scopebuddy_auto_vrr_tile.toggle.notify["active"].connect (standard_control_changed);
 
-            scopebuddy_framerate_tile = new LaunchOptionSpinTile (_ ("Frame limit"), _ ("Caps the frame rate inside ScopeBuddy."), _ ("FPS"), 30, 360, 60);
+            scopebuddy_framerate_tile = new LaunchOptionSpinTile (_ ("Frame limit"), _ ("Caps the frame rate inside ScopeBuddy."), _ ("FPS"), 30, 360, 60, "-r ");
             scopebuddy_framerate_tile.toggle.notify["active"].connect (standard_control_changed);
             scopebuddy_framerate_tile.value_applied.connect (standard_control_changed);
 
