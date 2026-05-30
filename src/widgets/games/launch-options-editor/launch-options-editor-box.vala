@@ -416,15 +416,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 refresh_preview ();
         }
 
-        LaunchOptionTile create_common_tile (string title, string subtitle, string[] tokens) {
-            var tile = new LaunchOptionTile (title, subtitle);
-            tile.toggle.notify["active"].connect (standard_control_changed);
-
-            common_bindings.append (new LaunchOptionBinding (tokens, tile.toggle));
-
-            return tile;
-        }
-
         LaunchOptionTile create_gpu_vendor_tile (string title, string subtitle, string[] tokens) {
             var tile = new LaunchOptionTile (title, subtitle);
             tile.toggle.notify["active"].connect (standard_control_changed);
@@ -967,31 +958,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             markup.append ("</tt>");
 
             return markup.str;
-        }
-
-        void apply_bindings_from_tokens (List<LaunchOptionBinding> bindings, string[] tokens, bool[] consumed) {
-            foreach (var binding in bindings) {
-                var token_indexes = new Gee.LinkedList<int> ();
-                var all_tokens_present = true;
-
-                foreach (var token in binding.tokens) {
-                    var token_index = get_unconsumed_token_index (tokens, token, consumed);
-                    if (token_index < 0) {
-                        all_tokens_present = false;
-                        break;
-                    }
-
-                    token_indexes.add (token_index);
-                }
-
-                if (!all_tokens_present)
-                continue;
-
-                binding.toggle.set_active (true);
-                foreach (var token_index in token_indexes) {
-                    consumed[token_index] = true;
-                }
-            }
         }
 
         void parse_gamescope_tokens (string[] tokens, bool[] consumed) {
