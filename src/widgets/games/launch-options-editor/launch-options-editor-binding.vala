@@ -111,5 +111,9 @@ using Adw;
             }
             return -1;
         }
+
+        public bool is_active () {
+            return this.toggle.get_active ();
+        }
     }
 }
