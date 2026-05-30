@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-30 16:42+0200\n"
+"POT-Creation-Date: 2026-05-30 17:54+0200\n"
 "PO-Revision-Date: 2026-05-02 11:18+0800\n"
 "Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
 "Language-Team: Chinese <>\n"
@@ -2250,13 +2250,13 @@ msgstr "启动命令预览"
 
 #. Launch tools
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:96
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:466
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:451
 msgid "HDR"
 msgstr "HDR"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:96
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:466
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:503
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:451
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:488
 msgid "Outputs HDR colors if your display supports it."
 msgstr "输出 HDR 颜色（如果你的显示器支持）。"
 
@@ -2456,191 +2456,166 @@ msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
 msgstr "使用针对 AMD、NVIDIA 和 Intel 硬件的 GPU 特定兼容性开关。"
 
-#. Audio options
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:228
-msgid "PulseAudio low latency"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:228
-msgid ""
-"Enables low latency mode in PulseAudio which can reduce audio latency in "
-"some games (60, 90, 120)."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:228
-msgid "MSEC"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:233
-#, fuzzy
-msgid "Audio options"
-msgstr "更多选项"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:234
-#, fuzzy
-msgid "Audio-related launch options."
-msgstr "添加额外启动选项"
-
 #. Game arguments
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:240
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:233
 msgid "Skip launcher"
 msgstr "跳过启动器"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:240
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:233
 msgid "Adds -skip-launcher to bypass launchers in games that support it."
 msgstr "添加 -skip-launcher 参数，用于在支持该参数的游戏中跳过启动器。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:241
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:234
 #: src/widgets/mangohud/mangohud-performance-page.vala:44
 msgid "Vulkan"
 msgstr "Vulkan"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:241
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:234
 msgid "Adds -vulkan to make the game use its Vulkan renderer."
 msgstr "添加 -vulkan 参数以使游戏使用 Vulkan 渲染器"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:242
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:235
 msgid "DirectX 11"
 msgstr "DirectX 11"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:242
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:235
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
 msgstr "添加 -dx11 参数以使游戏使用 DirectX 11 渲染器"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:243
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:236
 msgid "DirectX 12"
 msgstr "DirectX 12"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:243
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:236
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
 msgstr "添加 -dx12 参数以使游戏使用 DirectX 12 渲染器"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:244
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:237
 msgid "Console"
 msgstr "控制台"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:244
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:237
 msgid "Adds -console to open the game's developer console when supported."
 msgstr "添加 -console 参数，以便打开支持的游戏的开发者控制台。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:247
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:240
 msgid "Game arguments"
 msgstr "游戏参数"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:248
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:241
 msgid "Flags passed directly to the game."
 msgstr "直接传递给游戏的参数。"
 
 #. Advanced options
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:258
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:251
 msgid "Appends Steam's game command."
 msgstr "这会追加到 Steam 的游戏命令。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:261
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:254
 msgid "Additional arguments"
 msgstr "附加参数"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:261
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:254
 msgid "Add extra launch options"
 msgstr "添加额外启动选项"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:264
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:257
 msgid "Custom launch arguments"
 msgstr "自定义启动参数"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:264
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:257
 msgid "Add your own launch options."
 msgstr "添加你自己的启动选项。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:269
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:262
 msgid "Advanced options"
 msgstr "高级选项"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:270
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:263
 msgid "Extra control over the final Steam launch command."
 msgstr "额外控制最终的Steam启动命令。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:463
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:500
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:448
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:485
 msgid "Fullscreen"
 msgstr "全屏模式"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:463
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:500
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:448
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:485
 msgid "Runs the game in a fullscreen session."
 msgstr "以全屏模式运行游戏。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:469
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:506
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:454
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:491
 msgid "VRR"
 msgstr "垂直同步"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:469
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:506
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:454
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:491
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr "将显示器的刷新率与游戏的帧率相匹配。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:472
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:509
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:457
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:494
 msgid "Frame limit"
 msgstr "帧率限制"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:472
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:457
 msgid "Caps the frame rate inside Gamescope."
 msgstr "在 Gamescope 中限制帧速率。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:472
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:509
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:457
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:494
 msgid "FPS"
 msgstr "FPS"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:476
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:516
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:461
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:501
 #: src/widgets/mangohud/mangohud-extras-page.vala:69
 msgid "Resolution"
 msgstr "分辨率"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:476
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:461
 msgid "Sets the Gamescope output resolution."
 msgstr "设置 Gamescope 的输出分辨率。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:489
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:474
 msgid "Additional Gamescope arguments"
 msgstr "附加 Gamescope 参数"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:489
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:474
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr "保留额外的 Gamescope 参数，例如输出或分辨率调整。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:489
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:474
 msgid "Add Gamescope arguments"
 msgstr "添加 Gamescope 参数"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:503
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:488
 msgid "Auto HDR"
 msgstr "自动 HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:509
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:494
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr "在 ScopeBuddy 中限制帧速率。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:516
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:501
 msgid "Sets the ScopeBuddy output resolution."
 msgstr "设置 ScopeBuddy 的输出分辨率。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:522
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:507
 msgid "Additional ScopeBuddy arguments"
 msgstr "附加 ScopeBuddy 参数"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:522
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:507
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr "保留额外的 ScopeBuddy 参数，例如首选输出选择。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:522
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:507
 msgid "Add ScopeBuddy arguments"
 msgstr "添加 ScopeBuddy 参数"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:946
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:931
 msgid "No launch options configured yet."
 msgstr "目前还没配置启动选项。"
 
@@ -2921,7 +2896,7 @@ msgid "Custom"
 msgstr "自定义"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:65
-#: src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala:37
+#: src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala:40
 msgid "Set"
 msgstr "设置"
 
@@ -2929,7 +2904,7 @@ msgstr "设置"
 msgid "Apply the custom resolution"
 msgstr "应用自定义分辨率"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala:38
+#: src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala:41
 msgid "Apply the FPS value"
 msgstr "应用 FPS 值"
 
@@ -3005,6 +2980,7 @@ msgid "VKD3D Proton Configurations"
 msgstr "常用选项"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:41
+#: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:20
 msgid "Configure Direct3D 12 to Vulkan translation behavior"
 msgstr ""
 
@@ -3017,11 +2993,267 @@ msgid "Test specific Direct3D 12 compatibility workarounds and optimizations"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:21
+#: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:26
 msgid "VKD3D Logging Level"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:22
 msgid "Adjust how much debugging information VKD3D prints to the terminal."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:11
+#, fuzzy
+msgid "Audio options"
+msgstr "更多选项"
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:12
+#, fuzzy
+msgid "Audio-related launch options."
+msgstr "添加额外启动选项"
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:15
+msgid "PulseAudio low latency"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:16
+msgid ""
+"Enables low latency mode in PulseAudio which can reduce audio latency in "
+"some games (60, 90, 120)."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:17
+msgid "MSEC"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:12
+msgid "Common options"
+msgstr "常用选项"
+
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:13
+msgid "Quick toggles for the launch options people reach for most often."
+msgstr "最常用启动选项的快捷切换开关。"
+
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:16
+msgid "Performance overlay"
+msgstr "性能叠加层"
+
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:17
+msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
+msgstr "在游戏内显示帧率、CPU/GPU 使用率和温度等信息。"
+
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:28
+msgid "Disable Steam Deck Mode"
+msgstr "禁用 Steam Deck 模式"
+
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:29
+msgid "Disables the Steam Deck-specific profile that some games use."
+msgstr "禁用某些游戏使用的 Steam Deck 特定配置文件。"
+
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:34
+msgid "Wayland"
+msgstr "Wayland 原生支持"
+
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:35
+msgid ""
+"Runs the game natively on Wayland instead of through XWayland but it breaks "
+"Steam Input and the Steam Overlay."
+msgstr ""
+"游戏在 Wayland 上原生运行，而不是通过 XWayland 运行，但这会破坏 Steam 输入和 "
+"Steam 界面。"
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:11
+#, fuzzy
+msgid "DXVK options"
+msgstr "更多选项"
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:12
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:20
+#: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:14
+msgid "Extra graphics settings and launch behaviors."
+msgstr "额外的图形设置和启动行为。"
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:15
+msgid "DXVK Async"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:16
+msgid ""
+"Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:21
+msgid "Disable DXVK logging"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:22
+msgid ""
+"Sets DXVK's log level to none which can improve performance in some games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:19
+msgid "More options"
+msgstr "更多选项"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:22
+msgid "VKBasalt"
+msgstr "VKBasalt"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:22
+msgid "Adds visual effects like sharpening and color adjustments."
+msgstr "添加锐化和色彩调整等视觉效果。"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:23
+msgid "WineD3D"
+msgstr "WineD3D"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:23
+msgid ""
+"Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
+msgstr "使用 OpenGL 而非 Vulkan。仅当 DXVK 出现问题时才启用。"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:24
+msgid "Use FSync"
+msgstr "使用 FSync"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:24
+msgid ""
+"Uses FSync instead of NTSync. Can fix issues in certain games that do not "
+"pair well with NTSync."
+msgstr ""
+"使用 FSync 而非 NTSync。可以修复某些与 NTSync 兼容性不佳的游戏出现的问题。"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:25
+msgid "Local shader cache"
+msgstr "局部着色器缓存"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:25
+msgid ""
+"Enables per-game shader cache. This isolates the shader cache of each game "
+"but does not compile them ahead-of-time."
+msgstr ""
+"启用游戏级着色器缓存。这会隔离每个游戏的着色器缓存，但不会预先编译它们。"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:26
+msgid "Prefer SDL controller"
+msgstr "SDL 控制器偏好"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:26
+msgid "Workaround for controller detection issues."
+msgstr "解决控制器检测问题的变通方案。"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:27
+msgid "Disable Steam Input"
+msgstr "禁用 Steam Input"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:27
+msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
+msgstr "禁用 Steam Input 支持。修复 Wayland 控制器/游戏手柄问题。"
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:28
+msgid "WINE_VK_USE_SYNC2"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:28
+msgid ""
+"Enables WINE_VK_USE_SYNC2 which can improve performance and reduce "
+"stuttering in some games when using WineD3D."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:29
+msgid "WINE_SYNC_USE_FUTEX_WAITV"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:29
+msgid ""
+"Enables WINE_SYNC_USE_FUTEX_WAITV which can improve performance and reduce "
+"stuttering in some games when using WineD3D."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:30
+msgid "Simulate Write-Copy Memory"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/more-options-group.vala:30
+msgid ""
+"Forces Wine to simulate page-write protection, fixing initialization errors "
+"in certain older titles."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:15
+#, fuzzy
+msgid "Proton options"
+msgstr "常用选项"
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:16
+#, fuzzy
+msgid "Extra Proton settings and launch behaviors."
+msgstr "额外的图形设置和启动行为。"
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:18
+msgid "Higher priority for games"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:18
+msgid ""
+"Gives the game a higher CPU priority which can improve performance in some "
+"cases."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:19
+msgid "Use WoW64"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:19
+msgid ""
+"Enables WoW64 support for 32-bit games on 64-bit Proton builds. This can "
+"improve compatibility for some older games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:20
+msgid "Allows 32-bit games to use more than 2GB of RAM"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:20
+msgid ""
+"Forces 32-bit games to use large address aware which can improve performance "
+"and stability."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:21
+msgid "Enable Proton logs"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:21
+msgid ""
+"Enables logging for Proton which can help with troubleshooting game issues. "
+"Logs are saved in the game's compatibility data folder."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:13
+#, fuzzy
+msgid "VKD3D options"
+msgstr "更多选项"
+
+#: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:29
+#, fuzzy
+msgid "Enable VKD3D GPUVA"
+msgstr "局部着色器缓存"
+
+#: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:30
+msgid ""
+"Enables GPU Virtual Addressing. Aligns Vulkan memory management with native "
+"DX12 behavior to improve texture streaming and stability in open-world games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:35
+#, fuzzy
+msgid "Enable VKD3D Shader Cache"
+msgstr "局部着色器缓存"
+
+#: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:36
+msgid ""
+"Enables VKD3D's internal shader caching mechanism to minimize in-game "
+"stutter."
 msgstr ""
 
 #: src/widgets/games/games-mass-edit-button.vala:10
@@ -4437,104 +4669,6 @@ msgstr ""
 #: src/widgets/window.vala:104
 msgid "Exit"
 msgstr "退出"
-
-#~ msgid "Performance overlay"
-#~ msgstr "性能叠加层"
-
-#~ msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
-#~ msgstr "在游戏内显示帧率、CPU/GPU 使用率和温度等信息。"
-
-#~ msgid "Disable Steam Deck Mode"
-#~ msgstr "禁用 Steam Deck 模式"
-
-#~ msgid "Disables the Steam Deck-specific profile that some games use."
-#~ msgstr "禁用某些游戏使用的 Steam Deck 特定配置文件。"
-
-#~ msgid "Wayland"
-#~ msgstr "Wayland 原生支持"
-
-#~ msgid ""
-#~ "Runs the game natively on Wayland instead of through XWayland but it "
-#~ "breaks Steam Input and the Steam Overlay."
-#~ msgstr ""
-#~ "游戏在 Wayland 上原生运行，而不是通过 XWayland 运行，但这会破坏 Steam 输入"
-#~ "和 Steam 界面。"
-
-#~ msgid "Common options"
-#~ msgstr "常用选项"
-
-#~ msgid "Quick toggles for the launch options people reach for most often."
-#~ msgstr "最常用启动选项的快捷切换开关。"
-
-#, fuzzy
-#~ msgid "DXVK options"
-#~ msgstr "更多选项"
-
-#~ msgid "Extra graphics settings and launch behaviors."
-#~ msgstr "额外的图形设置和启动行为。"
-
-#, fuzzy
-#~ msgid "Enable VKD3D Shader Cache"
-#~ msgstr "局部着色器缓存"
-
-#, fuzzy
-#~ msgid "VKD3D options"
-#~ msgstr "更多选项"
-
-#~ msgid "VKBasalt"
-#~ msgstr "VKBasalt"
-
-#~ msgid "Adds visual effects like sharpening and color adjustments."
-#~ msgstr "添加锐化和色彩调整等视觉效果。"
-
-#~ msgid "WineD3D"
-#~ msgstr "WineD3D"
-
-#~ msgid ""
-#~ "Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."
-#~ msgstr "使用 OpenGL 而非 Vulkan。仅当 DXVK 出现问题时才启用。"
-
-#~ msgid "Use FSync"
-#~ msgstr "使用 FSync"
-
-#~ msgid ""
-#~ "Uses FSync instead of NTSync. Can fix issues in certain games that do not "
-#~ "pair well with NTSync."
-#~ msgstr ""
-#~ "使用 FSync 而非 NTSync。可以修复某些与 NTSync 兼容性不佳的游戏出现的问题。"
-
-#~ msgid "Local shader cache"
-#~ msgstr "局部着色器缓存"
-
-#~ msgid ""
-#~ "Enables per-game shader cache. This isolates the shader cache of each "
-#~ "game but does not compile them ahead-of-time."
-#~ msgstr ""
-#~ "启用游戏级着色器缓存。这会隔离每个游戏的着色器缓存，但不会预先编译它们。"
-
-#~ msgid "Prefer SDL controller"
-#~ msgstr "SDL 控制器偏好"
-
-#~ msgid "Workaround for controller detection issues."
-#~ msgstr "解决控制器检测问题的变通方案。"
-
-#~ msgid "Disable Steam Input"
-#~ msgstr "禁用 Steam Input"
-
-#~ msgid ""
-#~ "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
-#~ msgstr "禁用 Steam Input 支持。修复 Wayland 控制器/游戏手柄问题。"
-
-#~ msgid "More options"
-#~ msgstr "更多选项"
-
-#, fuzzy
-#~ msgid "Proton options"
-#~ msgstr "常用选项"
-
-#, fuzzy
-#~ msgid "Extra Proton settings and launch behaviors."
-#~ msgstr "额外的图形设置和启动行为。"
 
 #~ msgid "Please report this issue on GitHub."
 #~ msgstr "请在 GitHub 上报告此问题。"
