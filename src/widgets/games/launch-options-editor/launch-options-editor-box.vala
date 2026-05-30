@@ -60,7 +60,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionRadvDebug radv_debug_editor { get; set; }
         Groups.DxvkOptionsGroup dxvk_options_group { get; set; }
         Groups.Vkd3dOptionsGroup vkd3d_options_group;
-        List<LaunchOptionBinding> common_bindings;
         List<LaunchOptionBinding> gpu_vendor_bindings;
         List<LaunchOptionBinding> game_argument_bindings;
         List<LaunchOptionBinding> scopebuddy_bindings;
@@ -70,7 +69,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         bool can_auto_enable_command;
 
         construct {
-            common_bindings = new List<LaunchOptionBinding> ();
             gpu_vendor_bindings = new List<LaunchOptionBinding> ();
             game_argument_bindings = new List<LaunchOptionBinding> ();
             scopebuddy_bindings = new List<LaunchOptionBinding> ();
@@ -267,9 +265,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (advanced_options_group);
 
 
-            foreach (var binding in common_bindings) {
-                launch_option_handlers.append (binding);
-            }
             foreach (var binding in gpu_vendor_bindings) {
                 launch_option_handlers.append (binding);
             }
