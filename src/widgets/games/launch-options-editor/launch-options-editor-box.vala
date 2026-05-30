@@ -385,6 +385,20 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             advanced_options_group.add (additional_args_field);
             append (advanced_options_group);
 
+
+            foreach (var binding in common_bindings) {
+                launch_option_handlers.append (binding);
+            }
+            foreach (var binding in gpu_vendor_bindings) {
+                launch_option_handlers.append (binding);
+            }
+            foreach (var binding in game_argument_bindings) {
+                launch_option_handlers.append (binding);
+            }
+            foreach (var binding in scopebuddy_bindings) {
+                launch_option_handlers.append (binding);
+            }
+
             set_selected_wrapper_mode (WrapperMode.NONE);
             refresh_advanced_visibility ();
             refreshing_controls = false;
@@ -479,8 +493,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             refreshing_controls = true;
 
             reset_controls ();
-            apply_bindings_from_tokens (common_bindings, tokens, consumed);
-            apply_bindings_from_tokens (gpu_vendor_bindings, tokens, consumed);
 
             foreach (var editor in launch_option_handlers) {
                 editor.parse_tokens (tokens, consumed);
@@ -630,22 +642,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void reset_controls () {
-            foreach (var binding in common_bindings) {
-                binding.toggle.set_active (false);
-            }
-
-            foreach (var binding in gpu_vendor_bindings) {
-                binding.toggle.set_active (false);
-            }
-
-            foreach (var binding in game_argument_bindings) {
-                binding.toggle.set_active (false);
-            }
-
-            foreach (var binding in scopebuddy_bindings) {
-                binding.toggle.set_active (false);
-            }
-
             gamescope_fullscreen_tile.toggle.set_active (false);
             gamescope_hdr_tile.toggle.set_active (false);
             gamescope_vrr_tile.toggle.set_active (false);
@@ -828,18 +824,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         bool has_structured_content () {
-            foreach (var binding in common_bindings) {
-                if (binding.toggle.get_active ())
+            var segments = get_command_segments ();
+            if (segments.size > 0) {
                 return true;
             }
-
-            foreach (var binding in gpu_vendor_bindings) {
-                if (binding.toggle.get_active ())
-                return true;
-            }
-
-            if (has_active_binding (game_argument_bindings))
-            return true;
 
             if (additional_args_tile.toggle.get_active () && additional_args_field.get_text () != "")
             return true;
@@ -861,9 +849,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Gee.LinkedList<string> get_command_segments () {
             var segments = new Gee.LinkedList<string> ();
             var selected_wrapper_mode = get_selected_wrapper_mode ();
-
-            append_binding_segments (segments, common_bindings);
-            append_binding_segments (segments, gpu_vendor_bindings);
 
             foreach (var editor in launch_option_handlers) {
                 editor.append_command_segments (segments);
@@ -902,7 +887,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     append_segments_from_text (segments, gamescope_args_field.get_text ());
                     break;
                 case WrapperMode.SCOPEBUDDY:
-                    append_binding_segments (segments, scopebuddy_bindings);
 
                     if (scopebuddy_resolution_field.is_auto ())
                     segments.add ("SCB_AUTO_RES=1");
@@ -934,22 +918,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 segments.add ("-- %command%");
                 else
                 segments.add ("%command%");
-
-                append_binding_segments (segments, game_argument_bindings);
             }
 
             return segments;
-        }
-
-        void append_binding_segments (Gee.LinkedList<string> segments, List<LaunchOptionBinding> bindings) {
-            foreach (var binding in bindings) {
-                if (!binding.toggle.get_active ())
-                continue;
-
-                foreach (var token in binding.tokens) {
-                    segments.add (token);
-                }
-            }
         }
 
         void append_segments_from_text (Gee.LinkedList<string> segments, string launch_options) {
