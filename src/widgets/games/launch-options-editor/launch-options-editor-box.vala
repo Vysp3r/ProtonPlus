@@ -8,18 +8,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     public class Box : Gtk.Box {
         public signal void content_changed ();
 
-        Adw.PreferencesGroup proton_options_group { get; set; }
+        Groups.ProtonOptionsGroup proton_options_group { get; set; }
         Adw.PreferencesGroup audio_group { get; set; }
-        Adw.PreferencesGroup more_options_group { get; set; }
+        Groups.MoreOptionsGroup more_options_group { get; set; }
         Adw.PreferencesGroup gpu_vendor_group { get; set; }
         Adw.PreferencesGroup game_arguments_group { get; set; }
         Adw.PreferencesGroup advanced_options_group { get; set; }
-        LaunchOptionTile mangohud_tile { get; set; }
-        LaunchOptionTile steam_deck_tile { get; set; }
         LaunchOptionTile hdr_tile { get; set; }
-        LaunchOptionTile wayland_tile { get; set; }
-        LaunchOptionTile vkbasalt_tile { get; set; }
-        LaunchOptionTile wined3d_tile { get; set; }
         LaunchOptionTile amd_fsr4_upgrade_tile { get; set; }
         LaunchOptionTile amd_fsr4_rdna3_upgrade_tile { get; set; }
         LaunchOptionTile amd_anti_lag_tile { get; set; }
@@ -34,19 +29,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionTile dlss_indicator_tile { get; set; }
         LaunchOptionTile nvidia_libs_tile { get; set; }
         LaunchOptionTile intel_xess_upgrade_tile { get; set; }
-        LaunchOptionTile prefer_sdl_tile { get; set; }
-        LaunchOptionTile no_steaminput_tile { get; set; }
-        LaunchOptionTile ntsync_tile { get; set; }
-        LaunchOptionTile dxvk_async_tile { get; set; }
-        LaunchOptionTile dxvk_log_level_none_tile { get; set; }
-        LaunchOptionTile wine_vk_use_sync2_tile { get; set; }
-        LaunchOptionTile wine_sync_use_futex_waitv_tile { get; set; }
-        LaunchOptionTile proton_priority_high_tile { get; set; }
-        LaunchOptionTile proton_use_wow64_tile { get; set; }
-        LaunchOptionTile proton_force_large_address_aware_tile { get; set; }
-        LaunchOptionTile proton_logs_tile { get; set; }
         LaunchOptionSpinTile pulse_latency_tile { get; set; }
-        LaunchOptionTile local_shader_cache_tile { get; set; }
         LaunchOptionEntryField additional_args_field { get; set; }
         LaunchOptionTile additional_args_tile { get; set; }
         LaunchOptionTile command_tile { get; set; }
@@ -72,14 +55,16 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionSpinTile scopebuddy_framerate_tile { get; set; }
         LaunchOptionResolutionField scopebuddy_resolution_field { get; set; }
         LaunchOptionEntryField scopebuddy_args_field { get; set; }
-        LaunchOptionDllOverrides dll_overrides_pair_editor { get; set; }
         LaunchOptionAmdIcd amd_icd_editor { get; set; }
         LaunchOptionRadvPerftest radv_perf_editor { get; set; }
         LaunchOptionRadvDebug radv_debug_editor { get; set; }
+        Groups.DxvkOptionsGroup dxvk_options_group { get; set; }
+        Groups.Vkd3dOptionsGroup vkd3d_options_group;
         List<LaunchOptionBinding> common_bindings;
         List<LaunchOptionBinding> gpu_vendor_bindings;
         List<LaunchOptionBinding> game_argument_bindings;
         List<LaunchOptionBinding> scopebuddy_bindings;
+        List<ILaunchOption> launch_option_handlers;
         bool advanced_visible;
         bool refreshing_controls;
         bool can_auto_enable_command;
@@ -89,6 +74,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gpu_vendor_bindings = new List<LaunchOptionBinding> ();
             game_argument_bindings = new List<LaunchOptionBinding> ();
             scopebuddy_bindings = new List<LaunchOptionBinding> ();
+            launch_option_handlers = new List<ILaunchOption> ();
             advanced_visible = false;
             can_auto_enable_command = true;
             refreshing_controls = true;
@@ -102,24 +88,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (preview_field);
 
         // Common options
-
-            mangohud_tile = create_common_tile (_ ("Performance overlay"), _ ("Shows an in-game overlay with FPS, CPU/GPU usage, and temps."), { "mangohud" });
-
-            if (Globals.MANGOHUD_INSTALLED) {
-                Globals.SETTINGS.bind ("experimental-features", mangohud_tile, "visible", SettingsBindFlags.DEFAULT);
-            } else {
-                mangohud_tile.visible = false;
-            }
-
-            steam_deck_tile = create_common_tile (_ ("Disable Steam Deck Mode"), _ ("Disables the Steam Deck-specific profile that some games use."), { "SteamDeck=0" });
-            wayland_tile = create_common_tile (_ ("Wayland"), _ ("Runs the game natively on Wayland instead of through XWayland but it breaks Steam Input and the Steam Overlay."), { "PROTON_ENABLE_WAYLAND=1" });
-
-            var common_group = new Adw.PreferencesGroup ();
-            common_group.title = _ ("Common options");
-            common_group.description = _ ("Quick toggles for the launch options people reach for most often.");
-            common_group.add (mangohud_tile);
-            common_group.add (steam_deck_tile);
-            common_group.add (wayland_tile);
+            var common_group = new Groups.CommonOptionsGroup (standard_control_changed, launch_option_handlers);
             append (common_group);
 
             // Launch tools
@@ -197,6 +166,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             radv_debug_editor = new LaunchOptionRadvDebug ();
             radv_perf_editor = new LaunchOptionRadvPerftest ();
             amd_icd_editor = new LaunchOptionAmdIcd ();
+            launch_option_handlers.append (radv_debug_editor);
+            launch_option_handlers.append (radv_perf_editor);
+            launch_option_handlers.append (amd_icd_editor);
 
             radv_debug_editor.changed.connect (standard_control_changed);
             radv_perf_editor.changed.connect (standard_control_changed);
@@ -233,53 +205,22 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gpu_vendor_group.add (gpu_vendor_stack);
             append (gpu_vendor_group);
 
+            //  DXVK options
+            dxvk_options_group = new Groups.DxvkOptionsGroup (standard_control_changed, launch_option_handlers);
+            append (dxvk_options_group);
+
+            //  VKD3D options
+            vkd3d_options_group = new Groups.Vkd3dOptionsGroup (standard_control_changed, launch_option_handlers);
+            append (vkd3d_options_group);
+
             // More options
 
-            vkbasalt_tile = create_common_tile (_ ("VKBasalt"), _ ("Adds visual effects like sharpening and color adjustments."), { "ENABLE_VKBASALT=1" });
-            wined3d_tile = create_common_tile (_ ("WineD3D"), _ ("Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."), { "PROTON_USE_WINED3D=1" });
-            ntsync_tile = create_common_tile (_ ("Use FSync"), _ ("Uses FSync instead of NTSync. Can fix issues in certain games that do not pair well with NTSync."), { "PROTON_USE_NTSYNC=0" });
-            local_shader_cache_tile = create_common_tile (_ ("Local shader cache"), _ ("Enables per-game shader cache. This isolates the shader cache of each game but does not compile them ahead-of-time."), { "PROTON_LOCAL_SHADER_CACHE=1" });
-            prefer_sdl_tile = create_common_tile (_ ("Prefer SDL controller"), _ ("Workaround for controller detection issues."), { "PROTON_PREFER_SDL=1" });
-            no_steaminput_tile = create_common_tile (_ ("Disable Steam Input"), _ ("Disables Steam Input support. Fixes Wayland controller/gamepad issues."), { "PROTON_NO_STEAMINPUT=1" });
-            dxvk_async_tile = create_common_tile (_ ("DXVK Async"), _ ("Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."), { "DXVK_ASYNC=1" });
-            dxvk_log_level_none_tile = create_common_tile (_ ("Disable DXVK logging"), _ ("Sets DXVK's log level to none which can improve performance in some games."), { "DXVK_LOG_LEVEL=none" });
-            wine_vk_use_sync2_tile = create_common_tile (_ ("WINE_VK_USE_SYNC2"), _ ("Enables WINE_VK_USE_SYNC2 which can improve performance and reduce stuttering in some games when using WineD3D."), { "WINE_VK_USE_SYNC2=1" });
-            wine_sync_use_futex_waitv_tile = create_common_tile (_ ("WINE_SYNC_USE_FUTEX_WAITV"), _ ("Enables WINE_SYNC_USE_FUTEX_WAITV which can improve performance and reduce stuttering in some games when using WineD3D."), { "WINE_SYNC_USE_FUTEX_WAITV=1" });
-
-            more_options_group = new Adw.PreferencesGroup ();
-            more_options_group.title = _ ("More options");
-            more_options_group.description = _ ("Extra graphics settings and launch behaviors.");
-            more_options_group.add (vkbasalt_tile);
-            more_options_group.add (wined3d_tile);
-            more_options_group.add (ntsync_tile);
-            more_options_group.add (local_shader_cache_tile);
-            more_options_group.add (prefer_sdl_tile);
-            more_options_group.add (no_steaminput_tile);
-            more_options_group.add (dxvk_async_tile);
-            more_options_group.add (dxvk_log_level_none_tile);
-            more_options_group.add (wine_vk_use_sync2_tile);
-            more_options_group.add (wine_sync_use_futex_waitv_tile);
+            more_options_group = new Groups.MoreOptionsGroup (standard_control_changed, launch_option_handlers);
             append (more_options_group);
 
             // Proton options
 
-            proton_priority_high_tile = create_common_tile (_ ("Higher priority for games"), _ ("Gives the game a higher CPU priority which can improve performance in some cases."), { "PROTON_PRIORITY_HIGH=1" });
-            proton_use_wow64_tile = create_common_tile (_ ("Use WoW64"), _ ("Enables WoW64 support for 32-bit games on 64-bit Proton builds. This can improve compatibility for some older games."), { "PROTON_USE_WOW64=1" });
-            proton_force_large_address_aware_tile = create_common_tile (_ ("Allows 32-bit games to use more than 2GB of RAM"), _ ("Forces 32-bit games to use large address aware which can improve performance and stability."), { "PROTON_FORCE_LARGE_ADDRESS_AWARE=1" });
-            proton_logs_tile = create_common_tile (_ ("Enable Proton logs"), _ ("Enables logging for Proton which can help with troubleshooting game issues. Logs are saved in the game's compatibility data folder."), { "PROTON_LOG=1" });
-
-            // DLL overrides
-            dll_overrides_pair_editor = new LaunchOptionDllOverrides ();
-            dll_overrides_pair_editor.changed.connect (standard_control_changed);
-
-            proton_options_group = new Adw.PreferencesGroup ();
-            proton_options_group.title = _ ("Proton options");
-            proton_options_group.description = _ ("Extra Proton settings and launch behaviors.");
-            proton_options_group.add (proton_priority_high_tile);
-            proton_options_group.add (proton_use_wow64_tile);
-            proton_options_group.add (proton_force_large_address_aware_tile);
-            proton_options_group.add (proton_logs_tile);
-            proton_options_group.add (dll_overrides_pair_editor);
+            proton_options_group = new Groups.ProtonOptionsGroup (standard_control_changed, launch_option_handlers);
             append (proton_options_group);
 
             // Audio options
@@ -331,6 +272,20 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             advanced_options_group.add (additional_args_tile);
             advanced_options_group.add (additional_args_field);
             append (advanced_options_group);
+
+
+            foreach (var binding in common_bindings) {
+                launch_option_handlers.append (binding);
+            }
+            foreach (var binding in gpu_vendor_bindings) {
+                launch_option_handlers.append (binding);
+            }
+            foreach (var binding in game_argument_bindings) {
+                launch_option_handlers.append (binding);
+            }
+            foreach (var binding in scopebuddy_bindings) {
+                launch_option_handlers.append (binding);
+            }
 
             set_selected_wrapper_mode (WrapperMode.NONE);
             refresh_advanced_visibility ();
@@ -426,14 +381,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             refreshing_controls = true;
 
             reset_controls ();
-            apply_bindings_from_tokens (common_bindings, tokens, consumed);
-            apply_bindings_from_tokens (gpu_vendor_bindings, tokens, consumed);
 
-            apply_amd_icd_bindings_from_tokens (tokens, consumed);
-            apply_radv_debug_bindings_from_tokens (tokens, consumed);
-            apply_radv_perf_bindings_from_tokens (tokens, consumed);
-
-            apply_dll_override_bindings_from_tokens (tokens, consumed);
+            foreach (var editor in launch_option_handlers) {
+                editor.parse_tokens (tokens, consumed);
+            }
 
             if (selected_wrapper_mode == WrapperMode.NONE)
             parse_none_tokens (tokens, consumed);
@@ -463,15 +414,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 refreshing_controls = false;
                 maybe_auto_enable_command ();
                 refresh_preview ();
-        }
-
-        LaunchOptionTile create_common_tile (string title, string subtitle, string[] tokens) {
-            var tile = new LaunchOptionTile (title, subtitle);
-            tile.toggle.notify["active"].connect (standard_control_changed);
-
-            common_bindings.append (new LaunchOptionBinding (tokens, tile.toggle));
-
-            return tile;
         }
 
         LaunchOptionTile create_gpu_vendor_tile (string title, string subtitle, string[] tokens) {
@@ -522,10 +464,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gamescope_framerate_tile.toggle.notify["active"].connect (standard_control_changed);
             gamescope_framerate_tile.value_applied.connect (standard_control_changed);
 
-            gamescope_resolution_field = new LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the Gamescope output resolution."));
+            gamescope_resolution_field = new LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the Gamescope output resolution."), false, false);
             gamescope_resolution_field.toggle.notify["active"].connect (standard_control_changed);
             gamescope_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
             gamescope_resolution_field.value_applied.connect (standard_control_changed);
+
+            launch_option_handlers.append (gamescope_resolution_field);
 
             group.add (gamescope_fullscreen_tile);
             group.add (gamescope_hdr_tile);
@@ -560,10 +504,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             scopebuddy_bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_HDR=1" }, scopebuddy_auto_hdr_tile.toggle));
             scopebuddy_bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_VRR=1" }, scopebuddy_auto_vrr_tile.toggle));
 
-            scopebuddy_resolution_field = new LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the ScopeBuddy output resolution."), true);
+            scopebuddy_resolution_field = new LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the ScopeBuddy output resolution."), true, true);
             scopebuddy_resolution_field.toggle.notify["active"].connect (standard_control_changed);
             scopebuddy_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
             scopebuddy_resolution_field.value_applied.connect (standard_control_changed);
+            launch_option_handlers.append (scopebuddy_resolution_field);
 
             scopebuddy_args_field = new LaunchOptionEntryField (_ ("Additional ScopeBuddy arguments"), _ ("Keeps extra ScopeBuddy flags such as preferred output selection."), _ ("Add ScopeBuddy arguments"));
             scopebuddy_args_field.value_applied.connect (standard_control_changed);
@@ -579,28 +524,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void reset_controls () {
-            foreach (var binding in common_bindings) {
-                binding.toggle.set_active (false);
-            }
-
-            foreach (var binding in gpu_vendor_bindings) {
-                binding.toggle.set_active (false);
-            }
-
-            foreach (var binding in game_argument_bindings) {
-                binding.toggle.set_active (false);
-            }
-
-            foreach (var binding in scopebuddy_bindings) {
-                binding.toggle.set_active (false);
-            }
-
             gamescope_fullscreen_tile.toggle.set_active (false);
             gamescope_hdr_tile.toggle.set_active (false);
             gamescope_vrr_tile.toggle.set_active (false);
             gamescope_framerate_tile.toggle.set_active (false);
             gamescope_framerate_tile.set_value (60);
-            gamescope_resolution_field.reset ();
             scopebuddy_fullscreen_tile.toggle.set_active (false);
             scopebuddy_framerate_tile.toggle.set_active (false);
             scopebuddy_framerate_tile.set_value (60);
@@ -609,14 +537,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             hdr_tile.toggle.set_active (false);
 
             additional_args_field.set_text ("");
-            scopebuddy_resolution_field.reset ();
             gamescope_args_field.set_text ("");
             scopebuddy_args_field.set_text ("");
             gpu_vendor_stack.set_visible_child_name ("amd");
-            dll_overrides_pair_editor.value = "";
-            amd_icd_editor.value = "";
-            radv_perf_editor.value = "";
-            radv_debug_editor.value = "";
+
+            foreach (var editor in launch_option_handlers) {
+                editor.clear ();
+            }
         }
 
         void standard_control_changed () {
@@ -745,11 +672,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         bool should_show_advanced_controls () {
-            return vkbasalt_tile.toggle.get_active ()
-            || wined3d_tile.toggle.get_active ()
-            || ntsync_tile.toggle.get_active ()
-            || local_shader_cache_tile.toggle.get_active ()
-            || has_active_binding (gpu_vendor_bindings)
+            foreach (var handler in this.launch_option_handlers) {
+                if (handler.is_advanced && handler.is_active ()) {
+                    return true;
+                }
+            }
+
+            return has_active_binding (gpu_vendor_bindings)
             || has_active_binding (game_argument_bindings)
             || additional_args_tile.toggle.get_active ()
             || additional_args_field.get_text () != ""
@@ -777,18 +706,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         bool has_structured_content () {
-            foreach (var binding in common_bindings) {
-                if (binding.toggle.get_active ())
+            var segments = get_command_segments ();
+            if (segments.size > 0) {
                 return true;
             }
-
-            foreach (var binding in gpu_vendor_bindings) {
-                if (binding.toggle.get_active ())
-                return true;
-            }
-
-            if (has_active_binding (game_argument_bindings))
-            return true;
 
             if (additional_args_tile.toggle.get_active () && additional_args_field.get_text () != "")
             return true;
@@ -811,32 +732,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var segments = new Gee.LinkedList<string> ();
             var selected_wrapper_mode = get_selected_wrapper_mode ();
 
-            append_binding_segments (segments, common_bindings);
-            append_binding_segments (segments, gpu_vendor_bindings);
-
-        // RADV_DEBUG
-            string radv_debug_val = radv_debug_editor.value;
-            if (radv_debug_val != "") {
-                segments.add ( radv_debug_editor.environment_variable_prefix + radv_debug_val);
-            }
-
-            // RADV_PERFTEST
-            string radv_perf_val = radv_perf_editor.value;
-            if (radv_perf_val != "") {
-                segments.add (radv_perf_editor.environment_variable_prefix + radv_perf_val);
-            }
-
-            // AMD_VULKAN_ICD
-            string amd_icd_val = amd_icd_editor.value;
-            if (amd_icd_val != "") {
-            // Odstraníme "driver=", protože bázová třída by vrátila "driver=RADV"
-                string driver_name = amd_icd_val.replace ("driver=", "");
-                segments.add (amd_icd_editor.environment_variable_prefix + driver_name);
-            }
-
-            string dll_value = dll_overrides_pair_editor.value;
-            if (dll_value != "") {
-                segments.add (dll_overrides_pair_editor.environment_variable_prefix + dll_value);
+            foreach (var editor in launch_option_handlers) {
+                if (editor == gamescope_resolution_field || editor == scopebuddy_resolution_field) {
+                    continue;
+                }
+                editor.append_command_segments (segments);
             }
 
             if (additional_args_tile.toggle.get_active ())
@@ -848,6 +748,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     break;
                 case WrapperMode.GAMESCOPE:
                     segments.add ("gamescope");
+
+                    gamescope_resolution_field.append_command_segments (segments);
 
                     if (gamescope_fullscreen_tile.toggle.get_active ())
                     segments.add ("-f");
@@ -861,37 +763,24 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     if (gamescope_framerate_tile.toggle.get_active ())
                     segments.add ("-r %d".printf (gamescope_framerate_tile.get_value_as_int ()));
 
-                    if (gamescope_resolution_field.has_resolution ()) {
-                        int width;
-                        int height;
-                        gamescope_resolution_field.get_resolution (out width, out height);
-                        segments.add ("-W %d".printf (width));
-                        segments.add ("-H %d".printf (height));
-                    }
-
                     append_segments_from_text (segments, gamescope_args_field.get_text ());
                     break;
                 case WrapperMode.SCOPEBUDDY:
-                    append_binding_segments (segments, scopebuddy_bindings);
-
-                    if (scopebuddy_resolution_field.is_auto ())
-                    segments.add ("SCB_AUTO_RES=1");
+                    if (scopebuddy_resolution_field.is_auto ()) {
+                        scopebuddy_resolution_field.append_command_segments (segments);
+                    }
 
                     segments.add ("scopebuddy");
+
+                    if (!scopebuddy_resolution_field.is_auto ()) {
+                        scopebuddy_resolution_field.append_command_segments (segments);
+                    }
 
                     if (scopebuddy_fullscreen_tile.toggle.get_active ())
                     segments.add ("-f");
 
                     if (scopebuddy_framerate_tile.toggle.get_active ())
                     segments.add ("-r %d".printf (scopebuddy_framerate_tile.get_value_as_int ()));
-
-                    if (scopebuddy_resolution_field.has_resolution ()) {
-                        int width;
-                        int height;
-                        scopebuddy_resolution_field.get_resolution (out width, out height);
-                        segments.add ("-W %d".printf (width));
-                        segments.add ("-H %d".printf (height));
-                    }
 
                     append_segments_from_text (segments, scopebuddy_args_field.get_text ());
                     break;
@@ -904,22 +793,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 segments.add ("-- %command%");
                 else
                 segments.add ("%command%");
-
-                append_binding_segments (segments, game_argument_bindings);
             }
 
             return segments;
-        }
-
-        void append_binding_segments (Gee.LinkedList<string> segments, List<LaunchOptionBinding> bindings) {
-            foreach (var binding in bindings) {
-                if (!binding.toggle.get_active ())
-                continue;
-
-                foreach (var token in binding.tokens) {
-                    segments.add (token);
-                }
-            }
         }
 
         void append_segments_from_text (Gee.LinkedList<string> segments, string launch_options) {
@@ -934,58 +810,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         void append_none_segments (Gee.LinkedList<string> segments) {
             if (hdr_tile.toggle.get_active ())
             segments.add ("PROTON_ENABLE_HDR=1");
-        }
-
-        void apply_radv_debug_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            string radv_debug_raw = "";
-            for (int i = 0; i < tokens.length; i++) {
-                if (tokens[i].has_prefix (radv_debug_editor.environment_variable_prefix)) {
-                    radv_debug_raw = tokens[i].substring (radv_debug_editor.environment_variable_prefix.length);
-                    consumed[i] = true;
-                    break;
-                }
-            }
-
-            radv_debug_editor.value = radv_debug_raw;
-        }
-
-        void apply_radv_perf_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            string radv_perf_raw = "";
-            for (int i = 0; i < tokens.length; i++) {
-                if (tokens[i].has_prefix (radv_perf_editor.environment_variable_prefix)) {
-                    radv_perf_raw = tokens[i].substring (radv_perf_editor.environment_variable_prefix.length);
-                    consumed[i] = true;
-                    break;
-                }
-            }
-
-            radv_perf_editor.value = radv_perf_raw;
-        }
-
-        void apply_amd_icd_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            string amd_icd_raw = "";
-            for (int i = 0; i < tokens.length; i++) {
-                if (tokens[i].has_prefix (amd_icd_editor.environment_variable_prefix)) {
-                    amd_icd_raw = tokens[i].substring (amd_icd_editor.environment_variable_prefix.length);
-                    consumed[i] = true;
-                    break;
-                }
-            }
-
-            amd_icd_editor.value = amd_icd_raw;
-        }
-
-        void apply_dll_override_bindings_from_tokens (string[] tokens, bool[] consumed) {
-            string winedll_raw = "";
-            for (int i = 0; i < tokens.length; i++) {
-                if (tokens[i].has_prefix (dll_overrides_pair_editor.environment_variable_prefix)) {
-                    winedll_raw = tokens[i].substring (dll_overrides_pair_editor.environment_variable_prefix.length);
-                    consumed[i] = true;
-                    break;
-                }
-            }
-
-            dll_overrides_pair_editor.value = winedll_raw;
         }
 
         void apply_game_argument_bindings_from_tokens (string[] tokens, bool[] consumed, int command_index) {
@@ -1136,31 +960,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return markup.str;
         }
 
-        void apply_bindings_from_tokens (List<LaunchOptionBinding> bindings, string[] tokens, bool[] consumed) {
-            foreach (var binding in bindings) {
-                var token_indexes = new Gee.LinkedList<int> ();
-                var all_tokens_present = true;
-
-                foreach (var token in binding.tokens) {
-                    var token_index = get_unconsumed_token_index (tokens, token, consumed);
-                    if (token_index < 0) {
-                        all_tokens_present = false;
-                        break;
-                    }
-
-                    token_indexes.add (token_index);
-                }
-
-                if (!all_tokens_present)
-                continue;
-
-                binding.toggle.set_active (true);
-                foreach (var token_index in token_indexes) {
-                    consumed[token_index] = true;
-                }
-            }
-        }
-
         void parse_gamescope_tokens (string[] tokens, bool[] consumed) {
             var wrapper_index = get_first_present_index (tokens, { "gamescope" });
             if (wrapper_index < 0)
@@ -1173,6 +972,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             for (var index = wrapper_index + 1; index < end_index; index++) {
                 var token = tokens[index];
+
+                if (consumed[index]) continue;
 
                 if (token == "-f") {
                     gamescope_fullscreen_tile.toggle.set_active (true);
@@ -1204,20 +1005,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     }
                 }
 
-                if (token == "-W" && index + 3 < end_index && tokens[index + 2] == "-H") {
-                    int width = 0;
-                    int height = 0;
-                    if (int.try_parse (tokens[index + 1], out width) && int.try_parse (tokens[index + 3], out height)) {
-                        gamescope_resolution_field.set_resolution (width, height);
-                        consumed[index] = true;
-                        consumed[index + 1] = true;
-                        consumed[index + 2] = true;
-                        consumed[index + 3] = true;
-                        index += 3;
-                        continue;
-                    }
-                }
-
                 append_token (extra_args, token);
                 consumed[index] = true;
             }
@@ -1235,13 +1022,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void parse_scopebuddy_tokens (string[] tokens, bool[] consumed) {
-            apply_bindings_from_tokens (scopebuddy_bindings, tokens, consumed);
-
-            var auto_resolution_index = get_unconsumed_token_index (tokens, "SCB_AUTO_RES=1", consumed);
-            if (auto_resolution_index >= 0) {
-                scopebuddy_resolution_field.set_auto ();
-                consumed[auto_resolution_index] = true;
-            }
 
             var wrapper_index = get_first_present_index (tokens, { "scopebuddy", "scb" });
             if (wrapper_index < 0)
@@ -1253,6 +1033,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var extra_args = new StringBuilder ();
 
             for (var index = wrapper_index + 1; index < end_index; index++) {
+                if (consumed[index]) continue;
+
                 if (tokens[index] == "-f") {
                     scopebuddy_fullscreen_tile.toggle.set_active (true);
                     consumed[index] = true;
@@ -1267,20 +1049,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                         consumed[index] = true;
                         consumed[index + 1] = true;
                         index++;
-                        continue;
-                    }
-                }
-
-                if (tokens[index] == "-W" && index + 3 < end_index && tokens[index + 2] == "-H") {
-                    int width = 0;
-                    int height = 0;
-                    if (int.try_parse (tokens[index + 1], out width) && int.try_parse (tokens[index + 3], out height)) {
-                        scopebuddy_resolution_field.set_resolution (width, height);
-                        consumed[index] = true;
-                        consumed[index + 1] = true;
-                        consumed[index + 2] = true;
-                        consumed[index + 3] = true;
-                        index += 3;
                         continue;
                     }
                 }

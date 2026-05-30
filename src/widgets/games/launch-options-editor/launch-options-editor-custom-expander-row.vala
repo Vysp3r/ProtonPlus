@@ -12,6 +12,8 @@ using Gtk;
 
         private Adw.EntryRow add_custom_row;
 
+        public bool is_advanced { get; set; default = false; }
+
         public CustomExpanderRow (
                 string switch_title,
                 string switch_subtitle,
@@ -117,6 +119,10 @@ using Gtk;
 
         protected virtual void trigger_changed_if_ready () {
             this.changed ();
+        }
+
+        public virtual bool is_active () {
+            return this.enable_expansion; 
         }
     }
 }
