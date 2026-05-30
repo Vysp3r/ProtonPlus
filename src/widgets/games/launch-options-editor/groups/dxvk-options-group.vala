@@ -17,7 +17,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 { "DXVK_ASYNC=1" }
             );
 
-
             dxvk_log_level_none_tile = create_tile(
                 _ ("Disable DXVK logging"), 
                 _ ("Sets DXVK's log level to none which can improve performance in some games."),

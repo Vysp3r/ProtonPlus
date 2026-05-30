@@ -14,10 +14,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Adw.PreferencesGroup gpu_vendor_group { get; set; }
         Adw.PreferencesGroup game_arguments_group { get; set; }
         Adw.PreferencesGroup advanced_options_group { get; set; }
-        LaunchOptionTile mangohud_tile { get; set; }
-        LaunchOptionTile steam_deck_tile { get; set; }
         LaunchOptionTile hdr_tile { get; set; }
-        LaunchOptionTile wayland_tile { get; set; }
         LaunchOptionTile vkbasalt_tile { get; set; }
         LaunchOptionTile wined3d_tile { get; set; }
         LaunchOptionTile amd_fsr4_upgrade_tile { get; set; }
@@ -105,24 +102,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (preview_field);
 
         // Common options
-
-            mangohud_tile = create_common_tile (_ ("Performance overlay"), _ ("Shows an in-game overlay with FPS, CPU/GPU usage, and temps."), { "mangohud" });
-
-            if (Globals.MANGOHUD_INSTALLED) {
-                Globals.SETTINGS.bind ("experimental-features", mangohud_tile, "visible", SettingsBindFlags.DEFAULT);
-            } else {
-                mangohud_tile.visible = false;
-            }
-
-            steam_deck_tile = create_common_tile (_ ("Disable Steam Deck Mode"), _ ("Disables the Steam Deck-specific profile that some games use."), { "SteamDeck=0" });
-            wayland_tile = create_common_tile (_ ("Wayland"), _ ("Runs the game natively on Wayland instead of through XWayland but it breaks Steam Input and the Steam Overlay."), { "PROTON_ENABLE_WAYLAND=1" });
-
-            var common_group = new Adw.PreferencesGroup ();
-            common_group.title = _ ("Common options");
-            common_group.description = _ ("Quick toggles for the launch options people reach for most often.");
-            common_group.add (mangohud_tile);
-            common_group.add (steam_deck_tile);
-            common_group.add (wayland_tile);
+            var common_group = new Groups.CommonOptionsGroup (standard_control_changed, launch_option_handlers);
             append (common_group);
 
             // Launch tools
