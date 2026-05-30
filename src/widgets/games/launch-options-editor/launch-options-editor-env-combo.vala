@@ -56,7 +56,6 @@ using Gtk;
 
         public void parse_tokens (string[] tokens, bool[] consumed) {
             if (tokens.length != consumed.length) {
-                return;
             }
 
             for (int i = 0; i < tokens.length; i++) {
