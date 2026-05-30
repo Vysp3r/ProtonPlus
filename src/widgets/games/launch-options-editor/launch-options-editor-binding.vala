@@ -4,9 +4,12 @@ using Adw;
         public string[] tokens { get; set; }
         public Gtk.Switch toggle { get; set; }
 
-        public LaunchOptionBinding (string[] tokens, Gtk.Switch toggle) {
+        public bool is_advanced { get; set; default = false; }
+
+        public LaunchOptionBinding (string[] tokens, Gtk.Switch toggle, bool is_advanced = false) {
             this.tokens = tokens;
             this.toggle = toggle;
+            this.is_advanced = is_advanced;
         }
 
         public void parse_tokens (string[] tokens_pool, bool[] consumed) {
@@ -55,6 +58,10 @@ using Adw;
                 }
             }
             return -1;
+        }
+
+        public bool is_active () {
+            return this.toggle.get_active ();
         }
     }
 }

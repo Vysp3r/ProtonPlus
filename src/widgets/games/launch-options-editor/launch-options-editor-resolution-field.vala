@@ -13,6 +13,7 @@ using Adw;
         int committed_width;
         int committed_height;
         
+        public bool is_advanced { get; set; default = false; }
         private bool is_scopebuddy;
         public new signal void changed ();
 
@@ -274,6 +275,10 @@ using Adw;
             int pending_height;
             var has_pending_resolution = get_pending_resolution (out pending_width, out pending_height);
             apply_button.set_sensitive (is_custom && has_pending_resolution && (pending_width != committed_width || pending_height != committed_height));
+        }
+
+        public bool is_active () {
+            return this.toggle.get_active ();
         }
     }
 }

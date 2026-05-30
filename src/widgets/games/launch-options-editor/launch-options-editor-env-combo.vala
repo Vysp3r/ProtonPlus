@@ -5,6 +5,7 @@ using Gtk;
     public class LaunchOptionEnvCombo : ComboRow, ILaunchOption {
         public string environment_variable { get; protected set; }
         public string environment_variable_prefix { get; protected set; }
+        public bool is_advanced { get; set; default = false; }
 
         protected string[] value_opts;
 
@@ -82,6 +83,10 @@ using Gtk;
             if (val != "") {
                 segments.add (this.environment_variable_prefix + val);
             }
+        }
+
+        public bool is_active () {
+            return this.value != "";
         }
     }
 }

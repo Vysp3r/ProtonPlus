@@ -8,15 +8,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     public class Box : Gtk.Box {
         public signal void content_changed ();
 
-        Adw.PreferencesGroup proton_options_group { get; set; }
+        Groups.ProtonOptionsGroup proton_options_group { get; set; }
         Adw.PreferencesGroup audio_group { get; set; }
-        Adw.PreferencesGroup more_options_group { get; set; }
+        Groups.MoreOptionsGroup more_options_group { get; set; }
         Adw.PreferencesGroup gpu_vendor_group { get; set; }
         Adw.PreferencesGroup game_arguments_group { get; set; }
         Adw.PreferencesGroup advanced_options_group { get; set; }
         LaunchOptionTile hdr_tile { get; set; }
-        LaunchOptionTile vkbasalt_tile { get; set; }
-        LaunchOptionTile wined3d_tile { get; set; }
         LaunchOptionTile amd_fsr4_upgrade_tile { get; set; }
         LaunchOptionTile amd_fsr4_rdna3_upgrade_tile { get; set; }
         LaunchOptionTile amd_anti_lag_tile { get; set; }
@@ -31,18 +29,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionTile dlss_indicator_tile { get; set; }
         LaunchOptionTile nvidia_libs_tile { get; set; }
         LaunchOptionTile intel_xess_upgrade_tile { get; set; }
-        LaunchOptionTile prefer_sdl_tile { get; set; }
-        LaunchOptionTile no_steaminput_tile { get; set; }
-        LaunchOptionTile ntsync_tile { get; set; }
-        LaunchOptionTile wine_vk_use_sync2_tile { get; set; }
-        LaunchOptionTile wine_sync_use_futex_waitv_tile { get; set; }
-        LaunchOptionTile wine_writecopy_tile { get; set; }
-        LaunchOptionTile proton_priority_high_tile { get; set; }
-        LaunchOptionTile proton_use_wow64_tile { get; set; }
-        LaunchOptionTile proton_force_large_address_aware_tile { get; set; }
-        LaunchOptionTile proton_logs_tile { get; set; }
         LaunchOptionSpinTile pulse_latency_tile { get; set; }
-        LaunchOptionTile local_shader_cache_tile { get; set; }
         LaunchOptionEntryField additional_args_field { get; set; }
         LaunchOptionTile additional_args_tile { get; set; }
         LaunchOptionTile command_tile { get; set; }
@@ -68,7 +55,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionSpinTile scopebuddy_framerate_tile { get; set; }
         LaunchOptionResolutionField scopebuddy_resolution_field { get; set; }
         LaunchOptionEntryField scopebuddy_args_field { get; set; }
-        LaunchOptionDllOverrides dll_overrides_pair_editor { get; set; }
         LaunchOptionAmdIcd amd_icd_editor { get; set; }
         LaunchOptionRadvPerftest radv_perf_editor { get; set; }
         LaunchOptionRadvDebug radv_debug_editor { get; set; }
@@ -229,50 +215,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             // More options
 
-            vkbasalt_tile = create_common_tile (_ ("VKBasalt"), _ ("Adds visual effects like sharpening and color adjustments."), { "ENABLE_VKBASALT=1" });
-            wined3d_tile = create_common_tile (_ ("WineD3D"), _ ("Uses OpenGL instead of Vulkan. Only enable if you're having DXVK issues."), { "PROTON_USE_WINED3D=1" });
-            ntsync_tile = create_common_tile (_ ("Use FSync"), _ ("Uses FSync instead of NTSync. Can fix issues in certain games that do not pair well with NTSync."), { "PROTON_USE_NTSYNC=0" });
-            local_shader_cache_tile = create_common_tile (_ ("Local shader cache"), _ ("Enables per-game shader cache. This isolates the shader cache of each game but does not compile them ahead-of-time."), { "PROTON_LOCAL_SHADER_CACHE=1" });
-            prefer_sdl_tile = create_common_tile (_ ("Prefer SDL controller"), _ ("Workaround for controller detection issues."), { "PROTON_PREFER_SDL=1" });
-            no_steaminput_tile = create_common_tile (_ ("Disable Steam Input"), _ ("Disables Steam Input support. Fixes Wayland controller/gamepad issues."), { "PROTON_NO_STEAMINPUT=1" });
-            wine_vk_use_sync2_tile = create_common_tile (_ ("WINE_VK_USE_SYNC2"), _ ("Enables WINE_VK_USE_SYNC2 which can improve performance and reduce stuttering in some games when using WineD3D."), { "WINE_VK_USE_SYNC2=1" });
-            wine_sync_use_futex_waitv_tile = create_common_tile (_ ("WINE_SYNC_USE_FUTEX_WAITV"), _ ("Enables WINE_SYNC_USE_FUTEX_WAITV which can improve performance and reduce stuttering in some games when using WineD3D."), { "WINE_SYNC_USE_FUTEX_WAITV=1" });
-            wine_writecopy_tile = create_common_tile (_ ("Simulate Write-Copy Memory"), _ ("Forces Wine to simulate page-write protection, fixing initialization errors in certain older titles."), { "WINE_SIMULATE_WRITECOPY=1" });
-
-            more_options_group = new Adw.PreferencesGroup ();
-            more_options_group.title = _ ("More options");
-            more_options_group.description = _ ("Extra graphics settings and launch behaviors.");
-            more_options_group.add (vkbasalt_tile);
-            more_options_group.add (wined3d_tile);
-            more_options_group.add (ntsync_tile);
-            more_options_group.add (local_shader_cache_tile);
-            more_options_group.add (prefer_sdl_tile);
-            more_options_group.add (no_steaminput_tile);
-            more_options_group.add (wine_vk_use_sync2_tile);
-            more_options_group.add (wine_sync_use_futex_waitv_tile);
-            more_options_group.add (wine_writecopy_tile);
+            more_options_group = new Groups.MoreOptionsGroup (standard_control_changed, launch_option_handlers);
             append (more_options_group);
 
             // Proton options
 
-            proton_priority_high_tile = create_common_tile (_ ("Higher priority for games"), _ ("Gives the game a higher CPU priority which can improve performance in some cases."), { "PROTON_PRIORITY_HIGH=1" });
-            proton_use_wow64_tile = create_common_tile (_ ("Use WoW64"), _ ("Enables WoW64 support for 32-bit games on 64-bit Proton builds. This can improve compatibility for some older games."), { "PROTON_USE_WOW64=1" });
-            proton_force_large_address_aware_tile = create_common_tile (_ ("Allows 32-bit games to use more than 2GB of RAM"), _ ("Forces 32-bit games to use large address aware which can improve performance and stability."), { "PROTON_FORCE_LARGE_ADDRESS_AWARE=1" });
-            proton_logs_tile = create_common_tile (_ ("Enable Proton logs"), _ ("Enables logging for Proton which can help with troubleshooting game issues. Logs are saved in the game's compatibility data folder."), { "PROTON_LOG=1" });
-
-            // DLL overrides
-            dll_overrides_pair_editor = new LaunchOptionDllOverrides ();
-            dll_overrides_pair_editor.changed.connect (standard_control_changed);
-            launch_option_handlers.append (dll_overrides_pair_editor);
-
-            proton_options_group = new Adw.PreferencesGroup ();
-            proton_options_group.title = _ ("Proton options");
-            proton_options_group.description = _ ("Extra Proton settings and launch behaviors.");
-            proton_options_group.add (proton_priority_high_tile);
-            proton_options_group.add (proton_use_wow64_tile);
-            proton_options_group.add (proton_force_large_address_aware_tile);
-            proton_options_group.add (proton_logs_tile);
-            proton_options_group.add (dll_overrides_pair_editor);
+            proton_options_group = new Groups.ProtonOptionsGroup (standard_control_changed, launch_option_handlers);
             append (proton_options_group);
 
             // Audio options
@@ -733,11 +681,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         bool should_show_advanced_controls () {
-            return vkbasalt_tile.toggle.get_active ()
-            || wined3d_tile.toggle.get_active ()
-            || ntsync_tile.toggle.get_active ()
-            || local_shader_cache_tile.toggle.get_active ()
-            || has_active_binding (gpu_vendor_bindings)
+            foreach (var handler in this.launch_option_handlers) {
+                if (handler.is_advanced && handler.is_active ()) {
+                    return true;
+                }
+            }
+
+            return has_active_binding (gpu_vendor_bindings)
             || has_active_binding (game_argument_bindings)
             || additional_args_tile.toggle.get_active ()
             || additional_args_field.get_text () != ""
