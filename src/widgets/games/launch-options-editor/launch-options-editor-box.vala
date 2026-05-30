@@ -585,10 +585,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gamescope_framerate_tile.toggle.notify["active"].connect (standard_control_changed);
             gamescope_framerate_tile.value_applied.connect (standard_control_changed);
 
-            gamescope_resolution_field = new LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the Gamescope output resolution."));
+            gamescope_resolution_field = new LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the Gamescope output resolution."), false, false);
             gamescope_resolution_field.toggle.notify["active"].connect (standard_control_changed);
             gamescope_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
             gamescope_resolution_field.value_applied.connect (standard_control_changed);
+
+            launch_option_handlers.append (gamescope_resolution_field);
 
             group.add (gamescope_fullscreen_tile);
             group.add (gamescope_hdr_tile);
@@ -623,10 +625,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             scopebuddy_bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_HDR=1" }, scopebuddy_auto_hdr_tile.toggle));
             scopebuddy_bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_VRR=1" }, scopebuddy_auto_vrr_tile.toggle));
 
-            scopebuddy_resolution_field = new LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the ScopeBuddy output resolution."), true);
+            scopebuddy_resolution_field = new LaunchOptionResolutionField (_ ("Resolution"), _ ("Sets the ScopeBuddy output resolution."), true, true);
             scopebuddy_resolution_field.toggle.notify["active"].connect (standard_control_changed);
             scopebuddy_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
             scopebuddy_resolution_field.value_applied.connect (standard_control_changed);
+            launch_option_handlers.append (scopebuddy_resolution_field);
 
             scopebuddy_args_field = new LaunchOptionEntryField (_ ("Additional ScopeBuddy arguments"), _ ("Keeps extra ScopeBuddy flags such as preferred output selection."), _ ("Add ScopeBuddy arguments"));
             scopebuddy_args_field.value_applied.connect (standard_control_changed);
@@ -647,7 +650,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gamescope_vrr_tile.toggle.set_active (false);
             gamescope_framerate_tile.toggle.set_active (false);
             gamescope_framerate_tile.set_value (60);
-            gamescope_resolution_field.reset ();
             scopebuddy_fullscreen_tile.toggle.set_active (false);
             scopebuddy_framerate_tile.toggle.set_active (false);
             scopebuddy_framerate_tile.set_value (60);
@@ -656,7 +658,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             hdr_tile.toggle.set_active (false);
 
             additional_args_field.set_text ("");
-            scopebuddy_resolution_field.reset ();
             gamescope_args_field.set_text ("");
             scopebuddy_args_field.set_text ("");
             gpu_vendor_stack.set_visible_child_name ("amd");
@@ -851,6 +852,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var selected_wrapper_mode = get_selected_wrapper_mode ();
 
             foreach (var editor in launch_option_handlers) {
+                if (editor == gamescope_resolution_field || editor == scopebuddy_resolution_field) {
+                    continue;
+                }
                 editor.append_command_segments (segments);
             }
 
@@ -864,6 +868,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 case WrapperMode.GAMESCOPE:
                     segments.add ("gamescope");
 
+                    gamescope_resolution_field.append_command_segments (segments);
+
                     if (gamescope_fullscreen_tile.toggle.get_active ())
                     segments.add ("-f");
 
@@ -876,36 +882,24 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     if (gamescope_framerate_tile.toggle.get_active ())
                     segments.add ("-r %d".printf (gamescope_framerate_tile.get_value_as_int ()));
 
-                    if (gamescope_resolution_field.has_resolution ()) {
-                        int width;
-                        int height;
-                        gamescope_resolution_field.get_resolution (out width, out height);
-                        segments.add ("-W %d".printf (width));
-                        segments.add ("-H %d".printf (height));
-                    }
-
                     append_segments_from_text (segments, gamescope_args_field.get_text ());
                     break;
                 case WrapperMode.SCOPEBUDDY:
-
-                    if (scopebuddy_resolution_field.is_auto ())
-                    segments.add ("SCB_AUTO_RES=1");
+                    if (scopebuddy_resolution_field.is_auto ()) {
+                        scopebuddy_resolution_field.append_command_segments (segments);
+                    }
 
                     segments.add ("scopebuddy");
+
+                    if (!scopebuddy_resolution_field.is_auto ()) {
+                        scopebuddy_resolution_field.append_command_segments (segments);
+                    }
 
                     if (scopebuddy_fullscreen_tile.toggle.get_active ())
                     segments.add ("-f");
 
                     if (scopebuddy_framerate_tile.toggle.get_active ())
                     segments.add ("-r %d".printf (scopebuddy_framerate_tile.get_value_as_int ()));
-
-                    if (scopebuddy_resolution_field.has_resolution ()) {
-                        int width;
-                        int height;
-                        scopebuddy_resolution_field.get_resolution (out width, out height);
-                        segments.add ("-W %d".printf (width));
-                        segments.add ("-H %d".printf (height));
-                    }
 
                     append_segments_from_text (segments, scopebuddy_args_field.get_text ());
                     break;
@@ -1123,6 +1117,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             for (var index = wrapper_index + 1; index < end_index; index++) {
                 var token = tokens[index];
 
+                if (consumed[index]) continue;
+
                 if (token == "-f") {
                     gamescope_fullscreen_tile.toggle.set_active (true);
                     consumed[index] = true;
@@ -1153,20 +1149,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     }
                 }
 
-                if (token == "-W" && index + 3 < end_index && tokens[index + 2] == "-H") {
-                    int width = 0;
-                    int height = 0;
-                    if (int.try_parse (tokens[index + 1], out width) && int.try_parse (tokens[index + 3], out height)) {
-                        gamescope_resolution_field.set_resolution (width, height);
-                        consumed[index] = true;
-                        consumed[index + 1] = true;
-                        consumed[index + 2] = true;
-                        consumed[index + 3] = true;
-                        index += 3;
-                        continue;
-                    }
-                }
-
                 append_token (extra_args, token);
                 consumed[index] = true;
             }
@@ -1184,13 +1166,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void parse_scopebuddy_tokens (string[] tokens, bool[] consumed) {
-            apply_bindings_from_tokens (scopebuddy_bindings, tokens, consumed);
-
-            var auto_resolution_index = get_unconsumed_token_index (tokens, "SCB_AUTO_RES=1", consumed);
-            if (auto_resolution_index >= 0) {
-                scopebuddy_resolution_field.set_auto ();
-                consumed[auto_resolution_index] = true;
-            }
 
             var wrapper_index = get_first_present_index (tokens, { "scopebuddy", "scb" });
             if (wrapper_index < 0)
@@ -1202,6 +1177,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var extra_args = new StringBuilder ();
 
             for (var index = wrapper_index + 1; index < end_index; index++) {
+                if (consumed[index]) continue;
+
                 if (tokens[index] == "-f") {
                     scopebuddy_fullscreen_tile.toggle.set_active (true);
                     consumed[index] = true;
@@ -1216,20 +1193,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                         consumed[index] = true;
                         consumed[index + 1] = true;
                         index++;
-                        continue;
-                    }
-                }
-
-                if (tokens[index] == "-W" && index + 3 < end_index && tokens[index + 2] == "-H") {
-                    int width = 0;
-                    int height = 0;
-                    if (int.try_parse (tokens[index + 1], out width) && int.try_parse (tokens[index + 3], out height)) {
-                        scopebuddy_resolution_field.set_resolution (width, height);
-                        consumed[index] = true;
-                        consumed[index + 1] = true;
-                        consumed[index + 2] = true;
-                        consumed[index + 3] = true;
-                        index += 3;
                         continue;
                     }
                 }

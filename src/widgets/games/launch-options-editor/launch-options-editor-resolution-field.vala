@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 using Adw;
 
-    class LaunchOptionResolutionField : Adw.ActionRow {
+    class LaunchOptionResolutionField : Adw.ActionRow, ILaunchOption {
         public Gtk.Switch toggle { get; private set; }
         public Gtk.DropDown dropdown { get; private set; }
         public Gtk.Entry width_entry { get; private set; }
@@ -12,8 +12,13 @@ using Adw;
         Gee.LinkedList<LaunchOptionResolutionChoice> choices;
         int committed_width;
         int committed_height;
+        
+        private bool is_scopebuddy;
+        public new signal void changed ();
 
-        public LaunchOptionResolutionField (string title, string subtitle, bool include_auto = false) {
+        public LaunchOptionResolutionField (string title, string subtitle, bool include_auto = false, bool is_scopebuddy = false) {
+            this.is_scopebuddy = is_scopebuddy;
+
             committed_width = 3840;
             committed_height = 2160;
 
@@ -78,7 +83,69 @@ using Adw;
             dropdown.notify["selected"].connect (refresh_custom_visibility);
             width_entry.changed.connect (refresh_custom_state);
             height_entry.changed.connect (refresh_custom_state);
+
+            toggle.notify["active"].connect (() => { this.changed (); });
+            this.value_applied.connect (() => { this.changed (); });
+            dropdown.notify["selected"].connect (() => { this.changed (); });
+
             refresh_options_visibility ();
+        }
+
+        public void clear () {
+            this.reset ();
+        }
+
+        public void parse_tokens (string[] tokens, bool[] consumed) {
+            if (tokens.length != consumed.length) {
+                return;
+            }
+
+            if (this.is_scopebuddy) {
+                for (int i = 0; i < tokens.length; i++) {
+                    if (consumed[i]) continue;
+                    if (tokens[i] == "SCB_AUTO_RES=1") {
+                        this.set_auto ();
+                        consumed[i] = true;
+                        return;
+                    }
+                }
+            }
+
+            for (int i = 0; i < tokens.length; i++) {
+                if (consumed[i]) continue;
+
+                if (tokens[i] == "-W" && i + 3 < tokens.length && tokens[i + 2] == "-H") {
+                    int width = 0;
+                    int height = 0;
+                    if (int.try_parse (tokens[i + 1], out width) && int.try_parse (tokens[i + 3], out height)) {
+                        this.set_resolution (width, height);
+                        consumed[i] = true;
+                        consumed[i + 1] = true;
+                        consumed[i + 2] = true;
+                        consumed[i + 3] = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void append_command_segments (Gee.LinkedList<string> segments) {
+            if (!toggle.get_active ()) {
+                return;
+            }
+
+            if (this.is_scopebuddy && this.is_auto ()) {
+                segments.add ("SCB_AUTO_RES=1");
+                return;
+            }
+
+            if (this.has_resolution ()) {
+                int width;
+                int height;
+                this.get_resolution (out width, out height);
+                segments.add ("-W %d".printf (width));
+                segments.add ("-H %d".printf (height));
+            }
         }
 
         public void reset () {
