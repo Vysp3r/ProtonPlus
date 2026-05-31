@@ -5,7 +5,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile dxvk_async_tile { get; private set; }
         LaunchOptionTile dxvk_log_level_none_tile { get; private set; }
 
-        public DxvkOptionsGroup (owned SimpleCallback standard_control_changed, List<ILaunchOption> launch_option_handlers) {
+        public DxvkOptionsGroup (owned SimpleCallback standard_control_changed, Gee.List<ILaunchOption> launch_option_handlers) {
             base(standard_control_changed, launch_option_handlers);
 
             this.title = _ ("DXVK options");

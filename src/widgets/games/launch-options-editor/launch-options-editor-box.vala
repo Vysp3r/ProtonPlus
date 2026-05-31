@@ -5,6 +5,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         SCOPEBUDDY
     }
 
+    enum LAUNCH_LINE_TYPE {
+        ENVIRONMENT,
+        WRAPPER,
+        COMMAND,
+        ARGUMENT
+    }
+
     public class Box : Gtk.Box {
         public signal void content_changed ();
 
@@ -42,7 +49,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Groups.GpuVendorOptionsGroup gpu_vendor_group;
         List<LaunchOptionBinding> game_argument_bindings;
         List<LaunchOptionBinding> scopebuddy_bindings;
-        List<ILaunchOption> launch_option_handlers;
+        Gee.List<ILaunchOption> launch_option_handlers;
         bool advanced_visible;
         bool refreshing_controls;
         bool can_auto_enable_command;
@@ -50,7 +57,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         construct {
             game_argument_bindings = new List<LaunchOptionBinding> ();
             scopebuddy_bindings = new List<LaunchOptionBinding> ();
-            launch_option_handlers = new List<ILaunchOption> ();
+            launch_option_handlers = new Gee.ArrayList<ILaunchOption> ();
             advanced_visible = false;
             can_auto_enable_command = true;
             refreshing_controls = true;
@@ -174,10 +181,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (advanced_options_group);
 
             foreach (var binding in game_argument_bindings) {
-                launch_option_handlers.append (binding);
+                launch_option_handlers.add (binding);
             }
             foreach (var binding in scopebuddy_bindings) {
-                launch_option_handlers.append (binding);
+                launch_option_handlers.add (binding);
             }
 
             set_selected_wrapper_mode (WrapperMode.NONE);
@@ -341,7 +348,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gamescope_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
             gamescope_resolution_field.value_applied.connect (standard_control_changed);
 
-            launch_option_handlers.append (gamescope_resolution_field);
+            launch_option_handlers.add (gamescope_resolution_field);
 
             group.add (gamescope_fullscreen_tile);
             group.add (gamescope_hdr_tile);
@@ -380,7 +387,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             scopebuddy_resolution_field.toggle.notify["active"].connect (standard_control_changed);
             scopebuddy_resolution_field.dropdown.notify["selected"].connect (standard_control_changed);
             scopebuddy_resolution_field.value_applied.connect (standard_control_changed);
-            launch_option_handlers.append (scopebuddy_resolution_field);
+            launch_option_handlers.add (scopebuddy_resolution_field);
 
             scopebuddy_args_field = new LaunchOptionEntryField (_ ("Additional ScopeBuddy arguments"), _ ("Keeps extra ScopeBuddy flags such as preferred output selection."), _ ("Add ScopeBuddy arguments"));
             scopebuddy_args_field.value_applied.connect (standard_control_changed);

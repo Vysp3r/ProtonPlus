@@ -11,7 +11,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
         bool refreshing_controls;
 
-        public GpuVendorNvidiaOptionsGroup (owned SimpleCallback standard_control_changed, List<ILaunchOption> launch_option_handlers) {
+        public GpuVendorNvidiaOptionsGroup (owned SimpleCallback standard_control_changed, Gee.List<ILaunchOption> launch_option_handlers) {
             base((owned) standard_control_changed, launch_option_handlers, true);
             refreshing_controls = true;
 

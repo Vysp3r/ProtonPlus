@@ -6,7 +6,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile steam_deck_tile { get; private set; }
         LaunchOptionTile wayland_tile { get; private set; }
 
-        public CommonOptionsGroup (owned SimpleCallback standard_control_changed, List<ILaunchOption> launch_option_handlers) {
+        public CommonOptionsGroup (owned SimpleCallback standard_control_changed, Gee.List<ILaunchOption> launch_option_handlers) {
             base(standard_control_changed, launch_option_handlers);
 
             this.title = _ ("Common options");

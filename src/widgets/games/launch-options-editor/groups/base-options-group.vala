@@ -5,11 +5,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
     public class BaseOptionsGroup : PreferencesGroup {
         protected SimpleCallback standard_control_changed;
-        protected unowned List<ILaunchOption> launch_option_handlers;
+        protected unowned Gee.List<ILaunchOption> launch_option_handlers;
 
         internal bool is_advanced_group { get; set; default = false; }
 
-        public BaseOptionsGroup(owned SimpleCallback standard_control_changed, List<ILaunchOption> launch_option_handlers, bool is_advanced_group = false) {
+        public BaseOptionsGroup(owned SimpleCallback standard_control_changed, Gee.List<ILaunchOption> launch_option_handlers, bool is_advanced_group = false) {
             this.standard_control_changed = (owned) standard_control_changed;
             this.launch_option_handlers = launch_option_handlers;
             this.is_advanced_group = is_advanced_group;
@@ -21,7 +21,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 this.standard_control_changed();
             });
 
-            this.launch_option_handlers.append(
+            this.launch_option_handlers.add(
                 new LaunchOptionBinding (tokens, tile.toggle, is_advanced)
             );
 
@@ -38,7 +38,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 this.standard_control_changed();
             });
 
-            this.launch_option_handlers.append(tile);
+            this.launch_option_handlers.add(tile);
 
             return tile;
         }

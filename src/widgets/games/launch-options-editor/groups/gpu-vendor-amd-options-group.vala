@@ -15,7 +15,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionRadvDebug radv_debug_editor { get; set; }
         bool refreshing_controls;
 
-        public GpuVendorAmdOptionsGroup (owned SimpleCallback standard_control_changed, List<ILaunchOption> launch_option_handlers) {
+        public GpuVendorAmdOptionsGroup (owned SimpleCallback standard_control_changed, Gee.List<ILaunchOption> launch_option_handlers) {
             base((owned) standard_control_changed, launch_option_handlers, true);
             refreshing_controls = true;
 
@@ -53,9 +53,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             radv_perf_editor.set_tooltip_text (_ ("Configure RADV performance test options for testing experimental driver features. Use with caution as these features can cause instability or other issues."));
             amd_icd_editor.set_tooltip_text (_ ("Select which AMD Vulkan driver to use. This can be used to switch between RADV and AMD's official Vulkan driver on supported systems."));
 
-            launch_option_handlers.append (radv_debug_editor);
-            launch_option_handlers.append (radv_perf_editor);
-            launch_option_handlers.append (amd_icd_editor);
+            launch_option_handlers.add (radv_debug_editor);
+            launch_option_handlers.add (radv_perf_editor);
+            launch_option_handlers.add (amd_icd_editor);
 
             this.add(amd_anti_lag_tile);
             this.add(amd_fsr4_upgrade_tile);
