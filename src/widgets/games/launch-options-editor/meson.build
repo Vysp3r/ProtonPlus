@@ -21,3 +21,4 @@ sources += files(
 )
 
 subdir('groups')
+subdir('wrappers')
