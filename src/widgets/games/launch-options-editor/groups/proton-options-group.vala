@@ -30,6 +30,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.add(proton_use_wow64_tile);
             this.add(proton_force_large_address_aware_tile);
             this.add(proton_logs_tile);
+            this.add(dll_overrides_pair_editor);
 
             launch_option_handlers.append (dll_overrides_pair_editor);
         }
