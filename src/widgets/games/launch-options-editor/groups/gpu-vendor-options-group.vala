@@ -10,7 +10,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         GpuVendorNvidiaOptionsGroup nvidia_group { get; set; }
         GpuVendorIntelOptionsGroup intel_group { get; set; }
 
-        public GpuVendorOptionsGroup (owned SimpleCallback standard_control_changed, Gee.List<ILaunchOption> launch_option_handlers) {
+        public GpuVendorOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
 
             var header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);

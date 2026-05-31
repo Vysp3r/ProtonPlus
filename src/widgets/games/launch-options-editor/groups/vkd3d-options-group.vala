@@ -7,7 +7,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile vkd3d_gpuva_tile { get; private set; }
         LaunchOptionTile vkd3d_shader_cache_tile { get; private set; }
 
-        public Vkd3dOptionsGroup (owned SimpleCallback standard_control_changed, Gee.List<ILaunchOption> launch_option_handlers) {
+        public Vkd3dOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base(standard_control_changed, launch_option_handlers);
 
             this.title = _ ("VKD3D options");

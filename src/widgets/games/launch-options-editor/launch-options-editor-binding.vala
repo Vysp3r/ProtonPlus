@@ -4,12 +4,20 @@ using Adw;
         public string[] tokens { get; set; }
         public Gtk.Switch toggle { get; set; }
 
+        public LaunchLineType line_type { get; set; default = LaunchLineType.ENVIRONMENT; }
+        private Gee.List<ILaunchOption> _children;
         public bool is_advanced { get; set; default = false; }
 
-        public LaunchOptionBinding (string[] tokens, Gtk.Switch toggle, bool is_advanced = false) {
+        public LaunchOptionBinding (string[] tokens, Gtk.Switch toggle, bool is_advanced = false, LaunchLineType line_type = LaunchLineType.ENVIRONMENT) {
             this.tokens = tokens;
             this.toggle = toggle;
             this.is_advanced = is_advanced;
+            this.line_type = line_type;
+            this._children = new Gee.ArrayList<ILaunchOption> ();
+        }
+
+        public void add_child (ILaunchOption child) {
+            this._children.add (child);
         }
 
         public void parse_tokens (string[] tokens_pool, bool[] consumed) {
@@ -35,6 +43,10 @@ using Adw;
                     consumed[token_index] = true;
                 }
             }
+
+            foreach (var child in this._children) {
+                child.parse_tokens (tokens_pool, consumed);
+            }
         }
 
         public void append_command_segments (Gee.LinkedList<string> segments) {
@@ -45,10 +57,19 @@ using Adw;
             foreach (var token in this.tokens) {
                 segments.add (token);
             }
+
+            foreach (var child in this._children) {
+                if (child.is_active ()) {
+                    child.append_command_segments (segments);
+                }
+            }
         }
 
         public void clear () {
             this.toggle.set_active (false);
+            foreach (var child in this._children) {
+                child.clear ();
+            }
         }
 
         private int get_unconsumed_token_index (string[] tokens_pool, string token, bool[] consumed) {

@@ -5,13 +5,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         SCOPEBUDDY
     }
 
-    enum LAUNCH_LINE_TYPE {
-        ENVIRONMENT,
-        WRAPPER,
-        COMMAND,
-        ARGUMENT
-    }
-
     public class Box : Gtk.Box {
         public signal void content_changed ();
 
@@ -49,7 +42,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Groups.GpuVendorOptionsGroup gpu_vendor_group;
         List<LaunchOptionBinding> game_argument_bindings;
         List<LaunchOptionBinding> scopebuddy_bindings;
-        Gee.List<ILaunchOption> launch_option_handlers;
+        LaunchOptionsList launch_option_handlers;
         bool advanced_visible;
         bool refreshing_controls;
         bool can_auto_enable_command;
@@ -57,7 +50,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         construct {
             game_argument_bindings = new List<LaunchOptionBinding> ();
             scopebuddy_bindings = new List<LaunchOptionBinding> ();
-            launch_option_handlers = new Gee.ArrayList<ILaunchOption> ();
+            launch_option_handlers = new LaunchOptionsList ();
             advanced_visible = false;
             can_auto_enable_command = true;
             refreshing_controls = true;
@@ -316,7 +309,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var tile = new LaunchOptionTile (title, subtitle);
             tile.toggle.notify["active"].connect (standard_control_changed);
 
-            game_argument_bindings.append (new LaunchOptionBinding (tokens, tile.toggle));
+            game_argument_bindings.append (new LaunchOptionBinding (tokens, tile.toggle, false, LaunchLineType.ARGUMENT));
 
             return tile;
         }
@@ -575,6 +568,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Gee.LinkedList<string> get_command_segments () {
             var segments = new Gee.LinkedList<string> ();
             var selected_wrapper_mode = get_selected_wrapper_mode ();
+            // TODO: activate after all will in launch_option_handlers
+            //var segments = launch_option_handlers.get_segments ();
 
             foreach (var editor in launch_option_handlers) {
                 if (editor == gamescope_resolution_field || editor == scopebuddy_resolution_field) {

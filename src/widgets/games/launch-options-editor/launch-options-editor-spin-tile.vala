@@ -11,10 +11,13 @@ using Adw;
         int upper_value;
         int committed_value;
         public bool is_advanced { get; set; default = false; }
+        public LaunchLineType line_type { get; set; }
+        private Gee.List<ILaunchOption> _children;
         private string env_prefix;
 
         public LaunchOptionSpinTile (string title, string subtitle, string value_label, double lower, double upper, int default_value, string env_prefix) {
             Object (title: title, subtitle: subtitle);
+            this._children = new Gee.ArrayList<ILaunchOption> ();
             this.env_prefix = env_prefix;
             subtitle_lines = 0;
 
@@ -109,6 +112,10 @@ using Adw;
         public void clear () {
             this.toggle.set_active (false);
             this.set_value (this.committed_value);
+
+            foreach (var child in this._children) {
+                child.clear ();
+            }
         }
 
         public bool is_active () {
@@ -130,12 +137,25 @@ using Adw;
                     }
                 }
             }
+            foreach (var child in this._children) {
+                child.parse_tokens (tokens, consumed);
+            }
         }
 
         public void append_command_segments (Gee.LinkedList<string> segments) {
             if (this.toggle.get_active ()) {
                 segments.add ("%s%d".printf (this.env_prefix, this.get_value_as_int ()));
+
+                foreach (var child in this._children) {
+                    if (child.is_active ()) {
+                        child.append_command_segments (segments);
+                    }
+                }
             }
+        }
+
+        public void add_child (ILaunchOption child) {
+            this._children.add (child);
         }
 
     }

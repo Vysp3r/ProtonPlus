@@ -9,7 +9,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile proton_logs_tile { get; private set; }
         LaunchOptionDllOverrides dll_overrides_pair_editor { get; private set; }
 
-        public ProtonOptionsGroup (owned SimpleCallback standard_control_changed, Gee.List<ILaunchOption> launch_option_handlers) {
+        public ProtonOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base(standard_control_changed, launch_option_handlers);
 
             this.title = _ ("Proton options");

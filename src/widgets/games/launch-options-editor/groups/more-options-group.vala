@@ -13,7 +13,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile wine_sync_use_futex_waitv_tile { get; private set; }
         LaunchOptionTile wine_writecopy_tile { get; private set; }
 
-        public MoreOptionsGroup (owned SimpleCallback standard_control_changed, Gee.List<ILaunchOption> launch_option_handlers) {
+        public MoreOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base(standard_control_changed, launch_option_handlers, true);
 
             this.title = _ ("More options");

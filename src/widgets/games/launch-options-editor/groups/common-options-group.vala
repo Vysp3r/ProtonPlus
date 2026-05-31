@@ -6,7 +6,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile steam_deck_tile { get; private set; }
         LaunchOptionTile wayland_tile { get; private set; }
 
-        public CommonOptionsGroup (owned SimpleCallback standard_control_changed, Gee.List<ILaunchOption> launch_option_handlers) {
+        public CommonOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base(standard_control_changed, launch_option_handlers);
 
             this.title = _ ("Common options");
@@ -15,7 +15,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             mangohud_tile = create_tile (
                 _ ("Performance overlay"), 
                 _ ("Shows an in-game overlay with FPS, CPU/GPU usage, and temps."), 
-                { "mangohud" }
+                { "mangohud" },
+                false,
+                LaunchLineType.WRAPPER
             );
 
             if (Globals.MANGOHUD_INSTALLED) {

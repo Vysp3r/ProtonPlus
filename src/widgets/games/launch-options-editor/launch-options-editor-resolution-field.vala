@@ -14,11 +14,14 @@ using Adw;
         int committed_height;
         
         public bool is_advanced { get; set; default = false; }
+        public LaunchLineType line_type { get; set; }
+        private Gee.List<ILaunchOption> _children;
         private bool is_scopebuddy;
         public new signal void changed ();
 
         public LaunchOptionResolutionField (string title, string subtitle, bool include_auto = false, bool is_scopebuddy = false) {
             this.is_scopebuddy = is_scopebuddy;
+            this._children = new Gee.ArrayList<ILaunchOption> ();
 
             committed_width = 3840;
             committed_height = 2160;
@@ -92,8 +95,16 @@ using Adw;
             refresh_options_visibility ();
         }
 
+        public void add_child (ILaunchOption child) {
+            this._children.add (child);
+        }
+
         public void clear () {
             this.reset ();
+
+            foreach (var child in this._children) {
+                child.clear ();
+            }
         }
 
         public void parse_tokens (string[] tokens, bool[] consumed) {
@@ -128,6 +139,10 @@ using Adw;
                     }
                 }
             }
+
+            foreach (var child in this._children) {
+                child.parse_tokens (tokens, consumed);
+            }
         }
 
         public void append_command_segments (Gee.LinkedList<string> segments) {
@@ -146,6 +161,12 @@ using Adw;
                 this.get_resolution (out width, out height);
                 segments.add ("-W %d".printf (width));
                 segments.add ("-H %d".printf (height));
+            }
+
+            foreach (var child in this._children) {
+                if (child.is_active ()) {
+                    child.append_command_segments (segments);
+                }
             }
         }
 

@@ -16,7 +16,8 @@ sources += files(
     'launch-options-editor-tile.vala',
     'launch-options-editor-box.vala',
     'launch-options-editor-vkd3d-config.vala',
-    'launch-options-editor-vkd3d-log-level.vala'
+    'launch-options-editor-vkd3d-log-level.vala',
+    'launch-options-list.vala'
 )
 
 subdir('groups')
