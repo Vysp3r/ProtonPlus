@@ -1,5 +1,6 @@
 # Temporary build files.
 buildDir/
+builddir/
 _build/
 .flatpak-builder/
 .flatpak/
