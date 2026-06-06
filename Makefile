@@ -15,6 +15,9 @@ build:
 build-run:
 	./scripts/build.sh native run
 
+build-debug:
+	./scripts/build.sh native debug
+
 run: build-run
 
 clean:
