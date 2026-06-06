@@ -160,6 +160,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         void refresh_advanced_visibility () {
             var is_advanced = advanced_visible;
+            this.advanced_state_detected (advanced_visible);
             preview_field.set_visible (is_advanced);
             more_options_group.set_visible (is_advanced);
             proton_options_group.set_visible (is_advanced);
