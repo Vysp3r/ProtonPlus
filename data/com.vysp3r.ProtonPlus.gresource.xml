@@ -4,8 +4,10 @@
         <file preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/gtk/help-overlay.ui</file>
         <file alias="runners.json">runners.json</file>
         <file alias="bottles.svg">images/bottles.svg</file>
+        <file alias="fork.svg">images/fork.svg</file>
         <file alias="hgl.svg">images/hgl.svg</file>
         <file alias="lutris.svg">images/lutris.svg</file>
+        <file alias="rocket.svg">images/rocket.svg</file>
         <file alias="steam.svg">images/steam.svg</file>
         <file alias="winezgui.svg">images/winezgui.svg</file>
         <file alias="style.css">css/style.css</file>

@@ -4,7 +4,7 @@ namespace ProtonPlus.Widgets.Introduction {
 
     class Base : Gtk.Box {
 
-        public Base (string title_text, string description_text, string? icon_name = null) {
+        public Base (string title_text, string description_text, string? image_source = null) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 18);
             this.hexpand = true;
             this.vexpand = true;
@@ -15,8 +15,15 @@ namespace ProtonPlus.Widgets.Introduction {
             this.margin_start = 24;
             this.margin_end = 24;
 
-            if (icon_name != null) {
-                var image = new Gtk.Image.from_icon_name (icon_name);
+            if (image_source != null) {
+                Gtk.Image image;
+
+                if (image_source.has_prefix ("/") || image_source.contains (Config.RESOURCE_BASE)) {
+                    image = new Gtk.Image.from_resource (image_source);
+                } else {
+                    image = new Gtk.Image.from_icon_name (image_source);
+                }
+
                 image.pixel_size = 96;
                 this.append (image);
             }

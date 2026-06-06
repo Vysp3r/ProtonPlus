@@ -7,7 +7,7 @@ namespace ProtonPlus.Widgets.Introduction {
             base (
                   _("What is Wine?"),
                   _("Wine is a compatibility layer capable of running Windows applications on Linux systems by translating Windows API calls on the fly."),
-                  "preferences-desktop-gaming-symbolic"
+                  "%s/winezgui.svg".printf (Config.RESOURCE_BASE)
             );
         }
     }
