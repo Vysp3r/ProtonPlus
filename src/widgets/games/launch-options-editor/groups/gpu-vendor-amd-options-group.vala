@@ -19,7 +19,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             base ((owned) standard_control_changed, launch_option_handlers, true);
             refreshing_controls = true;
 
-            // MESA_SHADER_CACHE_MAX_SIZE=8G MESA_SHADER_CACHE_DISABLE=0 VK_LOADER_DRIVERS_DISABLE=dzn DXVK_FRAME_RATE=145 ACO_DEBUG=validate
+            // MESA_SHADER_CACHE_MAX_SIZE=8G VK_LOADER_DRIVERS_DISABLE=dzn  ACO_DEBUG=validate
 
             amd_anti_lag_tile = create_tile (_("Mesa Anti-Lag"), _("Reduces latency on supported AMD Mesa setups."), { "ENABLE_LAYER_MESA_ANTI_LAG=1" });
             amd_prime_tile = create_tile (_("Use dGPU"), _("Makes the game use the AMD dGPU on hybrid systems."), { "DRI_PRIME=1" });
