@@ -13,13 +13,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionAmdIcd amd_icd_editor { get; set; }
         LaunchOptionRadvPerftest radv_perf_editor { get; set; }
         LaunchOptionRadvDebug radv_debug_editor { get; set; }
+        LaunchOptionAcoDebug aco_debug_editor { get; set; }
         bool refreshing_controls;
 
         public GpuVendorAmdOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base ((owned) standard_control_changed, launch_option_handlers, true);
             refreshing_controls = true;
-
-            // MESA_SHADER_CACHE_MAX_SIZE=8G VK_LOADER_DRIVERS_DISABLE=dzn  ACO_DEBUG=validate
 
             amd_anti_lag_tile = create_tile (_("Mesa Anti-Lag"), _("Reduces latency on supported AMD Mesa setups."), { "ENABLE_LAYER_MESA_ANTI_LAG=1" });
             amd_prime_tile = create_tile (_("Use dGPU"), _("Makes the game use the AMD dGPU on hybrid systems."), { "DRI_PRIME=1" });
@@ -41,6 +40,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             radv_debug_editor = new LaunchOptionRadvDebug ();
             radv_perf_editor = new LaunchOptionRadvPerftest ();
             amd_icd_editor = new LaunchOptionAmdIcd ();
+            aco_debug_editor = new LaunchOptionAcoDebug ();
 
             radv_debug_editor.changed.connect ((row) => {
                 this.standard_control_changed ();
@@ -51,13 +51,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             amd_icd_editor.changed.connect ((row) => {
                 this.standard_control_changed ();
             });
+            aco_debug_editor.changed.connect ((row) => {
+                this.standard_control_changed ();
+            });
             radv_debug_editor.set_tooltip_text (_("Configure RADV debug options for troubleshooting and performance testing."));
             radv_perf_editor.set_tooltip_text (_("Configure RADV performance test options for testing experimental driver features. Use with caution as these features can cause instability or other issues."));
             amd_icd_editor.set_tooltip_text (_("Select which AMD Vulkan driver to use. This can be used to switch between RADV and AMD's official Vulkan driver on supported systems."));
+            aco_debug_editor.set_tooltip_text (_("Configure ACO compiler debug options to troubleshoot shader compilation issues, fix in-game stuttering, or analyze graphics performance. Use with caution."));
 
             launch_option_handlers.add (radv_debug_editor);
             launch_option_handlers.add (radv_perf_editor);
             launch_option_handlers.add (amd_icd_editor);
+            launch_option_handlers.add (aco_debug_editor);
 
             this.add (amd_anti_lag_tile);
             this.add (amd_fsr4_upgrade_tile);
@@ -71,6 +76,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.add (radv_debug_editor);
             this.add (radv_perf_editor);
             this.add (amd_icd_editor);
+            this.add (aco_debug_editor);
 
             refreshing_controls = false;
         }

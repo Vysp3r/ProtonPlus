@@ -2,6 +2,7 @@ sources += files(
     'base-binding.vala',
     'entry-binding.vala',
     'i-launch-option.vala',
+    'launch-options-editor-aco-debug.vala',
     'launch-options-editor-custom-expander-row.vala',
     'launch-options-editor-amd-icd.vala',
     'launch-options-editor-binding.vala',
