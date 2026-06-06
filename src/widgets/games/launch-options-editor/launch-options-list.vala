@@ -107,12 +107,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public Gee.List<ILaunchOption> get_wrappers () {
-            var wrapper = this.get_options_by_type (LaunchLineType.WRAPPER);
-            // var args = this.get_options_by_type (LaunchLineType.WRAPPER_ARGUMENT);
-
-            // wrapper.add_all (args);
-
-            return wrapper;
+            return this.get_options_by_type (LaunchLineType.WRAPPER);
         }
 
         public Gee.List<ILaunchOption> get_commands () {
@@ -137,6 +132,54 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public Gee.Iterator<ILaunchOption> iterator () {
             return this._options.iterator ();
+        }
+
+        public string[] get_launch_option_tokens (string launch_options) {
+            return normalize_launch_options (launch_options).split (" ");
+        }
+
+        public bool load_from_string (string launch_options) {
+            this.clear_all ();
+
+            var tokens = this.get_launch_option_tokens (launch_options);
+            var consumed = new bool[tokens.length];
+
+            this.parse_all_tokens (tokens, consumed);
+
+            for (var i = 0; i < tokens.length; i++) {
+                if (tokens[i] == "%command%") {
+                    consumed[i] = true;
+                    break;
+                }
+            }
+
+            foreach (var option in this._options) {
+                if (option.is_advanced && option.is_active ()) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        string normalize_launch_options (string launch_options) {
+            var output = new StringBuilder ();
+
+            foreach (var token in launch_options.strip ().split (" ")) {
+                if (token == "")
+                    continue;
+
+                append_token (output, token);
+            }
+
+            return output.str;
+        }
+
+        void append_token (StringBuilder output, string token) {
+            if (output.len > 0)
+                output.append (" ");
+
+            output.append (token);
         }
     }
 }

@@ -33,7 +33,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             set_spacing (15);
 
             // Launch command preview
-
             preview_field = new LaunchOptionPreviewField (_("Launch command preview"));
             append (preview_field);
 
@@ -42,7 +41,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (common_group);
 
             // Launch tools
-
             wrapper_group = new Groups.WrapperGroup (standard_control_changed, launch_option_handlers);
             append (wrapper_group);
 
@@ -59,17 +57,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (vkd3d_options_group);
 
             // More options
-
             more_options_group = new Groups.MoreOptionsGroup (standard_control_changed, launch_option_handlers);
             append (more_options_group);
 
             // Proton options
-
             proton_options_group = new Groups.ProtonOptionsGroup (standard_control_changed, launch_option_handlers);
             append (proton_options_group);
 
             // Audio options
-
             audio_group = new Groups.AudioOptionsGroup (standard_control_changed, launch_option_handlers);
             append (audio_group);
 
@@ -78,7 +73,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (game_arguments_group);
 
             // Advanced options
-
             advanced_options_group = new Groups.AdvancedOptionsGroup (standard_control_changed, launch_option_handlers);
             append (advanced_options_group);
 
@@ -93,7 +87,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public void set_advanced_visible (bool visible) {
             advanced_visible = visible;
-            refresh_advanced_visibility ();
+
+            preview_field.set_visible (advanced_visible);
+            more_options_group.set_visible (advanced_visible);
+            proton_options_group.set_visible (advanced_visible);
+            gpu_vendor_group.set_visible (advanced_visible);
+            game_arguments_group.set_visible (advanced_visible);
+            advanced_options_group.set_visible (advanced_visible);
+
+            standard_control_changed ();
         }
 
         public void clear () {
@@ -118,102 +120,43 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public void set_text (string launch_options) {
-            var tokens = get_launch_option_tokens (launch_options);
-            var consumed = new bool[tokens.length];
             refreshing_controls = true;
 
-            reset_controls ();
+            gpu_vendor_group.reset_controls ();
 
-            foreach (var editor in launch_option_handlers) {
-                editor.parse_tokens (tokens, consumed);
-            }
+            var has_advanced = launch_option_handlers.load_from_string (launch_options);
 
             gpu_vendor_group.normalize_dependencies ();
-
-            var command_index = get_token_index (tokens, "%command%");
-            if (command_index >= 0)
-                consumed[command_index] = true;
-
             gpu_vendor_group.select_preferred_page ();
 
-            advanced_visible = should_show_advanced_controls ();
+            advanced_visible = has_advanced;
             this.advanced_state_detected (advanced_visible);
             refresh_advanced_visibility ();
 
             refreshing_controls = false;
-            refresh_preview ();
-        }
-
-        void reset_controls () {
-            gpu_vendor_group.reset_controls ();
-
-            foreach (var editor in launch_option_handlers) {
-                editor.clear ();
-            }
+            standard_control_changed ();
         }
 
         void standard_control_changed () {
-
             refresh_preview ();
             content_changed ();
         }
 
-        void refresh_advanced_visibility () {
-            var is_advanced = advanced_visible;
-            this.advanced_state_detected (advanced_visible);
-            preview_field.set_visible (is_advanced);
-            more_options_group.set_visible (is_advanced);
-            proton_options_group.set_visible (is_advanced);
-            gpu_vendor_group.set_visible (is_advanced);
-            game_arguments_group.set_visible (is_advanced);
-            advanced_options_group.set_visible (is_advanced);
+        void refresh_advanced_visibility_state () {
+            preview_field.set_visible (advanced_visible);
+            more_options_group.set_visible (advanced_visible);
+            proton_options_group.set_visible (advanced_visible);
+            gpu_vendor_group.set_visible (advanced_visible);
+            game_arguments_group.set_visible (advanced_visible);
+            advanced_options_group.set_visible (advanced_visible);
         }
 
-        bool should_show_advanced_controls () {
-            foreach (var handler in this.launch_option_handlers) {
-                if (handler.is_advanced && handler.is_active ()) {
-                    return true;
-                }
-            }
-
-            return false;
+        void refresh_advanced_visibility () {
+            refresh_advanced_visibility_state ();
         }
 
         void refresh_preview () {
             preview_field.preview_label.set_markup (launch_option_handlers.build_preview_markup ());
-        }
-
-        int get_token_index (string[] tokens, string token) {
-            for (var index = 0; index < tokens.length; index++) {
-                if (tokens[index] == token)
-                    return index;
-            }
-
-            return -1;
-        }
-
-        string[] get_launch_option_tokens (string launch_options) {
-            return normalize_launch_options (launch_options).split (" ");
-        }
-
-        string normalize_launch_options (string launch_options) {
-            var output = new StringBuilder ();
-
-            foreach (var token in launch_options.strip ().split (" ")) {
-                if (token == "")
-                    continue;
-
-                append_token (output, token);
-            }
-
-            return output.str;
-        }
-
-        void append_token (StringBuilder output, string token) {
-            if (output.len > 0)
-                output.append (" ");
-
-            output.append (token);
         }
     }
 }
