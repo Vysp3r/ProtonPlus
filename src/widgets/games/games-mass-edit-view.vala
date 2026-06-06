@@ -66,13 +66,15 @@ namespace ProtonPlus.Widgets.Games {
             });
 
             launch_options_editor = new LaunchOptionsEditor.Box ();
-            advanced_switch.notify["active"].connect (() => launch_options_editor.set_advanced_visible (advanced_switch.get_active ()));
-            launch_options_editor.content_changed.connect (refresh);
+            advanced_switch.notify["active"].connect (() => {
+                launch_options_editor.set_advanced_visible (advanced_switch.get_active ());
+            });
             launch_options_editor.advanced_state_detected.connect ((is_advanced) => {
                 if (advanced_switch.active != is_advanced) {
                     advanced_switch.active = is_advanced;
                 }
             });
+            launch_options_editor.content_changed.connect (refresh);
 
             launch_options_group = new Adw.PreferencesGroup ();
 
