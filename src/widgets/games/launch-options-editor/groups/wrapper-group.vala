@@ -56,7 +56,26 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.set_header_suffix (switcher);
             this.add (stack);
 
+            gamescope.notify["active"].connect (() => {
+                if (gamescope.active && !refreshing_controls) {
+                    refreshing_controls = true;
+                    stack.set_visible_child_name ("gamescope");
+                    refreshing_controls = false;
+                }
+            });
+
+            scopebuddy.notify["active"].connect (() => {
+                if (scopebuddy.active && !refreshing_controls) {
+                    refreshing_controls = true;
+                    stack.set_visible_child_name ("scopebuddy");
+                    refreshing_controls = false;
+                }
+            });
+
+            refreshing_controls = true;
+            stack.set_visible_child_name ("none");
             refreshing_controls = false;
+            selection_changed ();
         }
 
         void selection_changed () {
@@ -67,25 +86,28 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
             var current_wrapper = stack.get_visible_child_name ();
 
-            if (current_wrapper != "none") {
+            if (current_wrapper == "none") {
+                none.active = true;
+                gamescope.active = false;
                 scopebuddy.active = false;
+                gamescope.selection_change ();
+                scopebuddy.selection_change ();
+            } else if (current_wrapper == "gamescope") {
+                gamescope.active = true;
+                none.active = false;
+                scopebuddy.active = false;
+                none.selection_change ();
+                scopebuddy.selection_change ();
+            } else if (current_wrapper == "scopebuddy") {
+                scopebuddy.active = true;
+                none.active = false;
                 gamescope.active = false;
                 none.selection_change ();
-            }
-
-            if (current_wrapper != "gamescope") {
-                gamescope.active = true;
-                scopebuddy.active = false;
                 gamescope.selection_change ();
             }
 
-            if (current_wrapper != "scopebuddy") {
-                scopebuddy.active = false;
-                gamescope.active = true;
-                scopebuddy.selection_change ();
-            }
-
             refreshing_controls = false;
+            this.standard_control_changed ();
         }
     }
 }
