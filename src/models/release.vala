@@ -309,7 +309,7 @@ namespace ProtonPlus.Models {
             if (runner.group.launcher.title != "Steam")
             return;
 
-            var simple_runner = new Tools.Simple.from_path(install_location);
+            var simple_runner = new Tools.Simple.from_path (install_location);
 
             runner.group.launcher.compatibility_tools.add (simple_runner);
         }
