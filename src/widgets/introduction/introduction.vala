@@ -8,6 +8,11 @@ namespace ProtonPlus.Widgets.Introduction {
         Gtk.Box content_box { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
 
+        Adw.Carousel car;
+        private Gtk.Button prev_button;
+        private Gtk.Button next_button;
+        private Gee.ArrayList<Gtk.Widget> pages;
+
         public Introduction () {
             window_title = new Adw.WindowTitle (_("Introduction"), "");
 
@@ -21,28 +26,48 @@ namespace ProtonPlus.Widgets.Introduction {
             content_box.set_margin_bottom (12);
             content_box.set_margin_top (12);
 
-            var car = new Adw.Carousel ();
+            var carousel_row = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+            carousel_row.set_hexpand (true);
+            carousel_row.set_vexpand (true);
+
+            car = new Adw.Carousel ();
             car.set_hexpand (true);
             car.set_vexpand (true);
 
-            var application = new Application ();
-            var forks = new Forks ();
-            var how_to_use = new HowToUse ();
-            var proton = new Proton ();
-            var wine = new Wine ();
+            pages = new Gee.ArrayList<Gtk.Widget> ();
+            pages.add (new Application ());
+            pages.add (new Wine ());
+            pages.add (new Proton ());
+            pages.add (new Forks ());
+            pages.add (new HowToUse ());
 
-            car.append (application);
-            car.append (wine);
-            car.append (proton);
-            car.append (forks);
-            car.append (how_to_use);
+            foreach (var page in pages) {
+                car.append (page);
+            }
 
-            content_box.append (car);
+            prev_button = new Gtk.Button.from_icon_name ("go-previous-symbolic");
+            prev_button.add_css_class ("circular");
+            prev_button.valign = Gtk.Align.CENTER;
+            prev_button.clicked.connect (on_prev_clicked);
+
+            next_button = new Gtk.Button.from_icon_name ("go-next-symbolic");
+            next_button.add_css_class ("circular");
+            next_button.valign = Gtk.Align.CENTER;
+            next_button.clicked.connect (on_next_clicked);
+
+            carousel_row.append (prev_button);
+            carousel_row.append (car);
+            carousel_row.append (next_button);
+            content_box.append (carousel_row);
 
             var dots = new Adw.CarouselIndicatorDots ();
             dots.set_carousel (car);
             dots.set_halign (Gtk.Align.CENTER);
             content_box.append (dots);
+
+            car.notify["position"].connect (update_buttons_visibility);
+
+            update_buttons_visibility ();
 
             toolbar_view = new Adw.ToolbarView ();
             toolbar_view.add_top_bar (header_bar);
@@ -52,6 +77,27 @@ namespace ProtonPlus.Widgets.Introduction {
             set_content_height (400);
             set_can_close (true);
             set_child (toolbar_view);
+        }
+
+        private void on_prev_clicked () {
+            uint current_page = (uint) Math.round (car.position);
+            if (current_page > 0) {
+                car.scroll_to (pages.get ((int) current_page - 1), true);
+            }
+        }
+
+        private void on_next_clicked () {
+            uint current_page = (uint) Math.round (car.position);
+            if (current_page < pages.size - 1) {
+                car.scroll_to (pages.get ((int) current_page + 1), true);
+            }
+        }
+
+        private void update_buttons_visibility () {
+            uint current_page = (uint) Math.round (car.position);
+
+            prev_button.sensitive = (current_page > 0);
+            next_button.sensitive = (current_page < pages.size - 1);
         }
     }
 }
