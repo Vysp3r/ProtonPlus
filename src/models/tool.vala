@@ -25,10 +25,24 @@ namespace ProtonPlus.Models {
         public string? last_version {
             owned get {
                 if (_last_version != null && _last_version.length > 0)
-                return _last_version;
+                    return _last_version;
 
-                Release lastRelease = this.releases[1];
-                string title = lastRelease.title; 
+                if (this.releases == null || this.releases.size == 0) {
+                    return "";
+                }
+
+                Release? lastRelease = null;
+                if (this.releases.size > 1) {
+                    lastRelease = this.releases.get (1);
+                } else {
+                    lastRelease = this.releases.get (0);
+                }
+
+                if (lastRelease == null) {
+                    return "";
+                }
+
+                string title = lastRelease.title;
 
                 if (title == null || title == "") {
                     return "";
@@ -40,7 +54,7 @@ namespace ProtonPlus.Models {
 
                     if (regex.match (title, 0, out match)) {
                         string version = match.fetch (1);
-                        
+
                         if (version.has_suffix ("-")) {
                             version = version.substring (0, version.length - 1);
                         }
@@ -64,6 +78,7 @@ namespace ProtonPlus.Models {
             } else {
                 if (!force_fetch) {
                     yield Utils.CacheManager.load_releases (this);
+
                     if (releases.size > 0) {
                         code = ReturnCode.RELEASES_LOADED;
                         return releases;
@@ -75,7 +90,7 @@ namespace ProtonPlus.Models {
                 var new_releases = yield load_more (out code);
 
                 if (code != ReturnCode.RELEASES_LOADED || new_releases.size == 0)
-                return releases;
+                    return releases;
 
                 releases.clear ();
                 foreach (var release in new_releases) {
@@ -102,14 +117,14 @@ namespace ProtonPlus.Models {
             var latest_runners = new Gee.LinkedList<Models.Tools.Basic> ();
 
             foreach (var launcher in launchers) {
-                if (launcher.groups == null) continue;
+                if (launcher.groups == null)continue;
 
                 foreach (var group in launcher.groups) {
                     var directories = group.get_tool_directories ();
 
                     foreach (var tool in group.tools) {
                         if (!tool.has_latest_support || !(tool is Models.Tools.Basic))
-                        continue;
+                            continue;
 
                         foreach (var directory in directories) {
                             if (directory == "%s Latest".printf (tool.title)) {
@@ -119,6 +134,7 @@ namespace ProtonPlus.Models {
 
                             if (directory == "%s Latest Backup".printf (tool.title)) {
                                 var deleted_old_backup = yield Utils.Filesystem.delete_directory ("%s/%s/%s Latest Backup".printf (launcher.directory, group.directory, tool.title));
+
                                 if (!deleted_old_backup) {
                                     warning ("Failed to delete old backup for %s", tool.title);
                                     return ReturnCode.UNKNOWN_ERROR;
@@ -138,6 +154,7 @@ namespace ProtonPlus.Models {
 
             foreach (var runner in latest_runners) {
                 var code = yield update_specific_runner (runner);
+
                 if (code == ReturnCode.RUNNER_UPDATED) {
                     updated_count++;
                 } else if (code != ReturnCode.NOTHING_TO_UPDATE) {
@@ -153,14 +170,14 @@ namespace ProtonPlus.Models {
 
             string query_param;
             switch (runner.get_request_type) {
-                case Utils.Web.GetRequestType.FORGEJO:
-                    query_param = "limit=1";
-                    break;
-                case Utils.Web.GetRequestType.GITHUB:
-                case Utils.Web.GetRequestType.GITLAB:
-                default:
-                    query_param = "per_page=1";
-                    break;
+            case Utils.Web.GetRequestType.FORGEJO :
+                query_param = "limit=1";
+                break;
+            case Utils.Web.GetRequestType.GITHUB:
+            case Utils.Web.GetRequestType.GITLAB:
+            default:
+                query_param = "per_page=1";
+                break;
             }
 
             var base_runner_directory = "%s%s".printf (runner.group.launcher.directory, runner.group.directory);
@@ -170,31 +187,31 @@ namespace ProtonPlus.Models {
             var code = yield Utils.Web.get_request ("%s?%s".printf (runner.endpoint, query_param), runner.get_request_type, out response);
 
             if (code != ReturnCode.VALID_REQUEST) {
-            // If API is unavailable but we have a tag file, assume up to date
+                // If API is unavailable but we have a tag file, assume up to date
                 if (FileUtils.test (tag_path, FileTest.IS_REGULAR))
-                return ReturnCode.NOTHING_TO_UPDATE;
+                    return ReturnCode.NOTHING_TO_UPDATE;
                 return code;
             }
 
             var root_node = Utils.Parser.get_node_from_json (response);
             if (root_node == null)
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             if (root_node.get_node_type () != Json.NodeType.ARRAY)
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             var root_array = root_node.get_array ();
             if (root_array == null)
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             if (root_array.get_length () != 1)
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             var object = root_array.get_object_element (0);
 
             var asset_array = object.get_array_member ("assets");
             if (asset_array == null)
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             string title = object.get_string_member ("tag_name");
             string description = object.get_string_member ("body").strip ();
@@ -222,33 +239,33 @@ namespace ProtonPlus.Models {
             }
 
             if (download_url == "" || !download_url.contains (".tar"))
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             if (FileUtils.test (tag_path, FileTest.IS_REGULAR)) {
                 var stored_tag = Utils.Filesystem.get_file_content (tag_path).strip ();
                 if (stored_tag != "" && title == stored_tag)
-                return ReturnCode.NOTHING_TO_UPDATE;
+                    return ReturnCode.NOTHING_TO_UPDATE;
             }
 
             var version_content = Utils.Filesystem.get_file_content ("%s/version".printf (runner_directory));
             if (version_content == "")
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             var version_title = version_content.split (" ")[1].strip ();
 
             var proton_content = Utils.Filesystem.get_file_content ("%s/proton".printf (runner_directory));
             if (proton_content == "")
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             var proton_start_word = "CURRENT_PREFIX_VERSION=\"";
             var proton_start_index = proton_content.index_of (proton_start_word, 0);
             if (proton_start_index == -1)
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
             proton_start_index += proton_start_word.length;
 
             var proton_end_index = proton_content.index_of ("\"", proton_start_index);
             if (proton_end_index == -1)
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             var proton_title = proton_content.substring (proton_start_index, proton_end_index - proton_start_index);
 
@@ -260,8 +277,9 @@ namespace ProtonPlus.Models {
             var backup_runner_directory = "%s/%s Latest Backup".printf (base_runner_directory, runner.title);
 
             var moved = yield Utils.Filesystem.move_directory (runner_directory, backup_runner_directory);
+
             if (!moved)
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             var release = new Models.Releases.Latest (runner as Models.Tools.Basic, "%s Latest".printf (runner.title), description, release_date, download_url, page_url);
             release.state = Models.Release.State.BUSY_UPDATING;
@@ -270,7 +288,7 @@ namespace ProtonPlus.Models {
                 var deleted = yield Utils.Filesystem.delete_directory (runner_directory);
 
                 if (deleted)
-                yield Utils.Filesystem.move_directory (backup_runner_directory, runner_directory);
+                    yield Utils.Filesystem.move_directory (backup_runner_directory, runner_directory);
 
                 return ReturnCode.UNKNOWN_ERROR;
             }
@@ -283,7 +301,7 @@ namespace ProtonPlus.Models {
                 if (backup_settings_is_symlink) {
                     var copied = Utils.Filesystem.copy_symlink (backup_settings_path, settings_path);
                     if (!copied)
-                    return ReturnCode.UNKNOWN_ERROR;
+                        return ReturnCode.UNKNOWN_ERROR;
                 } else {
                     Utils.Filesystem.create_file (settings_path, Utils.Filesystem.get_file_content (backup_settings_path));
                 }
@@ -292,8 +310,9 @@ namespace ProtonPlus.Models {
             Utils.Filesystem.create_file (tag_path, title);
 
             var deleted = yield Utils.Filesystem.delete_directory (backup_runner_directory);
+
             if (!deleted)
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             return ReturnCode.RUNNER_UPDATED;
         }
