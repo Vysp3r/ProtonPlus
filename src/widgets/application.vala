@@ -12,6 +12,7 @@ namespace ProtonPlus.Widgets {
                 { "about", this.on_about_action },
                 { "donate", this.on_donate_action },
                 { "reload", this.on_reload_action },
+                { "introduction", this.on_introduction_action },
                 { "on_language_change", this.on_language_change },
                 { "quit", this.quit },
             };
@@ -37,21 +38,21 @@ namespace ProtonPlus.Widgets {
                 var window = new Window ();
 
                 Globals.SETTINGS.bind ("width",
-                        window,
-                        "default-width",
-                        SettingsBindFlags.DEFAULT);
+                                       window,
+                                       "default-width",
+                                       SettingsBindFlags.DEFAULT);
                 Globals.SETTINGS.bind ("height",
-                        window,
-                        "default-height",
-                        SettingsBindFlags.DEFAULT);
+                                       window,
+                                       "default-height",
+                                       SettingsBindFlags.DEFAULT);
                 Globals.SETTINGS.bind ("is-maximized",
-                        window,
-                        "maximized",
-                        SettingsBindFlags.DEFAULT);
+                                       window,
+                                       "maximized",
+                                       SettingsBindFlags.DEFAULT);
                 Globals.SETTINGS.bind ("is-fullscreen",
-                        window,
-                        "fullscreened",
-                        SettingsBindFlags.DEFAULT);
+                                       window,
+                                       "fullscreened",
+                                       SettingsBindFlags.DEFAULT);
 
                 if (Globals.SETTINGS.get_boolean ("first-run")) {
                     if (Globals.IS_STEAM_OS) {
@@ -67,6 +68,12 @@ namespace ProtonPlus.Widgets {
             } else {
                 error ("GSettings schema not found or invalid: 'com.vysp3r.ProtonPlus.State'");
             }
+        }
+
+        void on_introduction_action () {
+            var window = this.active_window as Window;
+            var dialog = new Introduction.Introduction ();
+            dialog.present (window);
         }
 
         void on_report_action () {
@@ -85,7 +92,7 @@ namespace ProtonPlus.Widgets {
         }
 
         void on_reload_action () {
-            (this.active_window as Window)?.reload ();
+            (this.active_window as Window) ? .reload ();
         }
 
         public void on_language_change () {
@@ -120,15 +127,15 @@ namespace ProtonPlus.Widgets {
             about_dialog.set_application_name (Config.APP_NAME);
             about_dialog.set_application_icon (Config.APP_ID);
             about_dialog.set_version ("v" + Config.APP_VERSION);
-            about_dialog.set_comments (_ ("A modern compatibility tools manager"));
+            about_dialog.set_comments (_("A modern compatibility tools manager"));
             about_dialog.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
-            about_dialog.add_link (_ ("Website"), "https://protonplus.vysp3r.com/");
+            about_dialog.add_link (_("Website"), "https://protonplus.vysp3r.com/");
             about_dialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             about_dialog.set_copyright ("© 2022-2025 Vysp3r");
             about_dialog.set_license_type (Gtk.License.GPL_3_0);
             about_dialog.set_developers (devs);
-            about_dialog.set_translator_credits (_ ("translator-credits"));
-            about_dialog.add_credit_section (_ ("Special thanks to"), thanks);
+            about_dialog.set_translator_credits (_("translator-credits"));
+            about_dialog.add_credit_section (_("Special thanks to"), thanks);
             about_dialog.present (this.active_window);
         }
     }
