@@ -11,13 +11,14 @@ namespace ProtonPlus.Widgets.Header {
             launchers_button.launcher_selected.connect ((launcher) => launcher_selected (launcher));
 
             var menu = new Menu ();
-            menu.append (_ ("_Preferences"), "app.preferences");
-            menu.append (_ ("_Keyboard Shortcuts"), "win.show-help-overlay");
-            menu.append (_ ("_Donate"), "app.donate");
-            menu.append (_ ("_About ProtonPlus"), "app.about");
+            menu.append (_("_Preferences"), "app.preferences");
+            menu.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
+            menu.append (_("_Donate"), "app.donate");
+            menu.append (_("_About ProtonPlus"), "app.about");
+            menu.append (_("_Introduction"), "app.introduction");
 
             menu_button = new Gtk.MenuButton ();
-            menu_button.set_tooltip_text (_ ("Main Menu"));
+            menu_button.set_tooltip_text (_("Main Menu"));
             menu_button.set_icon_name ("bars-symbolic");
             menu_button.set_menu_model (menu);
 
@@ -34,8 +35,7 @@ namespace ProtonPlus.Widgets.Header {
             launchers_button.initialize (launchers);
 
             if (view_switcher.get_parent () == null)
-            header_bar.set_title_widget (view_switcher);
+                header_bar.set_title_widget (view_switcher);
         }
-
     }
 }
