@@ -40,54 +40,54 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Popover selection_popover;
 
         construct {
-            image = new Gtk.Image();
+            image = new Gtk.Image ();
 
-            status_page = new Adw.StatusPage();
+            status_page = new Adw.StatusPage ();
             status_page.set_visible (false);
 
-            game_list_box = new Gtk.ListBox();
+            game_list_box = new Gtk.ListBox ();
             game_list_box.set_hexpand (true);
             game_list_box.set_selection_mode (Gtk.SelectionMode.MULTIPLE);
             game_list_box.add_css_class ("boxed-list");
             game_list_box.add_css_class ("list-content");
 
-            spinner = new Adw.Spinner();
+            spinner = new Adw.Spinner ();
             spinner.set_halign (Gtk.Align.CENTER);
             spinner.set_valign (Gtk.Align.CENTER);
             spinner.set_size_request (32, 32);
 
-            overlay = new Gtk.Overlay();
+            overlay = new Gtk.Overlay ();
             overlay.set_hexpand (true);
             overlay.set_child (game_list_box);
 
-            scrolled_window = new Gtk.ScrolledWindow();
+            scrolled_window = new Gtk.ScrolledWindow ();
             scrolled_window.set_hexpand (true);
             scrolled_window.set_vexpand (true);
             scrolled_window.set_child (overlay);
             scrolled_window.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
 
-            mass_edit_button = new MassEditButton(game_list_box);
+            mass_edit_button = new MassEditButton (game_list_box);
             mass_edit_button.set_visible (false);
             mass_edit_button.mass_edit_requested.connect (open_mass_edit);
 
-            switch_profile_button = new SwitchProfileButton();
+            switch_profile_button = new SwitchProfileButton ();
             switch_profile_button.load_steam_profile.connect (load_steam_profile);
 
             back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic");
             back_button.add_css_class ("flat");
-            back_button.set_tooltip_text (_ ("Back"));
+            back_button.set_tooltip_text (_("Back"));
             back_button.clicked.connect (show_games_list_page);
             back_button.set_visible (false);
 
             clear_button = new Gtk.Button.from_icon_name ("eraser-symbolic");
             clear_button.add_css_class ("flat");
             clear_button.add_css_class ("clear-button");
-            clear_button.set_tooltip_text (_ ("Clear the current launch options"));
+            clear_button.set_tooltip_text (_("Clear the current launch options"));
             clear_button.set_visible (false);
 
             apply_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic");
             apply_button.add_css_class ("suggested-action");
-            apply_button.set_tooltip_text (_ ("Apply the current modification"));
+            apply_button.set_tooltip_text (_("Apply the current modification"));
             apply_button.set_visible (false);
 
             advanced_switch = new Gtk.Switch ();
@@ -95,7 +95,7 @@ namespace ProtonPlus.Widgets.Games {
 
             advanced_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
             advanced_box.set_valign (Gtk.Align.CENTER);
-            advanced_box.append (new Gtk.Label (_ ("Advanced")));
+            advanced_box.append (new Gtk.Label (_("Advanced")));
             advanced_box.append (advanced_switch);
             advanced_box.set_visible (false);
 
@@ -119,15 +119,15 @@ namespace ProtonPlus.Widgets.Games {
             selection_button.add_css_class ("bold");
 
             all_filter_check = new Gtk.CheckButton ();
-            all_filter_check.set_label (_ ("All"));
+            all_filter_check.set_label (_("All"));
             all_filter_check.active = true;
 
             native_filter_check = new Gtk.CheckButton ();
-            native_filter_check.set_label (_ ("Native"));
+            native_filter_check.set_label (_("Native"));
             native_filter_check.set_group (all_filter_check);
 
             non_steam_filter_check = new Gtk.CheckButton ();
-            non_steam_filter_check.set_label (_ ("Non-Steam"));
+            non_steam_filter_check.set_label (_("Non-Steam"));
             non_steam_filter_check.set_group (all_filter_check);
 
             var filter_popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
@@ -167,9 +167,9 @@ namespace ProtonPlus.Widgets.Games {
                 valign = Gtk.Align.CENTER,
                 icon_name = "filter-2-symbolic",
                 popover = filter_popover,
-                tooltip_text = _ ("Filter"),
+                tooltip_text = _("Filter"),
                 visible = false,
-                css_classes = {"flat"},
+                css_classes = { "flat" },
             };
 
             action_bar_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
@@ -190,14 +190,14 @@ namespace ProtonPlus.Widgets.Games {
             action_bar.pack_end (apply_button);
             action_bar.pack_end (advanced_box);
 
-            search_entry = new Gtk.SearchEntry() {
-                placeholder_text = _ ("Name"),
+            search_entry = new Gtk.SearchEntry () {
+                placeholder_text = _("Name"),
                 hexpand = true
             };
             search_entry.add_css_class ("flat");
             search_entry.changed.connect (load_games);
 
-            check_button = new Gtk.CheckButton();
+            check_button = new Gtk.CheckButton ();
             check_button.set_size_request (26, 26);
             check_button.toggled.connect (() => {
                 var is_active = check_button.get_active ();
@@ -210,19 +210,19 @@ namespace ProtonPlus.Widgets.Games {
                 }
             });
 
-            prefix_label = new Gtk.Label(_ ("Prefix"));
+            prefix_label = new Gtk.Label (_("Prefix"));
             prefix_label.set_xalign (0);
             prefix_label.set_size_request (110, 0);
 
-            compatibility_tool_label = new Gtk.Label(_ ("Tool"));
+            compatibility_tool_label = new Gtk.Label (_("Tool"));
             compatibility_tool_label.set_xalign (0);
             compatibility_tool_label.set_size_request (254, 0);
 
-            other_label = new Gtk.Label(_ ("Actions"));
+            other_label = new Gtk.Label (_("Actions"));
             other_label.set_xalign (0);
             other_label.set_size_request (122, 0);
 
-            header_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 12);
+            header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             header_box.set_hexpand (true);
 
             header_box.add_css_class ("list-header");
@@ -234,7 +234,7 @@ namespace ProtonPlus.Widgets.Games {
             header_box.append (compatibility_tool_label);
             header_box.append (other_label);
 
-            headered_list_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+            headered_list_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             headered_list_box.set_hexpand (true);
             headered_list_box.add_css_class ("card");
             headered_list_box.add_css_class ("transparent-card");
@@ -281,7 +281,7 @@ namespace ProtonPlus.Widgets.Games {
             clamp.set_margin_end (12);
             clamp.set_child (content_stack);
 
-            expression = new Gtk.PropertyExpression(typeof (Models.Tools.Simple), null, "display_title");
+            expression = new Gtk.PropertyExpression (typeof (Models.Tools.Simple), null, "display_title");
 
             append (clamp);
             append (action_bar);
@@ -306,7 +306,7 @@ namespace ProtonPlus.Widgets.Games {
 
                     if (steam_launcher.profiles.length () == 0) {
                         error = true;
-                        show_status_box ("bug-symbolic", _ ("No profile was found."), "%s\n%s".printf (_ ("Make sure to connect yourself at least once on Steam."), _ ("If you think this is an issue, make sure to report this on GitHub.")));
+                        show_status_box ("bug-symbolic", _("No profile was found."), "%s\n%s".printf (_("Make sure to connect yourself at least once on Steam."), _("If you think this is an issue, make sure to report this on GitHub.")));
                     } else {
                         bool multiple_profiles = steam_launcher.profiles.length () > 1;
 
@@ -328,7 +328,7 @@ namespace ProtonPlus.Widgets.Games {
                         if (multiple_profiles) {
                             game_list_box.remove_all ();
 
-                            var dialog = new ProfileDialog(steam_launcher);
+                            var dialog = new ProfileDialog (steam_launcher);
                             dialog.load_steam_profile.connect (load_steam_profile);
                             dialog.present ((Gtk.Window) this.get_root ());
                         } else {
@@ -338,7 +338,7 @@ namespace ProtonPlus.Widgets.Games {
                 }
             } else {
                 invalid = true;
-                show_status_box (launcher.icon_path, _ ("Unsupported launcher"), "%s\n%s".printf (_ ("%s is currently not supported.").printf (launcher.title), _ ("If you want me to speed up the development make sure to show your support!")), true);
+                show_status_box (launcher.icon_path, _("Unsupported launcher"), "%s\n%s".printf (_("%s is currently not supported.").printf (launcher.title), _("If you want me to speed up the development make sure to show your support!")), true);
             }
         }
 
@@ -356,9 +356,9 @@ namespace ProtonPlus.Widgets.Games {
             headered_list_box.set_visible (false);
 
             if (is_image)
-            image.set_from_resource (icon);
+                image.set_from_resource (icon);
             else
-            image.set_from_icon_name (icon);
+                image.set_from_icon_name (icon);
 
             status_page.set_vexpand (true);
             status_page.set_hexpand (true);
@@ -375,32 +375,32 @@ namespace ProtonPlus.Widgets.Games {
 
             overlay.add_overlay (spinner);
 
-            model = new ListStore(typeof (Models.Tools.Simple));
-            model.append (new Models.Tools.Simple(_ ("Default"), _ ("Default")));
+            model = new ListStore (typeof (Models.Tools.Simple));
+            model.append (new Models.Tools.Simple (_("Default"), _("Default")));
             foreach (var ct in launcher.compatibility_tools)
-            model.append (ct);
+                model.append (ct);
 
             foreach (var game in launcher.games) {
                 if (!game.name.down ().contains (search_entry.get_text ().down ()))
-                continue;
+                    continue;
 
                 if (non_steam_filter_check.active) {
                     if (!(game is Models.Games.Steam && ((Models.Games.Steam) game).is_non_steam))
-                    continue;
+                        continue;
                 } else if (native_filter_check.active) {
                     if (!game.is_native)
-                    continue;
+                        continue;
                 }
 
-                var game_row = new GameRow(game);
+                var game_row = new GameRow (game);
                 game_row.mass_edit_requested.connect ((row) => {
-                    open_mass_edit ({row});
+                    open_mass_edit ({ row });
                 });
                 game_row.notify["selected"].connect (() => {
                     if (game_row.selected)
-                    game_list_box.select_row (game_row);
+                        game_list_box.select_row (game_row);
                     else
-                    game_list_box.unselect_row (game_row);
+                        game_list_box.unselect_row (game_row);
                     update_mass_edit_button_visibility ();
                 });
 
@@ -436,7 +436,7 @@ namespace ProtonPlus.Widgets.Games {
             while (child != null) {
                 if (child is GameRow) {
                     if (((GameRow) child).selected)
-                    selected_count++;
+                        selected_count++;
                 }
                 child = child.get_next_sibling ();
             }
@@ -506,7 +506,7 @@ namespace ProtonPlus.Widgets.Games {
                 var steam_launcher = (Models.Launchers.Steam) launcher;
 
                 if (steam_launcher.profiles.length () > 1)
-                show_profile_button = true;
+                    show_profile_button = true;
             }
             switch_profile_button.set_visible (show_profile_button);
         }
