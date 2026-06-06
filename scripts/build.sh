@@ -65,12 +65,12 @@ build() {
       show_log "INFO" "Building files using Ninja..."
       ninja
 
+      mkdir -p "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas"
+      cp "${ROOT_DIR}/data/com.vysp3r.ProtonPlus.gschema.xml" "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
+      glib-compile-schemas "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
+
       if [[ "${run_mode}" == "run" ]]; then
         show_log "PASS" "Running native build..."
-
-        mkdir -p "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas"
-        cp "${ROOT_DIR}/data/com.vysp3r.ProtonPlus.gschema.xml" "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
-        glib-compile-schemas "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
 
         cd src || exit 1
         LOCALE_DIR="${ROOT_DIR}/${build_dir}/po" XDG_DATA_DIRS="${ROOT_DIR}/${build_dir}/data:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" ./protonplus
@@ -78,10 +78,6 @@ build() {
 
       if [[ "${run_mode}" == "debug" ]]; then
         show_log "PASS" "Running native build..."
-
-        mkdir -p "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas"
-        cp "${ROOT_DIR}/data/com.vysp3r.ProtonPlus.gschema.xml" "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
-        glib-compile-schemas "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
 
         cd src || exit 1
         LOCALE_DIR="${ROOT_DIR}/${build_dir}/po" XDG_DATA_DIRS="${ROOT_DIR}/${build_dir}/data:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" gdb -batch -ex "run" -ex "bt" ./protonplus

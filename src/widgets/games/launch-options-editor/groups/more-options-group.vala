@@ -14,7 +14,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile wine_writecopy_tile { get; private set; }
 
         public MoreOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base(standard_control_changed, launch_option_handlers, true);
+            base (standard_control_changed, launch_option_handlers, true);
 
             this.title = _ ("More options");
             this.description = _ ("Extra graphics settings and launch behaviors.");

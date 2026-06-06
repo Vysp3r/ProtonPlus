@@ -17,30 +17,30 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         }
 
         public void selection_change () {
-                fullscreen_tile.toggle.set_active (false);
-                framerate_tile.toggle.set_active (false);
-                framerate_tile.set_value (60);
-                resolution_field.reset ();
-                args_field.set_text ("");
-                foreach (var binding in bindings) {
-                    binding.toggle.set_active (false);
-                }
+            fullscreen_tile.toggle.set_active (false);
+            framerate_tile.toggle.set_active (false);
+            framerate_tile.set_value (60);
+            resolution_field.reset ();
+            args_field.set_text ("");
+            foreach (var binding in bindings) {
+                binding.toggle.set_active (false);
+            }
         }
 
         public Gtk.Widget create_page () {
             var group = new Adw.PreferencesGroup ();
 
-            fullscreen_tile = new LaunchOptionTile (_("Fullscreen"), _("Runs the game in a fullscreen session."));
+            fullscreen_tile = create_tile (_("Fullscreen"), _("Runs the game in a fullscreen session."), { "-f" }, true);
             fullscreen_tile.toggle.notify["active"].connect (() => {
                 standard_control_changed ();
             });
 
-            auto_hdr_tile = new LaunchOptionTile (_("Auto HDR"), _("Outputs HDR colors if your display supports it."));
+            auto_hdr_tile = create_tile (_("Auto HDR"), _("Outputs HDR colors if your display supports it."), { "SCB_AUTO_HDR=1" }, true);
             auto_hdr_tile.toggle.notify["active"].connect (() => {
                 standard_control_changed ();
             });
 
-            auto_vrr_tile = new LaunchOptionTile (_("VRR"), _("Matches your display's refresh rate to the game's FPS."));
+            auto_vrr_tile = create_tile (_("VRR"), _("Matches your display's refresh rate to the game's FPS."), { "SCB_AUTO_VRR=1" }, true);
             auto_vrr_tile.toggle.notify["active"].connect (() => {
                 standard_control_changed ();
             });
@@ -80,7 +80,74 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             group.add (resolution_field);
             group.add (args_field);
 
+
+            this.add_child (fullscreen_tile);
+            this.add_child (auto_hdr_tile);
+            this.add_child (auto_vrr_tile);
+            this.add_child (framerate_tile);
+            this.add_child (resolution_field);
+            // this.add_child (args_field);
+
             return group;
+        }
+
+        public override void clear () {
+            foreach (var child in this._children) {
+                child.clear ();
+            }
+
+            args_field.set_text ("");
+        }
+
+        public override void parse_tokens (string[] tokens, bool[] consumed) {
+            var wrapper_index = get_first_present_index (tokens, { "scopebuddy", "scb" });
+            if (wrapper_index < 0)
+                return;
+
+            consumed[wrapper_index] = true;
+
+            var end_index = get_wrapper_end_index (tokens, wrapper_index, consumed);
+            var extra_args = new StringBuilder ();
+
+            for (var index = wrapper_index + 1; index < end_index; index++) {
+                if (consumed[index])continue;
+
+                if (tokens[index] == "-f") {
+                    fullscreen_tile.toggle.set_active (true);
+                    consumed[index] = true;
+                    continue;
+                }
+
+                if (tokens[index] == "-r" && index + 1 < end_index) {
+                    int framerate;
+                    if (int.try_parse (tokens[index + 1], out framerate)) {
+                        framerate_tile.toggle.set_active (true);
+                        framerate_tile.set_value (framerate);
+                        consumed[index] = true;
+                        consumed[index + 1] = true;
+                        index++;
+                        continue;
+                    }
+                }
+
+                append_token (extra_args, tokens[index]);
+                consumed[index] = true;
+            }
+
+            args_field.set_text (extra_args.str);
+        }
+
+        public override void append_command_segments (Gee.LinkedList<string> segments) {
+            if (!this.is_active ())return;
+            print ("Appending scopebuddy segments.\n");
+            segments.add ("scopebuddy");
+
+            foreach (var child in this._children) {
+                if (child.is_active ()) {
+                    child.append_command_segments (segments);
+                }
+            }
+            segments.add ("--");
         }
     }
 }

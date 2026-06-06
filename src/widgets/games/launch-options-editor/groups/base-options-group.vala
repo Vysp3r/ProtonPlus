@@ -15,15 +15,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.is_advanced_group = is_advanced_group;
         }
 
+        internal LaunchOptionTile create_game_argument_tile (string title, string subtitle, string[] tokens, bool is_advanced = false) {
+            return create_tile (title, subtitle, tokens, is_advanced, LaunchLineType.ARGUMENT);
+        }
+
         internal LaunchOptionTile create_tile (string title, string subtitle, string[] tokens, bool is_advanced = false, LaunchLineType type = LaunchLineType.ENVIRONMENT) {
-            var tile = new LaunchOptionTile (title, subtitle);
+            var tile = new LaunchOptionTile (title, subtitle, tokens, is_advanced, type);
             tile.toggle.notify["active"].connect (() => {
                 this.standard_control_changed ();
             });
 
-            var handler = new LaunchOptionBinding (tokens, tile.toggle, is_advanced, type);
-
-            this.launch_option_handlers.add (handler);
+            this.launch_option_handlers.add (tile);
 
             return tile;
         }

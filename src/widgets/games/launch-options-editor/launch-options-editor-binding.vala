@@ -1,23 +1,13 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
-using Adw;
-    class LaunchOptionBinding : Object, ILaunchOption {
+    using Adw;
+    class LaunchOptionBinding : BaseBinding, ILaunchOption {
         public string[] tokens { get; set; }
         public Gtk.Switch toggle { get; set; }
 
-        public LaunchLineType line_type { get; set; default = LaunchLineType.ENVIRONMENT; }
-        private Gee.List<ILaunchOption> _children;
-        public bool is_advanced { get; set; default = false; }
-
         public LaunchOptionBinding (string[] tokens, Gtk.Switch toggle, bool is_advanced = false, LaunchLineType line_type = LaunchLineType.ENVIRONMENT) {
+            base (is_advanced, line_type);
             this.tokens = tokens;
             this.toggle = toggle;
-            this.is_advanced = is_advanced;
-            this.line_type = line_type;
-            this._children = new Gee.ArrayList<ILaunchOption> ();
-        }
-
-        public void add_child (ILaunchOption child) {
-            this._children.add (child);
         }
 
         public void parse_tokens (string[] tokens_pool, bool[] consumed) {
