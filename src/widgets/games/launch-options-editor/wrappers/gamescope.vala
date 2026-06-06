@@ -58,8 +58,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                 standard_control_changed ();
             });
 
-            launch_option_handlers.add (resolution_field);
-
             group.add (fullscreen_tile);
             group.add (hdr_tile);
             group.add (vrr_tile);

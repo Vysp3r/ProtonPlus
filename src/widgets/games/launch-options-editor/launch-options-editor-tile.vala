@@ -33,22 +33,40 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 return;
             }
 
-            var token_indexes = new Gee.LinkedList<int> ();
-            var all_tokens_present = true;
+            if (this.tokens.length == 2) {
+                string off_token = this.tokens[0];
+                string on_token = this.tokens[1];
 
-            foreach (var token in this.tokens) {
-                var token_index = get_unconsumed_token_index (tokens_pool, token, consumed);
-                if (token_index < 0) {
-                    all_tokens_present = false;
-                    break;
+
+                var on_index = get_unconsumed_token_index (tokens_pool, on_token, consumed);
+                if (on_index >= 0) {
+                    this.toggle.set_active (true);
+                    consumed[on_index] = true;
+                } else {
+                    var off_index = get_unconsumed_token_index (tokens_pool, off_token, consumed);
+                    if (off_index >= 0) {
+                        this.toggle.set_active (false);
+                        consumed[off_index] = true;
+                    }
                 }
-                token_indexes.add (token_index);
-            }
+            } else {
+                var token_indexes = new Gee.LinkedList<int> ();
+                var all_tokens_present = true;
 
-            if (all_tokens_present && this.toggle != null) {
-                this.toggle.set_active (true);
-                foreach (var token_index in token_indexes) {
-                    consumed[token_index] = true;
+                foreach (var token in this.tokens) {
+                    var token_index = get_unconsumed_token_index (tokens_pool, token, consumed);
+                    if (token_index < 0) {
+                        all_tokens_present = false;
+                        break;
+                    }
+                    token_indexes.add (token_index);
+                }
+
+                if (all_tokens_present && this.toggle != null) {
+                    this.toggle.set_active (true);
+                    foreach (var token_index in token_indexes) {
+                        consumed[token_index] = true;
+                    }
                 }
             }
 
