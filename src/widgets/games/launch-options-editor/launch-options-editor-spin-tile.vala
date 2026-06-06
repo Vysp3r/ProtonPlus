@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
-using Adw;
+    using Adw;
 
     class LaunchOptionSpinTile : ActionRow, ILaunchOption {
         public Gtk.Switch toggle { get; private set; }
@@ -7,6 +7,7 @@ using Adw;
         public Gtk.Button apply_button { get; private set; }
         Gtk.Box value_box;
         public signal void value_applied ();
+
         int lower_value;
         int upper_value;
         int committed_value;
@@ -40,8 +41,8 @@ using Adw;
             value_entry.set_text (default_value.to_string ());
             value_entry.activate.connect (apply_pending_value);
 
-            apply_button = new Gtk.Button.with_label (_ ("Set"));
-            apply_button.set_tooltip_text (_ ("Apply the FPS value"));
+            apply_button = new Gtk.Button.with_label (_("Set"));
+            apply_button.set_tooltip_text (_("Apply the FPS value"));
             apply_button.clicked.connect (apply_pending_value);
 
             value_box.append (value_caption);
@@ -73,7 +74,7 @@ using Adw;
         void apply_pending_value () {
             int pending_value;
             if (!get_pending_value (out pending_value))
-            return;
+                return;
 
             committed_value = pending_value;
             value_entry.set_text (committed_value.to_string ());
@@ -86,14 +87,14 @@ using Adw;
 
             var text = value_entry.get_text ().strip ();
             if (text == "")
-            return false;
+                return false;
 
             int parsed_value;
             if (!int.try_parse (text, out parsed_value))
-            return false;
+                return false;
 
             if (parsed_value < lower_value || parsed_value > upper_value)
-            return false;
+                return false;
 
             value = parsed_value;
             return true;
@@ -124,7 +125,7 @@ using Adw;
 
         public void parse_tokens (string[] tokens, bool[] consumed) {
             for (int i = 0; i < tokens.length; i++) {
-                if (consumed[i]) continue;
+                if (consumed[i])continue;
 
                 if (tokens[i].has_prefix (this.env_prefix)) {
                     string val_str = tokens[i].replace (this.env_prefix, "");
@@ -157,6 +158,5 @@ using Adw;
         public void add_child (ILaunchOption child) {
             this._children.add (child);
         }
-
     }
 }

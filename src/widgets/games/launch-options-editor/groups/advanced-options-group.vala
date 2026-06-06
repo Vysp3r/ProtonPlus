@@ -21,16 +21,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 standard_control_changed ();
             });
 
-
             additional_args_tile = create_tile (_("Custom launch arguments"), _("Add your own launch options."), { "" }, false, LaunchLineType.ARGUMENT);
             additional_args_tile.toggle.notify["active"].connect (() => {
                 additional_args_toggle_changed ();
             });
 
-
             var add_bind = new EntryBinding (additional_args_field, additional_args_tile.toggle);
             launch_option_handlers.add (add_bind);
-
 
             this.add (command_tile);
             this.add (additional_args_tile);
@@ -45,13 +42,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 return;
 
             bool is_active = additional_args_tile.toggle.get_active ();
-            additional_args_field.sensitive = is_active;
-            if (is_active)
-                additional_args_field.focus_entry ();
 
-            // refresh_advanced_visibility ();
-            /*if (additional_args_tile.toggle.get_active ())
-                additional_args_field.focus_entry ();*/
+            if (is_active) {
+                additional_args_field.sensitive = true;
+                additional_args_field.focus_entry ();
+            } else {
+                additional_args_tile.toggle.grab_focus ();
+                additional_args_field.sensitive = false;
+                // additional_args_field.set_text ("");
+            }
             this.standard_control_changed ();
         }
     }

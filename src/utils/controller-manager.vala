@@ -7,8 +7,10 @@ namespace ProtonPlus.Utils {
         private bool controller_active = false;
         private Gtk.Widget? highlighted = null;
         private Adw.PreferencesDialog? active_prefs_dialog = null;
-        private Adw.PreferencesPage[]? prefs_pages = null;
+        private Adw.PreferencesPage[] ? prefs_pages = null;
         private Gtk.EventControllerMotion? motion = null;
+
+        private bool is_motion_attached = false;
 
         private const double DEADZONE = 0.25;
         private const double SCROLL_SPEED = 12.0;
@@ -23,7 +25,7 @@ namespace ProtonPlus.Utils {
 
         public void start () {
             if (timeout_id != 0)
-            return;
+                return;
 
             SDL.Hints.set_hint (SDL.Hints.JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
 
@@ -35,24 +37,29 @@ namespace ProtonPlus.Utils {
             var ids = SDL.Gamepad.get_gamepads ();
             if (ids != null) {
                 foreach (var id in ids)
-                SDL.Gamepad.open_gamepad (id);
+                    SDL.Gamepad.open_gamepad (id);
             } else {
                 warning ("No gamepads found at init");
             }
 
             ((Gtk.Widget) window).add_controller (motion);
+            is_motion_attached = true;
 
             timeout_id = GLib.Timeout.add (16, poll);
         }
 
         public void stop () {
-            if (timeout_id != 0) {
+            if (timeout_id != 0 && !is_motion_attached) {
                 GLib.Source.remove (timeout_id);
                 timeout_id = 0;
             }
-
-            ((Gtk.Widget) window).remove_controller (motion);
+            if (is_motion_attached && window != null && ((Gtk.Widget) window).get_root () != null) {
+                ((Gtk.Widget) window).remove_controller (motion);
+            }
+            is_motion_attached = false;
             deactivate_controller_mode ();
+            active_prefs_dialog = null;
+            prefs_pages = null;
 
             SDL.Init.quit_subsystem (SDL.Init.InitFlags.GAMEPAD);
         }
@@ -60,28 +67,31 @@ namespace ProtonPlus.Utils {
         public void set_preferences_dialog (Adw.PreferencesDialog? dialog, Adw.PreferencesPage[]? pages) {
             active_prefs_dialog = dialog;
             prefs_pages = pages;
+            if (dialog == null) {
+                clear_highlight ();
+            }
         }
 
         private bool poll () {
             SDL.Events.Event event;
             while (SDL.Events.poll_event (out event)) {
                 switch (event.type) {
-                    case SDL.Events.EventType.GAMEPAD_ADDED:
-                        SDL.Gamepad.open_gamepad (event.gdevice.which);
-                        break;
-                    case SDL.Events.EventType.GAMEPAD_BUTTON_DOWN:
-                        handle_button (event.gbutton.button);
-                        break;
-                    case SDL.Events.EventType.GAMEPAD_AXIS_MOTION:
-                        handle_axis (event.gaxis.axis, event.gaxis.value);
-                        break;
-                    default:
-                        break;
+                case SDL.Events.EventType.GAMEPAD_ADDED :
+                    SDL.Gamepad.open_gamepad (event.gdevice.which);
+                    break;
+                case SDL.Events.EventType.GAMEPAD_BUTTON_DOWN :
+                    handle_button (event.gbutton.button);
+                    break;
+                case SDL.Events.EventType.GAMEPAD_AXIS_MOTION :
+                    handle_axis (event.gaxis.axis, event.gaxis.value);
+                    break;
+                    default :
+                    break;
                 }
             }
 
             if (stick_y != 0)
-            scroll (stick_y * SCROLL_SPEED);
+                scroll (stick_y * SCROLL_SPEED);
 
             return GLib.Source.CONTINUE;
         }
@@ -95,14 +105,14 @@ namespace ProtonPlus.Utils {
         }
 
         private void deactivate_controller_mode () {
-            if (!controller_active) return;
+            if (!controller_active)return;
             controller_active = false;
             window.remove_css_class ("controller-active");
             clear_highlight ();
         }
 
         private void update_highlight (Gtk.Widget? widget) {
-            if (highlighted == widget) return;
+            if (highlighted == widget)return;
             clear_highlight ();
             highlighted = widget;
             highlighted?.add_css_class ("controller-focus");
@@ -110,68 +120,69 @@ namespace ProtonPlus.Utils {
 
         private void clear_highlight () {
             highlighted?.remove_css_class ("controller-focus");
+
             highlighted = null;
         }
 
         private void handle_button (SDL.Gamepad.GamepadButton button) {
             activate_controller_mode ();
             switch (button) {
-                case DPAD_UP:
-                    if (is_inside_expander_row ())
+            case DPAD_UP :
+                if (is_inside_expander_row ())
                     window.child_focus (Gtk.DirectionType.TAB_BACKWARD);
-                    else
+                else
                     window.child_focus (Gtk.DirectionType.UP);
-                    break;
-                case DPAD_DOWN:
-                    if (is_inside_expander_row ())
+                break;
+            case DPAD_DOWN :
+                if (is_inside_expander_row ())
                     window.child_focus (Gtk.DirectionType.TAB_FORWARD);
-                    else
+                else
                     window.child_focus (Gtk.DirectionType.DOWN);
-                    break;
-                case DPAD_LEFT:
-                    window.child_focus (Gtk.DirectionType.LEFT);
-                    break;
-                case DPAD_RIGHT:
-                    window.child_focus (Gtk.DirectionType.RIGHT);
-                    break;
-                case SOUTH:
-                    activate_focused ();
-                    break;
-                case EAST:
-                    if (!dismiss_popup () && active_prefs_dialog != null)
+                break;
+            case DPAD_LEFT :
+                window.child_focus (Gtk.DirectionType.LEFT);
+                break;
+            case DPAD_RIGHT :
+                window.child_focus (Gtk.DirectionType.RIGHT);
+                break;
+            case SOUTH :
+                activate_focused ();
+                break;
+            case EAST:
+                if (!dismiss_popup () && active_prefs_dialog != null)
                     active_prefs_dialog.close ();
-                    break;
-                case START:
-                //((ProtonPlus.Widgets.Window) window).open_menu ();
-                    break;
-                case BACK:
-                //((ProtonPlus.Widgets.Window) window).open_launchers ();
-                    break;
-                case LEFT_SHOULDER:
-                    switch_tab (-1);
-                    break;
-                case RIGHT_SHOULDER:
-                    switch_tab (1);
-                    break;
-                default:
-                    break;
+                break;
+            case START:
+                // ((ProtonPlus.Widgets.Window) window).open_menu ();
+                break;
+            case BACK:
+                // ((ProtonPlus.Widgets.Window) window).open_launchers ();
+                break;
+            case LEFT_SHOULDER:
+                switch_tab (-1);
+                break;
+            case RIGHT_SHOULDER:
+                switch_tab (1);
+                break;
+            default:
+                break;
             }
             update_highlight (window.get_focus ());
         }
 
         private void handle_axis (SDL.Gamepad.GamepadAxis axis, int16 raw) {
             if (axis != SDL.Gamepad.GamepadAxis.LEFTY)
-            return;
+                return;
             double v = raw / 32767.0;
             double new_y = Math.fabs (v) > DEADZONE ? v : 0;
-            if (new_y != 0) activate_controller_mode ();
+            if (new_y != 0)activate_controller_mode ();
             stick_y = new_y;
         }
 
         private void activate_focused () {
             var focused = window.get_focus ();
             if (focused != null)
-            focused.activate ();
+                focused.activate ();
         }
 
         private bool is_inside_expander_row () {
@@ -191,8 +202,8 @@ namespace ProtonPlus.Utils {
                 if (w is Gtk.ScrolledWindow) {
                     var adj = ((Gtk.ScrolledWindow) w).get_vadjustment ();
                     var target = adj.value + delta;
-                    if (target < adj.lower) target = adj.lower;
-                    if (target > adj.upper - adj.page_size) target = adj.upper - adj.page_size;
+                    if (target < adj.lower)target = adj.lower;
+                    if (target > adj.upper - adj.page_size)target = adj.upper - adj.page_size;
                     adj.set_value (target);
                     return;
                 }
@@ -227,7 +238,7 @@ namespace ProtonPlus.Utils {
 
             var model = view_stack.pages;
             int n = (int) model.get_n_items ();
-            if (n == 0) return;
+            if (n == 0)return;
 
             string? current = view_stack.visible_child_name;
             int cur_idx = 0;

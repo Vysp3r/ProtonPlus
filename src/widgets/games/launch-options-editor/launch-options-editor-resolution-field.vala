@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
-using Adw;
+    using Adw;
 
     class LaunchOptionResolutionField : Adw.ActionRow, ILaunchOption {
         public Gtk.Switch toggle { get; private set; }
@@ -9,6 +9,7 @@ using Adw;
         public Gtk.Button apply_button { get; private set; }
         Gtk.Box custom_box;
         public signal void value_applied ();
+
         Gee.LinkedList<LaunchOptionResolutionChoice> choices;
         int committed_width;
         int committed_height;
@@ -33,8 +34,8 @@ using Adw;
             choices.add (new LaunchOptionResolutionChoice ("1600 x 900", 1600, 900));
             choices.add (new LaunchOptionResolutionChoice ("1280 x 720", 1280, 720));
             if (include_auto)
-            choices.add (new LaunchOptionResolutionChoice (_ ("Auto detect"), 0, 0, true));
-            choices.add (new LaunchOptionResolutionChoice (_ ("Custom"), 0, 0, false, true));
+                choices.add (new LaunchOptionResolutionChoice (_("Auto detect"), 0, 0, true));
+            choices.add (new LaunchOptionResolutionChoice (_("Custom"), 0, 0, false, true));
 
             var labels = new string[choices.size];
             for (var index = 0; index < choices.size; index++) {
@@ -65,8 +66,8 @@ using Adw;
             height_entry.set_text (committed_height.to_string ());
             height_entry.activate.connect (apply_pending_resolution);
 
-            apply_button = new Gtk.Button.with_label (_ ("Set"));
-            apply_button.set_tooltip_text (_ ("Apply the custom resolution"));
+            apply_button = new Gtk.Button.with_label (_("Set"));
+            apply_button.set_tooltip_text (_("Apply the custom resolution"));
             apply_button.clicked.connect (apply_pending_resolution);
 
             custom_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
@@ -114,7 +115,7 @@ using Adw;
 
             if (this.is_scopebuddy) {
                 for (int i = 0; i < tokens.length; i++) {
-                    if (consumed[i]) continue;
+                    if (consumed[i])continue;
                     if (tokens[i] == "SCB_AUTO_RES=1") {
                         this.set_auto ();
                         consumed[i] = true;
@@ -124,7 +125,7 @@ using Adw;
             }
 
             for (int i = 0; i < tokens.length; i++) {
-                if (consumed[i]) continue;
+                if (consumed[i])continue;
 
                 if (tokens[i] == "-W" && i + 3 < tokens.length && tokens[i + 2] == "-H") {
                     int width = 0;
@@ -203,7 +204,7 @@ using Adw;
 
             for (var index = 0; index < choices.size; index++) {
                 if (!choices[index].is_custom)
-                continue;
+                    continue;
 
                 committed_width = width;
                 committed_height = height;
@@ -226,7 +227,7 @@ using Adw;
 
         public bool has_resolution () {
             if (!toggle.get_active ())
-            return false;
+                return false;
 
             return get_selected_choice ().is_custom || get_selected_choice ().width > 0 || get_selected_choice ().height > 0;
         }
@@ -262,7 +263,7 @@ using Adw;
             int pending_width;
             int pending_height;
             if (!get_pending_resolution (out pending_width, out pending_height))
-            return;
+                return;
 
             committed_width = pending_width;
             committed_height = pending_height;
@@ -279,10 +280,10 @@ using Adw;
             var width_text = width_entry.get_text ().strip ();
             var height_text = height_entry.get_text ().strip ();
             if (width_text == "" || height_text == "")
-            return false;
+                return false;
 
             if (!int.try_parse (width_text, out width) || !int.try_parse (height_text, out height))
-            return false;
+                return false;
 
             return width >= 320 && width <= 7680 && height >= 240 && height <= 4320;
         }
