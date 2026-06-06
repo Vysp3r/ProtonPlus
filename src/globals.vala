@@ -10,6 +10,7 @@ namespace ProtonPlus.Globals {
     public static bool MANGOHUD_FLATPAK_INSTALLED;
     public static bool GAMESCOPE_INSTALLED;
     public static bool SCOPEBUDDY_INSTALLED;
+    public static bool GAMEMODE_INSTALLED;
 
     public struct LanguageItem {
         public string code;
@@ -102,6 +103,8 @@ namespace ProtonPlus.Globals {
         Globals.MANGOHUD_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync ("org.freedesktop.Platform.VulkanLayer.MangoHud");
 
         Globals.GAMESCOPE_INSTALLED = Utils.System.check_dependency_sync ("gamescope");
+
+        Globals.GAMEMODE_INSTALLED = Utils.System.check_dependency_sync ("gamemoderun");
 
         Globals.SCOPEBUDDY_INSTALLED = Utils.System.check_dependency_sync ("scopebuddy") || Utils.System.check_dependency_sync ("scb");
 
