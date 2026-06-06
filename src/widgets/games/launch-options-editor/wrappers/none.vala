@@ -31,8 +31,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
         public override void parse_tokens (string[] tokens, bool[] consumed) {
             var hdr_index = get_unconsumed_token_index (tokens, "PROTON_ENABLE_HDR=1", consumed);
-            if (hdr_index < 0)
+            if (hdr_index < 0) {
+                hdr_tile.toggle.set_active (false);
                 return;
+            }
 
             hdr_tile.toggle.set_active (true);
             consumed[hdr_index] = true;

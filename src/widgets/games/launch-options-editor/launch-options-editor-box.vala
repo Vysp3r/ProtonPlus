@@ -1,10 +1,4 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
-    enum WrapperMode {
-        NONE,
-        GAMESCOPE,
-        SCOPEBUDDY
-    }
-
     public class Box : Gtk.Box {
         public signal void content_changed ();
         public signal void advanced_state_detected (bool is_advanced);

@@ -1,11 +1,6 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
     using Adw;
 
-    public enum Mode {
-        NONE,
-        GAMESCOPE,
-        SCOPEBUDDY
-    }
     public delegate void SimpleCallback ();
 
     public abstract class Base : Object, ILaunchOption {
@@ -117,22 +112,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
         public bool is_active () {
             return this.active;
-        }
-
-        internal WrapperMode detect_wrapper_mode (string[] tokens) {
-            var gamescope_index = get_first_present_index (tokens, { "gamescope" });
-            var scopebuddy_index = get_first_present_index (tokens, { "scopebuddy", "scb" });
-
-            if (gamescope_index >= 0 && scopebuddy_index >= 0)
-                return WrapperMode.NONE;
-
-            if (gamescope_index >= 0)
-                return WrapperMode.GAMESCOPE;
-
-            if (scopebuddy_index >= 0)
-                return WrapperMode.SCOPEBUDDY;
-
-            return WrapperMode.NONE;
         }
     }
 }

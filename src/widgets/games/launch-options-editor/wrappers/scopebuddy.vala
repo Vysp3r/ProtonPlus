@@ -107,9 +107,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
         public override void parse_tokens (string[] tokens, bool[] consumed) {
             var wrapper_index = get_first_present_index (tokens, { "scopebuddy", "scb" });
-            if (wrapper_index < 0)
+            if (wrapper_index < 0) {
+                this.active = false;
                 return;
+            }
 
+            this.active = true;
             consumed[wrapper_index] = true;
 
             var end_index = get_wrapper_end_index (tokens, wrapper_index, consumed);

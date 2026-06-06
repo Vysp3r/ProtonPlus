@@ -39,7 +39,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             vrr_tile = create_tile (_("VRR"), _("Matches your display's refresh rate to the game's FPS."), { "--adaptive-sync" }, true);
 
-
             framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside Gamescope."), _("FPS"), 30, 360, 60, "-r ");
             framerate_tile.toggle.notify["active"].connect (() => {
                 standard_control_changed ();
@@ -90,9 +89,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
         public override void parse_tokens (string[] tokens, bool[] consumed) {
             var wrapper_index = get_first_present_index (tokens, { "gamescope" });
-            if (wrapper_index < 0)
+            if (wrapper_index < 0) {
+                this.active = false;
                 return;
+            }
 
+            this.active = true;
             consumed[wrapper_index] = true;
 
             var end_index = get_wrapper_end_index (tokens, wrapper_index, consumed);
@@ -146,7 +148,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
         public override void append_command_segments (Gee.LinkedList<string> segments) {
             if (!this.is_active ())return;
-            print ("Appending Gamescope segments.\n");
             segments.add ("gamescope");
 
             foreach (var child in this._children) {
@@ -154,6 +155,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                     child.append_command_segments (segments);
                 }
             }
+            segments.add ("--");
         }
     }
 }
