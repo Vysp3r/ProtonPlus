@@ -185,7 +185,17 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
     make build-run
     ```
 
-4. **Install (Optional)**:
+
+4. **Build and debug (Optional)**:
+    ```bash
+    ./scripts/build.sh native debug
+    ```
+    or
+    ```bash
+    make build-debug
+    ```
+
+5. **Install (Optional)**:
     ```bash
     cd build-native
     sudo ninja install
