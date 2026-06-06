@@ -9,9 +9,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         LaunchOptionSpinTile framerate_tile { get; set; }
         LaunchOptionResolutionField resolution_field { get; set; }
         LaunchOptionEntryField args_field { get; set; }
+        Gtk.Widget cached_page;
 
         public Gamescope (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base (standard_control_changed, launch_option_handlers);
+            cached_page = null;
         }
 
         public void selection_change () {
@@ -25,6 +27,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         }
 
         public Gtk.Widget create_page () {
+            if (cached_page != null) {
+                return cached_page;
+            }
+
             var group = new Adw.PreferencesGroup ();
 
             fullscreen_tile = create_tile (_("Fullscreen"), _("Runs the game in a fullscreen session."), { "-f" }, true);
@@ -71,6 +77,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             group.add (args_field);
 
+            cached_page = group;
             return group;
         }
 

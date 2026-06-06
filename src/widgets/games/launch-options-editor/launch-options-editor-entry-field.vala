@@ -6,13 +6,23 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public signal void value_applied ();
 
         string committed_text;
+        Gtk.EventControllerKey key_controller;
 
         public LaunchOptionEntryField (string title, string subtitle, string placeholder) {
             Object ();
             this.title = title;
 
             committed_text = "";
-            var key_controller = new Gtk.EventControllerKey ();
+
+            apply_button = new Gtk.Button.from_icon_name ("object-select-symbolic");
+            apply_button.set_valign (Gtk.Align.CENTER);
+            apply_button.add_css_class ("flat");
+            apply_button.clicked.connect (apply_pending_text);
+            add_suffix (apply_button);
+
+            this.activates_default = false;
+
+            key_controller = new Gtk.EventControllerKey ();
             key_controller.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
             key_controller.key_pressed.connect ((keyval, keycode, state) => {
                 if (keyval == Gdk.Key.Return || keyval == Gdk.Key.KP_Enter) {
@@ -24,13 +34,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             this.add_controller (key_controller);
 
-            apply_button = new Gtk.Button.from_icon_name ("object-select-symbolic");
-            apply_button.set_valign (Gtk.Align.CENTER);
-            apply_button.add_css_class ("flat");
-            apply_button.clicked.connect (apply_pending_text);
-            add_suffix (apply_button);
 
-            this.activate.connect (apply_pending_text);
+            this.activate.connect (() => {
+                apply_pending_text ();
+            });
             this.changed.connect (refresh_apply_state);
             refresh_apply_state ();
         }

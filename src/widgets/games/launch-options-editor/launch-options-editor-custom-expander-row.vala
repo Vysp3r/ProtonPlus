@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
-using Adw;
-using Gtk;
+    using Adw;
+    using Gtk;
 
     public class CustomExpanderRow : Adw.ExpanderRow {
         public new signal void changed ();
@@ -13,17 +13,16 @@ using Gtk;
         private Adw.EntryRow add_custom_row;
 
         public bool is_advanced { get; set; default = false; }
+        Gtk.EventControllerKey key_controller;
 
-        public CustomExpanderRow (
-                string switch_title,
-                string switch_subtitle,
-                string[] options_display,
-                string[] options_values,
-                HashTable<string, string>? tooltips = null
-        ) {
+        public CustomExpanderRow (string switch_title,
+            string switch_subtitle,
+            string[] options_display,
+            string[] options_values,
+            HashTable<string, string>? tooltips = null) {
             Object (
-                    title: switch_title,
-                    subtitle: switch_subtitle,
+                    title : switch_title,
+                    subtitle : switch_subtitle,
                     show_enable_switch: true
             );
 
@@ -33,7 +32,7 @@ using Gtk;
             this.item_tooltips = tooltips;
 
             add_custom_row = new Adw.EntryRow ();
-            add_custom_row.title = _ ("Add custom item (Type name and press Enter)...");
+            add_custom_row.title = _("Add custom item (Type name and press Enter)...");
             add_custom_row.activates_default = true;
 
             var add_button = new Gtk.Button.from_icon_name ("list-add-symbolic");
@@ -42,7 +41,7 @@ using Gtk;
             add_button.clicked.connect (on_custom_item_added);
             add_custom_row.add_suffix (add_button);
 
-            var key_controller = new Gtk.EventControllerKey ();
+            key_controller = new Gtk.EventControllerKey ();
             key_controller.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
             key_controller.key_pressed.connect ((keyval, keycode, state) => {
                 if (keyval == (uint) Gdk.Key.Return || keyval == (uint) Gdk.Key.KP_Enter) {
@@ -59,7 +58,7 @@ using Gtk;
         }
 
         public void init_predefined_keys (string[] predefined_keys) {
-            if (predefined_keys == null) return;
+            if (predefined_keys == null)return;
             foreach (string key in predefined_keys) {
                 create_item_row (key, "");
             }
@@ -69,7 +68,7 @@ using Gtk;
 
         protected void create_item_row (string key_name, string initial_value) {
             string normalized_key = key_name.strip ().down ();
-            if (rows_map.contains (normalized_key)) return;
+            if (rows_map.contains (normalized_key))return;
 
             var row = new Adw.ComboRow ();
             row.title = normalized_key;
@@ -122,7 +121,7 @@ using Gtk;
         }
 
         public virtual bool is_active () {
-            return this.enable_expansion; 
+            return this.enable_expansion;
         }
     }
 }

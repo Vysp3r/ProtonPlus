@@ -10,10 +10,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         LaunchOptionResolutionField resolution_field { get; set; }
         LaunchOptionEntryField args_field { get; set; }
         List<LaunchOptionBinding> bindings;
+        Gtk.Widget cached_page;
 
         public Scopebuddy (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base (standard_control_changed, launch_option_handlers);
             bindings = new List<LaunchOptionBinding> ();
+            cached_page = null;
         }
 
         public void selection_change () {
@@ -29,6 +31,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
         public Gtk.Widget create_page () {
             var group = new Adw.PreferencesGroup ();
+            if (cached_page != null) {
+                return cached_page;
+            }
 
             fullscreen_tile = create_tile (_("Fullscreen"), _("Runs the game in a fullscreen session."), { "-f" }, true);
             fullscreen_tile.toggle.notify["active"].connect (() => {
@@ -88,6 +93,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             this.add_child (resolution_field);
             // this.add_child (args_field);
 
+            cached_page = group;
             return group;
         }
 

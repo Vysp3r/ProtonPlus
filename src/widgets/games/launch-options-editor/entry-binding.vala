@@ -2,8 +2,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     using Adw;
 
     class EntryBinding : BaseBinding, ILaunchOption {
-        public LaunchOptionEntryField entry_field { get; set; }
-        public Gtk.Switch toggle { get; set; }
+        public unowned LaunchOptionEntryField entry_field { get; set; }
+        public unowned Gtk.Switch toggle { get; set; }
 
         public EntryBinding (LaunchOptionEntryField entry_field, Gtk.Switch toggle) {
             base (true, LaunchLineType.ADDITIONAL);
@@ -19,7 +19,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             for (var i = 0; i < tokens_pool.length; i++) {
                 if (!consumed[i] && tokens_pool[i] != "%command%") {
                     unconsumed_tokens.add (tokens_pool[i]);
-                    consumed[i] = true; // Označíme jako zpracované
+                    consumed[i] = true;
                 }
             }
 
@@ -69,6 +69,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public Gee.LinkedList<string> get_env_tokens () {
             var env_list = new Gee.LinkedList<string> ();
+            if (!this.toggle.get_active ())return env_list;
             string text = this.entry_field.get_text ().strip ();
 
             if (text == "")return env_list;
@@ -85,6 +86,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public Gee.LinkedList<string> get_argument_tokens () {
             var arg_list = new Gee.LinkedList<string> ();
+            if (!this.toggle.get_active ())return arg_list;
             string text = this.entry_field.get_text ().strip ();
 
             if (text == "")return arg_list;

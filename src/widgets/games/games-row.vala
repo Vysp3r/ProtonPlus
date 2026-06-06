@@ -18,35 +18,35 @@ namespace ProtonPlus.Widgets.Games {
 
         public bool selected { get; set; }
 
-        public GameRow(Models.Game game) {
+        public GameRow (Models.Game game) {
             this.game = game;
 
-            select_check_button = new Gtk.CheckButton();
+            select_check_button = new Gtk.CheckButton ();
             select_check_button.set_size_request (30, 0);
             select_check_button.bind_property ("active", this, "selected", GLib.BindingFlags.BIDIRECTIONAL | GLib.BindingFlags.SYNC_CREATE);
 
-            title_label = new Gtk.Label(game.name);
+            title_label = new Gtk.Label (game.name);
             title_label.set_tooltip_text (title_label.get_label ());
             title_label.set_halign (Gtk.Align.START);
             title_label.set_hexpand (true);
             title_label.set_ellipsize (Pango.EllipsizeMode.END);
 
-            title_gesture = new Gtk.GestureClick();
+            title_gesture = new Gtk.GestureClick ();
             title_gesture.pressed.connect ((gesture, n_press, x, y) => {
                 if (n_press == 1)
-                open_install_directory_button_clicked ();
+                    open_install_directory_button_clicked ();
             });
 
-            prefix_label = new Gtk.Label(game.prefix.to_string ());
+            prefix_label = new Gtk.Label (game.prefix.to_string ());
             prefix_label.set_xalign (0);
             prefix_label.set_max_width_chars (10);
             prefix_label.set_ellipsize (Pango.EllipsizeMode.END);
             prefix_label.set_size_request (110, 0);
 
-            prefix_gesture = new Gtk.GestureClick();
+            prefix_gesture = new Gtk.GestureClick ();
             prefix_gesture.pressed.connect ((gesture, n_press, x, y) => {
                 if (n_press == 1)
-                open_prefix_directory_button_clicked ();
+                    open_prefix_directory_button_clicked ();
             });
 
             tool_label = new Gtk.Label (null);
@@ -56,13 +56,13 @@ namespace ProtonPlus.Widgets.Games {
             tool_label.set_size_request (254, 0);
             refresh_tool_label ();
 
-            extra_button = new ExtraButton(game);
+            extra_button = new ExtraButton (game);
 
-            other_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 12);
+            other_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             other_box.set_size_request (122, 0);
             other_box.append (extra_button);
 
-            content_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 12);
+            content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             content_box.set_hexpand (true);
             content_box.set_margin_start (12);
             content_box.set_margin_end (12);
@@ -76,14 +76,14 @@ namespace ProtonPlus.Widgets.Games {
             content_box.append (other_box);
 
             if (game is Models.Games.Steam)
-            load_steam ((Models.Games.Steam) game);
+                load_steam ((Models.Games.Steam) game);
 
             set_child (content_box);
             set_selectable (false);
         }
 
         void add_hover_underline (Gtk.Label label) {
-            var motion = new Gtk.EventControllerMotion();
+            var motion = new Gtk.EventControllerMotion ();
             motion.enter.connect ((x, y) => {
                 var list = new Pango.AttrList ();
                 list.insert (Pango.attr_underline_new (Pango.Underline.SINGLE));
@@ -96,10 +96,10 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public void refresh_tool_label () {
-            string tool_name = _ ("Default");
+            string tool_name = _("Default");
 
             if (game.is_native && game.compatibility_tool == "Default") {
-                tool_name = _ ("Native");
+                tool_name = _("Native");
             } else {
                 foreach (var tool in game.launcher.compatibility_tools) {
                     if (tool.internal_title == game.compatibility_tool) {
@@ -113,31 +113,31 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void load_steam (Models.Games.Steam game) {
-            tool_button = new Gtk.Button.from_icon_name("screwdriver-wrench-symbolic");
-            tool_button.set_tooltip_text (_ ("Modify the game"));
+            tool_button = new Gtk.Button.from_icon_name ("screwdriver-wrench-symbolic");
+            tool_button.set_tooltip_text (_("Modify the game"));
             tool_button.add_css_class ("flat");
             tool_button.clicked.connect (() => mass_edit_requested (this));
 
-            run_custom_executable_button = new Gtk.Button.from_icon_name("rocket-symbolic");
-            run_custom_executable_button.set_tooltip_text (_ ("Launch custom executable"));
+            run_custom_executable_button = new Gtk.Button.from_icon_name ("rocket-symbolic");
+            run_custom_executable_button.set_tooltip_text (_("Launch custom executable"));
             run_custom_executable_button.add_css_class ("flat");
             run_custom_executable_button.clicked.connect (run_custom_executable_button_clicked);
             run_custom_executable_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
 
 
-            launch_button = new Gtk.Button.from_icon_name("play-fill");
-            launch_button.set_tooltip_text (_ ("Launch game"));
+            launch_button = new Gtk.Button.from_icon_name ("play-fill");
+            launch_button.set_tooltip_text (_("Launch game"));
             launch_button.add_css_class ("flat");
             launch_button.clicked.connect (launch_button_clicked);
 
             if (FileUtils.test (game.installdir, GLib.FileTest.IS_DIR)) {
-                title_label.set_tooltip_text (_ ("Browse game install directory"));
+                title_label.set_tooltip_text (_("Browse game install directory"));
                 title_label.add_controller (title_gesture);
                 add_hover_underline (title_label);
             }
 
             if (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR)) {
-                prefix_label.set_tooltip_text (_ ("Browse prefix directory"));
+                prefix_label.set_tooltip_text (_("Browse prefix directory"));
                 prefix_label.add_controller (prefix_gesture);
                 add_hover_underline (prefix_label);
             }
@@ -157,7 +157,7 @@ namespace ProtonPlus.Widgets.Games {
 
         void run_custom_executable_button_clicked () {
             var file_dialog = new Gtk.FileDialog ();
-            file_dialog.set_title (_ ("Select executable"));
+            file_dialog.set_title (_("Select executable"));
 
             var filters = new ListStore (typeof (Gtk.FileFilter));
             var filter = new Gtk.FileFilter ();
@@ -165,7 +165,7 @@ namespace ProtonPlus.Widgets.Games {
             filter.add_pattern ("*.msi");
             filter.add_pattern ("*.msu");
             filter.add_pattern ("*.bat");
-            filter.name = _ ("Executables (*.exe, *.msi, *.msu, *.bat)");
+            filter.name = _("Executables (*.exe, *.msi, *.msu, *.bat)");
             filters.append (filter);
 
             file_dialog.set_filters (filters);
@@ -211,7 +211,7 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             if (selected_runner == null || selected_runner.path == null) {
-                var dialog = new Main.ErrorDialog (_ ("Compatibility Tool Not Found"), _ ("The compatibility tool required for %s is missing from your system. Please ensure it is correctly installed.").printf (game.name), "");
+                var dialog = new Main.ErrorDialog (_("Compatibility Tool Not Found"), _("The compatibility tool required for %s is missing from your system. Please ensure it is correctly installed.").printf (game.name), "");
                 dialog.present ((Gtk.Window) this.get_root ());
                 return;
             }
@@ -221,10 +221,10 @@ namespace ProtonPlus.Widgets.Games {
             var steam_compat_client_install_path = game.launcher.directory;
 
             var inner_command = "STEAM_COMPAT_DATA_PATH=%s STEAM_COMPAT_CLIENT_INSTALL_PATH=%s %s run %s".printf (
-                    Shell.quote (steam_compat_data_path),
-                    Shell.quote (steam_compat_client_install_path),
-                    Shell.quote (proton_path),
-                    Shell.quote (exe_path)
+                                                                                                                  Shell.quote (steam_compat_data_path),
+                                                                                                                  Shell.quote (steam_compat_client_install_path),
+                                                                                                                  Shell.quote (proton_path),
+                                                                                                                  Shell.quote (exe_path)
             );
 
             Utils.System.run_command.begin ("sh -c " + Shell.quote (inner_command));

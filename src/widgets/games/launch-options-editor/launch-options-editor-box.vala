@@ -13,7 +13,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Groups.MoreOptionsGroup more_options_group { get; set; }
         Groups.GameArgumentsGroup game_arguments_group { get; set; }
         Groups.AdvancedOptionsGroup advanced_options_group { get; set; }
-
+        Groups.CommonOptionsGroup common_group { get; set; }
         LaunchOptionPreviewField preview_field { get; set; }
         Groups.DxvkOptionsGroup dxvk_options_group { get; set; }
         Groups.Vkd3dOptionsGroup vkd3d_options_group;
@@ -37,7 +37,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (preview_field);
 
             // Common options
-            var common_group = new Groups.CommonOptionsGroup (standard_control_changed, launch_option_handlers);
+            common_group = new Groups.CommonOptionsGroup (standard_control_changed, launch_option_handlers);
             append (common_group);
 
             // Launch tools
@@ -151,8 +151,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void standard_control_changed () {
-            if (refreshing_controls)
-                return;
 
             refresh_preview ();
             content_changed ();
