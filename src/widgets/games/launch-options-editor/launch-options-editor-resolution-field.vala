@@ -12,7 +12,7 @@ using Adw;
         Gee.LinkedList<LaunchOptionResolutionChoice> choices;
         int committed_width;
         int committed_height;
-        
+
         public bool is_advanced { get; set; default = false; }
         public LaunchLineType line_type { get; set; }
         private Gee.List<ILaunchOption> _children;
