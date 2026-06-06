@@ -9,5 +9,6 @@ sources += files(
     'gpu-vendor-options-group.vala',
     'more-options-group.vala',
     'proton-options-group.vala',
-    'vkd3d-options-group.vala'
+    'vkd3d-options-group.vala',
+    'wrapper-group.vala',
 )
