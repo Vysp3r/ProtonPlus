@@ -7,6 +7,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
     public class Box : Gtk.Box {
         public signal void content_changed ();
+        public signal void advanced_state_detected (bool is_advanced);
 
         Groups.ProtonOptionsGroup proton_options_group { get; set; }
         Groups.AudioOptionsGroup audio_group { get; set; }
@@ -136,6 +137,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gpu_vendor_group.select_preferred_page ();
 
             advanced_visible = should_show_advanced_controls ();
+            this.advanced_state_detected (advanced_visible);
             refresh_advanced_visibility ();
 
             refreshing_controls = false;
