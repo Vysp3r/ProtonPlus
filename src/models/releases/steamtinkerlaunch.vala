@@ -312,7 +312,7 @@ namespace ProtonPlus.Models.Releases {
 
 
             // Add STL to Games tab
-            var simple_runner = new Tools.Simple.from_path("%s/SteamTinkerLaunch".printf (compat_location));
+            var simple_runner = new Tools.Simple.from_path ("%s/SteamTinkerLaunch".printf (compat_location));
             runner.group.launcher.compatibility_tools.add (simple_runner);
 
             return ReturnCode.RUNNER_INSTALLED;
