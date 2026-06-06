@@ -5,7 +5,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile intel_xess_upgrade_tile { get; set; }
 
         public GpuVendorIntelOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base((owned) standard_control_changed, launch_option_handlers, true);
+            base ((owned) standard_control_changed, launch_option_handlers, true);
 
             intel_xess_upgrade_tile = create_tile (_ ("XeSS Upgrade"), _ ("Upgrades XeSS in supported games."), { "PROTON_XESS_UPGRADE=1" }, false);
 

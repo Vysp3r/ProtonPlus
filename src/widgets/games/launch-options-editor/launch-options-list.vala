@@ -1,40 +1,40 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     using Gee;
 
-    public class LaunchOptionsList: Object {
+    public class LaunchOptionsList : Object {
         private Gee.List<ILaunchOption> _options;
 
-        public LaunchOptionsList() {
+        public LaunchOptionsList () {
             this._options = new Gee.ArrayList<ILaunchOption> ();
         }
 
-        public void add(ILaunchOption option) {
-            this._options.add(option);
+        public void add (ILaunchOption option) {
+            this._options.add (option);
         }
 
-        public string to_launch_line() {
+        public string to_launch_line () {
             var segments = get_segments ();
 
-            return string.joinv(" ", segments.to_array());
+            return string.joinv (" ", segments.to_array ());
         }
 
         public Gee.LinkedList<string> get_segments () {
-            var segments = new Gee.LinkedList<string>();
+            var segments = new Gee.LinkedList<string> ();
 
             foreach (var option in get_environments ()) {
-                option.append_command_segments(segments);
+                option.append_command_segments (segments);
             }
 
             foreach (var option in get_wrappers ()) {
-                option.append_command_segments(segments);
+                option.append_command_segments (segments);
             }
 
             foreach (var option in get_commands ()) {
-                option.append_command_segments(segments);
+                option.append_command_segments (segments);
             }
 
             foreach (var option in get_arguments ()) {
-                option.append_command_segments(segments);
+                option.append_command_segments (segments);
             }
 
             return segments;
