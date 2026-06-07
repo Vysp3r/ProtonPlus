@@ -12,7 +12,7 @@ namespace ProtonPlus.Models.Games {
         public override bool is_native {
             get {
                 if (_is_native == null)
-                _is_native = detect_native ();
+                    _is_native = detect_native ();
 
                 return _is_native;
             }
@@ -21,7 +21,7 @@ namespace ProtonPlus.Models.Games {
             }
         }
 
-        public Steam(uint appid, string name, string game_folder_name, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
+        public Steam (uint appid, string name, string game_folder_name, int library_folder_id, string library_folder_path, Launchers.Steam launcher) {
             base (name, "%s/steamapps/common/%s".printf (library_folder_path, game_folder_name), "%s/steamapps/compatdata/%u".printf (library_folder_path, appid), appid, launcher);
 
             this.appid = appid;
@@ -42,11 +42,11 @@ namespace ProtonPlus.Models.Games {
 
         private bool detect_native () {
             if (is_non_steam)
-            return false;
+                return false;
 
             if (FileUtils.test (installdir, FileTest.IS_DIR)) {
                 if (!FileUtils.test (prefixdir, FileTest.IS_DIR))
-                return true;
+                    return true;
 
                 try {
                     var dir = Dir.open (installdir, 0);
@@ -92,26 +92,26 @@ namespace ProtonPlus.Models.Games {
                 var start_steam_pos = config_content.index_of (start_steam_text, 0);
                 var insert_pos = start_steam_pos + start_steam_text.length;
                 config_content =
-                config_content.substring (0, insert_pos) +
-                "\n\t\t\t\t\"CompatToolMapping\"\n\t\t\t\t{\n\t\t\t\t}" +
-                config_content.substring (insert_pos);
+                    config_content.substring (0, insert_pos)
+                    + "\n\t\t\t\t\"CompatToolMapping\"\n\t\t\t\t{\n\t\t\t\t}"
+                    + config_content.substring (insert_pos);
             }
             start_pos = config_content.index_of (start_text, 0);
             end_pos = config_content.index_of (end_text, start_pos) + end_text.length;
             compat_tool_mapping_content = config_content.substring (start_pos, end_pos - start_pos);
 
-            compat_tool_mapping_string_builder = new StringBuilder(compat_tool_mapping_content);
+            compat_tool_mapping_string_builder = new StringBuilder (compat_tool_mapping_content);
 
             if (compat_tool_mapping_content.contains (appid.to_string ())) {
                 start_text = "\n\t\t\t\t\t\"%u\"".printf (appid);
                 start_pos = compat_tool_mapping_content.index_of (start_text, current_position);
                 if (start_pos == -1)
-                return false;
+                    return false;
 
                 end_text = "}";
                 end_pos = compat_tool_mapping_content.index_of (end_text, start_pos + start_text.length) + end_text.length;
                 if (end_pos == -1)
-                return false;
+                    return false;
 
                 compat_tool_mapping_item = compat_tool_mapping_content.substring (start_pos, end_pos - start_pos);
 
@@ -120,32 +120,32 @@ namespace ProtonPlus.Models.Games {
                 start_text = "\"";
                 start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
                 if (start_pos == -1)
-                return false;
+                    return false;
 
                 end_text = "\"";
                 end_pos = compat_tool_mapping_item.index_of (end_text, start_pos);
                 if (end_pos == -1)
-                return false;
+                    return false;
 
                 var compat_tool_mapping_item_appid_valid = uint.try_parse (compat_tool_mapping_item.substring (start_pos, end_pos - start_pos), out compat_tool_mapping_item_appid);
                 if (!compat_tool_mapping_item_appid_valid)
-                return false;
+                    return false;
 
                 if (compat_tool_mapping_item_appid != appid)
-                return false;
+                    return false;
 
-                if (compatibility_tool == _ ("Default")) {
+                if (compatibility_tool == _("Default")) {
                     config_content = config_content.replace (compat_tool_mapping_item, "");
                 } else {
                     start_text = "name\"\t\t\"";
                     start_pos = compat_tool_mapping_item.index_of (start_text, 0) + start_text.length;
                     if (start_pos == -1)
-                    return false;
+                        return false;
 
                     end_text = "\"";
                     end_pos = compat_tool_mapping_item.index_of (end_text, start_pos);
                     if (end_pos == -1)
-                    return false;
+                        return false;
 
                     compat_tool_mapping_item_name = compat_tool_mapping_item.substring (start_pos, end_pos - start_pos);
 
@@ -154,8 +154,8 @@ namespace ProtonPlus.Models.Games {
                     config_content = config_content.replace (compat_tool_mapping_item, compat_tool_mapping_item_modified);
                 }
             } else {
-                if (compatibility_tool == _ ("Default"))
-                return true;
+                if (compatibility_tool == _("Default"))
+                    return true;
 
                 var line1 = "\n\t\t\t\t\t\"%u\"\n".printf (appid);
                 var line2 = "\t\t\t\t\t{\n";
@@ -172,7 +172,7 @@ namespace ProtonPlus.Models.Games {
 
             var modified = Utils.Filesystem.modify_file (config_path, config_content);
             if (!modified)
-            return false;
+                return false;
 
             this.compatibility_tool = compatibility_tool;
 
@@ -214,12 +214,12 @@ namespace ProtonPlus.Models.Games {
             start_text = "%u\"\n\t\t\t\t\t{".printf (appid);
             start_pos = config_content.index_of (start_text, 0) + start_text.length - 1;
             if (start_pos == -1)
-            return false;
+                return false;
 
             end_text = "\n\t\t\t\t\t}";
             end_pos = config_content.index_of (end_text, start_pos) + end_text.length;
             if (end_pos == -1)
-            return false;
+                return false;
 
             app = config_content.substring (start_pos, end_pos - start_pos);
 
@@ -228,12 +228,12 @@ namespace ProtonPlus.Models.Games {
                     start_text = "\n\t\t\t\t\t\t\"LaunchOptions\"\t\t\"";
                     start_pos = app.index_of (start_text, 0);
                     if (start_pos == -1)
-                    return false;
+                        return false;
 
                     end_text = "\"\n";
                     end_pos = app.index_of (end_text, start_pos + start_text.length);
                     if (end_pos == -1)
-                    return false;
+                        return false;
 
                     end_pos = end_pos + end_text.length - 1;
 
@@ -247,13 +247,13 @@ namespace ProtonPlus.Models.Games {
                     start_pos = app.index_of (start_text, 0) + start_text.length;
 
                     if (start_pos == -1)
-                    return false;
+                        return false;
 
                     end_text = "\"\n";
                     end_pos = app.index_of (end_text, start_pos);
 
                     if (end_pos == -1)
-                    return false;
+                        return false;
 
                     app_launch_options = app.substring (start_pos, end_pos - start_pos);
 
@@ -269,12 +269,12 @@ namespace ProtonPlus.Models.Games {
 
                     end_pos = app.last_index_of ("\n\t\t\t\t\t}");
                     if (end_pos == -1)
-                    return false;
+                        return false;
 
                     app_modified =
-                    app.substring (0, end_pos) +
-                    app_launch_options +
-                    app.substring (end_pos);
+                        app.substring (0, end_pos)
+                        + app_launch_options
+                        + app.substring (end_pos);
                 }
             }
 
@@ -282,12 +282,12 @@ namespace ProtonPlus.Models.Games {
 
             var modified = Utils.Filesystem.modify_file (localconfig_path, config_content);
             if (!modified)
-            return false;
+                return false;
 
             this.launch_options = launch_options;
 
             if (steam_launcher.profile != null && steam_launcher.profile.launch_options_hashtable != null)
-            steam_launcher.profile.launch_options_hashtable.set (appid, launch_options);
+                steam_launcher.profile.launch_options_hashtable.set (appid, launch_options);
 
             return true;
         }
@@ -297,7 +297,7 @@ namespace ProtonPlus.Models.Games {
             public string name { get; set; }
             public string status { get; set; }
 
-            public AwacyGame(uint appid, string name, string status) {
+            public AwacyGame (uint appid, string name, string status) {
                 this.appid = appid;
                 this.name = name;
                 this.status = status;
@@ -311,45 +311,45 @@ namespace ProtonPlus.Models.Games {
                 var get_code = yield Utils.Web.get_request ("https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json", Utils.Web.GetRequestType.OTHER, out response);
 
                 if (get_code != ReturnCode.VALID_REQUEST)
-                return games;
+                    return games;
 
                 var root_node = Utils.Parser.get_node_from_json (response);
 
                 if (root_node == null)
-                return games;
+                    return games;
 
                 if (root_node.get_node_type () != Json.NodeType.ARRAY)
-                return games;
+                    return games;
 
                 var root_array = root_node.get_array ();
                 if (root_array == null)
-                return games;
+                    return games;
 
                 for (var i = 0; i < root_array.get_length (); i++) {
                     var object = root_array.get_object_element (i);
 
                     var storeids_object = object.get_object_member ("storeIds");
                     if (storeids_object == null)
-                    continue;
+                        continue;
 
                     if (!storeids_object.has_member ("steam"))
-                    continue;
+                        continue;
 
                     uint appid = 0;
                     if (!uint.try_parse (storeids_object.get_string_member ("steam"), out appid))
-                    continue;
+                        continue;
 
                     if (!object.has_member ("slug"))
-                    continue;
+                        continue;
 
                     var name = object.get_string_member ("slug");
 
                     if (!object.has_member ("status"))
-                    continue;
+                        continue;
 
                     var status = object.get_string_member ("status");
 
-                    var game = new AwacyGame(appid, name, status);
+                    var game = new AwacyGame (appid, name, status);
 
                     games.set (appid, game);
                 }

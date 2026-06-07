@@ -20,6 +20,9 @@ build-debug:
 
 run: build-run
 
+install:
+	cd build-native && sudo ninja install
+
 clean:
 	./scripts/build.sh clean
 
