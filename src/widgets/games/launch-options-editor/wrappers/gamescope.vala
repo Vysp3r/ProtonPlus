@@ -11,7 +11,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         LaunchOptionEntryField args_field { get; set; }
         Gtk.Widget cached_page;
 
-        public Gamescope (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
+        public Gamescope (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base (standard_control_changed, launch_option_handlers);
             cached_page = null;
         }

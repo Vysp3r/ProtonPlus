@@ -7,7 +7,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile command_tile { get; set; }
         bool refreshing_controls;
 
-        public AdvancedOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
+        public AdvancedOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base (standard_control_changed, launch_option_handlers);
             refreshing_controls = true;
             this.set_margin_bottom (15);
