@@ -12,7 +12,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         List<LaunchOptionBinding> bindings;
         Gtk.Widget cached_page;
 
-        public Scopebuddy (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
+        public Scopebuddy (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base (standard_control_changed, launch_option_handlers);
             bindings = new List<LaunchOptionBinding> ();
             cached_page = null;

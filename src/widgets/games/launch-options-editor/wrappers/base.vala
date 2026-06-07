@@ -4,7 +4,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
     public delegate void SimpleCallback ();
 
     public abstract class Base : Object, ILaunchOption {
-        protected SimpleCallback standard_control_changed;
+        protected unowned SimpleCallback standard_control_changed;
         protected unowned LaunchOptionsList launch_option_handlers;
         public bool is_advanced { get; set; }
         public LaunchLineType line_type { get; set; }
@@ -12,8 +12,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
         public bool active { get; set; }
 
-        protected Base (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            this.standard_control_changed = (owned) standard_control_changed;
+        protected Base (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
+            this.standard_control_changed = standard_control_changed;
             this.launch_option_handlers = launch_option_handlers;
             this.line_type = LaunchLineType.WRAPPER;
             this._children = new Gee.ArrayList<ILaunchOption> ();

@@ -4,13 +4,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     public delegate void SimpleCallback ();
 
     public class BaseOptionsGroup : PreferencesGroup {
-        protected SimpleCallback standard_control_changed;
+        protected unowned SimpleCallback standard_control_changed;
         protected unowned LaunchOptionsList launch_option_handlers;
 
         internal bool is_advanced_group { get; set; default = false; }
 
-        public BaseOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers, bool is_advanced_group = false) {
-            this.standard_control_changed = (owned) standard_control_changed;
+        public BaseOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers, bool is_advanced_group = false) {
+            this.standard_control_changed = standard_control_changed;
             this.launch_option_handlers = launch_option_handlers;
             this.is_advanced_group = is_advanced_group;
         }

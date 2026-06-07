@@ -10,7 +10,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         GpuVendorNvidiaOptionsGroup nvidia_group { get; set; }
         GpuVendorIntelOptionsGroup intel_group { get; set; }
 
-        public GpuVendorOptionsGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
+        public GpuVendorOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
 
             var header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
@@ -19,11 +19,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             var title_vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             title_vbox.set_hexpand (true);
 
-            var title_label = new Gtk.Label (_ ("GPU vendor options"));
+            var title_label = new Gtk.Label (_("GPU vendor options"));
             title_label.add_css_class ("title-4");
             title_label.set_halign (Gtk.Align.START);
 
-            var desc_label = new Gtk.Label (_ ("Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."));
+            var desc_label = new Gtk.Label (_("Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."));
             desc_label.add_css_class ("caption");
             desc_label.add_css_class ("dim-label");
             desc_label.set_halign (Gtk.Align.START);
@@ -45,9 +45,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             var nvidia_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0); nvidia_box.append (nvidia_group);
             var intel_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0); intel_box.append (intel_group);
 
-            stack.add_titled (amd_box, "amd", _ ("AMD"));
-            stack.add_titled (nvidia_box, "nvidia", _ ("NVIDIA"));
-            stack.add_titled (intel_box, "intel", _ ("Intel"));
+            stack.add_titled (amd_box, "amd", _("AMD"));
+            stack.add_titled (nvidia_box, "nvidia", _("NVIDIA"));
+            stack.add_titled (intel_box, "intel", _("Intel"));
 
             stack.set_visible_child_name ("amd");
 

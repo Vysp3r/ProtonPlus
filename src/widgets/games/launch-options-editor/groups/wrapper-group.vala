@@ -11,7 +11,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
         bool refreshing_controls;
 
-        public WrapperGroup (owned SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
+        public WrapperGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
             base (standard_control_changed, launch_option_handlers);
             refreshing_controls = true;
 
