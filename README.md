@@ -167,7 +167,7 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
     sudo dnf install make git gettext 'meson >= 1.0.0' vala desktop-file-utils libappstream-glib \
       'pkgconfig(gee-0.8)' 'pkgconfig(glib-2.0)' 'pkgconfig(gtk4)' 'pkgconfig(json-glib-1.0)' \
       'pkgconfig(libadwaita-1) >= 1.6' 'pkgconfig(libarchive)' 'pkgconfig(libsoup-3.0)' \
-      'pkgconfig(sdl3)' 'pkgconfig(libnotify)'
+      'pkgconfig(sdl3)' 'pkgconfig(libnotify)' 'pkgconfig(appstream)'
     ```
 
 2. **Clone the repository**:
