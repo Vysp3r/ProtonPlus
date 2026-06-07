@@ -107,7 +107,7 @@
         {
           "title": "Luxtorpeda",
           "description": "Luxtorpeda provides Linux-native game engines for certain Windows-only games.",
-          "endpoint": "https://api.github.com/repos/luxtorpeda-dev/luxtorpeda/releases",
+          "endpoint": "https://codeberg.org/api/v1/repos/luxtorpeda/luxtorpeda/releases",
           "asset_position": 0,
           "directory_name_formats": [
             {
@@ -115,7 +115,7 @@
               "directory_name_format": "$title $release_name"
             }
           ],
-          "type": "github"
+          "type": "forgejo"
         },
         {
           "title": "Roberta",
