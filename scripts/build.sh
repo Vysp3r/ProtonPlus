@@ -54,22 +54,7 @@ build() {
   local manifest="$2"
   local run_mode="${3:-}"
 
-  if [[ "${variant}" == "native-debug" ]]; then
-    check_dependencies meson ninja
-    show_log "INFO" "Starting native debug build..."
-    local build_dir="/tmp/protonplus-build-debug"
-    show_log "INFO" "Configuring debug build directory: ${build_dir}"
-    meson "${build_dir}" --prefix=/usr --buildtype=debug
-    (
-      cd "${build_dir}" || exit 1
-      show_log "INFO" "Building files using Ninja..."
-      ninja
-
-      mkdir -p "${build_dir}/data/glib-2.0/schemas"
-      cp "${ROOT_DIR}/data/com.vysp3r.ProtonPlus.gschema.xml" "${build_dir}/data/glib-2.0/schemas/"
-      glib-compile-schemas "${build_dir}/data/glib-2.0/schemas/"
-    )
-  elif [[ "${variant}" == "native" ]]; then
+  if [[ "${variant}" == "native" ]]; then
     check_dependencies meson ninja
     show_log "INFO" "Starting native build..."
     local build_dir="build-native"
@@ -97,6 +82,21 @@ build() {
         cd src || exit 1
         LOCALE_DIR="${ROOT_DIR}/${build_dir}/po" XDG_DATA_DIRS="${ROOT_DIR}/${build_dir}/data:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" gdb -batch -ex "run" -ex "bt" ./protonplus
       fi
+    )
+  elif [[ "${variant}" == "native-debug" ]]; then
+    check_dependencies meson ninja
+    show_log "INFO" "Starting native debug build..."
+    local build_dir="/tmp/protonplus-build-debug"
+    show_log "INFO" "Configuring debug build directory: ${build_dir}"
+    meson "${build_dir}" --prefix=/usr --buildtype=debug
+    (
+      cd "${build_dir}" || exit 1
+      show_log "INFO" "Building files using Ninja..."
+      ninja
+
+      mkdir -p "${build_dir}/data/glib-2.0/schemas"
+      cp "${ROOT_DIR}/data/com.vysp3r.ProtonPlus.gschema.xml" "${build_dir}/data/glib-2.0/schemas/"
+      glib-compile-schemas "${build_dir}/data/glib-2.0/schemas/"
     )
   else
     check_dependencies flatpak

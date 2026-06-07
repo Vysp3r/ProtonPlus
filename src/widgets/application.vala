@@ -59,6 +59,7 @@ namespace ProtonPlus.Widgets {
                         Globals.SETTINGS.set_enum ("theme", 5);
                     }
 
+                    on_introduction_action ();
                     Globals.SETTINGS.set_boolean ("first-run", false);
                 }
 
