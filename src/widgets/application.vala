@@ -124,6 +124,10 @@ namespace ProtonPlus.Widgets {
                 null
             };
 
+            var meta = new Utils.Internal.MetaInfoLoader ();
+            var model = meta.load ();
+
+
             var about_dialog = new Adw.AboutDialog ();
             about_dialog.set_application_name (Config.APP_NAME);
             about_dialog.set_application_icon (Config.APP_ID);
@@ -137,6 +141,13 @@ namespace ProtonPlus.Widgets {
             about_dialog.set_developers (devs);
             about_dialog.set_translator_credits (_("translator-credits"));
             about_dialog.add_credit_section (_("Special thanks to"), thanks);
+
+            if (model != null) {
+                var last_release = model.get_last_release ();
+
+                about_dialog.set_release_notes (model.get_full_change_log ());
+                about_dialog.set_release_notes_version (last_release.version);
+            }
             about_dialog.present (this.active_window);
         }
     }
