@@ -145,7 +145,7 @@ namespace ProtonPlus.Widgets {
             if (model != null) {
                 var last_release = model.get_last_release ();
 
-                about_dialog.set_release_notes (model.get_full_change_log ());
+                about_dialog.set_release_notes (last_release.description);
                 about_dialog.set_release_notes_version (last_release.version);
             }
             about_dialog.present (this.active_window);
