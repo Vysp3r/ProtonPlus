@@ -7,10 +7,13 @@ _build/
 build-dir/
 build-flatpak/
 build-native/
+build-native-debug/
+build-native-debug
 build/
 build-appimage/
 dist/
 /src/translatables.vala
+/tmp
 
 # Miscellaneous.
 .idea/

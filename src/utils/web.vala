@@ -29,7 +29,7 @@ namespace ProtonPlus.Utils {
 
         public static void update_proxy_settings () {
             if (_session == null)
-            return;
+                return;
 
             var proxy_mode = PROXY_MODE_SYSTEM;
             var proxy_url = "";
@@ -40,14 +40,14 @@ namespace ProtonPlus.Utils {
             }
 
             if (applied_proxy_mode == proxy_mode && applied_proxy_url == proxy_url)
-            return;
+                return;
 
             if (proxy_mode == PROXY_MODE_MANUAL) {
                 if (is_valid_proxy_url (proxy_url)) {
                     _session.set_proxy_resolver (new SimpleProxyResolver (proxy_url, null));
                 } else {
                     if (proxy_url.length > 0)
-                    warning ("Invalid proxy URL. Falling back to the system proxy.");
+                        warning ("Invalid proxy URL. Falling back to the system proxy.");
                     _session.set_proxy_resolver (ProxyResolver.get_default ());
                 }
             } else {
@@ -62,11 +62,11 @@ namespace ProtonPlus.Utils {
             var supported_schemes = new string[] { "http://", "https://", "socks://", "socks4://", "socks5://" };
 
             if (proxy_url.length == 0)
-            return false;
+                return false;
 
             foreach (var scheme in supported_schemes) {
                 if (proxy_url.has_prefix (scheme) && proxy_url.length > scheme.length)
-                return true;
+                    return true;
             }
 
             return false;
@@ -81,13 +81,13 @@ namespace ProtonPlus.Utils {
                     if (get_request_type == GetRequestType.GITHUB || get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
                         var key = Globals.SETTINGS.get_string ("github-api-key");
                         if (key.length > 0)
-                        message.request_headers.append ("Authorization", "token %s".printf (key));
+                            message.request_headers.append ("Authorization", "token %s".printf (key));
                     }
 
                     if (get_request_type == GetRequestType.GITLAB) {
                         var key = Globals.SETTINGS.get_string ("gitlab-api-key");
                         if (key.length > 0)
-                        message.request_headers.append ("Authorization", "Bearer %s".printf (key));
+                            message.request_headers.append ("Authorization", "Bearer %s".printf (key));
                     }
 
                     if (get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
@@ -99,41 +99,46 @@ namespace ProtonPlus.Utils {
                 Bytes bytes = yield session.send_and_read_async (message, Priority.DEFAULT, null);
 
                 unowned uint8[] data = bytes.get_data ();
-                response = (string)(data);
+                response = (string) (data);
 
                 if (response == null)
-                return ReturnCode.UNKNOWN_ERROR;
+                    return ReturnCode.UNKNOWN_ERROR;
 
                 switch (get_request_type) {
-                    case GetRequestType.GITHUB:
-                        if (message.status_code == 403 || message.status_code == 429)
+                case GetRequestType.GITHUB :
+                    if (message.status_code == 403 || message.status_code == 429)
                         return ReturnCode.API_LIMIT_REACHED;
-                        if (response.contains ("Bad credentials"))
+                    if (response.contains ("Bad credentials"))
                         return ReturnCode.INVALID_ACCESS_TOKEN;
-                        break;
-                    case GetRequestType.GITLAB:
-                        if (message.status_code == 403 || message.status_code == 429)
+                    break;
+                case GetRequestType.GITLAB:
+                    if (message.status_code == 403 || message.status_code == 429)
                         return ReturnCode.API_LIMIT_REACHED;
-                        if (response.contains ("401 Unauthorized"))
+                    if (response.contains ("401 Unauthorized"))
                         return ReturnCode.INVALID_ACCESS_TOKEN;
-                        break;
-                    default:
-                        break;
+                    break;
+                default:
+                    break;
                 }
 
                 return ReturnCode.VALID_REQUEST;
             } catch (Error e) {
-                warning (e.message);
+                if (e is Soup.SessionError.PARSING ||
+                    e.message.contains ("TLS handshake") ||
+                    e.message.contains ("TLS connection")) {
+                    return ReturnCode.TLS_HANDSHAKE_ERROR;
+                }
 
                 if (e.message.contains ("Temporary failure in name resolution"))
-                return ReturnCode.CONNECTION_ISSUE;
+                    return ReturnCode.CONNECTION_ISSUE;
 
                 if (e.message.contains ("Connection refused"))
-                return ReturnCode.CONNECTION_REFUSED;
+                    return ReturnCode.CONNECTION_REFUSED;
 
                 if (e.message.contains ("Name or service not known"))
-                return ReturnCode.CONNECTION_UNKNOWN;
+                    return ReturnCode.CONNECTION_UNKNOWN;
 
+                warning (e.message);
                 return ReturnCode.UNKNOWN_ERROR;
             }
         }
@@ -157,7 +162,7 @@ namespace ProtonPlus.Utils {
 
                 var file = File.new_for_path (path);
                 if (file.query_exists ())
-                yield file.delete_async (Priority.DEFAULT, null);
+                    yield file.delete_async (Priority.DEFAULT, null);
 
                 FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, Priority.DEFAULT, null);
 
@@ -176,7 +181,7 @@ namespace ProtonPlus.Utils {
                 int64 bytes_downloaded = 0;
 
                 if (progress_callback != null)
-                progress_callback (is_percent, 0, 0, 0); // Set initial progress state.
+                    progress_callback (is_percent, 0, 0, 0); // Set initial progress state.
 
                 var is_canceled = false;
 
@@ -191,9 +196,10 @@ namespace ProtonPlus.Utils {
                     var chunk = yield input_stream.read_bytes_async (chunk_size);
 
                     if (chunk.get_size () == 0)
-                    break;
+                        break;
 
                     yield output_stream.write_async (chunk.get_data (), Priority.DEFAULT, null);
+
                     bytes_downloaded += chunk.get_size ();
 
                     if (progress_callback != null) {
@@ -218,7 +224,7 @@ namespace ProtonPlus.Utils {
                 yield output_stream.close_async ();
 
                 if (is_canceled && file.query_exists ())
-                yield file.delete_async (Priority.DEFAULT, null);
+                    yield file.delete_async (Priority.DEFAULT, null);
 
                 return !is_canceled;
             } catch (Error e) {

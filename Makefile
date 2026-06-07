@@ -20,6 +20,11 @@ build-debug:
 
 run: build-run
 
+install: translations build
+	cd build-native && sudo ninja install
+
+uninstall: 
+	cd build-native && sudo ninja uninstall
 clean:
 	./scripts/build.sh clean
 

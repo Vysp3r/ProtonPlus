@@ -8,9 +8,9 @@ namespace ProtonPlus.Models.Tools {
 
         public virtual string get_directory_name (string release_name) {
             if (release_name.contains ("Latest"))
-            return release_name;
+                return release_name;
 
-            var directory_name = new StringBuilder(directory_name_format);
+            var directory_name = new StringBuilder (directory_name_format);
 
             directory_name.replace ("$release_name", release_name);
             directory_name.replace ("$title", title);
@@ -38,7 +38,7 @@ namespace ProtonPlus.Models.Tools {
         public override bool is_installed () {
             var directories = group.get_tool_directories ();
             foreach (var directory in directories) {
-                if (directory.contains (title)) return true;
+                if (directory.contains (title))return true;
             }
             return false;
         }
@@ -47,7 +47,7 @@ namespace ProtonPlus.Models.Tools {
             var directories = group.get_tool_directories ();
             foreach (var directory in directories) {
                 if (directory.contains (title)) {
-                    if (group.launcher.get_compatibility_tool_usage_count (directory) > 0) return true;
+                    if (group.launcher.get_compatibility_tool_usage_count (directory) > 0)return true;
                 }
             }
             return false;
