@@ -47,6 +47,9 @@ namespace ProtonPlus.Utils {
             tool.releases.clear ();
             for (var i = 0; i < releases_array.get_length (); i++) {
                 var release_obj = releases_array.get_object_element (i);
+                if (release_obj == null) {
+                    continue;
+                }
                 var release = Models.Release.from_json (tool, release_obj);
                 if (release != null)
                     tool.releases.add (release);
