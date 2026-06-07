@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
-        public static Window window;
+        Preferences.PreferencesDialog activePreferencesDialog { get; set; }
 
         construct {
             application_id = Config.APP_ID;
@@ -10,7 +10,11 @@ namespace ProtonPlus.Widgets {
                 { "report", this.on_report_action },
                 { "preferences", this.on_preferences_action },
                 { "about", this.on_about_action },
-                { "quit", this.quit }
+                { "donate", this.on_donate_action },
+                { "reload", this.on_reload_action },
+                { "introduction", this.on_introduction_action },
+                { "on_language_change", this.on_language_change },
+                { "quit", this.quit },
             };
             this.add_action_entries (action_entries, this);
             this.set_accels_for_action ("app.quit", { "<Ctrl>Q" });
@@ -28,47 +32,49 @@ namespace ProtonPlus.Widgets {
             provider.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
             Gtk.StyleContext.add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-            window = new Window ();
+            Globals.load ();
 
-            Globals.load.begin ((obj, res) => {
-                if (Globals.SETTINGS != null) {
-                    Globals.SETTINGS.bind ("width",
-                            window,
-                            "default-width",
-                            SettingsBindFlags.DEFAULT);
-                    Globals.SETTINGS.bind ("height",
-                            window,
-                            "default-height",
-                            SettingsBindFlags.DEFAULT);
-                    Globals.SETTINGS.bind ("is-maximized",
-                            window,
-                            "maximized",
-                            SettingsBindFlags.DEFAULT);
-                    Globals.SETTINGS.bind ("is-fullscreen",
-                            window,
-                            "fullscreened",
-                            SettingsBindFlags.DEFAULT);
+            if (Globals.SETTINGS != null) {
+                var window = new Window ();
 
-                    if (Globals.SETTINGS.get_boolean ("first-run")) {
-                        if (Globals.IS_STEAM_OS) {
-                            Globals.SETTINGS.set_enum ("theme", 5);
-                        }
+                Globals.SETTINGS.bind ("width",
+                                       window,
+                                       "default-width",
+                                       SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("height",
+                                       window,
+                                       "default-height",
+                                       SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("is-maximized",
+                                       window,
+                                       "maximized",
+                                       SettingsBindFlags.DEFAULT);
+                Globals.SETTINGS.bind ("is-fullscreen",
+                                       window,
+                                       "fullscreened",
+                                       SettingsBindFlags.DEFAULT);
 
-                        Globals.SETTINGS.set_boolean ("first-run", false);
+                if (Globals.SETTINGS.get_boolean ("first-run")) {
+                    if (Globals.IS_STEAM_OS) {
+                        Globals.SETTINGS.set_enum ("theme", 5);
                     }
 
-                    ThemeManager.get_default ().apply_theme ();
-                } else {
-                    warning ("GSettings schema not found: 'com.vysp3r.ProtonPlus.State'");
-
-                    window.default_width = 950;
-                    window.default_height = 600;
-                    window.maximized = false;
-                    window.fullscreened = false;
+                    on_introduction_action ();
+                    Globals.SETTINGS.set_boolean ("first-run", false);
                 }
 
+                Utils.ThemeManager.get_default ().apply_theme ();
+
                 window.present ();
-            });
+            } else {
+                error ("GSettings schema not found or invalid: 'com.vysp3r.ProtonPlus.State'");
+            }
+        }
+
+        void on_introduction_action () {
+            var window = this.active_window as Window;
+            var dialog = new Introduction.Introduction ();
+            dialog.present (window);
         }
 
         void on_report_action () {
@@ -76,8 +82,30 @@ namespace ProtonPlus.Widgets {
         }
 
         void on_preferences_action () {
-            var preferences_dialog = new Preferences.PreferencesDialog ();
+            var window = this.active_window as Window;
+            var preferences_dialog = new Preferences.PreferencesDialog (window.launchers);
             preferences_dialog.present (window);
+            activePreferencesDialog = preferences_dialog;
+        }
+
+        void on_donate_action () {
+            Utils.System.open_uri ("https://protonplus.vysp3r.com/#donate");
+        }
+
+        void on_reload_action () {
+            (this.active_window as Window) ? .reload ();
+        }
+
+        public void on_language_change () {
+            var main_window = this.active_window as Window;
+
+            if (main_window != null) {
+                main_window.reload_ui ();
+                main_window.reload ();
+
+                activePreferencesDialog.close ();
+                on_preferences_action ();
+            }
         }
 
         void on_about_action () {
@@ -91,24 +119,36 @@ namespace ProtonPlus.Widgets {
             const string[] thanks = {
                 "GNOME Project https://www.gnome.org/",
                 "ProtonUp-Qt Project https://davidotek.github.io/protonup-qt/",
-                "LUG Helper Project https://github.com/starcitizen-lug/lug-helper",
+                "LUG Helper Project https://github.com/starcitizen-lug/lug-helper/",
+                "Font Awesome https://fontawesome.com/",
                 null
             };
+
+            var meta = new Utils.Internal.MetaInfoLoader ();
+            var model = meta.load ();
+
 
             var about_dialog = new Adw.AboutDialog ();
             about_dialog.set_application_name (Config.APP_NAME);
             about_dialog.set_application_icon (Config.APP_ID);
             about_dialog.set_version ("v" + Config.APP_VERSION);
-            about_dialog.set_comments (_ ("A modern compatibility tools manager"));
+            about_dialog.set_comments (_("A modern compatibility tools manager"));
             about_dialog.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
-            about_dialog.add_link (_ ("Website"), "https://protonplus.vysp3r.com/");
+            about_dialog.add_link (_("Website"), "https://protonplus.vysp3r.com/");
             about_dialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             about_dialog.set_copyright ("© 2022-2025 Vysp3r");
             about_dialog.set_license_type (Gtk.License.GPL_3_0);
             about_dialog.set_developers (devs);
-            about_dialog.set_translator_credits (_ ("translator-credits"));
-            about_dialog.add_credit_section (_ ("Special thanks to"), thanks);
-            about_dialog.present (window);
+            about_dialog.set_translator_credits (_("translator-credits"));
+            about_dialog.add_credit_section (_("Special thanks to"), thanks);
+
+            if (model != null) {
+                var last_release = model.get_last_release ();
+
+                about_dialog.set_release_notes (last_release.description);
+                about_dialog.set_release_notes_version (last_release.version);
+            }
+            about_dialog.present (this.active_window);
         }
     }
 }

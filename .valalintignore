@@ -1,0 +1,14 @@
+buildDir/
+_build/
+.flatpak-builder/
+.flatpak/
+build-dir/
+build-flatpak/
+build-native/
+build-native-debug/
+build/
+build-appimage/
+tmp/
+dist/
+po
+data

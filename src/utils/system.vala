@@ -17,10 +17,33 @@ namespace ProtonPlus.Utils {
 
                 if (stdout_bytes != null) {
                     unowned uint8[] data = stdout_bytes.get_data ();
-                    char[] str_data = new char[data.length + 1];
-                    Memory.copy (str_data, data, data.length);
-                    str_data[data.length] = '\0';
-                    output = (string) str_data;
+                    output = (string)(data);
+                }
+            } catch (Error e) {
+                warning (e.message);
+            }
+
+            return output;
+        }
+
+        public static string run_command_sync (string command) {
+            string output = "";
+            try {
+                string command_line = "";
+                if (Globals.IS_FLATPAK)
+                command_line += "flatpak-spawn --host ";
+                command_line += command;
+
+                string[] argv;
+                Shell.parse_argv (command_line, out argv);
+
+                var subprocess = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
+                Bytes stdout_bytes;
+                subprocess.communicate (null, null, out stdout_bytes, null);
+
+                if (stdout_bytes != null) {
+                    unowned uint8[] data = stdout_bytes.get_data ();
+                    output = (string)(data);
                 }
             } catch (Error e) {
                 warning (e.message);
@@ -72,15 +95,27 @@ namespace ProtonPlus.Utils {
         }
 
         public static async bool check_dependency (string name) {
-            return (yield run_command (@"which $name")).contains ("which: no") ? false : true;
+            var output = yield run_command (@"which $name");
+            return output != "" && !output.contains ("which: no");
         }
 
-        public static async string get_distribution_name () {
+        public static bool check_dependency_sync (string name) {
+            var output = run_command_sync (@"which $name");
+            return output != "" && !output.contains ("which: no");
+        }
+
+        public static bool check_flatpak_dependency_sync (string name) {
+            var output = run_command_sync (@"flatpak info $name");
+            return output != "" && !output.contains ("error:");
+        }
+
+        public static string get_distribution_name () {
             string distro_name = "Unknown";
             try {
                 var file = File.new_for_path ("/etc/os-release");
-                if (!file.query_exists ())
-                file = File.new_for_path ("/usr/lib/os-release");
+                if (!file.query_exists ()) {
+                    file = File.new_for_path ("/usr/lib/os-release");
+                }
 
                 if (file.query_exists ()) {
                     var dis = new DataInputStream (file.read ());
@@ -107,17 +142,6 @@ namespace ProtonPlus.Utils {
                     GLib.warning (error.message);
                 }
             });
-        }
-
-        public static async string? get_protontricks_exec () {
-            string[] protontricks_execs = { "protontricks", "com.github.Matoking.protontricks" };
-
-            foreach (var protontricks_exec in protontricks_execs) {
-                if (yield Utils.System.check_dependency (protontricks_exec))
-                return protontricks_exec;
-            }
-
-            return null;
         }
     }
 }

@@ -7,7 +7,7 @@ import textwrap
 def extract_descriptions(data, results):
     if isinstance(data, dict):
         for key, value in data.items():
-            if key == "description" and isinstance(value, str) and value.strip():
+            if (key == "description" or key == "tag") and isinstance(value, str) and value.strip():
                 results.append(value.strip())
             else:
                 extract_descriptions(value, results)

@@ -155,6 +155,7 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 - `libarchive`
 - `desktop-file-utils`
 - `libgee`
+- `make`
 
 ### Build instructions
 
@@ -163,9 +164,10 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 
 1. **Install dependencies** (Example for Fedora):
     ```bash
-    sudo dnf install git gettext 'meson >= 1.0.0' vala desktop-file-utils libappstream-glib \
+    sudo dnf install make git gettext 'meson >= 1.0.0' vala desktop-file-utils libappstream-glib \
       'pkgconfig(gee-0.8)' 'pkgconfig(glib-2.0)' 'pkgconfig(gtk4)' 'pkgconfig(json-glib-1.0)' \
-      'pkgconfig(libadwaita-1) >= 1.6' 'pkgconfig(libarchive)' 'pkgconfig(libsoup-3.0)'
+      'pkgconfig(libadwaita-1) >= 1.6' 'pkgconfig(libarchive)' 'pkgconfig(libsoup-3.0)' \
+      'pkgconfig(sdl3)' 'pkgconfig(libnotify)' 'pkgconfig(appstream)'
     ```
 
 2. **Clone the repository**:
@@ -178,8 +180,22 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
     ```bash
     ./scripts/build.sh native run
     ```
+    or
+    ```bash
+    make build-run
+    ```
 
-4. **Install (Optional)**:
+
+4. **Build and debug (Optional)**:
+    ```bash
+    ./scripts/build.sh native debug
+    ```
+    or
+    ```bash
+    make build-debug
+    ```
+
+5. **Install (Optional)**:
     ```bash
     cd build-native
     sudo ninja install

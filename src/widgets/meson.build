@@ -1,15 +1,14 @@
 sources += files(
     'application.vala',
-    'theme-manager.vala',
-    'status-box.vala',
     'window.vala',
-    'scroll-controller.vala',
-    'error-dialog.vala',
-    'warning-dialog.vala',
+    'circular-progress-bar.vala',
 )
 
 subdir('preferences')
-subdir('launchers-popover')
-subdir('runners')
-subdir('downloads')
+subdir('header')
+subdir('introduction')
+subdir('loading')
+subdir('main')
+subdir('tools')
 subdir('games')
+subdir('mangohud')

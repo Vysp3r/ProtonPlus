@@ -1,0 +1,10 @@
+[Unit]
+Description=ProtonPlus Notification Timer
+
+[Timer]
+OnBootSec=0
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
