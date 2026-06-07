@@ -35,9 +35,12 @@ namespace ProtonPlus.Models {
             return obj;
         }
 
-        public static Release ? from_json (Tool runner, Json.Object obj) {
-            if (!obj.has_member ("kind") || !obj.has_member ("title"))return null;
+        public static Release ? from_json (Tool runner, Json.Object? obj) {
+            if (obj == null) {
+                return null;
+            }
 
+            if (!obj.has_member ("kind") || !obj.has_member ("title"))return null;
             string kind = obj.get_string_member ("kind");
             string title = obj.get_string_member ("title");
             string description = obj.has_member ("description") ? obj.get_string_member ("description") : "";
