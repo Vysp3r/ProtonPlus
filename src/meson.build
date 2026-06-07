@@ -20,7 +20,7 @@ deps = [
     dependency('libarchive'),
     dependency('libnotify'),
     dependency('cairo'),
-    dependency('appstream', , gobject_introspection : 'AppStream-1.0'),
+    dependency('appstream'),
     meson.get_compiler('c').find_library('m', required : false),
     sdl3_dep,
 ]
