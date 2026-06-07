@@ -1,18 +1,25 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
-using Adw;
+    using Adw;
 
-    class LaunchOptionSpinTile : ActionRow {
+    class LaunchOptionSpinTile : ActionRow, ILaunchOption {
         public Gtk.Switch toggle { get; private set; }
         public Gtk.Entry value_entry { get; private set; }
         public Gtk.Button apply_button { get; private set; }
         Gtk.Box value_box;
         public signal void value_applied ();
+
         int lower_value;
         int upper_value;
         int committed_value;
+        public bool is_advanced { get; set; default = false; }
+        public LaunchLineType line_type { get; set; }
+        private Gee.List<ILaunchOption> _children;
+        private string env_prefix;
 
-        public LaunchOptionSpinTile (string title, string subtitle, string value_label, double lower, double upper, int default_value) {
+        public LaunchOptionSpinTile (string title, string subtitle, string value_label, double lower, double upper, int default_value, string env_prefix) {
             Object (title: title, subtitle: subtitle);
+            this._children = new Gee.ArrayList<ILaunchOption> ();
+            this.env_prefix = env_prefix;
             subtitle_lines = 0;
 
             lower_value = (int) lower;
@@ -34,8 +41,8 @@ using Adw;
             value_entry.set_text (default_value.to_string ());
             value_entry.activate.connect (apply_pending_value);
 
-            apply_button = new Gtk.Button.with_label (_ ("Set"));
-            apply_button.set_tooltip_text (_ ("Apply the FPS value"));
+            apply_button = new Gtk.Button.with_label (_("Set"));
+            apply_button.set_tooltip_text (_("Apply the FPS value"));
             apply_button.clicked.connect (apply_pending_value);
 
             value_box.append (value_caption);
@@ -67,7 +74,7 @@ using Adw;
         void apply_pending_value () {
             int pending_value;
             if (!get_pending_value (out pending_value))
-            return;
+                return;
 
             committed_value = pending_value;
             value_entry.set_text (committed_value.to_string ());
@@ -80,14 +87,14 @@ using Adw;
 
             var text = value_entry.get_text ().strip ();
             if (text == "")
-            return false;
+                return false;
 
             int parsed_value;
             if (!int.try_parse (text, out parsed_value))
-            return false;
+                return false;
 
             if (parsed_value < lower_value || parsed_value > upper_value)
-            return false;
+                return false;
 
             value = parsed_value;
             return true;
@@ -102,6 +109,54 @@ using Adw;
             var has_pending_value = get_pending_value (out pending_value);
             apply_button.set_sensitive (is_active && has_pending_value && pending_value != committed_value);
         }
-    }
 
+        public void clear () {
+            this.toggle.set_active (false);
+            this.set_value (this.committed_value);
+
+            foreach (var child in this._children) {
+                child.clear ();
+            }
+        }
+
+        public bool is_active () {
+            return this.toggle.get_active ();
+        }
+
+        public void parse_tokens (string[] tokens, bool[] consumed) {
+            for (int i = 0; i < tokens.length; i++) {
+                if (consumed[i])continue;
+
+                if (tokens[i].has_prefix (this.env_prefix)) {
+                    string val_str = tokens[i].replace (this.env_prefix, "");
+                    int val_int;
+                    if (int.try_parse (val_str, out val_int)) {
+                        this.toggle.set_active (true);
+                        this.set_value (val_int);
+                        consumed[i] = true;
+                        break;
+                    }
+                }
+            }
+            foreach (var child in this._children) {
+                child.parse_tokens (tokens, consumed);
+            }
+        }
+
+        public void append_command_segments (Gee.LinkedList<string> segments) {
+            if (this.toggle.get_active ()) {
+                segments.add ("%s%d".printf (this.env_prefix, this.get_value_as_int ()));
+
+                foreach (var child in this._children) {
+                    if (child.is_active ()) {
+                        child.append_command_segments (segments);
+                    }
+                }
+            }
+        }
+
+        public void add_child (ILaunchOption child) {
+            this._children.add (child);
+        }
+    }
 }

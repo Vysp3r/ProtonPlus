@@ -1,5 +1,8 @@
 sources += files(
+    'base-binding.vala',
+    'entry-binding.vala',
     'i-launch-option.vala',
+    'launch-options-editor-aco-debug.vala',
     'launch-options-editor-custom-expander-row.vala',
     'launch-options-editor-amd-icd.vala',
     'launch-options-editor-binding.vala',
@@ -16,7 +19,9 @@ sources += files(
     'launch-options-editor-tile.vala',
     'launch-options-editor-box.vala',
     'launch-options-editor-vkd3d-config.vala',
-    'launch-options-editor-vkd3d-log-level.vala'
+    'launch-options-editor-vkd3d-log-level.vala',
+    'launch-options-list.vala'
 )
 
 subdir('groups')
+subdir('wrappers')

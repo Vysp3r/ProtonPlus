@@ -65,16 +65,38 @@ build() {
       show_log "INFO" "Building files using Ninja..."
       ninja
 
+      mkdir -p "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas"
+      cp "${ROOT_DIR}/data/com.vysp3r.ProtonPlus.gschema.xml" "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
+      glib-compile-schemas "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
+
       if [[ "${run_mode}" == "run" ]]; then
         show_log "PASS" "Running native build..."
-
-        mkdir -p "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas"
-        cp "${ROOT_DIR}/data/com.vysp3r.ProtonPlus.gschema.xml" "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
-        glib-compile-schemas "${ROOT_DIR}/${build_dir}/data/glib-2.0/schemas/"
 
         cd src || exit 1
         LOCALE_DIR="${ROOT_DIR}/${build_dir}/po" XDG_DATA_DIRS="${ROOT_DIR}/${build_dir}/data:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" ./protonplus
       fi
+
+      if [[ "${run_mode}" == "debug" ]]; then
+        show_log "PASS" "Running native build..."
+
+        cd src || exit 1
+        LOCALE_DIR="${ROOT_DIR}/${build_dir}/po" XDG_DATA_DIRS="${ROOT_DIR}/${build_dir}/data:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" gdb -batch -ex "run" -ex "bt" ./protonplus
+      fi
+    )
+  elif [[ "${variant}" == "native-debug" ]]; then
+    check_dependencies meson ninja
+    show_log "INFO" "Starting native debug build..."
+    local build_dir="/tmp/protonplus-build-debug"
+    show_log "INFO" "Configuring debug build directory: ${build_dir}"
+    meson "${build_dir}" --prefix=/usr --buildtype=debug
+    (
+      cd "${build_dir}" || exit 1
+      show_log "INFO" "Building files using Ninja..."
+      ninja
+
+      mkdir -p "${build_dir}/data/glib-2.0/schemas"
+      cp "${ROOT_DIR}/data/com.vysp3r.ProtonPlus.gschema.xml" "${build_dir}/data/glib-2.0/schemas/"
+      glib-compile-schemas "${build_dir}/data/glib-2.0/schemas/"
     )
   else
     check_dependencies flatpak
@@ -219,6 +241,7 @@ Commands:
   local [run]       Build Flatpak using local manifest (com.vysp3r.ProtonPlus.local.yml)
   flathub [run]     Build Flatpak using Flathub manifest (com.vysp3r.ProtonPlus.yml)
   native [run]      Build natively using meson and ninja
+  native-debug      Build debug natively using meson and ninja
   translations      Update translation files (.po)
   icons             Generate icons from SVG
   linter            Run Flathub linter on local source
@@ -228,6 +251,7 @@ Commands:
 
 Options:
   run               If provided, the application will be launched after a successful build
+  debug             If provided, the application will be launched with gdb after a successful build
 EOF
 }
 
@@ -243,6 +267,9 @@ main() {
       ;;
     native)
       build "native" "" "${2:-}"
+      ;;
+    native-debug)
+      build "native-debug" "" "${2:-}"
       ;;
     translations)
       rebuild_translations

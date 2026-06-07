@@ -13,6 +13,8 @@ using Gtk;
         private string? separator;
         public string? environment_variable_prefix { get; set; }
         public string? environment_variable { get; set; }
+        public LaunchLineType line_type { get; set; default = LaunchLineType.ENVIRONMENT; }
+        private Gee.List<ILaunchOption> _children;
 
         public LaunchOptionCustomPairs (
                 string group_title,
@@ -27,6 +29,7 @@ using Gtk;
                 string? environment_variable = null
         ) {
             base (switch_title, switch_subtitle, options_display, options_values, tooltips);
+            this._children = new Gee.ArrayList<ILaunchOption> ();
 
             this.separator = separator != null ? separator : ",";
             this.environment_variable = environment_variable;
@@ -34,6 +37,10 @@ using Gtk;
             this.is_updating = false;
             this.init_predefined_keys (predefined_keys);
 
+        }
+
+        public void add_child (ILaunchOption child) {
+            this._children.add (child);
         }
 
         private void set_initial_value (string raw_value) {
@@ -139,6 +146,10 @@ using Gtk;
             }
 
             this.value = raw;
+
+            foreach (var child in this._children) {
+                child.parse_tokens (tokens, consumed);
+            }
         }
 
         public void clear () {
@@ -149,6 +160,11 @@ using Gtk;
             string val = this.value;
             if (val != "") {
                 segments.add (this.environment_variable_prefix + val);
+                foreach (var child in this._children) {
+                    if (child.is_active ()) {
+                        child.append_command_segments (segments);
+                    }
+                }
             }
         }
     }

@@ -6,6 +6,7 @@ sources += files(
 
 subdir('preferences')
 subdir('header')
+subdir('introduction')
 subdir('loading')
 subdir('main')
 subdir('tools')

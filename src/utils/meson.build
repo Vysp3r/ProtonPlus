@@ -10,3 +10,6 @@ sources += files(
     'mangohud-manager.vala',
     'cache-manager.vala',
 )
+
+subdir('internal')
+subdir('requests')

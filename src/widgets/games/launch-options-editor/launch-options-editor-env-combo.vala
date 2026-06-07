@@ -6,6 +6,8 @@ using Gtk;
         public string environment_variable { get; protected set; }
         public string environment_variable_prefix { get; protected set; }
         public bool is_advanced { get; set; default = false; }
+        public LaunchLineType line_type { get; set; default = LaunchLineType.ENVIRONMENT; }
+        private Gee.List<ILaunchOption> _children;
 
         protected string[] value_opts;
 
@@ -34,6 +36,7 @@ using Gtk;
             this.environment_variable = env_var;
             this.environment_variable_prefix = env_var + "=";
             this.value_opts = value_opts;
+            this._children = new Gee.ArrayList<ILaunchOption> ();
 
             this.title = title_text;
             this.subtitle = subtitle_text;
@@ -72,16 +75,33 @@ using Gtk;
                     break;
                 }
             }
+
+
+            foreach (var child in this._children) {
+                child.parse_tokens (tokens, consumed);
+            }
         }
 
         public void clear () {
             this.value = "";
+            foreach (var child in this._children) {
+                child.clear ();
+            }
+        }
+
+        public void add_child (ILaunchOption child) {
+            this._children.add (child);
         }
 
         public virtual void append_command_segments (Gee.LinkedList<string> segments) {
             string val = this.value;
             if (val != "") {
                 segments.add (this.environment_variable_prefix + val);
+                foreach (var child in this._children) {
+                    if (child.is_active ()) {
+                        child.append_command_segments (segments);
+                    }
+                }
             }
         }
 

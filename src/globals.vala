@@ -10,6 +10,7 @@ namespace ProtonPlus.Globals {
     public static bool MANGOHUD_FLATPAK_INSTALLED;
     public static bool GAMESCOPE_INSTALLED;
     public static bool SCOPEBUDDY_INSTALLED;
+    public static bool GAMEMODE_INSTALLED;
 
     public struct LanguageItem {
         public string code;
@@ -19,33 +20,33 @@ namespace ProtonPlus.Globals {
 
     public static LanguageItem[] LANGUAGES () {
         return new LanguageItem[] {
-            { "system", _ ("System"), 0 },
-            { "ar", _ ("Arabic"), 1 },
-            { "be", _ ("Belarusian"), 2 },
-            { "bs", _ ("Bosnian"), 3 },
-            { "cs", _ ("Czech"), 4 },
-            { "de", _ ("German"), 5 },
-            { "en", _ ("English"), 6 },
-            { "el", _ ("Greek"), 7 },
-            { "es", _ ("Spanish"), 8 },
-            { "fi", _ ("Finnish"), 9 },
-            { "fr", _ ("French"), 10 },
-            { "hr", _ ("Croatian"), 11 },
-            { "id", _ ("Indonesian"), 12 },
-            { "it", _ ("Italian"), 13 },
-            { "ja", _ ("Japanese"), 14 },
-            { "ka", _ ("Georgian"), 15 },
-            { "nl", _ ("Dutch"), 16 },
-            { "pl", _ ("Polish"), 17 },
-            { "pt", _ ("Portuguese (Portugal)"), 18 },
-            { "ru", _ ("Russian"), 19 },
-            { "sr@latin", _ ("Serbian (Latin)"), 20 },
-            { "sk", _ ("Slovak"), 26 },
-            { "sv", _ ("Swedish"), 21 },
-            { "uk", _ ("Ukrainian"), 22 },
-            { "vi", _ ("Vietnamese"), 23 },
-            { "zh-CN", _ ("Chinese"), 24 },
-            { "zh-TW", _ ("Chinese (Traditional)"), 25 }
+                   { "system", _("System"), 0 },
+                   { "ar", _("Arabic"), 1 },
+                   { "be", _("Belarusian"), 2 },
+                   { "bs", _("Bosnian"), 3 },
+                   { "cs", _("Czech"), 4 },
+                   { "de", _("German"), 5 },
+                   { "en", _("English"), 6 },
+                   { "el", _("Greek"), 7 },
+                   { "es", _("Spanish"), 8 },
+                   { "fi", _("Finnish"), 9 },
+                   { "fr", _("French"), 10 },
+                   { "hr", _("Croatian"), 11 },
+                   { "id", _("Indonesian"), 12 },
+                   { "it", _("Italian"), 13 },
+                   { "ja", _("Japanese"), 14 },
+                   { "ka", _("Georgian"), 15 },
+                   { "nl", _("Dutch"), 16 },
+                   { "pl", _("Polish"), 17 },
+                   { "pt", _("Portuguese (Portugal)"), 18 },
+                   { "ru", _("Russian"), 19 },
+                   { "sr@latin", _("Serbian (Latin)"), 20 },
+                   { "sk", _("Slovak"), 26 },
+                   { "sv", _("Swedish"), 21 },
+                   { "uk", _("Ukrainian"), 22 },
+                   { "vi", _("Vietnamese"), 23 },
+                   { "zh-CN", _("Chinese"), 24 },
+                   { "zh-TW", _("Chinese (Traditional)"), 25 }
         };
     }
 
@@ -102,6 +103,8 @@ namespace ProtonPlus.Globals {
         Globals.MANGOHUD_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync ("org.freedesktop.Platform.VulkanLayer.MangoHud");
 
         Globals.GAMESCOPE_INSTALLED = Utils.System.check_dependency_sync ("gamescope");
+
+        Globals.GAMEMODE_INSTALLED = Utils.System.check_dependency_sync ("gamemoderun");
 
         Globals.SCOPEBUDDY_INSTALLED = Utils.System.check_dependency_sync ("scopebuddy") || Utils.System.check_dependency_sync ("scb");
 

@@ -25,7 +25,7 @@ namespace ProtonPlus.Widgets.Games {
         uint initial_compatibility_tool_index;
 
         public string get_selection_text () {
-            return rows.length == 1 ? _ ("1 game selected") : _ ("%u games selected").printf (rows.length);
+            return rows.length == 1 ? _("1 game selected") : _("%u games selected").printf (rows.length);
         }
 
         public MassEditView (Gtk.Button back_button, Gtk.Button clear_button, Gtk.Button apply_button, Gtk.Box advanced_box, Gtk.Switch advanced_switch) {
@@ -41,10 +41,10 @@ namespace ProtonPlus.Widgets.Games {
             this.clear_button.clicked.connect (clear_button_clicked);
             this.apply_button.clicked.connect (apply_button_clicked);
 
-            compatibility_tool_group = new Adw.PreferencesGroup();
+            compatibility_tool_group = new Adw.PreferencesGroup ();
             compatibility_tool_group.set_margin_bottom (12);
 
-            compatibility_tool_label = new Gtk.Label (_ ("Compatibility tool")) {
+            compatibility_tool_label = new Gtk.Label (_("Compatibility tool")) {
                 halign = Gtk.Align.START,
                 hexpand = true,
                 css_classes = { "title-4" }
@@ -66,12 +66,19 @@ namespace ProtonPlus.Widgets.Games {
             });
 
             launch_options_editor = new LaunchOptionsEditor.Box ();
-            advanced_switch.notify["active"].connect (() => launch_options_editor.set_advanced_visible (advanced_switch.get_active ()));
+            advanced_switch.notify["active"].connect (() => {
+                launch_options_editor.set_advanced_visible (advanced_switch.get_active ());
+            });
+            launch_options_editor.advanced_state_detected.connect ((is_advanced) => {
+                if (advanced_switch.active != is_advanced) {
+                    advanced_switch.active = is_advanced;
+                }
+            });
             launch_options_editor.content_changed.connect (refresh);
 
-            launch_options_group = new Adw.PreferencesGroup();
+            launch_options_group = new Adw.PreferencesGroup ();
 
-            launch_options_label = new Gtk.Label (_ ("Launch options")) {
+            launch_options_label = new Gtk.Label (_("Launch options")) {
                 halign = Gtk.Align.START,
                 hexpand = true,
                 css_classes = { "title-4" }
@@ -96,7 +103,7 @@ namespace ProtonPlus.Widgets.Games {
             var separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
             separator.set_margin_bottom (12);
 
-            content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+            content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             content_box.append (compatibility_tool_header);
             content_box.append (compatibility_tool_group);
             content_box.append (separator);
@@ -124,24 +131,24 @@ namespace ProtonPlus.Widgets.Games {
             var all_native = rows.length > 0;
             foreach (var row in rows) {
                 if (row.game.launcher is Models.Launchers.Steam)
-                has_steam_launch_options = true;
+                    has_steam_launch_options = true;
 
                 if (!row.game.is_native)
-                all_native = false;
+                    all_native = false;
             }
 
             if (compatibility_tool_row != null)
-            compatibility_tool_group.remove (compatibility_tool_row);
+                compatibility_tool_group.remove (compatibility_tool_row);
 
             var filtered_model = new ListStore (typeof (Models.Tools.Simple));
             var n_items = model.get_n_items ();
             for (uint i = 0; i < n_items; i++) {
                 var runner = model.get_item (i) as Models.Tools.Simple;
                 if (runner == null)
-                continue;
+                    continue;
                 if (runner.display_title.contains ("Steam Linux Runtime")) {
                     if (!all_native)
-                    continue;
+                        continue;
                 }
                 filtered_model.append (runner);
             }
@@ -216,9 +223,9 @@ namespace ProtonPlus.Widgets.Games {
 
                     var success = row.game.change_compatibility_tool (item.internal_title);
                     if (!success && invalids.find (row.game.name) == null)
-                    invalids.append (row.game.name);
+                        invalids.append (row.game.name);
                     else
-                    valids.append (row);
+                        valids.append (row);
 
                     if (valids.length () > 0) {
                         foreach (var valid_row in valids) {
@@ -235,9 +242,9 @@ namespace ProtonPlus.Widgets.Games {
 
                     var success = steam_game.change_launch_options (launch_options_editor.get_text (), steam_launcher.profile.localconfig_path);
                     if (!success && invalids.find (row.game.name) == null)
-                    invalids.append (row.game.name);
+                        invalids.append (row.game.name);
                     else
-                    valids.append (row);
+                        valids.append (row);
                 }
             }
 
@@ -248,10 +255,10 @@ namespace ProtonPlus.Widgets.Games {
                     names += "- %s".printf (invalids.nth_data (i));
 
                     if (i != invalids.length () - 1)
-                    names += "\n";
+                        names += "\n";
                 }
 
-                var dialog = new Main.ErrorDialog (_ ("Batch Update Failed"), _ ("Some games could not be updated with the new compatibility tool or launch options. This may be due to missing permissions or file access issues."), names);
+                var dialog = new Main.ErrorDialog (_("Batch Update Failed"), _("Some games could not be updated with the new compatibility tool or launch options. This may be due to missing permissions or file access issues."), names);
                 dialog.present ((Gtk.Window) this.get_root ());
             }
 

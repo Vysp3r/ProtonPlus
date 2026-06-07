@@ -35,9 +35,12 @@ namespace ProtonPlus.Models {
             return obj;
         }
 
-        public static Release? from_json (Tool runner, Json.Object obj) {
-            if (!obj.has_member ("kind") || !obj.has_member ("title")) return null;
+        public static Release ? from_json (Tool runner, Json.Object? obj) {
+            if (obj == null) {
+                return null;
+            }
 
+            if (!obj.has_member ("kind") || !obj.has_member ("title"))return null;
             string kind = obj.get_string_member ("kind");
             string title = obj.get_string_member ("title");
             string description = obj.has_member ("description") ? obj.get_string_member ("description") : "";
@@ -51,9 +54,11 @@ namespace ProtonPlus.Models {
                 return new Releases.GitHubAction (runner as Tools.Basic, title, release_date, download_url, page_url, artifacts_url);
             } else if (kind == "latest") {
                 return new Releases.Latest (runner as Tools.Basic, title, description, release_date, download_url, page_url);
-            } else {
-            // Default or generic
+            } else if (runner is Tools.Basic) {
+                // Default or generic
                 return new Release.github (runner as Tools.Basic, title, description, release_date, download_size, download_url, page_url);
+            } else {
+                return null;
             }
         }
 
@@ -63,7 +68,7 @@ namespace ProtonPlus.Models {
                 if (_state != State.BUSY_INSTALLING && _state != State.BUSY_REMOVING && _state != State.BUSY_UPDATING) {
                     var active_download = Utils.DownloadManager.instance.get_active_download (this);
                     if (active_download != null)
-                    return active_download.state;
+                        return active_download.state;
                 }
                 return _state;
             }
@@ -128,7 +133,7 @@ namespace ProtonPlus.Models {
 
         public virtual async ReturnCode install () {
             if (state != State.BUSY_UPDATING && Utils.DownloadManager.instance.is_downloading (this))
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             canceled = false;
             is_finished = false;
@@ -141,28 +146,29 @@ namespace ProtonPlus.Models {
             var busy_updating = state == State.BUSY_UPDATING;
 
             if (!busy_updating)
-            state = State.BUSY_INSTALLING;
+                state = State.BUSY_INSTALLING;
 
             Utils.DownloadManager.instance.add_download (this);
 
             // Attempt the installation.
             var code = yield _start_install ();
+
             var success = code == ReturnCode.RUNNER_INSTALLED;
 
             this.is_finished = true;
             this.install_success = success;
 
             if (success)
-            add_to_games_tab ();
+                add_to_games_tab ();
 
             Utils.DownloadManager.instance.remove_download (this);
             Utils.DownloadManager.instance.add_to_history (this, success);
 
             if (!success)
-            yield remove (); // Refreshes install state too.
+                yield remove (); // Refreshes install state too.
 
             if (!busy_updating)
-            refresh_state (); // Force UI state refresh.
+                refresh_state (); // Force UI state refresh.
 
             return code;
         }
@@ -196,16 +202,18 @@ namespace ProtonPlus.Models {
             string extract_path = "%s/".printf (Globals.CACHE_PATH);
 
             string source_path = yield Utils.Filesystem.extract (extract_path, title, extension, () => canceled);
+
             if (source_path == "") {
                 if (!canceled)
-                error_message = _ ("Extraction failed");
+                    error_message = _("Extraction failed");
                 return ReturnCode.UNKNOWN_ERROR;
             }
 
             source_path = yield _after_extraction (source_path, extract_path);
+
             if (source_path == "") {
                 if (!canceled && error_message == null)
-                error_message = _ ("Extraction failed");
+                    error_message = _("Extraction failed");
                 return ReturnCode.UNKNOWN_ERROR;
             }
 
@@ -213,11 +221,12 @@ namespace ProtonPlus.Models {
 
             var runner = this.runner as Tools.Basic;
 
-            destination_path = "%s%s/%s/".printf (runner.group.launcher.directory, runner.group.directory, runner.get_directory_name (title)) ;
+            destination_path = "%s%s/%s/".printf (runner.group.launcher.directory, runner.group.directory, runner.get_directory_name (title));
 
             var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
+
             if (!renaming_valid) {
-                error_message = _ ("Moving failed");
+                error_message = _("Moving failed");
                 return ReturnCode.UNKNOWN_ERROR;
             }
 
@@ -238,10 +247,11 @@ namespace ProtonPlus.Models {
 
             // Attempt the removal.
             var code = yield _start_remove ();
+
             var success = code == ReturnCode.RUNNER_REMOVED;
 
             if (!busy_updating_or_installing)
-            refresh_state (); // Force UI state refresh.
+                refresh_state (); // Force UI state refresh.
 
             if (success) {
                 remove_from_games_tab ();
@@ -261,7 +271,7 @@ namespace ProtonPlus.Models {
 
         public virtual async ReturnCode update () {
             if (Utils.DownloadManager.instance.is_downloading (this))
-            return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNKNOWN_ERROR;
 
             canceled = false;
 
@@ -283,7 +293,7 @@ namespace ProtonPlus.Models {
         protected virtual void refresh_state () {
             step = Step.NOTHING;
 
-            var directory_name = ((Tools.Basic)runner).get_directory_name (title);
+            var directory_name = ((Tools.Basic) runner).get_directory_name (title);
             var directory_name_valid = directory_name != "";
             var install_directory_valid = FileUtils.test (install_location, FileTest.IS_DIR);
 
@@ -307,9 +317,9 @@ namespace ProtonPlus.Models {
 
         void add_to_games_tab () {
             if (runner.group.launcher.title != "Steam")
-            return;
+                return;
 
-            var simple_runner = new Tools.Simple.from_path(install_location);
+            var simple_runner = new Tools.Simple.from_path (install_location);
 
             runner.group.launcher.compatibility_tools.add (simple_runner);
         }
@@ -320,7 +330,7 @@ namespace ProtonPlus.Models {
             });
 
             if (tool != null)
-            runner.group.launcher.compatibility_tools.remove (tool);
+                runner.group.launcher.compatibility_tools.remove (tool);
         }
     }
 }

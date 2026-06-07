@@ -9,7 +9,7 @@ namespace ProtonPlus.Utils {
 
             var releases_array = new Json.Array ();
             foreach (var release in tool.releases) {
-                if (release is Models.Releases.Latest) continue; // Don't cache the "Latest" virtual release
+                if (release is Models.Releases.Latest)continue; // Don't cache the "Latest" virtual release
                 releases_array.add_object_element (release.to_json ());
             }
             root_obj.set_array_member ("releases", releases_array);
@@ -25,31 +25,34 @@ namespace ProtonPlus.Utils {
 
         public static async void load_releases (Models.Tool tool) {
             var cache_file = get_cache_file (tool);
-            if (!FileUtils.test (cache_file, FileTest.EXISTS)) return;
+            if (!FileUtils.test (cache_file, FileTest.EXISTS))return;
 
             var json = Utils.Filesystem.get_file_content (cache_file);
-            if (json == "") return;
+            if (json == "")return;
 
             var root_node = Utils.Parser.get_node_from_json (json);
-            if (root_node == null || root_node.get_node_type () != Json.NodeType.OBJECT) return;
+            if (root_node == null || root_node.get_node_type () != Json.NodeType.OBJECT)return;
 
             var root_obj = root_node.get_object ();
             if (root_obj.has_member ("last_updated"))
-            tool.last_updated = root_obj.get_string_member ("last_updated");
+                tool.last_updated = root_obj.get_string_member ("last_updated");
             if (root_obj.has_member ("page"))
-            tool.page = (int) root_obj.get_int_member ("page");
+                tool.page = (int) root_obj.get_int_member ("page");
             if (root_obj.has_member ("has_more"))
-            tool.has_more = root_obj.get_boolean_member ("has_more");
+                tool.has_more = root_obj.get_boolean_member ("has_more");
 
             var releases_array = root_obj.get_array_member ("releases");
-            if (releases_array == null) return;
+            if (releases_array == null)return;
 
             tool.releases.clear ();
             for (var i = 0; i < releases_array.get_length (); i++) {
                 var release_obj = releases_array.get_object_element (i);
+                if (release_obj == null) {
+                    continue;
+                }
                 var release = Models.Release.from_json (tool, release_obj);
                 if (release != null)
-                tool.releases.add (release);
+                    tool.releases.add (release);
             }
 
             if (tool is Models.Tools.Basic && tool.has_latest_support && tool.releases.size > 0) {
@@ -60,7 +63,7 @@ namespace ProtonPlus.Utils {
 
         private static string get_cache_file (Models.Tool tool) {
             string id = tool.title;
-        // Simple hash or just replace special chars
+            // Simple hash or just replace special chars
             var safe_id = id.replace (":", "_").replace ("/", "_").replace (".", "_").replace (" ", "_");
             return Path.build_filename (Globals.CACHE_PATH, safe_id + ".json");
         }
