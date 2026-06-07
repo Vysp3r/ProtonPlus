@@ -36,6 +36,23 @@ namespace ProtonPlus.Widgets.Preferences {
             Globals.SETTINGS.bind ("enable-controller", enable_controller_row, "active", SettingsBindFlags.DEFAULT);
             behavior_group.add (enable_controller_row);
 
+
+            var help_page = new Adw.PreferencesGroup () {
+                title = _("Help"),
+            };
+            var introduction_btn = new Adw.ButtonRow () {
+                title = _("Show Introduction")
+            };
+            introduction_btn.set_start_icon_name ("help-about-symbolic");
+            introduction_btn.activated.connect (() => {
+                var window = this.get_root () as Window;
+                var dialog = new Introduction.Introduction ();
+                dialog.present (window);
+            });
+            help_page.add (introduction_btn);
+            general_page.add (help_page);
+
+
             // Tools Page
             var tools_page = new Adw.PreferencesPage () {
                 title = _("Tools"),
