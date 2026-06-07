@@ -7,7 +7,8 @@ sources += files(
     'game.vala',
 )
 
-subdir('launchers')
 subdir('games')
+subdir('internal')
+subdir('launchers')
 subdir('tools')
 subdir('releases')

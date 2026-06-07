@@ -1,0 +1,4 @@
+sources += files(
+    'metainfo.vala',
+)
+
