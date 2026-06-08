@@ -33,6 +33,7 @@ add_global_arguments('-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()), lan
 subdir('data')
 subdir('src')
 subdir('po')
+subdir('tests')
 
 gnome.post_install(
   glib_compile_schemas: true,

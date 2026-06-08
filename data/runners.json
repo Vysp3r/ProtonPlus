@@ -157,6 +157,7 @@
           "endpoint": "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
           "asset_position": 2,
           "directory_name_formats": [
+
             {
               "launcher": "default",
               "directory_name_format": "wine-$release_name-amd64"

@@ -41,14 +41,14 @@ namespace ProtonPlus.Models {
 
         public string get_installation_type_title () {
             switch (installation_type) {
-                case InstallationTypes.SYSTEM:
-                    return "System";
-                case InstallationTypes.FLATPAK:
-                    return "Flatpak";
-                case InstallationTypes.SNAP:
-                    return "Snap";
-                default:
-                    return "Invalid type";
+            case InstallationTypes.SYSTEM:
+                return "System";
+            case InstallationTypes.FLATPAK:
+                return "Flatpak";
+            case InstallationTypes.SNAP:
+                return "Snap";
+            default:
+                return "Invalid type";
             }
         }
 
@@ -82,11 +82,12 @@ namespace ProtonPlus.Models {
             launchers = (owned) _launchers;
 
             if (launchers == null || launchers.size == 0)
-            return true;
+                return true;
 
             var initialized = yield initialize_launchers (launchers);
+
             if (!initialized)
-            return false;
+                return false;
 
             return true;
         }
@@ -126,17 +127,18 @@ namespace ProtonPlus.Models {
 
         static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers) {
             var root_object = yield get_runners_json_object ();
+
             if (root_object == null)
-            return false;
+                return false;
 
             // Groups
             var groups_array = root_object.get_array_member ("compat_layers");
             if (groups_array == null)
-            return false;
+                return false;
 
             var groups_length = groups_array.get_length ();
             if (groups_length == 0)
-            return false;
+                return false;
 
             var json_group_items = new HashTable<string, JsonGroupItem> (str_hash, str_equal);
 
@@ -154,11 +156,11 @@ namespace ProtonPlus.Models {
             // Launchers
             var launchers_array = root_object.get_array_member ("launchers");
             if (launchers_array == null)
-            return false;
+                return false;
 
             var launchers_length = launchers_array.get_length ();
             if (launchers_length == 0)
-            return false;
+                return false;
 
             var json_launcher_items = new HashTable<string, JsonLauncherItem> (str_hash, str_equal);
 
@@ -167,11 +169,11 @@ namespace ProtonPlus.Models {
 
                 var launcher_group_array = launcher_object.get_array_member ("compat_layers");
                 if (launcher_group_array == null)
-                return false;
+                    return false;
 
                 var launcher_groups_length = launcher_group_array.get_length ();
                 if (launcher_groups_length == 0)
-                return false;
+                    return false;
 
                 var json_launcher_group_items = new JsonLauncherGroupItem[launcher_groups_length];
 
@@ -195,7 +197,7 @@ namespace ProtonPlus.Models {
             foreach (var launcher in launchers) {
                 var json_launcher_item = json_launcher_items.get (launcher.title);
                 if (json_launcher_item == null)
-                return false;
+                    return false;
 
                 var groups = new Group[json_launcher_item.groups.length];
 
@@ -205,20 +207,22 @@ namespace ProtonPlus.Models {
                     var json_group_item = json_group_items.get (json_launcher_group_item.title);
 
                     if (json_group_item == null)
-                    return false;
+                        return false;
 
                     groups[i] = new Group (json_launcher_group_item.title, Utils.safe_translate (json_group_item.description), json_launcher_group_item.directory, launcher);
 
-                    groups[i].tools = new Gee.LinkedList <Tool> ();
+                    groups[i].tools = new Gee.LinkedList<Tool> ();
 
                     var json_runner_items = yield get_json_runner_items_from_array (json_group_item.runners);
+
                     if (json_runner_items == null)
-                    return false;
+                        return false;
 
                     foreach (var json_runner_item in json_runner_items) {
                         var runner = yield create_runner_from_json_runner_item (json_runner_item, groups[i]);
+
                         if (runner == null)
-                        continue;
+                            continue;
 
                         groups[i].tools.add (runner);
                     }
@@ -234,8 +238,9 @@ namespace ProtonPlus.Models {
 
                 if (launcher.installed) {
                     var games_loaded = yield launcher.load_game_library ();
+
                     if (!games_loaded)
-                    return false;
+                        return false;
 
                     if (launcher is Launchers.Steam) {
                         var steam_launcher = launcher as Launchers.Steam;
@@ -255,27 +260,27 @@ namespace ProtonPlus.Models {
         static async Json.Object? get_runners_json_object () {
             var json = Utils.Filesystem.get_file_content ("resource://com/vysp3r/ProtonPlus/runners.json", true);
             if (json == "")
-            return null;
+                return null;
 
             var root_node = Utils.Parser.get_node_from_json (json);
             if (root_node == null)
-            return null;
+                return null;
 
             var root_object = root_node.get_object ();
             if (root_object == null)
-            return null;
+                return null;
 
             var version = root_object.get_int_member_with_default ("version", 0);
             if (version == 0)
-            return null;
+                return null;
 
             return root_object;
         }
 
-        static async JsonRunnerItem[]? get_json_runner_items_from_array (Json.Array runners_array) {
+        static async JsonRunnerItem[] ? get_json_runner_items_from_array (Json.Array runners_array) {
             var runners_length = runners_array.get_length ();
             if (runners_length == 0)
-            return null;
+                return null;
 
             var json_runner_items = new JsonRunnerItem[runners_length];
 
@@ -291,7 +296,7 @@ namespace ProtonPlus.Models {
                     }
                 }
                 if (!members_valid)
-                continue;
+                    continue;
 
                 var json_runner_item = new JsonRunnerItem ();
                 json_runner_item.title = runner_object.get_string_member ("title");
@@ -302,17 +307,17 @@ namespace ProtonPlus.Models {
                 json_runner_item.type = runner_object.get_string_member ("type");
 
                 if (runner_object.has_member ("support_latest"))
-                json_runner_item.has_latest_support = runner_object.get_boolean_member ("support_latest");
+                    json_runner_item.has_latest_support = runner_object.get_boolean_member ("support_latest");
 
                 if (runner_object.has_member ("url_template"))
-                json_runner_item.url_template = runner_object.get_string_member ("url_template");
+                    json_runner_item.url_template = runner_object.get_string_member ("url_template");
 
                 if (runner_object.has_member ("request_asset_exclude")) {
                     var request_asset_exclude_array = runner_object.get_array_member ("request_asset_exclude");
 
                     var request_asset_exclude_length = request_asset_exclude_array.get_length ();
                     if (request_asset_exclude_length == 0)
-                    return null;
+                        return null;
 
                     var request_asset_exclude = new string[request_asset_exclude_length];
 
@@ -328,7 +333,7 @@ namespace ProtonPlus.Models {
 
                     var request_asset_filter_length = request_asset_filter_array.get_length ();
                     if (request_asset_filter_length == 0)
-                    return null;
+                        return null;
 
                     var request_asset_filter = new string[request_asset_filter_length];
 
@@ -346,10 +351,10 @@ namespace ProtonPlus.Models {
                 }
 
                 if (runner_object.has_member ("tag"))
-                json_runner_item.tag = runner_object.get_string_member ("tag");
+                    json_runner_item.tag = runner_object.get_string_member ("tag");
 
                 if (runner_object.has_member ("legacy"))
-                json_runner_item.legacy = runner_object.get_boolean_member ("legacy");
+                    json_runner_item.legacy = runner_object.get_boolean_member ("legacy");
 
                 json_runner_items[i] = json_runner_item;
             }
@@ -357,10 +362,10 @@ namespace ProtonPlus.Models {
             return json_runner_items;
         }
 
-        static async string? get_directory_name_format_from_array (Json.Array directory_name_formats, string launcher_title) {
+        static async string ? get_directory_name_format_from_array (Json.Array directory_name_formats, string launcher_title) {
             var runners_length = directory_name_formats.get_length ();
             if (runners_length == 0)
-            return null;
+                return null;
 
             var directory_name_format_items = new HashTable<string, string> (str_hash, str_equal);
 
@@ -377,7 +382,7 @@ namespace ProtonPlus.Models {
             if (directory_name_format_item == null) {
                 directory_name_format_item = directory_name_format_items.get ("default");
                 if (directory_name_format_item == null)
-                return null;
+                    return null;
             }
 
             return directory_name_format_item;
@@ -386,41 +391,42 @@ namespace ProtonPlus.Models {
         static async Tools.Basic? create_runner_from_json_runner_item (JsonRunnerItem json_runner_item, Models.Group group) {
             Tools.Basic runner = null;
 
-            var directory_name_format = yield get_directory_name_format_from_array(json_runner_item.directory_name_formats, group.launcher.title);
+            var directory_name_format = yield get_directory_name_format_from_array (json_runner_item.directory_name_formats, group.launcher.title);
+
             if (directory_name_format == null)
-            return null;
+                return null;
 
             switch (json_runner_item.type) {
-                case "github":
-                    var github_runner = new Tools.GitHub ();
+            case "github" :
+                var github_runner = new Tools.GitHub ();
 
-                    github_runner.request_asset_exclude = json_runner_item.request_asset_exclude;
-                    github_runner.request_asset_filter = json_runner_item.request_asset_filter;
+                github_runner.request_asset_exclude = json_runner_item.request_asset_exclude;
+                github_runner.request_asset_filter = json_runner_item.request_asset_filter;
 
-                    runner = github_runner;
-                    break;
-                case "github-action":
-                    var github_action_runner = new Tools.GitHubAction ();
+                runner = github_runner;
+                break;
+            case "github-action" :
+                var github_action_runner = new Tools.GitHubAction ();
 
-                    github_action_runner.url_template = json_runner_item.url_template;
+                github_action_runner.url_template = json_runner_item.url_template;
 
-                    runner = github_action_runner;
-                    break;
-                case "gitlab":
-                    var gitlab_runner = new Tools.GitLab ();
+                runner = github_action_runner;
+                break;
+            case "gitlab" :
+                var gitlab_runner = new Tools.GitLab ();
 
-                    gitlab_runner.request_asset_exclude = json_runner_item.request_asset_exclude;
+                gitlab_runner.request_asset_exclude = json_runner_item.request_asset_exclude;
 
-                    runner = gitlab_runner;
-                    break;
-                case "forgejo":
-                    var forgejo_runner = new Tools.Forgejo ();
+                runner = gitlab_runner;
+                break;
+            case "forgejo":
+                var forgejo_runner = new Tools.Forgejo ();
 
-                    runner = forgejo_runner;
-                    break;
-                default:
-                    warning ("%s %s".printf ("Invalid type for runner named", json_runner_item.title));
-                    break;
+                runner = forgejo_runner;
+                break;
+            default:
+                warning ("%s %s".printf ("Invalid type for runner named", json_runner_item.title));
+                break;
             }
 
             if (runner != null) {
@@ -429,7 +435,8 @@ namespace ProtonPlus.Models {
                 runner.endpoint = json_runner_item.endpoint;
                 runner.asset_position = json_runner_item.asset_position;
                 runner.asset_position_time_condition = json_runner_item.asset_position_time_condition;
-                runner.directory_name_format = yield get_directory_name_format_from_array(json_runner_item.directory_name_formats, group.launcher.title);
+                runner.directory_name_format = yield get_directory_name_format_from_array (json_runner_item.directory_name_formats, group.launcher.title);
+
                 runner.has_latest_support = json_runner_item.has_latest_support;
                 runner.group = group;
                 runner.asset_position_hwcaps_condition = json_runner_item.asset_position_hwcaps_condition;
