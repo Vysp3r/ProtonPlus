@@ -8,6 +8,7 @@ int main (string[] args) {
 
     AppTests.register_test_suite<AppTests.ExampleTest> ();
     AppTests.register_test_suite<AppTests.Models.Internal.Data.Runner.ParserTest> ();
+    AppTests.register_test_suite<AppTests.Models.LauncherTest> ();
 
 
     return Test.run ();

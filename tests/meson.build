@@ -9,6 +9,7 @@ subdir('models')
 
 test_exe = executable('protonplus-tests',
   test_sources,
+  resources,
   dependencies: deps,
   link_with: protonplus_lib,
   include_directories: [config_inc, include_directories('../src')],
