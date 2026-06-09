@@ -1,8 +1,11 @@
+test_env = environment()
 test_sources = files(
   'main.vala',
   'base.vala',
   'example_test.vala',
 )
+
+subdir('models')
 
 test_exe = executable('protonplus-tests',
   test_sources,
@@ -12,4 +15,4 @@ test_exe = executable('protonplus-tests',
   vala_args: ['--target-glib=2.58'],
 )
 
-test('ProtonPlus Unit Tests', test_exe, protocol: 'tap')
+test('ProtonPlus Unit Tests', test_exe, env: test_env, protocol: 'tap')

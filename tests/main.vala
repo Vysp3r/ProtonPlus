@@ -7,6 +7,7 @@ int main (string[] args) {
     Test.init (ref args);
 
     AppTests.register_test_suite<AppTests.ExampleTest> ();
+    AppTests.register_test_suite<AppTests.Models.Internal.Data.Runner.ParserTest> ();
 
 
     return Test.run ();
