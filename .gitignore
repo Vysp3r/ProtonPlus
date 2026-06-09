@@ -19,5 +19,6 @@ dist/
 # Miscellaneous.
 .idea/
 .vscode/
+!.vscode/extensions.json
 gdb.sh
 com.vysp3r.ProtonPlus.flatpak
