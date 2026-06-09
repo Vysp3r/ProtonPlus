@@ -19,3 +19,6 @@ trim_trailing_whitespace = true
 [*.{json,yaml,yml}]
 indent_style = space
 indent_size = 2
+
+[{build,dist,build-native,build-tests,builddir,build-flatpak,build-debug}/**]
+unset = true
