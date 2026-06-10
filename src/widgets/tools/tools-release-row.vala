@@ -1,12 +1,13 @@
 namespace ProtonPlus.Widgets.Tools {
     public class ReleaseRow : Adw.ActionRow {
         public signal void release_selected (Models.Release release);
+
         protected Models.Release release { get; set; }
 
         Gtk.Button update_button { get; set; }
         Gtk.Button open_button { get; set; }
         Gtk.Button remove_button { get; set; }
-        Gtk.Button install_button { get; set; }
+        Adw.SplitButton install_button { get; set; }
         Gtk.Button cancel_button { get; set; }
         Gtk.Button progress_button { get; set; }
         Widgets.CircularProgressBar progress_bar { get; set; }
@@ -24,17 +25,14 @@ namespace ProtonPlus.Widgets.Tools {
             var icon = new Gtk.Image.from_icon_name ("box-open-symbolic");
 
             remove_button = new Gtk.Button.from_icon_name ("trash-symbolic");
-            remove_button.set_tooltip_text (_ ("Delete %s").printf (release.title));
+            remove_button.set_tooltip_text (_("Delete %s").printf (release.title));
             remove_button.add_css_class ("flat");
             remove_button.clicked.connect (remove_button_clicked);
 
-            install_button = new Gtk.Button.from_icon_name ("download-2-symbolic");
-            install_button.set_tooltip_text (_ ("Install %s").printf (release.title));
-            install_button.add_css_class ("flat");
-            install_button.clicked.connect (install_button_clicked);
+            install_button = create_install_btn ();
 
             cancel_button = new Gtk.Button.from_icon_name ("circle-xmark-symbolic");
-            cancel_button.set_tooltip_text (_ ("Cancel installation"));
+            cancel_button.set_tooltip_text (_("Cancel installation"));
             cancel_button.add_css_class ("flat");
             cancel_button.clicked.connect (() => { release.canceled = true; });
 
@@ -47,12 +45,12 @@ namespace ProtonPlus.Widgets.Tools {
             progress_button = new Gtk.Button ();
             progress_button.set_child (progress_bar);
             progress_button.add_css_class ("flat");
-            progress_button.set_tooltip_text (_ ("Show installation details"));
+            progress_button.set_tooltip_text (_("Show installation details"));
             progress_button.clicked.connect (() => { info_popover.popup (); });
 
-            speed_label = new Gtk.Label (_ ("Speed: 0 KB/s"));
+            speed_label = new Gtk.Label (_("Speed: 0 KB/s"));
             speed_label.set_halign (Gtk.Align.START);
-            time_label = new Gtk.Label (_ ("Remaining time: --"));
+            time_label = new Gtk.Label (_("Remaining time: --"));
             time_label.set_halign (Gtk.Align.START);
 
             var info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
@@ -79,7 +77,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (release.title.contains ("Latest") || release.runner is Models.Tools.SteamTinkerLaunch) {
                 update_button = new Gtk.Button.from_icon_name ("arrow-rotate-symbolic");
                 update_button.add_css_class ("flat");
-                update_button.set_tooltip_text (_ ("Update the runner if a newer version is available"));
+                update_button.set_tooltip_text (_("Update the runner if a newer version is available"));
                 update_button.clicked.connect (update_button_clicked);
 
                 input_box.append (update_button);
@@ -94,7 +92,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (release.install_location != null) {
                 open_button = new Gtk.Button.from_icon_name ("folder-open-2-symbolic");
-                open_button.set_tooltip_text (_ ("Open tool directory"));
+                open_button.set_tooltip_text (_("Open tool directory"));
                 open_button.add_css_class ("flat");
                 open_button.clicked.connect (open_button_clicked);
 
@@ -125,6 +123,84 @@ namespace ProtonPlus.Widgets.Tools {
             release.notify_property ("state");
         }
 
+        Adw.SplitButton create_install_btn () {
+            Models.Variant? selected_variant = null;
+            string install_label = _("Install");
+
+            if (release.runner.variants.size > 0) {
+                foreach (var variant in release.runner.variants) {
+                    if (variant.is_default == true) {
+                        selected_variant = variant;
+                        break;
+                    }
+                }
+
+                if (selected_variant == null) {
+                    selected_variant = release.runner.variants.get (0);
+                }
+
+                install_label = _("Install %s").printf (selected_variant.name);
+            }
+            var btn = new Adw.SplitButton ();
+
+            btn.add_css_class ("flat");
+            btn.set_valign (Gtk.Align.CENTER);
+            btn.set_tooltip_text (_("Install %s").printf (release.title));
+            btn.set_dropdown_tooltip (_("Choose a variant"));
+
+            var btn_content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+            btn_content.set_valign (Gtk.Align.CENTER);
+
+            var btn_image = new Gtk.Image.from_icon_name ("download-2-symbolic");
+            var btn_label = new Gtk.Label (install_label);
+            btn_label.set_valign (Gtk.Align.CENTER);
+            btn_label.set_margin_end (6);
+
+            btn_content.append (btn_image);
+            btn_content.append (btn_label);
+
+            btn.set_child (btn_content);
+
+            btn.clicked.connect (() => {
+                install_button_clicked ();
+            });
+            var popover = new Gtk.Popover ();
+            var popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+            popover_box.set_margin_top (6);
+            popover_box.set_margin_bottom (6);
+            popover_box.set_margin_start (6);
+            popover_box.set_margin_end (6);
+
+            foreach (var variant in release.runner.variants) {
+                var current_variant = variant;
+
+                var variant_row = new Gtk.Button ();
+                variant_row.label = current_variant.name;
+                variant_row.halign = Gtk.Align.FILL;
+                variant_row.hexpand = true;
+                variant_row.add_css_class ("flat");
+
+                variant_row.clicked.connect (() => {
+                    selected_variant = current_variant;
+                    btn_label.set_label (_("Install %s").printf (selected_variant.name));
+                    popover.popdown ();
+                });
+
+                popover_box.append (variant_row);
+            }
+
+            popover.set_child (popover_box);
+            btn.set_popover (popover);
+            /*
+               install_button = new Gtk.Button.from_icon_name ("download-2-symbolic");
+               install_button.set_tooltip_text (_("Install %s").printf (release.title));
+               install_button.add_css_class ("flat");
+               install_button.clicked.connect (install_button_clicked);
+             */
+
+            return btn;
+        }
+
         public override void dispose () {
             info_popover.unparent ();
             details_popover.unparent ();
@@ -134,7 +210,7 @@ namespace ProtonPlus.Widgets.Tools {
         void release_state_changed () {
             var installed = release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
             var downloading = release.state == Models.Release.State.BUSY_INSTALLING ||
-            release.state == Models.Release.State.BUSY_UPDATING;
+                release.state == Models.Release.State.BUSY_UPDATING;
             var busy = downloading || release.state == Models.Release.State.BUSY_REMOVING;
 
             install_button.set_visible (!installed && !downloading);
@@ -142,11 +218,13 @@ namespace ProtonPlus.Widgets.Tools {
             cancel_button.set_visible (downloading);
             remove_button.set_visible (installed);
             update_button?.set_visible (installed);
+
             open_button?.set_visible (installed);
 
             install_button.set_sensitive (!busy);
             remove_button.set_sensitive (!busy);
             update_button?.set_sensitive (!busy);
+
             open_button?.set_sensitive (!busy);
         }
 
@@ -158,7 +236,7 @@ namespace ProtonPlus.Widgets.Tools {
                 } else if (code == ReturnCode.NOTHING_TO_UPDATE) {
                     Utils.DownloadManager.instance.tool_updated (release, false);
                 } else if (!release.canceled) {
-                    var dialog = new Main.ErrorDialog (_ ("Failed to Update %s").printf (release.title), _ ("An error occurred while attempting to update the compatibility tool."), release.error_message ?? _ ("Unknown error"));
+                    var dialog = new Main.ErrorDialog (_("Failed to Update %s").printf (release.title), _("An error occurred while attempting to update the compatibility tool."), release.error_message ?? _("Unknown error"));
                     dialog.present ((Gtk.Window) this.get_root ());
                 }
             });
@@ -190,12 +268,12 @@ namespace ProtonPlus.Widgets.Tools {
                 progress_bar.pulse ();
             }
 
-            speed_label.set_label (_ ("Speed: %s/s").printf (Utils.Filesystem.convert_bytes_to_string ((int64) (release.speed_kbps * 1024))));
+            speed_label.set_label (_("Speed: %s/s").printf (Utils.Filesystem.convert_bytes_to_string ((int64) (release.speed_kbps * 1024))));
 
             if (release.seconds_remaining >= 0) {
-                time_label.set_label (_ ("Remaining time: %s").printf (format_time (release.seconds_remaining)));
+                time_label.set_label (_("Remaining time: %s").printf (format_time (release.seconds_remaining)));
             } else {
-                time_label.set_label (_ ("Remaining time: --"));
+                time_label.set_label (_("Remaining time: --"));
             }
         }
 
@@ -206,18 +284,18 @@ namespace ProtonPlus.Widgets.Tools {
             int s = total_seconds % 60;
 
             if (h > 0) {
-                return _ ("%dh %dm %ds").printf (h, m, s);
+                return _("%dh %dm %ds").printf (h, m, s);
             } else if (m > 0) {
-                return _ ("%dm %ds").printf (m, s);
+                return _("%dm %ds").printf (m, s);
             } else {
-                return _ ("%ds").printf (s);
+                return _("%ds").printf (s);
             }
         }
 
         protected virtual void install_button_clicked () {
             release.install.begin ((obj, res) => {
                 if (release.install.end (res) != ReturnCode.RUNNER_INSTALLED && !release.canceled) {
-                    var dialog = new Main.ErrorDialog (_ ("Installation Failed"), _ ("ProtonPlus could not install %s on your system.").printf (release.title), release.error_message ?? _ ("Unknown error"));
+                    var dialog = new Main.ErrorDialog (_("Installation Failed"), _("ProtonPlus could not install %s on your system.").printf (release.title), release.error_message ?? _("Unknown error"));
                     dialog.present ((Gtk.Window) this.get_root ());
                 }
             });
