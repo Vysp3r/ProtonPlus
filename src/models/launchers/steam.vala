@@ -77,9 +77,9 @@ namespace ProtonPlus.Models.Launchers {
 
             compatibility_tools.clear ();
 
-            var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games();
+            var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games ();
 
-            var compatibility_tool_hashtable_loaded = yield load_compatibility_tool_hashtable();
+            var compatibility_tool_hashtable_loaded = yield load_compatibility_tool_hashtable ();
             if (!compatibility_tool_hashtable_loaded)
             return false;
 
@@ -106,7 +106,7 @@ namespace ProtonPlus.Models.Launchers {
                 var end_pos = 0;
                 var current_position = 0;
 
-                var proton_regex = /(?i)Proton\s*\d+(\.\d+)?/;
+                var proton_regex = / (?i)Proton\s*\d+ (\.\d+)?/;
                 var name_regex = /\"name\"\s+\"([^\"]+)\"/;
                 var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
                 while (true) {
@@ -201,7 +201,7 @@ namespace ProtonPlus.Models.Launchers {
                             if (!FileUtils.test ("%s/common/%s".printf (current_steamapps_path, current_installdir), FileTest.IS_DIR))
                             continue;
 
-                            var game = new Games.Steam(id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
+                            var game = new Games.Steam (id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
 
                             if (awacy_games.has_key (game.appid)) {
                                 var awacy_game = awacy_games.get (game.appid);
@@ -237,7 +237,7 @@ namespace ProtonPlus.Models.Launchers {
 
                             } else if (file_info.get_name () != "LegacyRuntime") {
                                 var file_path = "%s/%s".printf (directory.get_path (), file_info.get_name ());
-                                var simple_runner = new Tools.Simple.from_path(file_path);
+                                var simple_runner = new Tools.Simple.from_path (file_path);
                                 compatibility_tools.add (simple_runner);
                             }
                         }
