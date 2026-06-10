@@ -113,6 +113,7 @@ namespace ProtonPlus.Widgets {
                 "Vysp3r https://github.com/Vysp3r",
                 "nick.exe https://github.com/nickexe",
                 "windblows95 https://github.com/windblows95",
+                "JanGalek https://github.com/JanGalek",
                 null
             };
 
@@ -136,7 +137,7 @@ namespace ProtonPlus.Widgets {
             about_dialog.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
             about_dialog.add_link (_("Website"), "https://protonplus.vysp3r.com/");
             about_dialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
-            about_dialog.set_copyright ("© 2022-2025 Vysp3r");
+            about_dialog.set_copyright (get_copyright ());
             about_dialog.set_license_type (Gtk.License.GPL_3_0);
             about_dialog.set_developers (devs);
             about_dialog.set_translator_credits (_("translator-credits"));
@@ -149,6 +150,12 @@ namespace ProtonPlus.Widgets {
                 about_dialog.set_release_notes_version (last_release.version);
             }
             about_dialog.present (this.active_window);
+        }
+
+        private static string get_copyright () {
+            var current_year = new DateTime.now_local ().get_year ();
+
+            return "© 2022-" + current_year.to_string () + " Vysp3r";
         }
     }
 }
