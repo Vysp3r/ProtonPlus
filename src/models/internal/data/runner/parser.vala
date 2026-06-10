@@ -98,9 +98,26 @@ namespace ProtonPlus.Models.Internal.Data.Runner {
                     parse_directory_formats (runner_obj.get_array_member ("directory_name_formats"), runner);
                 }
 
+                if (runner_obj.has_member ("variants")) {
+                    parse_variants (runner_obj.get_array_member ("variants"), runner);
+                }
+
                 parse_asset_lists (runner_obj, runner);
 
                 group.runners.add (runner);
+            }
+        }
+        public static void parse_variants (Json.Array formats_array, Runner runner) {
+            foreach (var format_node in formats_array.get_elements ()) {
+                if (format_node.get_node_type () != Json.NodeType.OBJECT)continue;
+
+                var f_obj = format_node.get_object ();
+                var format = new RunnerVariant ();
+                if (f_obj.has_member ("name"))format.name = f_obj.get_string_member ("name");
+                if (f_obj.has_member ("format"))format.format = f_obj.get_string_member ("format");
+                if (f_obj.has_member ("default"))format.default = f_obj.get_boolean_member_with_default ("default", false);
+
+                runner.variants.add (format);
             }
         }
 
