@@ -13,6 +13,7 @@ namespace ProtonPlus.Models {
 
         public Utils.Web.GetRequestType get_request_type { get; set; }
         public Gee.LinkedList<Release> releases { get; set; default = new Gee.LinkedList<Release> (); }
+        public Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
 
         public virtual bool is_installed () {
             return false;

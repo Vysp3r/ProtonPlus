@@ -115,7 +115,7 @@ namespace ProtonPlus.Models.Internal.Data.Runner {
                 var format = new RunnerVariant ();
                 if (f_obj.has_member ("name"))format.name = f_obj.get_string_member ("name");
                 if (f_obj.has_member ("format"))format.format = f_obj.get_string_member ("format");
-                if (f_obj.has_member ("default"))format.default = f_obj.get_boolean_member_with_default ("default", false);
+                if (f_obj.has_member ("default"))format.is_default = f_obj.get_boolean_member_with_default ("default", false);
 
                 runner.variants.add (format);
             }

@@ -82,7 +82,7 @@ namespace ProtonPlus.Widgets.Tools {
                 selection_changed ();
             });
 
-            var name_label = new Gtk.Label(_ ("Name"));
+            var name_label = new Gtk.Label (_ ("Name"));
             name_label.set_xalign (0);
             name_label.set_margin_start (5);
             name_label.set_hexpand (true);
