@@ -9,8 +9,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile proton_logs_tile { get; private set; }
         LaunchOptionDllOverrides dll_overrides_pair_editor { get; private set; }
 
-        public ProtonOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers);
+        public ProtonOptionsGroup (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers);
 
             this.title = _("Proton options");
             this.description = _("Extra Proton settings and launch behaviors.");
@@ -23,7 +23,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             // DLL overrides
             dll_overrides_pair_editor = new LaunchOptionDllOverrides ();
             dll_overrides_pair_editor.changed.connect ((row) => {
-                standard_control_changed ();
+                this.changed ();
             });
 
             this.add (proton_priority_high_tile);

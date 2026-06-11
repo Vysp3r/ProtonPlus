@@ -5,8 +5,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
         LaunchOptionSpinTile pulse_latency_tile { get; private set; }
 
-        public AudioOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers, true);
+        public AudioOptionsGroup (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers, true);
 
             this.title = _ ("Audio options");
             this.description = _ ("Audio-related launch options.");

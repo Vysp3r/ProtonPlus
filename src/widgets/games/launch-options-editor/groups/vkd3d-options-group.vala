@@ -7,21 +7,21 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile vkd3d_gpuva_tile { get; private set; }
         LaunchOptionTile vkd3d_shader_cache_tile { get; private set; }
 
-        public Vkd3dOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers);
+        public Vkd3dOptionsGroup (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers);
 
             this.title = _("VKD3D options");
             this.description = _("Extra graphics settings and launch behaviors.");
 
             vkd3d_config_editor = new LaunchOptionVKD3DConfig ();
             vkd3d_config_editor.changed.connect ((row) => {
-                standard_control_changed ();
+                this.changed ();
             });
             vkd3d_config_editor.set_tooltip_text (_("Configure Direct3D 12 to Vulkan translation behavior"));
 
             vkd3d_log_level_editor = new LaunchOptionVKD3DLogLevel ();
             vkd3d_log_level_editor.changed.connect ((row) => {
-                standard_control_changed ();
+                this.changed ();
             });
             vkd3d_log_level_editor.set_tooltip_text (_("VKD3D Logging Level"));
 

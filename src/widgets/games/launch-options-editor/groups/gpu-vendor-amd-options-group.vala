@@ -16,8 +16,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionAcoDebug aco_debug_editor { get; set; }
         bool refreshing_controls;
 
-        public GpuVendorAmdOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers, true);
+        public GpuVendorAmdOptionsGroup (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers, true);
             refreshing_controls = true;
 
             amd_anti_lag_tile = create_tile (_("Mesa Anti-Lag"), _("Reduces latency on supported AMD Mesa setups."), { "ENABLE_LAYER_MESA_ANTI_LAG=1" });
@@ -43,16 +43,16 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             aco_debug_editor = new LaunchOptionAcoDebug ();
 
             radv_debug_editor.changed.connect ((row) => {
-                this.standard_control_changed ();
+                this.changed ();
             });
             radv_perf_editor.changed.connect ((row) => {
-                this.standard_control_changed ();
+                this.changed ();
             });
             amd_icd_editor.changed.connect ((row) => {
-                this.standard_control_changed ();
+                this.changed ();
             });
             aco_debug_editor.changed.connect ((row) => {
-                this.standard_control_changed ();
+                this.changed ();
             });
             radv_debug_editor.set_tooltip_text (_("Configure RADV debug options for troubleshooting and performance testing."));
             radv_perf_editor.set_tooltip_text (_("Configure RADV performance test options for testing experimental driver features. Use with caution as these features can cause instability or other issues."));
@@ -91,7 +91,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 refreshing_controls = false;
             }
 
-            this.standard_control_changed ();
+            this.changed ();
         }
 
         void amd_fsr4_rdna3_upgrade_toggle_changed () {
@@ -104,7 +104,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 refreshing_controls = false;
             }
 
-            this.standard_control_changed ();
+            this.changed ();
         }
 
         internal void normalize_amd_fsr_upgrade_dependencies () {

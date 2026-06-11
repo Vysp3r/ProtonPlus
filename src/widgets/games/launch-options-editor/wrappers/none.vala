@@ -4,8 +4,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
     public class None : Base {
         LaunchOptionTile hdr_tile { get; set; }
 
-        public None (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers);
+        public None (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers);
         }
 
         public Gtk.Widget create_page () {

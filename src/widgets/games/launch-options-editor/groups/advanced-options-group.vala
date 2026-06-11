@@ -7,8 +7,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile command_tile { get; set; }
         bool refreshing_controls;
 
-        public AdvancedOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers);
+        public AdvancedOptionsGroup (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers);
             refreshing_controls = true;
             this.set_margin_bottom (15);
             this.title = _("Advanced options");
@@ -18,7 +18,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
             additional_args_field = new LaunchOptionEntryField (_("Additional arguments"), "", _("Add extra launch options"));
             additional_args_field.value_applied.connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
 
             additional_args_tile = create_tile (_("Custom launch arguments"), _("Add your own launch options."), { "" }, false, LaunchLineType.ARGUMENT);
@@ -51,7 +51,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 additional_args_field.sensitive = false;
                 // additional_args_field.set_text ("");
             }
-            this.standard_control_changed ();
+            this.changed ();
         }
     }
 }

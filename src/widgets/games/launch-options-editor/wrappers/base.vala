@@ -1,19 +1,16 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
     using Adw;
 
-    public delegate void SimpleCallback ();
-
     public abstract class Base : Object, ILaunchOption {
-        protected unowned SimpleCallback standard_control_changed;
         protected unowned LaunchOptionsList launch_option_handlers;
+        public signal void changed ();
         public bool is_advanced { get; set; }
         public LaunchLineType line_type { get; set; }
         protected Gee.List<ILaunchOption> _children;
 
         public bool active { get; set; }
 
-        protected Base (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            this.standard_control_changed = standard_control_changed;
+        protected Base (LaunchOptionsList launch_option_handlers) {
             this.launch_option_handlers = launch_option_handlers;
             this.line_type = LaunchLineType.WRAPPER;
             this._children = new Gee.ArrayList<ILaunchOption> ();
@@ -32,7 +29,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         internal LaunchOptionTile create_tile (string title, string subtitle, string[] tokens, bool is_advanced = false, LaunchLineType type = LaunchLineType.WRAPPER_ARGUMENT) {
             var tile = new LaunchOptionTile (title, subtitle, tokens, is_advanced, type);
             tile.toggle.notify["active"].connect (() => {
-                this.standard_control_changed ();
+                this.changed ();
             });
 
             this.add_child (tile);
@@ -44,11 +41,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             var tile = new LaunchOptionSpinTile (title, subtitle, value_label, lower, upper, default_value, env_prefix);
             tile.line_type = type;
             tile.toggle.notify["active"].connect (() => {
-                this.standard_control_changed ();
+                this.changed ();
             });
 
             tile.value_applied.connect (() => {
-                this.standard_control_changed ();
+                this.changed ();
             });
 
             this.add_child (tile);

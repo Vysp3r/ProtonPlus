@@ -11,8 +11,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         LaunchOptionEntryField args_field { get; set; }
         Gtk.Widget cached_page;
 
-        public Gamescope (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers);
+        public Gamescope (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers);
             cached_page = null;
         }
 
@@ -41,21 +41,21 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside Gamescope."), _("FPS"), 30, 360, 60, "-r ");
             framerate_tile.toggle.notify["active"].connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
             framerate_tile.value_applied.connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
 
             resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Sets the Gamescope output resolution."), false, false);
             resolution_field.toggle.notify["active"].connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
             resolution_field.dropdown.notify["selected"].connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
             resolution_field.value_applied.connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
 
             group.add (fullscreen_tile);
@@ -69,7 +69,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             args_field = new LaunchOptionEntryField (_("Additional Gamescope arguments"), _("Keeps extra Gamescope flags such as output or resolution tweaks."), _("Add Gamescope arguments"));
             args_field.value_applied.connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
 
             group.add (args_field);

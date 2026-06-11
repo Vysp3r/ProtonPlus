@@ -11,8 +11,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
         bool refreshing_controls;
 
-        public GpuVendorNvidiaOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers, true);
+        public GpuVendorNvidiaOptionsGroup (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers, true);
             refreshing_controls = true;
 
             nvapi_tile = create_tile (_("NVAPI"), _("Lets games access NVIDIA-specific features like DLSS."), { "PROTON_ENABLE_NVAPI=1" });
@@ -48,7 +48,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 refreshing_controls = false;
             }
 
-            this.standard_control_changed ();
+            this.changed ();
         }
 
         void nvidia_dlss_updater_toggle_changed () {
@@ -61,7 +61,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 refreshing_controls = false;
             }
 
-            this.standard_control_changed ();
+            this.changed ();
         }
 
         internal void normalize_nvidia_vendor_dependencies () {

@@ -2,7 +2,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     using Adw;
 
     public class WrapperGroup : BaseOptionsGroup {
-
         public Gtk.Stack stack { get; set; }
         Gtk.StackSwitcher switcher { get; set; }
         Wrappers.Gamescope gamescope { get; set; }
@@ -11,16 +10,20 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
         bool refreshing_controls;
 
-        public WrapperGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers);
+        public WrapperGroup (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers);
             refreshing_controls = true;
 
             this.title = _("Launch tools");
             this.description = _("Choose one to configure FPS caps, resolution, and other display options.");
 
-            none = new Wrappers.None (standard_control_changed, launch_option_handlers);
-            gamescope = new Wrappers.Gamescope (standard_control_changed, launch_option_handlers);
-            scopebuddy = new Wrappers.Scopebuddy (standard_control_changed, launch_option_handlers);
+            none = new Wrappers.None (launch_option_handlers);
+            gamescope = new Wrappers.Gamescope (launch_option_handlers);
+            scopebuddy = new Wrappers.Scopebuddy (launch_option_handlers);
+
+            none.changed.connect (() => { this.changed (); });
+            gamescope.changed.connect (() => { this.changed (); });
+            scopebuddy.changed.connect (() => { this.changed (); });
 
             var gamescope_page = gamescope.create_page ();
             var scopebuddy_page = scopebuddy.create_page ();
@@ -107,7 +110,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             }
 
             refreshing_controls = false;
-            this.standard_control_changed ();
+            this.changed ();
         }
     }
 }

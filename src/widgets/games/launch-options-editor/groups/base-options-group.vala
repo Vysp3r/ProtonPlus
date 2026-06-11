@@ -1,16 +1,13 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     using Adw;
 
-    public delegate void SimpleCallback ();
-
     public class BaseOptionsGroup : PreferencesGroup {
-        protected unowned SimpleCallback standard_control_changed;
         protected unowned LaunchOptionsList launch_option_handlers;
+        public signal void changed ();
 
         internal bool is_advanced_group { get; set; default = false; }
 
-        public BaseOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers, bool is_advanced_group = false) {
-            this.standard_control_changed = standard_control_changed;
+        public BaseOptionsGroup (LaunchOptionsList launch_option_handlers, bool is_advanced_group = false) {
             this.launch_option_handlers = launch_option_handlers;
             this.is_advanced_group = is_advanced_group;
         }
@@ -22,7 +19,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         internal LaunchOptionTile create_tile (string title, string subtitle, string[] tokens, bool is_advanced = false, LaunchLineType type = LaunchLineType.ENVIRONMENT) {
             var tile = new LaunchOptionTile (title, subtitle, tokens, is_advanced, type);
             tile.toggle.notify["active"].connect (() => {
-                this.standard_control_changed ();
+                this.changed ();
             });
 
             this.launch_option_handlers.add (tile);
@@ -34,11 +31,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             var tile = new LaunchOptionSpinTile (title, subtitle, value_label, lower, upper, default_value, env_prefix);
             tile.line_type = type;
             tile.toggle.notify["active"].connect (() => {
-                this.standard_control_changed ();
+                this.changed ();
             });
 
             tile.value_applied.connect (() => {
-                this.standard_control_changed ();
+                this.changed ();
             });
 
             this.launch_option_handlers.add (tile);
