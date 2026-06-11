@@ -507,5 +507,8 @@
         }
       ]
     }
-  ]
+  ],
+  "anti-cheats": {
+    "endpoint": "https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json"
+  }
 }
