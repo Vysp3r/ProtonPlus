@@ -30,6 +30,6 @@ namespace ProtonPlus.Models.Internal.Data.Runner {
     public class RunnerVariant : Object {
         public string name { get; set; }
         public string format { get; set; }
-        public bool? is_default { get; set; }
+        public bool is_default { get; set; default = false; }
     }
 }
