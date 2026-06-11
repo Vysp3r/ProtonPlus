@@ -237,7 +237,7 @@ namespace ProtonPlus.Models {
                 foreach (var rdv in runner_data.variants) {
                     Variant variant = new Variant (rdv.name, rdv.format, rdv.is_default);
                     runner.variants.add (variant);
-                };
+                }
             }
 
             return runner;

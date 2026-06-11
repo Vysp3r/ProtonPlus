@@ -7,7 +7,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button update_button { get; set; }
         Gtk.Button open_button { get; set; }
         Gtk.Button remove_button { get; set; }
-        Adw.SplitButton install_button { get; set; }
+        Gtk.Button install_button { get; set; }
         Gtk.Button cancel_button { get; set; }
         Gtk.Button progress_button { get; set; }
         Widgets.CircularProgressBar progress_bar { get; set; }
@@ -29,7 +29,7 @@ namespace ProtonPlus.Widgets.Tools {
             remove_button.add_css_class ("flat");
             remove_button.clicked.connect (remove_button_clicked);
 
-            install_button = create_install_btn ();
+            create_install_btn ();
 
             cancel_button = new Gtk.Button.from_icon_name ("circle-xmark-symbolic");
             cancel_button.set_tooltip_text (_("Cancel installation"));
@@ -123,82 +123,11 @@ namespace ProtonPlus.Widgets.Tools {
             release.notify_property ("state");
         }
 
-        Adw.SplitButton create_install_btn () {
-            Models.Variant? selected_variant = null;
-            string install_label = _("Install");
-
-            if (release.runner.variants.size > 0) {
-                foreach (var variant in release.runner.variants) {
-                    if (variant.is_default == true) {
-                        selected_variant = variant;
-                        break;
-                    }
-                }
-
-                if (selected_variant == null) {
-                    selected_variant = release.runner.variants.get (0);
-                }
-
-                install_label = _("Install %s").printf (selected_variant.name);
-            }
-            var btn = new Adw.SplitButton ();
-
-            btn.add_css_class ("flat");
-            btn.set_valign (Gtk.Align.CENTER);
-            btn.set_tooltip_text (_("Install %s").printf (release.title));
-            btn.set_dropdown_tooltip (_("Choose a variant"));
-
-            var btn_content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-            btn_content.set_valign (Gtk.Align.CENTER);
-
-            var btn_image = new Gtk.Image.from_icon_name ("download-2-symbolic");
-            var btn_label = new Gtk.Label (install_label);
-            btn_label.set_valign (Gtk.Align.CENTER);
-            btn_label.set_margin_end (6);
-
-            btn_content.append (btn_image);
-            btn_content.append (btn_label);
-
-            btn.set_child (btn_content);
-
-            btn.clicked.connect (() => {
-                install_button_clicked ();
-            });
-            var popover = new Gtk.Popover ();
-            var popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-            popover_box.set_margin_top (6);
-            popover_box.set_margin_bottom (6);
-            popover_box.set_margin_start (6);
-            popover_box.set_margin_end (6);
-
-            foreach (var variant in release.runner.variants) {
-                var current_variant = variant;
-
-                var variant_row = new Gtk.Button ();
-                variant_row.label = current_variant.name;
-                variant_row.halign = Gtk.Align.FILL;
-                variant_row.hexpand = true;
-                variant_row.add_css_class ("flat");
-
-                variant_row.clicked.connect (() => {
-                    selected_variant = current_variant;
-                    btn_label.set_label (_("Install %s").printf (selected_variant.name));
-                    popover.popdown ();
-                });
-
-                popover_box.append (variant_row);
-            }
-
-            popover.set_child (popover_box);
-            btn.set_popover (popover);
-            /*
-               install_button = new Gtk.Button.from_icon_name ("download-2-symbolic");
-               install_button.set_tooltip_text (_("Install %s").printf (release.title));
-               install_button.add_css_class ("flat");
-               install_button.clicked.connect (install_button_clicked);
-             */
-
-            return btn;
+        void create_install_btn () {
+            install_button = new Gtk.Button.from_icon_name ("download-2-symbolic");
+            install_button.set_tooltip_text (_("Install %s").printf (release.title));
+            install_button.add_css_class ("flat");
+            install_button.clicked.connect (install_button_clicked);
         }
 
         public override void dispose () {

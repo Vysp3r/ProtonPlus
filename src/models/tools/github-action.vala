@@ -12,8 +12,9 @@ namespace ProtonPlus.Models.Tools {
             string? response;
 
             code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_request_type, out response);
+
             if (code != ReturnCode.VALID_REQUEST)
-            return _releases;
+                return _releases;
 
             page++;
 
