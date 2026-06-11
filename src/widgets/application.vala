@@ -1,4 +1,7 @@
 namespace ProtonPlus.Widgets {
+    [CCode (cheader_filename = "gtk/gtk.h", cname = "gtk_style_context_add_provider_for_display")]
+    public static extern void add_provider_for_display (Gdk.Display display, Gtk.StyleProvider provider, uint priority);
+
     public class Application : Adw.Application {
         Preferences.PreferencesDialog activePreferencesDialog { get; set; }
 
@@ -30,7 +33,7 @@ namespace ProtonPlus.Widgets {
 
             var provider = new Gtk.CssProvider ();
             provider.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
-            Gtk.StyleContext.add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             Globals.load ();
 

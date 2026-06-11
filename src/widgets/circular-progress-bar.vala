@@ -60,12 +60,8 @@ namespace ProtonPlus.Widgets {
                 return color;
             }
 
-            var style_context = get_style_context ();
-            if (style_context.lookup_color (str, out color)) {
-                return color;
-            }
-
-            if (str == "suggested_action_bg_color" && style_context.lookup_color ("accent_bg_color", out color)) {
+            if (str == "suggested_action_bg_color") {
+                color.parse ("#3584e4");
                 return color;
             }
 
@@ -101,8 +97,6 @@ namespace ProtonPlus.Widgets {
             Gdk.RGBA color;
             Pango.Layout layout;
             Pango.FontDescription desc;
-
-            var style_context = get_style_context ();
 
             cr.save ();
 
@@ -169,9 +163,7 @@ namespace ProtonPlus.Widgets {
 
             // Textual information
             if (show_text) {
-                style_context.save ();
-
-                color = style_context.get_color ();
+                color = get_color ();
                 Gdk.cairo_set_source_rgba (cr, color);
 
             // Percentage
@@ -183,8 +175,6 @@ namespace ProtonPlus.Widgets {
                 layout.get_size (out w, out h);
                 cr.move_to (center_x - ((w / Pango.SCALE) / 2), center_y - (h / Pango.SCALE) / 2);
                 Pango.cairo_show_layout (cr, layout);
-
-                style_context.restore ();
             }
 
             cr.restore ();
