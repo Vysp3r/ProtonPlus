@@ -1,0 +1,113 @@
+name: Bug report
+description: Create a report to help us improve
+title: "[BUG]: "
+labels: ["bug"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug and helping us improve ProtonPlus! Please fill out the form below as accurately as possible.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: "e.g., The application crashes immediately when clicking the settings button..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the behavior.
+      value: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots or drag-and-drop images here to help explain your problem.
+    validations:
+      required: false
+
+  - type: input
+    id: system-os
+    attributes:
+      label: "System Information: OS"
+      placeholder: "e.g., Fedora 36"
+    validations:
+      required: true
+
+  - type: input
+    id: system-de
+    attributes:
+      label: "System Information: DE"
+      placeholder: "e.g., GNOME 42"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: system-type
+    attributes:
+      label: "System Information: Type"
+      options:
+        - Source
+        - Flatpak
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: system-version
+    attributes:
+      label: "System Information: Version"
+      placeholder: "e.g., v0.4.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: If applicable, add any logs to help explain your problem. You can get logs by running the application from a terminal.
+      render: text
+      placeholder: PASTE LOGS HERE
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched for existing issues.
+          required: true
+        - label: I am using the latest version of ProtonPlus.
+          required: true
+        - label: I have provided all the information requested above.
+          required: true
