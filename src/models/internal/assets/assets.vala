@@ -1,6 +1,7 @@
 namespace ProtonPlus.Models.Internal.Assets {
     public class Assets : Object {
         public Gee.LinkedList<Asset> list { get; set; default = new Gee.LinkedList<Asset> (); }
+        public Gee.LinkedList<Asset> archives { get; set; default = new Gee.LinkedList<Asset> (); }
 
         public Assets () {
         }
@@ -30,7 +31,21 @@ namespace ProtonPlus.Models.Internal.Assets {
                 res.list.add (Asset.from_json (asset));
             }
 
+            res.archives = res.get_archives ();
+
             return res;
+        }
+
+        public Gee.LinkedList<Asset> get_archives () {
+            var filtered = new Gee.LinkedList<Asset> ();
+
+            foreach (var asset in this.list) {
+                if (asset.is_archive ()) {
+                    filtered.add (asset);
+                }
+            }
+
+            return filtered;
         }
     }
 }
