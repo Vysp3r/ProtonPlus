@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models.Internal.Assets {
-    public class Asset : Object {
+    public class Asset : Object, IAsset {
         public string name { get; set; }
         public string download_url { get; set; }
 

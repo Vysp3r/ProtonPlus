@@ -1,4 +1,8 @@
 sources += files(
     'asset.vala',
-    'assets.vala',
+    'asset_collection.vala',
+    'github.vala',
+    'collection.vala',
+    'github_collection.vala',
+    'i_asset.vala',
 )
