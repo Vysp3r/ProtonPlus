@@ -35,15 +35,15 @@ namespace ProtonPlus.Models.Tools {
             for (var i = 0; i < root_array.get_length (); i++) {
                 var object = root_array.get_object_element (i);
 
-                string title = object.get_string_member ("tag_name");
-                string description = object.get_string_member ("body").strip ();;
-                string release_date = object.get_string_member ("created_at");
-
-                string page_url = object.get_string_member ("html_url");
-
                 var assets_array = object.get_array_member ("assets");
                 if (assets_array == null)
                 continue;
+
+                string title = object.get_string_member ("tag_name");
+                string description = object.get_string_member ("body").strip ();
+                string release_date = object.get_string_member ("created_at");
+
+                string page_url = object.get_string_member ("html_url");
 
                 if (assets_array.get_length () - 1 >= asset_position) {
                     var link_object = assets_array.get_object_element (asset_position);

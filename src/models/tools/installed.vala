@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Tools {
     public class Installed : GitHub {
-        public Installed(Group group) {
+        public Installed (Group group) {
             Object (group: group);
         }
 

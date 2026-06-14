@@ -235,7 +235,7 @@ namespace ProtonPlus.Models {
                 runner.asset_position_hwcaps_condition = false;
 
                 foreach (var rdv in runner_data.variants) {
-                    Variant variant = new Variant (rdv.name, rdv.format, rdv.is_default);
+                    Variant variant = new Variant (rdv.name, rdv.format, rdv.is_default, runner);
                     runner.variants.add (variant);
                 }
             }

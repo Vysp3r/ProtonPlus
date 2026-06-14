@@ -40,13 +40,12 @@ namespace ProtonPlus.Models.Tools {
             for (var i = 0; i < root_array.get_length (); i++) {
                 var object = root_array.get_object_element (i);
 
-                string title = object.get_int_member ("run_number").to_string ();
-                string page_url = object.get_string_member ("html_url");
-                string release_date = object.get_string_member ("created_at");
-                string download_url = url_template.replace ("{id}", object.get_int_member ("id").to_string ());
-                string artifacts_url = object.get_string_member ("artifacts_url");
-
                 if (object.get_string_member_with_default ("status", "") == "completed" && object.get_string_member_with_default ("conclusion", "") == "success") {
+                    string title = object.get_int_member ("run_number").to_string ();
+                    string page_url = object.get_string_member ("html_url");
+                    string release_date = object.get_string_member ("created_at");
+                    string download_url = url_template.replace ("{id}", object.get_int_member ("id").to_string ());
+                    string artifacts_url = object.get_string_member ("artifacts_url");
                     var release = new Releases.GitHubAction (this, title, release_date, download_url, page_url, artifacts_url);
 
                     _releases.add (release);

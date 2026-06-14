@@ -14,8 +14,9 @@ namespace ProtonPlus.Models.Tools {
             string? response;
 
             code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_request_type, out response);
+
             if (code != ReturnCode.VALID_REQUEST)
-            return _releases;
+                return _releases;
 
             page++;
 
@@ -46,12 +47,9 @@ namespace ProtonPlus.Models.Tools {
 
                 var asset_array = object.get_array_member ("assets");
                 if (asset_array == null)
-                continue;
+                    continue;
 
                 string title = use_name_instead_of_tag_name ? object.get_string_member ("name") : object.get_string_member ("tag_name");
-                string description = object.get_string_member ("body").strip ();
-                string page_url = object.get_string_member ("html_url");
-                string release_date = object.get_string_member ("created_at");
 
                 if (request_asset_filter != null) {
                     var excluded = false;
@@ -63,63 +61,22 @@ namespace ProtonPlus.Models.Tools {
                     }
 
                     if (excluded)
-                    continue;
-                } else if (request_asset_exclude != null) {
-                    var excluded = false;
-
-                    foreach (var excluded_asset in request_asset_exclude) {
-                        if (title.contains (excluded_asset)) {
-                            excluded = true;
-                            break;
-                        }
-                    }
-
-                    if (excluded)
+                        continue;
+                } else if (this.is_asset_exclude (title, request_asset_exclude)) {
                     continue;
                 }
 
-                var real_asset_position = asset_position;
+                var assetCollection = Internal.Assets.GithubCollection.from_json (asset_array);
+                Internal.Assets.Github asset_object = (Internal.Assets.Github) assetCollection.first ();
 
-                if (asset_position_time_condition != null) {
-                    var asset_position_time_condition_split = asset_position_time_condition.split ("|");
+                if (asset_object != null) {
+                    string description = object.get_string_member ("body").strip ();
+                    string page_url = object.get_string_member ("html_url");
+                    string release_date = object.get_string_member ("created_at");
 
-                    if (asset_position_time_condition_split.length == 2) {
-                        var condition_time = new DateTime.from_iso8601 (asset_position_time_condition_split[0], null);
+                    var release = new Release.github (this, title, description, release_date, asset_object.download_size, asset_object.download_url, page_url);
 
-                        var release_time = new DateTime.from_iso8601 (release_date, null);
-
-                        var result = release_time.compare (condition_time);
-                        if (result <= 0) {
-                            int number = 0;
-                            var parsed = int.try_parse (asset_position_time_condition_split[1], out number);
-                            if (!parsed)
-                            continue;
-
-                            real_asset_position = number;
-                        }
-                    }
-                }
-
-                if (asset_position_hwcaps_condition) {
-                    for (int y = 0; y < asset_array.get_length (); y++) {
-                        var asset_object = asset_array.get_object_element (y);
-
-                        if (asset_object.get_string_member ("name").contains ("%s.tar.xz".printf (Globals.HWCAPS.nth_data (0)))) {
-                            real_asset_position = y;
-
-                            break;
-                        }
-                    }
-                }
-
-                if (asset_array.get_length () - 1 >= real_asset_position) {
-                    var asset_object = asset_array.get_object_element (real_asset_position);
-
-                    string download_url = asset_object.get_string_member ("browser_download_url");
-                    int64 download_size = asset_object.get_int_member ("size");
-
-                    var release = new Release.github (this, title, description, release_date, download_size, download_url, page_url);
-
+                    //update_variants (release, asset_array);
                     _releases.add (release);
                 }
             }
@@ -129,6 +86,17 @@ namespace ProtonPlus.Models.Tools {
             code = ReturnCode.RELEASES_LOADED;
 
             return _releases;
+        }
+
+        public void update_variants (Release release, Json.Array? assets) {
+            foreach (var variant in this.variants) {
+                var v = variant;
+
+                release.variants.add (v);
+            }
+        }
+
+        public void filter_variant (Variant variant, Json.Array assets) {
         }
     }
 }

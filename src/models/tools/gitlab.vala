@@ -39,20 +39,8 @@ namespace ProtonPlus.Models.Tools {
                 var object = root_array.get_object_element (i);
 
                 string title = use_name_instead_of_tag_name ? object.get_string_member ("name") : object.get_string_member ("tag_name");
-                string description = object.get_string_member ("description").strip ();;
-                string release_date = object.get_string_member ("created_at");
 
-                if (request_asset_exclude != null) {
-                    var excluded = false;
-
-                    foreach (var excluded_asset in request_asset_exclude) {
-                        if (title.contains (excluded_asset)) {
-                            excluded = true;
-                            break;
-                        }
-                    }
-
-                    if (excluded)
+                if (this.is_asset_exclude (title, request_asset_exclude)) {
                     continue;
                 }
 
@@ -71,6 +59,8 @@ namespace ProtonPlus.Models.Tools {
                 continue;
 
                 if (link_array.get_length () - 1 >= asset_position) {
+                    string description = object.get_string_member ("description").strip ();
+                    string release_date = object.get_string_member ("created_at");
                     var link_object = link_array.get_object_element (asset_position);
 
                     var download_url = link_object.get_string_member ("direct_asset_url").replace ("?ref_type=heads", "");

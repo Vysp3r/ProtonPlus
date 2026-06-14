@@ -35,6 +35,16 @@ namespace ProtonPlus.Models.Tools {
             return directory_name.str;
         }
 
+        public virtual void update_variant_download_url (string release_name) {
+            foreach (var variant in this.variants) {
+                var url = new StringBuilder (variant.format);
+                url.replace ("$title", title);
+                url.replace ("$release_name", release_name);
+                url.replace ("$tag_name", this.tag);
+                variant.download_url = url.str;
+            }
+        }
+
         public override bool is_installed () {
             var directories = group.get_tool_directories ();
             foreach (var directory in directories) {
@@ -51,6 +61,21 @@ namespace ProtonPlus.Models.Tools {
                 }
             }
             return false;
+        }
+
+        public bool is_asset_exclude (string title, string[]? exclude_asset) {
+            if (exclude_asset == null) return false;
+
+            var excluded = false;
+
+            foreach (var excluded_asset in exclude_asset) {
+                if (title.contains (excluded_asset)) {
+                    excluded = true;
+                    break;
+                }
+            }
+
+            return excluded;
         }
     }
 }

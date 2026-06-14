@@ -131,7 +131,7 @@ using Gtk;
             if (!is_updating) this.changed ();
         }
 
-        public void parse_tokens(string[] tokens, bool[] consumed) {
+        public void parse_tokens (string[] tokens, bool[] consumed) {
             string raw = "";
             for (int i = 0; i < tokens.length; i++) {
                 if (consumed[i]) {

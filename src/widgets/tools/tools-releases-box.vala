@@ -368,6 +368,8 @@ namespace ProtonPlus.Widgets.Tools {
             else
                 row = new ReleaseRow (release);
 
+            //var firstVariant = release.variants.first ();
+            //print ("Add Release row: %s, %s\n", firstVariant.name, firstVariant.download_url);
             row.set_data ("release", release);
             row.release_selected.connect ((release) => release_selected (release));
 

@@ -18,6 +18,7 @@ namespace ProtonPlus.Models {
         public string install_location { get; set; }
         public int64 download_size { get; set; }
         protected string destination_path { get; set; }
+        public Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
 
         public virtual string usage_name {
             get { return title; }
@@ -128,6 +129,8 @@ namespace ProtonPlus.Models {
 
             install_location = runner.group.launcher.directory + runner.group.directory + "/" + runner.get_directory_name (title);
 
+            //this.variants = runner.variants;
+
             refresh_state ();
         }
 
@@ -182,7 +185,7 @@ namespace ProtonPlus.Models {
             } else if (download_url.contains (".tar.xz")) {
                 extension = ".tar.xz";
             } else if (!download_url.contains (".tar")) {
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNSUPPORTED_EXTENSION;
             }
 
             string download_path = "%s/%s%s".printf (Globals.CACHE_PATH, title, extension);
@@ -206,7 +209,7 @@ namespace ProtonPlus.Models {
             if (source_path == "") {
                 if (!canceled)
                     error_message = _("Extraction failed");
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.EXTRACTION_FAILED;
             }
 
             source_path = yield _after_extraction (source_path, extract_path);
@@ -214,7 +217,7 @@ namespace ProtonPlus.Models {
             if (source_path == "") {
                 if (!canceled && error_message == null)
                     error_message = _("Extraction failed");
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.EXTRACTION_FAILED;
             }
 
             step = Step.MOVING;

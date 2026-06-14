@@ -23,7 +23,7 @@ run: build-run
 install: translations build
 	cd build-native && sudo ninja install
 
-uninstall: 
+uninstall:
 	cd build-native && sudo ninja uninstall
 clean:
 	./scripts/build.sh clean

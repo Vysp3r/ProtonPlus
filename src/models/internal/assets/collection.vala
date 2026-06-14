@@ -33,10 +33,19 @@ namespace ProtonPlus.Models.Internal.Assets {
             return res;
         }*/
 
+        public int get_length () {
+            return this.list.size;
+        }
+
+        public IAsset? first () {
+            return this.archives.first ();
+        }
+
         public IAsset? get_by_position (int position) {
             if (position < 0 || this.list.is_empty || position >= this.list.size)return null;
 
-            return this.list.get (position);
+            var res = this.list.get (position);
+            return res;
         }
 
         public Gee.LinkedList<IAsset> filter_archives () {

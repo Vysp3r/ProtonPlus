@@ -14,5 +14,7 @@ namespace ProtonPlus {
         API_LIMIT_REACHED,
         INVALID_ACCESS_TOKEN,
         TLS_HANDSHAKE_ERROR,
+        UNSUPPORTED_EXTENSION,
+        EXTRACTION_FAILED,
     }
 }
