@@ -24,6 +24,12 @@ namespace ProtonPlus.Models.Internal.Requests.Github {
             }
         }
 
+        public void merge (Releases releases) {
+            foreach (Release release in releases.list) {
+                this.list.add (release);
+            }
+        }
+
         public void add (Release release) {
             this.list.add (release);
         }
