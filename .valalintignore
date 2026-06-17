@@ -6,6 +6,7 @@ build-dir/
 build-flatpak/
 build-native/
 build-native-debug/
+build-tests/
 build/
 build-appimage/
 tmp/
