@@ -42,6 +42,8 @@ namespace ProtonPlus.Models.Tools {
                 return _releases;
             }
 
+            Internal.Requests.Github.Releases rs = new Internal.Requests.Github.Releases.from_json (root_array);
+
             for (var i = 0; i < root_array.get_length (); i++) {
                 var object = root_array.get_object_element (i);
 
@@ -76,7 +78,7 @@ namespace ProtonPlus.Models.Tools {
 
                     var release = new Release.github (this, title, description, release_date, asset_object.download_size, asset_object.download_url, page_url);
 
-                    //update_variants (release, asset_array);
+                    update_variants (release, assetCollection);
                     _releases.add (release);
                 }
             }
@@ -88,7 +90,7 @@ namespace ProtonPlus.Models.Tools {
             return _releases;
         }
 
-        public void update_variants (Release release, Json.Array? assets) {
+        public void update_variants (Release release, Internal.Assets.GithubCollection assets) {
             foreach (var variant in this.variants) {
                 var v = variant;
 

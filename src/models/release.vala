@@ -1,5 +1,23 @@
 namespace ProtonPlus.Models {
     public class Release : Object {
+
+        public enum Step {
+            NOTHING,
+            DOWNLOADING,
+            EXTRACTING,
+            MOVING,
+            REMOVING,
+        }
+
+        public enum State {
+            NOT_INSTALLED,
+            UPDATE_AVAILABLE,
+            UP_TO_DATE,
+            BUSY_INSTALLING,
+            BUSY_REMOVING,
+            BUSY_UPDATING,
+        }
+
         public Tool runner { get; set; }
         public string title { get; set; }
         public string displayed_title { get; set; }
@@ -23,6 +41,23 @@ namespace ProtonPlus.Models {
         public virtual string usage_name {
             get { return title; }
         }
+
+        private State _state;
+        public State state {
+            get {
+                if (_state != State.BUSY_INSTALLING && _state != State.BUSY_REMOVING && _state != State.BUSY_UPDATING) {
+                    var active_download = Utils.DownloadManager.instance.get_active_download (this);
+                    if (active_download != null)
+                        return active_download.state;
+                }
+                return _state;
+            }
+            set {
+                _state = value;
+            }
+        }
+
+        public Step step { get; set; }
 
         public virtual Json.Object to_json () {
             var obj = new Json.Object ();
@@ -61,42 +96,6 @@ namespace ProtonPlus.Models {
             } else {
                 return null;
             }
-        }
-
-        private State _state;
-        public State state {
-            get {
-                if (_state != State.BUSY_INSTALLING && _state != State.BUSY_REMOVING && _state != State.BUSY_UPDATING) {
-                    var active_download = Utils.DownloadManager.instance.get_active_download (this);
-                    if (active_download != null)
-                        return active_download.state;
-                }
-                return _state;
-            }
-            set {
-                _state = value;
-            }
-        }
-
-        public Step step { get; set; }
-
-
-        public enum Step {
-            NOTHING,
-            DOWNLOADING,
-            EXTRACTING,
-            MOVING,
-            REMOVING,
-        }
-
-
-        public enum State {
-            NOT_INSTALLED,
-            UPDATE_AVAILABLE,
-            UP_TO_DATE,
-            BUSY_INSTALLING,
-            BUSY_REMOVING,
-            BUSY_UPDATING,
         }
 
         public Release.simple (Tools.Basic runner, string title, string install_location) {

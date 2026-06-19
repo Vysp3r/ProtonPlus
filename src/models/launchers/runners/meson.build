@@ -1,5 +1,5 @@
 sources += files(
-
+    'irunner.vala',
 )
 
 subdir('dxvk')
