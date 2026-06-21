@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.Internal.Request {
+namespace ProtonPlus.Models.Internal.Requests {
     using Gee;
 
     public interface IAsset: Object {

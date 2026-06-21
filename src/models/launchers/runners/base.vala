@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Launchers.Runners {
     using Gee;
-    using ProtonPlus.Models.Internal.Request;
+    using ProtonPlus.Models.Internal.Requests;
 
     public class Base : Object, IRunner {
         public string title { get; set; }

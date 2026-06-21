@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.Internal.Request {
+namespace ProtonPlus.Models.Internal.Requests {
 
     public interface IReleases {
         public abstract Gee.LinkedList<IRelease> list { get; set; default = new Gee.LinkedList<IRelease> (); }
@@ -9,5 +9,7 @@ namespace ProtonPlus.Models.Internal.Request {
         public abstract void add (IRelease release);
 
         public abstract void remove (IRelease release);
+
+        public abstract IRelease? get_latest ();
     }
 }
