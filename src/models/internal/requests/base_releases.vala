@@ -4,6 +4,7 @@ namespace ProtonPlus.Models.Internal.Requests {
 
     public abstract class BaseReleases : Object, IReleases {
         public LinkedList<IRelease> list { get; set; default = new LinkedList<IRelease> (); }
+        public IRelease? latest { get; set; default = null; }
 
         public int size {
             get {
@@ -22,11 +23,16 @@ namespace ProtonPlus.Models.Internal.Requests {
         }
 
         public IRelease? get_latest () {
+            if (this.latest != null) {
+                return this.latest;
+            }
+
             if (this.list.size == 0) {
                 return null;
             }
 
             IRelease latest_release = this.list.get (0);
+            this.latest = latest_release;
             return latest_release;
         }
 
@@ -36,14 +42,17 @@ namespace ProtonPlus.Models.Internal.Requests {
             foreach (IRelease release in releases.list) {
                 this.list.add (release);
             }
+            this.latest = null;
         }
 
         public void add (IRelease release) {
             this.list.add (release);
+            this.latest = null;
         }
 
         public void remove (IRelease release) {
             this.list.remove (release);
+            this.latest = null;
         }
     }
 }

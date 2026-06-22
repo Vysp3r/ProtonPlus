@@ -8,6 +8,7 @@ namespace ProtonPlus.Models.Launchers.Runners {
         public string endpoint { get; set; }
 
         public Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
+        public Gee.LinkedList<Launcher> launchers { get; set; default = new Gee.LinkedList<Launcher> (); }
 
         public Base (string title, string description, string endpoint) {
             this.title = title;

@@ -5,5 +5,6 @@ namespace ProtonPlus.Models.Launchers.Runners {
         public abstract string description { get; set; }
         public abstract string endpoint { get; set; }
         public abstract Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
+        public abstract Gee.LinkedList<Launcher> launchers { get; set; default = new Gee.LinkedList<Launcher> (); }
     }
 }
