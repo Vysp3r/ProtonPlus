@@ -109,6 +109,23 @@
   </screenshots>
 
   <releases>
+    <release version="0.5.21" date="2026-06-24">
+      <description>
+        <ul>
+          <li>🐛 Fixed Proton-GE downloading wrong version</li>
+          <li>🐛 Fixed yad check for Steam Tinker Launch</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Updated Chinese localization</li>
+          <li>🌐 Updated Portuguese localization</li>
+          <li>🌐 Updated Polish localization</li>
+          <li>🌐 Updated French localization</li>
+          <li>🌐 Updated Ukrainian localization</li>
+          <li>🌐 Updated Spanish localization</li>
+          <li>🌐 Updated Greek localization</li>
+          <li>🌐 Updated Japanese localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.20" date="2026-04-18">
       <description>
         <ul>
