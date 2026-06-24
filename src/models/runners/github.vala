@@ -92,16 +92,19 @@ namespace ProtonPlus.Models.Runners {
                 }
 
                 // Workaround for Proton-GE's multi-architecture support
-                while (asset_array.get_length () - 1 >= real_asset_position) {
-                    var asset_object = asset_array.get_object_element (real_asset_position);
-                    var asset_name = asset_object.get_string_member ("name");
-                    if (asset_name.contains (".tar") && !asset_name.contains ("aarch64")) {
-                        break;
+                if (this.title == "Proton-GE") {
+                    message("bob");
+                    while (asset_array.get_length () - 1 >= real_asset_position) {
+                        var asset_object = asset_array.get_object_element (real_asset_position);
+                        var asset_name = asset_object.get_string_member ("name");
+                        if (asset_name.contains (".tar") && !asset_name.contains ("aarch64")) {
+                            break;
+                        }
+
+                        real_asset_position++;
                     }
-
-                    real_asset_position++;
                 }
-
+                
                 if (asset_position_hwcaps_condition) {
                     for (int y = 0; y < asset_array.get_length (); y++) {
                         var asset_object = asset_array.get_object_element (y);
