@@ -4,6 +4,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     public class BaseOptionsGroup : PreferencesGroup {
         protected unowned LaunchOptionsList launch_option_handlers;
         public signal void changed ();
+        public signal void advanced_changed ();
 
         internal bool is_advanced_group { get; set; default = false; }
 
@@ -43,8 +44,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             return tile;
         }
 
-        public virtual bool has_advanced_active () {
+        internal bool has_active_options () {
+            for (var child = get_first_child (); child != null; child = child.get_next_sibling ()) {
+                var option = child as ILaunchOption;
+                if (option != null && option.is_active ())
+                    return true;
+            }
+
             return false;
+        }
+
+        public virtual bool has_advanced_active () {
+            return this.is_advanced_group;
         }
     }
 }

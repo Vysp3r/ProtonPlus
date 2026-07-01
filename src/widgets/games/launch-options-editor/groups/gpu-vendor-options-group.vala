@@ -79,6 +79,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             nvidia_group.normalize_nvidia_vendor_dependencies ();
         }
 
+        internal bool has_active_options () {
+            return amd_group.has_active_options ()
+                   || nvidia_group.has_active_options ()
+                   || intel_group.has_active_options ();
+        }
+
         internal void select_preferred_page () {
             if (amd_group.is_any_tile_active ()) {
                 stack.set_visible_child_name ("amd");

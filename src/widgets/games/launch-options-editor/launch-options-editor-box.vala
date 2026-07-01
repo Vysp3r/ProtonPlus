@@ -92,12 +92,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public void set_advanced_visible (bool visible) {
             advanced_visible = visible;
 
-            preview_field.set_visible (advanced_visible);
-            more_options_group.set_visible (advanced_visible);
-            proton_options_group.set_visible (advanced_visible);
-            gpu_vendor_group.set_visible (advanced_visible);
-            game_arguments_group.set_visible (advanced_visible);
-            advanced_options_group.set_visible (advanced_visible);
+            refresh_advanced_visibility ();
 
             standard_control_changed ();
         }
@@ -133,7 +128,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             gpu_vendor_group.normalize_dependencies ();
             gpu_vendor_group.select_preferred_page ();
 
-            advanced_visible = has_advanced;
+            advanced_visible = has_advanced || has_hidden_advanced_content_active ();
             this.advanced_state_detected (advanced_visible);
             refresh_advanced_visibility ();
 
@@ -152,11 +147,25 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         void refresh_advanced_visibility_state () {
             preview_field.set_visible (advanced_visible);
+            audio_group.set_visible (advanced_visible);
+            dxvk_options_group.set_visible (advanced_visible);
+            vkd3d_options_group.set_visible (advanced_visible);
             more_options_group.set_visible (advanced_visible);
             proton_options_group.set_visible (advanced_visible);
             gpu_vendor_group.set_visible (advanced_visible);
             game_arguments_group.set_visible (advanced_visible);
             advanced_options_group.set_visible (advanced_visible);
+        }
+
+        bool has_hidden_advanced_content_active () {
+            return audio_group.has_active_options ()
+                   || dxvk_options_group.has_active_options ()
+                   || vkd3d_options_group.has_active_options ()
+                   || more_options_group.has_active_options ()
+                   || proton_options_group.has_active_options ()
+                   || gpu_vendor_group.has_active_options ()
+                   || game_arguments_group.has_active_options ()
+                   || advanced_options_group.has_active_options ();
         }
 
         void refresh_advanced_visibility () {

@@ -8,7 +8,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile vkd3d_shader_cache_tile { get; private set; }
 
         public Vkd3dOptionsGroup (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers);
+            base (launch_option_handlers, true);
 
             this.title = _("VKD3D options");
             this.description = _("Extra graphics settings and launch behaviors.");
