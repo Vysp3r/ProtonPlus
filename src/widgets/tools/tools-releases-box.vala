@@ -438,12 +438,6 @@ namespace ProtonPlus.Widgets.Tools {
             while (child != null) {
                 var release = child.get_data<Models.Release> ("release");
                 if (release != null) {
-                    if (is_latest_release (release)) {
-                        release.set_selected_variant (null);
-                        child = child.get_next_sibling ();
-                        continue;
-                    }
-
                     string? selected_variant_url = null;
 
                     if (selected_variant != null) {
@@ -519,11 +513,6 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.append (row);
 
             if (selected_variant != null) {
-                if (is_latest_release (release)) {
-                    release.set_selected_variant (null);
-                    return;
-                }
-
                 var selected_variant_url = get_variant_download_url (release, selected_variant.name);
                 if (selected_variant_url != null) {
                     release.download_url = selected_variant_url;
@@ -615,9 +604,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (filter == Filter.INSTALLED)
                 return release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
 
-            var usage_count = release.runner.group.launcher.get_compatibility_tool_usage_count (
-                release.title != "SteamTinkerLaunch" ? release.title : "Proton-stl"
-            );
+            var usage_count = release.runner.group.launcher.get_compatibility_tool_usage_count (release.get_usage_identifier ());
 
             if (filter == Filter.USED)
                 return usage_count > 0;

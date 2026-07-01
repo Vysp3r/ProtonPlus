@@ -142,7 +142,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             list_box.remove_all ();
 
-            var tool_name = (release.runner is Models.Tools.SteamTinkerLaunch) ? "Proton-stl" : release.title;
+            var tool_name = release.get_usage_identifier ();
             var launcher = release.runner.group.launcher;
 
             string default_tool = "";

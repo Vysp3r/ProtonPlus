@@ -126,7 +126,24 @@ namespace ProtonPlus.Models {
                 }
 
                 if (this is Models.Tools.Basic && has_latest_support) {
-                    var latest_release = new Models.Releases.Latest (this as Models.Tools.Basic, "%s Latest".printf (title), releases[0].description, releases[0].release_date, releases[0].download_url, releases[0].page_url);
+                    var latest_release = new Models.Releases.Latest (
+                        this as Models.Tools.Basic,
+                        "%s Latest".printf (title),
+                        releases[0].description,
+                        releases[0].release_date,
+                        releases[0].download_url,
+                        releases[0].page_url
+                    );
+
+                    foreach (var variant in releases[0].variants) {
+                        latest_release.variants.add (new Models.Variant (
+                            variant.name,
+                            variant.format,
+                            variant.is_default,
+                            this as Models.Tools.Basic,
+                            variant.download_url
+                        ));
+                    }
 
                     releases.insert (0, latest_release);
                 }
@@ -321,7 +338,14 @@ namespace ProtonPlus.Models {
             if (!moved)
                 return ReturnCode.UNKNOWN_ERROR;
 
-            var release = new Models.Releases.Latest (runner as Models.Tools.Basic, "%s Latest".printf (runner.title), description, release_date, download_url, page_url);
+            var release = new Models.Releases.Latest (
+                runner as Models.Tools.Basic,
+                "%s Latest".printf (runner.title),
+                description,
+                release_date,
+                download_url,
+                page_url
+            );
             release.state = Models.Release.State.BUSY_UPDATING;
 
             if ((yield release.install ()) != ReturnCode.RUNNER_INSTALLED) {

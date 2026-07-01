@@ -48,6 +48,19 @@ namespace ProtonPlus.Models {
             get { return title; }
         }
 
+        public string get_usage_identifier () {
+            if (this is Releases.SteamTinkerLaunch)
+                return usage_name;
+
+            if (runner is Tools.Basic) {
+                var directory_name = get_effective_directory_name ();
+                if (directory_name != "")
+                    return directory_name;
+            }
+
+            return usage_name;
+        }
+
         private Variant? get_selected_variant () {
             if (selected_variant_name == null || selected_variant_name == "" || variants == null)
                 return null;

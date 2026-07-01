@@ -60,6 +60,17 @@ namespace ProtonPlus.Utils {
 
             if (tool is Models.Tools.Basic && tool.has_latest_support && tool.releases.size > 0) {
                 var latest_release = new Models.Releases.Latest (tool as Models.Tools.Basic, "%s Latest".printf (tool.title), tool.releases[0].description, tool.releases[0].release_date, tool.releases[0].download_url, tool.releases[0].page_url);
+
+                foreach (var variant in tool.releases[0].variants) {
+                    latest_release.variants.add (new Models.Variant (
+                        variant.name,
+                        variant.format,
+                        variant.is_default,
+                        tool as Models.Tools.Basic,
+                        variant.download_url
+                    ));
+                }
+
                 tool.releases.insert (0, latest_release);
             }
         }
