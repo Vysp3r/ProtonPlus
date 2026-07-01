@@ -35,28 +35,30 @@ msgid ""
 "ProtonPlus is a simple tool to help you manage your compatibility tools for "
 "Steam, Lutris, Heroic Games Launcher and Bottles."
 msgstr ""
+"ProtonPlus je jednoduchý nástroj pro správu vašich nástrojů kompatibility a to "
+"Steam, Lutris, Heroic Games Launcher a Bottles."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:13
 msgid "Features:"
-msgstr ""
+msgstr "Funkce:"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:15
 msgid "Manage supported compatibility tools across supported launchers"
-msgstr ""
+msgstr "Spravovat podporované nástroje kompatibility napříč podporovanými spouštěči"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:16
 #, fuzzy
 msgid "Change the compatibility tool and launch options of your Steam games"
-msgstr "Při pokusu o změnu nástroje kompatibility pro %s došlo k chybě."
+msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:17
 msgid "And much more..."
-msgstr ""
+msgstr "A mnohem více..."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:19
 #, fuzzy
 msgid "Supported launchers:"
-msgstr "Nepodporovaný spouštěč"
+msgstr "Podporovaný spouštěč"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:21
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:57
@@ -82,7 +84,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:27
 #, fuzzy
 msgid "Supported compatibility tools:"
-msgstr "Nastavte výchozí nástroj kompatibility"
+msgstr "Podporované nástroje kompatibility"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:29
 msgid "Steam Tinker Launch"
@@ -4519,11 +4521,11 @@ msgstr "Použito"
 #: src/widgets/tools/tools-releases-box.vala:127
 #, fuzzy
 msgid "Check for new releases"
-msgstr "Kontrolují se aktualizace..."
+msgstr "Kontrolují se nové vydání"
 
 #: src/widgets/tools/tools-releases-box.vala:142
 msgid "Choose a variant"
-msgstr ""
+msgstr "Vybrat variantu"
 
 #: src/widgets/tools/tools-releases-box.vala:160
 #, fuzzy
@@ -4533,7 +4535,7 @@ msgstr "Načíst více"
 #: src/widgets/tools/tools-releases-box.vala:208
 #, fuzzy
 msgid "No releases found"
-msgstr "Žádný profil nebyl nalezen."
+msgstr "Nebylo nalezeno žádné vydání."
 
 #: src/widgets/tools/tools-releases-box.vala:209
 msgid "No releases match the current filter."
@@ -4542,13 +4544,13 @@ msgstr ""
 #: src/widgets/tools/tools-releases-box.vala:252
 #: src/widgets/tools/tools-releases-box.vala:317
 msgid "Try again in a few minutes."
-msgstr "Zkusit znova za pár minut."
+msgstr "Zkuste to znova za pár minut."
 
 #: src/widgets/tools/tools-releases-box.vala:255
 #: src/widgets/tools/tools-releases-box.vala:320
 #, fuzzy
 msgid "Make sure you're connected to the internet."
-msgstr "Ujistěte se, že se alespoň jednou připojíte ke službě Steam."
+msgstr "Ujistěte se, že jste připojeni k internetu."
 
 #: src/widgets/tools/tools-releases-box.vala:258
 #: src/widgets/tools/tools-releases-box.vala:323
@@ -4563,12 +4565,12 @@ msgstr ""
 #: src/widgets/tools/tools-releases-box.vala:264
 #: src/widgets/tools/tools-releases-box.vala:329
 msgid "Make sure the access token you provided is valid."
-msgstr ""
+msgstr "Ujisti se, že tvůj přístupový token je validní."
 
 #: src/widgets/tools/tools-releases-box.vala:268
 #: src/widgets/tools/tools-releases-box.vala:333
 msgid "Failed to Fetch Releases"
-msgstr ""
+msgstr "Selhalo získávání vydáních"
 
 #: src/widgets/tools/tools-releases-box.vala:269
 #: src/widgets/tools/tools-releases-box.vala:334
@@ -4576,11 +4578,13 @@ msgid ""
 "ProtonPlus could not retrieve the list of available releases. Please check "
 "your internet connection and try again."
 msgstr ""
+"ProtonPlus nemohl získat seznam dostupných vydání. Prosím zkontrolujte "
+"své internetové připojení a zkuste to znovu."
 
 #: src/widgets/tools/tools-releases-box.vala:483
 #, fuzzy, c-format
 msgid "Last updated: %s"
-msgstr "Nainstalovat %s"
+msgstr "Poslední aktualizace %s"
 
 #: src/widgets/window.vala:102
 #, fuzzy
@@ -4588,7 +4592,7 @@ msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."
 msgstr ""
-"Aplikace právě kontroluje aktualizace.\n"
+"Aplikace právě stahuje nástroj.\n"
 "Předčasné ukončení aplikace může způsobit problémy."
 
 #: src/widgets/window.vala:104
@@ -4598,18 +4602,20 @@ msgstr "Ukončit"
 #: src/widgets/introduction/introduction.vala:17
 #, fuzzy
 msgid "Introduction"
-msgstr "Informace"
+msgstr "Představení"
 
 #: src/widgets/introduction/application.vala:8
 #, fuzzy
 msgid "Welcome to ProtonPlus"
-msgstr "Vítejte v %s"
+msgstr "Vítejte v ProtonPlus"
 
 #: src/widgets/introduction/application.vala:9
 msgid ""
 "ProtonPlus helps you easily manage, install, and update compatibility layers "
 "for running Windows games on Linux."
 msgstr ""
+"ProtonPlus ulehčuje správu, instalaci a aktualizaci kompatibilních vrstev "
+"pro spouštění Windows her a aplikací na Linuxu."
 
 #: src/widgets/introduction/forks.vala:8
 msgid "Custom Forks & Flavors"
@@ -4620,10 +4626,12 @@ msgid ""
 "Community versions like Proton-GE provide cutting-edge fixes, video codecs, "
 "and game-specific tweaks before they hit the official releases."
 msgstr ""
+"Verze od kumunit jako je Proton-GE poskytuje pokročilé opravy, video kodeky, "
+"a specifické vychytávky pro hry předtím, než se dostanou do oficiálního vydání."
 
 #: src/widgets/introduction/how-to-use.vala:8
 msgid "How to Use"
-msgstr ""
+msgstr "Použití"
 
 #: src/widgets/introduction/how-to-use.vala:9
 msgid ""
@@ -4631,26 +4639,33 @@ msgid ""
 "ProtonPlus will automatically configure them for your launchers like Steam, "
 "Heroic, or Lutris."
 msgstr ""
+"Jednoduše procházejte dostupnými nástroji kompatibility, klikněte stáhnout, a "
+"ProtonPlus ho automaticky nastaví pro váš spouštěč jako je Steam, "
+"Heroic, nebo Lutris."
 
 #: src/widgets/introduction/proton.vala:8
 msgid "What is Proton?"
-msgstr ""
+msgstr "Co je Proton?"
 
 #: src/widgets/introduction/proton.vala:9
 msgid ""
 "Developed by Valve, Proton is a tool based on Wine specifically optimized "
 "for gaming, ensuring high performance and Steam Play integration."
 msgstr ""
+"Vyvíjeno společností Valve, Proton je nástroj postavený na Wine a specificky optimalizovaný "
+"pro hraní, zajištění vysokého výkonu a Steam Play integrace."
 
 #: src/widgets/introduction/wine.vala:8
 msgid "What is Wine?"
-msgstr ""
+msgstr "Co je Wine?"
 
 #: src/widgets/introduction/wine.vala:9
 msgid ""
 "Wine is a compatibility layer capable of running Windows applications on "
 "Linux systems by translating Windows API calls on the fly."
 msgstr ""
+"Wine je kompatibilní vrstva, schopna spustit Windows aplikace na "
+"Linux systémech překládáním Windows API volání za běhu."
 
 #: src/widgets/application.vala:141
 msgid "Website"
@@ -4679,7 +4694,7 @@ msgstr ""
 
 #: src/translatables.vala:6
 msgid "Recommended"
-msgstr ""
+msgstr "Doporučené"
 
 #: src/translatables.vala:7 src/main.vala:35
 msgid ""
@@ -4770,7 +4785,7 @@ msgstr "DXVK verze, která fungovala před Vulkanem verze 1.3"
 
 #: src/translatables.vala:22 src/main.vala:51
 msgid "DXVK builds with gplasync patch by Ph42oN."
-msgstr ""
+msgstr "DXVK build s gplasync opravou od Ph42oN."
 
 #: src/translatables.vala:23 src/main.vala:52
 msgid ""
@@ -5049,7 +5064,7 @@ msgstr "Čínština (Tradiční)"
 
 #, fuzzy
 #~ msgid "Couldn't change the default compatibility tool"
-#~ msgstr "Nastavte výchozí nástroj kompatibility"
+#~ msgstr "Nelze změnit výchozí nástroj kompatibility"
 
 #~ msgid "Runners"
 #~ msgstr "Spouštěče"
