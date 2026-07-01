@@ -11,6 +11,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 "force_host_cache",
                 "no_upload_hvv",
                 "upload_hvv",
+                "nodxr",
                 "dxr11",
                 "dxr10",
                 "bvh_force_cpu",
@@ -30,6 +31,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             tooltips.insert ("force_host_cache", _("Forces VKD3D to use system RAM instead of VRAM for caching shader compilation data, ensuring smoother data stream between CPU and GPU."));
             tooltips.insert ("upload_hvv", _("Uses host-visible VRAM for staging buffers. Drastically reduces stuttering if Resizable BAR / SAM is enabled."));
             tooltips.insert ("no_upload_hvv", _("Disables host-visible VRAM staging buffers. Use as a compatibility fallback if experiencing memory-related crashes."));
+            tooltips.insert ("nodxr", _("Disables D3D12 Ray Tracing (DXR) capabilities entirely. Significantly improves performance and stability on GPUs without strong hardware RT support."));
             tooltips.insert ("dxr11", _("Exposes D3D12 Ray Tracing (DXR 1.1 and 1.0) capabilities to the game via Vulkan extensions."));
             tooltips.insert ("dxr10", _("Restricts Ray Tracing capabilities to DXR 1.0 only. Useful for older RT games that crash with DXR 1.1."));
             tooltips.insert ("bvh_force_cpu", _("Forces Ray Tracing BVH acceleration structures to be built on the CPU instead of the GPU. Severe performance impact!"));
