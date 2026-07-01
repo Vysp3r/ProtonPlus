@@ -29,7 +29,7 @@ namespace ProtonPlus.Models.Internal.Assets {
 
         public bool is_archive () {
             try {
-                var regex = new Regex ("\\.(zip|tar\\.gz|tgz|tar\\.xz|tar\\.bz2|tbz2|7z|rar)$", RegexCompileFlags.CASELESS);
+                var regex = new Regex ("\\.(zip|tar\\.gz|tgz|tar\\.xz|tar\\.bz2|tbz2|tar\\.zst|tzst|7z|rar)$", RegexCompileFlags.CASELESS);
                 return regex.match (this.name);
             } catch (RegexError e) {
                 warning ("Error while regex matching: %s", e.message);

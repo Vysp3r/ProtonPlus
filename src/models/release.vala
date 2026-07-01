@@ -301,6 +301,8 @@ namespace ProtonPlus.Models {
             string extension = ".tar.gz";
             if (download_url.contains (".zip")) {
                 extension = ".zip";
+            } else if (download_url.contains (".tar.zst")) {
+                extension = ".tar.zst";
             } else if (download_url.contains (".tar.xz")) {
                 extension = ".tar.xz";
             } else if (!download_url.contains (".tar")) {
