@@ -113,6 +113,7 @@ namespace ProtonPlus.Widgets.Tools {
                 hexpand = true,
                 valign = Gtk.Align.CENTER
             };
+
             info_box.append (icon);
             info_box.append (title_box);
 

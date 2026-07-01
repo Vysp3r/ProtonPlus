@@ -150,7 +150,7 @@ namespace ProtonPlus.Widgets.Tools {
                     row.add_suffix (pill);
                 }
 
-                if (basic_tool.variants.size > 0) {
+                /*if (basic_tool.variants.size > 0) {
 
                     var l = new Adw.WrapBox ();
                     l.set_valign (Gtk.Align.CENTER);
@@ -169,7 +169,7 @@ namespace ProtonPlus.Widgets.Tools {
                     if (l.get_first_child () != null) {
                         row.add_suffix (l);
                     }
-                }
+                }*/
             }
 
             return row;
