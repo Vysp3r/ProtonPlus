@@ -100,6 +100,42 @@ namespace ProtonPlus.Models {
                                     needs_variant_refresh = true;
                                     break;
                                 }
+
+                                var default_variant_has_url = true;
+                                foreach (var cached_variant in cached_release.variants) {
+                                    if (cached_variant.is_default) {
+                                        default_variant_has_url = cached_variant.download_url != null && cached_variant.download_url != "";
+                                        break;
+                                    }
+                                }
+
+                                if (!default_variant_has_url) {
+                                    needs_variant_refresh = true;
+                                    break;
+                                }
+
+                                for (var i = 0; i < cached_release.variants.size - 1; i++) {
+                                    var left_variant = cached_release.variants.get (i);
+                                    if (left_variant.download_url == null || left_variant.download_url == "")
+                                        continue;
+
+                                    for (var j = i + 1; j < cached_release.variants.size; j++) {
+                                        var right_variant = cached_release.variants.get (j);
+                                        if (right_variant.download_url == null || right_variant.download_url == "")
+                                            continue;
+
+                                        if (left_variant.format != right_variant.format && left_variant.download_url == right_variant.download_url) {
+                                            needs_variant_refresh = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (needs_variant_refresh)
+                                        break;
+                                }
+
+                                if (needs_variant_refresh)
+                                    break;
                             }
                         }
 

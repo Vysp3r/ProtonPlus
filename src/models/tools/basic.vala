@@ -42,6 +42,38 @@ namespace ProtonPlus.Models.Tools {
             return asset_name.str;
         }
 
+        private string get_archive_stem (string asset_name) {
+            string[] archive_extensions = {
+                "tar.gz",
+                "tgz",
+                "tar.xz",
+                "tar.bz2",
+                "tbz2",
+                "tar.zst",
+                "tzst",
+                "zip",
+                "7z",
+                "rar"
+            };
+
+            var lowered_name = asset_name.ascii_down ();
+            foreach (var extension in archive_extensions) {
+                var suffix = ".%s".printf (extension);
+                if (lowered_name.has_suffix (suffix)) {
+                    return asset_name.substring (0, asset_name.length - suffix.length);
+                }
+            }
+
+            return asset_name;
+        }
+
+        private bool variant_matches_asset (string expected_asset_name, string asset_name) {
+            if (asset_name == expected_asset_name)
+                return true;
+
+            return get_archive_stem (asset_name) == expected_asset_name;
+        }
+
         public virtual Gee.LinkedList<Variant> create_release_variants (
             string release_name,
             string tag_name,
@@ -55,7 +87,7 @@ namespace ProtonPlus.Models.Tools {
                 var expected_asset_name = render_variant_asset_name (variant, release_name, tag_name);
 
                 foreach (var asset in assets) {
-                    if (asset.name.contains (expected_asset_name)) {
+                    if (variant_matches_asset (expected_asset_name, asset.name)) {
                         variant_download_url = asset.download_url;
                         break;
                     }
