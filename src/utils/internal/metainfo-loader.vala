@@ -52,8 +52,15 @@ namespace ProtonPlus.Utils.Internal {
                     string version = rel.get_version ();
 
                     string? date_timestamp = rel.get_date ();
-                    var date = new GLib.DateTime.from_unix_local ((int64) date_timestamp);
-                    string date_str = date.format ("%Y-%m-%d");
+                    GLib.DateTime date;
+                    string? date_str;
+
+                    if (date_timestamp == null) {
+                        date_str = null;
+                    } else {
+                        date = new GLib.DateTime.from_unix_local ((int64) date_timestamp);
+                        date_str = date.format ("%Y-%m-%d");
+                    }
 
                     string description = rel.get_description () ?? "";
 
