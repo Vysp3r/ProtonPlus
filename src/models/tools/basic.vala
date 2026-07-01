@@ -1,5 +1,6 @@
 namespace ProtonPlus.Models.Tools {
     public abstract class Basic : Tool {
+        internal ProtonPlus.Models.Launchers.Runners.IRunner? source_runner { get; set; }
         internal int asset_position { get; set; }
         internal string asset_position_time_condition { get; set; }
         internal string endpoint { get; set; }
@@ -35,12 +36,48 @@ namespace ProtonPlus.Models.Tools {
             return directory_name.str;
         }
 
+        private string render_variant_asset_name (Variant variant, string release_name, string tag_name) {
+            var asset_name = new StringBuilder (variant.format);
+            asset_name.replace ("$title", title);
+            asset_name.replace ("$release_name", release_name);
+            asset_name.replace ("$tag_name", tag_name);
+            return asset_name.str;
+        }
+
+        public virtual Gee.LinkedList<Variant> create_release_variants (
+            string release_name,
+            string tag_name,
+            Gee.LinkedList<ProtonPlus.Models.Internal.Assets.IAsset> assets,
+            string? fallback_download_url = null
+        ) {
+            var release_variants = new Gee.LinkedList<Variant> ();
+
+            foreach (var variant in this.variants) {
+                string? variant_download_url = null;
+                var expected_asset_name = render_variant_asset_name (variant, release_name, tag_name);
+
+                foreach (var asset in assets) {
+                    if (asset.name.contains (expected_asset_name)) {
+                        variant_download_url = asset.download_url;
+                        break;
+                    }
+                }
+
+                if (variant_download_url == null && variant.is_default) {
+                    variant_download_url = fallback_download_url;
+                }
+
+                release_variants.add (new Variant (variant.name, variant.format, variant.is_default, this, variant_download_url));
+            }
+
+            return release_variants;
+        }
+
         public virtual void update_variant_download_url (string release_name) {
             foreach (var variant in this.variants) {
                 var url = new StringBuilder (variant.format);
                 url.replace ("$title", title);
                 url.replace ("$release_name", release_name);
-                url.replace ("$tag_name", this.tag);
                 variant.download_url = url.str;
             }
         }

@@ -1,4 +1,5 @@
 namespace ProtonPlus.Models {
+    using ProtonPlus.Models.Launchers.Runners;
     public class Launcher : Object {
         public string title;
         public string icon_path;
@@ -58,6 +59,7 @@ namespace ProtonPlus.Models {
 
         public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
             var _launchers = new Gee.LinkedList<Launcher> ();
+            var runners = new Runners ();
 
             Launcher[] candidates = {
                 new Launchers.Steam (InstallationTypes.SYSTEM),
@@ -84,7 +86,7 @@ namespace ProtonPlus.Models {
             if (launchers == null || launchers.size == 0)
                 return true;
 
-            var initialized = yield initialize_launchers (launchers);
+            var initialized = yield initialize_launchers (launchers, runners);
 
             if (!initialized)
                 return false;
@@ -92,67 +94,38 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        public static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers, string? custom_json_path = null) {
-            string json_content = "";
-
-            if (custom_json_path != null) {
-                try {
-                    uint8[] raw_data;
-                    FileUtils.get_data (custom_json_path, out raw_data);
-                    json_content = (string) raw_data;
-                } catch (FileError e) {
-                    stderr.printf ("Error while loading JSON: %s\n", e.message);
-                    return false;
-                }
-            } else {
-                json_content = Utils.Filesystem.get_file_content ("resource://com/vysp3r/ProtonPlus/runners.json", true);
-            }
-
-            if (json_content == "")
-                return false;
-
-            var root_data = ProtonPlus.Models.Internal.Data.Runner.Parser.parse_runners_json (json_content);
-            if (root_data == null)
-                return false;
-
-            var compat_layers_map = new Gee.HashMap<string, ProtonPlus.Models.Internal.Data.Runner.CompatLayerGroup> ();
-            foreach (var layer in root_data.compat_layers) {
-                compat_layers_map.set (layer.title, layer);
-            }
-
-            var launchers_map = new Gee.HashMap<string, ProtonPlus.Models.Internal.Data.Runner.Launcher> ();
-            foreach (var l in root_data.launchers) {
-                launchers_map.set (l.title, l);
-            }
-
+        public static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers, Runners runners) {
             foreach (var launcher in launchers) {
-                var json_launcher = launchers_map.get (launcher.title);
-                if (json_launcher == null)
+                var runner_types = get_runner_types_for_launcher (launcher);
+                if (runner_types == null)
                     return false;
 
                 var launcher_groups = new Gee.ArrayList<Group> ();
 
-                foreach (var launcher_cl in json_launcher.compat_layers) {
-                    var global_group_data = compat_layers_map.get (launcher_cl.title);
-                    if (global_group_data == null)
+                foreach (var runner_type in runner_types) {
+                    var group_title = get_group_title (runner_type);
+                    var group_description = get_group_description (runner_type);
+                    var group_directory = get_group_directory (launcher, runner_type);
+
+                    if (group_directory == null)
                         return false;
 
                     var app_group = new Group (
-                                               launcher_cl.title,
-                                               Utils.safe_translate (global_group_data.description),
-                                               launcher_cl.directory,
+                                               group_title,
+                                               Utils.safe_translate (group_description),
+                                               group_directory,
                                                launcher
                     );
                     app_group.tools = new Gee.LinkedList<Tool> ();
 
-                    foreach (var runner_data in global_group_data.runners) {
-                        var tool = create_runner_from_model (runner_data, app_group);
+                    foreach (var runner_data in get_runners_for_type (runners, runner_type)) {
+                        var tool = runner_data.create_tool (app_group);
                         if (tool != null) {
                             app_group.tools.add (tool);
                         }
                     }
 
-                    if (launcher.title == "Steam") {
+                    if (launcher is Launchers.Steam && runner_type == RunnerType.Proton) {
                         app_group.tools.add (new Tools.SteamTinkerLaunch (app_group));
                     }
 
@@ -172,75 +145,102 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        private static Tools.Basic? create_runner_from_model (ProtonPlus.Models.Internal.Data.Runner.Runner runner_data, Group group) {
-            string? target_format = null;
-            foreach (var format in runner_data.directory_name_formats) {
-                if (format.launcher == group.launcher.title) {
-                    target_format = format.directory_name_format;
-                    break;
+        private static Gee.ArrayList<IRunner> get_runners_for_type (Runners runners, RunnerType runner_type) {
+            return runners.getRunners (runner_type);
+        }
+
+        private static RunnerType[]? get_runner_types_for_launcher (Launcher launcher) {
+            if (launcher is Launchers.Steam)
+                return { RunnerType.Proton };
+
+            if (launcher is Launchers.Lutris)
+                return { RunnerType.Proton, RunnerType.Wine, RunnerType.DXVK, RunnerType.VKD3D };
+
+            if (launcher is Launchers.HeroicGamesLauncher)
+                return { RunnerType.Proton, RunnerType.Wine };
+
+            if (launcher is Launchers.Bottles)
+                return { RunnerType.Proton, RunnerType.Wine, RunnerType.DXVK };
+
+            if (launcher is Launchers.WineZGUI)
+                return { RunnerType.Wine };
+
+            return null;
+        }
+
+        private static string get_group_title (RunnerType runner_type) {
+            switch (runner_type) {
+            case RunnerType.DXVK:
+                return "DXVK";
+            case RunnerType.VKD3D:
+                return "VKD3D";
+            case RunnerType.Proton:
+                return "Proton";
+            case RunnerType.Wine:
+                return "Wine";
+            }
+
+            return "";
+        }
+
+        private static string get_group_description (RunnerType runner_type) {
+            switch (runner_type) {
+            case RunnerType.DXVK:
+                return "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine.";
+            case RunnerType.VKD3D:
+                return "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.";
+            case RunnerType.Proton:
+                return "Compatibility tools by Valve for running Windows software on Linux.";
+            case RunnerType.Wine:
+                return "Compatibility tools for running Windows software on Linux.";
+            }
+
+            return "";
+        }
+
+        private static string? get_group_directory (Launcher launcher, RunnerType runner_type) {
+            if (launcher is Launchers.Steam && runner_type == RunnerType.Proton)
+                return "/compatibilitytools.d";
+
+            if (launcher is Launchers.Lutris) {
+                switch (runner_type) {
+                case RunnerType.Proton:
+                case RunnerType.Wine:
+                    return "/runners/wine";
+                case RunnerType.DXVK:
+                    return "/runtime/dxvk";
+                case RunnerType.VKD3D:
+                    return "/runtime/vkd3d";
                 }
             }
 
-            if (target_format == null) {
-                foreach (var format in runner_data.directory_name_formats) {
-                    if (format.launcher == "default") {
-                        target_format = format.directory_name_format;
-                        break;
-                    }
+            if (launcher is Launchers.HeroicGamesLauncher) {
+                switch (runner_type) {
+                case RunnerType.Proton:
+                    return "/tools/proton";
+                case RunnerType.Wine:
+                    return "/tools/wine";
+                default:
+                    return null;
                 }
             }
 
-            if (target_format == null)
-                return null;
-
-            Tools.Basic ? runner = null;
-
-            switch (runner_data.runner_type) {
-            case "github" :
-                var github = new Tools.GitHub ();
-                if (runner_data.request_asset_exclude != null)github.request_asset_exclude = runner_data.request_asset_exclude.to_array ();
-                if (runner_data.request_asset_filter != null)github.request_asset_filter = runner_data.request_asset_filter.to_array ();
-                runner = github;
-                break;
-            case "github-action" :
-                var github_action = new Tools.GitHubAction ();
-                github_action.url_template = runner_data.url_template;
-                runner = github_action;
-                break;
-            case "gitlab":
-                var gitlab = new Tools.GitLab ();
-                if (runner_data.request_asset_exclude != null)gitlab.request_asset_exclude = runner_data.request_asset_exclude.to_array ();
-                runner = gitlab;
-                break;
-            case "forgejo":
-                runner = new Tools.Forgejo ();
-                break;
-            default:
-                warning ("Unknow type of runner: %s", runner_data.runner_type);
-                break;
-            }
-
-            if (runner != null) {
-                runner.title = runner_data.title;
-                runner.description = Utils.safe_translate (runner_data.description);
-                runner.endpoint = runner_data.endpoint;
-                runner.asset_position = runner_data.asset_position;
-                runner.asset_position_time_condition = runner_data.asset_position_time_condition;
-                runner.directory_name_format = target_format;
-                runner.has_latest_support = runner_data.support_latest;
-                runner.group = group;
-                runner.tag = runner_data.tag;
-                runner.legacy = runner_data.legacy;
-
-                runner.asset_position_hwcaps_condition = false;
-
-                foreach (var rdv in runner_data.variants) {
-                    Variant variant = new Variant (rdv.name, rdv.format, rdv.is_default, runner);
-                    runner.variants.add (variant);
+            if (launcher is Launchers.Bottles) {
+                switch (runner_type) {
+                case RunnerType.Proton:
+                case RunnerType.Wine:
+                    return "/runners";
+                case RunnerType.DXVK:
+                    return "/dxvk";
+                default:
+                    return null;
                 }
             }
 
-            return runner;
+            if (launcher is Launchers.WineZGUI && runner_type == RunnerType.Wine)
+                return "/Runners";
+
+            return null;
         }
 
         public virtual async bool setup_profile_library_for_test () {

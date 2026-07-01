@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.Internal.Requests.Github {
+namespace ProtonPlus.Models.Internal.Requests.GithubAction {
     using Gee;
     using ProtonPlus.Models.Internal.Requests;
 

@@ -40,6 +40,50 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
+        private string get_tool_variant_settings_key (Models.Tool tool) {
+            return "%s::%s::%s".printf (tool.group.launcher.title, tool.group.title, tool.title);
+        }
+
+        private string get_saved_variant_name (Models.Tool tool) {
+            if (Globals.SETTINGS == null)
+                return "";
+
+            var raw = Globals.SETTINGS.get_string ("selected-tool-variants");
+            if (raw == "")
+                return "";
+
+            var root_node = Utils.Parser.get_node_from_json (raw);
+            if (root_node == null || root_node.get_node_type () != Json.NodeType.OBJECT)
+                return "";
+
+            var root_obj = root_node.get_object ();
+            return root_obj.get_string_member_with_default (get_tool_variant_settings_key (tool), "");
+        }
+
+        private void save_selected_variant_name (Models.Tool tool, string variant_name) {
+            if (Globals.SETTINGS == null)
+                return;
+
+            Json.Object root_obj;
+
+            var raw = Globals.SETTINGS.get_string ("selected-tool-variants");
+            var root_node = Utils.Parser.get_node_from_json (raw);
+            if (root_node != null && root_node.get_node_type () == Json.NodeType.OBJECT) {
+                root_obj = root_node.get_object ();
+            } else {
+                root_obj = new Json.Object ();
+            }
+
+            root_obj.set_string_member (get_tool_variant_settings_key (tool), variant_name);
+
+            var node = new Json.Node (Json.NodeType.OBJECT);
+            node.set_object (root_obj);
+
+            var generator = new Json.Generator ();
+            generator.set_root (node);
+            Globals.SETTINGS.set_string ("selected-tool-variants", generator.to_data (null));
+        }
+
         public ReleasesBox () {
             Object (orientation : Gtk.Orientation.VERTICAL, spacing : 0);
 
@@ -220,7 +264,11 @@ namespace ProtonPlus.Widgets.Tools {
                     dialog = new Main.WarningDialog (_("Invalid access token"), _("Make sure the access token you provided is valid."));
                     break;
                 default:
-                    dialog = new Main.ErrorDialog (_("Failed to Fetch Releases"), _("ProtonPlus could not retrieve the list of available releases. Please check your internet connection and try again."), "");
+                    dialog = new Main.ErrorDialog (
+                        _("Failed to Fetch Releases"),
+                        _("ProtonPlus could not retrieve the list of available releases. Please check your internet connection and try again."),
+                        ""
+                    );
                     break;
                 }
 
@@ -239,6 +287,7 @@ namespace ProtonPlus.Widgets.Tools {
             load_more_row.visible = tool.has_more;
 
             content_stack.set_visible_child_name ("list");
+            apply_selected_variant_to_rows ();
             update_last_updated_label ();
             update_visibility ();
         }
@@ -280,7 +329,11 @@ namespace ProtonPlus.Widgets.Tools {
                     dialog = new Main.WarningDialog (_("Invalid access token"), _("Make sure the access token you provided is valid."));
                     break;
                 default:
-                    dialog = new Main.ErrorDialog (_("Failed to Fetch Releases"), _("ProtonPlus could not retrieve the list of available releases. Please check your internet connection and try again."), "");
+                    dialog = new Main.ErrorDialog (
+                        _("Failed to Fetch Releases"),
+                        _("ProtonPlus could not retrieve the list of available releases. Please check your internet connection and try again."),
+                        ""
+                    );
                     break;
                 }
 
@@ -299,11 +352,20 @@ namespace ProtonPlus.Widgets.Tools {
             load_more_row.visible = tool.has_more;
 
             content_stack.set_visible_child_name ("list");
+            apply_selected_variant_to_rows ();
             update_last_updated_label ();
             update_visibility ();
         }
 
         private void update_variant_btn (Models.Tool tool) {
+            selected_variant = null;
+            variant_button.set_visible (false);
+
+            Gtk.Widget? child;
+            while ((child = variant_popover_box.get_first_child ()) != null) {
+                variant_popover_box.remove (child);
+            }
+
             if (tool.variants.size <= 1) {
                 return;
             }
@@ -317,7 +379,9 @@ namespace ProtonPlus.Widgets.Tools {
                 variant_row.clicked.connect (() => {
                     selected_variant = variant;
                     variant_button.set_label (variant.name);
+                    save_selected_variant_name (tool, variant.name);
                     variant_popover.popdown ();
+                    apply_selected_variant_to_rows ();
                 });
 
                 variant_popover_box.append (variant_row);
@@ -327,12 +391,91 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             }
 
+            var saved_variant_name = get_saved_variant_name (tool);
+            if (saved_variant_name != "") {
+                foreach (var variant in tool.variants) {
+                    if (variant.name == saved_variant_name) {
+                        selected_variant = variant;
+                        break;
+                    }
+                }
+            }
+
             if (selected_variant == null) {
                 selected_variant = tool.variants.get (0);
             }
 
             variant_button.set_label (selected_variant.name);
             variant_button.set_visible (true);
+        }
+
+        private string? get_variant_download_url (Models.Release release, string variant_name) {
+            foreach (var variant in release.variants) {
+                if (variant.name == variant_name && variant.download_url != null && variant.download_url != "") {
+                    return variant.download_url;
+                }
+            }
+
+            return null;
+        }
+
+        private string? get_default_variant_download_url (Models.Release release) {
+            foreach (var variant in release.variants) {
+                if (variant.is_default && variant.download_url != null && variant.download_url != "") {
+                    return variant.download_url;
+                }
+            }
+
+            return null;
+        }
+
+        private bool is_latest_release (Models.Release release) {
+            return release is Models.Releases.Latest;
+        }
+
+        private void apply_selected_variant_to_rows () {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                var release = child.get_data<Models.Release> ("release");
+                if (release != null) {
+                    if (is_latest_release (release)) {
+                        release.set_selected_variant (null);
+                        child = child.get_next_sibling ();
+                        continue;
+                    }
+
+                    string? selected_variant_url = null;
+
+                    if (selected_variant != null) {
+                        selected_variant_url = get_variant_download_url (release, selected_variant.name);
+                    }
+
+                    if (selected_variant_url != null) {
+                        release.download_url = selected_variant_url;
+                        release.set_selected_variant (selected_variant.name);
+                    } else {
+                        var default_url = get_default_variant_download_url (release);
+                        if (default_url != null) {
+                            release.download_url = default_url;
+                        }
+
+                        var default_variant_name = "";
+                        foreach (var variant in release.variants) {
+                            if (variant.is_default) {
+                                default_variant_name = variant.name;
+                                break;
+                            }
+                        }
+
+                        release.set_selected_variant (default_variant_name != "" ? default_variant_name : null);
+                    }
+                }
+
+                child = child.get_next_sibling ();
+            }
+
+            list_box.invalidate_filter ();
+            update_visibility ();
         }
 
         private void update_last_updated_label () {
@@ -374,6 +517,34 @@ namespace ProtonPlus.Widgets.Tools {
             row.release_selected.connect ((release) => release_selected (release));
 
             list_box.append (row);
+
+            if (selected_variant != null) {
+                if (is_latest_release (release)) {
+                    release.set_selected_variant (null);
+                    return;
+                }
+
+                var selected_variant_url = get_variant_download_url (release, selected_variant.name);
+                if (selected_variant_url != null) {
+                    release.download_url = selected_variant_url;
+                    release.set_selected_variant (selected_variant.name);
+                } else {
+                    var default_url = get_default_variant_download_url (release);
+                    if (default_url != null) {
+                        release.download_url = default_url;
+                    }
+
+                    var default_variant_name = "";
+                    foreach (var variant in release.variants) {
+                        if (variant.is_default) {
+                            default_variant_name = variant.name;
+                            break;
+                        }
+                    }
+
+                    release.set_selected_variant (default_variant_name != "" ? default_variant_name : null);
+                }
+            }
         }
 
         private async void on_load_more_clicked () {
@@ -429,13 +600,24 @@ namespace ProtonPlus.Widgets.Tools {
             if (search_text != "" && !release.title.down ().contains (search_text.down ()))
                 return false;
 
+            if (is_latest_release (release))
+                return true;
+
+            if (selected_variant != null && current_tool != null && current_tool.variants.size > 1) {
+                if (get_variant_download_url (release, selected_variant.name) == null) {
+                    return false;
+                }
+            }
+
             if (filter == Filter.ALL)
                 return true;
 
             if (filter == Filter.INSTALLED)
                 return release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
 
-            var usage_count = release.runner.group.launcher.get_compatibility_tool_usage_count (release.title != "SteamTinkerLaunch" ? release.title : "Proton-stl");
+            var usage_count = release.runner.group.launcher.get_compatibility_tool_usage_count (
+                release.title != "SteamTinkerLaunch" ? release.title : "Proton-stl"
+            );
 
             if (filter == Filter.USED)
                 return usage_count > 0;

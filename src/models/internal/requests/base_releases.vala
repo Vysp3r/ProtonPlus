@@ -3,8 +3,8 @@ namespace ProtonPlus.Models.Internal.Requests {
     using ProtonPlus.Models.Internal.Requests;
 
     public abstract class BaseReleases : Object, IReleases {
-        public LinkedList<IRelease> list { get; set; default = new LinkedList<IRelease> (); }
-        public IRelease? latest { get; set; default = null; }
+        public LinkedList<IRelease> list { get; set; }
+        private IRelease? cached_latest = null;
 
         public int size {
             get {
@@ -15,16 +15,20 @@ namespace ProtonPlus.Models.Internal.Requests {
         protected BaseReleases (LinkedList<IRelease>? list = null) {
             if (list != null) {
                 this.list = list;
+            } else {
+                this.list = new LinkedList<IRelease> ();
             }
         }
 
         protected BaseReleases.from_json (Json.Array root_array) {
+            this.list = new LinkedList<IRelease> ();
+            this.cached_latest = null;
             append_from_json (root_array);
         }
 
         public IRelease? get_latest () {
-            if (this.latest != null) {
-                return this.latest;
+            if (this.cached_latest != null) {
+                return this.cached_latest;
             }
 
             if (this.list.size == 0) {
@@ -32,7 +36,7 @@ namespace ProtonPlus.Models.Internal.Requests {
             }
 
             IRelease latest_release = this.list.get (0);
-            this.latest = latest_release;
+            this.cached_latest = latest_release;
             return latest_release;
         }
 
@@ -42,17 +46,17 @@ namespace ProtonPlus.Models.Internal.Requests {
             foreach (IRelease release in releases.list) {
                 this.list.add (release);
             }
-            this.latest = null;
+            this.cached_latest = null;
         }
 
         public void add (IRelease release) {
             this.list.add (release);
-            this.latest = null;
+            this.cached_latest = null;
         }
 
         public void remove (IRelease release) {
             this.list.remove (release);
-            this.latest = null;
+            this.cached_latest = null;
         }
     }
 }

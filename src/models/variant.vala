@@ -11,7 +11,7 @@ namespace ProtonPlus.Models {
             this.format = format;
             this.is_default = is_default;
             this.download_url = download_url;
-            //this.runner = runner;
+            this.runner = runner;
         }
     }
 }

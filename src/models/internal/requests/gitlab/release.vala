@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.Internal.Requests.Github {
+namespace ProtonPlus.Models.Internal.Requests.Gitlab {
     using Gee;
     using ProtonPlus.Models.Internal.Requests;
 
@@ -20,8 +20,11 @@ namespace ProtonPlus.Models.Internal.Requests.Github {
             this.id = obj.has_member ("id") ? obj.get_int_member ("id") : 0;
             this.name = obj.get_string_member_with_default ("name", "");
             this.tag_name = obj.get_string_member_with_default ("tag_name", "");
-            this.description = obj.get_string_member_with_default ("body", "").strip ();
-            this.page_url = obj.get_string_member_with_default ("html_url", "");
+            this.description = obj.get_string_member_with_default ("description", "").strip ();
+
+            var links_object = obj.get_object_member ("_links");
+            this.page_url = links_object != null ? links_object.get_string_member_with_default ("self", "") : "";
+
             this.draft = obj.get_boolean_member_with_default ("draft", false);
             this.prereleas = obj.get_boolean_member_with_default ("prerelease", false);
 
@@ -34,13 +37,16 @@ namespace ProtonPlus.Models.Internal.Requests.Github {
             else
                 this.assets.clear ();
 
-            Json.Array? assets_array = obj.get_array_member ("assets");
-            if (assets_array != null) {
-                for (int i = 0; i < assets_array.get_length (); i++) {
-                    Json.Object asset_obj = assets_array.get_object_element (i);
-                    Asset asset = new Asset ();
-                    asset.from_json (asset_obj);
-                    this.assets.add (asset);
+            var assets_object = obj.get_object_member ("assets");
+            if (assets_object != null) {
+                Json.Array? assets_array = assets_object.get_array_member ("links");
+                if (assets_array != null) {
+                    for (int i = 0; i < assets_array.get_length (); i++) {
+                        Json.Object asset_obj = assets_array.get_object_element (i);
+                        Asset asset = new Asset ();
+                        asset.from_json (asset_obj);
+                        this.assets.add (asset);
+                    }
                 }
             }
 

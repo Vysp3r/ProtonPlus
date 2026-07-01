@@ -16,7 +16,7 @@ namespace ProtonPlus.Utils {
         static int applied_proxy_mode = -1;
         static string? applied_proxy_url = null;
 
-        static Soup.Session session {
+        static Soup.Session current_session {
             get {
                 if (_session == null) {
                     _session = new Soup.Session ();
@@ -25,6 +25,10 @@ namespace ProtonPlus.Utils {
                 update_proxy_settings ();
                 return _session;
             }
+        }
+
+        public static Soup.Session get_session () {
+            return current_session;
         }
 
         public static void update_proxy_settings () {
@@ -96,7 +100,7 @@ namespace ProtonPlus.Utils {
                     }
                 }
 
-                Bytes bytes = yield session.send_and_read_async (message, Priority.DEFAULT, null);
+                Bytes bytes = yield current_session.send_and_read_async (message, Priority.DEFAULT, null);
 
                 unowned uint8[] data = bytes.get_data ();
                 response = (string) (data);
@@ -152,7 +156,7 @@ namespace ProtonPlus.Utils {
             try {
                 var soup_message = new Soup.Message ("GET", url);
 
-                var input_stream = yield session.send_async (soup_message, Priority.DEFAULT, null);
+                var input_stream = yield current_session.send_async (soup_message, Priority.DEFAULT, null);
 
                 if (soup_message.status_code != 200) {
                     warning (soup_message.reason_phrase);

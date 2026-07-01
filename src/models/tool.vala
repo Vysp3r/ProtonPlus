@@ -15,6 +15,14 @@ namespace ProtonPlus.Models {
         public Gee.LinkedList<Release> releases { get; set; default = new Gee.LinkedList<Release> (); }
         public Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
 
+        construct {
+            // Be explicit: some construction paths may not honor property defaults reliably.
+            if (releases == null)
+                releases = new Gee.LinkedList<Release> ();
+            if (variants == null)
+                variants = new Gee.LinkedList<Variant> ();
+        }
+
         public virtual bool is_installed () {
             return false;
         }
@@ -74,6 +82,9 @@ namespace ProtonPlus.Models {
         }
 
         public async Gee.LinkedList<Release> get_releases_async (bool force_fetch, out ReturnCode code) {
+            if (releases == null)
+                releases = new Gee.LinkedList<Release> ();
+
             if (releases.size > 0 && !force_fetch) {
                 code = ReturnCode.RELEASES_LOADED;
             } else {
@@ -81,8 +92,25 @@ namespace ProtonPlus.Models {
                     yield Utils.CacheManager.load_releases (this);
 
                     if (releases.size > 0) {
-                        code = ReturnCode.RELEASES_LOADED;
-                        return releases;
+                        var needs_variant_refresh = false;
+                        var basic_tool = this as Models.Tools.Basic;
+
+                        if (basic_tool != null && variants != null && variants.size > 1) {
+                            foreach (var cached_release in releases) {
+                                if (cached_release.variants == null || cached_release.variants.size == 0) {
+                                    needs_variant_refresh = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!needs_variant_refresh) {
+                            code = ReturnCode.RELEASES_LOADED;
+                            return releases;
+                        }
+
+                        // Cached releases without per-release variants are stale for variant filtering.
+                        page = 1;
                     }
                 } else {
                     page = 1;

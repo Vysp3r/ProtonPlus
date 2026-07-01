@@ -19,7 +19,7 @@
 		<value nick="system" value="0"/>
 		<value nick="manual" value="1"/>
   </enum>
-    
+
 	<enum id="com.vysp3r.ProtonPlus.Language">
 		<value nick="system" value="0"/>
         <value nick="ar" value="1"/>
@@ -77,6 +77,9 @@
         </key>
         <key name="gitlab-api-key" type="s">
             <default>''</default>
+        </key>
+        <key name="selected-tool-variants" type="s">
+            <default>'{}'</default>
         </key>
         <key name="steam-last-profile-id" type="s">
             <default>''</default>

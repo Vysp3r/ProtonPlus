@@ -2,7 +2,6 @@
 <gresources>
     <gresource prefix="/com/vysp3r/ProtonPlus">
         <file preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/gtk/help-overlay.ui</file>
-        <file alias="runners.json">runners.json</file>
         <file alias="bottles.svg">images/bottles.svg</file>
         <file alias="fork.svg">images/fork.svg</file>
         <file alias="hgl.svg">images/hgl.svg</file>

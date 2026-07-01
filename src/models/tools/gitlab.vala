@@ -10,70 +10,55 @@ namespace ProtonPlus.Models.Tools {
         public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
             var _releases = new Gee.LinkedList<Release> ();
 
-            string? response;
+            if (source_runner == null) {
+                code = ReturnCode.UNKNOWN_ERROR;
+                return _releases;
+            }
 
-            code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_request_type, out response);
-            if (code != ReturnCode.VALID_REQUEST)
-            return _releases;
+            var source_releases = yield source_runner.request_releases (page, 25, out code);
+            if (code != ReturnCode.RELEASES_LOADED || source_releases == null)
+                return _releases;
 
             page++;
 
-            var root_node = Utils.Parser.get_node_from_json (response);
-            if (root_node == null || root_node.get_node_type () != Json.NodeType.ARRAY) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
+            foreach (var source_release_item in source_releases.list) {
+                var source_release = source_release_item as Internal.Requests.Gitlab.Release;
+                if (source_release == null)
+                    continue;
 
-            var root_array = root_node.get_array ();
-            if (root_array == null) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
-
-            if (root_array.get_length () == 0) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
-
-            for (var i = 0; i < root_array.get_length (); i++) {
-                var object = root_array.get_object_element (i);
-
-                string title = use_name_instead_of_tag_name ? object.get_string_member ("name") : object.get_string_member ("tag_name");
+                string title = use_name_instead_of_tag_name ? source_release.name : source_release.tag_name;
 
                 if (this.is_asset_exclude (title, request_asset_exclude)) {
                     continue;
                 }
 
-                var page_url_object = object.get_object_member ("_links");
-                if (page_url_object == null)
-                continue;
+                var release_assets = new Gee.LinkedList<Internal.Assets.IAsset> ();
+                foreach (var source_asset in source_release.assets) {
+                    release_assets.add (new Internal.Assets.Asset (source_asset.name, source_asset.download_url));
+                }
 
-                string page_url = page_url_object.get_string_member ("self");
+                if (release_assets.size - 1 >= asset_position) {
+                    var asset = release_assets.get (asset_position);
+                    if (asset == null)
+                        continue;
 
-                var assets_object = object.get_object_member ("assets");
-                if (assets_object == null)
-                continue;
-
-                var link_array = assets_object.get_array_member ("links");
-                if (link_array == null)
-                continue;
-
-                if (link_array.get_length () - 1 >= asset_position) {
-                    string description = object.get_string_member ("description").strip ();
-                    string release_date = object.get_string_member ("created_at");
-                    var link_object = link_array.get_object_element (asset_position);
-
-                    var download_url = link_object.get_string_member ("direct_asset_url").replace ("?ref_type=heads", "");
-
-                    var release = new Release.gitlab (this, title, description, release_date, download_url, page_url);
+                    var release = new Release.gitlab (
+                        this,
+                        title,
+                        source_release.description,
+                        source_release.created_at.format_iso8601 (),
+                        asset.download_url,
+                        source_release.page_url
+                    );
+                    foreach (var variant in create_release_variants (title, source_release.tag_name, release_assets, asset.download_url)) {
+                        release.variants.add (variant);
+                    }
 
                     _releases.add (release);
                 }
             }
 
-            has_more = root_array.get_length () == 25;
-
-            code = ReturnCode.RELEASES_LOADED;
+            has_more = source_releases.list.size == 25;
 
             return _releases;
         }

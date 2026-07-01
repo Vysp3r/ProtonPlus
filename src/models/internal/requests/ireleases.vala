@@ -1,8 +1,7 @@
 namespace ProtonPlus.Models.Internal.Requests {
 
-    public interface IReleases {
-        public abstract Gee.LinkedList<IRelease> list { get; set; default = new Gee.LinkedList<IRelease> (); }
-        public abstract IRelease? latest { get; set; default = null; }
+    public interface IReleases : Object {
+        public abstract Gee.LinkedList<IRelease> list { get; set; }
         public abstract void append_from_json (Json.Array root_array);
 
         public abstract void merge (IReleases releases);

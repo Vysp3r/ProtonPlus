@@ -1,10 +1,10 @@
-namespace ProtonPlus.Models.Internal.Requests.Github {
+namespace ProtonPlus.Models.Internal.Requests.Gitlab {
     using Gee;
     using ProtonPlus.Models.Internal.Requests;
 
     public class Releases : BaseReleases {
 
-        public Releases (LinkedList<IRelease>? list = null) {
+        public Releases (LinkedList<Release>? list = null) {
             base (list);
         }
 

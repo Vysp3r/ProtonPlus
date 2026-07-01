@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.Internal.Requests.Github {
+namespace ProtonPlus.Models.Internal.Requests.Forgejo {
     using ProtonPlus.Models.Internal.Requests;
     public class Asset : Object, IAsset {
         public int64 id { get; set; }
