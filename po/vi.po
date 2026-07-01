@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-01 03:22+0200\n"
+"POT-Creation-Date: 2026-07-01 05:01+0200\n"
 "PO-Revision-Date: 2026-02-16 17:22-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1878,12 +1878,12 @@ msgstr ""
 msgid "Failed to read compatibilitytool.vdf"
 msgstr ""
 
-#: src/models/releases/steamtinkerlaunch.vala:272 src/models/release.vala:317
-#: src/models/release.vala:325
+#: src/models/releases/steamtinkerlaunch.vala:272 src/models/release.vala:353
+#: src/models/release.vala:361
 msgid "Extraction failed"
 msgstr ""
 
-#: src/models/releases/steamtinkerlaunch.vala:279 src/models/release.vala:336
+#: src/models/releases/steamtinkerlaunch.vala:279 src/models/release.vala:372
 msgid "Moving failed"
 msgstr ""
 
@@ -4322,22 +4322,6 @@ msgstr ""
 msgid "No tools match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:98
-msgid "No games found"
-msgstr ""
-
-#: src/widgets/tools/tools-release-box.vala:99
-msgid "This tool is not used by any games."
-msgstr ""
-
-#: src/widgets/tools/tools-release-box.vala:113
-msgid "Changelog"
-msgstr ""
-
-#: src/widgets/tools/tools-release-box.vala:114
-msgid "Used by"
-msgstr ""
-
 #: src/widgets/tools/tools-release-row.vala:28
 #, c-format
 msgid "Delete %s"
@@ -4416,6 +4400,22 @@ msgstr ""
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
 
+#: src/widgets/tools/tools-release-box.vala:98
+msgid "No games found"
+msgstr ""
+
+#: src/widgets/tools/tools-release-box.vala:99
+msgid "This tool is not used by any games."
+msgstr ""
+
+#: src/widgets/tools/tools-release-box.vala:113
+msgid "Changelog"
+msgstr ""
+
+#: src/widgets/tools/tools-release-box.vala:114
+msgid "Used by"
+msgstr ""
+
 #: src/widgets/tools/tools-releases-box.vala:127
 msgid "Check for new releases"
 msgstr ""
@@ -4473,7 +4473,7 @@ msgid ""
 "your internet connection and try again."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:489
+#: src/widgets/tools/tools-releases-box.vala:483
 #, c-format
 msgid "Last updated: %s"
 msgstr ""

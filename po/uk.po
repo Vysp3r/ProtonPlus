@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-01 03:22+0200\n"
+"POT-Creation-Date: 2026-07-01 05:01+0200\n"
 "PO-Revision-Date: 2026-04-28 02:09+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
@@ -1905,13 +1905,13 @@ msgstr ""
 msgid "Failed to read compatibilitytool.vdf"
 msgstr "Виберіть бажаний інструмент сумісності"
 
-#: src/models/releases/steamtinkerlaunch.vala:272 src/models/release.vala:317
-#: src/models/release.vala:325
+#: src/models/releases/steamtinkerlaunch.vala:272 src/models/release.vala:353
+#: src/models/release.vala:361
 #, fuzzy
 msgid "Extraction failed"
 msgstr "Витягання"
 
-#: src/models/releases/steamtinkerlaunch.vala:279 src/models/release.vala:336
+#: src/models/releases/steamtinkerlaunch.vala:279 src/models/release.vala:372
 #, fuzzy
 msgid "Moving failed"
 msgstr "Переміщення"
@@ -4477,25 +4477,6 @@ msgstr "Не знайдено профіль."
 msgid "No tools match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:98
-#, fuzzy
-msgid "No games found"
-msgstr "Не знайдено профіль."
-
-#: src/widgets/tools/tools-release-box.vala:99
-#, fuzzy
-msgid "This tool is not used by any games."
-msgstr "Показати незадіяні інструменти"
-
-#: src/widgets/tools/tools-release-box.vala:113
-msgid "Changelog"
-msgstr ""
-
-#: src/widgets/tools/tools-release-box.vala:114
-#, fuzzy
-msgid "Used by"
-msgstr "Задіяно"
-
 #: src/widgets/tools/tools-release-row.vala:28
 #, c-format
 msgid "Delete %s"
@@ -4579,6 +4560,25 @@ msgstr "Помилка: встановлення не вдалося\n"
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
 
+#: src/widgets/tools/tools-release-box.vala:98
+#, fuzzy
+msgid "No games found"
+msgstr "Не знайдено профіль."
+
+#: src/widgets/tools/tools-release-box.vala:99
+#, fuzzy
+msgid "This tool is not used by any games."
+msgstr "Показати незадіяні інструменти"
+
+#: src/widgets/tools/tools-release-box.vala:113
+msgid "Changelog"
+msgstr ""
+
+#: src/widgets/tools/tools-release-box.vala:114
+#, fuzzy
+msgid "Used by"
+msgstr "Задіяно"
+
 #: src/widgets/tools/tools-releases-box.vala:127
 #, fuzzy
 msgid "Check for new releases"
@@ -4640,7 +4640,7 @@ msgid ""
 "your internet connection and try again."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:489
+#: src/widgets/tools/tools-releases-box.vala:483
 #, fuzzy, c-format
 msgid "Last updated: %s"
 msgstr "Не вдалося оновити %s"

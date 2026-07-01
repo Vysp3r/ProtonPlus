@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-01 03:22+0200\n"
+"POT-Creation-Date: 2026-07-01 05:01+0200\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Serbian (Latin script) <https://hosted.weblate.org/projects/"
@@ -1913,13 +1913,13 @@ msgstr ""
 msgid "Failed to read compatibilitytool.vdf"
 msgstr "Izaberite željeni alat za kompatibilnost"
 
-#: src/models/releases/steamtinkerlaunch.vala:272 src/models/release.vala:317
-#: src/models/release.vala:325
+#: src/models/releases/steamtinkerlaunch.vala:272 src/models/release.vala:353
+#: src/models/release.vala:361
 #, fuzzy
 msgid "Extraction failed"
 msgstr "Izvlačenje"
 
-#: src/models/releases/steamtinkerlaunch.vala:279 src/models/release.vala:336
+#: src/models/releases/steamtinkerlaunch.vala:279 src/models/release.vala:372
 msgid "Moving failed"
 msgstr ""
 
@@ -4455,25 +4455,6 @@ msgstr "Nije pronađen profil."
 msgid "No tools match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:98
-#, fuzzy
-msgid "No games found"
-msgstr "Nije pronađen profil."
-
-#: src/widgets/tools/tools-release-box.vala:99
-#, fuzzy
-msgid "This tool is not used by any games."
-msgstr "Koristi se u %i igrama."
-
-#: src/widgets/tools/tools-release-box.vala:113
-msgid "Changelog"
-msgstr ""
-
-#: src/widgets/tools/tools-release-box.vala:114
-#, fuzzy
-msgid "Used by"
-msgstr "Koristi se u %i igrama."
-
 #: src/widgets/tools/tools-release-row.vala:28
 #, c-format
 msgid "Delete %s"
@@ -4557,6 +4538,25 @@ msgstr "Instalacija će biti otkazana."
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
 
+#: src/widgets/tools/tools-release-box.vala:98
+#, fuzzy
+msgid "No games found"
+msgstr "Nije pronađen profil."
+
+#: src/widgets/tools/tools-release-box.vala:99
+#, fuzzy
+msgid "This tool is not used by any games."
+msgstr "Koristi se u %i igrama."
+
+#: src/widgets/tools/tools-release-box.vala:113
+msgid "Changelog"
+msgstr ""
+
+#: src/widgets/tools/tools-release-box.vala:114
+#, fuzzy
+msgid "Used by"
+msgstr "Koristi se u %i igrama."
+
 #: src/widgets/tools/tools-releases-box.vala:127
 msgid "Check for new releases"
 msgstr ""
@@ -4617,7 +4617,7 @@ msgid ""
 "your internet connection and try again."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:489
+#: src/widgets/tools/tools-releases-box.vala:483
 #, fuzzy, c-format
 msgid "Last updated: %s"
 msgstr "Instalirajte %s"
