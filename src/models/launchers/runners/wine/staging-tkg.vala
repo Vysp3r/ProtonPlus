@@ -11,7 +11,6 @@ namespace ProtonPlus.Models.Launchers.Runners.Wine {
                 "https://api.github.com/repos/Kron4ek/Wine-Builds/releases"
             );
 
-            asset_position = 6;
             request_asset_exclude = new Gee.ArrayList<string> ();
             request_asset_exclude.add ("proton");
             request_asset_exclude.add (".0.");

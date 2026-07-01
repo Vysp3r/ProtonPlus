@@ -6,8 +6,6 @@ namespace ProtonPlus.Models.Internal.Data.Runner {
         public string title { get; set; }
         public string description { get; set; }
         public string endpoint { get; set; }
-        public int asset_position { get; set; }
-        public string? asset_position_time_condition { get; set; }
         public Gee.ArrayList<DirectoryNameFormat> directory_name_formats { get; set; }
         public Gee.ArrayList<RunnerVariant> variants { get; set; }
         public bool support_latest { get; set; }

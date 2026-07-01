@@ -1,8 +1,6 @@
 namespace ProtonPlus.Models.Tools {
     public abstract class Basic : Tool {
         internal ProtonPlus.Models.Launchers.Runners.IRunner? source_runner { get; set; }
-        internal int asset_position { get; set; }
-        internal string asset_position_time_condition { get; set; }
         internal string endpoint { get; set; }
         internal string directory_name_format { get; set; }
         public string tag { get; set; }
@@ -71,6 +69,16 @@ namespace ProtonPlus.Models.Tools {
             }
 
             return release_variants;
+        }
+
+        public string? get_default_variant_download_url (Gee.LinkedList<Variant> release_variants, string? fallback_download_url = null) {
+            foreach (var variant in release_variants) {
+                if (variant.is_default && variant.download_url != null && variant.download_url != "") {
+                    return variant.download_url;
+                }
+            }
+
+            return fallback_download_url;
         }
 
         public virtual void update_variant_download_url (string release_name) {

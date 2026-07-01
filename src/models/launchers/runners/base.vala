@@ -18,8 +18,6 @@ namespace ProtonPlus.Models.Launchers.Runners {
         public Gee.LinkedList<Launcher> launchers { get; set; default = new Gee.LinkedList<Launcher> (); }
         public SourceType source_type { get; protected set; }
 
-        protected int asset_position { get; set; default = 0; }
-        protected string asset_position_time_condition { get; set; default = ""; }
         protected bool support_latest { get; set; default = false; }
         protected string tag { get; set; default = ""; }
         protected bool legacy { get; set; default = false; }
@@ -95,14 +93,11 @@ namespace ProtonPlus.Models.Launchers.Runners {
             runner.title = this.title;
             runner.description = Utils.safe_translate (this.description);
             runner.endpoint = this.endpoint;
-            runner.asset_position = this.asset_position;
-            runner.asset_position_time_condition = this.asset_position_time_condition;
             runner.directory_name_format = target_format;
             runner.has_latest_support = this.support_latest;
             runner.group = group;
             runner.tag = this.tag;
             runner.legacy = this.legacy;
-            runner.asset_position_hwcaps_condition = false;
             runner.source_runner = this;
             runner.variants = new Gee.LinkedList<ProtonPlus.Models.Variant> ();
 

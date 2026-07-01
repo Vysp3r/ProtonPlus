@@ -12,8 +12,6 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
                 "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases"
             );
 
-            asset_position = 1;
-            asset_position_time_condition = "2025-02-01T07:55:01Z|0";
             support_latest = true;
             add_variant ("default", "$tag_name", true);
             add_directory_name_format ("default", "$release_name");

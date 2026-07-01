@@ -12,7 +12,6 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
                 "https://api.github.com/repos/CachyOS/proton-cachyos/releases"
             );
 
-            asset_position = 3;
             support_latest = true;
             add_variant ("x86_64", "$tag_name-x86_64", true);
             add_variant ("x86_64_v3", "$tag_name-x86_64", false);

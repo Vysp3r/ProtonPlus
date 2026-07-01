@@ -34,28 +34,37 @@ namespace ProtonPlus.Models.Tools {
 
                 var release_assets = new Gee.LinkedList<Internal.Assets.IAsset> ();
                 foreach (var source_asset in source_release.assets) {
-                    release_assets.add (new Internal.Assets.Asset (source_asset.name, source_asset.download_url));
-                }
-
-                if (release_assets.size - 1 >= asset_position) {
-                    var asset = release_assets.get (asset_position);
-                    if (asset == null)
-                        continue;
-
-                    var release = new Release.gitlab (
-                        this,
-                        title,
-                        source_release.description,
-                        source_release.created_at.format_iso8601 (),
-                        asset.download_url,
-                        source_release.page_url
-                    );
-                    foreach (var variant in create_release_variants (title, source_release.tag_name, release_assets, asset.download_url)) {
-                        release.variants.add (variant);
+                    var asset = new Internal.Assets.Asset (source_asset.name, source_asset.download_url);
+                    if (asset.is_archive ()) {
+                        release_assets.add (asset);
                     }
-
-                    _releases.add (release);
                 }
+
+                if (release_assets.size == 0)
+                    continue;
+
+                var first_asset = release_assets.get (0);
+                if (first_asset == null)
+                    continue;
+
+                var release_variants = create_release_variants (title, source_release.tag_name, release_assets, first_asset.download_url);
+                var primary_download_url = get_default_variant_download_url (release_variants, first_asset.download_url);
+                if (primary_download_url == null || primary_download_url == "")
+                    continue;
+
+                var release = new Release.gitlab (
+                    this,
+                    title,
+                    source_release.description,
+                    source_release.created_at.format_iso8601 (),
+                    primary_download_url,
+                    source_release.page_url
+                );
+                foreach (var variant in release_variants) {
+                    release.variants.add (variant);
+                }
+
+                _releases.add (release);
             }
 
             has_more = source_releases.list.size == 25;

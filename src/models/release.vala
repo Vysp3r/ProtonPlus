@@ -101,7 +101,7 @@ namespace ProtonPlus.Models {
                 if (_state != State.BUSY_INSTALLING && _state != State.BUSY_REMOVING && _state != State.BUSY_UPDATING) {
                     var active_download = Utils.DownloadManager.instance.get_active_download (this);
                     if (active_download != null)
-                        return active_download.state;
+                        return active_download._state;
                 }
                 return _state;
             }
@@ -296,6 +296,8 @@ namespace ProtonPlus.Models {
 
             string download_path = "%s/%s%s".printf (Globals.CACHE_PATH, title, extension);
 
+            var used_cached_archive = FileUtils.test (download_path, FileTest.EXISTS);
+
             if (!FileUtils.test (download_path, FileTest.EXISTS)) {
                 string? download_error;
                 var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, on_download_progress, out download_error);
@@ -311,6 +313,25 @@ namespace ProtonPlus.Models {
             string extract_path = "%s/".printf (Globals.CACHE_PATH);
 
             string source_path = yield Utils.Filesystem.extract (extract_path, title, extension, () => canceled);
+
+            // Stale/incomplete cache files can survive crashes and fail extraction.
+            // If we used a cached archive, retry once with a fresh download.
+            if (source_path == "" && !canceled && used_cached_archive) {
+                Utils.Filesystem.delete_file (download_path);
+
+                step = Step.DOWNLOADING;
+
+                string? download_error;
+                var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, on_download_progress, out download_error);
+
+                if (!download_valid) {
+                    this.error_message = download_error;
+                    return ReturnCode.UNKNOWN_ERROR;
+                }
+
+                step = Step.EXTRACTING;
+                source_path = yield Utils.Filesystem.extract (extract_path, title, extension, () => canceled);
+            }
 
             if (source_path == "") {
                 if (!canceled)

@@ -5,7 +5,6 @@ namespace ProtonPlus.Models {
         public Group group { get; set; }
         public bool has_more { get; set; }
         public bool has_latest_support { get; set; }
-        public bool asset_position_hwcaps_condition { get; set; }
         public bool legacy { get; set; }
         public string last_updated { get; set; }
         public int page { get; set; default = 1; }
@@ -248,23 +247,35 @@ namespace ProtonPlus.Models {
             string release_date = object.get_string_member ("created_at").split ("T")[0];
             string download_url = "";
 
-            var real_asset_position = runner.asset_position;
-            if (runner.asset_position_hwcaps_condition) {
-                for (int y = 0; y < asset_array.get_length (); y++) {
-                    var asset_object = asset_array.get_object_element (y);
+            var release_assets = new Gee.LinkedList<Models.Internal.Assets.IAsset> ();
+            string? fallback_download_url = null;
 
-                    if (asset_object.get_string_member ("name").contains ("%s.tar.xz".printf (Globals.HWCAPS.nth_data (0)))) {
-                        real_asset_position = y;
+            for (int y = 0; y < asset_array.get_length (); y++) {
+                var asset_object = asset_array.get_object_element (y);
+                if (asset_object == null)
+                    continue;
 
-                        break;
-                    }
-                }
+                var asset_name = asset_object.get_string_member_with_default ("name", "");
+                var asset_download_url = asset_object.get_string_member_with_default ("browser_download_url", "");
+                if (asset_name == "" || asset_download_url == "")
+                    continue;
+
+                var asset = new Models.Internal.Assets.Asset (asset_name, asset_download_url);
+                if (!asset.is_archive ())
+                    continue;
+
+                if (fallback_download_url == null)
+                    fallback_download_url = asset_download_url;
+
+                release_assets.add (asset);
             }
 
-            if (asset_array.get_length () - 1 >= real_asset_position) {
-                var asset_object = asset_array.get_object_element (real_asset_position);
+            if (release_assets.size > 0) {
+                var release_variants = runner.create_release_variants (title, title, release_assets, fallback_download_url);
+                var default_variant_download_url = runner.get_default_variant_download_url (release_variants, fallback_download_url);
 
-                download_url = asset_object.get_string_member ("browser_download_url");
+                if (default_variant_download_url != null)
+                    download_url = default_variant_download_url;
             }
 
             if (download_url == "" || !download_url.contains (".tar"))

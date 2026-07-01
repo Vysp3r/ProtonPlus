@@ -8,7 +8,10 @@ namespace ProtonPlus.Models.Tools {
             var assets = new Gee.LinkedList<Internal.Assets.IAsset> ();
 
             foreach (var source_asset in source_release.assets) {
-                assets.add (new Internal.Assets.Github (source_asset.name, source_asset.download_url, (int) source_asset.size));
+                var asset = new Internal.Assets.Github (source_asset.name, source_asset.download_url, (int) source_asset.size);
+                if (asset.is_archive ()) {
+                    assets.add (asset);
+                }
             }
 
             return assets;
@@ -36,18 +39,36 @@ namespace ProtonPlus.Models.Tools {
                 string title = source_release.tag_name;
                 var release_assets = get_release_assets (source_release);
 
-                if (release_assets.size - 1 >= asset_position) {
-                    var asset = release_assets.get (asset_position) as Internal.Assets.Github;
-                    if (asset == null)
+                if (release_assets.size == 0)
+                    continue;
+
+                var first_asset = release_assets.get (0) as Internal.Assets.Github;
+                if (first_asset == null)
+                    continue;
+
+                var release_variants = create_release_variants (title, source_release.tag_name, release_assets, first_asset.download_url);
+                var primary_download_url = get_default_variant_download_url (release_variants, first_asset.download_url);
+                if (primary_download_url == null || primary_download_url == "")
+                    continue;
+
+                Internal.Assets.Github? primary_asset = first_asset;
+                foreach (var release_asset in release_assets) {
+                    var github_asset = release_asset as Internal.Assets.Github;
+                    if (github_asset == null)
                         continue;
 
-                    var release = new Release.github (this, title, source_release.description, source_release.created_at.format_iso8601 (), asset.download_size, asset.download_url, source_release.page_url);
-                    foreach (var variant in create_release_variants (title, source_release.tag_name, release_assets, asset.download_url)) {
-                        release.variants.add (variant);
+                    if (github_asset.download_url == primary_download_url) {
+                        primary_asset = github_asset;
+                        break;
                     }
-
-                    _releases.add (release);
                 }
+
+                var release = new Release.github (this, title, source_release.description, source_release.created_at.format_iso8601 (), primary_asset.download_size, primary_download_url, source_release.page_url);
+                foreach (var variant in release_variants) {
+                    release.variants.add (variant);
+                }
+
+                _releases.add (release);
             }
 
             has_more = source_releases.list.size == 25;

@@ -84,8 +84,6 @@ namespace ProtonPlus.Models.Internal.Data.Runner {
                 if (runner_obj.has_member ("title"))runner.title = runner_obj.get_string_member ("title");
                 if (runner_obj.has_member ("description"))runner.description = runner_obj.get_string_member ("description");
                 if (runner_obj.has_member ("endpoint"))runner.endpoint = runner_obj.get_string_member ("endpoint");
-                if (runner_obj.has_member ("asset_position"))runner.asset_position = (int) runner_obj.get_int_member ("asset_position");
-                if (runner_obj.has_member ("asset_position_time_condition"))runner.asset_position_time_condition = runner_obj.get_string_member ("asset_position_time_condition");
                 if (runner_obj.has_member ("support_latest"))runner.support_latest = runner_obj.get_boolean_member ("support_latest");
                 if (runner_obj.has_member ("tag"))runner.tag = runner_obj.get_string_member ("tag");
                 if (runner_obj.has_member ("type"))runner.runner_type = runner_obj.get_string_member ("type");

@@ -11,7 +11,6 @@ namespace ProtonPlus.Models.Launchers.Runners.Wine {
                 "https://api.github.com/repos/Kron4ek/Wine-Builds/releases"
             );
 
-            asset_position = 2;
             request_asset_filter = new Gee.ArrayList<string> ();
             request_asset_filter.add ("proton");
             add_variant ("default", "wine-$tag_name-amd64", true);

@@ -12,7 +12,6 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
                 "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases"
             );
 
-            asset_position = 1;
             support_latest = true;
             tag = "Recommended";
             add_variant ("x86", "$release_name", true);
