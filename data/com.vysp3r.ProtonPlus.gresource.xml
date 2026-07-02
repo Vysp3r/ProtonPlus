@@ -10,6 +10,7 @@
         <file alias="steam.svg">images/steam.svg</file>
         <file alias="winezgui.svg">images/winezgui.svg</file>
         <file alias="style.css">css/style.css</file>
+        <file alias="metainfo.xml">com.vysp3r.ProtonPlus.metainfo.xml.in</file>
     </gresource>
     <gresource prefix="/com/vysp3r/ProtonPlus/icons">
         <file alias="scalable/actions/trash-symbolic.svg">icons/trash.svg</file>

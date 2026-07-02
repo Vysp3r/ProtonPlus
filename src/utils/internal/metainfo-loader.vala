@@ -7,32 +7,43 @@ namespace ProtonPlus.Utils.Internal {
         }
 
         private GLib.File? get_metafile () {
-            var file = GLib.File.new_for_path ("/usr/share/metainfo/com.vysp3r.ProtonPlus.metainfo.xml");
 
-            if (!file.query_exists ()) {
-                file = GLib.File.new_for_path ("data/com.vysp3r.ProtonPlus.metainfo.xml");
+            string[] files = {
+                "/usr/share/metainfo/com.vysp3r.ProtonPlus.metainfo.xml",
+                "data/com.vysp3r.ProtonPlus.metainfo.xml",
+                "../data/com.vysp3r.ProtonPlus.metainfo.xml",
+                "/usr/share/metainfo/com.vysp3r.ProtonPlus.metainfo.xml.in",
+                "data/com.vysp3r.ProtonPlus.metainfo.xml.in",
+                "../data/com.vysp3r.ProtonPlus.metainfo.xml.in"
+            };
+
+            foreach (var item in files) {
+                var file = GLib.File.new_for_path (item);
+                if (file.query_exists ()) {
+                    print ("Metainfo file found: %s\n", file.get_path ());
+                    return file;
+                }
             }
 
-            if (!file.query_exists ()) {
-                file = GLib.File.new_for_path ("../data/com.vysp3r.ProtonPlus.metainfo.xml");
-            }
-
-            if (!file.query_exists ()) {
-                warning ("Metainfo file not found!");
-                return null;
-            }
-
-            return file;
+            warning ("Metainfo file not found!");
+            return null;
         }
 
         public Models.Internal.MetaInfo? load () {
-            GLib.File? file = get_metafile ();
-            if (file == null)return null;
-
             var mdata = new AppStream.Metadata ();
 
             try {
-                mdata.parse_file (file, AppStream.FormatKind.XML);
+                // Try to load from gresource first
+                var resource_file = GLib.File.new_for_uri ("resource:///com/vysp3r/ProtonPlus/metainfo.xml");
+                if (resource_file.query_exists ()) {
+                    print ("Metainfo file found in gresource\n");
+                    mdata.parse_file (resource_file, AppStream.FormatKind.XML);
+                } else {
+                    // Fallback to filesystem
+                    GLib.File? file = get_metafile ();
+                    if (file == null)return null;
+                    mdata.parse_file (file, AppStream.FormatKind.XML);
+                }
                 var component = mdata.get_component ();
                 if (component == null)return null;
 
