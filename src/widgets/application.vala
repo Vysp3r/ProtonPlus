@@ -156,7 +156,12 @@ namespace ProtonPlus.Widgets {
         }
 
         private static string get_copyright () {
-            var current_year = new DateTime.now_local ().get_year ();
+            var current = new DateTime.now_local ();
+            if (current == null) {
+                return "© 2022 Vysp3r";
+            }
+
+            var current_year = current.get_year ();
 
             return "© 2022-" + current_year.to_string () + " Vysp3r";
         }
