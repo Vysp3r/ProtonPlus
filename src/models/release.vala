@@ -83,7 +83,11 @@ namespace ProtonPlus.Models {
         }
 
         private string get_effective_directory_name () {
-            var directory_name = ((Tools.Basic) runner).get_directory_name (title);
+            var basic_runner = runner as Tools.Basic;
+            if (basic_runner == null)
+                return "";
+
+            var directory_name = basic_runner.get_directory_name (title);
             if (directory_name == "")
                 return "";
 
@@ -104,6 +108,10 @@ namespace ProtonPlus.Models {
 
         public void set_selected_variant (string? variant_name) {
             selected_variant_name = variant_name;
+
+            if (!(runner is Tools.Basic))
+                return;
+
             update_install_location ();
             refresh_state ();
         }
@@ -169,20 +177,26 @@ namespace ProtonPlus.Models {
                 return null;
 
             Release? release = null;
+            var basic_runner = runner as Tools.Basic;
 
             if (kind == "github-action") {
+                if (basic_runner == null)
+                    return null;
+
                 string artifacts_url = obj.get_string_member_with_default ("artifacts_url", "");
-                release = new Releases.GitHubAction (runner as Tools.Basic, title, release_date, download_url, page_url, artifacts_url);
+                release = new Releases.GitHubAction (basic_runner, title, release_date, download_url, page_url, artifacts_url);
             } else if (kind == "latest") {
-                release = new Releases.Latest (runner as Tools.Basic, title, description, release_date, download_url, page_url);
-            } else if (runner is Tools.Basic) {
+                if (basic_runner == null)
+                    return null;
+
+                release = new Releases.Latest (basic_runner, title, description, release_date, download_url, page_url);
+            } else if (basic_runner != null) {
                 // Default or generic
-                release = new Release.github (runner as Tools.Basic, title, description, release_date, download_size, download_url, page_url);
+                release = new Release.github (basic_runner, title, description, release_date, download_size, download_url, page_url);
             } else {
                 return null;
             }
 
-            var basic_runner = runner as Tools.Basic;
             if (release != null && basic_runner != null) {
                 if (release.variants == null)
                     release.variants = new Gee.LinkedList<Variant> ();
