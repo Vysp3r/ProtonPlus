@@ -11,6 +11,7 @@ namespace ProtonPlus.Models.Launchers.Runners.VKD3D {
                 "https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases"
             );
 
+            support_latest = true;
             add_variant ("default", "$release_name", true);
             add_directory_name_format ("default", "!$release_name:v:vkd3d-proton-");
         }

@@ -12,6 +12,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
                 "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/29873769/runs"
             );
 
+            support_latest = true;
             url_template = "https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/{id}/proton-tkg-build.zip";
             add_variant ("default", "$title-$release_name", true);
             add_directory_name_format ("default", "$title-$release_name");

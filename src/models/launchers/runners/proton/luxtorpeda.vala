@@ -12,6 +12,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
                 "https://codeberg.org/api/v1/repos/luxtorpeda/luxtorpeda/releases"
             );
 
+            support_latest = true;
             add_variant ("default", "$title-$release_name", true);
             add_directory_name_format ("default", "$title $release_name");
         }
