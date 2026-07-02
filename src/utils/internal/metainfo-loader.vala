@@ -20,7 +20,6 @@ namespace ProtonPlus.Utils.Internal {
             foreach (var item in files) {
                 var file = GLib.File.new_for_path (item);
                 if (file.query_exists ()) {
-                    print ("Metainfo file found: %s\n", file.get_path ());
                     return file;
                 }
             }
@@ -36,7 +35,6 @@ namespace ProtonPlus.Utils.Internal {
                 // Try to load from gresource first
                 var resource_file = GLib.File.new_for_uri ("resource:///com/vysp3r/ProtonPlus/metainfo.xml");
                 if (resource_file.query_exists ()) {
-                    print ("Metainfo file found in gresource\n");
                     mdata.parse_file (resource_file, AppStream.FormatKind.XML);
                 } else {
                     // Fallback to filesystem
