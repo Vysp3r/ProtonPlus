@@ -28,6 +28,28 @@ namespace ProtonPlus.Utils.Internal {
             return null;
         }
 
+        private string? normalize_release_date (string? raw_date) {
+            if (raw_date == null || raw_date == "") {
+                return null;
+            }
+
+            // AppStream dates are usually ISO strings, but some sources may provide unix timestamps.
+            var iso_date = new DateTime.from_iso8601 (raw_date, null);
+            if (iso_date != null) {
+                return iso_date.format ("%Y-%m-%d");
+            }
+
+            int64 unix_timestamp = 0;
+            if (int64.try_parse (raw_date, out unix_timestamp)) {
+                var unix_date = new DateTime.from_unix_local (unix_timestamp);
+                if (unix_date != null) {
+                    return unix_date.format ("%Y-%m-%d");
+                }
+            }
+
+            return raw_date;
+        }
+
         public Models.Internal.MetaInfo? load () {
             var mdata = new AppStream.Metadata ();
 
@@ -61,15 +83,7 @@ namespace ProtonPlus.Utils.Internal {
                     string version = rel.get_version ();
 
                     string? date_timestamp = rel.get_date ();
-                    DateTime date;
-                    string? date_str;
-
-                    if (date_timestamp == null) {
-                        date_str = null;
-                    } else {
-                        date = new DateTime.from_unix_local ((int64) date_timestamp);
-                        date_str = date.format ("%Y-%m-%d");
-                    }
+                    string? date_str = normalize_release_date (date_timestamp);
 
                     string description = rel.get_description () ?? "";
 
