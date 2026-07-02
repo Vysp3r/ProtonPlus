@@ -77,7 +77,7 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 - [Bottles](https://usebottles.com/)
 - [WineZGUI](https://github.com/B_S_D/WineZGUI)
 
-*The launcher you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md)!*
+*The launcher you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.yml)!*
 
 ## 🛠️ Supported Compatibility Tools
 
@@ -116,7 +116,7 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 - VKD3D-Lutris
 </details>
 
-*The compatibility tool you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.md)!*
+*The compatibility tool you wanted is missing? Simply request for it to be added [here](https://github.com/Vysp3r/ProtonPlus/issues/new?template=feature_request.yml)!*
 
 ## 📦️ Installation methods
 

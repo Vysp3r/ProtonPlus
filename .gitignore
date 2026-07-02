@@ -11,12 +11,14 @@ build-native-debug/
 build-native-debug
 build/
 build-appimage/
+build-tests/
 dist/
 /src/translatables.vala
 /tmp
 
 # Miscellaneous.
 .idea/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 gdb.sh
 com.vysp3r.ProtonPlus.flatpak

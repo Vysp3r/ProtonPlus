@@ -105,6 +105,9 @@ namespace ProtonPlus.Utils {
         }
 
         public static bool check_flatpak_dependency_sync (string name) {
+            if (!Globals.IS_FLATPAK) {
+                return false;
+            }
             var output = run_command_sync (@"flatpak info $name");
             return output != "" && !output.contains ("error:");
         }

@@ -83,6 +83,7 @@ namespace ProtonPlus.Widgets.Tools {
                 var row = create_tool_card (tool);
                 row.set_data ("tool", tool);
                 list_box.append (row);
+
             }
 
             var group_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
@@ -148,6 +149,27 @@ namespace ProtonPlus.Widgets.Tools {
 
                     row.add_suffix (pill);
                 }
+
+                /*if (basic_tool.variants.size > 0) {
+
+                    var l = new Adw.WrapBox ();
+                    l.set_valign (Gtk.Align.CENTER);
+                    l.set_valign (Gtk.Align.CENTER);
+                    l.set_child_spacing (6);
+                    l.set_line_spacing (4);
+                    l.set_align (0.0f);
+                    foreach (var variant in basic_tool.variants) {
+                        var variant_label = new Gtk.Label (variant.name);
+                        variant_label.add_css_class ("variant-pill");
+                        variant_label.set_valign (Gtk.Align.CENTER);
+
+                        l.append (variant_label);
+                    }
+
+                    if (l.get_first_child () != null) {
+                        row.add_suffix (l);
+                    }
+                }*/
             }
 
             return row;

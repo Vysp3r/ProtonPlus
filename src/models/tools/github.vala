@@ -4,6 +4,19 @@ namespace ProtonPlus.Models.Tools {
         internal string[] request_asset_filter { get; set; }
         internal string[] request_asset_exclude { get; set; }
 
+        private Gee.LinkedList<Internal.Assets.IAsset> get_release_assets (Internal.Requests.Github.Release source_release) {
+            var assets = new Gee.LinkedList<Internal.Assets.IAsset> ();
+
+            foreach (var source_asset in source_release.assets) {
+                var asset = new Internal.Assets.Github (source_asset.name, source_asset.download_url, (int) source_asset.size);
+                if (asset.is_archive ()) {
+                    assets.add (asset);
+                }
+            }
+
+            return assets;
+        }
+
         public GitHub () {
             get_request_type = Utils.Web.GetRequestType.GITHUB;
         }
@@ -11,47 +24,24 @@ namespace ProtonPlus.Models.Tools {
         public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
             var _releases = new Gee.LinkedList<Release> ();
 
-            string? response;
+            if (source_runner == null) {
+                code = ReturnCode.UNKNOWN_ERROR;
+                return _releases;
+            }
 
-            code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_request_type, out response);
-            if (code != ReturnCode.VALID_REQUEST)
-            return _releases;
+            var source_releases = yield source_runner.request_releases (page, 25, out code);
+
+            if (code != ReturnCode.RELEASES_LOADED || source_releases == null)
+                return _releases;
 
             page++;
 
-            var root_node = Utils.Parser.get_node_from_json (response);
-            if (root_node == null) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
+            foreach (var source_release_item in source_releases.list) {
+                var source_release = source_release_item as Internal.Requests.Github.Release;
+                if (source_release == null)
+                    continue;
 
-            if (root_node.get_node_type () != Json.NodeType.ARRAY) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
-
-            var root_array = root_node.get_array ();
-            if (root_array == null) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
-
-            if (root_array.get_length () == 0) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
-
-            for (var i = 0; i < root_array.get_length (); i++) {
-                var object = root_array.get_object_element (i);
-
-                var asset_array = object.get_array_member ("assets");
-                if (asset_array == null)
-                continue;
-
-                string title = use_name_instead_of_tag_name ? object.get_string_member ("name") : object.get_string_member ("tag_name");
-                string description = object.get_string_member ("body").strip ();
-                string page_url = object.get_string_member ("html_url");
-                string release_date = object.get_string_member ("created_at");
+                string title = use_name_instead_of_tag_name ? source_release.name : source_release.tag_name;
 
                 if (request_asset_filter != null) {
                     var excluded = false;
@@ -63,72 +53,38 @@ namespace ProtonPlus.Models.Tools {
                     }
 
                     if (excluded)
-                    continue;
-                } else if (request_asset_exclude != null) {
-                    var excluded = false;
-
-                    foreach (var excluded_asset in request_asset_exclude) {
-                        if (title.contains (excluded_asset)) {
-                            excluded = true;
-                            break;
-                        }
-                    }
-
-                    if (excluded)
+                        continue;
+                } else if (this.is_asset_exclude (title, request_asset_exclude)) {
                     continue;
                 }
 
-                var real_asset_position = asset_position;
+                var release_assets = get_release_assets (source_release);
+                if (release_assets.size == 0)
+                    continue;
 
-                if (asset_position_time_condition != null) {
-                    var asset_position_time_condition_split = asset_position_time_condition.split ("|");
+                var asset_object = release_assets.first () as Internal.Assets.Github;
 
-                    if (asset_position_time_condition_split.length == 2) {
-                        var condition_time = new DateTime.from_iso8601 (asset_position_time_condition_split[0], null);
+                if (asset_object != null) {
+                    string description = source_release.description;
+                    string page_url = source_release.page_url;
+                    string release_date = source_release.created_at.format_iso8601 ();
 
-                        var release_time = new DateTime.from_iso8601 (release_date, null);
+                    var release = new Release.github (this, title, description, release_date, asset_object.download_size, asset_object.download_url, page_url);
 
-                        var result = release_time.compare (condition_time);
-                        if (result <= 0) {
-                            int number = 0;
-                            var parsed = int.try_parse (asset_position_time_condition_split[1], out number);
-                            if (!parsed)
-                            continue;
-
-                            real_asset_position = number;
-                        }
+                    foreach (var variant in create_release_variants (title, source_release.tag_name, release_assets, release.download_url)) {
+                        release.variants.add (variant);
                     }
-                }
-
-                if (asset_position_hwcaps_condition) {
-                    for (int y = 0; y < asset_array.get_length (); y++) {
-                        var asset_object = asset_array.get_object_element (y);
-
-                        if (asset_object.get_string_member ("name").contains ("%s.tar.xz".printf (Globals.HWCAPS.nth_data (0)))) {
-                            real_asset_position = y;
-
-                            break;
-                        }
-                    }
-                }
-
-                if (asset_array.get_length () - 1 >= real_asset_position) {
-                    var asset_object = asset_array.get_object_element (real_asset_position);
-
-                    string download_url = asset_object.get_string_member ("browser_download_url");
-                    int64 download_size = asset_object.get_int_member ("size");
-
-                    var release = new Release.github (this, title, description, release_date, download_size, download_url, page_url);
 
                     _releases.add (release);
                 }
             }
 
-            has_more = root_array.get_length () == 25;
-
-            code = ReturnCode.RELEASES_LOADED;
+            has_more = source_releases.list.size == 25;
 
             return _releases;
+        }
+
+        public void filter_variant (Variant variant, Json.Array assets) {
         }
     }
 }

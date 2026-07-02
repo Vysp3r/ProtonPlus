@@ -6,8 +6,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile dxvk_log_level_none_tile { get; private set; }
         LaunchOptionSpinTile dxvk_frame_rate_tile { get; private set; }
 
-        public DxvkOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers);
+        public DxvkOptionsGroup (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers, true);
 
             this.title = _("DXVK options");
             this.description = _("Extra graphics settings and launch behaviors.");

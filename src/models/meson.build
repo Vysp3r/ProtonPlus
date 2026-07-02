@@ -5,6 +5,7 @@ sources += files(
     'release.vala',
     'tool.vala',
     'game.vala',
+    'variant.vala',
 )
 
 subdir('games')

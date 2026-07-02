@@ -8,19 +8,19 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Popover popover;
 
         construct {
-            open_protontricks_button = new Gtk.Button.with_label(_ ("Open in protontricks"));
+            open_protontricks_button = new Gtk.Button.with_label (_ ("Open in protontricks"));
             open_protontricks_button.clicked.connect (open_protontricks_button_clicked);
 
-            protondb_button = new Gtk.Button.with_label("ProtonDB");
+            protondb_button = new Gtk.Button.with_label ("ProtonDB");
             protondb_button.set_tooltip_text (_ ("Open ProtonDB page"));
             protondb_button.clicked.connect (protondb_button_clicked);
 
-            anticheat_button = new Gtk.Button.with_label("AreWeAntiCheatYet");
+            anticheat_button = new Gtk.Button.with_label ("AreWeAntiCheatYet");
             anticheat_button.clicked.connect (anticheat_button_clicked);
 
-            content_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 12);
+            content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
 
-            popover = new Gtk.Popover();
+            popover = new Gtk.Popover ();
             popover.set_autohide (true);
             popover.set_parent (this);
             popover.set_child (content_box);
@@ -32,7 +32,7 @@ namespace ProtonPlus.Widgets.Games {
             add_css_class ("flat");
         }
 
-        public ExtraButton(Models.Game game) {
+        public ExtraButton (Models.Game game) {
             this.game = game;
 
             if (game is Models.Games.Steam) {

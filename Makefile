@@ -1,4 +1,4 @@
-.PHONY: gen-potfiles translations build build-run clean flathub appimage linter icons local run
+.PHONY: gen-potfiles translations build build-run clean flathub appimage linter icons local run tests
 
 gen-potfiles:
 	@echo "# This file is generated automatic" > po/POTFILES
@@ -23,7 +23,7 @@ run: build-run
 install: translations build
 	cd build-native && sudo ninja install
 
-uninstall: 
+uninstall:
 	cd build-native && sudo ninja uninstall
 clean:
 	./scripts/build.sh clean
@@ -42,3 +42,6 @@ icons:
 
 local:
 	./scripts/build.sh local
+
+tests:
+	(meson setup build-tests && meson compile -C build-tests && meson test -C build-tests --verbose)

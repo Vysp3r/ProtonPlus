@@ -8,8 +8,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile dx12_tile { get; set; }
         LaunchOptionTile console_tile { get; set; }
 
-        public GameArgumentsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers);
+        public GameArgumentsGroup (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers);
 
             this.title = _("Game arguments");
             this.description = _("Flags passed directly to the game.");

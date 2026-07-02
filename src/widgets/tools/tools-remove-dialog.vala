@@ -11,7 +11,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (release.runner.group.launcher is Models.Launchers.Steam) {
                 var steam_launcher = (Models.Launchers.Steam) release.runner.group.launcher;
-                var tool_name = (release.runner is Models.Tools.SteamTinkerLaunch) ? "Proton-stl" : release.title;
+                var tool_name = release.get_usage_identifier ();
 
                 var usage_count = steam_launcher.get_compatibility_tool_usage_count (tool_name);
 

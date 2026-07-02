@@ -5,7 +5,6 @@ namespace ProtonPlus.Models {
         public Group group { get; set; }
         public bool has_more { get; set; }
         public bool has_latest_support { get; set; }
-        public bool asset_position_hwcaps_condition { get; set; }
         public bool legacy { get; set; }
         public string last_updated { get; set; }
         public int page { get; set; default = 1; }
@@ -13,6 +12,15 @@ namespace ProtonPlus.Models {
 
         public Utils.Web.GetRequestType get_request_type { get; set; }
         public Gee.LinkedList<Release> releases { get; set; default = new Gee.LinkedList<Release> (); }
+        public Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
+
+        construct {
+            // Be explicit: some construction paths may not honor property defaults reliably.
+            if (releases == null)
+                releases = new Gee.LinkedList<Release> ();
+            if (variants == null)
+                variants = new Gee.LinkedList<Variant> ();
+        }
 
         public virtual bool is_installed () {
             return false;
@@ -73,6 +81,9 @@ namespace ProtonPlus.Models {
         }
 
         public async Gee.LinkedList<Release> get_releases_async (bool force_fetch, out ReturnCode code) {
+            if (releases == null)
+                releases = new Gee.LinkedList<Release> ();
+
             if (releases.size > 0 && !force_fetch) {
                 code = ReturnCode.RELEASES_LOADED;
             } else {
@@ -80,8 +91,61 @@ namespace ProtonPlus.Models {
                     yield Utils.CacheManager.load_releases (this);
 
                     if (releases.size > 0) {
-                        code = ReturnCode.RELEASES_LOADED;
-                        return releases;
+                        var needs_variant_refresh = false;
+                        var basic_tool = this as Models.Tools.Basic;
+
+                        if (basic_tool != null && variants != null && variants.size > 1) {
+                            foreach (var cached_release in releases) {
+                                if (cached_release.variants == null || cached_release.variants.size == 0) {
+                                    needs_variant_refresh = true;
+                                    break;
+                                }
+
+                                var default_variant_has_url = true;
+                                foreach (var cached_variant in cached_release.variants) {
+                                    if (cached_variant.is_default) {
+                                        default_variant_has_url = cached_variant.download_url != null && cached_variant.download_url != "";
+                                        break;
+                                    }
+                                }
+
+                                if (!default_variant_has_url) {
+                                    needs_variant_refresh = true;
+                                    break;
+                                }
+
+                                for (var i = 0; i < cached_release.variants.size - 1; i++) {
+                                    var left_variant = cached_release.variants.get (i);
+                                    if (left_variant.download_url == null || left_variant.download_url == "")
+                                        continue;
+
+                                    for (var j = i + 1; j < cached_release.variants.size; j++) {
+                                        var right_variant = cached_release.variants.get (j);
+                                        if (right_variant.download_url == null || right_variant.download_url == "")
+                                            continue;
+
+                                        if (left_variant.format != right_variant.format && left_variant.download_url == right_variant.download_url) {
+                                            needs_variant_refresh = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (needs_variant_refresh)
+                                        break;
+                                }
+
+                                if (needs_variant_refresh)
+                                    break;
+                            }
+                        }
+
+                        if (!needs_variant_refresh) {
+                            code = ReturnCode.RELEASES_LOADED;
+                            return releases;
+                        }
+
+                        // Cached releases without per-release variants are stale for variant filtering.
+                        page = 1;
                     }
                 } else {
                     page = 1;
@@ -98,7 +162,24 @@ namespace ProtonPlus.Models {
                 }
 
                 if (this is Models.Tools.Basic && has_latest_support) {
-                    var latest_release = new Models.Releases.Latest (this as Models.Tools.Basic, "%s Latest".printf (title), releases[0].description, releases[0].release_date, releases[0].download_url, releases[0].page_url);
+                    var latest_release = new Models.Releases.Latest (
+                        this as Models.Tools.Basic,
+                        "%s Latest".printf (title),
+                        releases[0].description,
+                        releases[0].release_date,
+                        releases[0].download_url,
+                        releases[0].page_url
+                    );
+
+                    foreach (var variant in releases[0].variants) {
+                        latest_release.variants.add (new Models.Variant (
+                            variant.name,
+                            variant.format,
+                            variant.is_default,
+                            this as Models.Tools.Basic,
+                            variant.download_url
+                        ));
+                    }
 
                     releases.insert (0, latest_release);
                 }
@@ -219,23 +300,35 @@ namespace ProtonPlus.Models {
             string release_date = object.get_string_member ("created_at").split ("T")[0];
             string download_url = "";
 
-            var real_asset_position = runner.asset_position;
-            if (runner.asset_position_hwcaps_condition) {
-                for (int y = 0; y < asset_array.get_length (); y++) {
-                    var asset_object = asset_array.get_object_element (y);
+            var release_assets = new Gee.LinkedList<Models.Internal.Assets.IAsset> ();
+            string? fallback_download_url = null;
 
-                    if (asset_object.get_string_member ("name").contains ("%s.tar.xz".printf (Globals.HWCAPS.nth_data (0)))) {
-                        real_asset_position = y;
+            for (int y = 0; y < asset_array.get_length (); y++) {
+                var asset_object = asset_array.get_object_element (y);
+                if (asset_object == null)
+                    continue;
 
-                        break;
-                    }
-                }
+                var asset_name = asset_object.get_string_member_with_default ("name", "");
+                var asset_download_url = asset_object.get_string_member_with_default ("browser_download_url", "");
+                if (asset_name == "" || asset_download_url == "")
+                    continue;
+
+                var asset = new Models.Internal.Assets.Asset (asset_name, asset_download_url);
+                if (!asset.is_archive ())
+                    continue;
+
+                if (fallback_download_url == null)
+                    fallback_download_url = asset_download_url;
+
+                release_assets.add (asset);
             }
 
-            if (asset_array.get_length () - 1 >= real_asset_position) {
-                var asset_object = asset_array.get_object_element (real_asset_position);
+            if (release_assets.size > 0) {
+                var release_variants = runner.create_release_variants (title, title, release_assets, fallback_download_url);
+                var default_variant_download_url = runner.get_default_variant_download_url (release_variants, fallback_download_url);
 
-                download_url = asset_object.get_string_member ("browser_download_url");
+                if (default_variant_download_url != null)
+                    download_url = default_variant_download_url;
             }
 
             if (download_url == "" || !download_url.contains (".tar"))
@@ -281,7 +374,14 @@ namespace ProtonPlus.Models {
             if (!moved)
                 return ReturnCode.UNKNOWN_ERROR;
 
-            var release = new Models.Releases.Latest (runner as Models.Tools.Basic, "%s Latest".printf (runner.title), description, release_date, download_url, page_url);
+            var release = new Models.Releases.Latest (
+                runner as Models.Tools.Basic,
+                "%s Latest".printf (runner.title),
+                description,
+                release_date,
+                download_url,
+                page_url
+            );
             release.state = Models.Release.State.BUSY_UPDATING;
 
             if ((yield release.install ()) != ReturnCode.RUNNER_INSTALLED) {

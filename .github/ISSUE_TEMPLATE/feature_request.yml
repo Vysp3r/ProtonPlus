@@ -1,0 +1,61 @@
+name: Feature request
+description: Suggest an idea for this project
+title: "[FEATURE]: "
+labels: ["enhancement"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to make ProtonPlus even better? We'd love to hear it! Please fill out this form.
+
+  - type: textarea
+    id: problem-relation
+    attributes:
+      label: Is your feature request related to a problem? Please describe.
+      description: A clear and concise description of what the problem is.
+      placeholder: "e.g., I'm always frustrated when [...]"
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution-description
+    attributes:
+      label: Describe the solution you'd like
+      description: A clear and concise description of what you want to happen. Provide a step-by-step description of the suggested enhancement if possible.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+      description: A clear and concise description of any alternative solutions or features you've considered.
+    validations:
+      required: false
+
+  - type: textarea
+    id: usefulness
+    attributes:
+      label: Why would this be useful?
+      description: Explain why this enhancement would be useful to most ProtonPlus users.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context or screenshots about the feature request here.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched for existing feature requests.
+          required: true
+        - label: I have confirmed that this feature fits with the scope and aims of the project.
+          required: true

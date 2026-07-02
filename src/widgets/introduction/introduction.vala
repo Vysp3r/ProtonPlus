@@ -95,8 +95,9 @@ namespace ProtonPlus.Widgets.Introduction {
 
         private void update_buttons_visibility () {
             uint current_page = (uint) Math.round (car.position);
-
             prev_button.sensitive = (current_page > 0);
+            prev_button.visible = (current_page > 0);
+            next_button.visible = (current_page < pages.size - 1);
             next_button.sensitive = (current_page < pages.size - 1);
         }
     }

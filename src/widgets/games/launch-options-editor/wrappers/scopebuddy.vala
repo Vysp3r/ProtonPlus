@@ -12,8 +12,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         List<LaunchOptionBinding> bindings;
         Gtk.Widget cached_page;
 
-        public Scopebuddy (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
-            base (standard_control_changed, launch_option_handlers);
+        public Scopebuddy (LaunchOptionsList launch_option_handlers) {
+            base (launch_option_handlers);
             bindings = new List<LaunchOptionBinding> ();
             cached_page = null;
         }
@@ -37,25 +37,25 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             fullscreen_tile = create_tile (_("Fullscreen"), _("Runs the game in a fullscreen session."), { "-f" }, true);
             fullscreen_tile.toggle.notify["active"].connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
 
             auto_hdr_tile = create_tile (_("Auto HDR"), _("Outputs HDR colors if your display supports it."), { "SCB_AUTO_HDR=1" }, true);
             auto_hdr_tile.toggle.notify["active"].connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
 
             auto_vrr_tile = create_tile (_("VRR"), _("Matches your display's refresh rate to the game's FPS."), { "SCB_AUTO_VRR=1" }, true);
             auto_vrr_tile.toggle.notify["active"].connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
 
             framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside ScopeBuddy."), _("FPS"), 30, 360, 60, "-r ");
             framerate_tile.toggle.notify["active"].connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
             framerate_tile.value_applied.connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
 
             bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_HDR=1" }, auto_hdr_tile.toggle));
@@ -63,19 +63,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Sets the ScopeBuddy output resolution."), true, true);
             resolution_field.toggle.notify["active"].connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
             resolution_field.dropdown.notify["selected"].connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
             resolution_field.value_applied.connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
             launch_option_handlers.add (resolution_field);
 
             args_field = new LaunchOptionEntryField (_("Additional ScopeBuddy arguments"), _("Keeps extra ScopeBuddy flags such as preferred output selection."), _("Add ScopeBuddy arguments"));
             args_field.value_applied.connect (() => {
-                standard_control_changed ();
+                this.changed ();
             });
 
             group.add (fullscreen_tile);

@@ -28,23 +28,6 @@ namespace ProtonPlus {
         return status;
     }
 
-    public enum ReturnCode {
-        UNKNOWN_ERROR,
-        RELEASES_LOADED,
-        NOTHING_TO_UPDATE,
-        RUNNERS_UPDATED,
-        RUNNER_UPDATED,
-        RUNNER_INSTALLED,
-        RUNNER_REMOVED,
-        VALID_REQUEST,
-        CONNECTION_ISSUE,
-        CONNECTION_REFUSED,
-        CONNECTION_UNKNOWN,
-        API_LIMIT_REACHED,
-        INVALID_ACCESS_TOKEN,
-        TLS_HANDSHAKE_ERROR,
-    }
-
     static string[] translatables () {
         return {
                    N_ ("Compatibility tools by Valve for running Windows software on Linux."),

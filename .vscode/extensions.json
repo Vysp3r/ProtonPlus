@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "prince781.vala",
+        "ColinKiama.linter-vala",
+        "EditorConfig.EditorConfig",
+        "ms-vscode.makefile-tools",
+        "lokalise.i18n-ally",
+        "fnando.linter",
+        "mesonbuild.mesonbuild"
+    ]
+}

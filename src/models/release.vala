@@ -1,5 +1,23 @@
 namespace ProtonPlus.Models {
     public class Release : Object {
+
+        public enum Step {
+            NOTHING,
+            DOWNLOADING,
+            EXTRACTING,
+            MOVING,
+            REMOVING,
+        }
+
+        public enum State {
+            NOT_INSTALLED,
+            UPDATE_AVAILABLE,
+            UP_TO_DATE,
+            BUSY_INSTALLING,
+            BUSY_REMOVING,
+            BUSY_UPDATING,
+        }
+
         public Tool runner { get; set; }
         public string title { get; set; }
         public string displayed_title { get; set; }
@@ -18,48 +36,84 @@ namespace ProtonPlus.Models {
         public string install_location { get; set; }
         public int64 download_size { get; set; }
         protected string destination_path { get; set; }
+        public Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
+        public string? selected_variant_name { get; set; default = null; }
+
+        construct {
+            if (variants == null)
+                variants = new Gee.LinkedList<Variant> ();
+        }
 
         public virtual string usage_name {
             get { return title; }
         }
 
-        public virtual Json.Object to_json () {
-            var obj = new Json.Object ();
-            obj.set_string_member ("kind", "generic");
-            obj.set_string_member ("title", title);
-            obj.set_string_member ("description", description);
-            obj.set_string_member ("release_date", release_date);
-            obj.set_string_member ("download_url", download_url);
-            obj.set_string_member ("page_url", page_url);
-            obj.set_int_member ("download_size", download_size);
-            return obj;
+        public string get_usage_identifier () {
+            if (this is Releases.SteamTinkerLaunch)
+                return usage_name;
+
+            if (runner is Tools.Basic) {
+                var directory_name = get_effective_directory_name ();
+                if (directory_name != "")
+                    return directory_name;
+            }
+
+            return usage_name;
         }
 
-        public static Release ? from_json (Tool runner, Json.Object? obj) {
-            if (obj == null) {
+        private Variant? get_selected_variant () {
+            if (selected_variant_name == null || selected_variant_name == "" || variants == null)
                 return null;
+
+            foreach (var variant in variants) {
+                if (variant.name == selected_variant_name)
+                    return variant;
             }
 
-            if (!obj.has_member ("kind") || !obj.has_member ("title"))return null;
-            string kind = obj.get_string_member ("kind");
-            string title = obj.get_string_member ("title");
-            string description = obj.has_member ("description") ? obj.get_string_member ("description") : "";
-            string release_date = obj.has_member ("release_date") ? obj.get_string_member ("release_date") : "";
-            string download_url = obj.has_member ("download_url") ? obj.get_string_member ("download_url") : "";
-            string page_url = obj.has_member ("page_url") ? obj.get_string_member ("page_url") : "";
-            int64 download_size = obj.has_member ("download_size") ? obj.get_int_member ("download_size") : 0;
+            return null;
+        }
 
-            if (kind == "github-action") {
-                string artifacts_url = obj.has_member ("artifacts_url") ? obj.get_string_member ("artifacts_url") : "";
-                return new Releases.GitHubAction (runner as Tools.Basic, title, release_date, download_url, page_url, artifacts_url);
-            } else if (kind == "latest") {
-                return new Releases.Latest (runner as Tools.Basic, title, description, release_date, download_url, page_url);
-            } else if (runner is Tools.Basic) {
-                // Default or generic
-                return new Release.github (runner as Tools.Basic, title, description, release_date, download_size, download_url, page_url);
-            } else {
-                return null;
-            }
+        private string get_variant_directory_suffix () {
+            var selected_variant = get_selected_variant ();
+            if (selected_variant == null || selected_variant.is_default)
+                return "";
+
+            var sanitized_variant_name = selected_variant.name.replace (" ", "_").replace ("/", "_");
+            return "-%s".printf (sanitized_variant_name);
+        }
+
+        private string get_effective_directory_name () {
+            var basic_runner = runner as Tools.Basic;
+            if (basic_runner == null)
+                return "";
+
+            var directory_name = basic_runner.get_directory_name (title);
+            if (directory_name == "")
+                return "";
+
+            var variant_suffix = get_variant_directory_suffix ();
+            if (variant_suffix == "")
+                return directory_name;
+
+            return "%s%s".printf (directory_name, variant_suffix);
+        }
+
+        private void update_install_location () {
+            install_location = "%s%s/%s".printf (
+                runner.group.launcher.directory,
+                runner.group.directory,
+                get_effective_directory_name ()
+            );
+        }
+
+        public void set_selected_variant (string? variant_name) {
+            selected_variant_name = variant_name;
+
+            if (!(runner is Tools.Basic))
+                return;
+
+            update_install_location ();
+            refresh_state ();
         }
 
         private State _state;
@@ -68,7 +122,7 @@ namespace ProtonPlus.Models {
                 if (_state != State.BUSY_INSTALLING && _state != State.BUSY_REMOVING && _state != State.BUSY_UPDATING) {
                     var active_download = Utils.DownloadManager.instance.get_active_download (this);
                     if (active_download != null)
-                        return active_download.state;
+                        return active_download._state;
                 }
                 return _state;
             }
@@ -79,23 +133,102 @@ namespace ProtonPlus.Models {
 
         public Step step { get; set; }
 
+        public virtual Json.Object to_json () {
+            var obj = new Json.Object ();
+            obj.set_string_member ("kind", "generic");
+            obj.set_string_member ("title", title);
+            obj.set_string_member ("description", description);
+            obj.set_string_member ("release_date", release_date);
+            obj.set_string_member ("download_url", download_url);
+            obj.set_string_member ("page_url", page_url);
+            obj.set_int_member ("download_size", download_size);
 
-        public enum Step {
-            NOTHING,
-            DOWNLOADING,
-            EXTRACTING,
-            MOVING,
-            REMOVING,
+            var variants_array = new Json.Array ();
+            if (variants != null) {
+                foreach (var variant in variants) {
+                    var variant_obj = new Json.Object ();
+                    variant_obj.set_string_member ("name", variant.name);
+                    variant_obj.set_string_member ("format", variant.format);
+                    variant_obj.set_boolean_member ("default", variant.is_default);
+                    variant_obj.set_string_member ("download_url", variant.download_url ?? "");
+                    variants_array.add_object_element (variant_obj);
+                }
+            }
+            obj.set_array_member ("variants", variants_array);
+
+            return obj;
         }
 
+        public static Release ? from_json (Tool runner, Json.Object? obj) {
+            if (obj == null) {
+                return null;
+            }
 
-        public enum State {
-            NOT_INSTALLED,
-            UPDATE_AVAILABLE,
-            UP_TO_DATE,
-            BUSY_INSTALLING,
-            BUSY_REMOVING,
-            BUSY_UPDATING,
+            if (!obj.has_member ("kind") || !obj.has_member ("title"))return null;
+            string kind = obj.get_string_member_with_default ("kind", "");
+            string title = obj.get_string_member_with_default ("title", "");
+            string description = obj.get_string_member_with_default ("description", "");
+            string release_date = obj.get_string_member_with_default ("release_date", "");
+            string download_url = obj.get_string_member_with_default ("download_url", "");
+            string page_url = obj.get_string_member_with_default ("page_url", "");
+            int64 download_size = obj.has_member ("download_size") ? obj.get_int_member ("download_size") : 0;
+
+            if (kind == "" || title == "")
+                return null;
+
+            Release? release = null;
+            var basic_runner = runner as Tools.Basic;
+
+            if (kind == "github-action") {
+                if (basic_runner == null)
+                    return null;
+
+                string artifacts_url = obj.get_string_member_with_default ("artifacts_url", "");
+                release = new Releases.GitHubAction (basic_runner, title, release_date, download_url, page_url, artifacts_url);
+            } else if (kind == "latest") {
+                if (basic_runner == null)
+                    return null;
+
+                release = new Releases.Latest (basic_runner, title, description, release_date, download_url, page_url);
+            } else if (basic_runner != null) {
+                // Default or generic
+                release = new Release.github (basic_runner, title, description, release_date, download_size, download_url, page_url);
+            } else {
+                return null;
+            }
+
+            if (release != null && basic_runner != null) {
+                if (release.variants == null)
+                    release.variants = new Gee.LinkedList<Variant> ();
+
+                var variants_array = obj.get_array_member ("variants");
+                if (variants_array != null) {
+                    release.variants.clear ();
+                    for (var i = 0; i < variants_array.get_length (); i++) {
+                        var variant_obj = variants_array.get_object_element (i);
+                        if (variant_obj == null)
+                            continue;
+
+                        string variant_name = variant_obj.get_string_member_with_default ("name", "");
+                        if (variant_name == "")
+                            continue;
+
+                        string variant_format = variant_obj.get_string_member_with_default ("format", "");
+                        bool variant_default = variant_obj.has_member ("default") && variant_obj.get_boolean_member ("default");
+                        string variant_download_url = variant_obj.get_string_member_with_default ("download_url", "");
+
+                        release.variants.add (new Variant (
+                            variant_name,
+                            variant_format,
+                            variant_default,
+                            basic_runner,
+                            variant_download_url != "" ? variant_download_url : null
+                        ));
+                    }
+                }
+            }
+
+            return release;
         }
 
         public Release.simple (Tools.Basic runner, string title, string install_location) {
@@ -121,12 +254,15 @@ namespace ProtonPlus.Models {
             this.runner = runner;
             this.title = title;
             this.displayed_title = title;
-            this.description = description;
+            if (this.description == null)
+                this.description = "";
             this.release_date = release_date;
             this.download_url = download_url;
             this.page_url = page_url;
 
-            install_location = runner.group.launcher.directory + runner.group.directory + "/" + runner.get_directory_name (title);
+            update_install_location ();
+
+            //this.variants = runner.variants;
 
             refresh_state ();
         }
@@ -179,13 +315,17 @@ namespace ProtonPlus.Models {
             string extension = ".tar.gz";
             if (download_url.contains (".zip")) {
                 extension = ".zip";
+            } else if (download_url.contains (".tar.zst")) {
+                extension = ".tar.zst";
             } else if (download_url.contains (".tar.xz")) {
                 extension = ".tar.xz";
             } else if (!download_url.contains (".tar")) {
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.UNSUPPORTED_EXTENSION;
             }
 
             string download_path = "%s/%s%s".printf (Globals.CACHE_PATH, title, extension);
+
+            var used_cached_archive = FileUtils.test (download_path, FileTest.EXISTS);
 
             if (!FileUtils.test (download_path, FileTest.EXISTS)) {
                 string? download_error;
@@ -203,10 +343,29 @@ namespace ProtonPlus.Models {
 
             string source_path = yield Utils.Filesystem.extract (extract_path, title, extension, () => canceled);
 
+            // Stale/incomplete cache files can survive crashes and fail extraction.
+            // If we used a cached archive, retry once with a fresh download.
+            if (source_path == "" && !canceled && used_cached_archive) {
+                Utils.Filesystem.delete_file (download_path);
+
+                step = Step.DOWNLOADING;
+
+                string? download_error;
+                var download_valid = yield Utils.Web.Download (download_url, download_path, () => canceled, on_download_progress, out download_error);
+
+                if (!download_valid) {
+                    this.error_message = download_error;
+                    return ReturnCode.UNKNOWN_ERROR;
+                }
+
+                step = Step.EXTRACTING;
+                source_path = yield Utils.Filesystem.extract (extract_path, title, extension, () => canceled);
+            }
+
             if (source_path == "") {
                 if (!canceled)
                     error_message = _("Extraction failed");
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.EXTRACTION_FAILED;
             }
 
             source_path = yield _after_extraction (source_path, extract_path);
@@ -214,14 +373,12 @@ namespace ProtonPlus.Models {
             if (source_path == "") {
                 if (!canceled && error_message == null)
                     error_message = _("Extraction failed");
-                return ReturnCode.UNKNOWN_ERROR;
+                return ReturnCode.EXTRACTION_FAILED;
             }
 
             step = Step.MOVING;
 
-            var runner = this.runner as Tools.Basic;
-
-            destination_path = "%s%s/%s/".printf (runner.group.launcher.directory, runner.group.directory, runner.get_directory_name (title));
+            destination_path = "%s/".printf (install_location);
 
             var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
 
@@ -293,7 +450,7 @@ namespace ProtonPlus.Models {
         protected virtual void refresh_state () {
             step = Step.NOTHING;
 
-            var directory_name = ((Tools.Basic) runner).get_directory_name (title);
+            var directory_name = get_effective_directory_name ();
             var directory_name_valid = directory_name != "";
             var install_directory_valid = FileUtils.test (install_location, FileTest.IS_DIR);
 

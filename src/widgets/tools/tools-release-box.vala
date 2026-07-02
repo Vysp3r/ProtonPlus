@@ -82,7 +82,7 @@ namespace ProtonPlus.Widgets.Tools {
                 selection_changed ();
             });
 
-            var name_label = new Gtk.Label(_ ("Name"));
+            var name_label = new Gtk.Label (_ ("Name"));
             name_label.set_xalign (0);
             name_label.set_margin_start (5);
             name_label.set_hexpand (true);
@@ -142,7 +142,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             list_box.remove_all ();
 
-            var tool_name = (release.runner is Models.Tools.SteamTinkerLaunch) ? "Proton-stl" : release.title;
+            var tool_name = release.get_usage_identifier ();
             var launcher = release.runner.group.launcher;
 
             string default_tool = "";

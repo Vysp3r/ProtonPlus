@@ -4,62 +4,74 @@ namespace ProtonPlus.Models.Tools {
             get_request_type = Utils.Web.GetRequestType.FORGEJO;
         }
 
-        public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
-            var _releases = new Gee.LinkedList<Release> ();
+        private Gee.LinkedList<Internal.Assets.IAsset> get_release_assets (Internal.Requests.Forgejo.Release source_release) {
+            var assets = new Gee.LinkedList<Internal.Assets.IAsset> ();
 
-            string? response;
-
-            code = yield Utils.Web.get_request ("%s?limit=25&page=%i".printf (endpoint, page), get_request_type, out response);
-            if (code != ReturnCode.VALID_REQUEST)
-            return _releases;
-
-            page++;
-
-            var root_node = Utils.Parser.get_node_from_json (response);
-            if (root_node == null || root_node.get_node_type () != Json.NodeType.ARRAY) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
-
-            var root_array = root_node.get_array ();
-            if (root_array == null) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
-
-            if (root_array.get_length () == 0) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
-
-            for (var i = 0; i < root_array.get_length (); i++) {
-                var object = root_array.get_object_element (i);
-
-                string title = object.get_string_member ("tag_name");
-                string description = object.get_string_member ("body").strip ();;
-                string release_date = object.get_string_member ("created_at");
-
-                string page_url = object.get_string_member ("html_url");
-
-                var assets_array = object.get_array_member ("assets");
-                if (assets_array == null)
-                continue;
-
-                if (assets_array.get_length () - 1 >= asset_position) {
-                    var link_object = assets_array.get_object_element (asset_position);
-
-                    var download_url = link_object.get_string_member ("browser_download_url");
-                    var download_size = link_object.get_int_member ("size");
-
-                    var release = new Release.github (this, title, description, release_date, download_size, download_url, page_url);
-
-                    _releases.add (release);
+            foreach (var source_asset in source_release.assets) {
+                var asset = new Internal.Assets.Github (source_asset.name, source_asset.download_url, (int) source_asset.size);
+                if (asset.is_archive ()) {
+                    assets.add (asset);
                 }
             }
 
-            has_more = root_array.get_length () == 25;
+            return assets;
+        }
 
-            code = ReturnCode.RELEASES_LOADED;
+        public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
+            var _releases = new Gee.LinkedList<Release> ();
+
+            if (source_runner == null) {
+                code = ReturnCode.UNKNOWN_ERROR;
+                return _releases;
+            }
+
+            var source_releases = yield source_runner.request_releases (page, 25, out code);
+            if (code != ReturnCode.RELEASES_LOADED || source_releases == null)
+                return _releases;
+
+            page++;
+
+            foreach (var source_release_item in source_releases.list) {
+                var source_release = source_release_item as Internal.Requests.Forgejo.Release;
+                if (source_release == null)
+                    continue;
+
+                string title = source_release.tag_name;
+                var release_assets = get_release_assets (source_release);
+
+                if (release_assets.size == 0)
+                    continue;
+
+                var first_asset = release_assets.get (0) as Internal.Assets.Github;
+                if (first_asset == null)
+                    continue;
+
+                var release_variants = create_release_variants (title, source_release.tag_name, release_assets, first_asset.download_url);
+                var primary_download_url = get_default_variant_download_url (release_variants, first_asset.download_url);
+                if (primary_download_url == null || primary_download_url == "")
+                    continue;
+
+                Internal.Assets.Github? primary_asset = first_asset;
+                foreach (var release_asset in release_assets) {
+                    var github_asset = release_asset as Internal.Assets.Github;
+                    if (github_asset == null)
+                        continue;
+
+                    if (github_asset.download_url == primary_download_url) {
+                        primary_asset = github_asset;
+                        break;
+                    }
+                }
+
+                var release = new Release.github (this, title, source_release.description, source_release.created_at.format_iso8601 (), primary_asset.download_size, primary_download_url, source_release.page_url);
+                foreach (var variant in release_variants) {
+                    release.variants.add (variant);
+                }
+
+                _releases.add (release);
+            }
+
+            has_more = source_releases.list.size == 25;
 
             return _releases;
         }

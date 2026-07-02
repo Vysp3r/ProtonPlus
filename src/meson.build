@@ -1,5 +1,5 @@
 sources = files(
-    'main.vala',
+    'return_codes.vala',
     'globals.vala',
 )
 
@@ -8,6 +8,10 @@ subdir('widgets')
 subdir('models')
 subdir('vdf')
 subdir('utils')
+
+sources_app = files(
+    'main.vala',
+)
 
 deps = [
     config_dep,
@@ -25,11 +29,21 @@ deps = [
     sdl3_dep,
 ]
 
-executable(
-    meson.project_name().split('.')[2].to_lower(),
+protonplus_lib = static_library(
+    'protonplus_core',
     resources,
     sources,
     dependencies : deps,
+    include_directories : config_inc,
+    install : false
+)
+
+executable(
+    meson.project_name().split('.')[2].to_lower(),
+    resources,
+    sources_app,
+    dependencies : deps,
+    link_with: protonplus_lib,
     include_directories : config_inc,
     install : true
 )

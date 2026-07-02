@@ -169,11 +169,19 @@ namespace ProtonPlus.Widgets.Preferences {
             };
             advanced_page.add (tokens_group);
 
-            var github_access_token_row = new AccessTokenRow ("GitHub", "github-symbolic");
+            var github_access_token_row = new AccessTokenRow (
+                "GitHub",
+                "github-symbolic",
+                "https://github.com/settings/tokens"
+            );
             Globals.SETTINGS.bind ("github-api-key", github_access_token_row, "text", SettingsBindFlags.DEFAULT);
             tokens_group.add (github_access_token_row);
 
-            var gitlab_access_token_row = new AccessTokenRow ("GitLab", "gitlab-symbolic");
+            var gitlab_access_token_row = new AccessTokenRow (
+                "GitLab",
+                "gitlab-symbolic",
+                "https://gitlab.com/-/user_settings/personal_access_tokens"
+            );
             Globals.SETTINGS.bind ("gitlab-api-key", gitlab_access_token_row, "text", SettingsBindFlags.DEFAULT);
             tokens_group.add (gitlab_access_token_row);
 

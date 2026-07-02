@@ -147,8 +147,8 @@ clean() {
 
 rebuild_translations() {
   show_log "INFO" "Building native files before updating translations..."
-  check_dependencies python3
-  python3 scripts/extract-translatables.py data/runners.json src/translatables.vala
+  #check_dependencies python3
+  #python3 scripts/extract-translatables.py data/runners.json src/translatables.vala
   build "native" "" ""
   (
     cd build-native || exit 1

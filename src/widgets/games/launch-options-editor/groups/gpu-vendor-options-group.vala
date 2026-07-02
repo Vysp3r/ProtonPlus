@@ -2,6 +2,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     using Adw;
 
     public class GpuVendorOptionsGroup : Gtk.Box {
+        public signal void changed ();
 
         Gtk.Stack stack { get; set; }
         Gtk.StackSwitcher switcher { get; set; }
@@ -10,7 +11,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         GpuVendorNvidiaOptionsGroup nvidia_group { get; set; }
         GpuVendorIntelOptionsGroup intel_group { get; set; }
 
-        public GpuVendorOptionsGroup (SimpleCallback standard_control_changed, LaunchOptionsList launch_option_handlers) {
+        public GpuVendorOptionsGroup (LaunchOptionsList launch_option_handlers) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
 
             var header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
@@ -37,9 +38,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             stack.set_vhomogeneous (false);
             stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
 
-            amd_group = new GpuVendorAmdOptionsGroup (() => { standard_control_changed (); }, launch_option_handlers);
-            nvidia_group = new GpuVendorNvidiaOptionsGroup (() => { standard_control_changed (); }, launch_option_handlers);
-            intel_group = new GpuVendorIntelOptionsGroup (() => { standard_control_changed (); }, launch_option_handlers);
+            amd_group = new GpuVendorAmdOptionsGroup (launch_option_handlers);
+            nvidia_group = new GpuVendorNvidiaOptionsGroup (launch_option_handlers);
+            intel_group = new GpuVendorIntelOptionsGroup (launch_option_handlers);
+
+            amd_group.changed.connect (() => { this.changed (); });
+            nvidia_group.changed.connect (() => { this.changed (); });
+            intel_group.changed.connect (() => { this.changed (); });
 
             var amd_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0); amd_box.append (amd_group);
             var nvidia_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0); nvidia_box.append (nvidia_group);
@@ -72,6 +77,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         internal void normalize_dependencies () {
             amd_group.normalize_amd_fsr_upgrade_dependencies ();
             nvidia_group.normalize_nvidia_vendor_dependencies ();
+        }
+
+        internal bool has_active_options () {
+            return amd_group.has_active_options ()
+                   || nvidia_group.has_active_options ()
+                   || intel_group.has_active_options ();
         }
 
         internal void select_preferred_page () {

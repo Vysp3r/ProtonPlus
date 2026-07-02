@@ -6,7 +6,7 @@ namespace ProtonPlus.Models {
         public Launcher launcher { get; set; }
         public Gee.LinkedList<Tool> tools { get; set; }
 
-        public Group(string title, string description, string directory, Launcher launcher) {
+        public Group (string title, string description, string directory, Launcher launcher) {
             this.title = title;
             this.description = description;
             this.directory = directory;

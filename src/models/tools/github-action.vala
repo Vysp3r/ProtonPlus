@@ -9,51 +9,47 @@ namespace ProtonPlus.Models.Tools {
         public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
             var _releases = new Gee.LinkedList<Release> ();
 
-            string? response;
-
-            code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_request_type, out response);
-            if (code != ReturnCode.VALID_REQUEST)
-            return _releases;
-
-            page++;
-
-            var root_node = Utils.Parser.get_node_from_json (response);
-
-            var root_object = root_node.get_object ();
-            if (!root_object.has_member ("workflow_runs") || root_object.get_member ("workflow_runs").get_node_type () != Json.NodeType.ARRAY) {
+            if (source_runner == null) {
                 code = ReturnCode.UNKNOWN_ERROR;
                 return _releases;
             }
 
-            var root_array = root_object.get_array_member ("workflow_runs");
-            if (root_array == null) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
+            var current_page = page;
+            var reached_end = false;
+            const int PAGE_SIZE = 25;
 
-            if (root_array.get_length () == 0) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
+            while (_releases.size == 0 && !reached_end) {
+                var source_releases = yield source_runner.request_releases (current_page, PAGE_SIZE, out code);
 
-            for (var i = 0; i < root_array.get_length (); i++) {
-                var object = root_array.get_object_element (i);
+                if (code != ReturnCode.RELEASES_LOADED || source_releases == null)
+                    return _releases;
 
-                string title = object.get_int_member ("run_number").to_string ();
-                string page_url = object.get_string_member ("html_url");
-                string release_date = object.get_string_member ("created_at");
-                string download_url = url_template.replace ("{id}", object.get_int_member ("id").to_string ());
-                string artifacts_url = object.get_string_member ("artifacts_url");
+                foreach (var source_release_item in source_releases.list) {
+                    var source_release = source_release_item as Internal.Requests.GithubAction.Release;
+                    if (source_release == null)
+                        continue;
 
-                if (object.get_string_member_with_default ("status", "") == "completed" && object.get_string_member_with_default ("conclusion", "") == "success") {
-                    var release = new Releases.GitHubAction (this, title, release_date, download_url, page_url, artifacts_url);
+                    if (source_release.status == "completed" && source_release.conclusion == "success") {
+                        string download_url = url_template.replace ("{id}", source_release.id.to_string ());
+                        var release = new Releases.GitHubAction (
+                            this,
+                            source_release.title,
+                            source_release.created_at.format_iso8601 (),
+                            download_url,
+                            source_release.page_url,
+                            source_release.artifacts_url
+                        );
 
-                    _releases.add (release);
+                        _releases.add (release);
+                    }
                 }
+
+                reached_end = source_releases.list.size < PAGE_SIZE;
+                current_page++;
             }
 
-            has_more = root_array.get_length () == 25;
-
+            page = current_page;
+            has_more = !reached_end;
             code = ReturnCode.RELEASES_LOADED;
 
             return _releases;

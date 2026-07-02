@@ -10,80 +10,64 @@ namespace ProtonPlus.Models.Tools {
         public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
             var _releases = new Gee.LinkedList<Release> ();
 
-            string? response;
+            if (source_runner == null) {
+                code = ReturnCode.UNKNOWN_ERROR;
+                return _releases;
+            }
 
-            code = yield Utils.Web.get_request ("%s?per_page=25&page=%i".printf (endpoint, page), get_request_type, out response);
-            if (code != ReturnCode.VALID_REQUEST)
-            return _releases;
+            var source_releases = yield source_runner.request_releases (page, 25, out code);
+            if (code != ReturnCode.RELEASES_LOADED || source_releases == null)
+                return _releases;
 
             page++;
 
-            var root_node = Utils.Parser.get_node_from_json (response);
-            if (root_node == null || root_node.get_node_type () != Json.NodeType.ARRAY) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
+            foreach (var source_release_item in source_releases.list) {
+                var source_release = source_release_item as Internal.Requests.Gitlab.Release;
+                if (source_release == null)
+                    continue;
 
-            var root_array = root_node.get_array ();
-            if (root_array == null) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
+                string title = use_name_instead_of_tag_name ? source_release.name : source_release.tag_name;
 
-            if (root_array.get_length () == 0) {
-                code = ReturnCode.UNKNOWN_ERROR;
-                return _releases;
-            }
-
-            for (var i = 0; i < root_array.get_length (); i++) {
-                var object = root_array.get_object_element (i);
-
-                string title = use_name_instead_of_tag_name ? object.get_string_member ("name") : object.get_string_member ("tag_name");
-                string description = object.get_string_member ("description").strip ();;
-                string release_date = object.get_string_member ("created_at");
-
-                if (request_asset_exclude != null) {
-                    var excluded = false;
-
-                    foreach (var excluded_asset in request_asset_exclude) {
-                        if (title.contains (excluded_asset)) {
-                            excluded = true;
-                            break;
-                        }
-                    }
-
-                    if (excluded)
+                if (this.is_asset_exclude (title, request_asset_exclude)) {
                     continue;
                 }
 
-                var page_url_object = object.get_object_member ("_links");
-                if (page_url_object == null)
-                continue;
-
-                string page_url = page_url_object.get_string_member ("self");
-
-                var assets_object = object.get_object_member ("assets");
-                if (assets_object == null)
-                continue;
-
-                var link_array = assets_object.get_array_member ("links");
-                if (link_array == null)
-                continue;
-
-                if (link_array.get_length () - 1 >= asset_position) {
-                    var link_object = link_array.get_object_element (asset_position);
-
-                    var download_url = link_object.get_string_member ("direct_asset_url").replace ("?ref_type=heads", "");
-
-                    var release = new Release.gitlab (this, title, description, release_date, download_url, page_url);
-
-                    _releases.add (release);
+                var release_assets = new Gee.LinkedList<Internal.Assets.IAsset> ();
+                foreach (var source_asset in source_release.assets) {
+                    var asset = new Internal.Assets.Asset (source_asset.name, source_asset.download_url);
+                    if (asset.is_archive ()) {
+                        release_assets.add (asset);
+                    }
                 }
+
+                if (release_assets.size == 0)
+                    continue;
+
+                var first_asset = release_assets.get (0);
+                if (first_asset == null)
+                    continue;
+
+                var release_variants = create_release_variants (title, source_release.tag_name, release_assets, first_asset.download_url);
+                var primary_download_url = get_default_variant_download_url (release_variants, first_asset.download_url);
+                if (primary_download_url == null || primary_download_url == "")
+                    continue;
+
+                var release = new Release.gitlab (
+                    this,
+                    title,
+                    source_release.description,
+                    source_release.created_at.format_iso8601 (),
+                    primary_download_url,
+                    source_release.page_url
+                );
+                foreach (var variant in release_variants) {
+                    release.variants.add (variant);
+                }
+
+                _releases.add (release);
             }
 
-            has_more = root_array.get_length () == 25;
-
-            code = ReturnCode.RELEASES_LOADED;
+            has_more = source_releases.list.size == 25;
 
             return _releases;
         }

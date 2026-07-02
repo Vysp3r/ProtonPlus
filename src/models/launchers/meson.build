@@ -5,3 +5,5 @@ sources += files(
     'steam.vala',
     'winezgui.vala',
 )
+
+subdir('runners')
