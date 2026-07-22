@@ -1467,7 +1467,7 @@ msgstr ""
 #: src/cli/cli.vala:78
 #, c-format
 msgid "Error: Unknown command '%s'\n"
-msgstr "Errore: comando sconosciuto '%s'\n"
+msgstr "Errore: Comando sconosciuto '%s'\n"
 
 #: src/cli/cli.vala:86
 msgid "Detected launchers:\n"
@@ -1485,7 +1485,7 @@ msgstr "Nessun runner installato\n"
 #: src/cli/cli.vala:184
 #, c-format
 msgid "Error: Runner '%s' does not support 'latest' installation\n"
-msgstr "Errore: il runner '%s' non supporta l'installazione 'latest'\n"
+msgstr "Errore: Il runner '%s' non supporta l'installazione 'latest'\n"
 
 #: src/cli/cli.vala:204
 #, c-format
@@ -1499,7 +1499,7 @@ msgstr "%s Latest installato correttamente\n"
 
 #: src/cli/cli.vala:206 src/cli/cli.vala:231
 msgid "Error: Installation failed\n"
-msgstr "Errore: installazione non riuscita\n"
+msgstr "Errore: Installazione non riuscita\n"
 
 #: src/cli/cli.vala:217
 #, c-format
@@ -1557,7 +1557,7 @@ msgstr "%s disinstallato correttamente\n"
 
 #: src/cli/cli.vala:290
 msgid "Error: Uninstallation failed\n"
-msgstr "Errore: disinstallazione non riuscita\n"
+msgstr "Errore: Disinstallazione non riuscita\n"
 
 #: src/cli/cli.vala:295
 msgid "Updating all runners...\n"
@@ -1581,7 +1581,7 @@ msgstr "Già all'ultima versione: %s\n"
 #: src/cli/cli.vala:322 src/cli/cli.vala:378
 #, c-format
 msgid "Error: Failed to update %s\n"
-msgstr "Errore: aggiornamento di %s non riuscito\n"
+msgstr "Errore: Aggiornamento di %s non riuscito\n"
 
 #: src/cli/cli.vala:361
 msgid "Already up to date\n"
@@ -1594,11 +1594,11 @@ msgstr "Aggiornamento di %s..."
 
 #: src/cli/cli.vala:398
 msgid "Error: Failed to load launchers\n"
-msgstr "Errore: caricamento dei launcher non riuscito\n"
+msgstr "Errore: Caricamento dei launcher non riuscito\n"
 
 #: src/cli/cli.vala:407
 msgid "Error: Failed to load releases\n"
-msgstr "Errore: caricamento delle release non riuscito\n"
+msgstr "Errore: Caricamento delle release non riuscito\n"
 
 #: src/cli/cli.vala:418
 #, c-format
@@ -1608,7 +1608,7 @@ msgstr "Errore: Launcher '%s' non trovato\n"
 #: src/cli/cli.vala:431
 #, c-format
 msgid "Error: Runner '%s' not found\n"
-msgstr "Errore: runner '%s' non trovato\n"
+msgstr "Errore: Runner '%s' non trovato\n"
 
 #: src/cli/cli.vala:470
 #, c-format
@@ -1617,11 +1617,11 @@ msgstr "Utilizzo: %s\n"
 
 #: src/cli/cli.vala:487
 msgid "Error: Invalid input, please enter a number\n"
-msgstr "Errore: input non valido, inserisci un numero\n"
+msgstr "Errore: Input non valido, inserisci un numero\n"
 
 #: src/cli/cli.vala:493
 msgid "Error: Selection out of range\n"
-msgstr "Errore: selezione fuori intervallo\n"
+msgstr "Errore: Selezione fuori intervallo\n"
 
 #: src/cli/cli.vala:500
 msgid "Usage:\n"
@@ -1680,7 +1680,7 @@ msgstr "Generiche"
 #: data/ui/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr "Mostra scorciatoie"
+msgstr "Mostra Scorciatoie"
 
 #: data/ui/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
