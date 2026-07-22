@@ -28,7 +28,8 @@ msgid "translator-credits"
 msgstr ""
 "Lize58, 2024\n"
 "Alessandro Marigliano, 2025\n"
-"M4ttiA, 2025"
+"M4ttiA, 2025\n"
+"Youseffo13, 2026"
 
 #: src/widgets/application.vala:110
 msgid "Special thanks to"
