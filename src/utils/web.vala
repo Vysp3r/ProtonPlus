@@ -76,74 +76,44 @@ namespace ProtonPlus.Utils {
             return false;
         }
 
-        public static async ReturnCode get_request (string uri, GetRequestType get_request_type = GetRequestType.OTHER, out string? response) {
-            response = null;
-            try {
-                var message = new Soup.Message ("GET", uri);
+        public static async Requests.Response get_request (string uri, GetRequestType get_request_type = GetRequestType.OTHER) {
+            var request = new Requests.Request (uri, "GET", current_session);
 
-                if (Globals.SETTINGS != null) {
-                    if (get_request_type == GetRequestType.GITHUB || get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
-                        var key = Globals.SETTINGS.get_string ("github-api-key");
-                        if (key.length > 0)
-                            message.request_headers.append ("Authorization", "token %s".printf (key));
-                    }
-
-                    if (get_request_type == GetRequestType.GITLAB) {
-                        var key = Globals.SETTINGS.get_string ("gitlab-api-key");
-                        if (key.length > 0)
-                            message.request_headers.append ("Authorization", "Bearer %s".printf (key));
-                    }
-
-                    if (get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
-                        message.request_headers.append ("Accept", "application/vnd.github+json");
-                        message.request_headers.append ("X-GitHub-Api-Version", "2022-11-28");
-                    }
+            if (Globals.SETTINGS != null) {
+                if (get_request_type == GetRequestType.GITHUB || get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
+                    var key = Globals.SETTINGS.get_string ("github-api-key");
+                    if (key.length > 0)
+                        request.append_header ("Authorization", "token %s".printf (key));
                 }
 
-                Bytes bytes = yield current_session.send_and_read_async (message, Priority.DEFAULT, null);
-
-                response = Parser.data_to_string (bytes.get_data ());
-
-                if (response == null)
-                    return ReturnCode.INVALID_DATA;
-
-                switch (get_request_type) {
-                case GetRequestType.GITHUB :
-                    if (message.status_code == 403 || message.status_code == 429)
-                        return ReturnCode.API_LIMIT_REACHED;
-                    if (response.contains ("Bad credentials"))
-                        return ReturnCode.INVALID_ACCESS_TOKEN;
-                    break;
-                case GetRequestType.GITLAB:
-                    if (message.status_code == 403 || message.status_code == 429)
-                        return ReturnCode.API_LIMIT_REACHED;
-                    if (response.contains ("401 Unauthorized"))
-                        return ReturnCode.INVALID_ACCESS_TOKEN;
-                    break;
-                default:
-                    break;
+                if (get_request_type == GetRequestType.GITLAB) {
+                    var key = Globals.SETTINGS.get_string ("gitlab-api-key");
+                    if (key.length > 0)
+                        request.append_header ("Authorization", "Bearer %s".printf (key));
                 }
 
-                return ReturnCode.VALID_REQUEST;
-            } catch (Error e) {
-                if (e is Soup.SessionError.PARSING ||
-                    e.message.contains ("TLS handshake") ||
-                    e.message.contains ("TLS connection")) {
-                    return ReturnCode.TLS_HANDSHAKE_ERROR;
+                if (get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
+                    request.append_header ("Accept", "application/vnd.github+json");
+                    request.append_header ("X-GitHub-Api-Version", "2022-11-28");
                 }
-
-                if (e.message.contains ("Temporary failure in name resolution"))
-                    return ReturnCode.CONNECTION_ISSUE;
-
-                if (e.message.contains ("Connection refused"))
-                    return ReturnCode.CONNECTION_REFUSED;
-
-                if (e.message.contains ("Name or service not known"))
-                    return ReturnCode.CONNECTION_UNKNOWN;
-
-                warning (e.message);
-                return ReturnCode.REQUEST_FAILED;
             }
+
+            var response = yield request.send ();
+
+            if (response.is_successful)
+                return response;
+
+            if (response.status_code == 403 || response.status_code == 429) {
+                response.code = ReturnCode.API_LIMIT_REACHED;
+            } else if (response.status_code == 401 &&
+                       (get_request_type == GetRequestType.GITHUB ||
+                        get_request_type == GetRequestType.GITLAB ||
+                        get_request_type == GetRequestType.FORGEJO ||
+                        get_request_type == GetRequestType.STEAMTINKERLAUNCH)) {
+                response.code = ReturnCode.INVALID_ACCESS_TOKEN;
+            }
+
+            return response;
         }
 
         public delegate bool cancel_callback ();

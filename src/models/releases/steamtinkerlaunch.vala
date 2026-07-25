@@ -70,18 +70,15 @@ namespace ProtonPlus.Models.Releases {
             latest_date = "";
             latest_hash = "";
 
-            string? response;
-
-            var code = yield Utils.Web.get_request (
+            var response = yield Utils.Web.get_request (
                 "https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1",
-                Utils.Web.GetRequestType.STEAMTINKERLAUNCH,
-                out response
+                Utils.Web.GetRequestType.STEAMTINKERLAUNCH
             );
 
-            if (code != ReturnCode.VALID_REQUEST)
+            if (response.code != ReturnCode.VALID_REQUEST)
                 return;
 
-            var root_node = Utils.Parser.get_node_from_json (response);
+            var root_node = Utils.Parser.get_node_from_json (response.body);
 
             if (root_node == null || root_node.get_node_type () != Json.NodeType.ARRAY)
                 return;

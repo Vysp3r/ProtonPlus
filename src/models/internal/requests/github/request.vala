@@ -12,16 +12,15 @@ namespace ProtonPlus.Models.Internal.Requests.Github {
 
         public async IReleases? request_endpoint (string endpoint, int page = 1, int limit = 25, out ReturnCode code) {
             var _releases = new Github.Releases ();
-            string? response = null;
-
-            code = yield send (
+            var response = yield Utils.Web.get_request (
                 "%s?per_page=%i&page=%i".printf (endpoint, limit, page),
-                out response);
+                Utils.Web.GetRequestType.GITHUB);
+            code = response.code;
 
             if (code != ReturnCode.VALID_REQUEST)
                 return _releases;
 
-            var root_node = Utils.Parser.get_node_from_json (response);
+            var root_node = Utils.Parser.get_node_from_json (response.body);
             if (root_node == null) {
                 code = ReturnCode.INVALID_DATA;
                 return _releases;
@@ -38,11 +37,6 @@ namespace ProtonPlus.Models.Internal.Requests.Github {
                 return _releases;
             }
 
-            if (root_array.get_length () == 0) {
-                code = ReturnCode.INVALID_DATA;
-                return _releases;
-            }
-
             code = ReturnCode.RELEASES_LOADED;
             return new Github.Releases.from_json (root_array);
         }
@@ -50,51 +44,6 @@ namespace ProtonPlus.Models.Internal.Requests.Github {
         public async IReleases load_more (IRunner runner) {
             this.page++;
             return yield request (runner, this.page, this.limit);
-        }
-
-        public static async ReturnCode send (string uri, out string? response) {
-            response = null;
-            try {
-                var message = new Soup.Message ("GET", uri);
-
-                if (Globals.SETTINGS != null) {
-                    var key = Globals.SETTINGS.get_string ("github-api-key");
-                    if (key.length > 0)
-                        message.request_headers.append ("Authorization", "token %s".printf (key));
-                }
-
-                Bytes bytes = yield ProtonPlus.Utils.Web.get_session ().send_and_read_async (message, Priority.DEFAULT, null);
-
-                response = Utils.Parser.data_to_string (bytes.get_data ());
-
-                if (response == null)
-                    return ReturnCode.INVALID_DATA;
-
-                if (message.status_code == 403 || message.status_code == 429)
-                    return ReturnCode.API_LIMIT_REACHED;
-                if (response.contains ("Bad credentials"))
-                    return ReturnCode.INVALID_ACCESS_TOKEN;
-
-                return ReturnCode.VALID_REQUEST;
-            } catch (Error e) {
-                if (e is Soup.SessionError.PARSING ||
-                    e.message.contains ("TLS handshake") ||
-                    e.message.contains ("TLS connection")) {
-                    return ReturnCode.TLS_HANDSHAKE_ERROR;
-                }
-
-                if (e.message.contains ("Temporary failure in name resolution"))
-                    return ReturnCode.CONNECTION_ISSUE;
-
-                if (e.message.contains ("Connection refused"))
-                    return ReturnCode.CONNECTION_REFUSED;
-
-                if (e.message.contains ("Name or service not known"))
-                    return ReturnCode.CONNECTION_UNKNOWN;
-
-                warning (e.message);
-                return ReturnCode.REQUEST_FAILED;
-            }
         }
     }
 }

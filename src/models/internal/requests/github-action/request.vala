@@ -14,17 +14,15 @@ namespace ProtonPlus.Models.Internal.Requests.GithubAction {
 
         public async IReleases? request_endpoint (string endpoint, int page = 1, int limit = 25, out ReturnCode code) {
             var _releases = new GithubAction.Releases ();
-            string? response = null;
-
-            code = yield ProtonPlus.Models.Internal.Requests.Github.Request.send (
+            var response = yield Utils.Web.get_request (
                 "%s?per_page=%i&page=%i".printf (endpoint, limit, page),
-                out response
-            );
+                Utils.Web.GetRequestType.GITHUB);
+            code = response.code;
 
             if (code != ReturnCode.VALID_REQUEST)
                 return _releases;
 
-            var root_node = Utils.Parser.get_node_from_json (response);
+            var root_node = Utils.Parser.get_node_from_json (response.body);
             if (root_node == null) {
                 code = ReturnCode.INVALID_DATA;
                 return _releases;
@@ -43,7 +41,7 @@ namespace ProtonPlus.Models.Internal.Requests.GithubAction {
             }
 
             var root_array = root_object.get_array_member ("workflow_runs");
-            if (root_array == null || root_array.get_length () == 0) {
+            if (root_array == null) {
                 code = ReturnCode.INVALID_DATA;
                 return _releases;
             }

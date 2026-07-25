@@ -332,8 +332,6 @@ namespace ProtonPlus.Models {
                 release_date = latest_action.created_at.format_iso8601 ();
                 download_url = action_runner.url_template.replace ("{id}", latest_action.id.to_string ());
             } else {
-                string? response;
-
                 string query_param;
                 switch (runner.get_request_type) {
                 case Utils.Web.GetRequestType.FORGEJO :
@@ -346,7 +344,8 @@ namespace ProtonPlus.Models {
                     break;
                 }
 
-                var code = yield Utils.Web.get_request ("%s?%s".printf (runner.endpoint, query_param), runner.get_request_type, out response);
+                var response = yield Utils.Web.get_request ("%s?%s".printf (runner.endpoint, query_param), runner.get_request_type);
+                var code = response.code;
 
                 if (code != ReturnCode.VALID_REQUEST) {
                     // If API is unavailable but we have a stored tag, assume up to date.
@@ -355,7 +354,7 @@ namespace ProtonPlus.Models {
                     return code;
                 }
 
-                var root_node = Utils.Parser.get_node_from_json (response);
+                var root_node = Utils.Parser.get_node_from_json (response.body);
                 if (root_node == null)
                     return ReturnCode.INVALID_DATA;
 
