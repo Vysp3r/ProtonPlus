@@ -133,17 +133,47 @@ namespace ProtonPlus.Utils.VDF {
         public size_t get_shortcuts_count () {
             size_t count = 0;
             foreach (var entry in nodes.entries) {
-                if (entry.key.contains ("shortcuts.") && !entry.key.contains (".tags")) {
+                if (is_shortcut_node (entry.key)) {
                     count++;
                 }
             }
             return count;
         }
 
+        private bool get_shortcut_id_from_path (string path, out int id) {
+            var components = path.split (".");
+            id = -1;
+
+            return components.length >= 2
+                && components[0] == "shortcuts"
+                && int.try_parse (components[1], out id)
+                && id >= 0;
+        }
+
+        private bool is_shortcut_node (string path) {
+            int id;
+            return path.split (".").length == 2 && get_shortcut_id_from_path (path, out id);
+        }
+
+        private int get_first_unused_shortcut_id () {
+            var used_ids = new Gee.HashSet<int> ();
+            foreach (var entry in nodes.entries) {
+                int id;
+                if (get_shortcut_id_from_path (entry.key, out id))
+                    used_ids.add (id);
+            }
+
+            var id = 0;
+            while (used_ids.contains (id))
+                id++;
+
+            return id;
+        }
+
         public VDF.Shortcut get_shortcut_by_name (string name) {
             VDF.Shortcut shortcut = {};
             foreach (var entry in nodes.entries) {
-                if (entry.key.contains ("shortcuts.") && !entry.key.contains (".tags")) {
+                if (is_shortcut_node (entry.key)) {
                     if (entry.value.has_key ("AppName") && entry.value.get ("AppName").get_string () == name) {
                         shortcut.AppID = entry.value.get ("appid").get_int32 ();
                         shortcut.AllowDesktopConfig = entry.value.get ("AllowDesktopConfig").get_int32 () > 0 ? true : false;
@@ -169,7 +199,7 @@ namespace ProtonPlus.Utils.VDF {
 
         public void replace_shortcut_by_name (string name, VDF.Shortcut shortcut) {
             foreach (var entry in nodes.entries) {
-                if (entry.key.contains ("shortcuts.") && !entry.key.contains (".tags")) {
+                if (is_shortcut_node (entry.key)) {
                     if (entry.value.get ("AppName").get_string () == name) {
                         write_shortcut_on_node (entry.value, shortcut);
                         return;
@@ -180,9 +210,11 @@ namespace ProtonPlus.Utils.VDF {
 
         public int get_shortcut_id_by_name (string name) throws Error {
             foreach (var entry in nodes.entries) {
-                if (entry.key.contains ("shortcuts.") && !entry.key.contains (".tags")) {
+                if (is_shortcut_node (entry.key)) {
                     if (entry.value.get ("AppName").get_string () == name) {
-                        return int.parse (entry.key.split (".")[1]);
+                        int id;
+                        get_shortcut_id_from_path (entry.key, out id);
+                        return id;
                     }
                 }
             }
@@ -198,13 +230,15 @@ namespace ProtonPlus.Utils.VDF {
                 var node_base_name = @"shortcuts.$(node_base_id)";
 
                 foreach (var entry in nodes.entries) {
-                    if (!entry.key.contains (node_base_name)) {
+                    if (entry.key != node_base_name && !entry.key.has_prefix (node_base_name + ".")) {
                         var curr_key = entry.key;
-                        if (entry.key.contains (".")) {
-                            var curr_id = int.parse (entry.key.split (".")[1]);
+                        int curr_id;
+                        if (get_shortcut_id_from_path (entry.key, out curr_id)) {
                             var new_id = curr_id - 1;
                             if (curr_id > node_base_id) {
-                                curr_key = curr_key.replace (curr_id.to_string ("%d"), new_id.to_string ("%d"));
+                                var components = entry.key.split (".");
+                                components[1] = new_id.to_string ("%d");
+                                curr_key = string.joinv (".", components);
                             }
                         }
                         new_nodes.set (curr_key, entry.value);
@@ -237,7 +271,7 @@ namespace ProtonPlus.Utils.VDF {
         }
 
         public void append_shortcut (VDF.Shortcut shortcut) {
-            var new_node_id = get_shortcuts_count ();
+            var new_node_id = get_first_unused_shortcut_id ();
             shortcut.shortcut_node = new VDF.Node (@"shortcuts.$(new_node_id)");
             shortcut.shortcut_node_tags = new VDF.Node (@"shortcuts.$(new_node_id).tags");
 
