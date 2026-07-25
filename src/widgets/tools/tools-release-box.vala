@@ -12,6 +12,7 @@ namespace ProtonPlus.Widgets.Tools {
         Adw.StatusPage status_page { get; set; }
         Gtk.ScrolledWindow scrolled_games { get; set; }
         Gtk.Box list_header_box { get; set; }
+        Adw.ViewStackPage games_page { get; set; }
 
         public signal void selection_changed ();
 
@@ -111,7 +112,7 @@ namespace ProtonPlus.Widgets.Tools {
             headered_list_box.append (status_page);
 
             content_stack.add_titled_with_icon (desc_text, "changelog", _ ("Changelog"), "book-open-symbolic");
-            content_stack.add_titled_with_icon (headered_list_box, "games", _ ("Used by"), "gamepad-symbolic");
+            games_page = content_stack.add_titled_with_icon (headered_list_box, "games", _ ("Used by"), "gamepad-symbolic");
             content_stack.add_css_class ("card");
 
             tool_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
@@ -131,11 +132,15 @@ namespace ProtonPlus.Widgets.Tools {
         public void set_selected_release (Models.Release release, bool show_games = false) {
             check_button.set_active (false);
 
+            var launcher = release.runner.group.launcher;
+            var steam_launcher = launcher as Models.Launchers.Steam;
+            games_page.set_visible (steam_launcher != null);
+
             title_label.set_label (release.title ?? "");
             desc_text.set_markdown (release.description);
             desc_label.set_label (release.release_date ?? "");
 
-            if (show_games)
+            if (show_games && steam_launcher != null)
             content_stack.set_visible_child_name ("games");
             else
             content_stack.set_visible_child_name ("changelog");
@@ -143,10 +148,8 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.remove_all ();
 
             var tool_name = release.get_usage_identifier ();
-            var launcher = release.runner.group.launcher;
 
             string default_tool = "";
-            var steam_launcher = launcher as Models.Launchers.Steam;
             if (steam_launcher != null) {
                 default_tool = steam_launcher.default_compatibility_tool;
             }
