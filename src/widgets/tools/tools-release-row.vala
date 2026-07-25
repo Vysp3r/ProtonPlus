@@ -126,9 +126,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             release.notify["state"].connect (release_state_changed);
             release.notify["step"].connect (release_step_changed);
-            release.notify["progress"].connect (release_progress_changed);
-            release.notify["speed-kbps"].connect (release_progress_changed);
-            release.notify["seconds-remaining"].connect (release_progress_changed);
+            release.progress_updated.connect (release_progress_changed);
 
             release.notify_property ("step");
             release.notify_property ("state");

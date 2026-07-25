@@ -118,6 +118,30 @@ namespace ProtonPlus.Utils {
 
         public delegate void progress_callback (bool is_percent, int64 progress_percentage, double speed_kbps, double? remaining_seconds);
 
+        private static void report_download_progress (
+            progress_callback progress_callback,
+            bool is_percent,
+            int64 bytes_downloaded,
+            int64 server_download_size,
+            int64 start_time
+        ) {
+            int64 elapsed_us = get_monotonic_time () - start_time;
+            double elapsed_s = elapsed_us / 1000000.0;
+
+            double speed_kbps = elapsed_s > 0 ? (bytes_downloaded / 1024.0) / elapsed_s : 0.0;
+            double speed_bps = elapsed_s > 0 ? bytes_downloaded / elapsed_s : 0.0;
+
+            double? remaining_seconds = null;
+            if (is_percent && speed_bps > 0.0) {
+                int64 bytes_left = server_download_size - bytes_downloaded;
+                remaining_seconds = bytes_left / speed_bps;
+            }
+
+            // Use "bytes downloaded" when total size is unknown.
+            int64 progress = !is_percent ? bytes_downloaded : (int64) (((double) bytes_downloaded / server_download_size) * 100);
+            progress_callback (is_percent, progress, speed_kbps, remaining_seconds);
+        }
+
         private static async void cleanup_partial_download (File file, FileOutputStream? output_stream) {
             if (output_stream != null) {
                 try {
@@ -171,7 +195,8 @@ namespace ProtonPlus.Utils {
                 // filesize for a few minutes, until GitHub clears their cache.
                 int64 server_download_size = soup_message.get_response_headers ().get_content_length ();
 
-                const size_t chunk_size = 4096;
+                const size_t chunk_size = 64 * 1024;
+                const int64 progress_report_interval_us = 100 * 1000;
                 bool is_percent = server_download_size > 0;
                 int64 bytes_downloaded = 0;
 
@@ -181,6 +206,7 @@ namespace ProtonPlus.Utils {
                 var is_canceled = false;
 
                 int64 start_time = get_monotonic_time ();
+                int64 last_progress_report_time = start_time;
 
                 while (true) {
                     if (cancellable != null && cancellable.is_cancelled ()) {
@@ -198,24 +224,15 @@ namespace ProtonPlus.Utils {
 
                     bytes_downloaded += bytes_written;
 
-                    if (progress_callback != null) {
-                        int64 elapsed_us = get_monotonic_time () - start_time;
-                        double elapsed_s = elapsed_us / 1000000.0;
-
-                        double speed_kbps = elapsed_s > 0 ? (bytes_downloaded / 1024.0) / elapsed_s : 0.0;
-                        double speed_bps = elapsed_s > 0 ? bytes_downloaded / elapsed_s : 0.0;
-
-                        double? remaining_seconds = null;
-                        if (is_percent && speed_bps > 0.0) {
-                            int64 bytes_left = server_download_size - bytes_downloaded;
-                            remaining_seconds = bytes_left / speed_bps;
-                        }
-
-                        // Use "bytes downloaded" when total size is unknown.
-                        int64 progress = !is_percent ? bytes_downloaded : (int64) (((double) bytes_downloaded / server_download_size) * 100);
-                        progress_callback (is_percent, progress, speed_kbps, remaining_seconds);
+                    int64 now = get_monotonic_time ();
+                    if (progress_callback != null && now - last_progress_report_time >= progress_report_interval_us) {
+                        report_download_progress (progress_callback, is_percent, bytes_downloaded, server_download_size, start_time);
+                        last_progress_report_time = now;
                     }
                 }
+
+                if (!is_canceled && progress_callback != null)
+                    report_download_progress (progress_callback, is_percent, bytes_downloaded, server_download_size, start_time);
 
                 yield output_stream.close_async ();
                 output_stream = null;

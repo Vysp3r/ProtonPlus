@@ -44,6 +44,7 @@ namespace ProtonPlus.Models {
         public double speed_kbps { get; set; }
         public double seconds_remaining { get; set; }
         public bool is_percent { get; set; }
+        public signal void progress_updated ();
         public bool is_finished { get; set; default = false; }
         public bool install_success { get; set; default = false; }
         public string? error_message { get; set; }
@@ -615,6 +616,7 @@ namespace ProtonPlus.Models {
             this.progress = is_percent ? @"$progress%" : Utils.Filesystem.convert_bytes_to_string (progress);
             this.speed_kbps = speed_kbps;
             this.seconds_remaining = remaining_seconds ?? -1.0;
+            progress_updated ();
             Utils.DownloadManager.instance.progress_updated (this);
         }
 
