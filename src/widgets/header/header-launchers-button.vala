@@ -51,6 +51,11 @@ namespace ProtonPlus.Widgets.Header {
             list_box.row_activated (first_row);
         }
 
+        public override void dispose () {
+            popover.unparent ();
+            base.dispose ();
+        }
+
         public void button_clicked () {
             if (popover.get_visible ())
             popover.popdown ();

@@ -16,7 +16,6 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Label time_label { get; set; }
         Gtk.Label usage_pill { get; set; }
         Gtk.Popover info_popover { get; set; }
-        Gtk.Popover details_popover { get; set; }
         uint progress_pulse_timeout_id = 0;
 
         public ReleaseRow (Models.Release release) {
@@ -142,7 +141,6 @@ namespace ProtonPlus.Widgets.Tools {
         public override void dispose () {
             stop_progress_pulse ();
             info_popover.unparent ();
-            details_popover.unparent ();
             base.dispose ();
         }
 

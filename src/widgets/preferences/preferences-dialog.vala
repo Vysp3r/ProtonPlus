@@ -261,7 +261,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("Maintenance")
             };
             advanced_page.add (maintenance_group);
-            maintenance_group.add (new RefreshApplicationDataRow (this));
+            maintenance_group.add (new RefreshApplicationDataRow ());
             maintenance_group.add (new DeleteCacheRow ());
 
             // System Page
