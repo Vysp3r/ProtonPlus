@@ -120,9 +120,30 @@ namespace ProtonPlus.Widgets.Tools {
             var new_tool_internal = possible_tools_internal[(int)selected_index];
 
             migrate_button.sensitive = false;
+            var failures = new Gee.ArrayList<string> ();
 
             foreach (var game in games) {
-                game.change_compatibility_tool (new_tool_internal);
+                if (!game.change_compatibility_tool (new_tool_internal))
+                    failures.add (game.name);
+            }
+
+            if (failures.size > 0) {
+                var names = "";
+                foreach (var name in failures) {
+                    if (names != "")
+                        names += "\n";
+
+                    names += "- %s".printf (name);
+                }
+
+                var dialog = new Main.ErrorDialog (
+                    _("Migration Failed"),
+                    _("Some games could not be migrated to the new compatibility tool. This may be due to missing permissions or file access issues."),
+                    names
+                );
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
+                migrate_button.sensitive = true;
+                return;
             }
 
             finished ();
