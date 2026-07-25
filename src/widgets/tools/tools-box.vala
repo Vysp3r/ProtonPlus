@@ -24,6 +24,8 @@ namespace ProtonPlus.Widgets.Tools {
         MigrateBox migrate_box { get; set; }
         Adw.ViewSwitcher switcher { get; set; }
         Adw.ViewStack center_stack { get; set; }
+        ulong background_updates_changed_handler = 0;
+        ulong show_legacy_tools_changed_handler = 0;
 
         public signal void toast_sent (string title);
 
@@ -307,18 +309,37 @@ namespace ProtonPlus.Widgets.Tools {
             append (action_bar);
 
             if (Globals.SETTINGS != null) {
-                Globals.SETTINGS.changed["background-updates"].connect (() => {
-                    stack.notify_property ("visible-child-name");
-                });
-                Globals.SETTINGS.changed["show-legacy-tools"].connect (() => {
-                    var child = groups_stack.get_first_child ();
-                    while (child != null) {
-                        if (child is GroupBox) {
-                            ((GroupBox) child).refresh ();
-                        }
-                        child = child.get_next_sibling ();
-                    }
-                });
+                background_updates_changed_handler = Globals.SETTINGS.changed["background-updates"].connect (update_refresh_button_visibility);
+                show_legacy_tools_changed_handler = Globals.SETTINGS.changed["show-legacy-tools"].connect (refresh_groups_for_legacy_tools);
+            }
+        }
+
+        public override void dispose () {
+            if (Globals.SETTINGS != null) {
+                if (background_updates_changed_handler != 0) {
+                    Globals.SETTINGS.disconnect (background_updates_changed_handler);
+                    background_updates_changed_handler = 0;
+                }
+
+                if (show_legacy_tools_changed_handler != 0) {
+                    Globals.SETTINGS.disconnect (show_legacy_tools_changed_handler);
+                    show_legacy_tools_changed_handler = 0;
+                }
+            }
+
+            base.dispose ();
+        }
+
+        void update_refresh_button_visibility () {
+            stack.notify_property ("visible-child-name");
+        }
+
+        void refresh_groups_for_legacy_tools () {
+            var child = groups_stack.get_first_child ();
+            while (child != null) {
+                if (child is GroupBox)
+                    ((GroupBox) child).refresh ();
+                child = child.get_next_sibling ();
             }
         }
 

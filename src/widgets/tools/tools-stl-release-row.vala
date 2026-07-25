@@ -47,7 +47,7 @@ namespace ProtonPlus.Widgets.Tools {
             var yad_installed = false;
             if (yield Utils.System.check_dependency ("yad")) {
                 yad_installed = true;
-                string yad_version_output = yield Utils.System.run_command ("yad --version");
+                string yad_version_output = (yield Utils.System.run_command ("yad --version")).stdout;
 
                 float version = 0.0f;
                 try {

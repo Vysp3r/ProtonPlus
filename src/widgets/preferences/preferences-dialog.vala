@@ -1,6 +1,8 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class PreferencesDialog : Adw.PreferencesDialog {
         Adw.PreferencesPage[] controller_pages = {};
+        Adw.EntryRow? proxy_url_row;
+        ulong proxy_mode_changed_handler = 0;
 
         public PreferencesDialog (Gee.LinkedList<Models.Launcher> launchers) {
             set_search_enabled (true);
@@ -57,7 +59,6 @@ namespace ProtonPlus.Widgets.Preferences {
                 subtitle = _("Automatically update the tools in the background"),
             };
             Globals.SETTINGS.bind ("background-updates", background_updates_row, "active", SettingsBindFlags.DEFAULT);
-            Globals.SETTINGS.changed["background-updates"].connect (Utils.System.systemd_handler);
             updates_group.add (background_updates_row);
 
             var background_updates_frequency_row = new BackgroundUpdatesFrequencyRow () {
@@ -71,7 +72,6 @@ namespace ProtonPlus.Widgets.Preferences {
                 subtitle = _("Check for tool updates when the system starts"),
             };
             Globals.SETTINGS.bind ("check-updates-on-boot", check_updates_on_boot_row, "active", SettingsBindFlags.DEFAULT);
-            Globals.SETTINGS.changed["check-updates-on-boot"].connect (Utils.System.systemd_handler);
             updates_group.add (check_updates_on_boot_row);
 
             var check_updates_on_launch_row = new Adw.SwitchRow () {
@@ -235,19 +235,13 @@ namespace ProtonPlus.Widgets.Preferences {
             var proxy_mode_row = new ProxyModeRow ();
             network_group.add (proxy_mode_row);
 
-            var proxy_url_row = new Adw.EntryRow () {
+            proxy_url_row = new Adw.EntryRow () {
                 title = _("Proxy URL"),
             };
             proxy_url_row.set_tooltip_text (_("Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"));
             proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
             Globals.SETTINGS.bind ("proxy-url", proxy_url_row, "text", SettingsBindFlags.DEFAULT);
-            Globals.SETTINGS.changed["proxy-mode"].connect (() => {
-                proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
-                Utils.Web.update_proxy_settings ();
-            });
-            Globals.SETTINGS.changed["proxy-url"].connect (() => {
-                Utils.Web.update_proxy_settings ();
-            });
+            proxy_mode_changed_handler = Globals.SETTINGS.changed["proxy-mode"].connect (update_proxy_url_sensitivity);
             network_group.add (proxy_url_row);
 
             var experimental_group = new Adw.PreferencesGroup () {
@@ -379,6 +373,21 @@ namespace ProtonPlus.Widgets.Preferences {
         void add_controller_page (Adw.PreferencesPage page) {
             add (page);
             controller_pages += page;
+        }
+
+        void update_proxy_url_sensitivity () {
+            if (proxy_url_row != null)
+                proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
+        }
+
+        public override void dispose () {
+            if (proxy_mode_changed_handler != 0 && Globals.SETTINGS != null) {
+                Globals.SETTINGS.disconnect (proxy_mode_changed_handler);
+                proxy_mode_changed_handler = 0;
+            }
+
+            proxy_url_row = null;
+            base.dispose ();
         }
 
         public void switch_page (int delta) {

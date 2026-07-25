@@ -38,7 +38,7 @@ namespace ProtonPlus.Utils.VDF {
                 exe = "\"/usr/bin/flatpak\"";
                 launch_options += " \"run\" \"--branch=stable\" \"--arch=x86_64\" \"--command=protonplus\" \"com.vysp3r.ProtonPlus\"";
             } else {
-                var which_output = yield Utils.System.run_command ("which protonplus");
+                var which_output = (yield Utils.System.run_command ("which protonplus")).stdout;
 
                 if (which_output.contains ("which: no"))
                 return false;
