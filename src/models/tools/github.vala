@@ -83,8 +83,5 @@ namespace ProtonPlus.Models.Tools {
 
             return _releases;
         }
-
-        public void filter_variant (Variant variant, Json.Array assets) {
-        }
     }
 }

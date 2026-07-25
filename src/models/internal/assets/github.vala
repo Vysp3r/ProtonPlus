@@ -19,9 +19,6 @@ namespace ProtonPlus.Models.Internal.Assets {
                 return null;
             }
 
-            var generator = new Json.Generator ();
-            generator.set_root (new Json.Node.alloc ().init_object (obj));
-
             string download_url = obj.has_member ("browser_download_url") ? obj.get_string_member ("browser_download_url") : "";
             string name = obj.has_member ("name") ? obj.get_string_member ("name") : "";
             int download_size = (int) obj.get_int_member ("size");
