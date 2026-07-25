@@ -20,9 +20,8 @@ namespace ProtonPlus.Models.Tools {
         }
 
         public override bool is_installed () {
-            var directories = group.get_tool_directories ();
-            foreach (var directory in directories) {
-                if (directory == "SteamTinkerLaunch")
+            foreach (var entry in group.get_installed_tool_index ()) {
+                if (entry.directory_name == "SteamTinkerLaunch")
                     return true;
             }
             return false;

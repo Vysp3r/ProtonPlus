@@ -111,24 +111,6 @@ namespace ProtonPlus.Models.Tools {
             return "-%s".printf (sanitized_variant_name);
         }
 
-        private bool marker_matches_current_runner (string directory_path) {
-            var metadata = Utils.Metadata.load (directory_path);
-            if (metadata.runner_endpoint != endpoint && metadata.runner_title != title)
-                return false;
-
-            metadata.runner_endpoint = endpoint;
-            metadata.runner_title = title;
-            metadata.save (directory_path);
-            return true;
-        }
-
-        private void persist_runner_markers (string directory_path) {
-            var metadata = Utils.Metadata.load (directory_path);
-            metadata.runner_endpoint = endpoint;
-            metadata.runner_title = title;
-            metadata.save (directory_path);
-        }
-
         private bool identifier_matches_tool (string identifier) {
             if (identifier == "")
                 return false;
@@ -153,69 +135,27 @@ namespace ProtonPlus.Models.Tools {
             return false;
         }
 
-        private string? get_matching_usage_identifier_for_directory (string directory_path) {
-            if (marker_matches_current_runner (directory_path)) {
-                var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (directory_path);
-                if (!FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR))
-                    return Path.get_basename (directory_path);
-
-                var simple_runner = new Tools.Simple.from_path (directory_path);
-                return simple_runner.internal_title != "" ? simple_runner.internal_title : Path.get_basename (directory_path);
-            }
-
-            var directory_name = Path.get_basename (directory_path);
-            if (identifier_matches_tool (directory_name)) {
-                persist_runner_markers (directory_path);
-                return directory_name;
-            }
-
-            var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (directory_path);
-            if (!FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR))
-                return null;
-
-            var simple_runner = new Tools.Simple.from_path (directory_path);
-            if (identifier_matches_tool (simple_runner.internal_title)) {
-                persist_runner_markers (directory_path);
-                return simple_runner.internal_title;
-            }
-
-            if (identifier_matches_tool (simple_runner.title)) {
-                persist_runner_markers (directory_path);
-                return simple_runner.internal_title != "" ? simple_runner.internal_title : simple_runner.title;
-            }
-
-            return null;
-        }
-
         private string? get_installed_usage_identifier () {
-            foreach (var directory_root in group.launcher.get_tool_directories (group)) {
-                var direct_match = get_matching_usage_identifier_for_directory (directory_root);
-                if (direct_match != null)
-                    return direct_match;
+            foreach (var entry in group.get_installed_tool_index ()) {
+                // A persisted marker is authoritative when either field matches.
+                if (entry.runner_endpoint == endpoint || entry.runner_title == title) {
+                    if (!entry.has_compatibilitytool_vdf)
+                        return entry.directory_name;
 
-                if (!FileUtils.test (directory_root, FileTest.IS_DIR))
+                    return entry.internal_title != "" ? entry.internal_title : entry.directory_name;
+                }
+
+                if (identifier_matches_tool (entry.directory_name))
+                    return entry.directory_name;
+
+                if (!entry.has_compatibilitytool_vdf)
                     continue;
 
-                try {
-                    File directory = File.new_for_path (directory_root);
-                    FileEnumerator? enumerator = directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
+                if (identifier_matches_tool (entry.internal_title))
+                    return entry.internal_title;
 
-                    if (enumerator == null)
-                        continue;
-
-                    FileInfo? file_info;
-                    while ((file_info = enumerator.next_file ()) != null) {
-                        if (file_info.get_file_type () != FileType.DIRECTORY)
-                            continue;
-
-                        var directory_path = "%s/%s".printf (directory_root, file_info.get_name ());
-                        var child_match = get_matching_usage_identifier_for_directory (directory_path);
-                        if (child_match != null)
-                            return child_match;
-                    }
-                } catch (Error e) {
-                    warning (e.message);
-                }
+                if (identifier_matches_tool (entry.display_title))
+                    return entry.internal_title != "" ? entry.internal_title : entry.display_title;
             }
 
             return null;

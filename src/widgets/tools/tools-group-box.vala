@@ -28,6 +28,10 @@ namespace ProtonPlus.Widgets.Tools {
         public GroupBox (Models.Group group) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
+            // Build this once before Gtk begins repeatedly invoking the filter
+            // and comparator callbacks below.
+            group.rebuild_installed_tool_index ();
+
             var icon = new Gtk.Image.from_icon_name ("layer-group-symbolic");
 
             var title_label = new Gtk.Label (group.title) {
@@ -57,6 +61,11 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.add_css_class ("tools-tools-card");
             list_box.set_filter_func (filter_func);
             list_box.set_sort_func (sort_func);
+
+            group.installed_tool_index_invalidated.connect (() => {
+                group.rebuild_installed_tool_index ();
+                refresh ();
+            });
 
             var scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,

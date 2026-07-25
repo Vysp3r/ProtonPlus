@@ -323,6 +323,7 @@ namespace ProtonPlus.Models {
             // Attempt the installation.
             replacement_backup_path = null;
             var code = yield _start_install (replace_existing);
+            runner.group.invalidate_installed_tool_index ();
 
             var success = code == ReturnCode.RUNNER_INSTALLED;
 
@@ -504,6 +505,7 @@ namespace ProtonPlus.Models {
 
             // Attempt the removal.
             var code = yield _start_remove ();
+            runner.group.invalidate_installed_tool_index ();
 
             var success = code == ReturnCode.RUNNER_REMOVED;
 

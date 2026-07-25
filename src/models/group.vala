@@ -1,10 +1,45 @@
 namespace ProtonPlus.Models {
+    public class InstalledToolEntry : Object {
+        public string path { get; construct set; }
+        public string directory_name { get; construct set; }
+        public string internal_title { get; construct set; }
+        public string display_title { get; construct set; }
+        public string runner_endpoint { get; construct set; }
+        public string runner_title { get; construct set; }
+
+        public bool has_compatibilitytool_vdf { get; construct set; }
+
+        public InstalledToolEntry (
+            string path,
+            string directory_name,
+            string internal_title,
+            string display_title,
+            string runner_endpoint,
+            string runner_title,
+            bool has_compatibilitytool_vdf
+        ) {
+            Object (
+                path: path,
+                directory_name: directory_name,
+                internal_title: internal_title,
+                display_title: display_title,
+                runner_endpoint: runner_endpoint,
+                runner_title: runner_title,
+                has_compatibilitytool_vdf: has_compatibilitytool_vdf
+            );
+        }
+    }
+
     public class Group : Object {
         public string title { get; set; }
         public string description { get; set; }
         public string directory { get; set; }
         public Launcher launcher { get; set; }
         public Gee.LinkedList<Tool> tools { get; set; }
+
+        private Gee.ArrayList<InstalledToolEntry> installed_tool_index = new Gee.ArrayList<InstalledToolEntry> ();
+
+        public signal void installed_tool_index_invalidated ();
 
         public Group (string title, string description, string directory, Launcher launcher) {
             this.title = title;
@@ -55,6 +90,76 @@ namespace ProtonPlus.Models {
             }
 
             return directories;
+        }
+
+        // Installation discovery is intentionally centralized here.  Tool-list
+        // filter and sort callbacks call this data repeatedly, so they must not
+        // enumerate the filesystem or parse compatibilitytool.vdf themselves.
+        public Gee.List<InstalledToolEntry> get_installed_tool_index () {
+            return installed_tool_index;
+        }
+
+        public void rebuild_installed_tool_index () {
+            installed_tool_index.clear ();
+
+            foreach (var directory_root in launcher.get_tool_directories (this)) {
+                add_installed_tool_index_entry (directory_root);
+
+                if (!FileUtils.test (directory_root, FileTest.IS_DIR))
+                    continue;
+
+                try {
+                    File directory = File.new_for_path (directory_root);
+                    FileEnumerator? enumerator = directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
+                    if (enumerator == null)
+                        continue;
+
+                    FileInfo? file_info;
+                    while ((file_info = enumerator.next_file ()) != null) {
+                        if (file_info.get_file_type () != FileType.DIRECTORY)
+                            continue;
+
+                        add_installed_tool_index_entry (Path.build_filename (directory_root, file_info.get_name ()));
+                    }
+                } catch (Error e) {
+                    warning (e.message);
+                }
+            }
+
+        }
+
+        public void invalidate_installed_tool_index () {
+            installed_tool_index.clear ();
+            installed_tool_index_invalidated ();
+        }
+
+        private void add_installed_tool_index_entry (string path) {
+            var compatibilitytoolvdf_path = Path.build_filename (path, "compatibilitytool.vdf");
+            var has_compatibilitytool_vdf = FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR);
+
+            if (!has_compatibilitytool_vdf && !FileUtils.test (path, FileTest.IS_DIR))
+                return;
+
+            var directory_name = Path.get_basename (path);
+            var internal_title = directory_name;
+            var display_title = directory_name;
+
+            if (has_compatibilitytool_vdf) {
+                var simple_runner = new Tools.Simple.from_path (path);
+                internal_title = simple_runner.internal_title;
+                display_title = simple_runner.title;
+            }
+
+            var metadata = Utils.Metadata.load (path);
+            installed_tool_index.add (new InstalledToolEntry (
+                path,
+                directory_name,
+                internal_title,
+                display_title,
+                metadata.runner_endpoint,
+                metadata.runner_title,
+                has_compatibilitytool_vdf
+            ));
         }
     }
 }
