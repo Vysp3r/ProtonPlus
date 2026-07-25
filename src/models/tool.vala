@@ -157,6 +157,7 @@ namespace ProtonPlus.Models {
                     return releases;
 
                 releases.clear ();
+                _last_version = null;
                 foreach (var release in new_releases) {
                     releases.add (release);
                 }

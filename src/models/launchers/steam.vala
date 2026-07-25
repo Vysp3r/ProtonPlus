@@ -209,6 +209,9 @@ namespace ProtonPlus.Models.Launchers {
             }
 
             foreach (var profile in profiles) {
+                if (profile == this.profile)
+                    continue;
+
                 foreach (var game in profile.non_steam_games) {
                     if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")) {
                         if (!game.is_native)
