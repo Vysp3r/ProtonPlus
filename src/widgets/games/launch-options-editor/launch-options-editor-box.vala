@@ -137,6 +137,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void standard_control_changed () {
+            if (!refreshing_controls)
+                launch_option_handlers.mark_modified ();
+
             refresh_preview ();
 
             if (refreshing_controls)

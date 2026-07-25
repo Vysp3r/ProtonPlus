@@ -45,12 +45,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (text == "")
                 return;
 
-            string[] custom_tokens = text.split (" ");
-            foreach (var token in custom_tokens) {
-                if (token.strip () != "") {
-                    segments.add (token);
-                }
-            }
+            foreach (var token in new LaunchOptionShellTokenizer ().tokenize (text))
+                segments.add (token.raw);
 
             foreach (var child in this._children) {
                 if (child.is_active ()) {
@@ -71,30 +67,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return this.toggle.get_active () && this.entry_field.get_text ().strip () != "";
         }
 
-        public Gee.LinkedList<string> get_env_tokens () {
-            return get_custom_tokens (true);
-        }
+        public void set_loaded_tokens (Gee.LinkedList<string> tokens) {
+            if (tokens.size == 0)
+                return;
 
-        public Gee.LinkedList<string> get_argument_tokens () {
-            return get_custom_tokens (false);
-        }
-
-        private Gee.LinkedList<string> get_custom_tokens (bool environment_tokens) {
-            var result = new Gee.LinkedList<string> ();
-            if (!this.toggle.get_active ())
-                return result;
-
-            string text = this.entry_field.get_text ().strip ();
-            if (text == "")
-                return result;
-
-            foreach (var token in text.split (" ")) {
-                var cleaned_token = token.strip ();
-                if (cleaned_token != "" && cleaned_token.contains ("=") == environment_tokens)
-                    result.add (cleaned_token);
-            }
-
-            return result;
+            this.entry_field.set_text (string.joinv (" ", tokens.to_array ()));
+            this.toggle.set_active (true);
         }
     }
 }
