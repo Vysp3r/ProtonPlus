@@ -116,8 +116,6 @@ namespace ProtonPlus.Utils {
             return response;
         }
 
-        public delegate bool cancel_callback ();
-
         public delegate void progress_callback (bool is_percent, int64 progress_percentage, double speed_kbps, double? remaining_seconds);
 
         private static async void cleanup_partial_download (File file, FileOutputStream? output_stream) {
@@ -140,7 +138,7 @@ namespace ProtonPlus.Utils {
         public static async bool download (
             string url,
             string path,
-            cancel_callback? cancel_callback = null,
+            Cancellable? cancellable = null,
             progress_callback? progress_callback = null,
             out string? error_message = null
         ) {
@@ -152,7 +150,7 @@ namespace ProtonPlus.Utils {
             try {
                 var soup_message = new Soup.Message ("GET", url);
 
-                var input_stream = yield current_session.send_async (soup_message, Priority.DEFAULT, null);
+                var input_stream = yield current_session.send_async (soup_message, Priority.DEFAULT, cancellable);
 
                 if (soup_message.status_code != 200) {
                     warning (soup_message.reason_phrase);
@@ -185,18 +183,18 @@ namespace ProtonPlus.Utils {
                 int64 start_time = get_monotonic_time ();
 
                 while (true) {
-                    if (cancel_callback != null && cancel_callback ()) {
+                    if (cancellable != null && cancellable.is_cancelled ()) {
                         is_canceled = true;
                         break;
                     }
 
-                    var chunk = yield input_stream.read_bytes_async (chunk_size);
+                    var chunk = yield input_stream.read_bytes_async (chunk_size, Priority.DEFAULT, cancellable);
 
                     if (chunk.get_size () == 0)
                         break;
 
                     size_t bytes_written;
-                    yield output_stream.write_all_async (chunk.get_data (), Priority.DEFAULT, null, out bytes_written);
+                    yield output_stream.write_all_async (chunk.get_data (), Priority.DEFAULT, cancellable, out bytes_written);
 
                     bytes_downloaded += bytes_written;
 
@@ -232,6 +230,9 @@ namespace ProtonPlus.Utils {
             } catch (Error e) {
                 if (has_partial_file)
                     yield cleanup_partial_download (file, output_stream);
+
+                if (cancellable != null && cancellable.is_cancelled ())
+                    return false;
 
                 warning (e.message);
                 error_message = e.message;

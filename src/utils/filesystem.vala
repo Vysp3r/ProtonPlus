@@ -23,9 +23,7 @@ namespace ProtonPlus.Utils {
 
         // Miscellaneous.
 
-        public delegate bool cancel_callback ();
-
-        public async static string extract (string install_location, string tool_name, string extension, cancel_callback cancel_callback) {
+        public async static string extract (string install_location, string tool_name, string extension, Cancellable cancellable) {
             SourceFunc callback = extract.callback;
 
             string output = "";
@@ -62,7 +60,7 @@ namespace ProtonPlus.Utils {
                 bool first_run = true;
 
                 for ( ;; ) {
-                    if (cancel_callback ())
+                    if (cancellable.is_cancelled ())
                         break;
 
                     r = archive.next_header (out entry);
@@ -99,7 +97,7 @@ namespace ProtonPlus.Utils {
                     if (r < Archive.Result.OK) {
                         warning ("Could not write archive entry: %s", ext.error_string ());
                     } else if (entry.size () > 0) {
-                        r = copy_data (archive, ext);
+                        r = copy_data (archive, ext, cancellable);
                         if (r < Archive.Result.WARN) {
                             Idle.add ((owned) callback, Priority.DEFAULT);
                             return;
@@ -121,13 +119,10 @@ namespace ProtonPlus.Utils {
                 if (source_path != "")
                     output = Path.build_filename (install_location, source_path);
 
-                if (cancel_callback ()) {
-                    if (output != "") {
-                        delete_directory.begin (output, (obj, res) => {
-                            delete_directory.end (res);
-                        });
-                    }
-
+                if (cancellable.is_cancelled ()) {
+                    // The owning async operation removes its whole private
+                    // workspace once this worker has returned.  Do not start
+                    // another async deletion from this worker thread.
                     output = "";
                 }
 
@@ -157,12 +152,15 @@ namespace ProtonPlus.Utils {
             return normalized_path;
         }
 
-        static ssize_t copy_data (Archive.Read ar, Archive.WriteDisk aw) {
+        static ssize_t copy_data (Archive.Read ar, Archive.WriteDisk aw, Cancellable cancellable) {
             ssize_t r;
             uint8[] buffer;
             Archive.int64_t offset;
 
             for ( ;; ) {
+                if (cancellable.is_cancelled ())
+                    return Archive.Result.FAILED;
+
                 r = ar.read_data_block (out buffer, out offset);
                 if (r == Archive.Result.EOF)
                     return Archive.Result.OK;

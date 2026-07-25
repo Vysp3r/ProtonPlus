@@ -25,7 +25,21 @@ namespace ProtonPlus.Models {
         public string release_date { get; set; }
         public string download_url { get; set; }
         public string page_url { get; set; }
-        public bool canceled { get; set; }
+        private bool _canceled = false;
+        protected Cancellable operation_cancellable = new Cancellable ();
+        public bool canceled {
+            get { return _canceled; }
+            set {
+                if (_canceled == value)
+                    return;
+
+                _canceled = value;
+                if (_canceled)
+                    operation_cancellable.cancel ();
+
+                notify_property ("canceled");
+            }
+        }
         public string progress { get; set; }
         public double speed_kbps { get; set; }
         public double seconds_remaining { get; set; }
@@ -305,7 +319,7 @@ namespace ProtonPlus.Models {
             if (!(this is Releases.SteamTinkerLaunch) && FileUtils.test (install_location, FileTest.EXISTS) && !replace_existing)
                 return ReturnCode.RUNNER_ALREADY_INSTALLED;
 
-            canceled = false;
+            begin_operation ();
             is_finished = false;
             install_success = false;
             progress = null;
@@ -322,7 +336,9 @@ namespace ProtonPlus.Models {
 
             // Attempt the installation.
             replacement_backup_path = null;
+            yield Utils.CacheManager.begin_cache_operation ();
             var code = yield _start_install (replace_existing);
+            Utils.CacheManager.end_cache_operation ();
             runner.group.invalidate_installed_tool_index ();
 
             var success = code == ReturnCode.RUNNER_INSTALLED;
@@ -383,7 +399,7 @@ namespace ProtonPlus.Models {
                 var download_valid = yield Utils.Web.download (
                     download_url,
                     operation_archive_path,
-                    () => canceled,
+                    operation_cancellable,
                     on_download_progress,
                     out download_error
                 );
@@ -405,7 +421,7 @@ namespace ProtonPlus.Models {
 
             step = Step.EXTRACTING;
 
-            string source_path = yield Utils.Filesystem.extract (operation_path, "archive", extension, () => canceled);
+            string source_path = yield Utils.Filesystem.extract (operation_path, "archive", extension, operation_cancellable);
 
             if (source_path == "") {
                 if (!canceled)
@@ -492,7 +508,7 @@ namespace ProtonPlus.Models {
 
             var archive_name = Path.get_basename (source_path);
             archive_name = archive_name.substring (0, archive_name.length - extension.length);
-            return yield Utils.Filesystem.extract (extract_path, archive_name, extension, () => canceled);
+            return yield Utils.Filesystem.extract (extract_path, archive_name, extension, operation_cancellable);
         }
 
         public virtual async ReturnCode remove (bool notify_removal = false) {
@@ -544,7 +560,7 @@ namespace ProtonPlus.Models {
                 return ReturnCode.RUNNER_NOT_INSTALLED;
             }
 
-            canceled = false;
+            begin_operation ();
 
             state = State.BUSY_UPDATING;
 
@@ -560,6 +576,12 @@ namespace ProtonPlus.Models {
         }
 
         protected virtual async ReturnCode _start_update () { return ReturnCode.UNSUPPORTED_OPERATION; }
+
+        private void begin_operation () {
+            _canceled = false;
+            operation_cancellable = new Cancellable ();
+            notify_property ("canceled");
+        }
 
         protected virtual void refresh_state () {
             step = Step.NOTHING;

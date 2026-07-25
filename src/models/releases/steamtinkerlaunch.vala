@@ -229,7 +229,7 @@ namespace ProtonPlus.Models.Releases {
                 var download_valid = yield Utils.Web.download (
                     url,
                     operation_archive_path,
-                    () => canceled,
+                    operation_cancellable,
                     on_download_progress,
                     out download_error
                 );
@@ -248,7 +248,7 @@ namespace ProtonPlus.Models.Releases {
                 return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
 
             step = Step.EXTRACTING;
-            var source_path = yield Utils.Filesystem.extract (operation_path, "archive", ".zip", () => canceled);
+            var source_path = yield Utils.Filesystem.extract (operation_path, "archive", ".zip", operation_cancellable);
             if (source_path == "") {
                 if (!canceled)
                     error_message = _ ("Extraction failed");
