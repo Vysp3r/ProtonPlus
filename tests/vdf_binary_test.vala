@@ -4,6 +4,7 @@ namespace AppTests.VdfBinaryTest {
     public void register_tests () {
         Test.add_func ("/vdf-binary/parent-data-after-child", test_parent_data_after_child);
         Test.add_func ("/vdf-binary/similar-node-prefixes", test_similar_node_prefixes);
+        Test.add_func ("/vdf-binary/rejects-invalid-document", test_rejects_invalid_document);
         Test.add_func ("/vdf-shortcuts/remove-exact-id", test_remove_shortcut_uses_exact_id);
         Test.add_func ("/vdf-shortcuts/append-first-unused-id", test_append_shortcut_uses_first_unused_id);
     }
@@ -29,7 +30,7 @@ namespace AppTests.VdfBinaryTest {
         writer.put_byte (0x08);
         stream.close ();
 
-        return new ProtonPlus.Utils.VDF.Shortcuts (path);
+        return ProtonPlus.Utils.VDF.Shortcuts.load (path);
     }
 
     private ProtonPlus.Utils.VDF.Node shortcut_node (string path, string name) {
@@ -78,7 +79,7 @@ namespace AppTests.VdfBinaryTest {
             writer.put_byte (0x08);
             stream.close ();
 
-            var binary = new ProtonPlus.Utils.VDF.Binary (path);
+            var binary = ProtonPlus.Utils.VDF.Binary.load (path);
             assert (binary.nodes["root"]["before"].get_string () == "first");
             assert (binary.nodes["root"]["after"].get_string () == "second");
             assert (binary.nodes["root.child"]["value"].get_string () == "nested");
@@ -100,7 +101,7 @@ namespace AppTests.VdfBinaryTest {
             writer.put_byte (0x08);
             stream.close ();
 
-            var binary = new ProtonPlus.Utils.VDF.Binary (path);
+            var binary = ProtonPlus.Utils.VDF.Binary.load (path);
             var foo = new ProtonPlus.Utils.VDF.Node ("foo");
             var foobar = new ProtonPlus.Utils.VDF.Node ("foobar");
             var foobar_child = new ProtonPlus.Utils.VDF.Node ("foobar.child");
@@ -112,7 +113,7 @@ namespace AppTests.VdfBinaryTest {
             binary.nodes["foobar.child"] = foobar_child;
             binary.save ();
 
-            var reloaded = new ProtonPlus.Utils.VDF.Binary (path);
+            var reloaded = ProtonPlus.Utils.VDF.Binary.load (path);
             assert (reloaded.nodes.has_key ("foo"));
             assert (!reloaded.nodes.has_key ("foo.child"));
             assert (reloaded.nodes.has_key ("foobar.child"));
@@ -120,6 +121,31 @@ namespace AppTests.VdfBinaryTest {
             remove_temp_file (root, path);
         } catch (Error e) {
             critical ("Could not exercise binary VDF serialization: %s", e.message);
+            assert_not_reached ();
+        }
+    }
+
+    private void test_rejects_invalid_document () {
+        string root;
+
+        try {
+            var path = create_temp_file (out root);
+            var stream = File.new_for_path (path).create (FileCreateFlags.PRIVATE);
+            var writer = new DataOutputStream (stream);
+            writer.put_byte (0xff);
+            stream.close ();
+
+            bool rejected = false;
+            try {
+                ProtonPlus.Utils.VDF.Binary.load (path);
+            } catch (Error e) {
+                rejected = true;
+            }
+
+            assert (rejected);
+            remove_temp_file (root, path);
+        } catch (Error e) {
+            critical ("Could not exercise invalid binary VDF handling: %s", e.message);
             assert_not_reached ();
         }
     }

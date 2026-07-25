@@ -23,9 +23,15 @@ namespace ProtonPlus.Utils.VDF {
     public class Shortcuts : Binary {
         private string shortcuts_file_path;
 
-        public Shortcuts (string path) {
+        private Shortcuts (string path) {
             base (path);
             shortcuts_file_path = path;
+        }
+
+        public new static Shortcuts load (string path) throws Error {
+            var shortcuts = new Shortcuts (path);
+            shortcuts.parse ();
+            return shortcuts;
         }
 
         public async bool install () {
@@ -225,7 +231,7 @@ namespace ProtonPlus.Utils.VDF {
 
         public void remove_shortcut_by_name (string name) throws Error {
             try {
-                Gee.TreeMap<string, unowned Node> new_nodes = new Gee.TreeMap<string, unowned Node> ();
+                Gee.TreeMap<string, Node> new_nodes = new Gee.TreeMap<string, Node> ();
                 var node_base_id = get_shortcut_id_by_name (name);
                 var node_base_name = @"shortcuts.$(node_base_id)";
 
