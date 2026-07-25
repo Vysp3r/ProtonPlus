@@ -1,7 +1,6 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class ToolRow : Adw.ComboRow {
         Gtk.SignalListItemFactory compatibility_tool_factory;
-        Gtk.ListItem last_compatibility_tool_list_item;
         HashTable<Models.Tools.Simple, Gtk.ListItem> hast_table;
 
         public ToolRow (ListStore model, Gtk.PropertyExpression expression) {
@@ -12,6 +11,7 @@ namespace ProtonPlus.Widgets.Preferences {
             compatibility_tool_factory = new Gtk.SignalListItemFactory ();
             compatibility_tool_factory.setup.connect (compatibility_tool_factory_setup);
             compatibility_tool_factory.bind.connect (compatibility_tool_factory_bind);
+            compatibility_tool_factory.unbind.connect (compatibility_tool_factory_unbind);
 
             notify["selected-item"].connect (compatibility_tool_row_selected_item_changed);
 
@@ -23,18 +23,15 @@ namespace ProtonPlus.Widgets.Preferences {
 
         void compatibility_tool_row_selected_item_changed () {
             var simple_runner = get_selected_item () as Models.Tools.Simple;
-            var list_item = hast_table.get (simple_runner);
 
-            if (list_item == null)
-            return;
+            if (simple_runner == null)
+                return;
 
             set_tooltip_text (simple_runner.display_title);
 
-            list_item.get_data<Gtk.Image> ("check").set_visible (true);
-
-            last_compatibility_tool_list_item.get_data<Gtk.Image> ("check").set_visible (false);
-
-            last_compatibility_tool_list_item = list_item;
+            hast_table.foreach ((tool, list_item) => {
+                list_item.get_data<Gtk.Image> ("check").set_visible (tool == simple_runner);
+            });
         }
 
         void compatibility_tool_factory_bind (Object object) {
@@ -45,12 +42,17 @@ namespace ProtonPlus.Widgets.Preferences {
 
             object.get_data<Gtk.Label> ("title").set_label (simple_runner.display_title);
 
-            object.get_data<Gtk.Image> ("check").set_visible (list_item.get_selected ());
+            object.get_data<Gtk.Image> ("check").set_visible (simple_runner == get_selected_item ());
 
             object.get_data<Gtk.Box> ("box").set_tooltip_text (simple_runner.display_title);
+        }
 
-            if (list_item.get_selected ())
-            last_compatibility_tool_list_item = list_item;
+        void compatibility_tool_factory_unbind (Object object) {
+            var list_item = object as Gtk.ListItem;
+            var simple_runner = list_item.get_item () as Models.Tools.Simple;
+
+            if (hast_table.get (simple_runner) == list_item)
+                hast_table.remove (simple_runner);
         }
 
         void compatibility_tool_factory_setup (Object object) {
