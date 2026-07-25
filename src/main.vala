@@ -1,11 +1,10 @@
 namespace ProtonPlus {
     public static int main (string[] args) {
-        Globals.load ();
-
-        Globals.setupLanguage ();
-        Notify.init (Config.APP_NAME);
-
         if (args.length > 1) {
+            Globals.load ();
+            Globals.setupLanguage ();
+            Notify.init (Config.APP_NAME);
+
             var migration_manager = new ProtonPlus.Services.Migrations.Manager ();
             migration_manager.check_and_migrate_sync (Config.APP_VERSION);
 
@@ -17,12 +16,12 @@ namespace ProtonPlus {
                 loop.quit ();
             });
             loop.run ();
+            Notify.uninit ();
             return result;
         }
 
         var application = new Widgets.Application ();
         int status = application.run (args);
-        Notify.uninit ();
         return status;
     }
 }

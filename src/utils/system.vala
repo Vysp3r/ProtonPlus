@@ -91,11 +91,17 @@ namespace ProtonPlus.Utils {
         }
 
         public static async bool check_dependency (string name) {
+            if (!Globals.IS_FLATPAK)
+                return Environment.find_program_in_path (name) != null;
+
             var output = yield run_command ("which %s".printf (Shell.quote (name)));
             return output != "" && !output.contains ("which: no");
         }
 
         public static bool check_dependency_sync (string name) {
+            if (!Globals.IS_FLATPAK)
+                return Environment.find_program_in_path (name) != null;
+
             var output = run_command_sync ("which %s".printf (Shell.quote (name)));
             return output != "" && !output.contains ("which: no");
         }
@@ -198,9 +204,10 @@ namespace ProtonPlus.Utils {
         }
 
         private static bool write_systemd_files () {
-            string exec_start = "%s update all".printf (
-                Globals.IS_FLATPAK ? "/usr/bin/flatpak run com.vysp3r.ProtonPlus" : run_command_sync ("which protonplus").strip ()
-            );
+            string executable = Globals.IS_FLATPAK ?
+                "/usr/bin/flatpak run com.vysp3r.ProtonPlus" :
+                Environment.find_program_in_path ("protonplus") ?? "protonplus";
+            string exec_start = "%s update all".printf (executable);
             string on_unit_active_sec = "1h";
 
             switch (Globals.SETTINGS.get_enum ("background-updates-frequency")) {

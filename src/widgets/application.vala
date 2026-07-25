@@ -5,6 +5,8 @@ namespace ProtonPlus.Widgets {
     public class Application : Adw.Application {
         Preferences.PreferencesDialog? active_preferences_dialog = null;
         bool reopen_preferences_after_close = false;
+        ProtonPlus.Services.Migrations.Manager? migration_manager = null;
+        bool show_introduction = false;
 
         construct {
             application_id = Config.APP_ID;
@@ -28,6 +30,47 @@ namespace ProtonPlus.Widgets {
         public override void activate () {
             base.activate ();
 
+            var window = this.active_window as Window;
+            if (window != null) {
+                window.present ();
+                return;
+            }
+
+            window = new Window ();
+
+            Globals.SETTINGS.bind ("width",
+                                   window,
+                                   "default-width",
+                                   SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.bind ("height",
+                                   window,
+                                   "default-height",
+                                   SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.bind ("is-maximized",
+                                   window,
+                                   "maximized",
+                                   SettingsBindFlags.DEFAULT);
+            Globals.SETTINGS.bind ("is-fullscreen",
+                                   window,
+                                   "fullscreened",
+                                   SettingsBindFlags.DEFAULT);
+
+            window.present ();
+
+            if (show_introduction) {
+                show_introduction = false;
+                present_introduction (window);
+            }
+
+            if (migration_manager != null) {
+                migration_manager.post_migrate (new ProtonPlus.Services.Migrations.MigrationContext (window));
+                migration_manager = null;
+            }
+        }
+
+        public override void startup () {
+            base.startup ();
+
             var display = Gdk.Display.get_default ();
 
             Gtk.IconTheme.get_for_display (display).add_resource_path ("/com/vysp3r/ProtonPlus/icons");
@@ -41,49 +84,30 @@ namespace ProtonPlus.Widgets {
             add_provider_for_display (display, status_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2);
 
             Globals.load ();
+            Globals.setupLanguage ();
+            Notify.init (Config.APP_NAME);
 
             if (Globals.SETTINGS != null) {
-                var migration_manager = new ProtonPlus.Services.Migrations.Manager ();
+                migration_manager = new ProtonPlus.Services.Migrations.Manager ();
                 migration_manager.check_and_migrate_sync (Config.APP_VERSION);
 
-                var window = new Window ();
-
-                Globals.SETTINGS.bind ("width",
-                                       window,
-                                       "default-width",
-                                       SettingsBindFlags.DEFAULT);
-                Globals.SETTINGS.bind ("height",
-                                       window,
-                                       "default-height",
-                                       SettingsBindFlags.DEFAULT);
-                Globals.SETTINGS.bind ("is-maximized",
-                                       window,
-                                       "maximized",
-                                       SettingsBindFlags.DEFAULT);
-                Globals.SETTINGS.bind ("is-fullscreen",
-                                       window,
-                                       "fullscreened",
-                                       SettingsBindFlags.DEFAULT);
-
-                bool show_introduction = Globals.SETTINGS.get_boolean ("first-run");
-                if (show_introduction) {
+                show_introduction = Globals.SETTINGS.get_boolean ("first-run");
+                if (show_introduction)
                     Globals.SETTINGS.set_boolean ("first-run", false);
-                }
 
                 Utils.ThemeManager.get_default ().apply_theme ();
 
                 Globals.SETTINGS.changed["check-updates-on-boot"].connect (Utils.System.systemd_handler);
                 Globals.SETTINGS.changed["background-updates"].connect (Utils.System.systemd_handler);
                 Globals.SETTINGS.changed["background-updates-frequency"].connect (Utils.System.systemd_handler);
-
-                window.present ();
-                if (show_introduction)
-                    present_introduction (window);
-
-                migration_manager.post_migrate (new ProtonPlus.Services.Migrations.MigrationContext (window));
             } else {
                 error ("GSettings schema not found or invalid: 'com.vysp3r.ProtonPlus.State'");
             }
+        }
+
+        public override void shutdown () {
+            Notify.uninit ();
+            base.shutdown ();
         }
 
         void on_introduction_action () {

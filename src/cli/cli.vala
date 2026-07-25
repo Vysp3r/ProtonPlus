@@ -52,7 +52,6 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            Globals.load ();
             Utils.DownloadManager.instance.progress_updated.connect (on_progress_updated);
 
             if (!yield load_launchers ()) {
