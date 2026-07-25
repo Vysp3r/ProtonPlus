@@ -52,20 +52,31 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            Utils.DownloadManager.instance.progress_updated.connect (on_progress_updated);
+            var command = args[1];
+            if (command == CMD_VERSION) {
+                Output.info ("ProtonPlus %s\n", Config.APP_VERSION);
+                return 0;
+            }
 
-            if (!yield load_launchers ()) {
+            if (command == CMD_HELP) {
+                print_usage ();
+                return 0;
+            }
+
+            if (command != CMD_LIST && command != CMD_INSTALL &&
+                command != CMD_UNINSTALL && command != CMD_UPDATE) {
+                Output.error (_ ("Error: Unknown command '%s'\n"), command);
+                print_usage ();
                 return 1;
             }
 
-            var command = args[1];
+            if (command == CMD_INSTALL || command == CMD_UPDATE)
+                Utils.DownloadManager.instance.progress_updated.connect (on_progress_updated);
+
+            if (!yield load_launchers ())
+                return 1;
+
             switch (command) {
-                case CMD_VERSION:
-                    Output.info ("ProtonPlus %s\n", Config.APP_VERSION);
-                    return 0;
-                case CMD_HELP:
-                    print_usage ();
-                    return 0;
                 case CMD_LIST:
                     return handle_list (args);
                 case CMD_INSTALL:
@@ -75,8 +86,6 @@ namespace ProtonPlus.CLI {
                 case CMD_UPDATE:
                     return yield handle_update (args);
                 default:
-                    Output.error (_ ("Error: Unknown command '%s'\n"), command);
-                    print_usage ();
                     return 1;
             }
         }
@@ -128,8 +137,13 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
+            var basic_runner = get_basic_runner (runner, CMD_INSTALL);
+            if (basic_runner == null) {
+                return 1;
+            }
+
             var use_latest = args.length >= 5 && args[4] == OPT_LATEST;
-            return use_latest ? yield install_latest (runner) : yield install_interactive (runner);
+            return use_latest ? yield install_latest (basic_runner) : yield install_interactive (basic_runner);
         }
 
         private async int handle_uninstall (string[] args) {
@@ -151,8 +165,13 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
+            var basic_runner = get_basic_runner (runner, CMD_UNINSTALL);
+            if (basic_runner == null) {
+                return 1;
+            }
+
             var uninstall_all = args.length >= 5 && args[4] == OPT_ALL;
-            return uninstall_all ? yield uninstall_runner_all (runner) : yield uninstall_interactive (runner);
+            return uninstall_all ? yield uninstall_runner_all (basic_runner) : yield uninstall_interactive (basic_runner);
         }
 
         private async int handle_update (string[] args) {
@@ -174,13 +193,17 @@ namespace ProtonPlus.CLI {
                 if (runner == null) {
                     return 1;
                 }
-                return yield update_runner (runner);
+
+                var basic_runner = get_basic_runner (runner, CMD_UPDATE);
+                if (basic_runner == null) {
+                    return 1;
+                }
+                return yield update_runner (basic_runner);
             }
             return yield update_launcher (launcher);
         }
 
-        private async int install_latest (Models.Tool runner) {
-            var basic_runner = runner as Models.Tools.Basic;
+        private async int install_latest (Models.Tools.Basic basic_runner) {
             var code = yield load_runner_releases (basic_runner);
             if (code != ReturnCode.RELEASES_LOADED || basic_runner.releases.size == 0) {
                 return 1;
@@ -189,7 +212,7 @@ namespace ProtonPlus.CLI {
             var release = basic_runner.releases[0] as Models.Release;
             var latest_release = new Models.Releases.Latest (
                     basic_runner,
-                    "%s Latest".printf (runner.title),
+                    "%s Latest".printf (basic_runner.title),
                     release.description,
                     release.release_date,
                     release.download_url,
@@ -197,25 +220,24 @@ namespace ProtonPlus.CLI {
                     release.title
             );
 
-            Output.info (_ ("Installing %s Latest...\n"), runner.title);
+            Output.info (_ ("Installing %s Latest...\n"), basic_runner.title);
             code = yield latest_release.install ();
             Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
             if (success)
-                Output.success (_ ("Successfully installed %s Latest\n"), runner.title);
+                Output.success (_ ("Successfully installed %s Latest\n"), basic_runner.title);
             else
                 Output.error (_ ("Error: Installation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
-        private async int install_interactive (Models.Tool runner) {
-            var basic_runner = runner as Models.Tools.Basic;
+        private async int install_interactive (Models.Tools.Basic basic_runner) {
             var code = yield load_runner_releases (basic_runner);
             if (code != ReturnCode.RELEASES_LOADED || basic_runner.releases.size == 0) {
                 return 1;
             }
 
-            Output.header (_ ("Available releases for %s:\n"), runner.title);
+            Output.header (_ ("Available releases for %s:\n"), basic_runner.title);
             for (var i = 0; i < basic_runner.releases.size; i++) {
                 var release = basic_runner.releases[i] as Models.Release;
                 Output.info ("%d. %s (%s)\n", i + 1, release.title, release.release_date);
@@ -238,7 +260,7 @@ namespace ProtonPlus.CLI {
             return success ? 0 : 1;
         }
 
-        private async int uninstall_interactive (Models.Tool runner) {
+        private async int uninstall_interactive (Models.Tools.Basic runner) {
             var installed = get_installed_releases (runner);
             if (installed.length () == 0) {
                 Output.warning (_ ("No installed releases found for %s\n"), runner.title);
@@ -259,7 +281,7 @@ namespace ProtonPlus.CLI {
             return yield uninstall_single_release (runner, release_name);
         }
 
-        private async int uninstall_runner_all (Models.Tool runner) {
+        private async int uninstall_runner_all (Models.Tools.Basic runner) {
             var installed = get_installed_releases (runner);
             if (installed.length () == 0) {
                 Output.warning (_ ("No installed releases found for %s\n"), runner.title);
@@ -267,32 +289,39 @@ namespace ProtonPlus.CLI {
             }
 
             Output.info (_ ("Uninstalling all releases for %s...\n"), runner.title);
+            var failed = false;
             foreach (var release_name in installed) {
-                yield uninstall_single_release (runner, release_name);
+                var code = yield uninstall_single_release (runner, release_name);
+                if (code != 0) {
+                    failed = true;
+                }
             }
-            return 0;
+            return failed ? 1 : 0;
         }
 
         private async int uninstall_launcher_all (Models.Launcher launcher) {
             Output.info (_ ("Uninstalling all releases for launcher %s...\n"), launcher.title);
+            var failed = false;
             foreach (var group in launcher.groups) {
                 foreach (var runner in group.tools) {
-                    var installed = get_installed_releases (runner);
+                    var basic_runner = runner as Models.Tools.Basic;
+                    if (basic_runner == null) {
+                        continue;
+                    }
+
+                    var installed = get_installed_releases (basic_runner);
                     foreach (var release_name in installed) {
-                        var release = create_release (runner, release_name);
-                        var code = yield release.remove ();
-                        if (code == ReturnCode.RUNNER_REMOVED) {
-                            Output.success (_ ("Uninstalled %s\n"), release_name);
-                        } else {
-                            Output.error (_ ("Error: Failed to uninstall %s: %s\n"), release_name, get_return_code_message (code));
+                        var code = yield uninstall_single_release (basic_runner, release_name);
+                        if (code != 0) {
+                            failed = true;
                         }
                     }
                 }
             }
-            return 0;
+            return failed ? 1 : 0;
         }
 
-        private async int uninstall_single_release (Models.Tool runner, string release_name) {
+        private async int uninstall_single_release (Models.Tools.Basic runner, string release_name) {
             var release = create_release (runner, release_name);
             Output.info (_ ("Uninstalling %s...\n"), release_name);
             var code = yield release.remove ();
@@ -318,8 +347,8 @@ namespace ProtonPlus.CLI {
             return yield update_runner_batch (latest_runners);
         }
 
-        private async int update_runner (Models.Tool runner) {
-            var code = yield update_runner_with_progress (runner as Models.Tools.Basic);
+        private async int update_runner (Models.Tools.Basic runner) {
+            var code = yield update_runner_with_progress (runner);
             switch (code) {
                 case ReturnCode.RUNNER_UPDATED:
                     Output.success (_ ("Successfully updated %s\n"), runner.title);
@@ -341,13 +370,14 @@ namespace ProtonPlus.CLI {
                     var directories = group.get_tool_directories ();
 
                     foreach (var tool in group.tools) {
-                        if (!(tool is Models.Tools.Basic)) {
+                        var basic_runner = tool as Models.Tools.Basic;
+                        if (basic_runner == null) {
                             continue;
                         }
 
                         foreach (var directory in directories) {
                             if (directory == "%s Latest".printf (tool.title)) {
-                                latest_runners.add (tool as Models.Tools.Basic);
+                                latest_runners.add (basic_runner);
                                 continue;
                             }
 
@@ -371,24 +401,24 @@ namespace ProtonPlus.CLI {
                 return 0;
             }
 
-            var updated_count = 0;
+            var failed = false;
 
             foreach (var runner in runners) {
                 var code = yield update_runner_with_progress (runner);
                 switch (code) {
                     case ReturnCode.RUNNER_UPDATED:
                         Output.success (_ ("Successfully updated %s\n"), runner.title);
-                        updated_count++;
                         break;
                     case ReturnCode.NOTHING_TO_UPDATE:
                         Output.success (_ ("Already up to date: %s\n"), runner.title);
                         break;
                     default:
                         Output.error (_ ("Error: Failed to update %s: %s\n"), runner.title, get_return_code_message (code));
+                        failed = true;
                         break;
                 }
             }
-            return 0;
+            return failed ? 1 : 0;
         }
 
         private async ReturnCode update_runner_with_progress (Models.Tools.Basic runner) {
@@ -444,7 +474,7 @@ namespace ProtonPlus.CLI {
             return null;
         }
 
-        private List<string> get_installed_releases (Models.Tool runner) {
+        private List<string> get_installed_releases (Models.Tools.Basic runner) {
             var directories = runner.group.get_tool_directories ();
             var installed = new List<string> ();
 
@@ -464,16 +494,24 @@ namespace ProtonPlus.CLI {
             return runner.title.down ().replace (" ", "-");
         }
 
-        private string get_release_path (Models.Tool runner, string release_name) {
+        private string get_release_path (Models.Tools.Basic runner, string release_name) {
             return "%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, release_name);
         }
 
-        private Models.Release create_release (Models.Tool runner, string release_name) {
+        private Models.Release create_release (Models.Tools.Basic runner, string release_name) {
             return new Models.Release.simple (
-                    runner as Models.Tools.Basic,
+                    runner,
                     release_name,
                     get_release_path (runner, release_name)
             );
+        }
+
+        private Models.Tools.Basic? get_basic_runner (Models.Tool runner, string operation) {
+            var basic_runner = runner as Models.Tools.Basic;
+            if (basic_runner == null) {
+                Output.error (_ ("Error: Tool '%s' does not support %s\n"), runner.title, operation);
+            }
+            return basic_runner;
         }
 
         private bool validate_args (string[] args, int min_required, string usage) {
