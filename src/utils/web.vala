@@ -12,6 +12,19 @@ namespace ProtonPlus.Utils {
             STEAMTINKERLAUNCH,
         }
 
+        public class Response : Object {
+            public ReturnCode code { get; set; default = ReturnCode.REQUEST_FAILED; }
+            public int status_code { get; set; default = 0; }
+            public string? body { get; set; default = null; }
+            public string? error_message { get; set; default = null; }
+
+            public bool is_successful {
+                get {
+                    return status_code >= 200 && status_code < 300;
+                }
+            }
+        }
+
         static Soup.Session? _session = null;
         static int applied_proxy_mode = -1;
         static string? applied_proxy_url = null;
@@ -76,29 +89,29 @@ namespace ProtonPlus.Utils {
             return false;
         }
 
-        public static async Requests.Response get_request (string uri, GetRequestType get_request_type = GetRequestType.OTHER) {
-            var request = new Requests.Request (uri, "GET", current_session);
+        public static async Response get_request (string uri, GetRequestType get_request_type = GetRequestType.OTHER) {
+            var message = new Soup.Message ("GET", uri);
 
             if (Globals.SETTINGS != null) {
                 if (get_request_type == GetRequestType.GITHUB || get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
                     var key = Globals.SETTINGS.get_string ("github-api-key");
                     if (key.length > 0)
-                        request.append_header ("Authorization", "token %s".printf (key));
+                        message.request_headers.append ("Authorization", "token %s".printf (key));
                 }
 
                 if (get_request_type == GetRequestType.GITLAB) {
                     var key = Globals.SETTINGS.get_string ("gitlab-api-key");
                     if (key.length > 0)
-                        request.append_header ("Authorization", "Bearer %s".printf (key));
+                        message.request_headers.append ("Authorization", "Bearer %s".printf (key));
                 }
 
                 if (get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
-                    request.append_header ("Accept", "application/vnd.github+json");
-                    request.append_header ("X-GitHub-Api-Version", "2022-11-28");
+                    message.request_headers.append ("Accept", "application/vnd.github+json");
+                    message.request_headers.append ("X-GitHub-Api-Version", "2022-11-28");
                 }
             }
 
-            var response = yield request.send ();
+            var response = yield send_request (message);
 
             if (response.is_successful)
                 return response;
@@ -114,6 +127,39 @@ namespace ProtonPlus.Utils {
             }
 
             return response;
+        }
+
+        private static async Response send_request (Soup.Message message) {
+            var response = new Response ();
+
+            try {
+                Bytes bytes = yield current_session.send_and_read_async (message, Priority.DEFAULT, null);
+
+                response.status_code = (int) message.status_code;
+                response.error_message = message.reason_phrase;
+
+                if (!response.is_successful)
+                    return response;
+
+                response.body = Parser.data_to_string (bytes.get_data ());
+                response.code = ReturnCode.VALID_REQUEST;
+                return response;
+            } catch (Error e) {
+                if (e is Soup.SessionError.PARSING || e.domain == TlsError.quark ()) {
+                    response.code = ReturnCode.TLS_HANDSHAKE_ERROR;
+                } else if (e is IOError.HOST_UNREACHABLE || e is IOError.NETWORK_UNREACHABLE) {
+                    response.code = ReturnCode.CONNECTION_ISSUE;
+                } else if (e is IOError.CONNECTION_REFUSED) {
+                    response.code = ReturnCode.CONNECTION_REFUSED;
+                } else if (e is IOError.HOST_NOT_FOUND) {
+                    response.code = ReturnCode.CONNECTION_UNKNOWN;
+                } else {
+                    warning (e.message);
+                }
+
+                response.error_message = e.message;
+                return response;
+            }
         }
 
         public delegate void progress_callback (bool is_percent, int64 progress_percentage, double speed_kbps, double? remaining_seconds);
