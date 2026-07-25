@@ -15,7 +15,7 @@ namespace ProtonPlus.Models.Releases {
             return obj;
         }
 
-        protected override async string _after_extraction (string source_path, string extract_path) {
+        protected override async string? _after_extraction (string source_path, string extract_path) {
             return yield extract_nested_archive (source_path, extract_path);
         }
     }

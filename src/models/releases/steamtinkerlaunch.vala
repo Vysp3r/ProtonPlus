@@ -247,9 +247,12 @@ namespace ProtonPlus.Models.Releases {
             if (!yield Utils.Filesystem.copy_file (cache_archive_path, operation_archive_path))
                 return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
 
+            if (canceled)
+                return yield complete_install_attempt (ReturnCode.EXTRACTION_FAILED, operation_path, staging_root);
+
             step = Step.EXTRACTING;
-            var source_path = yield Utils.Filesystem.extract (operation_path, "archive", ".zip", operation_cancellable);
-            if (source_path == "") {
+            string? source_path = yield Utils.Filesystem.extract (operation_path, "archive", ".zip", operation_cancellable);
+            if (source_path == null || source_path == "") {
                 if (!canceled)
                     error_message = _ ("Extraction failed");
                 return yield complete_install_attempt (ReturnCode.EXTRACTION_FAILED, operation_path, staging_root);

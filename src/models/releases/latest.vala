@@ -24,7 +24,7 @@ namespace ProtonPlus.Models.Releases {
             return obj;
         }
 
-        protected override async string _after_extraction (string source_path, string extract_path) {
+        protected override async string? _after_extraction (string source_path, string extract_path) {
             var basic_runner = runner as Tools.Basic;
             var source_runner = basic_runner != null ? basic_runner.source_runner as Models.Launchers.Runners.Base : null;
 

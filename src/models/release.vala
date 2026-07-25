@@ -419,11 +419,16 @@ namespace ProtonPlus.Models {
             if (!yield Utils.Filesystem.copy_file (cache_archive_path, operation_archive_path))
                 return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
 
+            // The archive copy cannot be interrupted, so honor a cancellation
+            // that arrived while it was in progress before beginning extraction.
+            if (canceled)
+                return yield complete_install_attempt (ReturnCode.EXTRACTION_FAILED, operation_path, staging_root);
+
             step = Step.EXTRACTING;
 
-            string source_path = yield Utils.Filesystem.extract (operation_path, "archive", extension, operation_cancellable);
+            string? source_path = yield Utils.Filesystem.extract (operation_path, "archive", extension, operation_cancellable);
 
-            if (source_path == "") {
+            if (source_path == null || source_path == "") {
                 if (!canceled)
                     error_message = _("Extraction failed");
                 return yield complete_install_attempt (ReturnCode.EXTRACTION_FAILED, operation_path, staging_root);
@@ -431,7 +436,7 @@ namespace ProtonPlus.Models {
 
             source_path = yield _after_extraction (source_path, operation_path);
 
-            if (source_path == "") {
+            if (source_path == null || source_path == "") {
                 if (!canceled && error_message == null)
                     error_message = _("Extraction failed");
                 return yield complete_install_attempt (ReturnCode.EXTRACTION_FAILED, operation_path, staging_root);
@@ -493,7 +498,7 @@ namespace ProtonPlus.Models {
             metadata.save (path);
         }
 
-        protected virtual async string _after_extraction (string source_path, string extract_path) {
+        protected virtual async string? _after_extraction (string source_path, string extract_path) {
             return source_path;
         }
 
@@ -501,7 +506,7 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        protected async string extract_nested_archive (string source_path, string extract_path) {
+        protected async string? extract_nested_archive (string source_path, string extract_path) {
             var extension = get_archive_extension (source_path);
             if (extension == null)
                 return "";

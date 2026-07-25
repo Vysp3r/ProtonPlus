@@ -23,7 +23,7 @@ namespace ProtonPlus.Utils {
 
         // Miscellaneous.
 
-        public async static string extract (string install_location, string tool_name, string extension, Cancellable cancellable) {
+        public async static string? extract (string install_location, string tool_name, string extension, Cancellable cancellable) {
             SourceFunc callback = extract.callback;
 
             string output = "";
