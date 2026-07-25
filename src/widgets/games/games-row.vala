@@ -12,6 +12,7 @@ namespace ProtonPlus.Widgets.Games {
         ExtraButton extra_button;
         Gtk.Box other_box;
         Gtk.Box content_box;
+        string normalized_name;
         public Models.Game game { get; set; }
 
         public signal void mass_edit_requested (GameRow row);
@@ -20,6 +21,7 @@ namespace ProtonPlus.Widgets.Games {
 
         public GameRow (Models.Game game) {
             this.game = game;
+            normalized_name = game.name.down ();
 
             select_check_button = new Gtk.CheckButton ();
             select_check_button.set_size_request (30, 0);
@@ -82,6 +84,10 @@ namespace ProtonPlus.Widgets.Games {
             set_selectable (false);
         }
 
+        public bool matches_search (string query) {
+            return normalized_name.contains (query);
+        }
+
         void add_hover_underline (Gtk.Label label) {
             var motion = new Gtk.EventControllerMotion ();
             motion.enter.connect ((x, y) => {
@@ -98,7 +104,7 @@ namespace ProtonPlus.Widgets.Games {
         public void refresh_tool_label () {
             string tool_name = _("Default");
 
-            if (game.is_native && game.compatibility_tool == "Default") {
+            if (game.compatibility_tool == "Default" && game.is_native) {
                 tool_name = _("Native");
             } else {
                 foreach (var tool in game.launcher.compatibility_tools) {

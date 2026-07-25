@@ -37,6 +37,8 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.MenuButton selection_button;
         Gtk.ListBox selection_list_box;
         Gtk.Popover selection_popover;
+        string search_query = "";
+        uint search_timeout_id = 0;
 
         construct {
             image = new Gtk.Image ();
@@ -49,6 +51,13 @@ namespace ProtonPlus.Widgets.Games {
             game_list_box.set_selection_mode (Gtk.SelectionMode.MULTIPLE);
             game_list_box.add_css_class ("boxed-list");
             game_list_box.add_css_class ("list-content");
+            game_list_box.set_filter_func (filter_game_row);
+            game_list_box.set_sort_func ((row1, row2) => {
+                var name1 = ((GameRow) row1).game.name;
+                var name2 = ((GameRow) row2).game.name;
+
+                return strcmp (name1, name2);
+            });
 
             spinner = new Adw.Spinner ();
             spinner.set_halign (Gtk.Align.CENTER);
@@ -140,21 +149,21 @@ namespace ProtonPlus.Widgets.Games {
 
             all_filter_check.toggled.connect (() => {
                 if (all_filter_check.active) {
-                    load_games ();
+                    refilter_games ();
                     filter_popover.popdown ();
                 }
             });
 
             native_filter_check.toggled.connect (() => {
                 if (native_filter_check.active) {
-                    load_games ();
+                    refilter_games ();
                     filter_popover.popdown ();
                 }
             });
 
             non_steam_filter_check.toggled.connect (() => {
                 if (non_steam_filter_check.active) {
-                    load_games ();
+                    refilter_games ();
                     filter_popover.popdown ();
                 }
             });
@@ -190,7 +199,7 @@ namespace ProtonPlus.Widgets.Games {
                 hexpand = true
             };
             search_entry.add_css_class ("flat");
-            search_entry.changed.connect (load_games);
+            search_entry.changed.connect (schedule_search_filter);
 
             check_button = new Gtk.CheckButton ();
             check_button.set_size_request (26, 26);
@@ -198,7 +207,7 @@ namespace ProtonPlus.Widgets.Games {
                 var is_active = check_button.get_active ();
                 var child = game_list_box.get_first_child ();
                 while (child != null) {
-                    if (child is GameRow) {
+                    if (child is GameRow && child.get_visible ()) {
                         ((GameRow) child).selected = is_active;
                     }
                     child = child.get_next_sibling ();
@@ -355,6 +364,12 @@ namespace ProtonPlus.Widgets.Games {
         public void load_games () {
             spinner.set_visible (true);
 
+            if (search_timeout_id != 0) {
+                Source.remove (search_timeout_id);
+                search_timeout_id = 0;
+            }
+            search_query = search_entry.get_text ().down ();
+
             game_list_box.remove_all ();
 
             overlay.add_overlay (spinner);
@@ -365,17 +380,6 @@ namespace ProtonPlus.Widgets.Games {
                 model.append (ct);
 
             foreach (var game in launcher.games) {
-                if (!game.name.down ().contains (search_entry.get_text ().down ()))
-                    continue;
-
-                if (non_steam_filter_check.active) {
-                    if (!(game is Models.Games.Steam && ((Models.Games.Steam) game).is_non_steam))
-                        continue;
-                } else if (native_filter_check.active) {
-                    if (!game.is_native)
-                        continue;
-                }
-
                 var game_row = new GameRow (game);
                 game_row.mass_edit_requested.connect ((row) => {
                     open_mass_edit ({ row });
@@ -393,16 +397,43 @@ namespace ProtonPlus.Widgets.Games {
 
             update_mass_edit_button_visibility ();
 
-            game_list_box.set_sort_func ((row1, row2) => {
-                var name1 = ((GameRow) row1).game.name;
-                var name2 = ((GameRow) row2).game.name;
-
-                return strcmp (name1, name2);
-            });
-
             overlay.remove_overlay (spinner);
 
             spinner.set_visible (false);
+        }
+
+        void schedule_search_filter () {
+            search_query = search_entry.get_text ().down ();
+
+            if (search_timeout_id != 0)
+                Source.remove (search_timeout_id);
+
+            search_timeout_id = Timeout.add (150, () => {
+                search_timeout_id = 0;
+                refilter_games ();
+
+                return false;
+            });
+        }
+
+        void refilter_games () {
+            game_list_box.invalidate_filter ();
+        }
+
+        bool filter_game_row (Gtk.ListBoxRow row) {
+            var game_row = (GameRow) row;
+            var game = game_row.game;
+
+            if (!game_row.matches_search (search_query))
+                return false;
+
+            if (non_steam_filter_check.active)
+                return game is Models.Games.Steam && ((Models.Games.Steam) game).is_non_steam;
+
+            if (native_filter_check.active)
+                return game.is_native;
+
+            return true;
         }
 
         void update_mass_edit_button_visibility () {
