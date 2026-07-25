@@ -102,11 +102,13 @@ namespace ProtonPlus.Utils {
             return Path.build_filename (Globals.CACHE_PATH, safe_id + ".json");
         }
 
-        public static async void clear_cache () {
+        public static async bool clear_cache () {
             if (FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {
-                yield Utils.Filesystem.delete_directory (Globals.CACHE_PATH);
+                if (!yield Utils.Filesystem.delete_directory (Globals.CACHE_PATH))
+                    return false;
             }
-            Utils.Filesystem.create_directory (Globals.CACHE_PATH);
+
+            return Utils.Filesystem.create_directory (Globals.CACHE_PATH);
         }
     }
 }
