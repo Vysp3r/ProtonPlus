@@ -36,6 +36,9 @@ namespace ProtonPlus.Models {
         public string install_location { get; set; }
         public int64 download_size { get; set; }
         protected string destination_path { get; set; }
+        // Kept only while a replacement is being finalized.  Callers that
+        // migrate user data can roll back by promoting this directory again.
+        public string? replacement_backup_path { get; protected set; default = null; }
         public Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
         public string? selected_variant_name { get; set; default = null; }
 
@@ -286,8 +289,21 @@ namespace ProtonPlus.Models {
         }
 
         public virtual async ReturnCode install () {
+            return yield install_internal (false);
+        }
+
+        public async ReturnCode install_replacement () {
+            return yield install_internal (true);
+        }
+
+        private async ReturnCode install_internal (bool replace_existing) {
             if (state != State.BUSY_UPDATING && Utils.DownloadManager.instance.is_downloading (this))
                 return ReturnCode.OPERATION_IN_PROGRESS;
+
+            // A normal install must never turn into an implicit replacement.
+            // Updates opt in explicitly after they have staged a replacement.
+            if (!(this is Releases.SteamTinkerLaunch) && FileUtils.test (install_location, FileTest.EXISTS) && !replace_existing)
+                return ReturnCode.RUNNER_ALREADY_INSTALLED;
 
             canceled = false;
             is_finished = false;
@@ -305,7 +321,8 @@ namespace ProtonPlus.Models {
             Utils.DownloadManager.instance.add_download (this);
 
             // Attempt the installation.
-            var code = yield _start_install ();
+            replacement_backup_path = null;
+            var code = yield _start_install (replace_existing);
 
             var success = code == ReturnCode.RUNNER_INSTALLED;
 
@@ -318,9 +335,6 @@ namespace ProtonPlus.Models {
             Utils.DownloadManager.instance.remove_download (this);
             Utils.DownloadManager.instance.add_to_history (this, success);
 
-            if (!success)
-                yield remove (); // Refreshes install state too.
-
             if (!busy_updating)
                 refresh_state (); // Force UI state refresh.
 
@@ -331,22 +345,43 @@ namespace ProtonPlus.Models {
             return Utils.ArchiveHelper.get_archive_extension (archive_path, true);
         }
 
-        protected virtual async ReturnCode _start_install () {
+        protected async ReturnCode complete_install_attempt (ReturnCode code, string operation_path, string staging_root) {
+            // Both directories are owned by this attempt.  Never call remove()
+            // here: it may point at a release that predates this operation.
+            if (operation_path != "" && FileUtils.test (operation_path, FileTest.IS_DIR))
+                yield Utils.Filesystem.delete_directory (operation_path);
+
+            if (staging_root != "" && FileUtils.test (staging_root, FileTest.IS_DIR))
+                yield Utils.Filesystem.delete_directory (staging_root);
+
+            return code;
+        }
+
+        protected virtual async ReturnCode _start_install (bool replace_existing = false) {
             step = Step.DOWNLOADING;
 
             var extension = get_archive_extension (download_url);
             if (extension == null)
                 return ReturnCode.UNSUPPORTED_EXTENSION;
 
-            string download_path = "%s/%s%s".printf (Globals.CACHE_PATH, title, extension);
+            var archive_cache_path = Path.build_filename (Globals.CACHE_PATH, "archives");
+            if (!yield Utils.Filesystem.create_directory_async (archive_cache_path))
+                return ReturnCode.FILESYSTEM_ERROR;
 
-            var used_cached_archive = FileUtils.test (download_path, FileTest.EXISTS);
+            var operation_path = Utils.Filesystem.create_temporary_directory (Globals.CACHE_PATH, ".protonplus-install-");
+            if (operation_path == "")
+                return ReturnCode.FILESYSTEM_ERROR;
 
-            if (!FileUtils.test (download_path, FileTest.EXISTS)) {
+            var staging_root = "";
+            var archive_key = Checksum.compute_for_string (ChecksumType.SHA256, download_url);
+            var cache_archive_path = Path.build_filename (archive_cache_path, "%s%s".printf (archive_key, extension));
+            var operation_archive_path = Path.build_filename (operation_path, "archive%s".printf (extension));
+
+            if (!FileUtils.test (cache_archive_path, FileTest.IS_REGULAR)) {
                 string? download_error;
                 var download_valid = yield Utils.Web.download (
                     download_url,
-                    download_path,
+                    operation_archive_path,
                     () => canceled,
                     on_download_progress,
                     out download_error
@@ -354,87 +389,99 @@ namespace ProtonPlus.Models {
 
                 if (!download_valid) {
                     this.error_message = download_error;
-                    return ReturnCode.DOWNLOAD_FAILED;
+                    return yield complete_install_attempt (ReturnCode.DOWNLOAD_FAILED, operation_path, staging_root);
                 }
+
+                var cached = yield Utils.Filesystem.move_file_atomic_if_absent (operation_archive_path, cache_archive_path);
+                if (!cached && !FileUtils.test (cache_archive_path, FileTest.IS_REGULAR))
+                    return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
             }
+
+            // Extracting a private copy prevents a corrupted or in-progress
+            // operation from ever writing into the shared archive cache.
+            if (!yield Utils.Filesystem.copy_file (cache_archive_path, operation_archive_path))
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
 
             step = Step.EXTRACTING;
 
-            string extract_path = "%s/".printf (Globals.CACHE_PATH);
-
-            string source_path = yield Utils.Filesystem.extract (extract_path, title, extension, () => canceled);
-
-            // Stale/incomplete cache files can survive crashes and fail extraction.
-            // If we used a cached archive, retry once with a fresh download.
-            if (source_path == "" && !canceled && used_cached_archive) {
-                Utils.Filesystem.delete_file (download_path);
-
-                step = Step.DOWNLOADING;
-
-                string? download_error;
-                var download_valid = yield Utils.Web.download (
-                    download_url,
-                    download_path,
-                    () => canceled,
-                    on_download_progress,
-                    out download_error
-                );
-
-                if (!download_valid) {
-                    this.error_message = download_error;
-                    return ReturnCode.DOWNLOAD_FAILED;
-                }
-
-                step = Step.EXTRACTING;
-                source_path = yield Utils.Filesystem.extract (extract_path, title, extension, () => canceled);
-            }
+            string source_path = yield Utils.Filesystem.extract (operation_path, "archive", extension, () => canceled);
 
             if (source_path == "") {
                 if (!canceled)
                     error_message = _("Extraction failed");
-                return ReturnCode.EXTRACTION_FAILED;
+                return yield complete_install_attempt (ReturnCode.EXTRACTION_FAILED, operation_path, staging_root);
             }
 
-            source_path = yield _after_extraction (source_path, extract_path);
+            source_path = yield _after_extraction (source_path, operation_path);
 
             if (source_path == "") {
                 if (!canceled && error_message == null)
                     error_message = _("Extraction failed");
-                return ReturnCode.EXTRACTION_FAILED;
+                return yield complete_install_attempt (ReturnCode.EXTRACTION_FAILED, operation_path, staging_root);
             }
 
             step = Step.MOVING;
 
-            destination_path = "%s/".printf (install_location);
+            var install_parent = Path.get_dirname (install_location);
+            if (!yield Utils.Filesystem.create_directory_async (install_parent))
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
 
-            var renaming_valid = yield Utils.Filesystem.move_directory (source_path, destination_path);
+            staging_root = Utils.Filesystem.create_temporary_directory (install_parent, ".protonplus-stage-");
+            if (staging_root == "")
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
 
-            if (!renaming_valid) {
+            var staged_install_path = Path.build_filename (staging_root, "installation");
+            if (!yield Utils.Filesystem.move_directory (source_path, staged_install_path)) {
                 error_message = _("Moving failed");
-                return ReturnCode.FILESYSTEM_ERROR;
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
             }
 
-            persist_runner_install_metadata ();
+            if (!yield _after_staging_install (staged_install_path))
+                return yield complete_install_attempt (ReturnCode.INVALID_DATA, operation_path, staging_root);
 
-            return ReturnCode.RUNNER_INSTALLED;
+            persist_runner_install_metadata (staged_install_path);
+
+            if (FileUtils.test (install_location, FileTest.EXISTS)) {
+                if (!replace_existing)
+                    return yield complete_install_attempt (ReturnCode.RUNNER_ALREADY_INSTALLED, operation_path, staging_root);
+
+                var backup_path = Path.build_filename (install_parent, ".protonplus-previous-%s".printf (Path.get_basename (staging_root)));
+                if (!yield Utils.Filesystem.move_directory_atomic (install_location, backup_path))
+                    return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
+
+                if (!yield Utils.Filesystem.move_directory_atomic (staged_install_path, install_location)) {
+                    yield Utils.Filesystem.move_directory_atomic (backup_path, install_location);
+                    return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
+                }
+
+                replacement_backup_path = backup_path;
+            } else if (!yield Utils.Filesystem.move_directory_atomic (staged_install_path, install_location)) {
+                error_message = _("Moving failed");
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
+            }
+
+            destination_path = install_location;
+
+            return yield complete_install_attempt (ReturnCode.RUNNER_INSTALLED, operation_path, staging_root);
         }
 
-        private void persist_runner_install_metadata () {
+        private void persist_runner_install_metadata (string path) {
             var basic_runner = runner as Tools.Basic;
             if (basic_runner == null)
                 return;
 
-            if (destination_path == null || destination_path == "")
-                return;
-
-            var metadata = Utils.Metadata.load (destination_path);
+            var metadata = Utils.Metadata.load (path);
             metadata.runner_endpoint = basic_runner.endpoint;
             metadata.runner_title = basic_runner.title;
-            metadata.save (destination_path);
+            metadata.save (path);
         }
 
         protected virtual async string _after_extraction (string source_path, string extract_path) {
             return source_path;
+        }
+
+        protected virtual async bool _after_staging_install (string staged_install_path) {
+            return true;
         }
 
         protected async string extract_nested_archive (string source_path, string extract_path) {
@@ -442,7 +489,8 @@ namespace ProtonPlus.Models {
             if (extension == null)
                 return "";
 
-            var archive_name = source_path.substring (0, source_path.length - extension.length).replace (extract_path, "");
+            var archive_name = Path.get_basename (source_path);
+            archive_name = archive_name.substring (0, archive_name.length - extension.length);
             return yield Utils.Filesystem.extract (extract_path, archive_name, extension, () => canceled);
         }
 

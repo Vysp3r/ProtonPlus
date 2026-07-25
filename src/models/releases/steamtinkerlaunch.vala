@@ -5,7 +5,6 @@ namespace ProtonPlus.Models.Releases {
         string parent_location { get; set; }
         public string base_location { get; set; }
         string binary_location { get; set; }
-        string download_location { get; set; }
         string meta_location { get; set; }
         string link_parent_location { get; set; }
         string link_location { get; set; }
@@ -41,7 +40,6 @@ namespace ProtonPlus.Models.Releases {
             }
             binary_location = @"$base_location/steamtinkerlaunch";
             meta_location = @"$base_location/ProtonPlus.meta";
-            download_location = @"$base_location/ProtonPlus.downloads";
             link_parent_location = @"$home_location/.local/bin";
             link_location = @"$link_parent_location/steamtinkerlaunch";
             config_location = @"$home_location/.config/steamtinkerlaunch";
@@ -209,124 +207,152 @@ namespace ProtonPlus.Models.Releases {
             state = !installed ? State.NOT_INSTALLED : updated ? State.UP_TO_DATE : State.UPDATE_AVAILABLE;
         }
 
-        protected async override ReturnCode _start_install () {
-            if (yield Utils.System.check_dependency ("steamtinkerlaunch"))
-                yield Utils.System.run_command ("steamtinkerlaunch compat del");
-
-            yield exec_stl (@"$compat_location/SteamTinkerLaunch/steamtinkerlaunch", "compat del");
-
-            foreach (var location in external_locations) {
-                var deleted = yield Utils.Filesystem.delete_directory (location);
-
-                if (!deleted)
-                    return ReturnCode.FILESYSTEM_ERROR;
-            }
-
-            // Always clean destination to avoid merging with existing files.
-            // NOTE: We check for ANY existing (conflicting) file, not just
-            // dirs. The `remove` function then validates the actual types.
+        protected async override ReturnCode _start_install (bool replace_existing = false) {
             var base_location_exists = FileUtils.test (base_location, FileTest.EXISTS);
-            if (base_location_exists) {
-                var code = yield remove ();
+            if (base_location_exists && !replace_existing)
+                return ReturnCode.RUNNER_ALREADY_INSTALLED;
 
-                if (code != ReturnCode.RUNNER_REMOVED)
-                    return code;
-            }
+            var archive_cache_path = Path.build_filename (Globals.CACHE_PATH, "archives");
+            if (!yield Utils.Filesystem.create_directory_async (archive_cache_path))
+                return ReturnCode.FILESYSTEM_ERROR;
 
-            // Download the source code archive.
-            // NOTE: We only create "downloads", since it's a subdir of `base_location`.
-            if (!FileUtils.test (download_location, FileTest.IS_DIR)) {
-                var download_dir_exists = yield Utils.Filesystem.create_directory_async (download_location);
+            var operation_path = Utils.Filesystem.create_temporary_directory (Globals.CACHE_PATH, ".protonplus-stl-");
+            if (operation_path == "")
+                return ReturnCode.FILESYSTEM_ERROR;
 
-                if (!download_dir_exists)
-                    return ReturnCode.FILESYSTEM_ERROR;
-            }
-
-            string downloaded_file_location = @"$download_location/$title.zip";
-
-            if (FileUtils.test (downloaded_file_location, FileTest.EXISTS)) {
-                var deleted = Utils.Filesystem.delete_file (downloaded_file_location);
-
-                if (!deleted)
-                    return ReturnCode.FILESYSTEM_ERROR;
-            }
+            var staging_root = "";
+            var url = get_download_url ();
+            var archive_key = Checksum.compute_for_string (ChecksumType.SHA256, url);
+            var cache_archive_path = Path.build_filename (archive_cache_path, @"$archive_key.zip");
+            var operation_archive_path = Path.build_filename (operation_path, "archive.zip");
 
             step = Step.DOWNLOADING;
+            if (!FileUtils.test (cache_archive_path, FileTest.IS_REGULAR)) {
+                string? download_error;
+                var download_valid = yield Utils.Web.download (
+                    url,
+                    operation_archive_path,
+                    () => canceled,
+                    on_download_progress,
+                    out download_error
+                );
 
-            string? download_error;
-            var download_valid = yield Utils.Web.download (
-                get_download_url (),
-                downloaded_file_location,
-                () => canceled,
-                on_download_progress,
-                out download_error
-            );
+                if (!download_valid) {
+                    error_message = download_error;
+                    return yield complete_install_attempt (ReturnCode.DOWNLOAD_FAILED, operation_path, staging_root);
+                }
 
-            if (!download_valid) {
-                this.error_message = download_error;
-                return ReturnCode.DOWNLOAD_FAILED;
+                var cached = yield Utils.Filesystem.move_file_atomic_if_absent (operation_archive_path, cache_archive_path);
+                if (!cached && !FileUtils.test (cache_archive_path, FileTest.IS_REGULAR))
+                    return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
             }
+
+            if (!yield Utils.Filesystem.copy_file (cache_archive_path, operation_archive_path))
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
 
             step = Step.EXTRACTING;
-
-            // Extract archive and move its contents to the installation directory.
-            string extracted_file_location = yield Utils.Filesystem.extract (
-                @"$download_location/",
-                title,
-                ".zip",
-                () => canceled
-            );
-
-            if (extracted_file_location == "") {
+            var source_path = yield Utils.Filesystem.extract (operation_path, "archive", ".zip", () => canceled);
+            if (source_path == "") {
                 if (!canceled)
                     error_message = _ ("Extraction failed");
-                return ReturnCode.EXTRACTION_FAILED;
+                return yield complete_install_attempt (ReturnCode.EXTRACTION_FAILED, operation_path, staging_root);
             }
 
-            var moved = yield Utils.Filesystem.move_dir_contents (extracted_file_location, base_location);
+            var install_parent = Path.get_dirname (base_location);
+            if (!yield Utils.Filesystem.create_directory_async (install_parent))
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
 
-            if (!moved) {
+            staging_root = Utils.Filesystem.create_temporary_directory (install_parent, ".protonplus-stl-stage-");
+            if (staging_root == "")
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
+
+            var staged_base_location = Path.build_filename (staging_root, "installation");
+            if (!yield Utils.Filesystem.copy_directory (source_path, staged_base_location)) {
                 error_message = _ ("Moving failed");
-                return ReturnCode.FILESYSTEM_ERROR;
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
             }
 
+            write_installation_metadata (Path.build_filename (staged_base_location, "ProtonPlus.meta"));
 
-            // We don't need the download directory anymore.
-            var download_deleted = yield Utils.Filesystem.delete_directory (download_location);
+            // External installations are only removed after the replacement is
+            // complete and ready.  This list is populated after the user's
+            // explicit reinstall confirmation.
+            foreach (var location in external_locations) {
+                var deleted = yield Utils.Filesystem.delete_directory (location);
+                if (!deleted)
+                    return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
+            }
 
-            if (!download_deleted)
-                return ReturnCode.FILESYSTEM_ERROR;
+            var previous_base_location = "";
+            if (base_location_exists) {
+                previous_base_location = Path.build_filename (install_parent, ".protonplus-stl-previous-%s".printf (Path.get_basename (staging_root)));
+                if (!yield Utils.Filesystem.move_directory_atomic (base_location, previous_base_location))
+                    return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
+            }
 
+            step = Step.MOVING;
+            if (!yield Utils.Filesystem.move_directory_atomic (staged_base_location, base_location)) {
+                if (previous_base_location != "")
+                    yield Utils.Filesystem.move_directory_atomic (previous_base_location, base_location);
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
+            }
 
-            // Create a symlink for the steamtinkerlaunch binary.
-            var link_parent_location_exists = yield Utils.Filesystem.create_directory_async (link_parent_location);
+            if (!FileUtils.test (link_location, FileTest.EXISTS)) {
+                if (!yield Utils.Filesystem.create_directory_async (link_parent_location)) {
+                    yield rollback_installation (previous_base_location);
+                    return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
+                }
 
-            if (!link_parent_location_exists)
-                return ReturnCode.FILESYSTEM_ERROR;
+                if (!yield Utils.Filesystem.make_symlink (link_location, binary_location)) {
+                    yield rollback_installation (previous_base_location);
+                    return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
+                }
+            } else if (!FileUtils.test (link_location, FileTest.IS_SYMLINK)) {
+                yield rollback_installation (previous_base_location);
+                return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
+            }
 
-            var link_created = yield Utils.Filesystem.make_symlink (link_location, binary_location);
+            // Do not unregister the working version until its replacement has
+            // been atomically promoted.  Existing links point at base_location
+            // and therefore automatically resolve to the new binary.
+            if (yield Utils.System.check_dependency ("steamtinkerlaunch"))
+                yield Utils.System.run_command ("steamtinkerlaunch compat del");
+            yield exec_stl (binary_location, "compat del");
 
-            if (!link_created)
-                return ReturnCode.FILESYSTEM_ERROR;
-
-            // Trigger STL's dependency installer for Steam Deck, and register compat tool.
             if (Globals.IS_STEAM_OS)
                 yield exec_stl (binary_location, "");
-
             yield exec_stl (binary_location, "compat add");
 
+            if (previous_base_location != "") {
+                if (!yield Utils.Filesystem.delete_directory (previous_base_location))
+                    warning ("Could not remove the previous SteamTinkerLaunch installation: %s", previous_base_location);
+            }
 
-            // Remember installed version.
-            write_installation_metadata (meta_location);
-
-
-            // Add STL to Games tab
             var simple_runner = new Tools.Simple.from_path ("%s/SteamTinkerLaunch".printf (compat_location));
             var steam_launcher = runner.group.launcher as Models.Launchers.Steam;
             if (steam_launcher != null)
                 steam_launcher.register_compatibility_tool (simple_runner);
 
-            return ReturnCode.RUNNER_INSTALLED;
+            return yield complete_install_attempt (ReturnCode.RUNNER_INSTALLED, operation_path, staging_root);
+        }
+
+        private async void rollback_installation (string previous_base_location) {
+            if (previous_base_location == "") {
+                if (FileUtils.test (base_location, FileTest.IS_DIR))
+                    yield Utils.Filesystem.delete_directory (base_location);
+                return;
+            }
+
+            var failed_base_location = "%s.failed".printf (previous_base_location);
+            if (!yield Utils.Filesystem.move_directory_atomic (base_location, failed_base_location))
+                return;
+
+            if (!yield Utils.Filesystem.move_directory_atomic (previous_base_location, base_location)) {
+                yield Utils.Filesystem.move_directory_atomic (failed_base_location, base_location);
+                return;
+            }
+
+            yield Utils.Filesystem.delete_directory (failed_base_location);
         }
 
         protected override async ReturnCode _start_remove () {
@@ -373,11 +399,7 @@ namespace ProtonPlus.Models.Releases {
         }
 
         protected override async ReturnCode _start_update () {
-            var remove_code = yield remove ();
-            if (remove_code != ReturnCode.RUNNER_REMOVED)
-                return remove_code;
-
-            var install_code = yield install ();
+            var install_code = yield install_replacement ();
             if (install_code != ReturnCode.RUNNER_INSTALLED)
                 return install_code;
 

@@ -5,6 +5,7 @@ namespace ProtonPlus {
         DOWNLOAD_FAILED,
         FILESYSTEM_ERROR,
         OPERATION_IN_PROGRESS,
+        RUNNER_ALREADY_INSTALLED,
         RUNNER_NOT_INSTALLED,
         INVALID_CONFIGURATION,
         UNSUPPORTED_OPERATION,
@@ -38,6 +39,8 @@ namespace ProtonPlus {
             return _ ("A filesystem operation failed.");
         case ReturnCode.OPERATION_IN_PROGRESS:
             return _ ("This compatibility tool is already being processed.");
+        case ReturnCode.RUNNER_ALREADY_INSTALLED:
+            return _ ("This compatibility tool is already installed.");
         case ReturnCode.RUNNER_NOT_INSTALLED:
             return _ ("This compatibility tool is not installed.");
         case ReturnCode.INVALID_CONFIGURATION:

@@ -34,21 +34,17 @@ namespace ProtonPlus.Models.Releases {
             return source_path;
         }
 
-        protected override async ReturnCode _start_install () {
-            var code = yield base._start_install ();
-            if (code != ReturnCode.RUNNER_INSTALLED)
-            return code;
-
-            var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (destination_path);
+        protected override async bool _after_staging_install (string staged_install_path) {
+            var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (staged_install_path);
             if (!FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR)) {
-                persist_source_release_title ();
-                return ReturnCode.RUNNER_INSTALLED;
+                persist_source_release_title (staged_install_path);
+                return true;
             }
 
             var compatibilitytoolvdf_content = Utils.Filesystem.get_file_content (compatibilitytoolvdf_path);
             if (compatibilitytoolvdf_content == "") {
                 error_message = _ ("Failed to read compatibilitytool.vdf");
-                return ReturnCode.INVALID_DATA;
+                return false;
             }
 
             var start_text = "";
@@ -57,24 +53,26 @@ namespace ProtonPlus.Models.Releases {
             var end_pos = 0;
 
             start_text = "compat_tools\"\n  {\n    \"";
-            start_pos = compatibilitytoolvdf_content.index_of (start_text, 0) + start_text.length;
+            start_pos = compatibilitytoolvdf_content.index_of (start_text, 0);
             if (start_pos == -1)
-            return ReturnCode.INVALID_DATA;
+                return false;
+            start_pos += start_text.length;
 
             end_text = "\" // Internal name of this tool";
             end_pos = compatibilitytoolvdf_content.index_of (end_text, start_pos);
             if (end_pos == -1)
-            return ReturnCode.INVALID_DATA;
+                return false;
 
             var internal_title = compatibilitytoolvdf_content.substring (start_pos, end_pos - start_pos);
 
             start_pos = compatibilitytoolvdf_content.index_of (start_text, 0);
             if (start_pos == -1)
-            return ReturnCode.INVALID_DATA;
+                return false;
 
-            end_pos = compatibilitytoolvdf_content.index_of (end_text, start_pos + start_text.length) + end_text.length;
+            end_pos = compatibilitytoolvdf_content.index_of (end_text, start_pos + start_text.length);
             if (end_pos == -1)
-            return ReturnCode.INVALID_DATA;
+                return false;
+            end_pos += end_text.length;
 
             var internal_title_line = compatibilitytoolvdf_content.substring (start_pos, end_pos - start_pos);
 
@@ -83,24 +81,26 @@ namespace ProtonPlus.Models.Releases {
             compatibilitytoolvdf_content = compatibilitytoolvdf_content.replace (internal_title_line, internal_title_line_modified);
 
             start_text = "display_name\" \"";
-            start_pos = compatibilitytoolvdf_content.index_of (start_text, 0) + start_text.length;
+            start_pos = compatibilitytoolvdf_content.index_of (start_text, 0);
             if (start_pos == -1)
-            return ReturnCode.INVALID_DATA;
+                return false;
+            start_pos += start_text.length;
 
             end_text = "\"";
             end_pos = compatibilitytoolvdf_content.index_of (end_text, start_pos);
             if (end_pos == -1)
-            return ReturnCode.INVALID_DATA;
+                return false;
 
             var display_title = compatibilitytoolvdf_content.substring (start_pos, end_pos - start_pos);
 
             start_pos = compatibilitytoolvdf_content.index_of (start_text, 0);
             if (start_pos == -1)
-            return ReturnCode.INVALID_DATA;
+                return false;
 
-            end_pos = compatibilitytoolvdf_content.index_of (end_text, start_pos + start_text.length) + end_text.length;
+            end_pos = compatibilitytoolvdf_content.index_of (end_text, start_pos + start_text.length);
             if (end_pos == -1)
-            return ReturnCode.INVALID_DATA;
+                return false;
+            end_pos += end_text.length;
 
             var display_title_line = compatibilitytoolvdf_content.substring (start_pos, end_pos - start_pos);
 
@@ -110,20 +110,20 @@ namespace ProtonPlus.Models.Releases {
 
             var modified = Utils.Filesystem.modify_file (compatibilitytoolvdf_path, compatibilitytoolvdf_content);
             if (!modified)
-            return ReturnCode.FILESYSTEM_ERROR;
+                return false;
 
-            persist_source_release_title ();
+            persist_source_release_title (staged_install_path);
 
-            return ReturnCode.RUNNER_INSTALLED;
+            return true;
         }
 
-        private void persist_source_release_title () {
+        private void persist_source_release_title (string path) {
             if (source_release_title == "")
                 return;
 
-            var metadata = Utils.Metadata.load (destination_path);
+            var metadata = Utils.Metadata.load (path);
             metadata.tag = source_release_title;
-            metadata.save (destination_path);
+            metadata.save (path);
         }
 
         protected override async ReturnCode _start_update () {

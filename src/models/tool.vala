@@ -453,22 +453,16 @@ namespace ProtonPlus.Models {
             );
             release.state = Models.Release.State.BUSY_UPDATING;
 
-            var backup_runner_directory = "%s/%s Latest Backup".printf (base_runner_directory, runner.title);
-
-            var moved = yield Utils.Filesystem.move_directory (runner_directory, backup_runner_directory);
-
-            if (!moved)
-                return ReturnCode.FILESYSTEM_ERROR;
-
-            var install_code = yield release.install ();
-            if (install_code != ReturnCode.RUNNER_INSTALLED) {
-                var deleted = yield Utils.Filesystem.delete_directory (runner_directory);
-
-                if (deleted)
-                    yield Utils.Filesystem.move_directory (backup_runner_directory, runner_directory);
-
+            // The release stages the new files, then atomically swaps them with
+            // this runner.  The previous runner remains available for settings
+            // migration and rollback until this whole update succeeds.
+            var install_code = yield release.install_replacement ();
+            if (install_code != ReturnCode.RUNNER_INSTALLED)
                 return install_code;
-            }
+
+            var backup_runner_directory = release.replacement_backup_path;
+            if (backup_runner_directory == null || !FileUtils.test (backup_runner_directory, FileTest.IS_DIR))
+                return ReturnCode.FILESYSTEM_ERROR;
 
             var backup_settings_path = "%s/user_settings.py".printf (backup_runner_directory);
             var backup_settings_exists = FileUtils.test (backup_settings_path, FileTest.IS_REGULAR);
@@ -477,8 +471,10 @@ namespace ProtonPlus.Models {
                 var settings_path = "%s/user_settings.py".printf (runner_directory);
                 if (backup_settings_is_symlink) {
                     var copied = Utils.Filesystem.copy_symlink (backup_settings_path, settings_path);
-                    if (!copied)
+                    if (!copied) {
+                        yield rollback_replaced_runner (runner_directory, backup_runner_directory);
                         return ReturnCode.FILESYSTEM_ERROR;
+                    }
                 } else {
                     Utils.Filesystem.create_file (settings_path, Utils.Filesystem.get_file_content (backup_settings_path));
                 }
@@ -491,13 +487,17 @@ namespace ProtonPlus.Models {
 
                 if (FileUtils.test (default_prefix_path, FileTest.IS_DIR)) {
                     var deleted_default_prefix = yield Utils.Filesystem.delete_directory (default_prefix_path);
-                    if (!deleted_default_prefix)
+                    if (!deleted_default_prefix) {
+                        yield rollback_replaced_runner (runner_directory, backup_runner_directory);
                         return ReturnCode.FILESYSTEM_ERROR;
+                    }
                 }
 
                 var copied = yield Utils.Filesystem.copy_directory (backup_default_prefix_path, default_prefix_path);
-                if (!copied)
+                if (!copied) {
+                    yield rollback_replaced_runner (runner_directory, backup_runner_directory);
                     return ReturnCode.FILESYSTEM_ERROR;
+                }
             }
 
             var deleted = yield Utils.Filesystem.delete_directory (backup_runner_directory);
@@ -505,6 +505,19 @@ namespace ProtonPlus.Models {
                 return ReturnCode.FILESYSTEM_ERROR;
 
             return ReturnCode.RUNNER_UPDATED;
+        }
+
+        private static async bool rollback_replaced_runner (string runner_directory, string backup_runner_directory) {
+            var failed_runner_directory = "%s.failed".printf (backup_runner_directory);
+            if (!yield Utils.Filesystem.move_directory_atomic (runner_directory, failed_runner_directory))
+                return false;
+
+            if (!yield Utils.Filesystem.move_directory_atomic (backup_runner_directory, runner_directory)) {
+                yield Utils.Filesystem.move_directory_atomic (failed_runner_directory, runner_directory);
+                return false;
+            }
+
+            return yield Utils.Filesystem.delete_directory (failed_runner_directory);
         }
     }
 }

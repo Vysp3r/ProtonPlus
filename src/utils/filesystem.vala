@@ -306,6 +306,74 @@ namespace ProtonPlus.Utils {
 
         // Directories.
 
+        // Creates a directory with a unique suffix directly below `parent`.
+        // Keeping operation directories under their eventual destination also
+        // lets us promote them with rename(2), instead of a copy/delete pair.
+        public static string create_temporary_directory (string parent, string prefix) {
+            if (!FileUtils.test (parent, FileTest.IS_DIR))
+                return "";
+
+            return DirUtils.mkdtemp (Path.build_filename (parent, "%sXXXXXX".printf (prefix)));
+        }
+
+        // Rename is atomic when source and destination share a filesystem.  Do
+        // not replace an existing destination: callers use this to promote a
+        // fully staged installation without ever overwriting another attempt.
+        public static async bool move_directory_atomic (string source, string destination) {
+            SourceFunc callback = move_directory_atomic.callback;
+
+            bool output = false;
+            new Thread<void> ("move_directory_atomic", () => {
+                if (!FileUtils.test (source, FileTest.IS_DIR) || FileUtils.test (destination, FileTest.EXISTS)) {
+                    Idle.add ((owned) callback, Priority.DEFAULT);
+                    return;
+                }
+
+                output = FileUtils.rename (source, destination) == 0;
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
+
+            yield;
+            return output;
+        }
+
+        // Like move_directory_atomic, but for an archive cache entry.  A
+        // concurrent downloader winning the race is harmless: its cache file
+        // is retained and the caller can use that immutable result.
+        public static async bool move_file_atomic_if_absent (string source, string destination) {
+            SourceFunc callback = move_file_atomic_if_absent.callback;
+
+            bool output = false;
+            new Thread<void> ("move_file_atomic", () => {
+                if (!FileUtils.test (source, FileTest.IS_REGULAR) || FileUtils.test (destination, FileTest.EXISTS)) {
+                    Idle.add ((owned) callback, Priority.DEFAULT);
+                    return;
+                }
+
+                output = FileUtils.rename (source, destination) == 0;
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
+
+            yield;
+            return output;
+        }
+
+        public static async bool copy_file (string source, string destination) {
+            try {
+                var source_file = File.parse_name (source);
+                var destination_file = File.parse_name (destination);
+
+                if (!source_file.query_exists ())
+                    return false;
+
+                yield source_file.copy_async (destination_file, FileCopyFlags.OVERWRITE);
+                return true;
+            } catch (Error e) {
+                warning ("Failed to copy %s: %s", source, e.message);
+                return false;
+            }
+        }
+
         public static async bool move_directory (string source, string destination) {
             var destination_existed = FileUtils.test (destination, FileTest.EXISTS);
             var copied = yield copy_directory (source, destination);
