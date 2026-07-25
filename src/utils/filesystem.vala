@@ -474,34 +474,46 @@ namespace ProtonPlus.Utils {
         }
 
         static bool delete_directory_direct (string path) {
-            var dir = Posix.opendir (path);
-            if (dir == null) {
-                return false;
-            }
+            FileEnumerator? enumerator = null;
 
-            unowned Posix.DirEnt? cur_d;
-            Posix.Stat stat_;
-            while ((cur_d = Posix.readdir (dir)) != null) {
-                var d_name = (string) cur_d.d_name;
-                if (d_name == "." || d_name == "..") {
-                    continue;
+            try {
+                var directory = File.new_for_path (path);
+                enumerator = directory.enumerate_children (
+                    "standard::name",
+                    FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+                    null
+                );
+
+                FileInfo? file_info;
+                while ((file_info = enumerator.next_file (null)) != null) {
+                    var cur_path = Path.build_filename (path, file_info.get_name ());
+                    Posix.Stat stat_;
+
+                    // NOTE: `lstat()` is very important to avoid following symlinks,
+                    // otherwise we would wipe out the link target's contents too.
+                    if (Posix.lstat (cur_path, out stat_) != 0)
+                        return false;
+
+                    if (Posix.S_ISDIR (stat_.st_mode)) {
+                        if (!delete_directory_direct (cur_path))
+                            return false;
+                        if (Posix.rmdir (cur_path) != 0)
+                            return false;
+                    } else {
+                        if (!delete_file_direct (cur_path))
+                            return false;
+                    }
                 }
-
-                var cur_path = @"$path/$d_name";
-
-                // NOTE: `lstat()` is very important to avoid following symlinks,
-                // otherwise we would wipe out the link target's contents too.
-                if (Posix.lstat (cur_path, out stat_) != 0)
-                    return false;
-
-                if (Posix.S_ISDIR (stat_.st_mode)) {
-                    if (!delete_directory_direct (cur_path))
-                        return false;
-                    if (Posix.rmdir (cur_path) != 0)
-                        return false;
-                } else {
-                    if (!delete_file_direct (cur_path))
-                        return false;
+            } catch (Error e) {
+                warning (e.message);
+                return false;
+            } finally {
+                if (enumerator != null) {
+                    try {
+                        enumerator.close (null);
+                    } catch (Error e) {
+                        warning (e.message);
+                    }
                 }
             }
 
@@ -585,31 +597,41 @@ namespace ProtonPlus.Utils {
         public static uint64 get_directory_size (string path) {
             uint64 size = 0;
 
-            var dir = Posix.opendir (path);
-            if (dir == null) {
-                return 0;
-            }
+            FileEnumerator? enumerator = null;
+            try {
+                var directory = File.new_for_path (path);
+                enumerator = directory.enumerate_children (
+                    "standard::name",
+                    FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+                    null
+                );
 
-            unowned Posix.DirEnt? cur_d;
-            Posix.Stat stat_;
-            while ((cur_d = Posix.readdir (dir)) != null) {
-                var d_name = (string) cur_d.d_name;
-                if (d_name == "." || d_name == "..") {
-                    continue;
+                FileInfo? file_info;
+                while ((file_info = enumerator.next_file (null)) != null) {
+                    var cur_path = Path.build_filename (path, file_info.get_name ());
+                    Posix.Stat stat_;
+
+                    // NOTE: `lstat()` is very important to avoid following symlinks,
+                    // to get an accurate count of bytes within real files (not links).
+                    if (Posix.lstat (cur_path, out stat_) != 0) {
+                        continue;
+                    }
+
+                    if (Posix.S_ISDIR (stat_.st_mode)) {
+                        size += get_directory_size (cur_path);
+                    } else {
+                        size += stat_.st_size;
+                    }
                 }
-
-                var cur_path = @"$path/$d_name";
-
-                // NOTE: `lstat()` is very important to avoid following symlinks,
-                // to get an accurate count of bytes within real files (not links).
-                if (Posix.lstat (cur_path, out stat_) != 0) {
-                    continue;
-                }
-
-                if (Posix.S_ISDIR (stat_.st_mode)) {
-                    size += get_directory_size (cur_path);
-                } else {
-                    size += stat_.st_size;
+            } catch (Error e) {
+                warning (e.message);
+            } finally {
+                if (enumerator != null) {
+                    try {
+                        enumerator.close (null);
+                    } catch (Error e) {
+                        warning (e.message);
+                    }
                 }
             }
 
