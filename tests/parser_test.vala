@@ -3,6 +3,7 @@ namespace AppTests.ParserTest {
 
     public void register_tests () {
         Test.add_func ("/parser/length-aware-byte-conversion", test_length_aware_byte_conversion);
+        Test.add_func ("/vdf/text-parser-replaces-key-and-value", test_vdf_document_replacements);
         Test.add_func ("/launch-options/shell-words-preserve-quoting", test_launch_option_shell_words);
         Test.add_func ("/launch-options/opaque-shell-spans", test_opaque_shell_spans);
     }
@@ -15,6 +16,31 @@ namespace AppTests.ParserTest {
         data[3] = 't';
 
         assert (ProtonPlus.Utils.Parser.data_to_string (data) == "test");
+    }
+
+    private void test_vdf_document_replacements () {
+        string content = "\"compat_tools\" // tools\n{\n\t\"Old Name\" // internal name\n\t{\n\t\t\"display_name\"    \"Old Name\"\n\t}\n}\n";
+        var document = ProtonPlus.Utils.VDF.VdfParser.parse_document (content);
+        assert (document != null);
+
+        var compat_tools = document.root.get_child ("compat_tools");
+        assert (compat_tools != null);
+        assert (compat_tools.children.size == 1);
+
+        var tool = compat_tools.children.get (0);
+        var renamed_content = document.replace_key (tool, "New Name");
+        assert (renamed_content == "\"compat_tools\" // tools\n{\n\t\"New Name\" // internal name\n\t{\n\t\t\"display_name\"    \"Old Name\"\n\t}\n}\n");
+
+        document = ProtonPlus.Utils.VDF.VdfParser.parse_document (renamed_content);
+        assert (document != null);
+        compat_tools = document.root.get_child ("compat_tools");
+        assert (compat_tools != null);
+        tool = compat_tools.children.get (0);
+        var display_name = tool.get_child ("display_name");
+        assert (display_name != null);
+
+        var rewritten_content = document.replace_value (display_name, "New Name");
+        assert (rewritten_content == "\"compat_tools\" // tools\n{\n\t\"New Name\" // internal name\n\t{\n\t\t\"display_name\"    \"New Name\"\n\t}\n}\n");
     }
 
     private void test_launch_option_shell_words () {

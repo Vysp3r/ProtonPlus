@@ -47,66 +47,35 @@ namespace ProtonPlus.Models.Releases {
                 return false;
             }
 
-            var start_text = "";
-            var end_text = "";
-            var start_pos = 0;
-            var end_pos = 0;
-
-            start_text = "compat_tools\"\n  {\n    \"";
-            start_pos = compatibilitytoolvdf_content.index_of (start_text, 0);
-            if (start_pos == -1)
-                return false;
-            start_pos += start_text.length;
-
-            end_text = "\" // Internal name of this tool";
-            end_pos = compatibilitytoolvdf_content.index_of (end_text, start_pos);
-            if (end_pos == -1)
+            var document = Utils.VDF.VdfParser.parse_document (compatibilitytoolvdf_content);
+            if (document == null)
                 return false;
 
-            var internal_title = compatibilitytoolvdf_content.substring (start_pos, end_pos - start_pos);
-
-            start_pos = compatibilitytoolvdf_content.index_of (start_text, 0);
-            if (start_pos == -1)
+            var compat_tools = document.root.get_child ("compat_tools");
+            if (compat_tools == null || compat_tools.children.size != 1)
                 return false;
 
-            end_pos = compatibilitytoolvdf_content.index_of (end_text, start_pos + start_text.length);
-            if (end_pos == -1)
-                return false;
-            end_pos += end_text.length;
-
-            var internal_title_line = compatibilitytoolvdf_content.substring (start_pos, end_pos - start_pos);
-
-            var internal_title_line_modified = internal_title_line.replace (internal_title, title);
-
-            compatibilitytoolvdf_content = compatibilitytoolvdf_content.replace (internal_title_line, internal_title_line_modified);
-
-            start_text = "display_name\" \"";
-            start_pos = compatibilitytoolvdf_content.index_of (start_text, 0);
-            if (start_pos == -1)
-                return false;
-            start_pos += start_text.length;
-
-            end_text = "\"";
-            end_pos = compatibilitytoolvdf_content.index_of (end_text, start_pos);
-            if (end_pos == -1)
+            var tool = compat_tools.children.get (0);
+            if (tool.key == "" || tool.key_start < 0 || tool.key_end < tool.key_start)
                 return false;
 
-            var display_title = compatibilitytoolvdf_content.substring (start_pos, end_pos - start_pos);
+            compatibilitytoolvdf_content = document.replace_key (tool, title);
 
-            start_pos = compatibilitytoolvdf_content.index_of (start_text, 0);
-            if (start_pos == -1)
+            document = Utils.VDF.VdfParser.parse_document (compatibilitytoolvdf_content);
+            if (document == null)
                 return false;
 
-            end_pos = compatibilitytoolvdf_content.index_of (end_text, start_pos + start_text.length);
-            if (end_pos == -1)
+            compat_tools = document.root.get_child ("compat_tools");
+            if (compat_tools == null || compat_tools.children.size != 1)
                 return false;
-            end_pos += end_text.length;
 
-            var display_title_line = compatibilitytoolvdf_content.substring (start_pos, end_pos - start_pos);
+            tool = compat_tools.children.get (0);
+            var display_name = tool.get_child ("display_name");
+            if (display_name == null || display_name.value == null ||
+                display_name.value_start < 0 || display_name.value_end < display_name.value_start)
+                return false;
 
-            var display_title_line_modified = display_title_line.replace (display_title, title);
-
-            compatibilitytoolvdf_content = compatibilitytoolvdf_content.replace (display_title_line, display_title_line_modified);
+            compatibilitytoolvdf_content = document.replace_value (display_name, title);
 
             var modified = Utils.Filesystem.modify_file (compatibilitytoolvdf_path, compatibilitytoolvdf_content);
             if (!modified)

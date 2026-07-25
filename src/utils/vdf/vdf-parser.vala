@@ -15,6 +15,8 @@ namespace ProtonPlus.Utils.VDF {
         public int end { get; private set; }
         public int value_start { get; private set; }
         public int value_end { get; private set; }
+        public int key_start { get; private set; }
+        public int key_end { get; private set; }
         public int closing_brace_start { get; private set; }
 
         public VdfEntry (string key, int start) {
@@ -23,6 +25,8 @@ namespace ProtonPlus.Utils.VDF {
             this.end = start;
             this.value_start = -1;
             this.value_end = -1;
+            this.key_start = -1;
+            this.key_end = -1;
             this.closing_brace_start = -1;
             this.children = new Gee.ArrayList<VdfEntry> ();
         }
@@ -44,6 +48,11 @@ namespace ProtonPlus.Utils.VDF {
             this.end = end;
         }
 
+        internal void set_key_range (int start, int end) {
+            this.key_start = start;
+            this.key_end = end;
+        }
+
         internal void set_block_end (int closing_brace_start, int end) {
             this.closing_brace_start = closing_brace_start;
             this.end = end;
@@ -63,6 +72,12 @@ namespace ProtonPlus.Utils.VDF {
             return content.substring (0, entry.value_start)
                 + quote (value)
                 + content.substring (entry.value_end);
+        }
+
+        public string replace_key (VdfEntry entry, string key) {
+            return content.substring (0, entry.key_start)
+                + quote (key)
+                + content.substring (entry.key_end);
         }
 
         public string remove_entry (VdfEntry entry) {
@@ -165,6 +180,7 @@ namespace ProtonPlus.Utils.VDF {
                     }
 
                     var entry = new VdfEntry (key, entry_start);
+                    entry.set_key_range (key_start, key_end);
                     if (content.get_char (position) == '{') {
                         advance ();
                         if (!parse_entries (entry, true)) {
