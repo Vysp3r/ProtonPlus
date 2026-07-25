@@ -150,6 +150,23 @@ namespace ProtonPlus.Utils {
 
         public delegate void progress_callback (bool is_percent, int64 progress_percentage, double speed_kbps, double? remaining_seconds);
 
+        private static async void cleanup_partial_download (File file, FileOutputStream? output_stream) {
+            if (output_stream != null) {
+                try {
+                    yield output_stream.close_async (Priority.DEFAULT, null);
+                } catch (Error e) {
+                    warning ("Could not close partial download: %s".printf (e.message));
+                }
+            }
+
+            try {
+                if (file.query_exists ())
+                    yield file.delete_async (Priority.DEFAULT, null);
+            } catch (Error e) {
+                warning ("Could not remove partial download: %s".printf (e.message));
+            }
+        }
+
         public static async bool download (
             string url,
             string path,
@@ -158,6 +175,10 @@ namespace ProtonPlus.Utils {
             out string? error_message = null
         ) {
             error_message = null;
+            var file = File.new_for_path (path);
+            FileOutputStream? output_stream = null;
+            bool has_partial_file = false;
+
             try {
                 var soup_message = new Soup.Message ("GET", url);
 
@@ -169,11 +190,8 @@ namespace ProtonPlus.Utils {
                     return false;
                 }
 
-                var file = File.new_for_path (path);
-                if (file.query_exists ())
-                    yield file.delete_async (Priority.DEFAULT, null);
-
-                FileOutputStream output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, Priority.DEFAULT, null);
+                output_stream = yield file.create_async (FileCreateFlags.REPLACE_DESTINATION, Priority.DEFAULT, null);
+                has_partial_file = true;
 
                 // Prefer real Content-Length header from the server if it exists.
                 // NOTE: Servers typically return "0" when it doesn't know, for
@@ -207,9 +225,10 @@ namespace ProtonPlus.Utils {
                     if (chunk.get_size () == 0)
                         break;
 
-                    yield output_stream.write_async (chunk.get_data (), Priority.DEFAULT, null);
+                    size_t bytes_written;
+                    yield output_stream.write_all_async (chunk.get_data (), Priority.DEFAULT, null, out bytes_written);
 
-                    bytes_downloaded += chunk.get_size ();
+                    bytes_downloaded += bytes_written;
 
                     if (progress_callback != null) {
                         int64 elapsed_us = get_monotonic_time () - start_time;
@@ -231,12 +250,19 @@ namespace ProtonPlus.Utils {
                 }
 
                 yield output_stream.close_async ();
+                output_stream = null;
 
-                if (is_canceled && file.query_exists ())
-                    yield file.delete_async (Priority.DEFAULT, null);
+                if (is_canceled) {
+                    yield cleanup_partial_download (file, output_stream);
+                    return false;
+                }
 
-                return !is_canceled;
+                has_partial_file = false;
+                return true;
             } catch (Error e) {
+                if (has_partial_file)
+                    yield cleanup_partial_download (file, output_stream);
+
                 warning (e.message);
                 error_message = e.message;
 
