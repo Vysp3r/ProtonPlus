@@ -13,6 +13,7 @@ namespace ProtonPlus.Widgets.Tools {
                 wrap = true,
                 wrap_mode = Pango.WrapMode.WORD_CHAR,
                 selectable = true,
+                focusable = false,
                 xalign = 0,
                 yalign = 0,
                 margin_start = 12,
