@@ -164,6 +164,24 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             });
 
+            var search_popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
+                margin_top = 12,
+                margin_bottom = 12,
+                margin_start = 12,
+                margin_end = 12
+            };
+            search_popover_box.append (search_entry);
+
+            var search_popover = new Gtk.Popover ();
+            search_popover.set_child (search_popover_box);
+
+            var search_button = new Gtk.MenuButton () {
+                valign = Gtk.Align.CENTER,
+                icon_name = "magnifying-glass-symbolic",
+                popover = search_popover
+            };
+            search_button.set_tooltip_text (_ ("Search"));
+
             var filter_button = new Gtk.MenuButton () {
                 valign = Gtk.Align.CENTER,
                 icon_name = "filter-2-symbolic"
@@ -234,13 +252,13 @@ namespace ProtonPlus.Widgets.Tools {
                 halign = Gtk.Align.CENTER
             };
             center_box.append (center_stack);
-            center_box.append (search_entry);
 
             action_bar = new Gtk.ActionBar ();
             action_bar.set_center_widget (center_box);
             action_bar.pack_start (back_button);
             action_bar.pack_end (refresh_button);
             action_bar.pack_end (filter_button);
+            action_bar.pack_end (search_button);
             action_bar.pack_end (open_button);
             action_bar.pack_end (migrate_button);
             action_bar.pack_end (migrate_box.migrate_button);
@@ -248,7 +266,7 @@ namespace ProtonPlus.Widgets.Tools {
             stack.notify["visible-child-name"].connect (() => {
                 var visible_child = stack.get_visible_child_name ();
                 back_button.set_visible (visible_child != "groups");
-                search_entry.set_visible (visible_child != "release" && visible_child != "migrate");
+                search_button.set_visible (visible_child != "release" && visible_child != "migrate");
                 filter_button.set_visible (visible_child != "release" && visible_child != "migrate");
                 var background_updates_enabled = Globals.SETTINGS != null
                                                  && Globals.SETTINGS.get_boolean ("background-updates");
