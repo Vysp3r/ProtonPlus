@@ -13,6 +13,10 @@ namespace ProtonPlus.Widgets.Tools {
         Adw.StatusPage status_page { get; set; }
 
         private Models.Tool? current_tool;
+        // Incremented whenever a tool request replaces the visible tool state.
+        // Async completions must match both this generation and their tool before
+        // they are allowed to update the UI.
+        private uint tool_request_generation = 0;
         Models.Variant? selected_variant = null;
         Gtk.DropDown variant_dropdown { get; set; }
         Gtk.Box variant_box { get; set; }
@@ -235,8 +239,10 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public async void set_selected_tool (Models.Tool tool) {
+            uint request_generation = ++tool_request_generation;
             current_tool = tool;
             content_stack.set_visible_child_name ("spinner");
+            load_more_button.sensitive = true;
 
             list_box.remove_all ();
 
@@ -247,6 +253,9 @@ namespace ProtonPlus.Widgets.Tools {
 
             ReturnCode code;
             Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (false, out code);
+
+            if (!is_current_tool_request (tool, request_generation))
+                return;
 
             if (code != ReturnCode.RELEASES_LOADED) {
                 Adw.AlertDialog dialog = new Main.ErrorDialog (
@@ -282,8 +291,10 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private async void set_selected_tool_forced (Models.Tool tool) {
+            uint request_generation = ++tool_request_generation;
             current_tool = tool;
             content_stack.set_visible_child_name ("spinner");
+            load_more_button.sensitive = true;
 
             list_box.remove_all ();
 
@@ -292,6 +303,9 @@ namespace ProtonPlus.Widgets.Tools {
 
             ReturnCode code;
             Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (true, out code);
+
+            if (!is_current_tool_request (tool, request_generation))
+                return;
 
             if (code != ReturnCode.RELEASES_LOADED) {
                 Adw.AlertDialog dialog = new Main.ErrorDialog (
@@ -511,25 +525,34 @@ namespace ProtonPlus.Widgets.Tools {
             if (current_tool == null)
                 return;
 
+            Models.Tool tool = current_tool;
+            uint request_generation = tool_request_generation;
             load_more_button.sensitive = false;
 
             ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield current_tool.load_more (out code);
+            Gee.LinkedList<Models.Release> releases = yield tool.load_more (out code);
+
+            if (!is_current_tool_request (tool, request_generation))
+                return;
 
             if (code == ReturnCode.RELEASES_LOADED) {
                 foreach (var release in releases) {
-                    current_tool.releases.add (release);
+                    tool.releases.add (release);
                     add_release_row (release);
                 }
                 list_box.remove (load_more_row);
                 list_box.append (load_more_row);
 
-                Utils.CacheManager.save_releases.begin (current_tool);
+                Utils.CacheManager.save_releases.begin (tool);
             }
 
-            load_more_row.visible = current_tool.has_more;
+            load_more_row.visible = tool.has_more;
             load_more_button.sensitive = true;
             update_visibility ();
+        }
+
+        private bool is_current_tool_request (Models.Tool tool, uint request_generation) {
+            return current_tool == tool && tool_request_generation == request_generation;
         }
 
         void update_visibility () {
