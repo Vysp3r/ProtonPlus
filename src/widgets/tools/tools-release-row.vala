@@ -17,6 +17,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Label usage_pill { get; set; }
         Gtk.Popover info_popover { get; set; }
         Gtk.Popover details_popover { get; set; }
+        uint progress_pulse_timeout_id = 0;
 
         public ReleaseRow (Models.Release release) {
             Object (title: release.title, subtitle: release.release_date, activatable: true);
@@ -141,6 +142,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public override void dispose () {
+            stop_progress_pulse ();
             info_popover.unparent ();
             details_popover.unparent ();
             base.dispose ();
@@ -165,6 +167,8 @@ namespace ProtonPlus.Widgets.Tools {
             update_button?.set_sensitive (!busy);
 
             open_button?.set_sensitive (!busy);
+
+            update_progress_pulse ();
         }
 
         void release_step_changed () {
@@ -173,6 +177,8 @@ namespace ProtonPlus.Widgets.Tools {
             progress_bar.show_text = release.step == Models.Release.Step.DOWNLOADING;
             speed_label.set_visible (release.step == Models.Release.Step.DOWNLOADING);
             time_label.set_visible (release.step == Models.Release.Step.DOWNLOADING);
+
+            update_progress_pulse ();
 
             switch (release.step) {
                 case Models.Release.Step.DOWNLOADING:
@@ -193,6 +199,30 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             step_label.set_label (_("Step: %s").printf (step_text));
+        }
+
+        void update_progress_pulse () {
+            var is_installing = release.state == Models.Release.State.BUSY_INSTALLING ||
+                release.state == Models.Release.State.BUSY_UPDATING;
+            var needs_pulse = is_installing &&
+                (release.step == Models.Release.Step.EXTRACTING || release.step == Models.Release.Step.MOVING);
+
+            if (needs_pulse && progress_pulse_timeout_id == 0) {
+                progress_bar.pulse (0.01);
+                progress_pulse_timeout_id = Timeout.add (16, () => {
+                    progress_bar.pulse (0.01);
+                    return Source.CONTINUE;
+                });
+            } else if (!needs_pulse) {
+                stop_progress_pulse ();
+            }
+        }
+
+        void stop_progress_pulse () {
+            if (progress_pulse_timeout_id != 0) {
+                Source.remove (progress_pulse_timeout_id);
+                progress_pulse_timeout_id = 0;
+            }
         }
 
         void update_button_clicked () {
