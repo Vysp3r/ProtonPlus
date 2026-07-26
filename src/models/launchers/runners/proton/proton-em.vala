@@ -15,7 +15,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
             );
 
             sort_priority = 6;
-            add_variant ("default", "$release_name", true);
+            add_variant ("standard", "default", "$release_name", true);
             add_directory_name_format ("default", "$release_name");
         }
 

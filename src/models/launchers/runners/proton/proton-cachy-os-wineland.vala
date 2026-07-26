@@ -14,9 +14,9 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
             );
 
             sort_priority = 7;
-            add_variant ("x86_64", "proton-$tag_name-x86_64", true);
-            add_variant ("x86_64_v3", "proton-$tag_name-x86_64_v3", false);
-            add_variant ("x86_64_wow64", "proton-$tag_name-x86_64_wow64", false);
+            add_variant ("x86-64", "x86_64", "proton-$tag_name-x86_64", true);
+            add_variant ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false);
+            add_variant ("x86-64-wow64", "x86_64_wow64", "proton-$tag_name-x86_64_wow64", false);
             add_directory_name_format ("default", "$release_name");
         }
 

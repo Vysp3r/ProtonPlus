@@ -53,10 +53,14 @@ namespace AppTests.InstallLayoutTest {
         var launcher_titles = new string[] {
             "Steam", "Lutris", "Bottles", "Heroic Games Launcher", "WineZGUI"
         };
+        var launcher_family_ids = new string[] {
+            "steam", "lutris", "bottles", "heroic", "winezgui"
+        };
 
-        foreach (var launcher_title in launcher_titles) {
+        for (var launcher_index = 0; launcher_index < launcher_titles.length; launcher_index++) {
+            var launcher_title = launcher_titles[launcher_index];
             var launcher = new Launcher (
-                launcher_title, Launcher.InstallationTypes.SYSTEM, "", { root }
+                launcher_title, Launcher.InstallationTypes.SYSTEM, "", { root }, launcher_family_ids[launcher_index]
             );
             var group = new Group ("Test", "", "", launcher);
 

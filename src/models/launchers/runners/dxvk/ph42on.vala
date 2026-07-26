@@ -18,7 +18,7 @@ namespace ProtonPlus.Models.Launchers.Runners.DXVK {
             // CI artifact ZIP before the distributable tarball.  Match the
             // published archive explicitly instead of falling back to the
             // first link.
-            add_variant ("default", "dxvk-gplasync-$release_name.tar.gz", true);
+            add_variant ("standard", "default", "dxvk-gplasync-$release_name.tar.gz", true);
             add_directory_name_format ("default", "dxvk-gplasync-$release_name");
         }
 

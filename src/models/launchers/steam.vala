@@ -1,5 +1,6 @@
 namespace ProtonPlus.Models.Launchers {
     public class Steam : Launcher {
+        public const string FAMILY_ID = "steam";
         public List<SteamProfile> profiles;
         public SteamProfile profile { get; set; }
         public string default_compatibility_tool { get; set; }
@@ -27,7 +28,7 @@ namespace ProtonPlus.Models.Launchers {
                     break;
             }
 
-            base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories, "steam");
+            base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);
 
             has_library_support = true;
         }

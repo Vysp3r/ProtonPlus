@@ -13,7 +13,7 @@ namespace ProtonPlus.Models.Launchers.Runners.DXVK {
             );
 
             sort_priority = 1;
-            add_variant ("default", "$release_name", true);
+            add_variant ("standard", "default", "$release_name", true);
             add_directory_name_format ("default", "!$release_name:v:dxvk-");
         }
 

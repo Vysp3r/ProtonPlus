@@ -4,7 +4,9 @@ namespace AppTests.IdentityTest {
     using ProtonPlus.Models.Launchers.Runners;
 
     public void register_tests () {
+        Test.add_func ("/identity/launchers/families-and-instances", test_launcher_family_and_instance_ids);
         Test.add_func ("/identity/providers/nonempty-and-unique", test_provider_ids_are_nonempty_and_unique);
+        Test.add_func ("/identity/variants/nonempty-and-unique-per-provider", test_variant_ids_are_nonempty_and_unique_per_provider);
         Test.add_func ("/identity/tools/deterministic-and-scoped", test_tool_ids_are_deterministic_and_scoped);
         Test.add_func ("/identity/titles/do-not-change-ids", test_titles_do_not_change_ids);
     }
@@ -55,6 +57,37 @@ namespace AppTests.IdentityTest {
         assert_not_reached ();
     }
 
+    private void test_launcher_family_and_instance_ids () {
+        var family_ids = new Gee.HashSet<string> ();
+        assert (family_ids.add (ProtonPlus.Models.Launchers.Steam.FAMILY_ID));
+        assert (family_ids.add (ProtonPlus.Models.Launchers.Lutris.FAMILY_ID));
+        assert (family_ids.add (ProtonPlus.Models.Launchers.Bottles.FAMILY_ID));
+        assert (family_ids.add (ProtonPlus.Models.Launchers.HeroicGamesLauncher.FAMILY_ID));
+        assert (family_ids.add (ProtonPlus.Models.Launchers.WineZGUI.FAMILY_ID));
+        assert (family_ids.size == 5);
+
+        var instances = new Launcher[] {
+            create_launcher (ProtonPlus.Models.Launchers.Steam.FAMILY_ID, Launcher.InstallationTypes.SYSTEM),
+            create_launcher (ProtonPlus.Models.Launchers.Steam.FAMILY_ID, Launcher.InstallationTypes.FLATPAK),
+            create_launcher (ProtonPlus.Models.Launchers.Steam.FAMILY_ID, Launcher.InstallationTypes.SNAP),
+            create_launcher (ProtonPlus.Models.Launchers.Lutris.FAMILY_ID, Launcher.InstallationTypes.SYSTEM),
+            create_launcher (ProtonPlus.Models.Launchers.Lutris.FAMILY_ID, Launcher.InstallationTypes.FLATPAK),
+            create_launcher (ProtonPlus.Models.Launchers.Bottles.FAMILY_ID, Launcher.InstallationTypes.SYSTEM),
+            create_launcher (ProtonPlus.Models.Launchers.Bottles.FAMILY_ID, Launcher.InstallationTypes.FLATPAK),
+            create_launcher (ProtonPlus.Models.Launchers.HeroicGamesLauncher.FAMILY_ID, Launcher.InstallationTypes.SYSTEM),
+            create_launcher (ProtonPlus.Models.Launchers.HeroicGamesLauncher.FAMILY_ID, Launcher.InstallationTypes.FLATPAK),
+            create_launcher (ProtonPlus.Models.Launchers.WineZGUI.FAMILY_ID, Launcher.InstallationTypes.SYSTEM),
+            create_launcher (ProtonPlus.Models.Launchers.WineZGUI.FAMILY_ID, Launcher.InstallationTypes.FLATPAK)
+        };
+        var instance_ids = new Gee.HashSet<string> ();
+        foreach (var launcher in instances)
+            assert (instance_ids.add (launcher.instance_id));
+
+        assert (instance_ids.contains ("steam-system"));
+        assert (instance_ids.contains ("steam-flatpak"));
+        assert (instance_ids.contains ("steam-snap"));
+    }
+
     private void test_provider_ids_are_nonempty_and_unique () {
         var ids = new Gee.HashSet<string> ();
         var runners = get_all_runners ();
@@ -64,6 +97,18 @@ namespace AppTests.IdentityTest {
             assert (runner.provider_id != "");
             assert (ids.add (runner.provider_id));
             assert_source_id_is_valid (runner.source_id);
+        }
+    }
+
+    private void test_variant_ids_are_nonempty_and_unique_per_provider () {
+        foreach (var runner in get_all_runners ()) {
+            var variant_ids = new Gee.HashSet<string> ();
+            foreach (var variant in runner.variants) {
+                assert (variant.id != "");
+                assert (variant.id != "default");
+                assert (!variant.id.contains ("_"));
+                assert (variant_ids.add (variant.id));
+            }
         }
     }
 
@@ -112,7 +157,17 @@ namespace AppTests.IdentityTest {
     }
 
     private void test_titles_do_not_change_ids () {
+        var launcher = create_launcher ("steam", Launcher.InstallationTypes.SYSTEM);
+        var launcher_id = launcher.instance_id;
+        launcher.title = "Translated launcher title";
+        assert (launcher.instance_id == launcher_id);
+
         var runner = get_proton_ge ();
+        var variant = runner.variants.get (0);
+        var variant_id = variant.id;
+        variant.name = "Translated variant";
+        assert (variant.id == variant_id);
+
         var provider_id = runner.provider_id;
         runner.title = "Translated title";
         assert (runner.provider_id == provider_id);

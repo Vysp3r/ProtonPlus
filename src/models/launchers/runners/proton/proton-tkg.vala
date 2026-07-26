@@ -15,7 +15,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
 
             sort_priority = 5;
             url_template = "https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/{id}/proton-tkg-build.zip";
-            add_variant ("default", "$title-$release_name", true);
+            add_variant ("standard", "default", "$title-$release_name", true);
             add_directory_name_format ("default", "$title-$release_name");
         }
 

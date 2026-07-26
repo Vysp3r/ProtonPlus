@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
             );
 
             sort_priority = 3;
-            add_variant ("x86_64", "$release_name-x86_64", true);
+            add_variant ("x86-64", "x86_64", "$release_name-x86_64", true);
             add_directory_name_format ("default", "$release_name");
         }
 

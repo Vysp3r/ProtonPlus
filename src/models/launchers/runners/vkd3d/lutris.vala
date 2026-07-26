@@ -13,9 +13,9 @@ namespace ProtonPlus.Models.Launchers.Runners.VKD3D {
             );
 
             sort_priority = 2;
-            add_variant ("default", "$release_name", true);
+            add_variant ("standard", "default", "$release_name", true);
             add_directory_name_format ("default", "$release_name");
-            add_directory_name_format ("Heroic Games Launcher", "!$release_name:v:vkd3d-lutris-");
+            add_directory_name_format ("heroic", "!$release_name:v:vkd3d-lutris-");
         }
 
         public override async IReleases? request_releases (int page, int limit, out ReturnCode code) {

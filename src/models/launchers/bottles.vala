@@ -1,5 +1,7 @@
 namespace ProtonPlus.Models.Launchers {
     public class Bottles : Launcher {
+        public const string FAMILY_ID = "bottles";
+
         public Bottles (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
 
@@ -17,7 +19,7 @@ namespace ProtonPlus.Models.Launchers {
                     break;
             }
 
-            base ("Bottles", installation_type, "%s/bottles.svg".printf (Config.RESOURCE_BASE), directories, "bottles");
+            base ("Bottles", installation_type, "%s/bottles.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);
         }
     }
 }

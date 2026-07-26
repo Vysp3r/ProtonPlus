@@ -1,5 +1,7 @@
 namespace ProtonPlus.Models.Launchers {
     public class HeroicGamesLauncher : Launcher {
+        public const string FAMILY_ID = "heroic";
+
         public HeroicGamesLauncher (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
 
@@ -17,7 +19,7 @@ namespace ProtonPlus.Models.Launchers {
                     break;
             }
 
-            base ("Heroic Games Launcher", installation_type, "%s/hgl.svg".printf (Config.RESOURCE_BASE), directories, "heroic");
+            base ("Heroic Games Launcher", installation_type, "%s/hgl.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);
         }
     }
 }

@@ -71,16 +71,16 @@ namespace ProtonPlus.Models.Launchers.Runners {
             }
         }
 
-        protected void add_variant (string name, string format, bool is_default) {
-            this.variants.add (new Variant (name, format, is_default));
+        protected void add_variant (string id, string name, string format, bool is_default) {
+            this.variants.add (new Variant (id, name, format, is_default));
         }
 
-        protected void add_directory_name_format (string launcher, string directory_name_format) {
-            this.directory_name_formats.set (launcher, directory_name_format);
+        protected void add_directory_name_format (string launcher_family_id, string directory_name_format) {
+            this.directory_name_formats.set (launcher_family_id, directory_name_format);
         }
 
-        protected string? get_directory_name_format (string launcher_title) {
-            var target_format = this.directory_name_formats.get (launcher_title);
+        protected string? get_directory_name_format (string launcher_family_id) {
+            var target_format = this.directory_name_formats.get (launcher_family_id);
             if (target_format != null)
                 return target_format;
 
@@ -90,7 +90,7 @@ namespace ProtonPlus.Models.Launchers.Runners {
         public abstract async IReleases? request_releases (int page, int limit, out ReturnCode code);
 
         public Tools.Basic? create_tool (Group group) {
-            string? target_format = get_directory_name_format (group.launcher.title);
+            string? target_format = get_directory_name_format (group.launcher.family_id);
             if (target_format == null)
                 return null;
 
@@ -137,7 +137,14 @@ namespace ProtonPlus.Models.Launchers.Runners {
             runner.variants = new Gee.LinkedList<ProtonPlus.Models.Variant> ();
 
             foreach (var variant_data in this.variants) {
-                var variant = new ProtonPlus.Models.Variant (variant_data.name, variant_data.format, variant_data.is_default, runner);
+                var variant = new ProtonPlus.Models.Variant (
+                    variant_data.name,
+                    variant_data.format,
+                    variant_data.is_default,
+                    runner,
+                    null,
+                    variant_data.id
+                );
                 runner.variants.add (variant);
             }
 

@@ -80,7 +80,14 @@ namespace ProtonPlus.Models.Tools {
                     variant_download_url = fallback_download_url;
                 }
 
-                release_variants.add (new Variant (variant.name, variant.format, variant.is_default, this, variant_download_url));
+                release_variants.add (new Variant (
+                    variant.name,
+                    variant.format,
+                    variant.is_default,
+                    this,
+                    variant_download_url,
+                    variant.id
+                ));
             }
 
             return release_variants;
