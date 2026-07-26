@@ -233,12 +233,12 @@ namespace ProtonPlus.Models {
             if (entry.tool_id != "") {
                 return entry.tool_id == tool.id &&
                        (entry.provider_id == "" || entry.provider_id == tool.provider_id) &&
-                       (entry.launcher_id == "" || entry.launcher_id == group.launcher.instance_id);
+                       (entry.launcher_id == "" || entry.launcher_id == group.launcher.tool_target_id);
             }
 
             return entry.provider_id != "" &&
                    entry.provider_id == tool.provider_id &&
-                   (entry.launcher_id == "" || entry.launcher_id == group.launcher.instance_id);
+                   (entry.launcher_id == "" || entry.launcher_id == group.launcher.tool_target_id);
         }
 
         private bool legacy_metadata_matches_tool (InstalledToolEntry entry, Tools.ProviderTool tool) {
@@ -278,12 +278,12 @@ namespace ProtonPlus.Models {
             var metadata = Utils.Metadata.load (entry.path);
             metadata.provider_id = tool.provider_id;
             metadata.tool_id = tool.id;
-            metadata.launcher_id = group.launcher.instance_id;
+            metadata.launcher_id = group.launcher.tool_target_id;
             if (!metadata.save (entry.path))
                 return entry;
 
             var migrated_entry = entry.with_stable_identity (
-                tool.provider_id, tool.id, group.launcher.instance_id
+                tool.provider_id, tool.id, group.launcher.tool_target_id
             );
             entries[index] = migrated_entry;
             return migrated_entry;

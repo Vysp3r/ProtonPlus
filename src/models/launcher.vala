@@ -3,6 +3,10 @@ namespace ProtonPlus.Models {
     public class Launcher : Object {
         public string family_id { get; private set; }
         public string instance_id { get; private set; }
+        // Launcher IDs identify the UI selection. Tool target IDs identify the
+        // physical storage location and may intentionally be shared.
+        public string tool_target_family_id { get; private set; }
+        public string tool_target_id { get; private set; }
         public string title;
         public string icon_path;
         public string directory;
@@ -22,31 +26,57 @@ namespace ProtonPlus.Models {
             SNAP
         }
 
-        public Launcher (string title, InstallationTypes installation_type, string icon_path, string[] directories, string family_id = "unknown") {
+        public Launcher (
+            string title,
+            InstallationTypes installation_type,
+            string icon_path,
+            string[] directories,
+            string family_id = "unknown",
+            string[]? detection_markers = null,
+            string? tool_target_directory = null,
+            string? tool_target_family_id = null,
+            string? tool_target_id = null
+        ) {
             this.family_id = family_id;
             this.instance_id = "%s-%s".printf (family_id, get_installation_type_id (installation_type));
+            this.tool_target_family_id = tool_target_family_id ?? family_id;
+            this.tool_target_id = tool_target_id ?? this.instance_id;
             this.title = title;
             this.installation_type = installation_type;
             this.icon_path = icon_path;
             this.directory = "";
 
-            foreach (var current_path in directories) {
-                if (!FileUtils.test (current_path, FileTest.IS_DIR))
-                    continue;
+            var installed = false;
+            if (detection_markers != null) {
+                foreach (var marker in detection_markers) {
+                    if (!FileUtils.test (marker, FileTest.EXISTS))
+                        continue;
+                    installed = true;
+                    break;
+                }
+            } else {
+                foreach (var current_path in directories) {
+                    if (!FileUtils.test (current_path, FileTest.IS_DIR))
+                        continue;
 
-                var steam_installation_valid = !(this is Launchers.Steam)
-                                               || (FileUtils.test (Path.build_filename (current_path, "steamclient.dll"), FileTest.IS_REGULAR)
-                                                   && FileUtils.test (Path.build_filename (current_path, "steamclient64.dll"), FileTest.IS_REGULAR));
-                if (!steam_installation_valid)
-                    continue;
+                    var steam_installation_valid = !(this is Launchers.Steam)
+                                                   || (FileUtils.test (Path.build_filename (current_path, "steamclient.dll"), FileTest.IS_REGULAR)
+                                                       && FileUtils.test (Path.build_filename (current_path, "steamclient64.dll"), FileTest.IS_REGULAR));
+                    if (!steam_installation_valid)
+                        continue;
 
-                this.directory = current_path;
-                break;
+                    this.directory = current_path;
+                    installed = true;
+                    break;
+                }
             }
+
+            if (tool_target_directory != null)
+                this.directory = tool_target_directory;
 
             compatibility_tools = new Gee.LinkedList<CompatibilityTool> ();
 
-            installed = directory.length > 0;
+            this.installed = installed;
         }
 
         public string get_installation_type_title () {
@@ -87,6 +117,8 @@ namespace ProtonPlus.Models {
                 new Launchers.Steam (InstallationTypes.SYSTEM),
                 new Launchers.Steam (InstallationTypes.FLATPAK),
                 new Launchers.Steam (InstallationTypes.SNAP),
+                new Launchers.FaugusLauncher (InstallationTypes.SYSTEM),
+                new Launchers.FaugusLauncher (InstallationTypes.FLATPAK),
                 new Launchers.Lutris (InstallationTypes.SYSTEM),
                 new Launchers.Lutris (InstallationTypes.FLATPAK),
                 new Launchers.Bottles (InstallationTypes.SYSTEM),
@@ -132,6 +164,9 @@ namespace ProtonPlus.Models {
                     if (group_directory == null)
                         return false;
 
+                    if (!yield launcher.ensure_group_directory (group_directory))
+                        return false;
+
                     var app_group = new Group (
                                                group_title,
                                                Utils.safe_translate (group_description),
@@ -142,6 +177,8 @@ namespace ProtonPlus.Models {
                     app_group.tools = new Gee.LinkedList<Tool> ();
 
                     foreach (var definition in definitions.get (category)) {
+                        if (!launcher.supports_provider_definition (definition))
+                            continue;
                         var tool = ProviderCatalog.create_tool (definition, app_group);
                         if (tool != null) {
                             app_group.tools.add (tool);
@@ -169,7 +206,7 @@ namespace ProtonPlus.Models {
         }
 
         private static Category[]? get_categories_for_launcher (Launcher launcher) {
-            if (launcher is Launchers.Steam)
+            if (launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher)
                 return { Category.PROTON };
 
             if (launcher is Launchers.Lutris)
@@ -233,7 +270,7 @@ namespace ProtonPlus.Models {
         }
 
         private static string? get_group_directory (Launcher launcher, Category category) {
-            if (launcher is Launchers.Steam && category == Category.PROTON)
+            if ((launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher) && category == Category.PROTON)
                 return "/compatibilitytools.d";
 
             if (launcher is Launchers.Lutris) {
@@ -305,6 +342,14 @@ namespace ProtonPlus.Models {
             var directories = new List<string> ();
             directories.append (this.directory + group.directory);
             return directories;
+        }
+
+        public virtual async bool ensure_group_directory (string group_directory) {
+            return true;
+        }
+
+        public virtual bool supports_provider_definition (ProviderDefinition definition) {
+            return true;
         }
 
         public virtual int get_compatibility_tool_usage_count (string compatibility_tool_name) {

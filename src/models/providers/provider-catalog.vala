@@ -1,7 +1,7 @@
 namespace ProtonPlus.Models.Providers {
     public class ProviderCatalog : Object {
         public static Tools.ProviderTool? create_tool (ProviderDefinition definition, Group group) {
-            var install_layout = definition.get_install_layout (group.launcher.family_id);
+            var install_layout = definition.get_install_layout (group.launcher.tool_target_family_id);
             if (install_layout == null)
                 return null;
 

@@ -52,7 +52,7 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 
 ## ✨ Features
 
-- 🚀 **Multi-Launcher Support**: Manage tools for Steam, Lutris, Heroic, Bottles, and more.
+- 🚀 **Multi-Launcher Support**: Manage tools for Steam, Faugus Launcher, Lutris, Heroic, Bottles, and more.
 - 🎮 **Steam Integration**: Change compatibility tools and launch options for your Steam games directly.
 - 🔄 **Easy Updates**: One-click updates for your installed compatibility tools.
 - 💻 **CLI Support**: Manage your tools from the comfort of your terminal.
@@ -72,6 +72,7 @@ ProtonPlus is a modern compatibility tools manager for Linux. It allows you to e
 ## 🎮 Supported Launchers
 
 - [Steam](https://store.steampowered.com/about/)
+- [Faugus Launcher](https://github.com/Faugus/faugus-launcher)
 - [Lutris](https://lutris.net/)
 - [Heroic Games Launcher](https://heroicgameslauncher.com/)
 - [Bottles](https://usebottles.com/)

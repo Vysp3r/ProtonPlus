@@ -41,6 +41,12 @@ GTK and Libadwaita widgets consume tool, catalog, job, and inventory state. They
 
 `CompatibilityTool` is discovery data for a launcher and is separate from provider-backed `Tool` instances. SteamTinkerLaunch is intentionally a dedicated tool because its lifecycle is not an ordinary archive installation.
 
+## Launcher and tool-target identities
+
+`Launcher.family_id` and `Launcher.instance_id` identify the launcher selected in the UI and CLI. Provider-backed tools, their persisted metadata, install layouts, and installation operation IDs instead use `tool_target_family_id` and `tool_target_id`, which identify the physical compatibility-tool storage target. The target IDs default to the launcher IDs, preserving every existing launcher and tool identity.
+
+Faugus Launcher is the explicit shared-target case: `faugus-system` and `faugus-flatpak` remain separate launcher instances, while both target `steam-system` with the `steam` layout family. This lets the Faugus and native Steam views resolve the same metadata and directories without weakening installed-tool matching to provider ID alone. The distinction is constructed by launcher models; it is never inferred by parsing serialized IDs.
+
 ## Adding an ordinary provider
 
 Use this path when the upstream uses an existing source type and its release can be installed with the standard archive transaction.

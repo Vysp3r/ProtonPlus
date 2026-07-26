@@ -8,7 +8,7 @@
   <summary>A modern compatibility tools manager</summary>
   <description>
     <p>
-      ProtonPlus is a simple tool to help you manage your compatibility tools for Steam, Lutris, Heroic Games Launcher and Bottles.
+      ProtonPlus is a simple tool to help you manage your compatibility tools for Steam, Faugus Launcher, Lutris, Heroic Games Launcher and Bottles.
     </p>
     <p>Features:</p>
     <ul>
@@ -19,6 +19,7 @@
     <p>Supported launchers:</p>
     <ul>
       <li>Steam</li>
+      <li>Faugus Launcher</li>
       <li>Lutris</li>
       <li>Heroic Games Launcher</li>
       <li>Bottles</li>
@@ -55,6 +56,7 @@
     <keyword>Proton</keyword>
     <keyword>Wine</keyword>
     <keyword>Steam</keyword>
+    <keyword>Faugus</keyword>
   </keywords>
 
   <url type="homepage">https://protonplus.vysp3r.com/</url>

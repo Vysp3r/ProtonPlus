@@ -30,6 +30,14 @@ namespace ProtonPlus.Utils {
             return null;
         }
 
+        public bool has_active_installation_at (string install_location) {
+            foreach (var active_download in active_downloads) {
+                if (active_download.install_location == install_location)
+                    return true;
+            }
+            return false;
+        }
+
         /// Signals emitted when download state changes.
         public signal void download_added (Services.InstallJob job);
         public signal void download_removed (Services.InstallJob job);

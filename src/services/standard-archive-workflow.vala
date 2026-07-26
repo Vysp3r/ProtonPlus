@@ -268,7 +268,7 @@ namespace ProtonPlus.Services {
             metadata.tag = job.release.source_tag != "" ? job.release.source_tag : job.release.title;
             metadata.provider_id = runner.provider_id;
             metadata.tool_id = runner.id;
-            metadata.launcher_id = runner.group.launcher.instance_id;
+            metadata.launcher_id = runner.group.launcher.tool_target_id;
             metadata.variant_id = job.selected_variant_id ();
             metadata.release_id = job.release.upstream_release_id;
             metadata.save (path);
@@ -314,7 +314,7 @@ namespace ProtonPlus.Services {
             metadata.runner_title = runner.title;
             metadata.provider_id = runner.provider_id;
             metadata.tool_id = runner.id;
-            metadata.launcher_id = runner.group.launcher.instance_id;
+            metadata.launcher_id = runner.group.launcher.tool_target_id;
             if (tag != "")
                 metadata.tag = tag;
             if (release_id != "")

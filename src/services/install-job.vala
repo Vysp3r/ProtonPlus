@@ -127,7 +127,7 @@ namespace ProtonPlus.Services {
                     : mode == Mode.LATEST ? "latest" : "steam-tinker-launch";
                 var variant_id = selected_variant_id ();
                 return "%s/%s/%s/%s/%s".printf (
-                    tool.group.launcher.instance_id,
+                    tool.group.launcher.tool_target_id,
                     tool.id,
                     mode_id (),
                     release_identity,

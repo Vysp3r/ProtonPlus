@@ -14,6 +14,7 @@ namespace ProtonPlus.Services {
 
         private StandardArchiveWorkflow standard_archive_workflow;
         private SteamTinkerLaunchWorkflow steam_tinker_launch_workflow;
+        private Gee.HashSet<string> active_removal_locations = new Gee.HashSet<string> ();
 
         private InstallationService () {
             standard_archive_workflow = new StandardArchiveWorkflow ();
@@ -27,6 +28,10 @@ namespace ProtonPlus.Services {
         }
 
         public async ReturnCode remove (InstallJob job, bool notify_removal) {
+            if (Utils.DownloadManager.instance.has_active_installation_at (job.install_location) ||
+                !active_removal_locations.add (job.install_location))
+                return ReturnCode.OPERATION_IN_PROGRESS;
+
             var workflow = select_workflow (job);
             var busy = job.state == InstallJob.State.BUSY_UPDATING ||
                 job.state == InstallJob.State.BUSY_INSTALLING;
@@ -44,6 +49,7 @@ namespace ProtonPlus.Services {
                 if (notify_removal)
                     Utils.DownloadManager.instance.tool_removed (job);
             }
+            active_removal_locations.remove (job.install_location);
             return code;
         }
 
@@ -85,10 +91,10 @@ namespace ProtonPlus.Services {
 
         public async ReturnCode check_for_updates (List<Models.Launcher> launchers) {
             var processes = (yield Utils.System.run_command ("ps -eo args")).stdout.ascii_down ();
-            if (processes.contains ("/proton") || processes.contains ("/umu") ||
-                processes.contains ("/wine") || processes.contains ("/wine64") || processes.contains (".exe"))
+            if (has_running_compatibility_process (processes))
                 return ReturnCode.RUNNERS_IN_USE;
             var updated = 0;
+            var processed_tool_targets = new Gee.HashSet<string> ();
             foreach (var launcher in launchers) {
                 foreach (var group in launcher.groups) {
                     group.refresh_installed_state ();
@@ -113,6 +119,8 @@ namespace ProtonPlus.Services {
                         }
                         if (!has_latest)
                             continue;
+                        if (!processed_tool_targets.add (runner.id))
+                            continue;
                         var code = yield standard_archive_workflow.update_specific_runner (runner, this);
                         if (code == ReturnCode.RUNNER_UPDATED)
                             updated++;
@@ -122,6 +130,16 @@ namespace ProtonPlus.Services {
                 }
             }
             return updated > 0 ? ReturnCode.RUNNERS_UPDATED : ReturnCode.NOTHING_TO_UPDATE;
+        }
+
+        private bool has_running_compatibility_process (string processes) {
+            try {
+                return new Regex ("/(?:proton(?:[-_][^\\s/]*)?|umu(?:[-_][^\\s/]*)?|wine(?:64)?(?:[-_][^\\s/]*)?)(?:\\s|$)|\\.exe(?:\\s|$)")
+                    .match (processes);
+            } catch (RegexError e) {
+                warning (e.message);
+                return false;
+            }
         }
 
         private async ReturnCode start_install (InstallJob job, bool replace_existing) {

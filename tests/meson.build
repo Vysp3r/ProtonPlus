@@ -2,6 +2,7 @@ test_sources = files(
     'main.vala',
     'asset_test.vala',
     'filesystem_test.vala',
+    'faugus-launcher-test.vala',
     'metadata_test.vala',
     'compatibility-tool-test.vala',
     'installed-tool-inventory-test.vala',

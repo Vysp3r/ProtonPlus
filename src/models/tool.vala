@@ -18,7 +18,7 @@ namespace ProtonPlus.Models {
         internal void set_identity (string provider_id, string source_id) {
             this.provider_id = provider_id;
             this.source_id = source_id;
-            this.id = "%s/%s/%s".printf (group.launcher.instance_id, group.id, provider_id);
+            this.id = "%s/%s/%s".printf (group.launcher.tool_target_id, group.id, provider_id);
         }
 
         protected void initialize_release_catalog (ReleaseCatalog catalog) {

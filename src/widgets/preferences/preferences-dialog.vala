@@ -352,6 +352,8 @@ namespace ProtonPlus.Widgets.Preferences {
                 new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
                 new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
                 new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SNAP),
+                new ProtonPlus.Models.Launchers.FaugusLauncher (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
+                new ProtonPlus.Models.Launchers.FaugusLauncher (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
                 new ProtonPlus.Models.Launchers.Lutris (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
                 new ProtonPlus.Models.Launchers.Lutris (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
                 new ProtonPlus.Models.Launchers.Bottles (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
