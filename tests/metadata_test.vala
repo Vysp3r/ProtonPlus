@@ -82,14 +82,9 @@ namespace AppTests.MetadataTest {
         var group = new Group ("Wine", "", "", launcher, "wine");
         group.tools = new Gee.LinkedList<Tool> ();
 
-        ProviderDefinition? proton_definition = null;
-        ProviderDefinition? staging_definition = null;
-        foreach (var definition in new ProviderDefinitions ().get (Category.WINE)) {
-            if (definition.provider_id == "wine-proton")
-                proton_definition = definition;
-            if (definition.provider_id == "wine-staging")
-                staging_definition = definition;
-        }
+        var registry = new ProviderRegistry ();
+        var proton_definition = registry.get_by_id ("wine-proton");
+        var staging_definition = registry.get_by_id ("wine-staging");
         assert (proton_definition != null);
         assert (staging_definition != null);
         var proton = ProviderCatalog.create_tool ((!) proton_definition, group);

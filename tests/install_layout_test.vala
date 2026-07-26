@@ -27,12 +27,10 @@ namespace AppTests.InstallLayoutTest {
         }
     }
 
-    private ProviderDefinition get_definition (string title) {
-        foreach (var definition in new ProviderDefinitions ().get_all ()) {
-            if (definition.title == title)
-                return definition;
-        }
-        assert_not_reached ();
+    private ProviderDefinition get_definition (string provider_id) {
+        var definition = new ProviderRegistry ().get_by_id (provider_id);
+        assert (definition != null);
+        return (!) definition;
     }
 
     private void assert_launcher_names (Json.Array definitions, string release_name, string title, string family) {
@@ -41,7 +39,7 @@ namespace AppTests.InstallLayoutTest {
 
         for (var definition_index = 0; definition_index < definitions.get_length (); definition_index++) {
             var entry = definitions.get_object_element (definition_index);
-            var tool = ProviderCatalog.create_tool (get_definition (entry.get_string_member ("title")), group);
+            var tool = ProviderCatalog.create_tool (get_definition (entry.get_string_member ("provider_id")), group);
             assert (tool != null);
             var names = entry.get_object_member ("install_names");
             var expected_name = names.get_string_member_with_default (title, names.get_string_member ("default"));

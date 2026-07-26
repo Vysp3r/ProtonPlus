@@ -64,13 +64,7 @@ namespace AppTests.InstallerTransactionTest {
         assert (ProtonPlus.Utils.Filesystem.create_directory (root));
         var launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
         var group = new Group ("Test", "", "", launcher);
-        ProviderDefinition? definition = null;
-        foreach (var candidate in new ProviderDefinitions ().get (Category.PROTON)) {
-            if (candidate.provider_id == "proton-ge") {
-                definition = candidate;
-                break;
-            }
-        }
+        var definition = new ProviderRegistry ().get_by_id ("proton-ge");
         assert (definition != null);
         var value = ProviderCatalog.create_tool ((!) definition, group);
         assert (value != null);

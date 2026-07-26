@@ -41,13 +41,7 @@ namespace AppTests.VariantSettingsTest {
             "Fixture launcher", Launcher.InstallationTypes.SYSTEM, "", { root }, "fixture"
         );
         var group = new Group ("Fixture group", "", "", launcher, "fixture");
-        ProviderDefinition? definition = null;
-        foreach (var candidate in new ProviderDefinitions ().get (Category.PROTON)) {
-            if (candidate.provider_id == "proton-ge") {
-                definition = candidate;
-                break;
-            }
-        }
+        var definition = new ProviderRegistry ().get_by_id ("proton-ge");
         assert (definition != null);
         var tool = ProviderCatalog.create_tool ((!) definition, group);
         assert (tool != null);

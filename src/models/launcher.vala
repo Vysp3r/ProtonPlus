@@ -81,7 +81,7 @@ namespace ProtonPlus.Models {
 
         public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
             var _launchers = new Gee.LinkedList<Launcher> ();
-            var definitions = new ProviderDefinitions ();
+            var definitions = new ProviderRegistry ();
 
             Launcher[] candidates = {
                 new Launchers.Steam (InstallationTypes.SYSTEM),
@@ -116,7 +116,7 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        public static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers, ProviderDefinitions definitions) {
+        public static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers, ProviderRegistry definitions) {
             foreach (var launcher in launchers) {
                 var categories = get_categories_for_launcher (launcher);
                 if (categories == null)

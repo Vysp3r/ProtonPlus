@@ -26,12 +26,10 @@ namespace AppTests.ProviderDefinitionTest {
         }
     }
 
-    private ProviderDefinition get_definition (string title) {
-        foreach (var definition in new ProviderDefinitions ().get_all ()) {
-            if (definition.title == title)
-                return definition;
-        }
-        assert_not_reached ();
+    private ProviderDefinition get_definition (string provider_id) {
+        var definition = new ProviderRegistry ().get_by_id (provider_id);
+        assert (definition != null);
+        return (!) definition;
     }
 
     private string category_name (Category category) {
@@ -72,13 +70,15 @@ namespace AppTests.ProviderDefinitionTest {
 
     private void test_definition_snapshot () {
         var expected = get_snapshot ().get_array_member ("definitions");
-        var definitions = new ProviderDefinitions ().get_all ();
-        assert (definitions.size == 19);
-        assert (expected.get_length () == definitions.size);
+        var definitions = new ProviderRegistry ().get_all ();
+        assert (definitions.length == 19);
+        assert (expected.get_length () == definitions.length);
 
         foreach (var expected_definition in expected.get_elements ()) {
             var object = expected_definition.get_object ();
-            var definition = get_definition (object.get_string_member ("title"));
+            var definition = get_definition (object.get_string_member ("provider_id"));
+            assert (definition.provider_id == object.get_string_member ("provider_id"));
+            assert (definition.title == object.get_string_member ("title"));
             assert (category_name (definition.category) == object.get_string_member ("type"));
             assert (source_name (definition.source_type) == object.get_string_member ("source"));
             assert (definition.endpoint == object.get_string_member ("endpoint"));
@@ -100,15 +100,15 @@ namespace AppTests.ProviderDefinitionTest {
     }
 
     private void test_kron4ek_filters () {
-        var proton = get_definition ("Wine-Proton (Kron4ek)");
+        var proton = get_definition ("wine-proton");
         assert (proton.asset_filters.length == 1);
         assert (proton.asset_filters[0] == "proton");
         assert (proton.asset_exclusions.length == 0);
 
-        foreach (var title in new string[] {
-            "Wine-Staging (Kron4ek)", "Wine-Staging-Tkg (Kron4ek)", "Wine-Vanilla (Kron4ek)"
+        foreach (var provider_id in new string[] {
+            "wine-staging", "wine-staging-tkg", "wine-vanilla"
         }) {
-            var definition = get_definition (title);
+            var definition = get_definition (provider_id);
             assert (definition.asset_filters.length == 0);
             assert (definition.asset_exclusions.length == 2);
             assert (definition.asset_exclusions[0] == "proton");
@@ -117,7 +117,7 @@ namespace AppTests.ProviderDefinitionTest {
     }
 
     private void test_ph42on_asset_selection () {
-        var definition = get_definition ("DXVK GPL+Async (Ph42oN)");
+        var definition = get_definition ("dxvk-gplasync-ph42on");
         var assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
         assets.add (new ProtonPlus.Models.Assets.Asset (
             "dxvk-gplasync-v3.0-1-ci.zip", "https://example.invalid/ci.zip"
@@ -134,7 +134,7 @@ namespace AppTests.ProviderDefinitionTest {
     }
 
     private void test_catalog_construction_isolation () {
-        var definition = get_definition ("Proton-GE");
+        var definition = get_definition ("proton-ge");
         var first = create_tool (definition, "steam");
         var second = create_tool (definition, "steam");
         assert (first != null);

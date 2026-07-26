@@ -12,11 +12,9 @@ namespace AppTests.IdentityTest {
     }
 
     private ProviderDefinition get_definition (string provider_id) {
-        foreach (var definition in new ProviderDefinitions ().get_all ()) {
-            if (definition.provider_id == provider_id)
-                return definition;
-        }
-        assert_not_reached ();
+        var definition = new ProviderRegistry ().get_by_id (provider_id);
+        assert (definition != null);
+        return (!) definition;
     }
 
     private Launcher launcher (string family_id, Launcher.InstallationTypes installation_type) {
@@ -46,8 +44,8 @@ namespace AppTests.IdentityTest {
 
     private void test_provider_ids_are_nonempty_and_unique () {
         var ids = new Gee.HashSet<string> ();
-        var definitions = new ProviderDefinitions ().get_all ();
-        assert (definitions.size == 19);
+        var definitions = new ProviderRegistry ().get_all ();
+        assert (definitions.length == 19);
         foreach (var definition in definitions) {
             assert (definition.provider_id != "");
             assert (ids.add (definition.provider_id));
@@ -57,7 +55,7 @@ namespace AppTests.IdentityTest {
     }
 
     private void test_variant_ids_are_nonempty_and_unique_per_provider () {
-        foreach (var definition in new ProviderDefinitions ().get_all ()) {
+        foreach (var definition in new ProviderRegistry ().get_all ()) {
             var ids = new Gee.HashSet<string> ();
             foreach (var variant in definition.get_variants ()) {
                 assert (variant.id != "");

@@ -7,6 +7,7 @@ test_sources = files(
     'installed-tool-inventory-test.vala',
     'parser_test.vala',
     'provider_definition_test.vala',
+    'provider_registry_test.vala',
     'provider_source_test.vala',
     'identity_test.vala',
     'cli_test.vala',
