@@ -63,14 +63,13 @@ namespace ProtonPlus.Providers.Normalizers {
                     }
                 }
 
-                var release = new Release.github (
-                    this,
+                var release = new Release (
                     title,
                     source_release.description,
                     source_release.created_at.format_iso8601 (),
-                    primary_asset.download_size,
                     primary_asset,
                     source_release.page_url,
+                    primary_asset.download_size,
                     source_release.id > 0 ? source_release.id.to_string () : "",
                     source_release.tag_name
                 );

@@ -21,12 +21,12 @@ namespace AppTests.UpdateTransactionTest {
         var loop = new MainLoop ();
         ReturnCode result = ReturnCode.FILESYSTEM_ERROR;
 
-        ProtonPlus.Models.Tool.finalize_replaced_runner.begin (
+        ProtonPlus.Services.InstallationService.instance.finalize_replaced_runner.begin (
             runner_directory,
             backup_directory,
             migrate_default_prefix,
             (obj, res) => {
-                result = ProtonPlus.Models.Tool.finalize_replaced_runner.end (res);
+                result = ProtonPlus.Services.InstallationService.instance.finalize_replaced_runner.end (res);
                 loop.quit ();
             }
         );

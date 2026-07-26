@@ -129,16 +129,16 @@ namespace ProtonPlus.Widgets.Tools {
             append (clamp);
         }
 
-        public void set_selected_release (Models.Release release, bool show_games = false) {
+        public void set_selected_job (Services.InstallJob job, bool show_games = false) {
             check_button.set_active (false);
 
-            var launcher = release.runner.group.launcher;
+            var launcher = job.tool.group.launcher;
             var steam_launcher = launcher as Models.Launchers.Steam;
             games_page.set_visible (steam_launcher != null);
 
-            title_label.set_label (release.title ?? "");
-            desc_text.set_markdown (release.description);
-            desc_label.set_label (release.release_date ?? "");
+            title_label.set_label (job.title);
+            desc_text.set_markdown (job.release.description);
+            desc_label.set_label (job.release.release_date ?? "");
 
             if (show_games && steam_launcher != null)
             content_stack.set_visible_child_name ("games");
@@ -147,7 +147,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             list_box.remove_all ();
 
-            var tool_name = release.get_usage_identifier ();
+            var tool_name = job.get_usage_identifier ();
 
             string default_tool = "";
             if (steam_launcher != null) {

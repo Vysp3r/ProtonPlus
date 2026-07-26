@@ -213,24 +213,23 @@ namespace AppTests.ReleaseIdentityTest {
             get_releases_array ("github")
         );
         var tool = create_tool (SourceType.GITHUB, source_releases, root);
-        tool.releases.add (new Release.github (
-            tool,
+        tool.releases.add (new Release (
             "v1.2.3",
             "Fixture release",
             "2026-07-25T12:34:56Z",
-            42,
             new ProtonPlus.Models.Assets.Asset ("v1.2.3.tar.gz", "https://example.test/v1.2.3.tar.gz"),
             "https://example.test/releases/v1.2.3",
+            42,
             "1001",
             "v1.2.3"
         ));
-        tool.releases.add (new Release.gitlab (
-            tool,
+        tool.releases.add (new Release (
             "v1.2.2",
             "Fallback release",
             "2026-07-24T12:34:56Z",
             new ProtonPlus.Models.Assets.Asset ("v1.2.2.tar.gz", "https://example.test/v1.2.2.tar.gz"),
             "https://example.test/releases/v1.2.2",
+            0,
             "",
             "v1.2.2"
         ));
@@ -254,37 +253,35 @@ namespace AppTests.ReleaseIdentityTest {
 
         assert (FileUtils.test (cache_file, FileTest.IS_REGULAR));
         assert (!FileUtils.test (legacy_cache_file, FileTest.EXISTS));
-        assert (tool.releases.size == 3);
-        var latest = tool.releases[0] as Releases.Latest;
-        assert (latest != null);
-        assert (latest.upstream_release_id == "1001");
-        assert (latest.source_tag == "v1.2.3");
-        assert (tool.releases[1].upstream_release_id == "1001");
-        assert (tool.releases[1].source_tag == "v1.2.3");
-        assert (tool.releases[1].asset.name == "v1.2.3.tar.gz");
-        assert (tool.releases[1].asset.download_url == "https://example.test/v1.2.3.tar.gz");
-        assert (tool.releases[2].upstream_release_id == "");
-        assert (tool.releases[2].source_tag == "v1.2.2");
-        assert (tool.releases[2].asset.name == "v1.2.2.tar.gz");
-        assert (tool.releases[2].asset.download_url == "https://example.test/v1.2.2.tar.gz");
-        assert (latest.asset.name == "v1.2.3.tar.gz");
-        assert (latest.asset.download_url == "https://example.test/v1.2.3.tar.gz");
+        assert (tool.releases.size == 2);
+        var latest = new ProtonPlus.Services.InstallJob (tool.releases[0], tool, ProtonPlus.Services.InstallJob.Mode.LATEST);
+        assert (latest.release.upstream_release_id == "1001");
+        assert (latest.release.source_tag == "v1.2.3");
+        assert (tool.releases[0].asset.name == "v1.2.3.tar.gz");
+        assert (tool.releases[0].asset.download_url == "https://example.test/v1.2.3.tar.gz");
+        assert (tool.releases[1].upstream_release_id == "");
+        assert (tool.releases[1].source_tag == "v1.2.2");
+        assert (tool.releases[1].asset.name == "v1.2.2.tar.gz");
+        assert (tool.releases[1].asset.download_url == "https://example.test/v1.2.2.tar.gz");
+        assert (latest.selected_asset.name == "v1.2.3.tar.gz");
+        assert (latest.selected_asset.download_url == "https://example.test/v1.2.3.tar.gz");
 
-        tool.releases[1].variants.add (new ProtonPlus.Models.Variant (
+        tool.releases[0].variants.add (new ProtonPlus.Models.Variant (
+            "alternate",
             "alternate",
             "v1.2.3-alternate.zip",
             false,
-            tool,
             "https://example.test/v1.2.3-alternate.zip?signature=example"
         ));
-        tool.releases[1].set_selected_variant (
+        latest.set_selected_variant (
             "alternate",
             ProtonPlus.Models.Assets.Asset.from_download_url (
                 "https://example.test/v1.2.3-alternate.zip?signature=example"
             )
         );
-        assert (tool.releases[1].asset.name == "v1.2.3-alternate.zip");
-        assert (tool.releases[1].asset.download_url == "https://example.test/v1.2.3-alternate.zip?signature=example");
+        assert (tool.releases[0].asset.name == "v1.2.3.tar.gz");
+        assert (latest.selected_asset.name == "v1.2.3-alternate.zip");
+        assert (latest.selected_asset.download_url == "https://example.test/v1.2.3-alternate.zip?signature=example");
 
         var obsolete_cache_release = new Json.Object ();
         obsolete_cache_release.set_string_member ("kind", "generic");
@@ -294,14 +291,14 @@ namespace AppTests.ReleaseIdentityTest {
         obsolete_cache_release.set_string_member ("download_url", "https://example.test/v0.5.0.tar.gz");
         obsolete_cache_release.set_string_member ("page_url", "https://example.test/releases/v0.5.0");
         obsolete_cache_release.set_string_member ("source_tag", "v0.5.0");
-        assert (Release.from_json (tool, obsolete_cache_release) == null);
+        assert (Release.from_json (obsolete_cache_release) == null);
 
         var incomplete_asset_release = new Json.Object ();
         incomplete_asset_release.set_string_member ("kind", "generic");
         incomplete_asset_release.set_string_member ("title", "v0.5.0");
         incomplete_asset_release.set_string_member ("source_tag", "v0.5.0");
         incomplete_asset_release.set_object_member ("asset", new ProtonPlus.Models.Assets.Asset ("", "https://example.test/v0.5.0.tar.gz").to_json ());
-        assert (Release.from_json (tool, incomplete_asset_release) == null);
+        assert (Release.from_json (incomplete_asset_release) == null);
 
         Globals.CACHE_PATH = previous_cache_path;
         delete_directory (root);

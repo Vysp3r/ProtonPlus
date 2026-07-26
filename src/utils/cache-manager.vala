@@ -37,10 +37,6 @@ namespace ProtonPlus.Utils {
 
             var releases_array = new Json.Array ();
             foreach (var release in tool.releases) {
-                // Don't cache the "Latest" virtual release.
-                if (release is Models.Releases.Latest)
-                    continue;
-
                 releases_array.add_object_element (release.to_json ());
             }
             root_obj.set_array_member ("releases", releases_array);
@@ -109,35 +105,9 @@ namespace ProtonPlus.Utils {
                 if (release_obj == null) {
                     continue;
                 }
-                var release = Models.Release.from_json (tool, release_obj);
+                var release = Models.Release.from_json (release_obj);
                 if (release != null)
                     tool.releases.add (release);
-            }
-
-            if (tool is Models.Tools.Basic && tool.releases.size > 0) {
-                var latest_release = new Models.Releases.Latest (
-                    tool as Models.Tools.Basic,
-                    "%s Latest".printf (tool.title),
-                    tool.releases[0].description,
-                    tool.releases[0].release_date,
-                    new ProtonPlus.Models.Assets.Asset (tool.releases[0].asset.name, tool.releases[0].asset.download_url),
-                    tool.releases[0].page_url,
-                    tool.releases[0].title,
-                    tool.releases[0].upstream_release_id,
-                    tool.releases[0].source_tag
-                );
-
-                foreach (var variant in tool.releases[0].variants) {
-                    latest_release.variants.add (new Models.Variant (
-                        variant.name,
-                        variant.format,
-                        variant.is_default,
-                        tool as Models.Tools.Basic,
-                        variant.download_url
-                    ));
-                }
-
-                tool.releases.insert (0, latest_release);
             }
         }
 

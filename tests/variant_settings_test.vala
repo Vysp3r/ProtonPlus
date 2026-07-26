@@ -44,7 +44,10 @@ namespace AppTests.VariantSettingsTest {
         var runner = new Proton.ProtonGE ();
         var tool = runner.create_tool (group);
         assert (tool != null);
-        tool.releases.add (new Release.simple (tool, "Fixture release", root));
+        tool.releases.add (new Release (
+            "Fixture release", "", "", new ProtonPlus.Models.Assets.Asset ("fixture.zip", "https://fixtures.invalid/fixture.zip"),
+            "", 0, "fixture", "fixture"
+        ));
         return tool;
     }
 

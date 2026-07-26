@@ -33,14 +33,17 @@ namespace ProtonPlus.Providers.Normalizers {
                     if (source_release.status == "completed" && source_release.conclusion == "success") {
                         string download_url = url_template.replace ("{id}", source_release.id.to_string ());
                         var asset = ProtonPlus.Models.Assets.Asset.from_download_url (download_url);
-                        var release = new ProtonPlus.Models.Releases.GitHubAction (
-                            this,
+                        var release = new Release (
                             source_release.title,
+                            "",
                             source_release.created_at.format_iso8601 (),
                             asset,
                             source_release.page_url,
-                            source_release.artifacts_url,
-                            source_release.id > 0 ? source_release.id.to_string () : ""
+                            0,
+                            source_release.id > 0 ? source_release.id.to_string () : "",
+                            "",
+                            Release.Kind.GITHUB_ACTION,
+                            source_release.artifacts_url
                         );
 
                         _releases.add (release);

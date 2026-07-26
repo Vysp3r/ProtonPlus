@@ -69,14 +69,13 @@ namespace ProtonPlus.Providers.Normalizers {
                     string page_url = source_release.page_url;
                     string release_date = source_release.created_at.format_iso8601 ();
 
-                    var release = new Release.github (
-                        this,
+                    var release = new Release (
                         title,
                         description,
                         release_date,
-                        asset_object.download_size,
                         asset_object,
                         page_url,
+                        asset_object.download_size,
                         source_release.id > 0 ? source_release.id.to_string () : "",
                         source_release.tag_name
                     );

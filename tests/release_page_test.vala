@@ -338,13 +338,13 @@ namespace AppTests.ReleasePageTest {
         return release;
     }
 
-    private Releases.Latest? lookup_latest_runner_release (Tools.Basic tool, out ReturnCode code) {
+    private Release? lookup_latest_runner_release (Tools.Basic tool, out ReturnCode code) {
         var loop = new MainLoop ();
-        Releases.Latest? release = null;
+        Release? release = null;
         ReturnCode result_code = ReturnCode.REQUEST_FAILED;
 
-        Tool.lookup_latest_runner_release.begin (tool, (obj, res) => {
-            release = Tool.lookup_latest_runner_release.end (res, out result_code);
+        tool.fetch_latest_eligible_release.begin ((obj, res) => {
+            release = tool.fetch_latest_eligible_release.end (res, out result_code);
             loop.quit ();
         });
         loop.run ();
@@ -367,8 +367,8 @@ namespace AppTests.ReleasePageTest {
         }
     }
 
-    private void assert_update_release_matches_browsing (Release browsed_release, Releases.Latest update_release) {
-        assert (update_release.source_release_title == browsed_release.title);
+    private void assert_update_release_matches_browsing (Release browsed_release, Release update_release) {
+        assert (update_release.title == browsed_release.title);
         assert (update_release.upstream_release_id == browsed_release.upstream_release_id);
         assert (update_release.source_tag == browsed_release.source_tag);
         assert (update_release.asset.name == browsed_release.asset.name);
@@ -507,25 +507,23 @@ namespace AppTests.ReleasePageTest {
         runner.add_release_variant ("default", "default", "$tag_name.tar.gz", true);
         var tool = create_tool (runner);
 
-        var cached_release = new Release.github (
-            tool,
+        var cached_release = new Release (
             "cached-1",
             "Cached release",
             "2026-07-25T00:00:00Z",
-            1,
             new ProtonPlus.Models.Assets.Asset ("cached-1.tar.gz", "https://example.test/cached-1.tar.gz"),
             "https://example.test/cached-1",
+            1,
             "1001",
             "cached-1"
         );
-        tool.releases.add (Releases.Latest.from_release (tool, cached_release));
         tool.releases.add (cached_release);
 
         ReturnCode code;
         var latest = lookup_latest_runner_release (tool, out code);
         assert (code == ReturnCode.RELEASES_LOADED);
         assert (latest != null);
-        assert (latest.source_release_title == "fresh-2");
+        assert (latest.title == "fresh-2");
         assert (latest.upstream_release_id == "2002");
         assert (latest.asset.download_url == "https://example.test/fresh-2.tar.gz");
         assert_requested_pages (runner.requested_pages, { 1 });

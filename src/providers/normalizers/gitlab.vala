@@ -62,13 +62,13 @@ namespace ProtonPlus.Providers.Normalizers {
                 if (primary_asset == null)
                     continue;
 
-                var release = new Release.gitlab (
-                    this,
+                var release = new Release (
                     title,
                     source_release.description,
                     source_release.created_at.format_iso8601 (),
                     primary_asset,
                     source_release.page_url,
+                    0,
                     source_release.id > 0 ? source_release.id.to_string () : "",
                     source_release.tag_name
                 );

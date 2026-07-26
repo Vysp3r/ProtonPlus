@@ -121,12 +121,11 @@ namespace ProtonPlus.Models.Tools {
                 }
 
                 release_variants.add (new Variant (
+                    variant.id,
                     variant.name,
                     variant.format,
                     variant.is_default,
-                    this,
-                    variant_download_url,
-                    variant.id
+                    variant_download_url
                 ));
             }
 

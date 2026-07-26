@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets.Tools {
     public class ReleasesBox : Gtk.Box {
-        public signal void release_selected (Models.Release release);
+        public signal void job_selected (Services.InstallJob job);
 
         Gtk.Box tool_box { get; set; }
         Gtk.Label title_label { get; set; }
@@ -290,9 +290,7 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             }
 
-            foreach (var release in releases) {
-                add_release_row (release);
-            }
+            add_release_rows (tool, releases);
 
             list_box.append (load_more_row);
             load_more_row.visible = tool.has_more;
@@ -340,9 +338,7 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             }
 
-            foreach (var release in releases) {
-                add_release_row (release);
-            }
+            add_release_rows (tool, releases);
 
             list_box.append (load_more_row);
             load_more_row.visible = tool.has_more;
@@ -435,15 +431,16 @@ namespace ProtonPlus.Widgets.Tools {
             return null;
         }
 
-        private bool is_latest_release (Models.Release release) {
-            return release is Models.Releases.Latest;
+        private bool is_latest_job (Services.InstallJob job) {
+            return job.mode == Services.InstallJob.Mode.LATEST;
         }
 
         private void apply_selected_variant_to_rows () {
             var child = list_box.get_first_child ();
             while (child != null) {
-                var release = child.get_data<Models.Release> ("release");
-                if (release != null) {
+                var job = child.get_data<Services.InstallJob> ("job");
+                if (job != null) {
+                    var release = job.release;
                     string? selected_variant_url = null;
 
                     if (selected_variant != null) {
@@ -451,7 +448,7 @@ namespace ProtonPlus.Widgets.Tools {
                     }
 
                     if (selected_variant_url != null) {
-                        release.set_selected_variant (
+                        job.set_selected_variant (
                             selected_variant.name,
                             ProtonPlus.Models.Assets.Asset.from_download_url (selected_variant_url)
                         );
@@ -465,7 +462,7 @@ namespace ProtonPlus.Widgets.Tools {
                             }
                         }
 
-                        release.set_selected_variant (
+                        job.set_selected_variant (
                             default_variant_name != "" ? default_variant_name : null,
                             default_url != null ? ProtonPlus.Models.Assets.Asset.from_download_url (default_url) : null
                         );
@@ -506,10 +503,10 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         /// Selects the release's tool and makes its active row easy to find.
-        public async void focus_release (Models.Release target) {
-            yield set_selected_tool (target.runner);
+        public async void focus_job (Services.InstallJob target) {
+            yield set_selected_tool (target.tool);
 
-            var row = find_release_row (target);
+            var row = find_job_row (target);
             if (row == null)
                 return;
 
@@ -540,11 +537,11 @@ namespace ProtonPlus.Widgets.Tools {
             });
         }
 
-        private ReleaseRow? find_release_row (Models.Release target) {
+        private ReleaseRow? find_job_row (Services.InstallJob target) {
             var child = list_box.get_first_child ();
             while (child != null) {
-                var release = child.get_data<Models.Release> ("release");
-                if (release != null && (release == target || releases_have_same_identity (release, target))) {
+                var job = child.get_data<Services.InstallJob> ("job");
+                if (job != null && (job == target || jobs_have_same_identity (job, target))) {
                     return child as ReleaseRow;
                 }
                 child = child.get_next_sibling ();
@@ -553,33 +550,32 @@ namespace ProtonPlus.Widgets.Tools {
             return null;
         }
 
-        private bool releases_have_same_identity (Models.Release left, Models.Release right) {
-            if (left.runner.id != right.runner.id)
+        private bool jobs_have_same_identity (Services.InstallJob left, Services.InstallJob right) {
+            if (left.tool.id != right.tool.id || left.mode != right.mode)
                 return false;
 
-            if (left.upstream_release_id != "" && right.upstream_release_id != "")
-                return left.upstream_release_id == right.upstream_release_id;
+            if (left.release.upstream_release_id != "" && right.release.upstream_release_id != "")
+                return left.release.upstream_release_id == right.release.upstream_release_id;
 
-            return left.source_tag != "" && right.source_tag != "" &&
-                   left.source_tag == right.source_tag;
+            return left.release.source_tag != "" && right.release.source_tag != "" &&
+                   left.release.source_tag == right.release.source_tag;
         }
 
-        private void add_release_row (Models.Release release) {
-            ReleaseRow row;
-            if (release is Models.Releases.SteamTinkerLaunch)
-                row = new STLReleaseRow (release);
-            else
-                row = new ReleaseRow (release);
+        private void add_release_rows (Models.Tool tool, Gee.LinkedList<Models.Release> releases) {
+            if (tool is Models.Tools.Basic && releases.size > 0)
+                add_release_row (releases[0], Services.InstallJob.Mode.LATEST);
+            foreach (var release in releases)
+                add_release_row (release, release.kind == Models.Release.Kind.STEAM_TINKER_LAUNCH ? Services.InstallJob.Mode.STEAM_TINKER_LAUNCH : Services.InstallJob.Mode.VERSIONED);
+        }
 
-            row.set_data ("release", release);
-            row.release_selected.connect ((release) => release_selected (release));
-
-            list_box.append (row);
-
+        private void add_release_row (Models.Release release, Services.InstallJob.Mode mode) {
+            if (current_tool == null)
+                return;
+            var job = new Services.InstallJob (release, current_tool, mode);
             if (selected_variant != null) {
                 var selected_variant_url = get_variant_download_url (release, selected_variant.name);
                 if (selected_variant_url != null) {
-                    release.set_selected_variant (
+                    job.set_selected_variant (
                         selected_variant.name,
                         ProtonPlus.Models.Assets.Asset.from_download_url (selected_variant_url)
                     );
@@ -593,12 +589,28 @@ namespace ProtonPlus.Widgets.Tools {
                         }
                     }
 
-                    release.set_selected_variant (
+                    job.set_selected_variant (
                         default_variant_name != "" ? default_variant_name : null,
                         default_url != null ? ProtonPlus.Models.Assets.Asset.from_download_url (default_url) : null
                     );
                 }
             }
+
+            var active_job = Utils.DownloadManager.instance.get_active_download (job);
+            if (active_job != null)
+                job = active_job;
+
+            ReleaseRow row;
+            if (mode == Services.InstallJob.Mode.STEAM_TINKER_LAUNCH) {
+                row = new STLReleaseRow (job);
+                if (active_job == null)
+                    Services.InstallationService.instance.refresh_steam_tinker_launch_release.begin (job);
+            } else {
+                row = new ReleaseRow (job);
+            }
+            row.set_data ("job", job);
+            row.job_selected.connect ((selected_job) => job_selected (selected_job));
+            list_box.append (row);
         }
 
         private async void on_load_more_clicked () {
@@ -618,7 +630,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (code == ReturnCode.RELEASES_LOADED) {
                 foreach (var release in releases) {
                     tool.releases.add (release);
-                    add_release_row (release);
+                    add_release_row (release, Services.InstallJob.Mode.VERSIONED);
                 }
                 list_box.remove (load_more_row);
                 list_box.append (load_more_row);
@@ -656,18 +668,18 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         bool filter_func (Gtk.ListBoxRow row) {
-            var release = row.get_data<Models.Release> ("release");
-            if (release == null)
+            var job = row.get_data<Services.InstallJob> ("job");
+            if (job == null)
                 return true;
 
-            if (search_text != "" && !release.title.down ().contains (search_text.down ()))
+            if (search_text != "" && !job.title.down ().contains (search_text.down ()))
                 return false;
 
-            if (is_latest_release (release))
+            if (is_latest_job (job))
                 return true;
 
             if (selected_variant != null && current_tool != null && current_tool.variants.size > 1) {
-                if (get_variant_download_url (release, selected_variant.name) == null) {
+                if (get_variant_download_url (job.release, selected_variant.name) == null) {
                     return false;
                 }
             }
@@ -676,9 +688,9 @@ namespace ProtonPlus.Widgets.Tools {
                 return true;
 
             if (filter == Filter.INSTALLED)
-                return release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
+                return job.state == Services.InstallJob.State.UP_TO_DATE || job.state == Services.InstallJob.State.UPDATE_AVAILABLE;
 
-            var usage_count = release.runner.group.launcher.get_compatibility_tool_usage_count (release.get_usage_identifier ());
+            var usage_count = job.tool.group.launcher.get_compatibility_tool_usage_count (job.get_usage_identifier ());
 
             if (filter == Filter.USED)
                 return usage_count > 0;

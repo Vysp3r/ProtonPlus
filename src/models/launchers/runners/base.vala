@@ -138,12 +138,11 @@ namespace ProtonPlus.Models.Launchers.Runners {
 
             foreach (var variant_data in this.variants) {
                 var variant = new ProtonPlus.Models.Variant (
+                    variant_data.id,
                     variant_data.name,
                     variant_data.format,
                     variant_data.is_default,
-                    runner,
-                    null,
-                    variant_data.id
+                    null
                 );
                 runner.variants.add (variant);
             }

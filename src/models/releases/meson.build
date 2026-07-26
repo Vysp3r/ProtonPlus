@@ -1,5 +1,2 @@
-sources += files(
-    'github-actions.vala',
-    'steamtinkerlaunch.vala',
-    'latest.vala',
-)
+# Installation behavior formerly implemented by Release subclasses now lives
+# in Services.InstallationService and Services.InstallJob.

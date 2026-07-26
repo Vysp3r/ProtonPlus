@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets.Tools {
     public class STLReleaseRow : ReleaseRow {
-        public STLReleaseRow (Models.Release release) {
-            base (release);
+        public STLReleaseRow (Services.InstallJob job) {
+            base (job);
         }
 
         protected override void install_button_clicked () {
@@ -27,12 +27,12 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         protected override void customize_remove_dialog (RemoveDialog dialog) {
-            release.set_data ("delete-config", false);
-            release.set_data ("user-request", true);
+            job.stl_remove_config = false;
+            job.stl_user_requested_removal = true;
 
             var remove_config_check = new Gtk.CheckButton.with_label (_ ("Check this to also delete your configuration files."));
             remove_config_check.activate.connect (() => {
-                release.set_data ("delete-config", remove_config_check.get_active ());
+                job.stl_remove_config = remove_config_check.get_active ();
             });
 
             dialog.set_extra_child (remove_config_check);
@@ -79,7 +79,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void external_install_check () {
-            var has_external_install = ((Models.Releases.SteamTinkerLaunch)release).detect_external_locations ();
+            var has_external_install = job.detect_external_steam_tinker_launch_locations ();
 
             if (has_external_install) {
                 var alert_dialog = new Adw.AlertDialog (

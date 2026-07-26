@@ -205,7 +205,7 @@ namespace ProtonPlus.CLI {
 
         private async int install_latest (Models.Tools.Basic basic_runner) {
             ReturnCode code;
-            var latest_release = yield Models.Tool.lookup_latest_runner_release (basic_runner, out code);
+            var latest_release = yield basic_runner.fetch_latest_eligible_release (out code);
             if (code != ReturnCode.RELEASES_LOADED) {
                 Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (code));
                 return 1;
@@ -217,7 +217,8 @@ namespace ProtonPlus.CLI {
             }
 
             Output.info (_ ("Installing %s Latest...\n"), basic_runner.title);
-            code = yield latest_release.install ();
+            var job = new Services.InstallJob (latest_release, basic_runner, Services.InstallJob.Mode.LATEST);
+            code = yield job.install ();
             Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
             if (success)
@@ -246,7 +247,8 @@ namespace ProtonPlus.CLI {
 
             var selected = basic_runner.releases[index] as Models.Release;
             Output.info (_ ("Installing %s...\n"), selected.title);
-            code = yield selected.install ();
+            var job = new Services.InstallJob (selected, basic_runner);
+            code = yield job.install ();
             Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
             if (success)
@@ -318,9 +320,9 @@ namespace ProtonPlus.CLI {
         }
 
         private async int uninstall_single_release (Models.Tools.Basic runner, string release_name) {
-            var release = create_release (runner, release_name);
+            var job = create_job (runner, release_name);
             Output.info (_ ("Uninstalling %s...\n"), release_name);
-            var code = yield release.remove ();
+            var code = yield job.remove ();
             var success = code == ReturnCode.RUNNER_REMOVED;
             if (success)
                 Output.success (_ ("Successfully uninstalled %s\n"), release_name);
@@ -421,7 +423,7 @@ namespace ProtonPlus.CLI {
             Output.info (_ ("Updating %s...") + "\r", runner.title);
             stdout.flush ();
 
-            var code = yield Models.Tool.update_specific_runner (runner);
+            var code = yield Services.InstallationService.instance.update_specific_runner (runner);
 
             Output.info ("\r\033[2K\r");
             return code;
@@ -510,12 +512,11 @@ namespace ProtonPlus.CLI {
             return "%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, release_name);
         }
 
-        private Models.Release create_release (Models.Tools.Basic runner, string release_name) {
-            return new Models.Release.simple (
-                    runner,
-                    release_name,
-                    get_release_path (runner, release_name)
+        private Services.InstallJob create_job (Models.Tools.Basic runner, string release_name) {
+            var release = new Models.Release (
+                release_name, "", "", new Models.Assets.Asset ("", ""), "", 0, "", release_name
             );
+            return new Services.InstallJob (release, runner, Services.InstallJob.Mode.VERSIONED, get_release_path (runner, release_name));
         }
 
         private Models.Tools.Basic? get_basic_runner (Models.Tool runner, string operation) {
@@ -585,20 +586,20 @@ namespace ProtonPlus.CLI {
             }
         }
 
-        private void on_progress_updated (Models.Release release) {
-            var speed = Utils.Filesystem.convert_bytes_to_string ((int64) (release.speed_kbps * 1024));
-            var progress = release.progress;
+        private void on_progress_updated (Services.InstallJob job) {
+            var speed = Utils.Filesystem.convert_bytes_to_string ((int64) (job.speed_kbps * 1024));
+            var progress = job.progress;
 
             string eta_text;
-            if (release.seconds_remaining >= 0) {
-                eta_text = _ ("ETA: %s").printf (format_time (release.seconds_remaining));
+            if (job.seconds_remaining >= 0) {
+                eta_text = _ ("ETA: %s").printf (format_time (job.seconds_remaining));
             } else {
                 eta_text = _ ("ETA: --");
             }
 
-            var label = release.state == Models.Release.State.BUSY_UPDATING ? _ ("Updating") : _ ("Installing");
+            var label = job.state == Services.InstallJob.State.BUSY_UPDATING ? _ ("Updating") : _ ("Installing");
 
-            Output.info ("\r\033[2K%s %s... %s (%s/s) [%s]\r", label, release.title, progress, speed, eta_text);
+            Output.info ("\r\033[2K%s %s... %s (%s/s) [%s]\r", label, job.title, progress, speed, eta_text);
             stdout.flush ();
         }
 

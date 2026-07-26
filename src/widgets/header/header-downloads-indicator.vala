@@ -1,10 +1,10 @@
 namespace ProtonPlus.Widgets.Header {
     /// A compact live view of the downloads owned by DownloadManager.
     public class DownloadsIndicator : Gtk.Box {
-        public signal void download_selected (Models.Release release);
+        public signal void download_selected (Services.InstallJob job);
 
         private Utils.DownloadManager manager;
-        private Gee.HashMap<Models.Release, DownloadEntry> entries;
+        private Gee.HashMap<Services.InstallJob, DownloadEntry> entries;
         private Gtk.MenuButton button;
         private Gtk.Image icon;
         private Gtk.Label badge;
@@ -17,7 +17,7 @@ namespace ProtonPlus.Widgets.Header {
             Object (orientation: Gtk.Orientation.HORIZONTAL, spacing: 0);
 
             manager = Utils.DownloadManager.instance;
-            entries = new Gee.HashMap<Models.Release, DownloadEntry> ();
+            entries = new Gee.HashMap<Services.InstallJob, DownloadEntry> ();
 
             icon = new Gtk.Image.from_icon_name ("download-2-symbolic");
             badge = new Gtk.Label ("0");
@@ -68,8 +68,8 @@ namespace ProtonPlus.Widgets.Header {
             download_added_handler = manager.download_added.connect (add_download);
             download_removed_handler = manager.download_removed.connect (remove_download);
 
-            foreach (var release in manager.active_downloads)
-                add_download (release);
+            foreach (var job in manager.active_downloads)
+                add_download (job);
 
             update_badge ();
         }
@@ -92,27 +92,27 @@ namespace ProtonPlus.Widgets.Header {
             base.dispose ();
         }
 
-        private void add_download (Models.Release release) {
-            if (entries.has_key (release))
+        private void add_download (Services.InstallJob job) {
+            if (entries.has_key (job))
                 return;
 
-            var entry = new DownloadEntry (release);
+            var entry = new DownloadEntry (job);
             entry.activated.connect (() => {
                 downloads_popover.popdown ();
-                download_selected (release);
+                download_selected (job);
             });
-            entries.set (release, entry);
+            entries.set (job, entry);
             downloads_list.append (entry);
             update_badge ();
         }
 
-        private void remove_download (Models.Release release) {
-            var entry = entries.get (release);
+        private void remove_download (Services.InstallJob job) {
+            var entry = entries.get (job);
             if (entry == null)
                 return;
 
             downloads_list.remove (entry);
-            entries.unset (release);
+            entries.unset (job);
             entry.disconnect_release_signals ();
             update_badge ();
         }
@@ -133,7 +133,7 @@ namespace ProtonPlus.Widgets.Header {
     }
 
     private class DownloadEntry : Adw.ActionRow {
-        private Models.Release release;
+        private Services.InstallJob job;
         private Gtk.ProgressBar progress_bar;
         private Gtk.Label status_label;
         private Gtk.Label metrics_label;
@@ -142,11 +142,11 @@ namespace ProtonPlus.Widgets.Header {
         private ulong step_handler = 0;
         private ulong canceled_handler = 0;
 
-        public DownloadEntry (Models.Release release) {
-            Object (title: release.runner.title, activatable: true);
+        public DownloadEntry (Services.InstallJob job) {
+            Object (title: job.tool.title, activatable: true);
 
-            this.release = release;
-            set_subtitle (release.displayed_title);
+            this.job = job;
+            set_subtitle (job.displayed_title);
 
             progress_bar = new Gtk.ProgressBar () {
                 show_text = false,
@@ -185,16 +185,16 @@ namespace ProtonPlus.Widgets.Header {
             cancel_button.add_css_class ("flat");
             cancel_button.set_tooltip_text (_("Cancel"));
             cancel_button.clicked.connect (() => {
-                release.canceled = true;
+                job.canceled = true;
                 update_display ();
             });
 
             add_suffix (progress_box);
             add_suffix (cancel_button);
 
-            progress_handler = release.progress_updated.connect (update_display);
-            step_handler = release.notify["step"].connect (update_display);
-            canceled_handler = release.notify["canceled"].connect (update_display);
+            progress_handler = job.progress_updated.connect (update_display);
+            step_handler = job.notify["step"].connect (update_display);
+            canceled_handler = job.notify["canceled"].connect (update_display);
             update_display ();
         }
 
@@ -205,17 +205,17 @@ namespace ProtonPlus.Widgets.Header {
 
         public void disconnect_release_signals () {
             if (progress_handler != 0) {
-                release.disconnect (progress_handler);
+                job.disconnect (progress_handler);
                 progress_handler = 0;
             }
 
             if (step_handler != 0) {
-                release.disconnect (step_handler);
+                job.disconnect (step_handler);
                 step_handler = 0;
             }
 
             if (canceled_handler != 0) {
-                release.disconnect (canceled_handler);
+                job.disconnect (canceled_handler);
                 canceled_handler = 0;
             }
         }
@@ -224,15 +224,15 @@ namespace ProtonPlus.Widgets.Header {
             var step_text = get_step_text ();
             var percent_text = "";
 
-            if (release.is_percent && release.progress != null) {
-                var value = release.progress.replace ("%", "");
+            if (job.is_percent && job.progress != null) {
+                var value = job.progress.replace ("%", "");
                 progress_bar.fraction = double.parse (value) / 100.0;
-                percent_text = release.progress;
+                percent_text = job.progress;
             } else {
                 progress_bar.fraction = 0.0;
             }
 
-            if (release.canceled) {
+            if (job.canceled) {
                 step_text = _("Cancelling");
                 cancel_button.set_sensitive (false);
                 cancel_button.set_tooltip_text (_("Cancelling"));
@@ -243,28 +243,28 @@ namespace ProtonPlus.Widgets.Header {
                 status += " · %s".printf (percent_text);
 
             var speed = "--";
-            if (release.step == Models.Release.Step.DOWNLOADING) {
+            if (job.step == Services.InstallJob.Step.DOWNLOADING) {
                 speed = "%s/s".printf (Utils.Filesystem.convert_bytes_to_string (
-                    (int64) (release.speed_kbps * 1024)
+                    (int64) (job.speed_kbps * 1024)
                 ));
             }
 
             status_label.set_label (status);
             metrics_label.set_label ("%s · %s".printf (
                 speed,
-                format_eta (release.step == Models.Release.Step.DOWNLOADING ? release.seconds_remaining : -1)
+                format_eta (job.step == Services.InstallJob.Step.DOWNLOADING ? job.seconds_remaining : -1)
             ));
         }
 
         private string get_step_text () {
-            switch (release.step) {
-                case Models.Release.Step.DOWNLOADING:
+            switch (job.step) {
+                case Services.InstallJob.Step.DOWNLOADING:
                     return _("Downloading");
-                case Models.Release.Step.EXTRACTING:
+                case Services.InstallJob.Step.EXTRACTING:
                     return _("Extracting");
-                case Models.Release.Step.MOVING:
+                case Services.InstallJob.Step.MOVING:
                     return _("Installing");
-                case Models.Release.Step.REMOVING:
+                case Services.InstallJob.Step.REMOVING:
                     return _("Removing");
                 default:
                     return _("Preparing");

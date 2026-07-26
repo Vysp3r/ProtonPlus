@@ -7,14 +7,14 @@ namespace ProtonPlus.Widgets.Header {
         DownloadsIndicator downloads_indicator { get; set; }
         Gtk.MenuButton menu_button { get; set; }
 
-        public signal void download_selected (Models.Release release);
+        public signal void download_selected (Services.InstallJob job);
 
         public Box () {
             launchers_button = new LaunchersButton ();
             launchers_button.launcher_selected.connect ((launcher) => launcher_selected (launcher));
 
             downloads_indicator = new DownloadsIndicator ();
-            downloads_indicator.download_selected.connect ((release) => download_selected (release));
+            downloads_indicator.download_selected.connect ((job) => download_selected (job));
 
             var menu = new Menu ();
             menu.append (_("_Preferences"), "app.preferences");

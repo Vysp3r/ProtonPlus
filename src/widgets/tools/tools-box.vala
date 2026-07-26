@@ -8,7 +8,7 @@ namespace ProtonPlus.Widgets.Tools {
 
     public class Box : Gtk.Box {
         Models.Launcher current_launcher { get; set; }
-        Models.Release? current_release;
+        Services.InstallJob? current_job;
 
         Adw.ViewStack stack { get; set; }
         Gtk.Button back_button { get; set; }
@@ -54,15 +54,16 @@ namespace ProtonPlus.Widgets.Tools {
             };
 
             releases_box = new ReleasesBox ();
-            releases_box.release_selected.connect ((r) => {
-                set_selected_release (r);
+            releases_box.job_selected.connect ((job) => {
+                set_selected_job (job);
             });
 
             release_box = new ReleaseBox ();
 
             migrate_box = new MigrateBox ();
             migrate_box.finished.connect (() => {
-                set_selected_release (current_release, true);
+                if (current_job != null)
+                    set_selected_job (current_job, true);
                 releases_box.refresh_usage_pills ();
 
                 var child = groups_stack.get_first_child ();
@@ -107,8 +108,8 @@ namespace ProtonPlus.Widgets.Tools {
             };
             open_button.set_tooltip_text (_ ("Open in browser"));
             open_button.clicked.connect (() => {
-                if (current_release != null && current_release.page_url != null) {
-                    Utils.System.open_uri (current_release.page_url);
+                if (current_job != null && current_job.release.page_url != null) {
+                    Utils.System.open_uri (current_job.release.page_url);
                 }
             });
 
@@ -123,15 +124,15 @@ namespace ProtonPlus.Widgets.Tools {
             };
             migrate_button.set_tooltip_text (_ ("Migrate selected games to another tool"));
             migrate_button.clicked.connect (() => {
-                if (current_release == null)
+                if (current_job == null)
                     return;
                 string internal_name = "";
-                if (current_release.runner is Models.Tools.SteamTinkerLaunch) {
+                if (current_job.mode == Services.InstallJob.Mode.STEAM_TINKER_LAUNCH) {
                     internal_name = "Proton-stl";
-                } else if (current_release.runner is Models.Tools.Basic) {
-                    internal_name = ((Models.Tools.Basic)current_release.runner).get_directory_name (current_release.title);
+                } else if (current_job.tool is Models.Tools.Basic) {
+                    internal_name = ((Models.Tools.Basic)current_job.tool).get_directory_name (current_job.title);
                 } else {
-                    internal_name = current_release.title;
+                    internal_name = current_job.title;
                 }
                 migrate_box.init (release_box.get_selected_games (), internal_name, current_launcher);
                 stack.set_visible_child_name ("migrate");
@@ -347,8 +348,8 @@ namespace ProtonPlus.Widgets.Tools {
             var visible_child = stack.get_visible_child_name ();
             open_button.set_visible (
                 visible_child == "release"
-                && current_release != null
-                && current_release.page_url != null
+                && current_job != null
+                && current_job.release.page_url != null
                 && release_box.stack_switcher.stack.visible_child_name == "changelog"
             );
             migrate_button.set_visible (
@@ -375,9 +376,9 @@ namespace ProtonPlus.Widgets.Tools {
             refresh_group_boxes ();
         }
 
-        public void show_download (Models.Release release) {
+        public void show_download (Services.InstallJob job) {
             stack.set_visible_child_name ("releases");
-            releases_box.focus_release.begin (release);
+            releases_box.focus_job.begin (job);
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {
@@ -407,10 +408,10 @@ namespace ProtonPlus.Widgets.Tools {
             stack.set_visible_child_name ("releases");
         }
 
-        void set_selected_release (Models.Release release, bool show_games = false) {
-            current_release = release;
+        void set_selected_job (Services.InstallJob job, bool show_games = false) {
+            current_job = job;
 
-            release_box.set_selected_release (release, show_games);
+            release_box.set_selected_job (job, show_games);
 
             stack.set_visible_child_name ("release");
         }
@@ -425,7 +426,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             var launchers = new List<Models.Launcher> ();
             launchers.append (current_launcher);
-            var code = yield Models.Tool.check_for_updates (launchers);
+            var code = yield Services.InstallationService.instance.check_for_updates (launchers);
 
             switch (code) {
                 case ReturnCode.RUNNERS_IN_USE:
