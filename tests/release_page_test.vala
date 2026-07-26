@@ -144,6 +144,7 @@ namespace AppTests.ReleasePageTest {
         Test.add_func ("/release-pages/latest-eligible-reaches-end", test_latest_eligible_reaches_end);
         Test.add_func ("/release-pages/provider-fixture-contract", test_provider_fixture_contract);
         Test.add_func ("/release-pages/github-actions-scanning", test_github_actions_scanning);
+        Test.add_func ("/release-pages/cli-latest-lookup-ignores-cached-browse-release", test_cli_latest_lookup_ignores_cached_browse_release);
         Test.add_func ("/release-pages/update-lookup-provider-parity", test_update_lookup_provider_parity);
         Test.add_func ("/release-pages/update-lookup-kron4ek-parity", test_update_lookup_kron4ek_parity);
     }
@@ -495,6 +496,39 @@ namespace AppTests.ReleasePageTest {
         assert (tool.page == 1);
         assert (!tool.has_more);
         assert_requested_pages (runner.requested_pages, { 1, 2 });
+    }
+
+    // `install … latest` uses the stateless lookup instead of the cached
+    // synthetic release that GUI browsing keeps at index zero.
+    private void test_cli_latest_lookup_ignores_cached_browse_release () {
+        var items = new LinkedList<IRelease> ();
+        items.add (github_release ("fresh-2", 2002));
+        var runner = new PagedFixtureRunner (SourceType.GITHUB, github_releases (items));
+        runner.add_release_variant ("default", "default", "$tag_name.tar.gz", true);
+        var tool = create_tool (runner);
+
+        var cached_release = new Release.github (
+            tool,
+            "cached-1",
+            "Cached release",
+            "2026-07-25T00:00:00Z",
+            1,
+            new Internal.Assets.Asset ("cached-1.tar.gz", "https://example.test/cached-1.tar.gz"),
+            "https://example.test/cached-1",
+            "1001",
+            "cached-1"
+        );
+        tool.releases.add (Releases.Latest.from_release (tool, cached_release));
+        tool.releases.add (cached_release);
+
+        ReturnCode code;
+        var latest = lookup_latest_runner_release (tool, out code);
+        assert (code == ReturnCode.RELEASES_LOADED);
+        assert (latest != null);
+        assert (latest.source_release_title == "fresh-2");
+        assert (latest.upstream_release_id == "2002");
+        assert (latest.asset.download_url == "https://example.test/fresh-2.tar.gz");
+        assert_requested_pages (runner.requested_pages, { 1 });
     }
 
     private void test_provider_fixture_contract () {

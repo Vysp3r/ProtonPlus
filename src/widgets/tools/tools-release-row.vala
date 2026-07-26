@@ -78,7 +78,7 @@ namespace ProtonPlus.Widgets.Tools {
             input_box.add_css_class ("linked");
             input_box.add_css_class ("tools-release-row-input-box");
 
-            if (release.title.contains ("Latest") || release.runner is Models.Tools.SteamTinkerLaunch) {
+            if (release is Models.Releases.Latest || release is Models.Releases.SteamTinkerLaunch) {
                 update_button = new Gtk.Button.from_icon_name ("arrows-rotate-symbolic");
                 update_button.add_css_class ("flat");
                 update_button.set_tooltip_text (_("Update the runner if a newer version is available"));

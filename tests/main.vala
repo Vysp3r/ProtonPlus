@@ -9,6 +9,7 @@ int main (string[] args) {
     AppTests.ProviderDefinitionTest.register_tests ();
     AppTests.ProviderSourceTest.register_tests ();
     AppTests.IdentityTest.register_tests ();
+    AppTests.CliTest.register_tests ();
     AppTests.ReleaseIdentityTest.register_tests ();
     AppTests.ReleasePageTest.register_tests ();
     AppTests.VariantSettingsTest.register_tests ();

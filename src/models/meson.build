@@ -9,6 +9,7 @@ sources += files(
 )
 
 subdir('games')
+subdir('assets')
 subdir('internal')
 subdir('launchers')
 subdir('tools')

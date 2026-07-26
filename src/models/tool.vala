@@ -217,29 +217,10 @@ namespace ProtonPlus.Models {
                 }
 
                 if (this is Models.Tools.Basic) {
-                    var latest_release = new Models.Releases.Latest (
+                    releases.insert (0, Models.Releases.Latest.from_release (
                         this as Models.Tools.Basic,
-                        "%s Latest".printf (title),
-                        releases[0].description,
-                        releases[0].release_date,
-                        new Models.Internal.Assets.Asset (releases[0].asset.name, releases[0].asset.download_url),
-                        releases[0].page_url,
-                        releases[0].title,
-                        releases[0].upstream_release_id,
-                        releases[0].source_tag
-                    );
-
-                    foreach (var variant in releases[0].variants) {
-                        latest_release.variants.add (new Models.Variant (
-                            variant.name,
-                            variant.format,
-                            variant.is_default,
-                            this as Models.Tools.Basic,
-                            variant.download_url
-                        ));
-                    }
-
-                    releases.insert (0, latest_release);
+                        releases[0]
+                    ));
                 }
 
                 last_updated = new DateTime.now_local ().format_iso8601 ();

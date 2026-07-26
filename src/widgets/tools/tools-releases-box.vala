@@ -544,15 +544,24 @@ namespace ProtonPlus.Widgets.Tools {
             var child = list_box.get_first_child ();
             while (child != null) {
                 var release = child.get_data<Models.Release> ("release");
-                if (release != null && (release == target || (
-                    release.title == target.title && release.asset.download_url == target.asset.download_url
-                ))) {
+                if (release != null && (release == target || releases_have_same_identity (release, target))) {
                     return child as ReleaseRow;
                 }
                 child = child.get_next_sibling ();
             }
 
             return null;
+        }
+
+        private bool releases_have_same_identity (Models.Release left, Models.Release right) {
+            if (left.runner.id != right.runner.id)
+                return false;
+
+            if (left.upstream_release_id != "" && right.upstream_release_id != "")
+                return left.upstream_release_id == right.upstream_release_id;
+
+            return left.source_tag != "" && right.source_tag != "" &&
+                   left.source_tag == right.source_tag;
         }
 
         private void add_release_row (Models.Release release) {

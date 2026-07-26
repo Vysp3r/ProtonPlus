@@ -204,23 +204,17 @@ namespace ProtonPlus.CLI {
         }
 
         private async int install_latest (Models.Tools.Basic basic_runner) {
-            var code = yield load_runner_releases (basic_runner);
-            if (code != ReturnCode.RELEASES_LOADED || basic_runner.releases.size == 0) {
+            ReturnCode code;
+            var latest_release = yield Models.Tool.lookup_latest_runner_release (basic_runner, out code);
+            if (code != ReturnCode.RELEASES_LOADED) {
+                Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (code));
                 return 1;
             }
 
-            var release = basic_runner.releases[0] as Models.Release;
-            var latest_release = new Models.Releases.Latest (
-                    basic_runner,
-                    "%s Latest".printf (basic_runner.title),
-                    release.description,
-                    release.release_date,
-                    new Models.Internal.Assets.Asset (release.asset.name, release.asset.download_url),
-                    release.page_url,
-                    release.title,
-                    release.upstream_release_id,
-                    release.source_tag
-            );
+            if (latest_release == null) {
+                Output.error (_ ("Error: No releases are available\n"));
+                return 1;
+            }
 
             Output.info (_ ("Installing %s Latest...\n"), basic_runner.title);
             code = yield latest_release.install ();
