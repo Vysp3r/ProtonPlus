@@ -433,14 +433,12 @@ namespace ProtonPlus.Widgets.Tools {
                     }
 
                     if (selected_variant_url != null) {
-                        release.download_url = selected_variant_url;
-                        release.set_selected_variant (selected_variant.name);
+                        release.set_selected_variant (
+                            selected_variant.name,
+                            Models.Internal.Assets.Asset.from_download_url (selected_variant_url)
+                        );
                     } else {
                         var default_url = get_default_variant_download_url (release);
-                        if (default_url != null) {
-                            release.download_url = default_url;
-                        }
-
                         var default_variant_name = "";
                         foreach (var variant in release.variants) {
                             if (variant.is_default) {
@@ -449,7 +447,10 @@ namespace ProtonPlus.Widgets.Tools {
                             }
                         }
 
-                        release.set_selected_variant (default_variant_name != "" ? default_variant_name : null);
+                        release.set_selected_variant (
+                            default_variant_name != "" ? default_variant_name : null,
+                            default_url != null ? Models.Internal.Assets.Asset.from_download_url (default_url) : null
+                        );
                     }
                 }
 
@@ -526,7 +527,7 @@ namespace ProtonPlus.Widgets.Tools {
             while (child != null) {
                 var release = child.get_data<Models.Release> ("release");
                 if (release != null && (release == target || (
-                    release.title == target.title && release.download_url == target.download_url
+                    release.title == target.title && release.asset.download_url == target.asset.download_url
                 ))) {
                     return child as ReleaseRow;
                 }
@@ -551,14 +552,12 @@ namespace ProtonPlus.Widgets.Tools {
             if (selected_variant != null) {
                 var selected_variant_url = get_variant_download_url (release, selected_variant.name);
                 if (selected_variant_url != null) {
-                    release.download_url = selected_variant_url;
-                    release.set_selected_variant (selected_variant.name);
+                    release.set_selected_variant (
+                        selected_variant.name,
+                        Models.Internal.Assets.Asset.from_download_url (selected_variant_url)
+                    );
                 } else {
                     var default_url = get_default_variant_download_url (release);
-                    if (default_url != null) {
-                        release.download_url = default_url;
-                    }
-
                     var default_variant_name = "";
                     foreach (var variant in release.variants) {
                         if (variant.is_default) {
@@ -567,7 +566,10 @@ namespace ProtonPlus.Widgets.Tools {
                         }
                     }
 
-                    release.set_selected_variant (default_variant_name != "" ? default_variant_name : null);
+                    release.set_selected_variant (
+                        default_variant_name != "" ? default_variant_name : null,
+                        default_url != null ? Models.Internal.Assets.Asset.from_download_url (default_url) : null
+                    );
                 }
             }
         }

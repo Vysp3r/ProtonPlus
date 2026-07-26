@@ -52,12 +52,22 @@ namespace ProtonPlus.Models.Tools {
                 if (primary_download_url == null || primary_download_url == "")
                     continue;
 
+                Internal.Assets.Asset? primary_asset = null;
+                foreach (var release_asset in release_assets) {
+                    if (release_asset.download_url == primary_download_url) {
+                        primary_asset = release_asset as Internal.Assets.Asset;
+                        break;
+                    }
+                }
+                if (primary_asset == null)
+                    continue;
+
                 var release = new Release.gitlab (
                     this,
                     title,
                     source_release.description,
                     source_release.created_at.format_iso8601 (),
-                    primary_download_url,
+                    primary_asset,
                     source_release.page_url,
                     source_release.id > 0 ? source_release.id.to_string () : "",
                     source_release.tag_name

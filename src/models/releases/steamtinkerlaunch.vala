@@ -25,6 +25,8 @@ namespace ProtonPlus.Models.Releases {
             Object (runner: runner,
                     title: "Steam Tinker Launch");
 
+            asset = Internal.Assets.Asset.from_download_url (get_download_url ());
+
             home_location = home_override ?? Environment.get_home_dir ();
             compat_location = runner.group.launcher.directory + runner.group.directory;
             if (Globals.IS_STEAM_OS) {
@@ -129,7 +131,7 @@ namespace ProtonPlus.Models.Releases {
             }
 
             latest_hash = commit_obj.get_string_member_with_default ("sha", "");
-            download_url = get_download_url ();
+            asset = Internal.Assets.Asset.from_download_url (get_download_url ());
         }
 
         void write_installation_metadata (string meta_location) {
@@ -220,10 +222,14 @@ namespace ProtonPlus.Models.Releases {
                 return ReturnCode.FILESYSTEM_ERROR;
 
             var staging_root = "";
-            var url = get_download_url ();
+            var extension = get_archive_extension (asset.name);
+            if (extension == null)
+                return yield complete_install_attempt (ReturnCode.UNSUPPORTED_EXTENSION, operation_path, staging_root);
+
+            var url = asset.download_url;
             var archive_key = Checksum.compute_for_string (ChecksumType.SHA256, url);
-            var cache_archive_path = Path.build_filename (archive_cache_path, @"$archive_key.zip");
-            var operation_archive_path = Path.build_filename (operation_path, "archive.zip");
+            var cache_archive_path = Path.build_filename (archive_cache_path, @"$archive_key$extension");
+            var operation_archive_path = Path.build_filename (operation_path, "archive%s".printf (extension));
 
             step = Step.DOWNLOADING;
             if (!FileUtils.test (cache_archive_path, FileTest.IS_REGULAR)) {
@@ -251,7 +257,7 @@ namespace ProtonPlus.Models.Releases {
                 return yield complete_install_attempt (ReturnCode.EXTRACTION_FAILED, operation_path, staging_root);
 
             step = Step.EXTRACTING;
-            string? source_path = yield Utils.Filesystem.extract (operation_path, "archive", ".zip", operation_cancellable);
+            string? source_path = yield Utils.Filesystem.extract (operation_path, "archive", extension, operation_cancellable);
             if (source_path == null || source_path == "") {
                 if (!canceled)
                     error_message = _ ("Extraction failed");

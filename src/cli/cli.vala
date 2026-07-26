@@ -215,7 +215,7 @@ namespace ProtonPlus.CLI {
                     "%s Latest".printf (basic_runner.title),
                     release.description,
                     release.release_date,
-                    release.download_url,
+                    new Models.Internal.Assets.Asset (release.asset.name, release.asset.download_url),
                     release.page_url,
                     release.title,
                     release.upstream_release_id,

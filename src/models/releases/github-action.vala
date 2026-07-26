@@ -6,7 +6,7 @@ namespace ProtonPlus.Models.Releases {
             Tools.Basic runner,
             string title,
             string release_date,
-            string download_url,
+            Internal.Assets.Asset asset,
             string page_url,
             string artifacts_url,
             string upstream_release_id = "",
@@ -16,7 +16,7 @@ namespace ProtonPlus.Models.Releases {
             this.upstream_release_id = upstream_release_id;
             this.source_tag = source_tag;
 
-            shared (runner, title, release_date, download_url, page_url);
+            shared (runner, title, release_date, asset, page_url);
         }
 
         public override Json.Object to_json () {

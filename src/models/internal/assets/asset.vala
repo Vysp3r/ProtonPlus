@@ -8,6 +8,11 @@ namespace ProtonPlus.Models.Internal.Assets {
             this.download_url = download_url;
         }
 
+        public static Asset from_download_url (string download_url) {
+            var path = download_url.split ("?")[0];
+            return new Asset (Path.get_basename (path), download_url);
+        }
+
         public Json.Object to_json () {
             var obj = new Json.Object ();
             obj.set_string_member ("name", this.name);
@@ -23,6 +28,9 @@ namespace ProtonPlus.Models.Internal.Assets {
 
             string download_url = obj.has_member ("download_url") ? obj.get_string_member ("download_url") : "";
             string name = obj.has_member ("name") ? obj.get_string_member ("name") : "";
+
+            if (name == "" || download_url == "")
+                return null;
 
             return new Asset (name, download_url);
         }

@@ -197,7 +197,7 @@ namespace ProtonPlus.Models {
                         "%s Latest".printf (title),
                         releases[0].description,
                         releases[0].release_date,
-                        releases[0].download_url,
+                        new Models.Internal.Assets.Asset (releases[0].asset.name, releases[0].asset.download_url),
                         releases[0].page_url,
                         releases[0].title,
                         releases[0].upstream_release_id,
@@ -310,7 +310,7 @@ namespace ProtonPlus.Models {
             string description = "";
             string page_url = "";
             string release_date = "";
-            string download_url = "";
+            Models.Internal.Assets.Asset? asset = null;
             string upstream_release_id = "";
             string source_tag = "";
 
@@ -364,7 +364,9 @@ namespace ProtonPlus.Models {
                 title = latest_action.title;
                 page_url = latest_action.page_url;
                 release_date = latest_action.created_at.format_iso8601 ();
-                download_url = action_runner.url_template.replace ("{id}", latest_action.id.to_string ());
+                asset = Models.Internal.Assets.Asset.from_download_url (
+                    action_runner.url_template.replace ("{id}", latest_action.id.to_string ())
+                );
                 upstream_release_id = latest_action.id > 0 ? latest_action.id.to_string () : "";
             } else {
                 string query_param;
@@ -430,26 +432,32 @@ namespace ProtonPlus.Models {
                     if (asset_name == "" || asset_download_url == "")
                         continue;
 
-                    var asset = new Models.Internal.Assets.Asset (asset_name, asset_download_url);
-                    if (!asset.is_archive ())
+                    var release_asset = new Models.Internal.Assets.Asset (asset_name, asset_download_url);
+                    if (!release_asset.is_archive ())
                         continue;
 
                     if (fallback_download_url == null)
                         fallback_download_url = asset_download_url;
 
-                    release_assets.add (asset);
+                    release_assets.add (release_asset);
                 }
 
                 if (release_assets.size > 0) {
                     var release_variants = runner.create_release_variants (title, title, release_assets, fallback_download_url);
                     var default_variant_download_url = runner.get_default_variant_download_url (release_variants, fallback_download_url);
 
-                    if (default_variant_download_url != null)
-                        download_url = default_variant_download_url;
+                    if (default_variant_download_url != null) {
+                        foreach (var release_asset in release_assets) {
+                            if (release_asset.download_url == default_variant_download_url) {
+                                asset = new Models.Internal.Assets.Asset (release_asset.name, release_asset.download_url);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 
-            if (download_url == "" || !Models.Internal.Assets.Asset.is_archive_name (download_url))
+            if (asset == null || !asset.is_archive ())
                 return ReturnCode.INVALID_DATA;
 
             if (metadata.tag != "" && title == metadata.tag)
@@ -484,7 +492,7 @@ namespace ProtonPlus.Models {
                 "%s Latest".printf (runner.title),
                 description,
                 release_date,
-                download_url,
+                asset,
                 page_url,
                 title,
                 upstream_release_id,

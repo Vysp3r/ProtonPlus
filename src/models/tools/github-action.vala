@@ -31,11 +31,12 @@ namespace ProtonPlus.Models.Tools {
 
                     if (source_release.status == "completed" && source_release.conclusion == "success") {
                         string download_url = url_template.replace ("{id}", source_release.id.to_string ());
+                        var asset = Internal.Assets.Asset.from_download_url (download_url);
                         var release = new Releases.GitHubAction (
                             this,
                             source_release.title,
                             source_release.created_at.format_iso8601 (),
-                            download_url,
+                            asset,
                             source_release.page_url,
                             source_release.artifacts_url,
                             source_release.id > 0 ? source_release.id.to_string () : ""

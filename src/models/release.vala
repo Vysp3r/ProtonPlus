@@ -23,7 +23,7 @@ namespace ProtonPlus.Models {
         public string displayed_title { get; set; }
         public string description { get; set; }
         public string release_date { get; set; }
-        public string download_url { get; set; }
+        public Internal.Assets.Asset asset { get; set; }
         public string page_url { get; set; }
         // Upstream values are opaque and must not be derived from the display title.
         public string upstream_release_id { get; set; default = ""; }
@@ -127,8 +127,11 @@ namespace ProtonPlus.Models {
             );
         }
 
-        public void set_selected_variant (string? variant_name) {
+        public void set_selected_variant (string? variant_name, Internal.Assets.Asset? selected_asset = null) {
             selected_variant_name = variant_name;
+
+            if (selected_asset != null)
+                asset = selected_asset;
 
             if (!(runner is Tools.Basic))
                 return;
@@ -160,7 +163,7 @@ namespace ProtonPlus.Models {
             obj.set_string_member ("title", title);
             obj.set_string_member ("description", description);
             obj.set_string_member ("release_date", release_date);
-            obj.set_string_member ("download_url", download_url);
+            obj.set_object_member ("asset", asset.to_json ());
             obj.set_string_member ("page_url", page_url);
             obj.set_string_member ("upstream_release_id", upstream_release_id);
             obj.set_string_member ("source_tag", source_tag);
@@ -193,7 +196,16 @@ namespace ProtonPlus.Models {
             string title = obj.get_string_member_with_default ("title", "");
             string description = obj.get_string_member_with_default ("description", "");
             string release_date = obj.get_string_member_with_default ("release_date", "");
-            string download_url = obj.get_string_member_with_default ("download_url", "");
+            if (!obj.has_member ("asset"))
+                return null;
+
+            var asset_node = obj.get_member ("asset");
+            if (asset_node == null || asset_node.get_node_type () != Json.NodeType.OBJECT)
+                return null;
+
+            var asset = Internal.Assets.Asset.from_json (asset_node.get_object ());
+            if (asset == null)
+                return null;
             string page_url = obj.get_string_member_with_default ("page_url", "");
             string upstream_release_id = obj.get_string_member_with_default ("upstream_release_id", "");
             string source_tag = obj.get_string_member_with_default ("source_tag", "");
@@ -214,7 +226,7 @@ namespace ProtonPlus.Models {
                     basic_runner,
                     title,
                     release_date,
-                    download_url,
+                    asset,
                     page_url,
                     artifacts_url,
                     upstream_release_id,
@@ -230,7 +242,7 @@ namespace ProtonPlus.Models {
                     title,
                     description,
                     release_date,
-                    download_url,
+                    asset,
                     page_url,
                     source_release_title,
                     upstream_release_id,
@@ -244,7 +256,7 @@ namespace ProtonPlus.Models {
                     description,
                     release_date,
                     download_size,
-                    download_url,
+                    asset,
                     page_url,
                     upstream_release_id,
                     source_tag
@@ -291,6 +303,7 @@ namespace ProtonPlus.Models {
             this.runner = runner;
             this.title = title;
             this.install_location = install_location;
+            this.asset = new Internal.Assets.Asset ("", "");
         }
 
         public Release.github (
@@ -299,7 +312,7 @@ namespace ProtonPlus.Models {
             string description,
             string release_date,
             int64 download_size,
-            string download_url,
+            Internal.Assets.Asset asset,
             string page_url,
             string upstream_release_id = "",
             string source_tag = ""
@@ -309,7 +322,7 @@ namespace ProtonPlus.Models {
             this.upstream_release_id = upstream_release_id;
             this.source_tag = source_tag;
 
-            shared (runner, title, release_date, download_url, page_url);
+            shared (runner, title, release_date, asset, page_url);
         }
 
         public Release.gitlab (
@@ -317,7 +330,7 @@ namespace ProtonPlus.Models {
             string title,
             string description,
             string release_date,
-            string download_url,
+            Internal.Assets.Asset asset,
             string page_url,
             string upstream_release_id = "",
             string source_tag = ""
@@ -326,17 +339,17 @@ namespace ProtonPlus.Models {
             this.upstream_release_id = upstream_release_id;
             this.source_tag = source_tag;
 
-            shared (runner, title, release_date, download_url, page_url);
+            shared (runner, title, release_date, asset, page_url);
         }
 
-        internal void shared (Tools.Basic runner, string title, string release_date, string download_url, string page_url) {
+        internal void shared (Tools.Basic runner, string title, string release_date, Internal.Assets.Asset asset, string page_url) {
             this.runner = runner;
             this.title = title;
             this.displayed_title = title;
             if (this.description == null)
                 this.description = "";
             this.release_date = release_date;
-            this.download_url = download_url;
+            this.asset = asset;
             this.page_url = page_url;
 
             update_install_location ();
@@ -421,7 +434,7 @@ namespace ProtonPlus.Models {
         protected virtual async ReturnCode _start_install (bool replace_existing = false) {
             step = Step.DOWNLOADING;
 
-            var extension = get_archive_extension (download_url);
+            var extension = get_archive_extension (asset.name);
             if (extension == null)
                 return ReturnCode.UNSUPPORTED_EXTENSION;
 
@@ -434,14 +447,14 @@ namespace ProtonPlus.Models {
                 return ReturnCode.FILESYSTEM_ERROR;
 
             var staging_root = "";
-            var archive_key = Checksum.compute_for_string (ChecksumType.SHA256, download_url);
+            var archive_key = Checksum.compute_for_string (ChecksumType.SHA256, asset.download_url);
             var cache_archive_path = Path.build_filename (archive_cache_path, "%s%s".printf (archive_key, extension));
             var operation_archive_path = Path.build_filename (operation_path, "archive%s".printf (extension));
 
             if (!FileUtils.test (cache_archive_path, FileTest.IS_REGULAR)) {
                 string? download_error;
                 var download_valid = yield download_archive (
-                    download_url,
+                    asset.download_url,
                     operation_archive_path,
                     out download_error
                 );

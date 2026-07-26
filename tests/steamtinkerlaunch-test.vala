@@ -110,6 +110,9 @@ namespace AppTests.SteamTinkerLaunchTest {
         var fixture_path = materialize_archive_fixture (root);
         var release = new FixtureSteamTinkerLaunch (create_runner (tools_root), root, fixture_path);
 
+        assert (release.asset.name == "steamtinkerlaunch.zip");
+        assert (release.asset.download_url == "https://fixtures.invalid/steamtinkerlaunch.zip");
+
         assert (install_replacement (release) == ReturnCode.FILESYSTEM_ERROR);
         assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (base_location, "marker.txt")) == "previous stl\n");
         assert (FileUtils.test (link_location, FileTest.IS_REGULAR));

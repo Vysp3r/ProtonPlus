@@ -23,7 +23,7 @@ namespace ProtonPlus.Utils {
         /// Returns the active download if it matches the given release, otherwise null.
         public Models.Release? get_active_download (Models.Release release) {
             foreach (var active_download in active_downloads) {
-                if (active_download.download_url == release.download_url && active_download.title == release.title) {
+                if (active_download.asset.download_url == release.asset.download_url && active_download.title == release.title) {
                     return active_download;
                 }
             }

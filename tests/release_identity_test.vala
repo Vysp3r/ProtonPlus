@@ -12,6 +12,9 @@ namespace AppTests.ReleaseIdentityTest {
             base (source_type, "fixture-provider", "Fixture provider", "", "https://example.test/releases");
             this.fixture_releases = fixture_releases;
             add_directory_name_format ("fixture", "$release_name");
+
+            if (source_type == SourceType.GITHUB_ACTION)
+                url_template = "https://example.test/artifacts/{id}/fixture-action.zip?signature=example";
         }
 
         public override async IReleases? request_releases (int page, int limit, out ReturnCode code) {
@@ -25,6 +28,7 @@ namespace AppTests.ReleaseIdentityTest {
         Test.add_func ("/release-identity/forgejo-numeric-id-and-tag", test_forgejo_numeric_id_and_tag);
         Test.add_func ("/release-identity/gitlab-tag-fallback", test_gitlab_tag_fallback);
         Test.add_func ("/release-identity/github-actions-run-id", test_github_actions_run_id);
+        Test.add_func ("/release-identity/query-bearing-asset-name", test_query_bearing_asset_name);
         Test.add_func ("/release-identity/cache-round-trip-preserves-latest", test_cache_round_trip_preserves_latest);
     }
 
@@ -124,6 +128,8 @@ namespace AppTests.ReleaseIdentityTest {
         assert (releases.size == 1);
         assert (releases[0].upstream_release_id == "1001");
         assert (releases[0].source_tag == "GE-Proton10-1");
+        assert (releases[0].asset.name == "GE-Proton10-1.tar.gz");
+        assert (releases[0].asset.download_url == "https://github.com/example/project/releases/download/GE-Proton10-1/GE-Proton10-1.tar.gz");
         delete_directory (root);
     }
 
@@ -140,6 +146,8 @@ namespace AppTests.ReleaseIdentityTest {
         assert (releases.size == 1);
         assert (releases[0].upstream_release_id == "4001");
         assert (releases[0].source_tag == "GE-Proton8-26");
+        assert (releases[0].asset.name == "Wine-GE-Proton8-26.tar.xz");
+        assert (releases[0].asset.download_url == "https://codeberg.org/example/project/releases/download/GE-Proton8-26/Wine-GE-Proton8-26.tar.xz");
         delete_directory (root);
     }
 
@@ -163,6 +171,8 @@ namespace AppTests.ReleaseIdentityTest {
         assert (releases.size == 1);
         assert (releases[0].upstream_release_id == "");
         assert (releases[0].source_tag == "v0.6.0");
+        assert (releases[0].asset.name == "ProtonPlus.tar.gz");
+        assert (releases[0].asset.download_url == "https://example.test/ProtonPlus.tar.gz");
         delete_directory (root);
     }
 
@@ -179,7 +189,19 @@ namespace AppTests.ReleaseIdentityTest {
         assert (releases.size == 1);
         assert (releases[0].upstream_release_id == "5001");
         assert (releases[0].source_tag == "");
+        assert (releases[0].asset.name == "fixture-action.zip");
+        assert (releases[0].asset.download_url == "https://example.test/artifacts/5001/fixture-action.zip?signature=example");
         delete_directory (root);
+    }
+
+    private void test_query_bearing_asset_name () {
+        var asset = Internal.Assets.Asset.from_download_url (
+            "https://example.test/downloads/runner.tar.zst?signature=example&expires=1"
+        );
+
+        assert (asset.name == "runner.tar.zst");
+        assert (asset.download_url == "https://example.test/downloads/runner.tar.zst?signature=example&expires=1");
+        assert (asset.is_archive ());
     }
 
     private void test_cache_round_trip_preserves_latest () {
@@ -204,7 +226,7 @@ namespace AppTests.ReleaseIdentityTest {
             "Fixture release",
             "2026-07-25T12:34:56Z",
             42,
-            "https://example.test/v1.2.3.tar.gz",
+            new Internal.Assets.Asset ("v1.2.3.tar.gz", "https://example.test/v1.2.3.tar.gz"),
             "https://example.test/releases/v1.2.3",
             "1001",
             "v1.2.3"
@@ -214,7 +236,7 @@ namespace AppTests.ReleaseIdentityTest {
             "v1.2.2",
             "Fallback release",
             "2026-07-24T12:34:56Z",
-            "https://example.test/v1.2.2.tar.gz",
+            new Internal.Assets.Asset ("v1.2.2.tar.gz", "https://example.test/v1.2.2.tar.gz"),
             "https://example.test/releases/v1.2.2",
             "",
             "v1.2.2"
@@ -231,8 +253,47 @@ namespace AppTests.ReleaseIdentityTest {
         assert (latest.source_tag == "v1.2.3");
         assert (tool.releases[1].upstream_release_id == "1001");
         assert (tool.releases[1].source_tag == "v1.2.3");
+        assert (tool.releases[1].asset.name == "v1.2.3.tar.gz");
+        assert (tool.releases[1].asset.download_url == "https://example.test/v1.2.3.tar.gz");
         assert (tool.releases[2].upstream_release_id == "");
         assert (tool.releases[2].source_tag == "v1.2.2");
+        assert (tool.releases[2].asset.name == "v1.2.2.tar.gz");
+        assert (tool.releases[2].asset.download_url == "https://example.test/v1.2.2.tar.gz");
+        assert (latest.asset.name == "v1.2.3.tar.gz");
+        assert (latest.asset.download_url == "https://example.test/v1.2.3.tar.gz");
+
+        tool.releases[1].variants.add (new ProtonPlus.Models.Variant (
+            "alternate",
+            "v1.2.3-alternate.zip",
+            false,
+            tool,
+            "https://example.test/v1.2.3-alternate.zip?signature=example"
+        ));
+        tool.releases[1].set_selected_variant (
+            "alternate",
+            Internal.Assets.Asset.from_download_url (
+                "https://example.test/v1.2.3-alternate.zip?signature=example"
+            )
+        );
+        assert (tool.releases[1].asset.name == "v1.2.3-alternate.zip");
+        assert (tool.releases[1].asset.download_url == "https://example.test/v1.2.3-alternate.zip?signature=example");
+
+        var obsolete_cache_release = new Json.Object ();
+        obsolete_cache_release.set_string_member ("kind", "generic");
+        obsolete_cache_release.set_string_member ("title", "v0.5.0");
+        obsolete_cache_release.set_string_member ("description", "Obsolete cache entry");
+        obsolete_cache_release.set_string_member ("release_date", "2026-07-23T12:34:56Z");
+        obsolete_cache_release.set_string_member ("download_url", "https://example.test/v0.5.0.tar.gz");
+        obsolete_cache_release.set_string_member ("page_url", "https://example.test/releases/v0.5.0");
+        obsolete_cache_release.set_string_member ("source_tag", "v0.5.0");
+        assert (Release.from_json (tool, obsolete_cache_release) == null);
+
+        var incomplete_asset_release = new Json.Object ();
+        incomplete_asset_release.set_string_member ("kind", "generic");
+        incomplete_asset_release.set_string_member ("title", "v0.5.0");
+        incomplete_asset_release.set_string_member ("source_tag", "v0.5.0");
+        incomplete_asset_release.set_object_member ("asset", new Internal.Assets.Asset ("", "https://example.test/v0.5.0.tar.gz").to_json ());
+        assert (Release.from_json (tool, incomplete_asset_release) == null);
 
         Globals.CACHE_PATH = previous_cache_path;
         delete_directory (root);

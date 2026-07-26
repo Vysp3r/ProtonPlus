@@ -20,7 +20,9 @@ namespace AppTests.InstallerTransactionTest {
             this.fixture_path = fixture_path;
             this.cancel_download = cancel_download;
             this.fail_promotion = fail_promotion;
-            download_url = "https://fixtures.invalid/runner.zip";
+            asset = new ProtonPlus.Models.Internal.Assets.Asset (
+                "runner.zip", "https://fixtures.invalid/runner.zip"
+            );
         }
 
         protected override async bool download_archive (string url, string path, out string? error_message) {
@@ -73,12 +75,32 @@ namespace AppTests.InstallerTransactionTest {
         }
     }
 
+    private class FixtureGitHubActionRelease : ProtonPlus.Models.Releases.GitHubAction {
+        public FixtureGitHubActionRelease (ProtonPlus.Models.Tools.Basic runner) {
+            base (
+                runner,
+                "Fixture action",
+                "2026-07-25T12:34:56Z",
+                ProtonPlus.Models.Internal.Assets.Asset.from_download_url (
+                    "https://fixtures.invalid/artifact.zip?signature=example"
+                ),
+                "",
+                ""
+            );
+        }
+
+        public async string? extract_nested_archive_for_test (string source_path, string extract_path) {
+            return yield _after_extraction (source_path, extract_path);
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/installer-transaction/stages-promotes-cleans-and-writes-metadata", test_stages_promotes_cleans_and_writes_metadata);
         Test.add_func ("/installer-transaction/failed-extraction-cleans-private-workspace", test_failed_extraction_cleans_private_workspace);
         Test.add_func ("/installer-transaction/canceled-download-cleans-private-workspace", test_canceled_download_cleans_private_workspace);
         Test.add_func ("/installer-transaction/failed-promotion-restores-previous-installation", test_failed_promotion_restores_previous_installation);
         Test.add_func ("/installer-transaction/cache-clear-waits-for-active-install", test_cache_clear_waits_for_active_install);
+        Test.add_func ("/installer-transaction/github-action-extracts-nested-archive", test_github_action_extracts_nested_archive);
     }
 
     private string create_temp_directory () {
@@ -133,6 +155,19 @@ namespace AppTests.InstallerTransactionTest {
         }
 
         loop.run ();
+        return result;
+    }
+
+    private string? extract_nested_archive (FixtureGitHubActionRelease release, string source_path, string extract_path) {
+        var loop = new MainLoop ();
+        string? result = null;
+
+        release.extract_nested_archive_for_test.begin (source_path, extract_path, (obj, res) => {
+            result = release.extract_nested_archive_for_test.end (res);
+            loop.quit ();
+        });
+        loop.run ();
+
         return result;
     }
 
@@ -327,6 +362,23 @@ namespace AppTests.InstallerTransactionTest {
         assert (clear_succeeded);
         assert_no_entries_with_prefix (cache_root, ".protonplus-install-");
         assert (!FileUtils.test (Path.build_filename (cache_root, "archives"), FileTest.EXISTS));
+        assert (delete_directory (root));
+    }
+
+    private void test_github_action_extracts_nested_archive () {
+        var root = create_temp_directory ();
+        var tools_root = Path.build_filename (root, "tools");
+        var fixture_path = materialize_archive_fixture (root, "runner");
+        var release = new FixtureGitHubActionRelease (create_runner (tools_root));
+
+        assert (release.asset.name == "artifact.zip");
+        assert (release.asset.download_url == "https://fixtures.invalid/artifact.zip?signature=example");
+
+        var source_path = extract_nested_archive (release, fixture_path, root);
+        assert (source_path != null);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (source_path, "marker.txt")
+        ) == "new runner\n");
         assert (delete_directory (root));
     }
 }

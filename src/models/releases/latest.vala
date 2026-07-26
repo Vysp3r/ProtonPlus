@@ -7,7 +7,7 @@ namespace ProtonPlus.Models.Releases {
             string title,
             string description,
             string release_date,
-            string download_url,
+            Internal.Assets.Asset asset,
             string page_url,
             string source_release_title = "",
             string upstream_release_id = "",
@@ -15,7 +15,7 @@ namespace ProtonPlus.Models.Releases {
         ) {
             this.upstream_release_id = upstream_release_id;
             this.source_tag = source_tag;
-            shared (runner, title, release_date, download_url, page_url);
+            shared (runner, title, release_date, asset, page_url);
 
             this.description = description;
             this.source_release_title = source_release_title;
