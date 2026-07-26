@@ -144,15 +144,96 @@ namespace ProtonPlus.Models.Tools {
             return false;
         }
 
+        private bool has_persisted_identity (InstalledToolEntry entry) {
+            return entry.provider_id != "" || entry.tool_id != "" || entry.launcher_id != "" ||
+                   entry.variant_id != "" || entry.release_id != "";
+        }
+
+        private bool persisted_identity_matches_tool (InstalledToolEntry entry) {
+            if (entry.tool_id != "") {
+                return entry.tool_id == id &&
+                       (entry.provider_id == "" || entry.provider_id == provider_id) &&
+                       (entry.launcher_id == "" || entry.launcher_id == group.launcher.instance_id);
+            }
+
+            return entry.provider_id != "" &&
+                   entry.provider_id == provider_id &&
+                   (entry.launcher_id == "" || entry.launcher_id == group.launcher.instance_id);
+        }
+
+        private bool legacy_metadata_matches_tool (InstalledToolEntry entry) {
+            var endpoint_matches = entry.runner_endpoint != "" && entry.runner_endpoint == endpoint;
+            var title_matches = entry.runner_title != "" && entry.runner_title == title;
+
+            if (entry.runner_endpoint != "" && entry.runner_title != "")
+                return endpoint_matches && title_matches;
+
+            if (entry.runner_endpoint != "" || entry.runner_title != "")
+                return endpoint_matches || title_matches;
+
+            return legacy_tag_matches_tool (entry.tag);
+        }
+
+        private bool legacy_tag_matches_tool (string tag) {
+            if (tag == "" || releases == null)
+                return false;
+
+            foreach (var release in releases) {
+                if (tag == release.title || tag == release.source_tag)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private bool legacy_metadata_match_is_unambiguous (InstalledToolEntry entry) {
+            var matches = 0;
+            if (group.tools == null)
+                return false;
+
+            foreach (var candidate in group.tools) {
+                var basic_candidate = candidate as Basic;
+                if (basic_candidate != null && basic_candidate.legacy_metadata_matches_tool (entry))
+                    matches++;
+            }
+
+            return matches == 1;
+        }
+
+        private void upgrade_legacy_metadata (InstalledToolEntry entry) {
+            var metadata = Utils.Metadata.load (entry.path);
+            metadata.provider_id = provider_id;
+            metadata.tool_id = id;
+            metadata.launcher_id = group.launcher.instance_id;
+            metadata.save (entry.path);
+        }
+
+        private string get_usage_identifier (InstalledToolEntry entry) {
+            if (!entry.has_compatibilitytool_vdf)
+                return entry.directory_name;
+
+            return entry.internal_title != "" ? entry.internal_title : entry.directory_name;
+        }
+
         private string? get_installed_usage_identifier () {
             foreach (var entry in group.get_installed_tool_index ()) {
-                // A persisted marker is authoritative when either field matches.
-                if (entry.runner_endpoint == endpoint || entry.runner_title == title) {
-                    if (!entry.has_compatibilitytool_vdf)
-                        return entry.directory_name;
+                if (has_persisted_identity (entry) && persisted_identity_matches_tool (entry))
+                    return get_usage_identifier (entry);
+            }
 
-                    return entry.internal_title != "" ? entry.internal_title : entry.directory_name;
+            foreach (var entry in group.get_installed_tool_index ()) {
+                if (has_persisted_identity (entry))
+                    continue;
+
+                if (legacy_metadata_matches_tool (entry) && legacy_metadata_match_is_unambiguous (entry)) {
+                    upgrade_legacy_metadata (entry);
+                    return get_usage_identifier (entry);
                 }
+            }
+
+            foreach (var entry in group.get_installed_tool_index ()) {
+                if (has_persisted_identity (entry))
+                    continue;
 
                 if (identifier_matches_tool (entry.directory_name))
                     return entry.directory_name;

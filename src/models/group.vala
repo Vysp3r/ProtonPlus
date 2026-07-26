@@ -6,6 +6,12 @@ namespace ProtonPlus.Models {
         public string display_title { get; construct set; }
         public string runner_endpoint { get; construct set; }
         public string runner_title { get; construct set; }
+        public string tag { get; construct set; }
+        public string provider_id { get; construct set; }
+        public string tool_id { get; construct set; }
+        public string launcher_id { get; construct set; }
+        public string variant_id { get; construct set; }
+        public string release_id { get; construct set; }
 
         public bool has_compatibilitytool_vdf { get; construct set; }
 
@@ -16,6 +22,12 @@ namespace ProtonPlus.Models {
             string display_title,
             string runner_endpoint,
             string runner_title,
+            string tag,
+            string provider_id,
+            string tool_id,
+            string launcher_id,
+            string variant_id,
+            string release_id,
             bool has_compatibilitytool_vdf
         ) {
             Object (
@@ -25,6 +37,12 @@ namespace ProtonPlus.Models {
                 display_title: display_title,
                 runner_endpoint: runner_endpoint,
                 runner_title: runner_title,
+                tag: tag,
+                provider_id: provider_id,
+                tool_id: tool_id,
+                launcher_id: launcher_id,
+                variant_id: variant_id,
+                release_id: release_id,
                 has_compatibilitytool_vdf: has_compatibilitytool_vdf
             );
         }
@@ -160,6 +178,12 @@ namespace ProtonPlus.Models {
                 display_title,
                 metadata.runner_endpoint,
                 metadata.runner_title,
+                metadata.tag,
+                metadata.provider_id,
+                metadata.tool_id,
+                metadata.launcher_id,
+                metadata.variant_id,
+                metadata.release_id,
                 has_compatibilitytool_vdf
             ));
         }

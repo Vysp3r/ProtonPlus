@@ -41,7 +41,6 @@ namespace ProtonPlus.Models.Releases {
         protected override async bool _after_staging_install (string staged_install_path) {
             var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (staged_install_path);
             if (!FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR)) {
-                persist_source_release_title (staged_install_path);
                 return true;
             }
 
@@ -85,18 +84,11 @@ namespace ProtonPlus.Models.Releases {
             if (!modified)
                 return false;
 
-            persist_source_release_title (staged_install_path);
-
             return true;
         }
 
-        private void persist_source_release_title (string path) {
-            if (source_release_title == "")
-                return;
-
-            var metadata = Utils.Metadata.load (path);
-            metadata.tag = source_release_title;
-            metadata.save (path);
+        protected override string get_legacy_metadata_tag () {
+            return source_release_title != "" ? source_release_title : base.get_legacy_metadata_tag ();
         }
 
         protected override async ReturnCode _start_update () {

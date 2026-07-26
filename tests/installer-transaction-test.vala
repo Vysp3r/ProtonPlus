@@ -231,6 +231,11 @@ namespace AppTests.InstallerTransactionTest {
 
         var fixture_path = materialize_archive_fixture (root, "runner");
         var release = new FixtureRelease (create_runner (tools_root), install_location, fixture_path);
+        release.upstream_release_id = "fixture-release-id";
+        release.source_tag = "fixture-tag";
+        release.variants.add (new ProtonPlus.Models.Variant (
+            "default", "", true, release.runner as ProtonPlus.Models.Tools.Basic, null, "x86-64"
+        ));
 
         assert (install (release) == ReturnCode.RUNNER_INSTALLED);
         assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (install_location, "marker.txt")) == "new runner\n");
@@ -238,6 +243,12 @@ namespace AppTests.InstallerTransactionTest {
         var metadata = ProtonPlus.Utils.Metadata.load (install_location);
         assert (metadata.runner_title == "Proton-GE");
         assert (metadata.runner_endpoint == "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases");
+        assert (metadata.provider_id == release.runner.provider_id);
+        assert (metadata.tool_id == release.runner.id);
+        assert (metadata.launcher_id == release.runner.group.launcher.instance_id);
+        assert (metadata.variant_id == "x86-64");
+        assert (metadata.release_id == "fixture-release-id");
+        assert (metadata.tag == "fixture-tag");
         assert_no_entries_with_prefix (cache_root, ".protonplus-install-");
         assert_no_entries_with_prefix (tools_root, ".protonplus-stage-");
         assert (delete_directory (root));

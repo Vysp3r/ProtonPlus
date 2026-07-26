@@ -33,6 +33,31 @@ namespace ProtonPlus.Models {
             this.id = "%s/%s/%s".printf (group.launcher.instance_id, group.id, provider_id);
         }
 
+        private static void persist_runner_identity (
+            Utils.Metadata metadata,
+            Models.Tools.Basic runner,
+            string directory_path,
+            string tag = "",
+            string release_id = ""
+        ) {
+            metadata.runner_endpoint = runner.endpoint;
+            metadata.runner_title = runner.title;
+            metadata.provider_id = runner.provider_id;
+            metadata.tool_id = runner.id;
+            metadata.launcher_id = runner.group.launcher.instance_id;
+            foreach (var variant in runner.variants) {
+                if (variant.is_default) {
+                    metadata.variant_id = variant.id;
+                    break;
+                }
+            }
+            if (tag != "")
+                metadata.tag = tag;
+            if (release_id != "")
+                metadata.release_id = release_id;
+            metadata.save (directory_path);
+        }
+
         public virtual bool is_installed () {
             return false;
         }
@@ -302,10 +327,6 @@ namespace ProtonPlus.Models {
             if (!FileUtils.test (runner_directory, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_NOT_INSTALLED;
 
-            metadata.runner_endpoint = runner.endpoint;
-            metadata.runner_title = runner.title;
-            metadata.save (runner_directory);
-
             string title = "";
             string description = "";
             string page_url = "";
@@ -478,8 +499,13 @@ namespace ProtonPlus.Models {
                         if (proton_end_index != -1) {
                             var proton_title = proton_content.substring (proton_start_index, proton_end_index - proton_start_index);
                             if (title == version_title || title == proton_title) {
-                                metadata.tag = title;
-                                metadata.save (runner_directory);
+                                persist_runner_identity (
+                                    metadata,
+                                    runner,
+                                    runner_directory,
+                                    source_tag != "" ? source_tag : title,
+                                    upstream_release_id
+                                );
                                 return ReturnCode.NOTHING_TO_UPDATE;
                             }
                         }

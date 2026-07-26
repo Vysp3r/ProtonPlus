@@ -94,6 +94,21 @@ namespace ProtonPlus.Models {
             return null;
         }
 
+        private string get_selected_variant_id () {
+            var selected_variant = get_selected_variant ();
+            if (selected_variant != null)
+                return selected_variant.id;
+
+            if (variants != null) {
+                foreach (var variant in variants) {
+                    if (variant.is_default)
+                        return variant.id;
+                }
+            }
+
+            return "";
+        }
+
         private string get_variant_directory_suffix () {
             var selected_variant = get_selected_variant ();
             if (selected_variant == null || selected_variant.is_default)
@@ -562,6 +577,10 @@ namespace ProtonPlus.Models {
             return yield Utils.Filesystem.move_directory_atomic (staged_install_path, install_location);
         }
 
+        protected virtual string get_legacy_metadata_tag () {
+            return source_tag != "" ? source_tag : title;
+        }
+
         private void persist_runner_install_metadata (string path) {
             var basic_runner = runner as Tools.Basic;
             if (basic_runner == null)
@@ -570,6 +589,12 @@ namespace ProtonPlus.Models {
             var metadata = Utils.Metadata.load (path);
             metadata.runner_endpoint = basic_runner.endpoint;
             metadata.runner_title = basic_runner.title;
+            metadata.tag = get_legacy_metadata_tag ();
+            metadata.provider_id = basic_runner.provider_id;
+            metadata.tool_id = basic_runner.id;
+            metadata.launcher_id = basic_runner.group.launcher.instance_id;
+            metadata.variant_id = get_selected_variant_id ();
+            metadata.release_id = upstream_release_id;
             metadata.save (path);
         }
 
