@@ -20,7 +20,7 @@ namespace AppTests.InstallerTransactionTest {
             this.fixture_path = fixture_path;
             this.cancel_download = cancel_download;
             this.fail_promotion = fail_promotion;
-            asset = new ProtonPlus.Models.Internal.Assets.Asset (
+            asset = new ProtonPlus.Models.Assets.Asset (
                 "runner.zip", "https://fixtures.invalid/runner.zip"
             );
         }
@@ -81,7 +81,7 @@ namespace AppTests.InstallerTransactionTest {
                 runner,
                 "Fixture action",
                 "2026-07-25T12:34:56Z",
-                ProtonPlus.Models.Internal.Assets.Asset.from_download_url (
+                ProtonPlus.Models.Assets.Asset.from_download_url (
                     "https://fixtures.invalid/artifact.zip?signature=example"
                 ),
                 "",

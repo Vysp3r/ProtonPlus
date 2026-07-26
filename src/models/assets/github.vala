@@ -1,8 +1,8 @@
-namespace ProtonPlus.Models.Internal.Assets {
-    public class Github : Asset {
+namespace ProtonPlus.Models.Assets {
+    public class GitHub : Asset {
         public int download_size { get; set; }
 
-        public Github (string name, string download_url, int download_size) {
+        public GitHub (string name, string download_url, int download_size) {
             base (name, download_url);
             this.download_size = download_size;
         }
@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Internal.Assets {
             return obj;
         }
 
-        public new static Github ? from_json (Json.Object? obj) {
+        public new static GitHub ? from_json (Json.Object? obj) {
             if (obj == null) {
                 return null;
             }
@@ -23,7 +23,7 @@ namespace ProtonPlus.Models.Internal.Assets {
             string name = obj.has_member ("name") ? obj.get_string_member ("name") : "";
             int download_size = (int) obj.get_int_member ("size");
 
-            return new Github (name, download_url, download_size);
+            return new GitHub (name, download_url, download_size);
         }
     }
 }

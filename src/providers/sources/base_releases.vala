@@ -1,6 +1,6 @@
-namespace ProtonPlus.Models.Internal.Requests {
+namespace ProtonPlus.Providers.Sources {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public abstract class BaseReleases : Object, IReleases {
         public LinkedList<IRelease> list { get; set; }

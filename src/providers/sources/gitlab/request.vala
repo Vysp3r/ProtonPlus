@@ -1,7 +1,7 @@
-namespace ProtonPlus.Models.Internal.Requests.Gitlab {
+namespace ProtonPlus.Providers.Sources.GitLab {
 
     using ProtonPlus.Models.Launchers.Runners;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
     public class Request : Object, IRequest {
         public int page { get; set; default = 1; }
         public int limit { get; set; default = 25; }
@@ -12,7 +12,7 @@ namespace ProtonPlus.Models.Internal.Requests.Gitlab {
         }
 
         public async IReleases? request_endpoint (string endpoint, int page = 1, int limit = 25, out ReturnCode code) {
-            var _releases = new Gitlab.Releases ();
+            var _releases = new GitLab.Releases ();
             var response = yield Utils.Web.get_request (
                 "%s?per_page=%i&page=%i".printf (endpoint, limit, page),
                 Utils.Web.GetRequestType.GITLAB);
@@ -39,7 +39,7 @@ namespace ProtonPlus.Models.Internal.Requests.Gitlab {
             }
 
             code = ReturnCode.RELEASES_LOADED;
-            return new Gitlab.Releases.from_json (root_array);
+            return new GitLab.Releases.from_json (root_array);
         }
 
         public async IReleases load_more (IRunner runner) {

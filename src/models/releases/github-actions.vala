@@ -6,7 +6,7 @@ namespace ProtonPlus.Models.Releases {
             Tools.Basic runner,
             string title,
             string release_date,
-            Internal.Assets.Asset asset,
+            ProtonPlus.Models.Assets.Asset asset,
             string page_url,
             string artifacts_url,
             string upstream_release_id = "",

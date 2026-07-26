@@ -1,7 +1,7 @@
-namespace ProtonPlus.Models.Internal.Requests.Forgejo {
+namespace ProtonPlus.Providers.Sources.Forgejo {
 
     using ProtonPlus.Models.Launchers.Runners;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
     public class Request : Object, IRequest {
         public int page { get; set; default = 1; }
         public int limit { get; set; default = 25; }

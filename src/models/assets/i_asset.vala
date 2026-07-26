@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.Internal.Assets {
+namespace ProtonPlus.Models.Assets {
     public interface IAsset : Object {
         public abstract string name { get; set; }
         public abstract string download_url { get; set; }

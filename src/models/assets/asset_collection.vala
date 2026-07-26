@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.Internal.Assets {
+namespace ProtonPlus.Models.Assets {
     public class AssetCollection : Collection {
 
        public static new AssetCollection? from_json (Json.Array? list_array) {

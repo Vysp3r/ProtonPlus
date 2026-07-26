@@ -1,5 +1,5 @@
-namespace ProtonPlus.Models.Internal.Requests.GithubAction {
-    using ProtonPlus.Models.Internal.Requests;
+namespace ProtonPlus.Providers.Sources.GitHubActions {
+    using ProtonPlus.Providers.Sources;
 
     public class Release : Object, IRelease {
         public int64 id { get; set; }

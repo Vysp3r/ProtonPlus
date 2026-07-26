@@ -100,7 +100,7 @@ namespace ProtonPlus.Models.Tools {
         public virtual Gee.LinkedList<Variant> create_release_variants (
             string release_name,
             string tag_name,
-            Gee.LinkedList<ProtonPlus.Models.Internal.Assets.IAsset> assets,
+            Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> assets,
             string? fallback_download_url = null
         ) {
             var release_variants = new Gee.LinkedList<Variant> ();

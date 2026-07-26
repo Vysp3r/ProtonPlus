@@ -23,7 +23,7 @@ namespace ProtonPlus.Models {
         public string displayed_title { get; set; }
         public string description { get; set; }
         public string release_date { get; set; }
-        public Internal.Assets.Asset asset { get; set; }
+        public ProtonPlus.Models.Assets.Asset asset { get; set; }
         public string page_url { get; set; }
         // Upstream values are opaque and must not be derived from the display title.
         public string upstream_release_id { get; set; default = ""; }
@@ -142,7 +142,7 @@ namespace ProtonPlus.Models {
             );
         }
 
-        public void set_selected_variant (string? variant_name, Internal.Assets.Asset? selected_asset = null) {
+        public void set_selected_variant (string? variant_name, ProtonPlus.Models.Assets.Asset? selected_asset = null) {
             selected_variant_name = variant_name;
 
             if (selected_asset != null)
@@ -218,7 +218,7 @@ namespace ProtonPlus.Models {
             if (asset_node == null || asset_node.get_node_type () != Json.NodeType.OBJECT)
                 return null;
 
-            var asset = Internal.Assets.Asset.from_json (asset_node.get_object ());
+            var asset = ProtonPlus.Models.Assets.Asset.from_json (asset_node.get_object ());
             if (asset == null)
                 return null;
             string page_url = obj.get_string_member_with_default ("page_url", "");
@@ -318,7 +318,7 @@ namespace ProtonPlus.Models {
             this.runner = runner;
             this.title = title;
             this.install_location = install_location;
-            this.asset = new Internal.Assets.Asset ("", "");
+            this.asset = new ProtonPlus.Models.Assets.Asset ("", "");
         }
 
         public Release.github (
@@ -327,7 +327,7 @@ namespace ProtonPlus.Models {
             string description,
             string release_date,
             int64 download_size,
-            Internal.Assets.Asset asset,
+            ProtonPlus.Models.Assets.Asset asset,
             string page_url,
             string upstream_release_id = "",
             string source_tag = ""
@@ -345,7 +345,7 @@ namespace ProtonPlus.Models {
             string title,
             string description,
             string release_date,
-            Internal.Assets.Asset asset,
+            ProtonPlus.Models.Assets.Asset asset,
             string page_url,
             string upstream_release_id = "",
             string source_tag = ""
@@ -357,7 +357,7 @@ namespace ProtonPlus.Models {
             shared (runner, title, release_date, asset, page_url);
         }
 
-        internal void shared (Tools.Basic runner, string title, string release_date, Internal.Assets.Asset asset, string page_url) {
+        internal void shared (Tools.Basic runner, string title, string release_date, ProtonPlus.Models.Assets.Asset asset, string page_url) {
             this.runner = runner;
             this.title = title;
             this.displayed_title = title;

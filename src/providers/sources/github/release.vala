@@ -1,6 +1,6 @@
-namespace ProtonPlus.Models.Internal.Requests.Github {
+namespace ProtonPlus.Providers.Sources.GitHub {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public class Release : Object, IRelease {
         public int64 id { get; set; }

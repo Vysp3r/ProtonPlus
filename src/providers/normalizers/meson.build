@@ -1,6 +1,6 @@
 sources += files(
     'github.vala',
-    'github-action.vala',
+    'github-actions.vala',
     'gitlab.vala',
     'forgejo.vala',
 )

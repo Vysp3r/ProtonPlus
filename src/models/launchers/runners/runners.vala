@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Launchers.Runners {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
     using ProtonPlus.Models.Launchers.Runners;
 
     public enum RunnerType {

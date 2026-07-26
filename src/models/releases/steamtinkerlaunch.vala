@@ -25,7 +25,7 @@ namespace ProtonPlus.Models.Releases {
             Object (runner: runner,
                     title: "Steam Tinker Launch");
 
-            asset = Internal.Assets.Asset.from_download_url (get_download_url ());
+            asset = ProtonPlus.Models.Assets.Asset.from_download_url (get_download_url ());
 
             home_location = home_override ?? Environment.get_home_dir ();
             compat_location = runner.group.launcher.directory + runner.group.directory;
@@ -131,7 +131,7 @@ namespace ProtonPlus.Models.Releases {
             }
 
             latest_hash = commit_obj.get_string_member_with_default ("sha", "");
-            asset = Internal.Assets.Asset.from_download_url (get_download_url ());
+            asset = ProtonPlus.Models.Assets.Asset.from_download_url (get_download_url ());
         }
 
         void write_installation_metadata (string meta_location) {

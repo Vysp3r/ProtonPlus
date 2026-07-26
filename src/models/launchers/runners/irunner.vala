@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Launchers.Runners {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public interface IRunner : Object {
         public abstract string provider_id { get; set; }

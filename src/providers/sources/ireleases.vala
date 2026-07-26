@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.Internal.Requests {
+namespace ProtonPlus.Providers.Sources {
 
     public interface IReleases : Object {
         public abstract Gee.LinkedList<IRelease> list { get; set; }

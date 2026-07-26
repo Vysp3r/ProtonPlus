@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Launchers.Runners.VKD3D {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public class Lutris : Base {
         public Lutris () {
@@ -19,7 +19,7 @@ namespace ProtonPlus.Models.Launchers.Runners.VKD3D {
         }
 
         public override async IReleases? request_releases (int page, int limit, out ReturnCode code) {
-            var request = new Github.Request ();
+            var request = new GitHub.Request ();
             return yield request.request_endpoint (endpoint, page, limit, out code);
         }
     }

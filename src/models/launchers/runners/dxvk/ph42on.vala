@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Launchers.Runners.DXVK {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public class Ph42on : Base {
         public Ph42on () {
@@ -23,7 +23,7 @@ namespace ProtonPlus.Models.Launchers.Runners.DXVK {
         }
 
         public override async IReleases? request_releases (int page, int limit, out ReturnCode code) {
-            var request = new Gitlab.Request ();
+            var request = new GitLab.Request ();
             return yield request.request_endpoint (endpoint, page, limit, out code);
         }
     }

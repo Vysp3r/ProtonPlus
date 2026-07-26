@@ -1,6 +1,6 @@
-namespace ProtonPlus.Models.Internal.Requests.GithubAction {
+namespace ProtonPlus.Providers.Sources.GitHubActions {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public class Releases : BaseReleases {
 

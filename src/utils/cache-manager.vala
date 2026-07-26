@@ -120,7 +120,7 @@ namespace ProtonPlus.Utils {
                     "%s Latest".printf (tool.title),
                     tool.releases[0].description,
                     tool.releases[0].release_date,
-                    new Models.Internal.Assets.Asset (tool.releases[0].asset.name, tool.releases[0].asset.download_url),
+                    new ProtonPlus.Models.Assets.Asset (tool.releases[0].asset.name, tool.releases[0].asset.download_url),
                     tool.releases[0].page_url,
                     tool.releases[0].title,
                     tool.releases[0].upstream_release_id,

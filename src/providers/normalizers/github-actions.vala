@@ -1,4 +1,6 @@
-namespace ProtonPlus.Models.Tools {
+namespace ProtonPlus.Providers.Normalizers {
+    using ProtonPlus.Models;
+    using ProtonPlus.Models.Tools;
     public class GitHubAction : Basic {
         internal string url_template { get; set; }
 
@@ -24,14 +26,14 @@ namespace ProtonPlus.Models.Tools {
                     return null;
 
                 foreach (var source_release_item in source_releases.list) {
-                    var source_release = source_release_item as Internal.Requests.GithubAction.Release;
+                    var source_release = source_release_item as ProtonPlus.Providers.Sources.GitHubActions.Release;
                     if (source_release == null)
                         continue;
 
                     if (source_release.status == "completed" && source_release.conclusion == "success") {
                         string download_url = url_template.replace ("{id}", source_release.id.to_string ());
-                        var asset = Internal.Assets.Asset.from_download_url (download_url);
-                        var release = new Releases.GitHubAction (
+                        var asset = ProtonPlus.Models.Assets.Asset.from_download_url (download_url);
+                        var release = new ProtonPlus.Models.Releases.GitHubAction (
                             this,
                             source_release.title,
                             source_release.created_at.format_iso8601 (),

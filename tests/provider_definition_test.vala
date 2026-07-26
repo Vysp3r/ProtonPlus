@@ -200,14 +200,14 @@ namespace AppTests.ProviderDefinitionTest {
             var tool = create_tool (runner);
             assert (tool != null);
             var expected_variants = expected.get_array_member ("variants");
-            var assets = new Gee.LinkedList<ProtonPlus.Models.Internal.Assets.IAsset> ();
+            var assets = new Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> ();
 
             for (var variant_index = 0; variant_index < expected_variants.get_length (); variant_index++) {
                 var expected_variant = expected_variants.get_array_element (variant_index);
                 var asset_name = render_format (
                     expected_variant.get_string_element (1), tool.title, release_name, tag_name
                 );
-                assets.add (new ProtonPlus.Models.Internal.Assets.Asset (
+                assets.add (new ProtonPlus.Models.Assets.Asset (
                     asset_name, "https://example.invalid/%d/%d".printf (definition_index, variant_index)
                 ));
             }
@@ -254,11 +254,11 @@ namespace AppTests.ProviderDefinitionTest {
     private void test_ph42on_asset_selection () {
         var tool = create_tool (get_runner ("DXVK GPL+Async (Ph42oN)"));
         assert (tool != null);
-        var assets = new Gee.LinkedList<ProtonPlus.Models.Internal.Assets.IAsset> ();
-        assets.add (new ProtonPlus.Models.Internal.Assets.Asset (
+        var assets = new Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> ();
+        assets.add (new ProtonPlus.Models.Assets.Asset (
             "dxvk-gplasync-v3.0-1-ci.zip", "https://example.invalid/ci.zip"
         ));
-        assets.add (new ProtonPlus.Models.Internal.Assets.Asset (
+        assets.add (new ProtonPlus.Models.Assets.Asset (
             "dxvk-gplasync-v3.0-1.tar.gz", "https://example.invalid/release.tar.gz"
         ));
 

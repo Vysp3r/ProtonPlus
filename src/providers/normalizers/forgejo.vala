@@ -1,14 +1,16 @@
-namespace ProtonPlus.Models.Tools {
+namespace ProtonPlus.Providers.Normalizers {
+    using ProtonPlus.Models;
+    using ProtonPlus.Models.Tools;
     public class Forgejo : Basic {
         public Forgejo () {
             get_request_type = Utils.Web.GetRequestType.FORGEJO;
         }
 
-        private Gee.LinkedList<Internal.Assets.IAsset> get_release_assets (Internal.Requests.Forgejo.Release source_release) {
-            var assets = new Gee.LinkedList<Internal.Assets.IAsset> ();
+        private Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> get_release_assets (ProtonPlus.Providers.Sources.Forgejo.Release source_release) {
+            var assets = new Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> ();
 
             foreach (var source_asset in source_release.assets) {
-                var asset = new Internal.Assets.Github (source_asset.name, source_asset.download_url, (int) source_asset.size);
+                var asset = new ProtonPlus.Models.Assets.GitHub (source_asset.name, source_asset.download_url, (int) source_asset.size);
                 if (asset.is_archive ()) {
                     assets.add (asset);
                 }
@@ -30,7 +32,7 @@ namespace ProtonPlus.Models.Tools {
                 return null;
 
             foreach (var source_release_item in source_releases.list) {
-                var source_release = source_release_item as Internal.Requests.Forgejo.Release;
+                var source_release = source_release_item as ProtonPlus.Providers.Sources.Forgejo.Release;
                 if (source_release == null)
                     continue;
 
@@ -40,7 +42,7 @@ namespace ProtonPlus.Models.Tools {
                 if (release_assets.size == 0)
                     continue;
 
-                var first_asset = release_assets.get (0) as Internal.Assets.Github;
+                var first_asset = release_assets.get (0) as ProtonPlus.Models.Assets.GitHub;
                 if (first_asset == null)
                     continue;
 
@@ -49,9 +51,9 @@ namespace ProtonPlus.Models.Tools {
                 if (primary_download_url == null || primary_download_url == "")
                     continue;
 
-                Internal.Assets.Github? primary_asset = first_asset;
+                ProtonPlus.Models.Assets.GitHub? primary_asset = first_asset;
                 foreach (var release_asset in release_assets) {
-                    var github_asset = release_asset as Internal.Assets.Github;
+                    var github_asset = release_asset as ProtonPlus.Models.Assets.GitHub;
                     if (github_asset == null)
                         continue;
 

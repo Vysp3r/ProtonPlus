@@ -1,4 +1,6 @@
-namespace ProtonPlus.Models.Tools {
+namespace ProtonPlus.Providers.Normalizers {
+    using ProtonPlus.Models;
+    using ProtonPlus.Models.Tools;
     public class GitLab : Basic {
         internal bool use_name_instead_of_tag_name { get; set; }
         internal string[] request_asset_exclude { get; set; }
@@ -20,7 +22,7 @@ namespace ProtonPlus.Models.Tools {
                 return null;
 
             foreach (var source_release_item in source_releases.list) {
-                var source_release = source_release_item as Internal.Requests.Gitlab.Release;
+                var source_release = source_release_item as ProtonPlus.Providers.Sources.GitLab.Release;
                 if (source_release == null)
                     continue;
 
@@ -30,9 +32,9 @@ namespace ProtonPlus.Models.Tools {
                     continue;
                 }
 
-                var release_assets = new Gee.LinkedList<Internal.Assets.IAsset> ();
+                var release_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> ();
                 foreach (var source_asset in source_release.assets) {
-                    var asset = new Internal.Assets.Asset (source_asset.name, source_asset.download_url);
+                    var asset = new ProtonPlus.Models.Assets.Asset (source_asset.name, source_asset.download_url);
                     if (asset.is_archive ()) {
                         release_assets.add (asset);
                     }
@@ -50,10 +52,10 @@ namespace ProtonPlus.Models.Tools {
                 if (primary_download_url == null || primary_download_url == "")
                     continue;
 
-                Internal.Assets.Asset? primary_asset = null;
+                ProtonPlus.Models.Assets.Asset? primary_asset = null;
                 foreach (var release_asset in release_assets) {
                     if (release_asset.download_url == primary_download_url) {
-                        primary_asset = release_asset as Internal.Assets.Asset;
+                        primary_asset = release_asset as ProtonPlus.Models.Assets.Asset;
                         break;
                     }
                 }

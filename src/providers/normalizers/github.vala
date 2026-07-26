@@ -1,14 +1,16 @@
-namespace ProtonPlus.Models.Tools {
+namespace ProtonPlus.Providers.Normalizers {
+    using ProtonPlus.Models;
+    using ProtonPlus.Models.Tools;
     public class GitHub : Basic {
         internal bool use_name_instead_of_tag_name { get; set; }
         internal string[] request_asset_filter { get; set; }
         internal string[] request_asset_exclude { get; set; }
 
-        private Gee.LinkedList<Internal.Assets.IAsset> get_release_assets (Internal.Requests.Github.Release source_release) {
-            var assets = new Gee.LinkedList<Internal.Assets.IAsset> ();
+        private Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> get_release_assets (ProtonPlus.Providers.Sources.GitHub.Release source_release) {
+            var assets = new Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> ();
 
             foreach (var source_asset in source_release.assets) {
-                var asset = new Internal.Assets.Github (source_asset.name, source_asset.download_url, (int) source_asset.size);
+                var asset = new ProtonPlus.Models.Assets.GitHub (source_asset.name, source_asset.download_url, (int) source_asset.size);
                 if (asset.is_archive ()) {
                     assets.add (asset);
                 }
@@ -35,7 +37,7 @@ namespace ProtonPlus.Models.Tools {
                 return null;
 
             foreach (var source_release_item in source_releases.list) {
-                var source_release = source_release_item as Internal.Requests.Github.Release;
+                var source_release = source_release_item as ProtonPlus.Providers.Sources.GitHub.Release;
                 if (source_release == null)
                     continue;
 
@@ -60,7 +62,7 @@ namespace ProtonPlus.Models.Tools {
                 if (release_assets.size == 0)
                     continue;
 
-                var asset_object = release_assets.first () as Internal.Assets.Github;
+                var asset_object = release_assets.first () as ProtonPlus.Models.Assets.GitHub;
 
                 if (asset_object != null) {
                     string description = source_release.description;

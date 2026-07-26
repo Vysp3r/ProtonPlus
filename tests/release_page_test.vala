@@ -3,7 +3,7 @@ namespace AppTests.ReleasePageTest {
     using Gee;
     using ProtonPlus;
     using ProtonPlus.Models;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
     using ProtonPlus.Models.Launchers.Runners;
 
     private class PagedFixtureRunner : Base {
@@ -169,9 +169,9 @@ namespace AppTests.ReleasePageTest {
         return root.get_object ().get_array_member ("workflow_runs");
     }
 
-    private Internal.Requests.Github.Release github_release (string tag, int64 id, bool alternate_asset = false) {
-        var releases = new Internal.Requests.Github.Releases.from_json (get_release_array ("github"));
-        var release = releases.list.get (0) as Internal.Requests.Github.Release;
+    private ProtonPlus.Providers.Sources.GitHub.Release github_release (string tag, int64 id, bool alternate_asset = false) {
+        var releases = new ProtonPlus.Providers.Sources.GitHub.Releases.from_json (get_release_array ("github"));
+        var release = releases.list.get (0) as ProtonPlus.Providers.Sources.GitHub.Release;
         assert (release != null);
 
         release.id = id;
@@ -179,14 +179,14 @@ namespace AppTests.ReleasePageTest {
         release.tag_name = tag;
         release.assets.clear ();
 
-        var primary = new Internal.Requests.Github.Asset ();
+        var primary = new ProtonPlus.Providers.Sources.GitHub.Asset ();
         primary.name = "%s.tar.gz".printf (tag);
         primary.download_url = "https://example.test/%s.tar.gz".printf (tag);
         primary.size = 42;
         release.assets.add (primary);
 
         if (alternate_asset) {
-            var alternate = new Internal.Requests.Github.Asset ();
+            var alternate = new ProtonPlus.Providers.Sources.GitHub.Asset ();
             alternate.name = "%s-alt.tar.gz".printf (tag);
             alternate.download_url = "https://example.test/%s-alt.tar.gz".printf (tag);
             alternate.size = 84;
@@ -196,9 +196,9 @@ namespace AppTests.ReleasePageTest {
         return release;
     }
 
-    private Internal.Requests.GithubAction.Release action_release (int64 id, bool successful) {
-        var releases = new Internal.Requests.GithubAction.Releases.from_json (get_action_array ());
-        var release = releases.list.get (0) as Internal.Requests.GithubAction.Release;
+    private ProtonPlus.Providers.Sources.GitHubActions.Release action_release (int64 id, bool successful) {
+        var releases = new ProtonPlus.Providers.Sources.GitHubActions.Releases.from_json (get_action_array ());
+        var release = releases.list.get (0) as ProtonPlus.Providers.Sources.GitHubActions.Release;
         assert (release != null);
 
         release.id = id;
@@ -208,7 +208,7 @@ namespace AppTests.ReleasePageTest {
         return release;
     }
 
-    private Internal.Requests.GithubAction.Release action_release_with_state (
+    private ProtonPlus.Providers.Sources.GitHubActions.Release action_release_with_state (
         int64 id,
         string status,
         string conclusion
@@ -219,9 +219,9 @@ namespace AppTests.ReleasePageTest {
         return release;
     }
 
-    private Internal.Requests.Gitlab.Release gitlab_release (string tag, int64 id, string[] asset_names) {
-        var releases = new Internal.Requests.Gitlab.Releases.from_json (get_release_array ("gitlab"));
-        var release = releases.list.get (0) as Internal.Requests.Gitlab.Release;
+    private ProtonPlus.Providers.Sources.GitLab.Release gitlab_release (string tag, int64 id, string[] asset_names) {
+        var releases = new ProtonPlus.Providers.Sources.GitLab.Releases.from_json (get_release_array ("gitlab"));
+        var release = releases.list.get (0) as ProtonPlus.Providers.Sources.GitLab.Release;
         assert (release != null);
 
         release.id = id;
@@ -230,7 +230,7 @@ namespace AppTests.ReleasePageTest {
         release.assets.clear ();
 
         for (var index = 0; index < asset_names.length; index++) {
-            var asset = new Internal.Requests.Gitlab.Asset ();
+            var asset = new ProtonPlus.Providers.Sources.GitLab.Asset ();
             asset.name = asset_names[index];
             asset.download_url = "https://example.test/%s".printf (asset_names[index]);
             release.assets.add (asset);
@@ -239,9 +239,9 @@ namespace AppTests.ReleasePageTest {
         return release;
     }
 
-    private Internal.Requests.Forgejo.Release forgejo_release (string tag, int64 id, string asset_name) {
-        var releases = new Internal.Requests.Forgejo.Releases.from_json (get_release_array ("forgejo"));
-        var release = releases.list.get (0) as Internal.Requests.Forgejo.Release;
+    private ProtonPlus.Providers.Sources.Forgejo.Release forgejo_release (string tag, int64 id, string asset_name) {
+        var releases = new ProtonPlus.Providers.Sources.Forgejo.Releases.from_json (get_release_array ("forgejo"));
+        var release = releases.list.get (0) as ProtonPlus.Providers.Sources.Forgejo.Release;
         assert (release != null);
 
         release.id = id;
@@ -249,7 +249,7 @@ namespace AppTests.ReleasePageTest {
         release.tag_name = tag;
         release.assets.clear ();
 
-        var asset = new Internal.Requests.Forgejo.Asset ();
+        var asset = new ProtonPlus.Providers.Sources.Forgejo.Asset ();
         asset.name = asset_name;
         asset.download_url = "https://example.test/%s".printf (asset_name);
         asset.size = 42;
@@ -257,20 +257,20 @@ namespace AppTests.ReleasePageTest {
         return release;
     }
 
-    private Internal.Requests.Github.Releases github_releases (LinkedList<IRelease> releases) {
-        return new Internal.Requests.Github.Releases (releases);
+    private ProtonPlus.Providers.Sources.GitHub.Releases github_releases (LinkedList<IRelease> releases) {
+        return new ProtonPlus.Providers.Sources.GitHub.Releases (releases);
     }
 
-    private Internal.Requests.GithubAction.Releases action_releases (LinkedList<IRelease> releases) {
-        return new Internal.Requests.GithubAction.Releases (releases);
+    private ProtonPlus.Providers.Sources.GitHubActions.Releases action_releases (LinkedList<IRelease> releases) {
+        return new ProtonPlus.Providers.Sources.GitHubActions.Releases (releases);
     }
 
-    private Internal.Requests.Gitlab.Releases gitlab_releases (LinkedList<Internal.Requests.Gitlab.Release> releases) {
-        return new Internal.Requests.Gitlab.Releases (releases);
+    private ProtonPlus.Providers.Sources.GitLab.Releases gitlab_releases (LinkedList<ProtonPlus.Providers.Sources.GitLab.Release> releases) {
+        return new ProtonPlus.Providers.Sources.GitLab.Releases (releases);
     }
 
-    private Internal.Requests.Forgejo.Releases forgejo_releases (LinkedList<IRelease> releases) {
-        return new Internal.Requests.Forgejo.Releases (releases);
+    private ProtonPlus.Providers.Sources.Forgejo.Releases forgejo_releases (LinkedList<IRelease> releases) {
+        return new ProtonPlus.Providers.Sources.Forgejo.Releases (releases);
     }
 
     private Tools.Basic create_tool (PagedFixtureRunner runner) {
@@ -513,7 +513,7 @@ namespace AppTests.ReleasePageTest {
             "Cached release",
             "2026-07-25T00:00:00Z",
             1,
-            new Internal.Assets.Asset ("cached-1.tar.gz", "https://example.test/cached-1.tar.gz"),
+            new ProtonPlus.Models.Assets.Asset ("cached-1.tar.gz", "https://example.test/cached-1.tar.gz"),
             "https://example.test/cached-1",
             "1001",
             "cached-1"
@@ -539,23 +539,23 @@ namespace AppTests.ReleasePageTest {
         github_runner.add_release_variant ("default", "default", "$tag_name.tar.gz", true);
         assert_fixture_page (create_tool (github_runner), "GE-Proton10-1", "1001", "GE-Proton10-1.tar.gz");
 
-        var gitlab_items = new LinkedList<Internal.Requests.Gitlab.Release> ();
-        var gitlab_source = new Internal.Requests.Gitlab.Releases.from_json (get_release_array ("gitlab"));
-        gitlab_items.add (gitlab_source.list.get (0) as Internal.Requests.Gitlab.Release);
+        var gitlab_items = new LinkedList<ProtonPlus.Providers.Sources.GitLab.Release> ();
+        var gitlab_source = new ProtonPlus.Providers.Sources.GitLab.Releases.from_json (get_release_array ("gitlab"));
+        gitlab_items.add (gitlab_source.list.get (0) as ProtonPlus.Providers.Sources.GitLab.Release);
         var gitlab_runner = new PagedFixtureRunner (
-            SourceType.GITLAB, new Internal.Requests.Gitlab.Releases (new LinkedList<Internal.Requests.Gitlab.Release> ())
+            SourceType.GITLAB, new ProtonPlus.Providers.Sources.GitLab.Releases (new LinkedList<ProtonPlus.Providers.Sources.GitLab.Release> ())
         );
-        gitlab_runner.set_page (1, new Internal.Requests.Gitlab.Releases (gitlab_items));
+        gitlab_runner.set_page (1, new ProtonPlus.Providers.Sources.GitLab.Releases (gitlab_items));
         gitlab_runner.add_release_variant ("default", "default", "$release_name", true);
         assert_empty_fixture_page (create_tool (gitlab_runner));
 
         var forgejo_items = new LinkedList<IRelease> ();
-        var forgejo_source = new Internal.Requests.Forgejo.Releases.from_json (get_release_array ("forgejo"));
+        var forgejo_source = new ProtonPlus.Providers.Sources.Forgejo.Releases.from_json (get_release_array ("forgejo"));
         forgejo_items.add (forgejo_source.list.get (0));
         var forgejo_runner = new PagedFixtureRunner (
-            SourceType.FORGEJO, new Internal.Requests.Forgejo.Releases (new LinkedList<IRelease> ())
+            SourceType.FORGEJO, new ProtonPlus.Providers.Sources.Forgejo.Releases (new LinkedList<IRelease> ())
         );
-        forgejo_runner.set_page (1, new Internal.Requests.Forgejo.Releases (forgejo_items));
+        forgejo_runner.set_page (1, new ProtonPlus.Providers.Sources.Forgejo.Releases (forgejo_items));
         forgejo_runner.add_release_variant ("default", "default", "$tag_name", true);
         assert_fixture_page (create_tool (forgejo_runner), "GE-Proton8-26", "4001", "Wine-GE-Proton8-26.tar.xz");
     }
@@ -597,7 +597,7 @@ namespace AppTests.ReleasePageTest {
         assert (!tool.has_more);
     }
 
-    private Internal.Requests.Github.Release kron4ek_release (
+    private ProtonPlus.Providers.Sources.GitHub.Release kron4ek_release (
         Tools.Basic tool,
         string tag,
         int64 id
@@ -612,7 +612,7 @@ namespace AppTests.ReleasePageTest {
                                            .replace ("$tag_name", tag);
             asset_name = "%s.tar.gz".printf (asset_name);
 
-            var asset = new Internal.Requests.Github.Asset ();
+            var asset = new ProtonPlus.Providers.Sources.GitHub.Asset ();
             asset.name = asset_name;
             asset.download_url = "https://example.test/%s".printf (asset_name);
             asset.size = index + 1;
@@ -633,20 +633,20 @@ namespace AppTests.ReleasePageTest {
     }
 
     private void test_update_lookup_provider_parity () {
-        var generic_gitlab_items = new LinkedList<Internal.Requests.Gitlab.Release> ();
+        var generic_gitlab_items = new LinkedList<ProtonPlus.Providers.Sources.GitLab.Release> ();
         generic_gitlab_items.add (gitlab_release ("v1.2.3", 3001, { "v1.2.3.tar.gz" }));
         var generic_gitlab_runner = new PagedFixtureRunner (
             SourceType.GITLAB,
-            gitlab_releases (new LinkedList<Internal.Requests.Gitlab.Release> ())
+            gitlab_releases (new LinkedList<ProtonPlus.Providers.Sources.GitLab.Release> ())
         );
         generic_gitlab_runner.add_release_variant ("default", "default", "$tag_name.tar.gz", true);
         generic_gitlab_runner.set_page (1, gitlab_releases (generic_gitlab_items));
         assert_update_lookup_matches_browsing (create_tool (generic_gitlab_runner));
 
         var ph42on_pages = new FixturePages (
-            gitlab_releases (new LinkedList<Internal.Requests.Gitlab.Release> ())
+            gitlab_releases (new LinkedList<ProtonPlus.Providers.Sources.GitLab.Release> ())
         );
-        var ph42on_items = new LinkedList<Internal.Requests.Gitlab.Release> ();
+        var ph42on_items = new LinkedList<ProtonPlus.Providers.Sources.GitLab.Release> ();
         ph42on_items.add (gitlab_release (
             "v3.0-1",
             3002,

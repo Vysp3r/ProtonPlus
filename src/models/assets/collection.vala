@@ -1,4 +1,4 @@
-namespace ProtonPlus.Models.Internal.Assets {
+namespace ProtonPlus.Models.Assets {
     using Gee;
 
     public class Collection : Object {

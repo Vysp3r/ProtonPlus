@@ -1,6 +1,6 @@
-namespace ProtonPlus.Models.Internal.Requests.Forgejo {
+namespace ProtonPlus.Providers.Sources.Forgejo {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public class Releases : BaseReleases {
 

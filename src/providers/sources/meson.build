@@ -8,5 +8,5 @@ sources += files(
 
 subdir('forgejo')
 subdir('github')
-subdir('github-action')
+subdir('github-actions')
 subdir('gitlab')

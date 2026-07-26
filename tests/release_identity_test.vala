@@ -2,7 +2,7 @@ namespace AppTests.ReleaseIdentityTest {
     using GLib;
     using ProtonPlus;
     using ProtonPlus.Models;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
     using ProtonPlus.Models.Launchers.Runners;
 
     private class FixtureRunner : Base {
@@ -117,7 +117,7 @@ namespace AppTests.ReleaseIdentityTest {
 
     private void test_github_numeric_id_and_tag () {
         var root = create_temp_directory ();
-        var source_releases = new ProtonPlus.Models.Internal.Requests.Github.Releases.from_json (
+        var source_releases = new ProtonPlus.Providers.Sources.GitHub.Releases.from_json (
             get_releases_array ("github")
         );
         var tool = create_tool (SourceType.GITHUB, source_releases, root);
@@ -135,7 +135,7 @@ namespace AppTests.ReleaseIdentityTest {
 
     private void test_forgejo_numeric_id_and_tag () {
         var root = create_temp_directory ();
-        var source_releases = new ProtonPlus.Models.Internal.Requests.Forgejo.Releases.from_json (
+        var source_releases = new ProtonPlus.Providers.Sources.Forgejo.Releases.from_json (
             get_releases_array ("forgejo")
         );
         var tool = create_tool (SourceType.FORGEJO, source_releases, root);
@@ -153,10 +153,10 @@ namespace AppTests.ReleaseIdentityTest {
 
     private void test_gitlab_tag_fallback () {
         var root = create_temp_directory ();
-        var source_releases = new ProtonPlus.Models.Internal.Requests.Gitlab.Releases.from_json (
+        var source_releases = new ProtonPlus.Providers.Sources.GitLab.Releases.from_json (
             get_releases_array ("gitlab")
         );
-        var source_release = source_releases.list.get (0) as ProtonPlus.Models.Internal.Requests.Gitlab.Release;
+        var source_release = source_releases.list.get (0) as ProtonPlus.Providers.Sources.GitLab.Release;
         assert (source_release != null);
         source_release.id = 0;
         var source_asset = source_release.assets.get (0);
@@ -178,7 +178,7 @@ namespace AppTests.ReleaseIdentityTest {
 
     private void test_github_actions_run_id () {
         var root = create_temp_directory ();
-        var source_releases = new ProtonPlus.Models.Internal.Requests.GithubAction.Releases.from_json (
+        var source_releases = new ProtonPlus.Providers.Sources.GitHubActions.Releases.from_json (
             get_workflow_runs ()
         );
         var tool = create_tool (SourceType.GITHUB_ACTION, source_releases, root);
@@ -195,7 +195,7 @@ namespace AppTests.ReleaseIdentityTest {
     }
 
     private void test_query_bearing_asset_name () {
-        var asset = Internal.Assets.Asset.from_download_url (
+        var asset = ProtonPlus.Models.Assets.Asset.from_download_url (
             "https://example.test/downloads/runner.tar.zst?signature=example&expires=1"
         );
 
@@ -209,7 +209,7 @@ namespace AppTests.ReleaseIdentityTest {
         var previous_cache_path = Globals.CACHE_PATH;
         Globals.CACHE_PATH = root;
 
-        var source_releases = new ProtonPlus.Models.Internal.Requests.Github.Releases.from_json (
+        var source_releases = new ProtonPlus.Providers.Sources.GitHub.Releases.from_json (
             get_releases_array ("github")
         );
         var tool = create_tool (SourceType.GITHUB, source_releases, root);
@@ -219,7 +219,7 @@ namespace AppTests.ReleaseIdentityTest {
             "Fixture release",
             "2026-07-25T12:34:56Z",
             42,
-            new Internal.Assets.Asset ("v1.2.3.tar.gz", "https://example.test/v1.2.3.tar.gz"),
+            new ProtonPlus.Models.Assets.Asset ("v1.2.3.tar.gz", "https://example.test/v1.2.3.tar.gz"),
             "https://example.test/releases/v1.2.3",
             "1001",
             "v1.2.3"
@@ -229,7 +229,7 @@ namespace AppTests.ReleaseIdentityTest {
             "v1.2.2",
             "Fallback release",
             "2026-07-24T12:34:56Z",
-            new Internal.Assets.Asset ("v1.2.2.tar.gz", "https://example.test/v1.2.2.tar.gz"),
+            new ProtonPlus.Models.Assets.Asset ("v1.2.2.tar.gz", "https://example.test/v1.2.2.tar.gz"),
             "https://example.test/releases/v1.2.2",
             "",
             "v1.2.2"
@@ -279,7 +279,7 @@ namespace AppTests.ReleaseIdentityTest {
         ));
         tool.releases[1].set_selected_variant (
             "alternate",
-            Internal.Assets.Asset.from_download_url (
+            ProtonPlus.Models.Assets.Asset.from_download_url (
                 "https://example.test/v1.2.3-alternate.zip?signature=example"
             )
         );
@@ -300,7 +300,7 @@ namespace AppTests.ReleaseIdentityTest {
         incomplete_asset_release.set_string_member ("kind", "generic");
         incomplete_asset_release.set_string_member ("title", "v0.5.0");
         incomplete_asset_release.set_string_member ("source_tag", "v0.5.0");
-        incomplete_asset_release.set_object_member ("asset", new Internal.Assets.Asset ("", "https://example.test/v0.5.0.tar.gz").to_json ());
+        incomplete_asset_release.set_object_member ("asset", new ProtonPlus.Models.Assets.Asset ("", "https://example.test/v0.5.0.tar.gz").to_json ());
         assert (Release.from_json (tool, incomplete_asset_release) == null);
 
         Globals.CACHE_PATH = previous_cache_path;

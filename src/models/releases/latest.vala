@@ -7,7 +7,7 @@ namespace ProtonPlus.Models.Releases {
             string title,
             string description,
             string release_date,
-            Internal.Assets.Asset asset,
+            ProtonPlus.Models.Assets.Asset asset,
             string page_url,
             string source_release_title = "",
             string upstream_release_id = "",
@@ -31,7 +31,7 @@ namespace ProtonPlus.Models.Releases {
                 "%s Latest".printf (runner.title),
                 source_release.description,
                 source_release.release_date,
-                new Internal.Assets.Asset (
+                new ProtonPlus.Models.Assets.Asset (
                     source_release.asset.name,
                     source_release.asset.download_url
                 ),

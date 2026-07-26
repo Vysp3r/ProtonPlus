@@ -344,7 +344,7 @@ namespace ProtonPlus.Models {
             if (lookup_code != ReturnCode.RELEASES_LOADED) {
                 // Keep the legacy fallback only for transport/API failures.
                 // Invalid normalized data must remain visible to the caller.
-                if (!(runner is Models.Tools.GitHubAction) &&
+                if (!(runner is ProtonPlus.Providers.Normalizers.GitHubAction) &&
                     metadata.tag != "" && is_request_failure (lookup_code))
                     return ReturnCode.NOTHING_TO_UPDATE;
                 return lookup_code;

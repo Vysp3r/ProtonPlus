@@ -1,6 +1,6 @@
 sources += files(
     'bottles.vala',
-    'hgl.vala',
+    'heroic-games-launcher.vala',
     'lutris.vala',
     'steam.vala',
     'winezgui.vala',

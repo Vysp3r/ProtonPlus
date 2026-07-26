@@ -1,5 +1,5 @@
-namespace ProtonPlus.Models.Internal.Requests.Github {
-    using ProtonPlus.Models.Internal.Requests;
+namespace ProtonPlus.Providers.Sources.GitHub {
+    using ProtonPlus.Providers.Sources;
     public class Asset : Object, IAsset {
         public int64 id { get; set; }
         public string name { get; set; }

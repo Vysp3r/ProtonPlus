@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Launchers.Runners.Proton {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public class DW : Base {
 

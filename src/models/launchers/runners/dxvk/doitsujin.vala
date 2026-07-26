@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Launchers.Runners.DXVK {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public class Doitsujin : Base {
         public Doitsujin () {
@@ -18,7 +18,7 @@ namespace ProtonPlus.Models.Launchers.Runners.DXVK {
         }
 
         public override async IReleases? request_releases (int page, int limit, out ReturnCode code) {
-            var request = new Github.Request ();
+            var request = new GitHub.Request ();
             return yield request.request_endpoint (endpoint, page, limit, out code);
         }
     }

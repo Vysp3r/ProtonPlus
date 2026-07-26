@@ -1,5 +1,5 @@
 sources += files(
-    'github-action.vala',
+    'github-actions.vala',
     'steamtinkerlaunch.vala',
     'latest.vala',
 )

@@ -54,12 +54,12 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_release () {
-        var releases = new ProtonPlus.Models.Internal.Requests.Github.Releases.from_json (
+        var releases = new ProtonPlus.Providers.Sources.GitHub.Releases.from_json (
             get_releases_array ("github", "release.json")
         );
         assert (releases.size == 1);
 
-        var release = (ProtonPlus.Models.Internal.Requests.Github.Release) releases.list.get (0);
+        var release = (ProtonPlus.Providers.Sources.GitHub.Release) releases.list.get (0);
         assert (release.id == 1001);
         assert (release.name == "GE-Proton10-1");
         assert (release.tag_name == "GE-Proton10-1");
@@ -79,12 +79,12 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_missing_fields () {
-        var releases = new ProtonPlus.Models.Internal.Requests.Github.Releases.from_json (
+        var releases = new ProtonPlus.Providers.Sources.GitHub.Releases.from_json (
             get_releases_array ("github", "missing-fields.json")
         );
         assert (releases.size == 1);
 
-        var release = (ProtonPlus.Models.Internal.Requests.Github.Release) releases.list.get (0);
+        var release = (ProtonPlus.Providers.Sources.GitHub.Release) releases.list.get (0);
         assert (release.id == 0);
         assert (release.name == "");
         assert (release.tag_name == "");
@@ -96,12 +96,12 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_gitlab_release () {
-        var releases = new ProtonPlus.Models.Internal.Requests.Gitlab.Releases.from_json (
+        var releases = new ProtonPlus.Providers.Sources.GitLab.Releases.from_json (
             get_releases_array ("gitlab", "release.json")
         );
         assert (releases.size == 1);
 
-        var release = (ProtonPlus.Models.Internal.Requests.Gitlab.Release) releases.list.get (0);
+        var release = (ProtonPlus.Providers.Sources.GitLab.Release) releases.list.get (0);
         assert (release.id == 3001);
         assert (release.name == "ProtonPlus 0.6.0");
         assert (release.tag_name == "v0.6.0");
@@ -119,12 +119,12 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_gitlab_missing_fields () {
-        var releases = new ProtonPlus.Models.Internal.Requests.Gitlab.Releases.from_json (
+        var releases = new ProtonPlus.Providers.Sources.GitLab.Releases.from_json (
             get_releases_array ("gitlab", "missing-fields.json")
         );
         assert (releases.size == 1);
 
-        var release = (ProtonPlus.Models.Internal.Requests.Gitlab.Release) releases.list.get (0);
+        var release = (ProtonPlus.Providers.Sources.GitLab.Release) releases.list.get (0);
         assert (release.id == 0);
         assert (release.name == "");
         assert (release.tag_name == "");
@@ -136,12 +136,12 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_forgejo_release () {
-        var releases = new ProtonPlus.Models.Internal.Requests.Forgejo.Releases.from_json (
+        var releases = new ProtonPlus.Providers.Sources.Forgejo.Releases.from_json (
             get_releases_array ("forgejo", "release.json")
         );
         assert (releases.size == 1);
 
-        var release = (ProtonPlus.Models.Internal.Requests.Forgejo.Release) releases.list.get (0);
+        var release = (ProtonPlus.Providers.Sources.Forgejo.Release) releases.list.get (0);
         assert (release.id == 4001);
         assert (release.name == "Wine-GE-Proton8-26");
         assert (release.tag_name == "GE-Proton8-26");
@@ -159,12 +159,12 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_forgejo_missing_fields () {
-        var releases = new ProtonPlus.Models.Internal.Requests.Forgejo.Releases.from_json (
+        var releases = new ProtonPlus.Providers.Sources.Forgejo.Releases.from_json (
             get_releases_array ("forgejo", "missing-fields.json")
         );
         assert (releases.size == 1);
 
-        var release = (ProtonPlus.Models.Internal.Requests.Forgejo.Release) releases.list.get (0);
+        var release = (ProtonPlus.Providers.Sources.Forgejo.Release) releases.list.get (0);
         assert (release.id == 0);
         assert (release.name == "");
         assert (release.tag_name == "");
@@ -176,12 +176,12 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_actions_run () {
-        var releases = new ProtonPlus.Models.Internal.Requests.GithubAction.Releases.from_json (
+        var releases = new ProtonPlus.Providers.Sources.GitHubActions.Releases.from_json (
             get_workflow_runs ("run.json")
         );
         assert (releases.size == 1);
 
-        var release = (ProtonPlus.Models.Internal.Requests.GithubAction.Release) releases.list.get (0);
+        var release = (ProtonPlus.Providers.Sources.GitHubActions.Release) releases.list.get (0);
         assert (release.id == 5001);
         assert (release.title == "73");
         assert (release.name == "73");
@@ -192,12 +192,12 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_actions_missing_fields () {
-        var releases = new ProtonPlus.Models.Internal.Requests.GithubAction.Releases.from_json (
+        var releases = new ProtonPlus.Providers.Sources.GitHubActions.Releases.from_json (
             get_workflow_runs ("missing-fields.json")
         );
         assert (releases.size == 1);
 
-        var release = (ProtonPlus.Models.Internal.Requests.GithubAction.Release) releases.list.get (0);
+        var release = (ProtonPlus.Providers.Sources.GitHubActions.Release) releases.list.get (0);
         assert (release.id == 0);
         assert (release.title == "");
         assert (release.name == "");

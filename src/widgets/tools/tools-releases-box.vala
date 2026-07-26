@@ -453,7 +453,7 @@ namespace ProtonPlus.Widgets.Tools {
                     if (selected_variant_url != null) {
                         release.set_selected_variant (
                             selected_variant.name,
-                            Models.Internal.Assets.Asset.from_download_url (selected_variant_url)
+                            ProtonPlus.Models.Assets.Asset.from_download_url (selected_variant_url)
                         );
                     } else {
                         var default_url = get_default_variant_download_url (release);
@@ -467,7 +467,7 @@ namespace ProtonPlus.Widgets.Tools {
 
                         release.set_selected_variant (
                             default_variant_name != "" ? default_variant_name : null,
-                            default_url != null ? Models.Internal.Assets.Asset.from_download_url (default_url) : null
+                            default_url != null ? ProtonPlus.Models.Assets.Asset.from_download_url (default_url) : null
                         );
                     }
                 }
@@ -581,7 +581,7 @@ namespace ProtonPlus.Widgets.Tools {
                 if (selected_variant_url != null) {
                     release.set_selected_variant (
                         selected_variant.name,
-                        Models.Internal.Assets.Asset.from_download_url (selected_variant_url)
+                        ProtonPlus.Models.Assets.Asset.from_download_url (selected_variant_url)
                     );
                 } else {
                     var default_url = get_default_variant_download_url (release);
@@ -595,7 +595,7 @@ namespace ProtonPlus.Widgets.Tools {
 
                     release.set_selected_variant (
                         default_variant_name != "" ? default_variant_name : null,
-                        default_url != null ? Models.Internal.Assets.Asset.from_download_url (default_url) : null
+                        default_url != null ? ProtonPlus.Models.Assets.Asset.from_download_url (default_url) : null
                     );
                 }
             }

@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Launchers.Runners.Proton {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public class ProtonTKG : Base {
 
@@ -20,7 +20,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
         }
 
         public override async IReleases? request_releases (int page, int limit, out ReturnCode code) {
-            var request = new GithubAction.Request ();
+            var request = new GitHubActions.Request ();
             return yield request.request_endpoint (endpoint, page, limit, out code);
         }
     }

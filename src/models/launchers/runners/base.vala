@@ -1,6 +1,6 @@
 namespace ProtonPlus.Models.Launchers.Runners {
     using Gee;
-    using ProtonPlus.Models.Internal.Requests;
+    using ProtonPlus.Providers.Sources;
 
     public enum SourceType {
         GITHUB,
@@ -98,7 +98,7 @@ namespace ProtonPlus.Models.Launchers.Runners {
 
             switch (source_type) {
             case SourceType.GITHUB:
-                var github = new Tools.GitHub ();
+                var github = new ProtonPlus.Providers.Normalizers.GitHub ();
                 if (request_asset_exclude != null)
                     github.request_asset_exclude = request_asset_exclude.to_array ();
                 if (request_asset_filter != null)
@@ -106,18 +106,18 @@ namespace ProtonPlus.Models.Launchers.Runners {
                 runner = github;
                 break;
             case SourceType.GITHUB_ACTION:
-                var github_action = new Tools.GitHubAction ();
+                var github_action = new ProtonPlus.Providers.Normalizers.GitHubAction ();
                 github_action.url_template = url_template;
                 runner = github_action;
                 break;
             case SourceType.GITLAB:
-                var gitlab = new Tools.GitLab ();
+                var gitlab = new ProtonPlus.Providers.Normalizers.GitLab ();
                 if (request_asset_exclude != null)
                     gitlab.request_asset_exclude = request_asset_exclude.to_array ();
                 runner = gitlab;
                 break;
             case SourceType.FORGEJO:
-                runner = new Tools.Forgejo ();
+                runner = new ProtonPlus.Providers.Normalizers.Forgejo ();
                 break;
             }
 
