@@ -9,6 +9,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button refresh_button { get; set; }
         Gtk.Box header_box { get; set; }
         Gtk.ListBox list_box { get; set; }
+        Gtk.ScrolledWindow scrolled { get; set; }
         Gtk.Stack content_stack { get; set; }
         Adw.StatusPage status_page { get; set; }
 
@@ -185,7 +186,7 @@ namespace ProtonPlus.Widgets.Tools {
             };
             list_box.append (load_more_row);
 
-            var scrolled = new Gtk.ScrolledWindow () {
+            scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,
                 vexpand = true,
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
@@ -483,6 +484,56 @@ namespace ProtonPlus.Widgets.Tools {
             }
             list_box.invalidate_filter ();
             update_visibility ();
+        }
+
+        /// Selects the release's tool and makes its active row easy to find.
+        public async void focus_release (Models.Release target) {
+            yield set_selected_tool (target.runner);
+
+            var row = find_release_row (target);
+            if (row == null)
+                return;
+
+            row.grab_focus ();
+            row.add_css_class ("download-highlight");
+
+            Idle.add (() => {
+                Graphene.Rect bounds;
+                if (row.compute_bounds (list_box, out bounds)) {
+                    var adjustment = scrolled.get_vadjustment ();
+                    var maximum = adjustment.upper - adjustment.page_size;
+                    if (maximum < adjustment.lower)
+                        maximum = adjustment.lower;
+
+                    var target_value = bounds.origin.y - ((adjustment.page_size - bounds.size.height) / 2.0);
+                    if (target_value < adjustment.lower)
+                        target_value = adjustment.lower;
+                    if (target_value > maximum)
+                        target_value = maximum;
+                    adjustment.set_value (target_value);
+                }
+                return Source.REMOVE;
+            });
+
+            Timeout.add (1200, () => {
+                row.remove_css_class ("download-highlight");
+                return Source.REMOVE;
+            });
+        }
+
+        private ReleaseRow? find_release_row (Models.Release target) {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                var release = child.get_data<Models.Release> ("release");
+                if (release != null && (release == target || (
+                    release.title == target.title && release.download_url == target.download_url
+                ))) {
+                    return child as ReleaseRow;
+                }
+                child = child.get_next_sibling ();
+            }
+
+            return null;
         }
 
         private void add_release_row (Models.Release release) {

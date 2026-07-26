@@ -375,6 +375,11 @@ namespace ProtonPlus.Widgets.Tools {
             refresh_group_boxes ();
         }
 
+        public void show_download (Models.Release release) {
+            stack.set_visible_child_name ("releases");
+            releases_box.focus_release.begin (release);
+        }
+
         public void set_selected_launcher (Models.Launcher launcher) {
             current_launcher = launcher;
 

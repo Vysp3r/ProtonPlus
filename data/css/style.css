@@ -153,3 +153,41 @@ row.controller-focus {
 .tools-release-row-input-box button {
     padding: 5px;
 }
+
+.downloads-indicator-badge {
+    min-width: 1.4em;
+    border-radius: 9999px;
+    padding: 1px 4px;
+    background-color: var(--accent-bg-color);
+    color: var(--accent-fg-color);
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+@keyframes downloads-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-3px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    65% {
+        transform: translateY(-1px);
+    }
+}
+
+.downloads-indicator-active {
+    animation: downloads-bounce 1.2s infinite ease-in-out;
+}
+
+.downloads-popover-list > row:not(:last-child) {
+    margin-bottom: 6px;
+}
+
+row.download-highlight {
+    background-color: alpha(var(--accent-bg-color), 0.16);
+    box-shadow: inset 0 0 0 2px alpha(var(--accent-bg-color), 0.7);
+}

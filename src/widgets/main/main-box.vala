@@ -63,6 +63,11 @@ namespace ProtonPlus.Widgets.Main {
             games_box.set_selected_launcher (launcher);
         }
 
+        public void navigate_to_download (Models.Release release) {
+            view_stack.set_visible_child_name ("tools");
+            tools_box.show_download (release);
+        }
+
         public void send_toast (string title) {
             var toast = new Adw.Toast (title);
 

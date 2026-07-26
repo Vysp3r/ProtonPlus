@@ -95,9 +95,6 @@ src/utils/i18n.vala
 src/utils/internal/metainfo-loader.vala
 src/utils/mangohud-manager.vala
 src/utils/parser.vala
-src/utils/requests/proton-plus.vala
-src/utils/requests/proxy.vala
-src/utils/requests/request.vala
 src/utils/system.vala
 src/utils/theme-manager.vala
 src/utils/vdf/binary.vala
@@ -154,6 +151,7 @@ src/widgets/games/launch-options-editor/wrappers/gamescope.vala
 src/widgets/games/launch-options-editor/wrappers/none.vala
 src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala
 src/widgets/header/header-box.vala
+src/widgets/header/header-downloads-indicator.vala
 src/widgets/header/header-launchers-button.vala
 src/widgets/introduction/application.vala
 src/widgets/introduction/base.vala
