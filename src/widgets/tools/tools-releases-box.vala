@@ -565,10 +565,13 @@ namespace ProtonPlus.Widgets.Tools {
             if (tool is Models.Tools.Basic && releases.size > 0)
                 add_release_row (releases[0], Services.InstallJob.Mode.LATEST);
             foreach (var release in releases)
-                add_release_row (release, release.kind == Models.Release.Kind.STEAM_TINKER_LAUNCH ? Services.InstallJob.Mode.STEAM_TINKER_LAUNCH : Services.InstallJob.Mode.VERSIONED);
+                add_release_row (release);
         }
 
-        private void add_release_row (Models.Release release, Services.InstallJob.Mode mode) {
+        private void add_release_row (
+            Models.Release release,
+            Services.InstallJob.Mode mode = Services.InstallJob.Mode.VERSIONED
+        ) {
             if (current_tool == null)
                 return;
             var job = new Services.InstallJob (release, current_tool, mode);
@@ -601,7 +604,7 @@ namespace ProtonPlus.Widgets.Tools {
                 job = active_job;
 
             ReleaseRow row;
-            if (mode == Services.InstallJob.Mode.STEAM_TINKER_LAUNCH) {
+            if (job.steam_tinker_launch_context != null) {
                 row = new STLReleaseRow (job);
                 if (active_job == null)
                     Services.InstallationService.instance.refresh_steam_tinker_launch_release.begin (job);

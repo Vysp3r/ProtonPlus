@@ -127,7 +127,7 @@ namespace ProtonPlus.Widgets.Tools {
                 if (current_job == null)
                     return;
                 string internal_name = "";
-                if (current_job.mode == Services.InstallJob.Mode.STEAM_TINKER_LAUNCH) {
+                if (current_job.steam_tinker_launch_context != null) {
                     internal_name = "Proton-stl";
                 } else if (current_job.tool is Models.Tools.Basic) {
                     internal_name = ((Models.Tools.Basic)current_job.tool).get_directory_name (current_job.title);

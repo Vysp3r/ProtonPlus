@@ -1,7 +1,7 @@
 namespace ProtonPlus.Services {
     /// A target-bound, observable installation lifecycle.  A Release remains
-    /// reusable catalog data; this object is the only place where its selected
-    /// asset becomes an installed directory and an in-flight operation.
+    /// reusable catalog data; workflows turn this target into an installed
+    /// directory while the job exposes progress and completion to UI and CLI.
     public class InstallJob : Object {
         public enum Step {
             NOTHING,
@@ -32,7 +32,10 @@ namespace ProtonPlus.Services {
         public Models.Assets.Asset selected_asset { get; private set; }
         public string? selected_variant_name { get; private set; default = null; }
         public string install_location { get; private set; default = ""; }
-        public string? replacement_backup_path { get; internal set; default = null; }
+        // A replacement backup is a short-lived handoff from the archive
+        // transaction to its update finalization, never persisted job state.
+        internal string? replacement_backup_path { get; set; default = null; }
+        public SteamTinkerLaunchContext? steam_tinker_launch_context { get; private set; default = null; }
 
         private Cancellable operation_cancellable = new Cancellable ();
         private bool _canceled = false;
@@ -59,42 +62,26 @@ namespace ProtonPlus.Services {
         public Step step { get; internal set; default = Step.NOTHING; }
         public signal void progress_updated ();
 
-        // SteamTinkerLaunch's target-specific context.  It is deliberately on
-        // the job rather than on a remote Release subclass.
-        internal string stl_home_location { get; private set; default = ""; }
-        internal string stl_base_location { get; private set; default = ""; }
-        internal string stl_binary_location { get; private set; default = ""; }
-        internal string stl_meta_location { get; private set; default = ""; }
-        internal string stl_link_parent_location { get; private set; default = ""; }
-        internal string stl_link_location { get; private set; default = ""; }
-        internal string stl_config_location { get; private set; default = ""; }
-        internal string stl_manual_remove_location { get; private set; default = ""; }
-        internal string stl_compat_location { get; private set; default = ""; }
-        internal string stl_latest_date { get; set; default = ""; }
-        internal string stl_latest_hash { get; set; default = ""; }
-        internal string stl_local_date { get; set; default = ""; }
-        internal string stl_local_hash { get; set; default = ""; }
-        internal List<string> stl_external_locations;
-        public bool stl_remove_config { get; set; default = false; }
-        public bool stl_user_requested_removal { get; set; default = false; }
-
         public InstallJob (
             Models.Release release,
             Models.Tool tool,
             Mode mode = Mode.VERSIONED,
             string? installation_location_override = null,
-            string? stl_home_override = null
+            string? steam_tinker_launch_home_override = null
         ) {
             this.release = release;
             this.tool = tool;
-            this.mode = mode;
-            this.selected_asset = release.asset;
-            this.stl_external_locations = new List<string> ();
+            selected_asset = release.asset;
+            var is_steam_tinker_launch = mode == Mode.STEAM_TINKER_LAUNCH ||
+                release.kind == Models.Release.Kind.STEAM_TINKER_LAUNCH;
+            this.mode = is_steam_tinker_launch ? Mode.STEAM_TINKER_LAUNCH : mode;
 
-            if (mode == Mode.STEAM_TINKER_LAUNCH)
-                configure_steam_tinker_launch (stl_home_override);
-            else
+            if (is_steam_tinker_launch) {
+                steam_tinker_launch_context = new SteamTinkerLaunchContext (tool, steam_tinker_launch_home_override);
+                install_location = steam_tinker_launch_context.base_location;
+            } else {
                 update_install_location (installation_location_override);
+            }
 
             refresh_state ();
         }
@@ -109,18 +96,19 @@ namespace ProtonPlus.Services {
 
         public string displayed_title {
             owned get {
-                if (mode != Mode.STEAM_TINKER_LAUNCH)
+                var context = steam_tinker_launch_context;
+                if (context == null)
                     return title;
-                if (stl_local_date != "")
-                    return "%s (%s)".printf (title, stl_local_date);
-                if (stl_latest_date != "")
-                    return "%s (%s)".printf (title, stl_latest_date);
+                if (context.local_date != "")
+                    return "%s (%s)".printf (title, context.local_date);
+                if (context.latest_date != "")
+                    return "%s (%s)".printf (title, context.latest_date);
                 return title;
             }
         }
 
         public string usage_name {
-            owned get { return mode == Mode.STEAM_TINKER_LAUNCH ? "Proton-stl" : title; }
+            owned get { return steam_tinker_launch_context != null ? "Proton-stl" : title; }
         }
 
         public string operation_id {
@@ -156,7 +144,7 @@ namespace ProtonPlus.Services {
         }
 
         public string get_usage_identifier () {
-            if (mode == Mode.STEAM_TINKER_LAUNCH)
+            if (steam_tinker_launch_context != null)
                 return usage_name;
             var basic_tool = tool as Models.Tools.Basic;
             if (basic_tool != null) {
@@ -212,8 +200,8 @@ namespace ProtonPlus.Services {
             return yield InstallationService.instance.remove (this, notify_removal);
         }
 
-        // Small overridable seams keep transaction characterization tests local
-        // without moving workflow ownership back into Release.
+        // Small overridable I/O seams keep transaction characterization tests
+        // local without making InstallJob own a filesystem transaction.
         public virtual async bool download_archive (string url, string path, out string? error_message) {
             return yield Utils.Web.download (url, path, operation_cancellable, report_progress, out error_message);
         }
@@ -261,85 +249,7 @@ namespace ProtonPlus.Services {
         public void refresh_state () {
             if (state == State.BUSY_INSTALLING || state == State.BUSY_REMOVING || state == State.BUSY_UPDATING)
                 return;
-
-            step = Step.NOTHING;
-            if (mode == Mode.STEAM_TINKER_LAUNCH) {
-                refresh_steam_tinker_launch_state ();
-                return;
-            }
-
-            var basic_tool = tool as Models.Tools.Basic;
-            var directory_valid = basic_tool != null && effective_directory_name (basic_tool) != "";
-            var installed = install_location != "" && FileUtils.test (install_location, FileTest.IS_DIR);
-            if (mode == Mode.LATEST && basic_tool != null) {
-                var backup = "%s%s/%s Latest Backup".printf (tool.group.launcher.directory, tool.group.directory, tool.title);
-                installed = installed || FileUtils.test (backup, FileTest.IS_DIR);
-            }
-            state = directory_valid && installed ? State.UP_TO_DATE : State.NOT_INSTALLED;
-        }
-
-        internal void refresh_steam_tinker_launch_state () {
-            var installed = FileUtils.test (stl_base_location, FileTest.IS_DIR)
-                && FileUtils.test (stl_binary_location, FileTest.IS_EXECUTABLE)
-                && FileUtils.test (stl_meta_location, FileTest.IS_REGULAR);
-            var updated = false;
-            stl_local_date = "";
-            stl_local_hash = "";
-
-            if (installed) {
-                var parts = Utils.Filesystem.get_file_content (stl_meta_location).strip ().split (":");
-                if (parts.length >= 2) {
-                    stl_local_date = parts[0];
-                    stl_local_hash = parts[1];
-                    if (stl_local_date == "" || stl_local_hash == "")
-                        stl_local_date = stl_local_hash = "";
-                }
-                if (stl_local_hash == "")
-                    installed = false;
-                else if (stl_latest_hash != "")
-                    updated = stl_latest_hash == stl_local_hash;
-            }
-            state = !installed ? State.NOT_INSTALLED : updated ? State.UP_TO_DATE : State.UPDATE_AVAILABLE;
-            step = Step.NOTHING;
-        }
-
-        public bool detect_external_steam_tinker_launch_locations () {
-            stl_external_locations = new List<string> ();
-            var location = "%s/SteamTinkerLaunch".printf (stl_home_location);
-            if (FileUtils.test (location, FileTest.IS_DIR))
-                stl_external_locations.append (location);
-            location = Environment.get_home_dir () + "/stl";
-            if (!Globals.IS_STEAM_OS && FileUtils.test (location, FileTest.IS_DIR))
-                stl_external_locations.append (location);
-            return stl_external_locations.length () > 0;
-        }
-
-        private void configure_steam_tinker_launch (string? home_override) {
-            stl_home_location = home_override ?? Environment.get_home_dir ();
-            stl_compat_location = tool.group.launcher.directory + tool.group.directory;
-            if (Globals.IS_STEAM_OS) {
-                stl_base_location = "%s/stl/prefix".printf (stl_home_location);
-                stl_manual_remove_location = "%s/stl".printf (stl_home_location);
-            } else {
-                stl_base_location = "%s/.local/share/steamtinkerlaunch".printf (stl_home_location);
-                stl_manual_remove_location = stl_base_location;
-            }
-            stl_binary_location = "%s/steamtinkerlaunch".printf (stl_base_location);
-            stl_meta_location = "%s/ProtonPlus.meta".printf (stl_base_location);
-            stl_link_parent_location = "%s/.local/bin".printf (stl_home_location);
-            stl_link_location = "%s/steamtinkerlaunch".printf (stl_link_parent_location);
-            stl_config_location = "%s/.config/steamtinkerlaunch".printf (stl_home_location);
-            install_location = stl_base_location;
-        }
-
-        private Models.Variant? selected_variant () {
-            if (selected_variant_name == null || selected_variant_name == "")
-                return null;
-            foreach (var variant in release.variants) {
-                if (variant.name == selected_variant_name)
-                    return variant;
-            }
-            return null;
+            InstallationService.instance.refresh_job_state (this);
         }
 
         internal string selected_variant_id () {
@@ -353,6 +263,21 @@ namespace ProtonPlus.Services {
             return "";
         }
 
+        internal string effective_directory_name_for_state () {
+            var basic_tool = tool as Models.Tools.Basic;
+            return basic_tool != null ? effective_directory_name (basic_tool) : "";
+        }
+
+        private Models.Variant? selected_variant () {
+            if (selected_variant_name == null || selected_variant_name == "")
+                return null;
+            foreach (var variant in release.variants) {
+                if (variant.name == selected_variant_name)
+                    return variant;
+            }
+            return null;
+        }
+
         private string effective_directory_name (Models.Tools.Basic basic_tool) {
             var name = basic_tool.get_directory_name (title);
             var selected = selected_variant ();
@@ -363,7 +288,7 @@ namespace ProtonPlus.Services {
         }
 
         private void update_install_location (string? override_location) {
-            if (mode == Mode.STEAM_TINKER_LAUNCH)
+            if (steam_tinker_launch_context != null)
                 return;
             if (override_location != null) {
                 install_location = override_location;

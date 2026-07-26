@@ -20,13 +20,14 @@ namespace AppTests.UpdateTransactionTest {
     private ReturnCode finalize_replacement (string runner_directory, string backup_directory, bool migrate_default_prefix) {
         var loop = new MainLoop ();
         ReturnCode result = ReturnCode.FILESYSTEM_ERROR;
+        var workflow = new ProtonPlus.Services.StandardArchiveWorkflow ();
 
-        ProtonPlus.Services.InstallationService.instance.finalize_replaced_runner.begin (
+        workflow.finalize_replaced_runner.begin (
             runner_directory,
             backup_directory,
             migrate_default_prefix,
             (obj, res) => {
-                result = ProtonPlus.Services.InstallationService.instance.finalize_replaced_runner.end (res);
+                result = workflow.finalize_replaced_runner.end (res);
                 loop.quit ();
             }
         );
