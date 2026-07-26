@@ -165,6 +165,20 @@ namespace AppTests.ProviderDefinitionTest {
         group.refresh_installed_state ();
         var tool = new ProtonPlus.Models.Tools.SteamTinkerLaunch (group);
         assert (tool.title == expected.get_string_member ("title"));
+        assert (tool.release_catalog != null);
+        var loop = new MainLoop ();
+        var releases = new Gee.LinkedList<Release> ();
+        ProtonPlus.ReturnCode code = ProtonPlus.ReturnCode.REQUEST_FAILED;
+        tool.release_catalog.load.begin (false, (obj, result) => {
+            releases = tool.release_catalog.load.end (result, out code);
+            loop.quit ();
+        });
+        loop.run ();
+        assert (code == ProtonPlus.ReturnCode.RELEASES_LOADED && releases.size == 1);
+        assert (releases[0].kind == Release.Kind.STEAM_TINKER_LAUNCH);
+
+        var simple = new ProtonPlus.Models.Tools.Simple ("Simple", "simple");
+        assert (simple.release_catalog == null);
 
         assert (DirUtils.remove (install_path) == 0);
         assert (FileUtils.remove (root) == 0);

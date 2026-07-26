@@ -75,10 +75,10 @@ namespace ProtonPlus.Services {
             if (job.mode != InstallJob.Mode.LATEST)
                 return ReturnCode.UNSUPPORTED_OPERATION;
             var runner = job.tool as Models.Tools.Basic;
-            if (runner == null)
+            if (runner == null || runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
             ReturnCode lookup_code;
-            var latest = yield runner.fetch_latest_eligible_release (out lookup_code);
+            var latest = yield runner.release_catalog.fetch_latest_eligible_release (out lookup_code);
             if (lookup_code != ReturnCode.RELEASES_LOADED)
                 return lookup_code;
             if (latest == null)
@@ -132,7 +132,9 @@ namespace ProtonPlus.Services {
                 return ReturnCode.RUNNER_NOT_INSTALLED;
             var metadata = Utils.Metadata.load (directory);
             ReturnCode lookup_code;
-            var release = yield runner.fetch_latest_eligible_release (out lookup_code);
+            if (runner.release_catalog == null)
+                return ReturnCode.INVALID_CONFIGURATION;
+            var release = yield runner.release_catalog.fetch_latest_eligible_release (out lookup_code);
             if (lookup_code != ReturnCode.RELEASES_LOADED) {
                 if (!runner.is_github_actions_source && metadata.tag != "" && is_request_failure (lookup_code))
                     return ReturnCode.NOTHING_TO_UPDATE;

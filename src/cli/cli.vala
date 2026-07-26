@@ -211,8 +211,11 @@ namespace ProtonPlus.CLI {
         }
 
         private async int install_latest (Models.Tools.Basic basic_runner) {
+            var catalog = basic_runner.release_catalog;
+            if (catalog == null)
+                return 1;
             ReturnCode code;
-            var latest_release = yield basic_runner.fetch_latest_eligible_release (out code);
+            var latest_release = yield catalog.fetch_latest_eligible_release (out code);
             if (code != ReturnCode.RELEASES_LOADED) {
                 Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (code));
                 return 1;
@@ -236,23 +239,26 @@ namespace ProtonPlus.CLI {
         }
 
         private async int install_interactive (Models.Tools.Basic basic_runner) {
+            var catalog = basic_runner.release_catalog;
+            if (catalog == null)
+                return 1;
             var code = yield load_runner_releases (basic_runner);
-            if (code != ReturnCode.RELEASES_LOADED || basic_runner.releases.size == 0) {
+            if (code != ReturnCode.RELEASES_LOADED || catalog.releases.size == 0) {
                 return 1;
             }
 
             Output.header (_ ("Available releases for %s:\n"), basic_runner.title);
-            for (var i = 0; i < basic_runner.releases.size; i++) {
-                var release = basic_runner.releases[i] as Models.Release;
+            for (var i = 0; i < catalog.releases.size; i++) {
+                var release = catalog.releases[i] as Models.Release;
                 Output.info ("%d. %s (%s)\n", i + 1, release.title, release.release_date);
             }
 
-            var index = read_user_selection (_ ("Select release number"), (int) basic_runner.releases.size);
+            var index = read_user_selection (_ ("Select release number"), (int) catalog.releases.size);
             if (index < 0) {
                 return 1;
             }
 
-            var selected = basic_runner.releases[index] as Models.Release;
+            var selected = catalog.releases[index] as Models.Release;
             Output.info (_ ("Installing %s...\n"), selected.title);
             var job = new Services.InstallJob (selected, basic_runner);
             code = yield job.install ();
@@ -445,8 +451,11 @@ namespace ProtonPlus.CLI {
         }
 
         private async ReturnCode load_runner_releases (Models.Tools.Basic basic_runner) {
+            var catalog = basic_runner.release_catalog;
+            if (catalog == null)
+                return ReturnCode.INVALID_CONFIGURATION;
             ReturnCode code;
-            var releases = yield basic_runner.get_releases_async (false, out code);
+            var releases = yield catalog.load (false, out code);
             if (code != ReturnCode.RELEASES_LOADED)
                 Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (code));
             else if (releases.size == 0)

@@ -253,9 +253,10 @@ namespace ProtonPlus.Models {
         }
 
         private bool legacy_tag_matches_tool (string tag, Tools.Basic tool) {
-            if (tag == "" || tool.releases == null)
+            var catalog = tool.release_catalog;
+            if (tag == "" || catalog == null)
                 return false;
-            foreach (var release in tool.releases) {
+            foreach (var release in catalog.releases) {
                 if (tag == release.title || tag == release.source_tag)
                     return true;
             }
@@ -293,10 +294,11 @@ namespace ProtonPlus.Models {
                 return false;
             if (identifier == tool.title || identifier == "%s Latest".printf (tool.title))
                 return true;
-            if (tool.releases == null || tool.releases.size == 0)
+            var catalog = tool.release_catalog;
+            if (catalog == null || catalog.releases.size == 0)
                 return false;
 
-            foreach (var release in tool.releases) {
+            foreach (var release in catalog.releases) {
                 var directory_name = tool.get_directory_name (release.title);
                 if (identifier == directory_name)
                     return true;

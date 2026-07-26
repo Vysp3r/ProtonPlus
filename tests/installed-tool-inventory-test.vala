@@ -116,7 +116,8 @@ namespace AppTests.InstalledToolInventoryTest {
         var launcher = new InventoryLauncher (root);
         var value = group (launcher);
         var tool = add_tool (value, definition ("tag-tool", "Tag Tool"));
-        tool.releases.add (release ("release-name", "legacy-tag"));
+        assert (tool.release_catalog != null);
+        tool.release_catalog.releases.add (release ("release-name", "legacy-tag"));
 
         var tagged = Path.build_filename (root, "old-installation");
         assert (ProtonPlus.Utils.Filesystem.create_directory (tagged));
@@ -209,7 +210,8 @@ namespace AppTests.InstalledToolInventoryTest {
         assert (ProtonPlus.Utils.Filesystem.create_directory (Path.build_filename (root, "v1-Arm_64")));
         value.refresh_installed_state ();
         assert (!tool.is_installed ());
-        tool.releases.add (release ("v1"));
+        assert (tool.release_catalog != null);
+        tool.release_catalog.releases.add (release ("v1"));
         value.refresh_installed_state ();
         assert (tool.is_installed ());
 

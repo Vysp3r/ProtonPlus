@@ -71,10 +71,5 @@ namespace ProtonPlus.Models.Tools {
                 }
             }
         }
-
-        public async override Gee.LinkedList<Release> load_more (out ProtonPlus.ReturnCode code) {
-            code = ReturnCode.UNSUPPORTED_OPERATION;
-            return new Gee.LinkedList<Release> ();
-        }
     }
 }

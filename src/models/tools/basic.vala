@@ -1,15 +1,14 @@
 namespace ProtonPlus.Models.Tools {
     public class Basic : Tool {
-        // The catalog tool owns its immutable definition and source adapter;
-        // neither adapter calls back into this tool during normalization.
+        // Basic owns tool identity, local variant configuration, and naming;
+        // ReleaseCatalog owns all remote browsing state and source access.
         private ProtonPlus.Models.Providers.ProviderDefinition? definition;
-        private ProtonPlus.Providers.Sources.ReleaseSource? release_source;
         internal string endpoint { get; set; }
         internal string directory_name_format { get; set; }
         public string tag { get; set; }
         public bool is_github_actions_source { get; private set; default = false; }
 
-        public const int RELEASE_PAGE_SIZE = 25;
+        public const int RELEASE_PAGE_SIZE = ReleaseCatalog.RELEASE_PAGE_SIZE;
 
         protected Basic (Group group) {
             Object (group: group);
@@ -23,7 +22,6 @@ namespace ProtonPlus.Models.Tools {
         ) {
             Object (group: group);
             this.definition = definition;
-            this.release_source = release_source;
             this.endpoint = definition.endpoint;
             this.directory_name_format = directory_name_format;
             this.title = definition.title;
@@ -34,6 +32,7 @@ namespace ProtonPlus.Models.Tools {
             this.is_github_actions_source =
                 definition.source_type == ProtonPlus.Models.Providers.SourceType.GITHUB_ACTIONS;
             this.set_identity (definition.provider_id, definition.source_id);
+            this.initialize_release_catalog (new ReleaseCatalog (id, title, definition, release_source));
 
             this.variants = new Gee.LinkedList<Variant> ();
             foreach (var configured_variant in definition.get_variants ()) {
@@ -44,51 +43,6 @@ namespace ProtonPlus.Models.Tools {
                     configured_variant.is_default,
                     null
                 ));
-            }
-        }
-
-        // Normalizes one provider browse operation without changing this
-        // tool's pagination state.  Source adapters may consume more than one
-        // upstream response when their provider requires it.
-        public async ReleasePage? fetch_release_page (int requested_page, out ReturnCode code) {
-            if (definition == null || release_source == null) {
-                code = ReturnCode.INVALID_CONFIGURATION;
-                return null;
-            }
-
-            return yield release_source.fetch_page (definition, requested_page, RELEASE_PAGE_SIZE, out code);
-        }
-
-        // Retains the stateful browse contract used by the UI.  Callers that
-        // need discovery without changing browse state should use
-        // fetch_release_page() or fetch_latest_eligible_release().
-        public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
-            var release_page = yield fetch_release_page (page, out code);
-            if (code != ReturnCode.RELEASES_LOADED || release_page == null)
-                return new Gee.LinkedList<Release> ();
-
-            page = release_page.next_page;
-            has_more = release_page.has_more;
-            return release_page.releases;
-        }
-
-        // Finds the first eligible normalized release from the beginning of
-        // the source without affecting the state used for browsing.
-        public async Release? fetch_latest_eligible_release (out ReturnCode code) {
-            var requested_page = 1;
-
-            while (true) {
-                var release_page = yield fetch_release_page (requested_page, out code);
-                if (code != ReturnCode.RELEASES_LOADED || release_page == null)
-                    return null;
-
-                if (release_page.releases.size > 0)
-                    return release_page.releases.get (0);
-
-                if (!release_page.has_more)
-                    return null;
-
-                requested_page = release_page.next_page;
             }
         }
 

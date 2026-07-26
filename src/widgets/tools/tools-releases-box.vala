@@ -270,8 +270,14 @@ namespace ProtonPlus.Widgets.Tools {
             update_last_updated_label ();
             update_variant_row (tool);
 
+            var catalog = tool.release_catalog;
+            if (catalog == null) {
+                content_stack.set_visible_child_name ("empty");
+                return;
+            }
+
             ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (false, out code);
+            Gee.LinkedList<Models.Release> releases = yield catalog.load (false, out code);
 
             if (!is_current_tool_request (tool, request_generation))
                 return;
@@ -297,7 +303,7 @@ namespace ProtonPlus.Widgets.Tools {
             add_release_rows (tool, releases);
 
             list_box.append (load_more_row);
-            load_more_row.visible = tool.has_more;
+            load_more_row.visible = catalog.has_more;
 
             content_stack.set_visible_child_name ("list");
             apply_selected_variant_to_rows ();
@@ -322,8 +328,14 @@ namespace ProtonPlus.Widgets.Tools {
             title_label.set_label (tool.title);
             desc_label.set_label (tool.description);
 
+            var catalog = tool.release_catalog;
+            if (catalog == null) {
+                content_stack.set_visible_child_name ("empty");
+                return;
+            }
+
             ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (true, out code);
+            Gee.LinkedList<Models.Release> releases = yield catalog.refresh (out code);
 
             if (!is_current_tool_request (tool, request_generation))
                 return;
@@ -346,7 +358,7 @@ namespace ProtonPlus.Widgets.Tools {
             add_release_rows (tool, releases);
 
             list_box.append (load_more_row);
-            load_more_row.visible = tool.has_more;
+            load_more_row.visible = catalog.has_more;
 
             content_stack.set_visible_child_name ("list");
             apply_selected_variant_to_rows ();
@@ -482,12 +494,13 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private void update_last_updated_label () {
-            if (current_tool == null || current_tool.last_updated == null || current_tool.last_updated == "") {
+            if (current_tool == null || current_tool.release_catalog == null ||
+                current_tool.release_catalog.last_updated == "") {
                 last_updated_label.set_label ("");
                 return;
             }
 
-            var date = new DateTime.from_iso8601 (current_tool.last_updated, null);
+            var date = new DateTime.from_iso8601 (current_tool.release_catalog.last_updated, null);
             if (date != null) {
                 last_updated_label.set_label (_("Last updated: %s").printf (date.format ("%Y-%m-%d %H:%M")));
             } else {
@@ -629,25 +642,28 @@ namespace ProtonPlus.Widgets.Tools {
             uint request_generation = tool_request_generation;
             load_more_button.sensitive = false;
 
+            var catalog = tool.release_catalog;
+            if (catalog == null) {
+                load_more_button.sensitive = true;
+                return;
+            }
+
             ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield tool.load_more (out code);
+            Gee.LinkedList<Models.Release> releases = yield catalog.load_more (out code);
 
             if (!is_current_tool_request (tool, request_generation))
                 return;
 
             if (code == ReturnCode.RELEASES_LOADED) {
                 foreach (var release in releases) {
-                    tool.releases.add (release);
                     add_release_row (release, Services.InstallJob.Mode.VERSIONED);
                 }
                 tool.group.refresh_installed_state ();
                 list_box.remove (load_more_row);
                 list_box.append (load_more_row);
-
-                Utils.CacheManager.save_releases.begin (tool);
             }
 
-            load_more_row.visible = tool.has_more;
+            load_more_row.visible = catalog.has_more;
             load_more_button.sensitive = true;
             update_visibility ();
         }

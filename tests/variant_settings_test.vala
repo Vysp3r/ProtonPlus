@@ -51,10 +51,6 @@ namespace AppTests.VariantSettingsTest {
         assert (definition != null);
         var tool = ProviderCatalog.create_tool ((!) definition, group);
         assert (tool != null);
-        tool.releases.add (new Release (
-            "Fixture release", "", "", new ProtonPlus.Models.Assets.Asset ("fixture.zip", "https://fixtures.invalid/fixture.zip"),
-            "", 0, "fixture", "fixture"
-        ));
         return tool;
     }
 

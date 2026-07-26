@@ -5,12 +5,8 @@ namespace ProtonPlus.Models.Tools {
                     title: "Steam Tinker Launch",
                     description: _ (
                         "Steam tool for easy, graphical configuration of your other compatibility tools for both Windows games and native Linux games."
-                    ));
+            ));
             set_identity ("steam-tinker-launch", "github");
-        }
-
-        public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
-            code = ReturnCode.RELEASES_LOADED;
 
             // Remote commit lookup is performed explicitly by the installation
             // service for the target-bound job, never from a Release constructor.
@@ -25,11 +21,7 @@ namespace ProtonPlus.Models.Tools {
                 "steam-tinker-launch",
                 Release.Kind.STEAM_TINKER_LAUNCH
             );
-
-            var _releases = new Gee.LinkedList<Release> ();
-            _releases.add (release);
-
-            return _releases;
+            initialize_release_catalog (new ReleaseCatalog.with_static_release (release));
         }
 
     }

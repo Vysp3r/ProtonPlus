@@ -4,6 +4,8 @@ sources += files(
     'steam-profile.vala',
     'launcher.vala',
     'release.vala',
+    'release-catalog-cache.vala',
+    'release-catalog.vala',
     'tool.vala',
     'game.vala',
     'variant.vala',
