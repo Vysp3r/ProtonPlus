@@ -3,7 +3,9 @@ test_sources = files(
     'filesystem_test.vala',
     'metadata_test.vala',
     'parser_test.vala',
+    'provider_definition_test.vala',
     'provider_source_test.vala',
+    'install_layout_test.vala',
     'steam_test.vala',
     'vdf_binary_test.vala',
 )
