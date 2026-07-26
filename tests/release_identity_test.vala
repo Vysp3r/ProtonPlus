@@ -209,17 +209,10 @@ namespace AppTests.ReleaseIdentityTest {
         var previous_cache_path = Globals.CACHE_PATH;
         Globals.CACHE_PATH = root;
 
-        var tool = new Tools.GitHub ();
-        tool.title = "Fixture provider";
-        var launcher = new Launcher ("Fixture launcher", Launcher.InstallationTypes.SYSTEM, "", {}, "fixture");
-        launcher.directory = root;
-        tool.group = new Group (
-            "Fixture group",
-            "",
-            "",
-            launcher,
-            "fixture"
+        var source_releases = new ProtonPlus.Models.Internal.Requests.Github.Releases.from_json (
+            get_releases_array ("github")
         );
+        var tool = create_tool (SourceType.GITHUB, source_releases, root);
         tool.releases.add (new Release.github (
             tool,
             "v1.2.3",
@@ -243,9 +236,24 @@ namespace AppTests.ReleaseIdentityTest {
         ));
 
         save_releases (tool);
+        var cache_file = Path.build_filename (root, "fixture-system_fixture_fixture-provider.json");
+        var legacy_cache_file = Path.build_filename (root, "Fixture_provider.json");
+        assert (FileUtils.test (cache_file, FileTest.IS_REGULAR));
+
+        var cache_content = ProtonPlus.Utils.Filesystem.get_file_content (cache_file);
+        assert (ProtonPlus.Utils.Filesystem.modify_file (legacy_cache_file, cache_content));
+        save_releases (tool);
+        assert (!FileUtils.test (legacy_cache_file, FileTest.EXISTS));
+
+        cache_content = ProtonPlus.Utils.Filesystem.get_file_content (cache_file);
+        assert (ProtonPlus.Utils.Filesystem.modify_file (legacy_cache_file, cache_content));
+        assert (FileUtils.remove (cache_file) == 0);
+
         tool.releases.clear ();
         load_releases (tool);
 
+        assert (FileUtils.test (cache_file, FileTest.IS_REGULAR));
+        assert (!FileUtils.test (legacy_cache_file, FileTest.EXISTS));
         assert (tool.releases.size == 3);
         var latest = tool.releases[0] as Releases.Latest;
         assert (latest != null);

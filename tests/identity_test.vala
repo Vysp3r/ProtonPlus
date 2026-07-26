@@ -9,6 +9,7 @@ namespace AppTests.IdentityTest {
         Test.add_func ("/identity/variants/nonempty-and-unique-per-provider", test_variant_ids_are_nonempty_and_unique_per_provider);
         Test.add_func ("/identity/tools/deterministic-and-scoped", test_tool_ids_are_deterministic_and_scoped);
         Test.add_func ("/identity/titles/do-not-change-ids", test_titles_do_not_change_ids);
+        Test.add_func ("/identity/cli/stable-and-legacy-aliases", test_cli_stable_and_legacy_aliases);
     }
 
     private Gee.ArrayList<IRunner> get_all_runners () {
@@ -178,5 +179,28 @@ namespace AppTests.IdentityTest {
         tool.title = "Another translated title";
         assert (tool.id == tool_id);
         assert (tool.provider_id == provider_id);
+    }
+
+    private void test_cli_stable_and_legacy_aliases () {
+        var launcher = create_launcher ("heroic", Launcher.InstallationTypes.SYSTEM);
+        launcher.title = "Heroic Games Launcher";
+        assert (ProtonPlus.CLI.Handler.get_launcher_id (launcher) == "heroic-system");
+        assert (ProtonPlus.CLI.Handler.matches_launcher_id (launcher, "heroic-system"));
+        assert (ProtonPlus.CLI.Handler.matches_launcher_id (launcher, "heroic-games-launcher-system"));
+
+        IRunner? doitsujin = null;
+        foreach (var runner in get_all_runners ()) {
+            if (runner.provider_id == "dxvk-doitsujin") {
+                doitsujin = runner;
+                break;
+            }
+        }
+        assert (doitsujin != null);
+
+        var tool = doitsujin.create_tool (create_group (launcher, "dxvk"));
+        assert (tool != null);
+        assert (ProtonPlus.CLI.Handler.get_runner_id (tool) == "dxvk-doitsujin");
+        assert (ProtonPlus.CLI.Handler.matches_runner_id (tool, "dxvk-doitsujin"));
+        assert (ProtonPlus.CLI.Handler.matches_runner_id (tool, "dxvk-(doitsujin)"));
     }
 }

@@ -51,13 +51,22 @@ namespace ProtonPlus.Utils {
             generator.set_root (root_node);
 
             var json = generator.to_data (null);
-            Utils.Filesystem.modify_file (cache_file, json);
+            if (Utils.Filesystem.modify_file (cache_file, json))
+                Utils.Filesystem.delete_file (get_legacy_cache_file (tool));
         }
 
         public static async void load_releases (Models.Tool tool) {
             var cache_file = get_cache_file (tool);
-            if (!FileUtils.test (cache_file, FileTest.EXISTS))
-                return;
+            var legacy_cache_file = get_legacy_cache_file (tool);
+            var loading_legacy_cache = false;
+
+            if (!FileUtils.test (cache_file, FileTest.EXISTS)) {
+                if (!FileUtils.test (legacy_cache_file, FileTest.EXISTS))
+                    return;
+
+                cache_file = legacy_cache_file;
+                loading_legacy_cache = true;
+            }
 
             if (tool.releases == null)
                 tool.releases = new Gee.LinkedList<Models.Release> ();
@@ -69,6 +78,13 @@ namespace ProtonPlus.Utils {
             var root_node = Utils.Parser.get_node_from_json (json);
             if (root_node == null || root_node.get_node_type () != Json.NodeType.OBJECT)
                 return;
+
+            if (loading_legacy_cache) {
+                if (Utils.Filesystem.modify_file (get_cache_file (tool), json))
+                    Utils.Filesystem.delete_file (legacy_cache_file);
+            } else if (FileUtils.test (legacy_cache_file, FileTest.EXISTS)) {
+                Utils.Filesystem.delete_file (legacy_cache_file);
+            }
 
             var root_obj = root_node.get_object ();
             if (root_obj.has_member ("last_updated"))
@@ -126,10 +142,13 @@ namespace ProtonPlus.Utils {
         }
 
         private static string get_cache_file (Models.Tool tool) {
-            string id = tool.title;
-            // Simple hash or just replace special chars
-            var safe_id = id.replace (":", "_").replace ("/", "_").replace (".", "_").replace (" ", "_");
+            var safe_id = tool.id.replace ("/", "_");
             return Path.build_filename (Globals.CACHE_PATH, safe_id + ".json");
+        }
+
+        private static string get_legacy_cache_file (Models.Tool tool) {
+            var safe_title = tool.title.replace (":", "_").replace ("/", "_").replace (".", "_").replace (" ", "_");
+            return Path.build_filename (Globals.CACHE_PATH, safe_title + ".json");
         }
 
         public static async bool clear_cache () {

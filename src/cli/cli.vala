@@ -454,7 +454,7 @@ namespace ProtonPlus.CLI {
 
         private Models.Launcher? find_launcher (string launcher_id) {
             foreach (var launcher in launchers) {
-                if (get_launcher_id (launcher) == launcher_id) {
+                if (matches_launcher_id (launcher, launcher_id)) {
                     return launcher;
                 }
             }
@@ -466,7 +466,7 @@ namespace ProtonPlus.CLI {
         private Models.Tool? find_runner (Models.Launcher launcher, string runner_id) {
             foreach (var group in launcher.groups) {
                 foreach (var runner in group.tools) {
-                    if (get_runner_id (runner) == runner_id) {
+                    if (matches_runner_id (runner, runner_id)) {
                         return runner;
                     }
                 }
@@ -488,11 +488,27 @@ namespace ProtonPlus.CLI {
             return installed;
         }
 
-        private string get_launcher_id (Models.Launcher launcher) {
+        public static string get_launcher_id (Models.Launcher launcher) {
+            return launcher.instance_id;
+        }
+
+        public static string get_runner_id (Models.Tool runner) {
+            return runner.provider_id;
+        }
+
+        public static bool matches_launcher_id (Models.Launcher launcher, string launcher_id) {
+            return get_launcher_id (launcher) == launcher_id || get_legacy_launcher_id (launcher) == launcher_id;
+        }
+
+        public static bool matches_runner_id (Models.Tool runner, string runner_id) {
+            return get_runner_id (runner) == runner_id || get_legacy_runner_id (runner) == runner_id;
+        }
+
+        private static string get_legacy_launcher_id (Models.Launcher launcher) {
             return "%s-%s".printf (launcher.title.down ().replace (" ", "-"), launcher.get_installation_type_title ().down ());
         }
 
-        private string get_runner_id (Models.Tool runner) {
+        private static string get_legacy_runner_id (Models.Tool runner) {
             return runner.title.down ().replace (" ", "-");
         }
 

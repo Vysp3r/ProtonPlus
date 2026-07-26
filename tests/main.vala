@@ -10,6 +10,7 @@ int main (string[] args) {
     AppTests.ProviderSourceTest.register_tests ();
     AppTests.IdentityTest.register_tests ();
     AppTests.ReleaseIdentityTest.register_tests ();
+    AppTests.VariantSettingsTest.register_tests ();
     AppTests.InstallLayoutTest.register_tests ();
     AppTests.InstallerTransactionTest.register_tests ();
     AppTests.SteamTest.register_tests ();

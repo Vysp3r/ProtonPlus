@@ -44,7 +44,11 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
-        private string get_tool_variant_settings_key (Models.Tool tool) {
+        private static string get_tool_variant_settings_key (Models.Tool tool) {
+            return tool.id;
+        }
+
+        private static string get_legacy_tool_variant_settings_key (Models.Tool tool) {
             return "%s::%s::%s".printf (tool.group.launcher.title, tool.group.title, tool.title);
         }
 
@@ -52,7 +56,10 @@ namespace ProtonPlus.Widgets.Tools {
             if (Globals.SETTINGS == null)
                 return "";
 
-            var raw = Globals.SETTINGS.get_string ("selected-tool-variants");
+            return get_saved_variant_name_from_json (Globals.SETTINGS.get_string ("selected-tool-variants"), tool);
+        }
+
+        public static string get_saved_variant_name_from_json (string raw, Models.Tool tool) {
             if (raw == "")
                 return "";
 
@@ -61,16 +68,27 @@ namespace ProtonPlus.Widgets.Tools {
                 return "";
 
             var root_obj = root_node.get_object ();
-            return root_obj.get_string_member_with_default (get_tool_variant_settings_key (tool), "");
+            var saved_variant_name = root_obj.get_string_member_with_default (get_tool_variant_settings_key (tool), "");
+            if (saved_variant_name != "")
+                return saved_variant_name;
+
+            return root_obj.get_string_member_with_default (get_legacy_tool_variant_settings_key (tool), "");
         }
 
         private void save_selected_variant_name (Models.Tool tool, string variant_name) {
             if (Globals.SETTINGS == null)
                 return;
 
-            Json.Object root_obj;
+            Globals.SETTINGS.set_string (
+                "selected-tool-variants",
+                get_json_with_saved_variant_name (
+                    Globals.SETTINGS.get_string ("selected-tool-variants"), tool, variant_name
+                )
+            );
+        }
 
-            var raw = Globals.SETTINGS.get_string ("selected-tool-variants");
+        public static string get_json_with_saved_variant_name (string raw, Models.Tool tool, string variant_name) {
+            Json.Object root_obj;
             var root_node = Utils.Parser.get_node_from_json (raw);
             if (root_node != null && root_node.get_node_type () == Json.NodeType.OBJECT) {
                 root_obj = root_node.get_object ();
@@ -85,7 +103,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             var generator = new Json.Generator ();
             generator.set_root (node);
-            Globals.SETTINGS.set_string ("selected-tool-variants", generator.to_data (null));
+            return generator.to_data (null);
         }
 
         public ReleasesBox () {
