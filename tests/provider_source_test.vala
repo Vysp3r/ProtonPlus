@@ -34,7 +34,7 @@ namespace AppTests.ProviderSourceTest {
             "https://example.test/releases",
             1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { new DirectoryNameFormat ("default", "$release_name") },
+            { InstallLayout.template ("default", "$release_name") },
             null,
             null,
             "",
@@ -113,7 +113,7 @@ namespace AppTests.ProviderSourceTest {
         var filtered = new ProviderDefinition (
             Category.WINE, SourceType.GITHUB, "filtered", "Filtered", "", "https://example.test/releases", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { new DirectoryNameFormat ("default", "$release_name") },
+            { InstallLayout.template ("default", "$release_name") },
             { "proton" }
         );
         var filtered_result = new GitHubReleaseSource ().parse_response (filtered, fixture ("github", "release.json"), 1, 25);
@@ -122,7 +122,7 @@ namespace AppTests.ProviderSourceTest {
         var excluded = new ProviderDefinition (
             Category.WINE, SourceType.GITHUB, "excluded", "Excluded", "", "https://example.test/releases", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { new DirectoryNameFormat ("default", "$release_name") },
+            { InstallLayout.template ("default", "$release_name") },
             null, { "GE-Proton" }
         );
         var excluded_result = new GitHubReleaseSource ().parse_response (excluded, fixture ("github", "release.json"), 1, 25);

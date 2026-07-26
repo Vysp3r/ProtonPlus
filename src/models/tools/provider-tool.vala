@@ -6,7 +6,7 @@ namespace ProtonPlus.Models.Tools {
         public string endpoint {
             owned get { return definition.endpoint; }
         }
-        internal string directory_name_format { get; set; }
+        internal ProtonPlus.Models.Providers.InstallLayout install_layout { get; private set; }
         public string tag {
             owned get { return definition.tag; }
         }
@@ -18,10 +18,10 @@ namespace ProtonPlus.Models.Tools {
             ProtonPlus.Models.Providers.ProviderDefinition definition,
             ProtonPlus.Providers.Sources.ReleaseSource release_source,
             Group group,
-            string directory_name_format
+            ProtonPlus.Models.Providers.InstallLayout install_layout
         ) {
             Object (group: group, definition: definition);
-            this.directory_name_format = directory_name_format;
+            this.install_layout = install_layout;
             this.title = definition.title;
             this.description = Utils.safe_translate (definition.description);
             this.legacy = definition.legacy;
@@ -44,31 +44,7 @@ namespace ProtonPlus.Models.Tools {
             if (release_name.contains ("Latest"))
                 return release_name;
 
-            var directory_name = new StringBuilder (directory_name_format);
-
-            directory_name.replace ("$release_name", release_name);
-            directory_name.replace ("$title", title);
-
-            if (directory_name.len > 0 && directory_name.str[0] == '_') {
-                directory_name.replace ("_", "", 1);
-                directory_name.str = directory_name.str.ascii_down ();
-            }
-
-            if (directory_name.len > 0 && directory_name.str[0] == '!') {
-                directory_name.replace ("!", "", 1);
-                var split = directory_name.str.split (":");
-                if (split.length >= 3)
-                    directory_name.str = split[0].replace (split[1], split[2]);
-            }
-
-            if (directory_name.len > 0 && directory_name.str[0] == '&') {
-                directory_name.replace ("&", "", 1);
-                var split = directory_name.str.split (":");
-                if (split.length >= 4)
-                    directory_name.str = split[0].contains (split[1]) ? split[2] : split[3];
-            }
-
-            return directory_name.str;
+            return install_layout.render (title, release_name);
         }
 
     }

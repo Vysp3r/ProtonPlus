@@ -98,7 +98,7 @@ namespace AppTests.ReleasePageTest {
         return new ProviderDefinition (
             Category.PROTON, source_type, "fixture-provider", "Fixture provider", "",
             "https://example.test/releases", 1, variants,
-            { new DirectoryNameFormat ("default", "$release_name") },
+            { InstallLayout.template ("default", "$release_name") },
             null, null, "", false,
             source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture-action.zip" : ""
         );

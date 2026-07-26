@@ -31,13 +31,140 @@ namespace ProtonPlus.Models.Providers {
         }
     }
 
-    public class DirectoryNameFormat : Object {
-        public string launcher_family_id { get; private set; }
-        public string format { get; private set; }
+    private enum InstallLayoutKind {
+        TEMPLATE,
+        LOWERCASE,
+        REPLACE,
+        CONDITIONAL,
+    }
 
-        public DirectoryNameFormat (string launcher_family_id, string format) {
+    // This is deliberately a small closed value object rather than a rule
+    // hierarchy. Provider definitions are static configuration, so controlled
+    // construction makes incomplete layout rules impossible in normal use.
+    public class InstallLayout : Object {
+        public string launcher_family_id { get; private set; }
+        private InstallLayoutKind kind;
+        private string layout_template;
+        private string search;
+        private string replacement;
+        private string marker;
+        private string true_template;
+        private string false_template;
+
+        private InstallLayout (
+            string launcher_family_id,
+            InstallLayoutKind kind,
+            string template,
+            string search,
+            string replacement,
+            string marker,
+            string true_template,
+            string false_template
+        ) {
+            assert (launcher_family_id != "");
+
+            switch (kind) {
+            case InstallLayoutKind.TEMPLATE:
+            case InstallLayoutKind.LOWERCASE:
+                assert (template != "");
+                break;
+            case InstallLayoutKind.REPLACE:
+                assert (template != "");
+                assert (search != "");
+                assert (replacement != "");
+                break;
+            case InstallLayoutKind.CONDITIONAL:
+                assert (marker != "");
+                assert (true_template != "");
+                assert (false_template != "");
+                break;
+            default:
+                assert_not_reached ();
+            }
+
             this.launcher_family_id = launcher_family_id;
-            this.format = format;
+            this.kind = kind;
+            this.layout_template = template;
+            this.search = search;
+            this.replacement = replacement;
+            this.marker = marker;
+            this.true_template = true_template;
+            this.false_template = false_template;
+        }
+
+        public static InstallLayout template (string launcher_family_id, string template) {
+            return new InstallLayout (
+                launcher_family_id, InstallLayoutKind.TEMPLATE, template, "", "", "", "", ""
+            );
+        }
+
+        public static InstallLayout lowercase (string launcher_family_id, string template) {
+            return new InstallLayout (
+                launcher_family_id, InstallLayoutKind.LOWERCASE, template, "", "", "", "", ""
+            );
+        }
+
+        public static InstallLayout replace (
+            string launcher_family_id,
+            string template,
+            string search,
+            string replacement
+        ) {
+            return new InstallLayout (
+                launcher_family_id, InstallLayoutKind.REPLACE, template, search, replacement, "", "", ""
+            );
+        }
+
+        public static InstallLayout conditional (
+            string launcher_family_id,
+            string marker,
+            string true_template,
+            string false_template
+        ) {
+            return new InstallLayout (
+                launcher_family_id, InstallLayoutKind.CONDITIONAL, "", "", "", marker, true_template, false_template
+            );
+        }
+
+        internal InstallLayout copy () {
+            return new InstallLayout (
+                launcher_family_id, kind, layout_template, search, replacement, marker, true_template, false_template
+            );
+        }
+
+        public string render (string title, string release_name) {
+            switch (kind) {
+            case InstallLayoutKind.TEMPLATE:
+                return ProviderTemplate.render (layout_template, title, release_name);
+            case InstallLayoutKind.LOWERCASE:
+                return ProviderTemplate.render (layout_template, title, release_name).ascii_down ();
+            case InstallLayoutKind.REPLACE:
+                return ProviderTemplate.render (layout_template, title, release_name).replace (search, replacement);
+            case InstallLayoutKind.CONDITIONAL:
+                var selected_template = release_name.contains (marker) ? true_template : false_template;
+                return ProviderTemplate.render (selected_template, title, release_name);
+            default:
+                assert_not_reached ();
+            }
+        }
+    }
+
+    // Provider strings intentionally only substitute the fixed placeholders
+    // used by provider definitions. This is shared by layout and asset names,
+    // not a general-purpose template engine.
+    public class ProviderTemplate : Object {
+        public static string render (
+            string template,
+            string title,
+            string release_name,
+            string? tag_name = null
+        ) {
+            var rendered = template.replace ("$title", title)
+                                   .replace ("$release_name", release_name);
+            if (tag_name == null)
+                return rendered;
+
+            return rendered.replace ("$tag_name", tag_name);
         }
     }
 
@@ -54,7 +181,7 @@ namespace ProtonPlus.Models.Providers {
         public bool legacy { get; private set; }
         public string tag { get; private set; }
         private VariantDefinition[] variants;
-        private DirectoryNameFormat[] directory_name_formats;
+        private InstallLayout[] install_layouts;
         // These historically filter release titles, despite their older asset
         // names.  Keep the configuration and matching semantics unchanged.
         public string[] asset_filters { get; private set; }
@@ -74,7 +201,7 @@ namespace ProtonPlus.Models.Providers {
             string endpoint,
             int sort_priority,
             VariantDefinition[] variants,
-            DirectoryNameFormat[] directory_name_formats,
+            InstallLayout[] install_layouts,
             string[]? asset_filters = null,
             string[]? asset_exclusions = null,
             string tag = "",
@@ -89,7 +216,7 @@ namespace ProtonPlus.Models.Providers {
             this.endpoint = endpoint;
             this.sort_priority = sort_priority;
             this.variants = copy_variants (variants);
-            this.directory_name_formats = copy_directory_name_formats (directory_name_formats);
+            this.install_layouts = copy_install_layouts (install_layouts);
             this.asset_filters = copy_strings (asset_filters);
             this.asset_exclusions = copy_strings (asset_exclusions);
             this.tag = tag;
@@ -106,11 +233,11 @@ namespace ProtonPlus.Models.Providers {
             return copied;
         }
 
-        private static DirectoryNameFormat[] copy_directory_name_formats (DirectoryNameFormat[] values) {
-            var copied = new DirectoryNameFormat[values.length];
+        private static InstallLayout[] copy_install_layouts (InstallLayout[] values) {
+            var copied = new InstallLayout[values.length];
             for (var index = 0; index < values.length; index++) {
                 var value = values[index];
-                copied[index] = new DirectoryNameFormat (value.launcher_family_id, value.format);
+                copied[index] = value.copy ();
             }
             return copied;
         }
@@ -129,8 +256,22 @@ namespace ProtonPlus.Models.Providers {
             return copy_variants (variants);
         }
 
-        public DirectoryNameFormat[] get_directory_name_formats () {
-            return copy_directory_name_formats (directory_name_formats);
+        public InstallLayout[] get_install_layouts () {
+            return copy_install_layouts (install_layouts);
+        }
+
+        public InstallLayout? get_install_layout (string launcher_family_id) {
+            foreach (var layout in install_layouts) {
+                if (layout.launcher_family_id == launcher_family_id)
+                    return layout.copy ();
+            }
+
+            foreach (var layout in install_layouts) {
+                if (layout.launcher_family_id == "default")
+                    return layout.copy ();
+            }
+
+            return null;
         }
 
         public static string source_id_for (SourceType source_type) {
@@ -163,36 +304,36 @@ namespace ProtonPlus.Models.Providers {
                 Category.DXVK, SourceType.GITHUB, "dxvk-doitsujin", "DXVK (doitsujin)", "",
                 "https://api.github.com/repos/doitsujin/dxvk/releases", 1,
                 { new VariantDefinition ("standard", "default", "$release_name", true) },
-                { new DirectoryNameFormat ("default", "!$release_name:v:dxvk-") }
+                { InstallLayout.replace ("default", "$release_name", "v", "dxvk-") }
             ));
             add (new ProviderDefinition (
                 Category.DXVK, SourceType.GITLAB, "dxvk-gplasync-ph42on", "DXVK GPL+Async (Ph42oN)",
                 "DXVK builds with gplasync patch by Ph42oN.",
                 "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/releases", 2,
                 { new VariantDefinition ("standard", "default", "dxvk-gplasync-$release_name.tar.gz", true) },
-                { new DirectoryNameFormat ("default", "dxvk-gplasync-$release_name") }
+                { InstallLayout.template ("default", "dxvk-gplasync-$release_name") }
             ));
             add (new ProviderDefinition (
                 Category.DXVK, SourceType.GITHUB, "dxvk-sarek", "DXVK (Sarek)",
                 "DXVK builds that work with pre-Vulkan 1.3 versions.",
                 "https://api.github.com/repos/pythonlover02/DXVK-Sarek/releases", 3,
                 { new VariantDefinition ("standard", "default", "$release_name", true) },
-                { new DirectoryNameFormat ("default", "sarek-$release_name") }
+                { InstallLayout.template ("default", "sarek-$release_name") }
             ));
 
             add (new ProviderDefinition (
                 Category.VKD3D, SourceType.GITHUB, "vkd3d-proton", "VKD3D-Proton", "",
                 "https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases", 1,
                 { new VariantDefinition ("standard", "default", "$release_name", true) },
-                { new DirectoryNameFormat ("default", "!$release_name:v:vkd3d-proton-") }
+                { InstallLayout.replace ("default", "$release_name", "v", "vkd3d-proton-") }
             ));
             add (new ProviderDefinition (
                 Category.VKD3D, SourceType.GITHUB, "vkd3d-lutris", "VKD3D-Lutris", "",
                 "https://api.github.com/repos/lutris/vkd3d/releases", 2,
                 { new VariantDefinition ("standard", "default", "$release_name", true) },
                 {
-                    new DirectoryNameFormat ("default", "$release_name"),
-                    new DirectoryNameFormat ("heroic", "!$release_name:v:vkd3d-lutris-")
+                    InstallLayout.template ("default", "$release_name"),
+                    InstallLayout.replace ("heroic", "$release_name", "v", "vkd3d-lutris-")
                 }
             ));
 
@@ -205,10 +346,10 @@ namespace ProtonPlus.Models.Providers {
                     new VariantDefinition ("aarch64", "aarch64", "$release_name-aarch64", false)
                 },
                 {
-                    new DirectoryNameFormat ("default", "$release_name"),
-                    new DirectoryNameFormat ("steam", "&$release_name:.:Proton-$release_name:$release_name"),
-                    new DirectoryNameFormat ("bottles", "_$release_name"),
-                    new DirectoryNameFormat ("heroic", "Proton-$release_name")
+                    InstallLayout.template ("default", "$release_name"),
+                    InstallLayout.conditional ("steam", ".", "Proton-$release_name", "$release_name"),
+                    InstallLayout.lowercase ("bottles", "$release_name"),
+                    InstallLayout.template ("heroic", "Proton-$release_name")
                 }
             ));
             add (new ProviderDefinition (
@@ -220,28 +361,28 @@ namespace ProtonPlus.Models.Providers {
                     new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false),
                     new VariantDefinition ("arm64", "arm64", "proton-$tag_name-arm64", false)
                 },
-                { new DirectoryNameFormat ("default", "$release_name") }, null, null, "Recommended"
+                { InstallLayout.template ("default", "$release_name") }, null, null, "Recommended"
             ));
             add (new ProviderDefinition (
                 Category.PROTON, SourceType.FORGEJO, "dw-proton", "DW-Proton",
                 "Dawn Winery's custom Proton fork with fixes for various games :xdd:",
                 "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases", 3,
                 { new VariantDefinition ("x86-64", "x86_64", "$release_name-x86_64", true) },
-                { new DirectoryNameFormat ("default", "$release_name") }
+                { InstallLayout.template ("default", "$release_name") }
             ));
             add (new ProviderDefinition (
                 Category.PROTON, SourceType.GITHUB, "proton-ge-rtsp", "Proton-GE RTSP",
                 "Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat.",
                 "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases", 4,
                 { new VariantDefinition ("standard", "default", "$tag_name", true) },
-                { new DirectoryNameFormat ("default", "$release_name") }
+                { InstallLayout.template ("default", "$release_name") }
             ));
             add (new ProviderDefinition (
                 Category.PROTON, SourceType.GITHUB_ACTIONS, "proton-tkg", "Proton-Tkg",
                 "Custom Proton build for running Windows games, based on Wine-tkg.",
                 "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/proton-valvexbe-sniper.yml/runs", 5,
                 { new VariantDefinition ("standard", "default", "$title-$release_name", true) },
-                { new DirectoryNameFormat ("default", "$title-$release_name") }, null, null, "", false,
+                { InstallLayout.template ("default", "$title-$release_name") }, null, null, "", false,
                 "https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/{id}/proton-tkg-build.zip"
             ));
             add (new ProviderDefinition (
@@ -250,7 +391,7 @@ namespace ProtonPlus.Models.Providers {
                 "By Etaash Mathamsetty, adding FSR4 support and Wine Wayland tweaks.",
                 "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases", 6,
                 { new VariantDefinition ("standard", "default", "$release_name", true) },
-                { new DirectoryNameFormat ("default", "$release_name") }
+                { InstallLayout.template ("default", "$release_name") }
             ));
             add (new ProviderDefinition (
                 Category.PROTON, SourceType.GITHUB, "proton-cachyos-wineland", "Proton-CachyOS Wineland",
@@ -261,28 +402,28 @@ namespace ProtonPlus.Models.Providers {
                     new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false),
                     new VariantDefinition ("x86-64-wow64", "x86_64_wow64", "proton-$tag_name-x86_64_wow64", false)
                 },
-                { new DirectoryNameFormat ("default", "$release_name") }
+                { InstallLayout.template ("default", "$release_name") }
             ));
             add (new ProviderDefinition (
                 Category.PROTON, SourceType.FORGEJO, "luxtorpeda", "Luxtorpeda",
                 "Luxtorpeda provides Linux-native game engines for certain Windows-only games.",
                 "https://codeberg.org/api/v1/repos/luxtorpeda/luxtorpeda/releases", 8,
                 { new VariantDefinition ("standard", "default", "$title-$release_name", true) },
-                { new DirectoryNameFormat ("default", "$title $release_name") }
+                { InstallLayout.template ("default", "$title $release_name") }
             ));
             add (new ProviderDefinition (
                 Category.PROTON, SourceType.GITHUB, "boxtron", "Boxtron",
                 "Steam compatibility tool for running DOS games using DOSBox for Linux.",
                 "https://api.github.com/repos/dreamer/boxtron/releases", 9,
                 { new VariantDefinition ("standard", "default", "$title", true) },
-                { new DirectoryNameFormat ("default", "$title $release_name") }, null, null, "", true
+                { InstallLayout.template ("default", "$title $release_name") }, null, null, "", true
             ));
             add (new ProviderDefinition (
                 Category.PROTON, SourceType.GITHUB, "roberta", "Roberta",
                 "Steam compatibility tool for running adventure games using ScummVM for Linux.",
                 "https://api.github.com/repos/dreamer/roberta/releases", 10,
                 { new VariantDefinition ("standard", "default", "$title", true) },
-                { new DirectoryNameFormat ("default", "$title $release_name") }, null, null, "", true
+                { InstallLayout.template ("default", "$title $release_name") }, null, null, "", true
             ));
 
             add (new ProviderDefinition (
@@ -295,8 +436,8 @@ namespace ProtonPlus.Models.Providers {
                     new VariantDefinition ("x86", "x86", "wine-$tag_name-x86", false)
                 },
                 {
-                    new DirectoryNameFormat ("default", "wine-$release_name-amd64"),
-                    new DirectoryNameFormat ("bottles", "kron4ek-wine-$release_name-amd64")
+                    InstallLayout.template ("default", "wine-$release_name-amd64"),
+                    InstallLayout.template ("bottles", "kron4ek-wine-$release_name-amd64")
                 },
                 { "proton" }
             ));
@@ -309,8 +450,8 @@ namespace ProtonPlus.Models.Providers {
                     new VariantDefinition ("wow64", "wow64", "wine-$tag_name-staging-amd64-wow64", false)
                 },
                 {
-                    new DirectoryNameFormat ("default", "wine-$release_name-staging-amd64"),
-                    new DirectoryNameFormat ("bottles", "kron4ek-wine-$release_name-staging-amd64")
+                    InstallLayout.template ("default", "wine-$release_name-staging-amd64"),
+                    InstallLayout.template ("bottles", "kron4ek-wine-$release_name-staging-amd64")
                 }, null, { "proton", ".0." }
             ));
             add (new ProviderDefinition (
@@ -322,8 +463,8 @@ namespace ProtonPlus.Models.Providers {
                     new VariantDefinition ("wow64", "wow64", "wine-$tag_name-staging-tkg-amd64-wow64", false)
                 },
                 {
-                    new DirectoryNameFormat ("default", "wine-$release_name-staging-tkg-amd64"),
-                    new DirectoryNameFormat ("bottles", "kron4ek-wine-$release_name-staging-tkg-amd64")
+                    InstallLayout.template ("default", "wine-$release_name-staging-tkg-amd64"),
+                    InstallLayout.template ("bottles", "kron4ek-wine-$release_name-staging-tkg-amd64")
                 }, null, { "proton", ".0." }
             ));
             add (new ProviderDefinition (
@@ -335,8 +476,8 @@ namespace ProtonPlus.Models.Providers {
                     new VariantDefinition ("wow64", "wow64", "wine-$tag_name-amd64-wow64", false)
                 },
                 {
-                    new DirectoryNameFormat ("default", "wine-$release_name-amd64"),
-                    new DirectoryNameFormat ("bottles", "kron4ek-wine-$release_name-amd64")
+                    InstallLayout.template ("default", "wine-$release_name-amd64"),
+                    InstallLayout.template ("bottles", "kron4ek-wine-$release_name-amd64")
                 }, null, { "proton", ".0." }
             ));
         }

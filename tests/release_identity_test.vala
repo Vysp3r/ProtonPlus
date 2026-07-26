@@ -22,7 +22,7 @@ namespace AppTests.ReleaseIdentityTest {
         return new ProviderDefinition (
             Category.PROTON, source_type, id, "Fixture provider", "", "https://example.test/releases", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { new DirectoryNameFormat ("default", "$release_name") },
+            { InstallLayout.template ("default", "$release_name") },
             null, null, "", false,
             source_type == SourceType.GITHUB_ACTIONS ?
                 "https://example.test/artifacts/{id}/fixture-action.zip?signature=example" : ""

@@ -85,9 +85,7 @@ namespace ProtonPlus.Providers.Sources {
             string release_name,
             string tag_name
         ) {
-            return variant.format.replace ("$title", title)
-                                 .replace ("$release_name", release_name)
-                                 .replace ("$tag_name", tag_name);
+            return Models.Providers.ProviderTemplate.render (variant.format, title, release_name, tag_name);
         }
 
         private static bool variant_matches_asset (string expected_asset_name, string asset_name) {

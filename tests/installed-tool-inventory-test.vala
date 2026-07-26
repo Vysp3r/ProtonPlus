@@ -53,7 +53,7 @@ namespace AppTests.InstalledToolInventoryTest {
                 new VariantDefinition ("default", "default", "$release_name", true),
                 new VariantDefinition ("arm", "Arm 64", "$release_name-arm", false)
             },
-            { new DirectoryNameFormat ("default", "$release_name") }
+            { InstallLayout.template ("default", "$release_name") }
         );
     }
 
