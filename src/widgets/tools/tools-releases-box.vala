@@ -276,16 +276,15 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             }
 
-            ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield catalog.load (false, out code);
+            var result = yield catalog.load (false);
 
             if (!is_current_tool_request (tool, request_generation))
                 return;
 
-            if (code != ReturnCode.RELEASES_LOADED) {
+            if (!result.succeeded) {
                 Adw.AlertDialog dialog = new Main.ErrorDialog (
                     _("Failed to Fetch Releases"),
-                    get_return_code_message (code),
+                    get_return_code_message (result.code),
                     ""
                 );
 
@@ -300,7 +299,7 @@ namespace ProtonPlus.Widgets.Tools {
             // available release names.  Refresh explicitly after that catalog
             // changes; list filters themselves remain pure state readers.
             tool.group.refresh_installed_state ();
-            add_release_rows (tool, releases);
+            add_release_rows (tool, result.releases);
 
             list_box.append (load_more_row);
             load_more_row.visible = catalog.has_more;
@@ -334,16 +333,15 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             }
 
-            ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield catalog.refresh (out code);
+            var result = yield catalog.refresh ();
 
             if (!is_current_tool_request (tool, request_generation))
                 return;
 
-            if (code != ReturnCode.RELEASES_LOADED) {
+            if (!result.succeeded) {
                 Adw.AlertDialog dialog = new Main.ErrorDialog (
                     _("Failed to Fetch Releases"),
-                    get_return_code_message (code),
+                    get_return_code_message (result.code),
                     ""
                 );
 
@@ -355,7 +353,7 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             tool.group.refresh_installed_state ();
-            add_release_rows (tool, releases);
+            add_release_rows (tool, result.releases);
 
             list_box.append (load_more_row);
             load_more_row.visible = catalog.has_more;
@@ -648,14 +646,13 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             }
 
-            ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield catalog.load_more (out code);
+            var result = yield catalog.load_more ();
 
             if (!is_current_tool_request (tool, request_generation))
                 return;
 
-            if (code == ReturnCode.RELEASES_LOADED) {
-                foreach (var release in releases) {
+            if (result.succeeded) {
+                foreach (var release in result.releases) {
                     add_release_row (release, Services.InstallJob.Mode.VERSIONED);
                 }
                 tool.group.refresh_installed_state ();

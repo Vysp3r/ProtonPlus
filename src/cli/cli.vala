@@ -214,21 +214,20 @@ namespace ProtonPlus.CLI {
             var catalog = basic_runner.release_catalog;
             if (catalog == null)
                 return 1;
-            ReturnCode code;
-            var latest_release = yield catalog.fetch_latest_eligible_release (out code);
-            if (code != ReturnCode.RELEASES_LOADED) {
-                Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (code));
+            var result = yield catalog.fetch_latest_eligible_release ();
+            if (!result.succeeded) {
+                Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (result.code));
                 return 1;
             }
 
-            if (latest_release == null) {
+            if (!result.has_release) {
                 Output.error (_ ("Error: No releases are available\n"));
                 return 1;
             }
 
             Output.info (_ ("Installing %s Latest...\n"), basic_runner.title);
-            var job = new Services.InstallJob (latest_release, basic_runner, Services.InstallJob.Mode.LATEST);
-            code = yield job.install ();
+            var job = new Services.InstallJob (result.require_release (), basic_runner, Services.InstallJob.Mode.LATEST);
+            var code = yield job.install ();
             Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
             if (success)
@@ -454,13 +453,12 @@ namespace ProtonPlus.CLI {
             var catalog = basic_runner.release_catalog;
             if (catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
-            ReturnCode code;
-            var releases = yield catalog.load (false, out code);
-            if (code != ReturnCode.RELEASES_LOADED)
-                Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (code));
-            else if (releases.size == 0)
+            var result = yield catalog.load (false);
+            if (!result.succeeded)
+                Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (result.code));
+            else if (result.releases.size == 0)
                 Output.error (_ ("Error: No releases are available\n"));
-            return code;
+            return result.code;
         }
 
         private Models.Launcher? find_launcher (string launcher_id) {

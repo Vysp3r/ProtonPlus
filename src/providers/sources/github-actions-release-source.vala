@@ -2,11 +2,10 @@ namespace ProtonPlus.Providers.Sources {
     using Gee;
 
     public class GitHubActionsReleaseSource : Object, ReleaseSource {
-        public async Models.Tools.ReleasePage? fetch_page (
+        public async Models.Tools.ReleasePageResult fetch_page (
             Models.Providers.ProviderDefinition definition,
             int requested_page,
-            int limit,
-            out ReturnCode code
+            int limit
         ) {
             var releases = new LinkedList<Models.Release> ();
             var current_page = requested_page;
@@ -14,48 +13,44 @@ namespace ProtonPlus.Providers.Sources {
 
             while (releases.size == 0 && !reached_end) {
                 var response = yield request_page (definition.endpoint, current_page, limit);
-                if (response.code != ReturnCode.VALID_REQUEST) {
-                    code = response.code;
-                    return null;
-                }
+                if (response.code != ReturnCode.VALID_REQUEST)
+                    return Models.Tools.ReleasePageResult.failure (response.code);
 
-                var page = parse_response (definition, response.body, current_page, limit, out code);
-                if (page == null)
-                    return null;
+                var page_result = parse_response (definition, response.body, current_page, limit);
+                if (!page_result.succeeded)
+                    return page_result;
+                var page = page_result.require_page ();
 
                 releases.add_all (page.releases);
                 reached_end = !page.has_more;
                 current_page = page.next_page;
             }
 
-            code = ReturnCode.RELEASES_LOADED;
-            return new Models.Tools.ReleasePage (releases, current_page, !reached_end);
+            return Models.Tools.ReleasePageResult.success (
+                new Models.Tools.ReleasePage (releases, current_page, !reached_end)
+            );
         }
 
-        public Models.Tools.ReleasePage? parse_response (
+        public Models.Tools.ReleasePageResult parse_response (
             Models.Providers.ProviderDefinition definition,
             string response_body,
             int requested_page,
-            int limit,
-            out ReturnCode code
+            int limit
         ) {
             Json.Node? root_node;
             try {
                 root_node = Json.from_string (response_body);
             } catch (Error e) {
-                code = ReturnCode.INVALID_DATA;
-                return null;
+                return Models.Tools.ReleasePageResult.failure (ReturnCode.INVALID_DATA);
             }
             if (root_node == null || root_node.get_node_type () != Json.NodeType.OBJECT) {
-                code = ReturnCode.INVALID_DATA;
-                return null;
+                return Models.Tools.ReleasePageResult.failure (ReturnCode.INVALID_DATA);
             }
 
             var root = root_node.get_object ();
             var runs = root != null ? root.get_array_member ("workflow_runs") : null;
             if (runs == null) {
-                code = ReturnCode.INVALID_DATA;
-                return null;
+                return Models.Tools.ReleasePageResult.failure (ReturnCode.INVALID_DATA);
             }
 
             var releases = new LinkedList<Models.Release> ();
@@ -82,8 +77,9 @@ namespace ProtonPlus.Providers.Sources {
                 releases.add (release);
             }
 
-            code = ReturnCode.RELEASES_LOADED;
-            return new Models.Tools.ReleasePage (releases, requested_page + 1, runs.get_length () == limit);
+            return Models.Tools.ReleasePageResult.success (
+                new Models.Tools.ReleasePage (releases, requested_page + 1, runs.get_length () == limit)
+            );
         }
 
         // Kept protected so the source's cross-page filtering can be tested

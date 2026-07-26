@@ -3,11 +3,10 @@ namespace ProtonPlus.Providers.Sources {
     // definition supplies data only; source adapters own transport and JSON
     // conversion and return canonical catalog models.
     public interface ReleaseSource : Object {
-        public abstract async Models.Tools.ReleasePage? fetch_page (
+        public abstract async Models.Tools.ReleasePageResult fetch_page (
             Models.Providers.ProviderDefinition definition,
             int requested_page,
-            int limit,
-            out ReturnCode code
+            int limit
         );
     }
 }

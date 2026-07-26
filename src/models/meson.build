@@ -5,6 +5,7 @@ sources += files(
     'launcher.vala',
     'release.vala',
     'release-catalog-cache.vala',
+    'release-catalog-result.vala',
     'release-catalog.vala',
     'tool.vala',
     'game.vala',

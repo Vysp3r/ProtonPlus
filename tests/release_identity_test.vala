@@ -30,23 +30,23 @@ namespace AppTests.ReleaseIdentityTest {
     }
 
     private void test_github_numeric_id_and_tag () {
-        ReturnCode code;
-        var page = new GitHubReleaseSource ().parse_response (
-            definition (SourceType.GITHUB), fixture ("github", "release.json"), 1, 25, out code
+        var result = new GitHubReleaseSource ().parse_response (
+            definition (SourceType.GITHUB), fixture ("github", "release.json"), 1, 25
         );
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (page != null && page.releases.size == 1);
+        assert (result.succeeded);
+        var page = result.require_page ();
+        assert (page.releases.size == 1);
         assert (page.releases[0].upstream_release_id == "1001");
         assert (page.releases[0].source_tag == "GE-Proton10-1");
     }
 
     private void test_forgejo_numeric_id_and_tag () {
-        ReturnCode code;
-        var page = new ForgejoReleaseSource ().parse_response (
-            definition (SourceType.FORGEJO), fixture ("forgejo", "release.json"), 1, 25, out code
+        var result = new ForgejoReleaseSource ().parse_response (
+            definition (SourceType.FORGEJO), fixture ("forgejo", "release.json"), 1, 25
         );
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (page != null && page.releases.size == 1);
+        assert (result.succeeded);
+        var page = result.require_page ();
+        assert (page.releases.size == 1);
         assert (page.releases[0].upstream_release_id == "4001");
         assert (page.releases[0].source_tag == "GE-Proton8-26");
     }
@@ -55,21 +55,21 @@ namespace AppTests.ReleaseIdentityTest {
         var content = fixture ("gitlab", "release.json")
             .replace ("\"id\": 3001", "\"id\": 0")
             .replace ("ProtonPlus.flatpak", "ProtonPlus.tar.gz");
-        ReturnCode code;
-        var page = new GitLabReleaseSource ().parse_response (definition (SourceType.GITLAB), content, 1, 25, out code);
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (page != null && page.releases.size == 1);
+        var result = new GitLabReleaseSource ().parse_response (definition (SourceType.GITLAB), content, 1, 25);
+        assert (result.succeeded);
+        var page = result.require_page ();
+        assert (page.releases.size == 1);
         assert (page.releases[0].upstream_release_id == "");
         assert (page.releases[0].source_tag == "v0.6.0");
     }
 
     private void test_github_actions_run_id () {
-        ReturnCode code;
-        var page = new GitHubActionsReleaseSource ().parse_response (
-            definition (SourceType.GITHUB_ACTIONS), fixture ("github-actions", "run.json"), 1, 25, out code
+        var result = new GitHubActionsReleaseSource ().parse_response (
+            definition (SourceType.GITHUB_ACTIONS), fixture ("github-actions", "run.json"), 1, 25
         );
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (page != null && page.releases.size == 1);
+        assert (result.succeeded);
+        var page = result.require_page ();
+        assert (page.releases.size == 1);
         assert (page.releases[0].upstream_release_id == "5001");
         assert (page.releases[0].asset.name == "fixture-action.zip");
     }

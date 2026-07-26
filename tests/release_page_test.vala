@@ -18,33 +18,39 @@ namespace AppTests.ReleasePageTest {
             pages.set (page, release_page);
         }
 
-        public async ReleasePage? fetch_page (
+        public async ReleasePageResult fetch_page (
             ProviderDefinition definition,
             int requested_page,
-            int limit,
-            out ReturnCode code
+            int limit
         ) {
             requested_pages.add (requested_page);
-            code = response_code;
-            if (code != ReturnCode.RELEASES_LOADED)
-                return null;
+            if (response_code != ReturnCode.RELEASES_LOADED)
+                return ReleasePageResult.failure (response_code);
             var page = pages.get (requested_page);
-            return page != null ? page : new ReleasePage (new LinkedList<Release> (), requested_page + 1, false);
+            return ReleasePageResult.success (page ?? new ReleasePage (
+                new LinkedList<Release> (), requested_page + 1, false
+            ));
         }
     }
 
     private class FixtureGitHubActionsSource : GitHubActionsReleaseSource {
         private HashMap<int, string> responses = new HashMap<int, string> ();
+        private HashMap<int, ReturnCode> response_codes = new HashMap<int, ReturnCode> ();
         public ArrayList<int> requested_pages { get; private set; default = new ArrayList<int> (); }
 
         public void set_response (int page, string body) {
             responses.set (page, body);
         }
 
+        public void set_response_code (int page, ReturnCode code) {
+            response_codes.set (page, code);
+        }
+
         protected override async Utils.Web.Response request_page (string endpoint, int page, int limit) {
             requested_pages.add (page);
             var response = new Utils.Web.Response ();
-            response.code = ReturnCode.VALID_REQUEST;
+            response.code = response_codes.has_key (page)
+                ? response_codes.get (page) : ReturnCode.VALID_REQUEST;
             response.status_code = 200;
             response.body = responses.get (page) ?? "{\"workflow_runs\":[]}";
             return response;
@@ -55,11 +61,14 @@ namespace AppTests.ReleasePageTest {
         Test.add_func ("/release-catalog/pagination-and-persistence", test_pagination_and_persistence);
         Test.add_func ("/release-catalog/latest-discovery-is-stateless", test_latest_discovery_is_stateless);
         Test.add_func ("/release-catalog/github-actions-scans-filtered-pages", test_github_actions_scanning);
+        Test.add_func ("/release-catalog/github-actions-later-page-failure", test_github_actions_later_page_failure);
         Test.add_func ("/release-catalog/in-memory-state-skips-cache-and-network", test_in_memory_state_skips_network);
         Test.add_func ("/release-catalog/valid-cache-skips-network", test_valid_cache_skips_network);
         Test.add_func ("/release-catalog/missing-and-malformed-cache-fetches", test_missing_and_malformed_cache_fetches);
         Test.add_func ("/release-catalog/stale-variants-refresh", test_stale_variants_refresh);
         Test.add_func ("/release-catalog/forced-refresh-is-atomic", test_forced_refresh_is_atomic);
+        Test.add_func ("/release-catalog/load-more-failure-preserves-state", test_load_more_failure_preserves_state);
+        Test.add_func ("/release-catalog/latest-empty-and-failure-are-distinct", test_latest_empty_and_failure_are_distinct);
         Test.add_func ("/release-catalog/static-and-instance-state", test_static_and_instance_state);
     }
 
@@ -118,43 +127,40 @@ namespace AppTests.ReleasePageTest {
         return value;
     }
 
-    private LinkedList<Release> load (ReleaseCatalog catalog, bool force, out ReturnCode code) {
+    private ReleaseCatalogResult load (ReleaseCatalog catalog, bool force) {
         var loop = new MainLoop ();
-        var releases = new LinkedList<Release> ();
-        ReturnCode result = ReturnCode.REQUEST_FAILED;
+        ReleaseCatalogResult? result = null;
         catalog.load.begin (force, (obj, response) => {
-            releases = catalog.load.end (response, out result);
+            result = catalog.load.end (response);
             loop.quit ();
         });
         loop.run ();
-        code = result;
-        return releases;
+        assert (result != null);
+        return (!) result;
     }
 
-    private LinkedList<Release> load_more (ReleaseCatalog catalog, out ReturnCode code) {
+    private ReleaseCatalogResult load_more (ReleaseCatalog catalog) {
         var loop = new MainLoop ();
-        var releases = new LinkedList<Release> ();
-        ReturnCode result = ReturnCode.REQUEST_FAILED;
+        ReleaseCatalogResult? result = null;
         catalog.load_more.begin ((obj, response) => {
-            releases = catalog.load_more.end (response, out result);
+            result = catalog.load_more.end (response);
             loop.quit ();
         });
         loop.run ();
-        code = result;
-        return releases;
+        assert (result != null);
+        return (!) result;
     }
 
-    private Release? latest (ReleaseCatalog catalog, out ReturnCode code) {
+    private ReleaseLookupResult latest (ReleaseCatalog catalog) {
         var loop = new MainLoop ();
-        Release? value = null;
-        ReturnCode result = ReturnCode.REQUEST_FAILED;
+        ReleaseLookupResult? result = null;
         catalog.fetch_latest_eligible_release.begin ((obj, response) => {
-            value = catalog.fetch_latest_eligible_release.end (response, out result);
+            result = catalog.fetch_latest_eligible_release.end (response);
             loop.quit ();
         });
         loop.run ();
-        code = result;
-        return value;
+        assert (result != null);
+        return (!) result;
     }
 
     private void save_snapshot (ReleaseCatalogCache cache, ReleaseCatalogSnapshot snapshot) {
@@ -187,14 +193,13 @@ namespace AppTests.ReleasePageTest {
         source.set_page (2, new ReleasePage (second, 3, false));
         var value = catalog ("pagination-tool", definition (), source);
 
-        ReturnCode code;
-        var first_page = load (value, false, out code);
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (first_page.size == 1 && value.releases.size == 1);
+        var first_result = load (value, false);
+        assert (first_result.succeeded);
+        assert (first_result.releases.size == 1 && value.releases.size == 1);
         assert (value.page == 2 && value.has_more);
-        var second_page = load_more (value, out code);
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (second_page.size == 1 && value.releases.size == 2);
+        var second_result = load_more (value);
+        assert (second_result.succeeded);
+        assert (second_result.releases.size == 1 && value.releases.size == 2);
         assert (value.releases[1].title == "v1");
         assert (value.page == 3 && !value.has_more);
         assert (source.requested_pages.size == 2 && source.requested_pages[0] == 1 && source.requested_pages[1] == 2);
@@ -211,10 +216,9 @@ namespace AppTests.ReleasePageTest {
         source.set_page (2, new ReleasePage (second, 3, false));
         var value = catalog ("latest-tool", definition (), source);
 
-        ReturnCode code;
-        var found = latest (value, out code);
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (found != null && found.title == "v1");
+        var found = latest (value);
+        assert (found.succeeded && found.has_release);
+        assert (found.require_release ().title == "v1");
         assert (value.releases.size == 0 && value.page == 1 && !value.has_more && value.last_updated == "");
         assert (source.requested_pages.size == 2);
         assert (source.requested_pages[0] == 1 && source.requested_pages[1] == 2);
@@ -240,17 +244,28 @@ namespace AppTests.ReleasePageTest {
         source.set_response (2, workflow_runs (1, true));
         var value = catalog ("actions-tool", definition (SourceType.GITHUB_ACTIONS), source);
 
-        ReturnCode code;
-        var releases = load (value, false, out code);
-        assert (code == ReturnCode.RELEASES_LOADED && releases.size == 1);
-        assert (releases[0].kind == Release.Kind.GITHUB_ACTION && releases[0].upstream_release_id == "5000");
+        var result = load (value, false);
+        assert (result.succeeded && result.releases.size == 1);
+        assert (result.releases[0].kind == Release.Kind.GITHUB_ACTION && result.releases[0].upstream_release_id == "5000");
         assert (value.page == 3 && !value.has_more);
 
-        var update = latest (value, out code);
-        assert (code == ReturnCode.RELEASES_LOADED && update != null && update.upstream_release_id == "5000");
+        var update = latest (value);
+        assert (update.succeeded && update.has_release && update.require_release ().upstream_release_id == "5000");
         assert (source.requested_pages.size == 4);
         assert (source.requested_pages[0] == 1 && source.requested_pages[1] == 2);
         assert (source.requested_pages[2] == 1 && source.requested_pages[3] == 2);
+    }
+
+    private void test_github_actions_later_page_failure () {
+        var source = new FixtureGitHubActionsSource ();
+        source.set_response (1, workflow_runs (ReleaseCatalog.RELEASE_PAGE_SIZE, false));
+        source.set_response_code (2, ReturnCode.REQUEST_FAILED);
+        var value = catalog ("actions-failure-tool", definition (SourceType.GITHUB_ACTIONS), source);
+
+        var result = load (value, false);
+        assert (!result.succeeded && result.code == ReturnCode.REQUEST_FAILED);
+        assert (result.releases.size == 0 && value.releases.size == 0 && value.page == 1 && !value.has_more);
+        assert (source.requested_pages.size == 2 && source.requested_pages[0] == 1 && source.requested_pages[1] == 2);
     }
 
     private void test_in_memory_state_skips_network () {
@@ -266,8 +281,8 @@ namespace AppTests.ReleasePageTest {
         foreach (var release in existing)
             value.releases.add (release);
 
-        ReturnCode code;
-        assert (load (value, false, out code).size == 1 && code == ReturnCode.RELEASES_LOADED);
+        var result = load (value, false);
+        assert (result.releases.size == 1 && result.succeeded);
         assert (value.releases[0].title == "v1" && source.requested_pages.size == 0);
     }
 
@@ -280,8 +295,8 @@ namespace AppTests.ReleasePageTest {
 
         var source = new FixtureReleaseSource ();
         var value = catalog ("cached-tool", definition (), source);
-        ReturnCode code;
-        assert (load (value, false, out code).size == 1 && code == ReturnCode.RELEASES_LOADED);
+        var result = load (value, false);
+        assert (result.releases.size == 1 && result.succeeded);
         assert (value.page == 4 && value.has_more && source.requested_pages.size == 0);
     }
 
@@ -290,9 +305,9 @@ namespace AppTests.ReleasePageTest {
         var missing_releases = new LinkedList<Release> ();
         missing_releases.add (release ("v1", "1"));
         missing_source.set_page (1, new ReleasePage (missing_releases, 2, false));
-        ReturnCode code;
-        assert (load (catalog ("missing-tool", definition (), missing_source), false, out code).size == 1);
-        assert (code == ReturnCode.RELEASES_LOADED && missing_source.requested_pages.size == 1);
+        var missing_result = load (catalog ("missing-tool", definition (), missing_source), false);
+        assert (missing_result.releases.size == 1);
+        assert (missing_result.succeeded && missing_source.requested_pages.size == 1);
 
         var malformed_path = Path.build_filename (cache_path (), "malformed-tool.json");
         ProtonPlus.Utils.Filesystem.create_file (malformed_path, "not json");
@@ -301,8 +316,9 @@ namespace AppTests.ReleasePageTest {
         var malformed_releases = new LinkedList<Release> ();
         malformed_releases.add (release ("v2", "2"));
         malformed_source.set_page (1, new ReleasePage (malformed_releases, 2, false));
-        assert (load (catalog ("malformed-tool", definition (), malformed_source), false, out code).size == 1);
-        assert (code == ReturnCode.RELEASES_LOADED && malformed_source.requested_pages.size == 1);
+        var malformed_result = load (catalog ("malformed-tool", definition (), malformed_source), false);
+        assert (malformed_result.releases.size == 1);
+        assert (malformed_result.succeeded && malformed_source.requested_pages.size == 1);
     }
 
     private void test_stale_variants_refresh () {
@@ -315,9 +331,9 @@ namespace AppTests.ReleasePageTest {
         var mismatch_fresh = new LinkedList<Release> ();
         mismatch_fresh.add (release ("fresh", "2"));
         mismatch_source.set_page (1, new ReleasePage (mismatch_fresh, 2, false));
-        ReturnCode code;
-        assert (load (catalog ("variant-count-tool", definition (), mismatch_source), false, out code)[0].title == "fresh");
-        assert (code == ReturnCode.RELEASES_LOADED && mismatch_source.requested_pages.size == 1);
+        var mismatch_result = load (catalog ("variant-count-tool", definition (), mismatch_source), false);
+        assert (mismatch_result.releases[0].title == "fresh");
+        assert (mismatch_result.succeeded && mismatch_source.requested_pages.size == 1);
 
         var no_url = new LinkedList<Release> ();
         no_url.add (cached_release ("old", "1", false));
@@ -327,8 +343,9 @@ namespace AppTests.ReleasePageTest {
         var fresh = new LinkedList<Release> ();
         fresh.add (release ("fresh", "2"));
         no_url_source.set_page (1, new ReleasePage (fresh, 2, false));
-        assert (load (catalog ("missing-url-tool", definition (), no_url_source), false, out code)[0].title == "fresh");
-        assert (code == ReturnCode.RELEASES_LOADED && no_url_source.requested_pages.size == 1);
+        var no_url_result = load (catalog ("missing-url-tool", definition (), no_url_source), false);
+        assert (no_url_result.releases[0].title == "fresh");
+        assert (no_url_result.succeeded && no_url_source.requested_pages.size == 1);
 
         var duplicate = new LinkedList<Release> ();
         duplicate.add (cached_release ("old", "1", true, true));
@@ -336,8 +353,9 @@ namespace AppTests.ReleasePageTest {
             new ReleaseCatalogSnapshot (duplicate, 2, false, "old"));
         var duplicate_source = new FixtureReleaseSource ();
         duplicate_source.set_page (1, new ReleasePage (fresh, 2, false));
-        assert (load (catalog ("duplicate-url-tool", definition (SourceType.GITHUB, true), duplicate_source), false, out code)[0].title == "fresh");
-        assert (code == ReturnCode.RELEASES_LOADED && duplicate_source.requested_pages.size == 1);
+        var duplicate_result = load (catalog ("duplicate-url-tool", definition (SourceType.GITHUB, true), duplicate_source), false);
+        assert (duplicate_result.releases[0].title == "fresh");
+        assert (duplicate_result.succeeded && duplicate_source.requested_pages.size == 1);
     }
 
     private void test_forced_refresh_is_atomic () {
@@ -346,29 +364,62 @@ namespace AppTests.ReleasePageTest {
         old.add (release ("old", "1"));
         source.set_page (1, new ReleasePage (old, 2, true));
         var value = catalog ("refresh-tool", definition (), source);
-        ReturnCode code;
-        load (value, false, out code);
+        load (value, false);
         var fresh = new LinkedList<Release> ();
         fresh.add (release ("fresh", "2"));
         source.set_page (1, new ReleasePage (fresh, 2, false));
-        assert (load (value, true, out code)[0].title == "fresh");
-        assert (code == ReturnCode.RELEASES_LOADED && source.requested_pages[source.requested_pages.size - 1] == 1);
+        var refresh_result = load (value, true);
+        assert (refresh_result.releases[0].title == "fresh");
+        assert (refresh_result.succeeded && source.requested_pages[source.requested_pages.size - 1] == 1);
 
         source.response_code = ReturnCode.REQUEST_FAILED;
-        assert (load (value, true, out code)[0].title == "fresh");
-        assert (code == ReturnCode.REQUEST_FAILED && value.releases.size == 1 && value.releases[0].title == "fresh");
+        var failed_refresh = load (value, true);
+        assert (failed_refresh.releases[0].title == "fresh");
+        assert (failed_refresh.code == ReturnCode.REQUEST_FAILED && value.releases.size == 1 && value.releases[0].title == "fresh");
 
         var failed_source = new FixtureReleaseSource ();
         failed_source.response_code = ReturnCode.REQUEST_FAILED;
         var failed = catalog ("failed-initial-tool", definition (), failed_source);
-        load (failed, false, out code);
-        assert (code == ReturnCode.REQUEST_FAILED && failed.releases.size == 0 && failed.last_updated == "");
+        var failed_initial = load (failed, false);
+        assert (failed_initial.code == ReturnCode.REQUEST_FAILED && failed.releases.size == 0 && failed.last_updated == "");
+    }
+
+    private void test_load_more_failure_preserves_state () {
+        var source = new FixtureReleaseSource ();
+        var first = new LinkedList<Release> ();
+        first.add (release ("v2", "2"));
+        source.set_page (1, new ReleasePage (first, 2, true));
+        var value = catalog ("load-more-failure-tool", definition (), source);
+        assert (load (value, false).succeeded);
+
+        source.response_code = ReturnCode.REQUEST_FAILED;
+        var result = load_more (value);
+        assert (!result.succeeded && result.code == ReturnCode.REQUEST_FAILED);
+        assert (result.releases.size == 1 && result.releases[0].title == "v2");
+        assert (value.releases.size == 1 && value.releases[0].title == "v2");
+        assert (value.page == 2 && value.has_more && !value.loading);
+    }
+
+    private void test_latest_empty_and_failure_are_distinct () {
+        var empty_source = new FixtureReleaseSource ();
+        empty_source.set_page (1, new ReleasePage (new LinkedList<Release> (), 2, false));
+        var empty_catalog = catalog ("latest-empty-tool", definition (), empty_source);
+        var empty_result = latest (empty_catalog);
+        assert (empty_result.succeeded && !empty_result.has_release && empty_result.code == ReturnCode.RELEASES_LOADED);
+        assert (empty_catalog.releases.size == 0 && empty_catalog.page == 1 && !empty_catalog.has_more);
+
+        var failed_source = new FixtureReleaseSource ();
+        failed_source.response_code = ReturnCode.REQUEST_FAILED;
+        var failed_catalog = catalog ("latest-failure-tool", definition (), failed_source);
+        var failed_result = latest (failed_catalog);
+        assert (!failed_result.succeeded && !failed_result.has_release && failed_result.code == ReturnCode.REQUEST_FAILED);
+        assert (failed_catalog.releases.size == 0 && failed_catalog.page == 1 && !failed_catalog.has_more);
     }
 
     private void test_static_and_instance_state () {
         var static_catalog = new ReleaseCatalog.with_static_release (release ("Static", "static"));
-        ReturnCode code;
-        assert (load (static_catalog, false, out code).size == 1 && code == ReturnCode.RELEASES_LOADED);
+        var static_result = load (static_catalog, false);
+        assert (static_result.releases.size == 1 && static_result.succeeded);
         assert (!static_catalog.has_more);
 
         var source = new FixtureReleaseSource ();

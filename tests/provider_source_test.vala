@@ -44,12 +44,13 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_release_page () {
-        ReturnCode code;
-        var page = new GitHubReleaseSource ().parse_response (
-            definition (SourceType.GITHUB), fixture ("github", "release.json"), 1, 25, out code
+        var result = new GitHubReleaseSource ().parse_response (
+            definition (SourceType.GITHUB), fixture ("github", "release.json"), 1, 25
         );
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (page != null);
+        assert (result.succeeded);
+        assert (result.code == ReturnCode.RELEASES_LOADED);
+        assert (result.page != null);
+        var page = result.require_page ();
         assert (page.releases.size == 1);
         var release = page.releases[0];
         assert (release.upstream_release_id == "1001");
@@ -62,12 +63,11 @@ namespace AppTests.ProviderSourceTest {
 
     private void test_gitlab_release_page () {
         var content = fixture ("gitlab", "release.json").replace ("ProtonPlus.flatpak", "ProtonPlus.tar.gz");
-        ReturnCode code;
-        var page = new GitLabReleaseSource ().parse_response (
-            definition (SourceType.GITLAB), content, 3, 25, out code
+        var result = new GitLabReleaseSource ().parse_response (
+            definition (SourceType.GITLAB), content, 3, 25
         );
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (page != null);
+        assert (result.succeeded);
+        var page = result.require_page ();
         assert (page.releases.size == 1);
         var release = page.releases[0];
         assert (release.upstream_release_id == "3001");
@@ -78,12 +78,11 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_forgejo_release_page () {
-        ReturnCode code;
-        var page = new ForgejoReleaseSource ().parse_response (
-            definition (SourceType.FORGEJO), fixture ("forgejo", "release.json"), 1, 25, out code
+        var result = new ForgejoReleaseSource ().parse_response (
+            definition (SourceType.FORGEJO), fixture ("forgejo", "release.json"), 1, 25
         );
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (page != null);
+        assert (result.succeeded);
+        var page = result.require_page ();
         assert (page.releases.size == 1);
         var release = page.releases[0];
         assert (release.upstream_release_id == "4001");
@@ -93,12 +92,11 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_actions_release_page () {
-        ReturnCode code;
-        var page = new GitHubActionsReleaseSource ().parse_response (
-            definition (SourceType.GITHUB_ACTIONS), fixture ("github-actions", "run.json"), 1, 25, out code
+        var result = new GitHubActionsReleaseSource ().parse_response (
+            definition (SourceType.GITHUB_ACTIONS), fixture ("github-actions", "run.json"), 1, 25
         );
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (page != null);
+        assert (result.succeeded);
+        var page = result.require_page ();
         assert (page.releases.size == 1);
         var release = page.releases[0];
         assert (release.kind == ProtonPlus.Models.Release.Kind.GITHUB_ACTION);
@@ -108,16 +106,14 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_definition_filters () {
-        ReturnCode code;
         var filtered = new ProviderDefinition (
             Category.WINE, SourceType.GITHUB, "filtered", "Filtered", "", "https://example.test/releases", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { new DirectoryNameFormat ("default", "$release_name") },
             { "proton" }
         );
-        var page = new GitHubReleaseSource ().parse_response (filtered, fixture ("github", "release.json"), 1, 25, out code);
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (page != null && page.releases.size == 0);
+        var filtered_result = new GitHubReleaseSource ().parse_response (filtered, fixture ("github", "release.json"), 1, 25);
+        assert (filtered_result.succeeded && filtered_result.require_page ().releases.size == 0);
 
         var excluded = new ProviderDefinition (
             Category.WINE, SourceType.GITHUB, "excluded", "Excluded", "", "https://example.test/releases", 1,
@@ -125,37 +121,34 @@ namespace AppTests.ProviderSourceTest {
             { new DirectoryNameFormat ("default", "$release_name") },
             null, { "GE-Proton" }
         );
-        page = new GitHubReleaseSource ().parse_response (excluded, fixture ("github", "release.json"), 1, 25, out code);
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (page != null && page.releases.size == 0);
+        var excluded_result = new GitHubReleaseSource ().parse_response (excluded, fixture ("github", "release.json"), 1, 25);
+        assert (excluded_result.succeeded && excluded_result.require_page ().releases.size == 0);
     }
 
     private void test_invalid_response_codes () {
-        ReturnCode code;
-        assert (new GitHubReleaseSource ().parse_response (definition (SourceType.GITHUB), "{}", 1, 25, out code) == null);
-        assert (code == ReturnCode.INVALID_DATA);
-        assert (new GitLabReleaseSource ().parse_response (definition (SourceType.GITLAB), "not json", 1, 25, out code) == null);
-        assert (code == ReturnCode.INVALID_DATA);
-        assert (new ForgejoReleaseSource ().parse_response (definition (SourceType.FORGEJO), "{}", 1, 25, out code) == null);
-        assert (code == ReturnCode.INVALID_DATA);
-        assert (new GitHubActionsReleaseSource ().parse_response (definition (SourceType.GITHUB_ACTIONS), "[]", 1, 25, out code) == null);
-        assert (code == ReturnCode.INVALID_DATA);
+        var github = new GitHubReleaseSource ().parse_response (definition (SourceType.GITHUB), "{}", 1, 25);
+        assert (!github.succeeded && github.code == ReturnCode.INVALID_DATA && github.page == null);
+        var gitlab = new GitLabReleaseSource ().parse_response (definition (SourceType.GITLAB), "not json", 1, 25);
+        assert (!gitlab.succeeded && gitlab.code == ReturnCode.INVALID_DATA && gitlab.page == null);
+        var forgejo = new ForgejoReleaseSource ().parse_response (definition (SourceType.FORGEJO), "{}", 1, 25);
+        assert (!forgejo.succeeded && forgejo.code == ReturnCode.INVALID_DATA && forgejo.page == null);
+        var actions = new GitHubActionsReleaseSource ().parse_response (definition (SourceType.GITHUB_ACTIONS), "[]", 1, 25);
+        assert (!actions.succeeded && actions.code == ReturnCode.INVALID_DATA && actions.page == null);
     }
 
     private void test_empty_pages () {
-        ReturnCode code;
-        var github = new GitHubReleaseSource ().parse_response (definition (SourceType.GITHUB), "[]", 8, 25, out code);
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (github != null);
+        var github_result = new GitHubReleaseSource ().parse_response (definition (SourceType.GITHUB), "[]", 8, 25);
+        assert (github_result.succeeded);
+        var github = github_result.require_page ();
         assert (github.releases.size == 0);
         assert (github.next_page == 9);
         assert (!github.has_more);
 
-        var actions = new GitHubActionsReleaseSource ().parse_response (
-            definition (SourceType.GITHUB_ACTIONS), "{\"workflow_runs\":[]}", 8, 25, out code
+        var actions_result = new GitHubActionsReleaseSource ().parse_response (
+            definition (SourceType.GITHUB_ACTIONS), "{\"workflow_runs\":[]}", 8, 25
         );
-        assert (code == ReturnCode.RELEASES_LOADED);
-        assert (actions != null);
+        assert (actions_result.succeeded);
+        var actions = actions_result.require_page ();
         assert (actions.releases.size == 0);
         assert (actions.next_page == 9);
         assert (!actions.has_more);

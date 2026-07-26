@@ -77,13 +77,12 @@ namespace ProtonPlus.Services {
             var runner = job.tool as Models.Tools.Basic;
             if (runner == null || runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
-            ReturnCode lookup_code;
-            var latest = yield runner.release_catalog.fetch_latest_eligible_release (out lookup_code);
-            if (lookup_code != ReturnCode.RELEASES_LOADED)
-                return lookup_code;
-            if (latest == null)
+            var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
+            if (!lookup.succeeded)
+                return lookup.code;
+            if (!lookup.has_release)
                 return ReturnCode.NOTHING_TO_UPDATE;
-            job.set_release_for_update (latest);
+            job.set_release_for_update (lookup.require_release ());
             return yield update_latest_job (job, coordinator);
         }
 
@@ -131,18 +130,17 @@ namespace ProtonPlus.Services {
             if (!FileUtils.test (directory, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_NOT_INSTALLED;
             var metadata = Utils.Metadata.load (directory);
-            ReturnCode lookup_code;
             if (runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
-            var release = yield runner.release_catalog.fetch_latest_eligible_release (out lookup_code);
-            if (lookup_code != ReturnCode.RELEASES_LOADED) {
-                if (!runner.is_github_actions_source && metadata.tag != "" && is_request_failure (lookup_code))
+            var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
+            if (!lookup.succeeded) {
+                if (!runner.is_github_actions_source && metadata.tag != "" && is_request_failure (lookup.code))
                     return ReturnCode.NOTHING_TO_UPDATE;
-                return lookup_code;
+                return lookup.code;
             }
-            if (release == null)
+            if (!lookup.has_release)
                 return ReturnCode.NOTHING_TO_UPDATE;
-            var job = new InstallJob (release, runner, InstallJob.Mode.LATEST);
+            var job = new InstallJob (lookup.require_release (), runner, InstallJob.Mode.LATEST);
             return yield update_latest_job (job, coordinator);
         }
 

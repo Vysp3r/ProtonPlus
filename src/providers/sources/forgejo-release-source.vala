@@ -2,47 +2,40 @@ namespace ProtonPlus.Providers.Sources {
     using Gee;
 
     public class ForgejoReleaseSource : Object, ReleaseSource {
-        public async Models.Tools.ReleasePage? fetch_page (
+        public async Models.Tools.ReleasePageResult fetch_page (
             Models.Providers.ProviderDefinition definition,
             int requested_page,
-            int limit,
-            out ReturnCode code
+            int limit
         ) {
             var response = yield Utils.Web.get_request (
                 "%s?limit=%i&page=%i".printf (definition.endpoint, limit, requested_page),
                 Utils.Web.GetRequestType.FORGEJO
             );
-            if (response.code != ReturnCode.VALID_REQUEST) {
-                code = response.code;
-                return null;
-            }
+            if (response.code != ReturnCode.VALID_REQUEST)
+                return Models.Tools.ReleasePageResult.failure (response.code);
 
-            return parse_response (definition, response.body, requested_page, limit, out code);
+            return parse_response (definition, response.body, requested_page, limit);
         }
 
-        public Models.Tools.ReleasePage? parse_response (
+        public Models.Tools.ReleasePageResult parse_response (
             Models.Providers.ProviderDefinition definition,
             string response_body,
             int requested_page,
-            int limit,
-            out ReturnCode code
+            int limit
         ) {
             Json.Node? root_node;
             try {
                 root_node = Json.from_string (response_body);
             } catch (Error e) {
-                code = ReturnCode.INVALID_DATA;
-                return null;
+                return Models.Tools.ReleasePageResult.failure (ReturnCode.INVALID_DATA);
             }
             if (root_node == null || root_node.get_node_type () != Json.NodeType.ARRAY) {
-                code = ReturnCode.INVALID_DATA;
-                return null;
+                return Models.Tools.ReleasePageResult.failure (ReturnCode.INVALID_DATA);
             }
 
             var root_array = root_node.get_array ();
             if (root_array == null) {
-                code = ReturnCode.INVALID_DATA;
-                return null;
+                return Models.Tools.ReleasePageResult.failure (ReturnCode.INVALID_DATA);
             }
 
             var releases = new LinkedList<Models.Release> ();
@@ -82,8 +75,9 @@ namespace ProtonPlus.Providers.Sources {
                 releases.add (release);
             }
 
-            code = ReturnCode.RELEASES_LOADED;
-            return new Models.Tools.ReleasePage (releases, requested_page + 1, root_array.get_length () == limit);
+            return Models.Tools.ReleasePageResult.success (
+                new Models.Tools.ReleasePage (releases, requested_page + 1, root_array.get_length () == limit)
+            );
         }
 
         private LinkedList<Models.Assets.Asset> parse_assets (Json.Object release) {

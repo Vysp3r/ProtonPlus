@@ -63,18 +63,15 @@ namespace ProtonPlus.Models {
             }
         }
 
-        public async Gee.LinkedList<Release> load (bool force_refresh, out ReturnCode code) {
+        public async ReleaseCatalogResult load (bool force_refresh) {
             if (static_release != null) {
                 if (releases.size == 0)
                     replace_releases (single_release (static_release));
-                code = ReturnCode.RELEASES_LOADED;
-                return releases;
+                return ReleaseCatalogResult.success (releases);
             }
 
-            if (releases.size > 0 && !force_refresh) {
-                code = ReturnCode.RELEASES_LOADED;
-                return releases;
-            }
+            if (releases.size > 0 && !force_refresh)
+                return ReleaseCatalogResult.success (releases);
 
             loading = true;
             if (!force_refresh && cache != null) {
@@ -82,16 +79,16 @@ namespace ProtonPlus.Models {
                 if (snapshot != null && snapshot.releases.size > 0 && cached_releases_match_definition (snapshot.releases)) {
                     apply_snapshot (snapshot);
                     loading = false;
-                    code = ReturnCode.RELEASES_LOADED;
-                    return releases;
+                    return ReleaseCatalogResult.success (releases);
                 }
             }
 
-            var release_page = yield fetch_page (1, out code);
-            if (code != ReturnCode.RELEASES_LOADED || release_page == null) {
+            var page_result = yield fetch_page (1);
+            if (!page_result.succeeded) {
                 loading = false;
-                return releases;
+                return ReleaseCatalogResult.failure (page_result.code, releases);
             }
+            var release_page = page_result.require_page ();
 
             // Preserve the established empty-page behaviour: browsing state
             // advances, but an existing collection is not replaced by empty
@@ -100,32 +97,32 @@ namespace ProtonPlus.Models {
             has_more = release_page.has_more;
             if (release_page.releases.size == 0) {
                 loading = false;
-                return releases;
+                return ReleaseCatalogResult.success (releases);
             }
 
             replace_releases (release_page.releases);
             last_updated = new DateTime.now_local ().format_iso8601 ();
             yield save_snapshot ();
             loading = false;
-            return releases;
+            return ReleaseCatalogResult.success (releases);
         }
 
-        public async Gee.LinkedList<Release> refresh (out ReturnCode code) {
-            return yield load (true, out code);
+        public async ReleaseCatalogResult refresh () {
+            return yield load (true);
         }
 
-        public async Gee.LinkedList<Release> load_more (out ReturnCode code) {
+        public async ReleaseCatalogResult load_more () {
             if (static_release != null) {
-                code = ReturnCode.RELEASES_LOADED;
-                return new Gee.LinkedList<Release> ();
+                return ReleaseCatalogResult.success (new Gee.LinkedList<Release> ());
             }
 
             loading = true;
-            var release_page = yield fetch_page (page, out code);
-            if (code != ReturnCode.RELEASES_LOADED || release_page == null) {
+            var page_result = yield fetch_page (page);
+            if (!page_result.succeeded) {
                 loading = false;
-                return new Gee.LinkedList<Release> ();
+                return ReleaseCatalogResult.failure (page_result.code, releases);
             }
+            var release_page = page_result.require_page ();
 
             foreach (var release in release_page.releases)
                 releases.add (release);
@@ -135,36 +132,33 @@ namespace ProtonPlus.Models {
             releases_changed ();
             yield save_snapshot ();
             loading = false;
-            return release_page.releases;
+            return ReleaseCatalogResult.success (release_page.releases);
         }
 
         // This discovery path intentionally begins at upstream page one and
         // never publishes a page or alters cached browse state.
-        public async Release? fetch_latest_eligible_release (out ReturnCode code) {
-            if (static_release != null) {
-                code = ReturnCode.RELEASES_LOADED;
-                return static_release;
-            }
+        public async ReleaseLookupResult fetch_latest_eligible_release () {
+            if (static_release != null)
+                return ReleaseLookupResult.found (static_release);
 
             var requested_page = 1;
             while (true) {
-                var release_page = yield fetch_page (requested_page, out code);
-                if (code != ReturnCode.RELEASES_LOADED || release_page == null)
-                    return null;
+                var page_result = yield fetch_page (requested_page);
+                if (!page_result.succeeded)
+                    return ReleaseLookupResult.failure (page_result.code);
+                var release_page = page_result.require_page ();
                 if (release_page.releases.size > 0)
-                    return release_page.releases.get (0);
+                    return ReleaseLookupResult.found (release_page.releases.get (0));
                 if (!release_page.has_more)
-                    return null;
+                    return ReleaseLookupResult.empty ();
                 requested_page = release_page.next_page;
             }
         }
 
-        private async Tools.ReleasePage? fetch_page (int requested_page, out ReturnCode code) {
-            if (definition == null || release_source == null) {
-                code = ReturnCode.INVALID_CONFIGURATION;
-                return null;
-            }
-            return yield release_source.fetch_page ((!) definition, requested_page, RELEASE_PAGE_SIZE, out code);
+        private async Tools.ReleasePageResult fetch_page (int requested_page) {
+            if (definition == null || release_source == null)
+                return Tools.ReleasePageResult.failure (ReturnCode.INVALID_CONFIGURATION);
+            return yield release_source.fetch_page ((!) definition, requested_page, RELEASE_PAGE_SIZE);
         }
 
         private void apply_snapshot (ReleaseCatalogSnapshot snapshot) {
