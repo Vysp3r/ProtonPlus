@@ -6,6 +6,7 @@ namespace ProtonPlus.Models.Launchers.Runners.VKD3D {
         public Lutris () {
             base (
                 SourceType.GITHUB,
+                "vkd3d-lutris",
                 "VKD3D-Lutris",
                 "",
                 "https://api.github.com/repos/lutris/vkd3d/releases"

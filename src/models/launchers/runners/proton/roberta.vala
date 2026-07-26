@@ -7,6 +7,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
         public Roberta () {
             base (
                 SourceType.GITHUB,
+                "roberta",
                 "Roberta",
                 "Steam compatibility tool for running adventure games using ScummVM for Linux.",
                 "https://api.github.com/repos/dreamer/roberta/releases"

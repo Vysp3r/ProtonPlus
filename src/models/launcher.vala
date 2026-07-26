@@ -1,6 +1,8 @@
 namespace ProtonPlus.Models {
     using ProtonPlus.Models.Launchers.Runners;
     public class Launcher : Object {
+        public string family_id { get; private set; }
+        public string instance_id { get; private set; }
         public string title;
         public string icon_path;
         public string directory;
@@ -20,7 +22,9 @@ namespace ProtonPlus.Models {
             SNAP
         }
 
-        public Launcher (string title, InstallationTypes installation_type, string icon_path, string[] directories) {
+        public Launcher (string title, InstallationTypes installation_type, string icon_path, string[] directories, string family_id = "unknown") {
+            this.family_id = family_id;
+            this.instance_id = "%s-%s".printf (family_id, get_installation_type_id (installation_type));
             this.title = title;
             this.installation_type = installation_type;
             this.icon_path = icon_path;
@@ -55,6 +59,19 @@ namespace ProtonPlus.Models {
                 return "Snap";
             default:
                 return "Invalid type";
+            }
+        }
+
+        private static string get_installation_type_id (InstallationTypes installation_type) {
+            switch (installation_type) {
+            case InstallationTypes.SYSTEM:
+                return "system";
+            case InstallationTypes.FLATPAK:
+                return "flatpak";
+            case InstallationTypes.SNAP:
+                return "snap";
+            default:
+                return "unknown";
             }
         }
 
@@ -119,7 +136,8 @@ namespace ProtonPlus.Models {
                                                group_title,
                                                Utils.safe_translate (group_description),
                                                group_directory,
-                                               launcher
+                                               launcher,
+                                               get_group_id (runner_type)
                     );
                     app_group.tools = new Gee.LinkedList<Tool> ();
 
@@ -186,6 +204,21 @@ namespace ProtonPlus.Models {
             }
 
             return "";
+        }
+
+        private static string get_group_id (RunnerType runner_type) {
+            switch (runner_type) {
+            case RunnerType.DXVK:
+                return "dxvk";
+            case RunnerType.VKD3D:
+                return "vkd3d";
+            case RunnerType.Proton:
+                return "proton";
+            case RunnerType.Wine:
+                return "wine";
+            }
+
+            return "unknown";
         }
 
         private static string get_group_description (RunnerType runner_type) {

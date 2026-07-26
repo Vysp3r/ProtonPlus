@@ -6,6 +6,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Wine {
         public Vanilla () {
             base (
                 SourceType.GITHUB,
+                "wine-vanilla",
                 "Wine-Vanilla (Kron4ek)",
                 "Wine build compiled from the official WineHQ sources.",
                 "https://api.github.com/repos/Kron4ek/Wine-Builds/releases"

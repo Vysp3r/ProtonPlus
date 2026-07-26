@@ -6,6 +6,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
         public Boxtron () {
             base (
                 SourceType.GITHUB,
+                "boxtron",
                 "Boxtron",
                 "Steam compatibility tool for running DOS games using DOSBox for Linux.",
                 "https://api.github.com/repos/dreamer/boxtron/releases"

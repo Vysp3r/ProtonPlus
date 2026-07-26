@@ -31,6 +31,7 @@ namespace ProtonPlus.Models {
     }
 
     public class Group : Object {
+        public string id { get; private set; }
         public string title { get; set; }
         public string description { get; set; }
         public string directory { get; set; }
@@ -41,7 +42,8 @@ namespace ProtonPlus.Models {
 
         public signal void installed_tool_index_invalidated ();
 
-        public Group (string title, string description, string directory, Launcher launcher) {
+        public Group (string title, string description, string directory, Launcher launcher, string id = "unknown") {
+            this.id = id;
             this.title = title;
             this.description = description;
             this.directory = directory;

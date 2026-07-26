@@ -6,6 +6,7 @@ namespace ProtonPlus.Models.Launchers.Runners.DXVK {
         public Sarek () {
             base (
                 SourceType.GITHUB,
+                "dxvk-sarek",
                 "DXVK (Sarek)",
                 "DXVK builds that work with pre-Vulkan 1.3 versions.",
                 "https://api.github.com/repos/pythonlover02/DXVK-Sarek/releases"

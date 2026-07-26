@@ -6,6 +6,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Wine {
         public StagingTkg () {
             base (
                 SourceType.GITHUB,
+                "wine-staging-tkg",
                 "Wine-Staging-Tkg (Kron4ek)",
                 "Wine build with the Staging patchset and many other useful patches.",
                 "https://api.github.com/repos/Kron4ek/Wine-Builds/releases"

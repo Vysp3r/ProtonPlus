@@ -6,6 +6,7 @@ namespace ProtonPlus.Models.Launchers.Runners.VKD3D {
         public Proton () {
             base (
                 SourceType.GITHUB,
+                "vkd3d-proton",
                 "VKD3D-Proton",
                 "",
                 "https://api.github.com/repos/HansKristian-Work/vkd3d-proton/releases"

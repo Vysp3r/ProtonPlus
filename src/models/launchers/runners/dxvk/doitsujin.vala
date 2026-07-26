@@ -6,6 +6,7 @@ namespace ProtonPlus.Models.Launchers.Runners.DXVK {
         public Doitsujin () {
             base (
                 SourceType.GITHUB,
+                "dxvk-doitsujin",
                 "DXVK (doitsujin)",
                 "",
                 "https://api.github.com/repos/doitsujin/dxvk/releases"

@@ -10,6 +10,23 @@ namespace ProtonPlus.Models.Launchers.Runners {
     }
 
     public abstract class Base : Object, IRunner {
+        private string _provider_id = "";
+        private string _source_id = "";
+
+        public string provider_id {
+            get { return _provider_id; }
+            set {
+                if (_provider_id == "")
+                    _provider_id = value;
+            }
+        }
+        public string source_id {
+            get { return _source_id; }
+            set {
+                if (_source_id == "")
+                    _source_id = value;
+            }
+        }
         public string title { get; set; }
         public string description { get; set; }
         public string endpoint { get; set; }
@@ -27,14 +44,31 @@ namespace ProtonPlus.Models.Launchers.Runners {
 
         private Gee.HashMap<string, string> directory_name_formats = new Gee.HashMap<string, string> ();
 
-        protected Base (SourceType source_type, string title, string description, string endpoint) {
+        protected Base (SourceType source_type, string provider_id, string title, string description, string endpoint) {
             this.source_type = source_type;
+            this.provider_id = provider_id;
+            this.source_id = get_source_id (source_type);
             this.title = title;
             this.description = description;
             this.endpoint = endpoint;
 
             this.variants = new Gee.LinkedList<Variant> ();
             this.launchers = new Gee.LinkedList<Launcher> ();
+        }
+
+        private static string get_source_id (SourceType source_type) {
+            switch (source_type) {
+            case SourceType.GITHUB:
+                return "github";
+            case SourceType.GITHUB_ACTION:
+                return "github-actions";
+            case SourceType.GITLAB:
+                return "gitlab";
+            case SourceType.FORGEJO:
+                return "forgejo";
+            default:
+                return "";
+            }
         }
 
         protected void add_variant (string name, string format, bool is_default) {
@@ -99,6 +133,7 @@ namespace ProtonPlus.Models.Launchers.Runners {
             runner.legacy = this.legacy;
             runner.sort_priority = this.sort_priority;
             runner.source_runner = this;
+            runner.set_identity (provider_id, source_id);
             runner.variants = new Gee.LinkedList<ProtonPlus.Models.Variant> ();
 
             foreach (var variant_data in this.variants) {

@@ -17,7 +17,7 @@ namespace ProtonPlus.Models.Launchers {
                     break;
             }
 
-            base ("WineZGUI", installation_type, "%s/winezgui.svg".printf (Config.RESOURCE_BASE), directories);
+            base ("WineZGUI", installation_type, "%s/winezgui.svg".printf (Config.RESOURCE_BASE), directories, "winezgui");
         }
     }
 }

@@ -8,6 +8,7 @@ int main (string[] args) {
     AppTests.ParserTest.register_tests ();
     AppTests.ProviderDefinitionTest.register_tests ();
     AppTests.ProviderSourceTest.register_tests ();
+    AppTests.IdentityTest.register_tests ();
     AppTests.InstallLayoutTest.register_tests ();
     AppTests.InstallerTransactionTest.register_tests ();
     AppTests.SteamTest.register_tests ();

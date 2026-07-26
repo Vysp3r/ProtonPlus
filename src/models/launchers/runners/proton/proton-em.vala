@@ -7,6 +7,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
         public ProtonEM () {
             base (
                 SourceType.GITHUB,
+                "proton-em",
                 "Proton-EM",
                 "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. " +
                 "By Etaash Mathamsetty, adding FSR4 support and Wine Wayland tweaks.",

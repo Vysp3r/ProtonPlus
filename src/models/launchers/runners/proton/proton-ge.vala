@@ -7,6 +7,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
         public ProtonGE () {
             base (
                 SourceType.GITHUB,
+                "proton-ge",
                 "Proton-GE",
                 "Steam compatibility tool for running Windows games with improvements over Valve's default Proton.",
                 "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases"

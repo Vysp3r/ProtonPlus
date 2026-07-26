@@ -27,7 +27,7 @@ namespace ProtonPlus.Models.Launchers {
                     break;
             }
 
-            base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories);
+            base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories, "steam");
 
             has_library_support = true;
         }

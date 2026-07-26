@@ -6,6 +6,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Wine {
         public Proton () {
             base (
                 SourceType.GITHUB,
+                "wine-proton",
                 "Wine-Proton (Kron4ek)",
                 "Wine build modified by Valve and other contributors.",
                 "https://api.github.com/repos/Kron4ek/Wine-Builds/releases"

@@ -7,6 +7,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
         public ProtonGERtsp () {
             base (
                 SourceType.GITHUB,
+                "proton-ge-rtsp",
                 "Proton-GE RTSP",
                 "Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat.",
                 "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases"

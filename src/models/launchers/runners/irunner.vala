@@ -3,6 +3,8 @@ namespace ProtonPlus.Models.Launchers.Runners {
     using ProtonPlus.Models.Internal.Requests;
 
     public interface IRunner : Object {
+        public abstract string provider_id { get; set; }
+        public abstract string source_id { get; set; }
         public abstract string title { get; set; }
         public abstract string description { get; set; }
         public abstract string endpoint { get; set; }

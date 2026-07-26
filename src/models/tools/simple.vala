@@ -1,5 +1,7 @@
 namespace ProtonPlus.Models.Tools {
     public class Simple : Tool {
+        // Simple tools represent external compatibility entries.  Their
+        // display and internal titles are intentionally not stable tool IDs.
         public string display_title { get; set; }
         public string internal_title { get; set; }
         public string path { get; set; }

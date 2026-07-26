@@ -1,5 +1,7 @@
 namespace ProtonPlus.Models.Tools {
     public abstract class Basic : Tool {
+        // Basic tools receive their provider and source identities from the
+        // runner definition that creates them.
         internal ProtonPlus.Models.Launchers.Runners.IRunner? source_runner { get; set; }
         internal string endpoint { get; set; }
         internal string directory_name_format { get; set; }

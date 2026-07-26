@@ -7,6 +7,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
         public ProtonTKG () {
             base (
                 SourceType.GITHUB_ACTION,
+                "proton-tkg",
                 "Proton-Tkg",
                 "Custom Proton build for running Windows games, based on Wine-tkg.",
                 "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/proton-valvexbe-sniper.yml/runs"

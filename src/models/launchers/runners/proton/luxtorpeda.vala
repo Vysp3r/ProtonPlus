@@ -7,6 +7,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
         public Luxtorpeda () {
             base (
                 SourceType.FORGEJO,
+                "luxtorpeda",
                 "Luxtorpeda",
                 "Luxtorpeda provides Linux-native game engines for certain Windows-only games.",
                 "https://codeberg.org/api/v1/repos/luxtorpeda/luxtorpeda/releases"

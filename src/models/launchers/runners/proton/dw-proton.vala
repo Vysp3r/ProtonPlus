@@ -7,6 +7,7 @@ namespace ProtonPlus.Models.Launchers.Runners.Proton {
         public DW () {
             base (
                 SourceType.FORGEJO,
+                "dw-proton",
                 "DW-Proton",
                 "Dawn Winery's custom Proton fork with fixes for various games :xdd:",
                 "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases"

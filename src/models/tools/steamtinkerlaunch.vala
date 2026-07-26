@@ -6,6 +6,7 @@ namespace ProtonPlus.Models.Tools {
                     description: _ (
                         "Steam tool for easy, graphical configuration of your other compatibility tools for both Windows games and native Linux games."
                     ));
+            set_identity ("steam-tinker-launch", "github");
         }
 
         public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {

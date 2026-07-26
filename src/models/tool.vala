@@ -1,5 +1,10 @@
 namespace ProtonPlus.Models {
     public abstract class Tool : Object {
+        // This is a serialized runtime identity.  Its components remain
+        // available through group and provider_id.
+        public string id { get; internal set; default = ""; }
+        public string provider_id { get; internal set; default = ""; }
+        public string source_id { get; internal set; default = ""; }
         public string title { get; set; }
         public string description { get; set; }
         public Group group { get; set; }
@@ -20,6 +25,12 @@ namespace ProtonPlus.Models {
                 releases = new Gee.LinkedList<Release> ();
             if (variants == null)
                 variants = new Gee.LinkedList<Variant> ();
+        }
+
+        internal void set_identity (string provider_id, string source_id) {
+            this.provider_id = provider_id;
+            this.source_id = source_id;
+            this.id = "%s/%s/%s".printf (group.launcher.instance_id, group.id, provider_id);
         }
 
         public virtual bool is_installed () {

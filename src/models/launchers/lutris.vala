@@ -17,7 +17,7 @@ namespace ProtonPlus.Models.Launchers {
                     break;
             }
 
-            base ("Lutris", installation_type, "%s/lutris.svg".printf (Config.RESOURCE_BASE), directories);
+            base ("Lutris", installation_type, "%s/lutris.svg".printf (Config.RESOURCE_BASE), directories, "lutris");
 
             if (installed) {
                 Utils.Filesystem.create_directory_async.begin (directory + "/runners/proton", null);
