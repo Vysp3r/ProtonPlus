@@ -5,46 +5,17 @@
   <project_license>GPL-3.0-or-later</project_license>
 
   <name>ProtonPlus</name>
-  <summary>A modern compatibility tools manager</summary>
+  <summary>Manage Proton, Wine, DXVK, and VKD3D tools for Linux game launchers</summary>
   <description>
     <p>
-      ProtonPlus is a simple tool to help you manage your compatibility tools for Steam, Faugus Launcher, Lutris, Heroic Games Launcher and Bottles.
+      ProtonPlus helps you install, update, remove, and organize Windows compatibility tools used by Steam and other Linux game launchers.
     </p>
-    <p>Features:</p>
     <ul>
-      <li>Manage supported compatibility tools across supported launchers</li>
-      <li>Change the compatibility tool and launch options of your Steam games</li>
-      <li>And much more...</li>
-    </ul>
-    <p>Supported launchers:</p>
-    <ul>
-      <li>Steam</li>
-      <li>Faugus Launcher</li>
-      <li>Lutris</li>
-      <li>Heroic Games Launcher</li>
-      <li>Bottles</li>
-      <li>WineZGUI</li>
-    </ul>
-    <p>Supported compatibility tools:</p>
-    <ul>
-      <li>Steam Tinker Launch</li>
-      <li>Proton-GE</li>
-      <li>Luxtorpeda</li>
-      <li>Boxtron</li>
-      <li>Roberta</li>
-      <li>Proton-GE RTSP</li>
-      <li>Proton CachyOS</li>
-      <li>Proton EM</li>
-      <li>Proton Tkg</li>
-      <li>Kron4ek Wine-Builds Proton</li>
-      <li>Kron4ek Wine-Builds Vanilla</li>
-      <li>Kron4ek Wine-Builds Staging</li>
-      <li>Kron4ek Wine-Builds Staging-Tkg</li>
-      <li>DXVK</li>
-      <li>DXVK (Sarek)</li>
-      <li>DXVK GPL+Async (Ph42oN)</li>
-      <li>VKD3D-Lutris</li>
-      <li>VKD3D-Proton</li>
+      <li>Manage Proton, Wine, DXVK, VKD3D, and related compatibility tools</li>
+      <li>Support Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, and WineZGUI</li>
+      <li>Browse Steam games, change compatibility tools, and edit launch options</li>
+      <li>Track downloads and updates, with cancellation and desktop notifications</li>
+      <li>Use the command-line interface to list, install, update, and uninstall tools</li>
     </ul>
   </description>
 
@@ -57,6 +28,12 @@
     <keyword>Wine</keyword>
     <keyword>Steam</keyword>
     <keyword>Faugus</keyword>
+    <keyword>Lutris</keyword>
+    <keyword>Heroic</keyword>
+    <keyword>Bottles</keyword>
+    <keyword>DXVK</keyword>
+    <keyword>VKD3D</keyword>
+    <keyword>Compatibility</keyword>
   </keywords>
 
   <url type="homepage">https://protonplus.vysp3r.com/</url>

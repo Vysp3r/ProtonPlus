@@ -14,6 +14,7 @@ src/models/installed-tool-inventory.vala
 src/models/internal/metainfo.vala
 src/models/launcher.vala
 src/models/launchers/bottles.vala
+src/models/launchers/faugus-launcher.vala
 src/models/launchers/heroic-games-launcher.vala
 src/models/launchers/lutris.vala
 src/models/launchers/steam.vala
