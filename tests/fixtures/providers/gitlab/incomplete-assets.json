@@ -1,0 +1,48 @@
+[
+  {
+    "id": 7301,
+    "tag_name": "v-incomplete",
+    "_links": {},
+    "assets": {
+      "links": [
+        {
+          "name": "v-incomplete.tar.gz",
+          "direct_asset_url": ""
+        },
+        {
+          "name": "",
+          "direct_asset_url": "https://example.test/gitlab/unnamed.tar.gz?ref_type=heads"
+        },
+        {
+          "name": "v-normalized-empty.tar.gz",
+          "direct_asset_url": "?ref_type=heads"
+        }
+      ]
+    }
+  },
+  {
+    "id": 7302,
+    "tag_name": "v-mixed",
+    "_links": {},
+    "assets": {
+      "links": [
+        {
+          "name": "v-mixed-first.tar.gz",
+          "direct_asset_url": "?ref_type=heads"
+        },
+        {
+          "name": "",
+          "direct_asset_url": "https://example.test/gitlab/unnamed.tar.gz?ref_type=heads"
+        },
+        {
+          "name": "v-mixed-first.tar.gz",
+          "direct_asset_url": "https://example.test/gitlab/v-mixed-first.tar.gz?ref_type=heads"
+        },
+        {
+          "name": "v-mixed-default.tar.gz",
+          "direct_asset_url": "https://example.test/gitlab/v-mixed-default.tar.gz?ref_type=heads"
+        }
+      ]
+    }
+  }
+]

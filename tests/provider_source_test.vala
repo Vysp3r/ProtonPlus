@@ -11,6 +11,9 @@ namespace AppTests.ProviderSourceTest {
         Test.add_func ("/providers/github-actions/canonical-release-page", test_github_actions_release_page);
         Test.add_func ("/providers/github-actions/definition-filters", test_github_actions_definition_filters);
         Test.add_func ("/providers/github/definition-filters", test_github_definition_filters);
+        Test.add_func ("/providers/github/incomplete-assets", test_github_incomplete_assets);
+        Test.add_func ("/providers/forgejo/incomplete-assets", test_forgejo_incomplete_assets);
+        Test.add_func ("/providers/gitlab/incomplete-assets", test_gitlab_incomplete_assets);
         Test.add_func ("/providers/github-compatible/primary-asset-policies", test_github_compatible_primary_asset_policies);
         Test.add_func ("/providers/github-compatible/validation-and-skipped-releases", test_github_compatible_validation_and_skipped_releases);
         Test.add_func ("/providers/invalid-response-codes", test_invalid_response_codes);
@@ -186,6 +189,81 @@ namespace AppTests.ProviderSourceTest {
         );
         var excluded_result = new GitHubReleaseSource ().parse_response (excluded, fixture ("github", "release.json"), 1, 25);
         assert (excluded_result.succeeded && excluded_result.require_page ().releases.size == 0);
+    }
+
+    private void test_github_incomplete_assets () {
+        var result = new GitHubReleaseSource ().parse_response (
+            policy_definition (SourceType.GITHUB), fixture ("github", "incomplete-assets.json"), 1, 25
+        );
+        assert (result.succeeded);
+        var page = result.require_page ();
+        assert (page.releases.size == 1);
+        var release = page.releases[0];
+        assert (release.source_tag == "v-mixed");
+        assert (release.asset.name == "v-mixed-first.tar.gz");
+        assert (release.asset.download_url == "https://example.test/github/v-mixed-first.tar.gz");
+        assert (release.asset.download_url != "");
+        assert (release.variants[0].is_default);
+        assert (release.variants[0].download_url == "https://example.test/github/v-mixed-default.tar.gz");
+        assert (release.variants[0].download_url != "");
+
+        var fallback_result = new GitHubReleaseSource ().parse_response (
+            definition (SourceType.GITHUB), fixture ("github", "incomplete-assets.json"), 1, 25
+        );
+        assert (fallback_result.succeeded);
+        var fallback = fallback_result.require_page ().releases[0];
+        assert (fallback.asset.download_url == "https://example.test/github/v-mixed-first.tar.gz");
+        assert (fallback.variants[0].download_url == fallback.asset.download_url);
+    }
+
+    private void test_forgejo_incomplete_assets () {
+        var result = new ForgejoReleaseSource ().parse_response (
+            policy_definition (SourceType.FORGEJO), fixture ("forgejo", "incomplete-assets.json"), 1, 25
+        );
+        assert (result.succeeded);
+        var page = result.require_page ();
+        assert (page.releases.size == 1);
+        var release = page.releases[0];
+        assert (release.source_tag == "v-mixed");
+        assert (release.asset.name == "v-mixed-default.tar.gz");
+        assert (release.asset.download_url == "https://example.test/forgejo/v-mixed-default.tar.gz");
+        assert (release.asset.download_url != "");
+        assert (release.variants[0].is_default);
+        assert (release.variants[0].download_url == release.asset.download_url);
+        assert (release.variants[0].download_url != "");
+
+        var fallback_result = new ForgejoReleaseSource ().parse_response (
+            definition (SourceType.FORGEJO), fixture ("forgejo", "incomplete-assets.json"), 1, 25
+        );
+        assert (fallback_result.succeeded);
+        var fallback = fallback_result.require_page ().releases[0];
+        assert (fallback.asset.download_url == "https://example.test/forgejo/v-mixed-first.tar.gz");
+        assert (fallback.variants[0].download_url == fallback.asset.download_url);
+    }
+
+    private void test_gitlab_incomplete_assets () {
+        var result = new GitLabReleaseSource ().parse_response (
+            policy_definition (SourceType.GITLAB), fixture ("gitlab", "incomplete-assets.json"), 1, 25
+        );
+        assert (result.succeeded);
+        var page = result.require_page ();
+        assert (page.releases.size == 1);
+        var release = page.releases[0];
+        assert (release.source_tag == "v-mixed");
+        assert (release.asset.name == "v-mixed-default.tar.gz");
+        assert (release.asset.download_url == "https://example.test/gitlab/v-mixed-default.tar.gz");
+        assert (release.asset.download_url != "");
+        assert (release.variants[0].is_default);
+        assert (release.variants[0].download_url == release.asset.download_url);
+        assert (release.variants[0].download_url != "");
+
+        var fallback_result = new GitLabReleaseSource ().parse_response (
+            definition (SourceType.GITLAB), fixture ("gitlab", "incomplete-assets.json"), 1, 25
+        );
+        assert (fallback_result.succeeded);
+        var fallback = fallback_result.require_page ().releases[0];
+        assert (fallback.asset.download_url == "https://example.test/gitlab/v-mixed-first.tar.gz");
+        assert (fallback.variants[0].download_url == fallback.asset.download_url);
     }
 
     private void test_github_compatible_primary_asset_policies () {

@@ -1,0 +1,40 @@
+[
+  {
+    "id": 7101,
+    "tag_name": "v-incomplete",
+    "assets": [
+      {
+        "name": "v-incomplete.tar.gz",
+        "browser_download_url": ""
+      },
+      {
+        "name": "",
+        "browser_download_url": "https://example.test/github/unnamed.tar.gz"
+      }
+    ]
+  },
+  {
+    "id": 7102,
+    "tag_name": "v-mixed",
+    "assets": [
+      {
+        "name": "v-mixed-first.tar.gz",
+        "browser_download_url": ""
+      },
+      {
+        "name": "",
+        "browser_download_url": "https://example.test/github/unnamed.tar.gz"
+      },
+      {
+        "name": "v-mixed-first.tar.gz",
+        "browser_download_url": "https://example.test/github/v-mixed-first.tar.gz",
+        "size": 3
+      },
+      {
+        "name": "v-mixed-default.tar.gz",
+        "browser_download_url": "https://example.test/github/v-mixed-default.tar.gz",
+        "size": 4
+      }
+    ]
+  }
+]

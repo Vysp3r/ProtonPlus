@@ -81,13 +81,16 @@ namespace ProtonPlus.Providers.Sources {
                 var object = array.get_object_element (index);
                 if (object == null)
                     continue;
-                var asset = new Models.Assets.Asset (
-                    object.get_string_member_with_default ("name", ""),
-                    object.get_string_member_with_default ("browser_download_url", ""),
+                var name = object.get_string_member_with_default ("name", "");
+                var download_url = object.get_string_member_with_default ("browser_download_url", "");
+                if (name == "" || download_url == "" || !Models.Assets.Asset.is_archive_name (name))
+                    continue;
+
+                assets.add (new Models.Assets.Asset (
+                    name,
+                    download_url,
                     object.has_member ("size") ? object.get_int_member ("size") : 0
-                );
-                if (asset.is_archive ())
-                    assets.add (asset);
+                ));
             }
             return assets;
         }

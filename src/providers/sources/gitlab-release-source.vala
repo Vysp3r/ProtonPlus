@@ -82,12 +82,14 @@ namespace ProtonPlus.Providers.Sources {
                 var object = array.get_object_element (index);
                 if (object == null)
                     continue;
-                var asset = new Models.Assets.Asset (
-                    object.get_string_member_with_default ("name", ""),
-                    object.get_string_member_with_default ("direct_asset_url", "").replace ("?ref_type=heads", "")
-                );
-                if (asset.is_archive ())
-                    assets.add (asset);
+                var name = object.get_string_member_with_default ("name", "");
+                var download_url = object.get_string_member_with_default (
+                    "direct_asset_url", ""
+                ).replace ("?ref_type=heads", "");
+                if (name == "" || download_url == "" || !Models.Assets.Asset.is_archive_name (name))
+                    continue;
+
+                assets.add (new Models.Assets.Asset (name, download_url));
             }
             return assets;
         }
