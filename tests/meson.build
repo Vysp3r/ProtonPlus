@@ -3,6 +3,7 @@ test_sources = files(
     'filesystem_test.vala',
     'metadata_test.vala',
     'parser_test.vala',
+    'provider_source_test.vala',
     'steam_test.vala',
     'vdf_binary_test.vala',
 )
@@ -17,7 +18,12 @@ test_exe = executable(
     vala_args: ['--target-glib=2.58'],
 )
 
-test('ProtonPlus unit tests', test_exe, protocol: 'tap')
+test(
+    'ProtonPlus unit tests',
+    test_exe,
+    protocol: 'tap',
+    workdir: meson.current_source_dir(),
+)
 
 python = import('python').find_installation()
 test('Maintenance script tests', python, args: files('scripts_test.py'))

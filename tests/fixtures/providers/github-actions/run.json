@@ -1,0 +1,13 @@
+{
+  "workflow_runs": [
+    {
+      "id": 5001,
+      "run_number": 73,
+      "html_url": "https://github.com/example/project/actions/runs/5001",
+      "artifacts_url": "https://api.github.com/repos/example/project/actions/runs/5001/artifacts",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-07-25T12:34:56Z"
+    }
+  ]
+}
