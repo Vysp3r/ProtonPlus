@@ -14,6 +14,10 @@ namespace ProtonPlus.Widgets.Tools {
         Adw.StatusPage status_page { get; set; }
 
         private Models.Tool? current_tool;
+        // State changes are observed only for rows in the currently displayed
+        // catalog.  Disconnect them before replacing the rows so completed
+        // background jobs cannot refresh an unrelated tool's filters.
+        private Gee.HashMap<Services.InstallJob, ulong> job_state_handlers = new Gee.HashMap<Services.InstallJob, ulong> ();
         // Incremented whenever a tool request replaces the visible tool state.
         // Async completions must match both this generation and their tool before
         // they are allowed to update the UI.
@@ -263,6 +267,7 @@ namespace ProtonPlus.Widgets.Tools {
             content_stack.set_visible_child_name ("spinner");
             load_more_button.sensitive = true;
 
+            disconnect_job_state_handlers ();
             list_box.remove_all ();
 
             title_label.set_label (tool.title);
@@ -322,6 +327,7 @@ namespace ProtonPlus.Widgets.Tools {
             content_stack.set_visible_child_name ("spinner");
             load_more_button.sensitive = true;
 
+            disconnect_job_state_handlers ();
             list_box.remove_all ();
 
             title_label.set_label (tool.title);
@@ -621,6 +627,17 @@ namespace ProtonPlus.Widgets.Tools {
             if (active_job != null)
                 job = active_job;
 
+            if (job_state_handlers.has_key (job))
+                job.disconnect (job_state_handlers.get (job));
+            job_state_handlers.set (job, job.notify["state"].connect (() => {
+                if (job.state != Services.InstallJob.State.BUSY_INSTALLING &&
+                    job.state != Services.InstallJob.State.BUSY_REMOVING &&
+                    job.state != Services.InstallJob.State.BUSY_UPDATING) {
+                    list_box.invalidate_filter ();
+                    update_visibility ();
+                }
+            }));
+
             ReleaseRow row;
             if (job.steam_tinker_launch_context != null) {
                 row = new STLReleaseRow (job);
@@ -632,6 +649,17 @@ namespace ProtonPlus.Widgets.Tools {
             row.set_data ("job", job);
             row.job_selected.connect ((selected_job) => job_selected (selected_job));
             list_box.append (row);
+        }
+
+        private void disconnect_job_state_handlers () {
+            foreach (var entry in job_state_handlers.entries)
+                entry.key.disconnect (entry.value);
+            job_state_handlers.clear ();
+        }
+
+        public override void dispose () {
+            disconnect_job_state_handlers ();
+            base.dispose ();
         }
 
         private async void on_load_more_clicked () {
