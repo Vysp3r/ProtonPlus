@@ -25,8 +25,7 @@ namespace ProtonPlus.Providers.Sources {
                 definition,
                 response_body,
                 requested_page,
-                limit,
-                GitHubCompatiblePrimaryAssetPolicy.FIRST_ARCHIVE
+                limit
             );
         }
     }

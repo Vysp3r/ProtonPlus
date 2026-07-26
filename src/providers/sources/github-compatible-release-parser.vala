@@ -1,18 +1,12 @@
 namespace ProtonPlus.Providers.Sources {
     using Gee;
 
-    internal enum GitHubCompatiblePrimaryAssetPolicy {
-        FIRST_ARCHIVE,
-        DEFAULT_VARIANT_ASSET,
-    }
-
     internal class GitHubCompatibleReleaseParser : Object {
         public static Models.Tools.ReleasePageResult parse (
             Models.Providers.ProviderDefinition definition,
             string response_body,
             int requested_page,
-            int limit,
-            GitHubCompatiblePrimaryAssetPolicy primary_asset_policy
+            int limit
         ) {
             var root_array = ReleaseSourceSupport.parse_array (response_body);
             if (root_array == null)
@@ -38,17 +32,7 @@ namespace ProtonPlus.Providers.Sources {
                 var variants = CatalogReleaseBuilder.create_variants (
                     definition, tag_name, tag_name, assets, first_asset.download_url
                 );
-                Models.Assets.Asset? primary_asset = null;
-                switch (primary_asset_policy) {
-                case GitHubCompatiblePrimaryAssetPolicy.FIRST_ARCHIVE:
-                    primary_asset = first_asset;
-                    break;
-                case GitHubCompatiblePrimaryAssetPolicy.DEFAULT_VARIANT_ASSET:
-                    primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
-                    break;
-                default:
-                    assert_not_reached ();
-                }
+                var primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
                 if (primary_asset == null)
                     continue;
 

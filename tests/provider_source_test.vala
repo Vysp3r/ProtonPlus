@@ -14,7 +14,7 @@ namespace AppTests.ProviderSourceTest {
         Test.add_func ("/providers/github/incomplete-assets", test_github_incomplete_assets);
         Test.add_func ("/providers/forgejo/incomplete-assets", test_forgejo_incomplete_assets);
         Test.add_func ("/providers/gitlab/incomplete-assets", test_gitlab_incomplete_assets);
-        Test.add_func ("/providers/github-compatible/primary-asset-policies", test_github_compatible_primary_asset_policies);
+        Test.add_func ("/providers/github-compatible/default-variant-assets", test_github_compatible_default_variant_assets);
         Test.add_func ("/providers/github-compatible/validation-and-skipped-releases", test_github_compatible_validation_and_skipped_releases);
         Test.add_func ("/providers/invalid-response-codes", test_invalid_response_codes);
         Test.add_func ("/providers/empty-pages", test_empty_pages);
@@ -200,8 +200,8 @@ namespace AppTests.ProviderSourceTest {
         assert (page.releases.size == 1);
         var release = page.releases[0];
         assert (release.source_tag == "v-mixed");
-        assert (release.asset.name == "v-mixed-first.tar.gz");
-        assert (release.asset.download_url == "https://example.test/github/v-mixed-first.tar.gz");
+        assert (release.asset.name == "v-mixed-default.tar.gz");
+        assert (release.asset.download_url == "https://example.test/github/v-mixed-default.tar.gz");
         assert (release.asset.download_url != "");
         assert (release.variants[0].is_default);
         assert (release.variants[0].download_url == "https://example.test/github/v-mixed-default.tar.gz");
@@ -266,7 +266,7 @@ namespace AppTests.ProviderSourceTest {
         assert (fallback.variants[0].download_url == fallback.asset.download_url);
     }
 
-    private void test_github_compatible_primary_asset_policies () {
+    private void test_github_compatible_default_variant_assets () {
         var response = "[{\"id\":42,\"tag_name\":\"v1\",\"body\":\"notes\",\"html_url\":\"https://example.test/v1\",\"created_at\":\"2026-07-25T12:34:56Z\",\"assets\":[{\"name\":\"v1-first.tar.gz\",\"browser_download_url\":\"https://example.test/v1-first.tar.gz\",\"size\":10},{\"name\":\"v1-default.tar.gz\",\"browser_download_url\":\"https://example.test/v1-default.tar.gz\",\"size\":20}]}]";
         var github_result = new GitHubReleaseSource ().parse_response (
             policy_definition (SourceType.GITHUB), response, 1, 25
@@ -279,7 +279,7 @@ namespace AppTests.ProviderSourceTest {
         var github = github_result.require_page ().releases[0];
         var forgejo = forgejo_result.require_page ().releases[0];
         assert (github.upstream_release_id == "42" && github.source_tag == "v1");
-        assert (github.asset.name == "v1-first.tar.gz" && github.download_size == 10);
+        assert (github.asset.name == "v1-default.tar.gz" && github.download_size == 20);
         assert (forgejo.asset.name == "v1-default.tar.gz" && forgejo.download_size == 20);
         assert (github.variants[0].download_url == "https://example.test/v1-default.tar.gz");
         assert (forgejo.variants[0].download_url == "https://example.test/v1-default.tar.gz");

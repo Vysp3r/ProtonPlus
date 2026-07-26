@@ -15,12 +15,15 @@ namespace AppTests.InstallerTransactionTest {
             string location,
             string fixture_path,
             bool cancel_download = false,
-            bool fail_promotion = false
+            bool fail_promotion = false,
+            ProtonPlus.Services.InstallJob.Mode mode = ProtonPlus.Services.InstallJob.Mode.VERSIONED
         ) {
             base (new Release (
-                "Fixture Runner", "", "", new Models.Assets.Asset ("runner.zip", "https://fixtures.invalid/runner.zip"),
+                "Fixture Runner", "", "", new Models.Assets.Asset (
+                    "runner.zip", "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path))
+                ),
                 "", 0, "fixture-release-id", "fixture-tag"
-            ), runner, ProtonPlus.Services.InstallJob.Mode.VERSIONED, location);
+            ), runner, mode, location);
             this.fixture_path = fixture_path;
             this.cancel_download = cancel_download;
             this.fail_promotion = fail_promotion;
@@ -72,6 +75,10 @@ namespace AppTests.InstallerTransactionTest {
         Test.add_func ("/installer-transaction/standard-finalization-uses-launcher-capabilities", test_standard_finalization_uses_launcher_capabilities);
         Test.add_func ("/installer-transaction/operation-identity-prevents-duplicates", test_operation_identity_prevents_duplicates);
         Test.add_func ("/installer-transaction/nested-archive-requirement-extracts-nested-archive", test_nested_archive_requirement_extracts_nested_archive);
+        Test.add_func ("/installer-transaction/latest-rewrites-supported-compatibility-manifest-layouts", test_latest_rewrites_supported_compatibility_manifest_layouts);
+        Test.add_func ("/installer-transaction/versioned-install-preserves-compatibility-manifest", test_versioned_install_preserves_compatibility_manifest);
+        Test.add_func ("/installer-transaction/latest-rejects-malformed-compatibility-manifest", test_latest_rejects_malformed_compatibility_manifest);
+        Test.add_func ("/installer-transaction/all-built-in-providers-use-latest-workflow", test_all_built_in_providers_use_latest_workflow);
     }
 
     private string temporary_directory () {
@@ -79,8 +86,13 @@ namespace AppTests.InstallerTransactionTest {
         catch (FileError e) { critical ("Could not create test directory: %s", e.message); assert_not_reached (); }
     }
     private string fixture_archive (string root) {
-        var encoded = ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename ("fixtures", "archives", "runner.zip.base64")).strip ();
-        var path = Path.build_filename (root, "runner.zip");
+        return fixture_archive_named (root, "runner.zip.base64");
+    }
+    private string fixture_archive_named (string root, string fixture_name) {
+        var encoded = ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename ("fixtures", "archives", fixture_name)
+        ).strip ();
+        var path = Path.build_filename (root, fixture_name.replace (".base64", ""));
         try { FileUtils.set_data (path, Base64.decode (encoded)); }
         catch (FileError e) { critical ("Could not write archive fixture: %s", e.message); assert_not_reached (); }
         return path;
@@ -116,6 +128,14 @@ namespace AppTests.InstallerTransactionTest {
         }
         assert (definition != null);
         var value = ProviderCatalog.create_tool ((!) definition, group);
+        assert (value != null);
+        return (!) value;
+    }
+    private Models.Tools.ProviderTool runner_for_definition (string root, ProviderDefinition definition) {
+        assert (ProtonPlus.Utils.Filesystem.create_directory (root));
+        var launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
+        var group = new Group ("Test", "", "", launcher);
+        var value = ProviderCatalog.create_tool (definition, group);
         assert (value != null);
         return (!) value;
     }
@@ -265,6 +285,101 @@ namespace AppTests.InstallerTransactionTest {
         assert (job.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE);
         assert (install (job) == ReturnCode.RUNNER_INSTALLED);
         assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (location, "marker.txt")) == "nested runner\n");
+        assert (delete_directory (root));
+    }
+
+    private void test_latest_rewrites_supported_compatibility_manifest_layouts () {
+        foreach (var fixture_name in new string[] {
+            "wrapped-manifest-runner.zip.base64", "direct-manifest-runner.zip.base64"
+        }) {
+            string root, cache, tools, location;
+            prepare (out root, out cache, out tools, out location);
+            var target = runner (tools);
+            var job = new FixtureJob (
+                target, location, fixture_archive_named (root, fixture_name), false, false,
+                ProtonPlus.Services.InstallJob.Mode.LATEST
+            );
+
+            assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+            var content = ProtonPlus.Utils.Filesystem.get_file_content (
+                Path.build_filename (location, "compatibilitytool.vdf")
+            );
+            assert (content.contains ("\"Proton-GE Latest\" // Internal name of this tool"));
+            assert (content.contains ("\"display_name\" \"Proton-GE Latest\""));
+            assert (!content.contains ("\"display_name\" \"Fixture Runner\""));
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_versioned_install_preserves_compatibility_manifest () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (
+            runner (tools), location,
+            fixture_archive_named (root, "wrapped-manifest-runner.zip.base64")
+        );
+
+        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        var content = ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (location, "compatibilitytool.vdf")
+        );
+        assert (content.contains ("\"Fixture Runner\" // Internal name of this tool"));
+        assert (content.contains ("\"display_name\" \"Fixture Runner\""));
+        assert (!content.contains ("Proton-GE Latest"));
+        assert (delete_directory (root));
+    }
+
+    private void test_latest_rejects_malformed_compatibility_manifest () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (
+            runner (tools), location,
+            fixture_archive_named (root, "malformed-manifest-runner.zip.base64"), false, false,
+            ProtonPlus.Services.InstallJob.Mode.LATEST
+        );
+
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*expected exactly one compat_tools entry*");
+        assert (install (job) == ReturnCode.INVALID_DATA);
+        Test.assert_expected_messages ();
+        assert (job.error_message == "The compatibility tool manifest is invalid or incomplete");
+        assert (!FileUtils.test (location, FileTest.EXISTS));
+        no_entries (cache, ".protonplus-install-");
+        no_entries (tools, ".protonplus-stage-");
+        assert (delete_directory (root));
+    }
+
+    private void test_all_built_in_providers_use_latest_workflow () {
+        var root = temporary_directory ();
+        var cache = Path.build_filename (root, "cache");
+        var tools = Path.build_filename (root, "tools");
+        Globals.CACHE_PATH = cache;
+        assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (tools));
+        var wrapped_archive = fixture_archive_named (root, "wrapped-manifest-runner.zip.base64");
+        var nested_archive = fixture_archive_named (root, "nested-wrapped-manifest-runner.zip.base64");
+
+        foreach (var definition in new ProviderRegistry ().get_all ()) {
+            var target_root = Path.build_filename (tools, definition.provider_id);
+            var target = runner_for_definition (target_root, definition);
+            var location = Path.build_filename (target_root, "Latest installation");
+            var archive = definition.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE
+                ? nested_archive : wrapped_archive;
+            var job = new FixtureJob (
+                target, location, archive, false, false,
+                ProtonPlus.Services.InstallJob.Mode.LATEST
+            );
+
+            assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+            var content = ProtonPlus.Utils.Filesystem.get_file_content (
+                Path.build_filename (location, "compatibilitytool.vdf")
+            );
+            assert (content.contains ("\"display_name\" \"%s Latest\"".printf (definition.title)));
+            var metadata = ProtonPlus.Utils.Metadata.load (location);
+            assert (metadata.provider_id == definition.provider_id);
+            assert (metadata.tag == "fixture-tag");
+        }
+
+        no_entries (cache, ".protonplus-install-");
         assert (delete_directory (root));
     }
 }

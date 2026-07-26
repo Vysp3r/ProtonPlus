@@ -62,7 +62,22 @@ namespace ProtonPlus.Services {
         // CLI bulk updates retain this service-level entry point while the
         // standard workflow owns the discovery and replacement mechanics.
         public async ReturnCode update_specific_runner (Models.Tools.ProviderTool runner) {
-            return yield standard_archive_workflow.update_specific_runner (runner, this);
+            runner.group.refresh_installed_state ();
+            var found = false;
+            var updated = false;
+            foreach (var entry in runner.group.get_installed_tool_snapshot ()) {
+                if (!is_latest_installation (entry, runner))
+                    continue;
+                found = true;
+                var code = yield standard_archive_workflow.update_specific_runner (runner, this, entry.path);
+                if (code == ReturnCode.RUNNER_UPDATED)
+                    updated = true;
+                else if (code != ReturnCode.NOTHING_TO_UPDATE)
+                    return code;
+            }
+            if (!found)
+                return ReturnCode.RUNNER_NOT_INSTALLED;
+            return updated ? ReturnCode.RUNNER_UPDATED : ReturnCode.NOTHING_TO_UPDATE;
         }
 
         /// Used only by update workflows after they have made their own
@@ -109,10 +124,9 @@ namespace ProtonPlus.Services {
                         var runner = tool as Models.Tools.ProviderTool;
                         if (runner == null)
                             continue;
-                        var latest = "%s Latest".printf (runner.title);
                         var has_latest = false;
                         foreach (var entry in entries) {
-                            if (entry.directory_name == latest) {
+                            if (is_latest_installation (entry, runner)) {
                                 has_latest = true;
                                 break;
                             }
@@ -121,7 +135,7 @@ namespace ProtonPlus.Services {
                             continue;
                         if (!processed_tool_targets.add (runner.id))
                             continue;
-                        var code = yield standard_archive_workflow.update_specific_runner (runner, this);
+                        var code = yield update_specific_runner (runner);
                         if (code == ReturnCode.RUNNER_UPDATED)
                             updated++;
                         else if (code != ReturnCode.NOTHING_TO_UPDATE)
@@ -140,6 +154,20 @@ namespace ProtonPlus.Services {
                 warning (e.message);
                 return false;
             }
+        }
+
+        private bool is_latest_installation (
+            Models.InstalledToolEntry entry,
+            Models.Tools.ProviderTool runner
+        ) {
+            var latest = "%s Latest".printf (runner.title);
+            if (entry.directory_name != latest && !entry.directory_name.has_prefix ("%s-".printf (latest)))
+                return false;
+            if (entry.tool_id != "" && entry.tool_id != runner.id)
+                return false;
+            if (entry.provider_id != "" && entry.provider_id != runner.provider_id)
+                return false;
+            return entry.launcher_id == "" || entry.launcher_id == runner.group.launcher.tool_target_id;
         }
 
         private async ReturnCode start_install (InstallJob job, bool replace_existing) {

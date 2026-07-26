@@ -12,8 +12,27 @@ namespace AppTests.UpdateTransactionTest {
         }
     }
 
+    private class StaticReleaseSource : Object, ReleaseSource {
+        private Release release;
+
+        public StaticReleaseSource (Release release) {
+            this.release = release;
+        }
+
+        public async ReleasePageResult fetch_page (ProviderDefinition definition, int requested_page, int limit) {
+            var releases = new Gee.LinkedList<Release> ();
+            releases.add (release);
+            return ReleasePageResult.success (new ReleasePage (releases, requested_page + 1, false));
+        }
+    }
+
     private class FixtureCoordinator : Object, ProtonPlus.Services.InstallationOperationCoordinator {
+        public int install_calls { get; private set; default = 0; }
+        public string selected_url { get; private set; default = ""; }
+
         public async ReturnCode install_for_update (ProtonPlus.Services.InstallJob job) {
+            install_calls++;
+            selected_url = job.selected_asset.download_url;
             return ReturnCode.FILESYSTEM_ERROR;
         }
     }
@@ -23,6 +42,8 @@ namespace AppTests.UpdateTransactionTest {
         Test.add_func ("/update-transaction/migrates-settings-symlink", test_migrates_settings_symlink);
         Test.add_func ("/update-transaction/migration-failure-rolls-back-runner", test_migration_failure_rolls_back_runner);
         Test.add_func ("/update-transaction/github-actions-request-failure-is-propagated", test_github_actions_request_failure_is_propagated);
+        Test.add_func ("/update-transaction/latest-identity-controls-update-detection", test_latest_identity_controls_update_detection);
+        Test.add_func ("/update-transaction/latest-restores-installed-variant", test_latest_restores_installed_variant);
     }
 
     private string create_temp_directory () {
@@ -72,11 +93,34 @@ namespace AppTests.UpdateTransactionTest {
         );
     }
 
+    private ProviderTool static_runner (string root, Release release) {
+        var launcher = new Launcher ("Fixture", Launcher.InstallationTypes.SYSTEM, "", { root });
+        var group = new Group ("Fixture", "", "", launcher);
+        var definition = new ProviderDefinition (
+            Category.PROTON, SourceType.GITHUB, "fixture-static", "Fixture Runner", "",
+            "https://example.test/releases", 1,
+            { new VariantDefinition ("standard", "default", "$release_name", true) },
+            { InstallLayout.template ("default", "$release_name") }
+        );
+        return new ProviderTool.with_catalog (
+            definition, new StaticReleaseSource (release), group,
+            InstallLayout.template ("default", "$release_name")
+        );
+    }
+
     private ReturnCode update_specific_runner (ProviderTool runner) {
+        return update_specific_runner_with_coordinator (runner, new FixtureCoordinator ());
+    }
+
+    private ReturnCode update_specific_runner_with_coordinator (
+        ProviderTool runner,
+        FixtureCoordinator coordinator,
+        string? installation_location = null
+    ) {
         var loop = new MainLoop ();
         ReturnCode result = ReturnCode.FILESYSTEM_ERROR;
         var workflow = new ProtonPlus.Services.StandardArchiveWorkflow ();
-        workflow.update_specific_runner.begin (runner, new FixtureCoordinator (), (obj, response) => {
+        workflow.update_specific_runner.begin (runner, coordinator, installation_location, (obj, response) => {
             result = workflow.update_specific_runner.end (response);
             loop.quit ();
         });
@@ -214,5 +258,70 @@ namespace AppTests.UpdateTransactionTest {
         assert (delete_directory (regular_root));
         assert (delete_directory (standard_actions_root));
         assert (delete_directory (nested_regular_root));
+    }
+
+    private void test_latest_identity_controls_update_detection () {
+        var current_root = create_temp_directory ();
+        var current_release = new Release (
+            "v2", "", "", new Models.Assets.Asset ("runner.zip", "https://example.test/v2.zip"),
+            "", 0, "release-v2", "v2"
+        );
+        var current_runner = static_runner (current_root, current_release);
+        var current_directory = Path.build_filename (current_root, "Fixture Runner Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (current_directory));
+        var current_metadata = new ProtonPlus.Utils.Metadata ();
+        current_metadata.tag = "v2";
+        current_metadata.release_id = "release-v2";
+        assert (current_metadata.save (current_directory));
+        var current_coordinator = new FixtureCoordinator ();
+
+        assert (update_specific_runner_with_coordinator (current_runner, current_coordinator) == ReturnCode.NOTHING_TO_UPDATE);
+        assert (current_coordinator.install_calls == 0);
+
+        var stale_root = create_temp_directory ();
+        var stale_runner = static_runner (stale_root, current_release);
+        var stale_directory = Path.build_filename (stale_root, "Fixture Runner Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (stale_directory));
+        var stale_metadata = new ProtonPlus.Utils.Metadata ();
+        stale_metadata.tag = "v1";
+        stale_metadata.release_id = "release-v1";
+        assert (stale_metadata.save (stale_directory));
+        var stale_coordinator = new FixtureCoordinator ();
+
+        assert (update_specific_runner_with_coordinator (stale_runner, stale_coordinator) == ReturnCode.FILESYSTEM_ERROR);
+        assert (stale_coordinator.install_calls == 1);
+
+        assert (delete_directory (current_root));
+        assert (delete_directory (stale_root));
+    }
+
+    private void test_latest_restores_installed_variant () {
+        var root = create_temp_directory ();
+        var release = new Release (
+            "v2", "", "", new Models.Assets.Asset ("runner.zip", "https://example.test/default.zip"),
+            "", 0, "release-v2", "v2"
+        );
+        release.variants.add (new ProtonPlus.Models.Variant (
+            "default", "Default", "runner", true, "https://example.test/default.zip"
+        ));
+        release.variants.add (new ProtonPlus.Models.Variant (
+            "alternate", "Alternate", "runner-alternate", false, "https://example.test/alternate.zip"
+        ));
+        var runner = static_runner (root, release);
+        var directory = Path.build_filename (root, "Fixture Runner Latest-Alternate");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+        var metadata = new ProtonPlus.Utils.Metadata ();
+        metadata.tag = "v1";
+        metadata.release_id = "release-v1";
+        metadata.variant_id = "alternate";
+        assert (metadata.save (directory));
+
+        var coordinator = new FixtureCoordinator ();
+
+        assert (update_specific_runner_with_coordinator (runner, coordinator, directory) == ReturnCode.FILESYSTEM_ERROR);
+        assert (coordinator.install_calls == 1);
+        assert (coordinator.selected_url == "https://example.test/alternate.zip");
+
+        assert (delete_directory (root));
     }
 }

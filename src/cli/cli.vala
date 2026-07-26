@@ -374,6 +374,7 @@ namespace ProtonPlus.CLI {
 
         private async Gee.LinkedList<Models.Tools.ProviderTool> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
             var latest_runners = new Gee.LinkedList<Models.Tools.ProviderTool> ();
+            var collected_runner_ids = new Gee.HashSet<string> ();
 
             foreach (var launcher in scope) {
                 foreach (var group in launcher.groups) {
@@ -387,8 +388,10 @@ namespace ProtonPlus.CLI {
                         }
 
                         foreach (var entry in entries) {
-                            if (entry.directory_name == "%s Latest".printf (tool.title)) {
-                                latest_runners.add (provider_tool);
+                            var latest = "%s Latest".printf (tool.title);
+                            if (entry.directory_name == latest || entry.directory_name.has_prefix ("%s-".printf (latest))) {
+                                if (collected_runner_ids.add (provider_tool.id))
+                                    latest_runners.add (provider_tool);
                                 continue;
                             }
 

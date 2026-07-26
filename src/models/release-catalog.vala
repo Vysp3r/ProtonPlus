@@ -214,6 +214,9 @@ namespace ProtonPlus.Models {
                     if (cached_variant.is_default &&
                         (cached_variant.download_url == null || cached_variant.download_url == ""))
                         return false;
+                    if (cached_variant.is_default &&
+                        cached_release.asset.download_url != cached_variant.download_url)
+                        return false;
                 }
 
                 for (var left_index = 0; left_index < cached_release.variants.size - 1; left_index++) {

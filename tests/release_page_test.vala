@@ -372,6 +372,29 @@ namespace AppTests.ReleasePageTest {
         assert (no_url_result.releases[0].title == "fresh");
         assert (no_url_result.succeeded && no_url_source.requested_pages.size == 1);
 
+        var wrong_primary = new LinkedList<Release> ();
+        var wrong_primary_release = new Release (
+            "old", "", "2026-07-26T00:00:00Z",
+            new ProtonPlus.Models.Assets.Asset (
+                "old-first.tar.gz", "https://example.test/old-first.tar.gz"
+            ),
+            "", 0, "1", "old"
+        );
+        wrong_primary_release.variants.add (new ProtonPlus.Models.Variant (
+            "standard", "default", "$release_name", true,
+            "https://example.test/old-default.tar.gz"
+        ));
+        wrong_primary.add (wrong_primary_release);
+        save_snapshot (new ReleaseCatalogCache ("wrong-primary-tool", "Fixture provider"),
+            new ReleaseCatalogSnapshot (wrong_primary, 2, false, "old"));
+        var wrong_primary_source = new FixtureReleaseSource ();
+        wrong_primary_source.set_page (1, new ReleasePage (fresh, 2, false));
+        var wrong_primary_result = load (
+            catalog ("wrong-primary-tool", definition (), wrong_primary_source), false
+        );
+        assert (wrong_primary_result.releases[0].title == "fresh");
+        assert (wrong_primary_result.succeeded && wrong_primary_source.requested_pages.size == 1);
+
         var duplicate = new LinkedList<Release> ();
         duplicate.add (cached_release ("old", "1", true, true));
         save_snapshot (new ReleaseCatalogCache ("duplicate-url-tool", "Fixture provider"),

@@ -47,9 +47,15 @@ namespace ProtonPlus.Services {
                 job.error_message = _ ("Moving failed");
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             }
-            if (job.mode == InstallJob.Mode.LATEST && !rewrite_compatibility_tool_vdf (job, staged_install_path))
-                return yield archive_support.complete_attempt (ReturnCode.INVALID_DATA, archive);
-            persist_runner_install_metadata (job, staged_install_path);
+            if (job.mode == InstallJob.Mode.LATEST) {
+                var manifest_code = rewrite_compatibility_tool_vdf (job, staged_install_path);
+                if (manifest_code != ReturnCode.RUNNER_INSTALLED)
+                    return yield archive_support.complete_attempt (manifest_code, archive);
+            }
+            if (!persist_runner_install_metadata (job, staged_install_path)) {
+                job.error_message = _ ("Failed to save compatibility tool metadata");
+                return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
+            }
 
             if (FileUtils.test (job.install_location, FileTest.EXISTS)) {
                 if (!replace_existing)
@@ -118,9 +124,10 @@ namespace ProtonPlus.Services {
 
         public async ReturnCode update_specific_runner (
             Models.Tools.ProviderTool runner,
-            InstallationOperationCoordinator coordinator
+            InstallationOperationCoordinator coordinator,
+            string? installation_location = null
         ) {
-            var directory = "%s%s/%s Latest".printf (
+            var directory = installation_location ?? "%s%s/%s Latest".printf (
                 runner.group.launcher.directory, runner.group.directory, runner.title
             );
             if (!FileUtils.test (directory, FileTest.IS_DIR))
@@ -137,7 +144,11 @@ namespace ProtonPlus.Services {
             }
             if (!lookup.has_release)
                 return ReturnCode.NOTHING_TO_UPDATE;
-            var job = new InstallJob (lookup.require_release (), runner, InstallJob.Mode.LATEST);
+            var job = new InstallJob (
+                lookup.require_release (), runner, InstallJob.Mode.LATEST, directory
+            );
+            if (!restore_installed_variant (job, metadata.variant_id))
+                return ReturnCode.INVALID_DATA;
             return yield update_latest_job (job, coordinator);
         }
 
@@ -181,14 +192,19 @@ namespace ProtonPlus.Services {
             var release = job.release;
             if (release.source_tag != "" && metadata.tag == release.source_tag)
                 return ReturnCode.NOTHING_TO_UPDATE;
-            var version_content = Utils.Filesystem.get_file_content ("%s/version".printf (job.install_location));
-            var proton_content = Utils.Filesystem.get_file_content ("%s/proton".printf (job.install_location));
+            var version_path = "%s/version".printf (job.install_location);
+            var proton_path = "%s/proton".printf (job.install_location);
+            var version_content = FileUtils.test (version_path, FileTest.IS_REGULAR)
+                ? Utils.Filesystem.get_file_content (version_path) : "";
+            var proton_content = FileUtils.test (proton_path, FileTest.IS_REGULAR)
+                ? Utils.Filesystem.get_file_content (proton_path) : "";
             if (version_content != "" && proton_content != "" && release_matches_installed_version (release, version_content, proton_content)) {
-                persist_runner_identity (
+                if (!persist_runner_identity (
                     metadata, runner, job.install_location,
                     release.source_tag != "" ? release.source_tag : release.title,
                     release.upstream_release_id
-                );
+                ))
+                    return ReturnCode.FILESYSTEM_ERROR;
                 return ReturnCode.NOTHING_TO_UPDATE;
             }
             if (!job.selected_asset.is_archive ())
@@ -215,6 +231,28 @@ namespace ProtonPlus.Services {
             return job.archive_install_requirement == Models.Providers.ArchiveInstallRequirement.NESTED_ARCHIVE;
         }
 
+        private bool restore_installed_variant (InstallJob job, string variant_id) {
+            if (variant_id == "")
+                return true;
+
+            foreach (var variant in job.release.variants) {
+                if (variant.id != variant_id)
+                    continue;
+                if (variant.download_url == null || variant.download_url == "") {
+                    warning ("Latest release for %s has no download URL for installed variant %s", job.tool.title, variant_id);
+                    return false;
+                }
+                job.set_selected_variant (
+                    variant.name,
+                    Models.Assets.Asset.from_download_url ((!) variant.download_url)
+                );
+                return true;
+            }
+
+            warning ("Latest release for %s does not contain installed variant %s", job.tool.title, variant_id);
+            return false;
+        }
+
         private async string? extract_nested_archive (InstallJob job, string source_path, string extract_path) {
             var extension = Utils.ArchiveHelper.get_archive_extension (source_path, true);
             if (extension == null)
@@ -224,44 +262,62 @@ namespace ProtonPlus.Services {
             return yield Utils.Filesystem.extract (extract_path, archive_name, extension, job.get_cancellable ());
         }
 
-        private bool rewrite_compatibility_tool_vdf (InstallJob job, string staged_install_path) {
+        private ReturnCode rewrite_compatibility_tool_vdf (InstallJob job, string staged_install_path) {
             var path = "%s/compatibilitytool.vdf".printf (staged_install_path);
             if (!FileUtils.test (path, FileTest.IS_REGULAR))
-                return true;
+                return ReturnCode.RUNNER_INSTALLED;
             var content = Utils.Filesystem.get_file_content (path);
-            if (content == "") {
-                job.error_message = _ ("Failed to read compatibilitytool.vdf");
-                return false;
-            }
+            if (content == "")
+                return manifest_failure (job, path, "manifest is empty or unreadable");
             var document = Utils.VDF.VdfParser.parse_document (content);
             if (document == null)
-                return false;
-            var compat_tools = document.root.get_child ("compat_tools");
+                return manifest_failure (job, path, "manifest is not valid text VDF");
+            var compat_tools = find_compat_tools (document);
             if (compat_tools == null || compat_tools.children.size != 1)
-                return false;
+                return manifest_failure (job, path, "expected exactly one compat_tools entry");
             var tool = compat_tools.children.get (0);
             if (tool.key == "" || tool.key_start < 0 || tool.key_end < tool.key_start)
-                return false;
+                return manifest_failure (job, path, "compatibility tool name is missing or invalid");
             content = document.replace_key (tool, job.title);
             document = Utils.VDF.VdfParser.parse_document (content);
             if (document == null)
-                return false;
-            compat_tools = document.root.get_child ("compat_tools");
+                return manifest_failure (job, path, "renamed manifest is not valid text VDF");
+            compat_tools = find_compat_tools (document);
             if (compat_tools == null || compat_tools.children.size != 1)
-                return false;
+                return manifest_failure (job, path, "renamed manifest lost its compat_tools entry");
             tool = compat_tools.children.get (0);
             var display_name = tool.get_child ("display_name");
             if (display_name == null || display_name.value == null ||
                 display_name.value_start < 0 || display_name.value_end < display_name.value_start)
-                return false;
+                return manifest_failure (job, path, "display_name is missing or invalid");
             content = document.replace_value (display_name, job.title);
-            return Utils.Filesystem.modify_file (path, content);
+            if (!Utils.Filesystem.modify_file (path, content)) {
+                warning ("Could not rewrite Latest compatibility manifest for %s at %s: file write failed", job.title, path);
+                job.error_message = _ ("Failed to update compatibilitytool.vdf");
+                return ReturnCode.FILESYSTEM_ERROR;
+            }
+            return ReturnCode.RUNNER_INSTALLED;
         }
 
-        private void persist_runner_install_metadata (InstallJob job, string path) {
+        private Utils.VDF.VdfEntry? find_compat_tools (Utils.VDF.VdfDocument document) {
+            var compat_tools = document.root.get_child ("compat_tools");
+            if (compat_tools != null)
+                return compat_tools;
+
+            var compatibility_tools = document.root.get_child ("compatibilitytools");
+            return compatibility_tools?.get_child ("compat_tools");
+        }
+
+        private ReturnCode manifest_failure (InstallJob job, string path, string reason) {
+            warning ("Could not rewrite Latest compatibility manifest for %s at %s: %s", job.title, path, reason);
+            job.error_message = _ ("The compatibility tool manifest is invalid or incomplete");
+            return ReturnCode.INVALID_DATA;
+        }
+
+        private bool persist_runner_install_metadata (InstallJob job, string path) {
             var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null)
-                return;
+                return false;
             var metadata = Utils.Metadata.load (path);
             metadata.runner_endpoint = runner.endpoint;
             metadata.runner_title = runner.title;
@@ -271,7 +327,7 @@ namespace ProtonPlus.Services {
             metadata.launcher_id = runner.group.launcher.tool_target_id;
             metadata.variant_id = job.selected_variant_id ();
             metadata.release_id = job.release.upstream_release_id;
-            metadata.save (path);
+            return metadata.save (path);
         }
 
         private async bool rollback_replaced_runner (string directory, string backup) {
@@ -303,7 +359,7 @@ namespace ProtonPlus.Services {
             return title == version_title || title == proton_title;
         }
 
-        private void persist_runner_identity (
+        private bool persist_runner_identity (
             Utils.Metadata metadata,
             Models.Tools.ProviderTool runner,
             string directory,
@@ -319,7 +375,7 @@ namespace ProtonPlus.Services {
                 metadata.tag = tag;
             if (release_id != "")
                 metadata.release_id = release_id;
-            metadata.save (directory);
+            return metadata.save (directory);
         }
 
         private bool is_request_failure (ReturnCode code) {
