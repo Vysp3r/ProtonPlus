@@ -213,7 +213,7 @@ generate_icons() {
   local icon_sizes=(512 256 128 64 48 32 16)
   local size
 
-  check_dependencies inkscape optipng
+  check_dependencies rsvg-convert
   show_log "INFO" "Generating application icons..."
 
   for size in "${icon_sizes[@]}"; do
@@ -221,14 +221,11 @@ generate_icons() {
     local png_file="${png_output_dir}/com.vysp3r.ProtonPlus.png"
 
     mkdir -p "${png_output_dir}"
-    inkscape \
-      --export-type=png \
-      --export-filename="${png_file}" \
-      --export-area-page \
-      --export-width="${size}" \
-      --export-height="${size}" \
+    rsvg-convert \
+      --width="${size}" \
+      --height="${size}" \
+      --output="${png_file}" \
       "${svg_file}"
-    optipng -o7 "${png_file}"
   done
 
   show_log "PASS" "Icons successfully generated."
