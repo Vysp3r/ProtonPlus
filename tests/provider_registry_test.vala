@@ -13,7 +13,7 @@ namespace AppTests.ProviderRegistryTest {
         Test.add_func ("/provider-registry/validation/invalid-layout", test_invalid_layout_validation);
         Test.add_func ("/provider-registry/validation/github-actions-template", test_github_actions_template_validation);
         Test.add_func ("/provider-registry/validation/required-fields-and-source", test_required_field_and_source_validation);
-        Test.add_func ("/provider-registry/sources-available", test_builtin_sources_are_available);
+        Test.add_func ("/provider-registry/source-type-fitness", test_source_type_fitness);
         Test.add_func ("/provider-registry/definition-only-provider-creates-standard-tool", test_definition_only_provider_creates_standard_tool);
         Test.add_func ("/provider-registry/unsupported-source-is-rejected", test_unsupported_source_is_rejected);
     }
@@ -198,21 +198,36 @@ namespace AppTests.ProviderRegistryTest {
         assert (has_message (registry, "install layouts are missing"));
     }
 
-    private void test_builtin_sources_are_available () {
-        foreach (var definition in new ProviderRegistry ().get_all ()) {
-            var source = ReleaseSourceRegistry.create (definition.source_type);
+    private void test_source_type_fitness () {
+        var source_type_class = (EnumClass) typeof (SourceType).class_ref ();
+        var source_ids = new Gee.HashSet<string> ();
+
+        // Vala registers SourceType as a GEnum. Iterating its metadata ensures
+        // a newly added enum member reaches the ID and adapter assertions even
+        // before a built-in definition uses it.
+        foreach (var enum_value in source_type_class.values) {
+            var source_type = (SourceType) enum_value.value;
+            var source_id = ProviderDefinition.source_id_for (source_type);
+            assert (source_id != "");
+            assert (source_ids.add (source_id));
+
+            var source = ReleaseSourceRegistry.create (source_type);
             assert (source != null);
-            switch (definition.source_type) {
+            switch (source_type) {
             case SourceType.GITHUB:
+                assert (source_id == "github");
                 assert (source is GitHubReleaseSource);
                 break;
             case SourceType.GITHUB_ACTIONS:
+                assert (source_id == "github-actions");
                 assert (source is GitHubActionsReleaseSource);
                 break;
             case SourceType.GITLAB:
+                assert (source_id == "gitlab");
                 assert (source is GitLabReleaseSource);
                 break;
             case SourceType.FORGEJO:
+                assert (source_id == "forgejo");
                 assert (source is ForgejoReleaseSource);
                 break;
             default:
@@ -245,6 +260,8 @@ namespace AppTests.ProviderRegistryTest {
 
         assert (!registry.is_valid);
         assert (has_message (registry, "source type has no supported source mapping"));
+        assert (definition.source_id == "");
+        assert (ProviderDefinition.source_id_for (definition.source_type) == "");
         assert (ReleaseSourceRegistry.create (definition.source_type) == null);
         assert (ProviderCatalog.create_tool (definition, fixture_group ()) == null);
     }

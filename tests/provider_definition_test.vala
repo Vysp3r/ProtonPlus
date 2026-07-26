@@ -93,9 +93,10 @@ namespace AppTests.ProviderDefinitionTest {
             for (var index = 0; index < variants.length; index++) {
                 var actual = variants[index];
                 var expected_variant = expected_variants.get_array_element (index);
-                assert (actual.name == expected_variant.get_string_element (0));
-                assert (actual.format == expected_variant.get_string_element (1));
-                assert (actual.is_default == expected_variant.get_boolean_element (2));
+                assert (actual.id == expected_variant.get_string_element (0));
+                assert (actual.name == expected_variant.get_string_element (1));
+                assert (actual.format == expected_variant.get_string_element (2));
+                assert (actual.is_default == expected_variant.get_boolean_element (3));
             }
         }
     }
