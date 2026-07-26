@@ -1,90 +1,153 @@
+# ProtonPlus Code of Conduct
 
-# Contributor Covenant 3.0 Code of Conduct
+ProtonPlus is a community project for managing Windows compatibility tools on
+Linux. We welcome users, contributors, translators, packagers, maintainers,
+and everyone else who helps the project or uses its software.
 
-## Our Pledge
+This Code of Conduct describes the behavior expected in ProtonPlus community
+spaces and the process for addressing problems. It applies equally to
+everyone, including maintainers and other people with decision-making
+authority.
 
-We pledge to make our community welcoming, safe, and equitable for all.
+## Expected behavior
 
-We are committed to fostering an environment that respects and promotes the dignity, rights, and contributions of all individuals, regardless of characteristics including race, ethnicity, caste, color, age, physical characteristics, neurodiversity, disability, sex or gender, gender identity or expression, sexual orientation, language, philosophy or religion, national or social origin, socio-economic position, level of education, or other status. The same privileges of participation are extended to everyone who participates in good faith and in accordance with this Covenant.
+Participants are expected to:
 
+- Be respectful, considerate, and inclusive.
+- Discuss ideas and technical decisions without attacking people.
+- Communicate clearly and constructively, especially across differences in
+  language, culture, experience, and accessibility needs.
+- Give and accept feedback in good faith, and take responsibility for mistakes
+  or harm caused by our words or actions.
+- Credit the work of others and respect their privacy.
+- Follow the project’s contribution and moderation processes.
 
-## Encouraged Behaviors
+Disagreement about code, design, project direction, or support is welcome when
+it remains professional and focused on the work.
 
-While acknowledging differences in social norms, we all strive to meet our community's expectations for positive behavior. We also understand that our words and actions may be interpreted differently than we intend based on culture, background, or native language.
+## Unacceptable behavior
 
-With these considerations in mind, we agree to behave mindfully toward each other and act in ways that center our shared values, including:
+The following behavior is not acceptable in ProtonPlus spaces:
 
-1. Respecting the **purpose of our community**, our activities, and our ways of gathering.
-2. Engaging **kindly and honestly** with others.
-3. Respecting **different viewpoints** and experiences.
-4. **Taking responsibility** for our actions and contributions.
-5. Gracefully giving and accepting **constructive feedback**.
-6. Committing to **repairing harm** when it occurs.
-7. Behaving in other ways that promote and sustain the **well-being of our community**.
+- Harassment, intimidation, stalking, or sustained unwanted contact.
+- Discrimination, slurs, personal attacks, or derogatory comments based on
+  identity, background, ability, experience, or any other personal
+  characteristic.
+- Unwelcome sexual attention, sexualized language or imagery, or other sexual
+  conduct that is inappropriate for the context.
+- Threats of violence, incitement, or conduct that puts someone’s safety at
+  risk.
+- Publishing or threatening to publish private or identifying information
+  without permission, including doxxing.
+- Deliberate disruption, trolling, spam, impersonation, or misrepresenting an
+  affiliation with ProtonPlus.
+- Plagiarism or presenting someone else’s work as your own.
+- Retaliation against someone who raises a concern or participates in a
+  review.
+- Knowingly making a bad-faith report to harass, intimidate, or silence
+  another participant.
 
-
-## Restricted Behaviors
-
-We agree to restrict the following behaviors in our community. Instances, threats, and promotion of these behaviors are violations of this Code of Conduct.
-
-1. **Harassment.** Violating explicitly expressed boundaries or engaging in unnecessary personal attention after any clear request to stop.
-2. **Character attacks.** Making insulting, demeaning, or pejorative comments directed at a community member or group of people.
-3. **Stereotyping or discrimination.** Characterizing anyone’s personality or behavior on the basis of immutable identities or traits.
-4. **Sexualization.** Behaving in a way that would generally be considered inappropriately intimate in the context or purpose of the community.
-5. **Violating confidentiality**. Sharing or acting on someone's personal or private information without their permission.
-6. **Endangerment.** Causing, encouraging, or threatening violence or other harm toward any person or group.
-7. Behaving in other ways that **threaten the well-being** of our community.
-
-### Other Restrictions
-
-1. **Misleading identity.** Impersonating someone else for any reason, or pretending to be someone else to evade enforcement actions.
-2. **Failing to credit sources.** Not properly crediting the sources of content you contribute.
-3. **Promotional materials**. Sharing marketing or other commercial content in a way that is outside the norms of the community.
-4. **Irresponsible communication.** Failing to responsibly present content which includes, links or describes any other restricted behaviors.
-
-
-## Reporting an Issue
-
-Tensions can occur between community members even when they are trying their best to collaborate. Not every conflict represents a code of conduct violation, and this Code of Conduct reinforces encouraged behaviors and norms that can help avoid conflicts and minimize harm.
-
-When an incident does occur, it is important to report it promptly. To report a possible violation, contact the Community Moderators at [dev@vysp3r.com](mailto:dev@vysp3r.com).
-
-Community Moderators take reports of violations seriously and will make every effort to respond in a timely manner. They will investigate all reports of code of conduct violations, reviewing messages, logs, and recordings, or interviewing witnesses and other participants. Community Moderators will keep investigation and enforcement actions as transparent as possible while prioritizing safety and confidentiality. In order to honor these values, enforcement actions are carried out in private with the involved parties, but communicating to the whole community may be part of a mutually agreed upon resolution.
-
-
-## Addressing and Repairing Harm
-
-If an investigation by the Community Moderators finds that this Code of Conduct has been violated, the following enforcement ladder may be used to determine how best to repair harm, based on the incident's impact on the individuals involved and the community as a whole. Depending on the severity of a violation, lower rungs on the ladder may be skipped.
-
-1) Warning
-   - Event: A violation involving a single incident or series of incidents.
-   - Consequence: A private, written warning from the Community Moderators.
-   - Repair: Examples of repair include a private written apology, acknowledgement of responsibility, and seeking clarification on expectations.
-2) Temporarily Limited Activities
-   - Event: A repeated incidence of a violation that previously resulted in a warning, or the first incidence of a more serious violation.
-   - Consequence: A private, written warning with a time-limited cooldown period designed to underscore the seriousness of the situation and give the community members involved time to process the incident. The cooldown period may be limited to particular communication channels or interactions with particular community members.
-   - Repair: Examples of repair may include making an apology, using the cooldown period to reflect on actions and impact, and being thoughtful about re-entering community spaces after the period is over.
-3) Temporary Suspension
-   - Event: A pattern of repeated violation which the Community Moderators have tried to address with warnings, or a single serious violation.
-   - Consequence: A private written warning with conditions for return from suspension. In general, temporary suspensions give the person being suspended time to reflect upon their behavior and possible corrective actions.
-   - Repair: Examples of repair include respecting the spirit of the suspension, meeting the specified conditions for return, and being thoughtful about how to reintegrate with the community when the suspension is lifted.
-4) Permanent Ban
-   - Event: A pattern of repeated code of conduct violations that other steps on the ladder have failed to resolve, or a violation so serious that the Community Moderators determine there is no way to keep the community safe with this person as a member.
-   - Consequence: Access to all community spaces, tools, and communication channels is removed. In general, permanent bans should be rarely used, should have strong reasoning behind them, and should only be resorted to if working through other remedies has failed to change the behavior.
-   - Repair: There is no possible repair in cases of this severity.
-
-This enforcement ladder is intended as a guideline. It does not limit the ability of Community Managers to use their discretion and judgment, in keeping with the best interests of our community.
-
+This list is not exhaustive. Behavior that a reasonable person would consider
+threatening, abusive, or seriously disruptive may also violate this Code of
+Conduct.
 
 ## Scope
 
-This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public or other spaces. Examples of representing our community include using an official email address, posting via an official social media account, or acting as an appointed representative at an online or offline event.
+This Code of Conduct applies to ProtonPlus project spaces and activities,
+including the GitHub repository, issues, pull requests, code reviews, commit
+discussions, the Weblate translation project, project email, and any official
+online or in-person event or account.
 
+It also applies when someone is officially representing ProtonPlus in another
+space. Conduct outside project spaces may be considered when it directly
+affects someone’s safety or ability to participate in the ProtonPlus community.
+
+## Reporting a concern
+
+Report suspected violations privately to [dev@vysp3r.com](mailto:dev@vysp3r.com).
+Do not use a public issue, pull request, or discussion for a conduct report.
+
+Reports may be made by the person affected or by a witness. Include whatever
+you can safely share, such as:
+
+- What happened, and when and where it happened.
+- Links, screenshots, or other relevant evidence.
+- The accounts or people involved and any witnesses.
+- Whether there is an immediate safety concern.
+- How you would prefer to be contacted and any confidentiality concerns.
+
+You do not need to confront the person involved before making a report. If
+there is an immediate threat to someone’s safety, contact local emergency
+services first and report to ProtonPlus when it is safe to do so.
+
+Bug reports, feature requests, and technical support belong in the [issue
+tracker](https://github.com/Vysp3r/ProtonPlus/issues). Security vulnerabilities
+must be reported privately according to the [security
+policy](SECURITY.md).
+
+## Maintainer responsibilities
+
+Project maintainers are responsible for clarifying and applying this Code of
+Conduct. They will:
+
+- Treat reports seriously and acknowledge receipt when practical.
+- Review reports promptly, fairly, and without requiring public disclosure.
+- Give the people involved an opportunity to respond when doing so is safe
+  and appropriate.
+- Consider the impact, context, pattern of behavior, and safety risks rather
+  than relying only on stated intent.
+- Recuse themselves from decisions involving a conflict of interest whenever
+  possible.
+- Explain decisions and any restrictions to the people directly affected,
+  while protecting private information.
+
+## Enforcement
+
+After reviewing a report, maintainers may take any proportionate action needed
+to protect the community, including:
+
+- A private reminder or warning.
+- Removal or editing of content and a request to stop the behavior.
+- A temporary restriction on specific project spaces or interactions.
+- A temporary suspension or permanent ban from project spaces.
+
+The response will depend on the seriousness, impact, and pattern of the
+behavior. Maintainers may skip steps when a serious violation or immediate
+safety concern requires it. Enforcement may also address attempts to evade a
+restriction or retaliate against a reporter. Good-faith reports that do not
+result in action are not violations of this Code of Conduct.
+
+## Privacy and confidentiality
+
+Reports and related information will be handled privately and shared only with
+people who need it to review or respond. We will not publicly identify a
+reporter or disclose report details without consent unless disclosure is
+necessary to protect someone, investigate the concern, or comply with a legal
+obligation. Email and online services cannot guarantee absolute
+confidentiality, so do not include passwords, access tokens, or unrelated
+sensitive information.
+
+## Appeals
+
+Anyone directly involved in an enforcement decision may request an appeal by
+replying to the decision email within 30 days. An appeal should identify new
+information or a concern about how this Code of Conduct was applied. An appeal
+does not automatically suspend safety measures already in place.
+
+Where practical, an appeal will be reviewed by a maintainer who was not
+involved in the original decision. If that is not possible, the original
+decision-maker will review the new information and explain the outcome. The
+appeal decision is final for the project.
 
 ## Attribution
 
-This Code of Conduct is adapted from the Contributor Covenant, version 3.0, permanently available at [https://www.contributor-covenant.org/version/3/0/](https://www.contributor-covenant.org/version/3/0/).
+This document is adapted from the [Contributor Covenant, version
+3.0](https://www.contributor-covenant.org/version/3/0/), and informed by
+community practices from [GNOME](https://conduct.gnome.org/),
+[KDE](https://kde.org/code-of-conduct/), and
+[Mozilla](https://www.mozilla.org/en-US/about/governance/policies/participation/).
+Original ProtonPlus sections describe this project’s reporting, privacy,
+enforcement, and appeals processes.
 
-Contributor Covenant is stewarded by the Organization for Ethical Source and licensed under CC BY-SA 4.0. To view a copy of this license, visit [https://creativecommons.org/licenses/by-sa/4.0/](https://creativecommons.org/licenses/by-sa/4.0/)
-
-For answers to common questions about Contributor Covenant, see the FAQ at [https://www.contributor-covenant.org/faq](https://www.contributor-covenant.org/faq). Translations are provided at [https://www.contributor-covenant.org/translations](https://www.contributor-covenant.org/translations). Additional enforcement and community guideline resources can be found at [https://www.contributor-covenant.org/resources](https://www.contributor-covenant.org/resources). The enforcement ladder was inspired by the work of [Mozilla’s code of conduct team](https://github.com/mozilla/inclusion).
+Contributor Covenant is stewarded by the Organization for Ethical Source and
+licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
