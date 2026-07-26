@@ -13,7 +13,11 @@ namespace ProtonPlus.Models.Launchers.Runners.DXVK {
 
             sort_priority = 2;
 
-            add_variant ("default", "$release_name", true);
+            // GitLab release links are not stable in order: v3.0-1 lists the
+            // CI artifact ZIP before the distributable tarball.  Match the
+            // published archive explicitly instead of falling back to the
+            // first link.
+            add_variant ("default", "dxvk-gplasync-$release_name.tar.gz", true);
             add_directory_name_format ("default", "dxvk-gplasync-$release_name");
         }
 

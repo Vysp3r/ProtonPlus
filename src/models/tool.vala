@@ -94,12 +94,30 @@ namespace ProtonPlus.Models {
                         var needs_variant_refresh = false;
                         var basic_tool = this as Models.Tools.Basic;
 
-                        if (basic_tool != null && variants != null && variants.size > 1) {
+                        if (basic_tool != null && variants != null && variants.size > 0) {
                             foreach (var cached_release in releases) {
-                                if (cached_release.variants == null || cached_release.variants.size == 0) {
+                                if (cached_release.variants == null || cached_release.variants.size != variants.size) {
                                     needs_variant_refresh = true;
                                     break;
                                 }
+
+                                // A runner can change the filename pattern of a
+                                // single default variant.  Keep its cached URL
+                                // only when that pattern still matches.
+                                for (var i = 0; i < variants.size; i++) {
+                                    var configured_variant = variants.get (i);
+                                    var cached_variant = cached_release.variants.get (i);
+
+                                    if (cached_variant.name != configured_variant.name ||
+                                        cached_variant.format != configured_variant.format ||
+                                        cached_variant.is_default != configured_variant.is_default) {
+                                        needs_variant_refresh = true;
+                                        break;
+                                    }
+                                }
+
+                                if (needs_variant_refresh)
+                                    break;
 
                                 var default_variant_has_url = true;
                                 foreach (var cached_variant in cached_release.variants) {
