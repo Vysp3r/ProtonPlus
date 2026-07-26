@@ -1,5 +1,6 @@
 namespace AppTests.ProviderRegistryTest {
     using GLib;
+    using ProtonPlus.Models;
     using ProtonPlus.Models.Providers;
     using ProtonPlus.Providers.Sources;
 
@@ -13,6 +14,8 @@ namespace AppTests.ProviderRegistryTest {
         Test.add_func ("/provider-registry/validation/github-actions-template", test_github_actions_template_validation);
         Test.add_func ("/provider-registry/validation/required-fields-and-source", test_required_field_and_source_validation);
         Test.add_func ("/provider-registry/sources-available", test_builtin_sources_are_available);
+        Test.add_func ("/provider-registry/definition-only-provider-creates-standard-tool", test_definition_only_provider_creates_standard_tool);
+        Test.add_func ("/provider-registry/unsupported-source-is-rejected", test_unsupported_source_is_rejected);
     }
 
     private ProviderDefinition valid_definition (string provider_id = "fixture") {
@@ -22,6 +25,11 @@ namespace AppTests.ProviderRegistryTest {
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") }
         );
+    }
+
+    private Group fixture_group (string family_id = "fixture") {
+        var launcher = new Launcher ("Fixture launcher", Launcher.InstallationTypes.SYSTEM, "", {}, family_id);
+        return new Group ("Fixture group", "", "", launcher, "fixture");
     }
 
     private void assert_provider_ids (ProviderDefinition[] definitions, string[] expected_ids) {
@@ -211,5 +219,33 @@ namespace AppTests.ProviderRegistryTest {
                 assert_not_reached ();
             }
         }
+    }
+
+    private void test_definition_only_provider_creates_standard_tool () {
+        var definition = valid_definition ("definition-only");
+        var registry = new ProviderRegistry ({ definition });
+        assert (registry.is_valid);
+
+        var tool = ProviderCatalog.create_tool (definition, fixture_group ());
+        assert (tool != null);
+        assert (tool is Tools.ProviderTool);
+        assert (tool.definition == definition);
+        assert (tool.provider_id == "definition-only");
+        assert (tool.release_catalog != null);
+    }
+
+    private void test_unsupported_source_is_rejected () {
+        var definition = new ProviderDefinition (
+            Category.PROTON, (SourceType) 999, "unsupported-source", "Fixture", "",
+            "https://example.test/releases", 1,
+            { new VariantDefinition ("standard", "default", "$release_name", true) },
+            { InstallLayout.template ("default", "$release_name") }
+        );
+        var registry = new ProviderRegistry ({ definition });
+
+        assert (!registry.is_valid);
+        assert (has_message (registry, "source type has no supported source mapping"));
+        assert (ReleaseSourceRegistry.create (definition.source_type) == null);
+        assert (ProviderCatalog.create_tool (definition, fixture_group ()) == null);
     }
 }
