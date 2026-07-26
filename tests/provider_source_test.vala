@@ -9,6 +9,7 @@ namespace AppTests.ProviderSourceTest {
         Test.add_func ("/providers/gitlab/canonical-release-page", test_gitlab_release_page);
         Test.add_func ("/providers/forgejo/canonical-release-page", test_forgejo_release_page);
         Test.add_func ("/providers/github-actions/canonical-release-page", test_github_actions_release_page);
+        Test.add_func ("/providers/github-actions/definition-filters", test_github_actions_definition_filters);
         Test.add_func ("/providers/github/definition-filters", test_github_definition_filters);
         Test.add_func ("/providers/github-compatible/primary-asset-policies", test_github_compatible_primary_asset_policies);
         Test.add_func ("/providers/github-compatible/validation-and-skipped-releases", test_github_compatible_validation_and_skipped_releases);
@@ -117,8 +118,10 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_actions_release_page () {
+        var definition = new ProviderRegistry ().get_by_id ("proton-tkg");
+        assert (definition != null);
         var result = new GitHubActionsReleaseSource ().parse_response (
-            definition (SourceType.GITHUB_ACTIONS), fixture ("github-actions", "run.json"), 1, 25
+            (!) definition, fixture ("github-actions", "run.json"), 1, 25
         );
         assert (result.succeeded);
         var page = result.require_page ();
@@ -126,10 +129,43 @@ namespace AppTests.ProviderSourceTest {
         var release = page.releases[0];
         assert (release.kind == ProtonPlus.Models.Release.Kind.GITHUB_ACTION);
         assert (release.upstream_release_id == "5001");
-        assert (release.asset.name == "fixture-action.zip");
-        assert (release.asset.download_url == "https://example.test/artifacts/5001/fixture-action.zip?signature=example");
+        assert (release.asset.name == "proton-tkg-build.zip");
+        assert (release.asset.download_url == "https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/5001/proton-tkg-build.zip");
         assert (release.asset.download_size == 0);
         assert (release.artifacts_url == "https://api.github.com/repos/example/project/actions/runs/5001/artifacts");
+        assert (release.variants.size == 1);
+        assert (release.variants[0].id == "standard");
+        assert (release.variants[0].name == "default");
+        assert (release.variants[0].is_default);
+        assert (release.variants[0].download_url == release.asset.download_url);
+    }
+
+    private void test_github_actions_definition_filters () {
+        var filtered = new ProviderDefinition (
+            Category.PROTON, SourceType.GITHUB_ACTIONS, "filtered-actions", "Fixture provider", "",
+            "https://example.test/releases", 1,
+            { new VariantDefinition ("standard", "default", "$release_name", true) },
+            { InstallLayout.template ("default", "$release_name") },
+            { "73" }, null, "", false,
+            "https://example.test/artifacts/{id}/fixture-action.zip?signature=example"
+        );
+        var filtered_result = new GitHubActionsReleaseSource ().parse_response (
+            filtered, fixture ("github-actions", "run.json"), 1, 25
+        );
+        assert (filtered_result.succeeded && filtered_result.require_page ().releases.size == 1);
+
+        var excluded = new ProviderDefinition (
+            Category.PROTON, SourceType.GITHUB_ACTIONS, "excluded-actions", "Fixture provider", "",
+            "https://example.test/releases", 1,
+            { new VariantDefinition ("standard", "default", "$release_name", true) },
+            { InstallLayout.template ("default", "$release_name") },
+            null, { "73" }, "", false,
+            "https://example.test/artifacts/{id}/fixture-action.zip?signature=example"
+        );
+        var excluded_result = new GitHubActionsReleaseSource ().parse_response (
+            excluded, fixture ("github-actions", "run.json"), 1, 25
+        );
+        assert (excluded_result.succeeded && excluded_result.require_page ().releases.size == 0);
     }
 
     private void test_github_definition_filters () {

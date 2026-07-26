@@ -6,6 +6,7 @@ namespace ProtonPlus.Models.Tools {
         public string endpoint {
             owned get { return definition.endpoint; }
         }
+        public ProtonPlus.Models.Providers.ArchiveInstallRequirement archive_install_requirement { get; private set; }
         internal ProtonPlus.Models.Providers.InstallLayout install_layout { get; private set; }
         public string tag {
             owned get { return definition.tag; }
@@ -26,6 +27,7 @@ namespace ProtonPlus.Models.Tools {
             this.description = Utils.safe_translate (definition.description);
             this.legacy = definition.legacy;
             this.sort_priority = definition.sort_priority;
+            this.archive_install_requirement = definition.archive_install_requirement;
             this.set_identity (definition.provider_id, definition.source_id);
             this.initialize_release_catalog (new ReleaseCatalog (id, title, definition, release_source));
 

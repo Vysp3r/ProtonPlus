@@ -60,11 +60,20 @@ namespace ProtonPlus.Providers.Sources {
                     run.get_string_member_with_default ("conclusion", "") != "success")
                     continue;
 
+                var release_name = run.has_member ("run_number") ? run.get_int_member ("run_number").to_string () : "";
+                if (!CatalogReleaseBuilder.is_eligible (definition, release_name))
+                    continue;
+
                 var id = run.has_member ("id") ? run.get_int_member ("id") : 0;
                 var download_url = definition.url_template.replace ("{id}", id.to_string ());
                 var asset = Models.Assets.Asset.from_download_url (download_url);
+                var assets = new LinkedList<Models.Assets.Asset> ();
+                assets.add (asset);
+                var variants = CatalogReleaseBuilder.create_variants (
+                    definition, release_name, release_name, assets, asset.download_url
+                );
                 var release = new Models.Release (
-                    run.has_member ("run_number") ? run.get_int_member ("run_number").to_string () : "",
+                    release_name,
                     "",
                     ReleaseSourceSupport.get_iso8601_date (run, "created_at"),
                     asset,
@@ -75,6 +84,7 @@ namespace ProtonPlus.Providers.Sources {
                     Models.Release.Kind.GITHUB_ACTION,
                     run.get_string_member_with_default ("artifacts_url", "")
                 );
+                ReleaseSourceSupport.add_variants (release, variants);
                 releases.add (release);
             }
 

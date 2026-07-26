@@ -10,7 +10,13 @@ namespace AppTests.InstallerTransactionTest {
         private bool fail_promotion;
         public int download_calls { get; private set; default = 0; }
 
-        public FixtureJob (Models.Tools.ProviderTool runner, string location, string fixture_path, bool cancel_download = false, bool fail_promotion = false) {
+        public FixtureJob (
+            Models.Tools.ProviderTool runner,
+            string location,
+            string fixture_path,
+            bool cancel_download = false,
+            bool fail_promotion = false
+        ) {
             base (new Release (
                 "Fixture Runner", "", "", new Models.Assets.Asset ("runner.zip", "https://fixtures.invalid/runner.zip"),
                 "", 0, "fixture-release-id", "fixture-tag"
@@ -47,6 +53,7 @@ namespace AppTests.InstallerTransactionTest {
         Test.add_func ("/installer-transaction/duplicate-is-rejected-before-workflow", test_duplicate_is_rejected_before_workflow);
         Test.add_func ("/installer-transaction/standard-removal-finalizes-common-lifecycle", test_standard_removal_finalizes_common_lifecycle);
         Test.add_func ("/installer-transaction/operation-identity-prevents-duplicates", test_operation_identity_prevents_duplicates);
+        Test.add_func ("/installer-transaction/nested-archive-requirement-extracts-nested-archive", test_nested_archive_requirement_extracts_nested_archive);
     }
 
     private string temporary_directory () {
@@ -60,11 +67,30 @@ namespace AppTests.InstallerTransactionTest {
         catch (FileError e) { critical ("Could not write archive fixture: %s", e.message); assert_not_reached (); }
         return path;
     }
-    private Models.Tools.ProviderTool runner (string root) {
+    private string nested_fixture_archive (string root) {
+        var encoded = ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename ("fixtures", "archives", "nested-runner.zip.base64")).strip ();
+        var path = Path.build_filename (root, "nested-runner.zip");
+        try { FileUtils.set_data (path, Base64.decode (encoded)); }
+        catch (FileError e) { critical ("Could not write nested archive fixture: %s", e.message); assert_not_reached (); }
+        return path;
+    }
+    private Models.Tools.ProviderTool runner (
+        string root,
+        ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD
+    ) {
         assert (ProtonPlus.Utils.Filesystem.create_directory (root));
         var launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
         var group = new Group ("Test", "", "", launcher);
-        var definition = new ProviderRegistry ().get_by_id ("proton-ge");
+        ProviderDefinition? definition = new ProviderRegistry ().get_by_id ("proton-ge");
+        if (archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE) {
+            definition = new ProviderDefinition (
+                Category.PROTON, SourceType.GITHUB, "nested-fixture", "Fixture Runner", "",
+                "https://example.test/releases", 1,
+                { new VariantDefinition ("standard", "default", "$release_name", true) },
+                { InstallLayout.template ("default", "$release_name") }, null, null, "", false, "",
+                archive_install_requirement
+            );
+        }
         assert (definition != null);
         var value = ProviderCatalog.create_tool ((!) definition, group);
         assert (value != null);
@@ -188,6 +214,17 @@ namespace AppTests.InstallerTransactionTest {
         manager.remove_download (first);
         assert (manager.active_downloads.size == 0);
 
+        assert (delete_directory (root));
+    }
+
+    private void test_nested_archive_requirement_extracts_nested_archive () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (
+            runner (tools, ArchiveInstallRequirement.NESTED_ARCHIVE), location, nested_fixture_archive (root)
+        );
+        assert (job.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE);
+        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (location, "marker.txt")) == "nested runner\n");
         assert (delete_directory (root));
     }
 }

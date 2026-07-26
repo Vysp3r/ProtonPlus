@@ -30,6 +30,7 @@ namespace ProtonPlus.Services {
         public Models.Tool tool { get; private set; }
         public Mode mode { get; private set; default = Mode.VERSIONED; }
         public Models.Assets.Asset selected_asset { get; private set; }
+        public Models.Providers.ArchiveInstallRequirement archive_install_requirement { get; private set; default = Models.Providers.ArchiveInstallRequirement.STANDARD; }
         public string? selected_variant_name { get; private set; default = null; }
         public string install_location { get; private set; default = ""; }
         // A replacement backup is a short-lived handoff from the archive
@@ -72,6 +73,9 @@ namespace ProtonPlus.Services {
             this.release = release;
             this.tool = tool;
             selected_asset = release.asset;
+            var provider_tool = tool as Models.Tools.ProviderTool;
+            if (provider_tool != null)
+                archive_install_requirement = provider_tool.archive_install_requirement;
             var is_steam_tinker_launch = mode == Mode.STEAM_TINKER_LAUNCH ||
                 release.kind == Models.Release.Kind.STEAM_TINKER_LAUNCH;
             this.mode = is_steam_tinker_launch ? Mode.STEAM_TINKER_LAUNCH : mode;

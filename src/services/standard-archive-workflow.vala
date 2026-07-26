@@ -134,7 +134,8 @@ namespace ProtonPlus.Services {
                 return ReturnCode.INVALID_CONFIGURATION;
             var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
             if (!lookup.succeeded) {
-                if (runner.definition.source_type != Models.Providers.SourceType.GITHUB_ACTIONS && metadata.tag != "" && is_request_failure (lookup.code))
+                if (runner.archive_install_requirement == Models.Providers.ArchiveInstallRequirement.STANDARD &&
+                    metadata.tag != "" && is_request_failure (lookup.code))
                     return ReturnCode.NOTHING_TO_UPDATE;
                 return lookup.code;
             }
@@ -215,10 +216,7 @@ namespace ProtonPlus.Services {
         }
 
         private bool requires_nested_archive (InstallJob job) {
-            if (job.release.kind == Models.Release.Kind.GITHUB_ACTION)
-                return true;
-            var runner = job.tool as Models.Tools.ProviderTool;
-            return job.mode == InstallJob.Mode.LATEST && runner != null && runner.definition.source_type == Models.Providers.SourceType.GITHUB_ACTIONS;
+            return job.archive_install_requirement == Models.Providers.ArchiveInstallRequirement.NESTED_ARCHIVE;
         }
 
         private async string? extract_nested_archive (InstallJob job, string source_path, string extract_path) {

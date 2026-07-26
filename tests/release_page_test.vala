@@ -62,6 +62,7 @@ namespace AppTests.ReleasePageTest {
         Test.add_func ("/release-catalog/latest-discovery-is-stateless", test_latest_discovery_is_stateless);
         Test.add_func ("/release-catalog/github-actions-scans-filtered-pages", test_github_actions_scanning);
         Test.add_func ("/release-catalog/github-actions-later-page-failure", test_github_actions_later_page_failure);
+        Test.add_func ("/release-catalog/github-actions-proton-tkg-cache-reuse", test_github_actions_proton_tkg_cache_reuse);
         Test.add_func ("/release-catalog/in-memory-state-skips-cache-and-network", test_in_memory_state_skips_network);
         Test.add_func ("/release-catalog/valid-cache-skips-network", test_valid_cache_skips_network);
         Test.add_func ("/release-catalog/missing-and-malformed-cache-fetches", test_missing_and_malformed_cache_fetches);
@@ -266,6 +267,30 @@ namespace AppTests.ReleasePageTest {
         assert (!result.succeeded && result.code == ReturnCode.REQUEST_FAILED);
         assert (result.releases.size == 0 && value.releases.size == 0 && value.page == 1 && !value.has_more);
         assert (source.requested_pages.size == 2 && source.requested_pages[0] == 1 && source.requested_pages[1] == 2);
+    }
+
+    private void test_github_actions_proton_tkg_cache_reuse () {
+        var definition = new ProviderRegistry ().get_by_id ("proton-tkg");
+        assert (definition != null);
+
+        var source = new FixtureGitHubActionsSource ();
+        source.set_response (1, workflow_runs (1, true));
+        var initial_catalog = catalog ("proton-tkg-cache-reuse", (!) definition, source);
+        var initial = load (initial_catalog, false);
+        assert (initial.succeeded && initial.releases.size == 1);
+        assert (initial.releases[0].variants.size == 1);
+        assert (initial.releases[0].variants[0].is_default);
+        assert (initial.releases[0].variants[0].download_url != null);
+        assert (initial.releases[0].variants[0].download_url != "");
+        assert (source.requested_pages.size == 1);
+
+        var cached_source = new FixtureGitHubActionsSource ();
+        cached_source.set_response_code (1, ReturnCode.REQUEST_FAILED);
+        var cached_catalog = catalog ("proton-tkg-cache-reuse", (!) definition, cached_source);
+        var cached = load (cached_catalog, false);
+        assert (cached.succeeded && cached.releases.size == 1);
+        assert (cached.releases[0].variants.size == 1);
+        assert (cached_source.requested_pages.size == 0);
     }
 
     private void test_in_memory_state_skips_network () {

@@ -9,6 +9,7 @@ namespace AppTests.ProviderDefinitionTest {
         Test.add_func ("/provider-definitions/kron4ek-filters", test_kron4ek_filters);
         Test.add_func ("/provider-definitions/ph42on-asset-selection", test_ph42on_asset_selection);
         Test.add_func ("/provider-definitions/catalog-construction-isolation", test_catalog_construction_isolation);
+        Test.add_func ("/provider-definitions/proton-tkg-archive-requirement", test_proton_tkg_archive_requirement);
         Test.add_func ("/provider-definitions/steam-tinker-launch", test_steam_tinker_launch);
     }
 
@@ -149,6 +150,20 @@ namespace AppTests.ProviderDefinitionTest {
         assert (second.provider_id == definition.provider_id);
         assert (first.definition == definition);
         assert (second.definition == definition);
+    }
+
+    private void test_proton_tkg_archive_requirement () {
+        var definition = get_definition ("proton-tkg");
+        assert (definition.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE);
+        var tool = create_tool (definition);
+        assert (tool != null);
+        assert (tool.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE);
+
+        var job = new ProtonPlus.Services.InstallJob (new Release (
+            "Fixture release", "", "", new ProtonPlus.Models.Assets.Asset ("fixture.zip", "https://example.test/fixture.zip"),
+            "", 0, "fixture-release", "fixture-release"
+        ), (!) tool);
+        assert (job.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE);
     }
 
     private void test_steam_tinker_launch () {

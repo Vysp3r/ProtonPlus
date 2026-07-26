@@ -48,7 +48,8 @@ namespace ProtonPlus.Models.Providers {
                     "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/proton-valvexbe-sniper.yml/runs", 5,
                     { new VariantDefinition ("standard", "default", "$title-$release_name", true) },
                     { InstallLayout.template ("default", "$title-$release_name") }, null, null, "", false,
-                    "https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/{id}/proton-tkg-build.zip"
+                    "https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/{id}/proton-tkg-build.zip",
+                    ArchiveInstallRequirement.NESTED_ARCHIVE
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB, "proton-em", "Proton-EM",

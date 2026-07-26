@@ -1,11 +1,28 @@
 namespace AppTests.UpdateTransactionTest {
     using GLib;
     using ProtonPlus;
+    using ProtonPlus.Models;
+    using ProtonPlus.Models.Providers;
+    using ProtonPlus.Models.Tools;
+    using ProtonPlus.Providers.Sources;
+
+    private class FailingReleaseSource : Object, ReleaseSource {
+        public async ReleasePageResult fetch_page (ProviderDefinition definition, int requested_page, int limit) {
+            return ReleasePageResult.failure (ReturnCode.REQUEST_FAILED);
+        }
+    }
+
+    private class FixtureCoordinator : Object, ProtonPlus.Services.InstallationOperationCoordinator {
+        public async ReturnCode install_for_update (ProtonPlus.Services.InstallJob job) {
+            return ReturnCode.FILESYSTEM_ERROR;
+        }
+    }
 
     public void register_tests () {
         Test.add_func ("/update-transaction/migrates-settings-prefix-and-cleans-backup", test_migrates_settings_prefix_and_cleans_backup);
         Test.add_func ("/update-transaction/migrates-settings-symlink", test_migrates_settings_symlink);
         Test.add_func ("/update-transaction/migration-failure-rolls-back-runner", test_migration_failure_rolls_back_runner);
+        Test.add_func ("/update-transaction/github-actions-request-failure-is-propagated", test_github_actions_request_failure_is_propagated);
     }
 
     private string create_temp_directory () {
@@ -31,6 +48,38 @@ namespace AppTests.UpdateTransactionTest {
                 loop.quit ();
             }
         );
+        loop.run ();
+        return result;
+    }
+
+    private ProviderTool failing_runner (
+        string root,
+        SourceType source_type,
+        ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD
+    ) {
+        var launcher = new Launcher ("Fixture", Launcher.InstallationTypes.SYSTEM, "", { root });
+        var group = new Group ("Fixture", "", "", launcher);
+        var definition = new ProviderDefinition (
+            Category.PROTON, source_type, "fixture-%s".printf (ProviderDefinition.source_id_for (source_type)),
+            "Fixture Runner", "", "https://example.test/releases", 1,
+            { new VariantDefinition ("standard", "default", "$release_name", true) },
+            { InstallLayout.template ("default", "$release_name") }, null, null, "", false,
+            source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture.zip" : "",
+            archive_install_requirement
+        );
+        return new ProviderTool.with_catalog (
+            definition, new FailingReleaseSource (), group, InstallLayout.template ("default", "$release_name")
+        );
+    }
+
+    private ReturnCode update_specific_runner (ProviderTool runner) {
+        var loop = new MainLoop ();
+        ReturnCode result = ReturnCode.FILESYSTEM_ERROR;
+        var workflow = new ProtonPlus.Services.StandardArchiveWorkflow ();
+        workflow.update_specific_runner.begin (runner, new FixtureCoordinator (), (obj, response) => {
+            result = workflow.update_specific_runner.end (response);
+            loop.quit ();
+        });
         loop.run ();
         return result;
     }
@@ -118,5 +167,52 @@ namespace AppTests.UpdateTransactionTest {
         assert (!FileUtils.test (backup_directory, FileTest.EXISTS));
         assert (!FileUtils.test ("%s.failed".printf (backup_directory), FileTest.EXISTS));
         assert (delete_directory (root));
+    }
+
+    private void test_github_actions_request_failure_is_propagated () {
+        var actions_root = create_temp_directory ();
+        var actions_runner = failing_runner (
+            actions_root, SourceType.GITHUB_ACTIONS, ArchiveInstallRequirement.NESTED_ARCHIVE
+        );
+        var actions_directory = Path.build_filename (actions_root, "Fixture Runner Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (actions_directory));
+        var actions_metadata = new ProtonPlus.Utils.Metadata ();
+        actions_metadata.tag = "installed-actions";
+        assert (actions_metadata.save (actions_directory));
+        assert (update_specific_runner (actions_runner) == ReturnCode.REQUEST_FAILED);
+
+        var regular_root = create_temp_directory ();
+        var regular_runner = failing_runner (regular_root, SourceType.GITHUB);
+        var regular_directory = Path.build_filename (regular_root, "Fixture Runner Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (regular_directory));
+        var regular_metadata = new ProtonPlus.Utils.Metadata ();
+        regular_metadata.tag = "installed-regular";
+        assert (regular_metadata.save (regular_directory));
+        assert (update_specific_runner (regular_runner) == ReturnCode.NOTHING_TO_UPDATE);
+
+        var standard_actions_root = create_temp_directory ();
+        var standard_actions_runner = failing_runner (standard_actions_root, SourceType.GITHUB_ACTIONS);
+        var standard_actions_directory = Path.build_filename (standard_actions_root, "Fixture Runner Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (standard_actions_directory));
+        var standard_actions_metadata = new ProtonPlus.Utils.Metadata ();
+        standard_actions_metadata.tag = "installed-standard-actions";
+        assert (standard_actions_metadata.save (standard_actions_directory));
+        assert (update_specific_runner (standard_actions_runner) == ReturnCode.NOTHING_TO_UPDATE);
+
+        var nested_regular_root = create_temp_directory ();
+        var nested_regular_runner = failing_runner (
+            nested_regular_root, SourceType.GITHUB, ArchiveInstallRequirement.NESTED_ARCHIVE
+        );
+        var nested_regular_directory = Path.build_filename (nested_regular_root, "Fixture Runner Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (nested_regular_directory));
+        var nested_regular_metadata = new ProtonPlus.Utils.Metadata ();
+        nested_regular_metadata.tag = "installed-nested-regular";
+        assert (nested_regular_metadata.save (nested_regular_directory));
+        assert (update_specific_runner (nested_regular_runner) == ReturnCode.REQUEST_FAILED);
+
+        assert (delete_directory (actions_root));
+        assert (delete_directory (regular_root));
+        assert (delete_directory (standard_actions_root));
+        assert (delete_directory (nested_regular_root));
     }
 }

@@ -15,6 +15,14 @@ namespace ProtonPlus.Models.Providers {
         FORGEJO,
     }
 
+    // A small, closed archive-shape capability. It belongs in provider
+    // configuration because it describes the artifact a standard job will
+    // receive, rather than the remote host that supplied it.
+    public enum ArchiveInstallRequirement {
+        STANDARD,
+        NESTED_ARCHIVE,
+    }
+
     // These values are configuration, not per-release state.  A tool creates
     // its own Models.Variant instances so no target can mutate another tool.
     public class VariantDefinition : Object {
@@ -185,6 +193,7 @@ namespace ProtonPlus.Models.Providers {
         private string[] asset_filter_values;
         private string[] asset_exclusion_values;
         public string url_template { get; private set; }
+        public ArchiveInstallRequirement archive_install_requirement { get; private set; }
 
         public string[] asset_filters {
             owned get { return copy_strings (asset_filter_values); }
@@ -212,7 +221,8 @@ namespace ProtonPlus.Models.Providers {
             string[]? asset_exclusions = null,
             string tag = "",
             bool legacy = false,
-            string url_template = ""
+            string url_template = "",
+            ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD
         ) {
             this.category = category;
             this.source_type = source_type;
@@ -228,6 +238,7 @@ namespace ProtonPlus.Models.Providers {
             this.tag = tag;
             this.legacy = legacy;
             this.url_template = url_template;
+            this.archive_install_requirement = archive_install_requirement;
         }
 
         private static VariantDefinition[] copy_variants (VariantDefinition[] values) {
