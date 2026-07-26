@@ -163,20 +163,18 @@ namespace ProtonPlus.Services {
             var context = get_context (job);
             if (context == null)
                 return;
-            var steam = job.tool.group.launcher as Models.Launchers.Steam;
-            if (steam != null)
-                steam.register_compatibility_tool (
-                    Utils.VDF.CompatibilityToolLoader.from_path ("%s/SteamTinkerLaunch".printf (context.compat_location))
-                );
+            job.tool.group.launcher.register_compatibility_tool_from_path (
+                "%s/SteamTinkerLaunch".printf (context.compat_location)
+            );
         }
 
         public override void finalize_removal_success (InstallJob job) {
             var context = get_context (job);
             if (context == null)
                 return;
-            var steam = job.tool.group.launcher as Models.Launchers.Steam;
-            if (steam != null)
-                steam.unregister_compatibility_tool_by_path ("%s/SteamTinkerLaunch".printf (context.compat_location));
+            job.tool.group.launcher.unregister_compatibility_tool_by_path (
+                "%s/SteamTinkerLaunch".printf (context.compat_location)
+            );
         }
 
         public bool detect_external_installations (InstallJob job) {

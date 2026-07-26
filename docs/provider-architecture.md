@@ -19,7 +19,7 @@ ProviderDefinition
 
 | Component | Responsibility |
 | --- | --- |
-| `ProviderDefinition` | Immutable-style configuration for one ordinary provider: stable ID, category, source type, endpoint, sort metadata, title filtering, variants, and installation-layout rules. It has no request, JSON, filesystem, or widget behaviour. Its collection accessors return copies. |
+| `ProviderDefinition` | Immutable-style configuration for one ordinary provider: stable ID, category, source type, endpoint, sort metadata, title filtering, variants, installation-layout rules, and a closed archive-install requirement where needed. It has no request, JSON, filesystem, or widget behaviour. Its collection accessors return copies. |
 | Built-in definition files | `src/models/providers/definitions/{dxvk,vkd3d,proton,wine}.vala` declare the supported providers by category. `BuiltInProviderDefinitions` combines them. |
 | `ProviderRegistry` | Indexes the built-in definitions by ID and category and validates static configuration. Validation includes unique provider IDs, valid variants with one default, non-empty unique layout families with a default layout, and source-specific URL-template requirements. It does not construct sources or choose installation behaviour. |
 | `ProviderCatalog` | The composition boundary for an ordinary provider. It resolves the group's `InstallLayout`, obtains a source from `ReleaseSourceRegistry`, and creates a `ProviderTool` only when both exist. Unsupported source types therefore cannot create a partially usable tool. |
@@ -29,7 +29,7 @@ ProviderDefinition
 | Shared parsing helpers | `ReleaseSourceSupport` contains only common response support. `GitHubCompatibleReleaseParser` is shared by GitHub and Forgejo because their release and asset semantics match; `CatalogReleaseBuilder` applies definition filtering, variant selection, and asset matching. Helpers must not be extracted for JSON syntax alone. |
 | `ReleaseCatalog` | Owns one tool's remote page state, pagination, cache snapshot, refresh, and latest-release lookup. It asks its injected `ReleaseSource` for pages; it never installs a release. |
 | `Release` and `Asset` | Canonical provider-neutral remote metadata. `Asset` is the authoritative immutable value for archive name, URL, and size. `Release` carries upstream identity, source tag, variants, and source-specific metadata, but no installation target or progress state. |
-| `InstallJob` | A target-bound installation lifecycle: selected release asset or variant, destination, progress, cancellation, and operation state. It turns reusable catalog data into one requested operation. |
+| `InstallJob` | A target-bound installation lifecycle: selected release asset or variant, destination, progress, cancellation, operation state, and the composed archive-install requirement. It turns reusable catalog data into one requested operation. |
 | `InstallationService` | Application-level coordinator for install, update, removal, download registration, cache-operation lifetime, and finalization. It has the one workflow-selection point. |
 | `InstallationWorkflow` | A filesystem and lifecycle transaction implementation selected for a job. It does not browse or parse a remote release API. `StandardArchiveWorkflow` serves all ordinary provider tools; `SteamTinkerLaunchWorkflow` owns SteamTinkerLaunch's materially different transaction. |
 | `InstallLayout` | A small closed value object that renders a directory name for a launcher family. Definitions provide an exact layout where needed and a required `default` fallback; layouts are not encoded strings to be parsed later. |
@@ -46,7 +46,7 @@ GTK and Libadwaita widgets consume tool, catalog, job, and inventory state. They
 Use this path when the upstream uses an existing source type and its release can be installed with the standard archive transaction.
 
 1. Add one `ProviderDefinition` to the matching file in `src/models/providers/definitions/`: `dxvk.vala`, `vkd3d.vala`, `proton.vala`, or `wine.vala`.
-2. Give it a stable provider ID, normal metadata, an existing `SourceType`, endpoint, filtering rules if required, valid variant definitions, and layouts for the launcher families whose naming differs. Always include a `default` layout.
+2. Give it a stable provider ID, normal metadata, an existing `SourceType`, endpoint, filtering rules if required, valid variant definitions, and layouts for the launcher families whose naming differs. Set the closed archive-install requirement only when the downloaded archive has a non-standard shape such as a nested archive. Always include a `default` layout.
 3. Update the definition snapshot and focused tests in `tests/fixtures/definitions/runners.json`, `tests/provider_definition_test.vala`, `tests/provider_registry_test.vala`, and `tests/install_layout_test.vala` when the provider's observable definition or install naming needs coverage.
 
 No provider subclass, new release model, widget branch, installation-service branch, or workflow is needed. `ProviderCatalog` combines the definition with the existing source and `StandardArchiveWorkflow` handles the resulting archive job. The `definition-only-provider-creates-standard-tool` test demonstrates this seam with a test-only definition.

@@ -310,5 +310,9 @@ namespace ProtonPlus.Models {
         public virtual int get_compatibility_tool_usage_count (string compatibility_tool_name) {
             return 0;
         }
+
+        public virtual void register_compatibility_tool_from_path (string tool_path) {}
+
+        public virtual void unregister_compatibility_tool_by_path (string tool_path) {}
     }
 }

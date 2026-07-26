@@ -46,12 +46,30 @@ namespace AppTests.InstallerTransactionTest {
         }
     }
 
+    private class RecordingLauncher : Launcher {
+        public string registered_path { get; private set; default = ""; }
+        public string removed_path { get; private set; default = ""; }
+
+        public RecordingLauncher () {
+            base ("Recording launcher", InstallationTypes.SYSTEM, "", {}, "recording");
+        }
+
+        public override void register_compatibility_tool_from_path (string tool_path) {
+            registered_path = tool_path;
+        }
+
+        public override void unregister_compatibility_tool_by_path (string tool_path) {
+            removed_path = tool_path;
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/installer-transaction/stages-promotes-cleans-and-writes-metadata", test_stages_promotes_and_writes_metadata);
         Test.add_func ("/installer-transaction/canceled-download-cleans-private-workspace", test_canceled_download_cleans_workspace);
         Test.add_func ("/installer-transaction/failed-promotion-restores-previous-installation", test_failed_promotion_restores_previous_installation);
         Test.add_func ("/installer-transaction/duplicate-is-rejected-before-workflow", test_duplicate_is_rejected_before_workflow);
         Test.add_func ("/installer-transaction/standard-removal-finalizes-common-lifecycle", test_standard_removal_finalizes_common_lifecycle);
+        Test.add_func ("/installer-transaction/standard-finalization-uses-launcher-capabilities", test_standard_finalization_uses_launcher_capabilities);
         Test.add_func ("/installer-transaction/operation-identity-prevents-duplicates", test_operation_identity_prevents_duplicates);
         Test.add_func ("/installer-transaction/nested-archive-requirement-extracts-nested-archive", test_nested_archive_requirement_extracts_nested_archive);
     }
@@ -76,10 +94,15 @@ namespace AppTests.InstallerTransactionTest {
     }
     private Models.Tools.ProviderTool runner (
         string root,
-        ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD
+        ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD,
+        Launcher? target_launcher = null
     ) {
         assert (ProtonPlus.Utils.Filesystem.create_directory (root));
-        var launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
+        Launcher launcher;
+        if (target_launcher == null)
+            launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
+        else
+            launcher = (!) target_launcher;
         var group = new Group ("Test", "", "", launcher);
         ProviderDefinition? definition = new ProviderRegistry ().get_by_id ("proton-ge");
         if (archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE) {
@@ -164,6 +187,23 @@ namespace AppTests.InstallerTransactionTest {
         assert (job.state == ProtonPlus.Services.InstallJob.State.NOT_INSTALLED);
         assert (job.step == ProtonPlus.Services.InstallJob.Step.NOTHING);
         assert (ProtonPlus.Utils.DownloadManager.instance.active_downloads.size == 0);
+        assert (delete_directory (root));
+    }
+
+    private void test_standard_finalization_uses_launcher_capabilities () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var launcher = new RecordingLauncher ();
+        var target = runner (tools, ArchiveInstallRequirement.STANDARD, launcher);
+        var job = new ProtonPlus.Services.InstallJob (new Release (
+            "Fixture Runner", "", "", new Models.Assets.Asset ("runner.zip", "https://fixtures.invalid/runner.zip"),
+            "", 0, "fixture-release-id", "fixture-tag"
+        ), target, ProtonPlus.Services.InstallJob.Mode.VERSIONED, location);
+        var workflow = new ProtonPlus.Services.StandardArchiveWorkflow ();
+
+        workflow.finalize_install_success (job);
+        assert (launcher.registered_path == location);
+        workflow.finalize_removal_success (job);
+        assert (launcher.removed_path == location);
         assert (delete_directory (root));
     }
 

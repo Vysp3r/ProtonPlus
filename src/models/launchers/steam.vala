@@ -454,7 +454,11 @@ namespace ProtonPlus.Models.Launchers {
             sort_compatibility_tools ();
         }
 
-        public void unregister_compatibility_tool_by_path (string tool_path) {
+        public override void register_compatibility_tool_from_path (string tool_path) {
+            register_compatibility_tool (Utils.VDF.CompatibilityToolLoader.from_path (tool_path));
+        }
+
+        public override void unregister_compatibility_tool_by_path (string tool_path) {
             var tool = compatibility_tools.first_match ((tool) => {
                 return tool.path == tool_path;
             });

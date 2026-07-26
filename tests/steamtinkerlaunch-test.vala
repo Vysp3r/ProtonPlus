@@ -19,16 +19,42 @@ namespace AppTests.SteamTinkerLaunchTest {
         }
     }
 
+    private class RecordingLauncher : Launcher {
+        public string registered_path { get; private set; default = ""; }
+        public string removed_path { get; private set; default = ""; }
+
+        public RecordingLauncher (string root) {
+            base ("Recording launcher", InstallationTypes.SYSTEM, "", { root }, "recording");
+        }
+
+        public override void register_compatibility_tool_from_path (string tool_path) {
+            registered_path = tool_path;
+        }
+
+        public override void unregister_compatibility_tool_by_path (string tool_path) {
+            removed_path = tool_path;
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/steamtinkerlaunch/install-update-and-remove-managed-layout", test_install_update_and_remove_managed_layout);
         Test.add_func ("/steamtinkerlaunch/replacement-link-failure-rolls-back", test_replacement_link_failure_rolls_back);
+        Test.add_func ("/steamtinkerlaunch/finalization-uses-launcher-capabilities", test_finalization_uses_launcher_capabilities);
     }
     private string temporary_directory () { try { return DirUtils.make_tmp ("protonplus-steamtinkerlaunch-test-XXXXXX"); } catch (FileError e) { critical ("Could not create test directory: %s", e.message); assert_not_reached (); } }
     private string fixture_archive (string root) {
         var encoded = ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename ("fixtures", "archives", "steamtinkerlaunch.zip.base64")).strip (); var path = Path.build_filename (root, "steamtinkerlaunch.zip");
         try { FileUtils.set_data (path, Base64.decode (encoded)); } catch (FileError e) { critical ("Could not write archive fixture: %s", e.message); assert_not_reached (); } return path;
     }
-    private Tool tool (string root) { assert (ProtonPlus.Utils.Filesystem.create_directory (root)); var launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root }); return new Models.Tools.SteamTinkerLaunch (new Group ("Test", "", "", launcher)); }
+    private Tool tool (string root, Launcher? target_launcher = null) {
+        assert (ProtonPlus.Utils.Filesystem.create_directory (root));
+        Launcher launcher;
+        if (target_launcher == null)
+            launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
+        else
+            launcher = (!) target_launcher;
+        return new Models.Tools.SteamTinkerLaunch (new Group ("Test", "", "", launcher));
+    }
     private ReturnCode install (FixtureJob job) { var loop = new MainLoop (); ReturnCode code = ReturnCode.FILESYSTEM_ERROR; job.install.begin ((obj, res) => { code = job.install.end (res); loop.quit (); }); loop.run (); return code; }
     private ReturnCode install_replacement (FixtureJob job) { var loop = new MainLoop (); ReturnCode code = ReturnCode.FILESYSTEM_ERROR; job.install_replacement.begin ((obj, res) => { code = job.install_replacement.end (res); loop.quit (); }); loop.run (); return code; }
     private ReturnCode update (FixtureJob job) { var loop = new MainLoop (); ReturnCode code = ReturnCode.FILESYSTEM_ERROR; job.update.begin ((obj, res) => { code = job.update.end (res); loop.quit (); }); loop.run (); return code; }
@@ -56,6 +82,24 @@ namespace AppTests.SteamTinkerLaunchTest {
         assert (remove (job) == ReturnCode.RUNNER_REMOVED);
         assert (!FileUtils.test (job.install_location, FileTest.EXISTS));
         assert (!FileUtils.test (config, FileTest.EXISTS));
+        assert (delete_directory (root));
+    }
+
+    private void test_finalization_uses_launcher_capabilities () {
+        var root = temporary_directory ();
+        var tools = Path.build_filename (root, "tools");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (tools));
+        var launcher = new RecordingLauncher (tools);
+        var job = new FixtureJob (tool (tools, launcher), root, fixture_archive (root));
+        var workflow = new ProtonPlus.Services.SteamTinkerLaunchWorkflow ();
+        var expected_path = "%s%s/SteamTinkerLaunch".printf (
+            launcher.directory, job.tool.group.directory
+        );
+
+        workflow.finalize_install_success (job);
+        assert (launcher.registered_path == expected_path);
+        workflow.finalize_removal_success (job);
+        assert (launcher.removed_path == expected_path);
         assert (delete_directory (root));
     }
 }

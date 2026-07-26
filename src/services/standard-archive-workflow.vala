@@ -109,15 +109,11 @@ namespace ProtonPlus.Services {
         }
 
         public override void finalize_install_success (InstallJob job) {
-            var steam = job.tool.group.launcher as Models.Launchers.Steam;
-            if (steam != null)
-                steam.register_compatibility_tool (Utils.VDF.CompatibilityToolLoader.from_path (job.install_location));
+            job.tool.group.launcher.register_compatibility_tool_from_path (job.install_location);
         }
 
         public override void finalize_removal_success (InstallJob job) {
-            var steam = job.tool.group.launcher as Models.Launchers.Steam;
-            if (steam != null)
-                steam.unregister_compatibility_tool_by_path (job.install_location);
+            job.tool.group.launcher.unregister_compatibility_tool_by_path (job.install_location);
         }
 
         public async ReturnCode update_specific_runner (
