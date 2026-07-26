@@ -12,10 +12,7 @@ namespace ProtonPlus.Models.Providers {
                     Category.VKD3D, SourceType.GITHUB, "vkd3d-lutris", "VKD3D-Lutris", "",
                     "https://api.github.com/repos/lutris/vkd3d/releases", 2,
                     { new VariantDefinition ("standard", "default", "$release_name", true) },
-                    {
-                        InstallLayout.template ("default", "$release_name"),
-                        InstallLayout.replace ("heroic", "$release_name", "v", "vkd3d-lutris-")
-                    }
+                    { InstallLayout.template ("default", "$release_name") }
                 )
             };
         }
