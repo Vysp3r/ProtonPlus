@@ -85,10 +85,11 @@ namespace ProtonPlus.Widgets.Tools {
             var model = new Gtk.StringList (null);
             possible_tools_internal = new Gee.ArrayList<string> ();
 
-            var all_native = games.size > 0;
+            var all_steam_linux_runtime_compatible = games.size > 0;
             foreach (var game in games) {
-                if (!game.is_native) {
-                    all_native = false;
+                var steam_game = game as Models.Games.Steam;
+                if (!game.is_native && (steam_game == null || !steam_game.is_non_steam)) {
+                    all_steam_linux_runtime_compatible = false;
                     break;
                 }
             }
@@ -100,7 +101,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             foreach (var tool in launcher.compatibility_tools) {
                 if (tool.internal_title != current_tool_name) {
-                    if (tool.display_title.contains ("Steam Linux Runtime") && !all_native)
+                    if (tool.display_title.contains ("Steam Linux Runtime") && !all_steam_linux_runtime_compatible)
                     continue;
 
                     model.append (tool.display_title);

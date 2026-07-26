@@ -50,12 +50,12 @@ namespace ProtonPlus.Models.Games {
             this.launch_options = launch_options;
             this.compatibility_tool = compatibility_tool;
             this.is_non_steam = true;
-            this.is_native = false;
         }
 
         private bool detect_native () {
-            if (is_non_steam)
-                return false;
+            if (is_non_steam) {
+                return true;
+            }
 
             if (FileUtils.test (installdir, FileTest.IS_DIR)) {
                 if (!FileUtils.test (prefixdir, FileTest.IS_DIR))
@@ -150,6 +150,8 @@ namespace ProtonPlus.Models.Games {
 
             if (config_content == document.content) {
                 this.compatibility_tool = compatibility_tool;
+                if (is_non_steam)
+                    _is_native = null;
                 return true;
             }
 
@@ -158,6 +160,8 @@ namespace ProtonPlus.Models.Games {
                 return false;
 
             this.compatibility_tool = compatibility_tool;
+            if (is_non_steam)
+                _is_native = null;
 
             return true;
         }

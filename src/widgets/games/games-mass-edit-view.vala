@@ -129,12 +129,17 @@ namespace ProtonPlus.Widgets.Games {
 
             var has_steam_launch_options = false;
             var all_native = rows.length > 0;
+            var all_steam_linux_runtime_compatible = rows.length > 0;
             foreach (var row in rows) {
                 if (row.game.launcher is Models.Launchers.Steam)
                     has_steam_launch_options = true;
 
                 if (!row.game.is_native)
                     all_native = false;
+
+                var steam_game = row.game as Models.Games.Steam;
+                if (!row.game.is_native && (steam_game == null || !steam_game.is_non_steam))
+                    all_steam_linux_runtime_compatible = false;
             }
 
             if (compatibility_tool_row != null)
@@ -147,15 +152,18 @@ namespace ProtonPlus.Widgets.Games {
                 if (runner == null)
                     continue;
                 if (runner.display_title.contains ("Steam Linux Runtime")) {
-                    if (!all_native)
+                    if (!all_steam_linux_runtime_compatible)
                         continue;
                 }
-                compatibility_tools.add (runner);
+                if (all_native && runner.internal_title == "Default") {
+                    compatibility_tools.add (new Models.Tools.Simple (_("Native"), runner.internal_title));
+                } else {
+                    compatibility_tools.add (runner);
+                }
             }
-            var default_title = _("Default");
             compatibility_tools.sort ((a, b) => {
-                var a_is_default = a.display_title == default_title;
-                var b_is_default = b.display_title == default_title;
+                var a_is_default = a.internal_title == "Default";
+                var b_is_default = b.internal_title == "Default";
                 if (a_is_default != b_is_default)
                     return a_is_default ? -1 : 1;
 
