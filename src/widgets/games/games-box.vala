@@ -18,6 +18,10 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Label prefix_label;
         Gtk.Label compatibility_tool_label;
         Gtk.Label other_label;
+        Gtk.SizeGroup prefix_column_size_group;
+        Gtk.SizeGroup tool_column_size_group;
+        Gtk.SizeGroup actions_column_size_group;
+        Gtk.SizeGroup filter_column_size_group;
         Gtk.Box header_box;
         Gtk.Box headered_list_box;
         Gtk.Box games_page_box;
@@ -177,6 +181,9 @@ namespace ProtonPlus.Widgets.Games {
                 css_classes = { "flat" },
             };
 
+            filter_column_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.HORIZONTAL);
+            filter_column_size_group.add_widget (filter_button);
+
             action_bar_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
             action_bar_box.set_halign (Gtk.Align.CENTER);
 
@@ -202,7 +209,7 @@ namespace ProtonPlus.Widgets.Games {
             search_entry.changed.connect (schedule_search_filter);
 
             check_button = new Gtk.CheckButton ();
-            check_button.set_size_request (26, 26);
+            check_button.set_size_request (30, 26);
             check_button.toggled.connect (() => {
                 var is_active = check_button.get_active ();
                 var child = game_list_box.get_first_child ();
@@ -225,6 +232,15 @@ namespace ProtonPlus.Widgets.Games {
             other_label = new Gtk.Label (_("Actions"));
             other_label.set_xalign (0);
             other_label.set_size_request (122, 0);
+
+            prefix_column_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.HORIZONTAL);
+            prefix_column_size_group.add_widget (prefix_label);
+
+            tool_column_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.HORIZONTAL);
+            tool_column_size_group.add_widget (compatibility_tool_label);
+
+            actions_column_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.HORIZONTAL);
+            actions_column_size_group.add_widget (other_label);
 
             header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             header_box.set_hexpand (true);
@@ -380,7 +396,14 @@ namespace ProtonPlus.Widgets.Games {
                 model.append (ct);
 
             foreach (var game in launcher.games) {
-                var game_row = new GameRow (game);
+                var game_row = new GameRow (
+                    game,
+                    launcher.has_library_support,
+                    prefix_column_size_group,
+                    tool_column_size_group,
+                    actions_column_size_group,
+                    filter_column_size_group
+                );
                 game_row.mass_edit_requested.connect ((row) => {
                     open_mass_edit ({ row });
                 });

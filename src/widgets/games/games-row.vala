@@ -19,7 +19,12 @@ namespace ProtonPlus.Widgets.Games {
 
         public bool selected { get; set; }
 
-        public GameRow (Models.Game game) {
+        public GameRow (Models.Game game,
+                        bool reserve_filter_column = false,
+                        Gtk.SizeGroup? prefix_column_size_group = null,
+                        Gtk.SizeGroup? tool_column_size_group = null,
+                        Gtk.SizeGroup? actions_column_size_group = null,
+                        Gtk.SizeGroup? filter_column_size_group = null) {
             this.game = game;
             normalized_name = game.name.down ();
 
@@ -44,6 +49,8 @@ namespace ProtonPlus.Widgets.Games {
             prefix_label.set_max_width_chars (10);
             prefix_label.set_ellipsize (Pango.EllipsizeMode.END);
             prefix_label.set_size_request (110, 0);
+            if (prefix_column_size_group != null)
+                prefix_column_size_group.add_widget (prefix_label);
 
             prefix_gesture = new Gtk.GestureClick ();
             prefix_gesture.pressed.connect ((gesture, n_press, x, y) => {
@@ -56,12 +63,16 @@ namespace ProtonPlus.Widgets.Games {
             tool_label.set_max_width_chars (30);
             tool_label.set_ellipsize (Pango.EllipsizeMode.END);
             tool_label.set_size_request (254, 0);
+            if (tool_column_size_group != null)
+                tool_column_size_group.add_widget (tool_label);
             refresh_tool_label ();
 
             extra_button = new ExtraButton (game);
 
             other_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             other_box.set_size_request (122, 0);
+            if (actions_column_size_group != null)
+                actions_column_size_group.add_widget (other_box);
             other_box.append (extra_button);
 
             content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
@@ -73,6 +84,19 @@ namespace ProtonPlus.Widgets.Games {
             content_box.set_valign (Gtk.Align.CENTER);
             content_box.append (select_check_button);
             content_box.append (title_label);
+            if (reserve_filter_column) {
+                // Keep the remaining row columns aligned with the header's
+                // filter button, which occupies a column of its own.
+                var filter_column_spacer = new Gtk.MenuButton () {
+                    icon_name = "filter-2-symbolic",
+                    sensitive = false,
+                    opacity = 0.0,
+                    css_classes = { "flat" },
+                };
+                if (filter_column_size_group != null)
+                    filter_column_size_group.add_widget (filter_column_spacer);
+                content_box.append (filter_column_spacer);
+            }
             content_box.append (prefix_label);
             content_box.append (tool_label);
             content_box.append (other_box);
