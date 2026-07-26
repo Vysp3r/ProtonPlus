@@ -21,20 +21,18 @@ namespace ProtonPlus.Models.Tools {
             get_request_type = Utils.Web.GetRequestType.GITHUB;
         }
 
-        public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
+        public override async ReleasePage? fetch_release_page (int requested_page, out ReturnCode code) {
             var _releases = new Gee.LinkedList<Release> ();
 
             if (source_runner == null) {
                 code = ReturnCode.INVALID_CONFIGURATION;
-                return _releases;
+                return null;
             }
 
-            var source_releases = yield source_runner.request_releases (page, 25, out code);
+            var source_releases = yield source_runner.request_releases (requested_page, RELEASE_PAGE_SIZE, out code);
 
             if (code != ReturnCode.RELEASES_LOADED || source_releases == null)
-                return _releases;
-
-            page++;
+                return null;
 
             foreach (var source_release_item in source_releases.list) {
                 var source_release = source_release_item as Internal.Requests.Github.Release;
@@ -89,9 +87,11 @@ namespace ProtonPlus.Models.Tools {
                 }
             }
 
-            has_more = source_releases.list.size == 25;
-
-            return _releases;
+            return new ReleasePage (
+                _releases,
+                requested_page + 1,
+                source_releases.list.size == RELEASE_PAGE_SIZE
+            );
         }
     }
 }

@@ -7,6 +7,7 @@ test_sources = files(
     'provider_source_test.vala',
     'identity_test.vala',
     'release_identity_test.vala',
+    'release_page_test.vala',
     'variant_settings_test.vala',
     'install_layout_test.vala',
     'installer-transaction-test.vala',

@@ -7,6 +7,46 @@ namespace ProtonPlus.Models.Tools {
         internal string directory_name_format { get; set; }
         public string tag { get; set; }
 
+        public const int RELEASE_PAGE_SIZE = 25;
+
+        // Normalizes one provider browse operation without changing this
+        // tool's pagination state.  Implementations may advance through more
+        // than one upstream response when their source requires it.
+        public abstract async ReleasePage? fetch_release_page (int requested_page, out ReturnCode code);
+
+        // Retains the stateful browse contract used by the UI.  Callers that
+        // need discovery without changing browse state should use
+        // fetch_release_page() or fetch_latest_eligible_release().
+        public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
+            var release_page = yield fetch_release_page (page, out code);
+            if (code != ReturnCode.RELEASES_LOADED || release_page == null)
+                return new Gee.LinkedList<Release> ();
+
+            page = release_page.next_page;
+            has_more = release_page.has_more;
+            return release_page.releases;
+        }
+
+        // Finds the first eligible normalized release from the beginning of
+        // the source without affecting the state used for browsing.
+        public async Release? fetch_latest_eligible_release (out ReturnCode code) {
+            var requested_page = 1;
+
+            while (true) {
+                var release_page = yield fetch_release_page (requested_page, out code);
+                if (code != ReturnCode.RELEASES_LOADED || release_page == null)
+                    return null;
+
+                if (release_page.releases.size > 0)
+                    return release_page.releases.get (0);
+
+                if (!release_page.has_more)
+                    return null;
+
+                requested_page = release_page.next_page;
+            }
+        }
+
         public virtual string get_directory_name (string release_name) {
             if (release_name.contains ("Latest"))
                 return release_name;

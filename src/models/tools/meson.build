@@ -1,4 +1,5 @@
 sources += files(
+    'release-page.vala',
     'basic.vala',
     'github.vala',
     'github-action.vala',

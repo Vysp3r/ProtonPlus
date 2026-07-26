@@ -249,6 +249,9 @@ namespace ProtonPlus.Models {
             return releases;
         }
 
+        // Stateful browsing entrypoint.  Basic tools implement this by
+        // applying their provider-neutral ReleasePage result to page and
+        // has_more; non-provider tools keep their specialized behavior.
         public abstract async Gee.LinkedList<Release> load_more (out ReturnCode code);
 
         /// Checks all launchers for available updates and applies them.

@@ -6,23 +6,22 @@ namespace ProtonPlus.Models.Tools {
             get_request_type = Utils.Web.GetRequestType.GITHUB;
         }
 
-        public override async Gee.LinkedList<Release> load_more (out ReturnCode code) {
+        public override async ReleasePage? fetch_release_page (int requested_page, out ReturnCode code) {
             var _releases = new Gee.LinkedList<Release> ();
 
             if (source_runner == null) {
                 code = ReturnCode.INVALID_CONFIGURATION;
-                return _releases;
+                return null;
             }
 
-            var current_page = page;
+            var current_page = requested_page;
             var reached_end = false;
-            const int PAGE_SIZE = 25;
 
             while (_releases.size == 0 && !reached_end) {
-                var source_releases = yield source_runner.request_releases (current_page, PAGE_SIZE, out code);
+                var source_releases = yield source_runner.request_releases (current_page, RELEASE_PAGE_SIZE, out code);
 
                 if (code != ReturnCode.RELEASES_LOADED || source_releases == null)
-                    return _releases;
+                    return null;
 
                 foreach (var source_release_item in source_releases.list) {
                     var source_release = source_release_item as Internal.Requests.GithubAction.Release;
@@ -46,15 +45,12 @@ namespace ProtonPlus.Models.Tools {
                     }
                 }
 
-                reached_end = source_releases.list.size < PAGE_SIZE;
+                reached_end = source_releases.list.size < RELEASE_PAGE_SIZE;
                 current_page++;
             }
 
-            page = current_page;
-            has_more = !reached_end;
             code = ReturnCode.RELEASES_LOADED;
-
-            return _releases;
+            return new ReleasePage (_releases, current_page, !reached_end);
         }
     }
 }
