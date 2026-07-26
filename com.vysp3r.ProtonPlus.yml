@@ -38,12 +38,13 @@ cleanup:
   - /include
   - /lib/pkgconfig
   - /man
+  - /share/aclocal
   - /share/gtk-doc
   - /share/man
   - /share/pkgconfig
   - /share/vala
-  - '*.la'
   - '*.a'
+  - '*.la'
 modules:
   - name: ProtonPlus
     builddir: true

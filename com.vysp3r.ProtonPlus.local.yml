@@ -37,14 +37,14 @@ build-options:
 cleanup:
   - /include
   - /lib/pkgconfig
-  - /share/pkgconfig
-  - /share/aclocal
   - /man
-  - /share/man
-  - /share/vala
+  - /share/aclocal
   - /share/gtk-doc
-  - '*.la'
+  - /share/man
+  - /share/pkgconfig
+  - /share/vala
   - '*.a'
+  - '*.la'
 modules:
   - name: ProtonPlus
     builddir: true
