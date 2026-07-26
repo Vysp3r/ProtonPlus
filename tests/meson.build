@@ -1,5 +1,6 @@
 test_sources = files(
     'main.vala',
+    'asset_test.vala',
     'filesystem_test.vala',
     'metadata_test.vala',
     'installed-tool-inventory-test.vala',

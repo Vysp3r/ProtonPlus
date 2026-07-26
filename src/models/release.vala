@@ -17,7 +17,9 @@ namespace ProtonPlus.Models {
         // Upstream values are opaque and must never be inferred from title.
         public string upstream_release_id { get; private set; default = ""; }
         public string source_tag { get; private set; default = ""; }
-        public int64 download_size { get; private set; default = 0; }
+        // Retained for callers that consume Release metadata.  Asset is the
+        // sole in-memory owner, so this value cannot diverge from its asset.
+        public int64 download_size { get { return asset.download_size; } }
         public Kind kind { get; private set; default = Kind.GENERIC; }
         // This is remote-provider metadata, not an installation concern.
         public string artifacts_url { get; private set; default = ""; }
@@ -31,7 +33,7 @@ namespace ProtonPlus.Models {
             string release_date,
             Assets.Asset asset,
             string page_url,
-            int64 download_size = 0,
+            int64? download_size = null,
             string upstream_release_id = "",
             string source_tag = "",
             Kind kind = Kind.GENERIC,
@@ -40,9 +42,13 @@ namespace ProtonPlus.Models {
             this.title = title;
             this.description = description;
             this.release_date = release_date;
-            this.asset = asset;
+            // The positional size argument is retained for cached releases
+            // and older call sites.  Copying the complete immutable asset
+            // keeps Asset as the single authoritative in-memory owner.
+            this.asset = download_size != null
+                ? new Assets.Asset (asset.name, asset.download_url, (!) download_size)
+                : asset;
             this.page_url = page_url;
-            this.download_size = download_size;
             this.upstream_release_id = upstream_release_id;
             this.source_tag = source_tag;
             this.kind = kind;

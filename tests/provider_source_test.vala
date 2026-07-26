@@ -56,6 +56,7 @@ namespace AppTests.ProviderSourceTest {
         assert (release.upstream_release_id == "1001");
         assert (release.source_tag == "GE-Proton10-1");
         assert (release.asset.name == "GE-Proton10-1.tar.gz");
+        assert (release.asset.download_size == 42);
         assert (release.download_size == 42);
         assert (page.next_page == 2);
         assert (!page.has_more);
@@ -73,6 +74,7 @@ namespace AppTests.ProviderSourceTest {
         assert (release.upstream_release_id == "3001");
         assert (release.source_tag == "v0.6.0");
         assert (release.asset.name == "ProtonPlus.tar.gz");
+        assert (release.asset.download_size == 0);
         assert (release.page_url == "https://gitlab.com/example/project/-/releases/v0.6.0");
         assert (page.next_page == 4);
     }
@@ -88,6 +90,7 @@ namespace AppTests.ProviderSourceTest {
         assert (release.upstream_release_id == "4001");
         assert (release.source_tag == "GE-Proton8-26");
         assert (release.asset.name == "Wine-GE-Proton8-26.tar.xz");
+        assert (release.asset.download_size == 126);
         assert (release.download_size == 126);
     }
 
@@ -102,6 +105,7 @@ namespace AppTests.ProviderSourceTest {
         assert (release.kind == ProtonPlus.Models.Release.Kind.GITHUB_ACTION);
         assert (release.upstream_release_id == "5001");
         assert (release.asset.name == "fixture-action.zip");
+        assert (release.asset.download_size == 0);
         assert (release.artifacts_url == "https://api.github.com/repos/example/project/actions/runs/5001/artifacts");
     }
 

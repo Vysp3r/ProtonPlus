@@ -3,6 +3,7 @@ using GLib;
 int main (string[] args) {
     Test.init (ref args);
 
+    AppTests.AssetTest.register_tests ();
     AppTests.FilesystemTest.register_tests ();
     AppTests.MetadataTest.register_tests ();
     AppTests.InstalledToolInventoryTest.register_tests ();

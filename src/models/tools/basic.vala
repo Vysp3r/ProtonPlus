@@ -2,7 +2,6 @@ namespace ProtonPlus.Models.Tools {
     public class Basic : Tool {
         // Basic owns tool identity, local variant configuration, and naming;
         // ReleaseCatalog owns all remote browsing state and source access.
-        private ProtonPlus.Models.Providers.ProviderDefinition? definition;
         internal string endpoint { get; set; }
         internal string directory_name_format { get; set; }
         public string tag { get; set; }
@@ -21,7 +20,6 @@ namespace ProtonPlus.Models.Tools {
             string directory_name_format
         ) {
             Object (group: group);
-            this.definition = definition;
             this.endpoint = definition.endpoint;
             this.directory_name_format = directory_name_format;
             this.title = definition.title;
@@ -75,39 +73,6 @@ namespace ProtonPlus.Models.Tools {
             }
 
             return directory_name.str;
-        }
-
-        public virtual Gee.LinkedList<Variant> create_release_variants (
-            string release_name,
-            string tag_name,
-            Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> assets,
-            string? fallback_download_url = null
-        ) {
-            if (definition == null)
-                return new Gee.LinkedList<Variant> ();
-
-            var catalog_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
-            foreach (var asset in assets)
-                catalog_assets.add (new ProtonPlus.Models.Assets.Asset (asset.name, asset.download_url));
-
-            return ProtonPlus.Providers.Sources.CatalogReleaseBuilder.create_variants (
-                definition, release_name, tag_name, catalog_assets, fallback_download_url
-            );
-        }
-
-        public string? get_default_variant_download_url (Gee.LinkedList<Variant> release_variants, string? fallback_download_url = null) {
-            return ProtonPlus.Providers.Sources.CatalogReleaseBuilder.get_default_variant_download_url (
-                release_variants, fallback_download_url
-            );
-        }
-
-        public virtual void update_variant_download_url (string release_name) {
-            foreach (var variant in this.variants) {
-                var url = new StringBuilder (variant.format);
-                url.replace ("$title", title);
-                url.replace ("$release_name", release_name);
-                variant.download_url = url.str;
-            }
         }
 
     }

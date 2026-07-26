@@ -2,6 +2,7 @@ namespace AppTests.ProviderDefinitionTest {
     using GLib;
     using ProtonPlus.Models;
     using ProtonPlus.Models.Providers;
+    using ProtonPlus.Providers.Sources;
 
     public void register_tests () {
         Test.add_func ("/provider-definitions/snapshot", test_definition_snapshot);
@@ -117,9 +118,7 @@ namespace AppTests.ProviderDefinitionTest {
 
     private void test_ph42on_asset_selection () {
         var definition = get_definition ("DXVK GPL+Async (Ph42oN)");
-        var tool = create_tool (definition);
-        assert (tool != null);
-        var assets = new Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> ();
+        var assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
         assets.add (new ProtonPlus.Models.Assets.Asset (
             "dxvk-gplasync-v3.0-1-ci.zip", "https://example.invalid/ci.zip"
         ));
@@ -127,9 +126,11 @@ namespace AppTests.ProviderDefinitionTest {
             "dxvk-gplasync-v3.0-1.tar.gz", "https://example.invalid/release.tar.gz"
         ));
 
-        var variants = tool.create_release_variants ("v3.0-1", "v3.0-1", assets);
+        var variants = CatalogReleaseBuilder.create_variants (definition, "v3.0-1", "v3.0-1", assets);
         assert (variants.size == 1);
         assert (variants[0].download_url == "https://example.invalid/release.tar.gz");
+        var primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
+        assert (primary_asset != null && primary_asset.name == "dxvk-gplasync-v3.0-1.tar.gz");
     }
 
     private void test_catalog_construction_isolation () {

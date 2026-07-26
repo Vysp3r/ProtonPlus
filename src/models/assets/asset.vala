@@ -1,16 +1,21 @@
 namespace ProtonPlus.Models.Assets {
-    public class Asset : Object, IAsset {
-        public string name { get; set; }
-        public string download_url { get; set; }
+    // Provider responses are normalized to this immutable catalog value.
+    public class Asset : Object {
+        public string name { get; construct; }
+        public string download_url { get; construct; }
+        public int64 download_size { get; construct; }
 
-        public Asset (string name, string download_url) {
-            this.name = name;
-            this.download_url = download_url;
+        public Asset (string name, string download_url, int64 download_size = 0) {
+            Object (
+                name: name,
+                download_url: download_url,
+                download_size: download_size
+            );
         }
 
-        public static Asset from_download_url (string download_url) {
+        public static Asset from_download_url (string download_url, int64 download_size = 0) {
             var path = download_url.split ("?")[0];
-            return new Asset (Path.get_basename (path), download_url);
+            return new Asset (Path.get_basename (path), download_url, download_size);
         }
 
         public Json.Object to_json () {

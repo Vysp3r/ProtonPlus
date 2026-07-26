@@ -67,7 +67,7 @@ namespace ProtonPlus.Providers.Sources {
                     get_date (object, "created_at"),
                     primary_asset,
                     links != null ? links.get_string_member_with_default ("self", "") : "",
-                    0,
+                    primary_asset.download_size,
                     object.has_member ("id") && object.get_int_member ("id") > 0 ? object.get_int_member ("id").to_string () : "",
                     tag_name
                 );

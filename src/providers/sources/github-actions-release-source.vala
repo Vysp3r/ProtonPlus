@@ -62,13 +62,14 @@ namespace ProtonPlus.Providers.Sources {
 
                 var id = run.has_member ("id") ? run.get_int_member ("id") : 0;
                 var download_url = definition.url_template.replace ("{id}", id.to_string ());
+                var asset = Models.Assets.Asset.from_download_url (download_url);
                 var release = new Models.Release (
                     run.has_member ("run_number") ? run.get_int_member ("run_number").to_string () : "",
                     "",
                     get_date (run, "created_at"),
-                    Models.Assets.Asset.from_download_url (download_url),
+                    asset,
                     run.get_string_member_with_default ("html_url", ""),
-                    0,
+                    asset.download_size,
                     id > 0 ? id.to_string () : "",
                     "",
                     Models.Release.Kind.GITHUB_ACTION,

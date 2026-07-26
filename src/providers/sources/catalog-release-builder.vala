@@ -79,17 +79,6 @@ namespace ProtonPlus.Providers.Sources {
             return first_asset;
         }
 
-        public static string? get_default_variant_download_url (
-            LinkedList<Models.Variant> variants,
-            string? fallback_download_url = null
-        ) {
-            foreach (var variant in variants) {
-                if (variant.is_default && variant.download_url != null && variant.download_url != "")
-                    return variant.download_url;
-            }
-            return fallback_download_url;
-        }
-
         public static string render_asset_name (
             Models.Providers.VariantDefinition variant,
             string title,

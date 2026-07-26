@@ -60,14 +60,13 @@ namespace ProtonPlus.Providers.Sources {
                 if (primary_asset == null)
                     continue;
 
-                var github_asset = primary_asset as Models.Assets.GitHub;
                 var release = new Models.Release (
                     tag_name,
                     object.get_string_member_with_default ("body", "").strip (),
                     get_date (object, "created_at"),
                     primary_asset,
                     object.get_string_member_with_default ("html_url", ""),
-                    github_asset != null ? github_asset.download_size : 0,
+                    primary_asset.download_size,
                     object.has_member ("id") && object.get_int_member ("id") > 0 ? object.get_int_member ("id").to_string () : "",
                     tag_name
                 );
@@ -90,10 +89,10 @@ namespace ProtonPlus.Providers.Sources {
                 var object = array.get_object_element (index);
                 if (object == null)
                     continue;
-                var asset = new Models.Assets.GitHub (
+                var asset = new Models.Assets.Asset (
                     object.get_string_member_with_default ("name", ""),
                     object.get_string_member_with_default ("browser_download_url", ""),
-                    object.has_member ("size") ? (int) object.get_int_member ("size") : 0
+                    object.has_member ("size") ? object.get_int_member ("size") : 0
                 );
                 if (asset.is_archive ())
                     assets.add (asset);
