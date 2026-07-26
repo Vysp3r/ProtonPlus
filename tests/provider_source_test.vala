@@ -10,6 +10,8 @@ namespace AppTests.ProviderSourceTest {
         Test.add_func ("/providers/forgejo/canonical-release-page", test_forgejo_release_page);
         Test.add_func ("/providers/github-actions/canonical-release-page", test_github_actions_release_page);
         Test.add_func ("/providers/github/definition-filters", test_github_definition_filters);
+        Test.add_func ("/providers/github-compatible/primary-asset-policies", test_github_compatible_primary_asset_policies);
+        Test.add_func ("/providers/github-compatible/validation-and-skipped-releases", test_github_compatible_validation_and_skipped_releases);
         Test.add_func ("/providers/invalid-response-codes", test_invalid_response_codes);
         Test.add_func ("/providers/empty-pages", test_empty_pages);
     }
@@ -40,6 +42,23 @@ namespace AppTests.ProviderSourceTest {
             "",
             false,
             template
+        );
+    }
+
+    private ProviderDefinition policy_definition (SourceType source_type) {
+        return new ProviderDefinition (
+            Category.PROTON,
+            source_type,
+            "fixture-%s-policy".printf (ProviderDefinition.source_id_for (source_type)),
+            "Fixture provider",
+            "",
+            "https://example.test/releases",
+            1,
+            {
+                new VariantDefinition ("default", "default", "$release_name-default", true),
+                new VariantDefinition ("first", "first", "$release_name-first", false)
+            },
+            { InstallLayout.template ("default", "$release_name") }
         );
     }
 
@@ -129,6 +148,52 @@ namespace AppTests.ProviderSourceTest {
         assert (excluded_result.succeeded && excluded_result.require_page ().releases.size == 0);
     }
 
+    private void test_github_compatible_primary_asset_policies () {
+        var response = "[{\"id\":42,\"tag_name\":\"v1\",\"body\":\"notes\",\"html_url\":\"https://example.test/v1\",\"created_at\":\"2026-07-25T12:34:56Z\",\"assets\":[{\"name\":\"v1-first.tar.gz\",\"browser_download_url\":\"https://example.test/v1-first.tar.gz\",\"size\":10},{\"name\":\"v1-default.tar.gz\",\"browser_download_url\":\"https://example.test/v1-default.tar.gz\",\"size\":20}]}]";
+        var github_result = new GitHubReleaseSource ().parse_response (
+            policy_definition (SourceType.GITHUB), response, 1, 25
+        );
+        var forgejo_result = new ForgejoReleaseSource ().parse_response (
+            policy_definition (SourceType.FORGEJO), response, 1, 25
+        );
+
+        assert (github_result.succeeded && forgejo_result.succeeded);
+        var github = github_result.require_page ().releases[0];
+        var forgejo = forgejo_result.require_page ().releases[0];
+        assert (github.upstream_release_id == "42" && github.source_tag == "v1");
+        assert (github.asset.name == "v1-first.tar.gz" && github.download_size == 10);
+        assert (forgejo.asset.name == "v1-default.tar.gz" && forgejo.download_size == 20);
+        assert (github.variants[0].download_url == "https://example.test/v1-default.tar.gz");
+        assert (forgejo.variants[0].download_url == "https://example.test/v1-default.tar.gz");
+    }
+
+    private void test_github_compatible_validation_and_skipped_releases () {
+        var invalid = new GitHubReleaseSource ().parse_response (
+            definition (SourceType.GITHUB), fixture ("github", "invalid.json"), 1, 25
+        );
+        assert (!invalid.succeeded && invalid.code == ReturnCode.INVALID_DATA && invalid.page == null);
+
+        var wrong_root = new ForgejoReleaseSource ().parse_response (
+            definition (SourceType.FORGEJO), "{}", 1, 25
+        );
+        assert (!wrong_root.succeeded && wrong_root.code == ReturnCode.INVALID_DATA && wrong_root.page == null);
+
+        var gitlab_missing_assets = new GitLabReleaseSource ().parse_response (
+            definition (SourceType.GITLAB), fixture ("gitlab", "missing-fields.json"), 1, 25
+        );
+        assert (gitlab_missing_assets.succeeded && gitlab_missing_assets.require_page ().releases.size == 0);
+
+        var skipped = new GitHubReleaseSource ().parse_response (
+            definition (SourceType.GITHUB),
+            "[{\"tag_name\":\"v1\",\"assets\":[]},{\"tag_name\":\"v2\",\"assets\":[{\"name\":\"notes.txt\",\"browser_download_url\":\"https://example.test/notes.txt\",\"size\":1}]}]",
+            7,
+            2
+        );
+        assert (skipped.succeeded);
+        var page = skipped.require_page ();
+        assert (page.releases.size == 0 && page.next_page == 8 && page.has_more);
+    }
+
     private void test_invalid_response_codes () {
         var github = new GitHubReleaseSource ().parse_response (definition (SourceType.GITHUB), "{}", 1, 25);
         assert (!github.succeeded && github.code == ReturnCode.INVALID_DATA && github.page == null);
@@ -147,6 +212,13 @@ namespace AppTests.ProviderSourceTest {
         assert (github.releases.size == 0);
         assert (github.next_page == 9);
         assert (!github.has_more);
+
+        var forgejo_result = new ForgejoReleaseSource ().parse_response (definition (SourceType.FORGEJO), "[]", 8, 25);
+        assert (forgejo_result.succeeded);
+        var forgejo = forgejo_result.require_page ();
+        assert (forgejo.releases.size == 0);
+        assert (forgejo.next_page == 9);
+        assert (!forgejo.has_more);
 
         var actions_result = new GitHubActionsReleaseSource ().parse_response (
             definition (SourceType.GITHUB_ACTIONS), "{\"workflow_runs\":[]}", 8, 25

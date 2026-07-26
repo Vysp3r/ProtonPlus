@@ -1,27 +1,18 @@
 namespace ProtonPlus.Providers.Sources {
     using Gee;
 
-    public class GitLabReleaseSource : Object, ReleaseSource {
-        public async Models.Tools.ReleasePageResult fetch_page (
-            Models.Providers.ProviderDefinition definition,
-            int requested_page,
-            int limit
-        ) {
-            var response = yield Utils.Web.get_request (
-                "%s?per_page=%i&page=%i".printf (definition.endpoint, limit, requested_page),
-                Utils.Web.GetRequestType.GITLAB
-            );
-            if (response.code != ReturnCode.VALID_REQUEST)
-                return Models.Tools.ReleasePageResult.failure (response.code);
+    internal enum GitHubCompatiblePrimaryAssetPolicy {
+        FIRST_ARCHIVE,
+        DEFAULT_VARIANT_ASSET,
+    }
 
-            return parse_response (definition, response.body, requested_page, limit);
-        }
-
-        public Models.Tools.ReleasePageResult parse_response (
+    internal class GitHubCompatibleReleaseParser : Object {
+        public static Models.Tools.ReleasePageResult parse (
             Models.Providers.ProviderDefinition definition,
             string response_body,
             int requested_page,
-            int limit
+            int limit,
+            GitHubCompatiblePrimaryAssetPolicy primary_asset_policy
         ) {
             var root_array = ReleaseSourceSupport.parse_array (response_body);
             if (root_array == null)
@@ -47,17 +38,26 @@ namespace ProtonPlus.Providers.Sources {
                 var variants = CatalogReleaseBuilder.create_variants (
                     definition, tag_name, tag_name, assets, first_asset.download_url
                 );
-                var primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
+                Models.Assets.Asset? primary_asset = null;
+                switch (primary_asset_policy) {
+                case GitHubCompatiblePrimaryAssetPolicy.FIRST_ARCHIVE:
+                    primary_asset = first_asset;
+                    break;
+                case GitHubCompatiblePrimaryAssetPolicy.DEFAULT_VARIANT_ASSET:
+                    primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
+                    break;
+                default:
+                    assert_not_reached ();
+                }
                 if (primary_asset == null)
                     continue;
 
-                var links = object.get_object_member ("_links");
                 var release = new Models.Release (
                     tag_name,
-                    object.get_string_member_with_default ("description", "").strip (),
+                    object.get_string_member_with_default ("body", "").strip (),
                     ReleaseSourceSupport.get_iso8601_date (object, "created_at"),
                     primary_asset,
-                    links != null ? links.get_string_member_with_default ("self", "") : "",
+                    object.get_string_member_with_default ("html_url", ""),
                     primary_asset.download_size,
                     object.has_member ("id") && object.get_int_member ("id") > 0 ? object.get_int_member ("id").to_string () : "",
                     tag_name
@@ -71,10 +71,9 @@ namespace ProtonPlus.Providers.Sources {
             );
         }
 
-        private LinkedList<Models.Assets.Asset> parse_assets (Json.Object release) {
+        private static LinkedList<Models.Assets.Asset> parse_assets (Json.Object release) {
             var assets = new LinkedList<Models.Assets.Asset> ();
-            var container = release.get_object_member ("assets");
-            var array = container != null ? container.get_array_member ("links") : null;
+            var array = release.get_array_member ("assets");
             if (array == null)
                 return assets;
 
@@ -84,7 +83,8 @@ namespace ProtonPlus.Providers.Sources {
                     continue;
                 var asset = new Models.Assets.Asset (
                     object.get_string_member_with_default ("name", ""),
-                    object.get_string_member_with_default ("direct_asset_url", "").replace ("?ref_type=heads", "")
+                    object.get_string_member_with_default ("browser_download_url", ""),
+                    object.has_member ("size") ? object.get_int_member ("size") : 0
                 );
                 if (asset.is_archive ())
                     assets.add (asset);

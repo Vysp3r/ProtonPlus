@@ -66,7 +66,7 @@ namespace ProtonPlus.Providers.Sources {
                 var release = new Models.Release (
                     run.has_member ("run_number") ? run.get_int_member ("run_number").to_string () : "",
                     "",
-                    get_date (run, "created_at"),
+                    ReleaseSourceSupport.get_iso8601_date (run, "created_at"),
                     asset,
                     run.get_string_member_with_default ("html_url", ""),
                     asset.download_size,
@@ -90,11 +90,6 @@ namespace ProtonPlus.Providers.Sources {
                 "%s?per_page=%i&page=%i".printf (endpoint, limit, page),
                 Utils.Web.GetRequestType.GITHUB
             );
-        }
-
-        private static string get_date (Json.Object object, string member) {
-            var parsed = new DateTime.from_iso8601 (object.get_string_member_with_default (member, ""), null);
-            return (parsed ?? new DateTime.now_utc ()).format_iso8601 ();
         }
     }
 }
