@@ -2,8 +2,19 @@ namespace ProtonPlus.Models.Releases {
     public class GitHubAction : Release {
         public string artifacts_url { get; set; }
 
-        public GitHubAction (Tools.Basic runner, string title, string release_date, string download_url, string page_url, string artifacts_url) {
+        public GitHubAction (
+            Tools.Basic runner,
+            string title,
+            string release_date,
+            string download_url,
+            string page_url,
+            string artifacts_url,
+            string upstream_release_id = "",
+            string source_tag = ""
+        ) {
             this.artifacts_url = artifacts_url;
+            this.upstream_release_id = upstream_release_id;
+            this.source_tag = source_tag;
 
             shared (runner, title, release_date, download_url, page_url);
         }

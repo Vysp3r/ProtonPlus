@@ -70,7 +70,9 @@ namespace ProtonPlus.Models.Tools {
                     source_release.created_at.format_iso8601 (),
                     primary_asset.download_size,
                     primary_download_url,
-                    source_release.page_url
+                    source_release.page_url,
+                    source_release.id > 0 ? source_release.id.to_string () : "",
+                    source_release.tag_name
                 );
                 foreach (var variant in release_variants) {
                     release.variants.add (variant);

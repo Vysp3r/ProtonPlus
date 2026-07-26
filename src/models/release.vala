@@ -25,6 +25,9 @@ namespace ProtonPlus.Models {
         public string release_date { get; set; }
         public string download_url { get; set; }
         public string page_url { get; set; }
+        // Upstream values are opaque and must not be derived from the display title.
+        public string upstream_release_id { get; set; default = ""; }
+        public string source_tag { get; set; default = ""; }
         private bool _canceled = false;
         protected Cancellable operation_cancellable = new Cancellable ();
         public bool canceled {
@@ -159,6 +162,8 @@ namespace ProtonPlus.Models {
             obj.set_string_member ("release_date", release_date);
             obj.set_string_member ("download_url", download_url);
             obj.set_string_member ("page_url", page_url);
+            obj.set_string_member ("upstream_release_id", upstream_release_id);
+            obj.set_string_member ("source_tag", source_tag);
             obj.set_int_member ("download_size", download_size);
 
             var variants_array = new Json.Array ();
@@ -190,9 +195,11 @@ namespace ProtonPlus.Models {
             string release_date = obj.get_string_member_with_default ("release_date", "");
             string download_url = obj.get_string_member_with_default ("download_url", "");
             string page_url = obj.get_string_member_with_default ("page_url", "");
+            string upstream_release_id = obj.get_string_member_with_default ("upstream_release_id", "");
+            string source_tag = obj.get_string_member_with_default ("source_tag", "");
             int64 download_size = obj.has_member ("download_size") ? obj.get_int_member ("download_size") : 0;
 
-            if (kind == "" || title == "")
+            if (kind == "" || title == "" || (upstream_release_id == "" && source_tag == ""))
                 return null;
 
             Release? release = null;
@@ -203,7 +210,16 @@ namespace ProtonPlus.Models {
                     return null;
 
                 string artifacts_url = obj.get_string_member_with_default ("artifacts_url", "");
-                release = new Releases.GitHubAction (basic_runner, title, release_date, download_url, page_url, artifacts_url);
+                release = new Releases.GitHubAction (
+                    basic_runner,
+                    title,
+                    release_date,
+                    download_url,
+                    page_url,
+                    artifacts_url,
+                    upstream_release_id,
+                    source_tag
+                );
             } else if (kind == "latest") {
                 if (basic_runner == null)
                     return null;
@@ -216,11 +232,23 @@ namespace ProtonPlus.Models {
                     release_date,
                     download_url,
                     page_url,
-                    source_release_title
+                    source_release_title,
+                    upstream_release_id,
+                    source_tag
                 );
             } else if (basic_runner != null) {
                 // Default or generic
-                release = new Release.github (basic_runner, title, description, release_date, download_size, download_url, page_url);
+                release = new Release.github (
+                    basic_runner,
+                    title,
+                    description,
+                    release_date,
+                    download_size,
+                    download_url,
+                    page_url,
+                    upstream_release_id,
+                    source_tag
+                );
             } else {
                 return null;
             }
@@ -272,16 +300,31 @@ namespace ProtonPlus.Models {
             string release_date,
             int64 download_size,
             string download_url,
-            string page_url
+            string page_url,
+            string upstream_release_id = "",
+            string source_tag = ""
         ) {
             this.description = description;
             this.download_size = download_size;
+            this.upstream_release_id = upstream_release_id;
+            this.source_tag = source_tag;
 
             shared (runner, title, release_date, download_url, page_url);
         }
 
-        public Release.gitlab (Tools.Basic runner, string title, string description, string release_date, string download_url, string page_url) {
+        public Release.gitlab (
+            Tools.Basic runner,
+            string title,
+            string description,
+            string release_date,
+            string download_url,
+            string page_url,
+            string upstream_release_id = "",
+            string source_tag = ""
+        ) {
             this.description = description;
+            this.upstream_release_id = upstream_release_id;
+            this.source_tag = source_tag;
 
             shared (runner, title, release_date, download_url, page_url);
         }

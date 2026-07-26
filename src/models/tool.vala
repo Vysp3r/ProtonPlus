@@ -199,7 +199,9 @@ namespace ProtonPlus.Models {
                         releases[0].release_date,
                         releases[0].download_url,
                         releases[0].page_url,
-                        releases[0].title
+                        releases[0].title,
+                        releases[0].upstream_release_id,
+                        releases[0].source_tag
                     );
 
                     foreach (var variant in releases[0].variants) {
@@ -309,6 +311,8 @@ namespace ProtonPlus.Models {
             string page_url = "";
             string release_date = "";
             string download_url = "";
+            string upstream_release_id = "";
+            string source_tag = "";
 
             if (runner is Models.Tools.GitHubAction) {
                 var source_runner = runner.source_runner;
@@ -361,6 +365,7 @@ namespace ProtonPlus.Models {
                 page_url = latest_action.page_url;
                 release_date = latest_action.created_at.format_iso8601 ();
                 download_url = action_runner.url_template.replace ("{id}", latest_action.id.to_string ());
+                upstream_release_id = latest_action.id > 0 ? latest_action.id.to_string () : "";
             } else {
                 string query_param;
                 switch (runner.get_request_type) {
@@ -408,6 +413,9 @@ namespace ProtonPlus.Models {
                 description = object.get_string_member ("body").strip ();
                 page_url = object.get_string_member ("html_url");
                 release_date = object.get_string_member ("created_at").split ("T")[0];
+                source_tag = title;
+                var source_release_id = object.get_int_member_with_default ("id", 0);
+                upstream_release_id = source_release_id > 0 ? source_release_id.to_string () : "";
 
                 var release_assets = new Gee.LinkedList<Models.Internal.Assets.IAsset> ();
                 string? fallback_download_url = null;
@@ -478,7 +486,9 @@ namespace ProtonPlus.Models {
                 release_date,
                 download_url,
                 page_url,
-                title
+                title,
+                upstream_release_id,
+                source_tag
             );
             release.state = Models.Release.State.BUSY_UPDATING;
 

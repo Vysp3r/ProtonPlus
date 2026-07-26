@@ -106,7 +106,9 @@ namespace ProtonPlus.Utils {
                     tool.releases[0].release_date,
                     tool.releases[0].download_url,
                     tool.releases[0].page_url,
-                    tool.releases[0].title
+                    tool.releases[0].title,
+                    tool.releases[0].upstream_release_id,
+                    tool.releases[0].source_tag
                 );
 
                 foreach (var variant in tool.releases[0].variants) {

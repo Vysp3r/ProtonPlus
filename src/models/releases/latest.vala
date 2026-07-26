@@ -9,8 +9,12 @@ namespace ProtonPlus.Models.Releases {
             string release_date,
             string download_url,
             string page_url,
-            string source_release_title = ""
+            string source_release_title = "",
+            string upstream_release_id = "",
+            string source_tag = ""
         ) {
+            this.upstream_release_id = upstream_release_id;
+            this.source_tag = source_tag;
             shared (runner, title, release_date, download_url, page_url);
 
             this.description = description;

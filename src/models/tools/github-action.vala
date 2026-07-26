@@ -37,7 +37,8 @@ namespace ProtonPlus.Models.Tools {
                             source_release.created_at.format_iso8601 (),
                             download_url,
                             source_release.page_url,
-                            source_release.artifacts_url
+                            source_release.artifacts_url,
+                            source_release.id > 0 ? source_release.id.to_string () : ""
                         );
 
                         _releases.add (release);

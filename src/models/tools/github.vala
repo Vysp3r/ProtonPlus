@@ -69,7 +69,17 @@ namespace ProtonPlus.Models.Tools {
                     string page_url = source_release.page_url;
                     string release_date = source_release.created_at.format_iso8601 ();
 
-                    var release = new Release.github (this, title, description, release_date, asset_object.download_size, asset_object.download_url, page_url);
+                    var release = new Release.github (
+                        this,
+                        title,
+                        description,
+                        release_date,
+                        asset_object.download_size,
+                        asset_object.download_url,
+                        page_url,
+                        source_release.id > 0 ? source_release.id.to_string () : "",
+                        source_release.tag_name
+                    );
 
                     foreach (var variant in create_release_variants (title, source_release.tag_name, release_assets, release.download_url)) {
                         release.variants.add (variant);
