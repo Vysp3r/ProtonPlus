@@ -151,10 +151,9 @@ namespace ProtonPlus.Widgets.Games {
                 var runner = model.get_item (i) as Models.Tools.Simple;
                 if (runner == null)
                     continue;
-                if (runner.display_title.contains ("Steam Linux Runtime")) {
-                    if (!all_steam_linux_runtime_compatible)
-                        continue;
-                }
+                if (Models.Launchers.Steam.is_steam_linux_runtime (runner.display_title, runner.internal_title)
+                    && !all_steam_linux_runtime_compatible)
+                    continue;
                 if (all_native && runner.internal_title == "Default") {
                     compatibility_tools.add (new Models.Tools.Simple (_("Native"), runner.internal_title));
                 } else {

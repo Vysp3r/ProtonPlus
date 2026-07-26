@@ -3,6 +3,7 @@ test_sources = files(
     'filesystem_test.vala',
     'metadata_test.vala',
     'parser_test.vala',
+    'steam_test.vala',
     'vdf_binary_test.vala',
 )
 

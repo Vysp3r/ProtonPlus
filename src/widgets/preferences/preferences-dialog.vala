@@ -118,7 +118,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
                     var compatibility_tools = new Gee.ArrayList<ProtonPlus.Models.Tools.Simple> ();
                     foreach (var compatibility_tool in steam_launcher.compatibility_tools) {
-                        if (!compatibility_tool.display_title.contains ("Steam Linux Runtime"))
+                        if (!Models.Launchers.Steam.is_steam_linux_runtime (compatibility_tool.display_title, compatibility_tool.internal_title))
                             compatibility_tools.add (compatibility_tool);
                     }
                     compatibility_tools.sort ((a, b) => {

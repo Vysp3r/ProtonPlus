@@ -101,8 +101,9 @@ namespace ProtonPlus.Widgets.Tools {
 
             foreach (var tool in launcher.compatibility_tools) {
                 if (tool.internal_title != current_tool_name) {
-                    if (tool.display_title.contains ("Steam Linux Runtime") && !all_steam_linux_runtime_compatible)
-                    continue;
+                    if (Models.Launchers.Steam.is_steam_linux_runtime (tool.display_title, tool.internal_title)
+                        && !all_steam_linux_runtime_compatible)
+                        continue;
 
                     model.append (tool.display_title);
                     possible_tools_internal.add (tool.internal_title);

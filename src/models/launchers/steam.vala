@@ -32,6 +32,12 @@ namespace ProtonPlus.Models.Launchers {
             has_library_support = true;
         }
 
+        public static bool is_steam_linux_runtime (string display_title, string internal_title = "") {
+            return display_title.down ().contains ("steam linux runtime")
+                   || internal_title.down ().contains ("steam_linux_runtime")
+                   || internal_title.down ().contains ("steamlinuxruntime");
+        }
+
         public override List<string> get_tool_directories (Group group) {
             var directories = new List<string> ();
             directories.append (this.directory + group.directory);
@@ -280,10 +286,6 @@ namespace ProtonPlus.Models.Launchers {
                     if (!id_valid)
                     continue;
 
-                    if (excluded_appids.contains (app.key)) {
-                        continue;
-                    }
-
                     var current_libraryfolder_id = libraryfolder_id;
                     var current_libraryfolder_path = path.value;
                     var current_appid = app.key;
@@ -308,7 +310,7 @@ namespace ProtonPlus.Models.Launchers {
                     continue;
                     current_installdir = dir_match.fetch (1);
 
-                    if (current_name.contains ("Steam Linux Runtime")) {
+                    if (is_steam_linux_runtime (current_name)) {
                         var simple_runner = new Tools.Simple.with_path (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
@@ -316,6 +318,10 @@ namespace ProtonPlus.Models.Launchers {
                         );
                         simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
                         compatibility_tools.add (simple_runner);
+                        continue;
+                    }
+
+                    if (excluded_appids.contains (current_appid)) {
                         continue;
                     }
 
@@ -507,7 +513,7 @@ namespace ProtonPlus.Models.Launchers {
                 return 300;
             }
 
-            if (title.contains ("steam linux runtime") || internal_title.contains ("steamlinuxruntime")) {
+            if (is_steam_linux_runtime (tool.display_title, tool.internal_title)) {
                 return 400;
             }
 
