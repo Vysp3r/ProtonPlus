@@ -23,7 +23,7 @@ namespace AppTests.IdentityTest {
         return new Launcher ("Fixture launcher", installation_type, "", {}, family_id);
     }
 
-    private Tools.Basic tool (ProviderDefinition definition, Launcher launcher, string group_id) {
+    private Tools.ProviderTool tool (ProviderDefinition definition, Launcher launcher, string group_id) {
         var value = ProviderCatalog.create_tool (definition, new Group ("Fixture group", "", "", launcher, group_id));
         assert (value != null);
         return value;

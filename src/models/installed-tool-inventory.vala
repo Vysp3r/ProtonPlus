@@ -137,9 +137,9 @@ namespace ProtonPlus.Models {
             var internal_title = directory_name;
             var display_title = directory_name;
             if (has_compatibilitytool_vdf) {
-                var simple_runner = new Tools.Simple.from_path (path);
-                internal_title = simple_runner.internal_title;
-                display_title = simple_runner.title;
+                var compatibility_tool = Utils.VDF.CompatibilityToolLoader.from_path (path);
+                internal_title = compatibility_tool.internal_title;
+                display_title = compatibility_tool.display_title;
             }
 
             var metadata = Utils.Metadata.load (path);
@@ -163,9 +163,9 @@ namespace ProtonPlus.Models {
                     continue;
                 }
 
-                var basic_tool = tool as Tools.Basic;
-                if (basic_tool != null)
-                    resolve_basic_tool (basic_tool);
+                var provider_tool = tool as Tools.ProviderTool;
+                if (provider_tool != null)
+                    resolve_provider_tool (provider_tool);
             }
         }
 
@@ -185,7 +185,7 @@ namespace ProtonPlus.Models {
             }
         }
 
-        private void resolve_basic_tool (Tools.Basic tool) {
+        private void resolve_provider_tool (Tools.ProviderTool tool) {
             for (var index = 0; index < entries.size; index++) {
                 var entry = entries[index];
                 if (entry.has_persisted_identity () && persisted_identity_matches_tool (entry, tool)) {
@@ -229,7 +229,7 @@ namespace ProtonPlus.Models {
             }
         }
 
-        private bool persisted_identity_matches_tool (InstalledToolEntry entry, Tools.Basic tool) {
+        private bool persisted_identity_matches_tool (InstalledToolEntry entry, Tools.ProviderTool tool) {
             if (entry.tool_id != "") {
                 return entry.tool_id == tool.id &&
                        (entry.provider_id == "" || entry.provider_id == tool.provider_id) &&
@@ -241,7 +241,7 @@ namespace ProtonPlus.Models {
                    (entry.launcher_id == "" || entry.launcher_id == group.launcher.instance_id);
         }
 
-        private bool legacy_metadata_matches_tool (InstalledToolEntry entry, Tools.Basic tool) {
+        private bool legacy_metadata_matches_tool (InstalledToolEntry entry, Tools.ProviderTool tool) {
             var endpoint_matches = entry.runner_endpoint != "" && entry.runner_endpoint == tool.endpoint;
             var title_matches = entry.runner_title != "" && entry.runner_title == tool.title;
 
@@ -252,7 +252,7 @@ namespace ProtonPlus.Models {
             return legacy_tag_matches_tool (entry.tag, tool);
         }
 
-        private bool legacy_tag_matches_tool (string tag, Tools.Basic tool) {
+        private bool legacy_tag_matches_tool (string tag, Tools.ProviderTool tool) {
             var catalog = tool.release_catalog;
             if (tag == "" || catalog == null)
                 return false;
@@ -266,14 +266,14 @@ namespace ProtonPlus.Models {
         private bool legacy_metadata_match_is_unambiguous (InstalledToolEntry entry) {
             var matches = 0;
             foreach (var candidate in group.tools) {
-                var basic_candidate = candidate as Tools.Basic;
-                if (basic_candidate != null && legacy_metadata_matches_tool (entry, basic_candidate))
+                var provider_candidate = candidate as Tools.ProviderTool;
+                if (provider_candidate != null && legacy_metadata_matches_tool (entry, provider_candidate))
                     matches++;
             }
             return matches == 1;
         }
 
-        private InstalledToolEntry migrate_legacy_identity (int index, Tools.Basic tool) {
+        private InstalledToolEntry migrate_legacy_identity (int index, Tools.ProviderTool tool) {
             var entry = entries[index];
             var metadata = Utils.Metadata.load (entry.path);
             metadata.provider_id = tool.provider_id;
@@ -289,7 +289,7 @@ namespace ProtonPlus.Models {
             return migrated_entry;
         }
 
-        private bool identifier_matches_tool (string identifier, Tools.Basic tool) {
+        private bool identifier_matches_tool (string identifier, Tools.ProviderTool tool) {
             if (identifier == "")
                 return false;
             if (identifier == tool.title || identifier == "%s Latest".printf (tool.title))

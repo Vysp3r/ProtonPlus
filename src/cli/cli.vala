@@ -144,13 +144,13 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            var basic_runner = get_basic_runner (runner, CMD_INSTALL);
-            if (basic_runner == null) {
+            var provider_tool = get_provider_tool (runner, CMD_INSTALL);
+            if (provider_tool == null) {
                 return 1;
             }
 
             var use_latest = args.length >= 5 && args[4] == OPT_LATEST;
-            return use_latest ? yield install_latest (basic_runner) : yield install_interactive (basic_runner);
+            return use_latest ? yield install_latest (provider_tool) : yield install_interactive (provider_tool);
         }
 
         private async int handle_uninstall (string[] args) {
@@ -172,13 +172,13 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            var basic_runner = get_basic_runner (runner, CMD_UNINSTALL);
-            if (basic_runner == null) {
+            var provider_tool = get_provider_tool (runner, CMD_UNINSTALL);
+            if (provider_tool == null) {
                 return 1;
             }
 
             var uninstall_all = args.length >= 5 && args[4] == OPT_ALL;
-            return uninstall_all ? yield uninstall_runner_all (basic_runner) : yield uninstall_interactive (basic_runner);
+            return uninstall_all ? yield uninstall_runner_all (provider_tool) : yield uninstall_interactive (provider_tool);
         }
 
         private async int handle_update (string[] args) {
@@ -201,17 +201,17 @@ namespace ProtonPlus.CLI {
                     return 1;
                 }
 
-                var basic_runner = get_basic_runner (runner, CMD_UPDATE);
-                if (basic_runner == null) {
+                var provider_tool = get_provider_tool (runner, CMD_UPDATE);
+                if (provider_tool == null) {
                     return 1;
                 }
-                return yield update_runner (basic_runner);
+                return yield update_runner (provider_tool);
             }
             return yield update_launcher (launcher);
         }
 
-        private async int install_latest (Models.Tools.Basic basic_runner) {
-            var catalog = basic_runner.release_catalog;
+        private async int install_latest (Models.Tools.ProviderTool provider_tool) {
+            var catalog = provider_tool.release_catalog;
             if (catalog == null)
                 return 1;
             var result = yield catalog.fetch_latest_eligible_release ();
@@ -225,28 +225,28 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            Output.info (_ ("Installing %s Latest...\n"), basic_runner.title);
-            var job = new Services.InstallJob (result.require_release (), basic_runner, Services.InstallJob.Mode.LATEST);
+            Output.info (_ ("Installing %s Latest...\n"), provider_tool.title);
+            var job = new Services.InstallJob (result.require_release (), provider_tool, Services.InstallJob.Mode.LATEST);
             var code = yield job.install ();
             Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
             if (success)
-                Output.success (_ ("Successfully installed %s Latest\n"), basic_runner.title);
+                Output.success (_ ("Successfully installed %s Latest\n"), provider_tool.title);
             else
                 Output.error (_ ("Error: Installation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
-        private async int install_interactive (Models.Tools.Basic basic_runner) {
-            var catalog = basic_runner.release_catalog;
+        private async int install_interactive (Models.Tools.ProviderTool provider_tool) {
+            var catalog = provider_tool.release_catalog;
             if (catalog == null)
                 return 1;
-            var code = yield load_runner_releases (basic_runner);
+            var code = yield load_runner_releases (provider_tool);
             if (code != ReturnCode.RELEASES_LOADED || catalog.releases.size == 0) {
                 return 1;
             }
 
-            Output.header (_ ("Available releases for %s:\n"), basic_runner.title);
+            Output.header (_ ("Available releases for %s:\n"), provider_tool.title);
             for (var i = 0; i < catalog.releases.size; i++) {
                 var release = catalog.releases[i] as Models.Release;
                 Output.info ("%d. %s (%s)\n", i + 1, release.title, release.release_date);
@@ -259,7 +259,7 @@ namespace ProtonPlus.CLI {
 
             var selected = catalog.releases[index] as Models.Release;
             Output.info (_ ("Installing %s...\n"), selected.title);
-            var job = new Services.InstallJob (selected, basic_runner);
+            var job = new Services.InstallJob (selected, provider_tool);
             code = yield job.install ();
             Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
@@ -270,7 +270,7 @@ namespace ProtonPlus.CLI {
             return success ? 0 : 1;
         }
 
-        private async int uninstall_interactive (Models.Tools.Basic runner) {
+        private async int uninstall_interactive (Models.Tools.ProviderTool runner) {
             var installed = get_installed_releases (runner);
             if (installed.length () == 0) {
                 Output.warning (_ ("No installed releases found for %s\n"), runner.title);
@@ -291,7 +291,7 @@ namespace ProtonPlus.CLI {
             return yield uninstall_single_release (runner, release_name);
         }
 
-        private async int uninstall_runner_all (Models.Tools.Basic runner) {
+        private async int uninstall_runner_all (Models.Tools.ProviderTool runner) {
             var installed = get_installed_releases (runner);
             if (installed.length () == 0) {
                 Output.warning (_ ("No installed releases found for %s\n"), runner.title);
@@ -314,14 +314,14 @@ namespace ProtonPlus.CLI {
             var failed = false;
             foreach (var group in launcher.groups) {
                 foreach (var runner in group.tools) {
-                    var basic_runner = runner as Models.Tools.Basic;
-                    if (basic_runner == null) {
+                    var provider_tool = runner as Models.Tools.ProviderTool;
+                    if (provider_tool == null) {
                         continue;
                     }
 
-                    var installed = get_installed_releases (basic_runner);
+                    var installed = get_installed_releases (provider_tool);
                     foreach (var release_name in installed) {
-                        var code = yield uninstall_single_release (basic_runner, release_name);
+                        var code = yield uninstall_single_release (provider_tool, release_name);
                         if (code != 0) {
                             failed = true;
                         }
@@ -331,7 +331,7 @@ namespace ProtonPlus.CLI {
             return failed ? 1 : 0;
         }
 
-        private async int uninstall_single_release (Models.Tools.Basic runner, string release_name) {
+        private async int uninstall_single_release (Models.Tools.ProviderTool runner, string release_name) {
             var job = create_job (runner, release_name);
             Output.info (_ ("Uninstalling %s...\n"), release_name);
             var code = yield job.remove ();
@@ -357,7 +357,7 @@ namespace ProtonPlus.CLI {
             return yield update_runner_batch (latest_runners);
         }
 
-        private async int update_runner (Models.Tools.Basic runner) {
+        private async int update_runner (Models.Tools.ProviderTool runner) {
             var code = yield update_runner_with_progress (runner);
             switch (code) {
                 case ReturnCode.RUNNER_UPDATED:
@@ -372,8 +372,8 @@ namespace ProtonPlus.CLI {
             }
         }
 
-        private async Gee.LinkedList<Models.Tools.Basic> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
-            var latest_runners = new Gee.LinkedList<Models.Tools.Basic> ();
+        private async Gee.LinkedList<Models.Tools.ProviderTool> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
+            var latest_runners = new Gee.LinkedList<Models.Tools.ProviderTool> ();
 
             foreach (var launcher in scope) {
                 foreach (var group in launcher.groups) {
@@ -381,14 +381,14 @@ namespace ProtonPlus.CLI {
                     var entries = group.get_installed_tool_snapshot ();
 
                     foreach (var tool in group.tools) {
-                        var basic_runner = tool as Models.Tools.Basic;
-                        if (basic_runner == null) {
+                        var provider_tool = tool as Models.Tools.ProviderTool;
+                        if (provider_tool == null) {
                             continue;
                         }
 
                         foreach (var entry in entries) {
                             if (entry.directory_name == "%s Latest".printf (tool.title)) {
-                                latest_runners.add (basic_runner);
+                                latest_runners.add (provider_tool);
                                 continue;
                             }
 
@@ -404,7 +404,7 @@ namespace ProtonPlus.CLI {
             return latest_runners;
         }
 
-        private async int update_runner_batch (Gee.LinkedList<Models.Tools.Basic> runners) {
+        private async int update_runner_batch (Gee.LinkedList<Models.Tools.ProviderTool> runners) {
             if (runners.size == 0) {
                 Output.success (_ ("Already up to date\n"));
                 return 0;
@@ -430,7 +430,7 @@ namespace ProtonPlus.CLI {
             return failed ? 1 : 0;
         }
 
-        private async ReturnCode update_runner_with_progress (Models.Tools.Basic runner) {
+        private async ReturnCode update_runner_with_progress (Models.Tools.ProviderTool runner) {
             Output.info (_ ("Updating %s...") + "\r", runner.title);
             stdout.flush ();
 
@@ -449,8 +449,8 @@ namespace ProtonPlus.CLI {
             return true;
         }
 
-        private async ReturnCode load_runner_releases (Models.Tools.Basic basic_runner) {
-            var catalog = basic_runner.release_catalog;
+        private async ReturnCode load_runner_releases (Models.Tools.ProviderTool provider_tool) {
+            var catalog = provider_tool.release_catalog;
             if (catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
             var result = yield catalog.load (false);
@@ -485,7 +485,7 @@ namespace ProtonPlus.CLI {
             return null;
         }
 
-        private List<string> get_installed_releases (Models.Tools.Basic runner) {
+        private List<string> get_installed_releases (Models.Tools.ProviderTool runner) {
             runner.group.refresh_installed_state ();
             var entries = runner.group.get_installed_tool_snapshot ();
             var installed = new List<string> ();
@@ -522,23 +522,23 @@ namespace ProtonPlus.CLI {
             return runner.title.down ().replace (" ", "-");
         }
 
-        private string get_release_path (Models.Tools.Basic runner, string release_name) {
+        private string get_release_path (Models.Tools.ProviderTool runner, string release_name) {
             return "%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, release_name);
         }
 
-        private Services.InstallJob create_job (Models.Tools.Basic runner, string release_name) {
+        private Services.InstallJob create_job (Models.Tools.ProviderTool runner, string release_name) {
             var release = new Models.Release (
                 release_name, "", "", new Models.Assets.Asset ("", ""), "", 0, "", release_name
             );
             return new Services.InstallJob (release, runner, Services.InstallJob.Mode.VERSIONED, get_release_path (runner, release_name));
         }
 
-        private Models.Tools.Basic? get_basic_runner (Models.Tool runner, string operation) {
-            var basic_runner = runner as Models.Tools.Basic;
-            if (basic_runner == null) {
+        private Models.Tools.ProviderTool? get_provider_tool (Models.Tool runner, string operation) {
+            var provider_tool = runner as Models.Tools.ProviderTool;
+            if (provider_tool == null) {
                 Output.error (_ ("Error: Tool '%s' does not support %s\n"), runner.title, operation);
             }
-            return basic_runner;
+            return provider_tool;
         }
 
         private bool validate_args (string[] args, int min_required, string usage) {

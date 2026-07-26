@@ -1,38 +1,34 @@
 namespace ProtonPlus.Models.Tools {
-    public class Basic : Tool {
-        // Basic owns tool identity, local variant configuration, and naming;
+    public class ProviderTool : Tool {
+        // ProviderTool owns tool identity, local variant configuration, and naming;
         // ReleaseCatalog owns all remote browsing state and source access.
-        internal string endpoint { get; set; }
+        public ProtonPlus.Models.Providers.ProviderDefinition definition { get; construct; }
+        public string endpoint {
+            owned get { return definition.endpoint; }
+        }
         internal string directory_name_format { get; set; }
-        public string tag { get; set; }
-        public bool is_github_actions_source { get; private set; default = false; }
+        public string tag {
+            owned get { return definition.tag; }
+        }
+        public Gee.LinkedList<Variant> variants { get; private set; default = new Gee.LinkedList<Variant> (); }
 
         public const int RELEASE_PAGE_SIZE = ReleaseCatalog.RELEASE_PAGE_SIZE;
 
-        protected Basic (Group group) {
-            Object (group: group);
-        }
-
-        public Basic.with_catalog (
+        public ProviderTool.with_catalog (
             ProtonPlus.Models.Providers.ProviderDefinition definition,
             ProtonPlus.Providers.Sources.ReleaseSource release_source,
             Group group,
             string directory_name_format
         ) {
-            Object (group: group);
-            this.endpoint = definition.endpoint;
+            Object (group: group, definition: definition);
             this.directory_name_format = directory_name_format;
             this.title = definition.title;
             this.description = Utils.safe_translate (definition.description);
-            this.tag = definition.tag;
             this.legacy = definition.legacy;
             this.sort_priority = definition.sort_priority;
-            this.is_github_actions_source =
-                definition.source_type == ProtonPlus.Models.Providers.SourceType.GITHUB_ACTIONS;
             this.set_identity (definition.provider_id, definition.source_id);
             this.initialize_release_catalog (new ReleaseCatalog (id, title, definition, release_source));
 
-            this.variants = new Gee.LinkedList<Variant> ();
             foreach (var configured_variant in definition.get_variants ()) {
                 this.variants.add (new Variant (
                     configured_variant.id,
@@ -44,7 +40,7 @@ namespace ProtonPlus.Models.Tools {
             }
         }
 
-        public virtual string get_directory_name (string release_name) {
+        public string get_directory_name (string release_name) {
             if (release_name.contains ("Latest"))
                 return release_name;
 

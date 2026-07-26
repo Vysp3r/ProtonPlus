@@ -312,13 +312,13 @@ namespace ProtonPlus.Models.Launchers {
                     current_installdir = dir_match.fetch (1);
 
                     if (is_steam_linux_runtime (current_name)) {
-                        var simple_runner = new Tools.Simple.with_path (
+                        var compatibility_tool = new CompatibilityTool (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
                             "%s/common/%s".printf (current_steamapps_path, current_installdir)
                         );
-                        simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                        compatibility_tools.add (simple_runner);
+                        compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+                        compatibility_tools.add (compatibility_tool);
                         continue;
                     }
 
@@ -329,13 +329,13 @@ namespace ProtonPlus.Models.Launchers {
                     if (proton_regex.match (current_name) ||
                         current_name == "Proton Hotfix" ||
                         native_compatibility_tool_appids.contains (current_appid)) {
-                        var simple_runner = new Tools.Simple.with_path (
+                        var compatibility_tool = new CompatibilityTool (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
                             "%s/common/%s".printf (current_steamapps_path, current_installdir)
                         );
-                        simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                        compatibility_tools.add (simple_runner);
+                        compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+                        compatibility_tools.add (compatibility_tool);
                         continue;
                     }
 
@@ -385,9 +385,9 @@ namespace ProtonPlus.Models.Launchers {
                             }
 
                             var file_path = "%s/%s".printf (directory.get_path (), file_name);
-                            var simple_runner = new Tools.Simple.from_path (file_path);
-                            simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                            compatibility_tools.add (simple_runner);
+                            var compatibility_tool = Utils.VDF.CompatibilityToolLoader.from_path (file_path);
+                            compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+                            compatibility_tools.add (compatibility_tool);
                         }
                     }
                 }
@@ -407,8 +407,8 @@ namespace ProtonPlus.Models.Launchers {
         private void add_flatpak_extension_tools_to_compatibility_tools () {
             foreach (var extension_root in get_flatpak_steam_extension_roots ()) {
                 if (is_tool_root (extension_root)) {
-                    var simple_runner = new Tools.Simple.from_path (extension_root);
-                    add_compatibility_tool_if_missing (simple_runner);
+                    var compatibility_tool = Utils.VDF.CompatibilityToolLoader.from_path (extension_root);
+                    add_compatibility_tool_if_missing (compatibility_tool);
                 }
 
                 var extension_tools_root = "%s/share/steam/compatibilitytools.d".printf (extension_root);
@@ -430,7 +430,7 @@ namespace ProtonPlus.Models.Launchers {
                         }
 
                         var tool_path = "%s/%s".printf (extension_tools_root, file_info.get_name ());
-                        add_compatibility_tool_if_missing (new Tools.Simple.from_path (tool_path));
+                        add_compatibility_tool_if_missing (Utils.VDF.CompatibilityToolLoader.from_path (tool_path));
                     }
                 } catch (Error e) {
                     warning (e.message);
@@ -438,19 +438,19 @@ namespace ProtonPlus.Models.Launchers {
             }
         }
 
-        private void add_compatibility_tool_if_missing (Tools.Simple simple_runner) {
+        private void add_compatibility_tool_if_missing (CompatibilityTool compatibility_tool) {
             foreach (var existing_runner in compatibility_tools) {
-                if (existing_runner.path == simple_runner.path || existing_runner.internal_title == simple_runner.internal_title) {
+                if (existing_runner.path == compatibility_tool.path || existing_runner.internal_title == compatibility_tool.internal_title) {
                     return;
                 }
             }
 
-            simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-            compatibility_tools.add (simple_runner);
+            compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+            compatibility_tools.add (compatibility_tool);
         }
 
-        public void register_compatibility_tool (Tools.Simple simple_runner) {
-            add_compatibility_tool_if_missing (simple_runner);
+        public void register_compatibility_tool (CompatibilityTool compatibility_tool) {
+            add_compatibility_tool_if_missing (compatibility_tool);
             sort_compatibility_tools ();
         }
 
@@ -492,7 +492,7 @@ namespace ProtonPlus.Models.Launchers {
             });
         }
 
-        private int get_compatibility_tool_sort_priority (Tools.Simple tool) {
+        private int get_compatibility_tool_sort_priority (CompatibilityTool tool) {
             var title = tool.display_title.down ();
             var internal_title = tool.internal_title.down ();
 

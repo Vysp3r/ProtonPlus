@@ -146,9 +146,9 @@ namespace ProtonPlus.Services {
         public string get_usage_identifier () {
             if (steam_tinker_launch_context != null)
                 return usage_name;
-            var basic_tool = tool as Models.Tools.Basic;
-            if (basic_tool != null) {
-                var directory_name = effective_directory_name (basic_tool);
+            var provider_tool = tool as Models.Tools.ProviderTool;
+            if (provider_tool != null) {
+                var directory_name = effective_directory_name (provider_tool);
                 if (directory_name != "")
                     return directory_name;
             }
@@ -264,8 +264,8 @@ namespace ProtonPlus.Services {
         }
 
         internal string effective_directory_name_for_state () {
-            var basic_tool = tool as Models.Tools.Basic;
-            return basic_tool != null ? effective_directory_name (basic_tool) : "";
+            var provider_tool = tool as Models.Tools.ProviderTool;
+            return provider_tool != null ? effective_directory_name (provider_tool) : "";
         }
 
         private Models.Variant? selected_variant () {
@@ -278,8 +278,8 @@ namespace ProtonPlus.Services {
             return null;
         }
 
-        private string effective_directory_name (Models.Tools.Basic basic_tool) {
-            var name = basic_tool.get_directory_name (title);
+        private string effective_directory_name (Models.Tools.ProviderTool provider_tool) {
+            var name = provider_tool.get_directory_name (title);
             var selected = selected_variant ();
             if (selected == null || selected.is_default)
                 return name;
@@ -294,13 +294,13 @@ namespace ProtonPlus.Services {
                 install_location = override_location;
                 return;
             }
-            var basic_tool = tool as Models.Tools.Basic;
-            if (basic_tool == null)
+            var provider_tool = tool as Models.Tools.ProviderTool;
+            if (provider_tool == null)
                 return;
             install_location = "%s%s/%s".printf (
                 tool.group.launcher.directory,
                 tool.group.directory,
-                effective_directory_name (basic_tool)
+                effective_directory_name (provider_tool)
             );
         }
     }

@@ -57,7 +57,7 @@ namespace AppTests.InstalledToolInventoryTest {
         );
     }
 
-    private Tools.Basic add_tool (Group group, ProviderDefinition definition) {
+    private Tools.ProviderTool add_tool (Group group, ProviderDefinition definition) {
         var tool = ProviderCatalog.create_tool (definition, group);
         assert (tool != null);
         group.tools.add ((!) tool);
@@ -181,6 +181,15 @@ namespace AppTests.InstalledToolInventoryTest {
         internal_group.refresh_installed_state ();
         assert (internal_tool.is_installed ());
         assert (internal_tool.is_used ());
+        var internal_entries = internal_group.get_installed_tool_snapshot ();
+        InstalledToolEntry? internal_entry = null;
+        foreach (var entry in internal_entries) {
+            if (entry.path == internal_path)
+                internal_entry = entry;
+        }
+        assert (internal_entry != null);
+        assert (((!) internal_entry).internal_title == "Internal Match");
+        assert (((!) internal_entry).display_title == "Different Display");
 
         assert (delete_directory (internal_path));
         var display_group = group (launcher);
@@ -192,6 +201,15 @@ namespace AppTests.InstalledToolInventoryTest {
         display_group.refresh_installed_state ();
         assert (display_tool.is_installed ());
         assert (display_tool.is_used ());
+        var display_entries = display_group.get_installed_tool_snapshot ();
+        InstalledToolEntry? display_entry = null;
+        foreach (var entry in display_entries) {
+            if (entry.path == display_path)
+                display_entry = entry;
+        }
+        assert (display_entry != null);
+        assert (((!) display_entry).internal_title == "Internal Usage Name");
+        assert (((!) display_entry).display_title == "Display Match");
 
         assert (delete_directory (root));
     }

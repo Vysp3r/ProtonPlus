@@ -74,7 +74,7 @@ namespace ProtonPlus.Services {
         public override async ReturnCode update (InstallJob job, InstallationOperationCoordinator coordinator) {
             if (job.mode != InstallJob.Mode.LATEST)
                 return ReturnCode.UNSUPPORTED_OPERATION;
-            var runner = job.tool as Models.Tools.Basic;
+            var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null || runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
             var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
@@ -96,10 +96,10 @@ namespace ProtonPlus.Services {
 
         public override void refresh_state (InstallJob job) {
             job.step = InstallJob.Step.NOTHING;
-            var basic_tool = job.tool as Models.Tools.Basic;
-            var directory_valid = basic_tool != null && job.effective_directory_name_for_state () != "";
+            var provider_tool = job.tool as Models.Tools.ProviderTool;
+            var directory_valid = provider_tool != null && job.effective_directory_name_for_state () != "";
             var installed = job.install_location != "" && FileUtils.test (job.install_location, FileTest.IS_DIR);
-            if (job.mode == InstallJob.Mode.LATEST && basic_tool != null) {
+            if (job.mode == InstallJob.Mode.LATEST && provider_tool != null) {
                 var backup = "%s%s/%s Latest Backup".printf (
                     job.tool.group.launcher.directory, job.tool.group.directory, job.tool.title
                 );
@@ -111,7 +111,7 @@ namespace ProtonPlus.Services {
         public override void finalize_install_success (InstallJob job) {
             var steam = job.tool.group.launcher as Models.Launchers.Steam;
             if (steam != null)
-                steam.register_compatibility_tool (new Models.Tools.Simple.from_path (job.install_location));
+                steam.register_compatibility_tool (Utils.VDF.CompatibilityToolLoader.from_path (job.install_location));
         }
 
         public override void finalize_removal_success (InstallJob job) {
@@ -121,7 +121,7 @@ namespace ProtonPlus.Services {
         }
 
         public async ReturnCode update_specific_runner (
-            Models.Tools.Basic runner,
+            Models.Tools.ProviderTool runner,
             InstallationOperationCoordinator coordinator
         ) {
             var directory = "%s%s/%s Latest".printf (
@@ -134,7 +134,7 @@ namespace ProtonPlus.Services {
                 return ReturnCode.INVALID_CONFIGURATION;
             var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
             if (!lookup.succeeded) {
-                if (!runner.is_github_actions_source && metadata.tag != "" && is_request_failure (lookup.code))
+                if (runner.definition.source_type != Models.Providers.SourceType.GITHUB_ACTIONS && metadata.tag != "" && is_request_failure (lookup.code))
                     return ReturnCode.NOTHING_TO_UPDATE;
                 return lookup.code;
             }
@@ -175,7 +175,7 @@ namespace ProtonPlus.Services {
         }
 
         private async ReturnCode update_latest_job (InstallJob job, InstallationOperationCoordinator coordinator) {
-            var runner = job.tool as Models.Tools.Basic;
+            var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null || !FileUtils.test (job.install_location, FileTest.IS_DIR)) {
                 job.refresh_state ();
                 return ReturnCode.RUNNER_NOT_INSTALLED;
@@ -217,8 +217,8 @@ namespace ProtonPlus.Services {
         private bool requires_nested_archive (InstallJob job) {
             if (job.release.kind == Models.Release.Kind.GITHUB_ACTION)
                 return true;
-            var runner = job.tool as Models.Tools.Basic;
-            return job.mode == InstallJob.Mode.LATEST && runner != null && runner.is_github_actions_source;
+            var runner = job.tool as Models.Tools.ProviderTool;
+            return job.mode == InstallJob.Mode.LATEST && runner != null && runner.definition.source_type == Models.Providers.SourceType.GITHUB_ACTIONS;
         }
 
         private async string? extract_nested_archive (InstallJob job, string source_path, string extract_path) {
@@ -265,7 +265,7 @@ namespace ProtonPlus.Services {
         }
 
         private void persist_runner_install_metadata (InstallJob job, string path) {
-            var runner = job.tool as Models.Tools.Basic;
+            var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null)
                 return;
             var metadata = Utils.Metadata.load (path);
@@ -311,7 +311,7 @@ namespace ProtonPlus.Services {
 
         private void persist_runner_identity (
             Utils.Metadata metadata,
-            Models.Tools.Basic runner,
+            Models.Tools.ProviderTool runner,
             string directory,
             string tag,
             string release_id

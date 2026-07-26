@@ -55,7 +55,7 @@ namespace ProtonPlus.Services {
 
         // CLI bulk updates retain this service-level entry point while the
         // standard workflow owns the discovery and replacement mechanics.
-        public async ReturnCode update_specific_runner (Models.Tools.Basic runner) {
+        public async ReturnCode update_specific_runner (Models.Tools.ProviderTool runner) {
             return yield standard_archive_workflow.update_specific_runner (runner, this);
         }
 
@@ -100,7 +100,7 @@ namespace ProtonPlus.Services {
                         }
                     }
                     foreach (var tool in group.tools) {
-                        var runner = tool as Models.Tools.Basic;
+                        var runner = tool as Models.Tools.ProviderTool;
                         if (runner == null)
                             continue;
                         var latest = "%s Latest".printf (runner.title);

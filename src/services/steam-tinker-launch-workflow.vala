@@ -166,7 +166,7 @@ namespace ProtonPlus.Services {
             var steam = job.tool.group.launcher as Models.Launchers.Steam;
             if (steam != null)
                 steam.register_compatibility_tool (
-                    new Models.Tools.Simple.from_path ("%s/SteamTinkerLaunch".printf (context.compat_location))
+                    Utils.VDF.CompatibilityToolLoader.from_path ("%s/SteamTinkerLaunch".printf (context.compat_location))
                 );
         }
 

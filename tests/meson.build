@@ -3,6 +3,7 @@ test_sources = files(
     'asset_test.vala',
     'filesystem_test.vala',
     'metadata_test.vala',
+    'compatibility-tool-test.vala',
     'installed-tool-inventory-test.vala',
     'parser_test.vala',
     'provider_definition_test.vala',

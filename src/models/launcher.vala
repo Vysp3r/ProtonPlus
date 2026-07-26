@@ -9,7 +9,7 @@ namespace ProtonPlus.Models {
         public bool installed;
         public bool has_library_support;
         public List<Game> games;
-        public Gee.LinkedList<Tools.Simple> compatibility_tools;
+        public Gee.LinkedList<CompatibilityTool> compatibility_tools;
 
         public Group[] groups;
 
@@ -44,7 +44,7 @@ namespace ProtonPlus.Models {
                 break;
             }
 
-            compatibility_tools = new Gee.LinkedList<Tools.Simple> ();
+            compatibility_tools = new Gee.LinkedList<CompatibilityTool> ();
 
             installed = directory.length > 0;
         }

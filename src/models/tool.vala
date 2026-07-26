@@ -15,13 +15,6 @@ namespace ProtonPlus.Models {
         public InstalledToolEntry? resolved_installed_entry { get; private set; default = null; }
         internal string? resolved_usage_identifier { get; private set; default = null; }
         public ReleaseCatalog? release_catalog { get; private set; default = null; }
-        public Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
-
-        construct {
-            if (variants == null)
-                variants = new Gee.LinkedList<Variant> ();
-        }
-
         internal void set_identity (string provider_id, string source_id) {
             this.provider_id = provider_id;
             this.source_id = source_id;
@@ -32,11 +25,11 @@ namespace ProtonPlus.Models {
             release_catalog = catalog;
         }
 
-        public virtual bool is_installed () {
+        public bool is_installed () {
             return installed;
         }
 
-        public virtual bool is_used () {
+        public bool is_used () {
             return used;
         }
 

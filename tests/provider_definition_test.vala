@@ -64,7 +64,7 @@ namespace AppTests.ProviderDefinitionTest {
         }
     }
 
-    private Tools.Basic? create_tool (ProviderDefinition definition, string family_id = "fixture") {
+    private Tools.ProviderTool? create_tool (ProviderDefinition definition, string family_id = "fixture") {
         var launcher = new Launcher ("Fixture launcher", Launcher.InstallationTypes.SYSTEM, "", {}, family_id);
         var group = new Group ("Fixture group", "", "", launcher, "fixture");
         return ProviderCatalog.create_tool (definition, group);
@@ -147,6 +147,8 @@ namespace AppTests.ProviderDefinitionTest {
         assert (definition.get_variants ()[0].name == "x86");
         assert (first.provider_id == definition.provider_id);
         assert (second.provider_id == definition.provider_id);
+        assert (first.definition == definition);
+        assert (second.definition == definition);
     }
 
     private void test_steam_tinker_launch () {
@@ -177,8 +179,8 @@ namespace AppTests.ProviderDefinitionTest {
         assert (catalog_result != null && catalog_result.succeeded && catalog_result.releases.size == 1);
         assert (catalog_result.releases[0].kind == Release.Kind.STEAM_TINKER_LAUNCH);
 
-        var simple = new ProtonPlus.Models.Tools.Simple ("Simple", "simple");
-        assert (simple.release_catalog == null);
+        var compatibility_tool = new ProtonPlus.Models.CompatibilityTool ("Simple", "simple");
+        assert (!compatibility_tool.get_type ().is_a (typeof (ProtonPlus.Models.Tool)));
 
         assert (DirUtils.remove (install_path) == 0);
         assert (FileUtils.remove (root) == 0);

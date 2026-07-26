@@ -301,7 +301,7 @@ namespace ProtonPlus.Widgets.Games {
             clamp.set_margin_end (12);
             clamp.set_child (content_stack);
 
-            expression = new Gtk.PropertyExpression (typeof (Models.Tools.Simple), null, "display_title");
+            expression = new Gtk.PropertyExpression (typeof (Models.CompatibilityTool), null, "display_title");
 
             append (clamp);
             append (action_bar);
@@ -390,8 +390,8 @@ namespace ProtonPlus.Widgets.Games {
 
             overlay.add_overlay (spinner);
 
-            model = new ListStore (typeof (Models.Tools.Simple));
-            model.append (new Models.Tools.Simple (_("Default"), _("Default")));
+            model = new ListStore (typeof (Models.CompatibilityTool));
+            model.append (new Models.CompatibilityTool (_("Default"), _("Default")));
             foreach (var ct in launcher.compatibility_tools)
                 model.append (ct);
 

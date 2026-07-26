@@ -116,7 +116,7 @@ namespace ProtonPlus.Widgets.Preferences {
                         title = "Steam",
                     };
 
-                    var compatibility_tools = new Gee.ArrayList<ProtonPlus.Models.Tools.Simple> ();
+                    var compatibility_tools = new Gee.ArrayList<ProtonPlus.Models.CompatibilityTool> ();
                     foreach (var compatibility_tool in steam_launcher.compatibility_tools) {
                         if (!Models.Launchers.Steam.is_steam_linux_runtime (compatibility_tool.display_title, compatibility_tool.internal_title))
                             compatibility_tools.add (compatibility_tool);
@@ -128,12 +128,12 @@ namespace ProtonPlus.Widgets.Preferences {
                         );
                     });
 
-                    var model = new GLib.ListStore (typeof (ProtonPlus.Models.Tools.Simple));
+                    var model = new GLib.ListStore (typeof (ProtonPlus.Models.CompatibilityTool));
                     foreach (var compatibility_tool in compatibility_tools) {
                         model.append (compatibility_tool);
                     }
 
-                    var expression = new Gtk.PropertyExpression (typeof (ProtonPlus.Models.Tools.Simple), null, "display_title");
+                    var expression = new Gtk.PropertyExpression (typeof (ProtonPlus.Models.CompatibilityTool), null, "display_title");
 
                     var compatibility_tool_row = new ToolRow (model, expression) {
                         title = _("Default compatibility tool"),
@@ -149,7 +149,7 @@ namespace ProtonPlus.Widgets.Preferences {
                     }
 
                     compatibility_tool_row.notify["selected-item"].connect (() => {
-                        var selected_tool = compatibility_tool_row.get_selected_item () as ProtonPlus.Models.Tools.Simple;
+                        var selected_tool = compatibility_tool_row.get_selected_item () as ProtonPlus.Models.CompatibilityTool;
                         if (selected_tool != null) {
                             steam_launcher.change_default_compatibility_tool (selected_tool.internal_title);
                         }

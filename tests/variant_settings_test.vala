@@ -36,7 +36,7 @@ namespace AppTests.VariantSettingsTest {
         return generator.to_data (null);
     }
 
-    private Tools.Basic create_tool (string root) {
+    private Tools.ProviderTool create_tool (string root) {
         var launcher = new Launcher (
             "Fixture launcher", Launcher.InstallationTypes.SYSTEM, "", { root }, "fixture"
         );

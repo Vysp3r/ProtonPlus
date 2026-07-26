@@ -145,17 +145,17 @@ namespace ProtonPlus.Widgets.Games {
             if (compatibility_tool_row != null)
                 compatibility_tool_group.remove (compatibility_tool_row);
 
-            var compatibility_tools = new Gee.ArrayList<Models.Tools.Simple> ();
+            var compatibility_tools = new Gee.ArrayList<Models.CompatibilityTool> ();
             var n_items = model.get_n_items ();
             for (uint i = 0; i < n_items; i++) {
-                var runner = model.get_item (i) as Models.Tools.Simple;
+                var runner = model.get_item (i) as Models.CompatibilityTool;
                 if (runner == null)
                     continue;
                 if (Models.Launchers.Steam.is_steam_linux_runtime (runner.display_title, runner.internal_title)
                     && !all_steam_linux_runtime_compatible)
                     continue;
                 if (all_native && runner.internal_title == "Default") {
-                    compatibility_tools.add (new Models.Tools.Simple (_("Native"), runner.internal_title));
+                    compatibility_tools.add (new Models.CompatibilityTool (_("Native"), runner.internal_title));
                 } else {
                     compatibility_tools.add (runner);
                 }
@@ -172,7 +172,7 @@ namespace ProtonPlus.Widgets.Games {
                 );
             });
 
-            var filtered_model = new ListStore (typeof (Models.Tools.Simple));
+            var filtered_model = new ListStore (typeof (Models.CompatibilityTool));
             foreach (var compatibility_tool in compatibility_tools) {
                 filtered_model.append (compatibility_tool);
             }
@@ -187,7 +187,7 @@ namespace ProtonPlus.Widgets.Games {
 
                 var filtered_n_items = filtered_model.get_n_items ();
                 for (uint i = 0; i < filtered_n_items; i++) {
-                    var runner = filtered_model.get_item (i) as Models.Tools.Simple;
+                    var runner = filtered_model.get_item (i) as Models.CompatibilityTool;
                     if (runner != null && runner.internal_title == game.compatibility_tool) {
                         compatibility_tool_row.selected = i;
                         break;
@@ -240,7 +240,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void apply_button_clicked () {
-            var item = (Models.Tools.Simple) compatibility_tool_row.get_selected_item ();
+            var item = (Models.CompatibilityTool) compatibility_tool_row.get_selected_item ();
             var invalids = new List<string> ();
 
             foreach (var row in rows) {

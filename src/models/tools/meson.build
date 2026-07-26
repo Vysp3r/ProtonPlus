@@ -1,8 +1,6 @@
 sources += files(
     'release-page.vala',
     'release-page-result.vala',
-    'basic.vala',
-    'installed.vala',
+    'provider-tool.vala',
     'steamtinkerlaunch.vala',
-    'simple.vala'
 )

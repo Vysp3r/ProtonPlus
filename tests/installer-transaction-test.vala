@@ -10,7 +10,7 @@ namespace AppTests.InstallerTransactionTest {
         private bool fail_promotion;
         public int download_calls { get; private set; default = 0; }
 
-        public FixtureJob (Models.Tools.Basic runner, string location, string fixture_path, bool cancel_download = false, bool fail_promotion = false) {
+        public FixtureJob (Models.Tools.ProviderTool runner, string location, string fixture_path, bool cancel_download = false, bool fail_promotion = false) {
             base (new Release (
                 "Fixture Runner", "", "", new Models.Assets.Asset ("runner.zip", "https://fixtures.invalid/runner.zip"),
                 "", 0, "fixture-release-id", "fixture-tag"
@@ -60,7 +60,7 @@ namespace AppTests.InstallerTransactionTest {
         catch (FileError e) { critical ("Could not write archive fixture: %s", e.message); assert_not_reached (); }
         return path;
     }
-    private Models.Tools.Basic runner (string root) {
+    private Models.Tools.ProviderTool runner (string root) {
         assert (ProtonPlus.Utils.Filesystem.create_directory (root));
         var launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
         var group = new Group ("Test", "", "", launcher);

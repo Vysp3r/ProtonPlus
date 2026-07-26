@@ -369,7 +369,8 @@ namespace ProtonPlus.Widgets.Tools {
             variant_dropdown.set_visible (false);
             variant_box.set_visible (false);
 
-            if (tool.variants.size <= 1) {
+            var provider_tool = tool as Models.Tools.ProviderTool;
+            if (provider_tool == null || provider_tool.variants.size <= 1) {
                 return;
             }
 
@@ -380,7 +381,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             var saved_variant_name = get_saved_variant_name (tool);
 
-            foreach (var variant in tool.variants) {
+            foreach (var variant in provider_tool.variants) {
                 model.append (variant.name);
 
                 if (variant.is_default == true) {
@@ -397,7 +398,7 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             if (selected_variant == null) {
-                selected_variant = tool.variants.get (0);
+                selected_variant = provider_tool.variants.get (0);
                 selected_index = 0;
             } else if (selected_index == -1) {
                 selected_index = default_index >= 0 ? default_index : 0;
@@ -410,14 +411,15 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private void on_variant_selected () {
-            if (current_tool == null || current_tool.variants.size <= 1)
+            var provider_tool = current_tool as Models.Tools.ProviderTool;
+            if (provider_tool == null || provider_tool.variants.size <= 1)
                 return;
 
             int selected_index = (int) variant_dropdown.selected;
-            if (selected_index < 0 || selected_index >= current_tool.variants.size)
+            if (selected_index < 0 || selected_index >= provider_tool.variants.size)
                 return;
 
-            var variant = current_tool.variants.get (selected_index);
+            var variant = provider_tool.variants.get (selected_index);
             if (selected_variant != null && selected_variant.name == variant.name)
                 return;
 
@@ -578,7 +580,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private void add_release_rows (Models.Tool tool, Gee.LinkedList<Models.Release> releases) {
-            if (tool is Models.Tools.Basic && releases.size > 0)
+            if (tool is Models.Tools.ProviderTool && releases.size > 0)
                 add_release_row (releases[0], Services.InstallJob.Mode.LATEST);
             foreach (var release in releases)
                 add_release_row (release);
@@ -700,7 +702,8 @@ namespace ProtonPlus.Widgets.Tools {
             if (is_latest_job (job))
                 return true;
 
-            if (selected_variant != null && current_tool != null && current_tool.variants.size > 1) {
+            var provider_tool = current_tool as Models.Tools.ProviderTool;
+            if (selected_variant != null && provider_tool != null && provider_tool.variants.size > 1) {
                 if (get_variant_download_url (job.release, selected_variant.name) == null) {
                     return false;
                 }

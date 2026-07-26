@@ -221,7 +221,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void run_custom_executable (string exe_path) {
-            Models.Tools.Simple selected_runner = null;
+            Models.CompatibilityTool selected_runner = null;
 
             foreach (var runner in game.launcher.compatibility_tools) {
                 if (runner.internal_title == game.compatibility_tool) {
