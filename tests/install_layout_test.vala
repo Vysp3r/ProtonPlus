@@ -1,81 +1,55 @@
 namespace AppTests.InstallLayoutTest {
     using GLib;
     using ProtonPlus.Models;
-    using ProtonPlus.Models.Launchers.Runners;
+    using ProtonPlus.Models.Providers;
 
     public void register_tests () {
         Test.add_func ("/install-layout/launcher-specific-names", test_launcher_specific_names);
     }
 
-    private Json.Object get_snapshot () {
+    private Json.Object snapshot () {
+        var content = ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename ("fixtures", "definitions", "runners.json")
+        );
         try {
-            var content = ProtonPlus.Utils.Filesystem.get_file_content (
-                Path.build_filename ("fixtures", "definitions", "runners.json")
-            );
-            var root = Json.from_string (content);
-            assert (root.get_node_type () == Json.NodeType.OBJECT);
-            return root.get_object ();
+            return Json.from_string (content).get_object ();
         } catch (Error e) {
-            critical ("Could not load installation layout snapshot: %s", e.message);
+            critical ("Could not parse installation layout snapshot: %s", e.message);
             assert_not_reached ();
         }
     }
 
-    private IRunner get_runner (Gee.ArrayList<IRunner> runners, string title) {
-        foreach (var runner in runners) {
-            if (runner.title == title)
-                return runner;
+    private ProviderDefinition get_definition (string title) {
+        foreach (var definition in new ProviderDefinitions ().get_all ()) {
+            if (definition.title == title)
+                return definition;
         }
         assert_not_reached ();
     }
 
-    private Gee.ArrayList<IRunner> get_all_runners () {
-        var all_runners = new Gee.ArrayList<IRunner> ();
-        var runners = new Runners ();
-        foreach (var type in new RunnerType[] { RunnerType.DXVK, RunnerType.VKD3D, RunnerType.Proton, RunnerType.Wine }) {
-            all_runners.add_all (runners.getRunners (type));
+    private void assert_launcher_names (Json.Array definitions, string release_name, string title, string family) {
+        var launcher = new Launcher (title, Launcher.InstallationTypes.SYSTEM, "", {}, family);
+        var group = new Group ("Test", "", "", launcher);
+
+        for (var definition_index = 0; definition_index < definitions.get_length (); definition_index++) {
+            var entry = definitions.get_object_element (definition_index);
+            var tool = ProviderCatalog.create_tool (get_definition (entry.get_string_member ("title")), group);
+            assert (tool != null);
+            var names = entry.get_object_member ("install_names");
+            var expected_name = names.get_string_member_with_default (title, names.get_string_member ("default"));
+            assert (tool.get_directory_name (release_name) == expected_name);
         }
-        return all_runners;
     }
 
     private void test_launcher_specific_names () {
-        string root;
-        try {
-            root = DirUtils.make_tmp ("protonplus-install-layout-test-XXXXXX");
-        } catch (FileError e) {
-            critical ("Could not create temporary launcher root: %s", e.message);
-            assert_not_reached ();
-        }
-        var snapshot = get_snapshot ();
-        var definitions = snapshot.get_array_member ("definitions");
-        var release_name = snapshot.get_string_member ("release_name");
-        var runners = get_all_runners ();
-        var launcher_titles = new string[] {
-            "Steam", "Lutris", "Bottles", "Heroic Games Launcher", "WineZGUI"
-        };
-        var launcher_family_ids = new string[] {
-            "steam", "lutris", "bottles", "heroic", "winezgui"
-        };
+        var expected = snapshot ();
+        var release_name = expected.get_string_member ("release_name");
+        var definitions = expected.get_array_member ("definitions");
 
-        for (var launcher_index = 0; launcher_index < launcher_titles.length; launcher_index++) {
-            var launcher_title = launcher_titles[launcher_index];
-            var launcher = new Launcher (
-                launcher_title, Launcher.InstallationTypes.SYSTEM, "", { root }, launcher_family_ids[launcher_index]
-            );
-            var group = new Group ("Test", "", "", launcher);
-
-            for (var index = 0; index < definitions.get_length (); index++) {
-                var expected = definitions.get_object_element (index);
-                var tool = get_runner (runners, expected.get_string_member ("title")).create_tool (group);
-                assert (tool != null);
-                var install_names = expected.get_object_member ("install_names");
-                var expected_name = install_names.get_string_member_with_default (
-                    launcher_title, install_names.get_string_member ("default")
-                );
-                assert (tool.get_directory_name (release_name) == expected_name);
-            }
-        }
-
-        assert (FileUtils.remove (root) == 0);
+        assert_launcher_names (definitions, release_name, "Steam", "steam");
+        assert_launcher_names (definitions, release_name, "Lutris", "lutris");
+        assert_launcher_names (definitions, release_name, "Bottles", "bottles");
+        assert_launcher_names (definitions, release_name, "Heroic Games Launcher", "heroic");
+        assert_launcher_names (definitions, release_name, "WineZGUI", "winezgui");
     }
 }

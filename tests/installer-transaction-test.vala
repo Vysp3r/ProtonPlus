@@ -2,7 +2,7 @@ namespace AppTests.InstallerTransactionTest {
     using GLib;
     using ProtonPlus;
     using ProtonPlus.Models;
-    using ProtonPlus.Models.Launchers.Runners.Proton;
+    using ProtonPlus.Models.Providers;
 
     private class FixtureJob : ProtonPlus.Services.InstallJob {
         private string fixture_path;
@@ -60,7 +60,15 @@ namespace AppTests.InstallerTransactionTest {
         assert (ProtonPlus.Utils.Filesystem.create_directory (root));
         var launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
         var group = new Group ("Test", "", "", launcher);
-        var value = new ProtonGE ().create_tool (group);
+        ProviderDefinition? definition = null;
+        foreach (var candidate in new ProviderDefinitions ().get (Category.PROTON)) {
+            if (candidate.provider_id == "proton-ge") {
+                definition = candidate;
+                break;
+            }
+        }
+        assert (definition != null);
+        var value = ProviderCatalog.create_tool ((!) definition, group);
         assert (value != null);
         return (!) value;
     }

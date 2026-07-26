@@ -1,12 +1,9 @@
 sources += files(
-    'base_releases.vala',
-    'iasset.vala',
-    'irelease.vala',
-    'ireleases.vala',
-    'irequest.vala',
+    'release-source.vala',
+    'catalog-release-builder.vala',
+    'release-source-registry.vala',
+    'github-release-source.vala',
+    'github-actions-release-source.vala',
+    'gitlab-release-source.vala',
+    'forgejo-release-source.vala',
 )
-
-subdir('forgejo')
-subdir('github')
-subdir('github-actions')
-subdir('gitlab')

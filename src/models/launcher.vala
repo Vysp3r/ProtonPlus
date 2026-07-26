@@ -1,5 +1,5 @@
 namespace ProtonPlus.Models {
-    using ProtonPlus.Models.Launchers.Runners;
+    using ProtonPlus.Models.Providers;
     public class Launcher : Object {
         public string family_id { get; private set; }
         public string instance_id { get; private set; }
@@ -81,7 +81,7 @@ namespace ProtonPlus.Models {
 
         public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
             var _launchers = new Gee.LinkedList<Launcher> ();
-            var runners = new Runners ();
+            var definitions = new ProviderDefinitions ();
 
             Launcher[] candidates = {
                 new Launchers.Steam (InstallationTypes.SYSTEM),
@@ -108,7 +108,7 @@ namespace ProtonPlus.Models {
             if (launchers == null || launchers.size == 0)
                 return true;
 
-            var initialized = yield initialize_launchers (launchers, runners);
+            var initialized = yield initialize_launchers (launchers, definitions);
 
             if (!initialized)
                 return false;
@@ -116,18 +116,18 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        public static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers, Runners runners) {
+        public static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers, ProviderDefinitions definitions) {
             foreach (var launcher in launchers) {
-                var runner_types = get_runner_types_for_launcher (launcher);
-                if (runner_types == null)
+                var categories = get_categories_for_launcher (launcher);
+                if (categories == null)
                     return false;
 
                 var launcher_groups = new Gee.ArrayList<Group> ();
 
-                foreach (var runner_type in runner_types) {
-                    var group_title = get_group_title (runner_type);
-                    var group_description = get_group_description (runner_type);
-                    var group_directory = get_group_directory (launcher, runner_type);
+                foreach (var category in categories) {
+                    var group_title = get_group_title (category);
+                    var group_description = get_group_description (category);
+                    var group_directory = get_group_directory (launcher, category);
 
                     if (group_directory == null)
                         return false;
@@ -137,18 +137,18 @@ namespace ProtonPlus.Models {
                                                Utils.safe_translate (group_description),
                                                group_directory,
                                                launcher,
-                                               get_group_id (runner_type)
+                                               get_group_id (category)
                     );
                     app_group.tools = new Gee.LinkedList<Tool> ();
 
-                    foreach (var runner_data in get_runners_for_type (runners, runner_type)) {
-                        var tool = runner_data.create_tool (app_group);
+                    foreach (var definition in definitions.get (category)) {
+                        var tool = ProviderCatalog.create_tool (definition, app_group);
                         if (tool != null) {
                             app_group.tools.add (tool);
                         }
                     }
 
-                    if (launcher is Launchers.Steam && runner_type == RunnerType.Proton) {
+                    if (launcher is Launchers.Steam && category == Category.PROTON) {
                         app_group.tools.add (new Tools.SteamTinkerLaunch (app_group));
                     }
 
@@ -168,95 +168,91 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        private static Gee.ArrayList<IRunner> get_runners_for_type (Runners runners, RunnerType runner_type) {
-            return runners.getRunners (runner_type);
-        }
-
-        private static RunnerType[]? get_runner_types_for_launcher (Launcher launcher) {
+        private static Category[]? get_categories_for_launcher (Launcher launcher) {
             if (launcher is Launchers.Steam)
-                return { RunnerType.Proton };
+                return { Category.PROTON };
 
             if (launcher is Launchers.Lutris)
-                return { RunnerType.Proton, RunnerType.Wine, RunnerType.DXVK, RunnerType.VKD3D };
+                return { Category.PROTON, Category.WINE, Category.DXVK, Category.VKD3D };
 
             if (launcher is Launchers.HeroicGamesLauncher)
-                return { RunnerType.Proton, RunnerType.Wine };
+                return { Category.PROTON, Category.WINE };
 
             if (launcher is Launchers.Bottles)
-                return { RunnerType.Proton, RunnerType.Wine, RunnerType.DXVK };
+                return { Category.PROTON, Category.WINE, Category.DXVK };
 
             if (launcher is Launchers.WineZGUI)
-                return { RunnerType.Wine };
+                return { Category.WINE };
 
             return null;
         }
 
-        private static string get_group_title (RunnerType runner_type) {
-            switch (runner_type) {
-            case RunnerType.DXVK:
+        private static string get_group_title (Category category) {
+            switch (category) {
+            case Category.DXVK:
                 return "DXVK";
-            case RunnerType.VKD3D:
+            case Category.VKD3D:
                 return "VKD3D";
-            case RunnerType.Proton:
+            case Category.PROTON:
                 return "Proton";
-            case RunnerType.Wine:
+            case Category.WINE:
                 return "Wine";
             }
 
             return "";
         }
 
-        private static string get_group_id (RunnerType runner_type) {
-            switch (runner_type) {
-            case RunnerType.DXVK:
+        private static string get_group_id (Category category) {
+            switch (category) {
+            case Category.DXVK:
                 return "dxvk";
-            case RunnerType.VKD3D:
+            case Category.VKD3D:
                 return "vkd3d";
-            case RunnerType.Proton:
+            case Category.PROTON:
                 return "proton";
-            case RunnerType.Wine:
+            case Category.WINE:
                 return "wine";
             }
 
             return "unknown";
         }
 
-        private static string get_group_description (RunnerType runner_type) {
-            switch (runner_type) {
-            case RunnerType.DXVK:
+        private static string get_group_description (Category category) {
+            switch (category) {
+            case Category.DXVK:
                 return "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine.";
-            case RunnerType.VKD3D:
+            case Category.VKD3D:
                 return "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.";
-            case RunnerType.Proton:
+            case Category.PROTON:
                 return "Compatibility tools by Valve for running Windows software on Linux.";
-            case RunnerType.Wine:
+            case Category.WINE:
                 return "Compatibility tools for running Windows software on Linux.";
             }
 
             return "";
         }
 
-        private static string? get_group_directory (Launcher launcher, RunnerType runner_type) {
-            if (launcher is Launchers.Steam && runner_type == RunnerType.Proton)
+        private static string? get_group_directory (Launcher launcher, Category category) {
+            if (launcher is Launchers.Steam && category == Category.PROTON)
                 return "/compatibilitytools.d";
 
             if (launcher is Launchers.Lutris) {
-                switch (runner_type) {
-                case RunnerType.Proton:
-                case RunnerType.Wine:
+                switch (category) {
+                case Category.PROTON:
+                case Category.WINE:
                     return "/runners/wine";
-                case RunnerType.DXVK:
+                case Category.DXVK:
                     return "/runtime/dxvk";
-                case RunnerType.VKD3D:
+                case Category.VKD3D:
                     return "/runtime/vkd3d";
                 }
             }
 
             if (launcher is Launchers.HeroicGamesLauncher) {
-                switch (runner_type) {
-                case RunnerType.Proton:
+                switch (category) {
+                case Category.PROTON:
                     return "/tools/proton";
-                case RunnerType.Wine:
+                case Category.WINE:
                     return "/tools/wine";
                 default:
                     return null;
@@ -264,18 +260,18 @@ namespace ProtonPlus.Models {
             }
 
             if (launcher is Launchers.Bottles) {
-                switch (runner_type) {
-                case RunnerType.Proton:
-                case RunnerType.Wine:
+                switch (category) {
+                case Category.PROTON:
+                case Category.WINE:
                     return "/runners";
-                case RunnerType.DXVK:
+                case Category.DXVK:
                     return "/dxvk";
                 default:
                     return null;
                 }
             }
 
-            if (launcher is Launchers.WineZGUI && runner_type == RunnerType.Wine)
+            if (launcher is Launchers.WineZGUI && category == Category.WINE)
                 return "/Runners";
 
             return null;

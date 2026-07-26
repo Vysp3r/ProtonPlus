@@ -15,7 +15,6 @@ namespace ProtonPlus.Models {
         public int sort_priority { get; set; default = 1000; }
         private string? _last_version = null;
 
-        public Utils.Web.GetRequestType get_request_type { get; set; }
         public Gee.LinkedList<Release> releases { get; set; default = new Gee.LinkedList<Release> (); }
         public Gee.LinkedList<Variant> variants { get; set; default = new Gee.LinkedList<Variant> (); }
 

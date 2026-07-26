@@ -2,7 +2,7 @@ namespace AppTests.VariantSettingsTest {
     using GLib;
     using ProtonPlus;
     using ProtonPlus.Models;
-    using ProtonPlus.Models.Launchers.Runners;
+    using ProtonPlus.Models.Providers;
 
     public void register_tests () {
         Test.add_func ("/variant-settings/id-key-and-legacy-fallback", test_id_key_and_legacy_fallback);
@@ -41,8 +41,15 @@ namespace AppTests.VariantSettingsTest {
             "Fixture launcher", Launcher.InstallationTypes.SYSTEM, "", { root }, "fixture"
         );
         var group = new Group ("Fixture group", "", "", launcher, "fixture");
-        var runner = new Proton.ProtonGE ();
-        var tool = runner.create_tool (group);
+        ProviderDefinition? definition = null;
+        foreach (var candidate in new ProviderDefinitions ().get (Category.PROTON)) {
+            if (candidate.provider_id == "proton-ge") {
+                definition = candidate;
+                break;
+            }
+        }
+        assert (definition != null);
+        var tool = ProviderCatalog.create_tool ((!) definition, group);
         assert (tool != null);
         tool.releases.add (new Release (
             "Fixture release", "", "", new ProtonPlus.Models.Assets.Asset ("fixture.zip", "https://fixtures.invalid/fixture.zip"),

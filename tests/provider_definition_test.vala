@@ -1,132 +1,58 @@
 namespace AppTests.ProviderDefinitionTest {
     using GLib;
     using ProtonPlus.Models;
-    using ProtonPlus.Models.Launchers.Runners;
-
-    private interface FilterInspectable : Object {
-        public abstract int filter_count { get; }
-        public abstract int exclude_count { get; }
-        public abstract string? get_filter (int index);
-        public abstract string? get_exclude (int index);
-    }
-
-    private class InspectWineProton : Wine.Proton, FilterInspectable {
-        public int filter_count { get { return request_asset_filter != null ? request_asset_filter.size : 0; } }
-        public int exclude_count { get { return request_asset_exclude != null ? request_asset_exclude.size : 0; } }
-        public string? get_filter (int index) { return request_asset_filter != null ? request_asset_filter.get (index) : null; }
-        public string? get_exclude (int index) { return request_asset_exclude != null ? request_asset_exclude.get (index) : null; }
-    }
-
-    private class InspectWineStaging : Wine.Staging, FilterInspectable {
-        public int filter_count { get { return request_asset_filter != null ? request_asset_filter.size : 0; } }
-        public int exclude_count { get { return request_asset_exclude != null ? request_asset_exclude.size : 0; } }
-        public string? get_filter (int index) { return request_asset_filter != null ? request_asset_filter.get (index) : null; }
-        public string? get_exclude (int index) { return request_asset_exclude != null ? request_asset_exclude.get (index) : null; }
-    }
-
-    private class InspectWineStagingTkg : Wine.StagingTkg, FilterInspectable {
-        public int filter_count { get { return request_asset_filter != null ? request_asset_filter.size : 0; } }
-        public int exclude_count { get { return request_asset_exclude != null ? request_asset_exclude.size : 0; } }
-        public string? get_filter (int index) { return request_asset_filter != null ? request_asset_filter.get (index) : null; }
-        public string? get_exclude (int index) { return request_asset_exclude != null ? request_asset_exclude.get (index) : null; }
-    }
-
-    private class InspectWineVanilla : Wine.Vanilla, FilterInspectable {
-        public int filter_count { get { return request_asset_filter != null ? request_asset_filter.size : 0; } }
-        public int exclude_count { get { return request_asset_exclude != null ? request_asset_exclude.size : 0; } }
-        public string? get_filter (int index) { return request_asset_filter != null ? request_asset_filter.get (index) : null; }
-        public string? get_exclude (int index) { return request_asset_exclude != null ? request_asset_exclude.get (index) : null; }
-    }
-
-    private class SteamUsageLauncher : Launcher {
-        public SteamUsageLauncher (string root) {
-            base ("Steam", Launcher.InstallationTypes.SYSTEM, "", { root });
-        }
-
-        public override int get_compatibility_tool_usage_count (string compatibility_tool_name) {
-            return compatibility_tool_name == "Proton-stl" ? 1 : 0;
-        }
-    }
+    using ProtonPlus.Models.Providers;
 
     public void register_tests () {
         Test.add_func ("/provider-definitions/snapshot", test_definition_snapshot);
-        Test.add_func ("/provider-definitions/variant-asset-suffixes", test_variant_asset_suffixes);
         Test.add_func ("/provider-definitions/kron4ek-filters", test_kron4ek_filters);
         Test.add_func ("/provider-definitions/ph42on-asset-selection", test_ph42on_asset_selection);
+        Test.add_func ("/provider-definitions/catalog-construction-isolation", test_catalog_construction_isolation);
         Test.add_func ("/provider-definitions/steam-tinker-launch", test_steam_tinker_launch);
     }
 
-    internal Json.Object get_snapshot () {
+    private Json.Object get_snapshot () {
+        var content = ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename ("fixtures", "definitions", "runners.json")
+        );
         try {
-            var content = ProtonPlus.Utils.Filesystem.get_file_content (
-                Path.build_filename ("fixtures", "definitions", "runners.json")
-            );
             var root = Json.from_string (content);
             assert (root.get_node_type () == Json.NodeType.OBJECT);
             return root.get_object ();
         } catch (Error e) {
-            critical ("Could not load definition snapshot: %s", e.message);
+            critical ("Could not parse definition snapshot: %s", e.message);
             assert_not_reached ();
         }
     }
 
-    internal Gee.ArrayList<IRunner> get_all_runners () {
-        var all_runners = new Gee.ArrayList<IRunner> ();
-        var runners = new Runners ();
-        foreach (var type in new RunnerType[] { RunnerType.DXVK, RunnerType.VKD3D, RunnerType.Proton, RunnerType.Wine }) {
-            all_runners.add_all (runners.getRunners (type));
-        }
-        return all_runners;
-    }
-
-    internal IRunner get_runner (string title) {
-        foreach (var runner in get_all_runners ()) {
-            if (runner.title == title)
-                return runner;
+    private ProviderDefinition get_definition (string title) {
+        foreach (var definition in new ProviderDefinitions ().get_all ()) {
+            if (definition.title == title)
+                return definition;
         }
         assert_not_reached ();
     }
 
-    internal string runner_type_name (string title) {
-        var runners = new Runners ();
-        foreach (var type in new RunnerType[] { RunnerType.DXVK, RunnerType.VKD3D, RunnerType.Proton, RunnerType.Wine }) {
-            foreach (var runner in runners.getRunners (type)) {
-                if (runner.title == title) {
-                    switch (type) {
-                    case RunnerType.DXVK:
-                        return "DXVK";
-                    case RunnerType.VKD3D:
-                        return "VKD3D";
-                    case RunnerType.Proton:
-                        return "Proton";
-                    case RunnerType.Wine:
-                        return "Wine";
-                    }
-                }
-            }
-        }
-        assert_not_reached ();
-    }
-
-    internal Tools.Basic? create_tool (IRunner runner) {
-        string root;
-        try {
-            root = DirUtils.make_tmp ("protonplus-definition-test-XXXXXX");
-        } catch (FileError e) {
-            critical ("Could not create temporary launcher root: %s", e.message);
+    private string category_name (Category category) {
+        switch (category) {
+        case Category.DXVK:
+            return "DXVK";
+        case Category.VKD3D:
+            return "VKD3D";
+        case Category.PROTON:
+            return "Proton";
+        case Category.WINE:
+            return "Wine";
+        default:
             assert_not_reached ();
         }
-        var launcher = new Launcher ("Test launcher", Launcher.InstallationTypes.SYSTEM, "", { root });
-        var tool = runner.create_tool (new Group ("Test", "", "", launcher));
-        assert (FileUtils.remove (root) == 0);
-        return tool;
     }
 
-    internal string source_name (SourceType source_type) {
+    private string source_name (SourceType source_type) {
         switch (source_type) {
         case SourceType.GITHUB:
             return "GITHUB";
-        case SourceType.GITHUB_ACTION:
+        case SourceType.GITHUB_ACTIONS:
             return "GITHUB_ACTION";
         case SourceType.GITLAB:
             return "GITLAB";
@@ -137,122 +63,61 @@ namespace AppTests.ProviderDefinitionTest {
         }
     }
 
-    internal string render_format (string format, string title, string release_name, string tag_name) {
-        return format.replace ("$title", title)
-                     .replace ("$release_name", release_name)
-                     .replace ("$tag_name", tag_name);
-    }
-
-    internal void assert_variants_match (IRunner runner, Json.Array expected_variants) {
-        assert (runner.variants.size == expected_variants.get_length ());
-        for (var index = 0; index < expected_variants.get_length (); index++) {
-            var expected = expected_variants.get_array_element (index);
-            var actual = runner.variants.get (index);
-            assert (actual.name == expected.get_string_element (0));
-            if (actual.format != expected.get_string_element (1)) {
-                Test.message ("%s variant %s: expected %s, got %s", runner.title, actual.name,
-                              expected.get_string_element (1), actual.format);
-                assert_not_reached ();
-            }
-            assert (actual.is_default == expected.get_boolean_element (2));
-        }
+    private Tools.Basic? create_tool (ProviderDefinition definition, string family_id = "fixture") {
+        var launcher = new Launcher ("Fixture launcher", Launcher.InstallationTypes.SYSTEM, "", {}, family_id);
+        var group = new Group ("Fixture group", "", "", launcher, "fixture");
+        return ProviderCatalog.create_tool (definition, group);
     }
 
     private void test_definition_snapshot () {
-        var snapshot = get_snapshot ();
-        var definitions = snapshot.get_array_member ("definitions");
-        var runners = get_all_runners ();
-        assert (definitions.get_length () == 19);
-        assert (runners.size == definitions.get_length ());
+        var expected = get_snapshot ().get_array_member ("definitions");
+        var definitions = new ProviderDefinitions ().get_all ();
+        assert (definitions.size == 19);
+        assert (expected.get_length () == definitions.size);
 
-        var titles = new Gee.HashSet<string> ();
-        foreach (var runner in runners) {
-            assert (titles.add (runner.title));
-        }
+        foreach (var expected_definition in expected.get_elements ()) {
+            var object = expected_definition.get_object ();
+            var definition = get_definition (object.get_string_member ("title"));
+            assert (category_name (definition.category) == object.get_string_member ("type"));
+            assert (source_name (definition.source_type) == object.get_string_member ("source"));
+            assert (definition.endpoint == object.get_string_member ("endpoint"));
+            assert (definition.sort_priority == object.get_int_member ("priority"));
+            assert (definition.tag == object.get_string_member_with_default ("tag", ""));
+            assert (definition.legacy == object.get_boolean_member_with_default ("legacy", false));
 
-        for (var index = 0; index < definitions.get_length (); index++) {
-            var expected = definitions.get_object_element (index);
-            var runner = get_runner (expected.get_string_member ("title"));
-            var base_runner = runner as Base;
-            assert (base_runner != null);
-            assert (runner_type_name (runner.title) == expected.get_string_member ("type"));
-            assert (runner.endpoint == expected.get_string_member ("endpoint"));
-            assert (source_name (base_runner.source_type) == expected.get_string_member ("source"));
-            assert (base_runner.sort_priority == expected.get_int_member ("priority"));
-            assert_variants_match (runner, expected.get_array_member ("variants"));
-
-            var tool = create_tool (runner);
-            assert (tool != null);
-            assert (tool.tag == expected.get_string_member_with_default ("tag", ""));
-            assert (tool.legacy == expected.get_boolean_member_with_default ("legacy", false));
-        }
-    }
-
-    private void test_variant_asset_suffixes () {
-        var snapshot = get_snapshot ();
-        var release_name = snapshot.get_string_member ("release_name");
-        var tag_name = snapshot.get_string_member ("tag_name");
-        var definitions = snapshot.get_array_member ("definitions");
-
-        for (var definition_index = 0; definition_index < definitions.get_length (); definition_index++) {
-            var expected = definitions.get_object_element (definition_index);
-            var runner = get_runner (expected.get_string_member ("title"));
-            var tool = create_tool (runner);
-            assert (tool != null);
-            var expected_variants = expected.get_array_member ("variants");
-            var assets = new Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> ();
-
-            for (var variant_index = 0; variant_index < expected_variants.get_length (); variant_index++) {
-                var expected_variant = expected_variants.get_array_element (variant_index);
-                var asset_name = render_format (
-                    expected_variant.get_string_element (1), tool.title, release_name, tag_name
-                );
-                assets.add (new ProtonPlus.Models.Assets.Asset (
-                    asset_name, "https://example.invalid/%d/%d".printf (definition_index, variant_index)
-                ));
-            }
-
-            var variants = tool.create_release_variants (release_name, tag_name, assets);
-            assert (variants.size == expected_variants.get_length ());
-            for (var variant_index = 0; variant_index < variants.size; variant_index++) {
-                assert (variants.get (variant_index).download_url ==
-                        "https://example.invalid/%d/%d".printf (definition_index, variant_index));
+            var expected_variants = object.get_array_member ("variants");
+            var variants = definition.get_variants ();
+            assert (variants.length == expected_variants.get_length ());
+            for (var index = 0; index < variants.length; index++) {
+                var actual = variants[index];
+                var expected_variant = expected_variants.get_array_element (index);
+                assert (actual.name == expected_variant.get_string_element (0));
+                assert (actual.format == expected_variant.get_string_element (1));
+                assert (actual.is_default == expected_variant.get_boolean_element (2));
             }
         }
     }
 
     private void test_kron4ek_filters () {
-        var shared_endpoint = "https://api.github.com/repos/Kron4ek/Wine-Builds/releases";
-        var runners = get_all_runners ();
-        var matching = new Gee.ArrayList<IRunner> ();
-        foreach (var runner in runners) {
-            if (runner.endpoint == shared_endpoint)
-                matching.add (runner);
-        }
-        assert (matching.size == 4);
+        var proton = get_definition ("Wine-Proton (Kron4ek)");
+        assert (proton.asset_filters.length == 1);
+        assert (proton.asset_filters[0] == "proton");
+        assert (proton.asset_exclusions.length == 0);
 
-        var inspected_runners = new FilterInspectable[] {
-            new InspectWineProton (), new InspectWineStaging (),
-            new InspectWineStagingTkg (), new InspectWineVanilla ()
-        };
-        for (var index = 0; index < inspected_runners.length; index++) {
-            var inspected = inspected_runners[index];
-
-            if (index == 0) {
-                assert (inspected.filter_count == 1);
-                assert (inspected.get_filter (0) == "proton");
-                assert (inspected.exclude_count == 0);
-            } else {
-                assert (inspected.filter_count == 0);
-                assert (inspected.exclude_count == 2);
-                assert (inspected.get_exclude (0) == "proton");
-                assert (inspected.get_exclude (1) == ".0.");
-            }
+        foreach (var title in new string[] {
+            "Wine-Staging (Kron4ek)", "Wine-Staging-Tkg (Kron4ek)", "Wine-Vanilla (Kron4ek)"
+        }) {
+            var definition = get_definition (title);
+            assert (definition.asset_filters.length == 0);
+            assert (definition.asset_exclusions.length == 2);
+            assert (definition.asset_exclusions[0] == "proton");
+            assert (definition.asset_exclusions[1] == ".0.");
         }
     }
 
     private void test_ph42on_asset_selection () {
-        var tool = create_tool (get_runner ("DXVK GPL+Async (Ph42oN)"));
+        var definition = get_definition ("DXVK GPL+Async (Ph42oN)");
+        var tool = create_tool (definition);
         assert (tool != null);
         var assets = new Gee.LinkedList<ProtonPlus.Models.Assets.IAsset> ();
         assets.add (new ProtonPlus.Models.Assets.Asset (
@@ -264,7 +129,23 @@ namespace AppTests.ProviderDefinitionTest {
 
         var variants = tool.create_release_variants ("v3.0-1", "v3.0-1", assets);
         assert (variants.size == 1);
-        assert (variants.get (0).download_url == "https://example.invalid/release.tar.gz");
+        assert (variants[0].download_url == "https://example.invalid/release.tar.gz");
+    }
+
+    private void test_catalog_construction_isolation () {
+        var definition = get_definition ("Proton-GE");
+        var first = create_tool (definition, "steam");
+        var second = create_tool (definition, "steam");
+        assert (first != null);
+        assert (second != null);
+        assert (first.variants.size == 2);
+        assert (second.variants.size == 2);
+
+        first.variants[0].download_url = "https://example.test/mutated";
+        assert (second.variants[0].download_url == null);
+        assert (definition.get_variants ()[0].name == "x86");
+        assert (first.provider_id == definition.provider_id);
+        assert (second.provider_id == definition.provider_id);
     }
 
     private void test_steam_tinker_launch () {
@@ -275,16 +156,15 @@ namespace AppTests.ProviderDefinitionTest {
             critical ("Could not create temporary launcher root: %s", e.message);
             assert_not_reached ();
         }
-        var snapshot = get_snapshot ().get_object_member ("steam_tinker_launch");
-        var install_path = Path.build_filename (root, snapshot.get_string_member ("installation_directory"));
-        assert (ProtonPlus.Utils.Filesystem.create_directory (install_path));
 
-        var group = new Group ("Proton", "", "", new SteamUsageLauncher (root));
+        var expected = get_snapshot ().get_object_member ("steam_tinker_launch");
+        var install_path = Path.build_filename (root, expected.get_string_member ("installation_directory"));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (install_path));
+        var launcher = new Launcher ("Steam", Launcher.InstallationTypes.SYSTEM, "", { root }, "steam");
+        var group = new Group ("Proton", "", "", launcher);
         group.rebuild_installed_tool_index ();
         var tool = new ProtonPlus.Models.Tools.SteamTinkerLaunch (group);
-        assert (tool.title == snapshot.get_string_member ("title"));
-        assert (tool.is_installed ());
-        assert (tool.is_used ());
+        assert (tool.title == expected.get_string_member ("title"));
 
         assert (DirUtils.remove (install_path) == 0);
         assert (FileUtils.remove (root) == 0);

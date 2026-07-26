@@ -187,9 +187,7 @@ namespace ProtonPlus.Services {
             if (job.release.kind == Models.Release.Kind.GITHUB_ACTION)
                 return true;
             var runner = job.tool as Models.Tools.Basic;
-            var source_runner = runner != null ? runner.source_runner as Models.Launchers.Runners.Base : null;
-            return job.mode == InstallJob.Mode.LATEST && source_runner != null &&
-                   source_runner.source_type == Models.Launchers.Runners.SourceType.GITHUB_ACTION;
+            return job.mode == InstallJob.Mode.LATEST && runner != null && runner.is_github_actions_source;
         }
 
         private async string? extract_nested_archive (InstallJob job, string source_path, string extract_path) {
@@ -458,7 +456,7 @@ namespace ProtonPlus.Services {
             ReturnCode lookup_code;
             var release = yield runner.fetch_latest_eligible_release (out lookup_code);
             if (lookup_code != ReturnCode.RELEASES_LOADED) {
-                if (!(runner is Providers.Normalizers.GitHubAction) && metadata.tag != "" && is_request_failure (lookup_code))
+                if (!runner.is_github_actions_source && metadata.tag != "" && is_request_failure (lookup_code))
                     return ReturnCode.NOTHING_TO_UPDATE;
                 return lookup_code;
             }

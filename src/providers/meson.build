@@ -1,2 +1,1 @@
-subdir('normalizers')
 subdir('sources')
