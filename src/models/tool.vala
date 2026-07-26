@@ -482,6 +482,18 @@ namespace ProtonPlus.Models {
             if (backup_runner_directory == null || !FileUtils.test (backup_runner_directory, FileTest.IS_DIR))
                 return ReturnCode.FILESYSTEM_ERROR;
 
+            var migrate_default_prefix = Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("migrate-default-prefix");
+            return yield finalize_replaced_runner (runner_directory, backup_runner_directory, migrate_default_prefix);
+        }
+
+        // This is the post-promotion half of an update.  It is kept separate
+        // from release discovery so the local migration and rollback contract
+        // can be exercised without a network request.
+        public static async ReturnCode finalize_replaced_runner (
+            string runner_directory,
+            string backup_runner_directory,
+            bool migrate_default_prefix
+        ) {
             var backup_settings_path = "%s/user_settings.py".printf (backup_runner_directory);
             var backup_settings_exists = FileUtils.test (backup_settings_path, FileTest.IS_REGULAR);
             var backup_settings_is_symlink = backup_settings_exists ? FileUtils.test (backup_settings_path, FileTest.IS_SYMLINK) : false;
@@ -498,7 +510,6 @@ namespace ProtonPlus.Models {
                 }
             }
 
-            var migrate_default_prefix = Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("migrate-default-prefix");
             var backup_default_prefix_path = "%s/files/share/default_pfx".printf (backup_runner_directory);
             if (migrate_default_prefix && FileUtils.test (backup_default_prefix_path, FileTest.IS_DIR)) {
                 var default_prefix_path = "%s/files/share/default_pfx".printf (runner_directory);

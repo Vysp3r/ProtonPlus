@@ -12,8 +12,8 @@ namespace ProtonPlus.Models.Releases {
         string manual_remove_location { get; set; }
         List<string> external_locations;
 
-        string? latest_date { get; set; }
-        string? latest_hash { get; set; }
+        string? latest_date { get; set; default = ""; }
+        string? latest_hash { get; set; default = ""; }
         string local_date { get; set; }
         string local_hash { get; set; }
 
@@ -21,11 +21,11 @@ namespace ProtonPlus.Models.Releases {
             get { return "Proton-stl"; }
         }
 
-        public SteamTinkerLaunch (Tool runner) {
+        public SteamTinkerLaunch (Tool runner, string? home_override = null, bool refresh_remote = true) {
             Object (runner: runner,
                     title: "Steam Tinker Launch");
 
-            home_location = Environment.get_home_dir ();
+            home_location = home_override ?? Environment.get_home_dir ();
             compat_location = runner.group.launcher.directory + runner.group.directory;
             if (Globals.IS_STEAM_OS) {
             // Steam Deck uses `~/stl/prefix` instead.
@@ -45,12 +45,14 @@ namespace ProtonPlus.Models.Releases {
             config_location = @"$home_location/.config/steamtinkerlaunch";
             external_locations = new List<string> ();
 
-            refresh_latest_stl_version.begin ((obj, res) => {
-                refresh_state ();
-            });
+            if (refresh_remote) {
+                refresh_latest_stl_version.begin ((obj, res) => {
+                    refresh_state ();
+                });
+            }
         }
 
-        string get_download_url () {
+        protected virtual string get_download_url () {
             return @"https://github.com/sonic2kk/steamtinkerlaunch/archive/$latest_hash.zip";
         }
 
@@ -226,11 +228,9 @@ namespace ProtonPlus.Models.Releases {
             step = Step.DOWNLOADING;
             if (!FileUtils.test (cache_archive_path, FileTest.IS_REGULAR)) {
                 string? download_error;
-                var download_valid = yield Utils.Web.download (
+                var download_valid = yield download_archive (
                     url,
                     operation_archive_path,
-                    operation_cancellable,
-                    on_download_progress,
                     out download_error
                 );
 

@@ -9,7 +9,10 @@ int main (string[] args) {
     AppTests.ProviderDefinitionTest.register_tests ();
     AppTests.ProviderSourceTest.register_tests ();
     AppTests.InstallLayoutTest.register_tests ();
+    AppTests.InstallerTransactionTest.register_tests ();
     AppTests.SteamTest.register_tests ();
+    AppTests.SteamTinkerLaunchTest.register_tests ();
+    AppTests.UpdateTransactionTest.register_tests ();
     AppTests.VdfBinaryTest.register_tests ();
 
     return Test.run ();

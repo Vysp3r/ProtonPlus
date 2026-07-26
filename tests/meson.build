@@ -6,7 +6,10 @@ test_sources = files(
     'provider_definition_test.vala',
     'provider_source_test.vala',
     'install_layout_test.vala',
+    'installer-transaction-test.vala',
     'steam_test.vala',
+    'steamtinkerlaunch-test.vala',
+    'update-transaction-test.vala',
     'vdf_binary_test.vala',
 )
 

@@ -397,11 +397,9 @@ namespace ProtonPlus.Models {
 
             if (!FileUtils.test (cache_archive_path, FileTest.IS_REGULAR)) {
                 string? download_error;
-                var download_valid = yield Utils.Web.download (
+                var download_valid = yield download_archive (
                     download_url,
                     operation_archive_path,
-                    operation_cancellable,
-                    on_download_progress,
                     out download_error
                 );
 
@@ -472,13 +470,13 @@ namespace ProtonPlus.Models {
                 if (!yield Utils.Filesystem.move_directory_atomic (install_location, backup_path))
                     return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
 
-                if (!yield Utils.Filesystem.move_directory_atomic (staged_install_path, install_location)) {
+                if (!yield promote_staged_installation (staged_install_path)) {
                     yield Utils.Filesystem.move_directory_atomic (backup_path, install_location);
                     return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
                 }
 
                 replacement_backup_path = backup_path;
-            } else if (!yield Utils.Filesystem.move_directory_atomic (staged_install_path, install_location)) {
+            } else if (!yield promote_staged_installation (staged_install_path)) {
                 error_message = _("Moving failed");
                 return yield complete_install_attempt (ReturnCode.FILESYSTEM_ERROR, operation_path, staging_root);
             }
@@ -486,6 +484,26 @@ namespace ProtonPlus.Models {
             destination_path = install_location;
 
             return yield complete_install_attempt (ReturnCode.RUNNER_INSTALLED, operation_path, staging_root);
+        }
+
+        // Keeping archive acquisition behind the release lets installer tests
+        // provide a local fixture while production releases continue to use the
+        // normal cancellable network path.
+        protected virtual async bool download_archive (string url, string path, out string? error_message) {
+            return yield Utils.Web.download (
+                url,
+                path,
+                operation_cancellable,
+                on_download_progress,
+                out error_message
+            );
+        }
+
+        // The final promotion is deliberately separate from moving the current
+        // installation to its backup.  A failed promotion must restore that
+        // backup without ever exposing a partly copied installation.
+        protected virtual async bool promote_staged_installation (string staged_install_path) {
+            return yield Utils.Filesystem.move_directory_atomic (staged_install_path, install_location);
         }
 
         private void persist_runner_install_metadata (string path) {
