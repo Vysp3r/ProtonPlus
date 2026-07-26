@@ -322,6 +322,34 @@ namespace ProtonPlus.Models {
             return updated_count > 0 ? ReturnCode.RUNNERS_UPDATED : ReturnCode.NOTHING_TO_UPDATE;
         }
 
+        // Update discovery must use the same normalized release selected by
+        // browsing, without changing the tool's browse pagination state.
+        public static async Models.Releases.Latest? lookup_latest_runner_release (
+            Models.Tools.Basic runner,
+            out ReturnCode code
+        ) {
+            var source_release = yield runner.fetch_latest_eligible_release (out code);
+            if (code != ReturnCode.RELEASES_LOADED || source_release == null)
+                return null;
+
+            return Models.Releases.Latest.from_release (runner, source_release);
+        }
+
+        private static bool is_request_failure (ReturnCode code) {
+            switch (code) {
+            case ReturnCode.REQUEST_FAILED:
+            case ReturnCode.CONNECTION_ISSUE:
+            case ReturnCode.CONNECTION_REFUSED:
+            case ReturnCode.CONNECTION_UNKNOWN:
+            case ReturnCode.API_LIMIT_REACHED:
+            case ReturnCode.INVALID_ACCESS_TOKEN:
+            case ReturnCode.TLS_HANDSHAKE_ERROR:
+                return true;
+            default:
+                return false;
+            }
+        }
+
         public static async ReturnCode update_specific_runner (Models.Tools.Basic runner) {
             var base_runner_directory = "%s%s".printf (runner.group.launcher.directory, runner.group.directory);
             var runner_directory = "%s/%s Latest".printf (base_runner_directory, runner.title);
@@ -330,161 +358,25 @@ namespace ProtonPlus.Models {
             if (!FileUtils.test (runner_directory, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_NOT_INSTALLED;
 
-            string title = "";
-            string description = "";
-            string page_url = "";
-            string release_date = "";
-            Models.Internal.Assets.Asset? asset = null;
-            string upstream_release_id = "";
-            string source_tag = "";
-
-            if (runner is Models.Tools.GitHubAction) {
-                var source_runner = runner.source_runner;
-                if (source_runner == null)
-                    return ReturnCode.INVALID_CONFIGURATION;
-
-                Models.Internal.Requests.GithubAction.Release? latest_action = null;
-
-                ReturnCode fast_request_code;
-                var fast_releases = yield source_runner.request_releases (1, 1, out fast_request_code);
-                if (fast_request_code != ReturnCode.RELEASES_LOADED || fast_releases == null)
-                    return fast_request_code;
-
-                if (fast_releases.list.size > 0) {
-                    var first_release = fast_releases.list.get (0) as Models.Internal.Requests.GithubAction.Release;
-                    if (first_release != null && first_release.status == "completed" && first_release.conclusion == "success")
-                        latest_action = first_release;
-                }
-
-                var current_page = 1;
-                var reached_end = false;
-                const int PAGE_SIZE_FALLBACK = 25;
-
-                while (latest_action == null && !reached_end) {
-                    ReturnCode request_code;
-                    var source_releases = yield source_runner.request_releases (current_page, PAGE_SIZE_FALLBACK, out request_code);
-                    if (request_code != ReturnCode.RELEASES_LOADED || source_releases == null)
-                        return request_code;
-
-                    foreach (var source_release_item in source_releases.list) {
-                        var source_release = source_release_item as Models.Internal.Requests.GithubAction.Release;
-                        if (source_release == null)
-                            continue;
-
-                        if (source_release.status == "completed" && source_release.conclusion == "success") {
-                            latest_action = source_release;
-                            break;
-                        }
-                    }
-
-                    reached_end = source_releases.list.size < PAGE_SIZE_FALLBACK;
-                    current_page++;
-                }
-
-                if (latest_action == null)
+            ReturnCode lookup_code;
+            var release = yield lookup_latest_runner_release (runner, out lookup_code);
+            if (lookup_code != ReturnCode.RELEASES_LOADED) {
+                // Keep the legacy fallback only for transport/API failures.
+                // Invalid normalized data must remain visible to the caller.
+                if (!(runner is Models.Tools.GitHubAction) &&
+                    metadata.tag != "" && is_request_failure (lookup_code))
                     return ReturnCode.NOTHING_TO_UPDATE;
-
-                var action_runner = runner as Models.Tools.GitHubAction;
-                title = latest_action.title;
-                page_url = latest_action.page_url;
-                release_date = latest_action.created_at.format_iso8601 ();
-                asset = Models.Internal.Assets.Asset.from_download_url (
-                    action_runner.url_template.replace ("{id}", latest_action.id.to_string ())
-                );
-                upstream_release_id = latest_action.id > 0 ? latest_action.id.to_string () : "";
-            } else {
-                string query_param;
-                switch (runner.get_request_type) {
-                case Utils.Web.GetRequestType.FORGEJO :
-                    query_param = "limit=1";
-                    break;
-                case Utils.Web.GetRequestType.GITHUB:
-                case Utils.Web.GetRequestType.GITLAB:
-                default:
-                    query_param = "per_page=1";
-                    break;
-                }
-
-                var response = yield Utils.Web.get_request ("%s?%s".printf (runner.endpoint, query_param), runner.get_request_type);
-                var code = response.code;
-
-                if (code != ReturnCode.VALID_REQUEST) {
-                    // If API is unavailable but we have a stored tag, assume up to date.
-                    if (metadata.tag != "")
-                        return ReturnCode.NOTHING_TO_UPDATE;
-                    return code;
-                }
-
-                var root_node = Utils.Parser.get_node_from_json (response.body);
-                if (root_node == null)
-                    return ReturnCode.INVALID_DATA;
-
-                if (root_node.get_node_type () != Json.NodeType.ARRAY)
-                    return ReturnCode.INVALID_DATA;
-
-                var root_array = root_node.get_array ();
-                if (root_array == null)
-                    return ReturnCode.INVALID_DATA;
-
-                if (root_array.get_length () != 1)
-                    return ReturnCode.INVALID_DATA;
-
-                var object = root_array.get_object_element (0);
-
-                var asset_array = object.get_array_member ("assets");
-                if (asset_array == null)
-                    return ReturnCode.INVALID_DATA;
-
-                title = object.get_string_member ("tag_name");
-                description = object.get_string_member ("body").strip ();
-                page_url = object.get_string_member ("html_url");
-                release_date = object.get_string_member ("created_at").split ("T")[0];
-                source_tag = title;
-                var source_release_id = object.get_int_member_with_default ("id", 0);
-                upstream_release_id = source_release_id > 0 ? source_release_id.to_string () : "";
-
-                var release_assets = new Gee.LinkedList<Models.Internal.Assets.IAsset> ();
-                string? fallback_download_url = null;
-
-                for (int y = 0; y < asset_array.get_length (); y++) {
-                    var asset_object = asset_array.get_object_element (y);
-                    if (asset_object == null)
-                        continue;
-
-                    var asset_name = asset_object.get_string_member_with_default ("name", "");
-                    var asset_download_url = asset_object.get_string_member_with_default ("browser_download_url", "");
-                    if (asset_name == "" || asset_download_url == "")
-                        continue;
-
-                    var release_asset = new Models.Internal.Assets.Asset (asset_name, asset_download_url);
-                    if (!release_asset.is_archive ())
-                        continue;
-
-                    if (fallback_download_url == null)
-                        fallback_download_url = asset_download_url;
-
-                    release_assets.add (release_asset);
-                }
-
-                if (release_assets.size > 0) {
-                    var release_variants = runner.create_release_variants (title, title, release_assets, fallback_download_url);
-                    var default_variant_download_url = runner.get_default_variant_download_url (release_variants, fallback_download_url);
-
-                    if (default_variant_download_url != null) {
-                        foreach (var release_asset in release_assets) {
-                            if (release_asset.download_url == default_variant_download_url) {
-                                asset = new Models.Internal.Assets.Asset (release_asset.name, release_asset.download_url);
-                                break;
-                            }
-                        }
-                    }
-                }
+                return lookup_code;
             }
 
-            if (asset == null || !asset.is_archive ())
+            if (release == null)
+                return ReturnCode.NOTHING_TO_UPDATE;
+
+            if (!release.asset.is_archive ())
                 return ReturnCode.INVALID_DATA;
 
-            if (metadata.tag != "" && title == metadata.tag)
+            var source_title = release.source_tag != "" ? release.source_tag : release.source_release_title;
+            if (metadata.tag != "" && source_title == metadata.tag)
                 return ReturnCode.NOTHING_TO_UPDATE;
 
             var version_content = Utils.Filesystem.get_file_content ("%s/version".printf (runner_directory));
@@ -501,13 +393,13 @@ namespace ProtonPlus.Models {
                         var proton_end_index = proton_content.index_of ("\"", proton_start_index);
                         if (proton_end_index != -1) {
                             var proton_title = proton_content.substring (proton_start_index, proton_end_index - proton_start_index);
-                            if (title == version_title || title == proton_title) {
+                            if (source_title == version_title || source_title == proton_title) {
                                 persist_runner_identity (
                                     metadata,
                                     runner,
                                     runner_directory,
-                                    source_tag != "" ? source_tag : title,
-                                    upstream_release_id
+                                    source_title,
+                                    release.upstream_release_id
                                 );
                                 return ReturnCode.NOTHING_TO_UPDATE;
                             }
@@ -516,17 +408,6 @@ namespace ProtonPlus.Models {
                 }
             }
 
-            var release = new Models.Releases.Latest (
-                runner as Models.Tools.Basic,
-                "%s Latest".printf (runner.title),
-                description,
-                release_date,
-                asset,
-                page_url,
-                title,
-                upstream_release_id,
-                source_tag
-            );
             release.state = Models.Release.State.BUSY_UPDATING;
 
             // The release stages the new files, then atomically swaps them with

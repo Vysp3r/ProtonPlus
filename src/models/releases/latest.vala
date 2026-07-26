@@ -21,6 +21,41 @@ namespace ProtonPlus.Models.Releases {
             this.source_release_title = source_release_title;
         }
 
+        // Updates install a "Latest" wrapper, while browsing exposes the
+        // normalized provider release directly.  Copy the normalized release
+        // here so both paths retain the same upstream identity, selected
+        // asset, and variant URLs.
+        public static Latest from_release (Tools.Basic runner, Release source_release) {
+            var latest_release = new Latest (
+                runner,
+                "%s Latest".printf (runner.title),
+                source_release.description,
+                source_release.release_date,
+                new Internal.Assets.Asset (
+                    source_release.asset.name,
+                    source_release.asset.download_url
+                ),
+                source_release.page_url,
+                source_release.title,
+                source_release.upstream_release_id,
+                source_release.source_tag
+            );
+            latest_release.download_size = source_release.download_size;
+
+            foreach (var source_variant in source_release.variants) {
+                latest_release.variants.add (new Variant (
+                    source_variant.name,
+                    source_variant.format,
+                    source_variant.is_default,
+                    runner,
+                    source_variant.download_url,
+                    source_variant.id
+                ));
+            }
+
+            return latest_release;
+        }
+
         public override Json.Object to_json () {
             var obj = base.to_json ();
             obj.set_string_member ("kind", "latest");
