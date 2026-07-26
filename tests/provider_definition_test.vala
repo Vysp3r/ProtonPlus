@@ -162,7 +162,7 @@ namespace AppTests.ProviderDefinitionTest {
         assert (ProtonPlus.Utils.Filesystem.create_directory (install_path));
         var launcher = new Launcher ("Steam", Launcher.InstallationTypes.SYSTEM, "", { root }, "steam");
         var group = new Group ("Proton", "", "", launcher);
-        group.rebuild_installed_tool_index ();
+        group.refresh_installed_state ();
         var tool = new ProtonPlus.Models.Tools.SteamTinkerLaunch (group);
         assert (tool.title == expected.get_string_member ("title"));
 

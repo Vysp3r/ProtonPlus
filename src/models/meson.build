@@ -1,5 +1,6 @@
 sources += files(
     'group.vala',
+    'installed-tool-inventory.vala',
     'steam-profile.vala',
     'launcher.vala',
     'release.vala',

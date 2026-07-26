@@ -290,6 +290,10 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             }
 
+            // Directory and legacy-tag fallback resolution depends on the
+            // available release names.  Refresh explicitly after that catalog
+            // changes; list filters themselves remain pure state readers.
+            tool.group.refresh_installed_state ();
             add_release_rows (tool, releases);
 
             list_box.append (load_more_row);
@@ -338,6 +342,7 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             }
 
+            tool.group.refresh_installed_state ();
             add_release_rows (tool, releases);
 
             list_box.append (load_more_row);
@@ -635,6 +640,7 @@ namespace ProtonPlus.Widgets.Tools {
                     tool.releases.add (release);
                     add_release_row (release, Services.InstallJob.Mode.VERSIONED);
                 }
+                tool.group.refresh_installed_state ();
                 list_box.remove (load_more_row);
                 list_box.append (load_more_row);
 

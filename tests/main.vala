@@ -5,6 +5,7 @@ int main (string[] args) {
 
     AppTests.FilesystemTest.register_tests ();
     AppTests.MetadataTest.register_tests ();
+    AppTests.InstalledToolInventoryTest.register_tests ();
     AppTests.ParserTest.register_tests ();
     AppTests.ProviderDefinitionTest.register_tests ();
     AppTests.ProviderSourceTest.register_tests ();

@@ -107,13 +107,20 @@ namespace ProtonPlus.CLI {
             Output.header (_ ("Installed runners for %s:\n"), launcher.title);
             var found = false;
             foreach (var group in launcher.groups) {
-                var installed = group.get_tool_directories ();
-                if (installed.length () > 0) {
-                    Output.info ("\n%s:\n", group.title);
-                    foreach (var dir in installed) {
-                        Output.info ("  %s\n", dir);
-                        found = true;
+                group.refresh_installed_state ();
+                var installed = group.get_installed_tool_snapshot ();
+                var group_found = false;
+                foreach (var entry in installed) {
+                    // This was intentionally omitted by Group's former raw
+                    // directory helper, so retain the CLI listing behavior.
+                    if (entry.directory_name == "LegacyRuntime")
+                        continue;
+                    if (!group_found) {
+                        Output.info ("\n%s:\n", group.title);
+                        group_found = true;
                     }
+                    Output.info ("  %s\n", entry.display_title);
+                    found = true;
                 }
             }
             if (!found) {
@@ -365,7 +372,8 @@ namespace ProtonPlus.CLI {
 
             foreach (var launcher in scope) {
                 foreach (var group in launcher.groups) {
-                    var directories = group.get_tool_directories ();
+                    group.refresh_installed_state ();
+                    var entries = group.get_installed_tool_snapshot ();
 
                     foreach (var tool in group.tools) {
                         var basic_runner = tool as Models.Tools.Basic;
@@ -373,16 +381,14 @@ namespace ProtonPlus.CLI {
                             continue;
                         }
 
-                        foreach (var directory in directories) {
-                            if (directory == "%s Latest".printf (tool.title)) {
+                        foreach (var entry in entries) {
+                            if (entry.directory_name == "%s Latest".printf (tool.title)) {
                                 latest_runners.add (basic_runner);
                                 continue;
                             }
 
-                            if (directory == "%s Latest Backup".printf (tool.title)) {
-                                yield Utils.Filesystem.delete_directory (
-                                        "%s/%s/%s Latest Backup".printf (launcher.directory, group.directory, tool.title)
-                                );
+                            if (entry.directory_name == "%s Latest Backup".printf (tool.title)) {
+                                yield Utils.Filesystem.delete_directory (entry.path);
                                 continue;
                             }
                         }
@@ -473,12 +479,13 @@ namespace ProtonPlus.CLI {
         }
 
         private List<string> get_installed_releases (Models.Tools.Basic runner) {
-            var directories = runner.group.get_tool_directories ();
+            runner.group.refresh_installed_state ();
+            var entries = runner.group.get_installed_tool_snapshot ();
             var installed = new List<string> ();
 
-            foreach (var dir in directories) {
-                if (dir.has_prefix (runner.title)) {
-                    installed.append (dir);
+            foreach (var entry in entries) {
+                if (entry.display_title.has_prefix (runner.title)) {
+                    installed.append (entry.display_title);
                 }
             }
             return installed;

@@ -2,6 +2,7 @@ test_sources = files(
     'main.vala',
     'filesystem_test.vala',
     'metadata_test.vala',
+    'installed-tool-inventory-test.vala',
     'parser_test.vala',
     'provider_definition_test.vala',
     'provider_source_test.vala',

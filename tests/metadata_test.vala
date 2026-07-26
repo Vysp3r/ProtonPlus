@@ -105,13 +105,17 @@ namespace AppTests.MetadataTest {
         metadata.runner_endpoint = "https://api.github.com/repos/Kron4ek/Wine-Builds/releases";
         assert (metadata.save (install_path));
 
-        group.rebuild_installed_tool_index ();
+        group.refresh_installed_state ();
         assert (!((!) proton).is_installed ());
         assert (!((!) staging).is_installed ());
+        var ambiguous_metadata = ProtonPlus.Utils.Metadata.load (install_path);
+        assert (ambiguous_metadata.provider_id == "");
+        assert (ambiguous_metadata.tool_id == "");
+        assert (ambiguous_metadata.launcher_id == "");
 
         metadata.runner_title = ((!) proton).title;
         assert (metadata.save (install_path));
-        group.rebuild_installed_tool_index ();
+        group.refresh_installed_state ();
         assert (((!) proton).is_installed ());
         var upgraded_metadata = ProtonPlus.Utils.Metadata.load (install_path);
         assert (upgraded_metadata.provider_id == ((!) proton).provider_id);
@@ -122,7 +126,7 @@ namespace AppTests.MetadataTest {
         upgraded_metadata.tool_id = ((!) staging).id;
         upgraded_metadata.launcher_id = launcher.instance_id;
         assert (upgraded_metadata.save (install_path));
-        group.rebuild_installed_tool_index ();
+        group.refresh_installed_state ();
         assert (!((!) proton).is_installed ());
         assert (((!) staging).is_installed ());
 

@@ -30,7 +30,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             // Build this once before Gtk begins repeatedly invoking the filter
             // and comparator callbacks below.
-            group.rebuild_installed_tool_index ();
+            group.refresh_installed_state ();
 
             var icon = new Gtk.Image.from_icon_name ("layer-group-symbolic");
 
@@ -63,9 +63,9 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.set_sort_func (sort_func);
 
             group.installed_tool_index_invalidated.connect (() => {
-                group.rebuild_installed_tool_index ();
-                refresh ();
+                group.refresh_installed_state ();
             });
+            group.installed_state_refreshed.connect (() => refresh ());
 
             var scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,

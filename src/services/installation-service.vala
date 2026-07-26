@@ -36,7 +36,7 @@ namespace ProtonPlus.Services {
             }
 
             var code = yield workflow.remove (job);
-            job.tool.group.invalidate_installed_tool_index ();
+            job.tool.group.invalidate_installed_state ();
             if (!busy)
                 job.finish_operation ();
             if (code == ReturnCode.RUNNER_REMOVED) {
@@ -91,10 +91,11 @@ namespace ProtonPlus.Services {
             var updated = 0;
             foreach (var launcher in launchers) {
                 foreach (var group in launcher.groups) {
-                    foreach (var directory in group.get_tool_directories ()) {
-                        if (directory.has_suffix (" Latest Backup")) {
-                            var stale_backup = "%s%s/%s".printf (launcher.directory, group.directory, directory);
-                            if (!yield Utils.Filesystem.delete_directory (stale_backup))
+                    group.refresh_installed_state ();
+                    var entries = group.get_installed_tool_snapshot ();
+                    foreach (var entry in entries) {
+                        if (entry.directory_name.has_suffix (" Latest Backup")) {
+                            if (!yield Utils.Filesystem.delete_directory (entry.path))
                                 return ReturnCode.FILESYSTEM_ERROR;
                         }
                     }
@@ -104,8 +105,8 @@ namespace ProtonPlus.Services {
                             continue;
                         var latest = "%s Latest".printf (runner.title);
                         var has_latest = false;
-                        foreach (var directory in group.get_tool_directories ()) {
-                            if (directory == latest) {
+                        foreach (var entry in entries) {
+                            if (entry.directory_name == latest) {
                                 has_latest = true;
                                 break;
                             }
@@ -145,7 +146,7 @@ namespace ProtonPlus.Services {
             yield Utils.CacheManager.begin_cache_operation ();
             var code = yield workflow.install (job, replace_existing);
             Utils.CacheManager.end_cache_operation ();
-            job.tool.group.invalidate_installed_tool_index ();
+            job.tool.group.invalidate_installed_state ();
 
             var success = code == ReturnCode.RUNNER_INSTALLED;
             job.is_finished = true;

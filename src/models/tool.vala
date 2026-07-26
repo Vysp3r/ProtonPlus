@@ -13,6 +13,10 @@ namespace ProtonPlus.Models {
         public string last_updated { get; set; }
         public int page { get; set; default = 1; }
         public int sort_priority { get; set; default = 1000; }
+        public bool installed { get; private set; default = false; }
+        public bool used { get; private set; default = false; }
+        public InstalledToolEntry? resolved_installed_entry { get; private set; default = null; }
+        internal string? resolved_usage_identifier { get; private set; default = null; }
         private string? _last_version = null;
 
         public Gee.LinkedList<Release> releases { get; set; default = new Gee.LinkedList<Release> (); }
@@ -33,11 +37,22 @@ namespace ProtonPlus.Models {
         }
 
         public virtual bool is_installed () {
-            return false;
+            return installed;
         }
 
         public virtual bool is_used () {
-            return false;
+            return used;
+        }
+
+        internal void set_resolved_installation_state (
+            InstalledToolEntry? entry,
+            string? usage_identifier,
+            bool is_used
+        ) {
+            resolved_installed_entry = entry;
+            resolved_usage_identifier = usage_identifier;
+            installed = entry != null;
+            used = installed && is_used;
         }
 
         public string? last_version {
