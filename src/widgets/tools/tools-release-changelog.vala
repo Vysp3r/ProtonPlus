@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets.Tools {
     public class ReleaseChangelog : Gtk.Box {
-        private Gtk.Label label;
+        private Gtk.Box content;
 
         public ReleaseChangelog () {
             Object (
@@ -8,19 +8,13 @@ namespace ProtonPlus.Widgets.Tools {
                     vexpand: true
             );
 
-            label = new Gtk.Label ("") {
-                use_markup = true,
-                wrap = true,
-                wrap_mode = Pango.WrapMode.WORD_CHAR,
-                selectable = true,
-                focusable = false,
-                xalign = 0,
-                yalign = 0,
+            content = new Gtk.Box (Gtk.Orientation.VERTICAL, 8) {
                 margin_start = 12,
                 margin_end = 12,
                 margin_top = 12,
                 margin_bottom = 12,
-                halign = Gtk.Align.START,
+                hexpand = true,
+                halign = Gtk.Align.FILL,
                 valign = Gtk.Align.START
             };
 
@@ -28,19 +22,111 @@ namespace ProtonPlus.Widgets.Tools {
                 vexpand = true,
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
                 vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
-                child = label
+                child = content
             };
 
             append (scrolled);
         }
 
         public void set_markdown (string? markdown) {
+            while (content.get_first_child () != null) {
+                content.remove (content.get_first_child ());
+            }
+
             if (markdown == null || markdown == "") {
-                label.set_markup ("");
                 return;
             }
 
-            label.set_markup (markdown_to_markup (markdown));
+            try {
+                var details = new Regex ("<details([^>]*)>([\\s\\S]*?)</details\\s*>", RegexCompileFlags.CASELESS);
+                MatchInfo match_info;
+                details.match (markdown, 0, out match_info);
+
+                var previous_end = 0;
+                while (match_info.matches ()) {
+                    int start;
+                    int end;
+                    match_info.fetch_pos (0, out start, out end);
+
+                    append_markdown (markdown.substring (previous_end, start - previous_end));
+                    append_details (match_info.fetch (1), match_info.fetch (2));
+                    previous_end = end;
+                    match_info.next ();
+                }
+
+                append_markdown (markdown.substring (previous_end));
+            } catch (RegexError e) {
+                warning (e.message);
+                append_markdown (markdown);
+            }
+        }
+
+        private Gtk.Label create_label (string markdown) {
+            return new Gtk.Label ("") {
+                use_markup = true,
+                label = markdown_to_markup (markdown),
+                wrap = true,
+                wrap_mode = Pango.WrapMode.WORD_CHAR,
+                selectable = true,
+                focusable = false,
+                xalign = 0,
+                yalign = 0,
+                hexpand = true,
+                halign = Gtk.Align.FILL,
+                valign = Gtk.Align.START
+            };
+        }
+
+        private void append_markdown (string markdown) {
+            if (markdown.strip () != "") {
+                content.append (create_label (markdown));
+            }
+        }
+
+        private void append_details (string attributes, string details) {
+            string summary = _ ("Details");
+            string body = details;
+
+            try {
+                var summary_tag = new Regex ("^[\\t \\r\\n]*<summary(?:\\s[^>]*)?>([\\s\\S]*?)</summary\\s*>(?:\\r?\\n)?", RegexCompileFlags.CASELESS);
+                MatchInfo match_info;
+                if (summary_tag.match (details, 0, out match_info) && match_info.matches ()) {
+                    int end;
+                    match_info.fetch_pos (0, null, out end);
+                    summary = match_info.fetch (1).strip ();
+                    if (summary == "") {
+                        summary = _ ("Details");
+                    }
+                    body = details.substring (end);
+                }
+            } catch (RegexError e) {
+                warning (e.message);
+            }
+
+            var expander = new Gtk.Expander (null) {
+                hexpand = true,
+                expanded = has_open_attribute (attributes)
+            };
+            expander.set_label_widget (create_label (summary));
+
+            if (body.strip () != "") {
+                var body_label = create_label (body);
+                body_label.margin_start = 12;
+                body_label.margin_top = 6;
+                expander.set_child (body_label);
+            }
+
+            content.append (expander);
+        }
+
+        private bool has_open_attribute (string attributes) {
+            try {
+                var open_attribute = new Regex ("(?:^|\\s)open(?:\\s|=|$)", RegexCompileFlags.CASELESS);
+                return open_attribute.match (attributes);
+            } catch (RegexError e) {
+                warning (e.message);
+                return false;
+            }
         }
 
         private string markdown_to_markup (string markdown) {
@@ -202,9 +288,15 @@ namespace ProtonPlus.Widgets.Tools {
                 });
 
             // Bare links: https://google.com -> <a href="https://google.com">https://google.com</a>
-                var bare_links = new Regex ("""(?<!href=")(?<!">)(?<!=)((?:https?://|www\.|magnet:)[^\s<>"'()]+[^\s.,<>"'()!?;:])""");
+                var bare_links = new Regex ("""(<a\b[^>]*>[\s\S]*?</a>)|(?<!href=")(?<!">)(?<!=)((?:https?://|www\.|magnet:)[^\s<>"'()]+[^\s.,<>"'()!?;:])""", RegexCompileFlags.CASELESS);
                 text = bare_links.replace_eval (text, -1, 0, 0, (match_info, result) => {
-                    string url = match_info.fetch (1);
+                    string anchor = match_info.fetch (1);
+                    if (anchor != null) {
+                        result.append (anchor);
+                        return false;
+                    }
+
+                    string url = match_info.fetch (2);
                     string full_url = url.has_prefix ("www.") ? "https://" + url : url;
                     result.append_printf ("<a href=\"%s\">%s</a>", full_url, url);
                     return false;
