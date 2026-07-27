@@ -87,6 +87,17 @@ For a native debug build, use either of these commands:
 The debug modes require GDB. The VS Code configuration uses the latter build
 directory.
 
+To check native build tools and development libraries without creating a
+project build directory:
+
+~~~bash
+./scripts/build.sh native-deps
+~~~
+
+This performs a temporary Meson configuration with dependency downloads
+disabled. It reports the exact missing tool or library while leaving the
+working tree unchanged.
+
 To build and install the local Flatpak for the current user:
 
 ~~~bash

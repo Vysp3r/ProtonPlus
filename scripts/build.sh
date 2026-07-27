@@ -139,6 +139,28 @@ build_native_debug() {
   compile_schemas_for_build "${build_dir}"
 }
 
+check_native_dependencies() {
+  local build_dir
+  local status=0
+
+  check_dependencies glib-compile-schemas meson ninja valac
+  build_dir="$(mktemp -d "${TMPDIR:-/tmp}/protonplus-native-deps.XXXXXX")"
+
+  show_log "INFO" "Checking native build dependencies with Meson..."
+  if ! meson setup \
+    "${build_dir}" \
+    --prefix=/usr \
+    --wrap-mode=nodownload; then
+    show_log "ERROR" "Native dependency check failed."
+    status=1
+  else
+    show_log "PASS" "Native build dependencies are available."
+  fi
+
+  rm -rf -- "${build_dir}"
+  return "${status}"
+}
+
 build_flatpak() {
   local variant="$1"
   local manifest="$2"
@@ -276,6 +298,7 @@ Commands:
   flathub [run]      Build Flatpak using the Flathub manifest
   native [run|debug] Build natively, optionally running the result
   native-debug       Build a native debug binary for an external debugger
+  native-deps        Check native build tools and libraries
   translations       Update translation files (.po)
   icons              Regenerate application icons from the SVG source
   linter             Run Flathub linters on the local source
@@ -300,6 +323,9 @@ main() {
       ;;
     native-debug)
       build_native_debug
+      ;;
+    native-deps)
+      check_native_dependencies
       ;;
     translations)
       rebuild_translations
