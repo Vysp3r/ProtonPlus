@@ -145,6 +145,8 @@ namespace AppTests.ParserTest {
 
         presentations.apply_filter (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionView.QUICK, "");
         assert (presentations.has_visible_in_category (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCategory.PERFORMANCE));
+        assert (presentations.has_registered_in_category (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCategory.PERFORMANCE));
+        assert (!presentations.has_registered_in_category (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCategory.INPUT_AUDIO));
         assert (!presentations.has_visible_in_category (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCategory.PROTON));
         assert (!presentations.has_visible_in_subsection (
             ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCategory.GRAPHICS, "DXVK"
@@ -190,6 +192,13 @@ namespace AppTests.ParserTest {
         ));
         assert (ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups.WrapperGroup.should_show_backend_chrome (
             false, false, true
+        ));
+
+        assert (!ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups.WrapperGroup.should_show_backend_group (
+            true, false
+        ));
+        assert (ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups.WrapperGroup.should_show_backend_group (
+            true, true
         ));
     }
 

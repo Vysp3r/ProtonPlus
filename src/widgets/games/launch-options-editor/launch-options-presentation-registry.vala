@@ -98,6 +98,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return false;
         }
 
+        public bool has_registered_in_category (LaunchOptionCategory category) {
+            foreach (var presentation in by_id.values) {
+                if (presentation.metadata.category == category)
+                    return true;
+            }
+            return false;
+        }
+
         public bool has_visible_in_subsection (LaunchOptionCategory category, string subsection) {
             foreach (var presentation in by_id.values) {
                 if (presentation.metadata.category == category

@@ -19,11 +19,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         Adw.EntryRow search_entry { get; set; }
         Adw.ComboRow category_filter { get; set; }
+        Gee.ArrayList<LaunchOptionView> category_filter_views;
         Gtk.Label no_results_label { get; set; }
         Gtk.Box categories_box { get; set; }
         Gee.HashMap<int, Gtk.Box> category_boxes;
         Gee.HashMap<string, Adw.PreferencesGroup> subsection_groups;
         bool refreshing_controls;
+        bool updating_category_filter;
 
         LaunchOptionCategory[] canonical_categories = {
             LaunchOptionCategory.PERFORMANCE,
@@ -42,6 +44,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             presentations = new LaunchOptionPresentationRegistry (catalog);
             category_boxes = new Gee.HashMap<int, Gtk.Box> ();
             subsection_groups = new Gee.HashMap<string, Adw.PreferencesGroup> ();
+            category_filter_views = new Gee.ArrayList<LaunchOptionView> ();
             refreshing_controls = true;
 
             set_orientation (Gtk.Orientation.VERTICAL);
@@ -111,21 +114,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             category_filter = new Adw.ComboRow () {
                 title = _("Browse") ,
-                model = new Gtk.StringList ({
-                    _("Quick settings"),
-                    _("Active options"),
-                    _("All options"),
-                    LaunchOptionCatalog.category_title (LaunchOptionCategory.PERFORMANCE),
-                    LaunchOptionCatalog.category_title (LaunchOptionCategory.DISPLAY),
-                    LaunchOptionCatalog.category_title (LaunchOptionCategory.PROTON),
-                    LaunchOptionCatalog.category_title (LaunchOptionCategory.GRAPHICS),
-                    LaunchOptionCatalog.category_title (LaunchOptionCategory.HARDWARE),
-                    LaunchOptionCatalog.category_title (LaunchOptionCategory.INPUT_AUDIO),
-                    LaunchOptionCatalog.category_title (LaunchOptionCategory.GAME_ARGUMENTS),
-                    LaunchOptionCatalog.category_title (LaunchOptionCategory.DIAGNOSTICS)
-                }),
+                model = new Gtk.StringList ({ _("Quick settings"), _("Active options"), _("All options") }),
                 selected = 0
             };
+            category_filter_views.add (LaunchOptionView.QUICK);
+            category_filter_views.add (LaunchOptionView.ACTIVE);
+            category_filter_views.add (LaunchOptionView.ALL);
+            foreach (var category in canonical_categories)
+                category_filter_views.add (LaunchOptionCatalog.category_view (category));
             var category_factory = new Gtk.SignalListItemFactory ();
             category_factory.setup.connect ((object) => {
                 var list_item = object as Gtk.ListItem;
@@ -148,7 +144,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             });
             category_filter.set_list_factory (category_factory);
             category_filter.set_tooltip_text (category_filter.title);
-            category_filter.notify["selected"].connect (refresh_filters);
+            category_filter.notify["selected"].connect (() => {
+                if (!updating_category_filter)
+                    refresh_filters ();
+            });
             group.add (category_filter);
             return group;
         }
@@ -274,7 +273,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         void refresh_filters () {
             var query = search_entry.text.strip ();
-            var view = (LaunchOptionView) category_filter.selected;
+            var view = get_selected_view ();
             presentations.apply_filter (view, query);
 
             foreach (var group in subsection_groups.values) {
@@ -293,12 +292,79 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var any_visible = false;
             foreach (var category in canonical_categories) {
                 var category_box = category_boxes.get ((int) category);
-                var visible = presentations.has_visible_in_category (category)
-                              || (category == LaunchOptionCategory.DISPLAY && display_visible);
+                var visible = presentations.has_visible_in_category (category);
+                if (category == LaunchOptionCategory.DISPLAY)
+                    visible = wrapper_group.visible;
                 category_box.visible = visible;
                 any_visible = any_visible || visible;
             }
             no_results_label.visible = !any_visible;
+
+            if (update_category_filter_options (view))
+                refresh_filters ();
+        }
+
+        LaunchOptionView get_selected_view () {
+            if (category_filter.selected < category_filter_views.size)
+                return category_filter_views.get ((int) category_filter.selected);
+            return LaunchOptionView.QUICK;
+        }
+
+        bool update_category_filter_options (LaunchOptionView preferred_view) {
+            var labels = new Gee.ArrayList<string> ();
+            var views = new Gee.ArrayList<LaunchOptionView> ();
+            labels.add (_("Quick settings"));
+            views.add (LaunchOptionView.QUICK);
+            labels.add (_("Active options"));
+            views.add (LaunchOptionView.ACTIVE);
+            labels.add (_("All options"));
+            views.add (LaunchOptionView.ALL);
+
+            foreach (var category in canonical_categories) {
+                if (!category_has_dropdown_content (category))
+                    continue;
+                labels.add (LaunchOptionCatalog.category_title (category));
+                views.add (LaunchOptionCatalog.category_view (category));
+            }
+
+            if (views_equal (category_filter_views, views))
+                return false;
+
+            uint selected = 0;
+            for (var index = 0; index < views.size; index++) {
+                if (views.get (index) == preferred_view) {
+                    selected = (uint) index;
+                    break;
+                }
+            }
+
+            updating_category_filter = true;
+            category_filter_views = views;
+            category_filter.model = new Gtk.StringList (labels.to_array ());
+            category_filter.selected = selected;
+            updating_category_filter = false;
+            return get_selected_view () != preferred_view;
+        }
+
+        bool category_has_dropdown_content (LaunchOptionCategory category) {
+            if (category == LaunchOptionCategory.DISPLAY) {
+                return Groups.WrapperGroup.should_show_backend_chrome (
+                    Globals.GAMESCOPE_INSTALLED,
+                    Globals.SCOPEBUDDY_INSTALLED,
+                    wrapper_group.has_active_non_default_backend ()
+                );
+            }
+            return presentations.has_registered_in_category (category);
+        }
+
+        bool views_equal (Gee.List<LaunchOptionView> first, Gee.List<LaunchOptionView> second) {
+            if (first.size != second.size)
+                return false;
+            for (var index = 0; index < first.size; index++) {
+                if (first.get (index) != second.get (index))
+                    return false;
+            }
+            return true;
         }
 
         void refresh_preview () {

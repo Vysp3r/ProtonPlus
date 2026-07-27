@@ -132,6 +132,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             return gamescope_available || scopebuddy_available || active_non_default_backend;
         }
 
+        public static bool should_show_backend_group (bool display_visible, bool show_chrome) {
+            return display_visible && show_chrome;
+        }
+
         public bool has_active_non_default_backend () {
             return gamescope.active || scopebuddy.active;
         }
@@ -144,7 +148,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             );
             this.title = show_chrome ? backend_title : "";
             this.description = show_chrome ? backend_description : "";
-            this.visible = visible;
+            this.visible = should_show_backend_group (visible, show_chrome);
         }
     }
 }
