@@ -613,7 +613,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     LaunchOptionSemanticKind.WRAPPER_SELECTOR,
                     LaunchPlaceholderPolicy.REQUIRED,
                     LaunchOptionEmissionMode.WRAPPER_SELECTION,
-                    "", "", {}, { "gamescope", "scopebuddy" }, "launch-backend"
+                    "", "", {}, { "gamescope", "scopebuddy" }, "launch-backend",
+                    {}, {}, {}, LaunchOptionApplicability.COMPONENT_SPECIFIC,
+                    {}, false, LaunchOptionSupport.COMPONENT_SPECIFIC, true
                 );
             }
             if (id == "steam-command") {
@@ -658,7 +660,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     legacy_tokens_for (id), selectable_values_for (id)
                 );
             }
-            if (is_wrapper_argument (id)) {
+            if (is_wrapper_argument (serialization_type)) {
                 bool dynamic_value = id.has_suffix ("resolution")
                                || id.has_suffix ("frame-limit")
                                || id.has_suffix ("arguments");
@@ -732,8 +734,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             );
         }
 
-        bool is_wrapper_argument (string id) {
-            return id.has_prefix ("gamescope-") || id.has_prefix ("scopebuddy-");
+        bool is_wrapper_argument (LaunchLineType serialization_type) {
+            return serialization_type == LaunchLineType.WRAPPER_ARGUMENT;
         }
 
         /* These are catalog declarations.  The parser consumes only this
@@ -912,12 +914,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 case "prefer-sdl":
                 case "bypass-steam-input":
                 case "pulse-latency":
-                case "skip-launcher":
-                case "renderer-vulkan":
-                case "renderer-dx11":
-                case "renderer-dx12":
-                case "developer-console":
-                    return LaunchOptionSupport.UNKNOWN_UNVERIFIED;
                 case "steam-command":
                 case "wined3d":
                 case "ntsync-mode":
@@ -925,6 +921,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 case "dll-overrides":
                 case "proton-debug-log":
                 case "nvidia-report-amd":
+                case "skip-launcher":
+                case "renderer-vulkan":
+                case "renderer-dx11":
+                case "renderer-dx12":
+                case "developer-console":
                     return LaunchOptionSupport.VERIFIED_CURRENT;
                 default:
                     /* An ID not named above has no current primary-source
@@ -994,6 +995,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     diagnostics.add ("Option '%s' has an unknown dependency '%s'.".printf (entry.id, dependency));
                 if (dependency == entry.id)
                     diagnostics.add ("Option '%s' must not depend on itself.".printf (entry.id));
+                var dependency_entry = lookup (dependency);
+                if (semantics.managed_emission && dependency_entry != null
+                    && dependency_entry.semantics != null
+                    && !dependency_entry.semantics.managed_emission)
+                    diagnostics.add ("Managed option '%s' depends on unmanaged option '%s'.".printf (entry.id, dependency));
             }
             foreach (var conflict in semantics.conflicts) {
                 if (conflict.strip () == "" || !by_id.has_key (conflict))
@@ -1178,7 +1184,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             add_option ("amd-radv-debug", _("RADV workarounds and debugging"), _("Configure RADV compatibility workarounds and debugging."), LaunchOptionCategory.HARDWARE, 110, { "RADV_DEBUG" }, { "AMD RADV Debug Options" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
             add_option ("amd-aco-debug", _("ACO shader-compiler debugging"), _("Configure AMD ACO shader compiler debugging."), LaunchOptionCategory.HARDWARE, 120, { "ACO_DEBUG" }, { "AMD ACO Debug Options" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
             add_option ("nvidia-nvapi", _("NVAPI"), _("Lets games access NVIDIA-specific features such as DLSS."), LaunchOptionCategory.HARDWARE, 130, { "PROTON_ENABLE_NVAPI=1" }, {}, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
-            add_option ("nvidia-dlss-updater", _("DLSS component updates"), _("Updates DLSS components for supported games."), LaunchOptionCategory.HARDWARE, 140, { "PROTON_ENABLE_NGX_UPDATER=1" }, { "Update DLSS components" }, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"), { "nvidia-nvapi" });
+            add_option ("nvidia-dlss-updater", _("DLSS component updates"), _("Updates DLSS components for supported games."), LaunchOptionCategory.HARDWARE, 140, { "PROTON_ENABLE_NGX_UPDATER=1" }, { "Update DLSS components" }, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
             add_option ("nvidia-dlss-indicator", _("DLSS indicator"), _("Shows an in-game DLSS status indicator."), LaunchOptionCategory.HARDWARE, 150, { "PROTON_DLSS_INDICATOR=1" }, {}, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
             add_option ("nvidia-libraries", _("NVIDIA libraries"), _("Enables NVIDIA-specific libraries."), LaunchOptionCategory.HARDWARE, 160, { "PROTON_NVIDIA_LIBS=1" }, {}, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
             add_option ("nvidia-report-amd", _("Report GPU as AMD"), _("Reports an NVIDIA GPU as AMD for affected games."), LaunchOptionCategory.HARDWARE, 170, { "PROTON_HIDE_NVIDIA_GPU=1" }, { "Hide NVIDIA GPU" }, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
