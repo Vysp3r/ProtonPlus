@@ -296,6 +296,10 @@ Provider extension points and release-source architecture are documented in [doc
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Bug reports and feature requests belong in the [issue tracker](https://github.com/Vysp3r/ProtonPlus/issues). Translation contributions are coordinated through [Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/).
 
+## AI-assisted development
+
+AI tools, including OpenAI Codex, have been used to help advance ProtonPlus further. AI was used as a supporting engineering tool within a structured development process, under human direction and subject to code review, testing, and validation. Project decisions and final responsibility remain with the maintainers.
+
 ## License
 
 ProtonPlus is licensed under the [GNU General Public License version 3 or later](LICENSE.md).
