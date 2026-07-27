@@ -1752,7 +1752,7 @@ msgstr "%s disinstallato con successo\n"
 #: src/cli/cli.vala:342
 #, c-format
 msgid "Error: Uninstallation failed: %s\n"
-msgstr "Errore: Dinstallazione fallita: %s\n"
+msgstr "Errore: Disinstallazione fallita: %s\n"
 
 #: src/cli/cli.vala:347
 msgid "Updating all runners...\n"
@@ -3773,7 +3773,7 @@ msgstr "Prestazioni e monitoraggio"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:111
 msgid "Display & launch tools"
-msgstr "Prestazioni e monitoraggio"
+msgstr "Strumenti di visualizzazione e avvio"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:112
 msgid "Proton & Wine compatibility"
@@ -5086,7 +5086,7 @@ msgstr "Tasto attivazione limite"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:113
 msgid "Limiters"
-msgstr "Limitatore"
+msgstr "Limitatori"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:121
 msgid "Filtering"
@@ -5110,7 +5110,7 @@ msgstr "Filtraggio anisotropico"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:131
 msgid "Mip-map LoD Bias"
-msgstr "Pregiudizio LoD mip-map"
+msgstr "Bias LoD mip-map"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:133
 msgid "Filters"
