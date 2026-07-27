@@ -12,6 +12,7 @@ namespace ProtonPlus.Widgets.Tools {
             set {
                 _filter = value;
                 list_box.invalidate_filter ();
+                update_status_page ();
                 update_visibility ();
             }
         }
@@ -22,6 +23,7 @@ namespace ProtonPlus.Widgets.Tools {
             set {
                 _search_text = value;
                 list_box.invalidate_filter ();
+                update_status_page ();
                 update_visibility ();
             }
         }
@@ -116,6 +118,38 @@ namespace ProtonPlus.Widgets.Tools {
             update_visibility ();
         }
 
+        void update_status_page () {
+            if (search_text.strip () != "") {
+                status_page.set_title (_ ("No matching tools"));
+                status_page.set_description (_ ("Try a different search term or clear the search."));
+                status_page.set_icon_name ("magnifying-glass-symbolic");
+                return;
+            }
+
+            switch (filter) {
+                case Filter.INSTALLED:
+                    status_page.set_title (_ ("No installed tools"));
+                    status_page.set_description (_ ("Install a compatibility tool to see it here."));
+                    status_page.set_icon_name ("box-open-symbolic");
+                    break;
+                case Filter.USED:
+                    status_page.set_title (_ ("No tools in use"));
+                    status_page.set_description (_ ("No games currently use a tool from this group."));
+                    status_page.set_icon_name ("gamepad2-symbolic");
+                    break;
+                case Filter.UNUSED:
+                    status_page.set_title (_ ("No unused tools"));
+                    status_page.set_description (_ ("Every tool in this group is currently in use."));
+                    status_page.set_icon_name ("check-round-outline-symbolic");
+                    break;
+                default:
+                    status_page.set_title (_ ("No tools found"));
+                    status_page.set_description (_ ("No tools are available in this group."));
+                    status_page.set_icon_name ("magnifying-glass-symbolic");
+                    break;
+            }
+        }
+
         void update_visibility () {
             bool has_visible = false;
             var child = list_box.get_first_child ();
@@ -137,9 +171,25 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public void refresh () {
+            refresh_tool_state_pills ();
             list_box.invalidate_filter ();
             list_box.invalidate_sort ();
+            update_status_page ();
             update_visibility ();
+        }
+
+        void refresh_tool_state_pills () {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                var row = child as Adw.ActionRow;
+                if (row != null) {
+                    var tool = row.get_data<Models.Tool> ("tool");
+                    var state_pill = row.get_data<Gtk.Label> ("state-pill");
+                    if (tool != null && state_pill != null)
+                        update_tool_state_pill (state_pill, tool);
+                }
+                child = child.get_next_sibling ();
+            }
         }
 
         Adw.ActionRow create_tool_card (Models.Tool tool) {
@@ -165,7 +215,32 @@ namespace ProtonPlus.Widgets.Tools {
 
             }
 
+            var state_pill = new Gtk.Label ("");
+            state_pill.set_valign (Gtk.Align.CENTER);
+            row.set_data ("state-pill", state_pill);
+            row.add_suffix (state_pill);
+            update_tool_state_pill (state_pill, tool);
+
             return row;
+        }
+
+        void update_tool_state_pill (Gtk.Label pill, Models.Tool tool) {
+            pill.remove_css_class ("installed-pill");
+            pill.remove_css_class ("in-use-pill");
+
+            if (tool.is_used ()) {
+                pill.set_label (_ ("In use"));
+                pill.set_tooltip_text (_ ("One or more releases of this tool is installed and currently used by one or more games"));
+                pill.add_css_class ("in-use-pill");
+                pill.set_visible (true);
+            } else if (tool.is_installed ()) {
+                pill.set_label (_ ("Installed"));
+                pill.set_tooltip_text (_ ("One or more releases of this tool is installed, but not currently used by any games"));
+                pill.add_css_class ("installed-pill");
+                pill.set_visible (true);
+            } else {
+                pill.set_visible (false);
+            }
         }
 
         bool filter_func (Gtk.ListBoxRow row) {

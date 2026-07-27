@@ -16,6 +16,8 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button open_button { get; set; }
         Gtk.Button migrate_button { get; set; }
         Gtk.SearchEntry search_entry { get; set; }
+        Gtk.MenuButton search_button { get; set; }
+        Gtk.MenuButton filter_button { get; set; }
         Adw.HeaderBar header_bar { get; set; }
         Gtk.ActionBar action_bar { get; set; }
         Gtk.CheckButton all_filter_button { get; set; }
@@ -36,6 +38,7 @@ namespace ProtonPlus.Widgets.Tools {
             set {
                 _current_filter = value;
                 releases_box.filter = value;
+                update_filter_button_state ();
 
                 var child = groups_stack.get_first_child ();
                 while (child != null) {
@@ -159,6 +162,7 @@ namespace ProtonPlus.Widgets.Tools {
             search_entry.search_changed.connect (() => {
                 var search_text = search_entry.get_text ();
                 releases_box.search_text = search_text;
+                update_search_button_state ();
 
                 var child = groups_stack.get_first_child ();
                 while (child != null) {
@@ -180,14 +184,14 @@ namespace ProtonPlus.Widgets.Tools {
             var search_popover = new Gtk.Popover ();
             search_popover.set_child (search_popover_box);
 
-            var search_button = new Gtk.MenuButton () {
+            search_button = new Gtk.MenuButton () {
                 valign = Gtk.Align.CENTER,
                 icon_name = "magnifying-glass-symbolic",
                 popover = search_popover
             };
             search_button.set_tooltip_text (_ ("Search"));
 
-            var filter_button = new Gtk.MenuButton () {
+            filter_button = new Gtk.MenuButton () {
                 valign = Gtk.Align.CENTER,
                 icon_name = "filter-2-symbolic"
             };
@@ -354,6 +358,26 @@ namespace ProtonPlus.Widgets.Tools {
 
         void update_refresh_button_visibility () {
             stack.notify_property ("visible-child-name");
+        }
+
+        void update_search_button_state () {
+            if (search_entry.get_text () != "") {
+                search_button.add_css_class ("tools-filter-active");
+                search_button.set_tooltip_text (_ ("Search is active"));
+            } else {
+                search_button.remove_css_class ("tools-filter-active");
+                search_button.set_tooltip_text (_ ("Search"));
+            }
+        }
+
+        void update_filter_button_state () {
+            if (current_filter != Filter.ALL) {
+                filter_button.add_css_class ("tools-filter-active");
+                filter_button.set_tooltip_text (_ ("Filter is active"));
+            } else {
+                filter_button.remove_css_class ("tools-filter-active");
+                filter_button.set_tooltip_text (_ ("Filter"));
+            }
         }
 
         void update_header_title () {

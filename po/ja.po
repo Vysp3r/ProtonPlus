@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-26 13:26-0400\n"
+"POT-Creation-Date: 2026-07-26 22:09-0400\n"
 "PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -1638,12 +1638,12 @@ msgstr "%s のためにインストールされている実行環境:\n"
 msgid "No runners installed\n"
 msgstr "実行環境が何もインストールされていません\n"
 
-#: src/cli/cli.vala:219 src/cli/cli.vala:458
+#: src/cli/cli.vala:219 src/cli/cli.vala:461
 #, fuzzy, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "エラー: リリース一覧を読み込めませんでした\n"
 
-#: src/cli/cli.vala:224 src/cli/cli.vala:460
+#: src/cli/cli.vala:224 src/cli/cli.vala:463
 msgid "Error: No releases are available\n"
 msgstr ""
 
@@ -1725,97 +1725,97 @@ msgstr "すべての実行環境を更新中...\n"
 msgid "Updating runners for %s...\n"
 msgstr "%s のための実行環境を更新中...\n"
 
-#: src/cli/cli.vala:364 src/cli/cli.vala:419
+#: src/cli/cli.vala:364 src/cli/cli.vala:422
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "%s の更新に成功しました\n"
 
-#: src/cli/cli.vala:367 src/cli/cli.vala:422
+#: src/cli/cli.vala:367 src/cli/cli.vala:425
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr "%s は既に最新です\n"
 
-#: src/cli/cli.vala:370 src/cli/cli.vala:425
+#: src/cli/cli.vala:370 src/cli/cli.vala:428
 #, fuzzy, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "エラー: %s のアップデートに失敗しました\n"
 
-#: src/cli/cli.vala:409
+#: src/cli/cli.vala:412
 msgid "Already up to date\n"
 msgstr "既に最新です\n"
 
-#: src/cli/cli.vala:434
+#: src/cli/cli.vala:437
 #, c-format
 msgid "Updating %s..."
 msgstr "%s を更新中..."
 
-#: src/cli/cli.vala:446
+#: src/cli/cli.vala:449
 msgid "Error: Failed to load launchers\n"
 msgstr "エラー: ランチャーを読み込めませんでした\n"
 
-#: src/cli/cli.vala:470
+#: src/cli/cli.vala:473
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "エラー: ランチャー「%s」が見つかりませんでした\n"
 
-#: src/cli/cli.vala:483
+#: src/cli/cli.vala:486
 #, fuzzy, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "エラー: 実行環境「%s」が見つかりませんでした\n"
 
-#: src/cli/cli.vala:539
+#: src/cli/cli.vala:542
 #, fuzzy, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr ""
 "エラー: 実行環境「%s」は「最新(Latest)」のインストールをサポートしていませ"
 "ん\n"
 
-#: src/cli/cli.vala:546
+#: src/cli/cli.vala:549
 #, c-format
 msgid "Usage: %s\n"
 msgstr "使用方法: %s\n"
 
-#: src/cli/cli.vala:563
+#: src/cli/cli.vala:566
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "エラー: 入力内容が不正です。数字を入力してください\n"
 
-#: src/cli/cli.vala:569
+#: src/cli/cli.vala:572
 msgid "Error: Selection out of range\n"
 msgstr "エラー: 選択が範囲外です\n"
 
-#: src/cli/cli.vala:576
+#: src/cli/cli.vala:579
 msgid "Usage:\n"
 msgstr "使用方法:\n"
 
-#: src/cli/cli.vala:578
+#: src/cli/cli.vala:581
 msgid "Commands:\n"
 msgstr "コマンド:\n"
 
-#: src/cli/cli.vala:579
+#: src/cli/cli.vala:582
 msgid "Show version"
 msgstr "バージョンを表示"
 
-#: src/cli/cli.vala:580
+#: src/cli/cli.vala:583
 msgid "Show this help"
 msgstr "このヘルプを表示"
 
-#: src/cli/cli.vala:581
+#: src/cli/cli.vala:584
 msgid "List launchers or installed runners"
 msgstr "ランチャーや実行環境を一覧表示する"
 
-#: src/cli/cli.vala:582
+#: src/cli/cli.vala:585
 msgid "Install runner"
 msgstr "実行環境をインストール"
 
-#: src/cli/cli.vala:583
+#: src/cli/cli.vala:586
 msgid "Uninstall runner"
 msgstr "実行環境をアンインストール"
 
-#: src/cli/cli.vala:584
+#: src/cli/cli.vala:587
 msgid "Update runner"
 msgstr "実行環境を更新"
 
-#: src/cli/cli.vala:588
+#: src/cli/cli.vala:591
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -1823,7 +1823,7 @@ msgstr ""
 "\n"
 "利用可能なランチャー:\n"
 
-#: src/cli/cli.vala:595
+#: src/cli/cli.vala:598
 #, c-format
 msgid ""
 "\n"
@@ -1832,35 +1832,35 @@ msgstr ""
 "\n"
 "%s に対応した実行環境一覧:\n"
 
-#: src/cli/cli.vala:609
+#: src/cli/cli.vala:612
 #, c-format
 msgid "ETA: %s"
 msgstr ""
 
-#: src/cli/cli.vala:611 src/widgets/header/header-downloads-indicator.vala:276
+#: src/cli/cli.vala:614 src/widgets/header/header-downloads-indicator.vala:276
 msgid "ETA: --"
 msgstr ""
 
-#: src/cli/cli.vala:614
+#: src/cli/cli.vala:617
 msgid "Updating"
 msgstr "更新中"
 
-#: src/cli/cli.vala:614 src/widgets/header/header-downloads-indicator.vala:266
+#: src/cli/cli.vala:617 src/widgets/header/header-downloads-indicator.vala:266
 #, fuzzy
 msgid "Installing"
 msgstr "%s をインストール中...\n"
 
-#: src/cli/cli.vala:627 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:630 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:629 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:632 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:631 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:634 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%ds"
 msgstr ""
@@ -2071,16 +2071,26 @@ msgid "Extraction failed"
 msgstr "展開中"
 
 #: src/services/standard-archive-workflow.vala:47
-#: src/services/standard-archive-workflow.vala:68
+#: src/services/standard-archive-workflow.vala:74
 #: src/services/steam-tinker-launch-workflow.vala:49
 #, fuzzy
 msgid "Moving failed"
 msgstr "移動中"
 
-#: src/services/standard-archive-workflow.vala:233
+#: src/services/standard-archive-workflow.vala:56
 #, fuzzy
-msgid "Failed to read compatibilitytool.vdf"
+msgid "Failed to save compatibility tool metadata"
 msgstr "使用したい互換性ツールを選択"
+
+#: src/services/standard-archive-workflow.vala:296
+#, fuzzy
+msgid "Failed to update compatibilitytool.vdf"
+msgstr "使用したい互換性ツールを選択"
+
+#: src/services/standard-archive-workflow.vala:313
+#, fuzzy
+msgid "The compatibility tool manifest is invalid or incomplete"
+msgstr "互換性ツール"
 
 #: src/widgets/application.vala:209
 msgid "Website"
@@ -2094,7 +2104,7 @@ msgstr "camegone"
 msgid "Special thanks to"
 msgstr "スペシャルサンクス"
 
-#: src/widgets/games/games-box.vala:87 src/widgets/tools/tools-box.vala:91
+#: src/widgets/games/games-box.vala:87 src/widgets/tools/tools-box.vala:96
 msgid "Back"
 msgstr "戻る"
 
@@ -2113,7 +2123,7 @@ msgstr "現在の変更を適用する"
 msgid "Advanced"
 msgstr "上級"
 
-#: src/widgets/games/games-box.vala:131 src/widgets/tools/tools-box.vala:194
+#: src/widgets/games/games-box.vala:131 src/widgets/tools/tools-box.vala:200
 msgid "All"
 msgstr ""
 
@@ -2127,12 +2137,13 @@ msgstr ""
 msgid "Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:179 src/widgets/tools/tools-box.vala:192
+#: src/widgets/games/games-box.vala:179 src/widgets/tools/tools-box.vala:198
+#: src/widgets/tools/tools-box.vala:379
 msgid "Filter"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:205
-#: src/widgets/tools/tools-release-box.vala:86
+#: src/widgets/tools/tools-release-box.vala:89
 msgid "Name"
 msgstr "名前"
 
@@ -2687,24 +2698,24 @@ msgstr ""
 "NVIDIA固有のライブラリ (例: PhysiX, CUDA) を有効化します。この設定は DLSS や "
 "レイトレーシングを使うためには必要ありません。"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:23
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:24
 msgid "GPU vendor options"
 msgstr "GPU ベンダー設定"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:27
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:28
 msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
 msgstr "AMD、NVIDIA、Intelの GPU メーカー特有の互換性設定を使用する。"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:53
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:54
 msgid "AMD"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:54
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:55
 msgid "NVIDIA"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:55
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:56
 msgid "Intel"
 msgstr ""
 
@@ -3731,82 +3742,82 @@ msgid "OK"
 msgstr "OK"
 
 #. Tools Page
-#: src/widgets/main/main-box.vala:25
+#: src/widgets/main/main-box.vala:26
 #: src/widgets/preferences/preferences-dialog.vala:47
 msgid "Tools"
 msgstr "ツール"
 
-#: src/widgets/main/main-box.vala:26
+#: src/widgets/main/main-box.vala:27
 msgid "Games"
 msgstr "ゲーム"
 
-#: src/widgets/main/main-box.vala:28
+#: src/widgets/main/main-box.vala:29
 #: src/widgets/preferences/preferences-dialog.vala:322
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:78 src/widgets/tools/tools-box.vala:425
+#: src/widgets/main/main-box.vala:100 src/widgets/tools/tools-box.vala:488
 msgid "Checking for updates"
 msgstr "更新を確認中"
 
-#: src/widgets/main/main-box.vala:89 src/widgets/tools/tools-box.vala:433
+#: src/widgets/main/main-box.vala:111 src/widgets/tools/tools-box.vala:496
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:92 src/widgets/tools/tools-box.vala:436
+#: src/widgets/main/main-box.vala:114 src/widgets/tools/tools-box.vala:499
 msgid "Nothing to update"
 msgstr "更新するものはありません"
 
-#: src/widgets/main/main-box.vala:96 src/widgets/tools/tools-box.vala:440
+#: src/widgets/main/main-box.vala:118 src/widgets/tools/tools-box.vala:503
 msgid "Everything is now up-to-date"
 msgstr "全て最新になりました。"
 
-#: src/widgets/main/main-box.vala:99 src/widgets/tools/tools-box.vala:443
+#: src/widgets/main/main-box.vala:121 src/widgets/tools/tools-box.vala:506
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "更新を確認できませんでした (理由: %s)"
 
-#: src/widgets/main/main-box.vala:106
+#: src/widgets/main/main-box.vala:128
 #, fuzzy
 msgid "Update started"
 msgstr "実行環境を更新"
 
-#: src/widgets/main/main-box.vala:108
+#: src/widgets/main/main-box.vala:130
 #, fuzzy
 msgid "Download started"
 msgstr "ダウンロード"
 
-#: src/widgets/main/main-box.vala:114
+#: src/widgets/main/main-box.vala:136
 #, fuzzy
 msgid "Download finished"
 msgstr "ダウンロード中"
 
-#: src/widgets/main/main-box.vala:116
+#: src/widgets/main/main-box.vala:138
 #, fuzzy
 msgid "Download canceled"
 msgstr "ダウンロード中"
 
-#: src/widgets/main/main-box.vala:122
+#: src/widgets/main/main-box.vala:144
 #, fuzzy
 msgid "Download failed"
 msgstr "ダウンロード中"
 
-#: src/widgets/main/main-box.vala:128 src/widgets/main/main-box.vala:130
+#: src/widgets/main/main-box.vala:150 src/widgets/main/main-box.vala:152
 #, fuzzy
 msgid "Update finished"
 msgstr "実行環境を更新"
 
-#: src/widgets/main/main-box.vala:128
+#: src/widgets/main/main-box.vala:150
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s は最新になりました"
 
-#: src/widgets/main/main-box.vala:130
+#: src/widgets/main/main-box.vala:152
 #, fuzzy, c-format
 msgid "%s is already up-to-date"
 msgstr "%s は最新になりました"
 
-#: src/widgets/main/main-box.vala:135
+#: src/widgets/main/main-box.vala:157
 #, fuzzy
 msgid "Deleted"
 msgstr "削除"
@@ -4599,7 +4610,8 @@ msgid "Detected Launchers"
 msgstr "ランチャーを検出しました:\n"
 
 #: src/widgets/preferences/preferences-dialog.vala:370
-#: src/widgets/tools/tools-box.vala:197
+#: src/widgets/tools/tools-box.vala:203
+#: src/widgets/tools/tools-group-box.vala:237
 msgid "Installed"
 msgstr "インストール済み"
 
@@ -4697,45 +4709,112 @@ msgstr ""
 msgid "Proxy mode"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:109
+#: src/widgets/tools/tools-box.vala:114
 #, fuzzy
 msgid "Open in browser"
 msgstr "ウェブブラウザで開く"
 
-#: src/widgets/tools/tools-box.vala:117
+#: src/widgets/tools/tools-box.vala:122
 #: src/widgets/tools/tools-migrate-box.vala:43
 msgid "Migrate"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:125
+#: src/widgets/tools/tools-box.vala:130
 #, fuzzy
 msgid "Migrate selected games to another tool"
 msgstr "選択したゲームの互換性ツールを一度に変更する"
 
-#: src/widgets/tools/tools-box.vala:149
+#: src/widgets/tools/tools-box.vala:154
 msgid "Check for updates"
 msgstr "更新を確認"
 
-#: src/widgets/tools/tools-box.vala:154 src/widgets/tools/tools-box.vala:186
+#: src/widgets/tools/tools-box.vala:159 src/widgets/tools/tools-box.vala:192
+#: src/widgets/tools/tools-box.vala:369
 #, fuzzy
 msgid "Search"
 msgstr "検索窓を表示"
 
-#: src/widgets/tools/tools-box.vala:200
+#: src/widgets/tools/tools-box.vala:206
 msgid "Used"
 msgstr "使用済み"
 
-#: src/widgets/tools/tools-box.vala:203
+#: src/widgets/tools/tools-box.vala:209
 msgid "Unused"
 msgstr "未使用"
 
-#: src/widgets/tools/tools-group-box.vala:79
+#: src/widgets/tools/tools-box.vala:366
+#, fuzzy
+msgid "Search is active"
+msgstr "ゲームを検索"
+
+#: src/widgets/tools/tools-box.vala:376
+msgid "Filter is active"
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:82
+#: src/widgets/tools/tools-group-box.vala:146
 #, fuzzy
 msgid "No tools found"
 msgstr "プロファイルが見つかりませんでした。"
 
-#: src/widgets/tools/tools-group-box.vala:80
+#: src/widgets/tools/tools-group-box.vala:83
 msgid "No tools match the current filter."
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:123
+#, fuzzy
+msgid "No matching tools"
+msgstr "起動ツール"
+
+#: src/widgets/tools/tools-group-box.vala:124
+msgid "Try a different search term or clear the search."
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:131
+#, fuzzy
+msgid "No installed tools"
+msgstr "インストール済み"
+
+#: src/widgets/tools/tools-group-box.vala:132
+#, fuzzy
+msgid "Install a compatibility tool to see it here."
+msgstr "互換性ツール"
+
+#: src/widgets/tools/tools-group-box.vala:136
+#, fuzzy
+msgid "No tools in use"
+msgstr "プロファイルが見つかりませんでした。"
+
+#: src/widgets/tools/tools-group-box.vala:137
+msgid "No games currently use a tool from this group."
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:141
+msgid "No unused tools"
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:142
+msgid "Every tool in this group is currently in use."
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:147
+msgid "No tools are available in this group."
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:232
+msgid "In use"
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:233
+msgid ""
+"One or more releases of this tool is installed and currently used by one or "
+"more games"
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:238
+msgid ""
+"One or more releases of this tool is installed, but not currently used by "
+"any games"
 msgstr ""
 
 #: src/widgets/tools/tools-migrate-box.vala:36
@@ -4765,24 +4844,29 @@ msgid ""
 "due to missing permissions or file access issues."
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:99
+#: src/widgets/tools/tools-release-box.vala:102
 #, fuzzy
 msgid "No games found"
 msgstr "プロファイルが見つかりませんでした。"
 
-#: src/widgets/tools/tools-release-box.vala:100
+#: src/widgets/tools/tools-release-box.vala:103
 #, fuzzy
 msgid "This tool is not used by any games."
 msgstr "どのゲームにも使用していない実行環境を表示"
 
-#: src/widgets/tools/tools-release-box.vala:114
+#: src/widgets/tools/tools-release-box.vala:117
 msgid "Changelog"
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:115
+#: src/widgets/tools/tools-release-box.vala:118
 #, fuzzy
 msgid "Used by"
 msgstr "使用済み"
+
+#: src/widgets/tools/tools-release-changelog.vala:87
+#: src/widgets/tools/tools-release-changelog.vala:98
+msgid "Details"
+msgstr ""
 
 #: src/widgets/tools/tools-release-row.vala:25
 #, c-format
@@ -4878,32 +4962,32 @@ msgstr "エラー: インストールに失敗しました\n"
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:154
+#: src/widgets/tools/tools-releases-box.vala:149
 #, fuzzy
 msgid "Check for new releases"
 msgstr "更新を確認"
 
-#: src/widgets/tools/tools-releases-box.vala:191
+#: src/widgets/tools/tools-releases-box.vala:180
 #, fuzzy
 msgid "Load More"
 msgstr "もっと読み込む"
 
-#: src/widgets/tools/tools-releases-box.vala:239
+#: src/widgets/tools/tools-releases-box.vala:228
 #, fuzzy
 msgid "No releases found"
 msgstr "プロファイルが見つかりませんでした。"
 
-#: src/widgets/tools/tools-releases-box.vala:240
+#: src/widgets/tools/tools-releases-box.vala:229
 msgid "No releases match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:291
-#: src/widgets/tools/tools-releases-box.vala:349
+#: src/widgets/tools/tools-releases-box.vala:279
+#: src/widgets/tools/tools-releases-box.vala:337
 #, fuzzy
 msgid "Failed to Fetch Releases"
 msgstr "エラー: リリース一覧を読み込めませんでした\n"
 
-#: src/widgets/tools/tools-releases-box.vala:511
+#: src/widgets/tools/tools-releases-box.vala:509
 #, fuzzy, c-format
 msgid "Last updated: %s"
 msgstr "%s を更新できませんでした"
@@ -5310,9 +5394,6 @@ msgstr "終了"
 #~ msgid ""
 #~ "Close the Steam client beforehand so that the changes can be applied."
 #~ msgstr "変更を適用する前に、必ず Steam クライアントを終了してください。"
-
-#~ msgid "Search for a game"
-#~ msgstr "ゲームを検索"
 
 #~ msgid "Undefined"
 #~ msgstr "未指定"

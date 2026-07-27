@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-26 13:26-0400\n"
+"POT-Creation-Date: 2026-07-26 22:09-0400\n"
 "PO-Revision-Date: 2026-04-12 17:09+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -1638,12 +1638,12 @@ msgstr "Runner terinstal untuk %s:\n"
 msgid "No runners installed\n"
 msgstr "Tidak ada runner yang terinstal\n"
 
-#: src/cli/cli.vala:219 src/cli/cli.vala:458
+#: src/cli/cli.vala:219 src/cli/cli.vala:461
 #, fuzzy, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "Kesalahan: Gagal memuat rilis\n"
 
-#: src/cli/cli.vala:224 src/cli/cli.vala:460
+#: src/cli/cli.vala:224 src/cli/cli.vala:463
 msgid "Error: No releases are available\n"
 msgstr ""
 
@@ -1725,103 +1725,103 @@ msgstr "Memperbarui semua runner...\n"
 msgid "Updating runners for %s...\n"
 msgstr "Memperbarui runner untuk %s...\n"
 
-#: src/cli/cli.vala:364 src/cli/cli.vala:419
+#: src/cli/cli.vala:364 src/cli/cli.vala:422
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "Berhasil memperbarui %s\n"
 
-#: src/cli/cli.vala:367 src/cli/cli.vala:422
+#: src/cli/cli.vala:367 src/cli/cli.vala:425
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr "Sudah yang terbaru: %s\n"
 
-#: src/cli/cli.vala:370 src/cli/cli.vala:425
+#: src/cli/cli.vala:370 src/cli/cli.vala:428
 #, fuzzy, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "Kesalahan: Gagal memperbarui %s\n"
 
-#: src/cli/cli.vala:409
+#: src/cli/cli.vala:412
 msgid "Already up to date\n"
 msgstr "Sudah yang terbaru\n"
 
-#: src/cli/cli.vala:434
+#: src/cli/cli.vala:437
 #, c-format
 msgid "Updating %s..."
 msgstr "Memperbarui %s..."
 
-#: src/cli/cli.vala:446
+#: src/cli/cli.vala:449
 msgid "Error: Failed to load launchers\n"
 msgstr "Kesalahan: Gagal memuat peluncur\n"
 
-#: src/cli/cli.vala:470
+#: src/cli/cli.vala:473
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "Kesalahan: Peluncur '%s' tidak ditemukan\n"
 
-#: src/cli/cli.vala:483
+#: src/cli/cli.vala:486
 #, fuzzy, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "Kesalahan: Runner '%s' tidak ditemukan\n"
 
-#: src/cli/cli.vala:539
+#: src/cli/cli.vala:542
 #, fuzzy, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr "Kesalahan: Runner '%s' tidak mendukung instalasi 'latest'\n"
 
-#: src/cli/cli.vala:546
+#: src/cli/cli.vala:549
 #, c-format
 msgid "Usage: %s\n"
 msgstr "Penggunaan: %s\n"
 
-#: src/cli/cli.vala:563
+#: src/cli/cli.vala:566
 #, fuzzy
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "Kesalahan: Pilihan tidak valid\n"
 
-#: src/cli/cli.vala:569
+#: src/cli/cli.vala:572
 msgid "Error: Selection out of range\n"
 msgstr ""
 
-#: src/cli/cli.vala:576
+#: src/cli/cli.vala:579
 #, fuzzy
 msgid "Usage:\n"
 msgstr "Penggunaan: %s\n"
 
-#: src/cli/cli.vala:578
+#: src/cli/cli.vala:581
 msgid "Commands:\n"
 msgstr "Perintah:\n"
 
-#: src/cli/cli.vala:579
+#: src/cli/cli.vala:582
 #, fuzzy
 msgid "Show version"
 msgstr "Tampilkan versi\n"
 
-#: src/cli/cli.vala:580
+#: src/cli/cli.vala:583
 #, fuzzy
 msgid "Show this help"
 msgstr "Tampilkan bantuan ini\n"
 
-#: src/cli/cli.vala:581
+#: src/cli/cli.vala:584
 #, fuzzy
 msgid "List launchers or installed runners"
 msgstr "Daftarkan peluncur atau runner terinstal\n"
 
-#: src/cli/cli.vala:582
+#: src/cli/cli.vala:585
 #, fuzzy
 msgid "Install runner"
 msgstr "Instal runner\n"
 
-#: src/cli/cli.vala:583
+#: src/cli/cli.vala:586
 #, fuzzy
 msgid "Uninstall runner"
 msgstr "Copot instalasi runner\n"
 
-#: src/cli/cli.vala:584
+#: src/cli/cli.vala:587
 #, fuzzy
 msgid "Update runner"
 msgstr "Perbarui runner\n"
 
-#: src/cli/cli.vala:588
+#: src/cli/cli.vala:591
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -1829,7 +1829,7 @@ msgstr ""
 "\n"
 "Peluncur yang tersedia:\n"
 
-#: src/cli/cli.vala:595
+#: src/cli/cli.vala:598
 #, c-format
 msgid ""
 "\n"
@@ -1838,36 +1838,36 @@ msgstr ""
 "\n"
 "Runner yang tersedia untuk %s:\n"
 
-#: src/cli/cli.vala:609
+#: src/cli/cli.vala:612
 #, c-format
 msgid "ETA: %s"
 msgstr ""
 
-#: src/cli/cli.vala:611 src/widgets/header/header-downloads-indicator.vala:276
+#: src/cli/cli.vala:614 src/widgets/header/header-downloads-indicator.vala:276
 msgid "ETA: --"
 msgstr ""
 
-#: src/cli/cli.vala:614
+#: src/cli/cli.vala:617
 #, fuzzy
 msgid "Updating"
 msgstr "Memperbarui %s"
 
-#: src/cli/cli.vala:614 src/widgets/header/header-downloads-indicator.vala:266
+#: src/cli/cli.vala:617 src/widgets/header/header-downloads-indicator.vala:266
 #, fuzzy
 msgid "Installing"
 msgstr "Menginstal %s...\n"
 
-#: src/cli/cli.vala:627 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:630 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:629 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:632 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:631 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:634 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%ds"
 msgstr ""
@@ -2078,16 +2078,26 @@ msgid "Extraction failed"
 msgstr "Mengekstrak"
 
 #: src/services/standard-archive-workflow.vala:47
-#: src/services/standard-archive-workflow.vala:68
+#: src/services/standard-archive-workflow.vala:74
 #: src/services/steam-tinker-launch-workflow.vala:49
 #, fuzzy
 msgid "Moving failed"
 msgstr "Memindahkan"
 
-#: src/services/standard-archive-workflow.vala:233
+#: src/services/standard-archive-workflow.vala:56
 #, fuzzy
-msgid "Failed to read compatibilitytool.vdf"
+msgid "Failed to save compatibility tool metadata"
 msgstr "Pilih alat kompatibilitas yang Anda inginkan"
+
+#: src/services/standard-archive-workflow.vala:296
+#, fuzzy
+msgid "Failed to update compatibilitytool.vdf"
+msgstr "Pilih alat kompatibilitas yang Anda inginkan"
+
+#: src/services/standard-archive-workflow.vala:313
+#, fuzzy
+msgid "The compatibility tool manifest is invalid or incomplete"
+msgstr "Alat kompatibilitas"
 
 #: src/widgets/application.vala:209
 msgid "Website"
@@ -2101,7 +2111,7 @@ msgstr ""
 msgid "Special thanks to"
 msgstr "Ucapan terima kasih khusus kepada"
 
-#: src/widgets/games/games-box.vala:87 src/widgets/tools/tools-box.vala:91
+#: src/widgets/games/games-box.vala:87 src/widgets/tools/tools-box.vala:96
 msgid "Back"
 msgstr "Kembali"
 
@@ -2120,7 +2130,7 @@ msgstr "Terapkan modifikasi saat ini"
 msgid "Advanced"
 msgstr "Lanjutan"
 
-#: src/widgets/games/games-box.vala:131 src/widgets/tools/tools-box.vala:194
+#: src/widgets/games/games-box.vala:131 src/widgets/tools/tools-box.vala:200
 msgid "All"
 msgstr ""
 
@@ -2134,12 +2144,13 @@ msgstr ""
 msgid "Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:179 src/widgets/tools/tools-box.vala:192
+#: src/widgets/games/games-box.vala:179 src/widgets/tools/tools-box.vala:198
+#: src/widgets/tools/tools-box.vala:379
 msgid "Filter"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:205
-#: src/widgets/tools/tools-release-box.vala:86
+#: src/widgets/tools/tools-release-box.vala:89
 msgid "Name"
 msgstr "Nama"
 
@@ -2690,11 +2701,11 @@ msgid ""
 "or ray tracing."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:23
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:24
 msgid "GPU vendor options"
 msgstr "Opsi vendor GPU"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:27
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:28
 #, fuzzy
 msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
@@ -2702,15 +2713,15 @@ msgstr ""
 "Gunakan pengalih kompatibilitas khusus GPU untuk perangkat keras AMD dan "
 "NVIDIA."
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:53
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:54
 msgid "AMD"
 msgstr "AMD"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:54
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:55
 msgid "NVIDIA"
 msgstr "NVIDIA"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:55
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:56
 msgid "Intel"
 msgstr ""
 
@@ -3738,82 +3749,82 @@ msgid "OK"
 msgstr "OK"
 
 #. Tools Page
-#: src/widgets/main/main-box.vala:25
+#: src/widgets/main/main-box.vala:26
 #: src/widgets/preferences/preferences-dialog.vala:47
 msgid "Tools"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:26
+#: src/widgets/main/main-box.vala:27
 msgid "Games"
 msgstr "Game"
 
-#: src/widgets/main/main-box.vala:28
+#: src/widgets/main/main-box.vala:29
 #: src/widgets/preferences/preferences-dialog.vala:322
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:78 src/widgets/tools/tools-box.vala:425
+#: src/widgets/main/main-box.vala:100 src/widgets/tools/tools-box.vala:488
 msgid "Checking for updates"
 msgstr "Memeriksa pembaruan"
 
-#: src/widgets/main/main-box.vala:89 src/widgets/tools/tools-box.vala:433
+#: src/widgets/main/main-box.vala:111 src/widgets/tools/tools-box.vala:496
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:92 src/widgets/tools/tools-box.vala:436
+#: src/widgets/main/main-box.vala:114 src/widgets/tools/tools-box.vala:499
 msgid "Nothing to update"
 msgstr "Tidak ada yang perlu diperbarui"
 
-#: src/widgets/main/main-box.vala:96 src/widgets/tools/tools-box.vala:440
+#: src/widgets/main/main-box.vala:118 src/widgets/tools/tools-box.vala:503
 msgid "Everything is now up-to-date"
 msgstr "Semuanya kini sudah yang terbaru"
 
-#: src/widgets/main/main-box.vala:99 src/widgets/tools/tools-box.vala:443
+#: src/widgets/main/main-box.vala:121 src/widgets/tools/tools-box.vala:506
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Tidak dapat memeriksa pembaruan (Alasan: %s)"
 
-#: src/widgets/main/main-box.vala:106
+#: src/widgets/main/main-box.vala:128
 #, fuzzy
 msgid "Update started"
 msgstr "Perbarui runner\n"
 
-#: src/widgets/main/main-box.vala:108
+#: src/widgets/main/main-box.vala:130
 #, fuzzy
 msgid "Download started"
 msgstr "Mengunduh"
 
-#: src/widgets/main/main-box.vala:114
+#: src/widgets/main/main-box.vala:136
 #, fuzzy
 msgid "Download finished"
 msgstr "Mengunduh"
 
-#: src/widgets/main/main-box.vala:116
+#: src/widgets/main/main-box.vala:138
 #, fuzzy
 msgid "Download canceled"
 msgstr "Mengunduh"
 
-#: src/widgets/main/main-box.vala:122
+#: src/widgets/main/main-box.vala:144
 #, fuzzy
 msgid "Download failed"
 msgstr "Mengunduh"
 
-#: src/widgets/main/main-box.vala:128 src/widgets/main/main-box.vala:130
+#: src/widgets/main/main-box.vala:150 src/widgets/main/main-box.vala:152
 #, fuzzy
 msgid "Update finished"
 msgstr "Perbarui runner\n"
 
-#: src/widgets/main/main-box.vala:128
+#: src/widgets/main/main-box.vala:150
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s kini sudah yang terbaru"
 
-#: src/widgets/main/main-box.vala:130
+#: src/widgets/main/main-box.vala:152
 #, fuzzy, c-format
 msgid "%s is already up-to-date"
 msgstr "%s kini sudah yang terbaru"
 
-#: src/widgets/main/main-box.vala:135
+#: src/widgets/main/main-box.vala:157
 #, fuzzy
 msgid "Deleted"
 msgstr "Hapus %s"
@@ -4611,7 +4622,8 @@ msgid "Detected Launchers"
 msgstr "Peluncur terdeteksi:\n"
 
 #: src/widgets/preferences/preferences-dialog.vala:370
-#: src/widgets/tools/tools-box.vala:197
+#: src/widgets/tools/tools-box.vala:203
+#: src/widgets/tools/tools-group-box.vala:237
 msgid "Installed"
 msgstr "Terinstal"
 
@@ -4709,45 +4721,112 @@ msgstr ""
 msgid "Proxy mode"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:109
+#: src/widgets/tools/tools-box.vala:114
 #, fuzzy
 msgid "Open in browser"
 msgstr "Buka di browser web Anda"
 
-#: src/widgets/tools/tools-box.vala:117
+#: src/widgets/tools/tools-box.vala:122
 #: src/widgets/tools/tools-migrate-box.vala:43
 msgid "Migrate"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:125
+#: src/widgets/tools/tools-box.vala:130
 #, fuzzy
 msgid "Migrate selected games to another tool"
 msgstr "Edit game yang dipilih sekaligus"
 
-#: src/widgets/tools/tools-box.vala:149
+#: src/widgets/tools/tools-box.vala:154
 msgid "Check for updates"
 msgstr "Periksa pembaruan"
 
-#: src/widgets/tools/tools-box.vala:154 src/widgets/tools/tools-box.vala:186
+#: src/widgets/tools/tools-box.vala:159 src/widgets/tools/tools-box.vala:192
+#: src/widgets/tools/tools-box.vala:369
 #, fuzzy
 msgid "Search"
 msgstr "Tampilkan pencarian"
 
-#: src/widgets/tools/tools-box.vala:200
+#: src/widgets/tools/tools-box.vala:206
 msgid "Used"
 msgstr "Digunakan"
 
-#: src/widgets/tools/tools-box.vala:203
+#: src/widgets/tools/tools-box.vala:209
 msgid "Unused"
 msgstr "Tidak digunakan"
 
-#: src/widgets/tools/tools-group-box.vala:79
+#: src/widgets/tools/tools-box.vala:366
+#, fuzzy
+msgid "Search is active"
+msgstr "Cari game"
+
+#: src/widgets/tools/tools-box.vala:376
+msgid "Filter is active"
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:82
+#: src/widgets/tools/tools-group-box.vala:146
 #, fuzzy
 msgid "No tools found"
 msgstr "Tidak ditemukan profil."
 
-#: src/widgets/tools/tools-group-box.vala:80
+#: src/widgets/tools/tools-group-box.vala:83
 msgid "No tools match the current filter."
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:123
+#, fuzzy
+msgid "No matching tools"
+msgstr "Alat peluncuran"
+
+#: src/widgets/tools/tools-group-box.vala:124
+msgid "Try a different search term or clear the search."
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:131
+#, fuzzy
+msgid "No installed tools"
+msgstr "Terinstal"
+
+#: src/widgets/tools/tools-group-box.vala:132
+#, fuzzy
+msgid "Install a compatibility tool to see it here."
+msgstr "Alat kompatibilitas"
+
+#: src/widgets/tools/tools-group-box.vala:136
+#, fuzzy
+msgid "No tools in use"
+msgstr "Tidak ditemukan profil."
+
+#: src/widgets/tools/tools-group-box.vala:137
+msgid "No games currently use a tool from this group."
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:141
+msgid "No unused tools"
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:142
+msgid "Every tool in this group is currently in use."
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:147
+msgid "No tools are available in this group."
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:232
+msgid "In use"
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:233
+msgid ""
+"One or more releases of this tool is installed and currently used by one or "
+"more games"
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:238
+msgid ""
+"One or more releases of this tool is installed, but not currently used by "
+"any games"
 msgstr ""
 
 #: src/widgets/tools/tools-migrate-box.vala:36
@@ -4777,24 +4856,29 @@ msgid ""
 "due to missing permissions or file access issues."
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:99
+#: src/widgets/tools/tools-release-box.vala:102
 #, fuzzy
 msgid "No games found"
 msgstr "Tidak ditemukan profil."
 
-#: src/widgets/tools/tools-release-box.vala:100
+#: src/widgets/tools/tools-release-box.vala:103
 #, fuzzy
 msgid "This tool is not used by any games."
 msgstr "Tampilkan runner yang tidak digunakan oleh game apa pun"
 
-#: src/widgets/tools/tools-release-box.vala:114
+#: src/widgets/tools/tools-release-box.vala:117
 msgid "Changelog"
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:115
+#: src/widgets/tools/tools-release-box.vala:118
 #, fuzzy
 msgid "Used by"
 msgstr "Digunakan"
+
+#: src/widgets/tools/tools-release-changelog.vala:87
+#: src/widgets/tools/tools-release-changelog.vala:98
+msgid "Details"
+msgstr ""
 
 #: src/widgets/tools/tools-release-row.vala:25
 #, c-format
@@ -4890,32 +4974,32 @@ msgstr "Kesalahan: Instalasi gagal\n"
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:154
+#: src/widgets/tools/tools-releases-box.vala:149
 #, fuzzy
 msgid "Check for new releases"
 msgstr "Periksa pembaruan"
 
-#: src/widgets/tools/tools-releases-box.vala:191
+#: src/widgets/tools/tools-releases-box.vala:180
 #, fuzzy
 msgid "Load More"
 msgstr "Muat lebih banyak"
 
-#: src/widgets/tools/tools-releases-box.vala:239
+#: src/widgets/tools/tools-releases-box.vala:228
 #, fuzzy
 msgid "No releases found"
 msgstr "Tidak ditemukan profil."
 
-#: src/widgets/tools/tools-releases-box.vala:240
+#: src/widgets/tools/tools-releases-box.vala:229
 msgid "No releases match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:291
-#: src/widgets/tools/tools-releases-box.vala:349
+#: src/widgets/tools/tools-releases-box.vala:279
+#: src/widgets/tools/tools-releases-box.vala:337
 #, fuzzy
 msgid "Failed to Fetch Releases"
 msgstr "Kesalahan: Gagal memuat rilis\n"
 
-#: src/widgets/tools/tools-releases-box.vala:511
+#: src/widgets/tools/tools-releases-box.vala:509
 #, fuzzy, c-format
 msgid "Last updated: %s"
 msgstr "Tidak dapat meningkatkan %s"
@@ -5301,9 +5385,6 @@ msgstr "Keluar"
 #~ msgid ""
 #~ "Close the Steam client beforehand so that the changes can be applied."
 #~ msgstr "Tutup klien Steam terlebih dahulu agar perubahan dapat diterapkan."
-
-#~ msgid "Search for a game"
-#~ msgstr "Cari game"
 
 #~ msgid "Undefined"
 #~ msgstr "Tidak ditentukan"
