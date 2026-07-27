@@ -155,8 +155,8 @@ The following packages are maintained by distribution packagers or community mai
 
 A native build requires a Linux development environment with:
 
-- Git, a C compiler, `pkg-config`, Meson 1.0 or newer, Ninja, and Vala
-- GLib and `glib-compile-schemas`
+- Git, a C compiler, pkg-config, Meson 1.0 or newer, Ninja, and Vala
+- GLib and glib-compile-schemas
 - GTK4
 - libadwaita 1.6 or newer
 - json-glib
