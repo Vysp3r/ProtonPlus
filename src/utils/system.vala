@@ -1,4 +1,11 @@
 namespace ProtonPlus.Utils {
+    public enum GpuVendor {
+        UNKNOWN,
+        AMD,
+        NVIDIA,
+        INTEL
+    }
+
     public class CommandResult : Object {
         public string stdout { get; private set; }
         public string stderr { get; private set; }
@@ -129,6 +136,34 @@ namespace ProtonPlus.Utils {
             }
             var output = run_command_sync ("flatpak info %s".printf (Shell.quote (name)));
             return output != "" && !output.contains ("error:");
+        }
+
+        public static GpuVendor get_gpu_vendor_from_pci_devices (string pci_devices) {
+            foreach (var line in pci_devices.split ("\n")) {
+                // Display controller PCI classes range from 0x0300 to 0x03ff.
+                if (!line.contains ("[03"))
+                    continue;
+
+                if (line.contains ("[1002:"))
+                    return GpuVendor.AMD;
+                if (line.contains ("[10de:"))
+                    return GpuVendor.NVIDIA;
+                if (line.contains ("[8086:"))
+                    return GpuVendor.INTEL;
+            }
+
+            return GpuVendor.UNKNOWN;
+        }
+
+        public static async GpuVendor detect_gpu_vendor () {
+            if (!(yield check_dependency ("lspci")))
+                return GpuVendor.UNKNOWN;
+
+            var result = yield run_command ("lspci -nn");
+            if (result.exit_status != 0)
+                return GpuVendor.UNKNOWN;
+
+            return get_gpu_vendor_from_pci_devices (result.stdout);
         }
 
         public static string get_distribution_name () {

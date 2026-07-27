@@ -126,7 +126,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var has_advanced = launch_option_handlers.load_from_string (launch_options);
 
             gpu_vendor_group.normalize_dependencies ();
-            gpu_vendor_group.select_preferred_page ();
 
             advanced_visible = has_advanced || has_hidden_advanced_content_active ();
             this.advanced_state_detected (advanced_visible);
@@ -155,7 +154,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             vkd3d_options_group.set_visible (advanced_visible);
             more_options_group.set_visible (advanced_visible);
             proton_options_group.set_visible (advanced_visible);
-            gpu_vendor_group.set_visible (advanced_visible);
+            gpu_vendor_group.set_advanced_visible (advanced_visible);
             game_arguments_group.set_visible (advanced_visible);
             advanced_options_group.set_visible (advanced_visible);
         }

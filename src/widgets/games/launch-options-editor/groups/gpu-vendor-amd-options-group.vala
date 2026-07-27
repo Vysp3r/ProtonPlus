@@ -157,15 +157,5 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             refreshing_controls = false;
         }
 
-        internal bool is_any_tile_active () {
-            return amd_anti_lag_tile.toggle.get_active ()
-                   || amd_prime_tile.toggle.get_active ()
-                   || amd_hide_apu_tile.toggle.get_active ()
-                   || amd_fsr4_upgrade_tile.toggle.get_active ()
-                   || amd_fsr4_rdna3_upgrade_tile.toggle.get_active ()
-                   || amd_staging_shared_memory_tile.toggle.get_active ()
-                   || amd_mesa_glthread_tile.toggle.get_active ()
-                   || amd_mesa_shader_cache_disable_tile.toggle.get_active ();
-        }
     }
 }

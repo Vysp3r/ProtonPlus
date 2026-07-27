@@ -16,8 +16,5 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             intel_xess_upgrade_tile.toggle.set_active (false);
         }
 
-        internal bool is_any_tile_active () {
-            return intel_xess_upgrade_tile.toggle.get_active ();
-        }
     }
 }

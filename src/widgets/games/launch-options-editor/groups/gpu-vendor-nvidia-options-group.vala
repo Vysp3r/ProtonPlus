@@ -96,12 +96,5 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             refreshing_controls = false;
         }
 
-        internal bool is_any_tile_active () {
-            return nvapi_tile.toggle.get_active ()
-                   || nvidia_ngx_updater_tile.toggle.get_active ()
-                   || nvidia_hide_gpu_tile.toggle.get_active ()
-                   || dlss_indicator_tile.toggle.get_active ()
-                   || nvidia_libs_tile.toggle.get_active ();
-        }
     }
 }
