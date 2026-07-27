@@ -171,32 +171,31 @@ A native build requires a Linux development environment with:
 
 Package names differ between distributions. The repository's `scripts/get-dependencies.sh` installs the native build dependencies on Arch Linux; it is intended for Arch-based build environments and should not be run unchanged on other distributions.
 
-Clone and build the application with the project build script:
+Clone and build the application with the project Makefile:
 
 ```bash
 git clone https://github.com/Vysp3r/ProtonPlus.git
 cd ProtonPlus
-./scripts/build.sh native run
+make build-run
 ```
 
 To build without launching it, then install it system-wide:
 
 ```bash
-./scripts/build.sh native
-sudo meson install -C build-native
+make install
 ```
 
-The native build is configured with `/usr` as its install prefix by the build script. Use `make build-run` and `make install` as equivalent Makefile shortcuts.
+The native build is configured with `/usr` as its install prefix by the Makefile.
 
 ### Build the Flatpak locally
 
 The local Flatpak manifest builds the source tree and installs the result for the current user. Flatpak, a configured Flathub remote, and network access are required.
 
 ```bash
-./scripts/build.sh local run
+make local-run
 ```
 
-The script installs the GNOME 50 SDK and runtime, the Vala SDK extension, and Flatpak Builder when they are missing. Use `./scripts/build.sh local` to build and install without launching the application.
+The local target installs the GNOME 50 SDK and runtime, the Vala SDK extension, and Flatpak Builder when they are missing. Use `make local` to build and install without launching the application.
 
 ## Usage
 
@@ -283,13 +282,13 @@ Run the test suite after making changes:
 make tests
 ```
 
-Useful maintenance commands are exposed through `scripts/build.sh`:
+Useful maintenance commands are exposed through the Makefile:
 
 ```bash
-./scripts/build.sh linter
-./scripts/build.sh translations
-./scripts/build.sh icons
-./scripts/build.sh clean
+make linter
+make translations
+make icons
+make clean
 ```
 
 Provider extension points and release-source architecture are documented in [docs/provider-architecture.md](docs/provider-architecture.md).

@@ -1,4 +1,4 @@
-.PHONY: appimage build build-debug build-run clean debug flathub gen-potfiles icons install linter local run tests translations uninstall
+.PHONY: appimage build build-debug build-run clean debug flathub gen-potfiles icons install linter local local-run run tests translations uninstall
 
 gen-potfiles:
 	@set -e; { \
@@ -48,6 +48,9 @@ icons:
 
 local:
 	./scripts/build.sh local
+
+local-run:
+	./scripts/build.sh local run
 
 tests:
 	meson setup build-tests --reconfigure
