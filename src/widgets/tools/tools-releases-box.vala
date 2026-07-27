@@ -4,10 +4,9 @@ namespace ProtonPlus.Widgets.Tools {
 
         Gtk.Box tool_box { get; set; }
         Gtk.Label title_label { get; set; }
-        Gtk.Label desc_label { get; set; }
-        Gtk.Label last_updated_label { get; set; }
-        Gtk.Button refresh_button { get; set; }
-        Gtk.Box header_box { get; set; }
+        public Gtk.Box header_title { get; private set; }
+        public Gtk.Label last_updated_label { get; private set; }
+        public Gtk.Button refresh_button { get; private set; }
         Gtk.ListBox list_box { get; set; }
         Gtk.ScrolledWindow scrolled { get; set; }
         Gtk.Stack content_stack { get; set; }
@@ -24,7 +23,9 @@ namespace ProtonPlus.Widgets.Tools {
         private uint tool_request_generation = 0;
         Models.Variant? selected_variant = null;
         Gtk.DropDown variant_dropdown { get; set; }
-        Gtk.Box variant_box { get; set; }
+        public Gtk.Box variant_box { get; private set; }
+        bool header_controls_visible = false;
+        bool has_variants = false;
         private Gtk.ListBoxRow load_more_row;
         private Gtk.Button load_more_button;
 
@@ -113,41 +114,35 @@ namespace ProtonPlus.Widgets.Tools {
         public ReleasesBox () {
             Object (orientation : Gtk.Orientation.VERTICAL, spacing : 0);
 
-            var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic") {
-                valign = Gtk.Align.CENTER
-            };
-
             title_label = new Gtk.Label (null) {
-                halign = Gtk.Align.START,
+                halign = Gtk.Align.CENTER,
+                xalign = 0.5f,
                 css_classes = { "title-4" }
-            };
-
-            desc_label = new Gtk.Label (null) {
-                halign = Gtk.Align.START,
-                css_classes = { "caption" },
-                wrap = true,
-                xalign = 0
             };
 
             var title_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
                 valign = Gtk.Align.CENTER
             };
             title_box.append (title_label);
-            title_box.append (desc_label);
 
-            var info_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
-                hexpand = true,
+            var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic") {
                 valign = Gtk.Align.CENTER
             };
 
-            info_box.append (icon);
-            info_box.append (title_box);
+            header_title = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+                halign = Gtk.Align.CENTER,
+                valign = Gtk.Align.CENTER
+            };
+            header_title.append (icon);
+            header_title.append (title_box);
 
             last_updated_label = new Gtk.Label (null) {
-                halign = Gtk.Align.END,
+                halign = Gtk.Align.CENTER,
                 valign = Gtk.Align.CENTER,
+                xalign = 0.5f,
                 css_classes = { "caption" }
             };
+            title_box.append (last_updated_label);
 
             refresh_button = new Gtk.Button.from_icon_name ("view-refresh-symbolic") {
                 valign = Gtk.Align.CENTER,
@@ -174,12 +169,6 @@ namespace ProtonPlus.Widgets.Tools {
             };
 
             variant_box.append (variant_dropdown);
-
-            header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-            header_box.append (info_box);
-            header_box.append (variant_box);
-            header_box.append (last_updated_label);
-            header_box.append (refresh_button);
 
             list_box = new Gtk.ListBox () {
                 selection_mode = Gtk.SelectionMode.NONE
@@ -246,7 +235,6 @@ namespace ProtonPlus.Widgets.Tools {
             content_stack.add_named (status_page, "empty");
 
             tool_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            tool_box.append (header_box);
             tool_box.append (content_stack);
 
             var clamp = new Adw.Clamp () {
@@ -271,7 +259,7 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.remove_all ();
 
             title_label.set_label (tool.title);
-            desc_label.set_label (tool.description);
+            title_label.set_tooltip_text (tool.description);
             update_last_updated_label ();
             update_variant_row (tool);
 
@@ -331,7 +319,7 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.remove_all ();
 
             title_label.set_label (tool.title);
-            desc_label.set_label (tool.description);
+            title_label.set_tooltip_text (tool.description);
 
             var catalog = tool.release_catalog;
             if (catalog == null) {
@@ -372,6 +360,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         private void update_variant_row (Models.Tool tool) {
             selected_variant = null;
+            has_variants = false;
             variant_dropdown.set_visible (false);
             variant_box.set_visible (false);
 
@@ -413,7 +402,15 @@ namespace ProtonPlus.Widgets.Tools {
             variant_dropdown.model = model;
             variant_dropdown.selected = (uint) selected_index;
             variant_dropdown.set_visible (true);
-            variant_box.set_visible (true);
+            has_variants = true;
+            variant_box.set_visible (header_controls_visible);
+        }
+
+        public void set_header_controls_visible (bool visible) {
+            header_controls_visible = visible;
+            variant_box.set_visible (visible && has_variants);
+            last_updated_label.set_visible (visible && last_updated_label.get_label () != "");
+            refresh_button.set_visible (visible);
         }
 
         private void on_variant_selected () {
@@ -503,6 +500,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (current_tool == null || current_tool.release_catalog == null ||
                 current_tool.release_catalog.last_updated == "") {
                 last_updated_label.set_label ("");
+                last_updated_label.set_visible (false);
                 return;
             }
 
@@ -512,6 +510,8 @@ namespace ProtonPlus.Widgets.Tools {
             } else {
                 last_updated_label.set_label ("");
             }
+
+            last_updated_label.set_visible (header_controls_visible && last_updated_label.get_label () != "");
         }
 
         public void refresh_usage_pills () {

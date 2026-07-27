@@ -16,6 +16,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Button open_button { get; set; }
         Gtk.Button migrate_button { get; set; }
         Gtk.SearchEntry search_entry { get; set; }
+        Adw.HeaderBar header_bar { get; set; }
         Gtk.ActionBar action_bar { get; set; }
         Gtk.CheckButton all_filter_button { get; set; }
         Adw.ViewStack groups_stack { get; set; }
@@ -256,15 +257,23 @@ namespace ProtonPlus.Widgets.Tools {
             };
             center_box.append (center_stack);
 
+            header_bar = new Adw.HeaderBar () {
+                show_start_title_buttons = false,
+                show_end_title_buttons = false,
+                show_title = false
+            };
+            header_bar.pack_start (back_button);
+            header_bar.pack_end (refresh_button);
+            header_bar.pack_end (filter_button);
+            header_bar.pack_end (search_button);
+            header_bar.pack_end (open_button);
+            header_bar.pack_end (migrate_button);
+            header_bar.pack_end (migrate_box.migrate_button);
+            header_bar.pack_end (releases_box.refresh_button);
+            header_bar.pack_end (releases_box.variant_box);
+
             action_bar = new Gtk.ActionBar ();
             action_bar.set_center_widget (center_box);
-            action_bar.pack_start (back_button);
-            action_bar.pack_end (refresh_button);
-            action_bar.pack_end (filter_button);
-            action_bar.pack_end (search_button);
-            action_bar.pack_end (open_button);
-            action_bar.pack_end (migrate_button);
-            action_bar.pack_end (migrate_box.migrate_button);
 
             stack.notify["visible-child-name"].connect (() => {
                 var visible_child = stack.get_visible_child_name ();
@@ -275,9 +284,12 @@ namespace ProtonPlus.Widgets.Tools {
                                                  && Globals.SETTINGS.get_boolean ("background-updates");
                 refresh_button.set_visible (
                     visible_child != "release"
+                    && visible_child != "releases"
                     && visible_child != "migrate"
                     && !background_updates_enabled
                 );
+                update_header_title ();
+                releases_box.set_header_controls_visible (visible_child == "releases");
                 migrate_box.games_button.set_visible (visible_child == "migrate");
                 migrate_box.migrate_button.set_visible (visible_child == "migrate");
                 update_open_button_visibility ();
@@ -285,18 +297,25 @@ namespace ProtonPlus.Widgets.Tools {
                 if (visible_child == "groups") {
                     center_stack.set_visible_child_name ("groups");
                     center_stack.set_visible (groups_stack.get_pages ().get_n_items () > 1);
+                    action_bar.set_visible (groups_stack.get_pages ().get_n_items () > 1);
                 } else if (visible_child == "release") {
                     center_stack.set_visible_child_name ("release");
-                    center_stack.set_visible (true);
+                    var has_multiple_views = release_box.has_multiple_views ();
+                    center_stack.set_visible (has_multiple_views);
+                    action_bar.set_visible (has_multiple_views);
                 } else if (visible_child == "migrate") {
                     center_stack.set_visible_child_name ("migrate");
                     center_stack.set_visible (true);
+                    action_bar.set_visible (true);
                 } else {
                     center_stack.set_visible (false);
+                    action_bar.set_visible (false);
                 }
             });
 
             stack.notify_property ("visible-child-name");
+
+            groups_stack.notify["visible-child"].connect (update_header_title);
 
             release_box.stack_switcher.stack.notify["visible-child-name"].connect (() => {
                 update_open_button_visibility ();
@@ -306,6 +325,7 @@ namespace ProtonPlus.Widgets.Tools {
                 update_open_button_visibility ();
             });
 
+            append (header_bar);
             append (stack);
             append (action_bar);
 
@@ -333,6 +353,22 @@ namespace ProtonPlus.Widgets.Tools {
 
         void update_refresh_button_visibility () {
             stack.notify_property ("visible-child-name");
+        }
+
+        void update_header_title () {
+            Gtk.Widget? title_widget = null;
+            var visible_child = stack.get_visible_child_name ();
+
+            if (visible_child == "groups") {
+                var group_box = groups_stack.get_visible_child () as GroupBox;
+                if (group_box != null)
+                    title_widget = group_box.header_title;
+            } else if (visible_child == "releases") {
+                title_widget = releases_box.header_title;
+            }
+
+            header_bar.set_title_widget (title_widget);
+            header_bar.set_show_title (title_widget != null);
         }
 
         void refresh_groups_for_legacy_tools () {

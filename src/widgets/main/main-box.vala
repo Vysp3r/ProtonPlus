@@ -5,6 +5,7 @@ namespace ProtonPlus.Widgets.Main {
         Adw.ToastOverlay toast_overlay { get; set; }
 
         string previous_view_name { get; set; }
+        string? view_switcher_pressed_page { get; set; }
 
         Tools.Box tools_box { get; set; }
         Games.Box games_box { get; set; }
@@ -36,6 +37,27 @@ namespace ProtonPlus.Widgets.Main {
             view_switcher = new Adw.ViewSwitcher ();
             view_switcher.set_stack (view_stack);
             view_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
+
+            var reset_controller = new Gtk.GestureClick ();
+            reset_controller.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
+            reset_controller.pressed.connect ((gesture, n_press, x, y) => {
+                if (n_press == 1)
+                    view_switcher_pressed_page = view_stack.get_visible_child_name ();
+            });
+            reset_controller.released.connect ((gesture, n_press, x, y) => {
+                if (n_press != 1)
+                    return;
+
+                var pressed_page = view_switcher_pressed_page;
+                view_switcher_pressed_page = null;
+
+                Idle.add (() => {
+                    if (pressed_page != null && pressed_page == view_stack.get_visible_child_name ())
+                        reset_visible_page ();
+                    return Source.REMOVE;
+                });
+            });
+            view_switcher.add_controller (reset_controller);
 
             toast_overlay = new Adw.ToastOverlay ();
             toast_overlay.set_child (view_stack);
@@ -164,6 +186,20 @@ namespace ProtonPlus.Widgets.Main {
             }
 
             previous_view_name = view_stack.get_visible_child_name ();
+        }
+
+        void reset_visible_page () {
+            switch (view_stack.get_visible_child_name ()) {
+                case "tools":
+                    tools_box.show_groups_page ();
+                    break;
+                case "games":
+                    games_box.show_games_list_page ();
+                    break;
+                case "mangohud":
+                    mangohud_box.show_presets_page ();
+                    break;
+            }
         }
     }
 }

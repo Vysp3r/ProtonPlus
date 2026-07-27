@@ -194,6 +194,10 @@ namespace ProtonPlus.Widgets.Tools {
             list_header_box.set_visible (has_games);
         }
 
+        public bool has_multiple_views () {
+            return games_page.get_visible ();
+        }
+
         public int get_selected_games_count () {
             var count = 0;
             var child = list_box.get_first_child ();

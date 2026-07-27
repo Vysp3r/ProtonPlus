@@ -1,6 +1,7 @@
 namespace ProtonPlus.Widgets.Tools {
     public class GroupBox : Gtk.Box {
         public signal void tool_selected (Models.Tool tool);
+        public Gtk.Box header_title { get; private set; }
         Gtk.ListBox list_box;
         Gtk.Stack stack;
         Adw.StatusPage status_page;
@@ -50,9 +51,9 @@ namespace ProtonPlus.Widgets.Tools {
             title_box.append (title_label);
             title_box.append (desc_label);
 
-            var header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-            header_box.append (icon);
-            header_box.append (title_box);
+            header_title = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+            header_title.append (icon);
+            header_title.append (title_box);
 
             list_box = new Gtk.ListBox () {
                 selection_mode = Gtk.SelectionMode.NONE
@@ -99,7 +100,6 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.invalidate_sort ();
 
             var group_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            group_box.append (header_box);
             group_box.append (stack);
 
             var clamp = new Adw.Clamp () {
