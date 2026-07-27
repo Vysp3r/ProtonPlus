@@ -16,6 +16,7 @@ namespace ProtonPlus.Widgets.Games {
             protondb_button.clicked.connect (protondb_button_clicked);
 
             anticheat_button = new Gtk.Button.with_label ("AreWeAntiCheatYet");
+            anticheat_button.add_css_class ("anticheat-button");
             anticheat_button.clicked.connect (anticheat_button_clicked);
 
             content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);

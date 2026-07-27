@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1001,
+    "name": "GE-Proton10-1",
+    "tag_name": "GE-Proton10-1",
+    "body": "  Release notes  ",
+    "html_url": "https://github.com/example/project/releases/tag/GE-Proton10-1",
+    "draft": true,
+    "prerelease": true,
+    "created_at": "2026-07-25T12:34:56Z",
+    "assets": [
+      {
+        "id": 2001,
+        "name": "GE-Proton10-1.tar.gz",
+        "content_type": "application/gzip",
+        "size": 42,
+        "digest": "sha256:github",
+        "browser_download_url": "https://github.com/example/project/releases/download/GE-Proton10-1/GE-Proton10-1.tar.gz"
+      }
+    ]
+  }
+]

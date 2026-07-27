@@ -8,19 +8,22 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile winealsa_spacial_tile { get; private set; }
 
 
-        public AudioOptionsGroup (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers, true);
+        public AudioOptionsGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, true, presentation_registry);
 
             this.title = _ ("Audio options");
             this.description = _ ("Audio-related launch options.");
 
             pulse_latency_tile = create_spin_tile (
-                _ ("PulseAudio low latency"),
+                _ ("PulseAudio latency"),
                 _ ("Enables low latency mode in PulseAudio which can reduce audio latency in some games (60, 90, 120)."),
                 _ ("MSEC"),
                 30, 360,
                 90,
-                 "PULSE_LATENCY_MSEC="
+                 "PULSE_LATENCY_MSEC=",
+                 false,
+                 LaunchLineType.ENVIRONMENT,
+                 "pulse-latency"
             );
 
             string[] winealsa_channel_display_opts = {
@@ -47,18 +50,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             });
 
             launch_option_handlers.add (winealsa_channels_tile);
+            register_option ("winealsa-channels", winealsa_channels_tile, winealsa_channels_tile);
 
             winealsa_spacial_tile = create_tile (
-                _ ("WINEALSA Spatial Audio"),
+                _ ("Wine ALSA spatial downmix"),
                 _ ("Enables spatial mixing in Wine ALSA audio output. Requires WINEALSA Channels set to 4, 6, or 8. Available from GE-Proton11-1."),
-                { "WINEALSA_SPACIAL=1" }
+                { "WINEALSA_SPACIAL=1" }, false, LaunchLineType.ENVIRONMENT, "winealsa-spatial"
             );
-
-            winealsa_spacial_tile.toggle.notify["active"].connect (() => {
-                if (!is_winealsa_spacial_supported () && winealsa_spacial_tile.toggle.get_active ()) {
-                    winealsa_spacial_tile.toggle.set_active (false);
-                }
-            });
 
             refresh_winealsa_spacial_state ();
 
@@ -74,10 +72,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
         private void refresh_winealsa_spacial_state () {
             var spacial_supported = is_winealsa_spacial_supported ();
-            winealsa_spacial_tile.set_sensitive (spacial_supported);
-            if (!spacial_supported) {
-                winealsa_spacial_tile.toggle.set_active (false);
-            }
+            /* Preserve a legacy active token even if its current channel
+             * setting is incompatible.  Inactive controls remain guarded by
+             * the dependency; active controls stay discoverable and removable. */
+            winealsa_spacial_tile.set_sensitive (spacial_supported || winealsa_spacial_tile.toggle.get_active ());
         }
     }
 }

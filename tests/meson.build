@@ -1,7 +1,25 @@
 test_sources = files(
     'main.vala',
+    'asset_test.vala',
     'filesystem_test.vala',
+    'faugus-launcher-test.vala',
+    'metadata_test.vala',
+    'compatibility-tool-test.vala',
+    'installed-tool-inventory-test.vala',
     'parser_test.vala',
+    'provider_definition_test.vala',
+    'provider_registry_test.vala',
+    'provider_source_test.vala',
+    'identity_test.vala',
+    'cli_test.vala',
+    'release_identity_test.vala',
+    'release_page_test.vala',
+    'variant_settings_test.vala',
+    'install_layout_test.vala',
+    'installer-transaction-test.vala',
+    'steam_test.vala',
+    'steamtinkerlaunch-test.vala',
+    'update-transaction-test.vala',
     'vdf_binary_test.vala',
 )
 
@@ -15,7 +33,12 @@ test_exe = executable(
     vala_args: ['--target-glib=2.58'],
 )
 
-test('ProtonPlus unit tests', test_exe, protocol: 'tap')
+test(
+    'ProtonPlus unit tests',
+    test_exe,
+    protocol: 'tap',
+    workdir: meson.current_source_dir(),
+)
 
 python = import('python').find_installation()
 test('Maintenance script tests', python, args: files('scripts_test.py'))

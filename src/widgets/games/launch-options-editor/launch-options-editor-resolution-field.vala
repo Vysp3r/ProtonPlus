@@ -45,15 +45,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             Gtk.PropertyExpression expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
             dropdown = new Gtk.DropDown (new Gtk.StringList (labels), expression);
             dropdown.set_valign (Gtk.Align.CENTER);
+            dropdown.set_tooltip_text (subtitle);
 
             toggle = new Gtk.Switch ();
             toggle.set_valign (Gtk.Align.CENTER);
+            toggle.set_tooltip_text (subtitle);
 
             width_entry = new Gtk.Entry ();
             width_entry.set_input_purpose (Gtk.InputPurpose.DIGITS);
             width_entry.set_width_chars (5);
             width_entry.set_max_width_chars (5);
             width_entry.set_text (committed_width.to_string ());
+            width_entry.set_tooltip_text (subtitle);
             width_entry.activate.connect (apply_pending_resolution);
 
             var separator_label = new Gtk.Label ("x");
@@ -64,10 +67,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             height_entry.set_width_chars (5);
             height_entry.set_max_width_chars (5);
             height_entry.set_text (committed_height.to_string ());
+            height_entry.set_tooltip_text (subtitle);
             height_entry.activate.connect (apply_pending_resolution);
 
             apply_button = new Gtk.Button.with_label (_("Set"));
-            apply_button.set_tooltip_text (_("Apply the custom resolution"));
+            apply_button.set_tooltip_text (subtitle);
             apply_button.clicked.connect (apply_pending_resolution);
 
             custom_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
@@ -79,6 +83,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             this.title = title;
             this.subtitle = subtitle;
+            this.set_tooltip_text (subtitle);
             add_suffix (custom_box);
             add_suffix (dropdown);
             add_suffix (toggle);

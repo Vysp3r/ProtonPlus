@@ -1,5 +1,7 @@
 namespace ProtonPlus.Models.Launchers {
     public class Lutris : Launcher {
+        public const string FAMILY_ID = "lutris";
+
         public Lutris (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
 
@@ -17,11 +19,7 @@ namespace ProtonPlus.Models.Launchers {
                     break;
             }
 
-            base ("Lutris", installation_type, "%s/lutris.svg".printf (Config.RESOURCE_BASE), directories);
-
-            if (installed) {
-                Utils.Filesystem.create_directory_async.begin (directory + "/runners/proton", null);
-            }
+            base ("Lutris", installation_type, "%s/lutris.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);
         }
     }
 }

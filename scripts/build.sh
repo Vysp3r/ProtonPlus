@@ -43,12 +43,23 @@ check_dependencies() {
 
   for dependency in "$@"; do
     if ! command -v "${dependency}" >/dev/null 2>&1; then
-      show_log "ERROR" "Missing dependency: ${dependency}"
+      show_log "ERROR" "Missing required dependency: ${dependency}."
       missing=true
     fi
   done
 
   if [[ "${missing}" == "true" ]]; then
+    return 1
+  fi
+}
+
+check_argument_count() {
+  local command="$1"
+  local maximum="$2"
+  shift 2
+
+  if (( $# > maximum )); then
+    show_log "ERROR" "Too many arguments for ${command}; see the help text for usage."
     return 1
   fi
 }
@@ -63,7 +74,7 @@ flatpak_dependency_check() {
     "runtime/org.gnome.Platform/${architecture}/50" \
     "runtime/org.freedesktop.Sdk.Extension.vala/${architecture}/25.08" \
     org.flatpak.Builder
-  show_log "PASS" "Required dependencies are installed."
+  show_log "PASS" "Required Flatpak dependencies are installed."
 }
 
 configure_meson_build() {
@@ -75,7 +86,7 @@ configure_meson_build() {
     setup_args+=(--reconfigure)
   fi
 
-  show_log "INFO" "Configuring build directory: ${build_dir}"
+  show_log "INFO" "Configuring build directory: ${build_dir}..."
   meson "${setup_args[@]}"
 }
 
@@ -95,7 +106,7 @@ build_native() {
   case "${run_mode}" in
     "" | run | debug) ;;
     *)
-      show_log "ERROR" "Unknown native run mode: ${run_mode}"
+      show_log "ERROR" "Unknown native run mode: ${run_mode}."
       return 1
       ;;
   esac
@@ -113,14 +124,14 @@ build_native() {
   case "${run_mode}" in
     "") ;;
     run)
-      show_log "INFO" "Running native build..."
+      show_log "INFO" "Running native application..."
       env \
         LOCALE_DIR="${build_dir}/po" \
         XDG_DATA_DIRS="${build_dir}/data:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" \
         "${build_dir}/src/protonplus"
       ;;
     debug)
-      show_log "INFO" "Running native build with GDB..."
+      show_log "INFO" "Running native application with GDB..."
       env \
         LOCALE_DIR="${build_dir}/po" \
         XDG_DATA_DIRS="${build_dir}/data:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}" \
@@ -139,6 +150,28 @@ build_native_debug() {
   compile_schemas_for_build "${build_dir}"
 }
 
+check_native_dependencies() {
+  local build_dir
+  local status=0
+
+  check_dependencies glib-compile-schemas meson ninja valac
+  build_dir="$(mktemp -d "${TMPDIR:-/tmp}/protonplus-native-deps.XXXXXX")"
+
+  show_log "INFO" "Checking native build dependencies with Meson..."
+  if ! meson setup \
+    "${build_dir}" \
+    --prefix=/usr \
+    --wrap-mode=nodownload; then
+    show_log "ERROR" "Native dependency check failed."
+    status=1
+  else
+    show_log "PASS" "Native build dependencies are available."
+  fi
+
+  rm -rf -- "${build_dir}"
+  return "${status}"
+}
+
 build_flatpak() {
   local variant="$1"
   local manifest="$2"
@@ -146,7 +179,7 @@ build_flatpak() {
   local build_dir="build-flatpak/${variant}/build"
 
   if [[ -n "${run_mode}" && "${run_mode}" != "run" ]]; then
-    show_log "ERROR" "Unknown Flatpak run mode: ${run_mode}"
+    show_log "ERROR" "Unknown Flatpak run mode: ${run_mode}."
     return 1
   fi
 
@@ -159,7 +192,7 @@ build_flatpak() {
     "${manifest}"
 
   if [[ "${run_mode}" == "run" ]]; then
-    show_log "INFO" "Running Flatpak build..."
+    show_log "INFO" "Running Flatpak application..."
     flatpak run --user com.vysp3r.ProtonPlus
   fi
 }
@@ -186,7 +219,7 @@ clean() {
   show_log "INFO" "Cleaning build directories..."
   for directory in "${directories[@]}"; do
     if [[ -d "${directory}" ]]; then
-      show_log "INFO" "Removing directory: ${directory}"
+      show_log "INFO" "Removing directory: ${directory}..."
       rm -rf -- "${directory}"
       ((cleaned_count += 1))
     fi
@@ -200,7 +233,7 @@ clean() {
 }
 
 rebuild_translations() {
-  show_log "INFO" "Building native files before updating translations..."
+  show_log "INFO" "Building the native project before updating translations..."
   build_native
   show_log "INFO" "Updating translation files..."
   meson compile -C "${ROOT_DIR}/build-native" com.vysp3r.ProtonPlus-update-po
@@ -213,7 +246,7 @@ generate_icons() {
   local icon_sizes=(512 256 128 64 48 32 16)
   local size
 
-  check_dependencies inkscape optipng
+  check_dependencies rsvg-convert
   show_log "INFO" "Generating application icons..."
 
   for size in "${icon_sizes[@]}"; do
@@ -221,14 +254,11 @@ generate_icons() {
     local png_file="${png_output_dir}/com.vysp3r.ProtonPlus.png"
 
     mkdir -p "${png_output_dir}"
-    inkscape \
-      --export-type=png \
-      --export-filename="${png_file}" \
-      --export-area-page \
-      --export-width="${size}" \
-      --export-height="${size}" \
+    rsvg-convert \
+      --width="${size}" \
+      --height="${size}" \
+      --output="${png_file}" \
       "${svg_file}"
-    optipng -o7 "${png_file}"
   done
 
   show_log "PASS" "Icons successfully generated."
@@ -259,13 +289,13 @@ flathub_linter() {
   flatpak run --command=flatpak-builder-lint org.flatpak.Builder repo "${ostree_repo}"
   set -e
 
-  show_log "INFO" "The following local-build diagnostics can be safely ignored:"
+  show_log "INFO" "The following local build diagnostics can be safely ignored:"
   show_log "INFO" "appstream-screenshots-not-mirrored-in-ostree"
   show_log "INFO" "appstream-external-screenshot-url"
   show_log "INFO" "finish-args-flatpak-appdata-folder-access"
   show_log "INFO" "finish-args-flatpak-spawn-access"
   show_log "INFO" "appid-filename-mismatch: com.vysp3r.ProtonPlus.local"
-  show_log "PASS" "Finished linting the local source code."
+  show_log "PASS" "Local source linting completed."
 }
 
 show_help() {
@@ -275,16 +305,17 @@ ProtonPlus Build Script
 Usage: $(basename "$0") COMMAND [ARGS]
 
 Commands:
-  local [run]        Build Flatpak using the local manifest
-  flathub [run]      Build Flatpak using the Flathub manifest
-  native [run|debug] Build natively, optionally running the result
-  native-debug       Build a native debug binary for an external debugger
-  translations       Update translation files (.po)
-  icons              Regenerate application icons from the SVG source
-  linter             Run Flathub linters on the local source
-  appimage           Build an AppImage using sharun
-  clean              Remove build-related directories
-  help               Show this help message
+  local [run]        Build a Flatpak with the local manifest.
+  flathub [run]      Build a Flatpak with the Flathub manifest.
+  native [run|debug] Build natively, optionally running the result.
+  native-debug       Build a native debug binary for an external debugger.
+  native-deps        Check native build tools and libraries.
+  translations       Update translation files (.po).
+  icons              Regenerate application icons from the SVG source.
+  linter             Run Flathub linters on the local source.
+  appimage           Build an AppImage with sharun.
+  clean              Remove build-related directories.
+  help               Show this help message.
 EOF
 }
 
@@ -293,46 +324,60 @@ main() {
 
   case "${1:-}" in
     local)
+      check_argument_count "local" 1 "${@:2}"
       build_flatpak "local" "com.vysp3r.ProtonPlus.local.yml" "${2:-}"
       ;;
     flathub)
+      check_argument_count "flathub" 1 "${@:2}"
       build_flatpak "flathub" "com.vysp3r.ProtonPlus.yml" "${2:-}"
       ;;
     native)
+      check_argument_count "native" 1 "${@:2}"
       build_native "${2:-}"
       ;;
     native-debug)
+      check_argument_count "native-debug" 0 "${@:2}"
       build_native_debug
       ;;
+    native-deps)
+      check_argument_count "native-deps" 0 "${@:2}"
+      check_native_dependencies
+      ;;
     translations)
+      check_argument_count "translations" 0 "${@:2}"
       rebuild_translations
       ;;
     icons)
+      check_argument_count "icons" 0 "${@:2}"
       generate_icons
       ;;
     linter)
+      check_argument_count "linter" 0 "${@:2}"
       flathub_linter
       ;;
     appimage)
+      check_argument_count "appimage" 0 "${@:2}"
       "${SCRIPT_DIR}/make-appimage.sh"
       ;;
     clean)
+      check_argument_count "clean" 0 "${@:2}"
       clean
       ;;
     help | --help | -h)
+      check_argument_count "help" 0 "${@:2}"
       show_help
       return 0
       ;;
     *)
       if [[ -n "${1:-}" ]]; then
-        show_log "ERROR" "Unknown command: ${1}"
+        show_log "ERROR" "Unknown command: ${1}."
       fi
       show_help
       return 1
       ;;
   esac
 
-  show_log "PASS" "Finished: ${1}"
+  show_log "PASS" "Command completed: ${1}."
 }
 
 main "$@"

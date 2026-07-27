@@ -12,14 +12,21 @@ namespace ProtonPlus.Widgets.Games {
         ExtraButton extra_button;
         Gtk.Box other_box;
         Gtk.Box content_box;
+        string normalized_name;
         public Models.Game game { get; set; }
 
         public signal void mass_edit_requested (GameRow row);
 
         public bool selected { get; set; }
 
-        public GameRow (Models.Game game) {
+        public GameRow (Models.Game game,
+                        bool reserve_filter_column = false,
+                        Gtk.SizeGroup? prefix_column_size_group = null,
+                        Gtk.SizeGroup? tool_column_size_group = null,
+                        Gtk.SizeGroup? actions_column_size_group = null,
+                        Gtk.SizeGroup? filter_column_size_group = null) {
             this.game = game;
+            normalized_name = game.name.down ();
 
             select_check_button = new Gtk.CheckButton ();
             select_check_button.set_size_request (30, 0);
@@ -42,6 +49,8 @@ namespace ProtonPlus.Widgets.Games {
             prefix_label.set_max_width_chars (10);
             prefix_label.set_ellipsize (Pango.EllipsizeMode.END);
             prefix_label.set_size_request (110, 0);
+            if (prefix_column_size_group != null)
+                prefix_column_size_group.add_widget (prefix_label);
 
             prefix_gesture = new Gtk.GestureClick ();
             prefix_gesture.pressed.connect ((gesture, n_press, x, y) => {
@@ -54,12 +63,16 @@ namespace ProtonPlus.Widgets.Games {
             tool_label.set_max_width_chars (30);
             tool_label.set_ellipsize (Pango.EllipsizeMode.END);
             tool_label.set_size_request (254, 0);
+            if (tool_column_size_group != null)
+                tool_column_size_group.add_widget (tool_label);
             refresh_tool_label ();
 
             extra_button = new ExtraButton (game);
 
             other_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             other_box.set_size_request (122, 0);
+            if (actions_column_size_group != null)
+                actions_column_size_group.add_widget (other_box);
             other_box.append (extra_button);
 
             content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
@@ -71,6 +84,19 @@ namespace ProtonPlus.Widgets.Games {
             content_box.set_valign (Gtk.Align.CENTER);
             content_box.append (select_check_button);
             content_box.append (title_label);
+            if (reserve_filter_column) {
+                // Keep the remaining row columns aligned with the header's
+                // filter button, which occupies a column of its own.
+                var filter_column_spacer = new Gtk.MenuButton () {
+                    icon_name = "filter-2-symbolic",
+                    sensitive = false,
+                    opacity = 0.0,
+                    css_classes = { "flat" },
+                };
+                if (filter_column_size_group != null)
+                    filter_column_size_group.add_widget (filter_column_spacer);
+                content_box.append (filter_column_spacer);
+            }
             content_box.append (prefix_label);
             content_box.append (tool_label);
             content_box.append (other_box);
@@ -80,6 +106,10 @@ namespace ProtonPlus.Widgets.Games {
 
             set_child (content_box);
             set_selectable (false);
+        }
+
+        public bool matches_search (string query) {
+            return normalized_name.contains (query);
         }
 
         void add_hover_underline (Gtk.Label label) {
@@ -98,7 +128,7 @@ namespace ProtonPlus.Widgets.Games {
         public void refresh_tool_label () {
             string tool_name = _("Default");
 
-            if (game.is_native && game.compatibility_tool == "Default") {
+            if (game.compatibility_tool == "Default" && game.is_native) {
                 tool_name = _("Native");
             } else {
                 foreach (var tool in game.launcher.compatibility_tools) {
@@ -191,7 +221,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void run_custom_executable (string exe_path) {
-            Models.Tools.Simple selected_runner = null;
+            Models.CompatibilityTool selected_runner = null;
 
             foreach (var runner in game.launcher.compatibility_tools) {
                 if (runner.internal_title == game.compatibility_tool) {

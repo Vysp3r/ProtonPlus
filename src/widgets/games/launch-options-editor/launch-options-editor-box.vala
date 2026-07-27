@@ -1,7 +1,6 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     public class Box : Gtk.Box {
         public signal void content_changed ();
-        public signal void advanced_state_detected (bool is_advanced);
 
         Groups.ProtonOptionsGroup proton_options_group { get; set; }
         Groups.AudioOptionsGroup audio_group { get; set; }
@@ -9,108 +8,244 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Groups.GameArgumentsGroup game_arguments_group { get; set; }
         Groups.AdvancedOptionsGroup advanced_options_group { get; set; }
         Groups.CommonOptionsGroup common_group { get; set; }
-        LaunchOptionPreviewField preview_field { get; set; }
         Groups.DxvkOptionsGroup dxvk_options_group { get; set; }
         Groups.Vkd3dOptionsGroup vkd3d_options_group;
         Groups.GpuVendorOptionsGroup gpu_vendor_group;
         Groups.WrapperGroup wrapper_group;
+        LaunchOptionPreviewField preview_field { get; set; }
         LaunchOptionsList launch_option_handlers;
-        bool advanced_visible;
+        LaunchOptionCatalog catalog;
+        LaunchOptionPresentationRegistry presentations;
+
+        Adw.EntryRow search_entry { get; set; }
+        Adw.ComboRow category_filter { get; set; }
+        Gtk.Label no_results_label { get; set; }
+        Gtk.Box categories_box { get; set; }
+        Gee.HashMap<int, Gtk.Box> category_boxes;
+        Gee.HashMap<string, Adw.PreferencesGroup> subsection_groups;
         bool refreshing_controls;
+
+        LaunchOptionCategory[] canonical_categories = {
+            LaunchOptionCategory.PERFORMANCE,
+            LaunchOptionCategory.DISPLAY,
+            LaunchOptionCategory.PROTON,
+            LaunchOptionCategory.GRAPHICS,
+            LaunchOptionCategory.HARDWARE,
+            LaunchOptionCategory.INPUT_AUDIO,
+            LaunchOptionCategory.GAME_ARGUMENTS,
+            LaunchOptionCategory.DIAGNOSTICS
+        };
 
         construct {
             launch_option_handlers = new LaunchOptionsList ();
-            advanced_visible = false;
+            catalog = new LaunchOptionCatalog ();
+            presentations = new LaunchOptionPresentationRegistry (catalog);
+            category_boxes = new Gee.HashMap<int, Gtk.Box> ();
+            subsection_groups = new Gee.HashMap<string, Adw.PreferencesGroup> ();
             refreshing_controls = true;
 
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (15);
 
-            // Launch command preview
-            preview_field = new LaunchOptionPreviewField (_("Launch command preview"));
+            append (create_navigation ());
+
+            common_group = new Groups.CommonOptionsGroup (launch_option_handlers, presentations);
+            common_group.changed.connect (standard_control_changed);
+            wrapper_group = new Groups.WrapperGroup (launch_option_handlers, presentations);
+            wrapper_group.changed.connect (standard_control_changed);
+            gpu_vendor_group = new Groups.GpuVendorOptionsGroup (launch_option_handlers, presentations);
+            gpu_vendor_group.changed.connect (standard_control_changed);
+            dxvk_options_group = new Groups.DxvkOptionsGroup (launch_option_handlers, presentations);
+            dxvk_options_group.changed.connect (standard_control_changed);
+            vkd3d_options_group = new Groups.Vkd3dOptionsGroup (launch_option_handlers, presentations);
+            vkd3d_options_group.changed.connect (standard_control_changed);
+            more_options_group = new Groups.MoreOptionsGroup (launch_option_handlers, presentations);
+            more_options_group.changed.connect (standard_control_changed);
+            proton_options_group = new Groups.ProtonOptionsGroup (launch_option_handlers, presentations);
+            proton_options_group.changed.connect (standard_control_changed);
+            audio_group = new Groups.AudioOptionsGroup (launch_option_handlers, presentations);
+            audio_group.changed.connect (standard_control_changed);
+            game_arguments_group = new Groups.GameArgumentsGroup (launch_option_handlers, presentations);
+            game_arguments_group.changed.connect (standard_control_changed);
+            advanced_options_group = new Groups.AdvancedOptionsGroup (launch_option_handlers, presentations);
+            advanced_options_group.changed.connect (standard_control_changed);
+
+            var raw_content_row = new Adw.ActionRow () {
+                title = _("Preserved unrecognized launch options"),
+                subtitle = _("Quoted, opaque, and unknown shell content is retained exactly as loaded.")
+            };
+            presentations.register ("raw-launch-options", raw_content_row, advanced_options_group.raw_arguments_binding);
+
+            categories_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
+            build_task_categories ();
+            append (categories_box);
+
+            no_results_label = new Gtk.Label (_("No matching launch options.")) {
+                halign = Gtk.Align.CENTER,
+                margin_top = 12,
+                margin_bottom = 12,
+                css_classes = { "dim-label" }
+            };
+            append (no_results_label);
+
+            preview_field = new LaunchOptionPreviewField (_("Command preview"));
             append (preview_field);
 
-            // Common options
-            common_group = new Groups.CommonOptionsGroup (launch_option_handlers);
-            common_group.changed.connect (standard_control_changed);
-            append (common_group);
-
-            // Launch tools
-            wrapper_group = new Groups.WrapperGroup (launch_option_handlers);
-            wrapper_group.changed.connect (standard_control_changed);
-            append (wrapper_group);
-
-            // GPU vendor options
-            gpu_vendor_group = new Groups.GpuVendorOptionsGroup (launch_option_handlers);
-            gpu_vendor_group.changed.connect (standard_control_changed);
-            append (gpu_vendor_group);
-
-            // DXVK options
-            dxvk_options_group = new Groups.DxvkOptionsGroup (launch_option_handlers);
-            dxvk_options_group.changed.connect (standard_control_changed);
-            append (dxvk_options_group);
-
-            // VKD3D options
-            vkd3d_options_group = new Groups.Vkd3dOptionsGroup (launch_option_handlers);
-            vkd3d_options_group.changed.connect (standard_control_changed);
-            append (vkd3d_options_group);
-
-            // More options
-            more_options_group = new Groups.MoreOptionsGroup (launch_option_handlers);
-            more_options_group.changed.connect (standard_control_changed);
-            append (more_options_group);
-
-            // Proton options
-            proton_options_group = new Groups.ProtonOptionsGroup (launch_option_handlers);
-            proton_options_group.changed.connect (standard_control_changed);
-            append (proton_options_group);
-
-            // Audio options
-            audio_group = new Groups.AudioOptionsGroup (launch_option_handlers);
-            audio_group.changed.connect (standard_control_changed);
-            append (audio_group);
-
-            // Game arguments
-            game_arguments_group = new Groups.GameArgumentsGroup (launch_option_handlers);
-            game_arguments_group.changed.connect (standard_control_changed);
-            append (game_arguments_group);
-
-            // Advanced options
-            advanced_options_group = new Groups.AdvancedOptionsGroup (launch_option_handlers);
-            advanced_options_group.changed.connect (standard_control_changed);
-            append (advanced_options_group);
-
-            refresh_advanced_visibility ();
+            gpu_vendor_group.set_advanced_visible (true);
+            refresh_filters ();
             refreshing_controls = false;
             refresh_preview ();
         }
 
-        public bool get_advanced_visible () {
-            return advanced_visible;
+        Gtk.Widget create_navigation () {
+            var group = new Adw.PreferencesGroup () {
+                title = _("Launch options")
+            };
+
+            search_entry = new Adw.EntryRow () {
+                title = _("Search all options")
+            };
+            search_entry.set_tooltip_text (_("Search launch options"));
+            search_entry.changed.connect (refresh_filters);
+            group.add (search_entry);
+
+            category_filter = new Adw.ComboRow () {
+                title = _("Browse") ,
+                model = new Gtk.StringList ({
+                    _("Quick settings"),
+                    _("Active options"),
+                    _("All options"),
+                    LaunchOptionCatalog.category_title (LaunchOptionCategory.PERFORMANCE),
+                    LaunchOptionCatalog.category_title (LaunchOptionCategory.DISPLAY),
+                    LaunchOptionCatalog.category_title (LaunchOptionCategory.PROTON),
+                    LaunchOptionCatalog.category_title (LaunchOptionCategory.GRAPHICS),
+                    LaunchOptionCatalog.category_title (LaunchOptionCategory.HARDWARE),
+                    LaunchOptionCatalog.category_title (LaunchOptionCategory.INPUT_AUDIO),
+                    LaunchOptionCatalog.category_title (LaunchOptionCategory.GAME_ARGUMENTS),
+                    LaunchOptionCatalog.category_title (LaunchOptionCategory.DIAGNOSTICS)
+                }),
+                selected = 0
+            };
+            var category_factory = new Gtk.SignalListItemFactory ();
+            category_factory.setup.connect ((object) => {
+                var list_item = object as Gtk.ListItem;
+                var label = new Gtk.Label (null);
+                label.set_xalign (0);
+                label.set_ellipsize (Pango.EllipsizeMode.END);
+                label.set_hexpand (true);
+                object.set_data ("category-label", label);
+                list_item.set_child (label);
+            });
+            category_factory.bind.connect ((object) => {
+                var list_item = object as Gtk.ListItem;
+                var category = list_item.get_item () as Gtk.StringObject;
+                var label = object.get_data<Gtk.Label> ("category-label");
+                if (category == null || label == null)
+                    return;
+
+                label.set_label (category.string);
+                label.set_tooltip_text (category.string);
+            });
+            category_filter.set_list_factory (category_factory);
+            category_filter.set_tooltip_text (category_filter.title);
+            category_filter.notify["selected"].connect (refresh_filters);
+            group.add (category_filter);
+            return group;
         }
 
-        public void set_advanced_visible (bool visible) {
-            advanced_visible = visible;
+        void build_task_categories () {
+            foreach (var category in canonical_categories)
+                categories_box.append (create_category_box (category));
 
-            refresh_advanced_visibility ();
+            foreach (var presentation in presentations.get_ordered ()) {
+                if (!presentation.movable)
+                    continue;
 
-            standard_control_changed ();
-        }
-
-        public void clear () {
-            var keep_advanced_visible = advanced_visible;
-            set_text ("");
-            set_advanced_visible (keep_advanced_visible);
-        }
-
-        public bool has_clearable_state () {
-
-            foreach (var handler in this.launch_option_handlers) {
-                if (handler.is_active ()) {
-                    return true;
+                var section = get_subsection_group (presentation.metadata.category, presentation.metadata.subsection);
+                foreach (var widget in presentation.widgets) {
+                    widget.unparent ();
+                    section.add (widget);
                 }
             }
 
+            move_display_rows_into_backend_group ();
+            collapse_raw_command_control ();
+
+            /* The specialized backend and hardware widgets preserve their
+             * own dependency state; they are placed in task categories rather
+             * than being reclassified by their implementation details. */
+            category_boxes.get ((int) LaunchOptionCategory.DISPLAY).insert_child_after (wrapper_group, category_boxes.get ((int) LaunchOptionCategory.DISPLAY).get_first_child ());
+            category_boxes.get ((int) LaunchOptionCategory.HARDWARE).append (gpu_vendor_group);
+        }
+
+        void move_display_rows_into_backend_group () {
+            string[] display_rows = { "native-wayland", "desktop-game-profile", "vkbasalt" };
+            foreach (var id in display_rows) {
+                var presentation = presentations.lookup (id);
+                if (presentation == null)
+                    continue;
+                foreach (var widget in presentation.widgets) {
+                    widget.unparent ();
+                    wrapper_group.insert_before_backend_options (widget);
+                }
+            }
+        }
+
+        void collapse_raw_command_control () {
+            var command = presentations.lookup ("steam-command");
+            if (command == null)
+                return;
+
+            var disclosure = new Adw.ExpanderRow () {
+                title = _("Raw command controls"),
+                subtitle = _("Change the Steam command placeholder only when a game requires it."),
+                expanded = false
+            };
+            disclosure.set_tooltip_text (disclosure.subtitle);
+            foreach (var widget in command.widgets) {
+                widget.unparent ();
+                disclosure.add_row (widget);
+            }
+            presentations.register ("steam-command", disclosure, null);
+            get_subsection_group (LaunchOptionCategory.DIAGNOSTICS, "").add (disclosure);
+        }
+
+        Gtk.Box create_category_box (LaunchOptionCategory category) {
+            var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 8);
+            var header = new Gtk.Label (LaunchOptionCatalog.category_title (category)) {
+                halign = Gtk.Align.START,
+                xalign = 0,
+                css_classes = { "title-3" }
+            };
+            box.append (header);
+            category_boxes.set ((int) category, box);
+            return box;
+        }
+
+        Adw.PreferencesGroup get_subsection_group (LaunchOptionCategory category, string subsection) {
+            var key = "%d:%s".printf ((int) category, subsection);
+            var group = subsection_groups.get (key);
+            if (group != null)
+                return group;
+
+            group = new Adw.PreferencesGroup ();
+            if (subsection != "")
+                group.title = subsection;
+            group.set_data<string> ("launch-options-subsection-key", key);
+            subsection_groups.set (key, group);
+            category_boxes.get ((int) category).append (group);
+            return group;
+        }
+
+        public void clear () {
+            set_text ("");
+        }
+
+        public bool has_clearable_state () {
+            foreach (var handler in launch_option_handlers) {
+                if (handler.is_active ())
+                    return true;
+            }
             return false;
         }
 
@@ -120,60 +255,56 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public void set_text (string launch_options) {
             refreshing_controls = true;
-
             gpu_vendor_group.reset_controls ();
-
-            var has_advanced = launch_option_handlers.load_from_string (launch_options);
-
+            launch_option_handlers.load_from_string (launch_options);
             gpu_vendor_group.normalize_dependencies ();
-            gpu_vendor_group.select_preferred_page ();
-
-            advanced_visible = has_advanced || has_hidden_advanced_content_active ();
-            this.advanced_state_detected (advanced_visible);
-            refresh_advanced_visibility ();
-
+            refresh_filters ();
             refreshing_controls = false;
             refresh_preview ();
         }
 
         void standard_control_changed () {
+            if (!refreshing_controls)
+                launch_option_handlers.mark_modified ();
+            refresh_filters ();
             refresh_preview ();
-
-            if (refreshing_controls)
-                return;
-
-            content_changed ();
+            if (!refreshing_controls)
+                content_changed ();
         }
 
-        void refresh_advanced_visibility_state () {
-            preview_field.set_visible (advanced_visible);
-            audio_group.set_visible (advanced_visible);
-            dxvk_options_group.set_visible (advanced_visible);
-            vkd3d_options_group.set_visible (advanced_visible);
-            more_options_group.set_visible (advanced_visible);
-            proton_options_group.set_visible (advanced_visible);
-            gpu_vendor_group.set_visible (advanced_visible);
-            game_arguments_group.set_visible (advanced_visible);
-            advanced_options_group.set_visible (advanced_visible);
-        }
+        void refresh_filters () {
+            var query = search_entry.text.strip ();
+            var view = (LaunchOptionView) category_filter.selected;
+            presentations.apply_filter (view, query);
 
-        bool has_hidden_advanced_content_active () {
-            return audio_group.has_active_options ()
-                   || dxvk_options_group.has_active_options ()
-                   || vkd3d_options_group.has_active_options ()
-                   || more_options_group.has_active_options ()
-                   || proton_options_group.has_active_options ()
-                   || gpu_vendor_group.has_active_options ()
-                   || game_arguments_group.has_active_options ()
-                   || advanced_options_group.has_active_options ();
-        }
+            foreach (var group in subsection_groups.values) {
+                var parts = group.get_data<string> ("launch-options-subsection-key").split (":", 2);
+                var category = (LaunchOptionCategory) int.parse (parts[0]);
+                group.visible = presentations.has_visible_in_subsection (category, parts[1]);
+            }
 
-        void refresh_advanced_visibility () {
-            refresh_advanced_visibility_state ();
+            var display_visible = presentations.has_visible_in_category (LaunchOptionCategory.DISPLAY)
+                                  || wrapper_group.has_active_non_default_backend ();
+            wrapper_group.set_presentation_visible (display_visible);
+            gpu_vendor_group.set_presentation_visible (
+                presentations.has_visible_in_category (LaunchOptionCategory.HARDWARE)
+            );
+
+            var any_visible = false;
+            foreach (var category in canonical_categories) {
+                var category_box = category_boxes.get ((int) category);
+                var visible = presentations.has_visible_in_category (category)
+                              || (category == LaunchOptionCategory.DISPLAY && display_visible);
+                category_box.visible = visible;
+                any_visible = any_visible || visible;
+            }
+            no_results_label.visible = !any_visible;
         }
 
         void refresh_preview () {
             preview_field.preview_label.set_markup (launch_option_handlers.build_preview_markup ());
+            preview_field.set_empty (!launch_option_handlers.has_preview_content ());
+            preview_field.set_attention_required (launch_option_handlers.has_unrecognized_or_opaque_content ());
         }
     }
 }

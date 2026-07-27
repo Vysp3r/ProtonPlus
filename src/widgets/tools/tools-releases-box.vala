@@ -1,21 +1,31 @@
 namespace ProtonPlus.Widgets.Tools {
     public class ReleasesBox : Gtk.Box {
-        public signal void release_selected (Models.Release release);
+        public signal void job_selected (Services.InstallJob job);
 
         Gtk.Box tool_box { get; set; }
         Gtk.Label title_label { get; set; }
-        Gtk.Label desc_label { get; set; }
-        Gtk.Label last_updated_label { get; set; }
-        Gtk.Button refresh_button { get; set; }
-        Gtk.Box header_box { get; set; }
+        public Gtk.Box header_title { get; private set; }
+        public Gtk.Label last_updated_label { get; private set; }
+        public Gtk.Button refresh_button { get; private set; }
         Gtk.ListBox list_box { get; set; }
+        Gtk.ScrolledWindow scrolled { get; set; }
         Gtk.Stack content_stack { get; set; }
         Adw.StatusPage status_page { get; set; }
 
         private Models.Tool? current_tool;
+        // State changes are observed only for rows in the currently displayed
+        // catalog.  Disconnect them before replacing the rows so completed
+        // background jobs cannot refresh an unrelated tool's filters.
+        private Gee.HashMap<Services.InstallJob, ulong> job_state_handlers = new Gee.HashMap<Services.InstallJob, ulong> ();
+        // Incremented whenever a tool request replaces the visible tool state.
+        // Async completions must match both this generation and their tool before
+        // they are allowed to update the UI.
+        private uint tool_request_generation = 0;
         Models.Variant? selected_variant = null;
         Gtk.DropDown variant_dropdown { get; set; }
-        Gtk.Box variant_box { get; set; }
+        public Gtk.Box variant_box { get; private set; }
+        bool header_controls_visible = false;
+        bool has_variants = false;
         private Gtk.ListBoxRow load_more_row;
         private Gtk.Button load_more_button;
 
@@ -39,7 +49,11 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
-        private string get_tool_variant_settings_key (Models.Tool tool) {
+        private static string get_tool_variant_settings_key (Models.Tool tool) {
+            return tool.id;
+        }
+
+        private static string get_legacy_tool_variant_settings_key (Models.Tool tool) {
             return "%s::%s::%s".printf (tool.group.launcher.title, tool.group.title, tool.title);
         }
 
@@ -47,7 +61,10 @@ namespace ProtonPlus.Widgets.Tools {
             if (Globals.SETTINGS == null)
                 return "";
 
-            var raw = Globals.SETTINGS.get_string ("selected-tool-variants");
+            return get_saved_variant_name_from_json (Globals.SETTINGS.get_string ("selected-tool-variants"), tool);
+        }
+
+        public static string get_saved_variant_name_from_json (string raw, Models.Tool tool) {
             if (raw == "")
                 return "";
 
@@ -56,16 +73,27 @@ namespace ProtonPlus.Widgets.Tools {
                 return "";
 
             var root_obj = root_node.get_object ();
-            return root_obj.get_string_member_with_default (get_tool_variant_settings_key (tool), "");
+            var saved_variant_name = root_obj.get_string_member_with_default (get_tool_variant_settings_key (tool), "");
+            if (saved_variant_name != "")
+                return saved_variant_name;
+
+            return root_obj.get_string_member_with_default (get_legacy_tool_variant_settings_key (tool), "");
         }
 
         private void save_selected_variant_name (Models.Tool tool, string variant_name) {
             if (Globals.SETTINGS == null)
                 return;
 
-            Json.Object root_obj;
+            Globals.SETTINGS.set_string (
+                "selected-tool-variants",
+                get_json_with_saved_variant_name (
+                    Globals.SETTINGS.get_string ("selected-tool-variants"), tool, variant_name
+                )
+            );
+        }
 
-            var raw = Globals.SETTINGS.get_string ("selected-tool-variants");
+        public static string get_json_with_saved_variant_name (string raw, Models.Tool tool, string variant_name) {
+            Json.Object root_obj;
             var root_node = Utils.Parser.get_node_from_json (raw);
             if (root_node != null && root_node.get_node_type () == Json.NodeType.OBJECT) {
                 root_obj = root_node.get_object ();
@@ -80,47 +108,41 @@ namespace ProtonPlus.Widgets.Tools {
 
             var generator = new Json.Generator ();
             generator.set_root (node);
-            Globals.SETTINGS.set_string ("selected-tool-variants", generator.to_data (null));
+            return generator.to_data (null);
         }
 
         public ReleasesBox () {
             Object (orientation : Gtk.Orientation.VERTICAL, spacing : 0);
 
-            var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic") {
-                valign = Gtk.Align.CENTER
-            };
-
             title_label = new Gtk.Label (null) {
-                halign = Gtk.Align.START,
+                halign = Gtk.Align.CENTER,
+                xalign = 0.5f,
                 css_classes = { "title-4" }
-            };
-
-            desc_label = new Gtk.Label (null) {
-                halign = Gtk.Align.START,
-                css_classes = { "caption" },
-                wrap = true,
-                xalign = 0
             };
 
             var title_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
                 valign = Gtk.Align.CENTER
             };
             title_box.append (title_label);
-            title_box.append (desc_label);
 
-            var info_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
-                hexpand = true,
+            var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic") {
                 valign = Gtk.Align.CENTER
             };
 
-            info_box.append (icon);
-            info_box.append (title_box);
+            header_title = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+                halign = Gtk.Align.CENTER,
+                valign = Gtk.Align.CENTER
+            };
+            header_title.append (icon);
+            header_title.append (title_box);
 
             last_updated_label = new Gtk.Label (null) {
-                halign = Gtk.Align.END,
+                halign = Gtk.Align.CENTER,
                 valign = Gtk.Align.CENTER,
+                xalign = 0.5f,
                 css_classes = { "caption" }
             };
+            title_box.append (last_updated_label);
 
             refresh_button = new Gtk.Button.from_icon_name ("view-refresh-symbolic") {
                 valign = Gtk.Align.CENTER,
@@ -147,12 +169,6 @@ namespace ProtonPlus.Widgets.Tools {
             };
 
             variant_box.append (variant_dropdown);
-
-            header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-            header_box.append (info_box);
-            header_box.append (variant_box);
-            header_box.append (last_updated_label);
-            header_box.append (refresh_button);
 
             list_box = new Gtk.ListBox () {
                 selection_mode = Gtk.SelectionMode.NONE
@@ -181,7 +197,7 @@ namespace ProtonPlus.Widgets.Tools {
             };
             list_box.append (load_more_row);
 
-            var scrolled = new Gtk.ScrolledWindow () {
+            scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,
                 vexpand = true,
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
@@ -219,7 +235,6 @@ namespace ProtonPlus.Widgets.Tools {
             content_stack.add_named (status_page, "empty");
 
             tool_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            tool_box.append (header_box);
             tool_box.append (content_stack);
 
             var clamp = new Adw.Clamp () {
@@ -235,46 +250,36 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public async void set_selected_tool (Models.Tool tool) {
+            uint request_generation = ++tool_request_generation;
             current_tool = tool;
             content_stack.set_visible_child_name ("spinner");
+            load_more_button.sensitive = true;
 
+            disconnect_job_state_handlers ();
             list_box.remove_all ();
 
             title_label.set_label (tool.title);
-            desc_label.set_label (tool.description);
+            title_label.set_tooltip_text (tool.description);
             update_last_updated_label ();
             update_variant_row (tool);
 
-            ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (false, out code);
+            var catalog = tool.release_catalog;
+            if (catalog == null) {
+                content_stack.set_visible_child_name ("empty");
+                return;
+            }
 
-            if (code != ReturnCode.RELEASES_LOADED) {
-                Adw.AlertDialog dialog;
+            var result = yield catalog.load (false);
 
-                switch (code) {
-                case ReturnCode.API_LIMIT_REACHED:
-                    dialog = new Main.WarningDialog (_("API limit reached"), _("Try again in a few minutes."));
-                    break;
-                case ReturnCode.CONNECTION_ISSUE:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("Make sure you're connected to the internet."));
-                    break;
-                case ReturnCode.CONNECTION_REFUSED:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("Make sure your DNS is not blocking this."));
-                    break;
-                case ReturnCode.CONNECTION_UNKNOWN:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("The requested website does not seem to be valid."));
-                    break;
-                case ReturnCode.INVALID_ACCESS_TOKEN:
-                    dialog = new Main.WarningDialog (_("Invalid access token"), _("Make sure the access token you provided is valid."));
-                    break;
-                default:
-                    dialog = new Main.ErrorDialog (
-                        _("Failed to Fetch Releases"),
-                        _("ProtonPlus could not retrieve the list of available releases. Please check your internet connection and try again."),
-                        ""
-                    );
-                    break;
-                }
+            if (!is_current_tool_request (tool, request_generation))
+                return;
+
+            if (!result.succeeded) {
+                Adw.AlertDialog dialog = new Main.ErrorDialog (
+                    _("Failed to Fetch Releases"),
+                    get_return_code_message (result.code),
+                    ""
+                );
 
                 content_stack.set_visible_child_name ("list");
 
@@ -283,12 +288,14 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             }
 
-            foreach (var release in releases) {
-                add_release_row (release);
-            }
+            // Directory and legacy-tag fallback resolution depends on the
+            // available release names.  Refresh explicitly after that catalog
+            // changes; list filters themselves remain pure state readers.
+            tool.group.refresh_installed_state ();
+            add_release_rows (tool, result.releases);
 
             list_box.append (load_more_row);
-            load_more_row.visible = tool.has_more;
+            load_more_row.visible = catalog.has_more;
 
             content_stack.set_visible_child_name ("list");
             apply_selected_variant_to_rows ();
@@ -303,44 +310,34 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private async void set_selected_tool_forced (Models.Tool tool) {
+            uint request_generation = ++tool_request_generation;
             current_tool = tool;
             content_stack.set_visible_child_name ("spinner");
+            load_more_button.sensitive = true;
 
+            disconnect_job_state_handlers ();
             list_box.remove_all ();
 
             title_label.set_label (tool.title);
-            desc_label.set_label (tool.description);
+            title_label.set_tooltip_text (tool.description);
 
-            ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield tool.get_releases_async (true, out code);
+            var catalog = tool.release_catalog;
+            if (catalog == null) {
+                content_stack.set_visible_child_name ("empty");
+                return;
+            }
 
-            if (code != ReturnCode.RELEASES_LOADED) {
-                Adw.AlertDialog dialog;
+            var result = yield catalog.refresh ();
 
-                switch (code) {
-                case ReturnCode.API_LIMIT_REACHED:
-                    dialog = new Main.WarningDialog (_("API limit reached"), _("Try again in a few minutes."));
-                    break;
-                case ReturnCode.CONNECTION_ISSUE:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("Make sure you're connected to the internet."));
-                    break;
-                case ReturnCode.CONNECTION_REFUSED:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("Make sure your DNS is not blocking this."));
-                    break;
-                case ReturnCode.CONNECTION_UNKNOWN:
-                    dialog = new Main.WarningDialog (_("Unable to reach the API"), _("The requested website does not seem to be valid."));
-                    break;
-                case ReturnCode.INVALID_ACCESS_TOKEN:
-                    dialog = new Main.WarningDialog (_("Invalid access token"), _("Make sure the access token you provided is valid."));
-                    break;
-                default:
-                    dialog = new Main.ErrorDialog (
-                        _("Failed to Fetch Releases"),
-                        _("ProtonPlus could not retrieve the list of available releases. Please check your internet connection and try again."),
-                        ""
-                    );
-                    break;
-                }
+            if (!is_current_tool_request (tool, request_generation))
+                return;
+
+            if (!result.succeeded) {
+                Adw.AlertDialog dialog = new Main.ErrorDialog (
+                    _("Failed to Fetch Releases"),
+                    get_return_code_message (result.code),
+                    ""
+                );
 
                 content_stack.set_visible_child_name ("list");
 
@@ -349,12 +346,11 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             }
 
-            foreach (var release in releases) {
-                add_release_row (release);
-            }
+            tool.group.refresh_installed_state ();
+            add_release_rows (tool, result.releases);
 
             list_box.append (load_more_row);
-            load_more_row.visible = tool.has_more;
+            load_more_row.visible = catalog.has_more;
 
             content_stack.set_visible_child_name ("list");
             apply_selected_variant_to_rows ();
@@ -364,10 +360,12 @@ namespace ProtonPlus.Widgets.Tools {
 
         private void update_variant_row (Models.Tool tool) {
             selected_variant = null;
+            has_variants = false;
             variant_dropdown.set_visible (false);
             variant_box.set_visible (false);
 
-            if (tool.variants.size <= 1) {
+            var provider_tool = tool as Models.Tools.ProviderTool;
+            if (provider_tool == null || provider_tool.variants.size <= 1) {
                 return;
             }
 
@@ -378,7 +376,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             var saved_variant_name = get_saved_variant_name (tool);
 
-            foreach (var variant in tool.variants) {
+            foreach (var variant in provider_tool.variants) {
                 model.append (variant.name);
 
                 if (variant.is_default == true) {
@@ -395,7 +393,7 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             if (selected_variant == null) {
-                selected_variant = tool.variants.get (0);
+                selected_variant = provider_tool.variants.get (0);
                 selected_index = 0;
             } else if (selected_index == -1) {
                 selected_index = default_index >= 0 ? default_index : 0;
@@ -404,18 +402,27 @@ namespace ProtonPlus.Widgets.Tools {
             variant_dropdown.model = model;
             variant_dropdown.selected = (uint) selected_index;
             variant_dropdown.set_visible (true);
-            variant_box.set_visible (true);
+            has_variants = true;
+            variant_box.set_visible (header_controls_visible);
+        }
+
+        public void set_header_controls_visible (bool visible) {
+            header_controls_visible = visible;
+            variant_box.set_visible (visible && has_variants);
+            last_updated_label.set_visible (visible && last_updated_label.get_label () != "");
+            refresh_button.set_visible (visible);
         }
 
         private void on_variant_selected () {
-            if (current_tool == null || current_tool.variants.size <= 1)
+            var provider_tool = current_tool as Models.Tools.ProviderTool;
+            if (provider_tool == null || provider_tool.variants.size <= 1)
                 return;
 
             int selected_index = (int) variant_dropdown.selected;
-            if (selected_index < 0 || selected_index >= current_tool.variants.size)
+            if (selected_index < 0 || selected_index >= provider_tool.variants.size)
                 return;
 
-            var variant = current_tool.variants.get (selected_index);
+            var variant = provider_tool.variants.get (selected_index);
             if (selected_variant != null && selected_variant.name == variant.name)
                 return;
 
@@ -444,15 +451,16 @@ namespace ProtonPlus.Widgets.Tools {
             return null;
         }
 
-        private bool is_latest_release (Models.Release release) {
-            return release is Models.Releases.Latest;
+        private bool is_latest_job (Services.InstallJob job) {
+            return job.mode == Services.InstallJob.Mode.LATEST;
         }
 
         private void apply_selected_variant_to_rows () {
             var child = list_box.get_first_child ();
             while (child != null) {
-                var release = child.get_data<Models.Release> ("release");
-                if (release != null) {
+                var job = child.get_data<Services.InstallJob> ("job");
+                if (job != null) {
+                    var release = job.release;
                     string? selected_variant_url = null;
 
                     if (selected_variant != null) {
@@ -460,14 +468,12 @@ namespace ProtonPlus.Widgets.Tools {
                     }
 
                     if (selected_variant_url != null) {
-                        release.download_url = selected_variant_url;
-                        release.set_selected_variant (selected_variant.name);
+                        job.set_selected_variant (
+                            selected_variant.name,
+                            ProtonPlus.Models.Assets.Asset.from_download_url (selected_variant_url)
+                        );
                     } else {
                         var default_url = get_default_variant_download_url (release);
-                        if (default_url != null) {
-                            release.download_url = default_url;
-                        }
-
                         var default_variant_name = "";
                         foreach (var variant in release.variants) {
                             if (variant.is_default) {
@@ -476,7 +482,10 @@ namespace ProtonPlus.Widgets.Tools {
                             }
                         }
 
-                        release.set_selected_variant (default_variant_name != "" ? default_variant_name : null);
+                        job.set_selected_variant (
+                            default_variant_name != "" ? default_variant_name : null,
+                            default_url != null ? ProtonPlus.Models.Assets.Asset.from_download_url (default_url) : null
+                        );
                     }
                 }
 
@@ -488,17 +497,21 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private void update_last_updated_label () {
-            if (current_tool == null || current_tool.last_updated == null || current_tool.last_updated == "") {
+            if (current_tool == null || current_tool.release_catalog == null ||
+                current_tool.release_catalog.last_updated == "") {
                 last_updated_label.set_label ("");
+                last_updated_label.set_visible (false);
                 return;
             }
 
-            var date = new DateTime.from_iso8601 (current_tool.last_updated, null);
+            var date = new DateTime.from_iso8601 (current_tool.release_catalog.last_updated, null);
             if (date != null) {
                 last_updated_label.set_label (_("Last updated: %s").printf (date.format ("%Y-%m-%d %H:%M")));
             } else {
                 last_updated_label.set_label ("");
             }
+
+            last_updated_label.set_visible (header_controls_visible && last_updated_label.get_label () != "");
         }
 
         public void refresh_usage_pills () {
@@ -513,29 +526,88 @@ namespace ProtonPlus.Widgets.Tools {
             update_visibility ();
         }
 
-        private void add_release_row (Models.Release release) {
-            ReleaseRow row;
-            if (release is Models.Releases.SteamTinkerLaunch)
-                row = new STLReleaseRow (release);
-            else
-                row = new ReleaseRow (release);
+        /// Selects the release's tool and makes its active row easy to find.
+        public async void focus_job (Services.InstallJob target) {
+            yield set_selected_tool (target.tool);
 
-            row.set_data ("release", release);
-            row.release_selected.connect ((release) => release_selected (release));
+            var row = find_job_row (target);
+            if (row == null)
+                return;
 
-            list_box.append (row);
+            row.grab_focus ();
+            row.add_css_class ("download-highlight");
 
+            Idle.add (() => {
+                Graphene.Rect bounds;
+                if (row.compute_bounds (list_box, out bounds)) {
+                    var adjustment = scrolled.get_vadjustment ();
+                    var maximum = adjustment.upper - adjustment.page_size;
+                    if (maximum < adjustment.lower)
+                        maximum = adjustment.lower;
+
+                    var target_value = bounds.origin.y - ((adjustment.page_size - bounds.size.height) / 2.0);
+                    if (target_value < adjustment.lower)
+                        target_value = adjustment.lower;
+                    if (target_value > maximum)
+                        target_value = maximum;
+                    adjustment.set_value (target_value);
+                }
+                return Source.REMOVE;
+            });
+
+            Timeout.add (1200, () => {
+                row.remove_css_class ("download-highlight");
+                return Source.REMOVE;
+            });
+        }
+
+        private ReleaseRow? find_job_row (Services.InstallJob target) {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                var job = child.get_data<Services.InstallJob> ("job");
+                if (job != null && (job == target || jobs_have_same_identity (job, target))) {
+                    return child as ReleaseRow;
+                }
+                child = child.get_next_sibling ();
+            }
+
+            return null;
+        }
+
+        private bool jobs_have_same_identity (Services.InstallJob left, Services.InstallJob right) {
+            if (left.tool.id != right.tool.id || left.mode != right.mode)
+                return false;
+
+            if (left.release.upstream_release_id != "" && right.release.upstream_release_id != "")
+                return left.release.upstream_release_id == right.release.upstream_release_id;
+
+            return left.release.source_tag != "" && right.release.source_tag != "" &&
+                   left.release.source_tag == right.release.source_tag;
+        }
+
+        private void add_release_rows (Models.Tool tool, Gee.LinkedList<Models.Release> releases) {
+            if (tool is Models.Tools.ProviderTool && releases.size > 0)
+                add_release_row (releases[0], Services.InstallJob.Mode.LATEST);
+            foreach (var release in releases)
+                add_release_row (release);
+        }
+
+        private void add_release_row (
+            Models.Release release,
+            Services.InstallJob.Mode mode = Services.InstallJob.Mode.VERSIONED
+        ) {
+            if (current_tool == null)
+                return;
+            var job = new Services.InstallJob (release, current_tool, mode);
             if (selected_variant != null) {
                 var selected_variant_url = get_variant_download_url (release, selected_variant.name);
                 if (selected_variant_url != null) {
-                    release.download_url = selected_variant_url;
-                    release.set_selected_variant (selected_variant.name);
+                    job.set_selected_variant (
+                        selected_variant.name,
+                        ProtonPlus.Models.Assets.Asset.from_download_url (selected_variant_url)
+                    );
                 } else {
                     var default_url = get_default_variant_download_url (release);
-                    if (default_url != null) {
-                        release.download_url = default_url;
-                    }
-
                     var default_variant_name = "";
                     foreach (var variant in release.variants) {
                         if (variant.is_default) {
@@ -544,34 +616,87 @@ namespace ProtonPlus.Widgets.Tools {
                         }
                     }
 
-                    release.set_selected_variant (default_variant_name != "" ? default_variant_name : null);
+                    job.set_selected_variant (
+                        default_variant_name != "" ? default_variant_name : null,
+                        default_url != null ? ProtonPlus.Models.Assets.Asset.from_download_url (default_url) : null
+                    );
                 }
             }
+
+            var active_job = Utils.DownloadManager.instance.get_active_download (job);
+            if (active_job != null)
+                job = active_job;
+
+            if (job_state_handlers.has_key (job))
+                job.disconnect (job_state_handlers.get (job));
+            job_state_handlers.set (job, job.notify["state"].connect (() => {
+                if (job.state != Services.InstallJob.State.BUSY_INSTALLING &&
+                    job.state != Services.InstallJob.State.BUSY_REMOVING &&
+                    job.state != Services.InstallJob.State.BUSY_UPDATING) {
+                    list_box.invalidate_filter ();
+                    update_visibility ();
+                }
+            }));
+
+            ReleaseRow row;
+            if (job.steam_tinker_launch_context != null) {
+                row = new STLReleaseRow (job);
+                if (active_job == null)
+                    Services.InstallationService.instance.refresh_steam_tinker_launch_release.begin (job);
+            } else {
+                row = new ReleaseRow (job);
+            }
+            row.set_data ("job", job);
+            row.job_selected.connect ((selected_job) => job_selected (selected_job));
+            list_box.append (row);
+        }
+
+        private void disconnect_job_state_handlers () {
+            foreach (var entry in job_state_handlers.entries)
+                entry.key.disconnect (entry.value);
+            job_state_handlers.clear ();
+        }
+
+        public override void dispose () {
+            disconnect_job_state_handlers ();
+            base.dispose ();
         }
 
         private async void on_load_more_clicked () {
             if (current_tool == null)
                 return;
 
+            Models.Tool tool = current_tool;
+            uint request_generation = tool_request_generation;
             load_more_button.sensitive = false;
 
-            ReturnCode code;
-            Gee.LinkedList<Models.Release> releases = yield current_tool.load_more (out code);
-
-            if (code == ReturnCode.RELEASES_LOADED) {
-                foreach (var release in releases) {
-                    current_tool.releases.add (release);
-                    add_release_row (release);
-                }
-                list_box.remove (load_more_row);
-                list_box.append (load_more_row);
-
-                Utils.CacheManager.save_releases.begin (current_tool);
+            var catalog = tool.release_catalog;
+            if (catalog == null) {
+                load_more_button.sensitive = true;
+                return;
             }
 
-            load_more_row.visible = current_tool.has_more;
+            var result = yield catalog.load_more ();
+
+            if (!is_current_tool_request (tool, request_generation))
+                return;
+
+            if (result.succeeded) {
+                foreach (var release in result.releases) {
+                    add_release_row (release, Services.InstallJob.Mode.VERSIONED);
+                }
+                tool.group.refresh_installed_state ();
+                list_box.remove (load_more_row);
+                list_box.append (load_more_row);
+            }
+
+            load_more_row.visible = catalog.has_more;
             load_more_button.sensitive = true;
             update_visibility ();
+        }
+
+        private bool is_current_tool_request (Models.Tool tool, uint request_generation) {
+            return current_tool == tool && tool_request_generation == request_generation;
         }
 
         void update_visibility () {
@@ -595,18 +720,19 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         bool filter_func (Gtk.ListBoxRow row) {
-            var release = row.get_data<Models.Release> ("release");
-            if (release == null)
+            var job = row.get_data<Services.InstallJob> ("job");
+            if (job == null)
                 return true;
 
-            if (search_text != "" && !release.title.down ().contains (search_text.down ()))
+            if (search_text != "" && !job.title.down ().contains (search_text.down ()))
                 return false;
 
-            if (is_latest_release (release))
+            if (is_latest_job (job))
                 return true;
 
-            if (selected_variant != null && current_tool != null && current_tool.variants.size > 1) {
-                if (get_variant_download_url (release, selected_variant.name) == null) {
+            var provider_tool = current_tool as Models.Tools.ProviderTool;
+            if (selected_variant != null && provider_tool != null && provider_tool.variants.size > 1) {
+                if (get_variant_download_url (job.release, selected_variant.name) == null) {
                     return false;
                 }
             }
@@ -615,9 +741,9 @@ namespace ProtonPlus.Widgets.Tools {
                 return true;
 
             if (filter == Filter.INSTALLED)
-                return release.state == Models.Release.State.UP_TO_DATE || release.state == Models.Release.State.UPDATE_AVAILABLE;
+                return job.state == Services.InstallJob.State.UP_TO_DATE || job.state == Services.InstallJob.State.UPDATE_AVAILABLE;
 
-            var usage_count = release.runner.group.launcher.get_compatibility_tool_usage_count (release.get_usage_identifier ());
+            var usage_count = job.tool.group.launcher.get_compatibility_tool_usage_count (job.get_usage_identifier ());
 
             if (filter == Filter.USED)
                 return usage_count > 0;

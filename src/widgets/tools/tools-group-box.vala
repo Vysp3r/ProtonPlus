@@ -1,6 +1,7 @@
 namespace ProtonPlus.Widgets.Tools {
     public class GroupBox : Gtk.Box {
         public signal void tool_selected (Models.Tool tool);
+        public Gtk.Box header_title { get; private set; }
         Gtk.ListBox list_box;
         Gtk.Stack stack;
         Adw.StatusPage status_page;
@@ -11,6 +12,7 @@ namespace ProtonPlus.Widgets.Tools {
             set {
                 _filter = value;
                 list_box.invalidate_filter ();
+                update_status_page ();
                 update_visibility ();
             }
         }
@@ -21,12 +23,17 @@ namespace ProtonPlus.Widgets.Tools {
             set {
                 _search_text = value;
                 list_box.invalidate_filter ();
+                update_status_page ();
                 update_visibility ();
             }
         }
 
         public GroupBox (Models.Group group) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
+
+            // Build this once before Gtk begins repeatedly invoking the filter
+            // and comparator callbacks below.
+            group.refresh_installed_state ();
 
             var icon = new Gtk.Image.from_icon_name ("layer-group-symbolic");
 
@@ -46,9 +53,9 @@ namespace ProtonPlus.Widgets.Tools {
             title_box.append (title_label);
             title_box.append (desc_label);
 
-            var header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-            header_box.append (icon);
-            header_box.append (title_box);
+            header_title = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+            header_title.append (icon);
+            header_title.append (title_box);
 
             list_box = new Gtk.ListBox () {
                 selection_mode = Gtk.SelectionMode.NONE
@@ -57,6 +64,11 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.add_css_class ("tools-tools-card");
             list_box.set_filter_func (filter_func);
             list_box.set_sort_func (sort_func);
+
+            group.installed_tool_index_invalidated.connect (() => {
+                group.refresh_installed_state ();
+            });
+            group.installed_state_refreshed.connect (() => refresh ());
 
             var scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,
@@ -90,7 +102,6 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.invalidate_sort ();
 
             var group_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            group_box.append (header_box);
             group_box.append (stack);
 
             var clamp = new Adw.Clamp () {
@@ -105,6 +116,38 @@ namespace ProtonPlus.Widgets.Tools {
             append (clamp);
 
             update_visibility ();
+        }
+
+        void update_status_page () {
+            if (search_text.strip () != "") {
+                status_page.set_title (_ ("No matching tools"));
+                status_page.set_description (_ ("Try a different search term or clear the search."));
+                status_page.set_icon_name ("magnifying-glass-symbolic");
+                return;
+            }
+
+            switch (filter) {
+                case Filter.INSTALLED:
+                    status_page.set_title (_ ("No installed tools"));
+                    status_page.set_description (_ ("Install a compatibility tool to see it here."));
+                    status_page.set_icon_name ("box-open-symbolic");
+                    break;
+                case Filter.USED:
+                    status_page.set_title (_ ("No tools in use"));
+                    status_page.set_description (_ ("No games currently use a tool from this group."));
+                    status_page.set_icon_name ("gamepad2-symbolic");
+                    break;
+                case Filter.UNUSED:
+                    status_page.set_title (_ ("No unused tools"));
+                    status_page.set_description (_ ("Every tool in this group is currently in use."));
+                    status_page.set_icon_name ("check-round-outline-symbolic");
+                    break;
+                default:
+                    status_page.set_title (_ ("No tools found"));
+                    status_page.set_description (_ ("No tools are available in this group."));
+                    status_page.set_icon_name ("magnifying-glass-symbolic");
+                    break;
+            }
         }
 
         void update_visibility () {
@@ -128,9 +171,25 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public void refresh () {
+            refresh_tool_state_pills ();
             list_box.invalidate_filter ();
             list_box.invalidate_sort ();
+            update_status_page ();
             update_visibility ();
+        }
+
+        void refresh_tool_state_pills () {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                var row = child as Adw.ActionRow;
+                if (row != null) {
+                    var tool = row.get_data<Models.Tool> ("tool");
+                    var state_pill = row.get_data<Gtk.Label> ("state-pill");
+                    if (tool != null && state_pill != null)
+                        update_tool_state_pill (state_pill, tool);
+                }
+                child = child.get_next_sibling ();
+            }
         }
 
         Adw.ActionRow create_tool_card (Models.Tool tool) {
@@ -144,19 +203,46 @@ namespace ProtonPlus.Widgets.Tools {
             row.activated.connect (() => tool_selected (tool));
             row.add_prefix (icon);
 
-            if (tool is Models.Tools.Basic) {
-                var basic_tool = (Models.Tools.Basic) tool;
-                if (basic_tool.tag != null && basic_tool.tag != "") {
-                    var pill = new Gtk.Label (Utils.safe_translate (basic_tool.tag));
+            if (tool is Models.Tools.ProviderTool) {
+                var provider_tool = (Models.Tools.ProviderTool) tool;
+                if (provider_tool.tag != null && provider_tool.tag != "") {
+                    var pill = new Gtk.Label (Utils.safe_translate (provider_tool.tag));
                     pill.add_css_class ("tag-pill");
                     pill.set_valign (Gtk.Align.CENTER);
+                    if (provider_tool.tag == "Recommended")
+                        pill.set_tooltip_text (_ ("Recommended compatibility tool"));
 
                     row.add_suffix (pill);
                 }
 
             }
 
+            var state_pill = new Gtk.Label ("");
+            state_pill.set_valign (Gtk.Align.CENTER);
+            row.set_data ("state-pill", state_pill);
+            row.add_suffix (state_pill);
+            update_tool_state_pill (state_pill, tool);
+
             return row;
+        }
+
+        void update_tool_state_pill (Gtk.Label pill, Models.Tool tool) {
+            pill.remove_css_class ("installed-pill");
+            pill.remove_css_class ("in-use-pill");
+
+            if (tool.is_used ()) {
+                pill.set_label (_ ("In use"));
+                pill.set_tooltip_text (_ ("One or more releases of this tool is installed and currently used by one or more games"));
+                pill.add_css_class ("in-use-pill");
+                pill.set_visible (true);
+            } else if (tool.is_installed ()) {
+                pill.set_label (_ ("Installed"));
+                pill.set_tooltip_text (_ ("One or more releases of this tool is installed, but not currently used by any games"));
+                pill.add_css_class ("installed-pill");
+                pill.set_visible (true);
+            } else {
+                pill.set_visible (false);
+            }
         }
 
         bool filter_func (Gtk.ListBoxRow row) {

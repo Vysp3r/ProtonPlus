@@ -1,6 +1,8 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class PreferencesDialog : Adw.PreferencesDialog {
         Adw.PreferencesPage[] controller_pages = {};
+        Adw.EntryRow? proxy_url_row;
+        ulong proxy_mode_changed_handler = 0;
 
         public PreferencesDialog (Gee.LinkedList<Models.Launcher> launchers) {
             set_search_enabled (true);
@@ -57,7 +59,6 @@ namespace ProtonPlus.Widgets.Preferences {
                 subtitle = _("Automatically update the tools in the background"),
             };
             Globals.SETTINGS.bind ("background-updates", background_updates_row, "active", SettingsBindFlags.DEFAULT);
-            Globals.SETTINGS.changed["background-updates"].connect (Utils.System.systemd_handler);
             updates_group.add (background_updates_row);
 
             var background_updates_frequency_row = new BackgroundUpdatesFrequencyRow () {
@@ -71,7 +72,6 @@ namespace ProtonPlus.Widgets.Preferences {
                 subtitle = _("Check for tool updates when the system starts"),
             };
             Globals.SETTINGS.bind ("check-updates-on-boot", check_updates_on_boot_row, "active", SettingsBindFlags.DEFAULT);
-            Globals.SETTINGS.changed["check-updates-on-boot"].connect (Utils.System.systemd_handler);
             updates_group.add (check_updates_on_boot_row);
 
             var check_updates_on_launch_row = new Adw.SwitchRow () {
@@ -116,9 +116,9 @@ namespace ProtonPlus.Widgets.Preferences {
                         title = "Steam",
                     };
 
-                    var compatibility_tools = new Gee.ArrayList<ProtonPlus.Models.Tools.Simple> ();
+                    var compatibility_tools = new Gee.ArrayList<ProtonPlus.Models.CompatibilityTool> ();
                     foreach (var compatibility_tool in steam_launcher.compatibility_tools) {
-                        if (!compatibility_tool.display_title.contains ("Steam Linux Runtime"))
+                        if (!Models.Launchers.Steam.is_steam_linux_runtime (compatibility_tool.display_title, compatibility_tool.internal_title))
                             compatibility_tools.add (compatibility_tool);
                     }
                     compatibility_tools.sort ((a, b) => {
@@ -128,12 +128,12 @@ namespace ProtonPlus.Widgets.Preferences {
                         );
                     });
 
-                    var model = new GLib.ListStore (typeof (ProtonPlus.Models.Tools.Simple));
+                    var model = new GLib.ListStore (typeof (ProtonPlus.Models.CompatibilityTool));
                     foreach (var compatibility_tool in compatibility_tools) {
                         model.append (compatibility_tool);
                     }
 
-                    var expression = new Gtk.PropertyExpression (typeof (ProtonPlus.Models.Tools.Simple), null, "display_title");
+                    var expression = new Gtk.PropertyExpression (typeof (ProtonPlus.Models.CompatibilityTool), null, "display_title");
 
                     var compatibility_tool_row = new ToolRow (model, expression) {
                         title = _("Default compatibility tool"),
@@ -149,7 +149,7 @@ namespace ProtonPlus.Widgets.Preferences {
                     }
 
                     compatibility_tool_row.notify["selected-item"].connect (() => {
-                        var selected_tool = compatibility_tool_row.get_selected_item () as ProtonPlus.Models.Tools.Simple;
+                        var selected_tool = compatibility_tool_row.get_selected_item () as ProtonPlus.Models.CompatibilityTool;
                         if (selected_tool != null) {
                             steam_launcher.change_default_compatibility_tool (selected_tool.internal_title);
                         }
@@ -235,19 +235,13 @@ namespace ProtonPlus.Widgets.Preferences {
             var proxy_mode_row = new ProxyModeRow ();
             network_group.add (proxy_mode_row);
 
-            var proxy_url_row = new Adw.EntryRow () {
+            proxy_url_row = new Adw.EntryRow () {
                 title = _("Proxy URL"),
             };
             proxy_url_row.set_tooltip_text (_("Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"));
             proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
             Globals.SETTINGS.bind ("proxy-url", proxy_url_row, "text", SettingsBindFlags.DEFAULT);
-            Globals.SETTINGS.changed["proxy-mode"].connect (() => {
-                proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
-                Utils.Web.update_proxy_settings ();
-            });
-            Globals.SETTINGS.changed["proxy-url"].connect (() => {
-                Utils.Web.update_proxy_settings ();
-            });
+            proxy_mode_changed_handler = Globals.SETTINGS.changed["proxy-mode"].connect (update_proxy_url_sensitivity);
             network_group.add (proxy_url_row);
 
             var experimental_group = new Adw.PreferencesGroup () {
@@ -267,7 +261,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("Maintenance")
             };
             advanced_page.add (maintenance_group);
-            maintenance_group.add (new RefreshApplicationDataRow (this));
+            maintenance_group.add (new RefreshApplicationDataRow ());
             maintenance_group.add (new DeleteCacheRow ());
 
             // System Page
@@ -358,6 +352,8 @@ namespace ProtonPlus.Widgets.Preferences {
                 new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
                 new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
                 new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SNAP),
+                new ProtonPlus.Models.Launchers.FaugusLauncher (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
+                new ProtonPlus.Models.Launchers.FaugusLauncher (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
                 new ProtonPlus.Models.Launchers.Lutris (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
                 new ProtonPlus.Models.Launchers.Lutris (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
                 new ProtonPlus.Models.Launchers.Bottles (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
@@ -379,6 +375,21 @@ namespace ProtonPlus.Widgets.Preferences {
         void add_controller_page (Adw.PreferencesPage page) {
             add (page);
             controller_pages += page;
+        }
+
+        void update_proxy_url_sensitivity () {
+            if (proxy_url_row != null)
+                proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
+        }
+
+        public override void dispose () {
+            if (proxy_mode_changed_handler != 0 && Globals.SETTINGS != null) {
+                Globals.SETTINGS.disconnect (proxy_mode_changed_handler);
+                proxy_mode_changed_handler = 0;
+            }
+
+            proxy_url_row = null;
+            base.dispose ();
         }
 
         public void switch_page (int delta) {

@@ -1,6 +1,5 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class RefreshApplicationDataRow : Adw.ActionRow {
-        PreferencesDialog dialog;
         Gtk.Button refresh_button;
         Adw.Spinner spinner;
 
@@ -8,7 +7,7 @@ namespace ProtonPlus.Widgets.Preferences {
             refresh_button = new Gtk.Button.from_icon_name ("arrows-rotate-symbolic");
             refresh_button.add_css_class ("flat");
             refresh_button.set_valign (Gtk.Align.CENTER);
-            refresh_button.clicked.connect (() => refresh.begin ());
+            refresh_button.clicked.connect (refresh);
 
             spinner = new Adw.Spinner ();
 
@@ -17,11 +16,10 @@ namespace ProtonPlus.Widgets.Preferences {
             add_suffix (refresh_button);
         }
 
-        public RefreshApplicationDataRow (PreferencesDialog dialog) {
-            this.dialog = dialog;
+        public RefreshApplicationDataRow () {
         }
 
-        async void refresh () {
+        void refresh () {
             refresh_button.set_sensitive (false);
 
             refresh_button.set_child (spinner);

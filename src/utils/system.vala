@@ -1,21 +1,45 @@
 namespace ProtonPlus.Utils {
+    public enum GpuVendor {
+        UNKNOWN,
+        AMD,
+        NVIDIA,
+        INTEL
+    }
+
+    public class CommandResult : Object {
+        public string stdout { get; private set; }
+        public string stderr { get; private set; }
+        public int exit_status { get; private set; }
+
+        public CommandResult (string stdout, string stderr, int exit_status) {
+            this.stdout = stdout;
+            this.stderr = stderr;
+            this.exit_status = exit_status;
+        }
+    }
+
     public class System {
-        public static async string run_command (string command) {
-            string output = "";
+        static bool systemd_update_running = false;
+        static bool systemd_update_pending = false;
+
+        public static async CommandResult run_command (string command) {
             try {
                 var argv = get_command_argv (command);
 
-                var subprocess = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
+                var subprocess = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
                 Bytes stdout_bytes;
-                yield subprocess.communicate_async (null, null, out stdout_bytes, null);
+                Bytes stderr_bytes;
+                yield subprocess.communicate_async (null, null, out stdout_bytes, out stderr_bytes);
 
-                if (stdout_bytes != null)
-                    output = Parser.data_to_string (stdout_bytes.get_data ());
+                var stdout = stdout_bytes != null ? Parser.data_to_string (stdout_bytes.get_data ()) : "";
+                var stderr = stderr_bytes != null ? Parser.data_to_string (stderr_bytes.get_data ()) : "";
+                var exit_status = subprocess.get_if_exited () ? subprocess.get_exit_status () : -1;
+
+                return new CommandResult (stdout, stderr, exit_status);
             } catch (Error e) {
                 warning (e.message);
+                return new CommandResult ("", e.message, -1);
             }
-
-            return output;
         }
 
         public static string run_command_sync (string command) {
@@ -91,11 +115,17 @@ namespace ProtonPlus.Utils {
         }
 
         public static async bool check_dependency (string name) {
-            var output = yield run_command ("which %s".printf (Shell.quote (name)));
+            if (!Globals.IS_FLATPAK)
+                return Environment.find_program_in_path (name) != null;
+
+            var output = (yield run_command ("which %s".printf (Shell.quote (name)))).stdout;
             return output != "" && !output.contains ("which: no");
         }
 
         public static bool check_dependency_sync (string name) {
+            if (!Globals.IS_FLATPAK)
+                return Environment.find_program_in_path (name) != null;
+
             var output = run_command_sync ("which %s".printf (Shell.quote (name)));
             return output != "" && !output.contains ("which: no");
         }
@@ -106,6 +136,34 @@ namespace ProtonPlus.Utils {
             }
             var output = run_command_sync ("flatpak info %s".printf (Shell.quote (name)));
             return output != "" && !output.contains ("error:");
+        }
+
+        public static GpuVendor get_gpu_vendor_from_pci_devices (string pci_devices) {
+            foreach (var line in pci_devices.split ("\n")) {
+                // Display controller PCI classes range from 0x0300 to 0x03ff.
+                if (!line.contains ("[03"))
+                    continue;
+
+                if (line.contains ("[1002:"))
+                    return GpuVendor.AMD;
+                if (line.contains ("[10de:"))
+                    return GpuVendor.NVIDIA;
+                if (line.contains ("[8086:"))
+                    return GpuVendor.INTEL;
+            }
+
+            return GpuVendor.UNKNOWN;
+        }
+
+        public static async GpuVendor detect_gpu_vendor () {
+            if (!(yield check_dependency ("lspci")))
+                return GpuVendor.UNKNOWN;
+
+            var result = yield run_command ("lspci -nn");
+            if (result.exit_status != 0)
+                return GpuVendor.UNKNOWN;
+
+            return get_gpu_vendor_from_pci_devices (result.stdout);
         }
 
         public static string get_distribution_name () {
@@ -161,13 +219,28 @@ namespace ProtonPlus.Utils {
         }
 
         public static void systemd_handler () {
-            if (!Globals.SETTINGS.get_boolean ("background-updates") && !Globals.SETTINGS.get_boolean ("check-updates-on-boot")) {
-                uninstall_systemd_files ();
-            } else if (systemd_files_exist ()) {
-                modify_systemd_files ();
-            } else {
-                install_systemd_files ();
-            }
+            systemd_update_pending = true;
+            if (systemd_update_running)
+                return;
+
+            systemd_update_running = true;
+            update_systemd_files.begin ();
+        }
+
+        private static async void update_systemd_files () {
+            do {
+                systemd_update_pending = false;
+
+                if (!Globals.SETTINGS.get_boolean ("background-updates") && !Globals.SETTINGS.get_boolean ("check-updates-on-boot")) {
+                    yield uninstall_systemd_files ();
+                } else if (systemd_files_exist ()) {
+                    yield modify_systemd_files ();
+                } else {
+                    yield install_systemd_files ();
+                }
+            } while (systemd_update_pending);
+
+            systemd_update_running = false;
         }
 
         private static string get_systemd_dir () {
@@ -180,27 +253,45 @@ namespace ProtonPlus.Utils {
                    File.new_for_path (Path.build_filename (systemd_dir, "protonplus.timer")).query_exists ();
         }
 
-        public static void install_systemd_files () {
+        public static async void install_systemd_files () {
             if (!write_systemd_files ()) {
                 return;
             }
 
-            run_command_sync ("systemctl --user daemon-reload");
-            run_command_sync ("systemctl --user enable protonplus.timer");
+            if (yield run_systemctl ("daemon-reload"))
+                yield run_systemctl ("enable protonplus.timer");
         }
 
-        public static void modify_systemd_files () {
+        public static async void modify_systemd_files () {
             if (!write_systemd_files ()) {
                 return;
             }
 
-            run_command_sync ("systemctl --user daemon-reload");
+            yield run_systemctl ("daemon-reload");
+        }
+
+        private static async bool run_systemctl (string arguments) {
+            var command = "systemctl --user " + arguments;
+            var result = yield run_command (command);
+
+            if (result.exit_status == 0)
+                return true;
+
+            var error_output = result.stderr.strip ();
+            if (error_output == "")
+                error_output = result.stdout.strip ();
+            if (error_output == "")
+                error_output = "no output";
+
+            warning ("%s failed with exit status %d: %s", command, result.exit_status, error_output);
+            return false;
         }
 
         private static bool write_systemd_files () {
-            string exec_start = "%s update all".printf (
-                Globals.IS_FLATPAK ? "/usr/bin/flatpak run com.vysp3r.ProtonPlus" : run_command_sync ("which protonplus").strip ()
-            );
+            string executable = Globals.IS_FLATPAK ?
+                "/usr/bin/flatpak run com.vysp3r.ProtonPlus" :
+                Environment.find_program_in_path ("protonplus") ?? "protonplus";
+            string exec_start = "%s update all".printf (executable);
             string on_unit_active_sec = "1h";
 
             switch (Globals.SETTINGS.get_enum ("background-updates-frequency")) {
@@ -256,9 +347,9 @@ namespace ProtonPlus.Utils {
             return true;
         }
 
-        public static void uninstall_systemd_files () {
+        public static async void uninstall_systemd_files () {
             try {
-                run_command_sync ("systemctl --user disable --now protonplus.timer");
+                yield run_systemctl ("disable --now protonplus.timer");
 
                 string systemd_dir = get_systemd_dir ();
                 var service_file = File.new_for_path (Path.build_filename (systemd_dir, "protonplus.service"));
@@ -271,7 +362,7 @@ namespace ProtonPlus.Utils {
                     timer_file.delete ();
                 }
 
-                run_command_sync ("systemctl --user daemon-reload");
+                yield run_systemctl ("daemon-reload");
             } catch (Error e) {
                 warning (e.message);
             }

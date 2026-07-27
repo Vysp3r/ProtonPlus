@@ -1,5 +1,6 @@
 namespace ProtonPlus.Models.Launchers {
     public class Steam : Launcher {
+        public const string FAMILY_ID = "steam";
         public List<SteamProfile> profiles;
         public SteamProfile profile { get; set; }
         public string default_compatibility_tool { get; set; }
@@ -27,9 +28,15 @@ namespace ProtonPlus.Models.Launchers {
                     break;
             }
 
-            base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories);
+            base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);
 
             has_library_support = true;
+        }
+
+        public static bool is_steam_linux_runtime (string display_title, string internal_title = "") {
+            return display_title.down ().contains ("steam linux runtime")
+                   || internal_title.down ().contains ("steam_linux_runtime")
+                   || internal_title.down ().contains ("steamlinuxruntime");
         }
 
         public override List<string> get_tool_directories (Group group) {
@@ -209,6 +216,9 @@ namespace ProtonPlus.Models.Launchers {
             }
 
             foreach (var profile in profiles) {
+                if (profile == this.profile)
+                    continue;
+
                 foreach (var game in profile.non_steam_games) {
                     if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")) {
                         if (!game.is_native)
@@ -234,7 +244,7 @@ namespace ProtonPlus.Models.Launchers {
 
             var excluded_appids = new Gee.HashSet<string> ();
             excluded_appids.add_all_array (new string[] {
-                "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180"
+                "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180", "250820"
             });
 
             var native_compatibility_tool_appids = new Gee.HashSet<string> ();
@@ -277,10 +287,6 @@ namespace ProtonPlus.Models.Launchers {
                     if (!id_valid)
                     continue;
 
-                    if (excluded_appids.contains (app.key)) {
-                        continue;
-                    }
-
                     var current_libraryfolder_id = libraryfolder_id;
                     var current_libraryfolder_path = path.value;
                     var current_appid = app.key;
@@ -305,27 +311,31 @@ namespace ProtonPlus.Models.Launchers {
                     continue;
                     current_installdir = dir_match.fetch (1);
 
-                    if (current_name.contains ("Steam Linux Runtime")) {
-                        var simple_runner = new Tools.Simple.with_path (
+                    if (is_steam_linux_runtime (current_name)) {
+                        var compatibility_tool = new CompatibilityTool (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
                             "%s/common/%s".printf (current_steamapps_path, current_installdir)
                         );
-                        simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                        compatibility_tools.add (simple_runner);
+                        compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+                        compatibility_tools.add (compatibility_tool);
+                        continue;
+                    }
+
+                    if (excluded_appids.contains (current_appid)) {
                         continue;
                     }
 
                     if (proton_regex.match (current_name) ||
                         current_name == "Proton Hotfix" ||
                         native_compatibility_tool_appids.contains (current_appid)) {
-                        var simple_runner = new Tools.Simple.with_path (
+                        var compatibility_tool = new CompatibilityTool (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
                             "%s/common/%s".printf (current_steamapps_path, current_installdir)
                         );
-                        simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                        compatibility_tools.add (simple_runner);
+                        compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+                        compatibility_tools.add (compatibility_tool);
                         continue;
                     }
 
@@ -375,9 +385,9 @@ namespace ProtonPlus.Models.Launchers {
                             }
 
                             var file_path = "%s/%s".printf (directory.get_path (), file_name);
-                            var simple_runner = new Tools.Simple.from_path (file_path);
-                            simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                            compatibility_tools.add (simple_runner);
+                            var compatibility_tool = Utils.VDF.CompatibilityToolLoader.from_path (file_path);
+                            compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+                            compatibility_tools.add (compatibility_tool);
                         }
                     }
                 }
@@ -397,8 +407,8 @@ namespace ProtonPlus.Models.Launchers {
         private void add_flatpak_extension_tools_to_compatibility_tools () {
             foreach (var extension_root in get_flatpak_steam_extension_roots ()) {
                 if (is_tool_root (extension_root)) {
-                    var simple_runner = new Tools.Simple.from_path (extension_root);
-                    add_compatibility_tool_if_missing (simple_runner);
+                    var compatibility_tool = Utils.VDF.CompatibilityToolLoader.from_path (extension_root);
+                    add_compatibility_tool_if_missing (compatibility_tool);
                 }
 
                 var extension_tools_root = "%s/share/steam/compatibilitytools.d".printf (extension_root);
@@ -420,7 +430,7 @@ namespace ProtonPlus.Models.Launchers {
                         }
 
                         var tool_path = "%s/%s".printf (extension_tools_root, file_info.get_name ());
-                        add_compatibility_tool_if_missing (new Tools.Simple.from_path (tool_path));
+                        add_compatibility_tool_if_missing (Utils.VDF.CompatibilityToolLoader.from_path (tool_path));
                     }
                 } catch (Error e) {
                     warning (e.message);
@@ -428,23 +438,27 @@ namespace ProtonPlus.Models.Launchers {
             }
         }
 
-        private void add_compatibility_tool_if_missing (Tools.Simple simple_runner) {
+        private void add_compatibility_tool_if_missing (CompatibilityTool compatibility_tool) {
             foreach (var existing_runner in compatibility_tools) {
-                if (existing_runner.path == simple_runner.path || existing_runner.internal_title == simple_runner.internal_title) {
+                if (existing_runner.path == compatibility_tool.path || existing_runner.internal_title == compatibility_tool.internal_title) {
                     return;
                 }
             }
 
-            simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-            compatibility_tools.add (simple_runner);
+            compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+            compatibility_tools.add (compatibility_tool);
         }
 
-        public void register_compatibility_tool (Tools.Simple simple_runner) {
-            add_compatibility_tool_if_missing (simple_runner);
+        public void register_compatibility_tool (CompatibilityTool compatibility_tool) {
+            add_compatibility_tool_if_missing (compatibility_tool);
             sort_compatibility_tools ();
         }
 
-        public void unregister_compatibility_tool_by_path (string tool_path) {
+        public override void register_compatibility_tool_from_path (string tool_path) {
+            register_compatibility_tool (Utils.VDF.CompatibilityToolLoader.from_path (tool_path));
+        }
+
+        public override void unregister_compatibility_tool_by_path (string tool_path) {
             var tool = compatibility_tools.first_match ((tool) => {
                 return tool.path == tool_path;
             });
@@ -482,7 +496,7 @@ namespace ProtonPlus.Models.Launchers {
             });
         }
 
-        private int get_compatibility_tool_sort_priority (Tools.Simple tool) {
+        private int get_compatibility_tool_sort_priority (CompatibilityTool tool) {
             var title = tool.display_title.down ();
             var internal_title = tool.internal_title.down ();
 
@@ -504,7 +518,7 @@ namespace ProtonPlus.Models.Launchers {
                 return 300;
             }
 
-            if (title.contains ("steam linux runtime") || internal_title.contains ("steamlinuxruntime")) {
+            if (is_steam_linux_runtime (tool.display_title, tool.internal_title)) {
                 return 400;
             }
 

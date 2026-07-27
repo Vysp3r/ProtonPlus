@@ -23,9 +23,7 @@ namespace ProtonPlus.Utils {
 
         // Miscellaneous.
 
-        public delegate bool cancel_callback ();
-
-        public async static string extract (string install_location, string tool_name, string extension, cancel_callback cancel_callback) {
+        public async static string? extract (string install_location, string tool_name, string extension, Cancellable cancellable) {
             SourceFunc callback = extract.callback;
 
             string output = "";
@@ -62,7 +60,7 @@ namespace ProtonPlus.Utils {
                 bool first_run = true;
 
                 for ( ;; ) {
-                    if (cancel_callback ())
+                    if (cancellable.is_cancelled ())
                         break;
 
                     r = archive.next_header (out entry);
@@ -99,7 +97,7 @@ namespace ProtonPlus.Utils {
                     if (r < Archive.Result.OK) {
                         warning ("Could not write archive entry: %s", ext.error_string ());
                     } else if (entry.size () > 0) {
-                        r = copy_data (archive, ext);
+                        r = copy_data (archive, ext, cancellable);
                         if (r < Archive.Result.WARN) {
                             Idle.add ((owned) callback, Priority.DEFAULT);
                             return;
@@ -121,13 +119,10 @@ namespace ProtonPlus.Utils {
                 if (source_path != "")
                     output = Path.build_filename (install_location, source_path);
 
-                if (cancel_callback ()) {
-                    if (output != "") {
-                        delete_directory.begin (output, (obj, res) => {
-                            delete_directory.end (res);
-                        });
-                    }
-
+                if (cancellable.is_cancelled ()) {
+                    // The owning async operation removes its whole private
+                    // workspace once this worker has returned.  Do not start
+                    // another async deletion from this worker thread.
                     output = "";
                 }
 
@@ -157,12 +152,15 @@ namespace ProtonPlus.Utils {
             return normalized_path;
         }
 
-        static ssize_t copy_data (Archive.Read ar, Archive.WriteDisk aw) {
+        static ssize_t copy_data (Archive.Read ar, Archive.WriteDisk aw, Cancellable cancellable) {
             ssize_t r;
             uint8[] buffer;
             Archive.int64_t offset;
 
             for ( ;; ) {
+                if (cancellable.is_cancelled ())
+                    return Archive.Result.FAILED;
+
                 r = ar.read_data_block (out buffer, out offset);
                 if (r == Archive.Result.EOF)
                     return Archive.Result.OK;
@@ -306,6 +304,74 @@ namespace ProtonPlus.Utils {
 
         // Directories.
 
+        // Creates a directory with a unique suffix directly below `parent`.
+        // Keeping operation directories under their eventual destination also
+        // lets us promote them with rename(2), instead of a copy/delete pair.
+        public static string create_temporary_directory (string parent, string prefix) {
+            if (!FileUtils.test (parent, FileTest.IS_DIR))
+                return "";
+
+            return DirUtils.mkdtemp (Path.build_filename (parent, "%sXXXXXX".printf (prefix)));
+        }
+
+        // Rename is atomic when source and destination share a filesystem.  Do
+        // not replace an existing destination: callers use this to promote a
+        // fully staged installation without ever overwriting another attempt.
+        public static async bool move_directory_atomic (string source, string destination) {
+            SourceFunc callback = move_directory_atomic.callback;
+
+            bool output = false;
+            new Thread<void> ("move_directory_atomic", () => {
+                if (!FileUtils.test (source, FileTest.IS_DIR) || FileUtils.test (destination, FileTest.EXISTS)) {
+                    Idle.add ((owned) callback, Priority.DEFAULT);
+                    return;
+                }
+
+                output = FileUtils.rename (source, destination) == 0;
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
+
+            yield;
+            return output;
+        }
+
+        // Like move_directory_atomic, but for an archive cache entry.  A
+        // concurrent downloader winning the race is harmless: its cache file
+        // is retained and the caller can use that immutable result.
+        public static async bool move_file_atomic_if_absent (string source, string destination) {
+            SourceFunc callback = move_file_atomic_if_absent.callback;
+
+            bool output = false;
+            new Thread<void> ("move_file_atomic", () => {
+                if (!FileUtils.test (source, FileTest.IS_REGULAR) || FileUtils.test (destination, FileTest.EXISTS)) {
+                    Idle.add ((owned) callback, Priority.DEFAULT);
+                    return;
+                }
+
+                output = FileUtils.rename (source, destination) == 0;
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
+
+            yield;
+            return output;
+        }
+
+        public static async bool copy_file (string source, string destination) {
+            try {
+                var source_file = File.parse_name (source);
+                var destination_file = File.parse_name (destination);
+
+                if (!source_file.query_exists ())
+                    return false;
+
+                yield source_file.copy_async (destination_file, FileCopyFlags.OVERWRITE);
+                return true;
+            } catch (Error e) {
+                warning ("Failed to copy %s: %s", source, e.message);
+                return false;
+            }
+        }
+
         public static async bool move_directory (string source, string destination) {
             var destination_existed = FileUtils.test (destination, FileTest.EXISTS);
             var copied = yield copy_directory (source, destination);
@@ -406,34 +472,46 @@ namespace ProtonPlus.Utils {
         }
 
         static bool delete_directory_direct (string path) {
-            var dir = Posix.opendir (path);
-            if (dir == null) {
-                return false;
-            }
+            FileEnumerator? enumerator = null;
 
-            unowned Posix.DirEnt? cur_d;
-            Posix.Stat stat_;
-            while ((cur_d = Posix.readdir (dir)) != null) {
-                var d_name = (string) cur_d.d_name;
-                if (d_name == "." || d_name == "..") {
-                    continue;
+            try {
+                var directory = File.new_for_path (path);
+                enumerator = directory.enumerate_children (
+                    "standard::name",
+                    FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+                    null
+                );
+
+                FileInfo? file_info;
+                while ((file_info = enumerator.next_file (null)) != null) {
+                    var cur_path = Path.build_filename (path, file_info.get_name ());
+                    Posix.Stat stat_;
+
+                    // NOTE: `lstat()` is very important to avoid following symlinks,
+                    // otherwise we would wipe out the link target's contents too.
+                    if (Posix.lstat (cur_path, out stat_) != 0)
+                        return false;
+
+                    if (Posix.S_ISDIR (stat_.st_mode)) {
+                        if (!delete_directory_direct (cur_path))
+                            return false;
+                        if (Posix.rmdir (cur_path) != 0)
+                            return false;
+                    } else {
+                        if (!delete_file_direct (cur_path))
+                            return false;
+                    }
                 }
-
-                var cur_path = @"$path/$d_name";
-
-                // NOTE: `lstat()` is very important to avoid following symlinks,
-                // otherwise we would wipe out the link target's contents too.
-                if (Posix.lstat (cur_path, out stat_) != 0)
-                    return false;
-
-                if (Posix.S_ISDIR (stat_.st_mode)) {
-                    if (!delete_directory_direct (cur_path))
-                        return false;
-                    if (Posix.rmdir (cur_path) != 0)
-                        return false;
-                } else {
-                    if (!delete_file_direct (cur_path))
-                        return false;
+            } catch (Error e) {
+                warning (e.message);
+                return false;
+            } finally {
+                if (enumerator != null) {
+                    try {
+                        enumerator.close (null);
+                    } catch (Error e) {
+                        warning (e.message);
+                    }
                 }
             }
 
@@ -517,31 +595,41 @@ namespace ProtonPlus.Utils {
         public static uint64 get_directory_size (string path) {
             uint64 size = 0;
 
-            var dir = Posix.opendir (path);
-            if (dir == null) {
-                return 0;
-            }
+            FileEnumerator? enumerator = null;
+            try {
+                var directory = File.new_for_path (path);
+                enumerator = directory.enumerate_children (
+                    "standard::name",
+                    FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+                    null
+                );
 
-            unowned Posix.DirEnt? cur_d;
-            Posix.Stat stat_;
-            while ((cur_d = Posix.readdir (dir)) != null) {
-                var d_name = (string) cur_d.d_name;
-                if (d_name == "." || d_name == "..") {
-                    continue;
+                FileInfo? file_info;
+                while ((file_info = enumerator.next_file (null)) != null) {
+                    var cur_path = Path.build_filename (path, file_info.get_name ());
+                    Posix.Stat stat_;
+
+                    // NOTE: `lstat()` is very important to avoid following symlinks,
+                    // to get an accurate count of bytes within real files (not links).
+                    if (Posix.lstat (cur_path, out stat_) != 0) {
+                        continue;
+                    }
+
+                    if (Posix.S_ISDIR (stat_.st_mode)) {
+                        size += get_directory_size (cur_path);
+                    } else {
+                        size += stat_.st_size;
+                    }
                 }
-
-                var cur_path = @"$path/$d_name";
-
-                // NOTE: `lstat()` is very important to avoid following symlinks,
-                // to get an accurate count of bytes within real files (not links).
-                if (Posix.lstat (cur_path, out stat_) != 0) {
-                    continue;
-                }
-
-                if (Posix.S_ISDIR (stat_.st_mode)) {
-                    size += get_directory_size (cur_path);
-                } else {
-                    size += stat_.st_size;
+            } catch (Error e) {
+                warning (e.message);
+            } finally {
+                if (enumerator != null) {
+                    try {
+                        enumerator.close (null);
+                    } catch (Error e) {
+                        warning (e.message);
+                    }
                 }
             }
 

@@ -22,7 +22,8 @@ namespace ProtonPlus.Widgets.Preferences {
             delete_button.set_sensitive (false);
             delete_button.set_child (spinner);
 
-            yield CacheManager.clear_cache ();
+            if (!yield CacheManager.clear_cache ())
+                warning ("Could not clear and recreate the cache directory.");
 
             spinner?.unparent ();
             delete_button?.set_icon_name ("user-trash-symbolic");

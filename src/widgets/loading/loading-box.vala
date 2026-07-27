@@ -151,6 +151,11 @@ namespace ProtonPlus.Widgets.Loading {
                 Utils.System.open_uri ("https://store.steampowered.com/about/");
             });
 
+            var faugus_button = create_image_button ("Faugus Launcher", "faugus-launcher.svg");
+            faugus_button.clicked.connect (() => {
+                Utils.System.open_uri ("https://github.com/Faugus/faugus-launcher");
+            });
+
             var lutris_button = create_image_button ("Lutris", "lutris.svg");
             lutris_button.clicked.connect (() => {
                 Utils.System.open_uri ("https://lutris.net/");
@@ -174,6 +179,7 @@ namespace ProtonPlus.Widgets.Loading {
             var launchers_box = new Gtk.FlowBox ();
             launchers_box.set_selection_mode (Gtk.SelectionMode.NONE);
             launchers_box.append (steam_button);
+            launchers_box.append (faugus_button);
             launchers_box.append (lutris_button);
             launchers_box.append (hgl_button);
             launchers_box.append (bottles_button);

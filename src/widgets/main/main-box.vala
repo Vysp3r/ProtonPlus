@@ -5,6 +5,7 @@ namespace ProtonPlus.Widgets.Main {
         Adw.ToastOverlay toast_overlay { get; set; }
 
         string previous_view_name { get; set; }
+        string? view_switcher_pressed_page { get; set; }
 
         Tools.Box tools_box { get; set; }
         Games.Box games_box { get; set; }
@@ -37,6 +38,27 @@ namespace ProtonPlus.Widgets.Main {
             view_switcher.set_stack (view_stack);
             view_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
 
+            var reset_controller = new Gtk.GestureClick ();
+            reset_controller.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
+            reset_controller.pressed.connect ((gesture, n_press, x, y) => {
+                if (n_press == 1)
+                    view_switcher_pressed_page = view_stack.get_visible_child_name ();
+            });
+            reset_controller.released.connect ((gesture, n_press, x, y) => {
+                if (n_press != 1)
+                    return;
+
+                var pressed_page = view_switcher_pressed_page;
+                view_switcher_pressed_page = null;
+
+                Idle.add (() => {
+                    if (pressed_page != null && pressed_page == view_stack.get_visible_child_name ())
+                        reset_visible_page ();
+                    return Source.REMOVE;
+                });
+            });
+            view_switcher.add_controller (reset_controller);
+
             toast_overlay = new Adw.ToastOverlay ();
             toast_overlay.set_child (view_stack);
 
@@ -63,6 +85,11 @@ namespace ProtonPlus.Widgets.Main {
             games_box.set_selected_launcher (launcher);
         }
 
+        public void navigate_to_download (Services.InstallJob job) {
+            view_stack.set_visible_child_name ("tools");
+            tools_box.show_download (job);
+        }
+
         public void send_toast (string title) {
             var toast = new Adw.Toast (title);
 
@@ -77,7 +104,7 @@ namespace ProtonPlus.Widgets.Main {
                 list.append (launcher);
             }
 
-            var code = yield Models.Tool.check_for_updates (list);
+            var code = yield Services.InstallationService.instance.check_for_updates (list);
 
             switch (code) {
                 case ReturnCode.RUNNERS_IN_USE:
@@ -90,55 +117,44 @@ namespace ProtonPlus.Widgets.Main {
                 case ReturnCode.RUNNER_UPDATED:
                     send_toast (_ ("Everything is now up-to-date"));
                     break;
-                case ReturnCode.API_LIMIT_REACHED:
-                    send_toast (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("API limit reached")));
-                    break;
-                case ReturnCode.CONNECTION_ISSUE:
-                case ReturnCode.CONNECTION_REFUSED:
-                case ReturnCode.CONNECTION_UNKNOWN:
-                    send_toast (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unable to reach the API")));
-                    break;
-                case ReturnCode.INVALID_ACCESS_TOKEN:
-                    send_toast (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Invalid access token")));
-                    break;
                 default:
-                    send_toast (_ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unknown error")));
+                    send_toast (_ ("Couldn't check for updates (Reason: %s)").printf (get_return_code_message (code)));
                     break;
             }
         }
 
-        void on_download_added (Models.Release release) {
-            if (release.state == Models.Release.State.BUSY_UPDATING) {
-                send_notification (_ ("Update started"), release.displayed_title);
+        void on_download_added (Services.InstallJob job) {
+            if (job.state == Services.InstallJob.State.BUSY_UPDATING) {
+                send_notification (_ ("Update started"), job.displayed_title);
             } else {
-                send_notification (_ ("Download started"), release.displayed_title);
+                send_notification (_ ("Download started"), job.displayed_title);
             }
         }
 
-        void on_download_finished (Models.Release release, bool success) {
+        void on_download_finished (Services.InstallJob job, bool success) {
             if (success) {
-                send_notification (_ ("Download finished"), release.displayed_title);
-            } else if (release.canceled) {
-                send_notification (_ ("Download canceled"), release.displayed_title);
+                send_notification (_ ("Download finished"), job.displayed_title);
+            } else if (job.canceled) {
+                send_notification (_ ("Download canceled"), job.displayed_title);
             } else {
-                var body = release.displayed_title;
-                if (release.error_message != null && release.error_message != "") {
-                    body = "%s (%s)".printf (release.displayed_title, release.error_message);
+                var body = job.displayed_title;
+                if (job.error_message != null && job.error_message != "") {
+                    body = "%s (%s)".printf (job.displayed_title, job.error_message);
                 }
                 send_notification (_ ("Download failed"), body);
             }
         }
 
-        void on_tool_updated (Models.Release release, bool updated) {
+        void on_tool_updated (Services.InstallJob job, bool updated) {
             if (updated) {
-                send_notification (_ ("Update finished"), _ ("%s is now up-to-date").printf (release.displayed_title));
+                send_notification (_ ("Update finished"), _ ("%s is now up-to-date").printf (job.displayed_title));
             } else {
-                send_notification (_ ("Update finished"), _ ("%s is already up-to-date").printf (release.displayed_title));
+                send_notification (_ ("Update finished"), _ ("%s is already up-to-date").printf (job.displayed_title));
             }
         }
 
-        void on_tool_removed (Models.Release release) {
-            send_notification (_ ("Deleted"), release.displayed_title, "user-trash-symbolic");
+        void on_tool_removed (Services.InstallJob job) {
+            send_notification (_ ("Deleted"), job.displayed_title, "user-trash-symbolic");
         }
 
         void send_notification (string title, string body, string icon = "folder-download-symbolic") {
@@ -170,6 +186,20 @@ namespace ProtonPlus.Widgets.Main {
             }
 
             previous_view_name = view_stack.get_visible_child_name ();
+        }
+
+        void reset_visible_page () {
+            switch (view_stack.get_visible_child_name ()) {
+                case "tools":
+                    tools_box.show_groups_page ();
+                    break;
+                case "games":
+                    games_box.show_games_list_page ();
+                    break;
+                case "mangohud":
+                    mangohud_box.show_presets_page ();
+                    break;
+            }
         }
     }
 }

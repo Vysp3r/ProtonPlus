@@ -11,12 +11,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public LaunchOptionEntryField (string title, string subtitle, string placeholder) {
             Object ();
             this.title = title;
+            this.tooltip_text = subtitle != "" ? subtitle : placeholder;
 
             committed_text = "";
 
             apply_button = new Gtk.Button.from_icon_name ("object-select-symbolic");
             apply_button.set_valign (Gtk.Align.CENTER);
             apply_button.add_css_class ("flat");
+            apply_button.set_tooltip_text (this.tooltip_text);
             apply_button.clicked.connect (apply_pending_text);
             add_suffix (apply_button);
 

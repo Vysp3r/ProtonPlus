@@ -7,48 +7,56 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile wayland_tile { get; private set; }
         LaunchOptionTile gamemode_tile { get; private set; }
 
-        public CommonOptionsGroup (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers);
+        public CommonOptionsGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, false, presentation_registry);
 
             this.title = _("Common options");
             this.description = _("Quick toggles for the launch options people reach for most often.");
 
             mangohud_tile = create_tile (
-                                         _("Performance overlay"),
+                                         _("MangoHud performance overlay"),
                                          _("Shows an in-game overlay with FPS, CPU/GPU usage, and temps."),
                                          { "mangohud" },
                                          false,
-                                         LaunchLineType.WRAPPER
+                                         LaunchLineType.WRAPPER,
+                                         "performance-overlay"
             );
 
-            if (Globals.MANGOHUD_INSTALLED) {
-                Globals.SETTINGS.bind ("experimental-features", mangohud_tile, "visible", SettingsBindFlags.DEFAULT);
-            } else {
-                mangohud_tile.visible = false;
+            if (!Globals.MANGOHUD_INSTALLED) {
+                mangohud_tile.sensitive = false;
+                mangohud_tile.subtitle = _("Requires MangoHud to be installed. Search keeps unavailable options visible.");
             }
 
             steam_deck_tile = create_tile (
-                _("Disable Steam Deck Mode"),
+                _("Use desktop game profile"),
                 _("Disables the Steam Deck-specific profile that some games use."),
-                { "SteamDeck=0" }
+                { "SteamDeck=0" },
+                false,
+                LaunchLineType.ENVIRONMENT,
+                "desktop-game-profile"
             );
 
             wayland_tile = create_tile (
-                _("Wayland"),
+                _("Native Wayland"),
                 _("Runs the game natively on Wayland instead of through XWayland but it breaks Steam Input and the Steam Overlay."),
-                { "PROTON_ENABLE_WAYLAND=1" }
+                { "PROTON_ENABLE_WAYLAND=1" },
+                false,
+                LaunchLineType.ENVIRONMENT,
+                "native-wayland"
             );
 
             gamemode_tile = create_tile (
-                _("Feral Gamemode"),
+                _("GameMode"),
                 _("Requests temporary optimizations for system performance (CPU governor, process priority) when the game is running."),
                 { "gamemoderun" },
                 false,
-                LaunchLineType.WRAPPER
+                LaunchLineType.WRAPPER,
+                "gamemode"
             );
 
             if (!Globals.GAMEMODE_INSTALLED) {
                 gamemode_tile.sensitive = false;
+                gamemode_tile.subtitle = _("Requires GameMode to be installed. Search keeps unavailable options visible.");
             }
 
             this.add (mangohud_tile);

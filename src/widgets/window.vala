@@ -60,6 +60,9 @@ namespace ProtonPlus.Widgets {
             });
 
             main_box = new Main.Box ();
+            header_box.download_selected.connect ((job) => {
+                main_box.navigate_to_download (job);
+            });
 
             toolbar_view = new Adw.ToolbarView ();
             toolbar_view.add_top_bar (header_box);

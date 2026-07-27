@@ -4,7 +4,7 @@ namespace ProtonPlus.Models {
         public Launchers.Steam launcher { get; set; }
         public string userdata_path { get; set; }
         public string localconfig_path { get; set; }
-        public Utils.VDF.Shortcuts shortcuts { get; set; }
+        public Utils.VDF.Shortcuts? shortcuts { get; set; }
         public string steam_id { get; set; }
         public string account_id { get; set; }
         public string username { get; set; }
@@ -31,7 +31,7 @@ namespace ProtonPlus.Models {
                 if (!FileUtils.test (shortcuts_file_path, FileTest.IS_REGULAR))
                     Utils.VDF.Shortcuts.create_new_shortcuts_file_at (shortcuts_file_path);
 
-                shortcuts = new Utils.VDF.Shortcuts (shortcuts_file_path);
+                shortcuts = Utils.VDF.Shortcuts.load (shortcuts_file_path);
             } catch (Error e) {
                 warning (e.message);
             }
@@ -89,33 +89,54 @@ namespace ProtonPlus.Models {
 
         async bool load_non_steam_games () {
             this.non_steam_games = new List<Games.Steam> ();
+            var shortcuts = this.shortcuts;
+            if (shortcuts == null)
+                return false;
 
             foreach (var entry in shortcuts.nodes.entries) {
-                if (entry.key.contains ("shortcuts.") && !entry.key.contains (".tags")) {
-                    uint appid = entry.value.get ("appid").get_int32 ();
-                    if (appid < 0)
-                    appid += (1u << 32);
-
-                    if (!entry.value.has_key ("AppName"))
+                if (!is_shortcut_node_path (entry.key))
                     continue;
 
-                    string name = entry.value.get ("AppName").get_string ();
-                    if (name == "ProtonPlus")
+                var appid_value = get_shortcut_field (entry.value, "appid", VariantType.INT32);
+                var name_value = get_shortcut_field (entry.value, "AppName", VariantType.STRING);
+                var launch_options_value = get_shortcut_field (entry.value, "LaunchOptions", VariantType.STRING);
+                if (appid_value == null || name_value == null || launch_options_value == null)
                     continue;
 
-                    string launch_options = entry.value.get ("LaunchOptions").get_string ().replace ("\\\"", "\"");
+                uint appid = (uint) appid_value.get_int32 ();
+                string name = name_value.get_string ();
+                if (name == "ProtonPlus")
+                    continue;
 
-                    var compatibility_tool = launcher.compatibility_tool_hashtable.get (appid);
-                    if (compatibility_tool == null)
+                string launch_options = launch_options_value.get_string ().replace ("\\\"", "\"");
+
+                var compatibility_tool = launcher.compatibility_tool_hashtable.get (appid);
+                if (compatibility_tool == null)
                     compatibility_tool = "Default";
 
-                    var game = new Games.Steam.non_steam (appid, name, launch_options, compatibility_tool, launcher);
+                var game = new Games.Steam.non_steam (appid, name, launch_options, compatibility_tool, launcher);
 
-                    non_steam_games.append (game);
-                }
+                non_steam_games.append (game);
             }
 
             return true;
+        }
+
+        private static bool is_shortcut_node_path (string path) {
+            var components = path.split (".");
+            int id = -1;
+            return components.length == 2
+                && components[0] == "shortcuts"
+                && int.try_parse (components[1], out id)
+                && id >= 0;
+        }
+
+        private static GLib.Variant? get_shortcut_field (Utils.VDF.Node node, string name, VariantType type) {
+            if (!node.has_key (name))
+                return null;
+
+            var value = node.get (name);
+            return value != null && value.is_of_type (type) ? value : null;
         }
 
         static string steam_id_to_account_id (string steam_id) {

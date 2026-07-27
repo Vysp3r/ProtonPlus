@@ -4,8 +4,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
     public class None : Base {
         LaunchOptionTile hdr_tile { get; set; }
 
-        public None (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers);
+        public None (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, presentation_registry);
         }
 
         public Gtk.Widget create_page () {
@@ -16,7 +16,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                 _("Outputs HDR colors if your display supports it."),
                 { "PROTON_ENABLE_HDR=1" },
                 false,
-                LaunchLineType.ENVIRONMENT
+                LaunchLineType.ENVIRONMENT,
+                "proton-hdr"
             );
 
             group.add (hdr_tile);

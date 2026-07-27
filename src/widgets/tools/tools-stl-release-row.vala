@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets.Tools {
     public class STLReleaseRow : ReleaseRow {
-        public STLReleaseRow (Models.Release release) {
-            base (release);
+        public STLReleaseRow (Services.InstallJob job) {
+            base (job);
         }
 
         protected override void install_button_clicked () {
@@ -27,12 +27,15 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         protected override void customize_remove_dialog (RemoveDialog dialog) {
-            release.set_data ("delete-config", false);
-            release.set_data ("user-request", true);
+            var context = job.steam_tinker_launch_context;
+            if (context == null)
+                return;
+            context.remove_config = false;
+            context.user_requested_removal = true;
 
             var remove_config_check = new Gtk.CheckButton.with_label (_ ("Check this to also delete your configuration files."));
             remove_config_check.activate.connect (() => {
-                release.set_data ("delete-config", remove_config_check.get_active ());
+                context.remove_config = remove_config_check.get_active ();
             });
 
             dialog.set_extra_child (remove_config_check);
@@ -47,7 +50,7 @@ namespace ProtonPlus.Widgets.Tools {
             var yad_installed = false;
             if (yield Utils.System.check_dependency ("yad")) {
                 yad_installed = true;
-                string yad_version_output = yield Utils.System.run_command ("yad --version");
+                string yad_version_output = (yield Utils.System.run_command ("yad --version")).stdout;
 
                 float version = 0.0f;
                 try {
@@ -79,7 +82,8 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void external_install_check () {
-            var has_external_install = ((Models.Releases.SteamTinkerLaunch)release).detect_external_locations ();
+            var has_external_install = Services.InstallationService.instance
+                .detect_steam_tinker_launch_external_installations (job);
 
             if (has_external_install) {
                 var alert_dialog = new Adw.AlertDialog (

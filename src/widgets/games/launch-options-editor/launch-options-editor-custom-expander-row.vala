@@ -30,14 +30,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.options_values = options_values;
             this.rows_map = new HashTable<string, Adw.ComboRow> (str_hash, str_equal);
             this.item_tooltips = tooltips;
+            this.set_tooltip_text (switch_subtitle);
 
             add_custom_row = new Adw.EntryRow ();
             add_custom_row.title = _("Add custom item (Type name and press Enter)...");
+            add_custom_row.set_tooltip_text (add_custom_row.title);
             add_custom_row.activates_default = true;
 
             var add_button = new Gtk.Button.from_icon_name ("list-add-symbolic");
             add_button.add_css_class ("flat");
             add_button.valign = Gtk.Align.CENTER;
+            add_button.set_tooltip_text (add_custom_row.title);
             add_button.clicked.connect (on_custom_item_added);
             add_custom_row.add_suffix (add_button);
 
@@ -88,6 +91,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             if (this.item_tooltips != null && this.item_tooltips.contains (normalized_key)) {
                 row.subtitle = this.item_tooltips.lookup (normalized_key);
+                row.set_tooltip_text (row.subtitle);
+            } else {
+                row.set_tooltip_text (row.title);
             }
 
             rows_map.insert (normalized_key, row);

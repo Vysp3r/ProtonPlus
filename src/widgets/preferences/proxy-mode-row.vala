@@ -47,7 +47,6 @@ namespace ProtonPlus.Widgets.Preferences {
 
             if (Globals.SETTINGS != null) {
                 Globals.SETTINGS.set_enum ("proxy-mode", proxy_mode.mode);
-                Utils.Web.update_proxy_settings ();
             }
         }
 

@@ -14,10 +14,10 @@ namespace ProtonPlus.Utils.VDF {
     }
 
     public class Binary {
-        private VDF.Node[] _nodes;
-        public Gee.TreeMap<string, unowned VDF.Node> nodes;
+        // The map is the single owner of every node.  Keeping an unowned view
+        // alongside a separate array made nodes added after parsing dangle.
+        public Gee.TreeMap<string, VDF.Node> nodes { get; protected set; }
         private GLib.File file;
-        private InputStream input_stream;
         private DataInputStream reader;
         private DataOutputStream writer;
 
@@ -30,7 +30,7 @@ namespace ProtonPlus.Utils.VDF {
 
         private void parse_node (string current_node) throws Error {
             var node = new VDF.Node (current_node);
-            _nodes += node;
+            nodes.set (node.node_name, node);
 
             while (true) {
                 uint8 type = reader.read_byte ();
@@ -150,15 +150,19 @@ namespace ProtonPlus.Utils.VDF {
             output_stream.close (null);
         }
 
-        public Binary (string path) {
+        protected Binary (string path) {
+            file = GLib.File.new_for_path (path);
+            nodes = new Gee.TreeMap<string, VDF.Node> ();
+        }
+
+        protected void parse () throws Error {
+            var input_stream = file.read ();
             try {
-                file = GLib.File.new_for_path (path);
-                input_stream = file.read ();
                 reader = new DataInputStream (input_stream);
                 reader.set_byte_order (DataStreamByteOrder.LITTLE_ENDIAN);
-                nodes = new Gee.TreeMap<string, unowned VDF.Node> ();
 
-                while (true) {
+                bool complete = false;
+                while (!complete) {
                     uint8 type = reader.read_byte ();
                     switch (type) {
                         case BIN_TYPES.BIN_TYPE_NODE:
@@ -166,18 +170,24 @@ namespace ProtonPlus.Utils.VDF {
                             break;
                         case BIN_TYPES.BIN_TYPE_END:
                         case BIN_TYPES.BIN_TYPE_END_ALT:
-                            foreach (var node in _nodes) {
-                                nodes.set (node.node_name, node);
-                            }
-                            input_stream.close (null);
-                            return;
+                            complete = true;
+                            break;
                         default:
                             throw new GLib.Error (GLib.Quark.from_string ("vala-vdf"), 0, "Unexpected byte");
                     }
                 }
             } catch (Error e) {
-                warning ("%s\n", e.message);
+                input_stream.close (null);
+                throw e;
             }
+
+            input_stream.close (null);
+        }
+
+        public static Binary load (string path) throws Error {
+            var binary = new Binary (path);
+            binary.parse ();
+            return binary;
         }
     }
 }

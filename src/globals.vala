@@ -11,6 +11,7 @@ namespace ProtonPlus.Globals {
     public static bool GAMESCOPE_INSTALLED;
     public static bool SCOPEBUDDY_INSTALLED;
     public static bool GAMEMODE_INSTALLED;
+    private static bool loaded = false;
 
     public struct LanguageItem {
         public string code;
@@ -80,6 +81,11 @@ namespace ProtonPlus.Globals {
     }
 
     public static void load () {
+        if (loaded)
+            return;
+
+        loaded = true;
+
         var schema_source = SettingsSchemaSource.get_default ();
 
         if (schema_source != null && SETTINGS == null) {

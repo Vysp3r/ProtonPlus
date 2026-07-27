@@ -4,11 +4,17 @@ namespace ProtonPlus.Widgets.Header {
 
         Adw.HeaderBar header_bar { get; set; }
         LaunchersButton launchers_button { get; set; }
+        DownloadsIndicator downloads_indicator { get; set; }
         Gtk.MenuButton menu_button { get; set; }
+
+        public signal void download_selected (Services.InstallJob job);
 
         public Box () {
             launchers_button = new LaunchersButton ();
             launchers_button.launcher_selected.connect ((launcher) => launcher_selected (launcher));
+
+            downloads_indicator = new DownloadsIndicator ();
+            downloads_indicator.download_selected.connect ((job) => download_selected (job));
 
             var menu = new Menu ();
             menu.append (_("_Preferences"), "app.preferences");
@@ -24,6 +30,7 @@ namespace ProtonPlus.Widgets.Header {
             header_bar = new Adw.HeaderBar ();
             header_bar.pack_start (launchers_button);
             header_bar.pack_end (menu_button);
+            header_bar.pack_end (downloads_indicator);
             header_bar.set_hexpand (true);
 
 

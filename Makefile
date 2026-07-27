@@ -1,4 +1,4 @@
-.PHONY: appimage build build-debug build-run clean debug flathub gen-potfiles icons install linter local run tests translations uninstall
+.PHONY: appimage build build-debug build-run clean debug flathub gen-potfiles icons install linter local local-run run tests translations uninstall
 
 gen-potfiles:
 	@set -e; { \
@@ -15,6 +15,12 @@ build:
 	./scripts/build.sh native
 
 build-run:
+	@if command -v protonplus >/dev/null 2>&1; then \
+		./scripts/build.sh native; \
+	else \
+		echo "ProtonPlus is not installed; installing it..."; \
+		$(MAKE) install; \
+	fi
 	./scripts/build.sh native run
 
 build-debug:
@@ -48,6 +54,9 @@ icons:
 
 local:
 	./scripts/build.sh local
+
+local-run:
+	./scripts/build.sh local run
 
 tests:
 	meson setup build-tests --reconfigure

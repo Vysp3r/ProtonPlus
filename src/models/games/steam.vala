@@ -50,12 +50,12 @@ namespace ProtonPlus.Models.Games {
             this.launch_options = launch_options;
             this.compatibility_tool = compatibility_tool;
             this.is_non_steam = true;
-            this.is_native = false;
         }
 
         private bool detect_native () {
-            if (is_non_steam)
-                return false;
+            if (is_non_steam) {
+                return true;
+            }
 
             if (FileUtils.test (installdir, FileTest.IS_DIR)) {
                 if (!FileUtils.test (prefixdir, FileTest.IS_DIR))
@@ -150,6 +150,8 @@ namespace ProtonPlus.Models.Games {
 
             if (config_content == document.content) {
                 this.compatibility_tool = compatibility_tool;
+                if (is_non_steam)
+                    _is_native = null;
                 return true;
             }
 
@@ -158,6 +160,8 @@ namespace ProtonPlus.Models.Games {
                 return false;
 
             this.compatibility_tool = compatibility_tool;
+            if (is_non_steam)
+                _is_native = null;
 
             return true;
         }
@@ -245,18 +249,15 @@ namespace ProtonPlus.Models.Games {
             public static async Gee.HashMap<uint, Models.Games.Steam.AwacyGame?> get_awacy_games () {
                 var games = new Gee.HashMap<uint, Models.Games.Steam.AwacyGame?> ();
 
-                string? response;
-
-                var get_code = yield Utils.Web.get_request (
+                var response = yield Utils.Web.get_request (
                     "https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json",
-                    Utils.Web.GetRequestType.OTHER,
-                    out response
+                    Utils.Web.GetRequestType.OTHER
                 );
 
-                if (get_code != ReturnCode.VALID_REQUEST)
+                if (response.code != ReturnCode.VALID_REQUEST)
                     return games;
 
-                var root_node = Utils.Parser.get_node_from_json (response);
+                var root_node = Utils.Parser.get_node_from_json (response.body);
 
                 if (root_node == null)
                     return games;
