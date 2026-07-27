@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 00:58-0400\n"
+"POT-Creation-Date: 2026-07-27 12:11-0400\n"
 "PO-Revision-Date: 2026-05-12 01:11+0000\n"
 "Last-Translator: Jakub Szymański <99kuba11@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -5661,32 +5661,68 @@ msgstr "Błąd: Nieudana instalacja\n"
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:149
+#: src/widgets/tools/tools-releases-box.vala:65
+msgid "Standard 64-bit build for most Intel and AMD PCs."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:67
+msgid ""
+"Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 "
+"instruction set."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:70
+msgid "64-bit ARM build. Choose this only on ARM64 hardware."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:72
+msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:75
+msgid ""
+"64-bit build with WoW64 support for running 32-bit Windows applications."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:77
+msgid "The provider's recommended build for most systems."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:79
+#, c-format
+msgid "Select the %s build variant."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:174
 #, fuzzy
 msgid "Check for new releases"
 msgstr "Sprawdź aktualizacje"
 
-#: src/widgets/tools/tools-releases-box.vala:180
+#: src/widgets/tools/tools-releases-box.vala:183
+msgid "Choose which architecture or build variant to show."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:212
 #, fuzzy
 msgid "Load More"
 msgstr "Wczytaj więcej"
 
-#: src/widgets/tools/tools-releases-box.vala:228
+#: src/widgets/tools/tools-releases-box.vala:260
 #, fuzzy
 msgid "No releases found"
 msgstr "Nie znaleziono żadnego profilu."
 
-#: src/widgets/tools/tools-releases-box.vala:229
+#: src/widgets/tools/tools-releases-box.vala:261
 msgid "No releases match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:279
-#: src/widgets/tools/tools-releases-box.vala:337
+#: src/widgets/tools/tools-releases-box.vala:311
+#: src/widgets/tools/tools-releases-box.vala:439
 #, fuzzy
 msgid "Failed to Fetch Releases"
 msgstr "Błąd: Nieudane wczytanie wydań\n"
 
-#: src/widgets/tools/tools-releases-box.vala:509
+#: src/widgets/tools/tools-releases-box.vala:613
 #, fuzzy, c-format
 msgid "Last updated: %s"
 msgstr "Nie mogę zaktualizować %s"
