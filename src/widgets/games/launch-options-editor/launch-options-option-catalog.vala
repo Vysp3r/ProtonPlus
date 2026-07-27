@@ -72,6 +72,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         UNKNOWN
     }
 
+    /* Applicability says where an option may apply. Support says how much
+     * current, primary-source evidence we have for managing its emission. */
+    public enum LaunchOptionSupport {
+        VERIFIED_CURRENT,
+        COMPONENT_SPECIFIC,
+        VARIANT_SPECIFIC,
+        LEGACY_DEPRECATED,
+        UNSUPPORTED,
+        UNKNOWN_UNVERIFIED
+    }
+
     public enum LaunchOptionCapability {
         STEAM,
         PROTON,
@@ -126,6 +137,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public string conflict_group { get; construct; }
         public string[] conflicts { get; construct; }
         public string[] dependencies { get; construct; }
+        public LaunchOptionSupport support { get; construct; }
+        public bool managed_emission { get; construct; }
+        public string[] legacy_tokens { get; construct; }
+        public string[] selectable_values { get; construct; }
         LaunchOptionCapability[] _required_capabilities;
         public LaunchOptionApplicability applicability { get; construct; }
         LaunchOptionSemanticOutput[] _composite_outputs;
@@ -145,7 +160,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             LaunchOptionCapability[] required_capabilities = {},
             LaunchOptionApplicability applicability = LaunchOptionApplicability.GENERIC,
             LaunchOptionSemanticOutput[] composite_outputs = {},
-            bool legacy_manual_representation = false
+            bool legacy_manual_representation = false,
+            LaunchOptionSupport support = LaunchOptionSupport.UNKNOWN_UNVERIFIED,
+            bool managed_emission = false,
+            string[] legacy_tokens = {},
+            string[] selectable_values = {}
         ) {
             Object (
                 kind: kind, placeholder_policy: placeholder_policy,
@@ -154,7 +173,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 selectable_wrapper_ids: selectable_wrapper_ids,
                 conflict_group: conflict_group, conflicts: conflicts,
                 dependencies: dependencies, applicability: applicability,
-                legacy_manual_representation: legacy_manual_representation
+                legacy_manual_representation: legacy_manual_representation,
+                support: support, managed_emission: managed_emission,
+                legacy_tokens: legacy_tokens, selectable_values: selectable_values
             );
             this._required_capabilities = required_capabilities;
             this._composite_outputs = composite_outputs;
@@ -373,6 +394,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public Gee.List<string> validate () {
             var diagnostics = new Gee.ArrayList<string> ();
             var ids = new Gee.HashSet<string> ();
+            var canonical_keys = new Gee.HashMap<string, string> ();
+            var legacy_keys = new Gee.HashMap<string, string> ();
+            var command_boundaries = 0;
             foreach (var entry in entries) {
                 if (entry.id.strip () == "")
                     diagnostics.add ("Option IDs must not be empty.");
@@ -380,7 +404,23 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     diagnostics.add ("Duplicate option ID: %s".printf (entry.id));
                 ids.add (entry.id);
                 validate_option_semantics (entry, diagnostics);
+                var semantics = entry.semantics;
+                if (semantics == null)
+                    continue;
+                if (semantics.kind == LaunchOptionSemanticKind.COMMAND_BOUNDARY)
+                    command_boundaries++;
+                register_environment_key (canonical_keys, semantics.environment_key, entry.id, "canonical", diagnostics);
+                foreach (var token in semantics.legacy_tokens)
+                    register_environment_key (legacy_keys, token_key (token), entry.id, "legacy", diagnostics);
             }
+
+            foreach (var key in canonical_keys.keys) {
+                if (legacy_keys.has_key (key) && canonical_keys.get (key) != legacy_keys.get (key))
+                    diagnostics.add ("Environment key '%s' is canonical for '%s' and legacy for unrelated option '%s'.".printf (key, canonical_keys.get (key), legacy_keys.get (key)));
+            }
+            validate_conflict_consistency (diagnostics);
+            if (command_boundaries != 1)
+                diagnostics.add ("Catalog requires exactly one legacy command boundary (found %d).".printf (command_boundaries));
 
             var wrapper_ids = new Gee.HashSet<string> ();
             var wrapper_priorities = new Gee.HashMap<uint, LaunchWrapperDefinition> ();
@@ -409,6 +449,57 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 }
             }
             return diagnostics;
+        }
+
+        void register_environment_key (
+            Gee.HashMap<string, string> owners, string key, string option_id,
+            string role, Gee.List<string> diagnostics
+        ) {
+            if (key.strip () == "")
+                return;
+            if (owners.has_key (key) && owners.get (key) != option_id)
+                diagnostics.add ("Environment key '%s' has multiple %s owners: '%s' and '%s'.".printf (key, role, owners.get (key), option_id));
+            else
+                owners.set (key, option_id);
+        }
+
+        string token_key (string token) {
+            var separator = token.index_of_char ('=');
+            return separator >= 0 ? token.substring (0, separator) : token;
+        }
+
+        void validate_conflict_consistency (Gee.List<string> diagnostics) {
+            var groups = new Gee.HashMap<string, uint> ();
+            foreach (var entry in entries) {
+                var semantics = entry.semantics;
+                if (semantics == null)
+                    continue;
+                if (semantics.conflict_group != ""
+                    && semantics.kind != LaunchOptionSemanticKind.WRAPPER_SELECTOR) {
+                    var count = groups.has_key (semantics.conflict_group) ? groups.get (semantics.conflict_group) : 0;
+                    groups.set (semantics.conflict_group, count + 1);
+                }
+                foreach (var conflict_id in semantics.conflicts) {
+                    var other = lookup (conflict_id);
+                    if (other == null || other.semantics == null)
+                        continue;
+                    if (!contains_id (other.semantics.conflicts, entry.id)
+                        && (semantics.conflict_group == "" || semantics.conflict_group != other.semantics.conflict_group))
+                        diagnostics.add ("Conflict '%s' declared by '%s' is not reciprocal.".printf (conflict_id, entry.id));
+                }
+            }
+            foreach (var group in groups.keys) {
+                if (groups.get (group) < 2)
+                    diagnostics.add ("Conflict group '%s' must contain at least two options.".printf (group));
+            }
+        }
+
+        bool contains_id (string[] values, string id) {
+            foreach (var value in values) {
+                if (value == id)
+                    return true;
+            }
+            return false;
         }
 
         void add_option (
@@ -474,14 +565,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     LaunchPlaceholderPolicy.BUILDER_MANAGED_COMMAND_BOUNDARY,
                     LaunchOptionEmissionMode.RAW_CONTEXT_DEPENDENT,
                     "", "", {}, {}, "", {}, {}, {},
-                    LaunchOptionApplicability.GENERIC, {}, true
+                    LaunchOptionApplicability.GENERIC, {}, true,
+                    support_for (id), false, {}, {}
                 );
             }
             if (id == "raw-launch-options" || id == "custom-game-arguments") {
                 return new LaunchOptionSemantics (
                     LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT,
                     LaunchPlaceholderPolicy.CONTEXT_DEPENDENT_RAW,
-                    LaunchOptionEmissionMode.RAW_CONTEXT_DEPENDENT
+                    LaunchOptionEmissionMode.RAW_CONTEXT_DEPENDENT,
+                    "", "", {}, {}, "", {}, {}, {},
+                    LaunchOptionApplicability.UNKNOWN, {}, false,
+                    support_for (id), false, legacy_tokens_for (id), {}
                 );
             }
             if (id == "scopebuddy-resolution") {
@@ -501,7 +596,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                             LaunchOptionEmissionMode.DYNAMIC_WRAPPER_ARGUMENT,
                             "", "scopebuddy", { "-W", "-H" }
                         )
-                    }
+                    }, false, support_for (id), is_managed_emission (id),
+                    legacy_tokens_for (id), selectable_values_for (id)
                 );
             }
             if (is_wrapper_argument (id)) {
@@ -515,7 +611,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     dynamic_value ? LaunchOptionEmissionMode.DYNAMIC_WRAPPER_ARGUMENT : LaunchOptionEmissionMode.FIXED_TOKENS,
                     "", wrapper_id, dynamic_value ? new string[0] : raw_tokens, {}, "", {}, backend_dependencies (dependencies),
                     { wrapper_id == "gamescope" ? LaunchOptionCapability.GAMESCOPE : LaunchOptionCapability.SCOPEBUDDY },
-                    LaunchOptionApplicability.COMPONENT_SPECIFIC
+                    LaunchOptionApplicability.COMPONENT_SPECIFIC, {}, false,
+                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id)
                 );
             }
             if (serialization_type == LaunchLineType.ARGUMENT) {
@@ -523,21 +620,33 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     LaunchOptionSemanticKind.GAME_ARGUMENT,
                     LaunchPlaceholderPolicy.OPTIONAL,
                     LaunchOptionEmissionMode.FIXED_TOKENS,
-                    "", "", raw_tokens, {}, renderer_conflict_group (id)
+                    "", "", raw_tokens, {}, renderer_conflict_group (id), {}, {}, {},
+                    LaunchOptionApplicability.GENERIC, {}, false,
+                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id)
                 );
             }
             if (serialization_type == LaunchLineType.ENVIRONMENT) {
+                if (has_no_canonical_emission (id)) {
+                    return new LaunchOptionSemantics (
+                        LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT,
+                        LaunchPlaceholderPolicy.CONTEXT_DEPENDENT_RAW,
+                        LaunchOptionEmissionMode.RAW_CONTEXT_DEPENDENT,
+                        "", "", {}, {}, "", {}, {}, capabilities_for (id), applicability_for (id), {}, false,
+                        support_for (id), false, legacy_tokens_for (id), selectable_values_for (id)
+                    );
+                }
                 bool dynamic_value = is_dynamic_environment (id);
-                bool composite = id == "amd-shader-cache";
-                string key = environment_key_for (id, raw_tokens);
+                string key = canonical_environment_key_for (id, raw_tokens);
+                var fixed_tokens = canonical_fixed_tokens_for (id, raw_tokens);
                 return new LaunchOptionSemantics (
-                    composite ? LaunchOptionSemanticKind.COMPOSITE_DYNAMIC : LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT,
+                    LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT,
                     LaunchPlaceholderPolicy.REQUIRED,
-                    composite ? LaunchOptionEmissionMode.COMPOSITE_EMISSION : (dynamic_value ? LaunchOptionEmissionMode.DYNAMIC_ENVIRONMENT_VALUE : LaunchOptionEmissionMode.FIXED_TOKENS),
-                    key, scopebuddy_owner (id), dynamic_value || composite ? new string[0] : raw_tokens, {},
+                    dynamic_value ? LaunchOptionEmissionMode.DYNAMIC_ENVIRONMENT_VALUE : LaunchOptionEmissionMode.FIXED_TOKENS,
+                    key, scopebuddy_owner (id), dynamic_value ? new string[0] : fixed_tokens, {},
                     id == "amd-fsr4" || id == "amd-fsr4-rdna3" ? "amd-fsr4-upgrade" : "", {},
                     scopebuddy_owner (id) != "" ? backend_dependencies (dependencies) : dependencies,
-                    capabilities_for (id), applicability_for (id), composite ? shader_cache_outputs () : new LaunchOptionSemanticOutput[0]
+                    capabilities_for (id), applicability_for (id), {}, false,
+                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id)
                 );
             }
 
@@ -546,7 +655,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return new LaunchOptionSemantics (
                 LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT,
                 LaunchPlaceholderPolicy.CONTEXT_DEPENDENT_RAW,
-                LaunchOptionEmissionMode.RAW_CONTEXT_DEPENDENT
+                LaunchOptionEmissionMode.RAW_CONTEXT_DEPENDENT,
+                "", "", {}, {}, "", {}, {}, {}, LaunchOptionApplicability.UNKNOWN, {}, false,
+                support_for (id), false, legacy_tokens_for (id), selectable_values_for (id)
             );
         }
 
@@ -557,7 +668,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 LaunchPlaceholderPolicy.REQUIRED,
                 LaunchOptionEmissionMode.WRAPPER_SELECTION,
                 "", wrapper_id, {}, {}, "", {}, {}, { definition.required_capability },
-                LaunchOptionApplicability.COMPONENT_SPECIFIC
+                LaunchOptionApplicability.COMPONENT_SPECIFIC, {}, false,
+                support_for (wrapper_id), true, {}, {}
             );
         }
 
@@ -583,9 +695,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
         }
 
-        string environment_key_for (string id, string[] raw_tokens) {
-            if (id == "scopebuddy-auto-hdr") return "SCB_AUTO_HDR";
-            if (id == "scopebuddy-auto-vrr") return "SCB_AUTO_VRR";
+        string canonical_environment_key_for (string id, string[] raw_tokens) {
+            switch (id) {
+                case "ntsync-mode": return "PROTON_NO_NTSYNC";
+                case "dll-overrides": return "WINEDLLOVERRIDES";
+                case "amd-vulkan-driver": return "AMD_VULKAN_ICD";
+                case "vkd3d-log-level": return "VKD3D_DEBUG";
+                default: break;
+            }
             foreach (var token in raw_tokens) {
                 var separator = token.index_of_char ('=');
                 if (separator >= 0)
@@ -594,6 +711,157 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (raw_tokens.length > 0)
                 return raw_tokens[0];
             return "";
+        }
+
+        string[] canonical_fixed_tokens_for (string id, string[] raw_tokens) {
+            if (id == "ntsync-mode") return { "PROTON_NO_NTSYNC=1" };
+            if (id == "amd-shader-cache") return { "MESA_SHADER_CACHE_DISABLE=1" };
+            return raw_tokens;
+        }
+
+        bool has_no_canonical_emission (string id) {
+            switch (id) {
+                /* Current upstream DXVK uses dxvk.conf configuration keys;
+                 * DXVK_ASYNC is a patched-DXVK convention. VKD3D-Proton
+                 * documents neither of the historical variables below. */
+                case "dxvk-frame-limit":
+                case "dxvk-async":
+                case "vkd3d-shader-cache":
+                case "vkd3d-gpuva":
+                case "nvidia-nvapi":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        string[] legacy_tokens_for (string id) {
+            switch (id) {
+                case "ntsync-mode": return { "PROTON_USE_NTSYNC=0" };
+                case "dll-overrides": return { "DLL_OVERRIDES" };
+                case "amd-vulkan-driver": return { "AMD_ICD" };
+                case "vkd3d-log-level": return { "VKD3D_LOG_LEVEL" };
+                case "amd-shader-cache": return { "MESA_SHADER_CACHE_DISABLE=0" };
+                case "dxvk-frame-limit": return { "DXVK_FRAME_RATE=" };
+                case "dxvk-async": return { "DXVK_ASYNC=1" };
+                case "vkd3d-shader-cache": return { "VKD3D_SHADER_CACHE=1" };
+                case "vkd3d-gpuva": return { "VKD3D_GPUVA=1" };
+                case "vkd3d-config": return { "force_host_cache", "shader_cache", "upload_hvv", "gpuva", "stable_power_state", "dxr10", "dxr11" };
+                case "nvidia-nvapi": return { "PROTON_ENABLE_NVAPI=1" };
+                default: return {};
+            }
+        }
+
+        string[] selectable_values_for (string id) {
+            switch (id) {
+                case "vkd3d-log-level": return { "none", "err", "warn", "fixme", "info", "trace" };
+                case "vkd3d-config": return { "vk_debug", "skip_application_workarounds", "nodxr", "dxr", "dxr12", "force_static_cbv", "single_queue", "no_upload_hvv", "force_host_cached", "no_invariant_position", "pipeline_library_app_cache" };
+                case "amd-radv-perftest": return { "cswave32", "dccmsaa", "dmashaders", "gewave32", "localbos", "lowlatencydec", "lowlatencyenc", "nggc", "nircache", "nogttspill", "nosam", "pswave32", "rtcps" };
+                /* RADV_DEBUG and ACO_DEBUG are diagnostic flag lists. Keep
+                 * only flags documented by current Mesa, rather than the
+                 * historical widget's guessed boolean pairs. */
+                case "amd-radv-debug": return { "hang", "syncshaders", "noibs", "nocache", "nodcc", "nogpl", "nooptvariant", "nosam", "novrs", "precompile", "psocachestats" };
+                case "amd-aco-debug": return { "validate", "perfinfo", "force-waitcnt", "nosched", "nowave32" };
+                default: return {};
+            }
+        }
+
+        LaunchOptionSupport support_for (string id) {
+            switch (id) {
+                case "dxvk-frame-limit":
+                case "vkd3d-shader-cache":
+                case "vkd3d-gpuva":
+                    return LaunchOptionSupport.UNSUPPORTED;
+                case "dxvk-async":
+                    return LaunchOptionSupport.VARIANT_SPECIFIC;
+                case "nvidia-nvapi":
+                    return LaunchOptionSupport.LEGACY_DEPRECATED;
+                case "d7vk":
+                case "optiscaler":
+                case "discord-bridge":
+                case "winealsa-channels":
+                case "winealsa-spatial":
+                case "amd-fsr4":
+                case "amd-fsr4-rdna3":
+                case "nvidia-dlss-updater":
+                case "nvidia-dlss-indicator":
+                case "nvidia-libraries":
+                case "intel-xess":
+                    return LaunchOptionSupport.VARIANT_SPECIFIC;
+                case "performance-overlay":
+                case "mangohud":
+                case "gamemode":
+                case "gamescope":
+                case "scopebuddy":
+                case "launch-backend":
+                case "gamescope-fullscreen":
+                case "gamescope-resolution":
+                case "gamescope-hdr":
+                case "gamescope-vrr":
+                case "gamescope-frame-limit":
+                case "gamescope-arguments":
+                case "scopebuddy-fullscreen":
+                case "scopebuddy-resolution":
+                case "scopebuddy-auto-hdr":
+                case "scopebuddy-auto-vrr":
+                case "scopebuddy-frame-limit":
+                case "scopebuddy-arguments":
+                case "vkbasalt":
+                case "vkd3d-config":
+                case "vkd3d-log-level":
+                case "dxvk-log-level":
+                case "amd-discrete-gpu":
+                case "amd-anti-lag":
+                case "amd-vulkan-driver":
+                case "amd-glthread":
+                case "amd-shader-cache":
+                case "amd-radv-perftest":
+                case "amd-radv-debug":
+                case "amd-aco-debug":
+                    return LaunchOptionSupport.COMPONENT_SPECIFIC;
+                case "raw-launch-options":
+                case "custom-game-arguments":
+                case "high-process-priority":
+                case "per-game-shader-cache":
+                case "native-wayland":
+                case "desktop-game-profile":
+                case "proton-hdr":
+                case "wow64":
+                case "writecopy":
+                case "vulkan-sync2":
+                case "futex-waitv":
+                case "amd-staging-shm":
+                case "prefer-sdl":
+                case "bypass-steam-input":
+                case "pulse-latency":
+                case "skip-launcher":
+                case "renderer-vulkan":
+                case "renderer-dx11":
+                case "renderer-dx12":
+                case "developer-console":
+                    return LaunchOptionSupport.UNKNOWN_UNVERIFIED;
+                case "steam-command":
+                case "wined3d":
+                case "ntsync-mode":
+                case "large-address-aware":
+                case "dll-overrides":
+                case "proton-debug-log":
+                case "nvidia-report-amd":
+                    return LaunchOptionSupport.VERIFIED_CURRENT;
+                default:
+                    /* An ID not named above has no current primary-source
+                     * evidence in this phase. It is deliberately not a
+                     * generic managed default. */
+                    return LaunchOptionSupport.UNKNOWN_UNVERIFIED;
+            }
+        }
+
+        bool is_managed_emission (string id) {
+            var support = support_for (id);
+            return support != LaunchOptionSupport.UNSUPPORTED
+                   && support != LaunchOptionSupport.UNKNOWN_UNVERIFIED
+                   && support != LaunchOptionSupport.LEGACY_DEPRECATED
+                   && id != "steam-command";
         }
 
         string scopebuddy_owner (string id) {
@@ -615,13 +883,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (id == "renderer-vulkan" || id == "renderer-dx11" || id == "renderer-dx12")
                 return "renderer-selection";
             return "";
-        }
-
-        LaunchOptionSemanticOutput[] shader_cache_outputs () {
-            return {
-                new LaunchOptionSemanticOutput (LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT, LaunchOptionEmissionMode.FIXED_TOKENS, "MESA_SHADER_CACHE_DISABLE", "", { "MESA_SHADER_CACHE_DISABLE=0" }),
-                new LaunchOptionSemanticOutput (LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT, LaunchOptionEmissionMode.FIXED_TOKENS, "MESA_SHADER_CACHE_DISABLE", "", { "MESA_SHADER_CACHE_DISABLE=1" })
-            };
         }
 
         LaunchOptionCapability[] capabilities_for (string id) {
@@ -690,11 +951,73 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     diagnostics.add ("Option '%s' has an empty fixed token.".printf (entry.id));
                 if (semantics.kind != LaunchOptionSemanticKind.COMMAND_BOUNDARY && token.contains ("%command%"))
                     diagnostics.add ("Option '%s' has %%command%% outside a command boundary.".printf (entry.id));
+                if (semantics.kind == LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT
+                    && token_key (token) != semantics.environment_key)
+                    diagnostics.add ("Fixed environment token '%s' for '%s' does not use declared key '%s'.".printf (token, entry.id, semantics.environment_key));
             }
+            foreach (var token in semantics.legacy_tokens) {
+                if (token.strip () == "")
+                    diagnostics.add ("Option '%s' has an empty legacy token.".printf (entry.id));
+                if (token.contains ("%command%"))
+                    diagnostics.add ("Option '%s' legacy tokens must not contain %%command%%.".printf (entry.id));
+                foreach (var canonical in semantics.fixed_tokens) {
+                    if (token == canonical)
+                        diagnostics.add ("Option '%s' treats canonical token '%s' as legacy.".printf (entry.id, token));
+                }
+            }
+            if ((semantics.support == LaunchOptionSupport.UNSUPPORTED
+                 || semantics.support == LaunchOptionSupport.LEGACY_DEPRECATED)
+                && semantics.managed_emission)
+                diagnostics.add ("Unsupported or legacy option '%s' must not be managed emission.".printf (entry.id));
+            if (semantics.managed_emission && semantics.support == LaunchOptionSupport.UNKNOWN_UNVERIFIED)
+                diagnostics.add ("Managed option '%s' has unknown support semantics.".printf (entry.id));
+            if (semantics.support == LaunchOptionSupport.UNSUPPORTED
+                && semantics.applicability == LaunchOptionApplicability.GENERIC)
+                diagnostics.add ("Unsupported option '%s' cannot claim generic applicability.".printf (entry.id));
             if (semantics.kind == LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT && semantics.emission_mode != LaunchOptionEmissionMode.FIXED_TOKENS && semantics.emission_mode != LaunchOptionEmissionMode.DYNAMIC_ENVIRONMENT_VALUE)
                 diagnostics.add ("Environment option '%s' has an incompatible emission mode.".printf (entry.id));
             if (semantics.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT && semantics.emission_mode != LaunchOptionEmissionMode.FIXED_TOKENS && semantics.emission_mode != LaunchOptionEmissionMode.DYNAMIC_WRAPPER_ARGUMENT)
                 diagnostics.add ("Wrapper argument '%s' has an incompatible emission mode.".printf (entry.id));
+            if (semantics.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT) {
+                var wrapper = lookup_wrapper (semantics.wrapper_id);
+                if (wrapper != null && !has_capability (semantics.get_required_capabilities (), wrapper.required_capability))
+                    diagnostics.add ("Wrapper argument '%s' does not require wrapper capability '%s'.".printf (entry.id, semantics.wrapper_id));
+            }
+            validate_composite_outputs (entry, semantics, diagnostics);
+        }
+
+        bool has_capability (LaunchOptionCapability[] capabilities, LaunchOptionCapability capability) {
+            foreach (var candidate in capabilities) {
+                if (candidate == capability)
+                    return true;
+            }
+            return false;
+        }
+
+        void validate_composite_outputs (
+            LaunchOptionMetadata entry, LaunchOptionSemantics semantics,
+            Gee.List<string> diagnostics
+        ) {
+            var assignments = new Gee.HashMap<string, string> ();
+            foreach (var output in semantics.get_composite_outputs ()) {
+                if (output.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT
+                    && lookup_wrapper (output.wrapper_id) == null)
+                    diagnostics.add ("Composite option '%s' references unknown wrapper '%s'.".printf (entry.id, output.wrapper_id));
+                if (output.kind != LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT)
+                    continue;
+                if (output.environment_key.strip () == "") {
+                    diagnostics.add ("Composite environment output for '%s' requires a key.".printf (entry.id));
+                    continue;
+                }
+                foreach (var token in output.fixed_tokens) {
+                    if (token_key (token) != output.environment_key)
+                        diagnostics.add ("Composite token '%s' for '%s' does not use declared key '%s'.".printf (token, entry.id, output.environment_key));
+                    if (assignments.has_key (output.environment_key) && assignments.get (output.environment_key) != token)
+                        diagnostics.add ("Composite option '%s' emits contradictory assignments for '%s'.".printf (entry.id, output.environment_key));
+                    else
+                        assignments.set (output.environment_key, token);
+                }
+            }
         }
 
         void add_defaults () {
