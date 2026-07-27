@@ -3,6 +3,7 @@
 # Alessandro Marigliano <alemarigliano22@proton.me>, 2025.
 # M4ttiA <sensoriale_echidna_0w@icloud.com>, 2025.
 # Youseffo13 <>, 2026.
+#
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
@@ -36,8 +37,9 @@ msgid ""
 "ProtonPlus helps you install, update, remove, and organize Windows "
 "compatibility tools used by Steam and other Linux game launchers."
 msgstr ""
-"ProtonPlus è un semplice strumento che ti aiuta a gestire i tuoi strumenti "
-"di compatibilità per Steam, Lutris, Heroic Games Launcher e Bottles."
+"ProtonPlus ti aiuta a installare, aggiornare, rimuovere e organizzare gli "
+"strumenti di compatibilità per Windows utilizzati da Steam e altri "
+"lanciatori di giochi per Linux."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:14
 msgid "Manage Proton, Wine, DXVK, VKD3D, and related compatibility tools"
@@ -140,7 +142,7 @@ msgstr "🐛 Risolto il download di Proton-GE RTSP"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:101
 msgid "🐛 Fixed Proton-GE downloading wrong version"
-msgstr "🐛 Risolta la versione errata scaricata da Proton-GE"
+msgstr "🐛 Risolto il download di una versione errata di Proton-GE"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:102
 msgid "🐛 Fixed yad check for Steam Tinker Launch"
@@ -283,7 +285,8 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:135
 msgid "🐛 Fixed launchers not being detected on certain distro"
-msgstr "🐛 Risolti launcher non rilevati su alcune distribuzioni"
+msgstr ""
+"🐛 Risolto il problema dei launcher non rilevati su alcune distribuzioni"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:145
 msgid ""
@@ -319,7 +322,8 @@ msgstr "🐛 Risolte release Latest per Bottles"
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:152
 msgid "🐛 Fixed updates not preserving symlink for user_settings.py"
 msgstr ""
-"🐛 Risolti aggiornamenti che non preservano il symlink per user_settings.py"
+"🐛 Risolto il problema degli aggiornamenti che non preservavano il symlink di "
+"user_settings.py"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:159
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:283
@@ -340,8 +344,8 @@ msgstr "🐛 Risolta directory di installazione Lutris per i runner Proton"
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:170
 msgid "🐛 Fixed unnecessary re-downloads of the same runner as an \"update\""
 msgstr ""
-"🐛 Evitati re-download non necessari dello stesso runner come "
-"\"aggiornamento\""
+"🐛 Risolto il problema dei download ripetuti non necessari dello stesso "
+"runner come \"aggiornamento\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:172
 msgid "🌐 Added Vietnamese localization"
@@ -540,8 +544,8 @@ msgid ""
 "🐛 Fixed force exit not working in the warning dialog when closing the "
 "application"
 msgstr ""
-"🐛 Risolta uscita forzata non funzionante nella finestra di avviso durante "
-"la chiusura dell'applicazione"
+"🐛 Risolto il problema dell'uscita forzata non funzionante nella finestra di "
+"avviso alla chiusura dell'applicazione"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:265
 msgid "🐛 Fixed application freezing in a certain scenario"
@@ -561,7 +565,7 @@ msgstr "✨ Aggiunto un modo per vedere il prefisso dei giochi"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:277
 msgid "✨ Added a sticky filter bar to the \"Runners\" tab"
-msgstr "✨ Aggiunta una barra dei filtri adesiva alla scheda \"Runner\""
+msgstr "✨ Aggiunta una barra dei filtri fissa alla scheda \"Runner\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:278
 msgid "✨ Added a way to see which runners are used"
@@ -838,7 +842,7 @@ msgstr "✨ Aggiunto supporto per Proton EM"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:463
 msgid "🐛 Fix only Steam showing up"
-msgstr "🐛 Risolto solo Steam visualizzato"
+msgstr "🐛 Risolto il problema per cui veniva visualizzato solo Steam"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:471
 msgid "🐛 Added check for inactive Steam installations"
@@ -882,7 +886,7 @@ msgstr "🌐 Corretto errore di battitura nella localizzazione tedesca"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:507
 msgid "🐛 Fix HGL support"
-msgstr "🐛 Risolto supporto HGL"
+msgstr "🐛 Risolto il problema del supporto HGL"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:515
 msgid "🐛 Fix Proton-Sarek install issues"
@@ -955,7 +959,7 @@ msgstr "✨ Aggiunto supporto per Steam Tinker Launch"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:574
 msgid "✨ Made Ctrl-Q quit the application"
-msgstr "✨ Reso Ctrl-Q per uscire dall'applicazione"
+msgstr "✨ Ctrl-Q ora chiude l'applicazione"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:575
 msgid "✨ The window now remembers the last-used size"
@@ -1099,7 +1103,9 @@ msgstr "💄 Aggiornata l'interfaccia dell'installer"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:691
 msgid "🐛 Fix window always being able to be closed"
-msgstr "🐛 Risolta finestra sempre chiudibile"
+msgstr ""
+"🐛 Risolto il problema della finestra che poteva essere chiusa in qualsiasi "
+"momento"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:692
 msgid "🐛 Fix preferences page being empty"
@@ -1212,7 +1218,8 @@ msgstr "🐛 Risolti strumenti e release non bloccati quando necessario"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:744
 msgid "🐛 Fixed progress bar not being hidden when needed"
-msgstr "🐛 Risolta barra di progressione non nascosta quando necessario"
+msgstr "🐛 Risolto il problema della barra di avanzamento non nascosta quando "
+"necessario"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:745
 msgid "🌐 Updated translation files"
@@ -1244,7 +1251,7 @@ msgstr "🐛 Risolta creazione directory"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:777
 msgid "🐛 Fix releases not always changing"
-msgstr "🐛 Risolte release non sempre cambiate"
+msgstr "🐛 Risolto il problema delle release che non cambiavano sempre"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:778
 msgid "✨ Added Proton Tkg"
@@ -1435,7 +1442,7 @@ msgstr "🐛 Risolto log inutile visualizzato"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:903
 msgid "🐛 Fix tool renaming for nothing"
-msgstr "🐛 Risolta ridenominazione strumento inutile"
+msgstr "🐛 Risolto il problema della ridenominazione non necessaria degli strumenti"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:904
 msgid "🐛 Fix selector window freezing"
@@ -1621,7 +1628,7 @@ msgstr "🐛 Risolto Kron4ek Wine-Builds Vanilla non visualizzato correttamente"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:991
 msgid "🐛 Fix installed tools showing files"
-msgstr "🐛 Risolti strumenti installati che mostravano file"
+msgstr "🐛 Risolto il problema degli strumenti installati che mostravano file"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:992
 msgid "🐛 Fix selector closing after an installation"
@@ -1688,7 +1695,7 @@ msgstr "Errore: Nessuna release disponibile\n"
 #: src/cli/cli.vala:228
 #, c-format
 msgid "Installing %s Latest...\n"
-msgstr "Installazione di %s Ultima versione…\n"
+msgstr "Installazione di %s Latest...\n"
 
 #: src/cli/cli.vala:234
 #, c-format
@@ -1712,7 +1719,7 @@ msgstr "Seleziona il numero della release"
 #: src/cli/cli.vala:261
 #, c-format
 msgid "Installing %s...\n"
-msgstr "Installazione di %s…\n"
+msgstr "Installazione di %s...\n"
 
 #: src/cli/cli.vala:267
 #, c-format
@@ -1732,17 +1739,17 @@ msgstr "Release installate per %s:\n"
 #: src/cli/cli.vala:301
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
-msgstr "Disinstallazione di tutte le release per %s…\n"
+msgstr "Disinstallazione di tutte le release per %s...\n"
 
 #: src/cli/cli.vala:313
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
-msgstr "Disinstallazione di tutte le release per il launcher %s…\n"
+msgstr "Disinstallazione di tutte le release per il launcher %s...\n"
 
 #: src/cli/cli.vala:336
 #, c-format
 msgid "Uninstalling %s...\n"
-msgstr "Disinstallazione di %s…\n"
+msgstr "Disinstallazione di %s...\n"
 
 #: src/cli/cli.vala:340
 #, c-format
@@ -1756,12 +1763,12 @@ msgstr "Errore: Disinstallazione fallita: %s\n"
 
 #: src/cli/cli.vala:347
 msgid "Updating all runners...\n"
-msgstr "Aggiornamento di tutti i runner…\n"
+msgstr "Aggiornamento di tutti i runner...\n"
 
 #: src/cli/cli.vala:353
 #, c-format
 msgid "Updating runners for %s...\n"
-msgstr "Aggiornamento dei runner per %s…\n"
+msgstr "Aggiornamento dei runner per %s...\n"
 
 #: src/cli/cli.vala:364 src/cli/cli.vala:422
 #, c-format
@@ -2061,7 +2068,7 @@ msgstr "Questo strumento di compatibilità non è configurato correttamente."
 #: src/return_codes.vala:49
 msgid "This operation is not supported for this compatibility tool."
 msgstr ""
-"Questa operazione non è supportata per questo strumento di compatibilità"
+"Questa operazione non è supportata per questo strumento di compatibilità."
 
 #: src/return_codes.vala:53
 msgid "Unable to reach the API."
@@ -2105,8 +2112,7 @@ msgstr "Spostamento fallito"
 
 #: src/services/standard-archive-workflow.vala:56
 msgid "Failed to save compatibility tool metadata"
-msgstr ""
-"Impossibile salvare i metadati dello strumento di compatibilità fallito"
+msgstr "Impossibile salvare i metadati dello strumento di compatibilità"
 
 #: src/services/standard-archive-workflow.vala:296
 msgid "Failed to update compatibilitytool.vdf"
@@ -2183,7 +2189,7 @@ msgstr "Seleziona tutti i giochi visibili"
 
 #: src/widgets/games/games-box.vala:241
 msgid "Prefix"
-msgstr "Prefix"
+msgstr "Prefisso"
 
 #: src/widgets/games/games-box.vala:245
 msgid "Tool"
@@ -2240,7 +2246,7 @@ msgstr "Nessun gioco corrispondente"
 #: src/widgets/games/games-box.vala:498
 #: src/widgets/tools/tools-group-box.vala:124
 msgid "Try a different search term or clear the search."
-msgstr "Trova un termine di ricerca diverso o svuota la ricerca."
+msgstr "Prova un termine di ricerca diverso o svuota la ricerca."
 
 #: src/widgets/games/games-box.vala:501
 msgid "No games match this filter"
@@ -2348,9 +2354,9 @@ msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
 msgstr ""
-"Alcuni giochi non possono essere aggiornati con il nuovo strumento di "
-"compatibilità o le nuove opzioni di lancio. Potrebbe essere dovuto a "
-"permessi mancanti o problemi di accesso ai file."
+"Non è stato possibile aggiornare alcuni giochi con il nuovo strumento di "
+"compatibilità o con le nuove opzioni di lancio. Il problema potrebbe "
+"dipendere da permessi mancanti o da problemi di accesso ai file."
 
 #: src/widgets/games/games-row.vala:147
 msgid "Modify the game"
@@ -3163,8 +3169,8 @@ msgid ""
 "Choose System default, Gamescope, or ScopeBuddy for display and launch "
 "options."
 msgstr ""
-"Scegli per configurare limiti FPS, risoluzione e altre opzioni di "
-"visualizzazione."
+"Scegli tra Sistema predefinito, Gamescope o ScopeBuddy per le opzioni di "
+"visualizzazione e avvio."
 
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:44
 msgid "System default"
@@ -3345,7 +3351,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:36
 msgid "Add custom item (Type name and press Enter)..."
-msgstr "Aggiungi elemento personalizzato (Digita il nome e premi Invio)…"
+msgstr "Aggiungi elemento personalizzato (Digita il nome e premi Invio)..."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:46
 msgid ".NET Framework runtime execution engine"
@@ -3765,7 +3771,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-list.vala:166
 msgid "No launch options configured yet."
-msgstr "Nessuna opzione di lancio configurata ancora."
+msgstr "Nessuna opzione di lancio configurata."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:110
 msgid "Performance & monitoring"
@@ -4316,8 +4322,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:75
 msgid "Add Gamescope arguments"
-msgstr ""
-"Aggiungi argomenti Gamescope"
+msgstr "Aggiungi argomenti Gamescope"
 
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:81
 msgid "Add ScopeBuddy arguments"
@@ -4337,7 +4342,7 @@ msgstr "_Dona"
 
 #: src/widgets/header/header-box.vala:23
 msgid "_About ProtonPlus"
-msgstr "_Su ProtonPlus"
+msgstr "_Informazioni su ProtonPlus"
 
 #: src/widgets/header/header-box.vala:26
 msgid "Main Menu"
@@ -4361,7 +4366,7 @@ msgstr[1] "%u download attivi"
 #: src/widgets/header/header-downloads-indicator.vala:186
 #: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:110
 msgid "Cancel"
-msgstr "Cancella"
+msgstr "Annulla"
 
 #: src/widgets/header/header-downloads-indicator.vala:236
 #: src/widgets/header/header-downloads-indicator.vala:238
@@ -5635,7 +5640,7 @@ msgstr "Seleziona un nuovo strumento per i giochi selezionati."
 #, c-format
 msgid "%d game selected"
 msgid_plural "%d games selected"
-msgstr[0] "%d giochi selezionati"
+msgstr[0] "%d gioco selezionato"
 msgstr[1] "%d giochi selezionati"
 
 #: src/widgets/tools/tools-migrate-box.vala:142
@@ -5647,9 +5652,9 @@ msgid ""
 "Some games could not be migrated to the new compatibility tool. This may be "
 "due to missing permissions or file access issues."
 msgstr ""
-"Alcuni giochi non hanno potuto essere migrati al nuovo strumento di "
-"compatibilità. Potrebbe essere dovuto a permessi mancanti o problemi di "
-"accesso ai file."
+"Non è stato possibile migrare alcuni giochi al nuovo strumento di "
+"compatibilità. Il problema potrebbe dipendere da permessi mancanti o da "
+"problemi di accesso ai file."
 
 #: src/widgets/tools/tools-release-box.vala:89
 msgid "Name"
@@ -5836,7 +5841,7 @@ msgstr "Ti mancano le seguenti dipendenze per %s:"
 
 #: src/widgets/tools/tools-stl-release-row.vala:17
 msgid "Installation will be canceled."
-msgstr "L'installazione verrà cancellata."
+msgstr "L'installazione verrà annullata."
 
 #: src/widgets/tools/tools-stl-release-row.vala:36
 msgid "Check this to also delete your configuration files."
@@ -6014,7 +6019,7 @@ msgstr "Esci"
 
 #, fuzzy
 #~ msgid "Canceled"
-#~ msgstr "Cancella"
+#~ msgstr "Annullato"
 
 #, fuzzy
 #~ msgid ""
