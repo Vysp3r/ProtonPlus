@@ -53,6 +53,17 @@ check_dependencies() {
   fi
 }
 
+check_argument_count() {
+  local command="$1"
+  local maximum="$2"
+  shift 2
+
+  if (( $# > maximum )); then
+    show_log "ERROR" "Too many arguments for ${command}; run 'build.sh help' for usage."
+    return 1
+  fi
+}
+
 flatpak_dependency_check() {
   local architecture
   architecture="$(flatpak --default-arch)"
@@ -313,36 +324,47 @@ main() {
 
   case "${1:-}" in
     local)
+      check_argument_count "local" 1 "${@:2}"
       build_flatpak "local" "com.vysp3r.ProtonPlus.local.yml" "${2:-}"
       ;;
     flathub)
+      check_argument_count "flathub" 1 "${@:2}"
       build_flatpak "flathub" "com.vysp3r.ProtonPlus.yml" "${2:-}"
       ;;
     native)
+      check_argument_count "native" 1 "${@:2}"
       build_native "${2:-}"
       ;;
     native-debug)
+      check_argument_count "native-debug" 0 "${@:2}"
       build_native_debug
       ;;
     native-deps)
+      check_argument_count "native-deps" 0 "${@:2}"
       check_native_dependencies
       ;;
     translations)
+      check_argument_count "translations" 0 "${@:2}"
       rebuild_translations
       ;;
     icons)
+      check_argument_count "icons" 0 "${@:2}"
       generate_icons
       ;;
     linter)
+      check_argument_count "linter" 0 "${@:2}"
       flathub_linter
       ;;
     appimage)
+      check_argument_count "appimage" 0 "${@:2}"
       "${SCRIPT_DIR}/make-appimage.sh"
       ;;
     clean)
+      check_argument_count "clean" 0 "${@:2}"
       clean
       ;;
     help | --help | -h)
+      check_argument_count "help" 0 "${@:2}"
       show_help
       return 0
       ;;
