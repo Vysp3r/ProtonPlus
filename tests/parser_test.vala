@@ -7,6 +7,8 @@ namespace AppTests.ParserTest {
         Test.add_func ("/launch-options/shell-words-preserve-quoting", test_launch_option_shell_words);
         Test.add_func ("/launch-options/opaque-shell-spans", test_opaque_shell_spans);
         Test.add_func ("/launch-options/catalog-metadata-and-search", test_launch_option_catalog_metadata_and_search);
+        Test.add_func ("/launch-options/catalog-semantic-definitions", test_launch_option_catalog_semantic_definitions);
+        Test.add_func ("/launch-options/catalog-semantic-validation", test_launch_option_catalog_semantic_validation);
         Test.add_func ("/launch-options/catalog-active-options-survive-filters", test_launch_option_catalog_active_options_survive_filters);
         Test.add_func ("/launch-options/presentation-parent-visibility", test_launch_option_presentation_parent_visibility);
         Test.add_func ("/launch-options/launch-backend-chrome", test_launch_backend_chrome_visibility);
@@ -109,6 +111,123 @@ namespace AppTests.ParserTest {
             "WINEALSA_SPACIAL",
             false
         ));
+    }
+
+    private void test_launch_option_catalog_semantic_definitions () {
+        var catalog = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCatalog ();
+        assert (catalog.validate ().size == 0);
+        foreach (var entry in catalog.get_ordered ())
+            assert (entry.semantics != null);
+
+        var proton_log = catalog.lookup ("proton-debug-log");
+        assert (proton_log != null);
+        assert (proton_log.semantics.kind == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT);
+        assert (proton_log.semantics.placeholder_policy == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchPlaceholderPolicy.REQUIRED);
+        assert (proton_log.semantics.environment_key == "PROTON_LOG");
+        assert (proton_log.semantics.fixed_tokens[0] == "PROTON_LOG=1");
+
+        var dxvk_limit = catalog.lookup ("dxvk-frame-limit");
+        assert (dxvk_limit.semantics.emission_mode == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionEmissionMode.DYNAMIC_ENVIRONMENT_VALUE);
+        assert (dxvk_limit.semantics.environment_key == "DXVK_FRAME_RATE");
+
+        assert (catalog.lookup ("performance-overlay").semantics.wrapper_id == "mangohud");
+        assert (catalog.lookup ("gamemode").semantics.wrapper_id == "gamemode");
+        assert (catalog.lookup_wrapper ("mangohud").delimiter == null);
+        assert (catalog.lookup_wrapper ("gamemode").delimiter == null);
+        assert (catalog.lookup_wrapper ("gamescope").delimiter == "--");
+        assert (catalog.lookup_wrapper ("scopebuddy").delimiter == "--");
+        assert (catalog.lookup_wrapper ("gamescope").mutual_exclusion_group == "launch-backend");
+        assert (catalog.lookup_wrapper ("scopebuddy").mutual_exclusion_group == "launch-backend");
+        assert (catalog.get_wrappers ()[0].nesting_priority <= catalog.get_wrappers ()[1].nesting_priority);
+
+        var gamescope_fullscreen = catalog.lookup ("gamescope-fullscreen");
+        var scopebuddy_limit = catalog.lookup ("scopebuddy-frame-limit");
+        assert (gamescope_fullscreen.semantics.wrapper_id == "gamescope");
+        assert (scopebuddy_limit.semantics.wrapper_id == "scopebuddy");
+        assert (gamescope_fullscreen.semantics.placeholder_policy == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchPlaceholderPolicy.INHERITED_FROM_WRAPPER);
+        assert (scopebuddy_limit.semantics.placeholder_policy == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchPlaceholderPolicy.INHERITED_FROM_WRAPPER);
+
+        var backend = catalog.lookup ("launch-backend");
+        assert (backend.semantics.kind == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.WRAPPER_SELECTOR);
+        assert (backend.semantics.selectable_wrapper_ids[0] == "gamescope");
+        assert (backend.semantics.selectable_wrapper_ids[1] == "scopebuddy");
+
+        var scopebuddy_resolution = catalog.lookup ("scopebuddy-resolution");
+        assert (scopebuddy_resolution.semantics.kind == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.COMPOSITE_DYNAMIC);
+        assert (scopebuddy_resolution.semantics.emission_mode == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionEmissionMode.COMPOSITE_EMISSION);
+        assert (scopebuddy_resolution.semantics.get_composite_outputs ()[0].environment_key == "SCB_AUTO_RES");
+        assert (scopebuddy_resolution.semantics.get_composite_outputs ()[1].wrapper_id == "scopebuddy");
+
+        var developer_console = catalog.lookup ("developer-console");
+        assert (developer_console.semantics.kind == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.GAME_ARGUMENT);
+        assert (developer_console.semantics.placeholder_policy == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchPlaceholderPolicy.OPTIONAL);
+        assert (catalog.lookup ("renderer-vulkan").semantics.conflict_group == "renderer-selection");
+        assert (catalog.lookup ("renderer-dx11").semantics.conflict_group == "renderer-selection");
+        assert (catalog.lookup ("renderer-dx12").semantics.conflict_group == "renderer-selection");
+        assert (catalog.lookup ("amd-fsr4").semantics.conflict_group == "amd-fsr4-upgrade");
+        assert (catalog.lookup ("amd-fsr4-rdna3").semantics.conflict_group == "amd-fsr4-upgrade");
+
+        var command_entries = 0;
+        foreach (var entry in catalog.get_ordered ()) {
+            if (entry.semantics.kind == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.COMMAND_BOUNDARY)
+                command_entries++;
+        }
+        assert (command_entries == 1);
+        assert (catalog.lookup ("steam-command").semantics.legacy_manual_representation);
+        assert (catalog.lookup ("raw-launch-options").semantics.kind == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT);
+        assert (catalog.lookup ("custom-game-arguments").semantics.kind == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT);
+    }
+
+    private void test_launch_option_catalog_semantic_validation () {
+        var definitions = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionMetadata[] {
+            semantic_fixture ("missing-semantics", ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchLineType.ENVIRONMENT, null),
+            semantic_fixture ("missing-wrapper", ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchLineType.WRAPPER_ARGUMENT,
+                new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemantics (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.WRAPPER_ARGUMENT, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchPlaceholderPolicy.INHERITED_FROM_WRAPPER, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionEmissionMode.FIXED_TOKENS, "", "missing", { "-f" })),
+            semantic_fixture ("missing-dependency", ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchLineType.ENVIRONMENT,
+                new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemantics (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchPlaceholderPolicy.REQUIRED, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionEmissionMode.FIXED_TOKENS, "A", "", { "A=1" }, {}, "", {}, { "missing" })),
+            semantic_fixture ("missing-conflict", ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchLineType.ARGUMENT,
+                new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemantics (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.GAME_ARGUMENT, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchPlaceholderPolicy.OPTIONAL, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionEmissionMode.FIXED_TOKENS, "", "", { "-a" }, {}, "", { "missing" })),
+            semantic_fixture ("no-environment-key", ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchLineType.ENVIRONMENT,
+                new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemantics (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchPlaceholderPolicy.REQUIRED, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionEmissionMode.FIXED_TOKENS, "", "", { "A=1" })),
+            semantic_fixture ("no-fixed-token", ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchLineType.ARGUMENT,
+                new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemantics (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.GAME_ARGUMENT, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchPlaceholderPolicy.OPTIONAL, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionEmissionMode.FIXED_TOKENS)),
+            semantic_fixture ("embedded-command", ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchLineType.ARGUMENT,
+                new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemantics (ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.GAME_ARGUMENT, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchPlaceholderPolicy.OPTIONAL, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionEmissionMode.FIXED_TOKENS, "", "", { "before-%command%" }))
+        };
+        var wrappers = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchWrapperDefinition[] {
+            new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchWrapperDefinition ("duplicate", { "first" }),
+            new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchWrapperDefinition ("duplicate", { "second" })
+        };
+        var catalog = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCatalog.with_definitions (definitions, wrappers);
+        var diagnostics = catalog.validate ();
+        assert (diagnostics_contain (diagnostics, "no semantic definition"));
+        assert (diagnostics_contain (diagnostics, "unknown wrapper"));
+        assert (diagnostics_contain (diagnostics, "unknown dependency"));
+        assert (diagnostics_contain (diagnostics, "unknown conflict"));
+        assert (diagnostics_contain (diagnostics, "requires an environment key"));
+        assert (diagnostics_contain (diagnostics, "requires tokens"));
+        assert (diagnostics_contain (diagnostics, "outside a command boundary"));
+        assert (diagnostics_contain (diagnostics, "Duplicate wrapper ID"));
+    }
+
+    private ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionMetadata semantic_fixture (
+        string id,
+        ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchLineType serialization_type,
+        ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemantics? semantics
+    ) {
+        return new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionMetadata (
+            id, id, id, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCategory.DIAGNOSTICS,
+            "", 0, false, ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionExpertise.STANDARD,
+            "", "", {}, {}, {}, serialization_type, 0, semantics
+        );
+    }
+
+    private bool diagnostics_contain (Gee.List<string> diagnostics, string fragment) {
+        foreach (var diagnostic in diagnostics) {
+            if (diagnostic.contains (fragment))
+                return true;
+        }
+        return false;
     }
 
     private void test_launch_option_catalog_active_options_survive_filters () {
