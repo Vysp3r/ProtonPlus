@@ -209,6 +209,8 @@ namespace ProtonPlus.Widgets.Tools {
                     var pill = new Gtk.Label (Utils.safe_translate (provider_tool.tag));
                     pill.add_css_class ("tag-pill");
                     pill.set_valign (Gtk.Align.CENTER);
+                    if (provider_tool.tag == "Recommended")
+                        pill.set_tooltip_text (_ ("Recommended compatibility tool"));
 
                     row.add_suffix (pill);
                 }
