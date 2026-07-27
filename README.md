@@ -179,6 +179,9 @@ cd ProtonPlus
 make build-run
 ```
 
+If `protonplus` is not already available on `PATH`, `make build-run` installs
+the native build before launching it.
+
 To build without launching it, then install it system-wide:
 
 ```bash

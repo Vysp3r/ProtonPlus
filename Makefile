@@ -15,6 +15,12 @@ build:
 	./scripts/build.sh native
 
 build-run:
+	@if command -v protonplus >/dev/null 2>&1; then \
+		./scripts/build.sh native; \
+	else \
+		echo "ProtonPlus is not installed; installing it..."; \
+		$(MAKE) install; \
+	fi
 	./scripts/build.sh native run
 
 build-debug:
