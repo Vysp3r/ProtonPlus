@@ -68,7 +68,7 @@ namespace AppTests.LaunchCommandComposerTest {
             new LaunchCommandSelection ("scopebuddy-auto-hdr")
         }, { LaunchOptionCapability.SCOPEBUDDY });
         assert (scopebuddy.is_valid);
-        assert (scopebuddy.launch_line == "SCB_AUTO_RES=1 SCB_AUTO_HDR=1 scopebuddy -W 1920 -H 1080 -- %command%");
+        assert (scopebuddy.launch_line == "SCB_AUTO_HDR=1 scopebuddy -W 1920 -H 1080 -- %command%");
     }
 
     private void test_invalid_combinations () {

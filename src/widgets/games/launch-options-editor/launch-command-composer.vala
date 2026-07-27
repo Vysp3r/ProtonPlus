@@ -418,24 +418,34 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             HashMap<string, ArrayList<string>> arguments) {
             var outputs = semantics.get_composite_outputs ();
             LaunchOptionSemanticOutput? dynamic_output = null;
+            var automatic_outputs = new ArrayList<LaunchOptionSemanticOutput> ();
             foreach (var output in outputs) {
                 if (output.kind == LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT) {
+                    automatic_outputs.add (output);
+                } else if (output.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT) {
+                    dynamic_output = output;
+                }
+            }
+            var values = selection.get_values ();
+            /* Composite metadata can declare an automatic form through its
+             * selectable value.  That form emits only fixed outputs. */
+            if (values.length == 1 && values[0] == "auto" && contains (semantics.selectable_values, "auto")) {
+                foreach (var output in automatic_outputs) {
                     foreach (var token in output.fixed_tokens) {
                         if (output.environment_key == "" || !safe (diagnostics, selection.option_id, token))
                             add (diagnostics, LaunchCommandCompositionDiagnosticCode.INVALID_COMPOSITE_OUTPUT, selection.option_id,
                                 "Composite option '%s' has an invalid environment output.".printf (selection.option_id));
                         else environments.add (new LaunchEnvironmentAssignment (output.environment_key, token));
                     }
-                } else if (output.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT) {
-                    dynamic_output = output;
                 }
+                return;
             }
             if (dynamic_output == null || dynamic_output.parse_shape == null) {
                 add (diagnostics, LaunchCommandCompositionDiagnosticCode.INVALID_COMPOSITE_OUTPUT, selection.option_id,
                     "Composite option '%s' has no valid wrapper output.".printf (selection.option_id)); return;
             }
             var tokens = new ArrayList<string> ();
-            append_shape (diagnostics, selection.option_id, selection.get_values (), dynamic_output.parse_shape, tokens);
+            append_shape (diagnostics, selection.option_id, values, dynamic_output.parse_shape, tokens);
             append_arguments_for_wrapper (diagnostics, selection.option_id, dynamic_output.wrapper_id, tokens, arguments);
         }
 

@@ -6,6 +6,8 @@ sources += files(
     'launch-command-builder.vala',
     'launch-command-parser.vala',
     'launch-command-composer.vala',
+    'launch-command-selection-source.vala',
+    'launch-command-editor-projection.vala',
     'launch-options-editor-aco-debug.vala',
     'launch-options-editor-custom-expander-row.vala',
     'launch-options-editor-amd-icd.vala',

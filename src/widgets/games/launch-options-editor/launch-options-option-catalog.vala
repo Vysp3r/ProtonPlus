@@ -657,7 +657,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                             new LaunchOptionParseShape ({ "-W", "-H" }, { 1, 1 })
                         )
                     }, false, support_for (id), is_managed_emission (id),
-                    legacy_tokens_for (id), selectable_values_for (id)
+                    legacy_tokens_for (id), { "auto" }
                 );
             }
             if (is_wrapper_argument (serialization_type)) {

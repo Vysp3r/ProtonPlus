@@ -16,6 +16,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionsList launch_option_handlers;
         LaunchOptionCatalog catalog;
         LaunchOptionPresentationRegistry presentations;
+        LaunchCommandEditorProjection projection;
+        LaunchCommandCapabilityContext? capability_context;
 
         Adw.EntryRow search_entry { get; set; }
         Adw.ComboRow category_filter { get; set; }
@@ -42,6 +44,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             launch_option_handlers = new LaunchOptionsList ();
             catalog = new LaunchOptionCatalog ();
             presentations = new LaunchOptionPresentationRegistry (catalog);
+            projection = new LaunchCommandEditorProjection (catalog);
             category_boxes = new Gee.HashMap<int, Gtk.Box> ();
             subsection_groups = new Gee.HashMap<string, Adw.PreferencesGroup> ();
             category_filter_views = new Gee.ArrayList<LaunchOptionView> ();
@@ -56,6 +59,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             common_group = new Groups.CommonOptionsGroup (launch_option_handlers, presentations);
             common_group.changed.connect (standard_control_changed);
             wrapper_group = new Groups.WrapperGroup (launch_option_handlers, presentations);
+            presentations.register_selection_source ("launch-backend", new LaunchCommandStaticSelectionSource (
+                "launch-backend", null
+            ));
             wrapper_group.changed.connect (standard_control_changed);
             gpu_vendor_group = new Groups.GpuVendorOptionsGroup (launch_option_handlers, presentations);
             gpu_vendor_group.changed.connect (standard_control_changed);
@@ -96,6 +102,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             refresh_filters ();
             refreshing_controls = false;
             refresh_preview ();
+            refresh_projection ();
         }
 
         Gtk.Widget create_navigation () {
@@ -251,6 +258,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return launch_option_handlers.to_launch_line ();
         }
 
+        public LaunchCommandEditorProjectionState projection_state { get { return projection.state; } }
+        public string managed_candidate { get { return projection.managed_candidate; } }
+        public bool has_managed_candidate { get { return projection.has_managed_candidate; } }
+        public Gee.List<string> projection_diagnostics { get { return projection.adapter_diagnostics; } }
+        public Gee.List<LaunchCommandCompositionDiagnostic> projection_composition_diagnostics {
+            get { return projection.composition_diagnostics; }
+        }
+
+        public void set_capability_context (LaunchCommandCapabilityContext? context) {
+            capability_context = context;
+            refresh_projection ();
+        }
+
         public void set_text (string launch_options) {
             refreshing_controls = true;
             gpu_vendor_group.reset_controls ();
@@ -259,6 +279,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             refresh_filters ();
             refreshing_controls = false;
             refresh_preview ();
+            refresh_projection ();
         }
 
         void standard_control_changed () {
@@ -266,8 +287,25 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 launch_option_handlers.mark_modified ();
             refresh_filters ();
             refresh_preview ();
+            refresh_projection ();
             if (!refreshing_controls)
                 content_changed ();
+        }
+
+        void refresh_projection () {
+            var sources = new Gee.ArrayList<ILaunchCommandSelectionSource> ();
+            foreach (var source in presentations.get_selection_sources ()) {
+                if (source.option_id == "launch-backend") {
+                    var selected = wrapper_group.get_selected_backend_id ();
+                    if (selected != "")
+                        sources.add (new LaunchCommandStaticSelectionSource (
+                            "launch-backend", new LaunchCommandSelection ("launch-backend", {}, selected)
+                        ));
+                    continue;
+                }
+                sources.add (source);
+            }
+            projection.update (get_text (), sources, presentations.validate_selection_sources (), capability_context);
         }
 
         void refresh_filters () {
