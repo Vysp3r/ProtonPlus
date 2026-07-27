@@ -45,6 +45,10 @@
     box-shadow: none;
 }
 
+.games-filter-active {
+    color: var(--accent-bg-color);
+}
+
 .list-content {
     box-shadow: none;
 }

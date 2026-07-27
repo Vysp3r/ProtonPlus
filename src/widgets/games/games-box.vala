@@ -26,6 +26,8 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Box headered_list_box;
         Gtk.Box games_page_box;
         Gtk.Stack content_stack;
+        Gtk.Stack list_stack;
+        Adw.StatusPage empty_status_page;
         Gtk.ScrolledWindow scrolled_window;
         Gtk.ListBox game_list_box;
         Gtk.MenuButton filter_button;
@@ -43,6 +45,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Popover selection_popover;
         string search_query = "";
         uint search_timeout_id = 0;
+        bool updating_selection_toggle = false;
 
         construct {
             image = new Gtk.Image ();
@@ -68,9 +71,21 @@ namespace ProtonPlus.Widgets.Games {
             spinner.set_valign (Gtk.Align.CENTER);
             spinner.set_size_request (32, 32);
 
+            empty_status_page = new Adw.StatusPage () {
+                title = _("No games found"),
+                description = _("Try a different search term or filter."),
+                icon_name = "magnifying-glass-symbolic"
+            };
+
+            list_stack = new Gtk.Stack ();
+            list_stack.set_hexpand (true);
+            list_stack.set_vexpand (true);
+            list_stack.add_named (game_list_box, "list");
+            list_stack.add_named (empty_status_page, "empty");
+
             overlay = new Gtk.Overlay ();
             overlay.set_hexpand (true);
-            overlay.set_child (game_list_box);
+            overlay.set_child (list_stack);
 
             scrolled_window = new Gtk.ScrolledWindow ();
             scrolled_window.set_hexpand (true);
@@ -154,6 +169,7 @@ namespace ProtonPlus.Widgets.Games {
             all_filter_check.toggled.connect (() => {
                 if (all_filter_check.active) {
                     refilter_games ();
+                    update_filter_button_state ();
                     filter_popover.popdown ();
                 }
             });
@@ -161,6 +177,7 @@ namespace ProtonPlus.Widgets.Games {
             native_filter_check.toggled.connect (() => {
                 if (native_filter_check.active) {
                     refilter_games ();
+                    update_filter_button_state ();
                     filter_popover.popdown ();
                 }
             });
@@ -168,6 +185,7 @@ namespace ProtonPlus.Widgets.Games {
             non_steam_filter_check.toggled.connect (() => {
                 if (non_steam_filter_check.active) {
                     refilter_games ();
+                    update_filter_button_state ();
                     filter_popover.popdown ();
                 }
             });
@@ -180,6 +198,7 @@ namespace ProtonPlus.Widgets.Games {
                 visible = false,
                 css_classes = { "flat" },
             };
+            update_filter_button_state ();
 
             filter_column_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.HORIZONTAL);
             filter_column_size_group.add_widget (filter_button);
@@ -202,7 +221,7 @@ namespace ProtonPlus.Widgets.Games {
             action_bar.pack_end (advanced_box);
 
             search_entry = new Gtk.SearchEntry () {
-                placeholder_text = _("Name"),
+                placeholder_text = _("Search games"),
                 hexpand = true
             };
             search_entry.add_css_class ("flat");
@@ -210,7 +229,11 @@ namespace ProtonPlus.Widgets.Games {
 
             check_button = new Gtk.CheckButton ();
             check_button.set_size_request (30, 26);
+            check_button.set_tooltip_text (_("Select all visible games"));
             check_button.toggled.connect (() => {
+                if (updating_selection_toggle)
+                    return;
+
                 var is_active = check_button.get_active ();
                 var child = game_list_box.get_first_child ();
                 while (child != null) {
@@ -219,6 +242,7 @@ namespace ProtonPlus.Widgets.Games {
                     }
                     child = child.get_next_sibling ();
                 }
+                update_selection_controls ();
             });
 
             prefix_label = new Gtk.Label (_("Prefix"));
@@ -412,13 +436,14 @@ namespace ProtonPlus.Widgets.Games {
                         game_list_box.select_row (game_row);
                     else
                         game_list_box.unselect_row (game_row);
-                    update_mass_edit_button_visibility ();
+                    update_selection_controls ();
                 });
 
                 game_list_box.append (game_row);
             }
 
-            update_mass_edit_button_visibility ();
+            update_empty_state ();
+            update_selection_controls ();
 
             overlay.remove_overlay (spinner);
 
@@ -441,6 +466,55 @@ namespace ProtonPlus.Widgets.Games {
 
         void refilter_games () {
             game_list_box.invalidate_filter ();
+            update_empty_state ();
+            update_selection_controls ();
+        }
+
+        void update_filter_button_state () {
+            if (!all_filter_check.active)
+                filter_button.add_css_class ("games-filter-active");
+            else
+                filter_button.remove_css_class ("games-filter-active");
+
+            if (native_filter_check.active)
+                filter_button.set_tooltip_text (_("Filter: Native"));
+            else if (non_steam_filter_check.active)
+                filter_button.set_tooltip_text (_("Filter: Non-Steam"));
+            else
+                filter_button.set_tooltip_text (_("Filter: All games"));
+        }
+
+        void update_empty_state () {
+            bool has_visible = false;
+            var child = game_list_box.get_first_child ();
+            while (child != null) {
+                if (child is GameRow && filter_game_row ((Gtk.ListBoxRow) child)) {
+                    has_visible = true;
+                    break;
+                }
+                child = child.get_next_sibling ();
+            }
+
+            if (has_visible) {
+                list_stack.set_visible_child_name ("list");
+                return;
+            }
+
+            if (search_query.strip () != "") {
+                empty_status_page.set_title (_("No matching games"));
+                empty_status_page.set_description (_("Try a different search term or clear the search."));
+                empty_status_page.set_icon_name ("magnifying-glass-symbolic");
+            } else if (!all_filter_check.active) {
+                empty_status_page.set_title (_("No games match this filter"));
+                empty_status_page.set_description (_("Choose All games to see your complete library."));
+                empty_status_page.set_icon_name ("filter-2-symbolic");
+            } else {
+                empty_status_page.set_title (_("No games found"));
+                empty_status_page.set_description (_("No games are available for this launcher."));
+                empty_status_page.set_icon_name ("gamepad-symbolic");
+            }
+
+            list_stack.set_visible_child_name ("empty");
         }
 
         bool filter_game_row (Gtk.ListBoxRow row) {
@@ -459,16 +533,25 @@ namespace ProtonPlus.Widgets.Games {
             return true;
         }
 
-        void update_mass_edit_button_visibility () {
+        void update_selection_controls () {
             int selected_count = 0;
+            int visible_count = 0;
             var child = game_list_box.get_first_child ();
             while (child != null) {
-                if (child is GameRow) {
+                if (child is GameRow && child.get_visible ()) {
+                    visible_count++;
                     if (((GameRow) child).selected)
                         selected_count++;
                 }
                 child = child.get_next_sibling ();
             }
+
+            updating_selection_toggle = true;
+            check_button.set_inconsistent (selected_count > 0 && selected_count < visible_count);
+            check_button.set_active (visible_count > 0 && selected_count == visible_count);
+            updating_selection_toggle = false;
+
+            mass_edit_button.set_selected_count (selected_count);
             mass_edit_button.set_visible (selected_count >= 2);
             action_bar.set_visible (mass_edit_button.get_visible ());
         }
@@ -527,7 +610,7 @@ namespace ProtonPlus.Widgets.Games {
                 child = child.get_next_sibling ();
             }
 
-            update_mass_edit_button_visibility ();
+            update_selection_controls ();
         }
     }
 }

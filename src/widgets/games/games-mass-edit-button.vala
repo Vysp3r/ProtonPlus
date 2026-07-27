@@ -21,6 +21,15 @@ namespace ProtonPlus.Widgets.Games {
             this.game_list_box = game_list_box;
         }
 
+        public void set_selected_count (int count) {
+            mass_edit_button_content.set_label (
+                ngettext ("Modify %d selected game", "Modify %d selected games", count).printf (count)
+            );
+            set_tooltip_text (
+                ngettext ("Modify %d selected game all at once", "Modify %d selected games all at once", count).printf (count)
+            );
+        }
+
         void mass_edit_button_clicked () {
             var count = 0;
             var child = game_list_box.get_first_child ();
