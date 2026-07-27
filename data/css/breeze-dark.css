@@ -425,6 +425,31 @@ headerbar button:not(.suggested-action):not(.destructive-action):disabled {
   color: @theme_titlebar_foreground_insensitive_protonplus_breeze;
 }
 
+headerbar button.flat.clear-button {
+  color: @error_color_protonplus_breeze;
+}
+
+headerbar button.flat.clear-button:disabled {
+  color: alpha(@error_color_protonplus_breeze, 0.45);
+}
+
+headerbar button.flat.clear-button:hover {
+  color: @error_color_protonplus_breeze;
+  outline-color: @error_color_protonplus_breeze;
+  background-color: alpha(@error_color_protonplus_breeze, 0.08);
+}
+
+headerbar button.flat.clear-button:active {
+  color: @error_color_protonplus_breeze;
+  outline-color: @error_color_protonplus_breeze;
+  background-color: alpha(@error_color_protonplus_breeze, 0.2);
+}
+
+headerbar button.flat.clear-button:focus {
+  color: @error_color_protonplus_breeze;
+  outline-color: @error_color_protonplus_breeze;
+}
+
 /* Headerbar tab buttons (stack switcher) — visible so they look interactive */
 
 headerbar stackswitcher button:not(.suggested-action):not(.destructive-action):not(:checked) {

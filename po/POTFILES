@@ -123,6 +123,8 @@ src/widgets/games/launch-options-editor/launch-options-editor-tile.vala
 src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala
 src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala
 src/widgets/games/launch-options-editor/launch-options-list.vala
+src/widgets/games/launch-options-editor/launch-options-option-catalog.vala
+src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala
 src/widgets/games/launch-options-editor/wrappers/base.vala
 src/widgets/games/launch-options-editor/wrappers/gamescope.vala
 src/widgets/games/launch-options-editor/wrappers/none.vala

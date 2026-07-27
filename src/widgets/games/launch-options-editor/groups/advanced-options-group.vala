@@ -5,29 +5,32 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionEntryField additional_args_field { get; set; }
         LaunchOptionTile additional_args_tile { get; set; }
         LaunchOptionTile command_tile { get; set; }
+        public ILaunchOption raw_arguments_binding { get; private set; }
         bool refreshing_controls;
 
-        public AdvancedOptionsGroup (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers);
+        public AdvancedOptionsGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, false, presentation_registry);
             refreshing_controls = true;
             this.set_margin_bottom (15);
             this.title = _("Advanced options");
             this.description = _("Extra control over the final Steam launch command.");
 
-            command_tile = create_tile ("%command%", _("Appends Steam's game command."), { "%command%" }, false, LaunchLineType.COMMAND);
+            command_tile = create_tile (_("Steam command placeholder (%command%)"), _("Appends Steam's game command."), { "%command%" }, false, LaunchLineType.COMMAND, "steam-command");
 
             additional_args_field = new LaunchOptionEntryField (_("Additional arguments"), "", _("Add extra launch options"));
             additional_args_field.value_applied.connect (() => {
                 this.changed ();
             });
 
-            additional_args_tile = create_tile (_("Custom launch arguments"), _("Add your own launch options."), { "" }, false, LaunchLineType.ARGUMENT);
+            additional_args_tile = create_tile (_("Custom game arguments"), _("Add your own launch options."), { "" }, false, LaunchLineType.ARGUMENT, "custom-game-arguments");
             additional_args_tile.toggle.notify["active"].connect (() => {
                 additional_args_toggle_changed ();
             });
 
             var add_bind = new EntryBinding (additional_args_field, additional_args_tile.toggle);
             launch_option_handlers.add (add_bind);
+            register_option ("custom-game-arguments", additional_args_field, add_bind);
+            raw_arguments_binding = add_bind;
 
             this.add (command_tile);
             this.add (additional_args_tile);

@@ -11,8 +11,6 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Button back_button;
         Gtk.Button clear_button;
         Gtk.Button apply_button;
-        Gtk.Box advanced_box;
-        Gtk.Switch advanced_switch;
         Gtk.SearchEntry search_entry;
         Gtk.CheckButton check_button;
         Gtk.Label prefix_label;
@@ -43,6 +41,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.MenuButton selection_button;
         Gtk.ListBox selection_list_box;
         Gtk.Popover selection_popover;
+        Gtk.Label selection_popover_title;
         string search_query = "";
         uint search_timeout_id = 0;
         bool updating_selection_toggle = false;
@@ -114,18 +113,9 @@ namespace ProtonPlus.Widgets.Games {
             apply_button.set_tooltip_text (_("Apply the current modification"));
             apply_button.set_visible (false);
 
-            advanced_switch = new Gtk.Switch ();
-            advanced_switch.set_valign (Gtk.Align.CENTER);
-
-            advanced_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-            advanced_box.set_valign (Gtk.Align.CENTER);
-            advanced_box.append (new Gtk.Label (_("Advanced")));
-            advanced_box.append (advanced_switch);
-            advanced_box.set_visible (false);
-
             selection_list_box = new Gtk.ListBox ();
             selection_list_box.set_selection_mode (Gtk.SelectionMode.NONE);
-            selection_list_box.add_css_class ("boxed-list");
+            selection_list_box.add_css_class ("selection-popover-list");
 
             var selection_scrolled_window = new Gtk.ScrolledWindow ();
             selection_scrolled_window.set_policy (Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC);
@@ -133,8 +123,20 @@ namespace ProtonPlus.Widgets.Games {
             selection_scrolled_window.set_propagate_natural_height (true);
             selection_scrolled_window.set_child (selection_list_box);
 
+            selection_popover_title = new Gtk.Label ("") {
+                halign = Gtk.Align.START,
+                xalign = 0,
+                ellipsize = Pango.EllipsizeMode.END
+            };
+            selection_popover_title.add_css_class ("heading");
+
+            var selection_popover_content = new Gtk.Box (Gtk.Orientation.VERTICAL, 8);
+            selection_popover_content.add_css_class ("selection-popover-content");
+            selection_popover_content.append (selection_popover_title);
+            selection_popover_content.append (selection_scrolled_window);
+
             selection_popover = new Gtk.Popover ();
-            selection_popover.set_child (selection_scrolled_window);
+            selection_popover.set_child (selection_popover_content);
 
             selection_button = new Gtk.MenuButton ();
             selection_button.set_popover (selection_popover);
@@ -208,17 +210,8 @@ namespace ProtonPlus.Widgets.Games {
 
             action_bar_box.append (mass_edit_button);
 
-            var center_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
-            center_box.set_halign (Gtk.Align.CENTER);
-            center_box.append (action_bar_box);
-            center_box.append (selection_button);
-
             action_bar = new Gtk.ActionBar ();
-            action_bar.set_center_widget (center_box);
-            action_bar.pack_start (back_button);
-            action_bar.pack_start (clear_button);
-            action_bar.pack_end (apply_button);
-            action_bar.pack_end (advanced_box);
+            action_bar.set_center_widget (action_bar_box);
 
             search_entry = new Gtk.SearchEntry () {
                 placeholder_text = _("Search games"),
@@ -295,14 +288,23 @@ namespace ProtonPlus.Widgets.Games {
             games_page_box.append (headered_list_box);
             games_page_box.append (status_page);
 
-            mass_edit_view = new MassEditView (back_button, clear_button, apply_button, advanced_box, advanced_switch);
+            var games_page_clamp = new Adw.Clamp ();
+            games_page_clamp.set_vexpand (true);
+            games_page_clamp.set_maximum_size (975);
+            games_page_clamp.set_margin_top (12);
+            games_page_clamp.set_margin_bottom (12);
+            games_page_clamp.set_margin_start (12);
+            games_page_clamp.set_margin_end (12);
+            games_page_clamp.set_child (games_page_box);
+
+            mass_edit_view = new MassEditView (back_button, clear_button, apply_button, selection_button);
             mass_edit_view.back_requested.connect (show_games_list_page);
 
             content_stack = new Gtk.Stack ();
             content_stack.set_vexpand (true);
             content_stack.set_hexpand (true);
             content_stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
-            content_stack.add_named (games_page_box, "main");
+            content_stack.add_named (games_page_clamp, "main");
             content_stack.add_named (mass_edit_view, "mass-edit");
             content_stack.set_visible_child_name ("main");
 
@@ -312,22 +314,13 @@ namespace ProtonPlus.Widgets.Games {
                 back_button.set_visible (is_mass_edit);
                 clear_button.set_visible (is_mass_edit);
                 apply_button.set_visible (is_mass_edit);
-                advanced_box.set_visible (is_mass_edit);
                 action_bar_box.set_visible (!is_mass_edit);
+                action_bar.set_visible (!is_mass_edit && mass_edit_button.get_visible ());
             });
-
-            var clamp = new Adw.Clamp ();
-            clamp.set_vexpand (true);
-            clamp.set_maximum_size (975);
-            clamp.set_margin_top (12);
-            clamp.set_margin_bottom (12);
-            clamp.set_margin_start (12);
-            clamp.set_margin_end (12);
-            clamp.set_child (content_stack);
 
             expression = new Gtk.PropertyExpression (typeof (Models.CompatibilityTool), null, "display_title");
 
-            append (clamp);
+            append (content_stack);
             append (action_bar);
         }
 
@@ -557,31 +550,28 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void open_mass_edit (GameRow[] rows) {
-            action_bar.set_visible (true);
-
             mass_edit_view.load (rows, model, expression);
             content_stack.set_visible_child_name ("mass-edit");
 
             selection_button.set_label (mass_edit_view.get_selection_text ());
             selection_button.set_visible (true);
+            selection_popover_title.set_label (mass_edit_view.get_selection_text ());
 
             selection_list_box.remove_all ();
             foreach (var row in rows) {
-                var label = new Gtk.Label (row.game.name);
-                label.set_xalign (0);
-                label.set_margin_start (12);
-                label.set_margin_end (12);
-                label.set_margin_top (5);
-                label.set_margin_bottom (5);
-                selection_list_box.append (label);
+                var title = new Gtk.Label (row.game.name) {
+                    halign = Gtk.Align.START,
+                    hexpand = true,
+                    xalign = 0,
+                    ellipsize = Pango.EllipsizeMode.END
+                };
+
+                var selection_row = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+                selection_row.add_css_class ("selection-popover-row");
+                selection_row.append (new Gtk.Image.from_icon_name ("gamepad-symbolic"));
+                selection_row.append (title);
+                selection_list_box.append (selection_row);
             }
-
-            action_bar_box.set_visible (false);
-
-            back_button.set_visible (true);
-            clear_button.set_visible (true);
-            apply_button.set_visible (true);
-            advanced_box.set_visible (true);
 
             mass_edit_button.set_visible (false);
         }
@@ -590,12 +580,6 @@ namespace ProtonPlus.Widgets.Games {
             content_stack.set_visible_child_name ("main");
 
             selection_button.set_visible (false);
-            action_bar_box.set_visible (true);
-
-            back_button.set_visible (false);
-            clear_button.set_visible (false);
-            apply_button.set_visible (false);
-            advanced_box.set_visible (false);
 
             search_entry.text = "";
             all_filter_check.active = true;

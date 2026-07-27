@@ -19,10 +19,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.title = title;
             this.subtitle = subtitle;
             this.subtitle_lines = 0;
+            this.set_tooltip_text (subtitle);
             this.tokens = tokens;
 
             toggle = new Gtk.Switch ();
             toggle.set_valign (Gtk.Align.CENTER);
+            toggle.set_tooltip_text (subtitle);
             add_suffix (toggle);
             activatable_widget = toggle;
             this.is_advanced = is_advanced;

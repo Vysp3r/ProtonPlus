@@ -59,6 +59,38 @@
     border-top-right-radius: 0;
 }
 
+.selection-popover-content {
+    min-width: 220px;
+    padding: 12px;
+}
+
+.selection-popover-list > row {
+    background: transparent;
+    border-radius: 8px;
+}
+
+.selection-popover-list > row:hover {
+    background-color: alpha(var(--accent-bg-color), 0.08);
+}
+
+.selection-popover-row {
+    min-height: 28px;
+    padding: 6px 8px;
+}
+
+.selection-popover-row image {
+    color: var(--accent-bg-color);
+}
+
+.launch-options-preview-surface {
+    background-color: alpha(var(--window-fg-color), 0.04);
+    border-radius: 8px;
+}
+
+.launch-options-preview-empty {
+    min-height: 24px;
+}
+
 .card {
     border-radius: 12px;
 }

@@ -21,6 +21,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this._children = new Gee.ArrayList<ILaunchOption> ();
             this.env_prefix = env_prefix;
             subtitle_lines = 0;
+            this.set_tooltip_text (subtitle);
 
             lower_value = (int) lower;
             upper_value = (int) upper;
@@ -39,10 +40,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             value_entry.set_max_width_chars (5);
             value_entry.set_halign (Gtk.Align.START);
             value_entry.set_text (default_value.to_string ());
+            value_entry.set_tooltip_text (subtitle);
             value_entry.activate.connect (apply_pending_value);
 
             apply_button = new Gtk.Button.with_label (_("Set"));
-            apply_button.set_tooltip_text (_("Apply the FPS value"));
+            apply_button.set_tooltip_text (subtitle);
             apply_button.clicked.connect (apply_pending_value);
 
             value_box.append (value_caption);
@@ -51,6 +53,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             toggle = new Gtk.Switch ();
             toggle.set_valign (Gtk.Align.CENTER);
+            toggle.set_tooltip_text (subtitle);
 
             add_suffix (value_box);
             add_suffix (toggle);

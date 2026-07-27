@@ -6,8 +6,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile dxvk_log_level_none_tile { get; private set; }
         LaunchOptionSpinTile dxvk_frame_rate_tile { get; private set; }
 
-        public DxvkOptionsGroup (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers, true);
+        public DxvkOptionsGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, true, presentation_registry);
 
             this.title = _("DXVK options");
             this.description = _("Extra graphics settings and launch behaviors.");
@@ -15,12 +15,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             dxvk_async_tile = create_tile (
                                            _("DXVK Async"),
                                            _("Enables DXVK's asynchronous pipeline compilation which can reduce stuttering."),
-                                           { "DXVK_ASYNC=1" });
+                                           { "DXVK_ASYNC=1" }, false, LaunchLineType.ENVIRONMENT, "dxvk-async");
 
             dxvk_log_level_none_tile = create_tile (
                                                     _("Disable DXVK logging"),
                                                     _("Sets DXVK's log level to none which can improve performance in some games."),
-                                                    { "DXVK_LOG_LEVEL=none" });
+                                                    { "DXVK_LOG_LEVEL=none" }, false, LaunchLineType.ENVIRONMENT, "dxvk-log-level");
 
             dxvk_frame_rate_tile = create_spin_tile (
                                                      _("DXVK Frame Limit"),
@@ -29,7 +29,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                                                      0,
                                                      360,
                                                      60,
-                                                     "DXVK_FRAME_RATE="
+                                                     "DXVK_FRAME_RATE=",
+                                                     false,
+                                                     LaunchLineType.ENVIRONMENT,
+                                                     "dxvk-frame-limit"
             );
             this.add (dxvk_log_level_none_tile);
             this.add (dxvk_async_tile);

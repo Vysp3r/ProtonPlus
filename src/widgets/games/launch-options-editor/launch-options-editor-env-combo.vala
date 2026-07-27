@@ -40,6 +40,7 @@ using Gtk;
 
             this.title = title_text;
             this.subtitle = subtitle_text;
+            this.set_tooltip_text (subtitle_text);
 
             var string_list = new Gtk.StringList (display_opts);
             this.model = string_list;

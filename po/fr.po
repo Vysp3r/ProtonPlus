@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-26 22:09-0400\n"
+"POT-Creation-Date: 2026-07-27 00:58-0400\n"
 "PO-Revision-Date: 2026-05-10 19:11+0000\n"
 "Last-Translator: Badreddine-Rezzouk <badreddinerezzouk@protonmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -108,6 +108,8 @@ msgid "Bottles"
 msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:34
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:237
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:238
 msgid "DXVK"
 msgstr ""
 
@@ -1987,7 +1989,7 @@ msgid "Chinese (Traditional)"
 msgstr ""
 
 #: src/models/games/steam.vala:107 src/models/games/steam.vala:116
-#: src/widgets/games/games-box.vala:394 src/widgets/games/games-row.vala:129
+#: src/widgets/games/games-box.vala:411 src/widgets/games/games-row.vala:129
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr ""
@@ -2114,89 +2116,130 @@ msgstr ""
 msgid "Special thanks to"
 msgstr "Remerciements à"
 
-#: src/widgets/games/games-box.vala:87 src/widgets/tools/tools-box.vala:96
+#: src/widgets/games/games-box.vala:74 src/widgets/games/games-box.vala:505
+#: src/widgets/tools/tools-release-box.vala:102
+#, fuzzy
+msgid "No games found"
+msgstr "Aucun profil trouvé"
+
+#: src/widgets/games/games-box.vala:75
+msgid "Try a different search term or filter."
+msgstr ""
+
+#: src/widgets/games/games-box.vala:101 src/widgets/tools/tools-box.vala:96
 msgid "Back"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:94
+#: src/widgets/games/games-box.vala:108
 #, fuzzy
 msgid "Clear the current launch options"
 msgstr "Modifier les paramètres du lancement de jeu"
 
-#: src/widgets/games/games-box.vala:99
+#: src/widgets/games/games-box.vala:113
 msgid "Apply the current modification"
 msgstr "Appliquer les modifications"
 
-#. Advanced Page
-#: src/widgets/games/games-box.vala:107
-#: src/widgets/mangohud/mangohud-box.vala:69
-#: src/widgets/preferences/preferences-dialog.vala:204
-msgid "Advanced"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:131 src/widgets/tools/tools-box.vala:200
+#: src/widgets/games/games-box.vala:148 src/widgets/tools/tools-box.vala:200
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:135
-#: src/widgets/games/games-mass-edit-view.vala:158
+#: src/widgets/games/games-box.vala:152
+#: src/widgets/games/games-mass-edit-view.vala:155
 #: src/widgets/games/games-row.vala:132
 msgid "Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:139
+#: src/widgets/games/games-box.vala:156
 msgid "Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:179 src/widgets/tools/tools-box.vala:198
+#: src/widgets/games/games-box.vala:199 src/widgets/tools/tools-box.vala:198
 #: src/widgets/tools/tools-box.vala:379
 msgid "Filter"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:205
-#: src/widgets/tools/tools-release-box.vala:89
-msgid "Name"
-msgstr "Nom"
+#: src/widgets/games/games-box.vala:217
+#, fuzzy
+msgid "Search games"
+msgstr "Paramètres du launcher"
 
-#: src/widgets/games/games-box.vala:224
+#: src/widgets/games/games-box.vala:225
+msgid "Select all visible games"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:241
 msgid "Prefix"
 msgstr "Préfixe"
 
-#: src/widgets/games/games-box.vala:228
+#: src/widgets/games/games-box.vala:245
 msgid "Tool"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:232
+#: src/widgets/games/games-box.vala:249
 #, fuzzy
 msgid "Actions"
 msgstr "Paramètres du launcher"
 
-#: src/widgets/games/games-box.vala:330
+#: src/widgets/games/games-box.vala:347
 msgid "No profile was found."
 msgstr "Aucun profil trouvé"
 
-#: src/widgets/games/games-box.vala:332
+#: src/widgets/games/games-box.vala:349
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Assurez-vous de vous connecter au moins une fois sur Steam."
 
-#: src/widgets/games/games-box.vala:333
+#: src/widgets/games/games-box.vala:350
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 "Si vous pensez que c'est un problème, vous pouvez le signaler sur GitHub."
 
-#: src/widgets/games/games-box.vala:344
+#: src/widgets/games/games-box.vala:361
 msgid "Unsupported launcher"
 msgstr "Launcher non supporté"
 
-#: src/widgets/games/games-box.vala:346
+#: src/widgets/games/games-box.vala:363
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s n'est actuellement pas supporté"
 
-#: src/widgets/games/games-box.vala:347
+#: src/widgets/games/games-box.vala:364
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "Envie d'accélérer le développement ? Montrez votre soutien !"
+
+#: src/widgets/games/games-box.vala:473
+msgid "Filter: Native"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:475
+msgid "Filter: Non-Steam"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:477
+msgid "Filter: All games"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:497
+#, fuzzy
+msgid "No matching games"
+msgstr "Paramètres du launcher"
+
+#: src/widgets/games/games-box.vala:498
+#: src/widgets/tools/tools-group-box.vala:124
+msgid "Try a different search term or clear the search."
+msgstr ""
+
+#: src/widgets/games/games-box.vala:501
+msgid "No games match this filter"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:502
+msgid "Choose All games to see your complete library."
+msgstr ""
+
+#: src/widgets/games/games-box.vala:506
+msgid "No games are available for this launcher."
+msgstr ""
 
 #: src/widgets/games/games-extra-button.vala:11
 msgid "Open in protontricks"
@@ -2225,13 +2268,27 @@ msgstr "Modifier l'outil de compatibilité pour les jeux sélectionné"
 msgid "Modify the selected games all at once"
 msgstr "Modifier l'outil de compatibilité pour les jeux sélectionné"
 
-#: src/widgets/games/games-mass-edit-button.vala:48
+#: src/widgets/games/games-mass-edit-button.vala:26
+#, fuzzy, c-format
+msgid "Modify %d selected game"
+msgid_plural "Modify %d selected games"
+msgstr[0] "Modifier l'outil de compatibilité pour les jeux sélectionné"
+msgstr[1] "Modifier l'outil de compatibilité pour les jeux sélectionné"
+
+#: src/widgets/games/games-mass-edit-button.vala:29
+#, fuzzy, c-format
+msgid "Modify %d selected game all at once"
+msgid_plural "Modify %d selected games all at once"
+msgstr[0] "Modifier l'outil de compatibilité pour les jeux sélectionné"
+msgstr[1] "Modifier l'outil de compatibilité pour les jeux sélectionné"
+
+#: src/widgets/games/games-mass-edit-button.vala:57
 #: src/widgets/tools/tools-stl-release-row.vala:13
 #: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:103
 msgid "Warning"
 msgstr "Attention"
 
-#: src/widgets/games/games-mass-edit-button.vala:48
+#: src/widgets/games/games-mass-edit-button.vala:57
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
@@ -2239,29 +2296,46 @@ msgstr ""
 "Veuillez vous assurer de sélectionner au moins un jeu avant d'utiliser la "
 "fonction de modification groupée."
 
-#: src/widgets/games/games-mass-edit-view.vala:28
+#: src/widgets/games/games-mass-edit-view.vala:24
 msgid "1 game selected"
 msgstr "1 jeu sélectionné"
 
-#: src/widgets/games/games-mass-edit-view.vala:28
+#: src/widgets/games/games-mass-edit-view.vala:24
 #, c-format
 msgid "%u games selected"
 msgstr "%u jeux sélectionnés"
 
 #: src/widgets/games/games-mass-edit-view.vala:47
-msgid "Compatibility tool"
+#, fuzzy
+msgid "Apply compatibility tool"
 msgstr "Outil de compatibilité"
 
-#: src/widgets/games/games-mass-edit-view.vala:81
+#: src/widgets/games/games-mass-edit-view.vala:48
 #, fuzzy
-msgid "Launch options"
-msgstr "Paramètres du launcher"
+msgid "Set the same tool for every selected game."
+msgstr "Sélectionner tous les jeux"
 
-#: src/widgets/games/games-mass-edit-view.vala:277
+#: src/widgets/games/games-mass-edit-view.vala:70
+#, fuzzy
+msgid "Apply launch options"
+msgstr "Modifier les paramètres de lancement"
+
+#: src/widgets/games/games-mass-edit-view.vala:71
+#, fuzzy
+msgid "Set the same options for every selected Steam game."
+msgstr "Sélectionner tous les jeux"
+
+#: src/widgets/games/games-mass-edit-view.vala:82
+msgid ""
+"Enable the sections you want to change. Disabled sections leave the selected "
+"games unchanged."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:270
 msgid "Batch Update Failed"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:278
+#: src/widgets/games/games-mass-edit-view.vala:271
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
@@ -2318,33 +2392,40 @@ msgstr ""
 msgid "New tool"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:14
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:15
 #, fuzzy
 msgid "Advanced options"
 msgstr "Paramètres du launcher"
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:15
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:16
 msgid "Extra control over the final Steam launch command."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:17
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:18
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:282
+msgid "Steam command placeholder (%command%)"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:18
 msgid "Appends Steam's game command."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:19
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:20
 msgid "Additional arguments"
 msgstr "Arguments additionnels"
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:19
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:20
 #, fuzzy
 msgid "Add extra launch options"
 msgstr "Modifier les paramètres de lancement"
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:24
-msgid "Custom launch arguments"
-msgstr ""
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:25
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:276
+#, fuzzy
+msgid "Custom game arguments"
+msgstr "Ajouter des arguments Gamescope"
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:24
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:25
 #, fuzzy
 msgid "Add your own launch options."
 msgstr "Modifier les paramètres de lancement"
@@ -2360,7 +2441,8 @@ msgid "Audio-related launch options."
 msgstr "Modifier les paramètres de lancement"
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:18
-msgid "PulseAudio low latency"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:266
+msgid "PulseAudio latency"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:19
@@ -2373,7 +2455,7 @@ msgstr ""
 msgid "MSEC"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:27
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:30
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:36
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:11
@@ -2382,21 +2464,22 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:38
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:41
 msgid "WINEALSA Channels"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:39
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:42
 msgid ""
 "Sets the number of ALSA output channels used by Wine. Available from GE-"
 "Proton11-1."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:52
-msgid "WINEALSA Spatial Audio"
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:56
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:268
+msgid "Wine ALSA spatial downmix"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:53
+#: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:57
 msgid ""
 "Enables spatial mixing in Wine ALSA audio output. Requires WINEALSA Channels "
 "set to 4, 6, or 8. Available from GE-Proton11-1."
@@ -2411,42 +2494,58 @@ msgstr "Paramètres du launcher"
 msgid "Quick toggles for the launch options people reach for most often."
 msgstr ""
 
+#. Performance & monitoring
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:17
-msgid "Performance overlay"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:199
+msgid "MangoHud performance overlay"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:18
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:31
-msgid "Disable Steam Deck Mode"
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:27
+msgid ""
+"Requires MangoHud to be installed. Search keeps unavailable options visible."
 msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:31
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:207
+#, fuzzy
+msgid "Use desktop game profile"
+msgstr "Sélectionner un profil"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:32
 msgid "Disables the Steam Deck-specific profile that some games use."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:37
-msgid "Wayland"
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:40
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:206
+msgid "Native Wayland"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:38
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:41
 msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:43
-#: src/widgets/preferences/preferences-dialog.vala:342
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:49
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:200
+#: src/widgets/mangohud/mangohud-extras-page.vala:100
 #, fuzzy
-msgid "Feral Gamemode"
+msgid "GameMode"
 msgstr "Jeux"
 
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:44
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:50
 msgid ""
 "Requests temporary optimizations for system performance (CPU governor, "
 "process priority) when the game is running."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:59
+msgid ""
+"Requires GameMode to be installed. Search keeps unavailable options visible."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:12
@@ -2493,6 +2592,7 @@ msgid "FPS"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:14
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:116
 msgid "Game arguments"
 msgstr ""
 
@@ -2500,7 +2600,9 @@ msgstr ""
 msgid "Flags passed directly to the game."
 msgstr ""
 
+#. Game arguments
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:18
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:271
 #, fuzzy
 msgid "Skip launcher"
 msgstr "Launcher"
@@ -2512,8 +2614,8 @@ msgstr ""
 "Ajoutez -skip-launcher afin d'ignorer un launcher en jeu lorsque supporté."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:22
-#: src/widgets/mangohud/mangohud-performance-page.vala:44
-msgid "Vulkan"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:272
+msgid "Vulkan renderer"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:22
@@ -2521,8 +2623,9 @@ msgid "Adds -vulkan to make the game use its Vulkan renderer."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:23
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:273
 #, fuzzy
-msgid "DirectX 11"
+msgid "DirectX 11 renderer"
 msgstr "Répertoire: "
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:23
@@ -2531,8 +2634,9 @@ msgstr ""
 "Ajoutez -dx11 pour forcer le jeu à utiliser le moteur de rendu DirectX 11."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:24
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:274
 #, fuzzy
-msgid "DirectX 12"
+msgid "DirectX 12 renderer"
 msgstr "Répertoire: "
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:24
@@ -2541,7 +2645,8 @@ msgstr ""
 "Ajoutez -dx12 pour forcer le jeu à utiliser le moteur de rendu DirectX 12."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:25
-msgid "Console"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:275
+msgid "Developer console"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:25
@@ -2551,15 +2656,19 @@ msgstr ""
 "supporté."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:23
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:245
 msgid "Mesa Anti-Lag"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:23
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:245
 msgid "Reduces latency on supported AMD Mesa setups."
 msgstr ""
 
+#. Hardware & drivers
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:24
-msgid "Use dGPU"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:244
+msgid "Use discrete GPU"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:24
@@ -2567,7 +2676,8 @@ msgid "Makes the game use the AMD dGPU on hybrid systems."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:26
-msgid "Hide AMD APU"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:248
+msgid "Treat APU as a discrete GPU"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:27
@@ -2588,8 +2698,9 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:39
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:247
 #, fuzzy
-msgid "FSR 4 RDNA3 Upgrade"
+msgid "FSR 4 RDNA3 upgrade"
 msgstr "Mettre à jour %s"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:39
@@ -2597,6 +2708,7 @@ msgid "Optimizes FSR 4.0 for RDNA3 hardware."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:45
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:250
 msgid "Staging shared memory"
 msgstr ""
 
@@ -2649,8 +2761,9 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-intel-options-group.vala:10
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:261
 #, fuzzy
-msgid "XeSS Upgrade"
+msgid "XeSS component upgrade"
 msgstr "Mettre à jour %s"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-intel-options-group.vala:10
@@ -2658,6 +2771,7 @@ msgid "Upgrades XeSS in supported games."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:18
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:256
 msgid "NVAPI"
 msgstr ""
 
@@ -2667,7 +2781,8 @@ msgstr ""
 
 #. gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NVAPI=1" }, nvapi_tile.toggle));
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:24
-msgid "Update DLSS components"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:257
+msgid "DLSS component updates"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:25
@@ -2676,7 +2791,8 @@ msgstr ""
 
 #. gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NGX_UPDATER=1" }, nvidia_ngx_updater_tile.toggle));
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:33
-msgid "Hide NVIDIA GPU"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:260
+msgid "Report GPU as AMD"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:34
@@ -2686,7 +2802,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:37
-msgid "DLSS Indicator"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:258
+msgid "DLSS indicator"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:37
@@ -2694,7 +2811,8 @@ msgid "Shows a DLSS status indicator in-game."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:39
-msgid "NVIDIA Libraries"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:259
+msgid "NVIDIA libraries"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:40
@@ -2703,26 +2821,52 @@ msgid ""
 "or ray tracing."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:24
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:25
 #, fuzzy
 msgid "GPU vendor options"
 msgstr "Plus d'informations"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:28
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:29
 msgid ""
 "Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:54
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:55
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:71
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:244
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:245
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:246
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:247
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:248
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:249
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:250
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:251
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:252
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:253
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:254
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:255
 msgid "AMD"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:55
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:56
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:75
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:256
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:257
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:258
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:259
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:260
 msgid "NVIDIA"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:56
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:57
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:79
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:261
 msgid "Intel"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:89
+#, c-format
+msgid "Use GPU-specific compatibility toggles for %s hardware."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:19
@@ -2731,15 +2875,18 @@ msgid "More options"
 msgstr "Plus d'informations"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:22
-msgid "VKBasalt"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:208
+msgid "vkBasalt visual effects"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:22
 msgid "Adds visual effects like sharpening and color adjustments."
 msgstr ""
 
+#. Proton & Wine compatibility
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:24
-msgid "WineD3D"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:224
+msgid "OpenGL fallback (WineD3D)"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:25
@@ -2748,7 +2895,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:30
-msgid "Use FSync"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:226
+msgid "NTSync mode"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:31
@@ -2758,7 +2906,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:36
-msgid "Local shader cache"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:202
+msgid "Per-game shader cache"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:37
@@ -2767,8 +2916,10 @@ msgid ""
 "but does not compile them ahead-of-time."
 msgstr ""
 
+#. Input & audio
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:41
-msgid "Prefer SDL controller"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:264
+msgid "Prefer SDL controller input"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:41
@@ -2776,7 +2927,8 @@ msgid "Workaround for controller detection issues."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:43
-msgid "Disable Steam Input"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:265
+msgid "Bypass Steam Input"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:44
@@ -2784,7 +2936,8 @@ msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:48
-msgid "WINE_VK_USE_SYNC2"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:230
+msgid "Vulkan synchronization 2"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:49
@@ -2794,7 +2947,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:53
-msgid "WINE_SYNC_USE_FUTEX_WAITV"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:231
+msgid "Futex waitv synchronization"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:54
@@ -2823,7 +2977,8 @@ msgid "Extra Proton settings and launch behaviors."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:22
-msgid "Higher priority for games"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:201
+msgid "High process priority"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:23
@@ -2833,7 +2988,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:27
-msgid "Use WoW64"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:228
+msgid "WoW64 mode"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:28
@@ -2843,7 +2999,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:32
-msgid "Allows 32-bit games to use more than 2GB of RAM"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:227
+msgid "Large address awareness for 32-bit games"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:33
@@ -2852,8 +3009,10 @@ msgid ""
 "and stability."
 msgstr ""
 
+#. Diagnostics & raw command
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:37
-msgid "Enable Proton logs"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:279
+msgid "Proton debug log"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:38
@@ -2863,7 +3022,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:42
-msgid "Enable Proton OptiScaler"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:232
+msgid "OptiScaler integration"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:43
@@ -2873,7 +3033,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:47
-msgid "Enable Proton Discord Bridge"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:233
+msgid "Discord bridge"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:48
@@ -2927,31 +3088,43 @@ msgid ""
 "stutter."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:17
+#. Display & launch tools
+#: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:19
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:205
 #, fuzzy
-msgid "Launch tools"
+msgid "Launch backend"
 msgstr "Paramètres du launcher"
 
-#: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:18
+#: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:20
 msgid ""
-"Choose one to configure FPS caps, resolution, and other display options."
+"Choose System default, Gamescope, or ScopeBuddy for display and launch "
+"options."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:40
-#: src/widgets/mangohud/mangohud-extras-page.vala:154
-#: src/widgets/mangohud/mangohud-performance-page.vala:99
-#: src/widgets/mangohud/mangohud-performance-page.vala:121
-#: src/widgets/mangohud/mangohud-visual-page.vala:95
-msgid "None"
-msgstr ""
+#: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:44
+#, fuzzy
+msgid "System default"
+msgstr "Plus d'informations"
 
-#: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:43
+#: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:47
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:210
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:211
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:212
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:213
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:214
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:215
 #: src/widgets/preferences/preferences-dialog.vala:332
 #, fuzzy
 msgid "Gamescope"
 msgstr "Jeux"
 
-#: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:48
+#: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:52
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:216
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:217
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:218
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:219
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:220
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:221
 #: src/widgets/preferences/preferences-dialog.vala:337
 msgid "ScopeBuddy"
 msgstr ""
@@ -3038,12 +3211,68 @@ msgstr ""
 msgid "Override system-wide Vulkan driver preference for this game"
 msgstr ""
 
-#. Launch command preview
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:30
-msgid "Launch command preview"
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:74
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:283
+#, fuzzy
+msgid "Preserved unrecognized launch options"
+msgstr "Modifier les paramètres du lancement de jeu"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:75
+msgid ""
+"Quoted, opaque, and unknown shell content is retained exactly as loaded."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:35
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:83
+#, fuzzy
+msgid "No matching launch options."
+msgstr "Modifier les paramètres de lancement"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:91
+msgid "Command preview"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:102
+#, fuzzy
+msgid "Launch options"
+msgstr "Paramètres du launcher"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:106
+#, fuzzy
+msgid "Search all options"
+msgstr "Paramètres du launcher"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:108
+#, fuzzy
+msgid "Search launch options"
+msgstr "Modifier les paramètres de lancement"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:113
+msgid "Browse"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:115
+msgid "Quick settings"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:116
+#, fuzzy
+msgid "Active options"
+msgstr "Plus d'informations"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:117
+#, fuzzy
+msgid "All options"
+msgstr "Plus d'informations"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:200
+msgid "Raw command controls"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:201
+msgid "Change the Steam command placeholder only when a game requires it."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:36
 msgid "Add custom item (Type name and press Enter)..."
 msgstr ""
 
@@ -3158,6 +3387,15 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:75
 msgid "Bypass or prefer specific Windows DLLs"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:16
+#: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:66
+msgid "Show the exact command that will be saved to Steam."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:65
+msgid "Raw or unrecognized content needs attention before saving."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:11
@@ -3279,18 +3517,9 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:69
-#: src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala:44
+#: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:73
+#: src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala:46
 msgid "Set"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:70
-#, fuzzy
-msgid "Apply the custom resolution"
-msgstr "Appliquer les modifications"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala:45
-msgid "Apply the FPS value"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:32
@@ -3400,19 +3629,528 @@ msgstr ""
 msgid "No launch options configured yet."
 msgstr ""
 
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:110
+msgid "Performance & monitoring"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:111
+#, fuzzy
+msgid "Display & launch tools"
+msgstr "Paramètres du launcher"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:112
+#, fuzzy
+msgid "Proton & Wine compatibility"
+msgstr "Outil de compatibilité"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:113
+msgid "Graphics translation"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:114
+msgid "Hardware & drivers"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:115
+msgid "Input & audio"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:117
+msgid "Diagnostics & raw command"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:199
+msgid "Shows FPS, CPU/GPU usage, and temperatures in game."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:200
+msgid ""
+"Requests temporary system performance optimizations while the game is "
+"running."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:201
+msgid "Gives the game a higher CPU priority."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:202
+msgid "Keeps this game's shader cache separate."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:205
+msgid "Choose the system default, Gamescope, or ScopeBuddy."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:206
+msgid "Runs the game on Wayland instead of XWayland."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:207
+msgid "Uses the desktop profile instead of a Steam Deck-specific profile."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:208
+msgid "Adds visual effects such as sharpening and color adjustments."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:209
+msgid "HDR through Proton"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:209
+msgid "Outputs HDR colors through Proton when the display supports it."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:210
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:216
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:36
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:38
 msgid "Fullscreen"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:36
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:38
-msgid "Runs the game in a fullscreen session."
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:210
+msgid "Runs the game in a fullscreen Gamescope session."
 msgstr ""
 
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:210
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:211
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:212
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:213
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:214
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:215
+#, fuzzy
+msgid "Requires Gamescope"
+msgstr "Jeux"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:211
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:217
+#, fuzzy
+msgid "Output resolution"
+msgstr "Appliquer les modifications"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:211
+#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:51
+msgid "Sets the Gamescope output resolution."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:212
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:38
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:15
 msgid "HDR"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:212
+msgid "Outputs HDR colors through Gamescope."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:213
+#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:40
+#, fuzzy
+msgid "Variable refresh rate"
+msgstr "Actualiser les profils"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:213
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:219
+msgid "Matches the display refresh rate to the game's FPS."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:214
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:220
+#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:42
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:53
+msgid "Frame limit"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:214
+#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:42
+msgid "Caps the frame rate inside Gamescope."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:215
+#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:73
+msgid "Additional Gamescope arguments"
+msgstr "Arguments additionnels Gamescope"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:215
+msgid "Keeps extra Gamescope flags such as output selection."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:216
+msgid "Runs the game in a fullscreen ScopeBuddy session."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:216
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:217
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:218
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:219
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:220
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:221
+msgid "Requires ScopeBuddy"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:217
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:65
+msgid "Sets the ScopeBuddy output resolution."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:218
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:43
+#, fuzzy
+msgid "Automatic HDR"
+msgstr "Mise à jour automatique"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:218
+msgid "Enables HDR automatically when the display supports it."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:219
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:48
+msgid "Automatic variable refresh rate"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:220
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:53
+msgid "Caps the frame rate inside ScopeBuddy."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:221
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:79
+msgid "Additional ScopeBuddy arguments"
+msgstr "Arguments additionnels ScopeBuddy"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:221
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:80
+msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:224
+msgid "Uses OpenGL instead of Vulkan when DXVK causes problems."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:225
+msgid "D7VK for older Direct3D games"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:225
+msgid "Enables D7VK for older Direct3D games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:225
+msgid "Requires a compatible Proton version"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:226
+msgid ""
+"Uses FSync instead of NTSync for games that need that compatibility mode."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:227
+msgid "Lets supported 32-bit games use more than 2GB of memory."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:228
+msgid "Enables WoW64 support for 32-bit games on 64-bit Proton builds."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:229
+msgid "Write-copy memory workaround"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:229
+msgid "Simulates page write protection for initialization errors."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:230
+msgid "Enables WINE_VK_USE_SYNC2."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:231
+msgid "Enables WINE_SYNC_USE_FUTEX_WAITV."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:232
+msgid "Enables Proton OptiScaler."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:232
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:233
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:267
+msgid "Requires Proton 11-1 or newer"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:233
+msgid "Enables Proton's Discord bridge."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:234
+msgid "Wine DLL overrides"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:234
+msgid "Choose builtin or native Windows DLL behavior."
+msgstr ""
+
+#. Graphics translation
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:237
+msgid "DXVK frame limit"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:237
+msgid "Caps the frame rate with DXVK's built-in limiter."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:238
+msgid "Asynchronous pipeline compilation"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:238
+msgid "Enables DXVK asynchronous pipeline compilation."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:238
+msgid "Requires compatible patched DXVK"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:239
+msgid "VKD3D shader cache"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:239
+msgid "Enables VKD3D's internal shader cache."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:239
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:240
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:241
+#, fuzzy
+msgid "VKD3D-Proton"
+msgstr "Plus d'informations"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:240
+msgid "VKD3D GPU virtual addressing"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:240
+msgid "Enables VKD3D GPU virtual addressing."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:241
+#, fuzzy
+msgid "VKD3D compatibility settings"
+msgstr "Définir l'outil de compatibilité par défaut"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:241
+msgid "Configure Direct3D 12 to Vulkan compatibility workarounds."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:244
+msgid "Uses the AMD discrete GPU on hybrid systems."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:246
+#, fuzzy
+msgid "FSR 4 upgrade"
+msgstr "Mettre à jour %s"
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:246
+msgid "Upgrades supported FSR 3.1 games to FSR 4."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:247
+msgid "Optimizes FSR 4 for RDNA3 hardware."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:248
+msgid ""
+"Reports an AMD APU as a discrete GPU for games that mis-detect integrated "
+"graphics."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:249
+msgid "Vulkan driver"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:249
+msgid "Chooses the AMD Vulkan driver for this game."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:250
+msgid "Enables AMD driver shared memory support."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:251
+msgid "Mesa GL threading"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:251
+msgid "Enables Mesa GLThread."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:252
+msgid "Mesa shader-cache control"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:252
+msgid "Controls Mesa's shader cache."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:253
+msgid "Experimental RADV features"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:253
+msgid "Tests experimental RADV performance features."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:254
+msgid "RADV workarounds and debugging"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:254
+msgid "Configure RADV compatibility workarounds and debugging."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:255
+msgid "ACO shader-compiler debugging"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:255
+msgid "Configure AMD ACO shader compiler debugging."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:256
+msgid "Lets games access NVIDIA-specific features such as DLSS."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:257
+msgid "Updates DLSS components for supported games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:258
+msgid "Shows an in-game DLSS status indicator."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:259
+msgid "Enables NVIDIA-specific libraries."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:260
+msgid "Reports an NVIDIA GPU as AMD for affected games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:261
+msgid "Updates XeSS in supported games."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:264
+msgid "Works around controller detection issues."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:265
+msgid "Disables Steam Input support."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:266
+msgid "Sets the PulseAudio latency target."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:267
+msgid "Wine ALSA output channels"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:267
+msgid "Sets the Wine ALSA output channel count."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:268
+msgid "Enables Wine ALSA spatial downmix for 4, 6, or 8 channels."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:268
+msgid "Requires 4, 6, or 8 output channels"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:271
+#, fuzzy
+msgid "Adds -skip-launcher for games that support it."
+msgstr ""
+"Ajoutez -skip-launcher afin d'ignorer un launcher en jeu lorsque supporté."
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:272
+msgid "Adds -vulkan."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:273
+msgid "Adds -dx11."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:274
+msgid "Adds -dx12."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:275
+#, fuzzy
+msgid "Adds -console when the game supports it."
+msgstr ""
+"Ajoutez -console afin d'ouvrir la console développeur du jeu lorsque "
+"supporté."
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:276
+msgid "Adds your own game arguments without changing recognized controls."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:279
+msgid "Enables Proton troubleshooting logs."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:280
+msgid "DXVK log level"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:280
+msgid "Controls DXVK logging."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:281
+msgid "VKD3D log level"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:281
+msgid "Controls VKD3D troubleshooting logs."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:282
+msgid "Marks where Steam inserts the game's command."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:283
+msgid "Keeps unrecognized, quoted, and opaque shell content exactly as loaded."
+msgstr ""
+
+#. Advanced Page
+#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:37
+#: src/widgets/mangohud/mangohud-box.vala:69
+#: src/widgets/preferences/preferences-dialog.vala:204
+msgid "Advanced"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:39
+#: src/widgets/preferences/preferences-dialog.vala:248
+msgid "Experimental"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:43
+#, fuzzy
+msgid "Requires related option"
+msgstr "Modifier les paramètres de lancement"
+
+#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:45
+msgid "Unavailable on this system"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:36
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:38
+msgid "Runs the game in a fullscreen session."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:38
@@ -3423,66 +4161,24 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:40
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:48
-msgid "VRR"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:40
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:48
 msgid "Matches your display's refresh rate to the game's FPS."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:42
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:53
-msgid "Frame limit"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:42
-msgid "Caps the frame rate inside Gamescope."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:50
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:64
+#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:51
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:65
 #: src/widgets/mangohud/mangohud-extras-page.vala:69
 msgid "Resolution"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:50
-msgid "Sets the Gamescope output resolution."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:71
-msgid "Additional Gamescope arguments"
-msgstr "Arguments additionnels Gamescope"
-
-#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:72
+#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:74
 msgid "Keeps extra Gamescope flags such as output or resolution tweaks."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:73
+#: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:75
 msgid "Add Gamescope arguments"
 msgstr "Ajouter des arguments Gamescope"
 
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:43
-msgid "Auto HDR"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:53
-msgid "Caps the frame rate inside ScopeBuddy."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:64
-msgid "Sets the ScopeBuddy output resolution."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:77
-msgid "Additional ScopeBuddy arguments"
-msgstr "Arguments additionnels ScopeBuddy"
-
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:78
-msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:79
+#: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:81
 msgid "Add ScopeBuddy arguments"
 msgstr "Ajouter des arguments ScopeBuddy"
 
@@ -3919,11 +4615,6 @@ msgstr ""
 msgid "HUD Version"
 msgstr "Version"
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:100
-#, fuzzy
-msgid "GameMode"
-msgstr "Jeux"
-
 #: src/widgets/mangohud/mangohud-extras-page.vala:101
 msgid "vkBasalt"
 msgstr ""
@@ -4008,6 +4699,13 @@ msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:153
 msgid "Toggle key"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:154
+#: src/widgets/mangohud/mangohud-performance-page.vala:99
+#: src/widgets/mangohud/mangohud-performance-page.vala:121
+#: src/widgets/mangohud/mangohud-visual-page.vala:95
+msgid "None"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:169
@@ -4209,6 +4907,10 @@ msgstr ""
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:38
 msgid "ftrace debug"
+msgstr ""
+
+#: src/widgets/mangohud/mangohud-performance-page.vala:44
+msgid "Vulkan"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:44
@@ -4520,10 +5222,6 @@ msgstr ""
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:248
-msgid "Experimental"
-msgstr ""
-
 #: src/widgets/preferences/preferences-dialog.vala:253
 msgid "Preview features"
 msgstr ""
@@ -4601,6 +5299,11 @@ msgstr ""
 msgid "MangoHud (Flatpak)"
 msgstr ""
 
+#: src/widgets/preferences/preferences-dialog.vala:342
+#, fuzzy
+msgid "Feral Gamemode"
+msgstr "Jeux"
+
 #: src/widgets/preferences/preferences-dialog.vala:347
 #, fuzzy
 msgid "Detected Launchers"
@@ -4608,7 +5311,7 @@ msgstr "Launcher non supporté"
 
 #: src/widgets/preferences/preferences-dialog.vala:370
 #: src/widgets/tools/tools-box.vala:203
-#: src/widgets/tools/tools-group-box.vala:237
+#: src/widgets/tools/tools-group-box.vala:239
 msgid "Installed"
 msgstr "Installés seulement"
 
@@ -4763,10 +5466,6 @@ msgstr ""
 msgid "No matching tools"
 msgstr "Paramètres du launcher"
 
-#: src/widgets/tools/tools-group-box.vala:124
-msgid "Try a different search term or clear the search."
-msgstr ""
-
 #: src/widgets/tools/tools-group-box.vala:131
 #, fuzzy
 msgid "No installed tools"
@@ -4798,17 +5497,22 @@ msgstr ""
 msgid "No tools are available in this group."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:232
+#: src/widgets/tools/tools-group-box.vala:213
+#, fuzzy
+msgid "Recommended compatibility tool"
+msgstr "Sélectionner votre outil de compatibilité"
+
+#: src/widgets/tools/tools-group-box.vala:234
 msgid "In use"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:233
+#: src/widgets/tools/tools-group-box.vala:235
 msgid ""
 "One or more releases of this tool is installed and currently used by one or "
 "more games"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:238
+#: src/widgets/tools/tools-group-box.vala:240
 msgid ""
 "One or more releases of this tool is installed, but not currently used by "
 "any games"
@@ -4841,10 +5545,9 @@ msgid ""
 "due to missing permissions or file access issues."
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:102
-#, fuzzy
-msgid "No games found"
-msgstr "Aucun profil trouvé"
+#: src/widgets/tools/tools-release-box.vala:89
+msgid "Name"
+msgstr "Nom"
 
 #: src/widgets/tools/tools-release-box.vala:103
 #, fuzzy
@@ -5062,6 +5765,10 @@ msgid "Exit"
 msgstr "Quitter"
 
 #, fuzzy
+#~ msgid "Apply the custom resolution"
+#~ msgstr "Appliquer les modifications"
+
+#, fuzzy
 #~ msgid "Supported launchers:"
 #~ msgstr "Launcher non supporté"
 
@@ -5222,9 +5929,6 @@ msgstr "Quitter"
 #~ "Build DXVK Async qui fonctionne avec les versions antérieures à 1.3 de "
 #~ "Vulkan"
 
-#~ msgid "Automatic updates"
-#~ msgstr "Mise à jour automatique"
-
 #~ msgid "Please report this issue on GitHub."
 #~ msgstr "S'il vous plaît, rapportez ce bug sur Github."
 
@@ -5356,9 +6060,6 @@ msgstr "Quitter"
 
 #~ msgid "Unselect all"
 #~ msgstr "Tout désélectionner"
-
-#~ msgid "Modify launch options"
-#~ msgstr "Modifier les paramètres de lancement"
 
 #, c-format
 #~ msgid "Couldn't change the launch options of %s"

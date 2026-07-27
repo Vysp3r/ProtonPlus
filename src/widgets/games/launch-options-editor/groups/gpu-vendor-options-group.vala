@@ -9,13 +9,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         GpuVendorAmdOptionsGroup amd_group { get; set; }
         GpuVendorNvidiaOptionsGroup nvidia_group { get; set; }
         GpuVendorIntelOptionsGroup intel_group { get; set; }
+        Gtk.Label desc_label { get; set; }
         bool advanced_visible;
-        bool gpu_vendor_detected;
+        bool presentation_visible;
 
-        public GpuVendorOptionsGroup (LaunchOptionsList launch_option_handlers) {
+        public GpuVendorOptionsGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
             advanced_visible = false;
-            gpu_vendor_detected = false;
+            presentation_visible = false;
 
             var title_vbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             title_vbox.set_hexpand (true);
@@ -25,7 +26,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             title_label.add_css_class ("title-4");
             title_label.set_halign (Gtk.Align.START);
 
-            var desc_label = new Gtk.Label (_("Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."));
+            desc_label = new Gtk.Label (_("Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."));
             desc_label.add_css_class ("caption");
             desc_label.add_css_class ("dim-label");
             desc_label.set_halign (Gtk.Align.START);
@@ -39,9 +40,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             stack.set_vhomogeneous (false);
             stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
 
-            amd_group = new GpuVendorAmdOptionsGroup (launch_option_handlers);
-            nvidia_group = new GpuVendorNvidiaOptionsGroup (launch_option_handlers);
-            intel_group = new GpuVendorIntelOptionsGroup (launch_option_handlers);
+            amd_group = new GpuVendorAmdOptionsGroup (launch_option_handlers, presentation_registry);
+            nvidia_group = new GpuVendorNvidiaOptionsGroup (launch_option_handlers, presentation_registry);
+            intel_group = new GpuVendorIntelOptionsGroup (launch_option_handlers, presentation_registry);
 
             amd_group.changed.connect (() => { this.changed (); });
             nvidia_group.changed.connect (() => { this.changed (); });
@@ -67,19 +68,25 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             switch (vendor) {
                 case Utils.GpuVendor.AMD:
                     stack.set_visible_child_name ("amd");
+                    set_detected_vendor_subtitle (_("AMD"));
                     break;
                 case Utils.GpuVendor.NVIDIA:
                     stack.set_visible_child_name ("nvidia");
+                    set_detected_vendor_subtitle (_("NVIDIA"));
                     break;
                 case Utils.GpuVendor.INTEL:
                     stack.set_visible_child_name ("intel");
+                    set_detected_vendor_subtitle (_("Intel"));
                     break;
                 default:
                     break;
             }
 
-            gpu_vendor_detected = vendor != Utils.GpuVendor.UNKNOWN;
             refresh_visibility ();
+        }
+
+        void set_detected_vendor_subtitle (string vendor) {
+            desc_label.set_label (_("Use GPU-specific compatibility toggles for %s hardware.").printf (vendor));
         }
 
         internal void set_advanced_visible (bool visible) {
@@ -87,8 +94,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             refresh_visibility ();
         }
 
+        internal void set_presentation_visible (bool visible) {
+            presentation_visible = visible;
+            refresh_visibility ();
+        }
+
         void refresh_visibility () {
-            set_visible (advanced_visible && gpu_vendor_detected);
+            set_visible (advanced_visible && presentation_visible);
         }
 
         internal void reset_controls () {
@@ -100,12 +112,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         internal void normalize_dependencies () {
             amd_group.normalize_amd_fsr_upgrade_dependencies ();
             nvidia_group.normalize_nvidia_vendor_dependencies ();
-        }
-
-        internal bool has_active_options () {
-            return amd_group.has_active_options ()
-                   || nvidia_group.has_active_options ()
-                   || intel_group.has_active_options ();
         }
 
     }

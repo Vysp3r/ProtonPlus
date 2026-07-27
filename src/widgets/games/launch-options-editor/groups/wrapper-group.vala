@@ -9,17 +9,21 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         Wrappers.None none { get; set; }
 
         bool refreshing_controls;
+        string backend_title;
+        string backend_description;
 
-        public WrapperGroup (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers);
+        public WrapperGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, false, presentation_registry, false);
             refreshing_controls = true;
 
-            this.title = _("Launch tools");
-            this.description = _("Choose one to configure FPS caps, resolution, and other display options.");
+            backend_title = _("Launch backend");
+            backend_description = _("Choose System default, Gamescope, or ScopeBuddy for display and launch options.");
+            this.title = backend_title;
+            this.description = backend_description;
 
-            none = new Wrappers.None (launch_option_handlers);
-            gamescope = new Wrappers.Gamescope (launch_option_handlers);
-            scopebuddy = new Wrappers.Scopebuddy (launch_option_handlers);
+            none = new Wrappers.None (launch_option_handlers, presentation_registry);
+            gamescope = new Wrappers.Gamescope (launch_option_handlers, presentation_registry);
+            scopebuddy = new Wrappers.Scopebuddy (launch_option_handlers, presentation_registry);
 
             none.changed.connect (() => { this.changed (); });
             gamescope.changed.connect (() => { this.changed (); });
@@ -37,7 +41,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 selection_changed ();
             });
 
-            stack.add_titled (none_page, "none", _("None"));
+            stack.add_titled (none_page, "none", _("System default"));
 
             if (Globals.GAMESCOPE_INSTALLED)
                 stack.add_titled (gamescope_page, "gamescope", _("Gamescope"));
@@ -52,6 +56,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             switcher = new Gtk.StackSwitcher ();
             switcher.set_stack (stack);
             switcher.set_halign (Gtk.Align.START);
+            switcher.set_tooltip_text (this.description);
 
             if (!Globals.GAMESCOPE_INSTALLED && !Globals.SCOPEBUDDY_INSTALLED)
                 switcher.visible = false;
@@ -111,6 +116,35 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
             refreshing_controls = false;
             this.changed ();
+        }
+
+        public void insert_before_backend_options (Gtk.Widget widget) {
+            this.remove (stack);
+            this.add (widget);
+            this.add (stack);
+        }
+
+        public static bool should_show_backend_chrome (
+            bool gamescope_available,
+            bool scopebuddy_available,
+            bool active_non_default_backend
+        ) {
+            return gamescope_available || scopebuddy_available || active_non_default_backend;
+        }
+
+        public bool has_active_non_default_backend () {
+            return gamescope.active || scopebuddy.active;
+        }
+
+        public void set_presentation_visible (bool visible) {
+            var show_chrome = should_show_backend_chrome (
+                Globals.GAMESCOPE_INSTALLED,
+                Globals.SCOPEBUDDY_INSTALLED,
+                has_active_non_default_backend ()
+            );
+            this.title = show_chrome ? backend_title : "";
+            this.description = show_chrome ? backend_description : "";
+            this.visible = visible;
         }
     }
 }

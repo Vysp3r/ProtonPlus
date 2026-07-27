@@ -163,7 +163,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public string build_preview_markup () {
             var segments = get_segments ();
             if (segments.size == 0)
-                return "<tt><span foreground='#8b949e'>%s</span></tt>".printf (Markup.escape_text (_("No launch options configured yet.")));
+                return Markup.escape_text (_("No launch options configured yet."));
 
             string[] preview_colors = {
                 "#79c0ff",
@@ -187,6 +187,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             markup.append ("</tt>");
 
             return markup.str;
+        }
+
+        public bool has_preview_content () {
+            return get_segments ().size > 0;
         }
 
         public string to_launch_line () {
@@ -403,6 +407,21 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
 
             this.loaded_source_is_pristine = true;
+            return false;
+        }
+
+        public bool has_unrecognized_or_opaque_content () {
+            foreach (var token in loaded_tokens) {
+                if (token.is_opaque)
+                    return true;
+
+                var option = token_owners.get (token);
+                if (option == null)
+                    return token.value != "%command%";
+
+                if (option is EntryBinding)
+                    return true;
+            }
             return false;
         }
 

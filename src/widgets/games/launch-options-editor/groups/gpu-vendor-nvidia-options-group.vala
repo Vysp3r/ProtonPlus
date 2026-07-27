@@ -11,34 +11,34 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
         bool refreshing_controls;
 
-        public GpuVendorNvidiaOptionsGroup (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers, true);
+        public GpuVendorNvidiaOptionsGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, true, presentation_registry, false);
             refreshing_controls = true;
 
-            nvapi_tile = create_tile (_("NVAPI"), _("Lets games access NVIDIA-specific features like DLSS."), { "PROTON_ENABLE_NVAPI=1" });
+            nvapi_tile = create_tile (_("NVAPI"), _("Lets games access NVIDIA-specific features like DLSS."), { "PROTON_ENABLE_NVAPI=1" }, false, LaunchLineType.ENVIRONMENT, "nvidia-nvapi");
             nvapi_tile.toggle.notify["active"].connect (() => {
                 this.nvidia_nvapi_toggle_changed ();
             });
             // gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NVAPI=1" }, nvapi_tile.toggle));
             nvidia_ngx_updater_tile = create_tile (
-                _("Update DLSS components"),
+                _("DLSS component updates"),
                 _("Auto upgrades DLSS components for supported games."),
-                { "PROTON_ENABLE_NGX_UPDATER=1" }
+                { "PROTON_ENABLE_NGX_UPDATER=1" }, false, LaunchLineType.ENVIRONMENT, "nvidia-dlss-updater"
             );
             nvidia_ngx_updater_tile.toggle.notify["active"].connect (() => {
                 this.nvidia_dlss_updater_toggle_changed ();
             });
             // gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NGX_UPDATER=1" }, nvidia_ngx_updater_tile.toggle));
             nvidia_hide_gpu_tile = create_tile (
-                _("Hide NVIDIA GPU"),
+                _("Report GPU as AMD"),
                 _("Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only NVIDIA driver behavior."),
-                { "PROTON_HIDE_NVIDIA_GPU=1" }
+                { "PROTON_HIDE_NVIDIA_GPU=1" }, false, LaunchLineType.ENVIRONMENT, "nvidia-report-amd"
             );
-            dlss_indicator_tile = create_tile (_("DLSS Indicator"), _("Shows a DLSS status indicator in-game."), { "PROTON_DLSS_INDICATOR=1" });
+            dlss_indicator_tile = create_tile (_("DLSS indicator"), _("Shows a DLSS status indicator in-game."), { "PROTON_DLSS_INDICATOR=1" }, false, LaunchLineType.ENVIRONMENT, "nvidia-dlss-indicator");
             nvidia_libs_tile = create_tile (
-                _("NVIDIA Libraries"),
+                _("NVIDIA libraries"),
                 _("Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS or ray tracing."),
-                { "PROTON_NVIDIA_LIBS=1" }
+                { "PROTON_NVIDIA_LIBS=1" }, false, LaunchLineType.ENVIRONMENT, "nvidia-libraries"
             );
 
             this.add (nvapi_tile);

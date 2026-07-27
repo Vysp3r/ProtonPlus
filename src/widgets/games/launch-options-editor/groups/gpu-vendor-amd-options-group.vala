@@ -16,27 +16,27 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionAcoDebug aco_debug_editor { get; set; }
         bool refreshing_controls;
 
-        public GpuVendorAmdOptionsGroup (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers, true);
+        public GpuVendorAmdOptionsGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, true, presentation_registry, false);
             refreshing_controls = true;
 
-            amd_anti_lag_tile = create_tile (_("Mesa Anti-Lag"), _("Reduces latency on supported AMD Mesa setups."), { "ENABLE_LAYER_MESA_ANTI_LAG=1" });
-            amd_prime_tile = create_tile (_("Use dGPU"), _("Makes the game use the AMD dGPU on hybrid systems."), { "DRI_PRIME=1" });
+            amd_anti_lag_tile = create_tile (_("Mesa Anti-Lag"), _("Reduces latency on supported AMD Mesa setups."), { "ENABLE_LAYER_MESA_ANTI_LAG=1" }, false, LaunchLineType.ENVIRONMENT, "amd-anti-lag");
+            amd_prime_tile = create_tile (_("Use discrete GPU"), _("Makes the game use the AMD dGPU on hybrid systems."), { "DRI_PRIME=1" }, false, LaunchLineType.ENVIRONMENT, "amd-discrete-gpu");
             amd_hide_apu_tile = create_tile (
-                _("Hide AMD APU"),
+                _("Treat APU as a discrete GPU"),
                 _("Makes Proton report an AMD APU as a discrete GPU for games that mis-detect integrated graphics."),
-                { "PROTON_HIDE_APU=1" }
+                { "PROTON_HIDE_APU=1" }, false, LaunchLineType.ENVIRONMENT, "amd-hide-apu"
             );
             amd_fsr4_upgrade_tile = create_tile (
                 _("FSR 4 Upgrade"),
                 _("Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD Anti-Lag 2 currently due to various issues."),
-                { "PROTON_FSR4_UPGRADE=1" }
+                { "PROTON_FSR4_UPGRADE=1" }, false, LaunchLineType.ENVIRONMENT, "amd-fsr4"
             );
             amd_fsr4_upgrade_tile.toggle.notify["active"].connect (() => {
                 amd_fsr4_upgrade_toggle_changed ();
             });
 
-            amd_fsr4_rdna3_upgrade_tile = create_tile (_("FSR 4 RDNA3 Upgrade"), _("Optimizes FSR 4.0 for RDNA3 hardware."), { "PROTON_FSR4_RDNA3_UPGRADE=1" });
+            amd_fsr4_rdna3_upgrade_tile = create_tile (_("FSR 4 RDNA3 upgrade"), _("Optimizes FSR 4.0 for RDNA3 hardware."), { "PROTON_FSR4_RDNA3_UPGRADE=1" }, false, LaunchLineType.ENVIRONMENT, "amd-fsr4-rdna3");
             amd_fsr4_rdna3_upgrade_tile.toggle.notify["active"].connect (() => {
                 amd_fsr4_rdna3_upgrade_toggle_changed ();
             });
@@ -44,18 +44,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             amd_staging_shared_memory_tile = create_tile (
                 _("Staging shared memory"),
                 _("Enables shared memory support in the AMD GPU driver for better performance in some games."),
-                { "STAGING_SHARED_MEMORY=1" }
+                { "STAGING_SHARED_MEMORY=1" }, false, LaunchLineType.ENVIRONMENT, "amd-staging-shm"
             );
             amd_mesa_glthread_tile = create_tile (
                 _("Mesa GLThread"),
                 _("Enables Mesa's GLThread optimization for better performance in some games."),
                 { "mesa_glthread=true" },
-                true
+                true, LaunchLineType.ENVIRONMENT, "amd-glthread"
             );
             amd_mesa_shader_cache_disable_tile = create_tile (
                 _("Disable Mesa shader cache"),
                 _("Disables Mesa's shader cache which can cause stuttering in some games."),
-                { "MESA_SHADER_CACHE_DISABLE=0", "MESA_SHADER_CACHE_DISABLE=1" }
+                { "MESA_SHADER_CACHE_DISABLE=0", "MESA_SHADER_CACHE_DISABLE=1" }, false, LaunchLineType.ENVIRONMENT, "amd-shader-cache"
             );
 
             radv_debug_editor = new LaunchOptionRadvDebug ();
@@ -90,6 +90,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             launch_option_handlers.add (radv_perf_editor);
             launch_option_handlers.add (amd_icd_editor);
             launch_option_handlers.add (aco_debug_editor);
+            register_option ("amd-radv-debug", radv_debug_editor, radv_debug_editor);
+            register_option ("amd-radv-perftest", radv_perf_editor, radv_perf_editor);
+            register_option ("amd-vulkan-driver", amd_icd_editor, amd_icd_editor);
+            register_option ("amd-aco-debug", aco_debug_editor, aco_debug_editor);
 
             this.add (amd_anti_lag_tile);
             this.add (amd_fsr4_upgrade_tile);

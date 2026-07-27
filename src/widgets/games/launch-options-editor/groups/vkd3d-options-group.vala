@@ -7,8 +7,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         LaunchOptionTile vkd3d_gpuva_tile { get; private set; }
         LaunchOptionTile vkd3d_shader_cache_tile { get; private set; }
 
-        public Vkd3dOptionsGroup (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers, true);
+        public Vkd3dOptionsGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, true, presentation_registry);
 
             this.title = _("VKD3D options");
             this.description = _("Extra graphics settings and launch behaviors.");
@@ -28,13 +28,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             vkd3d_gpuva_tile = create_tile (
                 _("Enable VKD3D GPUVA"),
                 _("Enables GPU Virtual Addressing. Aligns Vulkan memory management with native DX12 behavior to improve texture streaming and stability in open-world games."), // vala-lint=line-length
-                { "VKD3D_GPUVA=1" }
+                { "VKD3D_GPUVA=1" }, false, LaunchLineType.ENVIRONMENT, "vkd3d-gpuva"
             );
 
             vkd3d_shader_cache_tile = create_tile (
                 _("Enable VKD3D Shader Cache"),
                 _("Enables VKD3D's internal shader caching mechanism to minimize in-game stutter."),
-                { "VKD3D_SHADER_CACHE=1" }
+                { "VKD3D_SHADER_CACHE=1" }, false, LaunchLineType.ENVIRONMENT, "vkd3d-shader-cache"
             );
 
             this.add (vkd3d_shader_cache_tile);
@@ -44,6 +44,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
             launch_option_handlers.add (vkd3d_config_editor);
             launch_option_handlers.add (vkd3d_log_level_editor);
+            register_option ("vkd3d-config", vkd3d_config_editor, vkd3d_config_editor);
+            register_option ("vkd3d-log-level", vkd3d_log_level_editor, vkd3d_log_level_editor);
         }
     }
 }
