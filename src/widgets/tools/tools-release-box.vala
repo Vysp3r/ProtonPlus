@@ -5,7 +5,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Label title_label { get; set; }
         Gtk.Label desc_label { get; set; }
         ReleaseChangelog desc_text { get; set; }
-        Gtk.Box header_box { get; set; }
+        public Gtk.Box header_box { get; private set; }
         Gtk.ListBox list_box { get; set; }
         Gtk.CheckButton check_button { get; set; }
         Adw.ViewStack content_stack { get; set; }
@@ -37,7 +37,10 @@ namespace ProtonPlus.Widgets.Tools {
             title_box.append (title_label);
             title_box.append (desc_label);
 
-            header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+            header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+                halign = Gtk.Align.CENTER,
+                valign = Gtk.Align.CENTER
+            };
             header_box.append (icon);
             header_box.append (title_box);
 
@@ -116,7 +119,6 @@ namespace ProtonPlus.Widgets.Tools {
             content_stack.add_css_class ("card");
 
             tool_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            tool_box.append (header_box);
             tool_box.append (content_stack);
 
             var clamp = new Adw.Clamp () {

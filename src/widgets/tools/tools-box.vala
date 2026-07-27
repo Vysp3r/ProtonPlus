@@ -10,7 +10,7 @@ namespace ProtonPlus.Widgets.Tools {
         Models.Launcher current_launcher { get; set; }
         Services.InstallJob? current_job;
 
-        Adw.ViewStack stack { get; set; }
+        Gtk.Stack stack { get; set; }
         Gtk.Button back_button { get; set; }
         Gtk.Button refresh_button { get; set; }
         Gtk.Button open_button { get; set; }
@@ -76,9 +76,10 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             });
 
-            stack = new Adw.ViewStack () {
+            stack = new Gtk.Stack () {
                 vexpand = true
             };
+            stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
             stack.add_named (groups_stack, "groups");
             stack.add_named (releases_box, "releases");
             stack.add_named (release_box, "release");
@@ -365,6 +366,8 @@ namespace ProtonPlus.Widgets.Tools {
                     title_widget = group_box.header_title;
             } else if (visible_child == "releases") {
                 title_widget = releases_box.header_title;
+            } else if (visible_child == "release") {
+                title_widget = release_box.header_box;
             }
 
             header_bar.set_title_widget (title_widget);
