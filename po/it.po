@@ -2240,7 +2240,7 @@ msgstr "Nessun gioco corrispondente"
 #: src/widgets/games/games-box.vala:498
 #: src/widgets/tools/tools-group-box.vala:124
 msgid "Try a different search term or clear the search."
-msgstr "rova un termine di ricerca diverso o svuota la ricerca."
+msgstr "Trova un termine di ricerca diverso o svuota la ricerca."
 
 #: src/widgets/games/games-box.vala:501
 msgid "No games match this filter"
@@ -2700,7 +2700,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:31
 msgid "FSR 4 Upgrade"
-msgstr "Aggiornamento FSR $"
+msgstr "Aggiornamento FSR 4"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:32
 msgid ""
@@ -2958,7 +2958,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:41
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:264
 msgid "Prefer SDL controller input"
-msgstr "\"Preferisci input del controller SDL"
+msgstr "Preferisci input del controller SDL"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:41
 msgid "Workaround for controller detection issues."
@@ -3634,7 +3634,7 @@ msgid ""
 "Enables VKD3D's internal shader cache on disk. Drastically reduces micro-"
 "stuttering and speeds up consecutive loading times."
 msgstr ""
-"Abilita la cache shard interna di VKD3D su disco. Riduce drasticamente i "
+"Abilita la cache shader interna di VKD3D su disco. Riduce drasticamente i "
 "micro-rallentamenti e accelera i tempi di caricamento consecutivi."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:36
@@ -3793,7 +3793,7 @@ msgstr "Input e audio"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:117
 msgid "Diagnostics & raw command"
-msgstr "\"Diagnostica e comando grezzo"
+msgstr "Diagnostica e comando grezzo"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:199
 msgid "Shows FPS, CPU/GPU usage, and temperatures in game."
@@ -3809,7 +3809,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:201
 msgid "Gives the game a higher CPU priority."
-msgstr "\"Assegna al gioco una priorità CPU più alta."
+msgstr "Assegna al gioco una priorità CPU più alta."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:202
 msgid "Keeps this game's shader cache separate."
@@ -3849,7 +3849,7 @@ msgstr "Schermo intero"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:210
 msgid "Runs the game in a fullscreen Gamescope session."
-msgstr "Esegue il gioco in una sessione Gamescope a schermo intero"
+msgstr "Esegue il gioco in una sessione Gamescope a schermo intero."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:210
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:211
@@ -4281,7 +4281,7 @@ msgstr "Sperimentale"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:43
 msgid "Requires related option"
-msgstr "Richiede opzione correlata\""
+msgstr "Richiede opzione correlata"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:45
 msgid "Unavailable on this system"
@@ -4317,7 +4317,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:75
 msgid "Add Gamescope arguments"
 msgstr ""
-"Mantiene flag extra di ScopeBuddy come la selezione dell'uscita preferita."
+"Aggiungi argomenti Gamescope"
 
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:81
 msgid "Add ScopeBuddy arguments"
@@ -5635,8 +5635,8 @@ msgstr "Seleziona un nuovo strumento per i giochi selezionati."
 #, c-format
 msgid "%d game selected"
 msgid_plural "%d games selected"
-msgstr[0] "%u giochi selezionati"
-msgstr[1] "%u giochi selezionati"
+msgstr[0] "%d giochi selezionati"
+msgstr[1] "%d giochi selezionati"
 
 #: src/widgets/tools/tools-migrate-box.vala:142
 msgid "Migration Failed"
@@ -5748,8 +5748,8 @@ msgstr ""
 #, c-format
 msgid "Used by %i game"
 msgid_plural "Used by %i games"
-msgstr[0] "Usato da %i gioco."
-msgstr[1] "Usato da %i giochi."
+msgstr[0] "Usato da %i gioco"
+msgstr[1] "Usato da %i giochi"
 
 #: src/widgets/tools/tools-release-row.vala:98
 #, c-format
@@ -5809,7 +5809,7 @@ msgstr "Verrà eliminato definitivamente."
 #, c-format
 msgid "Used by %i game."
 msgid_plural "Used by %i games."
-msgstr[0] "Usato da %i giochi."
+msgstr[0] "Usato da %i gioco."
 msgstr[1] "Usato da %i giochi."
 
 #: src/widgets/tools/tools-remove-dialog.vala:27
@@ -5819,7 +5819,7 @@ msgstr "Elimina"
 #: src/widgets/tools/tools-remove-dialog.vala:46
 #, c-format
 msgid "Failed to Delete %s"
-msgstr "Impossibile eliminare %s "
+msgstr "Impossibile Eliminare %s"
 
 #: src/widgets/tools/tools-remove-dialog.vala:47
 msgid ""
