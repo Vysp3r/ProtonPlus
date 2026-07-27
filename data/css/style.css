@@ -26,10 +26,6 @@
     color: var(--accent-red);
 }
 
-.clear-button {
-    color: var(--accent-red);
-}
-
 .list-header {
     padding: 12px;
     border-bottom-left-radius: 0;

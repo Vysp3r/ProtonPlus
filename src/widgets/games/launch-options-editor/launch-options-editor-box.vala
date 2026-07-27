@@ -50,6 +50,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (15);
 
+            preview_field = new LaunchOptionPreviewField (_("Command preview"));
             append (create_navigation ());
 
             common_group = new Groups.CommonOptionsGroup (launch_option_handlers, presentations);
@@ -90,9 +91,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 css_classes = { "dim-label" }
             };
             append (no_results_label);
-
-            preview_field = new LaunchOptionPreviewField (_("Command preview"));
-            append (preview_field);
 
             gpu_vendor_group.set_advanced_visible (true);
             refresh_filters ();
@@ -149,6 +147,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     refresh_filters ();
             });
             group.add (category_filter);
+            group.add (preview_field);
             return group;
         }
 

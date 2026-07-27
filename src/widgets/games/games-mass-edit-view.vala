@@ -114,8 +114,11 @@ namespace ProtonPlus.Widgets.Games {
                 title_widget = selection_button
             };
             header_bar.pack_start (back_button);
-            header_bar.pack_start (clear_button);
-            header_bar.pack_end (apply_button);
+
+            var action_buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+            action_buttons.append (clear_button);
+            action_buttons.append (apply_button);
+            header_bar.pack_end (action_buttons);
 
             append (header_bar);
             append (scrolled_window);

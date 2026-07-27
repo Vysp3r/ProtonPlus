@@ -103,8 +103,7 @@ namespace ProtonPlus.Widgets.Games {
             back_button.set_visible (false);
 
             clear_button = new Gtk.Button.from_icon_name ("eraser-symbolic");
-            clear_button.add_css_class ("flat");
-            clear_button.add_css_class ("clear-button");
+            clear_button.add_css_class ("destructive-action");
             clear_button.set_tooltip_text (_("Clear the current launch options"));
             clear_button.set_visible (false);
 
