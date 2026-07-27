@@ -11,6 +11,7 @@ int main (string[] args) {
     AppTests.InstalledToolInventoryTest.register_tests ();
     AppTests.ParserTest.register_tests ();
     AppTests.LaunchCommandTest.register_tests ();
+    AppTests.LaunchCommandParserTest.register_tests ();
     AppTests.ProviderDefinitionTest.register_tests ();
     AppTests.ProviderRegistryTest.register_tests ();
     AppTests.ProviderSourceTest.register_tests ();

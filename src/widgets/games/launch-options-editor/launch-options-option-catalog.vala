@@ -110,19 +110,38 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public string environment_key { get; construct; }
         public string wrapper_id { get; construct; }
         public string[] fixed_tokens { get; construct; }
+        public LaunchOptionParseShape? parse_shape { get; construct; }
 
         public LaunchOptionSemanticOutput (
             LaunchOptionSemanticKind kind,
             LaunchOptionEmissionMode emission_mode,
             string environment_key = "",
             string wrapper_id = "",
-            string[] fixed_tokens = {}
+            string[] fixed_tokens = {}, LaunchOptionParseShape? parse_shape = null
         ) {
             Object (
                 kind: kind, emission_mode: emission_mode,
                 environment_key: environment_key, wrapper_id: wrapper_id,
-                fixed_tokens: fixed_tokens
+                fixed_tokens: fixed_tokens, parse_shape: parse_shape
             );
+        }
+    }
+
+    /* Parsing metadata intentionally describes token shape, rather than a
+     * widget or option-name convention.  Each entry in value_arities belongs
+     * to the token at the same position and says how many following words it
+     * consumes. */
+    public class LaunchOptionParseShape : Object {
+        public string[] tokens { get; construct; }
+        uint[] _value_arities;
+
+        public LaunchOptionParseShape (string[] tokens, uint[] value_arities = {}) {
+            Object (tokens: tokens);
+            this._value_arities = value_arities;
+        }
+
+        public uint[] get_value_arities () {
+            return _value_arities;
         }
     }
 
@@ -141,6 +160,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public bool managed_emission { get; construct; }
         public string[] legacy_tokens { get; construct; }
         public string[] selectable_values { get; construct; }
+        public LaunchOptionParseShape? parse_shape { get; construct; }
         LaunchOptionCapability[] _required_capabilities;
         public LaunchOptionApplicability applicability { get; construct; }
         LaunchOptionSemanticOutput[] _composite_outputs;
@@ -164,7 +184,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             LaunchOptionSupport support = LaunchOptionSupport.UNKNOWN_UNVERIFIED,
             bool managed_emission = false,
             string[] legacy_tokens = {},
-            string[] selectable_values = {}
+            string[] selectable_values = {},
+            LaunchOptionParseShape? parse_shape = null
         ) {
             Object (
                 kind: kind, placeholder_policy: placeholder_policy,
@@ -175,7 +196,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 dependencies: dependencies, applicability: applicability,
                 legacy_manual_representation: legacy_manual_representation,
                 support: support, managed_emission: managed_emission,
-                legacy_tokens: legacy_tokens, selectable_values: selectable_values
+                legacy_tokens: legacy_tokens, selectable_values: selectable_values,
+                parse_shape: parse_shape
             );
             this._required_capabilities = required_capabilities;
             this._composite_outputs = composite_outputs;
@@ -418,6 +440,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 if (legacy_keys.has_key (key) && canonical_keys.get (key) != legacy_keys.get (key))
                     diagnostics.add ("Environment key '%s' is canonical for '%s' and legacy for unrelated option '%s'.".printf (key, canonical_keys.get (key), legacy_keys.get (key)));
             }
+            validate_parse_shape_ownership (diagnostics);
             validate_conflict_consistency (diagnostics);
             if (command_boundaries != 1)
                 diagnostics.add ("Catalog requires exactly one legacy command boundary (found %d).".printf (command_boundaries));
@@ -461,6 +484,40 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 diagnostics.add ("Environment key '%s' has multiple %s owners: '%s' and '%s'.".printf (key, role, owners.get (key), option_id));
             else
                 owners.set (key, option_id);
+        }
+
+        void validate_parse_shape_ownership (Gee.List<string> diagnostics) {
+            foreach (var entry in entries) {
+                var semantics = entry.semantics;
+                if (semantics == null || semantics.kind != LaunchOptionSemanticKind.WRAPPER_ARGUMENT
+                    || semantics.parse_shape == null)
+                    continue;
+                foreach (var other in entries) {
+                    if (entry == other || other.semantics == null
+                        || other.semantics.kind != LaunchOptionSemanticKind.WRAPPER_ARGUMENT
+                        || other.semantics.parse_shape == null
+                        || semantics.wrapper_id != other.semantics.wrapper_id)
+                        continue;
+                    if (same_parse_shape (semantics.parse_shape, other.semantics.parse_shape)
+                        && strcmp (entry.id, other.id) < 0)
+                        diagnostics.add ("Wrapper parse shape '%s' has ambiguous ownership between '%s' and '%s'.".printf (semantics.wrapper_id, entry.id, other.id));
+                }
+            }
+        }
+
+        bool same_parse_shape (LaunchOptionParseShape first, LaunchOptionParseShape second) {
+            if (first.tokens.length != second.tokens.length)
+                return false;
+            var first_arities = first.get_value_arities ();
+            var second_arities = second.get_value_arities ();
+            if (first_arities.length != second_arities.length)
+                return false;
+            for (var index = 0; index < first.tokens.length; index++) {
+                if (first.tokens[index] != second.tokens[index]
+                    || first_arities[index] != second_arities[index])
+                    return false;
+            }
+            return true;
         }
 
         string token_key (string token) {
@@ -594,7 +651,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                         new LaunchOptionSemanticOutput (
                             LaunchOptionSemanticKind.WRAPPER_ARGUMENT,
                             LaunchOptionEmissionMode.DYNAMIC_WRAPPER_ARGUMENT,
-                            "", "scopebuddy", { "-W", "-H" }
+                            "", "scopebuddy", { "-W", "-H" },
+                            new LaunchOptionParseShape ({ "-W", "-H" }, { 1, 1 })
                         )
                     }, false, support_for (id), is_managed_emission (id),
                     legacy_tokens_for (id), selectable_values_for (id)
@@ -612,7 +670,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     "", wrapper_id, dynamic_value ? new string[0] : raw_tokens, {}, "", {}, backend_dependencies (dependencies),
                     { wrapper_id == "gamescope" ? LaunchOptionCapability.GAMESCOPE : LaunchOptionCapability.SCOPEBUDDY },
                     LaunchOptionApplicability.COMPONENT_SPECIFIC, {}, false,
-                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id)
+                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id),
+                    wrapper_parse_shape_for (id, raw_tokens)
                 );
             }
             if (serialization_type == LaunchLineType.ARGUMENT) {
@@ -675,6 +734,25 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         bool is_wrapper_argument (string id) {
             return id.has_prefix ("gamescope-") || id.has_prefix ("scopebuddy-");
+        }
+
+        /* These are catalog declarations.  The parser consumes only this
+         * shape and never branches on an option ID or a widget type. */
+        LaunchOptionParseShape? wrapper_parse_shape_for (string id, string[] raw_tokens) {
+            switch (id) {
+                case "gamescope-fullscreen":
+                case "gamescope-hdr":
+                case "gamescope-vrr":
+                case "scopebuddy-fullscreen":
+                    return new LaunchOptionParseShape (raw_tokens, { 0 });
+                case "gamescope-resolution":
+                    return new LaunchOptionParseShape ({ "-W", "-H" }, { 1, 1 });
+                case "gamescope-frame-limit":
+                case "scopebuddy-frame-limit":
+                    return new LaunchOptionParseShape ({ "-r" }, { 1 });
+                default:
+                    return null;
+            }
         }
 
         bool is_dynamic_environment (string id) {
@@ -983,7 +1061,26 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 if (wrapper != null && !has_capability (semantics.get_required_capabilities (), wrapper.required_capability))
                     diagnostics.add ("Wrapper argument '%s' does not require wrapper capability '%s'.".printf (entry.id, semantics.wrapper_id));
             }
+            validate_parse_shape (entry.id, semantics.parse_shape, diagnostics);
             validate_composite_outputs (entry, semantics, diagnostics);
+        }
+
+        void validate_parse_shape (
+            string owner, LaunchOptionParseShape? shape, Gee.List<string> diagnostics
+        ) {
+            if (shape == null)
+                return;
+            var arities = shape.get_value_arities ();
+            if (shape.tokens.length == 0)
+                diagnostics.add ("Parse shape '%s' requires tokens.".printf (owner));
+            if (arities.length != shape.tokens.length)
+                diagnostics.add ("Parse shape '%s' has invalid value arity.".printf (owner));
+            foreach (var token in shape.tokens) {
+                if (token.strip () == "")
+                    diagnostics.add ("Parse shape '%s' has an empty flag.".printf (owner));
+                if (token.contains ("%command%"))
+                    diagnostics.add ("Parse shape '%s' must not contain %%command%%.".printf (owner));
+            }
         }
 
         bool has_capability (LaunchOptionCapability[] capabilities, LaunchOptionCapability capability) {
@@ -1003,6 +1100,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 if (output.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT
                     && lookup_wrapper (output.wrapper_id) == null)
                     diagnostics.add ("Composite option '%s' references unknown wrapper '%s'.".printf (entry.id, output.wrapper_id));
+                validate_parse_shape (entry.id, output.parse_shape, diagnostics);
                 if (output.kind != LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT)
                     continue;
                 if (output.environment_key.strip () == "") {

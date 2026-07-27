@@ -8,6 +8,7 @@ test_sources = files(
     'installed-tool-inventory-test.vala',
     'parser_test.vala',
     'launch-command-test.vala',
+    'launch-command-parser-test.vala',
     'provider_definition_test.vala',
     'provider_registry_test.vala',
     'provider_source_test.vala',
