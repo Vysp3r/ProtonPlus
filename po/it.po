@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-20 18:34-0400\n"
-"Last-Translator: Alessandro Marigliano <alemarigliano22@proton.me>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/protonplus/it/>\n"
-"PO-Revision-Date: 2026-07-28 16:18+0200\n"
+"Last-Translator: Youseffo13 <>\n"
+"PO-Revision-Date: 2026-07-28 16:24+0200\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -666,7 +666,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:317
 msgid "🐛 Fixed SteamTinkerLaunch from being duplicated"
-msgstr "🐛 Risolto il problema della duplicazione di SteamTinkerLaunc"
+msgstr "🐛 Risolto il problema della duplicazione di SteamTinkerLaunch"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:318
 msgid "🐛 Fixed launch options parsing issue"
@@ -716,7 +716,7 @@ msgstr "🌐 Aggiornata la localizzazione polacca"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:347
 msgid "💄 Improved UI/UX"
-msgstr "💄 Migliorati la UI/UX"
+msgstr "💄 Migliorata la UI/UX"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:348
 msgid "💄 Refined the game library list header"
@@ -1141,7 +1141,7 @@ msgstr "🐛 Risolto il problema della pagina delle preferenze vuota"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:693
 msgid "🐛 Fix Steam install message"
-msgstr "🐛 Risolto il problema del messaggio di installazione di Stea"
+msgstr "🐛 Risolto il problema del messaggio di installazione di Steam"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:694
 msgid "📝 Updated Flathub download logo"
@@ -1221,7 +1221,7 @@ msgstr "🎨 Migrato il sistema delle preferenze a GLib.Settings"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:730
 msgid "✨ Implementated cancelation dialog when downloading"
-msgstr "✨ mplementata una finestra di annullamento durante il download"
+msgstr "✨ Implementata una finestra di annullamento durante il download"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:731
 msgid "🔧 Modified filesystem permissions scopes"
@@ -1282,9 +1282,7 @@ msgstr "🐛 Risolto il problema della creazione delle directory"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:777
 msgid "🐛 Fix releases not always changing"
-msgstr ""
-"🐛 Risolto il problema degli strumenti installati non visualizzati "
-"correttamente"
+msgstr "🐛 Risolto il problema delle release che non cambiavano sempre"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:778
 msgid "✨ Added Proton Tkg"
@@ -1423,7 +1421,7 @@ msgstr "🍱 Aggiornate le immagini di anteprima"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:869
 msgid "💄 Fix ListBox CSS missing"
-msgstr "💄 Risolto il problema della barra di scorrimento mancante in ListBox"
+msgstr "💄 Risolto il problema del CSS mancante di ListBox"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:870
 msgid "🚚 Renamed HomeInfo to AboutTool"
@@ -1472,7 +1470,7 @@ msgstr "🧑‍💻 Aggiunto un nuovo widget della finestra di messaggio"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:893
 msgid "🐛 Fix useless log showing up"
-msgstr "🐛  Risolto il problema del log inutile visualizzato"
+msgstr "🐛 Risolto il problema del log inutile visualizzato"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:903
 msgid "🐛 Fix tool renaming for nothing"
@@ -2251,7 +2249,7 @@ msgstr "Assicurati di esserti connesso almeno una volta a Steam."
 
 #: src/widgets/games/games-box.vala:349
 msgid "If you think this is an issue, make sure to report this on GitHub."
-msgstr "Se credi sia un errore, puoi segnalarlo su GitHub."
+msgstr "Se ritieni che sia un problema, segnalalo su GitHub."
 
 #: src/widgets/games/games-box.vala:360
 msgid "Unsupported launcher"
@@ -4662,7 +4660,7 @@ msgstr "Attendi mentre carichiamo i tuoi launcher."
 
 #: src/widgets/loading/loading-box.vala:58
 msgid "Taking longer than normal?"
-msgstr "Sta impiegando più del normale?"
+msgstr "Sta impiegando più del previsto?"
 
 #: src/widgets/loading/loading-box.vala:75
 msgid "An unexpected error occurred"
@@ -5546,11 +5544,11 @@ msgstr "Launcher Rilevati"
 #: src/widgets/tools/tools-box.vala:203
 #: src/widgets/tools/tools-group-box.vala:239
 msgid "Installed"
-msgstr "Installato"
+msgstr "Installati"
 
 #: src/widgets/preferences/preferences-dialog.vala:370
 msgid "Not installed"
-msgstr "Non installato"
+msgstr "Non installati"
 
 #: src/widgets/preferences/preferences-language-row.vala:25
 msgid "Language"
@@ -5665,11 +5663,11 @@ msgstr "Cerca"
 
 #: src/widgets/tools/tools-box.vala:206
 msgid "Used"
-msgstr "Usato"
+msgstr "Usati"
 
 #: src/widgets/tools/tools-box.vala:209
 msgid "Unused"
-msgstr "Non usato"
+msgstr "Non usati"
 
 #: src/widgets/tools/tools-box.vala:366
 msgid "Search is active"
@@ -5847,7 +5845,7 @@ msgstr "Niente"
 
 #: src/widgets/tools/tools-release-row.vala:84
 msgid "Moving"
-msgstr "Spostando"
+msgstr "Spostamento in Corso"
 
 #: src/widgets/tools/tools-release-row.vala:85
 #, c-format
