@@ -66,7 +66,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 if (selection.option_id != source_item.option_id)
                     adapter_diagnostics.add ("Selection source '%s' returned '%s'.".printf (
                         source_item.option_id, selection.option_id));
-                active_selections.add (selection);
+                var metadata = catalog.lookup (selection.option_id);
+                if (metadata == null || metadata.semantics == null) {
+                    adapter_diagnostics.add ("Selection source '%s' returned an unknown option.".printf (
+                        selection.option_id));
+                    continue;
+                }
+                var semantics = metadata.semantics;
+                /* Parsed command boundaries and opaque/legacy controls are
+                 * source-preservation facts, never composer input. */
+                if (semantics.managed_emission
+                    && semantics.kind != LaunchOptionSemanticKind.COMMAND_BOUNDARY
+                    && semantics.kind != LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT)
+                    active_selections.add (selection);
             }
             foreach (var occurrence in parsed.occurrences) {
                 if (!occurrence.managed_emission || occurrence.is_legacy)

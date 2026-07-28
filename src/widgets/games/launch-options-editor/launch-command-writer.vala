@@ -127,14 +127,33 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
 
             var generated = parser.parse (composed.launch_line);
+            var launch_line = merge (request.parsed, generated, changed);
             var result = new LaunchCommandWriteResult (
                 request.parsed.original_input == "" ? LaunchCommandWriteStatus.FRESH_MANAGED_OUTPUT
                                                      : LaunchCommandWriteStatus.SOURCE_PRESERVING_MANAGED_MERGE,
-                request.parsed, true, true, merge (request.parsed, generated, changed));
+                request.parsed, true, launch_line != request.parsed.original_input, launch_line);
             foreach (var id in request.modified_option_ids) result.modified_option_ids.add (id);
             foreach (var diagnostic in composed.diagnostics) result.composition_diagnostics.add (diagnostic);
             record_spans (result, request.parsed, changed);
             return result;
+        }
+
+        /* Batch editing supplies one logical intent but every Steam game owns
+         * its source text.  Keep parsing here so callers cannot accidentally
+         * reuse a result prepared for a different game. */
+        public LaunchCommandWriteResult prepare_source (string source,
+                                                         LaunchCommandSelection[] selections,
+                                                         string[] modified_option_ids = {},
+                                                         string[] adapter_diagnostics = {},
+                                                         LaunchCommandCapabilityContext? capabilities = null,
+                                                         bool explicit_clear = false,
+                                                         bool retain_placeholder_for_arguments_only = false) {
+            var parsed = parser.parse (source);
+            if (parsed.command_boundary_indexes.size == 1 && parsed.command_boundary_indexes[0] == 0)
+                retain_placeholder_for_arguments_only = true;
+            return prepare (new LaunchCommandWriteRequest (parsed, selections,
+                modified_option_ids, adapter_diagnostics, capabilities, explicit_clear,
+                retain_placeholder_for_arguments_only));
         }
 
         bool requires_context (LaunchCommandSelection[] selections) {
@@ -169,6 +188,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 if (key == "" || environment_keys.contains (key)) return false;
                 environment_keys.add (key);
             }
+            if (parsed.command_boundary_indexes.size == 1) {
+                for (var index = parsed.command_boundary_indexes[0] + 1; index < parsed.tokens.size; index++) {
+                    /* An assignment after %command% is an argument, not an
+                     * effective launch environment.  Never move it while
+                     * applying a managed edit unless a future semantic owns it. */
+                    if (is_environment_assignment (parsed.tokens[index].value))
+                        return false;
+                }
+            }
             foreach (var token in parsed.unrecognized_tokens) {
                 if (token.kind != LaunchCommandUnrecognizedKind.PRESERVED_GAME_COMMAND_CONTENT
                     && token.kind != LaunchCommandUnrecognizedKind.UNKNOWN_ENVIRONMENT_ASSIGNMENT)
@@ -194,6 +222,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return separator > 0 ? value.substring (0, separator) : "";
         }
 
+        bool is_environment_assignment (string value) {
+            var key = environment_key (value);
+            if (key == "" || !(key[0].isalpha () || key[0] == '_'))
+                return false;
+            for (var index = 1; index < key.length; index++) {
+                if (!(key[index].isalnum () || key[index] == '_'))
+                    return false;
+            }
+            return true;
+        }
+
         string merge (LaunchCommandParseResult source, LaunchCommandParseResult generated,
                       HashSet<string> changed) {
             if (source.original_input == "") return generated.original_input;
@@ -208,9 +247,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             /* Environment assignments are the only unrecognised pre-boundary
              * words admitted by the merge.  Keep their raw spelling and order. */
             for (var index = 0; index < source.tokens.size; index++) {
+                if (source_boundary < 0) break;
                 if (source_boundary >= 0 && index >= source_boundary) break;
                 var occurrence = occurrence_at (source, index);
-                if (occurrence != null && is_environment (occurrence) && !changed.contains (occurrence.option_id))
+                if (occurrence != null && output_role_at (source, index) == Region.ENVIRONMENT
+                    && !changed.contains (occurrence.option_id))
                     output.add (source.tokens[index].raw);
                 else if (unrecognized_environment_at (source, index))
                     output.add (source.tokens[index].raw);
@@ -224,7 +265,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     if (is_wrapper_token_at (source, index)) output.add (source.tokens[index].raw);
                 }
             } else {
-                append_generated_region (output, generated, 0, generated_boundary, changed, emitted, Region.WRAPPER, true);
+                append_merged_wrappers (output, source, generated, changed, emitted);
             }
 
             bool needs_boundary = output.size > 0 || generated_boundary >= 0
@@ -251,34 +292,96 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (start < 0) start = 0;
             for (var index = start; index < end; index++) {
                 var occurrence = occurrence_at (generated, index);
+                if (output_role_at (generated, index) != region)
+                    continue;
                 if (include_all && region == Region.WRAPPER) {
-                    if (occurrence == null || !is_environment (occurrence))
-                        output.add (generated.tokens[index].raw);
+                    /* Ownership is structural, not option-kind based.  A
+                     * composite option may produce both an environment token
+                     * and a wrapper argument, but each source index has one
+                     * role and therefore one output region. */
+                    output.add (generated.tokens[index].raw);
+                    emitted.add ("token:%d".printf (index));
                     continue;
                 }
                 if (occurrence == null) continue;
                 if (!include_all && !changed.contains (occurrence.option_id)) continue;
-                if (!belongs_to (occurrence, region)) continue;
-                var key = "%s:%d".printf (occurrence.option_id, index);
+                var key = "token:%d".printf (index);
                 if (emitted.contains (key)) continue;
                 output.add (generated.tokens[index].raw);
                 emitted.add (key);
             }
         }
 
-        bool belongs_to (LaunchCommandOptionOccurrence occurrence, Region region) {
-            switch (region) {
-            case Region.ENVIRONMENT:
-                return is_environment (occurrence) || occurrence.semantic_kind == LaunchOptionSemanticKind.COMPOSITE_DYNAMIC;
-            case Region.WRAPPER:
-                return occurrence.semantic_kind == LaunchOptionSemanticKind.PREFIX_WRAPPER
-                    || occurrence.semantic_kind == LaunchOptionSemanticKind.DELIMITED_WRAPPER
-                    || occurrence.semantic_kind == LaunchOptionSemanticKind.WRAPPER_SELECTOR
-                    || occurrence.semantic_kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT
-                    || occurrence.semantic_kind == LaunchOptionSemanticKind.COMPOSITE_DYNAMIC;
-            case Region.GAME_ARGUMENT:
-                return occurrence.semantic_kind == LaunchOptionSemanticKind.GAME_ARGUMENT;
+        Region output_role_at (LaunchCommandParseResult parsed, int index) {
+            var boundary = parsed.command_boundary_indexes.size == 1
+                ? parsed.command_boundary_indexes[0] : -1;
+            if (boundary >= 0 && index > boundary)
+                return Region.GAME_ARGUMENT;
+            if (is_wrapper_token_at (parsed, index))
+                return Region.WRAPPER;
+            return Region.ENVIRONMENT;
+        }
+
+        void append_merged_wrappers (ArrayList<string> output, LaunchCommandParseResult source,
+                                     LaunchCommandParseResult generated, HashSet<string> changed,
+                                     HashSet<string> emitted) {
+            /* The catalog is ordered by nesting priority.  Select one raw
+             * invocation for each wrapper identity: unchanged source first,
+             * otherwise the generated replacement.  This keeps independent
+             * wrappers and their unknown arguments while replacing only the
+             * changed backend or wrapper. */
+            foreach (var definition in catalog.get_wrappers ()) {
+                var source_invocation = wrapper_invocation (source, definition.id);
+                var generated_invocation = wrapper_invocation (generated, definition.id);
+                if (source_invocation != null && !wrapper_changed (definition.id, changed)) {
+                    append_wrapper_tokens (output, source, source_invocation, emitted);
+                } else if (generated_invocation != null) {
+                    append_wrapper_tokens (output, generated, generated_invocation, emitted);
+                }
             }
+        }
+
+        LaunchCommandWrapperInvocation? wrapper_invocation (LaunchCommandParseResult parsed, string id) {
+            foreach (var invocation in parsed.wrappers)
+                if (invocation.wrapper_id == id)
+                    return invocation;
+            return null;
+        }
+
+        void append_wrapper_tokens (ArrayList<string> output, LaunchCommandParseResult parsed,
+                                    LaunchCommandWrapperInvocation invocation, HashSet<string> emitted) {
+            var indexes = new ArrayList<int> ();
+            foreach (var index in invocation.executable_indexes) indexes.add (index);
+            foreach (var index in invocation.argument_indexes) indexes.add (index);
+            if (invocation.delimiter_index >= 0) indexes.add (invocation.delimiter_index);
+            indexes.sort ((first, second) => first - second);
+            foreach (var index in indexes) {
+                var key = "wrapper:%s:%d".printf (parsed.original_input, index);
+                if (!emitted.contains (key)) {
+                    output.add (parsed.tokens[index].raw);
+                    emitted.add (key);
+                }
+            }
+        }
+
+        bool wrapper_changed (string wrapper_id, HashSet<string> changed) {
+            foreach (var id in changed) {
+                var metadata = catalog.lookup (id);
+                if (metadata == null || metadata.semantics == null)
+                    continue;
+                var semantics = metadata.semantics;
+                if (semantics.wrapper_id == wrapper_id)
+                    return true;
+                if (semantics.kind == LaunchOptionSemanticKind.WRAPPER_SELECTOR
+                    && contains (semantics.selectable_wrapper_ids, wrapper_id))
+                    return true;
+            }
+            return false;
+        }
+
+        bool contains (string[] values, string candidate) {
+            foreach (var value in values)
+                if (value == candidate) return true;
             return false;
         }
 

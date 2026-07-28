@@ -273,10 +273,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return false;
         }
 
-        public string get_text () {
-            return launch_option_handlers.to_launch_line ();
-        }
-
         public LaunchCommandEditorProjectionState projection_state { get { return projection.state; } }
         public string managed_candidate { get { return projection.managed_candidate; } }
         public bool has_managed_candidate { get { return projection.has_managed_candidate; } }
@@ -289,11 +285,20 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public Gee.List<string> write_diagnostics { get { return prepare_write ().writer_diagnostics; } }
 
         public LaunchCommandWriteResult prepare_write () {
-            var selections = collect_selections ();
+            var diagnostics = presentations.validate_selection_sources ();
+            var selections = collect_managed_selections (diagnostics);
             return writer.prepare (new LaunchCommandWriteRequest (projection.parsed,
                 selections.to_array (), dirty_option_ids.to_array (),
-                presentations.validate_selection_sources ().to_array (), capability_context,
+                diagnostics.to_array (), capability_context,
                 explicit_clear, projection.retain_placeholder_for_arguments_only));
+        }
+
+        public LaunchCommandWriteResult prepare_write_for_source (string source) {
+            var diagnostics = presentations.validate_selection_sources ();
+            var selections = collect_managed_selections (diagnostics);
+            return writer.prepare_source (source, selections.to_array (), dirty_option_ids.to_array (),
+                diagnostics.to_array (), capability_context, explicit_clear,
+                false);
         }
 
         public void set_capability_context (LaunchCommandCapabilityContext? context) {
@@ -348,20 +353,34 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return sources;
         }
 
-        Gee.ArrayList<LaunchCommandSelection> collect_selections () {
+        Gee.ArrayList<LaunchCommandSelection> collect_managed_selections (Gee.Collection<string> diagnostics) {
             var selections = new Gee.ArrayList<LaunchCommandSelection> ();
             foreach (var source in collect_sources ()) {
                 var selection = source.get_selection ();
-                if (selection != null)
+                if (selection == null)
+                    continue;
+                var metadata = catalog.lookup (selection.option_id);
+                if (metadata == null || metadata.semantics == null) {
+                    diagnostics.add ("Selection source '%s' returned an unknown option.".printf (selection.option_id));
+                    continue;
+                }
+                var semantics = metadata.semantics;
+                if (semantics.managed_emission
+                    && semantics.kind != LaunchOptionSemanticKind.COMMAND_BOUNDARY
+                    && semantics.kind != LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT) {
                     selections.add (selection);
+                } else if (dirty_option_ids.contains (selection.option_id)) {
+                    diagnostics.add ("Launch option '%s' cannot be newly enabled.".printf (selection.option_id));
+                }
             }
             return selections;
         }
 
         string selection_fingerprint (LaunchCommandSelection? selection) {
             if (selection == null) return "";
-            return "%s\x1f%s\x1f%s".printf (selection.option_id, selection.wrapper_id,
-                string.joinv ("\x1f", selection.get_values ()));
+            return "%s\x1f%s\x1f%s\x1f%s".printf (selection.option_id, selection.wrapper_id,
+                string.joinv ("\x1f", selection.get_values ()),
+                string.joinv ("\x1f", selection.get_additional_wrapper_arguments ()));
         }
 
         void record_baseline_selections () {

@@ -193,16 +193,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return get_segments ().size > 0;
         }
 
+        /* Deprecated compatibility-only round trip helper.  It is retained
+         * for parser characterization; production persistence must consume
+         * LaunchCommandWriteResult.launch_line. */
         public string to_launch_line () {
             if (this.loaded_source_is_pristine)
                 return this.loaded_launch_options;
-
-            var segments = get_segments ();
-
-            return string.joinv (" ", segments.to_array ());
+            return string.joinv (" ", get_segments ().to_array ());
         }
 
-        public Gee.LinkedList<string> get_segments () {
+        /* Legacy control-token rendering remains private to parsing and
+         * presentation. Persistence must use LaunchCommandWriteResult. */
+        private Gee.LinkedList<string> get_segments () {
             if (this.loaded_source_is_pristine)
                 return get_loaded_raw_segments ();
 

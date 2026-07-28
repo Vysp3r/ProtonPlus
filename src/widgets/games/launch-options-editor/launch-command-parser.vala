@@ -393,6 +393,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 var environment_index = find_fixed_token (result, end, environment_output.fixed_tokens);
                 if (environment_index < 0)
                     continue;
+                bool matched_arguments = false;
                 foreach (var invocation in result.wrappers) {
                     if (invocation.wrapper_id != argument_output.wrapper_id)
                         continue;
@@ -411,6 +412,24 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     remove_unrecognized_indexes (result, all_indexes);
                     foreach (var source_index in argument_indexes)
                         invocation.unknown_argument_indexes.remove (source_index);
+                    matched_arguments = true;
+                }
+                /* A composite may deliberately have an environment-only
+                 * automatic mode.  This is declared through the selectable
+                 * logical value, rather than a writer-side option exception. */
+                bool has_owner_arguments = false;
+                foreach (var invocation in result.wrappers) {
+                    if (invocation.wrapper_id == semantics.wrapper_id && invocation.argument_indexes.size > 0)
+                        has_owner_arguments = true;
+                }
+                if (!matched_arguments && !has_owner_arguments && contains (semantics.selectable_values, "auto")) {
+                    var automatic_indexes = new ArrayList<int> ();
+                    automatic_indexes.add (environment_index);
+                    result.occurrences.add (new LaunchCommandOptionOccurrence (
+                        entry.id, semantics.kind, tokens_for_indexes (result, { environment_index }),
+                        { environment_index }, "auto", false, semantics.managed_emission,
+                        environment_output.environment_key, "", semantics.wrapper_id));
+                    remove_unrecognized_indexes (result, automatic_indexes);
                 }
             }
         }

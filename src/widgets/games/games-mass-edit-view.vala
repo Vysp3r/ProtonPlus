@@ -240,19 +240,29 @@ namespace ProtonPlus.Widgets.Games {
         void apply_button_clicked () {
             var item = (Models.CompatibilityTool) compatibility_tool_row.get_selected_item ();
             var invalids = new List<string> ();
-            LaunchOptionsEditor.LaunchCommandWriteResult? launch_write = null;
+            var launch_writes = new Gee.HashMap<Models.Games.Steam, LaunchOptionsEditor.LaunchCommandWriteResult> ();
 
             if (launch_options_switch.active && launch_options_editor.is_dirty) {
                 launch_options_editor.set_capability_context (resolve_launch_option_capabilities ());
-                launch_write = launch_options_editor.prepare_write ();
-                if (!launch_write.writing_allowed) {
-                    var detail = launch_write.writer_diagnostics.size > 0
-                        ? launch_write.writer_diagnostics[0]
-                        : _("The selected launch options are incomplete or unsupported for these games.");
-                    var dialog = new Main.ErrorDialog (_("Launch options cannot be applied"),
-                        _("No games were changed because the launch command could not be prepared safely."), detail);
-                    ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
-                    return;
+                /* A batch selection is an intent.  Each Steam game keeps its
+                 * own source command and is prepared before any persistent
+                 * compatibility-tool or VDF write can occur. */
+                foreach (var row in rows) {
+                    var steam_game = row.game as Models.Games.Steam;
+                    if (steam_game == null)
+                        continue;
+                    var launch_write = launch_options_editor.prepare_write_for_source (
+                        steam_game.launch_options ?? "");
+                    if (!launch_write.writing_allowed) {
+                        var detail = launch_write.writer_diagnostics.size > 0
+                            ? launch_write.writer_diagnostics[0]
+                            : _("The selected launch options are incomplete or unsupported for these games.");
+                        var dialog = new Main.ErrorDialog (_("Launch options cannot be applied"),
+                            _("No games were changed because the launch command could not be prepared safely."), detail);
+                        ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
+                        return;
+                    }
+                    launch_writes.set (steam_game, launch_write);
                 }
             }
 
@@ -266,9 +276,11 @@ namespace ProtonPlus.Widgets.Games {
                     }
                 }
 
-                if (launch_write != null && launch_write.requires_persistence
-                    && row.game.launcher is Models.Launchers.Steam) {
-                    var steam_game = (Models.Games.Steam) row.game;
+                var steam_game = row.game as Models.Games.Steam;
+                if (steam_game != null && launch_writes.has_key (steam_game)) {
+                    var launch_write = launch_writes.get (steam_game);
+                    if (launch_write == null || !launch_write.requires_persistence)
+                        continue;
                     var steam_launcher = (Models.Launchers.Steam) steam_game.launcher;
 
                     var success = steam_game.change_launch_options (launch_write.launch_line, steam_launcher.profile.localconfig_path);
