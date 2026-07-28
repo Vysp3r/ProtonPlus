@@ -49,13 +49,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
         }
 
-        public void set_attention_required (bool required) {
+        public void set_attention_required (bool required, string reason = "") {
             if (required && !attention_required)
                 expanded = true;
 
             attention_required = required;
             subtitle = required
-                ? _("Raw or unrecognized content needs attention before saving.")
+                ? (reason != "" ? reason : _("Raw or unrecognized content needs attention before saving."))
                 : _("Show the exact command that will be saved to Steam.");
             set_tooltip_text (subtitle);
         }

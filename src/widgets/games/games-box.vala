@@ -407,7 +407,8 @@ namespace ProtonPlus.Widgets.Games {
             overlay.add_overlay (spinner);
 
             model = new ListStore (typeof (Models.CompatibilityTool));
-            model.append (new Models.CompatibilityTool (_("Default"), _("Default")));
+            model.append (new Models.CompatibilityTool (_("Default"), _("Default"), "",
+                Models.CompatibilityToolRuntimeKind.NATIVE));
             foreach (var ct in launcher.compatibility_tools)
                 model.append (ct);
 

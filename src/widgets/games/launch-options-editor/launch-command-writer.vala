@@ -73,6 +73,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionCatalog catalog;
         LaunchCommandComposer composer;
         LaunchCommandParser parser;
+        LaunchOptionCapabilityResolver capability_resolver;
 
         public LaunchCommandWriter (LaunchOptionCatalog? catalog = null,
                                     LaunchCommandComposer? composer = null,
@@ -80,6 +81,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.catalog = catalog ?? new LaunchOptionCatalog ();
             this.composer = composer ?? new LaunchCommandComposer (this.catalog);
             this.parser = parser ?? new LaunchCommandParser (this.catalog);
+            this.capability_resolver = new LaunchOptionCapabilityResolver (this.catalog);
         }
 
         public LaunchCommandWriteResult prepare (LaunchCommandWriteRequest request) {
@@ -115,6 +117,20 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 var blocked = new LaunchCommandWriteResult (LaunchCommandWriteStatus.BLOCKED_UNSAFE_SOURCE, request.parsed);
                 blocked.writer_diagnostics.add ("Custom shell content cannot be merged safely.");
                 return blocked;
+            }
+
+            foreach (var selection in request.selections) {
+                var metadata = catalog.lookup (selection.option_id);
+                if (metadata == null)
+                    continue;
+                var eligibility = capability_resolver.evaluate_selection (metadata, selection,
+                    request.capabilities, false);
+                if (!eligibility.may_activate) {
+                    var blocked = new LaunchCommandWriteResult (
+                        LaunchCommandWriteStatus.BLOCKED_INVALID_SELECTIONS, request.parsed);
+                    blocked.writer_diagnostics.add (eligibility.reason);
+                    return blocked;
+                }
             }
 
             var composed = composer.compose (new LaunchCommandCompositionRequest (

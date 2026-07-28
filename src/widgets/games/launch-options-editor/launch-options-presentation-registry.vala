@@ -6,6 +6,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public ILaunchOption? option { get; set; }
         public bool movable { get; construct; }
         public bool currently_visible { get; set; default = false; }
+        public LaunchOptionEligibility? eligibility { get; set; }
         public Gee.ArrayList<Gtk.Widget> widgets { get; private set; }
         public Gee.ArrayList<ILaunchCommandSelectionSource> selection_sources { get; private set; }
 
@@ -43,8 +44,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     detail = "%s • %s".printf (detail, metadata.applicability);
                 if (metadata.dependencies.length > 0)
                     detail = "%s • %s".printf (detail, _("Requires related option"));
-                if (!widget.sensitive)
-                    detail = "%s • %s".printf (detail, _("Unavailable on this system"));
+                if (eligibility != null && eligibility.kind != LaunchOptionEligibilityKind.AVAILABLE)
+                    detail = "%s • %s".printf (detail, eligibility.reason);
                 var action_row = widget as Adw.ActionRow;
                 if (action_row != null)
                     action_row.subtitle = detail;
@@ -151,6 +152,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return false;
         }
 
+        public bool has_presentable_in_category (LaunchOptionCategory category) {
+            foreach (var presentation in by_id.values) {
+                if (presentation.metadata.category != category)
+                    continue;
+                var eligibility = presentation.eligibility;
+                if (eligibility == null || eligibility.show_when_inactive
+                    || (presentation.is_active () && eligibility.keep_visible_when_active))
+                    return true;
+            }
+            return false;
+        }
+
         public bool has_visible_in_subsection (LaunchOptionCategory category, string subsection) {
             foreach (var presentation in by_id.values) {
                 if (presentation.metadata.category == category
@@ -161,11 +174,22 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return false;
         }
 
-        public void apply_filter (LaunchOptionView view, string query) {
+        public void apply_filter (LaunchOptionView view, string query,
+                                  LaunchOptionCapabilityResolver? resolver = null,
+                                  LaunchCommandCapabilityContext? context = null) {
             var searching = query.strip () != "";
             foreach (var presentation in get_ordered ()) {
                 var active = presentation.is_active ();
                 var visible = catalog.should_display (presentation.metadata, view, query, active);
+                if (resolver != null) {
+                    var eligibility = resolver.evaluate (presentation.metadata, context, active);
+                    presentation.eligibility = eligibility;
+                    var eligible_for_view = active ? eligibility.keep_visible_when_active
+                        : eligibility.show_when_inactive;
+                    visible = eligible_for_view && visible;
+                } else {
+                    presentation.eligibility = null;
+                }
                 presentation.currently_visible = visible;
 
                 foreach (var widget in presentation.widgets)

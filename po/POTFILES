@@ -111,6 +111,7 @@ src/widgets/games/launch-options-editor/launch-command-parser.vala
 src/widgets/games/launch-options-editor/launch-command-plan.vala
 src/widgets/games/launch-options-editor/launch-command-selection-source.vala
 src/widgets/games/launch-options-editor/launch-command-writer.vala
+src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala
 src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala
 src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala
 src/widgets/games/launch-options-editor/launch-options-editor-binding.vala

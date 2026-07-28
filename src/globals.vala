@@ -11,6 +11,7 @@ namespace ProtonPlus.Globals {
     public static bool GAMESCOPE_INSTALLED;
     public static bool SCOPEBUDDY_INSTALLED;
     public static bool GAMEMODE_INSTALLED;
+    public static bool VKBASALT_INSTALLED;
     private static bool loaded = false;
 
     public struct LanguageItem {
@@ -113,6 +114,7 @@ namespace ProtonPlus.Globals {
         Globals.GAMEMODE_INSTALLED = Utils.System.check_dependency_sync ("gamemoderun");
 
         Globals.SCOPEBUDDY_INSTALLED = Utils.System.check_dependency_sync ("scopebuddy") || Utils.System.check_dependency_sync ("scb");
+        Globals.VKBASALT_INSTALLED = Utils.System.check_dependency_sync ("vkbasalt");
 
         Globals.CACHE_PATH = Path.build_filename (Environment.get_user_cache_dir (), "ProtonPlus");
         if (!FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {

@@ -22,10 +22,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                                          "performance-overlay"
             );
 
-            if (!Globals.MANGOHUD_INSTALLED) {
-                mangohud_tile.sensitive = false;
-                mangohud_tile.subtitle = _("Requires MangoHud to be installed. Search keeps unavailable options visible.");
-            }
 
             steam_deck_tile = create_tile (
                 _("Use desktop game profile"),
@@ -53,11 +49,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 LaunchLineType.WRAPPER,
                 "gamemode"
             );
-
-            if (!Globals.GAMEMODE_INSTALLED) {
-                gamemode_tile.sensitive = false;
-                gamemode_tile.subtitle = _("Requires GameMode to be installed. Search keeps unavailable options visible.");
-            }
 
             this.add (mangohud_tile);
             this.add (steam_deck_tile);

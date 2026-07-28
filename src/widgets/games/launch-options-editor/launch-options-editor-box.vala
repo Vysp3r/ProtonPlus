@@ -18,6 +18,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchOptionPresentationRegistry presentations;
         LaunchCommandEditorProjection projection;
         LaunchCommandWriter writer;
+        LaunchOptionCapabilityResolver capability_resolver;
         LaunchCommandCapabilityContext? capability_context;
         Gee.HashMap<string, string> baseline_selections;
         Gee.ArrayList<string> dirty_option_ids;
@@ -51,6 +52,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             presentations = new LaunchOptionPresentationRegistry (catalog);
             projection = new LaunchCommandEditorProjection (catalog);
             writer = new LaunchCommandWriter (catalog);
+            capability_resolver = new LaunchOptionCapabilityResolver (catalog);
             baseline_selections = new Gee.HashMap<string, string> ();
             dirty_option_ids = new Gee.ArrayList<string> ();
             loaded_source = "";
@@ -303,6 +305,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public void set_capability_context (LaunchCommandCapabilityContext? context) {
             capability_context = context;
+            refresh_filters ();
+            refresh_preview ();
             refresh_projection ();
         }
 
@@ -333,11 +337,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void refresh_projection () {
-            var sources = collect_sources ();
+            var sources = collect_sources (true);
             projection.update (loaded_source, sources, presentations.validate_selection_sources (), capability_context);
         }
 
-        Gee.ArrayList<ILaunchCommandSelectionSource> collect_sources () {
+        Gee.ArrayList<ILaunchCommandSelectionSource> collect_sources (bool exclude_unavailable = false) {
             var sources = new Gee.ArrayList<ILaunchCommandSelectionSource> ();
             foreach (var source in presentations.get_selection_sources ()) {
                 if (source.option_id == "launch-backend") {
@@ -347,6 +351,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                             "launch-backend", new LaunchCommandSelection ("launch-backend", {}, selected)
                         ));
                     continue;
+                }
+                if (exclude_unavailable) {
+                    var selection = source.get_selection ();
+                    var metadata = catalog.lookup (source.option_id);
+                    if (selection != null && metadata != null
+                        && !capability_resolver.evaluate_selection (metadata, selection,
+                            capability_context, true).may_activate)
+                        continue;
                 }
                 sources.add (source);
             }
@@ -365,6 +377,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     continue;
                 }
                 var semantics = metadata.semantics;
+                var eligibility = capability_resolver.evaluate_selection (metadata, selection,
+                    capability_context, true);
+                if (!eligibility.may_activate) {
+                    if (dirty_option_ids.contains (selection.option_id))
+                        diagnostics.add (eligibility.reason);
+                    continue;
+                }
                 if (semantics.managed_emission
                     && semantics.kind != LaunchOptionSemanticKind.COMMAND_BOUNDARY
                     && semantics.kind != LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT) {
@@ -405,7 +424,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         void refresh_filters () {
             var query = search_entry.text.strip ();
             var view = get_selected_view ();
-            presentations.apply_filter (view, query);
+            presentations.apply_filter (view, query, capability_resolver, capability_context);
 
             foreach (var group in subsection_groups.values) {
                 var parts = group.get_data<string> ("launch-options-subsection-key").split (":", 2);
@@ -479,13 +498,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         bool category_has_dropdown_content (LaunchOptionCategory category) {
             if (category == LaunchOptionCategory.DISPLAY) {
-                return Groups.WrapperGroup.should_show_backend_chrome (
-                    Globals.GAMESCOPE_INSTALLED,
-                    Globals.SCOPEBUDDY_INSTALLED,
-                    wrapper_group.has_active_non_default_backend ()
-                );
+                return presentations.has_presentable_in_category (category)
+                    || wrapper_group.has_active_non_default_backend ();
             }
-            return presentations.has_registered_in_category (category);
+            return presentations.has_presentable_in_category (category);
         }
 
         bool views_equal (Gee.List<LaunchOptionView> first, Gee.List<LaunchOptionView> second) {
@@ -501,12 +517,27 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         void refresh_preview () {
             var result = prepare_write ();
             var preview = result.writing_allowed ? result.launch_line : loaded_source;
-            if (!result.writing_allowed && is_dirty)
+            var reason = "";
+            foreach (var diagnostic in result.composition_diagnostics) {
+                if (diagnostic.code == LaunchCommandCompositionDiagnosticCode.MISSING_REQUIRED_CAPABILITY) {
+                    reason = diagnostic.message;
+                    break;
+                }
+            }
+            if (reason == "" && result.writer_diagnostics.size > 0) {
+                var diagnostic = result.writer_diagnostics[0];
+                if (diagnostic.has_prefix ("Requires ")
+                    || diagnostic.has_prefix ("Not supported")
+                    || diagnostic.has_prefix ("This legacy")
+                    || diagnostic.has_prefix ("This variant-specific"))
+                    reason = diagnostic;
+            }
+            if (!result.writing_allowed && is_dirty && reason == "")
                 preview = _("Unable to safely prepare these launch options.");
             preview_field.preview_label.set_markup (Markup.escape_text (preview == ""
                 ? _("No launch options configured yet.") : preview));
             preview_field.set_empty (preview == "");
-            preview_field.set_attention_required (!result.writing_allowed && is_dirty);
+            preview_field.set_attention_required (!result.writing_allowed && is_dirty, reason);
         }
     }
 }

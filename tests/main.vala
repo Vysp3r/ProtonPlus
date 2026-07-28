@@ -15,6 +15,7 @@ int main (string[] args) {
     AppTests.LaunchCommandComposerTest.register_tests ();
     AppTests.LaunchCommandEditorProjectionTest.register_tests ();
     AppTests.LaunchCommandWriterTest.register_tests ();
+    AppTests.LaunchOptionCapabilityResolverTest.register_tests ();
     AppTests.ProviderDefinitionTest.register_tests ();
     AppTests.ProviderRegistryTest.register_tests ();
     AppTests.ProviderSourceTest.register_tests ();

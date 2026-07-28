@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 18:49-0400\n"
+"POT-Creation-Date: 2026-07-28 08:10-0400\n"
 "PO-Revision-Date: 2026-01-09 12:01+0000\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <https://hosted.weblate.org/projects/protonplus/"
@@ -1872,113 +1872,113 @@ msgid "%ds"
 msgstr ""
 
 #. System Page
-#: src/globals.vala:24 src/widgets/mangohud/mangohud-extras-page.vala:74
+#: src/globals.vala:25 src/widgets/mangohud/mangohud-extras-page.vala:74
 #: src/widgets/preferences/preferences-dialog.vala:269
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "სისტემა"
 
-#: src/globals.vala:25
+#: src/globals.vala:26
 msgid "Arabic"
 msgstr ""
 
-#: src/globals.vala:26
+#: src/globals.vala:27
 msgid "Belarusian"
 msgstr ""
 
-#: src/globals.vala:27
+#: src/globals.vala:28
 msgid "Bosnian"
 msgstr ""
 
-#: src/globals.vala:28
+#: src/globals.vala:29
 msgid "Czech"
 msgstr ""
 
-#: src/globals.vala:29
+#: src/globals.vala:30
 msgid "German"
 msgstr ""
 
-#: src/globals.vala:30
+#: src/globals.vala:31
 msgid "English"
 msgstr ""
 
-#: src/globals.vala:31
+#: src/globals.vala:32
 msgid "Greek"
 msgstr ""
 
-#: src/globals.vala:32
+#: src/globals.vala:33
 msgid "Spanish"
 msgstr ""
 
-#: src/globals.vala:33
+#: src/globals.vala:34
 msgid "Finnish"
 msgstr ""
 
-#: src/globals.vala:34
+#: src/globals.vala:35
 msgid "French"
 msgstr ""
 
-#: src/globals.vala:35
+#: src/globals.vala:36
 msgid "Croatian"
 msgstr ""
 
-#: src/globals.vala:36
+#: src/globals.vala:37
 msgid "Indonesian"
 msgstr ""
 
-#: src/globals.vala:37
+#: src/globals.vala:38
 msgid "Italian"
 msgstr ""
 
-#: src/globals.vala:38
+#: src/globals.vala:39
 msgid "Japanese"
 msgstr ""
 
-#: src/globals.vala:39
+#: src/globals.vala:40
 msgid "Georgian"
 msgstr ""
 
-#: src/globals.vala:40
+#: src/globals.vala:41
 msgid "Dutch"
 msgstr ""
 
-#: src/globals.vala:41
+#: src/globals.vala:42
 msgid "Polish"
 msgstr ""
 
-#: src/globals.vala:42
+#: src/globals.vala:43
 msgid "Portuguese (Portugal)"
 msgstr ""
 
-#: src/globals.vala:43
+#: src/globals.vala:44
 msgid "Russian"
 msgstr ""
 
-#: src/globals.vala:44
+#: src/globals.vala:45
 msgid "Serbian (Latin)"
 msgstr ""
 
-#: src/globals.vala:45
+#: src/globals.vala:46
 msgid "Slovak"
 msgstr ""
 
-#: src/globals.vala:46
+#: src/globals.vala:47
 msgid "Swedish"
 msgstr ""
 
-#: src/globals.vala:47
+#: src/globals.vala:48
 msgid "Ukrainian"
 msgstr ""
 
-#: src/globals.vala:48
+#: src/globals.vala:49
 msgid "Vietnamese"
 msgstr ""
 
-#: src/globals.vala:49
+#: src/globals.vala:50
 msgid "Chinese"
 msgstr ""
 
-#: src/globals.vala:50
+#: src/globals.vala:51
 msgid "Chinese (Traditional)"
 msgstr ""
 
@@ -2110,7 +2110,7 @@ msgstr ""
 msgid "Special thanks to"
 msgstr "დიდი მადლობა"
 
-#: src/widgets/games/games-box.vala:74 src/widgets/games/games-box.vala:504
+#: src/widgets/games/games-box.vala:74 src/widgets/games/games-box.vala:505
 #: src/widgets/tools/tools-release-box.vala:102
 #, fuzzy
 msgid "No games found"
@@ -2138,7 +2138,7 @@ msgid "All"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:151
-#: src/widgets/games/games-mass-edit-view.vala:158
+#: src/widgets/games/games-mass-edit-view.vala:162
 #: src/widgets/games/games-row.vala:132
 msgid "Native"
 msgstr ""
@@ -2203,38 +2203,38 @@ msgstr ""
 "თუ გნებავთ, განვითარება უფრო სწრაფად ხდებოდეს, გვაჩვენეთ, რომ ჩვენთან "
 "ბრძანდებით!"
 
-#: src/widgets/games/games-box.vala:472
+#: src/widgets/games/games-box.vala:473
 msgid "Filter: Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:474
+#: src/widgets/games/games-box.vala:475
 msgid "Filter: Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:476
+#: src/widgets/games/games-box.vala:477
 #, fuzzy
 msgid "Filter: All games"
 msgstr "თამაშის გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/games-box.vala:496
+#: src/widgets/games/games-box.vala:497
 #, fuzzy
 msgid "No matching games"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/games/games-box.vala:497
+#: src/widgets/games/games-box.vala:498
 #: src/widgets/tools/tools-group-box.vala:124
 msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:500
+#: src/widgets/games/games-box.vala:501
 msgid "No games match this filter"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:501
+#: src/widgets/games/games-box.vala:502
 msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:505
+#: src/widgets/games/games-box.vala:506
 msgid "No games are available for this launcher."
 msgstr ""
 
@@ -2293,62 +2293,62 @@ msgstr ""
 "მასიური ჩასწორების ფუნქციის გამოყენებამდე დარწმუნდით, რომ მონიშნული გაქვთ, "
 "სულ ცოტა, ერთი თამაში."
 
-#: src/widgets/games/games-mass-edit-view.vala:24
+#: src/widgets/games/games-mass-edit-view.vala:26
 msgid "1 game selected"
 msgstr "არჩეულია 1 თამაში"
 
-#: src/widgets/games/games-mass-edit-view.vala:24
+#: src/widgets/games/games-mass-edit-view.vala:26
 #, c-format
 msgid "%u games selected"
 msgstr "მონიშნულია %u თამაში"
 
-#: src/widgets/games/games-mass-edit-view.vala:47
+#: src/widgets/games/games-mass-edit-view.vala:49
 #, fuzzy
 msgid "Apply compatibility tool"
 msgstr "თავსებადობის ხელსაწყო"
 
-#: src/widgets/games/games-mass-edit-view.vala:48
+#: src/widgets/games/games-mass-edit-view.vala:50
 #, fuzzy
 msgid "Set the same tool for every selected game."
 msgstr "მონიშნული თამაშების თავსებადობის ხელსაწყოს ერთდროულად ჩასწორება"
 
-#: src/widgets/games/games-mass-edit-view.vala:70
+#: src/widgets/games/games-mass-edit-view.vala:74
 #, fuzzy
 msgid "Apply launch options"
 msgstr "გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/games-mass-edit-view.vala:71
+#: src/widgets/games/games-mass-edit-view.vala:75
 #, fuzzy
 msgid "Set the same options for every selected Steam game."
 msgstr "მონიშნული თამაშების თავსებადობის ხელსაწყოს ერთდროულად ჩასწორება"
 
-#: src/widgets/games/games-mass-edit-view.vala:82
+#: src/widgets/games/games-mass-edit-view.vala:86
 msgid ""
 "Enable the sections you want to change. Disabled sections leave the selected "
 "games unchanged."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:251
+#: src/widgets/games/games-mass-edit-view.vala:270
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:252
+#: src/widgets/games/games-mass-edit-view.vala:271
 #, fuzzy
 msgid "Launch options cannot be applied"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/games/games-mass-edit-view.vala:253
+#: src/widgets/games/games-mass-edit-view.vala:272
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:291
+#: src/widgets/games/games-mass-edit-view.vala:314
 msgid "Batch Update Failed"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:292
+#: src/widgets/games/games-mass-edit-view.vala:315
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
@@ -2405,39 +2405,30 @@ msgstr ""
 msgid "New tool"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:15
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:14
 #, fuzzy
 msgid "Advanced options"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:16
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:15
 msgid "Extra control over the final Steam launch command."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:18
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1212
-msgid "Steam command placeholder (%command%)"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:18
-msgid "Appends Steam's game command."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:20
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:17
 msgid "Additional arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:20
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:17
 #, fuzzy
 msgid "Add extra launch options"
 msgstr "გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:25
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:22
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1206
 msgid "Custom game arguments"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:25
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:22
 #, fuzzy
 msgid "Add your own launch options."
 msgstr "გაშვების პარამეტრების შეცვლა"
@@ -2517,47 +2508,37 @@ msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:27
-msgid ""
-"Requires MangoHud to be installed. Search keeps unavailable options visible."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:31
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1137
 #, fuzzy
 msgid "Use desktop game profile"
 msgstr "აირჩიეთ პროფილი"
 
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:32
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:28
 msgid "Disables the Steam Deck-specific profile that some games use."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:40
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:36
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1136
 msgid "Native Wayland"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:41
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:37
 msgid ""
 "Runs the game natively on Wayland instead of through XWayland but it breaks "
 "Steam Input and the Steam Overlay."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:49
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:45
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1130
 #: src/widgets/mangohud/mangohud-extras-page.vala:100
 #, fuzzy
 msgid "GameMode"
 msgstr "თამაშები"
 
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:50
+#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:46
 msgid ""
 "Requests temporary optimizations for system performance (CPU governor, "
 "process priority) when the game is running."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/groups/common-options-group.vala:59
-msgid ""
-"Requires GameMode to be installed. Search keeps unavailable options visible."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:12
@@ -3133,6 +3114,79 @@ msgstr "თამაშები"
 msgid "ScopeBuddy"
 msgstr ""
 
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:114
+#, fuzzy
+msgid "This option is unsupported and cannot be newly enabled."
+msgstr "აირჩიეთ ნაგულისხმევი თავსებადობის ხელსაწყო"
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:119
+msgid "This legacy option is preserved but cannot be newly enabled."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:126
+msgid "This variant-specific option is preserved but cannot be newly enabled."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:130
+msgid "Compatibility-tool capabilities are not known yet."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:147
+msgid "Requires an available launch backend."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:164
+#, fuzzy
+msgid "The selected launch backend is not supported."
+msgstr "'%s' ამჟამად მხარდაჭერილი არაა."
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:214
+msgid "Requires an AMD GPU."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:215
+msgid "Requires an NVIDIA GPU."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:216
+msgid "Requires an Intel GPU."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:217
+msgid "Requires MangoHud, which is not available."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:218
+msgid "Requires GameMode, which is not available."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:219
+msgid "Requires Gamescope, which is not available."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:220
+msgid "Requires ScopeBuddy, which is not available."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:221
+msgid "Requires vkBasalt, which is not available."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:222
+#, fuzzy
+msgid "Requires DXVK from the selected compatibility tool."
+msgstr "აირჩიეთ სასურველი თავსებადობის ხელსაწყო"
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:223
+msgid "Requires VKD3D-Proton from the selected compatibility tool."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:224
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:225
+#, fuzzy
+msgid "Not supported by the selected compatibility tool."
+msgstr "აირჩიეთ ნაგულისხმევი თავსებადობის ხელსაწყო"
+
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:26
@@ -3215,76 +3269,76 @@ msgstr ""
 msgid "Override system-wide Vulkan driver preference for this game"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:66
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:68
 msgid "Command preview"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:94
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:96
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1213
 #, fuzzy
 msgid "Preserved unrecognized launch options"
 msgstr "თამაშის გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:95
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:97
 msgid ""
 "Quoted, opaque, and unknown shell content is retained exactly as loaded."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:103
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:105
 #, fuzzy
 msgid "No matching launch options."
 msgstr "გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:120
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:122
 #, fuzzy
 msgid "Launch options"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:124
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:126
 #, fuzzy
 msgid "Search all options"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:126
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
 #, fuzzy
 msgid "Search launch options"
 msgstr "გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:133
 msgid "Browse"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:132
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:428
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:134
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:466
 msgid "Quick settings"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:132
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:430
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:134
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:468
 #, fuzzy
 msgid "Active options"
 msgstr "მეტი ინფორმაცია"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:132
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:432
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:134
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:470
 #, fuzzy
 msgid "All options"
 msgstr "მეტი ინფორმაცია"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:215
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:217
 msgid "Raw command controls"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:216
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:218
 msgid "Change the Steam command placeholder only when a game requires it."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:486
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:536
 #, fuzzy
 msgid "Unable to safely prepare these launch options."
 msgstr "თამაშის გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:488
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:538
 #: src/widgets/games/launch-options-editor/launch-options-list.vala:166
 msgid "No launch options configured yet."
 msgstr ""
@@ -4128,6 +4182,10 @@ msgid "Controls VKD3D troubleshooting logs."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1212
+msgid "Steam command placeholder (%command%)"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1212
 msgid "Marks where Steam inserts the game's command."
 msgstr ""
 
@@ -4136,25 +4194,21 @@ msgid "Keeps unrecognized, quoted, and opaque shell content exactly as loaded."
 msgstr ""
 
 #. Advanced Page
-#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:39
+#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:40
 #: src/widgets/mangohud/mangohud-box.vala:69
 #: src/widgets/preferences/preferences-dialog.vala:204
 msgid "Advanced"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:41
+#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
 #: src/widgets/preferences/preferences-dialog.vala:248
 msgid "Experimental"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:45
+#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:46
 #, fuzzy
 msgid "Requires related option"
 msgstr "გაშვების პარამეტრების შეცვლა"
-
-#: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:47
-msgid "Unavailable on this system"
-msgstr ""
 
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:36
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:38
@@ -5816,10 +5870,6 @@ msgstr "გასვლა"
 #, fuzzy
 #~ msgid "Supported launchers:"
 #~ msgstr "მხარდაუჭერელი გამშვები"
-
-#, fuzzy
-#~ msgid "Supported compatibility tools:"
-#~ msgstr "აირჩიეთ ნაგულისხმევი თავსებადობის ხელსაწყო"
 
 #, fuzzy, c-format
 #~ msgid "Uninstalled %s\n"

@@ -315,7 +315,8 @@ namespace ProtonPlus.Models.Launchers {
                         var compatibility_tool = new CompatibilityTool (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
-                            "%s/common/%s".printf (current_steamapps_path, current_installdir)
+                            "%s/common/%s".printf (current_steamapps_path, current_installdir),
+                            CompatibilityToolRuntimeKind.NATIVE
                         );
                         compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
                         compatibility_tools.add (compatibility_tool);
@@ -332,7 +333,10 @@ namespace ProtonPlus.Models.Launchers {
                         var compatibility_tool = new CompatibilityTool (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
-                            "%s/common/%s".printf (current_steamapps_path, current_installdir)
+                            "%s/common/%s".printf (current_steamapps_path, current_installdir),
+                            native_compatibility_tool_appids.contains (current_appid)
+                                ? CompatibilityToolRuntimeKind.NATIVE
+                                : CompatibilityToolRuntimeKind.PROTON
                         );
                         compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
                         compatibility_tools.add (compatibility_tool);
