@@ -20,6 +20,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             backend_description = _("Choose System default, Gamescope, or ScopeBuddy for display and launch options.");
             this.title = backend_title;
             this.description = backend_description;
+            if (presentation_registry != null)
+                presentation_registry.register ("launch-backend", this, null, false);
 
             none = new Wrappers.None (launch_option_handlers, presentation_registry);
             gamescope = new Wrappers.Gamescope (launch_option_handlers, presentation_registry);
@@ -132,8 +134,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             return gamescope_available || scopebuddy_available || active_non_default_backend;
         }
 
+        public static bool should_show_backend_group (bool display_visible, bool show_chrome) {
+            return display_visible && show_chrome;
+        }
+
         public bool has_active_non_default_backend () {
             return gamescope.active || scopebuddy.active;
+        }
+
+        public string get_selected_backend_id () {
+            if (gamescope.active) return "gamescope";
+            if (scopebuddy.active) return "scopebuddy";
+            return "";
         }
 
         public void set_presentation_visible (bool visible) {
@@ -144,7 +156,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             );
             this.title = show_chrome ? backend_title : "";
             this.description = show_chrome ? backend_description : "";
-            this.visible = visible;
+            this.visible = should_show_backend_group (visible, show_chrome);
         }
     }
 }

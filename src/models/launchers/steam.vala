@@ -315,7 +315,8 @@ namespace ProtonPlus.Models.Launchers {
                         var compatibility_tool = new CompatibilityTool (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
-                            "%s/common/%s".printf (current_steamapps_path, current_installdir)
+                            "%s/common/%s".printf (current_steamapps_path, current_installdir),
+                            CompatibilityToolRuntimeKind.NATIVE
                         );
                         compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
                         compatibility_tools.add (compatibility_tool);
@@ -326,13 +327,21 @@ namespace ProtonPlus.Models.Launchers {
                         continue;
                     }
 
-                    if (proton_regex.match (current_name) ||
-                        current_name == "Proton Hotfix" ||
-                        native_compatibility_tool_appids.contains (current_appid)) {
+                    var compatibility_tool_path = "%s/common/%s".printf (current_steamapps_path, current_installdir);
+                    var has_proton_launcher = FileUtils.test (
+                        Path.build_filename (compatibility_tool_path, "proton"),
+                        FileTest.IS_REGULAR
+                    );
+                    var is_named_proton = proton_regex.match (current_name) || current_name == "Proton Hotfix";
+
+                    if (has_proton_launcher || is_named_proton || native_compatibility_tool_appids.contains (current_appid)) {
                         var compatibility_tool = new CompatibilityTool (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
-                            "%s/common/%s".printf (current_steamapps_path, current_installdir)
+                            compatibility_tool_path,
+                            has_proton_launcher || is_named_proton
+                                ? CompatibilityToolRuntimeKind.PROTON
+                                : CompatibilityToolRuntimeKind.NATIVE
                         );
                         compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
                         compatibility_tools.add (compatibility_tool);

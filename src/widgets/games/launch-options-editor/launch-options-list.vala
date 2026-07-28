@@ -162,7 +162,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public string build_preview_markup () {
             var segments = get_segments ();
-            if (segments.size == 0)
+            return build_command_preview_markup (string.joinv (" ", segments.to_array ()));
+        }
+
+        /* Display markup only. The exact command is still produced
+         * exclusively by LaunchCommandWriter before reaching this formatter. */
+        public static string build_command_preview_markup (string command) {
+            var tokens = new LaunchOptionShellTokenizer ().tokenize (command);
+            if (tokens.size == 0)
                 return Markup.escape_text (_("No launch options configured yet."));
 
             string[] preview_colors = {
@@ -176,11 +183,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var markup = new StringBuilder ();
             markup.append ("<tt>");
 
-            for (var index = 0; index < segments.size; index++) {
+            for (var index = 0; index < tokens.size; index++) {
                 if (index > 0)
                     markup.append (" ");
 
-                var escaped_segment = Markup.escape_text (segments[index]);
+                var escaped_segment = Markup.escape_text (tokens[index].raw);
                 markup.append ("<span foreground='%s'>%s</span>".printf (preview_colors[index % preview_colors.length], escaped_segment));
             }
 
@@ -193,16 +200,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return get_segments ().size > 0;
         }
 
+        /* Deprecated compatibility-only round trip helper.  It is retained
+         * for parser characterization; production persistence must consume
+         * LaunchCommandWriteResult.launch_line. */
         public string to_launch_line () {
             if (this.loaded_source_is_pristine)
                 return this.loaded_launch_options;
-
-            var segments = get_segments ();
-
-            return string.joinv (" ", segments.to_array ());
+            return string.joinv (" ", get_segments ().to_array ());
         }
 
-        public Gee.LinkedList<string> get_segments () {
+        /* Legacy control-token rendering remains private to parsing and
+         * presentation. Persistence must use LaunchCommandWriteResult. */
+        private Gee.LinkedList<string> get_segments () {
             if (this.loaded_source_is_pristine)
                 return get_loaded_raw_segments ();
 

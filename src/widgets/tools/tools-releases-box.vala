@@ -23,6 +23,8 @@ namespace ProtonPlus.Widgets.Tools {
         private uint tool_request_generation = 0;
         Models.Variant? selected_variant = null;
         Gtk.DropDown variant_dropdown { get; set; }
+        HashTable<Gtk.StringObject, Gtk.ListItem> variant_list_items;
+        Gtk.Image? selected_variant_checkmark = null;
         public Gtk.Box variant_box { get; private set; }
         bool header_controls_visible = false;
         bool has_variants = false;
@@ -55,6 +57,27 @@ namespace ProtonPlus.Widgets.Tools {
 
         private static string get_legacy_tool_variant_settings_key (Models.Tool tool) {
             return "%s::%s::%s".printf (tool.group.launcher.title, tool.group.title, tool.title);
+        }
+
+        private static string get_variant_tooltip (string variant_name) {
+            switch (variant_name) {
+            case "x86_64":
+                return _("Standard 64-bit build for most Intel and AMD PCs.");
+            case "x86_64_v3":
+                return _("Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 instruction set.");
+            case "arm64":
+            case "aarch64":
+                return _("64-bit ARM build. Choose this only on ARM64 hardware.");
+            case "x86":
+                return _("32-bit x86 build. Choose this only when a 32-bit runner is required.");
+            case "wow64":
+            case "x86_64_wow64":
+                return _("64-bit build with WoW64 support for running 32-bit Windows applications.");
+            case "default":
+                return _("The provider's recommended build for most systems.");
+            default:
+                return _("Select the %s build variant.").printf (variant_name);
+            }
         }
 
         private string get_saved_variant_name (Models.Tool tool) {
@@ -114,6 +137,8 @@ namespace ProtonPlus.Widgets.Tools {
         public ReleasesBox () {
             Object (orientation : Gtk.Orientation.VERTICAL, spacing : 0);
 
+            variant_list_items = new HashTable<Gtk.StringObject, Gtk.ListItem> (null, null);
+
             title_label = new Gtk.Label (null) {
                 halign = Gtk.Align.CENTER,
                 xalign = 0.5f,
@@ -154,11 +179,18 @@ namespace ProtonPlus.Widgets.Tools {
             Gtk.Expression expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
 
             variant_dropdown = new Gtk.DropDown (null, expression) {
-                visible = false
+                visible = false,
+                tooltip_text = _("Choose which architecture or build variant to show.")
             };
             variant_dropdown.set_valign (Gtk.Align.CENTER);
             variant_dropdown.set_hexpand (false);
             variant_dropdown.notify["selected"].connect (on_variant_selected);
+
+            var variant_list_factory = new Gtk.SignalListItemFactory ();
+            variant_list_factory.setup.connect (on_variant_list_item_setup);
+            variant_list_factory.bind.connect (on_variant_list_item_bind);
+            variant_list_factory.unbind.connect (on_variant_list_item_unbind);
+            variant_dropdown.set_list_factory (variant_list_factory);
 
             variant_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
                 visible = false,
@@ -303,6 +335,84 @@ namespace ProtonPlus.Widgets.Tools {
             update_visibility ();
         }
 
+        private void on_variant_list_item_setup (Object object) {
+            var list_item = object as Gtk.ListItem;
+            var label = new Gtk.Label (null) {
+                xalign = 0.0f,
+                hexpand = true
+            };
+            var checkmark = new Gtk.Image.from_icon_name ("object-select-symbolic") {
+                visible = false
+            };
+            var row = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+                hexpand = true
+            };
+            var content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+                hexpand = true,
+                margin_top = 6,
+                margin_bottom = 6,
+                margin_start = 12,
+                margin_end = 12
+            };
+            content.append (label);
+            content.append (checkmark);
+            row.append (content);
+
+            object.set_data ("variant-label", label);
+            object.set_data ("variant-checkmark", checkmark);
+            object.set_data ("variant-row", row);
+            list_item.set_child (row);
+        }
+
+        private void on_variant_list_item_bind (Object object) {
+            var list_item = object as Gtk.ListItem;
+            var variant = list_item.item as Gtk.StringObject;
+            if (variant == null)
+                return;
+
+            variant_list_items.set (variant, list_item);
+
+            var variant_name = variant.string;
+            var tooltip = get_variant_tooltip (variant_name);
+            var label = object.get_data<Gtk.Label> ("variant-label");
+            var checkmark = object.get_data<Gtk.Image> ("variant-checkmark");
+            var row = object.get_data<Gtk.Box> ("variant-row");
+            var list_row = row.get_parent ();
+
+            label.set_label (variant_name);
+            if (list_row != null)
+                list_row.set_tooltip_text (tooltip);
+            checkmark.set_visible (list_item.position == variant_dropdown.selected);
+            if (checkmark.visible)
+                selected_variant_checkmark = checkmark;
+        }
+
+        private void on_variant_list_item_unbind (Object object) {
+            var list_item = object as Gtk.ListItem;
+            var variant = list_item.item as Gtk.StringObject;
+            if (variant != null && variant_list_items.get (variant) == list_item)
+                variant_list_items.remove (variant);
+
+            var checkmark = object.get_data<Gtk.Image> ("variant-checkmark");
+            if (checkmark == selected_variant_checkmark)
+                selected_variant_checkmark = null;
+        }
+
+        private void update_variant_list_item_checkmark () {
+            if (selected_variant_checkmark != null)
+                selected_variant_checkmark.set_visible (false);
+
+            var selected_item = variant_dropdown.selected_item as Gtk.StringObject;
+            var list_item = selected_item != null ? variant_list_items.get (selected_item) : null;
+            if (list_item == null) {
+                selected_variant_checkmark = null;
+                return;
+            }
+
+            selected_variant_checkmark = list_item.get_data<Gtk.Image> ("variant-checkmark");
+            selected_variant_checkmark.set_visible (true);
+        }
+
         private void on_refresh_clicked () {
             if (current_tool == null)
                 return;
@@ -421,6 +531,8 @@ namespace ProtonPlus.Widgets.Tools {
             int selected_index = (int) variant_dropdown.selected;
             if (selected_index < 0 || selected_index >= provider_tool.variants.size)
                 return;
+
+            update_variant_list_item_checkmark ();
 
             var variant = provider_tool.variants.get (selected_index);
             if (selected_variant != null && selected_variant.name == variant.name)

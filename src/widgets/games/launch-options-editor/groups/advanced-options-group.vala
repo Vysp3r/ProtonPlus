@@ -4,7 +4,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     public class AdvancedOptionsGroup : BaseOptionsGroup {
         LaunchOptionEntryField additional_args_field { get; set; }
         LaunchOptionTile additional_args_tile { get; set; }
-        LaunchOptionTile command_tile { get; set; }
         public ILaunchOption raw_arguments_binding { get; private set; }
         bool refreshing_controls;
 
@@ -14,8 +13,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.set_margin_bottom (15);
             this.title = _("Advanced options");
             this.description = _("Extra control over the final Steam launch command.");
-
-            command_tile = create_tile (_("Steam command placeholder (%command%)"), _("Appends Steam's game command."), { "%command%" }, false, LaunchLineType.COMMAND, "steam-command");
 
             additional_args_field = new LaunchOptionEntryField (_("Additional arguments"), "", _("Add extra launch options"));
             additional_args_field.value_applied.connect (() => {
@@ -32,7 +29,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             register_option ("custom-game-arguments", additional_args_field, add_bind);
             raw_arguments_binding = add_bind;
 
-            this.add (command_tile);
             this.add (additional_args_tile);
             this.add (additional_args_field);
 
