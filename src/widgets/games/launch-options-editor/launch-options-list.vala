@@ -162,7 +162,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public string build_preview_markup () {
             var segments = get_segments ();
-            if (segments.size == 0)
+            return build_command_preview_markup (string.joinv (" ", segments.to_array ()));
+        }
+
+        /* Display markup only. The exact command is still produced
+         * exclusively by LaunchCommandWriter before reaching this formatter. */
+        public static string build_command_preview_markup (string command) {
+            var tokens = new LaunchOptionShellTokenizer ().tokenize (command);
+            if (tokens.size == 0)
                 return Markup.escape_text (_("No launch options configured yet."));
 
             string[] preview_colors = {
@@ -176,11 +183,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var markup = new StringBuilder ();
             markup.append ("<tt>");
 
-            for (var index = 0; index < segments.size; index++) {
+            for (var index = 0; index < tokens.size; index++) {
                 if (index > 0)
                     markup.append (" ");
 
-                var escaped_segment = Markup.escape_text (segments[index]);
+                var escaped_segment = Markup.escape_text (tokens[index].raw);
                 markup.append ("<span foreground='%s'>%s</span>".printf (preview_colors[index % preview_colors.length], escaped_segment));
             }
 

@@ -6,6 +6,7 @@ namespace AppTests.ParserTest {
         Test.add_func ("/vdf/text-parser-replaces-key-and-value", test_vdf_document_replacements);
         Test.add_func ("/launch-options/shell-words-preserve-quoting", test_launch_option_shell_words);
         Test.add_func ("/launch-options/opaque-shell-spans", test_opaque_shell_spans);
+        Test.add_func ("/launch-options/command-preview-markup", test_launch_option_command_preview_markup);
         Test.add_func ("/launch-options/catalog-metadata-and-search", test_launch_option_catalog_metadata_and_search);
         Test.add_func ("/launch-options/catalog-semantic-definitions", test_launch_option_catalog_semantic_definitions);
         Test.add_func ("/launch-options/catalog-semantic-validation", test_launch_option_catalog_semantic_validation);
@@ -83,6 +84,17 @@ namespace AppTests.ParserTest {
         assert (options.to_launch_line () == source);
         options.mark_modified ();
         assert (options.to_launch_line () == source);
+    }
+
+    private void test_launch_option_command_preview_markup () {
+        var markup = ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionsList
+            .build_command_preview_markup ("VAR=\"hello world\" %command% <unsafe>");
+
+        assert (markup.contains ("<tt>"));
+        assert (markup.contains ("foreground='#79c0ff'"));
+        assert (markup.contains ("foreground='#ff938a'"));
+        assert (markup.contains ("VAR=&quot;hello world&quot;"));
+        assert (markup.contains ("&lt;unsafe&gt;"));
     }
 
     private void test_launch_option_catalog_metadata_and_search () {

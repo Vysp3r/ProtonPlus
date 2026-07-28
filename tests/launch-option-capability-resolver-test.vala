@@ -19,6 +19,7 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
     public void register_tests () {
         Test.add_func ("/launch-option-capabilities/runtime-and-components", test_runtime_and_components);
         Test.add_func ("/launch-option-capabilities/eligibility-and-presentation", test_eligibility_and_presentation);
+        Test.add_func ("/launch-option-capabilities/variant-specific-policy", test_variant_specific_policy);
         Test.add_func ("/launch-option-capabilities/writer-preserves-active-unavailable", test_writer_preserves_active_unavailable);
     }
 
@@ -92,10 +93,6 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
             assert (option != null);
             assert (resolver.evaluate (option, native).kind == LaunchOptionEligibilityKind.UNAVAILABLE_COMPONENT);
         }
-        var variant = catalog.lookup ("d7vk");
-        assert (variant != null);
-        assert (resolver.evaluate (variant, proton).kind == LaunchOptionEligibilityKind.LEGACY_ACTIVE_ONLY);
-
         var presentations = new LaunchOptionPresentationRegistry (catalog);
         var option = new ActiveOption ();
         presentations.register ("wined3d", null, option);
@@ -106,6 +103,86 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
         presentations.apply_filter (LaunchOptionView.ACTIVE, "", resolver, native);
         assert (presentations.has_visible_in_category (LaunchOptionCategory.PROTON));
         assert (presentations.lookup ("wined3d").eligibility.keep_visible_when_active);
+    }
+
+    private void test_variant_specific_policy () {
+        var catalog = new LaunchOptionCatalog ();
+        var resolver = new LaunchOptionCapabilityResolver (catalog);
+        var proton_amd = resolver.resolve ({ CompatibilityToolRuntimeKind.PROTON }, true, components (), GpuVendor.AMD);
+        var proton_nvidia = resolver.resolve ({ CompatibilityToolRuntimeKind.PROTON }, true, components (), GpuVendor.NVIDIA);
+        var proton_intel = resolver.resolve ({ CompatibilityToolRuntimeKind.PROTON }, true, components (), GpuVendor.INTEL);
+        var proton_unknown_gpu = resolver.resolve ({ CompatibilityToolRuntimeKind.PROTON }, true, components (), GpuVendor.UNKNOWN);
+        var native_amd = resolver.resolve ({ CompatibilityToolRuntimeKind.NATIVE }, true, components (), GpuVendor.AMD);
+        var unknown_amd = resolver.resolve ({ CompatibilityToolRuntimeKind.UNKNOWN }, true, components (), GpuVendor.AMD);
+
+        string[] proton_variants = {
+            "d7vk", "optiscaler", "discord-bridge", "winealsa-channels", "winealsa-spatial"
+        };
+        foreach (var id in proton_variants) {
+            var metadata = catalog.lookup (id);
+            assert (metadata != null);
+            var eligibility = resolver.evaluate (metadata, proton_amd);
+            assert (eligibility.kind == LaunchOptionEligibilityKind.VARIANT_SELECTABLE_WITH_WARNING);
+            assert (eligibility.may_activate && eligibility.may_modify && eligibility.show_when_inactive);
+            assert (eligibility.reason == "Requires a compatible Proton variant.");
+            assert (!resolver.evaluate (metadata, native_amd).show_when_inactive);
+            assert (!resolver.evaluate (metadata, unknown_amd).show_when_inactive);
+        }
+
+        string[] amd_variants = { "amd-fsr4", "amd-fsr4-rdna3" };
+        foreach (var id in amd_variants) {
+            var metadata = catalog.lookup (id);
+            assert (metadata != null);
+            assert (resolver.evaluate (metadata, proton_amd).kind
+                == LaunchOptionEligibilityKind.VARIANT_SELECTABLE_WITH_WARNING);
+            assert (resolver.evaluate (metadata, proton_unknown_gpu).kind
+                == LaunchOptionEligibilityKind.UNAVAILABLE_HARDWARE);
+            assert (resolver.evaluate (metadata, native_amd).kind
+                == LaunchOptionEligibilityKind.UNAVAILABLE_RUNTIME);
+        }
+
+        string[] nvidia_variants = { "nvidia-dlss-updater", "nvidia-dlss-indicator", "nvidia-libraries" };
+        foreach (var id in nvidia_variants) {
+            var metadata = catalog.lookup (id);
+            assert (metadata != null);
+            assert (resolver.evaluate (metadata, proton_nvidia).kind
+                == LaunchOptionEligibilityKind.VARIANT_SELECTABLE_WITH_WARNING);
+            assert (resolver.evaluate (metadata, proton_unknown_gpu).kind
+                == LaunchOptionEligibilityKind.UNAVAILABLE_HARDWARE);
+        }
+        var xess = catalog.lookup ("intel-xess");
+        assert (xess != null);
+        assert (resolver.evaluate (xess, proton_intel).kind
+            == LaunchOptionEligibilityKind.VARIANT_SELECTABLE_WITH_WARNING);
+        assert (resolver.evaluate (xess, proton_unknown_gpu).kind
+            == LaunchOptionEligibilityKind.UNAVAILABLE_HARDWARE);
+
+        var dxvk_async = catalog.lookup ("dxvk-async");
+        assert (dxvk_async != null);
+        assert (resolver.evaluate (dxvk_async, proton_amd).kind == LaunchOptionEligibilityKind.LEGACY_ACTIVE_ONLY);
+        string[] inactive_only = {
+            "dxvk-frame-limit", "nvidia-nvapi", "raw-launch-options", "steam-command"
+        };
+        foreach (var id in inactive_only) {
+            var metadata = catalog.lookup (id);
+            assert (metadata != null);
+            assert (!resolver.evaluate (metadata, proton_amd).may_activate);
+        }
+
+        var presentations = new LaunchOptionPresentationRegistry (catalog);
+        var d7vk = new ActiveOption ();
+        presentations.register ("d7vk", null, d7vk);
+        presentations.apply_filter (LaunchOptionView.ALL, "", resolver, proton_amd);
+        assert (presentations.lookup ("d7vk").currently_visible);
+        assert (presentations.has_presentable_in_category (LaunchOptionCategory.PROTON));
+        presentations.apply_filter (LaunchOptionView.ALL, "D7VK", resolver, proton_amd);
+        assert (presentations.lookup ("d7vk").currently_visible);
+        presentations.apply_filter (LaunchOptionView.PROTON, "", resolver, native_amd);
+        assert (!presentations.lookup ("d7vk").currently_visible);
+        assert (!presentations.has_presentable_in_category (LaunchOptionCategory.PROTON));
+        d7vk.active = true;
+        presentations.apply_filter (LaunchOptionView.ACTIVE, "", resolver, native_amd);
+        assert (presentations.lookup ("d7vk").currently_visible);
     }
 
     private void test_writer_preserves_active_unavailable () {
@@ -124,5 +201,44 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
         assert (rejected.status == LaunchCommandWriteStatus.BLOCKED_INVALID_SELECTIONS);
         assert (rejected.writer_diagnostics.size == 1);
         assert (rejected.writer_diagnostics[0].contains ("selected compatibility tool"));
+
+        var proton = new LaunchCommandCapabilityContext ({ LaunchOptionCapability.PROTON });
+        var variant = writer.prepare_source ("", { new LaunchCommandSelection ("d7vk") },
+            { "d7vk" }, {}, proton);
+        assert (variant.writing_allowed);
+        assert (variant.launch_line == "PROTON_USE_D7VK=1 %command%");
+
+        var native_variant = writer.prepare_source ("", { new LaunchCommandSelection ("d7vk") },
+            { "d7vk" }, {}, native);
+        assert (!native_variant.writing_allowed);
+        assert (native_variant.writer_diagnostics.size == 1);
+        assert (native_variant.writer_diagnostics[0].contains ("selected compatibility tool"));
+
+        var unknown_variant = writer.prepare_source ("", { new LaunchCommandSelection ("d7vk") },
+            { "d7vk" }, {}, new LaunchCommandCapabilityContext ({ LaunchOptionCapability.STEAM }));
+        assert (!unknown_variant.writing_allowed);
+        assert (unknown_variant.writer_diagnostics.size == 1);
+        assert (unknown_variant.writer_diagnostics[0].contains ("selected compatibility tool"));
+
+        var unmanaged_variant = writer.prepare_source ("", { new LaunchCommandSelection ("dxvk-async") },
+            { "dxvk-async" }, {}, proton);
+        assert (!unmanaged_variant.writing_allowed);
+        assert (unmanaged_variant.writer_diagnostics.size == 1);
+        assert (unmanaged_variant.writer_diagnostics[0].contains ("legacy option"));
+
+        var missing_dependency = writer.prepare_source ("", {
+            new LaunchCommandSelection ("winealsa-spatial")
+        }, { "winealsa-spatial" }, {}, proton);
+        assert (!missing_dependency.writing_allowed);
+        assert (missing_dependency.composition_diagnostics.size == 1);
+        assert (missing_dependency.composition_diagnostics[0].code
+            == LaunchCommandCompositionDiagnosticCode.MISSING_DEPENDENCY);
+
+        var with_dependency = writer.prepare_source ("", {
+            new LaunchCommandSelection ("winealsa-channels", { "4" }),
+            new LaunchCommandSelection ("winealsa-spatial")
+        }, { "winealsa-channels", "winealsa-spatial" }, {}, proton);
+        assert (with_dependency.writing_allowed);
+        assert (with_dependency.launch_line == "WINEALSA_CHANNELS=4 WINEALSA_SPACIAL=1 %command%");
     }
 }

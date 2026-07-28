@@ -966,6 +966,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         LaunchOptionCapability[] capabilities_for (string id) {
             if (id == "vkbasalt") return { LaunchOptionCapability.VKBASALT };
+            if (id == "amd-fsr4" || id == "amd-fsr4-rdna3")
+                return { LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON };
             if (id.has_prefix ("amd-")) return { LaunchOptionCapability.AMD };
             if (id.has_prefix ("nvidia-")) return { LaunchOptionCapability.NVIDIA, LaunchOptionCapability.PROTON };
             if (id.has_prefix ("intel-")) return { LaunchOptionCapability.INTEL, LaunchOptionCapability.PROTON };

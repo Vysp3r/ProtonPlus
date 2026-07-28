@@ -3,6 +3,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
     public enum LaunchOptionEligibilityKind {
         AVAILABLE,
+        VARIANT_SELECTABLE_WITH_WARNING,
         UNAVAILABLE_RUNTIME,
         UNAVAILABLE_COMPONENT,
         UNAVAILABLE_HARDWARE,
@@ -115,16 +116,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     _("This option is unsupported and cannot be newly enabled."));
             }
             if (semantics.support == LaunchOptionSupport.LEGACY_DEPRECATED
-                || !semantics.managed_emission) {
+                || !semantics.managed_emission
+                || semantics.kind == LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT
+                || semantics.kind == LaunchOptionSemanticKind.COMMAND_BOUNDARY) {
                 return unavailable (LaunchOptionEligibilityKind.LEGACY_ACTIVE_ONLY, active,
                     _("This legacy option is preserved but cannot be newly enabled."));
-            }
-            if (semantics.support == LaunchOptionSupport.VARIANT_SPECIFIC) {
-                /* The catalog has no confirmed variant capability declaration
-                 * for these historical controls.  Do not guess from a tool
-                 * title; retain an existing occurrence only for removal. */
-                return unavailable (LaunchOptionEligibilityKind.LEGACY_ACTIVE_ONLY, active,
-                    _("This variant-specific option is preserved but cannot be newly enabled."));
             }
             if (context == null)
                 return unavailable (LaunchOptionEligibilityKind.UNKNOWN_CONTEXT, active,
@@ -147,6 +143,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     return unavailable (LaunchOptionEligibilityKind.UNAVAILABLE_COMPONENT, active,
                         _("Requires an available launch backend."));
             }
+            if (semantics.support == LaunchOptionSupport.VARIANT_SPECIFIC) {
+                /* Confirming Proton establishes that managed emission is safe,
+                 * but deliberately does not claim support by a named variant. */
+                return new LaunchOptionEligibility (
+                    LaunchOptionEligibilityKind.VARIANT_SELECTABLE_WITH_WARNING,
+                    true, true, true, true,
+                    _("Requires a compatible Proton variant.")
+                );
+            }
             return new LaunchOptionEligibility (LaunchOptionEligibilityKind.AVAILABLE,
                 true, true, true, true);
         }
@@ -156,8 +161,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             LaunchCommandCapabilityContext? context, bool active = false
         ) {
             var eligibility = evaluate (metadata, context, active);
-            if (eligibility.kind != LaunchOptionEligibilityKind.AVAILABLE
-                || selection.wrapper_id == "")
+            if (!eligibility.may_activate || selection.wrapper_id == "")
                 return eligibility;
             var wrapper = catalog.lookup_wrapper (selection.wrapper_id);
             if (wrapper == null)

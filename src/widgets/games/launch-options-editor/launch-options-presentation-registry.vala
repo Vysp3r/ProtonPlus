@@ -44,7 +44,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     detail = "%s • %s".printf (detail, metadata.applicability);
                 if (metadata.dependencies.length > 0)
                     detail = "%s • %s".printf (detail, _("Requires related option"));
-                if (eligibility != null && eligibility.kind != LaunchOptionEligibilityKind.AVAILABLE)
+                if (eligibility != null && eligibility.reason != "")
                     detail = "%s • %s".printf (detail, eligibility.reason);
                 var action_row = widget as Adw.ActionRow;
                 if (action_row != null)
@@ -194,6 +194,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
                 foreach (var widget in presentation.widgets)
                     widget.visible = visible;
+                foreach (var widget in presentation.widgets)
+                    widget.sensitive = presentation.eligibility == null
+                        || presentation.eligibility.may_modify
+                        || (active && presentation.eligibility.keep_visible_when_active);
                 presentation.apply_metadata (searching);
             }
         }

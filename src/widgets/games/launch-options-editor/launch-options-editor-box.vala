@@ -537,8 +537,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
             if (!result.writing_allowed && is_dirty && reason == "")
                 preview = _("Unable to safely prepare these launch options.");
-            preview_field.preview_label.set_markup (Markup.escape_text (preview == ""
-                ? _("No launch options configured yet.") : preview));
+            preview_field.preview_label.set_markup (
+                LaunchOptionsList.build_command_preview_markup (preview));
             preview_field.set_empty (preview == "");
             preview_field.set_attention_required (!result.writing_allowed && is_dirty, reason);
         }
