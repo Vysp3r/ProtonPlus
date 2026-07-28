@@ -104,6 +104,13 @@ src/widgets/games/launch-options-editor/groups/proton-options-group.vala
 src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala
 src/widgets/games/launch-options-editor/groups/wrapper-group.vala
 src/widgets/games/launch-options-editor/i-launch-option.vala
+src/widgets/games/launch-options-editor/launch-command-builder.vala
+src/widgets/games/launch-options-editor/launch-command-composer.vala
+src/widgets/games/launch-options-editor/launch-command-editor-projection.vala
+src/widgets/games/launch-options-editor/launch-command-parser.vala
+src/widgets/games/launch-options-editor/launch-command-plan.vala
+src/widgets/games/launch-options-editor/launch-command-selection-source.vala
+src/widgets/games/launch-options-editor/launch-command-writer.vala
 src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala
 src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala
 src/widgets/games/launch-options-editor/launch-options-editor-binding.vala

@@ -11,6 +11,7 @@ test_sources = files(
     'launch-command-parser-test.vala',
     'launch-command-composer-test.vala',
     'launch-command-editor-projection-test.vala',
+    'launch-command-writer-test.vala',
     'provider_definition_test.vala',
     'provider_registry_test.vala',
     'provider_source_test.vala',
