@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-18 10:14-0400\n"
-"PO-Revision-Date: 2026-04-19 00:59+0800\n"
+"PO-Revision-Date: 2026-07-29 05:02+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
 "Language: zh_TW\n"
@@ -40,7 +40,7 @@ msgstr "回報"
 
 #: src/widgets/window.vala:39
 msgid "Loading"
-msgstr "正在下載"
+msgstr "正在載入"
 
 #: src/widgets/window.vala:39
 msgid "Taking longer than normal?"
@@ -135,7 +135,7 @@ msgstr "未找到 %s 的更新"
 
 #: src/widgets/window.vala:183
 msgid "Everything is now up-to-date"
-msgstr "目前皆已為最新版本"
+msgstr "皆已為最新版本"
 
 #: src/widgets/window.vala:184
 #, c-format
@@ -151,7 +151,7 @@ msgstr "無法檢查更新（原因：%s）"
 #: src/widgets/window.vala:189 src/widgets/window.vala:190
 #: src/widgets/runners/runner-row.vala:56
 msgid "API limit reached"
-msgstr "已達到 API 限制"
+msgstr "已達到 API 限額"
 
 #: src/widgets/window.vala:190 src/widgets/window.vala:198
 #: src/widgets/window.vala:204 src/widgets/window.vala:210
@@ -970,7 +970,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid "Local shader cache"
-msgstr "本機著色器快取"
+msgstr "本地著色器快取"
 
 #: src/widgets/games/launch-options-editor.vala:616
 msgid ""
@@ -1105,7 +1105,7 @@ msgstr "將螢幕更新率與遊戲幀率同步。"
 #: src/widgets/games/launch-options-editor.vala:849
 #: src/widgets/games/launch-options-editor.vala:884
 msgid "Frame limit"
-msgstr "幀數上限"
+msgstr "幀數限制"
 
 #: src/widgets/games/launch-options-editor.vala:849
 msgid "Caps the frame rate inside Gamescope."
