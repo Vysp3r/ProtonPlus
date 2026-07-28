@@ -59,9 +59,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             Models.CompatibilityToolRuntimeKind[] runtimes, bool all_steam,
             LaunchOptionInstalledComponents components, Utils.GpuVendor gpu_vendor
         ) {
-            var values = new ArrayList<LaunchOptionCapability> ();
+            LaunchOptionCapability[] values = {};
             if (all_steam)
-                values.add (LaunchOptionCapability.STEAM);
+                values = append_capability (values, LaunchOptionCapability.STEAM);
 
             var all_native = runtimes.length > 0;
             var all_proton = runtimes.length > 0;
@@ -70,27 +70,27 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 all_proton = all_proton && runtime == Models.CompatibilityToolRuntimeKind.PROTON;
             }
             if (all_native)
-                values.add (LaunchOptionCapability.NATIVE_LINUX);
+                values = append_capability (values, LaunchOptionCapability.NATIVE_LINUX);
             if (all_proton) {
-                values.add (LaunchOptionCapability.PROTON);
+                values = append_capability (values, LaunchOptionCapability.PROTON);
                 /* These are standard, confirmed Proton-bundled facilities,
                  * not claims about a named custom variant. */
-                values.add (LaunchOptionCapability.DXVK);
-                values.add (LaunchOptionCapability.VKD3D_PROTON);
+                values = append_capability (values, LaunchOptionCapability.DXVK);
+                values = append_capability (values, LaunchOptionCapability.VKD3D_PROTON);
             }
 
-            if (components.mangohud) values.add (LaunchOptionCapability.MANGOHUD);
-            if (components.gamemode) values.add (LaunchOptionCapability.GAMEMODE);
-            if (components.gamescope) values.add (LaunchOptionCapability.GAMESCOPE);
-            if (components.scopebuddy) values.add (LaunchOptionCapability.SCOPEBUDDY);
-            if (components.vkbasalt) values.add (LaunchOptionCapability.VKBASALT);
+            if (components.mangohud) values = append_capability (values, LaunchOptionCapability.MANGOHUD);
+            if (components.gamemode) values = append_capability (values, LaunchOptionCapability.GAMEMODE);
+            if (components.gamescope) values = append_capability (values, LaunchOptionCapability.GAMESCOPE);
+            if (components.scopebuddy) values = append_capability (values, LaunchOptionCapability.SCOPEBUDDY);
+            if (components.vkbasalt) values = append_capability (values, LaunchOptionCapability.VKBASALT);
             switch (gpu_vendor) {
-                case Utils.GpuVendor.AMD: values.add (LaunchOptionCapability.AMD); break;
-                case Utils.GpuVendor.NVIDIA: values.add (LaunchOptionCapability.NVIDIA); break;
-                case Utils.GpuVendor.INTEL: values.add (LaunchOptionCapability.INTEL); break;
+                case Utils.GpuVendor.AMD: values = append_capability (values, LaunchOptionCapability.AMD); break;
+                case Utils.GpuVendor.NVIDIA: values = append_capability (values, LaunchOptionCapability.NVIDIA); break;
+                case Utils.GpuVendor.INTEL: values = append_capability (values, LaunchOptionCapability.INTEL); break;
                 default: break;
             }
-            return new LaunchCommandCapabilityContext (values.to_array ());
+            return new LaunchCommandCapabilityContext (values);
         }
 
         public Models.CompatibilityToolRuntimeKind runtime_for_tool (Models.CompatibilityTool? tool) {
@@ -98,8 +98,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 return Models.CompatibilityToolRuntimeKind.UNKNOWN;
             if (tool.runtime_kind != Models.CompatibilityToolRuntimeKind.UNKNOWN)
                 return tool.runtime_kind;
-            if (tool.internal_title == "Default"
-                || Models.Launchers.Steam.is_steam_linux_runtime (tool.display_title, tool.internal_title))
+            if (tool.internal_title == "Default")
+                return Models.CompatibilityToolRuntimeKind.PROTON;
+            if (Models.Launchers.Steam.is_steam_linux_runtime (tool.display_title, tool.internal_title))
                 return Models.CompatibilityToolRuntimeKind.NATIVE;
             return Models.CompatibilityToolRuntimeKind.UNKNOWN;
         }
@@ -173,18 +174,35 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         LaunchOptionCapability[] required_capabilities (LaunchOptionMetadata metadata) {
-            var values = new ArrayList<LaunchOptionCapability> ();
+            LaunchOptionCapability[] values = {};
             var semantics = metadata.semantics;
             if (semantics == null)
-                return values.to_array ();
+                return values;
             foreach (var capability in semantics.get_required_capabilities ())
-                if (!values.contains (capability)) values.add (capability);
+                if (!contains_capability (values, capability))
+                    values = append_capability (values, capability);
             if (semantics.wrapper_id != "") {
                 var wrapper = catalog.lookup_wrapper (semantics.wrapper_id);
-                if (wrapper != null && !values.contains (wrapper.required_capability))
-                    values.add (wrapper.required_capability);
+                if (wrapper != null && !contains_capability (values, wrapper.required_capability))
+                    values = append_capability (values, wrapper.required_capability);
             }
-            return values.to_array ();
+            return values;
+        }
+
+        LaunchOptionCapability[] append_capability (
+            LaunchOptionCapability[] values, LaunchOptionCapability capability
+        ) {
+            var expanded = new LaunchOptionCapability[values.length + 1];
+            for (var index = 0; index < values.length; index++)
+                expanded[index] = values[index];
+            expanded[values.length] = capability;
+            return expanded;
+        }
+
+        bool contains_capability (LaunchOptionCapability[] values, LaunchOptionCapability capability) {
+            foreach (var value in values)
+                if (value == capability) return true;
+            return false;
         }
 
         LaunchOptionEligibilityKind kind_for (LaunchOptionCapability capability) {

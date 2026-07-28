@@ -56,7 +56,7 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
         assert (mixed.has (LaunchOptionCapability.INTEL));
 
         assert (resolver.runtime_for_tool (new CompatibilityTool ("Default", "Default"))
-            == CompatibilityToolRuntimeKind.NATIVE);
+            == CompatibilityToolRuntimeKind.PROTON);
         assert (resolver.runtime_for_tool (new CompatibilityTool ("Steam Linux Runtime 3.0"))
             == CompatibilityToolRuntimeKind.NATIVE);
         assert (resolver.runtime_for_tool (new CompatibilityTool ("Custom", "custom"))

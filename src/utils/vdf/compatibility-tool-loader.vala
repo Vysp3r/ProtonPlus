@@ -6,6 +6,11 @@ namespace ProtonPlus.Utils.VDF {
         public static Models.CompatibilityTool from_path (string path) {
             var fallback_title = Path.get_basename (path);
             var tool = new Models.CompatibilityTool (fallback_title, fallback_title, path);
+            /* A tool-owned Proton launcher is an explicit runtime fact.  This
+             * avoids guessing from custom display titles while letting locally
+             * installed Proton variants use common Proton capabilities. */
+            if (FileUtils.test (Path.build_filename (path, "proton"), FileTest.IS_REGULAR))
+                tool.runtime_kind = Models.CompatibilityToolRuntimeKind.PROTON;
             var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (path);
             if (!FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR))
                 return tool;

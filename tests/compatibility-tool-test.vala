@@ -52,6 +52,12 @@ namespace AppTests.CompatibilityToolTest {
         assert (parsed.display_title == "Display name");
         assert (parsed.internal_title == "internal_name");
 
+        var proton_path = Path.build_filename (root, "custom-tool");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (proton_path));
+        ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (proton_path, "proton"), "#!/bin/sh\n");
+        var confirmed_proton = ProtonPlus.Utils.VDF.CompatibilityToolLoader.from_path (proton_path);
+        assert (confirmed_proton.runtime_kind == CompatibilityToolRuntimeKind.PROTON);
+
         var malformed_path = Path.build_filename (root, "malformed-tool");
         assert (ProtonPlus.Utils.Filesystem.create_directory (malformed_path));
         ProtonPlus.Utils.Filesystem.create_file (
@@ -63,6 +69,8 @@ namespace AppTests.CompatibilityToolTest {
 
         assert (FileUtils.remove (Path.build_filename (parsed_path, "compatibilitytool.vdf")) == 0);
         assert (DirUtils.remove (parsed_path) == 0);
+        assert (FileUtils.remove (Path.build_filename (proton_path, "proton")) == 0);
+        assert (DirUtils.remove (proton_path) == 0);
         assert (FileUtils.remove (Path.build_filename (malformed_path, "compatibilitytool.vdf")) == 0);
         assert (DirUtils.remove (malformed_path) == 0);
         assert (FileUtils.remove (root) == 0);

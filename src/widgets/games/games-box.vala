@@ -408,7 +408,7 @@ namespace ProtonPlus.Widgets.Games {
 
             model = new ListStore (typeof (Models.CompatibilityTool));
             model.append (new Models.CompatibilityTool (_("Default"), _("Default"), "",
-                Models.CompatibilityToolRuntimeKind.NATIVE));
+                Models.CompatibilityToolRuntimeKind.PROTON));
             foreach (var ct in launcher.compatibility_tools)
                 model.append (ct);
 

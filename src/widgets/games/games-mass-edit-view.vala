@@ -217,7 +217,7 @@ namespace ProtonPlus.Widgets.Games {
             launch_options_editor.set_sensitive (launch_options_switch.active);
 
             initial_compatibility_tool_index = compatibility_tool_row.selected;
-            compatibility_tool_row.notify["selected"].connect (() => {
+            compatibility_tool_row.notify["selected-item"].connect (() => {
                 refresh_capability_context ();
                 refresh ();
             });
@@ -327,7 +327,8 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         LaunchOptionsEditor.LaunchCommandCapabilityContext resolve_launch_option_capabilities () {
-            var runtimes = new Gee.ArrayList<Models.CompatibilityToolRuntimeKind> ();
+            var runtimes = new Models.CompatibilityToolRuntimeKind[rows.length];
+            var runtime_index = 0;
             var all_steam = rows.length > 0;
             foreach (var row in rows) {
                 if (!(row.game is Models.Games.Steam))
@@ -344,14 +345,14 @@ namespace ProtonPlus.Widgets.Games {
             if (proposed != null) {
                 var runtime = capability_resolver.runtime_for_tool (proposed);
                 foreach (var ignored in rows)
-                    runtimes.add (runtime);
+                    runtimes[runtime_index++] = runtime;
             } else {
                 foreach (var row in rows) {
                     /* Non-native games without explicit runtime metadata stay
                      * unknown; never infer Proton from their UI title. */
-                    runtimes.add (row.game.is_native
+                    runtimes[runtime_index++] = row.game.is_native
                         ? Models.CompatibilityToolRuntimeKind.NATIVE
-                        : Models.CompatibilityToolRuntimeKind.UNKNOWN);
+                        : Models.CompatibilityToolRuntimeKind.UNKNOWN;
                 }
             }
 
@@ -360,7 +361,7 @@ namespace ProtonPlus.Widgets.Games {
                 Globals.GAMEMODE_INSTALLED, Globals.GAMESCOPE_INSTALLED,
                 Globals.SCOPEBUDDY_INSTALLED, Globals.VKBASALT_INSTALLED
             );
-            return capability_resolver.resolve (runtimes.to_array (), all_steam, components, gpu_vendor);
+            return capability_resolver.resolve (runtimes, all_steam, components, gpu_vendor);
         }
     }
 }

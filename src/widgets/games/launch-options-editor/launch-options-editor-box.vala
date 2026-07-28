@@ -490,7 +490,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             updating_category_filter = true;
             category_filter_views = views;
-            category_filter.model = new Gtk.StringList (labels.to_array ());
+            var label_values = new string[labels.size];
+            for (var index = 0; index < labels.size; index++)
+                label_values[index] = labels.get (index);
+            category_filter.model = new Gtk.StringList (label_values);
             category_filter.selected = selected;
             updating_category_filter = false;
             return get_selected_view () != preferred_view;
