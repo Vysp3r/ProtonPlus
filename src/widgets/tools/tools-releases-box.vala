@@ -562,7 +562,7 @@ namespace ProtonPlus.Widgets.Tools {
                 return false;
 
             job.set_selected_variant (
-                variant.name, ProtonPlus.Models.Assets.Asset.from_download_url (variant.download_url)
+                variant.name, ProtonPlus.Models.Assets.Asset.from_download_url (variant.download_url), variant.id
             );
             return true;
         }

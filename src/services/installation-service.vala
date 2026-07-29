@@ -72,7 +72,7 @@ namespace ProtonPlus.Services {
                 var code = yield standard_archive_workflow.update_specific_runner (runner, this, entry.path);
                 if (code == ReturnCode.RUNNER_UPDATED)
                     updated = true;
-                else if (code != ReturnCode.NOTHING_TO_UPDATE)
+                else if (code != ReturnCode.NOTHING_TO_UPDATE && code != ReturnCode.INCOMPATIBLE_VARIANT)
                     return code;
             }
             if (!found)
@@ -138,7 +138,7 @@ namespace ProtonPlus.Services {
                         var code = yield update_specific_runner (runner);
                         if (code == ReturnCode.RUNNER_UPDATED)
                             updated++;
-                        else if (code != ReturnCode.NOTHING_TO_UPDATE)
+                        else if (code != ReturnCode.NOTHING_TO_UPDATE && code != ReturnCode.INCOMPATIBLE_VARIANT)
                             return code;
                     }
                 }
@@ -171,11 +171,40 @@ namespace ProtonPlus.Services {
         }
 
         private async ReturnCode start_install (InstallJob job, bool replace_existing) {
+            bool missing_explicit_selection;
+            var compatibility = resolve_provider_install_variant (job, out missing_explicit_selection);
+            if (compatibility != ReturnCode.RUNNER_INSTALLED)
+                return compatibility;
             var workflow = select_workflow (job);
             var validation = workflow.validate_install (job, replace_existing);
             if (validation != ReturnCode.RUNNER_INSTALLED)
                 return validation;
             return yield execute_install (job, workflow, replace_existing);
+        }
+
+        // Provider archives are the only jobs whose assets originate from a
+        // release variant.  Resolve them once at this service boundary before
+        // an operation, download, cache transaction, or filesystem change can
+        // begin; SteamTinkerLaunch retains its independent workflow.
+        internal ReturnCode resolve_provider_install_variant (
+            InstallJob job,
+            out bool missing_explicit_selection
+        ) {
+            missing_explicit_selection = false;
+            if (!(job.tool is Models.Tools.ProviderTool) || job.steam_tinker_launch_context != null)
+                return ReturnCode.RUNNER_INSTALLED;
+
+            var resolution = Models.VariantSelector.resolve_installation_variant (
+                job.release, job.selected_variant_id, job.selected_variant_name, Globals.CPU_CAPABILITIES
+            );
+            if (resolution.variant == null) {
+                missing_explicit_selection = resolution.has_explicit_selection &&
+                    resolution.matching_variant == null;
+                return ReturnCode.INCOMPATIBLE_VARIANT;
+            }
+
+            job.apply_selected_release_variant ((!) resolution.variant);
+            return ReturnCode.RUNNER_INSTALLED;
         }
 
         private async ReturnCode execute_install (

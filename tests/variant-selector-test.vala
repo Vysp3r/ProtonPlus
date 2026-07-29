@@ -10,6 +10,7 @@ namespace AppTests.VariantSelectorTest {
         Test.add_func ("/variant-selector/selection-and-display-index", test_selection_and_display_index);
         Test.add_func ("/variant-selector/proton-cachyos-levels", test_proton_cachyos_levels);
         Test.add_func ("/variant-selector/release-assets", test_release_assets);
+        Test.add_func ("/variant-selector/installation-resolution", test_installation_resolution);
     }
 
     private ProtonPlus.Models.Variant variant (string id, string name, bool is_default, VariantCompatibility compatibility) {
@@ -145,5 +146,58 @@ namespace AppTests.VariantSelectorTest {
             "https://example.test/v2.tar.gz", VariantCompatibility.for_x86_64_level (X86_64Level.V2));
         release = release_with_assets ({ selected_asset, incompatible_default });
         assert (VariantSelector.resolve_release_variant (release, selected, host) == selected_asset);
+    }
+
+    private void test_installation_resolution () {
+        var v2 = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V2);
+        var release = release_with_assets ({
+            new ProtonPlus.Models.Variant ("base", "Baseline", "", true,
+                "https://example.test/base.tar.gz", VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
+            new ProtonPlus.Models.Variant ("v3", "Optimized", "", false,
+                "https://example.test/v3.tar.gz", VariantCompatibility.for_x86_64_level (X86_64Level.V3))
+        });
+
+        var selected_base = VariantSelector.resolve_installation_variant (release, "base", "", v2);
+        assert (selected_base.variant != null && selected_base.variant.id == "base");
+        assert (selected_base.has_explicit_selection);
+
+        var selected_v3 = VariantSelector.resolve_installation_variant (release, "v3", "", v2);
+        assert (selected_v3.variant == null);
+        assert (selected_v3.matching_variant != null && selected_v3.matching_variant.id == "v3");
+
+        var id_wins = VariantSelector.resolve_installation_variant (release, "base", "Optimized", v2);
+        assert (id_wins.variant != null && id_wins.variant.id == "base");
+        var legacy_name = VariantSelector.resolve_installation_variant (release, "", "Baseline", v2);
+        assert (legacy_name.variant != null && legacy_name.variant.id == "base");
+
+        var missing = VariantSelector.resolve_installation_variant (release, "missing", "", v2);
+        assert (missing.variant == null && missing.matching_variant == null);
+        var default_variant = VariantSelector.resolve_installation_variant (release, "", "", v2);
+        assert (default_variant.variant != null && default_variant.variant.id == "base");
+
+        var first_compatible = release_with_assets ({
+            new ProtonPlus.Models.Variant ("v3", "Optimized", "", true,
+                "https://example.test/v3.tar.gz", VariantCompatibility.for_x86_64_level (X86_64Level.V3)),
+            new ProtonPlus.Models.Variant ("base", "Baseline", "", false,
+                "https://example.test/base.tar.gz", VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE))
+        });
+        var fallback = VariantSelector.resolve_installation_variant (first_compatible, "", "", v2);
+        assert (fallback.variant != null && fallback.variant.id == "base");
+
+        var none = release_with_assets ({
+            new ProtonPlus.Models.Variant ("v3", "Optimized", "", true,
+                "https://example.test/v3.tar.gz", VariantCompatibility.for_x86_64_level (X86_64Level.V3))
+        });
+        assert (VariantSelector.resolve_installation_variant (none, "", "", v2).variant == null);
+
+        var aarch64 = new CpuCapabilities (CpuArchitecture.AARCH64);
+        assert (VariantSelector.resolve_installation_variant (release, "base", "", aarch64).variant == null);
+        var unknown = new CpuCapabilities (CpuArchitecture.UNKNOWN);
+        assert (VariantSelector.resolve_installation_variant (release, "v3", "", unknown).variant != null);
+        var unrestricted = release_with_assets ({
+            new ProtonPlus.Models.Variant ("plain", "Plain", "", true,
+                "https://example.test/plain.tar.gz", VariantCompatibility.unspecified ())
+        });
+        assert (VariantSelector.resolve_installation_variant (unrestricted, "plain", "", aarch64).variant != null);
     }
 }

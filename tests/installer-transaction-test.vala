@@ -27,6 +27,10 @@ namespace AppTests.InstallerTransactionTest {
             this.fixture_path = fixture_path;
             this.cancel_download = cancel_download;
             this.fail_promotion = fail_promotion;
+            release.variants.add (new Models.Variant (
+                "fixture-default", "Default", "", true,
+                "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path))
+            ));
         }
 
         public override async bool download_archive (string url, string path, out string? error_message) {
@@ -79,6 +83,8 @@ namespace AppTests.InstallerTransactionTest {
         Test.add_func ("/installer-transaction/versioned-install-preserves-compatibility-manifest", test_versioned_install_preserves_compatibility_manifest);
         Test.add_func ("/installer-transaction/latest-rejects-malformed-compatibility-manifest", test_latest_rejects_malformed_compatibility_manifest);
         Test.add_func ("/installer-transaction/all-built-in-providers-use-latest-workflow", test_all_built_in_providers_use_latest_workflow);
+        Test.add_func ("/installer-transaction/incompatible-variant-stops-before-download", test_incompatible_variant_stops_before_download);
+        Test.add_func ("/installer-transaction/incompatible-variant-stops-update-install", test_incompatible_variant_stops_update_install);
     }
 
     private string temporary_directory () {
@@ -145,6 +151,14 @@ namespace AppTests.InstallerTransactionTest {
         else job.install.begin ((obj, res) => { code = job.install.end (res); loop.quit (); });
         loop.run (); return code;
     }
+    private ReturnCode install_for_update (FixtureJob job) {
+        var loop = new MainLoop (); ReturnCode code = ReturnCode.FILESYSTEM_ERROR;
+        ProtonPlus.Services.InstallationService.instance.install_for_update.begin (job, (obj, res) => {
+            code = ProtonPlus.Services.InstallationService.instance.install_for_update.end (res);
+            loop.quit ();
+        });
+        loop.run (); return code;
+    }
     private ReturnCode remove (ProtonPlus.Services.InstallJob job) {
         var loop = new MainLoop (); ReturnCode code = ReturnCode.FILESYSTEM_ERROR;
         job.remove.begin (false, (obj, res) => { code = job.remove.end (res); loop.quit (); });
@@ -195,6 +209,42 @@ namespace AppTests.InstallerTransactionTest {
         assert (install (job) == ReturnCode.OPERATION_IN_PROGRESS);
         assert (job.download_calls == 0);
         manager.remove_download (job);
+        assert (delete_directory (root));
+    }
+
+    private void test_incompatible_variant_stops_before_download () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (runner (tools), location, "not-used.zip");
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "v3", "x86_64_v3", "", true, "https://fixtures.invalid/v3.zip",
+            VariantCompatibility.for_x86_64_level (X86_64Level.V3)
+        ));
+        job.set_selected_variant ("x86_64_v3", null, "v3");
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V2);
+        assert (install (job) == ReturnCode.INCOMPATIBLE_VARIANT);
+        assert (job.download_calls == 0);
+        assert (ProtonPlus.Utils.DownloadManager.instance.active_downloads.size == 0);
+        assert (!FileUtils.test (location, FileTest.EXISTS));
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_incompatible_variant_stops_update_install () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (runner (tools), location, "not-used.zip", false, false,
+            ProtonPlus.Services.InstallJob.Mode.LATEST);
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "v3", "x86_64_v3", "", false, "https://fixtures.invalid/v3.zip",
+            VariantCompatibility.for_x86_64_level (X86_64Level.V3)
+        ));
+        job.set_selected_variant ("x86_64_v3", null, "v3");
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V2);
+        assert (install_for_update (job) == ReturnCode.INCOMPATIBLE_VARIANT);
+        assert (job.download_calls == 0);
+        assert (ProtonPlus.Utils.DownloadManager.instance.active_downloads.size == 0);
+        Globals.CPU_CAPABILITIES = previous_capabilities;
         assert (delete_directory (root));
     }
 

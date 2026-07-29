@@ -1,4 +1,24 @@
 namespace ProtonPlus.Models {
+    /// The outcome of resolving a provider release asset for installation.
+    /// Keeping the matching variant separate from the usable variant lets
+    /// callers distinguish a stale explicit selection from an incompatible
+    /// one without duplicating compatibility rules outside model code.
+    public class InstallationVariantResolution : Object {
+        public Variant? variant { get; private set; default = null; }
+        public Variant? matching_variant { get; private set; default = null; }
+        public bool has_explicit_selection { get; private set; default = false; }
+
+        public InstallationVariantResolution (
+            Variant? variant,
+            Variant? matching_variant,
+            bool has_explicit_selection
+        ) {
+            this.variant = variant;
+            this.matching_variant = matching_variant;
+            this.has_explicit_selection = has_explicit_selection;
+        }
+    }
+
     /// Builds UI-safe variant projections from catalog data without changing
     /// either the provider definition or release metadata.
     public class VariantSelector : Object {
@@ -71,7 +91,8 @@ namespace ProtonPlus.Models {
                 return null;
 
             var matching = find_matching_release_variant (release, selected_variant);
-            if (has_download_url (matching) && (!) matching.is_compatible_with (capabilities))
+            if (matching != null && has_download_url (matching) &&
+                matching.is_compatible_with (capabilities))
                 return matching;
 
             if (!allow_compatible_default_fallback)
@@ -85,13 +106,60 @@ namespace ProtonPlus.Models {
             return null;
         }
 
-        private static Variant? find_matching_release_variant (Release release, Variant selected_variant) {
+        /// Resolves the only release asset a provider install may use.  A
+        /// requested stable ID wins over a legacy name, while a request that
+        /// cannot be honoured never falls back to another release variant.
+        public static InstallationVariantResolution resolve_installation_variant (
+            Release release,
+            string? selected_variant_id,
+            string? selected_variant_name,
+            CpuCapabilities capabilities
+        ) {
+            var has_id = selected_variant_id != null && selected_variant_id != "";
+            var has_name = selected_variant_name != null && selected_variant_name != "";
+            var explicit_selection = has_id || has_name;
+            Variant? matching = null;
+
+            if (has_id)
+                matching = find_release_variant_by_id (release, (!) selected_variant_id);
+            if (matching == null && has_name)
+                matching = find_release_variant_by_name (release, (!) selected_variant_name);
+
+            if (explicit_selection) {
+                if (matching != null && has_download_url (matching) &&
+                    matching.is_compatible_with (capabilities))
+                    return new InstallationVariantResolution (matching, matching, true);
+                return new InstallationVariantResolution (null, matching, true);
+            }
+
             foreach (var variant in release.variants) {
-                if (variant.id == selected_variant.id)
-                    return variant;
+                if (variant.is_default && has_download_url (variant) &&
+                    variant.is_compatible_with (capabilities))
+                    return new InstallationVariantResolution (variant, null, false);
             }
             foreach (var variant in release.variants) {
-                if (variant.name == selected_variant.name)
+                if (has_download_url (variant) && variant.is_compatible_with (capabilities))
+                    return new InstallationVariantResolution (variant, null, false);
+            }
+            return new InstallationVariantResolution (null, null, false);
+        }
+
+        private static Variant? find_matching_release_variant (Release release, Variant selected_variant) {
+            var by_id = find_release_variant_by_id (release, selected_variant.id);
+            return by_id ?? find_release_variant_by_name (release, selected_variant.name);
+        }
+
+        private static Variant? find_release_variant_by_id (Release release, string id) {
+            foreach (var variant in release.variants) {
+                if (variant.id == id)
+                    return variant;
+            }
+            return null;
+        }
+
+        private static Variant? find_release_variant_by_name (Release release, string name) {
+            foreach (var variant in release.variants) {
+                if (variant.name == name)
                     return variant;
             }
             return null;

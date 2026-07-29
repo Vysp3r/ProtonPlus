@@ -32,7 +32,9 @@ namespace ProtonPlus.Services {
         public Models.Assets.Asset selected_asset { get; private set; }
         public Models.Providers.ArchiveInstallRequirement archive_install_requirement { get; private set; default = Models.Providers.ArchiveInstallRequirement.STANDARD; }
         public string? selected_variant_name { get; private set; default = null; }
+        public string? selected_variant_id { get; private set; default = null; }
         public string install_location { get; private set; default = ""; }
+        private string? installation_location_override = null;
         // A replacement backup is a short-lived handoff from the archive
         // transaction to its update finalization, never persisted job state.
         internal string? replacement_backup_path { get; set; default = null; }
@@ -72,6 +74,7 @@ namespace ProtonPlus.Services {
         ) {
             this.release = release;
             this.tool = tool;
+            this.installation_location_override = installation_location_override;
             selected_asset = release.asset;
             var provider_tool = tool as Models.Tools.ProviderTool;
             if (provider_tool != null)
@@ -125,7 +128,7 @@ namespace ProtonPlus.Services {
                 var release_identity = mode == Mode.VERSIONED
                     ? (release.upstream_release_id != "" ? release.upstream_release_id : release.source_tag)
                     : mode == Mode.LATEST ? "latest" : "steam-tinker-launch";
-                var variant_id = selected_variant_id ();
+                var variant_id = selected_variant_identity ();
                 return "%s/%s/%s/%s/%s".printf (
                     tool.group.launcher.tool_target_id,
                     tool.id,
@@ -159,8 +162,13 @@ namespace ProtonPlus.Services {
             return usage_name;
         }
 
-        public void set_selected_variant (string? variant_name, Models.Assets.Asset? asset = null) {
+        public void set_selected_variant (
+            string? variant_name,
+            Models.Assets.Asset? asset = null,
+            string? variant_id = null
+        ) {
             selected_variant_name = variant_name;
+            selected_variant_id = variant_id;
             if (asset != null)
                 selected_asset = asset;
             update_install_location (null);
@@ -168,24 +176,20 @@ namespace ProtonPlus.Services {
         }
 
         public void set_release_for_update (Models.Release release) {
+            var previous_variant_id = selected_variant_id;
             var previous_variant_name = selected_variant_name;
             this.release = release;
             selected_asset = release.asset;
-            selected_variant_name = null;
-            if (previous_variant_name != null && previous_variant_name != "") {
-                foreach (var variant in release.variants) {
-                    if (variant.name != previous_variant_name)
-                        continue;
-                    selected_variant_name = variant.name;
-                    if (variant.download_url != null && variant.download_url != "")
-                        selected_asset = Models.Assets.Asset.from_download_url (variant.download_url);
-                    break;
-                }
-            }
+            selected_variant_id = previous_variant_id;
+            selected_variant_name = previous_variant_name;
+            var selected = selected_variant ();
+            if (selected != null && selected.download_url != null && selected.download_url != "")
+                apply_selected_release_variant (selected);
             update_install_location (null);
             notify_property ("release");
             notify_property ("selected-asset");
             notify_property ("selected-variant-name");
+            notify_property ("selected-variant-id");
         }
 
         public async ReturnCode install () {
@@ -256,7 +260,19 @@ namespace ProtonPlus.Services {
             InstallationService.instance.refresh_job_state (this);
         }
 
-        internal string selected_variant_id () {
+        internal void apply_selected_release_variant (Models.Variant variant) {
+            selected_variant_id = variant.id;
+            selected_variant_name = variant.name;
+            selected_asset = Models.Assets.Asset.from_download_url ((!) variant.download_url);
+            update_install_location (null);
+            notify_property ("selected-asset");
+            notify_property ("selected-variant-name");
+            notify_property ("selected-variant-id");
+        }
+
+        internal string selected_variant_identity () {
+            if (selected_variant_id != null && selected_variant_id != "")
+                return (!) selected_variant_id;
             var selected = selected_variant ();
             if (selected != null)
                 return selected.id;
@@ -273,6 +289,12 @@ namespace ProtonPlus.Services {
         }
 
         private Models.Variant? selected_variant () {
+            if (selected_variant_id != null && selected_variant_id != "") {
+                foreach (var variant in release.variants) {
+                    if (variant.id == selected_variant_id)
+                        return variant;
+                }
+            }
             if (selected_variant_name == null || selected_variant_name == "")
                 return null;
             foreach (var variant in release.variants) {
@@ -294,6 +316,10 @@ namespace ProtonPlus.Services {
         private void update_install_location (string? override_location) {
             if (steam_tinker_launch_context != null)
                 return;
+            if (installation_location_override != null) {
+                install_location = (!) installation_location_override;
+                return;
+            }
             if (override_location != null) {
                 install_location = override_location;
                 return;

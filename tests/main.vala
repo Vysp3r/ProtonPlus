@@ -2,6 +2,10 @@ using GLib;
 
 int main (string[] args) {
     Test.init (ref args);
+    ProtonPlus.Globals.CPU_CAPABILITIES = new ProtonPlus.Models.CpuCapabilities (
+        ProtonPlus.Models.CpuArchitecture.X86_64,
+        ProtonPlus.Models.X86_64Level.BASELINE
+    );
 
     AppTests.CpuCapabilitiesTest.register_tests ();
     AppTests.VariantCompatibilityTest.register_tests ();

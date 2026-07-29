@@ -29,10 +29,12 @@ namespace AppTests.UpdateTransactionTest {
     private class FixtureCoordinator : Object, ProtonPlus.Services.InstallationOperationCoordinator {
         public int install_calls { get; private set; default = 0; }
         public string selected_url { get; private set; default = ""; }
+        public string selected_variant_id { get; private set; default = ""; }
 
         public async ReturnCode install_for_update (ProtonPlus.Services.InstallJob job) {
             install_calls++;
             selected_url = job.selected_asset.download_url;
+            selected_variant_id = job.selected_variant_id ?? "";
             return ReturnCode.FILESYSTEM_ERROR;
         }
     }
@@ -44,6 +46,7 @@ namespace AppTests.UpdateTransactionTest {
         Test.add_func ("/update-transaction/github-actions-request-failure-is-propagated", test_github_actions_request_failure_is_propagated);
         Test.add_func ("/update-transaction/latest-identity-controls-update-detection", test_latest_identity_controls_update_detection);
         Test.add_func ("/update-transaction/latest-restores-installed-variant", test_latest_restores_installed_variant);
+        Test.add_func ("/update-transaction/latest-incompatible-restored-variant-is-skipped", test_latest_incompatible_restored_variant_is_skipped);
     }
 
     private string create_temp_directory () {
@@ -102,6 +105,11 @@ namespace AppTests.UpdateTransactionTest {
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") }
         );
+        if (release.variants.size == 0) {
+            release.variants.add (new ProtonPlus.Models.Variant (
+                "default", "Default", "", true, release.asset.download_url
+            ));
+        }
         return new ProviderTool.with_catalog (
             definition, new StaticReleaseSource (release), group,
             InstallLayout.template ("default", "$release_name")
@@ -321,7 +329,36 @@ namespace AppTests.UpdateTransactionTest {
         assert (update_specific_runner_with_coordinator (runner, coordinator, directory) == ReturnCode.FILESYSTEM_ERROR);
         assert (coordinator.install_calls == 1);
         assert (coordinator.selected_url == "https://example.test/alternate.zip");
+        assert (coordinator.selected_variant_id == "alternate");
 
+        assert (delete_directory (root));
+    }
+
+    private void test_latest_incompatible_restored_variant_is_skipped () {
+        var root = create_temp_directory ();
+        var release = new Release (
+            "v2", "", "", new Models.Assets.Asset ("runner.zip", "https://example.test/v3.zip"),
+            "", 0, "release-v2", "v2"
+        );
+        release.variants.add (new ProtonPlus.Models.Variant (
+            "v3", "Optimized", "", true, "https://example.test/v3.zip",
+            VariantCompatibility.for_x86_64_level (X86_64Level.V3)
+        ));
+        var runner = static_runner (root, release);
+        var directory = Path.build_filename (root, "Fixture Runner Latest-Optimized");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+        var metadata = new ProtonPlus.Utils.Metadata ();
+        metadata.tag = "v1";
+        metadata.variant_id = "v3";
+        assert (metadata.save (directory));
+
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V2);
+        var coordinator = new FixtureCoordinator ();
+        assert (update_specific_runner_with_coordinator (runner, coordinator, directory) == ReturnCode.INCOMPATIBLE_VARIANT);
+        assert (coordinator.install_calls == 0);
+        assert (FileUtils.test (directory, FileTest.IS_DIR));
+        Globals.CPU_CAPABILITIES = previous_capabilities;
         assert (delete_directory (root));
     }
 }
