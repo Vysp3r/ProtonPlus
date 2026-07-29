@@ -385,7 +385,7 @@ namespace ProtonPlus.Widgets.Tools {
             label.set_label (variant_name);
             if (list_row != null)
                 list_row.set_tooltip_text (tooltip);
-            checkmark.set_visible (list_item.position == variant_dropdown.selected);
+            checkmark.set_visible (variant == variant_dropdown.selected_item);
             if (checkmark.visible)
                 selected_variant_checkmark = checkmark;
         }
@@ -515,6 +515,7 @@ namespace ProtonPlus.Widgets.Tools {
             variant_dropdown.model = model;
             variant_dropdown.selected = (uint) selected_index;
             updating_variant_dropdown = false;
+            update_variant_list_item_checkmark ();
             variant_dropdown.set_visible (true);
             has_variants = true;
             variant_box.set_visible (header_controls_visible);
