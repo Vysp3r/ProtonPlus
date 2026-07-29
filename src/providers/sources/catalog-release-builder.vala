@@ -51,7 +51,8 @@ namespace ProtonPlus.Providers.Sources {
                     definition_variant.name,
                     definition_variant.format,
                     definition_variant.is_default,
-                    download_url
+                    download_url,
+                    definition_variant.compatibility
                 ));
             }
 

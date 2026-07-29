@@ -4,6 +4,7 @@ int main (string[] args) {
     Test.init (ref args);
 
     AppTests.CpuCapabilitiesTest.register_tests ();
+    AppTests.VariantCompatibilityTest.register_tests ();
     AppTests.AssetTest.register_tests ();
     AppTests.FilesystemTest.register_tests ();
     AppTests.FaugusLauncherTest.register_tests ();

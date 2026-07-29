@@ -7,8 +7,8 @@ namespace ProtonPlus.Models.Providers {
                     "Steam compatibility tool for running Windows games with improvements over Valve's default Proton.",
                     "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases", 2,
                     {
-                        new VariantDefinition ("x86", "x86", "$release_name", true),
-                        new VariantDefinition ("aarch64", "aarch64", "$release_name-aarch64", false)
+                        new VariantDefinition ("x86", "x86", "$release_name", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
+                        new VariantDefinition ("aarch64", "aarch64", "$release_name-aarch64", false, VariantCompatibility.for_architecture (CpuArchitecture.AARCH64))
                     },
                     {
                         InstallLayout.template ("default", "$release_name"),
@@ -22,9 +22,9 @@ namespace ProtonPlus.Models.Providers {
                     "Steam compatibility tool from the CachyOS Linux distribution for running Windows games with improvements over Valve's default Proton.",
                     "https://api.github.com/repos/CachyOS/proton-cachyos/releases", 1,
                     {
-                        new VariantDefinition ("x86-64", "x86_64", "proton-$tag_name-x86_64", true),
-                        new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false),
-                        new VariantDefinition ("arm64", "arm64", "proton-$tag_name-arm64", false)
+                        new VariantDefinition ("x86-64", "x86_64", "proton-$tag_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
+                        new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false, VariantCompatibility.for_x86_64_level (X86_64Level.V3)),
+                        new VariantDefinition ("arm64", "arm64", "proton-$tag_name-arm64", false, VariantCompatibility.for_architecture (CpuArchitecture.AARCH64))
                     },
                     { InstallLayout.template ("default", "$release_name") }, null, null, "Recommended"
                 ),
@@ -32,7 +32,7 @@ namespace ProtonPlus.Models.Providers {
                     Category.PROTON, SourceType.FORGEJO, "dw-proton", "DW-Proton",
                     "Dawn Winery's custom Proton fork with fixes for various games :xdd:",
                     "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases", 3,
-                    { new VariantDefinition ("x86-64", "x86_64", "$release_name-x86_64", true) },
+                    { new VariantDefinition ("x86-64", "x86_64", "$release_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
                     { InstallLayout.template ("default", "$release_name") }
                 ),
                 new ProviderDefinition (
@@ -64,9 +64,9 @@ namespace ProtonPlus.Models.Providers {
                     "Steam compatibility tool based on CachyOS Proton with Wayland improvements, especially for Windows launcher applications.",
                     "https://api.github.com/repos/nanomatters/proton-cachyos/releases", 7,
                     {
-                        new VariantDefinition ("x86-64", "x86_64", "proton-$tag_name-x86_64", true),
-                        new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false),
-                        new VariantDefinition ("x86-64-wow64", "x86_64_wow64", "proton-$tag_name-x86_64_wow64", false)
+                        new VariantDefinition ("x86-64", "x86_64", "proton-$tag_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
+                        new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false, VariantCompatibility.for_x86_64_level (X86_64Level.V3)),
+                        new VariantDefinition ("x86-64-wow64", "x86_64_wow64", "proton-$tag_name-x86_64_wow64", false, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE))
                     },
                     { InstallLayout.template ("default", "$release_name") }
                 ),

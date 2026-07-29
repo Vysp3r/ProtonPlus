@@ -206,7 +206,8 @@ namespace ProtonPlus.Models {
                     var cached_variant = cached_release.variants.get (index);
                     if (cached_variant.name != configured_variant.name ||
                         cached_variant.format != configured_variant.format ||
-                        cached_variant.is_default != configured_variant.is_default)
+                        cached_variant.is_default != configured_variant.is_default ||
+                        !cached_variant.compatibility.equals (configured_variant.compatibility))
                         return false;
                 }
 
