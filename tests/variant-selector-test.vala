@@ -146,6 +146,11 @@ namespace AppTests.VariantSelectorTest {
             "https://example.test/v2.tar.gz", VariantCompatibility.for_x86_64_level (X86_64Level.V2));
         release = release_with_assets ({ selected_asset, incompatible_default });
         assert (VariantSelector.resolve_release_variant (release, selected, host) == selected_asset);
+
+        var selected_incompatible = variant ("v3", "x86_64_v3", false,
+            VariantCompatibility.for_x86_64_level (X86_64Level.V3));
+        release = release_with_assets ({ incompatible_default });
+        assert (VariantSelector.resolve_release_variant (release, selected_incompatible, host) == null);
     }
 
     private void test_installation_resolution () {
