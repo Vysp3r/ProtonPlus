@@ -96,6 +96,33 @@ namespace ProtonPlus.Utils {
             return output;
         }
 
+        /* This remains a command-execution seam, but callers can distinguish
+         * an unavailable read-only host query from a successful empty result. */
+        public static CommandResult run_command_sync_result (string command) {
+            string output = "";
+            string error_output = "";
+            var exit_status = -1;
+            try {
+                var argv = get_command_argv (command);
+
+                var subprocess = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_PIPE);
+                Bytes stdout_bytes;
+                Bytes stderr_bytes;
+                subprocess.communicate (null, null, out stdout_bytes, out stderr_bytes);
+
+                if (stdout_bytes != null)
+                    output = Parser.data_to_string (stdout_bytes.get_data ());
+                if (stderr_bytes != null)
+                    error_output = Parser.data_to_string (stderr_bytes.get_data ());
+                exit_status = subprocess.get_if_exited () ? subprocess.get_exit_status () : -1;
+            } catch (Error e) {
+                warning (e.message);
+                error_output = e.message;
+            }
+
+            return new CommandResult (output, error_output, exit_status);
+        }
+
         private static string[] get_command_argv (string command) throws ShellError {
             var command_line = Globals.IS_FLATPAK ? "flatpak-spawn --host " + command : command;
             string[] argv;

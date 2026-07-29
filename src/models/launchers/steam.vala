@@ -33,6 +33,21 @@ namespace ProtonPlus.Models.Launchers {
             has_library_support = true;
         }
 
+        public override SteamRestartTarget? get_steam_restart_target () {
+            if (directory == "")
+                return null;
+            switch (installation_type) {
+            case Launcher.InstallationTypes.SYSTEM:
+                return SteamRestartTarget.for_native (directory, "Steam", "steam.desktop");
+            case Launcher.InstallationTypes.FLATPAK:
+                return SteamRestartTarget.for_flatpak (directory);
+            case Launcher.InstallationTypes.SNAP:
+                return SteamRestartTarget.for_snap (directory);
+            default:
+                return null;
+            }
+        }
+
         public static bool is_steam_linux_runtime (string display_title, string internal_title = "") {
             return display_title.down ().contains ("steam linux runtime")
                    || internal_title.down ().contains ("steam_linux_runtime")

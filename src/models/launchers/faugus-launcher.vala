@@ -63,6 +63,12 @@ namespace ProtonPlus.Models.Launchers {
             return yield Utils.Filesystem.create_directory_async (directory + group_directory);
         }
 
+        /* Faugus writes the host native Steam compatibility-tool directory.
+         * Its own package type must not produce a second Steam session target. */
+        public override SteamRestartTarget? get_steam_restart_target () {
+            return SteamRestartTarget.for_native (directory, "Steam", "steam.desktop");
+        }
+
         public override bool supports_provider_definition (Providers.ProviderDefinition definition) {
             switch (definition.provider_id) {
             case "proton-ge":

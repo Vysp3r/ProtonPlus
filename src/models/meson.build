@@ -6,6 +6,7 @@ sources += files(
     'compatibility-tool.vala',
     'installed-tool-inventory.vala',
     'steam-profile.vala',
+    'steam-restart-target.vala',
     'launcher.vala',
     'release.vala',
     'release-catalog-cache.vala',

@@ -6,6 +6,7 @@ sources += files(
     'standard-archive-workflow.vala',
     'steam-tinker-launch-workflow.vala',
     'installation-service.vala',
+    'steam-session-service.vala',
 )
 
 subdir('migrations')

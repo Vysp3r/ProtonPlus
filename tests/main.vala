@@ -34,6 +34,7 @@ int main (string[] args) {
     AppTests.InstallLayoutTest.register_tests ();
     AppTests.InstallerTransactionTest.register_tests ();
     AppTests.SteamTest.register_tests ();
+    AppTests.SteamSessionTest.register_tests ();
     AppTests.SteamTinkerLaunchTest.register_tests ();
     AppTests.UpdateTransactionTest.register_tests ();
     AppTests.VdfBinaryTest.register_tests ();
