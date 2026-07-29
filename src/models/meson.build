@@ -1,6 +1,7 @@
 sources += files(
     'cpu-capabilities.vala',
     'variant-compatibility.vala',
+    'variant-selector.vala',
     'group.vala',
     'compatibility-tool.vala',
     'installed-tool-inventory.vala',

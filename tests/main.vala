@@ -5,6 +5,7 @@ int main (string[] args) {
 
     AppTests.CpuCapabilitiesTest.register_tests ();
     AppTests.VariantCompatibilityTest.register_tests ();
+    AppTests.VariantSelectorTest.register_tests ();
     AppTests.AssetTest.register_tests ();
     AppTests.FilesystemTest.register_tests ();
     AppTests.FaugusLauncherTest.register_tests ();
