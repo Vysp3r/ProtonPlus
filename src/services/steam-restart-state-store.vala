@@ -117,6 +117,8 @@ namespace ProtonPlus.Services {
             object.set_boolean_member ("stop_observed", record.stop_observed);
             if (record.observed_session != null)
                 object.set_object_member ("observed_session", session_to_json ((!) record.observed_session));
+            if (record.receipt.configuration_intent != null)
+                object.set_object_member ("configuration_intent", intent_to_json ((!) record.receipt.configuration_intent));
             return object;
         }
 
@@ -151,8 +153,17 @@ namespace ProtonPlus.Services {
                 if (session == null)
                     return null;
             }
+            SteamConfigurationIntent? intent = null;
+            var intent_node = object.get_member ("configuration_intent");
+            if (intent_node != null) {
+                if (intent_node.get_node_type () != Json.NodeType.OBJECT)
+                    return null;
+                intent = intent_from_json (intent_node.get_object ());
+                if (intent == null)
+                    return null;
+            }
             var receipt = new SteamChangeReceipt (target, kind, requirement, resource_key,
-                optional_string (object, "subject_id"), optional_string (object, "subject_label"), changed_at);
+                optional_string (object, "subject_id"), optional_string (object, "subject_label"), changed_at, intent);
             return new SteamRestartPendingRecord (receipt, first_recorded_at, last_updated_at,
                 (uint) count, session, object.get_boolean_member_with_default ("stop_observed", false));
         }
@@ -171,6 +182,34 @@ namespace ProtonPlus.Services {
                 object.set_string_member ("desktop_entry_id", (!) target.desktop_entry_id);
             object.set_boolean_member ("storage_only", target.storage_only);
             return object;
+        }
+
+        private Json.Object intent_to_json (SteamConfigurationIntent intent) {
+            var object = new Json.Object ();
+            object.set_int_member ("file", (int) intent.file);
+            object.set_int_member ("operation", (int) intent.operation);
+            object.set_string_member ("path", intent.path);
+            object.set_string_member ("field_id", intent.field_id);
+            object.set_string_member ("baseline", intent.baseline);
+            object.set_string_member ("desired", intent.desired);
+            object.set_boolean_member ("applied", intent.applied);
+            return object;
+        }
+
+        private SteamConfigurationIntent? intent_from_json (Json.Object object) {
+            var file = object.get_int_member_with_default ("file", -1);
+            var operation = object.get_int_member_with_default ("operation", -1);
+            var path = object.get_string_member_with_default ("path", "");
+            var field_id = object.get_string_member_with_default ("field_id", "");
+            if (file < (int) SteamConfigurationFile.CONFIG || file > (int) SteamConfigurationFile.SHORTCUTS
+                || operation < (int) SteamConfigurationOperation.COMPATIBILITY_MAPPING
+                || operation > (int) SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT
+                || path == "" || field_id == "" || !object.has_member ("baseline") || !object.has_member ("desired"))
+                return null;
+            return new SteamConfigurationIntent ((SteamConfigurationFile) file,
+                (SteamConfigurationOperation) operation, path, field_id,
+                object.get_string_member ("baseline"), object.get_string_member ("desired"),
+                object.get_boolean_member_with_default ("applied", false));
         }
 
         private SteamRestartTarget? target_from_json (Json.Object object) {

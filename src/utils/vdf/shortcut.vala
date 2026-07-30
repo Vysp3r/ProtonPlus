@@ -34,6 +34,15 @@ namespace ProtonPlus.Utils.VDF {
             return shortcuts;
         }
 
+        /* Profile discovery must be read-only.  This provides the same safe
+         * empty collection a missing shortcuts.vdf represents without creating
+         * Steam-owned storage until an authorized mutation is requested. */
+        public static Shortcuts empty (string path) {
+            var shortcuts = new Shortcuts (path);
+            shortcuts.nodes.set ("shortcuts", new VDF.Node ("shortcuts"));
+            return shortcuts;
+        }
+
         public async bool install () {
             Shortcut pp_shortcut = {};
 
@@ -203,6 +212,18 @@ namespace ProtonPlus.Utils.VDF {
             return shortcut;
         }
 
+        public VDF.Shortcut get_shortcut_by_appid (uint appid) {
+            VDF.Shortcut shortcut = {};
+            foreach (var entry in nodes.entries) {
+                if (is_shortcut_node (entry.key) && entry.value.has_key ("appid")
+                    && (uint) entry.value.get ("appid").get_int32 () == appid) {
+                    shortcut = get_shortcut_by_name (entry.value.get ("AppName").get_string ());
+                    break;
+                }
+            }
+            return shortcut;
+        }
+
         public void replace_shortcut_by_name (string name, VDF.Shortcut shortcut) {
             foreach (var entry in nodes.entries) {
                 if (is_shortcut_node (entry.key)) {
@@ -212,6 +233,17 @@ namespace ProtonPlus.Utils.VDF {
                     }
                 }
             }
+        }
+
+        public bool replace_shortcut_by_appid (uint appid, VDF.Shortcut shortcut) {
+            foreach (var entry in nodes.entries) {
+                if (is_shortcut_node (entry.key) && entry.value.has_key ("appid")
+                    && (uint) entry.value.get ("appid").get_int32 () == appid) {
+                    write_shortcut_on_node (entry.value, shortcut);
+                    return true;
+                }
+            }
+            return false;
         }
 
         public int get_shortcut_id_by_name (string name) throws Error {

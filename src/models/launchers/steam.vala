@@ -632,6 +632,14 @@ namespace ProtonPlus.Models.Launchers {
         }
 
         public bool change_default_compatibility_tool (string compatibility_tool) {
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration != null) {
+                var outcome = configuration.change_default_compatibility_tool (this, compatibility_tool);
+                if (!outcome.accepted)
+                    return false;
+                this.default_compatibility_tool = compatibility_tool;
+                return true;
+            }
             var default_id = 0;
             var config_path = "%s/config/config.vdf".printf (directory);
             var config_content = Utils.Filesystem.get_file_content (config_path);

@@ -67,6 +67,7 @@ src/services/migrations/versions/v0.5.21.vala
 src/services/migrations/versions/v0.6.0.vala
 src/services/standard-archive-workflow.vala
 src/services/steam-change-recorder.vala
+src/services/steam-configuration-service.vala
 src/services/steam-restart-backend.vala
 src/services/steam-restart-manager.vala
 src/services/steam-restart-orchestrator.vala

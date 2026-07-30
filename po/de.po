@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 22:00-0400\n"
+"POT-Creation-Date: 2026-07-29 22:19-0400\n"
 "PO-Revision-Date: 2026-04-18 18:16+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr "_Über ProtonPlus"
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:224
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:228
 msgid "A modern compatibility tools manager"
 msgstr "Ein moderner Verwalter für Kompatibilitätstools"
 
@@ -1985,7 +1985,7 @@ msgstr ""
 msgid "Chinese (Traditional)"
 msgstr ""
 
-#: src/models/games/steam.vala:107 src/models/games/steam.vala:116
+#: src/models/games/steam.vala:117 src/models/games/steam.vala:126
 #: src/widgets/games/games-box.vala:410 src/widgets/games/games-row.vala:129
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
@@ -2083,7 +2083,7 @@ msgstr ""
 msgid "The operation could not be completed."
 msgstr ""
 
-#: src/services/installation-service.vala:293
+#: src/services/installation-service.vala:298
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -2118,15 +2118,15 @@ msgstr "Wählen Sie das gewünschte Kompatibilitätswerkzeug"
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Kompatibilitätswerkzeug"
 
-#: src/widgets/application.vala:226
+#: src/widgets/application.vala:230
 msgid "Website"
 msgstr "Webseite"
 
-#: src/widgets/application.vala:231
+#: src/widgets/application.vala:235
 msgid "translator-credits"
 msgstr "Übersetzer-Credits"
 
-#: src/widgets/application.vala:232
+#: src/widgets/application.vala:236
 msgid "Special thanks to"
 msgstr "Spezieller Dank an"
 
@@ -4810,128 +4810,142 @@ msgid "Waiting for Steam to close…"
 msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:94
-msgid "Starting Steam…"
+msgid "Applying changes…"
 msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:95
+msgid "Starting Steam…"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:96
 msgid "Waiting for Steam to start…"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:103
+#: src/widgets/main/steam-restart-presentation.vala:104
 msgid "Steam no longer needs to restart"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:108
+#: src/widgets/main/steam-restart-presentation.vala:109
 msgid "Steam status couldn’t be confirmed"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:108
+#: src/widgets/main/steam-restart-presentation.vala:109
 msgid "ProtonPlus did not restart Steam. Try again or restart it manually."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:110
+#: src/widgets/main/steam-restart-presentation.vala:111
 msgid "Steam is still starting"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:110
+#: src/widgets/main/steam-restart-presentation.vala:111
 msgid "Wait for Steam to finish starting, then try again."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:112
+#: src/widgets/main/steam-restart-presentation.vala:113
 #, fuzzy
 msgid "Steam is updating"
 msgstr "Suche nach einem Spiel"
 
-#: src/widgets/main/steam-restart-presentation.vala:112
+#: src/widgets/main/steam-restart-presentation.vala:113
 msgid "Wait until the update finishes, then try again."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:114
+#: src/widgets/main/steam-restart-presentation.vala:115
 msgid "Close running games first"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:114
+#: src/widgets/main/steam-restart-presentation.vala:115
 msgid ""
 "ProtonPlus will not restart Steam while a game or compatibility process is "
 "running."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:116
+#: src/widgets/main/steam-restart-presentation.vala:117
 msgid "Steam can’t restart right now"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:116
+#: src/widgets/main/steam-restart-presentation.vala:117
 msgid "Finish the current Steam activity, then try again."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:118
+#: src/widgets/main/steam-restart-presentation.vala:119
 msgid "Close Steam manually"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:118
+#: src/widgets/main/steam-restart-presentation.vala:119
 msgid ""
 "ProtonPlus cannot safely close this Steam installation automatically. The "
 "reminder will remain and ProtonPlus will detect when Steam closes. After "
 "closing Steam, select Restart Steam again to reopen it."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:121
+#: src/widgets/main/steam-restart-presentation.vala:122
 msgid "Steam didn’t close"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:121
+#: src/widgets/main/steam-restart-presentation.vala:122
 msgid "No force termination was attempted. Close Steam manually or try again."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:126
+#: src/widgets/main/steam-restart-presentation.vala:127
 msgid "Steam couldn’t be reopened"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:126
+#: src/widgets/main/steam-restart-presentation.vala:127
 msgid ""
 "Steam is currently closed. Start it manually. ProtonPlus will keep the "
 "reminder until it confirms a new session."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:126
+#: src/widgets/main/steam-restart-presentation.vala:127
 msgid ""
 "Start Steam manually. ProtonPlus will keep the reminder until it confirms a "
 "new session."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:128
+#: src/widgets/main/steam-restart-presentation.vala:129
+msgid "Steam changes need attention"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:129
+msgid ""
+"Steam is closed. ProtonPlus could not safely apply every pending change; "
+"retry or start Steam manually after resolving the conflict."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:131
 msgid "Steam restart was cancelled"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:130
-#: src/widgets/main/steam-restart-presentation.vala:139
+#: src/widgets/main/steam-restart-presentation.vala:133
+#: src/widgets/main/steam-restart-presentation.vala:142
 #, fuzzy
 msgid "Steam restarted"
 msgstr "Aktualisiere Ausführungswerkzeug"
 
-#: src/widgets/main/steam-restart-presentation.vala:130
+#: src/widgets/main/steam-restart-presentation.vala:133
 msgid ""
 "Steam restarted successfully, but ProtonPlus could not save the cleared "
 "reminder state."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:132
+#: src/widgets/main/steam-restart-presentation.vala:135
 msgid "Steam couldn’t restart"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:132
+#: src/widgets/main/steam-restart-presentation.vala:135
 msgid "Try again later or restart Steam manually."
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:139
+#: src/widgets/main/steam-restart-presentation.vala:142
 msgid "Steam restarted; other changes still need a restart"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:157
+#: src/widgets/main/steam-restart-presentation.vala:160
 msgid "Steam needs to restart to apply your changes"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:161
+#: src/widgets/main/steam-restart-presentation.vala:164
 msgid "Multiple changes will be applied after Steam restarts"
 msgstr ""
 

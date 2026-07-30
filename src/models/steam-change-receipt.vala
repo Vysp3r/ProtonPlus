@@ -1,4 +1,29 @@
 namespace ProtonPlus.Models {
+    /* This identifies one replayable field, never an entire VDF snapshot. */
+    public enum SteamConfigurationFile { CONFIG, LOCALCONFIG, SHORTCUTS }
+    public enum SteamConfigurationOperation {
+        COMPATIBILITY_MAPPING, LAUNCH_OPTIONS, SHORTCUT_LAUNCH_OPTIONS,
+        SHORTCUTS_FILE_PRESENT
+    }
+
+    public class SteamConfigurationIntent : Object {
+        public SteamConfigurationFile file { get; private set; }
+        public SteamConfigurationOperation operation { get; private set; }
+        public string path { get; private set; }
+        public string field_id { get; private set; }
+        public string baseline { get; private set; }
+        public string desired { get; private set; }
+        public bool applied { get; set; default = false; }
+
+        public SteamConfigurationIntent (SteamConfigurationFile file,
+            SteamConfigurationOperation operation, string path, string field_id,
+            string baseline, string desired, bool applied = false) {
+            this.file = file; this.operation = operation; this.path = path;
+            this.field_id = field_id; this.baseline = baseline;
+            this.desired = desired; this.applied = applied;
+        }
+    }
+
     /* These identifiers are a persistence contract.  Do not use enum ordinals
      * or translated labels in restart-state storage. */
     public enum SteamChangeKind {
@@ -28,12 +53,13 @@ namespace ProtonPlus.Models {
         public string? subject_id { get; private set; }
         public string? subject_label { get; private set; }
         public string changed_at { get; private set; }
+        public SteamConfigurationIntent? configuration_intent { get; private set; }
 
         public SteamChangeReceipt (
             SteamRestartTarget target, SteamChangeKind kind,
             SteamRestartRequirement restart_requirement, string resource_key,
             string? subject_id = null, string? subject_label = null,
-            string? changed_at = null
+            string? changed_at = null, SteamConfigurationIntent? configuration_intent = null
         ) {
             this.target = target;
             this.kind = kind;
@@ -42,6 +68,7 @@ namespace ProtonPlus.Models {
             this.subject_id = subject_id;
             this.subject_label = subject_label;
             this.changed_at = changed_at ?? new DateTime.now_utc ().format_iso8601 ();
+            this.configuration_intent = configuration_intent;
         }
 
         public string deduplication_key {

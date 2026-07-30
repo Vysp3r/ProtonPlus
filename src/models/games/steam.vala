@@ -87,6 +87,16 @@ namespace ProtonPlus.Models.Games {
         }
 
         public override bool change_compatibility_tool (string compatibility_tool) {
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration != null) {
+                var outcome = configuration.change_game_compatibility_tool (this, compatibility_tool);
+                if (!outcome.accepted)
+                    return false;
+                this.compatibility_tool = compatibility_tool;
+                if (is_non_steam)
+                    _is_native = null;
+                return true;
+            }
             var config_path = "%s/config/config.vdf".printf (launcher.directory);
             var config_content = Utils.Filesystem.get_file_content (config_path);
             var document = Utils.VDF.VdfParser.parse_document (config_content);
@@ -167,6 +177,17 @@ namespace ProtonPlus.Models.Games {
         }
 
         public bool change_launch_options (string launch_options, string localconfig_path) {
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration != null) {
+                var outcome = configuration.change_game_launch_options (this, launch_options, localconfig_path);
+                if (!outcome.accepted)
+                    return false;
+                this.launch_options = launch_options;
+                var configured_launcher = launcher as Launchers.Steam;
+                if (configured_launcher.profile != null && configured_launcher.profile.launch_options_hashtable != null)
+                    configured_launcher.profile.launch_options_hashtable.set (appid, launch_options);
+                return true;
+            }
             var steam_launcher = launcher as Launchers.Steam;
 
             if (is_non_steam) {

@@ -9,6 +9,7 @@ namespace ProtonPlus.Widgets {
         ProtonPlus.Services.SteamSessionService? steam_session_service = null;
         ProtonPlus.Services.SteamRestartManager? steam_restart_manager = null;
         ProtonPlus.Services.SteamRestartOrchestrator? steam_restart_orchestrator = null;
+        ProtonPlus.Services.SteamConfigurationService? steam_configuration_service = null;
         bool show_introduction = false;
 
         construct {
@@ -94,7 +95,9 @@ namespace ProtonPlus.Widgets {
              * windows.  CLI execution never instantiates Application. */
             steam_session_service = new ProtonPlus.Services.SteamSessionService ();
             steam_restart_manager = new ProtonPlus.Services.SteamRestartManager ((!) steam_session_service, new ProtonPlus.Services.SteamRestartStateStore ());
-            steam_restart_orchestrator = new ProtonPlus.Services.SteamRestartOrchestrator ((!) steam_session_service, (!) steam_restart_manager);
+            steam_configuration_service = new ProtonPlus.Services.SteamConfigurationService ((!) steam_session_service, (!) steam_restart_manager);
+            ProtonPlus.Services.SteamConfigurationService.configure ((!) steam_configuration_service);
+            steam_restart_orchestrator = new ProtonPlus.Services.SteamRestartOrchestrator ((!) steam_session_service, (!) steam_restart_manager, null, 500, 40, 60, (!) steam_configuration_service);
             ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder ((!) steam_restart_manager);
             steam_restart_manager.start_observation ();
 
@@ -125,6 +128,7 @@ namespace ProtonPlus.Widgets {
             if (steam_restart_manager != null)
                 steam_restart_manager.stop_observation ();
             ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
+            ProtonPlus.Services.SteamConfigurationService.reset_configuration ();
             Notify.uninit ();
             base.shutdown ();
         }

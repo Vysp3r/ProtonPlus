@@ -28,10 +28,9 @@ namespace ProtonPlus.Models {
             try {
                 var shortcuts_file_path = "%s/config/shortcuts.vdf".printf (userdata_path);
 
-                if (!FileUtils.test (shortcuts_file_path, FileTest.IS_REGULAR))
-                    Utils.VDF.Shortcuts.create_new_shortcuts_file_at (shortcuts_file_path);
-
-                shortcuts = Utils.VDF.Shortcuts.load (shortcuts_file_path);
+                shortcuts = FileUtils.test (shortcuts_file_path, FileTest.IS_REGULAR)
+                    ? Utils.VDF.Shortcuts.load (shortcuts_file_path)
+                    : Utils.VDF.Shortcuts.empty (shortcuts_file_path);
             } catch (Error e) {
                 warning (e.message);
             }

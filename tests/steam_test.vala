@@ -8,7 +8,7 @@ namespace AppTests.SteamTest {
         Test.add_func ("/steam/compatibility-tool-path-registration-loads-tool", test_compatibility_tool_path_registration);
         Test.add_func ("/steam/text-vdf-writes-and-rejections", test_text_vdf_writes_and_rejections);
         Test.add_func ("/steam/localconfig-launch-options-writes-and-rejections", test_localconfig_launch_options_writes_and_rejections);
-        Test.add_func ("/steam/profile-creates-missing-shortcuts-file", test_profile_creates_missing_shortcuts_file);
+        Test.add_func ("/steam/profile-does-not-create-missing-shortcuts-file", test_profile_does_not_create_missing_shortcuts_file);
     }
 
     private void test_linux_runtime_detection () {
@@ -161,7 +161,7 @@ namespace AppTests.SteamTest {
         assert (DirUtils.remove (root) == 0);
     }
 
-    private void test_profile_creates_missing_shortcuts_file () {
+    private void test_profile_does_not_create_missing_shortcuts_file () {
         var root = temporary_directory ();
         var userdata = Path.build_filename (root, "userdata");
         var config = Path.build_filename (userdata, "config");
@@ -171,9 +171,8 @@ namespace AppTests.SteamTest {
             steam, "Fixture", "76561197960265729", userdata
         );
         var shortcuts_path = Path.build_filename (config, "shortcuts.vdf");
-        assert (FileUtils.test (shortcuts_path, FileTest.IS_REGULAR));
+        assert (!FileUtils.test (shortcuts_path, FileTest.EXISTS));
         assert (profile.shortcuts != null);
-        assert (FileUtils.remove (shortcuts_path) == 0);
         assert (DirUtils.remove (config) == 0);
         assert (DirUtils.remove (userdata) == 0);
         assert (DirUtils.remove (root) == 0);

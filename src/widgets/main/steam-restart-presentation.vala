@@ -91,6 +91,7 @@ namespace ProtonPlus.Widgets.Main {
             case SteamRestartOperationState.PREFLIGHT: return _ ("Checking Steam…");
             case SteamRestartOperationState.REQUESTING_SHUTDOWN: return _ ("Closing Steam…");
             case SteamRestartOperationState.WAITING_FOR_EXIT: return _ ("Waiting for Steam to close…");
+            case SteamRestartOperationState.APPLYING_CHANGES: return _ ("Applying changes…");
             case SteamRestartOperationState.LAUNCHING: return _ ("Starting Steam…");
             case SteamRestartOperationState.WAITING_FOR_START: return _ ("Waiting for Steam to start…");
             default: return "";
@@ -124,6 +125,8 @@ namespace ProtonPlus.Widgets.Main {
             case SteamRestartFailureReason.START_TIMEOUT:
             case SteamRestartFailureReason.NEW_SESSION_UNCONFIRMED:
                 return new SteamRestartMessage (_ ("Steam couldn’t be reopened"), steam_stopped ? _ ("Steam is currently closed. Start it manually. ProtonPlus will keep the reminder until it confirms a new session.") : _ ("Start Steam manually. ProtonPlus will keep the reminder until it confirms a new session."));
+            case SteamRestartFailureReason.CONFIGURATION_RECONCILIATION_FAILED:
+                return new SteamRestartMessage (_ ("Steam changes need attention"), _ ("Steam is closed. ProtonPlus could not safely apply every pending change; retry or start Steam manually after resolving the conflict."), null, true);
             case SteamRestartFailureReason.CANCELLED:
                 return new SteamRestartMessage (null, null, _ ("Steam restart was cancelled"));
             case SteamRestartFailureReason.PENDING_STATE_PERSISTENCE_FAILED:

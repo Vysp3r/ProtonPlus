@@ -6,6 +6,7 @@ namespace ProtonPlus.Models {
         PREFLIGHT,
         REQUESTING_SHUTDOWN,
         WAITING_FOR_EXIT,
+        APPLYING_CHANGES,
         LAUNCHING,
         WAITING_FOR_START,
         SUCCEEDED,
@@ -30,6 +31,7 @@ namespace ProtonPlus.Models {
         RELAUNCH_FAILED,
         START_TIMEOUT,
         NEW_SESSION_UNCONFIRMED,
+        CONFIGURATION_RECONCILIATION_FAILED,
         CANCELLED,
         PENDING_STATE_PERSISTENCE_FAILED
     }

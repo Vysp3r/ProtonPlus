@@ -4,6 +4,7 @@ namespace ProtonPlus.Services {
     public enum SteamRestartRecordResult {
         ADDED,
         UPDATED,
+        REQUIREMENT_CLEARED,
         ALREADY_SATISFIED,
         PERSISTENCE_FAILED
     }
@@ -85,6 +86,36 @@ namespace ProtonPlus.Services {
             var was_empty = pending_count_for_target (receipt.target) == 0;
             var existing = pending.get (key);
             var stable_session = identity_from_snapshot (receipt.target, snapshot);
+            /* Coalesce replayable configuration changes.  A return to the
+             * original field value removes only this pending resource. */
+            if (existing != null && receipt.configuration_intent != null
+                && existing.receipt.configuration_intent != null) {
+                var old_intent = (!) existing.receipt.configuration_intent;
+                var new_intent = (!) receipt.configuration_intent;
+                var merged = new SteamConfigurationIntent (new_intent.file, new_intent.operation,
+                    new_intent.path, new_intent.field_id, old_intent.baseline, new_intent.desired);
+                if (merged.desired == merged.baseline) {
+                    pending.unset (key);
+                    var target_cleared = pending_count_for_target (receipt.target) == 0;
+                    if (target_cleared) targets.unset (receipt.target.id);
+                    if (!persist ()) {
+                        pending.set (key, existing);
+                        targets.set (receipt.target.id, receipt.target);
+                        return SteamRestartRecordResult.PERSISTENCE_FAILED;
+                    }
+                    pending_changed ();
+                    if (target_cleared) restart_requirement_satisfied (receipt.target);
+                    return SteamRestartRecordResult.REQUIREMENT_CLEARED;
+                }
+                var merged_receipt = new SteamChangeReceipt (receipt.target, receipt.kind,
+                    receipt.restart_requirement, receipt.resource_key, receipt.subject_id,
+                    receipt.subject_label, receipt.changed_at, merged);
+                existing.update (merged_receipt, stable_session);
+                if (!persist ())
+                    return SteamRestartRecordResult.PERSISTENCE_FAILED;
+                pending_changed ();
+                return SteamRestartRecordResult.UPDATED;
+            }
             if (existing == null) {
                 pending.set (key, new SteamRestartPendingRecord (receipt, receipt.changed_at, receipt.changed_at, 1, stable_session));
                 targets.set (receipt.target.id, receipt.target);
@@ -92,11 +123,19 @@ namespace ProtonPlus.Services {
                 existing.update (receipt, stable_session);
             }
             watch_target (receipt.target);
+            if (!persist ()) {
+                /* A staged-only value exists nowhere but this state file.  Do
+                 * not leave a false in-memory success when durability fails. */
+                if (existing == null && receipt.configuration_intent != null) {
+                    pending.unset (key);
+                    if (pending_count_for_target (receipt.target) == 0)
+                        targets.unset (receipt.target.id);
+                }
+                return SteamRestartRecordResult.PERSISTENCE_FAILED;
+            }
             pending_changed ();
             if (was_empty)
                 restart_became_required (receipt.target);
-            if (!persist ())
-                return SteamRestartRecordResult.PERSISTENCE_FAILED;
             return existing == null ? SteamRestartRecordResult.ADDED : SteamRestartRecordResult.UPDATED;
         }
 
@@ -152,6 +191,8 @@ namespace ProtonPlus.Services {
                 return;
             var cleared = new Gee.ArrayList<SteamRestartPendingRecord> ();
             foreach (var record in get_pending_changes_for_target (target)) {
+                if (record.receipt.configuration_intent != null)
+                    continue;
                 var recorded = record.observed_session;
                 /* A prior stable identity must change even after a confirmed
                  * stop.  Stop evidence alone only permits clearance when the
@@ -171,6 +212,27 @@ namespace ProtonPlus.Services {
             if (target_cleared)
                 restart_requirement_satisfied (target);
             persist ();
+        }
+
+        /* Configuration records require on-disk verification by the service;
+         * a process generation alone is deliberately not enough evidence. */
+        public bool clear_verified_configuration (SteamRestartPendingRecord record) {
+            if (record.receipt.configuration_intent == null)
+                return false;
+            var key = record.receipt.deduplication_key;
+            if (!pending.has_key (key))
+                return false;
+            pending.unset (key);
+            var target_cleared = pending_count_for_target (record.receipt.target) == 0;
+            if (target_cleared) targets.unset (record.receipt.target.id);
+            if (!persist ()) {
+                pending.set (key, record);
+                targets.set (record.receipt.target.id, record.receipt.target);
+                return false;
+            }
+            pending_changed ();
+            if (target_cleared) restart_requirement_satisfied (record.receipt.target);
+            return true;
         }
 
         private void add_loaded_record (SteamRestartPendingRecord record) {

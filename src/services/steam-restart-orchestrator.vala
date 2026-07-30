@@ -5,6 +5,7 @@ namespace ProtonPlus.Services {
         private SteamSessionService session_service;
         private SteamRestartManager restart_manager;
         private SteamRestartBackend backend;
+        private SteamConfigurationReconciler? configuration_reconciler;
         private uint poll_interval_msec;
         private uint exit_poll_limit;
         private uint start_poll_limit;
@@ -21,7 +22,8 @@ namespace ProtonPlus.Services {
         public SteamRestartOrchestrator (
             SteamSessionService session_service, SteamRestartManager restart_manager,
             SteamRestartBackend? backend = null, uint poll_interval_msec = 500,
-            uint exit_poll_limit = 40, uint start_poll_limit = 60
+            uint exit_poll_limit = 40, uint start_poll_limit = 60,
+            SteamConfigurationReconciler? configuration_reconciler = null
         ) {
             this.session_service = session_service;
             this.restart_manager = restart_manager;
@@ -29,6 +31,7 @@ namespace ProtonPlus.Services {
             this.poll_interval_msec = poll_interval_msec;
             this.exit_poll_limit = exit_poll_limit;
             this.start_poll_limit = start_poll_limit;
+            this.configuration_reconciler = configuration_reconciler;
         }
 
         /* Keep the cancellation token out of Vala's generated GTask slot: a
@@ -78,7 +81,7 @@ namespace ProtonPlus.Services {
              * launches only through the narrow installation-kind policy. */
             if (is_confirmed_stopped (preflight)) {
                 stopped = true;
-                return yield launch_and_wait (target, original_identity, shutdown_sent, stopped, cancellable);
+                return yield reconcile_and_launch (target, original_identity, shutdown_sent, stopped, cancellable);
             }
             if (target.installation_kind != SteamInstallationKind.NATIVE)
                 return fail (target, SteamRestartFailureReason.GRACEFUL_SHUTDOWN_UNSUPPORTED, shutdown_sent, stopped, launch_sent, started, "This running target has no established graceful automatic shutdown strategy.");
@@ -110,7 +113,7 @@ namespace ProtonPlus.Services {
                 var observed = observe (target);
                 if (is_confirmed_stopped (observed)) {
                     stopped = true;
-                    return yield launch_and_wait (target, original_identity, shutdown_sent, stopped, cancellable);
+                    return yield reconcile_and_launch (target, original_identity, shutdown_sent, stopped, cancellable);
                 }
                 if (observed.state == SteamSessionState.UNKNOWN || observed.state == SteamSessionState.STARTING || observed.state == SteamSessionState.UPDATING)
                     return fail (target, SteamRestartFailureReason.STATE_UNKNOWN_OR_AMBIGUOUS, shutdown_sent, stopped, launch_sent, started, "Unsafe Steam state while waiting for shutdown.");
@@ -118,6 +121,24 @@ namespace ProtonPlus.Services {
                     return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Shutdown was dispatched; polling was cancelled.");
             }
             return fail (target, SteamRestartFailureReason.EXIT_TIMEOUT, shutdown_sent, stopped, launch_sent, started, "Timed out waiting for confirmed Steam exit; no force termination was attempted.");
+        }
+
+        private async SteamRestartOperationResult reconcile_and_launch (SteamRestartTarget target,
+            SteamSessionIdentity? original_identity, bool shutdown_sent, bool stopped, Cancellable? cancellable) {
+            if (cancelled (cancellable))
+                return cancelled_result (target, shutdown_sent, stopped, false, false, "Cancelled after Steam stopped; pending changes were retained.");
+            transition (SteamRestartOperationState.APPLYING_CHANGES);
+            if (configuration_reconciler != null) {
+                var outcome = ((!) configuration_reconciler).reconcile_target (target);
+                if (outcome.result == SteamConfigurationMutationResult.FAILED
+                    || outcome.result == SteamConfigurationMutationResult.CONFLICT
+                    || outcome.result == SteamConfigurationMutationResult.PERSISTENCE_FAILED)
+                    return fail (target, SteamRestartFailureReason.CONFIGURATION_RECONCILIATION_FAILED,
+                        shutdown_sent, stopped, false, false, outcome.error ?? "Pending configuration could not be reconciled.");
+            }
+            if (cancelled (cancellable))
+                return cancelled_result (target, shutdown_sent, stopped, false, false, "Cancelled after applying changes; no relaunch was requested.");
+            return yield launch_and_wait (target, original_identity, shutdown_sent, stopped, cancellable);
         }
 
         private async SteamRestartOperationResult launch_and_wait (SteamRestartTarget target, SteamSessionIdentity? original_identity, bool shutdown_sent, bool stopped, Object? cancellation) {
@@ -158,6 +179,8 @@ namespace ProtonPlus.Services {
                 var observed = observe (target);
                 if (is_new_confirmed_session (target, original_identity, observed)) {
                     started = true;
+                    if (configuration_reconciler != null)
+                        ((!) configuration_reconciler).verify_target_after_session (target);
                     var cleared = restart_manager.pending_count_for_target (target) == 0;
                     var persistence_failed = restart_manager.last_persistence_error != null;
                     if (!cleared)
