@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 22:39-0400\n"
+"POT-Creation-Date: 2026-07-29 22:49-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Serbian (Latin script) <https://hosted.weblate.org/projects/"
@@ -4513,29 +4513,29 @@ msgid "OK"
 msgstr "U redu"
 
 #. Tools Page
-#: src/widgets/main/main-box.vala:41
+#: src/widgets/main/main-box.vala:42
 #: src/widgets/preferences/preferences-dialog.vala:47
 msgid "Tools"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:42
+#: src/widgets/main/main-box.vala:43
 msgid "Games"
 msgstr "Igre"
 
-#: src/widgets/main/main-box.vala:44
+#: src/widgets/main/main-box.vala:45
 #: src/widgets/preferences/preferences-dialog.vala:322
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:142
+#: src/widgets/main/main-box.vala:149
 msgid "Couldn’t save the Steam restart reminder"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:154
+#: src/widgets/main/main-box.vala:161
 msgid "Saved Steam restart reminders couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:190
+#: src/widgets/main/main-box.vala:197
 #, c-format
 msgid "Steam needs to restart before this change takes effect."
 msgid_plural "Steam needs to restart before these %u changes take effect."
@@ -4543,97 +4543,102 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/widgets/main/main-box.vala:193
+#: src/widgets/main/main-box.vala:200
 msgid "Save your progress and close any running games before continuing."
 msgstr ""
 
-#: src/widgets/main/main-box.vala:194
+#: src/widgets/main/main-box.vala:201
 #: src/widgets/main/steam-restart-dialog.vala:8
 msgid "Restart Steam?"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:195 src/widgets/main/main-box.vala:240
+#: src/widgets/main/main-box.vala:202 src/widgets/main/main-box.vala:247
 #: src/widgets/main/steam-restart-dialog.vala:28
 msgid "Later"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:196
+#: src/widgets/main/main-box.vala:203
 #: src/widgets/main/steam-restart-banner.vala:13
 #: src/widgets/main/steam-restart-banner.vala:21
 msgid "Restart Steam"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:244
+#: src/widgets/main/main-box.vala:251
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:270 src/widgets/tools/tools-box.vala:488
+#: src/widgets/main/main-box.vala:277 src/widgets/tools/tools-box.vala:488
 msgid "Checking for updates"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:281 src/widgets/tools/tools-box.vala:496
+#: src/widgets/main/main-box.vala:288 src/widgets/tools/tools-box.vala:496
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:284 src/widgets/tools/tools-box.vala:499
+#: src/widgets/main/main-box.vala:291 src/widgets/tools/tools-box.vala:499
 #, fuzzy
 msgid "Nothing to update"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/main/main-box.vala:288 src/widgets/tools/tools-box.vala:503
+#: src/widgets/main/main-box.vala:295 src/widgets/tools/tools-box.vala:503
 #, fuzzy
 msgid "Everything is now up-to-date"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/main/main-box.vala:291 src/widgets/tools/tools-box.vala:506
+#: src/widgets/main/main-box.vala:298 src/widgets/tools/tools-box.vala:506
 #, fuzzy, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Instalirajte %s"
 
-#: src/widgets/main/main-box.vala:298
+#: src/widgets/main/main-box.vala:305
 #, fuzzy
 msgid "Update started"
 msgstr "_Upravo instalirano"
 
-#: src/widgets/main/main-box.vala:300
+#: src/widgets/main/main-box.vala:307
 #, fuzzy
 msgid "Download started"
 msgstr "Preuzimanje"
 
-#: src/widgets/main/main-box.vala:306
+#: src/widgets/main/main-box.vala:313
 #, fuzzy
 msgid "Download finished"
 msgstr "Preuzimanje"
 
-#: src/widgets/main/main-box.vala:308
+#: src/widgets/main/main-box.vala:315
 #, fuzzy
 msgid "Download canceled"
 msgstr "Preuzimanje"
 
-#: src/widgets/main/main-box.vala:314
+#: src/widgets/main/main-box.vala:321
 #, fuzzy
 msgid "Download failed"
 msgstr "Preuzimanje"
 
-#: src/widgets/main/main-box.vala:320 src/widgets/main/main-box.vala:322
+#: src/widgets/main/main-box.vala:327 src/widgets/main/main-box.vala:329
 #, fuzzy
 msgid "Update finished"
 msgstr "_Upravo instalirano"
 
-#: src/widgets/main/main-box.vala:320
+#: src/widgets/main/main-box.vala:327
 #, fuzzy, c-format
 msgid "%s is now up-to-date"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/main/main-box.vala:322
+#: src/widgets/main/main-box.vala:329
 #, fuzzy, c-format
 msgid "%s is already up-to-date"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/main/main-box.vala:327
+#: src/widgets/main/main-box.vala:334
 #, fuzzy
 msgid "Deleted"
 msgstr "Izbriši %s"
+
+#: src/widgets/main/main-box.vala:353
+#, fuzzy
+msgid "Steam restart needed"
+msgstr "_Upravo instalirano"
 
 #: src/widgets/main/steam-restart-banner.vala:12
 msgid "Restart Steam to apply changes"
@@ -4832,10 +4837,12 @@ msgid "Steam restarted; other changes still need a restart"
 msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:160
+#: src/widgets/main/steam-restart-presentation.vala:187
 msgid "Steam needs to restart to apply your changes"
 msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:164
+#: src/widgets/main/steam-restart-presentation.vala:191
 msgid "Multiple changes will be applied after Steam restarts"
 msgstr ""
 

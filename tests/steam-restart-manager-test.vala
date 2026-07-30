@@ -39,11 +39,12 @@ namespace AppTests.SteamRestartManagerTest {
             SteamRestartRequirement.CONSERVATIVE, resource_key, "123", "Test game", changed_at);
     }
 
-    private SteamChangeReceipt configuration_receipt (SteamRestartTarget target, string desired) {
+    private SteamChangeReceipt configuration_receipt (SteamRestartTarget target, string desired,
+        SteamChangeKind kind = SteamChangeKind.GAME_COMPATIBILITY_TOOL_CHANGED) {
         var path = Filename.canonicalize (Path.build_filename (target.data_root, "config", "config.vdf"), null);
         var intent = new SteamConfigurationIntent (SteamConfigurationFile.CONFIG,
             SteamConfigurationOperation.COMPATIBILITY_MAPPING, path, "42", "proton-a", desired);
-        return new SteamChangeReceipt (target, SteamChangeKind.GAME_COMPATIBILITY_TOOL_CHANGED,
+        return new SteamChangeReceipt (target, kind,
             SteamRestartRequirement.CONSERVATIVE, "%s#CompatToolMapping/42".printf (path), "42", null, null, intent);
     }
 
@@ -54,6 +55,26 @@ namespace AppTests.SteamRestartManagerTest {
         processes.add (new SteamProcessRecord (101, Path.build_filename (target.data_root, "steam"), target.data_root, 100));
         backend.native_query = new NativeProcessQuery (true, processes);
         return new SteamRestartManager (new SteamSessionService (backend), new SteamRestartStateStore (state_path));
+    }
+
+    private SteamChangeReceipt shortcut_receipt (SteamRestartTarget target, bool desired_present,
+        SteamChangeKind kind) {
+        var path = Filename.canonicalize (Path.build_filename (target.data_root, "userdata", "1", "config", "shortcuts.vdf"), null);
+        var intent = new SteamConfigurationIntent (SteamConfigurationFile.SHORTCUTS,
+            SteamConfigurationOperation.SHORTCUT_PRESENCE, path, "ProtonPlus", "", desired_present ? "present" : "",
+            false, desired_present);
+        return new SteamChangeReceipt (target, kind, SteamRestartRequirement.CONSERVATIVE,
+            "%s#ProtonPlus".printf (path), "ProtonPlus", null, null, intent);
+    }
+
+    private SteamChangeReceipt shortcuts_file_receipt (SteamRestartTarget target) {
+        var path = Filename.canonicalize (Path.build_filename (target.data_root, "userdata", "1", "config", "shortcuts.vdf"), null);
+        var intent = new SteamConfigurationIntent (SteamConfigurationFile.SHORTCUTS,
+            SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT, path, "shortcuts.vdf", "", "present",
+            false, true);
+        return new SteamChangeReceipt (target, SteamChangeKind.SHORTCUTS_VDF_CREATED,
+            SteamRestartRequirement.CONSERVATIVE, "%s#shortcuts.vdf".printf (path),
+            "shortcuts.vdf", null, null, intent);
     }
 
     private void test_deduplicates_and_persists () {
@@ -172,13 +193,46 @@ namespace AppTests.SteamRestartManagerTest {
         var manager = running_manager (path, out backend);
         var target = native_target (path);
         assert (manager.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.ADDED);
-        assert (manager.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.UPDATED);
+        assert (manager.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.UNCHANGED);
         assert (manager.get_pending_changes ().get (0).occurrence_count == 1);
         assert (manager.record (configuration_receipt (target, "proton-c")) == SteamRestartRecordResult.UPDATED);
         assert (manager.get_pending_changes ().get (0).occurrence_count == 2);
         assert (manager.get_pending_changes ().get (0).receipt.configuration_intent.desired == "proton-c");
         assert (manager.record (configuration_receipt (target, "proton-a")) == SteamRestartRecordResult.REQUIREMENT_CLEARED);
         assert (manager.pending_count () == 0);
+    }
+
+    private void test_configuration_identity_ignores_descriptive_kind () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        var changed = 0;
+        manager.pending_changed.connect (() => { changed++; });
+
+        assert (manager.record (configuration_receipt (target, "present",
+            SteamChangeKind.PROTONPLUS_SHORTCUT_CREATED)) == SteamRestartRecordResult.ADDED);
+        assert (manager.record (configuration_receipt (target, "present",
+            SteamChangeKind.PROTONPLUS_SHORTCUT_REMOVED)) == SteamRestartRecordResult.UNCHANGED);
+        assert (manager.pending_count () == 1);
+        assert (manager.get_pending_changes ().get (0).occurrence_count == 1);
+        assert (changed == 1);
+    }
+
+    private void test_reverting_legacy_shortcut_create_removes_prerequisite () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        assert (manager.record (shortcuts_file_receipt (target)) == SteamRestartRecordResult.ADDED);
+        assert (manager.record (shortcut_receipt (target, true,
+            SteamChangeKind.PROTONPLUS_SHORTCUT_CREATED)) == SteamRestartRecordResult.ADDED);
+        assert (manager.pending_count () == 2);
+        assert (manager.record (shortcut_receipt (target, false,
+            SteamChangeKind.PROTONPLUS_SHORTCUT_REMOVED)) == SteamRestartRecordResult.REQUIREMENT_CLEARED);
+        assert (manager.pending_count () == 0);
+        assert (!new SteamRestartManager (new SteamSessionService (backend),
+            new SteamRestartStateStore (path)).has_pending_restarts ());
     }
 
     private void test_configuration_state_uses_stable_ids_and_rejects_unsafe_paths () {
@@ -207,6 +261,8 @@ namespace AppTests.SteamRestartManagerTest {
         Test.add_func ("/steam-restart-manager/store-skips-invalid-individual-entries", test_store_skips_invalid_individual_entries);
         Test.add_func ("/steam-restart-manager/persistence-failure-keeps-memory-state", test_persistence_failure_keeps_memory_state);
         Test.add_func ("/steam-restart-manager/configuration-coalesces-reversion", test_configuration_coalesces_reversion_without_duplicate_occurrences);
+        Test.add_func ("/steam-restart-manager/configuration-identity-ignores-kind", test_configuration_identity_ignores_descriptive_kind);
+        Test.add_func ("/steam-restart-manager/reverting-legacy-shortcut-create-removes-prerequisite", test_reverting_legacy_shortcut_create_removes_prerequisite);
         Test.add_func ("/steam-restart-manager/configuration-state-stable-and-safe", test_configuration_state_uses_stable_ids_and_rejects_unsafe_paths);
     }
 }

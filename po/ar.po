@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 22:39-0400\n"
+"POT-Creation-Date: 2026-07-29 22:49-0400\n"
 "PO-Revision-Date: 2026-02-03 11:54+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -4526,29 +4526,29 @@ msgid "OK"
 msgstr "حسنا"
 
 #. Tools Page
-#: src/widgets/main/main-box.vala:41
+#: src/widgets/main/main-box.vala:42
 #: src/widgets/preferences/preferences-dialog.vala:47
 msgid "Tools"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:42
+#: src/widgets/main/main-box.vala:43
 msgid "Games"
 msgstr "الألعاب"
 
-#: src/widgets/main/main-box.vala:44
+#: src/widgets/main/main-box.vala:45
 #: src/widgets/preferences/preferences-dialog.vala:322
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:142
+#: src/widgets/main/main-box.vala:149
 msgid "Couldn’t save the Steam restart reminder"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:154
+#: src/widgets/main/main-box.vala:161
 msgid "Saved Steam restart reminders couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:190
+#: src/widgets/main/main-box.vala:197
 #, c-format
 msgid "Steam needs to restart before this change takes effect."
 msgid_plural "Steam needs to restart before these %u changes take effect."
@@ -4559,96 +4559,101 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: src/widgets/main/main-box.vala:193
+#: src/widgets/main/main-box.vala:200
 msgid "Save your progress and close any running games before continuing."
 msgstr ""
 
-#: src/widgets/main/main-box.vala:194
+#: src/widgets/main/main-box.vala:201
 #: src/widgets/main/steam-restart-dialog.vala:8
 msgid "Restart Steam?"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:195 src/widgets/main/main-box.vala:240
+#: src/widgets/main/main-box.vala:202 src/widgets/main/main-box.vala:247
 #: src/widgets/main/steam-restart-dialog.vala:28
 #, fuzzy
 msgid "Later"
 msgstr "الأحدث"
 
-#: src/widgets/main/main-box.vala:196
+#: src/widgets/main/main-box.vala:203
 #: src/widgets/main/steam-restart-banner.vala:13
 #: src/widgets/main/steam-restart-banner.vala:21
 msgid "Restart Steam"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:244
+#: src/widgets/main/main-box.vala:251
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:270 src/widgets/tools/tools-box.vala:488
+#: src/widgets/main/main-box.vala:277 src/widgets/tools/tools-box.vala:488
 msgid "Checking for updates"
 msgstr "جاري التحقق من التحديثات"
 
-#: src/widgets/main/main-box.vala:281 src/widgets/tools/tools-box.vala:496
+#: src/widgets/main/main-box.vala:288 src/widgets/tools/tools-box.vala:496
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:284 src/widgets/tools/tools-box.vala:499
+#: src/widgets/main/main-box.vala:291 src/widgets/tools/tools-box.vala:499
 msgid "Nothing to update"
 msgstr "لا يوجد ما يتطلب التحديث"
 
-#: src/widgets/main/main-box.vala:288 src/widgets/tools/tools-box.vala:503
+#: src/widgets/main/main-box.vala:295 src/widgets/tools/tools-box.vala:503
 msgid "Everything is now up-to-date"
 msgstr "كل شيء محدث لآخر إصدار"
 
-#: src/widgets/main/main-box.vala:291 src/widgets/tools/tools-box.vala:506
+#: src/widgets/main/main-box.vala:298 src/widgets/tools/tools-box.vala:506
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "لم نستطع التحقق من وجود التحديثات(السبب: %s)"
 
-#: src/widgets/main/main-box.vala:298
+#: src/widgets/main/main-box.vala:305
 #, fuzzy
 msgid "Update started"
 msgstr "أظهر المُثبَت فقط"
 
-#: src/widgets/main/main-box.vala:300
+#: src/widgets/main/main-box.vala:307
 #, fuzzy
 msgid "Download started"
 msgstr "جاري التنزيل"
 
-#: src/widgets/main/main-box.vala:306
+#: src/widgets/main/main-box.vala:313
 #, fuzzy
 msgid "Download finished"
 msgstr "جاري التنزيل"
 
-#: src/widgets/main/main-box.vala:308
+#: src/widgets/main/main-box.vala:315
 #, fuzzy
 msgid "Download canceled"
 msgstr "جاري التنزيل"
 
-#: src/widgets/main/main-box.vala:314
+#: src/widgets/main/main-box.vala:321
 #, fuzzy
 msgid "Download failed"
 msgstr "جاري التنزيل"
 
-#: src/widgets/main/main-box.vala:320 src/widgets/main/main-box.vala:322
+#: src/widgets/main/main-box.vala:327 src/widgets/main/main-box.vala:329
 #, fuzzy
 msgid "Update finished"
 msgstr "أظهر المُثبَت فقط"
 
-#: src/widgets/main/main-box.vala:320
+#: src/widgets/main/main-box.vala:327
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "محدث الآن %s"
 
-#: src/widgets/main/main-box.vala:322
+#: src/widgets/main/main-box.vala:329
 #, fuzzy, c-format
 msgid "%s is already up-to-date"
 msgstr "محدث الآن %s"
 
-#: src/widgets/main/main-box.vala:327
+#: src/widgets/main/main-box.vala:334
 #, fuzzy
 msgid "Deleted"
 msgstr "حَذف %s"
+
+#: src/widgets/main/main-box.vala:353
+#, fuzzy
+msgid "Steam restart needed"
+msgstr "أظهر المُثبَت فقط"
 
 #: src/widgets/main/steam-restart-banner.vala:12
 msgid "Restart Steam to apply changes"
@@ -4857,10 +4862,12 @@ msgid "Steam restarted; other changes still need a restart"
 msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:160
+#: src/widgets/main/steam-restart-presentation.vala:187
 msgid "Steam needs to restart to apply your changes"
 msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:164
+#: src/widgets/main/steam-restart-presentation.vala:191
 msgid "Multiple changes will be applied after Steam restarts"
 msgstr ""
 

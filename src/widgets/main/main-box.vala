@@ -14,6 +14,7 @@ namespace ProtonPlus.Widgets.Main {
         private Services.SteamRestartOrchestrator? restart_orchestrator;
         private SteamRestartBanner? restart_banner;
         private SteamRestartToastPolicy? restart_toasts;
+        private SteamRestartNotificationPolicy? restart_notifications;
         private uint previous_restart_count = 0;
         private ulong pending_changed_handler_id = 0;
         private ulong persistence_failed_handler_id = 0;
@@ -123,17 +124,23 @@ namespace ProtonPlus.Widgets.Main {
             restart_banner.restart_requested.connect (show_restart_review);
             append (restart_banner);
             restart_toasts = new SteamRestartToastPolicy ();
+            restart_notifications = new SteamRestartNotificationPolicy ();
             previous_restart_count = (uint) manager.pending_count ();
             update_restart_banner ();
             pending_changed_handler_id = manager.pending_changed.connect (() => {
                 var current = (uint) manager.pending_count ();
+                var window = get_root () as Gtk.Window;
+                var active = window != null && window.is_active;
                 var toast = restart_toasts.update (previous_restart_count, current, false);
+                var notification = restart_notifications.update (previous_restart_count, current, active, false);
                 previous_restart_count = current;
                 if (current == 0)
                     persistence_toast_shown = false;
                 update_restart_banner ();
-                if (toast != null)
+                if (active && toast != null)
                     send_toast ((!) toast);
+                if (notification != null)
+                    send_restart_notification ((!) notification);
             });
             persistence_failed_handler_id = manager.persistence_failed.connect ((message) => {
                 warning ("Unable to save Steam restart reminder: %s", message);
@@ -339,6 +346,15 @@ namespace ProtonPlus.Widgets.Main {
                 } catch (Error e) {
                     warning ("Failed to send notification: %s", e.message);
                 }
+            }
+        }
+
+        private void send_restart_notification (string body) {
+            var notification = new Notify.Notification (_ ("Steam restart needed"), body, "steam-symbolic");
+            try {
+                notification.show ();
+            } catch (Error e) {
+                warning ("Failed to send Steam restart notification: %s", e.message);
             }
         }
 

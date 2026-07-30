@@ -78,6 +78,21 @@ namespace AppTests.SteamRestartOrchestratorTest {
         }
     }
 
+    private class ReconcilerFixture : Object, SteamConfigurationReconciler {
+        public SteamConfigurationMutationResult next_result = SteamConfigurationMutationResult.CHANGED;
+        public int reconcile_calls = 0;
+        public int verify_calls = 0;
+        public SteamConfigurationMutation reconcile_target (SteamRestartTarget target) {
+            reconcile_calls++;
+            return new SteamConfigurationMutation (next_result,
+                next_result == SteamConfigurationMutationResult.CONFLICT ? "fixture conflict" : null);
+        }
+        public bool verify_target_after_session (SteamRestartTarget target) {
+            verify_calls++;
+            return true;
+        }
+    }
+
     private string state_path () {
         var directory = DirUtils.mkdtemp (Path.build_filename (Environment.get_tmp_dir (), "protonplus-restart-orchestrator-XXXXXX"));
         return Path.build_filename (directory, "state.json");
@@ -213,6 +228,36 @@ namespace AppTests.SteamRestartOrchestratorTest {
         assert (((!) result).status == SteamRestartCommandStatus.ACCEPTED);
     }
 
+    private void test_reconciliation_is_ordered_before_launch () {
+        SessionFixture session; ControlFixture control; SteamRestartManager manager; SteamRestartTarget target;
+        setup_native (out session, out control, out manager, out target);
+        var reconciler = new ReconcilerFixture ();
+        var orchestrator = new SteamRestartOrchestrator (new SteamSessionService (session), manager,
+            control, 0, 2, 2, reconciler);
+        var transitions = new Gee.ArrayList<SteamRestartOperationState> ();
+        orchestrator.state_changed.connect ((state) => { transitions.add (state); });
+        var result = run (orchestrator, target);
+        assert (result.final_state == SteamRestartOperationState.SUCCEEDED);
+        assert (reconciler.reconcile_calls == 1);
+        assert (transitions.index_of (SteamRestartOperationState.APPLYING_CHANGES)
+            < transitions.index_of (SteamRestartOperationState.LAUNCHING));
+        assert (control.launch_requests == 1);
+    }
+
+    private void test_reconciliation_conflict_prevents_launch () {
+        SessionFixture session; ControlFixture control; SteamRestartManager manager; SteamRestartTarget target;
+        setup_native (out session, out control, out manager, out target);
+        var reconciler = new ReconcilerFixture ();
+        reconciler.next_result = SteamConfigurationMutationResult.CONFLICT;
+        var orchestrator = new SteamRestartOrchestrator (new SteamSessionService (session), manager,
+            control, 0, 2, 2, reconciler);
+        var result = run (orchestrator, target);
+        assert (result.reason == SteamRestartFailureReason.CONFIGURATION_RECONCILIATION_FAILED);
+        assert (reconciler.reconcile_calls == 1);
+        assert (control.launch_requests == 0);
+        assert (manager.pending_count_for_target (target) == 1);
+    }
+
     public void register_tests () {
         Test.add_func ("/steam-restart-orchestrator/no-pending-rejected", test_no_pending_rejected);
         Test.add_func ("/steam-restart-orchestrator/native-shutdown-and-new-generation", test_native_shutdown_and_new_generation);
@@ -226,5 +271,7 @@ namespace AppTests.SteamRestartOrchestratorTest {
         Test.add_func ("/steam-restart-orchestrator/stopped-native-and-original-identity", test_stopped_native_skips_shutdown_and_original_identity_is_not_success);
         Test.add_func ("/steam-restart-orchestrator/heuristic-game-and-unsupported-kinds", test_heuristic_game_and_unsupported_kinds_preserve_pending);
         Test.add_func ("/steam-restart-orchestrator/native-fallback-dispatch-is-nonblocking", test_native_fallback_dispatch_does_not_wait_for_application_exit);
+        Test.add_func ("/steam-restart-orchestrator/reconciliation-is-ordered-before-launch", test_reconciliation_is_ordered_before_launch);
+        Test.add_func ("/steam-restart-orchestrator/reconciliation-conflict-prevents-launch", test_reconciliation_conflict_prevents_launch);
     }
 }

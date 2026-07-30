@@ -251,27 +251,51 @@ namespace ProtonPlus.Services {
             SteamConfigurationFile file, SteamConfigurationOperation operation,
             string path, string field_id, string resource_key) {
             var canonical = Filename.canonicalize (path, null);
-            if (canonical != path || !resource_key.has_prefix (path + "#")) return false;
+            if (canonical != path) return false;
             var config = Path.build_filename (target.data_root, "config", "config.vdf");
             if (file == SteamConfigurationFile.CONFIG)
                 return operation == SteamConfigurationOperation.COMPATIBILITY_MAPPING
-                    && canonical == config && is_uint (field_id)
-                    && (kind == SteamChangeKind.DEFAULT_COMPATIBILITY_TOOL_CHANGED || kind == SteamChangeKind.GAME_COMPATIBILITY_TOOL_CHANGED);
+                    && canonical == config && path_resolves_inside (path, config)
+                    && is_uint (field_id)
+                    && resource_key == "%s#CompatToolMapping/%s".printf (path, field_id)
+                    && (kind == SteamChangeKind.DEFAULT_COMPATIBILITY_TOOL_CHANGED
+                        || kind == SteamChangeKind.GAME_COMPATIBILITY_TOOL_CHANGED);
             var prefix = Path.build_filename (target.data_root, "userdata") + "/";
             if (!canonical.has_prefix (prefix)) return false;
             var tail = canonical.substring (prefix.length);
             var parts = tail.split ("/");
             if (parts.length != 3 || !is_uint (parts[0]) || parts[1] != "config") return false;
+            var profile_config = Path.build_filename (target.data_root, "userdata", parts[0], "config");
+            /* The target normalizes its data root with realpath().  Resolve
+             * the existing config directory too: a textual path below it is
+             * not safe when a profile component is a symlink to elsewhere. */
+            if (!directory_is_expected_or_missing (Path.get_dirname (path), profile_config)) return false;
             if (file == SteamConfigurationFile.LOCALCONFIG)
                 return operation == SteamConfigurationOperation.LAUNCH_OPTIONS && parts[2] == "localconfig.vdf"
-                    && is_uint (field_id) && kind == SteamChangeKind.STEAM_GAME_LAUNCH_OPTIONS_CHANGED;
+                    && is_uint (field_id) && resource_key == "%s#%s/LaunchOptions".printf (path, field_id)
+                    && kind == SteamChangeKind.STEAM_GAME_LAUNCH_OPTIONS_CHANGED;
             if (file != SteamConfigurationFile.SHORTCUTS || parts[2] != "shortcuts.vdf") return false;
             if (operation == SteamConfigurationOperation.SHORTCUT_LAUNCH_OPTIONS)
-                return is_uint (field_id) && kind == SteamChangeKind.NON_STEAM_GAME_LAUNCH_OPTIONS_CHANGED;
+                return is_uint (field_id) && resource_key == "%s#shortcut/%s/LaunchOptions".printf (path, field_id)
+                    && kind == SteamChangeKind.NON_STEAM_GAME_LAUNCH_OPTIONS_CHANGED;
             if (operation == SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT)
-                return field_id == "shortcuts.vdf" && kind == SteamChangeKind.SHORTCUTS_VDF_CREATED;
+                return field_id == "shortcuts.vdf" && resource_key == "%s#shortcuts.vdf".printf (path)
+                    && kind == SteamChangeKind.SHORTCUTS_VDF_CREATED;
             return operation == SteamConfigurationOperation.SHORTCUT_PRESENCE && field_id == "ProtonPlus"
+                && resource_key == "%s#ProtonPlus".printf (path)
                 && (kind == SteamChangeKind.PROTONPLUS_SHORTCUT_CREATED || kind == SteamChangeKind.PROTONPLUS_SHORTCUT_REMOVED);
+        }
+
+        private bool path_resolves_inside (string path, string expected) {
+            var resolved = Posix.realpath (path);
+            /* A missing file is valid only for shortcuts.vdf; its containing
+             * directory was checked separately. */
+            return resolved == null || resolved == expected;
+        }
+
+        private bool directory_is_expected_or_missing (string path, string expected) {
+            var resolved = Posix.realpath (path);
+            return resolved == null || resolved == expected;
         }
 
         private bool is_uint (string value) {

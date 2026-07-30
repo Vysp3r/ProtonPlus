@@ -64,9 +64,22 @@ namespace AppTests.SteamRestartPresentationTest {
         assert (SteamRestartPresentation.success_message (false, true).heading != null);
     }
 
+    private void test_inactive_notification_policy () {
+        var policy = new SteamRestartNotificationPolicy ();
+        assert (policy.update (0, 1, true, false) == null);
+        assert (policy.update (0, 1, false, true) == null);
+        assert (policy.update (0, 1, false, false) != null);
+        assert (policy.update (1, 1, false, false) == null);
+        assert (policy.update (1, 2, false, false) != null);
+        assert (policy.update (2, 3, false, false) == null);
+        assert (policy.update (3, 0, false, false) == null);
+        assert (policy.update (0, 1, false, false) != null);
+    }
+
     public void register_tests () {
         Test.add_func ("/steam-restart-presentation/banner-and-grouping", test_banner_states_and_grouping);
         Test.add_func ("/steam-restart-presentation/toast-policy", test_toast_policy);
         Test.add_func ("/steam-restart-presentation/failure-messages", test_failure_messages_are_actionable);
+        Test.add_func ("/steam-restart-presentation/inactive-notification-policy", test_inactive_notification_policy);
     }
 }

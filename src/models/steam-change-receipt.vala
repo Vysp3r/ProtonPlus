@@ -130,7 +130,17 @@ namespace ProtonPlus.Models {
         }
 
         public string deduplication_key {
-            owned get { return "%s\u001f%s\u001f%s".printf (target.id, kind_to_identifier (kind), resource_key); }
+            owned get {
+                /* A configuration resource has one effective desired value.
+                 * Its descriptive change kind may legitimately change (for
+                 * example a ProtonPlus shortcut create becoming a removal),
+                 * so including that kind would create competing intents and
+                 * make the result depend on hash-map iteration order. */
+                var identity = configuration_intent != null
+                    ? "configuration-intent"
+                    : kind_to_identifier (kind);
+                return "%s\u001f%s\u001f%s".printf (target.id, identity, resource_key);
+            }
         }
 
         public static string kind_to_identifier (SteamChangeKind kind) {

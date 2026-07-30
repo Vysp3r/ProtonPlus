@@ -5,6 +5,7 @@ namespace ProtonPlus.Services {
         ADDED,
         UPDATED,
         REQUIREMENT_CLEARED,
+        UNCHANGED,
         ALREADY_SATISFIED,
         PERSISTENCE_FAILED
     }
@@ -104,7 +105,7 @@ namespace ProtonPlus.Services {
                 var new_intent = (!) receipt.configuration_intent;
                 if (old_intent.desired_present == new_intent.desired_present
                     && old_intent.desired == new_intent.desired)
-                    return SteamRestartRecordResult.UPDATED;
+                    return SteamRestartRecordResult.UNCHANGED;
                 var baseline = old_intent.baseline;
                 /* New-format records deliberately omit the raw baseline.  The
                  * request was read from disk, so it safely restores it for
@@ -117,11 +118,30 @@ namespace ProtonPlus.Services {
                     old_intent.baseline_present, new_intent.desired_present, old_intent.baseline_fingerprint);
                 if (merged.desired_present == merged.baseline_present
                     && merged.desired == merged.baseline) {
-                    pending.unset (key);
+                    var removed = new Gee.ArrayList<SteamRestartPendingRecord> ();
+                    removed.add (existing);
+                    /* v2 state written by the earlier implementation could
+                     * contain a separate missing-shortcuts-file prerequisite.
+                     * A reverted create must remove it in the same durable
+                     * transaction, otherwise reconciliation could create an
+                     * empty file after the user chose to undo the shortcut. */
+                    if (merged.operation == SteamConfigurationOperation.SHORTCUT_PRESENCE
+                        && !merged.baseline_present && !merged.desired_present) {
+                        foreach (var candidate in pending.values) {
+                            var candidate_intent = candidate.receipt.configuration_intent;
+                            if (candidate_intent != null
+                                && ((!) candidate_intent).operation == SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT
+                                && ((!) candidate_intent).path == merged.path)
+                                removed.add (candidate);
+                        }
+                    }
+                    foreach (var removed_record in removed)
+                        pending.unset (removed_record.receipt.deduplication_key);
                     var target_cleared = pending_count_for_target (receipt.target) == 0;
                     if (target_cleared) targets.unset (receipt.target.id);
                     if (!persist ()) {
-                        pending.set (key, existing);
+                        foreach (var removed_record in removed)
+                            pending.set (removed_record.receipt.deduplication_key, removed_record);
                         targets.set (receipt.target.id, receipt.target);
                         return SteamRestartRecordResult.PERSISTENCE_FAILED;
                     }
@@ -147,7 +167,6 @@ namespace ProtonPlus.Services {
             } else {
                 pending.set (key, updated_record (existing, receipt, stable_session));
             }
-            watch_target (receipt.target);
             if (!persist ()) {
                 /* A staged-only value exists nowhere but this state file.  Do
                  * not leave a false in-memory success when durability fails. */
@@ -160,6 +179,7 @@ namespace ProtonPlus.Services {
                 }
                 return SteamRestartRecordResult.PERSISTENCE_FAILED;
             }
+            watch_target (receipt.target);
             pending_changed ();
             if (was_empty)
                 restart_became_required (receipt.target);
@@ -257,10 +277,18 @@ namespace ProtonPlus.Services {
             var target_cleared = pending_count_for_target (target) == 0;
             if (target_cleared)
                 targets.unset (target.id);
+            /* Clearing a receipt is just as transactional as recording one:
+             * a failed save must not emit a false satisfaction transition or
+             * leave a staged-only in-memory result. */
+            if (!persist ()) {
+                foreach (var record in cleared)
+                    pending.set (record.receipt.deduplication_key, record);
+                targets.set (target.id, target);
+                return;
+            }
             pending_changed ();
             if (target_cleared)
                 restart_requirement_satisfied (target);
-            persist ();
         }
 
         /* Configuration records require on-disk verification by the service;

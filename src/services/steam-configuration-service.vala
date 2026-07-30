@@ -100,16 +100,28 @@ namespace ProtonPlus.Services {
             var target = profile.launcher.get_steam_restart_target ();
             if (target == null || profile.launch_options_hashtable == null) return;
             var localconfig = Filename.canonicalize (profile.localconfig_path, null);
+            var shortcuts = Filename.canonicalize (Path.build_filename (profile.userdata_path, "config", "shortcuts.vdf"), null);
             foreach (var record in manager.get_pending_changes_for_target (target)) {
                 var intent = record.receipt.configuration_intent;
-                if (intent == null || ((!) intent).path != localconfig
-                    || ((!) intent).operation != SteamConfigurationOperation.LAUNCH_OPTIONS) continue;
+                if (intent == null) continue;
                 uint appid;
                 if (!uint.try_parse (((!) intent).field_id, out appid)) continue;
                 var value = ((!) intent).desired_present ? ((!) intent).desired : "";
-                profile.launch_options_hashtable.set (appid, value);
-                foreach (var game in (List<Games.Steam>) profile.launcher.games) {
-                    if (game.appid == appid) game.launch_options = value;
+                if (((!) intent).path == localconfig
+                    && ((!) intent).operation == SteamConfigurationOperation.LAUNCH_OPTIONS) {
+                    profile.launch_options_hashtable.set (appid, value);
+                    foreach (var game in (List<Games.Steam>) profile.launcher.games) {
+                        if (game.appid == appid) game.launch_options = value;
+                    }
+                } else if (((!) intent).path == shortcuts
+                    && ((!) intent).operation == SteamConfigurationOperation.SHORTCUT_LAUNCH_OPTIONS
+                    && profile.non_steam_games != null) {
+                    /* Binary VDF stores escaped quotes; the game model owns
+                     * the user-facing, unescaped command spelling. */
+                    var displayed = value.replace ("\\\"", "\"");
+                    foreach (var game in profile.non_steam_games) {
+                        if (game.appid == appid) game.launch_options = displayed;
+                    }
                 }
             }
         }
@@ -147,16 +159,10 @@ namespace ProtonPlus.Services {
                 }
             }
 
-            /* A missing file is a separate, ordered requirement.  It is only
-             * created during reconciliation, never during profile discovery. */
-            if (desired_present && !FileUtils.test (path, FileTest.IS_REGULAR)) {
-                var prerequisite = new SteamConfigurationIntent (SteamConfigurationFile.SHORTCUTS,
-                    SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT, path, "shortcuts.vdf", "", "present", false, true);
-                var prerequisite_result = record_intent (target, SteamChangeKind.SHORTCUTS_VDF_CREATED,
-                    "%s#shortcuts.vdf".printf (path), prerequisite);
-                if (!prerequisite_result.accepted)
-                    return prerequisite_result;
-            }
+            /* Shortcut presence is a single replayable operation.  During
+             * reconciliation it creates a missing file only when creation is
+             * still desired; reverting before that point cannot leave an
+             * orphan file-creation receipt or create an empty VDF. */
             var intent = new SteamConfigurationIntent (SteamConfigurationFile.SHORTCUTS,
                 SteamConfigurationOperation.SHORTCUT_PRESENCE, path, "ProtonPlus",
                 installed ? "present" : "", desired_present ? "present" : "",

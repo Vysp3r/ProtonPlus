@@ -166,4 +166,31 @@ namespace ProtonPlus.Widgets.Main {
             return null;
         }
     }
+
+    /* Kept separate from the widget so tests can assert suppression without
+     * talking to a desktop notification daemon.  The messages intentionally
+     * describe only the aggregate requirement, never a subject or command. */
+    public class SteamRestartNotificationPolicy : Object {
+        private bool initial_sent = false;
+        private bool aggregate_sent = false;
+
+        public string? update (uint previous_count, uint current_count, bool active, bool restored) {
+            if (current_count == 0) {
+                initial_sent = false;
+                aggregate_sent = false;
+                return null;
+            }
+            if (active || restored)
+                return null;
+            if (previous_count == 0 && current_count > 0 && !initial_sent) {
+                initial_sent = true;
+                return _ ("Steam needs to restart to apply your changes");
+            }
+            if (previous_count == 1 && current_count > 1 && !aggregate_sent) {
+                aggregate_sent = true;
+                return _ ("Multiple changes will be applied after Steam restarts");
+            }
+            return null;
+        }
+    }
 }

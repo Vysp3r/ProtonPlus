@@ -45,6 +45,13 @@ namespace ProtonPlus.Models {
             if (!non_steam_games_loaded)
             return false;
 
+            /* Non-Steam entries do not exist until the binary VDF was read,
+             * so their persisted effective-state overlay belongs after this
+             * load step, not beside ordinary localconfig launch options. */
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration != null)
+                configuration.overlay_profile_effective_state (this);
+
             return true;
         }
 
