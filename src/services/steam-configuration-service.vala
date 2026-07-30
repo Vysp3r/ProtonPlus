@@ -18,14 +18,36 @@ namespace ProtonPlus.Services {
         public abstract bool verify_target_after_session (SteamRestartTarget target);
     }
 
+    /* Keep the environment-dependent ProtonPlus shortcut construction at the
+     * edge of the configuration service.  Production still uses Shortcuts,
+     * while lifecycle tests can exercise the service without a bundled icon,
+     * installed executable, or desktop session. */
+    public interface SteamShortcutMutator : Object {
+        public abstract bool install (Utils.VDF.Shortcuts shortcuts);
+        public abstract bool remove (Utils.VDF.Shortcuts shortcuts);
+    }
+
+    private class DefaultSteamShortcutMutator : Object, SteamShortcutMutator {
+        public bool install (Utils.VDF.Shortcuts shortcuts) {
+            return shortcuts.install_for_current_environment ();
+        }
+        public bool remove (Utils.VDF.Shortcuts shortcuts) {
+            return shortcuts.uninstall ();
+        }
+    }
+
     public class SteamConfigurationService : Object, SteamConfigurationReconciler {
         private const string ABSENT = "\u001eprotonplus-absent";
         private SteamSessionService sessions;
         private SteamRestartManager manager;
+        private SteamShortcutMutator shortcut_mutator;
         private static SteamConfigurationService? configured = null;
 
-        public SteamConfigurationService (SteamSessionService sessions, SteamRestartManager manager) {
-            this.sessions = sessions; this.manager = manager;
+        public SteamConfigurationService (SteamSessionService sessions, SteamRestartManager manager,
+            SteamShortcutMutator? shortcut_mutator = null) {
+            this.sessions = sessions;
+            this.manager = manager;
+            this.shortcut_mutator = shortcut_mutator ?? new DefaultSteamShortcutMutator ();
         }
         public static SteamConfigurationService? instance { get { return configured; } }
         public static void configure (SteamConfigurationService service) { configured = service; }
@@ -150,7 +172,7 @@ namespace ProtonPlus.Services {
                 try {
                     var shortcuts = FileUtils.test (path, FileTest.IS_REGULAR)
                         ? Utils.VDF.Shortcuts.load (path) : Utils.VDF.Shortcuts.empty (path);
-                    var changed = desired_present ? shortcuts.install_for_current_environment () : shortcuts.uninstall ();
+                    var changed = desired_present ? shortcut_mutator.install (shortcuts) : shortcut_mutator.remove (shortcuts);
                     if (!changed) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Unable to change ProtonPlus shortcut.");
                     profile.shortcuts = shortcuts;
                     return new SteamConfigurationMutation (SteamConfigurationMutationResult.CHANGED);
@@ -317,8 +339,8 @@ namespace ProtonPlus.Services {
                     var shortcuts = FileUtils.test (intent.path, FileTest.IS_REGULAR)
                         ? Utils.VDF.Shortcuts.load (intent.path) : Utils.VDF.Shortcuts.empty (intent.path);
                     if (intent.desired_present)
-                        return shortcuts.get_installed_status () || shortcuts.install_for_current_environment ();
-                    return !shortcuts.get_installed_status () || shortcuts.uninstall ();
+                        return shortcuts.get_installed_status () || shortcut_mutator.install (shortcuts);
+                    return !shortcuts.get_installed_status () || shortcut_mutator.remove (shortcuts);
                 } catch (Error e) { return false; }
             }
             return apply_intent (intent, Utils.Filesystem.get_file_content (intent.path), true);

@@ -82,13 +82,20 @@ namespace AppTests.SteamRestartOrchestratorTest {
         public SteamConfigurationMutationResult next_result = SteamConfigurationMutationResult.CHANGED;
         public int reconcile_calls = 0;
         public int verify_calls = 0;
-        public SteamConfigurationMutation reconcile_target (SteamRestartTarget target) {
+        public SteamRestartManager? manager_for_verification = null;
+        public virtual SteamConfigurationMutation reconcile_target (SteamRestartTarget target) {
             reconcile_calls++;
             return new SteamConfigurationMutation (next_result,
                 next_result == SteamConfigurationMutationResult.CONFLICT ? "fixture conflict" : null);
         }
         public bool verify_target_after_session (SteamRestartTarget target) {
             verify_calls++;
+            if (manager_for_verification != null) {
+                foreach (var record in ((!) manager_for_verification).get_pending_changes_for_target (target)) {
+                    if (record.receipt.configuration_intent != null)
+                        ((!) manager_for_verification).clear_verified_configuration (record);
+                }
+            }
             return true;
         }
     }
@@ -100,6 +107,13 @@ namespace AppTests.SteamRestartOrchestratorTest {
     private SteamRestartTarget native_target (string path) { return SteamRestartTarget.for_native (Path.build_filename (Path.get_dirname (path), "Steam")); }
     private SteamChangeReceipt receipt (SteamRestartTarget target, string key = "config.vdf/compat-tool-mapping/1") {
         return new SteamChangeReceipt (target, SteamChangeKind.GAME_COMPATIBILITY_TOOL_CHANGED, SteamRestartRequirement.CONSERVATIVE, key, "1", "Fixture", "2026-07-29T12:00:00Z");
+    }
+    private SteamChangeReceipt configuration_receipt (SteamRestartTarget target) {
+        var path = Filename.canonicalize (Path.build_filename (target.data_root, "config", "config.vdf"), null);
+        var intent = new SteamConfigurationIntent (SteamConfigurationFile.CONFIG,
+            SteamConfigurationOperation.COMPATIBILITY_MAPPING, path, "1", "proton-a", "proton-b");
+        return new SteamChangeReceipt (target, SteamChangeKind.GAME_COMPATIBILITY_TOOL_CHANGED,
+            SteamRestartRequirement.CONSERVATIVE, "%s#CompatToolMapping/1".printf (path), "1", "Fixture", null, intent);
     }
     private void set_native_running (SessionFixture fixture, SteamRestartTarget target, int pid = 101, int64 start = 100, string extra = "") {
         var processes = new Gee.ArrayList<SteamProcessRecord> ();
@@ -231,7 +245,9 @@ namespace AppTests.SteamRestartOrchestratorTest {
     private void test_reconciliation_is_ordered_before_launch () {
         SessionFixture session; ControlFixture control; SteamRestartManager manager; SteamRestartTarget target;
         setup_native (out session, out control, out manager, out target);
+        assert (manager.record (configuration_receipt (target)) == SteamRestartRecordResult.ADDED);
         var reconciler = new ReconcilerFixture ();
+        reconciler.manager_for_verification = manager;
         var orchestrator = new SteamRestartOrchestrator (new SteamSessionService (session), manager,
             control, 0, 2, 2, reconciler);
         var transitions = new Gee.ArrayList<SteamRestartOperationState> ();
@@ -242,11 +258,20 @@ namespace AppTests.SteamRestartOrchestratorTest {
         assert (transitions.index_of (SteamRestartOperationState.APPLYING_CHANGES)
             < transitions.index_of (SteamRestartOperationState.LAUNCHING));
         assert (control.launch_requests == 1);
+        assert (transitions.size == 7);
+        assert (transitions[0] == SteamRestartOperationState.PREFLIGHT);
+        assert (transitions[1] == SteamRestartOperationState.REQUESTING_SHUTDOWN);
+        assert (transitions[2] == SteamRestartOperationState.WAITING_FOR_EXIT);
+        assert (transitions[3] == SteamRestartOperationState.APPLYING_CHANGES);
+        assert (transitions[4] == SteamRestartOperationState.LAUNCHING);
+        assert (transitions[5] == SteamRestartOperationState.WAITING_FOR_START);
+        assert (transitions[6] == SteamRestartOperationState.SUCCEEDED);
     }
 
     private void test_reconciliation_conflict_prevents_launch () {
         SessionFixture session; ControlFixture control; SteamRestartManager manager; SteamRestartTarget target;
         setup_native (out session, out control, out manager, out target);
+        assert (manager.record (configuration_receipt (target)) == SteamRestartRecordResult.ADDED);
         var reconciler = new ReconcilerFixture ();
         reconciler.next_result = SteamConfigurationMutationResult.CONFLICT;
         var orchestrator = new SteamRestartOrchestrator (new SteamSessionService (session), manager,
@@ -255,7 +280,34 @@ namespace AppTests.SteamRestartOrchestratorTest {
         assert (result.reason == SteamRestartFailureReason.CONFIGURATION_RECONCILIATION_FAILED);
         assert (reconciler.reconcile_calls == 1);
         assert (control.launch_requests == 0);
-        assert (manager.pending_count_for_target (target) == 1);
+        assert (manager.pending_count_for_target (target) == 2);
+    }
+
+    private void test_reconciliation_outcomes_and_tool_only_receipts () {
+        SessionFixture session; ControlFixture control; SteamRestartManager manager; SteamRestartTarget target;
+        setup_native (out session, out control, out manager, out target);
+        var reconciler = new ReconcilerFixture ();
+        reconciler.next_result = SteamConfigurationMutationResult.UNCHANGED;
+        var tool_only = new SteamRestartOrchestrator (new SteamSessionService (session), manager,
+            control, 0, 2, 2, reconciler);
+        assert (run (tool_only, target).final_state == SteamRestartOperationState.SUCCEEDED);
+        assert (reconciler.reconcile_calls == 0);
+
+        setup_native (out session, out control, out manager, out target);
+        assert (manager.record (configuration_receipt (target)) == SteamRestartRecordResult.ADDED);
+        reconciler = new ReconcilerFixture (); reconciler.next_result = SteamConfigurationMutationResult.FAILED;
+        var failed = run (new SteamRestartOrchestrator (new SteamSessionService (session), manager,
+            control, 0, 2, 2, reconciler), target);
+        assert (failed.reason == SteamRestartFailureReason.CONFIGURATION_RECONCILIATION_FAILED);
+        assert (control.launch_requests == 0);
+
+        setup_native (out session, out control, out manager, out target);
+        assert (manager.record (configuration_receipt (target)) == SteamRestartRecordResult.ADDED);
+        reconciler = new ReconcilerFixture (); reconciler.next_result = SteamConfigurationMutationResult.PERSISTENCE_FAILED;
+        var persistence_failed = run (new SteamRestartOrchestrator (new SteamSessionService (session), manager,
+            control, 0, 2, 2, reconciler), target);
+        assert (persistence_failed.reason == SteamRestartFailureReason.CONFIGURATION_RECONCILIATION_FAILED);
+        assert (control.launch_requests == 0);
     }
 
     public void register_tests () {
@@ -273,5 +325,6 @@ namespace AppTests.SteamRestartOrchestratorTest {
         Test.add_func ("/steam-restart-orchestrator/native-fallback-dispatch-is-nonblocking", test_native_fallback_dispatch_does_not_wait_for_application_exit);
         Test.add_func ("/steam-restart-orchestrator/reconciliation-is-ordered-before-launch", test_reconciliation_is_ordered_before_launch);
         Test.add_func ("/steam-restart-orchestrator/reconciliation-conflict-prevents-launch", test_reconciliation_conflict_prevents_launch);
+        Test.add_func ("/steam-restart-orchestrator/reconciliation-outcomes-and-tool-only-receipts", test_reconciliation_outcomes_and_tool_only_receipts);
     }
 }

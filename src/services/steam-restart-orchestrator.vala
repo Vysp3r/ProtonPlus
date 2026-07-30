@@ -128,7 +128,10 @@ namespace ProtonPlus.Services {
             if (cancelled (cancellable))
                 return cancelled_result (target, shutdown_sent, stopped, false, false, "Cancelled after Steam stopped; pending changes were retained.");
             transition (SteamRestartOperationState.APPLYING_CHANGES);
-            if (configuration_reconciler != null) {
+            /* Installation-only receipts share the restart transaction, but
+             * they do not name a Steam-owned configuration file.  Do not ask
+             * a configuration reconciler to apply unrelated work for them. */
+            if (configuration_reconciler != null && target_has_configuration_intent (target)) {
                 var outcome = ((!) configuration_reconciler).reconcile_target (target);
                 if (outcome.result == SteamConfigurationMutationResult.FAILED
                     || outcome.result == SteamConfigurationMutationResult.CONFLICT
@@ -209,6 +212,14 @@ namespace ProtonPlus.Services {
                 restart_manager.reconcile_snapshot (target, snapshot);
             progress_changed (snapshot);
             return snapshot;
+        }
+
+        private bool target_has_configuration_intent (SteamRestartTarget target) {
+            foreach (var record in restart_manager.get_pending_changes_for_target (target)) {
+                if (record.receipt.configuration_intent != null)
+                    return true;
+            }
+            return false;
         }
 
         private SteamRestartFailureReason reject_preflight (SteamRestartTarget target, SteamSessionSnapshot snapshot) {

@@ -3,6 +3,7 @@ namespace AppTests.InstallerTransactionTest {
     using ProtonPlus;
     using ProtonPlus.Models;
     using ProtonPlus.Models.Providers;
+    using ProtonPlus.Services;
 
     private class FixtureJob : ProtonPlus.Services.InstallJob {
         private string fixture_path;
@@ -70,6 +71,26 @@ namespace AppTests.InstallerTransactionTest {
         }
     }
 
+    private class RestartTargetLauncher : Launcher {
+        private SteamRestartTarget target;
+        public RestartTargetLauncher (string root) {
+            base ("Steam fixture", InstallationTypes.SYSTEM, "", { root }, "steam-fixture");
+            target = SteamRestartTarget.for_native (root);
+        }
+        public override SteamRestartTarget? get_steam_restart_target () { return target; }
+    }
+
+    private class RecordingRestartChange : Object, SteamChangeRecorder {
+        public SteamRestartRecordResult next_result = SteamRestartRecordResult.ADDED;
+        public int calls = 0;
+        public SteamChangeReceipt? last_receipt = null;
+        public SteamRestartRecordResult record (SteamChangeReceipt receipt) {
+            calls++;
+            last_receipt = receipt;
+            return next_result;
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/installer-transaction/stages-promotes-cleans-and-writes-metadata", test_stages_promotes_and_writes_metadata);
         Test.add_func ("/installer-transaction/canceled-download-cleans-private-workspace", test_canceled_download_cleans_workspace);
@@ -85,6 +106,7 @@ namespace AppTests.InstallerTransactionTest {
         Test.add_func ("/installer-transaction/all-built-in-providers-use-latest-workflow", test_all_built_in_providers_use_latest_workflow);
         Test.add_func ("/installer-transaction/incompatible-variant-stops-before-download", test_incompatible_variant_stops_before_download);
         Test.add_func ("/installer-transaction/incompatible-variant-stops-update-install", test_incompatible_variant_stops_update_install);
+        Test.add_func ("/installer-transaction/records-completed-steam-workflow-and-persistence-failure", test_records_completed_steam_workflow_and_persistence_failure);
     }
 
     private string temporary_directory () {
@@ -245,6 +267,27 @@ namespace AppTests.InstallerTransactionTest {
         assert (job.download_calls == 0);
         assert (ProtonPlus.Utils.DownloadManager.instance.active_downloads.size == 0);
         Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_records_completed_steam_workflow_and_persistence_failure () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var recorder = new RecordingRestartChange ();
+        InstallationService.instance.configure_steam_change_recorder (recorder);
+        var launcher = new RestartTargetLauncher (root);
+        var job = new FixtureJob (runner (tools, ArchiveInstallRequirement.STANDARD, launcher), location, fixture_archive (root));
+        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        assert (recorder.calls == 1);
+        assert (recorder.last_receipt.kind == SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED);
+        assert (job.has_steam_restart_record_result);
+
+        var replacement = new FixtureJob (runner (Path.build_filename (root, "tools-two"), ArchiveInstallRequirement.STANDARD, launcher),
+            Path.build_filename (root, "tools-two", "Fixture Runner"), fixture_archive (root));
+        recorder.next_result = SteamRestartRecordResult.PERSISTENCE_FAILED;
+        assert (install (replacement) == ReturnCode.RUNNER_INSTALLED);
+        assert (recorder.calls == 2);
+        assert (replacement.steam_restart_warning != null);
+        InstallationService.reset_lifecycle_configuration_for_tests ();
         assert (delete_directory (root));
     }
 

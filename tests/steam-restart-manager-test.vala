@@ -14,6 +14,14 @@ namespace AppTests.SteamRestartManagerTest {
         public SteamDesktopEntry? find_desktop_entry (string? id) { return null; }
     }
 
+    private class FailingStateStore : SteamRestartStateStore {
+        public bool fail_saves = false;
+        public FailingStateStore (string path) { base (path); }
+        public override bool save (Gee.Collection<SteamRestartPendingRecord> records) {
+            return !fail_saves && base.save (records);
+        }
+    }
+
     private string temp_state_path () {
         var directory = DirUtils.mkdtemp (Path.build_filename (Environment.get_tmp_dir (), "protonplus-restart-test-XXXXXX"));
         return Path.build_filename (directory, "state.json");
@@ -252,6 +260,63 @@ namespace AppTests.SteamRestartManagerTest {
         assert (loaded.error != null);
     }
 
+    private void test_persistence_failures_restore_exact_configuration_state () {
+        var path = temp_state_path ();
+        var backend = new FakeBackend ();
+        var target = native_target (path);
+        var processes = new Gee.ArrayList<SteamProcessRecord> ();
+        processes.add (new SteamProcessRecord (101, Path.build_filename (target.data_root, "steam"), target.data_root, 100));
+        backend.native_query = new NativeProcessQuery (true, processes);
+        var store = new FailingStateStore (path);
+        var manager = new SteamRestartManager (new SteamSessionService (backend), store);
+        var changed = 0;
+        manager.pending_changed.connect (() => { changed++; });
+
+        assert (manager.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.ADDED);
+        var before = manager.get_pending_changes ().get (0);
+        store.fail_saves = true;
+        assert (manager.record (configuration_receipt (target, "proton-c")) == SteamRestartRecordResult.PERSISTENCE_FAILED);
+        var after_update = manager.get_pending_changes ().get (0);
+        assert (after_update.receipt.configuration_intent.desired == "proton-b");
+        assert (after_update.occurrence_count == before.occurrence_count);
+        assert (after_update.first_recorded_at == before.first_recorded_at);
+        assert (after_update.last_updated_at == before.last_updated_at);
+        assert (changed == 1);
+
+        assert (manager.record (configuration_receipt (target, "proton-a")) == SteamRestartRecordResult.PERSISTENCE_FAILED);
+        assert (manager.pending_count () == 1);
+        assert (manager.get_pending_changes ().get (0).receipt.configuration_intent.desired == "proton-b");
+        assert (changed == 1);
+        assert (!manager.clear_verified_configuration (manager.get_pending_changes ().get (0)));
+        assert (manager.pending_count () == 1);
+        assert (changed == 1);
+    }
+
+    private void test_state_store_migrates_lifecycle_v1_and_secures_permissions () {
+        var path = temp_state_path ();
+        var target = native_target (path);
+        var store = new SteamRestartStateStore (path);
+        var records = new Gee.ArrayList<SteamRestartPendingRecord> ();
+        records.add (new SteamRestartPendingRecord (receipt (target, "compatibilitytools.d/fixture"),
+            "2026-07-29T12:00:00Z", "2026-07-29T12:00:00Z", 1, null));
+        assert (store.save (records));
+        assert (Posix.chmod (path, 0644) == 0);
+        assert (store.save (records));
+        try {
+            var info = File.new_for_path (path).query_info ("unix::mode", FileQueryInfoFlags.NONE, null);
+            assert ((info.get_attribute_uint32 ("unix::mode") & 0777) == 0600);
+        } catch (Error e) { assert_not_reached (); }
+        var v2 = "";
+        try { FileUtils.get_contents (path, out v2); } catch (FileError e) { assert_not_reached (); }
+        var v1 = v2.replace ("\"schema_version\":2", "\"schema_version\":1");
+        assert (v1 != v2);
+        try { FileUtils.set_contents (path, v1); } catch (FileError e) { assert_not_reached (); }
+        var loaded = store.load ();
+        assert (loaded.error == null);
+        assert (loaded.records.size == 1);
+        assert (loaded.records.get (0).receipt.resource_key == "compatibilitytools.d/fixture");
+    }
+
     public void register_tests () {
         Test.add_func ("/steam-restart-manager/deduplicates-and-persists", test_deduplicates_and_persists);
         Test.add_func ("/steam-restart-manager/stopped-change-is-already-satisfied", test_stopped_change_is_already_satisfied);
@@ -264,5 +329,7 @@ namespace AppTests.SteamRestartManagerTest {
         Test.add_func ("/steam-restart-manager/configuration-identity-ignores-kind", test_configuration_identity_ignores_descriptive_kind);
         Test.add_func ("/steam-restart-manager/reverting-legacy-shortcut-create-removes-prerequisite", test_reverting_legacy_shortcut_create_removes_prerequisite);
         Test.add_func ("/steam-restart-manager/configuration-state-stable-and-safe", test_configuration_state_uses_stable_ids_and_rejects_unsafe_paths);
+        Test.add_func ("/steam-restart-manager/persistence-failures-restore-configuration-state", test_persistence_failures_restore_exact_configuration_state);
+        Test.add_func ("/steam-restart-manager/state-store-v1-and-private-mode", test_state_store_migrates_lifecycle_v1_and_secures_permissions);
     }
 }

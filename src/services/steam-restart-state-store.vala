@@ -69,7 +69,7 @@ namespace ProtonPlus.Services {
             return new SteamRestartStateLoadResult (records, last_error);
         }
 
-        public bool save (Gee.Collection<SteamRestartPendingRecord> records) {
+        public virtual bool save (Gee.Collection<SteamRestartPendingRecord> records) {
             last_error = null;
             var parent = File.new_for_path (Path.get_dirname (path));
             try {

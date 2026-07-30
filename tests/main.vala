@@ -36,6 +36,7 @@ int main (string[] args) {
     AppTests.InstallerTransactionTest.register_tests ();
     AppTests.SteamTest.register_tests ();
     AppTests.SteamSessionTest.register_tests ();
+    AppTests.SteamConfigurationServiceTest.register_tests ();
     AppTests.SteamRestartManagerTest.register_tests ();
     AppTests.SteamRestartOrchestratorTest.register_tests ();
     AppTests.SteamRestartPresentationTest.register_tests ();
