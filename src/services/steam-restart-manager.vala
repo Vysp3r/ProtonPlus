@@ -67,6 +67,16 @@ namespace ProtonPlus.Services {
             return copy;
         }
 
+        /* Configuration callers use this narrow lookup to coalesce against
+         * accepted desired state before making an on-disk no-op decision. */
+        public SteamConfigurationIntent? get_pending_configuration_intent (SteamRestartTarget target, string resource_key) {
+            foreach (var record in pending.values) {
+                if (record.receipt.target.id == target.id && record.receipt.resource_key == resource_key)
+                    return record.receipt.configuration_intent;
+            }
+            return null;
+        }
+
         /* Targets are immutable value objects.  Return a new collection so
          * presentation code cannot mutate the manager's ownership map. */
         public Gee.List<SteamRestartTarget> get_pending_targets () {
@@ -92,9 +102,21 @@ namespace ProtonPlus.Services {
                 && existing.receipt.configuration_intent != null) {
                 var old_intent = (!) existing.receipt.configuration_intent;
                 var new_intent = (!) receipt.configuration_intent;
+                if (old_intent.desired_present == new_intent.desired_present
+                    && old_intent.desired == new_intent.desired)
+                    return SteamRestartRecordResult.UPDATED;
+                var baseline = old_intent.baseline;
+                /* New-format records deliberately omit the raw baseline.  The
+                 * request was read from disk, so it safely restores it for
+                 * this process after its fingerprint has been checked. */
+                if (baseline == "" && old_intent.baseline_fingerprint
+                    == SteamConfigurationIntent.fingerprint (new_intent.baseline, new_intent.baseline_present))
+                    baseline = new_intent.baseline;
                 var merged = new SteamConfigurationIntent (new_intent.file, new_intent.operation,
-                    new_intent.path, new_intent.field_id, old_intent.baseline, new_intent.desired);
-                if (merged.desired == merged.baseline) {
+                    new_intent.path, new_intent.field_id, baseline, new_intent.desired,
+                    old_intent.baseline_present, new_intent.desired_present, old_intent.baseline_fingerprint);
+                if (merged.desired_present == merged.baseline_present
+                    && merged.desired == merged.baseline) {
                     pending.unset (key);
                     var target_cleared = pending_count_for_target (receipt.target) == 0;
                     if (target_cleared) targets.unset (receipt.target.id);
@@ -110,9 +132,12 @@ namespace ProtonPlus.Services {
                 var merged_receipt = new SteamChangeReceipt (receipt.target, receipt.kind,
                     receipt.restart_requirement, receipt.resource_key, receipt.subject_id,
                     receipt.subject_label, receipt.changed_at, merged);
-                existing.update (merged_receipt, stable_session);
-                if (!persist ())
+                var replacement = updated_record (existing, merged_receipt, stable_session);
+                pending.set (key, replacement);
+                if (!persist ()) {
+                    pending.set (key, existing);
                     return SteamRestartRecordResult.PERSISTENCE_FAILED;
+                }
                 pending_changed ();
                 return SteamRestartRecordResult.UPDATED;
             }
@@ -120,16 +145,18 @@ namespace ProtonPlus.Services {
                 pending.set (key, new SteamRestartPendingRecord (receipt, receipt.changed_at, receipt.changed_at, 1, stable_session));
                 targets.set (receipt.target.id, receipt.target);
             } else {
-                existing.update (receipt, stable_session);
+                pending.set (key, updated_record (existing, receipt, stable_session));
             }
             watch_target (receipt.target);
             if (!persist ()) {
                 /* A staged-only value exists nowhere but this state file.  Do
                  * not leave a false in-memory success when durability fails. */
-                if (existing == null && receipt.configuration_intent != null) {
+                if (existing == null) {
                     pending.unset (key);
                     if (pending_count_for_target (receipt.target) == 0)
                         targets.unset (receipt.target.id);
+                } else {
+                    pending.set (key, existing);
                 }
                 return SteamRestartRecordResult.PERSISTENCE_FAILED;
             }
@@ -145,8 +172,10 @@ namespace ProtonPlus.Services {
             state_changed_handler_id = session_service.state_changed.connect ((target, snapshot) => {
                 reconcile_snapshot (target, snapshot);
             });
-            foreach (var target in targets.values)
+            foreach (var target in targets.values) {
                 session_service.watch_target (target);
+                reconcile_target (target);
+            }
             session_service.start_monitoring ();
             observation_started = true;
         }
@@ -182,6 +211,11 @@ namespace ProtonPlus.Services {
                     pending_changed ();
                     persist ();
                 }
+                /* A manually observed stop is authorization to reconcile the
+                 * already-persisted intent; it never implies a relaunch. */
+                var configuration = SteamConfigurationService.instance;
+                if (configuration != null)
+                    configuration.reconcile_target (target);
                 return;
             }
             if (snapshot.state != SteamSessionState.RUNNING)
@@ -189,6 +223,21 @@ namespace ProtonPlus.Services {
             var current = identity_from_snapshot (target, snapshot);
             if (current == null)
                 return;
+            var configuration_needs_verification = false;
+            foreach (var record in get_pending_changes_for_target (target)) {
+                if (record.receipt.configuration_intent == null) continue;
+                var recorded = record.observed_session;
+                if ((recorded == null && record.stop_observed)
+                    || (recorded != null && !recorded.equals ((!) current))) {
+                    configuration_needs_verification = true;
+                    break;
+                }
+            }
+            if (configuration_needs_verification) {
+                var configuration = SteamConfigurationService.instance;
+                if (configuration != null)
+                    configuration.verify_target_after_session (target);
+            }
             var cleared = new Gee.ArrayList<SteamRestartPendingRecord> ();
             foreach (var record in get_pending_changes_for_target (target)) {
                 if (record.receipt.configuration_intent != null)
@@ -242,6 +291,15 @@ namespace ProtonPlus.Services {
             pending.set (key, record);
             targets.set (record.receipt.target.id, record.receipt.target);
             watch_target (record.receipt.target);
+        }
+
+        private SteamRestartPendingRecord updated_record (SteamRestartPendingRecord old,
+            SteamChangeReceipt receipt, SteamSessionIdentity? session) {
+            var observed = old.observed_session;
+            if (observed == null && session != null)
+                observed = session;
+            return new SteamRestartPendingRecord (receipt, old.first_recorded_at,
+                receipt.changed_at, old.occurrence_count + 1, observed, old.stop_observed);
         }
 
         private void watch_target (SteamRestartTarget target) {

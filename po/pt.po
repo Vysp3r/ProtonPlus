@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 22:19-0400\n"
+"POT-Creation-Date: 2026-07-29 22:39-0400\n"
 "PO-Revision-Date: 2026-05-15 06:11+0000\n"
 "Last-Translator: Yasmin Stanchese <yasmin@snowfloke.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -5710,42 +5710,42 @@ msgstr "Atualizar lançadores/inicializadores"
 msgid "Manage shortcut"
 msgstr "Criar atalho"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:28
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Create shortcut"
 msgstr "Criar atalho"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:28
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Delete shortcut"
 msgstr "Excluir atalho"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:29
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Criar um atalho do ProtonPlus no Steam"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:29
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
 msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Excluir atalho do ProtonPlus no Steam"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:39
-#, fuzzy
-msgid "Failed to delete shortcut"
-msgstr "Excluir atalho"
-
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:40
-msgid ""
-"ProtonPlus was unable to remove the shortcut from Steam. This might happen "
-"if Steam is currently running or if the shortcuts file is inaccessible."
-msgstr ""
-
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:53
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
 #, fuzzy
 msgid "Failed to create shortcut"
 msgstr "Criar atalho"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:54
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
+#, fuzzy
+msgid "Failed to delete shortcut"
+msgstr "Excluir atalho"
+
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:58
 msgid ""
 "ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is "
 "closed and try again."
+msgstr ""
+
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:59
+msgid ""
+"ProtonPlus was unable to remove the shortcut from Steam. This might happen "
+"if Steam is currently running or if the shortcuts file is inaccessible."
 msgstr ""
 
 #: src/widgets/preferences/preferences-theme-row.vala:16

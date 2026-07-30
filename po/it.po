@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 22:19-0400\n"
+"POT-Creation-Date: 2026-07-29 22:39-0400\n"
 "PO-Revision-Date: 2025-11-17 15:51+0000\n"
 "Last-Translator: Alessandro Marigliano <alemarigliano22@proton.me>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -5666,42 +5666,42 @@ msgstr ""
 msgid "Manage shortcut"
 msgstr "Crea collegamento"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:28
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Create shortcut"
 msgstr "Crea collegamento"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:28
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Delete shortcut"
 msgstr "Elimina collegamento"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:29
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Crea un collegamento di ProtonPlus su Steam"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:29
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
 msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Elimina il collegamento di ProtonPlus su Steam"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:39
-#, fuzzy
-msgid "Failed to delete shortcut"
-msgstr "Elimina collegamento"
-
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:40
-msgid ""
-"ProtonPlus was unable to remove the shortcut from Steam. This might happen "
-"if Steam is currently running or if the shortcuts file is inaccessible."
-msgstr ""
-
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:53
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
 #, fuzzy
 msgid "Failed to create shortcut"
 msgstr "Crea collegamento"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:54
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
+#, fuzzy
+msgid "Failed to delete shortcut"
+msgstr "Elimina collegamento"
+
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:58
 msgid ""
 "ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is "
 "closed and try again."
+msgstr ""
+
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:59
+msgid ""
+"ProtonPlus was unable to remove the shortcut from Steam. This might happen "
+"if Steam is currently running or if the shortcuts file is inaccessible."
 msgstr ""
 
 #: src/widgets/preferences/preferences-theme-row.vala:16

@@ -24,42 +24,45 @@ namespace ProtonPlus.Widgets.Preferences {
         }
 
         void refresh () {
-            var shortcut_installed = profile.shortcuts.get_installed_status ();
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            var shortcut_installed = configuration != null
+                ? configuration.protonplus_shortcut_is_effectively_installed (profile)
+                : profile.shortcuts.get_installed_status ();
             shortcut_button.set_label (!shortcut_installed ? _ ("Create shortcut") : _ ("Delete shortcut"));
             set_subtitle (!shortcut_installed ? _ ("Create a shortcut of ProtonPlus in Steam") : _ ("Delete the shortcut of ProtonPlus in Steam"));
         }
 
         void shortcut_button_clicked () {
-            var installed = profile.shortcuts.get_installed_status ();
-
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration == null)
+                return;
+            var installed = configuration.protonplus_shortcut_is_effectively_installed (profile);
+            shortcut_button.set_sensitive (false);
+            var current_profile = profile;
             if (installed) {
-                var success = profile.shortcuts.uninstall ();
-                if (!success) {
-                    var dialog = new Main.ErrorDialog (
-                        _ ("Failed to delete shortcut"),
-                        _ ("ProtonPlus was unable to remove the shortcut from Steam. This might happen if Steam is currently running or if the shortcuts file is inaccessible."), // vala-lint=line-length
-                        ""
-                    );
-                    ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
-                }
-                refresh ();
+                configuration.remove_protonplus_shortcut.begin (current_profile, (obj, res) => {
+                    present_shortcut_result (configuration.remove_protonplus_shortcut.end (res), false);
+                });
             } else {
-                shortcut_button.set_sensitive (false);
-                var current_profile = profile;
-                current_profile.shortcuts.install.begin ((obj, res) => {
-                    var success = current_profile.shortcuts.install.end (res);
-                    if (!success) {
-                        var dialog = new Main.ErrorDialog (
-                            _ ("Failed to create shortcut"),
-                            _ ("ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is closed and try again."),
-                            ""
-                        );
-                        ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
-                    }
-                    shortcut_button.set_sensitive (true);
-                    refresh ();
+                configuration.install_protonplus_shortcut.begin (current_profile, (obj, res) => {
+                    present_shortcut_result (configuration.install_protonplus_shortcut.end (res), true);
                 });
             }
+        }
+
+        private void present_shortcut_result (ProtonPlus.Services.SteamConfigurationMutation result, bool creating) {
+            if (!result.accepted) {
+                var dialog = new Main.ErrorDialog (
+                    creating ? _ ("Failed to create shortcut") : _ ("Failed to delete shortcut"),
+                    creating
+                        ? _ ("ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is closed and try again.")
+                        : _ ("ProtonPlus was unable to remove the shortcut from Steam. This might happen if Steam is currently running or if the shortcuts file is inaccessible."),
+                    ""
+                );
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
+            }
+            shortcut_button.set_sensitive (true);
+            refresh ();
         }
     }
 }

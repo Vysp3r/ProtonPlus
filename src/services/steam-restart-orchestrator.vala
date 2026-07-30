@@ -184,7 +184,12 @@ namespace ProtonPlus.Services {
                     var cleared = restart_manager.pending_count_for_target (target) == 0;
                     var persistence_failed = restart_manager.last_persistence_error != null;
                     if (!cleared)
-                        return fail (target, SteamRestartFailureReason.NEW_SESSION_UNCONFIRMED, shutdown_sent, stopped, launch_sent, started, "A new Steam process was observed but pending state did not reconcile.");
+                        return fail (target, persistence_failed
+                            ? SteamRestartFailureReason.PENDING_STATE_PERSISTENCE_FAILED
+                            : SteamRestartFailureReason.NEW_SESSION_UNCONFIRMED,
+                            shutdown_sent, stopped, launch_sent, started,
+                            persistence_failed ? "Steam restarted, but clearing verified pending state could not be persisted."
+                            : "A new Steam process was observed but pending state did not reconcile.");
                     transition (SteamRestartOperationState.SUCCEEDED);
                     return result (target, SteamRestartOperationState.SUCCEEDED,
                         persistence_failed ? SteamRestartFailureReason.PENDING_STATE_PERSISTENCE_FAILED : SteamRestartFailureReason.NONE,

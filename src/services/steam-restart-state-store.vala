@@ -14,7 +14,7 @@ namespace ProtonPlus.Services {
     /* This is deliberately state data, not cache data: cache deletion must not
      * discard an outstanding requirement to restart Steam. */
     public class SteamRestartStateStore : Object {
-        private const int SCHEMA_VERSION = 1;
+        private const int SCHEMA_VERSION = 2;
         public string path { get; private set; }
         public string? last_error { get; private set; default = null; }
 
@@ -48,7 +48,8 @@ namespace ProtonPlus.Services {
                 return new SteamRestartStateLoadResult (records, last_error);
             }
             var object = root.get_object ();
-            if (object.get_int_member_with_default ("schema_version", 0) != SCHEMA_VERSION) {
+            var version = object.get_int_member_with_default ("schema_version", 0);
+            if (version != 1 && version != SCHEMA_VERSION) {
                 last_error = "Steam restart state uses an unsupported schema version.";
                 return new SteamRestartStateLoadResult (records, last_error);
             }
@@ -59,11 +60,13 @@ namespace ProtonPlus.Services {
             }
             var array = entries.get_array ();
             for (var i = 0; i < array.get_length (); i++) {
-                var record = record_from_json (array.get_object_element (i));
+                var record = record_from_json (array.get_object_element (i), (int) version);
                 if (record != null)
                     records.add (record);
+                else
+                    last_error = "Some Steam restart records were rejected for safety.";
             }
-            return new SteamRestartStateLoadResult (records);
+            return new SteamRestartStateLoadResult (records, last_error);
         }
 
         public bool save (Gee.Collection<SteamRestartPendingRecord> records) {
@@ -91,6 +94,13 @@ namespace ProtonPlus.Services {
             var data = generator.to_data (null);
 
             try {
+                /* PRIVATE only affects a newly created file.  Secure an
+                 * existing replacement before changing its contents so a
+                 * permission failure cannot split memory from durable state. */
+                if (FileUtils.test (path, FileTest.EXISTS) && Posix.chmod (path, 0600) != 0) {
+                    last_error = "Unable to secure Steam restart state file.";
+                    return false;
+                }
                 string? etag;
                 File.new_for_path (path).replace_contents (data.data, null, false, FileCreateFlags.PRIVATE, out etag, null);
                 return true;
@@ -122,7 +132,7 @@ namespace ProtonPlus.Services {
             return object;
         }
 
-        private SteamRestartPendingRecord? record_from_json (Json.Object? object) {
+        private SteamRestartPendingRecord? record_from_json (Json.Object? object, int schema_version) {
             if (object == null)
                 return null;
             var target_node = object.get_member ("target");
@@ -158,7 +168,7 @@ namespace ProtonPlus.Services {
             if (intent_node != null) {
                 if (intent_node.get_node_type () != Json.NodeType.OBJECT)
                     return null;
-                intent = intent_from_json (intent_node.get_object ());
+                intent = intent_from_json (intent_node.get_object (), schema_version, target, resource_key, kind);
                 if (intent == null)
                     return null;
             }
@@ -186,30 +196,87 @@ namespace ProtonPlus.Services {
 
         private Json.Object intent_to_json (SteamConfigurationIntent intent) {
             var object = new Json.Object ();
-            object.set_int_member ("file", (int) intent.file);
-            object.set_int_member ("operation", (int) intent.operation);
+            object.set_string_member ("file", SteamConfigurationIntent.file_to_identifier (intent.file));
+            object.set_string_member ("operation", SteamConfigurationIntent.operation_to_identifier (intent.operation));
             object.set_string_member ("path", intent.path);
             object.set_string_member ("field_id", intent.field_id);
-            object.set_string_member ("baseline", intent.baseline);
+            object.set_string_member ("baseline_fingerprint", intent.baseline_fingerprint);
+            object.set_boolean_member ("baseline_present", intent.baseline_present);
             object.set_string_member ("desired", intent.desired);
-            object.set_boolean_member ("applied", intent.applied);
+            object.set_boolean_member ("desired_present", intent.desired_present);
             return object;
         }
 
-        private SteamConfigurationIntent? intent_from_json (Json.Object object) {
-            var file = object.get_int_member_with_default ("file", -1);
-            var operation = object.get_int_member_with_default ("operation", -1);
+        private SteamConfigurationIntent? intent_from_json (Json.Object object, int schema_version,
+            SteamRestartTarget target, string resource_key, SteamChangeKind kind) {
+            SteamConfigurationFile file = SteamConfigurationFile.CONFIG;
+            SteamConfigurationOperation operation = SteamConfigurationOperation.COMPATIBILITY_MAPPING;
+            if (schema_version == 1) {
+                var legacy_file = object.get_int_member_with_default ("file", -1);
+                var legacy_operation = object.get_int_member_with_default ("operation", -1);
+                if (legacy_file < (int) SteamConfigurationFile.CONFIG || legacy_file > (int) SteamConfigurationFile.SHORTCUTS
+                    || legacy_operation < (int) SteamConfigurationOperation.COMPATIBILITY_MAPPING
+                    || legacy_operation > (int) SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT)
+                    return null;
+                file = (SteamConfigurationFile) legacy_file;
+                operation = (SteamConfigurationOperation) legacy_operation;
+            } else if (!SteamConfigurationIntent.try_file_from_identifier (object.get_string_member_with_default ("file", ""), out file)
+                || !SteamConfigurationIntent.try_operation_from_identifier (object.get_string_member_with_default ("operation", ""), out operation)) {
+                return null;
+            }
             var path = object.get_string_member_with_default ("path", "");
             var field_id = object.get_string_member_with_default ("field_id", "");
-            if (file < (int) SteamConfigurationFile.CONFIG || file > (int) SteamConfigurationFile.SHORTCUTS
-                || operation < (int) SteamConfigurationOperation.COMPATIBILITY_MAPPING
-                || operation > (int) SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT
-                || path == "" || field_id == "" || !object.has_member ("baseline") || !object.has_member ("desired"))
+            if (path == "" || field_id == "" || !object.has_member ("desired")
+                || !is_valid_intent (target, kind, file, operation, path, field_id, resource_key))
                 return null;
-            return new SteamConfigurationIntent ((SteamConfigurationFile) file,
-                (SteamConfigurationOperation) operation, path, field_id,
-                object.get_string_member ("baseline"), object.get_string_member ("desired"),
-                object.get_boolean_member_with_default ("applied", false));
+            var desired = object.get_string_member ("desired");
+            if (schema_version == 1) {
+                if (!object.has_member ("baseline")) return null;
+                var baseline = object.get_string_member ("baseline");
+                const string legacy_absent = "\u001eprotonplus-absent";
+                var baseline_present = baseline != legacy_absent;
+                var desired_present = desired != legacy_absent;
+                return new SteamConfigurationIntent (file, operation, path, field_id,
+                    baseline_present ? baseline : "", desired_present ? desired : "",
+                    baseline_present, desired_present);
+            }
+            var fingerprint = object.get_string_member_with_default ("baseline_fingerprint", "");
+            if (fingerprint == "") return null;
+            return new SteamConfigurationIntent (file, operation, path, field_id, "", desired,
+                object.get_boolean_member_with_default ("baseline_present", true),
+                object.get_boolean_member_with_default ("desired_present", true), fingerprint);
+        }
+
+        private bool is_valid_intent (SteamRestartTarget target, SteamChangeKind kind,
+            SteamConfigurationFile file, SteamConfigurationOperation operation,
+            string path, string field_id, string resource_key) {
+            var canonical = Filename.canonicalize (path, null);
+            if (canonical != path || !resource_key.has_prefix (path + "#")) return false;
+            var config = Path.build_filename (target.data_root, "config", "config.vdf");
+            if (file == SteamConfigurationFile.CONFIG)
+                return operation == SteamConfigurationOperation.COMPATIBILITY_MAPPING
+                    && canonical == config && is_uint (field_id)
+                    && (kind == SteamChangeKind.DEFAULT_COMPATIBILITY_TOOL_CHANGED || kind == SteamChangeKind.GAME_COMPATIBILITY_TOOL_CHANGED);
+            var prefix = Path.build_filename (target.data_root, "userdata") + "/";
+            if (!canonical.has_prefix (prefix)) return false;
+            var tail = canonical.substring (prefix.length);
+            var parts = tail.split ("/");
+            if (parts.length != 3 || !is_uint (parts[0]) || parts[1] != "config") return false;
+            if (file == SteamConfigurationFile.LOCALCONFIG)
+                return operation == SteamConfigurationOperation.LAUNCH_OPTIONS && parts[2] == "localconfig.vdf"
+                    && is_uint (field_id) && kind == SteamChangeKind.STEAM_GAME_LAUNCH_OPTIONS_CHANGED;
+            if (file != SteamConfigurationFile.SHORTCUTS || parts[2] != "shortcuts.vdf") return false;
+            if (operation == SteamConfigurationOperation.SHORTCUT_LAUNCH_OPTIONS)
+                return is_uint (field_id) && kind == SteamChangeKind.NON_STEAM_GAME_LAUNCH_OPTIONS_CHANGED;
+            if (operation == SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT)
+                return field_id == "shortcuts.vdf" && kind == SteamChangeKind.SHORTCUTS_VDF_CREATED;
+            return operation == SteamConfigurationOperation.SHORTCUT_PRESENCE && field_id == "ProtonPlus"
+                && (kind == SteamChangeKind.PROTONPLUS_SHORTCUT_CREATED || kind == SteamChangeKind.PROTONPLUS_SHORTCUT_REMOVED);
+        }
+
+        private bool is_uint (string value) {
+            uint parsed;
+            return value != "" && uint.try_parse (value, out parsed);
         }
 
         private SteamRestartTarget? target_from_json (Json.Object object) {

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 22:19-0400\n"
+"POT-Creation-Date: 2026-07-29 22:39-0400\n"
 "PO-Revision-Date: 2025-08-21 19:02+0000\n"
 "Last-Translator: Linus Virtanen <linus.virtanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/protonplus/"
@@ -5650,42 +5650,42 @@ msgstr ""
 msgid "Manage shortcut"
 msgstr "Luo oikopolku"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:28
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Create shortcut"
 msgstr "Luo oikopolku"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:28
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Delete shortcut"
 msgstr "Poista pikakuvake"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:29
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Luo ProtonPlus-oikopolku Steam:iin"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:29
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
 msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Poista ProtonPlus -pikakuvake Steam:issa"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:39
-#, fuzzy
-msgid "Failed to delete shortcut"
-msgstr "Poista pikakuvake"
-
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:40
-msgid ""
-"ProtonPlus was unable to remove the shortcut from Steam. This might happen "
-"if Steam is currently running or if the shortcuts file is inaccessible."
-msgstr ""
-
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:53
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
 #, fuzzy
 msgid "Failed to create shortcut"
 msgstr "Luo oikopolku"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:54
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
+#, fuzzy
+msgid "Failed to delete shortcut"
+msgstr "Poista pikakuvake"
+
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:58
 msgid ""
 "ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is "
 "closed and try again."
+msgstr ""
+
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:59
+msgid ""
+"ProtonPlus was unable to remove the shortcut from Steam. This might happen "
+"if Steam is currently running or if the shortcuts file is inaccessible."
 msgstr ""
 
 #: src/widgets/preferences/preferences-theme-row.vala:16

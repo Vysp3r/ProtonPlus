@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 22:19-0400\n"
+"POT-Creation-Date: 2026-07-29 22:39-0400\n"
 "PO-Revision-Date: 2026-04-12 17:09+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -5731,42 +5731,42 @@ msgstr "Segarkan peluncur/runner"
 msgid "Manage shortcut"
 msgstr "Buat pintasan"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:28
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Create shortcut"
 msgstr "Buat pintasan"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:28
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Delete shortcut"
 msgstr "Hapus pintasan"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:29
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "Buat pintasan ProtonPlus di Steam"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:29
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
 msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Hapus pintasan ProtonPlus di Steam"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:39
-#, fuzzy
-msgid "Failed to delete shortcut"
-msgstr "Hapus pintasan"
-
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:40
-msgid ""
-"ProtonPlus was unable to remove the shortcut from Steam. This might happen "
-"if Steam is currently running or if the shortcuts file is inaccessible."
-msgstr ""
-
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:53
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
 #, fuzzy
 msgid "Failed to create shortcut"
 msgstr "Buat pintasan"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:54
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
+#, fuzzy
+msgid "Failed to delete shortcut"
+msgstr "Hapus pintasan"
+
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:58
 msgid ""
 "ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is "
 "closed and try again."
+msgstr ""
+
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:59
+msgid ""
+"ProtonPlus was unable to remove the shortcut from Steam. This might happen "
+"if Steam is currently running or if the shortcuts file is inaccessible."
 msgstr ""
 
 #: src/widgets/preferences/preferences-theme-row.vala:16

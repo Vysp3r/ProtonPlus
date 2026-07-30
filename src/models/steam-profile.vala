@@ -83,6 +83,10 @@ namespace ProtonPlus.Models {
                 this.launch_options_hashtable.set (game.appid, launch_options);
             }
 
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration != null)
+                configuration.overlay_profile_effective_state (this);
+
             return true;
         }
 

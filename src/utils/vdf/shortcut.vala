@@ -44,6 +44,12 @@ namespace ProtonPlus.Utils.VDF {
         }
 
         public async bool install () {
+            return install_for_current_environment ();
+        }
+
+        /* This deliberately has no Steam/session policy.  Callers that write
+         * shortcuts.vdf must go through SteamConfigurationService first. */
+        public bool install_for_current_environment () {
             Shortcut pp_shortcut = {};
 
             string exe = "";
@@ -53,12 +59,10 @@ namespace ProtonPlus.Utils.VDF {
                 exe = "\"/usr/bin/flatpak\"";
                 launch_options += " \"run\" \"--branch=stable\" \"--arch=x86_64\" \"--command=protonplus\" \"com.vysp3r.ProtonPlus\"";
             } else {
-                var which_output = (yield Utils.System.run_command ("which protonplus")).stdout;
-
-                if (which_output.contains ("which: no"))
-                return false;
-
-                exe = "%s".printf (which_output);
+                var executable = Environment.find_program_in_path ("protonplus");
+                if (executable == null)
+                    return false;
+                exe = (!) executable;
             }
 
             var icon_path = install_icon ();
@@ -88,6 +92,9 @@ namespace ProtonPlus.Utils.VDF {
 
                 return true;
             } catch (Error e) {
+                /* install_icon precedes the binary VDF write.  Do not leave a
+                 * stale icon if that write fails. */
+                try { remove_icon (); } catch (Error cleanup_error) { }
                 warning (e.message);
                 return false;
             }

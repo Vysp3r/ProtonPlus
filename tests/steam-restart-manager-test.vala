@@ -39,6 +39,14 @@ namespace AppTests.SteamRestartManagerTest {
             SteamRestartRequirement.CONSERVATIVE, resource_key, "123", "Test game", changed_at);
     }
 
+    private SteamChangeReceipt configuration_receipt (SteamRestartTarget target, string desired) {
+        var path = Filename.canonicalize (Path.build_filename (target.data_root, "config", "config.vdf"), null);
+        var intent = new SteamConfigurationIntent (SteamConfigurationFile.CONFIG,
+            SteamConfigurationOperation.COMPATIBILITY_MAPPING, path, "42", "proton-a", desired);
+        return new SteamChangeReceipt (target, SteamChangeKind.GAME_COMPATIBILITY_TOOL_CHANGED,
+            SteamRestartRequirement.CONSERVATIVE, "%s#CompatToolMapping/42".printf (path), "42", null, null, intent);
+    }
+
     private SteamRestartManager running_manager (string state_path, out FakeBackend backend) {
         backend = new FakeBackend ();
         var target = native_target (state_path);
@@ -144,7 +152,7 @@ namespace AppTests.SteamRestartManagerTest {
             assert_not_reached ();
         }
         var loaded = store.load ();
-        assert (loaded.error == null);
+        assert (loaded.error != null);
         assert (loaded.records.size == 1);
     }
 
@@ -154,8 +162,40 @@ namespace AppTests.SteamRestartManagerTest {
         var manager = running_manager (directory, out backend);
         var target = native_target (directory);
         assert (manager.record (receipt (target, "config.vdf/compat-tool-mapping/0")) == SteamRestartRecordResult.PERSISTENCE_FAILED);
-        assert (manager.pending_count () == 1);
+        assert (manager.pending_count () == 0);
         assert (manager.last_persistence_error != null);
+    }
+
+    private void test_configuration_coalesces_reversion_without_duplicate_occurrences () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        assert (manager.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.ADDED);
+        assert (manager.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.UPDATED);
+        assert (manager.get_pending_changes ().get (0).occurrence_count == 1);
+        assert (manager.record (configuration_receipt (target, "proton-c")) == SteamRestartRecordResult.UPDATED);
+        assert (manager.get_pending_changes ().get (0).occurrence_count == 2);
+        assert (manager.get_pending_changes ().get (0).receipt.configuration_intent.desired == "proton-c");
+        assert (manager.record (configuration_receipt (target, "proton-a")) == SteamRestartRecordResult.REQUIREMENT_CLEARED);
+        assert (manager.pending_count () == 0);
+    }
+
+    private void test_configuration_state_uses_stable_ids_and_rejects_unsafe_paths () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        assert (manager.record (configuration_receipt (target, "private launch value")) == SteamRestartRecordResult.ADDED);
+        string content = "";
+        try { FileUtils.get_contents (path, out content); } catch (FileError e) { assert_not_reached (); }
+        assert (content.contains ("\"file\":\"config\""));
+        assert (!content.contains ("\"baseline\":\"proton-a\""));
+        var unsafe_content = content.replace ("/config/config.vdf", "/../outside.vdf");
+        try { FileUtils.set_contents (path, unsafe_content); } catch (FileError e) { assert_not_reached (); }
+        var loaded = new SteamRestartStateStore (path).load ();
+        assert (loaded.records.size == 0);
+        assert (loaded.error != null);
     }
 
     public void register_tests () {
@@ -166,5 +206,7 @@ namespace AppTests.SteamRestartManagerTest {
         Test.add_func ("/steam-restart-manager/flatpak-reconciliation-requires-different-instance", test_flatpak_reconciliation_requires_different_instance);
         Test.add_func ("/steam-restart-manager/store-skips-invalid-individual-entries", test_store_skips_invalid_individual_entries);
         Test.add_func ("/steam-restart-manager/persistence-failure-keeps-memory-state", test_persistence_failure_keeps_memory_state);
+        Test.add_func ("/steam-restart-manager/configuration-coalesces-reversion", test_configuration_coalesces_reversion_without_duplicate_occurrences);
+        Test.add_func ("/steam-restart-manager/configuration-state-stable-and-safe", test_configuration_state_uses_stable_ids_and_rejects_unsafe_paths);
     }
 }

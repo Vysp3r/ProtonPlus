@@ -3,7 +3,7 @@ namespace ProtonPlus.Models {
     public enum SteamConfigurationFile { CONFIG, LOCALCONFIG, SHORTCUTS }
     public enum SteamConfigurationOperation {
         COMPATIBILITY_MAPPING, LAUNCH_OPTIONS, SHORTCUT_LAUNCH_OPTIONS,
-        SHORTCUTS_FILE_PRESENT
+        SHORTCUTS_FILE_PRESENT, SHORTCUT_PRESENCE
     }
 
     public class SteamConfigurationIntent : Object {
@@ -11,16 +11,74 @@ namespace ProtonPlus.Models {
         public SteamConfigurationOperation operation { get; private set; }
         public string path { get; private set; }
         public string field_id { get; private set; }
+        /* A baseline is intentionally kept in memory for the lifetime of a
+         * staged edit, but is serialized as a fingerprint.  Desired values
+         * remain replayable state and are protected by the private state file. */
         public string baseline { get; private set; }
+        public string baseline_fingerprint { get; private set; }
         public string desired { get; private set; }
-        public bool applied { get; set; default = false; }
+        public bool baseline_present { get; private set; }
+        public bool desired_present { get; private set; }
 
         public SteamConfigurationIntent (SteamConfigurationFile file,
             SteamConfigurationOperation operation, string path, string field_id,
-            string baseline, string desired, bool applied = false) {
+            string baseline, string desired, bool baseline_present = true,
+            bool desired_present = true, string? baseline_fingerprint = null) {
             this.file = file; this.operation = operation; this.path = path;
             this.field_id = field_id; this.baseline = baseline;
-            this.desired = desired; this.applied = applied;
+            this.desired = desired;
+            this.baseline_present = baseline_present;
+            this.desired_present = desired_present;
+            this.baseline_fingerprint = baseline_fingerprint ?? fingerprint (baseline, baseline_present);
+        }
+
+        public static string file_to_identifier (SteamConfigurationFile file) {
+            switch (file) {
+            case SteamConfigurationFile.CONFIG: return "config";
+            case SteamConfigurationFile.LOCALCONFIG: return "localconfig";
+            case SteamConfigurationFile.SHORTCUTS: return "shortcuts";
+            default: return "unknown";
+            }
+        }
+
+        public static bool try_file_from_identifier (string value, out SteamConfigurationFile file) {
+            file = SteamConfigurationFile.CONFIG;
+            switch (value) {
+            case "config": file = SteamConfigurationFile.CONFIG; return true;
+            case "localconfig": file = SteamConfigurationFile.LOCALCONFIG; return true;
+            case "shortcuts": file = SteamConfigurationFile.SHORTCUTS; return true;
+            default: return false;
+            }
+        }
+
+        public static string operation_to_identifier (SteamConfigurationOperation operation) {
+            switch (operation) {
+            case SteamConfigurationOperation.COMPATIBILITY_MAPPING: return "compatibility-mapping";
+            case SteamConfigurationOperation.LAUNCH_OPTIONS: return "launch-options";
+            case SteamConfigurationOperation.SHORTCUT_LAUNCH_OPTIONS: return "shortcut-launch-options";
+            case SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT: return "shortcuts-file-present";
+            case SteamConfigurationOperation.SHORTCUT_PRESENCE: return "shortcut-presence";
+            default: return "unknown";
+            }
+        }
+
+        public static bool try_operation_from_identifier (string value, out SteamConfigurationOperation operation) {
+            operation = SteamConfigurationOperation.COMPATIBILITY_MAPPING;
+            switch (value) {
+            case "compatibility-mapping": operation = SteamConfigurationOperation.COMPATIBILITY_MAPPING; return true;
+            case "launch-options": operation = SteamConfigurationOperation.LAUNCH_OPTIONS; return true;
+            case "shortcut-launch-options": operation = SteamConfigurationOperation.SHORTCUT_LAUNCH_OPTIONS; return true;
+            case "shortcuts-file-present": operation = SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT; return true;
+            case "shortcut-presence": operation = SteamConfigurationOperation.SHORTCUT_PRESENCE; return true;
+            default: return false;
+            }
+        }
+
+        public static string fingerprint (string value, bool present) {
+            var checksum = new Checksum (ChecksumType.SHA256);
+            var material = (present ? "present\u001f" : "absent\u001f") + value;
+            checksum.update (material.data, material.length);
+            return checksum.get_string ();
         }
     }
 

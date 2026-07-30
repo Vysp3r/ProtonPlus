@@ -613,6 +613,9 @@ namespace ProtonPlus.Models.Launchers {
             var mapping = steam != null ? steam.get_child ("CompatToolMapping") : null;
             if (mapping == null) {
                 compatibility_tool_hashtable.set (0, "proton_experimental");
+                var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+                if (configuration != null)
+                    configuration.overlay_launcher_effective_state (this);
                 return true;
             }
 
@@ -627,6 +630,10 @@ namespace ProtonPlus.Models.Launchers {
 
                 compatibility_tool_hashtable.set (appid, name.value);
             }
+
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration != null)
+                configuration.overlay_launcher_effective_state (this);
 
             return true;
         }
