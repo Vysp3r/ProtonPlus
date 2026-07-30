@@ -148,6 +148,27 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             return "";
         }
 
+        internal void reset_controls () {
+            refreshing_controls = true;
+            none.active = true;
+            gamescope.active = false;
+            scopebuddy.active = false;
+            none.selection_change ();
+            gamescope.selection_change ();
+            scopebuddy.selection_change ();
+            stack.set_visible_child_name ("none");
+            refreshing_controls = false;
+        }
+
+        internal void normalize_selection () {
+            refreshing_controls = true;
+            var selected = gamescope.active ? "gamescope"
+                : (scopebuddy.active ? "scopebuddy" : "none");
+            none.active = selected == "none";
+            stack.set_visible_child_name (selected);
+            refreshing_controls = false;
+        }
+
         public void set_presentation_visible (bool visible) {
             var show_chrome = should_show_backend_chrome (
                 Globals.GAMESCOPE_INSTALLED,

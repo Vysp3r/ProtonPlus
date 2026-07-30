@@ -120,6 +120,7 @@ src/widgets/games/launch-options-editor/groups/wrapper-group.vala
 src/widgets/games/launch-options-editor/i-launch-option.vala
 src/widgets/games/launch-options-editor/launch-command-builder.vala
 src/widgets/games/launch-options-editor/launch-command-composer.vala
+src/widgets/games/launch-options-editor/launch-command-edit-state.vala
 src/widgets/games/launch-options-editor/launch-command-editor-projection.vala
 src/widgets/games/launch-options-editor/launch-command-parser.vala
 src/widgets/games/launch-options-editor/launch-command-plan.vala

@@ -95,6 +95,15 @@ namespace AppTests.ParserTest {
         assert (markup.contains ("foreground='#ff938a'"));
         assert (markup.contains ("VAR=&quot;hello world&quot;"));
         assert (markup.contains ("&lt;unsafe&gt;"));
+
+        var labeled = ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionsList
+            .build_labeled_command_preview_markup (
+                { "Game <One>", "Game Two" },
+                { "PROTON_LOG=1 %command%", "-console" }
+            );
+        assert (labeled.contains ("<b>Game &lt;One&gt;</b>"));
+        assert (labeled.contains ("PROTON_LOG=1"));
+        assert (labeled.contains ("-console"));
     }
 
     private void test_launch_option_catalog_metadata_and_search () {
@@ -188,7 +197,8 @@ namespace AppTests.ParserTest {
         assert (command_entries == 1);
         assert (catalog.lookup ("steam-command").semantics.legacy_manual_representation);
         assert (catalog.lookup ("raw-launch-options").semantics.kind == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT);
-        assert (catalog.lookup ("custom-game-arguments").semantics.kind == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT);
+        assert (catalog.lookup ("custom-game-arguments").semantics.kind == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSemanticKind.GAME_ARGUMENT);
+        assert (catalog.lookup ("custom-game-arguments").semantics.emission_mode == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionEmissionMode.DYNAMIC_GAME_ARGUMENTS);
     }
 
     private void test_launch_option_catalog_semantic_validation () {

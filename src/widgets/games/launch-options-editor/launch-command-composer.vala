@@ -184,8 +184,21 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     append_wrapper_argument (diagnostics, selection, semantics, wrapper_arguments);
                     validate_no_additional_arguments (diagnostics, selection);
                 } else if (semantics.kind == LaunchOptionSemanticKind.GAME_ARGUMENT) {
-                    append_fixed_tokens (diagnostics, selection.option_id, semantics.fixed_tokens, game_arguments);
-                    validate_no_values (diagnostics, selection, semantics);
+                    if (semantics.emission_mode == LaunchOptionEmissionMode.DYNAMIC_GAME_ARGUMENTS) {
+                        var values = selection.get_values ();
+                        if (values.length == 0)
+                            add (diagnostics, LaunchCommandCompositionDiagnosticCode.MISSING_DYNAMIC_VALUE,
+                                selection.option_id, "Launch option '%s' requires at least one argument.".printf (
+                                    selection.option_id));
+                        foreach (var value in values) {
+                            if (safe (diagnostics, selection.option_id, value))
+                                game_arguments.add (shell_word (value));
+                        }
+                    } else {
+                        append_fixed_tokens (diagnostics, selection.option_id,
+                            semantics.fixed_tokens, game_arguments);
+                        validate_no_values (diagnostics, selection, semantics);
+                    }
                     validate_no_additional_arguments (diagnostics, selection);
                 } else if (semantics.kind == LaunchOptionSemanticKind.COMPOSITE_DYNAMIC) {
                     append_composite (diagnostics, selection, semantics, environments, wrapper_arguments);

@@ -68,6 +68,23 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public void register (string id, Gtk.Widget? widget, ILaunchOption? option, bool movable = true) {
+            var presentation = ensure_presentation (id, option, movable);
+            if (widget != null)
+                presentation.add_widget (widget);
+            var source = LaunchCommandSelectionAdapterFactory.create (id, widget, option);
+            if (source != null)
+                register_selection_source (id, source);
+        }
+
+        /* Some rows are alternate views of an existing option. Register their
+         * visibility/active state without creating a second state adapter. */
+        public void register_display_only (string id, Gtk.Widget? widget, ILaunchOption? option, bool movable = true) {
+            var presentation = ensure_presentation (id, option, movable);
+            if (widget != null)
+                presentation.add_widget (widget);
+        }
+
+        LaunchOptionPresentation ensure_presentation (string id, ILaunchOption? option, bool movable) {
             var presentation = by_id.get (id);
             if (presentation == null) {
                 var metadata = catalog.lookup (id);
@@ -77,11 +94,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             } else if (option != null) {
                 presentation.option = option;
             }
-            if (widget != null)
-                presentation.add_widget (widget);
-            var source = LaunchCommandSelectionAdapterFactory.create (id, widget, option);
-            if (source != null)
-                register_selection_source (id, source);
+            return presentation;
         }
 
         public void register_selection_source (string id, ILaunchCommandSelectionSource source) {
@@ -104,12 +117,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
             foreach (var presentation in get_ordered ()) {
                 var semantics = presentation.metadata.semantics;
-                if (semantics == null || !semantics.managed_emission)
-                    continue;
-                if (presentation.selection_sources.size == 0)
+                if (semantics != null && semantics.managed_emission
+                    && presentation.selection_sources.size == 0)
                     diagnostics.add ("Managed presentation '%s' has no selection source.".printf (presentation.metadata.id));
                 if (presentation.selection_sources.size > 1)
-                    diagnostics.add ("Managed presentation '%s' has duplicate selection ownership.".printf (presentation.metadata.id));
+                    diagnostics.add ("Presentation '%s' has duplicate selection ownership.".printf (presentation.metadata.id));
                 foreach (var source in presentation.selection_sources) {
                     if (source.option_id != presentation.metadata.id)
                         diagnostics.add ("Selection source '%s' disagrees with presentation '%s'.".printf (

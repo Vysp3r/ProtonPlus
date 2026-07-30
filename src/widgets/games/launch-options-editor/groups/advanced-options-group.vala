@@ -19,13 +19,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 this.changed ();
             });
 
-            additional_args_tile = create_tile (_("Custom game arguments"), _("Add your own launch options."), { "" }, false, LaunchLineType.ARGUMENT, "custom-game-arguments");
+            additional_args_tile = create_tile (_("Custom game arguments"), _("Add your own launch options."), { "" }, false, LaunchLineType.ARGUMENT);
             additional_args_tile.toggle.notify["active"].connect (() => {
                 additional_args_toggle_changed ();
             });
 
             var add_bind = new EntryBinding (additional_args_field, additional_args_tile.toggle);
             launch_option_handlers.add (add_bind);
+            if (presentation_registry != null)
+                presentation_registry.register_display_only (
+                    "custom-game-arguments", additional_args_tile, add_bind, presentation_movable
+                );
             register_option ("custom-game-arguments", additional_args_field, add_bind);
             raw_arguments_binding = add_bind;
 

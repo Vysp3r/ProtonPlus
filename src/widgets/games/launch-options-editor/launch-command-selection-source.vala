@@ -131,6 +131,40 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public string? get_diagnostic () { return diagnostic; }
     }
 
+    class LaunchCommandGameArgumentsSource : Object, ILaunchCommandSelectionSource {
+        public string option_id { get; set; }
+        unowned EntryBinding binding;
+        unowned LaunchOptionEntryField field;
+        string? diagnostic;
+
+        public LaunchCommandGameArgumentsSource (
+            string selection_id, EntryBinding binding, LaunchOptionEntryField field
+        ) {
+            Object ();
+            this.option_id = selection_id;
+            this.binding = binding;
+            this.field = field;
+        }
+
+        public LaunchCommandSelection? get_selection () {
+            diagnostic = null;
+            if (!binding.is_active ())
+                return null;
+            var values = new ArrayList<string> ();
+            foreach (var token in new LaunchOptionShellTokenizer ().tokenize (field.get_text ())) {
+                if (token.is_opaque) {
+                    diagnostic = "Custom game arguments contain opaque shell syntax.";
+                    return null;
+                }
+                values.add (token.value);
+            }
+            return values.size > 0
+                ? new LaunchCommandSelection (option_id, values.to_array ()) : null;
+        }
+
+        public string? get_diagnostic () { return diagnostic; }
+    }
+
     /* Adapters are chosen by control type, never from option-ID branches. */
     public class LaunchCommandSelectionAdapterFactory : Object {
         public static ILaunchCommandSelectionSource? create (string id, Gtk.Widget? widget, ILaunchOption? option) {
@@ -143,6 +177,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var pairs = option as LaunchOptionCustomPairs;
             if (pairs != null) return new LaunchCommandEnvironmentValueSource (id, pairs);
             var field = widget as LaunchOptionEntryField;
+            var entry_binding = option as EntryBinding;
+            if (field != null && entry_binding != null)
+                return new LaunchCommandGameArgumentsSource (id, entry_binding, field);
             if (field != null) return new LaunchCommandWrapperArgumentsSource (id, field);
             if (option != null) return new LaunchCommandFixedOptionSource (id, option);
             return null;

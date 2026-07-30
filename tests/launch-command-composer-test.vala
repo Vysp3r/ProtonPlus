@@ -48,6 +48,18 @@ namespace AppTests.LaunchCommandComposerTest {
         var preserved = compose ({ new LaunchCommandSelection ("developer-console") }, {}, true);
         assert (preserved.is_valid);
         assert (preserved.launch_line == "%command% -console");
+
+        var custom = compose ({
+            new LaunchCommandSelection ("custom-game-arguments", { "--profile", "hello world" })
+        });
+        assert (custom.is_valid);
+        assert (custom.launch_line == "--profile 'hello world'");
+
+        var unsafe = compose ({
+            new LaunchCommandSelection ("custom-game-arguments", { "%command%" })
+        });
+        assert (!unsafe.is_valid);
+        assert_code (unsafe, LaunchCommandCompositionDiagnosticCode.EMBEDDED_COMMAND_PLACEHOLDER);
     }
 
     private void test_wrappers_and_composite () {

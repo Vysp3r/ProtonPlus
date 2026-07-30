@@ -103,6 +103,12 @@ namespace AppTests.LaunchCommandParserTest {
         var unknown = parse ("unknown-before %command% unknown-after");
         assert (unknown.unrecognized_tokens[0].kind == LaunchCommandUnrecognizedKind.UNKNOWN_TOKEN);
         assert (unknown.unrecognized_tokens[1].kind == LaunchCommandUnrecognizedKind.PRESERVED_GAME_COMMAND_CONTENT);
+
+        var arguments_only = parse ("--old 'old value'");
+        assert (arguments_only.is_structurally_safe);
+        assert (arguments_only.unrecognized_tokens.size == 2);
+        assert (arguments_only.unrecognized_tokens[0].kind == LaunchCommandUnrecognizedKind.PRESERVED_GAME_COMMAND_CONTENT);
+        assert (arguments_only.unrecognized_tokens[1].kind == LaunchCommandUnrecognizedKind.PRESERVED_GAME_COMMAND_CONTENT);
     }
 
     private void test_raw_preservation () {

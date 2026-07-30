@@ -20,10 +20,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         LaunchCommandWriter writer;
         LaunchOptionCapabilityResolver capability_resolver;
         LaunchCommandCapabilityContext? capability_context;
-        Gee.HashMap<string, string> baseline_selections;
-        Gee.ArrayList<string> dirty_option_ids;
+        LaunchCommandEditState edit_state;
         string loaded_source;
-        bool explicit_clear;
+        Gee.ArrayList<string> preview_source_labels;
+        Gee.ArrayList<string> preview_sources;
 
         Adw.EntryRow search_entry { get; set; }
         Adw.ComboRow category_filter { get; set; }
@@ -53,10 +53,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             projection = new LaunchCommandEditorProjection (catalog);
             writer = new LaunchCommandWriter (catalog);
             capability_resolver = new LaunchOptionCapabilityResolver (catalog);
-            baseline_selections = new Gee.HashMap<string, string> ();
-            dirty_option_ids = new Gee.ArrayList<string> ();
+            edit_state = new LaunchCommandEditState ();
             loaded_source = "";
-            explicit_clear = false;
+            preview_source_labels = new Gee.ArrayList<string> ();
+            preview_sources = new Gee.ArrayList<string> ();
+            preview_source_labels.add ("");
+            preview_sources.add (loaded_source);
             category_boxes = new Gee.HashMap<int, Gtk.Box> ();
             subsection_groups = new Gee.HashMap<string, Adw.PreferencesGroup> ();
             category_filter_views = new Gee.ArrayList<LaunchOptionView> ();
@@ -96,7 +98,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 title = _("Preserved unrecognized launch options"),
                 subtitle = _("Quoted, opaque, and unknown shell content is retained exactly as loaded.")
             };
-            presentations.register ("raw-launch-options", raw_content_row, advanced_options_group.raw_arguments_binding);
+            presentations.register_display_only (
+                "raw-launch-options", raw_content_row, advanced_options_group.raw_arguments_binding
+            );
 
             categories_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
             build_task_categories ();
@@ -111,10 +115,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (no_results_label);
 
             gpu_vendor_group.set_advanced_visible (true);
-            refresh_filters ();
             refreshing_controls = false;
-            refresh_preview ();
-            refresh_projection ();
+            refresh_state ();
         }
 
         Gtk.Widget create_navigation () {
@@ -257,20 +259,23 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public void clear () {
             refreshing_controls = true;
             launch_option_handlers.clear_all ();
+            wrapper_group.reset_controls ();
             gpu_vendor_group.normalize_dependencies ();
             refreshing_controls = false;
-            explicit_clear = true;
-            update_dirty_state ();
-            refresh_filters ();
-            refresh_preview ();
-            refresh_projection ();
-            content_changed ();
+            edit_state.mark_explicit_clear (collect_sources ());
+            refresh_state (true);
         }
 
         public bool has_clearable_state () {
             foreach (var handler in launch_option_handlers) {
                 if (handler.is_active ())
                     return true;
+            }
+            if (!edit_state.explicit_clear) {
+                foreach (var source in preview_sources) {
+                    if (source != "")
+                        return true;
+                }
             }
             return false;
         }
@@ -282,57 +287,82 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public Gee.List<LaunchCommandCompositionDiagnostic> projection_composition_diagnostics {
             get { return projection.composition_diagnostics; }
         }
-        public bool is_dirty { get { return explicit_clear || dirty_option_ids.size > 0; } }
-        public bool writing_allowed { get { return prepare_write ().writing_allowed; } }
+        public bool is_dirty { get { return edit_state.is_dirty; } }
+        public bool writing_allowed {
+            get {
+                foreach (var source in preview_sources) {
+                    if (!prepare_write_for_source (source).writing_allowed)
+                        return false;
+                }
+                return true;
+            }
+        }
         public Gee.List<string> write_diagnostics { get { return prepare_write ().writer_diagnostics; } }
 
         public LaunchCommandWriteResult prepare_write () {
-            var diagnostics = presentations.validate_selection_sources ();
-            var selections = collect_managed_selections (diagnostics);
-            return writer.prepare (new LaunchCommandWriteRequest (projection.parsed,
-                selections.to_array (), dirty_option_ids.to_array (),
-                diagnostics.to_array (), capability_context,
-                explicit_clear, projection.retain_placeholder_for_arguments_only));
+            return prepare_write_for_source (loaded_source);
         }
 
         public LaunchCommandWriteResult prepare_write_for_source (string source) {
             var diagnostics = presentations.validate_selection_sources ();
             var selections = collect_managed_selections (diagnostics);
-            return writer.prepare_source (source, selections.to_array (), dirty_option_ids.to_array (),
-                diagnostics.to_array (), capability_context, explicit_clear,
+            return writer.prepare_source (source, selections.to_array (), edit_state.get_modified_option_ids (),
+                diagnostics.to_array (), capability_context, edit_state.explicit_clear,
                 false);
         }
 
         public void set_capability_context (LaunchCommandCapabilityContext? context) {
             capability_context = context;
-            refresh_filters ();
-            refresh_preview ();
-            refresh_projection ();
+            refresh_state ();
         }
 
         public void set_text (string launch_options) {
             refreshing_controls = true;
             loaded_source = launch_options;
+            preview_source_labels.clear ();
+            preview_sources.clear ();
+            preview_source_labels.add ("");
+            preview_sources.add (loaded_source);
             gpu_vendor_group.reset_controls ();
             launch_option_handlers.load_from_string (launch_options);
+            wrapper_group.normalize_selection ();
             gpu_vendor_group.normalize_dependencies ();
-            explicit_clear = false;
-            record_baseline_selections ();
-            refresh_filters ();
+            edit_state.record_baseline (collect_sources ());
             refreshing_controls = false;
+            refresh_state ();
+        }
+
+        /* Batch editing has one control state but one preserved source command
+         * per game. Preview every source through the same writer used by Apply. */
+        public void set_preview_sources (string[] labels, string[] sources) {
+            assert (labels.length == sources.length);
+            preview_source_labels.clear ();
+            preview_sources.clear ();
+            foreach (var label in labels)
+                preview_source_labels.add (label);
+            foreach (var source in sources)
+                preview_sources.add (source);
+            if (preview_sources.size == 0) {
+                preview_source_labels.add ("");
+                preview_sources.add (loaded_source);
+            }
             refresh_preview ();
-            refresh_projection ();
         }
 
         void standard_control_changed () {
-            if (!refreshing_controls) {
-                launch_option_handlers.mark_modified ();
-                update_dirty_state ();
-            }
+            if (refreshing_controls)
+                return;
+
+            launch_option_handlers.mark_modified ();
+            edit_state.update (collect_sources ());
+            refresh_state (true);
+        }
+
+        void refresh_state (bool notify_change = false) {
             refresh_filters ();
-            refresh_preview ();
             refresh_projection ();
-            if (!refreshing_controls)
+            refresh_preview ();
+            if (notify_change)
                 content_changed ();
         }
 
@@ -346,10 +376,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             foreach (var source in presentations.get_selection_sources ()) {
                 if (source.option_id == "launch-backend") {
                     var selected = wrapper_group.get_selected_backend_id ();
-                    if (selected != "")
-                        sources.add (new LaunchCommandStaticSelectionSource (
-                            "launch-backend", new LaunchCommandSelection ("launch-backend", {}, selected)
-                        ));
+                    sources.add (new LaunchCommandStaticSelectionSource (
+                        "launch-backend", selected != ""
+                            ? new LaunchCommandSelection ("launch-backend", {}, selected) : null
+                    ));
                     continue;
                 }
                 if (exclude_unavailable) {
@@ -369,6 +399,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var selections = new Gee.ArrayList<LaunchCommandSelection> ();
             foreach (var source in collect_sources ()) {
                 var selection = source.get_selection ();
+                var source_diagnostic = source.get_diagnostic ();
+                if (source_diagnostic != null)
+                    diagnostics.add (source_diagnostic);
                 if (selection == null)
                     continue;
                 var metadata = catalog.lookup (selection.option_id);
@@ -380,7 +413,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 var eligibility = capability_resolver.evaluate_selection (metadata, selection,
                     capability_context, true);
                 if (!eligibility.may_activate) {
-                    if (dirty_option_ids.contains (selection.option_id))
+                    if (edit_state.is_option_modified (selection.option_id))
                         diagnostics.add (eligibility.reason);
                     continue;
                 }
@@ -388,37 +421,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     && semantics.kind != LaunchOptionSemanticKind.COMMAND_BOUNDARY
                     && semantics.kind != LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT) {
                     selections.add (selection);
-                } else if (dirty_option_ids.contains (selection.option_id)) {
+                } else if (edit_state.is_option_modified (selection.option_id)) {
                     diagnostics.add ("Launch option '%s' cannot be newly enabled.".printf (selection.option_id));
                 }
             }
             return selections;
-        }
-
-        string selection_fingerprint (LaunchCommandSelection? selection) {
-            if (selection == null) return "";
-            return "%s\x1f%s\x1f%s\x1f%s".printf (selection.option_id, selection.wrapper_id,
-                string.joinv ("\x1f", selection.get_values ()),
-                string.joinv ("\x1f", selection.get_additional_wrapper_arguments ()));
-        }
-
-        void record_baseline_selections () {
-            baseline_selections.clear ();
-            dirty_option_ids.clear ();
-            foreach (var source in collect_sources ())
-                baseline_selections.set (source.option_id, selection_fingerprint (source.get_selection ()));
-        }
-
-        void update_dirty_state () {
-            dirty_option_ids.clear ();
-            foreach (var source in collect_sources ()) {
-                var original = baseline_selections.has_key (source.option_id)
-                    ? baseline_selections.get (source.option_id) : "";
-                if (selection_fingerprint (source.get_selection ()) != original)
-                    dirty_option_ids.add (source.option_id);
-            }
-            if (dirty_option_ids.size > 0)
-                explicit_clear = false;
         }
 
         void refresh_filters () {
@@ -518,7 +525,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void refresh_preview () {
-            var result = prepare_write ();
+            var results = new Gee.ArrayList<LaunchCommandWriteResult> ();
+            foreach (var source in preview_sources)
+                results.add (prepare_write_for_source (source));
+
+            LaunchCommandWriteResult? blocked_result = null;
+            foreach (var candidate in results) {
+                if (!candidate.writing_allowed) {
+                    blocked_result = candidate;
+                    break;
+                }
+            }
+
+            var result = blocked_result ?? results[0];
             var preview = result.writing_allowed ? result.launch_line : loaded_source;
             var reason = "";
             foreach (var diagnostic in result.composition_diagnostics) {
@@ -527,19 +546,28 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     break;
                 }
             }
-            if (reason == "" && result.writer_diagnostics.size > 0) {
-                var diagnostic = result.writer_diagnostics[0];
-                if (diagnostic.has_prefix ("Requires ")
-                    || diagnostic.has_prefix ("Not supported")
-                    || diagnostic.has_prefix ("This legacy")
-                    || diagnostic.has_prefix ("This variant-specific"))
-                    reason = diagnostic;
-            }
+            if (reason == "" && result.writer_diagnostics.size > 0)
+                reason = result.writer_diagnostics[0];
             if (!result.writing_allowed && is_dirty && reason == "")
                 preview = _("Unable to safely prepare these launch options.");
-            preview_field.preview_label.set_markup (
-                LaunchOptionsList.build_command_preview_markup (preview));
-            preview_field.set_empty (preview == "");
+
+            var same_output = blocked_result == null;
+            var commands = new string[results.size];
+            for (var index = 0; index < results.size; index++) {
+                commands[index] = results[index].launch_line;
+                if (index > 0 && commands[index] != commands[0])
+                    same_output = false;
+            }
+            if (blocked_result == null && !same_output) {
+                preview_field.preview_label.set_markup (
+                    LaunchOptionsList.build_labeled_command_preview_markup (
+                        preview_source_labels.to_array (), commands));
+                preview_field.set_empty (false);
+            } else {
+                preview_field.preview_label.set_markup (
+                    LaunchOptionsList.build_command_preview_markup (preview));
+                preview_field.set_empty (preview == "");
+            }
             preview_field.set_attention_required (!result.writing_allowed && is_dirty, reason);
         }
     }

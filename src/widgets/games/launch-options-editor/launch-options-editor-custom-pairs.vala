@@ -55,6 +55,7 @@ using Gtk;
 
             if (raw_value == null || raw_value == "") {
                 this.enable_expansion = false;
+                clear_custom_items ();
                 if (rows_map != null) {
                     foreach (var row in rows_map.get_values ()) {
                         if (row != null) {
@@ -112,7 +113,7 @@ using Gtk;
             string[] final_parts = {};
             bool is_flag_list = (options_values.length > 1 && options_values[1] == "1");
             if (rows_map != null) {
-                foreach (string key in rows_map.get_keys ()) {
+                foreach (string key in row_order) {
                     var combo_row = rows_map.lookup (key);
                     if (combo_row == null)
                         continue;
