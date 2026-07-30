@@ -95,6 +95,7 @@ namespace ProtonPlus.Widgets {
             steam_session_service = new ProtonPlus.Services.SteamSessionService ();
             steam_restart_manager = new ProtonPlus.Services.SteamRestartManager ((!) steam_session_service, new ProtonPlus.Services.SteamRestartStateStore ());
             steam_restart_orchestrator = new ProtonPlus.Services.SteamRestartOrchestrator ((!) steam_session_service, (!) steam_restart_manager);
+            ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder ((!) steam_restart_manager);
             steam_restart_manager.start_observation ();
 
             if (Globals.SETTINGS != null) {
@@ -123,6 +124,7 @@ namespace ProtonPlus.Widgets {
                 window.main_box.cancel_steam_restart ();
             if (steam_restart_manager != null)
                 steam_restart_manager.stop_observation ();
+            ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
             Notify.uninit ();
             base.shutdown ();
         }

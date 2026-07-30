@@ -8,7 +8,7 @@ namespace ProtonPlus.Services {
         PERSISTENCE_FAILED
     }
 
-    public class SteamRestartManager : Object {
+    public class SteamRestartManager : Object, SteamChangeRecorder {
         private SteamSessionService session_service;
         private SteamRestartStateStore state_store;
         private Gee.HashMap<string, SteamRestartPendingRecord> pending = new Gee.HashMap<string, SteamRestartPendingRecord> ();

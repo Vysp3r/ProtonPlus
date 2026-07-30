@@ -61,6 +61,11 @@ namespace ProtonPlus.Services {
         public bool is_finished { get; internal set; default = false; }
         public bool install_success { get; internal set; default = false; }
         public string? error_message { get; internal set; default = null; }
+        /* Recording a restart reminder is advisory.  Keep its outcome on the
+         * job so CLI and tests can report it without changing install success. */
+        public bool has_steam_restart_record_result { get; internal set; default = false; }
+        public SteamRestartRecordResult steam_restart_record_result { get; internal set; default = SteamRestartRecordResult.ALREADY_SATISFIED; }
+        public string? steam_restart_warning { get; internal set; default = null; }
         public State state { get; internal set; default = State.NOT_INSTALLED; }
         public Step step { get; internal set; default = Step.NOTHING; }
         public signal void progress_updated ();

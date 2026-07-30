@@ -25,6 +25,7 @@ test_sources = files(
     'release_page_test.vala',
     'variant_settings_test.vala',
     'install_layout_test.vala',
+    'compatibility-process-guard-test.vala',
     'installer-transaction-test.vala',
     'steam_test.vala',
     'steam-session-test.vala',

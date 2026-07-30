@@ -57,6 +57,7 @@ src/providers/sources/release-source-support.vala
 src/providers/sources/release-source.vala
 src/return_codes.vala
 src/services/archive-workflow-support.vala
+src/services/compatibility-process-guard.vala
 src/services/install-job.vala
 src/services/installation-service.vala
 src/services/installation-workflow.vala
@@ -65,6 +66,7 @@ src/services/migrations/manager.vala
 src/services/migrations/versions/v0.5.21.vala
 src/services/migrations/versions/v0.6.0.vala
 src/services/standard-archive-workflow.vala
+src/services/steam-change-recorder.vala
 src/services/steam-restart-backend.vala
 src/services/steam-restart-manager.vala
 src/services/steam-restart-orchestrator.vala

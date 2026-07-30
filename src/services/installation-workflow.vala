@@ -20,4 +20,10 @@ namespace ProtonPlus.Services {
     public interface InstallationOperationCoordinator : Object {
         public abstract async ReturnCode install_for_update (InstallJob job);
     }
+
+    /* Workflows call this only after their top-level update transaction has
+     * completed. Test coordinators need not implement lifecycle recording. */
+    public interface InstallationLifecycleRecorder : Object {
+        public abstract void record_completed_update (InstallJob job);
+    }
 }

@@ -239,6 +239,11 @@ namespace ProtonPlus.Services {
             var migrate_prefix = Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("migrate-default-prefix");
             var code = yield finalize_replaced_runner (job.install_location, backup, migrate_prefix);
             job.finish_operation ();
+            if (code == ReturnCode.RUNNER_UPDATED) {
+                var lifecycle = coordinator as InstallationLifecycleRecorder;
+                if (lifecycle != null)
+                    lifecycle.record_completed_update (job);
+            }
             return code;
         }
 

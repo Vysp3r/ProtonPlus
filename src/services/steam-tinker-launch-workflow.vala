@@ -100,7 +100,12 @@ namespace ProtonPlus.Services {
             job.state = InstallJob.State.BUSY_UPDATING;
             var code = yield coordinator.install_for_update (job);
             job.finish_operation ();
-            return code == ReturnCode.RUNNER_INSTALLED ? ReturnCode.RUNNER_UPDATED : code;
+            if (code != ReturnCode.RUNNER_INSTALLED)
+                return code;
+            var lifecycle = coordinator as InstallationLifecycleRecorder;
+            if (lifecycle != null)
+                lifecycle.record_completed_update (job);
+            return ReturnCode.RUNNER_UPDATED;
         }
 
         public override async ReturnCode remove (InstallJob job) {

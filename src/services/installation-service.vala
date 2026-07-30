@@ -2,7 +2,7 @@ namespace ProtonPlus.Services {
     /// Application-level coordinator for install, update, and removal jobs.
     /// Workflow selection and observable lifecycle ownership stay here; the
     /// detailed filesystem transactions live in dedicated workflows.
-    public class InstallationService : Object, InstallationOperationCoordinator {
+    public class InstallationService : Object, InstallationOperationCoordinator, InstallationLifecycleRecorder {
         private static InstallationService? _instance = null;
         public static InstallationService instance {
             get {
@@ -15,6 +15,10 @@ namespace ProtonPlus.Services {
         private StandardArchiveWorkflow standard_archive_workflow;
         private SteamTinkerLaunchWorkflow steam_tinker_launch_workflow;
         private Gee.HashSet<string> active_removal_locations = new Gee.HashSet<string> ();
+        private CompatibilityProcessGuard compatibility_process_guard = new CompatibilityProcessGuard ();
+        private SteamChangeRecorder? steam_change_recorder = null;
+
+        public signal void steam_restart_recording_failed (InstallJob job, string message);
 
         private InstallationService () {
             standard_archive_workflow = new StandardArchiveWorkflow ();
@@ -24,7 +28,27 @@ namespace ProtonPlus.Services {
         public async ReturnCode install (InstallJob job, bool replace_existing) {
             if (Utils.DownloadManager.instance.is_downloading (job))
                 return ReturnCode.OPERATION_IN_PROGRESS;
-            return yield start_install (job, replace_existing);
+            return yield start_install (job, replace_existing, true);
+        }
+
+        /* The singleton is configured by the process composition root.  Test
+         * callers can replace either dependency and then reset it explicitly. */
+        public void configure_steam_change_recorder (SteamChangeRecorder? recorder) {
+            steam_change_recorder = recorder;
+        }
+
+        public void configure_compatibility_process_guard (CompatibilityProcessGuard? guard) {
+            compatibility_process_guard = guard ?? new CompatibilityProcessGuard ();
+        }
+
+        public void reset_lifecycle_configuration () {
+            steam_change_recorder = null;
+            compatibility_process_guard = new CompatibilityProcessGuard ();
+        }
+
+        public static void reset_lifecycle_configuration_for_tests () {
+            if (_instance != null)
+                ((!) _instance).reset_lifecycle_configuration ();
         }
 
         public async ReturnCode remove (InstallJob job, bool notify_removal) {
@@ -33,6 +57,12 @@ namespace ProtonPlus.Services {
                 return ReturnCode.OPERATION_IN_PROGRESS;
 
             var workflow = select_workflow (job);
+            var had_durable_state = has_removable_state (job);
+            var guard_code = compatibility_process_guard.check ();
+            if (guard_code != ReturnCode.RUNNER_INSTALLED) {
+                active_removal_locations.remove (job.install_location);
+                return guard_code;
+            }
             var busy = job.state == InstallJob.State.BUSY_UPDATING ||
                 job.state == InstallJob.State.BUSY_INSTALLING;
             if (!busy) {
@@ -48,6 +78,8 @@ namespace ProtonPlus.Services {
                 workflow.finalize_removal_success (job);
                 if (notify_removal)
                     Utils.DownloadManager.instance.tool_removed (job);
+                if (had_durable_state)
+                    record_successful_change (job, removal_change_kind (job));
             }
             active_removal_locations.remove (job.install_location);
             return code;
@@ -86,7 +118,13 @@ namespace ProtonPlus.Services {
         public async ReturnCode install_for_update (InstallJob job) {
             if (Utils.DownloadManager.instance.is_downloading (job))
                 return ReturnCode.OPERATION_IN_PROGRESS;
-            return yield start_install (job, true);
+            return yield start_install (job, true, false);
+        }
+
+        public void record_completed_update (InstallJob job) {
+            record_successful_change (job, job.steam_tinker_launch_context != null
+                ? Models.SteamChangeKind.STEAMTINKERLAUNCH_CHANGED
+                : Models.SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED);
         }
 
         internal void refresh_job_state (InstallJob job) {
@@ -105,21 +143,12 @@ namespace ProtonPlus.Services {
         }
 
         public async ReturnCode check_for_updates (List<Models.Launcher> launchers) {
-            var processes = (yield Utils.System.run_command ("ps -eo args")).stdout.ascii_down ();
-            if (has_running_compatibility_process (processes))
-                return ReturnCode.RUNNERS_IN_USE;
             var updated = 0;
             var processed_tool_targets = new Gee.HashSet<string> ();
             foreach (var launcher in launchers) {
                 foreach (var group in launcher.groups) {
                     group.refresh_installed_state ();
                     var entries = group.get_installed_tool_snapshot ();
-                    foreach (var entry in entries) {
-                        if (entry.directory_name.has_suffix (" Latest Backup")) {
-                            if (!yield Utils.Filesystem.delete_directory (entry.path))
-                                return ReturnCode.FILESYSTEM_ERROR;
-                        }
-                    }
                     foreach (var tool in group.tools) {
                         var runner = tool as Models.Tools.ProviderTool;
                         if (runner == null)
@@ -146,16 +175,6 @@ namespace ProtonPlus.Services {
             return updated > 0 ? ReturnCode.RUNNERS_UPDATED : ReturnCode.NOTHING_TO_UPDATE;
         }
 
-        private bool has_running_compatibility_process (string processes) {
-            try {
-                return new Regex ("/(?:proton(?:[-_][^\\s/]*)?|umu(?:[-_][^\\s/]*)?|wine(?:64)?(?:[-_][^\\s/]*)?)(?:\\s|$)|\\.exe(?:\\s|$)")
-                    .match (processes);
-            } catch (RegexError e) {
-                warning (e.message);
-                return false;
-            }
-        }
-
         private bool is_latest_installation (
             Models.InstalledToolEntry entry,
             Models.Tools.ProviderTool runner
@@ -170,7 +189,7 @@ namespace ProtonPlus.Services {
             return entry.launcher_id == "" || entry.launcher_id == runner.group.launcher.tool_target_id;
         }
 
-        private async ReturnCode start_install (InstallJob job, bool replace_existing) {
+        private async ReturnCode start_install (InstallJob job, bool replace_existing, bool record_change) {
             bool missing_explicit_selection;
             var compatibility = resolve_provider_install_variant (job, out missing_explicit_selection);
             if (compatibility != ReturnCode.RUNNER_INSTALLED)
@@ -179,7 +198,7 @@ namespace ProtonPlus.Services {
             var validation = workflow.validate_install (job, replace_existing);
             if (validation != ReturnCode.RUNNER_INSTALLED)
                 return validation;
-            return yield execute_install (job, workflow, replace_existing);
+            return yield execute_install (job, workflow, replace_existing, record_change);
         }
 
         // Provider archives are the only jobs whose assets originate from a
@@ -210,8 +229,12 @@ namespace ProtonPlus.Services {
         private async ReturnCode execute_install (
             InstallJob job,
             InstallationWorkflow workflow,
-            bool replace_existing
+            bool replace_existing,
+            bool record_change
         ) {
+            var guard_code = compatibility_process_guard.check ();
+            if (guard_code != ReturnCode.RUNNER_INSTALLED)
+                return guard_code;
             var updating = job.state == InstallJob.State.BUSY_UPDATING;
             job.begin_operation ();
             if (!updating)
@@ -232,7 +255,48 @@ namespace ProtonPlus.Services {
             Utils.DownloadManager.instance.add_to_history (job, success);
             if (!updating)
                 job.finish_operation ();
+            if (success && record_change) {
+                record_successful_change (job, job.steam_tinker_launch_context != null
+                    ? Models.SteamChangeKind.STEAMTINKERLAUNCH_CHANGED
+                    : replace_existing ? Models.SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED
+                    : Models.SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED);
+            }
             return code;
+        }
+
+        private bool has_removable_state (InstallJob job) {
+            if (job.steam_tinker_launch_context == null)
+                return FileUtils.test (job.install_location, FileTest.EXISTS);
+            var context = (!) job.steam_tinker_launch_context;
+            return FileUtils.test (context.base_location, FileTest.EXISTS)
+                || FileUtils.test (context.link_location, FileTest.EXISTS)
+                || FileUtils.test (context.config_location, FileTest.EXISTS)
+                || FileUtils.test (context.manual_remove_location, FileTest.EXISTS);
+        }
+
+        private Models.SteamChangeKind removal_change_kind (InstallJob job) {
+            return job.steam_tinker_launch_context != null
+                ? Models.SteamChangeKind.STEAMTINKERLAUNCH_CHANGED
+                : Models.SteamChangeKind.COMPATIBILITY_TOOL_REMOVED;
+        }
+
+        private void record_successful_change (InstallJob job, Models.SteamChangeKind kind) {
+            var recorder = steam_change_recorder;
+            var target = job.tool.group.launcher.get_steam_restart_target ();
+            if (recorder == null || target == null)
+                return;
+            var resource_key = Filename.canonicalize (job.install_location, null);
+            var receipt = new Models.SteamChangeReceipt (
+                (!) target, kind, Models.SteamChangeReceipt.default_requirement_for_kind (kind),
+                resource_key, job.tool.id, job.displayed_title
+            );
+            var result = recorder.record (receipt);
+            job.has_steam_restart_record_result = true;
+            job.steam_restart_record_result = result;
+            if (result != SteamRestartRecordResult.PERSISTENCE_FAILED)
+                return;
+            job.steam_restart_warning = _ ("The compatibility tool changed, but the Steam restart reminder could not be saved.");
+            steam_restart_recording_failed (job, (!) job.steam_restart_warning);
         }
 
         // This is the one workflow-selection point.  SteamTinkerLaunch is

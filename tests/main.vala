@@ -32,6 +32,7 @@ int main (string[] args) {
     AppTests.ReleasePageTest.register_tests ();
     AppTests.VariantSettingsTest.register_tests ();
     AppTests.InstallLayoutTest.register_tests ();
+    AppTests.CompatibilityProcessGuardTest.register_tests ();
     AppTests.InstallerTransactionTest.register_tests ();
     AppTests.SteamTest.register_tests ();
     AppTests.SteamSessionTest.register_tests ();

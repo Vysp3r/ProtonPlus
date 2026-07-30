@@ -1,5 +1,7 @@
 sources += files(
     'installation-workflow.vala',
+    'steam-change-recorder.vala',
+    'compatibility-process-guard.vala',
     'archive-workflow-support.vala',
     'steam-tinker-launch-context.vala',
     'install-job.vala',

@@ -64,6 +64,8 @@ namespace ProtonPlus {
             return _ ("The archive could not be extracted.");
         case ReturnCode.INCOMPATIBLE_VARIANT:
             return _ ("The selected variant is not compatible with this system.");
+        case ReturnCode.RUNNERS_IN_USE:
+            return _ ("A compatibility tool is currently in use. Close the running game and try again.");
         default:
             return _ ("The operation could not be completed.");
         }

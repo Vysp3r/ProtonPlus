@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 21:39-0400\n"
+"POT-Creation-Date: 2026-07-29 22:00-0400\n"
 "PO-Revision-Date: 2026-05-24 00:30+0000\n"
 "Last-Translator: Gemini AI\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/protonplus/"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr "ProtonPlus"
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:222
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:224
 msgid "A modern compatibility tools manager"
 msgstr "Moderný správca nástrojov kompatibility"
 
@@ -1665,203 +1665,208 @@ msgstr "Ukončiť"
 msgid "Error: Unknown command '%s'\n"
 msgstr "Chyba: Neznámy príkaz „%s“\n"
 
-#: src/cli/cli.vala:95
+#: src/cli/cli.vala:77
+#, fuzzy, c-format
+msgid "Warning: %s\n"
+msgstr "Varování"
+
+#: src/cli/cli.vala:100
 #, fuzzy
 msgid "Detected launchers:\n"
 msgstr "Rozpoznané spúšťače:\n"
 
-#: src/cli/cli.vala:107
+#: src/cli/cli.vala:112
 #, fuzzy, c-format
 msgid "Installed runners for %s:\n"
 msgstr "Nainštalované spúšťače pre %s:\n"
 
-#: src/cli/cli.vala:127
+#: src/cli/cli.vala:132
 msgid "No runners installed\n"
 msgstr "Nie sú nainštalované žiadne spúšťače\n"
 
-#: src/cli/cli.vala:219 src/cli/cli.vala:461
+#: src/cli/cli.vala:224 src/cli/cli.vala:466
 #, fuzzy, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "Chyba: Nepodarilo sa načítať verzie\n"
 
-#: src/cli/cli.vala:224 src/cli/cli.vala:463
+#: src/cli/cli.vala:229 src/cli/cli.vala:468
 msgid "Error: No releases are available\n"
 msgstr ""
 
-#: src/cli/cli.vala:228
+#: src/cli/cli.vala:233
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr "Inštaluje sa najnovšia verzia %s...\n"
 
-#: src/cli/cli.vala:234
+#: src/cli/cli.vala:239
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr "Najnovšia verzia %s bola úspešne nainštalovaná\n"
 
-#: src/cli/cli.vala:236 src/cli/cli.vala:269
+#: src/cli/cli.vala:241 src/cli/cli.vala:274
 #, fuzzy, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr "Chyba: Inštalácia zlyhala\n"
 
-#: src/cli/cli.vala:249
+#: src/cli/cli.vala:254
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr "Dostupné verzie pre %s:\n"
 
-#: src/cli/cli.vala:255 src/cli/cli.vala:285
+#: src/cli/cli.vala:260 src/cli/cli.vala:290
 msgid "Select release number"
 msgstr "Vyberte číslo verzie"
 
-#: src/cli/cli.vala:261
+#: src/cli/cli.vala:266
 #, fuzzy, c-format
 msgid "Installing %s...\n"
 msgstr "Inštaluje sa %s...\n"
 
-#: src/cli/cli.vala:267
+#: src/cli/cli.vala:272
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr "Nástroj %s bol úspešne nainštalovaný\n"
 
-#: src/cli/cli.vala:276 src/cli/cli.vala:297
+#: src/cli/cli.vala:281 src/cli/cli.vala:302
 #, c-format
 msgid "No installed releases found for %s\n"
 msgstr "Pre %s sa nenašli žiadne nainštalované verzie\n"
 
-#: src/cli/cli.vala:280
+#: src/cli/cli.vala:285
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr "Nainštalované verzie pre %s:\n"
 
-#: src/cli/cli.vala:301
+#: src/cli/cli.vala:306
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr "Odinštalovávajú sa všetky verzie pre %s...\n"
 
-#: src/cli/cli.vala:313
+#: src/cli/cli.vala:318
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr "Odinštalovávajú sa všetky verzie pre spúšťač %s...\n"
 
-#: src/cli/cli.vala:336
+#: src/cli/cli.vala:341
 #, fuzzy, c-format
 msgid "Uninstalling %s...\n"
 msgstr "Odinštalováva sa %s...\n"
 
-#: src/cli/cli.vala:340
+#: src/cli/cli.vala:345
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr "Nástroj %s bol úspešne odinštalovaný\n"
 
-#: src/cli/cli.vala:342
+#: src/cli/cli.vala:347
 #, fuzzy, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr "Chyba: Odinštalovanie zlyhalo\n"
 
-#: src/cli/cli.vala:347
+#: src/cli/cli.vala:352
 msgid "Updating all runners...\n"
 msgstr "Aktualizujú sa všetky spúšťače...\n"
 
-#: src/cli/cli.vala:353
+#: src/cli/cli.vala:358
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr "Aktualizujú sa spúšťače pre %s...\n"
 
-#: src/cli/cli.vala:364 src/cli/cli.vala:422
+#: src/cli/cli.vala:369 src/cli/cli.vala:427
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "Nástroj %s bol úspešne aktualizovaný\n"
 
-#: src/cli/cli.vala:367 src/cli/cli.vala:425
+#: src/cli/cli.vala:372 src/cli/cli.vala:430
 #, fuzzy, c-format
 msgid "Already up to date: %s\n"
 msgstr "Už je aktuálny: %s\n"
 
-#: src/cli/cli.vala:370 src/cli/cli.vala:428
+#: src/cli/cli.vala:375 src/cli/cli.vala:433
 #, fuzzy, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "Chyba: Nepodarilo sa aktualizovať %s\n"
 
-#: src/cli/cli.vala:412
+#: src/cli/cli.vala:417
 #, fuzzy
 msgid "Already up to date\n"
 msgstr "Už je aktuálny\n"
 
-#: src/cli/cli.vala:437
+#: src/cli/cli.vala:442
 #, fuzzy, c-format
 msgid "Updating %s..."
 msgstr "Aktualizuje sa %s..."
 
-#: src/cli/cli.vala:449
+#: src/cli/cli.vala:454
 msgid "Error: Failed to load launchers\n"
 msgstr "Chyba: Nepodarilo sa načítať spúšťače\n"
 
-#: src/cli/cli.vala:473
+#: src/cli/cli.vala:478
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "Chyba: Spúšťač „%s“ nebol nájdený\n"
 
-#: src/cli/cli.vala:486
+#: src/cli/cli.vala:491
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "Chyba: Nástroj „%s“ nebol nájdený\n"
 
-#: src/cli/cli.vala:542
+#: src/cli/cli.vala:547
 #, fuzzy, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr ""
 "Chyba: Nástroj „%s“ nepodporuje inštaláciu najnovšej verzie („latest“)\n"
 
-#: src/cli/cli.vala:549
+#: src/cli/cli.vala:554
 #, c-format
 msgid "Usage: %s\n"
 msgstr "Použitie: %s\n"
 
-#: src/cli/cli.vala:566
+#: src/cli/cli.vala:571
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "Chyba: Neplatný vstup, zadajte číslo\n"
 
-#: src/cli/cli.vala:572
+#: src/cli/cli.vala:577
 msgid "Error: Selection out of range\n"
 msgstr "Chyba: Výber je mimo rozsahu\n"
 
-#: src/cli/cli.vala:579
+#: src/cli/cli.vala:584
 msgid "Usage:\n"
 msgstr "Použitie:\n"
 
-#: src/cli/cli.vala:581
+#: src/cli/cli.vala:586
 msgid "Commands:\n"
 msgstr "Príkazy:\n"
 
-#: src/cli/cli.vala:582
+#: src/cli/cli.vala:587
 #, fuzzy
 msgid "Show version"
 msgstr "Zobraziť verziu"
 
-#: src/cli/cli.vala:583
+#: src/cli/cli.vala:588
 msgid "Show this help"
 msgstr "Zobraziť tohto pomocníka"
 
-#: src/cli/cli.vala:584
+#: src/cli/cli.vala:589
 #, fuzzy
 msgid "List launchers or installed runners"
 msgstr "Zoznam spúšťačov alebo nainštalovaných spúšťačov"
 
-#: src/cli/cli.vala:585
+#: src/cli/cli.vala:590
 #, fuzzy
 msgid "Install runner"
 msgstr "Inštalovať spúšťač"
 
-#: src/cli/cli.vala:586
+#: src/cli/cli.vala:591
 #, fuzzy
 msgid "Uninstall runner"
 msgstr "Odinštalovať spúšťač"
 
-#: src/cli/cli.vala:587
+#: src/cli/cli.vala:592
 #, fuzzy
 msgid "Update runner"
 msgstr "Aktualizovať spúšťač"
 
-#: src/cli/cli.vala:591
+#: src/cli/cli.vala:596
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -1869,7 +1874,7 @@ msgstr ""
 "\n"
 "Dostupné spúšťače:\n"
 
-#: src/cli/cli.vala:598
+#: src/cli/cli.vala:603
 #, c-format
 msgid ""
 "\n"
@@ -1878,34 +1883,34 @@ msgstr ""
 "\n"
 "Dostupné spúšťače pre %s:\n"
 
-#: src/cli/cli.vala:612
+#: src/cli/cli.vala:617
 #, c-format
 msgid "ETA: %s"
 msgstr "Zostáva: %s"
 
-#: src/cli/cli.vala:614 src/widgets/header/header-downloads-indicator.vala:276
+#: src/cli/cli.vala:619 src/widgets/header/header-downloads-indicator.vala:276
 msgid "ETA: --"
 msgstr "Zostáva: --"
 
-#: src/cli/cli.vala:617
+#: src/cli/cli.vala:622
 msgid "Updating"
 msgstr "Aktualizuje se"
 
-#: src/cli/cli.vala:617 src/widgets/header/header-downloads-indicator.vala:266
+#: src/cli/cli.vala:622 src/widgets/header/header-downloads-indicator.vala:266
 msgid "Installing"
 msgstr "Instaluje se"
 
-#: src/cli/cli.vala:630 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:635 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dh %dm %ds"
 
-#: src/cli/cli.vala:632 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:637 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %ds"
 
-#: src/cli/cli.vala:634 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:639 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%ds"
 msgstr "%ds"
@@ -2110,7 +2115,19 @@ msgid "The selected variant is not compatible with this system."
 msgstr ""
 
 #: src/return_codes.vala:68
+msgid ""
+"A compatibility tool is currently in use. Close the running game and try "
+"again."
+msgstr ""
+
+#: src/return_codes.vala:70
 msgid "The operation could not be completed."
+msgstr ""
+
+#: src/services/installation-service.vala:293
+msgid ""
+"The compatibility tool changed, but the Steam restart reminder could not be "
+"saved."
 msgstr ""
 
 #: src/services/standard-archive-workflow.vala:26
@@ -2130,25 +2147,25 @@ msgstr "Presúvanie zlyhalo"
 msgid "Failed to save compatibility tool metadata"
 msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:312
+#: src/services/standard-archive-workflow.vala:317
 #, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:329
+#: src/services/standard-archive-workflow.vala:334
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Nástroj kompatibility, ktorý hry použijú automaticky ako predvolený"
 
-#: src/widgets/application.vala:224
+#: src/widgets/application.vala:226
 msgid "Website"
 msgstr "Webové stránky"
 
-#: src/widgets/application.vala:229
+#: src/widgets/application.vala:231
 msgid "translator-credits"
 msgstr "Jan Galek <warfacez>"
 
-#: src/widgets/application.vala:230
+#: src/widgets/application.vala:232
 msgid "Special thanks to"
 msgstr "Zvláštne poďakovanie patrí"
 
@@ -4745,65 +4762,65 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:265 src/widgets/tools/tools-box.vala:488
+#: src/widgets/main/main-box.vala:270 src/widgets/tools/tools-box.vala:488
 #, fuzzy
 msgid "Checking for updates"
 msgstr "Kontrolujú sa aktualizácie"
 
-#: src/widgets/main/main-box.vala:276 src/widgets/tools/tools-box.vala:496
+#: src/widgets/main/main-box.vala:281 src/widgets/tools/tools-box.vala:496
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:279 src/widgets/tools/tools-box.vala:499
+#: src/widgets/main/main-box.vala:284 src/widgets/tools/tools-box.vala:499
 #, fuzzy
 msgid "Nothing to update"
 msgstr "Žiadne aktualizácie k dispozícii"
 
-#: src/widgets/main/main-box.vala:283 src/widgets/tools/tools-box.vala:503
+#: src/widgets/main/main-box.vala:288 src/widgets/tools/tools-box.vala:503
 #, fuzzy
 msgid "Everything is now up-to-date"
 msgstr "Všetko je teraz aktuálne"
 
-#: src/widgets/main/main-box.vala:286 src/widgets/tools/tools-box.vala:506
+#: src/widgets/main/main-box.vala:291 src/widgets/tools/tools-box.vala:506
 #, fuzzy, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Nepodarilo sa skontrolovať aktualizácie (Dôvod: %s)"
 
-#: src/widgets/main/main-box.vala:293
+#: src/widgets/main/main-box.vala:298
 msgid "Update started"
 msgstr "Aktualizace začala"
 
-#: src/widgets/main/main-box.vala:295
+#: src/widgets/main/main-box.vala:300
 msgid "Download started"
 msgstr "Stahování začalo"
 
-#: src/widgets/main/main-box.vala:301
+#: src/widgets/main/main-box.vala:306
 msgid "Download finished"
 msgstr "Stahování dokončeno"
 
-#: src/widgets/main/main-box.vala:303
+#: src/widgets/main/main-box.vala:308
 msgid "Download canceled"
 msgstr "Stahovaní zrušeno"
 
-#: src/widgets/main/main-box.vala:309
+#: src/widgets/main/main-box.vala:314
 msgid "Download failed"
 msgstr "Stahování selhalo"
 
-#: src/widgets/main/main-box.vala:315 src/widgets/main/main-box.vala:317
+#: src/widgets/main/main-box.vala:320 src/widgets/main/main-box.vala:322
 msgid "Update finished"
 msgstr "Aktualizace dokončena"
 
-#: src/widgets/main/main-box.vala:315
+#: src/widgets/main/main-box.vala:320
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s je již aktuální."
 
-#: src/widgets/main/main-box.vala:317
+#: src/widgets/main/main-box.vala:322
 #, c-format
 msgid "%s is already up-to-date"
 msgstr "%s je již aktuální."
 
-#: src/widgets/main/main-box.vala:322
+#: src/widgets/main/main-box.vala:327
 msgid "Deleted"
 msgstr "Smazáno"
 

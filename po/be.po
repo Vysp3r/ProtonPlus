@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 21:39-0400\n"
+"POT-Creation-Date: 2026-07-29 22:00-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr ""
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:222
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:224
 #, fuzzy
 msgid "A modern compatibility tools manager"
 msgstr ""
@@ -1626,241 +1626,246 @@ msgstr ""
 msgid "Error: Unknown command '%s'\n"
 msgstr ""
 
-#: src/cli/cli.vala:95
+#: src/cli/cli.vala:77
+#, c-format
+msgid "Warning: %s\n"
+msgstr ""
+
+#: src/cli/cli.vala:100
 msgid "Detected launchers:\n"
 msgstr ""
 
-#: src/cli/cli.vala:107
+#: src/cli/cli.vala:112
 #, fuzzy, c-format
 msgid "Installed runners for %s:\n"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:127
+#: src/cli/cli.vala:132
 msgid "No runners installed\n"
 msgstr ""
 
-#: src/cli/cli.vala:219 src/cli/cli.vala:461
+#: src/cli/cli.vala:224 src/cli/cli.vala:466
 #, fuzzy, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:224 src/cli/cli.vala:463
+#: src/cli/cli.vala:229 src/cli/cli.vala:468
 msgid "Error: No releases are available\n"
 msgstr ""
 
-#: src/cli/cli.vala:228
+#: src/cli/cli.vala:233
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr ""
 
-#: src/cli/cli.vala:234
+#: src/cli/cli.vala:239
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr ""
 
-#: src/cli/cli.vala:236 src/cli/cli.vala:269
+#: src/cli/cli.vala:241 src/cli/cli.vala:274
 #, fuzzy, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr "Усталяванне "
 
-#: src/cli/cli.vala:249
+#: src/cli/cli.vala:254
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr ""
 
-#: src/cli/cli.vala:255 src/cli/cli.vala:285
+#: src/cli/cli.vala:260 src/cli/cli.vala:290
 msgid "Select release number"
 msgstr ""
 
-#: src/cli/cli.vala:261
+#: src/cli/cli.vala:266
 #, fuzzy, c-format
 msgid "Installing %s...\n"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:267
+#: src/cli/cli.vala:272
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:276 src/cli/cli.vala:297
+#: src/cli/cli.vala:281 src/cli/cli.vala:302
 #, c-format
 msgid "No installed releases found for %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:280
+#: src/cli/cli.vala:285
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr ""
 
-#: src/cli/cli.vala:301
+#: src/cli/cli.vala:306
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:313
+#: src/cli/cli.vala:318
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:336
+#: src/cli/cli.vala:341
 #, fuzzy, c-format
 msgid "Uninstalling %s...\n"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:340
+#: src/cli/cli.vala:345
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:342
+#: src/cli/cli.vala:347
 #, fuzzy, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:347
+#: src/cli/cli.vala:352
 msgid "Updating all runners...\n"
 msgstr ""
 
-#: src/cli/cli.vala:353
+#: src/cli/cli.vala:358
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:364 src/cli/cli.vala:422
+#: src/cli/cli.vala:369 src/cli/cli.vala:427
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:367 src/cli/cli.vala:425
+#: src/cli/cli.vala:372 src/cli/cli.vala:430
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:370 src/cli/cli.vala:428
+#: src/cli/cli.vala:375 src/cli/cli.vala:433
 #, fuzzy, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:412
+#: src/cli/cli.vala:417
 msgid "Already up to date\n"
 msgstr ""
 
-#: src/cli/cli.vala:437
+#: src/cli/cli.vala:442
 #, fuzzy, c-format
 msgid "Updating %s..."
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:449
+#: src/cli/cli.vala:454
 msgid "Error: Failed to load launchers\n"
 msgstr ""
 
-#: src/cli/cli.vala:473
+#: src/cli/cli.vala:478
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr ""
 
-#: src/cli/cli.vala:486
+#: src/cli/cli.vala:491
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr ""
 
-#: src/cli/cli.vala:542
+#: src/cli/cli.vala:547
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:549
+#: src/cli/cli.vala:554
 #, c-format
 msgid "Usage: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:566
+#: src/cli/cli.vala:571
 msgid "Error: Invalid input, please enter a number\n"
 msgstr ""
 
-#: src/cli/cli.vala:572
+#: src/cli/cli.vala:577
 msgid "Error: Selection out of range\n"
 msgstr ""
 
-#: src/cli/cli.vala:579
+#: src/cli/cli.vala:584
 msgid "Usage:\n"
 msgstr ""
 
-#: src/cli/cli.vala:581
+#: src/cli/cli.vala:586
 msgid "Commands:\n"
 msgstr ""
 
-#: src/cli/cli.vala:582
+#: src/cli/cli.vala:587
 msgid "Show version"
 msgstr ""
 
-#: src/cli/cli.vala:583
+#: src/cli/cli.vala:588
 msgid "Show this help"
 msgstr ""
 
-#: src/cli/cli.vala:584
+#: src/cli/cli.vala:589
 #, fuzzy
 msgid "List launchers or installed runners"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:585
+#: src/cli/cli.vala:590
 #, fuzzy
 msgid "Install runner"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:586
+#: src/cli/cli.vala:591
 #, fuzzy
 msgid "Uninstall runner"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:587
+#: src/cli/cli.vala:592
 #, fuzzy
 msgid "Update runner"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:591
+#: src/cli/cli.vala:596
 msgid ""
 "\n"
 "Available launchers:\n"
 msgstr ""
 
-#: src/cli/cli.vala:598
+#: src/cli/cli.vala:603
 #, c-format
 msgid ""
 "\n"
 "Available runners for %s:\n"
 msgstr ""
 
-#: src/cli/cli.vala:612
+#: src/cli/cli.vala:617
 #, c-format
 msgid "ETA: %s"
 msgstr ""
 
-#: src/cli/cli.vala:614 src/widgets/header/header-downloads-indicator.vala:276
+#: src/cli/cli.vala:619 src/widgets/header/header-downloads-indicator.vala:276
 msgid "ETA: --"
 msgstr ""
 
-#: src/cli/cli.vala:617
+#: src/cli/cli.vala:622
 #, fuzzy
 msgid "Updating"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:617 src/widgets/header/header-downloads-indicator.vala:266
+#: src/cli/cli.vala:622 src/widgets/header/header-downloads-indicator.vala:266
 #, fuzzy
 msgid "Installing"
 msgstr "Толькі ўсталяваныя"
 
-#: src/cli/cli.vala:630 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:635 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:632 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:637 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:634 src/widgets/tools/tools-release-row.vala:99
+#: src/cli/cli.vala:639 src/widgets/tools/tools-release-row.vala:99
 #, c-format
 msgid "%ds"
 msgstr ""
@@ -2059,7 +2064,19 @@ msgid "The selected variant is not compatible with this system."
 msgstr ""
 
 #: src/return_codes.vala:68
+msgid ""
+"A compatibility tool is currently in use. Close the running game and try "
+"again."
+msgstr ""
+
+#: src/return_codes.vala:70
 msgid "The operation could not be completed."
+msgstr ""
+
+#: src/services/installation-service.vala:293
+msgid ""
+"The compatibility tool changed, but the Steam restart reminder could not be "
+"saved."
 msgstr ""
 
 #: src/services/standard-archive-workflow.vala:26
@@ -2080,27 +2097,27 @@ msgid "Failed to save compatibility tool metadata"
 msgstr ""
 "Просты менеджэр інструментаў сумяшчальнасці на базе Wine і Proton для GNOME"
 
-#: src/services/standard-archive-workflow.vala:312
+#: src/services/standard-archive-workflow.vala:317
 #, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
 msgstr ""
 "Просты менеджэр інструментаў сумяшчальнасці на базе Wine і Proton для GNOME"
 
-#: src/services/standard-archive-workflow.vala:329
+#: src/services/standard-archive-workflow.vala:334
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 "Просты менеджэр інструментаў сумяшчальнасці на базе Wine і Proton для GNOME"
 
-#: src/widgets/application.vala:224
+#: src/widgets/application.vala:226
 msgid "Website"
 msgstr ""
 
-#: src/widgets/application.vala:229
+#: src/widgets/application.vala:231
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:230
+#: src/widgets/application.vala:232
 msgid "Special thanks to"
 msgstr "Асаблівая падзяка"
 
@@ -4494,64 +4511,64 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:265 src/widgets/tools/tools-box.vala:488
+#: src/widgets/main/main-box.vala:270 src/widgets/tools/tools-box.vala:488
 msgid "Checking for updates"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:276 src/widgets/tools/tools-box.vala:496
+#: src/widgets/main/main-box.vala:281 src/widgets/tools/tools-box.vala:496
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:279 src/widgets/tools/tools-box.vala:499
+#: src/widgets/main/main-box.vala:284 src/widgets/tools/tools-box.vala:499
 msgid "Nothing to update"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:283 src/widgets/tools/tools-box.vala:503
+#: src/widgets/main/main-box.vala:288 src/widgets/tools/tools-box.vala:503
 msgid "Everything is now up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:286 src/widgets/tools/tools-box.vala:506
+#: src/widgets/main/main-box.vala:291 src/widgets/tools/tools-box.vala:506
 #, fuzzy, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Толькі ўсталяваныя"
 
-#: src/widgets/main/main-box.vala:293
+#: src/widgets/main/main-box.vala:298
 #, fuzzy
 msgid "Update started"
 msgstr "Толькі ўсталяваныя"
 
-#: src/widgets/main/main-box.vala:295
+#: src/widgets/main/main-box.vala:300
 msgid "Download started"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:301
+#: src/widgets/main/main-box.vala:306
 msgid "Download finished"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:303
+#: src/widgets/main/main-box.vala:308
 msgid "Download canceled"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:309
+#: src/widgets/main/main-box.vala:314
 msgid "Download failed"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:315 src/widgets/main/main-box.vala:317
+#: src/widgets/main/main-box.vala:320 src/widgets/main/main-box.vala:322
 #, fuzzy
 msgid "Update finished"
 msgstr "Толькі ўсталяваныя"
 
-#: src/widgets/main/main-box.vala:315
+#: src/widgets/main/main-box.vala:320
 #, c-format
 msgid "%s is now up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:317
+#: src/widgets/main/main-box.vala:322
 #, c-format
 msgid "%s is already up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:322
+#: src/widgets/main/main-box.vala:327
 #, fuzzy
 msgid "Deleted"
 msgstr "Выдаліць інструмент"

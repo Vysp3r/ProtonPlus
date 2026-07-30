@@ -72,6 +72,11 @@ namespace ProtonPlus.CLI {
 
             if (command == CMD_INSTALL || command == CMD_UPDATE)
                 Utils.DownloadManager.instance.progress_updated.connect (on_progress_updated);
+            if (command == CMD_INSTALL || command == CMD_UNINSTALL || command == CMD_UPDATE) {
+                Services.InstallationService.instance.steam_restart_recording_failed.connect ((job, message) => {
+                    Output.warning (_ ("Warning: %s\n"), message);
+                });
+            }
 
             if (!yield load_launchers ())
                 return 1;
