@@ -9,6 +9,42 @@ namespace ProtonPlus.CLI {
     private const string OPT_LATEST = "latest";
     private const string OPT_ALL = "all";
 
+    public interface CliOutputSink : Object {
+        public abstract void write_stdout (string text);
+        public abstract void write_stderr (string text);
+        public abstract void flush_stdout ();
+    }
+
+    public class TerminalCliOutputSink : Object, CliOutputSink {
+        public void write_stdout (string text) {
+            print (text);
+        }
+
+        public void write_stderr (string text) {
+            printerr (text);
+        }
+
+        public void flush_stdout () {
+            stdout.flush ();
+        }
+    }
+
+    public class RecordingCliOutputSink : Object, CliOutputSink {
+        public string stdout_text { get; private set; default = ""; }
+        public string stderr_text { get; private set; default = ""; }
+
+        public void write_stdout (string text) {
+            stdout_text += text;
+        }
+
+        public void write_stderr (string text) {
+            stderr_text += text;
+        }
+
+        public void flush_stdout () {
+        }
+    }
+
     private class Output {
         private const string RESET = "\033[0m";
         private const string BOLD = "\033[1m";
@@ -16,30 +52,39 @@ namespace ProtonPlus.CLI {
         private const string GREEN = "\033[32m";
         private const string YELLOW = "\033[33m";
         private const string BLUE = "\033[34m";
+        private CliOutputSink sink;
 
-        public static void info (string format, ...) {
-            var args = va_list ();
-            print (format.vprintf (args));
+        public Output (CliOutputSink sink) {
+            this.sink = sink;
         }
 
-        public static void success (string format, ...) {
+        public void info (string format, ...) {
             var args = va_list ();
-            print (GREEN + format.vprintf (args) + RESET);
+            sink.write_stdout (format.vprintf (args));
         }
 
-        public static void error (string format, ...) {
+        public void success (string format, ...) {
             var args = va_list ();
-            printerr (RED + format.vprintf (args) + RESET);
+            sink.write_stdout (GREEN + format.vprintf (args) + RESET);
         }
 
-        public static void warning (string format, ...) {
+        public void error (string format, ...) {
             var args = va_list ();
-            print (YELLOW + format.vprintf (args) + RESET);
+            sink.write_stderr (RED + format.vprintf (args) + RESET);
         }
 
-        public static void header (string format, ...) {
+        public void warning (string format, ...) {
             var args = va_list ();
-            print (BOLD + BLUE + format.vprintf (args) + RESET);
+            sink.write_stdout (YELLOW + format.vprintf (args) + RESET);
+        }
+
+        public void header (string format, ...) {
+            var args = va_list ();
+            sink.write_stdout (BOLD + BLUE + format.vprintf (args) + RESET);
+        }
+
+        public void flush_stdout () {
+            sink.flush_stdout ();
         }
     }
 
@@ -51,9 +96,14 @@ namespace ProtonPlus.CLI {
         private Gee.LinkedList<Models.Launcher>? fixture_launchers;
         private ulong progress_updated_handler_id = 0;
         private ulong steam_restart_recording_failed_handler_id = 0;
+        private Output output;
+        public CliOutputSink output_sink { get; private set; }
 
-        public Handler (Gee.LinkedList<Models.Launcher>? fixture_launchers = null) {
+        public Handler (Gee.LinkedList<Models.Launcher>? fixture_launchers = null,
+            CliOutputSink? output_sink = null) {
             this.fixture_launchers = fixture_launchers;
+            this.output_sink = output_sink ?? new TerminalCliOutputSink ();
+            output = new Output (this.output_sink);
         }
 
         public async int run (string[] args) {
@@ -64,7 +114,7 @@ namespace ProtonPlus.CLI {
 
             var command = args[1];
             if (command == CMD_VERSION) {
-                Output.info ("ProtonPlus %s\n", Config.APP_VERSION);
+                output.info ("ProtonPlus %s\n", Config.APP_VERSION);
                 return 0;
             }
 
@@ -75,7 +125,7 @@ namespace ProtonPlus.CLI {
 
             if (command != CMD_LIST && command != CMD_INSTALL &&
                 command != CMD_UNINSTALL && command != CMD_UPDATE) {
-                Output.error (_ ("Error: Unknown command '%s'\n"), command);
+                output.error (_ ("Error: Unknown command '%s'\n"), command);
                 print_usage ();
                 return 1;
             }
@@ -84,7 +134,7 @@ namespace ProtonPlus.CLI {
                 progress_updated_handler_id = Utils.DownloadManager.instance.progress_updated.connect (on_progress_updated);
             if (command == CMD_INSTALL || command == CMD_UNINSTALL || command == CMD_UPDATE) {
                 steam_restart_recording_failed_handler_id = Services.InstallationService.instance.steam_restart_recording_failed.connect ((job, message) => {
-                    Output.warning (_ ("Warning: %s\n"), message);
+                    output.warning (_ ("Warning: %s\n"), message);
                 });
             }
 
@@ -122,9 +172,9 @@ namespace ProtonPlus.CLI {
 
         private int handle_list (string[] args) {
             if (args.length < 3) {
-                Output.header (_ ("Detected launchers:\n"));
+                output.header (_ ("Detected launchers:\n"));
                 foreach (var launcher in launchers) {
-                    Output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
+                    output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
                 }
                 return 0;
             }
@@ -134,7 +184,7 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            Output.header (_ ("Installed runners for %s:\n"), launcher.title);
+            output.header (_ ("Installed runners for %s:\n"), launcher.title);
             var found = false;
             foreach (var group in launcher.groups) {
                 group.refresh_installed_state ();
@@ -146,15 +196,15 @@ namespace ProtonPlus.CLI {
                     if (entry.directory_name == "LegacyRuntime")
                         continue;
                     if (!group_found) {
-                        Output.info ("\n%s:\n", group.title);
+                        output.info ("\n%s:\n", group.title);
                         group_found = true;
                     }
-                    Output.info ("  %s\n", entry.display_title);
+                    output.info ("  %s\n", entry.display_title);
                     found = true;
                 }
             }
             if (!found) {
-                Output.warning (_ ("No runners installed\n"));
+                output.warning (_ ("No runners installed\n"));
             }
             return 0;
         }
@@ -246,26 +296,26 @@ namespace ProtonPlus.CLI {
                 return 1;
             var result = yield catalog.fetch_latest_eligible_release ();
             if (!result.succeeded) {
-                Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (result.code));
+                output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (result.code));
                 return 1;
             }
 
             if (!result.has_release) {
-                Output.error (_ ("Error: No releases are available\n"));
+                output.error (_ ("Error: No releases are available\n"));
                 return 1;
             }
 
-            Output.info (_ ("Installing %s Latest...\n"), provider_tool.title);
+            output.info (_ ("Installing %s Latest...\n"), provider_tool.title);
             var job = create_install_job (
                 result.require_release (), provider_tool, Services.InstallJob.Mode.LATEST
             );
             var code = yield job.install ();
-            Output.info ("\r\033[2K\r");
+            output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
             if (success)
-                Output.success (_ ("Successfully installed %s Latest\n"), provider_tool.title);
+                output.success (_ ("Successfully installed %s Latest\n"), provider_tool.title);
             else
-                Output.error (_ ("Error: Installation failed: %s\n"), get_return_code_message (code));
+                output.error (_ ("Error: Installation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
@@ -278,10 +328,10 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            Output.header (_ ("Available releases for %s:\n"), provider_tool.title);
+            output.header (_ ("Available releases for %s:\n"), provider_tool.title);
             for (var i = 0; i < catalog.releases.size; i++) {
                 var release = catalog.releases[i] as Models.Release;
-                Output.info ("%d. %s (%s)\n", i + 1, release.title, release.release_date);
+                output.info ("%d. %s (%s)\n", i + 1, release.title, release.release_date);
             }
 
             var index = read_user_selection (_ ("Select release number"), (int) catalog.releases.size);
@@ -290,28 +340,28 @@ namespace ProtonPlus.CLI {
             }
 
             var selected = catalog.releases[index] as Models.Release;
-            Output.info (_ ("Installing %s...\n"), selected.title);
+            output.info (_ ("Installing %s...\n"), selected.title);
             var job = create_install_job (selected, provider_tool);
             code = yield job.install ();
-            Output.info ("\r\033[2K\r");
+            output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
             if (success)
-                Output.success (_ ("Successfully installed %s\n"), selected.title);
+                output.success (_ ("Successfully installed %s\n"), selected.title);
             else
-                Output.error (_ ("Error: Installation failed: %s\n"), get_return_code_message (code));
+                output.error (_ ("Error: Installation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
         private async int uninstall_interactive (Models.Tools.ProviderTool runner) {
             var installed = get_installed_releases (runner);
             if (installed.length () == 0) {
-                Output.warning (_ ("No installed releases found for %s\n"), runner.title);
+                output.warning (_ ("No installed releases found for %s\n"), runner.title);
                 return 0;
             }
 
-            Output.header (_ ("Installed releases for %s:\n"), runner.title);
+            output.header (_ ("Installed releases for %s:\n"), runner.title);
             for (var i = 0; i < installed.length (); i++) {
-                Output.info ("%d. %s\n", i + 1, installed.nth_data (i));
+                output.info ("%d. %s\n", i + 1, installed.nth_data (i));
             }
 
             var index = read_user_selection (_ ("Select release number"), (int) installed.length ());
@@ -326,11 +376,11 @@ namespace ProtonPlus.CLI {
         private async int uninstall_runner_all (Models.Tools.ProviderTool runner) {
             var installed = get_installed_releases (runner);
             if (installed.length () == 0) {
-                Output.warning (_ ("No installed releases found for %s\n"), runner.title);
+                output.warning (_ ("No installed releases found for %s\n"), runner.title);
                 return 0;
             }
 
-            Output.info (_ ("Uninstalling all releases for %s...\n"), runner.title);
+            output.info (_ ("Uninstalling all releases for %s...\n"), runner.title);
             var failed = false;
             foreach (var release_name in installed) {
                 var code = yield uninstall_single_release (runner, release_name);
@@ -342,7 +392,7 @@ namespace ProtonPlus.CLI {
         }
 
         private async int uninstall_launcher_all (Models.Launcher launcher) {
-            Output.info (_ ("Uninstalling all releases for launcher %s...\n"), launcher.title);
+            output.info (_ ("Uninstalling all releases for launcher %s...\n"), launcher.title);
             var failed = false;
             foreach (var group in launcher.groups) {
                 foreach (var runner in group.tools) {
@@ -365,24 +415,24 @@ namespace ProtonPlus.CLI {
 
         private async int uninstall_single_release (Models.Tools.ProviderTool runner, string release_name) {
             var job = create_job (runner, release_name);
-            Output.info (_ ("Uninstalling %s...\n"), release_name);
+            output.info (_ ("Uninstalling %s...\n"), release_name);
             var code = yield job.remove ();
             var success = code == ReturnCode.RUNNER_REMOVED;
             if (success)
-                Output.success (_ ("Successfully uninstalled %s\n"), release_name);
+                output.success (_ ("Successfully uninstalled %s\n"), release_name);
             else
-                Output.error (_ ("Error: Uninstallation failed: %s\n"), get_return_code_message (code));
+                output.error (_ ("Error: Uninstallation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
         private async int update_all () {
-            Output.info (_ ("Updating all runners...\n"));
+            output.info (_ ("Updating all runners...\n"));
             var latest_runners = yield collect_latest_runners (launchers);
             return yield update_runner_batch (latest_runners);
         }
 
         private async int update_launcher (Models.Launcher launcher) {
-            Output.info (_ ("Updating runners for %s...\n"), launcher.title);
+            output.info (_ ("Updating runners for %s...\n"), launcher.title);
             var scoped = new Gee.LinkedList<Models.Launcher> ();
             scoped.add (launcher);
             var latest_runners = yield collect_latest_runners (scoped);
@@ -393,13 +443,13 @@ namespace ProtonPlus.CLI {
             var code = yield update_runner_with_progress (runner);
             switch (code) {
                 case ReturnCode.RUNNER_UPDATED:
-                    Output.success (_ ("Successfully updated %s\n"), runner.title);
+                    output.success (_ ("Successfully updated %s\n"), runner.title);
                     return 0;
                 case ReturnCode.NOTHING_TO_UPDATE:
-                    Output.success (_ ("Already up to date: %s\n"), runner.title);
+                    output.success (_ ("Already up to date: %s\n"), runner.title);
                     return 0;
                 default:
-                    Output.error (_ ("Error: Failed to update %s: %s\n"), runner.title, get_return_code_message (code));
+                    output.error (_ ("Error: Failed to update %s: %s\n"), runner.title, get_return_code_message (code));
                     return 1;
             }
         }
@@ -441,7 +491,7 @@ namespace ProtonPlus.CLI {
 
         private async int update_runner_batch (Gee.LinkedList<Models.Tools.ProviderTool> runners) {
             if (runners.size == 0) {
-                Output.success (_ ("Already up to date\n"));
+                output.success (_ ("Already up to date\n"));
                 return 0;
             }
 
@@ -451,13 +501,13 @@ namespace ProtonPlus.CLI {
                 var code = yield update_runner_with_progress (runner);
                 switch (code) {
                     case ReturnCode.RUNNER_UPDATED:
-                        Output.success (_ ("Successfully updated %s\n"), runner.title);
+                        output.success (_ ("Successfully updated %s\n"), runner.title);
                         break;
                     case ReturnCode.NOTHING_TO_UPDATE:
-                        Output.success (_ ("Already up to date: %s\n"), runner.title);
+                        output.success (_ ("Already up to date: %s\n"), runner.title);
                         break;
                     default:
-                        Output.error (_ ("Error: Failed to update %s: %s\n"), runner.title, get_return_code_message (code));
+                        output.error (_ ("Error: Failed to update %s: %s\n"), runner.title, get_return_code_message (code));
                         failed = true;
                         break;
                 }
@@ -466,12 +516,12 @@ namespace ProtonPlus.CLI {
         }
 
         private async ReturnCode update_runner_with_progress (Models.Tools.ProviderTool runner) {
-            Output.info (_ ("Updating %s...") + "\r", runner.title);
-            stdout.flush ();
+            output.info (_ ("Updating %s...") + "\r", runner.title);
+            output.flush_stdout ();
 
             var code = yield Services.InstallationService.instance.update_specific_runner (runner);
 
-            Output.info ("\r\033[2K\r");
+            output.info ("\r\033[2K\r");
             return code;
         }
 
@@ -482,7 +532,7 @@ namespace ProtonPlus.CLI {
             }
             var success = yield Models.Launcher.get_all (out launchers);
             if (!success || launchers == null) {
-                Output.error (_ ("Error: Failed to load launchers\n"));
+                output.error (_ ("Error: Failed to load launchers\n"));
                 return false;
             }
             return true;
@@ -494,9 +544,9 @@ namespace ProtonPlus.CLI {
                 return ReturnCode.INVALID_CONFIGURATION;
             var result = yield catalog.load (false);
             if (!result.succeeded)
-                Output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (result.code));
+                output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (result.code));
             else if (result.releases.size == 0)
-                Output.error (_ ("Error: No releases are available\n"));
+                output.error (_ ("Error: No releases are available\n"));
             return result.code;
         }
 
@@ -506,7 +556,7 @@ namespace ProtonPlus.CLI {
                     return launcher;
                 }
             }
-            Output.error (_ ("Error: Launcher '%s' not found\n"), launcher_id);
+            output.error (_ ("Error: Launcher '%s' not found\n"), launcher_id);
             print_available_launchers ();
             return null;
         }
@@ -519,7 +569,7 @@ namespace ProtonPlus.CLI {
                     }
                 }
             }
-            Output.error (_ ("Error: Tool '%s' not found\n"), runner_id);
+            output.error (_ ("Error: Tool '%s' not found\n"), runner_id);
             print_available_runners (launcher);
             return null;
         }
@@ -589,22 +639,22 @@ namespace ProtonPlus.CLI {
         private Models.Tools.ProviderTool? get_provider_tool (Models.Tool runner, string operation) {
             var provider_tool = runner as Models.Tools.ProviderTool;
             if (provider_tool == null) {
-                Output.error (_ ("Error: Tool '%s' does not support %s\n"), runner.title, operation);
+                output.error (_ ("Error: Tool '%s' does not support %s\n"), runner.title, operation);
             }
             return provider_tool;
         }
 
         private bool validate_args (string[] args, int min_required, string usage) {
             if (args.length < min_required) {
-                Output.error (_ ("Usage: %s\n"), usage);
+                output.error (_ ("Usage: %s\n"), usage);
                 return false;
             }
             return true;
         }
 
         private int read_user_selection (string prompt, int max) {
-            stdout.printf ("%s: ", prompt);
-            stdout.flush ();
+            output.info ("%s: ", prompt);
+            output.flush_stdout ();
             var input = stdin.read_line ();
 
             if (input == null || input.strip () == "") {
@@ -613,42 +663,42 @@ namespace ProtonPlus.CLI {
 
             var val = int.parse (input);
             if (val == 0 && input.strip () != "0") {
-                Output.error (_ ("Error: Invalid input, please enter a number\n"));
+                output.error (_ ("Error: Invalid input, please enter a number\n"));
                 return -1;
             }
 
             var index = val - 1;
             if (index < 0 || index >= max) {
-                Output.error (_ ("Error: Selection out of range\n"));
+                output.error (_ ("Error: Selection out of range\n"));
                 return -1;
             }
             return index;
         }
 
         private void print_usage () {
-            Output.header (_ ("Usage:\n"));
-            Output.info ("  protonplus <command> [options]\n\n");
-            Output.header (_ ("Commands:\n"));
-            Output.info ("  %-45s %s\n", "version", _ ("Show version"));
-            Output.info ("  %-45s %s\n", "help", _ ("Show this help"));
-            Output.info ("  %-45s %s\n", "list [launcher_id]", _ ("List launchers or installed runners"));
-            Output.info ("  %-45s %s\n", "install <launcher_id> <runner_id> [latest]", _ ("Install runner"));
-            Output.info ("  %-45s %s\n", "uninstall <launcher_id> <runner_id|all> [all]", _ ("Uninstall runner"));
-            Output.info ("  %-45s %s\n", "update <all|launcher_id> [runner_id]", _ ("Update runner"));
+            output.header (_ ("Usage:\n"));
+            output.info ("  protonplus <command> [options]\n\n");
+            output.header (_ ("Commands:\n"));
+            output.info ("  %-45s %s\n", "version", _ ("Show version"));
+            output.info ("  %-45s %s\n", "help", _ ("Show this help"));
+            output.info ("  %-45s %s\n", "list [launcher_id]", _ ("List launchers or installed runners"));
+            output.info ("  %-45s %s\n", "install <launcher_id> <runner_id> [latest]", _ ("Install runner"));
+            output.info ("  %-45s %s\n", "uninstall <launcher_id> <runner_id|all> [all]", _ ("Uninstall runner"));
+            output.info ("  %-45s %s\n", "update <all|launcher_id> [runner_id]", _ ("Update runner"));
         }
 
         private void print_available_launchers () {
-            Output.header (_ ("\nAvailable launchers:\n"));
+            output.header (_ ("\nAvailable launchers:\n"));
             foreach (var launcher in launchers) {
-                Output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
+                output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
             }
         }
 
         private void print_available_runners (Models.Launcher launcher) {
-            Output.header (_ ("\nAvailable runners for %s:\n"), launcher.title);
+            output.header (_ ("\nAvailable runners for %s:\n"), launcher.title);
             foreach (var group in launcher.groups) {
                 foreach (var runner in group.tools) {
-                    Output.info ("  %-45s (%s)\n", get_runner_id (runner), runner.title);
+                    output.info ("  %-45s (%s)\n", get_runner_id (runner), runner.title);
                 }
             }
         }
@@ -666,8 +716,8 @@ namespace ProtonPlus.CLI {
 
             var label = job.state == Services.InstallJob.State.BUSY_UPDATING ? _ ("Updating") : _ ("Installing");
 
-            Output.info ("\r\033[2K%s %s... %s (%s/s) [%s]\r", label, job.title, progress, speed, eta_text);
-            stdout.flush ();
+            output.info ("\r\033[2K%s %s... %s (%s/s) [%s]\r", label, job.title, progress, speed, eta_text);
+            output.flush_stdout ();
         }
 
         private string format_time (double seconds) {

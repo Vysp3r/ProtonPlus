@@ -90,8 +90,9 @@ namespace AppTests.CliTest {
         public InstallJob? last_job { get; private set; default = null; }
 
         public FixtureHandler (Gee.LinkedList<Launcher> launchers,
-            FixtureJobBehavior behavior = FixtureJobBehavior.NORMAL) {
-            base (launchers);
+            FixtureJobBehavior behavior = FixtureJobBehavior.NORMAL,
+            ProtonPlus.CLI.CliOutputSink? output_sink = null) {
+            base (launchers, output_sink ?? new ProtonPlus.CLI.RecordingCliOutputSink ());
             this.behavior = behavior;
         }
 
@@ -112,28 +113,18 @@ namespace AppTests.CliTest {
         Test.add_func ("/cli/steam-lifecycle-receipts", test_steam_lifecycle_receipts);
     }
 
-    private int run_cli (string[] args, ProtonPlus.CLI.Handler? supplied_handler = null) {
+    private int run_cli (string[] args, ProtonPlus.CLI.Handler? supplied_handler = null,
+        ProtonPlus.CLI.CliOutputSink? output_sink = null) {
         var loop = new MainLoop ();
-        var handler = supplied_handler ?? new ProtonPlus.CLI.Handler ();
+        var handler = supplied_handler ?? new ProtonPlus.CLI.Handler (null,
+            output_sink ?? new ProtonPlus.CLI.RecordingCliOutputSink ());
         var exit_code = -1;
-        stdout.flush ();
-        var saved_stdout = Posix.dup (Posix.STDOUT_FILENO);
-        var null_stdout = Posix.open ("/dev/null", Posix.O_WRONLY);
-        assert (saved_stdout >= 0 && null_stdout >= 0);
-        assert (Posix.dup2 (null_stdout, Posix.STDOUT_FILENO) >= 0);
 
-        try {
-            handler.run.begin (args, (obj, result) => {
-                exit_code = handler.run.end (result);
-                loop.quit ();
-            });
-            loop.run ();
-            stdout.flush ();
-        } finally {
-            assert (Posix.dup2 (saved_stdout, Posix.STDOUT_FILENO) >= 0);
-            Posix.close (null_stdout);
-            Posix.close (saved_stdout);
-        }
+        handler.run.begin (args, (obj, result) => {
+            exit_code = handler.run.end (result);
+            loop.quit ();
+        });
+        loop.run ();
 
         return exit_code;
     }
@@ -265,10 +256,29 @@ namespace AppTests.CliTest {
     }
 
     private void test_exit_codes () {
-        assert (run_cli ({ "protonplus" }) == 1);
-        assert (run_cli ({ "protonplus", "version" }) == 0);
-        assert (run_cli ({ "protonplus", "help" }) == 0);
-        assert (run_cli ({ "protonplus", "unknown" }) == 1);
+        var default_handler = new ProtonPlus.CLI.Handler ();
+        assert (default_handler.output_sink is ProtonPlus.CLI.TerminalCliOutputSink);
+
+        var usage_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+        assert (run_cli ({ "protonplus" }, null, usage_output) == 1);
+        assert (usage_output.stdout_text.contains ("Usage:"));
+        assert (usage_output.stderr_text == "");
+
+        var version_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+        assert (run_cli ({ "protonplus", "version" }, null, version_output) == 0);
+        assert (version_output.stdout_text.contains ("ProtonPlus %s".printf (Config.APP_VERSION)));
+        assert (version_output.stderr_text == "");
+
+        var help_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+        assert (run_cli ({ "protonplus", "help" }, null, help_output) == 0);
+        assert (help_output.stdout_text.contains ("Usage:"));
+        assert (!help_output.stdout_text.contains ("ProtonPlus %s".printf (Config.APP_VERSION)));
+        assert (help_output.stderr_text == "");
+
+        var unknown_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+        assert (run_cli ({ "protonplus", "unknown" }, null, unknown_output) == 1);
+        assert (unknown_output.stderr_text.contains ("Unknown command 'unknown'"));
+        assert (unknown_output.stdout_text.contains ("Usage:"));
     }
 
     private void test_steam_lifecycle_receipts () {
@@ -288,10 +298,14 @@ namespace AppTests.CliTest {
             cache_archive (Globals.CACHE_PATH, install_url);
             var install_recorder = new RecordingSteamChange ();
             configure_fixture_services (install_recorder, root);
-            var install_handler = new FixtureHandler (launcher_list (install_launcher));
+            var install_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var install_handler = new FixtureHandler (launcher_list (install_launcher),
+                FixtureJobBehavior.NORMAL, install_output);
             assert (run_cli ({ "protonplus", "install", install_launcher.instance_id,
                 install_runner.provider_id, "latest" }, install_handler) == 0);
             assert (install_handler.last_job != null);
+            assert (install_output.stdout_text.contains ("Successfully installed Fixture Install Latest"));
+            assert (install_output.stderr_text == "");
             assert_single_receipt (install_recorder, SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED,
                 install_launcher, ((!) install_handler.last_job).install_location);
 
@@ -299,10 +313,14 @@ namespace AppTests.CliTest {
             SteamConfigurationService.reset_configuration ();
             var uninstall_recorder = new RecordingSteamChange ();
             configure_fixture_services (uninstall_recorder, root);
-            var uninstall_handler = new FixtureHandler (launcher_list (install_launcher));
+            var uninstall_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var uninstall_handler = new FixtureHandler (launcher_list (install_launcher),
+                FixtureJobBehavior.NORMAL, uninstall_output);
             assert (run_cli ({ "protonplus", "uninstall", install_launcher.instance_id,
                 install_runner.provider_id, "all" }, uninstall_handler) == 0);
             assert (uninstall_handler.last_job != null);
+            assert (uninstall_output.stdout_text.contains ("Successfully uninstalled Fixture Install Latest"));
+            assert (uninstall_output.stderr_text == "");
             assert_single_receipt (uninstall_recorder, SteamChangeKind.COMPATIBILITY_TOOL_REMOVED,
                 install_launcher, ((!) uninstall_handler.last_job).install_location);
 
@@ -316,8 +334,13 @@ namespace AppTests.CliTest {
             SteamConfigurationService.reset_configuration ();
             var update_recorder = new RecordingSteamChange ();
             configure_fixture_services (update_recorder, root);
+            var update_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var update_handler = new FixtureHandler (launcher_list (update_launcher),
+                FixtureJobBehavior.NORMAL, update_output);
             assert (run_cli ({ "protonplus", "update", update_launcher.instance_id,
-                update_runner.provider_id }, new FixtureHandler (launcher_list (update_launcher))) == 0);
+                update_runner.provider_id }, update_handler) == 0);
+            assert (update_output.stdout_text.contains ("Successfully updated Fixture Update"));
+            assert (update_output.stderr_text == "");
             var update_location = Path.build_filename (update_launcher.directory, "compatibilitytools.d",
                 "%s Latest".printf (update_runner.title));
             assert_single_receipt (update_recorder,
@@ -355,9 +378,12 @@ namespace AppTests.CliTest {
             var failed_launcher = setup_launcher (Path.build_filename (root, "failed"),
                 "fixture-failed", "Fixture Failed", release ("v2", "v2", failed_url), out failed_runner);
             cache_archive (Globals.CACHE_PATH, failed_url);
+            var failed_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var failed_handler = new FixtureHandler (launcher_list (failed_launcher),
+                FixtureJobBehavior.FAIL_PROMOTION, failed_output);
             assert (run_cli ({ "protonplus", "install", failed_launcher.instance_id,
-                failed_runner.provider_id, "latest" }, new FixtureHandler (launcher_list (failed_launcher),
-                    FixtureJobBehavior.FAIL_PROMOTION)) == 1);
+                failed_runner.provider_id, "latest" }, failed_handler) == 1);
+            assert (failed_output.stderr_text.contains ("Error: Installation failed:"));
             assert (update_recorder.receipts.size == 1);
 
             var persistence_url = "https://fixtures.invalid/persistence.zip";
@@ -370,11 +396,15 @@ namespace AppTests.CliTest {
             var persistence_recorder = new RecordingSteamChange ();
             persistence_recorder.next_result = SteamRestartRecordResult.PERSISTENCE_FAILED;
             configure_fixture_services (persistence_recorder, root);
-            var persistence_handler = new FixtureHandler (launcher_list (persistence_launcher));
+            var persistence_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var persistence_handler = new FixtureHandler (launcher_list (persistence_launcher),
+                FixtureJobBehavior.NORMAL, persistence_output);
             assert (run_cli ({ "protonplus", "install", persistence_launcher.instance_id,
                 persistence_runner.provider_id, "latest" }, persistence_handler) == 0);
             assert (persistence_handler.last_job != null);
             assert (((!) persistence_handler.last_job).steam_restart_warning != null);
+            assert (persistence_output.stdout_text.contains ("Warning:"));
+            assert (persistence_output.stderr_text == "");
             assert (FileUtils.test (((!) persistence_handler.last_job).install_location, FileTest.IS_DIR));
             assert (persistence_recorder.receipts.size == 1);
 
