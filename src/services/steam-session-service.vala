@@ -24,6 +24,11 @@ namespace ProtonPlus.Services {
         CONFIRMED
     }
 
+    public enum SteamSessionMode {
+        UNKNOWN,
+        STEAMOS_GAMING_MODE
+    }
+
     public class SteamProcessGeneration : Object {
         public int pid { get; private set; }
         public int64 start_time_ticks { get; private set; }
@@ -84,6 +89,7 @@ namespace ProtonPlus.Services {
         public SteamRelaunchMetadata relaunch { get; private set; }
         public Gee.List<SteamSessionBlockerEvidence> blockers { get; private set; }
         public SteamEvidenceLevel state_confidence { get; private set; }
+        public SteamSessionMode session_mode { get; private set; }
         public Gee.List<string> diagnostics { get; private set; }
 
         public SteamSessionSnapshot (
@@ -91,7 +97,8 @@ namespace ProtonPlus.Services {
             int main_process_pid, SteamProcessGeneration? generation,
             string? flatpak_instance_id, string? matching_executable_path,
             SteamRelaunchMetadata relaunch, Gee.List<SteamSessionBlockerEvidence> blockers,
-            SteamEvidenceLevel state_confidence, Gee.List<string> diagnostics
+            SteamEvidenceLevel state_confidence, SteamSessionMode session_mode,
+            Gee.List<string> diagnostics
         ) {
             this.target_id = target_id;
             this.state = state;
@@ -103,6 +110,7 @@ namespace ProtonPlus.Services {
             this.relaunch = relaunch;
             this.blockers = blockers;
             this.state_confidence = state_confidence;
+            this.session_mode = session_mode;
             this.diagnostics = diagnostics;
         }
     }
@@ -120,6 +128,22 @@ namespace ProtonPlus.Services {
             this.executable_path = executable_path;
             this.command_line = command_line;
             this.start_time_ticks = start_time_ticks;
+        }
+
+        public SteamProcessRecord.from_proc (
+            int pid, string executable_path, uint8[] command_line_bytes, int64 start_time_ticks
+        ) {
+            this.pid = pid;
+            this.executable_path = executable_path;
+            this.command_line = decode_proc_command_line (command_line_bytes);
+            this.start_time_ticks = start_time_ticks;
+        }
+
+        private static string decode_proc_command_line (uint8[] contents) {
+            var decoded = new StringBuilder.sized (contents.length);
+            foreach (var byte_value in contents)
+                decoded.append_c (byte_value == 0 ? ' ' : (char) byte_value);
+            return decoded.str.strip ();
         }
     }
 
@@ -180,6 +204,7 @@ namespace ProtonPlus.Services {
         public abstract NativeProcessQuery query_native_processes ();
         public abstract FlatpakProcessQuery query_flatpak_processes ();
         public abstract SteamDesktopEntry? find_desktop_entry (string? id);
+        public abstract bool is_steamos_gaming_mode ();
     }
 
     private class HostSteamSessionBackend : Object, SteamSessionBackend {
@@ -213,9 +238,9 @@ namespace ProtonPlus.Services {
                         continue;
                     var pid = int.parse (name);
                     var root = "/proc/%d".printf (pid);
-                    string command;
+                    uint8[] command;
                     try {
-                        FileUtils.get_contents (Path.build_filename (root, "cmdline"), out command);
+                        FileUtils.get_data (Path.build_filename (root, "cmdline"), out command);
                     } catch (FileError e) {
                         continue;
                     }
@@ -226,7 +251,7 @@ namespace ProtonPlus.Services {
                         continue;
                     }
                     var start_time = read_start_time (Path.build_filename (root, "stat"));
-                    processes.add (new SteamProcessRecord (pid, executable, command.replace ("\0", " "), start_time));
+                    processes.add (new SteamProcessRecord.from_proc (pid, executable, command, start_time));
                 }
                 return new NativeProcessQuery (true, processes);
             } catch (Error e) {
@@ -292,6 +317,17 @@ namespace ProtonPlus.Services {
             }
             return null;
         }
+
+        public bool is_steamos_gaming_mode () {
+            return environment_identifies_gamescope ("XDG_CURRENT_DESKTOP")
+                || environment_identifies_gamescope ("XDG_SESSION_DESKTOP")
+                || environment_identifies_gamescope ("DESKTOP_SESSION");
+        }
+
+        private bool environment_identifies_gamescope (string name) {
+            var value = Environment.get_variable (name);
+            return value != null && ((!) value).down ().contains ("gamescope");
+        }
     }
 
     public class SteamSessionService : Object {
@@ -330,17 +366,19 @@ namespace ProtonPlus.Services {
             var diagnostics = new Gee.ArrayList<string> ();
             var blockers = new Gee.ArrayList<SteamSessionBlockerEvidence> ();
             var relaunch = get_relaunch_metadata (target);
+            var session_mode = backend.is_steamos_gaming_mode ()
+                ? SteamSessionMode.STEAMOS_GAMING_MODE : SteamSessionMode.UNKNOWN;
 
             switch (target.installation_kind) {
             case SteamInstallationKind.FLATPAK:
-                return inspect_flatpak (target, relaunch, blockers, diagnostics);
+                return inspect_flatpak (target, relaunch, blockers, diagnostics, session_mode);
             case SteamInstallationKind.NATIVE:
             case SteamInstallationKind.SNAP:
-                return inspect_native (target, relaunch, blockers, diagnostics);
+                return inspect_native (target, relaunch, blockers, diagnostics, session_mode);
             default:
                 diagnostics.add ("This target has no reliable process observation strategy.");
                 blockers.add (new SteamSessionBlockerEvidence (SteamSessionBlocker.UNKNOWN_PROCESS_STATE, SteamEvidenceLevel.CONFIRMED, diagnostics[0]));
-                return snapshot (target, SteamSessionState.UNKNOWN, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, diagnostics);
+                return snapshot (target, SteamSessionState.UNKNOWN, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, session_mode, diagnostics);
             }
         }
 
@@ -380,6 +418,7 @@ namespace ProtonPlus.Services {
                         observed.target_id, SteamSessionState.SHUTTING_DOWN, false, 0, null,
                         observed.flatpak_instance_id, observed.matching_executable_path,
                         observed.relaunch, observed.blockers, SteamEvidenceLevel.HEURISTIC,
+                        observed.session_mode,
                         observed.diagnostics
                     );
                     observed.diagnostics.add ("A previously observed Steam anchor disappeared during monitoring.");
@@ -391,43 +430,61 @@ namespace ProtonPlus.Services {
 
         private SteamSessionSnapshot inspect_native (
             SteamRestartTarget target, SteamRelaunchMetadata relaunch,
-            Gee.List<SteamSessionBlockerEvidence> blockers, Gee.List<string> diagnostics
+            Gee.List<SteamSessionBlockerEvidence> blockers, Gee.List<string> diagnostics,
+            SteamSessionMode session_mode
         ) {
             var query = backend.query_native_processes ();
             if (!query.available) {
                 diagnostics.add (query.diagnostic);
                 blockers.add (new SteamSessionBlockerEvidence (SteamSessionBlocker.UNKNOWN_PROCESS_STATE, SteamEvidenceLevel.CONFIRMED, query.diagnostic));
-                return snapshot (target, SteamSessionState.UNKNOWN, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, diagnostics);
+                return snapshot (target, SteamSessionState.UNKNOWN, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, session_mode, diagnostics);
             }
 
-            SteamProcessRecord? anchor = null;
+            var anchors = new Gee.ArrayList<SteamProcessRecord> ();
             foreach (var process in query.processes) {
                 if (is_associated (target, process))
                     collect_blocker (target, process, blockers);
                 if (!is_anchor (target, process))
                     continue;
-                if (anchor != null) {
-                    diagnostics.add ("More than one native Steam anchor matched this physical target.");
-                    blockers.add (new SteamSessionBlockerEvidence (SteamSessionBlocker.UNKNOWN_PROCESS_STATE, SteamEvidenceLevel.CONFIRMED, diagnostics[diagnostics.size - 1]));
-                    return snapshot (target, SteamSessionState.UNKNOWN, true, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, diagnostics);
-                }
-                anchor = process;
+                anchors.add (process);
             }
 
+            SteamProcessRecord? anchor = null;
+            var runtime_update_transition = false;
+            if (anchors.size == 1)
+                anchor = anchors[0];
+            else if (anchors.size > 1) {
+                anchor = select_runtime_duplicate_anchor (anchors);
+                if (anchor == null) {
+                    anchor = select_runtime_update_anchor (anchors);
+                    runtime_update_transition = anchor != null;
+                }
+                if (anchor == null) {
+                    diagnostics.add ("More than one native Steam anchor matched this physical target.");
+                    blockers.add (new SteamSessionBlockerEvidence (SteamSessionBlocker.UNKNOWN_PROCESS_STATE, SteamEvidenceLevel.CONFIRMED, diagnostics[diagnostics.size - 1]));
+                    return snapshot (target, SteamSessionState.UNKNOWN, true, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, session_mode, diagnostics);
+                }
+                diagnostics.add (runtime_update_transition
+                    ? "Native Steam Runtime client and update UI anchors were identified during an update handoff."
+                    : "Multiple native Steam Runtime anchors shared the same executable and command line; selected the earliest process generation.");
+            }
             if (anchor == null) {
                 diagnostics.add ("No native Steam anchor matched the target root.");
-                return snapshot (target, SteamSessionState.STOPPED, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.CONFIRMED, diagnostics);
+                return snapshot (target, SteamSessionState.STOPPED, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.CONFIRMED, session_mode, diagnostics);
             }
 
             if (anchor.start_time_ticks <= 0 || backend.get_boot_id () == null) {
                 diagnostics.add ("Steam anchor was found, but generation metadata is incomplete.");
                 blockers.add (new SteamSessionBlockerEvidence (SteamSessionBlocker.UNKNOWN_PROCESS_STATE, SteamEvidenceLevel.CONFIRMED, diagnostics[diagnostics.size - 1]));
-                return snapshot (target, SteamSessionState.UNKNOWN, true, anchor.pid, null, null, anchor.executable_path, relaunch, blockers, SteamEvidenceLevel.HEURISTIC, diagnostics);
+                return snapshot (target, SteamSessionState.UNKNOWN, true, anchor.pid, null, null, anchor.executable_path, relaunch, blockers, SteamEvidenceLevel.HEURISTIC, session_mode, diagnostics);
             }
+
+            if (command_identifies_steamos_gaming_mode (anchor.command_line))
+                session_mode = SteamSessionMode.STEAMOS_GAMING_MODE;
 
             var generation = new SteamProcessGeneration (anchor.pid, anchor.start_time_ticks, backend.get_boot_id ());
             var state = SteamSessionState.RUNNING;
-            if (is_explicit_updater (anchor)) {
+            if (runtime_update_transition || is_explicit_updater (anchor)) {
                 state = SteamSessionState.UPDATING;
                 blockers.add (new SteamSessionBlockerEvidence (SteamSessionBlocker.STEAM_UPDATE_PROCESS, SteamEvidenceLevel.HEURISTIC, "Steam anchor command identifies update/bootstrap activity."));
             } else if (is_recent (anchor)) {
@@ -435,18 +492,19 @@ namespace ProtonPlus.Services {
                 blockers.add (new SteamSessionBlockerEvidence (SteamSessionBlocker.STARTUP_IN_PROGRESS, SteamEvidenceLevel.HEURISTIC, "Steam anchor has not passed the configured stabilization window."));
             }
             diagnostics.add ("Native Steam anchor identified from executable and target-root evidence.");
-            return snapshot (target, state, true, anchor.pid, generation, null, anchor.executable_path, relaunch, blockers, SteamEvidenceLevel.CONFIRMED, diagnostics);
+            return snapshot (target, state, true, anchor.pid, generation, null, anchor.executable_path, relaunch, blockers, SteamEvidenceLevel.CONFIRMED, session_mode, diagnostics);
         }
 
         private SteamSessionSnapshot inspect_flatpak (
             SteamRestartTarget target, SteamRelaunchMetadata relaunch,
-            Gee.List<SteamSessionBlockerEvidence> blockers, Gee.List<string> diagnostics
+            Gee.List<SteamSessionBlockerEvidence> blockers, Gee.List<string> diagnostics,
+            SteamSessionMode session_mode
         ) {
             var query = backend.query_flatpak_processes ();
             if (!query.available) {
                 diagnostics.add (query.diagnostic);
                 blockers.add (new SteamSessionBlockerEvidence (SteamSessionBlocker.UNKNOWN_PROCESS_STATE, SteamEvidenceLevel.CONFIRMED, query.diagnostic));
-                return snapshot (target, SteamSessionState.UNKNOWN, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, diagnostics);
+                return snapshot (target, SteamSessionState.UNKNOWN, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, session_mode, diagnostics);
             }
             FlatpakProcessRecord? match = null;
             foreach (var process in query.processes) {
@@ -454,28 +512,37 @@ namespace ProtonPlus.Services {
                     continue;
                 if (match != null) {
                     diagnostics.add ("More than one Flatpak Steam instance matched the exact application ID.");
-                    return snapshot (target, SteamSessionState.UNKNOWN, true, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, diagnostics);
+                    return snapshot (target, SteamSessionState.UNKNOWN, true, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, session_mode, diagnostics);
                 }
                 match = process;
             }
             if (match == null) {
                 diagnostics.add ("No Flatpak Steam process matched the exact application ID.");
-                return snapshot (target, SteamSessionState.STOPPED, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.CONFIRMED, diagnostics);
+                return snapshot (target, SteamSessionState.STOPPED, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.CONFIRMED, session_mode, diagnostics);
             }
             var pid = match.child_pid > 0 ? match.child_pid : match.wrapper_pid;
             var generation = new SteamProcessGeneration (pid, 0, backend.get_boot_id ());
             diagnostics.add ("Flatpak Steam process matched the exact application ID; UI readiness is not inferred.");
-            return snapshot (target, SteamSessionState.RUNNING, true, pid, generation, match.instance_id, null, relaunch, blockers, SteamEvidenceLevel.CONFIRMED, diagnostics);
+            return snapshot (target, SteamSessionState.RUNNING, true, pid, generation, match.instance_id, null, relaunch, blockers, SteamEvidenceLevel.CONFIRMED, session_mode, diagnostics);
         }
 
         private SteamSessionSnapshot snapshot (
             SteamRestartTarget target, SteamSessionState state, bool found, int pid,
             SteamProcessGeneration? generation, string? instance, string? executable,
             SteamRelaunchMetadata relaunch, Gee.List<SteamSessionBlockerEvidence> blockers,
-            SteamEvidenceLevel confidence, Gee.List<string> diagnostics
+            SteamEvidenceLevel confidence, SteamSessionMode session_mode,
+            Gee.List<string> diagnostics
         ) {
             return new SteamSessionSnapshot (target.id, state, found, pid, generation, instance, executable,
-                                             relaunch, blockers, confidence, diagnostics);
+                                             relaunch, blockers, confidence, session_mode, diagnostics);
+        }
+
+        private bool command_identifies_steamos_gaming_mode (string command_line) {
+            foreach (var argument in command_line.down ().split (" ")) {
+                if (argument == "-steamos3" || argument == "-steamdeck")
+                    return true;
+            }
+            return false;
         }
 
         private SteamRelaunchMetadata get_relaunch_metadata (SteamRestartTarget target) {
@@ -494,6 +561,67 @@ namespace ProtonPlus.Services {
             if (!is_associated (target, process))
                 return false;
             return Path.get_basename (process.executable_path).down () == "steam";
+        }
+
+        /* Current native Steam Runtime can retain a bootstrap Steam process
+         * alongside the client process.  It is safe to collapse only this
+         * exact, documented shape: every candidate must be the same executable
+         * with the same Runtime invocation.  Any other multiplicity remains
+         * ambiguous rather than risking a restart against the wrong client. */
+        private SteamProcessRecord? select_runtime_duplicate_anchor (Gee.List<SteamProcessRecord> candidates) {
+            SteamProcessRecord? selected = null;
+            foreach (var candidate in candidates) {
+                if (!candidate.command_line.contains ("-srt-logger-opened"))
+                    return null;
+                if (selected != null) {
+                    var current = (!) selected;
+                    if (candidate.executable_path != current.executable_path
+                        || candidate.command_line != current.command_line)
+                        return null;
+                    if (candidate.start_time_ticks > current.start_time_ticks
+                        || (candidate.start_time_ticks == current.start_time_ticks && candidate.pid > current.pid))
+                        continue;
+                }
+                selected = candidate;
+            }
+            return selected;
+        }
+
+        /* During a self-update Steam can run its ordinary Runtime anchor and a
+         * child update-UI anchor from the same executable.  This shape is not
+         * a stable running client, but it is specific enough to classify as an
+         * update instead of losing the lifecycle in generic ambiguity. */
+        private SteamProcessRecord? select_runtime_update_anchor (Gee.List<SteamProcessRecord> candidates) {
+            var regular = new Gee.ArrayList<SteamProcessRecord> ();
+            string? executable = null;
+            var updater_found = false;
+            foreach (var candidate in candidates) {
+                if (!candidate.command_line.contains ("-srt-logger-opened"))
+                    return null;
+                if (executable != null && candidate.executable_path != (!) executable)
+                    return null;
+                executable = candidate.executable_path;
+                if (is_explicit_updater (candidate))
+                    updater_found = true;
+                else
+                    regular.add (candidate);
+            }
+            if (!updater_found)
+                return null;
+            if (regular.size == 1)
+                return regular[0];
+            if (regular.size > 1)
+                return select_runtime_duplicate_anchor (regular);
+
+            SteamProcessRecord? selected = null;
+            foreach (var candidate in candidates) {
+                if (selected == null
+                    || candidate.start_time_ticks < ((!) selected).start_time_ticks
+                    || (candidate.start_time_ticks == ((!) selected).start_time_ticks
+                        && candidate.pid < ((!) selected).pid))
+                    selected = candidate;
+            }
+            return selected;
         }
 
         private bool is_associated (SteamRestartTarget target, SteamProcessRecord process) {

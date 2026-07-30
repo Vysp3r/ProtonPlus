@@ -203,9 +203,12 @@ namespace ProtonPlus.Services {
             state_changed_handler_id = session_service.state_changed.connect ((target, snapshot) => {
                 reconcile_snapshot (target, snapshot);
             });
-            foreach (var target in targets.values) {
+            /* Reconciliation may satisfy the final receipt and remove this
+             * target.  Iterate the existing defensive copy rather than
+             * mutating the target map through its live iterator. */
+            foreach (var target in get_pending_targets ()) {
                 session_service.watch_target (target);
-                reconcile_target (target);
+                reconcile_startup_target (target);
             }
             session_service.start_monitoring ();
             observation_started = true;
@@ -226,22 +229,54 @@ namespace ProtonPlus.Services {
             reconcile_snapshot (target, session_service.inspect (target));
         }
 
-        /* A target clears only after a demonstrated new stable session.  A
-         * disappearance is merely a stop observation: it is not a restart.
+        /* At application startup, a confirmed stopped Steam target already
+         * satisfies the user's restart requirement: installation changes will
+         * be discovered on the next launch.  Replayable configuration must be
+         * reconciled successfully before its reminder can be cleared. */
+        private void reconcile_startup_target (SteamRestartTarget target) {
+            var snapshot = session_service.inspect (target);
+            if (snapshot.target_id != target.id || pending_count_for_target (target) == 0)
+                return;
+            if (!is_confirmed_stopped (snapshot)) {
+                reconcile_snapshot (target, snapshot);
+                return;
+            }
+
+            var records = get_pending_changes_for_target (target);
+            var has_configuration_intent = false;
+            foreach (var record in records) {
+                if (record.receipt.configuration_intent != null) {
+                    has_configuration_intent = true;
+                    break;
+                }
+            }
+            if (has_configuration_intent) {
+                var configuration = configuration_reconciler;
+                if (configuration == null) {
+                    mark_stop_observed (target);
+                    return;
+                }
+                var outcome = ((!) configuration).reconcile_target (target);
+                if (outcome.result != SteamConfigurationMutationResult.CHANGED
+                    && outcome.result != SteamConfigurationMutationResult.UNCHANGED) {
+                    mark_stop_observed (target);
+                    return;
+                }
+            }
+            clear_records (records);
+        }
+
+        /* Outside the initial startup reconciliation, a target clears only
+         * after a demonstrated new stable session.  A disappearance is merely
+         * a stop observation: it is not a restart.
          * Native identity requires boot ID, start ticks, and PID; Flatpak
          * identity requires the exact instance ID.  Heuristic or incomplete
          * observations therefore cannot satisfy a pending requirement. */
         public void reconcile_snapshot (SteamRestartTarget target, SteamSessionSnapshot snapshot) {
             if (snapshot.target_id != target.id || pending_count_for_target (target) == 0)
                 return;
-            var material_change = false;
             if (is_confirmed_stopped (snapshot)) {
-                foreach (var record in get_pending_changes_for_target (target))
-                    material_change |= record.mark_stop_observed ();
-                if (material_change) {
-                    pending_changed ();
-                    persist ();
-                }
+                mark_stop_observed (target);
                 /* A manually observed stop is authorization to reconcile the
                  * already-persisted intent; it never implies a relaunch. */
                 var configuration = configuration_reconciler;
@@ -323,11 +358,29 @@ namespace ProtonPlus.Services {
         public bool clear_verified_configurations (Gee.Collection<SteamRestartPendingRecord> records) {
             if (records.size == 0)
                 return true;
-            var removed = new Gee.ArrayList<SteamRestartPendingRecord> ();
-            var affected_targets = new Gee.HashMap<string, SteamRestartTarget> ();
             foreach (var record in records) {
                 if (record.receipt.configuration_intent == null)
                     return false;
+            }
+            return clear_records (records);
+        }
+
+        private void mark_stop_observed (SteamRestartTarget target) {
+            var material_change = false;
+            foreach (var record in get_pending_changes_for_target (target))
+                material_change |= record.mark_stop_observed ();
+            if (material_change) {
+                pending_changed ();
+                persist ();
+            }
+        }
+
+        private bool clear_records (Gee.Collection<SteamRestartPendingRecord> records) {
+            if (records.size == 0)
+                return true;
+            var removed = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            var affected_targets = new Gee.HashMap<string, SteamRestartTarget> ();
+            foreach (var record in records) {
                 var key = record.receipt.deduplication_key;
                 var current = pending.get (key);
                 if (current == null || current != record)

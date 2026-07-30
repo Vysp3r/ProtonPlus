@@ -12,6 +12,7 @@ namespace AppTests.SteamConfigurationServiceTest {
         public NativeProcessQuery query_native_processes () { return native_query; }
         public FlatpakProcessQuery query_flatpak_processes () { return flatpak_query; }
         public SteamDesktopEntry? find_desktop_entry (string? id) { return null; }
+        public bool is_steamos_gaming_mode () { return false; }
     }
 
     private class ShortcutFixture : Object, SteamShortcutMutator {

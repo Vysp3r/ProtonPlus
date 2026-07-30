@@ -12,6 +12,7 @@ namespace AppTests.SteamSessionTest {
         public SteamDesktopEntry? desktop_entry = new SteamDesktopEntry ("steam.desktop", "/fixture/steam.desktop", true);
         public int native_calls = 0;
         public int flatpak_calls = 0;
+        public bool gaming_mode = false;
 
         public string? get_boot_id () { return boot_id; }
         public int64 get_monotonic_time_usec () { return now_usec; }
@@ -19,11 +20,14 @@ namespace AppTests.SteamSessionTest {
         public NativeProcessQuery query_native_processes () { native_calls++; return native_query; }
         public FlatpakProcessQuery query_flatpak_processes () { flatpak_calls++; return flatpak_query; }
         public SteamDesktopEntry? find_desktop_entry (string? id) { return desktop_entry; }
+        public bool is_steamos_gaming_mode () { return gaming_mode; }
     }
 
     public void register_tests () {
         Test.add_func ("/steam-session/target-identity-and-launcher-capability", test_target_identity_and_launcher_capability);
+        Test.add_func ("/steam-session/proc-command-line-decoding", test_proc_command_line_decoding);
         Test.add_func ("/steam-session/native-stopped-running-and-starting", test_native_states);
+        Test.add_func ("/steam-session/steamos-gaming-mode-detection", test_steamos_gaming_mode_detection);
         Test.add_func ("/steam-session/native-ambiguity-and-blocker-evidence", test_native_ambiguity_and_blockers);
         Test.add_func ("/steam-session/flatpak-exact-match-and-unavailable", test_flatpak_states);
         Test.add_func ("/steam-session/generation-and-monitor-lifecycle", test_generation_and_monitor_lifecycle);
@@ -45,6 +49,26 @@ namespace AppTests.SteamSessionTest {
     private SteamProcessRecord anchor (string root, int pid = 42, int64 start = 1 * 1000 * 1000, string extra = "") {
         return new SteamProcessRecord (pid, Path.build_filename (root, "ubuntu12_32", "steam"),
                                        "%s %s".printf (root, extra), start);
+    }
+
+    private SteamProcessRecord runtime_anchor (string root, int pid, int64 start) {
+        var executable = Path.build_filename (root, "steamrt64", "steam");
+        return new SteamProcessRecord (pid, executable, "%s -srt-logger-opened".printf (executable), start);
+    }
+
+    private void test_proc_command_line_decoding () {
+        var executable = "/fixture/Steam/steamrt64/steam";
+        var argument = "-srt-logger-opened";
+        var bytes = new uint8[executable.length + argument.length + 2];
+        for (var index = 0; index < executable.length; index++)
+            bytes[index] = executable.data[index];
+        bytes[executable.length] = 0;
+        for (var index = 0; index < argument.length; index++)
+            bytes[executable.length + 1 + index] = argument.data[index];
+        bytes[bytes.length - 1] = 0;
+
+        var record = new SteamProcessRecord.from_proc (42, executable, bytes, 100);
+        assert (record.command_line == "%s %s".printf (executable, argument));
     }
 
     private void test_target_identity_and_launcher_capability () {
@@ -116,6 +140,24 @@ namespace AppTests.SteamSessionTest {
         assert (updating.state == SteamSessionState.UPDATING);
     }
 
+    private void test_steamos_gaming_mode_detection () {
+        var target = native_target ("/fixture/Steam");
+        var backend = new FakeBackend ();
+        var processes = new Gee.ArrayList<SteamProcessRecord> ();
+        processes.add (anchor (target.data_root, 42, 1 * 1000 * 1000, "-gamepadui -steamos3 -steamdeck"));
+        backend.native_query = new NativeProcessQuery (true, processes);
+        var service = new SteamSessionService (backend);
+        assert (service.inspect (target).session_mode == SteamSessionMode.STEAMOS_GAMING_MODE);
+
+        processes.clear ();
+        processes.add (anchor (target.data_root));
+        assert (service.inspect (target).session_mode == SteamSessionMode.UNKNOWN);
+
+        backend.gaming_mode = true;
+        backend.native_query = new NativeProcessQuery (true);
+        assert (service.inspect (target).session_mode == SteamSessionMode.STEAMOS_GAMING_MODE);
+    }
+
     private void test_native_ambiguity_and_blockers () {
         var target = native_target ("/fixture/Steam");
         var backend = new FakeBackend ();
@@ -125,6 +167,27 @@ namespace AppTests.SteamSessionTest {
         backend.native_query = new NativeProcessQuery (true, processes);
         var service = new SteamSessionService (backend);
         assert (service.inspect (target).state == SteamSessionState.UNKNOWN);
+
+        /* Steam Runtime runs both a bootstrap and client process with this
+         * exact invocation.  The earliest generation is a stable session
+         * identity while unrelated duplicate anchors remain ambiguous. */
+        processes.clear ();
+        processes.add (runtime_anchor (target.data_root, 43, 101));
+        processes.add (runtime_anchor (target.data_root, 42, 100));
+        var runtime = service.inspect (target);
+        assert (runtime.state == SteamSessionState.RUNNING);
+        assert (runtime.main_process_pid == 42);
+        assert (runtime.generation != null);
+        assert (((!) runtime.generation).start_time_ticks == 100);
+        assert (runtime.diagnostics.size == 2);
+
+        processes.add (new SteamProcessRecord (44,
+            Path.build_filename (target.data_root, "steamrt64", "steam"),
+            "%s -child-update-ui -child-update-ui-socket 9 -srt-logger-opened".printf (
+                Path.build_filename (target.data_root, "steamrt64", "steam")), 102));
+        var updating = service.inspect (target);
+        assert (updating.state == SteamSessionState.UPDATING);
+        assert (updating.main_process_pid == 42);
 
         processes.clear ();
         processes.add (anchor (target.data_root));

@@ -12,6 +12,7 @@ namespace AppTests.SteamRestartManagerTest {
         public NativeProcessQuery query_native_processes () { return native_query; }
         public FlatpakProcessQuery query_flatpak_processes () { return flatpak_query; }
         public SteamDesktopEntry? find_desktop_entry (string? id) { return null; }
+        public bool is_steamos_gaming_mode () { return false; }
     }
 
     private class FailingStateStore : SteamRestartStateStore {
@@ -23,11 +24,12 @@ namespace AppTests.SteamRestartManagerTest {
     }
 
     private class ReconcilerFixture : Object, SteamConfigurationReconciler {
+        public SteamConfigurationMutationResult next_result = SteamConfigurationMutationResult.CHANGED;
         public int reconcile_calls = 0;
         public int verify_calls = 0;
         public SteamConfigurationMutation reconcile_target (SteamRestartTarget target) {
             reconcile_calls++;
-            return new SteamConfigurationMutation (SteamConfigurationMutationResult.CHANGED);
+            return new SteamConfigurationMutation (next_result);
         }
         public bool verify_target_after_session (SteamRestartTarget target) {
             verify_calls++;
@@ -52,6 +54,7 @@ namespace AppTests.SteamRestartManagerTest {
             generation != null ? generation.pid : 0, generation, flatpak_instance_id, null,
             new SteamRelaunchMetadata (null, null, null, false, "test"),
             new Gee.ArrayList<SteamSessionBlockerEvidence> (), SteamEvidenceLevel.CONFIRMED,
+            SteamSessionMode.UNKNOWN,
             new Gee.ArrayList<string> ());
     }
 
@@ -139,6 +142,78 @@ namespace AppTests.SteamRestartManagerTest {
         assert (manager.pending_count () == 1);
         manager.reconcile_snapshot (target, snapshot (target, SteamSessionState.RUNNING, new SteamProcessGeneration (102, 200, "test-boot")));
         assert (!manager.has_pending_restarts ());
+    }
+
+    private void test_reloaded_installation_receipt_clears_when_steam_is_stopped () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        assert (manager.record (receipt (target, "compatibilitytools.d/fixture")) == SteamRestartRecordResult.ADDED);
+
+        var restored = new SteamRestartManager (
+            new SteamSessionService (backend), new SteamRestartStateStore (path)
+        );
+        assert (restored.pending_count_for_target (target) == 1);
+        restored.reconcile_target (target);
+        assert (restored.pending_count_for_target (target) == 1);
+
+        backend.native_query = new NativeProcessQuery (true);
+        restored.start_observation ();
+        assert (restored.pending_count_for_target (target) == 0);
+        restored.stop_observation ();
+        var persisted = new SteamRestartStateStore (path).load ();
+        assert (persisted.error == null && persisted.records.size == 0);
+    }
+
+    private void test_startup_stopped_configuration_clears_only_after_reconciliation () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        assert (manager.record (receipt (target, "compatibilitytools.d/fixture")) == SteamRestartRecordResult.ADDED);
+        assert (manager.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.ADDED);
+
+        backend.native_query = new NativeProcessQuery (true);
+        var reconciler = new ReconcilerFixture ();
+        var restored = new SteamRestartManager (
+            new SteamSessionService (backend), new SteamRestartStateStore (path), reconciler
+        );
+        restored.start_observation ();
+        assert (reconciler.reconcile_calls == 1);
+        assert (restored.pending_count_for_target (target) == 0);
+        restored.stop_observation ();
+
+        manager = running_manager (path, out backend);
+        assert (manager.record (configuration_receipt (target, "proton-c")) == SteamRestartRecordResult.ADDED);
+        backend.native_query = new NativeProcessQuery (true);
+        reconciler = new ReconcilerFixture ();
+        reconciler.next_result = SteamConfigurationMutationResult.CONFLICT;
+        restored = new SteamRestartManager (
+            new SteamSessionService (backend), new SteamRestartStateStore (path), reconciler
+        );
+        restored.start_observation ();
+        assert (reconciler.reconcile_calls == 1);
+        assert (restored.pending_count_for_target (target) == 1);
+        assert (restored.get_pending_changes_for_target (target)[0].stop_observed);
+        restored.stop_observation ();
+    }
+
+    private void test_startup_stopped_receipt_is_retained_when_clear_cannot_persist () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var target = native_target (path);
+        var store = new FailingStateStore (path);
+        var manager = running_manager (path, out backend);
+        manager = new SteamRestartManager (new SteamSessionService (backend), store);
+        assert (manager.record (receipt (target, "compatibilitytools.d/fixture")) == SteamRestartRecordResult.ADDED);
+
+        backend.native_query = new NativeProcessQuery (true);
+        store.fail_saves = true;
+        manager.start_observation ();
+        assert (manager.pending_count_for_target (target) == 1);
+        assert (manager.last_persistence_error != null);
+        manager.stop_observation ();
     }
 
     private void test_unidentified_record_is_retained_without_stop_evidence () {
@@ -400,6 +475,9 @@ namespace AppTests.SteamRestartManagerTest {
         Test.add_func ("/steam-restart-manager/deduplicates-and-persists", test_deduplicates_and_persists);
         Test.add_func ("/steam-restart-manager/stopped-change-is-already-satisfied", test_stopped_change_is_already_satisfied);
         Test.add_func ("/steam-restart-manager/native-reconciliation-requires-new-session", test_native_reconciliation_requires_new_session);
+        Test.add_func ("/steam-restart-manager/startup-stopped-installation-clears", test_reloaded_installation_receipt_clears_when_steam_is_stopped);
+        Test.add_func ("/steam-restart-manager/startup-stopped-configuration-reconciles", test_startup_stopped_configuration_clears_only_after_reconciliation);
+        Test.add_func ("/steam-restart-manager/startup-stopped-persistence-failure-retains", test_startup_stopped_receipt_is_retained_when_clear_cannot_persist);
         Test.add_func ("/steam-restart-manager/unidentified-record-is-retained-without-stop-evidence", test_unidentified_record_is_retained_without_stop_evidence);
         Test.add_func ("/steam-restart-manager/flatpak-reconciliation-requires-different-instance", test_flatpak_reconciliation_requires_different_instance);
         Test.add_func ("/steam-restart-manager/store-skips-invalid-individual-entries", test_store_skips_invalid_individual_entries);

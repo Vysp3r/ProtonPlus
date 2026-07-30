@@ -27,6 +27,7 @@ namespace ProtonPlus.Services {
         public abstract bool has_desktop_application (string desktop_id);
         public abstract bool has_native_fallback ();
         public abstract async SteamRestartCommandResult request_native_shutdown (bool through_flatpak_host, Cancellable? cancellable);
+        public abstract async SteamRestartCommandResult request_flatpak_shutdown (bool through_flatpak_host, Cancellable? cancellable);
         public abstract async SteamRestartCommandResult launch_desktop_application (string desktop_id, Cancellable? cancellable);
         public abstract async SteamRestartCommandResult launch_native_fallback (Cancellable? cancellable);
         public abstract async bool delay (uint milliseconds, Cancellable? cancellable);
@@ -36,12 +37,22 @@ namespace ProtonPlus.Services {
      * backend while allowing the non-blocking launch contract to be tested
      * without executing Steam. */
     public interface SteamRestartProcessFactory : Object {
-        public abstract Subprocess spawn (string[] argv) throws Error;
+        public abstract Subprocess spawn_detached (string[] argv) throws Error;
     }
 
-    private class HostSteamRestartProcessFactory : Object, SteamRestartProcessFactory {
-        public Subprocess spawn (string[] argv) throws Error {
-            return new Subprocess.newv (argv, SubprocessFlags.NONE);
+    public class HostSteamRestartProcessFactory : Object, SteamRestartProcessFactory {
+        public Subprocess spawn_detached (string[] argv) throws Error {
+            var launcher = new SubprocessLauncher (
+                SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE
+            );
+            launcher.set_stdin_file_path ("/dev/null");
+            launcher.set_child_setup (detach_child_session);
+            return launcher.spawnv (argv);
+        }
+
+        private static void detach_child_session () {
+            if (Posix.setsid () < 0)
+                Posix._exit (127);
         }
     }
 
@@ -66,12 +77,32 @@ namespace ProtonPlus.Services {
         }
 
         public async SteamRestartCommandResult request_native_shutdown (bool through_flatpak_host, Cancellable? cancellable) {
+            return yield spawn (build_native_shutdown_argv (through_flatpak_host), cancellable);
+        }
+
+        public static Gee.List<string> build_native_shutdown_argv (bool through_flatpak_host) {
             var argv = new Gee.ArrayList<string> ();
             if (through_flatpak_host) {
                 argv.add ("flatpak-spawn");
                 argv.add ("--host");
             }
             argv.add (NATIVE_STEAM_EXECUTABLE);
+            argv.add ("-shutdown");
+            return argv;
+        }
+
+        public async SteamRestartCommandResult request_flatpak_shutdown (bool through_flatpak_host, Cancellable? cancellable) {
+            /* The Flathub Steam wrapper forwards its arguments to Steam, so the
+             * client's own shutdown request remains graceful.  Never substitute
+             * flatpak kill here: it force-terminates the sandbox. */
+            var argv = new Gee.ArrayList<string> ();
+            if (through_flatpak_host) {
+                argv.add ("flatpak-spawn");
+                argv.add ("--host");
+            }
+            argv.add ("flatpak");
+            argv.add ("run");
+            argv.add ("com.valvesoftware.Steam");
             argv.add ("-shutdown");
             return yield spawn (argv, cancellable);
         }
@@ -88,11 +119,20 @@ namespace ProtonPlus.Services {
             }
             if (selected == null)
                 return new SteamRestartCommandResult (SteamRestartCommandStatus.UNAVAILABLE, null, "Expected desktop application was not available through GIO: %s".printf (desktop_id));
+            var desktop = selected as DesktopAppInfo;
+            if (desktop == null)
+                return new SteamRestartCommandResult (SteamRestartCommandStatus.UNAVAILABLE, null,
+                    "Expected application is not backed by a desktop entry: %s".printf (desktop_id));
             try {
-                selected.launch (null, null);
+                var uris = new List<string> ();
+                desktop.launch_uris_as_manager (
+                    uris, null,
+                    SpawnFlags.STDOUT_TO_DEV_NULL | SpawnFlags.STDERR_TO_DEV_NULL,
+                    detach_child_session
+                );
                 var argv = new Gee.ArrayList<string> ();
                 argv.add ("gio-app:" + desktop_id);
-                return new SteamRestartCommandResult (SteamRestartCommandStatus.ACCEPTED, argv, "GIO accepted the desktop application launch request; Steam startup is not yet confirmed.");
+                return new SteamRestartCommandResult (SteamRestartCommandStatus.ACCEPTED, argv, "GIO accepted the detached desktop application launch request; Steam startup is not yet confirmed.");
             } catch (Error e) {
                 return new SteamRestartCommandResult (SteamRestartCommandStatus.FAILED, null, e.message);
             }
@@ -164,11 +204,16 @@ namespace ProtonPlus.Services {
             for (var i = 0; i < argv.size; i++)
                 values[i] = argv[i];
             try {
-                process_factory.spawn (values);
-                return new SteamRestartCommandResult (SteamRestartCommandStatus.ACCEPTED, argv, "Launch was dispatched; Steam startup is not yet confirmed.");
+                process_factory.spawn_detached (values);
+                return new SteamRestartCommandResult (SteamRestartCommandStatus.ACCEPTED, argv, "Detached launch was dispatched; Steam startup is not yet confirmed.");
             } catch (Error e) {
                 return new SteamRestartCommandResult (SteamRestartCommandStatus.FAILED, argv, e.message);
             }
+        }
+
+        private static void detach_child_session () {
+            if (Posix.setsid () < 0)
+                Posix._exit (127);
         }
     }
 }

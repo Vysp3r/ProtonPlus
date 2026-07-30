@@ -67,9 +67,12 @@ namespace ProtonPlus.Services {
             if (restart_manager.pending_count_for_target (target) == 0)
                 return fail (target, SteamRestartFailureReason.NO_PENDING_CHANGES, shutdown_sent, stopped, launch_sent, started, "No pending restart receipts exist for this physical target.");
             var preflight = observe (target);
-            var preflight_reason = reject_preflight (target, preflight);
+            var steamos_handoff = preflight.session_mode == SteamSessionMode.STEAMOS_GAMING_MODE;
+            var preflight_reason = reject_preflight (target, preflight, steamos_handoff);
             if (preflight_reason != SteamRestartFailureReason.NONE)
                 return fail (target, preflight_reason, shutdown_sent, stopped, launch_sent, started, "Restart preflight rejected the current Steam observation.");
+            if (steamos_handoff)
+                return yield request_steamos_handoff (target, preflight, cancellable);
             var original_identity = identity (target, preflight) ?? pending_identity (target);
 
             /* Resolve a policy-approved relaunch capability before we ask a
@@ -83,9 +86,6 @@ namespace ProtonPlus.Services {
                 stopped = true;
                 return yield reconcile_and_launch (target, original_identity, shutdown_sent, stopped, cancellable);
             }
-            if (target.installation_kind != SteamInstallationKind.NATIVE)
-                return fail (target, SteamRestartFailureReason.GRACEFUL_SHUTDOWN_UNSUPPORTED, shutdown_sent, stopped, launch_sent, started, "This running target has no established graceful automatic shutdown strategy.");
-
             var dispatch_snapshot = observe (target);
             var dispatch_reason = reject_preflight (target, dispatch_snapshot);
             if (dispatch_reason != SteamRestartFailureReason.NONE)
@@ -96,7 +96,7 @@ namespace ProtonPlus.Services {
                 return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Cancelled before shutdown dispatch.");
 
             transition (SteamRestartOperationState.REQUESTING_SHUTDOWN);
-            SteamRestartCommandResult? shutdown = yield backend.request_native_shutdown (ProtonPlus.Globals.IS_FLATPAK, cancellable);
+            SteamRestartCommandResult? shutdown = yield dispatch_shutdown (target, cancellable);
             if (shutdown == null)
                 return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Shutdown dispatch was cancelled before a command result was available.");
             var shutdown_result = (!) shutdown;
@@ -121,6 +121,74 @@ namespace ProtonPlus.Services {
                     return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Shutdown was dispatched; polling was cancelled.");
             }
             return fail (target, SteamRestartFailureReason.EXIT_TIMEOUT, shutdown_sent, stopped, launch_sent, started, "Timed out waiting for confirmed Steam exit; no force termination was attempted.");
+        }
+
+        private async SteamRestartOperationResult request_steamos_handoff (
+            SteamRestartTarget target, SteamSessionSnapshot preflight, Cancellable? cancellable
+        ) {
+            if (target.installation_kind != SteamInstallationKind.NATIVE)
+                return fail (target, SteamRestartFailureReason.STEAMOS_GAMING_MODE,
+                    false, false, false, false,
+                    "SteamOS Gaming Mode handoff supports only the native Steam installation.");
+            var original_identity = identity (target, preflight);
+            if (preflight.state != SteamSessionState.RUNNING || original_identity == null)
+                return fail (target, SteamRestartFailureReason.STEAMOS_GAMING_MODE,
+                    false, false, false, false,
+                    "SteamOS Gaming Mode handoff requires a confirmed running native Steam process with a stable identity.");
+            if (target_has_configuration_intent (target))
+                return fail (target, SteamRestartFailureReason.STEAMOS_CONFIGURATION_REQUIRES_DESKTOP_MODE,
+                    false, false, false, false,
+                    "Staged Steam-owned configuration must be reconciled while Steam is stopped; Gaming Mode may terminate ProtonPlus before that step.");
+
+            /* This second observation is preflight evidence, not lifecycle
+             * reconciliation.  In particular, identity drift must abort while
+             * preserving every pending receipt. */
+            var dispatch_snapshot = observe (target, false);
+            if (dispatch_snapshot.session_mode != SteamSessionMode.STEAMOS_GAMING_MODE)
+                return fail (target, SteamRestartFailureReason.TARGET_SNAPSHOT_MISMATCH,
+                    false, false, false, false,
+                    "Steam session mode changed before the Gaming Mode shutdown handoff.");
+            var dispatch_reason = reject_preflight (target, dispatch_snapshot, true);
+            if (dispatch_reason != SteamRestartFailureReason.NONE)
+                return fail (target, dispatch_reason, false, false, false, false,
+                    "Steam observation changed before the Gaming Mode shutdown handoff.");
+            if (!same_identity (original_identity, identity (target, dispatch_snapshot)))
+                return fail (target, SteamRestartFailureReason.TARGET_SNAPSHOT_MISMATCH,
+                    false, false, false, false,
+                    "Steam generation changed before the Gaming Mode shutdown handoff.");
+            if (target_has_configuration_intent (target))
+                return fail (target, SteamRestartFailureReason.STEAMOS_CONFIGURATION_REQUIRES_DESKTOP_MODE,
+                    false, false, false, false,
+                    "A staged Steam-owned configuration change appeared before shutdown dispatch.");
+            if (cancelled (cancellable))
+                return cancelled_result (target, false, false, false, false,
+                    "Cancelled before the Gaming Mode shutdown handoff.");
+
+            transition (SteamRestartOperationState.REQUESTING_SHUTDOWN);
+            SteamRestartCommandResult? shutdown = yield backend.request_native_shutdown (
+                ProtonPlus.Globals.IS_FLATPAK, cancellable
+            );
+            if (shutdown == null)
+                return cancelled_result (target, false, false, false, false,
+                    "Gaming Mode shutdown dispatch was cancelled before a command result was available.");
+            var shutdown_result = (!) shutdown;
+            var shutdown_sent = shutdown_result.status == SteamRestartCommandStatus.ACCEPTED
+                || shutdown_result.status == SteamRestartCommandStatus.CANCELLED;
+            if (shutdown_result.status == SteamRestartCommandStatus.CANCELLED)
+                return cancelled_result (target, shutdown_sent, false, false, false,
+                    "Gaming Mode shutdown may continue independently after cancellation: " + shutdown_result.diagnostic);
+            if (shutdown_result.status != SteamRestartCommandStatus.ACCEPTED)
+                return fail (target, SteamRestartFailureReason.GRACEFUL_SHUTDOWN_FAILED,
+                    shutdown_sent, false, false, false, shutdown_result.diagnostic);
+
+            /* SteamOS owns the remainder of this lifecycle.  Do not observe a
+             * stop, reconcile configuration, relaunch Steam, or clear receipts
+             * in this process. */
+            transition (SteamRestartOperationState.STEAMOS_HANDOFF_REQUESTED);
+            return result (target, SteamRestartOperationState.STEAMOS_HANDOFF_REQUESTED,
+                SteamRestartFailureReason.NONE, true, false, false, false,
+                false, false, dispatch_snapshot,
+                "Native Steam accepted the graceful shutdown request; restart completion was handed off to SteamOS.");
         }
 
         private async SteamRestartOperationResult reconcile_and_launch (SteamRestartTarget target,
@@ -151,19 +219,7 @@ namespace ProtonPlus.Services {
             if (cancelled (cancellable))
                 return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Cancelled before launch dispatch.");
             transition (SteamRestartOperationState.LAUNCHING);
-            SteamRestartCommandResult? launch;
-            switch (target.installation_kind) {
-            case SteamInstallationKind.NATIVE:
-                launch = yield backend.launch_desktop_application ("steam.desktop", cancellable);
-                if (launch != null && launch.status == SteamRestartCommandStatus.UNAVAILABLE)
-                    launch = yield backend.launch_native_fallback (cancellable);
-                break;
-            case SteamInstallationKind.FLATPAK:
-                launch = yield backend.launch_desktop_application ("com.valvesoftware.Steam.desktop", cancellable);
-                break;
-            default:
-                return fail (target, SteamRestartFailureReason.RELAUNCH_UNAVAILABLE, shutdown_sent, stopped, launch_sent, started, "This installation kind has no validated relaunch strategy.");
-            }
+            SteamRestartCommandResult? launch = yield dispatch_launch (target, cancellable);
             if (launch == null)
                 return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Launch dispatch was cancelled before a command result was available.");
             var launch_result = (!) launch;
@@ -176,10 +232,15 @@ namespace ProtonPlus.Services {
                 return fail (target, SteamRestartFailureReason.RELAUNCH_FAILED, shutdown_sent, stopped, launch_sent, started, launch_result.diagnostic);
 
             transition (SteamRestartOperationState.WAITING_FOR_START);
-            for (uint poll = 0; poll < start_poll_limit; poll++) {
+            var update_observed = false;
+            var update_relaunch_sent = false;
+            uint poll = 0;
+            while (poll < start_poll_limit) {
                 if (cancelled (cancellable))
                     return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Launch was dispatched; no additional control action follows cancellation.");
                 var observed = observe (target);
+                if (observed.state == SteamSessionState.UPDATING)
+                    update_observed = true;
                 if (is_new_confirmed_session (target, original_identity, observed)) {
                     started = true;
                     if (configuration_reconciler != null)
@@ -199,16 +260,70 @@ namespace ProtonPlus.Services {
                         shutdown_sent, stopped, launch_sent, started, cleared, persistence_failed, observed,
                         persistence_failed ? "Steam restarted, but persistence of cleared pending state failed." : "A new confirmed Steam session reconciled all pending records for this target.");
                 }
+                /* Steam's self-updater can finish by forwarding its internal
+                 * relaunch to an update process that is itself about to exit.
+                 * Retry only after that exact update activity was observed and
+                 * the physical target is confirmed fully stopped. */
+                if (target.installation_kind == SteamInstallationKind.NATIVE
+                    && update_observed && !update_relaunch_sent
+                    && is_confirmed_stopped (observed)) {
+                    update_relaunch_sent = true;
+                    transition (SteamRestartOperationState.LAUNCHING);
+                    SteamRestartCommandResult? retry = yield dispatch_launch (target, cancellable);
+                    if (retry == null)
+                        return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Updater recovery launch was cancelled before a command result was available.");
+                    var retry_result = (!) retry;
+                    launch_sent |= retry_result.status == SteamRestartCommandStatus.ACCEPTED
+                        || retry_result.status == SteamRestartCommandStatus.CANCELLED;
+                    if (retry_result.status == SteamRestartCommandStatus.CANCELLED || cancelled (cancellable))
+                        return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Updater recovery launch may have been requested before cancellation: " + retry_result.diagnostic);
+                    if (retry_result.status == SteamRestartCommandStatus.UNAVAILABLE)
+                        return fail (target, SteamRestartFailureReason.RELAUNCH_UNAVAILABLE, shutdown_sent, stopped, launch_sent, started, retry_result.diagnostic);
+                    if (retry_result.status != SteamRestartCommandStatus.ACCEPTED)
+                        return fail (target, SteamRestartFailureReason.RELAUNCH_FAILED, shutdown_sent, stopped, launch_sent, started, retry_result.diagnostic);
+                    transition (SteamRestartOperationState.WAITING_FOR_START);
+                    poll = 0;
+                    continue;
+                }
                 if (!yield backend.delay (poll_interval_msec, cancellable))
                     return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Launch was dispatched; startup polling was cancelled.");
+                poll++;
             }
             return fail (target, SteamRestartFailureReason.START_TIMEOUT, shutdown_sent, stopped, launch_sent, started, "Launch was requested but a new confirmed Steam session was not observed.");
         }
 
-        private SteamSessionSnapshot observe (SteamRestartTarget target) {
+        private async SteamRestartCommandResult? dispatch_launch (SteamRestartTarget target, Cancellable? cancellable) {
+            SteamRestartCommandResult? launch;
+            switch (target.installation_kind) {
+            case SteamInstallationKind.NATIVE:
+                launch = yield backend.launch_desktop_application ("steam.desktop", cancellable);
+                if (launch != null && launch.status == SteamRestartCommandStatus.UNAVAILABLE)
+                    launch = yield backend.launch_native_fallback (cancellable);
+                return launch;
+            case SteamInstallationKind.FLATPAK:
+                return yield backend.launch_desktop_application ("com.valvesoftware.Steam.desktop", cancellable);
+            default:
+                return new SteamRestartCommandResult (SteamRestartCommandStatus.UNAVAILABLE, null,
+                    "This installation kind has no validated relaunch strategy.");
+            }
+        }
+
+        private async SteamRestartCommandResult? dispatch_shutdown (SteamRestartTarget target, Cancellable? cancellable) {
+            switch (target.installation_kind) {
+            case SteamInstallationKind.NATIVE:
+                return yield backend.request_native_shutdown (ProtonPlus.Globals.IS_FLATPAK, cancellable);
+            case SteamInstallationKind.FLATPAK:
+                return yield backend.request_flatpak_shutdown (ProtonPlus.Globals.IS_FLATPAK, cancellable);
+            default:
+                return new SteamRestartCommandResult (SteamRestartCommandStatus.UNAVAILABLE, null,
+                    "This installation kind has no validated graceful shutdown strategy.");
+            }
+        }
+
+        private SteamSessionSnapshot observe (SteamRestartTarget target, bool reconcile = true) {
             var snapshot = session_service.inspect (target);
             last_snapshot = snapshot;
-            if (snapshot.target_id == target.id)
+            if (reconcile && snapshot.target_id == target.id)
                 restart_manager.reconcile_snapshot (target, snapshot);
             progress_changed (snapshot);
             return snapshot;
@@ -222,7 +337,9 @@ namespace ProtonPlus.Services {
             return false;
         }
 
-        private SteamRestartFailureReason reject_preflight (SteamRestartTarget target, SteamSessionSnapshot snapshot) {
+        private SteamRestartFailureReason reject_preflight (
+            SteamRestartTarget target, SteamSessionSnapshot snapshot, bool allow_game_processes = false
+        ) {
             if (snapshot.target_id != target.id)
                 return SteamRestartFailureReason.TARGET_SNAPSHOT_MISMATCH;
             if (snapshot.state == SteamSessionState.UNKNOWN || snapshot.state_confidence != SteamEvidenceLevel.CONFIRMED)
@@ -232,6 +349,8 @@ namespace ProtonPlus.Services {
             if (snapshot.state == SteamSessionState.UPDATING)
                 return SteamRestartFailureReason.STEAM_UPDATING;
             foreach (var blocker in snapshot.blockers) {
+                if (blocker.blocker == SteamSessionBlocker.GAME_OR_COMPATIBILITY_PROCESS && allow_game_processes)
+                    continue;
                 if (blocker.blocker == SteamSessionBlocker.GAME_OR_COMPATIBILITY_PROCESS)
                     return SteamRestartFailureReason.GAME_OR_COMPATIBILITY_PROCESS;
                 if (blocker.blocker != SteamSessionBlocker.NONE)

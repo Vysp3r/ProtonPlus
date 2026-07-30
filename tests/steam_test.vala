@@ -10,6 +10,7 @@ namespace AppTests.SteamTest {
         public NativeProcessQuery query_native_processes () { return new NativeProcessQuery (true); }
         public FlatpakProcessQuery query_flatpak_processes () { return new FlatpakProcessQuery (true); }
         public SteamDesktopEntry? find_desktop_entry (string? id) { return null; }
+        public bool is_steamos_gaming_mode () { return false; }
     }
 
     public void register_tests () {

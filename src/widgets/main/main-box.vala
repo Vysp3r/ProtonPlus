@@ -199,7 +199,7 @@ namespace ProtonPlus.Widgets.Main {
             var body = ngettext ("Steam needs to restart before this change takes effect.", "Steam needs to restart before these %u changes take effect.", summary.pending_count);
             if (summary.pending_count > 1)
                 body = body.printf (summary.pending_count);
-            body += "\n\n" + _ ("Save your progress and close any running games before continuing.");
+            body += "\n\n" + _ ("Save your progress and close any running games before continuing. In SteamOS Gaming Mode, Steam, running games, and ProtonPlus will close while Steam restarts.");
             var dialog = new Adw.AlertDialog (_ ("Restart Steam?"), body);
             dialog.add_response ("later", _ ("Later"));
             dialog.add_response ("restart", _ ("Restart Steam"));
@@ -226,6 +226,12 @@ namespace ProtonPlus.Widgets.Main {
         private void on_restart_completed (Models.SteamRestartOperationResult result) {
             restart_cancellable = null;
             update_restart_banner ();
+            if (result.final_state == Models.SteamRestartOperationState.STEAMOS_HANDOFF_REQUESTED) {
+                var handoff = SteamRestartPresentation.steamos_handoff_message ();
+                if (handoff.toast != null)
+                    send_toast ((!) handoff.toast);
+                return;
+            }
             if (result.final_state == Models.SteamRestartOperationState.SUCCEEDED) {
                 var message = SteamRestartPresentation.success_message (restart_manager != null && restart_manager.get_pending_targets ().size > 0, result.persistence_failed);
                 if (message.toast != null)

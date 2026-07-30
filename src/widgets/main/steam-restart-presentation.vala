@@ -94,6 +94,7 @@ namespace ProtonPlus.Widgets.Main {
             case SteamRestartOperationState.APPLYING_CHANGES: return _ ("Applying changes…");
             case SteamRestartOperationState.LAUNCHING: return _ ("Starting Steam…");
             case SteamRestartOperationState.WAITING_FOR_START: return _ ("Waiting for Steam to start…");
+            case SteamRestartOperationState.STEAMOS_HANDOFF_REQUESTED: return _ ("SteamOS is restarting Steam");
             default: return "";
             }
         }
@@ -111,6 +112,10 @@ namespace ProtonPlus.Widgets.Main {
                 return new SteamRestartMessage (_ ("Steam is still starting"), _ ("Wait for Steam to finish starting, then try again."), null, true);
             case SteamRestartFailureReason.STEAM_UPDATING:
                 return new SteamRestartMessage (_ ("Steam is updating"), _ ("Wait until the update finishes, then try again."), null, true);
+            case SteamRestartFailureReason.STEAMOS_GAMING_MODE:
+                return new SteamRestartMessage (_ ("SteamOS handoff isn’t available"), _ ("ProtonPlus can hand off only a confirmed running native Steam session. Switch to Desktop Mode to apply this pending restart."));
+            case SteamRestartFailureReason.STEAMOS_CONFIGURATION_REQUIRES_DESKTOP_MODE:
+                return new SteamRestartMessage (_ ("Switch to Desktop Mode"), _ ("Steam-owned configuration is staged and must be applied while Steam is stopped. SteamOS Gaming Mode would close ProtonPlus before it can perform that step. Switch to Desktop Mode, open ProtonPlus, and restart Steam there."));
             case SteamRestartFailureReason.GAME_OR_COMPATIBILITY_PROCESS:
                 return new SteamRestartMessage (_ ("Close running games first"), _ ("ProtonPlus will not restart Steam while a game or compatibility process is running."));
             case SteamRestartFailureReason.SESSION_BLOCKER:
@@ -140,6 +145,10 @@ namespace ProtonPlus.Widgets.Main {
             if (persistence_failed)
                 return failure_message (SteamRestartFailureReason.PENDING_STATE_PERSISTENCE_FAILED);
             return new SteamRestartMessage (null, null, other_targets_pending ? _ ("Steam restarted; other changes still need a restart") : _ ("Steam restarted"));
+        }
+
+        public static SteamRestartMessage steamos_handoff_message () {
+            return new SteamRestartMessage (null, null, _ ("SteamOS is restarting Steam"));
         }
     }
 

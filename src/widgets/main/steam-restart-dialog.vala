@@ -9,7 +9,7 @@ namespace ProtonPlus.Widgets.Main {
             var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 12) {
                 margin_top = 24, margin_bottom = 24, margin_start = 24, margin_end = 24
             };
-            content.append (new Gtk.Label (_ ("Each Steam installation must be restarted separately. Save your progress and close any running games before continuing.")) {
+            content.append (new Gtk.Label (_ ("Each Steam installation must be restarted separately. Save your progress and close any running games before continuing. In SteamOS Gaming Mode, Steam, running games, and ProtonPlus will close while Steam restarts.")) {
                 wrap = true, xalign = 0
             });
             var group = new Adw.PreferencesGroup ();
@@ -28,6 +28,7 @@ namespace ProtonPlus.Widgets.Main {
             var later = new Gtk.Button.with_label (_ ("Later")) { halign = Gtk.Align.END };
             later.clicked.connect (() => { close (); });
             content.append (later);
+            set_default_widget (later);
             set_child (content);
         }
     }

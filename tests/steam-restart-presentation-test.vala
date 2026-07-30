@@ -59,6 +59,14 @@ namespace AppTests.SteamRestartPresentationTest {
         assert (flatpak.heading == "Close Steam manually" && flatpak.body.contains ("cannot safely close") && !flatpak.body.contains ("kill"));
         var blocker = SteamRestartPresentation.failure_message (SteamRestartFailureReason.GAME_OR_COMPATIBILITY_PROCESS);
         assert (blocker.body.contains ("game"));
+        var gaming_mode = SteamRestartPresentation.failure_message (SteamRestartFailureReason.STEAMOS_GAMING_MODE);
+        assert (gaming_mode.heading == "SteamOS handoff isn’t available" && gaming_mode.body.contains ("native Steam"));
+        var staged_configuration = SteamRestartPresentation.failure_message (
+            SteamRestartFailureReason.STEAMOS_CONFIGURATION_REQUIRES_DESKTOP_MODE
+        );
+        assert (staged_configuration.heading == "Switch to Desktop Mode");
+        assert (staged_configuration.body.contains ("while Steam is stopped"));
+        assert (staged_configuration.body.contains ("close ProtonPlus"));
         foreach (var reason in new SteamRestartFailureReason[] {
             SteamRestartFailureReason.TARGET_SNAPSHOT_MISMATCH, SteamRestartFailureReason.STEAM_STARTING,
             SteamRestartFailureReason.STEAM_UPDATING, SteamRestartFailureReason.SESSION_BLOCKER,
@@ -73,6 +81,10 @@ namespace AppTests.SteamRestartPresentationTest {
         assert (SteamRestartPresentation.failure_message (SteamRestartFailureReason.NO_PENDING_CHANGES).toast != null);
         assert (SteamRestartPresentation.success_message (false, false).toast == "Steam restarted");
         assert (SteamRestartPresentation.success_message (false, true).heading != null);
+        assert (SteamRestartPresentation.progress_title (
+            SteamRestartOperationState.STEAMOS_HANDOFF_REQUESTED
+        ) == "SteamOS is restarting Steam");
+        assert (SteamRestartPresentation.steamos_handoff_message ().toast == "SteamOS is restarting Steam");
     }
 
     private void test_inactive_notification_policy () {
