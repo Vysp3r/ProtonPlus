@@ -15,6 +15,11 @@ namespace ProtonPlus {
                 steam_restart_manager = new ProtonPlus.Services.SteamRestartManager (
                     session_service, new ProtonPlus.Services.SteamRestartStateStore ()
                 );
+                var configuration_service = new ProtonPlus.Services.SteamConfigurationService (
+                    session_service, (!) steam_restart_manager
+                );
+                ((!) steam_restart_manager).configure_configuration_reconciler (configuration_service);
+                ProtonPlus.Services.SteamConfigurationService.configure (configuration_service);
                 ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder ((!) steam_restart_manager);
                 steam_restart_manager.start_observation ();
             }
@@ -29,6 +34,7 @@ namespace ProtonPlus {
             if (steam_restart_manager != null)
                 steam_restart_manager.stop_observation ();
             ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
+            ProtonPlus.Services.SteamConfigurationService.reset_configuration ();
             Notify.uninit ();
             return result;
         }

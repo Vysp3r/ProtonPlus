@@ -1,5 +1,16 @@
 namespace AppTests.SteamTest {
     using GLib;
+    using ProtonPlus.Models;
+    using ProtonPlus.Services;
+
+    private class StoppedSessionFixture : Object, SteamSessionBackend {
+        public string? get_boot_id () { return "steam-test-fixture"; }
+        public int64 get_monotonic_time_usec () { return 60 * 1000 * 1000; }
+        public int64 get_clock_ticks_per_second () { return 100; }
+        public NativeProcessQuery query_native_processes () { return new NativeProcessQuery (true); }
+        public FlatpakProcessQuery query_flatpak_processes () { return new FlatpakProcessQuery (true); }
+        public SteamDesktopEntry? find_desktop_entry (string? id) { return null; }
+    }
 
     public void register_tests () {
         Test.add_func ("/steam/linux-runtime-detection", test_linux_runtime_detection);
@@ -105,6 +116,16 @@ namespace AppTests.SteamTest {
         return steam;
     }
 
+    private SteamConfigurationService configure_service (string root) {
+        var sessions = new SteamSessionService (new StoppedSessionFixture ());
+        var manager = new SteamRestartManager (sessions,
+            new SteamRestartStateStore (Path.build_filename (root, "restart-state.json")));
+        var service = new SteamConfigurationService (sessions, manager);
+        manager.configure_configuration_reconciler (service);
+        SteamConfigurationService.configure (service);
+        return service;
+    }
+
     private void test_text_vdf_writes_and_rejections () {
         var root = temporary_directory ();
         var config_directory = Path.build_filename (root, "config");
@@ -113,6 +134,7 @@ namespace AppTests.SteamTest {
         var initial = "\"InstallConfigStore\"\n{\n\t\"Software\"\n\t{\n\t\t\"Valve\"\n\t\t{\n\t\t\t\"Steam\"\n\t\t\t{\n\t\t\t}\n\t\t}\n\t}\n}\n";
         assert (ProtonPlus.Utils.Filesystem.modify_file (config_path, initial));
 
+        configure_service (root);
         var steam = fixture_steam (root);
         assert (steam.change_default_compatibility_tool ("proton_fixture"));
         var game = new ProtonPlus.Models.Games.Steam (42, "Fixture", "Fixture", 0, root, steam);
@@ -132,6 +154,7 @@ namespace AppTests.SteamTest {
         assert (ProtonPlus.Utils.Filesystem.get_file_content (config_path) == "not VDF");
 
         assert (FileUtils.remove (config_path) == 0);
+        SteamConfigurationService.reset_configuration ();
         assert (DirUtils.remove (config_directory) == 0);
         assert (DirUtils.remove (root) == 0);
     }
@@ -142,6 +165,7 @@ namespace AppTests.SteamTest {
         var initial = "\"UserLocalConfigStore\"\n{\n\t\"Software\"\n\t{\n\t\t\"Valve\"\n\t\t{\n\t\t\t\"Steam\"\n\t\t\t{\n\t\t\t\t\"apps\"\n\t\t\t\t{\n\t\t\t\t\t\"42\"\n\t\t\t\t\t{\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n";
         assert (ProtonPlus.Utils.Filesystem.modify_file (config_path, initial));
 
+        configure_service (root);
         var steam = fixture_steam (root);
         var game = new ProtonPlus.Models.Games.Steam (42, "Fixture", "Fixture", 0, root, steam);
         assert (game.change_launch_options ("PROTON_LOG=1 %command%", config_path));
@@ -158,6 +182,7 @@ namespace AppTests.SteamTest {
         assert (ProtonPlus.Utils.Filesystem.get_file_content (config_path) == "not VDF");
         assert (FileUtils.remove (config_path) == 0);
 
+        SteamConfigurationService.reset_configuration ();
         assert (DirUtils.remove (root) == 0);
     }
 

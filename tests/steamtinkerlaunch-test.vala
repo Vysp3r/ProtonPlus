@@ -22,10 +22,14 @@ namespace AppTests.SteamTinkerLaunchTest {
     private class RecordingLauncher : Launcher {
         public string registered_path { get; private set; default = ""; }
         public string removed_path { get; private set; default = ""; }
+        private SteamRestartTarget restart_target;
 
         public RecordingLauncher (string root) {
             base ("Recording launcher", InstallationTypes.SYSTEM, "", { root }, "recording");
+            restart_target = SteamRestartTarget.for_native (root);
         }
+
+        public override SteamRestartTarget? get_steam_restart_target () { return restart_target; }
 
         public override void register_compatibility_tool_from_path (string tool_path) {
             registered_path = tool_path;
@@ -33,6 +37,14 @@ namespace AppTests.SteamTinkerLaunchTest {
 
         public override void unregister_compatibility_tool_by_path (string tool_path) {
             removed_path = tool_path;
+        }
+    }
+
+    private class RecordingRestartChange : Object, ProtonPlus.Services.SteamChangeRecorder {
+        public Gee.List<SteamChangeReceipt> receipts = new Gee.ArrayList<SteamChangeReceipt> ();
+        public ProtonPlus.Services.SteamRestartRecordResult record (SteamChangeReceipt receipt) {
+            receipts.add (receipt);
+            return ProtonPlus.Services.SteamRestartRecordResult.ADDED;
         }
     }
 
@@ -71,17 +83,28 @@ namespace AppTests.SteamTinkerLaunchTest {
     private void test_install_update_and_remove_managed_layout () {
         var root = temporary_directory (); var cache = Path.build_filename (root, "cache"); var tools = Path.build_filename (root, "tools"); var config = Path.build_filename (root, ".config", "steamtinkerlaunch");
         Globals.CACHE_PATH = cache; assert (ProtonPlus.Utils.Filesystem.create_directory (cache)); assert (ProtonPlus.Utils.Filesystem.create_directory (config)); ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (config, "settings.conf"), "settings\n");
-        var job = new FixtureJob (tool (tools), root, fixture_archive (root));
+        var launcher = new RecordingLauncher (tools);
+        var recorder = new RecordingRestartChange ();
+        ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder (recorder);
+        var job = new FixtureJob (tool (tools, launcher), root, fixture_archive (root));
         assert (job.steam_tinker_launch_context != null);
         assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        assert (recorder.receipts.size == 1);
+        assert (recorder.receipts.get (0).kind == SteamChangeKind.STEAMTINKERLAUNCH_CHANGED);
+        assert (recorder.receipts.get (0).target.id == launcher.get_steam_restart_target ().id);
         assert (FileUtils.test (Path.build_filename (job.install_location, "steamtinkerlaunch"), FileTest.IS_REGULAR));
         assert (FileUtils.test (Path.build_filename (job.install_location, "ProtonPlus.meta"), FileTest.IS_REGULAR));
         assert (update (job) == ReturnCode.RUNNER_UPDATED);
+        assert (recorder.receipts.size == 2);
+        assert (recorder.receipts.get (1).kind == SteamChangeKind.STEAMTINKERLAUNCH_CHANGED);
         var context = (!) job.steam_tinker_launch_context;
         context.user_requested_removal = true; context.remove_config = true;
         assert (remove (job) == ReturnCode.RUNNER_REMOVED);
+        assert (recorder.receipts.size == 3);
+        assert (recorder.receipts.get (2).kind == SteamChangeKind.STEAMTINKERLAUNCH_CHANGED);
         assert (!FileUtils.test (job.install_location, FileTest.EXISTS));
         assert (!FileUtils.test (config, FileTest.EXISTS));
+        ProtonPlus.Services.InstallationService.reset_lifecycle_configuration_for_tests ();
         assert (delete_directory (root));
     }
 

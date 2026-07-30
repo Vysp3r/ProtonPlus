@@ -96,6 +96,7 @@ namespace ProtonPlus.Widgets {
             steam_session_service = new ProtonPlus.Services.SteamSessionService ();
             steam_restart_manager = new ProtonPlus.Services.SteamRestartManager ((!) steam_session_service, new ProtonPlus.Services.SteamRestartStateStore ());
             steam_configuration_service = new ProtonPlus.Services.SteamConfigurationService ((!) steam_session_service, (!) steam_restart_manager);
+            ((!) steam_restart_manager).configure_configuration_reconciler ((!) steam_configuration_service);
             ProtonPlus.Services.SteamConfigurationService.configure ((!) steam_configuration_service);
             steam_restart_orchestrator = new ProtonPlus.Services.SteamRestartOrchestrator ((!) steam_session_service, (!) steam_restart_manager, null, 500, 40, 60, (!) steam_configuration_service);
             ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder ((!) steam_restart_manager);

@@ -66,6 +66,7 @@ namespace ProtonPlus.Services {
         public bool has_steam_restart_record_result { get; internal set; default = false; }
         public SteamRestartRecordResult steam_restart_record_result { get; internal set; default = SteamRestartRecordResult.ALREADY_SATISFIED; }
         public string? steam_restart_warning { get; internal set; default = null; }
+        private Models.SteamChangeKind? recorded_steam_change_kind = null;
         public State state { get; internal set; default = State.NOT_INSTALLED; }
         public Step step { get; internal set; default = Step.NOTHING; }
         public signal void progress_updated ();
@@ -231,6 +232,7 @@ namespace ProtonPlus.Services {
             _canceled = false;
             operation_cancellable = new Cancellable ();
             replacement_backup_path = null;
+            recorded_steam_change_kind = null;
             is_finished = false;
             install_success = false;
             error_message = null;
@@ -239,6 +241,16 @@ namespace ProtonPlus.Services {
             seconds_remaining = -1.0;
             is_percent = false;
             notify_property ("canceled");
+        }
+
+        /* Archive/workflow layers can both observe a successful update.  One
+         * job operation may yield only one receipt of each physical change
+         * kind; the next operation resets this marker in begin_operation(). */
+        internal bool mark_steam_change_recorded (Models.SteamChangeKind kind) {
+            if (recorded_steam_change_kind == kind)
+                return false;
+            recorded_steam_change_kind = kind;
+            return true;
         }
 
         // Keep the busy state until the service has finished cleanup and

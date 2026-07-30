@@ -78,6 +78,8 @@ namespace ProtonPlus.Services {
                             value.replace ("\"", "\\\"")), "");
                 } catch (Error e) { return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "shortcuts.vdf could not be parsed."); }
             }
+            if (!FileUtils.test (localconfig_path, FileTest.IS_REGULAR))
+                return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "localconfig.vdf is missing.");
             var content = Utils.Filesystem.get_file_content (localconfig_path);
             var current = launch_value (content, game.appid);
             if (current == null) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Malformed localconfig.vdf.");
@@ -208,6 +210,8 @@ namespace ProtonPlus.Services {
             var target = steam.get_steam_restart_target ();
             if (target == null) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "No Steam target.");
             var path = Path.build_filename (steam.directory, "config", "config.vdf");
+            if (!FileUtils.test (path, FileTest.IS_REGULAR))
+                return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "config.vdf is missing.");
             var content = Utils.Filesystem.get_file_content (path);
             var current = compatibility_value (content, appid);
             if (current == null) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Malformed config.vdf.");
@@ -242,6 +246,11 @@ namespace ProtonPlus.Services {
         }
 
         public SteamConfigurationMutation reconcile_target (SteamRestartTarget target) {
+            var snapshot = sessions.inspect (target);
+            if (snapshot.state != SteamSessionState.STOPPED
+                || snapshot.state_confidence != SteamEvidenceLevel.CONFIRMED)
+                return new SteamConfigurationMutation (SteamConfigurationMutationResult.STAGED,
+                    "Steam has not been confirmed stopped.");
             var aggregate = SteamConfigurationMutationResult.UNCHANGED;
             var records = manager.get_pending_changes_for_target (target);
             /* A prerequisite is always processed before a shortcut mutation;
@@ -257,7 +266,10 @@ namespace ProtonPlus.Services {
                 var intent = record.receipt.configuration_intent;
                 if (intent == null) continue;
                 if (((!) intent).operation == SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT) continue;
-                var content = Utils.Filesystem.get_file_content (intent.path);
+                if (!FileUtils.test (((!) intent).path, FileTest.IS_REGULAR))
+                    return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Configuration file is missing.");
+                var content = intent.file == SteamConfigurationFile.SHORTCUTS
+                    ? "" : Utils.Filesystem.get_file_content (intent.path);
                 var current = value_for_intent ((!) intent, content);
                 if (current == null)
                     return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Configuration file could not be parsed.");
@@ -272,14 +284,20 @@ namespace ProtonPlus.Services {
         }
 
         public bool verify_target_after_session (SteamRestartTarget target) {
-            var all = true;
+            var verified = new Gee.ArrayList<SteamRestartPendingRecord> ();
             foreach (var record in manager.get_pending_changes_for_target (target)) {
                 var intent = record.receipt.configuration_intent;
                 if (intent == null) continue;
-                var current = value_for_intent ((!) intent, Utils.Filesystem.get_file_content (((!) intent).path));
-                if (!matches_desired ((!) intent, current) || !manager.clear_verified_configuration (record)) all = false;
+                if (!FileUtils.test (((!) intent).path, FileTest.IS_REGULAR))
+                    return false;
+                var content = ((!) intent).file == SteamConfigurationFile.SHORTCUTS
+                    ? "" : Utils.Filesystem.get_file_content (((!) intent).path);
+                var current = value_for_intent ((!) intent, content);
+                if (!matches_desired ((!) intent, current))
+                    return false;
+                verified.add (record);
             }
-            return all;
+            return manager.clear_verified_configurations (verified);
         }
 
         private string? value_for_intent (SteamConfigurationIntent intent, string content) {

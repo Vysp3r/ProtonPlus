@@ -12,6 +12,17 @@ namespace AppTests.SteamRestartPresentationTest {
         return new SteamRestartPendingRecord (receipt, receipt.changed_at, receipt.changed_at, 1, null);
     }
 
+    private class RecordingNotificationSender : Object, SteamRestartNotificationSender {
+        public Gee.List<string> messages = new Gee.ArrayList<string> ();
+        public bool fail = false;
+
+        public void send_restart_required (string message) throws Error {
+            messages.add (message);
+            if (fail)
+                throw new SteamRestartNotificationError.DELIVERY_FAILED ("fixture delivery failure");
+        }
+    }
+
     private Gee.List<SteamRestartPendingRecord> records (params SteamRestartPendingRecord[] values) {
         var result = new Gee.ArrayList<SteamRestartPendingRecord> ();
         foreach (var value in values)
@@ -76,10 +87,54 @@ namespace AppTests.SteamRestartPresentationTest {
         assert (policy.update (0, 1, false, false) != null);
     }
 
+    private void test_notification_delivery_is_private_and_deduplicated () {
+        var sender = new RecordingNotificationSender ();
+        var coordinator = new SteamRestartNotificationCoordinator (sender);
+
+        coordinator.update (0, 1, false, false);
+        assert (sender.messages.size == 1);
+        coordinator.update (1, 1, false, false);
+        assert (sender.messages.size == 1);
+        coordinator.update (1, 2, false, false);
+        assert (sender.messages.size == 2);
+        coordinator.update (2, 3, false, false);
+        assert (sender.messages.size == 2);
+        foreach (var message in sender.messages) {
+            assert (!message.contains ("Fixture game"));
+            assert (!message.contains ("123456"));
+            assert (!message.contains ("%command%"));
+            assert (!message.contains ("/tmp/"));
+        }
+
+        coordinator.update (3, 0, false, false);
+        coordinator.update (0, 1, true, false);
+        assert (sender.messages.size == 2);
+        coordinator.update (1, 0, false, false);
+        coordinator.update (0, 1, false, true);
+        assert (sender.messages.size == 2);
+        coordinator.update (1, 2, false, false);
+        assert (sender.messages.size == 3);
+
+        coordinator.update (2, 0, false, false);
+        sender.fail = true;
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING,
+            "*Failed to send Steam restart notification: fixture delivery failure*");
+        coordinator.update (0, 1, false, false);
+        Test.assert_expected_messages ();
+        assert (sender.messages.size == 4);
+        coordinator.update (1, 1, false, false);
+        assert (sender.messages.size == 4);
+        sender.fail = false;
+        coordinator.update (1, 0, false, false);
+        coordinator.update (0, 1, false, false);
+        assert (sender.messages.size == 5);
+    }
+
     public void register_tests () {
         Test.add_func ("/steam-restart-presentation/banner-and-grouping", test_banner_states_and_grouping);
         Test.add_func ("/steam-restart-presentation/toast-policy", test_toast_policy);
         Test.add_func ("/steam-restart-presentation/failure-messages", test_failure_messages_are_actionable);
         Test.add_func ("/steam-restart-presentation/inactive-notification-policy", test_inactive_notification_policy);
+        Test.add_func ("/steam-restart-presentation/notification-delivery-private-and-deduplicated", test_notification_delivery_is_private_and_deduplicated);
     }
 }

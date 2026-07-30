@@ -66,7 +66,7 @@ namespace ProtonPlus.Services {
             var busy = job.state == InstallJob.State.BUSY_UPDATING ||
                 job.state == InstallJob.State.BUSY_INSTALLING;
             if (!busy) {
-                job.canceled = false;
+                job.begin_operation ();
                 job.state = InstallJob.State.BUSY_REMOVING;
             }
 
@@ -283,7 +283,7 @@ namespace ProtonPlus.Services {
         private void record_successful_change (InstallJob job, Models.SteamChangeKind kind) {
             var recorder = steam_change_recorder;
             var target = job.tool.group.launcher.get_steam_restart_target ();
-            if (recorder == null || target == null)
+            if (recorder == null || target == null || !job.mark_steam_change_recorded (kind))
                 return;
             var resource_key = Filename.canonicalize (job.install_location, null);
             var receipt = new Models.SteamChangeReceipt (

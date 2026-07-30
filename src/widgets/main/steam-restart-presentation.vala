@@ -193,4 +193,51 @@ namespace ProtonPlus.Widgets.Main {
             return null;
         }
     }
+
+    public errordomain SteamRestartNotificationError {
+        DELIVERY_FAILED
+    }
+
+    /* Desktop delivery is intentionally a one-method boundary.  Restart
+     * policy stays usable in headless tests and MainBox need not know about a
+     * notification daemon. */
+    public interface SteamRestartNotificationSender : Object {
+        public abstract void send_restart_required (string message) throws Error;
+    }
+
+    public class LibnotifySteamRestartNotificationSender : Object, SteamRestartNotificationSender {
+        public void send_restart_required (string message) throws Error {
+            var notification = new Notify.Notification (_ ("Steam restart needed"), message, "steam-symbolic");
+            try {
+                notification.show ();
+            } catch (Error e) {
+                throw new SteamRestartNotificationError.DELIVERY_FAILED ("%s", e.message);
+            }
+        }
+    }
+
+    /* This is deliberately independent of Gtk.Window.  MainBox supplies only
+     * its active-state observation; all suppression is kept with the policy
+     * and a failed delivery cannot alter the pending restart state. */
+    public class SteamRestartNotificationCoordinator : Object {
+        private SteamRestartNotificationPolicy policy;
+        private SteamRestartNotificationSender sender;
+
+        public SteamRestartNotificationCoordinator (SteamRestartNotificationSender sender,
+            SteamRestartNotificationPolicy? policy = null) {
+            this.sender = sender;
+            this.policy = policy ?? new SteamRestartNotificationPolicy ();
+        }
+
+        public void update (uint previous_count, uint current_count, bool active, bool restored) {
+            var message = policy.update (previous_count, current_count, active, restored);
+            if (message == null)
+                return;
+            try {
+                sender.send_restart_required ((!) message);
+            } catch (Error e) {
+                warning ("Failed to send Steam restart notification: %s", e.message);
+            }
+        }
+    }
 }

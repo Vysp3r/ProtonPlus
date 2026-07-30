@@ -22,6 +22,19 @@ namespace AppTests.SteamRestartManagerTest {
         }
     }
 
+    private class ReconcilerFixture : Object, SteamConfigurationReconciler {
+        public int reconcile_calls = 0;
+        public int verify_calls = 0;
+        public SteamConfigurationMutation reconcile_target (SteamRestartTarget target) {
+            reconcile_calls++;
+            return new SteamConfigurationMutation (SteamConfigurationMutationResult.CHANGED);
+        }
+        public bool verify_target_after_session (SteamRestartTarget target) {
+            verify_calls++;
+            return true;
+        }
+    }
+
     private string temp_state_path () {
         var directory = DirUtils.mkdtemp (Path.build_filename (Environment.get_tmp_dir (), "protonplus-restart-test-XXXXXX"));
         return Path.build_filename (directory, "state.json");
@@ -292,6 +305,72 @@ namespace AppTests.SteamRestartManagerTest {
         assert (changed == 1);
     }
 
+    private void test_bulk_configuration_verification_is_atomic () {
+        var path = temp_state_path ();
+        FakeBackend backend;
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        var store = new FailingStateStore (Path.build_filename (Path.get_dirname (path), "atomic-state.json"));
+        manager = new SteamRestartManager (new SteamSessionService (backend), store);
+        assert (manager.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.ADDED);
+        var config = Filename.canonicalize (Path.build_filename (target.data_root, "config", "config.vdf"), null);
+        var second_intent = new SteamConfigurationIntent (SteamConfigurationFile.CONFIG,
+            SteamConfigurationOperation.COMPATIBILITY_MAPPING, config, "43", "proton-c", "proton-d");
+        var second = new SteamChangeReceipt (target, SteamChangeKind.GAME_COMPATIBILITY_TOOL_CHANGED,
+            SteamRestartRequirement.CONSERVATIVE, "%s#CompatToolMapping/43".printf (config), "43", null, null, second_intent);
+        assert (manager.record (second) == SteamRestartRecordResult.ADDED);
+        var before = manager.get_pending_changes ();
+        store.fail_saves = true;
+        assert (!manager.clear_verified_configurations (before));
+        assert (manager.pending_count () == 2);
+        assert (manager.get_pending_changes ().get (0).receipt.configuration_intent != null);
+        assert (manager.get_pending_changes ().get (1).receipt.configuration_intent != null);
+    }
+
+    private void test_injected_reconciler_handles_manual_stop_and_new_session () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        var reconciler = new ReconcilerFixture ();
+        manager.configure_configuration_reconciler (reconciler);
+        assert (manager.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.ADDED);
+
+        /* Reopen ProtonPlus before Steam exits: the restored manager must use
+         * the configured seam rather than the process-global service. */
+        manager = new SteamRestartManager (new SteamSessionService (backend),
+            new SteamRestartStateStore (path), reconciler);
+        assert (manager.pending_count () == 1);
+
+        backend.native_query = new NativeProcessQuery (true);
+        manager.reconcile_target (target);
+        assert (reconciler.reconcile_calls == 1);
+        assert (manager.pending_count () == 1);
+
+        var processes = new Gee.ArrayList<SteamProcessRecord> ();
+        processes.add (new SteamProcessRecord (102, Path.build_filename (target.data_root, "steam"), target.data_root, 200));
+        backend.native_query = new NativeProcessQuery (true, processes);
+        manager.reconcile_target (target);
+        assert (reconciler.verify_calls == 1);
+        assert (manager.pending_count () == 1);
+
+        var tool_target = native_target (Path.build_filename (Path.get_dirname (path), "tool-state.json"));
+        var tool_processes = new Gee.ArrayList<SteamProcessRecord> ();
+        tool_processes.add (new SteamProcessRecord (201, Path.build_filename (tool_target.data_root, "steam"), tool_target.data_root, 100));
+        backend.native_query = new NativeProcessQuery (true, tool_processes);
+        var tool_manager = new SteamRestartManager (new SteamSessionService (backend), new SteamRestartStateStore (Path.build_filename (Path.get_dirname (path), "tool-state.json")), reconciler);
+        assert (tool_manager.record (receipt (tool_target, "compatibilitytools.d/fixture")) == SteamRestartRecordResult.ADDED);
+        backend.native_query = new NativeProcessQuery (true);
+        tool_manager.reconcile_target (tool_target);
+        tool_processes = new Gee.ArrayList<SteamProcessRecord> ();
+        tool_processes.add (new SteamProcessRecord (202, Path.build_filename (tool_target.data_root, "steam"), tool_target.data_root, 200));
+        backend.native_query = new NativeProcessQuery (true, tool_processes);
+        tool_manager.reconcile_target (tool_target);
+        assert (tool_manager.pending_count () == 0);
+        assert (reconciler.reconcile_calls == 1);
+        assert (reconciler.verify_calls == 1);
+    }
+
     private void test_state_store_migrates_lifecycle_v1_and_secures_permissions () {
         var path = temp_state_path ();
         var target = native_target (path);
@@ -330,6 +409,8 @@ namespace AppTests.SteamRestartManagerTest {
         Test.add_func ("/steam-restart-manager/reverting-legacy-shortcut-create-removes-prerequisite", test_reverting_legacy_shortcut_create_removes_prerequisite);
         Test.add_func ("/steam-restart-manager/configuration-state-stable-and-safe", test_configuration_state_uses_stable_ids_and_rejects_unsafe_paths);
         Test.add_func ("/steam-restart-manager/persistence-failures-restore-configuration-state", test_persistence_failures_restore_exact_configuration_state);
+        Test.add_func ("/steam-restart-manager/bulk-verification-is-atomic", test_bulk_configuration_verification_is_atomic);
+        Test.add_func ("/steam-restart-manager/injected-reconciler-manual-stop-and-new-session", test_injected_reconciler_handles_manual_stop_and_new_session);
         Test.add_func ("/steam-restart-manager/state-store-v1-and-private-mode", test_state_store_migrates_lifecycle_v1_and_secures_permissions);
     }
 }

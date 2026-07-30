@@ -84,9 +84,11 @@ namespace AppTests.InstallerTransactionTest {
         public SteamRestartRecordResult next_result = SteamRestartRecordResult.ADDED;
         public int calls = 0;
         public SteamChangeReceipt? last_receipt = null;
+        public Gee.List<SteamChangeReceipt> receipts = new Gee.ArrayList<SteamChangeReceipt> ();
         public SteamRestartRecordResult record (SteamChangeReceipt receipt) {
             calls++;
             last_receipt = receipt;
+            receipts.add (receipt);
             return next_result;
         }
     }
@@ -279,14 +281,72 @@ namespace AppTests.InstallerTransactionTest {
         assert (install (job) == ReturnCode.RUNNER_INSTALLED);
         assert (recorder.calls == 1);
         assert (recorder.last_receipt.kind == SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED);
+        assert (recorder.last_receipt.resource_key == Filename.canonicalize (location, null));
         assert (job.has_steam_restart_record_result);
 
         var replacement = new FixtureJob (runner (Path.build_filename (root, "tools-two"), ArchiveInstallRequirement.STANDARD, launcher),
             Path.build_filename (root, "tools-two", "Fixture Runner"), fixture_archive (root));
-        recorder.next_result = SteamRestartRecordResult.PERSISTENCE_FAILED;
-        assert (install (replacement) == ReturnCode.RUNNER_INSTALLED);
+        assert (install (replacement, true) == ReturnCode.RUNNER_INSTALLED);
         assert (recorder.calls == 2);
-        assert (replacement.steam_restart_warning != null);
+        assert (recorder.last_receipt.kind == SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED);
+        /* The workflow reports its completed update after install_for_update;
+         * a duplicate internal callback must not create another receipt. */
+        InstallationService.instance.record_completed_update (replacement);
+        assert (recorder.calls == 2);
+
+        assert (remove (replacement) == ReturnCode.RUNNER_REMOVED);
+        assert (recorder.calls == 3);
+        assert (recorder.last_receipt.kind == SteamChangeKind.COMPATIBILITY_TOOL_REMOVED);
+
+        var no_op = new FixtureJob (runner (Path.build_filename (root, "tools-three"), ArchiveInstallRequirement.STANDARD, launcher),
+            Path.build_filename (root, "tools-three", "Fixture Runner"), fixture_archive (root));
+        assert (remove (no_op) == ReturnCode.RUNNER_REMOVED);
+        assert (recorder.calls == 3);
+
+        recorder.next_result = SteamRestartRecordResult.PERSISTENCE_FAILED;
+        var persistence = new FixtureJob (runner (Path.build_filename (root, "tools-four"), ArchiveInstallRequirement.STANDARD, launcher),
+            Path.build_filename (root, "tools-four", "Fixture Runner"), fixture_archive (root));
+        assert (install (persistence) == ReturnCode.RUNNER_INSTALLED);
+        assert (recorder.calls == 4);
+        assert (persistence.steam_restart_warning != null);
+        assert (FileUtils.test (persistence.install_location, FileTest.IS_DIR));
+
+        recorder.next_result = SteamRestartRecordResult.ADDED;
+        var cancel_cache = Path.build_filename (root, "cancel-cache");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (cancel_cache));
+        Globals.CACHE_PATH = cancel_cache;
+        var cancelled = new FixtureJob (runner (Path.build_filename (root, "tools-five"), ArchiveInstallRequirement.STANDARD, launcher),
+            Path.build_filename (root, "tools-five", "Fixture Runner"), fixture_archive (root), true);
+        assert (install (cancelled) != ReturnCode.RUNNER_INSTALLED);
+        assert (cancelled.canceled);
+        assert (recorder.calls == 4);
+
+        var failed = new FixtureJob (runner (Path.build_filename (root, "tools-six"), ArchiveInstallRequirement.STANDARD, launcher),
+            Path.build_filename (root, "tools-six", "Fixture Runner"), fixture_archive (root), false, true);
+        assert (install (failed) == ReturnCode.FILESYSTEM_ERROR);
+        assert (recorder.calls == 4);
+
+        var incompatible = new FixtureJob (runner (Path.build_filename (root, "tools-seven"), ArchiveInstallRequirement.STANDARD, launcher),
+            Path.build_filename (root, "tools-seven", "Fixture Runner"), "not-used.zip");
+        incompatible.release.variants.add (new Models.Variant (
+            "v3", "x86_64_v3", "", true, "https://fixtures.invalid/v3.zip",
+            VariantCompatibility.for_x86_64_level (X86_64Level.V3)
+        ));
+        incompatible.set_selected_variant ("x86_64_v3", null, "v3");
+        var original_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V2);
+        assert (install (incompatible) == ReturnCode.INCOMPATIBLE_VARIANT);
+        Globals.CPU_CAPABILITIES = original_capabilities;
+        assert (recorder.calls == 4);
+
+        /* A later transaction may record independently after the per-job
+         * duplicate guard has finished its operation. */
+        recorder.next_result = SteamRestartRecordResult.PERSISTENCE_FAILED;
+        var second_persistence = new FixtureJob (runner (Path.build_filename (root, "tools-eight"), ArchiveInstallRequirement.STANDARD, launcher),
+            Path.build_filename (root, "tools-eight", "Fixture Runner"), fixture_archive (root));
+        assert (install (second_persistence) == ReturnCode.RUNNER_INSTALLED);
+        assert (recorder.calls == 5);
+        assert (second_persistence.steam_restart_warning != null);
         InstallationService.reset_lifecycle_configuration_for_tests ();
         assert (delete_directory (root));
     }

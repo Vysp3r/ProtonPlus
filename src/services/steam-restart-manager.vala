@@ -15,6 +15,7 @@ namespace ProtonPlus.Services {
         private SteamRestartStateStore state_store;
         private Gee.HashMap<string, SteamRestartPendingRecord> pending = new Gee.HashMap<string, SteamRestartPendingRecord> ();
         private Gee.HashMap<string, SteamRestartTarget> targets = new Gee.HashMap<string, SteamRestartTarget> ();
+        private SteamConfigurationReconciler? configuration_reconciler;
         private ulong state_changed_handler_id = 0;
         private bool observation_started = false;
 
@@ -27,13 +28,23 @@ namespace ProtonPlus.Services {
         public signal void restart_requirement_satisfied (SteamRestartTarget target);
         public signal void persistence_failed (string message);
 
-        public SteamRestartManager (SteamSessionService session_service, SteamRestartStateStore state_store) {
+        public SteamRestartManager (SteamSessionService session_service, SteamRestartStateStore state_store,
+            SteamConfigurationReconciler? configuration_reconciler = null) {
             this.session_service = session_service;
             this.state_store = state_store;
+            this.configuration_reconciler = configuration_reconciler;
             var loaded = state_store.load ();
             last_load_error = loaded.error;
             foreach (var record in loaded.records)
                 add_loaded_record (record);
+        }
+
+        /* Configuration service construction needs the manager, so the
+         * composition root connects this narrow seam after both objects exist.
+         * The manager must never reach through the global service instance:
+         * tests and a later app session can provide their own reconciler. */
+        public void configure_configuration_reconciler (SteamConfigurationReconciler? reconciler) {
+            configuration_reconciler = reconciler;
         }
 
         ~SteamRestartManager () {
@@ -233,8 +244,15 @@ namespace ProtonPlus.Services {
                 }
                 /* A manually observed stop is authorization to reconcile the
                  * already-persisted intent; it never implies a relaunch. */
-                var configuration = SteamConfigurationService.instance;
-                if (configuration != null)
+                var configuration = configuration_reconciler;
+                var has_configuration_intent = false;
+                foreach (var record in get_pending_changes_for_target (target)) {
+                    if (record.receipt.configuration_intent != null) {
+                        has_configuration_intent = true;
+                        break;
+                    }
+                }
+                if (has_configuration_intent && configuration != null)
                     configuration.reconcile_target (target);
                 return;
             }
@@ -254,7 +272,7 @@ namespace ProtonPlus.Services {
                 }
             }
             if (configuration_needs_verification) {
-                var configuration = SteamConfigurationService.instance;
+                var configuration = configuration_reconciler;
                 if (configuration != null)
                     configuration.verify_target_after_session (target);
             }
@@ -294,21 +312,48 @@ namespace ProtonPlus.Services {
         /* Configuration records require on-disk verification by the service;
          * a process generation alone is deliberately not enough evidence. */
         public bool clear_verified_configuration (SteamRestartPendingRecord record) {
-            if (record.receipt.configuration_intent == null)
-                return false;
-            var key = record.receipt.deduplication_key;
-            if (!pending.has_key (key))
-                return false;
-            pending.unset (key);
-            var target_cleared = pending_count_for_target (record.receipt.target) == 0;
-            if (target_cleared) targets.unset (record.receipt.target.id);
+            var records = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            records.add (record);
+            return clear_verified_configurations (records);
+        }
+
+        /* Verification may cover several fields for one target.  Remove them
+         * as one durable transition so a state-store failure leaves precisely
+         * the pre-verification set of pending receipts in memory and on disk. */
+        public bool clear_verified_configurations (Gee.Collection<SteamRestartPendingRecord> records) {
+            if (records.size == 0)
+                return true;
+            var removed = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            var affected_targets = new Gee.HashMap<string, SteamRestartTarget> ();
+            foreach (var record in records) {
+                if (record.receipt.configuration_intent == null)
+                    return false;
+                var key = record.receipt.deduplication_key;
+                var current = pending.get (key);
+                if (current == null || current != record)
+                    return false;
+                removed.add (record);
+                affected_targets.set (record.receipt.target.id, record.receipt.target);
+            }
+            foreach (var record in removed)
+                pending.unset (record.receipt.deduplication_key);
+            var cleared_targets = new Gee.ArrayList<SteamRestartTarget> ();
+            foreach (var target in affected_targets.values) {
+                if (pending_count_for_target (target) == 0) {
+                    targets.unset (target.id);
+                    cleared_targets.add (target);
+                }
+            }
             if (!persist ()) {
-                pending.set (key, record);
-                targets.set (record.receipt.target.id, record.receipt.target);
+                foreach (var record in removed)
+                    pending.set (record.receipt.deduplication_key, record);
+                foreach (var target in affected_targets.values)
+                    targets.set (target.id, target);
                 return false;
             }
             pending_changed ();
-            if (target_cleared) restart_requirement_satisfied (record.receipt.target);
+            foreach (var target in cleared_targets)
+                restart_requirement_satisfied (target);
             return true;
         }
 
