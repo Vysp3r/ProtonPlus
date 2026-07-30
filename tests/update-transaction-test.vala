@@ -2,9 +2,11 @@ namespace AppTests.UpdateTransactionTest {
     using GLib;
     using ProtonPlus;
     using ProtonPlus.Models;
+    using ProtonPlus.Models.Launchers;
     using ProtonPlus.Models.Providers;
     using ProtonPlus.Models.Tools;
     using ProtonPlus.Providers.Sources;
+    using ProtonPlus.Services;
 
     private class FailingReleaseSource : Object, ReleaseSource {
         public async ReleasePageResult fetch_page (ProviderDefinition definition, int requested_page, int limit) {
@@ -41,6 +43,35 @@ namespace AppTests.UpdateTransactionTest {
         }
     }
 
+    private class FixtureSteamLauncher : Launcher {
+        private SteamRestartTarget target;
+
+        public FixtureSteamLauncher (string root) {
+            base ("Steam fixture", InstallationTypes.SYSTEM, "", { root }, "steam",
+                null, root, "steam", "steam-system");
+            target = SteamRestartTarget.for_native (root, "Steam", "steam.desktop");
+        }
+
+        public override SteamRestartTarget? get_steam_restart_target () {
+            return target;
+        }
+    }
+
+    private class RecordingSteamChange : Object, SteamChangeRecorder {
+        public Gee.List<SteamChangeReceipt> receipts = new Gee.ArrayList<SteamChangeReceipt> ();
+
+        public SteamRestartRecordResult record (SteamChangeReceipt receipt) {
+            receipts.add (receipt);
+            return SteamRestartRecordResult.ADDED;
+        }
+    }
+
+    private class EmptyCompatibilityProcessQuery : Object, CompatibilityProcessQueryBackend {
+        public Gee.List<CompatibilityProcessRecord> query_processes () {
+            return new Gee.ArrayList<CompatibilityProcessRecord> ();
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/update-transaction/migrates-settings-prefix-and-cleans-backup", test_migrates_settings_prefix_and_cleans_backup);
         Test.add_func ("/update-transaction/migrates-settings-symlink", test_migrates_settings_symlink);
@@ -53,6 +84,7 @@ namespace AppTests.UpdateTransactionTest {
         Test.add_func ("/update-transaction/latest-legacy-variant-without-compatible-release-is-untouched", test_latest_legacy_variant_without_compatible_release_is_untouched);
         Test.add_func ("/update-transaction/stable-variant-id-survives-release-display-name-change", test_stable_variant_id_survives_release_display_name_change);
         Test.add_func ("/update-transaction/bulk-updates-skip-incompatible-targets", test_bulk_updates_skip_incompatible_targets);
+        Test.add_func ("/update-transaction/background-update-records-steam-receipt", test_background_update_records_steam_receipt);
     }
 
     private string create_temp_directory () {
@@ -157,6 +189,33 @@ namespace AppTests.UpdateTransactionTest {
     private void create_file (string path, string content) {
         ProtonPlus.Utils.Filesystem.create_file (path, content);
         assert (ProtonPlus.Utils.Filesystem.get_file_content (path) == content);
+    }
+
+    private void cache_archive (string cache, string url) {
+        var archive_dir = Path.build_filename (cache, "archives");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (archive_dir));
+        var archive = Path.build_filename (archive_dir,
+            "%s.zip".printf (Checksum.compute_for_string (ChecksumType.SHA256, url)));
+        try {
+            FileUtils.set_data (archive, Base64.decode (ProtonPlus.Utils.Filesystem.get_file_content (
+                Path.build_filename ("fixtures", "archives", "runner.zip.base64")
+            ).strip ()));
+        } catch (FileError e) {
+            critical ("Could not seed cached archive: %s", e.message);
+            assert_not_reached ();
+        }
+    }
+
+    private void seed_latest_installation (ProviderTool runner, string tag) {
+        var directory = Path.build_filename (runner.group.launcher.directory, "compatibilitytools.d",
+            "%s Latest".printf (runner.title));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+        var metadata = new ProtonPlus.Utils.Metadata ();
+        metadata.tag = tag;
+        metadata.provider_id = runner.provider_id;
+        metadata.tool_id = runner.id;
+        metadata.launcher_id = runner.group.launcher.tool_target_id;
+        assert (metadata.save (directory));
     }
 
     private void test_migrates_settings_prefix_and_cleans_backup () {
@@ -564,5 +623,153 @@ namespace AppTests.UpdateTransactionTest {
         Globals.CPU_CAPABILITIES = previous_capabilities;
         Globals.CACHE_PATH = previous_cache_path;
         assert (delete_directory (root));
+    }
+
+    private void test_background_update_records_steam_receipt () {
+        var root = create_temp_directory ();
+        var cache = Path.build_filename (root, "cache");
+        var steam_root = Path.build_filename (root, "host-data", "Steam");
+        var previous_cache = Globals.CACHE_PATH;
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CACHE_PATH = cache;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V2);
+        InstallationService.reset_lifecycle_configuration_for_tests ();
+        InstallationService.instance.configure_compatibility_process_guard (
+            new CompatibilityProcessGuard (new EmptyCompatibilityProcessQuery ())
+        );
+
+        try {
+            assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
+            assert (ProtonPlus.Utils.Filesystem.create_directory (Path.build_filename (
+                steam_root, "compatibilitytools.d"
+            )));
+            var steam = new FixtureSteamLauncher (steam_root);
+            var faugus = new FaugusLauncher (
+                Launcher.InstallationTypes.SYSTEM,
+                root,
+                Path.build_filename (root, "host-data"),
+                Path.build_filename (root, "config"),
+                Path.build_filename (root, "data"),
+                Path.build_filename (root, "state")
+            );
+            assert (faugus.directory == steam_root);
+            assert (steam.get_steam_restart_target ().id == faugus.get_steam_restart_target ().id);
+
+            var steam_group = new Group ("Proton", "", "/compatibilitytools.d", steam, "proton");
+            steam_group.tools = new Gee.LinkedList<Models.Tool> ();
+            steam.groups = { steam_group };
+            var faugus_group = new Group ("Proton", "", "/compatibilitytools.d", faugus, "proton");
+            faugus_group.tools = new Gee.LinkedList<Models.Tool> ();
+            faugus.groups = { faugus_group };
+
+            var update_url = "https://fixtures.invalid/background-update.zip";
+            var update_release = new Release (
+                "v2", "", "", new Models.Assets.Asset ("runner.zip", update_url), "", 0,
+                "background-v2", "v2"
+            );
+            update_release.variants.add (new Models.Variant ("base", "Baseline", "", true, update_url,
+                VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)));
+            var update_definition = new ProviderDefinition (
+                Category.PROTON, SourceType.GITHUB, "background-provider", "Background Runner", "",
+                "https://fixtures.invalid/releases", 1,
+                { new VariantDefinition ("base", "Baseline", "$release_name", true,
+                    VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
+                { InstallLayout.template ("default", "$release_name") }
+            );
+            var update_source = new StaticReleaseSource (update_release);
+            var update_runner = new ProviderTool.with_catalog (
+                update_definition, update_source, steam_group,
+                InstallLayout.template ("default", "$release_name")
+            );
+            steam_group.tools.add (update_runner);
+            var duplicate_source = new StaticReleaseSource (update_release);
+            var faugus_duplicate = new ProviderTool.with_catalog (
+                update_definition, duplicate_source, faugus_group,
+                InstallLayout.template ("default", "$release_name")
+            );
+            faugus_group.tools.add (faugus_duplicate);
+            assert (update_runner.id == faugus_duplicate.id);
+            seed_latest_installation (update_runner, "v1");
+            cache_archive (cache, update_url);
+
+            var current_url = "https://fixtures.invalid/background-current.zip";
+            var current_release = new Release (
+                "v2", "", "", new Models.Assets.Asset ("runner.zip", current_url), "", 0,
+                "background-current-v2", "v2"
+            );
+            current_release.variants.add (new Models.Variant ("base", "Baseline", "", true, current_url));
+            var current_definition = new ProviderDefinition (
+                Category.PROTON, SourceType.GITHUB, "background-current", "Current Runner", "",
+                "https://fixtures.invalid/releases", 1,
+                { new VariantDefinition ("base", "Baseline", "$release_name", true) },
+                { InstallLayout.template ("default", "$release_name") }
+            );
+            var current_source = new StaticReleaseSource (current_release);
+            var current_runner = new ProviderTool.with_catalog (
+                current_definition, current_source, steam_group,
+                InstallLayout.template ("default", "$release_name")
+            );
+            steam_group.tools.add (current_runner);
+            seed_latest_installation (current_runner, "v2");
+
+            var incompatible_url = "https://fixtures.invalid/background-incompatible.zip";
+            var incompatible_release = new Release (
+                "v2", "", "", new Models.Assets.Asset ("runner.zip", incompatible_url), "", 0,
+                "background-incompatible-v2", "v2"
+            );
+            incompatible_release.variants.add (new Models.Variant ("v3", "Optimized", "", true,
+                incompatible_url, VariantCompatibility.for_x86_64_level (X86_64Level.V3)));
+            var incompatible_definition = new ProviderDefinition (
+                Category.PROTON, SourceType.GITHUB, "background-incompatible", "Incompatible Runner", "",
+                "https://fixtures.invalid/releases", 1,
+                { new VariantDefinition ("v3", "Optimized", "$release_name", true,
+                    VariantCompatibility.for_x86_64_level (X86_64Level.V3)) },
+                { InstallLayout.template ("default", "$release_name") }
+            );
+            var incompatible_source = new StaticReleaseSource (incompatible_release);
+            var incompatible_runner = new ProviderTool.with_catalog (
+                incompatible_definition, incompatible_source, steam_group,
+                InstallLayout.template ("default", "$release_name")
+            );
+            steam_group.tools.add (incompatible_runner);
+            seed_latest_installation (incompatible_runner, "v1");
+
+            var recorder = new RecordingSteamChange ();
+            InstallationService.instance.configure_steam_change_recorder (recorder);
+            var launchers = new List<Launcher> ();
+            launchers.append (steam);
+            launchers.append (faugus);
+            var loop = new MainLoop ();
+            ReturnCode result = ReturnCode.FILESYSTEM_ERROR;
+            InstallationService.instance.check_for_updates.begin (launchers, (obj, response) => {
+                result = InstallationService.instance.check_for_updates.end (response);
+                loop.quit ();
+            });
+            loop.run ();
+
+            assert (result == ReturnCode.RUNNERS_UPDATED);
+            assert (recorder.receipts.size == 1);
+            var receipt = recorder.receipts.get (0);
+            assert (receipt.kind == SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED);
+            assert (receipt.target.id == steam.get_steam_restart_target ().id);
+            var expected_path = Path.build_filename (steam_root, "compatibilitytools.d", "Background Runner Latest");
+            assert (receipt.resource_key == Filename.canonicalize (expected_path, null));
+            assert (duplicate_source.requests == 0);
+            assert (current_source.requests == 1);
+            assert (incompatible_source.requests == 1);
+
+            InstallationService.instance.check_for_updates.begin (launchers, (obj, response) => {
+                result = InstallationService.instance.check_for_updates.end (response);
+                loop.quit ();
+            });
+            loop.run ();
+            assert (result == ReturnCode.NOTHING_TO_UPDATE);
+            assert (recorder.receipts.size == 1);
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            Globals.CPU_CAPABILITIES = previous_capabilities;
+            Globals.CACHE_PATH = previous_cache;
+            assert (delete_directory (root));
+        }
     }
 }

@@ -45,6 +45,16 @@ namespace ProtonPlus.CLI {
 
     public class Handler {
         private Gee.LinkedList<Models.Launcher> launchers;
+        /* Production discovers launchers at command time.  Tests may provide
+         * a fully temporary collection so command routing never touches a
+         * host launcher directory. */
+        private Gee.LinkedList<Models.Launcher>? fixture_launchers;
+        private ulong progress_updated_handler_id = 0;
+        private ulong steam_restart_recording_failed_handler_id = 0;
+
+        public Handler (Gee.LinkedList<Models.Launcher>? fixture_launchers = null) {
+            this.fixture_launchers = fixture_launchers;
+        }
 
         public async int run (string[] args) {
             if (args.length < 2) {
@@ -71,27 +81,42 @@ namespace ProtonPlus.CLI {
             }
 
             if (command == CMD_INSTALL || command == CMD_UPDATE)
-                Utils.DownloadManager.instance.progress_updated.connect (on_progress_updated);
+                progress_updated_handler_id = Utils.DownloadManager.instance.progress_updated.connect (on_progress_updated);
             if (command == CMD_INSTALL || command == CMD_UNINSTALL || command == CMD_UPDATE) {
-                Services.InstallationService.instance.steam_restart_recording_failed.connect ((job, message) => {
+                steam_restart_recording_failed_handler_id = Services.InstallationService.instance.steam_restart_recording_failed.connect ((job, message) => {
                     Output.warning (_ ("Warning: %s\n"), message);
                 });
             }
 
-            if (!yield load_launchers ())
-                return 1;
-
-            switch (command) {
-                case CMD_LIST:
-                    return handle_list (args);
-                case CMD_INSTALL:
-                    return yield handle_install (args);
-                case CMD_UNINSTALL:
-                    return yield handle_uninstall (args);
-                case CMD_UPDATE:
-                    return yield handle_update (args);
-                default:
+            try {
+                if (!yield load_launchers ())
                     return 1;
+
+                switch (command) {
+                    case CMD_LIST:
+                        return handle_list (args);
+                    case CMD_INSTALL:
+                        return yield handle_install (args);
+                    case CMD_UNINSTALL:
+                        return yield handle_uninstall (args);
+                    case CMD_UPDATE:
+                        return yield handle_update (args);
+                    default:
+                        return 1;
+                }
+            } finally {
+                disconnect_runtime_signals ();
+            }
+        }
+
+        private void disconnect_runtime_signals () {
+            if (progress_updated_handler_id != 0) {
+                Utils.DownloadManager.instance.disconnect (progress_updated_handler_id);
+                progress_updated_handler_id = 0;
+            }
+            if (steam_restart_recording_failed_handler_id != 0) {
+                Services.InstallationService.instance.disconnect (steam_restart_recording_failed_handler_id);
+                steam_restart_recording_failed_handler_id = 0;
             }
         }
 
@@ -231,7 +256,9 @@ namespace ProtonPlus.CLI {
             }
 
             Output.info (_ ("Installing %s Latest...\n"), provider_tool.title);
-            var job = new Services.InstallJob (result.require_release (), provider_tool, Services.InstallJob.Mode.LATEST);
+            var job = create_install_job (
+                result.require_release (), provider_tool, Services.InstallJob.Mode.LATEST
+            );
             var code = yield job.install ();
             Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
@@ -264,7 +291,7 @@ namespace ProtonPlus.CLI {
 
             var selected = catalog.releases[index] as Models.Release;
             Output.info (_ ("Installing %s...\n"), selected.title);
-            var job = new Services.InstallJob (selected, provider_tool);
+            var job = create_install_job (selected, provider_tool);
             code = yield job.install ();
             Output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
@@ -449,6 +476,10 @@ namespace ProtonPlus.CLI {
         }
 
         private async bool load_launchers () {
+            if (fixture_launchers != null) {
+                launchers = (!) fixture_launchers;
+                return true;
+            }
             var success = yield Models.Launcher.get_all (out launchers);
             if (!success || launchers == null) {
                 Output.error (_ ("Error: Failed to load launchers\n"));
@@ -538,7 +569,21 @@ namespace ProtonPlus.CLI {
             var release = new Models.Release (
                 release_name, "", "", new Models.Assets.Asset ("", ""), "", 0, "", release_name
             );
-            return new Services.InstallJob (release, runner, Services.InstallJob.Mode.VERSIONED, get_release_path (runner, release_name));
+            return create_install_job (
+                release, runner, Services.InstallJob.Mode.VERSIONED, get_release_path (runner, release_name)
+            );
+        }
+
+        /* Keep the actual CLI routing and InstallationService lifecycle in
+         * place while allowing fixture jobs to cover cancellation and durable
+         * transaction failures without a network request. */
+        protected virtual Services.InstallJob create_install_job (
+            Models.Release release,
+            Models.Tools.ProviderTool provider_tool,
+            Services.InstallJob.Mode mode = Services.InstallJob.Mode.VERSIONED,
+            string? installation_location = null
+        ) {
+            return new Services.InstallJob (release, provider_tool, mode, installation_location);
         }
 
         private Models.Tools.ProviderTool? get_provider_tool (Models.Tool runner, string operation) {
