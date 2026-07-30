@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-28 08:42-0400\n"
+"POT-Creation-Date: 2026-07-29 21:39-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Bosnian <https://hosted.weblate.org/projects/protonplus/"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr "_O ProtonPlus-u"
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:207
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:222
 #, fuzzy
 msgid "A modern compatibility tools manager"
 msgstr "Moderni alat za upravljanje kompatibilnosti za Linuks."
@@ -113,9 +113,8 @@ msgid "VKD3D"
 msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:36
-#, fuzzy
-msgid "Compatibility"
-msgstr "Alat za kompatibilnost"
+msgid "Steam Tinker Launch"
+msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:74
 msgid "The main interface of ProtonPlus."
@@ -1871,113 +1870,113 @@ msgid "%ds"
 msgstr ""
 
 #. System Page
-#: src/globals.vala:25 src/widgets/mangohud/mangohud-extras-page.vala:74
+#: src/globals.vala:26 src/widgets/mangohud/mangohud-extras-page.vala:74
 #: src/widgets/preferences/preferences-dialog.vala:269
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr ""
 
-#: src/globals.vala:26
+#: src/globals.vala:27
 msgid "Arabic"
 msgstr ""
 
-#: src/globals.vala:27
+#: src/globals.vala:28
 msgid "Belarusian"
 msgstr ""
 
-#: src/globals.vala:28
+#: src/globals.vala:29
 msgid "Bosnian"
 msgstr ""
 
-#: src/globals.vala:29
+#: src/globals.vala:30
 msgid "Czech"
 msgstr ""
 
-#: src/globals.vala:30
+#: src/globals.vala:31
 msgid "German"
 msgstr ""
 
-#: src/globals.vala:31
+#: src/globals.vala:32
 msgid "English"
 msgstr ""
 
-#: src/globals.vala:32
+#: src/globals.vala:33
 msgid "Greek"
 msgstr ""
 
-#: src/globals.vala:33
+#: src/globals.vala:34
 msgid "Spanish"
 msgstr ""
 
-#: src/globals.vala:34
+#: src/globals.vala:35
 msgid "Finnish"
 msgstr ""
 
-#: src/globals.vala:35
+#: src/globals.vala:36
 msgid "French"
 msgstr ""
 
-#: src/globals.vala:36
+#: src/globals.vala:37
 msgid "Croatian"
 msgstr ""
 
-#: src/globals.vala:37
+#: src/globals.vala:38
 msgid "Indonesian"
 msgstr ""
 
-#: src/globals.vala:38
+#: src/globals.vala:39
 msgid "Italian"
 msgstr ""
 
-#: src/globals.vala:39
+#: src/globals.vala:40
 msgid "Japanese"
 msgstr ""
 
-#: src/globals.vala:40
+#: src/globals.vala:41
 msgid "Georgian"
 msgstr ""
 
-#: src/globals.vala:41
+#: src/globals.vala:42
 msgid "Dutch"
 msgstr ""
 
-#: src/globals.vala:42
+#: src/globals.vala:43
 msgid "Polish"
 msgstr ""
 
-#: src/globals.vala:43
+#: src/globals.vala:44
 msgid "Portuguese (Portugal)"
 msgstr ""
 
-#: src/globals.vala:44
+#: src/globals.vala:45
 msgid "Russian"
 msgstr ""
 
-#: src/globals.vala:45
+#: src/globals.vala:46
 msgid "Serbian (Latin)"
 msgstr ""
 
-#: src/globals.vala:46
+#: src/globals.vala:47
 msgid "Slovak"
 msgstr ""
 
-#: src/globals.vala:47
+#: src/globals.vala:48
 msgid "Swedish"
 msgstr ""
 
-#: src/globals.vala:48
+#: src/globals.vala:49
 msgid "Ukrainian"
 msgstr ""
 
-#: src/globals.vala:49
+#: src/globals.vala:50
 msgid "Vietnamese"
 msgstr ""
 
-#: src/globals.vala:50
+#: src/globals.vala:51
 msgid "Chinese"
 msgstr ""
 
-#: src/globals.vala:51
+#: src/globals.vala:52
 msgid "Chinese (Traditional)"
 msgstr ""
 
@@ -1995,73 +1994,77 @@ msgstr ""
 "Steam alat za jednostavnu, grafičku konfiguraciju vaših drugih alata za "
 "kompatibilnost za Windows igre i nativne Linuks igre."
 
-#: src/return_codes.vala:33
+#: src/return_codes.vala:34
 msgid "The request could not be completed."
 msgstr ""
 
-#: src/return_codes.vala:35
+#: src/return_codes.vala:36
 msgid "The required data is invalid or incomplete."
 msgstr ""
 
-#: src/return_codes.vala:37
+#: src/return_codes.vala:38
 #, fuzzy
 msgid "The download failed."
 msgstr "Preuzimanje"
 
-#: src/return_codes.vala:39
+#: src/return_codes.vala:40
 msgid "A filesystem operation failed."
 msgstr ""
 
-#: src/return_codes.vala:41
+#: src/return_codes.vala:42
 #, fuzzy
 msgid "This compatibility tool is already being processed."
 msgstr "%s trenutno nije podržan."
 
-#: src/return_codes.vala:43
+#: src/return_codes.vala:44
 #, fuzzy
 msgid "This compatibility tool is already installed."
 msgstr "Alat za kompatibilnost"
 
-#: src/return_codes.vala:45
+#: src/return_codes.vala:46
 #, fuzzy
 msgid "This compatibility tool is not installed."
 msgstr "Alat za kompatibilnost"
 
-#: src/return_codes.vala:47
+#: src/return_codes.vala:48
 msgid "This compatibility tool is not configured correctly."
 msgstr ""
 
-#: src/return_codes.vala:49
+#: src/return_codes.vala:50
 #, fuzzy
 msgid "This operation is not supported for this compatibility tool."
 msgstr "Postavljanje zadanog alata za kompatibilnost"
 
-#: src/return_codes.vala:53
+#: src/return_codes.vala:54
 msgid "Unable to reach the API."
 msgstr ""
 
-#: src/return_codes.vala:55
+#: src/return_codes.vala:56
 msgid "API limit reached."
 msgstr ""
 
-#: src/return_codes.vala:57
+#: src/return_codes.vala:58
 msgid "Invalid access token."
 msgstr ""
 
-#: src/return_codes.vala:59
+#: src/return_codes.vala:60
 msgid "A secure connection could not be established."
 msgstr ""
 
-#: src/return_codes.vala:61
+#: src/return_codes.vala:62
 #, fuzzy
 msgid "This archive format is not supported."
 msgstr "%s trenutno nije podržan."
 
-#: src/return_codes.vala:63
+#: src/return_codes.vala:64
 msgid "The archive could not be extracted."
 msgstr ""
 
-#: src/return_codes.vala:65
+#: src/return_codes.vala:66
+msgid "The selected variant is not compatible with this system."
+msgstr ""
+
+#: src/return_codes.vala:68
 msgid "The operation could not be completed."
 msgstr ""
 
@@ -2083,25 +2086,25 @@ msgstr ""
 msgid "Failed to save compatibility tool metadata"
 msgstr "Odaberite željeni alat za kompatibilnost"
 
-#: src/services/standard-archive-workflow.vala:296
+#: src/services/standard-archive-workflow.vala:312
 #, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "Odaberite željeni alat za kompatibilnost"
 
-#: src/services/standard-archive-workflow.vala:313
+#: src/services/standard-archive-workflow.vala:329
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Alat za kompatibilnost"
 
-#: src/widgets/application.vala:209
+#: src/widgets/application.vala:224
 msgid "Website"
 msgstr "Web stranica"
 
-#: src/widgets/application.vala:214
+#: src/widgets/application.vala:229
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:215
+#: src/widgets/application.vala:230
 msgid "Special thanks to"
 msgstr "Posebna zahvala"
 
@@ -2276,7 +2279,7 @@ msgstr[2] "Uredite alat za kompatibilnost za odabrane igre odjednom"
 
 #: src/widgets/games/games-mass-edit-button.vala:57
 #: src/widgets/tools/tools-stl-release-row.vala:13
-#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:103
+#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:108
 msgid "Warning"
 msgstr "Upozorenje"
 
@@ -3333,11 +3336,6 @@ msgstr ""
 msgid "Unable to safely prepare these launch options."
 msgstr "Promijenite opcije pokretanja igre"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:541
-#: src/widgets/games/launch-options-editor/launch-options-list.vala:166
-msgid "No launch options configured yet."
-msgstr ""
-
 #: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:36
 msgid "Add custom item (Type name and press Enter)..."
 msgstr ""
@@ -3689,6 +3687,10 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:22
 msgid "Adjust how much debugging information VKD3D prints to the terminal."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-list.vala:173
+msgid "No launch options configured yet."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:339
@@ -4278,7 +4280,7 @@ msgstr[1] "Otkaži"
 msgstr[2] "Otkaži"
 
 #: src/widgets/header/header-downloads-indicator.vala:186
-#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:110
+#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:115
 msgid "Cancel"
 msgstr "Otkaži"
 
@@ -4490,87 +4492,317 @@ msgid "OK"
 msgstr "U redu"
 
 #. Tools Page
-#: src/widgets/main/main-box.vala:26
+#: src/widgets/main/main-box.vala:41
 #: src/widgets/preferences/preferences-dialog.vala:47
 msgid "Tools"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:27
+#: src/widgets/main/main-box.vala:42
 msgid "Games"
 msgstr "Igre"
 
-#: src/widgets/main/main-box.vala:29
+#: src/widgets/main/main-box.vala:44
 #: src/widgets/preferences/preferences-dialog.vala:322
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:100 src/widgets/tools/tools-box.vala:488
+#: src/widgets/main/main-box.vala:142
+msgid "Couldn’t save the Steam restart reminder"
+msgstr ""
+
+#: src/widgets/main/main-box.vala:154
+msgid "Saved Steam restart reminders couldn’t be loaded"
+msgstr ""
+
+#: src/widgets/main/main-box.vala:190
+#, c-format
+msgid "Steam needs to restart before this change takes effect."
+msgid_plural "Steam needs to restart before these %u changes take effect."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/widgets/main/main-box.vala:193
+msgid "Save your progress and close any running games before continuing."
+msgstr ""
+
+#: src/widgets/main/main-box.vala:194
+#: src/widgets/main/steam-restart-dialog.vala:8
+msgid "Restart Steam?"
+msgstr ""
+
+#: src/widgets/main/main-box.vala:195 src/widgets/main/main-box.vala:240
+#: src/widgets/main/steam-restart-dialog.vala:28
+msgid "Later"
+msgstr ""
+
+#: src/widgets/main/main-box.vala:196
+#: src/widgets/main/steam-restart-banner.vala:13
+#: src/widgets/main/steam-restart-banner.vala:21
+msgid "Restart Steam"
+msgstr ""
+
+#: src/widgets/main/main-box.vala:244
+msgid "Try Again"
+msgstr ""
+
+#: src/widgets/main/main-box.vala:265 src/widgets/tools/tools-box.vala:488
 msgid "Checking for updates"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:111 src/widgets/tools/tools-box.vala:496
+#: src/widgets/main/main-box.vala:276 src/widgets/tools/tools-box.vala:496
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:114 src/widgets/tools/tools-box.vala:499
+#: src/widgets/main/main-box.vala:279 src/widgets/tools/tools-box.vala:499
 #, fuzzy
 msgid "Nothing to update"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/main/main-box.vala:118 src/widgets/tools/tools-box.vala:503
+#: src/widgets/main/main-box.vala:283 src/widgets/tools/tools-box.vala:503
 #, fuzzy
 msgid "Everything is now up-to-date"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/main/main-box.vala:121 src/widgets/tools/tools-box.vala:506
+#: src/widgets/main/main-box.vala:286 src/widgets/tools/tools-box.vala:506
 #, fuzzy, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Instaliraj %s"
 
-#: src/widgets/main/main-box.vala:128
+#: src/widgets/main/main-box.vala:293
 #, fuzzy
 msgid "Update started"
 msgstr "_Upravo instalirano"
 
-#: src/widgets/main/main-box.vala:130
+#: src/widgets/main/main-box.vala:295
 #, fuzzy
 msgid "Download started"
 msgstr "Preuzimanje"
 
-#: src/widgets/main/main-box.vala:136
+#: src/widgets/main/main-box.vala:301
 #, fuzzy
 msgid "Download finished"
 msgstr "Preuzimanje"
 
-#: src/widgets/main/main-box.vala:138
+#: src/widgets/main/main-box.vala:303
 #, fuzzy
 msgid "Download canceled"
 msgstr "Preuzimanje"
 
-#: src/widgets/main/main-box.vala:144
+#: src/widgets/main/main-box.vala:309
 #, fuzzy
 msgid "Download failed"
 msgstr "Preuzimanje"
 
-#: src/widgets/main/main-box.vala:150 src/widgets/main/main-box.vala:152
+#: src/widgets/main/main-box.vala:315 src/widgets/main/main-box.vala:317
 #, fuzzy
 msgid "Update finished"
 msgstr "_Upravo instalirano"
 
-#: src/widgets/main/main-box.vala:150
+#: src/widgets/main/main-box.vala:315
 #, fuzzy, c-format
 msgid "%s is now up-to-date"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/main/main-box.vala:152
+#: src/widgets/main/main-box.vala:317
 #, fuzzy, c-format
 msgid "%s is already up-to-date"
 msgstr "%s je već ažuriran."
 
-#: src/widgets/main/main-box.vala:157
+#: src/widgets/main/main-box.vala:322
 #, fuzzy
 msgid "Deleted"
 msgstr "Izbriši %s"
+
+#: src/widgets/main/steam-restart-banner.vala:12
+msgid "Restart Steam to apply changes"
+msgstr ""
+
+#: src/widgets/main/steam-restart-dialog.vala:12
+msgid ""
+"Each Steam installation must be restarted separately. Save your progress and "
+"close any running games before continuing."
+msgstr ""
+
+#: src/widgets/main/steam-restart-dialog.vala:19
+#, c-format
+msgid "%u pending change"
+msgid_plural "%u pending changes"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/widgets/main/steam-restart-dialog.vala:21
+msgid "Restart"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:77
+#, c-format
+msgid "Steam restarts are needed to apply %u change"
+msgid_plural "Steam restarts are needed to apply %u changes"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/widgets/main/steam-restart-presentation.vala:78
+#, c-format
+msgid "Restart Steam to apply %u change"
+msgid_plural "Restart Steam to apply %u changes"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/widgets/main/steam-restart-presentation.vala:84
+msgid ""
+"Steam must restart to detect a newly installed compatibility tool. Other "
+"pending changes will be applied at the same time."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:85
+#, fuzzy
+msgid "Steam must restart to detect a newly installed compatibility tool."
+msgstr "Odaberite željeni alat za kompatibilnost"
+
+#: src/widgets/main/steam-restart-presentation.vala:86
+msgid "Restarting Steam lets it safely reload the changed configuration."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:91
+msgid "Checking Steam…"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:92
+msgid "Closing Steam…"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:93
+msgid "Waiting for Steam to close…"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:94
+msgid "Starting Steam…"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:95
+msgid "Waiting for Steam to start…"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:103
+msgid "Steam no longer needs to restart"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:108
+msgid "Steam status couldn’t be confirmed"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:108
+msgid "ProtonPlus did not restart Steam. Try again or restart it manually."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:110
+msgid "Steam is still starting"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:110
+msgid "Wait for Steam to finish starting, then try again."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:112
+msgid "Steam is updating"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:112
+msgid "Wait until the update finishes, then try again."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:114
+msgid "Close running games first"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:114
+msgid ""
+"ProtonPlus will not restart Steam while a game or compatibility process is "
+"running."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:116
+msgid "Steam can’t restart right now"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:116
+msgid "Finish the current Steam activity, then try again."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:118
+msgid "Close Steam manually"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:118
+msgid ""
+"ProtonPlus cannot safely close this Steam installation automatically. The "
+"reminder will remain and ProtonPlus will detect when Steam closes. After "
+"closing Steam, select Restart Steam again to reopen it."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:121
+msgid "Steam didn’t close"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:121
+msgid "No force termination was attempted. Close Steam manually or try again."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:126
+msgid "Steam couldn’t be reopened"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:126
+msgid ""
+"Steam is currently closed. Start it manually. ProtonPlus will keep the "
+"reminder until it confirms a new session."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:126
+msgid ""
+"Start Steam manually. ProtonPlus will keep the reminder until it confirms a "
+"new session."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:128
+msgid "Steam restart was cancelled"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:130
+#: src/widgets/main/steam-restart-presentation.vala:139
+#, fuzzy
+msgid "Steam restarted"
+msgstr "_Upravo instalirano"
+
+#: src/widgets/main/steam-restart-presentation.vala:130
+msgid ""
+"Steam restarted successfully, but ProtonPlus could not save the cleared "
+"reminder state."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:132
+msgid "Steam couldn’t restart"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:132
+msgid "Try again later or restart Steam manually."
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:139
+msgid "Steam restarted; other changes still need a restart"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:157
+msgid "Steam needs to restart to apply your changes"
+msgstr ""
+
+#: src/widgets/main/steam-restart-presentation.vala:161
+msgid "Multiple changes will be applied after Steam restarts"
+msgstr ""
 
 #: src/widgets/mangohud/mangohud-box.vala:35
 msgid "Presets"
@@ -5716,66 +5948,72 @@ msgstr "Instalacija će biti otkazana."
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:65
+#: src/widgets/tools/tools-releases-box.vala:68
 msgid "Standard 64-bit build for most Intel and AMD PCs."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:67
+#: src/widgets/tools/tools-releases-box.vala:70
 msgid ""
 "Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 "
 "instruction set."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:70
+#: src/widgets/tools/tools-releases-box.vala:73
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:72
+#: src/widgets/tools/tools-releases-box.vala:75
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:75
+#: src/widgets/tools/tools-releases-box.vala:78
 msgid ""
 "64-bit build with WoW64 support for running 32-bit Windows applications."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:77
+#: src/widgets/tools/tools-releases-box.vala:80
 msgid "The provider's recommended build for most systems."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:79
+#: src/widgets/tools/tools-releases-box.vala:82
 #, c-format
 msgid "Select the %s build variant."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:174
+#: src/widgets/tools/tools-releases-box.vala:177
 msgid "Check for new releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:183
+#: src/widgets/tools/tools-releases-box.vala:186
 msgid "Choose which architecture or build variant to show."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:212
+#: src/widgets/tools/tools-releases-box.vala:215
 #, fuzzy
 msgid "Load More"
 msgstr "Učitaj više"
 
-#: src/widgets/tools/tools-releases-box.vala:260
+#: src/widgets/tools/tools-releases-box.vala:263
 #, fuzzy
 msgid "No releases found"
 msgstr "Nije pronađen nijedan profil."
 
-#: src/widgets/tools/tools-releases-box.vala:261
+#: src/widgets/tools/tools-releases-box.vala:264
+#: src/widgets/tools/tools-releases-box.vala:484
+#: src/widgets/tools/tools-releases-box.vala:497
 msgid "No releases match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:311
-#: src/widgets/tools/tools-releases-box.vala:447
+#: src/widgets/tools/tools-releases-box.vala:314
+#: src/widgets/tools/tools-releases-box.vala:450
 msgid "Failed to Fetch Releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:621
+#: src/widgets/tools/tools-releases-box.vala:493
+msgid "No compatible variants are available for this system."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:595
 #, fuzzy, c-format
 msgid "Last updated: %s"
 msgstr "Instaliraj %s"
@@ -5839,15 +6077,19 @@ msgstr ""
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Želite li ga ponovo instalirati sa ProtonPlus-om?"
 
-#: src/widgets/window.vala:104
+#: src/widgets/window.vala:109
 msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 
-#: src/widgets/window.vala:107
+#: src/widgets/window.vala:112
 msgid "Exit"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Compatibility"
+#~ msgstr "Alat za kompatibilnost"
 
 #, fuzzy
 #~ msgid "Apply the custom resolution"

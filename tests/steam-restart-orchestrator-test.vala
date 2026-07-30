@@ -68,6 +68,16 @@ namespace AppTests.SteamRestartOrchestratorTest {
         }
     }
 
+    private class LongRunningLaunchFactory : Object, SteamRestartProcessFactory {
+        public bool received_trusted_argv = false;
+        public Subprocess spawn (string[] argv) throws Error {
+            received_trusted_argv = argv.length == 1 && argv[0] == "/usr/bin/steam";
+            /* The fixture substitutes a harmless, deliberately long-lived
+             * child.  Acceptance must arrive before this child exits. */
+            return new Subprocess.newv ({ "/bin/sleep", "1" }, SubprocessFlags.NONE);
+        }
+    }
+
     private string state_path () {
         var directory = DirUtils.mkdtemp (Path.build_filename (Environment.get_tmp_dir (), "protonplus-restart-orchestrator-XXXXXX"));
         return Path.build_filename (directory, "state.json");
@@ -189,6 +199,19 @@ namespace AppTests.SteamRestartOrchestratorTest {
         control = new ControlFixture (session, snap); orchestrator = new SteamRestartOrchestrator (service, manager, control, 0, 1, 1);
         assert (run (orchestrator, snap).reason == SteamRestartFailureReason.RELAUNCH_UNAVAILABLE); assert (control.shutdown_requests == 0); assert (manager.pending_count () == 1);
     }
+    private void test_native_fallback_dispatch_does_not_wait_for_application_exit () {
+        var factory = new LongRunningLaunchFactory ();
+        var backend = new HostSteamRestartBackend (factory);
+        var loop = new MainLoop (); SteamRestartCommandResult? result = null;
+        backend.launch_native_fallback.begin (null, (obj, response) => {
+            result = backend.launch_native_fallback.end (response);
+            loop.quit ();
+        });
+        Timeout.add (150, () => { assert (result != null); return Source.REMOVE; });
+        loop.run ();
+        assert (factory.received_trusted_argv);
+        assert (((!) result).status == SteamRestartCommandStatus.ACCEPTED);
+    }
 
     public void register_tests () {
         Test.add_func ("/steam-restart-orchestrator/no-pending-rejected", test_no_pending_rejected);
@@ -202,5 +225,6 @@ namespace AppTests.SteamRestartOrchestratorTest {
         Test.add_func ("/steam-restart-orchestrator/relaunch-does-not-prove-start", test_relaunch_request_does_not_prove_start);
         Test.add_func ("/steam-restart-orchestrator/stopped-native-and-original-identity", test_stopped_native_skips_shutdown_and_original_identity_is_not_success);
         Test.add_func ("/steam-restart-orchestrator/heuristic-game-and-unsupported-kinds", test_heuristic_game_and_unsupported_kinds_preserve_pending);
+        Test.add_func ("/steam-restart-orchestrator/native-fallback-dispatch-is-nonblocking", test_native_fallback_dispatch_does_not_wait_for_application_exit);
     }
 }

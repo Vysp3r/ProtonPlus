@@ -66,6 +66,15 @@ namespace ProtonPlus.Services {
             return copy;
         }
 
+        /* Targets are immutable value objects.  Return a new collection so
+         * presentation code cannot mutate the manager's ownership map. */
+        public Gee.List<SteamRestartTarget> get_pending_targets () {
+            var copy = new Gee.ArrayList<SteamRestartTarget> ();
+            foreach (var target in targets.values)
+                copy.add (target);
+            return copy;
+        }
+
         public SteamRestartRecordResult record (SteamChangeReceipt receipt) {
             var snapshot = session_service.inspect (receipt.target);
             reconcile_snapshot (receipt.target, snapshot);

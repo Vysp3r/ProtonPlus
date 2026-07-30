@@ -7,6 +7,7 @@ src/globals.vala
 src/main.vala
 src/models/assets/asset.vala
 src/models/compatibility-tool.vala
+src/models/cpu-capabilities.vala
 src/models/game.vala
 src/models/games/steam.vala
 src/models/group.vala
@@ -31,7 +32,10 @@ src/models/release-catalog-cache.vala
 src/models/release-catalog-result.vala
 src/models/release-catalog.vala
 src/models/release.vala
+src/models/steam-change-receipt.vala
 src/models/steam-profile.vala
+src/models/steam-restart-operation.vala
+src/models/steam-restart-target.vala
 src/models/steam/library-folder.vala
 src/models/steam/steam-library-config.vala
 src/models/tool.vala
@@ -39,6 +43,8 @@ src/models/tools/provider-tool.vala
 src/models/tools/release-page-result.vala
 src/models/tools/release-page.vala
 src/models/tools/steamtinkerlaunch.vala
+src/models/variant-compatibility.vala
+src/models/variant-selector.vala
 src/models/variant.vala
 src/providers/sources/catalog-release-builder.vala
 src/providers/sources/forgejo-release-source.vala
@@ -59,6 +65,11 @@ src/services/migrations/manager.vala
 src/services/migrations/versions/v0.5.21.vala
 src/services/migrations/versions/v0.6.0.vala
 src/services/standard-archive-workflow.vala
+src/services/steam-restart-backend.vala
+src/services/steam-restart-manager.vala
+src/services/steam-restart-orchestrator.vala
+src/services/steam-restart-state-store.vala
+src/services/steam-session-service.vala
 src/services/steam-tinker-launch-context.vala
 src/services/steam-tinker-launch-workflow.vala
 src/utils/archive-helper.vala
@@ -152,6 +163,9 @@ src/widgets/introduction/wine.vala
 src/widgets/loading/loading-box.vala
 src/widgets/main/error-dialog.vala
 src/widgets/main/main-box.vala
+src/widgets/main/steam-restart-banner.vala
+src/widgets/main/steam-restart-dialog.vala
+src/widgets/main/steam-restart-presentation.vala
 src/widgets/main/warning-dialog.vala
 src/widgets/mangohud/mangohud-box.vala
 src/widgets/mangohud/mangohud-extras-page.vala

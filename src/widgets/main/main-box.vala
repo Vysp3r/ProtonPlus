@@ -10,9 +10,24 @@ namespace ProtonPlus.Widgets.Main {
         Tools.Box tools_box { get; set; }
         Games.Box games_box { get; set; }
         MangoHud.Box mangohud_box { get; set; }
+        private Services.SteamRestartManager? restart_manager;
+        private Services.SteamRestartOrchestrator? restart_orchestrator;
+        private SteamRestartBanner? restart_banner;
+        private SteamRestartToastPolicy? restart_toasts;
+        private uint previous_restart_count = 0;
+        private ulong pending_changed_handler_id = 0;
+        private ulong persistence_failed_handler_id = 0;
+        private ulong state_changed_handler_id = 0;
+        private ulong operation_completed_handler_id = 0;
+        private Cancellable? restart_cancellable = null;
+        private Adw.Dialog? active_restart_dialog = null;
+        private bool persistence_toast_shown = false;
+        private bool load_warning_shown = false;
 
-        public Box () {
+        public Box (Services.SteamRestartManager? restart_manager = null, Services.SteamRestartOrchestrator? restart_orchestrator = null) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
+            this.restart_manager = restart_manager;
+            this.restart_orchestrator = restart_orchestrator;
 
             tools_box = new Tools.Box ();
             tools_box.toast_sent.connect (send_toast);
@@ -62,6 +77,8 @@ namespace ProtonPlus.Widgets.Main {
             toast_overlay = new Adw.ToastOverlay ();
             toast_overlay.set_child (view_stack);
 
+            if (restart_manager != null && restart_orchestrator != null)
+                setup_steam_restart_presentation ((!) restart_manager, (!) restart_orchestrator);
             append (toast_overlay);
 
             Utils.DownloadManager.instance.download_added.connect (on_download_added);
@@ -94,6 +111,159 @@ namespace ProtonPlus.Widgets.Main {
             var toast = new Adw.Toast (title);
 
             toast_overlay.add_toast (toast);
+        }
+
+        public void cancel_steam_restart () {
+            if (restart_cancellable != null)
+                restart_cancellable.cancel ();
+        }
+
+        private void setup_steam_restart_presentation (Services.SteamRestartManager manager, Services.SteamRestartOrchestrator orchestrator) {
+            restart_banner = new SteamRestartBanner ();
+            restart_banner.restart_requested.connect (show_restart_review);
+            append (restart_banner);
+            restart_toasts = new SteamRestartToastPolicy ();
+            previous_restart_count = (uint) manager.pending_count ();
+            update_restart_banner ();
+            pending_changed_handler_id = manager.pending_changed.connect (() => {
+                var current = (uint) manager.pending_count ();
+                var toast = restart_toasts.update (previous_restart_count, current, false);
+                previous_restart_count = current;
+                if (current == 0)
+                    persistence_toast_shown = false;
+                update_restart_banner ();
+                if (toast != null)
+                    send_toast ((!) toast);
+            });
+            persistence_failed_handler_id = manager.persistence_failed.connect ((message) => {
+                warning ("Unable to save Steam restart reminder: %s", message);
+                if (!persistence_toast_shown) {
+                    persistence_toast_shown = true;
+                    send_toast (_ ("Couldn’t save the Steam restart reminder"));
+                }
+            });
+            state_changed_handler_id = orchestrator.state_changed.connect ((state) => {
+                if (orchestrator.is_operation_active)
+                    restart_banner.show_progress (state);
+            });
+            operation_completed_handler_id = orchestrator.operation_completed.connect (on_restart_completed);
+            if (manager.last_load_error != null) {
+                Idle.add (() => {
+                    if (!load_warning_shown && get_root () != null) {
+                        load_warning_shown = true;
+                        send_toast (_ ("Saved Steam restart reminders couldn’t be loaded"));
+                    }
+                    return Source.REMOVE;
+                });
+            }
+        }
+
+        private void update_restart_banner () {
+            if (restart_manager == null || restart_banner == null || restart_orchestrator == null)
+                return;
+            if (restart_orchestrator.is_operation_active) {
+                restart_banner.show_progress (restart_orchestrator.state);
+                return;
+            }
+            restart_banner.show_pending (SteamRestartPresentation.banner_state (restart_manager.get_pending_changes ()));
+        }
+
+        private void show_restart_review () {
+            if (restart_manager == null || restart_orchestrator == null || restart_orchestrator.is_operation_active)
+                return;
+            if (active_restart_dialog != null) {
+                Window.present_dialog_for_controller ((!) active_restart_dialog, this);
+                return;
+            }
+            var summaries = SteamRestartPresentation.summarize (restart_manager.get_pending_changes ());
+            if (summaries.size == 0)
+                return;
+            if (summaries.size > 1) {
+                var review = new SteamRestartReviewDialog (summaries);
+                active_restart_dialog = review;
+                review.restart_requested.connect ((target) => { start_steam_restart (target); });
+                review.closed.connect (() => { if (active_restart_dialog == review) active_restart_dialog = null; });
+                Window.present_dialog_for_controller (review, this);
+                return;
+            }
+            var summary = summaries[0];
+            var body = ngettext ("Steam needs to restart before this change takes effect.", "Steam needs to restart before these %u changes take effect.", summary.pending_count);
+            if (summary.pending_count > 1)
+                body = body.printf (summary.pending_count);
+            body += "\n\n" + _ ("Save your progress and close any running games before continuing.");
+            var dialog = new Adw.AlertDialog (_ ("Restart Steam?"), body);
+            dialog.add_response ("later", _ ("Later"));
+            dialog.add_response ("restart", _ ("Restart Steam"));
+            dialog.set_default_response ("later");
+            dialog.set_close_response ("later");
+            dialog.set_response_appearance ("restart", Adw.ResponseAppearance.SUGGESTED);
+            active_restart_dialog = dialog;
+            dialog.response.connect ((response) => { if (response == "restart") start_steam_restart (summary.target); });
+            dialog.closed.connect (() => { if (active_restart_dialog == dialog) active_restart_dialog = null; });
+            Window.present_dialog_for_controller (dialog, this);
+        }
+
+        private void start_steam_restart (Models.SteamRestartTarget target) {
+            if (restart_orchestrator == null || restart_orchestrator.is_operation_active)
+                return;
+            if (active_restart_dialog != null)
+                active_restart_dialog.close ();
+            restart_cancellable = new Cancellable ();
+            restart_orchestrator.restart_target.begin (target, restart_cancellable, (obj, response) => {
+                restart_orchestrator.restart_target.end (response);
+            });
+        }
+
+        private void on_restart_completed (Models.SteamRestartOperationResult result) {
+            restart_cancellable = null;
+            update_restart_banner ();
+            if (result.final_state == Models.SteamRestartOperationState.SUCCEEDED) {
+                var message = SteamRestartPresentation.success_message (restart_manager != null && restart_manager.get_pending_targets ().size > 0, result.persistence_failed);
+                if (message.toast != null)
+                    send_toast ((!) message.toast);
+                else if (message.heading != null)
+                    show_restart_message (message, result.target);
+                return;
+            }
+            var failure = SteamRestartPresentation.failure_message (result.reason, result.steam_confirmed_stopped);
+            if (failure.toast != null) {
+                if (result.reason != Models.SteamRestartFailureReason.CANCELLED || result.shutdown_request_sent || result.launch_request_sent)
+                    send_toast ((!) failure.toast);
+                return;
+            }
+            if (failure.heading != null)
+                show_restart_message (failure, result.target);
+        }
+
+        private void show_restart_message (SteamRestartMessage message, Models.SteamRestartTarget target) {
+            var dialog = new Adw.AlertDialog (message.heading, message.body);
+            dialog.add_response ("later", _ ("Later"));
+            dialog.set_close_response ("later");
+            dialog.set_default_response ("later");
+            if (message.can_retry) {
+                dialog.add_response ("retry", _ ("Try Again"));
+                dialog.set_response_appearance ("retry", Adw.ResponseAppearance.SUGGESTED);
+                dialog.response.connect ((response) => { if (response == "retry") start_steam_restart (target); });
+            }
+            active_restart_dialog = dialog;
+            dialog.closed.connect (() => { if (active_restart_dialog == dialog) active_restart_dialog = null; });
+            Window.present_dialog_for_controller (dialog, this);
+        }
+
+        public override void dispose () {
+            cancel_steam_restart ();
+            if (active_restart_dialog != null)
+                active_restart_dialog.close ();
+            active_restart_dialog = null;
+            if (restart_manager != null) {
+                if (pending_changed_handler_id != 0) restart_manager.disconnect (pending_changed_handler_id);
+                if (persistence_failed_handler_id != 0) restart_manager.disconnect (persistence_failed_handler_id);
+            }
+            if (restart_orchestrator != null) {
+                if (state_changed_handler_id != 0) restart_orchestrator.disconnect (state_changed_handler_id);
+                if (operation_completed_handler_id != 0) restart_orchestrator.disconnect (operation_completed_handler_id);
+            }
+            base.dispose ();
         }
 
         public async void check_for_updates (Gee.LinkedList<Models.Launcher> launchers) {

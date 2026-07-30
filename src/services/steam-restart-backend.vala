@@ -32,8 +32,26 @@ namespace ProtonPlus.Services {
         public abstract async bool delay (uint milliseconds, Cancellable? cancellable);
     }
 
+    /* A narrow construction seam keeps the trusted argv policy in the host
+     * backend while allowing the non-blocking launch contract to be tested
+     * without executing Steam. */
+    public interface SteamRestartProcessFactory : Object {
+        public abstract Subprocess spawn (string[] argv) throws Error;
+    }
+
+    private class HostSteamRestartProcessFactory : Object, SteamRestartProcessFactory {
+        public Subprocess spawn (string[] argv) throws Error {
+            return new Subprocess.newv (argv, SubprocessFlags.NONE);
+        }
+    }
+
     public class HostSteamRestartBackend : Object, SteamRestartBackend {
         private const string NATIVE_STEAM_EXECUTABLE = "/usr/bin/steam";
+        private SteamRestartProcessFactory process_factory;
+
+        public HostSteamRestartBackend (SteamRestartProcessFactory? process_factory = null) {
+            this.process_factory = process_factory ?? new HostSteamRestartProcessFactory ();
+        }
 
         public bool has_desktop_application (string desktop_id) {
             foreach (var app in AppInfo.get_all ()) {
@@ -83,7 +101,7 @@ namespace ProtonPlus.Services {
         public async SteamRestartCommandResult launch_native_fallback (Cancellable? cancellable) {
             var argv = new Gee.ArrayList<string> ();
             argv.add (NATIVE_STEAM_EXECUTABLE);
-            return yield spawn (argv, cancellable);
+            return yield spawn_detached (argv, cancellable);
         }
 
         public async bool delay (uint milliseconds, Cancellable? cancellable) {
@@ -131,6 +149,23 @@ namespace ProtonPlus.Services {
                 if (!subprocess.get_successful ())
                     return new SteamRestartCommandResult (SteamRestartCommandStatus.FAILED, argv, "Command exited unsuccessfully (%d).".printf (subprocess.get_exit_status ()));
                 return new SteamRestartCommandResult (SteamRestartCommandStatus.ACCEPTED, argv, "Command completed; lifecycle state still requires observation.");
+            } catch (Error e) {
+                return new SteamRestartCommandResult (SteamRestartCommandStatus.FAILED, argv, e.message);
+            }
+        }
+
+        /* Steam is a long-running GUI process.  Dispatch is intentionally not
+         * coupled to its lifetime; the orchestrator confirms startup through
+         * SteamSessionService.  GSubprocess reaps the child when it exits. */
+        private async SteamRestartCommandResult spawn_detached (Gee.List<string> argv, Cancellable? cancellable) {
+            if (cancellable != null && cancellable.is_cancelled ())
+                return new SteamRestartCommandResult (SteamRestartCommandStatus.CANCELLED, argv, "Launch was cancelled before dispatch.");
+            var values = new string[argv.size];
+            for (var i = 0; i < argv.size; i++)
+                values[i] = argv[i];
+            try {
+                process_factory.spawn (values);
+                return new SteamRestartCommandResult (SteamRestartCommandStatus.ACCEPTED, argv, "Launch was dispatched; Steam startup is not yet confirmed.");
             } catch (Error e) {
                 return new SteamRestartCommandResult (SteamRestartCommandStatus.FAILED, argv, e.message);
             }

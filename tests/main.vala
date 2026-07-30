@@ -37,6 +37,7 @@ int main (string[] args) {
     AppTests.SteamSessionTest.register_tests ();
     AppTests.SteamRestartManagerTest.register_tests ();
     AppTests.SteamRestartOrchestratorTest.register_tests ();
+    AppTests.SteamRestartPresentationTest.register_tests ();
     AppTests.SteamTinkerLaunchTest.register_tests ();
     AppTests.UpdateTransactionTest.register_tests ();
     AppTests.VdfBinaryTest.register_tests ();

@@ -6,6 +6,9 @@ namespace ProtonPlus.Widgets {
         Preferences.PreferencesDialog? active_preferences_dialog = null;
         bool reopen_preferences_after_close = false;
         ProtonPlus.Services.Migrations.Manager? migration_manager = null;
+        ProtonPlus.Services.SteamSessionService? steam_session_service = null;
+        ProtonPlus.Services.SteamRestartManager? steam_restart_manager = null;
+        ProtonPlus.Services.SteamRestartOrchestrator? steam_restart_orchestrator = null;
         bool show_introduction = false;
 
         construct {
@@ -36,7 +39,7 @@ namespace ProtonPlus.Widgets {
                 return;
             }
 
-            window = new Window ();
+            window = new Window ((!) steam_restart_manager, (!) steam_restart_orchestrator);
 
             Globals.SETTINGS.bind ("width",
                                    window,
@@ -87,6 +90,13 @@ namespace ProtonPlus.Widgets {
             Globals.setupLanguage ();
             Notify.init (Config.APP_NAME);
 
+            /* This graph belongs to the GUI process, not individual rebuilt
+             * windows.  CLI execution never instantiates Application. */
+            steam_session_service = new ProtonPlus.Services.SteamSessionService ();
+            steam_restart_manager = new ProtonPlus.Services.SteamRestartManager ((!) steam_session_service, new ProtonPlus.Services.SteamRestartStateStore ());
+            steam_restart_orchestrator = new ProtonPlus.Services.SteamRestartOrchestrator ((!) steam_session_service, (!) steam_restart_manager);
+            steam_restart_manager.start_observation ();
+
             if (Globals.SETTINGS != null) {
                 migration_manager = new ProtonPlus.Services.Migrations.Manager ();
                 migration_manager.check_and_migrate_sync (Config.APP_VERSION);
@@ -108,6 +118,11 @@ namespace ProtonPlus.Widgets {
         }
 
         public override void shutdown () {
+            var window = this.active_window as Window;
+            if (window != null)
+                window.main_box.cancel_steam_restart ();
+            if (steam_restart_manager != null)
+                steam_restart_manager.stop_observation ();
             Notify.uninit ();
             base.shutdown ();
         }

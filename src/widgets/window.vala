@@ -8,8 +8,13 @@ namespace ProtonPlus.Widgets {
         public Main.Box main_box { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
 
-        public Window () {
+        private Services.SteamRestartManager restart_manager;
+        private Services.SteamRestartOrchestrator restart_orchestrator;
+
+        public Window (Services.SteamRestartManager restart_manager, Services.SteamRestartOrchestrator restart_orchestrator) {
             Object (application: (Adw.Application) GLib.Application.get_default (), title: Config.APP_NAME);
+            this.restart_manager = restart_manager;
+            this.restart_orchestrator = restart_orchestrator;
 
             controller_manager = new Utils.ControllerManager (this);
 
@@ -59,7 +64,7 @@ namespace ProtonPlus.Widgets {
                 }
             });
 
-            main_box = new Main.Box ();
+            main_box = new Main.Box (restart_manager, restart_orchestrator);
             header_box.download_selected.connect ((job) => {
                 main_box.navigate_to_download (job);
             });
