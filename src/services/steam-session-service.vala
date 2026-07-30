@@ -260,8 +260,8 @@ namespace ProtonPlus.Services {
                 if (stripped == "")
                     continue;
                 var fields = stripped.split ("\t");
-                int wrapper_pid;
-                int child_pid;
+                int wrapper_pid = 0;
+                int child_pid = 0;
                 if (fields.length != 4 || fields[0] == "" || fields[1] == ""
                     || !int.try_parse (fields[2], out wrapper_pid)
                     || !int.try_parse (fields[3], out child_pid)) {

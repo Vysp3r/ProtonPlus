@@ -1,0 +1,206 @@
+namespace ProtonPlus.Services {
+    using ProtonPlus.Models;
+
+    public enum SteamRestartRecordResult {
+        ADDED,
+        UPDATED,
+        ALREADY_SATISFIED,
+        PERSISTENCE_FAILED
+    }
+
+    public class SteamRestartManager : Object {
+        private SteamSessionService session_service;
+        private SteamRestartStateStore state_store;
+        private Gee.HashMap<string, SteamRestartPendingRecord> pending = new Gee.HashMap<string, SteamRestartPendingRecord> ();
+        private Gee.HashMap<string, SteamRestartTarget> targets = new Gee.HashMap<string, SteamRestartTarget> ();
+        private ulong state_changed_handler_id = 0;
+        private bool observation_started = false;
+
+        public string? last_persistence_error { get; private set; default = null; }
+        public string? last_load_error { get; private set; default = null; }
+        public bool is_observing { get { return observation_started; } }
+
+        public signal void pending_changed ();
+        public signal void restart_became_required (SteamRestartTarget target);
+        public signal void restart_requirement_satisfied (SteamRestartTarget target);
+        public signal void persistence_failed (string message);
+
+        public SteamRestartManager (SteamSessionService session_service, SteamRestartStateStore state_store) {
+            this.session_service = session_service;
+            this.state_store = state_store;
+            var loaded = state_store.load ();
+            last_load_error = loaded.error;
+            foreach (var record in loaded.records)
+                add_loaded_record (record);
+        }
+
+        ~SteamRestartManager () {
+            stop_observation ();
+        }
+
+        public bool has_pending_restarts () { return pending.size > 0; }
+        public int pending_count () { return pending.size; }
+
+        public int pending_count_for_target (SteamRestartTarget target) {
+            var count = 0;
+            foreach (var record in pending.values) {
+                if (record.receipt.target.id == target.id)
+                    count++;
+            }
+            return count;
+        }
+
+        public Gee.List<SteamRestartPendingRecord> get_pending_changes () {
+            var copy = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            foreach (var record in pending.values)
+                copy.add (record);
+            return copy;
+        }
+
+        public Gee.List<SteamRestartPendingRecord> get_pending_changes_for_target (SteamRestartTarget target) {
+            var copy = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            foreach (var record in pending.values) {
+                if (record.receipt.target.id == target.id)
+                    copy.add (record);
+            }
+            return copy;
+        }
+
+        public SteamRestartRecordResult record (SteamChangeReceipt receipt) {
+            var snapshot = session_service.inspect (receipt.target);
+            reconcile_snapshot (receipt.target, snapshot);
+            if (is_confirmed_stopped (snapshot))
+                return SteamRestartRecordResult.ALREADY_SATISFIED;
+
+            var key = receipt.deduplication_key;
+            var was_empty = pending_count_for_target (receipt.target) == 0;
+            var existing = pending.get (key);
+            var stable_session = identity_from_snapshot (receipt.target, snapshot);
+            if (existing == null) {
+                pending.set (key, new SteamRestartPendingRecord (receipt, receipt.changed_at, receipt.changed_at, 1, stable_session));
+                targets.set (receipt.target.id, receipt.target);
+            } else {
+                existing.update (receipt, stable_session);
+            }
+            watch_target (receipt.target);
+            pending_changed ();
+            if (was_empty)
+                restart_became_required (receipt.target);
+            if (!persist ())
+                return SteamRestartRecordResult.PERSISTENCE_FAILED;
+            return existing == null ? SteamRestartRecordResult.ADDED : SteamRestartRecordResult.UPDATED;
+        }
+
+        public void start_observation () {
+            if (observation_started)
+                return;
+            state_changed_handler_id = session_service.state_changed.connect ((target, snapshot) => {
+                reconcile_snapshot (target, snapshot);
+            });
+            foreach (var target in targets.values)
+                session_service.watch_target (target);
+            session_service.start_monitoring ();
+            observation_started = true;
+        }
+
+        public void stop_observation () {
+            if (!observation_started)
+                return;
+            if (state_changed_handler_id != 0) {
+                session_service.disconnect (state_changed_handler_id);
+                state_changed_handler_id = 0;
+            }
+            session_service.stop_monitoring ();
+            observation_started = false;
+        }
+
+        public void reconcile_target (SteamRestartTarget target) {
+            reconcile_snapshot (target, session_service.inspect (target));
+        }
+
+        /* A target clears only after a demonstrated new stable session.  A
+         * disappearance is merely a stop observation: it is not a restart.
+         * Native identity requires boot ID, start ticks, and PID; Flatpak
+         * identity requires the exact instance ID.  Heuristic or incomplete
+         * observations therefore cannot satisfy a pending requirement. */
+        public void reconcile_snapshot (SteamRestartTarget target, SteamSessionSnapshot snapshot) {
+            if (snapshot.target_id != target.id || pending_count_for_target (target) == 0)
+                return;
+            var material_change = false;
+            if (is_confirmed_stopped (snapshot)) {
+                foreach (var record in get_pending_changes_for_target (target))
+                    material_change |= record.mark_stop_observed ();
+                if (material_change) {
+                    pending_changed ();
+                    persist ();
+                }
+                return;
+            }
+            if (snapshot.state != SteamSessionState.RUNNING)
+                return;
+            var current = identity_from_snapshot (target, snapshot);
+            if (current == null)
+                return;
+            var cleared = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            foreach (var record in get_pending_changes_for_target (target)) {
+                var recorded = record.observed_session;
+                if (record.stop_observed || (recorded != null && !recorded.equals ((!) current)))
+                    cleared.add (record);
+            }
+            if (cleared.size == 0)
+                return;
+            foreach (var record in cleared)
+                pending.unset (record.receipt.deduplication_key);
+            var target_cleared = pending_count_for_target (target) == 0;
+            if (target_cleared)
+                targets.unset (target.id);
+            pending_changed ();
+            if (target_cleared)
+                restart_requirement_satisfied (target);
+            persist ();
+        }
+
+        private void add_loaded_record (SteamRestartPendingRecord record) {
+            var key = record.receipt.deduplication_key;
+            if (pending.has_key (key))
+                return;
+            pending.set (key, record);
+            targets.set (record.receipt.target.id, record.receipt.target);
+            watch_target (record.receipt.target);
+        }
+
+        private void watch_target (SteamRestartTarget target) {
+            session_service.watch_target (target);
+        }
+
+        private bool persist () {
+            if (state_store.save (pending.values)) {
+                last_persistence_error = null;
+                return true;
+            }
+            last_persistence_error = state_store.last_error ?? "Unable to save Steam restart state.";
+            persistence_failed ((!) last_persistence_error);
+            return false;
+        }
+
+        private bool is_confirmed_stopped (SteamSessionSnapshot snapshot) {
+            return snapshot.state == SteamSessionState.STOPPED
+                && snapshot.state_confidence == SteamEvidenceLevel.CONFIRMED;
+        }
+
+        private SteamSessionIdentity? identity_from_snapshot (SteamRestartTarget target, SteamSessionSnapshot snapshot) {
+            if (snapshot.state != SteamSessionState.RUNNING || snapshot.state_confidence != SteamEvidenceLevel.CONFIRMED)
+                return null;
+            if (target.installation_kind == SteamInstallationKind.FLATPAK) {
+                if (snapshot.flatpak_instance_id == null || snapshot.flatpak_instance_id == "")
+                    return null;
+                return new SteamSessionIdentity (null, 0, 0, snapshot.flatpak_instance_id);
+            }
+            var generation = snapshot.generation;
+            if (generation == null || generation.boot_id == null || generation.boot_id == ""
+                || generation.start_time_ticks <= 0 || generation.pid <= 0)
+                return null;
+            return new SteamSessionIdentity (generation.boot_id, generation.start_time_ticks, generation.pid, null);
+        }
+    }
+}

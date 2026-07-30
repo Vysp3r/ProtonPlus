@@ -28,6 +28,7 @@ test_sources = files(
     'installer-transaction-test.vala',
     'steam_test.vala',
     'steam-session-test.vala',
+    'steam-restart-manager-test.vala',
     'steamtinkerlaunch-test.vala',
     'update-transaction-test.vala',
     'vdf_binary_test.vala',
