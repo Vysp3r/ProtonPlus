@@ -9,6 +9,8 @@ sources += files(
     'steam-session-service.vala',
     'steam-restart-state-store.vala',
     'steam-restart-manager.vala',
+    'steam-restart-backend.vala',
+    'steam-restart-orchestrator.vala',
 )
 
 subdir('migrations')

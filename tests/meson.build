@@ -29,6 +29,7 @@ test_sources = files(
     'steam_test.vala',
     'steam-session-test.vala',
     'steam-restart-manager-test.vala',
+    'steam-restart-orchestrator-test.vala',
     'steamtinkerlaunch-test.vala',
     'update-transaction-test.vala',
     'vdf_binary_test.vala',

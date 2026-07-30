@@ -7,6 +7,7 @@ sources += files(
     'installed-tool-inventory.vala',
     'steam-profile.vala',
     'steam-restart-target.vala',
+    'steam-restart-operation.vala',
     'steam-change-receipt.vala',
     'launcher.vala',
     'release.vala',

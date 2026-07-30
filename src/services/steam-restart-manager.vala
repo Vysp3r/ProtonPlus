@@ -144,7 +144,11 @@ namespace ProtonPlus.Services {
             var cleared = new Gee.ArrayList<SteamRestartPendingRecord> ();
             foreach (var record in get_pending_changes_for_target (target)) {
                 var recorded = record.observed_session;
-                if (record.stop_observed || (recorded != null && !recorded.equals ((!) current)))
+                /* A prior stable identity must change even after a confirmed
+                 * stop.  Stop evidence alone only permits clearance when the
+                 * receipt was recorded without a stable session identity. */
+                if ((recorded == null && record.stop_observed)
+                    || (recorded != null && !recorded.equals ((!) current)))
                     cleared.add (record);
             }
             if (cleared.size == 0)
