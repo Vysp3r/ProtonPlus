@@ -6,6 +6,10 @@ namespace ProtonPlus.Widgets {
         Preferences.PreferencesDialog? active_preferences_dialog = null;
         bool reopen_preferences_after_close = false;
         ProtonPlus.Services.Migrations.Manager? migration_manager = null;
+        ProtonPlus.Services.SteamSessionService? steam_session_service = null;
+        ProtonPlus.Services.SteamRestartManager? steam_restart_manager = null;
+        ProtonPlus.Services.SteamRestartOrchestrator? steam_restart_orchestrator = null;
+        ProtonPlus.Services.SteamConfigurationService? steam_configuration_service = null;
         bool show_introduction = false;
 
         construct {
@@ -36,7 +40,7 @@ namespace ProtonPlus.Widgets {
                 return;
             }
 
-            window = new Window ();
+            window = new Window ((!) steam_restart_manager, (!) steam_restart_orchestrator);
 
             Globals.SETTINGS.bind ("width",
                                    window,
@@ -87,6 +91,17 @@ namespace ProtonPlus.Widgets {
             Globals.setupLanguage ();
             Notify.init (Config.APP_NAME);
 
+            /* This graph belongs to the GUI process, not individual rebuilt
+             * windows.  CLI execution never instantiates Application. */
+            steam_session_service = new ProtonPlus.Services.SteamSessionService ();
+            steam_restart_manager = new ProtonPlus.Services.SteamRestartManager ((!) steam_session_service, new ProtonPlus.Services.SteamRestartStateStore ());
+            steam_configuration_service = new ProtonPlus.Services.SteamConfigurationService ((!) steam_session_service, (!) steam_restart_manager);
+            ((!) steam_restart_manager).configure_configuration_reconciler ((!) steam_configuration_service);
+            ProtonPlus.Services.SteamConfigurationService.configure ((!) steam_configuration_service);
+            steam_restart_orchestrator = new ProtonPlus.Services.SteamRestartOrchestrator ((!) steam_session_service, (!) steam_restart_manager, null, 500, 40, 60, (!) steam_configuration_service);
+            ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder ((!) steam_restart_manager);
+            steam_restart_manager.start_observation ();
+
             if (Globals.SETTINGS != null) {
                 migration_manager = new ProtonPlus.Services.Migrations.Manager ();
                 migration_manager.check_and_migrate_sync (Config.APP_VERSION);
@@ -108,6 +123,13 @@ namespace ProtonPlus.Widgets {
         }
 
         public override void shutdown () {
+            var window = this.active_window as Window;
+            if (window != null)
+                window.main_box.cancel_steam_restart ();
+            if (steam_restart_manager != null)
+                steam_restart_manager.stop_observation ();
+            ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
+            ProtonPlus.Services.SteamConfigurationService.reset_configuration ();
             Notify.uninit ();
             base.shutdown ();
         }

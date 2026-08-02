@@ -9,6 +9,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         protected string[] options_values;
         protected HashTable<string, string>? item_tooltips;
         protected HashTable<string, Adw.ComboRow> rows_map;
+        protected Gee.ArrayList<string> row_order;
+        Gee.HashSet<string> predefined_keys;
 
         private Adw.EntryRow add_custom_row;
 
@@ -29,6 +31,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.options_display = options_display;
             this.options_values = options_values;
             this.rows_map = new HashTable<string, Adw.ComboRow> (str_hash, str_equal);
+            this.row_order = new Gee.ArrayList<string> ();
+            this.predefined_keys = new Gee.HashSet<string> ();
             this.item_tooltips = tooltips;
             this.set_tooltip_text (switch_subtitle);
 
@@ -64,6 +68,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (predefined_keys == null)
                 return;
             foreach (string key in predefined_keys) {
+                this.predefined_keys.add (key.strip ().down ());
                 create_item_row (key, "");
             }
 
@@ -97,6 +102,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
 
             rows_map.insert (normalized_key, row);
+            row_order.add (normalized_key);
             this.add_row (row);
             row.visible = true;
         }
@@ -122,6 +128,21 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.remove (add_custom_row);
             create_item_row (key, val);
             this.add_row (add_custom_row);
+        }
+
+        protected void clear_custom_items () {
+            var custom_keys = new Gee.ArrayList<string> ();
+            foreach (var key in row_order) {
+                if (!predefined_keys.contains (key))
+                    custom_keys.add (key);
+            }
+            foreach (var key in custom_keys) {
+                var row = rows_map.lookup (key);
+                if (row != null)
+                    this.remove (row);
+                rows_map.remove (key);
+                row_order.remove (key);
+            }
         }
 
         protected virtual void trigger_changed_if_ready () {

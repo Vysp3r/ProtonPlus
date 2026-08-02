@@ -22,12 +22,15 @@ namespace ProtonPlus.Widgets.Tools {
         // they are allowed to update the UI.
         private uint tool_request_generation = 0;
         Models.Variant? selected_variant = null;
+        private Gee.LinkedList<Models.Variant> displayed_variants = new Gee.LinkedList<Models.Variant> ();
         Gtk.DropDown variant_dropdown { get; set; }
         HashTable<Gtk.StringObject, Gtk.ListItem> variant_list_items;
         Gtk.Image? selected_variant_checkmark = null;
         public Gtk.Box variant_box { get; private set; }
         bool header_controls_visible = false;
         bool has_variants = false;
+        bool provider_has_compatible_variants = true;
+        bool updating_variant_dropdown = false;
         private Gtk.ListBoxRow load_more_row;
         private Gtk.Button load_more_button;
 
@@ -327,7 +330,7 @@ namespace ProtonPlus.Widgets.Tools {
             add_release_rows (tool, result.releases);
 
             list_box.append (load_more_row);
-            load_more_row.visible = catalog.has_more;
+            load_more_row.visible = catalog.has_more && can_show_provider_release_rows ();
 
             content_stack.set_visible_child_name ("list");
             apply_selected_variant_to_rows ();
@@ -382,7 +385,7 @@ namespace ProtonPlus.Widgets.Tools {
             label.set_label (variant_name);
             if (list_row != null)
                 list_row.set_tooltip_text (tooltip);
-            checkmark.set_visible (list_item.position == variant_dropdown.selected);
+            checkmark.set_visible (variant == variant_dropdown.selected_item);
             if (checkmark.visible)
                 selected_variant_checkmark = checkmark;
         }
@@ -460,7 +463,7 @@ namespace ProtonPlus.Widgets.Tools {
             add_release_rows (tool, result.releases);
 
             list_box.append (load_more_row);
-            load_more_row.visible = catalog.has_more;
+            load_more_row.visible = catalog.has_more && can_show_provider_release_rows ();
 
             content_stack.set_visible_child_name ("list");
             apply_selected_variant_to_rows ();
@@ -470,47 +473,49 @@ namespace ProtonPlus.Widgets.Tools {
 
         private void update_variant_row (Models.Tool tool) {
             selected_variant = null;
+            displayed_variants.clear ();
             has_variants = false;
+            provider_has_compatible_variants = true;
             variant_dropdown.set_visible (false);
             variant_box.set_visible (false);
 
             var provider_tool = tool as Models.Tools.ProviderTool;
-            if (provider_tool == null || provider_tool.variants.size <= 1) {
+            if (provider_tool == null) {
+                status_page.set_description (_("No releases match the current filter."));
                 return;
             }
 
+            displayed_variants = Models.VariantSelector.compatible_variants (
+                provider_tool.variants, Globals.CPU_CAPABILITIES
+            );
+            provider_has_compatible_variants = displayed_variants.size > 0;
+            if (!provider_has_compatible_variants) {
+                status_page.set_description (_("No compatible variants are available for this system."));
+                return;
+            }
+
+            status_page.set_description (_("No releases match the current filter."));
+            selected_variant = Models.VariantSelector.select_variant (
+                displayed_variants, Globals.CPU_CAPABILITIES, get_saved_variant_name (tool)
+            );
+            if (!Models.VariantSelector.should_show_dropdown (displayed_variants))
+                return;
+
             var model = new Gtk.StringList (null);
-            int selected_index = -1;
-            int default_index = -1;
+            int selected_index = 0;
             int index = 0;
-
-            var saved_variant_name = get_saved_variant_name (tool);
-
-            foreach (var variant in provider_tool.variants) {
+            foreach (var variant in displayed_variants) {
                 model.append (variant.name);
-
-                if (variant.is_default == true) {
-                    selected_variant = variant;
-                    default_index = index;
-                }
-
-                if (saved_variant_name != "" && variant.name == saved_variant_name) {
-                    selected_variant = variant;
+                if (variant == selected_variant)
                     selected_index = index;
-                }
-
                 index++;
             }
 
-            if (selected_variant == null) {
-                selected_variant = provider_tool.variants.get (0);
-                selected_index = 0;
-            } else if (selected_index == -1) {
-                selected_index = default_index >= 0 ? default_index : 0;
-            }
-
+            updating_variant_dropdown = true;
             variant_dropdown.model = model;
             variant_dropdown.selected = (uint) selected_index;
+            updating_variant_dropdown = false;
+            update_variant_list_item_checkmark ();
             variant_dropdown.set_visible (true);
             has_variants = true;
             variant_box.set_visible (header_controls_visible);
@@ -524,18 +529,17 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private void on_variant_selected () {
-            var provider_tool = current_tool as Models.Tools.ProviderTool;
-            if (provider_tool == null || provider_tool.variants.size <= 1)
+            if (updating_variant_dropdown || current_tool == null || displayed_variants.size <= 1)
                 return;
 
             int selected_index = (int) variant_dropdown.selected;
-            if (selected_index < 0 || selected_index >= provider_tool.variants.size)
+            var variant = Models.VariantSelector.variant_at_display_index (displayed_variants, selected_index);
+            if (variant == null)
                 return;
 
             update_variant_list_item_checkmark ();
 
-            var variant = provider_tool.variants.get (selected_index);
-            if (selected_variant != null && selected_variant.name == variant.name)
+            if (selected_variant == variant)
                 return;
 
             selected_variant = variant;
@@ -543,63 +547,33 @@ namespace ProtonPlus.Widgets.Tools {
             apply_selected_variant_to_rows ();
         }
 
-        private string? get_variant_download_url (Models.Release release, string variant_name) {
-            foreach (var variant in release.variants) {
-                if (variant.name == variant_name && variant.download_url != null && variant.download_url != "") {
-                    return variant.download_url;
-                }
-            }
-
-            return null;
+        private Models.Variant? resolve_release_variant (Models.Release release, Services.InstallJob.Mode mode) {
+            return Models.VariantSelector.resolve_release_variant (
+                release, selected_variant, Globals.CPU_CAPABILITIES,
+                mode == Services.InstallJob.Mode.LATEST
+            );
         }
 
-        private string? get_default_variant_download_url (Models.Release release) {
-            foreach (var variant in release.variants) {
-                if (variant.is_default && variant.download_url != null && variant.download_url != "") {
-                    return variant.download_url;
-                }
-            }
+        private bool apply_selected_variant_to_job (Services.InstallJob job) {
+            if (!(job.tool is Models.Tools.ProviderTool))
+                return true;
 
-            return null;
-        }
+            var variant = resolve_release_variant (job.release, job.mode);
+            if (variant == null || variant.download_url == null || variant.download_url == "")
+                return false;
 
-        private bool is_latest_job (Services.InstallJob job) {
-            return job.mode == Services.InstallJob.Mode.LATEST;
+            job.set_selected_variant (
+                variant.name, ProtonPlus.Models.Assets.Asset.from_download_url (variant.download_url), variant.id
+            );
+            return true;
         }
 
         private void apply_selected_variant_to_rows () {
             var child = list_box.get_first_child ();
             while (child != null) {
                 var job = child.get_data<Services.InstallJob> ("job");
-                if (job != null) {
-                    var release = job.release;
-                    string? selected_variant_url = null;
-
-                    if (selected_variant != null) {
-                        selected_variant_url = get_variant_download_url (release, selected_variant.name);
-                    }
-
-                    if (selected_variant_url != null) {
-                        job.set_selected_variant (
-                            selected_variant.name,
-                            ProtonPlus.Models.Assets.Asset.from_download_url (selected_variant_url)
-                        );
-                    } else {
-                        var default_url = get_default_variant_download_url (release);
-                        var default_variant_name = "";
-                        foreach (var variant in release.variants) {
-                            if (variant.is_default) {
-                                default_variant_name = variant.name;
-                                break;
-                            }
-                        }
-
-                        job.set_selected_variant (
-                            default_variant_name != "" ? default_variant_name : null,
-                            default_url != null ? ProtonPlus.Models.Assets.Asset.from_download_url (default_url) : null
-                        );
-                    }
-                }
+                if (job != null)
+                    apply_selected_variant_to_job (job);
 
                 child = child.get_next_sibling ();
             }
@@ -711,29 +685,8 @@ namespace ProtonPlus.Widgets.Tools {
             if (current_tool == null)
                 return;
             var job = new Services.InstallJob (release, current_tool, mode);
-            if (selected_variant != null) {
-                var selected_variant_url = get_variant_download_url (release, selected_variant.name);
-                if (selected_variant_url != null) {
-                    job.set_selected_variant (
-                        selected_variant.name,
-                        ProtonPlus.Models.Assets.Asset.from_download_url (selected_variant_url)
-                    );
-                } else {
-                    var default_url = get_default_variant_download_url (release);
-                    var default_variant_name = "";
-                    foreach (var variant in release.variants) {
-                        if (variant.is_default) {
-                            default_variant_name = variant.name;
-                            break;
-                        }
-                    }
-
-                    job.set_selected_variant (
-                        default_variant_name != "" ? default_variant_name : null,
-                        default_url != null ? ProtonPlus.Models.Assets.Asset.from_download_url (default_url) : null
-                    );
-                }
-            }
+            if (!apply_selected_variant_to_job (job))
+                return;
 
             var active_job = Utils.DownloadManager.instance.get_active_download (job);
             if (active_job != null)
@@ -802,13 +755,17 @@ namespace ProtonPlus.Widgets.Tools {
                 list_box.append (load_more_row);
             }
 
-            load_more_row.visible = catalog.has_more;
+            load_more_row.visible = catalog.has_more && can_show_provider_release_rows ();
             load_more_button.sensitive = true;
             update_visibility ();
         }
 
         private bool is_current_tool_request (Models.Tool tool, uint request_generation) {
             return current_tool == tool && tool_request_generation == request_generation;
+        }
+
+        private bool can_show_provider_release_rows () {
+            return !(current_tool is Models.Tools.ProviderTool) || provider_has_compatible_variants;
         }
 
         void update_visibility () {
@@ -839,15 +796,10 @@ namespace ProtonPlus.Widgets.Tools {
             if (search_text != "" && !job.title.down ().contains (search_text.down ()))
                 return false;
 
-            if (is_latest_job (job))
-                return true;
-
             var provider_tool = current_tool as Models.Tools.ProviderTool;
-            if (selected_variant != null && provider_tool != null && provider_tool.variants.size > 1) {
-                if (get_variant_download_url (job.release, selected_variant.name) == null) {
-                    return false;
-                }
-            }
+            if (provider_tool != null && (!provider_has_compatible_variants ||
+                resolve_release_variant (job.release, job.mode) == null))
+                return false;
 
             if (filter == Filter.ALL)
                 return true;

@@ -16,8 +16,16 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 return;
 
             string custom_args = "";
-
+            var command_boundary = -1;
             for (var i = 0; i < tokens_pool.length; i++) {
+                if (tokens_pool[i] == "%command%") {
+                    command_boundary = i;
+                    break;
+                }
+            }
+            var argument_start = command_boundary >= 0 ? command_boundary + 1 : 0;
+
+            for (var i = argument_start; i < tokens_pool.length; i++) {
                 if (!consumed[i] && tokens_pool[i] != "%command%") {
                     if (custom_args != "")
                         custom_args += " ";

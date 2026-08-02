@@ -2,6 +2,7 @@ namespace ProtonPlus.Globals {
     public static Settings SETTINGS;
     public static bool IS_STEAM_OS;
     public static bool IS_FLATPAK;
+    public static Models.CpuCapabilities CPU_CAPABILITIES;
     public static List<string> HWCAPS;
     public static string CACHE_PATH;
     public static bool PROTONTRICKS_INSTALLED;
@@ -101,7 +102,8 @@ namespace ProtonPlus.Globals {
 
         Globals.IS_STEAM_OS = Utils.System.get_distribution_name ().ascii_down () == "steamos";
 
-        Globals.HWCAPS = Utils.System.get_hwcaps ();
+        Globals.CPU_CAPABILITIES = Utils.System.get_cpu_capabilities ();
+        Globals.HWCAPS = Utils.System.get_hwcaps_for_capabilities (Globals.CPU_CAPABILITIES);
 
         Globals.PROTONTRICKS_INSTALLED = Utils.System.check_dependency_sync ("protontricks");
         Globals.PROTONTRICKS_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync ("com.github.Matoking.protontricks");

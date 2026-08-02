@@ -25,6 +25,7 @@ namespace ProtonPlus {
         TLS_HANDSHAKE_ERROR,
         UNSUPPORTED_EXTENSION,
         EXTRACTION_FAILED,
+        INCOMPATIBLE_VARIANT,
     }
 
     public string get_return_code_message (ReturnCode code) {
@@ -61,6 +62,10 @@ namespace ProtonPlus {
             return _ ("This archive format is not supported.");
         case ReturnCode.EXTRACTION_FAILED:
             return _ ("The archive could not be extracted.");
+        case ReturnCode.INCOMPATIBLE_VARIANT:
+            return _ ("The selected variant is not compatible with this system.");
+        case ReturnCode.RUNNERS_IN_USE:
+            return _ ("A compatibility tool is currently in use. Close the running game and try again.");
         default:
             return _ ("The operation could not be completed.");
         }

@@ -18,6 +18,7 @@ deps = [
     config_dep,
     dependency('gtk4'),
     dependency('glib-2.0'),
+    dependency('gio-unix-2.0'),
     dependency('libadwaita-1', version : '>= 1.6'),
     dependency('json-glib-1.0'),
     dependency('libsoup-3.0'),

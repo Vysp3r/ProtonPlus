@@ -109,6 +109,15 @@ namespace ProtonPlus.Models {
             return true;
         }
 
+        /*
+         * A launcher UI identity is not necessarily a Steam installation
+         * identity.  Consumers that need to observe a Steam session use this
+         * narrow, read-only capability instead of inspecting launcher types.
+         */
+        public virtual SteamRestartTarget? get_steam_restart_target () {
+            return null;
+        }
+
         public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
             var _launchers = new Gee.LinkedList<Launcher> ();
             var definitions = new ProviderRegistry ();

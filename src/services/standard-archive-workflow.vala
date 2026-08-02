@@ -89,6 +89,14 @@ namespace ProtonPlus.Services {
             if (!lookup.has_release)
                 return ReturnCode.NOTHING_TO_UPDATE;
             job.set_release_for_update (lookup.require_release ());
+            bool missing_explicit_selection;
+            var compatibility = InstallationService.instance.resolve_provider_install_variant (
+                job, out missing_explicit_selection
+            );
+            if (missing_explicit_selection)
+                return ReturnCode.INVALID_DATA;
+            if (compatibility != ReturnCode.RUNNER_INSTALLED)
+                return compatibility;
             return yield update_latest_job (job, coordinator);
         }
 
@@ -147,8 +155,15 @@ namespace ProtonPlus.Services {
             var job = new InstallJob (
                 lookup.require_release (), runner, InstallJob.Mode.LATEST, directory
             );
-            if (!restore_installed_variant (job, metadata.variant_id))
-                return ReturnCode.INVALID_DATA;
+            var restored_variant = restore_installed_variant (job, metadata.variant_id);
+            if (restored_variant != ReturnCode.RUNNER_INSTALLED)
+                return restored_variant;
+            bool missing_explicit_selection;
+            var compatibility = InstallationService.instance.resolve_provider_install_variant (
+                job, out missing_explicit_selection
+            );
+            if (compatibility != ReturnCode.RUNNER_INSTALLED)
+                return compatibility;
             return yield update_latest_job (job, coordinator);
         }
 
@@ -224,6 +239,11 @@ namespace ProtonPlus.Services {
             var migrate_prefix = Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("migrate-default-prefix");
             var code = yield finalize_replaced_runner (job.install_location, backup, migrate_prefix);
             job.finish_operation ();
+            if (code == ReturnCode.RUNNER_UPDATED) {
+                var lifecycle = coordinator as InstallationLifecycleRecorder;
+                if (lifecycle != null)
+                    lifecycle.record_completed_update (job);
+            }
             return code;
         }
 
@@ -231,26 +251,27 @@ namespace ProtonPlus.Services {
             return job.archive_install_requirement == Models.Providers.ArchiveInstallRequirement.NESTED_ARCHIVE;
         }
 
-        private bool restore_installed_variant (InstallJob job, string variant_id) {
+        private ReturnCode restore_installed_variant (InstallJob job, string variant_id) {
             if (variant_id == "")
-                return true;
+                return ReturnCode.RUNNER_INSTALLED;
 
             foreach (var variant in job.release.variants) {
                 if (variant.id != variant_id)
                     continue;
                 if (variant.download_url == null || variant.download_url == "") {
                     warning ("Latest release for %s has no download URL for installed variant %s", job.tool.title, variant_id);
-                    return false;
+                    return ReturnCode.INVALID_DATA;
                 }
                 job.set_selected_variant (
                     variant.name,
-                    Models.Assets.Asset.from_download_url ((!) variant.download_url)
+                    Models.Assets.Asset.from_download_url ((!) variant.download_url),
+                    variant.id
                 );
-                return true;
+                return ReturnCode.RUNNER_INSTALLED;
             }
 
             warning ("Latest release for %s does not contain installed variant %s", job.tool.title, variant_id);
-            return false;
+            return ReturnCode.INVALID_DATA;
         }
 
         private async string? extract_nested_archive (InstallJob job, string source_path, string extract_path) {
@@ -325,7 +346,7 @@ namespace ProtonPlus.Services {
             metadata.provider_id = runner.provider_id;
             metadata.tool_id = runner.id;
             metadata.launcher_id = runner.group.launcher.tool_target_id;
-            metadata.variant_id = job.selected_variant_id ();
+            metadata.variant_id = job.selected_variant_identity ();
             metadata.release_id = job.release.upstream_release_id;
             return metadata.save (path);
         }

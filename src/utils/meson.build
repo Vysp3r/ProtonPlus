@@ -1,4 +1,5 @@
 sources += files(
+    'cpu-probe.c',
     'archive-helper.vala',
     'filesystem.vala',
     'web.vala',

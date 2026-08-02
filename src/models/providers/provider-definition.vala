@@ -30,12 +30,20 @@ namespace ProtonPlus.Models.Providers {
         public string name { get; private set; }
         public string format { get; private set; }
         public bool is_default { get; private set; }
+        public VariantCompatibility compatibility { get; private set; }
 
-        public VariantDefinition (string id, string name, string format, bool is_default) {
+        public VariantDefinition (
+            string id,
+            string name,
+            string format,
+            bool is_default,
+            VariantCompatibility? compatibility = null
+        ) {
             this.id = id;
             this.name = name;
             this.format = format;
             this.is_default = is_default;
+            this.compatibility = compatibility != null ? compatibility.copy () : VariantCompatibility.unspecified ();
         }
     }
 
@@ -245,7 +253,9 @@ namespace ProtonPlus.Models.Providers {
             var copied = new VariantDefinition[values.length];
             for (var index = 0; index < values.length; index++) {
                 var value = values[index];
-                copied[index] = new VariantDefinition (value.id, value.name, value.format, value.is_default);
+                copied[index] = new VariantDefinition (
+                    value.id, value.name, value.format, value.is_default, value.compatibility
+                );
             }
             return copied;
         }

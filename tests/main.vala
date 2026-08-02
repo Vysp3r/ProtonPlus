@@ -2,7 +2,14 @@ using GLib;
 
 int main (string[] args) {
     Test.init (ref args);
+    ProtonPlus.Globals.CPU_CAPABILITIES = new ProtonPlus.Models.CpuCapabilities (
+        ProtonPlus.Models.CpuArchitecture.X86_64,
+        ProtonPlus.Models.X86_64Level.BASELINE
+    );
 
+    AppTests.CpuCapabilitiesTest.register_tests ();
+    AppTests.VariantCompatibilityTest.register_tests ();
+    AppTests.VariantSelectorTest.register_tests ();
     AppTests.AssetTest.register_tests ();
     AppTests.FilesystemTest.register_tests ();
     AppTests.FaugusLauncherTest.register_tests ();
@@ -25,8 +32,14 @@ int main (string[] args) {
     AppTests.ReleasePageTest.register_tests ();
     AppTests.VariantSettingsTest.register_tests ();
     AppTests.InstallLayoutTest.register_tests ();
+    AppTests.CompatibilityProcessGuardTest.register_tests ();
     AppTests.InstallerTransactionTest.register_tests ();
     AppTests.SteamTest.register_tests ();
+    AppTests.SteamSessionTest.register_tests ();
+    AppTests.SteamConfigurationServiceTest.register_tests ();
+    AppTests.SteamRestartManagerTest.register_tests ();
+    AppTests.SteamRestartOrchestratorTest.register_tests ();
+    AppTests.SteamRestartPresentationTest.register_tests ();
     AppTests.SteamTinkerLaunchTest.register_tests ();
     AppTests.UpdateTransactionTest.register_tests ();
     AppTests.VdfBinaryTest.register_tests ();

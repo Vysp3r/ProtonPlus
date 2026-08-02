@@ -196,6 +196,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return markup.str;
         }
 
+        public static string build_labeled_command_preview_markup (string[] labels, string[] commands) {
+            assert (labels.length == commands.length);
+            var markup = new StringBuilder ();
+            for (var index = 0; index < commands.length; index++) {
+                if (index > 0)
+                    markup.append ("\n\n");
+                markup.append ("<b>%s</b>\n".printf (Markup.escape_text (labels[index])));
+                markup.append (build_command_preview_markup (commands[index]));
+            }
+            return markup.str;
+        }
+
         public bool has_preview_content () {
             return get_segments ().size > 0;
         }

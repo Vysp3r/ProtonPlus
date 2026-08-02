@@ -203,8 +203,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     add_diagnostic (result, LaunchCommandParseDiagnosticCode.WRAPPER_AFTER_COMMAND_BOUNDARY,
                         "Wrapper executables and wrapper arguments must precede %command%.", index);
                 }
+                /* Without a command boundary or a pre-command modifier, Steam
+                 * treats the whole launch-options string as game arguments.
+                 * Preserve unknown arguments as such instead of mistaking them
+                 * for unsafe content before a command. */
+                var arguments_only = boundary < 0 && !has_pre_boundary_modifier;
                 result.unrecognized_tokens.add (new LaunchCommandUnrecognizedToken (
-                    token, index, after_boundary
+                    token, index, after_boundary || arguments_only
                     ? LaunchCommandUnrecognizedKind.PRESERVED_GAME_COMMAND_CONTENT
                     : LaunchCommandUnrecognizedKind.UNKNOWN_TOKEN));
             }
@@ -371,6 +376,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             foreach (var entry in catalog.get_ordered ()) {
                 var semantics = entry.semantics;
                 if (semantics == null || semantics.kind != LaunchOptionSemanticKind.GAME_ARGUMENT
+                    || semantics.emission_mode != LaunchOptionEmissionMode.FIXED_TOKENS
                     || !matches_tokens (result, index, result.tokens.size, semantics.fixed_tokens))
                     continue;
                 var indexes = consecutive_indexes (index, semantics.fixed_tokens.length);

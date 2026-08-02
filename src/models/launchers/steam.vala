@@ -33,6 +33,21 @@ namespace ProtonPlus.Models.Launchers {
             has_library_support = true;
         }
 
+        public override SteamRestartTarget? get_steam_restart_target () {
+            if (directory == "")
+                return null;
+            switch (installation_type) {
+            case Launcher.InstallationTypes.SYSTEM:
+                return SteamRestartTarget.for_native (directory, "Steam", "steam.desktop");
+            case Launcher.InstallationTypes.FLATPAK:
+                return SteamRestartTarget.for_flatpak (directory);
+            case Launcher.InstallationTypes.SNAP:
+                return SteamRestartTarget.for_snap (directory);
+            default:
+                return null;
+            }
+        }
+
         public static bool is_steam_linux_runtime (string display_title, string internal_title = "") {
             return display_title.down ().contains ("steam linux runtime")
                    || internal_title.down ().contains ("steam_linux_runtime")
@@ -598,6 +613,9 @@ namespace ProtonPlus.Models.Launchers {
             var mapping = steam != null ? steam.get_child ("CompatToolMapping") : null;
             if (mapping == null) {
                 compatibility_tool_hashtable.set (0, "proton_experimental");
+                var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+                if (configuration != null)
+                    configuration.overlay_launcher_effective_state (this);
                 return true;
             }
 
@@ -613,80 +631,24 @@ namespace ProtonPlus.Models.Launchers {
                 compatibility_tool_hashtable.set (appid, name.value);
             }
 
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration != null)
+                configuration.overlay_launcher_effective_state (this);
+
             return true;
         }
 
         public bool change_default_compatibility_tool (string compatibility_tool) {
-            var default_id = 0;
-            var config_path = "%s/config/config.vdf".printf (directory);
-            var config_content = Utils.Filesystem.get_file_content (config_path);
-            var document = Utils.VDF.VdfParser.parse_document (config_content);
-            if (document == null)
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration == null) {
+                warning ("Steam default compatibility change rejected because SteamConfigurationService is not configured.");
                 return false;
-
-            var install_config_store = document.root.get_child ("InstallConfigStore");
-            var software = install_config_store != null ? install_config_store.get_child ("Software") : null;
-            var valve = software != null ? software.get_child ("Valve") : null;
-            var steam = valve != null ? valve.get_child ("Steam") : null;
-            if (steam == null || steam.closing_brace_start == -1)
-                return false;
-
-            var mapping = steam.get_child ("CompatToolMapping");
-            if (mapping != null && mapping.closing_brace_start == -1)
-                return false;
-            if (mapping == null) {
-                var steam_indent = document.indentation_of_closing_brace (steam);
-                var mapping_indent = steam_indent + "\t";
-                var mapping_content = "%s\"CompatToolMapping\"\n%s{\n%s}\n".printf (mapping_indent, mapping_indent, mapping_indent);
-                config_content = document.insert_before_closing_brace (steam, mapping_content);
-
-                document = Utils.VDF.VdfParser.parse_document (config_content);
-                if (document == null)
-                    return false;
-
-                install_config_store = document.root.get_child ("InstallConfigStore");
-                software = install_config_store != null ? install_config_store.get_child ("Software") : null;
-                valve = software != null ? software.get_child ("Valve") : null;
-                steam = valve != null ? valve.get_child ("Steam") : null;
-                mapping = steam != null ? steam.get_child ("CompatToolMapping") : null;
-                if (mapping == null)
-                    return false;
             }
 
-            var default_mapping = mapping.get_child (default_id.to_string ());
-            if (default_mapping != null) {
-                var name = default_mapping.get_child ("name");
-                if (name == null || name.value == null)
-                    return false;
-
-                config_content = document.replace_value (name, compatibility_tool);
-            } else {
-                var mapping_indent = document.indentation_of_closing_brace (mapping);
-                var entry_indent = mapping_indent + "\t";
-                var entry_content = "%s\"%i\"\n%s{\n%s\t\"name\"\t\t%s\n%s\t\"config\"\t\t\"\"\n%s\t\"priority\"\t\t\"75\"\n%s}\n".printf (
-                    entry_indent,
-                    default_id,
-                    entry_indent,
-                    entry_indent,
-                    Utils.VDF.VdfDocument.quote (compatibility_tool),
-                    entry_indent,
-                    entry_indent,
-                    entry_indent
-                );
-                config_content = document.insert_before_closing_brace (mapping, entry_content);
-            }
-
-            if (config_content == document.content) {
-                this.default_compatibility_tool = compatibility_tool;
-                return true;
-            }
-
-            var modified = Utils.Filesystem.modify_file (config_path, config_content);
-            if (!modified)
+            var outcome = ((!) configuration).change_default_compatibility_tool (this, compatibility_tool);
+            if (!outcome.accepted)
                 return false;
-
             this.default_compatibility_tool = compatibility_tool;
-
             return true;
         }
     }

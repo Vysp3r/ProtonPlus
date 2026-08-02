@@ -94,13 +94,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     : LaunchCommandWriteStatus.UNCHANGED_UNMANAGED_SOURCE,
                     request.parsed, true, false, request.parsed.original_input);
 
-            if (request.explicit_clear) {
-                var clear = new LaunchCommandWriteResult (LaunchCommandWriteStatus.SOURCE_PRESERVING_MANAGED_MERGE,
-                    request.parsed, true, request.parsed.original_input != "", "");
-                foreach (var id in request.modified_option_ids) clear.modified_option_ids.add (id);
-                return clear;
-            }
-
             if (request.adapter_diagnostics.length > 0) {
                 var blocked = new LaunchCommandWriteResult (LaunchCommandWriteStatus.INCOMPLETE_ADAPTER_COVERAGE, request.parsed);
                 foreach (var diagnostic in request.adapter_diagnostics) blocked.writer_diagnostics.add (diagnostic);
@@ -113,7 +106,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 return blocked;
             }
 
-            if (!safe_to_merge (request.parsed, changed)) {
+            if (!request.explicit_clear && !safe_to_merge (request.parsed, changed)) {
                 var blocked = new LaunchCommandWriteResult (LaunchCommandWriteStatus.BLOCKED_UNSAFE_SOURCE, request.parsed);
                 blocked.writer_diagnostics.add ("Custom shell content cannot be merged safely.");
                 return blocked;
@@ -142,6 +135,23 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 return blocked;
             }
 
+            /* Clear is a full-source replacement session, not a one-shot empty
+             * return. If the user enables options after clearing, compose the
+             * complete new command without merging any old raw content back. */
+            if (request.explicit_clear) {
+                var replacement = new LaunchCommandWriteResult (
+                    LaunchCommandWriteStatus.SOURCE_PRESERVING_MANAGED_MERGE,
+                    request.parsed, true,
+                    composed.launch_line != request.parsed.original_input,
+                    composed.launch_line
+                );
+                foreach (var id in request.modified_option_ids)
+                    replacement.modified_option_ids.add (id);
+                foreach (var diagnostic in composed.diagnostics)
+                    replacement.composition_diagnostics.add (diagnostic);
+                return replacement;
+            }
+
             var generated = parser.parse (composed.launch_line);
             var launch_line = merge (request.parsed, generated, changed);
             var result = new LaunchCommandWriteResult (
@@ -165,7 +175,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                                                          bool explicit_clear = false,
                                                          bool retain_placeholder_for_arguments_only = false) {
             var parsed = parser.parse (source);
-            if (parsed.command_boundary_indexes.size == 1 && parsed.command_boundary_indexes[0] == 0)
+            if (!explicit_clear && parsed.command_boundary_indexes.size == 1
+                && parsed.command_boundary_indexes[0] == 0)
                 retain_placeholder_for_arguments_only = true;
             return prepare (new LaunchCommandWriteRequest (parsed, selections,
                 modified_option_ids, adapter_diagnostics, capabilities, explicit_clear,
@@ -213,9 +224,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                         return false;
                 }
             }
+            var replace_unrecognized_arguments = has_changed_dynamic_game_arguments (changed);
             foreach (var token in parsed.unrecognized_tokens) {
+                var replaceable_argument_only = replace_unrecognized_arguments
+                    && parsed.command_boundary_indexes.size == 0
+                    && token.kind == LaunchCommandUnrecognizedKind.UNKNOWN_TOKEN;
                 if (token.kind != LaunchCommandUnrecognizedKind.PRESERVED_GAME_COMMAND_CONTENT
-                    && token.kind != LaunchCommandUnrecognizedKind.UNKNOWN_ENVIRONMENT_ASSIGNMENT)
+                    && token.kind != LaunchCommandUnrecognizedKind.UNKNOWN_ENVIRONMENT_ASSIGNMENT
+                    && !replaceable_argument_only)
                     return false;
             }
             foreach (var occurrence in parsed.occurrences) {
@@ -288,9 +304,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 || (source_boundary == 0 && !has_changed_game_arguments (changed));
             if (needs_boundary) output.add ("%command%");
 
+            var replace_unrecognized_arguments = has_changed_dynamic_game_arguments (changed);
             for (var index = source_boundary >= 0 ? source_boundary + 1 : 0;
                  index < source.tokens.size; index++) {
                 var occurrence = occurrence_at (source, index);
+                if (occurrence == null && replace_unrecognized_arguments
+                    && unrecognized_game_argument_at (source, index))
+                    continue;
                 if ((occurrence == null || occurrence.semantic_kind == LaunchOptionSemanticKind.GAME_ARGUMENT)
                     && (occurrence == null || !changed.contains (occurrence.option_id)))
                     output.add (source.tokens[index].raw);
@@ -308,6 +328,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (start < 0) start = 0;
             for (var index = start; index < end; index++) {
                 var occurrence = occurrence_at (generated, index);
+                if (occurrence == null && region == Region.GAME_ARGUMENT
+                    && has_changed_dynamic_game_arguments (changed)
+                    && unrecognized_game_argument_at (generated, index)) {
+                    output.add (generated.tokens[index].raw);
+                    continue;
+                }
                 if (output_role_at (generated, index) != region)
                     continue;
                 if (include_all && region == Region.WRAPPER) {
@@ -329,6 +355,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         Region output_role_at (LaunchCommandParseResult parsed, int index) {
+            var occurrence = occurrence_at (parsed, index);
+            if (occurrence != null) {
+                if (occurrence.semantic_kind == LaunchOptionSemanticKind.GAME_ARGUMENT)
+                    return Region.GAME_ARGUMENT;
+                if (occurrence.semantic_kind == LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT)
+                    return Region.ENVIRONMENT;
+            }
             var boundary = parsed.command_boundary_indexes.size == 1
                 ? parsed.command_boundary_indexes[0] : -1;
             if (boundary >= 0 && index > boundary)
@@ -426,6 +459,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return false;
         }
 
+        bool has_changed_dynamic_game_arguments (HashSet<string> changed) {
+            foreach (var id in changed) {
+                var metadata = catalog.lookup (id);
+                if (metadata != null && metadata.semantics != null
+                    && metadata.semantics.kind == LaunchOptionSemanticKind.GAME_ARGUMENT
+                    && metadata.semantics.emission_mode == LaunchOptionEmissionMode.DYNAMIC_GAME_ARGUMENTS)
+                    return true;
+            }
+            return false;
+        }
+
         LaunchCommandOptionOccurrence? occurrence_at (LaunchCommandParseResult parsed, int index) {
             foreach (var occurrence in parsed.occurrences)
                 foreach (var owned in occurrence.token_indexes)
@@ -437,6 +481,16 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             foreach (var token in parsed.unrecognized_tokens)
                 if (token.token_index == index
                     && token.kind == LaunchCommandUnrecognizedKind.UNKNOWN_ENVIRONMENT_ASSIGNMENT) return true;
+            return false;
+        }
+
+        bool unrecognized_game_argument_at (LaunchCommandParseResult parsed, int index) {
+            foreach (var token in parsed.unrecognized_tokens)
+                if (token.token_index == index
+                    && (token.kind == LaunchCommandUnrecognizedKind.PRESERVED_GAME_COMMAND_CONTENT
+                        || (parsed.command_boundary_indexes.size == 0
+                            && token.kind == LaunchCommandUnrecognizedKind.UNKNOWN_TOKEN)))
+                    return true;
             return false;
         }
 

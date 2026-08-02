@@ -60,6 +60,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         FIXED_TOKENS,
         DYNAMIC_ENVIRONMENT_VALUE,
         DYNAMIC_WRAPPER_ARGUMENT,
+        DYNAMIC_GAME_ARGUMENTS,
         WRAPPER_SELECTION,
         COMPOSITE_EMISSION,
         RAW_CONTEXT_DEPENDENT
@@ -628,7 +629,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     support_for (id), false, {}, {}
                 );
             }
-            if (id == "raw-launch-options" || id == "custom-game-arguments") {
+            if (id == "custom-game-arguments") {
+                return new LaunchOptionSemantics (
+                    LaunchOptionSemanticKind.GAME_ARGUMENT,
+                    LaunchPlaceholderPolicy.OPTIONAL,
+                    LaunchOptionEmissionMode.DYNAMIC_GAME_ARGUMENTS,
+                    "", "", {}, {}, "", {}, {}, {},
+                    LaunchOptionApplicability.GENERIC, {}, false,
+                    support_for (id), true, {}, {}
+                );
+            }
+            if (id == "raw-launch-options") {
                 return new LaunchOptionSemantics (
                     LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT,
                     LaunchPlaceholderPolicy.CONTEXT_DEPENDENT_RAW,
@@ -1064,6 +1075,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 diagnostics.add ("Environment option '%s' has an incompatible emission mode.".printf (entry.id));
             if (semantics.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT && semantics.emission_mode != LaunchOptionEmissionMode.FIXED_TOKENS && semantics.emission_mode != LaunchOptionEmissionMode.DYNAMIC_WRAPPER_ARGUMENT)
                 diagnostics.add ("Wrapper argument '%s' has an incompatible emission mode.".printf (entry.id));
+            if (semantics.kind == LaunchOptionSemanticKind.GAME_ARGUMENT
+                && semantics.emission_mode != LaunchOptionEmissionMode.FIXED_TOKENS
+                && semantics.emission_mode != LaunchOptionEmissionMode.DYNAMIC_GAME_ARGUMENTS)
+                diagnostics.add ("Game argument '%s' has an incompatible emission mode.".printf (entry.id));
             if (semantics.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT) {
                 var wrapper = lookup_wrapper (semantics.wrapper_id);
                 if (wrapper != null && !has_capability (semantics.get_required_capabilities (), wrapper.required_capability))

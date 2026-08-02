@@ -6,6 +6,7 @@ sources += files(
     'launch-command-builder.vala',
     'launch-command-parser.vala',
     'launch-command-composer.vala',
+    'launch-command-edit-state.vala',
     'launch-option-capability-resolver.vala',
     'launch-command-writer.vala',
     'launch-command-selection-source.vala',

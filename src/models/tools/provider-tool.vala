@@ -37,7 +37,8 @@ namespace ProtonPlus.Models.Tools {
                     configured_variant.name,
                     configured_variant.format,
                     configured_variant.is_default,
-                    null
+                    null,
+                    configured_variant.compatibility
                 ));
             }
         }

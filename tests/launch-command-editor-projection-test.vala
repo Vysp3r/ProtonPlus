@@ -105,6 +105,14 @@ namespace AppTests.LaunchCommandEditorProjectionTest {
         unknown.register_selection_source ("unknown", new LaunchCommandStaticSelectionSource ("unknown"));
         assert (contains (unknown.validate_selection_sources (), "unknown option"));
 
+        var unmanaged = new LaunchOptionPresentationRegistry (catalog);
+        unmanaged.register_display_only ("custom-game-arguments", null, null);
+        unmanaged.register_selection_source ("custom-game-arguments",
+            new LaunchCommandStaticSelectionSource ("custom-game-arguments"));
+        unmanaged.register_selection_source ("custom-game-arguments",
+            new LaunchCommandStaticSelectionSource ("custom-game-arguments"));
+        assert (contains (unmanaged.validate_selection_sources (), "duplicate selection ownership"));
+
         var projection = new LaunchCommandEditorProjection ();
         var source = new LaunchCommandStaticSelectionSource (
             "proton-debug-log", new LaunchCommandSelection ("dll-overrides", { "d3d11=n" })

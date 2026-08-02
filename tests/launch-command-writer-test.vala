@@ -10,6 +10,9 @@ namespace AppTests.LaunchCommandWriterTest {
         Test.add_func ("/launch-command-writer/composite-output-has-one-owner", test_composite_output_has_one_owner);
         Test.add_func ("/launch-command-writer/post-boundary-assignment-blocks-edit", test_post_boundary_assignment_blocks_edit);
         Test.add_func ("/launch-command-writer/prepare-source-is-per-game", test_prepare_source_is_per_game);
+        Test.add_func ("/launch-command-writer/clear-remains-a-replacement-session", test_clear_remains_a_replacement_session);
+        Test.add_func ("/launch-command-writer/edit-state-preserves-clear-intent", test_edit_state_preserves_clear_intent);
+        Test.add_func ("/launch-command-writer/custom-arguments-replace-unrecognized-arguments", test_custom_arguments_replace_unrecognized_arguments);
     }
 
     private LaunchCommandWriteResult write (string source, LaunchCommandSelection[] selections,
@@ -33,6 +36,11 @@ namespace AppTests.LaunchCommandWriterTest {
         assert (cleared.writing_allowed);
         assert (cleared.requires_persistence);
         assert (cleared.launch_line == "");
+
+        var cleared_opaque = write ("$(custom-wrapper) && %command%", {}, {}, {}, true);
+        assert (cleared_opaque.writing_allowed);
+        assert (cleared_opaque.requires_persistence);
+        assert (cleared_opaque.launch_line == "");
     }
 
     private void test_fresh_and_preserving_merge () {
@@ -109,5 +117,95 @@ namespace AppTests.LaunchCommandWriterTest {
                 LaunchOptionCapability.MANGOHUD }));
         assert (first.launch_line == "PROTON_LOG=1 gamemoderun %command% --foo");
         assert (second.launch_line == "CUSTOM_ENV=\"value\" mangohud gamemoderun %command% --bar");
+    }
+
+    private void test_clear_remains_a_replacement_session () {
+        var cleared_with_replacement = write (
+            "UNKNOWN_VALUE=one %command% --old-argument",
+            { new LaunchCommandSelection ("proton-debug-log") },
+            { "proton-debug-log" },
+            { LaunchOptionCapability.PROTON },
+            true
+        );
+        assert (cleared_with_replacement.writing_allowed);
+        assert (cleared_with_replacement.requires_persistence);
+        assert (cleared_with_replacement.launch_line == "PROTON_LOG=1 %command%");
+
+        var cleared_with_argument = write (
+            "%command% --old-argument",
+            { new LaunchCommandSelection ("developer-console") },
+            { "developer-console" }, {}, true
+        );
+        assert (cleared_with_argument.writing_allowed);
+        assert (cleared_with_argument.launch_line == "-console");
+    }
+
+    private class MutableSelectionSource : Object, ILaunchCommandSelectionSource {
+        public string option_id { get; set; }
+        public LaunchCommandSelection? selection;
+
+        public MutableSelectionSource (string option_id, LaunchCommandSelection? selection = null) {
+            this.option_id = option_id;
+            this.selection = selection;
+        }
+
+        public LaunchCommandSelection? get_selection () {
+            return selection;
+        }
+    }
+
+    private void test_edit_state_preserves_clear_intent () {
+        var source = new MutableSelectionSource (
+            "proton-debug-log", new LaunchCommandSelection ("proton-debug-log")
+        );
+        var sources = new Gee.ArrayList<ILaunchCommandSelectionSource> ();
+        sources.add (source);
+        var state = new LaunchCommandEditState ();
+        state.record_baseline (sources);
+
+        source.selection = null;
+        state.update (sources);
+        assert (state.is_option_modified ("proton-debug-log"));
+        assert (state.is_dirty);
+        state.mark_explicit_clear (sources);
+        assert (state.explicit_clear);
+        assert (state.is_dirty);
+
+        source.selection = new LaunchCommandSelection ("proton-debug-log");
+        state.update (sources);
+        assert (state.explicit_clear);
+        assert (state.is_dirty);
+    }
+
+    private void test_custom_arguments_replace_unrecognized_arguments () {
+        var preserved_while_editing_another_option = write (
+            "--old 'old value'",
+            {
+                new LaunchCommandSelection ("proton-debug-log"),
+                new LaunchCommandSelection ("custom-game-arguments", { "--old", "old value" })
+            },
+            { "proton-debug-log" }, { LaunchOptionCapability.PROTON }
+        );
+        assert (preserved_while_editing_another_option.writing_allowed);
+        assert (preserved_while_editing_another_option.launch_line == "PROTON_LOG=1 %command% --old 'old value'");
+
+        var replaced = write (
+            "PROTON_LOG=1 %command% --old 'old value'",
+            {
+                new LaunchCommandSelection ("proton-debug-log"),
+                new LaunchCommandSelection ("custom-game-arguments", { "--new", "new value" })
+            },
+            { "custom-game-arguments" }, { LaunchOptionCapability.PROTON }
+        );
+        assert (replaced.writing_allowed);
+        assert (replaced.launch_line == "PROTON_LOG=1 %command% --new 'new value'");
+
+        var arguments_only = write (
+            "--old value",
+            { new LaunchCommandSelection ("custom-game-arguments", { "--new" }) },
+            { "custom-game-arguments" }
+        );
+        assert (arguments_only.writing_allowed);
+        assert (arguments_only.launch_line == "--new");
     }
 }

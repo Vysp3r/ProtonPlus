@@ -78,6 +78,7 @@ namespace ProtonPlus.Models {
                 variant_obj.set_string_member ("format", variant.format);
                 variant_obj.set_boolean_member ("default", variant.is_default);
                 variant_obj.set_string_member ("download_url", variant.download_url ?? "");
+                variant_obj.set_object_member ("compatibility", variant.compatibility.to_json ());
                 variants_array.add_object_element (variant_obj);
             }
             obj.set_array_member ("variants", variants_array);
@@ -136,7 +137,8 @@ namespace ProtonPlus.Models {
                         name,
                         variant_obj.get_string_member_with_default ("format", ""),
                         variant_obj.has_member ("default") && variant_obj.get_boolean_member ("default"),
-                        variant_obj.get_string_member_with_default ("download_url", "")
+                        variant_obj.get_string_member_with_default ("download_url", ""),
+                        compatibility_from_json (variant_obj)
                     ));
                 }
             }
@@ -163,6 +165,16 @@ namespace ProtonPlus.Models {
             default:
                 return Kind.GENERIC;
             }
+        }
+
+        private static VariantCompatibility compatibility_from_json (Json.Object variant_obj) {
+            if (!variant_obj.has_member ("compatibility"))
+                return VariantCompatibility.unspecified ();
+
+            var node = variant_obj.get_member ("compatibility");
+            if (node == null || node.get_node_type () != Json.NodeType.OBJECT)
+                return VariantCompatibility.unspecified ();
+            return VariantCompatibility.from_json (node.get_object ());
         }
     }
 }

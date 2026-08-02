@@ -23,11 +23,20 @@ namespace AppTests.FaugusLauncherTest {
         }
     }
 
+    private class RecordingRestartChange : Object, SteamChangeRecorder {
+        public Gee.List<SteamChangeReceipt> receipts = new Gee.ArrayList<SteamChangeReceipt> ();
+        public SteamRestartRecordResult record (SteamChangeReceipt receipt) {
+            receipts.add (receipt);
+            return SteamRestartRecordResult.ADDED;
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/faugus/identities-and-detection", test_identities_and_detection);
         Test.add_func ("/faugus/groups-providers-and-layouts", test_groups_providers_and_layouts);
         Test.add_func ("/faugus/shared-installed-state-and-operations", test_shared_installed_state_and_operations);
         Test.add_func ("/faugus/bulk-updates-deduplicate-shared-targets", test_bulk_updates_deduplicate_shared_targets);
+        Test.add_func ("/faugus/lifecycle-receipt-uses-shared-steam-target", test_lifecycle_receipt_uses_shared_steam_target);
     }
 
     private string temporary_directory () {
@@ -316,6 +325,36 @@ namespace AppTests.FaugusLauncherTest {
         assert (remove (faugus_job) == ReturnCode.OPERATION_IN_PROGRESS);
         manager.remove_download (steam_job);
 
+        assert (delete_directory (root));
+    }
+
+    private void test_lifecycle_receipt_uses_shared_steam_target () {
+        var root = temporary_directory ();
+        var home = Path.build_filename (root, "home");
+        var host_data = Path.build_filename (root, "host-data");
+        var config = Path.build_filename (root, "config");
+        var data = Path.build_filename (root, "data");
+        var state = Path.build_filename (root, "state");
+        var shared_root = Path.build_filename (host_data, "Steam");
+        assert (Utils.Filesystem.create_directory (Path.build_filename (shared_root, "compatibilitytools.d")));
+        var launcher = faugus (Launcher.InstallationTypes.SYSTEM, home, host_data, config, data, state);
+        var group = new Group ("Proton", "", "/compatibilitytools.d", launcher, "proton");
+        group.tools = new Gee.LinkedList<Tool> ();
+        var runner = provider_tool (group, definition ("proton-ge"));
+        var job = new InstallJob (release ("Fixture Runner", "fixture", "fixture"), runner,
+            InstallJob.Mode.VERSIONED, Path.build_filename (shared_root, "compatibilitytools.d", "Fixture Runner"));
+        var recorder = new RecordingRestartChange ();
+        InstallationService.instance.configure_steam_change_recorder (recorder);
+
+        InstallationService.instance.record_completed_update (job);
+        assert (recorder.receipts.size == 1);
+        assert (recorder.receipts.get (0).kind == SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED);
+        var native_target = SteamRestartTarget.for_native (shared_root, "Steam", "steam.desktop");
+        assert (recorder.receipts.get (0).target.id == native_target.id);
+        InstallationService.instance.record_completed_update (job);
+        assert (recorder.receipts.size == 1);
+
+        InstallationService.reset_lifecycle_configuration_for_tests ();
         assert (delete_directory (root));
     }
 

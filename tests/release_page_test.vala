@@ -67,6 +67,7 @@ namespace AppTests.ReleasePageTest {
         Test.add_func ("/release-catalog/valid-cache-skips-network", test_valid_cache_skips_network);
         Test.add_func ("/release-catalog/missing-and-malformed-cache-fetches", test_missing_and_malformed_cache_fetches);
         Test.add_func ("/release-catalog/stale-variants-refresh", test_stale_variants_refresh);
+        Test.add_func ("/release-catalog/stale-compatibility-refreshes", test_stale_compatibility_refreshes);
         Test.add_func ("/release-catalog/forced-refresh-is-atomic", test_forced_refresh_is_atomic);
         Test.add_func ("/release-catalog/load-more-failure-preserves-state", test_load_more_failure_preserves_state);
         Test.add_func ("/release-catalog/latest-empty-and-failure-are-distinct", test_latest_empty_and_failure_are_distinct);
@@ -86,9 +87,13 @@ namespace AppTests.ReleasePageTest {
         return (!) fixture_cache_path;
     }
 
-    private ProviderDefinition definition (SourceType source_type = SourceType.GITHUB, bool two_variants = false) {
+    private ProviderDefinition definition (
+        SourceType source_type = SourceType.GITHUB,
+        bool two_variants = false,
+        VariantCompatibility? compatibility = null
+    ) {
         VariantDefinition[] variants = {
-            new VariantDefinition ("standard", "default", "$release_name", true)
+            new VariantDefinition ("standard", "default", "$release_name", true, compatibility)
         };
         if (two_variants) {
             variants = {
@@ -404,6 +409,26 @@ namespace AppTests.ReleasePageTest {
         var duplicate_result = load (catalog ("duplicate-url-tool", definition (SourceType.GITHUB, true), duplicate_source), false);
         assert (duplicate_result.releases[0].title == "fresh");
         assert (duplicate_result.succeeded && duplicate_source.requested_pages.size == 1);
+    }
+
+    private void test_stale_compatibility_refreshes () {
+        cache_path ();
+        var stale_path = Path.build_filename (cache_path (), "stale-compatibility-tool.json");
+        assert (ProtonPlus.Utils.Filesystem.modify_file (stale_path,
+            "{\"last_updated\":\"old\",\"page\":2,\"has_more\":false,\"releases\":[{\"kind\":\"generic\",\"title\":\"old\",\"asset\":{\"name\":\"old.tar.gz\",\"download_url\":\"https://example.test/old.tar.gz\"},\"upstream_release_id\":\"1\",\"variants\":[{\"id\":\"standard\",\"name\":\"default\",\"format\":\"$release_name\",\"default\":true,\"download_url\":\"https://example.test/old.tar.gz\"}]}]}"
+        ));
+
+        var source = new FixtureReleaseSource ();
+        var fresh = new LinkedList<Release> ();
+        fresh.add (release ("fresh", "2"));
+        source.set_page (1, new ReleasePage (fresh, 2, false));
+        var result = load (catalog (
+            "stale-compatibility-tool",
+            definition (SourceType.GITHUB, false, VariantCompatibility.for_x86_64_level (X86_64Level.V3)),
+            source
+        ), false);
+        assert (result.succeeded && result.releases[0].title == "fresh");
+        assert (source.requested_pages.size == 1);
     }
 
     private void test_forced_refresh_is_atomic () {

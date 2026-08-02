@@ -34,7 +34,22 @@ namespace ProtonPlus.Utils.VDF {
             return shortcuts;
         }
 
+        /* Profile discovery must be read-only.  This provides the same safe
+         * empty collection a missing shortcuts.vdf represents without creating
+         * Steam-owned storage until an authorized mutation is requested. */
+        public static Shortcuts empty (string path) {
+            var shortcuts = new Shortcuts (path);
+            shortcuts.nodes.set ("shortcuts", new VDF.Node ("shortcuts"));
+            return shortcuts;
+        }
+
         public async bool install () {
+            return install_for_current_environment ();
+        }
+
+        /* This deliberately has no Steam/session policy.  Callers that write
+         * shortcuts.vdf must go through SteamConfigurationService first. */
+        public bool install_for_current_environment () {
             Shortcut pp_shortcut = {};
 
             string exe = "";
@@ -44,12 +59,10 @@ namespace ProtonPlus.Utils.VDF {
                 exe = "\"/usr/bin/flatpak\"";
                 launch_options += " \"run\" \"--branch=stable\" \"--arch=x86_64\" \"--command=protonplus\" \"com.vysp3r.ProtonPlus\"";
             } else {
-                var which_output = (yield Utils.System.run_command ("which protonplus")).stdout;
-
-                if (which_output.contains ("which: no"))
-                return false;
-
-                exe = "%s".printf (which_output);
+                var executable = Environment.find_program_in_path ("protonplus");
+                if (executable == null)
+                    return false;
+                exe = (!) executable;
             }
 
             var icon_path = install_icon ();
@@ -79,6 +92,9 @@ namespace ProtonPlus.Utils.VDF {
 
                 return true;
             } catch (Error e) {
+                /* install_icon precedes the binary VDF write.  Do not leave a
+                 * stale icon if that write fails. */
+                try { remove_icon (); } catch (Error cleanup_error) { }
                 warning (e.message);
                 return false;
             }
@@ -203,6 +219,18 @@ namespace ProtonPlus.Utils.VDF {
             return shortcut;
         }
 
+        public VDF.Shortcut get_shortcut_by_appid (uint appid) {
+            VDF.Shortcut shortcut = {};
+            foreach (var entry in nodes.entries) {
+                if (is_shortcut_node (entry.key) && entry.value.has_key ("appid")
+                    && (uint) entry.value.get ("appid").get_int32 () == appid) {
+                    shortcut = get_shortcut_by_name (entry.value.get ("AppName").get_string ());
+                    break;
+                }
+            }
+            return shortcut;
+        }
+
         public void replace_shortcut_by_name (string name, VDF.Shortcut shortcut) {
             foreach (var entry in nodes.entries) {
                 if (is_shortcut_node (entry.key)) {
@@ -212,6 +240,17 @@ namespace ProtonPlus.Utils.VDF {
                     }
                 }
             }
+        }
+
+        public bool replace_shortcut_by_appid (uint appid, VDF.Shortcut shortcut) {
+            foreach (var entry in nodes.entries) {
+                if (is_shortcut_node (entry.key) && entry.value.has_key ("appid")
+                    && (uint) entry.value.get ("appid").get_int32 () == appid) {
+                    write_shortcut_on_node (entry.value, shortcut);
+                    return true;
+                }
+            }
+            return false;
         }
 
         public int get_shortcut_id_by_name (string name) throws Error {

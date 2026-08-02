@@ -28,10 +28,9 @@ namespace ProtonPlus.Models {
             try {
                 var shortcuts_file_path = "%s/config/shortcuts.vdf".printf (userdata_path);
 
-                if (!FileUtils.test (shortcuts_file_path, FileTest.IS_REGULAR))
-                    Utils.VDF.Shortcuts.create_new_shortcuts_file_at (shortcuts_file_path);
-
-                shortcuts = Utils.VDF.Shortcuts.load (shortcuts_file_path);
+                shortcuts = FileUtils.test (shortcuts_file_path, FileTest.IS_REGULAR)
+                    ? Utils.VDF.Shortcuts.load (shortcuts_file_path)
+                    : Utils.VDF.Shortcuts.empty (shortcuts_file_path);
             } catch (Error e) {
                 warning (e.message);
             }
@@ -45,6 +44,13 @@ namespace ProtonPlus.Models {
             var non_steam_games_loaded = yield load_non_steam_games ();
             if (!non_steam_games_loaded)
             return false;
+
+            /* Non-Steam entries do not exist until the binary VDF was read,
+             * so their persisted effective-state overlay belongs after this
+             * load step, not beside ordinary localconfig launch options. */
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration != null)
+                configuration.overlay_profile_effective_state (this);
 
             return true;
         }
@@ -83,6 +89,10 @@ namespace ProtonPlus.Models {
                     launch_options = "";
                 this.launch_options_hashtable.set (game.appid, launch_options);
             }
+
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration != null)
+                configuration.overlay_profile_effective_state (this);
 
             return true;
         }

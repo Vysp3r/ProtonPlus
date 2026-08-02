@@ -147,6 +147,24 @@ namespace ProtonPlus.Models.Providers {
                     messages.add ("variant format is empty");
                 if (variant.is_default)
                     default_count++;
+
+                var compatibility = variant.compatibility;
+                var architectures = compatibility.get_supported_architectures ();
+                var seen_architectures = new HashSet<CpuArchitecture> ();
+                foreach (var architecture in architectures) {
+                    if (architecture == CpuArchitecture.UNKNOWN)
+                        messages.add ("variant compatibility contains unknown architecture: %s".printf (variant.id));
+                    if (!seen_architectures.add (architecture))
+                        messages.add ("variant compatibility architecture is duplicated: %s".printf (variant.id));
+                }
+                var has_x86_64 = seen_architectures.contains (CpuArchitecture.X86_64);
+                if (compatibility.architecture_independent &&
+                    (architectures.length > 0 || compatibility.minimum_x86_64_level != X86_64Level.UNKNOWN))
+                    messages.add ("architecture-independent variant compatibility must not declare architectures or an x86-64 level: %s".printf (variant.id));
+                if (compatibility.minimum_x86_64_level != X86_64Level.UNKNOWN && !has_x86_64)
+                    messages.add ("x86-64 compatibility level requires x86-64 architecture: %s".printf (variant.id));
+                if (has_x86_64 && compatibility.minimum_x86_64_level < X86_64Level.BASELINE)
+                    messages.add ("x86-64 compatibility requires at least the baseline level: %s".printf (variant.id));
             }
 
             if (default_count == 0)
