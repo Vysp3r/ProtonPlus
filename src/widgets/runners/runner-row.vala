@@ -106,6 +106,10 @@ namespace ProtonPlus.Widgets {
                     var row = new Widgets.SteamTinkerLaunchRow ((Models.Releases.SteamTinkerLaunch) release);
                     add_row (row);
                     rows.append (row);
+                } else if (release is Models.Releases.TinkerGame) {
+                    var row = new Widgets.TinkerGameRow ((Models.Releases.TinkerGame) release);
+                    add_row (row);
+                    rows.append (row);
                 } else {
                     continue;
                 }

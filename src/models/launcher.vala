@@ -232,6 +232,10 @@ namespace ProtonPlus.Models {
                         var stl_runner = new Runners.SteamTinkerLaunch (groups[i]);
 
                         groups[i].runners.append (stl_runner);
+
+                        var tg_runner = new Runners.TinkerGame (groups[i]);
+
+                        groups[i].runners.append (tg_runner);
                     }
                 }
 

@@ -21,6 +21,7 @@ src/widgets/runners/installed-row.vala
 src/widgets/runners/basic-row.vala
 src/widgets/runners/filters-box.vala
 src/widgets/runners/steamtinkerlaunch-row.vala
+src/widgets/runners/tinkergame-row.vala
 src/widgets/games/games-box.vala
 src/widgets/games/game-row.vala
 src/widgets/games/mass-edit-view.vala
@@ -63,10 +64,12 @@ src/models/runners/github-action.vala
 src/models/runners/gitlab.vala
 src/models/runners/installed.vala
 src/models/runners/steamtinkerlaunch.vala
+src/models/runners/tinkergame.vala
 src/models/releases/basic.vala
 src/models/releases/github-action.vala
 src/models/releases/update.vala
 src/models/releases/steamtinkerlaunch.vala
+src/models/releases/tinkergame.vala
 src/models/releases/latest.vala
 src/utils/filesystem.vala
 src/utils/parser.vala

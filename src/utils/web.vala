@@ -9,6 +9,7 @@ namespace ProtonPlus.Utils {
             GITLAB,
             FORGEJO,
             STEAMTINKERLAUNCH,
+            TINKERGAME,
         }
 
         static Soup.Session? _session = null;
@@ -28,7 +29,7 @@ namespace ProtonPlus.Utils {
                 var message = new Soup.Message ("GET", uri);
 
                 if (Globals.SETTINGS != null) {
-                    if (get_type == GetType.GITHUB || get_type == GetType.STEAMTINKERLAUNCH) {
+                    if (get_type == GetType.GITHUB || get_type == GetType.STEAMTINKERLAUNCH || get_type == GetType.TINKERGAME) {
                         var key = Globals.SETTINGS.get_string ("github-api-key");
                         if (key.length > 0)
                         message.request_headers.append ("Authorization", "token %s".printf (key));
@@ -40,7 +41,7 @@ namespace ProtonPlus.Utils {
                         message.request_headers.append ("Authorization", "Bearer %s".printf (key));
                     }
 
-                    if (get_type == GetType.STEAMTINKERLAUNCH) {
+                    if (get_type == GetType.STEAMTINKERLAUNCH || get_type == GetType.TINKERGAME) {
                         message.request_headers.append ("Accept", "application/vnd.github+json");
                         message.request_headers.append ("X-GitHub-Api-Version", "2022-11-28");
                     }
