@@ -10,7 +10,7 @@ msgstr ""
 "POT-Creation-Date: 2026-07-20 18:34-0400\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/protonplus/it/>\n"
 "Last-Translator: Youseffo13 <>\n"
-"PO-Revision-Date: 2026-08-02 21:27+0200\n"
+"PO-Revision-Date: 2026-08-02 21:49+0200\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -293,8 +293,8 @@ msgstr ""
 msgid ""
 "✨ Improved the launch options, mass edit and default compatibility tool view"
 msgstr ""
-"✨ Migliorata la vista delle opzioni di lancio, modifica massiva e strumento "
-"di compatibilità predefinito"
+"✨ Migliorata la vista delle opzioni di lancio, modifica di massa e "
+"strumento di compatibilità predefinito"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:146
 msgid "✨ Removed Proton-Sarek"
@@ -1923,11 +1923,11 @@ msgstr ""
 #: src/cli/cli.vala:712
 #, c-format
 msgid "ETA: %s"
-msgstr "TEMPO STIMATO: %s"
+msgstr "Tempo Stimato: %s"
 
 #: src/cli/cli.vala:714 src/widgets/header/header-downloads-indicator.vala:276
 msgid "ETA: --"
-msgstr "TEMPO STIMATO: --"
+msgstr "Tempo Stimato: --"
 
 #: src/cli/cli.vala:717
 msgid "Updating"
@@ -2670,7 +2670,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:26
 msgid "DXVK Frame Limit"
-msgstr "Limite FPS DXVK"
+msgstr "Limite fotogrammi DXVK"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:27
 msgid "Caps the frame rate using DXVK's built-in frame limiter."
@@ -3572,7 +3572,9 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:63
 msgid "OLE Monkers library for URL handling and launcher updates"
-msgstr "Libreria OLE Monkers per gestione URL e aggiornamenti del launcher"
+msgstr ""
+"Libreria OLE Monikers per la gestione degli URL e gli aggiornamenti del "
+"launcher"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:64
 msgid "Windows Internet API layer (fixes online features in game launchers)"
@@ -4188,7 +4190,7 @@ msgstr "Scegli il comportamento DLL Windows integrato o nativo."
 #. Graphics translation
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1184
 msgid "DXVK frame limit"
-msgstr "Limite di frame DXVK"
+msgstr "Limite fotogrammi DXVK"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1184
 msgid "Caps the frame rate with DXVK's built-in limiter."
@@ -4274,7 +4276,7 @@ msgstr "Abilita il supporto alla memoria condivisa del driver AMD."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1198
 msgid "Mesa GL threading"
-msgstr "GL threading Mesa"
+msgstr "Threading GL di Mesa"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1198
 msgid "Enables Mesa GLThread."
@@ -4654,7 +4656,7 @@ msgstr "Imposta la frequenza di verifica degli aggiornamenti in background"
 #: src/widgets/introduction/updates.vala:30
 #: src/widgets/preferences/preferences-dialog.vala:71
 msgid "Check updates on boot"
-msgstr "Controlla gli aggiornamenti degli strumenti all'avvio del sistema"
+msgstr "Controlla aggiornamenti all'avvio del sistema"
 
 #: src/widgets/introduction/updates.vala:31
 #: src/widgets/preferences/preferences-dialog.vala:72
@@ -4876,7 +4878,7 @@ msgstr ""
 #, c-format
 msgid "%u pending change"
 msgid_plural "%u pending changes"
-msgstr[0] "\"%u modifica in sospeso"
+msgstr[0] "%u modifica in sospeso"
 msgstr[1] "%u modifiche in sospeso"
 
 #: src/widgets/main/steam-restart-dialog.vala:21
@@ -5335,7 +5337,7 @@ msgstr "Carico"
 #: src/widgets/mangohud/mangohud-metrics-page.vala:69
 #: src/widgets/mangohud/mangohud-metrics-page.vala:145
 msgid "Load Color"
-msgstr "Carica colore"
+msgstr "Colore del Carico"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:85
 msgid "VRAM"
@@ -5940,17 +5942,17 @@ msgid ""
 "ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is "
 "closed and try again."
 msgstr ""
-"ProtonPlus non è riuscito a rimuovere il collegamento da Steam. Potrebbe "
-"accadere se Steam è in esecuzione o se il file dei collegamenti è "
-"inaccessibile."
+"ProtonPlus non è riuscito ad aggiungere il collegamento a Steam. Assicurati "
+"che Steam sia chiuso e riprova."
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:59
 msgid ""
 "ProtonPlus was unable to remove the shortcut from Steam. This might happen "
 "if Steam is currently running or if the shortcuts file is inaccessible."
 msgstr ""
-"ProtonPlus non è riuscito ad aggiungere il collegamento a Steam. Assicurati "
-"che Steam sia chiuso e riprova"
+"ProtonPlus non è riuscito a rimuovere il collegamento da Steam. Questo può "
+"accadere se Steam è in esecuzione o se il file dei collegamenti è "
+"inaccessibile."
 
 #: src/widgets/preferences/preferences-theme-row.vala:16
 msgid "Adwaita"
@@ -6299,7 +6301,7 @@ msgstr "Recupero release fallito"
 
 #: src/widgets/tools/tools-releases-box.vala:493
 msgid "No compatible variants are available for this system."
-msgstr "Impossibile creare il collegament."
+msgstr "Non sono disponibili varianti compatibili per questo sistema."
 
 #: src/widgets/tools/tools-releases-box.vala:595
 #, c-format
