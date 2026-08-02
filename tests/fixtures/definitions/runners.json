@@ -1,10 +1,10 @@
 {
   "release_name": "v10.2",
   "tag_name": "v10.2",
-  "steam_tinker_launch": {
-    "title": "Steam Tinker Launch",
-    "installation_directory": "SteamTinkerLaunch",
-    "usage_name": "Proton-stl"
+  "tinkergame": {
+    "title": "TinkerGame",
+    "installation_directory": "TinkerGame",
+    "usage_name": "Proton-tg"
   },
   "definitions": [
     { "type": "DXVK", "provider_id": "dxvk-doitsujin", "title": "DXVK (doitsujin)", "source": "GITHUB", "priority": 1, "endpoint": "https://api.github.com/repos/doitsujin/dxvk/releases", "variants": [["standard", "default", "$release_name", true]], "install_names": { "default": "dxvk-10.2" } },

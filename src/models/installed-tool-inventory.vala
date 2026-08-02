@@ -157,9 +157,9 @@ namespace ProtonPlus.Models {
                 return;
 
             foreach (var tool in group.tools) {
-                var steam_tinker_launch = tool as Tools.SteamTinkerLaunch;
-                if (steam_tinker_launch != null) {
-                    resolve_steam_tinker_launch (tool);
+                var tinker_game = tool as Tools.TinkerGame;
+                if (tinker_game != null) {
+                    resolve_tinker_game (tool);
                     continue;
                 }
 
@@ -176,10 +176,10 @@ namespace ProtonPlus.Models {
                 tool.set_resolved_installation_state (null, null, false);
         }
 
-        private void resolve_steam_tinker_launch (Tool tool) {
+        private void resolve_tinker_game (Tool tool) {
             foreach (var entry in entries) {
-                if (entry.directory_name == "SteamTinkerLaunch") {
-                    set_tool_state (tool, entry, "Proton-stl");
+                if (entry.directory_name == "TinkerGame") {
+                    set_tool_state (tool, entry, "Proton-tg");
                     return;
                 }
             }

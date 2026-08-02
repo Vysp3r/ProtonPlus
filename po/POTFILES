@@ -42,7 +42,7 @@ src/models/tool.vala
 src/models/tools/provider-tool.vala
 src/models/tools/release-page-result.vala
 src/models/tools/release-page.vala
-src/models/tools/steamtinkerlaunch.vala
+src/models/tools/tinkergame.vala
 src/models/variant-compatibility.vala
 src/models/variant-selector.vala
 src/models/variant.vala
@@ -73,8 +73,8 @@ src/services/steam-restart-manager.vala
 src/services/steam-restart-orchestrator.vala
 src/services/steam-restart-state-store.vala
 src/services/steam-session-service.vala
-src/services/steam-tinker-launch-context.vala
-src/services/steam-tinker-launch-workflow.vala
+src/services/tinkergame-context.vala
+src/services/tinkergame-workflow.vala
 src/utils/archive-helper.vala
 src/utils/cache-manager.vala
 src/utils/controller-manager.vala
@@ -198,5 +198,5 @@ src/widgets/tools/tools-release-changelog.vala
 src/widgets/tools/tools-release-row.vala
 src/widgets/tools/tools-releases-box.vala
 src/widgets/tools/tools-remove-dialog.vala
-src/widgets/tools/tools-stl-release-row.vala
+src/widgets/tools/tools-tinkergame-release-row.vala
 src/widgets/window.vala

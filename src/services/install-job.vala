@@ -23,7 +23,7 @@ namespace ProtonPlus.Services {
         public enum Mode {
             VERSIONED,
             LATEST,
-            STEAM_TINKER_LAUNCH,
+            TINKERGAME,
         }
 
         public Models.Release release { get; private set; }
@@ -38,7 +38,7 @@ namespace ProtonPlus.Services {
         // A replacement backup is a short-lived handoff from the archive
         // transaction to its update finalization, never persisted job state.
         internal string? replacement_backup_path { get; set; default = null; }
-        public SteamTinkerLaunchContext? steam_tinker_launch_context { get; private set; default = null; }
+        public TinkerGameContext? tinker_game_context { get; private set; default = null; }
 
         private Cancellable operation_cancellable = new Cancellable ();
         private bool _canceled = false;
@@ -76,7 +76,7 @@ namespace ProtonPlus.Services {
             Models.Tool tool,
             Mode mode = Mode.VERSIONED,
             string? installation_location_override = null,
-            string? steam_tinker_launch_home_override = null
+            string? tinker_game_home_override = null
         ) {
             this.release = release;
             this.tool = tool;
@@ -85,13 +85,13 @@ namespace ProtonPlus.Services {
             var provider_tool = tool as Models.Tools.ProviderTool;
             if (provider_tool != null)
                 archive_install_requirement = provider_tool.archive_install_requirement;
-            var is_steam_tinker_launch = mode == Mode.STEAM_TINKER_LAUNCH ||
-                release.kind == Models.Release.Kind.STEAM_TINKER_LAUNCH;
-            this.mode = is_steam_tinker_launch ? Mode.STEAM_TINKER_LAUNCH : mode;
+            var is_tinker_game = mode == Mode.TINKERGAME ||
+                release.kind == Models.Release.Kind.TINKERGAME;
+            this.mode = is_tinker_game ? Mode.TINKERGAME : mode;
 
-            if (is_steam_tinker_launch) {
-                steam_tinker_launch_context = new SteamTinkerLaunchContext (tool, steam_tinker_launch_home_override);
-                install_location = steam_tinker_launch_context.base_location;
+            if (is_tinker_game) {
+                tinker_game_context = new TinkerGameContext (tool, tinker_game_home_override);
+                install_location = tinker_game_context.base_location;
             } else {
                 update_install_location (installation_location_override);
             }
@@ -109,7 +109,7 @@ namespace ProtonPlus.Services {
 
         public string displayed_title {
             owned get {
-                var context = steam_tinker_launch_context;
+                var context = tinker_game_context;
                 if (context == null)
                     return title;
                 if (context.local_date != "")
@@ -121,19 +121,19 @@ namespace ProtonPlus.Services {
         }
 
         public string usage_name {
-            owned get { return steam_tinker_launch_context != null ? "Proton-stl" : title; }
+            owned get { return tinker_game_context != null ? "Proton-tg" : title; }
         }
 
         public string operation_id {
             owned get {
-                // Managed Latest and SteamTinkerLaunch targets may replace
+                // Managed Latest and TinkerGame targets may replace
                 // their remote Release while the job is active.  Their
                 // identity must therefore describe the installation slot,
                 // not the currently fetched upstream version, so a revisited
                 // view can resolve the in-flight job reliably.
                 var release_identity = mode == Mode.VERSIONED
                     ? (release.upstream_release_id != "" ? release.upstream_release_id : release.source_tag)
-                    : mode == Mode.LATEST ? "latest" : "steam-tinker-launch";
+                    : mode == Mode.LATEST ? "latest" : "tinkergame";
                 var variant_id = selected_variant_identity ();
                 return "%s/%s/%s/%s/%s".printf (
                     tool.group.launcher.tool_target_id,
@@ -149,15 +149,15 @@ namespace ProtonPlus.Services {
             switch (mode) {
             case Mode.LATEST:
                 return "latest";
-            case Mode.STEAM_TINKER_LAUNCH:
-                return "steam-tinker-launch";
+            case Mode.TINKERGAME:
+                return "tinkergame";
             default:
                 return "versioned";
             }
         }
 
         public string get_usage_identifier () {
-            if (steam_tinker_launch_context != null)
+            if (tinker_game_context != null)
                 return usage_name;
             var provider_tool = tool as Models.Tools.ProviderTool;
             if (provider_tool != null) {
@@ -331,7 +331,7 @@ namespace ProtonPlus.Services {
         }
 
         private void update_install_location (string? override_location) {
-            if (steam_tinker_launch_context != null)
+            if (tinker_game_context != null)
                 return;
             if (installation_location_override != null) {
                 install_location = (!) installation_location_override;
