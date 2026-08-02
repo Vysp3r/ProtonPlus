@@ -8,14 +8,16 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-20 18:34-0400\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/protonplus/it/>\n"
+"Language-Team: Italian\n"
 "Last-Translator: Youseffo13 <>\n"
-"PO-Revision-Date: 2026-07-28 16:24+0200\n"
+"PO-Revision-Date: 2026-08-02 21:27+0200\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 50.0\n"
+"MIME-Version: 1.0\n"
+"Project-Id-Version: unnamed project\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:7
@@ -118,7 +120,7 @@ msgstr "VKD3D"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:36
 msgid "Steam Tinker Launch"
-msgstr ""
+msgstr "Steam Tinker Launch"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:74
 msgid "The main interface of ProtonPlus."
@@ -1711,17 +1713,16 @@ msgid "Error: Unknown command '%s'\n"
 msgstr "Errore: Comando '%s' sconosciuto\n"
 
 #: src/cli/cli.vala:137
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: %s\n"
-msgstr "Avvertenza"
+msgstr "Avvertenza: %s\n"
 
 #: src/cli/cli.vala:175
-#, fuzzy
 msgid "Detected launchers:\n"
 msgstr "Launcher rilevati:\n"
 
 #: src/cli/cli.vala:187
-#, fuzzy, c-format
+#, c-format
 msgid "Installed runners for %s:\n"
 msgstr "Runner installati per %s:\n"
 
@@ -1730,7 +1731,7 @@ msgid "No runners installed\n"
 msgstr "Nessun runner installato\n"
 
 #: src/cli/cli.vala:299 src/cli/cli.vala:547
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "Errore: Caricamento delle release fallito: %s\n"
 
@@ -1749,7 +1750,7 @@ msgid "Successfully installed %s Latest\n"
 msgstr "%s Latest installato con successo\n"
 
 #: src/cli/cli.vala:318 src/cli/cli.vala:351
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr "Errore: Installazione fallita: %s\n"
 
@@ -1763,7 +1764,7 @@ msgid "Select release number"
 msgstr "Seleziona il numero della release"
 
 #: src/cli/cli.vala:343
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s...\n"
 msgstr "Installazione di %s...\n"
 
@@ -1793,7 +1794,7 @@ msgid "Uninstalling all releases for launcher %s...\n"
 msgstr "Disinstallazione di tutte le release per il launcher %s...\n"
 
 #: src/cli/cli.vala:418
-#, fuzzy, c-format
+#, c-format
 msgid "Uninstalling %s...\n"
 msgstr "Disinstallazione di %s...\n"
 
@@ -1803,7 +1804,7 @@ msgid "Successfully uninstalled %s\n"
 msgstr "%s disinstallato con successo\n"
 
 #: src/cli/cli.vala:424
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr "Errore: Disinstallazione fallita: %s\n"
 
@@ -1822,22 +1823,21 @@ msgid "Successfully updated %s\n"
 msgstr "%s aggiornato con successo\n"
 
 #: src/cli/cli.vala:449 src/cli/cli.vala:507
-#, fuzzy, c-format
+#, c-format
 msgid "Already up to date: %s\n"
 msgstr "Già aggiornato: %s\n"
 
 #: src/cli/cli.vala:452 src/cli/cli.vala:510
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "Errore: Impossibile aggiornare %s: %s\n"
 
 #: src/cli/cli.vala:494
-#, fuzzy
 msgid "Already up to date\n"
 msgstr "Già aggiornato\n"
 
 #: src/cli/cli.vala:519
-#, fuzzy, c-format
+#, c-format
 msgid "Updating %s..."
 msgstr "Aggiornamento di %s..."
 
@@ -1882,7 +1882,6 @@ msgid "Commands:\n"
 msgstr "Comandi:\n"
 
 #: src/cli/cli.vala:682
-#, fuzzy
 msgid "Show version"
 msgstr "Mostra versione"
 
@@ -1891,22 +1890,18 @@ msgid "Show this help"
 msgstr "Mostra questo aiuto"
 
 #: src/cli/cli.vala:684
-#, fuzzy
 msgid "List launchers or installed runners"
 msgstr "Elenca launcher o runner installati"
 
 #: src/cli/cli.vala:685
-#, fuzzy
 msgid "Install runner"
 msgstr "Installa runner"
 
 #: src/cli/cli.vala:686
-#, fuzzy
 msgid "Uninstall runner"
 msgstr "Disinstalla runner"
 
 #: src/cli/cli.vala:687
-#, fuzzy
 msgid "Update runner"
 msgstr "Aggiorna runner"
 
@@ -1937,12 +1932,10 @@ msgid "ETA: --"
 msgstr "TEMPO STIMATO: --"
 
 #: src/cli/cli.vala:717
-#, fuzzy
 msgid "Updating"
 msgstr "Aggiornamento in corso"
 
 #: src/cli/cli.vala:717 src/widgets/header/header-downloads-indicator.vala:266
-#, fuzzy
 msgid "Installing"
 msgstr "Installazione in corso"
 
@@ -2090,7 +2083,6 @@ msgid "The required data is invalid or incomplete."
 msgstr "I dati richiesti non sono validi o sono incompleti."
 
 #: src/return_codes.vala:38
-#, fuzzy
 msgid "The download failed."
 msgstr "Il download è fallito."
 
@@ -2099,17 +2091,14 @@ msgid "A filesystem operation failed."
 msgstr "Un'operazione del filesystem è fallita."
 
 #: src/return_codes.vala:42
-#, fuzzy
 msgid "This compatibility tool is already being processed."
 msgstr "Questo strumento di compatibilità è già in fase di elaborazione."
 
 #: src/return_codes.vala:44
-#, fuzzy
 msgid "This compatibility tool is already installed."
 msgstr "Questo strumento di compatibilità è già installato."
 
 #: src/return_codes.vala:46
-#, fuzzy
 msgid "This compatibility tool is not installed."
 msgstr "Questo strumento di compatibilità non è installato."
 
@@ -2118,7 +2107,6 @@ msgid "This compatibility tool is not configured correctly."
 msgstr "Questo strumento di compatibilità non è configurato correttamente."
 
 #: src/return_codes.vala:50
-#, fuzzy
 msgid "This operation is not supported for this compatibility tool."
 msgstr ""
 "Questa operazione non è supportata per questo strumento di compatibilità."
@@ -2140,7 +2128,6 @@ msgid "A secure connection could not be established."
 msgstr "Impossibile stabilire una connessione sicura."
 
 #: src/return_codes.vala:62
-#, fuzzy
 msgid "This archive format is not supported."
 msgstr "Questo formato di archivio non è supportato."
 
@@ -2150,13 +2137,15 @@ msgstr "Impossibile estrarre l'archivio."
 
 #: src/return_codes.vala:66
 msgid "The selected variant is not compatible with this system."
-msgstr ""
+msgstr "La variante selezionata non è compatibile con questo sistema."
 
 #: src/return_codes.vala:68
 msgid ""
 "A compatibility tool is currently in use. Close the running game and try "
 "again."
 msgstr ""
+"Uno strumento di compatibilità è attualmente in uso. Chiudi il gioco in "
+"esecuzione e riprova."
 
 #: src/return_codes.vala:70
 msgid "The operation could not be completed."
@@ -2167,6 +2156,8 @@ msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
 msgstr ""
+"Lo strumento di compatibilità è stato modificato, ma non è stato possibile "
+"salvare il promemoria di riavvio di Steam."
 
 #: src/services/standard-archive-workflow.vala:26
 #: src/services/standard-archive-workflow.vala:33
@@ -2185,12 +2176,10 @@ msgid "Failed to save compatibility tool metadata"
 msgstr "Impossibile salvare i metadati dello strumento di compatibilità"
 
 #: src/services/standard-archive-workflow.vala:317
-#, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "Impossibile aggiornare compatibilitytool.vdf"
 
 #: src/services/standard-archive-workflow.vala:334
-#, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 "Il manifest dello strumento di compatibilità non è valido o è incompleto"
@@ -2302,7 +2291,7 @@ msgstr ""
 #: src/widgets/games/games-box.vala:410 src/widgets/games/games-row.vala:129
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
-msgstr ""
+msgstr "Predefinito"
 
 #: src/widgets/games/games-box.vala:473
 msgid "Filter: Native"
@@ -2407,12 +2396,10 @@ msgid "Set the same tool for every selected game."
 msgstr "Imposta lo stesso strumento per ogni gioco selezionato."
 
 #: src/widgets/games/games-mass-edit-view.vala:75
-#, fuzzy
 msgid "Apply launch options"
 msgstr "Applica opzioni di lancio"
 
 #: src/widgets/games/games-mass-edit-view.vala:76
-#, fuzzy
 msgid "Set the same options for every selected Steam game."
 msgstr "Imposta le stesse opzioni per ogni gioco Steam selezionato."
 
@@ -2425,13 +2412,14 @@ msgstr ""
 "giochi selezionati invariati."
 
 #: src/widgets/games/games-mass-edit-view.vala:265
-#, fuzzy
 msgid "Compatibility tool cannot be applied"
-msgstr "Strumento di compatibilità"
+msgstr "Impossibile applicare lo strumento di Compatibilità"
 
 #: src/widgets/games/games-mass-edit-view.vala:266
 msgid "No games were changed because no compatibility tool is selected."
 msgstr ""
+"Nessun gioco è stato modificato perché non è stato selezionato alcuno "
+"strumento di compatibilità."
 
 #: src/widgets/games/games-mass-edit-view.vala:288
 msgid ""
@@ -2441,7 +2429,6 @@ msgstr ""
 "giochi."
 
 #: src/widgets/games/games-mass-edit-view.vala:289
-#, fuzzy
 msgid "Launch options cannot be applied"
 msgstr "Impossibile applicare le opzioni di lancio"
 
@@ -2616,7 +2603,6 @@ msgstr "Mostra un overlay di gioco con FPS, utilizzo CPU/GPU e temperature."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:27
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1154
-#, fuzzy
 msgid "Use desktop game profile"
 msgstr "Usa profilo di gioco desktop"
 
@@ -2711,7 +2697,6 @@ msgstr "Flag passati direttamente al gioco."
 #. Game arguments
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:18
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1218
-#, fuzzy
 msgid "Skip launcher"
 msgstr "Salta launcher"
 
@@ -2731,7 +2716,6 @@ msgstr "Aggiunge -vulkan per far utilizzare al gioco il renderer Vulkan."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:23
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1220
-#, fuzzy
 msgid "DirectX 11 renderer"
 msgstr "Renderer DirectX 11"
 
@@ -2741,7 +2725,6 @@ msgstr "Aggiunge -dx11 per far utilizzare al gioco il renderer DirectX 11."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:24
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1221
-#, fuzzy
 msgid "DirectX 12 renderer"
 msgstr "Renderer DirectX 12"
 
@@ -2807,7 +2790,6 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:39
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1194
-#, fuzzy
 msgid "FSR 4 RDNA3 upgrade"
 msgstr "Aggiornamento FSR 4 RDNA3"
 
@@ -2886,7 +2868,6 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-intel-options-group.vala:10
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1208
-#, fuzzy
 msgid "XeSS component upgrade"
 msgstr "Aggiornamento componente XeSS"
 
@@ -3251,7 +3232,6 @@ msgstr ""
 #. Display & launch tools
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:19
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1152
-#, fuzzy
 msgid "Launch backend"
 msgstr "Backend di lancio"
 
@@ -3460,7 +3440,6 @@ msgstr "Anteprima del comando"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:98
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1230
-#, fuzzy
 msgid "Preserved unrecognized launch options"
 msgstr "Opzioni di lancio non riconosciute preservate"
 
@@ -3472,22 +3451,18 @@ msgstr ""
 "esattamente come caricato."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:109
-#, fuzzy
 msgid "No matching launch options."
-msgstr "Nessuna opzione di lancio corrispondente"
+msgstr "Nessuna opzione di lancio corrispondente."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:124
-#, fuzzy
 msgid "Launch options"
 msgstr "Opzioni di lancio"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
-#, fuzzy
 msgid "Search all options"
 msgstr "Cerca tutte le opzioni"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:130
-#, fuzzy
 msgid "Search launch options"
 msgstr "Cerca opzioni di lancio"
 
@@ -3502,13 +3477,11 @@ msgstr "Impostazioni Rapide"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:136
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:475
-#, fuzzy
 msgid "Active options"
 msgstr "Opzioni attive"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:136
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:477
-#, fuzzy
 msgid "All options"
 msgstr "Tutte le opzioni"
 
@@ -3522,7 +3495,6 @@ msgstr ""
 "Modifica il segnaposto del comando Steam solo quando un gioco lo richiede."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:552
-#, fuzzy
 msgid "Unable to safely prepare these launch options."
 msgstr "Impossibile preparare in sicurezza queste opzioni di lancio."
 
@@ -3948,19 +3920,17 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-list.vala:173
 msgid "No launch options configured yet."
-msgstr ""
+msgstr "Nessuna opzione di lancio configurata finora."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:340
 msgid "Performance & monitoring"
-msgstr ""
+msgstr "Prestazioni e monitoraggio"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:341
-#, fuzzy
 msgid "Display & launch tools"
 msgstr "Strumenti di visualizzazione e avvio"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:342
-#, fuzzy
 msgid "Proton & Wine compatibility"
 msgstr "Compatibilità Proton e Wine"
 
@@ -4042,13 +4012,11 @@ msgstr "Esegue il gioco in una sessione Gamescope a schermo intero."
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1160
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1161
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1162
-#, fuzzy
 msgid "Requires Gamescope"
 msgstr "Richiede Gamescope"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1158
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1164
-#, fuzzy
 msgid "Output resolution"
 msgstr "Risoluzione di uscita"
 
@@ -4251,7 +4219,6 @@ msgstr "Abilita la cache shader interna di VKD3D."
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1186
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1187
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1188
-#, fuzzy
 msgid "VKD3D-Proton"
 msgstr "VKD3D-Proton"
 
@@ -4264,7 +4231,6 @@ msgid "Enables VKD3D GPU virtual addressing."
 msgstr "Abilita l'indirizzamento virtuale GPU VKD3D."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1188
-#, fuzzy
 msgid "VKD3D compatibility settings"
 msgstr "Impostazioni di compatibilità VKD3D"
 
@@ -4277,7 +4243,6 @@ msgid "Uses the AMD discrete GPU on hybrid systems."
 msgstr "Usa la GPU discreta AMD su sistemi ibridi."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1193
-#, fuzzy
 msgid "FSR 4 upgrade"
 msgstr "Aggiornamento FSR 4"
 
@@ -4790,18 +4755,20 @@ msgstr "MangoHud"
 
 #: src/widgets/main/main-box.vala:151
 msgid "Couldn’t save the Steam restart reminder"
-msgstr ""
+msgstr "Impossibile salvare il promemoria di riavvio di Steam"
 
 #: src/widgets/main/main-box.vala:163
 msgid "Saved Steam restart reminders couldn’t be loaded"
-msgstr ""
+msgstr "Impossibile caricare i promemoria di riavvio di Steam salvati"
 
 #: src/widgets/main/main-box.vala:199
 #, c-format
 msgid "Steam needs to restart before this change takes effect."
 msgid_plural "Steam needs to restart before these %u changes take effect."
 msgstr[0] ""
+"Steam deve essere riavviato prima che questa modifica abbia effetto."
 msgstr[1] ""
+"Steam deve essere riavviato prima che queste %u modifiche abbiano effetto."
 
 #: src/widgets/main/main-box.vala:202
 msgid ""
@@ -4809,29 +4776,31 @@ msgid ""
 "Gaming Mode, Steam, running games, and ProtonPlus will close while Steam "
 "restarts."
 msgstr ""
+"Salva i tuoi progressi e chiudi tutti i giochi in esecuzione prima di "
+"continuare. Nella modalità Gaming di SteamOS, Steam, i giochi in esecuzione "
+"e ProtonPlus verranno chiusi durante il riavvio di Steam."
 
 #: src/widgets/main/main-box.vala:203
 #: src/widgets/main/steam-restart-dialog.vala:8
 msgid "Restart Steam?"
-msgstr ""
+msgstr "Riavviare Steam?"
 
 #: src/widgets/main/main-box.vala:204 src/widgets/main/main-box.vala:255
 #: src/widgets/main/steam-restart-dialog.vala:28
 msgid "Later"
-msgstr ""
+msgstr "Più tardi"
 
 #: src/widgets/main/main-box.vala:205
 #: src/widgets/main/steam-restart-banner.vala:13
 #: src/widgets/main/steam-restart-banner.vala:21
 msgid "Restart Steam"
-msgstr ""
+msgstr "Riavvia Steam"
 
 #: src/widgets/main/main-box.vala:259
 msgid "Try Again"
-msgstr ""
+msgstr "Riprova"
 
 #: src/widgets/main/main-box.vala:285 src/widgets/tools/tools-box.vala:488
-#, fuzzy
 msgid "Checking for updates"
 msgstr "Controllo aggiornamenti"
 
@@ -4840,68 +4809,59 @@ msgid "Can't update while a game is running"
 msgstr "Impossibile aggiornare mentre un gioco è in esecuzione"
 
 #: src/widgets/main/main-box.vala:299 src/widgets/tools/tools-box.vala:499
-#, fuzzy
 msgid "Nothing to update"
 msgstr "Niente da aggiornare"
 
 #: src/widgets/main/main-box.vala:303 src/widgets/tools/tools-box.vala:503
-#, fuzzy
 msgid "Everything is now up-to-date"
 msgstr "Tutto è ora aggiornato"
 
 #: src/widgets/main/main-box.vala:306 src/widgets/tools/tools-box.vala:506
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Impossibile verificare aggiornamenti (Motivo: %s)"
 
 #: src/widgets/main/main-box.vala:313
-#, fuzzy
 msgid "Update started"
 msgstr "Aggiornamento avviato"
 
 #: src/widgets/main/main-box.vala:315
-#, fuzzy
 msgid "Download started"
 msgstr "Download avviato"
 
 #: src/widgets/main/main-box.vala:321
-#, fuzzy
 msgid "Download finished"
 msgstr "Download completato"
 
 #: src/widgets/main/main-box.vala:323
-#, fuzzy
 msgid "Download canceled"
 msgstr "Download annullato"
 
 #: src/widgets/main/main-box.vala:329
-#, fuzzy
 msgid "Download failed"
 msgstr "Download fallito"
 
 #: src/widgets/main/main-box.vala:335 src/widgets/main/main-box.vala:337
-#, fuzzy
 msgid "Update finished"
 msgstr "Aggiornamento completato"
 
 #: src/widgets/main/main-box.vala:335
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now up-to-date"
 msgstr "%s è ora aggiornato"
 
 #: src/widgets/main/main-box.vala:337
-#, fuzzy, c-format
+#, c-format
 msgid "%s is already up-to-date"
 msgstr "%s è già aggiornato"
 
 #: src/widgets/main/main-box.vala:342
-#, fuzzy
 msgid "Deleted"
 msgstr "Eliminato"
 
 #: src/widgets/main/steam-restart-banner.vala:12
 msgid "Restart Steam to apply changes"
-msgstr ""
+msgstr "Riavvia Steam per applicare le modifiche"
 
 #: src/widgets/main/steam-restart-dialog.vala:12
 msgid ""
@@ -4909,119 +4869,130 @@ msgid ""
 "close any running games before continuing. In SteamOS Gaming Mode, Steam, "
 "running games, and ProtonPlus will close while Steam restarts."
 msgstr ""
+"Ogni installazione di Steam deve essere riavviata separatamente. Salva i "
+"tuoi progressi e chiudi tutti i giochi in esecuzione prima di continuare. "
+"Nella modalità Gaming di SteamOS, Steam, i giochi in esecuzione e ProtonPlus "
+"verranno chiusi durante il riavvio di Steam."
 
 #: src/widgets/main/steam-restart-dialog.vala:19
 #, c-format
 msgid "%u pending change"
 msgid_plural "%u pending changes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\"%u modifica in sospeso"
+msgstr[1] "%u modifiche in sospeso"
 
 #: src/widgets/main/steam-restart-dialog.vala:21
 msgid "Restart"
-msgstr ""
+msgstr "Riavvia"
 
 #: src/widgets/main/steam-restart-presentation.vala:77
 #, c-format
 msgid "Steam restarts are needed to apply %u change"
 msgid_plural "Steam restarts are needed to apply %u changes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "È necessario riavviare Steam per applicare %u modifica"
+msgstr[1] "È necessario riavviare Steam per applicare %u modifiche"
 
 #: src/widgets/main/steam-restart-presentation.vala:78
 #, c-format
 msgid "Restart Steam to apply %u change"
 msgid_plural "Restart Steam to apply %u changes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Riavvia Steam per applicare %u modifica"
+msgstr[1] "Riavvia Steam per applicare %u modifiche"
 
 #: src/widgets/main/steam-restart-presentation.vala:84
 msgid ""
 "Steam must restart to detect a newly installed compatibility tool. Other "
 "pending changes will be applied at the same time."
 msgstr ""
+"Steam deve essere riavviato per rilevare uno strumento di compatibilità "
+"appena installato. Altre modifiche in sospeso verranno applicate "
+"contemporaneamente."
 
 #: src/widgets/main/steam-restart-presentation.vala:85
-#, fuzzy
 msgid "Steam must restart to detect a newly installed compatibility tool."
-msgstr "Seleziona lo strumento di compatibilità"
+msgstr ""
+"Steam deve essere riavviato per rilevare uno strumento di compatibilità "
+"appena installato."
 
 #: src/widgets/main/steam-restart-presentation.vala:86
 msgid "Restarting Steam lets it safely reload the changed configuration."
 msgstr ""
+"Il riavvio di Steam consente di ricaricare in sicurezza la configurazione "
+"modificata."
 
 #: src/widgets/main/steam-restart-presentation.vala:91
 msgid "Checking Steam…"
-msgstr ""
+msgstr "Controllo di Steam…"
 
 #: src/widgets/main/steam-restart-presentation.vala:92
 msgid "Closing Steam…"
-msgstr ""
+msgstr "Chiusura di Steam…"
 
 #: src/widgets/main/steam-restart-presentation.vala:93
 msgid "Waiting for Steam to close…"
-msgstr ""
+msgstr "In attesa della chiusura di Steam…"
 
 #: src/widgets/main/steam-restart-presentation.vala:94
 msgid "Applying changes…"
-msgstr ""
+msgstr "Applicando le modifiche…"
 
 #: src/widgets/main/steam-restart-presentation.vala:95
 msgid "Starting Steam…"
-msgstr ""
+msgstr "Avvio di Steam…"
 
 #: src/widgets/main/steam-restart-presentation.vala:96
 msgid "Waiting for Steam to start…"
-msgstr ""
+msgstr "In attesa dell'avvio di Steam…"
 
 #: src/widgets/main/steam-restart-presentation.vala:97
 #: src/widgets/main/steam-restart-presentation.vala:151
-#, fuzzy
 msgid "SteamOS is restarting Steam"
-msgstr "Elimina il runner"
+msgstr "SteamOS sta riavviando Steam"
 
 #: src/widgets/main/steam-restart-presentation.vala:105
 msgid "Steam no longer needs to restart"
-msgstr ""
+msgstr "Non è più necessario riavviare Steam"
 
 #: src/widgets/main/steam-restart-presentation.vala:110
 msgid "Steam status couldn’t be confirmed"
-msgstr ""
+msgstr "Impossibile confermare lo stato di Steam"
 
 #: src/widgets/main/steam-restart-presentation.vala:110
 msgid "ProtonPlus did not restart Steam. Try again or restart it manually."
-msgstr ""
+msgstr "ProtonPlus non ha riavviato Steam. Riprova o riavvialo manualmente."
 
 #: src/widgets/main/steam-restart-presentation.vala:112
 msgid "Steam is still starting"
-msgstr ""
+msgstr "Steam è ancora in fase di avvio"
 
 #: src/widgets/main/steam-restart-presentation.vala:112
 msgid "Wait for Steam to finish starting, then try again."
-msgstr ""
+msgstr "Attendi che Steam completi l'avvio, poi riprova."
 
 #: src/widgets/main/steam-restart-presentation.vala:114
-#, fuzzy
 msgid "Steam is updating"
-msgstr "Ricerca gioco"
+msgstr "Steam è in fase di aggiornamento"
 
 #: src/widgets/main/steam-restart-presentation.vala:114
 msgid "Wait until the update finishes, then try again."
-msgstr ""
+msgstr "Attendi il completamento dell'aggiornamento, poi riprova."
 
 #: src/widgets/main/steam-restart-presentation.vala:116
 msgid "SteamOS handoff isn’t available"
-msgstr ""
+msgstr "Il passaggio automatico a SteamOS non è disponibile"
 
 #: src/widgets/main/steam-restart-presentation.vala:116
 msgid ""
 "ProtonPlus can hand off only a confirmed running native Steam session. "
 "Switch to Desktop Mode to apply this pending restart."
 msgstr ""
+"ProtonPlus può trasferire il controllo solo a una sessione Steam nativa "
+"confermata e in esecuzione. Passa alla modalità Desktop per applicare questo "
+"riavvio in sospeso."
 
 #: src/widgets/main/steam-restart-presentation.vala:118
 msgid "Switch to Desktop Mode"
-msgstr ""
+msgstr "Passa alla modalità Desktop"
 
 #: src/widgets/main/steam-restart-presentation.vala:118
 msgid ""
@@ -5029,28 +5000,34 @@ msgid ""
 "stopped. SteamOS Gaming Mode would close ProtonPlus before it can perform "
 "that step. Switch to Desktop Mode, open ProtonPlus, and restart Steam there."
 msgstr ""
+"La configurazione gestita da Steam è pronta e deve essere applicata mentre "
+"Steam è chiuso. La modalità Gaming di SteamOS chiuderebbe ProtonPlus prima "
+"che possa eseguire questo passaggio. Passa alla modalità Desktop, apri "
+"ProtonPlus e riavvia Steam da lì."
 
 #: src/widgets/main/steam-restart-presentation.vala:120
 msgid "Close running games first"
-msgstr ""
+msgstr "Chiudi prima i giochi in esecuzione"
 
 #: src/widgets/main/steam-restart-presentation.vala:120
 msgid ""
 "ProtonPlus will not restart Steam while a game or compatibility process is "
 "running."
 msgstr ""
+"ProtonPlus non riavvierà Steam mentre un gioco o un processo di "
+"compatibilità è in esecuzione."
 
 #: src/widgets/main/steam-restart-presentation.vala:122
 msgid "Steam can’t restart right now"
-msgstr ""
+msgstr "Impossibile riavviare Steam in questo momento"
 
 #: src/widgets/main/steam-restart-presentation.vala:122
 msgid "Finish the current Steam activity, then try again."
-msgstr ""
+msgstr "Completa l'attività corrente di Steam, quindi riprova."
 
 #: src/widgets/main/steam-restart-presentation.vala:124
 msgid "Close Steam manually"
-msgstr ""
+msgstr "Chiudi Steam manualmente"
 
 #: src/widgets/main/steam-restart-presentation.vala:124
 msgid ""
@@ -5058,83 +5035,94 @@ msgid ""
 "reminder will remain and ProtonPlus will detect when Steam closes. After "
 "closing Steam, select Restart Steam again to reopen it."
 msgstr ""
+"ProtonPlus non può chiudere automaticamente questa installazione di Steam in "
+"sicurezza. Il promemoria rimarrà e ProtonPlus rileverà la chiusura di Steam. "
+"Dopo aver chiuso Steam, seleziona di nuovo «Riavvia Steam» per riaprirlo."
 
 #: src/widgets/main/steam-restart-presentation.vala:127
 msgid "Steam didn’t close"
-msgstr ""
+msgstr "Steam non si è chiuso"
 
 #: src/widgets/main/steam-restart-presentation.vala:127
 msgid "No force termination was attempted. Close Steam manually or try again."
 msgstr ""
+"Non è stato tentato l'arresto forzato. Chiudi Steam manualmente o riprova."
 
 #: src/widgets/main/steam-restart-presentation.vala:132
 msgid "Steam couldn’t be reopened"
-msgstr ""
+msgstr "Impossibile riaprire Steam"
 
 #: src/widgets/main/steam-restart-presentation.vala:132
 msgid ""
 "Steam is currently closed. Start it manually. ProtonPlus will keep the "
 "reminder until it confirms a new session."
 msgstr ""
+"Steam è attualmente chiuso. Avvialo manualmente. ProtonPlus manterrà il "
+"promemoria finché non confermerà una nuova sessione."
 
 #: src/widgets/main/steam-restart-presentation.vala:132
 msgid ""
 "Start Steam manually. ProtonPlus will keep the reminder until it confirms a "
 "new session."
 msgstr ""
+"Avvia Steam manualmente. ProtonPlus manterrà il promemoria finché non "
+"confermerà una nuova sessione"
 
 #: src/widgets/main/steam-restart-presentation.vala:134
 msgid "Steam changes need attention"
-msgstr ""
+msgstr "Le modifiche di Steam richiedono attenzione"
 
 #: src/widgets/main/steam-restart-presentation.vala:134
 msgid ""
 "Steam is closed. ProtonPlus could not safely apply every pending change; "
 "retry or start Steam manually after resolving the conflict."
 msgstr ""
+"Steam è chiuso. ProtonPlus non è riuscito ad applicare in sicurezza tutte le "
+"modifiche in sospeso; riprova o avvia Steam manualmente dopo aver risolto il "
+"conflitto."
 
 #: src/widgets/main/steam-restart-presentation.vala:136
 msgid "Steam restart was cancelled"
-msgstr ""
+msgstr "Il riavvio di Steam è stato annullato"
 
 #: src/widgets/main/steam-restart-presentation.vala:138
 #: src/widgets/main/steam-restart-presentation.vala:147
-#, fuzzy
 msgid "Steam restarted"
-msgstr "Elimina il runner"
+msgstr "Steam riavviato"
 
 #: src/widgets/main/steam-restart-presentation.vala:138
 msgid ""
 "Steam restarted successfully, but ProtonPlus could not save the cleared "
 "reminder state."
 msgstr ""
+"Steam è stato riavviato correttamente, ma ProtonPlus non è riuscito a "
+"salvare l'azzeramento del promemoria."
 
 #: src/widgets/main/steam-restart-presentation.vala:140
 msgid "Steam couldn’t restart"
-msgstr ""
+msgstr "Impossibile riavviare Steam"
 
 #: src/widgets/main/steam-restart-presentation.vala:140
 msgid "Try again later or restart Steam manually."
-msgstr ""
+msgstr "Riprova più tardi o riavvia Steam manualmente."
 
 #: src/widgets/main/steam-restart-presentation.vala:147
 msgid "Steam restarted; other changes still need a restart"
-msgstr ""
+msgstr "Steam è stato riavviato; altre modifiche richiedono ancora un riavvio"
 
 #: src/widgets/main/steam-restart-presentation.vala:169
 #: src/widgets/main/steam-restart-presentation.vala:196
 msgid "Steam needs to restart to apply your changes"
-msgstr ""
+msgstr "Steam deve essere riavviato per applicare le modifiche"
 
 #: src/widgets/main/steam-restart-presentation.vala:173
 #: src/widgets/main/steam-restart-presentation.vala:200
 msgid "Multiple changes will be applied after Steam restarts"
-msgstr ""
+msgstr "Più modifiche verranno applicate dopo il riavvio di Steam"
 
 #: src/widgets/main/steam-restart-presentation.vala:219
-#, fuzzy
 msgid "Steam restart needed"
-msgstr "Elimina il runner"
+msgstr "Riavvio di Steam necessario"
 
 #: src/widgets/mangohud/mangohud-box.vala:35
 msgid "Presets"
@@ -5942,12 +5930,10 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Elimina il collegamento di ProtonPlus su Steam"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
-#, fuzzy
 msgid "Failed to create shortcut"
-msgstr "Crea collegamento"
+msgstr "Impossibile creare il collegamento"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
-#, fuzzy
 msgid "Failed to delete shortcut"
 msgstr "Impossibile eliminare collegamento"
 
@@ -6287,7 +6273,6 @@ msgid "Select the %s build variant."
 msgstr "Seleziona la variante della build %s."
 
 #: src/widgets/tools/tools-releases-box.vala:177
-#, fuzzy
 msgid "Check for new releases"
 msgstr "Verifica nuove release"
 
@@ -6296,12 +6281,10 @@ msgid "Choose which architecture or build variant to show."
 msgstr "Scegli quale architettura o variante della build mostrare."
 
 #: src/widgets/tools/tools-releases-box.vala:215
-#, fuzzy
 msgid "Load More"
 msgstr "Carica Altro"
 
 #: src/widgets/tools/tools-releases-box.vala:263
-#, fuzzy
 msgid "No releases found"
 msgstr "Nessuna release trovata"
 
@@ -6318,10 +6301,10 @@ msgstr "Recupero release fallito"
 
 #: src/widgets/tools/tools-releases-box.vala:493
 msgid "No compatible variants are available for this system."
-msgstr ""
+msgstr "Impossibile creare il collegament."
 
 #: src/widgets/tools/tools-releases-box.vala:595
-#, fuzzy, c-format
+#, c-format
 msgid "Last updated: %s"
 msgstr "Ultimo aggiornamento: %s"
 
@@ -6383,7 +6366,6 @@ msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Vuoi reinstallarlo con ProtonPlus?"
 
 #: src/widgets/window.vala:109
-#, fuzzy
 msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."
