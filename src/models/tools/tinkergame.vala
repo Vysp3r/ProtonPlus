@@ -1,12 +1,12 @@
 namespace ProtonPlus.Models.Tools {
-    public class SteamTinkerLaunch : Tool {
-        public SteamTinkerLaunch (Models.Group group) {
+    public class TinkerGame : Tool {
+        public TinkerGame (Models.Group group) {
             Object (group: group,
-                    title: "Steam Tinker Launch",
+                    title: "TinkerGame",
                     description: _ (
                         "Steam tool for easy, graphical configuration of your other compatibility tools for both Windows games and native Linux games."
             ));
-            set_identity ("steam-tinker-launch", "github");
+            set_identity ("tinkergame", "github");
 
             // Remote commit lookup is performed explicitly by the installation
             // service for the target-bound job, never from a Release constructor.
@@ -17,9 +17,9 @@ namespace ProtonPlus.Models.Tools {
                 new Models.Assets.Asset ("", ""),
                 "",
                 0,
-                "steam-tinker-launch",
-                "steam-tinker-launch",
-                Release.Kind.STEAM_TINKER_LAUNCH
+                "tinkergame",
+                "tinkergame",
+                Release.Kind.TINKERGAME
             );
             initialize_release_catalog (new ReleaseCatalog.with_static_release (release));
         }

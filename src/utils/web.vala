@@ -9,7 +9,7 @@ namespace ProtonPlus.Utils {
             GITHUB,
             GITLAB,
             FORGEJO,
-            STEAMTINKERLAUNCH,
+            TINKERGAME,
         }
 
         public class Response : Object {
@@ -93,7 +93,7 @@ namespace ProtonPlus.Utils {
             var message = new Soup.Message ("GET", uri);
 
             if (Globals.SETTINGS != null) {
-                if (get_request_type == GetRequestType.GITHUB || get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
+                if (get_request_type == GetRequestType.GITHUB || get_request_type == GetRequestType.TINKERGAME) {
                     var key = Globals.SETTINGS.get_string ("github-api-key");
                     if (key.length > 0)
                         message.request_headers.append ("Authorization", "token %s".printf (key));
@@ -105,7 +105,7 @@ namespace ProtonPlus.Utils {
                         message.request_headers.append ("Authorization", "Bearer %s".printf (key));
                 }
 
-                if (get_request_type == GetRequestType.STEAMTINKERLAUNCH) {
+                if (get_request_type == GetRequestType.TINKERGAME) {
                     message.request_headers.append ("Accept", "application/vnd.github+json");
                     message.request_headers.append ("X-GitHub-Api-Version", "2022-11-28");
                 }
@@ -122,7 +122,7 @@ namespace ProtonPlus.Utils {
                        (get_request_type == GetRequestType.GITHUB ||
                         get_request_type == GetRequestType.GITLAB ||
                         get_request_type == GetRequestType.FORGEJO ||
-                        get_request_type == GetRequestType.STEAMTINKERLAUNCH)) {
+                        get_request_type == GetRequestType.TINKERGAME)) {
                 response.code = ReturnCode.INVALID_ACCESS_TOKEN;
             }
 

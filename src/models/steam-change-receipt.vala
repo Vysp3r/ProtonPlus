@@ -95,7 +95,7 @@ namespace ProtonPlus.Models {
         COMPATIBILITY_TOOL_INSTALLED,
         COMPATIBILITY_TOOL_REMOVED,
         COMPATIBILITY_TOOL_UPDATED_OR_REPLACED,
-        STEAMTINKERLAUNCH_CHANGED
+        TINKERGAME_CHANGED
     }
 
     public enum SteamRestartRequirement {
@@ -155,7 +155,7 @@ namespace ProtonPlus.Models {
             case SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED: return "compatibility-tool-installed";
             case SteamChangeKind.COMPATIBILITY_TOOL_REMOVED: return "compatibility-tool-removed";
             case SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED: return "compatibility-tool-updated-or-replaced";
-            case SteamChangeKind.STEAMTINKERLAUNCH_CHANGED: return "steamtinkerlaunch-changed";
+            case SteamChangeKind.TINKERGAME_CHANGED: return "tinkergame-changed";
             default: return "unknown";
             }
         }
@@ -173,7 +173,7 @@ namespace ProtonPlus.Models {
             case "compatibility-tool-installed": kind = SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED; return true;
             case "compatibility-tool-removed": kind = SteamChangeKind.COMPATIBILITY_TOOL_REMOVED; return true;
             case "compatibility-tool-updated-or-replaced": kind = SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED; return true;
-            case "steamtinkerlaunch-changed": kind = SteamChangeKind.STEAMTINKERLAUNCH_CHANGED; return true;
+            case "tinkergame-changed": kind = SteamChangeKind.TINKERGAME_CHANGED; return true;
             default: return false;
             }
         }

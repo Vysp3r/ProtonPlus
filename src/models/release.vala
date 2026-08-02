@@ -6,7 +6,7 @@ namespace ProtonPlus.Models {
         public enum Kind {
             GENERIC,
             GITHUB_ACTION,
-            STEAM_TINKER_LAUNCH,
+            TINKERGAME,
         }
 
         public string title { get; private set; }
@@ -149,8 +149,8 @@ namespace ProtonPlus.Models {
             switch (kind) {
             case Kind.GITHUB_ACTION:
                 return "github-action";
-            case Kind.STEAM_TINKER_LAUNCH:
-                return "steam-tinker-launch";
+            case Kind.TINKERGAME:
+                return "tinkergame";
             default:
                 return "generic";
             }
@@ -160,8 +160,8 @@ namespace ProtonPlus.Models {
             switch (kind) {
             case "github-action":
                 return Kind.GITHUB_ACTION;
-            case "steam-tinker-launch":
-                return Kind.STEAM_TINKER_LAUNCH;
+            case "tinkergame":
+                return Kind.TINKERGAME;
             default:
                 return Kind.GENERIC;
             }

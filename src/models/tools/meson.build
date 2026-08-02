@@ -2,5 +2,5 @@ sources += files(
     'release-page.vala',
     'release-page-result.vala',
     'provider-tool.vala',
-    'steamtinkerlaunch.vala',
+    'tinkergame.vala',
 )

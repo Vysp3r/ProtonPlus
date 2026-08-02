@@ -13,7 +13,7 @@ namespace ProtonPlus.Services {
         }
 
         private StandardArchiveWorkflow standard_archive_workflow;
-        private SteamTinkerLaunchWorkflow steam_tinker_launch_workflow;
+        private TinkerGameWorkflow tinker_game_workflow;
         private Gee.HashSet<string> active_removal_locations = new Gee.HashSet<string> ();
         private CompatibilityProcessGuard compatibility_process_guard = new CompatibilityProcessGuard ();
         private SteamChangeRecorder? steam_change_recorder = null;
@@ -22,7 +22,7 @@ namespace ProtonPlus.Services {
 
         private InstallationService () {
             standard_archive_workflow = new StandardArchiveWorkflow ();
-            steam_tinker_launch_workflow = new SteamTinkerLaunchWorkflow ();
+            tinker_game_workflow = new TinkerGameWorkflow ();
         }
 
         public async ReturnCode install (InstallJob job, bool replace_existing) {
@@ -122,8 +122,8 @@ namespace ProtonPlus.Services {
         }
 
         public void record_completed_update (InstallJob job) {
-            record_successful_change (job, job.steam_tinker_launch_context != null
-                ? Models.SteamChangeKind.STEAMTINKERLAUNCH_CHANGED
+            record_successful_change (job, job.tinker_game_context != null
+                ? Models.SteamChangeKind.TINKERGAME_CHANGED
                 : Models.SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED);
         }
 
@@ -131,14 +131,14 @@ namespace ProtonPlus.Services {
             select_workflow (job).refresh_state (job);
         }
 
-        public async void refresh_steam_tinker_launch_release (InstallJob job) {
-            var workflow = select_workflow (job) as SteamTinkerLaunchWorkflow;
+        public async void refresh_tinker_game_release (InstallJob job) {
+            var workflow = select_workflow (job) as TinkerGameWorkflow;
             if (workflow != null)
                 yield workflow.refresh_latest_release (job);
         }
 
-        public bool detect_steam_tinker_launch_external_installations (InstallJob job) {
-            var workflow = select_workflow (job) as SteamTinkerLaunchWorkflow;
+        public bool detect_tinker_game_external_installations (InstallJob job) {
+            var workflow = select_workflow (job) as TinkerGameWorkflow;
             return workflow != null && workflow.detect_external_installations (job);
         }
 
@@ -204,13 +204,13 @@ namespace ProtonPlus.Services {
         // Provider archives are the only jobs whose assets originate from a
         // release variant.  Resolve them once at this service boundary before
         // an operation, download, cache transaction, or filesystem change can
-        // begin; SteamTinkerLaunch retains its independent workflow.
+        // begin; TinkerGame retains its independent workflow.
         internal ReturnCode resolve_provider_install_variant (
             InstallJob job,
             out bool missing_explicit_selection
         ) {
             missing_explicit_selection = false;
-            if (!(job.tool is Models.Tools.ProviderTool) || job.steam_tinker_launch_context != null)
+            if (!(job.tool is Models.Tools.ProviderTool) || job.tinker_game_context != null)
                 return ReturnCode.RUNNER_INSTALLED;
 
             var resolution = Models.VariantSelector.resolve_installation_variant (
@@ -256,8 +256,8 @@ namespace ProtonPlus.Services {
             if (!updating)
                 job.finish_operation ();
             if (success && record_change) {
-                record_successful_change (job, job.steam_tinker_launch_context != null
-                    ? Models.SteamChangeKind.STEAMTINKERLAUNCH_CHANGED
+                record_successful_change (job, job.tinker_game_context != null
+                    ? Models.SteamChangeKind.TINKERGAME_CHANGED
                     : replace_existing ? Models.SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED
                     : Models.SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED);
             }
@@ -265,9 +265,9 @@ namespace ProtonPlus.Services {
         }
 
         private bool has_removable_state (InstallJob job) {
-            if (job.steam_tinker_launch_context == null)
+            if (job.tinker_game_context == null)
                 return FileUtils.test (job.install_location, FileTest.EXISTS);
-            var context = (!) job.steam_tinker_launch_context;
+            var context = (!) job.tinker_game_context;
             return FileUtils.test (context.base_location, FileTest.EXISTS)
                 || FileUtils.test (context.link_location, FileTest.EXISTS)
                 || FileUtils.test (context.config_location, FileTest.EXISTS)
@@ -275,8 +275,8 @@ namespace ProtonPlus.Services {
         }
 
         private Models.SteamChangeKind removal_change_kind (InstallJob job) {
-            return job.steam_tinker_launch_context != null
-                ? Models.SteamChangeKind.STEAMTINKERLAUNCH_CHANGED
+            return job.tinker_game_context != null
+                ? Models.SteamChangeKind.TINKERGAME_CHANGED
                 : Models.SteamChangeKind.COMPATIBILITY_TOOL_REMOVED;
         }
 
@@ -299,11 +299,11 @@ namespace ProtonPlus.Services {
             steam_restart_recording_failed (job, (!) job.steam_restart_warning);
         }
 
-        // This is the one workflow-selection point.  SteamTinkerLaunch is
+        // This is the one workflow-selection point.  TinkerGame is
         // identified by its composed context, never by provider or widget.
         private InstallationWorkflow select_workflow (InstallJob job) {
-            if (job.steam_tinker_launch_context != null)
-                return steam_tinker_launch_workflow;
+            if (job.tinker_game_context != null)
+                return tinker_game_workflow;
             return standard_archive_workflow;
         }
     }

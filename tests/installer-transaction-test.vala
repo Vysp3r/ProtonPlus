@@ -401,21 +401,21 @@ namespace AppTests.InstallerTransactionTest {
         alternate.set_selected_variant ("Alternate", new Models.Assets.Asset ("alternate.zip", "https://fixtures.invalid/alternate.zip"));
         var latest_one = new ProtonPlus.Services.InstallJob (release, target, ProtonPlus.Services.InstallJob.Mode.LATEST);
         var latest_two = new ProtonPlus.Services.InstallJob (different_release.release, target, ProtonPlus.Services.InstallJob.Mode.LATEST);
-        var steam_tinker_launch = new ProtonPlus.Services.InstallJob (release, target, ProtonPlus.Services.InstallJob.Mode.STEAM_TINKER_LAUNCH, null, root);
+        var tinker_game = new ProtonPlus.Services.InstallJob (release, target, ProtonPlus.Services.InstallJob.Mode.TINKERGAME, null, root);
         var special_release = new Release (
-            "Steam Tinker Launch", "", "", new Models.Assets.Asset ("stl.zip", "https://fixtures.invalid/stl.zip"),
-            "", 0, "stl-release", "stl-release", Release.Kind.STEAM_TINKER_LAUNCH
+            "TinkerGame", "", "", new Models.Assets.Asset ("tg.zip", "https://fixtures.invalid/tg.zip"),
+            "", 0, "tg-release", "tg-release", Release.Kind.TINKERGAME
         );
-        var automatically_selected_stl = new ProtonPlus.Services.InstallJob (special_release, target, ProtonPlus.Services.InstallJob.Mode.VERSIONED, null, root);
+        var automatically_selected_tg = new ProtonPlus.Services.InstallJob (special_release, target, ProtonPlus.Services.InstallJob.Mode.VERSIONED, null, root);
 
-        assert (first.steam_tinker_launch_context == null);
-        assert (steam_tinker_launch.steam_tinker_launch_context != null);
-        assert (automatically_selected_stl.steam_tinker_launch_context != null);
+        assert (first.tinker_game_context == null);
+        assert (tinker_game.tinker_game_context != null);
+        assert (automatically_selected_tg.tinker_game_context != null);
         assert (first.operation_id == same_target.operation_id);
         assert (first.operation_id != different_release.operation_id);
         assert (first.operation_id != alternate.operation_id);
         assert (latest_one.operation_id == latest_two.operation_id);
-        assert (latest_one.operation_id != steam_tinker_launch.operation_id);
+        assert (latest_one.operation_id != tinker_game.operation_id);
 
         var manager = ProtonPlus.Utils.DownloadManager.instance;
         assert (manager.active_downloads.size == 0);

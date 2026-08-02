@@ -31,7 +31,7 @@ ProviderDefinition
 | `Release` and `Asset` | Canonical provider-neutral remote metadata. `Asset` is the authoritative immutable value for archive name, URL, and size. `Release` carries upstream identity, source tag, variants, and source-specific metadata, but no installation target or progress state. |
 | `InstallJob` | A target-bound installation lifecycle: selected release asset or variant, destination, progress, cancellation, operation state, and the composed archive-install requirement. It turns reusable catalog data into one requested operation. |
 | `InstallationService` | Application-level coordinator for install, update, removal, download registration, cache-operation lifetime, and finalization. It has the one workflow-selection point. |
-| `InstallationWorkflow` | A filesystem and lifecycle transaction implementation selected for a job. It does not browse or parse a remote release API. `StandardArchiveWorkflow` serves all ordinary provider tools; `SteamTinkerLaunchWorkflow` owns SteamTinkerLaunch's materially different transaction. |
+| `InstallationWorkflow` | A filesystem and lifecycle transaction implementation selected for a job. It does not browse or parse a remote release API. `StandardArchiveWorkflow` serves all ordinary provider tools; `TinkerGameWorkflow` owns TinkerGame's materially different transaction. |
 | `InstallLayout` | A small closed value object that renders a directory name for a launcher family. Definitions provide an exact layout where needed and a required `default` fallback; layouts are not encoded strings to be parsed later. |
 | `InstalledToolInventory` | Per-group snapshot of installed directories, metadata, compatibility-tool VDF identity, and usage. It resolves installed state for tools after invalidation or refresh rather than making individual tools repeatedly scan the filesystem. |
 
@@ -39,7 +39,7 @@ ProviderDefinition
 
 GTK and Libadwaita widgets consume tool, catalog, job, and inventory state. They do not define provider configuration, select a remote source, parse a release response, or choose an installation workflow. Likewise, release sources do not depend on GTK or Libadwaita, catalog code does not perform installation transactions, and workflows do not parse ordinary release APIs.
 
-`CompatibilityTool` is discovery data for a launcher and is separate from provider-backed `Tool` instances. SteamTinkerLaunch is intentionally a dedicated tool because its lifecycle is not an ordinary archive installation.
+`CompatibilityTool` is discovery data for a launcher and is separate from provider-backed `Tool` instances. TinkerGame is intentionally a dedicated tool because its lifecycle is not an ordinary archive installation.
 
 ## Launcher and tool-target identities
 
@@ -78,7 +78,7 @@ Create a workflow only when the installation transaction or lifecycle differs ma
 3. Add the explicit selection rule in `InstallationService`, which remains the sole coordinator for operation registration and completion.
 4. Add transaction, state, update, and removal coverage in the relevant `tests/installer-transaction-test.vala`, `tests/update-transaction-test.vala`, and specialized workflow test file. Add a dedicated fixture where it makes a transaction observable.
 
-SteamTinkerLaunch is the current example: `SteamTinkerLaunchContext` selects its specialized workflow. Its provider identity and widgets do not select it. Do not generalize that workflow unless another workflow has genuinely identical transaction and lifecycle requirements.
+TinkerGame is the current example: `TinkerGameContext` selects its specialized workflow. Its provider identity and widgets do not select it. Do not generalize that workflow unless another workflow has genuinely identical transaction and lifecycle requirements.
 
 ## Architecture fitness checks
 
@@ -87,6 +87,6 @@ The focused test suite protects the extension points rather than implementation 
 - `tests/provider_registry_test.vala` verifies all built-ins validate, IDs and variants remain valid, layouts are structurally valid, all configured sources are constructible, a definition-only provider instantiates normally, and unsupported source types produce no tool.
 - `tests/provider_definition_test.vala` and `tests/install_layout_test.vala` preserve built-in definition metadata, filtering, launcher-specific naming, and layout fallback behaviour.
 - `tests/provider_source_test.vala` and `tests/release_identity_test.vala` verify canonical assets, source identities, pagination, malformed data, filtering, and the intentionally distinct GitHub/Forgejo primary-asset policies.
-- Installation, inventory, CLI, and SteamTinkerLaunch tests preserve the remaining boundaries: installation transactions, installed-state refresh, command behaviour, and the specialized lifecycle.
+- Installation, inventory, CLI, and TinkerGame tests preserve the remaining boundaries: installation transactions, installed-state refresh, command behaviour, and the specialized lifecycle.
 
 These are behavioural checks. Do not replace them with source-text searches or tests that depend on code formatting.

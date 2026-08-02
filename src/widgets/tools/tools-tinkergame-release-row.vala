@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets.Tools {
-    public class STLReleaseRow : ReleaseRow {
-        public STLReleaseRow (Services.InstallJob job) {
+    public class TinkerGameReleaseRow : ReleaseRow {
+        public TinkerGameReleaseRow (Services.InstallJob job) {
             base (job);
         }
 
@@ -27,7 +27,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         protected override void customize_remove_dialog (RemoveDialog dialog) {
-            var context = job.steam_tinker_launch_context;
+            var context = job.tinker_game_context;
             if (context == null)
                 return;
             context.remove_config = false;
@@ -83,7 +83,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         void external_install_check () {
             var has_external_install = Services.InstallationService.instance
-                .detect_steam_tinker_launch_external_installations (job);
+                .detect_tinker_game_external_installations (job);
 
             if (has_external_install) {
                 var alert_dialog = new Adw.AlertDialog (

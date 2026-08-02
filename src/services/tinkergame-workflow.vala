@@ -1,8 +1,8 @@
 namespace ProtonPlus.Services {
-    /// SteamTinkerLaunch has its own installation layout, external commands,
+    /// TinkerGame has its own installation layout, external commands,
     /// and Steam integration.  It intentionally remains independent of the
     /// ordinary provider catalog and archive workflow.
-    public class SteamTinkerLaunchWorkflow : InstallationWorkflow {
+    public class TinkerGameWorkflow : InstallationWorkflow {
         private ArchiveWorkflowSupport archive_support = new ArchiveWorkflowSupport ();
 
         public override ReturnCode validate_install (InstallJob job, bool replace_existing) {
@@ -23,7 +23,7 @@ namespace ProtonPlus.Services {
                 return ReturnCode.RUNNER_ALREADY_INSTALLED;
 
             ArchiveOperation? operation;
-            var prepare_code = yield archive_support.prepare_archive (job, ".protonplus-stl-", out operation);
+            var prepare_code = yield archive_support.prepare_archive (job, ".protonplus-tg-", out operation);
             if (prepare_code != ReturnCode.RUNNER_INSTALLED || operation == null)
                 return prepare_code;
             var archive = (!) operation;
@@ -41,7 +41,7 @@ namespace ProtonPlus.Services {
             var parent = Path.get_dirname (context.base_location);
             if (!yield Utils.Filesystem.create_directory_async (parent))
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
-            archive.staging_root = Utils.Filesystem.create_temporary_directory (parent, ".protonplus-stl-stage-");
+            archive.staging_root = Utils.Filesystem.create_temporary_directory (parent, ".protonplus-tg-stage-");
             if (archive.staging_root == "")
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             var staged = Path.build_filename (archive.staging_root, "installation");
@@ -61,7 +61,7 @@ namespace ProtonPlus.Services {
             var previous = "";
             if (exists) {
                 previous = Path.build_filename (
-                    parent, ".protonplus-stl-previous-%s".printf (Path.get_basename (archive.staging_root))
+                    parent, ".protonplus-tg-previous-%s".printf (Path.get_basename (archive.staging_root))
                 );
                 if (!yield Utils.Filesystem.move_directory_atomic (context.base_location, previous))
                     return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
@@ -85,14 +85,14 @@ namespace ProtonPlus.Services {
                 yield rollback_installation (context, previous);
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             }
-            if (yield Utils.System.check_dependency ("steamtinkerlaunch"))
-                yield Utils.System.run_command ("steamtinkerlaunch compat del");
-            yield execute_steam_tinker_launch (context.binary_location, "compat del");
+            if (yield Utils.System.check_dependency ("tinkergame"))
+                yield Utils.System.run_command ("tinkergame compat del");
+            yield execute_tinker_game (context.binary_location, "compat del");
             if (Globals.IS_STEAM_OS)
-                yield execute_steam_tinker_launch (context.binary_location, "");
-            yield execute_steam_tinker_launch (context.binary_location, "compat add");
+                yield execute_tinker_game (context.binary_location, "");
+            yield execute_tinker_game (context.binary_location, "compat add");
             if (previous != "" && !yield Utils.Filesystem.delete_directory (previous))
-                warning ("Could not remove the previous SteamTinkerLaunch installation: %s", previous);
+                warning ("Could not remove the previous TinkerGame installation: %s", previous);
             return yield archive_support.complete_attempt (ReturnCode.RUNNER_INSTALLED, archive);
         }
 
@@ -112,7 +112,7 @@ namespace ProtonPlus.Services {
             var context = get_context (job);
             if (context == null)
                 return ReturnCode.INVALID_CONFIGURATION;
-            yield execute_steam_tinker_launch (context.binary_location, "compat del");
+            yield execute_tinker_game (context.binary_location, "compat del");
             if (FileUtils.test (context.link_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (context.link_location, FileTest.IS_SYMLINK) ||
                     !Utils.Filesystem.delete_file (context.link_location))
@@ -169,7 +169,7 @@ namespace ProtonPlus.Services {
             if (context == null)
                 return;
             job.tool.group.launcher.register_compatibility_tool_from_path (
-                "%s/SteamTinkerLaunch".printf (context.compat_location)
+                "%s/TinkerGame".printf (context.compat_location)
             );
         }
 
@@ -178,7 +178,7 @@ namespace ProtonPlus.Services {
             if (context == null)
                 return;
             job.tool.group.launcher.unregister_compatibility_tool_by_path (
-                "%s/SteamTinkerLaunch".printf (context.compat_location)
+                "%s/TinkerGame".printf (context.compat_location)
             );
         }
 
@@ -187,10 +187,10 @@ namespace ProtonPlus.Services {
             if (context == null)
                 return false;
             context.external_locations = new List<string> ();
-            var location = "%s/SteamTinkerLaunch".printf (context.home_location);
+            var location = "%s/TinkerGame".printf (context.home_location);
             if (FileUtils.test (location, FileTest.IS_DIR))
                 context.external_locations.append (location);
-            location = Environment.get_home_dir () + "/stl";
+            location = Environment.get_home_dir () + "/tinkergame";
             if (!Globals.IS_STEAM_OS && FileUtils.test (location, FileTest.IS_DIR))
                 context.external_locations.append (location);
             return context.external_locations.length () > 0;
@@ -203,8 +203,8 @@ namespace ProtonPlus.Services {
             context.latest_date = "";
             context.latest_hash = "";
             var response = yield Utils.Web.get_request (
-                "https://api.github.com/repos/sonic2kk/steamtinkerlaunch/commits?per_page=1",
-                Utils.Web.GetRequestType.STEAMTINKERLAUNCH
+                "https://api.github.com/repos/360900/tinkergame/commits?per_page=1",
+                Utils.Web.GetRequestType.TINKERGAME
             );
             if (response.code != ReturnCode.VALID_REQUEST)
                 return;
@@ -227,20 +227,20 @@ namespace ProtonPlus.Services {
             context.latest_hash = commit_obj.get_string_member_with_default ("sha", "");
             if (context.latest_hash == "")
                 return;
-            var url = "https://github.com/sonic2kk/steamtinkerlaunch/archive/%s.zip".printf (context.latest_hash);
+            var url = "https://github.com/360900/tinkergame/archive/%s.zip".printf (context.latest_hash);
             job.set_release_for_update (new Models.Release (
                 job.release.title, job.release.description, context.latest_date,
                 Models.Assets.Asset.from_download_url (url), job.release.page_url, 0,
-                context.latest_hash, context.latest_hash, Models.Release.Kind.STEAM_TINKER_LAUNCH
+                context.latest_hash, context.latest_hash, Models.Release.Kind.TINKERGAME
             ));
             refresh_state (job);
         }
 
-        private SteamTinkerLaunchContext? get_context (InstallJob job) {
-            return job.steam_tinker_launch_context;
+        private TinkerGameContext? get_context (InstallJob job) {
+            return job.tinker_game_context;
         }
 
-        private async void rollback_installation (SteamTinkerLaunchContext context, string previous) {
+        private async void rollback_installation (TinkerGameContext context, string previous) {
             if (previous == "") {
                 if (FileUtils.test (context.base_location, FileTest.IS_DIR))
                     yield Utils.Filesystem.delete_directory (context.base_location);
@@ -256,7 +256,7 @@ namespace ProtonPlus.Services {
             yield Utils.Filesystem.delete_directory (failed);
         }
 
-        private async void execute_steam_tinker_launch (string executable, string args) {
+        private async void execute_tinker_game (string executable, string args) {
             if (!FileUtils.test (executable, FileTest.IS_REGULAR))
                 return;
             var quoted = Shell.quote (executable);

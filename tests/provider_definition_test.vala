@@ -10,7 +10,7 @@ namespace AppTests.ProviderDefinitionTest {
         Test.add_func ("/provider-definitions/ph42on-asset-selection", test_ph42on_asset_selection);
         Test.add_func ("/provider-definitions/catalog-construction-isolation", test_catalog_construction_isolation);
         Test.add_func ("/provider-definitions/proton-tkg-archive-requirement", test_proton_tkg_archive_requirement);
-        Test.add_func ("/provider-definitions/steam-tinker-launch", test_steam_tinker_launch);
+        Test.add_func ("/provider-definitions/tinkergame", test_tinker_game);
     }
 
     private Json.Object get_snapshot () {
@@ -167,22 +167,22 @@ namespace AppTests.ProviderDefinitionTest {
         assert (job.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE);
     }
 
-    private void test_steam_tinker_launch () {
+    private void test_tinker_game () {
         string root;
         try {
-            root = DirUtils.make_tmp ("protonplus-steamtinkerlaunch-test-XXXXXX");
+            root = DirUtils.make_tmp ("protonplus-tinkergame-test-XXXXXX");
         } catch (FileError e) {
             critical ("Could not create temporary launcher root: %s", e.message);
             assert_not_reached ();
         }
 
-        var expected = get_snapshot ().get_object_member ("steam_tinker_launch");
+        var expected = get_snapshot ().get_object_member ("tinkergame");
         var install_path = Path.build_filename (root, expected.get_string_member ("installation_directory"));
         assert (ProtonPlus.Utils.Filesystem.create_directory (install_path));
         var launcher = new Launcher ("Steam", Launcher.InstallationTypes.SYSTEM, "", { root }, "steam");
         var group = new Group ("Proton", "", "", launcher);
         group.refresh_installed_state ();
-        var tool = new ProtonPlus.Models.Tools.SteamTinkerLaunch (group);
+        var tool = new ProtonPlus.Models.Tools.TinkerGame (group);
         assert (tool.title == expected.get_string_member ("title"));
         assert (tool.release_catalog != null);
         var loop = new MainLoop ();
@@ -193,7 +193,7 @@ namespace AppTests.ProviderDefinitionTest {
         });
         loop.run ();
         assert (catalog_result != null && catalog_result.succeeded && catalog_result.releases.size == 1);
-        assert (catalog_result.releases[0].kind == Release.Kind.STEAM_TINKER_LAUNCH);
+        assert (catalog_result.releases[0].kind == Release.Kind.TINKERGAME);
 
         var compatibility_tool = new ProtonPlus.Models.CompatibilityTool ("Simple", "simple");
         assert (!compatibility_tool.get_type ().is_a (typeof (ProtonPlus.Models.Tool)));

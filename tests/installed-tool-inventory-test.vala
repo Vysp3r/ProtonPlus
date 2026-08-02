@@ -21,7 +21,7 @@ namespace AppTests.InstalledToolInventoryTest {
         Test.add_func ("/installed-tool-inventory/legacy-tag-and-directory-fallbacks", test_legacy_tag_and_directory_fallbacks);
         Test.add_func ("/installed-tool-inventory/vdf-internal-and-display-title-fallbacks", test_vdf_fallbacks);
         Test.add_func ("/installed-tool-inventory/latest-and-variant-directories", test_latest_and_variant_directories);
-        Test.add_func ("/installed-tool-inventory/steam-tinker-launch-usage", test_steam_tinker_launch_usage);
+        Test.add_func ("/installed-tool-inventory/tinkergame-usage", test_tinker_game_usage);
         Test.add_func ("/installed-tool-inventory/queries-are-cached-and-invalidation-refreshes", test_cached_queries_and_refresh);
         Test.add_func ("/installed-tool-inventory/groups-are-isolated", test_group_isolation);
     }
@@ -236,14 +236,14 @@ namespace AppTests.InstalledToolInventoryTest {
         assert (delete_directory (root));
     }
 
-    private void test_steam_tinker_launch_usage () {
+    private void test_tinker_game_usage () {
         var root = temporary_directory ();
         var launcher = new InventoryLauncher (root);
-        launcher.used_identifier = "Proton-stl";
+        launcher.used_identifier = "Proton-tg";
         var value = group (launcher);
-        var tool = new Tools.SteamTinkerLaunch (value);
+        var tool = new Tools.TinkerGame (value);
         value.tools.add (tool);
-        assert (ProtonPlus.Utils.Filesystem.create_directory (Path.build_filename (root, "SteamTinkerLaunch")));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (Path.build_filename (root, "TinkerGame")));
 
         value.refresh_installed_state ();
         assert (tool.is_installed ());

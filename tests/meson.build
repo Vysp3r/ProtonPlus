@@ -33,7 +33,7 @@ test_sources = files(
     'steam-restart-manager-test.vala',
     'steam-restart-orchestrator-test.vala',
     'steam-restart-presentation-test.vala',
-    'steamtinkerlaunch-test.vala',
+    'tinkergame-test.vala',
     'update-transaction-test.vala',
     'vdf_binary_test.vala',
 )

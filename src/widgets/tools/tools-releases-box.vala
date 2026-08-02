@@ -704,10 +704,10 @@ namespace ProtonPlus.Widgets.Tools {
             }));
 
             ReleaseRow row;
-            if (job.steam_tinker_launch_context != null) {
-                row = new STLReleaseRow (job);
+            if (job.tinker_game_context != null) {
+                row = new TinkerGameReleaseRow (job);
                 if (active_job == null)
-                    Services.InstallationService.instance.refresh_steam_tinker_launch_release.begin (job);
+                    Services.InstallationService.instance.refresh_tinker_game_release.begin (job);
             } else {
                 row = new ReleaseRow (job);
             }
