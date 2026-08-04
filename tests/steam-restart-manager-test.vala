@@ -72,6 +72,13 @@ namespace AppTests.SteamRestartManagerTest {
             SteamRestartRequirement.CONSERVATIVE, "%s#CompatToolMapping/42".printf (path), "42", null, null, intent);
     }
 
+    private SteamChangeReceipt tool_receipt (SteamRestartTarget target, SteamChangeKind kind,
+        string resource_key = "compatibilitytools.d/fixture") {
+        return new SteamChangeReceipt (target, kind,
+            SteamChangeReceipt.default_requirement_for_kind (kind), resource_key,
+            "fixture-tool", "Fixture Tool");
+    }
+
     private SteamRestartManager running_manager (string state_path, out FakeBackend backend) {
         backend = new FakeBackend ();
         var target = native_target (state_path);
@@ -298,6 +305,78 @@ namespace AppTests.SteamRestartManagerTest {
         assert (manager.pending_count () == 0);
     }
 
+    private void test_new_tool_removal_clears_restart_requirement () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        var satisfied = 0;
+        manager.restart_requirement_satisfied.connect ((changed_target) => { satisfied++; });
+
+        assert (manager.record (tool_receipt (target,
+            SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED)) == SteamRestartRecordResult.ADDED);
+        assert (manager.record (tool_receipt (target,
+            SteamChangeKind.COMPATIBILITY_TOOL_REMOVED)) == SteamRestartRecordResult.REQUIREMENT_CLEARED);
+        assert (!manager.has_pending_restarts ());
+        assert (satisfied == 1);
+        assert (!new SteamRestartManager (new SteamSessionService (backend),
+            new SteamRestartStateStore (path)).has_pending_restarts ());
+    }
+
+    private void test_new_tool_update_then_removal_clears_tool_receipts_only () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        var other_key = "config.vdf/compat-tool-mapping/42";
+
+        assert (manager.record (tool_receipt (target,
+            SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED)) == SteamRestartRecordResult.ADDED);
+        assert (manager.record (tool_receipt (target,
+            SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED)) == SteamRestartRecordResult.ADDED);
+        assert (manager.record (receipt (target, other_key)) == SteamRestartRecordResult.ADDED);
+        assert (manager.pending_count () == 3);
+        assert (manager.record (tool_receipt (target,
+            SteamChangeKind.COMPATIBILITY_TOOL_REMOVED)) == SteamRestartRecordResult.REQUIREMENT_CLEARED);
+        assert (manager.pending_count () == 1);
+        assert (manager.get_pending_changes ().get (0).receipt.resource_key == other_key);
+    }
+
+    private void test_preexisting_tool_remove_reinstall_remove_stays_pending () {
+        FakeBackend backend;
+        var path = temp_state_path ();
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+
+        assert (manager.record (tool_receipt (target,
+            SteamChangeKind.COMPATIBILITY_TOOL_REMOVED)) == SteamRestartRecordResult.ADDED);
+        assert (manager.record (tool_receipt (target,
+            SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED)) == SteamRestartRecordResult.ADDED);
+        assert (manager.record (tool_receipt (target,
+            SteamChangeKind.COMPATIBILITY_TOOL_REMOVED)) == SteamRestartRecordResult.UPDATED);
+        assert (manager.has_pending_restarts ());
+    }
+
+    private void test_new_tool_removal_persistence_failure_restores_receipt () {
+        var path = temp_state_path ();
+        var backend = new FakeBackend ();
+        var target = native_target (path);
+        var processes = new Gee.ArrayList<SteamProcessRecord> ();
+        processes.add (new SteamProcessRecord (101, Path.build_filename (target.data_root, "steam"), target.data_root, 100));
+        backend.native_query = new NativeProcessQuery (true, processes);
+        var store = new FailingStateStore (path);
+        var manager = new SteamRestartManager (new SteamSessionService (backend), store);
+
+        assert (manager.record (tool_receipt (target,
+            SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED)) == SteamRestartRecordResult.ADDED);
+        store.fail_saves = true;
+        assert (manager.record (tool_receipt (target,
+            SteamChangeKind.COMPATIBILITY_TOOL_REMOVED)) == SteamRestartRecordResult.PERSISTENCE_FAILED);
+        assert (manager.pending_count () == 1);
+        assert (manager.get_pending_changes ().get (0).receipt.kind
+            == SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED);
+    }
+
     private void test_configuration_identity_ignores_descriptive_kind () {
         FakeBackend backend;
         var path = temp_state_path ();
@@ -483,6 +562,10 @@ namespace AppTests.SteamRestartManagerTest {
         Test.add_func ("/steam-restart-manager/store-skips-invalid-individual-entries", test_store_skips_invalid_individual_entries);
         Test.add_func ("/steam-restart-manager/persistence-failure-keeps-memory-state", test_persistence_failure_keeps_memory_state);
         Test.add_func ("/steam-restart-manager/configuration-coalesces-reversion", test_configuration_coalesces_reversion_without_duplicate_occurrences);
+        Test.add_func ("/steam-restart-manager/new-tool-removal-clears", test_new_tool_removal_clears_restart_requirement);
+        Test.add_func ("/steam-restart-manager/new-tool-update-removal-clears-tool-only", test_new_tool_update_then_removal_clears_tool_receipts_only);
+        Test.add_func ("/steam-restart-manager/preexisting-tool-remove-reinstall-remove-stays-pending", test_preexisting_tool_remove_reinstall_remove_stays_pending);
+        Test.add_func ("/steam-restart-manager/new-tool-removal-persistence-failure-restores", test_new_tool_removal_persistence_failure_restores_receipt);
         Test.add_func ("/steam-restart-manager/configuration-identity-ignores-kind", test_configuration_identity_ignores_descriptive_kind);
         Test.add_func ("/steam-restart-manager/reverting-legacy-shortcut-create-removes-prerequisite", test_reverting_legacy_shortcut_create_removes_prerequisite);
         Test.add_func ("/steam-restart-manager/configuration-state-stable-and-safe", test_configuration_state_uses_stable_ids_and_rejects_unsafe_paths);

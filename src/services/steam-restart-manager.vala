@@ -108,6 +108,55 @@ namespace ProtonPlus.Services {
             var was_empty = pending_count_for_target (receipt.target) == 0;
             var existing = pending.get (key);
             var stable_session = identity_from_snapshot (receipt.target, snapshot);
+            /* A newly installed compatibility tool starts from an absent
+             * resource.  Removing that same resource before Steam restarts
+             * returns it to its baseline, so neither operation still needs a
+             * restart.  A prior removal proves the resource existed before
+             * this pending sequence; do not cancel that remove/reinstall case.
+             * Updates made after a new install are part of the same net-new
+             * resource and are removed atomically with the install receipt. */
+            if (receipt.kind == SteamChangeKind.COMPATIBILITY_TOOL_REMOVED) {
+                var matching_tool_changes = new Gee.ArrayList<SteamRestartPendingRecord> ();
+                var has_pending_install = false;
+                var has_prior_removal = false;
+                foreach (var candidate in pending.values) {
+                    if (candidate.receipt.target.id != receipt.target.id
+                        || candidate.receipt.resource_key != receipt.resource_key)
+                        continue;
+                    switch (candidate.receipt.kind) {
+                    case SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED:
+                        has_pending_install = true;
+                        matching_tool_changes.add (candidate);
+                        break;
+                    case SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED:
+                        matching_tool_changes.add (candidate);
+                        break;
+                    case SteamChangeKind.COMPATIBILITY_TOOL_REMOVED:
+                        has_prior_removal = true;
+                        matching_tool_changes.add (candidate);
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                if (has_pending_install && !has_prior_removal) {
+                    foreach (var removed_record in matching_tool_changes)
+                        pending.unset (removed_record.receipt.deduplication_key);
+                    var target_cleared = pending_count_for_target (receipt.target) == 0;
+                    if (target_cleared)
+                        targets.unset (receipt.target.id);
+                    if (!persist ()) {
+                        foreach (var removed_record in matching_tool_changes)
+                            pending.set (removed_record.receipt.deduplication_key, removed_record);
+                        targets.set (receipt.target.id, receipt.target);
+                        return SteamRestartRecordResult.PERSISTENCE_FAILED;
+                    }
+                    pending_changed ();
+                    if (target_cleared)
+                        restart_requirement_satisfied (receipt.target);
+                    return SteamRestartRecordResult.REQUIREMENT_CLEARED;
+                }
+            }
             /* Coalesce replayable configuration changes.  A return to the
              * original field value removes only this pending resource. */
             if (existing != null && receipt.configuration_intent != null
