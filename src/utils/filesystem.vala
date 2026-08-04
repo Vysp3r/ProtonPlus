@@ -403,7 +403,9 @@ namespace ProtonPlus.Utils {
                 }
 
                 // Enumerate the contents of the source directory
-                FileEnumerator enumerator = yield src.enumerate_children_async ("standard::*", FileQueryInfoFlags.NONE);
+                FileEnumerator enumerator = yield src.enumerate_children_async (
+                    "standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS
+                );
 
                 FileInfo? file_info;
                 while ((file_info = enumerator.next_file ()) != null) {
