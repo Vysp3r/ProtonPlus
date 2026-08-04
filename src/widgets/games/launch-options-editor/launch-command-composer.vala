@@ -8,18 +8,29 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         string[] _values;
         public string wrapper_id { get; construct; }
         string[] _additional_wrapper_arguments;
+        public bool values_are_serialized { get; construct; }
+        int[]? _value_source_indexes;
+        public string value_source_identity { get; construct; }
 
         public LaunchCommandSelection (
             string option_id, string[] values = {}, string wrapper_id = "",
-            string[] additional_wrapper_arguments = {}
+            string[] additional_wrapper_arguments = {}, bool values_are_serialized = false,
+            int[]? value_source_indexes = null, string value_source_identity = ""
         ) {
-            Object (option_id: option_id, wrapper_id: wrapper_id);
+            Object (option_id: option_id, wrapper_id: wrapper_id,
+                values_are_serialized: values_are_serialized,
+                value_source_identity: value_source_identity);
             _values = values;
             _additional_wrapper_arguments = additional_wrapper_arguments;
+            _value_source_indexes = value_source_indexes;
         }
 
         public string[] get_values () { return _values; }
         public string[] get_additional_wrapper_arguments () { return _additional_wrapper_arguments; }
+        public int get_value_source_index (int position) {
+            return _value_source_indexes != null && position < _value_source_indexes.length
+                ? _value_source_indexes[position] : -1;
+        }
     }
 
     public class LaunchCommandCapabilityContext : Object {
@@ -191,7 +202,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                                 selection.option_id, "Launch option '%s' requires at least one argument.".printf (
                                     selection.option_id));
                         foreach (var value in values) {
-                            if (safe (diagnostics, selection.option_id, value))
+                            if (selection.values_are_serialized)
+                                append_serialized_argument (diagnostics, selection.option_id, value, game_arguments);
+                            else if (safe (diagnostics, selection.option_id, value))
                                 game_arguments.add (shell_word (value));
                         }
                     } else {
@@ -568,6 +581,21 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     "Launch option '%s' has an empty argument.".printf (id)); return false;
             }
             return true;
+        }
+
+        void append_serialized_argument (
+            ArrayList<LaunchCommandCompositionDiagnostic> diagnostics, string id,
+            string raw, ArrayList<string> output
+        ) {
+            if (!safe (diagnostics, id, raw))
+                return;
+            var tokens = new LaunchOptionShellTokenizer ().tokenize (raw);
+            if (tokens.size != 1 || tokens[0].raw != raw) {
+                add (diagnostics, LaunchCommandCompositionDiagnosticCode.EMPTY_OR_UNSAFE_ARGUMENT, id,
+                    "Launch option '%s' must contain one complete shell argument per entry.".printf (id));
+                return;
+            }
+            output.add (raw);
         }
         bool contains (string[] values, string value) { foreach (var candidate in values) if (candidate == value) return true; return false; }
         void add (ArrayList<LaunchCommandCompositionDiagnostic> diagnostics, LaunchCommandCompositionDiagnosticCode code, string id, string message) {

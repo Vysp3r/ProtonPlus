@@ -131,43 +131,33 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public string? get_diagnostic () { return diagnostic; }
     }
 
-    class LaunchCommandGameArgumentsSource : Object, ILaunchCommandSelectionSource {
+    class LaunchCommandArgumentListSource : Object, ILaunchCommandSelectionSource {
         public string option_id { get; set; }
-        unowned EntryBinding binding;
-        unowned LaunchOptionEntryField field;
-        string? diagnostic;
+        unowned LaunchOptionArgumentList arguments;
 
-        public LaunchCommandGameArgumentsSource (
-            string selection_id, EntryBinding binding, LaunchOptionEntryField field
-        ) {
+        public LaunchCommandArgumentListSource (string selection_id, LaunchOptionArgumentList arguments) {
             Object ();
-            this.option_id = selection_id;
-            this.binding = binding;
-            this.field = field;
+            option_id = selection_id;
+            this.arguments = arguments;
         }
 
         public LaunchCommandSelection? get_selection () {
-            diagnostic = null;
-            if (!binding.is_active ())
-                return null;
-            var values = new ArrayList<string> ();
-            foreach (var token in new LaunchOptionShellTokenizer ().tokenize (field.get_text ())) {
-                if (token.is_opaque) {
-                    diagnostic = "Custom game arguments contain opaque shell syntax.";
-                    return null;
-                }
-                values.add (token.value);
-            }
-            return values.size > 0
-                ? new LaunchCommandSelection (option_id, values.to_array ()) : null;
+            var values = arguments.get_raw_arguments ();
+            return values.length > 0
+                ? new LaunchCommandSelection (option_id, values, "", {}, true,
+                    arguments.get_source_indexes (), arguments.get_loaded_source ()) : null;
         }
 
-        public string? get_diagnostic () { return diagnostic; }
+        public string? get_diagnostic () {
+            return arguments.get_validation_diagnostic ();
+        }
     }
 
     /* Adapters are chosen by control type, never from option-ID branches. */
     public class LaunchCommandSelectionAdapterFactory : Object {
         public static ILaunchCommandSelectionSource? create (string id, Gtk.Widget? widget, ILaunchOption? option) {
+            var arguments = option as LaunchOptionArgumentList;
+            if (arguments != null) return new LaunchCommandArgumentListSource (id, arguments);
             var resolution = option as LaunchOptionResolutionField;
             if (resolution != null) return new LaunchCommandResolutionSelectionSource (id, resolution);
             var spin = option as LaunchOptionSpinTile;
@@ -177,9 +167,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var pairs = option as LaunchOptionCustomPairs;
             if (pairs != null) return new LaunchCommandEnvironmentValueSource (id, pairs);
             var field = widget as LaunchOptionEntryField;
-            var entry_binding = option as EntryBinding;
-            if (field != null && entry_binding != null)
-                return new LaunchCommandGameArgumentsSource (id, entry_binding, field);
             if (field != null) return new LaunchCommandWrapperArgumentsSource (id, field);
             if (option != null) return new LaunchCommandFixedOptionSource (id, option);
             return null;

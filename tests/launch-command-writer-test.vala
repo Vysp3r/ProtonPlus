@@ -5,14 +5,20 @@ namespace AppTests.LaunchCommandWriterTest {
     public void register_tests () {
         Test.add_func ("/launch-command-writer/pristine-and-clear", test_pristine_and_clear);
         Test.add_func ("/launch-command-writer/fresh-and-preserving-merge", test_fresh_and_preserving_merge);
-        Test.add_func ("/launch-command-writer/blocked-source", test_blocked_source);
+        Test.add_func ("/launch-command-writer/unsafe-source-is-blocked", test_unsafe_source_is_blocked);
+        Test.add_func ("/launch-command-writer/custom-prefix-combines-with-managed-options", test_custom_prefix_combines_with_managed_options);
         Test.add_func ("/launch-command-writer/managed-edit-preserves-boundary-and-legacy", test_managed_edit_preserves_boundary_and_legacy);
         Test.add_func ("/launch-command-writer/composite-output-has-one-owner", test_composite_output_has_one_owner);
-        Test.add_func ("/launch-command-writer/post-boundary-assignment-blocks-edit", test_post_boundary_assignment_blocks_edit);
+        Test.add_func ("/launch-command-writer/post-boundary-assignment-is-custom-argument", test_post_boundary_assignment_is_custom_argument);
         Test.add_func ("/launch-command-writer/prepare-source-is-per-game", test_prepare_source_is_per_game);
         Test.add_func ("/launch-command-writer/clear-remains-a-replacement-session", test_clear_remains_a_replacement_session);
         Test.add_func ("/launch-command-writer/edit-state-preserves-clear-intent", test_edit_state_preserves_clear_intent);
         Test.add_func ("/launch-command-writer/custom-arguments-replace-unrecognized-arguments", test_custom_arguments_replace_unrecognized_arguments);
+        Test.add_func ("/launch-command-writer/custom-arguments-preserve-source-anchors", test_custom_arguments_preserve_source_anchors);
+        Test.add_func ("/launch-command-writer/opaque-custom-argument-survives-managed-edit", test_opaque_custom_argument_survives_managed_edit);
+        Test.add_func ("/launch-command-writer/pre-command-custom-argument-keeps-its-slot", test_pre_command_custom_argument_keeps_its_slot);
+        Test.add_func ("/launch-command-writer/custom-argument-anchors-are-source-local", test_custom_argument_anchors_are_source_local);
+        Test.add_func ("/launch-command-writer/intentional-custom-duplicates-survive", test_intentional_custom_duplicates_survive);
     }
 
     private LaunchCommandWriteResult write (string source, LaunchCommandSelection[] selections,
@@ -62,12 +68,60 @@ namespace AppTests.LaunchCommandWriterTest {
         assert (arguments_only.launch_line == "PROTON_LOG=1 %command% -console");
     }
 
-    private void test_blocked_source () {
-        var blocked = write ("custom-wrapper %command%", { new LaunchCommandSelection ("gamemode") },
+    private void test_unsafe_source_is_blocked () {
+        var blocked = write ("$(custom-wrapper) %command%", { new LaunchCommandSelection ("gamemode") },
             { "gamemode" }, { LaunchOptionCapability.GAMEMODE });
         assert (blocked.status == LaunchCommandWriteStatus.BLOCKED_UNSAFE_SOURCE);
         assert (!blocked.writing_allowed);
         assert (blocked.launch_line == "");
+    }
+
+    private void test_custom_prefix_combines_with_managed_options () {
+        var source = "PROTON_USE_WAYLAND=1 game-performance %command%";
+        var parsed = new LaunchCommandParser ().parse (source);
+        var custom = parsed.get_custom_game_arguments ();
+        var indexes = parsed.get_custom_game_argument_indexes ();
+        assert (custom.size == 2);
+        assert (custom[0].raw == "PROTON_USE_WAYLAND=1");
+        assert (custom[1].raw == "game-performance");
+
+        var skip_launcher = write (source, {
+            new LaunchCommandSelection ("custom-game-arguments",
+                { custom[0].raw, custom[1].raw }, "", {}, true, indexes, source),
+            new LaunchCommandSelection ("skip-launcher")
+        }, { "skip-launcher" });
+        assert (skip_launcher.writing_allowed);
+        assert (skip_launcher.launch_line
+            == "PROTON_USE_WAYLAND=1 game-performance %command% -skip-launcher");
+
+        var combined = write (source, {
+            new LaunchCommandSelection ("proton-debug-log"),
+            new LaunchCommandSelection ("gamemode"),
+            new LaunchCommandSelection ("skip-launcher"),
+            new LaunchCommandSelection ("custom-game-arguments",
+                { custom[0].raw, "game-performance-v2", "--new-custom" },
+                "", {}, true, { indexes[0], indexes[1], -1 }, source)
+        }, { "proton-debug-log", "gamemode", "skip-launcher", "custom-game-arguments" },
+            { LaunchOptionCapability.PROTON, LaunchOptionCapability.GAMEMODE });
+        assert (combined.writing_allowed);
+        assert (combined.launch_line
+            == "PROTON_USE_WAYLAND=1 PROTON_LOG=1 game-performance-v2 gamemoderun %command% -skip-launcher --new-custom");
+
+        var removed = write (
+            "PROTON_USE_WAYLAND=1 game-performance %command% -skip-launcher",
+            { new LaunchCommandSelection ("custom-game-arguments",
+                { "PROTON_USE_WAYLAND=1", "game-performance" }) },
+            { "skip-launcher" }
+        );
+        assert (removed.writing_allowed);
+        assert (removed.launch_line == "PROTON_USE_WAYLAND=1 game-performance %command%");
+
+        var fresh_combined = write ("", {
+            new LaunchCommandSelection ("skip-launcher"),
+            new LaunchCommandSelection ("custom-game-arguments", { "--new-custom" }, "", {}, true)
+        }, { "skip-launcher", "custom-game-arguments" });
+        assert (fresh_combined.writing_allowed);
+        assert (fresh_combined.launch_line == "-skip-launcher --new-custom");
     }
 
     private void test_managed_edit_preserves_boundary_and_legacy () {
@@ -100,11 +154,11 @@ namespace AppTests.LaunchCommandWriterTest {
         assert (manual.launch_line == "scopebuddy -W 1920 -H 1080 -- %command%");
     }
 
-    private void test_post_boundary_assignment_blocks_edit () {
-        var blocked = write ("%command% PROTON_LOG=1", { new LaunchCommandSelection ("gamemode") },
+    private void test_post_boundary_assignment_is_custom_argument () {
+        var merged = write ("%command% PROTON_LOG=1", { new LaunchCommandSelection ("gamemode") },
             { "gamemode" }, { LaunchOptionCapability.GAMEMODE });
-        assert (blocked.status == LaunchCommandWriteStatus.BLOCKED_UNSAFE_SOURCE);
-        assert (!blocked.writing_allowed);
+        assert (merged.writing_allowed);
+        assert (merged.launch_line == "gamemoderun %command% PROTON_LOG=1");
     }
 
     private void test_prepare_source_is_per_game () {
@@ -162,11 +216,20 @@ namespace AppTests.LaunchCommandWriterTest {
         sources.add (source);
         var state = new LaunchCommandEditState ();
         state.record_baseline (sources);
+        assert (!state.is_dirty);
 
         source.selection = null;
         state.update (sources);
         assert (state.is_option_modified ("proton-debug-log"));
         assert (state.is_dirty);
+
+        source.selection = new LaunchCommandSelection ("proton-debug-log");
+        state.update (sources);
+        assert (!state.is_option_modified ("proton-debug-log"));
+        assert (!state.is_dirty);
+
+        source.selection = null;
+        state.update (sources);
         state.mark_explicit_clear (sources);
         assert (state.explicit_clear);
         assert (state.is_dirty);
@@ -207,5 +270,117 @@ namespace AppTests.LaunchCommandWriterTest {
         );
         assert (arguments_only.writing_allowed);
         assert (arguments_only.launch_line == "--new");
+    }
+
+    private void test_custom_arguments_preserve_source_anchors () {
+        var source = "PROTON_LOG=1 %command% --first=\"Exact one\" -console '--second=Exact two'";
+        var parsed = new LaunchCommandParser ().parse (source);
+        var indexes = parsed.get_custom_game_argument_indexes ();
+        assert (indexes.length == 2);
+
+        var removed_first_and_edited_second = write (
+            source,
+            {
+                new LaunchCommandSelection ("proton-debug-log"),
+                new LaunchCommandSelection ("developer-console"),
+                new LaunchCommandSelection ("custom-game-arguments",
+                    { "--second=\"Edited exactly\"" }, "", {}, true, { indexes[1] })
+            },
+            { "custom-game-arguments" }, { LaunchOptionCapability.PROTON }
+        );
+        assert (removed_first_and_edited_second.writing_allowed);
+        assert (removed_first_and_edited_second.launch_line
+            == "PROTON_LOG=1 %command% -console --second=\"Edited exactly\"");
+
+        var added = write (
+            source,
+            {
+                new LaunchCommandSelection ("proton-debug-log"),
+                new LaunchCommandSelection ("developer-console"),
+                new LaunchCommandSelection ("custom-game-arguments",
+                    { "--first=\"Exact one\"", "'--second=Exact two'", "--new=\"Keep this\"" },
+                    "", {}, true, { indexes[0], indexes[1], -1 })
+            },
+            { "custom-game-arguments" }, { LaunchOptionCapability.PROTON }
+        );
+        assert (added.writing_allowed);
+        assert (added.launch_line
+            == "PROTON_LOG=1 %command% --first=\"Exact one\" -console '--second=Exact two' --new=\"Keep this\"");
+    }
+
+    private void test_opaque_custom_argument_survives_managed_edit () {
+        var source = "  %command% --before $(opaque) -console  ";
+        var pristine = write (source, {});
+        assert (pristine.writing_allowed);
+        assert (!pristine.requires_persistence);
+        assert (pristine.launch_line == source);
+
+        var parsed = new LaunchCommandParser ().parse (source);
+        var custom = parsed.get_custom_game_arguments ();
+        var indexes = parsed.get_custom_game_argument_indexes ();
+        assert (custom.size == 2);
+        assert (custom[1].raw == "$(opaque)");
+
+        var merged = write (
+            source,
+            {
+                new LaunchCommandSelection ("gamemode"),
+                new LaunchCommandSelection ("developer-console"),
+                new LaunchCommandSelection ("custom-game-arguments",
+                    { custom[0].raw, custom[1].raw }, "", {}, true, indexes)
+            },
+            { "gamemode" }, { LaunchOptionCapability.GAMEMODE }
+        );
+        assert (merged.writing_allowed);
+        assert (merged.launch_line == "gamemoderun %command% --before $(opaque) -console");
+    }
+
+    private void test_pre_command_custom_argument_keeps_its_slot () {
+        var source = "custom-wrapper gamescope --unknown-wrapper-value -- %command% --game-value";
+        var parsed = new LaunchCommandParser ().parse (source);
+        var custom = parsed.get_custom_game_arguments ();
+        var indexes = parsed.get_custom_game_argument_indexes ();
+        assert (custom.size == 3);
+
+        var edited = write (
+            source,
+            {
+                new LaunchCommandSelection ("launch-backend", {}, "gamescope"),
+                new LaunchCommandSelection ("custom-game-arguments", {
+                    "custom-wrapper-v2", "--edited-wrapper-value", "--game-value"
+                }, "", {}, true, indexes)
+            },
+            { "custom-game-arguments" }, { LaunchOptionCapability.GAMESCOPE }
+        );
+        assert (edited.writing_allowed);
+        assert (edited.launch_line
+            == "custom-wrapper-v2 gamescope --edited-wrapper-value -- %command% --game-value");
+    }
+
+    private void test_custom_argument_anchors_are_source_local () {
+        var primary_source = "%command% --primary";
+        var primary = new LaunchCommandParser ().parse (primary_source);
+        var selection = new LaunchCommandSelection (
+            "custom-game-arguments", { "--replacement" }, "", {}, true,
+            primary.get_custom_game_argument_indexes (), primary_source
+        );
+
+        var secondary = write (
+            "PROTON_LOG=1 %command% --secondary",
+            { new LaunchCommandSelection ("proton-debug-log"), selection },
+            { "custom-game-arguments" }, { LaunchOptionCapability.PROTON }
+        );
+        assert (secondary.writing_allowed);
+        assert (secondary.launch_line == "PROTON_LOG=1 %command% --replacement");
+    }
+
+    private void test_intentional_custom_duplicates_survive () {
+        var merged = write (
+            "%command% --tag --tag",
+            { new LaunchCommandSelection ("gamemode") },
+            { "gamemode" }, { LaunchOptionCapability.GAMEMODE }
+        );
+        assert (merged.writing_allowed);
+        assert (merged.launch_line == "gamemoderun %command% --tag --tag");
     }
 }

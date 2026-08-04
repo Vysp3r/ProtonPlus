@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-30 15:39-0400\n"
+"POT-Creation-Date: 2026-07-30 17:48-0400\n"
 "PO-Revision-Date: 2026-05-15 06:11+0000\n"
 "Last-Translator: Yasmin Stanchese <yasmin@snowfloke.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -2446,34 +2446,24 @@ msgstr ""
 msgid "New tool"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:14
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:13
 #, fuzzy
 msgid "Advanced options"
 msgstr "Opções de inicialização"
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:15
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:14
 msgid "Extra control over the final Steam launch command."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:17
-msgid "Additional arguments"
-msgstr "Argumentos adicionais"
-
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:17
-#, fuzzy
-msgid "Add extra launch options"
-msgstr "Modificar opções de inicialização"
-
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:22
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1223
 #, fuzzy
 msgid "Custom game arguments"
 msgstr "Argumentos de lançamento personalizados"
 
-#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:22
-#, fuzzy
-msgid "Add your own launch options."
-msgstr "Modificar opções de inicialização"
+#: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:18
+msgid "Unknown arguments are imported here and preserved exactly as loaded."
+msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:14
 #, fuzzy
@@ -3326,70 +3316,95 @@ msgstr ""
 msgid "Override system-wide Vulkan driver preference for this game"
 msgstr ""
 
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:11
+#, fuzzy
+msgid "Argument"
+msgstr "Argumentos de jogo"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:14
+msgid "One exact shell argument. Quotes and escapes are preserved."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:20
+msgid "Apply argument edit"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:28
+#, fuzzy
+msgid "Remove argument"
+msgstr "Argumentos de jogo"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:81
+#, fuzzy
+msgid "Add custom argument"
+msgstr "Argumentos adicionais"
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:82
+msgid "Add one argument per list entry."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:135
+msgid "Each custom game argument must be one complete shell argument."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:137
+#, fuzzy
+msgid "Custom game arguments cannot contain %command%."
+msgstr "Argumentos de lançamento personalizados"
+
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:70
 msgid "Command preview"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:98
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1230
-#, fuzzy
-msgid "Preserved unrecognized launch options"
-msgstr "Modificar as opções de inicialização de jogo"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:99
-msgid ""
-"Quoted, opaque, and unknown shell content is retained exactly as loaded."
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:109
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:101
 #, fuzzy
 msgid "No matching launch options."
 msgstr "Modificar opções de inicialização"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:124
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:116
 msgid "Launch options"
 msgstr "Opções de lançamento"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:120
 #, fuzzy
 msgid "Search all options"
 msgstr "Opções de lançamento"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:130
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:122
 #, fuzzy
 msgid "Search launch options"
 msgstr "Modificar opções de inicialização"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:135
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:127
 msgid "Browse"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:136
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:473
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:468
 msgid "Quick settings"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:136
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:475
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:470
 #, fuzzy
 msgid "Active options"
 msgstr "Mais informação"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:136
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:477
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:472
 #, fuzzy
 msgid "All options"
 msgstr "Mais informação"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:219
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:211
 msgid "Raw command controls"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:220
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:212
 msgid "Change the Steam command placeholder only when a game requires it."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:552
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:547
 #, fuzzy
 msgid "Unable to safely prepare these launch options."
 msgstr "Modificar as opções de inicialização de jogo"
@@ -4226,7 +4241,9 @@ msgid "Adds -console when the game supports it."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1223
-msgid "Adds your own game arguments without changing recognized controls."
+msgid ""
+"Adds individual custom arguments and preserves unrecognized launch options "
+"exactly as loaded."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1226
@@ -4256,6 +4273,11 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1229
 msgid "Marks where Steam inserts the game's command."
 msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1230
+#, fuzzy
+msgid "Preserved unrecognized launch options"
+msgstr "Modificar as opções de inicialização de jogo"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1230
 msgid "Keeps unrecognized, quoted, and opaque shell content exactly as loaded."
@@ -6227,6 +6249,14 @@ msgstr ""
 #: src/widgets/window.vala:112
 msgid "Exit"
 msgstr "Sair"
+
+#, fuzzy
+#~ msgid "Add extra launch options"
+#~ msgstr "Modificar opções de inicialização"
+
+#, fuzzy
+#~ msgid "Add your own launch options."
+#~ msgstr "Modificar opções de inicialização"
 
 #, fuzzy
 #~ msgid "Compatibility"

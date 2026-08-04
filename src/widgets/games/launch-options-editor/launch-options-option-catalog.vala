@@ -1220,7 +1220,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             add_option ("renderer-dx11", _("DirectX 11 renderer"), _("Adds -dx11."), LaunchOptionCategory.GAME_ARGUMENTS, 30, { "-dx11" }, {}, LaunchLineType.ARGUMENT);
             add_option ("renderer-dx12", _("DirectX 12 renderer"), _("Adds -dx12."), LaunchOptionCategory.GAME_ARGUMENTS, 40, { "-dx12" }, {}, LaunchLineType.ARGUMENT);
             add_option ("developer-console", _("Developer console"), _("Adds -console when the game supports it."), LaunchOptionCategory.GAME_ARGUMENTS, 50, { "-console" }, { "Console" }, LaunchLineType.ARGUMENT);
-            add_option ("custom-game-arguments", _("Custom game arguments"), _("Adds your own game arguments without changing recognized controls."), LaunchOptionCategory.GAME_ARGUMENTS, 60, { "custom", "arguments" }, {}, LaunchLineType.ADDITIONAL, "", false, LaunchOptionExpertise.ADVANCED);
+            add_option ("custom-game-arguments", _("Custom game arguments"), _("Adds individual custom arguments and preserves unrecognized launch options exactly as loaded."), LaunchOptionCategory.GAME_ARGUMENTS, 60, { "custom", "arguments", "unknown" }, {}, LaunchLineType.ADDITIONAL, "", false, LaunchOptionExpertise.ADVANCED);
 
             // Diagnostics & raw command
             add_option ("proton-debug-log", _("Proton debug log"), _("Enables Proton troubleshooting logs."), LaunchOptionCategory.DIAGNOSTICS, 10, { "PROTON_LOG=1" }, { "Enable Proton logs" }, LaunchLineType.ENVIRONMENT, "", true);

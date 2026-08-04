@@ -54,10 +54,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             refresh_apply_state ();
         }
 
-        public void focus_entry () {
-            grab_focus ();
-        }
-
         void apply_pending_text () {
             var pending_text = text.strip ();
             if (pending_text == committed_text)

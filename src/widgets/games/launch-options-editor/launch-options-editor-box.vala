@@ -94,14 +94,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             advanced_options_group = new Groups.AdvancedOptionsGroup (launch_option_handlers, presentations);
             advanced_options_group.changed.connect (standard_control_changed);
 
-            var raw_content_row = new Adw.ActionRow () {
-                title = _("Preserved unrecognized launch options"),
-                subtitle = _("Quoted, opaque, and unknown shell content is retained exactly as loaded.")
-            };
-            presentations.register_display_only (
-                "raw-launch-options", raw_content_row, advanced_options_group.raw_arguments_binding
-            );
-
             categories_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 18);
             build_task_categories ();
             append (categories_box);
@@ -325,6 +317,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             preview_sources.add (loaded_source);
             gpu_vendor_group.reset_controls ();
             launch_option_handlers.load_from_string (launch_options);
+            advanced_options_group.load_custom_arguments (
+                new LaunchCommandParser (catalog).parse (launch_options)
+            );
             wrapper_group.normalize_selection ();
             gpu_vendor_group.normalize_dependencies ();
             edit_state.record_baseline (collect_sources ());

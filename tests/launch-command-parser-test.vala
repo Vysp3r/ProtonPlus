@@ -9,6 +9,7 @@ namespace AppTests.LaunchCommandParserTest {
         Test.add_func ("/launch-command-parser/scopebuddy-composite", test_scopebuddy_composite);
         Test.add_func ("/launch-command-parser/structural-diagnostics", test_structural_diagnostics);
         Test.add_func ("/launch-command-parser/raw-preservation", test_raw_preservation);
+        Test.add_func ("/launch-command-parser/custom-argument-import", test_custom_argument_import);
         Test.add_func ("/launch-command-parser/catalog-parse-validation", test_catalog_parse_validation);
     }
 
@@ -95,8 +96,9 @@ namespace AppTests.LaunchCommandParserTest {
         assert (has_diagnostic (parse ("PROTON_LOG=1"), LaunchCommandParseDiagnosticCode.MISSING_COMMAND_BOUNDARY));
         assert (has_diagnostic (parse ("mangohud"), LaunchCommandParseDiagnosticCode.MISSING_COMMAND_BOUNDARY));
         assert (has_diagnostic (parse ("%command% %command%"), LaunchCommandParseDiagnosticCode.DUPLICATE_COMMAND_BOUNDARY));
-        assert (has_diagnostic (parse ("%command% PROTON_LOG=1"), LaunchCommandParseDiagnosticCode.ENVIRONMENT_AFTER_COMMAND_BOUNDARY));
-        assert (has_diagnostic (parse ("%command% gamescope"), LaunchCommandParseDiagnosticCode.WRAPPER_AFTER_COMMAND_BOUNDARY));
+        var post_boundary = parse ("%command% PROTON_LOG=1 gamescope");
+        assert (post_boundary.diagnostics.size == 0);
+        assert (post_boundary.get_custom_game_arguments ().size == 2);
         assert (has_diagnostic (parse ("before%command%"), LaunchCommandParseDiagnosticCode.EMBEDDED_COMMAND_BOUNDARY));
         assert (has_diagnostic (parse ("$(unsafe) %command%"), LaunchCommandParseDiagnosticCode.UNSAFE_SHELL_TOKEN));
         assert (has_diagnostic (parse ("VAR=\"unterminated %command%"), LaunchCommandParseDiagnosticCode.UNSAFE_SHELL_TOKEN));
@@ -120,6 +122,34 @@ namespace AppTests.LaunchCommandParserTest {
         assert (overrides != null);
         assert (overrides.token_indexes[0] == 0);
         assert (result.unrecognized_tokens[0].kind == LaunchCommandUnrecognizedKind.PRESERVED_GAME_COMMAND_CONTENT);
+    }
+
+    private void test_custom_argument_import () {
+        var result = parse (
+            "PROTON_LOG=1 %command% --title=\"Exact spelling\" -console $(opaque) FOO=bar"
+        );
+        var arguments = result.get_custom_game_arguments ();
+        var indexes = result.get_custom_game_argument_indexes ();
+        assert (arguments.size == 3);
+        assert (indexes.length == 3);
+        assert (arguments[0].raw == "--title=\"Exact spelling\"");
+        assert (arguments[1].raw == "$(opaque)");
+        assert (arguments[2].raw == "FOO=bar");
+        assert (indexes[0] < indexes[1]);
+        assert (find_occurrence (result, "developer-console") != null);
+
+        var arguments_only = parse ("--first 'two words'").get_custom_game_arguments ();
+        assert (arguments_only.size == 2);
+        assert (arguments_only[0].raw == "--first");
+        assert (arguments_only[1].raw == "'two words'");
+
+        var grouped = parse (
+            "custom-wrapper gamescope --unknown-wrapper-value -- %command% --game-value"
+        ).get_custom_game_arguments ();
+        assert (grouped.size == 3);
+        assert (grouped[0].raw == "custom-wrapper");
+        assert (grouped[1].raw == "--unknown-wrapper-value");
+        assert (grouped[2].raw == "--game-value");
     }
 
     private void test_catalog_parse_validation () {

@@ -55,6 +55,19 @@ namespace AppTests.LaunchCommandComposerTest {
         assert (custom.is_valid);
         assert (custom.launch_line == "--profile 'hello world'");
 
+        var serialized = compose ({
+            new LaunchCommandSelection ("custom-game-arguments",
+                { "--profile=\"Exact spelling\"", "$(opaque)" }, "", {}, true)
+        });
+        assert (serialized.is_valid);
+        assert (serialized.launch_line == "--profile=\"Exact spelling\" $(opaque)");
+
+        var multiple = compose ({
+            new LaunchCommandSelection ("custom-game-arguments", { "two arguments" }, "", {}, true)
+        });
+        assert (!multiple.is_valid);
+        assert_code (multiple, LaunchCommandCompositionDiagnosticCode.EMPTY_OR_UNSAFE_ARGUMENT);
+
         var unsafe = compose ({
             new LaunchCommandSelection ("custom-game-arguments", { "%command%" })
         });

@@ -248,7 +248,7 @@ namespace ProtonPlus.Widgets.Games {
                                && compatibility_tool_row.get_selected_item () != null;
             var launch_options_changed = launch_options_switch.active && launch_options_editor.is_dirty;
 
-            clear_button.set_sensitive (launch_options_editor.has_clearable_state ());
+            clear_button.set_sensitive (launch_options_editor.is_dirty);
             apply_button.set_sensitive (launch_options_changed || tool_changed);
         }
 
