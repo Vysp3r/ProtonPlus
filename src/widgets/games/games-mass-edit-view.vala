@@ -355,6 +355,8 @@ namespace ProtonPlus.Widgets.Games {
 
         LaunchOptionsEditor.LaunchCommandCapabilityContext resolve_launch_option_capabilities () {
             var runtimes = new Models.CompatibilityToolRuntimeKind[rows.length];
+            var selected_tools = new Gee.ArrayList<Models.CompatibilityTool> ();
+            var all_tools_known = true;
             var runtime_index = 0;
             var all_steam = rows.length > 0;
             foreach (var row in rows) {
@@ -367,26 +369,54 @@ namespace ProtonPlus.Widgets.Games {
                 proposed = compatibility_tool_row.get_selected_item () as Models.CompatibilityTool;
 
             if (proposed != null) {
-                var runtime = capability_resolver.runtime_for_tool (proposed);
-                foreach (var ignored in rows)
-                    runtimes[runtime_index++] = runtime;
+                foreach (var row in rows) {
+                    var effective = resolve_effective_tool (row, proposed);
+                    runtimes[runtime_index++] = capability_resolver.runtime_for_tool (effective ?? proposed);
+                    if (effective == null || effective.path.strip () == "")
+                        all_tools_known = false;
+                    else
+                        selected_tools.add (effective);
+                }
             } else {
                 foreach (var row in rows) {
                     if (row.game.is_native) {
                         runtimes[runtime_index++] = Models.CompatibilityToolRuntimeKind.NATIVE;
+                        all_tools_known = false;
                         continue;
                     }
                     var current = compatibility_tools_by_id.get (row.game.compatibility_tool);
-                    runtimes[runtime_index++] = capability_resolver.runtime_for_tool (current);
+                    var effective = resolve_effective_tool (row, current);
+                    runtimes[runtime_index++] = capability_resolver.runtime_for_tool (effective ?? current);
+                    if (effective == null || effective.path.strip () == "")
+                        all_tools_known = false;
+                    else
+                        selected_tools.add (effective);
                 }
             }
 
             var components = new LaunchOptionsEditor.LaunchOptionInstalledComponents (
                 Globals.MANGOHUD_INSTALLED || Globals.MANGOHUD_FLATPAK_INSTALLED,
                 Globals.GAMEMODE_INSTALLED, Globals.GAMESCOPE_INSTALLED,
-                Globals.SCOPEBUDDY_INSTALLED, Globals.VKBASALT_INSTALLED
+                Globals.SCOPEBUDDY_INSTALLED, Globals.VKBASALT_INSTALLED,
+                Globals.GAME_PERFORMANCE_INSTALLED,
+                Globals.OBS_VKCAPTURE_INSTALLED
+                    || (Globals.OBS_VKCAPTURE_FLATPAK_INSTALLED
+                        && Globals.OBS_VKCAPTURE_FLATPAK_PLUGIN_INSTALLED)
             );
-            return capability_resolver.resolve (runtimes, all_steam, components, gpu_vendor);
+            Models.CompatibilityTool[] tools = all_tools_known
+                ? selected_tools.to_array () : new Models.CompatibilityTool[0];
+            return capability_resolver.resolve (runtimes, all_steam, components, gpu_vendor, tools);
+        }
+
+        Models.CompatibilityTool? resolve_effective_tool (
+            GameRow row, Models.CompatibilityTool? selected
+        ) {
+            if (selected == null || selected.internal_title != "Default"
+                || selected.runtime_kind == Models.CompatibilityToolRuntimeKind.NATIVE)
+                return selected;
+
+            var steam = row.game.launcher as Models.Launchers.Steam;
+            return steam?.resolve_effective_compatibility_tool (selected.internal_title);
         }
     }
 }

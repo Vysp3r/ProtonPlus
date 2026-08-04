@@ -19,6 +19,7 @@ namespace AppTests.LaunchCommandWriterTest {
         Test.add_func ("/launch-command-writer/pre-command-custom-argument-keeps-its-slot", test_pre_command_custom_argument_keeps_its_slot);
         Test.add_func ("/launch-command-writer/custom-argument-anchors-are-source-local", test_custom_argument_anchors_are_source_local);
         Test.add_func ("/launch-command-writer/intentional-custom-duplicates-survive", test_intentional_custom_duplicates_survive);
+        Test.add_func ("/launch-command-writer/current-options-preview-and-validation", test_current_options_preview_and_validation);
     }
 
     private LaunchCommandWriteResult write (string source, LaunchCommandSelection[] selections,
@@ -68,6 +69,37 @@ namespace AppTests.LaunchCommandWriterTest {
         assert (arguments_only.launch_line == "PROTON_LOG=1 %command% -console");
     }
 
+    private void test_current_options_preview_and_validation () {
+        var preview = write ("", {
+            new LaunchCommandSelection ("dxvk-hdr"),
+            new LaunchCommandSelection ("amd-fsr4"),
+            new LaunchCommandSelection ("amd-mlfg"),
+            new LaunchCommandSelection ("obs-vkcapture")
+        }, { "dxvk-hdr", "amd-fsr4", "amd-mlfg", "obs-vkcapture" }, {
+            LaunchOptionCapability.DXVK, LaunchOptionCapability.AMD,
+            LaunchOptionCapability.PROTON_FSR4, LaunchOptionCapability.PROTON_MLFG,
+            LaunchOptionCapability.OBS_VKCAPTURE
+        });
+        assert (preview.writing_allowed);
+        assert (preview.launch_line
+            == "DXVK_HDR=1 PROTON_FSR4_UPGRADE=1 PROTON_MLFG_UPGRADE=1 OBS_VKCAPTURE=1 %command%");
+
+        var conflict = write ("", {
+            new LaunchCommandSelection ("amd-fsr4"),
+            new LaunchCommandSelection ("cachyos-vulkan-low-latency"),
+            new LaunchCommandSelection ("cachyos-vulkan-reflex"),
+            new LaunchCommandSelection ("amd-reflex-force-nvapi")
+        }, {
+            "amd-fsr4", "cachyos-vulkan-low-latency", "cachyos-vulkan-reflex",
+            "amd-reflex-force-nvapi"
+        }, {
+            LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON_FSR4,
+            LaunchOptionCapability.LOW_LATENCY_LAYER
+        });
+        assert (!conflict.writing_allowed);
+        assert (conflict.status == LaunchCommandWriteStatus.BLOCKED_INVALID_SELECTIONS);
+    }
+
     private void test_unsafe_source_is_blocked () {
         var blocked = write ("$(custom-wrapper) %command%", { new LaunchCommandSelection ("gamemode") },
             { "gamemode" }, { LaunchOptionCapability.GAMEMODE });
@@ -77,13 +109,13 @@ namespace AppTests.LaunchCommandWriterTest {
     }
 
     private void test_custom_prefix_combines_with_managed_options () {
-        var source = "PROTON_USE_WAYLAND=1 game-performance %command%";
+        var source = "PROTON_USE_WAYLAND=1 custom-performance %command%";
         var parsed = new LaunchCommandParser ().parse (source);
         var custom = parsed.get_custom_game_arguments ();
         var indexes = parsed.get_custom_game_argument_indexes ();
         assert (custom.size == 2);
         assert (custom[0].raw == "PROTON_USE_WAYLAND=1");
-        assert (custom[1].raw == "game-performance");
+        assert (custom[1].raw == "custom-performance");
 
         var skip_launcher = write (source, {
             new LaunchCommandSelection ("custom-game-arguments",
@@ -92,7 +124,7 @@ namespace AppTests.LaunchCommandWriterTest {
         }, { "skip-launcher" });
         assert (skip_launcher.writing_allowed);
         assert (skip_launcher.launch_line
-            == "PROTON_USE_WAYLAND=1 game-performance %command% -skip-launcher");
+            == "PROTON_USE_WAYLAND=1 custom-performance %command% -skip-launcher");
 
         var combined = write (source, {
             new LaunchCommandSelection ("proton-debug-log"),
@@ -108,13 +140,13 @@ namespace AppTests.LaunchCommandWriterTest {
             == "PROTON_USE_WAYLAND=1 PROTON_LOG=1 game-performance-v2 gamemoderun %command% -skip-launcher --new-custom");
 
         var removed = write (
-            "PROTON_USE_WAYLAND=1 game-performance %command% -skip-launcher",
+            "PROTON_USE_WAYLAND=1 custom-performance %command% -skip-launcher",
             { new LaunchCommandSelection ("custom-game-arguments",
-                { "PROTON_USE_WAYLAND=1", "game-performance" }) },
+                { "PROTON_USE_WAYLAND=1", "custom-performance" }) },
             { "skip-launcher" }
         );
         assert (removed.writing_allowed);
-        assert (removed.launch_line == "PROTON_USE_WAYLAND=1 game-performance %command%");
+        assert (removed.launch_line == "PROTON_USE_WAYLAND=1 custom-performance %command%");
 
         var fresh_combined = write ("", {
             new LaunchCommandSelection ("skip-launcher"),

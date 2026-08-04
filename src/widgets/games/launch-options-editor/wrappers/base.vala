@@ -83,15 +83,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             output.append (token);
         }
 
-        internal int get_unconsumed_token_index (string[] tokens, string token, bool[] consumed) {
-            for (var index = 0; index < tokens.length; index++) {
-                if (!consumed[index] && tokens[index] == token)
-                    return index;
-            }
-
-            return -1;
-        }
-
         public void add_child (ILaunchOption child) {
             this._children.add (child);
         }

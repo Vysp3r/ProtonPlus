@@ -227,7 +227,7 @@ old data.
 | Change launcher detection/layout | `src/models/launchers/` | Launcher initialization, target identity, CLI IDs, install layouts, Flatpak manifest. |
 | Change archive installation | `src/services/standard-archive-workflow.vala` | `InstallationService`, process guard, metadata, inventory, installer/update transaction tests. |
 | Change Steam configuration | `steam-configuration-service.vala` | VDF helpers, manager/store, session evidence, orchestrator, effective-state overlays. |
-| Change launch options | `src/widgets/games/launch-options-editor/` | Parser/composer/writer/projection tests and both single-game and mass-edit Apply paths. |
+| Change launch options | `src/widgets/games/launch-options-editor/` | Read [`launch-options.md`](launch-options.md), then check parser/composer/writer/projection tests and both single-game and mass-edit Apply paths. |
 | Change tool variants | Variant models and provider definitions | Catalog asset selection, saved selection, Tools UI projection, install/update guard. |
 | Change GTK behavior | Relevant `src/widgets/` subtree | Model/service boundary, async lifetime, controller access, translations, manual checks. |
 | Add a setting | GSettings schema and preferences widgets | Defaults, bindings, migrations when semantics change, schema validation. |

@@ -74,6 +74,16 @@ namespace AppTests.LaunchCommandParserTest {
         assert (alias.wrappers[0].wrapper_id == "scopebuddy");
         assert (alias.wrappers[0].used_alias);
 
+        var current = parse (
+            "DXVK_NO_HDR=1 PROTON_FSR4_UPGRADE=1 LOW_LATENCY_LAYER=1 "
+            + "game-performance %command%"
+        );
+        assert (current.wrappers.size == 1);
+        assert (current.wrappers[0].wrapper_id == "game-performance");
+        assert (has_occurrence (current, "dxvk-no-hdr"));
+        assert (has_occurrence (current, "amd-fsr4"));
+        assert (has_occurrence (current, "cachyos-vulkan-low-latency"));
+
         var missing = parse ("gamescope -f %command%");
         assert (has_diagnostic (missing, LaunchCommandParseDiagnosticCode.MISSING_WRAPPER_DELIMITER));
         var unknown = parse ("gamescope --unknown -- %command%");

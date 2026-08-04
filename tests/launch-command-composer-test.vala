@@ -8,6 +8,8 @@ namespace AppTests.LaunchCommandComposerTest {
         Test.add_func ("/launch-command-composer/wrappers-and-composite", test_wrappers_and_composite);
         Test.add_func ("/launch-command-composer/invalid-combinations", test_invalid_combinations);
         Test.add_func ("/launch-command-composer/capabilities-and-values", test_capabilities_and_values);
+        Test.add_func ("/launch-command-composer/current-custom-proton-options", test_current_custom_proton_options);
+        Test.add_func ("/launch-command-composer/current-option-conflicts", test_current_option_conflicts);
         Test.add_func ("/launch-command-composer/parsed-validation", test_parsed_validation);
     }
 
@@ -150,6 +152,87 @@ namespace AppTests.LaunchCommandComposerTest {
         var bad_count = compose ({ new LaunchCommandSelection ("gamescope-resolution", { "1920" }) }, { LaunchOptionCapability.GAMESCOPE });
         assert (!bad_count.is_valid);
         assert_code (bad_count, LaunchCommandCompositionDiagnosticCode.INVALID_VALUE_COUNT);
+    }
+
+    private void test_current_custom_proton_options () {
+        var game_performance = compose ({ new LaunchCommandSelection ("game-performance") }, {
+            LaunchOptionCapability.GAME_PERFORMANCE
+        });
+        assert (game_performance.is_valid);
+        assert (game_performance.launch_line == "game-performance %command%");
+
+        var capture = compose ({
+            new LaunchCommandSelection ("mangohud-vulkan"),
+            new LaunchCommandSelection ("obs-vkcapture")
+        }, { LaunchOptionCapability.MANGOHUD, LaunchOptionCapability.OBS_VKCAPTURE });
+        assert (capture.is_valid);
+        assert (capture.launch_line == "MANGOHUD=1 OBS_VKCAPTURE=1 %command%");
+
+        var low_latency = compose ({
+            new LaunchCommandSelection ("cachyos-vulkan-low-latency"),
+            new LaunchCommandSelection ("cachyos-vulkan-reflex"),
+            new LaunchCommandSelection ("amd-reflex-allow-other-drivers")
+        }, { LaunchOptionCapability.AMD, LaunchOptionCapability.LOW_LATENCY_LAYER });
+        assert (low_latency.is_valid);
+        assert (low_latency.launch_line == "LOW_LATENCY_LAYER=1 LOW_LATENCY_LAYER_REFLEX=1 DXVK_NVAPI_ALLOW_OTHER_DRIVERS=1 %command%");
+
+        var mlfg = compose ({
+            new LaunchCommandSelection ("amd-fsr4"),
+            new LaunchCommandSelection ("amd-mlfg"),
+            new LaunchCommandSelection ("amd-mlfg-rdna3-workaround")
+        }, {
+            LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON_FSR4,
+            LaunchOptionCapability.PROTON_MLFG
+        });
+        assert (mlfg.is_valid);
+        assert (mlfg.launch_line == "PROTON_FSR4_UPGRADE=1 PROTON_MLFG_UPGRADE=1 DXIL_SPIRV_CONFIG=wmma_rdna3_workaround %command%");
+    }
+
+    private void test_current_option_conflicts () {
+        var performance = compose ({
+            new LaunchCommandSelection ("gamemode"),
+            new LaunchCommandSelection ("game-performance")
+        }, { LaunchOptionCapability.GAMEMODE, LaunchOptionCapability.GAME_PERFORMANCE });
+        assert (!performance.is_valid);
+        assert_code (performance, LaunchCommandCompositionDiagnosticCode.EXPLICIT_OPTION_CONFLICT);
+
+        var overlays = compose ({
+            new LaunchCommandSelection ("performance-overlay"),
+            new LaunchCommandSelection ("mangohud-vulkan")
+        }, { LaunchOptionCapability.MANGOHUD });
+        assert (!overlays.is_valid);
+        assert_code (overlays, LaunchCommandCompositionDiagnosticCode.EXPLICIT_OPTION_CONFLICT);
+
+        var hdr = compose ({
+            new LaunchCommandSelection ("dxvk-hdr"),
+            new LaunchCommandSelection ("dxvk-no-hdr")
+        }, { LaunchOptionCapability.DXVK, LaunchOptionCapability.PROTON_AUTO_HDR_CONTROL });
+        assert (!hdr.is_valid);
+        assert_code (hdr, LaunchCommandCompositionDiagnosticCode.EXPLICIT_OPTION_CONFLICT);
+
+        var spoof_fsr = compose ({
+            new LaunchCommandSelection ("cachyos-vulkan-low-latency"),
+            new LaunchCommandSelection ("cachyos-vulkan-reflex"),
+            new LaunchCommandSelection ("amd-reflex-dxgi-spoof"),
+            new LaunchCommandSelection ("amd-fsr4")
+        }, {
+            LaunchOptionCapability.AMD, LaunchOptionCapability.LOW_LATENCY_LAYER,
+            LaunchOptionCapability.PROTON_FSR4
+        });
+        assert (!spoof_fsr.is_valid);
+        assert_code (spoof_fsr, LaunchCommandCompositionDiagnosticCode.EXPLICIT_OPTION_CONFLICT);
+
+        var dx12_frame_generation = compose ({
+            new LaunchCommandSelection ("amd-fsr4"),
+            new LaunchCommandSelection ("amd-mlfg"),
+            new LaunchCommandSelection ("cachyos-vkd3d-low-latency")
+        }, {
+            LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON_FSR4,
+            LaunchOptionCapability.PROTON_MLFG,
+            LaunchOptionCapability.PROTON_VKD3D_LOW_LATENCY
+        });
+        assert (!dx12_frame_generation.is_valid);
+        assert_code (dx12_frame_generation, LaunchCommandCompositionDiagnosticCode.EXPLICIT_OPTION_CONFLICT);
     }
 
     private void test_parsed_validation () {

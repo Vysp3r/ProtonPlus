@@ -17,6 +17,7 @@ namespace AppTests.SteamTest {
         Test.add_func ("/steam/linux-runtime-detection", test_linux_runtime_detection);
         Test.add_func ("/steam/base-launcher-compatibility-tool-lifecycle-is-no-op", test_base_launcher_compatibility_tool_lifecycle);
         Test.add_func ("/steam/compatibility-tool-registration-deduplicates-and-sorts", test_compatibility_tool_registration);
+        Test.add_func ("/steam/effective-default-compatibility-tool", test_effective_default_compatibility_tool);
         Test.add_func ("/steam/compatibility-tool-path-registration-loads-tool", test_compatibility_tool_path_registration);
         Test.add_func ("/steam/text-vdf-writes-and-rejections", test_text_vdf_writes_and_rejections);
         Test.add_func ("/steam/localconfig-launch-options-writes-and-rejections", test_localconfig_launch_options_writes_and_rejections);
@@ -72,6 +73,33 @@ namespace AppTests.SteamTest {
         assert (steam.compatibility_tools.size == 2);
         assert (steam.compatibility_tools[0].display_title == "Proton 9.0");
         assert (steam.compatibility_tools[1].display_title == "Steam Linux Runtime 3.0");
+    }
+
+    private void test_effective_default_compatibility_tool () {
+        var steam = new ProtonPlus.Models.Launchers.Steam (
+            ProtonPlus.Models.Launcher.InstallationTypes.SNAP
+        );
+        steam.compatibility_tools.clear ();
+        var cachyos = new ProtonPlus.Models.CompatibilityTool (
+            "Proton-CachyOS", "proton-cachyos", "/tools/proton-cachyos",
+            CompatibilityToolRuntimeKind.PROTON
+        );
+        steam.register_compatibility_tool (cachyos);
+        steam.register_compatibility_tool (new ProtonPlus.Models.CompatibilityTool (
+            "Proton 10", "proton-10", "/tools/proton-10",
+            CompatibilityToolRuntimeKind.PROTON
+        ));
+
+        steam.default_compatibility_tool = "proton-cachyos";
+        assert (steam.resolve_effective_compatibility_tool ("Default") == cachyos);
+        assert (steam.resolve_effective_compatibility_tool ("proton-cachyos") == cachyos);
+
+        steam.default_compatibility_tool = "missing-tool";
+        assert (steam.resolve_effective_compatibility_tool ("Default") == null);
+        steam.default_compatibility_tool = "Default";
+        assert (steam.resolve_effective_compatibility_tool ("Default") == null);
+        steam.default_compatibility_tool = "";
+        assert (steam.resolve_effective_compatibility_tool ("Default") == null);
     }
 
     private string temporary_directory () {

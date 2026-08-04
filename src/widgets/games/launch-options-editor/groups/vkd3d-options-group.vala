@@ -6,6 +6,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         public LaunchOptionVKD3DLogLevel vkd3d_log_level_editor { get; private set; }
         LaunchOptionTile vkd3d_gpuva_tile { get; private set; }
         LaunchOptionTile vkd3d_shader_cache_tile { get; private set; }
+        LaunchOptionTile cachyos_vkd3d_low_latency_tile { get; private set; }
 
         public Vkd3dOptionsGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
             base (launch_option_handlers, true, presentation_registry);
@@ -36,9 +37,16 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 _("Enables VKD3D's internal shader caching mechanism to minimize in-game stutter."),
                 { "VKD3D_SHADER_CACHE=1" }, false, LaunchLineType.ENVIRONMENT, "vkd3d-shader-cache"
             );
+            cachyos_vkd3d_low_latency_tile = create_tile (
+                _("Proton-CachyOS DX12 low latency"),
+                _("Uses Reflex markers or waitable swapchains. Intel GPUs and frame generation are unsupported."),
+                { "PROTON_VKD3D_LOWLATENCY=1" }, false, LaunchLineType.ENVIRONMENT,
+                "cachyos-vkd3d-low-latency"
+            );
 
             this.add (vkd3d_shader_cache_tile);
             this.add (vkd3d_gpuva_tile);
+            this.add (cachyos_vkd3d_low_latency_tile);
             this.add (vkd3d_config_editor);
             this.add (vkd3d_log_level_editor);
 
