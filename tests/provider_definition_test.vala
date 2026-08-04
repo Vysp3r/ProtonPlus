@@ -69,6 +69,48 @@ namespace AppTests.ProviderDefinitionTest {
         return ProviderCatalog.create_tool (definition, group);
     }
 
+    private string expected_repository_url (string provider_id) {
+        switch (provider_id) {
+        case "dxvk-doitsujin":
+            return "https://github.com/doitsujin/dxvk";
+        case "dxvk-gplasync-ph42on":
+            return "https://gitlab.com/Ph42oN/dxvk-gplasync";
+        case "dxvk-sarek":
+            return "https://github.com/pythonlover02/DXVK-Sarek";
+        case "vkd3d-proton":
+            return "https://github.com/HansKristian-Work/vkd3d-proton";
+        case "vkd3d-lutris":
+            return "https://github.com/lutris/vkd3d";
+        case "proton-ge":
+            return "https://github.com/GloriousEggroll/proton-ge-custom";
+        case "proton-cachyos":
+            return "https://github.com/CachyOS/proton-cachyos";
+        case "dw-proton":
+            return "https://dawn.wine/dawn-winery/dwproton";
+        case "proton-ge-rtsp":
+            return "https://github.com/SpookySkeletons/proton-ge-rtsp";
+        case "proton-tkg":
+            return "https://github.com/Frogging-Family/wine-tkg-git";
+        case "proton-em":
+            return "https://github.com/Etaash-mathamsetty/Proton";
+        case "proton-cachyos-wineland":
+            return "https://github.com/nanomatters/proton-cachyos";
+        case "luxtorpeda":
+            return "https://codeberg.org/luxtorpeda/luxtorpeda";
+        case "boxtron":
+            return "https://github.com/dreamer/boxtron";
+        case "roberta":
+            return "https://github.com/dreamer/roberta";
+        case "wine-proton":
+        case "wine-staging":
+        case "wine-staging-tkg":
+        case "wine-vanilla":
+            return "https://github.com/Kron4ek/Wine-Builds";
+        default:
+            assert_not_reached ();
+        }
+    }
+
     private void test_definition_snapshot () {
         var expected = get_snapshot ().get_array_member ("definitions");
         var definitions = new ProviderRegistry ().get_all ();
@@ -83,6 +125,7 @@ namespace AppTests.ProviderDefinitionTest {
             assert (category_name (definition.category) == object.get_string_member ("type"));
             assert (source_name (definition.source_type) == object.get_string_member ("source"));
             assert (definition.endpoint == object.get_string_member ("endpoint"));
+            assert (definition.repository_url == expected_repository_url (definition.provider_id));
             assert (definition.sort_priority == object.get_int_member ("priority"));
             assert (definition.tag == object.get_string_member_with_default ("tag", ""));
             assert (definition.legacy == object.get_boolean_member_with_default ("legacy", false));
@@ -149,6 +192,8 @@ namespace AppTests.ProviderDefinitionTest {
         assert (definition.get_variants ()[0].name == "x86");
         assert (first.provider_id == definition.provider_id);
         assert (second.provider_id == definition.provider_id);
+        assert (first.repository_url == definition.repository_url);
+        assert (second.repository_url == definition.repository_url);
         assert (first.definition == definition);
         assert (second.definition == definition);
     }
@@ -184,6 +229,7 @@ namespace AppTests.ProviderDefinitionTest {
         group.refresh_installed_state ();
         var tool = new ProtonPlus.Models.Tools.SteamTinkerLaunch (group);
         assert (tool.title == expected.get_string_member ("title"));
+        assert (tool.repository_url == "https://github.com/sonic2kk/steamtinkerlaunch");
         assert (tool.release_catalog != null);
         var loop = new MainLoop ();
         ProtonPlus.Models.ReleaseCatalogResult? catalog_result = null;

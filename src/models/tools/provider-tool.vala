@@ -25,6 +25,7 @@ namespace ProtonPlus.Models.Tools {
             this.install_layout = install_layout;
             this.title = definition.title;
             this.description = Utils.safe_translate (definition.description);
+            this.repository_url = definition.repository_url;
             this.legacy = definition.legacy;
             this.sort_priority = definition.sort_priority;
             this.archive_install_requirement = definition.archive_install_requirement;

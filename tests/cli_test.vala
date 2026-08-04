@@ -167,7 +167,7 @@ namespace AppTests.CliTest {
     ) {
         var definition = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, provider_id, title, "",
-            "https://fixtures.invalid/releases", 1,
+            "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
             { new VariantDefinition ("default", "Default", "$release_name", true, compatibility) },
             { InstallLayout.template ("default", "$release_name") }
         );

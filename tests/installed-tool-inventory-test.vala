@@ -48,7 +48,7 @@ namespace AppTests.InstalledToolInventoryTest {
 
     private ProviderDefinition definition (string id, string title, string endpoint = "https://example.test/releases") {
         return new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, id, title, "", endpoint, 1,
+            Category.PROTON, SourceType.GITHUB, id, title, "", endpoint, "https://example.test/source", 1,
             {
                 new VariantDefinition ("default", "default", "$release_name", true),
                 new VariantDefinition ("arm", "Arm 64", "$release_name-arm", false)

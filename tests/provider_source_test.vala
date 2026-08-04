@@ -38,6 +38,7 @@ namespace AppTests.ProviderSourceTest {
             "Fixture provider",
             "",
             "https://example.test/releases",
+            "https://example.test/source",
             1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") },
@@ -57,6 +58,7 @@ namespace AppTests.ProviderSourceTest {
             "Fixture provider",
             "",
             "https://example.test/releases",
+            "https://example.test/source",
             1,
             {
                 new VariantDefinition ("default", "default", "$release_name-default", true),
@@ -146,7 +148,7 @@ namespace AppTests.ProviderSourceTest {
     private void test_github_actions_definition_filters () {
         var filtered = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB_ACTIONS, "filtered-actions", "Fixture provider", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") },
             { "73" }, null, "", false,
@@ -159,7 +161,7 @@ namespace AppTests.ProviderSourceTest {
 
         var excluded = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB_ACTIONS, "excluded-actions", "Fixture provider", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") },
             null, { "73" }, "", false,
@@ -173,7 +175,8 @@ namespace AppTests.ProviderSourceTest {
 
     private void test_github_definition_filters () {
         var filtered = new ProviderDefinition (
-            Category.WINE, SourceType.GITHUB, "filtered", "Filtered", "", "https://example.test/releases", 1,
+            Category.WINE, SourceType.GITHUB, "filtered", "Filtered", "", "https://example.test/releases",
+            "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") },
             { "proton" }
@@ -182,7 +185,8 @@ namespace AppTests.ProviderSourceTest {
         assert (filtered_result.succeeded && filtered_result.require_page ().releases.size == 0);
 
         var excluded = new ProviderDefinition (
-            Category.WINE, SourceType.GITHUB, "excluded", "Excluded", "", "https://example.test/releases", 1,
+            Category.WINE, SourceType.GITHUB, "excluded", "Excluded", "", "https://example.test/releases",
+            "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") },
             null, { "GE-Proton" }

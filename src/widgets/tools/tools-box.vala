@@ -111,7 +111,6 @@ namespace ProtonPlus.Widgets.Tools {
                 valign = Gtk.Align.CENTER,
                 visible = false
             };
-            open_button.set_tooltip_text (_ ("Open in browser"));
             open_button.clicked.connect (() => {
                 if (current_job != null && current_job.release.page_url != null) {
                     Utils.System.open_uri (current_job.release.page_url);
@@ -148,7 +147,7 @@ namespace ProtonPlus.Widgets.Tools {
                 policy = Adw.ViewSwitcherPolicy.WIDE
             };
 
-            refresh_button = new Gtk.Button.from_icon_name ("view-refresh-symbolic") {
+            refresh_button = new Gtk.Button.from_icon_name ("update-check-symbolic") {
                 valign = Gtk.Align.CENTER
             };
             refresh_button.set_tooltip_text (_ ("Check for updates"));
@@ -269,12 +268,13 @@ namespace ProtonPlus.Widgets.Tools {
             };
             header_bar.pack_start (back_button);
             header_bar.pack_end (refresh_button);
+            header_bar.pack_end (releases_box.refresh_button);
             header_bar.pack_end (filter_button);
             header_bar.pack_end (search_button);
             header_bar.pack_end (open_button);
             header_bar.pack_end (migrate_button);
             header_bar.pack_end (migrate_box.migrate_button);
-            header_bar.pack_end (releases_box.refresh_button);
+            header_bar.pack_end (releases_box.repository_button);
             header_bar.pack_end (releases_box.variant_box);
 
             action_bar = new Gtk.ActionBar ();
@@ -409,11 +409,14 @@ namespace ProtonPlus.Widgets.Tools {
 
         void update_open_button_visibility () {
             var visible_child = stack.get_visible_child_name ();
+            if (current_job != null && current_job.release.page_url != null)
+                open_button.set_tooltip_text (current_job.release.page_url);
+            else
+                open_button.set_tooltip_text (null);
             open_button.set_visible (
                 visible_child == "release"
                 && current_job != null
                 && current_job.release.page_url != null
-                && release_box.stack_switcher.stack.visible_child_name == "changelog"
             );
             migrate_button.set_visible (
                 visible_child == "release"

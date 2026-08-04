@@ -123,7 +123,7 @@ namespace AppTests.UpdateTransactionTest {
         var group = new Group ("Fixture", "", "", launcher);
         var definition = new ProviderDefinition (
             Category.PROTON, source_type, "fixture-%s".printf (ProviderDefinition.source_id_for (source_type)),
-            "Fixture Runner", "", "https://example.test/releases", 1,
+            "Fixture Runner", "", "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") }, null, null, "", false,
             source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture.zip" : "",
@@ -139,7 +139,7 @@ namespace AppTests.UpdateTransactionTest {
         var group = new Group ("Fixture", "", "", launcher);
         var definition = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, "fixture-static", "Fixture Runner", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") }
         );
@@ -550,13 +550,13 @@ namespace AppTests.UpdateTransactionTest {
 
         var compatible_definition = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, "compatible-fixture", "Compatible Runner", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("base", "Baseline", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") }
         );
         var incompatible_definition = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, "incompatible-fixture", "Incompatible Runner", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("v3", "Optimized", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") }
         );
@@ -671,7 +671,7 @@ namespace AppTests.UpdateTransactionTest {
                 VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)));
             var update_definition = new ProviderDefinition (
                 Category.PROTON, SourceType.GITHUB, "background-provider", "Background Runner", "",
-                "https://fixtures.invalid/releases", 1,
+                "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
                 { new VariantDefinition ("base", "Baseline", "$release_name", true,
                     VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
                 { InstallLayout.template ("default", "$release_name") }
@@ -700,7 +700,7 @@ namespace AppTests.UpdateTransactionTest {
             current_release.variants.add (new Models.Variant ("base", "Baseline", "", true, current_url));
             var current_definition = new ProviderDefinition (
                 Category.PROTON, SourceType.GITHUB, "background-current", "Current Runner", "",
-                "https://fixtures.invalid/releases", 1,
+                "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
                 { new VariantDefinition ("base", "Baseline", "$release_name", true) },
                 { InstallLayout.template ("default", "$release_name") }
             );
@@ -721,7 +721,7 @@ namespace AppTests.UpdateTransactionTest {
                 incompatible_url, VariantCompatibility.for_x86_64_level (X86_64Level.V3)));
             var incompatible_definition = new ProviderDefinition (
                 Category.PROTON, SourceType.GITHUB, "background-incompatible", "Incompatible Runner", "",
-                "https://fixtures.invalid/releases", 1,
+                "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
                 { new VariantDefinition ("v3", "Optimized", "$release_name", true,
                     VariantCompatibility.for_x86_64_level (X86_64Level.V3)) },
                 { InstallLayout.template ("default", "$release_name") }

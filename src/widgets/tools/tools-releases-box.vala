@@ -7,6 +7,7 @@ namespace ProtonPlus.Widgets.Tools {
         public Gtk.Box header_title { get; private set; }
         public Gtk.Label last_updated_label { get; private set; }
         public Gtk.Button refresh_button { get; private set; }
+        public Gtk.Button repository_button { get; private set; }
         Gtk.ListBox list_box { get; set; }
         Gtk.ScrolledWindow scrolled { get; set; }
         Gtk.Stack content_stack { get; set; }
@@ -172,12 +173,21 @@ namespace ProtonPlus.Widgets.Tools {
             };
             title_box.append (last_updated_label);
 
-            refresh_button = new Gtk.Button.from_icon_name ("view-refresh-symbolic") {
+            refresh_button = new Gtk.Button.from_icon_name ("arrows-rotate-symbolic") {
                 valign = Gtk.Align.CENTER,
                 tooltip_text = _("Check for new releases")
             };
             refresh_button.add_css_class ("flat");
             refresh_button.clicked.connect (on_refresh_clicked);
+
+            repository_button = new Gtk.Button.from_icon_name ("globe-symbolic") {
+                valign = Gtk.Align.CENTER,
+                visible = false
+            };
+            repository_button.clicked.connect (() => {
+                if (current_tool != null && current_tool.repository_url != "")
+                    Utils.System.open_uri (current_tool.repository_url);
+            });
 
             Gtk.Expression expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
 
@@ -295,6 +305,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             title_label.set_label (tool.title);
             title_label.set_tooltip_text (tool.description);
+            update_repository_button (tool);
             update_last_updated_label ();
             update_variant_row (tool);
 
@@ -433,6 +444,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             title_label.set_label (tool.title);
             title_label.set_tooltip_text (tool.description);
+            update_repository_button (tool);
 
             var catalog = tool.release_catalog;
             if (catalog == null) {
@@ -526,6 +538,12 @@ namespace ProtonPlus.Widgets.Tools {
             variant_box.set_visible (visible && has_variants);
             last_updated_label.set_visible (visible && last_updated_label.get_label () != "");
             refresh_button.set_visible (visible);
+            repository_button.set_visible (visible && current_tool != null && current_tool.repository_url != "");
+        }
+
+        private void update_repository_button (Models.Tool tool) {
+            repository_button.set_tooltip_text (tool.repository_url);
+            repository_button.set_visible (header_controls_visible && tool.repository_url != "");
         }
 
         private void on_variant_selected () {
