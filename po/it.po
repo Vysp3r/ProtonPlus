@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-20 18:34-0400\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/protonplus/it/>\n"
+"PO-Revision-Date: 2026-08-05 15:09+0200\n"
 "Last-Translator: Youseffo13 <>\n"
-"PO-Revision-Date: 2026-08-02 21:49+0200\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/protonplus/it/>\n"
 "Language: it\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -254,7 +254,7 @@ msgstr "✨ Aggiunte più opzioni di lancio"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:120
 msgid "✨ Added a \"Run custom executable\" button"
-msgstr "✨ Aggiunto un pulsante \"Esegui eseguibile personalizzato\""
+msgstr "✨ Aggiunto un pulsante \"Avvia eseguibile personalizzato\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:121
 msgid "✨ Added a SteamOS theme and an OLED theme"
@@ -2498,7 +2498,6 @@ msgid "New tool"
 msgstr "Nuovo strumento"
 
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:13
-#, fuzzy
 msgid "Advanced options"
 msgstr "Opzioni avanzate"
 
@@ -2514,6 +2513,8 @@ msgstr "Argomenti di gioco personalizzati"
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:18
 msgid "Unknown arguments are imported here and preserved exactly as loaded."
 msgstr ""
+"Gli argomenti sconosciuti vengono importati qui e preservati esattamente "
+"come caricati."
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:14
 msgid "Audio options"
@@ -2575,7 +2576,6 @@ msgstr ""
 "Canali WINEALSA impostati a 4, 6 o 8. Disponibile da GE-Proton11-1."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:16
-#, fuzzy
 msgid "Common options"
 msgstr "Opzioni comuni"
 
@@ -2595,7 +2595,6 @@ msgstr "Mostra un overlay di gioco con FPS, utilizzo CPU/GPU e temperature."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:30
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1242
-#, fuzzy
 msgid "Use desktop game profile"
 msgstr "Usa profilo di gioco desktop"
 
@@ -2634,38 +2633,43 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:57
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1233
 msgid "CachyOS game-performance profile"
-msgstr ""
+msgstr "Profilo prestazioni di gioco CachyOS"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:58
 msgid ""
 "Uses CachyOS performance power and sched_ext gaming profiles until the game "
 "exits."
 msgstr ""
+"Utilizza i profili prestazioni e gaming sched_ext di CachyOS fino all'uscita "
+"del gioco."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:63
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1234
 msgid "MangoHud Vulkan environment mode"
-msgstr ""
+msgstr "Modalità ambiente MangoHud Vulkan"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:64
 msgid ""
 "Uses MANGOHUD=1 for Vulkan only. Prefer the MangoHud wrapper when OpenGL "
 "support is needed."
 msgstr ""
+"Usa MANGOHUD=1 solo per Vulkan. Preferisce il wrapper MangoHud quando è "
+"necessario il supporto OpenGL."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:69
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1235
 msgid "OBS Vulkan/OpenGL capture"
-msgstr ""
+msgstr "Cattura OBS Vulkan/OpenGL"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:70
 msgid ""
 "Loads obs-vkcapture. Install the native package, or both the Flatpak OBS "
 "plugin and capture-tools layer."
 msgstr ""
+"Carica obs-vkcapture. Installa il pacchetto nativo oppure sia il plugin OBS "
+"Flatpak sia il layer capture-tools."
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:16
-#, fuzzy
 msgid "DXVK options"
 msgstr "Opzioni DXVK"
 
@@ -2715,43 +2719,48 @@ msgstr "FPS"
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:43
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
 msgid "Proton-CachyOS DX11 low latency"
-msgstr ""
+msgstr "Bassa latenza DX11 di Proton-CachyOS"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:44
 msgid "Enables the custom DXVK low-latency path for Direct3D 9–11."
 msgstr ""
+"Abilita il percorso DXVK a bassa latenza personalizzato per Direct3D 9–11."
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:49
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
 msgid "Proton-CachyOS Vulkan Anti-Lag 2 layer"
-msgstr ""
+msgstr "Layer Vulkan Anti-Lag 2 di Proton-CachyOS"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:50
 msgid ""
 "Exposes VK_AMD_anti_lag to Vulkan games that already support Anti-Lag 2."
-msgstr ""
+msgstr "Espone VK_AMD_anti_lag ai giochi Vulkan che supportano già Anti-Lag 2."
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:55
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
 msgid "Expose Vulkan Reflex instead of Anti-Lag 2"
-msgstr ""
+msgstr "Espone Vulkan Reflex invece di Anti-Lag 2"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:56
 msgid ""
 "Switches the low-latency Vulkan layer to VK_NV_low_latency2 for games with "
 "Reflex support."
 msgstr ""
+"Passa il layer Vulkan a bassa latenza a VK_NV_low_latency2 per i giochi con "
+"supporto Reflex."
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:61
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
 msgid "Proton-CachyOS NVIDIA Reflex Vulkan layer"
-msgstr ""
+msgstr "Layer Vulkan NVIDIA Reflex di Proton-CachyOS"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:62
 msgid ""
 "Enables the NVIDIA Vulkan Reflex layer for games that support "
 "VK_NV_low_latency2."
 msgstr ""
+"Abilita il layer Vulkan NVIDIA Reflex per i giochi che supportano "
+"VK_NV_low_latency2."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:14
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:357
@@ -2765,7 +2774,6 @@ msgstr "Flag passati direttamente al gioco."
 #. Game arguments
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:18
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
-#, fuzzy
 msgid "Skip launcher"
 msgstr "Salta launcher"
 
@@ -2785,7 +2793,6 @@ msgstr "Aggiunge -vulkan per far utilizzare al gioco il renderer Vulkan."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:23
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
-#, fuzzy
 msgid "DirectX 11 renderer"
 msgstr "Renderer DirectX 11"
 
@@ -2795,7 +2802,6 @@ msgstr "Aggiunge -dx11 per far utilizzare al gioco il renderer DirectX 11."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:24
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
-#, fuzzy
 msgid "DirectX 12 renderer"
 msgstr "Renderer DirectX 12"
 
@@ -2849,9 +2855,8 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:37
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
-#, fuzzy
 msgid "FSR 4 upgrade (current path)"
-msgstr "Aggiorna %s"
+msgstr "Aggiornamento FSR 4 (percorso attuale)"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:38
 msgid ""
@@ -2863,80 +2868,93 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:46
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
-#, fuzzy
 msgid "FSR 4 RDNA3 upgrade (legacy path)"
-msgstr "Aggiorna %s"
+msgstr "Aggiornamento FSR 4 RDNA3 (percorso legacy)"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:47
 msgid ""
 "Uses the older RDNA3 switch retained by some Proton-GE builds and removed "
 "from current Proton-CachyOS."
 msgstr ""
+"Usa il vecchio switch RDNA3 mantenuto da alcune build Proton-GE e rimosso "
+"dall'attuale Proton-CachyOS."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:56
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
 msgid "FSR 4 ML frame generation"
-msgstr ""
+msgstr "Generazione frame ML FSR 4"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:57
 msgid ""
 "Requires FSR 4.0.3 or newer. RDNA3 may also need "
 "DXIL_SPIRV_CONFIG=wmma_rdna3_workaround."
 msgstr ""
+"Richiede FSR 4.0.3 o successivo. RDNA3 potrebbe necessitare anche di "
+"DXIL_SPIRV_CONFIG=wmma_rdna3_workaround."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:61
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
 msgid "RDNA3 ML frame-generation workaround"
-msgstr ""
+msgstr "Workaround per generazione frame ML RDNA3"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:62
 msgid ""
 "Applies the DXIL-SPIR-V WMMA workaround only when RDNA3 ML frame generation "
 "needs it."
 msgstr ""
+"Applica il workaround WMMA DXIL-SPIR-V solo quando la generazione frame ML "
+"RDNA3 lo richiede."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:67
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 msgid "AMD Reflex preset: allow DXVK-NVAPI"
-msgstr ""
+msgstr "Preset AMD Reflex: consenti DXVK-NVAPI"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:68
 msgid ""
 "Least-invasive preset. Allows DXVK-NVAPI on AMD; try this before GPU "
 "spoofing."
 msgstr ""
+"Preset meno invasivo. Consente DXVK-NVAPI su AMD; prova questo prima dello "
+"spoofing GPU."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:73
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 msgid "AMD Reflex preset: hide AMD GPU"
-msgstr ""
+msgstr "Preset AMD Reflex: nascondi GPU AMD"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:74
 msgid ""
 "DXVK fallback that can expose Reflex but can break FSR 4 and ML frame "
 "generation."
 msgstr ""
+"Fallback DXVK che può esporre Reflex ma può rompere FSR 4 e la generazione "
+"frame ML."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:79
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 msgid "AMD Reflex preset: force NVAPI"
-msgstr ""
+msgstr "Preset AMD Reflex: forza NVAPI"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:80
 msgid ""
 "Invasive fallback for games that still hide Reflex. Can break FSR 4 and game "
 "GPU detection."
 msgstr ""
+"Fallback invasivo per giochi che nascondono ancora Reflex. Può rompere FSR 4 "
+"e il rilevamento GPU del gioco."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:85
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
 msgid "AMD Reflex preset: layer NVIDIA spoof"
-msgstr ""
+msgstr "Preset AMD Reflex: spoof NVIDIA del layer"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:86
 msgid ""
 "Last-resort spoof discouraged by upstream because it can break Proton FSR 4."
 msgstr ""
+"Spoof di ultima spiaggia sconsigliato dagli sviluppatori perché può rompere "
+"Proton FSR 4."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:92
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1299
@@ -3009,7 +3027,6 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-intel-options-group.vala:10
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
-#, fuzzy
 msgid "XeSS component upgrade"
 msgstr "Aggiornamento componente XeSS"
 
@@ -3335,7 +3352,6 @@ msgstr ""
 "alcuni giochi Direct3D 9 (Disponibile dalla versione 11-1)."
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:14
-#, fuzzy
 msgid "VKD3D options"
 msgstr "Opzioni VKD3D"
 
@@ -3377,18 +3393,19 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:41
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
 msgid "Proton-CachyOS DX12 low latency"
-msgstr ""
+msgstr "Bassa latenza DX12 di Proton-CachyOS"
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:42
 msgid ""
 "Uses Reflex markers or waitable swapchains. Intel GPUs and frame generation "
 "are unsupported."
 msgstr ""
+"Usa marcatori Reflex o swapchain attendibili. GPU Intel e generazione frame "
+"non sono supportati."
 
 #. Display & launch tools
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:19
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1240
-#, fuzzy
 msgid "Launch backend"
 msgstr "Backend di lancio"
 
@@ -3427,7 +3444,6 @@ msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:222
-#, fuzzy
 msgid "This option is unsupported and cannot be newly enabled."
 msgstr "Questa opzione non è supportata e non può essere abilitata."
 
@@ -3450,7 +3466,6 @@ msgid "Requires a compatible Proton variant."
 msgstr "Richiede una variante di Proton compatibile."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:275
-#, fuzzy
 msgid "The selected launch backend is not supported."
 msgstr "Il backend di lancio selezionato non è supportato."
 
@@ -3477,10 +3492,11 @@ msgstr "Richiede GameMode, che non è disponibile."
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:358
 msgid "Requires the CachyOS game-performance command, which is not available."
 msgstr ""
+"Richiede il comando game-performance di CachyOS, che non è disponibile."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:359
 msgid "Requires obs-vkcapture, which is not available."
-msgstr ""
+msgstr "Richiede obs-vkcapture, che non è disponibile."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:360
 msgid "Requires Gamescope, which is not available."
@@ -3495,7 +3511,6 @@ msgid "Requires vkBasalt, which is not available."
 msgstr "Richiede vkBasalt, che non è disponibile."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:363
-#, fuzzy
 msgid "Requires DXVK from the selected compatibility tool."
 msgstr "Richiede DXVK dallo strumento di compatibilità selezionato."
 
@@ -3505,55 +3520,64 @@ msgstr "Richiede VKD3D-Proton dallo strumento di compatibilità selezionato."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:365
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:375
-#, fuzzy
 msgid "Not supported by the selected compatibility tool."
-msgstr "Non supportata dallo strumento di compatibilità selezionato."
+msgstr "Non supportato dallo strumento di compatibilità selezionato."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:366
 msgid ""
 "The selected Proton build does not advertise legacy PROTON_ENABLE_HDR "
 "support."
 msgstr ""
+"La build Proton selezionata non dichiara il supporto legacy "
+"PROTON_ENABLE_HDR."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:367
 msgid ""
 "The selected Proton build does not advertise automatic-HDR opt-out support."
 msgstr ""
+"La build Proton selezionata non dichiara il supporto per l'opt-out HDR "
+"automatico."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:368
 msgid ""
 "The selected Proton build does not advertise PROTON_FSR4_UPGRADE support."
 msgstr ""
+"La build Proton selezionata non dichiara il supporto PROTON_FSR4_UPGRADE."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:369
 msgid ""
 "The selected Proton build does not advertise the legacy RDNA3 FSR 4 switch."
-msgstr ""
+msgstr "La build Proton selezionata non dichiara lo switch legacy RDNA3 FSR 4."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:370
 msgid ""
 "The selected Proton build does not advertise PROTON_MLFG_UPGRADE support."
 msgstr ""
+"La build Proton selezionata non dichiara il supporto PROTON_MLFG_UPGRADE."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:371
 msgid ""
 "The selected Proton build does not advertise its DXVK low-latency option."
 msgstr ""
+"La build Proton selezionata non dichiara la sua opzione DXVK a bassa latenza."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:372
 msgid ""
 "The selected Proton build does not advertise its VKD3D-Proton low-latency "
 "option."
 msgstr ""
+"La build Proton selezionata non dichiara la sua opzione VKD3D-Proton a bassa "
+"latenza."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:373
 msgid ""
 "The selected Proton build does not advertise the low-latency Vulkan layer."
 msgstr ""
+"La build Proton selezionata non dichiara il layer Vulkan a bassa latenza."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:374
 msgid "The selected Proton build does not advertise its Vulkan Reflex layer."
-msgstr ""
+msgstr "La build Proton selezionata non dichiara il suo layer Vulkan Reflex."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
@@ -3651,59 +3675,58 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:11
 msgid "Argument"
-msgstr ""
+msgstr "Argomento"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:14
 msgid "One exact shell argument. Quotes and escapes are preserved."
 msgstr ""
+"Un argomento shell esatto. Virgolette e caratteri di escape vengono "
+"preservati."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:20
 msgid "Apply argument edit"
-msgstr ""
+msgstr "Applica modifica argomento"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:28
 msgid "Remove argument"
-msgstr ""
+msgstr "Rimuovi argomento"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:81
 msgid "Add custom argument"
-msgstr ""
+msgstr "Aggiungi argomento personalizzato"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:82
 msgid "Add one argument per list entry."
-msgstr ""
+msgstr "Aggiungi un argomento per ogni voce della lista."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:135
 msgid "Each custom game argument must be one complete shell argument."
 msgstr ""
+"Ogni argomento di gioco personalizzato deve essere un argomento shell "
+"completo."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:137
 msgid "Custom game arguments cannot contain %command%."
 msgstr ""
-"Il contenuto della shell tra virgolette, opaco e sconosciuto viene mantenuto "
-"esattamente come caricato."
+"Gli argomenti personalizzati del gioco non possono contenere %command%."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:70
 msgid "Command preview"
-msgstr ""
+msgstr "Anteprima comando"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:101
-#, fuzzy
 msgid "No matching launch options."
 msgstr "Nessuna opzione di lancio corrispondente."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:116
-#, fuzzy
 msgid "Launch options"
 msgstr "Opzioni di lancio"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:120
-#, fuzzy
 msgid "Search all options"
 msgstr "Cerca tutte le opzioni"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:122
-#, fuzzy
 msgid "Search launch options"
 msgstr "Cerca opzioni di lancio"
 
@@ -3718,13 +3741,11 @@ msgstr "Impostazioni Rapide"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:470
-#, fuzzy
 msgid "Active options"
 msgstr "Opzioni attive"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:472
-#, fuzzy
 msgid "All options"
 msgstr "Tutte le opzioni"
 
@@ -3738,7 +3759,6 @@ msgstr ""
 "Modifica il segnaposto del comando Steam solo quando un gioco lo richiede."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:547
-#, fuzzy
 msgid "Unable to safely prepare these launch options."
 msgstr "Impossibile preparare in sicurezza queste opzioni di lancio."
 
@@ -3819,7 +3839,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:63
 msgid "OLE Monkers library for URL handling and launcher updates"
 msgstr ""
-"Libreria OLE Monikers per la gestione degli URL e gli aggiornamenti del "
+"Libreria OLE Monkers per la gestione degli URL e gli aggiornamenti del "
 "launcher"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:64
@@ -4173,12 +4193,10 @@ msgid "Performance & monitoring"
 msgstr "Prestazioni e monitoraggio"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:352
-#, fuzzy
 msgid "Display & launch tools"
 msgstr "Strumenti di visualizzazione e avvio"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:353
-#, fuzzy
 msgid "Proton & Wine compatibility"
 msgstr "Compatibilità Proton e Wine"
 
@@ -4215,20 +4233,24 @@ msgid ""
 "Runs the game with CachyOS's performance power profile and gaming sched_ext "
 "profile, then restores them when the game exits."
 msgstr ""
+"Esegue il gioco con il profilo energetico ad alte prestazioni e il profilo "
+"gaming sched_ext di CachyOS, ripristinandoli all'uscita dal gioco."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1233
 msgid "Requires the game-performance command"
-msgstr ""
+msgstr "Richiede il comando game-performance"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1234
 msgid ""
 "Enables MangoHud for Vulkan through MANGOHUD=1. Use the MangoHud wrapper for "
 "OpenGL; inside Gamescope, use Gamescope's MangoApp support instead."
 msgstr ""
+"Abilita MangoHud per Vulkan tramite MANGOHUD=1. Usa il wrapper MangoHud per "
+"OpenGL; dentro Gamescope, usa invece il supporto MangoApp di Gamescope."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1234
 msgid "Requires MangoHud; Vulkan only"
-msgstr ""
+msgstr "Richiede MangoHud; solo Vulkan"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1235
 msgid ""
@@ -4236,10 +4258,13 @@ msgid ""
 "package, or both the Flatpak OBS plugin and Flatpak capture-tools layer; "
 "NVIDIA requires modesetting and driver 515.43.04 or newer."
 msgstr ""
+"Carica obs-vkcapture per la cattura Vulkan o OpenGL. Installa il pacchetto "
+"nativo, oppure sia il plugin OBS Flatpak che il layer capture-tools Flatpak; "
+"NVIDIA richiede modesetting e driver 515.43.04 o successivi."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1235
 msgid "Requires obs-vkcapture and a compatible OBS installation"
-msgstr ""
+msgstr "Richiede obs-vkcapture e un'installazione OBS compatibile"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1236
 msgid "Gives the game a higher CPU priority."
@@ -4269,7 +4294,7 @@ msgstr "Aggiunge effetti visivi come nitidezza e regolazioni del colore."
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1244
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:18
 msgid "DXVK HDR"
-msgstr ""
+msgstr "DXVK HDR"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1244
 msgid ""
@@ -4278,17 +4303,24 @@ msgid ""
 "Current DXVK 2.7 requires Vulkan 1.3 and recent drivers (RADV 25.0, NVIDIA "
 "575.51.02, or Intel/NVK Mesa 25.1); older Proton bundles may differ."
 msgstr ""
+"Annuncia lo spazio colore HDR10 ai giochi DXVK. L'attuale Proton-CachyOS "
+"abilita l'HDR automaticamente; usa questa opzione solo quando è necessaria "
+"un'esposizione HDR DXVK esplicita. L'attuale DXVK 2.7 richiede Vulkan 1.3 e "
+"driver recenti (RADV 25.0, NVIDIA 575.51.02, o Intel/NVK Mesa 25.1); i "
+"bundle Proton più vecchi potrebbero differire."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1244
 msgid ""
 "Requires an HDR-capable compositor, display, Vulkan 1.3, and a compatible "
 "driver"
 msgstr ""
+"Richiede un compositor compatibile HDR, display, Vulkan 1.3 e un driver "
+"compatibile"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:26
 msgid "Legacy custom-Proton HDR"
-msgstr ""
+msgstr "HDR legacy per Proton personalizzato"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
 msgid ""
@@ -4296,16 +4328,22 @@ msgid ""
 "still advertises it. It also enables native Wayland in Proton-GE, where "
 "Steam Overlay is broken and Steam Input may be unreliable."
 msgstr ""
+"Abilita il vecchio percorso PROTON_ENABLE_HDR solo quando la build Proton "
+"selezionata lo dichiara ancora. Abilita anche Wayland nativo in Proton-GE, "
+"dove lo Steam Overlay non funziona e lo Steam Input potrebbe essere "
+"inaffidabile."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
 msgid ""
 "Only available in custom Proton builds that still support PROTON_ENABLE_HDR"
 msgstr ""
+"Disponibile solo nelle build Proton personalizzate che supportano ancora "
+"PROTON_ENABLE_HDR"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:34
 msgid "Disable custom-Proton automatic HDR"
-msgstr ""
+msgstr "Disabilita HDR automatico di Proton personalizzato"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
 msgid ""
@@ -4313,26 +4351,33 @@ msgid ""
 "that automatically expose HDR. This conflicts with the explicit HDR enable "
 "options."
 msgstr ""
+"Imposta DXVK_NO_HDR=1 per le build Proton personalizzate come l'attuale "
+"Proton-CachyOS che espongono automaticamente l'HDR. Questo è in conflitto "
+"con le opzioni di abilitazione HDR esplicita."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
 msgid ""
 "Only available when the selected custom Proton build advertises DXVK_NO_HDR"
 msgstr ""
+"Disponibile solo quando la build Proton personalizzata selezionata dichiara "
+"DXVK_NO_HDR"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:42
 msgid "NVIDIA legacy HDR WSI"
-msgstr ""
+msgstr "NVIDIA legacy HDR WSI"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
 msgid ""
 "Enables the Vulkan HDR WSI layer needed by NVIDIA proprietary drivers older "
 "than 595. Do not enable it on driver 595 or newer."
 msgstr ""
+"Abilita il layer Vulkan HDR WSI necessario per i driver proprietari NVIDIA "
+"precedenti al 595. Non abilitarlo con driver 595 o successivi."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
 msgid "NVIDIA proprietary driver older than 595 only"
-msgstr ""
+msgstr "Solo driver proprietario NVIDIA precedente al 595"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
@@ -4351,13 +4396,11 @@ msgstr "Esegue il gioco in una sessione Gamescope a schermo intero."
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
-#, fuzzy
 msgid "Requires Gamescope"
 msgstr "Richiede Gamescope"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
-#, fuzzy
 msgid "Output resolution"
 msgstr "Risoluzione di uscita"
 
@@ -4559,7 +4602,6 @@ msgstr "Abilita la cache shader interna di VKD3D."
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
-#, fuzzy
 msgid "VKD3D-Proton"
 msgstr "VKD3D-Proton"
 
@@ -4572,7 +4614,6 @@ msgid "Enables VKD3D GPU virtual addressing."
 msgstr "Abilita l'indirizzamento virtuale GPU VKD3D."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
-#, fuzzy
 msgid "VKD3D compatibility settings"
 msgstr "Impostazioni di compatibilità VKD3D"
 
@@ -4585,6 +4626,9 @@ msgid ""
 "Enables the Proton-CachyOS DXVK low-latency path for Direct3D 9–11. Requires "
 "a selected custom Proton build that advertises this option."
 msgstr ""
+"Abilita il percorso DXVK a bassa latenza di Proton-CachyOS per Direct3D 9–"
+"11. Richiede una build Proton personalizzata selezionata che dichiari questa "
+"opzione."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
@@ -4592,11 +4636,11 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
 msgid "Proton-CachyOS"
-msgstr ""
+msgstr "Proton-CachyOS"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
 msgid "Requires a compatible Proton-CachyOS build"
-msgstr ""
+msgstr "Richiede una build Proton-CachyOS compatibile"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
 msgid ""
@@ -4604,12 +4648,17 @@ msgid ""
 "that use Reflex markers or waitable swapchains. Intel GPUs, frame "
 "generation, and games without markers are unsupported."
 msgstr ""
+"Abilita la bassa latenza VKD3D-Proton indipendente dall'hardware per i "
+"giochi Direct3D 12 che usano marcatori Reflex o swapchain attendibili. GPU "
+"Intel, generazione frame e giochi senza marcatori non sono supportati."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
 msgid ""
 "Requires a compatible Proton-CachyOS build; not compatible with frame "
 "generation"
 msgstr ""
+"Richiede una build Proton-CachyOS compatibile; non compatibile con la "
+"generazione frame"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
 msgid ""
@@ -4617,31 +4666,40 @@ msgid ""
 "must support AMD Anti-Lag 2; this does not add latency markers to "
 "unsupported games."
 msgstr ""
+"Abilita il layer Vulkan a bassa latenza con esposizione VK_AMD_anti_lag. Il "
+"gioco deve supportare AMD Anti-Lag 2; questo non aggiunge marcatori di "
+"latenza ai giochi non supportati."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
 msgid ""
 "Requires a compatible Proton-CachyOS build and game support for Anti-Lag 2"
 msgstr ""
+"Richiede una build Proton-CachyOS compatibile e supporto del gioco per Anti-"
+"Lag 2"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
 msgid ""
 "Switches the Proton-CachyOS low-latency Vulkan layer from VK_AMD_anti_lag to "
 "VK_NV_low_latency2. Enable only for games with Vulkan Reflex support."
 msgstr ""
+"Passa il layer Vulkan a bassa latenza di Proton-CachyOS da VK_AMD_anti_lag a "
+"VK_NV_low_latency2. Abilita solo per giochi con supporto Vulkan Reflex."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
 msgid "Requires the Vulkan low-latency layer"
-msgstr ""
+msgstr "Richiede il layer Vulkan a bassa latenza"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
 msgid ""
 "Enables Proton-CachyOS's NVIDIA Reflex layer for native Vulkan games. The "
 "game must already support VK_NV_low_latency2."
 msgstr ""
+"Abilita il layer NVIDIA Reflex di Proton-CachyOS per giochi Vulkan nativi. "
+"Il gioco deve già supportare VK_NV_low_latency2."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
 msgid "Requires NVIDIA and a compatible Proton-CachyOS build"
-msgstr ""
+msgstr "Richiede NVIDIA e una build Proton-CachyOS compatibile"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1287
 msgid "Uses the AMD discrete GPU on hybrid systems."
@@ -4655,12 +4713,20 @@ msgid ""
 "while older RDNA generations use a slower compatibility layer. Current "
 "Proton-GE disables Anti-Lag 2 while this is active."
 msgstr ""
+"Aggiorna i giochi FSR 3.1 supportati tramite la build Proton personalizzata "
+"selezionata. Il valore 1 seleziona la release FSR 4 predefinita di quella "
+"build; le build supportate accettano anche una versione documentata. Proton-"
+"EM documenta Mesa 25.2 per RDNA3/RDNA4, mentre le generazioni RDNA più "
+"vecchie usano un layer di compatibilità più lento. L'attuale Proton-GE "
+"disabilita Anti-Lag 2 mentre questa opzione è attiva."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
 msgid ""
 "Requires a custom Proton build that advertises PROTON_FSR4_UPGRADE, a "
 "supported game, and compatible AMD hardware/drivers"
 msgstr ""
+"Richiede una build Proton personalizzata che dichiari PROTON_FSR4_UPGRADE, "
+"un gioco supportato e hardware/driver AMD compatibili"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
 msgid ""
@@ -4668,12 +4734,17 @@ msgid ""
 "builds. New Proton-CachyOS releases removed it in favor of the current FSR 4 "
 "path."
 msgstr ""
+"Usa il vecchio switch di aggiornamento specifico per RDNA3 mantenuto da "
+"alcune build Proton-GE. Le nuove release di Proton-CachyOS lo hanno rimosso "
+"a favore dell'attuale percorso FSR 4."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
 msgid ""
 "Only available when the selected custom Proton build still advertises this "
 "legacy switch"
 msgstr ""
+"Disponibile solo quando la build Proton personalizzata selezionata dichiara "
+"ancora questo switch legacy"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
 msgid ""
@@ -4682,22 +4753,30 @@ msgid ""
 "DXIL_SPIRV_CONFIG=wmma_rdna3_workaround. Proton-EM enables MLFG by default "
 "with FSR 4 and uses value 0 to disable it."
 msgstr ""
+"Richiede la generazione frame ML nelle build Proton personalizzate "
+"supportate. Proton-CachyOS richiede FSR 4.0.3 o successivo; RDNA3 potrebbe "
+"richiedere DXIL_SPIRV_CONFIG=wmma_rdna3_workaround. Proton-EM abilita MLFG "
+"per impostazione predefinita con FSR 4 e usa il valore 0 per disabilitarlo."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
 msgid ""
 "Requires a custom Proton build that advertises MLFG, FSR 4.0.3 or newer, and "
 "supported AMD hardware/drivers"
 msgstr ""
+"Richiede una build Proton personalizzata che dichiari MLFG, FSR 4.0.3 o "
+"successivo e hardware/driver AMD supportati"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
 msgid ""
 "Enables the DXIL-SPIR-V WMMA workaround that some RDNA3 systems need for ML "
 "frame generation. Do not use it on other GPU generations."
 msgstr ""
+"Abilita il workaround WMMA DXIL-SPIR-V di cui alcuni sistemi RDNA3 hanno "
+"bisogno per la generazione frame ML. Non usarlo su altre generazioni di GPU."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
 msgid "RDNA3 only; enable only if ML frame generation requires it"
-msgstr ""
+msgstr "Solo RDNA3; abilita solo se la generazione frame ML lo richiede"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 msgid ""
@@ -4705,18 +4784,21 @@ msgid ""
 "compatibility preset first; the game must support Reflex and the low-latency "
 "Vulkan layer must be active."
 msgstr ""
+"Consente DXVK-NVAPI su driver non NVIDIA. Prova prima questo preset di "
+"compatibilità Reflex meno invasivo; il gioco deve supportare Reflex e il "
+"layer Vulkan a bassa latenza deve essere attivo."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
-#, fuzzy
 msgid "AMD Reflex compatibility"
-msgstr "Strumento di compatibilità"
+msgstr "Compatibilità AMD Reflex"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 msgid "May not convince games that explicitly require an NVIDIA GPU"
 msgstr ""
+"Potrebbe non convincere i giochi che richiedono esplicitamente una GPU NVIDIA"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 msgid ""
@@ -4724,10 +4806,14 @@ msgid ""
 "break FSR 4 and ML frame generation; use only if allowing DXVK-NVAPI is "
 "insufficient."
 msgstr ""
+"Fa sì che DXVK nasconda la GPU AMD in modo che alcuni giochi espongano "
+"Reflex. Questo fallback può rompere FSR 4 e la generazione frame ML; usalo "
+"solo se consentire DXVK-NVAPI non è sufficiente."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 msgid "GPU spoofing can break FSR 4 and other vendor-specific paths"
 msgstr ""
+"Lo spoofing GPU può rompere FSR 4 e altri percorsi specifici del produttore"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 msgid ""
@@ -4735,20 +4821,26 @@ msgid ""
 "fallback can break FSR 4 and should be used only after the safer presets "
 "fail."
 msgstr ""
+"Forza il percorso NVAPI di Proton per i giochi che nascondono ancora Reflex. "
+"Questo fallback invasivo può rompere FSR 4 e dovrebbe essere usato solo dopo "
+"che i preset più sicuri hanno fallito."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 msgid "Can break FSR 4 and game-specific GPU detection"
-msgstr ""
+msgstr "Può rompere FSR 4 e il rilevamento GPU specifico del gioco"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
 msgid ""
 "Makes the low-latency Vulkan layer report an NVIDIA GPU. Upstream recommends "
 "against this last-resort spoof because it can break Proton FSR 4."
 msgstr ""
+"Fa sì che il layer Vulkan a bassa latenza riporti una GPU NVIDIA. Gli "
+"sviluppatori sconsigliano questo spoof di ultima risorsa perché può rompere "
+"Proton FSR 4."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
 msgid "Last resort; can break FSR 4 and other GPU detection"
-msgstr ""
+msgstr "Ultima spiaggia; può rompere FSR 4 e altri rilevamenti GPU"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
 msgid ""
@@ -4887,8 +4979,8 @@ msgid ""
 "Adds individual custom arguments and preserves unrecognized launch options "
 "exactly as loaded."
 msgstr ""
-"Aggiunge argomenti di gioco personalizzati senza modificare i controlli "
-"riconosciuti."
+"Aggiunge argomenti personalizzati individuali e conserva le opzioni di avvio "
+"non riconosciute esattamente come sono state caricate."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1328
 msgid "Enables Proton troubleshooting logs."
@@ -4919,9 +5011,8 @@ msgid "Marks where Steam inserts the game's command."
 msgstr "Segna dove Steam inserisce il comando di gioco."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
-#, fuzzy
 msgid "Preserved unrecognized launch options"
-msgstr "Modifica le opzioni di lancio di gioco"
+msgstr "Opzioni di lancio non riconosciute conservate"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
 msgid "Keeps unrecognized, quoted, and opaque shell content exactly as loaded."
@@ -4980,24 +5071,32 @@ msgid ""
 "Advertises HDR10 to DXVK games. Requires an HDR-capable compositor, display, "
 "and driver."
 msgstr ""
+"Annuncia HDR10 ai giochi DXVK. Richiede un compositor, display e driver "
+"compatibili HDR."
 
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:27
 msgid ""
 "Uses PROTON_ENABLE_HDR only in selected custom Proton builds that still "
 "advertise it."
 msgstr ""
+"Usa PROTON_ENABLE_HDR solo nelle build Proton personalizzate selezionate che "
+"lo dichiarano ancora."
 
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:35
 msgid ""
 "Uses DXVK_NO_HDR=1 only in custom Proton builds that advertise the automatic-"
 "HDR opt-out."
 msgstr ""
+"Usa DXVK_NO_HDR=1 solo nelle build Proton personalizzate che dichiarano "
+"l'opt-out HDR automatico."
 
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:43
 msgid ""
 "Needed by NVIDIA proprietary drivers older than 595; do not enable on driver "
 "595 or newer."
 msgstr ""
+"Necessario per i driver proprietari NVIDIA precedenti al 595; non abilitare "
+"con driver 595 o successivi."
 
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:81
 msgid "Add ScopeBuddy arguments"
@@ -5327,7 +5426,6 @@ msgid "Try Again"
 msgstr "Riprova"
 
 #: src/widgets/main/main-box.vala:285 src/widgets/tools/tools-box.vala:491
-#, fuzzy
 msgid "Checking for updates"
 msgstr "Controllo aggiornamenti"
 
@@ -5336,17 +5434,15 @@ msgid "Can't update while a game is running"
 msgstr "Impossibile aggiornare mentre un gioco è in esecuzione"
 
 #: src/widgets/main/main-box.vala:299 src/widgets/tools/tools-box.vala:502
-#, fuzzy
 msgid "Nothing to update"
 msgstr "Niente da aggiornare"
 
 #: src/widgets/main/main-box.vala:303 src/widgets/tools/tools-box.vala:506
-#, fuzzy
 msgid "Everything is now up-to-date"
 msgstr "Tutto è ora aggiornato"
 
 #: src/widgets/main/main-box.vala:306 src/widgets/tools/tools-box.vala:509
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Impossibile verificare aggiornamenti (Motivo: %s)"
 
@@ -5575,7 +5671,8 @@ msgstr "Steam non si è chiuso"
 #: src/widgets/main/steam-restart-presentation.vala:127
 msgid "No force termination was attempted. Close Steam manually or try again."
 msgstr ""
-"Non è stato tentato l'arresto forzato. Chiudi Steam manualmente o riprova."
+"Non è stato tentato alcun termine forzato. Chiudi Steam manualmente o "
+"riprova."
 
 #: src/widgets/main/steam-restart-presentation.vala:132
 msgid "Steam couldn’t be reopened"
@@ -6521,12 +6618,10 @@ msgid "Migrate"
 msgstr "Migra"
 
 #: src/widgets/tools/tools-box.vala:129
-#, fuzzy
 msgid "Migrate selected games to another tool"
 msgstr "Migra i giochi selezionati verso un altro strumento"
 
 #: src/widgets/tools/tools-box.vala:153
-#, fuzzy
 msgid "Check for updates"
 msgstr "Verifica aggiornamenti"
 
@@ -6800,7 +6895,6 @@ msgid "Select the %s build variant."
 msgstr "Seleziona la variante della build %s."
 
 #: src/widgets/tools/tools-releases-box.vala:178
-#, fuzzy
 msgid "Check for new releases"
 msgstr "Verifica nuove release"
 
@@ -6809,12 +6903,10 @@ msgid "Choose which architecture or build variant to show."
 msgstr "Scegli quale architettura o variante della build mostrare."
 
 #: src/widgets/tools/tools-releases-box.vala:225
-#, fuzzy
 msgid "Load More"
 msgstr "Carica Altro"
 
 #: src/widgets/tools/tools-releases-box.vala:273
-#, fuzzy
 msgid "No releases found"
 msgstr "Nessuna release trovata"
 
@@ -6834,7 +6926,7 @@ msgid "No compatible variants are available for this system."
 msgstr "Non sono disponibili varianti compatibili per questo sistema."
 
 #: src/widgets/tools/tools-releases-box.vala:613
-#, fuzzy, c-format
+#, c-format
 msgid "Last updated: %s"
 msgstr "Ultimo aggiornamento: %s"
 
