@@ -478,6 +478,31 @@ namespace ProtonPlus.Models.Launchers {
             sort_compatibility_tools ();
         }
 
+        public CompatibilityTool? find_compatibility_tool (string internal_title) {
+            foreach (var tool in compatibility_tools) {
+                if (tool.internal_title == internal_title)
+                    return tool;
+            }
+            return null;
+        }
+
+        /* Steam persists "Default" as an alias for CompatToolMapping app ID 0.
+         * Resolve that alias at the launcher boundary so consumers which need
+         * a concrete installation (feature probes and future compatibility
+         * checks) do not guess from its display name or list position. */
+        public CompatibilityTool? resolve_effective_compatibility_tool (string selected_internal_title) {
+            var effective_internal_title = selected_internal_title;
+            if (effective_internal_title == "Default")
+                effective_internal_title = default_compatibility_tool;
+
+            if (effective_internal_title == null
+                || effective_internal_title.strip () == ""
+                || effective_internal_title == "Default")
+                return null;
+
+            return find_compatibility_tool (effective_internal_title);
+        }
+
         public override void register_compatibility_tool_from_path (string tool_path) {
             register_compatibility_tool (Utils.VDF.CompatibilityToolLoader.from_path (tool_path));
         }

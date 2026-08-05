@@ -20,11 +20,14 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
         Test.add_func ("/launch-option-capabilities/runtime-and-components", test_runtime_and_components);
         Test.add_func ("/launch-option-capabilities/eligibility-and-presentation", test_eligibility_and_presentation);
         Test.add_func ("/launch-option-capabilities/variant-specific-policy", test_variant_specific_policy);
+        Test.add_func ("/launch-option-capabilities/documented-tool-feature-intersection", test_documented_tool_feature_intersection);
         Test.add_func ("/launch-option-capabilities/writer-preserves-active-unavailable", test_writer_preserves_active_unavailable);
     }
 
     private LaunchOptionInstalledComponents components (bool installed = false) {
-        return new LaunchOptionInstalledComponents (installed, installed, installed, installed, installed);
+        return new LaunchOptionInstalledComponents (
+            installed, installed, installed, installed, installed, installed, installed
+        );
     }
 
     private void test_runtime_and_components () {
@@ -37,6 +40,8 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
         assert (proton.has (LaunchOptionCapability.MANGOHUD));
         assert (proton.has (LaunchOptionCapability.GAMESCOPE));
         assert (proton.has (LaunchOptionCapability.VKBASALT));
+        assert (proton.has (LaunchOptionCapability.GAME_PERFORMANCE));
+        assert (proton.has (LaunchOptionCapability.OBS_VKCAPTURE));
         assert (proton.has (LaunchOptionCapability.AMD));
 
         var native = resolver.resolve ({ CompatibilityToolRuntimeKind.NATIVE }, true, components (), GpuVendor.NVIDIA);
@@ -129,12 +134,12 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
             assert (!resolver.evaluate (metadata, unknown_amd).show_when_inactive);
         }
 
-        string[] amd_variants = { "amd-fsr4", "amd-fsr4-rdna3" };
-        foreach (var id in amd_variants) {
+        string[] amd_documented_features = { "amd-fsr4", "amd-fsr4-rdna3", "amd-mlfg" };
+        foreach (var id in amd_documented_features) {
             var metadata = catalog.lookup (id);
             assert (metadata != null);
             assert (resolver.evaluate (metadata, proton_amd).kind
-                == LaunchOptionEligibilityKind.VARIANT_SELECTABLE_WITH_WARNING);
+                == LaunchOptionEligibilityKind.UNAVAILABLE_RUNTIME);
             assert (resolver.evaluate (metadata, proton_unknown_gpu).kind
                 == LaunchOptionEligibilityKind.UNAVAILABLE_HARDWARE);
             assert (resolver.evaluate (metadata, native_amd).kind
@@ -183,6 +188,101 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
         d7vk.active = true;
         presentations.apply_filter (LaunchOptionView.ACTIVE, "", resolver, native_amd);
         assert (presentations.lookup ("d7vk").currently_visible);
+    }
+
+    private void test_documented_tool_feature_intersection () {
+        var first_path = create_tool_fixture (
+            "PROTON_ENABLE_HDR DXVK_NO_HDR PROTON_FSR4_UPGRADE PROTON_FSR4_RDNA3_UPGRADE "
+            + "PROTON_MLFG_UPGRADE PROTON_DXVK_LOWLATENCY PROTON_VKD3D_LOWLATENCY "
+            + "LOW_LATENCY_LAYER DXVK_NVAPI_VKREFLEX"
+        );
+        var second_path = create_tool_fixture (
+            "PROTON_FSR4_UPGRADE PROTON_DXVK_LOWLATENCY LOW_LATENCY_LAYER"
+        );
+        var suffix_only_path = create_tool_fixture ("LOW_LATENCY_LAYER_REFLEX");
+        var first = new CompatibilityTool (
+            "Current custom Proton", "current", first_path, CompatibilityToolRuntimeKind.PROTON
+        );
+        var second = new CompatibilityTool (
+            "Older custom Proton", "older", second_path, CompatibilityToolRuntimeKind.PROTON
+        );
+        var resolver = new LaunchOptionCapabilityResolver ();
+
+        var current = resolver.resolve ({ CompatibilityToolRuntimeKind.PROTON }, true,
+            components (), GpuVendor.AMD, { first });
+        assert (current.has (LaunchOptionCapability.LEGACY_PROTON_HDR));
+        assert (current.has (LaunchOptionCapability.PROTON_AUTO_HDR_CONTROL));
+        assert (current.has (LaunchOptionCapability.PROTON_FSR4));
+        assert (current.has (LaunchOptionCapability.PROTON_FSR4_RDNA3));
+        assert (current.has (LaunchOptionCapability.PROTON_MLFG));
+        assert (current.has (LaunchOptionCapability.PROTON_DXVK_LOW_LATENCY));
+        assert (current.has (LaunchOptionCapability.PROTON_VKD3D_LOW_LATENCY));
+        assert (current.has (LaunchOptionCapability.LOW_LATENCY_LAYER));
+        assert (current.has (LaunchOptionCapability.VULKAN_REFLEX_LAYER));
+
+        var steam = new ProtonPlus.Models.Launchers.Steam (
+            ProtonPlus.Models.Launcher.InstallationTypes.SNAP
+        );
+        steam.compatibility_tools.clear ();
+        steam.register_compatibility_tool (first);
+        steam.default_compatibility_tool = first.internal_title;
+        var effective_default = steam.resolve_effective_compatibility_tool ("Default");
+        assert (effective_default == first);
+        var default_context = resolver.resolve ({ CompatibilityToolRuntimeKind.PROTON }, true,
+            components (), GpuVendor.AMD, { (!) effective_default });
+        assert (default_context.has (LaunchOptionCapability.PROTON_FSR4));
+        assert (default_context.has (LaunchOptionCapability.PROTON_MLFG));
+        assert (default_context.has (LaunchOptionCapability.PROTON_VKD3D_LOW_LATENCY));
+
+        var intersection = resolver.resolve (
+            { CompatibilityToolRuntimeKind.PROTON, CompatibilityToolRuntimeKind.PROTON },
+            true, components (), GpuVendor.AMD, { first, second }
+        );
+        assert (intersection.has (LaunchOptionCapability.PROTON_FSR4));
+        assert (intersection.has (LaunchOptionCapability.PROTON_DXVK_LOW_LATENCY));
+        assert (intersection.has (LaunchOptionCapability.LOW_LATENCY_LAYER));
+        assert (!intersection.has (LaunchOptionCapability.LEGACY_PROTON_HDR));
+        assert (!intersection.has (LaunchOptionCapability.PROTON_AUTO_HDR_CONTROL));
+        assert (!intersection.has (LaunchOptionCapability.PROTON_FSR4_RDNA3));
+        assert (!intersection.has (LaunchOptionCapability.PROTON_MLFG));
+        assert (!intersection.has (LaunchOptionCapability.PROTON_VKD3D_LOW_LATENCY));
+        assert (!intersection.has (LaunchOptionCapability.VULKAN_REFLEX_LAYER));
+
+        var suffix_only = new CompatibilityTool (
+            "Suffix-only marker", "suffix", suffix_only_path,
+            CompatibilityToolRuntimeKind.PROTON
+        );
+        var exact_markers = resolver.resolve ({ CompatibilityToolRuntimeKind.PROTON }, true,
+            components (), GpuVendor.AMD, { suffix_only });
+        assert (!exact_markers.has (LaunchOptionCapability.LOW_LATENCY_LAYER));
+
+        var catalog = new LaunchOptionCatalog ();
+        assert (resolver.evaluate (catalog.lookup ("amd-fsr4"), intersection).kind
+            == LaunchOptionEligibilityKind.AVAILABLE);
+        assert (resolver.evaluate (catalog.lookup ("amd-mlfg"), intersection).kind
+            == LaunchOptionEligibilityKind.UNAVAILABLE_RUNTIME);
+
+        remove_tool_fixture (first_path);
+        remove_tool_fixture (second_path);
+        remove_tool_fixture (suffix_only_path);
+    }
+
+    private string create_tool_fixture (string documented_features) {
+        string path;
+        try {
+            path = DirUtils.mkdtemp (Path.build_filename (
+                Environment.get_tmp_dir (), "protonplus-launch-features-XXXXXX"
+            ));
+            FileUtils.set_contents (Path.build_filename (path, "README.md"), documented_features);
+        } catch (FileError error) {
+            assert_not_reached ();
+        }
+        return path;
+    }
+
+    private void remove_tool_fixture (string path) {
+        FileUtils.remove (Path.build_filename (path, "README.md"));
+        DirUtils.remove (path);
     }
 
     private void test_writer_preserves_active_unavailable () {

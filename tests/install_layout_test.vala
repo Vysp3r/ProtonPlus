@@ -62,7 +62,7 @@ namespace AppTests.InstallLayoutTest {
     private ProviderDefinition fixture_definition (InstallLayout[] layouts) {
         return new ProviderDefinition (
             Category.DXVK, SourceType.GITHUB, "fixture", "Fixture title", "",
-            "https://example.test/releases", 0, {}, layouts
+            "https://example.test/releases", "https://example.test/source", 0, {}, layouts
         );
     }
 

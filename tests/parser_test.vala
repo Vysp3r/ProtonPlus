@@ -154,8 +154,10 @@ namespace AppTests.ParserTest {
 
         assert (catalog.lookup ("performance-overlay").semantics.wrapper_id == "mangohud");
         assert (catalog.lookup ("gamemode").semantics.wrapper_id == "gamemode");
+        assert (catalog.lookup ("game-performance").semantics.wrapper_id == "game-performance");
         assert (catalog.lookup_wrapper ("mangohud").delimiter == null);
         assert (catalog.lookup_wrapper ("gamemode").delimiter == null);
+        assert (catalog.lookup_wrapper ("game-performance").delimiter == null);
         assert (catalog.lookup_wrapper ("gamescope").delimiter == "--");
         assert (catalog.lookup_wrapper ("scopebuddy").delimiter == "--");
         assert (catalog.lookup_wrapper ("gamescope").mutual_exclusion_group == "launch-backend");
@@ -188,6 +190,12 @@ namespace AppTests.ParserTest {
         assert (catalog.lookup ("renderer-dx12").semantics.conflict_group == "renderer-selection");
         assert (catalog.lookup ("amd-fsr4").semantics.conflict_group == "amd-fsr4-upgrade");
         assert (catalog.lookup ("amd-fsr4-rdna3").semantics.conflict_group == "amd-fsr4-upgrade");
+        assert (contains (catalog.lookup ("amd-fsr4").semantics.conflicts, "amd-reflex-dxgi-spoof"));
+        assert (contains (catalog.lookup ("dxvk-no-hdr").semantics.conflicts, "dxvk-hdr"));
+        assert (contains (catalog.lookup ("dxvk-no-hdr").semantics.conflicts, "proton-hdr"));
+        assert (contains (catalog.lookup ("amd-mlfg").semantics.conflicts, "cachyos-vkd3d-low-latency"));
+        assert (contains (catalog.lookup ("cachyos-vulkan-reflex").semantics.dependencies, "cachyos-vulkan-low-latency"));
+        assert (contains (catalog.lookup ("amd-mlfg-rdna3-workaround").semantics.dependencies, "amd-mlfg"));
 
         var command_entries = 0;
         foreach (var entry in catalog.get_ordered ()) {
@@ -282,6 +290,15 @@ namespace AppTests.ParserTest {
         assert (dxvk_async.support == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSupport.VARIANT_SPECIFIC);
         assert (dxvk_async.applicability == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionApplicability.COMPONENT_SPECIFIC);
         assert (catalog.lookup ("nvidia-nvapi").semantics.support == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionSupport.LEGACY_DEPRECATED);
+        assert (catalog.lookup ("dxvk-hdr").semantics.fixed_tokens[0] == "DXVK_HDR=1");
+        assert (catalog.lookup ("proton-hdr").semantics.get_required_capabilities ()[0]
+            == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCapability.LEGACY_PROTON_HDR);
+        assert (catalog.lookup ("amd-fsr4").semantics.get_required_capabilities ()[1]
+            == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCapability.PROTON_FSR4);
+        assert (catalog.lookup ("amd-fsr4-rdna3").semantics.get_required_capabilities ()[1]
+            == ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCapability.PROTON_FSR4_RDNA3);
+        assert (catalog.lookup ("cachyos-vkd3d-low-latency").semantics.fixed_tokens[0]
+            == "PROTON_VKD3D_LOWLATENCY=1");
 
         var config = catalog.lookup ("vkd3d-config").semantics;
         assert (contains (config.selectable_values, "force_host_cached"));

@@ -12,6 +12,10 @@ namespace ProtonPlus.Globals {
     public static bool GAMESCOPE_INSTALLED;
     public static bool SCOPEBUDDY_INSTALLED;
     public static bool GAMEMODE_INSTALLED;
+    public static bool GAME_PERFORMANCE_INSTALLED;
+    public static bool OBS_VKCAPTURE_INSTALLED;
+    public static bool OBS_VKCAPTURE_FLATPAK_INSTALLED;
+    public static bool OBS_VKCAPTURE_FLATPAK_PLUGIN_INSTALLED;
     public static bool VKBASALT_INSTALLED;
     private static bool loaded = false;
 
@@ -114,6 +118,16 @@ namespace ProtonPlus.Globals {
         Globals.GAMESCOPE_INSTALLED = Utils.System.check_dependency_sync ("gamescope");
 
         Globals.GAMEMODE_INSTALLED = Utils.System.check_dependency_sync ("gamemoderun");
+
+        Globals.GAME_PERFORMANCE_INSTALLED = Utils.System.check_dependency_sync ("game-performance");
+
+        Globals.OBS_VKCAPTURE_INSTALLED = Utils.System.check_dependency_sync ("obs-gamecapture");
+        Globals.OBS_VKCAPTURE_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync (
+            "org.freedesktop.Platform.VulkanLayer.OBSVkCapture"
+        );
+        Globals.OBS_VKCAPTURE_FLATPAK_PLUGIN_INSTALLED = Utils.System.check_flatpak_dependency_sync (
+            "com.obsproject.Studio.Plugin.OBSVkCapture"
+        );
 
         Globals.SCOPEBUDDY_INSTALLED = Utils.System.check_dependency_sync ("scopebuddy") || Utils.System.check_dependency_sync ("scb");
         Globals.VKBASALT_INSTALLED = Utils.System.check_dependency_sync ("vkbasalt");

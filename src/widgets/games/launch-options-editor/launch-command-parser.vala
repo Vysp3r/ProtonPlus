@@ -4,8 +4,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     public enum LaunchCommandParseDiagnosticCode {
         MISSING_COMMAND_BOUNDARY,
         DUPLICATE_COMMAND_BOUNDARY,
-        ENVIRONMENT_AFTER_COMMAND_BOUNDARY,
-        WRAPPER_AFTER_COMMAND_BOUNDARY,
         MISSING_WRAPPER_DELIMITER,
         MISPLACED_WRAPPER_DELIMITER,
         EMBEDDED_COMMAND_BOUNDARY,
@@ -126,6 +124,70 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.opaque_tokens = new ArrayList<LaunchOptionShellToken> ();
             this.diagnostics = new ArrayList<LaunchCommandParseDiagnostic> ();
         }
+
+        /* Custom game arguments are source-owned shell words. Keep their raw
+         * spelling so loading them into an editable list does not normalize
+         * quotes, escapes, or opaque syntax. */
+        public ArrayList<LaunchOptionShellToken> get_custom_game_arguments () {
+            var arguments = new ArrayList<LaunchOptionShellToken> ();
+
+            for (var index = 0; index < tokens.size; index++) {
+                if (is_custom_game_argument_index (index))
+                    arguments.add (tokens[index]);
+            }
+            return arguments;
+        }
+
+        public int[] get_custom_game_argument_indexes () {
+            var indexes = new ArrayList<int> ();
+            for (var index = 0; index < tokens.size; index++) {
+                if (is_custom_game_argument_index (index))
+                    indexes.add (index);
+            }
+            return indexes.to_array ();
+        }
+
+        public bool is_custom_game_argument_index (int index) {
+            if (index < 0 || index >= tokens.size)
+                return false;
+            foreach (var unrecognized in unrecognized_tokens) {
+                if (unrecognized.token_index == index)
+                    return true;
+            }
+            foreach (var wrapper in wrappers) {
+                if (wrapper.unknown_argument_indexes.contains (index))
+                    return true;
+            }
+            if (tokens[index].is_opaque)
+                return true;
+            return false;
+        }
+
+        public bool is_preserved_game_argument_index (int index) {
+            foreach (var unrecognized in unrecognized_tokens) {
+                if (unrecognized.token_index == index
+                    && unrecognized.kind == LaunchCommandUnrecognizedKind.PRESERVED_GAME_COMMAND_CONTENT)
+                    return true;
+            }
+            if (index >= 0 && index < tokens.size && tokens[index].is_opaque) {
+                var boundary = command_boundary_indexes.size == 1
+                    ? command_boundary_indexes[0] : -1;
+                if (boundary >= 0)
+                    return index > boundary;
+                if (wrappers.size > 0)
+                    return false;
+                foreach (var occurrence in occurrences) {
+                    if (occurrence.semantic_kind != LaunchOptionSemanticKind.GAME_ARGUMENT)
+                        return false;
+                }
+                foreach (var unrecognized in unrecognized_tokens) {
+                    if (unrecognized.kind != LaunchCommandUnrecognizedKind.PRESERVED_GAME_COMMAND_CONTENT)
+                        return false;
+                }
+                return true;
+            }
+            return false;
+        }
     }
 
     /* A read-only semantic service.  It consumes catalog metadata and shell
@@ -177,18 +239,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     continue;
 
                 bool after_boundary = boundary >= 0 && index > boundary;
-                string key;
-                string value;
-                if (split_environment_assignment (token.value, out key, out value)) {
+                string key = "";
+                string value = "";
+                if (!after_boundary && split_environment_assignment (token.value, out key, out value)) {
                     var occurrence = find_environment_occurrence (result, index, key, value);
                     if (occurrence != null)
                         result.occurrences.add (occurrence);
                     else
                         result.unrecognized_tokens.add (new LaunchCommandUnrecognizedToken (
                             token, index, LaunchCommandUnrecognizedKind.UNKNOWN_ENVIRONMENT_ASSIGNMENT));
-                    if (after_boundary)
-                        add_diagnostic (result, LaunchCommandParseDiagnosticCode.ENVIRONMENT_AFTER_COMMAND_BOUNDARY,
-                            "Environment assignments must precede %command%.", index);
                     continue;
                 }
 
@@ -198,11 +257,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     continue;
                 }
 
-                if (after_boundary && (find_wrapper_at (result, index, result.tokens.size) != null
-                    || find_wrapper_argument_at (result, index, result.tokens.size, null) != null)) {
-                    add_diagnostic (result, LaunchCommandParseDiagnosticCode.WRAPPER_AFTER_COMMAND_BOUNDARY,
-                        "Wrapper executables and wrapper arguments must precede %command%.", index);
-                }
                 /* Without a command boundary or a pre-command modifier, Steam
                  * treats the whole launch-options string as game arguments.
                  * Preserve unknown arguments as such instead of mistaking them

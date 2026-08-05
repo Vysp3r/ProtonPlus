@@ -214,8 +214,12 @@ are tracked and should only be regenerated when the source icon changes.
 - tests/ — Vala regression tests, fixtures, and maintenance-script tests.
 - scripts/ — build, dependency, translation, icon, AppImage, and version
   maintenance helpers.
+- docs/codebase-guide.md — the whole-system runtime map, ownership boundaries,
+  persistence contracts, and change-location guide.
 - docs/provider-architecture.md — the provider and release-source extension
   model.
+- docs/testing.md — focused test paths, fixture rules, safety constraints, and
+  manual-validation expectations.
 
 ### Adding a provider
 

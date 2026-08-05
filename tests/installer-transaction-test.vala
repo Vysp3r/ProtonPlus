@@ -150,7 +150,7 @@ namespace AppTests.InstallerTransactionTest {
         if (archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE) {
             definition = new ProviderDefinition (
                 Category.PROTON, SourceType.GITHUB, "nested-fixture", "Fixture Runner", "",
-                "https://example.test/releases", 1,
+                "https://example.test/releases", "https://example.test/source", 1,
                 { new VariantDefinition ("standard", "default", "$release_name", true) },
                 { InstallLayout.template ("default", "$release_name") }, null, null, "", false, "",
                 archive_install_requirement

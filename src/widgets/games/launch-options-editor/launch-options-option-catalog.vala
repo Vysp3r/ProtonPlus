@@ -102,6 +102,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         SCOPEBUDDY,
         MANGOHUD,
         GAMEMODE,
+        GAME_PERFORMANCE,
+        OBS_VKCAPTURE,
+        LEGACY_PROTON_HDR,
+        PROTON_AUTO_HDR_CONTROL,
+        PROTON_FSR4,
+        PROTON_FSR4_RDNA3,
+        PROTON_MLFG,
+        PROTON_DXVK_LOW_LATENCY,
+        PROTON_VKD3D_LOW_LATENCY,
+        LOW_LATENCY_LAYER,
+        VULKAN_REFLEX_LAYER,
         VKBASALT
     }
 
@@ -587,6 +598,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 LaunchOptionCapability.GAMEMODE
             ));
             add_wrapper (new LaunchWrapperDefinition (
+                "game-performance", { "game-performance" }, {}, null, 25, "",
+                LaunchOptionCapability.GAME_PERFORMANCE
+            ));
+            add_wrapper (new LaunchWrapperDefinition (
                 "gamescope", { "gamescope" }, {}, "--", 30, "launch-backend",
                 LaunchOptionCapability.GAMESCOPE
             ));
@@ -609,6 +624,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 return wrapper_semantics ("mangohud");
             if (id == "gamemode")
                 return wrapper_semantics ("gamemode");
+            if (id == "game-performance")
+                return wrapper_semantics ("game-performance");
             if (id == "launch-backend") {
                 return new LaunchOptionSemantics (
                     LaunchOptionSemanticKind.WRAPPER_SELECTOR,
@@ -715,7 +732,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     LaunchPlaceholderPolicy.REQUIRED,
                     dynamic_value ? LaunchOptionEmissionMode.DYNAMIC_ENVIRONMENT_VALUE : LaunchOptionEmissionMode.FIXED_TOKENS,
                     key, scopebuddy_owner (id), dynamic_value ? new string[0] : fixed_tokens, {},
-                    id == "amd-fsr4" || id == "amd-fsr4-rdna3" ? "amd-fsr4-upgrade" : "", {},
+                    conflict_group_for (id), conflicts_for (id),
                     scopebuddy_owner (id) != "" ? backend_dependencies (dependencies) : dependencies,
                     capabilities_for (id), applicability_for (id), {}, false,
                     support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id)
@@ -739,7 +756,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 definition.delimiter == null ? LaunchOptionSemanticKind.PREFIX_WRAPPER : LaunchOptionSemanticKind.DELIMITED_WRAPPER,
                 LaunchPlaceholderPolicy.REQUIRED,
                 LaunchOptionEmissionMode.WRAPPER_SELECTION,
-                "", wrapper_id, {}, {}, "", {}, {}, { definition.required_capability },
+                "", wrapper_id, {}, {}, "", conflicts_for (wrapper_id), {}, { definition.required_capability },
                 LaunchOptionApplicability.COMPONENT_SPECIFIC, {}, false,
                 support_for (wrapper_id), true, {}, {}
             );
@@ -872,8 +889,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 case "discord-bridge":
                 case "winealsa-channels":
                 case "winealsa-spatial":
-                case "amd-fsr4":
-                case "amd-fsr4-rdna3":
                 case "nvidia-dlss-updater":
                 case "nvidia-dlss-indicator":
                 case "nvidia-libraries":
@@ -881,7 +896,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     return LaunchOptionSupport.VARIANT_SPECIFIC;
                 case "performance-overlay":
                 case "mangohud":
+                case "mangohud-vulkan":
                 case "gamemode":
+                case "game-performance":
+                case "obs-vkcapture":
                 case "gamescope":
                 case "scopebuddy":
                 case "launch-backend":
@@ -901,6 +919,23 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 case "vkd3d-config":
                 case "vkd3d-log-level":
                 case "dxvk-log-level":
+                case "dxvk-hdr":
+                case "dxvk-no-hdr":
+                case "proton-hdr":
+                case "nvidia-hdr-wsi":
+                case "amd-fsr4":
+                case "amd-fsr4-rdna3":
+                case "amd-mlfg":
+                case "amd-mlfg-rdna3-workaround":
+                case "cachyos-dxvk-low-latency":
+                case "cachyos-vkd3d-low-latency":
+                case "cachyos-vulkan-low-latency":
+                case "cachyos-vulkan-reflex":
+                case "cachyos-vulkan-reflex-layer":
+                case "amd-reflex-allow-other-drivers":
+                case "amd-reflex-dxgi-spoof":
+                case "amd-reflex-force-nvapi":
+                case "amd-reflex-layer-spoof":
                 case "amd-discrete-gpu":
                 case "amd-anti-lag":
                 case "amd-vulkan-driver":
@@ -916,7 +951,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 case "per-game-shader-cache":
                 case "native-wayland":
                 case "desktop-game-profile":
-                case "proton-hdr":
                 case "wow64":
                 case "writecopy":
                 case "vulkan-sync2":
@@ -975,24 +1009,75 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return "";
         }
 
+        string conflict_group_for (string id) {
+            if (id == "amd-fsr4" || id == "amd-fsr4-rdna3")
+                return "amd-fsr4-upgrade";
+            return "";
+        }
+
+        string[] conflicts_for (string id) {
+            switch (id) {
+                case "mangohud":
+                case "performance-overlay": return { "mangohud-vulkan" };
+                case "mangohud-vulkan": return { "performance-overlay" };
+                case "gamemode": return { "game-performance" };
+                case "game-performance": return { "gamemode" };
+                case "amd-anti-lag": return { "cachyos-vulkan-low-latency" };
+                case "dxvk-hdr":
+                case "proton-hdr": return { "dxvk-no-hdr" };
+                case "dxvk-no-hdr": return { "dxvk-hdr", "proton-hdr" };
+                case "cachyos-vulkan-low-latency": return { "amd-anti-lag", "amd-fsr4", "amd-fsr4-rdna3" };
+                case "cachyos-vkd3d-low-latency": return { "amd-mlfg" };
+                case "amd-mlfg": return {
+                    "cachyos-vkd3d-low-latency", "amd-reflex-dxgi-spoof",
+                    "amd-reflex-force-nvapi", "amd-reflex-layer-spoof"
+                };
+                case "amd-fsr4":
+                case "amd-fsr4-rdna3": return {
+                    "cachyos-vulkan-low-latency", "amd-reflex-dxgi-spoof",
+                    "amd-reflex-force-nvapi", "amd-reflex-layer-spoof"
+                };
+                case "amd-reflex-dxgi-spoof":
+                case "amd-reflex-force-nvapi":
+                case "amd-reflex-layer-spoof": return { "amd-fsr4", "amd-fsr4-rdna3", "amd-mlfg" };
+                default: return {};
+            }
+        }
+
         LaunchOptionCapability[] capabilities_for (string id) {
             if (id == "vkbasalt") return { LaunchOptionCapability.VKBASALT };
-            if (id == "amd-fsr4" || id == "amd-fsr4-rdna3")
-                return { LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON };
+            if (id == "mangohud-vulkan") return { LaunchOptionCapability.MANGOHUD };
+            if (id == "obs-vkcapture") return { LaunchOptionCapability.OBS_VKCAPTURE };
+            if (id == "proton-hdr") return { LaunchOptionCapability.LEGACY_PROTON_HDR };
+            if (id == "dxvk-no-hdr") return { LaunchOptionCapability.PROTON_AUTO_HDR_CONTROL };
+            if (id == "amd-fsr4") return { LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON_FSR4 };
+            if (id == "amd-fsr4-rdna3") return { LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON_FSR4_RDNA3 };
+            if (id == "amd-mlfg") return { LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON_MLFG };
+            if (id == "amd-mlfg-rdna3-workaround")
+                return { LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON_MLFG };
+            if (id == "cachyos-dxvk-low-latency") return { LaunchOptionCapability.PROTON_DXVK_LOW_LATENCY };
+            if (id == "cachyos-vkd3d-low-latency") return { LaunchOptionCapability.PROTON_VKD3D_LOW_LATENCY };
+            if (id == "cachyos-vulkan-reflex-layer")
+                return { LaunchOptionCapability.NVIDIA, LaunchOptionCapability.VULKAN_REFLEX_LAYER };
+            if (id == "cachyos-vulkan-low-latency" || id == "cachyos-vulkan-reflex"
+                || id.has_prefix ("amd-reflex-"))
+                return id.has_prefix ("amd-reflex-")
+                    ? new LaunchOptionCapability[] { LaunchOptionCapability.AMD, LaunchOptionCapability.LOW_LATENCY_LAYER }
+                    : new LaunchOptionCapability[] { LaunchOptionCapability.LOW_LATENCY_LAYER };
             if (id.has_prefix ("amd-")) return { LaunchOptionCapability.AMD };
             if (id.has_prefix ("nvidia-")) return { LaunchOptionCapability.NVIDIA, LaunchOptionCapability.PROTON };
             if (id.has_prefix ("intel-")) return { LaunchOptionCapability.INTEL, LaunchOptionCapability.PROTON };
             if (id.has_prefix ("dxvk-")) return { LaunchOptionCapability.DXVK };
             if (id.has_prefix ("vkd3d-")) return { LaunchOptionCapability.VKD3D_PROTON };
             if (id == "scopebuddy-auto-hdr" || id == "scopebuddy-auto-vrr") return { LaunchOptionCapability.SCOPEBUDDY };
-            if (id == "native-wayland" || id == "proton-hdr" || id.has_prefix ("proton-") || id == "wined3d" || id == "d7vk" || id == "ntsync-mode" || id == "wow64" || id == "large-address-aware" || id == "writecopy" || id == "vulkan-sync2" || id == "futex-waitv" || id == "optiscaler" || id == "discord-bridge" || id == "prefer-sdl" || id == "bypass-steam-input" || id.has_prefix ("winealsa-")) return { LaunchOptionCapability.PROTON };
+            if (id == "native-wayland" || id.has_prefix ("proton-") || id == "wined3d" || id == "d7vk" || id == "ntsync-mode" || id == "wow64" || id == "large-address-aware" || id == "writecopy" || id == "vulkan-sync2" || id == "futex-waitv" || id == "optiscaler" || id == "discord-bridge" || id == "prefer-sdl" || id == "bypass-steam-input" || id.has_prefix ("winealsa-")) return { LaunchOptionCapability.PROTON };
             return {};
         }
 
         LaunchOptionApplicability applicability_for (string id) {
             if (id == "d7vk" || id == "optiscaler" || id == "discord-bridge" || id == "winealsa-channels" || id == "winealsa-spatial")
                 return LaunchOptionApplicability.VARIANT_SPECIFIC;
-            if (id.has_prefix ("amd-") || id.has_prefix ("nvidia-") || id.has_prefix ("intel-") || id.has_prefix ("dxvk-") || id.has_prefix ("vkd3d-") || id == "vkbasalt" || id.has_prefix ("scopebuddy-"))
+            if (id.has_prefix ("amd-") || id.has_prefix ("nvidia-") || id.has_prefix ("intel-") || id.has_prefix ("dxvk-") || id.has_prefix ("vkd3d-") || id.has_prefix ("cachyos-") || id == "vkbasalt" || id.has_prefix ("scopebuddy-") || id == "proton-hdr" || id == "mangohud-vulkan" || id == "obs-vkcapture")
                 return LaunchOptionApplicability.COMPONENT_SPECIFIC;
             return LaunchOptionApplicability.GENERIC;
         }
@@ -1145,15 +1230,21 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             // Performance & monitoring
             add_option ("performance-overlay", _("MangoHud performance overlay"), _("Shows FPS, CPU/GPU usage, and temperatures in game."), LaunchOptionCategory.PERFORMANCE, 10, { "mangohud" }, { "MangoHud", "performance overlay" }, LaunchLineType.WRAPPER, "", true);
             add_option ("gamemode", _("GameMode"), _("Requests temporary system performance optimizations while the game is running."), LaunchOptionCategory.PERFORMANCE, 20, { "gamemoderun" }, { "Feral Gamemode", "gamemoderun" }, LaunchLineType.WRAPPER, "", true);
-            add_option ("high-process-priority", _("High process priority"), _("Gives the game a higher CPU priority."), LaunchOptionCategory.PERFORMANCE, 30, { "PROTON_PRIORITY_HIGH=1" });
-            add_option ("per-game-shader-cache", _("Per-game shader cache"), _("Keeps this game's shader cache separate."), LaunchOptionCategory.PERFORMANCE, 40, { "PROTON_LOCAL_SHADER_CACHE=1" }, { "local shader cache" });
+            add_option ("game-performance", _("CachyOS game-performance profile"), _("Runs the game with CachyOS's performance power profile and gaming sched_ext profile, then restores them when the game exits."), LaunchOptionCategory.PERFORMANCE, 30, { "game-performance" }, { "CachyOS", "power profile", "sched_ext" }, LaunchLineType.WRAPPER, "", true, LaunchOptionExpertise.STANDARD, _("Requires the game-performance command"));
+            add_option ("mangohud-vulkan", _("MangoHud Vulkan environment mode"), _("Enables MangoHud for Vulkan through MANGOHUD=1. Use the MangoHud wrapper for OpenGL; inside Gamescope, use Gamescope's MangoApp support instead."), LaunchOptionCategory.PERFORMANCE, 40, { "MANGOHUD=1" }, { "MangoHud", "Vulkan overlay" }, LaunchLineType.ENVIRONMENT, "", false, LaunchOptionExpertise.ADVANCED, _("Requires MangoHud; Vulkan only"));
+            add_option ("obs-vkcapture", _("OBS Vulkan/OpenGL capture"), _("Loads obs-vkcapture for Vulkan or OpenGL capture. Install the native package, or both the Flatpak OBS plugin and Flatpak capture-tools layer; NVIDIA requires modesetting and driver 515.43.04 or newer."), LaunchOptionCategory.PERFORMANCE, 50, { "OBS_VKCAPTURE=1" }, { "OBS", "obs-gamecapture", "Vulkan capture" }, LaunchLineType.ENVIRONMENT, "", false, LaunchOptionExpertise.ADVANCED, _("Requires obs-vkcapture and a compatible OBS installation"));
+            add_option ("high-process-priority", _("High process priority"), _("Gives the game a higher CPU priority."), LaunchOptionCategory.PERFORMANCE, 60, { "PROTON_PRIORITY_HIGH=1" });
+            add_option ("per-game-shader-cache", _("Per-game shader cache"), _("Keeps this game's shader cache separate."), LaunchOptionCategory.PERFORMANCE, 70, { "PROTON_LOCAL_SHADER_CACHE=1" }, { "local shader cache" });
 
             // Display & launch tools
             add_option ("launch-backend", _("Launch backend"), _("Choose the system default, Gamescope, or ScopeBuddy."), LaunchOptionCategory.DISPLAY, 10, { "gamescope", "scopebuddy" }, { "System default", "Gamescope", "ScopeBuddy" }, LaunchLineType.WRAPPER);
             add_option ("native-wayland", _("Native Wayland"), _("Runs the game on Wayland instead of XWayland."), LaunchOptionCategory.DISPLAY, 20, { "PROTON_ENABLE_WAYLAND=1" }, { "Wayland" });
             add_option ("desktop-game-profile", _("Use desktop game profile"), _("Uses the desktop profile instead of a Steam Deck-specific profile."), LaunchOptionCategory.DISPLAY, 30, { "SteamDeck=0" }, { "Disable Steam Deck Mode", "Steam Deck" });
             add_option ("vkbasalt", _("vkBasalt visual effects"), _("Adds visual effects such as sharpening and color adjustments."), LaunchOptionCategory.DISPLAY, 40, { "ENABLE_VKBASALT=1" }, { "VKBasalt" }, LaunchLineType.ENVIRONMENT, "", false, LaunchOptionExpertise.ADVANCED);
-            add_option ("proton-hdr", _("HDR through Proton"), _("Outputs HDR colors through Proton when the display supports it."), LaunchOptionCategory.DISPLAY, 50, { "PROTON_ENABLE_HDR=1" }, {}, LaunchLineType.ENVIRONMENT, "", true);
+            add_option ("dxvk-hdr", _("DXVK HDR"), _("Advertises HDR10 color space to DXVK games. Current Proton-CachyOS enables HDR automatically; use this only when explicit DXVK HDR exposure is needed. Current DXVK 2.7 requires Vulkan 1.3 and recent drivers (RADV 25.0, NVIDIA 575.51.02, or Intel/NVK Mesa 25.1); older Proton bundles may differ."), LaunchOptionCategory.DISPLAY, 50, { "DXVK_HDR=1" }, { "HDR", "dxgi.enableHDR" }, LaunchLineType.ENVIRONMENT, "", true, LaunchOptionExpertise.ADVANCED, _("Requires an HDR-capable compositor, display, Vulkan 1.3, and a compatible driver"));
+            add_option ("proton-hdr", _("Legacy custom-Proton HDR"), _("Enables the older PROTON_ENABLE_HDR path only when the selected Proton build still advertises it. It also enables native Wayland in Proton-GE, where Steam Overlay is broken and Steam Input may be unreliable."), LaunchOptionCategory.DISPLAY, 55, { "PROTON_ENABLE_HDR=1" }, { "HDR", "Proton-GE" }, LaunchLineType.ENVIRONMENT, "", false, LaunchOptionExpertise.ADVANCED, _("Only available in custom Proton builds that still support PROTON_ENABLE_HDR"));
+            add_option ("dxvk-no-hdr", _("Disable custom-Proton automatic HDR"), _("Sets DXVK_NO_HDR=1 for custom Proton builds such as current Proton-CachyOS that automatically expose HDR. This conflicts with the explicit HDR enable options."), LaunchOptionCategory.DISPLAY, 56, { "DXVK_NO_HDR=1" }, { "HDR opt-out", "Proton-CachyOS" }, LaunchLineType.ENVIRONMENT, "", false, LaunchOptionExpertise.ADVANCED, _("Only available when the selected custom Proton build advertises DXVK_NO_HDR"));
+            add_option ("nvidia-hdr-wsi", _("NVIDIA legacy HDR WSI"), _("Enables the Vulkan HDR WSI layer needed by NVIDIA proprietary drivers older than 595. Do not enable it on driver 595 or newer."), LaunchOptionCategory.DISPLAY, 57, { "ENABLE_HDR_WSI=1" }, { "HDR WSI", "NVIDIA 595" }, LaunchLineType.ENVIRONMENT, "", false, LaunchOptionExpertise.ADVANCED, _("NVIDIA proprietary driver older than 595 only"));
             add_option ("gamescope-fullscreen", _("Fullscreen"), _("Runs the game in a fullscreen Gamescope session."), LaunchOptionCategory.DISPLAY, 60, { "-f" }, {}, LaunchLineType.WRAPPER_ARGUMENT, _("Gamescope"), false, LaunchOptionExpertise.STANDARD, _("Requires Gamescope"));
             add_option ("gamescope-resolution", _("Output resolution"), _("Sets the Gamescope output resolution."), LaunchOptionCategory.DISPLAY, 70, { "-W", "-H" }, {}, LaunchLineType.WRAPPER_ARGUMENT, _("Gamescope"), false, LaunchOptionExpertise.STANDARD, _("Requires Gamescope"));
             add_option ("gamescope-hdr", _("HDR"), _("Outputs HDR colors through Gamescope."), LaunchOptionCategory.DISPLAY, 80, { "--hdr-enabled" }, {}, LaunchLineType.WRAPPER_ARGUMENT, _("Gamescope"), true, LaunchOptionExpertise.STANDARD, _("Requires Gamescope"));
@@ -1186,26 +1277,37 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             add_option ("vkd3d-shader-cache", _("VKD3D shader cache"), _("Enables VKD3D's internal shader cache."), LaunchOptionCategory.GRAPHICS, 30, { "VKD3D_SHADER_CACHE=1" }, {}, LaunchLineType.ENVIRONMENT, _("VKD3D-Proton"));
             add_option ("vkd3d-gpuva", _("VKD3D GPU virtual addressing"), _("Enables VKD3D GPU virtual addressing."), LaunchOptionCategory.GRAPHICS, 40, { "VKD3D_GPUVA=1" }, {}, LaunchLineType.ENVIRONMENT, _("VKD3D-Proton"), false, LaunchOptionExpertise.ADVANCED);
             add_option ("vkd3d-config", _("VKD3D compatibility settings"), _("Configure Direct3D 12 to Vulkan compatibility workarounds."), LaunchOptionCategory.GRAPHICS, 50, { "VKD3D_CONFIG", "shader_cache", "force_host_cache", "upload_hvv", "no_upload_hvv", "gpuva", "stable_power_state" }, { "VKD3D Proton Configurations" }, LaunchLineType.ENVIRONMENT, _("VKD3D-Proton"), false, LaunchOptionExpertise.ADVANCED);
+            add_option ("cachyos-dxvk-low-latency", _("Proton-CachyOS DX11 low latency"), _("Enables the Proton-CachyOS DXVK low-latency path for Direct3D 9–11. Requires a selected custom Proton build that advertises this option."), LaunchOptionCategory.GRAPHICS, 60, { "PROTON_DXVK_LOWLATENCY=1" }, { "DX11", "low latency", "CachyOS" }, LaunchLineType.ENVIRONMENT, _("Proton-CachyOS"), false, LaunchOptionExpertise.EXPERIMENTAL, _("Requires a compatible Proton-CachyOS build"));
+            add_option ("cachyos-vkd3d-low-latency", _("Proton-CachyOS DX12 low latency"), _("Enables hardware-agnostic VKD3D-Proton low latency for Direct3D 12 games that use Reflex markers or waitable swapchains. Intel GPUs, frame generation, and games without markers are unsupported."), LaunchOptionCategory.GRAPHICS, 70, { "PROTON_VKD3D_LOWLATENCY=1" }, { "DX12", "Reflex", "waitable swapchain", "CachyOS" }, LaunchLineType.ENVIRONMENT, _("Proton-CachyOS"), false, LaunchOptionExpertise.EXPERIMENTAL, _("Requires a compatible Proton-CachyOS build; not compatible with frame generation"));
+            add_option ("cachyos-vulkan-low-latency", _("Proton-CachyOS Vulkan Anti-Lag 2 layer"), _("Enables the low-latency Vulkan layer with VK_AMD_anti_lag exposure. The game must support AMD Anti-Lag 2; this does not add latency markers to unsupported games."), LaunchOptionCategory.GRAPHICS, 80, { "LOW_LATENCY_LAYER=1" }, { "Vulkan", "Anti-Lag 2", "CachyOS" }, LaunchLineType.ENVIRONMENT, _("Proton-CachyOS"), false, LaunchOptionExpertise.EXPERIMENTAL, _("Requires a compatible Proton-CachyOS build and game support for Anti-Lag 2"));
+            add_option ("cachyos-vulkan-reflex", _("Expose Vulkan Reflex instead of Anti-Lag 2"), _("Switches the Proton-CachyOS low-latency Vulkan layer from VK_AMD_anti_lag to VK_NV_low_latency2. Enable only for games with Vulkan Reflex support."), LaunchOptionCategory.GRAPHICS, 90, { "LOW_LATENCY_LAYER_REFLEX=1" }, { "Vulkan", "Reflex", "VK_NV_low_latency2" }, LaunchLineType.ENVIRONMENT, _("Proton-CachyOS"), false, LaunchOptionExpertise.EXPERIMENTAL, _("Requires the Vulkan low-latency layer"), { "cachyos-vulkan-low-latency" });
+            add_option ("cachyos-vulkan-reflex-layer", _("Proton-CachyOS NVIDIA Reflex Vulkan layer"), _("Enables Proton-CachyOS's NVIDIA Reflex layer for native Vulkan games. The game must already support VK_NV_low_latency2."), LaunchOptionCategory.GRAPHICS, 100, { "DXVK_NVAPI_VKREFLEX=1" }, { "Vulkan", "NVIDIA Reflex", "CachyOS" }, LaunchLineType.ENVIRONMENT, _("Proton-CachyOS"), false, LaunchOptionExpertise.EXPERIMENTAL, _("Requires NVIDIA and a compatible Proton-CachyOS build"));
 
             // Hardware & drivers
             add_option ("amd-discrete-gpu", _("Use discrete GPU"), _("Uses the AMD discrete GPU on hybrid systems."), LaunchOptionCategory.HARDWARE, 10, { "DRI_PRIME=1" }, { "Use dGPU" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.STANDARD, _("AMD"));
             add_option ("amd-anti-lag", _("Mesa Anti-Lag"), _("Reduces latency on supported AMD Mesa setups."), LaunchOptionCategory.HARDWARE, 20, { "ENABLE_LAYER_MESA_ANTI_LAG=1" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.STANDARD, _("AMD"));
-            add_option ("amd-fsr4", _("FSR 4 upgrade"), _("Upgrades supported FSR 3.1 games to FSR 4."), LaunchOptionCategory.HARDWARE, 30, { "PROTON_FSR4_UPGRADE=1" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.STANDARD, _("AMD"));
-            add_option ("amd-fsr4-rdna3", _("FSR 4 RDNA3 upgrade"), _("Optimizes FSR 4 for RDNA3 hardware."), LaunchOptionCategory.HARDWARE, 40, { "PROTON_FSR4_RDNA3_UPGRADE=1" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.STANDARD, _("AMD"));
-            add_option ("amd-hide-apu", _("Treat APU as a discrete GPU"), _("Reports an AMD APU as a discrete GPU for games that mis-detect integrated graphics."), LaunchOptionCategory.HARDWARE, 50, { "PROTON_HIDE_APU=1" }, { "Hide AMD APU" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.STANDARD, _("AMD"));
-            add_option ("amd-vulkan-driver", _("Vulkan driver"), _("Chooses the AMD Vulkan driver for this game."), LaunchOptionCategory.HARDWARE, 60, { "AMD_ICD" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
-            add_option ("amd-staging-shm", _("Staging shared memory"), _("Enables AMD driver shared memory support."), LaunchOptionCategory.HARDWARE, 70, { "STAGING_SHARED_MEMORY=1" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.STANDARD, _("AMD"));
-            add_option ("amd-glthread", _("Mesa GL threading"), _("Enables Mesa GLThread."), LaunchOptionCategory.HARDWARE, 80, { "mesa_glthread=true" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
-            add_option ("amd-shader-cache", _("Mesa shader-cache control"), _("Controls Mesa's shader cache."), LaunchOptionCategory.HARDWARE, 90, { "MESA_SHADER_CACHE_DISABLE=0", "MESA_SHADER_CACHE_DISABLE=1" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
-            add_option ("amd-radv-perftest", _("Experimental RADV features"), _("Tests experimental RADV performance features."), LaunchOptionCategory.HARDWARE, 100, { "RADV_PERFTEST" }, { "AMD RADV Performance Tests" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.EXPERIMENTAL, _("AMD"));
-            add_option ("amd-radv-debug", _("RADV workarounds and debugging"), _("Configure RADV compatibility workarounds and debugging."), LaunchOptionCategory.HARDWARE, 110, { "RADV_DEBUG" }, { "AMD RADV Debug Options" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
-            add_option ("amd-aco-debug", _("ACO shader-compiler debugging"), _("Configure AMD ACO shader compiler debugging."), LaunchOptionCategory.HARDWARE, 120, { "ACO_DEBUG" }, { "AMD ACO Debug Options" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
-            add_option ("nvidia-nvapi", _("NVAPI"), _("Lets games access NVIDIA-specific features such as DLSS."), LaunchOptionCategory.HARDWARE, 130, { "PROTON_ENABLE_NVAPI=1" }, {}, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
-            add_option ("nvidia-dlss-updater", _("DLSS component updates"), _("Updates DLSS components for supported games."), LaunchOptionCategory.HARDWARE, 140, { "PROTON_ENABLE_NGX_UPDATER=1" }, { "Update DLSS components" }, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
-            add_option ("nvidia-dlss-indicator", _("DLSS indicator"), _("Shows an in-game DLSS status indicator."), LaunchOptionCategory.HARDWARE, 150, { "PROTON_DLSS_INDICATOR=1" }, {}, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
-            add_option ("nvidia-libraries", _("NVIDIA libraries"), _("Enables NVIDIA-specific libraries."), LaunchOptionCategory.HARDWARE, 160, { "PROTON_NVIDIA_LIBS=1" }, {}, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
-            add_option ("nvidia-report-amd", _("Report GPU as AMD"), _("Reports an NVIDIA GPU as AMD for affected games."), LaunchOptionCategory.HARDWARE, 170, { "PROTON_HIDE_NVIDIA_GPU=1" }, { "Hide NVIDIA GPU" }, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
-            add_option ("intel-xess", _("XeSS component upgrade"), _("Updates XeSS in supported games."), LaunchOptionCategory.HARDWARE, 180, { "PROTON_XESS_UPGRADE=1" }, { "XeSS Upgrade" }, LaunchLineType.ENVIRONMENT, _("Intel"), false, LaunchOptionExpertise.STANDARD, _("Intel"));
+            add_option ("amd-fsr4", _("FSR 4 upgrade (current path)"), _("Upgrades supported FSR 3.1 games through the selected custom Proton build. Value 1 selects that build's default FSR 4 release; supported builds also accept a documented version. Proton-EM documents Mesa 25.2 for RDNA3/RDNA4, while older RDNA generations use a slower compatibility layer. Current Proton-GE disables Anti-Lag 2 while this is active."), LaunchOptionCategory.HARDWARE, 30, { "PROTON_FSR4_UPGRADE=1" }, { "FSR 4", "Proton-GE", "Proton-CachyOS", "Proton-EM" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.STANDARD, _("Requires a custom Proton build that advertises PROTON_FSR4_UPGRADE, a supported game, and compatible AMD hardware/drivers"));
+            add_option ("amd-fsr4-rdna3", _("FSR 4 RDNA3 upgrade (legacy path)"), _("Uses the older RDNA3-specific upgrade switch retained by some Proton-GE builds. New Proton-CachyOS releases removed it in favor of the current FSR 4 path."), LaunchOptionCategory.HARDWARE, 40, { "PROTON_FSR4_RDNA3_UPGRADE=1" }, { "FSR 4", "RDNA3", "legacy" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("Only available when the selected custom Proton build still advertises this legacy switch"));
+            add_option ("amd-mlfg", _("FSR 4 ML frame generation"), _("Requests ML frame generation in supported custom Proton builds. Proton-CachyOS requires FSR 4.0.3 or newer; RDNA3 may require DXIL_SPIRV_CONFIG=wmma_rdna3_workaround. Proton-EM enables MLFG by default with FSR 4 and uses value 0 to disable it."), LaunchOptionCategory.HARDWARE, 50, { "PROTON_MLFG_UPGRADE=1" }, { "MLFG", "machine learning frame generation", "FSR 4" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.EXPERIMENTAL, _("Requires a custom Proton build that advertises MLFG, FSR 4.0.3 or newer, and supported AMD hardware/drivers"), { "amd-fsr4" });
+            add_option ("amd-mlfg-rdna3-workaround", _("RDNA3 ML frame-generation workaround"), _("Enables the DXIL-SPIR-V WMMA workaround that some RDNA3 systems need for ML frame generation. Do not use it on other GPU generations."), LaunchOptionCategory.HARDWARE, 55, { "DXIL_SPIRV_CONFIG=wmma_rdna3_workaround" }, { "RDNA3", "MLFG", "WMMA", "DXIL-SPIR-V" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.EXPERIMENTAL, _("RDNA3 only; enable only if ML frame generation requires it"), { "amd-mlfg" });
+            add_option ("amd-reflex-allow-other-drivers", _("AMD Reflex preset: allow DXVK-NVAPI"), _("Allows DXVK-NVAPI on non-NVIDIA drivers. Try this least-invasive Reflex compatibility preset first; the game must support Reflex and the low-latency Vulkan layer must be active."), LaunchOptionCategory.HARDWARE, 60, { "DXVK_NVAPI_ALLOW_OTHER_DRIVERS=1" }, { "AMD", "Reflex", "DXVK-NVAPI" }, LaunchLineType.ENVIRONMENT, _("AMD Reflex compatibility"), false, LaunchOptionExpertise.EXPERIMENTAL, _("May not convince games that explicitly require an NVIDIA GPU"), { "cachyos-vulkan-reflex" });
+            add_option ("amd-reflex-dxgi-spoof", _("AMD Reflex preset: hide AMD GPU"), _("Makes DXVK hide the AMD GPU so some games expose Reflex. This fallback can break FSR 4 and ML frame generation; use only if allowing DXVK-NVAPI is insufficient."), LaunchOptionCategory.HARDWARE, 70, { "DXVK_CONFIG=dxgi.hideAmdGpu=True" }, { "AMD", "Reflex", "GPU spoof", "DXVK" }, LaunchLineType.ENVIRONMENT, _("AMD Reflex compatibility"), false, LaunchOptionExpertise.EXPERIMENTAL, _("GPU spoofing can break FSR 4 and other vendor-specific paths"), { "cachyos-vulkan-reflex" });
+            add_option ("amd-reflex-force-nvapi", _("AMD Reflex preset: force NVAPI"), _("Forces Proton's NVAPI path for games that still hide Reflex. This invasive fallback can break FSR 4 and should be used only after the safer presets fail."), LaunchOptionCategory.HARDWARE, 80, { "PROTON_FORCE_NVAPI=1" }, { "AMD", "Reflex", "GPU spoof", "NVAPI" }, LaunchLineType.ENVIRONMENT, _("AMD Reflex compatibility"), false, LaunchOptionExpertise.EXPERIMENTAL, _("Can break FSR 4 and game-specific GPU detection"), { "cachyos-vulkan-reflex" });
+            add_option ("amd-reflex-layer-spoof", _("AMD Reflex preset: layer NVIDIA spoof"), _("Makes the low-latency Vulkan layer report an NVIDIA GPU. Upstream recommends against this last-resort spoof because it can break Proton FSR 4."), LaunchOptionCategory.HARDWARE, 90, { "LOW_LATENCY_LAYER_SPOOF_NVIDIA=1" }, { "AMD", "Reflex", "GPU spoof", "NVIDIA" }, LaunchLineType.ENVIRONMENT, _("AMD Reflex compatibility"), false, LaunchOptionExpertise.EXPERIMENTAL, _("Last resort; can break FSR 4 and other GPU detection"), { "cachyos-vulkan-reflex" });
+            add_option ("amd-hide-apu", _("Treat APU as a discrete GPU"), _("Reports an AMD APU as a discrete GPU for games that mis-detect integrated graphics."), LaunchOptionCategory.HARDWARE, 100, { "PROTON_HIDE_APU=1" }, { "Hide AMD APU" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.STANDARD, _("AMD"));
+            add_option ("amd-vulkan-driver", _("Vulkan driver"), _("Chooses the AMD Vulkan driver for this game."), LaunchOptionCategory.HARDWARE, 110, { "AMD_ICD" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
+            add_option ("amd-staging-shm", _("Staging shared memory"), _("Enables AMD driver shared memory support."), LaunchOptionCategory.HARDWARE, 120, { "STAGING_SHARED_MEMORY=1" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.STANDARD, _("AMD"));
+            add_option ("amd-glthread", _("Mesa GL threading"), _("Enables Mesa GLThread."), LaunchOptionCategory.HARDWARE, 130, { "mesa_glthread=true" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
+            add_option ("amd-shader-cache", _("Mesa shader-cache control"), _("Controls Mesa's shader cache."), LaunchOptionCategory.HARDWARE, 140, { "MESA_SHADER_CACHE_DISABLE=0", "MESA_SHADER_CACHE_DISABLE=1" }, {}, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
+            add_option ("amd-radv-perftest", _("Experimental RADV features"), _("Tests experimental RADV performance features."), LaunchOptionCategory.HARDWARE, 150, { "RADV_PERFTEST" }, { "AMD RADV Performance Tests" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.EXPERIMENTAL, _("AMD"));
+            add_option ("amd-radv-debug", _("RADV workarounds and debugging"), _("Configure RADV compatibility workarounds and debugging."), LaunchOptionCategory.HARDWARE, 160, { "RADV_DEBUG" }, { "AMD RADV Debug Options" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
+            add_option ("amd-aco-debug", _("ACO shader-compiler debugging"), _("Configure AMD ACO shader compiler debugging."), LaunchOptionCategory.HARDWARE, 170, { "ACO_DEBUG" }, { "AMD ACO Debug Options" }, LaunchLineType.ENVIRONMENT, _("AMD"), false, LaunchOptionExpertise.ADVANCED, _("AMD"));
+            add_option ("nvidia-nvapi", _("NVAPI"), _("Lets games access NVIDIA-specific features such as DLSS."), LaunchOptionCategory.HARDWARE, 200, { "PROTON_ENABLE_NVAPI=1" }, {}, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
+            add_option ("nvidia-dlss-updater", _("DLSS component updates"), _("Updates DLSS components for supported games."), LaunchOptionCategory.HARDWARE, 210, { "PROTON_ENABLE_NGX_UPDATER=1" }, { "Update DLSS components" }, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
+            add_option ("nvidia-dlss-indicator", _("DLSS indicator"), _("Shows an in-game DLSS status indicator."), LaunchOptionCategory.HARDWARE, 220, { "PROTON_DLSS_INDICATOR=1" }, {}, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
+            add_option ("nvidia-libraries", _("NVIDIA libraries"), _("Enables NVIDIA-specific libraries."), LaunchOptionCategory.HARDWARE, 230, { "PROTON_NVIDIA_LIBS=1" }, {}, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
+            add_option ("nvidia-report-amd", _("Report GPU as AMD"), _("Reports an NVIDIA GPU as AMD for affected games."), LaunchOptionCategory.HARDWARE, 240, { "PROTON_HIDE_NVIDIA_GPU=1" }, { "Hide NVIDIA GPU" }, LaunchLineType.ENVIRONMENT, _("NVIDIA"), false, LaunchOptionExpertise.STANDARD, _("NVIDIA"));
+            add_option ("intel-xess", _("XeSS component upgrade"), _("Updates XeSS in supported games."), LaunchOptionCategory.HARDWARE, 250, { "PROTON_XESS_UPGRADE=1" }, { "XeSS Upgrade" }, LaunchLineType.ENVIRONMENT, _("Intel"), false, LaunchOptionExpertise.STANDARD, _("Intel"));
 
             // Input & audio
             add_option ("prefer-sdl", _("Prefer SDL controller input"), _("Works around controller detection issues."), LaunchOptionCategory.INPUT_AUDIO, 10, { "PROTON_PREFER_SDL=1" }, { "Prefer SDL controller" });
@@ -1220,7 +1322,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             add_option ("renderer-dx11", _("DirectX 11 renderer"), _("Adds -dx11."), LaunchOptionCategory.GAME_ARGUMENTS, 30, { "-dx11" }, {}, LaunchLineType.ARGUMENT);
             add_option ("renderer-dx12", _("DirectX 12 renderer"), _("Adds -dx12."), LaunchOptionCategory.GAME_ARGUMENTS, 40, { "-dx12" }, {}, LaunchLineType.ARGUMENT);
             add_option ("developer-console", _("Developer console"), _("Adds -console when the game supports it."), LaunchOptionCategory.GAME_ARGUMENTS, 50, { "-console" }, { "Console" }, LaunchLineType.ARGUMENT);
-            add_option ("custom-game-arguments", _("Custom game arguments"), _("Adds your own game arguments without changing recognized controls."), LaunchOptionCategory.GAME_ARGUMENTS, 60, { "custom", "arguments" }, {}, LaunchLineType.ADDITIONAL, "", false, LaunchOptionExpertise.ADVANCED);
+            add_option ("custom-game-arguments", _("Custom game arguments"), _("Adds individual custom arguments and preserves unrecognized launch options exactly as loaded."), LaunchOptionCategory.GAME_ARGUMENTS, 60, { "custom", "arguments", "unknown" }, {}, LaunchLineType.ADDITIONAL, "", false, LaunchOptionExpertise.ADVANCED);
 
             // Diagnostics & raw command
             add_option ("proton-debug-log", _("Proton debug log"), _("Enables Proton troubleshooting logs."), LaunchOptionCategory.DIAGNOSTICS, 10, { "PROTON_LOG=1" }, { "Enable Proton logs" }, LaunchLineType.ENVIRONMENT, "", true);

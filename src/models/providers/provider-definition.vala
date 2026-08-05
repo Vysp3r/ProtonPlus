@@ -191,6 +191,7 @@ namespace ProtonPlus.Models.Providers {
         public string title { get; private set; }
         public string description { get; private set; }
         public string endpoint { get; private set; }
+        public string repository_url { get; private set; }
         public int sort_priority { get; private set; }
         public bool legacy { get; private set; }
         public string tag { get; private set; }
@@ -222,6 +223,7 @@ namespace ProtonPlus.Models.Providers {
             string title,
             string description,
             string endpoint,
+            string repository_url,
             int sort_priority,
             VariantDefinition[] variants,
             InstallLayout[] install_layouts,
@@ -238,6 +240,7 @@ namespace ProtonPlus.Models.Providers {
             this.title = title;
             this.description = description;
             this.endpoint = endpoint;
+            this.repository_url = repository_url;
             this.sort_priority = sort_priority;
             this.variants = copy_variants (variants);
             this.install_layouts = copy_install_layouts (install_layouts);

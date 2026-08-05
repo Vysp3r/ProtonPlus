@@ -3,6 +3,7 @@ namespace ProtonPlus.Models.Tools {
         public SteamTinkerLaunch (Models.Group group) {
             Object (group: group,
                     title: "Steam Tinker Launch",
+                    repository_url: "https://github.com/sonic2kk/steamtinkerlaunch",
                     description: _ (
                         "Steam tool for easy, graphical configuration of your other compatibility tools for both Windows games and native Linux games."
             ));

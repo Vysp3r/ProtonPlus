@@ -7,6 +7,7 @@ namespace ProtonPlus.Models {
         public string source_id { get; internal set; default = ""; }
         public string title { get; set; }
         public string description { get; set; }
+        public string repository_url { get; set; default = ""; }
         public Group group { get; set; }
         public bool legacy { get; set; }
         public int sort_priority { get; set; default = 1000; }

@@ -362,10 +362,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
                 option.parse_tokens (tokens_pool, consumed);
 
-                var entry_binding = option as EntryBinding;
-                if (entry_binding != null)
-                    entry_binding.set_loaded_tokens (get_newly_consumed_raw_tokens (tokens_pool, consumed_before, consumed));
-
                 for (var index = 0; index < tokens_pool.length; index++) {
                     if (!consumed_before[index] && consumed[index] && index < this.parsed_tokens.size)
                         this.token_owners.set (this.parsed_tokens[index], option);
@@ -375,15 +371,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.initial_option_serializations.clear ();
             foreach (var option in this._options)
                 this.initial_option_serializations.set (option, serialize_option (option));
-        }
-
-        private Gee.LinkedList<string> get_newly_consumed_raw_tokens (string[] tokens_pool, bool[] consumed_before, bool[] consumed) {
-            var raw_tokens = new Gee.LinkedList<string> ();
-            for (var index = 0; index < tokens_pool.length; index++) {
-                if (!consumed_before[index] && consumed[index] && index < this.parsed_tokens.size)
-                    raw_tokens.add (this.parsed_tokens[index].raw);
-            }
-            return raw_tokens;
         }
 
         public Gee.Iterator<ILaunchOption> iterator () {
@@ -440,8 +427,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 if (option == null)
                     return token.value != "%command%";
 
-                if (option is EntryBinding)
-                    return true;
             }
             return false;
         }

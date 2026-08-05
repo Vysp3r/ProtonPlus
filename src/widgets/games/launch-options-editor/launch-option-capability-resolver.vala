@@ -39,27 +39,69 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public bool gamescope { get; construct; }
         public bool scopebuddy { get; construct; }
         public bool vkbasalt { get; construct; }
+        public bool game_performance { get; construct; }
+        public bool obs_vkcapture { get; construct; }
 
         public LaunchOptionInstalledComponents (
             bool mangohud = false, bool gamemode = false, bool gamescope = false,
-            bool scopebuddy = false, bool vkbasalt = false
+            bool scopebuddy = false, bool vkbasalt = false,
+            bool game_performance = false, bool obs_vkcapture = false
         ) {
             Object (mangohud: mangohud, gamemode: gamemode, gamescope: gamescope,
-                scopebuddy: scopebuddy, vkbasalt: vkbasalt);
+                scopebuddy: scopebuddy, vkbasalt: vkbasalt,
+                game_performance: game_performance, obs_vkcapture: obs_vkcapture);
+        }
+    }
+
+    /* Custom Proton features intentionally use a small data table instead of
+     * title/provider guessing.  A future feature normally needs one catalog
+     * capability plus one rule here; the intersection policy and file probing
+     * stay shared. */
+    class LaunchOptionToolFeatureRule : Object {
+        public LaunchOptionCapability capability { get; construct; }
+        public string[] markers { get; construct; }
+
+        public LaunchOptionToolFeatureRule (
+            LaunchOptionCapability capability, string[] markers
+        ) {
+            Object (capability: capability, markers: markers);
         }
     }
 
     public class LaunchOptionCapabilityResolver : Object {
         LaunchOptionCatalog catalog;
+        Gee.HashMap<string, string> tool_document_cache;
+        LaunchOptionToolFeatureRule[] tool_feature_rules;
+
+        const string[] TOOL_FEATURE_FILES = {
+            "proton", "README.md", "CHANGELOG.md", "user_settings.sample.py",
+            "docs/FSR4.md", "docs/EM-ADDITIONS.md"
+        };
 
         public LaunchOptionCapabilityResolver (LaunchOptionCatalog? catalog = null) {
             this.catalog = catalog ?? new LaunchOptionCatalog ();
+            tool_document_cache = new Gee.HashMap<string, string> ();
+            tool_feature_rules = {
+                new LaunchOptionToolFeatureRule (LaunchOptionCapability.LEGACY_PROTON_HDR, { "PROTON_ENABLE_HDR" }),
+                new LaunchOptionToolFeatureRule (LaunchOptionCapability.PROTON_AUTO_HDR_CONTROL, { "DXVK_NO_HDR" }),
+                new LaunchOptionToolFeatureRule (LaunchOptionCapability.PROTON_FSR4, { "PROTON_FSR4_UPGRADE" }),
+                new LaunchOptionToolFeatureRule (LaunchOptionCapability.PROTON_FSR4_RDNA3, { "PROTON_FSR4_RDNA3_UPGRADE" }),
+                new LaunchOptionToolFeatureRule (LaunchOptionCapability.PROTON_MLFG, { "PROTON_MLFG_UPGRADE" }),
+                new LaunchOptionToolFeatureRule (LaunchOptionCapability.PROTON_DXVK_LOW_LATENCY, { "PROTON_DXVK_LOWLATENCY" }),
+                new LaunchOptionToolFeatureRule (LaunchOptionCapability.PROTON_VKD3D_LOW_LATENCY, { "PROTON_VKD3D_LOWLATENCY" }),
+                new LaunchOptionToolFeatureRule (LaunchOptionCapability.LOW_LATENCY_LAYER, { "LOW_LATENCY_LAYER" }),
+                new LaunchOptionToolFeatureRule (LaunchOptionCapability.VULKAN_REFLEX_LAYER, { "DXVK_NVAPI_VKREFLEX" })
+            };
         }
 
         public LaunchCommandCapabilityContext resolve (
             Models.CompatibilityToolRuntimeKind[] runtimes, bool all_steam,
-            LaunchOptionInstalledComponents components, Utils.GpuVendor gpu_vendor
+            LaunchOptionInstalledComponents components, Utils.GpuVendor gpu_vendor,
+            Models.CompatibilityTool[] tools = {}
         ) {
+            /* Refresh between selections/tool updates, while still deduplicating
+             * repeated paths inside a mass-edit intersection. */
+            tool_document_cache.clear ();
             LaunchOptionCapability[] values = {};
             if (all_steam)
                 values = append_capability (values, LaunchOptionCapability.STEAM);
@@ -85,6 +127,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (components.gamescope) values = append_capability (values, LaunchOptionCapability.GAMESCOPE);
             if (components.scopebuddy) values = append_capability (values, LaunchOptionCapability.SCOPEBUDDY);
             if (components.vkbasalt) values = append_capability (values, LaunchOptionCapability.VKBASALT);
+            if (components.game_performance) values = append_capability (values, LaunchOptionCapability.GAME_PERFORMANCE);
+            if (components.obs_vkcapture) values = append_capability (values, LaunchOptionCapability.OBS_VKCAPTURE);
+            if (tools.length > 0) {
+                foreach (var rule in tool_feature_rules) {
+                    if (all_tools_advertise_feature (tools, rule))
+                        values = append_capability (values, rule.capability);
+                }
+            }
             switch (gpu_vendor) {
                 case Utils.GpuVendor.AMD: values = append_capability (values, LaunchOptionCapability.AMD); break;
                 case Utils.GpuVendor.NVIDIA: values = append_capability (values, LaunchOptionCapability.NVIDIA); break;
@@ -92,6 +142,62 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 default: break;
             }
             return new LaunchCommandCapabilityContext (values);
+        }
+
+        bool all_tools_advertise_feature (
+            Models.CompatibilityTool[] tools, LaunchOptionToolFeatureRule rule
+        ) {
+            if (tools.length == 0)
+                return false;
+            foreach (var tool in tools) {
+                if (runtime_for_tool (tool) != Models.CompatibilityToolRuntimeKind.PROTON
+                    || tool.path.strip () == "")
+                    return false;
+                var documentation = documentation_for_tool (tool.path);
+                var found = false;
+                foreach (var marker in rule.markers) {
+                    if (contains_feature_marker (documentation, marker)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                    return false;
+            }
+            return true;
+        }
+
+        bool contains_feature_marker (string documentation, string marker) {
+            try {
+                var pattern = "(^|[^A-Za-z0-9_])%s([^A-Za-z0-9_]|$)".printf (
+                    Regex.escape_string (marker)
+                );
+                return new Regex (pattern, RegexCompileFlags.MULTILINE).match (documentation);
+            } catch (RegexError error) {
+                return false;
+            }
+        }
+
+        string documentation_for_tool (string tool_path) {
+            if (tool_document_cache.has_key (tool_path))
+                return tool_document_cache.get (tool_path);
+
+            var documents = new StringBuilder ();
+            foreach (var relative_path in TOOL_FEATURE_FILES) {
+                string contents;
+                var path = Path.build_filename (tool_path, relative_path);
+                try {
+                    FileUtils.get_contents (path, out contents);
+                    documents.append (contents);
+                    documents.append_c ('\n');
+                } catch (FileError error) {
+                    /* Missing optional documentation files simply do not
+                     * advertise a feature. */
+                }
+            }
+            var result = documents.str;
+            tool_document_cache.set (tool_path, result);
+            return result;
         }
 
         public Models.CompatibilityToolRuntimeKind runtime_for_tool (Models.CompatibilityTool? tool) {
@@ -217,6 +323,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     return LaunchOptionEligibilityKind.UNAVAILABLE_HARDWARE;
                 case LaunchOptionCapability.MANGOHUD:
                 case LaunchOptionCapability.GAMEMODE:
+                case LaunchOptionCapability.GAME_PERFORMANCE:
+                case LaunchOptionCapability.OBS_VKCAPTURE:
                 case LaunchOptionCapability.GAMESCOPE:
                 case LaunchOptionCapability.SCOPEBUDDY:
                 case LaunchOptionCapability.VKBASALT:
@@ -225,6 +333,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 case LaunchOptionCapability.DXVK:
                 case LaunchOptionCapability.VKD3D_PROTON:
                 case LaunchOptionCapability.NATIVE_LINUX:
+                case LaunchOptionCapability.LEGACY_PROTON_HDR:
+                case LaunchOptionCapability.PROTON_AUTO_HDR_CONTROL:
+                case LaunchOptionCapability.PROTON_FSR4:
+                case LaunchOptionCapability.PROTON_FSR4_RDNA3:
+                case LaunchOptionCapability.PROTON_MLFG:
+                case LaunchOptionCapability.PROTON_DXVK_LOW_LATENCY:
+                case LaunchOptionCapability.PROTON_VKD3D_LOW_LATENCY:
+                case LaunchOptionCapability.LOW_LATENCY_LAYER:
+                case LaunchOptionCapability.VULKAN_REFLEX_LAYER:
                     return LaunchOptionEligibilityKind.UNAVAILABLE_RUNTIME;
                 default:
                     return LaunchOptionEligibilityKind.UNKNOWN_CONTEXT;
@@ -238,12 +355,23 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 case LaunchOptionCapability.INTEL: return _("Requires an Intel GPU.");
                 case LaunchOptionCapability.MANGOHUD: return _("Requires MangoHud, which is not available.");
                 case LaunchOptionCapability.GAMEMODE: return _("Requires GameMode, which is not available.");
+                case LaunchOptionCapability.GAME_PERFORMANCE: return _("Requires the CachyOS game-performance command, which is not available.");
+                case LaunchOptionCapability.OBS_VKCAPTURE: return _("Requires obs-vkcapture, which is not available.");
                 case LaunchOptionCapability.GAMESCOPE: return _("Requires Gamescope, which is not available.");
                 case LaunchOptionCapability.SCOPEBUDDY: return _("Requires ScopeBuddy, which is not available.");
                 case LaunchOptionCapability.VKBASALT: return _("Requires vkBasalt, which is not available.");
                 case LaunchOptionCapability.DXVK: return _("Requires DXVK from the selected compatibility tool.");
                 case LaunchOptionCapability.VKD3D_PROTON: return _("Requires VKD3D-Proton from the selected compatibility tool.");
                 case LaunchOptionCapability.NATIVE_LINUX: return _("Not supported by the selected compatibility tool.");
+                case LaunchOptionCapability.LEGACY_PROTON_HDR: return _("The selected Proton build does not advertise legacy PROTON_ENABLE_HDR support.");
+                case LaunchOptionCapability.PROTON_AUTO_HDR_CONTROL: return _("The selected Proton build does not advertise automatic-HDR opt-out support.");
+                case LaunchOptionCapability.PROTON_FSR4: return _("The selected Proton build does not advertise PROTON_FSR4_UPGRADE support.");
+                case LaunchOptionCapability.PROTON_FSR4_RDNA3: return _("The selected Proton build does not advertise the legacy RDNA3 FSR 4 switch.");
+                case LaunchOptionCapability.PROTON_MLFG: return _("The selected Proton build does not advertise PROTON_MLFG_UPGRADE support.");
+                case LaunchOptionCapability.PROTON_DXVK_LOW_LATENCY: return _("The selected Proton build does not advertise its DXVK low-latency option.");
+                case LaunchOptionCapability.PROTON_VKD3D_LOW_LATENCY: return _("The selected Proton build does not advertise its VKD3D-Proton low-latency option.");
+                case LaunchOptionCapability.LOW_LATENCY_LAYER: return _("The selected Proton build does not advertise the low-latency Vulkan layer.");
+                case LaunchOptionCapability.VULKAN_REFLEX_LAYER: return _("The selected Proton build does not advertise its Vulkan Reflex layer.");
                 default: return _("Not supported by the selected compatibility tool.");
             }
         }

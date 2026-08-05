@@ -21,7 +21,7 @@ namespace AppTests.ProviderRegistryTest {
     private ProviderDefinition valid_definition (string provider_id = "fixture") {
         return new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, provider_id, "Fixture", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") }
         );
@@ -118,7 +118,7 @@ namespace AppTests.ProviderRegistryTest {
     private void test_invalid_variant_validation () {
         var definition = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, "invalid-variants", "Fixture", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             {
                 new VariantDefinition ("duplicate", "", "", true),
                 new VariantDefinition ("duplicate", "second", "$release_name", true)
@@ -134,7 +134,7 @@ namespace AppTests.ProviderRegistryTest {
 
         var missing_default = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, "missing-default", "Fixture", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", false) },
             { InstallLayout.template ("default", "$release_name") }
         );
@@ -146,7 +146,7 @@ namespace AppTests.ProviderRegistryTest {
     private void test_invalid_layout_validation () {
         var definition = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, "invalid-layouts", "Fixture", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             {
                 InstallLayout.template ("steam", "$release_name"),
@@ -164,7 +164,7 @@ namespace AppTests.ProviderRegistryTest {
     private void test_github_actions_template_validation () {
         var definition = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB_ACTIONS, "invalid-actions", "Fixture", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") }
         );
@@ -174,7 +174,7 @@ namespace AppTests.ProviderRegistryTest {
 
         var accidental_template = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, "invalid-template", "Fixture", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") }, null, null, "", false,
             "https://example.test/artifacts/{id}"
@@ -186,13 +186,14 @@ namespace AppTests.ProviderRegistryTest {
 
     private void test_required_field_and_source_validation () {
         var definition = new ProviderDefinition (
-            Category.PROTON, (SourceType) 999, "", "", "", "", 1, {}, {}
+            Category.PROTON, (SourceType) 999, "", "", "", "", "", 1, {}, {}
         );
         var registry = new ProviderRegistry ({ definition });
         assert (!registry.is_valid);
         assert (has_message (registry, "provider ID is empty"));
         assert (has_message (registry, "title is empty"));
         assert (has_message (registry, "endpoint is empty"));
+        assert (has_message (registry, "repository URL is empty"));
         assert (has_message (registry, "source type has no supported source mapping"));
         assert (has_message (registry, "variants are missing"));
         assert (has_message (registry, "install layouts are missing"));
@@ -252,7 +253,7 @@ namespace AppTests.ProviderRegistryTest {
     private void test_unsupported_source_is_rejected () {
         var definition = new ProviderDefinition (
             Category.PROTON, (SourceType) 999, "unsupported-source", "Fixture", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") }
         );

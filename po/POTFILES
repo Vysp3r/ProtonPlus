@@ -102,7 +102,6 @@ src/widgets/games/games-mass-edit-view.vala
 src/widgets/games/games-row.vala
 src/widgets/games/games-tool-row.vala
 src/widgets/games/launch-options-editor/base-binding.vala
-src/widgets/games/launch-options-editor/entry-binding.vala
 src/widgets/games/launch-options-editor/groups/advanced-options-group.vala
 src/widgets/games/launch-options-editor/groups/audio-options-group.vala
 src/widgets/games/launch-options-editor/groups/base-options-group.vala
@@ -129,6 +128,7 @@ src/widgets/games/launch-options-editor/launch-command-writer.vala
 src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala
 src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala
 src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala
+src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala
 src/widgets/games/launch-options-editor/launch-options-editor-binding.vala
 src/widgets/games/launch-options-editor/launch-options-editor-box.vala
 src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala

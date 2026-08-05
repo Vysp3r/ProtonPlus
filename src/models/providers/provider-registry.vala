@@ -108,6 +108,8 @@ namespace ProtonPlus.Models.Providers {
                     messages.add ("title is empty");
                 if (definition.endpoint == "")
                     messages.add ("endpoint is empty");
+                if (definition.repository_url == "")
+                    messages.add ("repository URL is empty");
                 if (definition.source_id == "")
                     messages.add ("source type has no supported source mapping");
 

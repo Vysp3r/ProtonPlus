@@ -3,6 +3,7 @@ namespace AppTests.FilesystemTest {
 
     public void register_tests () {
         Test.add_func ("/filesystem/delete-nested-directory", test_delete_nested_directory);
+        Test.add_func ("/filesystem/copy-preserves-symlinks", test_copy_preserves_symlinks);
         Test.add_func ("/filesystem/move-conflict-completes", test_move_conflict_completes);
     }
 
@@ -29,6 +30,29 @@ namespace AppTests.FilesystemTest {
         return deleted;
     }
 
+    private bool copy_directory (string source, string destination) {
+        var loop = new MainLoop ();
+        bool copied = false;
+
+        ProtonPlus.Utils.Filesystem.copy_directory.begin (source, destination, (obj, result) => {
+            assert (obj == null);
+            copied = ProtonPlus.Utils.Filesystem.copy_directory.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+
+        return copied;
+    }
+
+    private string read_link (string path) {
+        try {
+            return FileUtils.read_link (path);
+        } catch (FileError e) {
+            critical ("Could not read symlink %s: %s", path, e.message);
+            assert_not_reached ();
+        }
+    }
+
     private void test_delete_nested_directory () {
         var root = create_temp_directory ();
         var nested = Path.build_filename (root, "first", "second");
@@ -40,6 +64,42 @@ namespace AppTests.FilesystemTest {
 
         assert (delete_directory (root));
         assert (!FileUtils.test (root, FileTest.EXISTS));
+    }
+
+    private void test_copy_preserves_symlinks () {
+        var root = create_temp_directory ();
+        var source = Path.build_filename (root, "source");
+        var destination = Path.build_filename (root, "destination");
+        var drive_c = Path.build_filename (source, "drive_c");
+        var dosdevices = Path.build_filename (source, "dosdevices");
+        var absolute_target = Path.build_filename (root, "absolute-target");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (drive_c));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (dosdevices));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (absolute_target));
+
+        ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (drive_c, "relative.txt"), "relative");
+        ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (absolute_target, "absolute.txt"), "absolute");
+
+        var absolute_link = Path.build_filename (dosdevices, "z:");
+        var relative_link = Path.build_filename (dosdevices, "c:");
+        var broken_link = Path.build_filename (dosdevices, "broken:");
+        assert (Posix.symlink (absolute_target, absolute_link) == 0);
+        assert (Posix.symlink ("../drive_c", relative_link) == 0);
+        assert (Posix.symlink ("missing-target", broken_link) == 0);
+
+        assert (copy_directory (source, destination));
+
+        var copied_dosdevices = Path.build_filename (destination, "dosdevices");
+        var copied_absolute_link = Path.build_filename (copied_dosdevices, "z:");
+        var copied_relative_link = Path.build_filename (copied_dosdevices, "c:");
+        var copied_broken_link = Path.build_filename (copied_dosdevices, "broken:");
+        assert (FileUtils.test (copied_absolute_link, FileTest.IS_SYMLINK));
+        assert (read_link (copied_absolute_link) == absolute_target);
+        assert (FileUtils.test (copied_relative_link, FileTest.IS_SYMLINK));
+        assert (read_link (copied_relative_link) == "../drive_c");
+        assert (FileUtils.test (copied_broken_link, FileTest.IS_SYMLINK));
+        assert (read_link (copied_broken_link) == "missing-target");
+        assert (delete_directory (root));
     }
 
     private void test_move_conflict_completes () {

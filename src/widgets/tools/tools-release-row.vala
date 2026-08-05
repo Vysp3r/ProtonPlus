@@ -48,7 +48,7 @@ namespace ProtonPlus.Widgets.Tools {
             var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) { margin_end = 12, valign = Gtk.Align.CENTER };
             input_box.add_css_class ("linked"); input_box.add_css_class ("tools-release-row-input-box");
             if (job.mode == Services.InstallJob.Mode.LATEST || job.steam_tinker_launch_context != null) {
-                update_button = new Gtk.Button.from_icon_name ("arrows-rotate-symbolic");
+                update_button = new Gtk.Button.from_icon_name ("update-check-symbolic");
                 update_button.add_css_class ("flat");
                 update_button.set_tooltip_text (_("Update the runner if a newer version is available"));
                 update_button.clicked.connect (update_button_clicked);

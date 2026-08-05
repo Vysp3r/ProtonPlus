@@ -379,7 +379,7 @@ namespace AppTests.FaugusLauncherTest {
         );
         var provider = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, "fixture-provider", "Fixture Runner", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("default", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name"), InstallLayout.template ("steam", "$release_name") }
         );

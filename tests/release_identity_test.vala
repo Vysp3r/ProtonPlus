@@ -20,7 +20,8 @@ namespace AppTests.ReleaseIdentityTest {
 
     private ProviderDefinition definition (SourceType source_type, string id = "fixture-provider") {
         return new ProviderDefinition (
-            Category.PROTON, source_type, id, "Fixture provider", "", "https://example.test/releases", 1,
+            Category.PROTON, source_type, id, "Fixture provider", "", "https://example.test/releases",
+            "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") },
             null, null, "", false,

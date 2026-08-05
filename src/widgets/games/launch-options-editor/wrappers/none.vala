@@ -2,7 +2,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
     using Adw;
 
     public class None : Base {
-        LaunchOptionTile hdr_tile { get; set; }
+        LaunchOptionTile dxvk_hdr_tile { get; set; }
+        LaunchOptionTile legacy_proton_hdr_tile { get; set; }
+        LaunchOptionTile dxvk_no_hdr_tile { get; set; }
+        LaunchOptionTile nvidia_hdr_wsi_tile { get; set; }
 
         public None (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
             base (launch_option_handlers, presentation_registry);
@@ -11,23 +14,50 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         public Gtk.Widget create_page () {
             var group = new Adw.PreferencesGroup ();
 
-            hdr_tile = create_tile (
-                _("HDR"),
-                _("Outputs HDR colors if your display supports it."),
+            dxvk_hdr_tile = create_tile (
+                _("DXVK HDR"),
+                _("Advertises HDR10 to DXVK games. Requires an HDR-capable compositor, display, and driver."),
+                { "DXVK_HDR=1" },
+                false,
+                LaunchLineType.ENVIRONMENT,
+                "dxvk-hdr"
+            );
+            legacy_proton_hdr_tile = create_tile (
+                _("Legacy custom-Proton HDR"),
+                _("Uses PROTON_ENABLE_HDR only in selected custom Proton builds that still advertise it."),
                 { "PROTON_ENABLE_HDR=1" },
                 false,
                 LaunchLineType.ENVIRONMENT,
                 "proton-hdr"
             );
+            dxvk_no_hdr_tile = create_tile (
+                _("Disable custom-Proton automatic HDR"),
+                _("Uses DXVK_NO_HDR=1 only in custom Proton builds that advertise the automatic-HDR opt-out."),
+                { "DXVK_NO_HDR=1" },
+                false,
+                LaunchLineType.ENVIRONMENT,
+                "dxvk-no-hdr"
+            );
+            nvidia_hdr_wsi_tile = create_tile (
+                _("NVIDIA legacy HDR WSI"),
+                _("Needed by NVIDIA proprietary drivers older than 595; do not enable on driver 595 or newer."),
+                { "ENABLE_HDR_WSI=1" },
+                false,
+                LaunchLineType.ENVIRONMENT,
+                "nvidia-hdr-wsi"
+            );
 
-            group.add (hdr_tile);
-            this.add_child (hdr_tile);
+            group.add (dxvk_hdr_tile);
+            group.add (legacy_proton_hdr_tile);
+            group.add (dxvk_no_hdr_tile);
+            group.add (nvidia_hdr_wsi_tile);
 
             return group;
         }
 
         public void selection_change () {
-            hdr_tile.toggle.set_active (false);
+            foreach (var child in this._children)
+                child.clear ();
         }
 
         public override void clear () {
@@ -37,23 +67,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         }
 
         public override void parse_tokens (string[] tokens, bool[] consumed) {
-            var hdr_index = get_unconsumed_token_index (tokens, "PROTON_ENABLE_HDR=1", consumed);
-            if (hdr_index < 0) {
-                hdr_tile.toggle.set_active (false);
-                return;
-            }
-
-            hdr_tile.toggle.set_active (true);
-            consumed[hdr_index] = true;
-
-            foreach (var child in this._children) {
+            foreach (var child in this._children)
                 child.parse_tokens (tokens, consumed);
-            }
         }
 
         public override void append_command_segments (Gee.LinkedList<string> segments) {
-            if (hdr_tile.toggle.get_active ())
-                segments.add ("PROTON_ENABLE_HDR=1");
+            foreach (var child in this._children) {
+                if (child.is_active ())
+                    child.append_command_segments (segments);
+            }
         }
     }
 }

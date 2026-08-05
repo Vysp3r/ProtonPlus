@@ -1,6 +1,5 @@
 sources += files(
     'base-binding.vala',
-    'entry-binding.vala',
     'i-launch-option.vala',
     'launch-command-plan.vala',
     'launch-command-builder.vala',
@@ -18,6 +17,7 @@ sources += files(
     'launch-options-editor-custom-pairs.vala',
     'launch-options-editor-dll-overrides.vala',
     'launch-options-editor-entry-field.vala',
+    'launch-options-editor-argument-list.vala',
     'launch-options-editor-env-combo.vala',
     'launch-options-option-catalog.vala',
     'launch-options-presentation-registry.vala',

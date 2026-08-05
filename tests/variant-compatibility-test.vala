@@ -23,7 +23,7 @@ namespace AppTests.VariantCompatibilityTest {
     private ProviderDefinition definition (VariantCompatibility? compatibility = null) {
         return new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, "compatibility-fixture", "Fixture", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("default", "default", "$release_name", true, compatibility) },
             { InstallLayout.template ("default", "$release_name") }
         );
@@ -122,7 +122,7 @@ namespace AppTests.VariantCompatibilityTest {
     private void test_definition_validation () {
         var invalid = new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, "invalid-compatibility", "Fixture", "",
-            "https://example.test/releases", 1,
+            "https://example.test/releases", "https://example.test/source", 1,
             {
                 new VariantDefinition (
                     "default", "default", "$release_name", true,

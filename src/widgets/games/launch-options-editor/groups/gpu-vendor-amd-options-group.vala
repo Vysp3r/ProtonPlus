@@ -4,6 +4,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     public class GpuVendorAmdOptionsGroup : BaseOptionsGroup {
         LaunchOptionTile amd_fsr4_upgrade_tile { get; set; }
         LaunchOptionTile amd_fsr4_rdna3_upgrade_tile { get; set; }
+        LaunchOptionTile amd_mlfg_upgrade_tile { get; set; }
+        LaunchOptionTile amd_mlfg_rdna3_workaround_tile { get; set; }
+        LaunchOptionTile amd_reflex_allow_other_drivers_tile { get; set; }
+        LaunchOptionTile amd_reflex_dxgi_spoof_tile { get; set; }
+        LaunchOptionTile amd_reflex_force_nvapi_tile { get; set; }
+        LaunchOptionTile amd_reflex_layer_spoof_tile { get; set; }
         LaunchOptionTile amd_anti_lag_tile { get; set; }
         LaunchOptionTile amd_prime_tile { get; set; }
         LaunchOptionTile amd_hide_apu_tile { get; set; }
@@ -28,18 +34,59 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 { "PROTON_HIDE_APU=1" }, false, LaunchLineType.ENVIRONMENT, "amd-hide-apu"
             );
             amd_fsr4_upgrade_tile = create_tile (
-                _("FSR 4 Upgrade"),
-                _("Upgrades FSR 3.1 to FSR 4 in supported games. This option also disables AMD Anti-Lag 2 currently due to various issues."),
+                _("FSR 4 upgrade (current path)"),
+                _("Uses the selected custom Proton build's default FSR 4 release. Current Proton-GE disables Anti-Lag 2 while active."),
                 { "PROTON_FSR4_UPGRADE=1" }, false, LaunchLineType.ENVIRONMENT, "amd-fsr4"
             );
             amd_fsr4_upgrade_tile.toggle.notify["active"].connect (() => {
                 amd_fsr4_upgrade_toggle_changed ();
             });
 
-            amd_fsr4_rdna3_upgrade_tile = create_tile (_("FSR 4 RDNA3 upgrade"), _("Optimizes FSR 4.0 for RDNA3 hardware."), { "PROTON_FSR4_RDNA3_UPGRADE=1" }, false, LaunchLineType.ENVIRONMENT, "amd-fsr4-rdna3");
+            amd_fsr4_rdna3_upgrade_tile = create_tile (
+                _("FSR 4 RDNA3 upgrade (legacy path)"),
+                _("Uses the older RDNA3 switch retained by some Proton-GE builds and removed from current Proton-CachyOS."),
+                { "PROTON_FSR4_RDNA3_UPGRADE=1" }, false, LaunchLineType.ENVIRONMENT,
+                "amd-fsr4-rdna3"
+            );
             amd_fsr4_rdna3_upgrade_tile.toggle.notify["active"].connect (() => {
                 amd_fsr4_rdna3_upgrade_toggle_changed ();
             });
+
+            amd_mlfg_upgrade_tile = create_tile (
+                _("FSR 4 ML frame generation"),
+                _("Requires FSR 4.0.3 or newer. RDNA3 may also need DXIL_SPIRV_CONFIG=wmma_rdna3_workaround."),
+                { "PROTON_MLFG_UPGRADE=1" }, false, LaunchLineType.ENVIRONMENT, "amd-mlfg"
+            );
+            amd_mlfg_rdna3_workaround_tile = create_tile (
+                _("RDNA3 ML frame-generation workaround"),
+                _("Applies the DXIL-SPIR-V WMMA workaround only when RDNA3 ML frame generation needs it."),
+                { "DXIL_SPIRV_CONFIG=wmma_rdna3_workaround" }, false,
+                LaunchLineType.ENVIRONMENT, "amd-mlfg-rdna3-workaround"
+            );
+            amd_reflex_allow_other_drivers_tile = create_tile (
+                _("AMD Reflex preset: allow DXVK-NVAPI"),
+                _("Least-invasive preset. Allows DXVK-NVAPI on AMD; try this before GPU spoofing."),
+                { "DXVK_NVAPI_ALLOW_OTHER_DRIVERS=1" }, false, LaunchLineType.ENVIRONMENT,
+                "amd-reflex-allow-other-drivers"
+            );
+            amd_reflex_dxgi_spoof_tile = create_tile (
+                _("AMD Reflex preset: hide AMD GPU"),
+                _("DXVK fallback that can expose Reflex but can break FSR 4 and ML frame generation."),
+                { "DXVK_CONFIG=dxgi.hideAmdGpu=True" }, false, LaunchLineType.ENVIRONMENT,
+                "amd-reflex-dxgi-spoof"
+            );
+            amd_reflex_force_nvapi_tile = create_tile (
+                _("AMD Reflex preset: force NVAPI"),
+                _("Invasive fallback for games that still hide Reflex. Can break FSR 4 and game GPU detection."),
+                { "PROTON_FORCE_NVAPI=1" }, false, LaunchLineType.ENVIRONMENT,
+                "amd-reflex-force-nvapi"
+            );
+            amd_reflex_layer_spoof_tile = create_tile (
+                _("AMD Reflex preset: layer NVIDIA spoof"),
+                _("Last-resort spoof discouraged by upstream because it can break Proton FSR 4."),
+                { "LOW_LATENCY_LAYER_SPOOF_NVIDIA=1" }, false, LaunchLineType.ENVIRONMENT,
+                "amd-reflex-layer-spoof"
+            );
 
             amd_staging_shared_memory_tile = create_tile (
                 _("Staging shared memory"),
@@ -98,6 +145,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.add (amd_anti_lag_tile);
             this.add (amd_fsr4_upgrade_tile);
             this.add (amd_fsr4_rdna3_upgrade_tile);
+            this.add (amd_mlfg_upgrade_tile);
+            this.add (amd_mlfg_rdna3_workaround_tile);
+            this.add (amd_reflex_allow_other_drivers_tile);
+            this.add (amd_reflex_dxgi_spoof_tile);
+            this.add (amd_reflex_force_nvapi_tile);
+            this.add (amd_reflex_layer_spoof_tile);
             this.add (amd_prime_tile);
             this.add (amd_hide_apu_tile);
             this.add (amd_staging_shared_memory_tile);
@@ -145,6 +198,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             var was_refreshing = refreshing_controls;
             refreshing_controls = true;
             amd_fsr4_rdna3_upgrade_tile.toggle.set_active (false);
+            amd_mlfg_upgrade_tile.toggle.set_active (false);
+            amd_mlfg_rdna3_workaround_tile.toggle.set_active (false);
+            amd_reflex_allow_other_drivers_tile.toggle.set_active (false);
+            amd_reflex_dxgi_spoof_tile.toggle.set_active (false);
+            amd_reflex_force_nvapi_tile.toggle.set_active (false);
+            amd_reflex_layer_spoof_tile.toggle.set_active (false);
             refreshing_controls = was_refreshing;
         }
 
