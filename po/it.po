@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-20 18:34-0400\n"
-"PO-Revision-Date: 2026-08-05 15:09+0200\n"
+"PO-Revision-Date: 2026-08-05 16:05+0200\n"
 "Last-Translator: Youseffo13 <>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/protonplus/it/>\n"
 "Language: it\n"
@@ -30,7 +30,7 @@ msgstr "Un moderno gestore di strumenti di compatibilità"
 msgid "Manage Proton, Wine, DXVK, and VKD3D tools for Linux game launchers"
 msgstr ""
 "Gestisci gli strumenti Proton, Wine, DXVK e VKD3D per i launcher di giochi "
-"per Linux"
+"Linux"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:10
 msgid ""
@@ -64,7 +64,8 @@ msgstr ""
 msgid ""
 "Track downloads and updates, with cancellation and desktop notifications"
 msgstr ""
-"Traccia i download e gli aggiornamenti, con annullamento e notifiche desktop"
+"Tieni traccia dei download e degli aggiornamenti, con possibilità di "
+"annullamento e notifiche desktop"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:18
 msgid ""
@@ -134,7 +135,7 @@ msgstr "L'interfaccia dell'editor delle opzioni di lancio di ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:86
 msgid "The mass edit interface of ProtonPlus."
-msgstr "L'interfaccia di modifica massiva di ProtonPlus."
+msgstr "L'interfaccia di modifica in blocco di ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:94
 msgid "🐛 Fixed Proton-GE RTSP download"
@@ -563,7 +564,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:274
 msgid "✨ Added non-steam games support"
-msgstr "✨ Aggiunto il supporto giochi non-Steam"
+msgstr "✨ Aggiunto il supporto per i giochi non-Steam"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:275
 msgid "✨ Added an update indicator"
@@ -801,7 +802,7 @@ msgstr "🐛 Risolto pulsante collegamento non funzionante correttamente"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:408
 msgid "✨ Made the games be sorted by name by default"
-msgstr "✨ Resi i giochi ordinati per nome per impostazione predefinita"
+msgstr "✨ I giochi sono ora ordinati per nome per impostazione predefinita"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:409
 msgid "✨ Made it possible to unselect a game by clicking on it"
@@ -923,7 +924,7 @@ msgstr "🌐 Aggiornata la traduzione ceca"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:524
 msgid "🐛 Fixed libadwaita version minimum requirement"
-msgstr "🐛 Risolto il problema del requisito minimo di versione di libadwaita"
+msgstr "🐛 Corretto il requisito minimo della versione di libadwaita"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:531
 msgid "✨ Added a way to view the description of each release"
@@ -960,8 +961,7 @@ msgstr "🌐 Aggiornata la localizzazione"
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:543
 msgid "💄 Switched app icon to PNG format due to poor SVG support in KDE"
 msgstr ""
-"💄 Passata l'icona dell'app al formato PNG a causa dello scarso supporto SVG "
-"in KDE"
+"💄 Icona dell'app convertita in PNG a causa dello scarso supporto SVG in KDE"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:550
 msgid "🐛 Fix for Proton-Sarek support"
@@ -1131,9 +1131,7 @@ msgstr "💄 Aggiornata l'interfaccia dell'installer"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:691
 msgid "🐛 Fix window always being able to be closed"
-msgstr ""
-"🐛 Risolto il problema della finestra che poteva essere chiusa in qualsiasi "
-"momento"
+msgstr "🐛 Risolto il problema per cui la finestra poteva sempre essere chiusa"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:692
 msgid "🐛 Fix preferences page being empty"
@@ -2068,9 +2066,9 @@ msgid ""
 "Steam tool for easy, graphical configuration of your other compatibility "
 "tools for both Windows games and native Linux games."
 msgstr ""
-"Strumento per Steam per una configurazione facile e grafica dei tuoi altri "
-"strumenti di compatibilità sia per giochi Windows che per giochi nativi "
-"Linux."
+"Strumento per Steam che consente di configurare facilmente, tramite "
+"interfaccia grafica, altri strumenti di compatibilità sia per giochi Windows "
+"sia per giochi nativi Linux."
 
 #: src/return_codes.vala:34
 msgid "The request could not be completed."
@@ -2264,7 +2262,7 @@ msgstr "Nessun profilo trovato."
 
 #: src/widgets/games/games-box.vala:348
 msgid "Make sure to connect yourself at least once on Steam."
-msgstr "Assicurati di esserti connesso almeno una volta a Steam."
+msgstr "Assicurati di aver effettuato l'accesso almeno una volta su Steam."
 
 #: src/widgets/games/games-box.vala:349
 msgid "If you think this is an issue, make sure to report this on GitHub."
@@ -2282,9 +2280,7 @@ msgstr "%s non è supportato al momento."
 #: src/widgets/games/games-box.vala:363
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
-msgstr ""
-"Se vuoi che velocizzi lo sviluppo non dimenticare di mostrare il tuo "
-"supporto!"
+msgstr "Se vuoi che acceleri lo sviluppo, mostra il tuo supporto!"
 
 #: src/widgets/games/games-box.vala:410 src/widgets/games/games-row.vala:129
 #: src/widgets/tools/tools-migrate-box.vala:98
@@ -2374,7 +2370,7 @@ msgid ""
 "feature."
 msgstr ""
 "Assicurati di selezionare almeno un gioco prima di usare la funzione di "
-"modifica multipla."
+"modifica in blocco."
 
 #: src/widgets/games/games-mass-edit-view.vala:26
 msgid "1 game selected"
@@ -2440,7 +2436,7 @@ msgstr ""
 
 #: src/widgets/games/games-mass-edit-view.vala:341
 msgid "Batch Update Failed"
-msgstr "Aggiornamento Batch non Riuscito"
+msgstr "Aggiornamento in blocco non riuscito"
 
 #: src/widgets/games/games-mass-edit-view.vala:342
 msgid ""
@@ -2614,7 +2610,7 @@ msgid ""
 "Steam Input and the Steam Overlay."
 msgstr ""
 "Esegue il gioco in modo nativo su Wayland invece che tramite XWayland, ma "
-"interrompe Steam Input e Steam Overlay."
+"Steam Input e l'overlay di Steam non funzionano."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:48
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1232
@@ -2653,8 +2649,8 @@ msgid ""
 "Uses MANGOHUD=1 for Vulkan only. Prefer the MangoHud wrapper when OpenGL "
 "support is needed."
 msgstr ""
-"Usa MANGOHUD=1 solo per Vulkan. Preferisce il wrapper MangoHud quando è "
-"necessario il supporto OpenGL."
+"Usa MANGOHUD=1 solo per Vulkan. Usa il wrapper MangoHud quando è necessario "
+"il supporto OpenGL."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:69
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1235
@@ -2838,7 +2834,7 @@ msgstr "Usa GPU discreta"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:30
 msgid "Makes the game use the AMD dGPU on hybrid systems."
-msgstr "Fa utilizzare al gioco la dGPU AMD su sistemi ibridi."
+msgstr "Fa sì che il gioco utilizzi la dGPU AMD sui sistemi ibridi."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:32
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
@@ -2863,8 +2859,9 @@ msgid ""
 "Uses the selected custom Proton build's default FSR 4 release. Current "
 "Proton-GE disables Anti-Lag 2 while active."
 msgstr ""
-"Aggiorna FSR 3.1 a FSR 4 nei giochi supportati. Questa opzione disabilita "
-"anche AMD Anti-Lag 2 attualmente a causa di vari problemi."
+"Usa la release FSR 4 predefinita della build Proton personalizzata "
+"selezionata. L'attuale Proton-GE disabilita Anti-Lag 2 mentre questa opzione "
+"è attiva."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:46
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
@@ -2959,7 +2956,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:92
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1299
 msgid "Staging shared memory"
-msgstr "Memoria condivisa staging"
+msgstr "Memoria condivisa di staging"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:93
 msgid ""
@@ -6974,7 +6971,7 @@ msgstr "L'installazione verrà annullata."
 
 #: src/widgets/tools/tools-stl-release-row.vala:36
 msgid "Check this to also delete your configuration files."
-msgstr "Seleziona qui per cancellare anche le tue configurazioni."
+msgstr "Seleziona questa opzione per eliminare anche i file di configurazione."
 
 #: src/widgets/tools/tools-stl-release-row.vala:92
 #, c-format
