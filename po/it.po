@@ -30,7 +30,7 @@ msgstr "Un moderno gestore di strumenti di compatibilità"
 msgid "Manage Proton, Wine, DXVK, and VKD3D tools for Linux game launchers"
 msgstr ""
 "Gestisci gli strumenti Proton, Wine, DXVK e VKD3D per i launcher di giochi "
-"Linux"
+"per Linux"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:10
 msgid ""
@@ -5337,7 +5337,7 @@ msgstr ""
 #: src/widgets/loading/loading-box.vala:88
 #, c-format
 msgid "Welcome to %s"
-msgstr "Benvenuto a %s"
+msgstr "Benvenuto in %s"
 
 #: src/widgets/loading/loading-box.vala:127
 msgid "Retry loading"
@@ -5671,7 +5671,7 @@ msgstr "Steam non si è chiuso"
 #: src/widgets/main/steam-restart-presentation.vala:127
 msgid "No force termination was attempted. Close Steam manually or try again."
 msgstr ""
-"Non è stato tentato alcun termine forzato. Chiudi Steam manualmente o "
+"Non è stata tentata alcuna chiusura forzata. Chiudi Steam manualmente o "
 "riprova."
 
 #: src/widgets/main/steam-restart-presentation.vala:132
