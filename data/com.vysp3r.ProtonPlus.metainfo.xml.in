@@ -88,6 +88,33 @@
   </screenshots>
 
   <releases>
+    <release version="0.6.0" date="2026-08-06">
+      <description>
+        <ul>
+          <li>✨ Added Faugus Launcher support</li>
+          <li>✨ Added CPU-aware x86-64 variant selection</li>
+          <li>✨ Added scheduled background updates and notifications</li>
+          <li>✨ Added controller navigation and a first-run guide</li>
+          <li>✨ Added Breeze Light, Breeze Dark, SteamOS, and OLED themes</li>
+          <li>✨ Added a built-in MangoHud editor and proxy settings</li>
+          <li>✨ Added Steam shortcut creation and guided Steam restarts, including SteamOS Gaming Mode</li>
+          <li>✨ Added default Steam compatibility prefix migration</li>
+          <li>✨ Added an active downloads indicator</li>
+          <li>✨ Added ARM64 Flatpak support</li>
+          <li>✨ Reworked the launch options editor with hardware-aware options and exact command previews</li>
+          <li>✨ Preserved custom and unknown safe launch options during single-game and mass edits</li>
+          <li>✨ Improved Games and Tools navigation, search, filtering, and selection</li>
+          <li>✨ Improved release sorting, Latest handling, and variant selection</li>
+          <li>✨ Improved installation, update, cancellation, and recovery</li>
+          <li>✨ Improved Steam multi-user, VDF, and shortcut handling</li>
+          <li>✨ Improved command-line validation and error reporting</li>
+          <li>🐛 Fixed release and installation issues affecting Proton-TKG, Proton-CachyOS, DXVK, VKD3D, Lutris, and Steam Tinker Launch</li>
+          <li>🌐 Added Slovak localization</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Updated Italian localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.22" date="2026-07-24">
       <description>
         <ul>
