@@ -10,7 +10,11 @@ namespace ProtonPlus.Widgets.Tools {
         Models.Launcher current_launcher { get; set; }
         Services.InstallJob? current_job;
 
-        Gtk.Stack stack { get; set; }
+        Adw.NavigationView navigation_view { get; set; }
+        Adw.NavigationPage groups_page { get; set; }
+        Adw.NavigationPage releases_page { get; set; }
+        Adw.NavigationPage release_page { get; set; }
+        Adw.NavigationPage migrate_page { get; set; }
         Gtk.Button back_button { get; set; }
         Gtk.Button refresh_button { get; set; }
         Gtk.Button open_button { get; set; }
@@ -66,8 +70,14 @@ namespace ProtonPlus.Widgets.Tools {
 
             migrate_box = new MigrateBox ();
             migrate_box.finished.connect (() => {
-                if (current_job != null)
-                    set_selected_job (current_job, true);
+                if (current_job != null) {
+                    release_box.set_selected_job (current_job, true);
+                    if (get_visible_page_tag () == "migrate" &&
+                        navigation_view.get_previous_page (migrate_page) == release_page)
+                        pop_page ();
+                    else
+                        navigate_to_canonical_page ("release");
+                }
                 releases_box.refresh_usage_pills ();
 
                 var child = groups_stack.get_first_child ();
@@ -79,14 +89,18 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             });
 
-            stack = new Gtk.Stack () {
+            groups_page = new Adw.NavigationPage.with_tag (groups_stack, _ ("Tools"), "groups");
+            releases_page = new Adw.NavigationPage.with_tag (releases_box, _ ("Downloads"), "releases");
+            release_page = new Adw.NavigationPage.with_tag (release_box, _ ("Details"), "release");
+            migrate_page = new Adw.NavigationPage.with_tag (migrate_box, _ ("Migrate"), "migrate");
+
+            navigation_view = new Adw.NavigationView () {
                 vexpand = true
             };
-            stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
-            stack.add_named (groups_stack, "groups");
-            stack.add_named (releases_box, "releases");
-            stack.add_named (release_box, "release");
-            stack.add_named (migrate_box, "migrate");
+            navigation_view.add (groups_page);
+            navigation_view.add (releases_page);
+            navigation_view.add (release_page);
+            navigation_view.add (migrate_page);
 
             back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic") {
                 valign = Gtk.Align.CENTER,
@@ -128,7 +142,7 @@ namespace ProtonPlus.Widgets.Tools {
                     internal_name = current_job.title;
                 }
                 migrate_box.init (release_box.get_selected_games (), internal_name, current_launcher);
-                stack.set_visible_child_name ("migrate");
+                push_page (migrate_page);
             });
 
             switcher = new Adw.ViewSwitcher () {
@@ -271,8 +285,8 @@ namespace ProtonPlus.Widgets.Tools {
             action_bar = new Gtk.ActionBar ();
             action_bar.set_center_widget (center_box);
 
-            stack.notify["visible-child-name"].connect (() => {
-                var visible_child = stack.get_visible_child_name ();
+            navigation_view.notify["visible-page"].connect (() => {
+                var visible_child = get_visible_page_tag ();
                 back_button.set_visible (visible_child != "groups");
                 search_button.set_visible (visible_child != "release" && visible_child != "migrate");
                 filter_button.set_visible (visible_child != "release" && visible_child != "migrate");
@@ -309,7 +323,13 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             });
 
-            stack.notify_property ("visible-child-name");
+            navigation_view.popped.connect ((page) => {
+                search_entry.set_text ("");
+                if (page.get_tag () == "releases")
+                    refresh_group_boxes ();
+            });
+
+            navigation_view.notify_property ("visible-page");
 
             groups_stack.notify["visible-child"].connect (update_header_title);
 
@@ -322,7 +342,7 @@ namespace ProtonPlus.Widgets.Tools {
             });
 
             append (header_bar);
-            append (stack);
+            append (navigation_view);
             append (action_bar);
 
             if (Globals.SETTINGS != null) {
@@ -348,7 +368,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void update_refresh_button_visibility () {
-            stack.notify_property ("visible-child-name");
+            navigation_view.notify_property ("visible-page");
         }
 
         void update_search_button_state () {
@@ -373,7 +393,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         void update_header_title () {
             Gtk.Widget? title_widget = null;
-            var visible_child = stack.get_visible_child_name ();
+            var visible_child = get_visible_page_tag ();
 
             if (visible_child == "groups") {
                 var group_box = groups_stack.get_visible_child () as GroupBox;
@@ -399,7 +419,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void update_open_button_visibility () {
-            var visible_child = stack.get_visible_child_name ();
+            var visible_child = get_visible_page_tag ();
             if (current_job != null && current_job.release.page_url != null)
                 open_button.set_tooltip_text (current_job.release.page_url);
             else
@@ -426,23 +446,75 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
+        string get_visible_page_tag () {
+            return navigation_view.get_visible_page ().get_tag () ?? "groups";
+        }
+
+        bool navigation_stack_contains (Adw.NavigationPage page) {
+            var navigation_stack = navigation_view.get_navigation_stack ();
+            for (uint i = 0; i < navigation_stack.get_n_items (); i++) {
+                if (navigation_stack.get_item (i) == page)
+                    return true;
+            }
+            return false;
+        }
+
+        void push_page (Adw.NavigationPage page) {
+            if (navigation_view.get_visible_page () == page)
+                return;
+            if (navigation_stack_contains (page)) {
+                navigation_view.pop_to_page (page);
+                return;
+            }
+            navigation_view.push (page);
+        }
+
+        bool pop_page () {
+            return navigation_view.pop ();
+        }
+
+        void reset_to_root () {
+            navigation_view.replace ({ groups_page });
+        }
+
+        void navigate_to_canonical_page (string tag) {
+            switch (tag) {
+                case "groups":
+                    reset_to_root ();
+                    break;
+                case "releases":
+                    navigation_view.replace ({ groups_page, releases_page });
+                    break;
+                case "release":
+                    navigation_view.replace ({ groups_page, releases_page, release_page });
+                    break;
+                case "migrate":
+                    navigation_view.replace ({ groups_page, releases_page, release_page, migrate_page });
+                    break;
+                default:
+                    warning ("Unknown Tools navigation page: %s", tag);
+                    reset_to_root ();
+                    break;
+            }
+        }
+
         public void show_groups_page () {
-            stack.set_visible_child_name ("groups");
+            reset_to_root ();
             search_entry.set_text ("");
             all_filter_button.active = true;
             refresh_group_boxes ();
         }
 
         public string get_controller_page_id () {
-            return "tools:%s".printf (stack.get_visible_child_name () ?? "groups");
+            return "tools:%s".printf (get_visible_page_tag ());
         }
 
         public Object? get_controller_page_root () {
-            return stack.get_visible_child ();
+            return navigation_view.get_visible_page ().get_child ();
         }
 
         public Object? get_controller_initial_focus () {
-            var root = stack.get_visible_child ();
+            var root = navigation_view.get_visible_page ().get_child ();
             return root == null ? null : find_first_focusable (root);
         }
 
@@ -463,20 +535,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public bool controller_navigate_back () {
-            var visible_child = stack.get_visible_child_name ();
-            if (visible_child == "groups")
-                return false;
-
-            if (visible_child == "migrate") {
-                stack.set_visible_child_name ("release");
-            } else if (visible_child == "release") {
-                stack.set_visible_child_name ("releases");
-            } else {
-                stack.set_visible_child_name ("groups");
-                refresh_group_boxes ();
-            }
-            search_entry.set_text ("");
-            return true;
+            return pop_page ();
         }
 
         public bool controller_switch_page (int delta) {
@@ -484,7 +543,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public void show_download (Services.InstallJob job) {
-            stack.set_visible_child_name ("releases");
+            navigate_to_canonical_page ("releases");
             releases_box.focus_job.begin (job);
         }
 
@@ -504,15 +563,15 @@ namespace ProtonPlus.Widgets.Tools {
                 groups_stack.add_titled_with_icon (group_box, group.title.down (), group.title, "layer-group-symbolic");
             }
 
-            stack.notify_property ("visible-child-name");
+            navigation_view.notify_property ("visible-page");
 
-            stack.set_visible_child_name ("groups");
+            reset_to_root ();
         }
 
         void set_selected_tool (Models.Tool tool) {
             releases_box.set_selected_tool.begin (tool);
 
-            stack.set_visible_child_name ("releases");
+            push_page (releases_page);
         }
 
         void set_selected_job (Services.InstallJob job, bool show_games = false) {
@@ -520,7 +579,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             release_box.set_selected_job (job, show_games);
 
-            stack.set_visible_child_name ("release");
+            push_page (release_page);
         }
 
         void on_refresh_clicked () {
