@@ -2,7 +2,6 @@ namespace ProtonPlus.Widgets.Games {
     public class MassEditView : Gtk.Box {
         public signal void back_requested ();
 
-        Gtk.Button back_button;
         Gtk.Button clear_button;
         Gtk.Button apply_button;
         Gtk.MenuButton selection_button;
@@ -26,17 +25,20 @@ namespace ProtonPlus.Widgets.Games {
             return rows.length == 1 ? _("1 game selected") : _("%u games selected").printf (rows.length);
         }
 
-        public MassEditView (Gtk.Button back_button, Gtk.Button clear_button, Gtk.Button apply_button, Gtk.MenuButton selection_button) {
+        public MassEditView (Gtk.MenuButton selection_button) {
             set_orientation (Gtk.Orientation.VERTICAL);
 
-            this.back_button = back_button;
-            this.clear_button = clear_button;
-            this.apply_button = apply_button;
             this.selection_button = selection_button;
 
-            this.back_button.clicked.connect (() => back_requested ());
-            this.clear_button.clicked.connect (clear_button_clicked);
-            this.apply_button.clicked.connect (apply_button_clicked);
+            clear_button = new Gtk.Button.from_icon_name ("eraser-symbolic");
+            clear_button.add_css_class ("destructive-action");
+            clear_button.set_tooltip_text (_("Clear the current launch options"));
+            clear_button.clicked.connect (clear_button_clicked);
+
+            apply_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic");
+            apply_button.add_css_class ("suggested-action");
+            apply_button.set_tooltip_text (_("Apply the current modification"));
+            apply_button.clicked.connect (apply_button_clicked);
 
             compatibility_tool_group = new Adw.PreferencesGroup ();
             compatibility_tool_group.set_margin_bottom (12);
@@ -118,8 +120,6 @@ namespace ProtonPlus.Widgets.Games {
                 show_title = true,
                 title_widget = selection_button
             };
-            header_bar.pack_start (back_button);
-
             var action_buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
             action_buttons.append (clear_button);
             action_buttons.append (apply_button);
@@ -127,6 +127,10 @@ namespace ProtonPlus.Widgets.Games {
 
             append (header_bar);
             append (scrolled_window);
+        }
+
+        public Gtk.Widget get_controller_initial_focus () {
+            return selection_button;
         }
 
         public void load (GameRow[] rows, ListStore model, Gtk.PropertyExpression expression) {

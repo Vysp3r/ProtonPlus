@@ -8,9 +8,6 @@ namespace ProtonPlus.Widgets.Games {
         Adw.StatusPage status_page;
         MassEditButton mass_edit_button;
         Gtk.ActionBar action_bar;
-        Gtk.Button back_button;
-        Gtk.Button clear_button;
-        Gtk.Button apply_button;
         Gtk.SearchEntry search_entry;
         Gtk.CheckButton check_button;
         Gtk.Label prefix_label;
@@ -23,7 +20,9 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Box header_box;
         Gtk.Box headered_list_box;
         Gtk.Box games_page_box;
-        Gtk.Stack content_stack;
+        Adw.NavigationView navigation_view;
+        Adw.NavigationPage list_page;
+        Adw.NavigationPage mass_edit_page;
         Gtk.Stack list_stack;
         Adw.StatusPage empty_status_page;
         Gtk.ScrolledWindow scrolled_window;
@@ -45,6 +44,7 @@ namespace ProtonPlus.Widgets.Games {
         string search_query = "";
         uint search_timeout_id = 0;
         bool updating_selection_toggle = false;
+        bool mass_edit_cleanup_pending = false;
 
         construct {
             image = new Gtk.Image ();
@@ -95,22 +95,6 @@ namespace ProtonPlus.Widgets.Games {
             mass_edit_button = new MassEditButton (game_list_box);
             mass_edit_button.set_visible (false);
             mass_edit_button.mass_edit_requested.connect (open_mass_edit);
-
-            back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic");
-            back_button.add_css_class ("flat");
-            back_button.set_tooltip_text (_("Back"));
-            back_button.clicked.connect (show_games_list_page);
-            back_button.set_visible (false);
-
-            clear_button = new Gtk.Button.from_icon_name ("eraser-symbolic");
-            clear_button.add_css_class ("destructive-action");
-            clear_button.set_tooltip_text (_("Clear the current launch options"));
-            clear_button.set_visible (false);
-
-            apply_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic");
-            apply_button.add_css_class ("suggested-action");
-            apply_button.set_tooltip_text (_("Apply the current modification"));
-            apply_button.set_visible (false);
 
             selection_list_box = new Gtk.ListBox ();
             selection_list_box.set_selection_mode (Gtk.SelectionMode.NONE);
@@ -298,30 +282,32 @@ namespace ProtonPlus.Widgets.Games {
             games_page_clamp.set_margin_end (12);
             games_page_clamp.set_child (games_page_box);
 
-            mass_edit_view = new MassEditView (back_button, clear_button, apply_button, selection_button);
-            mass_edit_view.back_requested.connect (show_games_list_page);
+            mass_edit_view = new MassEditView (selection_button);
+            mass_edit_view.back_requested.connect (() => pop_page ());
 
-            content_stack = new Gtk.Stack ();
-            content_stack.set_vexpand (true);
-            content_stack.set_hexpand (true);
-            content_stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
-            content_stack.add_named (games_page_clamp, "main");
-            content_stack.add_named (mass_edit_view, "mass-edit");
-            content_stack.set_visible_child_name ("main");
+            list_page = new Adw.NavigationPage.with_tag (games_page_clamp, _("Games"), "list");
+            mass_edit_page = new Adw.NavigationPage.with_tag (mass_edit_view, _("Games"), "mass-edit");
 
-            content_stack.notify["visible-child-name"].connect (() => {
-                var is_mass_edit = content_stack.get_visible_child_name () == "mass-edit";
+            navigation_view = new Adw.NavigationView () {
+                vexpand = true,
+                hexpand = true
+            };
+            navigation_view.add (list_page);
+            navigation_view.add (mass_edit_page);
 
-                back_button.set_visible (is_mass_edit);
-                clear_button.set_visible (is_mass_edit);
-                apply_button.set_visible (is_mass_edit);
-                action_bar_box.set_visible (!is_mass_edit);
-                action_bar.set_visible (!is_mass_edit && mass_edit_button.get_visible ());
+            navigation_view.notify["visible-page"].connect (() => {
+                update_action_bar_visibility ();
             });
+            navigation_view.popped.connect ((page) => {
+                if (page == mass_edit_page)
+                    cleanup_mass_edit_exit ();
+            });
+
+            navigation_view.notify_property ("visible-page");
 
             expression = new Gtk.PropertyExpression (typeof (Models.CompatibilityTool), null, "display_title");
 
-            append (content_stack);
+            append (navigation_view);
             append (action_bar);
         }
 
@@ -372,7 +358,7 @@ namespace ProtonPlus.Widgets.Games {
         void show_normal () {
             error = false;
 
-            action_bar.set_visible (true);
+            update_action_bar_visibility ();
             headered_list_box.set_visible (true);
 
             status_page.set_visible (false);
@@ -548,12 +534,17 @@ namespace ProtonPlus.Widgets.Games {
 
             mass_edit_button.set_selected_count (selected_count);
             mass_edit_button.set_visible (selected_count >= 2);
-            action_bar.set_visible (mass_edit_button.get_visible ());
+            update_action_bar_visibility ();
+        }
+
+        void update_action_bar_visibility () {
+            action_bar.set_visible (
+                navigation_view.get_visible_page () == list_page && mass_edit_button.get_visible ()
+            );
         }
 
         void open_mass_edit (GameRow[] rows) {
             mass_edit_view.load (rows, model, expression);
-            content_stack.set_visible_child_name ("mass-edit");
 
             selection_button.set_label (mass_edit_view.get_selection_text ());
             selection_button.set_visible (true);
@@ -576,10 +567,54 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             mass_edit_button.set_visible (false);
+            mass_edit_cleanup_pending = true;
+            push_mass_edit_page ();
         }
 
         public void show_games_list_page () {
-            content_stack.set_visible_child_name ("main");
+            var cleanup_was_pending = mass_edit_cleanup_pending;
+            if (navigation_view.get_visible_page () == mass_edit_page) {
+                if (!pop_page ())
+                    navigation_view.replace ({ list_page });
+            } else {
+                navigation_view.replace ({ list_page });
+            }
+
+            if (cleanup_was_pending)
+                cleanup_mass_edit_exit ();
+            else
+                reset_games_list_state ();
+        }
+
+        void push_mass_edit_page () {
+            if (navigation_view.get_visible_page () == mass_edit_page)
+                return;
+
+            var navigation_stack = navigation_view.get_navigation_stack ();
+            for (uint i = 0; i < navigation_stack.get_n_items (); i++) {
+                if (navigation_stack.get_item (i) == mass_edit_page) {
+                    navigation_view.pop_to_page (mass_edit_page);
+                    return;
+                }
+            }
+
+            navigation_view.push (mass_edit_page);
+        }
+
+        bool pop_page () {
+            return navigation_view.pop ();
+        }
+
+        void cleanup_mass_edit_exit () {
+            if (!mass_edit_cleanup_pending)
+                return;
+
+            mass_edit_cleanup_pending = false;
+            reset_games_list_state ();
+        }
+
+        void reset_games_list_state () {
+            selection_popover.popdown ();
 
             selection_button.set_visible (false);
 
@@ -600,28 +635,23 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public string get_controller_page_id () {
-            return content_stack.get_visible_child_name () == "mass-edit"
-                ? "games:mass-edit"
-                : "games:list";
+            return "games:%s".printf (navigation_view.get_visible_page ().get_tag () ?? "list");
         }
 
         public Object? get_controller_page_root () {
-            return content_stack.get_visible_child ();
+            return navigation_view.get_visible_page ().get_child ();
         }
 
         public Object? get_controller_initial_focus () {
-            if (content_stack.get_visible_child_name () == "mass-edit")
-                return back_button;
+            if (navigation_view.get_visible_page () == mass_edit_page)
+                return mass_edit_view.get_controller_initial_focus ();
             if (search_entry.get_visible () && search_entry.get_sensitive ())
                 return search_entry;
             return null;
         }
 
         public bool controller_navigate_back () {
-            if (content_stack.get_visible_child_name () != "mass-edit")
-                return false;
-            show_games_list_page ();
-            return true;
+            return pop_page ();
         }
 
         public bool controller_switch_page (int delta) {
