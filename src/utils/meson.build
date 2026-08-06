@@ -7,6 +7,7 @@ sources += files(
     'metadata.vala',
     'system.vala',
     'i18n.vala',
+    'controller-surface-policy.vala',
     'controller-manager.vala',
     'theme-manager.vala',
     'download-manager.vala',

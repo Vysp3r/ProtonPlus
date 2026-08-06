@@ -25,6 +25,7 @@ namespace ProtonPlus.Widgets.Games {
             popover.set_autohide (true);
             popover.set_parent (this);
             popover.set_child (content_box);
+            Window.register_popover_for_controller (popover, this, open_protontricks_button);
 
             clicked.connect (extra_button_clicked);
 

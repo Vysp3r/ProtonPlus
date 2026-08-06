@@ -43,7 +43,7 @@ namespace ProtonPlus.Widgets.Tools {
             time_label = new Gtk.Label (_("Remaining time: --")) { halign = Gtk.Align.START };
             var info_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12) { margin_top = 12, margin_bottom = 12, margin_start = 12, margin_end = 12 };
             info_box.append (step_label); info_box.append (speed_label); info_box.append (time_label);
-            info_popover = new Gtk.Popover (); info_popover.set_parent (progress_button); info_popover.set_autohide (true); info_popover.set_child (info_box);
+            info_popover = new Gtk.Popover (); info_popover.set_parent (progress_button); info_popover.set_autohide (true); info_popover.set_child (info_box); Window.register_popover_for_controller (info_popover, progress_button);
             activated.connect (() => job_selected (job));
             var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) { margin_end = 12, valign = Gtk.Align.CENTER };
             input_box.add_css_class ("linked"); input_box.add_css_class ("tools-release-row-input-box");

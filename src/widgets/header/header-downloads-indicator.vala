@@ -64,6 +64,7 @@ namespace ProtonPlus.Widgets.Header {
             downloads_popover = new Gtk.Popover ();
             downloads_popover.set_child (content);
             button.set_popover (downloads_popover);
+            Window.register_popover_for_controller (downloads_popover, button);
 
             download_added_handler = manager.download_added.connect (add_download);
             download_removed_handler = manager.download_removed.connect (remove_download);

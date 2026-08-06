@@ -1,4 +1,63 @@
 namespace ProtonPlus.Widgets {
+    private class GtkControllerHostAdapter : Object, Utils.ControllerHostAdapter {
+        public bool is_controller_window (Object candidate) {
+            return candidate is Window;
+        }
+
+        public Object? get_root (Object candidate) {
+            var widget = candidate as Gtk.Widget;
+            return widget?.get_root () as Object;
+        }
+    }
+
+    private class ControllerPopoverRegistration : Object {
+        weak Gtk.Popover? popover;
+        weak Gtk.Widget? opener;
+        weak Gtk.Widget? initial_focus;
+        ulong visible_handler = 0;
+        ulong map_handler = 0;
+
+        public ControllerPopoverRegistration (Gtk.Popover popover, Gtk.Widget opener,
+            Gtk.Widget? initial_focus) {
+            this.popover = popover;
+            this.opener = opener;
+            this.initial_focus = initial_focus;
+        }
+
+        public void start () {
+            if (popover == null)
+                return;
+            visible_handler = ((!) popover).notify["visible"].connect (try_register);
+            map_handler = ((!) popover).map.connect (try_register);
+            try_register ();
+        }
+
+        void try_register () {
+            var current_popover = popover;
+            var current_opener = opener;
+            if (current_popover == null || current_opener == null || !current_popover.get_visible ())
+                return;
+
+            var controller_window = Window.resolve_controller_window (current_opener);
+            if (controller_window == null)
+                controller_window = Window.resolve_controller_window (current_popover);
+            if (controller_window == null)
+                return;
+
+            controller_window.register_controller_popover (
+                current_popover, current_opener, initial_focus
+            );
+            if (visible_handler != 0) {
+                current_popover.disconnect (visible_handler);
+                visible_handler = 0;
+            }
+            if (map_handler != 0) {
+                current_popover.disconnect (map_handler);
+                map_handler = 0;
+            }
+        }
+    }
+
     public class Window : Adw.ApplicationWindow {
         public Gee.LinkedList<Models.Launcher> launchers { get; set; }
         Utils.ControllerManager controller_manager { get; set; }
@@ -23,18 +82,34 @@ namespace ProtonPlus.Widgets {
         }
 
         public static void present_dialog_for_controller (Adw.Dialog dialog, Gtk.Widget? parent) {
-            var controller_window = parent as Window;
+            var controller_window = resolve_controller_window (parent);
             if (controller_window != null) {
-                controller_window.present_controller_dialog (dialog);
+                controller_window.present_controller_dialog (dialog, parent);
                 return;
             }
 
             dialog.present (parent);
         }
 
-        public void present_controller_dialog (Adw.Dialog dialog) {
+        public static void register_popover_for_controller (Gtk.Popover popover,
+            Gtk.Widget opener, Gtk.Widget? initial_focus = null) {
+            new ControllerPopoverRegistration (popover, opener, initial_focus).start ();
+        }
+
+        internal static Window? resolve_controller_window (Gtk.Widget? parent) {
+            return Utils.ControllerWindowResolver.resolve (
+                parent, new GtkControllerHostAdapter ()
+            ) as Window;
+        }
+
+        public void present_controller_dialog (Adw.Dialog dialog, Gtk.Widget? parent = null) {
             controller_manager.register_dialog (dialog);
-            dialog.present (this);
+            dialog.present (parent ?? this);
+        }
+
+        internal void register_controller_popover (Gtk.Popover popover,
+            Gtk.Widget opener, Gtk.Widget? initial_focus = null) {
+            controller_manager.register_popover (popover, opener, initial_focus);
         }
 
         public void open_menu () {

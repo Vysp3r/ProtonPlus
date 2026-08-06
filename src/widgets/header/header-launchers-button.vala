@@ -31,6 +31,7 @@ namespace ProtonPlus.Widgets.Header {
             popover = new Gtk.Popover ();
             popover.set_child (list_box);
             popover.set_parent (this);
+            Window.register_popover_for_controller (popover, this);
 
             clicked.connect (button_clicked);
 

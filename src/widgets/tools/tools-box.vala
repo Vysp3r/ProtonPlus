@@ -189,6 +189,7 @@ namespace ProtonPlus.Widgets.Tools {
                 popover = search_popover
             };
             search_button.set_tooltip_text (_ ("Search"));
+            Window.register_popover_for_controller (search_popover, search_button, search_entry);
 
             filter_button = new Gtk.MenuButton () {
                 valign = Gtk.Align.CENTER,
@@ -222,6 +223,7 @@ namespace ProtonPlus.Widgets.Tools {
             var filter_popover = new Gtk.Popover ();
             filter_popover.set_child (filter_box);
             filter_button.set_popover (filter_popover);
+            Window.register_popover_for_controller (filter_popover, filter_button, all_filter_button);
 
             all_filter_button.toggled.connect (() => {
                 if (all_filter_button.active) {

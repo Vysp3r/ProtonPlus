@@ -139,6 +139,7 @@ namespace ProtonPlus.Widgets.Games {
 
             selection_button = new Gtk.MenuButton ();
             selection_button.set_popover (selection_popover);
+            Window.register_popover_for_controller (selection_popover, selection_button);
             selection_button.set_visible (false);
             selection_button.add_css_class ("flat");
             selection_button.add_css_class ("bold");
@@ -199,6 +200,7 @@ namespace ProtonPlus.Widgets.Games {
                 visible = false,
                 css_classes = { "flat" },
             };
+            Window.register_popover_for_controller (filter_popover, filter_button, all_filter_check);
             update_filter_button_state ();
 
             filter_column_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.HORIZONTAL);

@@ -81,6 +81,7 @@ namespace ProtonPlus.Widgets.Tools {
             var popover = new Gtk.Popover ();
             popover.set_child (scrolled);
             games_button.set_popover (popover);
+            Window.register_popover_for_controller (popover, games_button);
 
             var model = new Gtk.StringList (null);
             possible_tools_internal = new Gee.ArrayList<string> ();
