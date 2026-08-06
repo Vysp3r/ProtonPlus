@@ -27,6 +27,28 @@ namespace ProtonPlus.Widgets.Preferences {
             language_row.add_prefix (new Gtk.Image.from_icon_name ("globe-symbolic"));
             appearance_group.add (language_row);
 
+            var controller_group = new Adw.PreferencesGroup () {
+                title = _("Controller")
+            };
+            general_page.add (controller_group);
+
+            var confirm_button_choices = new Gtk.StringList (null);
+            confirm_button_choices.append (_("Bottom face button"));
+            confirm_button_choices.append (_("Right face button"));
+            var confirm_button_row = new Adw.ComboRow () {
+                title = _("Confirm button"),
+                subtitle = _("Choose which face button activates the selected control"),
+                model = confirm_button_choices
+            };
+            confirm_button_row.set_selected ((uint) Globals.SETTINGS.get_enum ("controller-confirm-button"));
+            confirm_button_row.notify["selected"].connect (() => {
+                var selected = (int) confirm_button_row.get_selected ();
+                if (selected >= 0 && selected <= 1 &&
+                    Globals.SETTINGS.get_enum ("controller-confirm-button") != selected)
+                    Globals.SETTINGS.set_enum ("controller-confirm-button", selected);
+            });
+            controller_group.add (confirm_button_row);
+
             var help_page = new Adw.PreferencesGroup () {
                 title = _("Help"),
             };

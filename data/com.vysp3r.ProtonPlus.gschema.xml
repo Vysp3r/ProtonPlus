@@ -20,6 +20,11 @@
         <value nick="manual" value="1"/>
     </enum>
 
+    <enum id="com.vysp3r.ProtonPlus.ControllerConfirmButton">
+        <value nick="south" value="0"/>
+        <value nick="east" value="1"/>
+    </enum>
+
     <enum id="com.vysp3r.ProtonPlus.Language">
         <value nick="system" value="0"/>
         <value nick="ar" value="1"/>
@@ -110,6 +115,9 @@
         </key>
         <key name="proxy-url" type="s">
             <default>''</default>
+        </key>
+        <key name="controller-confirm-button" enum="com.vysp3r.ProtonPlus.ControllerConfirmButton">
+            <default>'south'</default>
         </key>
         <key name="last-version" type="s">
             <default>''</default>

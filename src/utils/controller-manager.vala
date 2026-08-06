@@ -3,7 +3,6 @@ namespace ProtonPlus.Utils {
         private class GamepadState : Object {
             public SDL.Joystick.JoystickID id;
             public SDL.Gamepad.Gamepad gamepad;
-            public double stick_y = 0;
 
             public GamepadState (SDL.Joystick.JoystickID id, SDL.Gamepad.Gamepad gamepad) {
                 this.id = id;
@@ -43,14 +42,12 @@ namespace ProtonPlus.Utils {
         ulong highlight_unmap_handler = 0;
         ulong highlight_destroy_handler = 0;
         uint focus_idle_id = 0;
-        GamepadState? repeating_gamepad = null;
-        SDL.Gamepad.GamepadButton repeating_button = SDL.Gamepad.GamepadButton.INVALID;
         Gee.ArrayList<GamepadState> gamepads = new Gee.ArrayList<GamepadState> ();
         Gee.ArrayList<GtkSurface> registered_surfaces = new Gee.ArrayList<GtkSurface> ();
         GtkSurface window_surface;
         ControllerSurfacePolicy surface_policy;
+        ControllerInputPolicy input_policy = new ControllerInputPolicy ();
 
-        const double DEADZONE = 0.25;
         const double SCROLL_SPEED = 12.0;
         const uint INITIAL_REPEAT_DELAY = 350;
         const uint REPEAT_INTERVAL = 75;
@@ -78,7 +75,7 @@ namespace ProtonPlus.Utils {
 
             window_active_handler = window.notify["is-active"].connect (() => {
                 if (!window.is_active)
-                    reset_stick_state ();
+                    reset_input_state ();
             });
             window_focus_handler = window.notify["focus-widget"].connect (() => sync_highlight ());
         }
@@ -114,7 +111,7 @@ namespace ProtonPlus.Utils {
         }
 
         public void stop () {
-            stop_button_repeat ();
+            stop_navigation_repeat ();
 
             if (timeout_id != 0) {
                 GLib.Source.remove (timeout_id);
@@ -135,7 +132,7 @@ namespace ProtonPlus.Utils {
                 GLib.Source.remove (focus_idle_id);
                 focus_idle_id = 0;
             }
-            reset_stick_state ();
+            input_policy.reset ();
             close_gamepads ();
             foreach (var surface in registered_surfaces)
                 disconnect_surface (surface);
@@ -220,6 +217,8 @@ namespace ProtonPlus.Utils {
             if (!removal.was_active)
                 return;
 
+            input_policy.surface_changed ();
+            cancel_repeat_timer ();
             clear_highlight ();
             var active = (GtkSurface) removal.active_surface;
             if (removal.restore_opener && surface.opener != null &&
@@ -253,6 +252,8 @@ namespace ProtonPlus.Utils {
         }
 
         void surface_changed (GtkSurface surface) {
+            input_policy.surface_changed ();
+            cancel_repeat_timer ();
             clear_highlight ();
             if (controller_active)
                 sync_highlight ();
@@ -360,13 +361,12 @@ namespace ProtonPlus.Utils {
             }
 
             if (!window.is_active) {
-                reset_stick_state ();
+                reset_input_state ();
                 return GLib.Source.CONTINUE;
             }
 
-            var stick_y = get_scroll_stick_y ();
-            if (stick_y != 0)
-                scroll (stick_y * SCROLL_SPEED);
+            if (input_policy.scroll_intent != 0)
+                scroll (input_policy.scroll_intent * SCROLL_SPEED);
 
             return GLib.Source.CONTINUE;
         }
@@ -389,8 +389,8 @@ namespace ProtonPlus.Utils {
             if (state == null)
                 return;
 
-            if (repeating_gamepad == state)
-                stop_button_repeat ();
+            if (input_policy.disconnect_device (controller_id (state.id)))
+                cancel_repeat_timer ();
 
             gamepads.remove (state);
             SDL.Gamepad.close_gamepad (state.gamepad);
@@ -410,6 +410,18 @@ namespace ProtonPlus.Utils {
             }
 
             return null;
+        }
+
+        GamepadState? find_gamepad_by_controller_id (int64 id) {
+            foreach (var state in gamepads) {
+                if (controller_id (state.id) == id)
+                    return state;
+            }
+            return null;
+        }
+
+        int64 controller_id (SDL.Joystick.JoystickID id) {
+            return (int64) id;
         }
 
         void activate_controller_mode () {
@@ -479,20 +491,26 @@ namespace ProtonPlus.Utils {
             if (gamepad == null)
                 return;
 
+            if (input_policy.note_button_press (controller_id (id)))
+                cancel_repeat_timer ();
             activate_controller_mode ();
             switch (button) {
             case DPAD_UP :
             case DPAD_DOWN :
             case DPAD_LEFT :
             case DPAD_RIGHT :
-                move_focus (button);
-                start_button_repeat (gamepad, button);
+                var direction = direction_for_dpad (button);
+                move_focus (direction);
+                input_policy.begin_repeat (
+                    controller_id (id),
+                    direction,
+                    ControllerNavigationSource.DPAD
+                );
+                restart_repeat_timer ();
                 break;
             case SOUTH :
-                activate_focused ();
-                break;
             case EAST :
-                dismiss_active_surface ();
+                handle_face_button (button);
                 break;
             case START :
                 if (!has_active_modal_surface ())
@@ -515,29 +533,67 @@ namespace ProtonPlus.Utils {
         }
 
         void handle_button_up (SDL.Joystick.JoystickID id, SDL.Gamepad.GamepadButton button) {
-            if (repeating_gamepad != null && repeating_gamepad.id == id && repeating_button == button)
-                stop_button_repeat ();
+            var direction = direction_for_dpad (button);
+            if (direction != ControllerNavigationDirection.NONE && input_policy.release_repeat (
+                controller_id (id),
+                direction,
+                ControllerNavigationSource.DPAD
+            ))
+                cancel_repeat_timer ();
         }
 
-        void start_button_repeat (GamepadState gamepad, SDL.Gamepad.GamepadButton button) {
-            stop_button_repeat ();
-            repeating_gamepad = gamepad;
-            repeating_button = button;
+        ControllerNavigationDirection direction_for_dpad (SDL.Gamepad.GamepadButton button) {
+            switch (button) {
+            case DPAD_UP :
+                return ControllerNavigationDirection.UP;
+            case DPAD_DOWN :
+                return ControllerNavigationDirection.DOWN;
+            case DPAD_LEFT :
+                return ControllerNavigationDirection.LEFT;
+            case DPAD_RIGHT :
+                return ControllerNavigationDirection.RIGHT;
+            default :
+                return ControllerNavigationDirection.NONE;
+            }
+        }
+
+        void handle_face_button (SDL.Gamepad.GamepadButton button) {
+            var confirm_button = ControllerConfirmButton.SOUTH;
+            if (Globals.SETTINGS != null)
+                confirm_button = (ControllerConfirmButton) Globals.SETTINGS.get_enum ("controller-confirm-button");
+
+            var face_button = button == SDL.Gamepad.GamepadButton.SOUTH
+                ? ControllerFaceButton.SOUTH
+                : ControllerFaceButton.EAST;
+            if (ControllerInputPolicy.get_face_button_action (confirm_button, face_button) ==
+                ControllerFaceButtonAction.ACTIVATE)
+                activate_focused ();
+            else
+                dismiss_active_surface ();
+        }
+
+        void restart_repeat_timer () {
+            cancel_repeat_timer ();
+            if (!input_policy.has_repeat)
+                return;
+
             repeat_timeout_id = GLib.Timeout.add (INITIAL_REPEAT_DELAY, () => {
-                if (!can_repeat_button ()) {
-                    clear_button_repeat_state ();
+                if (!can_repeat_navigation ()) {
+                    input_policy.cancel_repeat ();
+                    repeat_timeout_id = 0;
                     return GLib.Source.REMOVE;
                 }
 
-                move_focus (repeating_button);
+                move_focus (input_policy.repeat_direction);
                 sync_highlight ();
                 repeat_timeout_id = GLib.Timeout.add (REPEAT_INTERVAL, () => {
-                    if (!can_repeat_button ()) {
-                        clear_button_repeat_state ();
+                    if (!can_repeat_navigation ()) {
+                        input_policy.cancel_repeat ();
+                        repeat_timeout_id = 0;
                         return GLib.Source.REMOVE;
                     }
 
-                    move_focus (repeating_button);
+                    move_focus (input_policy.repeat_direction);
                     sync_highlight ();
                     return GLib.Source.CONTINUE;
                 });
@@ -545,38 +601,38 @@ namespace ProtonPlus.Utils {
             });
         }
 
-        bool can_repeat_button () {
-            return window.is_active && repeating_gamepad != null && gamepads.contains (repeating_gamepad);
+        bool can_repeat_navigation () {
+            return window.is_active && input_policy.has_repeat &&
+                find_gamepad_by_controller_id (input_policy.repeat_device_id) != null;
         }
 
-        void stop_button_repeat () {
-            if (repeat_timeout_id != 0)
+        void stop_navigation_repeat () {
+            cancel_repeat_timer ();
+            input_policy.cancel_repeat ();
+        }
+
+        void cancel_repeat_timer () {
+            if (repeat_timeout_id != 0) {
                 GLib.Source.remove (repeat_timeout_id);
-
-            clear_button_repeat_state ();
+                repeat_timeout_id = 0;
+            }
         }
 
-        void clear_button_repeat_state () {
-            repeat_timeout_id = 0;
-            repeating_gamepad = null;
-            repeating_button = SDL.Gamepad.GamepadButton.INVALID;
-        }
-
-        void move_focus (SDL.Gamepad.GamepadButton button) {
+        void move_focus (ControllerNavigationDirection direction) {
             var root = get_input_root ();
-            switch (button) {
-            case DPAD_UP :
+            switch (direction) {
+            case UP :
                 if (!root.child_focus (Gtk.DirectionType.UP))
                     root.child_focus (Gtk.DirectionType.TAB_BACKWARD);
                 break;
-            case DPAD_DOWN :
+            case DOWN :
                 if (!root.child_focus (Gtk.DirectionType.DOWN))
                     root.child_focus (Gtk.DirectionType.TAB_FORWARD);
                 break;
-            case DPAD_LEFT :
+            case LEFT :
                 root.child_focus (Gtk.DirectionType.LEFT);
                 break;
-            case DPAD_RIGHT :
+            case RIGHT :
                 root.child_focus (Gtk.DirectionType.RIGHT);
                 break;
             default :
@@ -585,39 +641,43 @@ namespace ProtonPlus.Utils {
         }
 
         void handle_axis (SDL.Joystick.JoystickID id, SDL.Gamepad.GamepadAxis axis, int16 raw) {
-            if (axis != SDL.Gamepad.GamepadAxis.LEFTY)
-                return;
-
             var gamepad = find_gamepad (id);
             if (gamepad == null)
                 return;
 
-            double value = raw / 32767.0;
-            if (value > 1)
-                value = 1;
-            else if (value < -1)
-                value = -1;
-
-            gamepad.stick_y = Math.fabs (value) > DEADZONE ? value : 0;
-            if (gamepad.stick_y != 0)
-                activate_controller_mode ();
-        }
-
-        double get_scroll_stick_y () {
-            double value = 0;
-            foreach (var gamepad in gamepads) {
-                if (Math.fabs (gamepad.stick_y) > Math.fabs (value))
-                    value = gamepad.stick_y;
+            switch (axis) {
+            case LEFTX :
+            case LEFTY :
+                var update = input_policy.update_left_axis (
+                    controller_id (id),
+                    axis == SDL.Gamepad.GamepadAxis.LEFTX,
+                    raw
+                );
+                if (update.ownership_changed)
+                    cancel_repeat_timer ();
+                if (update.emitted_direction != ControllerNavigationDirection.NONE) {
+                    activate_controller_mode ();
+                    move_focus (update.emitted_direction);
+                }
+                if (update.repeat_changed)
+                    restart_repeat_timer ();
+                break;
+            case RIGHTY :
+                if (input_policy.update_right_axis (controller_id (id), raw))
+                    cancel_repeat_timer ();
+                if (input_policy.has_active_device &&
+                    input_policy.active_device_id == controller_id (id) &&
+                    input_policy.scroll_intent != 0)
+                    activate_controller_mode ();
+                break;
+            default :
+                break;
             }
-
-            return value;
         }
 
-        void reset_stick_state () {
-            foreach (var gamepad in gamepads)
-                gamepad.stick_y = 0;
-
-            stop_button_repeat ();
+        void reset_input_state () {
+            cancel_repeat_timer ();
+            input_policy.reset_transient_input ();
         }
 
         Gtk.Widget get_input_root () {

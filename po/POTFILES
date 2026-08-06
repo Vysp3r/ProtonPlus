@@ -77,7 +77,9 @@ src/services/steam-tinker-launch-context.vala
 src/services/steam-tinker-launch-workflow.vala
 src/utils/archive-helper.vala
 src/utils/cache-manager.vala
+src/utils/controller-input-policy.vala
 src/utils/controller-manager.vala
+src/utils/controller-surface-policy.vala
 src/utils/download-manager.vala
 src/utils/filesystem.vala
 src/utils/i18n.vala
