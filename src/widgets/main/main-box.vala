@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets.Main {
-    public class Box : Gtk.Box {
+    public class Box : Gtk.Box, Utils.ControllerNavigationHost {
         public Adw.ViewStack view_stack { get; set; }
         public Adw.ViewSwitcher view_switcher { get; set; }
         Adw.ToastOverlay toast_overlay { get; set; }
@@ -385,6 +385,61 @@ namespace ProtonPlus.Widgets.Main {
                     mangohud_box.show_presets_page ();
                     break;
             }
+        }
+
+        Utils.ControllerNavigationHost? get_visible_controller_host () {
+            return view_stack.get_visible_child () as Utils.ControllerNavigationHost;
+        }
+
+        public string get_controller_page_id () {
+            var host = get_visible_controller_host ();
+            if (host != null)
+                return host.get_controller_page_id ();
+            return "main:%s".printf (view_stack.get_visible_child_name () ?? "unknown");
+        }
+
+        public Object? get_controller_page_root () {
+            var host = get_visible_controller_host ();
+            if (host != null)
+                return host.get_controller_page_root ();
+            return view_stack.get_visible_child ();
+        }
+
+        public Object? get_controller_initial_focus () {
+            var host = get_visible_controller_host ();
+            return host?.get_controller_initial_focus ();
+        }
+
+        public bool controller_navigate_back () {
+            var host = get_visible_controller_host ();
+            return host != null && host.controller_navigate_back ();
+        }
+
+        public bool controller_switch_page (int delta) {
+            var model = view_stack.pages;
+            int count = (int) model.get_n_items ();
+            if (count < 2)
+                return false;
+
+            string? current = view_stack.visible_child_name;
+            int current_index = 0;
+            for (int i = 0; i < count; i++) {
+                var page = (Adw.ViewStackPage) model.get_item ((uint) i);
+                if (page.name == current) {
+                    current_index = i;
+                    break;
+                }
+            }
+
+            for (int step = 1; step <= count; step++) {
+                int index = ((current_index + delta * step) % count + count) % count;
+                var page = (Adw.ViewStackPage) model.get_item ((uint) index);
+                if (page.visible && page.name != current) {
+                    view_stack.visible_child_name = page.name;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

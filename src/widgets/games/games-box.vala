@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets.Games {
-    public class Box : Gtk.Box {
+    public class Box : Gtk.Box, Utils.ControllerNavigationHost {
         bool error { get; set; }
         bool invalid { get; set; }
         Models.Launcher launcher;
@@ -597,6 +597,35 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             update_selection_controls ();
+        }
+
+        public string get_controller_page_id () {
+            return content_stack.get_visible_child_name () == "mass-edit"
+                ? "games:mass-edit"
+                : "games:list";
+        }
+
+        public Object? get_controller_page_root () {
+            return content_stack.get_visible_child ();
+        }
+
+        public Object? get_controller_initial_focus () {
+            if (content_stack.get_visible_child_name () == "mass-edit")
+                return back_button;
+            if (search_entry.get_visible () && search_entry.get_sensitive ())
+                return search_entry;
+            return null;
+        }
+
+        public bool controller_navigate_back () {
+            if (content_stack.get_visible_child_name () != "mass-edit")
+                return false;
+            show_games_list_page ();
+            return true;
+        }
+
+        public bool controller_switch_page (int delta) {
+            return false;
         }
     }
 }

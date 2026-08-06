@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets.Preferences {
-    public class PreferencesDialog : Adw.PreferencesDialog {
+    public class PreferencesDialog : Adw.PreferencesDialog, Utils.ControllerNavigationHost {
         Adw.PreferencesPage[] controller_pages = {};
         Adw.EntryRow? proxy_url_row;
         ulong proxy_mode_changed_handler = 0;
@@ -414,10 +414,10 @@ namespace ProtonPlus.Widgets.Preferences {
             base.dispose ();
         }
 
-        public void switch_page (int delta) {
+        public bool controller_switch_page (int delta) {
             int count = controller_pages.length;
-            if (count == 0)
-                return;
+            if (count < 2)
+                return false;
 
             var current = visible_page;
             int current_index = 0;
@@ -430,11 +430,49 @@ namespace ProtonPlus.Widgets.Preferences {
 
             for (int step = 1; step <= count; step++) {
                 int index = ((current_index + delta * step) % count + count) % count;
-                if (controller_pages[index].visible) {
+                if (controller_pages[index].visible && controller_pages[index] != current) {
                     visible_page = controller_pages[index];
-                    break;
+                    return true;
                 }
             }
+            return false;
+        }
+
+        public string get_controller_page_id () {
+            for (int i = 0; i < controller_pages.length; i++) {
+                if (controller_pages[i] == visible_page)
+                    return "preferences:%d".printf (i);
+            }
+            return "preferences:unknown";
+        }
+
+        public Object? get_controller_page_root () {
+            return visible_page;
+        }
+
+        public Object? get_controller_initial_focus () {
+            var page = visible_page;
+            return page == null ? null : find_first_focusable (page);
+        }
+
+        Gtk.Widget? find_first_focusable (Gtk.Widget root) {
+            if (!root.get_visible () || !root.get_mapped () || !root.get_sensitive ())
+                return null;
+            if (root.get_focusable ())
+                return root;
+
+            var child = root.get_first_child ();
+            while (child != null) {
+                var target = find_first_focusable (child);
+                if (target != null)
+                    return target;
+                child = child.get_next_sibling ();
+            }
+            return null;
+        }
+
+        public bool controller_navigate_back () {
+            return false;
         }
     }
 }

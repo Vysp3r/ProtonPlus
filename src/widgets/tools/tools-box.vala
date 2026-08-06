@@ -6,7 +6,7 @@ namespace ProtonPlus.Widgets.Tools {
         UNUSED
     }
 
-    public class Box : Gtk.Box {
+    public class Box : Gtk.Box, Utils.ControllerNavigationHost {
         Models.Launcher current_launcher { get; set; }
         Services.InstallJob? current_job;
 
@@ -94,18 +94,7 @@ namespace ProtonPlus.Widgets.Tools {
             };
             back_button.add_css_class ("flat");
             back_button.set_tooltip_text (_ ("Back"));
-            back_button.clicked.connect (() => {
-                var visible_child = stack.get_visible_child_name ();
-                if (visible_child == "migrate") {
-                    stack.set_visible_child_name ("release");
-                } else if (visible_child == "release") {
-                    stack.set_visible_child_name ("releases");
-                } else {
-                    stack.set_visible_child_name ("groups");
-                    refresh_group_boxes ();
-                }
-                search_entry.set_text ("");
-            });
+            back_button.clicked.connect (() => controller_navigate_back ());
 
             open_button = new Gtk.Button.from_icon_name ("globe-symbolic") {
                 valign = Gtk.Align.CENTER,
@@ -442,6 +431,56 @@ namespace ProtonPlus.Widgets.Tools {
             search_entry.set_text ("");
             all_filter_button.active = true;
             refresh_group_boxes ();
+        }
+
+        public string get_controller_page_id () {
+            return "tools:%s".printf (stack.get_visible_child_name () ?? "groups");
+        }
+
+        public Object? get_controller_page_root () {
+            return stack.get_visible_child ();
+        }
+
+        public Object? get_controller_initial_focus () {
+            var root = stack.get_visible_child ();
+            return root == null ? null : find_first_focusable (root);
+        }
+
+        Gtk.Widget? find_first_focusable (Gtk.Widget root) {
+            if (!root.get_visible () || !root.get_mapped () || !root.get_sensitive ())
+                return null;
+            if (root.get_focusable ())
+                return root;
+
+            var child = root.get_first_child ();
+            while (child != null) {
+                var target = find_first_focusable (child);
+                if (target != null)
+                    return target;
+                child = child.get_next_sibling ();
+            }
+            return null;
+        }
+
+        public bool controller_navigate_back () {
+            var visible_child = stack.get_visible_child_name ();
+            if (visible_child == "groups")
+                return false;
+
+            if (visible_child == "migrate") {
+                stack.set_visible_child_name ("release");
+            } else if (visible_child == "release") {
+                stack.set_visible_child_name ("releases");
+            } else {
+                stack.set_visible_child_name ("groups");
+                refresh_group_boxes ();
+            }
+            search_entry.set_text ("");
+            return true;
+        }
+
+        public bool controller_switch_page (int delta) {
+            return false;
         }
 
         public void show_download (Services.InstallJob job) {

@@ -29,6 +29,7 @@ namespace ProtonPlus.Widgets {
             this.add_action_entries (action_entries, this);
             this.set_accels_for_action ("app.quit", { "<Ctrl>Q" });
             this.set_accels_for_action ("app.preferences", { "<Ctrl>comma" });
+            this.set_accels_for_action ("win.navigate-back", { "<Alt>Left" });
         }
 
         public override void activate () {

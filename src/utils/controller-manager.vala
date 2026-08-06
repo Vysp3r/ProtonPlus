@@ -26,6 +26,21 @@ namespace ProtonPlus.Utils {
             }
         }
 
+        private class GtkFocusScrollRequest : Object {
+            public weak Gtk.Widget? widget;
+            public weak Gtk.Widget? page_root;
+            public string page_id;
+            public uint64 surface_generation;
+
+            public GtkFocusScrollRequest (Gtk.Widget widget, Gtk.Widget page_root,
+                string page_id, uint64 surface_generation) {
+                this.widget = widget;
+                this.page_root = page_root;
+                this.page_id = page_id;
+                this.surface_generation = surface_generation;
+            }
+        }
+
         Widgets.Window window;
         uint timeout_id = 0;
         uint repeat_timeout_id = 0;
@@ -47,6 +62,10 @@ namespace ProtonPlus.Utils {
         GtkSurface window_surface;
         ControllerSurfacePolicy surface_policy;
         ControllerInputPolicy input_policy = new ControllerInputPolicy ();
+        ControllerNavigationPolicy navigation_policy = new ControllerNavigationPolicy ();
+        uint64 surface_generation = 0;
+        uint navigation_focus_source_id = 0;
+        uint scroll_focus_source_id = 0;
 
         const double SCROLL_SPEED = 12.0;
         const uint INITIAL_REPEAT_DELAY = 350;
@@ -132,6 +151,9 @@ namespace ProtonPlus.Utils {
                 GLib.Source.remove (focus_idle_id);
                 focus_idle_id = 0;
             }
+            cancel_navigation_focus_restore ();
+            cancel_scroll_to_focus ();
+            navigation_policy.invalidate_restores ();
             input_policy.reset ();
             close_gamepads ();
             foreach (var surface in registered_surfaces)
@@ -219,6 +241,7 @@ namespace ProtonPlus.Utils {
 
             input_policy.surface_changed ();
             cancel_repeat_timer ();
+            invalidate_navigation_deferred ();
             clear_highlight ();
             var active = (GtkSurface) removal.active_surface;
             if (removal.restore_opener && surface.opener != null &&
@@ -227,6 +250,7 @@ namespace ProtonPlus.Utils {
             } else {
                 schedule_active_surface_focus ();
             }
+            schedule_scroll_to_focus ();
             sync_highlight ();
         }
 
@@ -254,6 +278,7 @@ namespace ProtonPlus.Utils {
         void surface_changed (GtkSurface surface) {
             input_policy.surface_changed ();
             cancel_repeat_timer ();
+            invalidate_navigation_deferred ();
             clear_highlight ();
             if (controller_active)
                 sync_highlight ();
@@ -277,6 +302,7 @@ namespace ProtonPlus.Utils {
                     else
                         surface.widget.child_focus (Gtk.DirectionType.TAB_FORWARD);
                 }
+                controller_focus_changed ();
                 sync_highlight ();
                 return GLib.Source.REMOVE;
             });
@@ -287,7 +313,8 @@ namespace ProtonPlus.Utils {
             var focused = get_focused_widget ();
             if (focused != null && is_valid_focus_target (focused))
                 return;
-            surface.widget?.child_focus (Gtk.DirectionType.TAB_FORWARD);
+            if (surface.widget?.child_focus (Gtk.DirectionType.TAB_FORWARD) == true)
+                controller_focus_changed ();
         }
 
         void schedule_active_surface_focus () {
@@ -569,7 +596,7 @@ namespace ProtonPlus.Utils {
                 ControllerFaceButtonAction.ACTIVATE)
                 activate_focused ();
             else
-                dismiss_active_surface ();
+                navigate_back ();
         }
 
         void restart_repeat_timer () {
@@ -618,26 +645,32 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        void move_focus (ControllerNavigationDirection direction) {
+        bool move_focus (ControllerNavigationDirection direction) {
             var root = get_input_root ();
+            bool moved = false;
             switch (direction) {
             case UP :
-                if (!root.child_focus (Gtk.DirectionType.UP))
-                    root.child_focus (Gtk.DirectionType.TAB_BACKWARD);
+                moved = root.child_focus (Gtk.DirectionType.UP);
+                if (!moved)
+                    moved = root.child_focus (Gtk.DirectionType.TAB_BACKWARD);
                 break;
             case DOWN :
-                if (!root.child_focus (Gtk.DirectionType.DOWN))
-                    root.child_focus (Gtk.DirectionType.TAB_FORWARD);
+                moved = root.child_focus (Gtk.DirectionType.DOWN);
+                if (!moved)
+                    moved = root.child_focus (Gtk.DirectionType.TAB_FORWARD);
                 break;
             case LEFT :
-                root.child_focus (Gtk.DirectionType.LEFT);
+                moved = root.child_focus (Gtk.DirectionType.LEFT);
                 break;
             case RIGHT :
-                root.child_focus (Gtk.DirectionType.RIGHT);
+                moved = root.child_focus (Gtk.DirectionType.RIGHT);
                 break;
             default :
                 break;
             }
+            if (moved)
+                controller_focus_changed ();
+            return moved;
         }
 
         void handle_axis (SDL.Joystick.JoystickID id, SDL.Gamepad.GamepadAxis axis, int16 raw) {
@@ -704,8 +737,22 @@ namespace ProtonPlus.Utils {
 
         void activate_focused () {
             var focused = get_focused_widget ();
-            if (focused != null)
-                focused.activate ();
+            if (focused == null)
+                return;
+
+            string previous_page_id;
+            Gtk.Widget? previous_page_root;
+            get_active_page_context (out previous_page_id, out previous_page_root);
+            save_current_page_focus ();
+            var previous_surface_generation = surface_generation;
+            focused.activate ();
+
+            string active_page_id;
+            Gtk.Widget? active_page_root;
+            get_active_page_context (out active_page_id, out active_page_root);
+            if (previous_surface_generation == surface_generation &&
+                previous_page_id != active_page_id && active_page_root != null)
+                schedule_page_focus_restore ();
         }
 
         void scroll (double delta) {
@@ -777,6 +824,38 @@ namespace ProtonPlus.Utils {
                 ((Adw.Dialog) surface.widget).close ();
         }
 
+        public void navigate_back () {
+            var focused_popover = find_focused_popover ();
+            var has_modal = has_active_modal_surface () || focused_popover != null;
+            var host = get_active_navigation_host ();
+            if (!has_modal)
+                save_current_page_focus ();
+
+            var action = navigation_policy.navigate_back (has_modal, host);
+            switch (action) {
+            case ControllerBackAction.DISMISS_SURFACE:
+                dismiss_active_surface ();
+                break;
+            case ControllerBackAction.NAVIGATE_APPLICATION:
+                schedule_page_focus_restore ();
+                break;
+            default:
+                break;
+            }
+        }
+
+        public void navigate_application_back () {
+            if (has_active_modal_surface () || find_focused_popover () != null)
+                return;
+
+            save_current_page_focus ();
+            var action = navigation_policy.navigate_back (
+                false, get_active_navigation_host ()
+            );
+            if (action == ControllerBackAction.NAVIGATE_APPLICATION)
+                schedule_page_focus_restore ();
+        }
+
         Gtk.Popover? find_focused_popover () {
             Gtk.Widget? widget = get_focused_widget ();
             while (widget != null) {
@@ -791,36 +870,223 @@ namespace ProtonPlus.Utils {
             var surface = get_active_surface ();
             if (surface.kind == ControllerSurfaceKind.POPOVER)
                 return;
-            if (surface.kind == ControllerSurfaceKind.DIALOG) {
-                var preferences = surface.widget as Widgets.Preferences.PreferencesDialog;
-                if (preferences != null)
-                    preferences.switch_page (delta);
+
+            var host = get_active_navigation_host ();
+            save_current_page_focus ();
+            if (navigation_policy.switch_page (host, delta))
+                schedule_page_focus_restore ();
+        }
+
+        ControllerNavigationHost? get_active_navigation_host () {
+            var surface = get_active_surface ();
+            var host = surface.widget as ControllerNavigationHost;
+            if (host != null)
+                return host;
+            if (surface.kind == ControllerSurfaceKind.WINDOW)
+                return window.main_box as ControllerNavigationHost;
+            return null;
+        }
+
+        void get_active_page_context (out string page_id, out Gtk.Widget? page_root) {
+            var host = get_active_navigation_host ();
+            if (host != null) {
+                page_id = host.get_controller_page_id ();
+                page_root = host.get_controller_page_root () as Gtk.Widget;
                 return;
             }
 
-            var model = window.main_box.view_stack.pages;
-            int count = (int) model.get_n_items ();
-            if (count == 0)
+            page_id = "";
+            page_root = get_active_surface ().widget;
+        }
+
+        void save_current_page_focus () {
+            string page_id;
+            Gtk.Widget? page_root;
+            get_active_page_context (out page_id, out page_root);
+            var focused = get_focused_widget ();
+            if (page_root != null && is_valid_page_focus_target (focused, page_root))
+                navigation_policy.remember_focus (page_id, focused);
+        }
+
+        bool is_valid_page_focus_target (Gtk.Widget? widget, Gtk.Widget page_root) {
+            return is_valid_focus_target (widget) &&
+                widget_is_descendant_of ((!) widget, page_root) &&
+                is_inside_surface (widget, get_active_surface ());
+        }
+
+        void controller_focus_changed () {
+            save_current_page_focus ();
+            schedule_scroll_to_focus ();
+        }
+
+        void schedule_page_focus_restore () {
+            var host = get_active_navigation_host ();
+            if (host == null)
                 return;
 
-            string? current = window.main_box.view_stack.visible_child_name;
-            int current_index = 0;
-            for (int i = 0; i < count; i++) {
-                var page = (Adw.ViewStackPage) model.get_item ((uint) i);
-                if (page.name == current) {
-                    current_index = i;
-                    break;
-                }
-            }
+            cancel_navigation_focus_restore ();
+            var request = navigation_policy.begin_restore (
+                host.get_controller_page_id (), surface_generation
+            );
+            schedule_page_focus_restore_attempt (request, 0);
+        }
 
-            for (int step = 1; step <= count; step++) {
-                int index = ((current_index + delta * step) % count + count) % count;
-                var page = (Adw.ViewStackPage) model.get_item ((uint) index);
-                if (page.visible) {
-                    window.main_box.view_stack.visible_child_name = page.name;
+        void schedule_page_focus_restore_attempt (ControllerFocusRestoreRequest request,
+            int attempt) {
+            navigation_focus_source_id = GLib.Timeout.add (attempt == 0 ? 1 : 16, () => {
+                navigation_focus_source_id = 0;
+                var host = get_active_navigation_host ();
+                if (host == null || !navigation_policy.can_apply_restore (
+                    request, host.get_controller_page_id (), surface_generation
+                ))
+                    return GLib.Source.REMOVE;
+
+                var page_root = host.get_controller_page_root () as Gtk.Widget;
+                if (page_root == null || !page_root.get_visible () ||
+                    !page_root.get_mapped () || page_root.get_width () <= 0 ||
+                    page_root.get_height () <= 0) {
+                    if (attempt < 8)
+                        schedule_page_focus_restore_attempt (request, attempt + 1);
+                    return GLib.Source.REMOVE;
+                }
+
+                var remembered = navigation_policy.recall_focus (request.page_id) as Gtk.Widget;
+                var initial = host.get_controller_initial_focus () as Gtk.Widget;
+                var choice = ControllerNavigationPolicy.choose_focus_target (
+                    is_valid_page_focus_target (remembered, page_root),
+                    is_valid_page_focus_target (initial, page_root)
+                );
+
+                bool focused = false;
+                switch (choice) {
+                case ControllerFocusTargetChoice.REMEMBERED:
+                    focused = ((!) remembered).grab_focus ();
+                    break;
+                case ControllerFocusTargetChoice.INITIAL:
+                    focused = ((!) initial).grab_focus ();
+                    break;
+                case ControllerFocusTargetChoice.TRAVERSE:
+                    focused = page_root.child_focus (Gtk.DirectionType.TAB_FORWARD);
                     break;
                 }
+
+                if (focused) {
+                    save_current_page_focus ();
+                    schedule_scroll_to_focus ();
+                    sync_highlight ();
+                }
+                return GLib.Source.REMOVE;
+            });
+        }
+
+        void cancel_navigation_focus_restore () {
+            if (navigation_focus_source_id != 0) {
+                GLib.Source.remove (navigation_focus_source_id);
+                navigation_focus_source_id = 0;
             }
+        }
+
+        void invalidate_navigation_deferred () {
+            surface_generation++;
+            navigation_policy.invalidate_restores ();
+            cancel_navigation_focus_restore ();
+            cancel_scroll_to_focus ();
+        }
+
+        void schedule_scroll_to_focus () {
+            cancel_scroll_to_focus ();
+            string page_id;
+            Gtk.Widget? page_root;
+            get_active_page_context (out page_id, out page_root);
+            var focused = get_focused_widget ();
+            if (page_root == null || !is_valid_page_focus_target (focused, page_root))
+                return;
+
+            var request = new GtkFocusScrollRequest (
+                (!) focused, page_root, page_id, surface_generation
+            );
+            scroll_focus_source_id = GLib.Timeout.add (16, () => {
+                scroll_focus_source_id = 0;
+                reveal_focused_widget (request);
+                return GLib.Source.REMOVE;
+            });
+        }
+
+        void cancel_scroll_to_focus () {
+            if (scroll_focus_source_id != 0) {
+                GLib.Source.remove (scroll_focus_source_id);
+                scroll_focus_source_id = 0;
+            }
+        }
+
+        void reveal_focused_widget (GtkFocusScrollRequest request) {
+            var widget = request.widget;
+            var requested_root = request.page_root;
+            if (widget == null || requested_root == null ||
+                request.surface_generation != surface_generation)
+                return;
+
+            string active_page_id;
+            Gtk.Widget? active_page_root;
+            get_active_page_context (out active_page_id, out active_page_root);
+            if (active_page_root != requested_root || active_page_id != request.page_id ||
+                !is_valid_page_focus_target (widget, requested_root))
+                return;
+
+            var scrolled = find_nearest_scrolled_ancestor (widget, requested_root);
+            var content = scrolled?.get_child ();
+            if (scrolled == null || content == null || !scrolled.get_mapped () ||
+                !widget_is_descendant_of (scrolled, requested_root))
+                return;
+
+            Graphene.Rect bounds;
+            if (!widget.compute_bounds (content, out bounds))
+                return;
+
+            reveal_adjustment (
+                scrolled.get_hadjustment (), bounds.origin.x,
+                bounds.origin.x + bounds.size.width
+            );
+            reveal_adjustment (
+                scrolled.get_vadjustment (), bounds.origin.y,
+                bounds.origin.y + bounds.size.height
+            );
+        }
+
+        Gtk.ScrolledWindow? find_nearest_scrolled_ancestor (Gtk.Widget widget,
+            Gtk.Widget page_root) {
+            Gtk.Widget? current = widget;
+            while (current != null) {
+                if (current is Gtk.ScrolledWindow)
+                    return (Gtk.ScrolledWindow) current;
+                if (current == page_root)
+                    break;
+                current = current.get_parent ();
+            }
+            return null;
+        }
+
+        void reveal_adjustment (Gtk.Adjustment adjustment, double start, double end) {
+            const double MARGIN = 12.0;
+            var visible_start = adjustment.value;
+            var visible_end = visible_start + adjustment.page_size;
+            var target = visible_start;
+
+            if (start - MARGIN < visible_start)
+                target = start - MARGIN;
+            else if (end + MARGIN > visible_end)
+                target = end + MARGIN - adjustment.page_size;
+            else
+                return;
+
+            var maximum = adjustment.upper - adjustment.page_size;
+            if (maximum < adjustment.lower)
+                maximum = adjustment.lower;
+            if (target < adjustment.lower)
+                target = adjustment.lower;
+            if (target > maximum)
+                target = maximum;
+            adjustment.set_value (target);
         }
     }
 }

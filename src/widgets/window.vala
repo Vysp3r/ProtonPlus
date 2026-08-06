@@ -76,6 +76,9 @@ namespace ProtonPlus.Widgets {
             this.restart_orchestrator = restart_orchestrator;
 
             controller_manager = new Utils.ControllerManager (this);
+            var navigate_back_action = new SimpleAction ("navigate-back", null);
+            navigate_back_action.activate.connect ((parameter) => controller_manager.navigate_application_back ());
+            add_action (navigate_back_action);
 
             build_ui ();
             controller_manager.start ();
