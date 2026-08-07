@@ -100,12 +100,15 @@ namespace ProtonPlus.Widgets.Tools {
                 alert_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
                 alert_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
 
-                alert_dialog.choose.begin ((Gtk.Window) this.get_root (), null, (obj, res) => {
-                    string response = alert_dialog.choose.end (res);
+                var installation_started = false;
+                alert_dialog.response.connect ((response) => {
+                    if (response != "yes" || installation_started)
+                        return;
 
-                    if (response == "yes")
+                    installation_started = true;
                     base.install_button_clicked ();
                 });
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (alert_dialog, (Gtk.Window) this.get_root ());
             } else {
                 base.install_button_clicked ();
             }
