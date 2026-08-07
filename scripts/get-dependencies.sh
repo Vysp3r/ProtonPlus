@@ -25,6 +25,7 @@ pacman -Syu --noconfirm \
     libnm \
     glib-networking \
     libproxy \
+    patchelf \
     sdl3 \
     libnotify
 
