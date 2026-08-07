@@ -23,7 +23,8 @@ pacman -Syu --noconfirm \
     bluez-libs \
     libnm \
     glib-networking \
-    libproxy
+    libproxy \
+    patchelf
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"

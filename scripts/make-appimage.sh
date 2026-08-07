@@ -21,8 +21,6 @@ export DEPLOY_P11KIT=1
 quick-sharun \
 /usr/bin/protonplus \
 /usr/share/com.vysp3r.ProtonPlus \
-/usr/share/locale \
-/usr/share/vala \
 /usr/lib/gio/modules/libgiognomeproxy.so \
 /usr/lib/gio/modules/libgiognutls.so \
 /usr/lib/gio/modules/libgiolibproxy.so
