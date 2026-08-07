@@ -1,5 +1,6 @@
 namespace ProtonPlus.Widgets.Games {
-    public class Box : Gtk.Box, Utils.ControllerNavigationHost {
+    public class Box : Gtk.Box, Utils.ControllerNavigationHost,
+        Utils.ControllerPageShortcuts {
         bool error { get; set; }
         bool invalid { get; set; }
         Models.Launcher launcher;
@@ -98,6 +99,7 @@ namespace ProtonPlus.Widgets.Games {
 
             selection_list_box = new Gtk.ListBox ();
             selection_list_box.set_selection_mode (Gtk.SelectionMode.NONE);
+            selection_list_box.set_focusable (false);
             selection_list_box.add_css_class ("selection-popover-list");
 
             var selection_scrolled_window = new Gtk.ScrolledWindow ();
@@ -140,7 +142,7 @@ namespace ProtonPlus.Widgets.Games {
             non_steam_filter_check.set_label (_("Non-Steam"));
             non_steam_filter_check.set_group (all_filter_check);
 
-            var filter_popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+            var filter_popover_box = new ProtonPlus.Widgets.ControllerChoiceBox ();
             filter_popover_box.set_margin_top (12);
             filter_popover_box.set_margin_bottom (12);
             filter_popover_box.set_margin_start (12);
@@ -408,7 +410,8 @@ namespace ProtonPlus.Widgets.Games {
                     prefix_column_size_group,
                     tool_column_size_group,
                     actions_column_size_group,
-                    filter_column_size_group
+                    filter_column_size_group,
+                    search_entry
                 );
                 game_row.mass_edit_requested.connect ((row) => {
                     open_mass_edit ({ row });
@@ -560,10 +563,17 @@ namespace ProtonPlus.Widgets.Games {
                     ellipsize = Pango.EllipsizeMode.END
                 };
 
-                var selection_row = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-                selection_row.add_css_class ("selection-popover-row");
-                selection_row.append (new Gtk.Image.from_icon_name ("gamepad-symbolic"));
-                selection_row.append (title);
+                var selection_row_content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+                selection_row_content.add_css_class ("selection-popover-row");
+                selection_row_content.append (new Gtk.Image.from_icon_name ("gamepad-symbolic"));
+                selection_row_content.append (title);
+
+                var selection_row = new Gtk.ListBoxRow () {
+                    activatable = false,
+                    selectable = false,
+                    focusable = false,
+                    child = selection_row_content
+                };
                 selection_list_box.append (selection_row);
             }
 
@@ -646,8 +656,15 @@ namespace ProtonPlus.Widgets.Games {
         public Object? get_controller_initial_focus () {
             if (navigation_view.get_visible_page () == mass_edit_page)
                 return mass_edit_view.get_controller_initial_focus ();
-            if (search_entry.get_visible () && search_entry.get_sensitive ())
-                return search_entry;
+
+            var child = game_list_box.get_first_child ();
+            while (child != null) {
+                if (child is GameRow && child.get_mapped () &&
+                    child.is_visible () && child.get_child_visible () &&
+                    child.is_sensitive () && child.get_focusable ())
+                    return child;
+                child = child.get_next_sibling ();
+            }
             return null;
         }
 
@@ -663,8 +680,37 @@ namespace ProtonPlus.Widgets.Games {
             return false;
         }
 
+        public bool controller_prefers_initial_focus_after_switch () {
+            return false;
+        }
+
         public bool controller_switch_page (int delta) {
             return false;
+        }
+
+        public bool controller_can_open_search () {
+            return navigation_view.get_visible_page () == list_page &&
+                search_entry.get_mapped () && search_entry.is_visible () &&
+                search_entry.is_sensitive ();
+        }
+
+        public bool controller_can_open_filter () {
+            return navigation_view.get_visible_page () == list_page &&
+                filter_button.get_mapped () && filter_button.is_visible () &&
+                filter_button.is_sensitive ();
+        }
+
+        public bool controller_open_search () {
+            if (!controller_can_open_search ())
+                return false;
+            return search_entry.grab_focus ();
+        }
+
+        public bool controller_open_filter () {
+            if (!controller_can_open_filter ())
+                return false;
+            filter_button.popup ();
+            return true;
         }
     }
 }

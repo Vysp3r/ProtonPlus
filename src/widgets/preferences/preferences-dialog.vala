@@ -456,6 +456,10 @@ namespace ProtonPlus.Widgets.Preferences {
             return visible_count >= 2;
         }
 
+        public bool controller_prefers_initial_focus_after_switch () {
+            return true;
+        }
+
         public string get_controller_page_id () {
             for (int i = 0; i < controller_pages.length; i++) {
                 if (controller_pages[i] == visible_page)
@@ -470,18 +474,18 @@ namespace ProtonPlus.Widgets.Preferences {
 
         public Object? get_controller_initial_focus () {
             var page = visible_page;
-            return page == null ? null : find_first_focusable (page);
+            return page == null ? null : find_first_preferences_row (page);
         }
 
-        Gtk.Widget? find_first_focusable (Gtk.Widget root) {
-            if (!root.get_visible () || !root.get_mapped () || !root.get_sensitive ())
+        Gtk.Widget? find_first_preferences_row (Gtk.Widget root) {
+            if (!root.get_mapped () || !root.is_visible () || !root.is_sensitive ())
                 return null;
-            if (root.get_focusable ())
+            if (root is Adw.PreferencesRow && root.get_focusable ())
                 return root;
 
             var child = root.get_first_child ();
             while (child != null) {
-                var target = find_first_focusable (child);
+                var target = find_first_preferences_row (child);
                 if (target != null)
                     return target;
                 child = child.get_next_sibling ();

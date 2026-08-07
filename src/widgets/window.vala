@@ -35,7 +35,10 @@ namespace ProtonPlus.Widgets {
         void try_register () {
             var current_popover = popover;
             var current_opener = opener;
-            if (current_popover == null || current_opener == null || !current_popover.get_visible ())
+            if (current_popover == null || current_opener == null ||
+                !Utils.ControllerSurfacePolicy.can_register_popover (
+                    current_popover.get_visible (), current_popover.get_mapped ()
+                ))
                 return;
 
             var controller_window = Window.resolve_controller_window (current_opener);
@@ -80,6 +83,7 @@ namespace ProtonPlus.Widgets {
             controller_manager = new Utils.ControllerManager (this);
             controller_presentation_handler = controller_manager.presentation_changed.connect ((state) => {
                 controller_hint_bar.update_state (state);
+                header_box.set_controller_mode_active (state.controller_mode_active);
             });
             var navigate_back_action = new SimpleAction ("navigate-back", null);
             navigate_back_action.activate.connect ((parameter) => controller_manager.navigate_application_back ());
@@ -130,6 +134,9 @@ namespace ProtonPlus.Widgets {
 
         private void build_ui () {
             header_box = new Header.Box ();
+            header_box.set_controller_mode_active (
+                controller_manager.presentation_state.controller_mode_active
+            );
             header_box.launcher_selected.connect ((launcher) => {
                 main_box.set_selected_launcher (launcher);
             });

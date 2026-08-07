@@ -6,6 +6,8 @@ namespace ProtonPlus.Widgets.Header {
         LaunchersButton launchers_button { get; set; }
         DownloadsIndicator downloads_indicator { get; set; }
         Gtk.MenuButton menu_button { get; set; }
+        Menu menu { get; set; }
+        bool controller_mode_active = false;
 
         public signal void download_selected (Services.InstallJob job);
 
@@ -16,11 +18,8 @@ namespace ProtonPlus.Widgets.Header {
             downloads_indicator = new DownloadsIndicator ();
             downloads_indicator.download_selected.connect ((job) => download_selected (job));
 
-            var menu = new Menu ();
-            menu.append (_("_Preferences"), "app.preferences");
-            menu.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
-            menu.append (_("_Donate"), "app.donate");
-            menu.append (_("_About ProtonPlus"), "app.about");
+            menu = new Menu ();
+            rebuild_menu ();
 
             menu_button = new Gtk.MenuButton ();
             menu_button.set_tooltip_text (_("Main Menu"));
@@ -38,6 +37,22 @@ namespace ProtonPlus.Widgets.Header {
 
 
             append (header_bar);
+        }
+
+        public void set_controller_mode_active (bool active) {
+            if (controller_mode_active == active)
+                return;
+            controller_mode_active = active;
+            rebuild_menu ();
+        }
+
+        void rebuild_menu () {
+            menu.remove_all ();
+            menu.append (_("_Preferences"), "app.preferences");
+            if (!controller_mode_active)
+                menu.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
+            menu.append (_("_Donate"), "app.donate");
+            menu.append (_("_About ProtonPlus"), "app.about");
         }
 
         public void initialize (Gee.LinkedList<Models.Launcher> launchers, Adw.ViewSwitcher view_switcher) {

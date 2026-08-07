@@ -264,18 +264,21 @@ namespace AppTests.ControllerInputPolicyTest {
         int64 activity_time = 1000000;
 
         assert (policy.should_accept_keyboard_handoff (true, activity_time));
-        assert (policy.should_accept_pointer_motion_handoff (activity_time));
+        assert (!policy.should_accept_pointer_motion_handoff (10, 20, activity_time));
+        assert (!policy.should_accept_pointer_motion_handoff (10, 20, activity_time));
+        assert (policy.should_accept_pointer_motion_handoff (11, 20, activity_time));
 
         policy.note_controller_activity (activity_time);
         assert (!policy.should_accept_keyboard_handoff (true, activity_time));
-        assert (!policy.should_accept_pointer_motion_handoff (activity_time));
+        assert (!policy.should_accept_pointer_motion_handoff (12, 20, activity_time));
         assert (policy.should_accept_keyboard_handoff (false, activity_time));
 
         int64 guard_end = activity_time + ControllerInputPolicy.NON_CONTROLLER_ECHO_GUARD_US;
         assert (!policy.should_accept_keyboard_handoff (true, guard_end));
-        assert (!policy.should_accept_pointer_motion_handoff (guard_end));
+        assert (!policy.should_accept_pointer_motion_handoff (13, 20, guard_end));
         assert (policy.should_accept_keyboard_handoff (true, guard_end + 1));
-        assert (policy.should_accept_pointer_motion_handoff (guard_end + 1));
+        assert (!policy.should_accept_pointer_motion_handoff (13, 20, guard_end + 1));
+        assert (policy.should_accept_pointer_motion_handoff (14, 20, guard_end + 1));
     }
 
     private void test_echo_guard_reset () {
@@ -285,12 +288,14 @@ namespace AppTests.ControllerInputPolicyTest {
         policy.note_controller_activity (activity_time);
         policy.reset_transient_input ();
         assert (policy.should_accept_keyboard_handoff (true, activity_time));
-        assert (policy.should_accept_pointer_motion_handoff (activity_time));
+        assert (!policy.should_accept_pointer_motion_handoff (10, 20, activity_time));
+        assert (policy.should_accept_pointer_motion_handoff (11, 20, activity_time));
 
         policy.note_controller_activity (activity_time);
         policy.reset ();
         assert (policy.should_accept_keyboard_handoff (true, activity_time));
-        assert (policy.should_accept_pointer_motion_handoff (activity_time));
+        assert (!policy.should_accept_pointer_motion_handoff (20, 30, activity_time));
+        assert (policy.should_accept_pointer_motion_handoff (21, 30, activity_time));
     }
 
     public void register_tests () {

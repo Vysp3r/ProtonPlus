@@ -1,5 +1,6 @@
 namespace ProtonPlus.Widgets.Games {
-    public class GameRow : Gtk.ListBoxRow {
+    public class GameRow : Gtk.ListBoxRow, Utils.ControllerDirectionalFocus,
+        Utils.ControllerActivationRedirect {
         Gtk.GestureClick title_gesture;
         Gtk.GestureClick prefix_gesture;
         Gtk.CheckButton select_check_button;
@@ -12,6 +13,7 @@ namespace ProtonPlus.Widgets.Games {
         ExtraButton extra_button;
         Gtk.Box other_box;
         Gtk.Box content_box;
+        weak Gtk.Widget? controller_up_target;
         string normalized_name;
         public Models.Game game { get; set; }
 
@@ -24,8 +26,10 @@ namespace ProtonPlus.Widgets.Games {
                         Gtk.SizeGroup? prefix_column_size_group = null,
                         Gtk.SizeGroup? tool_column_size_group = null,
                         Gtk.SizeGroup? actions_column_size_group = null,
-                        Gtk.SizeGroup? filter_column_size_group = null) {
+                        Gtk.SizeGroup? filter_column_size_group = null,
+                        Gtk.Widget? controller_up_target = null) {
             this.game = game;
+            this.controller_up_target = controller_up_target;
             normalized_name = game.name.down ();
 
             select_check_button = new Gtk.CheckButton ();
@@ -90,6 +94,7 @@ namespace ProtonPlus.Widgets.Games {
                 var filter_column_spacer = new Gtk.MenuButton () {
                     icon_name = "filter-2-symbolic",
                     sensitive = false,
+                    focusable = false,
                     opacity = 0.0,
                     css_classes = { "flat" },
                 };
@@ -106,6 +111,136 @@ namespace ProtonPlus.Widgets.Games {
 
             set_child (content_box);
             set_selectable (false);
+        }
+
+        public override bool focus (Gtk.DirectionType direction) {
+            var root = get_root ();
+            var focused = root?.get_focus ();
+            if (focused == null ||
+                (focused != this && !((!) focused).is_ancestor (this))) {
+                if (direction == Gtk.DirectionType.UP ||
+                    direction == Gtk.DirectionType.DOWN)
+                    return grab_focus ();
+                return base.focus (direction);
+            }
+
+            if (direction == Gtk.DirectionType.UP || direction == Gtk.DirectionType.DOWN)
+                return focus_adjacent_game (direction);
+
+            return base.focus (direction);
+        }
+
+        public bool controller_focus_direction (
+            Object focused_object, Utils.ControllerNavigationDirection direction
+        ) {
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null)
+                return false;
+
+            if (direction == Utils.ControllerNavigationDirection.UP &&
+                find_adjacent_game (Gtk.DirectionType.UP) == null)
+                return focus_controller_up_target ();
+
+            if (direction == Utils.ControllerNavigationDirection.LEFT ||
+                direction == Utils.ControllerNavigationDirection.RIGHT)
+                return focus_horizontal ((!) focused, direction);
+
+            return false;
+        }
+
+        public Object? get_controller_activation_target (Object focused_object) {
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null || find_action_ancestor ((!) focused) != null)
+                return null;
+            return select_check_button;
+        }
+
+        bool focus_horizontal (Gtk.Widget focused,
+            Utils.ControllerNavigationDirection direction) {
+            var action = find_action_ancestor (focused);
+
+            if (direction == Utils.ControllerNavigationDirection.RIGHT) {
+                if (action == null)
+                    return focus_first_action ();
+                return focus_action_sibling ((!) action, true);
+            } else {
+                if (action == null)
+                    return select_check_button.grab_focus ();
+                var previous = find_focusable_action ((!) action, false);
+                return previous != null
+                    ? ((!) previous).grab_focus ()
+                    : grab_focus ();
+            }
+        }
+
+        bool focus_adjacent_game (Gtk.DirectionType direction) {
+            var adjacent = find_adjacent_game (direction);
+            if (adjacent != null)
+                return ((!) adjacent).grab_focus ();
+            if (direction == Gtk.DirectionType.UP)
+                return focus_controller_up_target ();
+            return false;
+        }
+
+        GameRow? find_adjacent_game (Gtk.DirectionType direction) {
+            Gtk.Widget? sibling = direction == Gtk.DirectionType.UP
+                ? get_prev_sibling () : get_next_sibling ();
+            while (sibling != null) {
+                if (sibling is GameRow && sibling.get_mapped () && sibling.is_visible () &&
+                    sibling.get_child_visible () &&
+                    sibling.is_sensitive () && sibling.get_focusable ())
+                    return (GameRow) sibling;
+                sibling = direction == Gtk.DirectionType.UP
+                    ? sibling.get_prev_sibling ()
+                    : sibling.get_next_sibling ();
+            }
+            return null;
+        }
+
+        bool focus_controller_up_target () {
+            return controller_up_target != null &&
+                ((!) controller_up_target).get_mapped () &&
+                ((!) controller_up_target).is_visible () &&
+                ((!) controller_up_target).is_sensitive () &&
+                ((!) controller_up_target).grab_focus ();
+        }
+
+        bool focus_first_action () {
+            var child = find_focusable_action (null, true);
+            return child != null && ((!) child).grab_focus ();
+        }
+
+        bool focus_action_sibling (Gtk.Widget action, bool forward) {
+            var sibling = find_focusable_action (action, forward);
+            return sibling != null
+                ? ((!) sibling).grab_focus ()
+                : action.grab_focus ();
+        }
+
+        Gtk.Widget? find_focusable_action (Gtk.Widget? current, bool forward) {
+            Gtk.Widget? child;
+            if (current == null)
+                child = forward ? other_box.get_first_child () : other_box.get_last_child ();
+            else
+                child = forward ? current.get_next_sibling () : current.get_prev_sibling ();
+
+            while (child != null) {
+                if (child.get_mapped () && child.is_visible () &&
+                    child.is_sensitive () && child.get_focusable ())
+                    return child;
+                child = forward ? child.get_next_sibling () : child.get_prev_sibling ();
+            }
+            return null;
+        }
+
+        Gtk.Widget? find_action_ancestor (Gtk.Widget focused) {
+            Gtk.Widget? current = focused;
+            while (current != null && current != other_box) {
+                if (current.get_parent () == other_box)
+                    return current;
+                current = current.get_parent ();
+            }
+            return null;
         }
 
         public bool matches_search (string query) {

@@ -19,8 +19,30 @@ namespace ProtonPlus.Utils {
         public abstract Object? get_controller_initial_focus ();
         public abstract bool controller_can_navigate_back ();
         public abstract bool controller_can_switch_page ();
+        public abstract bool controller_prefers_initial_focus_after_switch ();
         public abstract bool controller_navigate_back ();
         public abstract bool controller_switch_page (int delta);
+    }
+
+    /* Composite widgets can provide controller-only directional routes when
+     * GTK's geometric focus choice does not match the visible interaction. */
+    public interface ControllerDirectionalFocus : Object {
+        public abstract bool controller_focus_direction (
+            Object focused, ControllerNavigationDirection direction
+        );
+    }
+
+    /* Composite widgets can redirect controller confirmation to a child while
+     * leaving focused action controls to GTK's normal activation path. */
+    public interface ControllerActivationRedirect : Object {
+        public abstract Object? get_controller_activation_target (Object focused);
+    }
+
+    public interface ControllerPageShortcuts : Object {
+        public abstract bool controller_can_open_search ();
+        public abstract bool controller_can_open_filter ();
+        public abstract bool controller_open_search ();
+        public abstract bool controller_open_filter ();
     }
 
     public class ControllerFocusRestoreRequest : Object {
@@ -96,7 +118,11 @@ namespace ProtonPlus.Utils {
         }
 
         public static ControllerFocusTargetChoice choose_focus_target (
-            bool remembered_valid, bool initial_valid) {
+            bool remembered_valid, bool initial_valid,
+            bool prefer_initial = false
+        ) {
+            if (prefer_initial && initial_valid)
+                return ControllerFocusTargetChoice.INITIAL;
             if (remembered_valid)
                 return ControllerFocusTargetChoice.REMEMBERED;
             if (initial_valid)

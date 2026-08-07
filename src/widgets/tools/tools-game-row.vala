@@ -32,6 +32,8 @@ namespace ProtonPlus.Widgets.Tools {
 
             set_child (content_box);
             set_selectable (false);
+            set_activatable (false);
+            set_focusable (false);
         }
     }
 }

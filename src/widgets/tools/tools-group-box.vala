@@ -1,10 +1,11 @@
 namespace ProtonPlus.Widgets.Tools {
-    public class GroupBox : Gtk.Box {
+    public class GroupBox : Gtk.Box, Utils.ControllerDirectionalFocus {
         public signal void tool_selected (Models.Tool tool);
         public Gtk.Box header_title { get; private set; }
         Gtk.ListBox list_box;
         Gtk.Stack stack;
         Adw.StatusPage status_page;
+        weak Gtk.Widget? controller_up_target;
 
         private Filter _filter = Filter.ALL;
         public Filter filter {
@@ -28,8 +29,9 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
-        public GroupBox (Models.Group group) {
+        public GroupBox (Models.Group group, Gtk.Widget? controller_up_target = null) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
+            this.controller_up_target = controller_up_target;
 
             // Build this once before Gtk begins repeatedly invoking the filter
             // and comparator callbacks below.
@@ -116,6 +118,50 @@ namespace ProtonPlus.Widgets.Tools {
             append (clamp);
 
             update_visibility ();
+        }
+
+        public bool controller_focus_direction (
+            Object focused_object, Utils.ControllerNavigationDirection direction
+        ) {
+            if (direction != Utils.ControllerNavigationDirection.UP)
+                return false;
+
+            var focused = focused_object as Gtk.Widget;
+            var focused_row = find_row_ancestor (focused);
+            if (focused_row == null || focused_row != find_first_visible_row ())
+                return false;
+
+            return controller_up_target != null &&
+                ((!) controller_up_target).get_mapped () &&
+                ((!) controller_up_target).is_visible () &&
+                ((!) controller_up_target).is_sensitive () &&
+                ((!) controller_up_target).grab_focus ();
+        }
+
+        Gtk.ListBoxRow? find_row_ancestor (Gtk.Widget? widget) {
+            Gtk.Widget? current = widget;
+            while (current != null && current != list_box) {
+                if (current is Gtk.ListBoxRow)
+                    return (Gtk.ListBoxRow) current;
+                current = current.get_parent ();
+            }
+            return null;
+        }
+
+        Gtk.ListBoxRow? find_first_visible_row () {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                if (child is Gtk.ListBoxRow && child.get_mapped () &&
+                    child.is_visible () && child.get_child_visible () &&
+                    child.is_sensitive () && child.get_focusable ())
+                    return (Gtk.ListBoxRow) child;
+                child = child.get_next_sibling ();
+            }
+            return null;
+        }
+
+        public Object? get_controller_initial_focus () {
+            return find_first_visible_row ();
         }
 
         void update_status_page () {

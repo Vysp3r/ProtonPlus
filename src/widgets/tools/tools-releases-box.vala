@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets.Tools {
-    public class ReleasesBox : Gtk.Box {
+    public class ReleasesBox : Gtk.Box, Utils.ControllerDirectionalFocus {
         public signal void job_selected (Services.InstallJob job);
 
         Gtk.Box tool_box { get; set; }
@@ -34,6 +34,7 @@ namespace ProtonPlus.Widgets.Tools {
         bool updating_variant_dropdown = false;
         private Gtk.ListBoxRow load_more_row;
         private Gtk.Button load_more_button;
+        weak Gtk.Widget? controller_up_target;
 
         private Filter _filter = Filter.ALL;
         public Filter filter {
@@ -238,6 +239,7 @@ namespace ProtonPlus.Widgets.Tools {
                 child = load_more_button,
                 activatable = false,
                 selectable = false,
+                focusable = false,
                 visible = false
             };
             list_box.append (load_more_row);
@@ -294,7 +296,11 @@ namespace ProtonPlus.Widgets.Tools {
             append (clamp);
         }
 
-        public async void set_selected_tool (Models.Tool tool) {
+        public void set_controller_up_target (Gtk.Widget target) {
+            controller_up_target = target;
+        }
+
+        public async bool set_selected_tool (Models.Tool tool) {
             uint request_generation = ++tool_request_generation;
             current_tool = tool;
             content_stack.set_visible_child_name ("spinner");
@@ -312,13 +318,13 @@ namespace ProtonPlus.Widgets.Tools {
             var catalog = tool.release_catalog;
             if (catalog == null) {
                 content_stack.set_visible_child_name ("empty");
-                return;
+                return true;
             }
 
             var result = yield catalog.load (false);
 
             if (!is_current_tool_request (tool, request_generation))
-                return;
+                return false;
 
             if (!result.succeeded) {
                 Adw.AlertDialog dialog = new Main.ErrorDialog (
@@ -331,7 +337,7 @@ namespace ProtonPlus.Widgets.Tools {
 
                 ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
 
-                return;
+                return false;
             }
 
             // Directory and legacy-tag fallback resolution depends on the
@@ -347,6 +353,50 @@ namespace ProtonPlus.Widgets.Tools {
             apply_selected_variant_to_rows ();
             update_last_updated_label ();
             update_visibility ();
+            return true;
+        }
+
+        public bool focus_first_controller_target () {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                if (child is ReleaseRow && child.get_mapped () &&
+                    child.is_visible () && child.get_child_visible () &&
+                    child.is_sensitive () && child.get_focusable ())
+                    return child.grab_focus ();
+                child = child.get_next_sibling ();
+            }
+
+            if (load_more_row.get_mapped () && load_more_row.is_visible () &&
+                load_more_row.get_child_visible () && load_more_button.is_sensitive ())
+                return load_more_button.grab_focus ();
+
+            return controller_up_target != null &&
+                ((!) controller_up_target).get_mapped () &&
+                ((!) controller_up_target).is_visible () &&
+                ((!) controller_up_target).is_sensitive () &&
+                ((!) controller_up_target).grab_focus ();
+        }
+
+        public bool controller_focus_direction (
+            Object focused_object, Utils.ControllerNavigationDirection direction
+        ) {
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null ||
+                (focused != load_more_row && !((!) focused).is_ancestor (load_more_row)))
+                return false;
+
+            if (direction == Utils.ControllerNavigationDirection.UP) {
+                var child = list_box.get_last_child ();
+                while (child != null) {
+                    if (child is ReleaseRow && child.get_mapped () &&
+                        child.is_visible () && child.get_child_visible () &&
+                        child.is_sensitive () && child.get_focusable ())
+                        return child.grab_focus ();
+                    child = child.get_prev_sibling ();
+                }
+            }
+
+            return load_more_button.grab_focus ();
         }
 
         private void on_variant_list_item_setup (Object object) {
@@ -632,7 +682,8 @@ namespace ProtonPlus.Widgets.Tools {
 
         /// Selects the release's tool and makes its active row easy to find.
         public async void focus_job (Services.InstallJob target) {
-            yield set_selected_tool (target.tool);
+            if (!(yield set_selected_tool (target.tool)))
+                return;
 
             var row = find_job_row (target);
             if (row == null)
@@ -729,6 +780,7 @@ namespace ProtonPlus.Widgets.Tools {
             } else {
                 row = new ReleaseRow (job);
             }
+            row.set_controller_up_target (controller_up_target);
             row.set_data ("job", job);
             row.job_selected.connect ((selected_job) => job_selected (selected_job));
             list_box.append (row);

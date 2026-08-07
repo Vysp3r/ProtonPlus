@@ -41,6 +41,10 @@ namespace AppTests.ControllerNavigationPolicyTest {
             return switch_pages.length >= 2;
         }
 
+        public bool controller_prefers_initial_focus_after_switch () {
+            return false;
+        }
+
         public bool controller_switch_page (int delta) {
             switch_calls++;
             if (switch_pages.length < 2)
@@ -127,6 +131,10 @@ namespace AppTests.ControllerNavigationPolicyTest {
             ControllerFocusTargetChoice.INITIAL);
         assert (ControllerNavigationPolicy.choose_focus_target (false, false) ==
             ControllerFocusTargetChoice.TRAVERSE);
+        assert (ControllerNavigationPolicy.choose_focus_target (true, true, true) ==
+            ControllerFocusTargetChoice.INITIAL);
+        assert (ControllerNavigationPolicy.choose_focus_target (true, false, true) ==
+            ControllerFocusTargetChoice.REMEMBERED);
     }
 
     private void test_switch_restores_correct_page () {

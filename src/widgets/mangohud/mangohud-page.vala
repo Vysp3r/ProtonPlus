@@ -182,6 +182,8 @@ namespace ProtonPlus.Widgets.MangoHud {
         protected Gtk.ListBoxRow create_scale (string title, double min, double max, double step, out Gtk.Scale scale_out, SetValueFuncStr set_value) {
             var row = new Gtk.ListBoxRow ();
             row.selectable = false;
+            row.activatable = false;
+            row.focusable = false;
 
             var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6) {
                 margin_top = 12,

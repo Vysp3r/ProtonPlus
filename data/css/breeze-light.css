@@ -272,6 +272,15 @@ headerbar button:not(.suggested-action):not(.destructive-action) {
   box-shadow: none;
 }
 
+button.controller-focus,
+menubutton.controller-focus > button {
+  color: @theme_selected_fg_color_protonplus_breeze;
+  background: @theme_selected_bg_color_protonplus_breeze;
+  outline: 2px solid @theme_selected_bg_color_protonplus_breeze;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 2px rgba(61, 174, 233, 0.3);
+}
+
 button.flat:checked,
 headerbar button:not(.suggested-action):not(.destructive-action):checked {
   outline-color: mix(@theme_button_background_normal_protonplus_breeze, @theme_button_foreground_normal_protonplus_breeze, 0.3);

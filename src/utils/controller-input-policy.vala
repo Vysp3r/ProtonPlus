@@ -65,6 +65,9 @@ namespace ProtonPlus.Utils {
         private ControllerNavigationDirection repeating_direction = ControllerNavigationDirection.NONE;
         private ControllerNavigationSource repeating_source = ControllerNavigationSource.DPAD;
         private int64 last_controller_activity_us = -1;
+        private bool has_pointer_position = false;
+        private double pointer_x = 0;
+        private double pointer_y = 0;
 
         public bool has_active_device {
             get { return owns_device; }
@@ -121,8 +124,26 @@ namespace ProtonPlus.Utils {
             return !echo_candidate || !has_recent_controller_activity (now_us);
         }
 
-        public bool should_accept_pointer_motion_handoff (int64 now_us) {
-            return !has_recent_controller_activity (now_us);
+        public void note_pointer_position (double x, double y) {
+            has_pointer_position = true;
+            pointer_x = x;
+            pointer_y = y;
+        }
+
+        public bool should_accept_pointer_motion_handoff (
+            double x, double y, int64 now_us
+        ) {
+            /* GTK may report motion when animated or relaid-out content moves
+             * beneath a stationary pointer. Only physical coordinate changes
+             * may claim the input modality. */
+            if (!has_pointer_position) {
+                note_pointer_position (x, y);
+                return false;
+            }
+
+            var position_changed = x != pointer_x || y != pointer_y;
+            note_pointer_position (x, y);
+            return position_changed && !has_recent_controller_activity (now_us);
         }
 
         public bool note_button_press (int64 device_id) {
@@ -266,12 +287,14 @@ namespace ProtonPlus.Utils {
             owned_scroll_intent = 0;
             cancel_repeat ();
             last_controller_activity_us = -1;
+            has_pointer_position = false;
         }
 
         public void reset () {
             devices.clear ();
             clear_ownership ();
             last_controller_activity_us = -1;
+            has_pointer_position = false;
         }
 
         private bool claim_device (int64 device_id, bool suppress_held_axes = false) {

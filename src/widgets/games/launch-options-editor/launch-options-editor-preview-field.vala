@@ -20,6 +20,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             preview_label.yalign = 0;
             preview_label.use_markup = true;
             preview_label.selectable = true;
+            preview_label.focusable = false;
             preview_label.wrap = true;
             preview_label.margin_start = 12;
             preview_label.margin_end = 12;

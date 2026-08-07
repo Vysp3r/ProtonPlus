@@ -1,5 +1,6 @@
 namespace ProtonPlus.Widgets.Main {
-    public class Box : Gtk.Box, Utils.ControllerNavigationHost {
+    public class Box : Gtk.Box, Utils.ControllerNavigationHost,
+        Utils.ControllerPageShortcuts {
         public Adw.ViewStack view_stack { get; set; }
         public Adw.ViewSwitcher view_switcher { get; set; }
         Adw.ToastOverlay toast_overlay { get; set; }
@@ -431,6 +432,11 @@ namespace ProtonPlus.Widgets.Main {
             return visible_count >= 2;
         }
 
+        public bool controller_prefers_initial_focus_after_switch () {
+            var page = view_stack.get_visible_child_name ();
+            return page == "games" || page == "tools";
+        }
+
         public bool controller_switch_page (int delta) {
             var model = view_stack.pages;
             int count = (int) model.get_n_items ();
@@ -456,6 +462,30 @@ namespace ProtonPlus.Widgets.Main {
                 }
             }
             return false;
+        }
+
+        Utils.ControllerPageShortcuts? get_visible_controller_shortcuts () {
+            return view_stack.get_visible_child () as Utils.ControllerPageShortcuts;
+        }
+
+        public bool controller_can_open_search () {
+            var shortcuts = get_visible_controller_shortcuts ();
+            return shortcuts != null && shortcuts.controller_can_open_search ();
+        }
+
+        public bool controller_can_open_filter () {
+            var shortcuts = get_visible_controller_shortcuts ();
+            return shortcuts != null && shortcuts.controller_can_open_filter ();
+        }
+
+        public bool controller_open_search () {
+            var shortcuts = get_visible_controller_shortcuts ();
+            return shortcuts != null && shortcuts.controller_open_search ();
+        }
+
+        public bool controller_open_filter () {
+            var shortcuts = get_visible_controller_shortcuts ();
+            return shortcuts != null && shortcuts.controller_open_filter ();
         }
     }
 }

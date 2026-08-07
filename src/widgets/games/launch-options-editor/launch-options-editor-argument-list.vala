@@ -83,6 +83,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 subtitle = _("Add one argument per list entry.")
             };
             add_action_row.set_tooltip_text (add_action_row.subtitle);
+            add_action_row.set_focusable (false);
             var add_button = new Gtk.Button.from_icon_name ("list-add-symbolic") {
                 valign = Gtk.Align.CENTER,
                 css_classes = { "flat" }

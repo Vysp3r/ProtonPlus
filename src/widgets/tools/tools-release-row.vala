@@ -1,8 +1,9 @@
 namespace ProtonPlus.Widgets.Tools {
-    public class ReleaseRow : Adw.ActionRow {
+    public class ReleaseRow : Adw.ActionRow, Utils.ControllerDirectionalFocus {
         public signal void job_selected (Services.InstallJob job);
 
         protected Services.InstallJob job { get; set; }
+        Gtk.Box input_box;
         Gtk.Button update_button { get; set; }
         Gtk.Button open_button { get; set; }
         Gtk.Button remove_button { get; set; }
@@ -15,6 +16,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Label time_label { get; set; }
         Gtk.Label usage_pill { get; set; }
         Gtk.Popover info_popover { get; set; }
+        weak Gtk.Widget? controller_up_target;
         uint progress_pulse_timeout_id = 0;
 
         public ReleaseRow (Services.InstallJob job) {
@@ -45,7 +47,7 @@ namespace ProtonPlus.Widgets.Tools {
             info_box.append (step_label); info_box.append (speed_label); info_box.append (time_label);
             info_popover = new Gtk.Popover (); info_popover.set_parent (progress_button); info_popover.set_autohide (true); info_popover.set_child (info_box); Window.register_popover_for_controller (info_popover, progress_button);
             activated.connect (() => job_selected (job));
-            var input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) { margin_end = 12, valign = Gtk.Align.CENTER };
+            input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) { margin_end = 12, valign = Gtk.Align.CENTER };
             input_box.add_css_class ("linked"); input_box.add_css_class ("tools-release-row-input-box");
             if (job.mode == Services.InstallJob.Mode.LATEST || job.steam_tinker_launch_context != null) {
                 update_button = new Gtk.Button.from_icon_name ("update-check-symbolic");
@@ -65,6 +67,132 @@ namespace ProtonPlus.Widgets.Tools {
             refresh_usage_pill (); add_prefix (icon); add_suffix (input_box);
             job.notify["state"].connect (job_state_changed); job.notify["step"].connect (job_step_changed); job.progress_updated.connect (job_progress_changed);
             job.notify_property ("step"); job.notify_property ("state");
+        }
+
+        public void set_controller_up_target (Gtk.Widget? target) {
+            controller_up_target = target;
+        }
+
+        public bool controller_focus_direction (
+            Object focused_object, Utils.ControllerNavigationDirection direction
+        ) {
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null)
+                return false;
+
+            if (direction == Utils.ControllerNavigationDirection.UP ||
+                direction == Utils.ControllerNavigationDirection.DOWN)
+                return focus_vertical (direction);
+
+            if (direction == Utils.ControllerNavigationDirection.LEFT ||
+                direction == Utils.ControllerNavigationDirection.RIGHT)
+                return focus_horizontal ((!) focused, direction);
+
+            return false;
+        }
+
+        bool focus_vertical (Utils.ControllerNavigationDirection direction) {
+            var adjacent = find_adjacent_release (direction);
+            if (adjacent != null)
+                return ((!) adjacent).grab_focus ();
+
+            if (direction == Utils.ControllerNavigationDirection.UP)
+                return controller_up_target != null &&
+                    ((!) controller_up_target).get_mapped () &&
+                    ((!) controller_up_target).is_visible () &&
+                    ((!) controller_up_target).is_sensitive () &&
+                    ((!) controller_up_target).grab_focus ();
+
+            return focus_next_list_control ();
+        }
+
+        ReleaseRow? find_adjacent_release (
+            Utils.ControllerNavigationDirection direction
+        ) {
+            Gtk.Widget? sibling = direction == Utils.ControllerNavigationDirection.UP
+                ? get_prev_sibling () : get_next_sibling ();
+            while (sibling != null) {
+                if (sibling is ReleaseRow && sibling.get_mapped () &&
+                    sibling.is_visible () && sibling.get_child_visible () &&
+                    sibling.is_sensitive () && sibling.get_focusable ())
+                    return (ReleaseRow) sibling;
+                sibling = direction == Utils.ControllerNavigationDirection.UP
+                    ? sibling.get_prev_sibling () : sibling.get_next_sibling ();
+            }
+            return null;
+        }
+
+        bool focus_next_list_control () {
+            var sibling = get_next_sibling ();
+            while (sibling != null) {
+                if (sibling.get_mapped () && sibling.is_visible () &&
+                    sibling.get_child_visible () && sibling.is_sensitive ())
+                    return sibling.child_focus (Gtk.DirectionType.TAB_FORWARD) ||
+                        sibling.grab_focus ();
+                sibling = sibling.get_next_sibling ();
+            }
+            return grab_focus ();
+        }
+
+        bool focus_horizontal (Gtk.Widget focused,
+            Utils.ControllerNavigationDirection direction) {
+            var action = find_action_ancestor (focused);
+            if (direction == Utils.ControllerNavigationDirection.RIGHT) {
+                if (focused == this)
+                    return focus_first_action ();
+                if (action != null)
+                    return focus_action_sibling ((!) action, true);
+            } else {
+                if (focused == this)
+                    return grab_focus ();
+                if (action != null) {
+                    var previous = find_focusable_action ((!) action, false);
+                    return previous != null
+                        ? ((!) previous).grab_focus ()
+                        : grab_focus ();
+                }
+            }
+            return false;
+        }
+
+        bool focus_first_action () {
+            var action = find_focusable_action (null, true);
+            return action != null
+                ? ((!) action).grab_focus ()
+                : grab_focus ();
+        }
+
+        bool focus_action_sibling (Gtk.Widget action, bool forward) {
+            var sibling = find_focusable_action (action, forward);
+            return sibling != null
+                ? ((!) sibling).grab_focus ()
+                : action.grab_focus ();
+        }
+
+        Gtk.Widget? find_focusable_action (Gtk.Widget? current, bool forward) {
+            Gtk.Widget? child;
+            if (current == null)
+                child = forward ? input_box.get_first_child () : input_box.get_last_child ();
+            else
+                child = forward ? current.get_next_sibling () : current.get_prev_sibling ();
+
+            while (child != null) {
+                if (child.get_mapped () && child.is_visible () &&
+                    child.is_sensitive () && child.get_focusable ())
+                    return child;
+                child = forward ? child.get_next_sibling () : child.get_prev_sibling ();
+            }
+            return null;
+        }
+
+        Gtk.Widget? find_action_ancestor (Gtk.Widget focused) {
+            Gtk.Widget? current = focused;
+            while (current != null && current != input_box) {
+                if (current.get_parent () == input_box)
+                    return current;
+                current = current.get_parent ();
+            }
+            return null;
         }
 
         void create_install_btn () {

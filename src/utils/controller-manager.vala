@@ -61,6 +61,7 @@ namespace ProtonPlus.Utils {
         ulong highlight_unmap_handler = 0;
         ulong highlight_destroy_handler = 0;
         uint focus_idle_id = 0;
+        uint window_inactive_timeout_id = 0;
         Gee.ArrayList<GamepadState> gamepads = new Gee.ArrayList<GamepadState> ();
         Gee.ArrayList<GtkSurface> registered_surfaces = new Gee.ArrayList<GtkSurface> ();
         GtkSurface window_surface;
@@ -80,12 +81,15 @@ namespace ProtonPlus.Utils {
         const double SCROLL_SPEED = 12.0;
         const uint INITIAL_REPEAT_DELAY = 350;
         const uint REPEAT_INTERVAL = 75;
+        const uint WINDOW_INACTIVE_DEBOUNCE_MS = 50;
 
         public ControllerManager (Widgets.Window window) {
             this.window = window;
             haptic_feedback = new ControllerHapticFeedback (haptic_sink);
 
             var face_labels = ControllerPhysicalLabelResolver.from_sdl (
+                SDL.Gamepad.GamepadButtonLabel.UNKNOWN,
+                SDL.Gamepad.GamepadButtonLabel.UNKNOWN,
                 SDL.Gamepad.GamepadButtonLabel.UNKNOWN,
                 SDL.Gamepad.GamepadButtonLabel.UNKNOWN
             );
@@ -100,8 +104,11 @@ namespace ProtonPlus.Utils {
             surface_policy = new ControllerSurfacePolicy (window_surface);
 
             motion = new Gtk.EventControllerMotion ();
+            motion.enter.connect ((x, y) => input_policy.note_pointer_position (x, y));
             motion.motion.connect ((x, y) => {
-                if (input_policy.should_accept_pointer_motion_handoff (get_monotonic_time ()))
+                if (input_policy.should_accept_pointer_motion_handoff (
+                    x, y, get_monotonic_time ()
+                ))
                     yield_to_non_controller_input ();
             });
 
@@ -122,10 +129,10 @@ namespace ProtonPlus.Utils {
 
             window_active_handler = window.notify["is-active"].connect (() => {
                 haptic_feedback.set_input_active (window.is_active);
-                if (!window.is_active) {
-                    reset_input_state ();
-                    deactivate_controller_mode ();
-                }
+                if (window.is_active)
+                    cancel_window_inactive_check ();
+                else
+                    schedule_window_inactive_check ();
             });
             window_focus_handler = window.notify["focus-widget"].connect (() => {
                 sync_highlight ();
@@ -201,6 +208,7 @@ namespace ProtonPlus.Utils {
                 GLib.Source.remove (focus_idle_id);
                 focus_idle_id = 0;
             }
+            cancel_window_inactive_check ();
             cancel_navigation_focus_restore ();
             cancel_scroll_to_focus ();
             navigation_policy.invalidate_restores ();
@@ -396,7 +404,7 @@ namespace ProtonPlus.Utils {
 
         bool is_valid_focus_target (Gtk.Widget? widget) {
             return widget != null && widget.get_root () != null && widget.get_mapped () &&
-                widget.get_visible () && widget.get_sensitive () && widget.get_focusable ();
+                widget.is_visible () && widget.is_sensitive () && widget.get_focusable ();
         }
 
         bool is_inside_surface (Gtk.Widget? widget, GtkSurface surface) {
@@ -546,6 +554,28 @@ namespace ProtonPlus.Utils {
             refresh_presentation ();
         }
 
+        void schedule_window_inactive_check () {
+            cancel_window_inactive_check ();
+            window_inactive_timeout_id = GLib.Timeout.add (
+                WINDOW_INACTIVE_DEBOUNCE_MS,
+                () => {
+                    window_inactive_timeout_id = 0;
+                    if (!window.is_active) {
+                        reset_input_state ();
+                        deactivate_controller_mode ();
+                    }
+                    return GLib.Source.REMOVE;
+                }
+            );
+        }
+
+        void cancel_window_inactive_check () {
+            if (window_inactive_timeout_id == 0)
+                return;
+            GLib.Source.remove (window_inactive_timeout_id);
+            window_inactive_timeout_id = 0;
+        }
+
         void yield_to_non_controller_input () {
             input_policy.surface_changed ();
             haptic_feedback.context_changed ();
@@ -626,7 +656,10 @@ namespace ProtonPlus.Utils {
             var active_gamepad = input_policy.has_active_device
                 ? find_gamepad_by_controller_id (input_policy.active_device_id)
                 : null;
-            var presentation_active = controller_active && window.is_active && active_gamepad != null;
+            var presentation_window_active = window.is_active ||
+                window_inactive_timeout_id != 0;
+            var presentation_active = controller_active &&
+                presentation_window_active && active_gamepad != null;
             var surface = get_active_surface ();
             var focused = get_focused_widget ();
             var control_kind = classify_hint_control (focused, surface);
@@ -634,6 +667,7 @@ namespace ProtonPlus.Utils {
                 find_focused_popover () != null;
             var has_dialog = surface.kind == ControllerSurfaceKind.DIALOG;
             var host = get_active_navigation_host ();
+            var shortcuts = host as ControllerPageShortcuts;
 
             var context = new ControllerHintContext () {
                 controller_mode_active = presentation_active,
@@ -641,11 +675,17 @@ namespace ProtonPlus.Utils {
                 has_popover = has_popover,
                 control_kind = control_kind,
                 can_navigate_back = host != null && host.controller_can_navigate_back (),
-                can_switch_section = host != null && host.controller_can_switch_page ()
+                can_switch_section = host != null && host.controller_can_switch_page (),
+                can_open_search = shortcuts != null &&
+                    shortcuts.controller_can_open_search (),
+                can_open_filter = shortcuts != null &&
+                    shortcuts.controller_can_open_filter ()
             };
 
             var south_label = SDL.Gamepad.GamepadButtonLabel.UNKNOWN;
             var east_label = SDL.Gamepad.GamepadButtonLabel.UNKNOWN;
+            var west_label = SDL.Gamepad.GamepadButtonLabel.UNKNOWN;
+            var north_label = SDL.Gamepad.GamepadButtonLabel.UNKNOWN;
             if (active_gamepad != null) {
                 south_label = SDL.Gamepad.get_gamepad_button_label (
                     active_gamepad.gamepad, SDL.Gamepad.GamepadButton.SOUTH
@@ -653,8 +693,16 @@ namespace ProtonPlus.Utils {
                 east_label = SDL.Gamepad.get_gamepad_button_label (
                     active_gamepad.gamepad, SDL.Gamepad.GamepadButton.EAST
                 );
+                west_label = SDL.Gamepad.get_gamepad_button_label (
+                    active_gamepad.gamepad, SDL.Gamepad.GamepadButton.WEST
+                );
+                north_label = SDL.Gamepad.get_gamepad_button_label (
+                    active_gamepad.gamepad, SDL.Gamepad.GamepadButton.NORTH
+                );
             }
-            var face_labels = ControllerPhysicalLabelResolver.from_sdl (south_label, east_label);
+            var face_labels = ControllerPhysicalLabelResolver.from_sdl (
+                south_label, east_label, west_label, north_label
+            );
             var confirm_button = ControllerConfirmButton.SOUTH;
             if (Globals.SETTINGS != null) {
                 confirm_button = (ControllerConfirmButton) Globals.SETTINGS.get_enum (
@@ -694,6 +742,14 @@ namespace ProtonPlus.Utils {
                     ? ControllerHintControlKind.HORIZONTAL_RANGE
                     : ControllerHintControlKind.VERTICAL_RANGE;
             }
+
+            var redirected_target = focused == null ? null
+                : find_controller_activation_target ((!) focused, root);
+            if (redirected_target is Gtk.Switch ||
+                redirected_target is Gtk.CheckButton ||
+                redirected_target is Gtk.ToggleButton ||
+                redirected_target is Adw.SwitchRow)
+                return ControllerHintControlKind.TOGGLE;
 
             current = focused;
             while (current != null) {
@@ -759,6 +815,12 @@ namespace ProtonPlus.Utils {
             case SOUTH :
             case EAST :
                 handle_face_button (device_id, button);
+                break;
+            case WEST :
+                handle_page_shortcut (device_id, true);
+                break;
+            case NORTH :
+                handle_page_shortcut (device_id, false);
                 break;
             case START :
                 if (!has_active_modal_surface ())
@@ -833,6 +895,27 @@ namespace ProtonPlus.Utils {
             }
         }
 
+        void handle_page_shortcut (int64 device_id, bool search) {
+            var succeeded = false;
+            if (!has_active_modal_surface ()) {
+                var shortcuts = get_active_navigation_host () as ControllerPageShortcuts;
+                if (shortcuts != null) {
+                    succeeded = search
+                        ? shortcuts.controller_open_search ()
+                        : shortcuts.controller_open_filter ();
+                }
+            }
+            haptic_feedback.activation_outcome (
+                device_id, ControllerActivationDecision.ACTIVATE,
+                succeeded, get_monotonic_time ()
+            );
+            if (succeeded) {
+                save_current_page_focus ();
+                schedule_scroll_to_focus ();
+                refresh_presentation ();
+            }
+        }
+
         void restart_repeat_timer () {
             cancel_repeat_timer ();
             if (!input_policy.has_repeat)
@@ -899,8 +982,16 @@ namespace ProtonPlus.Utils {
                 control_kind, direction
             );
 
-            bool moved;
-            if (range != null && action != ControllerDirectionAction.MOVE_FOCUS)
+            bool moved = false;
+            var directional_focus = find_directional_focus_ancestor (focused, root);
+            if (focused != null && directional_focus != null)
+                moved = directional_focus.controller_focus_direction (
+                    (!) focused, direction
+                );
+
+            if (moved)
+                controller_focus_changed ();
+            else if (range != null && action != ControllerDirectionAction.MOVE_FOCUS)
                 moved = adjust_range (range, action);
             else
                 moved = move_focus (root, direction);
@@ -910,6 +1001,20 @@ namespace ProtonPlus.Utils {
             );
 
             sync_highlight ();
+        }
+
+        ControllerDirectionalFocus? find_directional_focus_ancestor (
+            Gtk.Widget? focused, Gtk.Widget root
+        ) {
+            Gtk.Widget? current = focused;
+            while (current != null) {
+                if (current is ControllerDirectionalFocus)
+                    return (ControllerDirectionalFocus) current;
+                if (current == root)
+                    break;
+                current = current.get_parent ();
+            }
+            return null;
         }
 
         Gtk.Widget get_direction_input_root (Gtk.Widget? focused, GtkSurface surface) {
@@ -1090,8 +1195,11 @@ namespace ProtonPlus.Utils {
             var list_view = find_list_view_ancestor (
                 focused, get_direction_input_root (focused, get_active_surface ())
             );
+            var redirected_target = find_controller_activation_target (focused, root);
             var succeeded = false;
-            if (list_view != null) {
+            if (redirected_target != null) {
+                succeeded = ((!) redirected_target).activate ();
+            } else if (list_view != null) {
                 var model = list_view.get_model ();
                 var selection = model?.get_selection ();
                 if (selection != null && !selection.is_empty ()) {
@@ -1110,6 +1218,21 @@ namespace ProtonPlus.Utils {
                 schedule_page_focus_restore ();
             refresh_presentation ();
             return succeeded;
+        }
+
+        Gtk.Widget? find_controller_activation_target (
+            Gtk.Widget focused, Gtk.Widget root
+        ) {
+            Gtk.Widget? current = focused;
+            while (current != null) {
+                if (current is ControllerActivationRedirect)
+                    return ((ControllerActivationRedirect) current)
+                        .get_controller_activation_target (focused) as Gtk.Widget;
+                if (current == root)
+                    break;
+                current = current.get_parent ();
+            }
+            return null;
         }
 
         void focus_text_input (Gtk.Widget target) {
@@ -1277,7 +1400,10 @@ namespace ProtonPlus.Utils {
             var switched = navigation_policy.switch_page (host, delta);
             if (switched) {
                 haptic_feedback.context_changed ();
-                schedule_page_focus_restore ();
+                schedule_page_focus_restore (
+                    host != null &&
+                    host.controller_prefers_initial_focus_after_switch ()
+                );
             }
             refresh_presentation ();
             return switched;
@@ -1329,7 +1455,7 @@ namespace ProtonPlus.Utils {
             refresh_presentation ();
         }
 
-        void schedule_page_focus_restore () {
+        void schedule_page_focus_restore (bool prefer_initial = false) {
             var host = get_active_navigation_host ();
             if (host == null)
                 return;
@@ -1338,11 +1464,11 @@ namespace ProtonPlus.Utils {
             var request = navigation_policy.begin_restore (
                 host.get_controller_page_id (), surface_generation
             );
-            schedule_page_focus_restore_attempt (request, 0);
+            schedule_page_focus_restore_attempt (request, 0, prefer_initial);
         }
 
         void schedule_page_focus_restore_attempt (ControllerFocusRestoreRequest request,
-            int attempt) {
+            int attempt, bool prefer_initial) {
             navigation_focus_source_id = GLib.Timeout.add (attempt == 0 ? 1 : 16, () => {
                 navigation_focus_source_id = 0;
                 var host = get_active_navigation_host ();
@@ -1356,7 +1482,9 @@ namespace ProtonPlus.Utils {
                     !page_root.get_mapped () || page_root.get_width () <= 0 ||
                     page_root.get_height () <= 0) {
                     if (attempt < 8)
-                        schedule_page_focus_restore_attempt (request, attempt + 1);
+                        schedule_page_focus_restore_attempt (
+                            request, attempt + 1, prefer_initial
+                        );
                     return GLib.Source.REMOVE;
                 }
 
@@ -1364,7 +1492,8 @@ namespace ProtonPlus.Utils {
                 var initial = host.get_controller_initial_focus () as Gtk.Widget;
                 var choice = ControllerNavigationPolicy.choose_focus_target (
                     is_valid_page_focus_target (remembered, page_root),
-                    is_valid_page_focus_target (initial, page_root)
+                    is_valid_page_focus_target (initial, page_root),
+                    prefer_initial
                 );
 
                 bool focused = false;

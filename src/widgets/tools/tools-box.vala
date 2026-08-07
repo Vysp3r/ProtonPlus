@@ -6,7 +6,8 @@ namespace ProtonPlus.Widgets.Tools {
         UNUSED
     }
 
-    public class Box : Gtk.Box, Utils.ControllerNavigationHost {
+    public class Box : Gtk.Box, Utils.ControllerNavigationHost,
+        Utils.ControllerPageShortcuts {
         Models.Launcher current_launcher { get; set; }
         Services.InstallJob? current_job;
 
@@ -109,6 +110,7 @@ namespace ProtonPlus.Widgets.Tools {
             back_button.add_css_class ("flat");
             back_button.set_tooltip_text (_ ("Back"));
             back_button.clicked.connect (() => controller_navigate_back ());
+            releases_box.set_controller_up_target (back_button);
 
             open_button = new Gtk.Button.from_icon_name ("globe-symbolic") {
                 valign = Gtk.Align.CENTER,
@@ -213,7 +215,7 @@ namespace ProtonPlus.Widgets.Tools {
             var unused_filter_button = new Gtk.CheckButton.with_label (_ ("Unused"));
             unused_filter_button.set_group (all_filter_button);
 
-            var filter_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12) {
+            var filter_box = new ProtonPlus.Widgets.ControllerChoiceBox () {
                 margin_top = 12,
                 margin_bottom = 12,
                 margin_start = 12,
@@ -515,12 +517,17 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public Object? get_controller_initial_focus () {
+            if (get_visible_page_tag () == "groups") {
+                var group = groups_stack.get_visible_child () as GroupBox;
+                return group?.get_controller_initial_focus ();
+            }
+
             var root = navigation_view.get_visible_page ().get_child ();
             return root == null ? null : find_first_focusable (root);
         }
 
         Gtk.Widget? find_first_focusable (Gtk.Widget root) {
-            if (!root.get_visible () || !root.get_mapped () || !root.get_sensitive ())
+            if (!root.get_mapped () || !root.is_visible () || !root.is_sensitive ())
                 return null;
             if (root.get_focusable ())
                 return root;
@@ -547,8 +554,36 @@ namespace ProtonPlus.Widgets.Tools {
             return false;
         }
 
+        public bool controller_prefers_initial_focus_after_switch () {
+            return false;
+        }
+
         public bool controller_switch_page (int delta) {
             return false;
+        }
+
+        public bool controller_can_open_search () {
+            return search_button.get_mapped () && search_button.is_visible () &&
+                search_button.is_sensitive ();
+        }
+
+        public bool controller_can_open_filter () {
+            return filter_button.get_mapped () && filter_button.is_visible () &&
+                filter_button.is_sensitive ();
+        }
+
+        public bool controller_open_search () {
+            if (!controller_can_open_search ())
+                return false;
+            search_button.popup ();
+            return true;
+        }
+
+        public bool controller_open_filter () {
+            if (!controller_can_open_filter ())
+                return false;
+            filter_button.popup ();
+            return true;
         }
 
         public void show_download (Services.InstallJob job) {
@@ -565,7 +600,7 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             foreach (var group in launcher.groups) {
-                var group_box = new GroupBox (group);
+                var group_box = new GroupBox (group, search_button);
                 group_box.filter = current_filter;
                 group_box.search_text = search_entry.get_text ();
                 group_box.tool_selected.connect (set_selected_tool);
@@ -578,9 +613,18 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void set_selected_tool (Models.Tool tool) {
-            releases_box.set_selected_tool.begin (tool);
-
             push_page (releases_page);
+            releases_box.set_selected_tool.begin (tool, (obj, result) => {
+                if (!releases_box.set_selected_tool.end (result) ||
+                    get_visible_page_tag () != "releases")
+                    return;
+
+                var root = get_root ();
+                var focused = root?.get_focus ();
+                if (focused == null || !((!) focused).get_mapped () ||
+                    focused == groups_stack || ((!) focused).is_ancestor (groups_stack))
+                    releases_box.focus_first_controller_target ();
+            });
         }
 
         void set_selected_job (Services.InstallJob job, bool show_games = false) {

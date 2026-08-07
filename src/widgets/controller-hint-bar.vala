@@ -53,14 +53,14 @@ namespace ProtonPlus.Widgets {
             int essential_count = 0;
             foreach (var hint in hints) {
                 if (is_essential (hint)) {
-                    essential_box.append (create_hint (hint, state.prompt_labels));
+                    essential_box.append (create_hint (hint, state));
                     essential_count++;
                 }
             }
             foreach (var hint in hints) {
                 if (is_essential (hint))
                     continue;
-                var row = create_hint (hint, state.prompt_labels);
+                var row = create_hint (hint, state);
                 if (essential_count == 0) {
                     essential_box.append (row);
                     essential_count++;
@@ -87,7 +87,7 @@ namespace ProtonPlus.Widgets {
         }
 
         Gtk.Widget create_hint (Utils.ControllerHintKind hint,
-            Utils.ControllerPromptButtonLabels prompts) {
+            Utils.ControllerPresentationState state) {
             Utils.ControllerPhysicalButtonLabel? physical = null;
             string capsule_text;
             string capsule_accessible;
@@ -95,23 +95,23 @@ namespace ProtonPlus.Widgets {
 
             switch (hint) {
             case SELECT:
-                physical = prompts.confirm;
+                physical = state.prompt_labels.confirm;
                 action = _("Select");
                 break;
             case TOGGLE:
-                physical = prompts.confirm;
+                physical = state.prompt_labels.confirm;
                 action = _("Toggle");
                 break;
             case OPEN:
-                physical = prompts.confirm;
+                physical = state.prompt_labels.confirm;
                 action = _("Open");
                 break;
             case BACK:
-                physical = prompts.back;
+                physical = state.prompt_labels.back;
                 action = _("Back");
                 break;
             case CLOSE:
-                physical = prompts.back;
+                physical = state.prompt_labels.back;
                 action = _("Close");
                 break;
             case ADJUST_HORIZONTAL:
@@ -134,6 +134,14 @@ namespace ProtonPlus.Widgets {
                 capsule_accessible = _("Shoulder buttons");
                 action = _("Switch section or page");
                 return create_hint_row (capsule_text, capsule_accessible, action);
+            case SEARCH:
+                physical = state.face_labels.west;
+                action = _("Search");
+                break;
+            case FILTER:
+                physical = state.face_labels.north;
+                action = _("Filter");
+                break;
             default:
                 assert_not_reached ();
             }
@@ -203,6 +211,14 @@ namespace ProtonPlus.Widgets {
             case RIGHT:
                 text = _("Right");
                 accessible = _("Right face button");
+                break;
+            case LEFT:
+                text = _("Left");
+                accessible = _("Left face button");
+                break;
+            case TOP:
+                text = _("Top");
+                accessible = _("Top face button");
                 break;
             default:
                 assert_not_reached ();

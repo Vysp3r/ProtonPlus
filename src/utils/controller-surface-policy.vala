@@ -38,6 +38,10 @@ namespace ProtonPlus.Utils {
             surfaces.add (window_surface);
         }
 
+        public static bool can_register_popover (bool visible, bool mapped) {
+            return visible && mapped;
+        }
+
         public int size {
             get { return surfaces.size; }
         }

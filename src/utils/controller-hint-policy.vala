@@ -8,7 +8,9 @@ namespace ProtonPlus.Utils {
         ADJUST_HORIZONTAL,
         ADJUST_VERTICAL,
         TEXT_INPUT,
-        SWITCH_SECTION
+        SWITCH_SECTION,
+        SEARCH,
+        FILTER
     }
 
     public enum ControllerHintControlKind {
@@ -30,7 +32,9 @@ namespace ProtonPlus.Utils {
         SQUARE,
         TRIANGLE,
         BOTTOM,
-        RIGHT
+        RIGHT,
+        LEFT,
+        TOP
     }
 
     public class ControllerHintContext : Object {
@@ -40,20 +44,28 @@ namespace ProtonPlus.Utils {
         public ControllerHintControlKind control_kind { get; set; default = ControllerHintControlKind.DEFAULT; }
         public bool can_navigate_back { get; set; default = false; }
         public bool can_switch_section { get; set; default = false; }
+        public bool can_open_search { get; set; default = false; }
+        public bool can_open_filter { get; set; default = false; }
     }
 
     public class ControllerFaceButtonLabelFacts : Object {
         public ControllerPhysicalButtonLabel south { get; private set; }
         public ControllerPhysicalButtonLabel east { get; private set; }
+        public ControllerPhysicalButtonLabel west { get; private set; }
+        public ControllerPhysicalButtonLabel north { get; private set; }
 
         public ControllerFaceButtonLabelFacts (ControllerPhysicalButtonLabel south,
-            ControllerPhysicalButtonLabel east) {
+            ControllerPhysicalButtonLabel east, ControllerPhysicalButtonLabel west,
+            ControllerPhysicalButtonLabel north) {
             this.south = south;
             this.east = east;
+            this.west = west;
+            this.north = north;
         }
 
         public bool equal_to (ControllerFaceButtonLabelFacts other) {
-            return south == other.south && east == other.east;
+            return south == other.south && east == other.east &&
+                west == other.west && north == other.north;
         }
     }
 
@@ -144,18 +156,25 @@ namespace ProtonPlus.Utils {
 
             if (!context.has_popover && context.can_switch_section)
                 hints += ControllerHintKind.SWITCH_SECTION;
+            if (!context.has_popover && context.can_open_search)
+                hints += ControllerHintKind.SEARCH;
+            if (!context.has_popover && context.can_open_filter)
+                hints += ControllerHintKind.FILTER;
             return hints;
         }
     }
 
-    /* SDL supplies physical labels independently for South and East. This
+    /* SDL supplies physical labels independently for every face button. This
      * resolver preserves those facts before applying the user's mapping. */
     public class ControllerPhysicalLabelResolver : Object {
         public static ControllerFaceButtonLabelFacts from_sdl (
-            SDL.Gamepad.GamepadButtonLabel south, SDL.Gamepad.GamepadButtonLabel east) {
+            SDL.Gamepad.GamepadButtonLabel south, SDL.Gamepad.GamepadButtonLabel east,
+            SDL.Gamepad.GamepadButtonLabel west, SDL.Gamepad.GamepadButtonLabel north) {
             return new ControllerFaceButtonLabelFacts (
                 map_sdl_label (south, ControllerPhysicalButtonLabel.BOTTOM),
-                map_sdl_label (east, ControllerPhysicalButtonLabel.RIGHT)
+                map_sdl_label (east, ControllerPhysicalButtonLabel.RIGHT),
+                map_sdl_label (west, ControllerPhysicalButtonLabel.LEFT),
+                map_sdl_label (north, ControllerPhysicalButtonLabel.TOP)
             );
         }
 
