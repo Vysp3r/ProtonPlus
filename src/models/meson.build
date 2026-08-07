@@ -1,16 +1,28 @@
 sources += files(
+    'cpu-capabilities.vala',
+    'variant-compatibility.vala',
+    'variant-selector.vala',
     'group.vala',
+    'compatibility-tool.vala',
+    'installed-tool-inventory.vala',
     'steam-profile.vala',
+    'steam-restart-target.vala',
+    'steam-restart-operation.vala',
+    'steam-change-receipt.vala',
     'launcher.vala',
-    'download-manager.vala',
     'release.vala',
-    'runner.vala',
-    'parameters.vala',
+    'release-catalog-cache.vala',
+    'release-catalog-result.vala',
+    'release-catalog.vala',
+    'tool.vala',
     'game.vala',
-    'simple-runner.vala',
+    'variant.vala',
 )
 
-subdir('launchers')
 subdir('games')
-subdir('runners')
-subdir('releases')
+subdir('assets')
+subdir('internal')
+subdir('launchers')
+subdir('providers')
+subdir('tools')
+subdir('steam')

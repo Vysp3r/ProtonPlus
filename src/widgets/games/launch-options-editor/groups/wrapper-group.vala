@@ -1,0 +1,183 @@
+namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
+    using Adw;
+
+    public class WrapperGroup : BaseOptionsGroup {
+        public Gtk.Stack stack { get; set; }
+        Gtk.StackSwitcher switcher { get; set; }
+        Wrappers.Gamescope gamescope { get; set; }
+        Wrappers.Scopebuddy scopebuddy { get; set; }
+        Wrappers.None none { get; set; }
+
+        bool refreshing_controls;
+        string backend_title;
+        string backend_description;
+
+        public WrapperGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, false, presentation_registry, false);
+            refreshing_controls = true;
+
+            backend_title = _("Launch backend");
+            backend_description = _("Choose System default, Gamescope, or ScopeBuddy for display and launch options.");
+            this.title = backend_title;
+            this.description = backend_description;
+            if (presentation_registry != null)
+                presentation_registry.register ("launch-backend", this, null, false);
+
+            none = new Wrappers.None (launch_option_handlers, presentation_registry);
+            gamescope = new Wrappers.Gamescope (launch_option_handlers, presentation_registry);
+            scopebuddy = new Wrappers.Scopebuddy (launch_option_handlers, presentation_registry);
+
+            none.changed.connect (() => { this.changed (); });
+            gamescope.changed.connect (() => { this.changed (); });
+            scopebuddy.changed.connect (() => { this.changed (); });
+
+            var gamescope_page = gamescope.create_page ();
+            var scopebuddy_page = scopebuddy.create_page ();
+            var none_page = none.create_page ();
+
+            stack = new Gtk.Stack ();
+            stack.set_hhomogeneous (false);
+            stack.set_vhomogeneous (false);
+            stack.set_transition_type (Gtk.StackTransitionType.CROSSFADE);
+            stack.notify["visible-child-name"].connect (() => {
+                selection_changed ();
+            });
+
+            stack.add_titled (none_page, "none", _("System default"));
+
+            if (Globals.GAMESCOPE_INSTALLED)
+                stack.add_titled (gamescope_page, "gamescope", _("Gamescope"));
+            else
+                stack.add_named (gamescope_page, "gamescope");
+
+            if (Globals.SCOPEBUDDY_INSTALLED)
+                stack.add_titled (scopebuddy_page, "scopebuddy", _("ScopeBuddy"));
+            else
+                stack.add_named (scopebuddy_page, "scopebuddy");
+
+            switcher = new Gtk.StackSwitcher ();
+            switcher.set_stack (stack);
+            switcher.set_halign (Gtk.Align.START);
+            switcher.set_tooltip_text (this.description);
+
+            if (!Globals.GAMESCOPE_INSTALLED && !Globals.SCOPEBUDDY_INSTALLED)
+                switcher.visible = false;
+
+            this.set_header_suffix (switcher);
+            this.add (stack);
+
+            gamescope.notify["active"].connect (() => {
+                if (gamescope.active && !refreshing_controls) {
+                    refreshing_controls = true;
+                    stack.set_visible_child_name ("gamescope");
+                    refreshing_controls = false;
+                }
+            });
+
+            scopebuddy.notify["active"].connect (() => {
+                if (scopebuddy.active && !refreshing_controls) {
+                    refreshing_controls = true;
+                    stack.set_visible_child_name ("scopebuddy");
+                    refreshing_controls = false;
+                }
+            });
+
+            refreshing_controls = true;
+            stack.set_visible_child_name ("none");
+            refreshing_controls = false;
+            selection_changed ();
+        }
+
+        void selection_changed () {
+            if (refreshing_controls)
+                return;
+
+            refreshing_controls = true;
+
+            var current_wrapper = stack.get_visible_child_name ();
+
+            if (current_wrapper == "none") {
+                none.active = true;
+                gamescope.active = false;
+                scopebuddy.active = false;
+                gamescope.selection_change ();
+                scopebuddy.selection_change ();
+            } else if (current_wrapper == "gamescope") {
+                gamescope.active = true;
+                none.active = false;
+                scopebuddy.active = false;
+                none.selection_change ();
+                scopebuddy.selection_change ();
+            } else if (current_wrapper == "scopebuddy") {
+                scopebuddy.active = true;
+                none.active = false;
+                gamescope.active = false;
+                none.selection_change ();
+                gamescope.selection_change ();
+            }
+
+            refreshing_controls = false;
+            this.changed ();
+        }
+
+        public void insert_before_backend_options (Gtk.Widget widget) {
+            this.remove (stack);
+            this.add (widget);
+            this.add (stack);
+        }
+
+        public static bool should_show_backend_chrome (
+            bool gamescope_available,
+            bool scopebuddy_available,
+            bool active_non_default_backend
+        ) {
+            return gamescope_available || scopebuddy_available || active_non_default_backend;
+        }
+
+        public static bool should_show_backend_group (bool display_visible, bool show_chrome) {
+            return display_visible && show_chrome;
+        }
+
+        public bool has_active_non_default_backend () {
+            return gamescope.active || scopebuddy.active;
+        }
+
+        public string get_selected_backend_id () {
+            if (gamescope.active) return "gamescope";
+            if (scopebuddy.active) return "scopebuddy";
+            return "";
+        }
+
+        internal void reset_controls () {
+            refreshing_controls = true;
+            none.active = true;
+            gamescope.active = false;
+            scopebuddy.active = false;
+            none.selection_change ();
+            gamescope.selection_change ();
+            scopebuddy.selection_change ();
+            stack.set_visible_child_name ("none");
+            refreshing_controls = false;
+        }
+
+        internal void normalize_selection () {
+            refreshing_controls = true;
+            var selected = gamescope.active ? "gamescope"
+                : (scopebuddy.active ? "scopebuddy" : "none");
+            none.active = selected == "none";
+            stack.set_visible_child_name (selected);
+            refreshing_controls = false;
+        }
+
+        public void set_presentation_visible (bool visible) {
+            var show_chrome = should_show_backend_chrome (
+                Globals.GAMESCOPE_INSTALLED,
+                Globals.SCOPEBUDDY_INSTALLED,
+                has_active_non_default_backend ()
+            );
+            this.title = show_chrome ? backend_title : "";
+            this.description = show_chrome ? backend_description : "";
+            this.visible = should_show_backend_group (visible, show_chrome);
+        }
+    }
+}

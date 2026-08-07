@@ -1,0 +1,87 @@
+/* True-black palette with subtle elevated surfaces. */
+@define-color oled_accent #3584e4;
+@define-color oled_accent_light #78aeed;
+@define-color oled_window_bg #000000;
+@define-color oled_surface #0a0a0a;
+@define-color oled_card_bg #121212;
+@define-color oled_popover_bg #1a1a1a;
+@define-color oled_fg #ffffff;
+@define-color oled_view_fg #f6f5f4;
+@define-color oled_border #2a2a2a;
+
+/* GTK and libadwaita symbolic colors. */
+@define-color accent_bg_color @oled_accent;
+@define-color accent_fg_color #ffffff;
+@define-color accent_color @oled_accent_light;
+@define-color window_bg_color @oled_window_bg;
+@define-color window_fg_color @oled_fg;
+@define-color view_bg_color @oled_window_bg;
+@define-color view_fg_color @oled_view_fg;
+@define-color headerbar_bg_color @oled_window_bg;
+@define-color headerbar_fg_color @oled_fg;
+@define-color headerbar_border_color @oled_border;
+@define-color headerbar_backdrop_color @oled_window_bg;
+@define-color card_bg_color @oled_card_bg;
+@define-color card_fg_color @oled_fg;
+@define-color dialog_bg_color @oled_surface;
+@define-color dialog_fg_color @oled_fg;
+@define-color popover_bg_color @oled_popover_bg;
+@define-color popover_fg_color @oled_fg;
+@define-color sidebar_bg_color @oled_window_bg;
+@define-color sidebar_fg_color @oled_view_fg;
+@define-color secondary_sidebar_bg_color @oled_surface;
+@define-color secondary_sidebar_fg_color @oled_view_fg;
+@define-color theme_bg_color @oled_window_bg;
+@define-color theme_fg_color @oled_fg;
+@define-color theme_base_color @oled_window_bg;
+@define-color theme_text_color @oled_view_fg;
+@define-color theme_selected_bg_color @oled_accent;
+@define-color theme_selected_fg_color #ffffff;
+
+/* libadwaita reads its palette through CSS custom properties. */
+* {
+  --accent-bg-color: @oled_accent;
+  --accent-fg-color: #ffffff;
+  --accent-color: @oled_accent_light;
+  --window-bg-color: @oled_window_bg;
+  --window-fg-color: @oled_fg;
+  --view-bg-color: @oled_window_bg;
+  --view-fg-color: @oled_view_fg;
+  --headerbar-bg-color: @oled_window_bg;
+  --headerbar-fg-color: @oled_fg;
+  --headerbar-border-color: @oled_border;
+  --headerbar-backdrop-color: @oled_window_bg;
+  --headerbar-shade-color: rgba(255, 255, 255, 0.08);
+  --headerbar-darker-shade-color: rgba(255, 255, 255, 0.12);
+  --sidebar-bg-color: @oled_window_bg;
+  --sidebar-fg-color: @oled_view_fg;
+  --sidebar-backdrop-color: @oled_window_bg;
+  --sidebar-border-color: @oled_border;
+  --sidebar-shade-color: rgba(255, 255, 255, 0.08);
+  --secondary-sidebar-bg-color: @oled_surface;
+  --secondary-sidebar-fg-color: @oled_view_fg;
+  --secondary-sidebar-backdrop-color: @oled_window_bg;
+  --secondary-sidebar-border-color: @oled_border;
+  --secondary-sidebar-shade-color: rgba(255, 255, 255, 0.08);
+  --card-bg-color: @oled_card_bg;
+  --card-fg-color: @oled_fg;
+  --card-shade-color: rgba(255, 255, 255, 0.12);
+  --dialog-bg-color: @oled_surface;
+  --dialog-fg-color: @oled_fg;
+  --popover-bg-color: @oled_popover_bg;
+  --popover-fg-color: @oled_fg;
+  --popover-shade-color: rgba(255, 255, 255, 0.12);
+  --thumbnail-bg-color: @oled_card_bg;
+  --thumbnail-fg-color: @oled_fg;
+  --shade-color: rgba(255, 255, 255, 0.12);
+  --scrollbar-outline-color: @oled_border;
+}
+
+.card {
+  border: 1px solid @oled_border;
+}
+
+.navigation-sidebar > row:selected,
+.navigation-sidebar > row:hover {
+  background-color: rgba(120, 174, 237, 0.14);
+}

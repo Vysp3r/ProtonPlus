@@ -1,6 +1,6 @@
 #!/bin/sh
+
 set -eu
-ARCH=$(uname -m)
 
 echo "Installing package dependencies..."
 echo "---------------------------------------------------------------"
@@ -19,12 +19,16 @@ pacman -Syu --noconfirm \
     libarchive \
     gettext \
     desktop-file-utils \
+    appstream \
     appstream-glib \
     bluez-libs \
     libnm \
     glib-networking \
     libproxy \
-    patchelf
+    patchelf \
+    sdl3 \
+    libnotify
+
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"

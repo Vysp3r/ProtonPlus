@@ -1,0 +1,24 @@
+[
+  {
+    "id": 3001,
+    "name": "ProtonPlus 0.6.0",
+    "tag_name": "v0.6.0",
+    "description": "  GitLab release notes  ",
+    "_links": {
+      "self": "https://gitlab.com/example/project/-/releases/v0.6.0"
+    },
+    "created_at": "2026-07-25T12:34:56Z",
+    "assets": {
+      "links": [
+        {
+          "id": 3002,
+          "name": "ProtonPlus.flatpak",
+          "content_type": "application/octet-stream",
+          "size": 84,
+          "digest": "sha256:gitlab",
+          "direct_asset_url": "https://gitlab.com/example/project/-/releases/v0.6.0/downloads/ProtonPlus.flatpak?ref_type=heads"
+        }
+      ]
+    }
+  }
+]

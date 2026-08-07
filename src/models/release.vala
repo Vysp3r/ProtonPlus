@@ -1,116 +1,180 @@
 namespace ProtonPlus.Models {
-    public abstract class BaseRelease : Object {
-        public Runner runner { get; set; }
-        public string title { get; set; }
-        public string displayed_title { get; set; }
-        public string description { get; set; }
-        public string release_date { get; set; }
-        public string download_url { get; set; }
-        public string page_url { get; set; }
-        public bool canceled { get; set; }
-        public string progress { get; set; }
-        public double speed_kbps { get; set; }
-        public double? seconds_remaining { get; set; }
-        public bool is_percent { get; set; }
-        public bool is_finished { get; set; default = false; }
-        public bool install_success { get; set; default = false; }
-        public string? error_message { get; set; }
+    /// Provider-neutral remote release metadata.  Installation state belongs to
+    /// Services.InstallJob; keeping this object free of a target context makes
+    /// browse results, update discovery, and cache entries interchangeable.
+    public class Release : Object {
+        public enum Kind {
+            GENERIC,
+            GITHUB_ACTION,
+            STEAM_TINKER_LAUNCH,
+        }
 
-        private State _state;
-        public State state {
-            get {
-                if (_state != State.BUSY_INSTALLING && _state != State.BUSY_REMOVING && _state != State.BUSY_UPDATING) {
-                    var active_download = DownloadManager.instance.get_active_download (this);
-                    if (active_download != null)
-                    return active_download.state;
+        public string title { get; private set; }
+        public string description { get; private set; }
+        public string release_date { get; private set; }
+        public Assets.Asset asset { get; private set; }
+        public string page_url { get; private set; }
+        // Upstream values are opaque and must never be inferred from title.
+        public string upstream_release_id { get; private set; default = ""; }
+        public string source_tag { get; private set; default = ""; }
+        // Retained for callers that consume Release metadata.  Asset is the
+        // sole in-memory owner, so this value cannot diverge from its asset.
+        public int64 download_size { get { return asset.download_size; } }
+        public Kind kind { get; private set; default = Kind.GENERIC; }
+        // This is remote-provider metadata, not an installation concern.
+        public string artifacts_url { get; private set; default = ""; }
+        // A collection is deliberately retained for per-target variant asset
+        // selection.  It contains catalog data only.
+        public Gee.LinkedList<Variant> variants { get; private set; }
+
+        public Release (
+            string title,
+            string description,
+            string release_date,
+            Assets.Asset asset,
+            string page_url,
+            int64? download_size = null,
+            string upstream_release_id = "",
+            string source_tag = "",
+            Kind kind = Kind.GENERIC,
+            string artifacts_url = ""
+        ) {
+            this.title = title;
+            this.description = description;
+            this.release_date = release_date;
+            // The positional size argument is retained for cached releases
+            // and older call sites.  Copying the complete immutable asset
+            // keeps Asset as the single authoritative in-memory owner.
+            this.asset = download_size != null
+                ? new Assets.Asset (asset.name, asset.download_url, (!) download_size)
+                : asset;
+            this.page_url = page_url;
+            this.upstream_release_id = upstream_release_id;
+            this.source_tag = source_tag;
+            this.kind = kind;
+            this.artifacts_url = artifacts_url;
+            this.variants = new Gee.LinkedList<Variant> ();
+        }
+
+        public Json.Object to_json () {
+            var obj = new Json.Object ();
+            obj.set_string_member ("kind", kind_to_string (kind));
+            obj.set_string_member ("title", title);
+            obj.set_string_member ("description", description);
+            obj.set_string_member ("release_date", release_date);
+            obj.set_object_member ("asset", asset.to_json ());
+            obj.set_string_member ("page_url", page_url);
+            obj.set_string_member ("upstream_release_id", upstream_release_id);
+            obj.set_string_member ("source_tag", source_tag);
+            obj.set_int_member ("download_size", download_size);
+            if (artifacts_url != "")
+                obj.set_string_member ("artifacts_url", artifacts_url);
+
+            var variants_array = new Json.Array ();
+            foreach (var variant in variants) {
+                var variant_obj = new Json.Object ();
+                variant_obj.set_string_member ("id", variant.id);
+                variant_obj.set_string_member ("name", variant.name);
+                variant_obj.set_string_member ("format", variant.format);
+                variant_obj.set_boolean_member ("default", variant.is_default);
+                variant_obj.set_string_member ("download_url", variant.download_url ?? "");
+                variant_obj.set_object_member ("compatibility", variant.compatibility.to_json ());
+                variants_array.add_object_element (variant_obj);
+            }
+            obj.set_array_member ("variants", variants_array);
+            return obj;
+        }
+
+        public static Release? from_json (Json.Object? obj) {
+            if (obj == null || !obj.has_member ("kind") || !obj.has_member ("title") || !obj.has_member ("asset"))
+                return null;
+
+            var asset_node = obj.get_member ("asset");
+            if (asset_node == null || asset_node.get_node_type () != Json.NodeType.OBJECT)
+                return null;
+
+            var asset = Assets.Asset.from_json (asset_node.get_object ());
+            if (asset == null)
+                return null;
+
+            var title = obj.get_string_member_with_default ("title", "");
+            var source_tag = obj.get_string_member_with_default ("source_tag", "");
+            var upstream_release_id = obj.get_string_member_with_default ("upstream_release_id", "");
+            var kind_string = obj.get_string_member_with_default ("kind", "");
+            if (title == "" || (upstream_release_id == "" && source_tag == ""))
+                return null;
+
+            // Older cache entries may contain the former virtual Latest row.
+            // It is a target projection now, so never restore it as catalog data.
+            if (kind_string == "latest")
+                return null;
+
+            var release = new Release (
+                title,
+                obj.get_string_member_with_default ("description", ""),
+                obj.get_string_member_with_default ("release_date", ""),
+                asset,
+                obj.get_string_member_with_default ("page_url", ""),
+                obj.has_member ("download_size") ? obj.get_int_member ("download_size") : 0,
+                upstream_release_id,
+                source_tag,
+                kind_from_string (kind_string),
+                obj.get_string_member_with_default ("artifacts_url", "")
+            );
+
+            var variants_array = obj.get_array_member ("variants");
+            if (variants_array != null) {
+                for (var i = 0; i < variants_array.get_length (); i++) {
+                    var variant_obj = variants_array.get_object_element (i);
+                    if (variant_obj == null)
+                        continue;
+
+                    var name = variant_obj.get_string_member_with_default ("name", "");
+                    if (name == "")
+                        continue;
+                    release.variants.add (new Variant (
+                        variant_obj.get_string_member_with_default ("id", ""),
+                        name,
+                        variant_obj.get_string_member_with_default ("format", ""),
+                        variant_obj.has_member ("default") && variant_obj.get_boolean_member ("default"),
+                        variant_obj.get_string_member_with_default ("download_url", ""),
+                        compatibility_from_json (variant_obj)
+                    ));
                 }
-                return _state;
             }
-            set {
-                _state = value;
+            return release;
+        }
+
+        public static string kind_to_string (Kind kind) {
+            switch (kind) {
+            case Kind.GITHUB_ACTION:
+                return "github-action";
+            case Kind.STEAM_TINKER_LAUNCH:
+                return "steam-tinker-launch";
+            default:
+                return "generic";
             }
         }
 
-        public Step step { get; set; }
-
-        public enum Step {
-            NOTHING,
-            DOWNLOADING,
-            EXTRACTING,
-            MOVING,
-            REMOVING,
-        }
-
-        public enum State {
-            NOT_INSTALLED,
-            UPDATE_AVAILABLE,
-            UP_TO_DATE,
-            BUSY_INSTALLING,
-            BUSY_REMOVING,
-            BUSY_UPDATING,
-        }
-
-        public abstract async bool install ();
-        protected abstract async bool _start_install ();
-        public abstract async bool remove (Parameters parameters);
-        protected abstract void refresh_state ();
-    }
-
-    public abstract class Release<R> : BaseRelease {
-        public override async bool install () {
-            if (state != State.BUSY_UPDATING && DownloadManager.instance.is_downloading (this))
-            return false;
-
-            canceled = false;
-            is_finished = false;
-            install_success = false;
-            progress = null;
-            speed_kbps = 0.0;
-            seconds_remaining = null;
-            is_percent = false;
-
-            var busy_updating = state == State.BUSY_UPDATING;
-
-            if (!busy_updating)
-            state = State.BUSY_INSTALLING;
-
-            DownloadManager.instance.add_download (this);
-
-            // Attempt the installation.
-            var success = yield _start_install ();
-
-            this.is_finished = true;
-            this.install_success = success;
-
-            DownloadManager.instance.remove_download (this);
-            DownloadManager.instance.add_to_history (this, success);
-
-            if (!success)
-            yield remove (new Models.Parameters ()); // Refreshes install state too.
-
-            if (!busy_updating)
-            refresh_state (); // Force UI state refresh.
-
-            return success;
-        }
-
-        public override async bool remove (Parameters parameters) {
-            var busy_updating_or_installing = state == State.BUSY_UPDATING || state == State.BUSY_INSTALLING;
-
-            if (!busy_updating_or_installing) {
-                canceled = false;
-                state = State.BUSY_REMOVING;
+        public static Kind kind_from_string (string kind) {
+            switch (kind) {
+            case "github-action":
+                return Kind.GITHUB_ACTION;
+            case "steam-tinker-launch":
+                return Kind.STEAM_TINKER_LAUNCH;
+            default:
+                return Kind.GENERIC;
             }
-
-            // Attempt the removal.
-            var remove_success = yield _start_remove ((R) parameters);
-
-            if (!busy_updating_or_installing)
-            refresh_state (); // Force UI state refresh.
-
-            return remove_success;
         }
 
-        protected abstract async bool _start_remove (R parameters);
+        private static VariantCompatibility compatibility_from_json (Json.Object variant_obj) {
+            if (!variant_obj.has_member ("compatibility"))
+                return VariantCompatibility.unspecified ();
+
+            var node = variant_obj.get_member ("compatibility");
+            if (node == null || node.get_node_type () != Json.NodeType.OBJECT)
+                return VariantCompatibility.unspecified ();
+            return VariantCompatibility.from_json (node.get_object ());
+        }
     }
 }

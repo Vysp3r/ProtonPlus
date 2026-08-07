@@ -1,0 +1,29 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{vala,vapi,gs,metadata,py}]
+indent_style = space
+indent_size = 4
+
+[Makefile]
+indent_style = tab
+
+[meson.build]
+indent_style = space
+indent_size = 4
+
+[*.json]
+indent_style = space
+indent_size = 4
+
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
+
+[{_build,build,build-appimage,build-flatpak,build-native,build-native-debug,build-tests,builddir,dist}/**]
+unset = true
