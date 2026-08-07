@@ -2,7 +2,7 @@ name: Issue Checker
 
 on:
   issues:
-    types: [ opened ]
+    types: [opened]
 
 jobs:
   check-title:
@@ -16,7 +16,7 @@ jobs:
           script: |
             const { owner, repo, number } = context.issue;
             const title = context.payload.issue.title.trim();
-            if (title === '[BUG]' || title === '[FEATURE]') {
+            if (/^\[(BUG|FEATURE)\]:?$/.test(title)) {
               await github.rest.issues.createComment({
                 owner,
                 repo,

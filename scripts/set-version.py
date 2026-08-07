@@ -1,52 +1,95 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from pathlib import Path
+import argparse
 import re
-import sys
+from dataclasses import dataclass
+from pathlib import Path
 
 
-SCRIPT_DIR = Path(__file__).parent.absolute()
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PRERELEASE_PATTERN = r"[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*"
+VERSION_PATTERN = rf"\d+\.\d+\.\d+(?:-{PRERELEASE_PATTERN})?"
 
 
-def die(msg: str) -> None:
-    print(msg)
-    exit(1)
+@dataclass(frozen=True)
+class FileUpdate:
+    path: Path
+    pattern: str
+    replacement: str
 
 
-def file_rgx_replace(
-    rgx: str, replacement: str, file: Path, max_count: int = 1, debug: bool = False
-) -> None:
-    print(f'Patching "{file.name}"...')
-    text = file.read_text(encoding="utf-8")
-    text = re.sub(rgx, replacement, text, max_count)
-    if debug:
-        print(text)
-    else:
-        file.write_text(text, encoding="utf-8")
+def validate_version(value: str) -> str:
+    if re.fullmatch(VERSION_PATTERN, value) is None:
+        raise ValueError(
+            f'Invalid version "{value}". Expected MAJOR.MINOR.PATCH with an '
+            "optional prerelease suffix."
+        )
+    return value
 
 
-new_version: str | None = None
-if len(sys.argv) < 2:
-    die("Usage: set-version.py <version number>\nExample: set-version.py 0.5.23")
+def apply_update(update: FileUpdate) -> str:
+    text = update.path.read_text(encoding="utf-8")
+    updated_text, replacement_count = re.subn(
+        update.pattern,
+        update.replacement,
+        text,
+        count=1,
+    )
+    if replacement_count != 1:
+        raise ValueError(f'Expected one version field in "{update.path}".')
+    return updated_text
 
-new_version = sys.argv[1]
-if re.search(r"^[0-9.\-]+$", new_version) is None:
-    die(f'Invalid version specifier: "{new_version}"')
 
-file_rgx_replace(  # Application version constant.
-    r"(\bversion: ')[0-9.\-]+",
-    rf"version: '{new_version}",
-    SCRIPT_DIR / "../meson.build",
-)
+def build_updates(version: str, project_root: Path = PROJECT_ROOT) -> list[FileUpdate]:
+    return [
+        FileUpdate(
+            path=project_root / "meson.build",
+            pattern=rf"(\bversion: '){VERSION_PATTERN}",
+            replacement=rf"\g<1>{version}",
+        ),
+        FileUpdate(
+            path=project_root / "com.vysp3r.ProtonPlus.yml",
+            pattern=rf"(\btag: v){VERSION_PATTERN}",
+            replacement=rf"\g<1>{version}",
+        ),
+    ]
 
-file_rgx_replace(  # Flathub manifest.
-    r"(\burl: .+?\/ProtonPlus\.git[\s]*\btag:) v[0-9.\-]+",
-    rf"\1 v{new_version}",
-    SCRIPT_DIR / "../com.vysp3r.ProtonPlus.yml",
-)
 
-print(
-    "Remember to perform the following actions manually:\n"
-    f'- Add the version number ("{new_version}") and release notes to "data/com.vysp3r.ProtonPlus.metainfo.xml.in".\n'
-    f'- Then create and publish a new Git tag: "v{new_version}"'
-)
+def parse_arguments() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Update the ProtonPlus version.")
+    parser.add_argument("version", type=validate_version)
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="validate and print changes without writing files",
+    )
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_arguments()
+    updates = build_updates(args.version)
+
+    try:
+        prepared_updates = [(update, apply_update(update)) for update in updates]
+    except (OSError, ValueError) as error:
+        print(f"error: {error}")
+        return 1
+
+    for update, text in prepared_updates:
+        action = "Would patch" if args.dry_run else "Patching"
+        print(f'{action} "{update.path.relative_to(PROJECT_ROOT)}"...')
+        if not args.dry_run:
+            update.path.write_text(text, encoding="utf-8")
+
+    print(
+        "Remember to perform the following actions manually:\n"
+        f'- Add version "{args.version}" and its release notes to '
+        '"data/com.vysp3r.ProtonPlus.metainfo.xml.in".\n'
+        f'- Create and publish the Git tag "v{args.version}".'
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

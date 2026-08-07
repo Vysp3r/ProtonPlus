@@ -16,6 +16,7 @@ namespace ProtonPlus.Widgets.Games {
             protondb_button.clicked.connect (protondb_button_clicked);
 
             anticheat_button = new Gtk.Button.with_label ("AreWeAntiCheatYet");
+            anticheat_button.add_css_class ("anticheat-button");
             anticheat_button.clicked.connect (anticheat_button_clicked);
 
             content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
@@ -24,6 +25,7 @@ namespace ProtonPlus.Widgets.Games {
             popover.set_autohide (true);
             popover.set_parent (this);
             popover.set_child (content_box);
+            Window.register_popover_for_controller (popover, this, open_protontricks_button);
 
             clicked.connect (extra_button_clicked);
 

@@ -40,6 +40,7 @@ using Gtk;
 
             this.title = title_text;
             this.subtitle = subtitle_text;
+            this.set_tooltip_text (subtitle_text);
 
             var string_list = new Gtk.StringList (display_opts);
             this.model = string_list;
@@ -70,7 +71,7 @@ using Gtk;
                 string token = tokens[i];
                 if (token.has_prefix (this.environment_variable_prefix)) {
                     this.value = token.substring (this.environment_variable_prefix.length);
-                    
+
                     consumed[i] = true;
                     break;
                 }

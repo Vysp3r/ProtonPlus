@@ -1,60 +1,43 @@
 namespace ProtonPlus.Models {
     public class Group : Object {
+        public string id { get; private set; }
         public string title { get; set; }
         public string description { get; set; }
         public string directory { get; set; }
         public Launcher launcher { get; set; }
         public Gee.LinkedList<Tool> tools { get; set; }
+        public InstalledToolInventory installed_tool_inventory { get; private set; }
 
-        public Group (string title, string description, string directory, Launcher launcher) {
+        // Kept as the narrow observable boundary used by existing callers.
+        // The inventory owns the state that is invalidated and refreshed.
+        public signal void installed_tool_index_invalidated ();
+        public signal void installed_state_refreshed ();
+
+        public Group (string title, string description, string directory, Launcher launcher, string id = "unknown") {
+            this.id = id;
             this.title = title;
             this.description = description;
             this.directory = directory;
             this.launcher = launcher;
+            installed_tool_inventory = new InstalledToolInventory (this);
 
             if (!FileUtils.test (launcher.directory + directory, FileTest.IS_DIR)) {
                 Utils.Filesystem.create_directory_async.begin (launcher.directory + directory, null);
             }
         }
 
-        public List<string> get_tool_directories () {
-            var directories = new List<string> ();
+        public void refresh_installed_state () {
+            installed_tool_inventory.refresh ();
+            installed_state_refreshed ();
+        }
 
-            try {
-                foreach (var directory_path in launcher.get_tool_directories (this)) {
-                    var compatibilitytoolvdf_path = "%s/compatibilitytool.vdf".printf (directory_path);
+        public void invalidate_installed_state () {
+            installed_tool_inventory.invalidate ();
+            installed_tool_index_invalidated ();
+        }
 
-                    if (FileUtils.test (compatibilitytoolvdf_path, FileTest.IS_REGULAR)) {
-                        var simple_runner = new Tools.Simple.from_path (directory_path);
-                        directories.append (simple_runner.title);
-                        continue;
-                    }
-
-                    if (!FileUtils.test (directory_path, FileTest.IS_DIR)) {
-                        continue;
-                    }
-
-                    File directory = File.new_for_path (directory_path);
-                    FileEnumerator? enumerator = directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
-
-                    if (enumerator != null) {
-                        FileInfo? file_info;
-                        while ((file_info = enumerator.next_file ()) != null) {
-                            if (file_info.get_file_type () != FileType.DIRECTORY)
-                            continue;
-
-                            var title = file_info.get_name ();
-
-                            if (title != "LegacyRuntime")
-                            directories.append (title);
-                        }
-                    }
-                }
-            } catch (Error e) {
-                warning (e.message);
-            }
-
-            return directories;
+        public Gee.List<InstalledToolEntry> get_installed_tool_snapshot () {
+            return installed_tool_inventory.get_snapshot ();
         }
     }
 }

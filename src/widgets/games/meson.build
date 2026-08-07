@@ -4,7 +4,6 @@ sources += files(
     'games-extra-button.vala',
     'games-mass-edit-view.vala',
     'games-mass-edit-button.vala',
-    'games-shortcut-button.vala',
     'games-tool-row.vala',
 )
 

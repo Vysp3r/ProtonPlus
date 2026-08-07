@@ -1,4 +1,3 @@
-buildDir/
 _build/
 .flatpak-builder/
 .flatpak/
@@ -9,6 +8,7 @@ build-native-debug/
 build-tests/
 build/
 build-appimage/
+builddir/
 tmp/
 dist/
 po

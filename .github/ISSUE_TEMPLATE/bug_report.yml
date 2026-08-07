@@ -51,7 +51,7 @@ body:
     id: system-os
     attributes:
       label: "System Information: OS"
-      placeholder: "e.g., Fedora 36"
+      placeholder: "e.g., Fedora Linux"
     validations:
       required: true
 
@@ -59,7 +59,7 @@ body:
     id: system-de
     attributes:
       label: "System Information: DE"
-      placeholder: "e.g., GNOME 42"
+      placeholder: "e.g., GNOME"
     validations:
       required: false
 
@@ -78,7 +78,7 @@ body:
     id: system-version
     attributes:
       label: "System Information: Version"
-      placeholder: "e.g., v0.4.0"
+      placeholder: "e.g., v1.2.3"
     validations:
       required: true
 

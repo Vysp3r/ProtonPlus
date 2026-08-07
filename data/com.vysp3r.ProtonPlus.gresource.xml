@@ -3,13 +3,16 @@
     <gresource prefix="/com/vysp3r/ProtonPlus">
         <file preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/gtk/help-overlay.ui</file>
         <file alias="bottles.svg">images/bottles.svg</file>
+        <file alias="faugus-launcher.svg">images/faugus-launcher.svg</file>
         <file alias="fork.svg">images/fork.svg</file>
         <file alias="hgl.svg">images/hgl.svg</file>
         <file alias="lutris.svg">images/lutris.svg</file>
         <file alias="rocket.svg">images/rocket.svg</file>
         <file alias="steam.svg">images/steam.svg</file>
         <file alias="winezgui.svg">images/winezgui.svg</file>
+        <file alias="com.vysp3r.ProtonPlus.png">icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png</file>
         <file alias="style.css">css/style.css</file>
+        <file alias="status.css">css/status.css</file>
         <file alias="steamos.css">css/steamos.css</file>
         <file alias="oled.css">css/oled.css</file>
         <file alias="breeze-dark.css">css/breeze-dark.css</file>
@@ -39,11 +42,13 @@
         <file alias="scalable/actions/eye-symbolic.svg">icons/eye.svg</file>
         <file alias="scalable/actions/grip-symbolic.svg">icons/grip.svg</file>
         <file alias="scalable/actions/info-2-symbolic.svg">icons/info.svg</file>
+        <file alias="scalable/actions/bookmark-symbolic.svg">icons/bookmark.svg</file>
         <file alias="scalable/actions/flask-symbolic.svg">icons/flask.svg</file>
         <file alias="scalable/actions/right-left-symbolic.svg">icons/right-left.svg</file>
         <file alias="scalable/actions/gitlab-symbolic.svg">icons/gitlab.svg</file>
         <file alias="scalable/actions/palette-2-symbolic.svg">icons/palette.svg</file>
         <file alias="scalable/actions/arrows-rotate-symbolic.svg">icons/arrows-rotate.svg</file>
+        <file alias="scalable/actions/update-check-symbolic.svg">icons/update-check.svg</file>
         <file alias="scalable/actions/layer-group-symbolic.svg">icons/layer-group.svg</file>
         <file alias="scalable/actions/chart-area-symbolic.svg">icons/chart-area.svg</file>
         <file alias="scalable/actions/gauge-high-symbolic.svg">icons/gauge-high.svg</file>

@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
-using Adw;
-using Gtk;
+    using Adw;
+    using Gtk;
 
     public class LaunchOptionRadvPerftest : LaunchOptionCustomPairs {
 
@@ -17,19 +17,22 @@ using Gtk;
             tooltips.insert ("nggc", _ ("Enables Next-Gen Geometry Culling for better geometry performance."));
             tooltips.insert ("gpl", _ ("Graphics Pipeline Library. Drastically reduces shader stuttering."));
             tooltips.insert ("ruse", _ ("Enables User Space Queue submission. Can improve CPU-bound game performance on modern kernels."));
-            tooltips.insert ("emulate_rt", _ ("Emulates hardware Ray Tracing using software compute shaders on AMD GPUs. Enables RT features on unsupported hardware at the cost of a drastic performance drop."));
+            tooltips.insert (
+                "emulate_rt",
+                _ ("Emulates hardware Ray Tracing using software compute shaders on AMD GPUs. Enables RT features on unsupported hardware at the cost of a drastic performance drop.") // vala-lint=line-length
+            );
 
             base (
-                    _ ("AMD RADV Performance Tests"),
-                    _ ("Enable experimental AMD performance features"),
-                    _ ("Enable RADV Perftest"),
-                    _ ("Test bleeding-edge driver optimizations (use with caution)"),
-                    keys,
-                    display_opts,
-                    value_opts,
-                    tooltips,
-                    ",",
-                    "RADV_PERFTEST"
+                _ ("AMD RADV Performance Tests"),
+                _ ("Enable experimental AMD performance features"),
+                _ ("Enable RADV Perftest"),
+                _ ("Test bleeding-edge driver optimizations (use with caution)"),
+                keys,
+                display_opts,
+                value_opts,
+                tooltips,
+                ",",
+                "RADV_PERFTEST"
             );
         }
     }

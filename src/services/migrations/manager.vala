@@ -49,8 +49,14 @@ namespace ProtonPlus.Services.Migrations {
                     try {
                         yield step.migrate ();
                         this.completed_migrations.add (step);
+
+                        // Keep completed migrations from running again if a later
+                        // migration fails. The current version is only recorded
+                        // after the entire migration stack succeeds.
+                        settings.set_string ("last-version", step.version);
                     } catch (GLib.Error e) {
                         critical ("Migration failed during migration to version %s: %s", step.version, e.message);
+                        return;
                     }
                 }
             }

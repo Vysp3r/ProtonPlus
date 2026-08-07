@@ -11,13 +11,13 @@ namespace ProtonPlus.Widgets.Preferences {
         }
 
         construct {
-            var model = new ListStore(typeof (Frequency));
-            model.append (new Frequency(_ ("1h"), 0));
-            model.append (new Frequency(_ ("3h"), 1));
-            model.append (new Frequency(_ ("6h"), 2));
-            model.append (new Frequency(_ ("12h"), 3));
+            var model = new ListStore (typeof (Frequency));
+            model.append (new Frequency (_ ("1h"), 0));
+            model.append (new Frequency (_ ("3h"), 1));
+            model.append (new Frequency (_ ("6h"), 2));
+            model.append (new Frequency (_ ("12h"), 3));
 
-            var expression = new Gtk.PropertyExpression(typeof (Frequency), null, "title");
+            var expression = new Gtk.PropertyExpression (typeof (Frequency), null, "title");
 
             var factory = new Gtk.SignalListItemFactory ();
             factory.setup.connect (factory_setup);
@@ -28,10 +28,8 @@ namespace ProtonPlus.Widgets.Preferences {
             set_expression (expression);
             set_list_factory (factory);
 
-            if (Globals.SETTINGS != null) {
-                var frequency = Globals.SETTINGS.get_enum ("background-updates-frequency");
-                set_selected ((uint) frequency);
-            }
+            var frequency = Globals.SETTINGS.get_enum ("background-updates-frequency");
+            set_selected ((uint) frequency);
 
             notify["selected-item"].connect (selected_item_changed);
         }

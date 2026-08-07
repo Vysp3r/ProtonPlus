@@ -81,14 +81,16 @@ namespace ProtonPlus.Widgets.Tools {
             var popover = new Gtk.Popover ();
             popover.set_child (scrolled);
             games_button.set_popover (popover);
+            Window.register_popover_for_controller (popover, games_button);
 
             var model = new Gtk.StringList (null);
             possible_tools_internal = new Gee.ArrayList<string> ();
 
-            var all_native = games.size > 0;
+            var all_steam_linux_runtime_compatible = games.size > 0;
             foreach (var game in games) {
-                if (!game.is_native) {
-                    all_native = false;
+                var steam_game = game as Models.Games.Steam;
+                if (!game.is_native && (steam_game == null || !steam_game.is_non_steam)) {
+                    all_steam_linux_runtime_compatible = false;
                     break;
                 }
             }
@@ -100,8 +102,9 @@ namespace ProtonPlus.Widgets.Tools {
 
             foreach (var tool in launcher.compatibility_tools) {
                 if (tool.internal_title != current_tool_name) {
-                    if (tool.display_title.contains ("Steam Linux Runtime") && !all_native)
-                    continue;
+                    if (Models.Launchers.Steam.is_steam_linux_runtime (tool.display_title, tool.internal_title)
+                        && !all_steam_linux_runtime_compatible)
+                        continue;
 
                     model.append (tool.display_title);
                     possible_tools_internal.add (tool.internal_title);
@@ -120,9 +123,30 @@ namespace ProtonPlus.Widgets.Tools {
             var new_tool_internal = possible_tools_internal[(int)selected_index];
 
             migrate_button.sensitive = false;
+            var failures = new Gee.ArrayList<string> ();
 
             foreach (var game in games) {
-                game.change_compatibility_tool (new_tool_internal);
+                if (!game.change_compatibility_tool (new_tool_internal))
+                    failures.add (game.name);
+            }
+
+            if (failures.size > 0) {
+                var names = "";
+                foreach (var name in failures) {
+                    if (names != "")
+                        names += "\n";
+
+                    names += "- %s".printf (name);
+                }
+
+                var dialog = new Main.ErrorDialog (
+                    _("Migration Failed"),
+                    _("Some games could not be migrated to the new compatibility tool. This may be due to missing permissions or file access issues."),
+                    names
+                );
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
+                migrate_button.sensitive = true;
+                return;
             }
 
             finished ();

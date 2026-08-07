@@ -37,11 +37,11 @@ namespace ProtonPlus.Widgets.MangoHud {
             presets_flow_box.append (preset_fps_only_btn);
             presets_flow_box.append (preset_custom_btn);
 
-            preset_custom_btn.toggled.connect (() => { if (!is_updating && preset_custom_btn.active) apply_preset (Utils.MangoHudPreset.CUSTOM); });
-            preset_full_btn.toggled.connect (() => { if (!is_updating && preset_full_btn.active) apply_preset (Utils.MangoHudPreset.FULL); });
-            preset_basic_btn.toggled.connect (() => { if (!is_updating && preset_basic_btn.active) apply_preset (Utils.MangoHudPreset.BASIC); });
-            preset_basic_horiz_btn.toggled.connect (() => { if (!is_updating && preset_basic_horiz_btn.active) apply_preset (Utils.MangoHudPreset.BASIC_HORIZONTAL); });
-            preset_fps_only_btn.toggled.connect (() => { if (!is_updating && preset_fps_only_btn.active) apply_preset (Utils.MangoHudPreset.FPS_ONLY); });
+            connect_preset_button (preset_custom_btn, Utils.MangoHudPreset.CUSTOM);
+            connect_preset_button (preset_full_btn, Utils.MangoHudPreset.FULL);
+            connect_preset_button (preset_basic_btn, Utils.MangoHudPreset.BASIC);
+            connect_preset_button (preset_basic_horiz_btn, Utils.MangoHudPreset.BASIC_HORIZONTAL);
+            connect_preset_button (preset_fps_only_btn, Utils.MangoHudPreset.FPS_ONLY);
 
             add_group_to_page (this, _ ("Layouts"), presets_flow_box);
 
@@ -61,16 +61,31 @@ namespace ProtonPlus.Widgets.MangoHud {
             themes_flow_box.append (theme_white_btn);
             themes_flow_box.append (theme_custom_btn);
 
-            theme_stock_btn.toggled.connect (() => { if (!is_updating && theme_stock_btn.active) apply_theme (Utils.MangoHudTheme.STOCK); });
-            theme_white_btn.toggled.connect (() => { if (!is_updating && theme_white_btn.active) apply_theme (Utils.MangoHudTheme.SIMPLE_WHITE); });
-            theme_custom_btn.toggled.connect (() => { if (!is_updating && theme_custom_btn.active) apply_theme (Utils.MangoHudTheme.CUSTOM); });
+            connect_theme_button (theme_stock_btn, Utils.MangoHudTheme.STOCK);
+            connect_theme_button (theme_white_btn, Utils.MangoHudTheme.SIMPLE_WHITE);
+            connect_theme_button (theme_custom_btn, Utils.MangoHudTheme.CUSTOM);
 
             add_group_to_page (this, _ ("Themes"), themes_flow_box);
             refresh ();
         }
 
+        private void connect_preset_button (Gtk.ToggleButton button, Utils.MangoHudPreset preset) {
+            button.toggled.connect (() => {
+                if (!is_updating && button.active)
+                    apply_preset (preset);
+            });
+        }
+
+        private void connect_theme_button (Gtk.ToggleButton button, Utils.MangoHudTheme theme) {
+            button.toggled.connect (() => {
+                if (!is_updating && button.active)
+                    apply_theme (theme);
+            });
+        }
+
         private void apply_preset (Utils.MangoHudPreset preset) {
-            if (is_updating || this.config == null || preset == Utils.MangoHudPreset.CUSTOM) return;
+            if (is_updating || this.config == null || preset == Utils.MangoHudPreset.CUSTOM)
+                return;
 
             is_updating = true;
             this.config.set_preset (preset);
@@ -80,7 +95,8 @@ namespace ProtonPlus.Widgets.MangoHud {
         }
 
         private void apply_theme (Utils.MangoHudTheme theme) {
-            if (is_updating || this.config == null || theme == Utils.MangoHudTheme.CUSTOM) return;
+            if (is_updating || this.config == null || theme == Utils.MangoHudTheme.CUSTOM)
+                return;
 
             is_updating = true;
             this.config.set_theme (theme);
@@ -90,7 +106,9 @@ namespace ProtonPlus.Widgets.MangoHud {
         }
 
         public override void refresh () {
-            if (this.config == null) return;
+            if (this.config == null)
+                return;
+
             var selected_preset = (int) this.config.get_preset ();
             var selected_theme = (int) this.config.get_theme ();
             is_updating = true;

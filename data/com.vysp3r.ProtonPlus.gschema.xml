@@ -15,13 +15,18 @@
         <value nick="12h" value="3"/>
     </enum>
 
-	<enum id="com.vysp3r.ProtonPlus.ProxyMode">
-		<value nick="system" value="0"/>
-		<value nick="manual" value="1"/>
-  </enum>
+    <enum id="com.vysp3r.ProtonPlus.ProxyMode">
+        <value nick="system" value="0"/>
+        <value nick="manual" value="1"/>
+    </enum>
 
-	<enum id="com.vysp3r.ProtonPlus.Language">
-		<value nick="system" value="0"/>
+    <enum id="com.vysp3r.ProtonPlus.ControllerConfirmButton">
+        <value nick="south" value="0"/>
+        <value nick="east" value="1"/>
+    </enum>
+
+    <enum id="com.vysp3r.ProtonPlus.Language">
+        <value nick="system" value="0"/>
         <value nick="ar" value="1"/>
         <value nick="be" value="2"/>
         <value nick="bs" value="3"/>
@@ -48,7 +53,7 @@
         <value nick="zh-CN" value="24"/>
         <value nick="zh-TW" value="25"/>
         <value nick="sk" value="26"/>
-	</enum>
+    </enum>
 
     <schema id="com.vysp3r.ProtonPlus.State" path="/com/vysp3r/ProtonPlus/State/">
         <key name="width" type="i">
@@ -93,9 +98,9 @@
         <key name="theme" enum="com.vysp3r.ProtonPlus.Theme">
             <default>'system'</default>
         </key>
-		<key name="language" enum="com.vysp3r.ProtonPlus.Language">
-			<default>'system'</default>
-		</key>
+        <key name="language" enum="com.vysp3r.ProtonPlus.Language">
+            <default>'system'</default>
+        </key>
         <key name="experimental-features" type="b">
             <default>false</default>
         </key>
@@ -105,12 +110,18 @@
         <key name="migrate-default-prefix" type="b">
             <default>false</default>
         </key>
-		<key name="proxy-mode" enum="com.vysp3r.ProtonPlus.ProxyMode">
-			<default>'system'</default>
-		</key>
-		<key name="proxy-url" type="s">
-			<default>''</default>
-		</key>
+        <key name="proxy-mode" enum="com.vysp3r.ProtonPlus.ProxyMode">
+            <default>'system'</default>
+        </key>
+        <key name="proxy-url" type="s">
+            <default>''</default>
+        </key>
+        <key name="controller-confirm-button" enum="com.vysp3r.ProtonPlus.ControllerConfirmButton">
+            <default>'south'</default>
+        </key>
+        <key name="controller-haptics-enabled" type="b">
+            <default>false</default>
+        </key>
         <key name="last-version" type="s">
             <default>''</default>
             <summary>Last launched version of ProtonPlus</summary>

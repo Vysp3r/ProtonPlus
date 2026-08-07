@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "description": "Permanent mappings from title-derived CLI identifiers to the stable-ID contract.",
+  "launcher_aliases": {
+    "steam-system": "steam-system",
+    "steam-flatpak": "steam-flatpak",
+    "steam-snap": "steam-snap",
+    "lutris-system": "lutris-system",
+    "lutris-flatpak": "lutris-flatpak",
+    "bottles-system": "bottles-system",
+    "bottles-flatpak": "bottles-flatpak",
+    "heroic-games-launcher-system": "heroic-system",
+    "heroic-games-launcher-flatpak": "heroic-flatpak",
+    "winezgui-system": "winezgui-system",
+    "winezgui-flatpak": "winezgui-flatpak"
+  },
+  "tool_aliases": {
+    "boxtron": "boxtron",
+    "dw-proton": "dw-proton",
+    "dxvk-(doitsujin)": "dxvk-doitsujin",
+    "dxvk-(sarek)": "dxvk-sarek",
+    "dxvk-gpl+async-(ph42on)": "dxvk-gplasync-ph42on",
+    "luxtorpeda": "luxtorpeda",
+    "proton-cachyos": "proton-cachyos",
+    "proton-cachyos-wineland": "proton-cachyos-wineland",
+    "proton-em": "proton-em",
+    "proton-ge": "proton-ge",
+    "proton-ge-rtsp": "proton-ge-rtsp",
+    "proton-tkg": "proton-tkg",
+    "roberta": "roberta",
+    "steam-tinker-launch": "steam-tinker-launch",
+    "vkd3d-lutris": "vkd3d-lutris",
+    "vkd3d-proton": "vkd3d-proton",
+    "wine-proton-(kron4ek)": "wine-proton",
+    "wine-staging-(kron4ek)": "wine-staging",
+    "wine-staging-tkg-(kron4ek)": "wine-staging-tkg",
+    "wine-vanilla-(kron4ek)": "wine-vanilla"
+  }
+}

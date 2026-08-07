@@ -11,8 +11,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         LaunchOptionEntryField args_field { get; set; }
         Gtk.Widget cached_page;
 
-        public Gamescope (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers);
+        public Gamescope (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, presentation_registry);
             cached_page = null;
         }
 
@@ -33,13 +33,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             var group = new Adw.PreferencesGroup ();
 
-            fullscreen_tile = create_tile (_("Fullscreen"), _("Runs the game in a fullscreen session."), { "-f" }, true);
+            fullscreen_tile = create_tile (_("Fullscreen"), _("Runs the game in a fullscreen session."), { "-f" }, true, LaunchLineType.WRAPPER_ARGUMENT, "gamescope-fullscreen");
 
-            hdr_tile = create_tile (_("HDR"), _("Outputs HDR colors if your display supports it."), { "--hdr-enabled" }, true);
+            hdr_tile = create_tile (_("HDR"), _("Outputs HDR colors if your display supports it."), { "--hdr-enabled" }, true, LaunchLineType.WRAPPER_ARGUMENT, "gamescope-hdr");
 
-            vrr_tile = create_tile (_("VRR"), _("Matches your display's refresh rate to the game's FPS."), { "--adaptive-sync" }, true);
+            vrr_tile = create_tile (_("Variable refresh rate"), _("Matches your display's refresh rate to the game's FPS."), { "--adaptive-sync" }, true, LaunchLineType.WRAPPER_ARGUMENT, "gamescope-vrr");
 
             framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside Gamescope."), _("FPS"), 30, 360, 60, "-r ");
+            register_option ("gamescope-frame-limit", framerate_tile, framerate_tile);
             framerate_tile.toggle.notify["active"].connect (() => {
                 this.changed ();
             });
@@ -48,6 +49,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             });
 
             resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Sets the Gamescope output resolution."), false, false);
+            register_option ("gamescope-resolution", resolution_field, resolution_field);
             resolution_field.toggle.notify["active"].connect (() => {
                 this.changed ();
             });
@@ -67,7 +69,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             this.add_child (framerate_tile);
             this.add_child (resolution_field);
 
-            args_field = new LaunchOptionEntryField (_("Additional Gamescope arguments"), _("Keeps extra Gamescope flags such as output or resolution tweaks."), _("Add Gamescope arguments"));
+            args_field = new LaunchOptionEntryField (
+                _("Additional Gamescope arguments"),
+                _("Keeps extra Gamescope flags such as output or resolution tweaks."),
+                _("Add Gamescope arguments")
+            );
+            register_option ("gamescope-arguments", args_field);
             args_field.value_applied.connect (() => {
                 this.changed ();
             });
@@ -101,7 +108,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             for (var index = wrapper_index + 1; index < end_index; index++) {
                 var token = tokens[index];
 
-                if (consumed[index])continue;
+                if (consumed[index])
+                    continue;
 
                 if (token == "-f") {
                     fullscreen_tile.toggle.set_active (true);
@@ -145,7 +153,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         }
 
         public override void append_command_segments (Gee.LinkedList<string> segments) {
-            if (!this.is_active ())return;
+            if (!this.is_active ())
+                return;
+
             segments.add ("gamescope");
 
             foreach (var child in this._children) {

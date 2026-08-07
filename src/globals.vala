@@ -2,6 +2,7 @@ namespace ProtonPlus.Globals {
     public static Settings SETTINGS;
     public static bool IS_STEAM_OS;
     public static bool IS_FLATPAK;
+    public static Models.CpuCapabilities CPU_CAPABILITIES;
     public static List<string> HWCAPS;
     public static string CACHE_PATH;
     public static bool PROTONTRICKS_INSTALLED;
@@ -11,6 +12,12 @@ namespace ProtonPlus.Globals {
     public static bool GAMESCOPE_INSTALLED;
     public static bool SCOPEBUDDY_INSTALLED;
     public static bool GAMEMODE_INSTALLED;
+    public static bool GAME_PERFORMANCE_INSTALLED;
+    public static bool OBS_VKCAPTURE_INSTALLED;
+    public static bool OBS_VKCAPTURE_FLATPAK_INSTALLED;
+    public static bool OBS_VKCAPTURE_FLATPAK_PLUGIN_INSTALLED;
+    public static bool VKBASALT_INSTALLED;
+    private static bool loaded = false;
 
     public struct LanguageItem {
         public string code;
@@ -80,6 +87,11 @@ namespace ProtonPlus.Globals {
     }
 
     public static void load () {
+        if (loaded)
+            return;
+
+        loaded = true;
+
         var schema_source = SettingsSchemaSource.get_default ();
 
         if (schema_source != null && SETTINGS == null) {
@@ -94,7 +106,8 @@ namespace ProtonPlus.Globals {
 
         Globals.IS_STEAM_OS = Utils.System.get_distribution_name ().ascii_down () == "steamos";
 
-        Globals.HWCAPS = Utils.System.get_hwcaps ();
+        Globals.CPU_CAPABILITIES = Utils.System.get_cpu_capabilities ();
+        Globals.HWCAPS = Utils.System.get_hwcaps_for_capabilities (Globals.CPU_CAPABILITIES);
 
         Globals.PROTONTRICKS_INSTALLED = Utils.System.check_dependency_sync ("protontricks");
         Globals.PROTONTRICKS_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync ("com.github.Matoking.protontricks");
@@ -106,7 +119,18 @@ namespace ProtonPlus.Globals {
 
         Globals.GAMEMODE_INSTALLED = Utils.System.check_dependency_sync ("gamemoderun");
 
+        Globals.GAME_PERFORMANCE_INSTALLED = Utils.System.check_dependency_sync ("game-performance");
+
+        Globals.OBS_VKCAPTURE_INSTALLED = Utils.System.check_dependency_sync ("obs-gamecapture");
+        Globals.OBS_VKCAPTURE_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync (
+            "org.freedesktop.Platform.VulkanLayer.OBSVkCapture"
+        );
+        Globals.OBS_VKCAPTURE_FLATPAK_PLUGIN_INSTALLED = Utils.System.check_flatpak_dependency_sync (
+            "com.obsproject.Studio.Plugin.OBSVkCapture"
+        );
+
         Globals.SCOPEBUDDY_INSTALLED = Utils.System.check_dependency_sync ("scopebuddy") || Utils.System.check_dependency_sync ("scb");
+        Globals.VKBASALT_INSTALLED = Utils.System.check_dependency_sync ("vkbasalt");
 
         Globals.CACHE_PATH = Path.build_filename (Environment.get_user_cache_dir (), "ProtonPlus");
         if (!FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {

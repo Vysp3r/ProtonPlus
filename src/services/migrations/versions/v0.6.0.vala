@@ -4,10 +4,16 @@ namespace ProtonPlus.Services.Migrations.Versions {
     public class v0_6_0 : Object, IMigration {
         public string version { get; default = "0.6.0"; }
 
-        public async void migrate () {
+        public async void migrate () throws GLib.Error {
             print ("Migration: Performing specific changes for version 0.6.0…\n");
 
-            yield CacheManager.clear_cache ();
+            if (!yield CacheManager.clear_cache ()) {
+                throw new GLib.Error (
+                    GLib.Quark.from_string ("protonplus-migration"),
+                    0,
+                    "Could not clear and recreate the cache directory."
+                );
+            }
         }
 
         public void post_migrate (MigrationContext? context = null) {
@@ -16,7 +22,7 @@ namespace ProtonPlus.Services.Migrations.Versions {
             }
 
             var dialog = new ProtonPlus.Widgets.Introduction.Introduction ();
-            dialog.present (context.window);
+            ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, context.window);
         }
     }
 }

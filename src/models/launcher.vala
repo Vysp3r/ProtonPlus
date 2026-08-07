@@ -1,13 +1,19 @@
 namespace ProtonPlus.Models {
-    using ProtonPlus.Models.Launchers.Runners;
+    using ProtonPlus.Models.Providers;
     public class Launcher : Object {
+        public string family_id { get; private set; }
+        public string instance_id { get; private set; }
+        // Launcher IDs identify the UI selection. Tool target IDs identify the
+        // physical storage location and may intentionally be shared.
+        public string tool_target_family_id { get; private set; }
+        public string tool_target_id { get; private set; }
         public string title;
         public string icon_path;
         public string directory;
         public bool installed;
         public bool has_library_support;
         public List<Game> games;
-        public Gee.LinkedList<Tools.Simple> compatibility_tools;
+        public Gee.LinkedList<CompatibilityTool> compatibility_tools;
 
         public Group[] groups;
 
@@ -20,24 +26,57 @@ namespace ProtonPlus.Models {
             SNAP
         }
 
-        public Launcher (string title, InstallationTypes installation_type, string icon_path, string[] directories) {
+        public Launcher (
+            string title,
+            InstallationTypes installation_type,
+            string icon_path,
+            string[] directories,
+            string family_id = "unknown",
+            string[]? detection_markers = null,
+            string? tool_target_directory = null,
+            string? tool_target_family_id = null,
+            string? tool_target_id = null
+        ) {
+            this.family_id = family_id;
+            this.instance_id = "%s-%s".printf (family_id, get_installation_type_id (installation_type));
+            this.tool_target_family_id = tool_target_family_id ?? family_id;
+            this.tool_target_id = tool_target_id ?? this.instance_id;
             this.title = title;
             this.installation_type = installation_type;
             this.icon_path = icon_path;
             this.directory = "";
 
-            foreach (var current_path in directories) {
-                if (FileUtils.test (current_path, FileTest.IS_DIR)) {
-                    if (!(this is Launchers.Steam) || (FileUtils.test (current_path + "/steamclient.dll", FileTest.IS_REGULAR) && FileUtils.test (current_path + "/steamclient64.dll", FileTest.IS_REGULAR))) {
-                        this.directory = current_path;
-                        break;
-                    }
+            var installed = false;
+            if (detection_markers != null) {
+                foreach (var marker in detection_markers) {
+                    if (!FileUtils.test (marker, FileTest.EXISTS))
+                        continue;
+                    installed = true;
+                    break;
+                }
+            } else {
+                foreach (var current_path in directories) {
+                    if (!FileUtils.test (current_path, FileTest.IS_DIR))
+                        continue;
+
+                    var steam_installation_valid = !(this is Launchers.Steam)
+                                                   || (FileUtils.test (Path.build_filename (current_path, "steamclient.dll"), FileTest.IS_REGULAR)
+                                                       && FileUtils.test (Path.build_filename (current_path, "steamclient64.dll"), FileTest.IS_REGULAR));
+                    if (!steam_installation_valid)
+                        continue;
+
+                    this.directory = current_path;
+                    installed = true;
+                    break;
                 }
             }
 
-            compatibility_tools = new Gee.LinkedList<Tools.Simple> ();
+            if (tool_target_directory != null)
+                this.directory = tool_target_directory;
 
-            installed = directory.length > 0;
+            compatibility_tools = new Gee.LinkedList<CompatibilityTool> ();
+
+            this.installed = installed;
         }
 
         public string get_installation_type_title () {
@@ -53,18 +92,42 @@ namespace ProtonPlus.Models {
             }
         }
 
+        private static string get_installation_type_id (InstallationTypes installation_type) {
+            switch (installation_type) {
+            case InstallationTypes.SYSTEM:
+                return "system";
+            case InstallationTypes.FLATPAK:
+                return "flatpak";
+            case InstallationTypes.SNAP:
+                return "snap";
+            default:
+                return "unknown";
+            }
+        }
+
         public virtual async bool load_game_library () {
             return true;
         }
 
+        /*
+         * A launcher UI identity is not necessarily a Steam installation
+         * identity.  Consumers that need to observe a Steam session use this
+         * narrow, read-only capability instead of inspecting launcher types.
+         */
+        public virtual SteamRestartTarget? get_steam_restart_target () {
+            return null;
+        }
+
         public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
             var _launchers = new Gee.LinkedList<Launcher> ();
-            var runners = new Runners ();
+            var definitions = new ProviderRegistry ();
 
             Launcher[] candidates = {
                 new Launchers.Steam (InstallationTypes.SYSTEM),
                 new Launchers.Steam (InstallationTypes.FLATPAK),
                 new Launchers.Steam (InstallationTypes.SNAP),
+                new Launchers.FaugusLauncher (InstallationTypes.SYSTEM),
+                new Launchers.FaugusLauncher (InstallationTypes.FLATPAK),
                 new Launchers.Lutris (InstallationTypes.SYSTEM),
                 new Launchers.Lutris (InstallationTypes.FLATPAK),
                 new Launchers.Bottles (InstallationTypes.SYSTEM),
@@ -86,7 +149,7 @@ namespace ProtonPlus.Models {
             if (launchers == null || launchers.size == 0)
                 return true;
 
-            var initialized = yield initialize_launchers (launchers, runners);
+            var initialized = yield initialize_launchers (launchers, definitions);
 
             if (!initialized)
                 return false;
@@ -94,38 +157,44 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        public static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers, Runners runners) {
+        public static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers, ProviderRegistry definitions) {
             foreach (var launcher in launchers) {
-                var runner_types = get_runner_types_for_launcher (launcher);
-                if (runner_types == null)
+                var categories = get_categories_for_launcher (launcher);
+                if (categories == null)
                     return false;
 
                 var launcher_groups = new Gee.ArrayList<Group> ();
 
-                foreach (var runner_type in runner_types) {
-                    var group_title = get_group_title (runner_type);
-                    var group_description = get_group_description (runner_type);
-                    var group_directory = get_group_directory (launcher, runner_type);
+                foreach (var category in categories) {
+                    var group_title = get_group_title (category);
+                    var group_description = get_group_description (category);
+                    var group_directory = get_group_directory (launcher, category);
 
                     if (group_directory == null)
+                        return false;
+
+                    if (!yield launcher.ensure_group_directory (group_directory))
                         return false;
 
                     var app_group = new Group (
                                                group_title,
                                                Utils.safe_translate (group_description),
                                                group_directory,
-                                               launcher
+                                               launcher,
+                                               get_group_id (category)
                     );
                     app_group.tools = new Gee.LinkedList<Tool> ();
 
-                    foreach (var runner_data in get_runners_for_type (runners, runner_type)) {
-                        var tool = runner_data.create_tool (app_group);
+                    foreach (var definition in definitions.get (category)) {
+                        if (!launcher.supports_provider_definition (definition))
+                            continue;
+                        var tool = ProviderCatalog.create_tool (definition, app_group);
                         if (tool != null) {
                             app_group.tools.add (tool);
                         }
                     }
 
-                    if (launcher is Launchers.Steam && runner_type == RunnerType.Proton) {
+                    if (launcher is Launchers.Steam && category == Category.PROTON) {
                         app_group.tools.add (new Tools.SteamTinkerLaunch (app_group));
                     }
 
@@ -145,80 +214,91 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        private static Gee.ArrayList<IRunner> get_runners_for_type (Runners runners, RunnerType runner_type) {
-            return runners.getRunners (runner_type);
-        }
-
-        private static RunnerType[]? get_runner_types_for_launcher (Launcher launcher) {
-            if (launcher is Launchers.Steam)
-                return { RunnerType.Proton };
+        private static Category[]? get_categories_for_launcher (Launcher launcher) {
+            if (launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher)
+                return { Category.PROTON };
 
             if (launcher is Launchers.Lutris)
-                return { RunnerType.Proton, RunnerType.Wine, RunnerType.DXVK, RunnerType.VKD3D };
+                return { Category.PROTON, Category.WINE, Category.DXVK, Category.VKD3D };
 
             if (launcher is Launchers.HeroicGamesLauncher)
-                return { RunnerType.Proton, RunnerType.Wine };
+                return { Category.PROTON, Category.WINE };
 
             if (launcher is Launchers.Bottles)
-                return { RunnerType.Proton, RunnerType.Wine, RunnerType.DXVK };
+                return { Category.PROTON, Category.WINE, Category.DXVK };
 
             if (launcher is Launchers.WineZGUI)
-                return { RunnerType.Wine };
+                return { Category.WINE };
 
             return null;
         }
 
-        private static string get_group_title (RunnerType runner_type) {
-            switch (runner_type) {
-            case RunnerType.DXVK:
+        private static string get_group_title (Category category) {
+            switch (category) {
+            case Category.DXVK:
                 return "DXVK";
-            case RunnerType.VKD3D:
+            case Category.VKD3D:
                 return "VKD3D";
-            case RunnerType.Proton:
+            case Category.PROTON:
                 return "Proton";
-            case RunnerType.Wine:
+            case Category.WINE:
                 return "Wine";
             }
 
             return "";
         }
 
-        private static string get_group_description (RunnerType runner_type) {
-            switch (runner_type) {
-            case RunnerType.DXVK:
+        private static string get_group_id (Category category) {
+            switch (category) {
+            case Category.DXVK:
+                return "dxvk";
+            case Category.VKD3D:
+                return "vkd3d";
+            case Category.PROTON:
+                return "proton";
+            case Category.WINE:
+                return "wine";
+            }
+
+            return "unknown";
+        }
+
+        private static string get_group_description (Category category) {
+            switch (category) {
+            case Category.DXVK:
                 return "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine.";
-            case RunnerType.VKD3D:
+            case Category.VKD3D:
                 return "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.";
-            case RunnerType.Proton:
+            case Category.PROTON:
                 return "Compatibility tools by Valve for running Windows software on Linux.";
-            case RunnerType.Wine:
+            case Category.WINE:
                 return "Compatibility tools for running Windows software on Linux.";
             }
 
             return "";
         }
 
-        private static string? get_group_directory (Launcher launcher, RunnerType runner_type) {
-            if (launcher is Launchers.Steam && runner_type == RunnerType.Proton)
+        private static string? get_group_directory (Launcher launcher, Category category) {
+            if ((launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher) && category == Category.PROTON)
                 return "/compatibilitytools.d";
 
             if (launcher is Launchers.Lutris) {
-                switch (runner_type) {
-                case RunnerType.Proton:
-                case RunnerType.Wine:
+                switch (category) {
+                case Category.PROTON:
+                case Category.WINE:
                     return "/runners/wine";
-                case RunnerType.DXVK:
+                case Category.DXVK:
                     return "/runtime/dxvk";
-                case RunnerType.VKD3D:
+                case Category.VKD3D:
                     return "/runtime/vkd3d";
                 }
             }
 
             if (launcher is Launchers.HeroicGamesLauncher) {
-                switch (runner_type) {
-                case RunnerType.Proton:
+                switch (category) {
+                case Category.PROTON:
                     return "/tools/proton";
-                case RunnerType.Wine:
+                case Category.WINE:
                     return "/tools/wine";
                 default:
                     return null;
@@ -226,18 +306,18 @@ namespace ProtonPlus.Models {
             }
 
             if (launcher is Launchers.Bottles) {
-                switch (runner_type) {
-                case RunnerType.Proton:
-                case RunnerType.Wine:
+                switch (category) {
+                case Category.PROTON:
+                case Category.WINE:
                     return "/runners";
-                case RunnerType.DXVK:
+                case Category.DXVK:
                     return "/dxvk";
                 default:
                     return null;
                 }
             }
 
-            if (launcher is Launchers.WineZGUI && runner_type == RunnerType.Wine)
+            if (launcher is Launchers.WineZGUI && category == Category.WINE)
                 return "/Runners";
 
             return null;
@@ -273,8 +353,20 @@ namespace ProtonPlus.Models {
             return directories;
         }
 
+        public virtual async bool ensure_group_directory (string group_directory) {
+            return true;
+        }
+
+        public virtual bool supports_provider_definition (ProviderDefinition definition) {
+            return true;
+        }
+
         public virtual int get_compatibility_tool_usage_count (string compatibility_tool_name) {
             return 0;
         }
+
+        public virtual void register_compatibility_tool_from_path (string tool_path) {}
+
+        public virtual void unregister_compatibility_tool_by_path (string tool_path) {}
     }
 }

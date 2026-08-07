@@ -15228,7 +15228,7 @@ namespace SDL.Gamepad {
     public static SDL.Properties.PropertiesID get_gamepad_properties (Gamepad gamepad);
 
     [CCode (cname = "SDL_GetGamepads")]
-    public static Joystick.JoystickID[] get_gamepads ();
+    public static unowned Joystick.JoystickID[] ? get_gamepads ();
 
     [CCode (cname = "SDL_GetGamepadSensorData")]
     public static bool get_gamepad_sensor_data (Gamepad gamepad, Sensor.SensorType type,

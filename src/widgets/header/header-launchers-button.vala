@@ -31,6 +31,7 @@ namespace ProtonPlus.Widgets.Header {
             popover = new Gtk.Popover ();
             popover.set_child (list_box);
             popover.set_parent (this);
+            Window.register_popover_for_controller (popover, this);
 
             clicked.connect (button_clicked);
 
@@ -49,6 +50,11 @@ namespace ProtonPlus.Widgets.Header {
             var first_row = list_box.get_row_at_index (0);
             if (first_row != null)
             list_box.row_activated (first_row);
+        }
+
+        public override void dispose () {
+            popover.unparent ();
+            base.dispose ();
         }
 
         public void button_clicked () {

@@ -11,11 +11,11 @@ namespace ProtonPlus.Widgets.Preferences {
         }
 
         construct {
-            var model = new ListStore(typeof (ProxyMode));
-            model.append (new ProxyMode(_ ("System proxy"), 0));
-            model.append (new ProxyMode(_ ("Manual proxy"), 1));
+            var model = new ListStore (typeof (ProxyMode));
+            model.append (new ProxyMode (_ ("System proxy"), 0));
+            model.append (new ProxyMode (_ ("Manual proxy"), 1));
 
-            var expression = new Gtk.PropertyExpression(typeof (ProxyMode), null, "title");
+            var expression = new Gtk.PropertyExpression (typeof (ProxyMode), null, "title");
 
             var factory = new Gtk.SignalListItemFactory ();
             factory.setup.connect (factory_setup);
@@ -47,7 +47,6 @@ namespace ProtonPlus.Widgets.Preferences {
 
             if (Globals.SETTINGS != null) {
                 Globals.SETTINGS.set_enum ("proxy-mode", proxy_mode.mode);
-                Utils.Web.update_proxy_settings ();
             }
         }
 

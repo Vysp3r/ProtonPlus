@@ -8,6 +8,9 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: "Build AppImage (${{ matrix.arch }})"
@@ -39,7 +42,8 @@ jobs:
   release:
     if: github.event_name == 'release'
     needs: [build]
-    permissions: write-all
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4

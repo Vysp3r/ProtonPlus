@@ -1,0 +1,514 @@
+namespace ProtonPlus.Services {
+    using ProtonPlus.Models;
+
+    public enum SteamRestartRecordResult {
+        ADDED,
+        UPDATED,
+        REQUIREMENT_CLEARED,
+        UNCHANGED,
+        ALREADY_SATISFIED,
+        PERSISTENCE_FAILED
+    }
+
+    public class SteamRestartManager : Object, SteamChangeRecorder {
+        private SteamSessionService session_service;
+        private SteamRestartStateStore state_store;
+        private Gee.HashMap<string, SteamRestartPendingRecord> pending = new Gee.HashMap<string, SteamRestartPendingRecord> ();
+        private Gee.HashMap<string, SteamRestartTarget> targets = new Gee.HashMap<string, SteamRestartTarget> ();
+        private SteamConfigurationReconciler? configuration_reconciler;
+        private ulong state_changed_handler_id = 0;
+        private bool observation_started = false;
+
+        public string? last_persistence_error { get; private set; default = null; }
+        public string? last_load_error { get; private set; default = null; }
+        public bool is_observing { get { return observation_started; } }
+
+        public signal void pending_changed ();
+        public signal void restart_became_required (SteamRestartTarget target);
+        public signal void restart_requirement_satisfied (SteamRestartTarget target);
+        public signal void persistence_failed (string message);
+
+        public SteamRestartManager (SteamSessionService session_service, SteamRestartStateStore state_store,
+            SteamConfigurationReconciler? configuration_reconciler = null) {
+            this.session_service = session_service;
+            this.state_store = state_store;
+            this.configuration_reconciler = configuration_reconciler;
+            var loaded = state_store.load ();
+            last_load_error = loaded.error;
+            foreach (var record in loaded.records)
+                add_loaded_record (record);
+        }
+
+        /* Configuration service construction needs the manager, so the
+         * composition root connects this narrow seam after both objects exist.
+         * The manager must never reach through the global service instance:
+         * tests and a later app session can provide their own reconciler. */
+        public void configure_configuration_reconciler (SteamConfigurationReconciler? reconciler) {
+            configuration_reconciler = reconciler;
+        }
+
+        ~SteamRestartManager () {
+            stop_observation ();
+        }
+
+        public bool has_pending_restarts () { return pending.size > 0; }
+        public int pending_count () { return pending.size; }
+
+        public int pending_count_for_target (SteamRestartTarget target) {
+            var count = 0;
+            foreach (var record in pending.values) {
+                if (record.receipt.target.id == target.id)
+                    count++;
+            }
+            return count;
+        }
+
+        public Gee.List<SteamRestartPendingRecord> get_pending_changes () {
+            var copy = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            foreach (var record in pending.values)
+                copy.add (record);
+            return copy;
+        }
+
+        public Gee.List<SteamRestartPendingRecord> get_pending_changes_for_target (SteamRestartTarget target) {
+            var copy = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            foreach (var record in pending.values) {
+                if (record.receipt.target.id == target.id)
+                    copy.add (record);
+            }
+            return copy;
+        }
+
+        /* Configuration callers use this narrow lookup to coalesce against
+         * accepted desired state before making an on-disk no-op decision. */
+        public SteamConfigurationIntent? get_pending_configuration_intent (SteamRestartTarget target, string resource_key) {
+            foreach (var record in pending.values) {
+                if (record.receipt.target.id == target.id && record.receipt.resource_key == resource_key)
+                    return record.receipt.configuration_intent;
+            }
+            return null;
+        }
+
+        /* Targets are immutable value objects.  Return a new collection so
+         * presentation code cannot mutate the manager's ownership map. */
+        public Gee.List<SteamRestartTarget> get_pending_targets () {
+            var copy = new Gee.ArrayList<SteamRestartTarget> ();
+            foreach (var target in targets.values)
+                copy.add (target);
+            return copy;
+        }
+
+        public SteamRestartRecordResult record (SteamChangeReceipt receipt) {
+            var snapshot = session_service.inspect (receipt.target);
+            reconcile_snapshot (receipt.target, snapshot);
+            if (is_confirmed_stopped (snapshot))
+                return SteamRestartRecordResult.ALREADY_SATISFIED;
+
+            var key = receipt.deduplication_key;
+            var was_empty = pending_count_for_target (receipt.target) == 0;
+            var existing = pending.get (key);
+            var stable_session = identity_from_snapshot (receipt.target, snapshot);
+            /* A newly installed compatibility tool starts from an absent
+             * resource.  Removing that same resource before Steam restarts
+             * returns it to its baseline, so neither operation still needs a
+             * restart.  A prior removal proves the resource existed before
+             * this pending sequence; do not cancel that remove/reinstall case.
+             * Updates made after a new install are part of the same net-new
+             * resource and are removed atomically with the install receipt. */
+            if (receipt.kind == SteamChangeKind.COMPATIBILITY_TOOL_REMOVED) {
+                var matching_tool_changes = new Gee.ArrayList<SteamRestartPendingRecord> ();
+                var has_pending_install = false;
+                var has_prior_removal = false;
+                foreach (var candidate in pending.values) {
+                    if (candidate.receipt.target.id != receipt.target.id
+                        || candidate.receipt.resource_key != receipt.resource_key)
+                        continue;
+                    switch (candidate.receipt.kind) {
+                    case SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED:
+                        has_pending_install = true;
+                        matching_tool_changes.add (candidate);
+                        break;
+                    case SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED:
+                        matching_tool_changes.add (candidate);
+                        break;
+                    case SteamChangeKind.COMPATIBILITY_TOOL_REMOVED:
+                        has_prior_removal = true;
+                        matching_tool_changes.add (candidate);
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                if (has_pending_install && !has_prior_removal) {
+                    foreach (var removed_record in matching_tool_changes)
+                        pending.unset (removed_record.receipt.deduplication_key);
+                    var target_cleared = pending_count_for_target (receipt.target) == 0;
+                    if (target_cleared)
+                        targets.unset (receipt.target.id);
+                    if (!persist ()) {
+                        foreach (var removed_record in matching_tool_changes)
+                            pending.set (removed_record.receipt.deduplication_key, removed_record);
+                        targets.set (receipt.target.id, receipt.target);
+                        return SteamRestartRecordResult.PERSISTENCE_FAILED;
+                    }
+                    pending_changed ();
+                    if (target_cleared)
+                        restart_requirement_satisfied (receipt.target);
+                    return SteamRestartRecordResult.REQUIREMENT_CLEARED;
+                }
+            }
+            /* Coalesce replayable configuration changes.  A return to the
+             * original field value removes only this pending resource. */
+            if (existing != null && receipt.configuration_intent != null
+                && existing.receipt.configuration_intent != null) {
+                var old_intent = (!) existing.receipt.configuration_intent;
+                var new_intent = (!) receipt.configuration_intent;
+                if (old_intent.desired_present == new_intent.desired_present
+                    && old_intent.desired == new_intent.desired)
+                    return SteamRestartRecordResult.UNCHANGED;
+                var baseline = old_intent.baseline;
+                /* New-format records deliberately omit the raw baseline.  The
+                 * request was read from disk, so it safely restores it for
+                 * this process after its fingerprint has been checked. */
+                if (baseline == "" && old_intent.baseline_fingerprint
+                    == SteamConfigurationIntent.fingerprint (new_intent.baseline, new_intent.baseline_present))
+                    baseline = new_intent.baseline;
+                var merged = new SteamConfigurationIntent (new_intent.file, new_intent.operation,
+                    new_intent.path, new_intent.field_id, baseline, new_intent.desired,
+                    old_intent.baseline_present, new_intent.desired_present, old_intent.baseline_fingerprint);
+                if (merged.desired_present == merged.baseline_present
+                    && merged.desired == merged.baseline) {
+                    var removed = new Gee.ArrayList<SteamRestartPendingRecord> ();
+                    removed.add (existing);
+                    /* v2 state written by the earlier implementation could
+                     * contain a separate missing-shortcuts-file prerequisite.
+                     * A reverted create must remove it in the same durable
+                     * transaction, otherwise reconciliation could create an
+                     * empty file after the user chose to undo the shortcut. */
+                    if (merged.operation == SteamConfigurationOperation.SHORTCUT_PRESENCE
+                        && !merged.baseline_present && !merged.desired_present) {
+                        foreach (var candidate in pending.values) {
+                            var candidate_intent = candidate.receipt.configuration_intent;
+                            if (candidate_intent != null
+                                && ((!) candidate_intent).operation == SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT
+                                && ((!) candidate_intent).path == merged.path)
+                                removed.add (candidate);
+                        }
+                    }
+                    foreach (var removed_record in removed)
+                        pending.unset (removed_record.receipt.deduplication_key);
+                    var target_cleared = pending_count_for_target (receipt.target) == 0;
+                    if (target_cleared) targets.unset (receipt.target.id);
+                    if (!persist ()) {
+                        foreach (var removed_record in removed)
+                            pending.set (removed_record.receipt.deduplication_key, removed_record);
+                        targets.set (receipt.target.id, receipt.target);
+                        return SteamRestartRecordResult.PERSISTENCE_FAILED;
+                    }
+                    pending_changed ();
+                    if (target_cleared) restart_requirement_satisfied (receipt.target);
+                    return SteamRestartRecordResult.REQUIREMENT_CLEARED;
+                }
+                var merged_receipt = new SteamChangeReceipt (receipt.target, receipt.kind,
+                    receipt.restart_requirement, receipt.resource_key, receipt.subject_id,
+                    receipt.subject_label, receipt.changed_at, merged);
+                var replacement = updated_record (existing, merged_receipt, stable_session);
+                pending.set (key, replacement);
+                if (!persist ()) {
+                    pending.set (key, existing);
+                    return SteamRestartRecordResult.PERSISTENCE_FAILED;
+                }
+                pending_changed ();
+                return SteamRestartRecordResult.UPDATED;
+            }
+            if (existing == null) {
+                pending.set (key, new SteamRestartPendingRecord (receipt, receipt.changed_at, receipt.changed_at, 1, stable_session));
+                targets.set (receipt.target.id, receipt.target);
+            } else {
+                pending.set (key, updated_record (existing, receipt, stable_session));
+            }
+            if (!persist ()) {
+                /* A staged-only value exists nowhere but this state file.  Do
+                 * not leave a false in-memory success when durability fails. */
+                if (existing == null) {
+                    pending.unset (key);
+                    if (pending_count_for_target (receipt.target) == 0)
+                        targets.unset (receipt.target.id);
+                } else {
+                    pending.set (key, existing);
+                }
+                return SteamRestartRecordResult.PERSISTENCE_FAILED;
+            }
+            watch_target (receipt.target);
+            pending_changed ();
+            if (was_empty)
+                restart_became_required (receipt.target);
+            return existing == null ? SteamRestartRecordResult.ADDED : SteamRestartRecordResult.UPDATED;
+        }
+
+        public void start_observation () {
+            if (observation_started)
+                return;
+            state_changed_handler_id = session_service.state_changed.connect ((target, snapshot) => {
+                reconcile_snapshot (target, snapshot);
+            });
+            /* Reconciliation may satisfy the final receipt and remove this
+             * target.  Iterate the existing defensive copy rather than
+             * mutating the target map through its live iterator. */
+            foreach (var target in get_pending_targets ()) {
+                session_service.watch_target (target);
+                reconcile_startup_target (target);
+            }
+            session_service.start_monitoring ();
+            observation_started = true;
+        }
+
+        public void stop_observation () {
+            if (!observation_started)
+                return;
+            if (state_changed_handler_id != 0) {
+                session_service.disconnect (state_changed_handler_id);
+                state_changed_handler_id = 0;
+            }
+            session_service.stop_monitoring ();
+            observation_started = false;
+        }
+
+        public void reconcile_target (SteamRestartTarget target) {
+            reconcile_snapshot (target, session_service.inspect (target));
+        }
+
+        /* At application startup, a confirmed stopped Steam target already
+         * satisfies the user's restart requirement: installation changes will
+         * be discovered on the next launch.  Replayable configuration must be
+         * reconciled successfully before its reminder can be cleared. */
+        private void reconcile_startup_target (SteamRestartTarget target) {
+            var snapshot = session_service.inspect (target);
+            if (snapshot.target_id != target.id || pending_count_for_target (target) == 0)
+                return;
+            if (!is_confirmed_stopped (snapshot)) {
+                reconcile_snapshot (target, snapshot);
+                return;
+            }
+
+            var records = get_pending_changes_for_target (target);
+            var has_configuration_intent = false;
+            foreach (var record in records) {
+                if (record.receipt.configuration_intent != null) {
+                    has_configuration_intent = true;
+                    break;
+                }
+            }
+            if (has_configuration_intent) {
+                var configuration = configuration_reconciler;
+                if (configuration == null) {
+                    mark_stop_observed (target);
+                    return;
+                }
+                var outcome = ((!) configuration).reconcile_target (target);
+                if (outcome.result != SteamConfigurationMutationResult.CHANGED
+                    && outcome.result != SteamConfigurationMutationResult.UNCHANGED) {
+                    mark_stop_observed (target);
+                    return;
+                }
+            }
+            clear_records (records);
+        }
+
+        /* Outside the initial startup reconciliation, a target clears only
+         * after a demonstrated new stable session.  A disappearance is merely
+         * a stop observation: it is not a restart.
+         * Native identity requires boot ID, start ticks, and PID; Flatpak
+         * identity requires the exact instance ID.  Heuristic or incomplete
+         * observations therefore cannot satisfy a pending requirement. */
+        public void reconcile_snapshot (SteamRestartTarget target, SteamSessionSnapshot snapshot) {
+            if (snapshot.target_id != target.id || pending_count_for_target (target) == 0)
+                return;
+            if (is_confirmed_stopped (snapshot)) {
+                mark_stop_observed (target);
+                /* A manually observed stop is authorization to reconcile the
+                 * already-persisted intent; it never implies a relaunch. */
+                var configuration = configuration_reconciler;
+                var has_configuration_intent = false;
+                foreach (var record in get_pending_changes_for_target (target)) {
+                    if (record.receipt.configuration_intent != null) {
+                        has_configuration_intent = true;
+                        break;
+                    }
+                }
+                if (has_configuration_intent && configuration != null)
+                    configuration.reconcile_target (target);
+                return;
+            }
+            if (snapshot.state != SteamSessionState.RUNNING)
+                return;
+            var current = identity_from_snapshot (target, snapshot);
+            if (current == null)
+                return;
+            var configuration_needs_verification = false;
+            foreach (var record in get_pending_changes_for_target (target)) {
+                if (record.receipt.configuration_intent == null) continue;
+                var recorded = record.observed_session;
+                if ((recorded == null && record.stop_observed)
+                    || (recorded != null && !recorded.equals ((!) current))) {
+                    configuration_needs_verification = true;
+                    break;
+                }
+            }
+            if (configuration_needs_verification) {
+                var configuration = configuration_reconciler;
+                if (configuration != null)
+                    configuration.verify_target_after_session (target);
+            }
+            var cleared = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            foreach (var record in get_pending_changes_for_target (target)) {
+                if (record.receipt.configuration_intent != null)
+                    continue;
+                var recorded = record.observed_session;
+                /* A prior stable identity must change even after a confirmed
+                 * stop.  Stop evidence alone only permits clearance when the
+                 * receipt was recorded without a stable session identity. */
+                if ((recorded == null && record.stop_observed)
+                    || (recorded != null && !recorded.equals ((!) current)))
+                    cleared.add (record);
+            }
+            if (cleared.size == 0)
+                return;
+            foreach (var record in cleared)
+                pending.unset (record.receipt.deduplication_key);
+            var target_cleared = pending_count_for_target (target) == 0;
+            if (target_cleared)
+                targets.unset (target.id);
+            /* Clearing a receipt is just as transactional as recording one:
+             * a failed save must not emit a false satisfaction transition or
+             * leave a staged-only in-memory result. */
+            if (!persist ()) {
+                foreach (var record in cleared)
+                    pending.set (record.receipt.deduplication_key, record);
+                targets.set (target.id, target);
+                return;
+            }
+            pending_changed ();
+            if (target_cleared)
+                restart_requirement_satisfied (target);
+        }
+
+        /* Configuration records require on-disk verification by the service;
+         * a process generation alone is deliberately not enough evidence. */
+        public bool clear_verified_configuration (SteamRestartPendingRecord record) {
+            var records = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            records.add (record);
+            return clear_verified_configurations (records);
+        }
+
+        /* Verification may cover several fields for one target.  Remove them
+         * as one durable transition so a state-store failure leaves precisely
+         * the pre-verification set of pending receipts in memory and on disk. */
+        public bool clear_verified_configurations (Gee.Collection<SteamRestartPendingRecord> records) {
+            if (records.size == 0)
+                return true;
+            foreach (var record in records) {
+                if (record.receipt.configuration_intent == null)
+                    return false;
+            }
+            return clear_records (records);
+        }
+
+        private void mark_stop_observed (SteamRestartTarget target) {
+            var material_change = false;
+            foreach (var record in get_pending_changes_for_target (target))
+                material_change |= record.mark_stop_observed ();
+            if (material_change) {
+                pending_changed ();
+                persist ();
+            }
+        }
+
+        private bool clear_records (Gee.Collection<SteamRestartPendingRecord> records) {
+            if (records.size == 0)
+                return true;
+            var removed = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            var affected_targets = new Gee.HashMap<string, SteamRestartTarget> ();
+            foreach (var record in records) {
+                var key = record.receipt.deduplication_key;
+                var current = pending.get (key);
+                if (current == null || current != record)
+                    return false;
+                removed.add (record);
+                affected_targets.set (record.receipt.target.id, record.receipt.target);
+            }
+            foreach (var record in removed)
+                pending.unset (record.receipt.deduplication_key);
+            var cleared_targets = new Gee.ArrayList<SteamRestartTarget> ();
+            foreach (var target in affected_targets.values) {
+                if (pending_count_for_target (target) == 0) {
+                    targets.unset (target.id);
+                    cleared_targets.add (target);
+                }
+            }
+            if (!persist ()) {
+                foreach (var record in removed)
+                    pending.set (record.receipt.deduplication_key, record);
+                foreach (var target in affected_targets.values)
+                    targets.set (target.id, target);
+                return false;
+            }
+            pending_changed ();
+            foreach (var target in cleared_targets)
+                restart_requirement_satisfied (target);
+            return true;
+        }
+
+        private void add_loaded_record (SteamRestartPendingRecord record) {
+            var key = record.receipt.deduplication_key;
+            if (pending.has_key (key))
+                return;
+            pending.set (key, record);
+            targets.set (record.receipt.target.id, record.receipt.target);
+            watch_target (record.receipt.target);
+        }
+
+        private SteamRestartPendingRecord updated_record (SteamRestartPendingRecord old,
+            SteamChangeReceipt receipt, SteamSessionIdentity? session) {
+            var observed = old.observed_session;
+            if (observed == null && session != null)
+                observed = session;
+            return new SteamRestartPendingRecord (receipt, old.first_recorded_at,
+                receipt.changed_at, old.occurrence_count + 1, observed, old.stop_observed);
+        }
+
+        private void watch_target (SteamRestartTarget target) {
+            session_service.watch_target (target);
+        }
+
+        private bool persist () {
+            if (state_store.save (pending.values)) {
+                last_persistence_error = null;
+                return true;
+            }
+            last_persistence_error = state_store.last_error ?? "Unable to save Steam restart state.";
+            persistence_failed ((!) last_persistence_error);
+            return false;
+        }
+
+        private bool is_confirmed_stopped (SteamSessionSnapshot snapshot) {
+            return snapshot.state == SteamSessionState.STOPPED
+                && snapshot.state_confidence == SteamEvidenceLevel.CONFIRMED;
+        }
+
+        private SteamSessionIdentity? identity_from_snapshot (SteamRestartTarget target, SteamSessionSnapshot snapshot) {
+            if (snapshot.state != SteamSessionState.RUNNING || snapshot.state_confidence != SteamEvidenceLevel.CONFIRMED)
+                return null;
+            if (target.installation_kind == SteamInstallationKind.FLATPAK) {
+                if (snapshot.flatpak_instance_id == null || snapshot.flatpak_instance_id == "")
+                    return null;
+                return new SteamSessionIdentity (null, 0, 0, snapshot.flatpak_instance_id);
+            }
+            var generation = snapshot.generation;
+            if (generation == null || generation.boot_id == null || generation.boot_id == ""
+                || generation.start_time_ticks <= 0 || generation.pid <= 0)
+                return null;
+            return new SteamSessionIdentity (generation.boot_id, generation.start_time_ticks, generation.pid, null);
+        }
+    }
+}

@@ -45,9 +45,9 @@ namespace ProtonPlus.Widgets {
             }
         }
 
-        public void pulse () {
+        public void pulse (double offset = 0.05) {
             _is_pulsing = true;
-            _pulse_offset += 0.05;
+            _pulse_offset += offset;
             if (_pulse_offset > 2.0) {
                 _pulse_offset -= 2.0;
             }

@@ -61,11 +61,13 @@ namespace ProtonPlus.Utils.Internal {
                 } else {
                     // Fallback to filesystem
                     GLib.File? file = get_metafile ();
-                    if (file == null)return null;
+                    if (file == null)
+                        return null;
                     mdata.parse_file (file, AppStream.FormatKind.XML);
                 }
                 var component = mdata.get_component ();
-                if (component == null)return null;
+                if (component == null)
+                    return null;
 
                 model = new Models.Internal.MetaInfo ();
 
@@ -78,7 +80,8 @@ namespace ProtonPlus.Utils.Internal {
                 var releases = component.get_releases_plain ();
 
                 foreach (var rel in releases.get_entries ()) {
-                    if (rel == null)continue;
+                    if (rel == null)
+                        continue;
 
                     string version = rel.get_version ();
 

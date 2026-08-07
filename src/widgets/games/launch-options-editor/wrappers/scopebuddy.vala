@@ -12,8 +12,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         List<LaunchOptionBinding> bindings;
         Gtk.Widget cached_page;
 
-        public Scopebuddy (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers);
+        public Scopebuddy (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, presentation_registry);
             bindings = new List<LaunchOptionBinding> ();
             cached_page = null;
         }
@@ -35,22 +35,23 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                 return cached_page;
             }
 
-            fullscreen_tile = create_tile (_("Fullscreen"), _("Runs the game in a fullscreen session."), { "-f" }, true);
+            fullscreen_tile = create_tile (_("Fullscreen"), _("Runs the game in a fullscreen session."), { "-f" }, true, LaunchLineType.WRAPPER_ARGUMENT, "scopebuddy-fullscreen");
             fullscreen_tile.toggle.notify["active"].connect (() => {
                 this.changed ();
             });
 
-            auto_hdr_tile = create_tile (_("Auto HDR"), _("Outputs HDR colors if your display supports it."), { "SCB_AUTO_HDR=1" }, true);
+            auto_hdr_tile = create_tile (_("Automatic HDR"), _("Outputs HDR colors if your display supports it."), { "SCB_AUTO_HDR=1" }, true, LaunchLineType.ENVIRONMENT, "scopebuddy-auto-hdr");
             auto_hdr_tile.toggle.notify["active"].connect (() => {
                 this.changed ();
             });
 
-            auto_vrr_tile = create_tile (_("VRR"), _("Matches your display's refresh rate to the game's FPS."), { "SCB_AUTO_VRR=1" }, true);
+            auto_vrr_tile = create_tile (_("Automatic variable refresh rate"), _("Matches your display's refresh rate to the game's FPS."), { "SCB_AUTO_VRR=1" }, true, LaunchLineType.ENVIRONMENT, "scopebuddy-auto-vrr");
             auto_vrr_tile.toggle.notify["active"].connect (() => {
                 this.changed ();
             });
 
             framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside ScopeBuddy."), _("FPS"), 30, 360, 60, "-r ");
+            register_option ("scopebuddy-frame-limit", framerate_tile, framerate_tile);
             framerate_tile.toggle.notify["active"].connect (() => {
                 this.changed ();
             });
@@ -72,8 +73,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                 this.changed ();
             });
             launch_option_handlers.add (resolution_field);
+            register_option ("scopebuddy-resolution", resolution_field, resolution_field);
 
-            args_field = new LaunchOptionEntryField (_("Additional ScopeBuddy arguments"), _("Keeps extra ScopeBuddy flags such as preferred output selection."), _("Add ScopeBuddy arguments"));
+            args_field = new LaunchOptionEntryField (
+                _("Additional ScopeBuddy arguments"),
+                _("Keeps extra ScopeBuddy flags such as preferred output selection."),
+                _("Add ScopeBuddy arguments")
+            );
+            register_option ("scopebuddy-arguments", args_field);
             args_field.value_applied.connect (() => {
                 this.changed ();
             });
@@ -119,7 +126,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             var extra_args = new StringBuilder ();
 
             for (var index = wrapper_index + 1; index < end_index; index++) {
-                if (consumed[index])continue;
+                if (consumed[index])
+                    continue;
 
                 if (tokens[index] == "-f") {
                     fullscreen_tile.toggle.set_active (true);
@@ -147,8 +155,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         }
 
         public override void append_command_segments (Gee.LinkedList<string> segments) {
-            if (!this.is_active ())return;
-            print ("Appending scopebuddy segments.\n");
+            if (!this.is_active ())
+                return;
+
             segments.add ("scopebuddy");
 
             foreach (var child in this._children) {

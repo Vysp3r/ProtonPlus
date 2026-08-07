@@ -4,10 +4,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     public class GpuVendorIntelOptionsGroup : BaseOptionsGroup {
         LaunchOptionTile intel_xess_upgrade_tile { get; set; }
 
-        public GpuVendorIntelOptionsGroup (LaunchOptionsList launch_option_handlers) {
-            base (launch_option_handlers, true);
+        public GpuVendorIntelOptionsGroup (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            base (launch_option_handlers, true, presentation_registry, false);
 
-            intel_xess_upgrade_tile = create_tile (_("XeSS Upgrade"), _("Upgrades XeSS in supported games."), { "PROTON_XESS_UPGRADE=1" }, false);
+            intel_xess_upgrade_tile = create_tile (_("XeSS component upgrade"), _("Upgrades XeSS in supported games."), { "PROTON_XESS_UPGRADE=1" }, false, LaunchLineType.ENVIRONMENT, "intel-xess");
 
             this.add (intel_xess_upgrade_tile);
         }
@@ -16,8 +16,5 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             intel_xess_upgrade_tile.toggle.set_active (false);
         }
 
-        internal bool is_any_tile_active () {
-            return intel_xess_upgrade_tile.toggle.get_active ();
-        }
     }
 }

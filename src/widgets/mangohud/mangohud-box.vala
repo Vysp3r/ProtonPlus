@@ -74,7 +74,7 @@ namespace ProtonPlus.Widgets.MangoHud {
             var cube_button_content = new Adw.ButtonContent ();
             cube_button_content.set_label (_ ("Preview"));
             cube_button_content.set_icon_name ("cube-symbolic");
-            var cube_button = new Gtk.Button() {
+            var cube_button = new Gtk.Button () {
                 valign = Gtk.Align.CENTER,
                 child = cube_button_content,
             };
@@ -109,7 +109,7 @@ namespace ProtonPlus.Widgets.MangoHud {
                 }
                 string[] argv;
                 GLib.Shell.parse_argv (command, out argv);
-                GLib.Process.spawn_async (null, argv, null, GLib.SpawnFlags.SEARCH_PATH | GLib.SpawnFlags.DO_NOT_REAP_CHILD, null, null);
+                GLib.Process.spawn_async (null, argv, null, GLib.SpawnFlags.SEARCH_PATH, null, null);
             } catch (GLib.Error e) {
                 warning (e.message);
             }

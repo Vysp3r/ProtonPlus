@@ -7,6 +7,7 @@ sources += files(
     'preferences-background-updates-frequency-row.vala',
     'preferences-tool-row.vala',
     'preferences-steam-profile-row.vala',
+    'preferences-steam-shortcut-row.vala',
     'proxy-mode-row.vala',
     'preferences-language-row.vala',
 )

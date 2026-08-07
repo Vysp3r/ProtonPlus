@@ -11,15 +11,15 @@ namespace ProtonPlus.Widgets.Preferences {
         }
 
         construct {
-            var model = new ListStore(typeof (Theme));
-            model.append (new Theme(_ ("System"), 0));
-            model.append (new Theme(_ ("Adwaita"), 1));
-            model.append (new Theme(_ ("Breeze"), 2));
-            model.append (new Theme(_ ("SteamOS"), 3));
-            model.append (new Theme(_ ("OLED"), 4));
+            var model = new ListStore (typeof (Theme));
+            model.append (new Theme (_ ("System"), 0));
+            model.append (new Theme (_ ("Adwaita"), 1));
+            model.append (new Theme (_ ("Breeze"), 2));
+            model.append (new Theme (_ ("SteamOS"), 3));
+            model.append (new Theme (_ ("OLED"), 4));
 
 
-            var expression = new Gtk.PropertyExpression(typeof (Theme), null, "title");
+            var expression = new Gtk.PropertyExpression (typeof (Theme), null, "title");
 
             var factory = new Gtk.SignalListItemFactory ();
             factory.setup.connect (factory_setup);

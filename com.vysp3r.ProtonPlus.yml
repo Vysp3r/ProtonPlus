@@ -7,6 +7,7 @@ sdk-extensions:
 command: protonplus
 finish-args:
   - --device=dri
+  - --device=input
   - --share=ipc
   - --share=network
   - --socket=fallback-x11
@@ -19,10 +20,13 @@ finish-args:
   # Required GNOME/GTK permissions.
   - --talk-name=org.gtk.vfs.*
   - --filesystem=xdg-run/gvfsd
-  # Required since we don't know where the user have it's Steam library installed
+  # Required because Steam libraries can be installed anywhere on the host.
   - --filesystem=host
   # Request access to supported Flatpak apps
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic
+  - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/config/faugus-launcher:ro
+  - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/data/faugus-launcher:ro
+  - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/.local/state/faugus-launcher:ro
   - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles
   - --filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam
   - --filesystem=~/.var/app/net.lutris.Lutris/data/lutris
@@ -34,12 +38,13 @@ cleanup:
   - /include
   - /lib/pkgconfig
   - /man
+  - /share/aclocal
   - /share/gtk-doc
   - /share/man
   - /share/pkgconfig
   - /share/vala
-  - '*.la'
   - '*.a'
+  - '*.la'
 modules:
   - name: ProtonPlus
     builddir: true
@@ -47,7 +52,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/Vysp3r/ProtonPlus.git
-        tag: v0.5.21
+        tag: v0.5.22
         x-checker-data:
           type: git
           tag-pattern: ^v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.\-]+)?)$

@@ -4,6 +4,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
         construct {
             set_tooltip_text (_ ("Enter an access token to reduce your chances of being rate limited"));
+            Utils.TextInputMetadataPolicy.apply (this, Utils.TextInputFieldKind.SECRET);
         }
 
         public AccessTokenRow (string source, string icon_name, string token_url = "") {

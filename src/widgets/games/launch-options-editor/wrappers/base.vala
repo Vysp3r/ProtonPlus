@@ -3,6 +3,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
     public abstract class Base : Object, ILaunchOption {
         protected unowned LaunchOptionsList launch_option_handlers;
+        protected unowned LaunchOptionPresentationRegistry? presentation_registry;
         public signal void changed ();
         public bool is_advanced { get; set; }
         public LaunchLineType line_type { get; set; }
@@ -10,8 +11,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
         public bool active { get; set; }
 
-        protected Base (LaunchOptionsList launch_option_handlers) {
+        protected Base (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
             this.launch_option_handlers = launch_option_handlers;
+            this.presentation_registry = presentation_registry;
             this.line_type = LaunchLineType.WRAPPER;
             this._children = new Gee.ArrayList<ILaunchOption> ();
             this.is_advanced = false;
@@ -24,7 +26,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             string subtitle,
             string[] tokens,
             bool is_advanced = false,
-            LaunchLineType type = LaunchLineType.WRAPPER_ARGUMENT
+            LaunchLineType type = LaunchLineType.WRAPPER_ARGUMENT,
+            string id = ""
         ) {
             var tile = new LaunchOptionTile (title, subtitle, tokens, is_advanced, type);
             tile.toggle.notify["active"].connect (() => {
@@ -32,8 +35,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             });
 
             this.add_child (tile);
+            if (id != "" && presentation_registry != null)
+                presentation_registry.register (id, tile, tile, false);
 
             return tile;
+        }
+
+        protected void register_option (string id, Gtk.Widget widget, ILaunchOption? option = null) {
+            if (presentation_registry != null)
+                presentation_registry.register (id, widget, option, false);
         }
 
         internal int get_wrapper_end_index (string[] tokens, int wrapper_index, bool[] consumed) {
@@ -71,15 +81,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                 output.append (" ");
 
             output.append (token);
-        }
-
-        internal int get_unconsumed_token_index (string[] tokens, string token, bool[] consumed) {
-            for (var index = 0; index < tokens.length; index++) {
-                if (!consumed[index] && tokens[index] == token)
-                    return index;
-            }
-
-            return -1;
         }
 
         public void add_child (ILaunchOption child) {

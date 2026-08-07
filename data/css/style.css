@@ -26,14 +26,6 @@
     color: var(--accent-red);
 }
 
-.apply-button {
-    color: var(--accent-blue);
-}
-
-.donate-button, .clear-button {
-    color: var(--accent-red);
-}
-
 .list-header {
     padding: 12px;
     border-bottom-left-radius: 0;
@@ -49,6 +41,10 @@
     box-shadow: none;
 }
 
+.games-filter-active {
+    color: var(--accent-bg-color);
+}
+
 .list-content {
     box-shadow: none;
 }
@@ -57,6 +53,38 @@
 .list-content > row:first-child {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+.selection-popover-content {
+    min-width: 220px;
+    padding: 12px;
+}
+
+.selection-popover-list > row {
+    background: transparent;
+    border-radius: 8px;
+}
+
+.selection-popover-list > row:hover {
+    background-color: alpha(var(--accent-bg-color), 0.08);
+}
+
+.selection-popover-row {
+    min-height: 28px;
+    padding: 6px 8px;
+}
+
+.selection-popover-row image {
+    color: var(--accent-bg-color);
+}
+
+.launch-options-preview-surface {
+    background-color: alpha(var(--window-fg-color), 0.04);
+    border-radius: 8px;
+}
+
+.launch-options-preview-empty {
+    min-height: 24px;
 }
 
 .card {
@@ -86,7 +114,42 @@ flowboxchild {
     box-shadow: inset 0 0 0 2px var(--accent-bg-color);
 }
 
-.info-pill, .usage-pill, .tag-pill, .variant-pill {
+button.controller-focus,
+menubutton.controller-focus > button {
+    color: var(--accent-fg-color);
+    background-color: var(--accent-bg-color);
+    outline: 2px solid var(--accent-color);
+    outline-offset: 1px;
+    box-shadow: 0 0 0 2px alpha(var(--accent-bg-color), 0.3);
+}
+
+.controller-hint-bar {
+    min-height: 42px;
+    padding: 8px 12px;
+    color: var(--window-fg-color);
+    background-color: var(--headerbar-bg-color);
+    border-top: 1px solid var(--headerbar-shade-color);
+}
+
+.controller-hint-button {
+    min-width: 20px;
+    min-height: 20px;
+    padding: 1px 6px;
+    border-radius: 9999px;
+    color: var(--accent-fg-color);
+    background-color: var(--accent-bg-color);
+    font-weight: bold;
+}
+
+.controller-hint-action {
+    color: var(--window-fg-color);
+}
+
+.controller-hint-secondary {
+    opacity: 0.78;
+}
+
+.info-pill, .usage-pill, .tag-pill, .variant-pill, .installed-pill, .in-use-pill {
     border-radius: 10px;
     padding: 2px 8px;
     font-size: 0.8em;
@@ -108,6 +171,19 @@ flowboxchild {
 
 .variant-pill {
     background-color: #6d5db3;
+}
+
+.installed-pill {
+    background-color: #2ec27e;
+}
+
+.in-use-pill {
+    background-color: #c07434;
+}
+
+button.tools-filter-active {
+    background-color: alpha(var(--accent-bg-color), 0.14);
+    color: var(--accent-fg-color);
 }
 
 row.controller-focus {
@@ -156,4 +232,42 @@ row.controller-focus {
 
 .tools-release-row-input-box button {
     padding: 5px;
+}
+
+.downloads-indicator-badge {
+    min-width: 1.4em;
+    border-radius: 9999px;
+    padding: 1px 4px;
+    background-color: var(--accent-bg-color);
+    color: var(--accent-fg-color);
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+@keyframes downloads-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-3px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    65% {
+        transform: translateY(-1px);
+    }
+}
+
+.downloads-indicator-active {
+    animation: downloads-bounce 1.2s infinite ease-in-out;
+}
+
+.downloads-popover-list > row:not(:last-child) {
+    margin-bottom: 6px;
+}
+
+row.download-highlight {
+    background-color: alpha(var(--accent-bg-color), 0.16);
+    box-shadow: inset 0 0 0 2px alpha(var(--accent-bg-color), 0.7);
 }

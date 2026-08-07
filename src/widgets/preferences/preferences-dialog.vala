@@ -1,5 +1,9 @@
 namespace ProtonPlus.Widgets.Preferences {
-    public class PreferencesDialog : Adw.PreferencesDialog {
+    public class PreferencesDialog : Adw.PreferencesDialog, Utils.ControllerNavigationHost {
+        Adw.PreferencesPage[] controller_pages = {};
+        Adw.EntryRow? proxy_url_row;
+        ulong proxy_mode_changed_handler = 0;
+
         public PreferencesDialog (Gee.LinkedList<Models.Launcher> launchers) {
             set_search_enabled (true);
 
@@ -8,7 +12,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("General"),
                 icon_name = "preferences-system-symbolic"
             };
-            add (general_page);
+            add_controller_page (general_page);
 
             var appearance_group = new Adw.PreferencesGroup () {
                 title = _("Appearance")
@@ -23,6 +27,36 @@ namespace ProtonPlus.Widgets.Preferences {
             language_row.add_prefix (new Gtk.Image.from_icon_name ("globe-symbolic"));
             appearance_group.add (language_row);
 
+            var controller_group = new Adw.PreferencesGroup () {
+                title = _("Controller")
+            };
+            general_page.add (controller_group);
+
+            var confirm_button_choices = new Gtk.StringList (null);
+            confirm_button_choices.append (_("Bottom face button"));
+            confirm_button_choices.append (_("Right face button"));
+            var confirm_button_row = new Adw.ComboRow () {
+                title = _("Confirm button"),
+                subtitle = _("Choose which face button activates the selected control"),
+                model = confirm_button_choices
+            };
+            confirm_button_row.set_selected ((uint) Globals.SETTINGS.get_enum ("controller-confirm-button"));
+            confirm_button_row.notify["selected"].connect (() => {
+                var selected = (int) confirm_button_row.get_selected ();
+                if (selected >= 0 && selected <= 1 &&
+                    Globals.SETTINGS.get_enum ("controller-confirm-button") != selected)
+                    Globals.SETTINGS.set_enum ("controller-confirm-button", selected);
+            });
+            controller_group.add (confirm_button_row);
+
+            var controller_haptics_row = new Adw.SwitchRow () {
+                title = _("Controller vibration"),
+                subtitle = _("Use subtle vibration for controller actions and navigation limits")
+            };
+            Globals.SETTINGS.bind ("controller-haptics-enabled", controller_haptics_row,
+                "active", SettingsBindFlags.DEFAULT);
+            controller_group.add (controller_haptics_row);
+
             var help_page = new Adw.PreferencesGroup () {
                 title = _("Help"),
             };
@@ -33,7 +67,7 @@ namespace ProtonPlus.Widgets.Preferences {
             introduction_btn.activated.connect (() => {
                 var window = this.get_root () as Window;
                 var dialog = new Introduction.Introduction ();
-                dialog.present (window);
+                Window.present_dialog_for_controller (dialog, window);
             });
             help_page.add (introduction_btn);
             general_page.add (help_page);
@@ -43,7 +77,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("Tools"),
                 icon_name = "toolbox-symbolic"
             };
-            add (tools_page);
+            add_controller_page (tools_page);
 
             var updates_group = new Adw.PreferencesGroup () {
                 title = _("Updates")
@@ -112,9 +146,9 @@ namespace ProtonPlus.Widgets.Preferences {
                         title = "Steam",
                     };
 
-                    var compatibility_tools = new Gee.ArrayList<ProtonPlus.Models.Tools.Simple> ();
+                    var compatibility_tools = new Gee.ArrayList<ProtonPlus.Models.CompatibilityTool> ();
                     foreach (var compatibility_tool in steam_launcher.compatibility_tools) {
-                        if (!compatibility_tool.display_title.contains ("Steam Linux Runtime"))
+                        if (!Models.Launchers.Steam.is_steam_linux_runtime (compatibility_tool.display_title, compatibility_tool.internal_title))
                             compatibility_tools.add (compatibility_tool);
                     }
                     compatibility_tools.sort ((a, b) => {
@@ -124,12 +158,12 @@ namespace ProtonPlus.Widgets.Preferences {
                         );
                     });
 
-                    var model = new GLib.ListStore (typeof (ProtonPlus.Models.Tools.Simple));
+                    var model = new GLib.ListStore (typeof (ProtonPlus.Models.CompatibilityTool));
                     foreach (var compatibility_tool in compatibility_tools) {
                         model.append (compatibility_tool);
                     }
 
-                    var expression = new Gtk.PropertyExpression (typeof (ProtonPlus.Models.Tools.Simple), null, "display_title");
+                    var expression = new Gtk.PropertyExpression (typeof (ProtonPlus.Models.CompatibilityTool), null, "display_title");
 
                     var compatibility_tool_row = new ToolRow (model, expression) {
                         title = _("Default compatibility tool"),
@@ -145,7 +179,7 @@ namespace ProtonPlus.Widgets.Preferences {
                     }
 
                     compatibility_tool_row.notify["selected-item"].connect (() => {
-                        var selected_tool = compatibility_tool_row.get_selected_item () as ProtonPlus.Models.Tools.Simple;
+                        var selected_tool = compatibility_tool_row.get_selected_item () as ProtonPlus.Models.CompatibilityTool;
                         if (selected_tool != null) {
                             steam_launcher.change_default_compatibility_tool (selected_tool.internal_title);
                         }
@@ -164,6 +198,8 @@ namespace ProtonPlus.Widgets.Preferences {
                     profile_row.add_prefix (new Gtk.Image.from_icon_name ("avatar-default-symbolic"));
                     profile_row.set_sensitive (steam_launcher.profiles.length () > 1);
 
+                    var shortcut_row = new SteamShortcutRow (steam_launcher.profile);
+
                     var last_profile_id = Globals.SETTINGS.get_string ("steam-selected-profile-id");
                     for (var i = 0; i < (int) steam_launcher.profiles.length (); i++) {
                         if (steam_launcher.profiles.nth_data (i).steam_id == last_profile_id) {
@@ -176,10 +212,12 @@ namespace ProtonPlus.Widgets.Preferences {
                         var selected_profile = profile_row.get_selected_item () as ProtonPlus.Models.SteamProfile;
                         if (selected_profile != null) {
                             Globals.SETTINGS.set_string ("steam-selected-profile-id", selected_profile.steam_id);
+                            shortcut_row.load (selected_profile);
                             steam_launcher.switch_profile.begin (selected_profile);
                         }
                     });
                     steam_group.add (profile_row);
+                    steam_group.add (shortcut_row);
 
                     launchers_page.add (steam_group);
                     has_launchers = true;
@@ -188,7 +226,7 @@ namespace ProtonPlus.Widgets.Preferences {
             }
 
             if (has_launchers) {
-                add (launchers_page);
+                add_controller_page (launchers_page);
             }
 
             // Advanced Page
@@ -196,7 +234,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("Advanced"),
                 icon_name = "preferences-other-symbolic"
             };
-            add (advanced_page);
+            add_controller_page (advanced_page);
 
             var tokens_group = new Adw.PreferencesGroup () {
                 title = _("API Tokens")
@@ -227,19 +265,14 @@ namespace ProtonPlus.Widgets.Preferences {
             var proxy_mode_row = new ProxyModeRow ();
             network_group.add (proxy_mode_row);
 
-            var proxy_url_row = new Adw.EntryRow () {
+            proxy_url_row = new Adw.EntryRow () {
                 title = _("Proxy URL"),
             };
+            Utils.TextInputMetadataPolicy.apply ((!) proxy_url_row, Utils.TextInputFieldKind.URL);
             proxy_url_row.set_tooltip_text (_("Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"));
             proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
             Globals.SETTINGS.bind ("proxy-url", proxy_url_row, "text", SettingsBindFlags.DEFAULT);
-            Globals.SETTINGS.changed["proxy-mode"].connect (() => {
-                proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
-                Utils.Web.update_proxy_settings ();
-            });
-            Globals.SETTINGS.changed["proxy-url"].connect (() => {
-                Utils.Web.update_proxy_settings ();
-            });
+            proxy_mode_changed_handler = Globals.SETTINGS.changed["proxy-mode"].connect (update_proxy_url_sensitivity);
             network_group.add (proxy_url_row);
 
             var experimental_group = new Adw.PreferencesGroup () {
@@ -259,7 +292,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("Maintenance")
             };
             advanced_page.add (maintenance_group);
-            maintenance_group.add (new RefreshApplicationDataRow (this));
+            maintenance_group.add (new RefreshApplicationDataRow ());
             maintenance_group.add (new DeleteCacheRow ());
 
             // System Page
@@ -267,7 +300,7 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("System"),
                 icon_name = "dialog-information-symbolic"
             };
-            add (system_page);
+            add_controller_page (system_page);
 
             var environment_group = new Adw.PreferencesGroup () {
                 title = _("Software Environment")
@@ -350,6 +383,8 @@ namespace ProtonPlus.Widgets.Preferences {
                 new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
                 new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
                 new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SNAP),
+                new ProtonPlus.Models.Launchers.FaugusLauncher (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
+                new ProtonPlus.Models.Launchers.FaugusLauncher (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
                 new ProtonPlus.Models.Launchers.Lutris (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
                 new ProtonPlus.Models.Launchers.Lutris (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
                 new ProtonPlus.Models.Launchers.Bottles (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
@@ -366,6 +401,104 @@ namespace ProtonPlus.Widgets.Preferences {
                     subtitle = launcher.installed ? _("Installed") : _("Not installed")
                 });
             }
+        }
+
+        void add_controller_page (Adw.PreferencesPage page) {
+            add (page);
+            controller_pages += page;
+        }
+
+        void update_proxy_url_sensitivity () {
+            if (proxy_url_row != null)
+                proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
+        }
+
+        public override void dispose () {
+            if (proxy_mode_changed_handler != 0 && Globals.SETTINGS != null) {
+                Globals.SETTINGS.disconnect (proxy_mode_changed_handler);
+                proxy_mode_changed_handler = 0;
+            }
+
+            proxy_url_row = null;
+            base.dispose ();
+        }
+
+        public bool controller_switch_page (int delta) {
+            int count = controller_pages.length;
+            if (count < 2)
+                return false;
+
+            var current = visible_page;
+            int current_index = 0;
+            for (int i = 0; i < count; i++) {
+                if (controller_pages[i] == current) {
+                    current_index = i;
+                    break;
+                }
+            }
+
+            for (int step = 1; step <= count; step++) {
+                int index = ((current_index + delta * step) % count + count) % count;
+                if (controller_pages[index].visible && controller_pages[index] != current) {
+                    visible_page = controller_pages[index];
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool controller_can_switch_page () {
+            int visible_count = 0;
+            foreach (var page in controller_pages) {
+                if (page.visible)
+                    visible_count++;
+            }
+            return visible_count >= 2;
+        }
+
+        public bool controller_prefers_initial_focus_after_switch () {
+            return true;
+        }
+
+        public string get_controller_page_id () {
+            for (int i = 0; i < controller_pages.length; i++) {
+                if (controller_pages[i] == visible_page)
+                    return "preferences:%d".printf (i);
+            }
+            return "preferences:unknown";
+        }
+
+        public Object? get_controller_page_root () {
+            return visible_page;
+        }
+
+        public Object? get_controller_initial_focus () {
+            var page = visible_page;
+            return page == null ? null : find_first_preferences_row (page);
+        }
+
+        Gtk.Widget? find_first_preferences_row (Gtk.Widget root) {
+            if (!root.get_mapped () || !root.is_visible () || !root.is_sensitive ())
+                return null;
+            if (root is Adw.PreferencesRow && root.get_focusable ())
+                return root;
+
+            var child = root.get_first_child ();
+            while (child != null) {
+                var target = find_first_preferences_row (child);
+                if (target != null)
+                    return target;
+                child = child.get_next_sibling ();
+            }
+            return null;
+        }
+
+        public bool controller_navigate_back () {
+            return false;
+        }
+
+        public bool controller_can_navigate_back () {
+            return false;
         }
     }
 }

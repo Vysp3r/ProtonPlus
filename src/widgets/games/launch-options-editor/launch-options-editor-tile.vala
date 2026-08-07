@@ -8,15 +8,23 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         protected Gee.List<ILaunchOption> _children;
         public bool is_advanced { get; set; default = false; }
 
-        public LaunchOptionTile (string title, string subtitle, string[] tokens, bool is_advanced = false, LaunchLineType line_type = LaunchLineType.ENVIRONMENT) {
+        public LaunchOptionTile (
+            string title,
+            string subtitle,
+            string[] tokens,
+            bool is_advanced = false,
+            LaunchLineType line_type = LaunchLineType.ENVIRONMENT
+        ) {
             Object ();
             this.title = title;
             this.subtitle = subtitle;
             this.subtitle_lines = 0;
+            this.set_tooltip_text (subtitle);
             this.tokens = tokens;
 
             toggle = new Gtk.Switch ();
             toggle.set_valign (Gtk.Align.CENTER);
+            toggle.set_tooltip_text (subtitle);
             add_suffix (toggle);
             activatable_widget = toggle;
             this.is_advanced = is_advanced;

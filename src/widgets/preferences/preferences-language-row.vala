@@ -15,12 +15,12 @@ namespace ProtonPlus.Widgets.Preferences {
         bool is_initializing = true;
 
         construct {
-            var model = new ListStore(typeof (Language));
+            var model = new ListStore (typeof (Language));
             foreach (var lang in Globals.LANGUAGES ()) {
-                model.append (new Language(_ (lang.name), lang.index, lang.code));
+                model.append (new Language (_ (lang.name), lang.index, lang.code));
             }
 
-            var expression = new Gtk.PropertyExpression(typeof (Language), null, "name");
+            var expression = new Gtk.PropertyExpression (typeof (Language), null, "name");
 
             set_title (_ ("Language"));
             set_model (model);
@@ -43,7 +43,8 @@ namespace ProtonPlus.Widgets.Preferences {
 
         void selected_item_changed () {
             var language = get_selected_item () as Language;
-            if (language == null || is_initializing) return;
+            if (language == null || is_initializing)
+                return;
 
             if (Globals.SETTINGS != null) {
                 Globals.SETTINGS.set_enum ("language", language.index);

@@ -4,4 +4,3 @@ Description=ProtonPlus
 [Service]
 Type=oneshot
 ExecStart={ExecStart}
-ExecCondition={ExecCondition}

@@ -241,11 +241,25 @@ namespace ProtonPlus.Utils {
         }
 
         public MangoHudTheme get_theme () {
-            if (gpu_color == "" && cpu_color == "" && vram_color == "" && ram_color == "" && engine_color == "" && wine_color == "" && battery_color == "" && disks_color == "" && media_player_color == "" && text_color == "ffffff" && background_color == "020202")
-            return MangoHudTheme.STOCK;
-            if (gpu_color == "ffffff" && cpu_color == "ffffff" && vram_color == "ffffff" && ram_color == "ffffff" && engine_color == "ffffff" && wine_color == "ffffff" && battery_color == "ffffff" && disks_color == "ffffff" && media_player_color == "ffffff" && text_color == "ffffff" && background_color == "020202")
-            return MangoHudTheme.SIMPLE_WHITE;
+            if (metric_colors_match ("") && text_color == "ffffff" && background_color == "020202")
+                return MangoHudTheme.STOCK;
+
+            if (metric_colors_match ("ffffff") && text_color == "ffffff" && background_color == "020202")
+                return MangoHudTheme.SIMPLE_WHITE;
+
             return MangoHudTheme.CUSTOM;
+        }
+
+        private bool metric_colors_match (string color) {
+            return gpu_color == color
+                   && cpu_color == color
+                   && vram_color == color
+                   && ram_color == color
+                   && engine_color == color
+                   && wine_color == color
+                   && battery_color == color
+                   && disks_color == color
+                   && media_player_color == color;
         }
 
         public void load () {

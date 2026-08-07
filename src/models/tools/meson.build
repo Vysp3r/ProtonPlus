@@ -1,10 +1,6 @@
 sources += files(
-    'basic.vala',
-    'github.vala',
-    'github-action.vala',
-    'gitlab.vala',
-    'forgejo.vala',
-    'installed.vala',
+    'release-page.vala',
+    'release-page-result.vala',
+    'provider-tool.vala',
     'steamtinkerlaunch.vala',
-    'simple.vala'
 )

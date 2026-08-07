@@ -11,12 +11,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public LaunchOptionEntryField (string title, string subtitle, string placeholder) {
             Object ();
             this.title = title;
+            this.tooltip_text = subtitle != "" ? subtitle : placeholder;
+            Utils.TextInputMetadataPolicy.apply (this, Utils.TextInputFieldKind.COMMAND);
 
             committed_text = "";
 
             apply_button = new Gtk.Button.from_icon_name ("object-select-symbolic");
             apply_button.set_valign (Gtk.Align.CENTER);
             apply_button.add_css_class ("flat");
+            apply_button.set_tooltip_text (this.tooltip_text);
             apply_button.clicked.connect (apply_pending_text);
             add_suffix (apply_button);
 
@@ -50,10 +53,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             committed_text = text.strip ();
             this.text = committed_text;
             refresh_apply_state ();
-        }
-
-        public void focus_entry () {
-            grab_focus ();
         }
 
         void apply_pending_text () {

@@ -127,9 +127,11 @@ namespace ProtonPlus.Widgets.MangoHud {
             media_player_row.add_suffix (media_player_color_btn);
             media_player_row.bind_property ("active", media_player_color_btn, "visible", BindingFlags.SYNC_CREATE);
 
-            network_row = create_entry (_ ("Network"), config.network, (val) => { this.config.network = val; });
+            network_row = create_entry (_ ("Network"), config.network,
+                (val) => { this.config.network = val; }, Utils.TextInputFieldKind.PATH_OR_IDENTIFIER);
             fahrenheit_row = create_switch (_ ("Fahrenheit"), config.fahrenheit, (val) => { this.config.fahrenheit = val; });
-            custom_text_row = create_entry (_ ("Custom command"), config.custom_text, (val) => { this.config.custom_text = val; });
+            custom_text_row = create_entry (_ ("Custom command"), config.custom_text,
+                (val) => { this.config.custom_text = val; }, Utils.TextInputFieldKind.COMMAND);
 
             add_flow_group (info_box, _ ("Others"), {
                                                         media_player_row, network_row, fahrenheit_row, custom_text_row
@@ -149,18 +151,25 @@ namespace ProtonPlus.Widgets.MangoHud {
             log_duration_row = create_scale (_ ("Duration"), 0, 200, 1, out log_duration_scale, (val) => { this.config.log_duration = val; });
             autostart_log_row = create_scale (_ ("Autostart"), 0, 30, 1, out autostart_log_scale, (val) => { this.config.autostart_log = val; });
             log_interval_row = create_scale (_ ("Interval"), 0, 500, 1, out log_interval_scale, (val) => { this.config.log_interval = val; });
-            toggle_logging_row = create_combo (_ ("Toggle key"), {"Shift_L+F2", "Shift_L+F3", "Shift_L+F4", "Shift_L+F5", _ ("None")}, 0, "preferences-desktop-keyboard-shortcuts-symbolic", (val) => {
+            toggle_logging_row = create_combo (
+                _ ("Toggle key"),
+                {"Shift_L+F2", "Shift_L+F3", "Shift_L+F4", "Shift_L+F5", _ ("None")},
+                0,
+                "preferences-desktop-keyboard-shortcuts-symbolic",
+                (val) => {
                 switch (val) {
                     case 0: this.config.toggle_logging = "Shift_L+F2"; break;
                     case 1: this.config.toggle_logging = "Shift_L+F3"; break;
                     case 2: this.config.toggle_logging = "Shift_L+F4"; break;
                     case 3: this.config.toggle_logging = "Shift_L+F5"; break;
                     case 4: this.config.toggle_logging = ""; break;
+                    }
                 }
-            });
+            );
             refresh_toggle_logging_row ();
 
-            output_folder_row = create_entry (_ ("Output Folder"), config.output_folder, (val) => { this.config.output_folder = val; });
+            output_folder_row = create_entry (_ ("Output Folder"), config.output_folder,
+                (val) => { this.config.output_folder = val; }, Utils.TextInputFieldKind.PATH_OR_IDENTIFIER);
             var output_folder_btn = new Gtk.Button.from_icon_name ("folder-open-symbolic");
             output_folder_btn.set_valign (Gtk.Align.CENTER);
             output_folder_row.add_suffix (output_folder_btn);
@@ -182,8 +191,14 @@ namespace ProtonPlus.Widgets.MangoHud {
             log_versioning_row = create_switch (_ ("Log Versioning"), config.log_versioning, (val) => { this.config.log_versioning = val; });
 
             add_flow_group (logging_box, null, {
-                                                   log_duration_row, autostart_log_row, log_interval_row, toggle_logging_row, output_folder_row, upload_log_row, log_versioning_row
-                                               });
+                log_duration_row,
+                autostart_log_row,
+                log_interval_row,
+                toggle_logging_row,
+                output_folder_row,
+                upload_log_row,
+                log_versioning_row
+            });
 
             this.append (logging_box);
         }

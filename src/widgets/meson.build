@@ -1,5 +1,7 @@
 sources += files(
     'application.vala',
+    'controller-choice-box.vala',
+    'controller-hint-bar.vala',
     'window.vala',
     'circular-progress-bar.vala',
 )

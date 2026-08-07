@@ -36,7 +36,9 @@ namespace ProtonPlus.Widgets.MangoHud {
             btn.set_valign (Gtk.Align.CENTER);
             btn.rgba = hex_to_rgba (initial_color);
             btn.notify["rgba"].connect (() => {
-                if (is_updating || this.config == null) return;
+                if (is_updating || this.config == null)
+                    return;
+
                 Gdk.RGBA rgba;
                 btn.get ("rgba", out rgba);
                 set_color (rgba_to_hex (rgba));
@@ -66,13 +68,18 @@ namespace ProtonPlus.Widgets.MangoHud {
 
         public abstract void refresh ();
 
-        protected Adw.EntryRow create_entry (string title, string initial_value, SetValueFuncStr set_value) {
+        protected Adw.EntryRow create_entry (string title, string initial_value,
+            SetValueFuncStr set_value,
+            Utils.TextInputFieldKind field_kind = Utils.TextInputFieldKind.FREE_FORM) {
             var row = new Adw.EntryRow () {
                 title = title,
                 text = initial_value
             };
+            Utils.TextInputMetadataPolicy.apply (row, field_kind);
             row.notify["text"].connect (() => {
-                if (is_updating || this.config == null) return;
+                if (is_updating || this.config == null)
+                    return;
+
                 set_value (row.text);
                 changed ();
             });
@@ -82,12 +89,16 @@ namespace ProtonPlus.Widgets.MangoHud {
         protected Adw.ComboRow create_combo (string title, string[] items, int initial_selected, string? icon_name, SetValueFuncInt set_value) {
             var row = new Adw.ComboRow () {
                 title = title,
-                icon_name = icon_name,
                 model = new Gtk.StringList (items),
                 selected = initial_selected
             };
+            if (icon_name != null)
+                row.add_prefix (new Gtk.Image.from_icon_name (icon_name));
+
             row.notify["selected"].connect (() => {
-                if (is_updating || this.config == null) return;
+                if (is_updating || this.config == null)
+                    return;
+
                 set_value ((int) row.selected);
                 changed ();
             });
@@ -171,6 +182,8 @@ namespace ProtonPlus.Widgets.MangoHud {
         protected Gtk.ListBoxRow create_scale (string title, double min, double max, double step, out Gtk.Scale scale_out, SetValueFuncStr set_value) {
             var row = new Gtk.ListBoxRow ();
             row.selectable = false;
+            row.activatable = false;
+            row.focusable = false;
 
             var box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6) {
                 margin_top = 12,
@@ -193,7 +206,9 @@ namespace ProtonPlus.Widgets.MangoHud {
             scale.add_mark (min, Gtk.PositionType.TOP, "%.0f".printf (min));
             scale.add_mark (max, Gtk.PositionType.TOP, "%.0f".printf (max));
             scale.value_changed.connect (() => {
-                if (is_updating || this.config == null) return;
+                if (is_updating || this.config == null)
+                    return;
+
                 set_value ("%.0f".printf (scale.get_value ()));
                 changed ();
             });
@@ -209,7 +224,9 @@ namespace ProtonPlus.Widgets.MangoHud {
                 active = initial_value
             };
             row.notify["active"].connect (() => {
-                if (is_updating || this.config == null) return;
+                if (is_updating || this.config == null)
+                    return;
+
                 set_value (row.active);
                 changed ();
             });

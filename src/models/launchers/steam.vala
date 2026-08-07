@@ -1,5 +1,6 @@
 namespace ProtonPlus.Models.Launchers {
     public class Steam : Launcher {
+        public const string FAMILY_ID = "steam";
         public List<SteamProfile> profiles;
         public SteamProfile profile { get; set; }
         public string default_compatibility_tool { get; set; }
@@ -27,9 +28,30 @@ namespace ProtonPlus.Models.Launchers {
                     break;
             }
 
-            base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories);
+            base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);
 
             has_library_support = true;
+        }
+
+        public override SteamRestartTarget? get_steam_restart_target () {
+            if (directory == "")
+                return null;
+            switch (installation_type) {
+            case Launcher.InstallationTypes.SYSTEM:
+                return SteamRestartTarget.for_native (directory, "Steam", "steam.desktop");
+            case Launcher.InstallationTypes.FLATPAK:
+                return SteamRestartTarget.for_flatpak (directory);
+            case Launcher.InstallationTypes.SNAP:
+                return SteamRestartTarget.for_snap (directory);
+            default:
+                return null;
+            }
+        }
+
+        public static bool is_steam_linux_runtime (string display_title, string internal_title = "") {
+            return display_title.down ().contains ("steam linux runtime")
+                   || internal_title.down ().contains ("steam_linux_runtime")
+                   || internal_title.down ().contains ("steamlinuxruntime");
         }
 
         public override List<string> get_tool_directories (Group group) {
@@ -209,6 +231,9 @@ namespace ProtonPlus.Models.Launchers {
             }
 
             foreach (var profile in profiles) {
+                if (profile == this.profile)
+                    continue;
+
                 foreach (var game in profile.non_steam_games) {
                     if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")) {
                         if (!game.is_native)
@@ -234,12 +259,13 @@ namespace ProtonPlus.Models.Launchers {
 
             var excluded_appids = new Gee.HashSet<string> ();
             excluded_appids.add_all_array (new string[] {
-                "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180"
+                "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180", "250820"
             });
 
-            var natival_compatibility_tool_appids = new Gee.HashSet<string> ();
-            natival_compatibility_tool_appids.add_all_array (new string[] {
-                "2180100", "1493710", "3658110", "4628710", "2348590", "2805730", "1887720", "1580130", "1420170", "1245040", "1054830", "1113280", "858280", "961940"
+            var native_compatibility_tool_appids = new Gee.HashSet<string> ();
+            native_compatibility_tool_appids.add_all_array (new string[] {
+                "2180100", "1493710", "3658110", "4628710", "2348590", "2805730", "1887720",
+                "1580130", "1420170", "1245040", "1054830", "1113280", "858280", "961940"
             });
 
             var compatibility_tool_hashtable_loaded = yield load_compatibility_tool_hashtable ();
@@ -276,10 +302,6 @@ namespace ProtonPlus.Models.Launchers {
                     if (!id_valid)
                     continue;
 
-                    if (excluded_appids.contains (app.key)) {
-                        continue;
-                    }
-
                     var current_libraryfolder_id = libraryfolder_id;
                     var current_libraryfolder_path = path.value;
                     var current_appid = app.key;
@@ -304,27 +326,40 @@ namespace ProtonPlus.Models.Launchers {
                     continue;
                     current_installdir = dir_match.fetch (1);
 
-                    if (current_name.contains ("Steam Linux Runtime")) {
-                        var simple_runner = new Tools.Simple.with_path (
+                    if (is_steam_linux_runtime (current_name)) {
+                        var compatibility_tool = new CompatibilityTool (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
-                            "%s/common/%s".printf (current_steamapps_path, current_installdir)
+                            "%s/common/%s".printf (current_steamapps_path, current_installdir),
+                            CompatibilityToolRuntimeKind.NATIVE
                         );
-                        simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                        compatibility_tools.add (simple_runner);
+                        compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+                        compatibility_tools.add (compatibility_tool);
                         continue;
                     }
 
-                    if (proton_regex.match (current_name) ||
-                        current_name == "Proton Hotfix" ||
-                        natival_compatibility_tool_appids.contains (current_appid)) {
-                        var simple_runner = new Tools.Simple.with_path (
+                    if (excluded_appids.contains (current_appid)) {
+                        continue;
+                    }
+
+                    var compatibility_tool_path = "%s/common/%s".printf (current_steamapps_path, current_installdir);
+                    var has_proton_launcher = FileUtils.test (
+                        Path.build_filename (compatibility_tool_path, "proton"),
+                        FileTest.IS_REGULAR
+                    );
+                    var is_named_proton = proton_regex.match (current_name) || current_name == "Proton Hotfix";
+
+                    if (has_proton_launcher || is_named_proton || native_compatibility_tool_appids.contains (current_appid)) {
+                        var compatibility_tool = new CompatibilityTool (
                             current_name,
                             current_name.down ().split (".", 2)[0].replace (" ", "_"),
-                            "%s/common/%s".printf (current_steamapps_path, current_installdir)
+                            compatibility_tool_path,
+                            has_proton_launcher || is_named_proton
+                                ? CompatibilityToolRuntimeKind.PROTON
+                                : CompatibilityToolRuntimeKind.NATIVE
                         );
-                        simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                        compatibility_tools.add (simple_runner);
+                        compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+                        compatibility_tools.add (compatibility_tool);
                         continue;
                     }
 
@@ -374,9 +409,9 @@ namespace ProtonPlus.Models.Launchers {
                             }
 
                             var file_path = "%s/%s".printf (directory.get_path (), file_name);
-                            var simple_runner = new Tools.Simple.from_path (file_path);
-                            simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-                            compatibility_tools.add (simple_runner);
+                            var compatibility_tool = Utils.VDF.CompatibilityToolLoader.from_path (file_path);
+                            compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+                            compatibility_tools.add (compatibility_tool);
                         }
                     }
                 }
@@ -396,8 +431,8 @@ namespace ProtonPlus.Models.Launchers {
         private void add_flatpak_extension_tools_to_compatibility_tools () {
             foreach (var extension_root in get_flatpak_steam_extension_roots ()) {
                 if (is_tool_root (extension_root)) {
-                    var simple_runner = new Tools.Simple.from_path (extension_root);
-                    add_compatibility_tool_if_missing (simple_runner);
+                    var compatibility_tool = Utils.VDF.CompatibilityToolLoader.from_path (extension_root);
+                    add_compatibility_tool_if_missing (compatibility_tool);
                 }
 
                 var extension_tools_root = "%s/share/steam/compatibilitytools.d".printf (extension_root);
@@ -419,7 +454,7 @@ namespace ProtonPlus.Models.Launchers {
                         }
 
                         var tool_path = "%s/%s".printf (extension_tools_root, file_info.get_name ());
-                        add_compatibility_tool_if_missing (new Tools.Simple.from_path (tool_path));
+                        add_compatibility_tool_if_missing (Utils.VDF.CompatibilityToolLoader.from_path (tool_path));
                     }
                 } catch (Error e) {
                     warning (e.message);
@@ -427,23 +462,52 @@ namespace ProtonPlus.Models.Launchers {
             }
         }
 
-        private void add_compatibility_tool_if_missing (Tools.Simple simple_runner) {
+        private void add_compatibility_tool_if_missing (CompatibilityTool compatibility_tool) {
             foreach (var existing_runner in compatibility_tools) {
-                if (existing_runner.path == simple_runner.path || existing_runner.internal_title == simple_runner.internal_title) {
+                if (existing_runner.path == compatibility_tool.path || existing_runner.internal_title == compatibility_tool.internal_title) {
                     return;
                 }
             }
 
-            simple_runner.sort_priority = get_compatibility_tool_sort_priority (simple_runner);
-            compatibility_tools.add (simple_runner);
+            compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
+            compatibility_tools.add (compatibility_tool);
         }
 
-        public void register_compatibility_tool (Tools.Simple simple_runner) {
-            add_compatibility_tool_if_missing (simple_runner);
+        public void register_compatibility_tool (CompatibilityTool compatibility_tool) {
+            add_compatibility_tool_if_missing (compatibility_tool);
             sort_compatibility_tools ();
         }
 
-        public void unregister_compatibility_tool_by_path (string tool_path) {
+        public CompatibilityTool? find_compatibility_tool (string internal_title) {
+            foreach (var tool in compatibility_tools) {
+                if (tool.internal_title == internal_title)
+                    return tool;
+            }
+            return null;
+        }
+
+        /* Steam persists "Default" as an alias for CompatToolMapping app ID 0.
+         * Resolve that alias at the launcher boundary so consumers which need
+         * a concrete installation (feature probes and future compatibility
+         * checks) do not guess from its display name or list position. */
+        public CompatibilityTool? resolve_effective_compatibility_tool (string selected_internal_title) {
+            var effective_internal_title = selected_internal_title;
+            if (effective_internal_title == "Default")
+                effective_internal_title = default_compatibility_tool;
+
+            if (effective_internal_title == null
+                || effective_internal_title.strip () == ""
+                || effective_internal_title == "Default")
+                return null;
+
+            return find_compatibility_tool (effective_internal_title);
+        }
+
+        public override void register_compatibility_tool_from_path (string tool_path) {
+            register_compatibility_tool (Utils.VDF.CompatibilityToolLoader.from_path (tool_path));
+        }
+
+        public override void unregister_compatibility_tool_by_path (string tool_path) {
             var tool = compatibility_tools.first_match ((tool) => {
                 return tool.path == tool_path;
             });
@@ -481,7 +545,7 @@ namespace ProtonPlus.Models.Launchers {
             });
         }
 
-        private int get_compatibility_tool_sort_priority (Tools.Simple tool) {
+        private int get_compatibility_tool_sort_priority (CompatibilityTool tool) {
             var title = tool.display_title.down ();
             var internal_title = tool.internal_title.down ();
 
@@ -503,7 +567,7 @@ namespace ProtonPlus.Models.Launchers {
                 return 300;
             }
 
-            if (title.contains ("steam linux runtime") || internal_title.contains ("steamlinuxruntime")) {
+            if (is_steam_linux_runtime (tool.display_title, tool.internal_title)) {
                 return 400;
             }
 
@@ -515,7 +579,7 @@ namespace ProtonPlus.Models.Launchers {
             minor = 0;
 
             try {
-                var regex = new GLib.Regex ("(?i)^\\s*proton\\s+(\\d+)(?:\\.(\\d+))?");
+                var regex = new GLib.Regex ("""(?ix)^\s*proton\s+ (\d+) (?:\. (\d+))?""");
                 GLib.MatchInfo match;
                 if (!regex.match (title, 0, out match)) {
                     return false;
@@ -540,7 +604,7 @@ namespace ProtonPlus.Models.Launchers {
 
             try {
                 // Matches custom names like GE-Proton11-1, proton-cachyos-11.0, etc.
-                var regex = new GLib.Regex ("(?i)proton[^0-9]*(\\d+)(?:[\\._-](\\d+))?");
+                var regex = new GLib.Regex ("""(?ix)proton[^0-9]* (\d+) (?:[\._-] (\d+))?""");
                 GLib.MatchInfo match;
                 if (!regex.match (title, 0, out match)) {
                     return false;
@@ -574,6 +638,9 @@ namespace ProtonPlus.Models.Launchers {
             var mapping = steam != null ? steam.get_child ("CompatToolMapping") : null;
             if (mapping == null) {
                 compatibility_tool_hashtable.set (0, "proton_experimental");
+                var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+                if (configuration != null)
+                    configuration.overlay_launcher_effective_state (this);
                 return true;
             }
 
@@ -589,80 +656,24 @@ namespace ProtonPlus.Models.Launchers {
                 compatibility_tool_hashtable.set (appid, name.value);
             }
 
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration != null)
+                configuration.overlay_launcher_effective_state (this);
+
             return true;
         }
 
         public bool change_default_compatibility_tool (string compatibility_tool) {
-            var default_id = 0;
-            var config_path = "%s/config/config.vdf".printf (directory);
-            var config_content = Utils.Filesystem.get_file_content (config_path);
-            var document = Utils.VDF.VdfParser.parse_document (config_content);
-            if (document == null)
+            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            if (configuration == null) {
+                warning ("Steam default compatibility change rejected because SteamConfigurationService is not configured.");
                 return false;
-
-            var install_config_store = document.root.get_child ("InstallConfigStore");
-            var software = install_config_store != null ? install_config_store.get_child ("Software") : null;
-            var valve = software != null ? software.get_child ("Valve") : null;
-            var steam = valve != null ? valve.get_child ("Steam") : null;
-            if (steam == null || steam.closing_brace_start == -1)
-                return false;
-
-            var mapping = steam.get_child ("CompatToolMapping");
-            if (mapping != null && mapping.closing_brace_start == -1)
-                return false;
-            if (mapping == null) {
-                var steam_indent = document.indentation_of_closing_brace (steam);
-                var mapping_indent = steam_indent + "\t";
-                var mapping_content = "%s\"CompatToolMapping\"\n%s{\n%s}\n".printf (mapping_indent, mapping_indent, mapping_indent);
-                config_content = document.insert_before_closing_brace (steam, mapping_content);
-
-                document = Utils.VDF.VdfParser.parse_document (config_content);
-                if (document == null)
-                    return false;
-
-                install_config_store = document.root.get_child ("InstallConfigStore");
-                software = install_config_store != null ? install_config_store.get_child ("Software") : null;
-                valve = software != null ? software.get_child ("Valve") : null;
-                steam = valve != null ? valve.get_child ("Steam") : null;
-                mapping = steam != null ? steam.get_child ("CompatToolMapping") : null;
-                if (mapping == null)
-                    return false;
             }
 
-            var default_mapping = mapping.get_child (default_id.to_string ());
-            if (default_mapping != null) {
-                var name = default_mapping.get_child ("name");
-                if (name == null || name.value == null)
-                    return false;
-
-                config_content = document.replace_value (name, compatibility_tool);
-            } else {
-                var mapping_indent = document.indentation_of_closing_brace (mapping);
-                var entry_indent = mapping_indent + "\t";
-                var entry_content = "%s\"%i\"\n%s{\n%s\t\"name\"\t\t%s\n%s\t\"config\"\t\t\"\"\n%s\t\"priority\"\t\t\"75\"\n%s}\n".printf (
-                    entry_indent,
-                    default_id,
-                    entry_indent,
-                    entry_indent,
-                    Utils.VDF.VdfDocument.quote (compatibility_tool),
-                    entry_indent,
-                    entry_indent,
-                    entry_indent
-                );
-                config_content = document.insert_before_closing_brace (mapping, entry_content);
-            }
-
-            if (config_content == document.content) {
-                this.default_compatibility_tool = compatibility_tool;
-                return true;
-            }
-
-            var modified = Utils.Filesystem.modify_file (config_path, config_content);
-            if (!modified)
+            var outcome = ((!) configuration).change_default_compatibility_tool (this, compatibility_tool);
+            if (!outcome.accepted)
                 return false;
-
             this.default_compatibility_tool = compatibility_tool;
-
             return true;
         }
     }

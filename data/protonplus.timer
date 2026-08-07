@@ -2,7 +2,7 @@
 Description=ProtonPlus
 
 [Timer]
-OnBootSec=0
+OnBootSec=1min
 OnUnitActiveSec={OnUnitActiveSec}
 Persistent=true
 

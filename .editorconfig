@@ -6,19 +6,24 @@ end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{vala,vapi,gs,metadata}]
+[*.{vala,vapi,gs,metadata,py}]
 indent_style = space
 indent_size = 4
 
-[Makefile.am]
+[Makefile]
 indent_style = tab
 
 [meson.build]
-trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
 
-[*.{json,yaml,yml}]
+[*.json]
+indent_style = space
+indent_size = 4
+
+[*.{yaml,yml}]
 indent_style = space
 indent_size = 2
 
-[{build,dist,build-native,build-tests,builddir,build-flatpak,build-debug,}/**]
+[{_build,build,build-appimage,build-flatpak,build-native,build-native-debug,build-tests,builddir,dist}/**]
 unset = true

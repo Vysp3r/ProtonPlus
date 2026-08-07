@@ -1,27 +1,29 @@
 # Temporary build files.
-buildDir/
-builddir/
-_build/
-.flatpak-builder/
-.flatpak/
-build-dir/
-build-flatpak/
-build-native/
-build-native-debug/
-build-native-debug
-build/
-build-appimage/
-build-tests/
-dist/
+/_build/
+/.flatpak-builder/
+/.flatpak/
+/build/
+/build-appimage/
+/build-dir/
+/build-flatpak/
+/build-native/
+/build-native-debug/
+/build-tests/
+/builddir/
+/dist/
 /src/translatables.vala
-/tmp
+/tmp/
+
+# Python caches.
+__pycache__/
+*.py[cod]
 
 # Miscellaneous.
-.idea/
-.vscode/*
+/.idea/
+/.vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-gdb.sh
-com.vysp3r.ProtonPlus.flatpak
+/gdb.sh
+/com.vysp3r.ProtonPlus.flatpak

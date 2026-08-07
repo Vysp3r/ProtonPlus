@@ -1,17 +1,17 @@
 namespace ProtonPlus.Widgets.Games {
     public class CompatibilityToolRow : Adw.ComboRow {
         Gtk.SignalListItemFactory compatibility_tool_factory;
-        Gtk.ListItem last_compatibility_tool_list_item;
-        HashTable<Models.Tools.Simple, Gtk.ListItem> hast_table;
+        HashTable<Models.CompatibilityTool, Gtk.ListItem> hast_table;
 
         public CompatibilityToolRow (ListStore model, Gtk.PropertyExpression expression) {
-            hast_table = new HashTable<Models.Tools.Simple, Gtk.ListItem> (null, (a, b) => {
+            hast_table = new HashTable<Models.CompatibilityTool, Gtk.ListItem> (null, (a, b) => {
                 return a.internal_title == b.internal_title;
             });
 
             compatibility_tool_factory = new Gtk.SignalListItemFactory ();
             compatibility_tool_factory.setup.connect (compatibility_tool_factory_setup);
             compatibility_tool_factory.bind.connect (compatibility_tool_factory_bind);
+            compatibility_tool_factory.unbind.connect (compatibility_tool_factory_unbind);
 
             notify["selected-item"].connect (compatibility_tool_row_selected_item_changed);
 
@@ -22,35 +22,37 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void compatibility_tool_row_selected_item_changed () {
-            var simple_runner = get_selected_item () as Models.Tools.Simple;
-            var list_item = hast_table.get (simple_runner);
+            var compatibility_tool = get_selected_item () as Models.CompatibilityTool;
 
-            if (list_item == null)
-            return;
+            if (compatibility_tool == null)
+                return;
 
-            set_tooltip_text (simple_runner.display_title);
+            set_tooltip_text (compatibility_tool.display_title);
 
-            list_item.get_data<Gtk.Image> ("check").set_visible (true);
-
-            last_compatibility_tool_list_item.get_data<Gtk.Image> ("check").set_visible (false);
-
-            last_compatibility_tool_list_item = list_item;
+            hast_table.foreach ((tool, list_item) => {
+                list_item.get_data<Gtk.Image> ("check").set_visible (tool == compatibility_tool);
+            });
         }
 
         void compatibility_tool_factory_bind (Object object) {
             var list_item = object as Gtk.ListItem;
-            var simple_runner = list_item.get_item () as Models.Tools.Simple;
+            var compatibility_tool = list_item.get_item () as Models.CompatibilityTool;
 
-            hast_table.set (simple_runner, list_item);
+            hast_table.set (compatibility_tool, list_item);
 
-            object.get_data<Gtk.Label> ("title").set_label (simple_runner.display_title);
+            object.get_data<Gtk.Label> ("title").set_label (compatibility_tool.display_title);
 
-            object.get_data<Gtk.Image> ("check").set_visible (list_item.get_selected ());
+            object.get_data<Gtk.Image> ("check").set_visible (compatibility_tool == get_selected_item ());
 
-            object.get_data<Gtk.Box> ("box").set_tooltip_text (simple_runner.display_title);
+            object.get_data<Gtk.Box> ("box").set_tooltip_text (compatibility_tool.display_title);
+        }
 
-            if (list_item.get_selected ())
-            last_compatibility_tool_list_item = list_item;
+        void compatibility_tool_factory_unbind (Object object) {
+            var list_item = object as Gtk.ListItem;
+            var compatibility_tool = list_item.get_item () as Models.CompatibilityTool;
+
+            if (hast_table.get (compatibility_tool) == list_item)
+                hast_table.remove (compatibility_tool);
         }
 
         void compatibility_tool_factory_setup (Object object) {
@@ -62,10 +64,10 @@ namespace ProtonPlus.Widgets.Games {
             title_label.set_ellipsize (Pango.EllipsizeMode.END);
             title_label.set_hexpand (true);
 
-            var check_image = new Gtk.Image.from_icon_name("object-select-symbolic");
+            var check_image = new Gtk.Image.from_icon_name ("object-select-symbolic");
             check_image.set_visible (false);
 
-            var box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
+            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             box.append (title_label);
             box.append (check_image);
 

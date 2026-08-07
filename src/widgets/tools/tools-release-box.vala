@@ -5,13 +5,14 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Label title_label { get; set; }
         Gtk.Label desc_label { get; set; }
         ReleaseChangelog desc_text { get; set; }
-        Gtk.Box header_box { get; set; }
+        public Gtk.Box header_box { get; private set; }
         Gtk.ListBox list_box { get; set; }
         Gtk.CheckButton check_button { get; set; }
         Adw.ViewStack content_stack { get; set; }
         Adw.StatusPage status_page { get; set; }
         Gtk.ScrolledWindow scrolled_games { get; set; }
         Gtk.Box list_header_box { get; set; }
+        Adw.ViewStackPage games_page { get; set; }
 
         public signal void selection_changed ();
 
@@ -36,7 +37,10 @@ namespace ProtonPlus.Widgets.Tools {
             title_box.append (title_label);
             title_box.append (desc_label);
 
-            header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+            header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+                halign = Gtk.Align.CENTER,
+                valign = Gtk.Align.CENTER
+            };
             header_box.append (icon);
             header_box.append (title_box);
 
@@ -111,11 +115,10 @@ namespace ProtonPlus.Widgets.Tools {
             headered_list_box.append (status_page);
 
             content_stack.add_titled_with_icon (desc_text, "changelog", _ ("Changelog"), "book-open-symbolic");
-            content_stack.add_titled_with_icon (headered_list_box, "games", _ ("Used by"), "gamepad-symbolic");
+            games_page = content_stack.add_titled_with_icon (headered_list_box, "games", _ ("Used by"), "gamepad-symbolic");
             content_stack.add_css_class ("card");
 
             tool_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            tool_box.append (header_box);
             tool_box.append (content_stack);
 
             var clamp = new Adw.Clamp () {
@@ -128,25 +131,27 @@ namespace ProtonPlus.Widgets.Tools {
             append (clamp);
         }
 
-        public void set_selected_release (Models.Release release, bool show_games = false) {
+        public void set_selected_job (Services.InstallJob job, bool show_games = false) {
             check_button.set_active (false);
 
-            title_label.set_label (release.title ?? "");
-            desc_text.set_markdown (release.description);
-            desc_label.set_label (release.release_date ?? "");
+            var launcher = job.tool.group.launcher;
+            var steam_launcher = launcher as Models.Launchers.Steam;
+            games_page.set_visible (steam_launcher != null);
 
-            if (show_games)
+            title_label.set_label (job.title);
+            desc_text.set_markdown (job.release.description);
+            desc_label.set_label (job.release.release_date ?? "");
+
+            if (show_games && steam_launcher != null)
             content_stack.set_visible_child_name ("games");
             else
             content_stack.set_visible_child_name ("changelog");
 
             list_box.remove_all ();
 
-            var tool_name = release.get_usage_identifier ();
-            var launcher = release.runner.group.launcher;
+            var tool_name = job.get_usage_identifier ();
 
             string default_tool = "";
-            var steam_launcher = launcher as Models.Launchers.Steam;
             if (steam_launcher != null) {
                 default_tool = steam_launcher.default_compatibility_tool;
             }
@@ -189,6 +194,10 @@ namespace ProtonPlus.Widgets.Tools {
             status_page.set_visible (!has_games);
             scrolled_games.set_visible (has_games);
             list_header_box.set_visible (has_games);
+        }
+
+        public bool has_multiple_views () {
+            return games_page.get_visible ();
         }
 
         public int get_selected_games_count () {

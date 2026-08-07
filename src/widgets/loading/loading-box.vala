@@ -42,12 +42,12 @@ namespace ProtonPlus.Widgets.Loading {
 
         public async void load () {
             if (loading)
-            return;
+                return;
 
             loading = true;
 
-            bug_box.hide ();
-            welcome_box.hide ();
+            bug_box.visible = false;
+            welcome_box.visible = false;
 
             status_page.set_icon_name ("com.vysp3r.ProtonPlus");
             status_page.set_title (_ ("Loading"));
@@ -56,9 +56,9 @@ namespace ProtonPlus.Widgets.Loading {
             Timeout.add_seconds (15, () => {
                 if (loading) {
                     status_page.set_description (_ ("Taking longer than normal?"));
-                    retry_button.hide ();
-                    report_button.show ();
-                    bug_box.show ();
+                    retry_button.visible = false;
+                    report_button.visible = true;
+                    bug_box.visible = true;
                 }
 
                 return false;
@@ -74,20 +74,20 @@ namespace ProtonPlus.Widgets.Loading {
                 status_page.set_icon_name ("bug-symbolic");
                 status_page.set_title (_ ("An unexpected error occurred"));
                 status_page.set_description (_ ("We encountered a problem while loading your application.\nPlease try again or report the problem."));
-                retry_button.show ();
-                report_button.show ();
-                bug_box.show ();
+                retry_button.visible = true;
+                report_button.visible = true;
+                bug_box.visible = true;
                 return;
             }
 
-            bug_box.hide ();
+            bug_box.visible = false;
 
             if (launchers.size > 0) {
                 loaded (launchers);
             } else {
                 status_page.set_title (_ ("Welcome to %s").printf (Config.APP_NAME));
                 status_page.set_description (null);
-                welcome_box.show ();
+                welcome_box.visible = true;
             }
         }
 
@@ -118,7 +118,7 @@ namespace ProtonPlus.Widgets.Loading {
             button.set_halign (Gtk.Align.CENTER);
             button.add_css_class ("pill");
             if (suggested)
-            button.add_css_class ("suggested-action");
+                button.add_css_class ("suggested-action");
 
             return button;
         }
@@ -151,6 +151,11 @@ namespace ProtonPlus.Widgets.Loading {
                 Utils.System.open_uri ("https://store.steampowered.com/about/");
             });
 
+            var faugus_button = create_image_button ("Faugus Launcher", "faugus-launcher.svg");
+            faugus_button.clicked.connect (() => {
+                Utils.System.open_uri ("https://github.com/Faugus/faugus-launcher");
+            });
+
             var lutris_button = create_image_button ("Lutris", "lutris.svg");
             lutris_button.clicked.connect (() => {
                 Utils.System.open_uri ("https://lutris.net/");
@@ -174,6 +179,7 @@ namespace ProtonPlus.Widgets.Loading {
             var launchers_box = new Gtk.FlowBox ();
             launchers_box.set_selection_mode (Gtk.SelectionMode.NONE);
             launchers_box.append (steam_button);
+            launchers_box.append (faugus_button);
             launchers_box.append (lutris_button);
             launchers_box.append (hgl_button);
             launchers_box.append (bottles_button);
