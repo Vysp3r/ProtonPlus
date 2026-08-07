@@ -33,6 +33,5 @@ quick-sharun \
     /usr/lib/gio/modules/libgiognutls.so \
     /usr/lib/gio/modules/libgiolibproxy.so
 
-
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
