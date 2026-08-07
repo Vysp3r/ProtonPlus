@@ -3,6 +3,7 @@ test_sources = files(
     'controller-control-policy-test.vala',
     'controller-hint-policy-test.vala',
     'controller-input-policy-test.vala',
+    'controller-text-input-policy-test.vala',
     'controller-navigation-policy-test.vala',
     'controller-surface-policy-test.vala',
     'cpu-capabilities-test.vala',

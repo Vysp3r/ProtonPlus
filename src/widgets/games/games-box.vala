@@ -202,6 +202,7 @@ namespace ProtonPlus.Widgets.Games {
                 placeholder_text = _("Search games"),
                 hexpand = true
             };
+            Utils.TextInputMetadataPolicy.apply (search_entry, Utils.TextInputFieldKind.SEARCH);
             search_entry.add_css_class ("flat");
             search_entry.changed.connect (schedule_search_filter);
 

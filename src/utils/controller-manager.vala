@@ -643,12 +643,12 @@ namespace ProtonPlus.Utils {
                 if (current is Gtk.DropDown || current is Gtk.ComboBox ||
                     current is Gtk.MenuButton || current is Adw.ComboRow)
                     return ControllerHintControlKind.OPEN;
-                if (current is Gtk.Editable || current is Gtk.TextView)
-                    return ControllerHintControlKind.EDITABLE;
                 if (current == root)
                     break;
                 current = current.get_parent ();
             }
+            if (ControllerEditableTargetResolver.resolve (focused, root) != null)
+                return ControllerHintControlKind.EDITABLE;
             return ControllerHintControlKind.DEFAULT;
         }
 
@@ -968,6 +968,17 @@ namespace ProtonPlus.Utils {
             if (focused == null)
                 return;
 
+            var root = get_direction_input_root (focused, get_active_surface ());
+            var editable = ControllerEditableTargetResolver.resolve (focused, root);
+            if (ControllerActivationPolicy.for_focused_control (editable != null) ==
+                ControllerActivationDecision.FOCUS_TEXT_INPUT) {
+                save_current_page_focus ();
+                focus_text_input ((!) editable);
+                schedule_scroll_to_focus ();
+                refresh_presentation ();
+                return;
+            }
+
             string previous_page_id;
             Gtk.Widget? previous_page_root;
             get_active_page_context (out previous_page_id, out previous_page_root);
@@ -992,6 +1003,26 @@ namespace ProtonPlus.Utils {
                 previous_page_id != active_page_id && active_page_root != null)
                 schedule_page_focus_restore ();
             refresh_presentation ();
+        }
+
+        void focus_text_input (Gtk.Widget target) {
+            var focused = get_focused_widget ();
+            if (focused != null && widget_is_descendant_of (focused, target))
+                return;
+
+            if (target is Adw.EntryRow) {
+                ((Adw.EntryRow) target).grab_focus_without_selecting ();
+            } else if (target is Gtk.Entry) {
+                ((Gtk.Entry) target).grab_focus_without_selecting ();
+            } else if (target is Gtk.Editable) {
+                var editable_delegate = ((Gtk.Editable) target).get_delegate ();
+                if (editable_delegate is Gtk.Text)
+                    ((Gtk.Text) editable_delegate).grab_focus_without_selecting ();
+                else
+                    target.grab_focus ();
+            } else {
+                target.grab_focus ();
+            }
         }
 
         Gtk.ListView? find_list_view_ancestor (Gtk.Widget focused, Gtk.Widget root) {

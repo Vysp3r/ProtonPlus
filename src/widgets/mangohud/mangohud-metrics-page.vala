@@ -60,7 +60,8 @@ namespace ProtonPlus.Widgets.MangoHud {
             var color_dialog = new Gtk.ColorDialog ();
             gpu_color_btn = create_color_button (color_dialog, config.gpu_color, (val) => { this.config.gpu_color = val; });
 
-            gpu_custom_name_row = create_entry (_ ("Custom GPU name"), config.gpu_text, (val) => { this.config.gpu_text = val; });
+            gpu_custom_name_row = create_entry (_ ("Custom GPU name"), config.gpu_text,
+                (val) => { this.config.gpu_text = val; }, Utils.TextInputFieldKind.FREE_FORM);
             gpu_custom_name_row.add_suffix (gpu_color_btn);
             add_flow_group (gpu_metrics_box, null, { gpu_custom_name_row });
 
@@ -136,7 +137,8 @@ namespace ProtonPlus.Widgets.MangoHud {
 
             cpu_color_btn = create_color_button (color_dialog, config.cpu_color, (val) => { this.config.cpu_color = val; });
 
-            cpu_custom_name_row = create_entry (_ ("Custom CPU name"), config.cpu_text, (val) => { this.config.cpu_text = val; });
+            cpu_custom_name_row = create_entry (_ ("Custom CPU name"), config.cpu_text,
+                (val) => { this.config.cpu_text = val; }, Utils.TextInputFieldKind.FREE_FORM);
             cpu_custom_name_row.add_suffix (cpu_color_btn);
             add_flow_group (cpu_metrics_box, null, { cpu_custom_name_row });
 

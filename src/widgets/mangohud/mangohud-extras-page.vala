@@ -127,9 +127,11 @@ namespace ProtonPlus.Widgets.MangoHud {
             media_player_row.add_suffix (media_player_color_btn);
             media_player_row.bind_property ("active", media_player_color_btn, "visible", BindingFlags.SYNC_CREATE);
 
-            network_row = create_entry (_ ("Network"), config.network, (val) => { this.config.network = val; });
+            network_row = create_entry (_ ("Network"), config.network,
+                (val) => { this.config.network = val; }, Utils.TextInputFieldKind.PATH_OR_IDENTIFIER);
             fahrenheit_row = create_switch (_ ("Fahrenheit"), config.fahrenheit, (val) => { this.config.fahrenheit = val; });
-            custom_text_row = create_entry (_ ("Custom command"), config.custom_text, (val) => { this.config.custom_text = val; });
+            custom_text_row = create_entry (_ ("Custom command"), config.custom_text,
+                (val) => { this.config.custom_text = val; }, Utils.TextInputFieldKind.COMMAND);
 
             add_flow_group (info_box, _ ("Others"), {
                                                         media_player_row, network_row, fahrenheit_row, custom_text_row
@@ -166,7 +168,8 @@ namespace ProtonPlus.Widgets.MangoHud {
             );
             refresh_toggle_logging_row ();
 
-            output_folder_row = create_entry (_ ("Output Folder"), config.output_folder, (val) => { this.config.output_folder = val; });
+            output_folder_row = create_entry (_ ("Output Folder"), config.output_folder,
+                (val) => { this.config.output_folder = val; }, Utils.TextInputFieldKind.PATH_OR_IDENTIFIER);
             var output_folder_btn = new Gtk.Button.from_icon_name ("folder-open-symbolic");
             output_folder_btn.set_valign (Gtk.Align.CENTER);
             output_folder_row.add_suffix (output_folder_btn);

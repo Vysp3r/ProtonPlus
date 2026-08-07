@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-06 21:16-0400\n"
+"POT-Creation-Date: 2026-08-06 21:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1932,7 +1932,7 @@ msgstr ""
 
 #. System Page
 #: src/globals.vala:30 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:291
+#: src/widgets/preferences/preferences-dialog.vala:292
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr ""
@@ -2163,103 +2163,111 @@ msgstr ""
 msgid "Special thanks to"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:98
+#: src/widgets/controller-hint-bar.vala:99
 msgid "Select"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:102
+#: src/widgets/controller-hint-bar.vala:103
 msgid "Toggle"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:106
+#: src/widgets/controller-hint-bar.vala:107
 msgid "Open"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:110
+#: src/widgets/controller-hint-bar.vala:111
 #: src/widgets/tools/tools-box.vala:110
 msgid "Back"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:114
+#: src/widgets/controller-hint-bar.vala:115
 msgid "Close"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:118
+#: src/widgets/controller-hint-bar.vala:119
 msgid "Left and right"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:119
-#: src/widgets/controller-hint-bar.vala:124
+#: src/widgets/controller-hint-bar.vala:120
+#: src/widgets/controller-hint-bar.vala:125
 msgid "Adjust"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:123
+#: src/widgets/controller-hint-bar.vala:124
 msgid "Up and down"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:127
+#: src/widgets/controller-hint-bar.vala:129
+msgid "Keyboard"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:130
+msgid "Enter text"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:133
 msgid "Shoulders"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:128
+#: src/widgets/controller-hint-bar.vala:134
 msgid "Shoulder buttons"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:129
+#: src/widgets/controller-hint-bar.vala:135
 msgid "Switch section or page"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:163
+#: src/widgets/controller-hint-bar.vala:169
 msgid "A button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:167
+#: src/widgets/controller-hint-bar.vala:173
 msgid "B button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:171
+#: src/widgets/controller-hint-bar.vala:177
 msgid "X button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:175
+#: src/widgets/controller-hint-bar.vala:181
 msgid "Y button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:179
+#: src/widgets/controller-hint-bar.vala:185
 msgid "Cross button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:183
+#: src/widgets/controller-hint-bar.vala:189
 msgid "Circle button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:187
+#: src/widgets/controller-hint-bar.vala:193
 msgid "Square button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:191
+#: src/widgets/controller-hint-bar.vala:197
 msgid "Triangle button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:194
+#: src/widgets/controller-hint-bar.vala:200
 msgid "Bottom"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:195
+#: src/widgets/controller-hint-bar.vala:201
 #: src/widgets/preferences/preferences-dialog.vala:36
 msgid "Bottom face button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:198
+#: src/widgets/controller-hint-bar.vala:204
 msgid "Right"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:199
+#: src/widgets/controller-hint-bar.vala:205
 #: src/widgets/preferences/preferences-dialog.vala:37
 msgid "Right face button"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:74 src/widgets/games/games-box.vala:493
+#: src/widgets/games/games-box.vala:74 src/widgets/games/games-box.vala:494
 #: src/widgets/tools/tools-release-box.vala:102
 msgid "No games found"
 msgstr ""
@@ -2268,7 +2276,7 @@ msgstr ""
 msgid "Try a different search term or filter."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:132 src/widgets/tools/tools-box.vala:203
+#: src/widgets/games/games-box.vala:132 src/widgets/tools/tools-box.vala:204
 msgid "All"
 msgstr ""
 
@@ -2282,8 +2290,8 @@ msgstr ""
 msgid "Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:183 src/widgets/tools/tools-box.vala:201
-#: src/widgets/tools/tools-box.vala:390
+#: src/widgets/games/games-box.vala:183 src/widgets/tools/tools-box.vala:202
+#: src/widgets/tools/tools-box.vala:391
 msgid "Filter"
 msgstr ""
 
@@ -2291,88 +2299,88 @@ msgstr ""
 msgid "Search games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:210
+#: src/widgets/games/games-box.vala:211
 msgid "Select all visible games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:226
+#: src/widgets/games/games-box.vala:227
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:230
+#: src/widgets/games/games-box.vala:231
 msgid "Tool"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:234
+#: src/widgets/games/games-box.vala:235
 msgid "Actions"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:288 src/widgets/games/games-box.vala:289
+#: src/widgets/games/games-box.vala:289 src/widgets/games/games-box.vala:290
 #: src/widgets/main/main-box.vala:45
 msgid "Games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:334
+#: src/widgets/games/games-box.vala:335
 msgid "No profile was found."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:336
+#: src/widgets/games/games-box.vala:337
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:337
+#: src/widgets/games/games-box.vala:338
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:348
+#: src/widgets/games/games-box.vala:349
 msgid "Unsupported launcher"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:350
+#: src/widgets/games/games-box.vala:351
 #, c-format
 msgid "%s is currently not supported."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:351
+#: src/widgets/games/games-box.vala:352
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:398 src/widgets/games/games-row.vala:129
+#: src/widgets/games/games-box.vala:399 src/widgets/games/games-row.vala:129
 #: src/widgets/tools/tools-migrate-box.vala:99
 msgid "Default"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:461
+#: src/widgets/games/games-box.vala:462
 msgid "Filter: Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:463
+#: src/widgets/games/games-box.vala:464
 msgid "Filter: Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:465
+#: src/widgets/games/games-box.vala:466
 msgid "Filter: All games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:485
+#: src/widgets/games/games-box.vala:486
 msgid "No matching games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:486
+#: src/widgets/games/games-box.vala:487
 #: src/widgets/tools/tools-group-box.vala:124
 msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:489
+#: src/widgets/games/games-box.vala:490
 msgid "No games match this filter"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:490
+#: src/widgets/games/games-box.vala:491
 msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:494
+#: src/widgets/games/games-box.vala:495
 msgid "No games are available for this launcher."
 msgstr ""
 
@@ -3363,7 +3371,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
-#: src/widgets/preferences/preferences-dialog.vala:354
+#: src/widgets/preferences/preferences-dialog.vala:355
 msgid "Gamescope"
 msgstr ""
 
@@ -3374,7 +3382,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
-#: src/widgets/preferences/preferences-dialog.vala:359
+#: src/widgets/preferences/preferences-dialog.vala:360
 msgid "ScopeBuddy"
 msgstr ""
 
@@ -3586,31 +3594,31 @@ msgstr ""
 msgid "Argument"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:14
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:15
 msgid "One exact shell argument. Quotes and escapes are preserved."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:20
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:21
 msgid "Apply argument edit"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:28
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:29
 msgid "Remove argument"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:81
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:82
 msgid "Add custom argument"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:82
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:83
 msgid "Add one argument per list entry."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:135
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:136
 msgid "Each custom game argument must be one complete shell argument."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:137
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:138
 msgid "Custom game arguments cannot contain %command%."
 msgstr ""
 
@@ -3630,38 +3638,38 @@ msgstr ""
 msgid "Search all options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:122
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:123
 msgid "Search launch options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:127
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
 msgid "Browse"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:468
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:469
 msgid "Quick settings"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:470
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:471
 msgid "Active options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:472
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:473
 msgid "All options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:211
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:212
 msgid "Raw command controls"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:212
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:213
 msgid "Change the Steam command placeholder only when a game requires it."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:547
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:548
 msgid "Unable to safely prepare these launch options."
 msgstr ""
 
@@ -4766,7 +4774,7 @@ msgid "Advanced"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:270
+#: src/widgets/preferences/preferences-dialog.vala:271
 msgid "Experimental"
 msgstr ""
 
@@ -4930,7 +4938,9 @@ msgid ""
 "Navigate with the D-pad or left stick, and scroll with the right stick. "
 "Choose the Confirm face button, use contextual Back, switch sections or "
 "pages with the shoulders, and open menus or launchers with their controller "
-"buttons."
+"buttons. To enter text, focus the field and press Steam + X to open the "
+"Steam Deck on-screen keyboard. A physical or system keyboard may be required "
+"on other systems."
 msgstr ""
 
 #: src/widgets/introduction/forks.vala:8
@@ -5082,7 +5092,7 @@ msgid "Tools"
 msgstr ""
 
 #: src/widgets/main/main-box.vala:47
-#: src/widgets/preferences/preferences-dialog.vala:344
+#: src/widgets/preferences/preferences-dialog.vala:345
 msgid "MangoHud"
 msgstr ""
 
@@ -5128,23 +5138,23 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:285 src/widgets/tools/tools-box.vala:599
+#: src/widgets/main/main-box.vala:285 src/widgets/tools/tools-box.vala:600
 msgid "Checking for updates"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:296 src/widgets/tools/tools-box.vala:607
+#: src/widgets/main/main-box.vala:296 src/widgets/tools/tools-box.vala:608
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:299 src/widgets/tools/tools-box.vala:610
+#: src/widgets/main/main-box.vala:299 src/widgets/tools/tools-box.vala:611
 msgid "Nothing to update"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:303 src/widgets/tools/tools-box.vala:614
+#: src/widgets/main/main-box.vala:303 src/widgets/tools/tools-box.vala:615
 msgid "Everything is now up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:306 src/widgets/tools/tools-box.vala:617
+#: src/widgets/main/main-box.vala:306 src/widgets/tools/tools-box.vala:618
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr ""
@@ -5558,65 +5568,65 @@ msgstr ""
 msgid "Network"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:131
+#: src/widgets/mangohud/mangohud-extras-page.vala:132
 msgid "Fahrenheit"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:132
+#: src/widgets/mangohud/mangohud-extras-page.vala:133
 msgid "Custom command"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:134
+#: src/widgets/mangohud/mangohud-extras-page.vala:136
 msgid "Others"
 msgstr ""
 
 #. Logging section
-#: src/widgets/mangohud/mangohud-extras-page.vala:142
+#: src/widgets/mangohud/mangohud-extras-page.vala:144
 msgid "Logging"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:149
+#: src/widgets/mangohud/mangohud-extras-page.vala:151
 msgid "Duration"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:150
+#: src/widgets/mangohud/mangohud-extras-page.vala:152
 msgid "Autostart"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:151
+#: src/widgets/mangohud/mangohud-extras-page.vala:153
 msgid "Interval"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:153
+#: src/widgets/mangohud/mangohud-extras-page.vala:155
 msgid "Toggle key"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:154
-#: src/widgets/mangohud/mangohud-performance-page.vala:99
-#: src/widgets/mangohud/mangohud-performance-page.vala:121
-#: src/widgets/mangohud/mangohud-visual-page.vala:95
+#: src/widgets/mangohud/mangohud-extras-page.vala:156
+#: src/widgets/mangohud/mangohud-performance-page.vala:100
+#: src/widgets/mangohud/mangohud-performance-page.vala:122
+#: src/widgets/mangohud/mangohud-visual-page.vala:97
 msgid "None"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:169
+#: src/widgets/mangohud/mangohud-extras-page.vala:171
 msgid "Output Folder"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:175
+#: src/widgets/mangohud/mangohud-extras-page.vala:178
 msgid "Select Output Folder"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:187
+#: src/widgets/mangohud/mangohud-extras-page.vala:190
 msgid "Autoupload Results"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:188
+#: src/widgets/mangohud/mangohud-extras-page.vala:191
 msgid "Log Versioning"
 msgstr ""
 
 #. GPU section
 #: src/widgets/mangohud/mangohud-metrics-page.vala:53
-#: src/widgets/mangohud/mangohud-metrics-page.vala:93
+#: src/widgets/mangohud/mangohud-metrics-page.vala:94
 msgid "GPU"
 msgstr ""
 
@@ -5624,143 +5634,143 @@ msgstr ""
 msgid "Custom GPU name"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:67
-#: src/widgets/mangohud/mangohud-metrics-page.vala:143
+#: src/widgets/mangohud/mangohud-metrics-page.vala:68
+#: src/widgets/mangohud/mangohud-metrics-page.vala:145
 msgid "Load"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:69
-#: src/widgets/mangohud/mangohud-metrics-page.vala:145
+#: src/widgets/mangohud/mangohud-metrics-page.vala:70
+#: src/widgets/mangohud/mangohud-metrics-page.vala:147
 msgid "Load Color"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:85
+#: src/widgets/mangohud/mangohud-metrics-page.vala:86
 msgid "VRAM"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:86
+#: src/widgets/mangohud/mangohud-metrics-page.vala:87
 msgid "Core Freq"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:87
+#: src/widgets/mangohud/mangohud-metrics-page.vala:88
 msgid "Memory Freq"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:89
-#: src/widgets/mangohud/mangohud-metrics-page.vala:165
+#: src/widgets/mangohud/mangohud-metrics-page.vala:90
+#: src/widgets/mangohud/mangohud-metrics-page.vala:167
 msgid "Main metrics"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:94
+#: src/widgets/mangohud/mangohud-metrics-page.vala:95
 msgid "Memory"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:95
+#: src/widgets/mangohud/mangohud-metrics-page.vala:96
 msgid "Junction"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:96
+#: src/widgets/mangohud/mangohud-metrics-page.vala:97
 msgid "Fans"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:98
+#: src/widgets/mangohud/mangohud-metrics-page.vala:99
 msgid "Temperature"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:102
-#: src/widgets/mangohud/mangohud-metrics-page.vala:109
+#: src/widgets/mangohud/mangohud-metrics-page.vala:103
+#: src/widgets/mangohud/mangohud-metrics-page.vala:110
 msgid "Power"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:103
+#: src/widgets/mangohud/mangohud-metrics-page.vala:104
 msgid "Voltage"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:104
+#: src/widgets/mangohud/mangohud-metrics-page.vala:105
 msgid "Throttling"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:105
+#: src/widgets/mangohud/mangohud-metrics-page.vala:106
 msgid "Throttling Graph"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:106
-#: src/widgets/mangohud/mangohud-metrics-page.vala:171
+#: src/widgets/mangohud/mangohud-metrics-page.vala:107
+#: src/widgets/mangohud/mangohud-metrics-page.vala:173
 msgid "Efficiency"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:107
+#: src/widgets/mangohud/mangohud-metrics-page.vala:108
 msgid "Power Limit"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:118
+#: src/widgets/mangohud/mangohud-metrics-page.vala:119
 msgid "Model"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:119
+#: src/widgets/mangohud/mangohud-metrics-page.vala:120
 msgid "Vulkan Driver"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:120
-#: src/widgets/mangohud/mangohud-metrics-page.vala:180
+#: src/widgets/mangohud/mangohud-metrics-page.vala:121
+#: src/widgets/mangohud/mangohud-metrics-page.vala:182
 msgid "Process"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:122
+#: src/widgets/mangohud/mangohud-metrics-page.vala:123
 #: src/widgets/mangohud/mangohud-performance-page.vala:40
 msgid "Information"
 msgstr ""
 
 #. CPU section
-#: src/widgets/mangohud/mangohud-metrics-page.vala:130
+#: src/widgets/mangohud/mangohud-metrics-page.vala:131
 msgid "CPU"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:139
+#: src/widgets/mangohud/mangohud-metrics-page.vala:140
 msgid "Custom CPU name"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:161
+#: src/widgets/mangohud/mangohud-metrics-page.vala:163
 msgid "Core Load"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:162
+#: src/widgets/mangohud/mangohud-metrics-page.vala:164
 msgid "CPU Freq"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:163
+#: src/widgets/mangohud/mangohud-metrics-page.vala:165
 msgid "Core Type"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:169
+#: src/widgets/mangohud/mangohud-metrics-page.vala:171
 msgid "CPU Temperature"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:170
+#: src/widgets/mangohud/mangohud-metrics-page.vala:172
 msgid "CPU Power"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:172
+#: src/widgets/mangohud/mangohud-metrics-page.vala:174
 msgid "RAM Temperature"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:174
+#: src/widgets/mangohud/mangohud-metrics-page.vala:176
 msgid "Temperature / Power"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:178
+#: src/widgets/mangohud/mangohud-metrics-page.vala:180
 msgid "RAM"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:179
+#: src/widgets/mangohud/mangohud-metrics-page.vala:181
 msgid "DISK IO"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:181
+#: src/widgets/mangohud/mangohud-metrics-page.vala:183
 msgid "Swap"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-metrics-page.vala:183
+#: src/widgets/mangohud/mangohud-metrics-page.vala:185
 msgid "Memory / IO"
 msgstr ""
 
@@ -5829,51 +5839,51 @@ msgstr ""
 msgid "VSYNC"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:66
+#: src/widgets/mangohud/mangohud-performance-page.vala:67
 msgid "Offset"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:71
+#: src/widgets/mangohud/mangohud-performance-page.vala:72
 msgid "Change FPS Colors"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:90
+#: src/widgets/mangohud/mangohud-performance-page.vala:91
 msgid "Method"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:98
+#: src/widgets/mangohud/mangohud-performance-page.vala:99
 msgid "Limit Toggle Key"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:113
+#: src/widgets/mangohud/mangohud-performance-page.vala:114
 msgid "Limiters"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:121
+#: src/widgets/mangohud/mangohud-performance-page.vala:122
 msgid "Filtering"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:121
+#: src/widgets/mangohud/mangohud-performance-page.vala:122
 msgid "Bicubic"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:121
+#: src/widgets/mangohud/mangohud-performance-page.vala:122
 msgid "Trilinear"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:121
+#: src/widgets/mangohud/mangohud-performance-page.vala:122
 msgid "Retro"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:130
+#: src/widgets/mangohud/mangohud-performance-page.vala:131
 msgid "Anisotropic Filtering"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:131
+#: src/widgets/mangohud/mangohud-performance-page.vala:132
 msgid "Mip-map LoD Bias"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-performance-page.vala:133
+#: src/widgets/mangohud/mangohud-performance-page.vala:134
 msgid "Filters"
 msgstr ""
 
@@ -5913,71 +5923,71 @@ msgstr ""
 msgid "HUD Title"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:22
+#: src/widgets/mangohud/mangohud-visual-page.vala:23
 msgid "Orientation"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:23
+#: src/widgets/mangohud/mangohud-visual-page.vala:24
 msgid "Vertical"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:23
+#: src/widgets/mangohud/mangohud-visual-page.vala:24
 msgid "Horizontal"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:31
+#: src/widgets/mangohud/mangohud-visual-page.vala:32
 msgid "Borders"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:31
+#: src/widgets/mangohud/mangohud-visual-page.vala:32
 msgid "Squared"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:31
+#: src/widgets/mangohud/mangohud-visual-page.vala:32
 msgid "Rounded"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:47
+#: src/widgets/mangohud/mangohud-visual-page.vala:48
 msgid "Background Color"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:64
+#: src/widgets/mangohud/mangohud-visual-page.vala:65
 msgid "Font Size"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:68
+#: src/widgets/mangohud/mangohud-visual-page.vala:70
 msgid "Position"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:69
+#: src/widgets/mangohud/mangohud-visual-page.vala:71
 msgid "Top Left"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:69
+#: src/widgets/mangohud/mangohud-visual-page.vala:71
 msgid "Top Right"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:69
+#: src/widgets/mangohud/mangohud-visual-page.vala:71
 msgid "Bottom Left"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:69
+#: src/widgets/mangohud/mangohud-visual-page.vala:71
 msgid "Bottom Right"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:84
+#: src/widgets/mangohud/mangohud-visual-page.vala:86
 msgid "Columns"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:94
+#: src/widgets/mangohud/mangohud-visual-page.vala:96
 msgid "HUD Toggle Key"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:111
+#: src/widgets/mangohud/mangohud-visual-page.vala:113
 msgid "Compact HUD"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-visual-page.vala:113
+#: src/widgets/mangohud/mangohud-visual-page.vala:115
 msgid "Hide by default"
 msgstr ""
 
@@ -5985,12 +5995,12 @@ msgstr ""
 msgid "Enter an access token to reduce your chances of being rate limited"
 msgstr ""
 
-#: src/widgets/preferences/preferences-access-token-row.vala:10
+#: src/widgets/preferences/preferences-access-token-row.vala:11
 #, c-format
 msgid "%s access token"
 msgstr ""
 
-#: src/widgets/preferences/preferences-access-token-row.vala:21
+#: src/widgets/preferences/preferences-access-token-row.vala:22
 msgid "Open token creation page"
 msgstr ""
 
@@ -6104,100 +6114,100 @@ msgstr ""
 msgid "Proxy URL"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:263
+#: src/widgets/preferences/preferences-dialog.vala:264
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:275
+#: src/widgets/preferences/preferences-dialog.vala:276
 msgid "Preview features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:276
+#: src/widgets/preferences/preferences-dialog.vala:277
 msgid "Enable experimental features for early testing"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:283
+#: src/widgets/preferences/preferences-dialog.vala:284
 msgid "Maintenance"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:297
+#: src/widgets/preferences/preferences-dialog.vala:298
 msgid "Software Environment"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:302
+#: src/widgets/preferences/preferences-dialog.vala:303
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:303
-#: src/widgets/preferences/preferences-dialog.vala:308
-#: src/widgets/preferences/preferences-dialog.vala:335
-#: src/widgets/preferences/preferences-dialog.vala:340
-#: src/widgets/preferences/preferences-dialog.vala:345
-#: src/widgets/preferences/preferences-dialog.vala:350
-#: src/widgets/preferences/preferences-dialog.vala:355
-#: src/widgets/preferences/preferences-dialog.vala:360
-#: src/widgets/preferences/preferences-dialog.vala:365
+#: src/widgets/preferences/preferences-dialog.vala:304
+#: src/widgets/preferences/preferences-dialog.vala:309
+#: src/widgets/preferences/preferences-dialog.vala:336
+#: src/widgets/preferences/preferences-dialog.vala:341
+#: src/widgets/preferences/preferences-dialog.vala:346
+#: src/widgets/preferences/preferences-dialog.vala:351
+#: src/widgets/preferences/preferences-dialog.vala:356
+#: src/widgets/preferences/preferences-dialog.vala:361
+#: src/widgets/preferences/preferences-dialog.vala:366
 #: src/widgets/tools/tools-stl-release-row.vala:98
 msgid "Yes"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:303
-#: src/widgets/preferences/preferences-dialog.vala:308
-#: src/widgets/preferences/preferences-dialog.vala:335
-#: src/widgets/preferences/preferences-dialog.vala:340
-#: src/widgets/preferences/preferences-dialog.vala:345
-#: src/widgets/preferences/preferences-dialog.vala:350
-#: src/widgets/preferences/preferences-dialog.vala:355
-#: src/widgets/preferences/preferences-dialog.vala:360
-#: src/widgets/preferences/preferences-dialog.vala:365
+#: src/widgets/preferences/preferences-dialog.vala:304
+#: src/widgets/preferences/preferences-dialog.vala:309
+#: src/widgets/preferences/preferences-dialog.vala:336
+#: src/widgets/preferences/preferences-dialog.vala:341
+#: src/widgets/preferences/preferences-dialog.vala:346
+#: src/widgets/preferences/preferences-dialog.vala:351
+#: src/widgets/preferences/preferences-dialog.vala:356
+#: src/widgets/preferences/preferences-dialog.vala:361
+#: src/widgets/preferences/preferences-dialog.vala:366
 #: src/widgets/tools/tools-stl-release-row.vala:97
 msgid "No"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:307
+#: src/widgets/preferences/preferences-dialog.vala:308
 msgid "Flatpak"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:312
+#: src/widgets/preferences/preferences-dialog.vala:313
 msgid "Hardware"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:324
+#: src/widgets/preferences/preferences-dialog.vala:325
 msgid "HWCAPS"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:329
+#: src/widgets/preferences/preferences-dialog.vala:330
 msgid "Dependencies"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:334
+#: src/widgets/preferences/preferences-dialog.vala:335
 msgid "Protontricks"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:339
+#: src/widgets/preferences/preferences-dialog.vala:340
 msgid "Protontricks (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:349
+#: src/widgets/preferences/preferences-dialog.vala:350
 msgid "MangoHud (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:364
+#: src/widgets/preferences/preferences-dialog.vala:365
 msgid "Feral Gamemode"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:369
+#: src/widgets/preferences/preferences-dialog.vala:370
 msgid "Detected Launchers"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:392
-#: src/widgets/tools/tools-box.vala:206
+#: src/widgets/preferences/preferences-dialog.vala:393
+#: src/widgets/tools/tools-box.vala:207
 #: src/widgets/tools/tools-group-box.vala:239
 msgid "Installed"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:392
+#: src/widgets/preferences/preferences-dialog.vala:393
 msgid "Not installed"
 msgstr ""
 
@@ -6304,24 +6314,24 @@ msgstr ""
 msgid "Check for updates"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:161 src/widgets/tools/tools-box.vala:194
-#: src/widgets/tools/tools-box.vala:380
+#: src/widgets/tools/tools-box.vala:161 src/widgets/tools/tools-box.vala:195
+#: src/widgets/tools/tools-box.vala:381
 msgid "Search"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:209
+#: src/widgets/tools/tools-box.vala:210
 msgid "Used"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:212
+#: src/widgets/tools/tools-box.vala:213
 msgid "Unused"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:377
+#: src/widgets/tools/tools-box.vala:378
 msgid "Search is active"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:387
+#: src/widgets/tools/tools-box.vala:388
 msgid "Filter is active"
 msgstr ""
 

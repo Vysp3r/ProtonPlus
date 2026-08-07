@@ -260,6 +260,7 @@ namespace ProtonPlus.Widgets.Preferences {
             proxy_url_row = new Adw.EntryRow () {
                 title = _("Proxy URL"),
             };
+            Utils.TextInputMetadataPolicy.apply ((!) proxy_url_row, Utils.TextInputFieldKind.URL);
             proxy_url_row.set_tooltip_text (_("Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"));
             proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
             Globals.SETTINGS.bind ("proxy-url", proxy_url_row, "text", SettingsBindFlags.DEFAULT);

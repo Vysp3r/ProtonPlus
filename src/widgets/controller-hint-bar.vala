@@ -79,6 +79,7 @@ namespace ProtonPlus.Widgets {
             case OPEN:
             case BACK:
             case CLOSE:
+            case TEXT_INPUT:
                 return true;
             default:
                 return false;
@@ -122,6 +123,11 @@ namespace ProtonPlus.Widgets {
                 capsule_text = "↑/↓";
                 capsule_accessible = _("Up and down");
                 action = _("Adjust");
+                return create_hint_row (capsule_text, capsule_accessible, action);
+            case TEXT_INPUT:
+                capsule_text = "⌨";
+                capsule_accessible = _("Keyboard");
+                action = _("Enter text");
                 return create_hint_row (capsule_text, capsule_accessible, action);
             case SWITCH_SECTION:
                 capsule_text = _("Shoulders");

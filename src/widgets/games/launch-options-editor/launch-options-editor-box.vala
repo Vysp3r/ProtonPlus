@@ -119,6 +119,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             search_entry = new Adw.EntryRow () {
                 title = _("Search all options")
             };
+            Utils.TextInputMetadataPolicy.apply (search_entry, Utils.TextInputFieldKind.SEARCH);
             search_entry.set_tooltip_text (_("Search launch options"));
             search_entry.changed.connect (refresh_filters);
             group.add (search_entry);

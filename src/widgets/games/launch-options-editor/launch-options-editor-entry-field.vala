@@ -12,6 +12,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             Object ();
             this.title = title;
             this.tooltip_text = subtitle != "" ? subtitle : placeholder;
+            Utils.TextInputMetadataPolicy.apply (this, Utils.TextInputFieldKind.COMMAND);
 
             committed_text = "";
 

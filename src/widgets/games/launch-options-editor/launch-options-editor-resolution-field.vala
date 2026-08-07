@@ -52,7 +52,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             toggle.set_tooltip_text (subtitle);
 
             width_entry = new Gtk.Entry ();
-            width_entry.set_input_purpose (Gtk.InputPurpose.DIGITS);
+            Utils.TextInputMetadataPolicy.apply (width_entry, Utils.TextInputFieldKind.DIGITS);
             width_entry.set_width_chars (5);
             width_entry.set_max_width_chars (5);
             width_entry.set_text (committed_width.to_string ());
@@ -63,7 +63,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             separator_label.add_css_class ("dim-label");
 
             height_entry = new Gtk.Entry ();
-            height_entry.set_input_purpose (Gtk.InputPurpose.DIGITS);
+            Utils.TextInputMetadataPolicy.apply (height_entry, Utils.TextInputFieldKind.DIGITS);
             height_entry.set_width_chars (5);
             height_entry.set_max_width_chars (5);
             height_entry.set_text (committed_height.to_string ());

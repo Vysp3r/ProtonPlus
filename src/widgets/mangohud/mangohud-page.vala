@@ -68,11 +68,14 @@ namespace ProtonPlus.Widgets.MangoHud {
 
         public abstract void refresh ();
 
-        protected Adw.EntryRow create_entry (string title, string initial_value, SetValueFuncStr set_value) {
+        protected Adw.EntryRow create_entry (string title, string initial_value,
+            SetValueFuncStr set_value,
+            Utils.TextInputFieldKind field_kind = Utils.TextInputFieldKind.FREE_FORM) {
             var row = new Adw.EntryRow () {
                 title = title,
                 text = initial_value
             };
+            Utils.TextInputMetadataPolicy.apply (row, field_kind);
             row.notify["text"].connect (() => {
                 if (is_updating || this.config == null)
                     return;

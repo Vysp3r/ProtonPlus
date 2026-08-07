@@ -10,6 +10,7 @@ int main (string[] args) {
     AppTests.ControllerControlPolicyTest.register_tests ();
     AppTests.ControllerHintPolicyTest.register_tests ();
     AppTests.ControllerInputPolicyTest.register_tests ();
+    AppTests.ControllerTextInputPolicyTest.register_tests ();
     AppTests.ControllerNavigationPolicyTest.register_tests ();
     AppTests.ControllerSurfacePolicyTest.register_tests ();
     AppTests.CpuCapabilitiesTest.register_tests ();

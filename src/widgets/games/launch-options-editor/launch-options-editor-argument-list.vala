@@ -11,6 +11,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             Object (title: _("Argument"), source_index: source_index);
             committed_text = value;
             text = value;
+            Utils.TextInputMetadataPolicy.apply (this, Utils.TextInputFieldKind.COMMAND);
             set_tooltip_text (_("One exact shell argument. Quotes and escapes are preserved."));
 
             apply_button = new Gtk.Button.from_icon_name ("object-select-symbolic") {

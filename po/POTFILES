@@ -83,6 +83,7 @@ src/utils/controller-input-policy.vala
 src/utils/controller-manager.vala
 src/utils/controller-navigation-policy.vala
 src/utils/controller-surface-policy.vala
+src/utils/controller-text-input-policy.vala
 src/utils/download-manager.vala
 src/utils/filesystem.vala
 src/utils/i18n.vala

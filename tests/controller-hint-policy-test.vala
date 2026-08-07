@@ -49,6 +49,17 @@ namespace AppTests.ControllerHintPolicyTest {
             can_switch_section = true
         });
         assert (hints.length == 0);
+
+        var editable = ControllerHintPolicy.get_hints (new ControllerHintContext () {
+            controller_mode_active = true,
+            has_dialog = true,
+            control_kind = ControllerHintControlKind.EDITABLE,
+            can_navigate_back = true,
+            can_switch_section = true
+        });
+        assert (editable.length == 1);
+        assert (contains (editable, ControllerHintKind.TEXT_INPUT));
+        assert (!contains (editable, ControllerHintKind.SELECT));
     }
 
     private void test_control_hints () {
@@ -56,10 +67,26 @@ namespace AppTests.ControllerHintPolicyTest {
         var vertical = hints_for (ControllerHintControlKind.VERTICAL_RANGE);
         var toggle = hints_for (ControllerHintControlKind.TOGGLE);
         var open = hints_for (ControllerHintControlKind.OPEN);
+        var editable = hints_for (ControllerHintControlKind.EDITABLE);
         assert (contains (horizontal, ControllerHintKind.ADJUST_HORIZONTAL));
         assert (contains (vertical, ControllerHintKind.ADJUST_VERTICAL));
         assert (contains (toggle, ControllerHintKind.TOGGLE));
         assert (contains (open, ControllerHintKind.OPEN));
+        assert (contains (editable, ControllerHintKind.TEXT_INPUT));
+        assert (!contains (editable, ControllerHintKind.SELECT));
+    }
+
+    private void test_editable_popover_hints () {
+        var hints = hints_for (ControllerHintControlKind.EDITABLE, true, true, true);
+        assert (contains (hints, ControllerHintKind.TEXT_INPUT));
+        assert (contains (hints, ControllerHintKind.CLOSE));
+        assert (!contains (hints, ControllerHintKind.SELECT));
+    }
+
+    private void test_editable_back_hint () {
+        var hints = hints_for (ControllerHintControlKind.EDITABLE, true);
+        assert (contains (hints, ControllerHintKind.TEXT_INPUT));
+        assert (contains (hints, ControllerHintKind.BACK));
     }
 
     private void test_switch_capability () {
@@ -136,6 +163,8 @@ namespace AppTests.ControllerHintPolicyTest {
         Test.add_func ("/controller-hints/popover-precedence", test_popover_precedence);
         Test.add_func ("/controller-hints/dialog-suppresses-global", test_dialog_suppresses_global_hints);
         Test.add_func ("/controller-hints/control-kinds", test_control_hints);
+        Test.add_func ("/controller-hints/editable-popover", test_editable_popover_hints);
+        Test.add_func ("/controller-hints/editable-back", test_editable_back_hint);
         Test.add_func ("/controller-hints/switch-capability", test_switch_capability);
         Test.add_func ("/controller-hints/south-confirm", test_south_confirm_mapping);
         Test.add_func ("/controller-hints/east-confirm", test_east_confirm_mapping);

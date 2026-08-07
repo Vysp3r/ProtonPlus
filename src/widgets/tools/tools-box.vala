@@ -161,6 +161,7 @@ namespace ProtonPlus.Widgets.Tools {
                 placeholder_text = _ ("Search"),
                 width_request = 400,
             };
+            Utils.TextInputMetadataPolicy.apply (search_entry, Utils.TextInputFieldKind.SEARCH);
             search_entry.search_changed.connect (() => {
                 var search_text = search_entry.get_text ();
                 releases_box.search_text = search_text;

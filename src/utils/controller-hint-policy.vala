@@ -7,6 +7,7 @@ namespace ProtonPlus.Utils {
         CLOSE,
         ADJUST_HORIZONTAL,
         ADJUST_VERTICAL,
+        TEXT_INPUT,
         SWITCH_SECTION
     }
 
@@ -107,8 +108,13 @@ namespace ProtonPlus.Utils {
     public class ControllerHintPolicy : Object {
         public static ControllerHintKind[] get_hints (ControllerHintContext context) {
             ControllerHintKind[] hints = {};
-            if (!context.controller_mode_active || context.has_dialog)
+            if (!context.controller_mode_active)
                 return hints;
+            if (context.has_dialog) {
+                if (context.control_kind == ControllerHintControlKind.EDITABLE)
+                    hints += ControllerHintKind.TEXT_INPUT;
+                return hints;
+            }
 
             switch (context.control_kind) {
             case TOGGLE:
@@ -124,6 +130,7 @@ namespace ProtonPlus.Utils {
                 hints += ControllerHintKind.ADJUST_VERTICAL;
                 break;
             case EDITABLE:
+                hints += ControllerHintKind.TEXT_INPUT;
                 break;
             default:
                 hints += ControllerHintKind.SELECT;

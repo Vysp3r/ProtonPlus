@@ -62,10 +62,11 @@ namespace ProtonPlus.Widgets.MangoHud {
 
             add_flow_group (this, _ ("VSYNC"), { vsync_row, gl_vsync_row }, "heading");
 
-            fps_limit_row = create_entry (_ ("FPS Limit"), config.fps_limit, (val) => { this.config.fps_limit = val; });
+            fps_limit_row = create_entry (_ ("FPS Limit"), config.fps_limit,
+                (val) => { this.config.fps_limit = val; }, Utils.TextInputFieldKind.NUMERIC);
             fps_limit_offset_row = create_entry (_ ("Offset"), config.fps_limit_offset.to_string (), (val) => {
                 this.config.fps_limit_offset = val != "" ? int.parse (val) : 0;
-            });
+            }, Utils.TextInputFieldKind.NUMERIC);
 
             var color_dialog = new Gtk.ColorDialog ();
             change_fps_limit_colors_row = create_switch (_ ("Change FPS Colors"), config.change_fps_limit_colors, (val) => {

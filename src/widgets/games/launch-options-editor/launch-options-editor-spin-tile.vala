@@ -35,7 +35,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             value_caption.add_css_class ("dim-label");
 
             value_entry = new Gtk.Entry ();
-            value_entry.set_input_purpose (Gtk.InputPurpose.DIGITS);
+            Utils.TextInputMetadataPolicy.apply (value_entry, Utils.TextInputFieldKind.DIGITS);
             value_entry.set_width_chars (5);
             value_entry.set_max_width_chars (5);
             value_entry.set_halign (Gtk.Align.START);

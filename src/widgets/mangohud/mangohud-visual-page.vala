@@ -15,7 +15,8 @@ namespace ProtonPlus.Widgets.MangoHud {
         public VisualPage (Utils.MangoHudManager config) {
             base (config);
 
-            hud_title_row = create_entry (_ ("HUD Title"), config.hud_title, (val) => { this.config.hud_title = val; });
+            hud_title_row = create_entry (_ ("HUD Title"), config.hud_title,
+                (val) => { this.config.hud_title = val; }, Utils.TextInputFieldKind.FREE_FORM);
             add_group_to_page (this, null, create_row_card (hud_title_row));
 
             orientation_row = create_combo (
@@ -61,7 +62,8 @@ namespace ProtonPlus.Widgets.MangoHud {
 
             font_color_btn = create_color_button (color_dialog, config.text_color, (val) => { this.config.text_color = val; });
 
-            font_size_row = create_entry (_ ("Font Size"), config.font_size, (val) => { this.config.font_size = val; });
+            font_size_row = create_entry (_ ("Font Size"), config.font_size,
+                (val) => { this.config.font_size = val; }, Utils.TextInputFieldKind.NUMERIC);
             font_size_row.add_suffix (font_color_btn);
 
             position_row = create_combo (

@@ -38,6 +38,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
             add_custom_row = new Adw.EntryRow ();
             add_custom_row.title = _("Add custom item (Type name and press Enter)...");
+            Utils.TextInputMetadataPolicy.apply (
+                add_custom_row, Utils.TextInputFieldKind.PATH_OR_IDENTIFIER
+            );
             add_custom_row.set_tooltip_text (add_custom_row.title);
             add_custom_row.activates_default = true;
 
