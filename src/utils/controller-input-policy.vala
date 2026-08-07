@@ -57,6 +57,7 @@ namespace ProtonPlus.Utils {
         private int64 owned_device_id = 0;
         private ControllerNavigationDirection analog_direction = ControllerNavigationDirection.NONE;
         private bool analog_suppressed = false;
+        private bool scroll_suppressed = false;
         private double owned_scroll_intent = 0;
         private bool repeat_active = false;
         private int64 repeating_device_id = 0;
@@ -109,7 +110,7 @@ namespace ProtonPlus.Utils {
 
         public bool note_button_press (int64 device_id) {
             ensure_device (device_id);
-            return claim_device (device_id);
+            return claim_device (device_id, true);
         }
 
         public bool begin_repeat (int64 device_id, ControllerNavigationDirection direction,
@@ -201,8 +202,15 @@ namespace ProtonPlus.Utils {
             if ((!owns_device || owned_device_id != device_id) && !was_outside && is_outside)
                 ownership_changed = claim_device (device_id);
 
-            if (owns_device && owned_device_id == device_id)
-                owned_scroll_intent = is_outside ? device.right_y : 0;
+            if (owns_device && owned_device_id == device_id) {
+                if (scroll_suppressed) {
+                    if (!is_outside)
+                        scroll_suppressed = false;
+                    owned_scroll_intent = 0;
+                } else {
+                    owned_scroll_intent = is_outside ? device.right_y : 0;
+                }
+            }
             return ownership_changed;
         }
 
@@ -222,7 +230,10 @@ namespace ProtonPlus.Utils {
             if (analog_direction != ControllerNavigationDirection.NONE ||
                 (device != null && maximum_left_magnitude (device) >= LEFT_STICK_RELEASE_THRESHOLD))
                 analog_suppressed = true;
+            scroll_suppressed = device != null &&
+                Math.fabs (device.right_y) > RIGHT_STICK_DEADZONE;
             analog_direction = ControllerNavigationDirection.NONE;
+            owned_scroll_intent = 0;
             cancel_repeat ();
         }
 
@@ -234,6 +245,7 @@ namespace ProtonPlus.Utils {
             }
             analog_direction = ControllerNavigationDirection.NONE;
             analog_suppressed = false;
+            scroll_suppressed = false;
             owned_scroll_intent = 0;
             cancel_repeat ();
         }
@@ -243,14 +255,18 @@ namespace ProtonPlus.Utils {
             clear_ownership ();
         }
 
-        private bool claim_device (int64 device_id) {
+        private bool claim_device (int64 device_id, bool suppress_held_axes = false) {
             if (owns_device && owned_device_id == device_id)
                 return false;
 
+            var device = ensure_device (device_id);
             owns_device = true;
             owned_device_id = device_id;
             analog_direction = ControllerNavigationDirection.NONE;
-            analog_suppressed = false;
+            analog_suppressed = suppress_held_axes &&
+                maximum_left_magnitude (device) >= LEFT_STICK_RELEASE_THRESHOLD;
+            scroll_suppressed = suppress_held_axes &&
+                Math.fabs (device.right_y) > RIGHT_STICK_DEADZONE;
             owned_scroll_intent = 0;
             cancel_repeat ();
             return true;
@@ -261,6 +277,7 @@ namespace ProtonPlus.Utils {
             owned_device_id = 0;
             analog_direction = ControllerNavigationDirection.NONE;
             analog_suppressed = false;
+            scroll_suppressed = false;
             owned_scroll_intent = 0;
             cancel_repeat ();
         }

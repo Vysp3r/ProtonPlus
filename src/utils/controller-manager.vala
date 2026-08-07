@@ -100,17 +100,17 @@ namespace ProtonPlus.Utils {
             surface_policy = new ControllerSurfacePolicy (window_surface);
 
             motion = new Gtk.EventControllerMotion ();
-            motion.motion.connect ((x, y) => deactivate_controller_mode ());
+            motion.motion.connect ((x, y) => yield_to_non_controller_input ());
 
             press = new Gtk.GestureClick ();
             press.set_button (0);
             press.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
-            press.pressed.connect ((n_press, x, y) => deactivate_controller_mode ());
+            press.pressed.connect ((n_press, x, y) => yield_to_non_controller_input ());
 
             keys = new Gtk.EventControllerKey ();
             keys.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
             keys.key_pressed.connect ((keyval, keycode, state) => {
-                deactivate_controller_mode ();
+                yield_to_non_controller_input ();
                 return false;
             });
 
@@ -537,6 +537,13 @@ namespace ProtonPlus.Utils {
             window.remove_css_class ("controller-active");
             clear_highlight ();
             refresh_presentation ();
+        }
+
+        void yield_to_non_controller_input () {
+            input_policy.surface_changed ();
+            haptic_feedback.context_changed ();
+            cancel_repeat_timer ();
+            deactivate_controller_mode ();
         }
 
         void update_highlight (Gtk.Widget? widget) {
@@ -1255,7 +1262,10 @@ namespace ProtonPlus.Utils {
             if (host != null)
                 return host;
             if (surface.kind == ControllerSurfaceKind.WINDOW)
-                return window.main_box as ControllerNavigationHost;
+                return window.main_box.get_root () == window &&
+                    window.main_box.get_mapped () && window.main_box.get_visible ()
+                    ? window.main_box as ControllerNavigationHost
+                    : null;
             return null;
         }
 

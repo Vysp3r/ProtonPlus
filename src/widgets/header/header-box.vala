@@ -26,6 +26,9 @@ namespace ProtonPlus.Widgets.Header {
             menu_button.set_tooltip_text (_("Main Menu"));
             menu_button.set_icon_name ("bars-symbolic");
             menu_button.set_menu_model (menu);
+            var menu_popover = menu_button.get_popover ();
+            if (menu_popover != null)
+                Window.register_popover_for_controller ((!) menu_popover, menu_button);
 
             header_bar = new Adw.HeaderBar ();
             header_bar.pack_start (launchers_button);

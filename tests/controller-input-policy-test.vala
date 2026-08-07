@@ -150,6 +150,32 @@ namespace AppTests.ControllerInputPolicyTest {
         assert (!policy.disconnect_device (2));
     }
 
+    private void test_button_claim_suppresses_held_axes () {
+        var held_axes = new ControllerInputPolicy ();
+        assert_direction (
+            held_axes.update_left_axis (2, true, axis_value (0.70)),
+            ControllerNavigationDirection.RIGHT
+        );
+        assert (held_axes.update_right_axis (2, axis_value (0.70)) == false);
+        assert (held_axes.note_button_press (1));
+        assert (held_axes.note_button_press (2));
+        assert_direction (
+            held_axes.update_left_axis (2, true, axis_value (0.80)),
+            ControllerNavigationDirection.NONE
+        );
+        held_axes.update_right_axis (2, axis_value (0.80));
+        assert (held_axes.scroll_intent == 0);
+
+        held_axes.update_left_axis (2, true, axis_value (0.20));
+        held_axes.update_right_axis (2, axis_value (0.20));
+        assert_direction (
+            held_axes.update_left_axis (2, true, axis_value (-0.70)),
+            ControllerNavigationDirection.LEFT
+        );
+        held_axes.update_right_axis (2, axis_value (-0.70));
+        assert_cmpfloat_with_epsilon (held_axes.scroll_intent, -0.70, 0.0001);
+    }
+
     private void test_repeat_identity_and_resets () {
         var policy = new ControllerInputPolicy ();
         policy.note_button_press (1);
@@ -211,11 +237,26 @@ namespace AppTests.ControllerInputPolicyTest {
             policy.update_left_axis (1, false, axis_value (0.80)),
             ControllerNavigationDirection.NONE
         );
+
         policy.update_left_axis (1, false, axis_value (0.20));
         assert_direction (
             policy.update_left_axis (1, false, axis_value (-0.70)),
             ControllerNavigationDirection.UP
         );
+    }
+
+    private void test_surface_change_suppresses_scroll_until_neutral () {
+        var policy = new ControllerInputPolicy ();
+        policy.update_right_axis (1, axis_value (0.70));
+        assert_cmpfloat_with_epsilon (policy.scroll_intent, 0.70, 0.0001);
+        policy.surface_changed ();
+        assert (policy.scroll_intent == 0);
+        policy.update_right_axis (1, axis_value (0.80));
+        assert (policy.scroll_intent == 0);
+        policy.update_right_axis (1, axis_value (0.20));
+        assert (policy.scroll_intent == 0);
+        policy.update_right_axis (1, axis_value (-0.70));
+        assert_cmpfloat_with_epsilon (policy.scroll_intent, -0.70, 0.0001);
     }
 
     public void register_tests () {
@@ -226,7 +267,9 @@ namespace AppTests.ControllerInputPolicyTest {
         Test.add_func ("/controller-input/left-stick-diagonal", test_left_stick_diagonal_hysteresis);
         Test.add_func ("/controller-input/right-stick-scroll", test_right_stick_scroll_policy);
         Test.add_func ("/controller-input/active-device", test_active_device_ownership);
+        Test.add_func ("/controller-input/button-claim-held-axes", test_button_claim_suppresses_held_axes);
         Test.add_func ("/controller-input/repeat-identity", test_repeat_identity_and_resets);
         Test.add_func ("/controller-input/surface-neutral", test_surface_change_requires_neutral);
+        Test.add_func ("/controller-input/surface-scroll-neutral", test_surface_change_suppresses_scroll_until_neutral);
     }
 }
