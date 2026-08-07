@@ -43,10 +43,13 @@ ProtonPlus helps you install, update, remove, and organize compatibility tools u
 
 - Manage Proton, Wine, DXVK, and VKD3D tools from one application.
 - Install versioned releases and `Latest` builds, update installed tools, remove old versions, and migrate games between tools where supported.
+- Filter release variants against the detected CPU architecture and x86-64 capability level before installation.
 - Detect system and Flatpak launcher installations, with Steam Snap support.
 - Manage tools for Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, and WineZGUI.
 - Browse Steam games, change default and per-game compatibility tools, edit launch options, and apply compatibility-tool or launch-option changes to multiple games.
 - Configure Steam profiles and create or remove a ProtonPlus shortcut in Steam from the preferences view.
+- Coordinate required Steam restarts after compatibility-tool or Steam configuration changes.
+- Navigate Tools, Games, preferences, dialogs, and menus with a gamepad, with contextual button hints and optional vibration.
 - Configure MangoHud presets when MangoHud is installed, including visual, performance, metrics, and extra settings.
 - Track downloads and updates from the application header, with cancellation and desktop notifications.
 - Use the command-line interface for listing launchers, installing, updating, and uninstalling tools.
@@ -214,6 +217,19 @@ The local target installs the GNOME 50 SDK and runtime, the Vala SDK extension, 
 
 Downloads and updates appear in the header indicator. ProtonPlus also sends desktop notifications when an operation finishes while the application is not active.
 
+### Controller input
+
+ProtonPlus supports gamepad navigation through SDL 3. Use the D-pad or left
+stick to move, the right stick to scroll, the configured confirm face button
+to activate controls, and the other face button to go back or close the active
+dialog or menu. Shoulder and dedicated controller buttons provide contextual
+page, section, search, filter, menu, and launcher shortcuts where available;
+the hint bar shows the actions supported by the current view.
+
+On Steam Deck, focus a text field and use **Steam + X** to open the on-screen
+keyboard. Other systems may require a physical or system-provided keyboard for
+text entry.
+
 ### Command-line interface
 
 Running `protonplus` without arguments opens the graphical interface. The CLI accepts these commands:
@@ -246,6 +262,7 @@ Application preferences are available from the preferences dialog. They include:
 
 - Appearance themes: system, Adwaita, Breeze, SteamOS, and OLED
 - Language selection and translated interface text
+- Controller confirm-button mapping and optional vibration
 - Background update frequency and update checks at launch or system startup
 - Default Steam compatibility tool and selected Steam profile
 - GitHub and GitLab API tokens for higher API limits or authenticated access

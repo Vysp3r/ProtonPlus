@@ -53,6 +53,12 @@ strings.
   safe content. `LaunchCommandWriter` is the serializer for preview and Apply.
   Clear remains a full-source replacement; mass edit writes each source
   independently.
+- Keep SDL/GTK controller integration in `ControllerManager` and semantic
+  decisions in the controller policy helpers. Register dialogs and popovers
+  through `Widgets.Window`, use `ControllerNavigationHost` for page flows, and
+  preserve keyboard/pointer handoff and lifecycle cleanup.
+- Do not follow symlinks while enumerating or copying extracted trees. Preserve
+  links through staging and cover archive paths with fixtures.
 - Keep blocking work out of GTK callbacks. After async yields, revalidate the
   selected object/operation. Disconnect long-lived handlers at their owner’s
   lifecycle boundary.
