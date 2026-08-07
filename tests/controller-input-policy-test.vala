@@ -259,6 +259,40 @@ namespace AppTests.ControllerInputPolicyTest {
         assert_cmpfloat_with_epsilon (policy.scroll_intent, -0.70, 0.0001);
     }
 
+    private void test_non_controller_echo_guard () {
+        var policy = new ControllerInputPolicy ();
+        int64 activity_time = 1000000;
+
+        assert (policy.should_accept_keyboard_handoff (true, activity_time));
+        assert (policy.should_accept_pointer_motion_handoff (activity_time));
+
+        policy.note_controller_activity (activity_time);
+        assert (!policy.should_accept_keyboard_handoff (true, activity_time));
+        assert (!policy.should_accept_pointer_motion_handoff (activity_time));
+        assert (policy.should_accept_keyboard_handoff (false, activity_time));
+
+        int64 guard_end = activity_time + ControllerInputPolicy.NON_CONTROLLER_ECHO_GUARD_US;
+        assert (!policy.should_accept_keyboard_handoff (true, guard_end));
+        assert (!policy.should_accept_pointer_motion_handoff (guard_end));
+        assert (policy.should_accept_keyboard_handoff (true, guard_end + 1));
+        assert (policy.should_accept_pointer_motion_handoff (guard_end + 1));
+    }
+
+    private void test_echo_guard_reset () {
+        var policy = new ControllerInputPolicy ();
+        int64 activity_time = 1000000;
+
+        policy.note_controller_activity (activity_time);
+        policy.reset_transient_input ();
+        assert (policy.should_accept_keyboard_handoff (true, activity_time));
+        assert (policy.should_accept_pointer_motion_handoff (activity_time));
+
+        policy.note_controller_activity (activity_time);
+        policy.reset ();
+        assert (policy.should_accept_keyboard_handoff (true, activity_time));
+        assert (policy.should_accept_pointer_motion_handoff (activity_time));
+    }
+
     public void register_tests () {
         Test.add_func ("/controller-input/face-button-mapping", test_face_button_mapping);
         Test.add_func ("/controller-input/confirm-enum-contract", test_confirm_enum_contract);
@@ -271,5 +305,7 @@ namespace AppTests.ControllerInputPolicyTest {
         Test.add_func ("/controller-input/repeat-identity", test_repeat_identity_and_resets);
         Test.add_func ("/controller-input/surface-neutral", test_surface_change_requires_neutral);
         Test.add_func ("/controller-input/surface-scroll-neutral", test_surface_change_suppresses_scroll_until_neutral);
+        Test.add_func ("/controller-input/non-controller-echo-guard", test_non_controller_echo_guard);
+        Test.add_func ("/controller-input/echo-guard-reset", test_echo_guard_reset);
     }
 }

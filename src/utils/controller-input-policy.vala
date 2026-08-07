@@ -51,6 +51,7 @@ namespace ProtonPlus.Utils {
         public const double LEFT_STICK_RELEASE_THRESHOLD = 0.35;
         public const double RIGHT_STICK_DEADZONE = 0.25;
         public const double DOMINANT_AXIS_MARGIN = 0.10;
+        public const int64 NON_CONTROLLER_ECHO_GUARD_US = 200000;
 
         private Gee.ArrayList<DeviceAxes> devices = new Gee.ArrayList<DeviceAxes> ();
         private bool owns_device = false;
@@ -63,6 +64,7 @@ namespace ProtonPlus.Utils {
         private int64 repeating_device_id = 0;
         private ControllerNavigationDirection repeating_direction = ControllerNavigationDirection.NONE;
         private ControllerNavigationSource repeating_source = ControllerNavigationSource.DPAD;
+        private int64 last_controller_activity_us = -1;
 
         public bool has_active_device {
             get { return owns_device; }
@@ -106,6 +108,21 @@ namespace ProtonPlus.Utils {
                 (confirm_button == ControllerConfirmButton.EAST && button == ControllerFaceButton.EAST))
                 return ControllerFaceButtonAction.ACTIVATE;
             return ControllerFaceButtonAction.DISMISS;
+        }
+
+        public void note_controller_activity (int64 now_us) {
+            last_controller_activity_us = now_us;
+        }
+
+        /* Some controller mappings mirror SDL actions into GTK key or motion
+         * events. Only plausible echoes get the grace period; other keys can
+         * claim the input modality immediately. */
+        public bool should_accept_keyboard_handoff (bool echo_candidate, int64 now_us) {
+            return !echo_candidate || !has_recent_controller_activity (now_us);
+        }
+
+        public bool should_accept_pointer_motion_handoff (int64 now_us) {
+            return !has_recent_controller_activity (now_us);
         }
 
         public bool note_button_press (int64 device_id) {
@@ -248,11 +265,13 @@ namespace ProtonPlus.Utils {
             scroll_suppressed = false;
             owned_scroll_intent = 0;
             cancel_repeat ();
+            last_controller_activity_us = -1;
         }
 
         public void reset () {
             devices.clear ();
             clear_ownership ();
+            last_controller_activity_us = -1;
         }
 
         private bool claim_device (int64 device_id, bool suppress_held_axes = false) {
@@ -280,6 +299,11 @@ namespace ProtonPlus.Utils {
             scroll_suppressed = false;
             owned_scroll_intent = 0;
             cancel_repeat ();
+        }
+
+        private bool has_recent_controller_activity (int64 now_us) {
+            return last_controller_activity_us >= 0 && now_us >= last_controller_activity_us &&
+                now_us - last_controller_activity_us <= NON_CONTROLLER_ECHO_GUARD_US;
         }
 
         private ControllerNavigationDirection choose_latched_direction (DeviceAxes device) {

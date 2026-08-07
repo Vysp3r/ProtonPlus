@@ -100,7 +100,10 @@ namespace ProtonPlus.Utils {
             surface_policy = new ControllerSurfacePolicy (window_surface);
 
             motion = new Gtk.EventControllerMotion ();
-            motion.motion.connect ((x, y) => yield_to_non_controller_input ());
+            motion.motion.connect ((x, y) => {
+                if (input_policy.should_accept_pointer_motion_handoff (get_monotonic_time ()))
+                    yield_to_non_controller_input ();
+            });
 
             press = new Gtk.GestureClick ();
             press.set_button (0);
@@ -110,6 +113,9 @@ namespace ProtonPlus.Utils {
             keys = new Gtk.EventControllerKey ();
             keys.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
             keys.key_pressed.connect ((keyval, keycode, state) => {
+                if (!input_policy.should_accept_keyboard_handoff (
+                    is_controller_echo_key (keyval), get_monotonic_time ()))
+                    return true;
                 yield_to_non_controller_input ();
                 return false;
             });
@@ -519,6 +525,7 @@ namespace ProtonPlus.Utils {
         }
 
         void activate_controller_mode () {
+            input_policy.note_controller_activity (get_monotonic_time ());
             if (!controller_active) {
                 controller_active = true;
                 window.add_css_class ("controller-active");
@@ -544,6 +551,26 @@ namespace ProtonPlus.Utils {
             haptic_feedback.context_changed ();
             cancel_repeat_timer ();
             deactivate_controller_mode ();
+        }
+
+        bool is_controller_echo_key (uint keyval) {
+            switch (keyval) {
+            case Gdk.Key.Up:
+            case Gdk.Key.Down:
+            case Gdk.Key.Left:
+            case Gdk.Key.Right:
+            case Gdk.Key.KP_Up:
+            case Gdk.Key.KP_Down:
+            case Gdk.Key.KP_Left:
+            case Gdk.Key.KP_Right:
+            case Gdk.Key.Return:
+            case Gdk.Key.KP_Enter:
+            case Gdk.Key.space:
+            case Gdk.Key.Escape:
+                return true;
+            default:
+                return false;
+            }
         }
 
         void update_highlight (Gtk.Widget? widget) {
