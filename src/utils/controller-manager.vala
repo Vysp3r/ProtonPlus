@@ -527,7 +527,7 @@ namespace ProtonPlus.Utils {
             case DPAD_LEFT :
             case DPAD_RIGHT :
                 var direction = direction_for_dpad (button);
-                move_focus (direction);
+                handle_controller_direction (direction);
                 input_policy.begin_repeat (
                     controller_id (id),
                     direction,
@@ -611,8 +611,7 @@ namespace ProtonPlus.Utils {
                     return GLib.Source.REMOVE;
                 }
 
-                move_focus (input_policy.repeat_direction);
-                sync_highlight ();
+                handle_controller_direction (input_policy.repeat_direction);
                 repeat_timeout_id = GLib.Timeout.add (REPEAT_INTERVAL, () => {
                     if (!can_repeat_navigation ()) {
                         input_policy.cancel_repeat ();
@@ -620,8 +619,7 @@ namespace ProtonPlus.Utils {
                         return GLib.Source.REMOVE;
                     }
 
-                    move_focus (input_policy.repeat_direction);
-                    sync_highlight ();
+                    handle_controller_direction (input_policy.repeat_direction);
                     return GLib.Source.CONTINUE;
                 });
                 return GLib.Source.REMOVE;
@@ -645,8 +643,79 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        bool move_focus (ControllerNavigationDirection direction) {
-            var root = get_input_root ();
+        void handle_controller_direction (ControllerNavigationDirection direction) {
+            if (direction == ControllerNavigationDirection.NONE)
+                return;
+
+            var surface = get_active_surface ();
+            var focused = get_focused_widget ();
+            if (focused != null && !is_inside_surface (focused, surface))
+                focused = null;
+
+            var root = get_direction_input_root (focused, surface);
+            var control = resolve_effective_standard_control (focused, root);
+            var range = control as Gtk.Range;
+            var control_kind = get_control_kind (range);
+            var action = ControllerControlPolicy.get_direction_action (
+                control_kind, direction
+            );
+
+            if (range != null && action != ControllerDirectionAction.MOVE_FOCUS)
+                adjust_range (range, action);
+            else
+                move_focus (root, direction);
+
+            sync_highlight ();
+        }
+
+        Gtk.Widget get_direction_input_root (Gtk.Widget? focused, GtkSurface surface) {
+            Gtk.Widget? current = focused;
+            while (current != null) {
+                if (current is Gtk.Popover)
+                    return current;
+                current = current.get_parent ();
+            }
+            return surface.widget ?? window;
+        }
+
+        Gtk.Widget? resolve_effective_standard_control (Gtk.Widget? focused,
+            Gtk.Widget root) {
+            Gtk.Widget? current = focused;
+            while (current != null) {
+                if (current is Gtk.Range)
+                    return current;
+                if (current == root)
+                    break;
+                current = current.get_parent ();
+            }
+            return focused;
+        }
+
+        ControllerControlKind get_control_kind (Gtk.Range? range) {
+            if (range == null)
+                return ControllerControlKind.DEFAULT;
+            return ((Gtk.Orientable) range).get_orientation () == Gtk.Orientation.HORIZONTAL
+                ? ControllerControlKind.HORIZONTAL_RANGE
+                : ControllerControlKind.VERTICAL_RANGE;
+        }
+
+        void adjust_range (Gtk.Range range, ControllerDirectionAction action) {
+            var horizontal = ((Gtk.Orientable) range).get_orientation () ==
+                Gtk.Orientation.HORIZONTAL;
+            Gtk.ScrollType movement;
+            if (horizontal)
+                movement = action == ControllerDirectionAction.ADJUST_BACKWARD
+                    ? Gtk.ScrollType.STEP_LEFT
+                    : Gtk.ScrollType.STEP_RIGHT;
+            else
+                movement = action == ControllerDirectionAction.ADJUST_BACKWARD
+                    ? Gtk.ScrollType.STEP_UP
+                    : Gtk.ScrollType.STEP_DOWN;
+
+            range.move_slider (movement);
+        }
+
+        bool move_focus (Gtk.Widget root, ControllerNavigationDirection direction) {
             bool moved = false;
             switch (direction) {
             case UP :
@@ -690,7 +759,7 @@ namespace ProtonPlus.Utils {
                     cancel_repeat_timer ();
                 if (update.emitted_direction != ControllerNavigationDirection.NONE) {
                     activate_controller_mode ();
-                    move_focus (update.emitted_direction);
+                    handle_controller_direction (update.emitted_direction);
                 }
                 if (update.repeat_changed)
                     restart_repeat_timer ();
@@ -732,7 +801,8 @@ namespace ProtonPlus.Utils {
         }
 
         bool has_active_modal_surface () {
-            return get_active_surface ().kind != ControllerSurfaceKind.WINDOW;
+            return get_active_surface ().kind != ControllerSurfaceKind.WINDOW ||
+                find_focused_popover () != null;
         }
 
         void activate_focused () {
@@ -745,7 +815,17 @@ namespace ProtonPlus.Utils {
             get_active_page_context (out previous_page_id, out previous_page_root);
             save_current_page_focus ();
             var previous_surface_generation = surface_generation;
-            focused.activate ();
+            var list_view = find_list_view_ancestor (
+                focused, get_direction_input_root (focused, get_active_surface ())
+            );
+            if (list_view != null) {
+                var model = list_view.get_model ();
+                var selection = model?.get_selection ();
+                if (selection != null && !selection.is_empty ())
+                    list_view.activate (selection.get_minimum ());
+            } else {
+                focused.activate ();
+            }
 
             string active_page_id;
             Gtk.Widget? active_page_root;
@@ -753,6 +833,18 @@ namespace ProtonPlus.Utils {
             if (previous_surface_generation == surface_generation &&
                 previous_page_id != active_page_id && active_page_root != null)
                 schedule_page_focus_restore ();
+        }
+
+        Gtk.ListView? find_list_view_ancestor (Gtk.Widget focused, Gtk.Widget root) {
+            Gtk.Widget? current = focused;
+            while (current != null) {
+                if (current is Gtk.ListView)
+                    return (Gtk.ListView) current;
+                if (current == root)
+                    break;
+                current = current.get_parent ();
+            }
+            return null;
         }
 
         void scroll (double delta) {
@@ -807,16 +899,16 @@ namespace ProtonPlus.Utils {
         }
 
         void dismiss_active_surface () {
+            var focused_popover = find_focused_popover ();
+            if (focused_popover != null) {
+                focused_popover.popdown ();
+                return;
+            }
+
             var surface = surface_policy.dismissable_surface as GtkSurface;
             if (surface != null && surface.kind == ControllerSurfaceKind.POPOVER &&
                 surface.widget != null) {
                 ((Gtk.Popover) surface.widget).popdown ();
-                return;
-            }
-
-            var focused_popover = find_focused_popover ();
-            if (focused_popover != null) {
-                focused_popover.popdown ();
                 return;
             }
 
@@ -825,8 +917,7 @@ namespace ProtonPlus.Utils {
         }
 
         public void navigate_back () {
-            var focused_popover = find_focused_popover ();
-            var has_modal = has_active_modal_surface () || focused_popover != null;
+            var has_modal = has_active_modal_surface ();
             var host = get_active_navigation_host ();
             if (!has_modal)
                 save_current_page_focus ();
@@ -845,7 +936,7 @@ namespace ProtonPlus.Utils {
         }
 
         public void navigate_application_back () {
-            if (has_active_modal_surface () || find_focused_popover () != null)
+            if (has_active_modal_surface ())
                 return;
 
             save_current_page_focus ();
@@ -868,7 +959,8 @@ namespace ProtonPlus.Utils {
 
         void switch_tab (int delta) {
             var surface = get_active_surface ();
-            if (surface.kind == ControllerSurfaceKind.POPOVER)
+            if (surface.kind == ControllerSurfaceKind.POPOVER ||
+                find_focused_popover () != null)
                 return;
 
             var host = get_active_navigation_host ();

@@ -7,6 +7,7 @@ int main (string[] args) {
         ProtonPlus.Models.X86_64Level.BASELINE
     );
 
+    AppTests.ControllerControlPolicyTest.register_tests ();
     AppTests.ControllerInputPolicyTest.register_tests ();
     AppTests.ControllerNavigationPolicyTest.register_tests ();
     AppTests.ControllerSurfacePolicyTest.register_tests ();
