@@ -119,6 +119,9 @@
         <key name="controller-confirm-button" enum="com.vysp3r.ProtonPlus.ControllerConfirmButton">
             <default>'south'</default>
         </key>
+        <key name="controller-haptics-enabled" type="b">
+            <default>false</default>
+        </key>
         <key name="last-version" type="s">
             <default>''</default>
             <summary>Last launched version of ProtonPlus</summary>

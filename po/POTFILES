@@ -78,6 +78,7 @@ src/services/steam-tinker-launch-workflow.vala
 src/utils/archive-helper.vala
 src/utils/cache-manager.vala
 src/utils/controller-control-policy.vala
+src/utils/controller-haptics.vala
 src/utils/controller-hint-policy.vala
 src/utils/controller-input-policy.vala
 src/utils/controller-manager.vala

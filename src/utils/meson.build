@@ -11,6 +11,7 @@ sources += files(
     'controller-hint-policy.vala',
     'controller-input-policy.vala',
     'controller-text-input-policy.vala',
+    'controller-haptics.vala',
     'controller-navigation-policy.vala',
     'controller-surface-policy.vala',
     'controller-manager.vala',

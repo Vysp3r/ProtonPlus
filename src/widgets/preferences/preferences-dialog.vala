@@ -49,6 +49,14 @@ namespace ProtonPlus.Widgets.Preferences {
             });
             controller_group.add (confirm_button_row);
 
+            var controller_haptics_row = new Adw.SwitchRow () {
+                title = _("Controller vibration"),
+                subtitle = _("Use subtle vibration for controller actions and navigation limits")
+            };
+            Globals.SETTINGS.bind ("controller-haptics-enabled", controller_haptics_row,
+                "active", SettingsBindFlags.DEFAULT);
+            controller_group.add (controller_haptics_row);
+
             var help_page = new Adw.PreferencesGroup () {
                 title = _("Help"),
             };

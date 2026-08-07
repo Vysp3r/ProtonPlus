@@ -56,6 +56,7 @@ namespace ProtonPlus.Utils {
         ulong window_active_handler = 0;
         ulong window_focus_handler = 0;
         ulong confirm_button_changed_handler = 0;
+        ulong haptics_enabled_changed_handler = 0;
         ulong highlight_visible_handler = 0;
         ulong highlight_unmap_handler = 0;
         ulong highlight_destroy_handler = 0;
@@ -66,6 +67,8 @@ namespace ProtonPlus.Utils {
         ControllerSurfacePolicy surface_policy;
         ControllerInputPolicy input_policy = new ControllerInputPolicy ();
         ControllerNavigationPolicy navigation_policy = new ControllerNavigationPolicy ();
+        SdlControllerHapticSink haptic_sink = new SdlControllerHapticSink ();
+        ControllerHapticFeedback haptic_feedback;
         uint64 surface_generation = 0;
         uint navigation_focus_source_id = 0;
         uint scroll_focus_source_id = 0;
@@ -80,6 +83,7 @@ namespace ProtonPlus.Utils {
 
         public ControllerManager (Widgets.Window window) {
             this.window = window;
+            haptic_feedback = new ControllerHapticFeedback (haptic_sink);
 
             var face_labels = ControllerPhysicalLabelResolver.from_sdl (
                 SDL.Gamepad.GamepadButtonLabel.UNKNOWN,
@@ -111,6 +115,7 @@ namespace ProtonPlus.Utils {
             });
 
             window_active_handler = window.notify["is-active"].connect (() => {
+                haptic_feedback.set_input_active (window.is_active);
                 if (!window.is_active) {
                     reset_input_state ();
                     deactivate_controller_mode ();
@@ -133,10 +138,19 @@ namespace ProtonPlus.Utils {
 
             sdl_initialized = true;
             SDL.Gamepad.set_gamepad_events_enabled (true);
+            haptic_feedback.set_input_active (window.is_active);
 
             if (Globals.SETTINGS != null) {
                 confirm_button_changed_handler = Globals.SETTINGS.changed["controller-confirm-button"].connect (
                     refresh_presentation
+                );
+                haptic_feedback.set_enabled (
+                    Globals.SETTINGS.get_boolean ("controller-haptics-enabled")
+                );
+                haptics_enabled_changed_handler = Globals.SETTINGS.changed["controller-haptics-enabled"].connect (
+                    () => haptic_feedback.set_enabled (
+                        Globals.SETTINGS.get_boolean ("controller-haptics-enabled")
+                    )
                 );
             }
 
@@ -160,6 +174,7 @@ namespace ProtonPlus.Utils {
 
         public void stop () {
             stop_navigation_repeat ();
+            haptic_feedback.stop ();
 
             if (timeout_id != 0) {
                 GLib.Source.remove (timeout_id);
@@ -195,6 +210,10 @@ namespace ProtonPlus.Utils {
             if (confirm_button_changed_handler != 0 && Globals.SETTINGS != null) {
                 Globals.SETTINGS.disconnect (confirm_button_changed_handler);
                 confirm_button_changed_handler = 0;
+            }
+            if (haptics_enabled_changed_handler != 0 && Globals.SETTINGS != null) {
+                Globals.SETTINGS.disconnect (haptics_enabled_changed_handler);
+                haptics_enabled_changed_handler = 0;
             }
 
             if (window_active_handler != 0) {
@@ -275,6 +294,7 @@ namespace ProtonPlus.Utils {
                 return;
 
             input_policy.surface_changed ();
+            haptic_feedback.context_changed ();
             cancel_repeat_timer ();
             invalidate_navigation_deferred ();
             clear_highlight ();
@@ -313,6 +333,7 @@ namespace ProtonPlus.Utils {
 
         void surface_changed (GtkSurface surface) {
             input_policy.surface_changed ();
+            haptic_feedback.context_changed ();
             cancel_repeat_timer ();
             invalidate_navigation_deferred ();
             clear_highlight ();
@@ -448,6 +469,7 @@ namespace ProtonPlus.Utils {
             }
 
             gamepads.add (new GamepadState (id, gamepad));
+            haptic_sink.register_device (controller_id (id), gamepad);
         }
 
         void close_gamepad (SDL.Joystick.JoystickID id) {
@@ -455,18 +477,22 @@ namespace ProtonPlus.Utils {
             if (state == null)
                 return;
 
+            haptic_feedback.disconnect_device (controller_id (state.id));
             if (input_policy.disconnect_device (controller_id (state.id))) {
                 cancel_repeat_timer ();
                 deactivate_controller_mode ();
             }
 
+            haptic_sink.unregister_device (controller_id (state.id));
             gamepads.remove (state);
             SDL.Gamepad.close_gamepad (state.gamepad);
         }
 
         void close_gamepads () {
-            foreach (var state in gamepads)
+            foreach (var state in gamepads) {
+                haptic_sink.unregister_device (controller_id (state.id));
                 SDL.Gamepad.close_gamepad (state.gamepad);
+            }
 
             gamepads.clear ();
         }
@@ -676,8 +702,11 @@ namespace ProtonPlus.Utils {
             if (gamepad == null)
                 return;
 
-            if (input_policy.note_button_press (controller_id (id)))
+            var device_id = controller_id (id);
+            if (input_policy.note_button_press (device_id)) {
                 cancel_repeat_timer ();
+                haptic_feedback.claim_device (device_id);
+            }
             activate_controller_mode ();
             switch (button) {
             case DPAD_UP :
@@ -685,9 +714,9 @@ namespace ProtonPlus.Utils {
             case DPAD_LEFT :
             case DPAD_RIGHT :
                 var direction = direction_for_dpad (button);
-                handle_controller_direction (direction);
+                handle_controller_direction (device_id, direction);
                 input_policy.begin_repeat (
-                    controller_id (id),
+                    device_id,
                     direction,
                     ControllerNavigationSource.DPAD
                 );
@@ -695,7 +724,7 @@ namespace ProtonPlus.Utils {
                 break;
             case SOUTH :
             case EAST :
-                handle_face_button (button);
+                handle_face_button (device_id, button);
                 break;
             case START :
                 if (!has_active_modal_surface ())
@@ -706,10 +735,14 @@ namespace ProtonPlus.Utils {
                     window.open_launchers ();
                 break;
             case LEFT_SHOULDER :
-                switch_tab (-1);
+                haptic_feedback.navigation_outcome (
+                    device_id, switch_tab (-1), get_monotonic_time ()
+                );
                 break;
             case RIGHT_SHOULDER :
-                switch_tab (1);
+                haptic_feedback.navigation_outcome (
+                    device_id, switch_tab (1), get_monotonic_time ()
+                );
                 break;
             default :
                 break;
@@ -719,6 +752,7 @@ namespace ProtonPlus.Utils {
 
         void handle_button_up (SDL.Joystick.JoystickID id, SDL.Gamepad.GamepadButton button) {
             var direction = direction_for_dpad (button);
+            haptic_feedback.direction_released (controller_id (id), direction);
             if (direction != ControllerNavigationDirection.NONE && input_policy.release_repeat (
                 controller_id (id),
                 direction,
@@ -742,7 +776,7 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        void handle_face_button (SDL.Gamepad.GamepadButton button) {
+        void handle_face_button (int64 device_id, SDL.Gamepad.GamepadButton button) {
             var confirm_button = ControllerConfirmButton.SOUTH;
             if (Globals.SETTINGS != null)
                 confirm_button = (ControllerConfirmButton) Globals.SETTINGS.get_enum ("controller-confirm-button");
@@ -751,10 +785,18 @@ namespace ProtonPlus.Utils {
                 ? ControllerFaceButton.SOUTH
                 : ControllerFaceButton.EAST;
             if (ControllerInputPolicy.get_face_button_action (confirm_button, face_button) ==
-                ControllerFaceButtonAction.ACTIVATE)
-                activate_focused ();
-            else
-                navigate_back ();
+                ControllerFaceButtonAction.ACTIVATE) {
+                ControllerActivationDecision decision;
+                var succeeded = activate_focused (out decision);
+                haptic_feedback.activation_outcome (
+                    device_id, decision, succeeded, get_monotonic_time ()
+                );
+            } else {
+                var succeeded = perform_navigate_back ();
+                haptic_feedback.navigation_outcome (
+                    device_id, succeeded, get_monotonic_time ()
+                );
+            }
         }
 
         void restart_repeat_timer () {
@@ -769,7 +811,9 @@ namespace ProtonPlus.Utils {
                     return GLib.Source.REMOVE;
                 }
 
-                handle_controller_direction (input_policy.repeat_direction);
+                handle_controller_direction (
+                    input_policy.repeat_device_id, input_policy.repeat_direction
+                );
                 repeat_timeout_id = GLib.Timeout.add (REPEAT_INTERVAL, () => {
                     if (!can_repeat_navigation ()) {
                         input_policy.cancel_repeat ();
@@ -777,7 +821,9 @@ namespace ProtonPlus.Utils {
                         return GLib.Source.REMOVE;
                     }
 
-                    handle_controller_direction (input_policy.repeat_direction);
+                    handle_controller_direction (
+                        input_policy.repeat_device_id, input_policy.repeat_direction
+                    );
                     return GLib.Source.CONTINUE;
                 });
                 return GLib.Source.REMOVE;
@@ -801,7 +847,8 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        void handle_controller_direction (ControllerNavigationDirection direction) {
+        void handle_controller_direction (int64 device_id,
+            ControllerNavigationDirection direction) {
             if (direction == ControllerNavigationDirection.NONE)
                 return;
 
@@ -818,10 +865,15 @@ namespace ProtonPlus.Utils {
                 control_kind, direction
             );
 
+            bool moved;
             if (range != null && action != ControllerDirectionAction.MOVE_FOCUS)
-                adjust_range (range, action);
+                moved = adjust_range (range, action);
             else
-                move_focus (root, direction);
+                moved = move_focus (root, direction);
+
+            haptic_feedback.direction_outcome (
+                device_id, direction, moved, get_monotonic_time ()
+            );
 
             sync_highlight ();
         }
@@ -857,7 +909,7 @@ namespace ProtonPlus.Utils {
                 : ControllerControlKind.VERTICAL_RANGE;
         }
 
-        void adjust_range (Gtk.Range range, ControllerDirectionAction action) {
+        bool adjust_range (Gtk.Range range, ControllerDirectionAction action) {
             var horizontal = ((Gtk.Orientable) range).get_orientation () ==
                 Gtk.Orientation.HORIZONTAL;
             Gtk.ScrollType movement;
@@ -870,7 +922,9 @@ namespace ProtonPlus.Utils {
                     ? Gtk.ScrollType.STEP_UP
                     : Gtk.ScrollType.STEP_DOWN;
 
+            var previous_value = range.get_value ();
             range.move_slider (movement);
+            return range.get_value () != previous_value;
         }
 
         bool move_focus (Gtk.Widget root, ControllerNavigationDirection direction) {
@@ -908,23 +962,37 @@ namespace ProtonPlus.Utils {
             switch (axis) {
             case LEFTX :
             case LEFTY :
+                var released_direction = input_policy.has_repeat &&
+                    input_policy.repeat_device_id == controller_id (id) &&
+                    input_policy.repeat_source == ControllerNavigationSource.LEFT_STICK
+                    ? input_policy.repeat_direction
+                    : ControllerNavigationDirection.NONE;
                 var update = input_policy.update_left_axis (
                     controller_id (id),
                     axis == SDL.Gamepad.GamepadAxis.LEFTX,
                     raw
                 );
-                if (update.ownership_changed)
+                if (update.ownership_changed) {
                     cancel_repeat_timer ();
+                    haptic_feedback.claim_device (controller_id (id));
+                }
                 if (update.emitted_direction != ControllerNavigationDirection.NONE) {
                     activate_controller_mode ();
-                    handle_controller_direction (update.emitted_direction);
+                    handle_controller_direction (controller_id (id), update.emitted_direction);
                 }
+                if (update.emitted_direction == ControllerNavigationDirection.NONE &&
+                    update.repeat_changed)
+                    haptic_feedback.direction_released (
+                        controller_id (id), released_direction
+                    );
                 if (update.repeat_changed)
                     restart_repeat_timer ();
                 break;
             case RIGHTY :
-                if (input_policy.update_right_axis (controller_id (id), raw))
+                if (input_policy.update_right_axis (controller_id (id), raw)) {
                     cancel_repeat_timer ();
+                    haptic_feedback.claim_device (controller_id (id));
+                }
                 if (input_policy.has_active_device &&
                     input_policy.active_device_id == controller_id (id) &&
                     input_policy.scroll_intent != 0)
@@ -963,20 +1031,21 @@ namespace ProtonPlus.Utils {
                 find_focused_popover () != null;
         }
 
-        void activate_focused () {
+        bool activate_focused (out ControllerActivationDecision decision) {
+            decision = ControllerActivationDecision.ACTIVATE;
             var focused = get_focused_widget ();
             if (focused == null)
-                return;
+                return false;
 
             var root = get_direction_input_root (focused, get_active_surface ());
             var editable = ControllerEditableTargetResolver.resolve (focused, root);
-            if (ControllerActivationPolicy.for_focused_control (editable != null) ==
-                ControllerActivationDecision.FOCUS_TEXT_INPUT) {
+            decision = ControllerActivationPolicy.for_focused_control (editable != null);
+            if (decision == ControllerActivationDecision.FOCUS_TEXT_INPUT) {
                 save_current_page_focus ();
                 focus_text_input ((!) editable);
                 schedule_scroll_to_focus ();
                 refresh_presentation ();
-                return;
+                return false;
             }
 
             string previous_page_id;
@@ -987,13 +1056,16 @@ namespace ProtonPlus.Utils {
             var list_view = find_list_view_ancestor (
                 focused, get_direction_input_root (focused, get_active_surface ())
             );
+            var succeeded = false;
             if (list_view != null) {
                 var model = list_view.get_model ();
                 var selection = model?.get_selection ();
-                if (selection != null && !selection.is_empty ())
+                if (selection != null && !selection.is_empty ()) {
                     list_view.activate (selection.get_minimum ());
+                    succeeded = true;
+                }
             } else {
-                focused.activate ();
+                succeeded = focused.activate ();
             }
 
             string active_page_id;
@@ -1003,6 +1075,7 @@ namespace ProtonPlus.Utils {
                 previous_page_id != active_page_id && active_page_root != null)
                 schedule_page_focus_restore ();
             refresh_presentation ();
+            return succeeded;
         }
 
         void focus_text_input (Gtk.Widget target) {
@@ -1088,42 +1161,52 @@ namespace ProtonPlus.Utils {
             adjustment.set_value (target);
         }
 
-        void dismiss_active_surface () {
+        bool dismiss_active_surface () {
             var focused_popover = find_focused_popover ();
             if (focused_popover != null) {
                 focused_popover.popdown ();
-                return;
+                return true;
             }
 
             var surface = surface_policy.dismissable_surface as GtkSurface;
             if (surface != null && surface.kind == ControllerSurfaceKind.POPOVER &&
                 surface.widget != null) {
                 ((Gtk.Popover) surface.widget).popdown ();
-                return;
+                return true;
             }
 
-            if (surface != null && surface.widget != null)
+            if (surface != null && surface.widget != null) {
                 ((Adw.Dialog) surface.widget).close ();
+                return true;
+            }
+            return false;
         }
 
         public void navigate_back () {
+            perform_navigate_back ();
+        }
+
+        bool perform_navigate_back () {
             var has_modal = has_active_modal_surface ();
             var host = get_active_navigation_host ();
             if (!has_modal)
                 save_current_page_focus ();
 
             var action = navigation_policy.navigate_back (has_modal, host);
+            var succeeded = false;
             switch (action) {
             case ControllerBackAction.DISMISS_SURFACE:
-                dismiss_active_surface ();
+                succeeded = dismiss_active_surface ();
                 break;
             case ControllerBackAction.NAVIGATE_APPLICATION:
                 schedule_page_focus_restore ();
+                succeeded = true;
                 break;
             default:
                 break;
             }
             refresh_presentation ();
+            return succeeded;
         }
 
         public void navigate_application_back () {
@@ -1149,17 +1232,21 @@ namespace ProtonPlus.Utils {
             return null;
         }
 
-        void switch_tab (int delta) {
+        bool switch_tab (int delta) {
             var surface = get_active_surface ();
             if (surface.kind == ControllerSurfaceKind.POPOVER ||
                 find_focused_popover () != null)
-                return;
+                return false;
 
             var host = get_active_navigation_host ();
             save_current_page_focus ();
-            if (navigation_policy.switch_page (host, delta))
+            var switched = navigation_policy.switch_page (host, delta);
+            if (switched) {
+                haptic_feedback.context_changed ();
                 schedule_page_focus_restore ();
+            }
             refresh_presentation ();
+            return switched;
         }
 
         ControllerNavigationHost? get_active_navigation_host () {
