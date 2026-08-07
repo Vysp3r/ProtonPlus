@@ -654,6 +654,14 @@ namespace ProtonPlus.Widgets.Games {
             return pop_page ();
         }
 
+        public bool controller_can_navigate_back () {
+            return navigation_view.get_visible_page () == mass_edit_page;
+        }
+
+        public bool controller_can_switch_page () {
+            return false;
+        }
+
         public bool controller_switch_page (int delta) {
             return false;
         }

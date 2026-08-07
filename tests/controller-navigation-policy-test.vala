@@ -33,6 +33,14 @@ namespace AppTests.ControllerNavigationPolicyTest {
             return true;
         }
 
+        public bool controller_can_navigate_back () {
+            return parents.has_key (page_id);
+        }
+
+        public bool controller_can_switch_page () {
+            return switch_pages.length >= 2;
+        }
+
         public bool controller_switch_page (int delta) {
             switch_calls++;
             if (switch_pages.length < 2)

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-06 19:08-0400\n"
+"POT-Creation-Date: 2026-08-06 21:16-0400\n"
 "PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr "ProtonPlus について(_A)"
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:229
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:230
 msgid "A modern compatibility tools manager"
 msgstr "モダンな互換性ツールマネージャー"
 
@@ -2197,19 +2197,118 @@ msgstr "使用したい互換性ツールを選択"
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "互換性ツール"
 
-#: src/widgets/application.vala:231
+#: src/widgets/application.vala:232
 msgid "Website"
 msgstr "ウェブサイト"
 
-#: src/widgets/application.vala:236
+#: src/widgets/application.vala:237
 msgid "translator-credits"
 msgstr "camegone"
 
-#: src/widgets/application.vala:237
+#: src/widgets/application.vala:238
 msgid "Special thanks to"
 msgstr "スペシャルサンクス"
 
-#: src/widgets/games/games-box.vala:74 src/widgets/games/games-box.vala:507
+#: src/widgets/controller-hint-bar.vala:98
+#, fuzzy
+msgid "Select"
+msgstr "全てを選択"
+
+#: src/widgets/controller-hint-bar.vala:102
+msgid "Toggle"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:106
+msgid "Open"
+msgstr "開く"
+
+#: src/widgets/controller-hint-bar.vala:110
+#: src/widgets/tools/tools-box.vala:110
+msgid "Back"
+msgstr "戻る"
+
+#: src/widgets/controller-hint-bar.vala:114
+msgid "Close"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:118
+msgid "Left and right"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:119
+#: src/widgets/controller-hint-bar.vala:124
+msgid "Adjust"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:123
+msgid "Up and down"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:127
+msgid "Shoulders"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:128
+msgid "Shoulder buttons"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:129
+#, fuzzy
+msgid "Switch section or page"
+msgstr "別のプロファイルに変更する"
+
+#: src/widgets/controller-hint-bar.vala:163
+msgid "A button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:167
+msgid "B button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:171
+msgid "X button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:175
+msgid "Y button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:179
+msgid "Cross button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:183
+msgid "Circle button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:187
+msgid "Square button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:191
+msgid "Triangle button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:194
+msgid "Bottom"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:195
+#: src/widgets/preferences/preferences-dialog.vala:36
+msgid "Bottom face button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:198
+#, fuzzy
+msgid "Right"
+msgstr "ライト"
+
+#: src/widgets/controller-hint-bar.vala:199
+#: src/widgets/preferences/preferences-dialog.vala:37
+msgid "Right face button"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:74 src/widgets/games/games-box.vala:493
 #: src/widgets/tools/tools-release-box.vala:102
 #, fuzzy
 msgid "No games found"
@@ -2219,126 +2318,119 @@ msgstr "プロファイルが見つかりませんでした。"
 msgid "Try a different search term or filter."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:101 src/widgets/tools/tools-box.vala:96
-msgid "Back"
-msgstr "戻る"
-
-#: src/widgets/games/games-box.vala:107
-msgid "Clear the current launch options"
-msgstr "現在の起動オプションを削除"
-
-#: src/widgets/games/games-box.vala:112
-msgid "Apply the current modification"
-msgstr "現在の変更を適用する"
-
-#: src/widgets/games/games-box.vala:148 src/widgets/tools/tools-box.vala:200
+#: src/widgets/games/games-box.vala:132 src/widgets/tools/tools-box.vala:203
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:152
-#: src/widgets/games/games-mass-edit-view.vala:164
+#: src/widgets/games/games-box.vala:136
+#: src/widgets/games/games-mass-edit-view.vala:168
 #: src/widgets/games/games-row.vala:132
 msgid "Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:156
+#: src/widgets/games/games-box.vala:140
 msgid "Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:199 src/widgets/tools/tools-box.vala:198
-#: src/widgets/tools/tools-box.vala:381
+#: src/widgets/games/games-box.vala:183 src/widgets/tools/tools-box.vala:201
+#: src/widgets/tools/tools-box.vala:390
 msgid "Filter"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:218
+#: src/widgets/games/games-box.vala:202
 #, fuzzy
 msgid "Search games"
 msgstr "起動ツール"
 
-#: src/widgets/games/games-box.vala:226
+#: src/widgets/games/games-box.vala:210
 #, fuzzy
 msgid "Select all visible games"
 msgstr "全てのゲームを選択する"
 
-#: src/widgets/games/games-box.vala:242
+#: src/widgets/games/games-box.vala:226
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:246
+#: src/widgets/games/games-box.vala:230
 #, fuzzy
 msgid "Tool"
 msgstr "ツール"
 
-#: src/widgets/games/games-box.vala:250
+#: src/widgets/games/games-box.vala:234
 #, fuzzy
 msgid "Actions"
 msgstr "上級設定"
 
-#: src/widgets/games/games-box.vala:348
+#: src/widgets/games/games-box.vala:288 src/widgets/games/games-box.vala:289
+#: src/widgets/main/main-box.vala:45
+msgid "Games"
+msgstr "ゲーム"
+
+#: src/widgets/games/games-box.vala:334
 msgid "No profile was found."
 msgstr "プロファイルが見つかりませんでした。"
 
-#: src/widgets/games/games-box.vala:350
+#: src/widgets/games/games-box.vala:336
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr ""
 "Steam を少なくとも一度は起動して、ログインが完了していることを確認してくださ"
 "い"
 
-#: src/widgets/games/games-box.vala:351
+#: src/widgets/games/games-box.vala:337
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "もしこれが不具合であると考える場合、GitHub で報告してください。"
 
-#: src/widgets/games/games-box.vala:362
+#: src/widgets/games/games-box.vala:348
 msgid "Unsupported launcher"
 msgstr "サポートされていないランチャー"
 
-#: src/widgets/games/games-box.vala:364
+#: src/widgets/games/games-box.vala:350
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s は現在サポートされていません。"
 
-#: src/widgets/games/games-box.vala:365
+#: src/widgets/games/games-box.vala:351
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "開発をスピードアップしてほしい場合は、私を支援してください!"
 
-#: src/widgets/games/games-box.vala:412 src/widgets/games/games-row.vala:129
+#: src/widgets/games/games-box.vala:398 src/widgets/games/games-row.vala:129
 #: src/widgets/tools/tools-migrate-box.vala:99
 msgid "Default"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:475
+#: src/widgets/games/games-box.vala:461
 msgid "Filter: Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:477
+#: src/widgets/games/games-box.vala:463
 msgid "Filter: Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:479
+#: src/widgets/games/games-box.vala:465
 #, fuzzy
 msgid "Filter: All games"
 msgstr "ゲームの起動オプションを変更"
 
-#: src/widgets/games/games-box.vala:499
+#: src/widgets/games/games-box.vala:485
 #, fuzzy
 msgid "No matching games"
 msgstr "起動ツール"
 
-#: src/widgets/games/games-box.vala:500
+#: src/widgets/games/games-box.vala:486
 #: src/widgets/tools/tools-group-box.vala:124
 msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:503
+#: src/widgets/games/games-box.vala:489
 msgid "No games match this filter"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:504
+#: src/widgets/games/games-box.vala:490
 msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:508
+#: src/widgets/games/games-box.vala:494
 msgid "No games are available for this launcher."
 msgstr ""
 
@@ -2383,7 +2475,7 @@ msgstr[0] "選択したゲームの互換性ツールを一度に変更する"
 
 #: src/widgets/games/games-mass-edit-button.vala:57
 #: src/widgets/tools/tools-stl-release-row.vala:13
-#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:183
+#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:195
 msgid "Warning"
 msgstr "警告"
 
@@ -2394,71 +2486,79 @@ msgid ""
 msgstr ""
 "まとめて設定を選択するためには、少なくとも一つのゲームを選択してください。"
 
-#: src/widgets/games/games-mass-edit-view.vala:26
+#: src/widgets/games/games-mass-edit-view.vala:25
 msgid "1 game selected"
 msgstr "1 つのゲームを選択済み"
 
-#: src/widgets/games/games-mass-edit-view.vala:26
+#: src/widgets/games/games-mass-edit-view.vala:25
 #, c-format
 msgid "%u games selected"
 msgstr "%u つのゲームを選択済み"
 
-#: src/widgets/games/games-mass-edit-view.vala:49
+#: src/widgets/games/games-mass-edit-view.vala:35
+msgid "Clear the current launch options"
+msgstr "現在の起動オプションを削除"
+
+#: src/widgets/games/games-mass-edit-view.vala:40
+msgid "Apply the current modification"
+msgstr "現在の変更を適用する"
+
+#: src/widgets/games/games-mass-edit-view.vala:51
 #, fuzzy
 msgid "Apply compatibility tool"
 msgstr "互換性ツール"
 
-#: src/widgets/games/games-mass-edit-view.vala:50
+#: src/widgets/games/games-mass-edit-view.vala:52
 #, fuzzy
 msgid "Set the same tool for every selected game."
 msgstr "選択したゲームの互換性ツールを一度に変更する"
 
-#: src/widgets/games/games-mass-edit-view.vala:75
+#: src/widgets/games/games-mass-edit-view.vala:77
 #, fuzzy
 msgid "Apply launch options"
 msgstr "起動オプションの変更"
 
-#: src/widgets/games/games-mass-edit-view.vala:76
+#: src/widgets/games/games-mass-edit-view.vala:78
 #, fuzzy
 msgid "Set the same options for every selected Steam game."
 msgstr "選択したゲームの互換性ツールを一度に変更する"
 
-#: src/widgets/games/games-mass-edit-view.vala:87
+#: src/widgets/games/games-mass-edit-view.vala:89
 msgid ""
 "Enable the sections you want to change. Disabled sections leave the selected "
 "games unchanged."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:265
+#: src/widgets/games/games-mass-edit-view.vala:269
 #, fuzzy
 msgid "Compatibility tool cannot be applied"
 msgstr "互換性ツール"
 
-#: src/widgets/games/games-mass-edit-view.vala:266
+#: src/widgets/games/games-mass-edit-view.vala:270
 msgid "No games were changed because no compatibility tool is selected."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:288
+#: src/widgets/games/games-mass-edit-view.vala:292
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:289
+#: src/widgets/games/games-mass-edit-view.vala:293
 #, fuzzy
 msgid "Launch options cannot be applied"
 msgstr "起動オプション"
 
-#: src/widgets/games/games-mass-edit-view.vala:290
+#: src/widgets/games/games-mass-edit-view.vala:294
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:341
+#: src/widgets/games/games-mass-edit-view.vala:345
 msgid "Batch Update Failed"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:342
+#: src/widgets/games/games-mass-edit-view.vala:346
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
@@ -4948,6 +5048,7 @@ msgid "Active downloads"
 msgstr "実行中のダウンロードはありません"
 
 #: src/widgets/header/header-downloads-indicator.vala:41
+#: src/widgets/tools/tools-box.vala:93
 msgid "Downloads"
 msgstr "ダウンロード"
 
@@ -4958,7 +5059,7 @@ msgid_plural "%u active downloads"
 msgstr[0] "実行中のダウンロードはありません"
 
 #: src/widgets/header/header-downloads-indicator.vala:187
-#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:190
+#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:202
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -5020,9 +5121,10 @@ msgstr ""
 
 #: src/widgets/introduction/controller.vala:9
 msgid ""
-"Basic controller support is available for navigating ProtonPlus.\n"
-"More controller functionality and improvements are planned for future "
-"updates."
+"Navigate with the D-pad or left stick, and scroll with the right stick. "
+"Choose the Confirm face button, use contextual Back, switch sections or "
+"pages with the shoulders, and open menus or launchers with their controller "
+"buttons."
 msgstr ""
 
 #: src/widgets/introduction/forks.vala:8
@@ -5177,12 +5279,9 @@ msgstr "OK"
 #. Tools Page
 #: src/widgets/main/main-box.vala:44
 #: src/widgets/preferences/preferences-dialog.vala:69
+#: src/widgets/tools/tools-box.vala:92
 msgid "Tools"
 msgstr "ツール"
-
-#: src/widgets/main/main-box.vala:45
-msgid "Games"
-msgstr "ゲーム"
 
 #: src/widgets/main/main-box.vala:47
 #: src/widgets/preferences/preferences-dialog.vala:344
@@ -5231,23 +5330,23 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:285 src/widgets/tools/tools-box.vala:493
+#: src/widgets/main/main-box.vala:285 src/widgets/tools/tools-box.vala:599
 msgid "Checking for updates"
 msgstr "更新を確認中"
 
-#: src/widgets/main/main-box.vala:296 src/widgets/tools/tools-box.vala:501
+#: src/widgets/main/main-box.vala:296 src/widgets/tools/tools-box.vala:607
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:299 src/widgets/tools/tools-box.vala:504
+#: src/widgets/main/main-box.vala:299 src/widgets/tools/tools-box.vala:610
 msgid "Nothing to update"
 msgstr "更新するものはありません"
 
-#: src/widgets/main/main-box.vala:303 src/widgets/tools/tools-box.vala:508
+#: src/widgets/main/main-box.vala:303 src/widgets/tools/tools-box.vala:614
 msgid "Everything is now up-to-date"
 msgstr "全て最新になりました。"
 
-#: src/widgets/main/main-box.vala:306 src/widgets/tools/tools-box.vala:511
+#: src/widgets/main/main-box.vala:306 src/widgets/tools/tools-box.vala:617
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "更新を確認できませんでした (理由: %s)"
@@ -6172,14 +6271,6 @@ msgstr ""
 msgid "Controller"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:36
-msgid "Bottom face button"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:37
-msgid "Right face button"
-msgstr ""
-
 #: src/widgets/preferences/preferences-dialog.vala:39
 msgid "Confirm button"
 msgstr ""
@@ -6347,7 +6438,7 @@ msgid "Detected Launchers"
 msgstr "ランチャーを検出しました:\n"
 
 #: src/widgets/preferences/preferences-dialog.vala:392
-#: src/widgets/tools/tools-box.vala:203
+#: src/widgets/tools/tools-box.vala:206
 #: src/widgets/tools/tools-group-box.vala:239
 msgid "Installed"
 msgstr "インストール済み"
@@ -6446,40 +6537,46 @@ msgstr ""
 msgid "Proxy mode"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:121
+#: src/widgets/tools/tools-box.vala:94
+#: src/widgets/tools/tools-release-changelog.vala:87
+#: src/widgets/tools/tools-release-changelog.vala:98
+msgid "Details"
+msgstr ""
+
+#: src/widgets/tools/tools-box.vala:95 src/widgets/tools/tools-box.vala:124
 #: src/widgets/tools/tools-migrate-box.vala:43
 msgid "Migrate"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:129
+#: src/widgets/tools/tools-box.vala:132
 #, fuzzy
 msgid "Migrate selected games to another tool"
 msgstr "選択したゲームの互換性ツールを一度に変更する"
 
-#: src/widgets/tools/tools-box.vala:153
+#: src/widgets/tools/tools-box.vala:156
 msgid "Check for updates"
 msgstr "更新を確認"
 
-#: src/widgets/tools/tools-box.vala:158 src/widgets/tools/tools-box.vala:191
-#: src/widgets/tools/tools-box.vala:371
+#: src/widgets/tools/tools-box.vala:161 src/widgets/tools/tools-box.vala:194
+#: src/widgets/tools/tools-box.vala:380
 #, fuzzy
 msgid "Search"
 msgstr "検索窓を表示"
 
-#: src/widgets/tools/tools-box.vala:206
+#: src/widgets/tools/tools-box.vala:209
 msgid "Used"
 msgstr "使用済み"
 
-#: src/widgets/tools/tools-box.vala:209
+#: src/widgets/tools/tools-box.vala:212
 msgid "Unused"
 msgstr "未使用"
 
-#: src/widgets/tools/tools-box.vala:368
+#: src/widgets/tools/tools-box.vala:377
 #, fuzzy
 msgid "Search is active"
 msgstr "ゲームを検索"
 
-#: src/widgets/tools/tools-box.vala:378
+#: src/widgets/tools/tools-box.vala:387
 msgid "Filter is active"
 msgstr ""
 
@@ -6594,11 +6691,6 @@ msgstr ""
 #, fuzzy
 msgid "Used by"
 msgstr "使用済み"
-
-#: src/widgets/tools/tools-release-changelog.vala:87
-#: src/widgets/tools/tools-release-changelog.vala:98
-msgid "Details"
-msgstr ""
 
 #: src/widgets/tools/tools-release-row.vala:25
 #, c-format
@@ -6822,7 +6914,7 @@ msgstr ""
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "そのバージョンを ProtonPlus で再インストールしますか?"
 
-#: src/widgets/window.vala:184
+#: src/widgets/window.vala:196
 #, fuzzy
 msgid ""
 "The application is currently downloading a tool.\n"
@@ -6831,7 +6923,7 @@ msgstr ""
 "アプリケーションは更新の確認中です。\n"
 "アプリケーションを終了すると問題が発生することがあります。"
 
-#: src/widgets/window.vala:187
+#: src/widgets/window.vala:199
 msgid "Exit"
 msgstr "終了"
 
@@ -6951,14 +7043,8 @@ msgstr "終了"
 #~ msgid "Switch profile"
 #~ msgstr "プロファイルを変更"
 
-#~ msgid "Switch to another profile"
-#~ msgstr "別のプロファイルに変更する"
-
 #~ msgid "Remember last used profile"
 #~ msgstr "最後に使用したプロファイルを記憶する"
-
-#~ msgid "Light"
-#~ msgstr "ライト"
 
 #~ msgid "Dark"
 #~ msgstr "ダーク"
@@ -7177,9 +7263,6 @@ msgstr "終了"
 #~ msgid "More information"
 #~ msgstr "詳細情報"
 
-#~ msgid "Open"
-#~ msgstr "開く"
-
 #, fuzzy
 #~ msgid "Show tools that are used by one game or more"
 #~ msgstr "1つ以上のゲームで使用している実行環境を表示"
@@ -7256,9 +7339,6 @@ msgstr "終了"
 #~ "account."
 #~ msgstr ""
 #~ "起動オプションをまとめて変更したい場合のみ、この設定を有効にしてください。"
-
-#~ msgid "Select all"
-#~ msgstr "全てを選択"
 
 #~ msgid "Unselect all"
 #~ msgstr "全てを選択解除"

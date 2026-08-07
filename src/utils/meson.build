@@ -8,6 +8,7 @@ sources += files(
     'system.vala',
     'i18n.vala',
     'controller-control-policy.vala',
+    'controller-hint-policy.vala',
     'controller-input-policy.vala',
     'controller-navigation-policy.vala',
     'controller-surface-policy.vala',

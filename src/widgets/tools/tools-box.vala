@@ -538,6 +538,14 @@ namespace ProtonPlus.Widgets.Tools {
             return pop_page ();
         }
 
+        public bool controller_can_navigate_back () {
+            return get_visible_page_tag () != "groups";
+        }
+
+        public bool controller_can_switch_page () {
+            return false;
+        }
+
         public bool controller_switch_page (int delta) {
             return false;
         }

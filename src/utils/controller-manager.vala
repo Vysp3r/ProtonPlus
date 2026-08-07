@@ -1,5 +1,7 @@
 namespace ProtonPlus.Utils {
     public class ControllerManager : Object {
+        public signal void presentation_changed (ControllerPresentationState state);
+
         private class GamepadState : Object {
             public SDL.Joystick.JoystickID id;
             public SDL.Gamepad.Gamepad gamepad;
@@ -53,6 +55,7 @@ namespace ProtonPlus.Utils {
         bool input_controllers_attached = false;
         ulong window_active_handler = 0;
         ulong window_focus_handler = 0;
+        ulong confirm_button_changed_handler = 0;
         ulong highlight_visible_handler = 0;
         ulong highlight_unmap_handler = 0;
         ulong highlight_destroy_handler = 0;
@@ -66,6 +69,10 @@ namespace ProtonPlus.Utils {
         uint64 surface_generation = 0;
         uint navigation_focus_source_id = 0;
         uint scroll_focus_source_id = 0;
+        weak Gtk.Range? presentation_range = null;
+        ulong presentation_range_orientation_handler = 0;
+
+        public ControllerPresentationState presentation_state { get; private set; }
 
         const double SCROLL_SPEED = 12.0;
         const uint INITIAL_REPEAT_DELAY = 350;
@@ -73,6 +80,17 @@ namespace ProtonPlus.Utils {
 
         public ControllerManager (Widgets.Window window) {
             this.window = window;
+
+            var face_labels = ControllerPhysicalLabelResolver.from_sdl (
+                SDL.Gamepad.GamepadButtonLabel.UNKNOWN,
+                SDL.Gamepad.GamepadButtonLabel.UNKNOWN
+            );
+            presentation_state = new ControllerPresentationState (
+                false, {}, face_labels,
+                ControllerPhysicalLabelResolver.map_prompts (
+                    face_labels, ControllerConfirmButton.SOUTH
+                )
+            );
 
             window_surface = new GtkSurface (ControllerSurfaceKind.WINDOW, window);
             surface_policy = new ControllerSurfacePolicy (window_surface);
@@ -93,10 +111,15 @@ namespace ProtonPlus.Utils {
             });
 
             window_active_handler = window.notify["is-active"].connect (() => {
-                if (!window.is_active)
+                if (!window.is_active) {
                     reset_input_state ();
+                    deactivate_controller_mode ();
+                }
             });
-            window_focus_handler = window.notify["focus-widget"].connect (() => sync_highlight ());
+            window_focus_handler = window.notify["focus-widget"].connect (() => {
+                sync_highlight ();
+                refresh_presentation ();
+            });
         }
 
         public void start () {
@@ -110,6 +133,12 @@ namespace ProtonPlus.Utils {
 
             sdl_initialized = true;
             SDL.Gamepad.set_gamepad_events_enabled (true);
+
+            if (Globals.SETTINGS != null) {
+                confirm_button_changed_handler = Globals.SETTINGS.changed["controller-confirm-button"].connect (
+                    refresh_presentation
+                );
+            }
 
             unowned SDL.Joystick.JoystickID[]? ids = SDL.Gamepad.get_gamepads ();
             if (ids != null) {
@@ -161,6 +190,12 @@ namespace ProtonPlus.Utils {
             registered_surfaces.clear ();
             surface_policy.reset ();
             deactivate_controller_mode ();
+            disconnect_presentation_range ();
+
+            if (confirm_button_changed_handler != 0 && Globals.SETTINGS != null) {
+                Globals.SETTINGS.disconnect (confirm_button_changed_handler);
+                confirm_button_changed_handler = 0;
+            }
 
             if (window_active_handler != 0) {
                 window.disconnect (window_active_handler);
@@ -252,6 +287,7 @@ namespace ProtonPlus.Utils {
             }
             schedule_scroll_to_focus ();
             sync_highlight ();
+            refresh_presentation ();
         }
 
         void disconnect_surface (GtkSurface surface) {
@@ -282,6 +318,7 @@ namespace ProtonPlus.Utils {
             clear_highlight ();
             if (controller_active)
                 sync_highlight ();
+            refresh_presentation ();
         }
 
         void schedule_initial_focus (GtkSurface surface) {
@@ -304,6 +341,7 @@ namespace ProtonPlus.Utils {
                 }
                 controller_focus_changed ();
                 sync_highlight ();
+                refresh_presentation ();
                 return GLib.Source.REMOVE;
             });
         }
@@ -324,6 +362,7 @@ namespace ProtonPlus.Utils {
                 focus_idle_id = 0;
                 focus_active_surface ();
                 sync_highlight ();
+                refresh_presentation ();
                 return GLib.Source.REMOVE;
             });
         }
@@ -416,8 +455,10 @@ namespace ProtonPlus.Utils {
             if (state == null)
                 return;
 
-            if (input_policy.disconnect_device (controller_id (state.id)))
+            if (input_policy.disconnect_device (controller_id (state.id))) {
                 cancel_repeat_timer ();
+                deactivate_controller_mode ();
+            }
 
             gamepads.remove (state);
             SDL.Gamepad.close_gamepad (state.gamepad);
@@ -457,15 +498,19 @@ namespace ProtonPlus.Utils {
                 window.add_css_class ("controller-active");
             }
             sync_highlight ();
+            refresh_presentation ();
         }
 
         void deactivate_controller_mode () {
-            if (!controller_active)
+            if (!controller_active) {
+                refresh_presentation ();
                 return;
+            }
 
             controller_active = false;
             window.remove_css_class ("controller-active");
             clear_highlight ();
+            refresh_presentation ();
         }
 
         void update_highlight (Gtk.Widget? widget) {
@@ -511,6 +556,119 @@ namespace ProtonPlus.Utils {
             if (!is_valid_focus_target (widget))
                 return false;
             return is_inside_surface (widget, get_active_surface ());
+        }
+
+        public void presentation_context_changed () {
+            refresh_presentation ();
+        }
+
+        void refresh_presentation () {
+            var active_gamepad = input_policy.has_active_device
+                ? find_gamepad_by_controller_id (input_policy.active_device_id)
+                : null;
+            var presentation_active = controller_active && window.is_active && active_gamepad != null;
+            var surface = get_active_surface ();
+            var focused = get_focused_widget ();
+            var control_kind = classify_hint_control (focused, surface);
+            var has_popover = surface.kind == ControllerSurfaceKind.POPOVER ||
+                find_focused_popover () != null;
+            var has_dialog = surface.kind == ControllerSurfaceKind.DIALOG;
+            var host = get_active_navigation_host ();
+
+            var context = new ControllerHintContext () {
+                controller_mode_active = presentation_active,
+                has_dialog = has_dialog,
+                has_popover = has_popover,
+                control_kind = control_kind,
+                can_navigate_back = host != null && host.controller_can_navigate_back (),
+                can_switch_section = host != null && host.controller_can_switch_page ()
+            };
+
+            var south_label = SDL.Gamepad.GamepadButtonLabel.UNKNOWN;
+            var east_label = SDL.Gamepad.GamepadButtonLabel.UNKNOWN;
+            if (active_gamepad != null) {
+                south_label = SDL.Gamepad.get_gamepad_button_label (
+                    active_gamepad.gamepad, SDL.Gamepad.GamepadButton.SOUTH
+                );
+                east_label = SDL.Gamepad.get_gamepad_button_label (
+                    active_gamepad.gamepad, SDL.Gamepad.GamepadButton.EAST
+                );
+            }
+            var face_labels = ControllerPhysicalLabelResolver.from_sdl (south_label, east_label);
+            var confirm_button = ControllerConfirmButton.SOUTH;
+            if (Globals.SETTINGS != null) {
+                confirm_button = (ControllerConfirmButton) Globals.SETTINGS.get_enum (
+                    "controller-confirm-button"
+                );
+            }
+            var next = new ControllerPresentationState (
+                presentation_active,
+                ControllerHintPolicy.get_hints (context),
+                face_labels,
+                ControllerPhysicalLabelResolver.map_prompts (face_labels, confirm_button)
+            );
+            if (presentation_state.equal_to (next))
+                return;
+
+            presentation_state = next;
+            presentation_changed (presentation_state);
+        }
+
+        ControllerHintControlKind classify_hint_control (Gtk.Widget? focused,
+            GtkSurface surface) {
+            var root = get_direction_input_root (focused, surface);
+            Gtk.Widget? current = focused;
+            Gtk.Range? range = null;
+            while (current != null) {
+                if (current is Gtk.Range) {
+                    range = (Gtk.Range) current;
+                    break;
+                }
+                if (current == root)
+                    break;
+                current = current.get_parent ();
+            }
+            sync_presentation_range (range);
+            if (range != null) {
+                return ((Gtk.Orientable) range).get_orientation () == Gtk.Orientation.HORIZONTAL
+                    ? ControllerHintControlKind.HORIZONTAL_RANGE
+                    : ControllerHintControlKind.VERTICAL_RANGE;
+            }
+
+            current = focused;
+            while (current != null) {
+                if (current is Gtk.Switch || current is Gtk.CheckButton ||
+                    current is Gtk.ToggleButton || current is Adw.SwitchRow)
+                    return ControllerHintControlKind.TOGGLE;
+                if (current is Gtk.DropDown || current is Gtk.ComboBox ||
+                    current is Gtk.MenuButton || current is Adw.ComboRow)
+                    return ControllerHintControlKind.OPEN;
+                if (current is Gtk.Editable || current is Gtk.TextView)
+                    return ControllerHintControlKind.EDITABLE;
+                if (current == root)
+                    break;
+                current = current.get_parent ();
+            }
+            return ControllerHintControlKind.DEFAULT;
+        }
+
+        void sync_presentation_range (Gtk.Range? range) {
+            if (presentation_range == range)
+                return;
+            disconnect_presentation_range ();
+            presentation_range = range;
+            if (presentation_range != null) {
+                presentation_range_orientation_handler = ((!) presentation_range)
+                    .notify["orientation"].connect (refresh_presentation);
+            }
+        }
+
+        void disconnect_presentation_range () {
+            var range = presentation_range;
+            if (range != null && presentation_range_orientation_handler != 0)
+                range.disconnect (presentation_range_orientation_handler);
+            presentation_range_orientation_handler = 0;
+            presentation_range = null;
         }
 
         void handle_button_down (SDL.Joystick.JoystickID id, SDL.Gamepad.GamepadButton button) {
@@ -833,6 +991,7 @@ namespace ProtonPlus.Utils {
             if (previous_surface_generation == surface_generation &&
                 previous_page_id != active_page_id && active_page_root != null)
                 schedule_page_focus_restore ();
+            refresh_presentation ();
         }
 
         Gtk.ListView? find_list_view_ancestor (Gtk.Widget focused, Gtk.Widget root) {
@@ -933,6 +1092,7 @@ namespace ProtonPlus.Utils {
             default:
                 break;
             }
+            refresh_presentation ();
         }
 
         public void navigate_application_back () {
@@ -945,6 +1105,7 @@ namespace ProtonPlus.Utils {
             );
             if (action == ControllerBackAction.NAVIGATE_APPLICATION)
                 schedule_page_focus_restore ();
+            refresh_presentation ();
         }
 
         Gtk.Popover? find_focused_popover () {
@@ -967,6 +1128,7 @@ namespace ProtonPlus.Utils {
             save_current_page_focus ();
             if (navigation_policy.switch_page (host, delta))
                 schedule_page_focus_restore ();
+            refresh_presentation ();
         }
 
         ControllerNavigationHost? get_active_navigation_host () {
@@ -1009,6 +1171,7 @@ namespace ProtonPlus.Utils {
         void controller_focus_changed () {
             save_current_page_focus ();
             schedule_scroll_to_focus ();
+            refresh_presentation ();
         }
 
         void schedule_page_focus_restore () {
@@ -1066,6 +1229,7 @@ namespace ProtonPlus.Utils {
                     save_current_page_focus ();
                     schedule_scroll_to_focus ();
                     sync_highlight ();
+                    refresh_presentation ();
                 }
                 return GLib.Source.REMOVE;
             });

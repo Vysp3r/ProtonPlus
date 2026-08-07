@@ -438,6 +438,15 @@ namespace ProtonPlus.Widgets.Preferences {
             return false;
         }
 
+        public bool controller_can_switch_page () {
+            int visible_count = 0;
+            foreach (var page in controller_pages) {
+                if (page.visible)
+                    visible_count++;
+            }
+            return visible_count >= 2;
+        }
+
         public string get_controller_page_id () {
             for (int i = 0; i < controller_pages.length; i++) {
                 if (controller_pages[i] == visible_page)
@@ -472,6 +481,10 @@ namespace ProtonPlus.Widgets.Preferences {
         }
 
         public bool controller_navigate_back () {
+            return false;
+        }
+
+        public bool controller_can_navigate_back () {
             return false;
         }
     }

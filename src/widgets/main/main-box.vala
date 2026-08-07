@@ -415,6 +415,22 @@ namespace ProtonPlus.Widgets.Main {
             return host != null && host.controller_navigate_back ();
         }
 
+        public bool controller_can_navigate_back () {
+            var host = get_visible_controller_host ();
+            return host != null && host.controller_can_navigate_back ();
+        }
+
+        public bool controller_can_switch_page () {
+            var model = view_stack.pages;
+            int visible_count = 0;
+            for (uint i = 0; i < model.get_n_items (); i++) {
+                var page = (Adw.ViewStackPage) model.get_item (i);
+                if (page.visible)
+                    visible_count++;
+            }
+            return visible_count >= 2;
+        }
+
         public bool controller_switch_page (int delta) {
             var model = view_stack.pages;
             int count = (int) model.get_n_items ();

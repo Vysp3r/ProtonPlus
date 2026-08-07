@@ -17,6 +17,8 @@ namespace ProtonPlus.Utils {
         public abstract string get_controller_page_id ();
         public abstract Object? get_controller_page_root ();
         public abstract Object? get_controller_initial_focus ();
+        public abstract bool controller_can_navigate_back ();
+        public abstract bool controller_can_switch_page ();
         public abstract bool controller_navigate_back ();
         public abstract bool controller_switch_page (int delta);
     }

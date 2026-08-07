@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-06 19:08-0400\n"
+"POT-Creation-Date: 2026-08-06 21:16-0400\n"
 "PO-Revision-Date: 2026-05-24 00:30+0000\n"
 "Last-Translator: Gemini AI\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/protonplus/"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr "ProtonPlus"
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:229
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:230
 msgid "A modern compatibility tools manager"
 msgstr "Moderný správca nástrojov kompatibility"
 
@@ -2246,19 +2246,124 @@ msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Nástroj kompatibility, ktorý hry použijú automaticky ako predvolený"
 
-#: src/widgets/application.vala:231
+#: src/widgets/application.vala:232
 msgid "Website"
 msgstr "Webové stránky"
 
-#: src/widgets/application.vala:236
+#: src/widgets/application.vala:237
 msgid "translator-credits"
 msgstr "Jan Galek <warfacez>"
 
-#: src/widgets/application.vala:237
+#: src/widgets/application.vala:238
 msgid "Special thanks to"
 msgstr "Zvláštne poďakovanie patrí"
 
-#: src/widgets/games/games-box.vala:74 src/widgets/games/games-box.vala:507
+#: src/widgets/controller-hint-bar.vala:98
+#, fuzzy
+msgid "Select"
+msgstr "Vyber vše"
+
+#: src/widgets/controller-hint-bar.vala:102
+#, fuzzy
+msgid "Toggle"
+msgstr "Kláves prepínania"
+
+#: src/widgets/controller-hint-bar.vala:106
+msgid "Open"
+msgstr "Otevřít"
+
+#: src/widgets/controller-hint-bar.vala:110
+#: src/widgets/tools/tools-box.vala:110
+msgid "Back"
+msgstr "Späť"
+
+#: src/widgets/controller-hint-bar.vala:114
+msgid "Close"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:118
+msgid "Left and right"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:119
+#: src/widgets/controller-hint-bar.vala:124
+msgid "Adjust"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:123
+msgid "Up and down"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:127
+#, fuzzy
+msgid "Shoulders"
+msgstr "Okraje"
+
+#: src/widgets/controller-hint-bar.vala:128
+msgid "Shoulder buttons"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:129
+#, fuzzy
+msgid "Switch section or page"
+msgstr "Přepnout na jiný profil"
+
+#: src/widgets/controller-hint-bar.vala:163
+msgid "A button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:167
+#, fuzzy
+msgid "B button"
+msgstr "Dole vľavo"
+
+#: src/widgets/controller-hint-bar.vala:171
+msgid "X button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:175
+msgid "Y button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:179
+msgid "Cross button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:183
+msgid "Circle button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:187
+#, fuzzy
+msgid "Square button"
+msgstr "Hranaté"
+
+#: src/widgets/controller-hint-bar.vala:191
+msgid "Triangle button"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:194
+#, fuzzy
+msgid "Bottom"
+msgstr "Dole vľavo"
+
+#: src/widgets/controller-hint-bar.vala:195
+#: src/widgets/preferences/preferences-dialog.vala:36
+#, fuzzy
+msgid "Bottom face button"
+msgstr "Dole vľavo"
+
+#: src/widgets/controller-hint-bar.vala:198
+#, fuzzy
+msgid "Right"
+msgstr "Hore vpravo"
+
+#: src/widgets/controller-hint-bar.vala:199
+#: src/widgets/preferences/preferences-dialog.vala:37
+msgid "Right face button"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:74 src/widgets/games/games-box.vala:493
 #: src/widgets/tools/tools-release-box.vala:102
 #, fuzzy
 msgid "No games found"
@@ -2268,127 +2373,119 @@ msgstr "Nenašli sa žiadne verzie"
 msgid "Try a different search term or filter."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:101 src/widgets/tools/tools-box.vala:96
-msgid "Back"
-msgstr "Späť"
-
-#: src/widgets/games/games-box.vala:107
-#, fuzzy
-msgid "Clear the current launch options"
-msgstr "Vymazať aktuálne možnosti spustenia"
-
-#: src/widgets/games/games-box.vala:112
-msgid "Apply the current modification"
-msgstr "Použiť aktuálnu úpravu"
-
-#: src/widgets/games/games-box.vala:148 src/widgets/tools/tools-box.vala:200
+#: src/widgets/games/games-box.vala:132 src/widgets/tools/tools-box.vala:203
 msgid "All"
 msgstr "Všetko"
 
-#: src/widgets/games/games-box.vala:152
-#: src/widgets/games/games-mass-edit-view.vala:164
+#: src/widgets/games/games-box.vala:136
+#: src/widgets/games/games-mass-edit-view.vala:168
 #: src/widgets/games/games-row.vala:132
 msgid "Native"
 msgstr "Natívne"
 
-#: src/widgets/games/games-box.vala:156
+#: src/widgets/games/games-box.vala:140
 msgid "Non-Steam"
 msgstr "Mimo Steamu"
 
-#: src/widgets/games/games-box.vala:199 src/widgets/tools/tools-box.vala:198
-#: src/widgets/tools/tools-box.vala:381
+#: src/widgets/games/games-box.vala:183 src/widgets/tools/tools-box.vala:201
+#: src/widgets/tools/tools-box.vala:390
 msgid "Filter"
 msgstr "Filter"
 
-#: src/widgets/games/games-box.vala:218
+#: src/widgets/games/games-box.vala:202
 #, fuzzy
 msgid "Search games"
 msgstr "Spustiť hru"
 
-#: src/widgets/games/games-box.vala:226
+#: src/widgets/games/games-box.vala:210
 #, fuzzy
 msgid "Select all visible games"
 msgstr "Vyber všechny hry"
 
-#: src/widgets/games/games-box.vala:242
+#: src/widgets/games/games-box.vala:226
 msgid "Prefix"
 msgstr "Prefix"
 
-#: src/widgets/games/games-box.vala:246
+#: src/widgets/games/games-box.vala:230
 msgid "Tool"
 msgstr "Nástroj"
 
-#: src/widgets/games/games-box.vala:250
+#: src/widgets/games/games-box.vala:234
 #, fuzzy
 msgid "Actions"
 msgstr "Akcie"
 
-#: src/widgets/games/games-box.vala:348
+#: src/widgets/games/games-box.vala:288 src/widgets/games/games-box.vala:289
+#: src/widgets/main/main-box.vala:45
+msgid "Games"
+msgstr "Hry"
+
+#: src/widgets/games/games-box.vala:334
 msgid "No profile was found."
 msgstr "Nenašiel sa žiadny profil."
 
-#: src/widgets/games/games-box.vala:350
+#: src/widgets/games/games-box.vala:336
 msgid "Make sure to connect yourself at least once on Steam."
 msgstr "Uistite sa, že sa v službe Steam prihlásite aspoň raz."
 
-#: src/widgets/games/games-box.vala:351
+#: src/widgets/games/games-box.vala:337
 msgid "If you think this is an issue, make sure to report this on GitHub."
 msgstr "Ak si myslíte, že ide o chybu, nezabudnite to nahlásiť na GitHubu."
 
-#: src/widgets/games/games-box.vala:362
+#: src/widgets/games/games-box.vala:348
 msgid "Unsupported launcher"
 msgstr "Nepodporovaný spouštěč"
 
-#: src/widgets/games/games-box.vala:364
+#: src/widgets/games/games-box.vala:350
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s nie je momentálne podporované."
 
-#: src/widgets/games/games-box.vala:365
+#: src/widgets/games/games-box.vala:351
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "Ak chcete, aby som urýchlil vývoj, nezabudnite vyjadriť svoju podporu!"
 
-#: src/widgets/games/games-box.vala:412 src/widgets/games/games-row.vala:129
+#: src/widgets/games/games-box.vala:398 src/widgets/games/games-row.vala:129
 #: src/widgets/tools/tools-migrate-box.vala:99
 msgid "Default"
 msgstr "Výchozí"
 
-#: src/widgets/games/games-box.vala:475
+#: src/widgets/games/games-box.vala:461
 #, fuzzy
 msgid "Filter: Native"
 msgstr "Filtry"
 
-#: src/widgets/games/games-box.vala:477
+#: src/widgets/games/games-box.vala:463
 #, fuzzy
 msgid "Filter: Non-Steam"
 msgstr "Mimo Steamu"
 
-#: src/widgets/games/games-box.vala:479
+#: src/widgets/games/games-box.vala:465
 #, fuzzy
 msgid "Filter: All games"
 msgstr "Filtry"
 
-#: src/widgets/games/games-box.vala:499
+#: src/widgets/games/games-box.vala:485
 #, fuzzy
 msgid "No matching games"
 msgstr "Nástroje spustenia"
 
-#: src/widgets/games/games-box.vala:500
+#: src/widgets/games/games-box.vala:486
 #: src/widgets/tools/tools-group-box.vala:124
 msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:503
+#: src/widgets/games/games-box.vala:489
 #, fuzzy
 msgid "No games match this filter"
 msgstr "Žiadne verzie nezodpovedajú aktuálnemu filtru."
 
-#: src/widgets/games/games-box.vala:504
+#: src/widgets/games/games-box.vala:490
 msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:508
+#: src/widgets/games/games-box.vala:494
 msgid "No games are available for this launcher."
 msgstr ""
 
@@ -2434,7 +2531,7 @@ msgstr[2] "Upraviť všetky vybrané hry naraz"
 
 #: src/widgets/games/games-mass-edit-button.vala:57
 #: src/widgets/tools/tools-stl-release-row.vala:13
-#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:183
+#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:195
 msgid "Warning"
 msgstr "Varování"
 
@@ -2446,71 +2543,80 @@ msgstr ""
 "Pred použitím funkcie hromadnej úpravy sa uistite, že ste vybrali aspoň "
 "jednu hru."
 
-#: src/widgets/games/games-mass-edit-view.vala:26
+#: src/widgets/games/games-mass-edit-view.vala:25
 msgid "1 game selected"
 msgstr "Vybraná 1 hra"
 
-#: src/widgets/games/games-mass-edit-view.vala:26
+#: src/widgets/games/games-mass-edit-view.vala:25
 #, c-format
 msgid "%u games selected"
 msgstr "Vybráno %u her"
 
-#: src/widgets/games/games-mass-edit-view.vala:49
+#: src/widgets/games/games-mass-edit-view.vala:35
+#, fuzzy
+msgid "Clear the current launch options"
+msgstr "Vymazať aktuálne možnosti spustenia"
+
+#: src/widgets/games/games-mass-edit-view.vala:40
+msgid "Apply the current modification"
+msgstr "Použiť aktuálnu úpravu"
+
+#: src/widgets/games/games-mass-edit-view.vala:51
 #, fuzzy
 msgid "Apply compatibility tool"
 msgstr "Kompatibilní nástroj"
 
-#: src/widgets/games/games-mass-edit-view.vala:50
+#: src/widgets/games/games-mass-edit-view.vala:52
 #, fuzzy
 msgid "Set the same tool for every selected game."
 msgstr "Vyberte nový nástroj pre vybrané hry."
 
-#: src/widgets/games/games-mass-edit-view.vala:75
+#: src/widgets/games/games-mass-edit-view.vala:77
 #, fuzzy
 msgid "Apply launch options"
 msgstr "Upravit možnosti spouštění"
 
-#: src/widgets/games/games-mass-edit-view.vala:76
+#: src/widgets/games/games-mass-edit-view.vala:78
 #, fuzzy
 msgid "Set the same options for every selected Steam game."
 msgstr "Vyberte nový nástroj pre vybrané hry."
 
-#: src/widgets/games/games-mass-edit-view.vala:87
+#: src/widgets/games/games-mass-edit-view.vala:89
 msgid ""
 "Enable the sections you want to change. Disabled sections leave the selected "
 "games unchanged."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:265
+#: src/widgets/games/games-mass-edit-view.vala:269
 #, fuzzy
 msgid "Compatibility tool cannot be applied"
 msgstr "Nástroj kompatibility nebol nájdený"
 
-#: src/widgets/games/games-mass-edit-view.vala:266
+#: src/widgets/games/games-mass-edit-view.vala:270
 msgid "No games were changed because no compatibility tool is selected."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:288
+#: src/widgets/games/games-mass-edit-view.vala:292
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:289
+#: src/widgets/games/games-mass-edit-view.vala:293
 #, fuzzy
 msgid "Launch options cannot be applied"
 msgstr "Možnosti spuštění"
 
-#: src/widgets/games/games-mass-edit-view.vala:290
+#: src/widgets/games/games-mass-edit-view.vala:294
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:341
+#: src/widgets/games/games-mass-edit-view.vala:345
 msgid "Batch Update Failed"
 msgstr "Hromadná aktualizácia zlyhala"
 
-#: src/widgets/games/games-mass-edit-view.vala:342
+#: src/widgets/games/games-mass-edit-view.vala:346
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
@@ -5075,6 +5181,7 @@ msgid "Active downloads"
 msgstr "Zrušiť sťahovanie"
 
 #: src/widgets/header/header-downloads-indicator.vala:41
+#: src/widgets/tools/tools-box.vala:93
 #, fuzzy
 msgid "Downloads"
 msgstr "Sťahovania"
@@ -5088,7 +5195,7 @@ msgstr[1] "Zrušiť sťahovanie"
 msgstr[2] "Zrušiť sťahovanie"
 
 #: src/widgets/header/header-downloads-indicator.vala:187
-#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:190
+#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:202
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -5151,9 +5258,10 @@ msgstr "Podpora ovládačov"
 
 #: src/widgets/introduction/controller.vala:9
 msgid ""
-"Basic controller support is available for navigating ProtonPlus.\n"
-"More controller functionality and improvements are planned for future "
-"updates."
+"Navigate with the D-pad or left stick, and scroll with the right stick. "
+"Choose the Confirm face button, use contextual Back, switch sections or "
+"pages with the shoulders, and open menus or launchers with their controller "
+"buttons."
 msgstr ""
 
 #: src/widgets/introduction/forks.vala:8
@@ -5309,12 +5417,9 @@ msgstr "Potvrdit"
 #. Tools Page
 #: src/widgets/main/main-box.vala:44
 #: src/widgets/preferences/preferences-dialog.vala:69
+#: src/widgets/tools/tools-box.vala:92
 msgid "Tools"
 msgstr "Nástroje"
-
-#: src/widgets/main/main-box.vala:45
-msgid "Games"
-msgstr "Hry"
 
 #: src/widgets/main/main-box.vala:47
 #: src/widgets/preferences/preferences-dialog.vala:344
@@ -5364,26 +5469,26 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:285 src/widgets/tools/tools-box.vala:493
+#: src/widgets/main/main-box.vala:285 src/widgets/tools/tools-box.vala:599
 #, fuzzy
 msgid "Checking for updates"
 msgstr "Kontrolujú sa aktualizácie"
 
-#: src/widgets/main/main-box.vala:296 src/widgets/tools/tools-box.vala:501
+#: src/widgets/main/main-box.vala:296 src/widgets/tools/tools-box.vala:607
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:299 src/widgets/tools/tools-box.vala:504
+#: src/widgets/main/main-box.vala:299 src/widgets/tools/tools-box.vala:610
 #, fuzzy
 msgid "Nothing to update"
 msgstr "Žiadne aktualizácie k dispozícii"
 
-#: src/widgets/main/main-box.vala:303 src/widgets/tools/tools-box.vala:508
+#: src/widgets/main/main-box.vala:303 src/widgets/tools/tools-box.vala:614
 #, fuzzy
 msgid "Everything is now up-to-date"
 msgstr "Všetko je teraz aktuálne"
 
-#: src/widgets/main/main-box.vala:306 src/widgets/tools/tools-box.vala:511
+#: src/widgets/main/main-box.vala:306 src/widgets/tools/tools-box.vala:617
 #, fuzzy, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Nepodarilo sa skontrolovať aktualizácie (Dôvod: %s)"
@@ -6292,15 +6397,6 @@ msgstr "Vzhled"
 msgid "Controller"
 msgstr "Podpora ovládačov"
 
-#: src/widgets/preferences/preferences-dialog.vala:36
-#, fuzzy
-msgid "Bottom face button"
-msgstr "Dole vľavo"
-
-#: src/widgets/preferences/preferences-dialog.vala:37
-msgid "Right face button"
-msgstr ""
-
 #: src/widgets/preferences/preferences-dialog.vala:39
 msgid "Confirm button"
 msgstr ""
@@ -6466,7 +6562,7 @@ msgid "Detected Launchers"
 msgstr "Nalezené spouštěče"
 
 #: src/widgets/preferences/preferences-dialog.vala:392
-#: src/widgets/tools/tools-box.vala:203
+#: src/widgets/tools/tools-box.vala:206
 #: src/widgets/tools/tools-group-box.vala:239
 msgid "Installed"
 msgstr "Nainstalováno"
@@ -6568,39 +6664,45 @@ msgstr ""
 msgid "Proxy mode"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:121
+#: src/widgets/tools/tools-box.vala:94
+#: src/widgets/tools/tools-release-changelog.vala:87
+#: src/widgets/tools/tools-release-changelog.vala:98
+msgid "Details"
+msgstr ""
+
+#: src/widgets/tools/tools-box.vala:95 src/widgets/tools/tools-box.vala:124
 #: src/widgets/tools/tools-migrate-box.vala:43
 msgid "Migrate"
 msgstr "Migrovať"
 
-#: src/widgets/tools/tools-box.vala:129
+#: src/widgets/tools/tools-box.vala:132
 #, fuzzy
 msgid "Migrate selected games to another tool"
 msgstr "Migrovať vybrané hry na iný nástroj"
 
-#: src/widgets/tools/tools-box.vala:153
+#: src/widgets/tools/tools-box.vala:156
 #, fuzzy
 msgid "Check for updates"
 msgstr "Kontrolovať aktualizácie"
 
-#: src/widgets/tools/tools-box.vala:158 src/widgets/tools/tools-box.vala:191
-#: src/widgets/tools/tools-box.vala:371
+#: src/widgets/tools/tools-box.vala:161 src/widgets/tools/tools-box.vala:194
+#: src/widgets/tools/tools-box.vala:380
 msgid "Search"
 msgstr "Vyhľadávanie"
 
-#: src/widgets/tools/tools-box.vala:206
+#: src/widgets/tools/tools-box.vala:209
 msgid "Used"
 msgstr "Použito"
 
-#: src/widgets/tools/tools-box.vala:209
+#: src/widgets/tools/tools-box.vala:212
 msgid "Unused"
 msgstr "Nepoužité"
 
-#: src/widgets/tools/tools-box.vala:368
+#: src/widgets/tools/tools-box.vala:377
 msgid "Search is active"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:378
+#: src/widgets/tools/tools-box.vala:387
 #, fuzzy
 msgid "Filter is active"
 msgstr "Filtry"
@@ -6724,11 +6826,6 @@ msgstr "Zmeniť farby FPS"
 #, fuzzy
 msgid "Used by"
 msgstr "Použito"
-
-#: src/widgets/tools/tools-release-changelog.vala:87
-#: src/widgets/tools/tools-release-changelog.vala:98
-msgid "Details"
-msgstr ""
 
 #: src/widgets/tools/tools-release-row.vala:25
 #, c-format
@@ -6961,7 +7058,7 @@ msgstr ""
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Chcete ji znovu nainstalovat s ProtonPlus?"
 
-#: src/widgets/window.vala:184
+#: src/widgets/window.vala:196
 #, fuzzy
 msgid ""
 "The application is currently downloading a tool.\n"
@@ -6970,7 +7067,7 @@ msgstr ""
 "Aplikácia momentálne sťahuje nástroj.\n"
 "Predčasné ukončenie aplikácie môže spôsobiť problémy."
 
-#: src/widgets/window.vala:187
+#: src/widgets/window.vala:199
 msgid "Exit"
 msgstr "Ukončit"
 
@@ -7171,9 +7268,6 @@ msgstr "Ukončit"
 #~ msgid "Switch profile"
 #~ msgstr "Přepnout profil"
 
-#~ msgid "Switch to another profile"
-#~ msgstr "Přepnout na jiný profil"
-
 #~ msgid "Remember last used profile"
 #~ msgstr "Zapamätať si posledný použitý profil"
 
@@ -7363,9 +7457,6 @@ msgstr "Ukončit"
 #~ msgid "More information"
 #~ msgstr "Více informací"
 
-#~ msgid "Open"
-#~ msgstr "Otevřít"
-
 #~ msgid "Show more information"
 #~ msgstr "Zobrazit více informací"
 
@@ -7418,9 +7509,6 @@ msgstr "Ukončit"
 #~ msgstr ""
 #~ "Povolte tuto možnost, pokud chcete, aby hromadná úprava zohledňovala "
 #~ "možnosti spouštění."
-
-#~ msgid "Select all"
-#~ msgstr "Vyber vše"
 
 #~ msgid "Unselect all"
 #~ msgstr "Zrušit výběr všeho"

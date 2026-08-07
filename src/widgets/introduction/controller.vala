@@ -6,7 +6,7 @@ namespace ProtonPlus.Widgets.Introduction {
         public Controller () {
             base (
                 _("Controller support"),
-                _("Basic controller support is available for navigating ProtonPlus.\nMore controller functionality and improvements are planned for future updates."), // vala-lint=line-length
+                _("Navigate with the D-pad or left stick, and scroll with the right stick. Choose the Confirm face button, use contextual Back, switch sections or pages with the shoulders, and open menus or launchers with their controller buttons."), // vala-lint=line-length
                 "gamepad-symbolic"
             );
         }

@@ -66,6 +66,8 @@ namespace ProtonPlus.Widgets {
         Loading.Box loading_box { get; set; }
         public Main.Box main_box { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
+        ControllerHintBar controller_hint_bar { get; set; }
+        ulong controller_presentation_handler = 0;
 
         private Services.SteamRestartManager restart_manager;
         private Services.SteamRestartOrchestrator restart_orchestrator;
@@ -76,6 +78,9 @@ namespace ProtonPlus.Widgets {
             this.restart_orchestrator = restart_orchestrator;
 
             controller_manager = new Utils.ControllerManager (this);
+            controller_presentation_handler = controller_manager.presentation_changed.connect ((state) => {
+                controller_hint_bar.update_state (state);
+            });
             var navigate_back_action = new SimpleAction ("navigate-back", null);
             navigate_back_action.activate.connect ((parameter) => controller_manager.navigate_application_back ());
             add_action (navigate_back_action);
@@ -149,9 +154,13 @@ namespace ProtonPlus.Widgets {
 
             toolbar_view = new Adw.ToolbarView ();
             toolbar_view.add_top_bar (header_box);
+            controller_hint_bar = new ControllerHintBar ();
+            controller_hint_bar.update_state (controller_manager.presentation_state);
+            toolbar_view.add_bottom_bar (controller_hint_bar);
             toolbar_view.set_content (loading_box);
 
             set_content (toolbar_view);
+            controller_manager.presentation_context_changed ();
 
             loading_box.load.begin ();
         }
@@ -208,6 +217,15 @@ namespace ProtonPlus.Widgets {
             present_controller_dialog (dialog);
 
             return true;
+        }
+
+        public override void dispose () {
+            if (controller_presentation_handler != 0) {
+                controller_manager.disconnect (controller_presentation_handler);
+                controller_presentation_handler = 0;
+            }
+            controller_manager.stop ();
+            base.dispose ();
         }
     }
 }
