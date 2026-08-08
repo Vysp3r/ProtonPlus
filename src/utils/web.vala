@@ -2,6 +2,7 @@ namespace ProtonPlus.Utils {
     public class Web {
         const int PROXY_MODE_SYSTEM = 0;
         const int PROXY_MODE_MANUAL = 1;
+        const int MAX_DOWNLOAD_ATTEMPTS = 2;
 
 
         public enum GetRequestType {
@@ -205,15 +206,24 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        public static async bool download (
+        private static bool should_retry_download_error (Error error, int attempt) {
+            return error is IOError.TIMED_OUT && attempt < MAX_DOWNLOAD_ATTEMPTS;
+        }
+
+        private static string get_download_error_message (Error error) {
+            if (error is IOError.TIMED_OUT)
+                return _("The download timed out. Check your connection and try again.");
+            return error.message;
+        }
+
+        private static async bool download_once (
             string url,
-            string path,
-            Cancellable? cancellable = null,
-            progress_callback? progress_callback = null,
-            out string? error_message = null
-        ) {
+            File file,
+            Cancellable? cancellable,
+            progress_callback? progress_callback,
+            out string? error_message
+        ) throws Error {
             error_message = null;
-            var file = File.new_for_path (path);
             FileOutputStream? output_stream = null;
             bool has_partial_file = false;
 
@@ -293,15 +303,38 @@ namespace ProtonPlus.Utils {
             } catch (Error e) {
                 if (has_partial_file)
                     yield cleanup_partial_download (file, output_stream);
-
-                if (cancellable != null && cancellable.is_cancelled ())
-                    return false;
-
-                warning (e.message);
-                error_message = e.message;
-
-                return false;
+                throw e;
             }
+        }
+
+        public static async bool download (
+            string url,
+            string path,
+            Cancellable? cancellable = null,
+            progress_callback? progress_callback = null,
+            out string? error_message = null
+        ) {
+            error_message = null;
+            var file = File.new_for_path (path);
+            for (var attempt = 1; attempt <= MAX_DOWNLOAD_ATTEMPTS; attempt++) {
+                try {
+                    return yield download_once (url, file, cancellable, progress_callback, out error_message);
+                } catch (Error e) {
+                    if (cancellable != null && cancellable.is_cancelled ())
+                        return false;
+
+                    if (should_retry_download_error (e, attempt)) {
+                        warning ("Download timed out; retrying once: %s".printf (e.message));
+                        continue;
+                    }
+
+                    warning (e.message);
+                    error_message = get_download_error_message (e);
+                    return false;
+                }
+            }
+
+            return false;
         }
     }
 }

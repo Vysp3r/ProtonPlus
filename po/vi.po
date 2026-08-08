@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 00:16-0400\n"
+"POT-Creation-Date: 2026-08-08 10:50-0400\n"
 "PO-Revision-Date: 2026-02-16 17:22-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -2148,6 +2148,10 @@ msgstr ""
 
 #: src/services/standard-archive-workflow.vala:334
 msgid "The compatibility tool manifest is invalid or incomplete"
+msgstr ""
+
+#: src/utils/web.vala:215
+msgid "The download timed out. Check your connection and try again."
 msgstr ""
 
 #: src/widgets/application.vala:232

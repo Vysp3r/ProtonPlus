@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 00:16-0400\n"
+"POT-Creation-Date: 2026-08-08 10:50-0400\n"
 "PO-Revision-Date: 2026-05-15 06:11+0000\n"
 "Last-Translator: Yasmin Stanchese <yasmin@snowfloke.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -2205,6 +2205,10 @@ msgstr "Selecione sua ferramenta de compatibilidade desejada"
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Ferramenta de compatibilidade"
+
+#: src/utils/web.vala:215
+msgid "The download timed out. Check your connection and try again."
+msgstr ""
 
 #: src/widgets/application.vala:232
 msgid "Website"

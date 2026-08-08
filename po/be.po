@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 00:16-0400\n"
+"POT-Creation-Date: 2026-08-08 10:50-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -2191,6 +2191,10 @@ msgstr ""
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 "Просты менеджэр інструментаў сумяшчальнасці на базе Wine і Proton для GNOME"
+
+#: src/utils/web.vala:215
+msgid "The download timed out. Check your connection and try again."
+msgstr ""
 
 #: src/widgets/application.vala:232
 msgid "Website"

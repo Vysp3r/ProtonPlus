@@ -19,6 +19,7 @@ int main (string[] args) {
     AppTests.VariantSelectorTest.register_tests ();
     AppTests.AssetTest.register_tests ();
     AppTests.FilesystemTest.register_tests ();
+    AppTests.WebTest.register_tests ();
     AppTests.FaugusLauncherTest.register_tests ();
     AppTests.MetadataTest.register_tests ();
     AppTests.CompatibilityToolTest.register_tests ();

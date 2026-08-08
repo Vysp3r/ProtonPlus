@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 00:16-0400\n"
+"POT-Creation-Date: 2026-08-08 10:50-0400\n"
 "PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -2196,6 +2196,10 @@ msgstr "使用したい互換性ツールを選択"
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "互換性ツール"
+
+#: src/utils/web.vala:215
+msgid "The download timed out. Check your connection and try again."
+msgstr ""
 
 #: src/widgets/application.vala:232
 msgid "Website"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 00:16-0400\n"
+"POT-Creation-Date: 2026-08-08 10:50-0400\n"
 "PO-Revision-Date: 2026-02-03 11:54+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -2196,6 +2196,10 @@ msgstr "اختر أداة التوافق المرغوبة"
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "أداة التوافق"
+
+#: src/utils/web.vala:215
+msgid "The download timed out. Check your connection and try again."
+msgstr ""
 
 #: src/widgets/application.vala:232
 msgid "Website"

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 00:16-0400\n"
+"POT-Creation-Date: 2026-08-08 10:50-0400\n"
 "PO-Revision-Date: 2026-08-05 16:05+0200\n"
 "Last-Translator: Youseffo13 <>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -2277,6 +2277,10 @@ msgstr "Impossibile aggiornare compatibilitytool.vdf"
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 "Il manifest dello strumento di compatibilità non è valido o è incompleto"
+
+#: src/utils/web.vala:215
+msgid "The download timed out. Check your connection and try again."
+msgstr ""
 
 #: src/widgets/application.vala:232
 msgid "Website"
