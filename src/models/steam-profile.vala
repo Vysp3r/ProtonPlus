@@ -18,6 +18,8 @@ namespace ProtonPlus.Models {
             this.steam_id = steam_id;
             this.username = username;
             this.userdata_path = userdata_path;
+            this.launch_options_hashtable = new HashTable<uint, string> (null, null);
+            this.non_steam_games = new List<Games.Steam> ();
 
             this.account_id = steam_id_to_account_id (steam_id);
 
@@ -173,12 +175,6 @@ namespace ProtonPlus.Models {
             return account_id.to_string ();
         }
 
-        static string account_id_to_steam_id (string account_id) {
-            var steam_id = int64.parse (account_id) + steamid64ident;
-
-            return steam_id.to_string ();
-        }
-
         public static List<SteamProfile> get_profiles (Launchers.Steam launcher) {
             var profiles = new List<SteamProfile> ();
 
@@ -224,9 +220,15 @@ namespace ProtonPlus.Models {
                     string? dir;
                     while ((dir = directory.read_name ()) != null) {
                         if (dir != "." && dir != "..") {
+                            int64 account_id;
+                            if (!int64.try_parse (dir, out account_id)
+                                || account_id < 0
+                                || account_id > int64.MAX - steamid64ident)
+                                continue;
+
                             File file = File.new_for_path (userdata_path + "/" + dir);
                             if (file.query_file_type (FileQueryInfoFlags.NONE) == FileType.DIRECTORY) {
-                                userdata_hashtable.set (account_id_to_steam_id (dir), file.get_path ());
+                                userdata_hashtable.set ((account_id + steamid64ident).to_string (), file.get_path ());
                             }
                         }
                     }

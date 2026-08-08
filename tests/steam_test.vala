@@ -13,6 +13,24 @@ namespace AppTests.SteamTest {
         public bool is_steamos_gaming_mode () { return false; }
     }
 
+    private class FixtureSteam : ProtonPlus.Models.Launchers.Steam {
+        private bool library_result;
+
+        public FixtureSteam (string root, bool library_result) {
+            base (ProtonPlus.Models.Launcher.InstallationTypes.SNAP);
+            directory = root;
+            installed = true;
+            groups = {};
+            this.library_result = library_result;
+        }
+
+        public override async bool load_game_library () {
+            games = new List<Game> ();
+            compatibility_tool_hashtable = new HashTable<uint, string> (null, null);
+            return library_result;
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/steam/linux-runtime-detection", test_linux_runtime_detection);
         Test.add_func ("/steam/base-launcher-compatibility-tool-lifecycle-is-no-op", test_base_launcher_compatibility_tool_lifecycle);
@@ -22,6 +40,10 @@ namespace AppTests.SteamTest {
         Test.add_func ("/steam/text-vdf-writes-and-rejections", test_text_vdf_writes_and_rejections);
         Test.add_func ("/steam/localconfig-launch-options-writes-and-rejections", test_localconfig_launch_options_writes_and_rejections);
         Test.add_func ("/steam/profile-does-not-create-missing-shortcuts-file", test_profile_does_not_create_missing_shortcuts_file);
+        Test.add_func ("/steam/profile-collections-are-eagerly-initialized", test_profile_collections_are_eagerly_initialized);
+        Test.add_func ("/steam/profile-load-failures-are-filtered", test_profile_load_failures_are_filtered);
+        Test.add_func ("/steam/library-failure-is-launcher-scoped", test_library_failure_is_launcher_scoped);
+        Test.add_func ("/steam/profile-failure-is-launcher-scoped", test_profile_failure_is_launcher_scoped);
     }
 
     private void test_linux_runtime_detection () {
@@ -109,6 +131,39 @@ namespace AppTests.SteamTest {
             critical ("Could not create test directory: %s", e.message);
             assert_not_reached ();
         }
+    }
+
+    private bool setup_game_library (Launcher launcher) {
+        var loop = new MainLoop ();
+        var loaded = false;
+        launcher.setup_profile_library_for_test.begin ((obj, result) => {
+            loaded = launcher.setup_profile_library_for_test.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+        return loaded;
+    }
+
+    private bool initialize_launchers (Gee.LinkedList<Launcher> launchers) {
+        var loop = new MainLoop ();
+        var initialized = false;
+        Launcher.initialize_launchers.begin (launchers, new ProtonPlus.Models.Providers.ProviderRegistry (), (obj, result) => {
+            initialized = Launcher.initialize_launchers.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+        return initialized;
+    }
+
+    private bool delete_directory (string path) {
+        var loop = new MainLoop ();
+        var deleted = false;
+        ProtonPlus.Utils.Filesystem.delete_directory.begin (path, (obj, result) => {
+            deleted = ProtonPlus.Utils.Filesystem.delete_directory.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+        return deleted;
     }
 
     private void test_compatibility_tool_path_registration () {
@@ -230,5 +285,115 @@ namespace AppTests.SteamTest {
         assert (DirUtils.remove (config) == 0);
         assert (DirUtils.remove (userdata) == 0);
         assert (DirUtils.remove (root) == 0);
+    }
+
+    private void test_profile_collections_are_eagerly_initialized () {
+        var root = temporary_directory ();
+        var userdata = Path.build_filename (root, "userdata", "1");
+        var config = Path.build_filename (userdata, "config");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (config));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (config, "localconfig.vdf"), "not VDF"
+        ));
+
+        var profile = new ProtonPlus.Models.SteamProfile (
+            fixture_steam (root), "Fixture", "76561197960265729", userdata
+        );
+        assert (profile.launch_options_hashtable.size () == 0);
+        assert (profile.non_steam_games.length () == 0);
+
+        var loop = new MainLoop ();
+        var loaded = true;
+        profile.load_extra_data.begin ((obj, result) => {
+            loaded = profile.load_extra_data.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+
+        assert (!loaded);
+        assert (profile.launch_options_hashtable.size () == 0);
+        assert (profile.non_steam_games.length () == 0);
+        assert (delete_directory (root));
+    }
+
+    private void test_profile_load_failures_are_filtered () {
+        var root = temporary_directory ();
+        var config = Path.build_filename (root, "config");
+        var broken_config = Path.build_filename (root, "userdata", "1", "config");
+        var valid_config = Path.build_filename (root, "userdata", "2", "config");
+        var unrelated_userdata = Path.build_filename (root, "userdata", "not-a-profile");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (config));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (broken_config));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (valid_config));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (unrelated_userdata));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (config, "loginusers.vdf"),
+            "\"users\" { \"76561197960265729\" { \"PersonaName\" \"Broken\" } \"76561197960265730\" { \"PersonaName\" \"Valid\" } }"
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (broken_config, "localconfig.vdf"), "not VDF"
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (valid_config, "localconfig.vdf"),
+            "\"UserLocalConfigStore\" { \"Software\" { \"Valve\" { \"Steam\" { \"apps\" { } } } } }"
+        ));
+
+        var steam = new FixtureSteam (root, true);
+        assert (setup_game_library (steam));
+        assert (steam.game_library_available);
+        assert (steam.profiles.length () == 1);
+        assert (steam.profiles.nth_data (0).username == "Valid");
+        assert (steam.profile == steam.profiles.nth_data (0));
+        assert (delete_directory (root));
+    }
+
+    private void test_library_failure_is_launcher_scoped () {
+        var root = temporary_directory ();
+        var steam = new FixtureSteam (root, false);
+        var lutris = new ProtonPlus.Models.Launchers.Lutris (Launcher.InstallationTypes.SYSTEM);
+        lutris.directory = root;
+        lutris.installed = true;
+
+        var launchers = new Gee.LinkedList<Launcher> ();
+        launchers.add (steam);
+        launchers.add (lutris);
+
+        assert (initialize_launchers (launchers));
+        assert (!steam.game_library_available);
+        assert (steam.games.length () == 0);
+        assert (steam.profiles.length () == 0);
+        assert (steam.groups.length == 1);
+        assert (lutris.groups.length == 4);
+        assert (delete_directory (root));
+    }
+
+    private void test_profile_failure_is_launcher_scoped () {
+        var root = temporary_directory ();
+        var config = Path.build_filename (root, "config");
+        var profile_config = Path.build_filename (root, "userdata", "1", "config");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (config));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (profile_config));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (config, "loginusers.vdf"),
+            "\"users\" { \"76561197960265729\" { \"PersonaName\" \"Broken\" } }"
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (profile_config, "localconfig.vdf"), "not VDF"
+        ));
+
+        var steam = new FixtureSteam (root, true);
+        var lutris = new ProtonPlus.Models.Launchers.Lutris (Launcher.InstallationTypes.SYSTEM);
+        lutris.directory = root;
+        lutris.installed = true;
+
+        var launchers = new Gee.LinkedList<Launcher> ();
+        launchers.add (steam);
+        launchers.add (lutris);
+
+        assert (initialize_launchers (launchers));
+        assert (!steam.game_library_available);
+        assert (steam.profiles.length () == 0);
+        assert (lutris.groups.length == 4);
+        assert (delete_directory (root));
     }
 }

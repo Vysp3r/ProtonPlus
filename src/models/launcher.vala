@@ -12,6 +12,7 @@ namespace ProtonPlus.Models {
         public string directory;
         public bool installed;
         public bool has_library_support;
+        public bool game_library_available { get; private set; default = false; }
         public List<Game> games;
         public Gee.LinkedList<CompatibilityTool> compatibility_tools;
 
@@ -75,6 +76,8 @@ namespace ProtonPlus.Models {
                 this.directory = tool_target_directory;
 
             compatibility_tools = new Gee.LinkedList<CompatibilityTool> ();
+            games = new List<Game> ();
+            groups = {};
 
             this.installed = installed;
         }
@@ -204,10 +207,10 @@ namespace ProtonPlus.Models {
                 launcher.groups = launcher_groups.to_array ();
 
                 if (launcher.installed) {
-                    var success = yield launcher.setup_profile_library_for_test ();
-
-                    if (!success)
-                        return false;
+                    /* Game/profile data is optional launcher state.  A broken
+                     * library must not discard otherwise usable tool groups or
+                     * prevent later launchers from being initialized. */
+                    yield launcher.setup_profile_library_for_test ();
                 }
             }
 
@@ -324,6 +327,8 @@ namespace ProtonPlus.Models {
         }
 
         public virtual async bool setup_profile_library_for_test () {
+            game_library_available = false;
+
             var games_loaded = yield this.load_game_library ();
 
             if (!games_loaded)
@@ -331,19 +336,28 @@ namespace ProtonPlus.Models {
 
             if (this is Launchers.Steam) {
                 var steam_launcher = this as Launchers.Steam;
-                steam_launcher.profiles = SteamProfile.get_profiles (steam_launcher);
+                var discovered_profiles = SteamProfile.get_profiles (steam_launcher);
+                steam_launcher.profiles = new List<SteamProfile> ();
 
-                foreach (var profile in steam_launcher.profiles) {
-                    yield profile.load_extra_data ();
+                foreach (var profile in discovered_profiles) {
+                    if (yield profile.load_extra_data ())
+                        steam_launcher.profiles.append (profile);
                 }
 
-                var selected_profile = steam_launcher.get_steam_profile_by_id (Globals.SETTINGS.get_string ("steam-selected-profile-id"));
-
-                if (selected_profile != null || steam_launcher.profiles.length () > 0)
-                    yield steam_launcher.switch_profile (selected_profile != null ? selected_profile : steam_launcher.profiles.nth_data (0));
-                else
+                if (steam_launcher.profiles.length () == 0)
                     return false;
+
+                var selected_profile_id = Globals.SETTINGS != null
+                    ? Globals.SETTINGS.get_string ("steam-selected-profile-id")
+                    : "";
+                var selected_profile = steam_launcher.get_steam_profile_by_id (selected_profile_id);
+
+                yield steam_launcher.switch_profile (
+                    selected_profile != null ? selected_profile : steam_launcher.profiles.nth_data (0)
+                );
             }
+
+            game_library_available = true;
             return true;
         }
 

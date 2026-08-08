@@ -31,6 +31,9 @@ namespace ProtonPlus.Models.Launchers {
             base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);
 
             has_library_support = true;
+            profiles = new List<SteamProfile> ();
+            default_compatibility_tool = "";
+            compatibility_tool_hashtable = new HashTable<uint, string> (null, null);
         }
 
         public override SteamRestartTarget? get_steam_restart_target () {

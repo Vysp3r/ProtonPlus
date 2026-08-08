@@ -321,7 +321,7 @@ namespace ProtonPlus.Widgets.Games {
             non_steam_filter_check.set_visible (launcher is Models.Launchers.Steam);
 
             if (launcher.has_library_support) {
-                if (invalid) {
+                if (invalid || error) {
                     show_normal ();
 
                     invalid = false;
@@ -330,15 +330,12 @@ namespace ProtonPlus.Widgets.Games {
                 if (launcher is Models.Launchers.Steam) {
                     var steam_launcher = (Models.Launchers.Steam) launcher;
 
-                    if (steam_launcher.profiles.length () == 0) {
+                    if (!launcher.game_library_available || steam_launcher.profiles.length () == 0) {
                         error = true;
                         show_status_box (
                             "bug-symbolic",
-                            _("No profile was found."),
-                            "%s\n%s".printf (
-                                _("Make sure to connect yourself at least once on Steam."),
-                                _("If you think this is an issue, make sure to report this on GitHub.")
-                            )
+                            _("Steam games couldn’t be loaded"),
+                            _("Steam’s library or profile data is missing or invalid. Finish setting up Steam, then restart ProtonPlus. Tools and other launchers remain available.")
                         );
                     } else {
                         load_games ();
