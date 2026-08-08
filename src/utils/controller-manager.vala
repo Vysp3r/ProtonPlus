@@ -1206,7 +1206,7 @@ namespace ProtonPlus.Utils {
                  * can still point at the item that was selected when a
                  * dropdown opened. Select the focused list item before
                  * emitting ListView::activate. */
-                focused.activate_action ("listitem.select", null);
+                focused.activate_action ("listitem.select", "(bb)", false, false);
                 var model = list_view.get_model ();
                 var selection = model?.get_selection ();
                 if (selection != null && !selection.is_empty ()) {
