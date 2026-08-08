@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-07 23:27-0400\n"
+"POT-Creation-Date: 2026-08-08 00:16-0400\n"
 "PO-Revision-Date: 2026-08-07 23:07+0800\n"
 "Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
 "Language-Team: Chinese <>\n"
@@ -2179,140 +2179,140 @@ msgstr "Markson Hosben <marksonhosben@proton.me>nick.exe <nick.exe@gmail.com>"
 msgid "Special thanks to"
 msgstr "特别鸣谢"
 
-#: src/widgets/controller-hint-bar.vala:100
+#: src/widgets/controller-hint-bar.vala:101
 msgid "Select"
 msgstr "选择"
 
-#: src/widgets/controller-hint-bar.vala:104
+#: src/widgets/controller-hint-bar.vala:105
 msgid "Toggle"
 msgstr "切换"
 
-#: src/widgets/controller-hint-bar.vala:108
+#: src/widgets/controller-hint-bar.vala:109
 msgid "Open"
 msgstr "打开"
 
-#: src/widgets/controller-hint-bar.vala:112
+#: src/widgets/controller-hint-bar.vala:113
 #: src/widgets/tools/tools-box.vala:111
 msgid "Back"
 msgstr "返回"
 
-#: src/widgets/controller-hint-bar.vala:116 src/widgets/window.vala:143
-#: src/widgets/window.vala:227
+#: src/widgets/controller-hint-bar.vala:117 src/widgets/window.vala:153
+#: src/widgets/window.vala:300
 msgid "Exit"
 msgstr "退出"
 
-#: src/widgets/controller-hint-bar.vala:120
+#: src/widgets/controller-hint-bar.vala:121
 msgid "Close"
 msgstr "关闭"
 
-#: src/widgets/controller-hint-bar.vala:124
+#: src/widgets/controller-hint-bar.vala:125
 msgid "Left and right"
 msgstr "左右"
 
-#: src/widgets/controller-hint-bar.vala:125
-#: src/widgets/controller-hint-bar.vala:130
+#: src/widgets/controller-hint-bar.vala:126
+#: src/widgets/controller-hint-bar.vala:131
 msgid "Adjust"
 msgstr "调节"
 
-#: src/widgets/controller-hint-bar.vala:129
+#: src/widgets/controller-hint-bar.vala:130
 msgid "Up and down"
 msgstr "上下"
 
-#: src/widgets/controller-hint-bar.vala:134
+#: src/widgets/controller-hint-bar.vala:135
 msgid "Keyboard"
 msgstr "键盘"
 
-#: src/widgets/controller-hint-bar.vala:135
+#: src/widgets/controller-hint-bar.vala:136
 msgid "Enter text"
 msgstr "输入文字"
 
-#: src/widgets/controller-hint-bar.vala:138
+#: src/widgets/controller-hint-bar.vala:139
 msgid "Shoulders"
 msgstr "肩部按键"
 
-#: src/widgets/controller-hint-bar.vala:139
+#: src/widgets/controller-hint-bar.vala:140
 msgid "Shoulder buttons"
 msgstr "肩部按键"
 
-#: src/widgets/controller-hint-bar.vala:140
+#: src/widgets/controller-hint-bar.vala:141
 msgid "Switch section or page"
 msgstr "切换部分或页面"
 
-#: src/widgets/controller-hint-bar.vala:144
+#: src/widgets/controller-hint-bar.vala:145
 #: src/widgets/tools/tools-box.vala:163 src/widgets/tools/tools-box.vala:197
 #: src/widgets/tools/tools-box.vala:383
 msgid "Search"
 msgstr "搜索"
 
-#: src/widgets/controller-hint-bar.vala:148
+#: src/widgets/controller-hint-bar.vala:149
 #: src/widgets/games/games-box.vala:185 src/widgets/tools/tools-box.vala:204
 #: src/widgets/tools/tools-box.vala:393
 msgid "Filter"
 msgstr "过滤器"
 
-#: src/widgets/controller-hint-bar.vala:182
+#: src/widgets/controller-hint-bar.vala:183
 msgid "A button"
 msgstr "A 键"
 
-#: src/widgets/controller-hint-bar.vala:186
+#: src/widgets/controller-hint-bar.vala:187
 msgid "B button"
 msgstr "B 键"
 
-#: src/widgets/controller-hint-bar.vala:190
+#: src/widgets/controller-hint-bar.vala:191
 msgid "X button"
 msgstr "X 键"
 
-#: src/widgets/controller-hint-bar.vala:194
+#: src/widgets/controller-hint-bar.vala:195
 msgid "Y button"
 msgstr "Y 键"
 
-#: src/widgets/controller-hint-bar.vala:198
+#: src/widgets/controller-hint-bar.vala:199
 msgid "Cross button"
 msgstr "叉键"
 
-#: src/widgets/controller-hint-bar.vala:202
+#: src/widgets/controller-hint-bar.vala:203
 msgid "Circle button"
 msgstr "圈键"
 
-#: src/widgets/controller-hint-bar.vala:206
+#: src/widgets/controller-hint-bar.vala:207
 msgid "Square button"
 msgstr "方块键"
 
-#: src/widgets/controller-hint-bar.vala:210
+#: src/widgets/controller-hint-bar.vala:211
 msgid "Triangle button"
 msgstr "三角键"
 
-#: src/widgets/controller-hint-bar.vala:213
+#: src/widgets/controller-hint-bar.vala:214
 msgid "Bottom"
 msgstr "下"
 
-#: src/widgets/controller-hint-bar.vala:214
+#: src/widgets/controller-hint-bar.vala:215
 #: src/widgets/preferences/preferences-dialog.vala:36
 msgid "Bottom face button"
 msgstr "下方正面按键"
 
-#: src/widgets/controller-hint-bar.vala:217
+#: src/widgets/controller-hint-bar.vala:218
 msgid "Right"
 msgstr "右"
 
-#: src/widgets/controller-hint-bar.vala:218
+#: src/widgets/controller-hint-bar.vala:219
 #: src/widgets/preferences/preferences-dialog.vala:37
 msgid "Right face button"
 msgstr "右侧正面按键"
 
-#: src/widgets/controller-hint-bar.vala:221
+#: src/widgets/controller-hint-bar.vala:222
 msgid "Left"
 msgstr "左"
 
-#: src/widgets/controller-hint-bar.vala:222
+#: src/widgets/controller-hint-bar.vala:223
 msgid "Left face button"
 msgstr "左侧正面按键"
 
-#: src/widgets/controller-hint-bar.vala:225
+#: src/widgets/controller-hint-bar.vala:226
 msgid "Top"
 msgstr "上"
 
-#: src/widgets/controller-hint-bar.vala:226
+#: src/widgets/controller-hint-bar.vala:227
 msgid "Top face button"
 msgstr "上方正面按键"
 
@@ -2466,7 +2466,7 @@ msgstr[0] "一次编辑 %d 个所选游戏"
 
 #: src/widgets/games/games-mass-edit-button.vala:57
 #: src/widgets/tools/tools-stl-release-row.vala:13
-#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:223
+#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:296
 msgid "Warning"
 msgstr "警告"
 
@@ -5031,8 +5031,8 @@ msgid_plural "%u active downloads"
 msgstr[0] "%u 个进行中的下载"
 
 #: src/widgets/header/header-downloads-indicator.vala:187
-#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:142
-#: src/widgets/window.vala:230
+#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:152
+#: src/widgets/window.vala:303
 msgid "Cancel"
 msgstr "取消"
 
@@ -6842,11 +6842,11 @@ msgstr "看起来您当前使用的是另一个版本的 %s，该版本并非由
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "你想使用 ProtonPlus 重新安装它吗？"
 
-#: src/widgets/window.vala:141
+#: src/widgets/window.vala:151
 msgid "Do you want to exit?"
 msgstr ""
 
-#: src/widgets/window.vala:224
+#: src/widgets/window.vala:297
 msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."
