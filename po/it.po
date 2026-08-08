@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 15:15-0400\n"
+"POT-Creation-Date: 2026-08-08 16:38-0400\n"
 "PO-Revision-Date: 2026-08-05 16:05+0200\n"
 "Last-Translator: Youseffo13 <>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -2255,13 +2255,14 @@ msgstr ""
 
 #: src/services/standard-archive-workflow.vala:26
 #: src/services/standard-archive-workflow.vala:33
-#: src/services/steam-tinker-launch-workflow.vala:37
+#: src/services/steam-tinker-launch-workflow.vala:47
 msgid "Extraction failed"
 msgstr "Estrazione fallita"
 
 #: src/services/standard-archive-workflow.vala:47
 #: src/services/standard-archive-workflow.vala:74
-#: src/services/steam-tinker-launch-workflow.vala:49
+#: src/services/steam-tinker-launch-workflow.vala:59
+#: src/services/steam-tinker-launch-workflow.vala:93
 msgid "Moving failed"
 msgstr "Spostamento fallito"
 
@@ -2277,6 +2278,28 @@ msgstr "Impossibile aggiornare compatibilitytool.vdf"
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 "Il manifest dello strumento di compatibilità non è valido o è incompleto"
+
+#: src/services/steam-tinker-launch-workflow.vala:69
+#, fuzzy
+msgid "The SteamTinkerLaunch archive is invalid or incomplete"
+msgstr "I dati richiesti non sono validi o sono incompleti."
+
+#: src/services/steam-tinker-launch-workflow.vala:75
+msgid "Failed to prepare the SteamTinkerLaunch executable"
+msgstr ""
+
+#: src/services/steam-tinker-launch-workflow.vala:84
+#: src/services/steam-tinker-launch-workflow.vala:140
+#: src/services/steam-tinker-launch-workflow.vala:162
+#: src/services/steam-tinker-launch-workflow.vala:205
+#, fuzzy
+msgid "Failed to update SteamTinkerLaunch compatibility registration"
+msgstr "Impossibile aggiornare compatibilitytool.vdf"
+
+#: src/services/steam-tinker-launch-workflow.vala:151
+#, fuzzy
+msgid "Failed to initialize SteamTinkerLaunch"
+msgstr "🐛 Risolto il problema del controllo yad per Steam Tinker Launch"
 
 #: src/utils/web.vala:215
 msgid "The download timed out. Check your connection and try again."

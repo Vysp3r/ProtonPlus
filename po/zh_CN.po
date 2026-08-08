@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 15:15-0400\n"
+"POT-Creation-Date: 2026-08-08 16:38-0400\n"
 "PO-Revision-Date: 2026-08-07 23:07+0800\n"
 "Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
 "Language-Team: Chinese <>\n"
@@ -2145,13 +2145,14 @@ msgstr "兼容性工具已更改，但无法保存 Steam 重启提醒。"
 
 #: src/services/standard-archive-workflow.vala:26
 #: src/services/standard-archive-workflow.vala:33
-#: src/services/steam-tinker-launch-workflow.vala:37
+#: src/services/steam-tinker-launch-workflow.vala:47
 msgid "Extraction failed"
 msgstr "解压失败"
 
 #: src/services/standard-archive-workflow.vala:47
 #: src/services/standard-archive-workflow.vala:74
-#: src/services/steam-tinker-launch-workflow.vala:49
+#: src/services/steam-tinker-launch-workflow.vala:59
+#: src/services/steam-tinker-launch-workflow.vala:93
 msgid "Moving failed"
 msgstr "移动失败"
 
@@ -2166,6 +2167,28 @@ msgstr "无法更新 compatibilitytool.vdf"
 #: src/services/standard-archive-workflow.vala:350
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "兼容性工具清单无效或不完整。"
+
+#: src/services/steam-tinker-launch-workflow.vala:69
+#, fuzzy
+msgid "The SteamTinkerLaunch archive is invalid or incomplete"
+msgstr "所需数据无效或不完整。"
+
+#: src/services/steam-tinker-launch-workflow.vala:75
+msgid "Failed to prepare the SteamTinkerLaunch executable"
+msgstr ""
+
+#: src/services/steam-tinker-launch-workflow.vala:84
+#: src/services/steam-tinker-launch-workflow.vala:140
+#: src/services/steam-tinker-launch-workflow.vala:162
+#: src/services/steam-tinker-launch-workflow.vala:205
+#, fuzzy
+msgid "Failed to update SteamTinkerLaunch compatibility registration"
+msgstr "无法更新 compatibilitytool.vdf"
+
+#: src/services/steam-tinker-launch-workflow.vala:151
+#, fuzzy
+msgid "Failed to initialize SteamTinkerLaunch"
+msgstr "🐛 修复了 Steam Tinker Launch 的 yad 检查问题"
 
 #: src/utils/web.vala:215
 msgid "The download timed out. Check your connection and try again."

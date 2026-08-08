@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 15:15-0400\n"
+"POT-Creation-Date: 2026-08-08 16:38-0400\n"
 "PO-Revision-Date: 2026-05-24 00:30+0000\n"
 "Last-Translator: Gemini AI\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/protonplus/"
@@ -2221,13 +2221,14 @@ msgstr ""
 
 #: src/services/standard-archive-workflow.vala:26
 #: src/services/standard-archive-workflow.vala:33
-#: src/services/steam-tinker-launch-workflow.vala:37
+#: src/services/steam-tinker-launch-workflow.vala:47
 msgid "Extraction failed"
 msgstr "Rozbalenie zlyhalo"
 
 #: src/services/standard-archive-workflow.vala:47
 #: src/services/standard-archive-workflow.vala:74
-#: src/services/steam-tinker-launch-workflow.vala:49
+#: src/services/steam-tinker-launch-workflow.vala:59
+#: src/services/steam-tinker-launch-workflow.vala:93
 msgid "Moving failed"
 msgstr "Presúvanie zlyhalo"
 
@@ -2245,6 +2246,28 @@ msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Nástroj kompatibility, ktorý hry použijú automaticky ako predvolený"
+
+#: src/services/steam-tinker-launch-workflow.vala:69
+#, fuzzy
+msgid "The SteamTinkerLaunch archive is invalid or incomplete"
+msgstr "Nástroj kompatibility, ktorý hry použijú automaticky ako predvolený"
+
+#: src/services/steam-tinker-launch-workflow.vala:75
+msgid "Failed to prepare the SteamTinkerLaunch executable"
+msgstr ""
+
+#: src/services/steam-tinker-launch-workflow.vala:84
+#: src/services/steam-tinker-launch-workflow.vala:140
+#: src/services/steam-tinker-launch-workflow.vala:162
+#: src/services/steam-tinker-launch-workflow.vala:205
+#, fuzzy
+msgid "Failed to update SteamTinkerLaunch compatibility registration"
+msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
+
+#: src/services/steam-tinker-launch-workflow.vala:151
+#, fuzzy
+msgid "Failed to initialize SteamTinkerLaunch"
+msgstr "✨ Pridaná podpora pre Steam Tinker Launch"
 
 #: src/utils/web.vala:215
 msgid "The download timed out. Check your connection and try again."

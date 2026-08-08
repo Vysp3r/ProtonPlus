@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 15:15-0400\n"
+"POT-Creation-Date: 2026-08-08 16:38-0400\n"
 "PO-Revision-Date: 2026-05-15 06:11+0000\n"
 "Last-Translator: Yasmin Stanchese <yasmin@snowfloke.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -2179,14 +2179,15 @@ msgstr ""
 
 #: src/services/standard-archive-workflow.vala:26
 #: src/services/standard-archive-workflow.vala:33
-#: src/services/steam-tinker-launch-workflow.vala:37
+#: src/services/steam-tinker-launch-workflow.vala:47
 #, fuzzy
 msgid "Extraction failed"
 msgstr "Extraindo"
 
 #: src/services/standard-archive-workflow.vala:47
 #: src/services/standard-archive-workflow.vala:74
-#: src/services/steam-tinker-launch-workflow.vala:49
+#: src/services/steam-tinker-launch-workflow.vala:59
+#: src/services/steam-tinker-launch-workflow.vala:93
 #, fuzzy
 msgid "Moving failed"
 msgstr "Movendo"
@@ -2205,6 +2206,27 @@ msgstr "Selecione sua ferramenta de compatibilidade desejada"
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Ferramenta de compatibilidade"
+
+#: src/services/steam-tinker-launch-workflow.vala:69
+#, fuzzy
+msgid "The SteamTinkerLaunch archive is invalid or incomplete"
+msgstr "Ferramenta de compatibilidade"
+
+#: src/services/steam-tinker-launch-workflow.vala:75
+msgid "Failed to prepare the SteamTinkerLaunch executable"
+msgstr ""
+
+#: src/services/steam-tinker-launch-workflow.vala:84
+#: src/services/steam-tinker-launch-workflow.vala:140
+#: src/services/steam-tinker-launch-workflow.vala:162
+#: src/services/steam-tinker-launch-workflow.vala:205
+#, fuzzy
+msgid "Failed to update SteamTinkerLaunch compatibility registration"
+msgstr "Selecione sua ferramenta de compatibilidade desejada"
+
+#: src/services/steam-tinker-launch-workflow.vala:151
+msgid "Failed to initialize SteamTinkerLaunch"
+msgstr ""
 
 #: src/utils/web.vala:215
 msgid "The download timed out. Check your connection and try again."

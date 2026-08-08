@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 15:15-0400\n"
+"POT-Creation-Date: 2026-08-08 16:38-0400\n"
 "PO-Revision-Date: 2026-08-05 08:51+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -2215,13 +2215,14 @@ msgstr ""
 
 #: src/services/standard-archive-workflow.vala:26
 #: src/services/standard-archive-workflow.vala:33
-#: src/services/steam-tinker-launch-workflow.vala:37
+#: src/services/steam-tinker-launch-workflow.vala:47
 msgid "Extraction failed"
 msgstr "Entpacken fehlgeschlagen"
 
 #: src/services/standard-archive-workflow.vala:47
 #: src/services/standard-archive-workflow.vala:74
-#: src/services/steam-tinker-launch-workflow.vala:49
+#: src/services/steam-tinker-launch-workflow.vala:59
+#: src/services/steam-tinker-launch-workflow.vala:93
 msgid "Moving failed"
 msgstr "Verschieben fehlgeschlagen"
 
@@ -2238,6 +2239,28 @@ msgstr "Compatibilitytool.vdf konnte nicht aktualisiert werden"
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 "Das Manifest des Kompatibilitätswerkzeugs ist ungültig oder unvollständig"
+
+#: src/services/steam-tinker-launch-workflow.vala:69
+#, fuzzy
+msgid "The SteamTinkerLaunch archive is invalid or incomplete"
+msgstr "Die erforderlichen Daten sind ungültig oder unvollständig."
+
+#: src/services/steam-tinker-launch-workflow.vala:75
+msgid "Failed to prepare the SteamTinkerLaunch executable"
+msgstr ""
+
+#: src/services/steam-tinker-launch-workflow.vala:84
+#: src/services/steam-tinker-launch-workflow.vala:140
+#: src/services/steam-tinker-launch-workflow.vala:162
+#: src/services/steam-tinker-launch-workflow.vala:205
+#, fuzzy
+msgid "Failed to update SteamTinkerLaunch compatibility registration"
+msgstr "Compatibilitytool.vdf konnte nicht aktualisiert werden"
+
+#: src/services/steam-tinker-launch-workflow.vala:151
+#, fuzzy
+msgid "Failed to initialize SteamTinkerLaunch"
+msgstr "🐛 yad-Prüfung für Steam Tinker Launch korrigiert"
 
 #: src/utils/web.vala:215
 msgid "The download timed out. Check your connection and try again."
