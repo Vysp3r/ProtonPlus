@@ -110,6 +110,7 @@ namespace AppTests.CliTest {
 
     public void register_tests () {
         Test.add_func ("/cli/exit-codes", test_exit_codes);
+        Test.add_func ("/cli/uninstall-inventory-path", test_uninstall_uses_inventory_path);
         Test.add_func ("/cli/steam-lifecycle-receipts", test_steam_lifecycle_receipts);
     }
 
@@ -229,6 +230,39 @@ namespace AppTests.CliTest {
         assert (metadata.save (directory));
     }
 
+    private string seed_managed_installation (
+        ProviderTool runner,
+        string directory_name,
+        string internal_title,
+        string display_title
+    ) {
+        var directory = Path.build_filename (
+            runner.group.launcher.directory, runner.group.directory, directory_name
+        );
+        assert (Utils.Filesystem.create_directory (directory));
+
+        var metadata = new Utils.Metadata ();
+        metadata.provider_id = runner.provider_id;
+        metadata.tool_id = runner.id;
+        metadata.launcher_id = runner.group.launcher.tool_target_id;
+        metadata.release_id = "fixture-%s".printf (directory_name);
+        assert (metadata.save (directory));
+
+        try {
+            FileUtils.set_contents (
+                Path.build_filename (directory, "compatibilitytool.vdf"),
+                "\"compat_tools\"\n{\n\t\"%s\"\n\t{\n\t\t\"display_name\" \"%s\"\n\t}\n}\n".printf (
+                    internal_title, display_title
+                )
+            );
+        } catch (FileError e) {
+            critical ("Could not seed compatibility tool manifest: %s", e.message);
+            assert_not_reached ();
+        }
+
+        return directory;
+    }
+
     private void configure_fixture_services (RecordingSteamChange recorder, string root) {
         InstallationService.instance.configure_steam_change_recorder (recorder);
         InstallationService.instance.configure_compatibility_process_guard (
@@ -279,6 +313,53 @@ namespace AppTests.CliTest {
         assert (run_cli ({ "protonplus", "unknown" }, null, unknown_output) == 1);
         assert (unknown_output.stderr_text.contains ("Unknown command 'unknown'"));
         assert (unknown_output.stdout_text.contains ("Usage:"));
+    }
+
+    private void test_uninstall_uses_inventory_path () {
+        var root = temporary_directory ();
+        InstallationService.reset_lifecycle_configuration_for_tests ();
+        SteamConfigurationService.reset_configuration ();
+
+        try {
+            ProviderTool runner;
+            var launcher = setup_launcher (
+                root, "ge-proton", "GE-Proton",
+                release ("GE-Proton9-27", "GE-Proton9-27", "https://fixtures.invalid/ge-proton.zip"),
+                out runner
+            );
+            var real_layout = seed_managed_installation (
+                runner, "GE-Proton9-27", "GE-Proton9-27", "Proton-GE 9-27"
+            );
+            var hostile_layout = seed_managed_installation (
+                runner, "managed-hostile-slot", "hostile-internal",
+                "GE-Proton/../outside-target"
+            );
+            var outside_target = Path.build_filename (
+                launcher.directory, "compatibilitytools.d", "outside-target"
+            );
+            assert (Utils.Filesystem.create_directory (outside_target));
+
+            var recorder = new RecordingSteamChange ();
+            configure_fixture_services (recorder, root);
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output);
+
+            assert (run_cli ({ "protonplus", "uninstall", launcher.instance_id,
+                runner.provider_id, "all" }, handler) == 0);
+            assert (!FileUtils.test (real_layout, FileTest.EXISTS));
+            assert (!FileUtils.test (hostile_layout, FileTest.EXISTS));
+            assert (FileUtils.test (outside_target, FileTest.IS_DIR));
+            assert (output.stdout_text.contains ("Successfully uninstalled Proton-GE 9-27"));
+            assert (output.stdout_text.contains (
+                "Successfully uninstalled GE-Proton/../outside-target"
+            ));
+            assert (output.stderr_text == "");
+            assert (recorder.receipts.size == 2);
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            SteamConfigurationService.reset_configuration ();
+            assert (delete_directory (root));
+        }
     }
 
     private void test_steam_lifecycle_receipts () {
