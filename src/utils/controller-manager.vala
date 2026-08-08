@@ -1200,6 +1200,12 @@ namespace ProtonPlus.Utils {
             if (redirected_target != null) {
                 succeeded = ((!) redirected_target).activate ();
             } else if (list_view != null) {
+                /* Controller navigation moves GTK focus between list items
+                 * without sending a keyboard event, so the selection model
+                 * can still point at the item that was selected when a
+                 * dropdown opened. Select the focused list item before
+                 * emitting ListView::activate. */
+                focused.activate_action ("listitem.select", null);
                 var model = list_view.get_model ();
                 var selection = model?.get_selection ();
                 if (selection != null && !selection.is_empty ()) {
