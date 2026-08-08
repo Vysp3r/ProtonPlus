@@ -21,7 +21,6 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:7
-
 msgid "ProtonPlus"
 msgstr "بروتون بلس"
 
@@ -47,7 +46,6 @@ msgid "Manage Proton, Wine, DXVK, VKD3D, and related compatibility tools"
 msgstr "أدارة بروتون, واين, DXVK و VKD3D وأدوات التوافق المتعلقة بها"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:15
-
 msgid ""
 "Support Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, and "
 "WineZGUI"
@@ -55,7 +53,6 @@ msgstr "دعم Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, �
 "WineZGUI"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:16
-
 msgid "Browse Steam games, change compatibility tools, and edit launch options"
 msgstr "تصفح ألعاب Steam, غير أداة التوافق و حرر خيارات التشغيل"
 
@@ -341,12 +338,10 @@ msgid "✨ Added a new \"Downloads\" tab"
 msgstr "✨ تم إضافة علامة تبويب جديدة \"التنزيلات\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:146
-
 msgid "✨ Added more launch options"
 msgstr "✨ تم إضافة المزيد من خيارات تشغيل"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:147
-
 msgid "✨ Added a \"Run custom executable\" button"
 msgstr "✨ تم إضافة زر \"تشغيل برنامج قابل للتنفيذ مخصص\""
 
@@ -797,7 +792,6 @@ msgid "✨ Added a donation button"
 msgstr "✨ تم إضافة زر تبرع"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:391
-
 msgid "🐛 Fix compatibility tool detection"
 msgstr "🐛 تم إصلاح مشكلة إكتشاف أداة التوافق"
 
@@ -819,7 +813,6 @@ msgid "🐛 Fix Steam profile detection"
 msgstr "🐛 تم إصلاح مشكلة في إستكشاف ملف تعريف Steam"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:421
-
 msgid "✨ Added the ability to manage launch options of games"
 msgstr "✨ تم إضافة القدرة على إدارة خيارات تشغيل الألعاب"
 
@@ -828,7 +821,6 @@ msgid "✨ Added a way to open the install/prefix directory of games"
 msgstr "✨ تم إضافة طريقة لفتح مجلد التثبيت و مجلد بادئة اللعبة"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:423
-
 msgid ""
 "✨ Added the ability to set the default compatibility tool for Steam games"
 msgstr "✨ تم إضافة قابلية تحديد أداة توافق إفتراضية لألعاب Steam"
@@ -850,7 +842,6 @@ msgid "✨ Made it possible to unselect a game by clicking on it"
 msgstr "✨ يمكن إزالة تحديد لعبة عبر الضغط عليها"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:437
-
 msgid "✨ Added a way to select/unselect all the games"
 msgstr "✨ تم إضافة طريقة لتحديد وإزالة تحديد جميع الألعاب"
 
@@ -867,7 +858,6 @@ msgid "✨ Added support for Proton Kron4ek"
 msgstr "🐛 تم إضافة دعم لـProton Kron4ek"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:453
-
 msgid "✨ Added a way to add a shortcut of ProtonPlus in Steam"
 msgstr "Steam في منصة ProtonPlus إنشاء إختصار لـ"
 
@@ -876,7 +866,6 @@ msgid "✨ Added a way to see if a compatibility tool is used or not for Steam"
 msgstr "✨ تم إضافة طريقة لرؤية إن كانت أداة التوافق مستخدمة من قبل Steam أم لا"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:455
-
 msgid "✨ Added the ability to change the compatibility tool of Steam games"
 msgstr "✨ تم إضافة إمكانية تغيير أداة التوافق لألعاب Steam"
 
@@ -1516,7 +1505,6 @@ msgstr "لضمان الإستقرار لقد قررت تعطيل دعم Bottles 
 "Launcherحالياً.أيضاً تم تعطيل Proton Tkg لنفس السبب."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:943
-
 msgid "✨ Add NorthstarProton compatibility tool"
 msgstr "✨ تم إضافة أداة التوافق NorthstarProton"
 
@@ -1604,7 +1592,6 @@ msgid "🧱 Separate Release from CompatibilityTool"
 msgstr "🧱 فصل الإصدار عن أداة التوافق"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:983
-
 msgid "🧱 Rename CompatibilityTool to Tool"
 msgstr "🧱 إعادة تسمية CompatibilityTool إلى Tool"
 
@@ -1621,7 +1608,6 @@ msgid "✨ Added a naming convention extracted directories"
 msgstr "✨ تم إضافة عٌرف التسمية للمجلدات المستخرجة"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:988
-
 msgid "🚚 Rename compatibilitytool to tool"
 msgstr "🚚 إعادة تسمية compatibilitytool إلى tool"
 
@@ -1667,7 +1653,6 @@ msgid "💄 Update preferences window to Libadwaita"
 msgstr "💄تم نقل نافذة التفضيلات إلى Libadwaita"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1008
-
 msgid "⬆️ Update the runtime version"
 msgstr "⬆️ تم تحديث نسخة runtime"
 
@@ -1730,7 +1715,6 @@ msgid "Warning: %s\n"
 msgstr "تحذير: %s\n"
 
 #: src/cli/cli.vala:175
-
 msgid "Detected launchers:\n"
 msgstr "مشغلات البرامج المكتشفة:\n"
 
@@ -1846,7 +1830,6 @@ msgid "Error: Failed to update %s: %s\n"
 msgstr "خطأ: فشل تحديث %s :%s\n"
 
 #: src/cli/cli.vala:494
-
 msgid "Already up to date\n"
 msgstr "محدث بالفعل لآخر نسخة\n"
 
@@ -1856,7 +1839,6 @@ msgid "Updating %s..."
 msgstr "جاري تحديث %s..."
 
 #: src/cli/cli.vala:535
-
 msgid "Error: Failed to load launchers\n"
 msgstr "خطأ: لم نستطع تحميل التطبيقات المُشَغِلة\n"
 
@@ -1897,7 +1879,6 @@ msgid "Commands:\n"
 msgstr "الأوامر:\n"
 
 #: src/cli/cli.vala:682
-
 msgid "Show version"
 msgstr "أظهر النسخة"
 
@@ -1906,22 +1887,18 @@ msgid "Show this help"
 msgstr "إظهار هذه المساعدة"
 
 #: src/cli/cli.vala:684
-
 msgid "List launchers or installed runners"
 msgstr "أظهر البرامج المشغلة أو المشغلات"
 
 #: src/cli/cli.vala:685
-
 msgid "Install runner"
 msgstr "تثبيت مٌشغل"
 
 #: src/cli/cli.vala:686
-
 msgid "Uninstall runner"
 msgstr "إلغاء تثبيت مُشغل"
 
 #: src/cli/cli.vala:687
-
 msgid "Update runner"
 msgstr "تحديث مٌشغل"
 
@@ -1950,12 +1927,10 @@ msgid "ETA: --"
 msgstr "الوقت المتوقع: --"
 
 #: src/cli/cli.vala:717
-
 msgid "Updating"
 msgstr "جاري التحديث"
 
 #: src/cli/cli.vala:717 src/widgets/header/header-downloads-indicator.vala:267
-
 msgid "Installing"
 msgstr "جاري التثبيت"
 
@@ -2102,7 +2077,6 @@ msgid "The required data is invalid or incomplete."
 msgstr "البيانات المطلوبة غير صحيحة أو غير كاملة"
 
 #: src/return_codes.vala:38
-
 msgid "The download failed."
 msgstr "فشل التنزيل."
 
@@ -2111,17 +2085,14 @@ msgid "A filesystem operation failed."
 msgstr "فشلت عملية في نظام الملفات"
 
 #: src/return_codes.vala:42
-
 msgid "This compatibility tool is already being processed."
 msgstr "يجري معالجة أداة التوافق هذه مسبقاً"
 
 #: src/return_codes.vala:44
-
 msgid "This compatibility tool is already installed."
 msgstr "أداة التوافق هذه مثبتة مسبقاً"
 
 #: src/return_codes.vala:46
-
 msgid "This compatibility tool is not installed."
 msgstr "أداة التوافق هذه غير مثبتة."
 
@@ -2130,22 +2101,18 @@ msgid "This compatibility tool is not configured correctly."
 msgstr "أداة التوافق هذه تم يتم تهيئتها بشكل صحيح"
 
 #: src/return_codes.vala:50
-
 msgid "This operation is not supported for this compatibility tool."
 msgstr "العملية غير مدعومة لأداة التوافق هذه"
 
 #: src/return_codes.vala:54
-
 msgid "Unable to reach the API."
 msgstr "لم نستطع الوصول لواجهة برمجة التطبيقات(API)."
 
 #: src/return_codes.vala:56
-
 msgid "API limit reached."
 msgstr "تم الوصول إلى الحد الأقصى لواجهة برمجة التطبيقات (API)"
 
 #: src/return_codes.vala:58
-
 msgid "Invalid access token."
 msgstr "الرمز المميز للوصول (access token) غير صالح."
 
@@ -2154,7 +2121,6 @@ msgid "A secure connection could not be established."
 msgstr "لم نتمكن من الإتصال بشكل آمن"
 
 #: src/return_codes.vala:62
-
 msgid "This archive format is not supported."
 msgstr "صيغة الأرشيف هذه غير مدعومة"
 
@@ -2187,29 +2153,24 @@ msgstr "تم تغيير أداة التوافق, ولكن لم نتمكن من �
 #: src/services/standard-archive-workflow.vala:26
 #: src/services/standard-archive-workflow.vala:33
 #: src/services/steam-tinker-launch-workflow.vala:37
-
 msgid "Extraction failed"
 msgstr "فشل الإستخراج"
 
 #: src/services/standard-archive-workflow.vala:47
 #: src/services/standard-archive-workflow.vala:74
 #: src/services/steam-tinker-launch-workflow.vala:49
-
 msgid "Moving failed"
 msgstr "فشل النقل"
 
 #: src/services/standard-archive-workflow.vala:56
-
 msgid "Failed to save compatibility tool metadata"
 msgstr "فشل حفظ بيانات أداة التوافق"
 
 #: src/services/standard-archive-workflow.vala:317
-
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "فشل تحديث compatibilitytool.vdf"
 
 #: src/services/standard-archive-workflow.vala:334
-
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "الكشف الخاص بأداة التوافق غير صالح أو غير مكتمل"
 
@@ -2293,7 +2254,6 @@ msgstr "بَدّل الملف الشخصي"
 #: src/widgets/controller-hint-bar.vala:145
 #: src/widgets/tools/tools-box.vala:163 src/widgets/tools/tools-box.vala:197
 #: src/widgets/tools/tools-box.vala:383
-
 msgid "Search"
 msgstr "البحث"
 
@@ -2372,7 +2332,6 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:75 src/widgets/games/games-box.vala:497
 #: src/widgets/tools/tools-release-box.vala:102
-
 msgid "No games found"
 msgstr "لم يتم العثور على أي لعبة"
 
@@ -2395,12 +2354,10 @@ msgid "Non-Steam"
 msgstr "Non-Steam"
 
 #: src/widgets/games/games-box.vala:204
-
 msgid "Search games"
 msgstr "بحث الألعاب"
 
 #: src/widgets/games/games-box.vala:213
-
 msgid "Select all visible games"
 msgstr "حدد كل الألعاب الظاهرة"
 
@@ -2413,7 +2370,6 @@ msgid "Tool"
 msgstr "أداة"
 
 #: src/widgets/games/games-box.vala:237
-
 msgid "Actions"
 msgstr "الإجراءات"
 
@@ -2462,12 +2418,10 @@ msgid "Filter: Non-Steam"
 msgstr "فرز: Non-Steam"
 
 #: src/widgets/games/games-box.vala:469
-
 msgid "Filter: All games"
 msgstr "فرز: جميع الألعاب"
 
 #: src/widgets/games/games-box.vala:489
-
 msgid "No matching games"
 msgstr "لا توجد ألعاب مطابقة"
 
@@ -2497,7 +2451,6 @@ msgid "Open ProtonDB page"
 msgstr "ProtonDB إفتح صفحة"
 
 #: src/widgets/games/games-extra-button.vala:33
-
 msgid "Extra"
 msgstr "إضافي"
 
@@ -2506,12 +2459,10 @@ msgid "Unknown"
 msgstr "مجهول"
 
 #: src/widgets/games/games-mass-edit-button.vala:10
-
 msgid "Modify the selected games"
 msgstr "حرر اللعبة المحددة"
 
 #: src/widgets/games/games-mass-edit-button.vala:13
-
 msgid "Modify the selected games all at once"
 msgstr "تحرير جميع الألعاب المحدد في وقت واحد"
 
@@ -2560,7 +2511,6 @@ msgid "%u games selected"
 msgstr "مجموع الألعاب المحددة %u"
 
 #: src/widgets/games/games-mass-edit-view.vala:35
-
 msgid "Clear the current launch options"
 msgstr "أفرغ خيارات التشغيل الحالية"
 
@@ -2569,22 +2519,18 @@ msgid "Apply the current modification"
 msgstr "طبق التعديل الحالي"
 
 #: src/widgets/games/games-mass-edit-view.vala:51
-
 msgid "Apply compatibility tool"
 msgstr "طبق أداة التوافق"
 
 #: src/widgets/games/games-mass-edit-view.vala:52
-
 msgid "Set the same tool for every selected game."
 msgstr "اضبط نفس الأداة لكل لعبة محددة"
 
 #: src/widgets/games/games-mass-edit-view.vala:77
-
 msgid "Apply launch options"
 msgstr "اضبط خيارات التشغيل"
 
 #: src/widgets/games/games-mass-edit-view.vala:78
-
 msgid "Set the same options for every selected Steam game."
 msgstr "ضبط نفس الخيارات لكل لعبة Steam محددة"
 
@@ -2597,7 +2543,6 @@ msgstr "فعل الأقسام المراد تغييرها. الأقسام الم
 "تغيير."
 
 #: src/widgets/games/games-mass-edit-view.vala:269
-
 msgid "Compatibility tool cannot be applied"
 msgstr "لا يمكن تطبيق أداة التوافق"
 
@@ -2611,7 +2556,6 @@ msgid ""
 msgstr "خيارات التشغيل المحددة غير مكتملة أو غير مدعومة لهذه الألعاب."
 
 #: src/widgets/games/games-mass-edit-view.vala:293
-
 msgid "Launch options cannot be applied"
 msgstr "لا يمكن ضبط خيارات التشغيل"
 
@@ -2633,32 +2577,26 @@ msgstr "لم نمكن من تحديث بعض الألعاب بأداة التو�
 "قد يكون السبب هو عدم وجود صلاحيات أو وجود مشاكل أثناء محاولة الوصول للملف."
 
 #: src/widgets/games/games-row.vala:282
-
 msgid "Modify the game"
 msgstr "تحرير اللعبة"
 
 #: src/widgets/games/games-row.vala:287
-
 msgid "Launch custom executable"
 msgstr "شغل البرنامج القابل للتنفيذ المخصص"
 
 #: src/widgets/games/games-row.vala:294
-
 msgid "Launch game"
 msgstr "شغل اللعبة"
 
 #: src/widgets/games/games-row.vala:299
-
 msgid "Browse game install directory"
 msgstr "فتح دليل التثبيت"
 
 #: src/widgets/games/games-row.vala:305
-
 msgid "Browse prefix directory"
 msgstr "فتح دليل البادِئة"
 
 #: src/widgets/games/games-row.vala:325
-
 msgid "Select executable"
 msgstr "حدد الكل"
 
@@ -2667,7 +2605,6 @@ msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr "البرامج القابلة للتنفيذ (*.exe, *.msi, *.msu, *.bat)"
 
 #: src/widgets/games/games-row.vala:380
-
 msgid "Compatibility Tool Not Found"
 msgstr "لم يتم إيجاد أداة التوافق"
 
@@ -2686,7 +2623,6 @@ msgid "New tool"
 msgstr "أداة جديدة"
 
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:13
-
 msgid "Advanced options"
 msgstr "الخيارات المتقدمة"
 
@@ -2704,12 +2640,10 @@ msgid "Unknown arguments are imported here and preserved exactly as loaded."
 msgstr "المعطيات الغير معروفة يتم إستيرادها هنا وتحفظ تماماً كما تم تحميلها."
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:14
-
 msgid "Audio options"
 msgstr "خيارات الصوت"
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:15
-
 msgid "Audio-related launch options."
 msgstr "خيارات التشغيل المتعلقة بالصوت"
 
@@ -2763,7 +2697,6 @@ msgstr "يفعل دمج الموضع المكاني (spatial mixing) في مخر
 "وضعقنوات WINEALSA إلى 4, 6, أو 8. متوفر من قبل GE-Proton11-1."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:16
-
 msgid "Common options"
 msgstr "الخيارات الشائعة"
 
@@ -2784,7 +2717,6 @@ msgstr "يعرض طبقة داخل اللعبة توضح عدد الإطارات
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:30
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1242
-
 msgid "Use desktop game profile"
 msgstr "إستخدم الملف العبة الشخصي لسطح المكتب"
 
@@ -2807,7 +2739,6 @@ msgstr "يشغل اللعبة تماماً على وايلاند بدلا من �
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:48
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1232
 #: src/widgets/mangohud/mangohud-extras-page.vala:100
-
 msgid "GameMode"
 msgstr "GameMode"
 
@@ -2856,7 +2787,6 @@ msgstr "يحمل obs-vkcapture. يثبت الحزمة الأصلية, أو كل�
 "pluginوcapture-tools layer."
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:16
-
 msgid "DXVK options"
 msgstr "خيارات DXVK"
 
@@ -2955,7 +2885,6 @@ msgstr "يتم تمرير هذه الخيارات مباشرة إلى محرك �
 #. Game arguments
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:18
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
-
 msgid "Skip launcher"
 msgstr "تخطي البرنامج المشغل"
 
@@ -3033,7 +2962,6 @@ msgstr "يُعرّف بروتون معالج AMD الرسومي المدمج ك�
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:37
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
-
 msgid "FSR 4 upgrade (current path)"
 msgstr "ترقية FSR 4 (الطريقة الحالية)"
 
@@ -3046,7 +2974,6 @@ msgstr "يستخدم إصدار FSR 4 الإفتراضي لنسخ بروتون �
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:46
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
-
 msgid "FSR 4 RDNA3 upgrade (legacy path)"
 msgstr "ترقية FSR 4 RDNA3 (الطريقة القديمة)"
 
@@ -3194,7 +3121,6 @@ msgstr "تهيئة خيارات الإستكشاف والتصحيح لمترجم
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-intel-options-group.vala:10
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
-
 msgid "XeSS component upgrade"
 msgstr "ترقية مكونات XeSS"
 
@@ -3257,7 +3183,6 @@ msgstr "تفعيل مكتبات خاصة بـ NVIDIA (PhysX, CUDA). غير مط�
 "أوraytracing"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:25
-
 msgid "GPU vendor options"
 msgstr "خيارات كرت الرسومات"
 
@@ -3308,7 +3233,6 @@ msgid "Use GPU-specific compatibility toggles for %s hardware."
 msgstr "إستخدم مفاتيح التبديل التوافقية الخاصة بـ%s."
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:19
-
 msgid "More options"
 msgstr "المزيد من الخيارات"
 
@@ -3414,7 +3338,6 @@ msgstr "يجبر Wine لمحاكاة لحماية page-write, لحل أخطاء 
 "العناوينالقديمة."
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:18
-
 msgid "Proton options"
 msgstr "خيارات بروتون"
 
@@ -3510,7 +3433,6 @@ msgstr "يفعل إستخدام D7VK بحيث يمكنه تحسين الأداء
 "التيتستخدمDirect3D 9 (متوفر من نسخة 11-1)."
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:14
-
 msgid "VKD3D options"
 msgstr "خيارات VKD3D"
 
@@ -3561,7 +3483,6 @@ msgstr "يستخدم مؤشرات ريفليكس أو waitable swapchains. كر�
 #. Display & launch tools
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:19
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1240
-
 msgid "Launch backend"
 msgstr "تشغيل الـbackend"
 
@@ -3573,7 +3494,6 @@ msgstr "إختر إفتراضيات النظام, Gamescope, أو ScopeBuddy ل�
 "والتشغيل."
 
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:46
-
 msgid "System default"
 msgstr "إفتراضيات النظام"
 
@@ -3585,7 +3505,6 @@ msgstr "إفتراضيات النظام"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
 #: src/widgets/preferences/preferences-dialog.vala:363
-
 msgid "Gamescope"
 msgstr "Gamescope"
 
@@ -3601,7 +3520,6 @@ msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:222
-
 msgid "This option is unsupported and cannot be newly enabled."
 msgstr "هذا الخيار غير مدعوم و لايمكن تفعيله."
 
@@ -3622,7 +3540,6 @@ msgid "Requires a compatible Proton variant."
 msgstr "يتطلب نسخة بروتون متوافقة."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:275
-
 msgid "The selected launch backend is not supported."
 msgstr "الـbackend الخاصة بالبرنامج المشغل المحدد غير مدعومة"
 
@@ -3667,7 +3584,6 @@ msgid "Requires vkBasalt, which is not available."
 msgstr "يتطلب vkBasalt وهو غير متوفر."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:363
-
 msgid "Requires DXVK from the selected compatibility tool."
 msgstr "يتطلب DXVK من أداة التوافق المحددة."
 
@@ -3677,7 +3593,6 @@ msgstr "يتطلب VKD3D-Proton من أداة التوافق المحددة."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:365
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:375
-
 msgid "Not supported by the selected compatibility tool."
 msgstr "غير مدعومة من قبل أداة التوافق المحددة"
 
@@ -3791,7 +3706,6 @@ msgstr "تطبيق تجاوزات وخيارات لمترجم الظلال ذا�
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:8
-
 msgid "System Default"
 msgstr "إفتراضيات النظام"
 
@@ -3854,22 +3768,18 @@ msgid "Command preview"
 msgstr "مراجعة الأمر"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:101
-
 msgid "No matching launch options."
 msgstr "لا توجد خيارات تشغيل مطابقة."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:116
-
 msgid "Launch options"
 msgstr "خيارات التشغيل"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:120
-
 msgid "Search all options"
 msgstr "ابحث جميع الخيارات"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:123
-
 msgid "Search launch options"
 msgstr "ابحث جميع خيارات التشغيل"
 
@@ -3884,13 +3794,11 @@ msgstr "الإعدادات السريعة"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:471
-
 msgid "Active options"
 msgstr "الخيارات النشطة"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:473
-
 msgid "All options"
 msgstr "جميع الخيارات"
 
@@ -3903,7 +3811,6 @@ msgid "Change the Steam command placeholder only when a game requires it."
 msgstr "غير الأمر النائب (command placeholder) لـSteam فقط عندما تحتاجهاللعبة."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:548
-
 msgid "Unable to safely prepare these launch options."
 msgstr "لم نتمكن من تجهيز خيارات التشغيل هذه بأمان"
 
@@ -4271,7 +4178,6 @@ msgstr "تسمح بمسح التخزين المؤقت للمِرسَام الغ�
 "عرضDirect3D 12 القديمة."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:64
-
 msgid "VKD3D Proton Configurations"
 msgstr "إعدادات VKD3D بروتون"
 
@@ -4296,12 +4202,10 @@ msgid "Performance & monitoring"
 msgstr "الأداء و المراقبة"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:352
-
 msgid "Display & launch tools"
 msgstr "الشاشة و أدواة التشغيل"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:353
-
 msgid "Proton & Wine compatibility"
 msgstr "توافقية بروتون و واين"
 
@@ -4489,13 +4393,11 @@ msgstr "فتح اللعبة في جلسة Gamescope مملوئة الشاشة (f
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
-
 msgid "Requires Gamescope"
 msgstr "يتطلب Gamescope"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
-
 msgid "Output resolution"
 msgstr "دقة الشاشة المٌخرجة"
 
@@ -4515,7 +4417,6 @@ msgstr "يُخرج ألوان HDR عبر Gamescope."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:40
-
 msgid "Variable refresh rate"
 msgstr "معدل تحديث مٌتغير (VRR)"
 
@@ -4565,7 +4466,6 @@ msgstr "تحدد دقة إخراج ScopeBuddy"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:43
-
 msgid "Automatic HDR"
 msgstr "تفعيل HDR تلقائي"
 
@@ -4693,7 +4593,6 @@ msgstr "تفعيل ذاكرة الظلال الموقتة الداخلية (inte
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
-
 msgid "VKD3D-Proton"
 msgstr "VKD3D-Proton"
 
@@ -4706,7 +4605,6 @@ msgid "Enables VKD3D GPU virtual addressing."
 msgstr "يفعل VKD3D GPU virtual addressing"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
-
 msgid "VKD3D compatibility settings"
 msgstr "إعدادات VKD3D للتوافق"
 
@@ -4874,7 +4772,6 @@ msgstr "يسمح بـDXVK-NVAPI في المُعرفات التي ليست من �
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
-
 msgid "AMD Reflex compatibility"
 msgstr "توافقية AMD Reflex"
 
@@ -5091,7 +4988,6 @@ msgid "Marks where Steam inserts the game's command."
 msgstr "يحدد أين يٌدْخِل Steam أمر اللعبة."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
-
 msgid "Preserved unrecognized launch options"
 msgstr "خيارات اللعبة الغير متعرف عليها التي تم الإبقاء عليها"
 
@@ -5113,7 +5009,6 @@ msgid "Experimental"
 msgstr "تجريبي"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:46
-
 msgid "Requires related option"
 msgstr "يتطلب خيار مٌتعلق"
 
@@ -5191,7 +5086,6 @@ msgid "_Keyboard Shortcuts"
 msgstr "اختصارات لوحة المفاتيح"
 
 #: src/widgets/header/header-box.vala:54
-
 msgid "_Donate"
 msgstr "تبرع"
 
@@ -5205,13 +5099,11 @@ msgid "_Exit"
 msgstr "خروج"
 
 #: src/widgets/header/header-downloads-indicator.vala:32
-
 msgid "Active downloads"
 msgstr "التنزيلات النشطة"
 
 #: src/widgets/header/header-downloads-indicator.vala:41
 #: src/widgets/tools/tools-box.vala:94
-
 msgid "Downloads"
 msgstr "التنزيلات"
 
@@ -5234,13 +5126,11 @@ msgstr "إلغاء"
 
 #: src/widgets/header/header-downloads-indicator.vala:237
 #: src/widgets/header/header-downloads-indicator.vala:239
-
 msgid "Cancelling"
 msgstr "يتم الإلغاء"
 
 #: src/widgets/header/header-downloads-indicator.vala:263
 #: src/widgets/tools/tools-release-row.vala:212
-
 msgid "Downloading"
 msgstr "جاري التنزيل"
 
@@ -5251,7 +5141,6 @@ msgstr "...جاري الإستخراج"
 
 #: src/widgets/header/header-downloads-indicator.vala:269
 #: src/widgets/tools/tools-release-row.vala:212
-
 msgid "Removing"
 msgstr "جاري الحذف"
 
@@ -5275,7 +5164,6 @@ msgid "ETA: %ds"
 msgstr "الوقت المتوقع: %ds"
 
 #: src/widgets/introduction/application.vala:8
-
 msgid "Welcome to ProtonPlus"
 msgstr "مرحباً بك في بروتون بلس"
 
@@ -5328,7 +5216,6 @@ msgstr "بكل بساطة تصفح أدواة التوافق المتوفرة, �
 "Lutris."
 
 #: src/widgets/introduction/introduction.vala:17
-
 msgid "Introduction"
 msgstr "المقدمة"
 
@@ -5345,7 +5232,6 @@ msgstr "تم تطويره من قبل Valve, بروتون هو أداة مبني
 "الحصول على أداء عالي وتوحيد Steam Play."
 
 #: src/widgets/introduction/updates.vala:8
-
 msgid "Keep Everything Updated"
 msgstr "حافظ على جعل كل شيء محدث"
 
@@ -5358,7 +5244,6 @@ msgstr "يستطيع بروتون بلس الفحص عن وجود تحديثات
 
 #: src/widgets/introduction/updates.vala:17
 #: src/widgets/preferences/preferences-dialog.vala:88
-
 msgid "Background updates"
 msgstr "تحديثات الخلفية"
 
@@ -5374,19 +5259,16 @@ msgstr "إضبط كم عدد المرات التي يتم الفحص فيها ع
 
 #: src/widgets/introduction/updates.vala:30
 #: src/widgets/preferences/preferences-dialog.vala:101
-
 msgid "Check updates on boot"
 msgstr "تحقق من التحديثات عند تشغيل النظام"
 
 #: src/widgets/introduction/updates.vala:31
 #: src/widgets/preferences/preferences-dialog.vala:102
-
 msgid "Check for tool updates when the system starts"
 msgstr "تحقق من تحديثات الأداة عند تشغيل النظام"
 
 #: src/widgets/introduction/updates.vala:37
 #: src/widgets/preferences/preferences-dialog.vala:108
-
 msgid "Check updates on launch"
 msgstr "تحقق من التحديثات عند التشغيل"
 
@@ -5435,12 +5317,10 @@ msgid "Welcome to %s"
 msgstr "مرحباً بك في %s"
 
 #: src/widgets/loading/loading-box.vala:127
-
 msgid "Retry loading"
 msgstr "إعادة محاولة التحميل"
 
 #: src/widgets/loading/loading-box.vala:132
-
 msgid "Report issue"
 msgstr "أبلغ عن مشكلة"
 
@@ -5508,7 +5388,6 @@ msgstr "إعادة تشغيل Steam؟"
 
 #: src/widgets/main/main-box.vala:205 src/widgets/main/main-box.vala:256
 #: src/widgets/main/steam-restart-dialog.vala:28
-
 msgid "Later"
 msgstr "لاحقاً"
 
@@ -5544,32 +5423,26 @@ msgid "Couldn't check for updates (Reason: %s)"
 msgstr "لم نستطع التحقق من وجود التحديثات(السبب: %s)"
 
 #: src/widgets/main/main-box.vala:314
-
 msgid "Update started"
 msgstr "بدأ التحديث"
 
 #: src/widgets/main/main-box.vala:316
-
 msgid "Download started"
 msgstr "بدأ التنزيل"
 
 #: src/widgets/main/main-box.vala:322
-
 msgid "Download finished"
 msgstr "تم التنزيل"
 
 #: src/widgets/main/main-box.vala:324
-
 msgid "Download canceled"
 msgstr "ألغى التنزيل"
 
 #: src/widgets/main/main-box.vala:330
-
 msgid "Download failed"
 msgstr "فشل التنزيل"
 
 #: src/widgets/main/main-box.vala:336 src/widgets/main/main-box.vala:338
-
 msgid "Update finished"
 msgstr "تم التحديث"
 
@@ -5584,7 +5457,6 @@ msgid "%s is already up-to-date"
 msgstr "%s محدث بالفعل لآخر نسخة"
 
 #: src/widgets/main/main-box.vala:343
-
 msgid "Deleted"
 msgstr "تم الحذف"
 
@@ -5647,7 +5519,6 @@ msgstr "يجب إعادة تشغيل Steam للكشف عن أداة التواف
 "تطبيقالتغييرات المعلقة الأخرى في الوقت ذاته."
 
 #: src/widgets/main/steam-restart-presentation.vala:85
-
 msgid "Steam must restart to detect a newly installed compatibility tool."
 msgstr "يجب إعادة تشغيل Steam للكشف عن أداة التوافق المثبتة حديثاً."
 
@@ -5681,7 +5552,6 @@ msgstr "جاري إنتظار تشغيل Steam…"
 
 #: src/widgets/main/steam-restart-presentation.vala:97
 #: src/widgets/main/steam-restart-presentation.vala:151
-
 msgid "SteamOS is restarting Steam"
 msgstr "يُعِيد SteamOS تشغيل Steam"
 
@@ -5706,7 +5576,6 @@ msgid "Wait for Steam to finish starting, then try again."
 msgstr "إنتظر انتهاء تشغيل Steam ثم حاول مرة أخرى."
 
 #: src/widgets/main/steam-restart-presentation.vala:114
-
 msgid "Steam is updating"
 msgstr "تحديث Steam جارٍ"
 
@@ -5818,7 +5687,6 @@ msgstr "تم إلغاء إعادة تشغيل Steam"
 
 #: src/widgets/main/steam-restart-presentation.vala:138
 #: src/widgets/main/steam-restart-presentation.vala:147
-
 msgid "Steam restarted"
 msgstr "تمت إعادة تشغيل Steam"
 
@@ -5852,7 +5720,6 @@ msgid "Multiple changes will be applied after Steam restarts"
 msgstr "سيتم تطبيق عدة تغييرات بعد إعادة تشغيل Steam"
 
 #: src/widgets/main/steam-restart-presentation.vala:219
-
 msgid "Steam restart needed"
 msgstr "مطلوب إعادة تشغيل Steam"
 
@@ -5873,12 +5740,10 @@ msgid "Metrics"
 msgstr "مقاييس"
 
 #: src/widgets/mangohud/mangohud-box.vala:39
-
 msgid "Extras"
 msgstr "إضافي"
 
 #: src/widgets/mangohud/mangohud-box.vala:55
-
 msgid "Save the current configuration"
 msgstr "حفظ التعديل الحالي"
 
@@ -5887,13 +5752,11 @@ msgid "Preview"
 msgstr "معاينة"
 
 #: src/widgets/mangohud/mangohud-box.vala:81
-
 msgid "Show vkcube"
 msgstr "أظهر vkcube"
 
 #. System Information section
 #: src/widgets/mangohud/mangohud-extras-page.vala:59
-
 msgid "System Information"
 msgstr "مزيد من المعلومات"
 
@@ -5903,7 +5766,6 @@ msgid "Distro info"
 msgstr "معلومات التوزيعة"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:68
-
 msgid "Refresh rate*"
 msgstr "معدل تحديث الشاشة*"
 
@@ -5946,7 +5808,6 @@ msgstr "FEX Stats"
 
 #. Options subsection
 #: src/widgets/mangohud/mangohud-extras-page.vala:99
-
 msgid "HUD Version"
 msgstr "أظهر المُستخدَم فقط"
 
@@ -5967,7 +5828,6 @@ msgid "HDR*"
 msgstr "HDR*"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:106
-
 msgid "Options"
 msgstr "خيارات"
 
@@ -6011,7 +5871,6 @@ msgid "Custom command"
 msgstr "أمر مخصص"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:136
-
 msgid "Others"
 msgstr "أخرى"
 
@@ -6048,7 +5907,6 @@ msgid "Output Folder"
 msgstr "مجلد المخرجات"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:178
-
 msgid "Select Output Folder"
 msgstr "إختر الملف الشخصي"
 
@@ -6057,7 +5915,6 @@ msgid "Autoupload Results"
 msgstr "رفع تلقائي للنتائج"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:191
-
 msgid "Log Versioning"
 msgstr "إصدار التسجيلات\\السجلات"
 
@@ -6073,13 +5930,11 @@ msgstr "إسم كرت رسومات مخصص"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:68
 #: src/widgets/mangohud/mangohud-metrics-page.vala:145
-
 msgid "Load"
 msgstr "حَمِل"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:70
 #: src/widgets/mangohud/mangohud-metrics-page.vala:147
-
 msgid "Load Color"
 msgstr "تحميل اللون"
 
@@ -6105,7 +5960,6 @@ msgid "Memory"
 msgstr "الذاكرة"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:96
-
 msgid "Junction"
 msgstr "تقاطع"
 
@@ -6158,7 +6012,6 @@ msgstr "عملية"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:123
 #: src/widgets/mangohud/mangohud-performance-page.vala:40
-
 msgid "Information"
 msgstr "معلومات"
 
@@ -6273,7 +6126,6 @@ msgid "ON"
 msgstr "تشغيل"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:54
-
 msgid "OpenGL"
 msgstr "فتح"
 
@@ -6443,7 +6295,6 @@ msgid "%s access token"
 msgstr "الرمز المميز للوصول %s"
 
 #: src/widgets/preferences/preferences-access-token-row.vala:22
-
 msgid "Open token creation page"
 msgstr "إفتح صفحة إنشاء token"
 
@@ -6464,12 +6315,10 @@ msgid "12h"
 msgstr "12س"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:26
-
 msgid "Update frequency"
 msgstr "معدل التحديث"
 
 #: src/widgets/preferences/preferences-delete-cache-row.vala:16
-
 msgid "Delete cache"
 msgstr "حذف التخزين المؤقت"
 
@@ -6512,12 +6361,10 @@ msgid "Help"
 msgstr "مساعدة"
 
 #: src/widgets/preferences/preferences-dialog.vala:64
-
 msgid "Show Introduction"
 msgstr "أظهر المقدمة"
 
 #: src/widgets/preferences/preferences-dialog.vala:83
-
 msgid "Updates"
 msgstr "التحديثات"
 
@@ -6534,7 +6381,6 @@ msgid "Behavior"
 msgstr "سلوكيات"
 
 #: src/widgets/preferences/preferences-dialog.vala:127
-
 msgid "Show legacy tools"
 msgstr "أظهر الأدوات الموروثة\\القديمة"
 
@@ -6544,12 +6390,10 @@ msgstr "أعرض الأدوات القديمة التي لم تعد تحت ال�
 
 #. Launchers Page
 #: src/widgets/preferences/preferences-dialog.vala:136
-
 msgid "Launchers"
 msgstr "البرامج المٌشغلة"
 
 #: src/widgets/preferences/preferences-dialog.vala:169
-
 msgid "Default compatibility tool"
 msgstr "أداة التوافق الإفتراضية"
 
@@ -6558,7 +6402,6 @@ msgid "The compatibility tool games will use by default"
 msgstr "أداة التوافق التي سيتم إستخدامها من قبل الألعاب بشكل إفتراضي"
 
 #: src/widgets/preferences/preferences-dialog.vala:195
-
 msgid "Selected profile"
 msgstr "الملف الشخصي المحدد"
 
@@ -6587,7 +6430,6 @@ msgid "Enable experimental features for early testing"
 msgstr "تفعيل المميزات التجريبية للإختبار المبكر"
 
 #: src/widgets/preferences/preferences-dialog.vala:292
-
 msgid "Maintenance"
 msgstr "الصيانة"
 
@@ -6643,7 +6485,6 @@ msgid "Dependencies"
 msgstr "التبعيات"
 
 #: src/widgets/preferences/preferences-dialog.vala:343
-
 msgid "Protontricks"
 msgstr "Protontricks"
 
@@ -6656,12 +6497,10 @@ msgid "MangoHud (Flatpak)"
 msgstr "MangoHud (Flatpak)"
 
 #: src/widgets/preferences/preferences-dialog.vala:373
-
 msgid "Feral Gamemode"
 msgstr "Feral Gamemode"
 
 #: src/widgets/preferences/preferences-dialog.vala:378
-
 msgid "Detected Launchers"
 msgstr "البرامج المٌشغلة المكتشفة"
 
@@ -6672,7 +6511,6 @@ msgid "Installed"
 msgstr "مُثبَت"
 
 #: src/widgets/preferences/preferences-dialog.vala:401
-
 msgid "Not installed"
 msgstr "غير مُثبَت"
 
@@ -6685,12 +6523,10 @@ msgid "Refresh application data"
 msgstr "تحديث بيانات التطبيق"
 
 #: src/widgets/preferences/preferences-refresh-application-data-row.vala:15
-
 msgid "Refreshes the launchers, tools and games"
 msgstr "إعادة تجديد البيانات المعروضة للبرامج المشغلة و المشغلات"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:12
-
 msgid "Manage shortcut"
 msgstr "أدر إختصار"
 
@@ -6711,12 +6547,10 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Steam من منصة ProtonPlus حذف إختصار"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
-
 msgid "Failed to create shortcut"
 msgstr "فشل إنشاء إختصار"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
-
 msgid "Failed to delete shortcut"
 msgstr "فشل حذف الإختصار"
 
@@ -6757,7 +6591,6 @@ msgid "Select your desired compatibility tool"
 msgstr "اختر أداة التوافق المرغوبة"
 
 #: src/widgets/preferences/proxy-mode-row.vala:15
-
 msgid "System proxy"
 msgstr "النظام"
 
@@ -6781,7 +6614,6 @@ msgid "Migrate"
 msgstr "ترحيل"
 
 #: src/widgets/tools/tools-box.vala:134
-
 msgid "Migrate selected games to another tool"
 msgstr "ترحيل الألعاب المحددة إلى أداة أخرى"
 
@@ -6798,7 +6630,6 @@ msgid "Unused"
 msgstr "غير مُستَخْدَم"
 
 #: src/widgets/tools/tools-box.vala:380
-
 msgid "Search is active"
 msgstr "البحث نشط"
 
@@ -6808,7 +6639,6 @@ msgstr "الفرز نشط"
 
 #: src/widgets/tools/tools-group-box.vala:84
 #: src/widgets/tools/tools-group-box.vala:192
-
 msgid "No tools found"
 msgstr "لم يتم العثور على أدواة"
 
@@ -6817,22 +6647,18 @@ msgid "No tools match the current filter."
 msgstr "لا توجد أدوات مطابقة للفرز الحالي"
 
 #: src/widgets/tools/tools-group-box.vala:169
-
 msgid "No matching tools"
 msgstr "لا توجد أدواة مطابقة"
 
 #: src/widgets/tools/tools-group-box.vala:177
-
 msgid "No installed tools"
 msgstr "لا توجد أدواة مُثبَتة"
 
 #: src/widgets/tools/tools-group-box.vala:178
-
 msgid "Install a compatibility tool to see it here."
 msgstr "ثبت أداة التوافق لرأيتها هنا"
 
 #: src/widgets/tools/tools-group-box.vala:182
-
 msgid "No tools in use"
 msgstr "لا توجد أداة قيد الإستخدام"
 
@@ -6853,7 +6679,6 @@ msgid "No tools are available in this group."
 msgstr "لا توجد ادوات متوفرة في هذه المجموعة."
 
 #: src/widgets/tools/tools-group-box.vala:259
-
 msgid "Recommended compatibility tool"
 msgstr "أداة التوافق المستحسنة"
 
@@ -6877,12 +6702,10 @@ msgstr "واحد أو أكثر من إصدار لأداة التوافق هذه 
 "إستخدامهحالياًبواسطة أي لعبة"
 
 #: src/widgets/tools/tools-migrate-box.vala:36
-
 msgid "Migrate games"
 msgstr "ترحيل الألعاب"
 
 #: src/widgets/tools/tools-migrate-box.vala:37
-
 msgid "Select a new tool for the selected games."
 msgstr "إختر أداة جديدة للعبة المحددة"
 
@@ -6898,7 +6721,6 @@ msgstr[4] "الألعاب المحددة %d"
 msgstr[5] "الألعاب المحددة %d"
 
 #: src/widgets/tools/tools-migrate-box.vala:143
-
 msgid "Migration Failed"
 msgstr "فشل الترحيل"
 
@@ -6915,7 +6737,6 @@ msgid "Name"
 msgstr "الاسم"
 
 #: src/widgets/tools/tools-release-box.vala:103
-
 msgid "This tool is not used by any games."
 msgstr "هذه الأداة لم يتم إستخدامها بواسطة أي لعبة"
 
@@ -6924,7 +6745,6 @@ msgid "Changelog"
 msgstr "سجل التغيير"
 
 #: src/widgets/tools/tools-release-box.vala:118
-
 msgid "Used by"
 msgstr "مُستخدَم بواسطة"
 
@@ -6938,7 +6758,6 @@ msgid "Cancel installation"
 msgstr "إلغاء التثبيت"
 
 #: src/widgets/tools/tools-release-row.vala:41
-
 msgid "Show installation details"
 msgstr "أظهر تفاصيل التثبيت"
 
@@ -6967,7 +6786,6 @@ msgstr "النسخة: %s\n"
 "ستم تحديثها لآخر نسخة عندما يكون التحديث التلقائي مفعل."
 
 #: src/widgets/tools/tools-release-row.vala:64
-
 msgid "Open tool directory"
 msgstr "فتح دليل الأداة"
 
@@ -7020,7 +6838,6 @@ msgid "Remaining time: %s"
 msgstr "الوقت المتبقي: %s"
 
 #: src/widgets/tools/tools-release-row.vala:228
-
 msgid "Installation Failed"
 msgstr "فشل التثبيت"
 
@@ -7063,7 +6880,6 @@ msgid "Select the %s build variant."
 msgstr "حدد نوع %s من النسخة."
 
 #: src/widgets/tools/tools-releases-box.vala:179
-
 msgid "Check for new releases"
 msgstr "تحقق من وجود اصدارات جديدة"
 
@@ -7072,12 +6888,10 @@ msgid "Choose which architecture or build variant to show."
 msgstr "اختر أي معمارية (architecture) أو نوع النسخة (build variant) لإظهارها."
 
 #: src/widgets/tools/tools-releases-box.vala:226
-
 msgid "Load More"
 msgstr "تحميل المزيد"
 
 #: src/widgets/tools/tools-releases-box.vala:275
-
 msgid "No releases found"
 msgstr "لم يتم العثور إصدارات."
 
@@ -7122,7 +6936,6 @@ msgstr[4] "من الألعاب %i يستخدم بواسطة"
 msgstr[5] "من الألعاب %i يستخدم بواسطة"
 
 #: src/widgets/tools/tools-remove-dialog.vala:27
-
 msgid "Delete"
 msgstr "حذف"
 
@@ -7166,7 +6979,6 @@ msgid "Do you want to exit?"
 msgstr ""
 
 #: src/widgets/window.vala:297
-
 msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."
