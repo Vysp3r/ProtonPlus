@@ -40,6 +40,13 @@ namespace AppTests.ControllerSurfacePolicyTest {
         assert (ControllerSurfacePolicy.can_register_popover (true, true));
     }
 
+    private void test_scroll_focus_requires_overflow () {
+        assert (!ControllerSurfacePolicy.scroll_container_needs_focus (0.0, 0.0));
+        assert (!ControllerSurfacePolicy.scroll_container_needs_focus (100.0, 100.0));
+        assert (!ControllerSurfacePolicy.scroll_container_needs_focus (100.5, 100.0));
+        assert (ControllerSurfacePolicy.scroll_container_needs_focus (101.0, 100.0));
+    }
+
     private void test_repeated_registration_moves_without_duplicates () {
         var window = new ControllerSurface (ControllerSurfaceKind.WINDOW);
         var dialog = new ControllerSurface (ControllerSurfaceKind.DIALOG);
@@ -112,6 +119,7 @@ namespace AppTests.ControllerSurfacePolicyTest {
     public void register_tests () {
         Test.add_func ("/controller-surfaces/window-resolution", test_resolves_window_from_child_root);
         Test.add_func ("/controller-surfaces/popover-registration-ready", test_popover_registration_waits_for_mapping);
+        Test.add_func ("/controller-surfaces/scroll-focus-overflow", test_scroll_focus_requires_overflow);
         Test.add_func ("/controller-surfaces/repeated-registration", test_repeated_registration_moves_without_duplicates);
         Test.add_func ("/controller-surfaces/nested-order-and-closing", test_nested_surface_order_and_closing);
         Test.add_func ("/controller-surfaces/non-top-removal", test_removing_non_top_surface_preserves_owner);

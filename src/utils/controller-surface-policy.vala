@@ -42,6 +42,11 @@ namespace ProtonPlus.Utils {
             return visible && mapped;
         }
 
+        public static bool scroll_container_needs_focus (double upper,
+            double page_size) {
+            return upper > page_size + 0.5;
+        }
+
         public int size {
             get { return surfaces.size; }
         }

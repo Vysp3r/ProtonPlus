@@ -4,6 +4,7 @@ namespace ProtonPlus.Utils {
         TOGGLE,
         OPEN,
         BACK,
+        EXIT,
         CLOSE,
         ADJUST_HORIZONTAL,
         ADJUST_VERTICAL,
@@ -43,6 +44,7 @@ namespace ProtonPlus.Utils {
         public bool has_popover { get; set; default = false; }
         public ControllerHintControlKind control_kind { get; set; default = ControllerHintControlKind.DEFAULT; }
         public bool can_navigate_back { get; set; default = false; }
+        public bool can_exit { get; set; default = false; }
         public bool can_switch_section { get; set; default = false; }
         public bool can_open_search { get; set; default = false; }
         public bool can_open_filter { get; set; default = false; }
@@ -153,6 +155,8 @@ namespace ProtonPlus.Utils {
                 hints += ControllerHintKind.CLOSE;
             else if (context.can_navigate_back)
                 hints += ControllerHintKind.BACK;
+            else if (context.can_exit)
+                hints += ControllerHintKind.EXIT;
 
             if (!context.has_popover && context.can_switch_section)
                 hints += ControllerHintKind.SWITCH_SECTION;

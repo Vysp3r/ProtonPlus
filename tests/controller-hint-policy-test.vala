@@ -13,11 +13,12 @@ namespace AppTests.ControllerHintPolicyTest {
     private ControllerHintKind[] hints_for (ControllerHintControlKind control =
         ControllerHintControlKind.DEFAULT, bool back = false, bool switching = false,
         bool popover = false, bool active = true, bool search = false,
-        bool filter = false) {
+        bool filter = false, bool exit = false) {
         return ControllerHintPolicy.get_hints (new ControllerHintContext () {
             controller_mode_active = active,
             control_kind = control,
             can_navigate_back = back,
+            can_exit = exit,
             can_switch_section = switching,
             can_open_search = search,
             can_open_filter = filter,
@@ -30,10 +31,15 @@ namespace AppTests.ControllerHintPolicyTest {
     }
 
     private void test_back_context () {
-        var root = hints_for ();
+        var root = hints_for (
+            ControllerHintControlKind.DEFAULT, false, false, false, true,
+            false, false, true
+        );
         var nested = hints_for (ControllerHintControlKind.DEFAULT, true);
         assert (!contains (root, ControllerHintKind.BACK));
+        assert (contains (root, ControllerHintKind.EXIT));
         assert (contains (nested, ControllerHintKind.BACK));
+        assert (!contains (nested, ControllerHintKind.EXIT));
     }
 
     private void test_popover_precedence () {

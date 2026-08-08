@@ -53,6 +53,8 @@ namespace ProtonPlus.Widgets.Header {
                 menu.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
             menu.append (_("_Donate"), "app.donate");
             menu.append (_("_About ProtonPlus"), "app.about");
+            if (controller_mode_active)
+                menu.append (_("_Exit"), "app.quit");
         }
 
         public void initialize (Gee.LinkedList<Models.Launcher> launchers, Adw.ViewSwitcher view_switcher) {

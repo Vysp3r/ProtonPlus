@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-07 21:37-0400\n"
+"POT-Creation-Date: 2026-08-07 23:27-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Serbian (Latin script) <https://hosted.weblate.org/projects/"
@@ -2213,137 +2213,142 @@ msgstr ""
 msgid "Special thanks to"
 msgstr "Posebna zahvalnost"
 
-#: src/widgets/controller-hint-bar.vala:99
+#: src/widgets/controller-hint-bar.vala:100
 #, fuzzy
 msgid "Select"
 msgstr "Izaberi sve"
 
-#: src/widgets/controller-hint-bar.vala:103
+#: src/widgets/controller-hint-bar.vala:104
 msgid "Toggle"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:107
+#: src/widgets/controller-hint-bar.vala:108
 msgid "Open"
 msgstr "Otvorite"
 
-#: src/widgets/controller-hint-bar.vala:111
+#: src/widgets/controller-hint-bar.vala:112
 #: src/widgets/tools/tools-box.vala:111
 msgid "Back"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:115
-msgid "Close"
-msgstr ""
-
-#: src/widgets/controller-hint-bar.vala:119
-msgid "Left and right"
+#: src/widgets/controller-hint-bar.vala:116 src/widgets/window.vala:143
+#: src/widgets/window.vala:227
+msgid "Exit"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:120
-#: src/widgets/controller-hint-bar.vala:125
-msgid "Adjust"
+msgid "Close"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:124
-msgid "Up and down"
+msgid "Left and right"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:125
+#: src/widgets/controller-hint-bar.vala:130
+msgid "Adjust"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:129
-msgid "Keyboard"
-msgstr ""
-
-#: src/widgets/controller-hint-bar.vala:130
-msgid "Enter text"
-msgstr ""
-
-#: src/widgets/controller-hint-bar.vala:133
-msgid "Shoulders"
+msgid "Up and down"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:134
-msgid "Shoulder buttons"
+msgid "Keyboard"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:135
+msgid "Enter text"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:138
+msgid "Shoulders"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:139
+msgid "Shoulder buttons"
+msgstr ""
+
+#: src/widgets/controller-hint-bar.vala:140
 #, fuzzy
 msgid "Switch section or page"
 msgstr "Izaberite drugi profil"
 
-#: src/widgets/controller-hint-bar.vala:139
+#: src/widgets/controller-hint-bar.vala:144
 #: src/widgets/tools/tools-box.vala:163 src/widgets/tools/tools-box.vala:197
 #: src/widgets/tools/tools-box.vala:383
 msgid "Search"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:143
+#: src/widgets/controller-hint-bar.vala:148
 #: src/widgets/games/games-box.vala:185 src/widgets/tools/tools-box.vala:204
 #: src/widgets/tools/tools-box.vala:393
 msgid "Filter"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:177
+#: src/widgets/controller-hint-bar.vala:182
 msgid "A button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:181
+#: src/widgets/controller-hint-bar.vala:186
 msgid "B button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:185
+#: src/widgets/controller-hint-bar.vala:190
 msgid "X button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:189
+#: src/widgets/controller-hint-bar.vala:194
 msgid "Y button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:193
+#: src/widgets/controller-hint-bar.vala:198
 msgid "Cross button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:197
+#: src/widgets/controller-hint-bar.vala:202
 msgid "Circle button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:201
+#: src/widgets/controller-hint-bar.vala:206
 msgid "Square button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:205
+#: src/widgets/controller-hint-bar.vala:210
 msgid "Triangle button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:208
+#: src/widgets/controller-hint-bar.vala:213
 msgid "Bottom"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:209
+#: src/widgets/controller-hint-bar.vala:214
 #: src/widgets/preferences/preferences-dialog.vala:36
 msgid "Bottom face button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:212
+#: src/widgets/controller-hint-bar.vala:217
 msgid "Right"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:213
+#: src/widgets/controller-hint-bar.vala:218
 #: src/widgets/preferences/preferences-dialog.vala:37
 msgid "Right face button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:216
+#: src/widgets/controller-hint-bar.vala:221
 msgid "Left"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:217
+#: src/widgets/controller-hint-bar.vala:222
 msgid "Left face button"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:220
+#: src/widgets/controller-hint-bar.vala:225
 msgid "Top"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:221
+#: src/widgets/controller-hint-bar.vala:226
 msgid "Top face button"
 msgstr ""
 
@@ -2511,7 +2516,7 @@ msgstr[2] "Izmenite alat za kompatibilnost za izabrane igre izjedna"
 
 #: src/widgets/games/games-mass-edit-button.vala:57
 #: src/widgets/tools/tools-stl-release-row.vala:13
-#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:202
+#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:223
 msgid "Warning"
 msgstr "Upozorenje"
 
@@ -5004,6 +5009,10 @@ msgstr "Donirajte"
 msgid "_About ProtonPlus"
 msgstr "_O ProtonPlus-u"
 
+#: src/widgets/header/header-box.vala:57
+msgid "_Exit"
+msgstr ""
+
 #: src/widgets/header/header-downloads-indicator.vala:32
 #, fuzzy
 msgid "Active downloads"
@@ -5024,7 +5033,8 @@ msgstr[1] "Otkaži"
 msgstr[2] "Otkaži"
 
 #: src/widgets/header/header-downloads-indicator.vala:187
-#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:209
+#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:142
+#: src/widgets/window.vala:230
 msgid "Cancel"
 msgstr "Otkaži"
 
@@ -6887,14 +6897,14 @@ msgstr ""
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Da li želite da ga ponovo instalirate sa ProtonPlus-om?"
 
-#: src/widgets/window.vala:203
+#: src/widgets/window.vala:141
+msgid "Do you want to exit?"
+msgstr ""
+
+#: src/widgets/window.vala:224
 msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."
-msgstr ""
-
-#: src/widgets/window.vala:206
-msgid "Exit"
 msgstr ""
 
 #, fuzzy

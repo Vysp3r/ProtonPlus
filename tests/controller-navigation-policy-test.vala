@@ -86,18 +86,18 @@ namespace AppTests.ControllerNavigationPolicyTest {
         assert (host.page_id == "tools:releases");
         assert (policy.navigate_back (false, host) == ControllerBackAction.NAVIGATE_APPLICATION);
         assert (host.page_id == "tools:groups");
-        assert (policy.navigate_back (false, host) == ControllerBackAction.NONE);
+        assert (policy.navigate_back (false, host, true) == ControllerBackAction.REQUEST_EXIT);
         assert (host.page_id == "tools:groups");
     }
 
-    private void test_games_back_and_root_noop () {
+    private void test_games_back_and_root_exit () {
         var policy = new ControllerNavigationPolicy ();
         var host = new FakeNavigationHost ("games:mass-edit");
         host.parents["games:mass-edit"] = "games:list";
 
         assert (policy.navigate_back (false, host) == ControllerBackAction.NAVIGATE_APPLICATION);
         assert (host.page_id == "games:list");
-        assert (policy.navigate_back (false, host) == ControllerBackAction.NONE);
+        assert (policy.navigate_back (false, host, true) == ControllerBackAction.REQUEST_EXIT);
         assert (host.back_calls == 2);
     }
 
@@ -174,7 +174,7 @@ namespace AppTests.ControllerNavigationPolicyTest {
     public void register_tests () {
         Test.add_func ("/controller-navigation/modal-precedence", test_modal_back_precedence);
         Test.add_func ("/controller-navigation/tools-back", test_tools_back_transitions);
-        Test.add_func ("/controller-navigation/games-back-root-noop", test_games_back_and_root_noop);
+        Test.add_func ("/controller-navigation/games-back-root-exit", test_games_back_and_root_exit);
         Test.add_func ("/controller-navigation/application-back-never-closes", test_application_back_never_closes);
         Test.add_func ("/controller-navigation/focus-history", test_focus_history_isolated_by_page);
         Test.add_func ("/controller-navigation/focus-fallback", test_invalid_remembered_target_uses_fallback);

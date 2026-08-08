@@ -116,7 +116,17 @@ namespace ProtonPlus.Widgets {
 
         public void present_controller_dialog (Adw.Dialog dialog, Gtk.Widget? parent = null) {
             controller_manager.register_dialog (dialog);
+            var alert_dialog = dialog as Adw.AlertDialog;
+            if (alert_dialog != null)
+                prepare_alert_dialog_focus ((!) alert_dialog);
             dialog.present (parent ?? this);
+            if (alert_dialog != null) {
+                GLib.Idle.add (() => {
+                    if (((!) alert_dialog).get_mapped ())
+                        prepare_alert_dialog_focus ((!) alert_dialog);
+                    return GLib.Source.REMOVE;
+                });
+            }
         }
 
         internal void register_controller_popover (Gtk.Popover popover,
@@ -130,6 +140,90 @@ namespace ProtonPlus.Widgets {
 
         public void open_launchers () {
             header_box.open_launchers ();
+        }
+
+        public void request_controller_exit () {
+            if (Utils.DownloadManager.instance.active_downloads.size > 0) {
+                close ();
+                return;
+            }
+
+            var dialog = new Adw.AlertDialog (_("Do you want to exit?"), "");
+            dialog.add_response ("cancel", _("Cancel"));
+            dialog.add_response ("exit", _("Exit"));
+            dialog.set_response_appearance ("exit", Adw.ResponseAppearance.DESTRUCTIVE);
+            dialog.set_default_response ("cancel");
+            dialog.set_close_response ("cancel");
+            dialog.response.connect ((response) => {
+                if (response != "exit")
+                    return;
+                close ();
+            });
+            present_controller_dialog (dialog);
+        }
+
+        static void prepare_alert_dialog_focus (Adw.AlertDialog dialog) {
+            disable_alert_heading_focus (dialog, dialog.get_heading ());
+            update_alert_scroll_focus (dialog);
+
+            Gtk.Widget? focus = dialog.get_default_widget ();
+            var default_response = dialog.get_default_response ();
+            if (focus == null && default_response != null) {
+                focus = find_button_with_label (
+                    dialog, dialog.get_response_label ((!) default_response)
+                );
+            }
+            if (focus == null)
+                return;
+
+            ((!) focus).set_focusable (true);
+            dialog.set_focus (focus);
+            if (dialog.get_mapped ())
+                ((!) focus).grab_focus ();
+        }
+
+        static void disable_alert_heading_focus (Gtk.Widget root, string? heading) {
+            var child = root.get_first_child ();
+            while (child != null) {
+                var label = child as Gtk.Label;
+                if (label != null && heading != null && label.get_label () == heading) {
+                    label.set_selectable (false);
+                    label.set_focusable (false);
+                }
+                disable_alert_heading_focus (child, heading);
+                child = child.get_next_sibling ();
+            }
+        }
+
+        static void update_alert_scroll_focus (Gtk.Widget root) {
+            var child = root.get_first_child ();
+            while (child != null) {
+                var scrolled = child as Gtk.ScrolledWindow;
+                if (scrolled != null && scrolled.has_css_class ("body-scrolled-window")) {
+                    var adjustment = scrolled.get_vadjustment ();
+                    scrolled.set_focusable (
+                        Utils.ControllerSurfacePolicy.scroll_container_needs_focus (
+                            adjustment.get_upper (), adjustment.get_page_size ()
+                        )
+                    );
+                }
+                update_alert_scroll_focus (child);
+                child = child.get_next_sibling ();
+            }
+        }
+
+        static Gtk.Widget? find_button_with_label (Gtk.Widget root, string label) {
+            var child = root.get_first_child ();
+            while (child != null) {
+                var button = child as Gtk.Button;
+                if (button != null && button.get_label () == label)
+                    return button;
+                var nested = find_button_with_label (child, label);
+                if (nested != null)
+                    return nested;
+                child = child.get_next_sibling ();
+            }
+            return null;
         }
 
         private void build_ui () {

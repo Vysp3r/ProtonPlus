@@ -78,6 +78,7 @@ namespace ProtonPlus.Widgets {
             case TOGGLE:
             case OPEN:
             case BACK:
+            case EXIT:
             case CLOSE:
             case TEXT_INPUT:
                 return true;
@@ -109,6 +110,10 @@ namespace ProtonPlus.Widgets {
             case BACK:
                 physical = state.prompt_labels.back;
                 action = _("Back");
+                break;
+            case EXIT:
+                physical = state.prompt_labels.back;
+                action = _("Exit");
                 break;
             case CLOSE:
                 physical = state.prompt_labels.back;

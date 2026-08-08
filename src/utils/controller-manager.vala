@@ -675,6 +675,7 @@ namespace ProtonPlus.Utils {
                 has_popover = has_popover,
                 control_kind = control_kind,
                 can_navigate_back = host != null && host.controller_can_navigate_back (),
+                can_exit = host != null && !host.controller_can_navigate_back (),
                 can_switch_section = host != null && host.controller_can_switch_page (),
                 can_open_search = shortcuts != null &&
                     shortcuts.controller_can_open_search (),
@@ -1355,7 +1356,7 @@ namespace ProtonPlus.Utils {
             if (!has_modal)
                 save_current_page_focus ();
 
-            var action = navigation_policy.navigate_back (has_modal, host);
+            var action = navigation_policy.navigate_back (has_modal, host, true);
             var succeeded = false;
             switch (action) {
             case ControllerBackAction.DISMISS_SURFACE:
@@ -1363,6 +1364,10 @@ namespace ProtonPlus.Utils {
                 break;
             case ControllerBackAction.NAVIGATE_APPLICATION:
                 schedule_page_focus_restore ();
+                succeeded = true;
+                break;
+            case ControllerBackAction.REQUEST_EXIT:
+                window.request_controller_exit ();
                 succeeded = true;
                 break;
             default:

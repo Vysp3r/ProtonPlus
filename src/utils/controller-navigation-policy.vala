@@ -2,7 +2,8 @@ namespace ProtonPlus.Utils {
     public enum ControllerBackAction {
         NONE,
         DISMISS_SURFACE,
-        NAVIGATE_APPLICATION
+        NAVIGATE_APPLICATION,
+        REQUEST_EXIT
     }
 
     public enum ControllerFocusTargetChoice {
@@ -75,11 +76,13 @@ namespace ProtonPlus.Utils {
         private uint64 restore_generation = 0;
 
         public ControllerBackAction navigate_back (bool has_modal_surface,
-            ControllerNavigationHost? host) {
+            ControllerNavigationHost? host, bool exit_at_root = false) {
             if (has_modal_surface)
                 return ControllerBackAction.DISMISS_SURFACE;
             if (host != null && host.controller_navigate_back ())
                 return ControllerBackAction.NAVIGATE_APPLICATION;
+            if (exit_at_root && host != null)
+                return ControllerBackAction.REQUEST_EXIT;
             return ControllerBackAction.NONE;
         }
 
