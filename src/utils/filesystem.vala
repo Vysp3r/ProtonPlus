@@ -525,7 +525,17 @@ namespace ProtonPlus.Utils {
 
             bool output = false;
             new Thread<void> ("delete_directory", () => {
-                if (delete_directory_direct (path)) {
+                Posix.Stat stat_;
+
+                // Enumeration follows a symlink passed as its root even when
+                // NOFOLLOW_SYMLINKS is requested.  Inspect the root itself
+                // first so deleting a linked directory never reaches its
+                // target.
+                if (Posix.lstat (path, out stat_) != 0) {
+                    output = false;
+                } else if (Posix.S_ISLNK (stat_.st_mode)) {
+                    output = delete_file_direct (path);
+                } else if (Posix.S_ISDIR (stat_.st_mode) && delete_directory_direct (path)) {
                     if (Posix.rmdir (path) == 0) {
                         output = true;
                     }

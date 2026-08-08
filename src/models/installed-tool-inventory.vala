@@ -103,14 +103,18 @@ namespace ProtonPlus.Models {
 
         private void discover_entries () {
             foreach (var directory_root in group.launcher.get_tool_directories (group)) {
-                add_entry (directory_root);
-
-                if (!FileUtils.test (directory_root, FileTest.IS_DIR))
+                Posix.Stat root_stat;
+                if (Posix.lstat (directory_root, out root_stat) != 0 ||
+                    !Posix.S_ISDIR (root_stat.st_mode))
                     continue;
 
                 try {
                     var directory = File.new_for_path (directory_root);
-                    FileEnumerator? enumerator = directory.enumerate_children ("standard::*", FileQueryInfoFlags.NONE, null);
+                    add_entry (directory_root);
+
+                    FileEnumerator? enumerator = directory.enumerate_children (
+                        "standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS, null
+                    );
                     if (enumerator == null)
                         continue;
 
