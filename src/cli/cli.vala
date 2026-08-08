@@ -429,7 +429,7 @@ namespace ProtonPlus.CLI {
 
         private async int update_all () {
             output.info (_ ("Updating all runners...\n"));
-            var latest_runners = yield collect_latest_runners (launchers);
+            var latest_runners = collect_latest_runners (launchers);
             return yield update_runner_batch (latest_runners);
         }
 
@@ -437,7 +437,7 @@ namespace ProtonPlus.CLI {
             output.info (_ ("Updating runners for %s...\n"), launcher.title);
             var scoped = new Gee.LinkedList<Models.Launcher> ();
             scoped.add (launcher);
-            var latest_runners = yield collect_latest_runners (scoped);
+            var latest_runners = collect_latest_runners (scoped);
             return yield update_runner_batch (latest_runners);
         }
 
@@ -456,7 +456,7 @@ namespace ProtonPlus.CLI {
             }
         }
 
-        private async Gee.LinkedList<Models.Tools.ProviderTool> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
+        private Gee.LinkedList<Models.Tools.ProviderTool> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
             var latest_runners = new Gee.LinkedList<Models.Tools.ProviderTool> ();
             var collected_runner_ids = new Gee.HashSet<string> ();
 
@@ -473,14 +473,12 @@ namespace ProtonPlus.CLI {
 
                         foreach (var entry in entries) {
                             var latest = "%s Latest".printf (tool.title);
-                            if (entry.directory_name == latest || entry.directory_name.has_prefix ("%s-".printf (latest))) {
+                            var backup = "%s Backup".printf (latest);
+                            if (entry.directory_name == latest ||
+                                entry.directory_name.has_prefix ("%s-".printf (latest)) ||
+                                entry.directory_name == backup) {
                                 if (collected_runner_ids.add (provider_tool.id))
                                     latest_runners.add (provider_tool);
-                                continue;
-                            }
-
-                            if (entry.directory_name == "%s Latest Backup".printf (tool.title)) {
-                                yield Utils.Filesystem.delete_directory (entry.path);
                                 continue;
                             }
                         }

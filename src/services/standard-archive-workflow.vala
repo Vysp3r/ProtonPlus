@@ -167,6 +167,22 @@ namespace ProtonPlus.Services {
             return yield update_latest_job (job, coordinator);
         }
 
+        // The older updater moved Latest to this visible backup name before
+        // installing.  Restore it only when no primary exists; a coexisting
+        // backup remains recovery state until another path proves it obsolete.
+        internal async ReturnCode restore_legacy_latest_backup (Models.Tools.ProviderTool runner) {
+            var directory = "%s%s/%s Latest".printf (
+                runner.group.launcher.directory, runner.group.directory, runner.title
+            );
+            var backup = "%s Backup".printf (directory);
+            if (FileUtils.test (directory, FileTest.EXISTS))
+                return ReturnCode.RUNNER_ALREADY_INSTALLED;
+            if (!FileUtils.test (backup, FileTest.IS_DIR))
+                return ReturnCode.RUNNER_NOT_INSTALLED;
+            return (yield Utils.Filesystem.move_directory_atomic (backup, directory))
+                ? ReturnCode.RUNNER_INSTALLED : ReturnCode.FILESYSTEM_ERROR;
+        }
+
         public async ReturnCode finalize_replaced_runner (string directory, string backup, bool migrate_prefix) {
             var backup_settings = "%s/user_settings.py".printf (backup);
             if (FileUtils.test (backup_settings, FileTest.IS_REGULAR)) {

@@ -111,6 +111,8 @@ namespace AppTests.CliTest {
     public void register_tests () {
         Test.add_func ("/cli/exit-codes", test_exit_codes);
         Test.add_func ("/cli/uninstall-inventory-path", test_uninstall_uses_inventory_path);
+        Test.add_func ("/cli/bulk-update-restores-backup-only-installation", test_bulk_update_restores_backup_only_installation);
+        Test.add_func ("/cli/bulk-update-retains-backup-beside-primary", test_bulk_update_retains_backup_beside_primary);
         Test.add_func ("/cli/steam-lifecycle-receipts", test_steam_lifecycle_receipts);
     }
 
@@ -219,8 +221,13 @@ namespace AppTests.CliTest {
     }
 
     private void seed_latest_installation (ProviderTool runner, string tag) {
-        var directory = Path.build_filename (runner.group.launcher.directory, runner.group.directory,
-            "%s Latest".printf (runner.title));
+        seed_latest_state (runner, "%s Latest".printf (runner.title), tag);
+    }
+
+    private string seed_latest_state (ProviderTool runner, string directory_name, string tag) {
+        var directory = Path.build_filename (
+            runner.group.launcher.directory, runner.group.directory, directory_name
+        );
         assert (Utils.Filesystem.create_directory (directory));
         var metadata = new Utils.Metadata ();
         metadata.tag = tag;
@@ -228,6 +235,7 @@ namespace AppTests.CliTest {
         metadata.tool_id = runner.id;
         metadata.launcher_id = runner.group.launcher.tool_target_id;
         assert (metadata.save (directory));
+        return directory;
     }
 
     private string seed_managed_installation (
@@ -358,6 +366,78 @@ namespace AppTests.CliTest {
         } finally {
             InstallationService.reset_lifecycle_configuration_for_tests ();
             SteamConfigurationService.reset_configuration ();
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_bulk_update_restores_backup_only_installation () {
+        var root = temporary_directory ();
+        InstallationService.reset_lifecycle_configuration_for_tests ();
+
+        try {
+            ProviderTool runner;
+            var launcher = setup_launcher (
+                root, "fixture-backup-only", "Fixture Backup Only",
+                release ("v2", "v2", "https://fixtures.invalid/backup-only.zip"), out runner
+            );
+            var backup = seed_latest_state (
+                runner, "%s Latest Backup".printf (runner.title), "v2"
+            );
+            Utils.Filesystem.create_file (
+                Path.build_filename (backup, "recovery-marker"), "backup-only"
+            );
+            var primary = Path.build_filename (
+                launcher.directory, "compatibilitytools.d", "%s Latest".printf (runner.title)
+            );
+
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output);
+            assert (run_cli ({ "protonplus", "update", "all" }, handler) == 0);
+            assert (FileUtils.test (primary, FileTest.IS_DIR));
+            assert (!FileUtils.test (backup, FileTest.EXISTS));
+            assert (Utils.Filesystem.get_file_content (
+                Path.build_filename (primary, "recovery-marker")
+            ) == "backup-only");
+            assert (output.stdout_text.contains ("Already up to date: Fixture Backup Only"));
+            assert (output.stderr_text == "");
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_bulk_update_retains_backup_beside_primary () {
+        var root = temporary_directory ();
+        InstallationService.reset_lifecycle_configuration_for_tests ();
+
+        try {
+            ProviderTool runner;
+            var launcher = setup_launcher (
+                root, "fixture-primary-backup", "Fixture Primary Backup",
+                release ("v2", "v2", "https://fixtures.invalid/primary-backup.zip"), out runner
+            );
+            var primary = seed_latest_state (
+                runner, "%s Latest".printf (runner.title), "v2"
+            );
+            var backup = seed_latest_state (
+                runner, "%s Latest Backup".printf (runner.title), "v1"
+            );
+            Utils.Filesystem.create_file (
+                Path.build_filename (backup, "recovery-marker"), "primary-plus-backup"
+            );
+
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output);
+            assert (run_cli ({ "protonplus", "update", "all" }, handler) == 0);
+            assert (FileUtils.test (primary, FileTest.IS_DIR));
+            assert (FileUtils.test (backup, FileTest.IS_DIR));
+            assert (Utils.Filesystem.get_file_content (
+                Path.build_filename (backup, "recovery-marker")
+            ) == "primary-plus-backup");
+            assert (output.stdout_text.contains ("Already up to date: Fixture Primary Backup"));
+            assert (output.stderr_text == "");
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
             assert (delete_directory (root));
         }
     }
