@@ -6,7 +6,7 @@ namespace ProtonPlus.Widgets.Introduction {
         public Controller () {
             base (
                 _("Controller support"),
-                _("Navigate with the D-pad or left stick, and scroll with the right stick. Choose the Confirm face button, use contextual Back, switch sections or pages with the shoulders, and open menus or launchers with their controller buttons. To enter text, focus the field and press Steam + X to open the Steam Deck on-screen keyboard. A physical or system keyboard may be required on other systems."), // vala-lint=line-length
+                _("ProtonPlus automatically adapts to controller input and shows contextual hints using your controller's button labels. Navigate pages, dialogs, and menus with the D-pad or sticks; use the face buttons for actions such as Confirm, Back, Search, and Filter; and switch sections with the shoulder buttons. You can choose the Confirm button and enable vibration in Preferences. On Steam Deck, focus a text field and press Steam + X to open the on-screen keyboard. Other systems may require a physical or system keyboard."), // vala-lint=line-length
                 "gamepad-symbolic"
             );
         }
