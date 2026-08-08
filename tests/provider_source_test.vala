@@ -15,6 +15,7 @@ namespace AppTests.ProviderSourceTest {
         Test.add_func ("/providers/forgejo/incomplete-assets", test_forgejo_incomplete_assets);
         Test.add_func ("/providers/gitlab/incomplete-assets", test_gitlab_incomplete_assets);
         Test.add_func ("/providers/github-compatible/default-variant-assets", test_github_compatible_default_variant_assets);
+        Test.add_func ("/providers/github-compatible/stable-release-policy", test_github_compatible_stable_release_policy);
         Test.add_func ("/providers/github-compatible/validation-and-skipped-releases", test_github_compatible_validation_and_skipped_releases);
         Test.add_func ("/providers/invalid-response-codes", test_invalid_response_codes);
         Test.add_func ("/providers/empty-pages", test_empty_pages);
@@ -287,6 +288,23 @@ namespace AppTests.ProviderSourceTest {
         assert (forgejo.asset.name == "v1-default.tar.gz" && forgejo.download_size == 20);
         assert (github.variants[0].download_url == "https://example.test/v1-default.tar.gz");
         assert (forgejo.variants[0].download_url == "https://example.test/v1-default.tar.gz");
+    }
+
+    private void test_github_compatible_stable_release_policy () {
+        var response = fixture ("github", "release-policy.json");
+        var github_result = new GitHubReleaseSource ().parse_response (
+            definition (SourceType.GITHUB), response, 1, 25
+        );
+        var forgejo_result = new ForgejoReleaseSource ().parse_response (
+            definition (SourceType.FORGEJO), response, 1, 25
+        );
+
+        assert (github_result.succeeded && forgejo_result.succeeded);
+        var github = github_result.require_page ();
+        var forgejo = forgejo_result.require_page ();
+        assert (github.releases.size == 1 && forgejo.releases.size == 1);
+        assert (github.releases[0].source_tag == "GE-Proton10-1");
+        assert (forgejo.releases[0].source_tag == "GE-Proton10-1");
     }
 
     private void test_github_compatible_validation_and_skipped_releases () {

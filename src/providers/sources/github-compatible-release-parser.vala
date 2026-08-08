@@ -18,6 +18,10 @@ namespace ProtonPlus.Providers.Sources {
                 if (object == null)
                     continue;
 
+                if (object.get_boolean_member_with_default ("draft", false) ||
+                    object.get_boolean_member_with_default ("prerelease", false))
+                    continue;
+
                 var tag_name = object.get_string_member_with_default ("tag_name", "");
                 if (!CatalogReleaseBuilder.is_eligible (definition, tag_name))
                     continue;

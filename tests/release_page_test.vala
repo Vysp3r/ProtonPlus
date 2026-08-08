@@ -33,6 +33,26 @@ namespace AppTests.ReleasePageTest {
         }
     }
 
+    private class ParsedGitHubReleaseSource : Object, ReleaseSource {
+        private string response_body;
+        public ArrayList<int> requested_pages { get; private set; default = new ArrayList<int> (); }
+
+        public ParsedGitHubReleaseSource (string response_body) {
+            this.response_body = response_body;
+        }
+
+        public async ReleasePageResult fetch_page (
+            ProviderDefinition definition,
+            int requested_page,
+            int limit
+        ) {
+            requested_pages.add (requested_page);
+            return new GitHubReleaseSource ().parse_response (
+                definition, response_body, requested_page, limit
+            );
+        }
+    }
+
     private class FixtureGitHubActionsSource : GitHubActionsReleaseSource {
         private HashMap<int, string> responses = new HashMap<int, string> ();
         private HashMap<int, ReturnCode> response_codes = new HashMap<int, ReturnCode> ();
@@ -60,6 +80,7 @@ namespace AppTests.ReleasePageTest {
     public void register_tests () {
         Test.add_func ("/release-catalog/pagination-and-persistence", test_pagination_and_persistence);
         Test.add_func ("/release-catalog/latest-discovery-is-stateless", test_latest_discovery_is_stateless);
+        Test.add_func ("/release-catalog/automatic-update-skips-github-unstable-releases", test_automatic_update_skips_github_unstable_releases);
         Test.add_func ("/release-catalog/github-actions-scans-filtered-pages", test_github_actions_scanning);
         Test.add_func ("/release-catalog/github-actions-later-page-failure", test_github_actions_later_page_failure);
         Test.add_func ("/release-catalog/github-actions-proton-tkg-cache-reuse", test_github_actions_proton_tkg_cache_reuse);
@@ -228,6 +249,20 @@ namespace AppTests.ReleasePageTest {
         assert (value.releases.size == 0 && value.page == 1 && !value.has_more && value.last_updated == "");
         assert (source.requested_pages.size == 2);
         assert (source.requested_pages[0] == 1 && source.requested_pages[1] == 2);
+    }
+
+    private void test_automatic_update_skips_github_unstable_releases () {
+        var response = ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename ("fixtures", "providers", "github", "release-policy.json")
+        );
+        assert (response != "");
+        var source = new ParsedGitHubReleaseSource (response);
+        var value = catalog ("stable-update-tool", definition (), source);
+
+        var result = latest (value);
+        assert (result.succeeded && result.has_release);
+        assert (result.require_release ().source_tag == "GE-Proton10-1");
+        assert (source.requested_pages.size == 1 && source.requested_pages[0] == 1);
     }
 
     private string workflow_runs (int count, bool successful) {

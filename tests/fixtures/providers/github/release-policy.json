@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1002,
+    "tag_name": "GE-Proton10-2-rc1",
+    "draft": false,
+    "prerelease": true,
+    "assets": [
+      {
+        "name": "GE-Proton10-2-rc1.tar.gz",
+        "browser_download_url": "https://example.test/GE-Proton10-2-rc1.tar.gz"
+      }
+    ]
+  },
+  {
+    "id": 1003,
+    "tag_name": "GE-Proton10-2-draft",
+    "draft": true,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "GE-Proton10-2-draft.tar.gz",
+        "browser_download_url": "https://example.test/GE-Proton10-2-draft.tar.gz"
+      }
+    ]
+  },
+  {
+    "id": 1004,
+    "tag_name": "GE-Proton10-1",
+    "draft": false,
+    "prerelease": false,
+    "assets": [
+      {
+        "name": "GE-Proton10-1.tar.gz",
+        "browser_download_url": "https://example.test/GE-Proton10-1.tar.gz"
+      }
+    ]
+  }
+]
