@@ -33,6 +33,7 @@ namespace ProtonPlus.Widgets {
             content.append (secondary_box);
 
             var responsive = new Adw.BreakpointBin ();
+            responsive.set_size_request (360, 42);
             responsive.set_child (content);
             responsive.add_css_class ("controller-hint-bar");
             var narrow = new Adw.Breakpoint (new Adw.BreakpointCondition.length (
