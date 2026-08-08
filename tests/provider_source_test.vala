@@ -84,7 +84,9 @@ namespace AppTests.ProviderSourceTest {
         assert (release.asset.name == "GE-Proton10-1.tar.gz");
         assert (release.asset.download_url == "https://github.com/example/project/releases/download/GE-Proton10-1/GE-Proton10-1.tar.gz");
         assert (release.asset.download_size == 42);
+        assert (release.asset.digest == "sha256:github");
         assert (release.download_size == 42);
+        assert (release.variants[0].resolved_asset ().digest == "sha256:github");
         assert (page.next_page == 2);
         assert (!page.has_more);
     }
@@ -102,7 +104,8 @@ namespace AppTests.ProviderSourceTest {
         assert (release.source_tag == "v0.6.0");
         assert (release.asset.name == "ProtonPlus.tar.gz");
         assert (release.asset.download_url == "https://gitlab.com/example/project/-/releases/v0.6.0/downloads/ProtonPlus.tar.gz");
-        assert (release.asset.download_size == 0);
+        assert (release.asset.download_size == 84);
+        assert (release.asset.digest == "sha256:gitlab");
         assert (release.page_url == "https://gitlab.com/example/project/-/releases/v0.6.0");
         assert (page.next_page == 4);
     }
@@ -120,6 +123,7 @@ namespace AppTests.ProviderSourceTest {
         assert (release.asset.name == "Wine-GE-Proton8-26.tar.xz");
         assert (release.asset.download_url == "https://codeberg.org/example/project/releases/download/GE-Proton8-26/Wine-GE-Proton8-26.tar.xz");
         assert (release.asset.download_size == 126);
+        assert (release.asset.digest == "sha256:forgejo");
         assert (release.download_size == 126);
     }
 

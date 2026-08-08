@@ -24,16 +24,22 @@ namespace ProtonPlus.Services {
             if (source_path == null || source_path == "") {
                 if (!job.canceled)
                     job.error_message = _ ("Extraction failed");
-                return yield archive_support.complete_attempt (ReturnCode.EXTRACTION_FAILED, archive);
+                return yield archive_support.complete_attempt (
+                    ReturnCode.EXTRACTION_FAILED, archive, !job.canceled
+                );
             }
             if (requires_nested_archive (job)) {
                 source_path = yield extract_nested_archive (job, source_path, archive.operation_path);
                 if (source_path == null || source_path == "") {
                     if (!job.canceled)
                         job.error_message = _ ("Extraction failed");
-                    return yield archive_support.complete_attempt (ReturnCode.EXTRACTION_FAILED, archive);
+                    return yield archive_support.complete_attempt (
+                        ReturnCode.EXTRACTION_FAILED, archive, !job.canceled
+                    );
                 }
             }
+            if (!yield archive_support.publish_archive (archive))
+                return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
 
             job.step = InstallJob.Step.MOVING;
             var install_parent = Path.get_dirname (job.install_location);
@@ -278,11 +284,7 @@ namespace ProtonPlus.Services {
                     warning ("Latest release for %s has no download URL for installed variant %s", job.tool.title, variant_id);
                     return ReturnCode.INVALID_DATA;
                 }
-                job.set_selected_variant (
-                    variant.name,
-                    Models.Assets.Asset.from_download_url ((!) variant.download_url),
-                    variant.id
-                );
+                job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
                 return ReturnCode.RUNNER_INSTALLED;
             }
 

@@ -89,7 +89,12 @@ namespace ProtonPlus.Providers.Sources {
                 if (name == "" || download_url == "" || !Models.Assets.Asset.is_archive_name (name))
                     continue;
 
-                assets.add (new Models.Assets.Asset (name, download_url));
+                assets.add (new Models.Assets.Asset (
+                    name,
+                    download_url,
+                    object.has_member ("size") ? object.get_int_member ("size") : 0,
+                    object.get_string_member_with_default ("digest", "")
+                ));
             }
             return assets;
         }

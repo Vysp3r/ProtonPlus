@@ -22,11 +22,13 @@ namespace AppTests.AssetTest {
 
     private void test_canonical_metadata () {
         var asset = new Asset (
-            "runner.tar.xz", "https://example.test/runner.tar.xz", 4294967296
+            "runner.tar.xz", "https://example.test/runner.tar.xz", 4294967296,
+            "sha256:0123456789abcdef"
         );
         assert (asset.name == "runner.tar.xz");
         assert (asset.download_url == "https://example.test/runner.tar.xz");
         assert (asset.download_size == 4294967296);
+        assert (asset.digest == "sha256:0123456789abcdef");
         assert (asset.is_archive ());
 
         var generated = Asset.from_download_url (
@@ -73,6 +75,26 @@ namespace AppTests.AssetTest {
         assert (reloaded.asset.name == "cached.tar.gz");
         assert (reloaded.asset.download_url == "https://example.test/cached.tar.gz");
         assert (reloaded.asset.download_size == 77);
+
+        var with_integrity = new Asset (
+            "verified.tar.gz", "https://example.test/verified.tar.gz", 88,
+            "sha512:abcdef"
+        );
+        var integrity_release = new Release (
+            "verified", "", "", with_integrity, "", null, "88", "verified"
+        );
+        integrity_release.variants.add (new ProtonPlus.Models.Variant (
+            "verified", "verified", "", true, with_integrity.download_url, null, with_integrity
+        ));
+        var integrity_round_trip = Release.from_json (integrity_release.to_json ());
+        assert (integrity_round_trip != null);
+        var verified = (!) integrity_round_trip;
+        assert (verified.asset.download_size == 88);
+        assert (verified.asset.digest == "sha512:abcdef");
+        assert (verified.variants[0].asset != null);
+        var verified_variant_asset = verified.variants[0].resolved_asset ();
+        assert (verified_variant_asset != null);
+        assert (verified_variant_asset.digest == "sha512:abcdef");
 
         var cache_without_size = object_from_json (
             "{\"kind\":\"generic\",\"title\":\"no-size\",\"asset\":{\"name\":\"no-size.tar.gz\",\"download_url\":\"https://example.test/no-size.tar.gz\"},\"source_tag\":\"no-size\",\"variants\":[]}"

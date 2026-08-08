@@ -34,17 +34,26 @@ namespace ProtonPlus.Providers.Sources {
 
             foreach (var definition_variant in definition.get_variants ()) {
                 string? download_url = null;
+                Models.Assets.Asset? selected_asset = null;
                 var expected_name = render_asset_name (definition_variant, definition.title, release_name, tag_name);
 
                 foreach (var asset in assets) {
                     if (variant_matches_asset (expected_name, asset.name)) {
                         download_url = asset.download_url;
+                        selected_asset = asset;
                         break;
                     }
                 }
 
-                if (download_url == null && definition_variant.is_default)
+                if (download_url == null && definition_variant.is_default) {
                     download_url = fallback_download_url;
+                    foreach (var asset in assets) {
+                        if (asset.download_url == fallback_download_url) {
+                            selected_asset = asset;
+                            break;
+                        }
+                    }
+                }
 
                 variants.add (new Models.Variant (
                     definition_variant.id,
@@ -52,7 +61,8 @@ namespace ProtonPlus.Providers.Sources {
                     definition_variant.format,
                     definition_variant.is_default,
                     download_url,
-                    definition_variant.compatibility
+                    definition_variant.compatibility,
+                    selected_asset
                 ));
             }
 

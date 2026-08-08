@@ -45,7 +45,9 @@ namespace ProtonPlus.Services {
             if (source == null || source == "") {
                 if (!job.canceled)
                     job.error_message = _ ("Extraction failed");
-                return yield archive_support.complete_attempt (ReturnCode.EXTRACTION_FAILED, archive);
+                return yield archive_support.complete_attempt (
+                    ReturnCode.EXTRACTION_FAILED, archive, !job.canceled
+                );
             }
 
             var parent = Path.get_dirname (context.base_location);
@@ -67,8 +69,10 @@ namespace ProtonPlus.Services {
                 !FileUtils.test (staged_meta, FileTest.IS_REGULAR) ||
                 Utils.Filesystem.get_file_content (staged_meta) != metadata) {
                 job.error_message = _ ("The SteamTinkerLaunch archive is invalid or incomplete");
-                return yield archive_support.complete_attempt (ReturnCode.INVALID_DATA, archive);
+                return yield archive_support.complete_attempt (ReturnCode.INVALID_DATA, archive, true);
             }
+            if (!yield archive_support.publish_archive (archive))
+                return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             var preparation = yield prepare_executable (staged_binary);
             if (!command_succeeded (preparation)) {
                 report_command_failure ("prepare executable", preparation);
