@@ -1585,7 +1585,7 @@ namespace ProtonPlus.Utils {
                 return;
 
             var scrolled = find_nearest_scrolled_ancestor (widget, requested_root);
-            var content = scrolled?.get_child ();
+            var content = scrolled == null ? null : get_scrolled_content ((!) scrolled);
             if (scrolled == null || content == null || !scrolled.get_mapped () ||
                 !widget_is_descendant_of (scrolled, requested_root))
                 return;
@@ -1615,6 +1615,16 @@ namespace ProtonPlus.Utils {
                 current = current.get_parent ();
             }
             return null;
+        }
+
+        Gtk.Widget? get_scrolled_content (Gtk.ScrolledWindow scrolled) {
+            var content = scrolled.get_child ();
+            /* Non-scrollable children such as Gtk.ListBox are wrapped in a
+             * GtkViewport.  Adjustment values use the viewport child's
+             * coordinates, not the viewport's already-scrolled coordinates. */
+            if (content is Gtk.Viewport)
+                content = ((Gtk.Viewport) content).get_child ();
+            return content;
         }
 
         void reveal_adjustment (Gtk.Adjustment adjustment, double start, double end) {
