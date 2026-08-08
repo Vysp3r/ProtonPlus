@@ -131,91 +131,97 @@ msgid "The mass edit interface of ProtonPlus."
 msgstr "واجهة التحرير بالجُملة من ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:94
-#, fuzzy
 msgid "✨ Added Faugus Launcher support"
-msgstr "تعديل خيارات التشغيل"
+msgstr "✨ تم إضافة دعم لـFaugus Launcher"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:95
 msgid "✨ Added CPU-aware x86-64 variant selection"
-msgstr ""
+msgstr "✨ تم إضافة اختيار متغيرات واعية بوحدة المعالجة المركزية (CPU) x86-64"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:96
 msgid "✨ Added scheduled background updates and notifications"
-msgstr ""
+msgstr "✨ تم إضافة تحديثات و إشعارات مُجدولة في الخلفية"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:97
 msgid "✨ Added controller navigation and a first-run guide"
-msgstr ""
+msgstr "✨ تم إضافة التجول بيد التحكم و دليل إرشادي لأول تشغيل"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:98
 msgid "✨ Added Breeze Light, Breeze Dark, SteamOS, and OLED themes"
-msgstr ""
+msgstr "✨ تم إضافة السمات التالية Breeze Light, Breeze Dark, SteamOS و OLED"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:99
 msgid "✨ Added a built-in MangoHud editor and proxy settings"
-msgstr ""
+msgstr "✨ تم إضافة محرر MangoHud مدمج وإعدادات الوكيل (Proxy)"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:100
 msgid ""
 "✨ Added Steam shortcut creation and guided Steam restarts, including "
 "SteamOS Gaming Mode"
-msgstr ""
+msgstr "✨ تمت إضافة ميزة إنشاء اختصارات لـ Steam، وخاصية إعادة تشغيل Steam "
+"بشكل "
+"موجّه، وذلك يشمل دعم وضع الألعاب (Gaming Mode) في نظام SteamOS"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:101
-#, fuzzy
 msgid "✨ Added default Steam compatibility prefix migration"
-msgstr "لم نستطع تغيير أداة التوافق لـ%s"
+msgstr "✨ تم إضافة ترحيل تلقائي لبادئة التوافق (Prefix) الافتراضية في Steam"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:102
 msgid "✨ Added an active downloads indicator"
-msgstr ""
+msgstr "✨ تم إضافة علامة للتنزيلات النشطة"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:103
 msgid "✨ Added ARM64 Flatpak support"
-msgstr ""
+msgstr "✨ تم إضافة دعم Flatpak ARM64"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:104
 msgid ""
 "✨ Reworked the launch options editor with hardware-aware options and exact "
 "command previews"
-msgstr ""
+msgstr "✨ تم إعادة العمل على محرر خيارات التشغيل ليشمل خيارات واعية بالأجهزة "
+"ومعاينة "
+"دقيقة للأوامر"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:105
 msgid ""
 "✨ Preserved custom and unknown safe launch options during single-game and "
 "mass edits"
-msgstr ""
+msgstr "✨ الإحتفاظ بخيارات التشغيل المخصصة و الخيارات ذات الأمان الغير معروف "
+"(unknown "
+"safe) خلال التحرير الفردي للعبة أو التحرير بالجُملة للألعاب."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:106
 msgid ""
 "✨ Improved Games and Tools navigation, search, filtering, and selection"
-msgstr ""
+msgstr "✨ تم تحسين التجول في قائمة الألعاب ,الأدوات, البحث, التصفية و الإختيار"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:107
 msgid "✨ Improved release sorting, Latest handling, and variant selection"
-msgstr ""
+msgstr "✨ تم تحسين فرز الإصدارات, التعامل مع الإصدار الأخير, و اختيار النسخة"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:108
 msgid "✨ Improved installation, update, cancellation, and recovery"
-msgstr ""
+msgstr "✨ تم تحسين التثبيت, التحديث, الإلغاء والإستعادة"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:109
 msgid "✨ Improved Steam multi-user, VDF, and shortcut handling"
-msgstr ""
+msgstr "✨ تم تحسين معالجة تعدد المستخدمين لـSteam, ملف VDF و الإختصار"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:110
 msgid "✨ Improved command-line validation and error reporting"
-msgstr ""
+msgstr "✨ تم تحسين التحقق من صحة سطر الأوامر والإبلاغ عن الأخطاء"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:111
 msgid ""
 "🐛 Fixed release and installation issues affecting Proton-TKG, Proton-"
 "CachyOS, DXVK, VKD3D, Lutris, and Steam Tinker Launch"
-msgstr ""
+msgstr "🐛 تم إصلاح مشاكل الإصدار و التثبيت التي تأثر على Proton-TKG, "
+"Proton-CachyOS, "
+"DXVK, VKD3D, Lutris, and Steam Tinker Launch"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:112
 msgid "🌐 Added Slovak localization"
-msgstr ""
+msgstr "🌐 تم إضافة اللغة السلواكية"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:113
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:130
@@ -506,7 +512,7 @@ msgstr "✨ تم إضافة رسالة تحذير لمشكلة الوصول لل
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:242
 msgid "✨ Improved \"Runners\" tab filters"
-msgstr "✨ تم تحسين علامة تبويب الفرز الخاصة بـ\"المشغلات\""
+msgstr "✨ تم تحسين علامة تبويب التصفية الخاصة بـ\"المشغلات\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:243
 msgid "✨ Added preferences dialog"
@@ -631,7 +637,7 @@ msgstr "✨ تم إضافة طريقة لرؤية بادئات الألعاب"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:304
 msgid "✨ Added a sticky filter bar to the \"Runners\" tab"
-msgstr "✨ تم إضافة خانة فرز لاصقة في علامة تبويب \"المشغلات\""
+msgstr "✨ تم إضافة خانة تصفية لاصقة في علامة تبويب \"المشغلات\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:305
 msgid "✨ Added a way to see which runners are used"
@@ -961,7 +967,7 @@ msgstr "✨ تم إضافة دعم لبروتون في Lutris (بدون إستخ
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:561
 msgid "🐛 Fixed installed only filter"
-msgstr "🐛 تم إصلاح فرز \"المثبت فقط\""
+msgstr "🐛 تم إصلاح تصفية \"المثبت فقط\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:562
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:652
@@ -1033,7 +1039,7 @@ msgstr "✨ تم إضافة Proton-GE RTSP لـSteam"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:634
 msgid "🐛 Fixed installed only infinite loading"
-msgstr "🐛 تم إصلاح التحميل اللامنتهي لفرز \"المثبت فقط\""
+msgstr "🐛 تم إصلاح التحميل اللامنتهي للتصفية \"المثبت فقط\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:635
 msgid "🐛 Fixed GitLab downloads not working"
@@ -1049,7 +1055,7 @@ msgstr "💄 جعل واجهة المستخدم أكثر حداثة"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:660
 msgid "✨ Added an installed only filter"
-msgstr "✨ تم إضافة لفرز المثبت فقط"
+msgstr "✨ تم إضافة تصفية المثبت فقط"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:661
 msgid "✨ Added Kron4ek builds and Proton-tkg to HGL"
@@ -2176,7 +2182,7 @@ msgstr "الكشف الخاص بأداة التوافق غير صالح أو غ�
 
 #: src/utils/web.vala:215
 msgid "The download timed out. Check your connection and try again."
-msgstr ""
+msgstr "انتهت مهلة التنزيل. تحقق من اتصالك ثم حاول مرى أخرى."
 
 #: src/widgets/application.vala:232
 msgid "Website"
@@ -2191,13 +2197,12 @@ msgid "Special thanks to"
 msgstr "شكر خاص"
 
 #: src/widgets/controller-hint-bar.vala:101
-#, fuzzy
 msgid "Select"
-msgstr "حدد الكل"
+msgstr "اختر"
 
 #: src/widgets/controller-hint-bar.vala:105
 msgid "Toggle"
-msgstr ""
+msgstr "تبديل"
 
 #: src/widgets/controller-hint-bar.vala:109
 msgid "Open"
@@ -2215,41 +2220,40 @@ msgstr "خروج"
 
 #: src/widgets/controller-hint-bar.vala:121
 msgid "Close"
-msgstr ""
+msgstr "إغلاق"
 
 #: src/widgets/controller-hint-bar.vala:125
 msgid "Left and right"
-msgstr ""
+msgstr "يسار و يمين"
 
 #: src/widgets/controller-hint-bar.vala:126
 #: src/widgets/controller-hint-bar.vala:131
 msgid "Adjust"
-msgstr ""
+msgstr "اضبط"
 
 #: src/widgets/controller-hint-bar.vala:130
 msgid "Up and down"
-msgstr ""
+msgstr "فوق و تحت"
 
 #: src/widgets/controller-hint-bar.vala:135
 msgid "Keyboard"
-msgstr ""
+msgstr "لوحة المفاتيح"
 
 #: src/widgets/controller-hint-bar.vala:136
 msgid "Enter text"
-msgstr ""
+msgstr "ادخل نص"
 
 #: src/widgets/controller-hint-bar.vala:139
 msgid "Shoulders"
-msgstr ""
+msgstr "أَكْتاف"
 
 #: src/widgets/controller-hint-bar.vala:140
 msgid "Shoulder buttons"
-msgstr ""
+msgstr "أزرار الكتف"
 
 #: src/widgets/controller-hint-bar.vala:141
-#, fuzzy
 msgid "Switch section or page"
-msgstr "بَدّل الملف الشخصي"
+msgstr "التبديل بين القسم أو الصفحة"
 
 #: src/widgets/controller-hint-bar.vala:145
 #: src/widgets/tools/tools-box.vala:163 src/widgets/tools/tools-box.vala:197
@@ -2261,74 +2265,73 @@ msgstr "البحث"
 #: src/widgets/games/games-box.vala:185 src/widgets/tools/tools-box.vala:204
 #: src/widgets/tools/tools-box.vala:393
 msgid "Filter"
-msgstr "فرز"
+msgstr "التصفية"
 
 #: src/widgets/controller-hint-bar.vala:183
 msgid "A button"
-msgstr ""
+msgstr "زر A"
 
 #: src/widgets/controller-hint-bar.vala:187
 msgid "B button"
-msgstr ""
+msgstr "زر B"
 
 #: src/widgets/controller-hint-bar.vala:191
 msgid "X button"
-msgstr ""
+msgstr "زر X"
 
 #: src/widgets/controller-hint-bar.vala:195
 msgid "Y button"
-msgstr ""
+msgstr "زر Y"
 
 #: src/widgets/controller-hint-bar.vala:199
 msgid "Cross button"
-msgstr ""
+msgstr "زر تَقَاطُع (X)"
 
 #: src/widgets/controller-hint-bar.vala:203
 msgid "Circle button"
-msgstr ""
+msgstr "زر الدائرة (O)"
 
 #: src/widgets/controller-hint-bar.vala:207
 msgid "Square button"
-msgstr ""
+msgstr "زر المربع (□)"
 
 #: src/widgets/controller-hint-bar.vala:211
 msgid "Triangle button"
-msgstr ""
+msgstr "زر المثلث (△)"
 
 #: src/widgets/controller-hint-bar.vala:214
 msgid "Bottom"
-msgstr ""
+msgstr "أسفل"
 
 #: src/widgets/controller-hint-bar.vala:215
 #: src/widgets/preferences/preferences-dialog.vala:36
 msgid "Bottom face button"
-msgstr ""
+msgstr "زر الوجه السفلي"
 
 #: src/widgets/controller-hint-bar.vala:218
-#, fuzzy
 msgid "Right"
-msgstr "فاتح"
+msgstr "يمين"
 
 #: src/widgets/controller-hint-bar.vala:219
 #: src/widgets/preferences/preferences-dialog.vala:37
 msgid "Right face button"
-msgstr ""
+msgstr "زر الوجه الأيمن"
 
 #: src/widgets/controller-hint-bar.vala:222
 msgid "Left"
-msgstr ""
+msgstr "يسار"
 
 #: src/widgets/controller-hint-bar.vala:223
 msgid "Left face button"
-msgstr ""
+msgstr "زر الوجه الأيسر"
 
 #: src/widgets/controller-hint-bar.vala:226
 msgid "Top"
-msgstr ""
+msgstr "أعلى"
 
 #: src/widgets/controller-hint-bar.vala:227
 msgid "Top face button"
-msgstr ""
+msgstr "زر الوجه الأعلى"
 
 #: src/widgets/games/games-box.vala:75 src/widgets/games/games-box.vala:497
 #: src/widgets/tools/tools-release-box.vala:102
@@ -2337,7 +2340,7 @@ msgstr "لم يتم العثور على أي لعبة"
 
 #: src/widgets/games/games-box.vala:76
 msgid "Try a different search term or filter."
-msgstr "جرب لفظ بحث آخر أو فرز مختلف."
+msgstr "جرب لفظ بحث آخر أو تصفية مختلفة."
 
 #: src/widgets/games/games-box.vala:134 src/widgets/tools/tools-box.vala:206
 msgid "All"
@@ -2411,15 +2414,15 @@ msgstr "إفتراضي"
 
 #: src/widgets/games/games-box.vala:465
 msgid "Filter: Native"
-msgstr "فرز: أصلي"
+msgstr "تصفية: أصلي"
 
 #: src/widgets/games/games-box.vala:467
 msgid "Filter: Non-Steam"
-msgstr "فرز: Non-Steam"
+msgstr "تصفية: Non-Steam"
 
 #: src/widgets/games/games-box.vala:469
 msgid "Filter: All games"
-msgstr "فرز: جميع الألعاب"
+msgstr "تصفية: جميع الألعاب"
 
 #: src/widgets/games/games-box.vala:489
 msgid "No matching games"
@@ -2432,7 +2435,7 @@ msgstr "جرب لفظ بحث آخر أو أفرغ خانة البحث"
 
 #: src/widgets/games/games-box.vala:493
 msgid "No games match this filter"
-msgstr "لا توجد ألعاب مطابقة للفرز الحالي"
+msgstr "لا توجد ألعاب مطابقة للتصفية الحالية"
 
 #: src/widgets/games/games-box.vala:494
 msgid "Choose All games to see your complete library."
@@ -5094,7 +5097,6 @@ msgid "_About ProtonPlus"
 msgstr "_حول بروتون بلس"
 
 #: src/widgets/header/header-box.vala:57
-#, fuzzy
 msgid "_Exit"
 msgstr "خروج"
 
@@ -5189,7 +5191,14 @@ msgid ""
 "Preferences. On Steam Deck, focus a text field and press Steam + X to open "
 "the on-screen keyboard. Other systems may require a physical or system "
 "keyboard."
-msgstr ""
+msgstr "يتكيف بروتون بلس تلقائياً مع إدخال وحدة التحكم ويعرض تلميحات سياقية "
+"باستخدام "
+"تسميات أزرار جهازك. يمكنك التنقل بين الصفحات ومربعات الحوار والقوائم باستخدام "
+"لوحة الاتجاهات (D-pad) أو عصي التحكم؛ واستخدام أزرار الوجه لإجراءات مثل "
+"\"تأكيد\"، و\"رجوع\"، و\"بحث\"، و\"تصفية\"؛ والتبديل بين الأقسام باستخدام "
+"أزرار الكتف. يمكنك اختيار زر \"تأكيد\" وتفعيل الاهتزاز من خلال \"التفضيلات\". "
+"على جهاز Steam Deck، ركز على حقل نصي واضغط على Steam + X لفتح لوحة المفاتيح "
+"على الشاشة. قد تتطلب الأنظمة الأخرى لوحة مفاتيح مادية أو لوحة مفاتيح النظام."
 
 #: src/widgets/introduction/forks.vala:8
 msgid "Custom Forks & Flavors"
@@ -6337,24 +6346,23 @@ msgstr "المظهر"
 
 #: src/widgets/preferences/preferences-dialog.vala:31
 msgid "Controller"
-msgstr ""
+msgstr "يد التحكم"
 
 #: src/widgets/preferences/preferences-dialog.vala:39
 msgid "Confirm button"
-msgstr ""
+msgstr "زر التأكيد"
 
 #: src/widgets/preferences/preferences-dialog.vala:40
 msgid "Choose which face button activates the selected control"
-msgstr ""
+msgstr "اختر زر الوجه الذي يُفعّل عنصر التحكم المحدد"
 
 #: src/widgets/preferences/preferences-dialog.vala:53
-#, fuzzy
 msgid "Controller vibration"
-msgstr "مزيد من المعلومات"
+msgstr "اهتزاز يد التحكم"
 
 #: src/widgets/preferences/preferences-dialog.vala:54
 msgid "Use subtle vibration for controller actions and navigation limits"
-msgstr ""
+msgstr "استخدم اهتزازًا خفيفًا لإجراءات وحدة التحكم وحدود التجول"
 
 #: src/widgets/preferences/preferences-dialog.vala:61
 msgid "Help"
@@ -6635,7 +6643,7 @@ msgstr "البحث نشط"
 
 #: src/widgets/tools/tools-box.vala:390
 msgid "Filter is active"
-msgstr "الفرز نشط"
+msgstr "التصفية نشطة"
 
 #: src/widgets/tools/tools-group-box.vala:84
 #: src/widgets/tools/tools-group-box.vala:192
@@ -6644,7 +6652,7 @@ msgstr "لم يتم العثور على أدواة"
 
 #: src/widgets/tools/tools-group-box.vala:85
 msgid "No tools match the current filter."
-msgstr "لا توجد أدوات مطابقة للفرز الحالي"
+msgstr "لا توجد أدوات مطابقة للتصفية الحالية"
 
 #: src/widgets/tools/tools-group-box.vala:169
 msgid "No matching tools"
@@ -6899,7 +6907,7 @@ msgstr "لم يتم العثور إصدارات."
 #: src/widgets/tools/tools-releases-box.vala:546
 #: src/widgets/tools/tools-releases-box.vala:559
 msgid "No releases match the current filter."
-msgstr "لا توجد إصدارات مطابقة للفرز الحالي"
+msgstr "لا توجد إصدارات مطابقة للتصفية الحالية"
 
 #: src/widgets/tools/tools-releases-box.vala:331
 #: src/widgets/tools/tools-releases-box.vala:512
@@ -6976,7 +6984,7 @@ msgstr "؟ ProtonPlus هل تريد إعادة تثبيتها بواسطة"
 
 #: src/widgets/window.vala:151
 msgid "Do you want to exit?"
-msgstr ""
+msgstr "هل تريد الخروج؟"
 
 #: src/widgets/window.vala:297
 msgid ""
