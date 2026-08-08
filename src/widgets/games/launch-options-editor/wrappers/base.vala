@@ -1,0 +1,98 @@
+namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
+    using Adw;
+
+    public abstract class Base : Object, ILaunchOption {
+        protected unowned LaunchOptionsList launch_option_handlers;
+        protected unowned LaunchOptionPresentationRegistry? presentation_registry;
+        public signal void changed ();
+        public bool is_advanced { get; set; }
+        public LaunchLineType line_type { get; set; }
+        protected Gee.List<ILaunchOption> _children;
+
+        public bool active { get; set; }
+
+        protected Base (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
+            this.launch_option_handlers = launch_option_handlers;
+            this.presentation_registry = presentation_registry;
+            this.line_type = LaunchLineType.WRAPPER;
+            this._children = new Gee.ArrayList<ILaunchOption> ();
+            this.is_advanced = false;
+            this.launch_option_handlers.add (this);
+            this.active = false;
+        }
+
+        internal LaunchOptionTile create_tile (
+            string title,
+            string subtitle,
+            string[] tokens,
+            bool is_advanced = false,
+            LaunchLineType type = LaunchLineType.WRAPPER_ARGUMENT,
+            string id = ""
+        ) {
+            var tile = new LaunchOptionTile (title, subtitle, tokens, is_advanced, type);
+            tile.toggle.notify["active"].connect (() => {
+                this.changed ();
+            });
+
+            this.add_child (tile);
+            if (id != "" && presentation_registry != null)
+                presentation_registry.register (id, tile, tile, false);
+
+            return tile;
+        }
+
+        protected void register_option (string id, Gtk.Widget widget, ILaunchOption? option = null) {
+            if (presentation_registry != null)
+                presentation_registry.register (id, widget, option, false);
+        }
+
+        internal int get_wrapper_end_index (string[] tokens, int wrapper_index, bool[] consumed) {
+            var command_index = get_token_index (tokens, "%command%");
+            if (command_index > wrapper_index && command_index > 0 && tokens[command_index - 1] == "--") {
+                consumed[command_index - 1] = true;
+                return command_index - 1;
+            }
+
+            return tokens.length;
+        }
+
+        internal int get_first_present_index (string[] tokens, string[] candidates) {
+            for (var index = 0; index < tokens.length; index++) {
+                foreach (var candidate in candidates) {
+                    if (tokens[index] == candidate)
+                        return index;
+                }
+            }
+
+            return -1;
+        }
+
+        internal int get_token_index (string[] tokens, string token) {
+            for (var index = 0; index < tokens.length; index++) {
+                if (tokens[index] == token)
+                    return index;
+            }
+
+            return -1;
+        }
+
+        internal void append_token (StringBuilder output, string token) {
+            if (output.len > 0)
+                output.append (" ");
+
+            output.append (token);
+        }
+
+        public void add_child (ILaunchOption child) {
+            this._children.add (child);
+        }
+
+        public abstract void parse_tokens (string[] tokens, bool[] consumed);
+        public abstract void clear ();
+        public abstract void append_command_segments (Gee.LinkedList<string> segments);
+
+        public bool is_active () {
+            return this.active;
+        }
+    }
+}

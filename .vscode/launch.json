@@ -1,0 +1,46 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ProtonPlus (Build and Run)",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "make build-run",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "ProtonPlus (Debug with GDB)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/tmp/protonplus-build-debug/src/protonplus",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "/tmp/protonplus-build-debug/src",
+            "preLaunchTask": "Compile (Debug)",
+            "environment": [
+                {
+                    "name": "XDG_DATA_DIRS",
+                    "value": "/tmp/protonplus-build-debug/data:/usr/local/share:/usr/share:${env:XDG_DATA_DIRS}"
+                },
+                {
+                    "name": "LOCALE_DIR",
+                    "value": "/tmp/protonplus-build-debug/po"
+                }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Speed up startup by not auto-loading external library symbols",
+                    "text": "set auto-solib-add off",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Disable downloading debug symbols from the internet",
+                    "text": "set debuginfod enabled off",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}

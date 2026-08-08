@@ -1,4 +1,9 @@
 i18n.gettext(
     meson.project_name(),
-    preset: 'glib'
+    args: [
+        '--directory=' + meson.project_source_root(),
+        '--keyword=_',
+        '--from-code=UTF-8',
+    ],
+    preset: 'glib',
 )
