@@ -175,7 +175,7 @@ namespace ProtonPlus.Services {
                 if (FileUtils.test (backup_settings, FileTest.IS_SYMLINK))
                     copied = Utils.Filesystem.copy_symlink (backup_settings, settings);
                 else
-                    Utils.Filesystem.create_file (settings, Utils.Filesystem.get_file_content (backup_settings));
+                    copied = yield Utils.Filesystem.copy_file_verified (backup_settings, settings);
                 if (!copied) {
                     yield rollback_replaced_runner (directory, backup);
                     return ReturnCode.FILESYSTEM_ERROR;

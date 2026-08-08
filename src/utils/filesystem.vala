@@ -372,6 +372,40 @@ namespace ProtonPlus.Utils {
             }
         }
 
+        public static async bool copy_file_verified (string source, string destination) {
+            if (!yield copy_file (source, destination))
+                return false;
+
+            try {
+                uint8[] source_contents;
+                uint8[] destination_contents;
+                string source_etag;
+                string destination_etag;
+                yield File.parse_name (source).load_contents_async (
+                    null, out source_contents, out source_etag
+                );
+                yield File.parse_name (destination).load_contents_async (
+                    null, out destination_contents, out destination_etag
+                );
+
+                if (source_contents.length == destination_contents.length) {
+                    for (var index = 0; index < source_contents.length; index++) {
+                        if (source_contents[index] != destination_contents[index]) {
+                            warning ("Copied file verification failed: %s", destination);
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                warning ("Copied file verification failed: %s", destination);
+            } catch (Error e) {
+                warning ("Failed to verify copied file %s: %s", destination, e.message);
+            }
+
+            return false;
+        }
+
         public static async bool move_directory (string source, string destination) {
             var destination_existed = FileUtils.test (destination, FileTest.EXISTS);
             var copied = yield copy_directory (source, destination);

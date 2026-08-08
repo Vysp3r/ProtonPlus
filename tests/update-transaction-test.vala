@@ -74,6 +74,8 @@ namespace AppTests.UpdateTransactionTest {
 
     public void register_tests () {
         Test.add_func ("/update-transaction/migrates-settings-prefix-and-cleans-backup", test_migrates_settings_prefix_and_cleans_backup);
+        Test.add_func ("/update-transaction/settings-collision-replaces-archive-copy", test_settings_collision_replaces_archive_copy);
+        Test.add_func ("/update-transaction/settings-copy-failure-rolls-back-runner", test_settings_copy_failure_rolls_back_runner);
         Test.add_func ("/update-transaction/migrates-settings-symlink", test_migrates_settings_symlink);
         Test.add_func ("/update-transaction/migration-failure-rolls-back-runner", test_migration_failure_rolls_back_runner);
         Test.add_func ("/update-transaction/github-actions-request-failure-is-propagated", test_github_actions_request_failure_is_propagated);
@@ -236,6 +238,48 @@ namespace AppTests.UpdateTransactionTest {
         assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "marker.txt")) == "new runner\n");
         assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "user_settings.py")) == "old settings\n");
         assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_prefix, "prefix.txt")) == "old prefix\n");
+        assert (!FileUtils.test (backup_directory, FileTest.EXISTS));
+        assert (!FileUtils.test ("%s.failed".printf (backup_directory), FileTest.EXISTS));
+        assert (delete_directory (root));
+    }
+
+    private void test_settings_collision_replaces_archive_copy () {
+        var root = create_temp_directory ();
+        var runner_directory = Path.build_filename (root, "runner");
+        var backup_directory = Path.build_filename (root, "backup");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (runner_directory));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (backup_directory));
+        create_file (Path.build_filename (runner_directory, "marker.txt"), "new runner\n");
+        create_file (Path.build_filename (runner_directory, "user_settings.py"), "archive settings\n");
+        create_file (Path.build_filename (backup_directory, "marker.txt"), "old runner\n");
+        create_file (Path.build_filename (backup_directory, "user_settings.py"), "user settings\n");
+
+        assert (finalize_replacement (runner_directory, backup_directory, false) == ReturnCode.RUNNER_UPDATED);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "marker.txt")) == "new runner\n");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "user_settings.py")) == "user settings\n");
+        assert (!FileUtils.test (backup_directory, FileTest.EXISTS));
+        assert (!FileUtils.test ("%s.failed".printf (backup_directory), FileTest.EXISTS));
+        assert (delete_directory (root));
+    }
+
+    private void test_settings_copy_failure_rolls_back_runner () {
+        var root = create_temp_directory ();
+        var runner_directory = Path.build_filename (root, "runner");
+        var backup_directory = Path.build_filename (root, "backup");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (runner_directory));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (backup_directory));
+        create_file (Path.build_filename (runner_directory, "marker.txt"), "new runner\n");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (
+            Path.build_filename (runner_directory, "user_settings.py")
+        ));
+        create_file (Path.build_filename (backup_directory, "marker.txt"), "old runner\n");
+        create_file (Path.build_filename (backup_directory, "user_settings.py"), "user settings\n");
+
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*Failed to copy*");
+        assert (finalize_replacement (runner_directory, backup_directory, false) == ReturnCode.FILESYSTEM_ERROR);
+        Test.assert_expected_messages ();
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "marker.txt")) == "old runner\n");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "user_settings.py")) == "user settings\n");
         assert (!FileUtils.test (backup_directory, FileTest.EXISTS));
         assert (!FileUtils.test ("%s.failed".printf (backup_directory), FileTest.EXISTS));
         assert (delete_directory (root));
