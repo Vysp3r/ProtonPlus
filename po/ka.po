@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 16:38-0400\n"
+"POT-Creation-Date: 2026-08-08 21:26-0400\n"
 "PO-Revision-Date: 2026-01-09 12:01+0000\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <https://hosted.weblate.org/projects/protonplus/"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr "ProtonPlus-ის შეს_ახებ"
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:230
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:231
 msgid "A modern compatibility tools manager"
 msgstr "თანამედროვე თავსებადობის ხელსაწყოების მმართველი"
 
@@ -2173,69 +2173,69 @@ msgid ""
 msgstr ""
 
 #: src/services/standard-archive-workflow.vala:26
-#: src/services/standard-archive-workflow.vala:33
+#: src/services/standard-archive-workflow.vala:35
 #: src/services/steam-tinker-launch-workflow.vala:47
 #, fuzzy
 msgid "Extraction failed"
 msgstr "ამოღება"
 
-#: src/services/standard-archive-workflow.vala:47
-#: src/services/standard-archive-workflow.vala:74
-#: src/services/steam-tinker-launch-workflow.vala:59
-#: src/services/steam-tinker-launch-workflow.vala:93
+#: src/services/standard-archive-workflow.vala:53
+#: src/services/standard-archive-workflow.vala:80
+#: src/services/steam-tinker-launch-workflow.vala:61
+#: src/services/steam-tinker-launch-workflow.vala:97
 #, fuzzy
 msgid "Moving failed"
 msgstr "გადატანა"
 
-#: src/services/standard-archive-workflow.vala:56
+#: src/services/standard-archive-workflow.vala:62
 #, fuzzy
 msgid "Failed to save compatibility tool metadata"
 msgstr "აირჩიეთ სასურველი თავსებადობის ხელსაწყო"
 
-#: src/services/standard-archive-workflow.vala:333
+#: src/services/standard-archive-workflow.vala:331
 #, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "აირჩიეთ სასურველი თავსებადობის ხელსაწყო"
 
-#: src/services/standard-archive-workflow.vala:350
+#: src/services/standard-archive-workflow.vala:348
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "თავსებადობის ხელსაწყო"
 
-#: src/services/steam-tinker-launch-workflow.vala:69
+#: src/services/steam-tinker-launch-workflow.vala:71
 #, fuzzy
 msgid "The SteamTinkerLaunch archive is invalid or incomplete"
 msgstr "თავსებადობის ხელსაწყო"
 
-#: src/services/steam-tinker-launch-workflow.vala:75
+#: src/services/steam-tinker-launch-workflow.vala:79
 msgid "Failed to prepare the SteamTinkerLaunch executable"
 msgstr ""
 
-#: src/services/steam-tinker-launch-workflow.vala:84
-#: src/services/steam-tinker-launch-workflow.vala:140
-#: src/services/steam-tinker-launch-workflow.vala:162
-#: src/services/steam-tinker-launch-workflow.vala:205
+#: src/services/steam-tinker-launch-workflow.vala:88
+#: src/services/steam-tinker-launch-workflow.vala:144
+#: src/services/steam-tinker-launch-workflow.vala:166
+#: src/services/steam-tinker-launch-workflow.vala:209
 #, fuzzy
 msgid "Failed to update SteamTinkerLaunch compatibility registration"
 msgstr "აირჩიეთ სასურველი თავსებადობის ხელსაწყო"
 
-#: src/services/steam-tinker-launch-workflow.vala:151
+#: src/services/steam-tinker-launch-workflow.vala:155
 msgid "Failed to initialize SteamTinkerLaunch"
 msgstr ""
 
-#: src/utils/web.vala:215
+#: src/utils/web.vala:221
 msgid "The download timed out. Check your connection and try again."
 msgstr ""
 
-#: src/widgets/application.vala:232
+#: src/widgets/application.vala:233
 msgid "Website"
 msgstr "ვებსაიტი"
 
-#: src/widgets/application.vala:237
+#: src/widgets/application.vala:238
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:238
+#: src/widgets/application.vala:239
 msgid "Special thanks to"
 msgstr "დიდი მადლობა"
 
@@ -2498,20 +2498,20 @@ msgstr ""
 msgid "No games are available for this launcher."
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:11
+#: src/widgets/games/games-extra-button.vala:12
 msgid "Open in protontricks"
 msgstr "გახსნა protontricks-ში"
 
-#: src/widgets/games/games-extra-button.vala:15
+#: src/widgets/games/games-extra-button.vala:16
 msgid "Open ProtonDB page"
 msgstr "ProtonDB-ის გვერდის გახსნა"
 
-#: src/widgets/games/games-extra-button.vala:33
+#: src/widgets/games/games-extra-button.vala:34
 #, fuzzy
 msgid "Extra"
 msgstr "ამოღება"
 
-#: src/widgets/games/games-extra-button.vala:68
+#: src/widgets/games/games-extra-button.vala:86
 msgid "Unknown"
 msgstr "უცნობი"
 
@@ -2666,16 +2666,31 @@ msgstr "ყველას მონიშვნა"
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:380
+#: src/widgets/games/games-row.vala:363
 #, fuzzy
 msgid "Compatibility Tool Not Found"
 msgstr "თავსებადობის ხელსაწყო"
 
-#: src/widgets/games/games-row.vala:381
+#: src/widgets/games/games-row.vala:364
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "
 "ensure it is correctly installed."
+msgstr ""
+
+#: src/widgets/games/games-row.vala:390
+#, c-format
+msgid "Exit status: %d"
+msgstr ""
+
+#: src/widgets/games/games-row.vala:395
+#, fuzzy
+msgid "Custom Executable Failed"
+msgstr "ყველას მონიშვნა"
+
+#: src/widgets/games/games-row.vala:396
+#, c-format
+msgid "The custom executable for %s could not be launched."
 msgstr ""
 
 #: src/widgets/games/games-tool-row.vala:18
@@ -6863,7 +6878,7 @@ msgstr ""
 msgid "No compatible variants are available for this system."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:663
+#: src/widgets/tools/tools-releases-box.vala:661
 #, fuzzy, c-format
 msgid "Last updated: %s"
 msgstr "'%s' ვერ განვაახლე"

@@ -78,6 +78,7 @@ namespace AppTests.SteamTest {
         Test.add_func ("/steam/base-launcher-compatibility-tool-lifecycle-is-no-op", test_base_launcher_compatibility_tool_lifecycle);
         Test.add_func ("/steam/compatibility-tool-registration-deduplicates-and-sorts", test_compatibility_tool_registration);
         Test.add_func ("/steam/effective-default-compatibility-tool", test_effective_default_compatibility_tool);
+        Test.add_func ("/steam/effective-proton-executable", test_effective_proton_executable);
         Test.add_func ("/steam/compatibility-tool-path-registration-loads-tool", test_compatibility_tool_path_registration);
         Test.add_func ("/steam/text-vdf-writes-and-rejections", test_text_vdf_writes_and_rejections);
         Test.add_func ("/steam/localconfig-launch-options-writes-and-rejections", test_localconfig_launch_options_writes_and_rejections);
@@ -167,6 +168,41 @@ namespace AppTests.SteamTest {
         assert (steam.resolve_effective_compatibility_tool ("Default") == null);
         steam.default_compatibility_tool = "";
         assert (steam.resolve_effective_compatibility_tool ("Default") == null);
+    }
+
+    private void test_effective_proton_executable () {
+        var root = temporary_directory ();
+        var proton_path = Path.build_filename (root, "proton");
+        try {
+            FileUtils.set_contents (proton_path, "#!/bin/sh\nexit 0\n");
+        } catch (FileError e) {
+            critical ("Could not create Proton executable fixture: %s", e.message);
+            assert_not_reached ();
+        }
+        assert (Posix.chmod (proton_path, 0755) == 0);
+
+        var steam = new ProtonPlus.Models.Launchers.Steam (
+            ProtonPlus.Models.Launcher.InstallationTypes.SNAP
+        );
+        steam.compatibility_tools.clear ();
+        steam.register_compatibility_tool (new ProtonPlus.Models.CompatibilityTool (
+            "Fixture Proton", "fixture-proton", root,
+            CompatibilityToolRuntimeKind.PROTON
+        ));
+
+        steam.default_compatibility_tool = "fixture-proton";
+        assert (steam.resolve_effective_proton_executable ("Default") == proton_path);
+        assert (steam.resolve_effective_proton_executable ("fixture-proton") == proton_path);
+
+        steam.default_compatibility_tool = "stale-proton";
+        assert (steam.resolve_effective_proton_executable ("Default") == null);
+
+        assert (Posix.chmod (proton_path, 0644) == 0);
+        assert (steam.resolve_effective_proton_executable ("fixture-proton") == null);
+
+        FileUtils.remove (proton_path);
+        assert (steam.resolve_effective_proton_executable ("fixture-proton") == null);
+        DirUtils.remove (root);
     }
 
     private string temporary_directory () {

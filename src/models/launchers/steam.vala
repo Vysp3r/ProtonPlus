@@ -531,6 +531,19 @@ namespace ProtonPlus.Models.Launchers {
             return find_compatibility_tool (effective_internal_title);
         }
 
+        public string? resolve_effective_proton_executable (string selected_internal_title) {
+            var tool = resolve_effective_compatibility_tool (selected_internal_title);
+            if (tool == null || ((!) tool).path.strip () == "")
+                return null;
+
+            var proton_path = Path.build_filename (((!) tool).path, "proton");
+            if (!FileUtils.test (proton_path, FileTest.IS_REGULAR)
+                || !FileUtils.test (proton_path, FileTest.IS_EXECUTABLE))
+                return null;
+
+            return proton_path;
+        }
+
         public override void register_compatibility_tool_from_path (string tool_path) {
             register_compatibility_tool (Utils.VDF.CompatibilityToolLoader.from_path (tool_path));
         }
