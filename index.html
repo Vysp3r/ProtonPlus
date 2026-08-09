@@ -5,14 +5,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description"
-        content="Install and manage Wine/Proton based compatibility tools with a graphical user interface. Made with GTK4 and Adwaita." />
+        content="Manage Proton, Wine, DXVK, and VKD3D tools across Linux game launchers, with Steam integration, gamepad navigation, and automatic updates." />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://protonplus.vysp3r.com/" />
     <meta property="og:title" content="ProtonPlus" />
     <meta property="og:description"
-        content="Install and manage Wine/Proton based compatibility tools with a graphical user interface. Made with GTK4 and Adwaita." />
+        content="Manage Proton, Wine, DXVK, and VKD3D tools across Linux game launchers, with Steam integration, gamepad navigation, and automatic updates." />
     <meta property="og:image"
         content="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-1.png" />
 
@@ -21,21 +21,26 @@
     <meta property="twitter:url" content="https://protonplus.vysp3r.com/" />
     <meta property="twitter:title" content="ProtonPlus" />
     <meta property="twitter:description"
-        content="Install and manage Wine/Proton based compatibility tools with a graphical user interface. Made with GTK4 and Adwaita." />
+        content="Manage Proton, Wine, DXVK, and VKD3D tools across Linux game launchers, with Steam integration, gamepad navigation, and automatic updates." />
     <meta property="twitter:image"
         content="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-1.png" />
+
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1d1d20" media="(prefers-color-scheme: dark)" />
+    <link rel="canonical" href="https://protonplus.vysp3r.com/" />
 
     <link rel="icon"
         href="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/icons/com.vysp3r.ProtonPlus.svg" />
     <link rel="apple-touch-icon" type="image/svg"
         href="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/icons/com.vysp3r.ProtonPlus.svg" />
     <link rel="stylesheet" href="style.css">
-    <title>ProtonPlus</title>
+    <title>ProtonPlus — Compatibility Tools Manager for Linux</title>
 </head>
 
 <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header>
-        <nav>
+        <nav aria-label="Main navigation">
             <div class="nav-brand">
                 <a href="#">
                     <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/icons/com.vysp3r.ProtonPlus.svg"
@@ -43,12 +48,14 @@
                     <span>ProtonPlus</span>
                 </a>
             </div>
-            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+            <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Toggle navigation" aria-controls="nav-links"
+                aria-expanded="false">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </button>
             <ul class="nav-links" id="nav-links">
+                <li><a href="#whats-new">What's New</a></li>
                 <li><a href="#screenshots">Screenshots</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#download">Download</a></li>
@@ -59,10 +66,11 @@
         </nav>
     </header>
 
-    <main>
+    <main id="main-content">
         <div class="hero">
             <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/icons/com.vysp3r.ProtonPlus.svg" alt="ProtonPlus Logo" class="logo">
             <h1>ProtonPlus</h1>
+            <p class="release-kicker">Version 0.6.0</p>
         </div>
 
         <div class="badges">
@@ -88,22 +96,102 @@
 
         <section class="description" id="description">
             <p>
-                A modern compatibility tools manager for Linux. It allows you to easily manage and update various compatibility tools like Proton, Wine, DXVK, and VKD3D across different launchers.
+                Install, update, and organize Proton, Wine, DXVK, and VKD3D tools across your Linux game
+                launchers. Manage Steam games, tune launch options, track downloads, and use the entire app with
+                a keyboard, mouse, or gamepad.
             </p>
+            <div class="hero-actions">
+                <a class="button button-primary" href="#download">Download ProtonPlus</a>
+                <a class="button button-secondary" href="https://github.com/Vysp3r/ProtonPlus" target="_blank"
+                    rel="noopener noreferrer">View on GitHub</a>
+            </div>
+        </section>
+
+        <section class="whats-new" id="whats-new">
+            <h2>What's New Since v0.5.22</h2>
+            <p class="section-intro">
+                Version 0.6.0 expands ProtonPlus well beyond tool installation, with new ways to manage games,
+                updates, hardware-specific releases, and the app itself.
+            </p>
+
+            <div class="release-grid">
+                <article class="release-card">
+                    <h3>New Capabilities</h3>
+                    <ul>
+                        <li>Faugus Launcher support</li>
+                        <li>CPU-aware x86-64 and ARM64 variant selection</li>
+                        <li>Scheduled background updates and notifications</li>
+                        <li>Gamepad navigation, contextual hints, optional haptics, and a first-run guide</li>
+                        <li>Breeze Light, Breeze Dark, SteamOS, and OLED themes</li>
+                        <li>A built-in MangoHud editor and proxy settings</li>
+                        <li>Steam shortcut creation and guided restarts, including SteamOS Gaming Mode</li>
+                        <li>Default Steam compatibility prefix migration</li>
+                        <li>An active downloads indicator</li>
+                        <li>ARM64 Flatpak support</li>
+                    </ul>
+                </article>
+
+                <article class="release-card">
+                    <h3>Games & Launch Options</h3>
+                    <ul>
+                        <li>A redesigned, hardware-aware launch options editor with exact command previews</li>
+                        <li>Custom and unknown safe options stay intact during single-game and mass edits</li>
+                        <li>Improved Games and Tools navigation, search, filtering, selection, and repository links</li>
+                        <li>Improved stable-release, Latest, and variant selection</li>
+                    </ul>
+                </article>
+
+                <article class="release-card">
+                    <h3>Reliability & Compatibility</h3>
+                    <ul>
+                        <li>Safer downloads and updates with timeout recovery, archive checks, preserved settings, and rollback</li>
+                        <li>Improved Steam multi-user, VDF, and shortcut handling</li>
+                        <li>Clearer command-line validation and error reporting</li>
+                        <li>Fixed custom executable launches and kept the app usable when some Steam data cannot load</li>
+                        <li>Fixed release and installation issues for Proton-TKG, Proton-CachyOS, DXVK, VKD3D, Lutris, and Steam Tinker Launch</li>
+                    </ul>
+                </article>
+
+                <article class="release-card">
+                    <h3>Localization</h3>
+                    <ul>
+                        <li>Added Arabic</li>
+                        <li>Added Slovak</li>
+                        <li>Updated Simplified Chinese</li>
+                        <li>Updated German</li>
+                        <li>Updated Italian</li>
+                    </ul>
+                </article>
+            </div>
+
+            <a class="release-link" href="https://github.com/Vysp3r/ProtonPlus/releases/tag/v0.6.0" target="_blank"
+                rel="noopener noreferrer">View the v0.6.0 release on GitHub</a>
         </section>
 
         <section class="screenshots" id="screenshots">
             <h2>Screenshots</h2>
 
             <div class="screenshots-grid">
-                <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-1.png"
-                    alt="The main interface of ProtonPlus">
-                <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-2.png"
-                    alt="Library View">
-                <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-3.png"
-                    alt="Launch Options">
-                <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-4.png"
-                    alt="Mass Edit">
+                <a href="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-1.png"
+                    target="_blank" rel="noopener noreferrer" aria-label="Open the ProtonPlus Tools view screenshot">
+                    <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-1.png"
+                        alt="ProtonPlus Tools view" loading="lazy" decoding="async">
+                </a>
+                <a href="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-2.png"
+                    target="_blank" rel="noopener noreferrer" aria-label="Open the ProtonPlus Games view screenshot">
+                    <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-2.png"
+                        alt="ProtonPlus Games library view" loading="lazy" decoding="async">
+                </a>
+                <a href="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-3.png"
+                    target="_blank" rel="noopener noreferrer" aria-label="Open the launch options screenshot">
+                    <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-3.png"
+                        alt="ProtonPlus launch options editor" loading="lazy" decoding="async">
+                </a>
+                <a href="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-4.png"
+                    target="_blank" rel="noopener noreferrer" aria-label="Open the Games mass edit screenshot">
+                    <img src="https://raw.githubusercontent.com/Vysp3r/ProtonPlus/refs/heads/main/data/previews/Preview-4.png"
+                        alt="ProtonPlus Games mass edit view" loading="lazy" decoding="async">
+                </a>
             </div>
         </section>
 
@@ -113,27 +201,43 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <h3>Multi-Launcher Support</h3>
-                    <p>Manage tools for Steam, Lutris, Heroic, Bottles, and more.</p>
+                    <p>Manage tools for Steam, Faugus Launcher, Lutris, Heroic, Bottles, and WineZGUI.</p>
                 </div>
                 <div class="feature-card">
                     <h3>Steam Integration</h3>
-                    <p>Change compatibility tools and launch options for your Steam games directly.</p>
+                    <p>Manage profiles, compatibility tools, launch options, shortcuts, and required Steam restarts.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Easy Updates</h3>
-                    <p>One-click updates for your installed compatibility tools.</p>
+                    <h3>Smart Updates</h3>
+                    <p>Install Latest builds, update in the background, track downloads, and receive notifications.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>CLI Support</h3>
-                    <p>Manage your tools from the comfort of your terminal.</p>
+                    <h3>Hardware-Aware Releases</h3>
+                    <p>Choose compatible x86-64 and ARM64 variants based on your CPU architecture and ISA level.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Modern UI</h3>
-                    <p>Built with GTK4 and Libadwaita for a consistent GNOME experience.</p>
+                    <h3>Advanced Launch Options</h3>
+                    <p>Build hardware-aware commands, preview the exact result, and preserve custom options.</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Tool Management</h3>
-                    <p>See which tools are currently in use by your games.</p>
+                    <h3>Gamepad Navigation</h3>
+                    <p>Navigate Tools, Games, preferences, dialogs, and menus with contextual hints and haptics.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>MangoHud Editor</h3>
+                    <p>Configure visual, performance, metrics, preset, and advanced MangoHud settings.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Personalized Interface</h3>
+                    <p>Use Adwaita, Breeze, SteamOS, or OLED themes in the modern GTK4 interface.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Command-Line Tools</h3>
+                    <p>List launchers and install, update, or uninstall compatibility tools from your terminal.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Safer Tool Management</h3>
+                    <p>Validate downloads and archives, preserve tool settings, and roll back failed updates.</p>
                 </div>
             </div>
 
@@ -142,11 +246,12 @@
                     <summary>Supported launchers</summary>
                     <div class="panel">
                         <ul class="list-grid">
-                            <li>Steam</li>
-                            <li>Lutris</li>
-                            <li>Heroic Games Launcher</li>
-                            <li>Bottles</li>
-                            <li>WineZGUI</li>
+                            <li>Steam — System, Flatpak, Snap</li>
+                            <li>Faugus Launcher — System, Flatpak</li>
+                            <li>Lutris — System, Flatpak</li>
+                            <li>Heroic Games Launcher — System, Flatpak</li>
+                            <li>Bottles — System, Flatpak</li>
+                            <li>WineZGUI — System, Flatpak</li>
                         </ul>
                     </div>
                 </details>
@@ -161,6 +266,7 @@
                                 <li>Proton-GE</li>
                                 <li>Proton-GE RTSP</li>
                                 <li>Proton-CachyOS</li>
+                                <li>Proton-CachyOS Wineland</li>
                                 <li>DW-Proton</li>
                                 <li>Proton-EM</li>
                                 <li>Proton-Tkg</li>
@@ -181,7 +287,6 @@
                             <ul class="list-grid">
                                 <li>DXVK (doitsujin)</li>
                                 <li>DXVK (Sarek)</li>
-                                <li>DXVK Async (Sarek)</li>
                                 <li>DXVK GPL+Async (Ph42oN)</li>
                                 <li>VKD3D-Proton</li>
                                 <li>VKD3D-Lutris</li>
@@ -194,6 +299,7 @@
 
         <section class="download" id="download">
             <h2>Download</h2>
+            <p class="section-intro">Get ProtonPlus for x86-64 or ARM64 from Flathub.</p>
 
             <div class="primary-download">
                 <a href="https://flathub.org/apps/com.vysp3r.ProtonPlus" target="_blank" rel="noopener noreferrer">
@@ -203,6 +309,7 @@
 
             <div class="unofficial-downloads">
                 <h3>Community Packages</h3>
+                <p class="community-note">Maintained by distribution packagers and community contributors; release timing may vary.</p>
                 <div class="methods-grid">
                     <a href="https://aur.archlinux.org/packages/protonplus" class="method-card" target="_blank" rel="noopener noreferrer">
                         <span class="method-name">Arch Linux (AUR)</span>
@@ -211,6 +318,10 @@
                     <a href="https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/" class="method-card" target="_blank" rel="noopener noreferrer">
                         <span class="method-name">Fedora (COPR)</span>
                         <span class="method-maintainer">Maintained by wehagy</span>
+                    </a>
+                    <a href="https://terrapkg.com/" class="method-card" target="_blank" rel="noopener noreferrer">
+                        <span class="method-name">Fedora (Terra)</span>
+                        <span class="method-maintainer">Maintained by Owen Zimmerman</span>
                     </a>
                     <a href="https://mynixos.com/nixpkgs/package/protonplus" class="method-card" target="_blank" rel="noopener noreferrer">
                         <span class="method-name">NixOS (nixpkgs)</span>
@@ -224,8 +335,8 @@
                         <span class="method-name">openSUSE (OBS)</span>
                         <span class="method-maintainer">Maintained by rrahl0</span>
                     </a>
-                    <a href="https://github.com/xJayMorex/ProtonPlus-void" class="method-card" target="_blank" rel="noopener noreferrer">
-                        <span class="method-name">Void Linux</span>
+                    <a href="https://github.com/void-linux/void-packages" class="method-card" target="_blank" rel="noopener noreferrer">
+                        <span class="method-name">Void Linux (Official Repository)</span>
                         <span class="method-maintainer">Maintained by xJayMorex</span>
                     </a>
                     <a href="https://github.com/amielke/amielke-overlay/tree/master/games-util/ProtonPlus" class="method-card" target="_blank" rel="noopener noreferrer">
@@ -261,7 +372,8 @@
             <h2>Contributors</h2>
             <div class="contributors-container">
                 <a href="https://github.com/Vysp3r/ProtonPlus/graphs/contributors" target="_blank" rel="noopener noreferrer">
-                    <img src="https://contrib.rocks/image?repo=Vysp3r/ProtonPlus" alt="Contributors" />
+                    <img src="https://contrib.rocks/image?repo=Vysp3r/ProtonPlus" alt="ProtonPlus contributors"
+                        loading="lazy" decoding="async" />
                 </a>
             </div>
         </section>
@@ -277,18 +389,31 @@
         const menuToggle = document.getElementById('menu-toggle');
         const navLinks = document.getElementById('nav-links');
 
+        const closeMenu = () => {
+            navLinks.classList.remove('active');
+            menuToggle.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        };
+
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             menuToggle.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', menuToggle.classList.contains('active'));
         });
 
         // Close menu when a link is clicked
         document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuToggle.classList.remove('active');
-            });
+            link.addEventListener('click', closeMenu);
         });
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && navLinks.classList.contains('active')) {
+                closeMenu();
+                menuToggle.focus();
+            }
+        });
+
+        window.matchMedia('(min-width: 901px)').addEventListener('change', closeMenu);
     </script>
 </body>
 
