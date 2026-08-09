@@ -150,12 +150,8 @@ namespace ProtonPlus.Services {
             if (runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
             var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
-            if (!lookup.succeeded) {
-                if (runner.archive_install_requirement == Models.Providers.ArchiveInstallRequirement.STANDARD &&
-                    metadata.tag != "" && is_request_failure (lookup.code))
-                    return ReturnCode.NOTHING_TO_UPDATE;
+            if (!lookup.succeeded)
                 return lookup.code;
-            }
             if (!lookup.has_release)
                 return ReturnCode.NOTHING_TO_UPDATE;
             var job = new InstallJob (
@@ -417,19 +413,5 @@ namespace ProtonPlus.Services {
             return metadata.save (directory);
         }
 
-        private bool is_request_failure (ReturnCode code) {
-            switch (code) {
-            case ReturnCode.REQUEST_FAILED:
-            case ReturnCode.CONNECTION_ISSUE:
-            case ReturnCode.CONNECTION_REFUSED:
-            case ReturnCode.CONNECTION_UNKNOWN:
-            case ReturnCode.API_LIMIT_REACHED:
-            case ReturnCode.INVALID_ACCESS_TOKEN:
-            case ReturnCode.TLS_HANDSHAKE_ERROR:
-                return true;
-            default:
-                return false;
-            }
-        }
     }
 }
