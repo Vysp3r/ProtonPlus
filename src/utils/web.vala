@@ -3,6 +3,7 @@ namespace ProtonPlus.Utils {
         const int PROXY_MODE_SYSTEM = 0;
         const int PROXY_MODE_MANUAL = 1;
         const int MAX_DOWNLOAD_ATTEMPTS = 2;
+        const string SPEED_LIMIT_SETTINGS_KEY = "download-speed-limit-bps";
 
 
         public enum GetRequestType {
@@ -222,6 +223,17 @@ namespace ProtonPlus.Utils {
             return error.message;
         }
 
+        private static int64 get_effective_speed_limit_bps () {
+            if (Globals.SETTINGS != null) {
+                var configured_limit = Globals.SETTINGS.get_int64 (SPEED_LIMIT_SETTINGS_KEY);
+                if (configured_limit > 0)
+                    return configured_limit;
+            }
+
+            var manager_limit = DownloadManager.instance.speed_limit_bps;
+            return manager_limit > 0 ? manager_limit : 0;
+        }
+
         private static async bool download_once (
             string url,
             File file,
@@ -257,7 +269,7 @@ namespace ProtonPlus.Utils {
                 // filesize for a few minutes, until GitHub clears their cache.
                 int64 server_download_size = soup_message.get_response_headers ().get_content_length ();
 
-                const size_t chunk_size = 64 * 1024;
+                const size_t max_chunk_size = 64 * 1024;
                 const int64 progress_report_interval_us = 100 * 1000;
                 bool is_percent = server_download_size > 0;
                 int64 bytes_downloaded = 0;
@@ -269,11 +281,23 @@ namespace ProtonPlus.Utils {
 
                 int64 start_time = get_monotonic_time ();
                 int64 last_progress_report_time = start_time;
+                int64 throttle_next_allowed_time_us = start_time;
 
                 while (true) {
                     if (cancellable != null && cancellable.is_cancelled ()) {
                         is_canceled = true;
                         break;
+                    }
+
+                    var speed_limit_bps_before_read = get_effective_speed_limit_bps ();
+                    size_t chunk_size = max_chunk_size;
+                    if (speed_limit_bps_before_read > 0) {
+                        // Keep small limits responsive and avoid huge burst writes.
+                        int64 suggested_chunk = speed_limit_bps_before_read / 8;
+                        if (suggested_chunk < 1024)
+                            suggested_chunk = 1024;
+                        if (suggested_chunk < (int64) max_chunk_size)
+                            chunk_size = (size_t) suggested_chunk;
                     }
 
                     var chunk = yield input_stream.read_bytes_async (chunk_size, Priority.DEFAULT, cancellable);
@@ -285,6 +309,29 @@ namespace ProtonPlus.Utils {
                     yield output_stream.write_all_async (chunk.get_data (), Priority.DEFAULT, cancellable, out bytes_written);
 
                     bytes_downloaded += bytes_written;
+
+                    var speed_limit_bps = get_effective_speed_limit_bps ();
+                    if (speed_limit_bps > 0) {
+                        int64 now_for_limit = get_monotonic_time ();
+                        if (throttle_next_allowed_time_us < now_for_limit)
+                            throttle_next_allowed_time_us = now_for_limit;
+
+                        int64 chunk_budget_us = ((int64) bytes_written * 1000000) / speed_limit_bps;
+                        throttle_next_allowed_time_us += chunk_budget_us;
+
+                        int64 delay_us = throttle_next_allowed_time_us - now_for_limit;
+                        if (delay_us > 0) {
+                            uint delay_ms = (uint) ((delay_us + 999) / 1000);
+                            yield DownloadManager.instance.async_sleep (delay_ms, cancellable);
+                        }
+
+                        if (cancellable != null && cancellable.is_cancelled ()) {
+                            is_canceled = true;
+                            break;
+                        }
+                    } else {
+                        throttle_next_allowed_time_us = get_monotonic_time ();
+                    }
 
                     int64 now = get_monotonic_time ();
                     if (progress_callback != null && now - last_progress_report_time >= progress_report_interval_us) {

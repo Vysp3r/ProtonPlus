@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 19:39-0400\n"
+"POT-Creation-Date: 2026-08-10 00:17+0200\n"
 "PO-Revision-Date: 2026-08-09 00:00+0000\n"
 "Last-Translator: GitHub Copilot\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/protonplus/"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr "ProtonPlus"
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:231
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:232
 msgid "A modern compatibility tools manager"
 msgstr "Moderný správca nástrojov kompatibility"
 
@@ -2059,7 +2059,7 @@ msgstr ""
 msgid "ETA: %s"
 msgstr "Zostáva: %s"
 
-#: src/cli/cli.vala:716 src/widgets/header/header-downloads-indicator.vala:277
+#: src/cli/cli.vala:716 src/widgets/header/header-downloads-indicator.vala:305
 msgid "ETA: --"
 msgstr "Zostáva: --"
 
@@ -2067,7 +2067,7 @@ msgstr "Zostáva: --"
 msgid "Updating"
 msgstr "Aktualizuje se"
 
-#: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:267
+#: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:295
 msgid "Installing"
 msgstr "Instaluje se"
 
@@ -2088,7 +2088,7 @@ msgstr "%ds"
 
 #. System Page
 #: src/globals.vala:30 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:303
+#: src/widgets/preferences/preferences-dialog.vala:328
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "Systém"
@@ -2354,20 +2354,139 @@ msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
 msgid "Failed to initialize SteamTinkerLaunch"
 msgstr "✨ Pridaná podpora pre Steam Tinker Launch"
 
-#: src/utils/web.vala:221
+#: src/translatables.vala:4
+msgid "Compatibility tools by Valve for running Windows software on Linux."
+msgstr ""
+"Nástroje kompatibility od spoločnosti Valve na spúšťanie softvéru pre "
+"Windows na Linuxe."
+
+#: src/translatables.vala:5
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton."
+msgstr ""
+"Nástroj kompatibility pre Steam na spúšťanie hier pre Windows s vylepšeniami "
+"oproti predvolenému Protonu od Valve."
+
+#: src/translatables.vala:6
+#, fuzzy
+msgid "Recommended"
+msgstr "Zaoblené"
+
+#: src/translatables.vala:7
+msgid ""
+"Steam compatibility tool from the CachyOS Linux distribution for running "
+"Windows games with improvements over Valve's default Proton."
+msgstr ""
+"Nástroj kompatibility pre Steam z linuxovej distribúcie CachyOS na spúšťanie "
+"hier pre Windows s vylepšeními oproti predvolenému Protonu od Valve."
+
+#: src/translatables.vala:8
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+msgstr "Vlastný fork Protonu od Dawn Winery s opravami pre rôzne hry :xdd:"
+
+#: src/translatables.vala:9
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
+"wayland tweaks."
+msgstr ""
+"Nástroj kompatibility pre Steam na spúšťanie hier pre Windows s vylepšeniami "
+"oproti predvolenému Protonu od Valve. Od autora Etaash Mathamsetty, pridáva "
+"podporu FSR4 a úpravy pre wine wayland."
+
+#: src/translatables.vala:10
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
+msgstr ""
+"Nástroj kompatibility pre Steam založený na Proton-GE s dodatočnými opravami "
+"na vylepšenie kodekov RTSP pre VRChat."
+
+#: src/translatables.vala:11
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr ""
+"Vlastné zostavenie Protonu na spúšťanie hier pre Windows, založené na Wine-"
+"tkg."
+
+#: src/translatables.vala:12
+msgid ""
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
+msgstr ""
+"Luxtorpeda poskytuje natívne linuxové herné enginy pre vybrané hry, ktoré sú "
+"inak dostupné len pre Windows."
+
+#: src/translatables.vala:13
+msgid ""
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
+msgstr ""
+"Nástroj kompatibility pre Steam na spúšťanie adventúr pomocou ScummVM pre "
+"Linux."
+
+#: src/translatables.vala:14
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
+msgstr ""
+"Nástroj kompatibility pre Steam na spúšťanie DOS hier pomocou DOSBoxu pre "
+"Linux."
+
+#: src/translatables.vala:15
+msgid "Compatibility tools for running Windows software on Linux."
+msgstr "Nástroje kompatibility na spúšťanie softvéru pre Windows na Linuxe."
+
+#: src/translatables.vala:16
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr "Zostavenie Wine skompilované z oficiálnych zdrojov WineHQ."
+
+#: src/translatables.vala:17
+msgid "Wine build with the Staging patchset."
+msgstr "Zostavenie Wine so sadou opráv Staging."
+
+#: src/translatables.vala:18
+msgid "Wine build with the Staging patchset and many other useful patches."
+msgstr ""
+"Zostavenie Wine so sadou opráv Staging a mnohými ďalšími užitočnými opravami."
+
+#: src/translatables.vala:19
+msgid "Wine build modified by Valve and other contributors."
+msgstr "Zostavenie Wine upravené spoločnosťou Valve a ďalšími prispievateľmi."
+
+#: src/translatables.vala:20
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+msgstr ""
+"Implementácia Direct3D 8, 9, 10 a 11 pre Linux/Wine založená na grafickom "
+"rozhraní Vulkan."
+
+#: src/translatables.vala:21
+#, fuzzy
+msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
+msgstr "Zostavenia DXVK, ktoré fungujú s verziami staršími ako Vulkan 1.3."
+
+#: src/translatables.vala:22
+msgid "DXVK builds with gplasync patch by Ph42oN."
+msgstr "Zostavenia DXVK s opravou gplasync od Ph42oN."
+
+#: src/translatables.vala:23
+msgid ""
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
+msgstr ""
+"Variant knižnice VKD3D od Wine, ktorej cieľom je implementovať plné "
+"rozhranie API Direct3D 12 nad Vulkanom."
+
+#: src/utils/web.vala:222
 msgid "The download timed out. Check your connection and try again."
 msgstr ""
 "Vypršal časový limit sťahovania. Skontrolujte pripojenie a skúste to znova."
 
-#: src/widgets/application.vala:233
+#: src/widgets/application.vala:234
 msgid "Website"
 msgstr "Webové stránky"
 
-#: src/widgets/application.vala:238
+#: src/widgets/application.vala:239
 msgid "translator-credits"
 msgstr "Jan Galek <warfacez>"
 
-#: src/widgets/application.vala:239
+#: src/widgets/application.vala:240
 msgid "Special thanks to"
 msgstr "Zvláštne poďakovanie patrí"
 
@@ -2479,7 +2598,7 @@ msgid "Bottom"
 msgstr "Spodné"
 
 #: src/widgets/controller-hint-bar.vala:215
-#: src/widgets/preferences/preferences-dialog.vala:36
+#: src/widgets/preferences/preferences-dialog.vala:40
 msgid "Bottom face button"
 msgstr "Spodné predné tlačidlo"
 
@@ -2488,7 +2607,7 @@ msgid "Right"
 msgstr "Pravé"
 
 #: src/widgets/controller-hint-bar.vala:219
-#: src/widgets/preferences/preferences-dialog.vala:37
+#: src/widgets/preferences/preferences-dialog.vala:41
 msgid "Right face button"
 msgstr "Pravé predné tlačidlo"
 
@@ -3755,7 +3874,7 @@ msgstr "Predvolený systém"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
-#: src/widgets/preferences/preferences-dialog.vala:366
+#: src/widgets/preferences/preferences-dialog.vala:391
 msgid "Gamescope"
 msgstr "Gamescope"
 
@@ -3766,7 +3885,7 @@ msgstr "Gamescope"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
-#: src/widgets/preferences/preferences-dialog.vala:371
+#: src/widgets/preferences/preferences-dialog.vala:396
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
@@ -5364,12 +5483,12 @@ msgstr ""
 #. Advanced Page
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:40
 #: src/widgets/mangohud/mangohud-box.vala:69
-#: src/widgets/preferences/preferences-dialog.vala:237
+#: src/widgets/preferences/preferences-dialog.vala:241
 msgid "Advanced"
 msgstr "Pokročilé"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:282
+#: src/widgets/preferences/preferences-dialog.vala:307
 msgid "Experimental"
 msgstr "Experimentálne"
 
@@ -5469,18 +5588,18 @@ msgstr "O _aplikaci ProtonPlus"
 msgid "_Exit"
 msgstr "Ukončiť"
 
-#: src/widgets/header/header-downloads-indicator.vala:32
+#: src/widgets/header/header-downloads-indicator.vala:34
 #, fuzzy
 msgid "Active downloads"
 msgstr "Zrušiť sťahovanie"
 
-#: src/widgets/header/header-downloads-indicator.vala:41
+#: src/widgets/header/header-downloads-indicator.vala:43
 #: src/widgets/tools/tools-box.vala:94
 #, fuzzy
 msgid "Downloads"
 msgstr "Sťahovania"
 
-#: src/widgets/header/header-downloads-indicator.vala:129
+#: src/widgets/header/header-downloads-indicator.vala:152
 #, fuzzy, c-format
 msgid "%u active download"
 msgid_plural "%u active downloads"
@@ -5488,50 +5607,55 @@ msgstr[0] "Zrušiť sťahovanie"
 msgstr[1] "Zrušiť sťahovanie"
 msgstr[2] "Zrušiť sťahovanie"
 
-#: src/widgets/header/header-downloads-indicator.vala:187
+#: src/widgets/header/header-downloads-indicator.vala:160
+#, c-format
+msgid "Limit: %s/s"
+msgstr "Limit: %s/s"
+
+#: src/widgets/header/header-downloads-indicator.vala:217
 #: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:152
 #: src/widgets/window.vala:303
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: src/widgets/header/header-downloads-indicator.vala:237
-#: src/widgets/header/header-downloads-indicator.vala:239
+#: src/widgets/header/header-downloads-indicator.vala:267
+#: src/widgets/header/header-downloads-indicator.vala:269
 #, fuzzy
 msgid "Cancelling"
 msgstr "Zrušiť"
 
-#: src/widgets/header/header-downloads-indicator.vala:263
+#: src/widgets/header/header-downloads-indicator.vala:291
 #: src/widgets/tools/tools-release-row.vala:212
 #, fuzzy
 msgid "Downloading"
 msgstr "Sťahuje sa"
 
-#: src/widgets/header/header-downloads-indicator.vala:265
+#: src/widgets/header/header-downloads-indicator.vala:293
 #: src/widgets/tools/tools-release-row.vala:212
 msgid "Extracting"
 msgstr "Rozbaľuje sa"
 
-#: src/widgets/header/header-downloads-indicator.vala:269
+#: src/widgets/header/header-downloads-indicator.vala:297
 #: src/widgets/tools/tools-release-row.vala:212
 #, fuzzy
 msgid "Removing"
 msgstr "Presúva sa"
 
-#: src/widgets/header/header-downloads-indicator.vala:271
+#: src/widgets/header/header-downloads-indicator.vala:299
 msgid "Preparing"
 msgstr "Pripravuje sa"
 
-#: src/widgets/header/header-downloads-indicator.vala:285
+#: src/widgets/header/header-downloads-indicator.vala:313
 #, fuzzy, c-format
 msgid "ETA: %dh %dm"
 msgstr "Zostáva: %s"
 
-#: src/widgets/header/header-downloads-indicator.vala:287
+#: src/widgets/header/header-downloads-indicator.vala:315
 #, fuzzy, c-format
 msgid "ETA: %dm %ds"
 msgstr "%dm %ds"
 
-#: src/widgets/header/header-downloads-indicator.vala:288
+#: src/widgets/header/header-downloads-indicator.vala:316
 #, fuzzy, c-format
 msgid "ETA: %ds"
 msgstr "Zostáva: %s"
@@ -5654,40 +5778,40 @@ msgstr ""
 "váš herný zážitok plynulý."
 
 #: src/widgets/introduction/updates.vala:17
-#: src/widgets/preferences/preferences-dialog.vala:88
+#: src/widgets/preferences/preferences-dialog.vala:92
 #, fuzzy
 msgid "Background updates"
 msgstr "Barva pozadí"
 
 #: src/widgets/introduction/updates.vala:18
-#: src/widgets/preferences/preferences-dialog.vala:89
+#: src/widgets/preferences/preferences-dialog.vala:93
 msgid "Automatically update the tools in the background"
 msgstr "Automaticky aktualizovať nástroje na pozadí"
 
 #: src/widgets/introduction/updates.vala:24
-#: src/widgets/preferences/preferences-dialog.vala:95
+#: src/widgets/preferences/preferences-dialog.vala:99
 msgid "Set how often to check for updates in the background"
 msgstr "Nastavte, ako často sa majú na pozadí kontrolovať aktualizácie"
 
 #: src/widgets/introduction/updates.vala:30
-#: src/widgets/preferences/preferences-dialog.vala:101
+#: src/widgets/preferences/preferences-dialog.vala:105
 #, fuzzy
 msgid "Check updates on boot"
 msgstr "Kontrolovať aktualizácie pri spustení"
 
 #: src/widgets/introduction/updates.vala:31
-#: src/widgets/preferences/preferences-dialog.vala:102
+#: src/widgets/preferences/preferences-dialog.vala:106
 msgid "Check for tool updates when the system starts"
 msgstr "Kontrolovať aktualizácie nástrojov pri štarte systému"
 
 #: src/widgets/introduction/updates.vala:37
-#: src/widgets/preferences/preferences-dialog.vala:108
+#: src/widgets/preferences/preferences-dialog.vala:112
 #, fuzzy
 msgid "Check updates on launch"
 msgstr "Kontrolovať aktualizácie pri spustení"
 
 #: src/widgets/introduction/updates.vala:38
-#: src/widgets/preferences/preferences-dialog.vala:109
+#: src/widgets/preferences/preferences-dialog.vala:113
 #, fuzzy
 msgid "Update the tools when the application is launched"
 msgstr "Aktualizovať nástroje pri spustení aplikácie"
@@ -5772,13 +5896,13 @@ msgstr "Potvrdit"
 
 #. Tools Page
 #: src/widgets/main/main-box.vala:45
-#: src/widgets/preferences/preferences-dialog.vala:77
+#: src/widgets/preferences/preferences-dialog.vala:81
 #: src/widgets/tools/tools-box.vala:93
 msgid "Tools"
 msgstr "Nástroje"
 
 #: src/widgets/main/main-box.vala:48
-#: src/widgets/preferences/preferences-dialog.vala:356
+#: src/widgets/preferences/preferences-dialog.vala:381
 msgid "MangoHud"
 msgstr "MangoHud"
 
@@ -6293,7 +6417,7 @@ msgid "Media Info"
 msgstr "Informácie o médiách"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
-#: src/widgets/preferences/preferences-dialog.vala:264
+#: src/widgets/preferences/preferences-dialog.vala:268
 msgid "Network"
 msgstr "Síť"
 
@@ -6769,199 +6893,211 @@ msgid "Removes all cached information and temporary downloads"
 msgstr "Odstráni všetky uložené informácie v cache a dočasné stiahnutia"
 
 #. General Page
-#: src/widgets/preferences/preferences-dialog.vala:12
+#: src/widgets/preferences/preferences-dialog.vala:16
 msgid "General"
 msgstr "Obecné"
 
-#: src/widgets/preferences/preferences-dialog.vala:18
+#: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Appearance"
 msgstr "Vzhled"
 
-#: src/widgets/preferences/preferences-dialog.vala:31
+#: src/widgets/preferences/preferences-dialog.vala:35
 #, fuzzy
 msgid "Controller"
 msgstr "Podpora ovládačov"
 
-#: src/widgets/preferences/preferences-dialog.vala:39
+#: src/widgets/preferences/preferences-dialog.vala:43
 msgid "Confirm button"
 msgstr "Potvrdzovacie tlačidlo"
 
-#: src/widgets/preferences/preferences-dialog.vala:40
+#: src/widgets/preferences/preferences-dialog.vala:44
 msgid "Choose which face button activates the selected control"
 msgstr "Vyberte, ktoré predné tlačidlo aktivuje vybraný prvok"
 
-#: src/widgets/preferences/preferences-dialog.vala:53
+#: src/widgets/preferences/preferences-dialog.vala:57
 #, fuzzy
 msgid "Controller vibration"
 msgstr "Podpora ovládačov"
 
-#: src/widgets/preferences/preferences-dialog.vala:54
+#: src/widgets/preferences/preferences-dialog.vala:58
 msgid "Use subtle vibration for controller actions and navigation limits"
 msgstr "Použiť jemné vibrácie pre akcie ovládača a limity navigácie"
 
-#: src/widgets/preferences/preferences-dialog.vala:61
+#: src/widgets/preferences/preferences-dialog.vala:65
 msgid "Help"
 msgstr "Pomoc"
 
-#: src/widgets/preferences/preferences-dialog.vala:64
+#: src/widgets/preferences/preferences-dialog.vala:68
 #, fuzzy
 msgid "Show Introduction"
 msgstr "Informace"
 
-#: src/widgets/preferences/preferences-dialog.vala:83
+#: src/widgets/preferences/preferences-dialog.vala:87
 msgid "Updates"
 msgstr "Aktualizace"
 
-#: src/widgets/preferences/preferences-dialog.vala:115
+#: src/widgets/preferences/preferences-dialog.vala:119
 msgid "Migrate default prefix"
 msgstr "Migrovať predvolený prefix"
 
-#: src/widgets/preferences/preferences-dialog.vala:116
+#: src/widgets/preferences/preferences-dialog.vala:120
 msgid "Automatically migrate the default prefix when updating"
 msgstr "Pri aktualizácii automaticky migrovať predvolený prefix"
 
-#: src/widgets/preferences/preferences-dialog.vala:122
+#: src/widgets/preferences/preferences-dialog.vala:126
 msgid "Behavior"
 msgstr "Správanie"
 
-#: src/widgets/preferences/preferences-dialog.vala:127
+#: src/widgets/preferences/preferences-dialog.vala:131
 #, fuzzy
 msgid "Show legacy tools"
 msgstr "Zobraziť staršie nástroje"
 
-#: src/widgets/preferences/preferences-dialog.vala:128
+#: src/widgets/preferences/preferences-dialog.vala:132
 msgid "Display older tools that are no longer actively maintained"
 msgstr "Zobrazovať staršie nástroje, ktoré už nie sú aktívne vyvíjané"
 
 #. Launchers Page
-#: src/widgets/preferences/preferences-dialog.vala:136
+#: src/widgets/preferences/preferences-dialog.vala:140
 #, fuzzy
 msgid "Launchers"
 msgstr "Spúšťače"
 
-#: src/widgets/preferences/preferences-dialog.vala:170
+#: src/widgets/preferences/preferences-dialog.vala:174
 #, fuzzy
 msgid "Default compatibility tool"
 msgstr "Predvolený nástroj kompatibility"
 
-#: src/widgets/preferences/preferences-dialog.vala:171
+#: src/widgets/preferences/preferences-dialog.vala:175
 msgid "The compatibility tool games will use by default"
 msgstr "Nástroj kompatibility, ktorý hry použijú automaticky ako predvolený"
 
-#: src/widgets/preferences/preferences-dialog.vala:197
+#: src/widgets/preferences/preferences-dialog.vala:201
 #, fuzzy
 msgid "Selected profile"
 msgstr "Vyber profil"
 
-#: src/widgets/preferences/preferences-dialog.vala:198
+#: src/widgets/preferences/preferences-dialog.vala:202
 msgid "Currently selected profile for Steam"
 msgstr "Aktuálne vybraný profil pre Steam"
 
-#: src/widgets/preferences/preferences-dialog.vala:243
+#: src/widgets/preferences/preferences-dialog.vala:247
 msgid "API Tokens"
 msgstr "API tokeny"
 
-#: src/widgets/preferences/preferences-dialog.vala:272
+#: src/widgets/preferences/preferences-dialog.vala:276
 msgid "Proxy URL"
 msgstr "URL proxy"
 
-#: src/widgets/preferences/preferences-dialog.vala:275
+#: src/widgets/preferences/preferences-dialog.vala:279
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr "Príklad: http://127.0.0.1:7890 alebo socks5://127.0.0.1:1080"
 
+#: src/widgets/preferences/preferences-dialog.vala:286
+msgid "Download speed limit"
+msgstr "Limit rýchlosti sťahovania"
+
 #: src/widgets/preferences/preferences-dialog.vala:287
+msgid "Maximum speed in KB/s. Set to 0 for unlimited."
+msgstr "Maximálna rýchlosť v KB/s. Pre neobmedzenú rýchlosť nastavte 0."
+
+#: src/widgets/preferences/preferences-dialog.vala:290
+msgid "This limit applies to each active download."
+msgstr "Tento limit sa použije na každé aktívne sťahovanie."
+
+#: src/widgets/preferences/preferences-dialog.vala:312
 msgid "Preview features"
 msgstr "Ukážkové funkcie"
 
-#: src/widgets/preferences/preferences-dialog.vala:288
+#: src/widgets/preferences/preferences-dialog.vala:313
 msgid "Enable experimental features for early testing"
 msgstr "Povoliť experimentálne funkcie pre včasné testovanie"
 
-#: src/widgets/preferences/preferences-dialog.vala:295
+#: src/widgets/preferences/preferences-dialog.vala:320
 #, fuzzy
 msgid "Maintenance"
 msgstr "Údržba"
 
-#: src/widgets/preferences/preferences-dialog.vala:309
+#: src/widgets/preferences/preferences-dialog.vala:334
 msgid "Software Environment"
 msgstr "Softwérové proměnné"
 
-#: src/widgets/preferences/preferences-dialog.vala:314
+#: src/widgets/preferences/preferences-dialog.vala:339
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr "SteamOS"
 
-#: src/widgets/preferences/preferences-dialog.vala:315
-#: src/widgets/preferences/preferences-dialog.vala:320
-#: src/widgets/preferences/preferences-dialog.vala:347
-#: src/widgets/preferences/preferences-dialog.vala:352
-#: src/widgets/preferences/preferences-dialog.vala:357
-#: src/widgets/preferences/preferences-dialog.vala:362
-#: src/widgets/preferences/preferences-dialog.vala:367
+#: src/widgets/preferences/preferences-dialog.vala:340
+#: src/widgets/preferences/preferences-dialog.vala:345
 #: src/widgets/preferences/preferences-dialog.vala:372
 #: src/widgets/preferences/preferences-dialog.vala:377
+#: src/widgets/preferences/preferences-dialog.vala:382
+#: src/widgets/preferences/preferences-dialog.vala:387
+#: src/widgets/preferences/preferences-dialog.vala:392
+#: src/widgets/preferences/preferences-dialog.vala:397
+#: src/widgets/preferences/preferences-dialog.vala:402
 #: src/widgets/tools/tools-stl-release-row.vala:98
 msgid "Yes"
 msgstr "Ano"
 
-#: src/widgets/preferences/preferences-dialog.vala:315
-#: src/widgets/preferences/preferences-dialog.vala:320
-#: src/widgets/preferences/preferences-dialog.vala:347
-#: src/widgets/preferences/preferences-dialog.vala:352
-#: src/widgets/preferences/preferences-dialog.vala:357
-#: src/widgets/preferences/preferences-dialog.vala:362
-#: src/widgets/preferences/preferences-dialog.vala:367
+#: src/widgets/preferences/preferences-dialog.vala:340
+#: src/widgets/preferences/preferences-dialog.vala:345
 #: src/widgets/preferences/preferences-dialog.vala:372
 #: src/widgets/preferences/preferences-dialog.vala:377
+#: src/widgets/preferences/preferences-dialog.vala:382
+#: src/widgets/preferences/preferences-dialog.vala:387
+#: src/widgets/preferences/preferences-dialog.vala:392
+#: src/widgets/preferences/preferences-dialog.vala:397
+#: src/widgets/preferences/preferences-dialog.vala:402
 #: src/widgets/tools/tools-stl-release-row.vala:97
 msgid "No"
 msgstr "Ne"
 
-#: src/widgets/preferences/preferences-dialog.vala:319
+#: src/widgets/preferences/preferences-dialog.vala:344
 msgid "Flatpak"
 msgstr "Flatpak"
 
-#: src/widgets/preferences/preferences-dialog.vala:324
+#: src/widgets/preferences/preferences-dialog.vala:349
 msgid "Hardware"
 msgstr "Hardvér"
 
-#: src/widgets/preferences/preferences-dialog.vala:336
+#: src/widgets/preferences/preferences-dialog.vala:361
 msgid "HWCAPS"
 msgstr "HWCAPS"
 
-#: src/widgets/preferences/preferences-dialog.vala:341
+#: src/widgets/preferences/preferences-dialog.vala:366
 msgid "Dependencies"
 msgstr "Závislosti"
 
-#: src/widgets/preferences/preferences-dialog.vala:346
+#: src/widgets/preferences/preferences-dialog.vala:371
 #, fuzzy
 msgid "Protontricks"
 msgstr "Protontricks"
 
-#: src/widgets/preferences/preferences-dialog.vala:351
+#: src/widgets/preferences/preferences-dialog.vala:376
 msgid "Protontricks (Flatpak)"
 msgstr "Protontricks (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:361
+#: src/widgets/preferences/preferences-dialog.vala:386
 msgid "MangoHud (Flatpak)"
 msgstr "MangoHud (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:376
+#: src/widgets/preferences/preferences-dialog.vala:401
 #, fuzzy
 msgid "Feral Gamemode"
 msgstr "GameMode"
 
-#: src/widgets/preferences/preferences-dialog.vala:381
+#: src/widgets/preferences/preferences-dialog.vala:406
 msgid "Detected Launchers"
 msgstr "Nalezené spouštěče"
 
-#: src/widgets/preferences/preferences-dialog.vala:404
+#: src/widgets/preferences/preferences-dialog.vala:429
 #: src/widgets/tools/tools-box.vala:202
 #: src/widgets/tools/tools-group-box.vala:285
 msgid "Installed"
 msgstr "Nainstalováno"
 
-#: src/widgets/preferences/preferences-dialog.vala:404
+#: src/widgets/preferences/preferences-dialog.vala:429
 msgid "Not installed"
 msgstr "Nenainstalováno"
 
@@ -7686,112 +7822,6 @@ msgstr ""
 
 #~ msgid "Remember last used profile"
 #~ msgstr "Zapamätať si posledný použitý profil"
-
-#~ msgid "Compatibility tools by Valve for running Windows software on Linux."
-#~ msgstr ""
-#~ "Nástroje kompatibility od spoločnosti Valve na spúšťanie softvéru pre "
-#~ "Windows na Linuxe."
-
-#~ msgid ""
-#~ "Steam compatibility tool for running Windows games with improvements over "
-#~ "Valve's default Proton."
-#~ msgstr ""
-#~ "Nástroj kompatibility pre Steam na spúšťanie hier pre Windows s "
-#~ "vylepšeniami oproti predvolenému Protonu od Valve."
-
-#, fuzzy
-#~ msgid "Recommended"
-#~ msgstr "Zaoblené"
-
-#~ msgid ""
-#~ "Steam compatibility tool from the CachyOS Linux distribution for running "
-#~ "Windows games with improvements over Valve's default Proton."
-#~ msgstr ""
-#~ "Nástroj kompatibility pre Steam z linuxovej distribúcie CachyOS na "
-#~ "spúšťanie hier pre Windows s vylepšeními oproti predvolenému Protonu od "
-#~ "Valve."
-
-#~ msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-#~ msgstr "Vlastný fork Protonu od Dawn Winery s opravami pre rôzne hry :xdd:"
-
-#~ msgid ""
-#~ "Steam compatibility tool for running Windows games with improvements over "
-#~ "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and "
-#~ "wine wayland tweaks."
-#~ msgstr ""
-#~ "Nástroj kompatibility pre Steam na spúšťanie hier pre Windows s "
-#~ "vylepšeniami oproti predvolenému Protonu od Valve. Od autora Etaash "
-#~ "Mathamsetty, pridáva podporu FSR4 a úpravy pre wine wayland."
-
-#~ msgid ""
-#~ "Steam compatibility tool based on Proton-GE with additional patches to "
-#~ "improve RTSP codecs for VRChat."
-#~ msgstr ""
-#~ "Nástroj kompatibility pre Steam založený na Proton-GE s dodatočnými "
-#~ "opravami na vylepšenie kodekov RTSP pre VRChat."
-
-#~ msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-#~ msgstr ""
-#~ "Vlastné zostavenie Protonu na spúšťanie hier pre Windows, založené na "
-#~ "Wine-tkg."
-
-#~ msgid ""
-#~ "Luxtorpeda provides Linux-native game engines for certain Windows-only "
-#~ "games."
-#~ msgstr ""
-#~ "Luxtorpeda poskytuje natívne linuxové herné enginy pre vybrané hry, ktoré "
-#~ "sú inak dostupné len pre Windows."
-
-#~ msgid ""
-#~ "Steam compatibility tool for running adventure games using ScummVM for "
-#~ "Linux."
-#~ msgstr ""
-#~ "Nástroj kompatibility pre Steam na spúšťanie adventúr pomocou ScummVM pre "
-#~ "Linux."
-
-#~ msgid ""
-#~ "Steam compatibility tool for running DOS games using DOSBox for Linux."
-#~ msgstr ""
-#~ "Nástroj kompatibility pre Steam na spúšťanie DOS hier pomocou DOSBoxu pre "
-#~ "Linux."
-
-#~ msgid "Compatibility tools for running Windows software on Linux."
-#~ msgstr "Nástroje kompatibility na spúšťanie softvéru pre Windows na Linuxe."
-
-#~ msgid "Wine build compiled from the official WineHQ sources."
-#~ msgstr "Zostavenie Wine skompilované z oficiálnych zdrojov WineHQ."
-
-#~ msgid "Wine build with the Staging patchset."
-#~ msgstr "Zostavenie Wine so sadou opráv Staging."
-
-#~ msgid "Wine build with the Staging patchset and many other useful patches."
-#~ msgstr ""
-#~ "Zostavenie Wine so sadou opráv Staging a mnohými ďalšími užitočnými "
-#~ "opravami."
-
-#~ msgid "Wine build modified by Valve and other contributors."
-#~ msgstr ""
-#~ "Zostavenie Wine upravené spoločnosťou Valve a ďalšími prispievateľmi."
-
-#~ msgid ""
-#~ "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-#~ msgstr ""
-#~ "Implementácia Direct3D 8, 9, 10 a 11 pre Linux/Wine založená na grafickom "
-#~ "rozhraní Vulkan."
-
-#, fuzzy
-#~ msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-#~ msgstr "Zostavenia DXVK, ktoré fungujú s verziami staršími ako Vulkan 1.3."
-
-#~ msgid "DXVK builds with gplasync patch by Ph42oN."
-#~ msgstr "Zostavenia DXVK s opravou gplasync od Ph42oN."
-
-#~ msgid ""
-#~ "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API "
-#~ "on top of Vulkan."
-#~ msgstr ""
-#~ "Variant knižnice VKD3D od Wine, ktorej cieľom je implementovať plné "
-#~ "rozhranie API Direct3D 12 nad Vulkanom."
 
 #~ msgid "Enable game controller support for navigating the user interface"
 #~ msgstr ""

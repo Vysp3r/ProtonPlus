@@ -119,6 +119,7 @@ namespace ProtonPlus.Widgets {
                 Utils.System.systemd_handler ();
                 Globals.SETTINGS.changed["proxy-mode"].connect (Utils.Web.update_proxy_settings);
                 Globals.SETTINGS.changed["proxy-url"].connect (Utils.Web.update_proxy_settings);
+                Utils.DownloadManager.instance.sync_speed_limit_from_settings ();
             } else {
                 error ("GSettings schema not found or invalid: 'com.vysp3r.ProtonPlus.State'");
             }
