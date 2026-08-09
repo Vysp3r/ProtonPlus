@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 21:32-0400\n"
+"POT-Creation-Date: 2026-08-08 22:31-0400\n"
 "PO-Revision-Date: 2026-08-07 23:07+0800\n"
 "Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
 "Language-Team: Chinese <>\n"
@@ -2137,7 +2137,7 @@ msgstr "当前有兼容性工具正在使用中。请关闭正在运行的游戏
 msgid "The operation could not be completed."
 msgstr "无法完成此操作。"
 
-#: src/services/installation-service.vala:325
+#: src/services/installation-service.vala:345
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -2357,7 +2357,7 @@ msgid "All"
 msgstr "全部"
 
 #: src/widgets/games/games-box.vala:138
-#: src/widgets/games/games-mass-edit-view.vala:168
+#: src/widgets/games/games-mass-edit-view.vala:167
 #: src/widgets/games/games-row.vala:267
 msgid "Native"
 msgstr "原生"
@@ -2417,7 +2417,7 @@ msgid ""
 msgstr "如果你想让我加快开发进度，请务必表达你的支持！"
 
 #: src/widgets/games/games-box.vala:398 src/widgets/games/games-row.vala:264
-#: src/widgets/tools/tools-migrate-box.vala:99
+#: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr "默认"
 
@@ -2541,34 +2541,34 @@ msgid ""
 "games unchanged."
 msgstr "启用您要更改的区块。被禁用的区块不会修改所选游戏。"
 
-#: src/widgets/games/games-mass-edit-view.vala:269
+#: src/widgets/games/games-mass-edit-view.vala:268
 msgid "Compatibility tool cannot be applied"
 msgstr "无法应用兼容性工具"
 
-#: src/widgets/games/games-mass-edit-view.vala:270
+#: src/widgets/games/games-mass-edit-view.vala:269
 msgid "No games were changed because no compatibility tool is selected."
 msgstr "未选择兼容性工具，因此没有游戏被更改。"
 
-#: src/widgets/games/games-mass-edit-view.vala:292
+#: src/widgets/games/games-mass-edit-view.vala:291
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr "所选启动选项不完整或不受这些游戏支持。"
 
-#: src/widgets/games/games-mass-edit-view.vala:293
+#: src/widgets/games/games-mass-edit-view.vala:292
 msgid "Launch options cannot be applied"
 msgstr "无法应用启动选项"
 
-#: src/widgets/games/games-mass-edit-view.vala:294
+#: src/widgets/games/games-mass-edit-view.vala:293
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr "无法安全准备启动命令，因此没有游戏被更改。"
 
-#: src/widgets/games/games-mass-edit-view.vala:345
+#: src/widgets/games/games-mass-edit-view.vala:344
 msgid "Batch Update Failed"
 msgstr "批量更新失败"
 
-#: src/widgets/games/games-mass-edit-view.vala:346
+#: src/widgets/games/games-mass-edit-view.vala:345
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
@@ -3515,126 +3515,126 @@ msgstr "Gamescope"
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:222
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:214
 msgid "This option is unsupported and cannot be newly enabled."
 msgstr "此选项不受支持，无法新启用。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:229
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:221
 msgid "This legacy option is preserved but cannot be newly enabled."
 msgstr "此旧有选项得以保留，但无法新行启用。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:233
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:225
 msgid "Compatibility-tool capabilities are not known yet."
 msgstr "兼容性工具的功能尚不明确。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:250
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:242
 msgid "Requires an available launch backend."
 msgstr "需要可用的启动后端。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:258
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:250
 msgid "Requires a compatible Proton variant."
 msgstr "需要兼容的 Proton 变体。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:275
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:267
 msgid "The selected launch backend is not supported."
 msgstr "所选启动后端不受支持。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:353
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:345
 msgid "Requires an AMD GPU."
 msgstr "需要 AMD GPU。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:354
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:346
 msgid "Requires an NVIDIA GPU."
 msgstr "需要 NVIDIA GPU。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:355
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:347
 msgid "Requires an Intel GPU."
 msgstr "需要 Intel GPU。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:356
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:348
 msgid "Requires MangoHud, which is not available."
 msgstr "需要 MangoHud，但该组件不可用。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:357
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:349
 msgid "Requires GameMode, which is not available."
 msgstr "需要 GameMode，但该功能不可用。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:358
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:350
 msgid "Requires the CachyOS game-performance command, which is not available."
 msgstr "需要 CachyOS game-performance 命令，但当前不可用。ScopeBuddy"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:359
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:351
 msgid "Requires obs-vkcapture, which is not available."
 msgstr "需要 obs-vkcapture，但当前不可用。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:360
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:352
 msgid "Requires Gamescope, which is not available."
 msgstr "需要 Gamescope，但该功能不可用。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:361
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:353
 msgid "Requires ScopeBuddy, which is not available."
 msgstr "ScopeBuddy需要 ScopeBuddy，但当前不可用。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:362
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:354
 msgid "Requires vkBasalt, which is not available."
 msgstr "需要 vkBasalt，但该功能不可用。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:363
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:355
 msgid "Requires DXVK from the selected compatibility tool."
 msgstr "需要所选兼容性工具中的 DXVK。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:364
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:356
 msgid "Requires VKD3D-Proton from the selected compatibility tool."
 msgstr "需要所选兼容性工具提供的 VKD3D-Proton。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:365
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:375
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:357
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:367
 msgid "Not supported by the selected compatibility tool."
 msgstr "所选兼容性工具不支持。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:366
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:358
 msgid ""
 "The selected Proton build does not advertise legacy PROTON_ENABLE_HDR "
 "support."
 msgstr "所选的 Proton 版本未声明对旧版 PROTON_ENABLE_HDR 的支持。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:367
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:359
 msgid ""
 "The selected Proton build does not advertise automatic-HDR opt-out support."
 msgstr "所选的 Proton 版本未声明支持选择退出自动 HDR 功能。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:368
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:360
 msgid ""
 "The selected Proton build does not advertise PROTON_FSR4_UPGRADE support."
 msgstr "所选的 Proton 版本未声明支持 PROTON_FSR4_UPGRADE。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:369
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:361
 msgid ""
 "The selected Proton build does not advertise the legacy RDNA3 FSR 4 switch."
 msgstr "所选的 Proton 版本未声明支持旧版 RDNA3 FSR 4 开关。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:370
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:362
 msgid ""
 "The selected Proton build does not advertise PROTON_MLFG_UPGRADE support."
 msgstr "所选的 Proton 版本未声明支持 PROTON_MLFG_UPGRADE。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:371
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:363
 msgid ""
 "The selected Proton build does not advertise its DXVK low-latency option."
 msgstr "所选的 Proton 版本未声明支持其 DXVK 低延迟选项。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:372
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:364
 msgid ""
 "The selected Proton build does not advertise its VKD3D-Proton low-latency "
 "option."
 msgstr "所选的 Proton 版本未声明支持其 VKD3D-Proton 低延迟选项。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:373
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:365
 msgid ""
 "The selected Proton build does not advertise the low-latency Vulkan layer."
 msgstr "所选的 Proton 构建版本未声明支持低延迟 Vulkan 层。"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:374
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:366
 msgid "The selected Proton build does not advertise its Vulkan Reflex layer."
 msgstr "所选的 Proton 构建版本未声明其 Vulkan Reflex 层。"
 
@@ -6652,11 +6652,11 @@ msgid "%d game selected"
 msgid_plural "%d games selected"
 msgstr[0] "已选择 %d 款游戏"
 
-#: src/widgets/tools/tools-migrate-box.vala:143
+#: src/widgets/tools/tools-migrate-box.vala:142
 msgid "Migration Failed"
 msgstr "迁移失败"
 
-#: src/widgets/tools/tools-migrate-box.vala:144
+#: src/widgets/tools/tools-migrate-box.vala:143
 msgid ""
 "Some games could not be migrated to the new compatibility tool. This may be "
 "due to missing permissions or file access issues."

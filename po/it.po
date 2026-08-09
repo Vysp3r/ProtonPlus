@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 21:32-0400\n"
+"POT-Creation-Date: 2026-08-08 22:31-0400\n"
 "PO-Revision-Date: 2026-08-05 16:05+0200\n"
 "Last-Translator: Youseffo13 <>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -2245,7 +2245,7 @@ msgstr ""
 msgid "The operation could not be completed."
 msgstr "Impossibile completare l'operazione."
 
-#: src/services/installation-service.vala:325
+#: src/services/installation-service.vala:345
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -2484,7 +2484,7 @@ msgid "All"
 msgstr "Tutti"
 
 #: src/widgets/games/games-box.vala:138
-#: src/widgets/games/games-mass-edit-view.vala:168
+#: src/widgets/games/games-mass-edit-view.vala:167
 #: src/widgets/games/games-row.vala:267
 msgid "Native"
 msgstr "Nativo"
@@ -2544,7 +2544,7 @@ msgid ""
 msgstr "Se vuoi che acceleri lo sviluppo, mostra il tuo supporto!"
 
 #: src/widgets/games/games-box.vala:398 src/widgets/games/games-row.vala:264
-#: src/widgets/tools/tools-migrate-box.vala:99
+#: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr "Predefinito"
 
@@ -2674,28 +2674,28 @@ msgstr ""
 "Abilita le sezioni che vuoi cambiare. Le sezioni disabilitate lasciano i "
 "giochi selezionati invariati."
 
-#: src/widgets/games/games-mass-edit-view.vala:269
+#: src/widgets/games/games-mass-edit-view.vala:268
 msgid "Compatibility tool cannot be applied"
 msgstr "Impossibile applicare lo strumento di Compatibilità"
 
-#: src/widgets/games/games-mass-edit-view.vala:270
+#: src/widgets/games/games-mass-edit-view.vala:269
 msgid "No games were changed because no compatibility tool is selected."
 msgstr ""
 "Nessun gioco è stato modificato perché non è stato selezionato alcuno "
 "strumento di compatibilità."
 
-#: src/widgets/games/games-mass-edit-view.vala:292
+#: src/widgets/games/games-mass-edit-view.vala:291
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 "Le opzioni di lancio selezionate sono incomplete o non supportate per questi "
 "giochi."
 
-#: src/widgets/games/games-mass-edit-view.vala:293
+#: src/widgets/games/games-mass-edit-view.vala:292
 msgid "Launch options cannot be applied"
 msgstr "Impossibile applicare le opzioni di lancio"
 
-#: src/widgets/games/games-mass-edit-view.vala:294
+#: src/widgets/games/games-mass-edit-view.vala:293
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
@@ -2703,11 +2703,11 @@ msgstr ""
 "Nessun gioco è stato modificato perché il comando di lancio non poteva "
 "essere preparato in sicurezza."
 
-#: src/widgets/games/games-mass-edit-view.vala:345
+#: src/widgets/games/games-mass-edit-view.vala:344
 msgid "Batch Update Failed"
 msgstr "Aggiornamento in blocco non riuscito"
 
-#: src/widgets/games/games-mass-edit-view.vala:346
+#: src/widgets/games/games-mass-edit-view.vala:345
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
@@ -3724,87 +3724,87 @@ msgstr "Gamescope"
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:222
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:214
 msgid "This option is unsupported and cannot be newly enabled."
 msgstr "Questa opzione non è supportata e non può essere abilitata."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:229
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:221
 msgid "This legacy option is preserved but cannot be newly enabled."
 msgstr ""
 "Questa opzione è mantenuta per compatibilità, ma non può essere attivata di "
 "nuovo."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:233
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:225
 msgid "Compatibility-tool capabilities are not known yet."
 msgstr "Le funzionalità dello strumento di compatibilità non sono ancora note."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:250
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:242
 msgid "Requires an available launch backend."
 msgstr "Richiede un backend di lancio disponibile."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:258
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:250
 msgid "Requires a compatible Proton variant."
 msgstr "Richiede una variante di Proton compatibile."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:275
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:267
 msgid "The selected launch backend is not supported."
 msgstr "Il backend di lancio selezionato non è supportato."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:353
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:345
 msgid "Requires an AMD GPU."
 msgstr "Richiede una GPU AMD."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:354
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:346
 msgid "Requires an NVIDIA GPU."
 msgstr "Richiede una GPU NVIDIA."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:355
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:347
 msgid "Requires an Intel GPU."
 msgstr "Richiede una GPU Intel."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:356
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:348
 msgid "Requires MangoHud, which is not available."
 msgstr "Richiede MangoHud, che non è disponibile."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:357
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:349
 msgid "Requires GameMode, which is not available."
 msgstr "Richiede GameMode, che non è disponibile."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:358
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:350
 msgid "Requires the CachyOS game-performance command, which is not available."
 msgstr ""
 "Richiede il comando game-performance di CachyOS, che non è disponibile."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:359
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:351
 msgid "Requires obs-vkcapture, which is not available."
 msgstr "Richiede obs-vkcapture, che non è disponibile."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:360
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:352
 msgid "Requires Gamescope, which is not available."
 msgstr "Richiede Gamescope, che non è disponibile."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:361
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:353
 msgid "Requires ScopeBuddy, which is not available."
 msgstr "Richiede ScopeBuddy, che non è disponibile."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:362
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:354
 msgid "Requires vkBasalt, which is not available."
 msgstr "Richiede vkBasalt, che non è disponibile."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:363
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:355
 msgid "Requires DXVK from the selected compatibility tool."
 msgstr "Richiede DXVK dallo strumento di compatibilità selezionato."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:364
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:356
 msgid "Requires VKD3D-Proton from the selected compatibility tool."
 msgstr "Richiede VKD3D-Proton dallo strumento di compatibilità selezionato."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:365
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:375
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:357
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:367
 msgid "Not supported by the selected compatibility tool."
 msgstr "Non supportato dallo strumento di compatibilità selezionato."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:366
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:358
 msgid ""
 "The selected Proton build does not advertise legacy PROTON_ENABLE_HDR "
 "support."
@@ -3812,37 +3812,37 @@ msgstr ""
 "La build Proton selezionata non dichiara il supporto legacy "
 "PROTON_ENABLE_HDR."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:367
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:359
 msgid ""
 "The selected Proton build does not advertise automatic-HDR opt-out support."
 msgstr ""
 "La build Proton selezionata non dichiara il supporto per l'opt-out HDR "
 "automatico."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:368
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:360
 msgid ""
 "The selected Proton build does not advertise PROTON_FSR4_UPGRADE support."
 msgstr ""
 "La build Proton selezionata non dichiara il supporto PROTON_FSR4_UPGRADE."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:369
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:361
 msgid ""
 "The selected Proton build does not advertise the legacy RDNA3 FSR 4 switch."
 msgstr "La build Proton selezionata non dichiara lo switch legacy RDNA3 FSR 4."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:370
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:362
 msgid ""
 "The selected Proton build does not advertise PROTON_MLFG_UPGRADE support."
 msgstr ""
 "La build Proton selezionata non dichiara il supporto PROTON_MLFG_UPGRADE."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:371
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:363
 msgid ""
 "The selected Proton build does not advertise its DXVK low-latency option."
 msgstr ""
 "La build Proton selezionata non dichiara la sua opzione DXVK a bassa latenza."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:372
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:364
 msgid ""
 "The selected Proton build does not advertise its VKD3D-Proton low-latency "
 "option."
@@ -3850,13 +3850,13 @@ msgstr ""
 "La build Proton selezionata non dichiara la sua opzione VKD3D-Proton a bassa "
 "latenza."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:373
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:365
 msgid ""
 "The selected Proton build does not advertise the low-latency Vulkan layer."
 msgstr ""
 "La build Proton selezionata non dichiara il layer Vulkan a bassa latenza."
 
-#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:374
+#: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:366
 msgid "The selected Proton build does not advertise its Vulkan Reflex layer."
 msgstr "La build Proton selezionata non dichiara il suo layer Vulkan Reflex."
 
@@ -7048,11 +7048,11 @@ msgid_plural "%d games selected"
 msgstr[0] "%d gioco selezionato"
 msgstr[1] "%d giochi selezionati"
 
-#: src/widgets/tools/tools-migrate-box.vala:143
+#: src/widgets/tools/tools-migrate-box.vala:142
 msgid "Migration Failed"
 msgstr "Migrazione Fallita"
 
-#: src/widgets/tools/tools-migrate-box.vala:144
+#: src/widgets/tools/tools-migrate-box.vala:143
 msgid ""
 "Some games could not be migrated to the new compatibility tool. This may be "
 "due to missing permissions or file access issues."
