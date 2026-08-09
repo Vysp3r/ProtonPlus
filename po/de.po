@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-09 15:22-0400\n"
-"PO-Revision-Date: 2026-08-05 08:51+0200\n"
+"PO-Revision-Date: 2026-08-09 22:45+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/de/>\n"
@@ -139,142 +139,154 @@ msgid "The mass edit interface of ProtonPlus."
 msgstr "Die Oberfläche für Massenbearbeitung von ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:94
-#, fuzzy
 msgid "✨ Improved how ProtonPlus finds Steam compatibility tools"
-msgstr ""
-"✨ Ansichten für Startoptionen, Massenbearbeitung und Standard-"
-"Kompatibilitätswerkzeug verbessert"
+msgstr "✨ Erkennung von Steam-Kompatibilitätswerkzeugen verbessert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:95
 msgid "✨ Improved mass editing and controller navigation in the Games tab"
 msgstr ""
+"✨ Massenbearbeitung und Controller-Navigation im Spiele-Tab verbessert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:96
-#, fuzzy
 msgid "🐛 Fixed compatibility tool installation for some Steam setups"
-msgstr "🐛 Erkennung von Kompatibilitätswerkzeugen korrigiert"
+msgstr ""
+"🐛 Installation von Kompatibilitätswerkzeugen für einige Steam-"
+"Konfigurationen korrigiert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:97
-#, fuzzy
 msgid "🐛 Fixed tool usage counts and game lists when moving to another tool"
-msgstr "🐛 Werkzeug-Nutzungszähler berücksichtigt nun das Standardwerkzeug"
+msgstr ""
+"🐛 Nutzungszähler und Spielelisten beim Wechsel zu einem anderen Werkzeug "
+"korrigiert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:98
 msgid ""
 "🐛 Fixed tool installation on some Linux systems and improved archive safety"
 msgstr ""
+"🐛 Installation von Werkzeugen auf einigen Linux-Systemen korrigiert und "
+"Archivsicherheit verbessert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:99
-#, fuzzy
 msgid "🐛 Fixed translations missing from the AppImage version"
-msgstr "🌐 Fehlende Übersetzungen hinzugefügt"
+msgstr "🐛 Fehlende Übersetzungen in der AppImage-Version korrigiert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:100
-#, fuzzy
 msgid "🌐 Updated Czech and Slovak translations"
-msgstr "🌐 Tschechische Lokalisierung aktualisiert"
+msgstr "🌐 Tschechische und slowakische Übersetzungen aktualisiert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:107
-#, fuzzy
 msgid "✨ Added Faugus Launcher support"
-msgstr "✨ CLI-Unterstützung hinzugefügt"
+msgstr "✨ Unterstützung für Faugus Launcher hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:108
 msgid "✨ Added CPU-aware x86-64 and ARM64 variant selection"
-msgstr ""
+msgstr "✨ CPU-abhängige Variantenauswahl für x86-64 und ARM64 hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:109
-#, fuzzy
 msgid "✨ Added scheduled background updates and notifications"
-msgstr "✨ Aktualisierungsanzeige hinzugefügt"
+msgstr ""
+"✨ Geplante Hintergrundaktualisierungen und Benachrichtigungen hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:110
 msgid ""
 "✨ Added controller navigation with contextual hints, optional haptic "
 "feedback, and a first-run guide"
 msgstr ""
+"✨ Controller-Navigation mit kontextbezogenen Hinweisen, optionalem "
+"haptischem Feedback und einer Einführung beim ersten Start hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:111
-#, fuzzy
 msgid "✨ Added Breeze Light, Breeze Dark, SteamOS, and OLED themes"
-msgstr "✨ Ein SteamOS-Design und ein OLED-Design wurden hinzugefügt"
+msgstr "✨ Breeze-Hell-, Breeze-Dunkel-, SteamOS- und OLED-Designs hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:112
 msgid "✨ Added a built-in MangoHud editor and proxy settings"
-msgstr ""
+msgstr "✨ Integrierten MangoHud-Editor und Proxy-Einstellungen hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:113
 msgid ""
 "✨ Added Steam shortcut creation and guided Steam restarts, including "
 "SteamOS Gaming Mode"
 msgstr ""
+"✨ Erstellung von Steam-Verknüpfungen und geführte Steam-Neustarts "
+"einschließlich SteamOS-Spielemodus hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:114
-#, fuzzy
 msgid "✨ Added default Steam compatibility prefix migration"
 msgstr ""
-"✨ Möglichkeit hinzugefügt, das Kompatibilitätswerkzeug von Steam-Spielen zu "
-"ändern"
+"✨ Migration des standardmäßigen Steam-Kompatibilitätspräfixes hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:115
-#, fuzzy
 msgid "✨ Added an active downloads indicator"
-msgstr "✨ Aktualisierungsanzeige hinzugefügt"
+msgstr "✨ Anzeige für aktive Downloads hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:116
-#, fuzzy
 msgid "✨ Added ARM64 Flatpak support"
-msgstr "✨ CLI-Unterstützung hinzugefügt"
+msgstr "✨ ARM64-Flatpak-Unterstützung hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:117
 msgid ""
 "✨ Reworked the launch options editor with hardware-aware options and exact "
 "command previews"
 msgstr ""
+"✨ Startoptionen-Editor mit hardwareabhängigen Optionen und exakten "
+"Befehlsvorschauen überarbeitet"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:118
 msgid ""
 "✨ Preserved custom and unknown safe launch options during single-game and "
 "mass edits"
 msgstr ""
+"✨ Benutzerdefinierte und unbekannte sichere Startoptionen bei Einzel- und "
+"Massenbearbeitungen beibehalten"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:119
 msgid ""
 "✨ Improved Games and Tools navigation, search, filtering, selection, and "
 "repository links"
 msgstr ""
+"✨ Navigation, Suche, Filterung, Auswahl und Repository-Links in Spiele und "
+"Werkzeuge verbessert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:120
-#, fuzzy
 msgid ""
 "✨ Improved stable release selection, Latest handling, and variant selection"
-msgstr "✨ Handhabung von Proton-GE Latest verbessert"
+msgstr ""
+"✨ Auswahl stabiler Veröffentlichungen, Handhabung von Latest und "
+"Variantenauswahl verbessert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:121
 msgid ""
 "✨ Improved downloads and tool updates with timeout recovery, archive "
 "checks, preserved settings, and safer rollback"
 msgstr ""
+"✨ Downloads und Werkzeugaktualisierungen durch Wiederherstellung nach "
+"Zeitüberschreitungen, Archivprüfungen, beibehaltene Einstellungen und "
+"sichereres Zurücksetzen verbessert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:122
 msgid "✨ Improved Steam multi-user, VDF, and shortcut handling"
-msgstr ""
+msgstr "✨ Steam-Mehrbenutzer-, VDF- und Verknüpfungshandhabung verbessert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:123
 msgid "✨ Improved command-line validation and error reporting"
-msgstr ""
+msgstr "✨ Befehlszeilenvalidierung und Fehlerberichte verbessert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:124
 msgid ""
 "🐛 Fixed custom executable launches and kept the app usable when some Steam "
 "data cannot be loaded"
 msgstr ""
+"🐛 Start benutzerdefinierter ausführbarer Dateien korrigiert und die App "
+"nutzbar gehalten, wenn einige Steam-Daten nicht geladen werden können"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:125
 msgid ""
 "🐛 Fixed release and installation issues affecting Proton-TKG, Proton-"
 "CachyOS, DXVK, VKD3D, Lutris, and Steam Tinker Launch"
 msgstr ""
+"🐛 Veröffentlichungs- und Installationsprobleme bei Proton-TKG, Proton-"
+"CachyOS, DXVK, VKD3D, Lutris und Steam Tinker Launch korrigiert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:126
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:325
@@ -282,14 +294,12 @@ msgid "🌐 Added Arabic localization"
 msgstr "🌐 Arabische Lokalisierung hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:127
-#, fuzzy
 msgid "🌐 Added Slovak localization"
-msgstr "🌐 Georgische Lokalisierung hinzugefügt"
+msgstr "🌐 Slowakische Lokalisierung hinzugefügt"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:128
-#, fuzzy
 msgid "🌐 Updated Simplified Chinese localization"
-msgstr "🌐 Chinesische Lokalisierung aktualisiert"
+msgstr "🌐 Vereinfachte chinesische Lokalisierung aktualisiert"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:129
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:146
@@ -2176,7 +2186,7 @@ msgstr "Chinesisch (Traditionell)"
 #: src/models/launchers/steam.vala:360
 #, c-format
 msgid "%s (Unavailable)"
-msgstr ""
+msgstr "%s (Nicht verfügbar)"
 
 #: src/models/tools/steamtinkerlaunch.vala:8
 msgid ""
@@ -2300,30 +2310,32 @@ msgstr ""
 "Das Manifest des Kompatibilitätswerkzeugs ist ungültig oder unvollständig"
 
 #: src/services/steam-tinker-launch-workflow.vala:71
-#, fuzzy
 msgid "The SteamTinkerLaunch archive is invalid or incomplete"
-msgstr "Die erforderlichen Daten sind ungültig oder unvollständig."
+msgstr "Das SteamTinkerLaunch-Archiv ist ungültig oder unvollständig"
 
 #: src/services/steam-tinker-launch-workflow.vala:79
 msgid "Failed to prepare the SteamTinkerLaunch executable"
 msgstr ""
+"Die ausführbare SteamTinkerLaunch-Datei konnte nicht vorbereitet werden"
 
 #: src/services/steam-tinker-launch-workflow.vala:88
 #: src/services/steam-tinker-launch-workflow.vala:144
 #: src/services/steam-tinker-launch-workflow.vala:166
 #: src/services/steam-tinker-launch-workflow.vala:209
-#, fuzzy
 msgid "Failed to update SteamTinkerLaunch compatibility registration"
-msgstr "Compatibilitytool.vdf konnte nicht aktualisiert werden"
+msgstr ""
+"Die SteamTinkerLaunch-Kompatibilitätsregistrierung konnte nicht aktualisiert "
+"werden"
 
 #: src/services/steam-tinker-launch-workflow.vala:155
-#, fuzzy
 msgid "Failed to initialize SteamTinkerLaunch"
-msgstr "🐛 yad-Prüfung für Steam Tinker Launch korrigiert"
+msgstr "SteamTinkerLaunch konnte nicht initialisiert werden"
 
 #: src/utils/web.vala:221
 msgid "The download timed out. Check your connection and try again."
 msgstr ""
+"Zeitüberschreitung beim Download. Prüfen Sie Ihre Verbindung und versuchen "
+"Sie es erneut."
 
 #: src/widgets/application.vala:233
 msgid "Website"
@@ -2338,14 +2350,12 @@ msgid "Special thanks to"
 msgstr "Spezieller Dank an"
 
 #: src/widgets/controller-hint-bar.vala:101
-#, fuzzy
 msgid "Select"
-msgstr "Alle auswählen"
+msgstr "Auswählen"
 
 #: src/widgets/controller-hint-bar.vala:105
-#, fuzzy
 msgid "Toggle"
-msgstr "Umschalttaste"
+msgstr "Umschalten"
 
 #: src/widgets/controller-hint-bar.vala:109
 msgid "Open"
@@ -2363,42 +2373,40 @@ msgstr "Beenden"
 
 #: src/widgets/controller-hint-bar.vala:121
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #: src/widgets/controller-hint-bar.vala:125
 msgid "Left and right"
-msgstr ""
+msgstr "Links und rechts"
 
 #: src/widgets/controller-hint-bar.vala:126
 #: src/widgets/controller-hint-bar.vala:131
 msgid "Adjust"
-msgstr ""
+msgstr "Anpassen"
 
 #: src/widgets/controller-hint-bar.vala:130
 msgid "Up and down"
-msgstr ""
+msgstr "Oben und unten"
 
 #: src/widgets/controller-hint-bar.vala:135
 msgid "Keyboard"
-msgstr ""
+msgstr "Tastatur"
 
 #: src/widgets/controller-hint-bar.vala:136
 msgid "Enter text"
-msgstr ""
+msgstr "Text eingeben"
 
 #: src/widgets/controller-hint-bar.vala:139
-#, fuzzy
 msgid "Shoulders"
-msgstr "Ränder"
+msgstr "Schultertasten"
 
 #: src/widgets/controller-hint-bar.vala:140
 msgid "Shoulder buttons"
-msgstr ""
+msgstr "Schultertasten"
 
 #: src/widgets/controller-hint-bar.vala:141
-#, fuzzy
 msgid "Switch section or page"
-msgstr "Wählen Sie ein anderes Profil"
+msgstr "Bereich oder Seite wechseln"
 
 #: src/widgets/controller-hint-bar.vala:145
 #: src/widgets/tools/tools-box.vala:156 src/widgets/tools/tools-box.vala:190
@@ -2414,77 +2422,69 @@ msgstr "Filter"
 
 #: src/widgets/controller-hint-bar.vala:183
 msgid "A button"
-msgstr ""
+msgstr "A-Taste"
 
 #: src/widgets/controller-hint-bar.vala:187
-#, fuzzy
 msgid "B button"
-msgstr "Unten links"
+msgstr "B-Taste"
 
 #: src/widgets/controller-hint-bar.vala:191
 msgid "X button"
-msgstr ""
+msgstr "X-Taste"
 
 #: src/widgets/controller-hint-bar.vala:195
 msgid "Y button"
-msgstr ""
+msgstr "Y-Taste"
 
 #: src/widgets/controller-hint-bar.vala:199
 msgid "Cross button"
-msgstr ""
+msgstr "Kreuz-Taste"
 
 #: src/widgets/controller-hint-bar.vala:203
 msgid "Circle button"
-msgstr ""
+msgstr "Kreis-Taste"
 
 #: src/widgets/controller-hint-bar.vala:207
-#, fuzzy
 msgid "Square button"
-msgstr "Eckig"
+msgstr "Quadrat-Taste"
 
 #: src/widgets/controller-hint-bar.vala:211
 msgid "Triangle button"
-msgstr ""
+msgstr "Dreieck-Taste"
 
 #: src/widgets/controller-hint-bar.vala:214
-#, fuzzy
 msgid "Bottom"
-msgstr "Unten links"
+msgstr "Unten"
 
 #: src/widgets/controller-hint-bar.vala:215
 #: src/widgets/preferences/preferences-dialog.vala:36
-#, fuzzy
 msgid "Bottom face button"
-msgstr "Unten links"
+msgstr "Untere Aktionstaste"
 
 #: src/widgets/controller-hint-bar.vala:218
-#, fuzzy
 msgid "Right"
-msgstr "Hell"
+msgstr "Rechts"
 
 #: src/widgets/controller-hint-bar.vala:219
 #: src/widgets/preferences/preferences-dialog.vala:37
 msgid "Right face button"
-msgstr ""
+msgstr "Rechte Aktionstaste"
 
 #: src/widgets/controller-hint-bar.vala:222
-#, fuzzy
 msgid "Left"
-msgstr "Oben links"
+msgstr "Links"
 
 #: src/widgets/controller-hint-bar.vala:223
-#, fuzzy
 msgid "Left face button"
-msgstr "Unten links"
+msgstr "Linke Aktionstaste"
 
 #: src/widgets/controller-hint-bar.vala:226
 msgid "Top"
-msgstr ""
+msgstr "Oben"
 
 #: src/widgets/controller-hint-bar.vala:227
-#, fuzzy
 msgid "Top face button"
-msgstr "Unten links"
+msgstr "Obere Aktionstaste"
 
 #: src/widgets/games/games-box.vala:73 src/widgets/games/games-box.vala:486
 #: src/widgets/tools/tools-release-box.vala:102
@@ -2536,15 +2536,17 @@ msgid "Games"
 msgstr "Spiele"
 
 #: src/widgets/games/games-box.vala:322
-#, fuzzy
 msgid "Steam games couldn’t be loaded"
-msgstr "Steam konnte nicht erneut geöffnet werden"
+msgstr "Steam-Spiele konnten nicht geladen werden"
 
 #: src/widgets/games/games-box.vala:323
 msgid ""
 "Steam’s library or profile data is missing or invalid. Finish setting up "
 "Steam, then restart ProtonPlus. Tools and other launchers remain available."
 msgstr ""
+"Die Bibliotheks- oder Profildaten von Steam fehlen oder sind ungültig. "
+"Schließen Sie die Einrichtung von Steam ab und starten Sie ProtonPlus neu. "
+"Werkzeuge und andere Starter bleiben verfügbar."
 
 #: src/widgets/games/games-box.vala:333
 msgid "Unsupported launcher"
@@ -2705,13 +2707,12 @@ msgstr ""
 "ist."
 
 #: src/widgets/games/games-mass-edit-view.vala:280
-#, fuzzy
 msgid ""
 "No games were changed because the selected compatibility tool is no longer "
 "available."
 msgstr ""
-"Es wurden keine Spiele geändert, da kein Kompatibilitätswerkzeug ausgewählt "
-"ist."
+"Es wurden keine Spiele geändert, da das ausgewählte Kompatibilitätswerkzeug "
+"nicht mehr verfügbar ist."
 
 #: src/widgets/games/games-mass-edit-view.vala:306
 msgid ""
@@ -2789,17 +2790,18 @@ msgstr ""
 #: src/widgets/games/games-row.vala:397
 #, c-format
 msgid "Exit status: %d"
-msgstr ""
+msgstr "Exit-Status: %d"
 
 #: src/widgets/games/games-row.vala:402
-#, fuzzy
 msgid "Custom Executable Failed"
-msgstr "Benutzerdefinierte ausführbare Datei starten"
+msgstr "Benutzerdefinierte ausführbare Datei fehlgeschlagen"
 
 #: src/widgets/games/games-row.vala:403
-#, fuzzy, c-format
+#, c-format
 msgid "The custom executable for %s could not be launched."
-msgstr "Die Anfrage konnte nicht abgeschlossen werden."
+msgstr ""
+"Die benutzerdefinierte ausführbare Datei für %s konnte nicht gestartet "
+"werden."
 
 #: src/widgets/games/games-tool-row.vala:18
 #: src/widgets/tools/tools-migrate-box.vala:18
@@ -5475,9 +5477,8 @@ msgid "_About ProtonPlus"
 msgstr "_Über ProtonPlus"
 
 #: src/widgets/header/header-box.vala:57
-#, fuzzy
 msgid "_Exit"
-msgstr "Beenden"
+msgstr "_Beenden"
 
 #: src/widgets/header/header-downloads-indicator.vala:32
 msgid "Active downloads"
@@ -5559,39 +5560,47 @@ msgstr "Controller-Unterstützung"
 
 #: src/widgets/introduction/controller.vala:33
 msgid "Navigation"
-msgstr ""
+msgstr "Navigation"
 
 #: src/widgets/introduction/controller.vala:34
 msgid ""
 "Use the D-pad or sticks to move through pages, dialogs, and menus. Switch "
 "sections with the shoulder buttons."
 msgstr ""
+"Navigieren Sie mit dem Steuerkreuz oder den Sticks durch Seiten, Dialoge und "
+"Menüs. Wechseln Sie Bereiche mit den Schultertasten."
 
 #: src/widgets/introduction/controller.vala:38
 msgid ""
 "Use the face buttons for Confirm, Back, Search, and Filter. Hints match your "
 "controller's button labels."
 msgstr ""
+"Verwenden Sie die Aktionstasten für Bestätigen, Zurück, Suchen und Filtern. "
+"Die Hinweise entsprechen den Tastenbeschriftungen Ihres Controllers."
 
 #: src/widgets/introduction/controller.vala:41
-#, fuzzy
 msgid "Preferences"
-msgstr "_Einstellungen"
+msgstr "Einstellungen"
 
 #: src/widgets/introduction/controller.vala:42
 msgid ""
 "Choose the Confirm button and enable controller vibration in Preferences."
 msgstr ""
+"Wählen Sie die Bestätigungstaste aus und aktivieren Sie die Controller-"
+"Vibration in den Einstellungen."
 
 #: src/widgets/introduction/controller.vala:45
 msgid "Text input"
-msgstr ""
+msgstr "Texteingabe"
 
 #: src/widgets/introduction/controller.vala:46
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."
 msgstr ""
+"Fokussieren Sie auf dem Steam Deck ein Textfeld und drücken Sie Steam + X. "
+"Auf anderen Systemen ist möglicherweise eine physische Tastatur oder "
+"Bildschirmtastatur erforderlich."
 
 #: src/widgets/introduction/forks.vala:8
 msgid "Custom Forks & Flavors"
@@ -5737,15 +5746,17 @@ msgstr "Problem melden"
 
 #: src/widgets/loading/loading-box.vala:145
 msgid "You need a game launcher to use ProtonPlus."
-msgstr ""
+msgstr "Sie benötigen einen Spielestarter, um ProtonPlus zu verwenden."
 
 #: src/widgets/loading/loading-box.vala:147
 msgid "Install one of these to get started:"
-msgstr ""
+msgstr "Installieren Sie einen der folgenden Starter, um zu beginnen:"
 
 #: src/widgets/loading/loading-box.vala:188
 msgid "Important: Run the launcher once to initialize it properly."
 msgstr ""
+"Wichtig: Führen Sie den Starter einmal aus, um ihn ordnungsgemäß zu "
+"initialisieren."
 
 #: src/widgets/loading/loading-box.vala:190
 msgid "Check again"
@@ -6772,26 +6783,25 @@ msgid "Appearance"
 msgstr "Darstellung"
 
 #: src/widgets/preferences/preferences-dialog.vala:31
-#, fuzzy
 msgid "Controller"
-msgstr "Controller-Unterstützung"
+msgstr "Controller"
 
 #: src/widgets/preferences/preferences-dialog.vala:39
 msgid "Confirm button"
-msgstr ""
+msgstr "Bestätigungstaste"
 
 #: src/widgets/preferences/preferences-dialog.vala:40
 msgid "Choose which face button activates the selected control"
-msgstr ""
+msgstr "Auswählen, welche Aktionstaste das ausgewählte Steuerelement aktiviert"
 
 #: src/widgets/preferences/preferences-dialog.vala:53
-#, fuzzy
 msgid "Controller vibration"
-msgstr "Controller-Unterstützung"
+msgstr "Controller-Vibration"
 
 #: src/widgets/preferences/preferences-dialog.vala:54
 msgid "Use subtle vibration for controller actions and navigation limits"
 msgstr ""
+"Dezente Vibration für Controller-Aktionen und Navigationsgrenzen verwenden"
 
 #: src/widgets/preferences/preferences-dialog.vala:61
 msgid "Help"
@@ -7421,7 +7431,7 @@ msgstr "Möchten Sie es mit ProtonPlus neu installieren?"
 
 #: src/widgets/window.vala:151
 msgid "Do you want to exit?"
-msgstr ""
+msgstr "Möchten Sie die Anwendung beenden?"
 
 #: src/widgets/window.vala:297
 msgid ""
