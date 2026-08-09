@@ -88,6 +88,15 @@
   </screenshots>
 
   <releases>
+    <release version="0.6.2" date="2026-08-09">
+      <description>
+        <ul>
+          <li>✨ Added AppImage builds for AArch64 systems</li>
+          <li>🐛 Fixed Faugus launcher not being detected under Flatpak</li>
+          <li>🌐 Updated German localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.1" date="2026-08-09">
       <description>
         <ul>
