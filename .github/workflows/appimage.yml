@@ -7,6 +7,7 @@ concurrency:
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -20,6 +21,8 @@ jobs:
         include:
           - runs-on: ubuntu-latest
             arch: x86_64
+          - runs-on: ubuntu-24.04-arm
+            arch: aarch64
     container: ghcr.io/pkgforge-dev/archlinux:latest
     steps:
       - uses: actions/checkout@v6
