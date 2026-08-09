@@ -1,5 +1,5 @@
 namespace ProtonPlus.Widgets.Games {
-    public class MassEditButton : Gtk.Button {
+    public class MassEditButton : Gtk.Button, Utils.ControllerDirectionalFocus {
         public signal void mass_edit_requested (GameRow[] rows);
 
         Gtk.ListBox game_list_box { get; set; }
@@ -11,7 +11,9 @@ namespace ProtonPlus.Widgets.Games {
             mass_edit_button_content.set_icon_name ("screwdriver-wrench-symbolic");
 
             set_tooltip_text (_ ("Modify the selected games all at once"));
-            add_css_class ("flat");
+            set_halign (Gtk.Align.CENTER);
+            add_css_class ("pill");
+            add_css_class ("suggested-action");
             set_child (mass_edit_button_content);
 
             clicked.connect (mass_edit_button_clicked);
@@ -28,6 +30,26 @@ namespace ProtonPlus.Widgets.Games {
             set_tooltip_text (
                 ngettext ("Modify %d selected game all at once", "Modify %d selected games all at once", count).printf (count)
             );
+        }
+
+        public bool controller_focus_direction (
+            Object focused_object, Utils.ControllerNavigationDirection direction
+        ) {
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null ||
+                (focused != this && !((!) focused).is_ancestor (this)) ||
+                direction != Utils.ControllerNavigationDirection.UP)
+                return false;
+
+            var child = game_list_box.get_last_child ();
+            while (child != null) {
+                if (child is GameRow && child.get_mapped () && child.is_visible () &&
+                    child.get_child_visible () && child.is_sensitive () &&
+                    child.get_focusable ())
+                    return child.grab_focus ();
+                child = child.get_prev_sibling ();
+            }
+            return false;
         }
 
         void mass_edit_button_clicked () {

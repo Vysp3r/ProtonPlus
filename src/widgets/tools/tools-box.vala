@@ -135,14 +135,7 @@ namespace ProtonPlus.Widgets.Tools {
             migrate_button.clicked.connect (() => {
                 if (current_job == null)
                     return;
-                string internal_name = "";
-                if (current_job.steam_tinker_launch_context != null) {
-                    internal_name = "Proton-stl";
-                } else if (current_job.tool is Models.Tools.ProviderTool) {
-                    internal_name = ((Models.Tools.ProviderTool)current_job.tool).get_directory_name (current_job.title);
-                } else {
-                    internal_name = current_job.title;
-                }
+                var internal_name = current_job.get_usage_identifier ();
                 migrate_box.init (release_box.get_selected_games (), internal_name, current_launcher);
                 push_page (migrate_page);
             });
@@ -262,7 +255,6 @@ namespace ProtonPlus.Widgets.Tools {
             center_stack = new Adw.ViewStack ();
             center_stack.add_named (switcher, "groups");
             center_stack.add_named (release_box.stack_switcher, "release");
-            center_stack.add_named (migrate_box.games_button, "migrate");
 
             var center_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
                 halign = Gtk.Align.CENTER
@@ -281,6 +273,7 @@ namespace ProtonPlus.Widgets.Tools {
             header_bar.pack_end (search_button);
             header_bar.pack_end (open_button);
             header_bar.pack_end (migrate_button);
+            header_bar.pack_end (migrate_box.games_button);
             header_bar.pack_end (migrate_box.migrate_button);
             header_bar.pack_end (releases_box.repository_button);
             header_bar.pack_end (releases_box.variant_box);
@@ -317,9 +310,8 @@ namespace ProtonPlus.Widgets.Tools {
                     center_stack.set_visible (has_multiple_views);
                     action_bar.set_visible (has_multiple_views);
                 } else if (visible_child == "migrate") {
-                    center_stack.set_visible_child_name ("migrate");
-                    center_stack.set_visible (true);
-                    action_bar.set_visible (true);
+                    center_stack.set_visible (false);
+                    action_bar.set_visible (false);
                 } else {
                     center_stack.set_visible (false);
                     action_bar.set_visible (false);

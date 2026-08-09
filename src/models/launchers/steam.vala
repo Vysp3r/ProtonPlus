@@ -148,15 +148,16 @@ namespace ProtonPlus.Models.Launchers {
         }
 
         public override int get_compatibility_tool_usage_count (string compatibility_tool_name) {
-            int count = 0;
+            return get_compatibility_tool_usage_games (compatibility_tool_name).size;
+        }
 
+        public Gee.List<Game> get_compatibility_tool_usage_games (string compatibility_tool_name) {
+            var usage_games = new Gee.ArrayList<Game> ();
             bool is_default_tool = (compatibility_tool_name == default_compatibility_tool);
 
             foreach (var game in games) {
-                if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")) {
-                    if (!game.is_native)
-                    count++;
-                }
+                if (uses_compatibility_tool (game, compatibility_tool_name, is_default_tool))
+                    usage_games.add (game);
             }
 
             foreach (var profile in profiles) {
@@ -164,14 +165,23 @@ namespace ProtonPlus.Models.Launchers {
                     continue;
 
                 foreach (var game in profile.non_steam_games) {
-                    if (game.compatibility_tool == compatibility_tool_name || (is_default_tool && game.compatibility_tool == "Default")) {
-                        if (!game.is_native)
-                        count++;
-                    }
+                    if (uses_compatibility_tool (game, compatibility_tool_name, is_default_tool))
+                        usage_games.add (game);
                 }
             }
 
-            return count;
+            return usage_games;
+        }
+
+        private bool uses_compatibility_tool (
+            Game game,
+            string compatibility_tool_name,
+            bool is_default_tool
+        ) {
+            return !game.is_native && (
+                game.compatibility_tool == compatibility_tool_name ||
+                (is_default_tool && game.compatibility_tool == "Default")
+            );
         }
 
         public override async bool load_game_library () {

@@ -8,7 +8,6 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Image image;
         Adw.StatusPage status_page;
         MassEditButton mass_edit_button;
-        Gtk.ActionBar action_bar;
         Gtk.SearchEntry search_entry;
         Gtk.CheckButton check_button;
         Gtk.Label prefix_label;
@@ -37,7 +36,6 @@ namespace ProtonPlus.Widgets.Games {
         MassEditView mass_edit_view;
         ListStore model;
         Gtk.PropertyExpression expression;
-        Gtk.Box action_bar_box;
         Gtk.MenuButton selection_button;
         Gtk.ListBox selection_list_box;
         Gtk.Popover selection_popover;
@@ -192,14 +190,6 @@ namespace ProtonPlus.Widgets.Games {
             filter_column_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.HORIZONTAL);
             filter_column_size_group.add_widget (filter_button);
 
-            action_bar_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 15);
-            action_bar_box.set_halign (Gtk.Align.CENTER);
-
-            action_bar_box.append (mass_edit_button);
-
-            action_bar = new Gtk.ActionBar ();
-            action_bar.set_center_widget (action_bar_box);
-
             search_entry = new Gtk.SearchEntry () {
                 placeholder_text = _("Search games"),
                 hexpand = true
@@ -274,6 +264,7 @@ namespace ProtonPlus.Widgets.Games {
             games_page_box.set_hexpand (true);
             games_page_box.set_vexpand (true);
             games_page_box.append (headered_list_box);
+            games_page_box.append (mass_edit_button);
             games_page_box.append (status_page);
 
             var games_page_clamp = new Adw.Clamp ();
@@ -298,20 +289,14 @@ namespace ProtonPlus.Widgets.Games {
             navigation_view.add (list_page);
             navigation_view.add (mass_edit_page);
 
-            navigation_view.notify["visible-page"].connect (() => {
-                update_action_bar_visibility ();
-            });
             navigation_view.popped.connect ((page) => {
                 if (page == mass_edit_page)
                     cleanup_mass_edit_exit ();
             });
 
-            navigation_view.notify_property ("visible-page");
-
             expression = new Gtk.PropertyExpression (typeof (Models.CompatibilityTool), null, "display_title");
 
             append (navigation_view);
-            append (action_bar);
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {
@@ -358,15 +343,15 @@ namespace ProtonPlus.Widgets.Games {
         void show_normal () {
             error = false;
 
-            update_action_bar_visibility ();
             headered_list_box.set_visible (true);
+            update_selection_controls ();
 
             status_page.set_visible (false);
         }
 
         void show_status_box (string icon, string title, string description, bool is_image = false) {
-            action_bar.set_visible (false);
             headered_list_box.set_visible (false);
+            mass_edit_button.set_visible (false);
 
             if (is_image)
                 image.set_from_resource (icon);
@@ -414,7 +399,8 @@ namespace ProtonPlus.Widgets.Games {
                     tool_column_size_group,
                     actions_column_size_group,
                     filter_column_size_group,
-                    search_entry
+                    search_entry,
+                    mass_edit_button
                 );
                 game_row.mass_edit_requested.connect ((row) => {
                     open_mass_edit ({ row });
@@ -541,13 +527,6 @@ namespace ProtonPlus.Widgets.Games {
 
             mass_edit_button.set_selected_count (selected_count);
             mass_edit_button.set_visible (selected_count >= 2);
-            update_action_bar_visibility ();
-        }
-
-        void update_action_bar_visibility () {
-            action_bar.set_visible (
-                navigation_view.get_visible_page () == list_page && mass_edit_button.get_visible ()
-            );
         }
 
         void open_mass_edit (GameRow[] rows) {
@@ -580,7 +559,6 @@ namespace ProtonPlus.Widgets.Games {
                 selection_list_box.append (selection_row);
             }
 
-            mass_edit_button.set_visible (false);
             mass_edit_cleanup_pending = true;
             push_mass_edit_page ();
         }

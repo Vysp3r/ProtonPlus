@@ -85,6 +85,21 @@ namespace ProtonPlus.Models {
             return snapshot;
         }
 
+        // Pure cached lookup for consumers that already know the physical
+        // installation target.  This deliberately performs no discovery or
+        // manifest parsing.
+        public string? get_usage_identifier_for_path (string path) {
+            if (path == "")
+                return null;
+
+            var target_path = Filename.canonicalize (path, null);
+            foreach (var entry in entries) {
+                if (Filename.canonicalize (entry.path, null) == target_path)
+                    return usage_identifier_for (entry);
+            }
+            return null;
+        }
+
         public void invalidate () {
             entries.clear ();
             is_stale = true;

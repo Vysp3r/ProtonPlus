@@ -159,6 +159,12 @@ namespace ProtonPlus.Services {
         public string get_usage_identifier () {
             if (steam_tinker_launch_context != null)
                 return usage_name;
+
+            var installed_identifier = tool.group.installed_tool_inventory
+                .get_usage_identifier_for_path (install_location);
+            if (installed_identifier != null && installed_identifier != "")
+                return (!) installed_identifier;
+
             var provider_tool = tool as Models.Tools.ProviderTool;
             if (provider_tool != null) {
                 var directory_name = effective_directory_name (provider_tool);

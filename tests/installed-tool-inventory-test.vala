@@ -15,12 +15,22 @@ namespace AppTests.InstalledToolInventoryTest {
         }
     }
 
+    private class InventorySteam : ProtonPlus.Models.Launchers.Steam {
+        public InventorySteam (string root) {
+            base (Launcher.InstallationTypes.SNAP);
+            directory = root;
+            installed = true;
+            groups = {};
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/installed-tool-inventory/stable-identity-wins-and-constrains-launcher", test_stable_identity);
         Test.add_func ("/installed-tool-inventory/unambiguous-legacy-endpoint-migrates", test_legacy_endpoint_migration);
         Test.add_func ("/installed-tool-inventory/legacy-tag-and-directory-fallbacks", test_legacy_tag_and_directory_fallbacks);
         Test.add_func ("/installed-tool-inventory/vdf-internal-and-display-title-fallbacks", test_vdf_fallbacks);
         Test.add_func ("/installed-tool-inventory/latest-and-variant-directories", test_latest_and_variant_directories);
+        Test.add_func ("/installed-tool-inventory/job-usage-identity-follows-installed-entry", test_job_usage_identity);
         Test.add_func ("/installed-tool-inventory/steam-tinker-launch-usage", test_steam_tinker_launch_usage);
         Test.add_func ("/installed-tool-inventory/queries-are-cached-and-invalidation-refreshes", test_cached_queries_and_refresh);
         Test.add_func ("/installed-tool-inventory/groups-are-isolated", test_group_isolation);
@@ -71,12 +81,22 @@ namespace AppTests.InstalledToolInventoryTest {
         return value;
     }
 
-    private void save_metadata (string path, string provider_id = "", string tool_id = "", string launcher_id = "", string tag = "") {
+    private void save_metadata (
+        string path,
+        string provider_id = "",
+        string tool_id = "",
+        string launcher_id = "",
+        string tag = "",
+        string variant_id = "",
+        string release_id = ""
+    ) {
         var metadata = ProtonPlus.Utils.Metadata.load (path);
         metadata.provider_id = provider_id;
         metadata.tool_id = tool_id;
         metadata.launcher_id = launcher_id;
         metadata.tag = tag;
+        metadata.variant_id = variant_id;
+        metadata.release_id = release_id;
         assert (metadata.save (path));
     }
 
@@ -237,6 +257,95 @@ namespace AppTests.InstalledToolInventoryTest {
         assert (delete_directory (root));
     }
 
+    private void test_job_usage_identity () {
+        var root = temporary_directory ();
+        var managed_root = Path.build_filename (root, "compatibilitytools.d");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (managed_root));
+        var launcher = new InventorySteam (root);
+        var value = new Group ("Fixture group", "", "/compatibilitytools.d", launcher, "proton");
+        value.tools = new Gee.LinkedList<Tool> ();
+        var tool = add_tool (value, definition ("runner", "Runner"));
+        launcher.groups = { value };
+
+        var latest_release = release ("v1");
+        latest_release.variants.add (new ProtonPlus.Models.Variant (
+            "arm", "Arm 64", "$release_name-arm", false,
+            "https://example.test/fixture-arm.tar.gz"
+        ));
+        var job = new ProtonPlus.Services.InstallJob (
+            latest_release, tool, ProtonPlus.Services.InstallJob.Mode.LATEST
+        );
+        job.set_selected_variant ("Arm 64", null, "arm");
+
+        var physical_path = Path.build_filename (managed_root, "Runner Latest-Arm_64");
+        assert (job.install_location == physical_path);
+        // With no cached installed entry, retain the legacy physical-directory fallback.
+        assert (job.get_usage_identifier () == "Runner Latest-Arm_64");
+
+        assert (ProtonPlus.Utils.Filesystem.create_directory (physical_path));
+        write_vdf (physical_path, "Runner Latest", "Runner Latest");
+        save_metadata (
+            physical_path, tool.provider_id, tool.id, launcher.tool_target_id,
+            "v1", "arm", "fixture-release"
+        );
+
+        launcher.default_compatibility_tool = "Runner Latest";
+        var active_profile = new SteamProfile (
+            launcher, "Active", "76561197960265729",
+            Path.build_filename (root, "userdata", "1")
+        );
+        var explicit_game = new ProtonPlus.Models.Games.Steam.non_steam (
+            1, "Explicit game", "", "Runner Latest", launcher
+        );
+        explicit_game.is_native = false;
+        active_profile.non_steam_games.append (explicit_game);
+        launcher.profiles.append (active_profile);
+        launcher.profile = active_profile;
+        launcher.games.append (explicit_game);
+        var default_game = new ProtonPlus.Models.Games.Steam (
+            2, "Default game", "missing-default", 0, root, launcher
+        );
+        default_game.compatibility_tool = "Default";
+        default_game.is_native = false;
+        launcher.games.append (default_game);
+        var native_game = new ProtonPlus.Models.Games.Steam (
+            3, "Native game", "missing-native", 0, root, launcher
+        );
+        native_game.compatibility_tool = "Default";
+        native_game.is_native = true;
+        launcher.games.append (native_game);
+        var other_profile = new SteamProfile (
+            launcher, "Other", "76561197960265730",
+            Path.build_filename (root, "userdata", "2")
+        );
+        var other_profile_game = new ProtonPlus.Models.Games.Steam.non_steam (
+            4, "Other profile game", "", "Runner Latest", launcher
+        );
+        other_profile_game.is_native = false;
+        other_profile.non_steam_games.append (other_profile_game);
+        launcher.profiles.append (other_profile);
+
+        value.refresh_installed_state ();
+        var generation = value.installed_tool_inventory.refresh_generation;
+        assert (job.get_usage_identifier () == "Runner Latest");
+        assert (value.installed_tool_inventory.refresh_generation == generation);
+        var usage_games = launcher.get_compatibility_tool_usage_games (job.get_usage_identifier ());
+        assert (usage_games.size == 3);
+        assert (usage_games[0] == explicit_game);
+        assert (usage_games[1] == default_game);
+        assert (usage_games[2] == other_profile_game);
+        assert (launcher.get_compatibility_tool_usage_count (job.get_usage_identifier ()) == 3);
+        assert (tool.is_used ());
+        assert (job.install_location == physical_path);
+
+        assert (FileUtils.remove (Path.build_filename (physical_path, "compatibilitytool.vdf")) == 0);
+        value.refresh_installed_state ();
+        assert (job.get_usage_identifier () == "Runner Latest-Arm_64");
+        assert (job.install_location == physical_path);
+
+        assert (delete_directory (root));
+    }
+
     private void test_steam_tinker_launch_usage () {
         var root = temporary_directory ();
         var launcher = new InventoryLauncher (root);
@@ -249,6 +358,11 @@ namespace AppTests.InstalledToolInventoryTest {
         value.refresh_installed_state ();
         assert (tool.is_installed ());
         assert (tool.is_used ());
+        var job = new ProtonPlus.Services.InstallJob (
+            release ("SteamTinkerLaunch"), tool,
+            ProtonPlus.Services.InstallJob.Mode.STEAM_TINKER_LAUNCH, null, root
+        );
+        assert (job.get_usage_identifier () == "Proton-stl");
 
         assert (delete_directory (root));
     }
