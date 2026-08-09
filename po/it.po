@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 15:22-0400\n"
+"POT-Creation-Date: 2026-08-09 17:05-0400\n"
 "PO-Revision-Date: 2026-08-05 16:05+0200\n"
 "Last-Translator: Youseffo13 <>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -123,16 +123,19 @@ msgid "Steam Tinker Launch"
 msgstr "Steam Tinker Launch"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:74
-msgid "The main interface of ProtonPlus."
+#, fuzzy
+msgid "The tools interface of ProtonPlus."
 msgstr "L'interfaccia principale di ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:78
-msgid "The library interface of ProtonPlus."
-msgstr "L'interfaccia della libreria di ProtonPlus."
+#, fuzzy
+msgid "The releases interface of ProtonPlus."
+msgstr "L'interfaccia principale di ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:82
-msgid "The launch options editor interface of ProtonPlus."
-msgstr "L'interfaccia dell'editor delle opzioni di lancio di ProtonPlus."
+#, fuzzy
+msgid "The games interface of ProtonPlus."
+msgstr "L'interfaccia principale di ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:86
 msgid "The mass edit interface of ProtonPlus."
@@ -7412,6 +7415,12 @@ msgid ""
 msgstr ""
 "L'applicazione sta scaricando uno strumento.\n"
 "Uscire dall'applicazione prima del completamento potrebbe causare problemi."
+
+#~ msgid "The library interface of ProtonPlus."
+#~ msgstr "L'interfaccia della libreria di ProtonPlus."
+
+#~ msgid "The launch options editor interface of ProtonPlus."
+#~ msgstr "L'interfaccia dell'editor delle opzioni di lancio di ProtonPlus."
 
 #~ msgid "No profile was found."
 #~ msgstr "Nessun profilo trovato."

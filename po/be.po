@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 15:22-0400\n"
+"POT-Creation-Date: 2026-08-09 17:05-0400\n"
 "PO-Revision-Date: 2024-05-31 16:22+0000\n"
 "Last-Translator: Yahor <k1llo2810@protonmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/protonplus/"
@@ -116,16 +116,18 @@ msgid "Steam Tinker Launch"
 msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:74
-msgid "The main interface of ProtonPlus."
-msgstr ""
+#, fuzzy
+msgid "The tools interface of ProtonPlus."
+msgstr "Вітаем у "
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:78
-msgid "The library interface of ProtonPlus."
+msgid "The releases interface of ProtonPlus."
 msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:82
-msgid "The launch options editor interface of ProtonPlus."
-msgstr ""
+#, fuzzy
+msgid "The games interface of ProtonPlus."
+msgstr "Вітаем у "
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:86
 msgid "The mass edit interface of ProtonPlus."

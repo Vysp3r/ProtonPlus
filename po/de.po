@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 15:22-0400\n"
+"POT-Creation-Date: 2026-08-09 17:05-0400\n"
 "PO-Revision-Date: 2026-08-09 22:45+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -123,16 +123,19 @@ msgid "Steam Tinker Launch"
 msgstr "Steam Tinker Launch"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:74
-msgid "The main interface of ProtonPlus."
+#, fuzzy
+msgid "The tools interface of ProtonPlus."
 msgstr "Die Hauptoberfläche von ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:78
-msgid "The library interface of ProtonPlus."
-msgstr "Die Bibliotheksoberfläche von ProtonPlus."
+#, fuzzy
+msgid "The releases interface of ProtonPlus."
+msgstr "Die Hauptoberfläche von ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:82
-msgid "The launch options editor interface of ProtonPlus."
-msgstr "Die Oberfläche des Startoptionen-Editors von ProtonPlus."
+#, fuzzy
+msgid "The games interface of ProtonPlus."
+msgstr "Die Hauptoberfläche von ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:86
 msgid "The mass edit interface of ProtonPlus."
@@ -7440,6 +7443,12 @@ msgid ""
 msgstr ""
 "Die Anwendung lädt derzeit ein Werkzeug herunter.\n"
 "Ein vorzeitiges Beenden der Anwendung kann zu Problemen führen."
+
+#~ msgid "The library interface of ProtonPlus."
+#~ msgstr "Die Bibliotheksoberfläche von ProtonPlus."
+
+#~ msgid "The launch options editor interface of ProtonPlus."
+#~ msgstr "Die Oberfläche des Startoptionen-Editors von ProtonPlus."
 
 #~ msgid "No profile was found."
 #~ msgstr "Es wurde kein Profil gefunden."

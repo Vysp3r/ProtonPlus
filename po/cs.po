@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 15:22-0400\n"
+"POT-Creation-Date: 2026-08-09 17:05-0400\n"
 "PO-Revision-Date: 2026-08-09 00:00+0000\n"
 "Last-Translator: GitHub Copilot\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -120,16 +120,19 @@ msgid "Steam Tinker Launch"
 msgstr "Steam Tinker Launch"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:74
-msgid "The main interface of ProtonPlus."
+#, fuzzy
+msgid "The tools interface of ProtonPlus."
 msgstr "Hlavní rozhraní ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:78
-msgid "The library interface of ProtonPlus."
-msgstr "Knihovní rozhraní ProtonPlus."
+#, fuzzy
+msgid "The releases interface of ProtonPlus."
+msgstr "Hlavní rozhraní ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:82
-msgid "The launch options editor interface of ProtonPlus."
-msgstr "Rozhraní editoru možností spuštění v ProtonPlus."
+#, fuzzy
+msgid "The games interface of ProtonPlus."
+msgstr "Hlavní rozhraní ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:86
 msgid "The mass edit interface of ProtonPlus."
@@ -7252,6 +7255,12 @@ msgid ""
 msgstr ""
 "Aplikace právě stahuje nástroj.\n"
 "Předčasné ukončení aplikace může způsobit problémy."
+
+#~ msgid "The library interface of ProtonPlus."
+#~ msgstr "Knihovní rozhraní ProtonPlus."
+
+#~ msgid "The launch options editor interface of ProtonPlus."
+#~ msgstr "Rozhraní editoru možností spuštění v ProtonPlus."
 
 #~ msgid "✨ Improved installation, update, cancellation, and recovery"
 #~ msgstr "✨ Vylepšena instalace, aktualizace, rušení a obnova"
