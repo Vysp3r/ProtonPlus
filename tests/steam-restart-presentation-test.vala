@@ -23,7 +23,7 @@ namespace AppTests.SteamRestartPresentationTest {
         }
     }
 
-    private Gee.List<SteamRestartPendingRecord> records (params SteamRestartPendingRecord[] values) {
+    private Gee.List<SteamRestartPendingRecord> records (SteamRestartPendingRecord[] values) {
         var result = new Gee.ArrayList<SteamRestartPendingRecord> ();
         foreach (var value in values)
             result.add (value);
@@ -31,12 +31,12 @@ namespace AppTests.SteamRestartPresentationTest {
     }
 
     private void test_banner_states_and_grouping () {
-        assert (!SteamRestartPresentation.banner_state (records ()).visible);
-        var native = native_target (); var one = records (record (native, "one"));
+        assert (!SteamRestartPresentation.banner_state (records ({})).visible);
+        var native = native_target (); var one = records ({ record (native, "one") });
         assert (SteamRestartPresentation.banner_state (one).visible);
         assert (SteamRestartPresentation.banner_state (one).title.contains ("1"));
         var flatpak = SteamRestartTarget.for_flatpak ("/tmp/protonplus-presentation-flatpak");
-        var many = records (record (native, "one"), record (native, "two", SteamRestartRequirement.DOCUMENTED), record (flatpak, "three"));
+        var many = records ({ record (native, "one"), record (native, "two", SteamRestartRequirement.DOCUMENTED), record (flatpak, "three") });
         var summaries = SteamRestartPresentation.summarize (many);
         assert (summaries.size == 2 && summaries[0].target.display_name == "Steam" && summaries[1].target.display_name == "Steam (Flatpak)");
         assert (SteamRestartPresentation.banner_state (many).multiple_targets);
