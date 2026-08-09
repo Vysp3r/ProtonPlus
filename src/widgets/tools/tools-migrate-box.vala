@@ -88,8 +88,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             var all_steam_linux_runtime_compatible = games.size > 0;
             foreach (var game in games) {
-                var steam_game = game as Models.Games.Steam;
-                if (!game.is_native && (steam_game == null || !steam_game.is_non_steam)) {
+                if (!Models.Launchers.Steam.is_game_steam_linux_runtime_compatible (game)) {
                     all_steam_linux_runtime_compatible = false;
                     break;
                 }

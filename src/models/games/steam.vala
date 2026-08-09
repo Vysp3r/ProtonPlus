@@ -162,14 +162,31 @@ namespace ProtonPlus.Models.Games {
         }
 
         private bool detect_native () {
-            if (is_non_steam) {
-                return true;
-            }
+            var steam_launcher = launcher as Launchers.Steam;
+            if (steam_launcher != null && ((!) steam_launcher).has_explicit_compatibility_tool_mapping (appid)) {
+                var selected_tool = ((!) steam_launcher).resolve_effective_compatibility_tool (compatibility_tool);
+                var runtime_kind = Launchers.Steam.get_compatibility_tool_runtime_kind (selected_tool);
+                if (runtime_kind == CompatibilityToolRuntimeKind.NATIVE)
+                    return true;
+                if (runtime_kind == CompatibilityToolRuntimeKind.PROTON)
+                    return false;
 
-            if (FileUtils.test (installdir, FileTest.IS_DIR)) {
-                if (!FileUtils.test (prefixdir, FileTest.IS_DIR))
+                /* Keep an explicit Steam Linux Runtime mapping recognizable
+                 * while the matching local tool is temporarily unavailable. */
+                if (Launchers.Steam.is_steam_linux_runtime ("", compatibility_tool))
                     return true;
 
+                /* An explicit unknown/stale mapping must remain visible as a
+                 * tool usage and must not gain native-only capabilities. */
+                return false;
+            }
+
+            /* An unmapped shortcut is launched directly.  Its ability to
+             * select Steam Linux Runtime remains a separate UI capability. */
+            if (is_non_steam)
+                return true;
+
+            if (FileUtils.test (installdir, FileTest.IS_DIR)) {
                 try {
                     var dir = Dir.open (installdir, 0);
                     string? name;
@@ -205,10 +222,17 @@ namespace ProtonPlus.Models.Games {
             var outcome = ((!) configuration).change_game_compatibility_tool (this, compatibility_tool);
             if (!outcome.accepted)
                 return false;
+            var configured_launcher = launcher as Launchers.Steam;
+            if (configured_launcher != null)
+                ((!) configured_launcher).update_game_compatibility_tool_mapping (appid, compatibility_tool);
             this.compatibility_tool = compatibility_tool;
-            if (is_non_steam)
-                _is_native = null;
+            _is_native = null;
             return true;
+        }
+
+        public void apply_effective_compatibility_tool (string compatibility_tool) {
+            this.compatibility_tool = compatibility_tool;
+            _is_native = null;
         }
 
         public bool change_launch_options (string launch_options, string localconfig_path) {

@@ -75,6 +75,8 @@ namespace AppTests.SteamTest {
 
     public void register_tests () {
         Test.add_func ("/steam/linux-runtime-detection", test_linux_runtime_detection);
+        Test.add_func ("/steam/game-runtime-classification", test_game_runtime_classification);
+        Test.add_func ("/steam/runtime-classification-follows-mapping-changes", test_runtime_classification_follows_mapping_changes);
         Test.add_func ("/steam/base-launcher-compatibility-tool-lifecycle-is-no-op", test_base_launcher_compatibility_tool_lifecycle);
         Test.add_func ("/steam/compatibility-tool-registration-deduplicates-and-sorts", test_compatibility_tool_registration);
         Test.add_func ("/steam/effective-default-compatibility-tool", test_effective_default_compatibility_tool);
@@ -98,6 +100,122 @@ namespace AppTests.SteamTest {
         assert (ProtonPlus.Models.Launchers.Steam.is_steam_linux_runtime ("steam linux runtime 3.0 (sniper)"));
         assert (ProtonPlus.Models.Launchers.Steam.is_steam_linux_runtime ("Runtime", "steamlinuxruntime_sniper"));
         assert (!ProtonPlus.Models.Launchers.Steam.is_steam_linux_runtime ("Proton 10.0"));
+    }
+
+    private void create_executable_fixture (string path, string contents) {
+        try {
+            FileUtils.set_contents (path, contents);
+        } catch (FileError e) {
+            critical ("Could not create executable fixture: %s", e.message);
+            assert_not_reached ();
+        }
+        assert (Posix.chmod (path, 0755) == 0);
+    }
+
+    private void test_game_runtime_classification () {
+        var root = temporary_directory ();
+        var windows_directory = Path.build_filename (root, "steamapps", "common", "WindowsGame");
+        var native_directory = Path.build_filename (root, "steamapps", "common", "NativeGame");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (windows_directory));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (native_directory));
+        create_executable_fixture (Path.build_filename (windows_directory, "game.exe"), "MZfixture");
+        create_executable_fixture (Path.build_filename (native_directory, "game"), "\u007fELFfixture");
+
+        var steam = fixture_steam (root);
+        steam.games = new List<Game> ();
+        steam.compatibility_tools.clear ();
+        steam.register_compatibility_tool (new CompatibilityTool (
+            "Fixture Proton", "fixture-proton", "/tools/fixture-proton",
+            CompatibilityToolRuntimeKind.PROTON
+        ));
+        steam.register_compatibility_tool (new CompatibilityTool (
+            "Steam Linux Runtime 3.0", "steamlinuxruntime_sniper", "/tools/runtime",
+            CompatibilityToolRuntimeKind.NATIVE
+        ));
+
+        var direct_shortcut = new ProtonPlus.Models.Games.Steam.non_steam (
+            10, "Direct shortcut", "", "Default", steam
+        );
+        assert (direct_shortcut.is_native);
+        assert (ProtonPlus.Models.Launchers.Steam.is_game_steam_linux_runtime_compatible (direct_shortcut));
+
+        steam.update_game_compatibility_tool_mapping (11, "fixture-proton");
+        var proton_shortcut = new ProtonPlus.Models.Games.Steam.non_steam (
+            11, "Windows shortcut", "", "fixture-proton", steam
+        );
+        assert (proton_shortcut.is_non_steam);
+        assert (!proton_shortcut.is_native);
+        assert (ProtonPlus.Models.Launchers.Steam.is_game_steam_linux_runtime_compatible (proton_shortcut));
+
+        steam.update_game_compatibility_tool_mapping (12, "steamlinuxruntime_sniper");
+        var runtime_shortcut = new ProtonPlus.Models.Games.Steam.non_steam (
+            12, "Runtime shortcut", "", "steamlinuxruntime_sniper", steam
+        );
+        assert (runtime_shortcut.is_native);
+
+        steam.update_game_compatibility_tool_mapping (20, "fixture-proton");
+        var mapped_windows_game = new ProtonPlus.Models.Games.Steam (
+            20, "Mapped Windows game", "WindowsGame", 0, root, steam
+        );
+        mapped_windows_game.compatibility_tool = "fixture-proton";
+        assert (!FileUtils.test (mapped_windows_game.prefixdir, FileTest.IS_DIR));
+        assert (!mapped_windows_game.is_native);
+
+        var unmapped_windows_game = new ProtonPlus.Models.Games.Steam (
+            21, "Unmapped Windows game", "WindowsGame", 0, root, steam
+        );
+        unmapped_windows_game.compatibility_tool = "Default";
+        assert (!FileUtils.test (unmapped_windows_game.prefixdir, FileTest.IS_DIR));
+        assert (!unmapped_windows_game.is_native);
+
+        var native_game = new ProtonPlus.Models.Games.Steam (
+            22, "Native game", "NativeGame", 0, root, steam
+        );
+        native_game.compatibility_tool = "Default";
+        assert (!FileUtils.test (native_game.prefixdir, FileTest.IS_DIR));
+        assert (native_game.is_native);
+
+        steam.games.append (proton_shortcut);
+        steam.games.append (mapped_windows_game);
+        assert (steam.get_compatibility_tool_usage_count ("fixture-proton") == 2);
+        assert (delete_directory (root));
+    }
+
+    private void test_runtime_classification_follows_mapping_changes () {
+        var root = temporary_directory ();
+        var config_directory = Path.build_filename (root, "config");
+        var game_directory = Path.build_filename (root, "steamapps", "common", "NativeGame");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (config_directory));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (game_directory));
+        create_executable_fixture (Path.build_filename (game_directory, "game"), "\u007fELFfixture");
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (config_directory, "config.vdf"),
+            "\"InstallConfigStore\"\n{\n\t\"Software\"\n\t{\n\t\t\"Valve\"\n\t\t{\n\t\t\t\"Steam\"\n\t\t\t{\n\t\t\t}\n\t\t}\n\t}\n}\n"
+        ));
+
+        configure_service (root);
+        var steam = fixture_steam (root);
+        steam.compatibility_tools.clear ();
+        steam.register_compatibility_tool (new CompatibilityTool (
+            "Fixture Proton", "fixture-proton", "/tools/fixture-proton",
+            CompatibilityToolRuntimeKind.PROTON
+        ));
+        var game = new ProtonPlus.Models.Games.Steam (
+            42, "Native game", "NativeGame", 0, root, steam
+        );
+        game.compatibility_tool = "Default";
+
+        assert (game.is_native);
+        assert (game.change_compatibility_tool ("fixture-proton"));
+        assert (steam.has_explicit_compatibility_tool_mapping (42));
+        assert (!game.is_native);
+
+        assert (game.change_compatibility_tool ("Default"));
+        assert (!steam.has_explicit_compatibility_tool_mapping (42));
+        assert (game.is_native);
+
+        SteamConfigurationService.reset_configuration ();
+        assert (delete_directory (root));
     }
 
     private void test_base_launcher_compatibility_tool_lifecycle () {

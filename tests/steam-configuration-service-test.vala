@@ -437,6 +437,43 @@ namespace AppTests.SteamConfigurationServiceTest {
         assert (read (config) == on_disk);
     }
 
+    private void test_game_mapping_removal_overlay_clears_explicit_runtime () {
+        var root = temporary_root (); string config; string localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root); var backend = new SessionFixture (); var target = launcher.get_steam_restart_target ();
+        SteamRestartManager manager; var service = service_for (root, backend, out manager);
+        var game = new Games.Steam.non_steam (42, "Fixture shortcut", "", "Default", launcher);
+        assert (service.change_game_compatibility_tool (game, "proton-b").result
+            == SteamConfigurationMutationResult.CHANGED);
+
+        set_running (backend, target);
+        assert (service.change_game_compatibility_tool (game, "Default").result
+            == SteamConfigurationMutationResult.STAGED);
+        assert (manager.pending_count () == 1);
+
+        var restored_backend = new SessionFixture (); set_running (restored_backend, target);
+        SteamRestartManager restored_manager;
+        var restored = service_for (root, restored_backend, out restored_manager);
+        var restored_launcher = steam (root);
+        restored_launcher.compatibility_tools.clear ();
+        restored_launcher.register_compatibility_tool (new CompatibilityTool (
+            "Fixture Proton", "proton-b", "/tools/proton-b", CompatibilityToolRuntimeKind.PROTON
+        ));
+        restored_launcher.compatibility_tool_hashtable.set (42, "proton-b");
+        restored_launcher.games = new List<Game> ();
+        var restored_game = new Games.Steam.non_steam (
+            42, "Fixture shortcut", "", "proton-b", restored_launcher
+        );
+        restored_launcher.games.append (restored_game);
+        assert (!restored_game.is_native);
+
+        restored.overlay_launcher_effective_state (restored_launcher);
+        assert (restored_manager.pending_count () == 1);
+        assert (!restored_launcher.has_explicit_compatibility_tool_mapping (42));
+        assert (restored_game.compatibility_tool == "Default");
+        assert (restored_game.is_native);
+    }
+
     private void test_shortcut_presence_is_host_independent_and_coalesces () {
         var root = temporary_root (); string config; string localconfig;
         prepare_text_files (root, out config, out localconfig);
@@ -489,6 +526,7 @@ namespace AppTests.SteamConfigurationServiceTest {
         Test.add_func ("/steam-configuration/all-persisted-intents-overlay-after-reload", test_all_persisted_intents_overlay_after_service_reload);
         Test.add_func ("/steam-configuration/reopened-manager-manual-stop-and-new-session", test_reopened_manager_applies_after_manual_stop_and_verifies_new_session);
         Test.add_func ("/steam-configuration/effective-state-reload-does-not-write", test_effective_state_survives_service_reload_without_writing_disk);
+        Test.add_func ("/steam-configuration/game-mapping-removal-overlay-clears-explicit-runtime", test_game_mapping_removal_overlay_clears_explicit_runtime);
         Test.add_func ("/steam-configuration/shortcut-presence-host-independent", test_shortcut_presence_is_host_independent_and_coalesces);
     }
 }

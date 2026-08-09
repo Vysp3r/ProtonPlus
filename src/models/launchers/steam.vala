@@ -63,6 +63,34 @@ namespace ProtonPlus.Models.Launchers {
                    || internal_title.down ().contains ("steamlinuxruntime");
         }
 
+        public static CompatibilityToolRuntimeKind get_compatibility_tool_runtime_kind (CompatibilityTool? tool) {
+            if (tool == null)
+                return CompatibilityToolRuntimeKind.UNKNOWN;
+            if (tool.runtime_kind != CompatibilityToolRuntimeKind.UNKNOWN)
+                return tool.runtime_kind;
+            if (tool.internal_title == "Default")
+                return CompatibilityToolRuntimeKind.PROTON;
+            if (is_steam_linux_runtime (tool.display_title, tool.internal_title))
+                return CompatibilityToolRuntimeKind.NATIVE;
+            return CompatibilityToolRuntimeKind.UNKNOWN;
+        }
+
+        public static bool is_game_steam_linux_runtime_compatible (Game game) {
+            var steam_game = game as Games.Steam;
+            return game.is_native || (steam_game != null && ((!) steam_game).is_non_steam);
+        }
+
+        public bool has_explicit_compatibility_tool_mapping (uint appid) {
+            return compatibility_tool_hashtable.contains (appid);
+        }
+
+        public void update_game_compatibility_tool_mapping (uint appid, string compatibility_tool) {
+            if (compatibility_tool == "Default")
+                compatibility_tool_hashtable.remove (appid);
+            else
+                compatibility_tool_hashtable.set (appid, compatibility_tool);
+        }
+
         public override List<string> get_tool_directories (Group group) {
             var directories = new List<string> ();
             directories.append (this.directory + group.directory);
