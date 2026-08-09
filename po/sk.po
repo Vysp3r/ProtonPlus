@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 10:43-0400\n"
+"POT-Creation-Date: 2026-08-09 11:57-0400\n"
 "PO-Revision-Date: 2026-05-24 00:30+0000\n"
 "Last-Translator: Gemini AI\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/protonplus/"
@@ -2030,7 +2030,7 @@ msgstr "%ds"
 
 #. System Page
 #: src/globals.vala:30 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:302
+#: src/widgets/preferences/preferences-dialog.vala:303
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "Systém"
@@ -2138,6 +2138,11 @@ msgstr "Čínština"
 #: src/globals.vala:56
 msgid "Chinese (Traditional)"
 msgstr "Čínština (Tradiční)"
+
+#: src/models/launchers/steam.vala:356
+#, c-format
+msgid "%s (Unavailable)"
+msgstr ""
 
 #: src/models/tools/steamtinkerlaunch.vala:8
 msgid ""
@@ -2255,12 +2260,12 @@ msgstr "Presúvanie zlyhalo"
 msgid "Failed to save compatibility tool metadata"
 msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:331
+#: src/services/standard-archive-workflow.vala:334
 #, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:348
+#: src/services/standard-archive-workflow.vala:351
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Nástroj kompatibility, ktorý hry použijú automaticky ako predvolený"
@@ -2452,7 +2457,7 @@ msgstr ""
 msgid "Top face button"
 msgstr "Dole vľavo"
 
-#: src/widgets/games/games-box.vala:75 src/widgets/games/games-box.vala:494
+#: src/widgets/games/games-box.vala:75 src/widgets/games/games-box.vala:500
 #: src/widgets/tools/tools-release-box.vala:102
 #, fuzzy
 msgid "No games found"
@@ -2534,41 +2539,41 @@ msgstr "Ak chcete, aby som urýchlil vývoj, nezabudnite vyjadriť svoju podporu
 msgid "Default"
 msgstr "Výchozí"
 
-#: src/widgets/games/games-box.vala:462
+#: src/widgets/games/games-box.vala:468
 #, fuzzy
 msgid "Filter: Native"
 msgstr "Filtry"
 
-#: src/widgets/games/games-box.vala:464
+#: src/widgets/games/games-box.vala:470
 #, fuzzy
 msgid "Filter: Non-Steam"
 msgstr "Mimo Steamu"
 
-#: src/widgets/games/games-box.vala:466
+#: src/widgets/games/games-box.vala:472
 #, fuzzy
 msgid "Filter: All games"
 msgstr "Filtry"
 
-#: src/widgets/games/games-box.vala:486
+#: src/widgets/games/games-box.vala:492
 #, fuzzy
 msgid "No matching games"
 msgstr "Nástroje spustenia"
 
-#: src/widgets/games/games-box.vala:487
+#: src/widgets/games/games-box.vala:493
 #: src/widgets/tools/tools-group-box.vala:170
 msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:490
+#: src/widgets/games/games-box.vala:496
 #, fuzzy
 msgid "No games match this filter"
 msgstr "Žiadne verzie nezodpovedajú aktuálnemu filtru."
 
-#: src/widgets/games/games-box.vala:491
+#: src/widgets/games/games-box.vala:497
 msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:495
+#: src/widgets/games/games-box.vala:501
 msgid "No games are available for this launcher."
 msgstr ""
 
@@ -2671,6 +2676,7 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/games-mass-edit-view.vala:268
+#: src/widgets/games/games-mass-edit-view.vala:279
 #, fuzzy
 msgid "Compatibility tool cannot be applied"
 msgstr "Nástroj kompatibility nebol nájdený"
@@ -2679,27 +2685,34 @@ msgstr "Nástroj kompatibility nebol nájdený"
 msgid "No games were changed because no compatibility tool is selected."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:291
+#: src/widgets/games/games-mass-edit-view.vala:280
+#, fuzzy
+msgid ""
+"No games were changed because the selected compatibility tool is no longer "
+"available."
+msgstr "Podporované nástroje kompatibility:"
+
+#: src/widgets/games/games-mass-edit-view.vala:306
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:292
+#: src/widgets/games/games-mass-edit-view.vala:307
 #, fuzzy
 msgid "Launch options cannot be applied"
 msgstr "Možnosti spuštění"
 
-#: src/widgets/games/games-mass-edit-view.vala:293
+#: src/widgets/games/games-mass-edit-view.vala:308
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:344
+#: src/widgets/games/games-mass-edit-view.vala:359
 msgid "Batch Update Failed"
 msgstr "Hromadná aktualizácia zlyhala"
 
-#: src/widgets/games/games-mass-edit-view.vala:345
+#: src/widgets/games/games-mass-edit-view.vala:360
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
@@ -3679,7 +3692,7 @@ msgstr "Dle systému"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
-#: src/widgets/preferences/preferences-dialog.vala:365
+#: src/widgets/preferences/preferences-dialog.vala:366
 msgid "Gamescope"
 msgstr "Gamescope"
 
@@ -3690,7 +3703,7 @@ msgstr "Gamescope"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
-#: src/widgets/preferences/preferences-dialog.vala:370
+#: src/widgets/preferences/preferences-dialog.vala:371
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
@@ -5181,12 +5194,12 @@ msgstr ""
 #. Advanced Page
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:40
 #: src/widgets/mangohud/mangohud-box.vala:69
-#: src/widgets/preferences/preferences-dialog.vala:236
+#: src/widgets/preferences/preferences-dialog.vala:237
 msgid "Advanced"
 msgstr "Pokročilé"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:281
+#: src/widgets/preferences/preferences-dialog.vala:282
 msgid "Experimental"
 msgstr "Experimentálne"
 
@@ -5566,7 +5579,7 @@ msgid "Tools"
 msgstr "Nástroje"
 
 #: src/widgets/main/main-box.vala:48
-#: src/widgets/preferences/preferences-dialog.vala:355
+#: src/widgets/preferences/preferences-dialog.vala:356
 msgid "MangoHud"
 msgstr "MangoHud"
 
@@ -6052,7 +6065,7 @@ msgid "Media Info"
 msgstr "Informácie o médiách"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
-#: src/widgets/preferences/preferences-dialog.vala:263
+#: src/widgets/preferences/preferences-dialog.vala:264
 msgid "Network"
 msgstr "Síť"
 
@@ -6598,129 +6611,129 @@ msgstr "Zobrazovať staršie nástroje, ktoré už nie sú aktívne vyvíjané"
 msgid "Launchers"
 msgstr "Spúšťače"
 
-#: src/widgets/preferences/preferences-dialog.vala:169
+#: src/widgets/preferences/preferences-dialog.vala:170
 #, fuzzy
 msgid "Default compatibility tool"
 msgstr "Predvolený nástroj kompatibility"
 
-#: src/widgets/preferences/preferences-dialog.vala:170
+#: src/widgets/preferences/preferences-dialog.vala:171
 msgid "The compatibility tool games will use by default"
 msgstr "Nástroj kompatibility, ktorý hry použijú automaticky ako predvolený"
 
-#: src/widgets/preferences/preferences-dialog.vala:196
+#: src/widgets/preferences/preferences-dialog.vala:197
 #, fuzzy
 msgid "Selected profile"
 msgstr "Vyber profil"
 
-#: src/widgets/preferences/preferences-dialog.vala:197
+#: src/widgets/preferences/preferences-dialog.vala:198
 msgid "Currently selected profile for Steam"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:242
+#: src/widgets/preferences/preferences-dialog.vala:243
 msgid "API Tokens"
 msgstr "API tokeny"
 
-#: src/widgets/preferences/preferences-dialog.vala:271
+#: src/widgets/preferences/preferences-dialog.vala:272
 msgid "Proxy URL"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:274
+#: src/widgets/preferences/preferences-dialog.vala:275
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:286
+#: src/widgets/preferences/preferences-dialog.vala:287
 msgid "Preview features"
 msgstr "Ukážkové funkcie"
 
-#: src/widgets/preferences/preferences-dialog.vala:287
+#: src/widgets/preferences/preferences-dialog.vala:288
 msgid "Enable experimental features for early testing"
 msgstr "Povoliť experimentálne funkcie pre včasné testovanie"
 
-#: src/widgets/preferences/preferences-dialog.vala:294
+#: src/widgets/preferences/preferences-dialog.vala:295
 #, fuzzy
 msgid "Maintenance"
 msgstr "Údržba"
 
-#: src/widgets/preferences/preferences-dialog.vala:308
+#: src/widgets/preferences/preferences-dialog.vala:309
 msgid "Software Environment"
 msgstr "Softwérové proměnné"
 
-#: src/widgets/preferences/preferences-dialog.vala:313
+#: src/widgets/preferences/preferences-dialog.vala:314
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr "SteamOS"
 
-#: src/widgets/preferences/preferences-dialog.vala:314
-#: src/widgets/preferences/preferences-dialog.vala:319
-#: src/widgets/preferences/preferences-dialog.vala:346
-#: src/widgets/preferences/preferences-dialog.vala:351
-#: src/widgets/preferences/preferences-dialog.vala:356
-#: src/widgets/preferences/preferences-dialog.vala:361
-#: src/widgets/preferences/preferences-dialog.vala:366
-#: src/widgets/preferences/preferences-dialog.vala:371
-#: src/widgets/preferences/preferences-dialog.vala:376
+#: src/widgets/preferences/preferences-dialog.vala:315
+#: src/widgets/preferences/preferences-dialog.vala:320
+#: src/widgets/preferences/preferences-dialog.vala:347
+#: src/widgets/preferences/preferences-dialog.vala:352
+#: src/widgets/preferences/preferences-dialog.vala:357
+#: src/widgets/preferences/preferences-dialog.vala:362
+#: src/widgets/preferences/preferences-dialog.vala:367
+#: src/widgets/preferences/preferences-dialog.vala:372
+#: src/widgets/preferences/preferences-dialog.vala:377
 #: src/widgets/tools/tools-stl-release-row.vala:98
 msgid "Yes"
 msgstr "Ano"
 
-#: src/widgets/preferences/preferences-dialog.vala:314
-#: src/widgets/preferences/preferences-dialog.vala:319
-#: src/widgets/preferences/preferences-dialog.vala:346
-#: src/widgets/preferences/preferences-dialog.vala:351
-#: src/widgets/preferences/preferences-dialog.vala:356
-#: src/widgets/preferences/preferences-dialog.vala:361
-#: src/widgets/preferences/preferences-dialog.vala:366
-#: src/widgets/preferences/preferences-dialog.vala:371
-#: src/widgets/preferences/preferences-dialog.vala:376
+#: src/widgets/preferences/preferences-dialog.vala:315
+#: src/widgets/preferences/preferences-dialog.vala:320
+#: src/widgets/preferences/preferences-dialog.vala:347
+#: src/widgets/preferences/preferences-dialog.vala:352
+#: src/widgets/preferences/preferences-dialog.vala:357
+#: src/widgets/preferences/preferences-dialog.vala:362
+#: src/widgets/preferences/preferences-dialog.vala:367
+#: src/widgets/preferences/preferences-dialog.vala:372
+#: src/widgets/preferences/preferences-dialog.vala:377
 #: src/widgets/tools/tools-stl-release-row.vala:97
 msgid "No"
 msgstr "Ne"
 
-#: src/widgets/preferences/preferences-dialog.vala:318
+#: src/widgets/preferences/preferences-dialog.vala:319
 msgid "Flatpak"
 msgstr "Flatpak"
 
-#: src/widgets/preferences/preferences-dialog.vala:323
+#: src/widgets/preferences/preferences-dialog.vala:324
 msgid "Hardware"
 msgstr "Hardvér"
 
-#: src/widgets/preferences/preferences-dialog.vala:335
+#: src/widgets/preferences/preferences-dialog.vala:336
 msgid "HWCAPS"
 msgstr "HWCAPS"
 
-#: src/widgets/preferences/preferences-dialog.vala:340
+#: src/widgets/preferences/preferences-dialog.vala:341
 msgid "Dependencies"
 msgstr "Závislosti"
 
-#: src/widgets/preferences/preferences-dialog.vala:345
+#: src/widgets/preferences/preferences-dialog.vala:346
 #, fuzzy
 msgid "Protontricks"
 msgstr "Protontricks"
 
-#: src/widgets/preferences/preferences-dialog.vala:350
+#: src/widgets/preferences/preferences-dialog.vala:351
 msgid "Protontricks (Flatpak)"
 msgstr "Protontricks (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:360
+#: src/widgets/preferences/preferences-dialog.vala:361
 msgid "MangoHud (Flatpak)"
 msgstr "MangoHud (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:375
+#: src/widgets/preferences/preferences-dialog.vala:376
 #, fuzzy
 msgid "Feral Gamemode"
 msgstr "GameMode"
 
-#: src/widgets/preferences/preferences-dialog.vala:380
+#: src/widgets/preferences/preferences-dialog.vala:381
 msgid "Detected Launchers"
 msgstr "Nalezené spouštěče"
 
-#: src/widgets/preferences/preferences-dialog.vala:403
+#: src/widgets/preferences/preferences-dialog.vala:404
 #: src/widgets/tools/tools-box.vala:209
 #: src/widgets/tools/tools-group-box.vala:285
 msgid "Installed"
 msgstr "Nainstalováno"
 
-#: src/widgets/preferences/preferences-dialog.vala:403
+#: src/widgets/preferences/preferences-dialog.vala:404
 msgid "Not installed"
 msgstr "Nenainstalováno"
 
@@ -6941,12 +6954,12 @@ msgstr[0] "%d vybraná hra"
 msgstr[1] "%d vybrané hry"
 msgstr[2] "%d vybraných hier"
 
-#: src/widgets/tools/tools-migrate-box.vala:142
+#: src/widgets/tools/tools-migrate-box.vala:144
 #, fuzzy
 msgid "Migration Failed"
 msgstr "Rozbalenie zlyhalo"
 
-#: src/widgets/tools/tools-migrate-box.vala:143
+#: src/widgets/tools/tools-migrate-box.vala:145
 #, fuzzy
 msgid ""
 "Some games could not be migrated to the new compatibility tool. This may be "

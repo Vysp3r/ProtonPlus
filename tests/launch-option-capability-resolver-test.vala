@@ -220,6 +220,18 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
         assert (current.has (LaunchOptionCapability.LOW_LATENCY_LAYER));
         assert (current.has (LaunchOptionCapability.VULKAN_REFLEX_LAYER));
 
+        var host_mapped = new CompatibilityTool (
+            "Host mapped Proton", "host-mapped",
+            "/usr/share/steam/compatibilitytools.d/HostMapped",
+            CompatibilityToolRuntimeKind.PROTON, first_path, true
+        );
+        var host_mapped_context = resolver.resolve (
+            { CompatibilityToolRuntimeKind.PROTON }, true,
+            components (), GpuVendor.AMD, { host_mapped }
+        );
+        assert (host_mapped_context.has (LaunchOptionCapability.PROTON_FSR4));
+        assert (host_mapped_context.has (LaunchOptionCapability.PROTON_MLFG));
+
         var steam = new ProtonPlus.Models.Launchers.Steam (
             ProtonPlus.Models.Launcher.InstallationTypes.SNAP
         );

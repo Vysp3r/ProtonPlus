@@ -120,8 +120,9 @@ namespace ProtonPlus.Services {
             var directory_valid = provider_tool != null && job.effective_directory_name_for_state () != "";
             var installed = job.install_location != "" && FileUtils.test (job.install_location, FileTest.IS_DIR);
             if (job.mode == InstallJob.Mode.LATEST && provider_tool != null) {
-                var backup = "%s%s/%s Latest Backup".printf (
-                    job.tool.group.launcher.directory, job.tool.group.directory, job.tool.title
+                var backup = Path.build_filename (
+                    job.tool.group.launcher.get_primary_managed_tool_directory (job.tool.group),
+                    "%s Latest Backup".printf (job.tool.title)
                 );
                 installed = installed || FileUtils.test (backup, FileTest.IS_DIR);
             }
@@ -141,8 +142,9 @@ namespace ProtonPlus.Services {
             InstallationOperationCoordinator coordinator,
             string? installation_location = null
         ) {
-            var directory = installation_location ?? "%s%s/%s Latest".printf (
-                runner.group.launcher.directory, runner.group.directory, runner.title
+            var directory = installation_location ?? Path.build_filename (
+                runner.group.launcher.get_primary_managed_tool_directory (runner.group),
+                "%s Latest".printf (runner.title)
             );
             if (!FileUtils.test (directory, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_NOT_INSTALLED;
@@ -173,8 +175,9 @@ namespace ProtonPlus.Services {
         // installing.  Restore it only when no primary exists; a coexisting
         // backup remains recovery state until another path proves it obsolete.
         internal async ReturnCode restore_legacy_latest_backup (Models.Tools.ProviderTool runner) {
-            var directory = "%s%s/%s Latest".printf (
-                runner.group.launcher.directory, runner.group.directory, runner.title
+            var directory = Path.build_filename (
+                runner.group.launcher.get_primary_managed_tool_directory (runner.group),
+                "%s Latest".printf (runner.title)
             );
             var backup = "%s Backup".printf (directory);
             if (FileUtils.test (directory, FileTest.EXISTS))

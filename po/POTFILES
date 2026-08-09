@@ -33,6 +33,7 @@ src/models/release-catalog-result.vala
 src/models/release-catalog.vala
 src/models/release.vala
 src/models/steam-change-receipt.vala
+src/models/steam-compatibility-tool-discovery.vala
 src/models/steam-profile.vala
 src/models/steam-restart-operation.vala
 src/models/steam-restart-target.vala

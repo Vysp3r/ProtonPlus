@@ -151,9 +151,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 return false;
             foreach (var tool in tools) {
                 if (runtime_for_tool (tool) != Models.CompatibilityToolRuntimeKind.PROTON
-                    || tool.path.strip () == "")
+                    || tool.inspection_path.strip () == "")
                     return false;
-                var documentation = documentation_for_tool (tool.path);
+                var documentation = documentation_for_tool (tool.inspection_path);
                 var found = false;
                 foreach (var marker in rule.markers) {
                     if (contains_feature_marker (documentation, marker)) {

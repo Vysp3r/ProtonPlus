@@ -92,6 +92,7 @@ namespace AppTests.SteamTest {
         Test.add_func ("/steam/awacy-catalog-deduplicates-and-caches", test_awacy_catalog_deduplicates_and_caches);
         Test.add_func ("/steam/awacy-catalog-bounds-optional-request", test_awacy_catalog_bounds_optional_request);
         Test.add_func ("/steam/local-library-does-not-wait-for-awacy", test_local_library_does_not_wait_for_awacy);
+        Test.add_func ("/steam/library-compatibility-tools-use-stable-identities", test_library_compatibility_tools_use_stable_identities);
     }
 
     private void test_linux_runtime_detection () {
@@ -493,6 +494,71 @@ namespace AppTests.SteamTest {
         assert (notified);
         assert (((!) game).awacy_name == "fixture-game");
         assert (((!) game).awacy_status == "Running");
+        assert (delete_directory (root));
+    }
+
+    private void test_library_compatibility_tools_use_stable_identities () {
+        var root = temporary_directory ();
+        var config_directory = Path.build_filename (root, "config");
+        var steamapps_directory = Path.build_filename (root, "steamapps");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (config_directory));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (
+            Path.build_filename (steamapps_directory, "common")
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (config_directory, "config.vdf"),
+            "\"InstallConfigStore\" { \"Software\" { \"Valve\" { \"Steam\" { } } } }"
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (steamapps_directory, "libraryfolders.vdf"),
+            "\"libraryfolders\" { \"0\" { \"path\" \"%s\" \"apps\" { \"4628710\" \"1\" \"2805730\" \"1\" \"4183110\" \"1\" } } }".printf (root)
+        ));
+
+        var appids = new uint[] { 4628710, 2805730, 4183110 };
+        var names = new string[] { "Proton 11.0", "Proton 9.0", "Steam Linux Runtime 4.0" };
+        var directories = new string[] { "Proton 11.0", "Proton 9.0 (Beta)", "SteamLinuxRuntime_4" };
+        for (var index = 0; index < appids.length; index++) {
+            assert (ProtonPlus.Utils.Filesystem.modify_file (
+                Path.build_filename (steamapps_directory, "appmanifest_%u.acf".printf (appids[index])),
+                "\"AppState\" { \"appid\" \"%u\" \"name\" \"%s\" \"installdir\" \"%s\" }".printf (
+                    appids[index], names[index], directories[index]
+                )
+            ));
+            var tool_path = Path.build_filename (steamapps_directory, "common", directories[index]);
+            assert (ProtonPlus.Utils.Filesystem.create_directory (tool_path));
+            assert (ProtonPlus.Utils.Filesystem.modify_file (
+                Path.build_filename (tool_path, "toolmanifest.vdf"),
+                "\"manifest\" { \"version\" \"2\" }"
+            ));
+            if (appids[index] != 4183110)
+                create_executable_fixture (Path.build_filename (tool_path, "proton"), "#!/bin/sh\n");
+        }
+
+        var unavailable_system_root = Path.build_filename (root, "system-tools");
+        var discovery = new SteamCompatibilityToolDiscovery (
+            Launcher.InstallationTypes.SYSTEM, false,
+            unavailable_system_root, unavailable_system_root, {}
+        );
+        var catalog = new ProtonPlus.Models.Games.AwacyGameCatalog (
+            new ManualAwacyGameSource (), 0
+        );
+        var steam = new ProtonPlus.Models.Launchers.Steam (
+            Launcher.InstallationTypes.SYSTEM, catalog, discovery
+        );
+        steam.directory = root;
+        steam.groups = {};
+
+        assert (load_steam_library (steam));
+        var proton_11 = steam.find_compatibility_tool ("proton_11");
+        var proton_9 = steam.find_compatibility_tool ("proton_9");
+        var runtime = steam.find_compatibility_tool ("steamlinuxruntime_4");
+        assert (proton_11 != null && ((!) proton_11).display_title == "Proton 11.0");
+        assert (proton_9 != null && ((!) proton_9).display_title == "Proton 9.0");
+        assert (runtime != null && ((!) runtime).runtime_kind == CompatibilityToolRuntimeKind.NATIVE);
+        assert (steam.can_assign_compatibility_tool ("proton_11"));
+        assert (steam.can_assign_compatibility_tool ("proton_9"));
+        assert (steam.can_assign_compatibility_tool ("steamlinuxruntime_4"));
+        assert (steam.get_assignable_compatibility_tools ().size == 3);
         assert (delete_directory (root));
     }
 

@@ -21,7 +21,7 @@ namespace ProtonPlus.Services {
 
         internal SteamTinkerLaunchContext (Models.Tool tool, string? home_override = null) {
             home_location = home_override ?? Environment.get_home_dir ();
-            compat_location = tool.group.launcher.directory + tool.group.directory;
+            compat_location = tool.group.launcher.get_primary_managed_tool_directory (tool.group);
             if (Globals.IS_STEAM_OS) {
                 base_location = "%s/stl/prefix".printf (home_location);
                 manual_remove_location = "%s/stl".printf (home_location);

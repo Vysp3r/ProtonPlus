@@ -103,5 +103,27 @@ class SettingsSchemaContractTest(unittest.TestCase):
         self.assertSetEqual(runtime_keys - required_keys, set())
 
 
+class FlatpakManifestPermissionTest(unittest.TestCase):
+    def test_steam_extension_roots_are_read_only_in_both_manifests(self) -> None:
+        required = {
+            "--filesystem=xdg-data/flatpak:ro",
+            "--filesystem=/var/lib/flatpak:ro",
+        }
+        for filename in (
+            "com.vysp3r.ProtonPlus.yml",
+            "com.vysp3r.ProtonPlus.local.yml",
+        ):
+            with self.subTest(manifest=filename):
+                content = (PROJECT_ROOT / filename).read_text(encoding="utf-8")
+                permissions = {
+                    match.group(1)
+                    for match in re.finditer(r"^\s*-\s+(--filesystem=\S+)\s*$", content, re.MULTILINE)
+                }
+                self.assertTrue(required.issubset(permissions))
+                self.assertNotIn("--filesystem=host-root", permissions)
+                self.assertNotIn("--filesystem=xdg-data/flatpak", permissions)
+                self.assertNotIn("--filesystem=/var/lib/flatpak", permissions)
+
+
 if __name__ == "__main__":
     unittest.main()

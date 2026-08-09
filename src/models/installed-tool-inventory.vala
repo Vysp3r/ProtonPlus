@@ -102,7 +102,7 @@ namespace ProtonPlus.Models {
         }
 
         private void discover_entries () {
-            foreach (var directory_root in group.launcher.get_tool_directories (group)) {
+            foreach (var directory_root in group.launcher.get_managed_tool_directories (group)) {
                 Posix.Stat root_stat;
                 if (Posix.lstat (directory_root, out root_stat) != 0 ||
                     !Posix.S_ISDIR (root_stat.st_mode))
